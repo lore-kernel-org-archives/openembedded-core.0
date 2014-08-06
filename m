@@ -1,35 +1,34 @@
 Return-Path: <sujith.h@gmail.com>
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B0DA0617B8
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id A1D7460EFA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Aug 2014 10:07:52 +0000 (UTC)
-Received: by mail-pd0-f181.google.com with SMTP id g10so3012513pdj.26
+	Wed,  6 Aug 2014 10:11:21 +0000 (UTC)
+Received: by mail-qg0-f47.google.com with SMTP id i50so2408094qgf.34
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Aug 2014 03:07:53 -0700 (PDT)
+	Wed, 06 Aug 2014 03:11:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ZxCMrsksl5D7IYVs4WZS8VOhHTVbAYbZYO83RQwqpeQ=;
-	b=qiam1Zr0nwunqTGtYwGjd7EHaZWhE9jDqvKPHewx4ANByZ+H+rvSjkR21/V3qreFD8
-	IMkBu6s9srNM051Qm2LxRFNml+pJZ0urLhLPFhSnCH+T9Cm7WUW+FNU8oN3mhTDGvg/M
-	5d7iLEsR3U4qeczlLpxTp22UT8pgzTU0cyHh1K4E4DS5Y+bJE7DTyNTGmIzuUEih8xjo
-	Bn16wTopnA+w3zcJtdBe2yWNV9aKVlRfZ9jli4mjMCS3FYDmSRQy3fVy47obtNy/q24Y
-	KONhcdifqHPM8CFyNIyLSPMWqLcflOUGJJBXJPc5MyRpDo8q5bDBPbosv8e48OS94/qN
-	bYog==
-X-Received: by 10.66.182.69 with SMTP id ec5mr10296703pac.125.1407319673825;
-	Wed, 06 Aug 2014 03:07:53 -0700 (PDT)
-Received: from linux-z8xt.inp.mentorg.com ([139.181.35.34])
-	by mx.google.com with ESMTPSA id v5sm1019625pdc.7.2014.08.06.03.07.51
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Aug 2014 03:07:52 -0700 (PDT)
-From: Sujith H <sujith.h@gmail.com>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=s6CP3UMU9GwFBlJstC5F8lGH2K8HCkDjNDwTu9NRZvw=;
+	b=r9m+1wQxbElQGORUKSGt7p/PDQYhrHf+eSa5lp/kfqgWCM4R/nhgq6C8FH3TGN9VjC
+	jwAREokAbasSMKfeFYAsSs53NWpNf0hTJWuQf9XAqM7q30xQWh+fMxlZX2cTsjp86mgx
+	hbxM9erRZD8uZmltvAhvQqYjpdfQJ5udPyw6vR7YxlaBBKOHC7vBC3TcssFtpQWpeeJ9
+	6nlC1RJNBcNoQDCNqlVULgArx1c1FFWREnNneTBJ4D0e5EPi+fuOQRFIkgxZnhE8Q0aj
+	HEhhS19qwo+VNqI6F8PfZTAG2XoVD+RFFbrtAlcs5n/TWbWrEOiDieoEA876UeCP2u6q
+	8cSA==
+X-Received: by 10.140.51.37 with SMTP id t34mr1698732qga.50.1407319882119;
+	Wed, 06 Aug 2014 03:11:22 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.41.148 with HTTP; Wed, 6 Aug 2014 03:11:01 -0700 (PDT)
+In-Reply-To: <1407319466-5066-1-git-send-email-sujith.h@gmail.com>
+References: <1407319466-5066-1-git-send-email-sujith.h@gmail.com>
+From: sujith h <sujith.h@gmail.com>
+Date: Wed, 6 Aug 2014 15:41:01 +0530
+Message-ID: <CADyYWLncO5BOFM612xzMCmsz1AKPhbk7YUQaLSROuUre_fNbBg@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Aug 2014 15:34:26 +0530
-Message-Id: <1407319466-5066-1-git-send-email-sujith.h@gmail.com>
-X-Mailer: git-send-email 1.8.4
 Cc: Sujith H <Sujith_Haridasan@mentor.com>
-Subject: [PATCH] systemd: Adding RRECOMMENDS for os-release
+Subject: Re: [PATCH] systemd: Adding RRECOMMENDS for os-release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +41,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Aug 2014 10:07:58 -0000
+X-List-Received-Date: Wed, 06 Aug 2014 10:11:26 -0000
+Content-Type: multipart/alternative; boundary=001a11351a5aa8e34404fff3314c
 
-From: Sujith H <Sujith_Haridasan@mentor.com>
+--001a11351a5aa8e34404fff3314c
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Systemd depends on the os-release hence adding
-RRECOMMENDS for the systemd package.
+Hi,
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
-Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
----
- meta/recipes-core/systemd/systemd_213.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/systemd/systemd_213.bb b/meta/recipes-core/systemd/systemd_213.bb
-index 4fb7ffc..b5ac1c3 100644
---- a/meta/recipes-core/systemd/systemd_213.bb
-+++ b/meta/recipes-core/systemd/systemd_213.bb
-@@ -248,7 +248,7 @@ RDEPENDS_${PN} += "volatile-binds"
- RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units udev-hwdb\
-                       util-linux-agetty \
-                       util-linux-fsck e2fsprogs-e2fsck \
--                      kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \
-+                      kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 os-release \
- "
- 
- PACKAGES =+ "udev-dbg udev udev-hwdb"
--- 
-1.8.4
+This patch is in addition to the os-release patch I had posted earlier.
+Because systemd wants os-release file and uses it.
 
 
+
+On Wed, Aug 6, 2014 at 3:34 PM, Sujith H <sujith.h@gmail.com> wrote:
+
+> From: Sujith H <Sujith_Haridasan@mentor.com>
+>
+> Systemd depends on the os-release hence adding
+> RRECOMMENDS for the systemd package.
+>
+> Signed-off-by: Christopher Larson <kergoth@gmail.com>
+> Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
+> ---
+>  meta/recipes-core/systemd/systemd_213.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_213.bb
+> b/meta/recipes-core/systemd/systemd_213.bb
+> index 4fb7ffc..b5ac1c3 100644
+> --- a/meta/recipes-core/systemd/systemd_213.bb
+> +++ b/meta/recipes-core/systemd/systemd_213.bb
+> @@ -248,7 +248,7 @@ RDEPENDS_${PN} +=3D "volatile-binds"
+>  RRECOMMENDS_${PN} +=3D "systemd-serialgetty systemd-compat-units udev-hw=
+db\
+>                        util-linux-agetty \
+>                        util-linux-fsck e2fsprogs-e2fsck \
+> -                      kernel-module-autofs4 kernel-module-unix
+> kernel-module-ipv6 \
+> +                      kernel-module-autofs4 kernel-module-unix
+> kernel-module-ipv6 os-release \
+>  "
+>
+>  PACKAGES =3D+ "udev-dbg udev udev-hwdb"
+> --
+> 1.8.4
+>
+>
+Thanks,
+Sujith H
+
+--=20
+=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
+=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
+Bangalore
+<Project>Contributor to KDE project
+http://fci.wikia.com/wiki/Anti-DRM-Campaign
+<Blog> http://sujithh.info
+
+--001a11351a5aa8e34404fff3314c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div>Hi,<br><br></div>This patch is in addition to th=
+e os-release patch I had posted earlier. Because systemd wants os-release f=
+ile and uses it.<br><br></div><div><div><div><div class=3D"gmail_extra"><br=
+>
+
+<br><div class=3D"gmail_quote">On Wed, Aug 6, 2014 at 3:34 PM, Sujith H <sp=
+an dir=3D"ltr">&lt;<a href=3D"mailto:sujith.h@gmail.com" target=3D"_blank">=
+sujith.h@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+
+From: Sujith H &lt;<a href=3D"mailto:Sujith_Haridasan@mentor.com">Sujith_Ha=
+ridasan@mentor.com</a>&gt;<br>
+<br>
+Systemd depends on the os-release hence adding<br>
+RRECOMMENDS for the systemd package.<br>
+<br>
+Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:kergoth@gmail.com">=
+kergoth@gmail.com</a>&gt;<br>
+Signed-off-by: Sujith H &lt;<a href=3D"mailto:Sujith_Haridasan@mentor.com">=
+Sujith_Haridasan@mentor.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_213.bb" target=3D=
+"_blank">systemd_213.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_213.bb" ta=
+rget=3D"_blank">systemd_213.bb</a> b/meta/recipes-core/systemd/<a href=3D"h=
+ttp://systemd_213.bb" target=3D"_blank">systemd_213.bb</a><br>
+index 4fb7ffc..b5ac1c3 100644<br>
+--- a/meta/recipes-core/systemd/<a href=3D"http://systemd_213.bb" target=3D=
+"_blank">systemd_213.bb</a><br>
++++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_213.bb" target=3D=
+"_blank">systemd_213.bb</a><br>
+@@ -248,7 +248,7 @@ RDEPENDS_${PN} +=3D &quot;volatile-binds&quot;<br>
+=C2=A0RRECOMMENDS_${PN} +=3D &quot;systemd-serialgetty systemd-compat-units=
+ udev-hwdb\<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0util-linux-agetty \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0util-linux-fsck e2fsprogs-e2fsck \<br>
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 os-release \=
+<br>
+=C2=A0&quot;<br>
+<br>
+=C2=A0PACKAGES =3D+ &quot;udev-dbg udev udev-hwdb&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.8.4<br>
+<br>
+</font></span></blockquote></div><br></div><div class=3D"gmail_extra">Thank=
+s,<br>Sujith H<br clear=3D"all"></div><div class=3D"gmail_extra"><br>-- <br=
+>=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
+=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D<br>Bangalore<br>&lt;=
+Project&gt;Contributor to KDE project<br>
+
+<a href=3D"http://fci.wikia.com/wiki/Anti-DRM-Campaign" target=3D"_blank">h=
+ttp://fci.wikia.com/wiki/Anti-DRM-Campaign</a><br>&lt;Blog&gt; <a href=3D"h=
+ttp://sujithh.info" target=3D"_blank">http://sujithh.info</a><br>
+</div></div></div></div></div>
+
+--001a11351a5aa8e34404fff3314c--
