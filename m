@@ -1,24 +1,38 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 50D8270595
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id 839E5610F5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Aug 2014 07:43:29 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 06 Aug 2014 00:37:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,810,1400050800"; d="scan'208";a="584085513"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga002.jf.intel.com with ESMTP; 06 Aug 2014 00:43:30 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Aug 2014 10:43:25 +0300
-Message-Id: <5d7c7a059800d59b10f02827017fd0c20fb4936e.1407310848.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1407310848.git.cristian.iorga@intel.com>
-References: <cover.1407310848.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1407310848.git.cristian.iorga@intel.com>
-References: <cover.1407310848.git.cristian.iorga@intel.com>
-Subject: [PATCH v2 1/1] qemu: upgrade to 2.1
+	Wed,  6 Aug 2014 07:56:40 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20140806075638160
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Aug 2014 07:56:38 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=52049 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1XEw5J-0007Db-3c for openembedded-core@lists.openembedded.org;
+	Wed, 06 Aug 2014 03:56:33 -0400
+Date: Wed, 6 Aug 2014 03:56:24 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1408060354570.736@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: comment trails off in archiver.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,188 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Aug 2014 07:43:31 -0000
+X-List-Received-Date: Wed, 06 Aug 2014 07:56:43 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-QEMU 2.1 comes with fixes and improvements.
-See http://wiki.qemu.org/ChangeLog/2.1 for details.
-- Added config for quorum support, depending on gnutls.
-- pcie_better_hotplug_support.patch removed,
-integrated upstream.
-- Qemu-Arm-versatilepb-Add-memory-size-checking.patch updated
-to 2.1 source code.
-- no-strip.patch removed, no longer necessary due to code changes.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- ...-Arm-versatilepb-Add-memory-size-checking.patch |  2 +-
- .../qemu/files/pcie_better_hotplug_support.patch   | 74 ----------------------
- meta/recipes-devtools/qemu/qemu.inc                |  2 +-
- meta/recipes-devtools/qemu/qemu/no-strip.patch     | 15 -----
- .../qemu/{qemu_2.0.0.bb => qemu_2.1.0.bb}          |  7 +-
- 5 files changed, 4 insertions(+), 96 deletions(-)
- delete mode 100644 meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
- delete mode 100644 meta/recipes-devtools/qemu/qemu/no-strip.patch
- rename meta/recipes-devtools/qemu/{qemu_2.0.0.bb => qemu_2.1.0.bb} (81%)
+  currently doing more proofreading and note-taking, and there's this
+in archiver.bbclass:
 
-diff --git a/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch b/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
-index 3834aed..7f1c5a9 100644
---- a/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
-+++ b/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
-@@ -32,7 +32,7 @@ index b48d84c..ad2cd5a 100644
- +                ((unsigned int)ram_size / (1 << 20)));
- +        exit(1);
- +    }
--     memory_region_init_ram(ram, NULL, "versatile.ram", args->ram_size);
-+     memory_region_init_ram(ram, NULL, "versatile.ram", machine->ram_size);
-      vmstate_register_ram_global(ram);
-      /* ??? RAM should repeat to fill physical memory space.  */
- -- 
-diff --git a/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch b/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
-deleted file mode 100644
-index c7035b2..0000000
---- a/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
-+++ /dev/null
-@@ -1,74 +0,0 @@
--The current code is broken: it does surprise removal which crashes guests.
--
--Reimplemented the steps:
-- - Hotplug triggers both 'present detect change' and
--   'attention button pressed'.
--
-- - Hotunplug starts by triggering 'attention button pressed',
--   then waits for the OS to power off the device and only
--   then detaches it.
--
--Fixes CVE-2014-3471.
--
--Originated-by: Marcel Apfelbaum <address@hidden>
--Updated-by: Daniel BORNAZ <daniel.bornaz@enea.com>
--
----- a/hw/pci/pcie.c	2014-04-17 15:44:44.000000000 +0200
--+++ b/hw/pci/pcie.c	2014-07-15 13:03:16.905070562 +0200
--@@ -258,7 +258,8 @@ void pcie_cap_slot_hotplug_cb(HotplugHan
-- 
--     pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
--                                PCI_EXP_SLTSTA_PDS);
---    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev), PCI_EXP_HP_EV_PDC);
--+    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev),
--+                        PCI_EXP_HP_EV_PDC | PCI_EXP_HP_EV_ABP);
-- }
-- 
-- void pcie_cap_slot_hot_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
--@@ -268,10 +269,7 @@ void pcie_cap_slot_hot_unplug_cb(Hotplug
-- 
--     pcie_cap_slot_hotplug_common(PCI_DEVICE(hotplug_dev), dev, &exp_cap, errp);
-- 
---    object_unparent(OBJECT(dev));
---    pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
---                                 PCI_EXP_SLTSTA_PDS);
---    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev), PCI_EXP_HP_EV_PDC);
--+    pcie_cap_slot_push_attention_button(PCI_DEVICE(hotplug_dev));
-- }
-- 
-- /* pci express slot for pci express root/downstream port
--@@ -352,6 +350,11 @@ void pcie_cap_slot_reset(PCIDevice *dev)
--     hotplug_event_update_event_status(dev);
-- }
-- 
--+static void pcie_unplug_device(PCIBus *bus, PCIDevice *dev, void *opaque)
--+{
--+    object_unparent(OBJECT(dev));
--+}
--+
-- void pcie_cap_slot_write_config(PCIDevice *dev,
--                                 uint32_t addr, uint32_t val, int len)
-- {
--@@ -376,6 +379,22 @@ void pcie_cap_slot_write_config(PCIDevic
--                         sltsta);
--     }
-- 
--+    /*
--+     * If the slot is polulated, power indicator is off and power
--+     * controller is off, it is safe to detach the devices.
--+     */
--+    if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
--+        ((val & PCI_EXP_SLTCTL_PIC_OFF) == PCI_EXP_SLTCTL_PIC_OFF)) {
--+            PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
--+            pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
--+                                pcie_unplug_device, NULL);
--+
--+            pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
--+                                         PCI_EXP_SLTSTA_PDS);
--+            pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
--+                                       PCI_EXP_SLTSTA_PDC);
--+    }
--+
--     hotplug_event_notify(dev);
-- 
--     /* 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 84330ae..57907ae 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -17,7 +17,6 @@ QEMU_TARGETS ?= "arm i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
- 
- SRC_URI = "\
-     file://powerpc_rom.bin \
--    file://no-strip.patch \
-     file://larger_default_ram_size.patch \
-     file://disable-grabs.patch \
-     file://exclude-some-arm-EABI-obsolete-syscalls.patch \
-@@ -89,6 +88,7 @@ PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr,--disable-virtfs,libcap a
- PACKAGECONFIG[aio] = "--enable-linux-aio,--disable-linux-aio,libaio,"
- PACKAGECONFIG[xfs] = "--enable-xfsctl,--disable-xfsctl,xfsprogs,"
- PACKAGECONFIG[xen] = "--enable-xen, --disable-xen,,"
-+PACKAGECONFIG[quorum] = "--enable-quorum, --disable-quorum, gnutls,"
- PACKAGECONFIG[vnc-tls] = "--enable-vnc --enable-vnc-tls,--disable-vnc-tls, gnutls,"
- PACKAGECONFIG[vnc-ws] = "--enable-vnc --enable-vnc-ws,--disable-vnc-ws, gnutls,"
- PACKAGECONFIG[vnc-sasl] = "--enable-vnc --enable-vnc-sasl,--disable-vnc-sasl,cyrus-sasl,"
-diff --git a/meta/recipes-devtools/qemu/qemu/no-strip.patch b/meta/recipes-devtools/qemu/qemu/no-strip.patch
-deleted file mode 100644
-index d6a4377..0000000
---- a/meta/recipes-devtools/qemu/qemu/no-strip.patch
-+++ /dev/null
-@@ -1,15 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
--
--Index: qemu-0.14.0/Makefile
--===================================================================
----- qemu-0.14.0.orig/Makefile
--+++ qemu-0.14.0/Makefile
--@@ -235,7 +235,7 @@ install-sysconfig:
-- install: all $(if $(BUILD_DOCS),install-doc) install-sysconfig
-- 	$(INSTALL_DIR) "$(DESTDIR)$(bindir)"
-- ifneq ($(TOOLS),)
---	$(INSTALL_PROG) $(STRIP_OPT) $(TOOLS) "$(DESTDIR)$(bindir)"
--+	$(INSTALL_PROG) $(TOOLS) "$(DESTDIR)$(bindir)"
-- endif
-- ifneq ($(BLOBS),)
-- 	$(INSTALL_DIR) "$(DESTDIR)$(datadir)"
-diff --git a/meta/recipes-devtools/qemu/qemu_2.0.0.bb b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-similarity index 81%
-rename from meta/recipes-devtools/qemu/qemu_2.0.0.bb
-rename to meta/recipes-devtools/qemu/qemu_2.1.0.bb
-index 9a530a6..abf8dfc 100644
---- a/meta/recipes-devtools/qemu/qemu_2.0.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-@@ -5,14 +5,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
- 
- SRC_URI += "file://qemu-enlarge-env-entry-size.patch \
-             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
--            file://pcie_better_hotplug_support.patch \
-             "
- 
--
--
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
--SRC_URI[md5sum] = "2790f44fd76da5de5024b4aafeb594c2"
--SRC_URI[sha256sum] = "60cc1aa0cad39cec891f970bed60ca8a484f071adad4943123599ac223543a3b"
-+SRC_URI[md5sum] = "6726977292b448cbc7f89998fac6983b"
-+SRC_URI[sha256sum] = "397e23184f4bf613589a8fe0c6542461dc2afdf17ed337e97e6fd2f31e8f8802"
- 
- COMPATIBLE_HOST_class-target_mips64 = "null"
- 
+        # The libtool-native's do_configure will remove the
+        # ${STAGING_DATADIR}/aclocal/libtool.m4, so we can't re-run the
+        # do_configure, we archive the already configured ${S} to
+        # instead of.
+
+  "instead of" what? if someone wants to finish that comment, i can
+add it into the current patch.
+
+rday
+
 -- 
-1.9.1
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
