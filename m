@@ -1,29 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B24660809
+Return-Path: <Paul.Gortmaker@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 39BC8609C0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Aug 2014 13:53:56 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 06 Aug 2014 06:53:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,812,1400050800"; d="scan'208";a="465611734"
-Received: from cgwithan-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.26])
-	by azsmga001.ch.intel.com with ESMTP; 06 Aug 2014 06:53:56 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: sujith h <sujith.h@gmail.com>
-Date: Wed, 06 Aug 2014 14:53:55 +0100
-Message-ID: <7183867.SxJbxfULxQ@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.13.3 (Linux/3.15.7-200.fc20.x86_64; KDE/4.13.3; x86_64; ; )
-In-Reply-To: <CADyYWLmvBukjOops+sxjbSB_zMj0B8qZu42bwiEAQXVn+xgPzw@mail.gmail.com>
-References: <1407326649-7117-1-git-send-email-sujith.h@gmail.com>
-	<11634411.QS1iMaReBX@peggleto-mobl5.ger.corp.intel.com>
-	<CADyYWLmvBukjOops+sxjbSB_zMj0B8qZu42bwiEAQXVn+xgPzw@mail.gmail.com>
+	Wed,  6 Aug 2014 14:20:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s76EK4Gl008160
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 6 Aug 2014 07:20:04 -0700 (PDT)
+Received: from [128.224.56.57] (128.224.56.57) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 6 Aug 2014 07:20:03 -0700
+Message-ID: <53E23999.1010809@windriver.com>
+Date: Wed, 6 Aug 2014 10:20:09 -0400
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-Cc: Sujith H <Sujith_Haridasan@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] opkg-utils: allow disabling update-alternatives
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <1407259572-35454-1-git-send-email-paul.gortmaker@windriver.com>
+	<20140806082154.GB14848@jama>
+In-Reply-To: <20140806082154.GB14848@jama>
+X-Originating-IP: [128.224.56.57]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] util-linux: create an all encompassing package group
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,80 +36,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Aug 2014 13:54:02 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 06 Aug 2014 14:20:09 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 06 August 2014 18:58:11 sujith h wrote:
-> On Wed, Aug 6, 2014 at 6:08 PM, Paul Eggleton <paul.eggleton@linux.intel.com
-> > wrote:
-> > 
-> > On Wednesday 06 August 2014 17:34:09 Sujith H wrote:
-> > > From: Sujith H <Sujith_Haridasan@mentor.com>
-> > > 
-> > > This is needed to deal with the situation where we're using ipk
-> > 
-> > packaging,
-> > 
-> > > so opkg-utils must be built regardless of what update-alternatives
-> > 
-> > provider
-> > 
-> > > we prefer. The downside to the current implementation is the need to
-> > 
-> > adjust
-> > 
-> > > PACKAGECONFIG as well as PREFERRED_PROVIDER, but it is more explicit
-> > > that
-> > > way.
-> > > 
-> > > Signed-off-by: Christopher Larson <kergoth@gmail.com>
-> > > Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
-> > > ---
-> > > 
-> > >  meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 8 +++++++-
-> > >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> > > b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb index
-> > 
-> > 693c216..952fce4
-> > 
-> > > 100644
-> > > --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> > > +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> > > @@ -19,11 +19,17 @@ TARGET_CC_ARCH += "${LDFLAGS}"
-> > > 
-> > >  PYTHONRDEPS = "python python-shell python-io python-math python-crypt
-> > > 
-> > > python-logging python-fcntl python-subprocess python-pickle
-> > > python-compression python-textutils python-stringold"
-> > > PYTHONRDEPS_class-native = ""
-> > > 
-> > > -PACKAGECONFIG = "python"
-> > > +PACKAGECONFIG = "python update-alternatives"
-> > > 
-> > >  PACKAGECONFIG[python] = ",,,${PYTHONRDEPS}"
-> > > 
-> > > +PACKAGECONFIG[update-alternatives] = ",,,"
-> > > +
-> > > +PROVIDES_remove = "${@'virtual/update-alternatives' if
-> > > 'update-alternatives' not in PACKAGECONFIG.split() else ''}"
-> > 
-> > If we have to do this, rather than using _remove here could we simply make
-> > adding it conditional?
+On 14-08-06 04:21 AM, Martin Jansa wrote:
+> On Tue, Aug 05, 2014 at 01:26:12PM -0400, Paul Gortmaker wrote:
+>> Currently util-linux is fragmented into lots of small chunks,
+>> and if one is looking to avoid using busybox wholesale, there
+>> is currently no easy way to say "I want all of it".  Here we
+>> create a packagegroup for all of the util-linux chunks, so
+>> that it need not be duplicated by everyone wanting the same
+>> overall goal of removing busybox.
 > 
-> Isn't _remove itself conditional? Pardon me if my understanding is wrong.
+> Why don't you define these as empty packages with just RDEPENDS
+> in util-linux?
 
-What I mean is, this value gets added to PROVIDES here in the same recipe. 
-Rather than unconditionally adding it then conditionally removing it, why not 
-just conditionally add it?
+Sorry, but I'm not quite sure I follow what you mean.  Can you
+provide more detail, or perhaps point at a bb as an example
+implementation of what you have in mind?
 
-Cheers,
-Paul
+Thanks,
+Paul.
+--
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+> 
+>> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+>>
+>> diff --git a/meta/recipes-core/packagegroups/packagegroup-util-linux.bb b/meta/recipes-core/packagegroups/packagegroup-util-linux.bb
+>> new file mode 100644
+>> index 000000000000..54151502b176
+>> --- /dev/null
+>> +++ b/meta/recipes-core/packagegroups/packagegroup-util-linux.bb
+>> @@ -0,0 +1,69 @@
+>> +#
+>> +# Copyright (C) 2014 Wind River
+>> +#
+>> +
+>> +SUMMARY = "util-linux Packages"
+>> +DESCRIPTION = "Packages created from util-linux"
+>> +PR = "r0"
+>> +LICENSE = "MIT"
+>> +
+>> +inherit packagegroup
+>> +
+>> +PACKAGES = "\
+>> +    packagegroup-util-linux \
+>> +    packagegroup-util-linux-block \
+>> +    packagegroup-util-linux-console \
+>> +    packagegroup-util-linux-uid \
+>> +    packagegroup-util-linux-misc \
+>> +    packagegroup-util-linux-partition \
+>> +    "
+>> +
+>> +RDEPENDS_packagegroup-util-linux = "\
+>> +    packagegroup-util-linux-block \
+>> +    packagegroup-util-linux-console \
+>> +    packagegroup-util-linux-uid \
+>> +    packagegroup-util-linux-misc \
+>> +    packagegroup-util-linux-partition \
+>> +    "
+>> +
+>> +RDEPENDS_packagegroup-util-linux-partition = "\
+>> +    util-linux-fdisk \
+>> +    util-linux-cfdisk \
+>> +    util-linux-sfdisk \
+>> +    util-linux-partx \
+>> +    "
+>> +
+>> +RDEPENDS_packagegroup-util-linux-console = "\
+>> +    util-linux-agetty \
+>> +    util-linux-reset \
+>> +    "
+>> +
+>> +RDEPENDS_packagegroup-util-linux-block = " \
+>> +    util-linux-mkfs \
+>> +    util-linux-mkfs.cramfs \
+>> +    util-linux-fsck.cramfs \
+>> +    util-linux-fstrim \
+>> +    util-linux-fsck \
+>> +    util-linux-blkid \
+>> +    util-linux-libblkid \
+>> +    util-linux-umount \
+>> +    util-linux-mount \
+>> +    util-linux-libmount \
+>> +    util-linux-swaponoff \
+>> +    "
+>> +
+>> +RDEPENDS_packagegroup-util-linux-uid = "\
+>> +    util-linux-libuuid \
+>> +    util-linux-uuidd \
+>> +    util-linux-uuidgen \
+>> +    util-linux-findfs \
+>> +    "
+>> +
+>> +RDEPENDS_packagegroup-util-linux-misc = "\
+>> +    util-linux-losetup \
+>> +    util-linux-readprofile \
+>> +    util-linux-lscpu \
+>> +    util-linux-mcookie \
+>> +    util-linux-bash-completion \
+>> +    util-linux-hwclock \
+>> +    "
+>> -- 
+>> 1.9.1
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
