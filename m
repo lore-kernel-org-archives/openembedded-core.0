@@ -1,28 +1,40 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E5A2D65D5F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id D264E65D5F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Aug 2014 08:22:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s768Mguq013376
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  6 Aug 2014 08:23:10 +0000 (UTC)
+Received: by mail-wi0-f169.google.com with SMTP id n3so9082671wiv.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Aug 2014 01:22:42 -0700 (PDT)
-Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Wed, 6 Aug 2014 01:22:41 -0700
-Message-ID: <53E1E5D6.5030001@windriver.com>
-Date: Wed, 6 Aug 2014 16:22:46 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Wed, 06 Aug 2014 01:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=dySwq9TbnUcH9Ab5g7PCVcouTVV0OcGuLYcddZZFqQc=;
+	b=glcuDtHomF8/5ikCFn1EPLaFXe1JEmjEot9K3IPx6Kdh6I2qP9UCB6/rpkEsqxVQRx
+	dQMYek97TNNtAaqM4t0jANsq9/M9Cw7Un4RSvZE03ohF1sjFqJE0n0SU59T6lbd/zrIZ
+	ilMTynloP9t4/1k7fby/twTeFkP9aKrpf3Id70N+nbVBevLjGGDZokWcjZn3uJKii49s
+	SMft2wZlUlROIR4x0l54h4TWvyrO8L8NV/XLqZIwyhJLF6ZJH0opRUUdVGl8BIkXTteu
+	hLdy/3OcETGVV2IyPB2/zFVm8meN1V5swjFFXYPfUnO1YYrc9kQ5I458Wz+N2t92Aazi
+	8Lkg==
+X-Received: by 10.180.149.163 with SMTP id ub3mr48065343wib.67.1407313391463; 
+	Wed, 06 Aug 2014 01:23:11 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	fs17sm745766wjc.6.2014.08.06.01.23.10 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 06 Aug 2014 01:23:10 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 6 Aug 2014 10:23:40 +0200
+To: Yasir Khan <yasir_khan@mentor.com>
+Message-ID: <20140806082340.GC14848@jama>
+References: <1407267450-64536-1-git-send-email-yasir_khan@mentor.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1407132320-22038-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1407132320-22038-1-git-send-email-rongqing.li@windriver.com>
-X-Originating-IP: [128.224.162.187]
-Subject: Re: [PATCH 1/1] gmp: uprev it to 6.0.0
+In-Reply-To: <1407267450-64536-1-git-send-email-yasir_khan@mentor.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] wpa-supplicant: use PACKAGECONFIG for ssl selection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,707 +47,1424 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Aug 2014 08:22:45 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Aug 2014 08:23:15 -0000
+X-Groupsio-MsgNum: 56036
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="iFRdW5/EC4oqxDHL"
+Content-Disposition: inline
 
-On 08/04/2014 02:05 PM, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> Uprev gmp from 5.1.1 to 6.0.0, and remove the 4.2.1 version which is GPLv2,
-> since gmp-6.0.0 is dual-licensing, LGPLv3 or GPLv2;
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+--iFRdW5/EC4oqxDHL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Aug 06, 2014 at 12:37:30AM +0500, Yasir Khan wrote:
+> From: Yasir-Khan <yasir_khan@mentor.com>
+>=20
+> Select between openssl or gnutls as ssl implementation via
+> PACKAGECONFIG instead of explicitly adding both via DEPENDS.
+>=20
+> Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
 > ---
->   meta/recipes-support/gmp/gmp-4.2.1/configure.patch |  209 --------------------
->   .../gmp/gmp-4.2.1/disable-stdc.patch               |   33 ----
->   .../gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch  |   48 -----
->   .../append_user_provided_flags.patch               |    0
->   .../gmp/{gmp-5.1.1 => gmp}/configure.patch         |  128 ++++++------
->   meta/recipes-support/gmp/gmp_4.2.1.bb              |   23 ---
->   meta/recipes-support/gmp/gmp_5.1.1.bb              |   11 --
->   meta/recipes-support/gmp/gmp_6.0.0.bb              |   13 ++
->   8 files changed, 83 insertions(+), 382 deletions(-)
->   delete mode 100644 meta/recipes-support/gmp/gmp-4.2.1/configure.patch
->   delete mode 100644 meta/recipes-support/gmp/gmp-4.2.1/disable-stdc.patch
->   delete mode 100644 meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch
->   rename meta/recipes-support/gmp/{gmp-5.1.1 => gmp}/append_user_provided_flags.patch (100%)
->   rename meta/recipes-support/gmp/{gmp-5.1.1 => gmp}/configure.patch (78%)
->   delete mode 100644 meta/recipes-support/gmp/gmp_4.2.1.bb
->   delete mode 100644 meta/recipes-support/gmp/gmp_5.1.1.bb
->   create mode 100644 meta/recipes-support/gmp/gmp_6.0.0.bb
->
-> diff --git a/meta/recipes-support/gmp/gmp-4.2.1/configure.patch b/meta/recipes-support/gmp/gmp-4.2.1/configure.patch
+>  .../wpa-supplicant/wpa-supplicant.inc              |   20 +-
+>  .../wpa-supplicant/wpa-supplicant/defconfig-gnutls |  552 --------------=
+------
+>  .../wpa-supplicant/defconfig-hostapd               |  552 ++++++++++++++=
+++++++
+
+Can you please resend with -M so that we can see what was changed in
+defconfig?
+
+>  3 files changed, 569 insertions(+), 555 deletions(-)
+>  delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
+nt/defconfig-gnutls
+>  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplica=
+nt/defconfig-hostapd
+>=20
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc =
+b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+> index d9c6532..a7e1a16 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+> @@ -6,16 +6,20 @@ LICENSE =3D "BSD"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dab87f20cd7e8c0d0a6539b34d3791=
+d0e \
+>                      file://README;beginline=3D1;endline=3D56;md5=3Da0725=
+0b28e857455336bb59fc31cb845 \
+>                      file://wpa_supplicant/wpa_supplicant.c;beginline=3D1=
+;endline=3D12;md5=3De8e021e30f3a6ab7c341b66b86626a5a"
+> -DEPENDS =3D "gnutls dbus libnl openssl libgcrypt"
+> +DEPENDS =3D "dbus libnl libgcrypt"
+>  RRECOMMENDS_${PN} =3D "wpa-supplicant-passphrase wpa-supplicant-cli"
+> =20
+> +PACKAGECONFIG ??=3D "gnutls"
+> +PACKAGECONFIG[gnutls] =3D ",,gnutls"
+> +PACKAGECONFIG[ssl] =3D ",,openssl"
+> +
+>  inherit systemd
+> =20
+>  SYSTEMD_SERVICE_${PN} =3D "wpa_supplicant.service wpa_supplicant-nl80211=
+@.service wpa_supplicant-wired@.service"
+>  SYSTEMD_AUTO_ENABLE =3D "disable"
+> =20
+>  SRC_URI =3D "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.=
+gz \
+> -           file://defconfig-gnutls \
+> +           file://defconfig-hostapd \
+>             file://wpa-supplicant.sh \
+>             file://wpa_supplicant.conf \
+>             file://wpa_supplicant.conf-sane \
+> @@ -34,8 +38,18 @@ FILES_${PN} +=3D "${datadir}/dbus-1/system-services/*"
+>  CONFFILES_${PN} +=3D "${sysconfdir}/wpa_supplicant.conf"
+> =20
+>  do_configure () {
+> -	install -m 0755 ${WORKDIR}/defconfig-gnutls wpa_supplicant/.config
+> +	install -m 0755 ${WORKDIR}/defconfig-hostapd wpa_supplicant/.config
+>  	echo "CFLAGS +=3D\"-I${STAGING_INCDIR}/libnl3\"" >> wpa_supplicant/.con=
+fig
+> +=09
+> +	if echo "${PACKAGECONFIG}" | grep -qw "ssl"; then
+> +        	ssl=3Dopenssl
+> +	elif echo "${PACKAGECONFIG}" | grep -qw "gnutls"; then
+> +        	ssl=3Dgnutls
+> +	fi
+> +	if [ -n "$ssl" ]; then
+> +        	sed -i "s/%ssl%/$ssl/" wpa_supplicant/.config
+> +	fi
+> +
+>  }
+> =20
+>  export EXTRA_CFLAGS =3D "${CFLAGS}"
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defc=
+onfig-gnutls b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defc=
+onfig-gnutls
 > deleted file mode 100644
-> index 7597a93..0000000
-> --- a/meta/recipes-support/gmp/gmp-4.2.1/configure.patch
+> index 92ef823..0000000
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-g=
+nutls
 > +++ /dev/null
-> @@ -1,209 +0,0 @@
-> -Upstream-Status: Pending
-> -
-> - acinclude.m4 |   26 ++++++++++++++------------
-> - configure.in |   24 +++++++++---------------
-> - 2 files changed, 23 insertions(+), 27 deletions(-)
-> -
-> -Index: gmp-5.0.3/acinclude.m4
-> -===================================================================
-> ---- gmp-5.0.3.orig/acinclude.m4
-> -+++ gmp-5.0.3/acinclude.m4
-> -@@ -30,29 +30,29 @@ dnl    a_out.exe - OpenVMS DEC C called
-> - dnl    conftest.exe - various DOS compilers
-> -
-> -
-> --define(IA64_PATTERN,
-> -+define([IA64_PATTERN],
-> - [[ia64*-*-* | itanium-*-* | itanium2-*-*]])
-> -
-> - dnl  Need to be careful not to match m6811, m6812, m68hc11 and m68hc12, all
-> - dnl  of which config.sub accepts.  (Though none of which are likely to work
-> - dnl  with GMP.)
-> - dnl
-> --define(M68K_PATTERN,
-> -+define([M68K_PATTERN],
-> - [[m68k-*-* | m68[0-9][0-9][0-9]-*-*]])
-> -
-> --define(POWERPC64_PATTERN,
-> -+define([POWERPC64_PATTERN],
-> - [[powerpc64-*-* | powerpc64le-*-* | powerpc620-*-* | powerpc630-*-* | powerpc970-*-* | power[3-9]-*-*]])
-> -
-> --define(S390_PATTERN,
-> -+define([S390_PATTERN],
-> - [[s390-*-* | z900esa-*-* | z990esa-*-* | z9esa-*-* | z10esa-*-* | z196esa-*-*]])
-> -
-> --define(S390X_PATTERN,
-> -+define([S390X_PATTERN],
-> - [[s390x-*-* | z900-*-* | z990-*-* | z9-*-* | z10-*-* | z196-*-*]])
-> -
-> --define(X86_PATTERN,
-> -+define([X86_PATTERN],
-> - [[i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | geode*-*-* | atom-*-*]])
-> -
-> --define(X86_64_PATTERN,
-> -+define([X86_64_PATTERN],
-> - [[athlon64-*-* | k8-*-* | k10-*-* | bobcat-*-* | bulldozer-*-* | pentium4-*-* | atom-*-* | core2-*-* | corei*-*-* | x86_64-*-* | nano-*-*]])
-> -
-> - dnl  GMP_FAT_SUFFIX(DSTVAR, DIRECTORY)
-> -@@ -70,7 +70,7 @@ dnl      x86         ->  x86
-> - dnl      x86/k6      ->  k6
-> - dnl      x86/k6/mmx  ->  k6_mmx
-> -
-> --define(GMP_FAT_SUFFIX,
-> -+define([GMP_FAT_SUFFIX],
-> - [[$1=`echo $2 | sed -e '/\//s:^[^/]*/::' -e 's:[\\/]:_:g'`]])
-> -
-> -
-> -@@ -79,7 +79,7 @@ dnl  ----------------------------------
-> - dnl  Emit code to remove any occurrence of ITEM from $LISTVAR.  ITEM can be a
-> - dnl  shell expression like $foo if desired.
-> -
-> --define(GMP_REMOVE_FROM_LIST,
-> -+define([GMP_REMOVE_FROM_LIST],
-> - [remove_from_list_tmp=
-> - for remove_from_list_i in $[][$1]; do
-> -   if test $remove_from_list_i = [$2]; then :;
-> -@@ -95,12 +95,12 @@ dnl  GMP_STRIP_PATH(subdir)
-> - dnl  ----------------------
-> - dnl  Strip entries */subdir from $path and $fat_path.
-> -
-> --define(GMP_STRIP_PATH,
-> -+define([GMP_STRIP_PATH],
-> - [GMP_STRIP_PATH_VAR(path, [$1])
-> - GMP_STRIP_PATH_VAR(fat_path, [$1])
-> - ])
-> -
-> --define(GMP_STRIP_PATH_VAR,
-> -+define([GMP_STRIP_PATH_VAR],
-> - [tmp_path=
-> - for i in $[][$1]; do
-> -   case $i in
-> -@@ -121,7 +121,7 @@ dnl
-> - dnl  Dummy value for GMP_LIMB_BITS is enough
-> - dnl  for all current configure-time uses of gmp.h.
-> -
-> --define(GMP_INCLUDE_GMP_H,
-> -+define([GMP_INCLUDE_GMP_H],
-> - [[#define __GMP_WITHIN_CONFIGURE 1   /* ignore template stuff */
-> - #define GMP_NAIL_BITS $GMP_NAIL_BITS
-> - #define GMP_LIMB_BITS 123
-> -@@ -136,7 +136,7 @@ dnl  Expand at autoconf time to the valu
-> - dnl  FILE.  The regexps here aren't very rugged, but are enough for gmp.
-> - dnl  /dev/null as a parameter prevents a hang if $2 is accidentally omitted.
-> -
-> --define(GMP_HEADER_GETVAL,
-> -+define([GMP_HEADER_GETVAL],
-> - [patsubst(patsubst(
-> - esyscmd([grep "^#define $1 " $2 /dev/null 2>/dev/null]),
-> - [^.*$1[ 	]+],[]),
-> -@@ -150,7 +150,7 @@ dnl  The gmp version number, extracted f
-> - dnl  autoconf time.  Two digits like 3.0 if patchlevel <= 0, or three digits
-> - dnl  like 3.0.1 if patchlevel > 0.
-> -
-> --define(GMP_VERSION,
-> -+define([GMP_VERSION],
-> - [GMP_HEADER_GETVAL(__GNU_MP_VERSION,gmp-h.in)[]dnl
-> - .GMP_HEADER_GETVAL(__GNU_MP_VERSION_MINOR,gmp-h.in)[]dnl
-> - .GMP_HEADER_GETVAL(__GNU_MP_VERSION_PATCHLEVEL,gmp-h.in)])
-> -@@ -1512,7 +1512,9 @@ esac
-> - echo ["define(<CONFIG_TOP_SRCDIR>,<\`$tmp'>)"] >>$gmp_tmpconfigm4
-> -
-> - # All CPUs use asm-defs.m4
-> --echo ["include][(CONFIG_TOP_SRCDIR\`/mpn/asm-defs.m4')"] >>$gmp_tmpconfigm4i
-> -+echo -n ["include("] >>$gmp_tmpconfigm4i
-> -+echo -n ["CONFIG_TOP_SRCDIR\`/mpn/asm-defs.m4'"] >>$gmp_tmpconfigm4i
-> -+echo [")"] >>$gmp_tmpconfigm4i
-> - ])
-> -
-> -
-> -Index: gmp-5.0.3/configure.in
-> -===================================================================
-> ---- gmp-5.0.3.orig/configure.in
-> -+++ gmp-5.0.3/configure.in
-> -@@ -29,12 +29,6 @@ AC_REVISION($Revision$)
-> - AC_PREREQ(2.59)
-> - AC_INIT(GNU MP, GMP_VERSION, [gmp-bugs@gmplib.org, see http://gmplib.org/manual/Reporting-Bugs.html], gmp)
-> - AC_CONFIG_SRCDIR(gmp-impl.h)
-> --m4_pattern_forbid([^[ \t]*GMP_])
-> --m4_pattern_allow(GMP_LDFLAGS)
-> --m4_pattern_allow(GMP_LIMB_BITS)
-> --m4_pattern_allow(GMP_MPARAM_H_SUGGEST)
-> --m4_pattern_allow(GMP_NAIL_BITS)
-> --m4_pattern_allow(GMP_NUMB_BITS)
-> -
-> - # If --target is not used then $target_alias is empty, but if say
-> - # "./configure athlon-pc-freebsd3.5" is used, then all three of
-> -@@ -311,7 +305,7 @@ AH_VERBATIM([HAVE_HOST_CPU_1],
-> - # After GMP specific searches and tests, the standard autoconf AC_PROG_CC is
-> - # called.  User selections of CC etc are respected.
-> - #
-> --# Care is taken not to use macros like AC_TRY_COMPILE during the GMP
-> -+# Care is taken not to use macros like AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],[],[]) during the GMP
-> - # pre-testing, since they of course depend on AC_PROG_CC, and also some of
-> - # them cache their results, which is not wanted.
-> - #
-> -@@ -403,7 +397,7 @@ abilist="standard"
-> - # FIXME: We'd like to prefer an ANSI compiler, perhaps by preferring
-> - # c89 over cc here.  But note that on HP-UX c89 provides a castrated
-> - # environment, and would want to be excluded somehow.  Maybe
-> --# AC_PROG_CC_STDC already does enough to stick cc into ANSI mode and
-> -+#  already does enough to stick cc into ANSI mode and
-> - # we don't need to worry.
-> - #
-> - cclist="gcc cc"
-> -@@ -1666,7 +1660,7 @@ esac
-> - CFLAGS_or_unset=${CFLAGS-'(unset)'}
-> - CPPFLAGS_or_unset=${CPPFLAGS-'(unset)'}
-> -
-> --cat >&AC_FD_CC <<EOF
-> -+cat >&AS_MESSAGE_LOG_FD() <<EOF
-> - User:
-> - ABI=$ABI
-> - CC=$CC
-> -@@ -2073,7 +2067,6 @@ AC_SUBST(DEFN_LONG_LONG_LIMB)
-> -
-> - # The C compiler and preprocessor, put into ANSI mode if possible.
-> - AC_PROG_CC
-> --AC_PROG_CC_STDC
-> - AC_PROG_CPP
-> - GMP_H_ANSI
-> -
-> -@@ -2096,11 +2089,11 @@ AC_SUBST(CCAS)
-> -
-> - # The C++ compiler, if desired.
-> - want_cxx=no
-> -+AC_PROG_CXX
-> - if test $enable_cxx != no; then
-> -   test_CXXFLAGS=${CXXFLAGS+set}
-> --  AC_PROG_CXX
-> -
-> --  echo "CXXFLAGS chosen by autoconf: $CXXFLAGS" >&AC_FD_CC
-> -+  echo "CXXFLAGS chosen by autoconf: $CXXFLAGS" >&AS_MESSAGE_LOG_FD()
-> -   cxxflags_ac_prog_cxx=$CXXFLAGS
-> -   cxxflags_list=ac_prog_cxx
-> -
-> -@@ -2206,7 +2199,7 @@ case $host in
-> - esac
-> -
-> -
-> --cat >&AC_FD_CC <<EOF
-> -+cat >&AS_MESSAGE_LOG_FD() <<EOF
-> - Decided:
-> - ABI=$ABI
-> - CC=$CC
-> -@@ -3465,7 +3458,7 @@ GMP_FINISH
-> - # FIXME: Upcoming version of autoconf/automake may not like broken lines.
-> - #        Right now automake isn't accepting the new AC_CONFIG_FILES scheme.
-> -
-> --AC_OUTPUT(Makefile							\
-> -+AC_CONFIG_FILES([Makefile							\
-> -   mpbsd/Makefile mpf/Makefile mpn/Makefile mpq/Makefile			\
-> -   mpz/Makefile printf/Makefile scanf/Makefile cxx/Makefile		\
-> -   tests/Makefile tests/devel/Makefile tests/mpbsd/Makefile		\
-> -@@ -3474,4 +3467,5 @@ AC_OUTPUT(Makefile							\
-> -   tests/cxx/Makefile							\
-> -   doc/Makefile tune/Makefile						\
-> -   demos/Makefile demos/calc/Makefile demos/expr/Makefile		\
-> --  gmp.h:gmp-h.in mp.h:mp-h.in)
-> -+  gmp.h:gmp-h.in mp.h:mp-h.in])
-> -+AC_OUTPUT
-> diff --git a/meta/recipes-support/gmp/gmp-4.2.1/disable-stdc.patch b/meta/recipes-support/gmp/gmp-4.2.1/disable-stdc.patch
-> deleted file mode 100644
-> index aaffaf1..0000000
-> --- a/meta/recipes-support/gmp/gmp-4.2.1/disable-stdc.patch
-> +++ /dev/null
-> @@ -1,33 +0,0 @@
-> -Upstream-Status: Pending
-> -
-> -# "extern inline" in traditional gcc means that the function should be
-> -# inlined wherever it's seen, while in C99, "extern inline" means that i
-> -# the function should only be inlined where the inline definition is
-> -# seen while in other places it's not inlined:
-> -# http://gcc.gnu.org/ml/gcc/2006-11/msg00006.html
+> @@ -1,552 +0,0 @@
+> -# Example wpa_supplicant build time configuration
 > -#
-> -# gmp checks "--std=gnu99" to use C99 convention however it internally
-> -# defines some "extern inline" functions in gmp.h, which is included
-> -# by mainly .c files and finally lead a flood of redefinition function
-> -# errors when linking objects together.
+> -# This file lists the configuration options that are used when building =
+the
+> -# hostapd binary. All lines starting with # are ignored. Configuration o=
+ption
+> -# lines must be commented out complete, if they are not to be included, =
+i.e.,
+> -# just setting VARIABLE=3Dn is not disabling that variable.
 > -#
-> -# So disable C99/ANSI detection to stick to tranditional gcc behavior
+> -# This file is included in Makefile, so variables like CFLAGS and LIBS c=
+an also
+> -# be modified from here. In most cases, these lines should use +=3D in o=
+rder not
+> -# to override previous values of the variables.
+> -
+> -
+> -# Uncomment following two lines and fix the paths if you have installed =
+OpenSSL
+> -# or GnuTLS in non-default location
+> -#CFLAGS +=3D -I/usr/local/openssl/include
+> -#LIBS +=3D -L/usr/local/openssl/lib
+> -
+> -# Some Red Hat versions seem to include kerberos header files from OpenS=
+SL, but
+> -# the kerberos files are not in the default include path. Following line=
+ can be
+> -# used to fix build issues on such systems (krb5.h not found).
+> -#CFLAGS +=3D -I/usr/include/kerberos
+> -
+> -# Example configuration for various cross-compilation platforms
+> -
+> -#### sveasoft (e.g., for Linksys WRT54G) ###############################=
+#######
+> -#CC=3Dmipsel-uclibc-gcc
+> -#CC=3D/opt/brcm/hndtools-mipsel-uclibc/bin/mipsel-uclibc-gcc
+> -#CFLAGS +=3D -Os
+> -#CPPFLAGS +=3D -I../src/include -I../../src/router/openssl/include
+> -#LIBS +=3D -L/opt/brcm/hndtools-mipsel-uclibc-0.9.19/lib -lssl
+> -########################################################################=
+#######
+> -
+> -#### openwrt (e.g., for Linksys WRT54G) ################################=
+#######
+> -#CC=3Dmipsel-uclibc-gcc
+> -#CC=3D/opt/brcm/hndtools-mipsel-uclibc/bin/mipsel-uclibc-gcc
+> -#CFLAGS +=3D -Os
+> -#CPPFLAGS=3D-I../src/include -I../openssl-0.9.7d/include \
+> -#	-I../WRT54GS/release/src/include
+> -#LIBS =3D -lssl
+> -########################################################################=
+#######
+> -
+> -
+> -# Driver interface for Host AP driver
+> -CONFIG_DRIVER_HOSTAP=3Dy
+> -
+> -# Driver interface for Agere driver
+> -#CONFIG_DRIVER_HERMES=3Dy
+> -# Change include directories to match with the local setup
+> -#CFLAGS +=3D -I../../hcf -I../../include -I../../include/hcf
+> -#CFLAGS +=3D -I../../include/wireless
+> -
+> -# Driver interface for madwifi driver
+> -# Deprecated; use CONFIG_DRIVER_WEXT=3Dy instead.
+> -#CONFIG_DRIVER_MADWIFI=3Dy
+> -# Set include directory to the madwifi source tree
+> -#CFLAGS +=3D -I../../madwifi
+> -
+> -# Driver interface for ndiswrapper
+> -# Deprecated; use CONFIG_DRIVER_WEXT=3Dy instead.
+> -#CONFIG_DRIVER_NDISWRAPPER=3Dy
+> -
+> -# Driver interface for Atmel driver
+> -# CONFIG_DRIVER_ATMEL=3Dy
+> -
+> -# Driver interface for old Broadcom driver
+> -# Please note that the newer Broadcom driver ("hybrid Linux driver") sup=
+ports
+> -# Linux wireless extensions and does not need (or even work) with the old
+> -# driver wrapper. Use CONFIG_DRIVER_WEXT=3Dy with that driver.
+> -#CONFIG_DRIVER_BROADCOM=3Dy
+> -# Example path for wlioctl.h; change to match your configuration
+> -#CFLAGS +=3D -I/opt/WRT54GS/release/src/include
+> -
+> -# Driver interface for Intel ipw2100/2200 driver
+> -# Deprecated; use CONFIG_DRIVER_WEXT=3Dy instead.
+> -#CONFIG_DRIVER_IPW=3Dy
+> -
+> -# Driver interface for Ralink driver
+> -#CONFIG_DRIVER_RALINK=3Dy
+> -
+> -# Driver interface for generic Linux wireless extensions
+> -# Note: WEXT is deprecated in the current Linux kernel version and no new
+> -# functionality is added to it. nl80211-based interface is the new
+> -# replacement for WEXT and its use allows wpa_supplicant to properly con=
+trol
+> -# the driver to improve existing functionality like roaming and to suppo=
+rt new
+> -# functionality.
+> -CONFIG_DRIVER_WEXT=3Dy
+> -
+> -# Driver interface for Linux drivers using the nl80211 kernel interface
+> -CONFIG_DRIVER_NL80211=3Dy
+> -
+> -# driver_nl80211.c requires libnl. If you are compiling it yourself
+> -# you may need to point hostapd to your version of libnl.
 > -#
-> -# by Kevin Tian <kevin.tian@intel.com>, 2010-08-13
+> -#CFLAGS +=3D -I$<path to libnl include files>
+> -#LIBS +=3D -L$<path to libnl library files>
+> -
+> -# Use libnl v2.0 (or 3.0) libraries.
+> -#CONFIG_LIBNL20=3Dy
+> -
+> -# Use libnl 3.2 libraries (if this is selected, CONFIG_LIBNL20 is ignore=
+d)
+> -CONFIG_LIBNL32=3Dy
+> -
+> -
+> -# Driver interface for FreeBSD net80211 layer (e.g., Atheros driver)
+> -#CONFIG_DRIVER_BSD=3Dy
+> -#CFLAGS +=3D -I/usr/local/include
+> -#LIBS +=3D -L/usr/local/lib
+> -#LIBS_p +=3D -L/usr/local/lib
+> -#LIBS_c +=3D -L/usr/local/lib
+> -
+> -# Driver interface for Windows NDIS
+> -#CONFIG_DRIVER_NDIS=3Dy
+> -#CFLAGS +=3D -I/usr/include/w32api/ddk
+> -#LIBS +=3D -L/usr/local/lib
+> -# For native build using mingw
+> -#CONFIG_NATIVE_WINDOWS=3Dy
+> -# Additional directories for cross-compilation on Linux host for mingw t=
+arget
+> -#CFLAGS +=3D -I/opt/mingw/mingw32/include/ddk
+> -#LIBS +=3D -L/opt/mingw/mingw32/lib
+> -#CC=3Dmingw32-gcc
+> -# By default, driver_ndis uses WinPcap for low-level operations. This ca=
+n be
+> -# replaced with the following option which replaces WinPcap calls with N=
+DISUIO.
+> -# However, this requires that WZC is disabled (net stop wzcsvc) before s=
+tarting
+> -# wpa_supplicant.
+> -# CONFIG_USE_NDISUIO=3Dy
+> -
+> -# Driver interface for development testing
+> -#CONFIG_DRIVER_TEST=3Dy
+> -
+> -# Driver interface for wired Ethernet drivers
+> -CONFIG_DRIVER_WIRED=3Dy
+> -
+> -# Driver interface for the Broadcom RoboSwitch family
+> -#CONFIG_DRIVER_ROBOSWITCH=3Dy
+> -
+> -# Driver interface for no driver (e.g., WPS ER only)
+> -#CONFIG_DRIVER_NONE=3Dy
+> -
+> -# Enable IEEE 802.1X Supplicant (automatically included if any EAP metho=
+d is
+> -# included)
+> -CONFIG_IEEE8021X_EAPOL=3Dy
+> -
+> -# EAP-MD5
+> -CONFIG_EAP_MD5=3Dy
+> -
+> -# EAP-MSCHAPv2
+> -CONFIG_EAP_MSCHAPV2=3Dy
+> -
+> -# EAP-TLS
+> -CONFIG_EAP_TLS=3Dy
+> -
+> -# EAL-PEAP
+> -CONFIG_EAP_PEAP=3Dy
+> -
+> -# EAP-TTLS
+> -CONFIG_EAP_TTLS=3Dy
+> -
+> -# EAP-FAST
+> -# Note: If OpenSSL is used as the TLS library, OpenSSL 1.0 or newer is n=
+eeded
+> -# for EAP-FAST support. Older OpenSSL releases would need to be patched,=
+ e.g.,
+> -# with openssl-0.9.8x-tls-extensions.patch, to add the needed functions.
+> -#CONFIG_EAP_FAST=3Dy
+> -
+> -# EAP-GTC
+> -CONFIG_EAP_GTC=3Dy
+> -
+> -# EAP-OTP
+> -CONFIG_EAP_OTP=3Dy
+> -
+> -# EAP-SIM (enable CONFIG_PCSC, if EAP-SIM is used)
+> -#CONFIG_EAP_SIM=3Dy
+> -
+> -# EAP-PSK (experimental; this is _not_ needed for WPA-PSK)
+> -#CONFIG_EAP_PSK=3Dy
+> -
+> -# EAP-pwd (secure authentication using only a password)
+> -#CONFIG_EAP_PWD=3Dy
+> -
+> -# EAP-PAX
+> -#CONFIG_EAP_PAX=3Dy
+> -
+> -# LEAP
+> -CONFIG_EAP_LEAP=3Dy
+> -
+> -# EAP-AKA (enable CONFIG_PCSC, if EAP-AKA is used)
+> -#CONFIG_EAP_AKA=3Dy
+> -
+> -# EAP-AKA' (enable CONFIG_PCSC, if EAP-AKA' is used).
+> -# This requires CONFIG_EAP_AKA to be enabled, too.
+> -#CONFIG_EAP_AKA_PRIME=3Dy
+> -
+> -# Enable USIM simulator (Milenage) for EAP-AKA
+> -#CONFIG_USIM_SIMULATOR=3Dy
+> -
+> -# EAP-SAKE
+> -#CONFIG_EAP_SAKE=3Dy
+> -
+> -# EAP-GPSK
+> -#CONFIG_EAP_GPSK=3Dy
+> -# Include support for optional SHA256 cipher suite in EAP-GPSK
+> -#CONFIG_EAP_GPSK_SHA256=3Dy
+> -
+> -# EAP-TNC and related Trusted Network Connect support (experimental)
+> -#CONFIG_EAP_TNC=3Dy
+> -
+> -# Wi-Fi Protected Setup (WPS)
+> -CONFIG_WPS=3Dy
+> -# Enable WSC 2.0 support
+> -#CONFIG_WPS2=3Dy
+> -# Enable WPS external registrar functionality
+> -#CONFIG_WPS_ER=3Dy
+> -# Disable credentials for an open network by default when acting as a WPS
+> -# registrar.
+> -#CONFIG_WPS_REG_DISABLE_OPEN=3Dy
+> -# Enable WPS support with NFC config method
+> -#CONFIG_WPS_NFC=3Dy
+> -
+> -# EAP-IKEv2
+> -#CONFIG_EAP_IKEV2=3Dy
+> -
+> -# EAP-EKE
+> -#CONFIG_EAP_EKE=3Dy
+> -
+> -# PKCS#12 (PFX) support (used to read private key and certificate file f=
+rom
+> -# a file that usually has extension .p12 or .pfx)
+> -CONFIG_PKCS12=3Dy
+> -
+> -# Smartcard support (i.e., private key on a smartcard), e.g., with opens=
+sl
+> -# engine.
+> -CONFIG_SMARTCARD=3Dy
+> -
+> -# PC/SC interface for smartcards (USIM, GSM SIM)
+> -# Enable this if EAP-SIM or EAP-AKA is included
+> -#CONFIG_PCSC=3Dy
+> -
+> -# Support HT overrides (disable HT/HT40, mask MCS rates, etc.)
+> -#CONFIG_HT_OVERRIDES=3Dy
+> -
+> -# Support VHT overrides (disable VHT, mask MCS rates, etc.)
+> -#CONFIG_VHT_OVERRIDES=3Dy
+> -
+> -# Development testing
+> -#CONFIG_EAPOL_TEST=3Dy
+> -
+> -# Select control interface backend for external programs, e.g, wpa_cli:
+> -# unix =3D UNIX domain sockets (default for Linux/*BSD)
+> -# udp =3D UDP sockets using localhost (127.0.0.1)
+> -# named_pipe =3D Windows Named Pipe (default for Windows)
+> -# udp-remote =3D UDP sockets with remote access (only for tests systems/=
+purpose)
+> -# y =3D use default (backwards compatibility)
+> -# If this option is commented out, control interface is not included in =
+the
+> -# build.
+> -CONFIG_CTRL_IFACE=3Dy
+> -
+> -# Include support for GNU Readline and History Libraries in wpa_cli.
+> -# When building a wpa_cli binary for distribution, please note that these
+> -# libraries are licensed under GPL and as such, BSD license may not appl=
+y for
+> -# the resulting binary.
+> -#CONFIG_READLINE=3Dy
+> -
+> -# Include internal line edit mode in wpa_cli. This can be used as a repl=
+acement
+> -# for GNU Readline to provide limited command line editing and history s=
+upport.
+> -#CONFIG_WPA_CLI_EDIT=3Dy
+> -
+> -# Remove debugging code that is printing out debug message to stdout.
+> -# This can be used to reduce the size of the wpa_supplicant considerably
+> -# if debugging code is not needed. The size reduction can be around 35%
+> -# (e.g., 90 kB).
+> -#CONFIG_NO_STDOUT_DEBUG=3Dy
+> -
+> -# Remove WPA support, e.g., for wired-only IEEE 802.1X supplicant, to sa=
+ve
+> -# 35-50 kB in code size.
+> -#CONFIG_NO_WPA=3Dy
+> -
+> -# Remove IEEE 802.11i/WPA-Personal ASCII passphrase support
+> -# This option can be used to reduce code size by removing support for
+> -# converting ASCII passphrases into PSK. If this functionality is remove=
+d, the
+> -# PSK can only be configured as the 64-octet hexstring (e.g., from
+> -# wpa_passphrase). This saves about 0.5 kB in code size.
+> -#CONFIG_NO_WPA_PASSPHRASE=3Dy
+> -
+> -# Disable scan result processing (ap_mode=3D1) to save code size by abou=
+t 1 kB.
+> -# This can be used if ap_scan=3D1 mode is never enabled.
+> -#CONFIG_NO_SCAN_PROCESSING=3Dy
+> -
+> -# Select configuration backend:
+> -# file =3D text file (e.g., wpa_supplicant.conf; note: the configuration=
+ file
+> -#	path is given on command line, not here; this option is just used to
+> -#	select the backend that allows configuration files to be used)
+> -# winreg =3D Windows registry (see win_example.reg for an example)
+> -CONFIG_BACKEND=3Dfile
+> -
+> -# Remove configuration write functionality (i.e., to allow the configura=
+tion
+> -# file to be updated based on runtime configuration changes). The runtime
+> -# configuration can still be changed, the changes are just not going to =
+be
+> -# persistent over restarts. This option can be used to reduce code size =
+by
+> -# about 3.5 kB.
+> -#CONFIG_NO_CONFIG_WRITE=3Dy
+> -
+> -# Remove support for configuration blobs to reduce code size by about 1.=
+5 kB.
+> -#CONFIG_NO_CONFIG_BLOBS=3Dy
+> -
+> -# Select program entry point implementation:
+> -# main =3D UNIX/POSIX like main() function (default)
+> -# main_winsvc =3D Windows service (read parameters from registry)
+> -# main_none =3D Very basic example (development use only)
+> -#CONFIG_MAIN=3Dmain
+> -
+> -# Select wrapper for operatins system and C library specific functions
+> -# unix =3D UNIX/POSIX like systems (default)
+> -# win32 =3D Windows systems
+> -# none =3D Empty template
+> -#CONFIG_OS=3Dunix
+> -
+> -# Select event loop implementation
+> -# eloop =3D select() loop (default)
+> -# eloop_win =3D Windows events and WaitForMultipleObject() loop
+> -#CONFIG_ELOOP=3Deloop
+> -
+> -# Should we use poll instead of select? Select is used by default.
+> -#CONFIG_ELOOP_POLL=3Dy
+> -
+> -# Select layer 2 packet implementation
+> -# linux =3D Linux packet socket (default)
+> -# pcap =3D libpcap/libdnet/WinPcap
+> -# freebsd =3D FreeBSD libpcap
+> -# winpcap =3D WinPcap with receive thread
+> -# ndis =3D Windows NDISUIO (note: requires CONFIG_USE_NDISUIO=3Dy)
+> -# none =3D Empty template
+> -#CONFIG_L2_PACKET=3Dlinux
+> -
+> -# PeerKey handshake for Station to Station Link (IEEE 802.11e DLS)
+> -CONFIG_PEERKEY=3Dy
+> -
+> -# IEEE 802.11w (management frame protection), also known as PMF
+> -# Driver support is also needed for IEEE 802.11w.
+> -#CONFIG_IEEE80211W=3Dy
+> -
+> -# Select TLS implementation
+> -# openssl =3D OpenSSL (default)
+> -# gnutls =3D GnuTLS
+> -# internal =3D Internal TLSv1 implementation (experimental)
+> -# none =3D Empty template
+> -#CONFIG_TLS=3Dopenssl
+> -
+> -# TLS-based EAP methods require at least TLS v1.0. Newer version of TLS =
+(v1.1)
+> -# can be enabled to get a stronger construction of messages when block c=
+iphers
+> -# are used. It should be noted that some existing TLS v1.0 -based
+> -# implementation may not be compatible with TLS v1.1 message (ClientHell=
+o is
+> -# sent prior to negotiating which version will be used)
+> -#CONFIG_TLSV11=3Dy
+> -
+> -# TLS-based EAP methods require at least TLS v1.0. Newer version of TLS =
+(v1.2)
+> -# can be enabled to enable use of stronger crypto algorithms. It should =
+be
+> -# noted that some existing TLS v1.0 -based implementation may not be com=
+patible
+> -# with TLS v1.2 message (ClientHello is sent prior to negotiating which =
+version
+> -# will be used)
+> -#CONFIG_TLSV12=3Dy
+> -
+> -# If CONFIG_TLS=3Dinternal is used, additional library and include paths=
+ are
+> -# needed for LibTomMath. Alternatively, an integrated, minimal version of
+> -# LibTomMath can be used. See beginning of libtommath.c for details on b=
+enefits
+> -# and drawbacks of this option.
+> -#CONFIG_INTERNAL_LIBTOMMATH=3Dy
+> -#ifndef CONFIG_INTERNAL_LIBTOMMATH
+> -#LTM_PATH=3D/usr/src/libtommath-0.39
+> -#CFLAGS +=3D -I$(LTM_PATH)
+> -#LIBS +=3D -L$(LTM_PATH)
+> -#LIBS_p +=3D -L$(LTM_PATH)
+> -#endif
+> -# At the cost of about 4 kB of additional binary size, the internal LibT=
+omMath
+> -# can be configured to include faster routines for exptmod, sqr, and div=
+ to
+> -# speed up DH and RSA calculation considerably
+> -#CONFIG_INTERNAL_LIBTOMMATH_FAST=3Dy
+> -
+> -# Include NDIS event processing through WMI into wpa_supplicant/wpasvc.
+> -# This is only for Windows builds and requires WMI-related header files =
+and
+> -# WbemUuid.Lib from Platform SDK even when building with MinGW.
+> -#CONFIG_NDIS_EVENTS_INTEGRATED=3Dy
+> -#PLATFORMSDKLIB=3D"/opt/Program Files/Microsoft Platform SDK/Lib"
+> -
+> -# Add support for old DBus control interface
+> -# (fi.epitest.hostap.WPASupplicant)
+> -#CONFIG_CTRL_IFACE_DBUS=3Dy
+> -
+> -# Add support for new DBus control interface
+> -# (fi.w1.hostap.wpa_supplicant1)
+> -CONFIG_CTRL_IFACE_DBUS_NEW=3Dy
+> -
+> -# Add introspection support for new DBus control interface
+> -#CONFIG_CTRL_IFACE_DBUS_INTRO=3Dy
+> -
+> -# Add support for loading EAP methods dynamically as shared libraries.
+> -# When this option is enabled, each EAP method can be either included
+> -# statically (CONFIG_EAP_<method>=3Dy) or dynamically (CONFIG_EAP_<metho=
+d>=3Ddyn).
+> -# Dynamic EAP methods are build as shared objects (eap_*.so) and they ne=
+ed to
+> -# be loaded in the beginning of the wpa_supplicant configuration file
+> -# (see load_dynamic_eap parameter in the example file) before being used=
+ in
+> -# the network blocks.
 > -#
-> -# (this patch is licensed under GPLv2+)
+> -# Note that some shared parts of EAP methods are included in the main pr=
+ogram
+> -# and in order to be able to use dynamic EAP methods using these parts, =
+the
+> -# main program must have been build with the EAP method enabled (=3Dy or=
+ =3Ddyn).
+> -# This means that EAP-TLS/PEAP/TTLS/FAST cannot be added as dynamic libr=
+aries
+> -# unless at least one of them was included in the main build to force in=
+clusion
+> -# of the shared code. Similarly, at least one of EAP-SIM/AKA must be inc=
+luded
+> -# in the main build to be able to load these methods dynamically.
+> -#
+> -# Please also note that using dynamic libraries will increase the total =
+binary
+> -# size. Thus, it may not be the best option for targets that have limited
+> -# amount of memory/flash.
+> -#CONFIG_DYNAMIC_EAP_METHODS=3Dy
 > -
-> -diff --git a/configure.in b/configure.in
-> -index 450cc92..aab0b59 100644
-> ---- a/configure.in
-> -+++ b/configure.in
-> -@@ -1869,9 +1869,7 @@ AC_SUBST(DEFN_LONG_LONG_LIMB)
+> -# IEEE Std 802.11r-2008 (Fast BSS Transition)
+> -#CONFIG_IEEE80211R=3Dy
 > -
-> - # The C compiler and preprocessor, put into ANSI mode if possible.
-> - AC_PROG_CC
-> --AC_PROG_CC_STDC
-> - AC_PROG_CPP
-> --GMP_H_ANSI
+> -# Add support for writing debug log to a file (/tmp/wpa_supplicant-log-#=
+=2Etxt)
+> -#CONFIG_DEBUG_FILE=3Dy
 > -
+> -# Send debug messages to syslog instead of stdout
+> -#CONFIG_DEBUG_SYSLOG=3Dy
+> -# Set syslog facility for debug messages
+> -#CONFIG_DEBUG_SYSLOG_FACILITY=3DLOG_DAEMON
 > -
-> - # The C compiler on the build system, and associated tests.
-> diff --git a/meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch b/meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch
-> deleted file mode 100644
-> index fbd8a39..0000000
-> --- a/meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch
-> +++ /dev/null
-> @@ -1,48 +0,0 @@
-> -Upstream-Status: Pending
+> -# Add support for sending all debug messages (regardless of debug verbos=
+ity)
+> -# to the Linux kernel tracing facility. This helps debug the entire stac=
+k by
+> -# making it easy to record everything happening from the driver up into =
+the
+> -# same file, e.g., using trace-cmd.
+> -#CONFIG_DEBUG_LINUX_TRACING=3Dy
 > -
-> -automake 1.12 has depricated automatic de-ANSI-fication support
+> -# Enable privilege separation (see README 'Privilege separation' for det=
+ails)
+> -#CONFIG_PRIVSEP=3Dy
 > -
-> -this patch avoids these kinds of errors:
+> -# Enable mitigation against certain attacks against TKIP by delaying Mic=
+hael
+> -# MIC error reports by a random amount of time between 0 and 60 seconds
+> -#CONFIG_DELAYED_MIC_ERROR_REPORT=3Dy
 > -
-> -| configure.in:2240: error: automatic de-ANSI-fication support has been removed
-> -| Makefile.am:28: error: automatic de-ANSI-fication support has been removed
+> -# Enable tracing code for developer debugging
+> -# This tracks use of memory allocations and other registrations and repo=
+rts
+> -# incorrect use with a backtrace of call (or allocation) location.
+> -#CONFIG_WPA_TRACE=3Dy
+> -# For BSD, uncomment these.
+> -#LIBS +=3D -lexecinfo
+> -#LIBS_p +=3D -lexecinfo
+> -#LIBS_c +=3D -lexecinfo
 > -
-> -Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-> -2012/05/02
+> -# Use libbfd to get more details for developer debugging
+> -# This enables use of libbfd to get more detailed symbols for the backtr=
+aces
+> -# generated by CONFIG_WPA_TRACE=3Dy.
+> -#CONFIG_WPA_TRACE_BFD=3Dy
+> -# For BSD, uncomment these.
+> -#LIBS +=3D -lbfd -liberty -lz
+> -#LIBS_p +=3D -lbfd -liberty -lz
+> -#LIBS_c +=3D -lbfd -liberty -lz
 > -
-> -Index: gmp-4.2.1/configure.in
-> -===================================================================
-> ---- gmp-4.2.1.orig/configure.in
-> -+++ gmp-4.2.1/configure.in
-> -@@ -67,7 +67,7 @@ dnl
-> - dnl  Note that there's a copy of these options in the top-level Makefile.am,
-> - dnl  so update there too if changing anything.
-> - dnl
-> --AM_INIT_AUTOMAKE([1.8 gnu no-dependencies $(top_builddir)/ansi2knr])
-> -+AM_INIT_AUTOMAKE([1.8 gnu no-dependencies])
-> - AM_CONFIG_HEADER(config.h:config.in)
-> - AM_MAINTAINER_MODE
+> -CONFIG_TLS =3D gnutls
+> -CONFIG_CTRL_IFACE_DBUS=3Dy
+> -CONFIG_CTRL_IFACE_DBUS_NEW=3Dy
 > -
-> -@@ -2022,9 +2022,6 @@ fi
-> - echo "      MPN_PATH=\"$path\""
+> -# wpa_supplicant depends on strong random number generation being availa=
+ble
+> -# from the operating system. os_get_random() function is used to fetch r=
+andom
+> -# data when needed, e.g., for key generation. On Linux and BSD systems, =
+this
+> -# works by reading /dev/urandom. It should be noted that the OS entropy =
+pool
+> -# needs to be properly initialized before wpa_supplicant is started. Thi=
+s is
+> -# important especially on embedded devices that do not have a hardware r=
+andom
+> -# number generator and may by default start up with minimal entropy avai=
+lable
+> -# for random number generation.
+> -#
+> -# As a safety net, wpa_supplicant is by default trying to internally col=
+lect
+> -# additional entropy for generating random data to mix in with the data =
+fetched
+> -# from the OS. This by itself is not considered to be very strong, but i=
+t may
+> -# help in cases where the system pool is not initialized properly. Howev=
+er, it
+> -# is very strongly recommended that the system pool is initialized with =
+enough
+> -# entropy either by using hardware assisted random number generator or by
+> -# storing state over device reboots.
+> -#
+> -# wpa_supplicant can be configured to maintain its own entropy store over
+> -# restarts to enhance random number generation. This is not perfect, but=
+ it is
+> -# much more secure than using the same sequence of random numbers after =
+every
+> -# reboot. This can be enabled with -e<entropy file> command line option.=
+ The
+> -# specified file needs to be readable and writable by wpa_supplicant.
+> -#
+> -# If the os_get_random() is known to provide strong random data (e.g., on
+> -# Linux/BSD, the board in question is known to have reliable source of r=
+andom
+> -# data from /dev/urandom), the internal wpa_supplicant random pool can be
+> -# disabled. This will save some in binary size and CPU use. However, this
+> -# should only be considered for builds that are known to be used on devi=
+ces
+> -# that meet the requirements described above.
+> -#CONFIG_NO_RANDOM_POOL=3Dy
 > -
+> -# IEEE 802.11n (High Throughput) support (mainly for AP mode)
+> -#CONFIG_IEEE80211N=3Dy
 > -
-> --# Automake ansi2knr support.
-> --AM_C_PROTOTYPES
-> --
-> - GMP_PROG_AR
-> - GMP_PROG_NM
+> -# IEEE 802.11ac (Very High Throughput) support (mainly for AP mode)
+> -# (depends on CONFIG_IEEE80211N)
+> -#CONFIG_IEEE80211AC=3Dy
 > -
-> -Index: gmp-4.2.1/Makefile.am
-> -===================================================================
-> ---- gmp-4.2.1.orig/Makefile.am
-> -+++ gmp-4.2.1/Makefile.am
-> -@@ -27,7 +27,7 @@
-> - # Makefiles in subdirectories, but here we must omit it so automake gives
-> - # the actual ansi2knr build rule, not "cd $(top_builddir) && make ansi2knr".
-> - #
-> --AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies ansi2knr
-> -+AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies
+> -# Wireless Network Management (IEEE Std 802.11v-2011)
+> -# Note: This is experimental and not complete implementation.
+> -#CONFIG_WNM=3Dy
 > -
+> -# Interworking (IEEE 802.11u)
+> -# This can be used to enable functionality to improve interworking with
+> -# external networks (GAS/ANQP to learn more about the networks and netwo=
+rk
+> -# selection based on available credentials).
+> -#CONFIG_INTERWORKING=3Dy
 > -
-> - # Libtool -version-info for libgmp.la and libmp.la.  See "Versioning" in the
-> diff --git a/meta/recipes-support/gmp/gmp-5.1.1/append_user_provided_flags.patch b/meta/recipes-support/gmp/gmp/append_user_provided_flags.patch
-> similarity index 100%
-> rename from meta/recipes-support/gmp/gmp-5.1.1/append_user_provided_flags.patch
-> rename to meta/recipes-support/gmp/gmp/append_user_provided_flags.patch
-> diff --git a/meta/recipes-support/gmp/gmp-5.1.1/configure.patch b/meta/recipes-support/gmp/gmp/configure.patch
-> similarity index 78%
-> rename from meta/recipes-support/gmp/gmp-5.1.1/configure.patch
-> rename to meta/recipes-support/gmp/gmp/configure.patch
-> index 591ea79..349da3c 100644
-> --- a/meta/recipes-support/gmp/gmp-5.1.1/configure.patch
-> +++ b/meta/recipes-support/gmp/gmp/configure.patch
-> @@ -4,17 +4,23 @@ Updated to apply to gmp-5.1.0
->   
->   Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
->   
-> -diff -Nurd gmp-5.1.0/acinclude.m4 gmp-5.1.0/acinclude.m4
-> ---- gmp-5.1.0/acinclude.m4	2012-12-18 21:05:09.000000000 +0200
-> -+++ gmp-5.1.0/acinclude.m4	2013-01-02 05:19:26.977013073 +0200
-> -@@ -30,29 +30,29 @@
-> +---
-> + acinclude.m4 | 32 +++++++++++++++++---------------
-> + configure.ac | 26 +++++++++-----------------
-> + 2 files changed, 26 insertions(+), 32 deletions(-)
-> +
-> +diff --git a/acinclude.m4 b/acinclude.m4
-> +index 227712a..199aa6f 100644
-> +--- a/acinclude.m4
-> ++++ b/acinclude.m4
-> +@@ -40,29 +40,29 @@ dnl    a_out.exe - OpenVMS DEC C called via GNV wrapper (gnv.sourceforge.net)
->    dnl    conftest.exe - various DOS compilers
+> -# Hotspot 2.0
+> -#CONFIG_HS20=3Dy
 > -
+> -# Disable roaming in wpa_supplicant
+> -#CONFIG_NO_ROAMING=3Dy
 > -
-> +
-> +
->   -define(IA64_PATTERN,
->   +define([IA64_PATTERN],
->    [[ia64*-*-* | itanium-*-* | itanium2-*-*]])
+> -# AP mode operations with wpa_supplicant
+> -# This can be used for controlling AP mode operations with wpa_supplican=
+t. It
+> -# should be noted that this is mainly aimed at simple cases like
+> -# WPA2-Personal while more complex configurations like WPA2-Enterprise w=
+ith an
+> -# external RADIUS server can be supported with hostapd.
+> -CONFIG_AP=3Dy
 > -
-> +
->    dnl  Need to be careful not to match m6811, m6812, m68hc11 and m68hc12, all
->    dnl  of which config.sub accepts.  (Though none of which are likely to work
->    dnl  with GMP.)
-> @@ -22,105 +28,106 @@ diff -Nurd gmp-5.1.0/acinclude.m4 gmp-5.1.0/acinclude.m4
->   -define(M68K_PATTERN,
->   +define([M68K_PATTERN],
->    [[m68k-*-* | m68[0-9][0-9][0-9]-*-*]])
+> -CONFIG_BGSCAN_SIMPLE=3Dy
 > -
-> +
->   -define(POWERPC64_PATTERN,
->   +define([POWERPC64_PATTERN],
->    [[powerpc64-*-* | powerpc64le-*-* | powerpc620-*-* | powerpc630-*-* | powerpc970-*-* | power[3-9]-*-*]])
+> -# P2P (Wi-Fi Direct)
+> -# This can be used to enable P2P support in wpa_supplicant. See README-P=
+2P for
+> -# more information on P2P operations.
+> -#CONFIG_P2P=3Dy
 > -
-> +
->   -define(S390_PATTERN,
->   +define([S390_PATTERN],
->    [[s390-*-* | z900esa-*-* | z990esa-*-* | z9esa-*-* | z10esa-*-* | z196esa-*-*]])
+> -# Enable TDLS support
+> -#CONFIG_TDLS=3Dy
 > -
-> +
->   -define(S390X_PATTERN,
->   +define([S390X_PATTERN],
->    [[s390x-*-* | z900-*-* | z990-*-* | z9-*-* | z10-*-* | z196-*-*]])
+> -# Wi-Fi Direct
+> -# This can be used to enable Wi-Fi Direct extensions for P2P using an ex=
+ternal
+> -# program to control the additional information exchanges in the message=
+s.
+> -#CONFIG_WIFI_DISPLAY=3Dy
 > -
-> +
->   -define(X86_PATTERN,
->   +define([X86_PATTERN],
->    [[i?86*-*-* | k[5-8]*-*-* | pentium*-*-* | athlon-*-* | viac3*-*-* | geode*-*-* | atom-*-*]])
+> -# Autoscan
+> -# This can be used to enable automatic scan support in wpa_supplicant.
+> -# See wpa_supplicant.conf for more information on autoscan usage.
+> -#
+> -# Enabling directly a module will enable autoscan support.
+> -# For exponential module:
+> -CONFIG_AUTOSCAN_EXPONENTIAL=3Dy
+> -# For periodic module:
+> -#CONFIG_AUTOSCAN_PERIODIC=3Dy
 > -
-> +
->   -define(X86_64_PATTERN,
->   +define([X86_64_PATTERN],
-> - [[athlon64-*-* | k8-*-* | k10-*-* | bobcat-*-* | bulldozer-*-* | pentium4-*-* | atom-*-* | core2-*-* | corei*-*-* | x86_64-*-* | nano-*-*]])
-> -
-> + [[athlon64-*-* | k8-*-* | k10-*-* | bobcat-*-* | jaguar-*-* | bulldozer-*-* | piledriver-*-* | steamroller-*-* | excavator-*-* | pentium4-*-* | atom-*-* | core2-*-* | corei*-*-* | x86_64-*-* | nano-*-*]])
-> +
->    dnl  GMP_FAT_SUFFIX(DSTVAR, DIRECTORY)
-> -@@ -70,7 +70,7 @@
-> +@@ -80,7 +80,7 @@ dnl      x86         ->  x86
->    dnl      x86/k6      ->  k6
->    dnl      x86/k6/mmx  ->  k6_mmx
-> -
-> +
->   -define(GMP_FAT_SUFFIX,
->   +define([GMP_FAT_SUFFIX],
->    [[$1=`echo $2 | sed -e '/\//s:^[^/]*/::' -e 's:[\\/]:_:g'`]])
-> -
-> -
-> -@@ -79,7 +79,7 @@
-> +
-> +
-> +@@ -89,7 +89,7 @@ dnl  ----------------------------------
->    dnl  Emit code to remove any occurrence of ITEM from $LISTVAR.  ITEM can be a
->    dnl  shell expression like $foo if desired.
-> -
-> +
->   -define(GMP_REMOVE_FROM_LIST,
->   +define([GMP_REMOVE_FROM_LIST],
->    [remove_from_list_tmp=
->    for remove_from_list_i in $[][$1]; do
->      if test $remove_from_list_i = [$2]; then :;
-> -@@ -95,12 +95,12 @@
-> +@@ -105,12 +105,12 @@ dnl  GMP_STRIP_PATH(subdir)
->    dnl  ----------------------
->    dnl  Strip entries */subdir from $path and $fat_path.
-> -
-> +
->   -define(GMP_STRIP_PATH,
->   +define([GMP_STRIP_PATH],
->    [GMP_STRIP_PATH_VAR(path, [$1])
->    GMP_STRIP_PATH_VAR(fat_path, [$1])
->    ])
-> -
-> +
->   -define(GMP_STRIP_PATH_VAR,
->   +define([GMP_STRIP_PATH_VAR],
->    [tmp_path=
->    for i in $[][$1]; do
->      case $i in
-> -@@ -121,7 +121,7 @@
-> +@@ -131,7 +131,7 @@ dnl
->    dnl  Dummy value for GMP_LIMB_BITS is enough
->    dnl  for all current configure-time uses of gmp.h.
-> -
-> +
->   -define(GMP_INCLUDE_GMP_H,
->   +define([GMP_INCLUDE_GMP_H],
->    [[#define __GMP_WITHIN_CONFIGURE 1   /* ignore template stuff */
->    #define GMP_NAIL_BITS $GMP_NAIL_BITS
->    #define GMP_LIMB_BITS 123
-> -@@ -136,7 +136,7 @@
-> +@@ -146,7 +146,7 @@ dnl  Expand at autoconf time to the value of a "#define NAME" from the given
->    dnl  FILE.  The regexps here aren't very rugged, but are enough for gmp.
->    dnl  /dev/null as a parameter prevents a hang if $2 is accidentally omitted.
-> -
-> +
->   -define(GMP_HEADER_GETVAL,
->   +define([GMP_HEADER_GETVAL],
->    [patsubst(patsubst(
->    esyscmd([grep "^#define $1 " $2 /dev/null 2>/dev/null]),
->    [^.*$1[ 	]+],[]),
-> -@@ -150,7 +150,7 @@
-> +@@ -160,7 +160,7 @@ dnl  The gmp version number, extracted from the #defines in gmp-h.in at
->    dnl  autoconf time.  Two digits like 3.0 if patchlevel <= 0, or three digits
->    dnl  like 3.0.1 if patchlevel > 0.
-> -
-> +
->   -define(GMP_VERSION,
->   +define([GMP_VERSION],
->    [GMP_HEADER_GETVAL(__GNU_MP_VERSION,gmp-h.in)[]dnl
->    .GMP_HEADER_GETVAL(__GNU_MP_VERSION_MINOR,gmp-h.in)[]dnl
->    .GMP_HEADER_GETVAL(__GNU_MP_VERSION_PATCHLEVEL,gmp-h.in)])
-> -@@ -1512,7 +1512,9 @@
-> +@@ -1524,7 +1524,9 @@ esac
->    echo ["define(<CONFIG_TOP_SRCDIR>,<\`$tmp'>)"] >>$gmp_tmpconfigm4
-> -
-> +
->    # All CPUs use asm-defs.m4
->   -echo ["include][(CONFIG_TOP_SRCDIR\`/mpn/asm-defs.m4')"] >>$gmp_tmpconfigm4i
->   +echo -n ["include("] >>$gmp_tmpconfigm4i
->   +echo -n ["CONFIG_TOP_SRCDIR\`/mpn/asm-defs.m4'"] >>$gmp_tmpconfigm4i
->   +echo [")"] >>$gmp_tmpconfigm4i
->    ])
-> -
-> -
-> -diff -Nurd gmp-5.1.0/configure.ac gmp-5.1.0/configure.ac
-> ---- gmp-5.1.0/configure.ac	2012-12-18 21:05:09.000000000 +0200
-> -+++ gmp-5.1.0/configure.ac	2013-01-02 05:19:26.977013073 +0200
-> -@@ -29,13 +29,6 @@
-> +
-> +
-> +diff --git a/configure.ac b/configure.ac
-> +index 64b2c50..f07b821 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -39,14 +39,6 @@ AC_REVISION($Revision$)
->    AC_PREREQ(2.59)
-> - AC_INIT(GNU MP, GMP_VERSION, [gmp-bugs@gmplib.org, see http://gmplib.org/manual/Reporting-Bugs.html], gmp)
-> + AC_INIT(GNU MP, GMP_VERSION, [gmp-bugs@gmplib.org, see https://gmplib.org/manual/Reporting-Bugs.html], gmp)
->    AC_CONFIG_SRCDIR(gmp-impl.h)
->   -m4_pattern_forbid([^[ \t]*GMP_])
->   -m4_pattern_allow(GMP_LDFLAGS)
-> @@ -129,10 +136,11 @@ diff -Nurd gmp-5.1.0/configure.ac gmp-5.1.0/configure.ac
->   -m4_pattern_allow(GMP_NAIL_BITS)
->   -m4_pattern_allow(GMP_NUMB_BITS)
->   -m4_pattern_allow(GMP_NONSTD_ABI)
-> -
-> +-m4_pattern_allow(GMP_CPU_TYPE)
-> +
->    # If --target is not used then $target_alias is empty, but if say
->    # "./configure athlon-pc-freebsd3.5" is used, then all three of
-> -@@ -314,7 +307,7 @@
-> +@@ -348,7 +340,7 @@ AH_VERBATIM([HAVE_HOST_CPU_1],
->    # After GMP specific searches and tests, the standard autoconf AC_PROG_CC is
->    # called.  User selections of CC etc are respected.
->    #
-> @@ -141,7 +149,7 @@ diff -Nurd gmp-5.1.0/configure.ac gmp-5.1.0/configure.ac
->    # pre-testing, since they of course depend on AC_PROG_CC, and also some of
->    # them cache their results, which is not wanted.
->    #
-> -@@ -406,7 +399,7 @@
-> +@@ -440,7 +432,7 @@ abilist="standard"
->    # FIXME: We'd like to prefer an ANSI compiler, perhaps by preferring
->    # c89 over cc here.  But note that on HP-UX c89 provides a castrated
->    # environment, and would want to be excluded somehow.  Maybe
-> @@ -150,61 +158,65 @@ diff -Nurd gmp-5.1.0/configure.ac gmp-5.1.0/configure.ac
->    # we don't need to worry.
->    #
->    cclist="gcc cc"
-> -@@ -1727,7 +1720,7 @@
-> +@@ -1843,7 +1835,7 @@ esac
->    CFLAGS_or_unset=${CFLAGS-'(unset)'}
->    CPPFLAGS_or_unset=${CPPFLAGS-'(unset)'}
-> -
-> +
->   -cat >&AC_FD_CC <<EOF
->   +cat >&AS_MESSAGE_LOG_FD() <<EOF
->    User:
->    ABI=$ABI
->    CC=$CC
-> -@@ -2147,7 +2140,6 @@
-> -
-> +@@ -2264,7 +2256,6 @@ AC_SUBST(DEFN_LONG_LONG_LIMB)
-> +
->    # The C compiler and preprocessor, put into ANSI mode if possible.
->    AC_PROG_CC
->   -AC_PROG_CC_STDC
->    AC_PROG_CPP
-> -
-> -
-> -@@ -2169,11 +2161,11 @@
-> -
-> +
-> +
-> +@@ -2286,11 +2277,11 @@ AC_SUBST(CCAS)
-> +
->    # The C++ compiler, if desired.
->    want_cxx=no
->   +AC_PROG_CXX
->    if test $enable_cxx != no; then
->      test_CXXFLAGS=${CXXFLAGS+set}
->   -  AC_PROG_CXX
-> -
-> +
->   -  echo "CXXFLAGS chosen by autoconf: $CXXFLAGS" >&AC_FD_CC
->   +  echo "CXXFLAGS chosen by autoconf: $CXXFLAGS" >&AS_MESSAGE_LOG_FD()
->      cxxflags_ac_prog_cxx=$CXXFLAGS
->      cxxflags_list=ac_prog_cxx
-> -
-> -@@ -2289,7 +2281,7 @@
-> +
-> +@@ -2412,7 +2403,7 @@ if test "$enable_assembly" = "no"; then
->    fi
-> -
-> -
-> +
-> +
->   -cat >&AC_FD_CC <<EOF
->   +cat >&AS_MESSAGE_LOG_FD() <<EOF
->    Decided:
->    ABI=$ABI
->    CC=$CC
-> -@@ -3638,7 +3630,7 @@
-> +@@ -3781,7 +3772,7 @@ GMP_FINISH
->    # FIXME: Upcoming version of autoconf/automake may not like broken lines.
->    #        Right now automake isn't accepting the new AC_CONFIG_FILES scheme.
-> -
-> +
->   -AC_OUTPUT(Makefile							\
->   +AC_CONFIG_FILES([Makefile							\
->      mpf/Makefile mpn/Makefile mpq/Makefile				\
->      mpz/Makefile printf/Makefile scanf/Makefile rand/Makefile cxx/Makefile \
->      tests/Makefile tests/devel/Makefile					\
-> -@@ -3647,7 +3639,8 @@
-> +@@ -3790,7 +3781,8 @@ AC_OUTPUT(Makefile							\
->      tests/cxx/Makefile							\
->      doc/Makefile tune/Makefile						\
->      demos/Makefile demos/calc/Makefile demos/expr/Makefile		\
->   -  gmp.h:gmp-h.in)
->   +  gmp.h:gmp-h.in])
->   +AC_OUTPUT
-> -
-> +
->    AC_MSG_NOTICE([summary of build options:
-> +
-> +--
-> +1.9.1
-> +
-> diff --git a/meta/recipes-support/gmp/gmp_4.2.1.bb b/meta/recipes-support/gmp/gmp_4.2.1.bb
-> deleted file mode 100644
-> index 69ad0ca..0000000
-> --- a/meta/recipes-support/gmp/gmp_4.2.1.bb
-> +++ /dev/null
-> @@ -1,23 +0,0 @@
-> -SUMMARY = "GNU multiprecision arithmetic library"
-> -DESCRIPTION = "GMP is a free library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating point numbers"
-> -HOMEPAGE = "http://gmplib.org/"
-> -BUGTRACKER = "http://gmplib.org/mailman/listinfo/gmp-bugs"
-> -# demo is licensed under GPLv2+, which however we don't package at all
-> -LICENSE = "LGPLv2.1+"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=892f569a555ba9c07a568a7c0c4fa63a \
-> -                    file://COPYING.LIB;md5=fbc093901857fcd118f065f900982c24 \
-> -                    file://gmp-h.in;beginline=6;endline=21;md5=e056f74a12c3277d730dbcfb85d2ca34"
-> -PR = "r2"
-> -
-> -SRC_URI = "${GNU_MIRROR}/gmp/${BP}.tar.bz2 \
-> -           file://disable-stdc.patch \
-> -           file://gmp_fix_for_automake-1.12.patch \
-> -           "
-> -
-> -SRC_URI[md5sum] = "091c56e0e1cca6b09b17b69d47ef18e3"
-> -SRC_URI[sha256sum] = "d07ffcb37eecec35c5ec72516d10b35fdf6e6fef1fcf1dcd37e30b8cbf8bf941"
-> -
-> -PACKAGECONFIG ??= ""
-> -PACKAGECONFIG[readline] = "--with-readline=yes,--with-readline=no,readline"
-> -
-> -inherit autotools texinfo
-> diff --git a/meta/recipes-support/gmp/gmp_5.1.1.bb b/meta/recipes-support/gmp/gmp_5.1.1.bb
-> deleted file mode 100644
-> index 6020610..0000000
-> --- a/meta/recipes-support/gmp/gmp_5.1.1.bb
-> +++ /dev/null
-> @@ -1,11 +0,0 @@
-> -require gmp.inc
-> -LICENSE="LGPLv3&GPLv3"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-> -		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
-> -
-> -SRC_URI_append = " file://use-includedir.patch \
-> -                   file://append_user_provided_flags.patch \
-> -                   "
-> -
-> -SRC_URI[md5sum] = "2fa018a7cd193c78494525f236d02dd6"
-> -SRC_URI[sha256sum] = "a0d4779f48b36519dfaceb5f987a7c76fcac223258bebea3bb2244310970afad"
-> diff --git a/meta/recipes-support/gmp/gmp_6.0.0.bb b/meta/recipes-support/gmp/gmp_6.0.0.bb
+> -# Password (and passphrase, etc.) backend for external storage
+> -# These optional mechanisms can be used to add support for storing passw=
+ords
+> -# and other secrets in external (to wpa_supplicant) location. This allow=
+s, for
+> -# example, operating system specific key storage to be used
+> -#
+> -# External password backend for testing purposes (developer use)
+> -#CONFIG_EXT_PASSWORD_TEST=3Dy
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defc=
+onfig-hostapd b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/def=
+config-hostapd
 > new file mode 100644
-> index 0000000..19e5f4d
+> index 0000000..f04e398
 > --- /dev/null
-> +++ b/meta/recipes-support/gmp/gmp_6.0.0.bb
-> @@ -0,0 +1,13 @@
-> +require gmp.inc
-> +LICENSE="GPLv2 | LGPLv3"
-> +REVISION="a"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-> +		    file://COPYING.LESSERv3;md5=6a6a8e020838b23406c81b19c1d46df6 \
-> +		    file://COPYINGv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-> +"
-> +SRC_URI_append = " file://use-includedir.patch \
-> +                   file://append_user_provided_flags.patch \
-> +"
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-h=
+ostapd
+> @@ -0,0 +1,552 @@
+> +# Example wpa_supplicant build time configuration
+> +#
+> +# This file lists the configuration options that are used when building =
+the
+> +# hostapd binary. All lines starting with # are ignored. Configuration o=
+ption
+> +# lines must be commented out complete, if they are not to be included, =
+i.e.,
+> +# just setting VARIABLE=3Dn is not disabling that variable.
+> +#
+> +# This file is included in Makefile, so variables like CFLAGS and LIBS c=
+an also
+> +# be modified from here. In most cases, these lines should use +=3D in o=
+rder not
+> +# to override previous values of the variables.
 > +
-> +SRC_URI[md5sum] = "b7ff2d88cae7f8085bd5006096eed470"
-> +SRC_URI[sha256sum] = "7f8e9a804b9c6d07164cf754207be838ece1219425d64e28cfa3e70d5c759aaf"
+> +
+> +# Uncomment following two lines and fix the paths if you have installed =
+OpenSSL
+> +# or GnuTLS in non-default location
+> +#CFLAGS +=3D -I/usr/local/openssl/include
+> +#LIBS +=3D -L/usr/local/openssl/lib
+> +
+> +# Some Red Hat versions seem to include kerberos header files from OpenS=
+SL, but
+> +# the kerberos files are not in the default include path. Following line=
+ can be
+> +# used to fix build issues on such systems (krb5.h not found).
+> +#CFLAGS +=3D -I/usr/include/kerberos
+> +
+> +# Example configuration for various cross-compilation platforms
+> +
+> +#### sveasoft (e.g., for Linksys WRT54G) ###############################=
+#######
+> +#CC=3Dmipsel-uclibc-gcc
+> +#CC=3D/opt/brcm/hndtools-mipsel-uclibc/bin/mipsel-uclibc-gcc
+> +#CFLAGS +=3D -Os
+> +#CPPFLAGS +=3D -I../src/include -I../../src/router/openssl/include
+> +#LIBS +=3D -L/opt/brcm/hndtools-mipsel-uclibc-0.9.19/lib -lssl
+> +########################################################################=
+#######
+> +
+> +#### openwrt (e.g., for Linksys WRT54G) ################################=
+#######
+> +#CC=3Dmipsel-uclibc-gcc
+> +#CC=3D/opt/brcm/hndtools-mipsel-uclibc/bin/mipsel-uclibc-gcc
+> +#CFLAGS +=3D -Os
+> +#CPPFLAGS=3D-I../src/include -I../openssl-0.9.7d/include \
+> +#	-I../WRT54GS/release/src/include
+> +#LIBS =3D -lssl
+> +########################################################################=
+#######
+> +
+> +
+> +# Driver interface for Host AP driver
+> +CONFIG_DRIVER_HOSTAP=3Dy
+> +
+> +# Driver interface for Agere driver
+> +#CONFIG_DRIVER_HERMES=3Dy
+> +# Change include directories to match with the local setup
+> +#CFLAGS +=3D -I../../hcf -I../../include -I../../include/hcf
+> +#CFLAGS +=3D -I../../include/wireless
+> +
+> +# Driver interface for madwifi driver
+> +# Deprecated; use CONFIG_DRIVER_WEXT=3Dy instead.
+> +#CONFIG_DRIVER_MADWIFI=3Dy
+> +# Set include directory to the madwifi source tree
+> +#CFLAGS +=3D -I../../madwifi
+> +
+> +# Driver interface for ndiswrapper
+> +# Deprecated; use CONFIG_DRIVER_WEXT=3Dy instead.
+> +#CONFIG_DRIVER_NDISWRAPPER=3Dy
+> +
+> +# Driver interface for Atmel driver
+> +# CONFIG_DRIVER_ATMEL=3Dy
+> +
+> +# Driver interface for old Broadcom driver
+> +# Please note that the newer Broadcom driver ("hybrid Linux driver") sup=
+ports
+> +# Linux wireless extensions and does not need (or even work) with the old
+> +# driver wrapper. Use CONFIG_DRIVER_WEXT=3Dy with that driver.
+> +#CONFIG_DRIVER_BROADCOM=3Dy
+> +# Example path for wlioctl.h; change to match your configuration
+> +#CFLAGS +=3D -I/opt/WRT54GS/release/src/include
+> +
+> +# Driver interface for Intel ipw2100/2200 driver
+> +# Deprecated; use CONFIG_DRIVER_WEXT=3Dy instead.
+> +#CONFIG_DRIVER_IPW=3Dy
+> +
+> +# Driver interface for Ralink driver
+> +#CONFIG_DRIVER_RALINK=3Dy
+> +
+> +# Driver interface for generic Linux wireless extensions
+> +# Note: WEXT is deprecated in the current Linux kernel version and no new
+> +# functionality is added to it. nl80211-based interface is the new
+> +# replacement for WEXT and its use allows wpa_supplicant to properly con=
+trol
+> +# the driver to improve existing functionality like roaming and to suppo=
+rt new
+> +# functionality.
+> +CONFIG_DRIVER_WEXT=3Dy
+> +
+> +# Driver interface for Linux drivers using the nl80211 kernel interface
+> +CONFIG_DRIVER_NL80211=3Dy
+> +
+> +# driver_nl80211.c requires libnl. If you are compiling it yourself
+> +# you may need to point hostapd to your version of libnl.
+> +#
+> +#CFLAGS +=3D -I$<path to libnl include files>
+> +#LIBS +=3D -L$<path to libnl library files>
+> +
+> +# Use libnl v2.0 (or 3.0) libraries.
+> +#CONFIG_LIBNL20=3Dy
+> +
+> +# Use libnl 3.2 libraries (if this is selected, CONFIG_LIBNL20 is ignore=
+d)
+> +CONFIG_LIBNL32=3Dy
+> +
+> +
+> +# Driver interface for FreeBSD net80211 layer (e.g., Atheros driver)
+> +#CONFIG_DRIVER_BSD=3Dy
+> +#CFLAGS +=3D -I/usr/local/include
+> +#LIBS +=3D -L/usr/local/lib
+> +#LIBS_p +=3D -L/usr/local/lib
+> +#LIBS_c +=3D -L/usr/local/lib
+> +
+> +# Driver interface for Windows NDIS
+> +#CONFIG_DRIVER_NDIS=3Dy
+> +#CFLAGS +=3D -I/usr/include/w32api/ddk
+> +#LIBS +=3D -L/usr/local/lib
+> +# For native build using mingw
+> +#CONFIG_NATIVE_WINDOWS=3Dy
+> +# Additional directories for cross-compilation on Linux host for mingw t=
+arget
+> +#CFLAGS +=3D -I/opt/mingw/mingw32/include/ddk
+> +#LIBS +=3D -L/opt/mingw/mingw32/lib
+> +#CC=3Dmingw32-gcc
+> +# By default, driver_ndis uses WinPcap for low-level operations. This ca=
+n be
+> +# replaced with the following option which replaces WinPcap calls with N=
+DISUIO.
+> +# However, this requires that WZC is disabled (net stop wzcsvc) before s=
+tarting
+> +# wpa_supplicant.
+> +# CONFIG_USE_NDISUIO=3Dy
+> +
+> +# Driver interface for development testing
+> +#CONFIG_DRIVER_TEST=3Dy
+> +
+> +# Driver interface for wired Ethernet drivers
+> +CONFIG_DRIVER_WIRED=3Dy
+> +
+> +# Driver interface for the Broadcom RoboSwitch family
+> +#CONFIG_DRIVER_ROBOSWITCH=3Dy
+> +
+> +# Driver interface for no driver (e.g., WPS ER only)
+> +#CONFIG_DRIVER_NONE=3Dy
+> +
+> +# Enable IEEE 802.1X Supplicant (automatically included if any EAP metho=
+d is
+> +# included)
+> +CONFIG_IEEE8021X_EAPOL=3Dy
+> +
+> +# EAP-MD5
+> +CONFIG_EAP_MD5=3Dy
+> +
+> +# EAP-MSCHAPv2
+> +CONFIG_EAP_MSCHAPV2=3Dy
+> +
+> +# EAP-TLS
+> +CONFIG_EAP_TLS=3Dy
+> +
+> +# EAL-PEAP
+> +CONFIG_EAP_PEAP=3Dy
+> +
+> +# EAP-TTLS
+> +CONFIG_EAP_TTLS=3Dy
+> +
+> +# EAP-FAST
+> +# Note: If OpenSSL is used as the TLS library, OpenSSL 1.0 or newer is n=
+eeded
+> +# for EAP-FAST support. Older OpenSSL releases would need to be patched,=
+ e.g.,
+> +# with openssl-0.9.8x-tls-extensions.patch, to add the needed functions.
+> +#CONFIG_EAP_FAST=3Dy
+> +
+> +# EAP-GTC
+> +CONFIG_EAP_GTC=3Dy
+> +
+> +# EAP-OTP
+> +CONFIG_EAP_OTP=3Dy
+> +
+> +# EAP-SIM (enable CONFIG_PCSC, if EAP-SIM is used)
+> +#CONFIG_EAP_SIM=3Dy
+> +
+> +# EAP-PSK (experimental; this is _not_ needed for WPA-PSK)
+> +#CONFIG_EAP_PSK=3Dy
+> +
+> +# EAP-pwd (secure authentication using only a password)
+> +#CONFIG_EAP_PWD=3Dy
+> +
+> +# EAP-PAX
+> +#CONFIG_EAP_PAX=3Dy
+> +
+> +# LEAP
+> +CONFIG_EAP_LEAP=3Dy
+> +
+> +# EAP-AKA (enable CONFIG_PCSC, if EAP-AKA is used)
+> +#CONFIG_EAP_AKA=3Dy
+> +
+> +# EAP-AKA' (enable CONFIG_PCSC, if EAP-AKA' is used).
+> +# This requires CONFIG_EAP_AKA to be enabled, too.
+> +#CONFIG_EAP_AKA_PRIME=3Dy
+> +
+> +# Enable USIM simulator (Milenage) for EAP-AKA
+> +#CONFIG_USIM_SIMULATOR=3Dy
+> +
+> +# EAP-SAKE
+> +#CONFIG_EAP_SAKE=3Dy
+> +
+> +# EAP-GPSK
+> +#CONFIG_EAP_GPSK=3Dy
+> +# Include support for optional SHA256 cipher suite in EAP-GPSK
+> +#CONFIG_EAP_GPSK_SHA256=3Dy
+> +
+> +# EAP-TNC and related Trusted Network Connect support (experimental)
+> +#CONFIG_EAP_TNC=3Dy
+> +
+> +# Wi-Fi Protected Setup (WPS)
+> +CONFIG_WPS=3Dy
+> +# Enable WSC 2.0 support
+> +#CONFIG_WPS2=3Dy
+> +# Enable WPS external registrar functionality
+> +#CONFIG_WPS_ER=3Dy
+> +# Disable credentials for an open network by default when acting as a WPS
+> +# registrar.
+> +#CONFIG_WPS_REG_DISABLE_OPEN=3Dy
+> +# Enable WPS support with NFC config method
+> +#CONFIG_WPS_NFC=3Dy
+> +
+> +# EAP-IKEv2
+> +#CONFIG_EAP_IKEV2=3Dy
+> +
+> +# EAP-EKE
+> +#CONFIG_EAP_EKE=3Dy
+> +
+> +# PKCS#12 (PFX) support (used to read private key and certificate file f=
+rom
+> +# a file that usually has extension .p12 or .pfx)
+> +CONFIG_PKCS12=3Dy
+> +
+> +# Smartcard support (i.e., private key on a smartcard), e.g., with opens=
+sl
+> +# engine.
+> +CONFIG_SMARTCARD=3Dy
+> +
+> +# PC/SC interface for smartcards (USIM, GSM SIM)
+> +# Enable this if EAP-SIM or EAP-AKA is included
+> +#CONFIG_PCSC=3Dy
+> +
+> +# Support HT overrides (disable HT/HT40, mask MCS rates, etc.)
+> +#CONFIG_HT_OVERRIDES=3Dy
+> +
+> +# Support VHT overrides (disable VHT, mask MCS rates, etc.)
+> +#CONFIG_VHT_OVERRIDES=3Dy
+> +
+> +# Development testing
+> +#CONFIG_EAPOL_TEST=3Dy
+> +
+> +# Select control interface backend for external programs, e.g, wpa_cli:
+> +# unix =3D UNIX domain sockets (default for Linux/*BSD)
+> +# udp =3D UDP sockets using localhost (127.0.0.1)
+> +# named_pipe =3D Windows Named Pipe (default for Windows)
+> +# udp-remote =3D UDP sockets with remote access (only for tests systems/=
+purpose)
+> +# y =3D use default (backwards compatibility)
+> +# If this option is commented out, control interface is not included in =
+the
+> +# build.
+> +CONFIG_CTRL_IFACE=3Dy
+> +
+> +# Include support for GNU Readline and History Libraries in wpa_cli.
+> +# When building a wpa_cli binary for distribution, please note that these
+> +# libraries are licensed under GPL and as such, BSD license may not appl=
+y for
+> +# the resulting binary.
+> +#CONFIG_READLINE=3Dy
+> +
+> +# Include internal line edit mode in wpa_cli. This can be used as a repl=
+acement
+> +# for GNU Readline to provide limited command line editing and history s=
+upport.
+> +#CONFIG_WPA_CLI_EDIT=3Dy
+> +
+> +# Remove debugging code that is printing out debug message to stdout.
+> +# This can be used to reduce the size of the wpa_supplicant considerably
+> +# if debugging code is not needed. The size reduction can be around 35%
+> +# (e.g., 90 kB).
+> +#CONFIG_NO_STDOUT_DEBUG=3Dy
+> +
+> +# Remove WPA support, e.g., for wired-only IEEE 802.1X supplicant, to sa=
+ve
+> +# 35-50 kB in code size.
+> +#CONFIG_NO_WPA=3Dy
+> +
+> +# Remove IEEE 802.11i/WPA-Personal ASCII passphrase support
+> +# This option can be used to reduce code size by removing support for
+> +# converting ASCII passphrases into PSK. If this functionality is remove=
+d, the
+> +# PSK can only be configured as the 64-octet hexstring (e.g., from
+> +# wpa_passphrase). This saves about 0.5 kB in code size.
+> +#CONFIG_NO_WPA_PASSPHRASE=3Dy
+> +
+> +# Disable scan result processing (ap_mode=3D1) to save code size by abou=
+t 1 kB.
+> +# This can be used if ap_scan=3D1 mode is never enabled.
+> +#CONFIG_NO_SCAN_PROCESSING=3Dy
+> +
+> +# Select configuration backend:
+> +# file =3D text file (e.g., wpa_supplicant.conf; note: the configuration=
+ file
+> +#	path is given on command line, not here; this option is just used to
+> +#	select the backend that allows configuration files to be used)
+> +# winreg =3D Windows registry (see win_example.reg for an example)
+> +CONFIG_BACKEND=3Dfile
+> +
+> +# Remove configuration write functionality (i.e., to allow the configura=
+tion
+> +# file to be updated based on runtime configuration changes). The runtime
+> +# configuration can still be changed, the changes are just not going to =
+be
+> +# persistent over restarts. This option can be used to reduce code size =
+by
+> +# about 3.5 kB.
+> +#CONFIG_NO_CONFIG_WRITE=3Dy
+> +
+> +# Remove support for configuration blobs to reduce code size by about 1.=
+5 kB.
+> +#CONFIG_NO_CONFIG_BLOBS=3Dy
+> +
+> +# Select program entry point implementation:
+> +# main =3D UNIX/POSIX like main() function (default)
+> +# main_winsvc =3D Windows service (read parameters from registry)
+> +# main_none =3D Very basic example (development use only)
+> +#CONFIG_MAIN=3Dmain
+> +
+> +# Select wrapper for operatins system and C library specific functions
+> +# unix =3D UNIX/POSIX like systems (default)
+> +# win32 =3D Windows systems
+> +# none =3D Empty template
+> +#CONFIG_OS=3Dunix
+> +
+> +# Select event loop implementation
+> +# eloop =3D select() loop (default)
+> +# eloop_win =3D Windows events and WaitForMultipleObject() loop
+> +#CONFIG_ELOOP=3Deloop
+> +
+> +# Should we use poll instead of select? Select is used by default.
+> +#CONFIG_ELOOP_POLL=3Dy
+> +
+> +# Select layer 2 packet implementation
+> +# linux =3D Linux packet socket (default)
+> +# pcap =3D libpcap/libdnet/WinPcap
+> +# freebsd =3D FreeBSD libpcap
+> +# winpcap =3D WinPcap with receive thread
+> +# ndis =3D Windows NDISUIO (note: requires CONFIG_USE_NDISUIO=3Dy)
+> +# none =3D Empty template
+> +#CONFIG_L2_PACKET=3Dlinux
+> +
+> +# PeerKey handshake for Station to Station Link (IEEE 802.11e DLS)
+> +CONFIG_PEERKEY=3Dy
+> +
+> +# IEEE 802.11w (management frame protection), also known as PMF
+> +# Driver support is also needed for IEEE 802.11w.
+> +#CONFIG_IEEE80211W=3Dy
+> +
+> +# Select TLS implementation
+> +# openssl =3D OpenSSL (default)
+> +# gnutls =3D GnuTLS
+> +# internal =3D Internal TLSv1 implementation (experimental)
+> +# none =3D Empty template
+> +#CONFIG_TLS=3Dopenssl
+> +
+> +# TLS-based EAP methods require at least TLS v1.0. Newer version of TLS =
+(v1.1)
+> +# can be enabled to get a stronger construction of messages when block c=
+iphers
+> +# are used. It should be noted that some existing TLS v1.0 -based
+> +# implementation may not be compatible with TLS v1.1 message (ClientHell=
+o is
+> +# sent prior to negotiating which version will be used)
+> +#CONFIG_TLSV11=3Dy
+> +
+> +# TLS-based EAP methods require at least TLS v1.0. Newer version of TLS =
+(v1.2)
+> +# can be enabled to enable use of stronger crypto algorithms. It should =
+be
+> +# noted that some existing TLS v1.0 -based implementation may not be com=
+patible
+> +# with TLS v1.2 message (ClientHello is sent prior to negotiating which =
+version
+> +# will be used)
+> +#CONFIG_TLSV12=3Dy
+> +
+> +# If CONFIG_TLS=3Dinternal is used, additional library and include paths=
+ are
+> +# needed for LibTomMath. Alternatively, an integrated, minimal version of
+> +# LibTomMath can be used. See beginning of libtommath.c for details on b=
+enefits
+> +# and drawbacks of this option.
+> +#CONFIG_INTERNAL_LIBTOMMATH=3Dy
+> +#ifndef CONFIG_INTERNAL_LIBTOMMATH
+> +#LTM_PATH=3D/usr/src/libtommath-0.39
+> +#CFLAGS +=3D -I$(LTM_PATH)
+> +#LIBS +=3D -L$(LTM_PATH)
+> +#LIBS_p +=3D -L$(LTM_PATH)
+> +#endif
+> +# At the cost of about 4 kB of additional binary size, the internal LibT=
+omMath
+> +# can be configured to include faster routines for exptmod, sqr, and div=
+ to
+> +# speed up DH and RSA calculation considerably
+> +#CONFIG_INTERNAL_LIBTOMMATH_FAST=3Dy
+> +
+> +# Include NDIS event processing through WMI into wpa_supplicant/wpasvc.
+> +# This is only for Windows builds and requires WMI-related header files =
+and
+> +# WbemUuid.Lib from Platform SDK even when building with MinGW.
+> +#CONFIG_NDIS_EVENTS_INTEGRATED=3Dy
+> +#PLATFORMSDKLIB=3D"/opt/Program Files/Microsoft Platform SDK/Lib"
+> +
+> +# Add support for old DBus control interface
+> +# (fi.epitest.hostap.WPASupplicant)
+> +#CONFIG_CTRL_IFACE_DBUS=3Dy
+> +
+> +# Add support for new DBus control interface
+> +# (fi.w1.hostap.wpa_supplicant1)
+> +CONFIG_CTRL_IFACE_DBUS_NEW=3Dy
+> +
+> +# Add introspection support for new DBus control interface
+> +#CONFIG_CTRL_IFACE_DBUS_INTRO=3Dy
+> +
+> +# Add support for loading EAP methods dynamically as shared libraries.
+> +# When this option is enabled, each EAP method can be either included
+> +# statically (CONFIG_EAP_<method>=3Dy) or dynamically (CONFIG_EAP_<metho=
+d>=3Ddyn).
+> +# Dynamic EAP methods are build as shared objects (eap_*.so) and they ne=
+ed to
+> +# be loaded in the beginning of the wpa_supplicant configuration file
+> +# (see load_dynamic_eap parameter in the example file) before being used=
+ in
+> +# the network blocks.
+> +#
+> +# Note that some shared parts of EAP methods are included in the main pr=
+ogram
+> +# and in order to be able to use dynamic EAP methods using these parts, =
+the
+> +# main program must have been build with the EAP method enabled (=3Dy or=
+ =3Ddyn).
+> +# This means that EAP-TLS/PEAP/TTLS/FAST cannot be added as dynamic libr=
+aries
+> +# unless at least one of them was included in the main build to force in=
+clusion
+> +# of the shared code. Similarly, at least one of EAP-SIM/AKA must be inc=
+luded
+> +# in the main build to be able to load these methods dynamically.
+> +#
+> +# Please also note that using dynamic libraries will increase the total =
+binary
+> +# size. Thus, it may not be the best option for targets that have limited
+> +# amount of memory/flash.
+> +#CONFIG_DYNAMIC_EAP_METHODS=3Dy
+> +
+> +# IEEE Std 802.11r-2008 (Fast BSS Transition)
+> +#CONFIG_IEEE80211R=3Dy
+> +
+> +# Add support for writing debug log to a file (/tmp/wpa_supplicant-log-#=
+=2Etxt)
+> +#CONFIG_DEBUG_FILE=3Dy
+> +
+> +# Send debug messages to syslog instead of stdout
+> +#CONFIG_DEBUG_SYSLOG=3Dy
+> +# Set syslog facility for debug messages
+> +#CONFIG_DEBUG_SYSLOG_FACILITY=3DLOG_DAEMON
+> +
+> +# Add support for sending all debug messages (regardless of debug verbos=
+ity)
+> +# to the Linux kernel tracing facility. This helps debug the entire stac=
+k by
+> +# making it easy to record everything happening from the driver up into =
+the
+> +# same file, e.g., using trace-cmd.
+> +#CONFIG_DEBUG_LINUX_TRACING=3Dy
+> +
+> +# Enable privilege separation (see README 'Privilege separation' for det=
+ails)
+> +#CONFIG_PRIVSEP=3Dy
+> +
+> +# Enable mitigation against certain attacks against TKIP by delaying Mic=
+hael
+> +# MIC error reports by a random amount of time between 0 and 60 seconds
+> +#CONFIG_DELAYED_MIC_ERROR_REPORT=3Dy
+> +
+> +# Enable tracing code for developer debugging
+> +# This tracks use of memory allocations and other registrations and repo=
+rts
+> +# incorrect use with a backtrace of call (or allocation) location.
+> +#CONFIG_WPA_TRACE=3Dy
+> +# For BSD, uncomment these.
+> +#LIBS +=3D -lexecinfo
+> +#LIBS_p +=3D -lexecinfo
+> +#LIBS_c +=3D -lexecinfo
+> +
+> +# Use libbfd to get more details for developer debugging
+> +# This enables use of libbfd to get more detailed symbols for the backtr=
+aces
+> +# generated by CONFIG_WPA_TRACE=3Dy.
+> +#CONFIG_WPA_TRACE_BFD=3Dy
+> +# For BSD, uncomment these.
+> +#LIBS +=3D -lbfd -liberty -lz
+> +#LIBS_p +=3D -lbfd -liberty -lz
+> +#LIBS_c +=3D -lbfd -liberty -lz
+> +
+> +CONFIG_TLS =3D %ssl%
+> +CONFIG_CTRL_IFACE_DBUS=3Dy
+> +CONFIG_CTRL_IFACE_DBUS_NEW=3Dy
+> +
+> +# wpa_supplicant depends on strong random number generation being availa=
+ble
+> +# from the operating system. os_get_random() function is used to fetch r=
+andom
+> +# data when needed, e.g., for key generation. On Linux and BSD systems, =
+this
+> +# works by reading /dev/urandom. It should be noted that the OS entropy =
+pool
+> +# needs to be properly initialized before wpa_supplicant is started. Thi=
+s is
+> +# important especially on embedded devices that do not have a hardware r=
+andom
+> +# number generator and may by default start up with minimal entropy avai=
+lable
+> +# for random number generation.
+> +#
+> +# As a safety net, wpa_supplicant is by default trying to internally col=
+lect
+> +# additional entropy for generating random data to mix in with the data =
+fetched
+> +# from the OS. This by itself is not considered to be very strong, but i=
+t may
+> +# help in cases where the system pool is not initialized properly. Howev=
+er, it
+> +# is very strongly recommended that the system pool is initialized with =
+enough
+> +# entropy either by using hardware assisted random number generator or by
+> +# storing state over device reboots.
+> +#
+> +# wpa_supplicant can be configured to maintain its own entropy store over
+> +# restarts to enhance random number generation. This is not perfect, but=
+ it is
+> +# much more secure than using the same sequence of random numbers after =
+every
+> +# reboot. This can be enabled with -e<entropy file> command line option.=
+ The
+> +# specified file needs to be readable and writable by wpa_supplicant.
+> +#
+> +# If the os_get_random() is known to provide strong random data (e.g., on
+> +# Linux/BSD, the board in question is known to have reliable source of r=
+andom
+> +# data from /dev/urandom), the internal wpa_supplicant random pool can be
+> +# disabled. This will save some in binary size and CPU use. However, this
+> +# should only be considered for builds that are known to be used on devi=
+ces
+> +# that meet the requirements described above.
+> +#CONFIG_NO_RANDOM_POOL=3Dy
+> +
+> +# IEEE 802.11n (High Throughput) support (mainly for AP mode)
+> +#CONFIG_IEEE80211N=3Dy
+> +
+> +# IEEE 802.11ac (Very High Throughput) support (mainly for AP mode)
+> +# (depends on CONFIG_IEEE80211N)
+> +#CONFIG_IEEE80211AC=3Dy
+> +
+> +# Wireless Network Management (IEEE Std 802.11v-2011)
+> +# Note: This is experimental and not complete implementation.
+> +#CONFIG_WNM=3Dy
+> +
+> +# Interworking (IEEE 802.11u)
+> +# This can be used to enable functionality to improve interworking with
+> +# external networks (GAS/ANQP to learn more about the networks and netwo=
+rk
+> +# selection based on available credentials).
+> +#CONFIG_INTERWORKING=3Dy
+> +
+> +# Hotspot 2.0
+> +#CONFIG_HS20=3Dy
+> +
+> +# Disable roaming in wpa_supplicant
+> +#CONFIG_NO_ROAMING=3Dy
+> +
+> +# AP mode operations with wpa_supplicant
+> +# This can be used for controlling AP mode operations with wpa_supplican=
+t. It
+> +# should be noted that this is mainly aimed at simple cases like
+> +# WPA2-Personal while more complex configurations like WPA2-Enterprise w=
+ith an
+> +# external RADIUS server can be supported with hostapd.
+> +CONFIG_AP=3Dy
+> +
+> +CONFIG_BGSCAN_SIMPLE=3Dy
+> +
+> +# P2P (Wi-Fi Direct)
+> +# This can be used to enable P2P support in wpa_supplicant. See README-P=
+2P for
+> +# more information on P2P operations.
+> +#CONFIG_P2P=3Dy
+> +
+> +# Enable TDLS support
+> +#CONFIG_TDLS=3Dy
+> +
+> +# Wi-Fi Direct
+> +# This can be used to enable Wi-Fi Direct extensions for P2P using an ex=
+ternal
+> +# program to control the additional information exchanges in the message=
+s.
+> +#CONFIG_WIFI_DISPLAY=3Dy
+> +
+> +# Autoscan
+> +# This can be used to enable automatic scan support in wpa_supplicant.
+> +# See wpa_supplicant.conf for more information on autoscan usage.
+> +#
+> +# Enabling directly a module will enable autoscan support.
+> +# For exponential module:
+> +CONFIG_AUTOSCAN_EXPONENTIAL=3Dy
+> +# For periodic module:
+> +#CONFIG_AUTOSCAN_PERIODIC=3Dy
+> +
+> +# Password (and passphrase, etc.) backend for external storage
+> +# These optional mechanisms can be used to add support for storing passw=
+ords
+> +# and other secrets in external (to wpa_supplicant) location. This allow=
+s, for
+> +# example, operating system specific key storage to be used
+> +#
+> +# External password backend for testing purposes (developer use)
+> +#CONFIG_EXT_PASSWORD_TEST=3Dy
+> --=20
+> 1.7.9.5
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-There's a failure on autobuilder. Could you please check whether it's 
-related to this patch.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-ERROR: Unable to install packages. Command '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-non-gpl3/build/build/tmp/sysroots/x86_64-linux/usr/bin/smart --data-dir=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-non-gpl3/build/build/tmp/work/qemux86-poky-linux/core-image-full-cmdline/1.0-r0/rootfs/var/lib/smart install -y packagegroup-core-full-cmdline@all psplash@i586 run-postinsts@all packagegroup-core-ssh-openssh@all packagegroup-core-boot@qemux86 locale-base-en-us@i586 locale-base-en-gb@i586' returned 1:
-Loading cache...
-Updating cache...               ######################################## [100%]
+--iFRdW5/EC4oqxDHL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Computing transaction...error: Can't install packagegroup-core-full-cmdline-utils-1.0-r6@all: no package provides libgmp3
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iEYEARECAAYFAlPh5gwACgkQN1Ujt2V2gByJ6gCfb8PwJFhH4FvG94Ry70ZMxeft
+SOIAnj7U63PaqByOpdW10JeuxO9GJ1H8
+=NhTk
+-----END PGP SIGNATURE-----
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/builds/197/steps/BuildImages/logs/stdio
-
-//Chen Qi
-
+--iFRdW5/EC4oqxDHL--
