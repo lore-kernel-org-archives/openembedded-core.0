@@ -1,38 +1,43 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 43BBD701A6
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 302EC609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Aug 2014 11:41:31 +0000 (UTC)
-Received: by mail-wi0-f169.google.com with SMTP id n3so9442526wiv.2
+	Wed,  6 Aug 2014 11:48:01 +0000 (UTC)
+Received: by mail-wi0-f181.google.com with SMTP id bs8so3085558wib.14
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Aug 2014 04:41:32 -0700 (PDT)
+	Wed, 06 Aug 2014 04:48:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=1lPbgIJD+Yo20PdYiXibi5GobECGecl9qvDHKcQ2+CY=;
-	b=OB9XY0YtHgSDgZiTb4TRf4CAisLVCC4rrwU5J0pooLp9DxdPNMdiLeuNtGV8o850wb
-	IRfJJeZa4uHf9hiAcmxNVsLi6OVxJxECupTnVk5hJbFf8TJfw3Z0tiK2Vr28N+OgDJih
-	fAqbKrn/r4pyJdPJhV3kDEvhnfW0+ermw2PvPCothLpggOQXyz+oOqGRD0A9vByPjyk2
-	Yw/UdNK4pTABabxh3oEp3DJJMkJ4rChrF8I4ubbxvpDAq5Dxs+KAzH3V4NVAjNsUIW/O
-	RSoa50r5rGTA3qVh9kF8HRPYNO05RN8Avavmz9CXdWIvD5XJtTrNPKuk8lbPdX0VRW3B
-	7QrQ==
-X-Received: by 10.194.184.166 with SMTP id ev6mr14639157wjc.61.1407325292425; 
-	Wed, 06 Aug 2014 04:41:32 -0700 (PDT)
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=xYALhswRKJhLIKLcpbWcZf6jle+zVD+xZd80dW2VXO0=;
+	b=K5i6Y9jmFsy/EH0wSJ7+sCIkve9yATsZiuyEvU+bN7svyvgKZPKGUUM/SvM9veFBNg
+	9N+ue7yHEfYB4ywnysUxKoS3ViXeBxw3+3JQZ+S+en+d4ZOx0bWVlabhL6t3BI2+VsZV
+	sbVrqjSjkZqmMFAIPgRdnNRIQ7Wv9TvgNofODggxgT7/1A83BC6MVYzYN1AYxYBdihgL
+	vqo8H9JXLQq5RcD9dtCK9Ic9SrzDhJNIc0bGnZwNyHqLN3RtfFKk0Cam7w4eNe/nx/XY
+	weZMZyKCBjfjbsIL2TgmL0bZNFAJPm8G3PJ5R9jNwXA+2bnGibwiKwhTRouryXmbf9Va
+	Kw/A==
+X-Received: by 10.195.17.164 with SMTP id gf4mr14981727wjd.45.1407325682688;
+	Wed, 06 Aug 2014 04:48:02 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	fs3sm5318541wic.20.2014.08.06.04.41.31 for <multiple recipients>
+	lq15sm5431729wic.1.2014.08.06.04.48.01 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Aug 2014 04:41:31 -0700 (PDT)
+	Wed, 06 Aug 2014 04:48:01 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Aug 2014 13:41:57 +0200
-Message-Id: <1407325317-5030-2-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.0.4
-In-Reply-To: <1407325317-5030-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1405512834-14423-1-git-send-email-Martin.Jansa@gmail.com>
-	<1407325317-5030-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] libav: drop unused FFMPEG_LIBS and move libpostproc only to 0.8.11
+Date: Wed, 6 Aug 2014 13:48:31 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20140806114831.GG14848@jama>
+References: <1406209379-1662-1-git-send-email-Martin.Jansa@gmail.com>
+	<1406209379-1662-2-git-send-email-Martin.Jansa@gmail.com>
+	<CAJTo0La2AZo=nxBJGnkQrC+=jB9hoO+tsYyuCMbfAT0vwwd-qg@mail.gmail.com>
+	<20140724152218.GM2492@jama> <1406553510.13346.17.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1406553510.13346.17.camel@ted>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] recipes: add x11 to required DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,60 +50,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Aug 2014 11:41:38 -0000
+X-List-Received-Date: Wed, 06 Aug 2014 11:48:07 -0000
+X-Groupsio-MsgNum: 56044
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="0z5c7mBtSy1wdr4F"
+Content-Disposition: inline
 
-* standalone libpostproc recipe depends on libav, but current PACKAGES_DYNAMIC indicated
-  that libav-9.13 also provides libpostproc
+--0z5c7mBtSy1wdr4F
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-multimedia/libav/libav.inc       | 5 -----
- meta/recipes-multimedia/libav/libav_0.8.11.bb | 2 ++
- meta/recipes-multimedia/libav/libav_9.13.bb   | 3 +++
- 3 files changed, 5 insertions(+), 5 deletions(-)
+On Mon, Jul 28, 2014 at 02:18:30PM +0100, Richard Purdie wrote:
+> On Thu, 2014-07-24 at 17:22 +0200, Martin Jansa wrote:
+> > On Thu, Jul 24, 2014 at 02:52:45PM +0100, Burton, Ross wrote:
+> > > On 24 July 2014 14:42, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > > > +REQUIRED_DISTRO_FEATURES =3D "x11"
+> > >=20
+> > > Now I'm wondering why this is the solution.
+> > >=20
+> > > If you attempt to build e.g. gnome-desktop explicitly without the x11
+> > > distro feature you understandably get an error message, because
+> > > gnome-desktop depends on libx11 which sanity checks the distro
+> > > features.  This seems correct.
+> > >=20
+> > > Presumably you're problem is that you're running world builds and
+> > > they're producing errors on gnome-desktop because they can't satisfy a
+> > > dependency on libx11.  It seems that bubbling up the
+> > > REQUIRED_DISTRO_FEATURES tests isn't the right thing to do here - why
+> > > can't SkipPackage be handled specially, so if you do bitbake -k world
+> > > and libx11 emits SkipPackage, anything that has unsatisfiable
+> > > dependencies because of this is also skipped?
+> >=20
+> > We discussed this many months ago and IIRC the conclusion was that user
+> > should explicitly say that he wants to skip the recipes which depend on
+> > something skipped (so that he is aware of what he is missing).
+> >=20
+> > At that time there wasn't REQUIRED_DISTRO_FEATURES support, so I've
+> > created huge list of PNBLACKLISTs to blacklist everything not available
+> > in our setup - so I can do world builds without ERRORs at the beginning.
+> >=20
+> > REQUIRED_DISTRO_FEATURES seems to me like reasonable compromise, that's
+> > why I've sent this patchset to replace small part of my huge blacklist.
+> >=20
+> > This is the list:
+> > https://github.com/openwebos/meta-webos/blob/master/conf/distro/include=
+/webos-recipe-blacklist-world.inc
+> >=20
+> > If someone has time to improve SkipPackage and we really want to skip
+> > all depending packages, I would be glad to test such patch (because it
+> > allows to easily drop all those blacklists for "depends-on-broken"
+> > components)
+>=20
+> The question here is whether we want a system which calculates what it
+> thinks is right or that we declare it.
+>=20
+> The risk is that if SkipPackage (now known as SkipRecipe) were to
+> automatically "spread", you could in theory break the toolchain, have
+> nothing buildable and "bitbake world" would return success.
+>=20
+> Effectively the -k option to bitbake already does the SkipPackage
+> "spread" idea since bitbake just removes dependencies until it works. If
+> does that in a fairly verbose way but it does so deliberately so you can
+> see what is going on.
+>=20
+> The alternative is to declare what a given recipe supports and then we
+> can know whether it should be skipped or not under a given circumstance.
+>=20
+> Personally, I'm leaning towards a more declarative approach where we
+> specify what should and shouldn't be expected to work. I'm open to
+> discussion on it though...
 
-diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
-index 5c327df..8b470c1 100644
---- a/meta/recipes-multimedia/libav/libav.inc
-+++ b/meta/recipes-multimedia/libav/libav.inc
-@@ -85,9 +85,6 @@ do_install_append() {
-     install -m 0644 ${S}/libavfilter/*.h ${D}${includedir}/libavfilter/
- }
- 
--FFMPEG_LIBS = "libavcodec libavdevice libavformat \
--               libavutil libpostproc libswscale libavfilter"
--
- PACKAGES += "${PN}-vhook-dbg ${PN}-vhook ffmpeg-x264-presets"
- 
- RSUGGESTS_${PN} = "mplayer"
-@@ -140,5 +137,3 @@ python populate_packages_prepend() {
-         for pkg in pkgs:
-             d.appendVar('INSANE_SKIP_%s' % pkg, ' textrel')
- }
--
--PACKAGES_DYNAMIC += "^lib(av(codec|device|filter|format|util)|postproc|swscale).*"
-diff --git a/meta/recipes-multimedia/libav/libav_0.8.11.bb b/meta/recipes-multimedia/libav/libav_0.8.11.bb
-index 662d205..1344a2a 100644
---- a/meta/recipes-multimedia/libav/libav_0.8.11.bb
-+++ b/meta/recipes-multimedia/libav/libav_0.8.11.bb
-@@ -16,3 +16,5 @@ PROVIDES += "libpostproc"
- EXTRA_OECONF += " \
-     --enable-postproc \
- "
-+
-+PACKAGES_DYNAMIC += "^lib(av(codec|device|filter|format|util)|postproc|swscale).*"
-diff --git a/meta/recipes-multimedia/libav/libav_9.13.bb b/meta/recipes-multimedia/libav/libav_9.13.bb
-index 7bfbc48..f9c413f 100644
---- a/meta/recipes-multimedia/libav/libav_9.13.bb
-+++ b/meta/recipes-multimedia/libav/libav_9.13.bb
-@@ -11,3 +11,6 @@ SRC_URI[md5sum] = "23b9e34bffdaee366710fdf20157a570"
- SRC_URI[sha256sum] = "2ff05df6cd2259b3bb277eb16c234214f8e0530700d0c774d033eba23edde6ca"
- 
- DEFAULT_PREFERENCE = "-1"
-+
-+# unlike 0.8.11 we don't provide libpostproc
-+PACKAGES_DYNAMIC += "^lib(av(codec|device|filter|format|util)|swscale).*"
--- 
-2.0.4
+I agree with more declarative approach.
 
+I don't mind maintaining PNBLACKLIST e.g. for components depending on
+something we decided to blacklist ourselves in distro config.
 
+But for components like this, where we really know that they won't work
+without X11 in DISTRO_FEATURES, I think bitbake should skip them
+automatically (thanks to REQUIRED_DISTRO_FEATURES). It already
+automatically skips all recipes in xorg-lib directory, why it shouldn't
+skip other recipes living somewhere else?
+
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+>=20
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--0z5c7mBtSy1wdr4F
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPiFg8ACgkQN1Ujt2V2gBwNqACgsmAezHtNHdoRQCorsR3wcryB
+fn8Anj52bDZ43wx9bHw5Xm0iZqlFsyP4
+=3ztq
+-----END PGP SIGNATURE-----
+
+--0z5c7mBtSy1wdr4F--
