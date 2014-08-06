@@ -1,37 +1,26 @@
-Return-Path: <akuster@mvista.com>
-Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A8E6708A7
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DFAEB610F5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Aug 2014 14:46:32 +0000 (UTC)
-Received: by mail-pd0-f177.google.com with SMTP id p10so3385820pdj.8
+	Wed,  6 Aug 2014 15:43:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s76FhuXk010683
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Aug 2014 07:46:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=NNWsjqEVpN01eXPUrw0TsPNdqP6CPTgWRySXMvlJ66k=;
-	b=hIySsi1pKQlO9PowaDJwATybmFzyBWGKYq2EjE9u3BF+dbSWOzObUKjNAKTHDeq7Jr
-	JiW1AOds7p84uibbPvTDGGGcWyabsgCnedBcaLWo+NUz9kyzcnhp5aWEE4om8yuax0XM
-	v6hcn7daEsA7SlXzxyW5p9Qzr5ypVy1F4UASf2eg1r9srbWbFwzDwcqSU1SsouonMSWW
-	FKqLYw/bSQCV4zRUSHpqWrszNrvz5Lne+lRe2Dl86xUKWCstJp6Zdyq/MGUZTKsV6dCX
-	un9o5mcxvudojw8yZ0jHqkIC2bSvHi78aFJf9yhsAzZHHqGv0IC5UVDC3Ju5GXyknKQI
-	LuHA==
-X-Gm-Message-State: ALoCoQnlttjNIOR3foYRk002EQSu1pgv3N3UcUGGKJT3GV3aMeU+ufqzRdwNdWEaG2J8WmO+3xiV
-X-Received: by 10.68.247.72 with SMTP id yc8mr8602866pbc.114.1407336394310;
-	Wed, 06 Aug 2014 07:46:34 -0700 (PDT)
-Received: from Pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by mx.google.com with ESMTPSA id r3sm2111005pdd.8.2014.08.06.07.46.33
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 06 Aug 2014 07:46:33 -0700 (PDT)
-From: Armin Kuster <akuster@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Aug 2014 07:46:31 -0700
-Message-Id: <1407336391-21898-1-git-send-email-akuster@mvista.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] lz4: update to 120
+	Wed, 6 Aug 2014 08:43:56 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 6 Aug 2014 08:43:56 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 6 Aug 2014 08:43:55 -0700
+Message-ID: <1bdd0676a1fc6324a5243010ff35c63502ba6dc9.1407338196.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1407338196.git.liezhi.yang@windriver.com>
+References: <cover.1407338196.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] boot-directdisk.bbclass: use local HDDDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Aug 2014 14:46:34 -0000
+X-List-Received-Date: Wed, 06 Aug 2014 15:44:01 -0000
+Content-Type: text/plain
 
-Update package to version 120
-Add Makefile to LIC_FILES_CHKSUM check as it changes with every rev.
+Use $HDDDIR rather than ${HDDDIR} in build_boot_dd(), otherwise may
+errors:
+- Set these in local.conf:
+  IMAGE_FSTYPES += "live"
+  IMAGE_FSTYPES += "vmdk"
+  AUTO_SYSLINUXMENU = "1"
+  NOHDD = "1"
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+$ bitbake core-image-sato
+  DEBUG: Executing shell function build_boot_dd
+  install: cannot create regular file
+  `/path/to/core-image-sato-1.0/hddimg//vesamenu.c32': No such file or directory
+  WARNING: exit code 1 from a shell command.
+
+This because it uses the ${HDDDIR} which is set in bootimg.bbclass, use
+local HDDDIR which is set in build_boot_dd() will fix the problem.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-support/lz4/lz4_svn.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/classes/boot-directdisk.bbclass |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/lz4/lz4_svn.bb b/meta/recipes-support/lz4/lz4_svn.bb
-index 44160f4..adbe098 100644
---- a/meta/recipes-support/lz4/lz4_svn.bb
-+++ b/meta/recipes-support/lz4/lz4_svn.bb
-@@ -2,10 +2,11 @@ SUMMARY = "Extremely Fast Compression algorithm"
- DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
+diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+index 5107d7f..09da032 100644
+--- a/meta/classes/boot-directdisk.bbclass
++++ b/meta/classes/boot-directdisk.bbclass
+@@ -102,9 +102,9 @@ build_boot_dd() {
  
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd \
-+                    file://Makefile;md5=ca9db31c873dc45240e2792a866ab0b5"
- 
- # Upstream names releases after SVN revs
--SRCREV = "119"
-+SRCREV = "120"
- PV = "r${SRCREV}"
- 
- SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
+ 	if [ "${IS_VMDK}" = "true" ]; then
+ 		if [ "x${AUTO_SYSLINUXMENU}" = "x1" ] ; then
+-			install -m 0644 ${STAGING_DIR}/${MACHINE}/usr/share/syslinux/vesamenu.c32 ${HDDDIR}${SYSLINUXDIR}/vesamenu.c32
++			install -m 0644 ${STAGING_DIR}/${MACHINE}/usr/share/syslinux/vesamenu.c32 $HDDDIR/${SYSLINUXDIR}/
+ 			if [ "x${SYSLINUX_SPLASH}" != "x" ] ; then
+-				install -m 0644 ${SYSLINUX_SPLASH} ${HDDDIR}${SYSLINUXDIR}/splash.lss
++				install -m 0644 ${SYSLINUX_SPLASH} $HDDDIR/${SYSLINUXDIR}/splash.lss
+ 			fi
+ 		fi
+ 	fi
 -- 
-1.9.1
+1.7.9.5
 
 
