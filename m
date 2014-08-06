@@ -1,41 +1,40 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 7065A65D57
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 306EC65D5F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Aug 2014 08:10:29 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20140806081029890
+	Wed,  6 Aug 2014 08:21:24 +0000 (UTC)
+Received: by mail-wi0-f179.google.com with SMTP id f8so2694949wiw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Aug 2014 08:10:29 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=52080 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XEwIi-0000Rz-K4; Wed, 06 Aug 2014 04:10:24 -0400
-Date: Wed, 6 Aug 2014 04:10:20 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1407311931.6981.91.camel@ted>
-Message-ID: <alpine.LFD.2.11.1408060409040.1325@localhost>
-References: <alpine.LFD.2.11.1408060354570.736@localhost>
-	<1407311931.6981.91.camel@ted>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Wed, 06 Aug 2014 01:21:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Sp5zvMuQ6df2OQEc8iBWldfGtZCmzhaahybQaNPpveo=;
+	b=CT60WpHfOlhwJ7h93ee29vTMiLBIjhumJt9mVgz2Tx/IjzO7yck0+se7/eqEHCh6r9
+	AoULuSVKTUiaeBKJoEr00HQA48aSWevZW3DfNyd0iJD9EsyPxPB+UHHkesSN1KYlYYFl
+	Jir48yJmwj3dmLMFVUKnQvUhugek8sm5DiVI+Gle+6icc8vcwMJjzZ1f/aCtCFzPJkwM
+	aAl8D9FBRtUPIbvqdR5XhLu9+WCGTPvYpoy6Ak0Dn5SRFCe2M+At1K/b6YtK1k0+M/h+
+	G0bVPyoa9qzi8TpaFomM3cj6becCZSvjXWLA3Pl/wVCWcAcZtZ4d8z9CHi7efnGc1Lrv
+	Lhkw==
+X-Received: by 10.180.212.41 with SMTP id nh9mr35539670wic.66.1407313285230;
+	Wed, 06 Aug 2014 01:21:25 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	gq4sm3761724wib.8.2014.08.06.01.21.24 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 06 Aug 2014 01:21:24 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 6 Aug 2014 10:21:54 +0200
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Message-ID: <20140806082154.GB14848@jama>
+References: <1407259572-35454-1-git-send-email-paul.gortmaker@windriver.com>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: comment trails off in archiver.bbclass
+In-Reply-To: <1407259572-35454-1-git-send-email-paul.gortmaker@windriver.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] util-linux: create an all encompassing package group
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,37 +47,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Aug 2014 08:10:37 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 06 Aug 2014 08:21:25 -0000
+X-Groupsio-MsgNum: 56034
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="KFztAG8eRSV9hGtP"
+Content-Disposition: inline
 
-On Wed, 6 Aug 2014, Richard Purdie wrote:
+--KFztAG8eRSV9hGtP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On Wed, 2014-08-06 at 03:56 -0400, Robert P. J. Day wrote:
-> >   currently doing more proofreading and note-taking, and there's this
-> > in archiver.bbclass:
-> >
-> >         # The libtool-native's do_configure will remove the
-> >         # ${STAGING_DATADIR}/aclocal/libtool.m4, so we can't re-run the
-> >         # do_configure, we archive the already configured ${S} to
-> >         # instead of.
-> >
-> >   "instead of" what? if someone wants to finish that comment, i can
-> > add it into the current patch.
->
-> I suspect you need to delete " of".
+On Tue, Aug 05, 2014 at 01:26:12PM -0400, Paul Gortmaker wrote:
+> Currently util-linux is fragmented into lots of small chunks,
+> and if one is looking to avoid using busybox wholesale, there
+> is currently no easy way to say "I want all of it".  Here we
+> create a packagegroup for all of the util-linux chunks, so
+> that it need not be duplicated by everyone wanting the same
+> overall goal of removing busybox.
 
-  and, i suspect, the preceding "to" as well, i'm guessing. thanks.
+Why don't you define these as empty packages with just RDEPENDS
+in util-linux?
 
-rday
+> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+>=20
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-util-linux.bb b=
+/meta/recipes-core/packagegroups/packagegroup-util-linux.bb
+> new file mode 100644
+> index 000000000000..54151502b176
+> --- /dev/null
+> +++ b/meta/recipes-core/packagegroups/packagegroup-util-linux.bb
+> @@ -0,0 +1,69 @@
+> +#
+> +# Copyright (C) 2014 Wind River
+> +#
+> +
+> +SUMMARY =3D "util-linux Packages"
+> +DESCRIPTION =3D "Packages created from util-linux"
+> +PR =3D "r0"
+> +LICENSE =3D "MIT"
+> +
+> +inherit packagegroup
+> +
+> +PACKAGES =3D "\
+> +    packagegroup-util-linux \
+> +    packagegroup-util-linux-block \
+> +    packagegroup-util-linux-console \
+> +    packagegroup-util-linux-uid \
+> +    packagegroup-util-linux-misc \
+> +    packagegroup-util-linux-partition \
+> +    "
+> +
+> +RDEPENDS_packagegroup-util-linux =3D "\
+> +    packagegroup-util-linux-block \
+> +    packagegroup-util-linux-console \
+> +    packagegroup-util-linux-uid \
+> +    packagegroup-util-linux-misc \
+> +    packagegroup-util-linux-partition \
+> +    "
+> +
+> +RDEPENDS_packagegroup-util-linux-partition =3D "\
+> +    util-linux-fdisk \
+> +    util-linux-cfdisk \
+> +    util-linux-sfdisk \
+> +    util-linux-partx \
+> +    "
+> +
+> +RDEPENDS_packagegroup-util-linux-console =3D "\
+> +    util-linux-agetty \
+> +    util-linux-reset \
+> +    "
+> +
+> +RDEPENDS_packagegroup-util-linux-block =3D " \
+> +    util-linux-mkfs \
+> +    util-linux-mkfs.cramfs \
+> +    util-linux-fsck.cramfs \
+> +    util-linux-fstrim \
+> +    util-linux-fsck \
+> +    util-linux-blkid \
+> +    util-linux-libblkid \
+> +    util-linux-umount \
+> +    util-linux-mount \
+> +    util-linux-libmount \
+> +    util-linux-swaponoff \
+> +    "
+> +
+> +RDEPENDS_packagegroup-util-linux-uid =3D "\
+> +    util-linux-libuuid \
+> +    util-linux-uuidd \
+> +    util-linux-uuidgen \
+> +    util-linux-findfs \
+> +    "
+> +
+> +RDEPENDS_packagegroup-util-linux-misc =3D "\
+> +    util-linux-losetup \
+> +    util-linux-readprofile \
+> +    util-linux-lscpu \
+> +    util-linux-mcookie \
+> +    util-linux-bash-completion \
+> +    util-linux-hwclock \
+> +    "
+> --=20
+> 1.9.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
--- 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+--KFztAG8eRSV9hGtP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iEYEARECAAYFAlPh5aIACgkQN1Ujt2V2gBzTdACfSt1tHhHzxN4j/rMNJHS26d0h
+nosAnj/8fKElKojqdUzl2/KbdtoibqoE
+=Hjup
+-----END PGP SIGNATURE-----
 
+--KFztAG8eRSV9hGtP--
