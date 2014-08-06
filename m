@@ -1,36 +1,29 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id E300865DAC
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B24660809
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Aug 2014 13:32:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 6544A314D7F2;
-	Wed,  6 Aug 2014 15:32:35 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id PxdC1ursIlcT; Wed,  6 Aug 2014 15:32:26 +0200 (CEST)
-Received: from [172.22.22.61] (55d45c28.access.ecotel.net [85.212.92.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 55E3F314D7E3;
-	Wed,  6 Aug 2014 15:32:26 +0200 (CEST)
-Message-ID: <53E22E6A.5030204@opendreambox.org>
-Date: Wed, 06 Aug 2014 15:32:26 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Wed,  6 Aug 2014 13:53:56 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 06 Aug 2014 06:53:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,812,1400050800"; d="scan'208";a="465611734"
+Received: from cgwithan-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.26])
+	by azsmga001.ch.intel.com with ESMTP; 06 Aug 2014 06:53:56 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: sujith h <sujith.h@gmail.com>
+Date: Wed, 06 Aug 2014 14:53:55 +0100
+Message-ID: <7183867.SxJbxfULxQ@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.13.3 (Linux/3.15.7-200.fc20.x86_64; KDE/4.13.3; x86_64; ; )
+In-Reply-To: <CADyYWLmvBukjOops+sxjbSB_zMj0B8qZu42bwiEAQXVn+xgPzw@mail.gmail.com>
+References: <1407326649-7117-1-git-send-email-sujith.h@gmail.com>
+	<11634411.QS1iMaReBX@peggleto-mobl5.ger.corp.intel.com>
+	<CADyYWLmvBukjOops+sxjbSB_zMj0B8qZu42bwiEAQXVn+xgPzw@mail.gmail.com>
 MIME-Version: 1.0
-To: "Khan, Yasir" <Yasir_Khan@mentor.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1407267450-64536-1-git-send-email-yasir_khan@mentor.com>,
-	<53E20FC8.8090300@opendreambox.org>
-	<428317DA8188854B9B82598D29DA15E24E0D30A3@EU-MBX-02.mgc.mentorg.com>
-In-Reply-To: <428317DA8188854B9B82598D29DA15E24E0D30A3@EU-MBX-02.mgc.mentorg.com>
-Subject: Re: [PATCH v2] wpa-supplicant: use PACKAGECONFIG for ssl selection
+Cc: Sujith H <Sujith_Haridasan@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] opkg-utils: allow disabling update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,26 +36,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Aug 2014 13:32:36 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Aug 2014 13:54:02 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hello Yasir,
-
-On 06.08.2014 14:51, Khan, Yasir wrote:
->>> +PACKAGECONFIG ??= "gnutls"
->>> +PACKAGECONFIG[gnutls] = ",,gnutls"
->> I think libgcrypt should be added here and removed above. At least it
->> doesn't appear to be a runtime dependency when building with openssl, so
->> I suppose it's a gnutls thing.
+On Wednesday 06 August 2014 18:58:11 sujith h wrote:
+> On Wed, Aug 6, 2014 at 6:08 PM, Paul Eggleton <paul.eggleton@linux.intel.com
+> > wrote:
+> > 
+> > On Wednesday 06 August 2014 17:34:09 Sujith H wrote:
+> > > From: Sujith H <Sujith_Haridasan@mentor.com>
+> > > 
+> > > This is needed to deal with the situation where we're using ipk
+> > 
+> > packaging,
+> > 
+> > > so opkg-utils must be built regardless of what update-alternatives
+> > 
+> > provider
+> > 
+> > > we prefer. The downside to the current implementation is the need to
+> > 
+> > adjust
+> > 
+> > > PACKAGECONFIG as well as PREFERRED_PROVIDER, but it is more explicit
+> > > that
+> > > way.
+> > > 
+> > > Signed-off-by: Christopher Larson <kergoth@gmail.com>
+> > > Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
+> > > ---
+> > > 
+> > >  meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 8 +++++++-
+> > >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+> > > b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb index
+> > 
+> > 693c216..952fce4
+> > 
+> > > 100644
+> > > --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+> > > +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+> > > @@ -19,11 +19,17 @@ TARGET_CC_ARCH += "${LDFLAGS}"
+> > > 
+> > >  PYTHONRDEPS = "python python-shell python-io python-math python-crypt
+> > > 
+> > > python-logging python-fcntl python-subprocess python-pickle
+> > > python-compression python-textutils python-stringold"
+> > > PYTHONRDEPS_class-native = ""
+> > > 
+> > > -PACKAGECONFIG = "python"
+> > > +PACKAGECONFIG = "python update-alternatives"
+> > > 
+> > >  PACKAGECONFIG[python] = ",,,${PYTHONRDEPS}"
+> > > 
+> > > +PACKAGECONFIG[update-alternatives] = ",,,"
+> > > +
+> > > +PROVIDES_remove = "${@'virtual/update-alternatives' if
+> > > 'update-alternatives' not in PACKAGECONFIG.split() else ''}"
+> > 
+> > If we have to do this, rather than using _remove here could we simply make
+> > adding it conditional?
 > 
-> As per commit 1fe8f631f, gnutls doesn't depend on libgcrypt anymore but wpa-supplicant does. So I guess it should be in the DEPENDS. 
+> Isn't _remove itself conditional? Pardon me if my understanding is wrong.
 
-It does, if built with gnutls, but not with openssl. Look for -lgcrypt
-in wpa_supplicant/Makefile, if you want to assure yourself.
+What I mean is, this value gets added to PROVIDES here in the same recipe. 
+Rather than unconditionally adding it then conditionally removing it, why not 
+just conditionally add it?
 
-> I've made other changes as you've pointed out. I will be sending another patch shortly.
+Cheers,
+Paul
 
-Thanks,
-Andreas
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
