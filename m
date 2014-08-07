@@ -1,25 +1,20 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AF5A60169
+Return-Path: <max.eliaser@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F55560169
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 20:10:47 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 07 Aug 2014 13:10:47 -0700
+	Thu,  7 Aug 2014 20:14:48 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 07 Aug 2014 13:09:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,819,1400050800"; d="scan'208";a="466223735"
-Received: from unknown (HELO [10.255.12.111]) ([10.255.12.111])
-	by azsmga001.ch.intel.com with ESMTP; 07 Aug 2014 13:10:29 -0700
-Message-ID: <53E3DD34.4000100@linux.intel.com>
-Date: Thu, 07 Aug 2014 13:10:28 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
-MIME-Version: 1.0
-To: Marek Vasut <marex@denx.de>, 
- openembedded-core@lists.openembedded.org
-References: <1407424632-32649-1-git-send-email-marex@denx.de>
-In-Reply-To: <1407424632-32649-1-git-send-email-marex@denx.de>
-Subject: Re: [PATCH 0/5] Add initial fitImage support
+X-IronPort-AV: E=Sophos;i="5.01,820,1400050800"; d="scan'208";a="555356113"
+Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.63])
+	by orsmga001.jf.intel.com with ESMTP; 07 Aug 2014 13:14:49 -0700
+From: Max Eliaser <max.eliaser@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Aug 2014 13:12:33 -0700
+Message-Id: <cover.1407442264.git.max.eliaser@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH 0/3] Upstream recipe for bootchart2 from WebOS (revised)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,48 +27,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 20:10:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Aug 2014 20:14:52 -0000
 
-On 08/07/2014 08:17 AM, Marek Vasut wrote:
-> The fitImage is a successor of the U-Boot uImage format, which is considered
-> legacy for years now. The fitImage allows packing multiple kernel images,
-> DTBs and other artifacts into a single image, which can then be protected
-> by SHA checksums and does even support signing the images for verified boot.
->
-> This patchset is the first stab at adding the new image format into Yocto.
->
-> Marek Vasut (5):
->    Yocto: kernel: Rework do_uboot_mkimage
->    Yocto: kernel: Pull out the linux.bin generation
->    Yocto: kernel: Clean up KERNEL_IMAGETYPE_FOR_MAKE
->    Yocto: kernel: Build DTBs early
->    Yocto: kernel: Add basic fitImage support
->
->   meta/classes/kernel.bbclass             | 229 +++++++++++++++++++++++++++++---
->   meta/recipes-kernel/linux/linux-dtb.inc |  14 +-
->   2 files changed, 226 insertions(+), 17 deletions(-)
->
-Hi Marek,
+Hello list,
 
-I am going to make a general request, can you please review the Commit 
-Guildlines Wiki for Openembedded:
+This series adds a recipe for the bootchart2 daemon (a fork of the original
+bootchart.) It's based on a recipe from Meta-WebOS, but with extensive
+modifications.
 
-http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+It is intended that bootchart2 will supersede the other bootchart daemons
+kicking around in oe-core/meta-oe. See bug 5893. [1]
 
-We appreciate your patches, but the commit messages need to be formatted 
-correctly.  The Yocto: tag is not needed and you could clearly include 
-which recipe, bbclass, file or subsystem (if across multiple files) so 
-in the above it would be kernel.bbclass: ...
+Regards,
+-Max Eliaser
 
-If you could please resubmit your changes with the correct commit 
-summary for this series and your other patches that would be greatly 
-appreciated.
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=5893
+The following changes since commit 5452824960e8e77005a25ac11fd069d927523d3e:
 
-Myself and others may have further feedback on your patches.
+  default-distrovars.inc: Remove unused variable 'LIMIT_BUILT_LOCALES' (2014-06-13 13:08:44 +0100)
 
-Thanks
-    Sau!
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib meliaser/bootchart2-attempt2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=meliaser/bootchart2-attempt2
+
+Max Eliaser (3):
+  python: python-pycairo: add python-pycairo-native
+  bootchart2: create recipe for bootchart2
+  ubootchart: delete ubootchart recipe
+
+ meta-yocto/conf/distro/include/distro_alias.inc    |   1 -
+ meta-yocto/conf/distro/include/maintainers.inc     |   1 -
+ meta-yocto/conf/distro/include/recipe_color.inc    |   1 -
+ .../conf/distro/include/upstream_tracking.inc      |   2 -
+ .../bootchart2/bootchart2/bootchartd_stop.sh       |  18 +++
+ meta/recipes-devtools/bootchart2/bootchart2_git.bb | 148 +++++++++++++++++++++
+ .../python/python-pycairo_1.10.0.bb                |   2 +
+ .../ubootchart/files/sysvinit.patch                |  14 --
+ .../ubootchart/files/ubootchart-stop               |   3 -
+ .../ubootchart/files/ubootchart.desktop            |   6 -
+ meta/recipes-devtools/ubootchart/ubootchart_svn.bb |  39 ------
+ 11 files changed, 168 insertions(+), 67 deletions(-)
+ create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/bootchartd_stop.sh
+ create mode 100644 meta/recipes-devtools/bootchart2/bootchart2_git.bb
+ delete mode 100644 meta/recipes-devtools/ubootchart/files/sysvinit.patch
+ delete mode 100644 meta/recipes-devtools/ubootchart/files/ubootchart-stop
+ delete mode 100644 meta/recipes-devtools/ubootchart/files/ubootchart.desktop
+ delete mode 100644 meta/recipes-devtools/ubootchart/ubootchart_svn.bb
+
+-- 
+1.8.3.2
 
 
