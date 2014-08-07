@@ -1,20 +1,24 @@
 Return-Path: <max.eliaser@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 25F4860C19
+	by mail.openembedded.org (Postfix) with ESMTP id 5942C60C19
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 21:01:42 +0000 (UTC)
+	Thu,  7 Aug 2014 21:01:50 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 07 Aug 2014 13:55:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,820,1400050800"; d="scan'208";a="584980712"
+X-IronPort-AV: E=Sophos;i="5.01,820,1400050800"; d="scan'208";a="584980714"
 Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.63])
 	by orsmga002.jf.intel.com with ESMTP; 07 Aug 2014 14:01:42 -0700
 From: Max Eliaser <max.eliaser@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Aug 2014 13:59:20 -0700
-Message-Id: <cover.1407445120.git.max.eliaser@intel.com>
+Date: Thu,  7 Aug 2014 13:59:22 -0700
+Message-Id: <fcbfd180079c08d30c670a3146066e4a2bdeaa5d.1407445120.git.max.eliaser@intel.com>
 X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH 0/2] Upstream recipe for bootchart2 from WebOS (revised again)
+In-Reply-To: <cover.1407445120.git.max.eliaser@intel.com>
+References: <cover.1407445120.git.max.eliaser@intel.com>
+In-Reply-To: <cover.1407445120.git.max.eliaser@intel.com>
+References: <cover.1407445120.git.max.eliaser@intel.com>
+Subject: [PATCH 2/2] ubootchart: delete ubootchart recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,49 +33,111 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 07 Aug 2014 21:01:50 -0000
 
-Hello list,
+The Ubootchart recipe had known issues. Ubootchart itself is no longer updated
+upstream. Ubootchart is also now redundant with Bootchart2.
 
-This series adds a recipe for the bootchart2 daemon (a fork of the original
-bootchart.) It's based on a recipe from Meta-WebOS, but with extensive
-modifications.
+If people still want ubootchart around, it can be moved to meta-oe.
 
-It is intended that bootchart2 will supersede the other bootchart daemons
-kicking around in oe-core/meta-oe. See bug 5893. [1]
+Ubootchart removed as part of the solution to [YOCTO #5893].
 
-(Resubmitted this series yet again because I'd mistakenly included Yocto-
-specific changes in addition to oe-core ones.)
-
-Regards,
--Max Eliaser
-
-[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=5893
-The following changes since commit 86afd7eb7c679eb065706137f28f44248f3fbc5a:
-
-  ghostscript: Remove bogus gsfonts reference from DESCRIPTION (2014-08-06 11:14:40 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib meliaser/bootchart2-attempt3
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=meliaser/bootchart2-attempt3
-
-Max Eliaser (2):
-  bootchart2: create recipe for bootchart2
-  ubootchart: delete ubootchart recipe
-
- .../bootchart2/bootchart2/bootchartd_stop.sh       |  18 +++
- meta/recipes-devtools/bootchart2/bootchart2_git.bb | 148 +++++++++++++++++++++
- .../ubootchart/files/sysvinit.patch                |  14 --
- .../ubootchart/files/ubootchart-stop               |   3 -
- .../ubootchart/files/ubootchart.desktop            |   6 -
- meta/recipes-devtools/ubootchart/ubootchart_svn.bb |  39 ------
- 6 files changed, 166 insertions(+), 62 deletions(-)
- create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/bootchartd_stop.sh
- create mode 100644 meta/recipes-devtools/bootchart2/bootchart2_git.bb
+Signed-off-by: Max Eliaser <max.eliaser@intel.com>
+---
+ .../ubootchart/files/sysvinit.patch                | 14 --------
+ .../ubootchart/files/ubootchart-stop               |  3 --
+ .../ubootchart/files/ubootchart.desktop            |  6 ----
+ meta/recipes-devtools/ubootchart/ubootchart_svn.bb | 39 ----------------------
+ 4 files changed, 62 deletions(-)
  delete mode 100644 meta/recipes-devtools/ubootchart/files/sysvinit.patch
  delete mode 100644 meta/recipes-devtools/ubootchart/files/ubootchart-stop
  delete mode 100644 meta/recipes-devtools/ubootchart/files/ubootchart.desktop
  delete mode 100644 meta/recipes-devtools/ubootchart/ubootchart_svn.bb
 
+diff --git a/meta/recipes-devtools/ubootchart/files/sysvinit.patch b/meta/recipes-devtools/ubootchart/files/sysvinit.patch
+deleted file mode 100644
+index fc82ed8..0000000
+--- a/meta/recipes-devtools/ubootchart/files/sysvinit.patch
++++ /dev/null
+@@ -1,14 +0,0 @@
+-Upstream-Status: Inappropriate [distribution]
+-
+-Index: ubootchart.conf
+-===================================================================
+---- ubootchart.conf	(revision 9)
+-+++ ubootchart.conf	(working copy)
+-@@ -1,6 +1,6 @@
+- 
+- # If you want to chain on and run somthing other than /sbin/init...
+--export init_prog=/sbin/init
+-+export init_prog=/sbin/init.sysvinit
+- 
+- # On startup ubootchart will mount a tmpfs filesystem at this
+- # location and chdir here. This is only used for the logging of
+diff --git a/meta/recipes-devtools/ubootchart/files/ubootchart-stop b/meta/recipes-devtools/ubootchart/files/ubootchart-stop
+deleted file mode 100644
+index 3444069..0000000
+--- a/meta/recipes-devtools/ubootchart/files/ubootchart-stop
++++ /dev/null
+@@ -1,3 +0,0 @@
+-#! /bin/sh
+-
+-kill -USR1 $(pidof ubootchartd_bin)
+diff --git a/meta/recipes-devtools/ubootchart/files/ubootchart.desktop b/meta/recipes-devtools/ubootchart/files/ubootchart.desktop
+deleted file mode 100644
+index 5552b3b..0000000
+--- a/meta/recipes-devtools/ubootchart/files/ubootchart.desktop
++++ /dev/null
+@@ -1,6 +0,0 @@
+-[Desktop Entry]
+-Encoding=UTF-8
+-Exec=/sbin/ubootchart-stop
+-Name=Stop Bootchart
+-Type=Application
+-Categories=Programming;
+diff --git a/meta/recipes-devtools/ubootchart/ubootchart_svn.bb b/meta/recipes-devtools/ubootchart/ubootchart_svn.bb
+deleted file mode 100644
+index b13755e..0000000
+--- a/meta/recipes-devtools/ubootchart/ubootchart_svn.bb
++++ /dev/null
+@@ -1,39 +0,0 @@
+-SUMMARY = "A boot profiling tool"
+-HOMEPAGE = "http://code.google.com/p/ubootchart/"
+-LICENSE = "GPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=8f0e2cd40e05189ec81232da84bd6e1a"
+-SRCREV = "12"
+-PV = "0.0+r${SRCPV}"
+-PR = "r6"
+-
+-#RRECOMMENDS_${PN} = "acct"
+-
+-SRC_URI = "svn://ubootchart.googlecode.com/svn/;protocol=http;module=trunk \
+-        file://sysvinit.patch;striplevel=0 \
+-        file://ubootchart-stop \
+-        file://ubootchart.desktop"
+-
+-S = "${WORKDIR}/trunk"
+-
+-inherit update-alternatives
+-
+-ALTERNATIVE_${PN} = "init"
+-ALTERNATIVE_TARGET[init] = "${base_sbindir}/ubootchartd"
+-ALTERNATIVE_LINK_NAME[init] = "${base_sbindir}/init"
+-ALTERNATIVE_PRIORITY = "70"
+-
+-do_compile() {
+-        ${CC} ${CFLAGS} ${LDFLAGS} ${LIBS} ${INCLUDES} ${S}/ubootchartd_bin.c -o ubootchartd_bin
+-}
+-
+-do_install() {
+-        install -m 0755 -d ${D}${base_sbindir} ${D}${sysconfdir}/ubootchart ${D}${datadir}/applications
+-        install -m 0755 ${S}/ubootchartd_bin ${D}${base_sbindir}
+-        install -m 0755 ${S}/ubootchartd ${D}${base_sbindir}
+-        install -m 0644 ${S}/ubootchart.conf ${D}${sysconfdir}/ubootchart
+-        install -m 0755 ${S}/start.sh ${D}${sysconfdir}/ubootchart
+-        install -m 0755 ${S}/finish.sh ${D}${sysconfdir}/ubootchart
+-        
+-        install -m 0755 ${WORKDIR}/ubootchart-stop ${D}${base_sbindir}
+-        install -m 0644 ${WORKDIR}/ubootchart.desktop ${D}${datadir}/applications
+-}
 -- 
 1.8.3.2
 
