@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AA2765CD8
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AC6E270A36
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 13:41:01 +0000 (UTC)
+	Thu,  7 Aug 2014 13:41:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s77Df23c026636
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s77Df3UT015332
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Aug 2014 06:41:02 -0700 (PDT)
+	Thu, 7 Aug 2014 06:41:03 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 7 Aug 2014 06:41:02 -0700
+	Thu, 7 Aug 2014 06:41:03 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Aug 2014 06:40:57 -0700
-Message-ID: <23b2c7b7f2af01df48b3565d263c98d5f95741f0.1407418718.git.liezhi.yang@windriver.com>
+Date: Thu, 7 Aug 2014 06:41:00 -0700
+Message-ID: <d895646f84514037ac6db0cf32f45bb137f566a8.1407418718.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1407418718.git.liezhi.yang@windriver.com>
 References: <cover.1407418718.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/7] kexec-tools: fix recompile error
+Subject: [PATCH 7/7] syslinux: fix reinstall error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,46 +37,44 @@ X-List-Received-Date: Thu, 07 Aug 2014 13:41:03 -0000
 Content-Type: text/plain
 
 Fixed:
-NOTE: make -j 32
-make: *** No rule to make target `/path/to/sysroot/4.9.0/include/stddef.h', needed by `kexec/kexec.o'.  Stop.
+make: *** No rule to make target `/path/to/sysroot/4.9.0/include/stdarg.h', needed by `cpio.o'.  Stop.
+make: *** Waiting for unfinished jobs....
+ERROR: oe_runmake failed
 
-This happens when upgrade gcc from 4.9.0 to 4.9.1, and the kexec/kexec.d
-isn't regenerated when recompile, the content of it are:
+This happens when upgrade gcc from 4.9.0 to 4.9.1, and the .cpio.o.d isn't
+regenerated when recompile (the compile happens when do_install), the content
+of it are:
 
 [snip]
-kexec/kexec.o: /path/to/sysroot/4.9.0/include/stddef.h
+cpio.o: /path/to/sysroot/4.9.0/include/stdarg.h
 [snip]
 
-And Makefile includes the kexec/kexec.d file if it exists, so there
-would be errors when /path/to/sysroot/4.9.0/include/stddef.h doesn't
-exist.
+And Makefile includes the .cpio.o.d file if it exists, so there would be
+errors when /path/to/sysroot/4.9.0/include/stdarg.h doesn't exist.
 
-Remove kexec/kexec.d and other similar files will fix the problem.
+Remove .*.d (a few .d files, its Makefile uses this wildcard) will fix
+the problem.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-kernel/kexec/kexec-tools.inc |   11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/recipes-devtools/syslinux/syslinux_6.01.bb |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools.inc b/meta/recipes-kernel/kexec/kexec-tools.inc
-index 50b448c..7e3b7ad 100644
---- a/meta/recipes-kernel/kexec/kexec-tools.inc
-+++ b/meta/recipes-kernel/kexec/kexec-tools.inc
-@@ -15,3 +15,14 @@ inherit autotools-brokensep
- COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*|mips.*)-(linux|freebsd.*)'
+diff --git a/meta/recipes-devtools/syslinux/syslinux_6.01.bb b/meta/recipes-devtools/syslinux/syslinux_6.01.bb
+index e8a1fd4..2377cc0 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_6.01.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_6.01.bb
+@@ -45,6 +45,10 @@ do_configure() {
+ }
  
- INSANE_SKIP_${PN} = "arch"
+ do_compile() {
++	# Make sure the recompile is OK.
++	# Though the ${B} should always exist, still check it before find and rm.
++	[ -d "${B}" ] && find ${B} -name '.*.d' -type f -exec rm -f {} \;
 +
-+do_compile_prepend() {
-+    # Remove the '*.d' file to make sure the recompile is OK
-+    for dep in `find ${B} -type f -name '*.d'`; do
-+        dep_no_d="`echo $dep | sed 's#.d$##'`"
-+        # Remove file.d when there is a file.o
-+        if [ -f "$dep_no_d.o" ]; then
-+            rm -f $dep
-+        fi
-+    done
-+}
+ 	# Rebuild only the installer; keep precompiled bootloaders
+ 	# as per author's request (doc/distrib.txt)
+ 	oe_runmake CC="${CC} ${CFLAGS}" LDFLAGS="${LDFLAGS}" firmware="bios" installer
 -- 
 1.7.9.5
 
