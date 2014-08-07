@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CEDC70A33
+	by mail.openembedded.org (Postfix) with ESMTP id 9AA2765CD8
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  7 Aug 2014 13:41:01 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s77Df0N7026630
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s77Df23c026636
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Aug 2014 06:41:00 -0700 (PDT)
+	Thu, 7 Aug 2014 06:41:02 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 7 Aug 2014 06:41:00 -0700
+	Thu, 7 Aug 2014 06:41:02 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Aug 2014 06:40:53 -0700
-Message-ID: <cover.1407418718.git.liezhi.yang@windriver.com>
+Date: Thu, 7 Aug 2014 06:40:57 -0700
+Message-ID: <23b2c7b7f2af01df48b3565d263c98d5f95741f0.1407418718.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1407418718.git.liezhi.yang@windriver.com>
+References: <cover.1407418718.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/7] fix rebuild error
+Subject: [PATCH 4/7] kexec-tools: fix recompile error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,33 +36,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 07 Aug 2014 13:41:03 -0000
 Content-Type: text/plain
 
-The following changes since commit 1fafe7ccc563d5ac9e41f5c1de93d2736745b512:
+Fixed:
+NOTE: make -j 32
+make: *** No rule to make target `/path/to/sysroot/4.9.0/include/stddef.h', needed by `kexec/kexec.o'.  Stop.
 
-  ghostscript: Remove bogus gsfonts reference from DESCRIPTION (2014-08-06 11:14:21 +0100)
+This happens when upgrade gcc from 4.9.0 to 4.9.1, and the kexec/kexec.d
+isn't regenerated when recompile, the content of it are:
 
-are available in the git repository at:
+[snip]
+kexec/kexec.o: /path/to/sysroot/4.9.0/include/stddef.h
+[snip]
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/rebuild
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/rebuild
+And Makefile includes the kexec/kexec.d file if it exists, so there
+would be errors when /path/to/sysroot/4.9.0/include/stddef.h doesn't
+exist.
 
-Robert Yang (7):
-  libnewt: fix recompile error
-  trace-cmd: fix recompile error
-  logrotate: fix recompile error
-  kexec-tools: fix recompile error
-  kernelshark: fix recompile error
-  u-boot-mkimage: fix recompile error
-  syslinux: fix reinstall error
+Remove kexec/kexec.d and other similar files will fix the problem.
 
- meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb  |    3 +++
- meta/recipes-devtools/syslinux/syslinux_6.01.bb    |    4 ++++
- meta/recipes-extended/logrotate/logrotate_3.8.7.bb |    5 +++++
- meta/recipes-extended/newt/libnewt_0.52.17.bb      |    5 +++++
- meta/recipes-kernel/kexec/kexec-tools.inc          |   11 +++++++++++
- meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |    5 +++++
- meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |    5 +++++
- 7 files changed, 38 insertions(+)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-kernel/kexec/kexec-tools.inc |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
+diff --git a/meta/recipes-kernel/kexec/kexec-tools.inc b/meta/recipes-kernel/kexec/kexec-tools.inc
+index 50b448c..7e3b7ad 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools.inc
++++ b/meta/recipes-kernel/kexec/kexec-tools.inc
+@@ -15,3 +15,14 @@ inherit autotools-brokensep
+ COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*|mips.*)-(linux|freebsd.*)'
+ 
+ INSANE_SKIP_${PN} = "arch"
++
++do_compile_prepend() {
++    # Remove the '*.d' file to make sure the recompile is OK
++    for dep in `find ${B} -type f -name '*.d'`; do
++        dep_no_d="`echo $dep | sed 's#.d$##'`"
++        # Remove file.d when there is a file.o
++        if [ -f "$dep_no_d.o" ]; then
++            rm -f $dep
++        fi
++    done
++}
 -- 
 1.7.9.5
 
