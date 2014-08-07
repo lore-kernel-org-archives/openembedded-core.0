@@ -1,35 +1,27 @@
-Return-Path: <bobadeshrikant@gmail.com>
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 966516FA94
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id E3A1B601A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 10:35:51 +0000 (UTC)
-Received: by mail-pd0-f181.google.com with SMTP id g10so5026410pdj.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Aug 2014 03:35:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=58CU1Aibn75bochlFRWBa2ET7N/oODOjLlhdvdkJ1GM=;
-	b=WrPkFXk1mclomVZHaH/vUU5sqbxn22gUHUtTcpX/OHYKBePkdFmVGBECVVDQIn1ffn
-	BZQIa+OHtaQSXOv2TZHslphSpHpnwXZbacgXyCAfIBM73rGV4bYp+KcyY2fdQ0x/5ksm
-	tYpggynh83KM/Hrw7gZ3B49mbSuJ5ys0JUHJFiPFH/mbNVHzj3O21gmVFBX9XDJwnvqI
-	6AiibHjDdOpV7TZZBnmlCV/dFR41/GKWa59MepAbJVk6dWuSfP+YeyZfn64OCAYR6vzd
-	9hiGOtZfd9udc2d2J77GaQbT4In9DSt3kJeZp6WzEjKP5evFQC/AF2OrHy5IHDRGzoOT
-	2jmw==
-X-Received: by 10.66.236.161 with SMTP id uv1mr16991652pac.85.1407407752502;
-	Thu, 07 Aug 2014 03:35:52 -0700 (PDT)
-Received: from localhost.localdomain ([139.181.35.34])
-	by mx.google.com with ESMTPSA id ph6sm3983849pbc.38.2014.08.07.03.35.50
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 07 Aug 2014 03:35:51 -0700 (PDT)
-From: Shrikant Bobade <bobadeshrikant@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Aug 2014 16:06:57 +0530
-Message-Id: <1407407817-1034-1-git-send-email-bobadeshrikant@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Shrikant Bobade <Shrikant_Bobade@mentor.com>
-Subject: [PATCH] pigz: Add dependency on zlib-native for pigz-native
+	Thu,  7 Aug 2014 13:05:07 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 07 Aug 2014 05:59:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,818,1400050800"; d="scan'208";a="555138453"
+Received: from bidesilv-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.223])
+	by orsmga001.jf.intel.com with ESMTP; 07 Aug 2014 06:05:02 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
+Date: Thu, 07 Aug 2014 14:05:01 +0100
+Message-ID: <2374073.Q4LByM6bcI@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.13.3 (Linux/3.15.7-200.fc20.x86_64; KDE/4.13.3; x86_64; ; )
+In-Reply-To: <53E3512E.5090008@dynamicdevices.co.uk>
+References: <1571948.CrPtZqAbFm@peggleto-mobl5.ger.corp.intel.com>
+	<53E3512E.5090008@dynamicdevices.co.uk>
+MIME-Version: 1.0
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [yocto] RFC: Improving the developer workflow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +34,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 10:35:52 -0000
+X-List-Received-Date: Thu, 07 Aug 2014 13:05:12 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Shrikant Bobade <Shrikant_Bobade@mentor.com>
+Hi Alex,
 
-When pigz-native and zlib-native are coming from sstate the setscenes might
-not necessarily run in the expected order. The problem happens when setscene
-for pigz-native runs before setscene for zlib-native. To fix the issue
-do_populate_sysroot_setscene[depends] should be properly set for pigz-native.
+On Thursday 07 August 2014 11:13:02 Alex J Lennon wrote:
+> On 07/08/2014 10:10, Paul Eggleton wrote:
+> fwiw Upgrade solutions are something that is still a read need imho,  as
+> I think we discussed at one of the FOSDEMs.
+>
+> (The other real need being an on-board test framework, again imho, and
+> which I believe is ongoing)
 
-Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
-Signed-off-by: Shrikant Bobade <Shrikant_Bobade@mentor.com>
----
- meta/recipes-extended/pigz/pigz.inc |    4 ++++
- 1 file changed, 4 insertions(+)
+Indeed; I think we've made some pretty good progress here in that the Yocto 
+Project QA team is now using the automated runtime testing to do QA tests on 
+real hardware. Reporting and monitoring of ptest results is also being looked 
+at as well as integration with LAVA.
+ 
+> Historically I, and I suspect others, have done full image updates of
+> the storage medium,  onboard flash or whatever but these images are
+> getting so big now that I am trying to  move away from that and into
+> using package feeds for updates to embedded targets.
 
-diff --git a/meta/recipes-extended/pigz/pigz.inc b/meta/recipes-extended/pigz/pigz.inc
-index 355fb2a..9a045e7 100644
---- a/meta/recipes-extended/pigz/pigz.inc
-+++ b/meta/recipes-extended/pigz/pigz.inc
-@@ -30,3 +30,7 @@ ALTERNATIVE_${PN} = "gzip gunzip"
- ALTERNATIVE_LINK_NAME[gzip] = "${base_bindir}/gzip"
- ALTERNATIVE_LINK_NAME[gunzip] = "${base_bindir}/gunzip"
- ALTERNATIVE_PRIORITY = "80"
-+
-+PIGZ_SYSROOT_DEPS = ""
-+PIGZ_SYSROOT_DEPS_class-native = "zlib-native:do_populate_sysroot_setscene"
-+do_populate_sysroot_setscene[depends] += "${PIGZ_SYSROOT_DEPS}"
+Personally with how fragile package management can end up being, I'm convinced 
+that full-image updates are the way to go for a lot of cases, but ideally with 
+some intelligence so that you only ship the changes (at a filesystem level 
+rather than a package or file level). This ensures that an upgraded image on 
+one device ends up exactly identical to any other device including a newly 
+deployed one. Of course it does assume that you have a read-only rootfs and 
+keep your configuration data / logs / other writeable data on a separate 
+partition or storage medium. However, beyond improvements to support for 
+having a read-only rootfs we haven't really achieved anything in terms of out-
+of-the-box support for this, mainly due to lack of resources.
+
+However, whilst I haven't had a chance to look at it closely, there has been 
+some work on this within the community:
+
+http://sbabic.github.io/swupdate/swupdate.html
+https://github.com/sbabic/swupdate
+https://github.com/sbabic/meta-swupdate/
+ 
+> My initial experience has been that
+> 
+> - as you mention it would be really helpful to have something "more"
+> around management  of package feed releases / targets.
+> 
+> - some automation around deployment of package feeds to production
+> servers would help,   or at least some documentation on best practice.
+
+So the scope of my proposal is a little bit narrower, i.e. for the SDK; and 
+I'm suggesting that we mostly bypass the packaging system since it doesn't 
+really add much benefit and sometimes gets in the way when you're an 
+application developer in the middle of development and the level of churn is 
+high (as opposed to making incremental changes after the product's release).
+
+> The other big issue I am seeing, which is mostly my own fault thus far,
+> is that I have sometimes  taken  the easy option of modifying the root
+> filesystem image in various ways within the image recipe (for example
+> changing  a Webmin configuration perhaps)
+> 
+> However when I then come to upgrade a package in-situ, such as Webmin,
+> the changes  are  then overwritten.
+> 
+> I think this is probably also an issue when upgrading packages that have
+> had local modifications made, and I wonder whether there's a solution to
+> this that I'm not aware of?
+
+We do have CONFFILES to point to configuration files that may be modified (and 
+thus should not just be overwritten on upgrade). There's not much logic in the 
+actual build system to deal with this, we just pass it to the package manager; 
+but it does work, and recipes that deploy configuration files (and bbappends, if 
+the configuration file is being added rather than changed from there) should set 
+CONFFILES so that the right thing happens on upgrade if you are using a 
+package manager on the target.
+
+A related issue is that for anything other than temporary changes it's often 
+not clear which recipe you need to change/append in order to provide your own 
+version of a particular config file. FYI I entered the following enhancement bug 
+some months ago to add a tool to help with that:
+
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=6447
+
+> I am aware of course that mainstream package management tools allow
+> diffing, upgrading,  ignoring and such but I am unsure as to how that is
+> supported under Yocto at present?
+
+There isn't really any support for this at the moment, no; I think we'd want 
+to try to do this kind of thing at the build system end though to avoid tying 
+ourselves to one particular package manager.
+ 
+Cheers,
+Paul
+
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
