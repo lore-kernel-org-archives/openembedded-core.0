@@ -1,41 +1,40 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id B428365E2B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 811CE65CC9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 05:33:58 +0000 (UTC)
-Received: by mail-wg0-f47.google.com with SMTP id b13so3590702wgh.18
+	Thu,  7 Aug 2014 06:23:48 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id eu11so4860552pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Aug 2014 22:34:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=yjSSysdoC30sSAZu5ym0aChDGvwS+1GEMubSkvi3hB0=;
-	b=cRJvx1j98uEgJR+RiatAlE+BLRFiqC56AIivl3k27+jrGuvnYZ0zAO+DFrPfZJoIKA
-	VTyvbHaJahhT2Jc6eiV26Yi2vr3VjirX6SKicwOyZbB1FQeaT24JD5TA0Y40U9Iv39wa
-	0lElsSbOL8HB7QVIJSbh6bmQEa8Hf9+SgAWAlHGXCVqokKwAQk0whpIg0kblX3lP8HmD
-	8Mp2siYVw3e/jbuKNeQz82xskE5bnU0BaPFGMEw8vm+47veiouJoFwdolVEx3tFPQ5ov
-	w43JVmxelMDbMpDJcNPxt9ttAShABEqBjjLD8GnEfSynR4OHy21UpobC9plSE5UsR9mN
-	rtQQ==
-X-Gm-Message-State: ALoCoQmn2U9hzBcoQd24QVtXO1koGFS2k5Oy8u2RNsTHO9w68mfj0xiY3XPByliJ46O47nbDS+YO
-X-Received: by 10.180.10.165 with SMTP id j5mr21533050wib.10.1407389640006;
-	Wed, 06 Aug 2014 22:34:00 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::39b9:dfad:f4e6:e2e8?
-	([2001:610:612:0:39b9:dfad:f4e6:e2e8])
-	by mx.google.com with ESMTPSA id ev18sm548980wid.1.2014.08.06.22.33.58
+	Wed, 06 Aug 2014 23:23:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=C41MBxkNf2kAb1FtwF7KE5j82NPEGLHOXnldb/C9+Dk=;
+	b=RymfaRQe2k8dXE0vhT49KEzEd6jRz4HRbM8OdbgKERNGdfUHSFRPCQm+4Kk9RoBzeH
+	k2EP3HBtuDEdmoCpi57aH4Qnnv2ttNW3MkejodiAfA/jwb77qSkuB60GbsQlOeZOisKB
+	hpIMqQFo1YTGVYjfVfUS9kdANhCEVadZFE+6PMXd2j5fB7UxJ4HiP+qCkbm5NEjOQJNp
+	GGn/zQKRjF88AlHyhLJwIvrOxI4TzM18c3+0bCkWUnBmVscygHORn7Id+xhylGqbX6lP
+	S7j+BOol1rWKS+34cQJWW5nqgpRubPOjQLNlBFvqJnUVB5fmZHiWiyNQFdHpqCJsbMTl
+	63Vw==
+X-Received: by 10.70.36.7 with SMTP id m7mr15558195pdj.91.1407392630314;
+	Wed, 06 Aug 2014 23:23:50 -0700 (PDT)
+Received: from haswell ([2601:9:3580:7a5:baca:3aff:fe80:aa8f])
+	by mx.google.com with ESMTPSA id ui8sm3197061pbc.84.2014.08.06.23.23.49
 	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 06 Aug 2014 22:33:59 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1407357515-6147-1-git-send-email-paul.gortmaker@windriver.com>
-Date: Thu, 7 Aug 2014 07:33:57 +0200
-Message-Id: <167343D1-FE42-441A-B126-F189C129EF2B@dominion.thruhere.net>
-References: <1407357515-6147-1-git-send-email-paul.gortmaker@windriver.com>
-To: Paul Gortmaker <paul.gortmaker@windriver.com>
-X-Mailer: Apple Mail (2.1878.6)
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 06 Aug 2014 23:23:49 -0700 (PDT)
+Date: Wed, 6 Aug 2014 23:27:22 -0700
+From: Khem Raj <raj.khem@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20140807062722.GB4171@haswell>
+References: <1407345781-16805-1-git-send-email-yasir_khan@mentor.com>
+	<53E2B628.7030507@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <53E2B628.7030507@linux.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] coreutils: drop patch that unconditionally mangles manpages
+Subject: Re: [PATCH] trace-cmd: Update to version 2.3.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,30 +47,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 05:34:05 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 07 Aug 2014 06:23:51 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
+On 14-08-06 16:11:36, Saul Wold wrote:
+> On 08/06/2014 10:23 AM, Yasir Khan wrote:
+> >From: Yasir-Khan <yasir_khan@mentor.com>
+> >
+> >Current trace-cmd version 1.2 throws "recorder error in
+> >splice input" error while recording a trace on kernel
+> >version 3.10. Update the trace-cmd version to latest 2.3.2
+> >to resolve this error.
+> >
+> >Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
+> >---
+> >  ...dd-checks-for-invalid-pointers-to-fix-seg.patch |   61 -------------
+> >  ...o-not-call-stop_threads-if-doing-latency-.patch |   38 --------
+> >  ...etting-plugin-to-nop-clears-data-before-i.patch |   96 --------------------
+> >  .../trace-cmd-fix-syntax-error-of-shell.patch      |   30 ------
+> 
+> We like to know why the patches are removed in the commit message, I know
+> most of the patches are backports, but tell us that in the commit message
+> still.
+> 
+> Thanks
+> 	Sau!
+> 
+> >
+> >  LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+> >-                    file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e \
+> >+		    file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e \
 
-Op 6 aug. 2014, om 22:38 heeft Paul Gortmaker =
-<paul.gortmaker@windriver.com> het volgende geschreven:
-
-> commit 841ec528ec04e64bd09ff10f8d9ad2d6e3aac05d ("coreutils: update
-> to upstream version 9.21") added a patch which bypassed the check
-> for perl and hence defaults to using the dummy man page for all
-> of the coreutils manpages.  This results in all manpages looking like:
->=20
->  NAME
->       chmod - a GNU coreutils 8.22 program
->=20
->  DESCRIPTION
->       OOOPS!   Due to the lack of perl on the build system, we were =
-unable to
->       create a proper manual page for chmod.
->=20
-> It is unclear why the test was disabled, but since it clearly
-> causes the manpages to be useless, we need to drop this patch.
-
-That all might be true, but DEPENDS doesn't list 'perl' or =
-'perl-native', so this commit is wrong.=
+this change looks redundant as well.
 
