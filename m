@@ -1,24 +1,24 @@
 Return-Path: <max.eliaser@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5942C60C19
+	by mail.openembedded.org (Postfix) with ESMTP id BA5F77064F
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  7 Aug 2014 21:01:50 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 07 Aug 2014 13:55:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,820,1400050800"; d="scan'208";a="584980714"
+X-IronPort-AV: E=Sophos;i="5.01,820,1400050800"; d="scan'208";a="584980713"
 Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.63])
 	by orsmga002.jf.intel.com with ESMTP; 07 Aug 2014 14:01:42 -0700
 From: Max Eliaser <max.eliaser@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Aug 2014 13:59:22 -0700
-Message-Id: <fcbfd180079c08d30c670a3146066e4a2bdeaa5d.1407445120.git.max.eliaser@intel.com>
+Date: Thu,  7 Aug 2014 13:59:21 -0700
+Message-Id: <7b1e8292ea461b6799724cd91afe530620bd0fab.1407445120.git.max.eliaser@intel.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <cover.1407445120.git.max.eliaser@intel.com>
 References: <cover.1407445120.git.max.eliaser@intel.com>
 In-Reply-To: <cover.1407445120.git.max.eliaser@intel.com>
 References: <cover.1407445120.git.max.eliaser@intel.com>
-Subject: [PATCH 2/2] ubootchart: delete ubootchart recipe
+Subject: [PATCH 1/2] bootchart2: create recipe for bootchart2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,113 +31,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 21:01:50 -0000
+X-List-Received-Date: Thu, 07 Aug 2014 21:01:51 -0000
 
-The Ubootchart recipe had known issues. Ubootchart itself is no longer updated
-upstream. Ubootchart is also now redundant with Bootchart2.
+This recipe creates packages for the bootchart2 system-wide profiler daemon
+and related utilities. It fetches the Git revision immediately past the one
+corresponding to the 0.14.6 release of bootchart2. (0.14.6 had a systemd-
+related bug that was corrected right after it was tagged.)
 
-If people still want ubootchart around, it can be moved to meta-oe.
+The recipe contains three packages:
+   *   bootchart2 - The daemon itself.
+   *   pybootchartgui - Python program to visualize and display the data
+       collected by bootchart2 or compatible daemons such as the original
+       bootchart.
+   *   bootchartd-stop-initscript - A SysV init script to stop data collection
+       when booting completes.
 
-Ubootchart removed as part of the solution to [YOCTO #5893].
+Depending on how you wish to use bootchart2, you may not end up having all
+three of those packages installed on your image.
+
+There is also a bootchart2-native variant, which is intended solely to provide
+a native version of the pybootchartgui utility. The non-cross-compiled version
+of the bootchart2 daemon has not been tested at all, don't use it.
+
+The recipe is extensively documented. Read the comments at the beginning of
+bootchart2_git.bb or else you'll have no idea how to use it.
+
+This recipe is based on a recipe from meta-WebOS. The WebOS people had some
+extra code (including patches against the bootchart2 code) to support the
+Upstart init system. However, since upstream Poky does not support Upstart,
+that stuff is being left behind. The WebOS people can write a bbappend to re-
+add it.
+
+Original recipe written by Wonhong Kwon of LG. Upstreamed as part of the
+solution to [YOCTO #5893].
 
 Signed-off-by: Max Eliaser <max.eliaser@intel.com>
 ---
- .../ubootchart/files/sysvinit.patch                | 14 --------
- .../ubootchart/files/ubootchart-stop               |  3 --
- .../ubootchart/files/ubootchart.desktop            |  6 ----
- meta/recipes-devtools/ubootchart/ubootchart_svn.bb | 39 ----------------------
- 4 files changed, 62 deletions(-)
- delete mode 100644 meta/recipes-devtools/ubootchart/files/sysvinit.patch
- delete mode 100644 meta/recipes-devtools/ubootchart/files/ubootchart-stop
- delete mode 100644 meta/recipes-devtools/ubootchart/files/ubootchart.desktop
- delete mode 100644 meta/recipes-devtools/ubootchart/ubootchart_svn.bb
+ .../bootchart2/bootchart2/bootchartd_stop.sh       |  18 +++
+ meta/recipes-devtools/bootchart2/bootchart2_git.bb | 148 +++++++++++++++++++++
+ 2 files changed, 166 insertions(+)
+ create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/bootchartd_stop.sh
+ create mode 100644 meta/recipes-devtools/bootchart2/bootchart2_git.bb
 
-diff --git a/meta/recipes-devtools/ubootchart/files/sysvinit.patch b/meta/recipes-devtools/ubootchart/files/sysvinit.patch
-deleted file mode 100644
-index fc82ed8..0000000
---- a/meta/recipes-devtools/ubootchart/files/sysvinit.patch
-+++ /dev/null
-@@ -1,14 +0,0 @@
--Upstream-Status: Inappropriate [distribution]
--
--Index: ubootchart.conf
--===================================================================
----- ubootchart.conf	(revision 9)
--+++ ubootchart.conf	(working copy)
--@@ -1,6 +1,6 @@
-- 
-- # If you want to chain on and run somthing other than /sbin/init...
---export init_prog=/sbin/init
--+export init_prog=/sbin/init.sysvinit
-- 
-- # On startup ubootchart will mount a tmpfs filesystem at this
-- # location and chdir here. This is only used for the logging of
-diff --git a/meta/recipes-devtools/ubootchart/files/ubootchart-stop b/meta/recipes-devtools/ubootchart/files/ubootchart-stop
-deleted file mode 100644
-index 3444069..0000000
---- a/meta/recipes-devtools/ubootchart/files/ubootchart-stop
-+++ /dev/null
-@@ -1,3 +0,0 @@
--#! /bin/sh
--
--kill -USR1 $(pidof ubootchartd_bin)
-diff --git a/meta/recipes-devtools/ubootchart/files/ubootchart.desktop b/meta/recipes-devtools/ubootchart/files/ubootchart.desktop
-deleted file mode 100644
-index 5552b3b..0000000
---- a/meta/recipes-devtools/ubootchart/files/ubootchart.desktop
-+++ /dev/null
-@@ -1,6 +0,0 @@
--[Desktop Entry]
--Encoding=UTF-8
--Exec=/sbin/ubootchart-stop
--Name=Stop Bootchart
--Type=Application
--Categories=Programming;
-diff --git a/meta/recipes-devtools/ubootchart/ubootchart_svn.bb b/meta/recipes-devtools/ubootchart/ubootchart_svn.bb
-deleted file mode 100644
-index b13755e..0000000
---- a/meta/recipes-devtools/ubootchart/ubootchart_svn.bb
-+++ /dev/null
-@@ -1,39 +0,0 @@
--SUMMARY = "A boot profiling tool"
--HOMEPAGE = "http://code.google.com/p/ubootchart/"
--LICENSE = "GPLv3"
--LIC_FILES_CHKSUM = "file://COPYING;md5=8f0e2cd40e05189ec81232da84bd6e1a"
--SRCREV = "12"
--PV = "0.0+r${SRCPV}"
--PR = "r6"
--
--#RRECOMMENDS_${PN} = "acct"
--
--SRC_URI = "svn://ubootchart.googlecode.com/svn/;protocol=http;module=trunk \
--        file://sysvinit.patch;striplevel=0 \
--        file://ubootchart-stop \
--        file://ubootchart.desktop"
--
--S = "${WORKDIR}/trunk"
--
--inherit update-alternatives
--
--ALTERNATIVE_${PN} = "init"
--ALTERNATIVE_TARGET[init] = "${base_sbindir}/ubootchartd"
--ALTERNATIVE_LINK_NAME[init] = "${base_sbindir}/init"
--ALTERNATIVE_PRIORITY = "70"
--
--do_compile() {
--        ${CC} ${CFLAGS} ${LDFLAGS} ${LIBS} ${INCLUDES} ${S}/ubootchartd_bin.c -o ubootchartd_bin
--}
--
--do_install() {
--        install -m 0755 -d ${D}${base_sbindir} ${D}${sysconfdir}/ubootchart ${D}${datadir}/applications
--        install -m 0755 ${S}/ubootchartd_bin ${D}${base_sbindir}
--        install -m 0755 ${S}/ubootchartd ${D}${base_sbindir}
--        install -m 0644 ${S}/ubootchart.conf ${D}${sysconfdir}/ubootchart
--        install -m 0755 ${S}/start.sh ${D}${sysconfdir}/ubootchart
--        install -m 0755 ${S}/finish.sh ${D}${sysconfdir}/ubootchart
--        
--        install -m 0755 ${WORKDIR}/ubootchart-stop ${D}${base_sbindir}
--        install -m 0644 ${WORKDIR}/ubootchart.desktop ${D}${datadir}/applications
--}
+diff --git a/meta/recipes-devtools/bootchart2/bootchart2/bootchartd_stop.sh b/meta/recipes-devtools/bootchart2/bootchart2/bootchartd_stop.sh
+new file mode 100644
+index 0000000..21a7887
+--- /dev/null
++++ b/meta/recipes-devtools/bootchart2/bootchart2/bootchartd_stop.sh
+@@ -0,0 +1,18 @@
++#!/bin/sh
++### BEGIN INIT INFO
++# Provides:          bootchartd_stop
++# Required-Start:    $remote_fs $all
++# Required-Stop: 
++# Default-Start:     2 3 4 5
++# Default-Stop:
++# Short-Description: Stop bootchartd collection
++# Description:       This script accompanies bootchartd from bootchart2. 
++#                    bootchartd should stop detect the end of the boot process
++#                    automatically if a window manager is launched, but for
++#                    command-line only operating systems, this script should be
++#                    used instead.
++### END INIT INFO
++
++/sbin/bootchartd stop
++
++: exit 0
+diff --git a/meta/recipes-devtools/bootchart2/bootchart2_git.bb b/meta/recipes-devtools/bootchart2/bootchart2_git.bb
+new file mode 100644
+index 0000000..e583852
+--- /dev/null
++++ b/meta/recipes-devtools/bootchart2/bootchart2_git.bb
+@@ -0,0 +1,148 @@
++# Copyright (c) 2013 LG Electronics, Inc.
++# Copyright (C) 2014 Intel Corp.
++
++# This recipe creates packages for the bootchart2 system-wide profiler daemon 
++# and related utilities. Depending on the images you're building, additional
++# configuration may be needed in order to use it.
++#
++# Packages:
++#   *   bootchart2 - The daemon itself.
++#   *   pybootchartgui - Python program to visualize and display the data
++#       collected by bootchart2 or compatible daemons such as the original 
++#       bootchart.
++#   *   bootchartd-stop-initscript - A SysV init script to stop data collection
++#       when booting completes (see below for details.)
++#
++# While bootchart2 is designed to stop collecting data roughly when the boot 
++# process completes, it is not exactly a stopwatch. It has a list of programs 
++# which are supposed signify that the boot process has completed (for example,
++# openbox or gnome-shell,) but it waits a full 20 seconds after such a program
++# is launched before stopping itself, to collect additional data.
++#
++# If you are using a window manager or GUI which isn't included in bootchart2's
++# default configuration file, you should write bbappend file to amend
++# bootchartd.conf and add it to EXIT_PROC. An example of this is shown in this
++# recipe, where the Matchbox window manager (used by Sato) is added.
++#
++# If you want data collection to end at a certain point exactly, you should
++# arrange for the following command to be run:
++#   bootchartd stop
++# You might set this command to be launched by the desktop environment shipped
++# on the image you're building after the other startup programs are complete.
++# This will not incur the 20 second wait period and will cause bootchart2 to
++# behave a bit more like a stopwatch. An example of this is shown in this 
++# recipe, specifically the bootchartd-stop-initscript package, which stops data
++# collection as the last action when switching to runlevels 2 through 5. You can
++# add bootchartd-stop-initscript to IMAGE_INSTALL if you need to use it.
++#
++# Unless you're doing something special, if your image does not launch an X 
++# window manager, you will need to add bootchartd-stop-initscript to your image.
++#
++# Bootchart2 can be started in two ways. Data collection can be initiated by
++# running the following command:
++#   bootchartd start
++# However, for the most complete data, the bootchart2 developers recommend
++# running it as PID 1. This can be done by adding the following to the kernel 
++# command line parameters in the bootloader setup:
++#   init=/sbin/bootchartd
++# When invoked this way, bootchart2 will set itself up and then automatically 
++# run /sbin/init. For example, when booting the default qemux86 image, one might
++# use a command like this:
++#   runqemu qemux86 bootparams="initcall_debug printk.time=y quiet \
++#                               init=/sbin/bootchartd"
++#
++# Neither method is actually implemented here, choose what works for you.
++#
++# If you are building your image with systemd instead of SysV init, bootchart2
++# includes systemd service files to begin collection automatically at boot and 
++# end collection automatically 20 seconds after the boot process has completed.
++# However, be aware that systemd tends to start bootchart2 relatively late into
++# the boot process, so it's highly recommended to use bootchart2 as PID 1. If 
++# you're using systemd and you wish to use another method to stop data
++# collection at a time of your choosing, you may do so as long as you get to it
++# before the 20 second timeout of the systemd service files. Also, you may write
++# a bbappend to patch bootchart2-done.timer.in to increase or decrease the
++# timeout. Decreasing it to 0 will make it behave like
++# bootchartd-stop-initscript.
++#
++# By default, when data collection is stopped, a file named bootchart.tgz will
++# be created in /var/log. If pybootchartgui is included in your image,
++# bootchart.png will also be created at the same time. However, this results in
++# a noticeable hitch or pause at boot time, which may not be what you want on an
++# embedded device. So you may prefer to omit pybootchartgui from your image. In
++# that case, copy bootchart.tgz over to your development system and generate
++# bootchart.png there. To get pybootchartgui on your development system, you can
++# either install it directly from some other source, or build bootchart2-native
++# and find pybootchartgui in the native sysroot:
++#    bitbake bootchart2-native
++#   ./tmp/sysroots/x86_64-linux/usr/bin/pybootchartgui /path/to/bootchart.tgz
++# Note that, whether installed on your build system or on your image, the 
++# pybootchartgui provided by this recipe does not support the -i option. You 
++# will need to install pybootchartgui by other means in order to run it in
++# interactive mode.
++
++SUMMARY = "Booting sequence and CPU,I/O usage monitor"
++DESCRIPTION = "Monitors where the system spends its time at start, creating a graph of all processes, disk utilization, and wait time."
++AUTHOR = "Wonhong Kwon <wonhong.kwon@lge.com>"
++HOMEPAGE = "https://github.com/mmeeks/bootchart"
++LICENSE = "GPL-3.0"
++LIC_FILES_CHKSUM = "file://COPYING;md5=44ac4678311254db62edf8fd39cb8124"
++
++# one commit beyond 1.14.6 for a systemd-related bugfix
++PV = "0.14.6+git${SRCPV}"
++
++SRC_URI = "git://github.com/mmeeks/bootchart.git"
++SRC_URI += "file://bootchartd_stop.sh"
++
++SRCREV = "b65ed43b0ae832080fb728245de9ef1a4b48d8b5"
++
++S = "${WORKDIR}/git"
++
++inherit systemd
++inherit update-rc.d
++inherit pythonnative
++
++# The only reason to build bootchart2-native is for a native pybootchartgui.
++BBCLASSEXTEND = "native"
++
++SYSTEMD_SERVICE_${PN} = "bootchart2.service bootchart2-done.service bootchart2-done.timer"
++
++UPDATERCPN = "bootchartd-stop-initscript"
++INITSCRIPT_NAME = "bootchartd_stop.sh"
++INITSCRIPT_PARAMS = "start 99 2 3 4 5 ."
++
++# We want native pybootchartgui to execute with the correct Python interpeter.
++do_compile_append_class-native () {
++    echo "#! ${PYTHON}" | cat - ${S}/pybootchartgui.py > ${WORKDIR}/temp_pybootchartgui
++    mv ${WORKDIR}/temp_pybootchartgui ${S}/pybootchartgui.py
++    chmod +x ${S}/pybootchartgui
++}
++
++do_install () {
++    install -d ${D}${sysconfdir} # needed for -native
++    export PY_LIBDIR="${libdir}/${PYTHON_DIR}"
++    export BINDIR="${bindir}"
++    export DESTDIR="${D}"
++
++    oe_runmake install
++    install -d ${D}${sysconfdir}/init.d
++    install -m 0755 ${WORKDIR}/bootchartd_stop.sh ${D}${sysconfdir}/init.d
++
++    echo 'EXIT_PROC="$EXIT_PROC matchbox-window-manager"' >> ${D}${sysconfdir}/bootchartd.conf
++}
++
++PACKAGES =+ "pybootchartgui"
++FILES_pybootchartgui += "${libdir}/python*/site-packages/pybootchartgui ${bindir}/pybootchartgui"
++RDEPENDS_pybootchartgui = "python-pycairo python-compression python-image python-textutils python-shell python-compression python-codecs"
++DEPENDS_append_class-native = " python-pycairo-native"
++
++PACKAGES =+ "bootchartd-stop-initscript"
++FILES_bootchartd-stop-initscript += "${sysconfdir}/init.d ${sysconfdir}/rc*.d"
++
++FILES_${PN} += "${base_libdir}/bootchart/bootchart-collector"
++FILES_${PN} += "${base_libdir}/bootchart/tmpfs"
++FILES_${PN} += "${libdir}"
++FILES_${PN}-dbg += "${base_libdir}/bootchart/.debug"
++FILES_${PN}-doc += "${datadir}/docs"
++
++RCONFLICTS_${PN} = "bootchart"
 -- 
 1.8.3.2
 
