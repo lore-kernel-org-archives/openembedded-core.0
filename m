@@ -1,34 +1,25 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
-	[209.85.216.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BDB761FE4
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa09-05.prod.phx3.secureserver.net
+	(p3plsmtpa09-05.prod.phx3.secureserver.net [173.201.193.234])
+	by mail.openembedded.org (Postfix) with ESMTP id 7738460144
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 09:31:32 +0000 (UTC)
-Received: by mail-qa0-f44.google.com with SMTP id f12so3675729qad.17
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Aug 2014 02:31:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=NYLihHrhvMgP6vRRT/kdbBzErv2iIY6rWx089OvbdfY=;
-	b=RiWjh7ggctVx50suSh9/3T5oHlzx0ww6YbXTOsYF9mXBcbdqjDrWaXYf+k03RjqE0W
-	SWSoK3kRDXOvUmEh3XopcK4h8vbCxZm+tk0f4rBzQ0bfAKFkrrMnElRxyefz3TWK+eOh
-	BSG1F2Elvlaoo/qV4zHbLxCmbQ7GjeeDLatFjeV4VTUgC0QDXUPWsh/Ge7TvUaV52Whd
-	ltusLDKJWgLcAj5JRDEGhm9QX4xMYt4Nt9Z+pDib81S9bNCjr93qyIMTeVWZHNOXiVJG
-	fxUl5Wb9ahDYCzOWH3D1KnrvOHO2mI/v7QTHZglEC3PgrOw8WulsA+38cBHHbawRpETC
-	tzpQ==
-X-Received: by 10.140.51.37 with SMTP id t34mr11091543qga.50.1407403893249;
-	Thu, 07 Aug 2014 02:31:33 -0700 (PDT)
+	Thu,  7 Aug 2014 09:52:25 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa09-05.prod.phx3.secureserver.net with 
+	id blsP1o00Q1mTNtu01lsQyw; Thu, 07 Aug 2014 02:52:26 -0700
+Message-ID: <53E34C57.6010100@pabigot.com>
+Date: Thu, 07 Aug 2014 04:52:23 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-Received: by 10.140.41.148 with HTTP; Thu, 7 Aug 2014 02:31:13 -0700 (PDT)
-In-Reply-To: <1407403457-25490-1-git-send-email-sujith.h@gmail.com>
-References: <1407403457-25490-1-git-send-email-sujith.h@gmail.com>
-From: sujith h <sujith.h@gmail.com>
-Date: Thu, 7 Aug 2014 15:01:13 +0530
-Message-ID: <CADyYWLmC56Qy5kd8yQdkC7cs=7_fBPtaNQW4_7skeOiJDT-Hsw@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH] opkg-utils: allow disabling update-alternatives
+To: Otavio Salvador <otavio@ossystems.com.br>, Khem Raj <raj.khem@gmail.com>
+References: <53C3A130.4000900@pabigot.com>	<53DC39DE.5020105@pabigot.com>
+	<CAP9ODKo8dwJvw9cwDKEY0fQNo6Z+NrxavZtZs1AjcvQgHc_5JQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKo8dwJvw9cwDKEY0fQNo6Z+NrxavZtZs1AjcvQgHc_5JQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: patchwork client problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,169 +32,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 09:31:37 -0000
-Content-Type: multipart/alternative; boundary=001a11351a5a1ce2b4050006c10c
+X-List-Received-Date: Thu, 07 Aug 2014 09:52:27 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11351a5a1ce2b4050006c10c
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 08/04/2014 03:16 PM, Otavio Salvador wrote:
+> On Fri, Aug 1, 2014 at 10:07 PM, Peter A. Bigot <pab@pabigot.com> wrote:
+>> On 07/14/2014 04:21 AM, Peter A. Bigot wrote:
+>>> I'm finding attempts to use pwclient on
+>>> http://patches.openembedded.org/xmlrpc/ produce an ExpatError because the
+>>> returned document is always empty (per a wireshark trace of the
+>>> transaction).  Can somebody confirm that the server for the command-line
+>>> client is working properly?  Thanks.
+>>>
+>>> Peter
+>>>
+>> I've downloaded a fresh copy of pwclient from
+>> http://patches.openembedded.org/help/pwclient/
+>>
+>> I've verified my .pwclientrc is exactly what the project info tells me it
+>> should be:
+>>
+>> [base]
+>> url: http://patches.openembedded.org/xmlrpc/
+>> project: oe-core
+>>
+>> I've verified that pwclient works with other servers.
+>>
+>> And I still get empty documents back from the OE patchwork server for every
+>> pwclient command I try.
+>>
+>> Anybody have any idea what's going wrong?
+>>
+>> Thanks.
+>>
+>> Peter
+>>
+>> llc[40]$ /tmp/pwclient projects
+>> Traceback (most recent call last):
+>>    File "/tmp/pwclient", line 500, in <module>
+>>      main()
+>>    File "/tmp/pwclient", line 439, in main
+>>      action_projects(rpc)
+>>    File "/tmp/pwclient", line 213, in action_projects
+>>      projects = rpc.project_list("", 0)
+>>    File "/usr/lib/python2.7/xmlrpclib.py", line 1224, in __call__
+>>      return self.__send(self.__name, args)
+>>    File "/usr/lib/python2.7/xmlrpclib.py", line 1578, in __request
+>>      verbose=self.__verbose
+>>    File "/usr/lib/python2.7/xmlrpclib.py", line 1264, in request
+>>      return self.single_request(host, handler, request_body, verbose)
+>>    File "/usr/lib/python2.7/xmlrpclib.py", line 1297, in single_request
+>>      return self.parse_response(response)
+>>    File "/usr/lib/python2.7/xmlrpclib.py", line 1471, in parse_response
+>>      p.close()
+>>    File "/usr/lib/python2.7/xmlrpclib.py", line 560, in close
+>>      self._parser.Parse("", 1) # end of data
+>> xml.parsers.expat.ExpatError: no element found: line 1, column 0
+> I have same error; I am adding Khem who I know has access to the
+> server and can know more about it.
 
-Hi Paul Eggleton,
+Thanks for confirming this isn't just me.
 
+It's a bit of a problem, since without a working pwclient I can't tell 
+if there's already a patch that does what I need.  If there's a way to 
+search through the browser interface I haven't figured it out.
 
-On Thu, Aug 7, 2014 at 2:54 PM, Sujith H <sujith.h@gmail.com> wrote:
+Khem, if I can help with diagnosis please let me know.
 
-> From: Sujith H <Sujith_Haridasan@mentor.com>
->
-> This is needed to deal with the situation where we're using ipk packaging=
-,
-> so
-> opkg-utils must be built regardless of what update-alternatives provider =
-we
-> prefer. The downside to the current implementation is the need to adjust
-> PACKAGECONFIG as well as PREFERRED_PROVIDER, but it is more explicit that
-> way.
->
-> Signed-off-by: Christopher Larson <kergoth@gmail.com>
-> Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
-> ---
->  meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> index 693c216..9364740 100644
-> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> @@ -19,11 +19,17 @@ TARGET_CC_ARCH +=3D "${LDFLAGS}"
->  PYTHONRDEPS =3D "python python-shell python-io python-math python-crypt
-> python-logging python-fcntl python-subprocess python-pickle
-> python-compression python-textutils python-stringold"
->  PYTHONRDEPS_class-native =3D ""
->
-> -PACKAGECONFIG =3D "python"
-> +PACKAGECONFIG =3D "python update-alternatives"
->  PACKAGECONFIG[python] =3D ",,,${PYTHONRDEPS}"
-> +PACKAGECONFIG[update-alternatives] =3D ",,,"
-> +
-> +PROVIDES +=3D "${@'virtual/update-alternatives' if 'update-alternatives'=
- in
-> PACKAGECONFIG.split() else ''}"
->
->  do_install() {
->         oe_runmake PREFIX=3D${prefix} DESTDIR=3D${D} install
-> +        if ${@'true' if 'update-alternatives' not in
-> PACKAGECONFIG.split() else 'false'}; then
-> +            rm -f "${D}${bindir}/update-alternatives"
-> +        fi
->  }
->
->  PACKAGES =3D+ "update-alternatives-opkg"
-> --
-> 1.8.4
->
->
-In this change I am adding it to PROVIDES only if its required. Hope this
-change looks ok?
-
-Thanks,
-Sujith H
-
---=20
-=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
-=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
-Bangalore
-<Project>Contributor to KDE project
-http://fci.wikia.com/wiki/Anti-DRM-Campaign
-<Blog> http://sujithh.info
-
---001a11351a5a1ce2b4050006c10c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Paul Eggleton,<span class=3D""><span class=3D""><span><=
-/span><span></span></span></span><div><div class=3D"gmail_extra"><br><br><d=
-iv class=3D"gmail_quote">On Thu, Aug 7, 2014 at 2:54 PM, Sujith H <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:sujith.h@gmail.com" target=3D"_blank">sujith=
-.h@gmail.com</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">From: Sujith H &lt;<a hre=
-f=3D"mailto:Sujith_Haridasan@mentor.com">Sujith_Haridasan@mentor.com</a>&gt=
-;<br>
+Peter
 
 
-<br>
-This is needed to deal with the situation where we&#39;re using ipk packagi=
-ng, so<br>
-opkg-utils must be built regardless of what update-alternatives provider we=
-<br>
-prefer. The downside to the current implementation is the need to adjust<br=
->
-PACKAGECONFIG as well as PREFERRED_PROVIDER, but it is more explicit that w=
-ay.<br>
-<br>
-Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:kergoth@gmail.com">=
-kergoth@gmail.com</a>&gt;<br>
-Signed-off-by: Sujith H &lt;<a href=3D"mailto:Sujith_Haridasan@mentor.com">=
-Sujith_Haridasan@mentor.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/opkg-utils/<a href=3D"http://opkg-utils_git.bb"=
- target=3D"_blank">opkg-utils_git.bb</a> | 8 +++++++-<br>
-=C2=A01 file changed, 7 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/opkg-utils/<a href=3D"http://opkg-utils_=
-git.bb" target=3D"_blank">opkg-utils_git.bb</a> b/meta/recipes-devtools/opk=
-g-utils/<a href=3D"http://opkg-utils_git.bb" target=3D"_blank">opkg-utils_g=
-it.bb</a><br>
-
-
-index 693c216..9364740 100644<br>
---- a/meta/recipes-devtools/opkg-utils/<a href=3D"http://opkg-utils_git.bb"=
- target=3D"_blank">opkg-utils_git.bb</a><br>
-+++ b/meta/recipes-devtools/opkg-utils/<a href=3D"http://opkg-utils_git.bb"=
- target=3D"_blank">opkg-utils_git.bb</a><br>
-@@ -19,11 +19,17 @@ TARGET_CC_ARCH +=3D &quot;${LDFLAGS}&quot;<br>
-=C2=A0PYTHONRDEPS =3D &quot;python python-shell python-io python-math pytho=
-n-crypt python-logging python-fcntl python-subprocess python-pickle python-=
-compression python-textutils python-stringold&quot;<br>
-=C2=A0PYTHONRDEPS_class-native =3D &quot;&quot;<br>
-<br>
--PACKAGECONFIG =3D &quot;python&quot;<br>
-+PACKAGECONFIG =3D &quot;python update-alternatives&quot;<br>
-=C2=A0PACKAGECONFIG[python] =3D &quot;,,,${PYTHONRDEPS}&quot;<br>
-+PACKAGECONFIG[update-alternatives] =3D &quot;,,,&quot;<br>
-+<br>
-+PROVIDES +=3D &quot;${@&#39;virtual/update-alternatives&#39; if &#39;updat=
-e-alternatives&#39; in PACKAGECONFIG.split() else &#39;&#39;}&quot;<br>
-<br>
-=C2=A0do_install() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake PREFIX=3D${prefix} DESTDIR=3D${D} in=
-stall<br>
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0if ${@&#39;true&#39; if &#39;update-alternativ=
-es&#39; not in PACKAGECONFIG.split() else &#39;false&#39;}; then<br>
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f &quot;${D}${bindir}/update=
--alternatives&quot;<br>
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-=C2=A0}<br>
-<br>
-=C2=A0PACKAGES =3D+ &quot;update-alternatives-opkg&quot;<br>
-<span class=3D""><font color=3D"#888888">--<br>
-1.8.4<br>
-<br>
-</font></span></blockquote></div><br></div><div class=3D"gmail_extra">In th=
-is change I am adding it to PROVIDES only if its required. Hope this change=
- looks ok?<br><br></div><div class=3D"gmail_extra">Thanks,<br>Sujith H<br c=
-lear=3D"all">
-
-</div><div class=3D"gmail_extra"><br>-- <br>=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=
-=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=
-=B4=B8=E0=B4=A8=E0=B5=8D<br>Bangalore<br>&lt;Project&gt;Contributor to KDE =
-project<br><a href=3D"http://fci.wikia.com/wiki/Anti-DRM-Campaign" target=
-=3D"_blank">http://fci.wikia.com/wiki/Anti-DRM-Campaign</a><br>
-
-&lt;Blog&gt; <a href=3D"http://sujithh.info" target=3D"_blank">http://sujit=
-hh.info</a><br>
-</div></div></div>
-
---001a11351a5a1ce2b4050006c10c--
