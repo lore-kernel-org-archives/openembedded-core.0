@@ -1,24 +1,20 @@
 Return-Path: <max.eliaser@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 87A887064F
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CBFA47064F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 20:34:12 +0000 (UTC)
+	Thu,  7 Aug 2014 20:34:27 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 07 Aug 2014 13:34:12 -0700
+	by orsmga102.jf.intel.com with ESMTP; 07 Aug 2014 13:28:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,820,1400050800"; d="scan'208";a="555365116"
+X-IronPort-AV: E=Sophos;i="5.01,820,1400050800"; d="scan'208";a="555365113"
 Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.63])
 	by orsmga001.jf.intel.com with ESMTP; 07 Aug 2014 13:33:45 -0700
 From: Max Eliaser <max.eliaser@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Aug 2014 13:31:34 -0700
-Message-Id: <12c7b6d532d39e2c8bcd7f724867dcdd510c7e3d.1407443396.git.max.eliaser@intel.com>
+Date: Thu,  7 Aug 2014 13:31:31 -0700
+Message-Id: <cover.1407443396.git.max.eliaser@intel.com>
 X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <cover.1407443396.git.max.eliaser@intel.com>
-References: <cover.1407443396.git.max.eliaser@intel.com>
-In-Reply-To: <cover.1407443396.git.max.eliaser@intel.com>
-References: <cover.1407443396.git.max.eliaser@intel.com>
-Subject: [PATCH 3/3] qemux86-64: support X11 when QEMU is emulating a different GPU than vmware
+Subject: [PATCH 0/3] Add xf86-video-fbdev and xf86-video-cirrus to qemux86 and qemux86-64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,58 +27,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 20:34:14 -0000
+X-List-Received-Date: Thu, 07 Aug 2014 20:34:28 -0000
 
-QEMU is capable of emulating four different VGA adapters: cirrus, std, vmware,
-and QXL. By adding the cirrus and fbdev X.Org drivers to the qemux86-64 image,
-the image can be made to launch an X server on when cirrus and std are chosen,
-in addition to just vmware. (The build of QEMU in OE-Core appears to have QXL
-disabled, meaning a driver for it is unnecessary.)
+Hello list,
 
-The runqemu script now allows the choice of emulated VGA adapter to be
-specified manually, so it's important that qemux86-64 supports any
-configuration the user might choose without requiring the image to be rebuilt.
+This series adds additional x.org drivers to the qemux86 and qemux86-64
+machines. Now, instead of just including the "vmware" driver, GUI images for
+these machines will also include "cirrus" and "fbdev" drivers. Rationale: now
+that the runqemu script allows users to select which VGA adapter they want
+qemu to emulate, the qemu images should be able to start X servers with any
+adapter without requiring a rebuild of the image.
 
-In addition to adding the two extra drivers to the qemux86-64 image, a section
-specifying the driver to use is deleted from the image's xorg.conf, allowing
-the X server to automatically select the most appropriate driver. Testing
-shows that it does always pick the correct one.
+Note that the drivers have only been added to the qemux86 and qemux86-64
+machines. If someone is interested in trying them on the other qemu machines,
+they shouldn't be hard to add.
 
-Signed-off-by: Max Eliaser <max.eliaser@intel.com>
----
- meta/conf/machine/qemux86-64.conf                                    | 2 ++
- .../xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf            | 5 -----
- 2 files changed, 2 insertions(+), 5 deletions(-)
+xf86-video-cirrus did not previously have a recipe, so a new one is also added
+as part of this series.
 
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
-index 642a2d9..837f9f4 100644
---- a/meta/conf/machine/qemux86-64.conf
-+++ b/meta/conf/machine/qemux86-64.conf
-@@ -20,6 +20,8 @@ XSERVER = "xserver-xorg \
-            xf86-input-vmmouse \
-            xf86-input-keyboard \
-            xf86-input-evdev \
-+           xf86-video-cirrus \
-+           xf86-video-fbdev \
-            xf86-video-vmware"
- 
- MACHINE_FEATURES += "x86"
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
-index 10a6d9a..bbda9ea 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
-@@ -30,11 +30,6 @@ Section "InputDevice"
-     Option        "USB"           "on"
- EndSection
- 
--Section "Device"
--    Identifier    "Graphics Controller"
--    Driver        "vmware"
--EndSection
--
- Section "Monitor"
-     Identifier    "Generic Monitor"
-     Option        "DPMS"
+Regards,
+-Max Eliaser
+The following changes since commit 5452824960e8e77005a25ac11fd069d927523d3e:
+
+  default-distrovars.inc: Remove unused variable 'LIMIT_BUILT_LOCALES' (2014-06-13 13:08:44 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib meliaser/qemu-x-drivers
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=meliaser/qemu-x-drivers
+
+Max Eliaser (3):
+  xorg-drivers: xf86-video-cirrus: add a recipe for the Cirrus Logic
+    X.Org driver
+  qemux86: support X11 when QEMU is emulating a different GPU than
+    vmware
+  qemux86-64: support X11 when QEMU is emulating a different GPU than
+    vmware
+
+ meta/conf/machine/qemux86-64.conf                           |  2 ++
+ meta/conf/machine/qemux86.conf                              |  2 ++
+ .../recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb | 13 +++++++++++++
+ .../xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf   |  5 -----
+ .../xorg-xserver/xserver-xf86-config/qemux86/xorg.conf      |  5 -----
+ 5 files changed, 17 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb
+
 -- 
 1.8.3.2
 
