@@ -1,24 +1,24 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E007601A0
+	by mail.openembedded.org (Postfix) with ESMTP id 18BC0709FF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 15:25:51 +0000 (UTC)
+	Thu,  7 Aug 2014 15:26:01 +0000 (UTC)
 Received: from frontend1.mail.m-online.net (frontend1.mail.intern.m-online.net
 	[192.168.8.180])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3hTYSJ0zlxz3hhpH;
-	Thu,  7 Aug 2014 17:25:52 +0200 (CEST)
-X-Auth-Info: 6XimPgoQB4sWwEmR0/wxJU5RlCw+CWBgh52HMEBCNyc=
+	by mail-out.m-online.net (Postfix) with ESMTP id 3hTYSV1slDz3hhqW;
+	Thu,  7 Aug 2014 17:26:02 +0200 (CEST)
+X-Auth-Info: 0vjjPgd9IeYpT0GHZqhmkSrtwWKqlUuwg77fqjy2CCc=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3hTYSJ03N8z7S6S5; 
-	Thu,  7 Aug 2014 17:25:51 +0200 (CEST)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3hTYSV0bbZz7S6S5; 
+	Thu,  7 Aug 2014 17:26:02 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Aug 2014 17:25:46 +0200
-Message-Id: <1407425146-2610-1-git-send-email-marex@denx.de>
+Date: Thu,  7 Aug 2014 17:25:57 +0200
+Message-Id: <1407425157-2736-1-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.0.0
 MIME-Version: 1.0
 Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH][RESEND] Yocto: qt4: Avoid duplicate flags in the g++-unix.conf
+Subject: [PATCH] Yocto: qt4: Let qmake control some compiler/linker flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,69 +31,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 15:25:51 -0000
+X-List-Received-Date: Thu, 07 Aug 2014 15:26:01 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The removed flags from this g++.conf file, which is installed to the
-target as g++-unix.conf are added by gcc-base.conf . Do not add those
-flags twice.
+In the case of building an Qt application outside of the Yocto
+build system, we want to make sure that a "debug" configuration
+of the application does contain debug symbols and is has the
+compiler optimalization unset. On the other hand, we want to
+have a "release" build which does not contain the debug symbols
+and has the compiler optimalization turned on.
+
+The OE_QMAKE_* flags serve to pass all kinds of flags into the
+qmake-generated Makefile. Currently, we set OE_QMAKE_CFLAGS to
+be ${CFLAGS} and ditto for CXXFLAGS and LDFLAGS in the SDK
+toolchain environment script. This poses a problem, since the
+CFLAGS can contain optimization options (-O*) and even flags to
+produce debugging info (-g). The LDFLAGS may also contain some
+harmful flags.
+
+The easy way out is to let qmake's army of configuration files
+handle the proper configuration of CFLAGS, CXXFLAGS and LDFLAGS
+for the generated Makefile and don't interfere with qmake's
+decisions by adding arbitrary flags. This patch completely
+scrubs OE_QMAKE_C{,XX}FLAGS and leaves only harmless flags in
+OE_QMAKE_LDFLAGS. With this patch, the behavior is as it is
+explained in the first paragraph.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Eric Bénard <eric@eukrea.com>
 ---
- meta/recipes-qt/qt4/qt4-4.8.5/g++.conf | 25 ++-----------------------
- 1 file changed, 2 insertions(+), 23 deletions(-)
+ meta/recipes-qt/meta/meta-toolchain-qt.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/g++.conf b/meta/recipes-qt/qt4/qt4-4.8.5/g++.conf
-index 8755031..be78c24 100644
---- a/meta/recipes-qt/qt4/qt4-4.8.5/g++.conf
-+++ b/meta/recipes-qt/qt4/qt4-4.8.5/g++.conf
-@@ -5,32 +5,14 @@
- QMAKE_COMPILER = gcc
+diff --git a/meta/recipes-qt/meta/meta-toolchain-qt.inc b/meta/recipes-qt/meta/meta-toolchain-qt.inc
+index c9bdeae..6b162bd 100644
+--- a/meta/recipes-qt/meta/meta-toolchain-qt.inc
++++ b/meta/recipes-qt/meta/meta-toolchain-qt.inc
+@@ -7,9 +7,9 @@ require recipes-core/meta/meta-toolchain.bb
+ QT_TOOLS_PREFIX = "${SDKPATHNATIVE}${bindir_nativesdk}"
  
- QMAKE_CC       = $(OE_QMAKE_CC)
--QMAKE_CFLAGS       += -pipe $(OE_QMAKE_CFLAGS)
-+QMAKE_CFLAGS       += $(OE_QMAKE_CFLAGS)
- QMAKE_CFLAGS_RELEASE_WITH_DEBUGINFO += $(OE_QMAKE_CFLAGS)
--QMAKE_CFLAGS_DEPS	+= -M
--QMAKE_CFLAGS_WARN_ON	+= -Wall -W
--QMAKE_CFLAGS_WARN_OFF	+= -w
--QMAKE_CFLAGS_RELEASE	+=
--QMAKE_CFLAGS_DEBUG	+= -g
--QMAKE_CFLAGS_SHLIB	+= -fPIC
--QMAKE_CFLAGS_STATIC_LIB	+= -fPIC
--QMAKE_CFLAGS_YACC	+= -Wno-unused -Wno-parentheses
--QMAKE_CFLAGS_HIDESYMS   += -fvisibility=hidden
- QMAKE_CFLAGS_PRECOMPILE += -x c-header -c ${QMAKE_PCH_INPUT} -o ${QMAKE_PCH_OUTPUT}
- QMAKE_CFLAGS_USE_PRECOMPILE += -include ${QMAKE_PCH_OUTPUT_BASE}
- 
- QMAKE_CXX      = $(OE_QMAKE_CXX)
--QMAKE_CXXFLAGS     += $$QMAKE_CFLAGS $(OE_QMAKE_CXXFLAGS)
--QMAKE_CXXFLAGS_DEPS	+= $$QMAKE_CFLAGS_DEPS
--QMAKE_CXXFLAGS_WARN_ON	+= $$QMAKE_CFLAGS_WARN_ON
--QMAKE_CXXFLAGS_WARN_OFF	+= $$QMAKE_CFLAGS_WARN_OFF
--QMAKE_CXXFLAGS_RELEASE	+= $$QMAKE_CFLAGS_RELEASE
-+QMAKE_CXXFLAGS     += $(OE_QMAKE_CXXFLAGS)
- QMAKE_CXXFLAGS_RELEASE_WITH_DEBUGINFO += $$QMAKE_CFLAGS_RELEASE_WITH_DEBUGINFO
--QMAKE_CXXFLAGS_DEBUG	+= $$QMAKE_CFLAGS_DEBUG
--QMAKE_CXXFLAGS_SHLIB	+= $$QMAKE_CFLAGS_SHLIB
--QMAKE_CXXFLAGS_STATIC_LIB += $$QMAKE_CFLAGS_STATIC_LIB
--QMAKE_CXXFLAGS_YACC	+= $$QMAKE_CFLAGS_YACC
--QMAKE_CXXFLAGS_HIDESYMS += $$QMAKE_CFLAGS_HIDESYMS -fvisibility-inlines-hidden
- QMAKE_CXXFLAGS_PRECOMPILE += -x c++-header -c ${QMAKE_PCH_INPUT} -o ${QMAKE_PCH_OUTPUT}
- QMAKE_CXXFLAGS_USE_PRECOMPILE = $$QMAKE_CFLAGS_USE_PRECOMPILE
- 
-@@ -39,9 +21,6 @@ QMAKE_LINK_SHLIB   = $(OE_QMAKE_LINK)
- QMAKE_LINK_C		= $(OE_QMAKE_LINK)
- QMAKE_LINK_C_SHLIB	= $(OE_QMAKE_LINK)
- QMAKE_LFLAGS       += $(OE_QMAKE_LDFLAGS)
--QMAKE_LFLAGS_RELEASE	+=
--QMAKE_LFLAGS_DEBUG	+=
--QMAKE_LFLAGS_APP	+=
- QMAKE_LFLAGS_NOUNDEF	+= -Wl,--no-undefined
- QMAKE_LFLAGS_RPATH        = -Wl,-rpath-link,
- 
+ toolchain_create_sdk_env_script_append() {
+-    echo 'export OE_QMAKE_CFLAGS="$CFLAGS"' >> $script
+-    echo 'export OE_QMAKE_CXXFLAGS="$CXXFLAGS"' >> $script
+-    echo 'export OE_QMAKE_LDFLAGS="$LDFLAGS"' >> $script
++    echo 'export OE_QMAKE_CFLAGS=""' >> $script
++    echo 'export OE_QMAKE_CXXFLAGS=""' >> $script
++    echo 'export OE_QMAKE_LDFLAGS="${TARGET_LINK_HASH_STYLE}"' >> $script
+     echo 'export OE_QMAKE_CC=$CC' >> $script
+     echo 'export OE_QMAKE_CXX=$CXX' >> $script
+     echo 'export OE_QMAKE_LINK=$CXX' >> $script
 -- 
 2.0.1
 
