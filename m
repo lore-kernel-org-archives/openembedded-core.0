@@ -1,31 +1,34 @@
-Return-Path: <stephen.arnold42@gmail.com>
-Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DE136FE5C
+Return-Path: <giuseppe.condorelli@gmail.com>
+Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id B68E96FE5C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 14:43:12 +0000 (UTC)
-Received: by mail-we0-f178.google.com with SMTP id w61so4396931wes.9
+	Thu,  7 Aug 2014 14:51:58 +0000 (UTC)
+Received: by mail-ob0-f172.google.com with SMTP id wn1so2969323obc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Aug 2014 07:43:13 -0700 (PDT)
+	Thu, 07 Aug 2014 07:52:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=yTWyPO3uey8B0Q6VOvVxWXi2tZa2TDd0+B67Jr8z9fQ=;
-	b=vW8zceuSBM08pQlFE+4DbmQFmk95WZuVnzUY8tRIqz7H3kibcer8cova0IQFwDuftX
-	PAG9ZLDrJ9GGkCbnQLUaOAf8UF4GqJ/eA7G7pixjv+/zmiWHMDamfGmXGEC4QwnEW9Q7
-	7+QAnuRabBM26PZBf6v4bN4M2fFYpJDN8Z8q8hbFCIL38TbJlANZQCOrF76SCbJbatqM
-	kUWywZn1maTDl9iJW45ftiwZg6WfttDEe9M12sYWbwtAefukJ702XFKFw6v+IFpXGQ2J
-	J+56x2DOlbNu0tg/eW1eof+71ptdtkGKcTV88vcO2uInbpMEma4QvQhUeJZmn7y+3+lh
-	jJjQ==
+	:cc:content-type;
+	bh=GC8ZrMXgBke0w7WMhYztk1KGYFOg7WWLg4gFX2Ito0A=;
+	b=qvXFm+jJJSYoIf0RrO2dc5QGsuGigmsf4BelZHqFHm3uc1weNtGrLmkWE/+8fDnD61
+	CWcz8bvuppaCDUmIn4DZHh5W4Bxq6ct6PuzmfZe1RYNCziRlURzSNKy15B4PshhD/T/s
+	3WkMdjlT+tiB0SeHNekWuw6AgI+Ck2afzAjmtrziWTcZXi0edj8MZxsJGncIFU56xGEf
+	SVLjBzGA3Dp4KouDc6nddiRef/kg7R15Ml61cyI56W4N40Y7amEQh79WxWZc1CCsOKNy
+	vjqBMhTFModjQHPmH4IJbD2UZnKD/b1f1aLcPUsZ0nXNriB4+upRC/IFU2LNXjBCrn0S
+	XLDw==
 MIME-Version: 1.0
-X-Received: by 10.180.92.104 with SMTP id cl8mr57847316wib.43.1407422593446;
-	Thu, 07 Aug 2014 07:43:13 -0700 (PDT)
-Received: by 10.194.164.165 with HTTP; Thu, 7 Aug 2014 07:43:13 -0700 (PDT)
-In-Reply-To: <CAOHjBZt0MW329iM2UNFUs3bZuAR61tA1Y9k4dt--hDoy3fh=AQ@mail.gmail.com>
+X-Received: by 10.182.27.5 with SMTP id p5mr23832372obg.42.1407423119716; Thu,
+	07 Aug 2014 07:51:59 -0700 (PDT)
+Received: by 10.182.92.137 with HTTP; Thu, 7 Aug 2014 07:51:59 -0700 (PDT)
+In-Reply-To: <CAOLEWZV=ifTbkm+0owRh404z5aakvGEqwPzjWo_i8pLYNy7qiw@mail.gmail.com>
 References: <CAOHjBZt0MW329iM2UNFUs3bZuAR61tA1Y9k4dt--hDoy3fh=AQ@mail.gmail.com>
-Date: Thu, 7 Aug 2014 07:43:13 -0700
-Message-ID: <CAOLEWZV=ifTbkm+0owRh404z5aakvGEqwPzjWo_i8pLYNy7qiw@mail.gmail.com>
-From: Stephen Arnold <stephen.arnold42@gmail.com>
-To: Patches and discussions about the oe-core layer
+	<CAOLEWZV=ifTbkm+0owRh404z5aakvGEqwPzjWo_i8pLYNy7qiw@mail.gmail.com>
+Date: Thu, 7 Aug 2014 16:51:59 +0200
+Message-ID: <CAOHjBZsd65LB=5amgg-dkSMe1K1zBnAP5rNuwATivvYd-_ir0A@mail.gmail.com>
+From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+To: Stephen Arnold <stephen.arnold42@gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: How to force patch application
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -40,37 +43,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 14:43:15 -0000
-Content-Type: multipart/alternative; boundary=f46d0434bf16bb3ad105000b1b34
+X-List-Received-Date: Thu, 07 Aug 2014 14:52:06 -0000
+Content-Type: multipart/alternative; boundary=089e0115f6cc1b166205000b3b07
 
---f46d0434bf16bb3ad105000b1b34
+--089e0115f6cc1b166205000b3b07
 Content-Type: text/plain; charset=UTF-8
 
-Not sure if there's an easy way with quilt (check the quilt options) but a
-relatively easy way would be to use your own patch routine (essentially
-anything you want).  One thing you could do is disable the normal patch
-application (add ";patch=0" to the end of the patch line in SRC_URI) and
-then use your own do_patch to force it (if that's really what you want to
-do).  I guess I would ask "why?" and if it were me I'd just reroll the
-patch and fix it.  But I don't know what the real problem is, so...
+Hi Steve,
 
-Steve
+thanks for the reply.
 
+The problem is that I need to force a patch application (like patch --force
+option) at my own risk.
+Do you see any solution?
+Giuseppe
 
 
-On Thu, Aug 7, 2014 at 6:14 AM, Giuseppe Condorelli <
-giuseppe.condorelli@gmail.com> wrote:
+2014-08-07 16:43 GMT+02:00 Stephen Arnold <stephen.arnold42@gmail.com>:
 
-> Hi All,
+> Not sure if there's an easy way with quilt (check the quilt options) but a
+> relatively easy way would be to use your own patch routine (essentially
+> anything you want).  One thing you could do is disable the normal patch
+> application (add ";patch=0" to the end of the patch line in SRC_URI) and
+> then use your own do_patch to force it (if that's really what you want to
+> do).  I guess I would ask "why?" and if it were me I'd just reroll the
+> patch and fix it.  But I don't know what the real problem is, so...
 >
-> please can I know if is it possible, using the do_patch routine,
-> to force the application of a given patch?
-> I mean, like the patch --force command.
+> Steve
 >
-> Please let me know, I tried w/o good result.
 >
-> Best Regards,
-> Giuseppe
+>
+> On Thu, Aug 7, 2014 at 6:14 AM, Giuseppe Condorelli <
+> giuseppe.condorelli@gmail.com> wrote:
+>
+>> Hi All,
+>>
+>> please can I know if is it possible, using the do_patch routine,
+>> to force the application of a given patch?
+>> I mean, like the patch --force command.
+>>
+>> Please let me know, I tried w/o good result.
+>>
+>> Best Regards,
+>> Giuseppe
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
 >
 > --
 > _______________________________________________
@@ -80,30 +103,54 @@ giuseppe.condorelli@gmail.com> wrote:
 >
 >
 
---f46d0434bf16bb3ad105000b1b34
+--089e0115f6cc1b166205000b3b07
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Not sure if there&#39;s an easy way with quilt (check=
- the quilt options) but a relatively easy way would be to use your own patc=
-h routine (essentially anything you want).=C2=A0 One thing you could do is =
-disable the normal patch application (add &quot;;patch=3D0&quot; to the end=
- of the patch line in SRC_URI) and then use your own do_patch to force it (=
-if that&#39;s really what you want to do).=C2=A0 I guess I would ask &quot;=
-why?&quot; and if it were me I&#39;d just reroll the patch and fix it.=C2=
-=A0 But I don&#39;t know what the real problem is, so...<br>
-<br></div>Steve<br><br></div><div class=3D"gmail_extra"><br><br><div class=
-=3D"gmail_quote">On Thu, Aug 7, 2014 at 6:14 AM, Giuseppe Condorelli <span =
-dir=3D"ltr">&lt;<a href=3D"mailto:giuseppe.condorelli@gmail.com" target=3D"=
-_blank">giuseppe.condorelli@gmail.com</a>&gt;</span> wrote:<br>
+<div dir=3D"ltr"><div>Hi Steve,</div><div>=C2=A0</div><div>thanks for the r=
+eply.</div><div>=C2=A0</div><div>The problem is that I need to force a patc=
+h application (like patch --force option) at my own risk.</div><div>Do you =
+see any solution?</div>
+<div>Giuseppe</div></div><div class=3D"gmail_extra"><br><br><div class=3D"g=
+mail_quote">2014-08-07 16:43 GMT+02:00 Stephen Arnold <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:stephen.arnold42@gmail.com" target=3D"_blank">stephen.ar=
+nold42@gmail.com</a>&gt;</span>:<br>
 <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div>Hi All,</div><div>=C2=
-=A0</div><div>please can I know if is it possible, using the do_patch routi=
-ne,</div>
+x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div>Not sure if there&#39;=
+s an easy way with quilt (check the quilt options) but a relatively easy wa=
+y would be to use your own patch routine (essentially anything you want).=
+=C2=A0 One thing you could do is disable the normal patch application (add =
+&quot;;patch=3D0&quot; to the end of the patch line in SRC_URI) and then us=
+e your own do_patch to force it (if that&#39;s really what you want to do).=
+=C2=A0 I guess I would ask &quot;why?&quot; and if it were me I&#39;d just =
+reroll the patch and fix it.=C2=A0 But I don&#39;t know what the real probl=
+em is, so...<br>
+
+<br></div>Steve<br><br></div><div class=3D"gmail_extra"><br><br><div class=
+=3D"gmail_quote"><div><div class=3D"h5">On Thu, Aug 7, 2014 at 6:14 AM, Giu=
+seppe Condorelli <span dir=3D"ltr">&lt;<a href=3D"mailto:giuseppe.condorell=
+i@gmail.com" target=3D"_blank">giuseppe.condorelli@gmail.com</a>&gt;</span>=
+ wrote:<br>
+
+</div></div><blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;=
+border-left-color:rgb(204,204,204);border-left-width:1px;border-left-style:=
+solid" class=3D"gmail_quote"><div><div class=3D"h5"><div dir=3D"ltr"><div>H=
+i All,</div>
+<div>=C2=A0</div><div>please can I know if is it possible, using the do_pat=
+ch routine,</div>
 <div>to force the application of a given patch?</div><div>I mean, like the =
 patch --force command.</div>
 <div>=C2=A0</div><div>Please let me know, I tried w/o good result.</div><di=
 v>=C2=A0</div><div>Best Regards,</div><div>Giuseppe</div></div>
+<br></div></div><span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core</a><br>
+<br></font></span></blockquote></div><br></div>
 <br>--<br>
 _______________________________________________<br>
 Openembedded-core mailing list<br>
@@ -114,4 +161,4 @@ re@lists.openembedded.org</a><br>
 dded-core</a><br>
 <br></blockquote></div><br></div>
 
---f46d0434bf16bb3ad105000b1b34--
+--089e0115f6cc1b166205000b3b07--
