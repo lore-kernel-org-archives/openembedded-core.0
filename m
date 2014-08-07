@@ -1,26 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Paul.Gortmaker@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C0C6708C0
+	by mail.openembedded.org (Postfix) with ESMTP id D8D6165CD8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 13:41:01 +0000 (UTC)
+	Thu,  7 Aug 2014 13:48:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s77Df1pN026633
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Aug 2014 06:41:01 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 7 Aug 2014 06:41:01 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Aug 2014 06:40:55 -0700
-Message-ID: <8168943a57b189aa0e32bafb11b06658bbdcb2af.1407418718.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1407418718.git.liezhi.yang@windriver.com>
-References: <cover.1407418718.git.liezhi.yang@windriver.com>
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s77DmJgh026706
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 7 Aug 2014 06:48:20 -0700 (PDT)
+Received: from [128.224.56.57] (128.224.56.57) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 7 Aug 2014 06:48:19 -0700
+Message-ID: <53E383AA.9010202@windriver.com>
+Date: Thu, 7 Aug 2014 09:48:26 -0400
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-Subject: [PATCH 2/7] trace-cmd: fix recompile error
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <1407357515-6147-1-git-send-email-paul.gortmaker@windriver.com>
+	<167343D1-FE42-441A-B126-F189C129EF2B@dominion.thruhere.net>
+In-Reply-To: <167343D1-FE42-441A-B126-F189C129EF2B@dominion.thruhere.net>
+X-Originating-IP: [128.224.56.57]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] coreutils: drop patch that unconditionally mangles manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 13:41:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 07 Aug 2014 13:48:22 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Fixed:
-make: *** No rule to make target `/path/to/sysroot/4.9.0/include/stddef.h', needed by `parse-events.o'.  Stop.
-make: *** Waiting for unfinished jobs....
-ERROR: oe_runmake failed
+On 14-08-07 01:33 AM, Koen Kooi wrote:
+> 
+> Op 6 aug. 2014, om 22:38 heeft Paul Gortmaker <paul.gortmaker@windriver.com> het volgende geschreven:
+> 
+>> commit 841ec528ec04e64bd09ff10f8d9ad2d6e3aac05d ("coreutils: update
+>> to upstream version 9.21") added a patch which bypassed the check
+>> for perl and hence defaults to using the dummy man page for all
+>> of the coreutils manpages.  This results in all manpages looking like:
+>>
+>>  NAME
+>>       chmod - a GNU coreutils 8.22 program
+>>
+>>  DESCRIPTION
+>>       OOOPS!   Due to the lack of perl on the build system, we were unable to
+>>       create a proper manual page for chmod.
+>>
+>> It is unclear why the test was disabled, but since it clearly
+>> causes the manpages to be useless, we need to drop this patch.
+> 
+> That all might be true, but DEPENDS doesn't list 'perl' or 'perl-native', so this commit is wrong.
 
-This happens when upgrade gcc from 4.9.0 to 4.9.1, and the
-.parse-events.d isn't regenerated when recompile, the content of it are:
+Wrong might be overstated.  The patch unconditionally disables a
+_check_ for perl.  So if perl is there, it is used; if it is absent,
+it is not.  Given that there really is no excuse for shipping
+broken manpages, one could argue that a DEPENDS on perl-native
+is sensible, and if that is what it takes to get the broken patch
+dropped, I'll add one.
 
-[snip]
-parse-events.o: /path/to/sysroot/4.9.0/include/stddef.h
-[snip]
+P.
+--
 
-And Makefile includes the .parse-events.d file if it exists, so there
-would be errors when /path/to/sysroot/4.9.0/include/stddef.h doesn't
-exist.
-
-Remove .*.d (a few .d files, its Makefile uses this wildcard) will fix
-the problem.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb |    5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-index 6f3319d..7f99dde 100644
---- a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
-@@ -18,6 +18,11 @@ EXTRA_OEMAKE = "'prefix=${prefix}'"
- 
- FILES_${PN}-dbg += "${datadir}/trace-cmd/plugins/.debug/"
- 
-+do_compile_prepend() {
-+    # Make sure the recompile is OK
-+    rm -f ${B}/.*.d
-+}
-+
- do_install() {
- 	oe_runmake prefix="${prefix}" DESTDIR="${D}" install
- }
--- 
-1.7.9.5
-
+> 
 
