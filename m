@@ -1,26 +1,25 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id F210365DA3
+	by mail.openembedded.org (Postfix) with ESMTP id 0AF5A60169
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 19:36:45 +0000 (UTC)
+	Thu,  7 Aug 2014 20:10:47 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 07 Aug 2014 12:36:46 -0700
+	by azsmga101.ch.intel.com with ESMTP; 07 Aug 2014 13:10:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,819,1400050800"; d="scan'208";a="466210705"
+X-IronPort-AV: E=Sophos;i="5.01,819,1400050800"; d="scan'208";a="466223735"
 Received: from unknown (HELO [10.255.12.111]) ([10.255.12.111])
-	by azsmga001.ch.intel.com with ESMTP; 07 Aug 2014 12:36:44 -0700
-Message-ID: <53E3D545.5040406@linux.intel.com>
-Date: Thu, 07 Aug 2014 12:36:37 -0700
+	by azsmga001.ch.intel.com with ESMTP; 07 Aug 2014 13:10:29 -0700
+Message-ID: <53E3DD34.4000100@linux.intel.com>
+Date: Thu, 07 Aug 2014 13:10:28 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-To: Sujith H <sujith.h@gmail.com>, 
+To: Marek Vasut <marex@denx.de>, 
  openembedded-core@lists.openembedded.org
-References: <1407403457-25490-1-git-send-email-sujith.h@gmail.com>
-In-Reply-To: <1407403457-25490-1-git-send-email-sujith.h@gmail.com>
-Cc: Sujith H <Sujith_Haridasan@mentor.com>
-Subject: Re: [PATCH] opkg-utils: allow disabling update-alternatives
+References: <1407424632-32649-1-git-send-email-marex@denx.de>
+In-Reply-To: <1407424632-32649-1-git-send-email-marex@denx.de>
+Subject: Re: [PATCH 0/5] Add initial fitImage support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +32,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 19:36:46 -0000
+X-List-Received-Date: Thu, 07 Aug 2014 20:10:50 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/07/2014 02:24 AM, Sujith H wrote:
-> From: Sujith H <Sujith_Haridasan@mentor.com>
+On 08/07/2014 08:17 AM, Marek Vasut wrote:
+> The fitImage is a successor of the U-Boot uImage format, which is considered
+> legacy for years now. The fitImage allows packing multiple kernel images,
+> DTBs and other artifacts into a single image, which can then be protected
+> by SHA checksums and does even support signing the images for verified boot.
 >
-> This is needed to deal with the situation where we're using ipk packaging, so
-> opkg-utils must be built regardless of what update-alternatives provider we
-> prefer. The downside to the current implementation is the need to adjust
-> PACKAGECONFIG as well as PREFERRED_PROVIDER, but it is more explicit that way.
+> This patchset is the first stab at adding the new image format into Yocto.
 >
-> Signed-off-by: Christopher Larson <kergoth@gmail.com>
-> Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
-> ---
->   meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 8 +++++++-
->   1 file changed, 7 insertions(+), 1 deletion(-)
+> Marek Vasut (5):
+>    Yocto: kernel: Rework do_uboot_mkimage
+>    Yocto: kernel: Pull out the linux.bin generation
+>    Yocto: kernel: Clean up KERNEL_IMAGETYPE_FOR_MAKE
+>    Yocto: kernel: Build DTBs early
+>    Yocto: kernel: Add basic fitImage support
 >
-> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> index 693c216..9364740 100644
-> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> @@ -19,11 +19,17 @@ TARGET_CC_ARCH += "${LDFLAGS}"
->   PYTHONRDEPS = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
->   PYTHONRDEPS_class-native = ""
+>   meta/classes/kernel.bbclass             | 229 +++++++++++++++++++++++++++++---
+>   meta/recipes-kernel/linux/linux-dtb.inc |  14 +-
+>   2 files changed, 226 insertions(+), 17 deletions(-)
 >
-> -PACKAGECONFIG = "python"
-> +PACKAGECONFIG = "python update-alternatives"
->   PACKAGECONFIG[python] = ",,,${PYTHONRDEPS}"
-> +PACKAGECONFIG[update-alternatives] = ",,,"
-> +
-> +PROVIDES += "${@'virtual/update-alternatives' if 'update-alternatives' in PACKAGECONFIG.split() else ''}"
->
-Is there not still a PROVIDES line above that has the 
-virtual/update-alternative that needs to be removed?
+Hi Marek,
 
-Sau!
->   do_install() {
->   	oe_runmake PREFIX=${prefix} DESTDIR=${D} install
-> +        if ${@'true' if 'update-alternatives' not in PACKAGECONFIG.split() else 'false'}; then
-> +            rm -f "${D}${bindir}/update-alternatives"
-> +        fi
->   }
->
->   PACKAGES =+ "update-alternatives-opkg"
->
+I am going to make a general request, can you please review the Commit 
+Guildlines Wiki for Openembedded:
+
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+
+We appreciate your patches, but the commit messages need to be formatted 
+correctly.  The Yocto: tag is not needed and you could clearly include 
+which recipe, bbclass, file or subsystem (if across multiple files) so 
+in the above it would be kernel.bbclass: ...
+
+If you could please resubmit your changes with the correct commit 
+summary for this series and your other patches that would be greatly 
+appreciated.
+
+Myself and others may have further feedback on your patches.
+
+Thanks
+    Sau!
+
 
