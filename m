@@ -1,25 +1,25 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id B346D70A21
+	by mail.openembedded.org (Postfix) with ESMTP id 1A50B70A53
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 15:26:21 +0000 (UTC)
+	Thu,  7 Aug 2014 15:26:22 +0000 (UTC)
 Received: from frontend1.mail.m-online.net (frontend1.mail.intern.m-online.net
 	[192.168.8.180])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3hTYSt6Nq0z3hhj9;
-	Thu,  7 Aug 2014 17:26:22 +0200 (CEST)
-X-Auth-Info: YL9ZzbbWEpQfNwEn0mD7NhdmWCFOAn9vvquCQHMCrxE=
+	by mail-out.m-online.net (Postfix) with ESMTP id 3hTYSv1yKTz3hhr3;
+	Thu,  7 Aug 2014 17:26:23 +0200 (CEST)
+X-Auth-Info: 5B3cRzPghi+6pKSIYycR/EVWyOcKWKnpYhCpD5G/0KI=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3hTYSt5h3Lz7S6QJ; 
-	Thu,  7 Aug 2014 17:26:22 +0200 (CEST)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3hTYSv13fhz7S6QJ; 
+	Thu,  7 Aug 2014 17:26:23 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Aug 2014 17:26:11 +0200
-Message-Id: <1407425175-2828-2-git-send-email-marex@denx.de>
+Date: Thu,  7 Aug 2014 17:26:13 +0200
+Message-Id: <1407425175-2828-4-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.0.0
 In-Reply-To: <1407425175-2828-1-git-send-email-marex@denx.de>
 References: <1407425175-2828-1-git-send-email-marex@denx.de>
 Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH 1/5] Yocto: kernel: Rework do_uboot_mkimage
+Subject: [PATCH 3/5] Yocto: kernel: Clean up KERNEL_IMAGETYPE_FOR_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,69 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 15:26:21 -0000
+X-List-Received-Date: Thu, 07 Aug 2014 15:26:22 -0000
 
-Rework the function so part it's internals can be re-used by fitImage
-image type. The name of the temporary file , linux.bin , is recycled
-a little more as it's now used for both the case where it is gzip
-compressed and where it is not. This should be fine, since the file
-is temporary and removed after the uImage was created anyway.
+Remove the lambda function setting KERNEL_IMAGETYPE_FOR_MAKE and instead
+set it in the anonymous python function. This also allows us to handle
+image types which are not supported directly by kernel, but require some
+other kernel target to be built. This is the case for example with the
+fitImage, which is the uImage successor.
 
-There is no functional change here.
+There is no functional change.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
- meta/classes/kernel.bbclass | 32 +++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
+ meta/classes/kernel.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 6ed1cb7..2e2b1fe 100644
+index 62e3a4b..b23e2e0 100644
 --- a/meta/classes/kernel.bbclass
 +++ b/meta/classes/kernel.bbclass
-@@ -447,22 +447,32 @@ MODULE_TARBALL_DEPLOY ?= "1"
- do_uboot_mkimage() {
- 	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
- 		if test "x${KEEPUIMAGE}" != "xyes" ; then
-+			if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
-+				vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
-+				linux_suffix=""
-+				linux_comp="none"
-+			else
-+				vmlinux_path="vmlinux"
-+				linux_suffix=".gz"
-+				linux_comp="gzip"
-+			fi
+@@ -18,6 +18,8 @@ python __anonymous () {
+         depends = "%s u-boot-mkimage-native" % depends
+         d.setVar("DEPENDS", depends)
+ 
++    d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", re.sub(r'\.[^\.]$', '', kerneltype))
 +
-+			${OBJCOPY} -O binary -R .note -R .comment -S "${vmlinux_path}" linux.bin
-+
-+			if [ "${linux_comp}" != "none" ] ; then
-+				rm -f linux.bin
-+				gzip -9 linux.bin
-+				mv -f "linux.bin${linux_suffix}" linux.bin
-+			fi
-+
- 			ENTRYPOINT=${UBOOT_ENTRYPOINT}
- 			if test -n "${UBOOT_ENTRYSYMBOL}"; then
- 				ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
- 					awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
- 			fi
--			if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
--				${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
--				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
--				rm -f linux.bin
--			else
--				${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
--				rm -f linux.bin.gz
--				gzip -9 linux.bin
--				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz arch/${ARCH}/boot/uImage
--				rm -f linux.bin.gz
--			fi
-+
-+			uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
-+			rm -f linux.bin
- 		fi
- 	fi
- }
+     image = d.getVar('INITRAMFS_IMAGE', True)
+     if image:
+         d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_rootfs')
+@@ -79,8 +81,6 @@ KERNEL_ALT_IMAGETYPE ??= ""
+ # they are staged.
+ KERNEL_SRC_PATH = "/usr/src/kernel"
+ 
+-KERNEL_IMAGETYPE_FOR_MAKE = "${@(lambda s: s[:-3] if s[-3:] == ".gz" else s)(d.getVar('KERNEL_IMAGETYPE', True))}"
+-
+ copy_initramfs() {
+ 	echo "Copying initramfs into ./usr ..."
+ 	# In case the directory is not created yet from the first pass compile:
 -- 
 2.0.1
 
