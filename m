@@ -1,24 +1,24 @@
 Return-Path: <max.eliaser@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 79F6970276
+	by mail.openembedded.org (Postfix) with ESMTP id 87A887064F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 20:34:10 +0000 (UTC)
+	Thu,  7 Aug 2014 20:34:12 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 07 Aug 2014 13:34:11 -0700
+	by orsmga101.jf.intel.com with ESMTP; 07 Aug 2014 13:34:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,820,1400050800"; d="scan'208";a="555365114"
+X-IronPort-AV: E=Sophos;i="5.01,820,1400050800"; d="scan'208";a="555365116"
 Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.63])
 	by orsmga001.jf.intel.com with ESMTP; 07 Aug 2014 13:33:45 -0700
 From: Max Eliaser <max.eliaser@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Aug 2014 13:31:32 -0700
-Message-Id: <67c3a9199068f3e3b0f9061a8fb765f64b2ee7fd.1407443396.git.max.eliaser@intel.com>
+Date: Thu,  7 Aug 2014 13:31:34 -0700
+Message-Id: <12c7b6d532d39e2c8bcd7f724867dcdd510c7e3d.1407443396.git.max.eliaser@intel.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <cover.1407443396.git.max.eliaser@intel.com>
 References: <cover.1407443396.git.max.eliaser@intel.com>
 In-Reply-To: <cover.1407443396.git.max.eliaser@intel.com>
 References: <cover.1407443396.git.max.eliaser@intel.com>
-Subject: [PATCH 1/3] xorg-drivers: xf86-video-cirrus: add a recipe for the Cirrus Logic X.Org driver
+Subject: [PATCH 3/3] qemux86-64: support X11 when QEMU is emulating a different GPU than vmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +31,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 20:34:13 -0000
+X-List-Received-Date: Thu, 07 Aug 2014 20:34:14 -0000
 
-This driver allows X.Org to use the Cirrus Logic family of VGA adapters. Since
-QEMU can emulate a Cirrus VGA adapter, this driver will be of use for images
-that are expected to run under QEMU, if QEMU's other VGA adapters are
-unavailable.
+QEMU is capable of emulating four different VGA adapters: cirrus, std, vmware,
+and QXL. By adding the cirrus and fbdev X.Org drivers to the qemux86-64 image,
+the image can be made to launch an X server on when cirrus and std are chosen,
+in addition to just vmware. (The build of QEMU in OE-Core appears to have QXL
+disabled, meaning a driver for it is unnecessary.)
+
+The runqemu script now allows the choice of emulated VGA adapter to be
+specified manually, so it's important that qemux86-64 supports any
+configuration the user might choose without requiring the image to be rebuilt.
+
+In addition to adding the two extra drivers to the qemux86-64 image, a section
+specifying the driver to use is deleted from the image's xorg.conf, allowing
+the X server to automatically select the most appropriate driver. Testing
+shows that it does always pick the correct one.
 
 Signed-off-by: Max Eliaser <max.eliaser@intel.com>
 ---
- .../recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb
+ meta/conf/machine/qemux86-64.conf                                    | 2 ++
+ .../xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf            | 5 -----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb b/meta/recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb
-new file mode 100644
-index 0000000..f110522
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb
-@@ -0,0 +1,13 @@
-+require xorg-driver-video.inc
-+
-+SUMMARY = "X.Org X server -- cirrus display driver"
-+DESCRIPTION = "cirrus is an Xorg driver for Cirrus Logic VGA adapters. These \
-+devices are not so common in the wild anymore, QEMU can emulate one, so the \
-+driver is still useful."
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=6ddc7ca860dc5fd014e7f160ea699295"
-+
-+SRC_URI[md5sum] = "91fd6b677d62027cd3001debb587a6a6"
-+SRC_URI[sha256sum] = "3361e1a65d9b84c464752fd612bdf6087622c6dd204121715366a170e5c3ccd7"
-+
-+DEPENDS_${PN} = "virtual/libx11"
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+index 642a2d9..837f9f4 100644
+--- a/meta/conf/machine/qemux86-64.conf
++++ b/meta/conf/machine/qemux86-64.conf
+@@ -20,6 +20,8 @@ XSERVER = "xserver-xorg \
+            xf86-input-vmmouse \
+            xf86-input-keyboard \
+            xf86-input-evdev \
++           xf86-video-cirrus \
++           xf86-video-fbdev \
+            xf86-video-vmware"
+ 
+ MACHINE_FEATURES += "x86"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
+index 10a6d9a..bbda9ea 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
+@@ -30,11 +30,6 @@ Section "InputDevice"
+     Option        "USB"           "on"
+ EndSection
+ 
+-Section "Device"
+-    Identifier    "Graphics Controller"
+-    Driver        "vmware"
+-EndSection
+-
+ Section "Monitor"
+     Identifier    "Generic Monitor"
+     Option        "DPMS"
 -- 
 1.8.3.2
 
