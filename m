@@ -1,43 +1,35 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id B5EC070A03
+Return-Path: <bobadeshrikant@gmail.com>
+Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 890C16FA94
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 10:16:56 +0000 (UTC)
-Received: by mail-wi0-f180.google.com with SMTP id n3so4692362wiv.13
+	Thu,  7 Aug 2014 10:30:47 +0000 (UTC)
+Received: by mail-we0-f171.google.com with SMTP id p10so4007788wes.16
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Aug 2014 03:16:57 -0700 (PDT)
+	Thu, 07 Aug 2014 03:30:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=ZwoGXrlcIwns8wnrQZ3BW2v9SNUHgvCusH71MOq0Wqw=;
-	b=SSz4egvt++NZ/0BMgXx+6BgdyIoHEn0aWMc/+PMotaBeUOuCRpkNTMcBaMA0FJq1P1
-	cwGGbcmSBak8jp6hIDA6YBk9ETwUgT6w17kTxm3Pv8pj4xzjTeXiyosU3jzjOsh4K16m
-	I71UIzQpoVoIB/DyJ/OPQnvZ2q3Xk1seEpbWd2s7+JtyMQ3IiViHfhZVMyLM9m6dZpS/
-	d/dArDLB+JeVt67GLn498i9vtJMGPUsoeF9DuMUFEiPZRgA+0nud1MEGKS4f7Zj7eJ4c
-	Rmhjmcm6KdOadklFTOUmVrSm4Tz/IxBzk3bHOoUZvDzeb3AmgJsyeY6wRkOwuq3XJRlK
-	0viw==
-X-Received: by 10.180.94.234 with SMTP id df10mr58201476wib.76.1407406617306; 
-	Thu, 07 Aug 2014 03:16:57 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	h13sm8882449wjs.2.2014.08.07.03.16.55 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 07 Aug 2014 03:16:56 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 7 Aug 2014 12:17:27 +0200
-To: "Peter A. Bigot" <pab@pabigot.com>
-Message-ID: <20140807101727.GV14848@jama>
-References: <53C3A130.4000900@pabigot.com> <53DC39DE.5020105@pabigot.com>
-	<CAP9ODKo8dwJvw9cwDKEY0fQNo6Z+NrxavZtZs1AjcvQgHc_5JQ@mail.gmail.com>
-	<53E34C57.6010100@pabigot.com>
-MIME-Version: 1.0
-In-Reply-To: <53E34C57.6010100@pabigot.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: patchwork client problems
+	h=from:to:cc:subject:date:message-id;
+	bh=wlym23lNPazpcOA0BFds1/Ulz6NZchao9ePVnvxy7zY=;
+	b=LoUBNIxEK8ffKVdIJihRnd8oFosdGSTDMb4uc4nLlRDJGhpdDwXhmjrhvwmtWGffyG
+	q5ZjvPG6USZL1sqb5DTS4b71iY0v3y4WqxKj/bxtRe1hpYeclCo/rffGVNrdJC89unz7
+	k3PtUszGq/shWRMve8ZzLmxk/Bj6x6/VhW05pI9h9/h0KPGUu/HJGurx2w4hwTQ/2fyI
+	ycIULu4IJa9XJDoBZNIWZSoMtlC0G6v2v+2uL0dIXr+vd+sfzMIDwK0R4G3WC5y3wz1C
+	CCVSQ01ylUlNgBAwugPKhce8O8swShXQ5mImM0dSsW7gLIHA+gdl+wiRdzMevuRPXZOW
+	WJwg==
+X-Received: by 10.194.22.194 with SMTP id g2mr23420773wjf.30.1407407448908;
+	Thu, 07 Aug 2014 03:30:48 -0700 (PDT)
+Received: from localhost.localdomain ([139.181.35.34])
+	by mx.google.com with ESMTPSA id t6sm15398721wib.4.2014.08.07.03.30.46
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 07 Aug 2014 03:30:48 -0700 (PDT)
+From: Shrikant Bobade <bobadeshrikant@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Aug 2014 16:02:14 +0530
+Message-Id: <1407407534-677-1-git-send-email-bobadeshrikant@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Shrikant Bobade <Shrikant_Bobade@mentor.com>
+Subject: [PATCH] gdk-pixbuf-native: add setscene dep on jpeg-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,99 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 10:16:58 -0000
-X-Groupsio-MsgNum: 56087
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="aBaYPhOdNx+t7mr3"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 07 Aug 2014 10:30:52 -0000
 
---aBaYPhOdNx+t7mr3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Shrikant Bobade <Shrikant_Bobade@mentor.com>
 
-On Thu, Aug 07, 2014 at 04:52:23AM -0500, Peter A. Bigot wrote:
-> On 08/04/2014 03:16 PM, Otavio Salvador wrote:
-> > On Fri, Aug 1, 2014 at 10:07 PM, Peter A. Bigot <pab@pabigot.com> wrote:
-> >> On 07/14/2014 04:21 AM, Peter A. Bigot wrote:
-> >>> I'm finding attempts to use pwclient on
-> >>> http://patches.openembedded.org/xmlrpc/ produce an ExpatError because=
- the
-> >>> returned document is always empty (per a wireshark trace of the
-> >>> transaction).  Can somebody confirm that the server for the command-l=
-ine
-> >>> client is working properly?  Thanks.
-> >>>
-> >>> Peter
-> >>>
-> >> I've downloaded a fresh copy of pwclient from
-> >> http://patches.openembedded.org/help/pwclient/
-> >>
-> >> I've verified my .pwclientrc is exactly what the project info tells me=
- it
-> >> should be:
-> >>
-> >> [base]
-> >> url: http://patches.openembedded.org/xmlrpc/
-> >> project: oe-core
-> >>
-> >> I've verified that pwclient works with other servers.
-> >>
-> >> And I still get empty documents back from the OE patchwork server for =
-every
-> >> pwclient command I try.
-> >>
-> >> Anybody have any idea what's going wrong?
-> >>
-> >> Thanks.
-> >>
-> >> Peter
-> >>
-> >> llc[40]$ /tmp/pwclient projects
-> >> Traceback (most recent call last):
-> >>    File "/tmp/pwclient", line 500, in <module>
-> >>      main()
-> >>    File "/tmp/pwclient", line 439, in main
-> >>      action_projects(rpc)
-> >>    File "/tmp/pwclient", line 213, in action_projects
-> >>      projects =3D rpc.project_list("", 0)
-> >>    File "/usr/lib/python2.7/xmlrpclib.py", line 1224, in __call__
-> >>      return self.__send(self.__name, args)
-> >>    File "/usr/lib/python2.7/xmlrpclib.py", line 1578, in __request
-> >>      verbose=3Dself.__verbose
-> >>    File "/usr/lib/python2.7/xmlrpclib.py", line 1264, in request
-> >>      return self.single_request(host, handler, request_body, verbose)
-> >>    File "/usr/lib/python2.7/xmlrpclib.py", line 1297, in single_request
-> >>      return self.parse_response(response)
-> >>    File "/usr/lib/python2.7/xmlrpclib.py", line 1471, in parse_response
-> >>      p.close()
-> >>    File "/usr/lib/python2.7/xmlrpclib.py", line 560, in close
-> >>      self._parser.Parse("", 1) # end of data
-> >> xml.parsers.expat.ExpatError: no element found: line 1, column 0
-> > I have same error; I am adding Khem who I know has access to the
-> > server and can know more about it.
->=20
-> Thanks for confirming this isn't just me.
->=20
-> It's a bit of a problem, since without a working pwclient I can't tell=20
-> if there's already a patch that does what I need.  If there's a way to=20
-> search through the browser interface I haven't figured it out.
+Without this, we can get setscene postinst failure due to libjpeg being
+unavailable.
 
-Click on "Filter" link in top left corner of the table.
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+Signed-off-by: Shrikant Bobade <Shrikant_Bobade@mentor.com>
+---
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb |    1 +
+ 1 file changed, 1 insertion(+)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
+index 3d08146..1248529 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
+@@ -74,6 +74,7 @@ RDEPENDS_${PN}-ptest += "gnome-desktop-testing"
+ 
+ PACKAGES_DYNAMIC += "^gdk-pixbuf-loader-.*"
+ PACKAGES_DYNAMIC_class-native = ""
++PIXBUFCACHE_SYSROOT_DEPS_class-native += "jpeg-native:do_populate_sysroot_setscene"
+ 
+ python populate_packages_prepend () {
+     postinst_pixbufloader = d.getVar("postinst_pixbufloader", True)
+-- 
+1.7.9.5
 
---aBaYPhOdNx+t7mr3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlPjUjcACgkQN1Ujt2V2gBxLzACeII+xyaGBe84RifVGpbrIDDNy
-EgQAmgLUqSY7dCubp8KUqB4wlhhW4GpS
-=fEuJ
------END PGP SIGNATURE-----
-
---aBaYPhOdNx+t7mr3--
