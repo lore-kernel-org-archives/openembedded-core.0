@@ -1,26 +1,28 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E2DEB7089E
+	by mail.openembedded.org (Postfix) with ESMTP id 00D8E65DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 08:33:56 +0000 (UTC)
+	Thu,  7 Aug 2014 08:42:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s778Xv2f021273
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s778gU39022417
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Aug 2014 01:33:57 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 7 Aug 2014 01:33:57 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Aug 2014 16:34:02 +0800
-Message-ID: <2c23e2ba5fed7c0b33ba9cbd6bea6aa109063890.1407400378.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1407400378.git.Qi.Chen@windriver.com>
-References: <cover.1407400378.git.Qi.Chen@windriver.com>
+	Thu, 7 Aug 2014 01:42:30 -0700 (PDT)
+Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Thu, 7 Aug 2014 01:42:29 -0700
+Message-ID: <53E33BFB.7040407@windriver.com>
+Date: Thu, 7 Aug 2014 16:42:35 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2] v86d: fix for systemd to load uvesafb module correctly
+To: <openembedded-core@lists.openembedded.org>
+References: <1407357515-6147-1-git-send-email-paul.gortmaker@windriver.com>
+In-Reply-To: <1407357515-6147-1-git-send-email-paul.gortmaker@windriver.com>
+X-Originating-IP: [128.224.162.187]
+Subject: Re: [PATCH] coreutils: drop patch that unconditionally mangles manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,65 +35,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 08:34:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 07 Aug 2014 08:42:34 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The /etc/init.d/fbsetup script doesn't have any effect in a systemd
-image. Its purpose is to load the uvesafb kernel module at boot.
-This functionality could be achieved by adding a configuration file
-under /etc/modules-load.d/ directory which would be parsed by the
-systemd-modules-load.service.
+On 08/07/2014 04:38 AM, Paul Gortmaker wrote:
+> commit 841ec528ec04e64bd09ff10f8d9ad2d6e3aac05d ("coreutils: update
+> to upstream version 9.21") added a patch which bypassed the check
+> for perl and hence defaults to using the dummy man page for all
+> of the coreutils manpages.  This results in all manpages looking like:
+>
+>    NAME
+>         chmod - a GNU coreutils 8.22 program
+>
+>    DESCRIPTION
+>         OOOPS!   Due to the lack of perl on the build system, we were unable to
+>         create a proper manual page for chmod.
+>
+> It is unclear why the test was disabled, but since it clearly
+> causes the manpages to be useless, we need to drop this patch.
+>
+> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+>
+> diff --git a/meta/recipes-core/coreutils/coreutils-8.22/dummy_help2man.patch b/meta/recipes-core/coreutils/coreutils-8.22/dummy_help2man.patch
+> deleted file mode 100644
+> index 4757f52aa0be..000000000000
+> --- a/meta/recipes-core/coreutils/coreutils-8.22/dummy_help2man.patch
+> +++ /dev/null
+> @@ -1,22 +0,0 @@
+> -Upstream-Status: Inappropriate [disable feature]
+> -
+> -Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+> -diff -Nurd coreutils-8.21/man/local.mk coreutils-8.21/man/local.mk
+> ---- coreutils-8.21/man/local.mk	2013-02-05 16:01:21.000000000 +0200
+> -+++ coreutils-8.21/man/local.mk	2013-03-23 09:12:53.360470192 +0200
+> -@@ -19,11 +19,11 @@
+> - EXTRA_DIST += man/help2man man/dummy-man
+> -
+> - ## Graceful degradation for systems lacking perl.
+> --if HAVE_PERL
+> --run_help2man = $(PERL) -- $(srcdir)/man/help2man
+> --else
+> -+#if HAVE_PERL
+> -+#run_help2man = $(PERL) -- $(srcdir)/man/help2man
+> -+#else
+> - run_help2man = $(SHELL) $(srcdir)/man/dummy-man
+> --endif
+> -+#endif
+> -
+> - man1_MANS = @man1_MANS@
+> - EXTRA_DIST += $(man1_MANS:.1=.x)
+> diff --git a/meta/recipes-core/coreutils/coreutils_8.22.bb b/meta/recipes-core/coreutils/coreutils_8.22.bb
+> index d5373ae9d66a..b19c1691eb10 100644
+> --- a/meta/recipes-core/coreutils/coreutils_8.22.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_8.22.bb
+> @@ -14,7 +14,6 @@ inherit autotools gettext texinfo
+>   
+>   SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+>              file://remove-usr-local-lib-from-m4.patch \
+> -           file://dummy_help2man.patch \
+>              file://fix-for-dummy-man-usage.patch \
+>             "
+>   
 
-[YOCTO #4420]
+There's some build failure about coreutils on autobuilder that might be 
+caused by this patch.
+Please take a look at it.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-bsp/v86d/v86d/uvesafb.conf |    2 ++
- meta/recipes-bsp/v86d/v86d_0.1.10.bb    |   14 ++++++++++++--
- 2 files changed, 14 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-bsp/v86d/v86d/uvesafb.conf
+Below is a link to the log.
+https://autobuilder.yoctoproject.org/main/builders/nightly-arm/builds/201/steps/BuildImages_1/logs/stdio
 
-diff --git a/meta/recipes-bsp/v86d/v86d/uvesafb.conf b/meta/recipes-bsp/v86d/v86d/uvesafb.conf
-new file mode 100644
-index 0000000..4378975
---- /dev/null
-+++ b/meta/recipes-bsp/v86d/v86d/uvesafb.conf
-@@ -0,0 +1,2 @@
-+# Load uvesafb.ko at boot
-+uvesafb
-diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-index b980331..08438be 100644
---- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-+++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-@@ -12,6 +12,7 @@ PR = "r2"
- SRC_URI = "http://distfiles.gentoo.org/distfiles/${BP}.tar.bz2 \
-            file://Update-x86emu-from-X.org.patch \
-            file://fbsetup \
-+           file://uvesafb.conf \
-            file://ar-from-env.patch"
- 
- SRC_URI[md5sum] = "51c792ba7b874ad8c43f0d3da4cfabe0"
-@@ -35,8 +36,17 @@ do_install () {
- 	install -d ${D}${base_sbindir}
- 	install v86d ${D}${base_sbindir}/
- 
--        install -d ${D}${sysconfdir}/init.d/
--        install -m 0755 ${WORKDIR}/fbsetup ${D}${sysconfdir}/init.d/fbsetup
-+        # Only install fbsetup script if 'sysvinit' is in DISTRO_FEATURES
-+        if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
-+            install -d ${D}${sysconfdir}/init.d/
-+            install -m 0755 ${WORKDIR}/fbsetup ${D}${sysconfdir}/init.d/fbsetup
-+        fi
-+
-+        # Install systemd related configuration file
-+        if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+            install -d ${D}${sysconfdir}/modules-load.d
-+            install -m 0644 ${WORKDIR}/uvesafb.conf ${D}${sysconfdir}/modules-load.d
-+        fi
- }
- 
- inherit update-rc.d
--- 
-1.7.9.5
-
+//Chen Qi
 
