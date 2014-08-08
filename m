@@ -1,43 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id A006F60144
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
+	by mail.openembedded.org (Postfix) with ESMTP id D1BAD60144
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Aug 2014 10:27:33 +0000 (UTC)
-Received: by mail-we0-f171.google.com with SMTP id p10so5496033wes.16
+	Fri,  8 Aug 2014 10:35:28 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
+	via TCP (outbound) with ESMTPS id 20140808103517993
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Aug 2014 03:27:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=CGc9+Y4CtUtgZzC8a/Va+GLB3s9obo19ZnA8D0OM3ms=;
-	b=b08cpVcyqFvmZ4T4xAppIHNk9pah9TkNCaJtT4h7Nr6EIM/apWZTtJDCaSNKPlZZWC
-	U1mC1LQrHddfe0A2fuw9VfU7gH3XM0mAk7jMS+ofFPJV143PqF3TY8+WZWqBkoycGr3x
-	u7LflnY12JuvChI1ZoPLW1EfPD6GoZ/XWaQ1UJGME43FoVd6ZlZbOCznwT/ql7GhKxpC
-	NjX431gnYmsbAaajutUsTCypL+elF4e67W6OLG6QnVJ7xLaAEmazyCDy48wMIryw3TCI
-	nFc/vOkQcQfEvIxYbFuRpMaZJNVaozzxZiSifg6SHBnA9TzRhgJvwEtDn1JKNaZisWK+
-	Lu9g==
-X-Received: by 10.194.184.101 with SMTP id et5mr31728016wjc.14.1407493654834; 
-	Fri, 08 Aug 2014 03:27:34 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	lq15sm5841171wic.1.2014.08.08.03.27.33 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Aug 2014 03:27:33 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 8 Aug 2014 12:28:05 +0200
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20140808102805.GD14848@jama>
-References: <1405512834-14423-1-git-send-email-Martin.Jansa@gmail.com>
-	<42649926.Kn7RmW5cEk@peggleto-mobl5.ger.corp.intel.com>
-	<20140806143734.GK14848@jama>
-	<2430037.0dFcuVztg3@peggleto-mobl5.ger.corp.intel.com>
+	Fri, 08 Aug 2014 10:35:17 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=37706 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1XFhVy-0000Hi-44 for openembedded-core@lists.openembedded.org;
+	Fri, 08 Aug 2014 06:35:14 -0400
+Date: Fri, 8 Aug 2014 06:35:10 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1408080629500.13627@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-In-Reply-To: <2430037.0dFcuVztg3@peggleto-mobl5.ger.corp.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] gst-ffmpeg: add dependency on libpostproc
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: how does SCR_URI_OVERRIDES_PACKAGE_ARCH affect building tslib?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,62 +45,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Aug 2014 10:27:40 -0000
-X-Groupsio-MsgNum: 56143
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="pd/ueeoza9+75UV5"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 08 Aug 2014 10:35:33 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
---pd/ueeoza9+75UV5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 06, 2014 at 03:42:38PM +0100, Paul Eggleton wrote:
-> On Wednesday 06 August 2014 16:37:34 Martin Jansa wrote:
-> > On Wed, Aug 06, 2014 at 01:41:58PM +0100, Paul Eggleton wrote:
-> > > On Wednesday 06 August 2014 13:41:56 Martin Jansa wrote:
-> > > > * building with libav-9 fails with:
-> > > >   | checking for POSTPROC... configure: error: Package requirements
-> > > >   | (libpostproc libavcodec libavutil) were not met:
-> > > >   |=20
-> > > >   | No package 'libpostproc' found
-> > >=20
-> > > Does gst-ffmpeg actually work with libav > 0.8?
-> >=20
-> > No, not yet (see world status e-mails), but at least this is step
-> > in right direction IMHO and doesn't harm libav-0.8 users.
->=20
-> I'm just not sure gst-ffmpeg should be allowed to get past this at all if=
- it's=20
+  looking at SRC_URI_OVERRIDES_PACKAGE_ARCH variable, and i notice
+first that there is only one usage of it in all of oe-core (tslib),
+but i'm confused as to what value it has.
 
-It gets past this when libpostproc is built before gst-ffmpeg, adding
-the dependency only makes the failure with libav-9 to be deterministic
-(always in the same piece of code).
+  the ref manual reads:
 
-> not currently expected to work. The known working configuration is either=
-=20
-> gst-ffmpeg + libav 0.8.x, or gstreamer1.0-libav + libav > 0.8.x.
+"By default, the OpenEmbedded build system automatically detects
+whether SRC_URI contains files that are machine-specific. If so, the
+build system automatically changes PACKAGE_ARCH. Setting this variable
+to "0" disables this behavior."
 
-FWIW here is patchset used by gentoo to make gst-ffmpeg-0.10.13
-compatible with libav-9:
+  first, i'm not sure what about the tslib SRC_URI appears to be
+machine-specific. also, just for fun, i commented out that line in the
+tslib .bb file, and did a global "bb show" to see what difference it
+made, and i saw no difference at all. so what exactly is the purpose
+of that line in that recipe? what difference should i be able to see
+with versus without it? thanks.
 
-http://dev.gentoo.org/~tetromino/distfiles/gst-plugins-ffmpeg/gst-ffmpeg-0.=
-10.13_p2012.11-libav-9-patches.tar.xz
+rday
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+-- 
 
---pd/ueeoza9+75UV5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
-iEYEARECAAYFAlPkpjUACgkQN1Ujt2V2gBwqAgCaAlVBHmSaj8LpFh2HQMfFRdCg
-vB8An2zTCzNmQhvERwcqn7ikXYNVZ9Sw
-=y4+o
------END PGP SIGNATURE-----
 
---pd/ueeoza9+75UV5--
