@@ -1,37 +1,36 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B6357064F
+Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id B592F7089E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Aug 2014 11:37:18 +0000 (UTC)
-Received: by mail-wi0-f177.google.com with SMTP id ho1so856647wib.10
+	Fri,  8 Aug 2014 11:37:19 +0000 (UTC)
+Received: by mail-wg0-f52.google.com with SMTP id a1so5411483wgh.35
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Aug 2014 04:37:19 -0700 (PDT)
+	Fri, 08 Aug 2014 04:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=D1oehQImR+h28JjLhXUF3aqTc2u1sYXRC1y9Shk5Qxw=;
-	b=Wbgb9hMBGfSem2I37RLdl0HWOvort7I14k6Pb0z7ju6D1ooCKP951Pq5qvOggiBapa
-	NJx3clJtdjjyat6QbQAZG7qQvUlzu/nnYG+zzYwdZPfSnW/aYZD1I/4+tNbqHot6/58d
-	xunpQUNL+9oyF+I+qDVt2hZsHDj00UcKlZtRjPzKf2edkC41222ugET3GjOrjQ9IqTB2
-	7MyB1DEsky4nMB0w4jDaDVgS1I+0YgFbfDVl2PQWNHLZmf5UZbmB2SRxGpcWEKDpsuQ8
-	r4fpLTOjFh0HD8rtikNsrVaoW5IlcxDpyvBtZ86aQaERgEindrRzXhVYKEqWet9WmebK
-	s7PQ==
-X-Received: by 10.180.99.4 with SMTP id em4mr3682231wib.8.1407497839259;
-	Fri, 08 Aug 2014 04:37:19 -0700 (PDT)
+	bh=03iwZOMYYMfBzOko0aw9c1T1qXjMtQqirA32rxGeJv4=;
+	b=VW2k0J1bAX8WEgBz2IQGwyjSgClsk3Fp+BaMKM7m4HsRkWopJB2KP0s/pJKmEnrhAU
+	6oD8Sh52gQh6hfXUwILDvMkAviCq37dcvGX5Bah9lvxuXWrViBqd79wGvV1b9HyFlA5X
+	NahQHpkdouPwrBiIyF/gcmDjUd8rEcaU+eVjP8MfHxQm3OWRhHXmUG0EJ2F8BmcwxGcY
+	VIUyK3INS3I3HJvNKzRQifWrVi0KMG7hrNa8gaKlMYd0YkYFklK8B+CT8oDVfZCVTe6o
+	YlXFMTAyokUVxQzfaskeHQRHdretzz6wy7sHCb8HPbzej877W6Yn+WTwQW/TwHxO7ozJ
+	waWw==
+X-Received: by 10.194.7.167 with SMTP id k7mr30741801wja.11.1407497840330;
+	Fri, 08 Aug 2014 04:37:20 -0700 (PDT)
 Received: from localhost.localdomain (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id qa2sm3670889wjc.45.2014.08.08.04.37.18
+	by mx.google.com with ESMTPSA id qa2sm3670889wjc.45.2014.08.08.04.37.19
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Aug 2014 04:37:18 -0700 (PDT)
+	Fri, 08 Aug 2014 04:37:19 -0700 (PDT)
 Sender: Paul Barker <paul.betafive@gmail.com>
 From: Paul Barker <paul@paulbarker.me.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Aug 2014 11:37:08 +0000
-Message-Id: <1407497829-9330-2-git-send-email-paul@paulbarker.me.uk>
+Date: Fri,  8 Aug 2014 11:37:09 +0000
+Message-Id: <1407497829-9330-3-git-send-email-paul@paulbarker.me.uk>
 X-Mailer: git-send-email 2.0.3
 In-Reply-To: <1407497829-9330-1-git-send-email-paul@paulbarker.me.uk>
 References: <1407497829-9330-1-git-send-email-paul@paulbarker.me.uk>
-Subject: [PATCH 1/2] gpgme: Add pkg-config file
+Subject: [PATCH 2/2] opkg: Add runtime dep on gnupg if 'gpg' is in PACAKGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,57 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Aug 2014 11:37:24 -0000
+X-List-Received-Date: Fri, 08 Aug 2014 11:37:25 -0000
 
-A basic gpgme.pc file is installed with gpgme which should allow the library to
-be found and used using pkg-config rather than gpgme-config.
+The 'opkg-key' utility requires gpg to manage the list of trusted keys. The
+ability to verify package signatures is not much use without the ability to add
+keys to the trusted list...
 
 Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 ---
- meta/recipes-support/gpgme/gpgme-1.4.3/gpgme.pc | 10 ++++++++++
- meta/recipes-support/gpgme/gpgme_1.4.3.bb       |  8 +++++++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/gpgme/gpgme-1.4.3/gpgme.pc
+ meta/recipes-devtools/opkg/opkg.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/gpgme/gpgme-1.4.3/gpgme.pc b/meta/recipes-support/gpgme/gpgme-1.4.3/gpgme.pc
-new file mode 100644
-index 0000000..30a4d56
---- /dev/null
-+++ b/meta/recipes-support/gpgme/gpgme-1.4.3/gpgme.pc
-@@ -0,0 +1,10 @@
-+prefix=/usr
-+libdir=${prefix}/lib
-+includedir=${prefix}/include
-+
-+Name: gpgme
-+Description: GNU Privacy Guard Made Easy
-+Version: 1.4.3
-+Requires:
-+Libs: -L${libdir} -lgpgme -lassuan -lgpg-error
-+Cflags: -I${includedir}
-diff --git a/meta/recipes-support/gpgme/gpgme_1.4.3.bb b/meta/recipes-support/gpgme/gpgme_1.4.3.bb
-index ef08d4f..ca1e5f9 100644
---- a/meta/recipes-support/gpgme/gpgme_1.4.3.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.4.3.bb
-@@ -10,7 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://src/engine.h;endline=22;md5=4b6d8ba313d9b564cc4d4cfb1640af9d"
+diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
+index ba21d84..56c54b6 100644
+--- a/meta/recipes-devtools/opkg/opkg.inc
++++ b/meta/recipes-devtools/opkg/opkg.inc
+@@ -27,7 +27,7 @@ OPKGLIBDIR = "${target_localstatedir}/lib"
  
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/gpgme/gpgme-${PV}.tar.bz2 \
--           file://disable_gpgconf_check.patch"
-+           file://disable_gpgconf_check.patch \
-+           file://gpgme.pc"
+ PACKAGECONFIG ??= ""
  
- SRC_URI[md5sum] = "334e524cffa8af4e2f43ae8afe585672"
- SRC_URI[sha256sum] = "2d1cc12411753752d9c5b9037e6fd3fd363517af720154768cc7b46b60120496"
-@@ -32,3 +33,8 @@ do_configure_prepend () {
- 	rm -f ${S}/m4/gpg-error.m4
- 	rm -f ${S}/m4/libassuan.m4
- }
-+
-+do_install_append () {
-+        install -d ${D}${libdir}/pkgconfig
-+        install -m 0644 ${WORKDIR}/gpgme.pc ${D}${libdir}/pkgconfig/
-+}
+-PACKAGECONFIG[gpg] = "--enable-gpg,--disable-gpg,gpgme libgpg-error"
++PACKAGECONFIG[gpg] = "--enable-gpg,--disable-gpg,gpgme libgpg-error,gnupg"
+ PACKAGECONFIG[curl] = "--enable-curl,--disable-curl,curl"
+ PACKAGECONFIG[ssl-curl] = "--enable-ssl-curl,--disable-ssl-curl,curl openssl"
+ PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
 -- 
 2.0.3
 
