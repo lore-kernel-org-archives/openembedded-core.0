@@ -1,37 +1,40 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id D3D5A65CD8
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 8150565CC9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Aug 2014 06:46:07 +0000 (UTC)
-Received: by mail-wi0-f173.google.com with SMTP id f8so486284wiw.12
+	Fri,  8 Aug 2014 07:54:44 +0000 (UTC)
+Received: by mail-ob0-f180.google.com with SMTP id uy5so3724520obc.39
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Aug 2014 23:46:08 -0700 (PDT)
+	Fri, 08 Aug 2014 00:54:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7FzdWe0TwhjesgTIFTjM0kYT3Ifsh7N2MyxFHv96ixw=;
-	b=Po2M8JbsyfZ7VtHaJROBDXFWSHLxAJ8/czFigtAgCsjDc+0xKlNSFbS4hNvOI/nwwH
-	BOEMwYnZuXJMdZgVipvcewKr0IgDy1E/bK3sPMXehhQAy4iH650kmlOF922s6Kf93mzv
-	d5ESWzuObcXXMCiDlZAzExiWu6Nh8sZ6awtREld8PtPz365BM0w5uV4EX5ZgKRXPrUgS
-	j7xN5mBodKxuJIX6/aH2GeVc6o5warpaQrL3B8M3oGQi4bAcyH4I7eLznMtS8TkfeAGL
-	9MtVocAsCuu0z/RqEYAVrwvimwh5PY6wsjv0MO1OkXljxJ7wKsw7zK127kTSyGiPlut9
-	kADA==
-X-Gm-Message-State: ALoCoQn5+yNJ4rWi0ET2jAXsx/03Cp/dS1k+IJl0TvubCMTpo4pUlijT07XBRAfHW6WUAWYdJPhl
-X-Received: by 10.180.14.5 with SMTP id l5mr2012448wic.50.1407480368410;
-	Thu, 07 Aug 2014 23:46:08 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
-	by mx.google.com with ESMTPSA id
-	fb12sm15111096wjc.43.2014.08.07.23.46.07 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 07 Aug 2014 23:46:07 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Aug 2014 08:46:03 +0200
-Message-Id: <1407480363-29145-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.3
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH] kexec-tools: reinstate 'kexec-tools' package
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=4Wc3DtbYANMwpg9+Qz2XZSB4bR+p+ArymZiz8esP/Ck=;
+	b=Cz1Qye+HqI8zBPRAW6CVfuMd86SFvsQ6A8fiG+0ko9aIg6v7JA86j+Y1yf9JH+RS5W
+	kbcA8oxIuPRCzZtoYdHBI9Zwk94K0eNbPrYnJEhAR1lJjyhai+eWjuzcyjupdaDLVgcR
+	DCnUOYyma80ThWIL2u+4JqFFN/qkH14jyim57aif3f6k2OhydKnu2KWpPVS/Z760Iyno
+	oKtY9WtVAcqu1S2KpQjvzBLH58vr4vfECzlFDH82V0E9myFnFjwz4SpZzkr5kPXVjl4m
+	VgbOTCiPo0vcsu/JOvu3zWrkg+jxkN5TzjgDyJrInDD+aD+HbRYZZM2nKe3mPQcSUr1B
+	vFVw==
+X-Gm-Message-State: ALoCoQnpsNdHm9/cnHDyn+ADI0Lq4JqNPwIXGDn0jtwOseGUn/3PnfM+Z5bA+/v9rP5bV5P4yh7a
+X-Received: by 10.182.29.234 with SMTP id n10mr28687752obh.67.1407484485506;
+	Fri, 08 Aug 2014 00:54:45 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.76.171.168 with HTTP; Fri, 8 Aug 2014 00:54:25 -0700 (PDT)
+In-Reply-To: <2374073.Q4LByM6bcI@peggleto-mobl5.ger.corp.intel.com>
+References: <1571948.CrPtZqAbFm@peggleto-mobl5.ger.corp.intel.com>
+	<53E3512E.5090008@dynamicdevices.co.uk>
+	<2374073.Q4LByM6bcI@peggleto-mobl5.ger.corp.intel.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Fri, 8 Aug 2014 09:54:25 +0200
+Message-ID: <CAP71WjwFb-wtMa_CcXkK+Cv5KY_CEQao+rUb=pYMoWmbT80G-A@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Yocto list discussion <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] RFC: Improving the developer workflow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +47,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Aug 2014 06:46:08 -0000
+X-List-Received-Date: Fri, 08 Aug 2014 07:54:52 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The vmcore commit emptied out ${PN} leading to things like:
+On Thu, Aug 7, 2014 at 3:05 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> Personally with how fragile package management can end up being, I'm convinced
+> that full-image updates are the way to go for a lot of cases, but ideally with
+> some intelligence so that you only ship the changes (at a filesystem level
+> rather than a package or file level). This ensures that an upgraded image on
+> one device ends up exactly identical to any other device including a newly
+> deployed one. Of course it does assume that you have a read-only rootfs and
+> keep your configuration data / logs / other writeable data on a separate
+> partition or storage medium. However, beyond improvements to support for
+> having a read-only rootfs we haven't really achieved anything in terms of out-
+> of-the-box support for this, mainly due to lack of resources.
+>
+> However, whilst I haven't had a chance to look at it closely, there has been
+> some work on this within the community:
+>
+> http://sbabic.github.io/swupdate/swupdate.html
+> https://github.com/sbabic/swupdate
+> https://github.com/sbabic/meta-swupdate/
+>
 
-	Collected errors:
-	 * opkg_install_cmd: Cannot install package kexec-tools.
+fwiw, Ubuntu has started to do something like that for their phone images, see
 
-Let's do the right thing and make ${PN} an empty meta-package that drags in all tools like people expect it to do.
+https://wiki.ubuntu.com/ImageBasedUpgrades
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb
-index 1bb7e9f..f0ece0d 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb
-@@ -9,6 +9,9 @@ SRC_URI[sha256sum] = "dde5c38be39882c6c91f0129647349c4e1943b077d3020af1970b481ee
- 
- PACKAGES =+ "kexec kdump vmcore-dmesg"
- 
-+ALLOW_EMPTY_${PN} = "1"
-+RRECOMMENDS_${PN} = "kexec kdump vmcore-dmesg"
-+
- FILES_kexec = "${sbindir}/kexec"
- FILES_kdump = "${sbindir}/kdump"
- FILES_vmcore-dmesg = "${sbindir}/vmcore-dmesg"
--- 
-1.9.3
-
+I haven't used nor looked into the details... i just had heard about
+it, and thought it was worth mentioning it here. however the main
+design idea from that wiki page is exactly what we are discussing
+here. e.g. build images on the 'server' side using our regular tools,
+but deploy binary differences on targets.
 
