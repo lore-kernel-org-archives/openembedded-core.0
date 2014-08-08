@@ -1,37 +1,27 @@
-Return-Path: <ajlennon@dynamicdevices.co.uk>
-Received: from www.dynamicdevices.co.uk (www.dynamicdevices.co.uk
-	[89.200.136.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F6AF60CFC
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 99305610F5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Aug 2014 15:57:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by www.dynamicdevices.co.uk (Postfix) with ESMTP id A14D127E052;
-	Fri,  8 Aug 2014 15:57:58 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at lennoab2.miniserver.com
-Received: from www.dynamicdevices.co.uk ([127.0.0.1])
-	by localhost (www.dynamicdevices.co.uk [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id n3KH0-7Yd5f4; Fri,  8 Aug 2014 15:57:57 +0000 (UTC)
-Received: from [127.0.0.1] (cpc32-live22-2-0-cust59.17-2.cable.virginm.net
-	[82.36.253.60])
-	(using TLSv1 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by www.dynamicdevices.co.uk (Postfix) with ESMTPSA id 90E1C27E031;
-	Fri,  8 Aug 2014 15:57:57 +0000 (UTC)
-Message-ID: <53E4F384.4050300@dynamicdevices.co.uk>
-Date: Fri, 08 Aug 2014 16:57:56 +0100
-From: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Fri,  8 Aug 2014 18:07:53 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Aug 2014 11:07:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,826,1400050800"; d="scan'208";a="582098365"
+Received: from unknown (HELO [10.255.12.111]) ([10.255.12.111])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2014 11:07:30 -0700
+Message-ID: <53E511E2.10300@linux.intel.com>
+Date: Fri, 08 Aug 2014 11:07:30 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1571948.CrPtZqAbFm@peggleto-mobl5.ger.corp.intel.com>
-	<53E3512E.5090008@dynamicdevices.co.uk>
-	<2374073.Q4LByM6bcI@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <2374073.Q4LByM6bcI@peggleto-mobl5.ger.corp.intel.com>
-X-Enigmail-Version: 1.6
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [yocto] RFC: Improving the developer workflow
+To: Sujith H <sujith.h@gmail.com>, 
+ openembedded-core@lists.openembedded.org
+References: <1407488988-14910-1-git-send-email-sujith.h@gmail.com>
+In-Reply-To: <1407488988-14910-1-git-send-email-sujith.h@gmail.com>
+Cc: Sujith H <Sujith_Haridasan@mentor.com>,
+	Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
+Subject: Re: [PATCH] psplash: Adding support for systemd service files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,68 +34,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Aug 2014 15:58:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 08 Aug 2014 18:07:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Paul,
-> Personally with how fragile package management can end up being, I'm convinced 
-> that full-image updates are the way to go for a lot of cases, but ideally with 
-> some intelligence so that you only ship the changes (at a filesystem level 
-> rather than a package or file level). This ensures that an upgraded image on 
-> one device ends up exactly identical to any other device including a newly 
-> deployed one. Of course it does assume that you have a read-only rootfs and 
-> keep your configuration data / logs / other writeable data on a separate 
-> partition or storage medium. However, beyond improvements to support for 
-> having a read-only rootfs we haven't really achieved anything in terms of out-
-> of-the-box support for this, mainly due to lack of resources.
+On 08/08/2014 02:09 AM, Sujith H wrote:
+> From: Sujith H <Sujith_Haridasan@mentor.com>
 >
-> However, whilst I haven't had a chance to look at it closely, there has been 
-> some work on this within the community:
+> If the DISTRO_FEATURES has systemd, then its better
+> to have corresponding service files associated with
+> the psplash. This change will help to do the same.
 >
-> http://sbabic.github.io/swupdate/swupdate.html
-> https://github.com/sbabic/swupdate
-> https://github.com/sbabic/meta-swupdate/
->  
+Can you propose a patch to the psplash upstream which is part of the 
+Yocto Project (send the patch to yocto@yoctoproject.org) and then we can 
+do a psplash upgrade to include these files directly?
+
+Thanks
+	Sau!
+
+> Signed-off-by: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
+> Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
+> ---
+>   meta/recipes-core/psplash/files/psplash-quit.service  | 11 +++++++++++
+>   meta/recipes-core/psplash/files/psplash-start.service | 11 +++++++++++
+>   meta/recipes-core/psplash/psplash_git.bb              | 12 +++++++++++-
+>   3 files changed, 33 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-core/psplash/files/psplash-quit.service
+>   create mode 100644 meta/recipes-core/psplash/files/psplash-start.service
 >
-
-I had a quick look at this. It's interesting. If I am reading this
-correctly it's based on the old
-
--> Bootloader runs Partition A
--> Update Partition B, set Bootloader to run Partition B
-->   On failure stay on partition A and retry update.
--> Bootloader runs Partition B
--> Update Partition A, set Bootloader to run Partition A
-->  etc.
-
-We've done this type of thing before and it works well. Of course the
-drawback is the amount
-of flash you need to achieve it but it is a good robust system.
-
-I'd be interested to see how this could work with filesystem deltas say.
-I don't _think_ that is
-documented here?
-
-...
-
-Thinking a little further what would also really interest me would be to
-consider using the
-transactionality of the underlying file-system or block-management layer
-for the update process.
-
-Given nowadays journalling and log-structure file-systems are already
-designed to fail-back when
-file/meta-data modifications are interrupted surely we should be able to
-start a macro-transaction
-point at the start of the  partition update,  and if that update doesn't
-complete with a macro-commit
-then the f/s layer should be able to automatically roll itself back?
-Perhaps the same could be done at
-a block management layer?
-
-Cheers,
-
-Alex
-
+> diff --git a/meta/recipes-core/psplash/files/psplash-quit.service b/meta/recipes-core/psplash/files/psplash-quit.service
+> new file mode 100644
+> index 0000000..14bd499
+> --- /dev/null
+> +++ b/meta/recipes-core/psplash/files/psplash-quit.service
+> @@ -0,0 +1,11 @@
+> +[Unit]
+> +Description=Terminate Psplash Boot Screen
+> +After=psplash-start.service
+> +
+> +[Service]
+> +Type=oneshot
+> +ExecStart=/usr/bin/psplash-write QUIT
+> +TimeoutSec=20
+> +
+> +[Install]
+> +WantedBy=multi-user.target
+> diff --git a/meta/recipes-core/psplash/files/psplash-start.service b/meta/recipes-core/psplash/files/psplash-start.service
+> new file mode 100644
+> index 0000000..502b150
+> --- /dev/null
+> +++ b/meta/recipes-core/psplash/files/psplash-start.service
+> @@ -0,0 +1,11 @@
+> +[Unit]
+> +Description=Starts Psplash Boot screen
+> +Wants=systemd-vconsole-setup.service
+> +After=systemd-vconsole-setup.service systemd-udev-trigger.service systemd-udevd.service
+> +DefaultDependencies=no
+> +
+> +[Service]
+> +ExecStart=/usr/bin/psplash
+> +
+> +[Install]
+> +WantedBy=sysinit.target
+> diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
+> index 628ced4..16fa0ae 100644
+> --- a/meta/recipes-core/psplash/psplash_git.bb
+> +++ b/meta/recipes-core/psplash/psplash_git.bb
+> @@ -11,6 +11,8 @@ PR = "r15"
+>
+>   SRC_URI = "git://git.yoctoproject.org/${BPN} \
+>              file://psplash-init \
+> +           file://psplash-start.service \
+> +           file://psplash-quit.service \
+>              ${SPLASH_IMAGES}"
+>
+>   SPLASH_IMAGES = "file://psplash-poky-img.h;outsuffix=default"
+> @@ -65,11 +67,14 @@ python __anonymous() {
+>
+>   S = "${WORKDIR}/git"
+>
+> -inherit autotools pkgconfig update-rc.d update-alternatives
+> +inherit autotools pkgconfig update-rc.d update-alternatives systemd
+>
+>   ALTERNATIVE_PRIORITY = "100"
+>   ALTERNATIVE_LINK_NAME[psplash] = "${bindir}/psplash"
+>
+> +SYSTEMD_PACKAGES = "${@base_contains('DISTRO_FEATURES','systemd','${PN}','',d)}"
+> +SYSTEMD_SERVICE_${PN} = "${@base_contains('DISTRO_FEATURES','systemd','psplash-start.service psplash-quit.service','',d)}"
+> +
+>   python do_compile () {
+>       import shutil
+>
+> @@ -103,6 +108,11 @@ do_install_append() {
+>   		install -m 0755 $i ${D}${bindir}/$i
+>   	done
+>   	rm -f ${D}${bindir}/psplash
+> +
+> +	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+> +                install -d ${D}${systemd_unitdir}/system
+> +                install -m 644 ${WORKDIR}/*.service ${D}/${systemd_unitdir}/system
+> +        fi
+>   }
+>
+>   FILES_${PN} += "/mnt/.psplash"
+>
 
