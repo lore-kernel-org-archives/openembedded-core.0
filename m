@@ -1,38 +1,29 @@
-Return-Path: <max.eliaser@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 92B286A362
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D61070897
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Aug 2014 22:34:40 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 07 Aug 2014 15:33:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,820,1400050800"; d="scan'208";a="466267695"
-Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
-	by azsmga001.ch.intel.com with ESMTP; 07 Aug 2014 15:33:49 -0700
-Received: from orsmsx156.amr.corp.intel.com (10.22.240.22) by
-	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Thu, 7 Aug 2014 15:33:49 -0700
-Received: from orsmsx110.amr.corp.intel.com ([169.254.3.162]) by
-	ORSMSX156.amr.corp.intel.com ([169.254.8.130]) with mapi id
-	14.03.0123.003; Thu, 7 Aug 2014 15:33:49 -0700
-From: "Eliaser, MaX" <max.eliaser@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Thread-Topic: [OE-core] [PATCH 0/2] Upstream recipe for bootchart2 from
-	WebOS (revised again)
-Thread-Index: AQHPsofjpc2GFTJqJkCyk9ci9DW1bZvFuH0Y
-Date: Thu, 7 Aug 2014 22:33:48 +0000
-Message-ID: <E88D0531F83F3744B03D1A909A2B070F5EDE3E@ORSMSX110.amr.corp.intel.com>
-References: <cover.1407445120.git.max.eliaser@intel.com>,
-	<20140807213833.GY14848@jama>
-In-Reply-To: <20140807213833.GY14848@jama>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.19.9.41]
+	Fri,  8 Aug 2014 04:19:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s784J2KO008918
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 7 Aug 2014 21:19:03 -0700 (PDT)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 7 Aug 2014 21:19:02 -0700
+Message-ID: <53E44FC0.8020408@windriver.com>
+Date: Fri, 8 Aug 2014 12:19:12 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Upstream recipe for bootchart2 from WebOS (revised again)
+To: ChenQi <Qi.Chen@windriver.com>
+References: <1407132320-22038-1-git-send-email-rongqing.li@windriver.com>
+	<53E1E5D6.5030001@windriver.com>
+In-Reply-To: <53E1E5D6.5030001@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] gmp: uprev it to 6.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,27 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Aug 2014 22:34:49 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-The first time I submitted this patch series a few weeks ago, that part got=
- accepted without me noticing, so it's already in oe-core. Saul pointed thi=
-s out to me, so I rebased to get that patch out of the series.
-
--Max
-________________________________________
-From: Martin Jansa [martin.jansa@gmail.com]
-Sent: Thursday, August 07, 2014 2:38 PM
-To: Eliaser, MaX
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 0/2] Upstream recipe for bootchart2 from WebO=
-S (revised again)
+X-List-Received-Date: Fri, 08 Aug 2014 04:19:05 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-This one is missing pycairo change, is it intentional?
 
---
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+On 08/06/2014 04:22 PM, ChenQi wrote:
+> There's a failure on autobuilder. Could you please check whether it's
+> related to this patch.
+>
+> ERROR: Unable to install packages. Command
+> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-non-gpl3/build/build/tmp/sysroots/x86_64-linux/usr/bin/smart
+> --data-dir=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-non-gpl3/build/build/tmp/work/qemux86-poky-linux/core-image-full-cmdline/1.0-r0/rootfs/var/lib/smart
+> install -y packagegroup-core-full-cmdline@all psplash@i586
+> run-postinsts@all packagegroup-core-ssh-openssh@all
+> packagegroup-core-boot@qemux86 locale-base-en-us@i586
+> locale-base-en-gb@i586' returned 1:
+> Loading cache...
+> Updating cache...               ########################################
+> [100%]
+>
+> Computing transaction...error: Can't install
+> packagegroup-core-full-cmdline-utils-1.0-r6@all: no package provides
+> libgmp3
+>
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/builds/197/steps/BuildImages/logs/stdio
+>
+>
+> //Chen Qi
+
+I can not reproduce it, maybe related old cache.
+
+
+-Roy
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
