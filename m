@@ -1,25 +1,25 @@
 Return-Path: <tom.zanussi@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DC3770AA6
+	by mail.openembedded.org (Postfix) with ESMTP id 6DF2470AAE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Aug 2014 22:06:45 +0000 (UTC)
+	Fri,  8 Aug 2014 22:06:50 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 08 Aug 2014 15:06:41 -0700
+	by azsmga101.ch.intel.com with ESMTP; 08 Aug 2014 15:06:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,827,1400050800"; d="scan'208";a="466678037"
+X-IronPort-AV: E=Sophos;i="5.01,827,1400050800"; d="scan'208";a="466678086"
 Received: from unknown (HELO localhost) ([10.255.12.19])
-	by azsmga001.ch.intel.com with ESMTP; 08 Aug 2014 15:06:38 -0700
+	by azsmga001.ch.intel.com with ESMTP; 08 Aug 2014 15:06:49 -0700
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Aug 2014 17:05:44 -0500
-Message-Id: <ef0766f343616984516b79abf6f4e93ea60880a0.1407533201.git.tom.zanussi@linux.intel.com>
+Date: Fri,  8 Aug 2014 17:05:48 -0500
+Message-Id: <0f5a8dd1e3e175be457caf7ab91cae7531d1a9db.1407533201.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <116ccc6f7ce3e70924e3fae56b24ff9e0914bde2.1407533201.git.tom.zanussi@linux.intel.com>
 References: <116ccc6f7ce3e70924e3fae56b24ff9e0914bde2.1407533201.git.tom.zanussi@linux.intel.com>
 In-Reply-To: <cover.1407533201.git.tom.zanussi@linux.intel.com>
 References: <cover.1407533201.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 19/35] wic: Clean up BaseImageCreator
+Subject: [PATCH 23/35] wic: Remove unused command versioning support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,1170 +32,870 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Aug 2014 22:06:46 -0000
+X-List-Received-Date: Fri, 08 Aug 2014 22:06:50 -0000
 
-wic doesn't use a lot of BaseImageCreator, so remove it.
+The default is F16 and there's no reason to change that, so remove
+everything else.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 ---
- scripts/lib/mic/imager/baseimager.py | 1030 +---------------------------------
- scripts/lib/mic/imager/direct.py     |    4 +-
- 2 files changed, 9 insertions(+), 1025 deletions(-)
+ .../3rdparty/pykickstart/commands/bootloader.py    |  49 ------
+ .../mic/3rdparty/pykickstart/commands/partition.py |  39 -----
+ .../mic/3rdparty/pykickstart/handlers/control.py   | 169 ---------------------
+ .../lib/mic/3rdparty/pykickstart/handlers/f10.py   |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/f11.py   |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/f12.py   |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/f13.py   |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/f14.py   |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/f15.py   |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/f7.py    |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/f8.py    |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/f9.py    |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/fc3.py   |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/fc4.py   |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/fc5.py   |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/fc6.py   |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/rhel3.py |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/rhel4.py |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/rhel5.py |  24 ---
+ .../lib/mic/3rdparty/pykickstart/handlers/rhel6.py |  24 ---
+ 20 files changed, 665 deletions(-)
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/f10.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/f11.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/f12.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/f13.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/f14.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/f15.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/f7.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/f8.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/f9.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/fc3.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/fc4.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/fc5.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/fc6.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/rhel3.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/rhel4.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/rhel5.py
+ delete mode 100644 scripts/lib/mic/3rdparty/pykickstart/handlers/rhel6.py
 
-diff --git a/scripts/lib/mic/imager/baseimager.py b/scripts/lib/mic/imager/baseimager.py
-index b721249..55f2dea 100644
---- a/scripts/lib/mic/imager/baseimager.py
-+++ b/scripts/lib/mic/imager/baseimager.py
-@@ -18,37 +18,31 @@
- 
- from __future__ import with_statement
- import os, sys
--import stat
- import tempfile
- import shutil
--import subprocess
--import re
--import tarfile
--import glob
- 
- from mic import kickstart
- from mic import msger
--from mic.utils.errors import CreatorError, Abort
-+from mic.utils.errors import CreatorError
- from mic.utils import misc, runner, fs_related as fs
- 
- class BaseImageCreator(object):
--    """Installs a system to a chroot directory.
-+    """Base class for image creation.
- 
--    ImageCreator is the simplest creator class available; it will install and
--    configure a system image according to the supplied kickstart file.
-+    BaseImageCreator is the simplest creator class available; it will
-+    create a system image according to the supplied kickstart file.
- 
-     e.g.
- 
-       import mic.imgcreate as imgcreate
-       ks = imgcreate.read_kickstart("foo.ks")
-       imgcreate.ImageCreator(ks, "foo").create()
--
-     """
- 
-     def __del__(self):
-         self.cleanup()
- 
--    def __init__(self, createopts = None, pkgmgr = None):
-+    def __init__(self, createopts = None):
-         """Initialize an ImageCreator instance.
- 
-         ks -- a pykickstart.KickstartParser instance; this instance will be
-@@ -59,36 +53,19 @@ class BaseImageCreator(object):
-                 filesystem labels
-         """
- 
--        self.pkgmgr = pkgmgr
--
-         self.__builddir = None
--        self.__bindmounts = []
- 
-         self.ks = None
-         self.name = "target"
-         self.tmpdir = "/var/tmp/wic"
--        self.cachedir = "/var/tmp/wic/cache"
-         self.workdir = "/var/tmp/wic/build"
- 
--        self.destdir = "."
--        self.installerfw_prefix = "INSTALLERFW_"
--        self.target_arch = "noarch"
--        self._local_pkgs_path = None
--        self.pack_to = None
--        self.repourl = {}
--
--        # If the kernel is save to the destdir when copy_kernel cmd is called.
--        self._need_copy_kernel = False
-         # setup tmpfs tmpdir when enabletmpfs is True
-         self.enabletmpfs = False
- 
-         if createopts:
-             # Mapping table for variables that have different names.
--            optmap = {"pkgmgr" : "pkgmgr_name",
--                      "outdir" : "destdir",
--                      "arch" : "target_arch",
--                      "local_pkgs_path" : "_local_pkgs_path",
--                      "copy_kernel" : "_need_copy_kernel",
-+            optmap = {"outdir" : "destdir",
-                      }
- 
-             # update setting from createopts
-@@ -101,41 +78,11 @@ class BaseImageCreator(object):
- 
-             self.destdir = os.path.abspath(os.path.expanduser(self.destdir))
- 
--            if 'release' in createopts and createopts['release']:
--                self.name = createopts['release'] + '_' + self.name
--
--            if self.pack_to:
--                if '@NAME@' in self.pack_to:
--                    self.pack_to = self.pack_to.replace('@NAME@', self.name)
--                (tar, ext) = os.path.splitext(self.pack_to)
--                if ext in (".gz", ".bz2") and tar.endswith(".tar"):
--                    ext = ".tar" + ext
--                if ext not in misc.pack_formats:
--                    self.pack_to += ".tar"
--
--        self._dep_checks = ["ls", "bash", "cp", "echo", "modprobe"]
-+        self._dep_checks = ["ls", "bash", "cp", "echo"]
- 
-         # Output image file names
-         self.outimage = []
- 
--        # A flag to generate checksum
--        self._genchecksum = False
--
--        self._alt_initrd_name = None
--
--        self._recording_pkgs = []
--
--        # available size in root fs, init to 0
--        self._root_fs_avail = 0
--
--        # Name of the disk image file that is created.
--        self._img_name = None
--
--        self.image_format = None
--
--        # Save qemu emulator file name in order to clean up it finally
--        self.qemu_emulator = None
--
-         # No ks provided when called by convertor, so skip the dependency check
-         if self.ks:
-             # If we have btrfs partition we need to check necessary tools
-@@ -144,31 +91,9 @@ class BaseImageCreator(object):
-                     self._dep_checks.append("mkfs.btrfs")
-                     break
- 
--        if self.target_arch and self.target_arch.startswith("arm"):
--            for dep in self._dep_checks:
--                if dep == "extlinux":
--                    self._dep_checks.remove(dep)
--
--            if not os.path.exists("/usr/bin/qemu-arm") or \
--               not misc.is_statically_linked("/usr/bin/qemu-arm"):
--                self._dep_checks.append("qemu-arm-static")
--
--            if os.path.exists("/proc/sys/vm/vdso_enabled"):
--                vdso_fh = open("/proc/sys/vm/vdso_enabled","r")
--                vdso_value = vdso_fh.read().strip()
--                vdso_fh.close()
--                if (int)(vdso_value) == 1:
--                    msger.warning("vdso is enabled on your host, which might "
--                        "cause problems with arm emulations.\n"
--                        "\tYou can disable vdso with following command before "
--                        "starting image build:\n"
--                        "\techo 0 | sudo tee /proc/sys/vm/vdso_enabled")
--
-         # make sure the specified tmpdir and cachedir exist
-         if not os.path.exists(self.tmpdir):
-             os.makedirs(self.tmpdir)
--        if not os.path.exists(self.cachedir):
--            os.makedirs(self.cachedir)
- 
- 
-     #
-@@ -190,23 +115,6 @@ class BaseImageCreator(object):
- 
-     """
- 
--    def __get_outdir(self):
--        if self.__builddir is None:
--            raise CreatorError("_outdir is not valid before calling mount()")
--        return self.__builddir + "/out"
--    _outdir = property(__get_outdir)
--    """The staging location for the final image.
--
--    This is where subclasses should stage any files that are part of the final
--    image. ImageCreator.package() will copy any files found here into the
--    requested destination directory.
--
--    Note, this directory does not exist before ImageCreator.mount() is called.
--
--    Note also, this is a read-only attribute.
--
--    """
--
- 
-     #
-     # Hooks for subclasses
-@@ -239,408 +147,6 @@ class BaseImageCreator(object):
-         """
-         pass
- 
--    def _create_bootconfig(self):
--        """Configure the image so that it's bootable.
--
--        This is the hook where subclasses may prepare the image for booting by
--        e.g. creating an initramfs and bootloader configuration.
--
--        This hook is called while the install root is still mounted, after the
--        packages have been installed and the kickstart configuration has been
--        applied, but before the %post scripts have been executed.
--
--        There is no default implementation.
--
--        """
--        pass
--
--    def _stage_final_image(self):
--        """Stage the final system image in _outdir.
--
--        This is the hook where subclasses should place the image in _outdir
--        so that package() can copy it to the requested destination directory.
--
--        By default, this moves the install root into _outdir.
--
--        """
--        shutil.move(self._instroot, self._outdir + "/" + self.name)
--
--    def get_installed_packages(self):
--        return self._pkgs_content.keys()
--
--    def _save_recording_pkgs(self, destdir):
--        """Save the list or content of installed packages to file.
--        """
--        pkgs = self._pkgs_content.keys()
--        pkgs.sort() # inplace op
--
--        if not os.path.exists(destdir):
--            os.makedirs(destdir)
--
--        content = None
--        if 'vcs' in self._recording_pkgs:
--            vcslst = ["%s %s" % (k, v) for (k, v) in self._pkgs_vcsinfo.items()]
--            content = '\n'.join(sorted(vcslst))
--        elif 'name' in self._recording_pkgs:
--            content = '\n'.join(pkgs)
--        if content:
--            namefile = os.path.join(destdir, self.name + '.packages')
--            f = open(namefile, "w")
--            f.write(content)
--            f.close()
--            self.outimage.append(namefile);
--
--        # if 'content', save more details
--        if 'content' in self._recording_pkgs:
--            contfile = os.path.join(destdir, self.name + '.files')
--            f = open(contfile, "w")
--
--            for pkg in pkgs:
--                content = pkg + '\n'
--
--                pkgcont = self._pkgs_content[pkg]
--                content += '    '
--                content += '\n    '.join(pkgcont)
--                content += '\n'
--
--                content += '\n'
--                f.write(content)
--            f.close()
--            self.outimage.append(contfile)
--
--        if 'license' in self._recording_pkgs:
--            licensefile = os.path.join(destdir, self.name + '.license')
--            f = open(licensefile, "w")
--
--            f.write('Summary:\n')
--            for license in reversed(sorted(self._pkgs_license, key=\
--                            lambda license: len(self._pkgs_license[license]))):
--                f.write("    - %s: %s\n" \
--                        % (license, len(self._pkgs_license[license])))
--
--            f.write('\nDetails:\n')
--            for license in reversed(sorted(self._pkgs_license, key=\
--                            lambda license: len(self._pkgs_license[license]))):
--                f.write("    - %s:\n" % (license))
--                for pkg in sorted(self._pkgs_license[license]):
--                    f.write("        - %s\n" % (pkg))
--                f.write('\n')
--
--            f.close()
--            self.outimage.append(licensefile)
--
--    def _get_required_packages(self):
--        """Return a list of required packages.
--
--        This is the hook where subclasses may specify a set of packages which
--        it requires to be installed.
--
--        This returns an empty list by default.
--
--        Note, subclasses should usually chain up to the base class
--        implementation of this hook.
--
--        """
--        return []
--
--    def _get_excluded_packages(self):
--        """Return a list of excluded packages.
--
--        This is the hook where subclasses may specify a set of packages which
--        it requires _not_ to be installed.
--
--        This returns an empty list by default.
--
--        Note, subclasses should usually chain up to the base class
--        implementation of this hook.
--
--        """
--        return []
--
--    def _get_local_packages(self):
--        """Return a list of rpm path to be local installed.
--
--        This is the hook where subclasses may specify a set of rpms which
--        it requires to be installed locally.
--
--        This returns an empty list by default.
--
--        Note, subclasses should usually chain up to the base class
--        implementation of this hook.
--
--        """
--        if self._local_pkgs_path:
--            if os.path.isdir(self._local_pkgs_path):
--                return glob.glob(
--                        os.path.join(self._local_pkgs_path, '*.rpm'))
--            elif os.path.splitext(self._local_pkgs_path)[-1] == '.rpm':
--                return [self._local_pkgs_path]
--
--        return []
--
--    def _get_fstab(self):
--        """Return the desired contents of /etc/fstab.
--
--        This is the hook where subclasses may specify the contents of
--        /etc/fstab by returning a string containing the desired contents.
--
--        A sensible default implementation is provided.
--
--        """
--        s =  "/dev/root  /         %s    %s 0 0\n" \
--             % (self._fstype,
--                "defaults,noatime" if not self._fsopts else self._fsopts)
--        s += self._get_fstab_special()
--        return s
--
--    def _get_fstab_special(self):
--        s = "devpts     /dev/pts  devpts  gid=5,mode=620   0 0\n"
--        s += "tmpfs      /dev/shm  tmpfs   defaults         0 0\n"
--        s += "proc       /proc     proc    defaults         0 0\n"
--        s += "sysfs      /sys      sysfs   defaults         0 0\n"
--        return s
--
--    def _set_part_env(self, pnum, prop, value):
--        """ This is a helper function which generates an environment variable
--        for a property "prop" with value "value" of a partition number "pnum".
--
--        The naming convention is:
--           * Variables start with INSTALLERFW_PART
--           * Then goes the partition number, the order is the same as
--             specified in the KS file
--           * Then goes the property name
--        """
--
--        if value == None:
--            value = ""
--        else:
--            value = str(value)
--
--        name = self.installerfw_prefix + ("PART%d_" % pnum) + prop
--        return { name : value }
--
--    def _get_post_scripts_env(self, in_chroot):
--        """Return an environment dict for %post scripts.
--
--        This is the hook where subclasses may specify some environment
--        variables for %post scripts by return a dict containing the desired
--        environment.
--
--        in_chroot -- whether this %post script is to be executed chroot()ed
--                     into _instroot.
--        """
--
--        env = {}
--        pnum = 0
--
--        for p in kickstart.get_partitions(self.ks):
--            env.update(self._set_part_env(pnum, "SIZE", p.size))
--            env.update(self._set_part_env(pnum, "MOUNTPOINT", p.mountpoint))
--            env.update(self._set_part_env(pnum, "FSTYPE", p.fstype))
--            env.update(self._set_part_env(pnum, "LABEL", p.label))
--            env.update(self._set_part_env(pnum, "FSOPTS", p.fsopts))
--            env.update(self._set_part_env(pnum, "BOOTFLAG", p.active))
--            env.update(self._set_part_env(pnum, "ALIGN", p.align))
--            env.update(self._set_part_env(pnum, "TYPE_ID", p.part_type))
--            env.update(self._set_part_env(pnum, "DEVNODE",
--                                          "/dev/%s%d" % (p.disk, pnum + 1)))
--            pnum += 1
--
--        # Count of paritions
--        env[self.installerfw_prefix + "PART_COUNT"] = str(pnum)
--
--        # Partition table format
--        ptable_format = self.ks.handler.bootloader.ptable
--        env[self.installerfw_prefix + "PTABLE_FORMAT"] = ptable_format
--
--        # The kerned boot parameters
--        kernel_opts = self.ks.handler.bootloader.appendLine
--        env[self.installerfw_prefix + "KERNEL_OPTS"] = kernel_opts
--
--        # Name of the distribution
--        env[self.installerfw_prefix + "DISTRO_NAME"] = self.distro_name
--
--        # Name of the image creation tool
--        env[self.installerfw_prefix + "INSTALLER_NAME"] = "wic"
--
--        # The real current location of the mounted file-systems
--        if in_chroot:
--            mount_prefix = "/"
--        else:
--            mount_prefix = self._instroot
--        env[self.installerfw_prefix + "MOUNT_PREFIX"] = mount_prefix
--
--        # These are historical variables which lack the common name prefix
--        if not in_chroot:
--            env["INSTALL_ROOT"] = self._instroot
--            env["IMG_NAME"] = self._name
--
--        return env
--
--    def __get_imgname(self):
--        return self.name
--    _name = property(__get_imgname)
--    """The name of the image file.
--
--    """
--
--    def _get_kernel_versions(self):
--        """Return a dict detailing the available kernel types/versions.
--
--        This is the hook where subclasses may override what kernel types and
--        versions should be available for e.g. creating the booloader
--        configuration.
--
--        A dict should be returned mapping the available kernel types to a list
--        of the available versions for those kernels.
--
--        The default implementation uses rpm to iterate over everything
--        providing 'kernel', finds /boot/vmlinuz-* and returns the version
--        obtained from the vmlinuz filename. (This can differ from the kernel
--        RPM's n-v-r in the case of e.g. xen)
--
--        """
--        def get_kernel_versions(instroot):
--            ret = {}
--            versions = set()
--            files = glob.glob(instroot + "/boot/vmlinuz-*")
--            for file in files:
--                version = os.path.basename(file)[8:]
--                if version is None:
--                    continue
--                versions.add(version)
--            ret["kernel"] = list(versions)
--            return ret
--
--        def get_version(header):
--            version = None
--            for f in header['filenames']:
--                if f.startswith('/boot/vmlinuz-'):
--                    version = f[14:]
--            return version
--
--        if self.ks is None:
--            return get_kernel_versions(self._instroot)
--
--        ts = rpm.TransactionSet(self._instroot)
--
--        ret = {}
--        for header in ts.dbMatch('provides', 'kernel'):
--            version = get_version(header)
--            if version is None:
--                continue
--
--            name = header['name']
--            if not name in ret:
--                ret[name] = [version]
--            elif not version in ret[name]:
--                ret[name].append(version)
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/commands/bootloader.py b/scripts/lib/mic/3rdparty/pykickstart/commands/bootloader.py
+index b227fac..c2b552f 100644
+--- a/scripts/lib/mic/3rdparty/pykickstart/commands/bootloader.py
++++ b/scripts/lib/mic/3rdparty/pykickstart/commands/bootloader.py
+@@ -214,52 +214,3 @@ class F15_Bootloader(F14_Bootloader):
+         op.add_option("--iscrypted", dest="isCrypted", action="store_true", default=False)
+         op.add_option("--md5pass", action="callback", callback=password_cb, nargs=1, type="string")
+         return op
+-
+-class RHEL5_Bootloader(FC4_Bootloader):
+-    removedKeywords = FC4_Bootloader.removedKeywords
+-    removedAttrs = FC4_Bootloader.removedAttrs
+-
+-    def __init__(self, writePriority=10, *args, **kwargs):
+-        FC4_Bootloader.__init__(self, writePriority, *args, **kwargs)
+-
+-        self.hvArgs = kwargs.get("hvArgs", "")
+-
+-    def _getArgsAsStr(self):
+-        ret = FC4_Bootloader._getArgsAsStr(self)
+-
+-        if self.hvArgs:
+-            ret += " --hvargs=\"%s\"" %(self.hvArgs,)
 -
 -        return ret
 -
+-    def _getParser(self):
+-        op = FC4_Bootloader._getParser(self)
+-        op.add_option("--hvargs", dest="hvArgs", type="string")
+-        return op
 -
--    #
--    # Helpers for subclasses
--    #
--    def _do_bindmounts(self):
--        """Mount various system directories onto _instroot.
+-class RHEL6_Bootloader(F12_Bootloader):
+-    removedKeywords = F12_Bootloader.removedKeywords
+-    removedAttrs = F12_Bootloader.removedAttrs
 -
--        This method is called by mount(), but may also be used by subclasses
--        in order to re-mount the bindmounts after modifying the underlying
--        filesystem.
+-    def __init__(self, writePriority=10, *args, **kwargs):
+-        F12_Bootloader.__init__(self, writePriority, *args, **kwargs)
 -
--        """
--        for b in self.__bindmounts:
--            b.mount()
+-        self.isCrypted = kwargs.get("isCrypted", False)
 -
--    def _undo_bindmounts(self):
--        """Unmount the bind-mounted system directories from _instroot.
+-    def _getArgsAsStr(self):
+-        ret = F12_Bootloader._getArgsAsStr(self)
 -
--        This method is usually only called by unmount(), but may also be used
--        by subclasses in order to gain access to the filesystem obscured by
--        the bindmounts - e.g. in order to create device nodes on the image
--        filesystem.
+-        if self.isCrypted:
+-            ret += " --iscrypted"
 -
--        """
--        self.__bindmounts.reverse()
--        for b in self.__bindmounts:
--            b.unmount()
+-        return ret
 -
--    def _chroot(self):
--        """Chroot into the install root.
+-    def _getParser(self):
+-        def password_cb(option, opt_str, value, parser):
+-            parser.values.isCrypted = True
+-            parser.values.password = value
 -
--        This method may be used by subclasses when executing programs inside
--        the install root e.g.
--
--          subprocess.call(["/bin/ls"], preexec_fn = self.chroot)
--
--        """
--        os.chroot(self._instroot)
--        os.chdir("/")
--
--    def _mkdtemp(self, prefix = "tmp-"):
--        """Create a temporary directory.
--
--        This method may be used by subclasses to create a temporary directory
--        for use in building the final image - e.g. a subclass might create
--        a temporary directory in order to bundle a set of files into a package.
--
--        The subclass may delete this directory if it wishes, but it will be
--        automatically deleted by cleanup().
--
--        The absolute path to the temporary directory is returned.
--
--        Note, this method should only be called after mount() has been called.
--
--        prefix -- a prefix which should be used when creating the directory;
--                  defaults to "tmp-".
--
--        """
--        self.__ensure_builddir()
--        return tempfile.mkdtemp(dir = self.__builddir, prefix = prefix)
--
--    def _mkstemp(self, prefix = "tmp-"):
--        """Create a temporary file.
--
--        This method may be used by subclasses to create a temporary file
--        for use in building the final image - e.g. a subclass might need
--        a temporary location to unpack a compressed file.
--
--        The subclass may delete this file if it wishes, but it will be
--        automatically deleted by cleanup().
--
--        A tuple containing a file descriptor (returned from os.open() and the
--        absolute path to the temporary directory is returned.
--
--        Note, this method should only be called after mount() has been called.
--
--        prefix -- a prefix which should be used when creating the file;
--                  defaults to "tmp-".
--
--        """
--        self.__ensure_builddir()
--        return tempfile.mkstemp(dir = self.__builddir, prefix = prefix)
--
--    def _mktemp(self, prefix = "tmp-"):
--        """Create a temporary file.
--
--        This method simply calls _mkstemp() and closes the returned file
--        descriptor.
--
--        The absolute path to the temporary file is returned.
--
--        Note, this method should only be called after mount() has been called.
--
--        prefix -- a prefix which should be used when creating the file;
--                  defaults to "tmp-".
--
--        """
--
--        (f, path) = self._mkstemp(prefix)
--        os.close(f)
--        return path
--
--
-     #
-     # Actual implementation
-     #
-@@ -658,64 +164,6 @@ class BaseImageCreator(object):
-             raise CreatorError("Failed create build directory in %s: %s" %
-                                (self.tmpdir, msg))
+-        op = F12_Bootloader._getParser(self)
+-        op.add_option("--iscrypted", dest="isCrypted", action="store_true", default=False)
+-        op.add_option("--md5pass", action="callback", callback=password_cb, nargs=1, type="string")
+-        return op
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/commands/partition.py b/scripts/lib/mic/3rdparty/pykickstart/commands/partition.py
+index e65e012..56b91aa 100644
+--- a/scripts/lib/mic/3rdparty/pykickstart/commands/partition.py
++++ b/scripts/lib/mic/3rdparty/pykickstart/commands/partition.py
+@@ -115,26 +115,6 @@ class FC4_PartData(FC3_PartData):
  
--    def get_cachedir(self, cachedir = None):
--        if self.cachedir:
--            return self.cachedir
--
--        self.__ensure_builddir()
--        if cachedir:
--            self.cachedir = cachedir
--        else:
--            self.cachedir = self.__builddir + "/wic-cache"
--        fs.makedirs(self.cachedir)
--        return self.cachedir
--
--    def __sanity_check(self):
--        """Ensure that the config we've been given is sane."""
--        if not (kickstart.get_packages(self.ks) or
--                kickstart.get_groups(self.ks)):
--            raise CreatorError("No packages or groups specified")
--
--        kickstart.convert_method_to_repo(self.ks)
--
--        if not kickstart.get_repos(self.ks):
--            raise CreatorError("No repositories specified")
--
--    def __write_fstab(self):
--        fstab_contents = self._get_fstab()
--        if fstab_contents:
--            fstab = open(self._instroot + "/etc/fstab", "w")
--            fstab.write(fstab_contents)
--            fstab.close()
--
--    def __create_minimal_dev(self):
--        """Create a minimal /dev so that we don't corrupt the host /dev"""
--        origumask = os.umask(0000)
--        devices = (('null',   1, 3, 0666),
--                   ('urandom',1, 9, 0666),
--                   ('random', 1, 8, 0666),
--                   ('full',   1, 7, 0666),
--                   ('ptmx',   5, 2, 0666),
--                   ('tty',    5, 0, 0666),
--                   ('zero',   1, 5, 0666))
--
--        links = (("/proc/self/fd", "/dev/fd"),
--                 ("/proc/self/fd/0", "/dev/stdin"),
--                 ("/proc/self/fd/1", "/dev/stdout"),
--                 ("/proc/self/fd/2", "/dev/stderr"))
--
--        for (node, major, minor, perm) in devices:
--            if not os.path.exists(self._instroot + "/dev/" + node):
--                os.mknod(self._instroot + "/dev/" + node,
--                         perm | stat.S_IFCHR,
--                         os.makedev(major,minor))
--
--        for (src, dest) in links:
--            if not os.path.exists(self._instroot + dest):
--                os.symlink(src, self._instroot + dest)
--
--        os.umask(origumask)
--
-     def __setup_tmpdir(self):
-         if not self.enabletmpfs:
-             return
-@@ -789,338 +237,6 @@ class BaseImageCreator(object):
+         return retval
  
-         self.__clean_tmpdir()
+-class RHEL5_PartData(FC4_PartData):
+-    removedKeywords = FC4_PartData.removedKeywords
+-    removedAttrs = FC4_PartData.removedAttrs
+-
+-    def __init__(self, *args, **kwargs):
+-        FC4_PartData.__init__(self, *args, **kwargs)
+-        self.encrypted = kwargs.get("encrypted", False)
+-        self.passphrase = kwargs.get("passphrase", "")
+-
+-    def _getArgsAsStr(self):
+-        retval = FC4_PartData._getArgsAsStr(self)
+-
+-        if self.encrypted:
+-            retval += " --encrypted"
+-
+-            if self.passphrase != "":
+-                retval += " --passphrase=\"%s\"" % self.passphrase
+-
+-        return retval
+-
+ class F9_PartData(FC4_PartData):
+     removedKeywords = FC4_PartData.removedKeywords + ["bytesPerInode"]
+     removedAttrs = FC4_PartData.removedAttrs + ["bytesPerInode"]
+@@ -281,25 +261,6 @@ class FC4_Partition(FC3_Partition):
+         op.add_option("--label", dest="label")
+         return op
  
--    def __is_excluded_pkg(self, pkg):
--        if pkg in self._excluded_pkgs:
--            self._excluded_pkgs.remove(pkg)
--            return True
+-class RHEL5_Partition(FC4_Partition):
+-    removedKeywords = FC4_Partition.removedKeywords
+-    removedAttrs = FC4_Partition.removedAttrs
 -
--        for xpkg in self._excluded_pkgs:
--            if xpkg.endswith('*'):
--                if pkg.startswith(xpkg[:-1]):
--                    return True
--            elif xpkg.startswith('*'):
--                if pkg.endswith(xpkg[1:]):
--                    return True
+-    def __init__(self, writePriority=130, *args, **kwargs):
+-        FC4_Partition.__init__(self, writePriority, *args, **kwargs)
 -
--        return None
--
--    def __select_packages(self, pkg_manager):
--        skipped_pkgs = []
--        for pkg in self._required_pkgs:
--            e = pkg_manager.selectPackage(pkg)
--            if e:
--                if kickstart.ignore_missing(self.ks):
--                    skipped_pkgs.append(pkg)
--                elif self.__is_excluded_pkg(pkg):
--                    skipped_pkgs.append(pkg)
--                else:
--                    raise CreatorError("Failed to find package '%s' : %s" %
--                                       (pkg, e))
--
--        for pkg in skipped_pkgs:
--            msger.warning("Skipping missing package '%s'" % (pkg,))
--
--    def __select_groups(self, pkg_manager):
--        skipped_groups = []
--        for group in self._required_groups:
--            e = pkg_manager.selectGroup(group.name, group.include)
--            if e:
--                if kickstart.ignore_missing(self.ks):
--                    skipped_groups.append(group)
--                else:
--                    raise CreatorError("Failed to find group '%s' : %s" %
--                                       (group.name, e))
--
--        for group in skipped_groups:
--            msger.warning("Skipping missing group '%s'" % (group.name,))
--
--    def __deselect_packages(self, pkg_manager):
--        for pkg in self._excluded_pkgs:
--            pkg_manager.deselectPackage(pkg)
--
--    def __localinst_packages(self, pkg_manager):
--        for rpm_path in self._get_local_packages():
--            pkg_manager.installLocal(rpm_path)
--
--    def __preinstall_packages(self, pkg_manager):
--        if not self.ks:
--            return
--
--        self._preinstall_pkgs = kickstart.get_pre_packages(self.ks)
--        for pkg in self._preinstall_pkgs:
--            pkg_manager.preInstall(pkg)
--
--    def __attachment_packages(self, pkg_manager):
--        if not self.ks:
--            return
--
--        self._attachment = []
--        for item in kickstart.get_attachment(self.ks):
--            if item.startswith('/'):
--                fpaths = os.path.join(self._instroot, item.lstrip('/'))
--                for fpath in glob.glob(fpaths):
--                    self._attachment.append(fpath)
--                continue
--
--            filelist = pkg_manager.getFilelist(item)
--            if filelist:
--                # found rpm in rootfs
--                for pfile in pkg_manager.getFilelist(item):
--                    fpath = os.path.join(self._instroot, pfile.lstrip('/'))
--                    self._attachment.append(fpath)
--                continue
--
--            # try to retrieve rpm file
--            (url, proxies) = pkg_manager.package_url(item)
--            if not url:
--                msger.warning("Can't get url from repo for %s" % item)
--                continue
--            fpath = os.path.join(self.cachedir, os.path.basename(url))
--            if not os.path.exists(fpath):
--                # download pkgs
--                try:
--                    fpath = grabber.myurlgrab(url, fpath, proxies, None)
--                except CreatorError:
--                    raise
--
--            tmpdir = self._mkdtemp()
--            misc.extract_rpm(fpath, tmpdir)
--            for (root, dirs, files) in os.walk(tmpdir):
--                for fname in files:
--                    fpath = os.path.join(root, fname)
--                    self._attachment.append(fpath)
--
--    def install(self, repo_urls=None):
--        """Install packages into the install root.
--
--        This function installs the packages listed in the supplied kickstart
--        into the install root. By default, the packages are installed from the
--        repository URLs specified in the kickstart.
--
--        repo_urls -- a dict which maps a repository name to a repository URL;
--                     if supplied, this causes any repository URLs specified in
--                     the kickstart to be overridden.
--
--        """
--
--        # initialize pkg list to install
--        if self.ks:
--            self.__sanity_check()
--
--            self._required_pkgs = \
--                kickstart.get_packages(self.ks, self._get_required_packages())
--            self._excluded_pkgs = \
--                kickstart.get_excluded(self.ks, self._get_excluded_packages())
--            self._required_groups = kickstart.get_groups(self.ks)
--        else:
--            self._required_pkgs = None
--            self._excluded_pkgs = None
--            self._required_groups = None
--
--        pkg_manager = self.get_pkg_manager()
--        pkg_manager.setup()
--
--        if hasattr(self, 'install_pkgs') and self.install_pkgs:
--            if 'debuginfo' in self.install_pkgs:
--                pkg_manager.install_debuginfo = True
--
--        for repo in kickstart.get_repos(self.ks, repo_urls):
--            (name, baseurl, mirrorlist, inc, exc,
--             proxy, proxy_username, proxy_password, debuginfo,
--             source, gpgkey, disable, ssl_verify, nocache,
--             cost, priority) = repo
--
--            yr = pkg_manager.addRepository(name, baseurl, mirrorlist, proxy,
--                        proxy_username, proxy_password, inc, exc, ssl_verify,
--                        nocache, cost, priority)
--
--        if kickstart.exclude_docs(self.ks):
--            rpm.addMacro("_excludedocs", "1")
--        rpm.addMacro("_dbpath", "/var/lib/rpm")
--        rpm.addMacro("__file_context_path", "%{nil}")
--        if kickstart.inst_langs(self.ks) != None:
--            rpm.addMacro("_install_langs", kickstart.inst_langs(self.ks))
--
--        try:
--            self.__preinstall_packages(pkg_manager)
--            self.__select_packages(pkg_manager)
--            self.__select_groups(pkg_manager)
--            self.__deselect_packages(pkg_manager)
--            self.__localinst_packages(pkg_manager)
--
--            BOOT_SAFEGUARD = 256L * 1024 * 1024 # 256M
--            checksize = self._root_fs_avail
--            if checksize:
--                checksize -= BOOT_SAFEGUARD
--            if self.target_arch:
--                pkg_manager._add_prob_flags(rpm.RPMPROB_FILTER_IGNOREARCH)
--            pkg_manager.runInstall(checksize)
--        except CreatorError, e:
--            raise
--        except  KeyboardInterrupt:
--            raise
--        else:
--            self._pkgs_content = pkg_manager.getAllContent()
--            self._pkgs_license = pkg_manager.getPkgsLicense()
--            self._pkgs_vcsinfo = pkg_manager.getVcsInfo()
--            self.__attachment_packages(pkg_manager)
--        finally:
--            pkg_manager.close()
--
--        # hook post install
--        self.postinstall()
--
--        # do some clean up to avoid lvm info leakage.  this sucks.
--        for subdir in ("cache", "backup", "archive"):
--            lvmdir = self._instroot + "/etc/lvm/" + subdir
--            try:
--                for f in os.listdir(lvmdir):
--                    os.unlink(lvmdir + "/" + f)
--            except:
--                pass
--
--    def postinstall(self):
--        self.copy_attachment()
--
--    def __run_post_scripts(self):
--        msger.info("Running scripts ...")
--        if os.path.exists(self._instroot + "/tmp"):
--            shutil.rmtree(self._instroot + "/tmp")
--        os.mkdir (self._instroot + "/tmp", 0755)
--        for s in kickstart.get_post_scripts(self.ks):
--            (fd, path) = tempfile.mkstemp(prefix = "ks-script-",
--                                          dir = self._instroot + "/tmp")
--
--            s.script = s.script.replace("\r", "")
--            os.write(fd, s.script)
--            os.close(fd)
--            os.chmod(path, 0700)
--
--            env = self._get_post_scripts_env(s.inChroot)
--
--            if not s.inChroot:
--                preexec = None
--                script = path
+-        def part_cb (option, opt_str, value, parser):
+-            if value.startswith("/dev/"):
+-                parser.values.ensure_value(option.dest, value[5:])
 -            else:
--                preexec = self._chroot
--                script = "/tmp/" + os.path.basename(path)
+-                parser.values.ensure_value(option.dest, value)
 -
--            try:
--                try:
--                    subprocess.call([s.interp, script],
--                                    preexec_fn = preexec,
--                                    env = env,
--                                    stdout = sys.stdout,
--                                    stderr = sys.stderr)
--                except OSError, (err, msg):
--                    raise CreatorError("Failed to execute %%post script "
--                                       "with '%s' : %s" % (s.interp, msg))
--            finally:
--                os.unlink(path)
+-    def _getParser(self):
+-        op = FC4_Partition._getParser(self)
+-        op.add_option("--encrypted", action="store_true", default=False)
+-        op.add_option("--passphrase")
+-        return op
 -
--    def __save_repo_keys(self, repodata):
--        if not repodata:
--            return None
+ class F9_Partition(FC4_Partition):
+     removedKeywords = FC4_Partition.removedKeywords
+     removedAttrs = FC4_Partition.removedAttrs
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/control.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/control.py
+index f6828a4..8dc80d1 100644
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/control.py
++++ b/scripts/lib/mic/3rdparty/pykickstart/handlers/control.py
+@@ -26,130 +26,12 @@ from pykickstart.commands import *
+ # command names can map to the same class.  However, the Handler will ensure
+ # that only one instance of each class ever exists.
+ commandMap = {
+-    FC3: {
+-        "bootloader": bootloader.FC3_Bootloader,
+-        "part": partition.FC3_Partition,
+-        "partition": partition.FC3_Partition,
+-    },
 -
--        gpgkeydir = "/etc/pki/rpm-gpg"
--        fs.makedirs(self._instroot + gpgkeydir)
--        for repo in repodata:
--            if repo["repokey"]:
--                repokey = gpgkeydir + "/RPM-GPG-KEY-%s" %  repo["name"]
--                shutil.copy(repo["repokey"], self._instroot + repokey)
+-    # based on fc3
+-    FC4: {
+-        "bootloader": bootloader.FC4_Bootloader,
+-        "part": partition.FC4_Partition,
+-        "partition": partition.FC4_Partition,
+-    },
 -
--    def configure(self, repodata = None):
--        """Configure the system image according to the kickstart.
+-    # based on fc4
+-    FC5: {
+-        "bootloader": bootloader.FC4_Bootloader,
+-        "part": partition.FC4_Partition,
+-        "partition": partition.FC4_Partition,
+-    },
 -
--        This method applies the (e.g. keyboard or network) configuration
--        specified in the kickstart and executes the kickstart %post scripts.
+-    # based on fc5
+-    FC6: {
+-        "bootloader": bootloader.FC4_Bootloader,
+-        "part": partition.FC4_Partition,
+-        "partition": partition.FC4_Partition,
+-    },
 -
--        If necessary, it also prepares the image to be bootable by e.g.
--        creating an initrd and bootloader configuration.
+-    # based on fc6
+-    F7: {
+-        "bootloader": bootloader.FC4_Bootloader,
+-        "part": partition.FC4_Partition,
+-        "partition": partition.FC4_Partition,
+-    },
 -
--        """
--        ksh = self.ks.handler
+-    # based on f7
+-    F8: {
+-        "bootloader": bootloader.F8_Bootloader,
+-        "part": partition.FC4_Partition,
+-        "partition": partition.FC4_Partition,
+-    },
 -
--        msger.info('Applying configurations ...')
--        try:
--            kickstart.LanguageConfig(self._instroot).apply(ksh.lang)
--            kickstart.KeyboardConfig(self._instroot).apply(ksh.keyboard)
--            kickstart.TimezoneConfig(self._instroot).apply(ksh.timezone)
--            #kickstart.AuthConfig(self._instroot).apply(ksh.authconfig)
--            kickstart.FirewallConfig(self._instroot).apply(ksh.firewall)
--            kickstart.RootPasswordConfig(self._instroot).apply(ksh.rootpw)
--            kickstart.UserConfig(self._instroot).apply(ksh.user)
--            kickstart.ServicesConfig(self._instroot).apply(ksh.services)
--            kickstart.XConfig(self._instroot).apply(ksh.xconfig)
--            kickstart.NetworkConfig(self._instroot).apply(ksh.network)
--            kickstart.RPMMacroConfig(self._instroot).apply(self.ks)
--            kickstart.DesktopConfig(self._instroot).apply(ksh.desktop)
--            self.__save_repo_keys(repodata)
--            kickstart.MoblinRepoConfig(self._instroot).apply(ksh.repo, repodata, self.repourl)
--        except:
--            msger.warning("Failed to apply configuration to image")
--            raise
+-    # based on f8
+-    F9: {
+-        "bootloader": bootloader.F8_Bootloader,
+-        "part": partition.F9_Partition,
+-        "partition": partition.F9_Partition,
+-    },
 -
--        self._create_bootconfig()
--        self.__run_post_scripts()
+-    # based on f9
+-    F10: {
+-        "bootloader": bootloader.F8_Bootloader,
+-        "part": partition.F9_Partition,
+-        "partition": partition.F9_Partition,
+-    },
 -
--    def launch_shell(self, launch):
--        """Launch a shell in the install root.
+-    # based on f10
+-    F11: {
+-        "bootloader": bootloader.F8_Bootloader,
+-        "part": partition.F11_Partition,
+-        "partition": partition.F11_Partition,
+-    },
 -
--        This method is launches a bash shell chroot()ed in the install root;
--        this can be useful for debugging.
+-    # based on f11
+-    F12: {
+-        "bootloader": bootloader.F12_Bootloader,
+-        "part": partition.F12_Partition,
+-        "partition": partition.F12_Partition,
+-    },
 -
--        """
--        if launch:
--            msger.info("Launching shell. Exit to continue.")
--            subprocess.call(["/bin/bash"], preexec_fn = self._chroot)
+-    # based on f12
+-    F13: {
+-        "bootloader": bootloader.F12_Bootloader,
+-        "part": partition.F12_Partition,
+-        "partition": partition.F12_Partition,
+-    },
 -
--    def do_genchecksum(self, image_name):
--        if not self._genchecksum:
--            return
+-    # based on f13
+-    F14: {
+-        "bootloader": bootloader.F14_Bootloader,
+-        "part": partition.F14_Partition,
+-        "partition": partition.F14_Partition,
+-    },
 -
--        md5sum = misc.get_md5sum(image_name)
--        with open(image_name + ".md5sum", "w") as f:
--            f.write("%s %s" % (md5sum, os.path.basename(image_name)))
--        self.outimage.append(image_name+".md5sum")
+-    # based on f14
+-    F15: {
+-        "bootloader": bootloader.F15_Bootloader,
+-        "part": partition.F14_Partition,
+-        "partition": partition.F14_Partition,
+-    },
 -
--    def package(self, destdir = "."):
--        """Prepares the created image for final delivery.
+     # based on f15
+     F16: {
+         "bootloader": bootloader.F15_Bootloader,
+         "part": partition.F14_Partition,
+         "partition": partition.F14_Partition,
+     },
 -
--        In its simplest form, this method merely copies the install root to the
--        supplied destination directory; other subclasses may choose to package
--        the image by e.g. creating a bootable ISO containing the image and
--        bootloader configuration.
+-    # based on fc1
+-    RHEL3: {
+-        "bootloader": bootloader.FC3_Bootloader,
+-        "part": partition.FC3_Partition,
+-        "partition": partition.FC3_Partition,
+-    },
 -
--        destdir -- the directory into which the final image should be moved;
--                   this defaults to the current directory.
+-    # based on fc3
+-    RHEL4: {
+-        "bootloader": bootloader.FC3_Bootloader,
+-        "part": partition.FC3_Partition,
+-        "partition": partition.FC3_Partition,
+-    },
 -
--        """
--        self._stage_final_image()
+-    # based on fc6
+-    RHEL5: {
+-        "bootloader": bootloader.RHEL5_Bootloader,
+-        "part": partition.RHEL5_Partition,
+-        "partition": partition.RHEL5_Partition,
+-    },
 -
--        if not os.path.exists(destdir):
--            fs.makedirs(destdir)
--
--        if self._recording_pkgs:
--            self._save_recording_pkgs(destdir)
--
--        # For image formats with two or multiple image files, it will be
--        # better to put them under a directory
--        if self.image_format in ("raw", "vmdk", "vdi", "nand", "mrstnand"):
--            destdir = os.path.join(destdir, "%s-%s" \
--                                            % (self.name, self.image_format))
--            msger.debug("creating destination dir: %s" % destdir)
--            fs.makedirs(destdir)
--
--        # Ensure all data is flushed to _outdir
--        runner.quiet('sync')
--
--        misc.check_space_pre_cp(self._outdir, destdir)
--        for f in os.listdir(self._outdir):
--            shutil.move(os.path.join(self._outdir, f),
--                        os.path.join(destdir, f))
--            self.outimage.append(os.path.join(destdir, f))
--            self.do_genchecksum(os.path.join(destdir, f))
+-    # based on f13ish
+-    RHEL6: {
+-        "bootloader": bootloader.RHEL6_Bootloader,
+-        "part": partition.F12_Partition,
+-        "partition": partition.F12_Partition,
+-    }
+ }
  
-     def print_outimage_info(self):
-         msg = "The new image can be found here:\n"
-@@ -1129,135 +245,3 @@ class BaseImageCreator(object):
-             msg += '  %s\n' % os.path.abspath(file)
- 
-         msger.info(msg)
+ # This map is keyed on kickstart syntax version as provided by
+@@ -158,58 +40,7 @@ commandMap = {
+ # each name maps to exactly one data class and all data classes have a name.
+ # More than one instance of each class is allowed to exist, however.
+ dataMap = {
+-    FC3: {
+-        "PartData": partition.FC3_PartData,
+-    },
+-    FC4: {
+-        "PartData": partition.FC4_PartData,
+-    },
+-    FC5: {
+-        "PartData": partition.FC4_PartData,
+-    },
+-    FC6: {
+-        "PartData": partition.FC4_PartData,
+-    },
+-    F7: {
+-        "PartData": partition.FC4_PartData,
+-    },
+-    F8: {
+-        "PartData": partition.FC4_PartData,
+-    },
+-    F9: {
+-        "PartData": partition.F9_PartData,
+-    },
+-    F10: {
+-        "PartData": partition.F9_PartData,
+-    },
+-    F11: {
+-        "PartData": partition.F11_PartData,
+-    },
+-    F12: {
+-        "PartData": partition.F12_PartData,
+-    },
+-    F13: {
+-        "PartData": partition.F12_PartData,
+-    },
+-    F14: {
+-        "PartData": partition.F14_PartData,
+-    },
+-    F15: {
+-        "PartData": partition.F14_PartData,
+-    },
+     F16: {
+         "PartData": partition.F14_PartData,
+     },
+-    RHEL3: {
+-        "PartData": partition.FC3_PartData,
+-    },
+-    RHEL4: {
+-        "PartData": partition.FC3_PartData,
+-    },
+-    RHEL5: {
+-        "PartData": partition.RHEL5_PartData,
+-    },
+-    RHEL6: {
+-        "PartData": partition.F12_PartData,
+-    }
+ }
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/f10.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/f10.py
+deleted file mode 100644
+index 17c8211..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/f10.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2008 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--    def check_depend_tools(self):
--        for tool in self._dep_checks:
--            fs.find_binary_path(tool)
+-class F10Handler(BaseHandler):
+-    version = F10
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/f11.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/f11.py
+deleted file mode 100644
+index d21aee3..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/f11.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2008 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--    def package_output(self, image_format, destdir = ".", package="none"):
--        if not package or package == "none":
--            return
+-class F11Handler(BaseHandler):
+-    version = F11
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/f12.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/f12.py
+deleted file mode 100644
+index cea3ece..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/f12.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2009 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--        destdir = os.path.abspath(os.path.expanduser(destdir))
--        (pkg, comp) = os.path.splitext(package)
--        if comp:
--            comp=comp.lstrip(".")
+-class F12Handler(BaseHandler):
+-    version = F12
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/f13.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/f13.py
+deleted file mode 100644
+index b94c738..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/f13.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2009 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--        if pkg == "tar":
--            if comp:
--                dst = "%s/%s-%s.tar.%s" %\
--                      (destdir, self.name, image_format, comp)
--            else:
--                dst = "%s/%s-%s.tar" %\
--                      (destdir, self.name, image_format)
+-class F13Handler(BaseHandler):
+-    version = F13
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/f14.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/f14.py
+deleted file mode 100644
+index 478f75d..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/f14.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2010 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--            msger.info("creating %s" % dst)
--            tar = tarfile.open(dst, "w:" + comp)
+-class F14Handler(BaseHandler):
+-    version = F14
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/f15.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/f15.py
+deleted file mode 100644
+index 12aecb4..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/f15.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2010 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--            for file in self.outimage:
--                msger.info("adding %s to %s" % (file, dst))
--                tar.add(file,
--                        arcname=os.path.join("%s-%s" \
--                                           % (self.name, image_format),
--                                              os.path.basename(file)))
--                if os.path.isdir(file):
--                    shutil.rmtree(file, ignore_errors = True)
--                else:
--                    os.remove(file)
+-class F15Handler(BaseHandler):
+-    version = F15
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/f7.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/f7.py
+deleted file mode 100644
+index 5e856ea..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/f7.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2007 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--            tar.close()
+-class F7Handler(BaseHandler):
+-    version = F7
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/f8.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/f8.py
+deleted file mode 100644
+index 1a97881..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/f8.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2007 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--            '''All the file in outimage has been packaged into tar.* file'''
--            self.outimage = [dst]
+-class F8Handler(BaseHandler):
+-    version = F8
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/f9.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/f9.py
+deleted file mode 100644
+index 116f1b5..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/f9.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2007 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--    def release_output(self, config, destdir, release):
--        """ Create release directory and files
--        """
+-class F9Handler(BaseHandler):
+-    version = F9
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/fc3.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/fc3.py
+deleted file mode 100644
+index a115dc2..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/fc3.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2005, 2006, 2007 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--        def _rpath(fn):
--            """ release path """
--            return os.path.join(destdir, fn)
+-class FC3Handler(BaseHandler):
+-    version = FC3
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/fc4.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/fc4.py
+deleted file mode 100644
+index fd47b73..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/fc4.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2007 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--        outimages = self.outimage
+-class FC4Handler(BaseHandler):
+-    version = FC4
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/fc5.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/fc5.py
+deleted file mode 100644
+index bcdc29d..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/fc5.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2007 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--        # new ks
--        new_kspath = _rpath(self.name+'.ks')
--        with open(config) as fr:
--            with open(new_kspath, "w") as wf:
--                # When building a release we want to make sure the .ks
--                # file generates the same build even when --release not used.
--                wf.write(fr.read().replace("@BUILD_ID@", release))
--        outimages.append(new_kspath)
+-class FC5Handler(BaseHandler):
+-    version = FC5
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/fc6.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/fc6.py
+deleted file mode 100644
+index c83a929..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/fc6.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2006, 2007 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--        # save log file, logfile is only available in creator attrs
--        if hasattr(self, 'logfile') and not self.logfile:
--            log_path = _rpath(self.name + ".log")
--            # touch the log file, else outimages will filter it out
--            with open(log_path, 'w') as wf:
--                wf.write('')
--            msger.set_logfile(log_path)
--            outimages.append(_rpath(self.name + ".log"))
+-class FC6Handler(BaseHandler):
+-    version = FC6
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/rhel3.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/rhel3.py
+deleted file mode 100644
+index 131763c..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/rhel3.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2007 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--        # rename iso and usbimg
--        for f in os.listdir(destdir):
--            if f.endswith(".iso"):
--                newf = f[:-4] + '.img'
--            elif f.endswith(".usbimg"):
--                newf = f[:-7] + '.img'
--            else:
--                continue
--            os.rename(_rpath(f), _rpath(newf))
--            outimages.append(_rpath(newf))
+-class RHEL3Handler(BaseHandler):
+-    version = RHEL3
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/rhel4.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/rhel4.py
+deleted file mode 100644
+index 3496c43..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/rhel4.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2007 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--        # generate MD5SUMS
--        with open(_rpath("MD5SUMS"), "w") as wf:
--            for f in os.listdir(destdir):
--                if f == "MD5SUMS":
--                    continue
+-class RHEL4Handler(BaseHandler):
+-    version = RHEL4
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/rhel5.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/rhel5.py
+deleted file mode 100644
+index abb7a8d..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/rhel5.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2007 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--                if os.path.isdir(os.path.join(destdir, f)):
--                    continue
+-class RHEL5Handler(BaseHandler):
+-    version = RHEL5
+diff --git a/scripts/lib/mic/3rdparty/pykickstart/handlers/rhel6.py b/scripts/lib/mic/3rdparty/pykickstart/handlers/rhel6.py
+deleted file mode 100644
+index 7202419..0000000
+--- a/scripts/lib/mic/3rdparty/pykickstart/handlers/rhel6.py
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#
+-# Chris Lumens <clumens@redhat.com>
+-#
+-# Copyright 2010 Red Hat, Inc.
+-#
+-# This copyrighted material is made available to anyone wishing to use, modify,
+-# copy, or redistribute it subject to the terms and conditions of the GNU
+-# General Public License v.2.  This program is distributed in the hope that it
+-# will be useful, but WITHOUT ANY WARRANTY expressed or implied, including the
+-# implied warranties of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License along with
+-# this program; if not, write to the Free Software Foundation, Inc., 51
+-# Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  Any Red Hat
+-# trademarks that are incorporated in the source code or documentation are not
+-# subject to the GNU General Public License and may only be used or replicated
+-# with the express permission of Red Hat, Inc. 
+-#
+-from pykickstart.base import *
+-from pykickstart.version import *
 -
--                md5sum = misc.get_md5sum(_rpath(f))
--                # There needs to be two spaces between the sum and
--                # filepath to match the syntax with md5sum.
--                # This way also md5sum -c MD5SUMS can be used by users
--                wf.write("%s *%s\n" % (md5sum, f))
--
--        outimages.append("%s/MD5SUMS" % destdir)
--
--        # Filter out the nonexist file
--        for fp in outimages[:]:
--            if not os.path.exists("%s" % fp):
--                outimages.remove(fp)
--
--    def copy_kernel(self):
--        """ Copy kernel files to the outimage directory.
--        NOTE: This needs to be called before unmounting the instroot.
--        """
--
--        if not self._need_copy_kernel:
--            return
--
--        if not os.path.exists(self.destdir):
--            os.makedirs(self.destdir)
--
--        for kernel in glob.glob("%s/boot/vmlinuz-*" % self._instroot):
--            kernelfilename = "%s/%s-%s" % (self.destdir,
--                                           self.name,
--                                           os.path.basename(kernel))
--            msger.info('copy kernel file %s as %s' % (os.path.basename(kernel),
--                                                      kernelfilename))
--            shutil.copy(kernel, kernelfilename)
--            self.outimage.append(kernelfilename)
--
--    def copy_attachment(self):
--        """ Subclass implement it to handle attachment files
--        NOTE: This needs to be called before unmounting the instroot.
--        """
--        pass
--
--    def get_pkg_manager(self):
--        return self.pkgmgr(target_arch = self.target_arch,
--                           instroot = self._instroot,
--                           cachedir = self.cachedir)
-diff --git a/scripts/lib/mic/imager/direct.py b/scripts/lib/mic/imager/direct.py
-index 7e2b63a..93f0cd9 100644
---- a/scripts/lib/mic/imager/direct.py
-+++ b/scripts/lib/mic/imager/direct.py
-@@ -54,14 +54,14 @@ class DirectImageCreator(BaseImageCreator):
- 
-     def __init__(self, oe_builddir, image_output_dir, rootfs_dir, bootimg_dir,
-                  kernel_dir, native_sysroot, hdddir, staging_data_dir,
--                 creatoropts=None, pkgmgr=None, compress_image=None,
-+                 creatoropts=None, compress_image=None,
-                  generate_bmap=None, fstab_entry="uuid"):
-         """
-         Initialize a DirectImageCreator instance.
- 
-         This method takes the same arguments as ImageCreator.__init__()
-         """
--        BaseImageCreator.__init__(self, creatoropts, pkgmgr)
-+        BaseImageCreator.__init__(self, creatoropts)
- 
-         self.__instimage = None
-         self.__imgdir = None
+-class RHEL6Handler(BaseHandler):
+-    version = RHEL6
 -- 
 1.8.3.1
 
