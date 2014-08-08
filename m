@@ -1,27 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 8409865DAC
+Return-Path: <kergoth@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CB906FE5C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Aug 2014 14:08:09 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 08 Aug 2014 07:08:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,825,1400050800"; d="scan'208";a="466509764"
-Received: from colmmora-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.127])
-	by azsmga001.ch.intel.com with ESMTP; 08 Aug 2014 07:08:08 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 08 Aug 2014 15:08:06 +0100
-Message-ID: <2818712.2hiaLxnVGE@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.13.3 (Linux/3.15.7-200.fc20.x86_64; KDE/4.13.3; x86_64; ; )
-In-Reply-To: <1407506787-3692-1-git-send-email-Martin.Jansa@gmail.com>
-References: <20140808102805.GD14848@jama>
-	<1407506787-3692-1-git-send-email-Martin.Jansa@gmail.com>
+	Fri,  8 Aug 2014 14:25:55 +0000 (UTC)
+Received: by mail-lb0-f170.google.com with SMTP id l4so1999007lbv.29
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Aug 2014 07:25:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=GIi1I63610uea58H/gIDoM7kraqgTcp3+4UDFHAIUaw=;
+	b=sU/Jp/4GdZ9YhJ0WoTRMwrJNUAadsinBVU6T4CRjLlneEZ0gHHH5z5m9Vgb0CcZewX
+	OpSLZdxsIqjiAxef+dS+ozAUB8aak5SCzvk9Z2+RZKeJ3HvPwf1dhvh2a4EZNSHPhUOA
+	v1nS9Ll5v/l45g0l3A1VBjAG2FG7DllbqV1EHCrQ/eX6orbdjkcpjuJiwh3XJ6bvdP13
+	rMIcj6A+I2GjBuOGenHHu6KMULyS7xOIGamAvdz9zuSfiN4J3/q0JJSwlpWq4H/WL3fW
+	9DHBe3OWuWCKMDjNz3PeG21Z/Sxv6340HQ2g2iyEpMBxj3PCjSFt5LfhmpIY1hZGiabV
+	5PAA==
+X-Received: by 10.152.3.65 with SMTP id a1mr2266126laa.76.1407507956080; Fri,
+	08 Aug 2014 07:25:56 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH] libav: drop older 0.8.11 and use libav-9 by default
+Sender: kergoth@gmail.com
+Received: by 10.112.43.42 with HTTP; Fri, 8 Aug 2014 07:25:35 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.11.1408080629500.13627@localhost>
+References: <alpine.LFD.2.11.1408080629500.13627@localhost>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Fri, 8 Aug 2014 07:25:35 -0700
+X-Google-Sender-Auth: tUCFXxYCaphUIQshWmMx-5X83bk
+Message-ID: <CABcZANn2DUaCHavWVPhFnoOgEQM9nF8fiWAyfNcD4e5i89xB8A@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: how does SCR_URI_OVERRIDES_PACKAGE_ARCH affect building tslib?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,165 +43,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Aug 2014 14:08:12 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 08 Aug 2014 14:26:03 -0000
+Content-Type: multipart/alternative; boundary=089e0141a0a8bda76605001efb05
 
-On Friday 08 August 2014 16:06:27 Martin Jansa wrote:
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  .../gstreamer/gst-ffmpeg_0.10.13.bb                |  3 +--
->  meta/recipes-multimedia/libav/libav.inc            |  8 ++++++++
->  .../0001-configure-enable-pic-for-AArch64.patch    | 23
-> ---------------------- meta/recipes-multimedia/libav/libav_0.8.11.bb      |
-> 20 ------------------- meta/recipes-multimedia/libav/libav_9.13.bb        |
-> 12 ----------- 5 files changed, 9 insertions(+), 57 deletions(-)
->  delete mode 100644
-> meta/recipes-multimedia/libav/libav/0001-configure-enable-pic-for-AArch64.p
-> atch delete mode 100644 meta/recipes-multimedia/libav/libav_0.8.11.bb
-> 
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-> b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb index
-> bd7b8ce..04c08cc 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-> @@ -53,7 +53,7 @@ SRC_URI =
-> "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-> file://0001-qdm2-check-array-index-before-use-fix-out-of-array-a.patch \
-> file://0001-lavf-compute-probe-buffer-size-more-reliably.patch \
-> file://0001-ffserver-set-oformat.patch \
-> -           ${@bb.utils.contains('PACKAGECONFIG', 'libav9',
-> 'file://libav-9.patch', '', d)} \ +           file://libav-9.patch \
->  "
-> 
->  SRC_URI[md5sum] = "7f5beacaf1312db2db30a026b36888c4"
-> @@ -80,7 +80,6 @@ EXTRA_OECONF = "${FFMPEG_EXTRA_CONFIGURE_COMMON}"
->  PACKAGECONFIG ??= "external-libav"
->  PACKAGECONFIG[external-libav] = "--with-system-ffmpeg,,libav"
->  PACKAGECONFIG[orc] = "--enable-orc,--disable-orc,orc"
-> -PACKAGECONFIG[libav9] = ",,,"
-> 
->  FILES_${PN} += "${libdir}/gstreamer-0.10/*.so"
->  FILES_${PN}-dbg += "${libdir}/gstreamer-0.10/.debug"
-> diff --git a/meta/recipes-multimedia/libav/libav.inc
-> b/meta/recipes-multimedia/libav/libav.inc index 8b470c1..21c29fc 100644
-> --- a/meta/recipes-multimedia/libav/libav.inc
-> +++ b/meta/recipes-multimedia/libav/libav.inc
-> @@ -10,6 +10,13 @@ SECTION = "libs"
->  LICENSE = "GPLv2+"
->  LICENSE_FLAGS = "commercial"
-> 
-> +LIC_FILES_CHKSUM =
-> "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \ +             
->       file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \ +        
->            file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \ +
->                   
-> file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02" +
-> +SRC_URI = "http://libav.org/releases/${BP}.tar.xz"
-> +
->  # Provides ffmpeg compat, see http://libav.org/about.html
->  PROVIDES = "ffmpeg"
-> 
-> @@ -86,6 +93,7 @@ do_install_append() {
->  }
-> 
->  PACKAGES += "${PN}-vhook-dbg ${PN}-vhook ffmpeg-x264-presets"
-> +PACKAGES_DYNAMIC += "^lib(av(codec|device|filter|format|util)|swscale).*"
-> 
->  RSUGGESTS_${PN} = "mplayer"
->  FILES_${PN} = "${bindir}"
-> diff --git
-> a/meta/recipes-multimedia/libav/libav/0001-configure-enable-pic-for-AArch64
-> .patch
-> b/meta/recipes-multimedia/libav/libav/0001-configure-enable-pic-for-AArch64
-> .patch deleted file mode 100644
-> index d9b22b9..0000000
-> ---
-> a/meta/recipes-multimedia/libav/libav/0001-configure-enable-pic-for-AArch64
-> .patch +++ /dev/null
-> @@ -1,23 +0,0 @@
-> -From 58db99e98f615d79ea90cac8f4bcf11c94e3e7c7 Mon Sep 17 00:00:00 2001
-> -From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-> -Date: Thu, 10 Jan 2013 12:42:19 +0100
-> -Subject: [PATCH] configure: enable pic for AArch64
-> -
-> -Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-> -
-> -Upstream-Status: Backport
-> ----
-> - configure |    2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> ---- git.orig/configure
-> -+++ git/configure
-> -@@ -2393,7 +2393,7 @@ check_host_cflags -std=c99
-> - check_host_cflags -Wall
-> -
-> - case "$arch" in
-> --    alpha|ia64|mips|parisc|ppc|sparc)
-> -+    alpha|ia64|mips|parisc|ppc|sparc|aarch64)
-> -         spic=$shared
-> -     ;;
-> -     x86)
-> diff --git a/meta/recipes-multimedia/libav/libav_0.8.11.bb
-> b/meta/recipes-multimedia/libav/libav_0.8.11.bb deleted file mode 100644
-> index 1344a2a..0000000
-> --- a/meta/recipes-multimedia/libav/libav_0.8.11.bb
-> +++ /dev/null
-> @@ -1,20 +0,0 @@
-> -require libav.inc
-> -
-> -SRC_URI = "http://libav.org/releases/${BP}.tar.xz \
-> -           file://0001-configure-enable-pic-for-AArch64.patch"
-> -
-> -SRC_URI[md5sum] = "cdc9b53c56a375baf73ea38cf7ade4f9"
-> -SRC_URI[sha256sum] =
-> "5934e4f0dbf6e0fc4987de86cdd079f1d11a1410ae275e9f46472af17f05155a" -
-> -LIC_FILES_CHKSUM =
-> "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \ -             
->       file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \ -        
->            file://COPYING.LGPLv2.1;md5=e344c8fa836c3a41c4cbd79d7bd3a379 \ -
->                   
-> file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02" -
-> -PROVIDES += "libpostproc"
-> -
-> -EXTRA_OECONF += " \
-> -    --enable-postproc \
-> -"
-> -
-> -PACKAGES_DYNAMIC +=
-> "^lib(av(codec|device|filter|format|util)|postproc|swscale).*" diff --git
-> a/meta/recipes-multimedia/libav/libav_9.13.bb
-> b/meta/recipes-multimedia/libav/libav_9.13.bb index f9c413f..e922403 100644
-> --- a/meta/recipes-multimedia/libav/libav_9.13.bb
-> +++ b/meta/recipes-multimedia/libav/libav_9.13.bb
-> @@ -1,16 +1,4 @@
->  require libav.inc
-> 
-> -LIC_FILES_CHKSUM =
-> "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \ -             
->       file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \ -        
->            file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \ -
->                   
-> file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02" -
-> -SRC_URI = "http://libav.org/releases/${BP}.tar.xz"
-> -
->  SRC_URI[md5sum] = "23b9e34bffdaee366710fdf20157a570"
->  SRC_URI[sha256sum] =
-> "2ff05df6cd2259b3bb277eb16c234214f8e0530700d0c774d033eba23edde6ca" -
-> -DEFAULT_PREFERENCE = "-1"
-> -
-> -# unlike 0.8.11 we don't provide libpostproc
-> -PACKAGES_DYNAMIC += "^lib(av(codec|device|filter|format|util)|swscale).*"
+--089e0141a0a8bda76605001efb05
+Content-Type: text/plain; charset=UTF-8
+
+On Fri, Aug 8, 2014 at 3:35 AM, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
+
+>
+>   looking at SRC_URI_OVERRIDES_PACKAGE_ARCH variable, and i notice
+> first that there is only one usage of it in all of oe-core (tslib),
+> but i'm confused as to what value it has.
+>
+>   the ref manual reads:
+>
+> "By default, the OpenEmbedded build system automatically detects
+> whether SRC_URI contains files that are machine-specific. If so, the
+> build system automatically changes PACKAGE_ARCH. Setting this variable
+> to "0" disables this behavior."
+>
+>   first, i'm not sure what about the tslib SRC_URI appears to be
+> machine-specific. also, just for fun, i commented out that line in the
+> tslib .bb file, and did a global "bb show" to see what difference it
+> made, and i saw no difference at all. so what exactly is the purpose
+> of that line in that recipe? what difference should i be able to see
+> with versus without it? thanks.
 
 
-If this works I'm definitely in favour of it.
-
-Cheers,
-Paul
-
+Any file:// file in an SRC_URI can become machine specific if placed in a
+machine subdir in the search path. That said, I don't know why the
+automatic behavior of setting package_arch in that case is something that
+needs to be disabled for tslib. I'd suggest using git-blame to examine the
+commits which added this variable.
 -- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
-Paul Eggleton
-Intel Open Source Technology Centre
+--089e0141a0a8bda76605001efb05
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Fri, Aug 8, 2014 at 3:35 AM, Robert P. J. Day <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.c=
+a</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"adM"><br></div>
+=C2=A0 looking at SRC_URI_OVERRIDES_PACKAGE_ARCH variable, and i notice<br>
+first that there is only one usage of it in all of oe-core (tslib),<br>
+but i&#39;m confused as to what value it has.<br>
+<br>
+=C2=A0 the ref manual reads:<br>
+<br>
+&quot;By default, the OpenEmbedded build system automatically detects<br>
+whether SRC_URI contains files that are machine-specific. If so, the<br>
+build system automatically changes PACKAGE_ARCH. Setting this variable<br>
+to &quot;0&quot; disables this behavior.&quot;<br>
+<br>
+=C2=A0 first, i&#39;m not sure what about the tslib SRC_URI appears to be<b=
+r>
+machine-specific. also, just for fun, i commented out that line in the<br>
+tslib .bb file, and did a global &quot;bb show&quot; to see what difference=
+ it<br>
+made, and i saw no difference at all. so what exactly is the purpose<br>
+of that line in that recipe? what difference should i be able to see<br>
+with versus without it? thanks.</blockquote></div><br></div><div class=3D"g=
+mail_extra">Any file:// file in an SRC_URI can become machine specific if p=
+laced in a machine subdir in the search path. That said, I don&#39;t know w=
+hy the automatic behavior of setting package_arch in that case is something=
+ that needs to be disabled for tslib. I&#39;d suggest using git-blame to ex=
+amine the commits which added this variable.<br>
+
+-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
+e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
+er, Mentor Graphics
+</div></div>
+
+--089e0141a0a8bda76605001efb05--
