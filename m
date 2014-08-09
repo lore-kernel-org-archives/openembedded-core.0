@@ -1,37 +1,37 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id C5EE870A73
+Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
+	[74.125.82.173])
+	by mail.openembedded.org (Postfix) with ESMTP id DA14C70A74
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Aug 2014 16:07:38 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id x48so6869982wes.33
+	Sat,  9 Aug 2014 16:07:39 +0000 (UTC)
+Received: by mail-we0-f173.google.com with SMTP id q58so6890270wes.32
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Aug 2014 09:07:38 -0700 (PDT)
+	Sat, 09 Aug 2014 09:07:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=LCV+CYP0NlCKEXPlbQQypr2Pqj+smEkm1X9SA2kgJMQ=;
-	b=FbhvluYVvzvpgzuB+RQ2lRQtvFCIFTj7T3RyMi2AZAX/s5l/v14/ZP2dFDRn2Jl/Xf
-	YyA4kTqeI3tm2O0jwTiCfucf0ENLwhYZzOJCOpIvW2DUvZB/RgoQz3b6MtTEI9Ky3c6h
-	Qg4/sA4hKeILjIos/4MUuc+NRoYu7VQE0d2ahemAltreH910NBjZa+ptrwTn3eHJtFZA
-	X/5WcJplpLi26/rejmaWbK7BCQxURLn01WZxyHKOTjx0h1731bODZcsYVfUUYZSjKFv8
-	HCa5AE7se02jX8TVGXAs0mQt5JkPm+AWP9RmgLw5JADNwfs6la64uzN0JvwJGzUUWapD
-	B3jw==
-X-Received: by 10.194.216.163 with SMTP id or3mr38620918wjc.31.1407600458819; 
-	Sat, 09 Aug 2014 09:07:38 -0700 (PDT)
+	bh=dryGKkIDwzvq6LHftvDUY/kCrGkWlR/GVroHD+OPwBc=;
+	b=MwboOTXuSrdbmCE4S4KqvfalF45sNpjo7R2NsyT8CNSkanBFzhKDCE528CFASyIfSH
+	1VhI2ogkHLR1ak/UMuKlQsEHed0OAIhyTXrf/X+OKJ1A+gilt88MLY7aq0gdifS3cOqA
+	X55LEpjpm87pbb2gpdFoGQjx5LO7NkFhJiRguhTpocdFVC88LoaSg8c48dMTQ6Quujgk
+	oDYi4FG+iL2I+72EgUFbUX6vGkdP8j3EjVasJTjJBVVowNNnzGAG2CrtUyzuCeISGWOT
+	kHbAtffxPnBoOMHmpUbuLPoR2QdpqSfSFYV0oLkQbqnEFxRpB2P90mKrziFf+WXD8e3/
+	MfAw==
+X-Received: by 10.180.106.99 with SMTP id gt3mr7158289wib.1.1407600460049;
+	Sat, 09 Aug 2014 09:07:40 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	u3sm20423381wif.12.2014.08.09.09.07.38 for <multiple recipients>
+	gl4sm20392547wib.19.2014.08.09.09.07.39 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 09 Aug 2014 09:07:38 -0700 (PDT)
+	Sat, 09 Aug 2014 09:07:39 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Aug 2014 18:07:59 +0200
-Message-Id: <1407600483-31215-4-git-send-email-Martin.Jansa@gmail.com>
+Date: Sat,  9 Aug 2014 18:08:00 +0200
+Message-Id: <1407600483-31215-5-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.0.4
 In-Reply-To: <1407600483-31215-1-git-send-email-Martin.Jansa@gmail.com>
 References: <1407600483-31215-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 4/8] libarchive: add PACKAGECONFIG for nettle
+Subject: [PATCH 5/8] piglit: add dependency on libxrender
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,29 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Aug 2014 16:07:39 -0000
+X-List-Received-Date: Sat, 09 Aug 2014 16:07:40 -0000
 
-* fixes following floating dependencies:
-  libarchive/libarchive/latest lost dependency on  nettle
-  libarchive/libarchive-bin/latest lost dependency on  libxml2 nettle
+* fixes floating dependency:
+  piglit/piglit/latest lost dependency on  libxrender
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-extended/libarchive/libarchive_3.1.2.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
-index 2a2d0f9..96e2d50 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.1.2.bb
-@@ -27,6 +27,7 @@ PACKAGECONFIG[openssl] = "--with-openssl,--without-openssl,openssl,"
- PACKAGECONFIG[libxml2] = "--with-xml2,--without-xml2,libxml2,"
- PACKAGECONFIG[expat] = "--with-expat,--without-expat,expat,"
- PACKAGECONFIG[lzo] = "--with-lzo2,--without-lzo2,lzo,"
-+PACKAGECONFIG[nettle] = "--with-nettle,--without-nettle,nettle,"
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 64289ed..32e73af 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -11,7 +11,7 @@ PV = "1.0+gitr${SRCPV}"
  
- SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://libarchive-CVE-2013-0211.patch \
+ S = "${WORKDIR}/git"
+ 
+-DEPENDS = "virtual/libx11 waffle virtual/libgl libglu python-mako-native python-numpy-native"
++DEPENDS = "virtual/libx11 libxrender waffle virtual/libgl libglu python-mako-native python-numpy-native"
+ 
+ # depends on virtual/libx11
+ REQUIRED_DISTRO_FEATURES = "x11"
 -- 
 2.0.4
 
