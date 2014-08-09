@@ -1,28 +1,42 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp02.online.nl (smtp02.online.nl [194.134.41.32])
-	by mail.openembedded.org (Postfix) with ESMTP id 58DEB70A02
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id EA77D70A48
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Aug 2014 11:22:10 +0000 (UTC)
-Received: from smtp02.online.nl (localhost [127.0.0.1])
-	by smtp02.online.nl (Postfix) with ESMTP id 7359FA484;
-	Sat,  9 Aug 2014 13:22:10 +0200 (CEST)
-Received: from [192.168.1.6] (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp02.online.nl (Postfix) with ESMTP;
-	Sat,  9 Aug 2014 13:22:10 +0200 (CEST)
-Message-ID: <53E60462.3010700@topic.nl>
-Date: Sat, 09 Aug 2014 13:22:10 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
-To: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
-References: <1571948.CrPtZqAbFm@peggleto-mobl5.ger.corp.intel.com>	<53E3512E.5090008@dynamicdevices.co.uk>	<2374073.Q4LByM6bcI@peggleto-mobl5.ger.corp.intel.com>
-	<53E5D844.2050909@topic.nl> <53E5DF83.3060301@dynamicdevices.co.uk>
-In-Reply-To: <53E5DF83.3060301@dynamicdevices.co.uk>
-X-Online-Scanned: by Cloudmark authority (on smtp02.online.nl)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [yocto] RFC: Improving the developer workflow
+	Sat,  9 Aug 2014 11:23:25 +0000 (UTC)
+Received: by mail-wg0-f49.google.com with SMTP id k14so6717606wgh.32
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 09 Aug 2014 04:23:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=kDbrK63OC5JYlv0O+aB3EDdYVseMTTYZZqJKnQLw68Q=;
+	b=D8JD1W8UH4kLnko90Bbf1QR/5C3nPpDARFtqRbePqMvy6X1xZi6BTz1ghcQQeJiua9
+	lYvI5Z0vdrW2JD5xEAE7DX31yyEZsOu8l72spFiSeZQhW+8lHayQsSLkm3gzn6+t6jPe
+	MpJEgV1cbbnYRDlpxzO8lg746QNxqEG6vppNHqmumIudn4yCG9dzgsXcNgUr1vFF2KXa
+	VouBdo/BdXN+WUQCrsDMwh0l/ddOGt/zuzEQnU8Iu+gl9nzRD5aFT8gMgIohGt66Jh8L
+	HpRMUkvXYrYsQrUcEpQFKn0l/GECxECYynFKIjaFOipFDNMOq716Uy7M4dbE5bv5y9ug
+	PedA==
+X-Gm-Message-State: ALoCoQlRfhGakJddZiMTaJhPfyJ/UzdkXyzvTrpiNvmIJ028S6ZAFqnzDKKygu2BRzS2GLo3PQEm
+X-Received: by 10.194.6.101 with SMTP id z5mr39516984wjz.79.1407583406765;
+	Sat, 09 Aug 2014 04:23:26 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::905b:ad9f:9b63:28bc?
+	([2001:610:612:0:905b:ad9f:9b63:28bc])
+	by mx.google.com with ESMTPSA id 19sm24011671wjz.3.2014.08.09.04.23.25
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 09 Aug 2014 04:23:26 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <20140809103447.GM14848@jama>
+Date: Sat, 9 Aug 2014 13:23:24 +0200
+Message-Id: <CF6FCEFC-5B1E-4DF3-8B21-6723E19142FE@dominion.thruhere.net>
+References: <1407572810-26063-1-git-send-email-koen.kooi@linaro.org>
+	<20140809103447.GM14848@jama>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.1878.6)
+Cc: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] nssmyhostname: fix runtime dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,106 +49,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Aug 2014 11:22:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 09 Aug 2014 11:23:29 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 08/09/2014 10:44 AM, Alex J Lennon wrote:
->
-> On 09/08/2014 09:13, Mike Looijmans wrote:
->> On 08/07/2014 03:05 PM, Paul Eggleton wrote:
->>> On Thursday 07 August 2014 11:13:02 Alex J Lennon wrote:
->>>> Historically I, and I suspect others, have done full image updates of
->>>> the storage medium,  onboard flash or whatever but these images are
->>>> getting so big now that I am trying to  move away from that and into
->>>> using package feeds for updates to embedded targets.
->>>
->>> Personally with how fragile package management can end up being, I'm
->>> convinced
->>> that full-image updates are the way to go for a lot of cases, but
->>> ideally with
->>> some intelligence so that you only ship the changes (at a filesystem
->>> level
->>> rather than a package or file level). This ensures that an upgraded
->>> image on
->>> one device ends up exactly identical to any other device including a
->>> newly
->>> deployed one. Of course it does assume that you have a read-only
->>> rootfs and
->>> keep your configuration data / logs / other writeable data on a separate
->>> partition or storage medium. However, beyond improvements to support for
->>> having a read-only rootfs we haven't really achieved anything in
->>> terms of out-
->>> of-the-box support for this, mainly due to lack of resources.
->>
->> Full-image upgrades are probably most seen in "lab" environments,
->> where the software is being developed.
->>
->> Once deployed to customers, who will not be using a build system, the
->> system must rely on packages and online updates.
->>
->> Embedded systems look more like desktops these days.
->>
->> - End-users will make changes to the system:
->>     - "plugins" and other applications.
->>     - configuration data
->>     - application data (e.g. loggings, EPG data)
->> - There is not enough room in the flash for two full images.
->> - There is usually a virtually indestructable bootloader that can
->> recover even from fully erasing the NAND flash.
->> - Flash filesystems are usually NAND. NAND isn't suitable for
->> read-only root filesystems, you want to wear-level across the whole
->> flash.
->>
->
-> Agreeing with much you say Mike, I was under the impression that there
-> are block management layers now which will wear level across partitions?
->
-> So you could have your read only partition but still wear levelled
-> across the NAND ?
 
-Going off-topic here I guess, but I think you can use the UBI block 
-layer in combination with e.g. squashfs. Never tried it, but it should 
-be possible to create an UBI volume, write a squash blob into it and 
-mount that.
+Op 9 aug. 2014, om 12:34 heeft Martin Jansa <martin.jansa@gmail.com> het =
+volgende geschreven:
 
-However, any system that accomplishes that, is sort of cheating. It 
-isn't a read-only rootfs in the true meaning of the word any more. In 
-time, the volume will move around on the flash, thus the rootfs will be 
-re-written.
+> On Sat, Aug 09, 2014 at 10:26:49AM +0200, Koen Kooi wrote:
+>> This should fix:
+>>=20
+>> 19:40 <fabo> ERROR: Unable to install packages. Command =
+'/mnt/ci_build/workspace/tmp/sysroots/x86_64-linux/usr/bin/opkg-cl -f =
+/mnt/ci_build/workspace/tmp/work/genericarmv8-oe-linux/linaro-image-minima=
+l/1.0-r0/opkg.conf -o
+>>             =
+/mnt/ci_build/workspace/tmp/work/genericarmv8-oe-linux/linaro-image-minima=
+l/1.0-r0/rootfs --force_postinstall --prefer-arch-to-version   install =
+opkg-collateral stress libnss-myhostname2 run-postinsts =
+auto-serial-console
+>>             util-linux-fsck stress-dbg packagegroup-co
+>> 19:41 <fabo> sed: can't read =
+/mnt/ci_build/workspace/tmp/work/aarch64-oe-linux/nss-myhostname/0.3-r0/im=
+age/etc/nsswitch.conf: No such file or directory
+>=20
+> Can you please check which recipe is supposed to install
+> libnss_myhostname.so.2 and kill it in the other one?
+>=20
+> WARNING: The recipe systemd is trying to install files into a shared
+> area when those files already exist. Those files and their manifest
+> location are:
+>   =
+/home/jenkins/oe/world/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/lib=
+nss_myhostname.so.2
+>   Matched in manifest-qemux86-64-nss-myhostname.populate_sysroot
 
->> For the OpenPLi settop boxes we've been using "online upgrades" which
->> basically just call "opkg update && opkg upgrade" for many years, and
->> there's never been a real disaster. The benefits easily outweigh the
->> drawbacks.
->>
->> When considering system upgrades, too much attention is being spent in
->> the "corner cases". It's not really a problem if the box is bricked
->> when the power fails during an upgrade. As long as there's a procedure
->> the end-user can use to recover the system (on most settop boxes,
->> debricking the system is just a matter of inserting a USB stick and
->> flipping the power switch).
->
-> For us on this latest project - and indeed the past few projects - it is
-> a major problem (and cost) if the device is bricked. These devices are
-> not user-maintainable and we'd be sending engineers out around the world
-> to fix.
->
-> Not a good impression to make with the customers either.
->
-> Whether we're a usual use case I don't know.
+That's what http://patches.openembedded.org/patch/77643/ is for, but I'm =
+not sure how to properly fix this, since not everyone has systemd in =
+DISTRO_FEATURES.
+Either way systemd needs to have postinst/postrm scripts for myhostname =
+as well. Hopefully I'll have some time next week at work for this.
 
-I think you're a very usual use case, and it's a valid one indeed. I'm 
-just trying to create awareness that there are projects out there that 
-use OE for consumer products, and have millions of devices running in 
-the end-users' living rooms, who upgrade at a whim (feed servers sending 
-out about 4TB traffic each month).
+regards,
 
-I've also done medical devices where, just as you say, bricking it just 
-isn't an option. These are typically inaccessible by the end-user, and 
-see no modification other than about 1k of configuration data (e.g. wifi 
-keys) during their lifespan.
+Koen
 
--- 
-Mike Looijmans
+>=20
+>> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+>> ---
+>> meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb | 3 +++
+>> 1 file changed, 3 insertions(+)
+>>=20
+>> diff --git =
+a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb =
+b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+>> index d8ec863..b9ddeaf 100644
+>> --- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+>> +++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+>> @@ -13,6 +13,9 @@ SRC_URI[sha256sum] =3D =
+"2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d3a7f6c4d67
+>>=20
+>> inherit autotools
+>>=20
+>> +# /etc/nsswitch.conf needs to be present
+>> +RDEPENDS_${PN} =3D "base-files"
+>> +
+>> pkg_postinst_${PN} () {
+>> 	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+>> 		-e =
+'s/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 myhostname =
+\3\4\5/' \
+>> --=20
+>> 1.9.3
+>>=20
+>> --=20
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
