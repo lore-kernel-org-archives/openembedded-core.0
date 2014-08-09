@@ -1,29 +1,37 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp06.online.nl (smtp06.online.nl [194.134.42.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A91B65D5E
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 3528165E2B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Aug 2014 08:13:57 +0000 (UTC)
-Received: from smtp06.online.nl (localhost [127.0.0.1])
-	by smtp06.online.nl (Postfix) with ESMTP id 6F959963C2
+	Sat,  9 Aug 2014 08:26:54 +0000 (UTC)
+Received: by mail-wi0-f177.google.com with SMTP id ho1so2020133wib.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Aug 2014 10:13:56 +0200 (CEST)
-Received: from [192.168.1.6] (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp06.online.nl (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Aug 2014 10:13:56 +0200 (CEST)
-Message-ID: <53E5D844.2050909@topic.nl>
-Date: Sat, 09 Aug 2014 10:13:56 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
+	Sat, 09 Aug 2014 01:26:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=NdZf4SKxnX/D3LQh9TQ1Tt3RZERb5qlJ2ZerbAxhZGg=;
+	b=Oy1BpduKkE6C74flb/4qljqv8ZInCDlmVMH3eTG3zVo+HVb6uvtdFRQum9mjYimWlg
+	pCgKirgEanMz7lRv83gOjyP5FgJtYIwe0DUqdWleAKwQoEIE4e4uN5KUA1dkRTLFGkOF
+	JTe72k+XT0gL5+R2zD0vEcUmRMnFBCUCmH9T5dYxFTDomlDPtLTZ2+X+CcMK5FszI71U
+	CjLsSRQN7nGBaVrI3sNE/uvUDBCj72p1/TKHdQudkDFAoqmYccRZbGmN4gbBktsuO8Nt
+	O+Ds/OtT9xxfhk0IOSV8iB5qzxt3KXjU6iXQvTwa3IqlNm6pZARRrZjaITkjZiTAYgcY
+	NnhQ==
+X-Gm-Message-State: ALoCoQlL9xYtarj6/P8db3sCe755Be5XeC9lzXfVQSWiaMhgVlqsR26HK00fJfP7vIHTWNJbgHOB
+X-Received: by 10.180.11.148 with SMTP id q20mr9563679wib.56.1407572815635;
+	Sat, 09 Aug 2014 01:26:55 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id ex4sm16478075wic.2.2014.08.09.01.26.54
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 09 Aug 2014 01:26:54 -0700 (PDT)
+From: Koen Kooi <koen.kooi@linaro.org>
 To: openembedded-core@lists.openembedded.org
-References: <1571948.CrPtZqAbFm@peggleto-mobl5.ger.corp.intel.com>	<53E3512E.5090008@dynamicdevices.co.uk>
-	<2374073.Q4LByM6bcI@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <2374073.Q4LByM6bcI@peggleto-mobl5.ger.corp.intel.com>
-X-Online-Scanned: by Cloudmark authority (on smtp06.online.nl)
-Subject: Re: [yocto] RFC: Improving the developer workflow
+Date: Sat,  9 Aug 2014 10:26:49 +0200
+Message-Id: <1407572810-26063-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.9.3
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH 1/2] nssmyhostname: fix runtime dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,60 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Aug 2014 08:13:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 09 Aug 2014 08:26:57 -0000
 
-On 08/07/2014 03:05 PM, Paul Eggleton wrote:
-> On Thursday 07 August 2014 11:13:02 Alex J Lennon wrote:
->> Historically I, and I suspect others, have done full image updates of
->> the storage medium,  onboard flash or whatever but these images are
->> getting so big now that I am trying to  move away from that and into
->> using package feeds for updates to embedded targets.
->
-> Personally with how fragile package management can end up being, I'm convinced
-> that full-image updates are the way to go for a lot of cases, but ideally with
-> some intelligence so that you only ship the changes (at a filesystem level
-> rather than a package or file level). This ensures that an upgraded image on
-> one device ends up exactly identical to any other device including a newly
-> deployed one. Of course it does assume that you have a read-only rootfs and
-> keep your configuration data / logs / other writeable data on a separate
-> partition or storage medium. However, beyond improvements to support for
-> having a read-only rootfs we haven't really achieved anything in terms of out-
-> of-the-box support for this, mainly due to lack of resources.
+This should fix:
 
-Full-image upgrades are probably most seen in "lab" environments, where 
-the software is being developed.
+19:40 <fabo> ERROR: Unable to install packages. Command '/mnt/ci_build/workspace/tmp/sysroots/x86_64-linux/usr/bin/opkg-cl -f /mnt/ci_build/workspace/tmp/work/genericarmv8-oe-linux/linaro-image-minimal/1.0-r0/opkg.conf -o
+             /mnt/ci_build/workspace/tmp/work/genericarmv8-oe-linux/linaro-image-minimal/1.0-r0/rootfs --force_postinstall --prefer-arch-to-version   install opkg-collateral stress libnss-myhostname2 run-postinsts auto-serial-console
+             util-linux-fsck stress-dbg packagegroup-co
+19:41 <fabo> sed: can't read /mnt/ci_build/workspace/tmp/work/aarch64-oe-linux/nss-myhostname/0.3-r0/image/etc/nsswitch.conf: No such file or directory
 
-Once deployed to customers, who will not be using a build system, the 
-system must rely on packages and online updates.
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+ meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Embedded systems look more like desktops these days.
-
-- End-users will make changes to the system:
-	- "plugins" and other applications.
-	- configuration data
-	- application data (e.g. loggings, EPG data)
-- There is not enough room in the flash for two full images.
-- There is usually a virtually indestructable bootloader that can 
-recover even from fully erasing the NAND flash.
-- Flash filesystems are usually NAND. NAND isn't suitable for read-only 
-root filesystems, you want to wear-level across the whole flash.
-
-For the OpenPLi settop boxes we've been using "online upgrades" which 
-basically just call "opkg update && opkg upgrade" for many years, and 
-there's never been a real disaster. The benefits easily outweigh the 
-drawbacks.
-
-When considering system upgrades, too much attention is being spent in 
-the "corner cases". It's not really a problem if the box is bricked when 
-the power fails during an upgrade. As long as there's a procedure the 
-end-user can use to recover the system (on most settop boxes, debricking 
-the system is just a matter of inserting a USB stick and flipping the 
-power switch).
-
-
-
+diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+index d8ec863..b9ddeaf 100644
+--- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
++++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+@@ -13,6 +13,9 @@ SRC_URI[sha256sum] = "2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d3a7f6c4d67
+ 
+ inherit autotools
+ 
++# /etc/nsswitch.conf needs to be present
++RDEPENDS_${PN} = "base-files"
++
+ pkg_postinst_${PN} () {
+ 	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+ 		-e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 myhostname \3\4\5/' \
 -- 
-Mike Looijmans
+1.9.3
+
 
