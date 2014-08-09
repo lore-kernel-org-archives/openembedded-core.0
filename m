@@ -1,25 +1,25 @@
 Return-Path: <corneliux.stoicescu@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id CFBDE708C0
+	by mail.openembedded.org (Postfix) with ESMTP id 1F571708C0
 	for <openembedded-core@lists.openembedded.org>;
 	Sat,  9 Aug 2014 08:53:59 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 09 Aug 2014 01:54:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,831,1400050800"; d="scan'208";a="582373394"
+X-IronPort-AV: E=Sophos;i="5.01,831,1400050800"; d="scan'208";a="582373391"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Aug 2014 01:53:58 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 09 Aug 2014 01:53:57 -0700
 Received: from localhost.localdomain (unknown [10.237.112.162])
-	by linux.intel.com (Postfix) with ESMTP id 30B446A4007;
-	Sat,  9 Aug 2014 01:53:20 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 2D6276A4007;
+	Sat,  9 Aug 2014 01:53:18 -0700 (PDT)
 From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Aug 2014 13:59:09 +0300
-Message-Id: <1407581949-12085-5-git-send-email-corneliux.stoicescu@intel.com>
+Date: Sat,  9 Aug 2014 13:59:08 +0300
+Message-Id: <1407581949-12085-4-git-send-email-corneliux.stoicescu@intel.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <1407581949-12085-1-git-send-email-corneliux.stoicescu@intel.com>
 References: <1407581949-12085-1-git-send-email-corneliux.stoicescu@intel.com>
-Subject: [PATCH 4/4] oeqa/sdk/: add sdk tests for sudoku, iptables and cvs
+Subject: [PATCH 3/4] oeqa/utils/targetbuild.py: add support for sdk tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,124 +32,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Aug 2014 08:53:59 -0000
+X-List-Received-Date: Sat, 09 Aug 2014 08:54:00 -0000
 
-Add test modules for sdk tests.
+- Create new abstract class BuildProject that provides basic functionality for a project/package building class
+        * contains abstract method _run() that needs to be implemented by all extending classes.
+- The old TargetBuildProject class now extends the abstract BuildProjct class
+- Introducing new SDKBuildProject that extends the abstract BuildProjct class
 
 NOTE: Original patch made by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
 Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 ---
- meta/lib/oeqa/sdk/__init__.py      |  3 +++
- meta/lib/oeqa/sdk/buildcvs.py      | 25 +++++++++++++++++++++++++
- meta/lib/oeqa/sdk/buildiptables.py | 26 ++++++++++++++++++++++++++
- meta/lib/oeqa/sdk/buildsudoku.py   | 22 ++++++++++++++++++++++
- 4 files changed, 76 insertions(+)
- create mode 100644 meta/lib/oeqa/sdk/__init__.py
- create mode 100644 meta/lib/oeqa/sdk/buildcvs.py
- create mode 100644 meta/lib/oeqa/sdk/buildiptables.py
- create mode 100644 meta/lib/oeqa/sdk/buildsudoku.py
+ meta/lib/oeqa/utils/targetbuild.py | 94 ++++++++++++++++++++++++++++++++------
+ 1 file changed, 79 insertions(+), 15 deletions(-)
 
-diff --git a/meta/lib/oeqa/sdk/__init__.py b/meta/lib/oeqa/sdk/__init__.py
-new file mode 100644
-index 0000000..4cf3fa7
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/__init__.py
-@@ -0,0 +1,3 @@
-+# Enable other layers to have tests in the same named directory
-+from pkgutil import extend_path
-+__path__ = extend_path(__path__, __name__)
-diff --git a/meta/lib/oeqa/sdk/buildcvs.py b/meta/lib/oeqa/sdk/buildcvs.py
-new file mode 100644
-index 0000000..c7146fa
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/buildcvs.py
-@@ -0,0 +1,25 @@
-+from oeqa.oetest import oeSDKTest, skipModule
-+from oeqa.utils.decorators import *
-+from oeqa.utils.targetbuild import SDKBuildProject
+diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/targetbuild.py
+index 3229676..eeb08ba 100644
+--- a/meta/lib/oeqa/utils/targetbuild.py
++++ b/meta/lib/oeqa/utils/targetbuild.py
+@@ -6,23 +6,25 @@
+ 
+ import os
+ import re
++import bb.utils
+ import subprocess
++from abc import ABCMeta, abstractmethod
+ 
++class BuildProject():
+ 
+-class TargetBuildProject():
++    __metaclass__ = ABCMeta
+ 
+-    def __init__(self, target, d, uri, foldername=None):
+-        self.target = target
++    def __init__(self, d, uri, foldername=None, tmpdir="/tmp/"):
+         self.d = d
+         self.uri = uri
+-        self.targetdir = "~/"
+         self.archive = os.path.basename(uri)
+-        self.localarchive = "/tmp/" + self.archive
++        self.localarchive = os.path.join(tmpdir,self.archive)
+         self.fname = re.sub(r'.tar.bz2|tar.gz$', '', self.archive)
+         if foldername:
+             self.fname = foldername
+ 
+-    def download_archive(self):
++    # Download self.archive to self.localarchive
++    def _download_archive(self):
+ 
+         exportvars = ['HTTP_PROXY', 'http_proxy',
+                       'HTTPS_PROXY', 'https_proxy',
+@@ -41,6 +43,38 @@ class TargetBuildProject():
+         cmd = cmd + "wget -O %s %s" % (self.localarchive, self.uri)
+         subprocess.check_call(cmd, shell=True)
+ 
++    # This method should provide a way to run a command in the desired environment.
++    @abstractmethod
++    def _run(self, cmd):
++        pass
 +
-+class BuildCvsTest(oeSDKTest):
++    # The timeout parameter of target.run is set to 0 to make the ssh command
++    # run with no timeout.
++    def run_configure(self, configure_args=''):
++        return self._run('cd %s; ./configure %s' % (self.targetdir, configure_args))
 +
-+    @classmethod
-+    def setUpClass(self):
-+        self.project = SDKBuildProject(oeSDKTest.tc.sdktestdir + "/cvs/", oeSDKTest.tc.sdkenv, oeSDKTest.tc.d,
-+                        "http://ftp.gnu.org/non-gnu/cvs/source/feature/1.12.13/cvs-1.12.13.tar.bz2")
-+        self.project.download_archive()
++    def run_make(self, make_args=''):
++        return self._run('cd %s; make %s' % (self.targetdir, make_args))
 +
-+    def test_cvs(self):
-+        self.assertEqual(self.project.run_configure(), 0,
-+                        msg="Running configure failed")
++    def run_install(self, install_args=''):
++        return self._run('cd %s; make install %s' % (self.targetdir, install_args))
 +
-+        self.assertEqual(self.project.run_make(), 0,
-+                        msg="Running make failed")
++    def clean(self):
++        self._run('rm -rf %s' % self.targetdir)
++        subprocess.call('rm -f %s' % self.localarchive, shell=True)
++        pass
 +
-+        self.assertEqual(self.project.run_install(), 0,
-+                        msg="Running make install failed")
++class TargetBuildProject(BuildProject):
 +
-+    @classmethod
-+    def tearDownClass(self):
-+        self.project.clean()
-diff --git a/meta/lib/oeqa/sdk/buildiptables.py b/meta/lib/oeqa/sdk/buildiptables.py
-new file mode 100644
-index 0000000..062e531
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/buildiptables.py
-@@ -0,0 +1,26 @@
-+from oeqa.oetest import oeSDKTest
-+from oeqa.utils.decorators import *
-+from oeqa.utils.targetbuild import SDKBuildProject
++    def __init__(self, target, d, uri, foldername=None):
++        self.target = target
++        self.targetdir = "~/"
++        BuildProject.__init__(self, d, uri, foldername, tmpdir="/tmp")
 +
++    def download_archive(self):
 +
-+class BuildIptablesTest(oeSDKTest):
++        self._download_archive()
 +
-+    @classmethod
-+    def setUpClass(self):
-+        self.project = SDKBuildProject(oeSDKTest.tc.sdktestdir + "/iptables/", oeSDKTest.tc.sdkenv, oeSDKTest.tc.d,
-+                        "http://netfilter.org/projects/iptables/files/iptables-1.4.13.tar.bz2")
-+        self.project.download_archive()
+         (status, output) = self.target.copy_to(self.localarchive, self.targetdir)
+         if status != 0:
+             raise Exception("Failed to copy archive to target, output: %s" % output)
+@@ -54,15 +88,45 @@ class TargetBuildProject():
+ 
+     # The timeout parameter of target.run is set to 0 to make the ssh command
+     # run with no timeout.
+-    def run_configure(self):
+-        return self.target.run('cd %s; ./configure' % self.targetdir, 0)[0]
++    def _run(self, cmd):
++        return self.target.run(cmd, 0)[0]
+ 
+-    def run_make(self):
+-        return self.target.run('cd %s; make' % self.targetdir, 0)[0]
+ 
+-    def run_install(self):
+-        return self.target.run('cd %s; make install' % self.targetdir, 0)[0]
++class SDKBuildProject(BuildProject):
 +
-+    def test_iptables(self):
-+        self.assertEqual(self.project.run_configure(), 0,
-+                        msg="Running configure failed")
++    def __init__(self, testpath, sdkenv, d, uri, foldername=None):
++        self.sdkenv = sdkenv
++        self.testdir = testpath
++        self.targetdir = testpath
++        bb.utils.mkdirhier(testpath)
++        self.datetime = d.getVar('DATETIME', True)
++        self.testlogdir = d.getVar("TEST_LOG_DIR", True)
++        bb.utils.mkdirhier(self.testlogdir)
++        self.logfile = os.path.join(self.testlogdir, "sdk_target_log.%s" % self.datetime)
++        BuildProject.__init__(self, d, uri, foldername, tmpdir=testpath)
 +
-+        self.assertEqual(self.project.run_make(), 0,
-+                        msg="Running make failed")
++    def download_archive(self):
 +
-+        self.assertEqual(self.project.run_install(), 0,
-+                        msg="Running make install failed")
++        self._download_archive()
 +
-+    @classmethod
-+    def tearDownClass(self):
-+        self.project.clean()
-diff --git a/meta/lib/oeqa/sdk/buildsudoku.py b/meta/lib/oeqa/sdk/buildsudoku.py
-new file mode 100644
-index 0000000..6a60c76
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/buildsudoku.py
-@@ -0,0 +1,22 @@
-+from oeqa.oetest import oeSDKTest, skipModule
-+from oeqa.utils.decorators import *
-+from oeqa.utils.targetbuild import SDKBuildProject
++        cmd = 'tar xf %s%s -C %s' % (self.targetdir, self.archive, self.targetdir)
++        subprocess.check_call(cmd, shell=True)
 +
-+class SudokuTest(oeSDKTest):
++        #Change targetdir to project folder
++        self.targetdir = self.targetdir + self.fname
 +
-+    @classmethod
-+    def setUpClass(self):
-+        self.project = SDKBuildProject(oeSDKTest.tc.sdktestdir + "/sudoku/", oeSDKTest.tc.sdkenv, oeSDKTest.tc.d,
-+                        "http://downloads.sourceforge.net/project/sudoku-savant/sudoku-savant/sudoku-savant-1.3/sudoku-savant-1.3.tar.bz2")
-+        self.project.download_archive()
++    def run_configure(self, configure_args=''):
++        return super(SDKBuildProject, self).run_configure(configure_args=(configure_args or '$CONFIGURE_FLAGS'))
 +
-+    def test_sudoku(self):
-+        self.assertEqual(self.project.run_configure(), 0,
-+                        msg="Running configure failed")
++    def run_install(self, install_args=''):
++        return super(SDKBuildProject, self).run_install(install_args=(install_args or "DESTDIR=%s/../install" % self.targetdir))
 +
-+        self.assertEqual(self.project.run_make(), 0,
-+                        msg="Running make failed")
++    def log(self, msg):
++        if self.logfile:
++            with open(self.logfile, "a") as f:
++               f.write("%s\n" % msg)
 +
-+    @classmethod
-+    def tearDownClass(self):
-+        self.project.clean()
++    def _run(self, cmd):
++        self.log("Running source %s; " % self.sdkenv + cmd)
++        return subprocess.call("source %s; " % self.sdkenv + cmd, shell=True)
+ 
+-    def clean(self):
+-        self.target.run('rm -rf %s' % self.targetdir)
+-        subprocess.call('rm -f %s' % self.localarchive, shell=True)
 -- 
 1.8.3.2
 
