@@ -1,41 +1,35 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
-	by mail.openembedded.org (Postfix) with ESMTP id C633C65F2A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 988A960B05
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Aug 2014 13:17:25 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
-	via TCP (outbound) with ESMTPS id 20140809131725539
+	Sat,  9 Aug 2014 16:07:33 +0000 (UTC)
+Received: by mail-wi0-f177.google.com with SMTP id ho1so2342764wib.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Aug 2014 13:17:25 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=35508 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XG6WP-0003hK-5m; Sat, 09 Aug 2014 09:17:21 -0400
-Date: Sat, 9 Aug 2014 09:17:16 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Saul Wold <sgw@linux.intel.com>
-In-Reply-To: <53E54245.4070704@linux.intel.com>
-Message-ID: <alpine.LFD.2.11.1408090914290.7338@localhost>
-References: <alpine.LFD.2.11.1408081529290.23581@localhost>
-	<53E54245.4070704@linux.intel.com>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Remove "SRC_URI_OVERRIDES_PACKAGE_ARCH = 0" from tslib.bb
+	Sat, 09 Aug 2014 09:07:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=0oiV23PNRGdpw7bWzTqX67DyC4ZfZigKqVQATNcqh6k=;
+	b=vOnJ0SpItuBnbELkpxwg4XEVlAZp3NMJGQrbURCp8kfQcgDRFhDvPqxjEB2lLm2FQN
+	NrGHiKwb+41FuEoYPVIUxAg8gBp+GVKVYXCs+4v2NjxPQfQU6B24E/rtugOgm4CEosp+
+	QK+xJFGcmCjqzToyRuh8LJZRAr2KtiOwcX+nsFf+ykyP2b4mnLf4ZiZ5HZE4vn7tIQez
+	yZvyowfS84wasUE2PqCDNQCNKPiZuEHJFkF2374nn8NoCR4wUdzpP7asQzbK7JpvnwAH
+	xYu/ecjoDsOCN91GouGUH36ujegGzEbTkkudHJZqL343CRfSBuEnKN6ZsNQAFwd5Hi7q
+	/11Q==
+X-Received: by 10.194.189.230 with SMTP id gl6mr3483685wjc.118.1407600454978; 
+	Sat, 09 Aug 2014 09:07:34 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	f16sm20438452wic.7.2014.08.09.09.07.33 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 09 Aug 2014 09:07:34 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  9 Aug 2014 18:07:56 +0200
+Message-Id: <1407600483-31215-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.0.4
+Subject: [PATCH 1/8] test-dependencies, insane.bbclass: improve the message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,49 +42,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Aug 2014 13:17:29 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sat, 09 Aug 2014 16:07:37 -0000
 
-On Fri, 8 Aug 2014, Saul Wold wrote:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/insane.bbclass  | 2 +-
+ scripts/test-dependencies.sh | 8 +++++---
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-> On 08/08/2014 12:31 PM, Robert P. J. Day wrote:
-> >
-> > Given that there are no machine-specific files for the tslib recipe
-> > anymore, might as well remove this line.
-> >
->
-> Robert,
->
-> Can you please review the commit guidelines
->
-> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
->
-> The summary line should be in the form of
-> tslib: Remove ...
-
-  serious question -- how does one identify the "primary item" under
-consideration if it's scattered over several files. recently, i
-submitted a patch to remove a few references to "do_package_write",
-a deleted task. the existing references under meta/:
-
-conf/documentation.conf:do_package_write[doc] = "Creates the actual packages and places them in the Package Feed area"
-recipes-core/meta/meta-ide-support.bb:do_populate_ide_support[recrdeptask] = "do_package_write"
-recipes-core/meta/package-index.bb:do_package_write[noexec] = "1"
-recipes-devtools/installer/adt-installer_1.0.bb:do_package_write[noexec] = "1"
-
-  i'm assuming, in this case, the primary item would be
-"do_package_write"?
-
-rday
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 55bfaf2..3dd2e7f 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -794,7 +794,7 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+                             break
+                 if rdep_data and 'PN' in rdep_data and rdep_data['PN'] in taskdeps:
+                     continue
+-                error_msg = "%s rdepends on %s but its not a build dependency?" % (pkg, rdepend)
++                error_msg = "%s rdepends on %s, but it isn't a build dependency?" % (pkg, rdepend)
+                 sane = package_qa_handle_error("build-deps", error_msg, d)
+ 
+     return sane
+diff --git a/scripts/test-dependencies.sh b/scripts/test-dependencies.sh
+index ecbb710..2bcc2ca 100755
+--- a/scripts/test-dependencies.sh
++++ b/scripts/test-dependencies.sh
+@@ -244,9 +244,11 @@ compare_deps() {
+     else
+       missing_deps=
+       for dep in ${max_deps}; do
+-        echo "${min_deps}" | grep -q " ${dep} " || missing_deps="${missing_deps} ${dep}"
+-        echo # to get rid of dots on last line
+-        echo "WARN: ${recipe}: ${package} rdepends on ${dep} but its not a build dependency?" | tee -a ${OUTPUT_FILE}
++        if ! echo "${min_deps}" | grep -q " ${dep} " ; then
++          missing_deps="${missing_deps} ${dep}"
++          echo # to get rid of dots on last line
++          echo "WARN: ${recipe}: ${package} rdepends on ${dep}, but it isn't a build dependency?" | tee -a ${OUTPUT_FILE}
++        fi
+       done
+       if [ -n "${missing_deps}" ] ; then
+         echo ${recipe} >> ${OUTPUTC}/failed-recipes.log
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.0.4
 
 
