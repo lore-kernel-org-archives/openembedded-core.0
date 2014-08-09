@@ -1,36 +1,35 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id AF71860B05
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Aug 2014 16:07:42 +0000 (UTC)
-Received: by mail-wg0-f48.google.com with SMTP id x13so6771983wgg.19
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Aug 2014 09:07:44 -0700 (PDT)
+Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 87B5660B05;
+	Sat,  9 Aug 2014 17:39:49 +0000 (UTC)
+Received: by mail-wg0-f43.google.com with SMTP id l18so6705612wgh.2
+	for <multiple recipients>; Sat, 09 Aug 2014 10:39:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=I6GIr5F4E/RTKYAdCqJH/fx/dRTxn3XeUJxVfGYiqAo=;
-	b=eTIpsoQ5o01EV/KRHb/mdP+sEcrZpHaMldEGVeY+M9Jova2TVoZfrjC6nRa6kTNAJY
-	/Q2P+CLWETnfGjMQnVDxX74Y2loKrsbFzCsBXO7NHCKcfbRFX0u8vk6hBzW7y4PJrsd1
-	yptBCi4QyYtC/JgSCEIwrddtnFgrra+KvjPkx0x24gDwxlww10hSi9gtvO+LZcimc7jW
-	zzZ8B5Q+Zw/vgyqcjUd5LavEFYMBZ2WzhHJ1pr7HdBCIkAUpcmjBBCDjCa/FblUlrjD1
-	Afv++wFrqRXUDU2Yqdjn04t0hoOxcsol1kjHpxiiabAnPG7WYkhXs0Q5Q7fvR/1UnUzz
-	qHbQ==
-X-Received: by 10.180.212.12 with SMTP id ng12mr11944079wic.9.1407600463955;
-	Sat, 09 Aug 2014 09:07:43 -0700 (PDT)
+	h=from:date:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=sOLyNljAJfviHk4xpaiKyoHEIN3w+6/YxkbrrgKTqKY=;
+	b=m9sOvspeZND91kDd4CT/2bhZEKT0LjS/SdZJ5D8hALElkJds4VopLXN+P9yKhZKl88
+	NCGde8F9gbYFWznWMYX5HQWR6VSR425ABIhQBS91yq72PAzzELbCEqICQbDclQ+grJhE
+	5LNVj+J5EJEXEFDRCh6GrV7nG6lhZi1mD67rnqn87PtCbLB9NJgkF6L6TXK6zN8UtndI
+	gP44LdM7ei1bDZ/mdvmkgc9wF9zHmuHcLoLMOCVHE+abVRQeSyckEvrOHNUl3DQUrGqM
+	SfqVUNjCXWD18nNh2SRtOoIKFyEiM5Bkd5eg/hkl9PIiXFUg82g+YiPT8h18yZXxLIPd
+	L9/Q==
+X-Received: by 10.180.80.133 with SMTP id r5mr11893568wix.62.1407605990694;
+	Sat, 09 Aug 2014 10:39:50 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	10sm25524436wjr.22.2014.08.09.09.07.43 for <multiple recipients>
+	p3sm26029607wjw.13.2014.08.09.10.39.49 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 09 Aug 2014 09:07:43 -0700 (PDT)
+	Sat, 09 Aug 2014 10:39:49 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Aug 2014 18:08:03 +0200
-Message-Id: <1407600483-31215-8-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.0.4
-In-Reply-To: <1407600483-31215-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1407600483-31215-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 8/8] guile: add dependency on ncurses and readline
+Date: Sat, 9 Aug 2014 19:40:23 +0200
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20140809174023.GO14848@jama>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: State of bitbake world, Failed tasks 2014-08-08
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +42,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Aug 2014 16:07:44 -0000
+X-List-Received-Date: Sat, 09 Aug 2014 17:39:55 -0000
+X-Groupsio-MsgNum: 56233
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="LhP4kYnLy1kXWEve"
+Content-Disposition: inline
 
-* fixes floating dependency:
-  guile/guile/latest lost dependency on  ncurses-libncurses readline
+--LhP4kYnLy1kXWEve
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/guile/guile_2.0.11.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+http://www.openembedded.org/wiki/Bitbake_World_Status
 
-diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
-index d19460a..5b1e061 100644
---- a/meta/recipes-devtools/guile/guile_2.0.11.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
-@@ -31,7 +31,7 @@ SRC_URI[sha256sum] = "aed0a4a6db4e310cbdfeb3613fa6f86fddc91ef624c1e3f8937a6304c6
- inherit autotools gettext pkgconfig texinfo
- BBCLASSEXTEND = "native"
- 
--DEPENDS = "libunistring bdwgc gmp libtool libffi"
-+DEPENDS = "libunistring bdwgc gmp libtool libffi ncurses readline"
- # add guile-native only to the target recipe's DEPENDS
- DEPENDS_append_class-target = " guile-native libatomics-ops"
- 
--- 
-2.0.4
+=3D=3D Failed tasks 2014-08-09 =3D=3D
 
+=3D=3D=3D common () =3D=3D=3D
 
+=3D=3D=3D common-x86 (2) =3D=3D=3D
+    * meta-browser/recipes-browser/chromium/chromium_35.0.1916.114.bb, do_c=
+ompile
+    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+
+=3D=3D=3D qemuarm (0) =3D=3D=3D
+
+=3D=3D=3D qemux86 (0) =3D=3D=3D
+
+=3D=3D=3D qemux86_64 (1) =3D=3D=3D
+    * meta-qt5/recipes-qt/qt5/qtwebengine_git.bb, do_compile
+
+=3D=3D=3D Number of failed tasks =3D=3D=3D
+{| class=3Dwikitable
+|-
+||qemuarm       ||0     ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
+og.world.20140808_202021.log/||
+|-
+||qemux86       ||2     ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
+og.world.20140808_215005.log/||
+|-
+||qemux86_64    ||3     ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
+og.world.20140809_154918.log/||http://errors.yoctoproject.org:80/Errors/Sea=
+rch/1/1694/
+|}
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--LhP4kYnLy1kXWEve
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPmXQcACgkQN1Ujt2V2gBzWvACgtGkEkNsnkJ/oIEfq4heZGQcG
+l8sAn0CAgCILfkm0V6SzvJ2MhMZyTX2b
+=6boj
+-----END PGP SIGNATURE-----
+
+--LhP4kYnLy1kXWEve--
