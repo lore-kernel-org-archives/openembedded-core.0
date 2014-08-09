@@ -1,32 +1,41 @@
-Return-Path: <pandey_himanshu80@rediffmail.com>
-Received: from rediffmail.com (unknown [202.137.235.198])
-	by mail.openembedded.org (Postfix) with SMTP id BDF9670A48
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp486.redcondor.net (smtp486.redcondor.net [208.80.204.86])
+	by mail.openembedded.org (Postfix) with ESMTP id C633C65F2A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Aug 2014 12:40:33 +0000 (UTC)
-Received: (qmail 6785 invoked by uid 510); 9 Aug 2014 12:40:26 -0000
-Comment: DomainKeys? See http://antispam.yahoo.com/domainkeys
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=redf; d=rediffmail.com;
-	b=cuagnhsIt6pUNBidEwPzLrxnKxd6eh2aoxGTfbyf9PDtanvB+vnkSLBjbkO+NIE8hHkZ60ZV5HdYFHNwm4jtqhgcWvLzqk/FnoAJh1IGKgER+QArw+lyQB+83xJEqp4XnTXfkNfOgGxR06BF7uROZxqIZgDS2+R0G3qZtDbdLPI=
-	; 
-x-m-msg: asd54ad564ad7aa6sd5as6d5; a6da7d6asas6dasd77; 5dad65ad5sd;
-X-CTCH-Spam: Unknown
-X-CTCH-VOD: Unknown
-X-CTCH-Flags: : 0
-X-CTCH-RefID: str=0001.0A160204.53E616BA.0065, ss=1, re=0.000, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0
-X-REDF-OSEN: pandey_himanshu80@rediffmail.com
-Date: 9 Aug 2014 12:40:25 -0000
-Message-ID: <20140809124025.6627.qmail@f4mail-235-198.rediffmail.com>
+	Sat,  9 Aug 2014 13:17:25 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp486.redcondor.net ({6695537a-536a-45f9-a249-877c85428649})
+	via TCP (outbound) with ESMTPS id 20140809131725539
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 09 Aug 2014 13:17:25 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=35508 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1XG6WP-0003hK-5m; Sat, 09 Aug 2014 09:17:21 -0400
+Date: Sat, 9 Aug 2014 09:17:16 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: Saul Wold <sgw@linux.intel.com>
+In-Reply-To: <53E54245.4070704@linux.intel.com>
+Message-ID: <alpine.LFD.2.11.1408090914290.7338@localhost>
+References: <alpine.LFD.2.11.1408081529290.23581@localhost>
+	<53E54245.4070704@linux.intel.com>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
 MIME-Version: 1.0
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Received: from unknown 122.177.212.189 by rediffmail.com via HTTP;
-	09 Aug 2014 12:40:25 -0000
-Sender: pandey_himanshu80@rediffmail.com
-From: "Himanshu  Pandey" <pandey_himanshu80@rediffmail.com>
-Subject: Error: package not found in the base feeds
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Remove "SRC_URI_OVERRIDES_PACKAGE_ARCH = 0" from tslib.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,51 +48,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Aug 2014 12:40:35 -0000
-Content-Type: multipart/alternative;
-	boundary="=_7d3b83b482289615218700b677dc268f"
+X-List-Received-Date: Sat, 09 Aug 2014 13:17:29 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
---=_7d3b83b482289615218700b677dc268f
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="UTF-8"
+On Fri, 8 Aug 2014, Saul Wold wrote:
 
-Hi,I am getting following error:Error: spread not found in the base feeds (genericx86_64 x86_64 noarch any all).Error: liburiparser not found in the base feeds (genericx86_64 x86_64 noarch any all).
+> On 08/08/2014 12:31 PM, Robert P. J. Day wrote:
+> >
+> > Given that there are no machine-specific files for the tslib recipe
+> > anymore, might as well remove this line.
+> >
+>
+> Robert,
+>
+> Can you please review the commit guidelines
+>
+> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+>
+> The summary line should be in the form of
+> tslib: Remove ...
 
-Please help to resolve the same.
-Regards,Himanshu
+  serious question -- how does one identify the "primary item" under
+consideration if it's scattered over several files. recently, i
+submitted a patch to remove a few references to "do_package_write",
+a deleted task. the existing references under meta/:
 
---=_7d3b83b482289615218700b677dc268f
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset="UTF-8"
+conf/documentation.conf:do_package_write[doc] = "Creates the actual packages and places them in the Package Feed area"
+recipes-core/meta/meta-ide-support.bb:do_populate_ide_support[recrdeptask] = "do_package_write"
+recipes-core/meta/package-index.bb:do_package_write[noexec] = "1"
+recipes-devtools/installer/adt-installer_1.0.bb:do_package_write[noexec] = "1"
 
-<div>Hi,</div><div>I am getting following error:</div>Error: spread not fou=
-nd in the base feeds (genericx86_64 x86_64 noarch any all).<div>Error: libu=
-riparser not found in the base feeds (genericx86_64 x86_64 noarch any all).=
-<br><br></div><div>Please help to resolve the same.</div><div><br></div><di=
-v>Regards,</div><div>Himanshu</div><br><A HREF=3D"http://sigads.rediff.com/=
-RealMedia/ads/click_nx.ads/www.rediffmail.com/signatureline.htm@Middle?" ta=
-rget=3D"_blank"><IMG SRC=3D"http://sigads.rediff.com/RealMedia/ads/adstream=
-_nx.ads/www.rediffmail.com/signatureline.htm@Middle"></A><table cellpadding=
-=3D"0" cellspacing=3D"0"><tbody><tr><td><div style=3D"font-family: Arial, H=
-elvetica, sans-serif; font-size:14px">Get your own <span style=3D"padding-b=
-ottom: 0px; background-color: #cc0000; padding-left: 3px; padding-RIGHT: 3p=
-x; font-family: Arial, Helvetica, sans-serif; color: #ffffff; font-size: 12=
-px; padding-top: 0px"><b>FREE</b></span> website,  <span style=3D"padding-b=
-ottom: 0px; background-color: #c00; padding-left: 3px; padding-RIGHT: 3px; =
-font-family: Arial, Helvetica, sans-serif; color: #ffffff; font-size: 12px;=
- padding-top: 0px"><b>FREE</b></span> domain &amp; <span style=3D"padding-b=
-ottom: 0px; background-color: #c00; padding-left: 3px; padding-RIGHT: 3px; =
-font-family: Arial, Helvetica, sans-serif; color: #ffffff; font-size: 12px;=
- padding-top: 0px"><b>FREE</b></span> mobile app with Company email. &nbsp;=
-</div></td><td><a href=3D"http://track.rediff.com/click?url=3D___http://bus=
-inessemail.rediff.com/email-ids-for-companies-with-less-than-50-employees?s=
-c_cid=3Dsign-1-10-13___&cmp=3Dhost&lnk=3Dsign-1-10-13&nsrv1=3Dhost" style=
-=3D"font-family: Arial, Helvetica, sans-serif; color: #fff; font-size: 14px=
-; color:#0000cc" target=3D"_blank"><b>Know More ></b></a><!-- <in-put type=
-=3D"button" cl-ass=3D"button" on-click=3D"parent.location=3D&#39;http://tra=
-ck.rediff.com/click?url=3D___http://businessemail.rediff.com/company-email-=
-hosting-services?sc_cid=3Dsignature-23-9-13___&amp;cmp=3Dsignature-23-9-13&=
-amp;lnk=3Dmypagelogout&amp;nsrv1=3Dhost&#39;" value=3D"Know more &gt;"> </i=
-nput> --></td></tr></tbody></table>
+  i'm assuming, in this case, the primary item would be
+"do_package_write"?
 
---=_7d3b83b482289615218700b677dc268f--
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+
