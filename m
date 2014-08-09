@@ -1,41 +1,29 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 89AF260438
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp06.online.nl (smtp06.online.nl [194.134.42.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A91B65D5E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Aug 2014 04:37:09 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20140809043709024
+	Sat,  9 Aug 2014 08:13:57 +0000 (UTC)
+Received: from smtp06.online.nl (localhost [127.0.0.1])
+	by smtp06.online.nl (Postfix) with ESMTP id 6F959963C2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Aug 2014 04:37:09 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=57515 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XFyOu-0004PN-Bw; Sat, 09 Aug 2014 00:37:04 -0400
-Date: Sat, 9 Aug 2014 00:37:00 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Saul Wold <sgw@linux.intel.com>
-In-Reply-To: <53E54245.4070704@linux.intel.com>
-Message-ID: <alpine.LFD.2.11.1408090036400.30229@localhost>
-References: <alpine.LFD.2.11.1408081529290.23581@localhost>
-	<53E54245.4070704@linux.intel.com>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Sat,  9 Aug 2014 10:13:56 +0200 (CEST)
+Received: from [192.168.1.6] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp06.online.nl (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  9 Aug 2014 10:13:56 +0200 (CEST)
+Message-ID: <53E5D844.2050909@topic.nl>
+Date: Sat, 09 Aug 2014 10:13:56 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Remove "SRC_URI_OVERRIDES_PACKAGE_ARCH = 0" from tslib.bb
+To: openembedded-core@lists.openembedded.org
+References: <1571948.CrPtZqAbFm@peggleto-mobl5.ger.corp.intel.com>	<53E3512E.5090008@dynamicdevices.co.uk>
+	<2374073.Q4LByM6bcI@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <2374073.Q4LByM6bcI@peggleto-mobl5.ger.corp.intel.com>
+X-Online-Scanned: by Cloudmark authority (on smtp06.online.nl)
+Subject: Re: [yocto] RFC: Improving the developer workflow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,41 +36,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Aug 2014 04:37:10 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sat, 09 Aug 2014 08:13:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 8 Aug 2014, Saul Wold wrote:
+On 08/07/2014 03:05 PM, Paul Eggleton wrote:
+> On Thursday 07 August 2014 11:13:02 Alex J Lennon wrote:
+>> Historically I, and I suspect others, have done full image updates of
+>> the storage medium,  onboard flash or whatever but these images are
+>> getting so big now that I am trying to  move away from that and into
+>> using package feeds for updates to embedded targets.
+>
+> Personally with how fragile package management can end up being, I'm convinced
+> that full-image updates are the way to go for a lot of cases, but ideally with
+> some intelligence so that you only ship the changes (at a filesystem level
+> rather than a package or file level). This ensures that an upgraded image on
+> one device ends up exactly identical to any other device including a newly
+> deployed one. Of course it does assume that you have a read-only rootfs and
+> keep your configuration data / logs / other writeable data on a separate
+> partition or storage medium. However, beyond improvements to support for
+> having a read-only rootfs we haven't really achieved anything in terms of out-
+> of-the-box support for this, mainly due to lack of resources.
 
-> On 08/08/2014 12:31 PM, Robert P. J. Day wrote:
-> >
-> > Given that there are no machine-specific files for the tslib recipe
-> > anymore, might as well remove this line.
-> >
->
-> Robert,
->
-> Can you please review the commit guidelines
->
-> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
->
-> The summary line should be in the form of
-> tslib: Remove ...
->
-> I know it's a trivial patch, but it would good to have the commit message
-> correct.
+Full-image upgrades are probably most seen in "lab" environments, where 
+the software is being developed.
 
-  quite so, i'll resubmit properly.
+Once deployed to customers, who will not be using a build system, the 
+system must rely on packages and online updates.
 
-rday
+Embedded systems look more like desktops these days.
+
+- End-users will make changes to the system:
+	- "plugins" and other applications.
+	- configuration data
+	- application data (e.g. loggings, EPG data)
+- There is not enough room in the flash for two full images.
+- There is usually a virtually indestructable bootloader that can 
+recover even from fully erasing the NAND flash.
+- Flash filesystems are usually NAND. NAND isn't suitable for read-only 
+root filesystems, you want to wear-level across the whole flash.
+
+For the OpenPLi settop boxes we've been using "online upgrades" which 
+basically just call "opkg update && opkg upgrade" for many years, and 
+there's never been a real disaster. The benefits easily outweigh the 
+drawbacks.
+
+When considering system upgrades, too much attention is being spent in 
+the "corner cases". It's not really a problem if the box is bricked when 
+the power fails during an upgrade. As long as there's a procedure the 
+end-user can use to recover the system (on most settop boxes, debricking 
+the system is just a matter of inserting a USB stick and flipping the 
+power switch).
+
+
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Mike Looijmans
 
