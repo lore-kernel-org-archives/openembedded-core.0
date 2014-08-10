@@ -1,40 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CBBE65CA8
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 43B2370B3F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Aug 2014 14:21:12 +0000 (UTC)
-Received: by mail-wg0-f49.google.com with SMTP id k14so7392052wgh.8
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Aug 2014 07:21:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=hLG46gJ5oYPjUaqyQyKj3wKGhlj5bQs2PkT6nTIrpNc=;
-	b=u+QBiRoi+WlJTvWv8nQcHi12AIdBwb0+8MdQbzR0Q0nfT3ZNqK+RLwRhqV9DWZvV5c
-	y18TGn1HQliI6qFiRvZlxIlxvfa6bN9+j2k9uW7m8OQ/8oRvMFpHMKteRm5cpyOtiud2
-	967Rvy70sd9QPzj33fgdOLttxoJeTmrblFo4tH5hev1ZcHSyBkXsIYGPKmR6NiSF7sZL
-	EvjvffoKJ+LhTjj4Qqk0sV8vlY6BosKCVHjWOp5yFjngK6OqHIkD1yVFoV2GF3uUzJYf
-	Xds+uBlIdcnqXM9XcDCKS7tqZzjZpWuPRy003STO9/zDYzb0mm5XVcSOwGsIUiDpMmT+
-	PFGQ==
-X-Received: by 10.180.101.65 with SMTP id fe1mr18110318wib.53.1407680473647;
-	Sun, 10 Aug 2014 07:21:13 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	h3sm32413954wjn.10.2014.08.10.07.21.12 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 Aug 2014 07:21:12 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sun, 10 Aug 2014 16:21:46 +0200
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <20140810142146.GR14848@jama>
-References: <cover.1407678222.git.hongxu.jia@windriver.com>
-	<af818f3281c55ad5c06332310cf1e5940217c06c.1407678222.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <af818f3281c55ad5c06332310cf1e5940217c06c.1407678222.git.hongxu.jia@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] guile: workaround ice ssa corruption while DEBUG_BUILD
+	Sun, 10 Aug 2014 16:07:07 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Aug 2014 09:07:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,837,1400050800"; d="scan'208";a="582844314"
+Received: from mrdissan-mobl.gar.corp.intel.com (HELO peggleto-mobl5.lan)
+	([10.252.122.124])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Aug 2014 09:07:02 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 10 Aug 2014 17:06:58 +0100
+Message-Id: <4ca519f8257cc3ec922a2053d9f23d41fe8541cf.1407686784.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+In-Reply-To: <cover.1407686783.git.paul.eggleton@linux.intel.com>
+References: <cover.1407686783.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1407686783.git.paul.eggleton@linux.intel.com>
+References: <cover.1407686783.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] openssl: upgrade to 1.0.1i
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,187 +32,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Aug 2014 14:21:13 -0000
-X-Groupsio-MsgNum: 56250
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="lrnY8GquOzEdxs9Q"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 10 Aug 2014 16:07:08 -0000
 
---lrnY8GquOzEdxs9Q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Removed one patch merged upstream.
 
-On Sun, Aug 10, 2014 at 09:47:12PM +0800, Hongxu Jia wrote:
-> Add:
-> MACHINE =3D "qemux86-64"
-> DEBUG_BUILD =3D "1"
-> to local.conf and there was a ssa corruption to build guile:
-> ..
-> Unable to coalesce ssa_names 48 and 3476 which are marked as MUST COALESC=
-E.
-> sp_48(ab) and  sp_3476(ab)
-> guile-2.0.11/libguile/vm-engine.c: In function 'vm_debug_engine':
-> guile-2.0.11/libguile/vm.c:673:19: internal compiler error: SSA corruption
->  #define VM_NAME   vm_debug_engine
->                    ^
-> guile-2.0.11/libguile/vm-engine.c:39:1: note: in expansion of macro 'VM_N=
-AME'
->  VM_NAME (SCM vm, SCM program, SCM *argv, int nargs)
->  ^
-> Please submit a full bug report,
-> with preprocessed source if appropriate.
-> See <http://gcc.gnu.org/bugs.html> for instructions.
-> ...
->=20
-> Tweak libguile/vm-i-system.c to add boundary value check to workaround it.
->=20
-> Also fix qa issue while DEBUG_BUILD:
-> ...
-> WARNING: QA Issue: guile rdepends on ncurses-libncurses but its not a bui=
-ld dependency? [build-deps]
-> WARNING: QA Issue: guile rdepends on readline but its not a build depende=
-ncy? [build-deps]
-> ...
->=20
-> [YOCTO #6411]
->=20
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  .../files/workaround-ice-ssa-corruption.patch      | 52 ++++++++++++++++=
-++++++
->  meta/recipes-devtools/guile/guile_2.0.11.bb        |  8 +++-
->  2 files changed, 59 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-devtools/guile/files/workaround-ice-ssa-=
-corruption.patch
->=20
-> diff --git a/meta/recipes-devtools/guile/files/workaround-ice-ssa-corrupt=
-ion.patch b/meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption=
-=2Epatch
-> new file mode 100644
-> index 0000000..1363d63
-> --- /dev/null
-> +++ b/meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.pat=
-ch
-> @@ -0,0 +1,52 @@
-> +libguile/vm-i-system.c: workaround ice ssa corruption while compiling wi=
-th option -g -O
-> +
-> +While compiling with option -g -O, there was a ssa corruption:
-> +..
-> +Unable to coalesce ssa_names 48 and 3476 which are marked as MUST COALES=
-CE.
-> +sp_48(ab) and  sp_3476(ab)
-> +guile-2.0.11/libguile/vm-engine.c: In function 'vm_debug_engine':
-> +guile-2.0.11/libguile/vm.c:673:19: internal compiler error: SSA corrupti=
-on
-> + #define VM_NAME   vm_debug_engine
-> +                   ^
-> +guile-2.0.11/libguile/vm-engine.c:39:1: note: in expansion of macro 'VM_=
-NAME'
-> + VM_NAME (SCM vm, SCM program, SCM *argv, int nargs)
-> + ^
-> +Please submit a full bug report,
-> +with preprocessed source if appropriate.
-> +See <http://gcc.gnu.org/bugs.html> for instructions.
-> +...
-> +
-> +Tweak libguile/vm-i-system.c to add boundary value check to workaround i=
-t.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + libguile/vm-i-system.c | 11 +++++++----
-> + 1 file changed, 7 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/libguile/vm-i-system.c b/libguile/vm-i-system.c
-> +index 5057fb0..8d31214 100644
-> +--- a/libguile/vm-i-system.c
-> ++++ b/libguile/vm-i-system.c
-> +@@ -625,10 +625,13 @@ VM_DEFINE_INSTRUCTION (47, bind_optionals_shuffle,=
- "bind-optionals/shuffle", 6,
-> +   /* now shuffle up, from walk to ntotal */
-> +   {
-> +     scm_t_ptrdiff nshuf =3D sp - walk + 1, i;
-> +-    sp =3D (fp - 1) + ntotal + nshuf;
-> +-    CHECK_OVERFLOW ();
-> +-    for (i =3D 0; i < nshuf; i++)
-> +-      sp[-i] =3D walk[nshuf-i-1];
-> ++    if (nshuf > 0)
-> ++    {
-> ++      sp =3D (fp - 1) + ntotal + nshuf;
-> ++      CHECK_OVERFLOW ();
-> ++      for (i =3D 0; i < nshuf; i++)
-> ++        sp[-i] =3D walk[nshuf-i-1];
-> ++    }
-> +   }
-> +   /* and fill optionals & keyword args with SCM_UNDEFINED */
-> +   while (walk <=3D (fp - 1) + ntotal)
-> +--=20
-> +1.9.1
-> +
-> diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-d=
-evtools/guile/guile_2.0.11.bb
-> index d19460a..e380bed 100644
-> --- a/meta/recipes-devtools/guile/guile_2.0.11.bb
-> +++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
-> @@ -21,6 +21,9 @@ SRC_URI =3D "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
->             file://arm_endianness.patch \
->             "
-> =20
-> +SRC_URI_append_class-target =3D " \
-> +           ${@base_conditional( "DEBUG_BUILD", "1", " file://workaround-=
-ice-ssa-corruption.patch", "", d )} \
-> +           "
->  #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.=
-patch
->  #           file://opensuse/guile-turn-off-gc-test.patch=20
-> =20
-> @@ -35,7 +38,10 @@ DEPENDS =3D "libunistring bdwgc gmp libtool libffi"
->  # add guile-native only to the target recipe's DEPENDS
->  DEPENDS_append_class-target =3D " guile-native libatomics-ops"
-> =20
-> -RDEPENDS_${PN}_append_libc-glibc_class-target =3D "glibc-gconv-iso8859-1"
-> +RDEPENDS_${PN}_append_class-target =3D " \
-> +             ${@base_conditional( "DEBUG_BUILD", "1", " readline ncurses=
-", "", d )} \
-> +             "
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ .../openssl/heartbeat-test-private-api.patch       | 45 ----------------------
+ .../{openssl_1.0.1h.bb => openssl_1.0.1i.bb}       |  5 +--
+ 2 files changed, 2 insertions(+), 48 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/heartbeat-test-private-api.patch
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.1h.bb => openssl_1.0.1i.bb} (90%)
 
-This seems to be needed even withotu DEBUG_BUILD, see
-http://lists.openembedded.org/pipermail/openembedded-core/2014-August/09558=
-5.html
-and IMHO it's build time dependncy not runtime.
+diff --git a/meta/recipes-connectivity/openssl/openssl/heartbeat-test-private-api.patch b/meta/recipes-connectivity/openssl/openssl/heartbeat-test-private-api.patch
+deleted file mode 100644
+index 3c77dfc..0000000
+--- a/meta/recipes-connectivity/openssl/openssl/heartbeat-test-private-api.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-From 2e251ba8feaa696f9408a19336d1fbab148df55e Mon Sep 17 00:00:00 2001
+-From: Kurt Roeckx <kurt@roeckx.be>
+-Date: Sat, 7 Jun 2014 13:32:23 +0200
+-Subject: [PATCH] Link heartbeat_test with the static version of the libraries
+-
+-It's using an internal API that that might not be available in the shared
+-library.
+-
+-Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/125]
+-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+-
+----
+- test/Makefile | 9 ++++++++-
+- 1 file changed, 8 insertions(+), 1 deletion(-)
+-
+-diff --git a/test/Makefile b/test/Makefile
+-index f1816ac..1dd7bb9 100644
+---- a/test/Makefile
+-+++ b/test/Makefile
+-@@ -420,6 +420,13 @@ BUILD_CMD=shlib_target=; if [ -n "$(SHARED_LIBS)" ]; then \
+- 		LIBDEPS="$(PEX_LIBS) $$LIBRARIES $(EX_LIBS)" \
+- 		link_app.$${shlib_target}
+- 
+-+BUILD_CMD_STATIC=shlib_target=; \
+-+	LIBRARIES="$(DLIBSSL) $(DLIBCRYPTO) $(LIBKRB5)"; \
+-+	$(MAKE) -f $(TOP)/Makefile.shared -e \
+-+		APPNAME=$$target$(EXE_EXT) OBJECTS="$$target.o" \
+-+		LIBDEPS="$(PEX_LIBS) $$LIBRARIES $(EX_LIBS)" \
+-+		link_app.$${shlib_target}
+-+
+- $(RSATEST)$(EXE_EXT): $(RSATEST).o $(DLIBCRYPTO)
+- 	@target=$(RSATEST); $(BUILD_CMD)
+- 
+-@@ -618,7 +625,7 @@ $(V3NAMETEST)$(EXE_EXT): $(V3NAMETEST).o $(DLIBCRYPTO)
+- 	@target=$(V3NAMETEST); $(BUILD_CMD)
+- 
+- $(HEARTBEATTEST)$(EXE_EXT): $(HEARTBEATTEST).o $(DLIBCRYPTO)
+--	@target=$(HEARTBEATTEST); $(BUILD_CMD)
+-+	@target=$(HEARTBEATTEST); $(BUILD_CMD_STATIC)
+- 
+- #$(AESTEST).o: $(AESTEST).c
+- #	$(CC) -c $(CFLAGS) -DINTERMEDIATE_VALUE_KAT -DTRACE_KAT_MCT $(AESTEST).c
+--- 
+-1.9.3
+-
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1h.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1i.bb
+similarity index 90%
+rename from meta/recipes-connectivity/openssl/openssl_1.0.1h.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.0.1i.bb
+index ddaaba8..4f88784 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1h.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1i.bb
+@@ -34,13 +34,12 @@ SRC_URI += "file://configure-targets.patch \
+             file://find.pl \
+             file://openssl-fix-des.pod-error.patch \
+             file://Makefiles-ptest.patch \
+-            file://heartbeat-test-private-api.patch \
+             file://ptest-deps.patch \
+             file://run-ptest \
+            "
+ 
+-SRC_URI[md5sum] = "8d6d684a9430d5cc98a62a5d8fbda8cf"
+-SRC_URI[sha256sum] = "9d1c8a9836aa63e2c6adb684186cbd4371c9e9dcc01d6e3bb447abf2d4d3d093"
++SRC_URI[md5sum] = "c8dc151a671b9b92ff3e4c118b174972"
++SRC_URI[sha256sum] = "3c179f46ca77069a6a0bac70212a9b3b838b2f66129cb52d568837fc79d8fcc7"
+ 
+ PACKAGES =+ " \
+ 	${PN}-engines \
+-- 
+1.9.3
 
-> +RDEPENDS_${PN}_append_libc-glibc_class-target =3D " glibc-gconv-iso8859-=
-1"
-> =20
->  EXTRA_OECONF +=3D "${@['--without-libltdl-prefix --without-libgmp-prefix=
- --without-libreadline-prefix', ''][bb.data.inherits_class('native',d)]}"
-> =20
-> --=20
-> 1.9.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---lrnY8GquOzEdxs9Q
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlPnf/oACgkQN1Ujt2V2gBx+SACgmJkcPhc4hZ2DwLgcFzN35kj4
-6mkAmgOct97tqUIWSf7OBeatcJIizwmq
-=6z8g
------END PGP SIGNATURE-----
-
---lrnY8GquOzEdxs9Q--
