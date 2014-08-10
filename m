@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D50DC60030
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 86EBB70A40
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Aug 2014 13:47:20 +0000 (UTC)
+	Sun, 10 Aug 2014 13:47:23 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7ADlHQH027029
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7ADlKEq007198
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 10 Aug 2014 06:47:18 -0700 (PDT)
+	Sun, 10 Aug 2014 06:47:20 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 10 Aug 2014 06:47:17 -0700
+	14.3.174.1; Sun, 10 Aug 2014 06:47:19 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 10 Aug 2014 21:47:11 +0800
-Message-ID: <cover.1407678222.git.hongxu.jia@windriver.com>
+Date: Sun, 10 Aug 2014 21:47:12 +0800
+Message-ID: <af818f3281c55ad5c06332310cf1e5940217c06c.1407678222.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1407678222.git.hongxu.jia@windriver.com>
+References: <cover.1407678222.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 0/1] guile: workaround ice ssa corruption while DEBUG_BUILD
+Subject: [PATCH 1/1] guile: workaround ice ssa corruption while DEBUG_BUILD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +33,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Aug 2014 13:47:22 -0000
+X-List-Received-Date: Sun, 10 Aug 2014 13:47:27 -0000
 Content-Type: text/plain
 
-Test steps:
-1. vim local.conf
-...
+Add:
 MACHINE = "qemux86-64"
 DEBUG_BUILD = "1"
+to local.conf and there was a ssa corruption to build guile:
+..
+Unable to coalesce ssa_names 48 and 3476 which are marked as MUST COALESCE.
+sp_48(ab) and  sp_3476(ab)
+guile-2.0.11/libguile/vm-engine.c: In function 'vm_debug_engine':
+guile-2.0.11/libguile/vm.c:673:19: internal compiler error: SSA corruption
+ #define VM_NAME   vm_debug_engine
+                   ^
+guile-2.0.11/libguile/vm-engine.c:39:1: note: in expansion of macro 'VM_NAME'
+ VM_NAME (SCM vm, SCM program, SCM *argv, int nargs)
+ ^
+Please submit a full bug report,
+with preprocessed source if appropriate.
+See <http://gcc.gnu.org/bugs.html> for instructions.
 ...
 
-2. bitbake guile
+Tweak libguile/vm-i-system.c to add boundary value check to workaround it.
 
-//Hongxu
+Also fix qa issue while DEBUG_BUILD:
+...
+WARNING: QA Issue: guile rdepends on ncurses-libncurses but its not a build dependency? [build-deps]
+WARNING: QA Issue: guile rdepends on readline but its not a build dependency? [build-deps]
+...
 
-The following changes since commit 870bb8d35547b8313b3a487d7e8b914ab9470e64:
+[YOCTO #6411]
 
-  local.conf.sample.extended: fix example for EXTRA_USERS_PARAMS (2014-08-04 17:38:24 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-guile-ice
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-guile-ice
-
-Hongxu Jia (1):
-  guile: workaround ice ssa corruption while DEBUG_BUILD
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  .../files/workaround-ice-ssa-corruption.patch      | 52 ++++++++++++++++++++++
  meta/recipes-devtools/guile/guile_2.0.11.bb        |  8 +++-
  2 files changed, 59 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch
 
+diff --git a/meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch b/meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch
+new file mode 100644
+index 0000000..1363d63
+--- /dev/null
++++ b/meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch
+@@ -0,0 +1,52 @@
++libguile/vm-i-system.c: workaround ice ssa corruption while compiling with option -g -O
++
++While compiling with option -g -O, there was a ssa corruption:
++..
++Unable to coalesce ssa_names 48 and 3476 which are marked as MUST COALESCE.
++sp_48(ab) and  sp_3476(ab)
++guile-2.0.11/libguile/vm-engine.c: In function 'vm_debug_engine':
++guile-2.0.11/libguile/vm.c:673:19: internal compiler error: SSA corruption
++ #define VM_NAME   vm_debug_engine
++                   ^
++guile-2.0.11/libguile/vm-engine.c:39:1: note: in expansion of macro 'VM_NAME'
++ VM_NAME (SCM vm, SCM program, SCM *argv, int nargs)
++ ^
++Please submit a full bug report,
++with preprocessed source if appropriate.
++See <http://gcc.gnu.org/bugs.html> for instructions.
++...
++
++Tweak libguile/vm-i-system.c to add boundary value check to workaround it.
++
++Upstream-Status: Pending
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ libguile/vm-i-system.c | 11 +++++++----
++ 1 file changed, 7 insertions(+), 4 deletions(-)
++
++diff --git a/libguile/vm-i-system.c b/libguile/vm-i-system.c
++index 5057fb0..8d31214 100644
++--- a/libguile/vm-i-system.c
+++++ b/libguile/vm-i-system.c
++@@ -625,10 +625,13 @@ VM_DEFINE_INSTRUCTION (47, bind_optionals_shuffle, "bind-optionals/shuffle", 6,
++   /* now shuffle up, from walk to ntotal */
++   {
++     scm_t_ptrdiff nshuf = sp - walk + 1, i;
++-    sp = (fp - 1) + ntotal + nshuf;
++-    CHECK_OVERFLOW ();
++-    for (i = 0; i < nshuf; i++)
++-      sp[-i] = walk[nshuf-i-1];
+++    if (nshuf > 0)
+++    {
+++      sp = (fp - 1) + ntotal + nshuf;
+++      CHECK_OVERFLOW ();
+++      for (i = 0; i < nshuf; i++)
+++        sp[-i] = walk[nshuf-i-1];
+++    }
++   }
++   /* and fill optionals & keyword args with SCM_UNDEFINED */
++   while (walk <= (fp - 1) + ntotal)
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
+index d19460a..e380bed 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.11.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
+@@ -21,6 +21,9 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
+            file://arm_endianness.patch \
+            "
+ 
++SRC_URI_append_class-target = " \
++           ${@base_conditional( "DEBUG_BUILD", "1", " file://workaround-ice-ssa-corruption.patch", "", d )} \
++           "
+ #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
+ #           file://opensuse/guile-turn-off-gc-test.patch 
+ 
+@@ -35,7 +38,10 @@ DEPENDS = "libunistring bdwgc gmp libtool libffi"
+ # add guile-native only to the target recipe's DEPENDS
+ DEPENDS_append_class-target = " guile-native libatomics-ops"
+ 
+-RDEPENDS_${PN}_append_libc-glibc_class-target = "glibc-gconv-iso8859-1"
++RDEPENDS_${PN}_append_class-target = " \
++             ${@base_conditional( "DEBUG_BUILD", "1", " readline ncurses", "", d )} \
++             "
++RDEPENDS_${PN}_append_libc-glibc_class-target = " glibc-gconv-iso8859-1"
+ 
+ EXTRA_OECONF += "${@['--without-libltdl-prefix --without-libgmp-prefix --without-libreadline-prefix', ''][bb.data.inherits_class('native',d)]}"
+ 
 -- 
 1.9.1
 
