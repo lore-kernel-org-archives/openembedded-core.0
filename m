@@ -1,37 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 962FD65E28
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
+	by mail.openembedded.org (Postfix) with ESMTP id EFFDA65E3D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Aug 2014 09:38:24 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id f8so2871166wiw.0
+	Sun, 10 Aug 2014 10:05:05 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
+	via TCP (outbound) with ESMTPS id 20140810100505033
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Aug 2014 02:38:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=FkTYk+//DWULCOgtg4bUreACNJFUqyOii7SImgqyt0I=;
-	b=Mi8B0PdKW+Y6CdV5yl0vWg37UQSYVJnzFUo3fBRFjzc0K5dhno4mNisiR5Pkh2tPzE
-	L2YHs7DO1gTpU972RkeFepAPxjxxKq2eh12l2spBktd4yWottnIAtWxIdRnu9Be5lhwi
-	cvqkH1hm26R7WH6SaOQRnIunQaVTZqlmXRfMeMGqPankXDopAf1p+6VeifrbpQ53hs4q
-	AAQ5eXXiL5Ab2XcaNSrcZl7zXKqE6gB0UGzFdyYR0ULqYlOrjOCTuW75AHVOD9FDIYQ7
-	DS/IAyHkX4Q/L2HaI+g4LyI6jKN2ODb4MFcCsHloXZK/xgMfC9ARsGVmaXjGnfIZQFtX
-	8kQw==
-X-Received: by 10.180.106.99 with SMTP id gt3mr11631990wib.1.1407663505029;
-	Sun, 10 Aug 2014 02:38:25 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	fe5sm30812932wjc.12.2014.08.10.02.38.24 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 Aug 2014 02:38:24 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 10 Aug 2014 11:38:55 +0200
-Message-Id: <1407663535-6484-2-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.0.4
-In-Reply-To: <1407663535-6484-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1407663535-6484-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [daisy][PATCH 2/2] perf: fix indentation
+	Sun, 10 Aug 2014 10:05:05 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=59367 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1XGPzn-0002sZ-RE for openembedded-core@lists.openembedded.org;
+	Sun, 10 Aug 2014 06:04:59 -0400
+Date: Sun, 10 Aug 2014 06:04:54 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.11.1408100603450.22184@localhost>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: [PATCH] base.bbclass: Remove old-style definition of do_build() task.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,90 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Aug 2014 09:38:26 -0000
+X-List-Received-Date: Sun, 10 Aug 2014 10:05:07 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-* multiline variables should use spaces not tabs for indentation
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+
 ---
- meta/recipes-kernel/perf/perf.bb | 54 ++++++++++++++++++++--------------------
- 1 file changed, 27 insertions(+), 27 deletions(-)
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 9776943..71e2b28 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -22,13 +22,13 @@ TUI_DEPENDS = "${@perf_feature_enabled('perf-tui', 'libnewt slang', '',d)}"
- SCRIPTING_DEPENDS = "${@perf_feature_enabled('perf-scripting', 'perl python', '',d)}"
- 
- DEPENDS = "virtual/kernel \
--           virtual/${MLPREFIX}libc \
--           ${MLPREFIX}elfutils \
--           ${MLPREFIX}binutils \
--           ${TUI_DEPENDS} \
--           ${SCRIPTING_DEPENDS} \
--           bison flex \
--          "
-+    virtual/${MLPREFIX}libc \
-+    ${MLPREFIX}elfutils \
-+    ${MLPREFIX}binutils \
-+    ${TUI_DEPENDS} \
-+    ${SCRIPTING_DEPENDS} \
-+    bison flex \
-+"
- 
- PROVIDES = "virtual/perf"
- 
-@@ -68,28 +68,28 @@ TUI_DEFINES = "${@perf_feature_enabled('perf-tui', '', 'NO_NEWT=1',d)}"
- # supported kernel.
- LDFLAGS="-ldl -lutil"
- 
--EXTRA_OEMAKE = \
--		'-C ${S}/tools/perf \
--		O=${B} \
--		CROSS_COMPILE=${TARGET_PREFIX} \
--		ARCH=${ARCH} \
--		CC="${CC}" \
--		AR="${AR}" \
--		perfexecdir=${libexecdir} \
--		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 NO_LIBUNWIND=1 ${SCRIPTING_DEFINES} \
--		'
-+EXTRA_OEMAKE = '\
-+    -C ${S}/tools/perf \
-+    O=${B} \
-+    CROSS_COMPILE=${TARGET_PREFIX} \
-+    ARCH=${ARCH} \
-+    CC="${CC}" \
-+    AR="${AR}" \
-+    perfexecdir=${libexecdir} \
-+    NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 NO_LIBUNWIND=1 ${SCRIPTING_DEFINES} \
-+'
- 
- EXTRA_OEMAKE += "\
--	'prefix=${prefix}' \
--	'bindir=${bindir}' \
--	'sharedir=${datadir}' \
--	'sysconfdir=${sysconfdir}' \
--	'perfexecdir=${libexecdir}/perf-core' \
--	\
--	'ETC_PERFCONFIG=${@os.path.relpath(sysconfdir, prefix)}' \
--	'sharedir=${@os.path.relpath(datadir, prefix)}' \
--	'mandir=${@os.path.relpath(mandir, prefix)}' \
--	'infodir=${@os.path.relpath(infodir, prefix)}' \
-+    'prefix=${prefix}' \
-+    'bindir=${bindir}' \
-+    'sharedir=${datadir}' \
-+    'sysconfdir=${sysconfdir}' \
-+    'perfexecdir=${libexecdir}/perf-core' \
-+    \
-+    'ETC_PERFCONFIG=${@os.path.relpath(sysconfdir, prefix)}' \
-+    'sharedir=${@os.path.relpath(datadir, prefix)}' \
-+    'mandir=${@os.path.relpath(mandir, prefix)}' \
-+    'infodir=${@os.path.relpath(infodir, prefix)}' \
- "
- 
- # PPC64 uses long long for u64 in the kernel, but powerpc's asm/types.h
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 8114cf6..2c007ab 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -354,8 +354,6 @@ base_do_package() {
+ }
+
+ addtask build after do_populate_sysroot
+-do_build = ""
+-do_build[func] = "1"
+ do_build[noexec] = "1"
+ do_build[recrdeptask] += "do_deploy"
+ do_build () {
+
 -- 
-2.0.4
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
