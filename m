@@ -1,38 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B30465D5E;
-	Sun, 10 Aug 2014 13:50:01 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id f8so3028619wiw.0
-	for <multiple recipients>; Sun, 10 Aug 2014 06:50:02 -0700 (PDT)
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CBBE65CA8
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 10 Aug 2014 14:21:12 +0000 (UTC)
+Received: by mail-wg0-f49.google.com with SMTP id k14so7392052wgh.8
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 10 Aug 2014 07:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
+	h=from:date:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=w8XWhJG3hn17HerJOWuOpH+pqCAQuWJ8txrQEfOlmE4=;
-	b=cXTk61mZ84Kcta3JEp3b3/i7/4fkiMxVP1WwyIFFkYcqoEIwafwaCDI4RFF8xakxol
-	6JuZahAg4BcmwDuJl3UbpDcWjEs6i+ySnjJ+xSiDEXI/a6ML59uJEFc91lCkDfhaK8Jx
-	s4A11sDeRXi8WqrpEzC3J0Rrk/6sk22ActZgLFU5h4qeVBO5198B2+c6xuMOaCC7id17
-	0YnZumjBWpCxGmSaYB50l+a2iCkJsFM09ctLMKzxIed8jsZAgUvqxaze28VQ2CFbnzck
-	EDBjUfQWZ0kD1VEAkgV8mVG7YsugJwaJ7eLFmeOQxYCYeADAlCyC1+Ue42CfIalYL57L
-	t6wQ==
-X-Received: by 10.194.134.228 with SMTP id pn4mr3379145wjb.111.1407678602284; 
-	Sun, 10 Aug 2014 06:50:02 -0700 (PDT)
+	bh=hLG46gJ5oYPjUaqyQyKj3wKGhlj5bQs2PkT6nTIrpNc=;
+	b=u+QBiRoi+WlJTvWv8nQcHi12AIdBwb0+8MdQbzR0Q0nfT3ZNqK+RLwRhqV9DWZvV5c
+	y18TGn1HQliI6qFiRvZlxIlxvfa6bN9+j2k9uW7m8OQ/8oRvMFpHMKteRm5cpyOtiud2
+	967Rvy70sd9QPzj33fgdOLttxoJeTmrblFo4tH5hev1ZcHSyBkXsIYGPKmR6NiSF7sZL
+	EvjvffoKJ+LhTjj4Qqk0sV8vlY6BosKCVHjWOp5yFjngK6OqHIkD1yVFoV2GF3uUzJYf
+	Xds+uBlIdcnqXM9XcDCKS7tqZzjZpWuPRy003STO9/zDYzb0mm5XVcSOwGsIUiDpMmT+
+	PFGQ==
+X-Received: by 10.180.101.65 with SMTP id fe1mr18110318wib.53.1407680473647;
+	Sun, 10 Aug 2014 07:21:13 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	fr4sm31361009wic.16.2014.08.10.06.50.00 for <multiple recipients>
+	h3sm32413954wjn.10.2014.08.10.07.21.12 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 Aug 2014 06:50:00 -0700 (PDT)
+	Sun, 10 Aug 2014 07:21:12 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sun, 10 Aug 2014 15:50:34 +0200
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20140810135034.GQ14848@jama>
-References: <20140809090110.GK14848@jama>
+Date: Sun, 10 Aug 2014 16:21:46 +0200
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <20140810142146.GR14848@jama>
+References: <cover.1407678222.git.hongxu.jia@windriver.com>
+	<af818f3281c55ad5c06332310cf1e5940217c06c.1407678222.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20140809090110.GK14848@jama>
+In-Reply-To: <af818f3281c55ad5c06332310cf1e5940217c06c.1407678222.git.hongxu.jia@windriver.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: State of bitbake world, test-dependencies 2014-08-08
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] guile: workaround ice ssa corruption while DEBUG_BUILD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,843 +47,187 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Aug 2014 13:50:03 -0000
-X-Groupsio-MsgNum: 56249
+X-List-Received-Date: Sun, 10 Aug 2014 14:21:13 -0000
+X-Groupsio-MsgNum: 56250
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="HSfddtAs2KjjielS"
+	protocol="application/pgp-signature"; boundary="lrnY8GquOzEdxs9Q"
 Content-Disposition: inline
 
---HSfddtAs2KjjielS
+--lrnY8GquOzEdxs9Q
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Aug 09, 2014 at 11:01:10AM +0200, Martin Jansa wrote:
-> On Fri, Jul 25, 2014 at 05:40:21PM +0200, Martin Jansa wrote:
-> > Complete logs:
-> > http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.2014072=
-4_145905.log/
-> >=20
-> > ERROR: 46 issues were found in these recipes: gst-ffmpeg lttng-modules =
-modemmanager monkey openal-soft ...
+On Sun, Aug 10, 2014 at 09:47:12PM +0800, Hongxu Jia wrote:
+> Add:
+> MACHINE =3D "qemux86-64"
+> DEBUG_BUILD =3D "1"
+> to local.conf and there was a ssa corruption to build guile:
+> ..
+> Unable to coalesce ssa_names 48 and 3476 which are marked as MUST COALESC=
+E.
+> sp_48(ab) and  sp_3476(ab)
+> guile-2.0.11/libguile/vm-engine.c: In function 'vm_debug_engine':
+> guile-2.0.11/libguile/vm.c:673:19: internal compiler error: SSA corruption
+>  #define VM_NAME   vm_debug_engine
+>                    ^
+> guile-2.0.11/libguile/vm-engine.c:39:1: note: in expansion of macro 'VM_N=
+AME'
+>  VM_NAME (SCM vm, SCM program, SCM *argv, int nargs)
+>  ^
+> Please submit a full bug report,
+> with preprocessed source if appropriate.
+> See <http://gcc.gnu.org/bugs.html> for instructions.
+> ...
 >=20
-> I've sent fixes for gst-ffmpeg, openal-soft, qttools, qtimageformats
+> Tweak libguile/vm-i-system.c to add boundary value check to workaround it.
 >=20
-> I'll look into few more, because it's annoying how long they are in this =
-list.
-> I don't use any of these so I'll look into them in order of number of iss=
-ues
-> they have (tracker will be first). I'll also care less about fixing it "p=
-roperly"
-> with PACKAGECONFIGs and will just throw all DEPENDS in (people using these
-> recipes had enough time to fix it properly and it can be converted to PAC=
-KAGECONFIG
-> later).
+> Also fix qa issue while DEBUG_BUILD:
+> ...
+> WARNING: QA Issue: guile rdepends on ncurses-libncurses but its not a bui=
+ld dependency? [build-deps]
+> WARNING: QA Issue: guile rdepends on readline but its not a build depende=
+ncy? [build-deps]
+> ...
 >=20
-> Complete logs:
-> http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20140808_=
-063907.log/
+> [YOCTO #6411]
 >=20
-> ERROR: 483 issues were found in these recipes: directfb engrave epiphany =
-expedite gd gmtk gnome-disk-utility gst-ffmpeg guile leptonica libarchive l=
-ibmicrohttpd libmikmod libungif libwebp libwmf mariadb midori mpd mpeg2dec =
-mpg123 openal-soft opendataplane oscam piglit protobuf snort sox stunnel sy=
-nergy tesseract tracker
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  .../files/workaround-ice-ssa-corruption.patch      | 52 ++++++++++++++++=
+++++++
+>  meta/recipes-devtools/guile/guile_2.0.11.bb        |  8 +++-
+>  2 files changed, 59 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-devtools/guile/files/workaround-ice-ssa-=
+corruption.patch
 >=20
-> This is first report with the message format unified with insane_qa check.
+> diff --git a/meta/recipes-devtools/guile/files/workaround-ice-ssa-corrupt=
+ion.patch b/meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption=
+=2Epatch
+> new file mode 100644
+> index 0000000..1363d63
+> --- /dev/null
+> +++ b/meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.pat=
+ch
+> @@ -0,0 +1,52 @@
+> +libguile/vm-i-system.c: workaround ice ssa corruption while compiling wi=
+th option -g -O
+> +
+> +While compiling with option -g -O, there was a ssa corruption:
+> +..
+> +Unable to coalesce ssa_names 48 and 3476 which are marked as MUST COALES=
+CE.
+> +sp_48(ab) and  sp_3476(ab)
+> +guile-2.0.11/libguile/vm-engine.c: In function 'vm_debug_engine':
+> +guile-2.0.11/libguile/vm.c:673:19: internal compiler error: SSA corrupti=
+on
+> + #define VM_NAME   vm_debug_engine
+> +                   ^
+> +guile-2.0.11/libguile/vm-engine.c:39:1: note: in expansion of macro 'VM_=
+NAME'
+> + VM_NAME (SCM vm, SCM program, SCM *argv, int nargs)
+> + ^
+> +Please submit a full bug report,
+> +with preprocessed source if appropriate.
+> +See <http://gcc.gnu.org/bugs.html> for instructions.
+> +...
+> +
+> +Tweak libguile/vm-i-system.c to add boundary value check to workaround i=
+t.
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +---
+> + libguile/vm-i-system.c | 11 +++++++----
+> + 1 file changed, 7 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/libguile/vm-i-system.c b/libguile/vm-i-system.c
+> +index 5057fb0..8d31214 100644
+> +--- a/libguile/vm-i-system.c
+> ++++ b/libguile/vm-i-system.c
+> +@@ -625,10 +625,13 @@ VM_DEFINE_INSTRUCTION (47, bind_optionals_shuffle,=
+ "bind-optionals/shuffle", 6,
+> +   /* now shuffle up, from walk to ntotal */
+> +   {
+> +     scm_t_ptrdiff nshuf =3D sp - walk + 1, i;
+> +-    sp =3D (fp - 1) + ntotal + nshuf;
+> +-    CHECK_OVERFLOW ();
+> +-    for (i =3D 0; i < nshuf; i++)
+> +-      sp[-i] =3D walk[nshuf-i-1];
+> ++    if (nshuf > 0)
+> ++    {
+> ++      sp =3D (fp - 1) + ntotal + nshuf;
+> ++      CHECK_OVERFLOW ();
+> ++      for (i =3D 0; i < nshuf; i++)
+> ++        sp[-i] =3D walk[nshuf-i-1];
+> ++    }
+> +   }
+> +   /* and fill optionals & keyword args with SCM_UNDEFINED */
+> +   while (walk <=3D (fp - 1) + ntotal)
+> +--=20
+> +1.9.1
+> +
+> diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-d=
+evtools/guile/guile_2.0.11.bb
+> index d19460a..e380bed 100644
+> --- a/meta/recipes-devtools/guile/guile_2.0.11.bb
+> +++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
+> @@ -21,6 +21,9 @@ SRC_URI =3D "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
+>             file://arm_endianness.patch \
+>             "
+> =20
+> +SRC_URI_append_class-target =3D " \
+> +           ${@base_conditional( "DEBUG_BUILD", "1", " file://workaround-=
+ice-ssa-corruption.patch", "", d )} \
+> +           "
+>  #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.=
+patch
+>  #           file://opensuse/guile-turn-off-gc-test.patch=20
+> =20
+> @@ -35,7 +38,10 @@ DEPENDS =3D "libunistring bdwgc gmp libtool libffi"
+>  # add guile-native only to the target recipe's DEPENDS
+>  DEPENDS_append_class-target =3D " guile-native libatomics-ops"
+> =20
+> -RDEPENDS_${PN}_append_libc-glibc_class-target =3D "glibc-gconv-iso8859-1"
+> +RDEPENDS_${PN}_append_class-target =3D " \
+> +             ${@base_conditional( "DEBUG_BUILD", "1", " readline ncurses=
+", "", d )} \
+> +             "
 
-This report was longer then it should be, because last
-test-dependencies.sh change caused all dependencies from package with
-floating dependency to be shown.
+This seems to be needed even withotu DEBUG_BUILD, see
+http://lists.openembedded.org/pipermail/openembedded-core/2014-August/09558=
+5.html
+and IMHO it's build time dependncy not runtime.
 
-I've sent patches for all of them, so next report should be really
-short.
-
-> WARN: directfb: directfb rdepends on eglibc but it's not a build dependen=
-cy?
-> WARN: directfb: directfb rdepends on freetype but it's not a build depend=
-ency?
-> WARN: directfb: directfb rdepends on libdrm but it's not a build dependen=
-cy?
-> WARN: directfb: directfb rdepends on libdrm-kms but it's not a build depe=
-ndency?
-> WARN: directfb: directfb rdepends on libgcc but it's not a build dependen=
-cy?
-> WARN: directfb: directfb rdepends on libjpeg-turbo but it's not a build d=
-ependency?
-> WARN: directfb: directfb rdepends on liblzma but it's not a build depende=
-ncy?
-> WARN: directfb: directfb rdepends on libpng but it's not a build dependen=
-cy?
-> WARN: directfb: directfb rdepends on libstdc++ but it's not a build depen=
-dency?
-> WARN: directfb: directfb rdepends on libwebp but it's not a build depende=
-ncy?
-> WARN: directfb: directfb rdepends on tiff but it's not a build dependency?
-> WARN: directfb: directfb rdepends on tslib but it's not a build dependenc=
-y?
-> WARN: directfb: directfb rdepends on zlib but it's not a build dependency?
-> WARN: engrave: engrave rdepends on ecore but it's not a build dependency?
-> WARN: engrave: engrave rdepends on ecore-evas but it's not a build depend=
-ency?
-> WARN: engrave: engrave rdepends on ecore-input but it's not a build depen=
-dency?
-> WARN: engrave: engrave rdepends on ecore-input-evas but it's not a build =
-dependency?
-> WARN: engrave: engrave rdepends on eglibc but it's not a build dependency?
-> WARN: engrave: engrave rdepends on eina but it's not a build dependency?
-> WARN: engrave: engrave rdepends on eo but it's not a build dependency?
-> WARN: engrave: engrave rdepends on evas but it's not a build dependency?
-> WARN: engrave: engrave rdepends on expat but it's not a build dependency?
-> WARN: engrave: engrave rdepends on flex but it's not a build dependency?
-> WARN: engrave: engrave rdepends on fontconfig but it's not a build depend=
-ency?
-> WARN: engrave: engrave rdepends on freetype but it's not a build dependen=
-cy?
-> WARN: engrave: engrave rdepends on fribidi but it's not a build dependenc=
-y?
-> WARN: engrave: engrave rdepends on glib-2.0 but it's not a build dependen=
-cy?
-> WARN: engrave: engrave rdepends on libcrypto but it's not a build depende=
-ncy?
-> WARN: engrave: engrave rdepends on libeet but it's not a build dependency?
-> WARN: engrave: engrave rdepends on libjpeg-turbo but it's not a build dep=
-endency?
-> WARN: engrave: engrave rdepends on libpng but it's not a build dependency?
-> WARN: engrave: engrave rdepends on libssl but it's not a build dependency?
-> WARN: engrave: engrave rdepends on libstdc++ but it's not a build depende=
-ncy?
-> WARN: engrave: engrave rdepends on luajit but it's not a build dependency?
-> WARN: engrave: engrave rdepends on zlib but it's not a build dependency?
-> WARN: epiphany: epiphany rdepends on cairo but it's not a build dependenc=
-y?
-> WARN: epiphany: epiphany rdepends on dbus-glib but it's not a build depen=
-dency?
-> WARN: epiphany: epiphany rdepends on dbus-lib but it's not a build depend=
-ency?
-> WARN: epiphany: epiphany rdepends on eglibc but it's not a build dependen=
-cy?
-> WARN: epiphany: epiphany rdepends on gconf but it's not a build dependenc=
-y?
-> WARN: epiphany: epiphany rdepends on gdk-pixbuf but it's not a build depe=
-ndency?
-> WARN: epiphany: epiphany rdepends on glib-2.0 but it's not a build depend=
-ency?
-> WARN: epiphany: epiphany rdepends on gtk+ but it's not a build dependency?
-> WARN: epiphany: epiphany rdepends on hicolor-icon-theme but it's not a bu=
-ild dependency?
-> WARN: epiphany: epiphany rdepends on iso-codes but it's not a build depen=
-dency?
-> WARN: epiphany: epiphany rdepends on libavahi-client but it's not a build=
- dependency?
-> WARN: epiphany: epiphany rdepends on libavahi-common but it's not a build=
- dependency?
-> WARN: epiphany: epiphany rdepends on libavahi-gobject but it's not a buil=
-d dependency?
-> WARN: epiphany: epiphany rdepends on libgnome-keyring but it's not a buil=
-d dependency?
-> WARN: epiphany: epiphany rdepends on libice but it's not a build dependen=
-cy?
-> WARN: epiphany: epiphany rdepends on libjavascriptcore but it's not a bui=
-ld dependency?
-> WARN: epiphany: epiphany rdepends on libnotify but it's not a build depen=
-dency?
-> WARN: epiphany: epiphany rdepends on libsm but it's not a build dependenc=
-y?
-> WARN: epiphany: epiphany rdepends on libsoup-2.4 but it's not a build dep=
-endency?
-> WARN: epiphany: epiphany rdepends on libx11 but it's not a build dependen=
-cy?
-> WARN: epiphany: epiphany rdepends on libxml2 but it's not a build depende=
-ncy?
-> WARN: epiphany: epiphany rdepends on libxslt but it's not a build depende=
-ncy?
-> WARN: epiphany: epiphany rdepends on pango but it's not a build dependenc=
-y?
-> WARN: epiphany: epiphany rdepends on webkit-gtk but it's not a build depe=
-ndency?
-> WARN: expedite: expedite rdepends on eglibc but it's not a build dependen=
-cy?
-> WARN: expedite: expedite rdepends on eina but it's not a build dependency?
-> WARN: expedite: expedite rdepends on evas but it's not a build dependency?
-> WARN: expedite: expedite rdepends on evas-engine-fb but it's not a build =
-dependency?
-> WARN: expedite: expedite rdepends on evas-engine-gl-x11 but it's not a bu=
-ild dependency?
-> WARN: expedite: expedite rdepends on evas-engine-software-generic but it'=
-s not a build dependency?
-> WARN: expedite: expedite rdepends on evas-engine-software-x11 but it's no=
-t a build dependency?
-> WARN: expedite: expedite rdepends on evas-loader-png but it's not a build=
- dependency?
-> WARN: expedite: expedite rdepends on expedite-themes but it's not a build=
- dependency?
-> WARN: expedite: expedite rdepends on libgcc but it's not a build dependen=
-cy?
-> WARN: expedite: expedite rdepends on libsdl but it's not a build dependen=
-cy?
-> WARN: expedite: expedite rdepends on libx11 but it's not a build dependen=
-cy?
-> WARN: gd: gd rdepends on eglibc but it's not a build dependency?
-> WARN: gd: gd rdepends on freetype but it's not a build dependency?
-> WARN: gd: gd rdepends on libjpeg-turbo but it's not a build dependency?
-> WARN: gd: gd rdepends on liblzma but it's not a build dependency?
-> WARN: gd: gd rdepends on libpng but it's not a build dependency?
-> WARN: gd: gd rdepends on libvpx but it's not a build dependency?
-> WARN: gd: gd rdepends on tiff but it's not a build dependency?
-> WARN: gd: gd rdepends on zlib but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on atk but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on cairo but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on cairo-gobject but it's not a build dependenc=
-y?
-> WARN: gmtk: gmtk rdepends on dbus-lib but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on eglibc but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on expat but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on fontconfig but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on freetype but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on gdk-pixbuf but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on glib-2.0 but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on gtk+3 but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on harfbuzz but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on json-c but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libasound but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libcap but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libffi but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libice but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libpng but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libpulse but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libpulse-mainloop-glib but it's not a build =
-dependency?
-> WARN: gmtk: gmtk rdepends on libsm but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libsndfile1 but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libx11 but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libx11-xcb but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libxau but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libxcb but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libxcb-render but it's not a build dependenc=
-y?
-> WARN: gmtk: gmtk rdepends on libxcb-shm but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libxdmcp but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libxext but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libxi but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libxrender but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on libxtst but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on pango but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on pixman but it's not a build dependency?
-> WARN: gmtk: gmtk rdepends on util-linux-libuuid but it's not a build depe=
-ndency?
-> WARN: gmtk: gmtk rdepends on zlib but it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on atk but it'=
-s not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on avahi-ui bu=
-t it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on cairo but i=
-t's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on dbus-glib b=
-ut it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on dbus-lib bu=
-t it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on eglibc but =
-it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on expat but i=
-t's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on fontconfig =
-but it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on freetype bu=
-t it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on gdk-pixbuf =
-but it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on glib-2.0 bu=
-t it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on gtk+ but it=
-'s not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on harfbuzz bu=
-t it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libatasmart=
- but it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libavahi-cl=
-ient but it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libavahi-co=
-mmon but it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libavahi-gl=
-ib but it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libcap but =
-it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libffi but =
-it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libgcrypt b=
-ut it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libgnome-ke=
-yring but it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libgpg-erro=
-r but it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libpng but =
-it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libudev but=
- it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libx11 but =
-it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libxau but =
-it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libxcb but =
-it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libxcb-rend=
-er but it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libxcb-shm =
-but it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libxdmcp bu=
-t it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libxext but=
- it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on libxrender =
-but it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on pango but i=
-t's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on pixman but =
-it's not a build dependency?
-> WARN: gnome-disk-utility: gnome-disk-utility-libs rdepends on zlib but it=
-'s not a build dependency?
-> WARN: guile: guile rdepends on bdwgc but it's not a build dependency?
-> WARN: guile: guile rdepends on eglibc but it's not a build dependency?
-> WARN: guile: guile rdepends on glibc-gconv-iso8859-1 but it's not a build=
- dependency?
-> WARN: guile: guile rdepends on gmp but it's not a build dependency?
-> WARN: guile: guile rdepends on libffi but it's not a build dependency?
-> WARN: guile: guile rdepends on libltdl but it's not a build dependency?
-> WARN: guile: guile rdepends on libunistring but it's not a build dependen=
-cy?
-> WARN: guile: guile rdepends on ncurses-libncurses but it's not a build de=
-pendency?
-> WARN: guile: guile rdepends on readline but it's not a build dependency?
-> WARN: leptonica: leptonica rdepends on eglibc but it's not a build depend=
-ency?
-> WARN: leptonica: leptonica rdepends on giflib but it's not a build depend=
-ency?
-> WARN: leptonica: leptonica rdepends on libjpeg-turbo but it's not a build=
- dependency?
-> WARN: leptonica: leptonica rdepends on liblzma but it's not a build depen=
-dency?
-> WARN: leptonica: leptonica rdepends on libpng but it's not a build depend=
-ency?
-> WARN: leptonica: leptonica rdepends on tiff but it's not a build dependen=
-cy?
-> WARN: leptonica: leptonica rdepends on zlib but it's not a build dependen=
-cy?
-> WARN: libarchive: libarchive rdepends on eglibc but it's not a build depe=
-ndency?
-> WARN: libarchive: libarchive rdepends on libattr but it's not a build dep=
-endency?
-> WARN: libarchive: libarchive rdepends on libbz2 but it's not a build depe=
-ndency?
-> WARN: libarchive: libarchive rdepends on libxml2 but it's not a build dep=
-endency?
-> WARN: libarchive: libarchive rdepends on nettle but it's not a build depe=
-ndency?
-> WARN: libarchive: libarchive rdepends on zlib but it's not a build depend=
-ency?
-> WARN: libarchive: libarchive-bin rdepends on eglibc but it's not a build =
-dependency?
-> WARN: libarchive: libarchive-bin rdepends on libattr but it's not a build=
- dependency?
-> WARN: libarchive: libarchive-bin rdepends on libbz2 but it's not a build =
-dependency?
-> WARN: libarchive: libarchive-bin rdepends on libxml2 but it's not a build=
- dependency?
-> WARN: libarchive: libarchive-bin rdepends on nettle but it's not a build =
-dependency?
-> WARN: libarchive: libarchive-bin rdepends on zlib but it's not a build de=
-pendency?
-> WARN: libmicrohttpd: libmicrohttpd-bin rdepends on eglibc but it's not a =
-build dependency?
-> WARN: libmicrohttpd: libmicrohttpd-bin rdepends on file but it's not a bu=
-ild dependency?
-> WARN: libmicrohttpd: libmicrohttpd-bin rdepends on libcurl but it's not a=
- build dependency?
-> WARN: libmicrohttpd: libmicrohttpd-bin rdepends on libmicrohttpd but it's=
- not a build dependency?
-> WARN: libmikmod: libmikmod rdepends on dbus-lib but it's not a build depe=
-ndency?
-> WARN: libmikmod: libmikmod rdepends on eglibc but it's not a build depend=
-ency?
-> WARN: libmikmod: libmikmod rdepends on json-c but it's not a build depend=
-ency?
-> WARN: libmikmod: libmikmod rdepends on libcap but it's not a build depend=
-ency?
-> WARN: libmikmod: libmikmod rdepends on libice but it's not a build depend=
-ency?
-> WARN: libmikmod: libmikmod rdepends on libpulse but it's not a build depe=
-ndency?
-> WARN: libmikmod: libmikmod rdepends on libpulse-simple but it's not a bui=
-ld dependency?
-> WARN: libmikmod: libmikmod rdepends on libsm but it's not a build depende=
-ncy?
-> WARN: libmikmod: libmikmod rdepends on libsndfile1 but it's not a build d=
-ependency?
-> WARN: libmikmod: libmikmod rdepends on libx11 but it's not a build depend=
-ency?
-> WARN: libmikmod: libmikmod rdepends on libx11-xcb but it's not a build de=
-pendency?
-> WARN: libmikmod: libmikmod rdepends on libxau but it's not a build depend=
-ency?
-> WARN: libmikmod: libmikmod rdepends on libxcb but it's not a build depend=
-ency?
-> WARN: libmikmod: libmikmod rdepends on libxdmcp but it's not a build depe=
-ndency?
-> WARN: libmikmod: libmikmod rdepends on libxext but it's not a build depen=
-dency?
-> WARN: libmikmod: libmikmod rdepends on libxi but it's not a build depende=
-ncy?
-> WARN: libmikmod: libmikmod rdepends on libxtst but it's not a build depen=
-dency?
-> WARN: libmikmod: libmikmod rdepends on util-linux-libuuid but it's not a =
-build dependency?
-> WARN: libungif: libungif rdepends on eglibc but it's not a build dependen=
-cy?
-> WARN: libungif: libungif rdepends on libice but it's not a build dependen=
-cy?
-> WARN: libungif: libungif rdepends on libsm but it's not a build dependenc=
-y?
-> WARN: libungif: libungif rdepends on libx11 but it's not a build dependen=
-cy?
-> WARN: libungif: libungif rdepends on libxau but it's not a build dependen=
-cy?
-> WARN: libungif: libungif rdepends on libxcb but it's not a build dependen=
-cy?
-> WARN: libungif: libungif rdepends on libxdmcp but it's not a build depend=
-ency?
-> WARN: libungif: libungif rdepends on util-linux-libuuid but it's not a bu=
-ild dependency?
-> WARN: libungif: libungif-utils rdepends on eglibc but it's not a build de=
-pendency?
-> WARN: libungif: libungif-utils rdepends on libungif but it's not a build =
-dependency?
-> WARN: libungif: libungif-utils rdepends on libx11 but it's not a build de=
-pendency?
-> WARN: libwebp: libwebp-gif2webp rdepends on eglibc but it's not a build d=
-ependency?
-> WARN: libwebp: libwebp-gif2webp rdepends on giflib but it's not a build d=
-ependency?
-> WARN: libwebp: libwebp-gif2webp rdepends on libwebp but it's not a build =
-dependency?
-> WARN: ltrace: ltrace rdepends on eglibc but it's not a build dependency?
-> WARN: ltrace: ltrace rdepends on elfutils but it's not a build dependency?
-> WARN: ltrace: ltrace rdepends on libelf but it's not a build dependency?
-> WARN: midori: midori rdepends on cairo but it's not a build dependency?
-> WARN: midori: midori rdepends on eglibc but it's not a build dependency?
-> WARN: midori: midori rdepends on gdk-pixbuf but it's not a build dependen=
-cy?
-> WARN: midori: midori rdepends on glib-2.0 but it's not a build dependency?
-> WARN: midori: midori rdepends on gtk+ but it's not a build dependency?
-> WARN: midori: midori rdepends on hicolor-icon-theme but it's not a build =
-dependency?
-> WARN: midori: midori rdepends on libjavascriptcore but it's not a build d=
-ependency?
-> WARN: midori: midori rdepends on libnotify but it's not a build dependenc=
-y?
-> WARN: midori: midori rdepends on libsoup-2.4 but it's not a build depende=
-ncy?
-> WARN: midori: midori rdepends on libsqlite3 but it's not a build dependen=
-cy?
-> WARN: midori: midori rdepends on libunique but it's not a build dependenc=
-y?
-> WARN: midori: midori rdepends on libx11 but it's not a build dependency?
-> WARN: midori: midori rdepends on libxml2 but it's not a build dependency?
-> WARN: midori: midori rdepends on libxscrnsaver but it's not a build depen=
-dency?
-> WARN: midori: midori rdepends on pango but it's not a build dependency?
-> WARN: midori: midori rdepends on webkit-gtk but it's not a build dependen=
-cy?
-> WARN: mpd: mpd rdepends on base-files but it's not a build dependency?
-> WARN: mpd: mpd rdepends on base-passwd but it's not a build dependency?
-> WARN: mpd: mpd rdepends on eglibc but it's not a build dependency?
-> WARN: mpd: mpd rdepends on fluidsynth but it's not a build dependency?
-> WARN: mpd: mpd rdepends on glib-2.0 but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libao but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libasound but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libavahi-client but it's not a build dependenc=
-y?
-> WARN: mpd: mpd rdepends on libavahi-common but it's not a build dependenc=
-y?
-> WARN: mpd: mpd rdepends on libavcodec but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libavformat but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libavutil but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libbz2 but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libcdio but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libcdio-cdda but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libcdio-paranoia but it's not a build dependen=
-cy?
-> WARN: mpd: mpd rdepends on libcurl but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libfaad but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libflac but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libgcc but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libjack but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libmms but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libmodplug but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libogg but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libopus but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libpulse but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libsamplerate0 but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libsndfile1 but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libsqlite3 but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libstdc++ but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libvorbis but it's not a build dependency?
-> WARN: mpd: mpd rdepends on libwrap but it's not a build dependency?
-> WARN: mpd: mpd rdepends on mpg123 but it's not a build dependency?
-> WARN: mpd: mpd rdepends on shadow but it's not a build dependency?
-> WARN: mpd: mpd rdepends on wavpack but it's not a build dependency?
-> WARN: mpd: mpd rdepends on yajl but it's not a build dependency?
-> WARN: mpeg2dec: mpeg2dec rdepends on eglibc but it's not a build dependen=
-cy?
-> WARN: mpeg2dec: mpeg2dec rdepends on libmpeg2 but it's not a build depend=
-ency?
-> WARN: mpeg2dec: mpeg2dec rdepends on libmpeg2convert but it's not a build=
- dependency?
-> WARN: mpeg2dec: mpeg2dec rdepends on libx11 but it's not a build dependen=
-cy?
-> WARN: mpeg2dec: mpeg2dec rdepends on libxext but it's not a build depende=
-ncy?
-> WARN: mpeg2dec: mpeg2dec rdepends on libxv but it's not a build dependenc=
-y?
-> WARN: mpg123: mpg123 rdepends on audiofile but it's not a build dependenc=
-y?
-> WARN: mpg123: mpg123 rdepends on dbus-lib but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on eglibc but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on esound but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on json-c but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libasound but it's not a build dependenc=
-y?
-> WARN: mpg123: mpg123 rdepends on libcap but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libice but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libjack but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libltdl but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libpulse but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libpulse-simple but it's not a build dep=
-endency?
-> WARN: mpg123: mpg123 rdepends on libsdl but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libsm but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libsndfile1 but it's not a build depende=
-ncy?
-> WARN: mpg123: mpg123 rdepends on libx11 but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libx11-xcb but it's not a build dependen=
-cy?
-> WARN: mpg123: mpg123 rdepends on libxau but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libxcb but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libxdmcp but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libxext but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libxi but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on libxtst but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on portaudio-v19 but it's not a build depen=
-dency?
-> WARN: mpg123: mpg123 rdepends on tslib but it's not a build dependency?
-> WARN: mpg123: mpg123 rdepends on util-linux-libuuid but it's not a build =
-dependency?
-> WARN: oscam: oscam rdepends on eglibc but it's not a build dependency?
-> WARN: oscam: oscam rdepends on libcrypto but it's not a build dependency?
-> WARN: oscam: oscam rdepends on libusb1 but it's not a build dependency?
-> WARN: oscam: oscam rdepends on pcsc-lite-lib but it's not a build depende=
-ncy?
-> WARN: piglit: piglit rdepends on eglibc but it's not a build dependency?
-> WARN: piglit: piglit rdepends on libegl-mesa but it's not a build depende=
-ncy?
-> WARN: piglit: piglit rdepends on libgcc but it's not a build dependency?
-> WARN: piglit: piglit rdepends on libgl-mesa but it's not a build dependen=
-cy?
-> WARN: piglit: piglit rdepends on libglu but it's not a build dependency?
-> WARN: piglit: piglit rdepends on libstdc++ but it's not a build dependenc=
-y?
-> WARN: piglit: piglit rdepends on libx11 but it's not a build dependency?
-> WARN: piglit: piglit rdepends on libxrender but it's not a build dependen=
-cy?
-> WARN: piglit: piglit rdepends on mesa-demos but it's not a build dependen=
-cy?
-> WARN: piglit: piglit rdepends on python but it's not a build dependency?
-> WARN: piglit: piglit rdepends on python-json but it's not a build depende=
-ncy?
-> WARN: piglit: piglit rdepends on python-multiprocessing but it's not a bu=
-ild dependency?
-> WARN: piglit: piglit rdepends on python-netserver but it's not a build de=
-pendency?
-> WARN: piglit: piglit rdepends on python-shell but it's not a build depend=
-ency?
-> WARN: piglit: piglit rdepends on python-subprocess but it's not a build d=
-ependency?
-> WARN: piglit: piglit rdepends on python-textutils but it's not a build de=
-pendency?
-> WARN: piglit: piglit rdepends on waffle but it's not a build dependency?
-> WARN: protobuf: protobuf rdepends on eglibc but it's not a build dependen=
-cy?
-> WARN: protobuf: protobuf rdepends on libgcc but it's not a build dependen=
-cy?
-> WARN: protobuf: protobuf rdepends on libstdc++ but it's not a build depen=
-dency?
-> WARN: protobuf: protobuf rdepends on zlib but it's not a build dependency?
-> WARN: snort: snort rdepends on daq but it's not a build dependency?
-> WARN: snort: snort rdepends on eglibc but it's not a build dependency?
-> WARN: snort: snort rdepends on libcrypto but it's not a build dependency?
-> WARN: snort: snort rdepends on libdnet but it's not a build dependency?
-> WARN: snort: snort rdepends on libpcap but it's not a build dependency?
-> WARN: snort: snort rdepends on libpcre but it's not a build dependency?
-> WARN: snort: snort rdepends on util-linux-libuuid but it's not a build de=
-pendency?
-> WARN: snort: snort rdepends on zlib but it's not a build dependency?
-> WARN: sox: sox rdepends on dbus-lib but it's not a build dependency?
-> WARN: sox: sox rdepends on eglibc but it's not a build dependency?
-> WARN: sox: sox rdepends on file but it's not a build dependency?
-> WARN: sox: sox rdepends on json-c but it's not a build dependency?
-> WARN: sox: sox rdepends on libasound but it's not a build dependency?
-> WARN: sox: sox rdepends on libcap but it's not a build dependency?
-> WARN: sox: sox rdepends on libflac but it's not a build dependency?
-> WARN: sox: sox rdepends on libice but it's not a build dependency?
-> WARN: sox: sox rdepends on libltdl but it's not a build dependency?
-> WARN: sox: sox rdepends on libogg but it's not a build dependency?
-> WARN: sox: sox rdepends on libpng but it's not a build dependency?
-> WARN: sox: sox rdepends on libpulse but it's not a build dependency?
-> WARN: sox: sox rdepends on libpulse-simple but it's not a build dependenc=
-y?
-> WARN: sox: sox rdepends on libsm but it's not a build dependency?
-> WARN: sox: sox rdepends on libsndfile1 but it's not a build dependency?
-> WARN: sox: sox rdepends on libvorbis but it's not a build dependency?
-> WARN: sox: sox rdepends on libx11 but it's not a build dependency?
-> WARN: sox: sox rdepends on libx11-xcb but it's not a build dependency?
-> WARN: sox: sox rdepends on libxau but it's not a build dependency?
-> WARN: sox: sox rdepends on libxcb but it's not a build dependency?
-> WARN: sox: sox rdepends on libxdmcp but it's not a build dependency?
-> WARN: sox: sox rdepends on libxext but it's not a build dependency?
-> WARN: sox: sox rdepends on libxi but it's not a build dependency?
-> WARN: sox: sox rdepends on libxtst but it's not a build dependency?
-> WARN: sox: sox rdepends on util-linux-libuuid but it's not a build depend=
-ency?
-> WARN: sox: sox rdepends on zlib but it's not a build dependency?
-> WARN: stunnel: stunnel rdepends on eglibc but it's not a build dependency?
-> WARN: stunnel: stunnel rdepends on libcrypto but it's not a build depende=
-ncy?
-> WARN: stunnel: stunnel rdepends on libssl but it's not a build dependency?
-> WARN: stunnel: stunnel rdepends on libwrap but it's not a build dependenc=
-y?
-> WARN: stunnel: stunnel rdepends on zlib but it's not a build dependency?
-> WARN: synergy: synergy rdepends on eglibc but it's not a build dependency?
-> WARN: synergy: synergy rdepends on libgcc but it's not a build dependency?
-> WARN: synergy: synergy rdepends on libstdc++ but it's not a build depende=
-ncy?
-> WARN: synergy: synergy rdepends on libx11 but it's not a build dependency?
-> WARN: synergy: synergy rdepends on libxext but it's not a build dependenc=
-y?
-> WARN: synergy: synergy rdepends on libxinerama but it's not a build depen=
-dency?
-> WARN: synergy: synergy rdepends on libxtst but it's not a build dependenc=
-y?
-> WARN: tesseract: tesseract rdepends on eglibc but it's not a build depend=
-ency?
-> WARN: tesseract: tesseract rdepends on giflib but it's not a build depend=
-ency?
-> WARN: tesseract: tesseract rdepends on leptonica but it's not a build dep=
-endency?
-> WARN: tesseract: tesseract rdepends on libgcc but it's not a build depend=
-ency?
-> WARN: tesseract: tesseract rdepends on libjpeg-turbo but it's not a build=
- dependency?
-> WARN: tesseract: tesseract rdepends on liblzma but it's not a build depen=
-dency?
-> WARN: tesseract: tesseract rdepends on libpng but it's not a build depend=
-ency?
-> WARN: tesseract: tesseract rdepends on libstdc++ but it's not a build dep=
-endency?
-> WARN: tesseract: tesseract rdepends on tiff but it's not a build dependen=
-cy?
-> WARN: tesseract: tesseract rdepends on zlib but it's not a build dependen=
-cy?
-> WARN: tracker: tracker rdepends on dbus-lib but it's not a build dependen=
-cy?
-> WARN: tracker: tracker rdepends on eglibc but it's not a build dependency?
-> WARN: tracker: tracker rdepends on enca but it's not a build dependency?
-> WARN: tracker: tracker rdepends on gdk-pixbuf but it's not a build depend=
-ency?
-> WARN: tracker: tracker rdepends on glib-2.0 but it's not a build dependen=
-cy?
-> WARN: tracker: tracker rdepends on glib-2.0-utils but it's not a build de=
-pendency?
-> WARN: tracker: tracker rdepends on gsettings-desktop-schemas but it's not=
- a build dependency?
-> WARN: tracker: tracker rdepends on gtk+3 but it's not a build dependency?
-> WARN: tracker: tracker rdepends on gvfs but it's not a build dependency?
-> WARN: tracker: tracker rdepends on libcap but it's not a build dependency?
-> WARN: tracker: tracker rdepends on libexif but it's not a build dependenc=
-y?
-> WARN: tracker: tracker rdepends on libffi but it's not a build dependency?
-> WARN: tracker: tracker rdepends on libgcc but it's not a build dependency?
-> WARN: tracker: tracker rdepends on libgcrypt but it's not a build depende=
-ncy?
-> WARN: tracker: tracker rdepends on libgee but it's not a build dependency?
-> WARN: tracker: tracker rdepends on libgnome-keyring but it's not a build =
-dependency?
-> WARN: tracker: tracker rdepends on libgpg-error but it's not a build depe=
-ndency?
-> WARN: tracker: tracker rdepends on libgsf but it's not a build dependency?
-> WARN: tracker: tracker rdepends on libsqlite3 but it's not a build depend=
-ency?
-> WARN: tracker: tracker rdepends on libstdc++ but it's not a build depende=
-ncy?
-> WARN: tracker: tracker rdepends on libunistring but it's not a build depe=
-ndency?
-> WARN: tracker: tracker rdepends on upower but it's not a build dependency?
-> WARN: tracker: tracker rdepends on util-linux-libuuid but it's not a buil=
-d dependency?
-> WARN: tracker: tracker rdepends on zlib but it's not a build dependency?
-> WARN: tracker: tracker-dev rdepends on cairo but it's not a build depende=
-ncy?
-> WARN: tracker: tracker-dev rdepends on eglibc but it's not a build depend=
-ency?
-> WARN: tracker: tracker-dev rdepends on enca but it's not a build dependen=
-cy?
-> WARN: tracker: tracker-dev rdepends on expat but it's not a build depende=
-ncy?
-> WARN: tracker: tracker-dev rdepends on fontconfig but it's not a build de=
-pendency?
-> WARN: tracker: tracker-dev rdepends on freetype but it's not a build depe=
-ndency?
-> WARN: tracker: tracker-dev rdepends on giflib but it's not a build depend=
-ency?
-> WARN: tracker: tracker-dev rdepends on glib-2.0 but it's not a build depe=
-ndency?
-> WARN: tracker: tracker-dev rdepends on gstreamer but it's not a build dep=
-endency?
-> WARN: tracker: tracker-dev rdepends on lcms but it's not a build dependen=
-cy?
-> WARN: tracker: tracker-dev rdepends on libbz2 but it's not a build depend=
-ency?
-> WARN: tracker: tracker-dev rdepends on libexif but it's not a build depen=
-dency?
-> WARN: tracker: tracker-dev rdepends on libffi but it's not a build depend=
-ency?
-> WARN: tracker: tracker-dev rdepends on libgsf but it's not a build depend=
-ency?
-> WARN: tracker: tracker-dev rdepends on libgstpbutils-0.10 but it's not a =
-build dependency?
-> WARN: tracker: tracker-dev rdepends on libgsttag-0.10 but it's not a buil=
-d dependency?
-> WARN: tracker: tracker-dev rdepends on libjpeg-turbo but it's not a build=
- dependency?
-> WARN: tracker: tracker-dev rdepends on liblzma but it's not a build depen=
-dency?
-> WARN: tracker: tracker-dev rdepends on libpng but it's not a build depend=
-ency?
-> WARN: tracker: tracker-dev rdepends on libpoppler but it's not a build de=
-pendency?
-> WARN: tracker: tracker-dev rdepends on libpoppler-glib but it's not a bui=
-ld dependency?
-> WARN: tracker: tracker-dev rdepends on libsqlite3 but it's not a build de=
-pendency?
-> WARN: tracker: tracker-dev rdepends on libstdc++ but it's not a build dep=
-endency?
-> WARN: tracker: tracker-dev rdepends on libunistring but it's not a build =
-dependency?
-> WARN: tracker: tracker-dev rdepends on libx11 but it's not a build depend=
-ency?
-> WARN: tracker: tracker-dev rdepends on libxau but it's not a build depend=
-ency?
-> WARN: tracker: tracker-dev rdepends on libxcb but it's not a build depend=
-ency?
-> WARN: tracker: tracker-dev rdepends on libxcb-render but it's not a build=
- dependency?
-> WARN: tracker: tracker-dev rdepends on libxcb-shm but it's not a build de=
-pendency?
-> WARN: tracker: tracker-dev rdepends on libxdmcp but it's not a build depe=
-ndency?
-> WARN: tracker: tracker-dev rdepends on libxext but it's not a build depen=
-dency?
-> WARN: tracker: tracker-dev rdepends on libxml2 but it's not a build depen=
-dency?
-> WARN: tracker: tracker-dev rdepends on libxrender but it's not a build de=
-pendency?
-> WARN: tracker: tracker-dev rdepends on pixman but it's not a build depend=
-ency?
-> WARN: tracker: tracker-dev rdepends on taglib but it's not a build depend=
-ency?
-> WARN: tracker: tracker-dev rdepends on taglib-c but it's not a build depe=
-ndency?
-> WARN: tracker: tracker-dev rdepends on tiff but it's not a build dependen=
-cy?
-> WARN: tracker: tracker-dev rdepends on tracker but it's not a build depen=
-dency?
-> WARN: tracker: tracker-dev rdepends on tracker but it's not a build depen=
-dency?
-> WARN: tracker: tracker-dev rdepends on util-linux-libuuid but it's not a =
-build dependency?
-> WARN: tracker: tracker-dev rdepends on zlib but it's not a build dependen=
-cy?
-> WARN: tracker: tracker-nautilus-extension rdepends on atk but it's not a =
-build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on cairo but it's not =
-a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on eglibc but it's not=
- a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on expat but it's not =
-a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on fontconfig but it's=
- not a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on freetype but it's n=
-ot a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on gdk-pixbuf but it's=
- not a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on glib-2.0 but it's n=
-ot a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on gtk+ but it's not a=
- build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on harfbuzz but it's n=
-ot a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on libffi but it's not=
- a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on libpng but it's not=
- a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on libsqlite3 but it's=
- not a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on libunistring but it=
-'s not a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on libx11 but it's not=
- a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on libxau but it's not=
- a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on libxcb but it's not=
- a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on libxcb-render but i=
-t's not a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on libxcb-shm but it's=
- not a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on libxdmcp but it's n=
-ot a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on libxext but it's no=
-t a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on libxrender but it's=
- not a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on pango but it's not =
-a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on pixman but it's not=
- a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on tracker but it's no=
-t a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on util-linux-libuuid =
-but it's not a build dependency?
-> WARN: tracker: tracker-nautilus-extension rdepends on zlib but it's not a=
- build dependency?
+> +RDEPENDS_${PN}_append_libc-glibc_class-target =3D " glibc-gconv-iso8859-=
+1"
+> =20
+>  EXTRA_OECONF +=3D "${@['--without-libltdl-prefix --without-libgmp-prefix=
+ --without-libreadline-prefix', ''][bb.data.inherits_class('native',d)]}"
+> =20
+> --=20
+> 1.9.1
 >=20
 > --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
-
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---HSfddtAs2KjjielS
+--lrnY8GquOzEdxs9Q
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlPneKoACgkQN1Ujt2V2gBxnkACeKPjY53KJSGTxOzVHdhdMBpwL
-LSsAn3qfb6ZwCjvoF3+71c1ZDlTknnbN
-=HyBy
+iEYEARECAAYFAlPnf/oACgkQN1Ujt2V2gBx+SACgmJkcPhc4hZ2DwLgcFzN35kj4
+6mkAmgOct97tqUIWSf7OBeatcJIizwmq
+=6z8g
 -----END PGP SIGNATURE-----
 
---HSfddtAs2KjjielS--
+--lrnY8GquOzEdxs9Q--
