@@ -1,35 +1,35 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
-	[74.125.82.177])
-	by mail.openembedded.org (Postfix) with ESMTP id B33D660C19
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E51960B05
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Aug 2014 13:14:51 +0000 (UTC)
-Received: by mail-we0-f177.google.com with SMTP id w62so7322451wes.8
+	Sun, 10 Aug 2014 13:23:57 +0000 (UTC)
+Received: by mail-wi0-f181.google.com with SMTP id bs8so2997532wib.14
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Aug 2014 06:14:52 -0700 (PDT)
+	Sun, 10 Aug 2014 06:23:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=Du1eBExloMye8RFClgvQLeEH2fXPS87vABj8Y5Pb52o=;
-	b=0m8IPWiR7M6n6niymw2KbhOQG7gqPcBWN9+PzDMSTy8bE2syE05CFGtRm9aKvPd2N8
-	3ntpfNkmFv0RxQHzsp5CA7mUxnNd/FKzMV3uZ1hj5WssoL55XbQyADLhTafi8r01VBwG
-	FlSSqOMn30HhzQgGUJ6s+nlmG1iTcgsaFnUvbIqxqIbodoI75h70kqHZIQo2y0OE7z7J
-	5XoECShPf8059ArnJ1G7gFOaquQ2hwQsQV2fq123EAga/p9buU7ys2K0aHOirnbVy+65
-	XPG16+BC75qayqZs+NYKElyreRhV+AXLrfli9JcZgkklR53RnFJWDeI77p0ZAZN0Bo1Q
-	34Cg==
-X-Received: by 10.194.216.163 with SMTP id or3mr44608682wjc.31.1407676492419; 
-	Sun, 10 Aug 2014 06:14:52 -0700 (PDT)
+	bh=t2Diuon6hU6bbWgwNypTszW2iDytBAfMLEX4B5Oi+o4=;
+	b=ABNKIbXGI2cz+YANLVJoig/kYezsDbZbrE719cRoujAV5nycU9pIjIKiG7yVtPV6xi
+	06A34OLzRbGz6ivsORilrjuW2H0LEQW3yNVhzai3aeyDm13arhqzwFwV1gEkj+3Go3IM
+	+5o3rfMZGw7Gz/HvlD3gvD9AT3iQRm7ZX/yWYS904/VmJ814ErMWLRtib1pmZ1TWHdKH
+	HaIxniakQubaz0xkLnQxhFQNAPOFQLn3EfYKvJtJ7xkn2cv7/9BJGIcw6JtyW7NBQxG6
+	Xmc7cczqKJjyMwcJdr1L8AGqDcELZ0C/jTHdRXuJEurbSd3kRDLiyM04R9rba3ElGuyU
+	FBlQ==
+X-Received: by 10.194.78.4 with SMTP id x4mr46235806wjw.44.1407677037931;
+	Sun, 10 Aug 2014 06:23:57 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	ge8sm31073888wib.4.2014.08.10.06.14.51 for <multiple recipients>
+	k6sm32098076wjq.5.2014.08.10.06.23.56 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 Aug 2014 06:14:51 -0700 (PDT)
+	Sun, 10 Aug 2014 06:23:57 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 10 Aug 2014 15:15:24 +0200
-Message-Id: <1407676524-26216-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Sun, 10 Aug 2014 15:24:27 +0200
+Message-Id: <1407677067-17116-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.0.4
-Subject: [PATCH] kernelshark: add dependency on libxml2
+Subject: [PATCH] directfb: add PACKAGECONFIG for webp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,29 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Aug 2014 13:14:54 -0000
+X-List-Received-Date: Sun, 10 Aug 2014 13:24:00 -0000
 
 * fixes floating dependency:
-  kernelshark-1.2+gitAUTOINC+7055ffd37b: kernelshark rdepends on libxml2, but it isn't a build dependency? [build-deps]
+  directfb-1.7.4: directfb rdepends on libwebp, but it isn't a build dependency? [build-deps]
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/directfb/directfb.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-index 9af91c9..37be813 100644
---- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-+++ b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-@@ -6,7 +6,7 @@ require trace-cmd.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://kernel-shark.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e"
+diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-graphics/directfb/directfb.inc
+index 3dd0a5b..669c0ff 100644
+--- a/meta/recipes-graphics/directfb/directfb.inc
++++ b/meta/recipes-graphics/directfb/directfb.inc
+@@ -27,6 +27,7 @@ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[jpeg2000] = "--enable-jpeg2000,--disable-jpeg2000,jasper"
+ PACKAGECONFIG[drmkms] = "--enable-drmkms,--disable-drmkms,libdrm"
+ PACKAGECONFIG[tiff] = "--enable-tiff,--disable-tiff,tiff"
++PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp"
  
--DEPENDS = "gtk+"
-+DEPENDS = "gtk+ libxml2"
- RDEPENDS_${PN} = "trace-cmd"
- 
- SRC_URI_append = "file://kernelshark-fix-syntax-error-of-shell.patch"
+ EXTRA_OECONF = "\
+   --with-gfxdrivers=none \
 -- 
 2.0.4
 
