@@ -1,38 +1,28 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id EFFDA65E3D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 72EBB60EFA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Aug 2014 10:05:05 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20140810100505033
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Aug 2014 10:05:05 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [99.240.204.5] (port=59367 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XGPzn-0002sZ-RE for openembedded-core@lists.openembedded.org;
-	Sun, 10 Aug 2014 06:04:59 -0400
-Date: Sun, 10 Aug 2014 06:04:54 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.11.1408100603450.22184@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Sun, 10 Aug 2014 11:17:18 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 10 Aug 2014 04:17:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,836,1400050800"; d="scan'208";a="586061383"
+Received: from mrdissan-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.124])
+	by orsmga002.jf.intel.com with ESMTP; 10 Aug 2014 04:17:17 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Sun, 10 Aug 2014 12:17:16 +0100
+Message-ID: <4144636.z3IdHmx8Ax@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.13.3 (Linux/3.15.8-200.fc20.x86_64; KDE/4.13.3; x86_64; ; )
+In-Reply-To: <alpine.LFD.2.11.1408090914290.7338@localhost>
+References: <alpine.LFD.2.11.1408081529290.23581@localhost>
+	<53E54245.4070704@linux.intel.com>
+	<alpine.LFD.2.11.1408090914290.7338@localhost>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: [PATCH] base.bbclass: Remove old-style definition of do_build() task.
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Remove "SRC_URI_OVERRIDES_PACKAGE_ARCH = 0" from tslib.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,36 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Aug 2014 10:05:07 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sun, 10 Aug 2014 11:17:21 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Saturday 09 August 2014 09:17:16 Robert P. J. Day wrote:
+> On Fri, 8 Aug 2014, Saul Wold wrote:
+> > On 08/08/2014 12:31 PM, Robert P. J. Day wrote:
+> > > Given that there are no machine-specific files for the tslib recipe
+> > > anymore, might as well remove this line.
+> > 
+> > Robert,
+> > 
+> > Can you please review the commit guidelines
+> > 
+> > http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+> > 
+> > The summary line should be in the form of
+> > tslib: Remove ...
+> 
+>   serious question -- how does one identify the "primary item" under
+> consideration if it's scattered over several files. recently, i
+> submitted a patch to remove a few references to "do_package_write",
+> a deleted task. the existing references under meta/:
+> 
+> conf/documentation.conf:do_package_write[doc] = "Creates the actual packages
+> and places them in the Package Feed area"
+> recipes-core/meta/meta-ide-support.bb:do_populate_ide_support[recrdeptask]
+> = "do_package_write"
+> recipes-core/meta/package-index.bb:do_package_write[noexec] = "1"
+> recipes-devtools/installer/adt-installer_1.0.bb:do_package_write[noexec] =
+> "1"
+> 
+>   i'm assuming, in this case, the primary item would be
+> "do_package_write"?
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+When you're making a blanket change like this it's OK to not have a "primary 
+item". Most of the time though you end up changing just one recipe or class at 
+a time, and then you should specify it.
 
----
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 8114cf6..2c007ab 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -354,8 +354,6 @@ base_do_package() {
- }
-
- addtask build after do_populate_sysroot
--do_build = ""
--do_build[func] = "1"
- do_build[noexec] = "1"
- do_build[recrdeptask] += "do_deploy"
- do_build () {
+Cheers,
+Paul
 
 -- 
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
