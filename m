@@ -1,47 +1,35 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
-	[217.149.192.139])
-	by mail.openembedded.org (Postfix) with ESMTP id DE6E070B8F
+Return-Path: <sujith.h@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id EDE9B65F37
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 10:15:35 +0000 (UTC)
-Received: from amavisd-new (mailscanner02.wrt-nm.internl.net [217.149.192.114])
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id 710773FF27
+	Mon, 11 Aug 2014 10:15:48 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id eu11so10936587pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 12:15:35 +0200 (CEST)
-X-Spam-scanned: scanned by InterNLnet Mail Scan System
-X-Spam-Flag: NO
-X-Spam-Score: -4.4
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 tagged_above=-999 required=4.5
-	tests=[BAYES_00=-2.9, KHOP_THREADED=-1.5] autolearn=no
-X-Spam-Languages: 
-Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
-	by amavisd-new (mailscanner02.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 12:15:34 +0200 (CEST)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 12:15:34 +0200 (CEST)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Mon, 11 Aug 2014 12:15:44 +0200
-Message-ID: <53E897C5.7010809@topic.nl>
-Date: Mon, 11 Aug 2014 12:15:33 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1407751920-9684-1-git-send-email-mike.looijmans@topic.nl>
-In-Reply-To: <1407751920-9684-1-git-send-email-mike.looijmans@topic.nl>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Subject: Re: [PATCH 1/2] squashfs-tools: Enable LZO support
+	Mon, 11 Aug 2014 03:15:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=rZTv+qK49DRfDeojAZf1OcVRRkqRFoVTr5nMYOHQMJ0=;
+	b=sIbvSig4LAiDEyBmg02n8YNI2ib+rXyDHKWLFH5gj72lcwFDZgPmivzZaJLgk8RGHo
+	ks8UC5senvC9O24scA1lDClonISMAP/JY63sb5SoROwIl+qF6x4vSox9y05qgpGNIaw+
+	2A5b40cxlcQBjK3a3+wjKzGvT/BSqAtdaYjT4ONOMHCnQGXU6UOtVVGMyVVGr1VaPwhw
+	YGl2K29MwM25PoWKbl6nRGISvk1fXCMkOK9Wl2xx5bdUheeOBdp8yElU+i0/CYW4W/oU
+	zG80pxrpIKd329zuHWIMNTf7O1N6ZXIEV3Xrystz5ZwLEu6CUWiyfxKDIiBjIubGB6UL
+	dFwA==
+X-Received: by 10.66.100.170 with SMTP id ez10mr40957637pab.12.1407752149724; 
+	Mon, 11 Aug 2014 03:15:49 -0700 (PDT)
+Received: from linux-z8xt.inp.mentorg.com ([139.181.35.34])
+	by mx.google.com with ESMTPSA id
+	v15sm16817326pdl.33.2014.08.11.03.15.47 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 11 Aug 2014 03:15:48 -0700 (PDT)
+From: Sujith H <sujith.h@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Aug 2014 15:42:42 +0530
+Message-Id: <1407751962-13365-1-git-send-email-sujith.h@gmail.com>
+X-Mailer: git-send-email 1.8.4
+Cc: Sujith H <Sujith_Haridasan@mentor.com>
+Subject: [PATCH] opkg-utils: allow disabling update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,74 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 10:15:37 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 11 Aug 2014 10:15:49 -0000
 
-=EF=BB=BFSorry for having posted this multiple times, our local mail server=
- bounced it=20
-as "spam" so I figured it never arrived, and retried it later.
+From: Sujith H <Sujith_Haridasan@mentor.com>
 
+This is needed to deal with the situation where we're using ipk packaging, so
+opkg-utils must be built regardless of what update-alternatives provider we
+prefer. The downside to the current implementation is the need to adjust
+PACKAGECONFIG as well as PREFERRED_PROVIDER, but it is more explicit that way.
 
-On 08/11/2014 12:11 PM, Mike Looijmans wrote:
-> For systems looking for speed rather than size (e.g. booting from serial =
-NOR
-> flash) LZO is usually a good tradeoff, and usually boots faster than gzip
-> or even an uncompressed filesystem.
->
-> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
-> ---
->   .../squashfs-tools/squashfs-tools_4.2.bb           |    4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb b=
-/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
-> index 57400cd..1ded2c9 100644
-> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
-> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
-> @@ -6,7 +6,7 @@ LICENSE =3D "GPL-2 & PD"
->   LIC_FILES_CHKSUM =3D "file://../COPYING;md5=3D0636e73ff0215e8d672dc4c32=
-c317bb3 \
->                       file://../../7zC.txt;beginline=3D12;endline=3D16;md=
-5=3D2056cd6d919ebc3807602143c7449a7c \
->                      "
-> -DEPENDS =3D "attr zlib xz"
-> +DEPENDS =3D "attr zlib xz lzo"
->   PR =3D "r2"
->
->   SRC_URI =3D "${SOURCEFORGE_MIRROR}/squashfs/squashfs${PV}.tar.gz;name=
-=3Dsquashfs \
-> @@ -27,7 +27,7 @@ S =3D "${WORKDIR}/squashfs${PV}/squashfs-tools"
->   # EXTRA_OEMAKE is typically: -e MAKEFLAGS=3D
->   # the -e causes problems as CFLAGS is modified in the Makefile, so
->   # we redefine EXTRA_OEMAKE here
-> -EXTRA_OEMAKE =3D "MAKEFLAGS=3D LZMA_SUPPORT=3D1 LZMA_DIR=3D../.. XZ_SUPP=
-ORT=3D1"
-> +EXTRA_OEMAKE =3D "MAKEFLAGS=3D LZMA_SUPPORT=3D1 LZMA_DIR=3D../.. LZO_SUP=
-PORT=3D1 XZ_SUPPORT=3D1"
->
->   do_compile() {
->           oe_runmake mksquashfs
->
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
+---
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Bezoek ons op 9 en 10 september tijdens Technology for Health Den Bosch (st=
-and 53)
-http://www.technologyforhealth.nl
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+index 693c216..6fe04ea 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+@@ -19,11 +19,15 @@ TARGET_CC_ARCH += "${LDFLAGS}"
+ PYTHONRDEPS = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
+ PYTHONRDEPS_class-native = ""
+ 
+-PACKAGECONFIG = "python"
++PACKAGECONFIG = "python update-alternatives"
+ PACKAGECONFIG[python] = ",,,${PYTHONRDEPS}"
++PACKAGECONFIG[update-alternatives] = ",,,"
+ 
+ do_install() {
+ 	oe_runmake PREFIX=${prefix} DESTDIR=${D} install
++        if ${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'false', 'true')}; then
++            rm -f "${D}${bindir}/update-alternatives"
++        fi
+ }
+ 
+ PACKAGES =+ "update-alternatives-opkg"
+-- 
+1.8.4
 
 
