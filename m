@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BB28465F81
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 381BE70B1B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 02:23:57 +0000 (UTC)
+	Mon, 11 Aug 2014 02:23:55 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7B2Nq0m010841
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7B2Nt0B025665
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 10 Aug 2014 19:23:52 -0700 (PDT)
+	Sun, 10 Aug 2014 19:23:55 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 10 Aug 2014 19:23:52 -0700
+	14.3.174.1; Sun, 10 Aug 2014 19:23:55 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Aug 2014 10:23:45 +0800
-Message-ID: <cover.1407723356.git.hongxu.jia@windriver.com>
+Date: Mon, 11 Aug 2014 10:23:46 +0800
+Message-ID: <ca551373b076b49e99da113a94f2d3e74e9f56b6.1407723356.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1407723356.git.hongxu.jia@windriver.com>
+References: <cover.1407723356.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH V2 0/1] guile: workaround ice ssa corruption while DEBUG_BUILD
+Subject: [PATCH 1/1] guile: workaround ice ssa corruption while DEBUG_BUILD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +36,115 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 11 Aug 2014 02:24:01 -0000
 Content-Type: text/plain
 
-Changed in V2:
+Add:
+MACHINE = "qemux86-64"
+DEBUG_BUILD = "1"
+to local.conf and there was a ssa corruption to build guile:
+..
+Unable to coalesce ssa_names 48 and 3476 which are marked as MUST COALESCE.
+sp_48(ab) and  sp_3476(ab)
+guile-2.0.11/libguile/vm-engine.c: In function 'vm_debug_engine':
+guile-2.0.11/libguile/vm.c:673:19: internal compiler error: SSA corruption
+ #define VM_NAME   vm_debug_engine
+                   ^
+guile-2.0.11/libguile/vm-engine.c:39:1: note: in expansion of macro 'VM_NAME'
+ VM_NAME (SCM vm, SCM program, SCM *argv, int nargs)
+ ^
+Please submit a full bug report,
+with preprocessed source if appropriate.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+...
 
-- Remove the RDEPENDS part to make sure the fix doesn't conflict with
-  Martin's patch
-  http://lists.openembedded.org/pipermail/openembedded-core/2014-August/095585.html
+Tweak libguile/vm-i-system.c to check the value of nshuf to workaround it.
+The tweak didn't change previous logic.
 
-- Tweak the patch to make sure the logic of code is not changed by the
-  workaround.
+[YOCTO #6411]
 
-//Hongxu
-
-The following changes since commit 870bb8d35547b8313b3a487d7e8b914ab9470e64:
-
-  local.conf.sample.extended: fix example for EXTRA_USERS_PARAMS (2014-08-04 17:38:24 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-guile-ice
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-guile-ice
-
-Hongxu Jia (1):
-  guile: workaround ice ssa corruption while DEBUG_BUILD
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  .../files/workaround-ice-ssa-corruption.patch      | 60 ++++++++++++++++++++++
  meta/recipes-devtools/guile/guile_2.0.11.bb        |  1 +
  2 files changed, 61 insertions(+)
  create mode 100644 meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch
 
+diff --git a/meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch b/meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch
+new file mode 100644
+index 0000000..6c34838
+--- /dev/null
++++ b/meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch
+@@ -0,0 +1,60 @@
++libguile/vm-i-system.c: workaround ice ssa corruption while compiling with option -g -O
++
++While compiling with option -g -O, there was a ssa corruption:
++..
++Unable to coalesce ssa_names 48 and 3476 which are marked as MUST COALESCE.
++sp_48(ab) and  sp_3476(ab)
++guile-2.0.11/libguile/vm-engine.c: In function 'vm_debug_engine':
++guile-2.0.11/libguile/vm.c:673:19: internal compiler error: SSA corruption
++ #define VM_NAME   vm_debug_engine
++                   ^
++guile-2.0.11/libguile/vm-engine.c:39:1: note: in expansion of macro 'VM_NAME'
++ VM_NAME (SCM vm, SCM program, SCM *argv, int nargs)
++ ^
++Please submit a full bug report,
++with preprocessed source if appropriate.
++See <http://gcc.gnu.org/bugs.html> for instructions.
++...
++
++Tweak libguile/vm-i-system.c to add boundary value check to workaround it.
++
++Upstream-Status: Pending
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ libguile/vm-i-system.c | 20 ++++++++++++++++----
++ 1 file changed, 16 insertions(+), 4 deletions(-)
++
++diff --git a/libguile/vm-i-system.c b/libguile/vm-i-system.c
++--- a/libguile/vm-i-system.c
+++++ b/libguile/vm-i-system.c
++@@ -625,10 +625,22 @@ VM_DEFINE_INSTRUCTION (47, bind_optionals_shuffle, "bind-optionals/shuffle", 6,
++   /* now shuffle up, from walk to ntotal */
++   {
++     scm_t_ptrdiff nshuf = sp - walk + 1, i;
++-    sp = (fp - 1) + ntotal + nshuf;
++-    CHECK_OVERFLOW ();
++-    for (i = 0; i < nshuf; i++)
++-      sp[-i] = walk[nshuf-i-1];
+++    /* check the value of nshuf to workaround ice ssa corruption */
+++    /* while compiling with -O -g */
+++    if (nshuf > 0)
+++    {
+++      sp = (fp - 1) + ntotal + nshuf;
+++      CHECK_OVERFLOW ();
+++      for (i = 0; i < nshuf; i++)
+++        sp[-i] = walk[nshuf-i-1];
+++    }
+++    else
+++    {
+++      sp = (fp - 1) + ntotal + nshuf;
+++      CHECK_OVERFLOW ();
+++      for (i = 0; i < nshuf; i++)
+++        sp[-i] = walk[nshuf-i-1];
+++    }
++   }
++   /* and fill optionals & keyword args with SCM_UNDEFINED */
++   while (walk <= (fp - 1) + ntotal)
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
+index d19460a..f1b255b 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.11.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
+@@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
+            file://opensuse/guile-64bit.patch \
+            file://guile_2.0.6_fix_sed_error.patch \
+            file://arm_endianness.patch \
++           file://workaround-ice-ssa-corruption.patch \
+            "
+ 
+ #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
 -- 
 1.9.1
 
