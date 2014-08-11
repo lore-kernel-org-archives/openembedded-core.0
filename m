@@ -1,33 +1,31 @@
 Return-Path: <mike.looijmans@topic.nl>
-X-Greylist: delayed 375 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 11 Aug 2014 07:15:00 UTC
 Received: from atl4mhfb03.myregisteredsite.com
 	(atl4mhfb03.myregisteredsite.com [209.17.115.61])
-	by mail.openembedded.org (Postfix) with ESMTP id C415160169
+	by mail.openembedded.org (Postfix) with ESMTP id C50386FC5D
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 11 Aug 2014 07:15:00 +0000 (UTC)
-Received: from atl4mhob10.myregisteredsite.com
-	(atl4mhob10.myregisteredsite.com [209.17.115.48])
+Received: from atl4mhob01.myregisteredsite.com
+	(atl4mhob01.myregisteredsite.com [209.17.115.39])
 	by atl4mhfb03.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	s7B7AP8U025405 for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 03:10:25 -0400
-Received: from mailpod.hostingplatform.com ([10.30.71.205])
-	by atl4mhob10.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	s7B7AH9R010613 for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 03:10:17 -0400
-Received: (qmail 23009 invoked by uid 0); 11 Aug 2014 07:10:17 -0000
+	s7B78rNg022597 for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Aug 2014 03:08:53 -0400
+Received: from mailpod.hostingplatform.com ([10.30.71.211])
+	by atl4mhob01.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	s7B78pCm004854 for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Aug 2014 03:08:51 -0400
+Received: (qmail 25871 invoked by uid 0); 11 Aug 2014 07:08:50 -0000
 X-TCPREMOTEIP: 88.159.208.100
 X-Authenticated-UID: mike@milosoftware.com
 Received: from unknown (HELO paradigit.TOPIC.LOCAL)
 	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 11 Aug 2014 07:10:17 -0000
+	by 0 with ESMTPA; 11 Aug 2014 07:08:50 -0000
 From: Mike Looijmans <mike.looijmans@topic.nl>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Aug 2014 09:10:13 +0200
-Message-Id: <1407741013-11683-2-git-send-email-mike.looijmans@topic.nl>
+Date: Mon, 11 Aug 2014 09:08:40 +0200
+Message-Id: <1407740920-11635-2-git-send-email-mike.looijmans@topic.nl>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1407741013-11683-1-git-send-email-mike.looijmans@topic.nl>
-References: <1407741013-11683-1-git-send-email-mike.looijmans@topic.nl>
+In-Reply-To: <1407740920-11635-1-git-send-email-mike.looijmans@topic.nl>
+References: <1407740920-11635-1-git-send-email-mike.looijmans@topic.nl>
 Cc: Mike Looijmans <mike.looijmans@topic.nl>
 Subject: [PATCH 2/2] Support image type "squashfs-lzo"
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -42,7 +40,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 07:15:05 -0000
+X-List-Received-Date: Mon, 11 Aug 2014 07:15:06 -0000
 
 Add "squashfs-lzo" to the image types. LZO compression support has been
 in both kernel and squashfs tools for many years, but OE never enabled
