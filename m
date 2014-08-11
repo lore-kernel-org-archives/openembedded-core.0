@@ -1,26 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 381BE70B1B
+Return-Path: <joaohf@gmail.com>
+Received: from mail-yh0-f41.google.com (mail-yh0-f41.google.com
+	[209.85.213.41])
+	by mail.openembedded.org (Postfix) with ESMTP id D0CE365F81
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 02:23:55 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7B2Nt0B025665
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 10 Aug 2014 19:23:55 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 10 Aug 2014 19:23:55 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Aug 2014 10:23:46 +0800
-Message-ID: <ca551373b076b49e99da113a94f2d3e74e9f56b6.1407723356.git.hongxu.jia@windriver.com>
+	Mon, 11 Aug 2014 02:44:46 +0000 (UTC)
+Received: by mail-yh0-f41.google.com with SMTP id b6so5865115yha.14
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 10 Aug 2014 19:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=BTeyz7MBAGgZIO/H7ZFIkb+QYrGv9zrbC8x1V5vuubI=;
+	b=tvVW8QfkSc4Lo7MTKtaNYVMJ+jhshzA8GKx6sae6TsNByCHsDuCVOFteVT5qVawk3i
+	CxV898pOOKH5/iRgbsEkBcHLnK3yspzntnD1OtWpZ+kTzj5vHRmPxajz9Ljn+chPQYYz
+	TlKN0Q8LswpbmWPhRZj8KupgOpf3zxoXXe/cPzo28qOHwIBxjy3Lu55CslkjIfgdrDgN
+	sw05rp6PYOf3hK8N9mJRxnSYBkTKxkg3sF55/lS7dCVmFSZjHxHgGhfcdopmB6C/UJgS
+	q8VZ5PF8BY5XLkRdV+gGMeTF5ec6xTaK5CyHiBki6OzEYNPDPWdhTpaoP3eLFu7nSIhl
+	x7wA==
+X-Received: by 10.236.44.41 with SMTP id m29mr40388155yhb.57.1407725088018;
+	Sun, 10 Aug 2014 19:44:48 -0700 (PDT)
+Received: from localhost.localdomain ([201.53.208.133])
+	by mx.google.com with ESMTPSA id
+	v64sm21037728yhc.55.2014.08.10.19.44.46 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 10 Aug 2014 19:44:47 -0700 (PDT)
+From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
+	<joaohf@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 10 Aug 2014 23:44:05 -0300
+Message-Id: <1407725046-16711-1-git-send-email-joaohf@gmail.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1407723356.git.hongxu.jia@windriver.com>
-References: <cover.1407723356.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 1/1] guile: workaround ice ssa corruption while DEBUG_BUILD
+Subject: [daisy][PATCH] libxml-parser-perl remove rpath
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,118 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 02:24:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 11 Aug 2014 02:44:52 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Add:
-MACHINE = "qemux86-64"
-DEBUG_BUILD = "1"
-to local.conf and there was a ssa corruption to build guile:
-..
-Unable to coalesce ssa_names 48 and 3476 which are marked as MUST COALESCE.
-sp_48(ab) and  sp_3476(ab)
-guile-2.0.11/libguile/vm-engine.c: In function 'vm_debug_engine':
-guile-2.0.11/libguile/vm.c:673:19: internal compiler error: SSA corruption
- #define VM_NAME   vm_debug_engine
-                   ^
-guile-2.0.11/libguile/vm-engine.c:39:1: note: in expansion of macro 'VM_NAME'
- VM_NAME (SCM vm, SCM program, SCM *argv, int nargs)
- ^
-Please submit a full bug report,
-with preprocessed source if appropriate.
-See <http://gcc.gnu.org/bugs.html> for instructions.
-...
+Test case to run without patch:
 
-Tweak libguile/vm-i-system.c to check the value of nshuf to workaround it.
-The tweak didn't change previous logic.
+1) add meta-intel and meta-crownbay layers
+2) build MACHINE=qemux86 bitbake libxml-parser-perl
+3) build MACHINE=genericx86 bitbake libxml-parser-perl
+4) build MACHINE=crownbay-noemgd bitbake libxml-parser-perl
 
-[YOCTO #6411]
+The step 4 wont complete because rpath issues.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../files/workaround-ice-ssa-corruption.patch      | 60 ++++++++++++++++++++++
- meta/recipes-devtools/guile/guile_2.0.11.bb        |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch
+To get it work:
 
-diff --git a/meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch b/meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch
-new file mode 100644
-index 0000000..6c34838
---- /dev/null
-+++ b/meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch
-@@ -0,0 +1,60 @@
-+libguile/vm-i-system.c: workaround ice ssa corruption while compiling with option -g -O
-+
-+While compiling with option -g -O, there was a ssa corruption:
-+..
-+Unable to coalesce ssa_names 48 and 3476 which are marked as MUST COALESCE.
-+sp_48(ab) and  sp_3476(ab)
-+guile-2.0.11/libguile/vm-engine.c: In function 'vm_debug_engine':
-+guile-2.0.11/libguile/vm.c:673:19: internal compiler error: SSA corruption
-+ #define VM_NAME   vm_debug_engine
-+                   ^
-+guile-2.0.11/libguile/vm-engine.c:39:1: note: in expansion of macro 'VM_NAME'
-+ VM_NAME (SCM vm, SCM program, SCM *argv, int nargs)
-+ ^
-+Please submit a full bug report,
-+with preprocessed source if appropriate.
-+See <http://gcc.gnu.org/bugs.html> for instructions.
-+...
-+
-+Tweak libguile/vm-i-system.c to add boundary value check to workaround it.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ libguile/vm-i-system.c | 20 ++++++++++++++++----
-+ 1 file changed, 16 insertions(+), 4 deletions(-)
-+
-+diff --git a/libguile/vm-i-system.c b/libguile/vm-i-system.c
-+--- a/libguile/vm-i-system.c
-++++ b/libguile/vm-i-system.c
-+@@ -625,10 +625,22 @@ VM_DEFINE_INSTRUCTION (47, bind_optionals_shuffle, "bind-optionals/shuffle", 6,
-+   /* now shuffle up, from walk to ntotal */
-+   {
-+     scm_t_ptrdiff nshuf = sp - walk + 1, i;
-+-    sp = (fp - 1) + ntotal + nshuf;
-+-    CHECK_OVERFLOW ();
-+-    for (i = 0; i < nshuf; i++)
-+-      sp[-i] = walk[nshuf-i-1];
-++    /* check the value of nshuf to workaround ice ssa corruption */
-++    /* while compiling with -O -g */
-++    if (nshuf > 0)
-++    {
-++      sp = (fp - 1) + ntotal + nshuf;
-++      CHECK_OVERFLOW ();
-++      for (i = 0; i < nshuf; i++)
-++        sp[-i] = walk[nshuf-i-1];
-++    }
-++    else
-++    {
-++      sp = (fp - 1) + ntotal + nshuf;
-++      CHECK_OVERFLOW ();
-++      for (i = 0; i < nshuf; i++)
-++        sp[-i] = walk[nshuf-i-1];
-++    }
-+   }
-+   /* and fill optionals & keyword args with SCM_UNDEFINED */
-+   while (walk <= (fp - 1) + ntotal)
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
-index d19460a..f1b255b 100644
---- a/meta/recipes-devtools/guile/guile_2.0.11.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
-            file://opensuse/guile-64bit.patch \
-            file://guile_2.0.6_fix_sed_error.patch \
-            file://arm_endianness.patch \
-+           file://workaround-ice-ssa-corruption.patch \
-            "
- 
- #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
+ MACHINE=crownbay-noemgd bitbake libxml-parser-perl perl -c cleanssate
+
+Then
+
+ MACHINE=crownbay-noemgd bitbake libxml-parser-perl
+
+Master branch seems not be affected by this behaviour
+
+João Henrique Ferreira de Freitas (1):
+  libxml-parser-perl: remove rpath
+
+ .../perl/libxml-parser-perl-2.41/makefile_pl_rpath.patch   | 14 ++++++++++++++
+ meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb      |  4 +++-
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/perl/libxml-parser-perl-2.41/makefile_pl_rpath.patch
+
 -- 
 1.9.1
 
