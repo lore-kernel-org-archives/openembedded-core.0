@@ -1,24 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AB766617B8
+Return-Path: <Yasir_Khan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id B3B4165D5E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 14:09:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7BE9UPM027369
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 07:09:30 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 11 Aug 2014 07:09:30 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Aug 2014 07:09:29 -0700
-Message-ID: <cover.1407766043.git.liezhi.yang@windriver.com>
+	Mon, 11 Aug 2014 14:10:08 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1XGqIa-0000eS-PG from Yasir_Khan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 11 Aug 2014 07:10:08 -0700
+Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Mon, 11 Aug 2014 07:10:08 -0700
+From: Yasir Khan <yasir_khan@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Aug 2014 19:09:30 +0500
+Message-Id: <1407766170-39252-1-git-send-email-yasir_khan@mentor.com>
 X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH 0/1 V2] insane.bbclass: add QA check: file-rdeps
+X-OriginalArrivalTime: 11 Aug 2014 14:10:08.0636 (UTC)
+	FILETIME=[F52B6BC0:01CFB56D]
+Subject: [PATCH] lttng-ust: update to version 2.5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 14:09:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 11 Aug 2014 14:10:17 -0000
 
-* Changes of V2:
-  Refer build-deps to check all the files' rdepends rather than only
-  check bash, perl and python as RP suggested.
+From: Yasir-Khan <yasir_khan@mentor.com>
 
-Next:
-* Fix the issues one by one:
-  - Remove the depends is possible (such as bash)
-  - Split the packages for perl and python depends when needed.
+update to latest stable-2.5 revision
 
-// Robert
+Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
+---
+ .../{lttng-ust_2.4.0.bb => lttng-ust_2.5.0.bb}     |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.4.0.bb => lttng-ust_2.5.0.bb} (87%)
 
-The following changes since commit 63cbed337241191f33fe951662a39ce59dce6774:
-
-  oeqa/runtime: add new cpp test and file (2014-08-11 12:30:16 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/file-rdeps
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/file-rdeps
-
-Robert Yang (1):
-  insane.bbclass: add QA check: file-rdeps
-
- meta/classes/insane.bbclass |   37 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 36 insertions(+), 1 deletion(-)
-
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
+similarity index 87%
+rename from meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb
+rename to meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
+index 1629554..1595627 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
+@@ -17,11 +17,11 @@ RPROVIDES_${PN} = "lttng2-ust"
+ RREPLACES_${PN} = "lttng2-ust"
+ RCONFLICTS_${PN} = "lttng2-ust"
+ 
+-SRCREV = "5ba5bf7fba804d2de773ae1c71106a8ed856c56a"
+-PV = "2.4.0"
++SRCREV = "ce59a997afdb7dc8af02b464430bb7e35549fa66"
++PV = "2.5.0"
+ PE = "2"
+ 
+-SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.4 \
++SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.5 \
+            file://lttng-ust-doc-examples-disable.patch \
+ 	   "
+ 
 -- 
 1.7.9.5
 
