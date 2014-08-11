@@ -1,44 +1,26 @@
-Return-Path: <akuster@mvista.com>
-Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 520DA70B38
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BE4165D54
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 02:47:12 +0000 (UTC)
-Received: by mail-pd0-f172.google.com with SMTP id y13so4030417pdi.17
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Aug 2014 19:47:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=xQUTSOdyDIjkxMtKk5ilX/N4CJfzYoEL6x5UcFeyVIk=;
-	b=QKZGJmIgCKCRig12ktK7Pa8wsm1HPg3uCsjafsaT/BYKu92+4kcaD4ZGAaMgjXK5ss
-	ZPi6n77Z4CnJcYFG8sPI+6dZdz2ZtDkT7gk2P+3iy3S/cKEZ6p4HR6BsZCCAZm75q83a
-	9uI17DFzsPlmiV0wcmXoWJmqgrKFeQHpB3eab1p1I2zZXncdnifqUPc1tmzceAQAQgvK
-	7ABz6RnhA54VVAwNcngGQDEtl67p7IVONLUlewR5w/AFupOZ28bAOP0Xcfvb3gJ07zXp
-	kF/CMTQ0qebsct62+cOb6k+qSyme7VV8u3TnRoNt3Ic3m4OQRkIIlueHcrkBJuAvcdBn
-	/g0Q==
-X-Gm-Message-State: ALoCoQlLvCfqWcMn5eSrrd6M6IiKBBflm2AHmFASW6hFoAnztQ7sMQ/WcH2SxUcgixXXb8AubMlL
-X-Received: by 10.66.142.166 with SMTP id rx6mr498375pab.128.1407725234485;
-	Sun, 10 Aug 2014 19:47:14 -0700 (PDT)
-Received: from ?IPv6:2601:c:9380:601:35b9:fa54:d802:ee1f?
-	([2601:c:9380:601:35b9:fa54:d802:ee1f])
-	by mx.google.com with ESMTPSA id
-	os4sm15094074pdb.67.2014.08.10.19.47.13 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 Aug 2014 19:47:13 -0700 (PDT)
-Message-ID: <53E82EAF.6080603@mvista.com>
-Date: Sun, 10 Aug 2014 19:47:11 -0700
-From: akuster <akuster@mvista.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Mon, 11 Aug 2014 04:40:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7B4e1dR011673
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 10 Aug 2014 21:40:02 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 10 Aug 2014 21:40:01 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Aug 2014 12:39:53 +0800
+Message-ID: <9a4390c1c7a016bdaa3c7dfad75ea62ab0893d4d.1407731782.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1407731782.git.hongxu.jia@windriver.com>
+References: <cover.1407731782.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1407663535-6484-1-git-send-email-Martin.Jansa@gmail.com>
-In-Reply-To: <1407663535-6484-1-git-send-email-Martin.Jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [daisy][PATCH 1/2] perf: explicitly disable libunwind
+Cc: saul.wold@intel.com
+Subject: [PATCH 1/1] puzzles: fix do_compile failed when DEBUG_BUILD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,35 +33,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 02:47:15 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Aug 2014 04:40:04 -0000
+Content-Type: text/plain
 
+There were compiling failure with option -g -O
+...
+././gtk.c: In function 'configure_area':
+././gtk.c:397:2: error: 'cr' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  cairo_set_source_rgb(cr,
+  ^
+././gtk.c:384:14: note: 'cr' was declared here
+     cairo_t *cr;
+              ^
+././gtk.c: In function 'main':
+././gtk.c:2911:6: error: 'error' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+      fprintf(stderr, "%s: %s\n", pname, error);
+      ^
+cc1: all warnings being treated as errors
+...
 
+Initialized the pointers 'cr' and 'error' with NULL
 
-On 08/10/2014 02:38 AM, Martin Jansa wrote:
-> * it's not included in DEPENDS and it's detected from sysroot
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+[YOCTO #6410]
 
-Acked-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ .../fix-compiling-failure-with-option-g-O.patch    | 52 ++++++++++++++++++++++
+ meta/recipes-sato/puzzles/puzzles_r10116.bb        |  4 +-
+ 2 files changed, 55 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
 
-> ---
->   meta/recipes-kernel/perf/perf.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index 20968f9..9776943 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -76,7 +76,7 @@ EXTRA_OEMAKE = \
->   		CC="${CC}" \
->   		AR="${AR}" \
->   		perfexecdir=${libexecdir} \
-> -		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
-> +		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 NO_LIBUNWIND=1 ${SCRIPTING_DEFINES} \
->   		'
->
->   EXTRA_OEMAKE += "\
->
+diff --git a/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch b/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
+new file mode 100644
+index 0000000..d246fee
+--- /dev/null
++++ b/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
+@@ -0,0 +1,52 @@
++gtk.c: fix compiling failure with option -g -O
++
++There were compiling failure with option -g -O
++...
++././gtk.c: In function 'configure_area':
++././gtk.c:397:2: error: 'cr' may be used uninitialized in this function [-Werror=maybe-uninitialized]
++  cairo_set_source_rgb(cr,
++  ^
++././gtk.c:384:14: note: 'cr' was declared here
++     cairo_t *cr;
++              ^
++././gtk.c: In function 'main':
++././gtk.c:2911:6: error: 'error' may be used uninitialized in this function [-Werror=maybe-uninitialized]
++      fprintf(stderr, "%s: %s\n", pname, error);
++      ^
++cc1: all warnings being treated as errors
++...
++
++Initialized pointer 'cr' and 'error' with NULL
++
++Upstream-Status: Pending
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ gtk.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/gtk.c b/gtk.c
++index a2eba2c..c54bf63 100644
++--- a/gtk.c
+++++ b/gtk.c
++@@ -381,7 +381,7 @@ static void clear_backing_store(frontend *fe)
++ 
++ static void setup_backing_store(frontend *fe)
++ {
++-    cairo_t *cr;
+++    cairo_t *cr = NULL;
++     int i;
++ 
++     fe->pixmap = gdk_pixmap_new(fe->area->window, fe->pw, fe->ph, -1);
++@@ -2481,7 +2481,7 @@ char *fgetline(FILE *fp)
++ int main(int argc, char **argv)
++ {
++     char *pname = argv[0];
++-    char *error;
+++    char *error = NULL;
++     int ngenerate = 0, print = FALSE, px = 1, py = 1;
++     int time_generation = FALSE, test_solve = FALSE, list_presets = FALSE;
++     int soln = FALSE, colour = FALSE;
++-- 
++1.9.1
++
+diff --git a/meta/recipes-sato/puzzles/puzzles_r10116.bb b/meta/recipes-sato/puzzles/puzzles_r10116.bb
+index ef5392b..6ee4d96 100644
+--- a/meta/recipes-sato/puzzles/puzzles_r10116.bb
++++ b/meta/recipes-sato/puzzles/puzzles_r10116.bb
+@@ -7,7 +7,9 @@ MOD_PV = "${@d.getVar('PV',1)[1:]}"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=33bcd4bce8f3c197f2aefbdbd2d299bc"
+ 
+-SRC_URI = "svn://svn.tartarus.org/sgt;module=puzzles;rev=${MOD_PV}"
++SRC_URI = "svn://svn.tartarus.org/sgt;module=puzzles;rev=${MOD_PV} \
++           file://fix-compiling-failure-with-option-g-O.patch \
++"
+ 
+ S = "${WORKDIR}/${BPN}"
+ 
+-- 
+1.9.1
+
 
