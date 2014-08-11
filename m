@@ -1,27 +1,28 @@
-Return-Path: <maciej.borzecki@open-rnd.pl>
-Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id E015370B6C
+Return-Path: <Yasir_Khan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B65965E3D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 14:17:47 +0000 (UTC)
-Received: from localhost.localdomain (unknown [46.170.72.194])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id C12381169666;
-	Mon, 11 Aug 2014 16:17:31 +0200 (CEST)
-Message-ID: <1407766651.28332.1.camel@open-rnd.pl>
-From: Maciek Borzecki <maciej.borzecki@open-rnd.pl>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Mon, 11 Aug 2014 16:17:31 +0200
-In-Reply-To: <1405977822.3067.26.camel@empanada>
-References: <1405940517-30651-1-git-send-email-maciej.borzecki@open-rnd.pl>
-	<1405977822.3067.26.camel@empanada>
-Organization: Open-RnD sp. z o.o.
-X-Mailer: Evolution 3.12.4 (3.12.4-1.fc20) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-code][PATCH] wic: include partition label in fs image file name
+	Mon, 11 Aug 2014 15:36:04 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1XGrdl-0000m0-FF from Yasir_Khan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 11 Aug 2014 08:36:05 -0700
+Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Mon, 11 Aug 2014 08:36:04 -0700
+From: Yasir Khan <yasir_khan@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Aug 2014 20:35:21 +0500
+Message-Id: <1407771321-42619-1-git-send-email-yasir_khan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+X-OriginalArrivalTime: 11 Aug 2014 15:36:05.0275 (UTC)
+	FILETIME=[F6C416B0:01CFB579]
+Subject: [PATCH] lttng-tools: Update to version 2.5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: maciej.borzecki@open-rnd.pl
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -31,86 +32,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 14:17:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 11 Aug 2014 15:36:06 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On pon, 2014-07-21 at 16:23 -0500, Tom Zanussi wrote:
-> On Mon, 2014-07-21 at 13:01 +0200, Maciej Borzecki wrote:
-> > Not including the label image but having multiple partitions of the same
-> > type, the image file of one partition would overwrite the other.
-> > 
-> 
-> Right, the empty-partition case somehow missed the label - good catch.
-> 
-> Acked-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+From: Yasir-Khan <yasir_khan@mentor.com>
 
+update to latest stable-2.5 revision
 
-Saul, I think that the patch was missed by due to malformed subject
-line. Would you be able to push it to master?
+* drop patches - merged upstream
+ - Fix-alignment-problems-on-targets-not-supporting-una.patch
 
-> 
-> > Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-> > Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
-> > ---
-> >  scripts/lib/mic/kickstart/custom_commands/partition.py | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> > index 06f29a9..d0f1b78 100644
-> > --- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-> > +++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> > @@ -343,7 +343,7 @@ class Wic_PartData(Mic_PartData):
-> >          """
-> >          Prepare an empty ext2/3/4 partition.
-> >          """
-> > -        fs = "%s/fs.%s" % (cr_workdir, self.fstype)
-> > +        fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
-> >  
-> >          dd_cmd = "dd if=/dev/zero of=%s bs=1M seek=%d count=0" % \
-> >              (fs, self.size)
-> > @@ -363,7 +363,7 @@ class Wic_PartData(Mic_PartData):
-> >          """
-> >          Prepare an empty btrfs partition.
-> >          """
-> > -        fs = "%s/fs.%s" % (cr_workdir, self.fstype)
-> > +        fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
-> >  
-> >          dd_cmd = "dd if=/dev/zero of=%s bs=1M seek=%d count=0" % \
-> >              (fs, self.size)
-> > @@ -384,7 +384,7 @@ class Wic_PartData(Mic_PartData):
-> >          """
-> >          Prepare an empty vfat partition.
-> >          """
-> > -        fs = "%s/fs.%s" % (cr_workdir, self.fstype)
-> > +        fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
-> >  
-> >          blocks = self.size * 1024
-> >  
-> 
-> 
+Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
+---
+ ...nt-problems-on-targets-not-supporting-una.patch |   47 --------------------
+ .../{lttng-tools_2.4.0.bb => lttng-tools_2.5.0.bb} |    7 ++-
+ 2 files changed, 3 insertions(+), 51 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/Fix-alignment-problems-on-targets-not-supporting-una.patch
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.4.0.bb => lttng-tools_2.5.0.bb} (90%)
 
-
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/Fix-alignment-problems-on-targets-not-supporting-una.patch b/meta/recipes-kernel/lttng/lttng-tools/Fix-alignment-problems-on-targets-not-supporting-una.patch
+deleted file mode 100644
+index 2c1756e..0000000
+--- a/meta/recipes-kernel/lttng/lttng-tools/Fix-alignment-problems-on-targets-not-supporting-una.patch
++++ /dev/null
+@@ -1,47 +0,0 @@
+-From 9dc4d3a8dcc7cfb6991e760e78f614afd593bf66 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Fredrik=20Markstr=C3=B6m?= <fredrik.markstrom@gmail.com>
+-Date: Tue, 1 Apr 2014 17:46:23 +0200
+-Subject: [PATCH v2] Fix: alignment problems on targets not supporting unaligned
+- access.
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Upstream-Status: Submitted (https://www.mail-archive.com/lttng-dev@lists.lttng.org/msg06012.html) 
+-
+-Accessing floats, doubles and 64 bit int at unaligned addresses is not
+-supported on all configurations of arm processors and if it is it's
+-emulated and slow. This patch replaces direct assignments with memcpy.
+-
+-Signed-off-by: Fredrik Markström <fredrik.markstrom@gmail.com>
+-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+-Acked-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+----
+- src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c |    4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c b/src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c
+-index 762d604..8c6dc96 100644
+---- a/src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c
+-+++ b/src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c
+-@@ -222,7 +222,7 @@ int visit_node_load(struct filter_parser_ctx *ctx, struct ir_op *node)
+- 		if (!insn)
+- 			return -ENOMEM;
+- 		insn->op = FILTER_OP_LOAD_S64;
+--		*(int64_t *) insn->data = node->u.load.u.num;
+-+		memcpy(insn->data, &node->u.load.u.num, sizeof(int64_t));
+- 		ret = bytecode_push(&ctx->bytecode, insn, 1, insn_len);
+- 		free(insn);
+- 		return ret;
+-@@ -237,7 +237,7 @@ int visit_node_load(struct filter_parser_ctx *ctx, struct ir_op *node)
+- 		if (!insn)
+- 			return -ENOMEM;
+- 		insn->op = FILTER_OP_LOAD_DOUBLE;
+--		*(double *) insn->data = node->u.load.u.flt;
+-+		memcpy(insn->data, &node->u.load.u.flt, sizeof(double));
+- 		ret = bytecode_push(&ctx->bytecode, insn, 1, insn_len);
+- 		free(insn);
+- 		return ret;
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
+similarity index 90%
+rename from meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
+rename to meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
+index aab9bf6..86dd981 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
+@@ -12,13 +12,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
+ DEPENDS = "liburcu popt lttng-ust"
+ RDEPENDS_${PN}-ptest += "make"
+ 
+-SRCREV = "8e3234eea2d81f8a962214c570532f8e096a9a8d"
+-PV = "v2.4.0"
++SRCREV = "8b27cacb277c2cdab791139b08da8eb87ab14a88"
++PV = "v2.5.0"
+ 
+-SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.4 \
++SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.5 \
+            file://runtest-2.4.0.patch \
+            file://run-ptest \
+-           file://Fix-alignment-problems-on-targets-not-supporting-una.patch \
+ 	  "
+ 
+ S = "${WORKDIR}/git"
 -- 
-Maciej Borzęcki
-Senior Software Developer at Open-RnD Sp. z o.o., Poland
-www.open-rnd.pl
-mobile: +48 889 117 365, fax: +48 42 657 9079
-
-Niniejsza wiadomość wraz z załącznikami może zawierać chronione prawem
-lub poufne informacje i została wysłana wyłącznie do wiadomości i
-użytku osób, do których została zaadresowana. Jeśli wiadomość została
-otrzymana przypadkowo zabrania się jej kopiowania lub rozsyłania do
-osób trzecich. W takim przypadku uprasza się o natychmiastowe
-zniszczenie wiadomości oraz poinformowanie nadawcy o zaistniałej
-sytuacji za pomocą wiadomości zwrotnej. Dziękujemy.
-
-This message, including any attachments hereto, may contain privileged
-or confidential information and is sent solely for the attention and
-use of the intended addressee(s). If you are not an intended addressee,
-you may neither use this message nor copy or deliver it to anyone. In
-such case, you should immediately destroy this message and kindly notify
-the sender by reply email. Thank you.
-
+1.7.9.5
 
 
