@@ -1,35 +1,21 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id CFF56601A0
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa06-05.prod.phx3.secureserver.net
+	(p3plsmtpa06-05.prod.phx3.secureserver.net [173.201.192.106])
+	by mail.openembedded.org (Postfix) with ESMTP id 9340965CA7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 16:15:43 +0000 (UTC)
-Received: by mail-pa0-f51.google.com with SMTP id ey11so11409654pad.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 09:15:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=XHbvxzSiB2XbO6RynvN6de4IndI00RpRP4IEhivznXc=;
-	b=YjK1BPE+R6hteQ53E4r/dPfU3dvh6ER4Yq8daXe5UHMtgWIo1OxxlV7dCR0/9RJk3A
-	fzgxqcrALIFGl86ckMGfquswcM9uk7wh1X1BJlXzatisMzft4gQadCI81IpKX2yCb2y7
-	wM8ZVYZlvxPcDMSX9ATCI4SMOgmRuPk2hTGzz7D5VJkbjjHmInK+uBkjz/3JmkxTDhFZ
-	l9EchGzkd14QVDU9SwSnPLo04n1InwgQM+CBIMIbA9i1PszBVKGta+T/wdUqj47HN4ET
-	6fcg3nxHIYhQUEDyS7wWc2ni4mSLjXptOvEr4RJIx+A5v8WX1HAwRuJyomWqUcY6Cga/
-	wa6w==
-X-Received: by 10.68.228.106 with SMTP id sh10mr42477272pbc.109.1407773745265; 
-	Mon, 11 Aug 2014 09:15:45 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id
-	kl7sm18165617pdb.13.2014.08.11.09.15.42 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Aug 2014 09:15:44 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Aug 2014 09:15:36 -0700
-Message-Id: <1407773737-16725-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.8.3.4
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 1/2] python-dbus: use PACKAGECONFIG for doc generation
+	Mon, 11 Aug 2014 19:02:41 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa06-05.prod.phx3.secureserver.net with 
+	id dX2f1o00c1mTNtu01X2gGw; Mon, 11 Aug 2014 12:02:41 -0700
+Message-ID: <53E9134F.7040108@pabigot.com>
+Date: Mon, 11 Aug 2014 14:02:39 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
+MIME-Version: 1.0
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Yocto development with C++11 threads and gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,37 +28,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 16:15:47 -0000
+X-List-Received-Date: Mon, 11 Aug 2014 19:02:49 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+The program below built on the target with the MACHINE=beaglebone 
+gcc-4.9.1 compiler from Yocto/OpenEmbedded poky master produces this error:
 
-Adds 'docs' (for html doc generation) and 'api-docs' (for API doc generation)
-configurations and leaves them both disabled by default. This avoids
-autodetected dependency upon docutils.
+beaglebone[52]$ g++ -std=c++1y -pthread test.cc && ./a.out
+starting
+joining
+pure virtual method called
+terminate called without an active exception
+Aborted (core dumped)
 
-Fixes [YOCTO #6530]
+When the program is recompiled with the defines for 
+__GCC_HAVE_SYNC_COMPARE_AND_SWAP_X enabled as suggested at 
+https://groups.google.com/d/msg/automatak-dnp3/Jisp_zGhd5I/ck_Cj6nO8joJ 
+it works:
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/recipes-devtools/python/python-dbus_1.2.0.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+beaglebone[53]$ g++ -std=c++1y -pthread test.cc && ./a.out
+starting
+joining
+doit
+done
 
-diff --git a/meta/recipes-devtools/python/python-dbus_1.2.0.bb b/meta/recipes-devtools/python/python-dbus_1.2.0.bb
-index e64f99f..b314dce 100644
---- a/meta/recipes-devtools/python/python-dbus_1.2.0.bb
-+++ b/meta/recipes-devtools/python/python-dbus_1.2.0.bb
-@@ -14,6 +14,10 @@ S = "${WORKDIR}/dbus-python-${PV}"
- 
- inherit distutils-base autotools pkgconfig
- 
-+PACKAGECONFIG ?= ""
-+PACKAGECONFIG[docs] = "--enable-html-docs,--disable-html-docs,python-docutils-native"
-+PACKAGECONFIG[api-docs] = "--enable-api-docs,--disable-api-docs,python-docutils-native python-epydoc-native"
-+
- export BUILD_SYS
- export HOST_SYS
- 
--- 
-1.8.3.4
+Preliminary analysis confirms that the built-ins for those defines are 
+not being added by the compiler because it thinks the target doesn't 
+support those operations.  Nonetheless, it doesn't use the substitutes 
+that are obviously available.
+
+Can anybody recall anything about the way GCC is built under OE that 
+would explain this?
+
+Peter
+
+/* g++ -std=c++1y -pthread test.cc && ./a.out */
+#if 0
+#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_1
+#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2
+#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
+#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8
+#endif
+
+#include <iostream>
+#include <thread>
+
+void
+doit ()
+{
+   std::cerr << "doit\n";
+}
+
+int main (int argc,
+           char * argv [])
+{
+   std::cerr << "starting\n";
+   std::thread thr{doit};
+   std::cerr << "joining\n";
+   thr.join();
+   std::cerr << "done\n";
+   return 0;
+}
 
 
