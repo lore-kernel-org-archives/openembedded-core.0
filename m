@@ -1,33 +1,35 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from atl4mhfb03.myregisteredsite.com
-	(atl4mhfb03.myregisteredsite.com [209.17.115.61])
-	by mail.openembedded.org (Postfix) with ESMTP id C50386FC5D
+Return-Path: <bobadeshrikant@gmail.com>
+Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
+	[74.125.82.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 35D5F65E1B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 07:15:00 +0000 (UTC)
-Received: from atl4mhob01.myregisteredsite.com
-	(atl4mhob01.myregisteredsite.com [209.17.115.39])
-	by atl4mhfb03.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	s7B78rNg022597 for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 03:08:53 -0400
-Received: from mailpod.hostingplatform.com ([10.30.71.211])
-	by atl4mhob01.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	s7B78pCm004854 for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 03:08:51 -0400
-Received: (qmail 25871 invoked by uid 0); 11 Aug 2014 07:08:50 -0000
-X-TCPREMOTEIP: 88.159.208.100
-X-Authenticated-UID: mike@milosoftware.com
-Received: from unknown (HELO paradigit.TOPIC.LOCAL)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 11 Aug 2014 07:08:50 -0000
-From: Mike Looijmans <mike.looijmans@topic.nl>
+	Mon, 11 Aug 2014 09:36:15 +0000 (UTC)
+Received: by mail-we0-f177.google.com with SMTP id w62so8357258wes.36
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Aug 2014 02:36:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=38jnAtYo97YPNFlLJ5IeWJs0SKwRanjjQzRnMuwjZrQ=;
+	b=HPBOYO14Fm2oCEejrfNzn/Grh7Afqwqh3wLwnJ/PZE2wLkAZkg5QbHh5lIMcNaIT56
+	aXn1iMqONjV/QHsSLFqtUaPrAeLsgKFuC2AGN4waTBHtWJHOTgnLF5tjtbUYZrgLiB+C
+	Mcaf9Fxc1XU81IoUg+Tp/MfsUXACKf5q6nIenPewzhTTwZG1xnarPGoljOLezr26b362
+	jjhN54y7i/YhyZi+Lptq56aKWG90BOhUZdzw2zt0umzgfdh3O5AJ5+Ojl+5OjDixEmN3
+	zwJToBKwp/4ZPjx3L7keiy6Eu/ggQjBPv5eDeRZnrBA9bC3+UsemgjjaAQG/rN1fKbhP
+	wQ1A==
+X-Received: by 10.180.10.166 with SMTP id j6mr24498849wib.73.1407749776389;
+	Mon, 11 Aug 2014 02:36:16 -0700 (PDT)
+Received: from localhost.localdomain ([139.181.35.34])
+	by mx.google.com with ESMTPSA id di7sm136710wjb.34.2014.08.11.02.36.13
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 11 Aug 2014 02:36:15 -0700 (PDT)
+From: Shrikant Bobade <bobadeshrikant@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Aug 2014 09:08:40 +0200
-Message-Id: <1407740920-11635-2-git-send-email-mike.looijmans@topic.nl>
+Date: Mon, 11 Aug 2014 15:07:59 +0530
+Message-Id: <1407749879-4971-1-git-send-email-bobadeshrikant@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1407740920-11635-1-git-send-email-mike.looijmans@topic.nl>
-References: <1407740920-11635-1-git-send-email-mike.looijmans@topic.nl>
-Cc: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: [PATCH 2/2] Support image type "squashfs-lzo"
+Cc: Shrikant Bobade <Shrikant_Bobade@mentor.com>
+Subject: [PATCH] gnupg: Added PACKAGECONFIG[curl]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,72 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 07:15:06 -0000
+X-List-Received-Date: Mon, 11 Aug 2014 09:36:23 -0000
 
-Add "squashfs-lzo" to the image types. LZO compression support has been
-in both kernel and squashfs tools for many years, but OE never enabled
-it.
+From: Shrikant Bobade <Shrikant_Bobade@mentor.com>
 
-Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+gnupg can be built with or without curl. This should be explicitly defined
+to avoid race between curl and gnupg.
+
+Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
+Signed-off-by: Shrikant Bobade <Shrikant_Bobade@mentor.com>
 ---
- meta/classes/image_types.bbclass |   16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ meta/recipes-support/gnupg/gnupg_1.4.7.bb |    3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 54ecb15..e7d48c2 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -176,6 +176,7 @@ IMAGE_CMD_btrfs () {
- }
- 
- IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs ${EXTRA_IMAGECMD} -noappend"
-+IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lzo"
- IMAGE_CMD_squashfs-xz = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs-xz ${EXTRA_IMAGECMD} -noappend -comp xz"
- IMAGE_CMD_tar = "cd ${IMAGE_ROOTFS} && tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar ."
- 
-@@ -201,12 +202,12 @@ IMAGE_CMD_elf () {
- UBI_VOLNAME ?= "${MACHINE}-rootfs"
- 
- IMAGE_CMD_ubi () {
--	echo \[ubifs\] > ubinize.cfg 
-+	echo \[ubifs\] > ubinize.cfg
- 	echo mode=ubi >> ubinize.cfg
--	echo image=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs >> ubinize.cfg 
--	echo vol_id=0 >> ubinize.cfg 
--	echo vol_type=dynamic >> ubinize.cfg 
--	echo vol_name=${UBI_VOLNAME} >> ubinize.cfg 
-+	echo image=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs >> ubinize.cfg
-+	echo vol_id=0 >> ubinize.cfg
-+	echo vol_type=dynamic >> ubinize.cfg
-+	echo vol_name=${UBI_VOLNAME} >> ubinize.cfg
- 	echo vol_flags=autoresize >> ubinize.cfg
- 	mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS} && ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubi ${UBINIZE_ARGS} ubinize.cfg
- }
-@@ -235,13 +236,14 @@ IMAGE_DEPENDS_ext3 = "e2fsprogs-native"
- IMAGE_DEPENDS_ext4 = "e2fsprogs-native"
- IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
- IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
-+IMAGE_DEPENDS_squashfs-lzo = "squashfs-tools-native"
- IMAGE_DEPENDS_squashfs-xz = "squashfs-tools-native"
- IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
- IMAGE_DEPENDS_ubi = "mtd-utils-native"
- IMAGE_DEPENDS_ubifs = "mtd-utils-native"
- 
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
--IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs iso hddimg squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
-+IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs iso hddimg squashfs squashfs-lzo squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
- 
- COMPRESSIONTYPES = "gz bz2 lzma xz"
- COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
-@@ -256,7 +258,7 @@ COMPRESS_DEPENDS_xz = "xz-native"
- RUNNABLE_IMAGE_TYPES ?= "ext2 ext3"
- RUNNABLE_MACHINE_PATTERNS ?= "qemu"
- 
--DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso" 
-+DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
- 
- # Use IMAGE_EXTENSION_xxx to map image type 'xxx' with real image file extension name(s) for Hob
- IMAGE_EXTENSION_live = "hddimg iso"
+diff --git a/meta/recipes-support/gnupg/gnupg_1.4.7.bb b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
+index 031eaf3..ddcc2c2 100644
+--- a/meta/recipes-support/gnupg/gnupg_1.4.7.bb
++++ b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
+@@ -95,3 +95,6 @@ FILES_gpgv = "${bindir}/gpgv"
+ # Exclude debug files from the main packages
+ FILES_${PN} = "${bindir}/* ${datadir}/${BPN} ${libexecdir}/${BPN}/*"
+ FILES_${PN}-dbg += "${libexecdir}/${BPN}/.debug"
++
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[curl] = "--with-libcurl=${STAGING_LIBDIR},--without-libcurl,curl"
 -- 
 1.7.9.5
 
