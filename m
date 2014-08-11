@@ -1,37 +1,24 @@
-Return-Path: <joaohf@gmail.com>
-Received: from mail-yh0-f54.google.com (mail-yh0-f54.google.com
-	[209.85.213.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 1807E6FA94
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BB28465F81
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 02:10:42 +0000 (UTC)
-Received: by mail-yh0-f54.google.com with SMTP id v1so5866982yhn.13
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Aug 2014 19:10:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=9X411C9qXk3BJcgjWmshC3QEyDtpnyAGVIz34lCC9Oo=;
-	b=NejMV/cHvhI/38fxzZ44P4rjCiAu/P0HFBLYWO2j3D10Pfb6A7ErvYhwPBijQN2kBz
-	TxocqkzkUCB8zw7lS/MUbEK4QcKrgvi9GMS/xvzUUcLZ3Q8a/OuypPk4M02rOHhC8KlH
-	RkdjuyvcUWOREaGlYg4tts0qx+kHSNqNEHiT6tP2ol5xzWkUa20FPQjUxSzfpQllnjU5
-	GupTWa20kE2sGujLMEy16PkXDj51Mhf+vdnzjeWjyIIoBaYZa0UvaxGEOSCZhaaxu9ut
-	jq6H2odEaC/2EeKLM5/eDBahU+Pgzc9Up981oRV5zaW1+aX8WSp/2+ML3uB/GbPqPywf
-	nqXw==
-X-Received: by 10.236.216.16 with SMTP id f16mr41275623yhp.90.1407723043388;
-	Sun, 10 Aug 2014 19:10:43 -0700 (PDT)
-Received: from localhost.localdomain ([201.53.208.133])
-	by mx.google.com with ESMTPSA id q35sm20934214yhb.9.2014.08.10.19.10.42
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 10 Aug 2014 19:10:42 -0700 (PDT)
-From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
-	<joaohf@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 10 Aug 2014 23:09:56 -0300
-Message-Id: <1407722996-16278-1-git-send-email-joaohf@gmail.com>
+	Mon, 11 Aug 2014 02:23:57 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7B2Nq0m010841
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 10 Aug 2014 19:23:52 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 10 Aug 2014 19:23:52 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Aug 2014 10:23:45 +0800
+Message-ID: <cover.1407723356.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] curl: add ssl to PACKAGECONFIG
+Cc: saul.wold@intel.com
+Subject: [PATCH V2 0/1] guile: workaround ice ssa corruption while DEBUG_BUILD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 02:10:46 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 11 Aug 2014 02:24:01 -0000
+Content-Type: text/plain
 
-This will allow curl run as nativesdk and fixes the following:
+Changed in V2:
 
-fatal: unable to access 'https://...': Protocol https not supported or disabled in libcurl
+- Remove the RDEPENDS part to make sure the fix doesn't conflict with
+  Martin's patch
+  http://lists.openembedded.org/pipermail/openembedded-core/2014-August/095585.html
 
-Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
----
- meta/recipes-support/curl/curl_7.37.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+- Tweak the patch to make sure the logic of code is not changed by the
+  workaround.
 
-diff --git a/meta/recipes-support/curl/curl_7.37.1.bb b/meta/recipes-support/curl/curl_7.37.1.bb
-index 14bdff7..dc1d6a6 100644
---- a/meta/recipes-support/curl/curl_7.37.1.bb
-+++ b/meta/recipes-support/curl/curl_7.37.1.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e66
- 
- DEPENDS = "zlib gnutls"
- DEPENDS_class-native = "zlib-native openssl-native"
--DEPENDS_class-nativesdk = "nativesdk-zlib"
-+DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-openssl"
- 
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://pkgconfig_fix.patch \
-@@ -25,7 +25,7 @@ inherit autotools pkgconfig binconfig multilib_header
- 
- PACKAGECONFIG ??= "gnutls ${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)}"
- PACKAGECONFIG_class-native = "ipv6 ssl"
--PACKAGECONFIG_class-nativesdk = "ipv6"
-+PACKAGECONFIG_class-nativesdk = "ipv6 ssl"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
- PACKAGECONFIG[ssl] =  "--with-ssl, --without-ssl, ,"
- PACKAGECONFIG[gnutls] =  "--with-gnutls=${STAGING_LIBDIR}/../, --without-gnutls, gnutls,"
+//Hongxu
+
+The following changes since commit 870bb8d35547b8313b3a487d7e8b914ab9470e64:
+
+  local.conf.sample.extended: fix example for EXTRA_USERS_PARAMS (2014-08-04 17:38:24 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-guile-ice
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-guile-ice
+
+Hongxu Jia (1):
+  guile: workaround ice ssa corruption while DEBUG_BUILD
+
+ .../files/workaround-ice-ssa-corruption.patch      | 60 ++++++++++++++++++++++
+ meta/recipes-devtools/guile/guile_2.0.11.bb        |  1 +
+ 2 files changed, 61 insertions(+)
+ create mode 100644 meta/recipes-devtools/guile/files/workaround-ice-ssa-corruption.patch
+
 -- 
 1.9.1
 
