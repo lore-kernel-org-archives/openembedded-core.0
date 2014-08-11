@@ -1,31 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AD6A770B74
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 051F065D56
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 11:09:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7BB9uoj001464; Mon, 11 Aug 2014 12:09:56 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 7u2SDOxJr-lk; Mon, 11 Aug 2014 12:09:56 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7BB9nNc001461
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 11 Aug 2014 12:09:51 +0100
-Message-ID: <1407755389.22187.5.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 11 Aug 2014 12:09:49 +0100
-In-Reply-To: <20140811110437.GA14848@jama>
-References: <1405638999-9737-1-git-send-email-Martin.Jansa@gmail.com>
-	<20140725001645.GQ2492@jama> <53D85A56.6060401@windriver.com>
-	<20140811110437.GA14848@jama>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
+	Mon, 11 Aug 2014 11:24:38 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id l18so8328934wgh.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Aug 2014 04:24:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=7gbyjuvP/XmGwBkKZT8gmroNinZHJePmCQldtADEcK0=;
+	b=J/os9SPo/8qqQyXwBN7XiJfnBJnsLXfSKCMbQvIIltsUaBb/hc4jY52R/iv9ptcDGT
+	4zYW3GTP2k8aOo/mdMUW3zijCa+JJEwd/zu+4L4j6ZdpesThi80/BZNd+B1CT0zqxuHj
+	taVV4QXXNplzimvb6bmjdAr6khZ9JoMKeVVfA6aHTQslJ8AbdHXyrQ5n7ItGaCjwnBP1
+	/X2Ymw523W5nktaRzWIZBIeU8Uxt5bXvSzKtYMKPTiPG4ddQcy+CVzKOD4Ym1+TM1kpo
+	UgZ2DhQapgcnQauuXS5bsPswWXaNB6yLIfq0XSj/xyyRJcS0z/YdQT3Onq/21k0YYk9g
+	bvCw==
+X-Gm-Message-State: ALoCoQnwOsTDbwGWashiuMvcBH0tiS8SKEPaOo01efOW1JtfwaJOU39lKbEbTbYPtHpTHBcDycjo
+X-Received: by 10.194.2.132 with SMTP id 4mr45918797wju.49.1407756278691;
+	Mon, 11 Aug 2014 04:24:38 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::3ccd:641d:5ce1:5263?
+	([2001:610:612:0:3ccd:641d:5ce1:5263])
+	by mx.google.com with ESMTPSA id w7sm42751408wiy.6.2014.08.11.04.24.37
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 11 Aug 2014 04:24:37 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1407751488.22187.1.camel@ted>
+Date: Mon, 11 Aug 2014 13:24:36 +0200
+Message-Id: <150EBC86-4121-4873-955F-0B97D3D2D8A5@dominion.thruhere.net>
+References: <1407575476-15945-1-git-send-email-koen@dominion.thruhere.net>
+	<1407751488.22187.1.camel@ted>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1878.6)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [dora][PATCHv2] gcc-4.8: backport fix for ICE when building opus
+Subject: Re: [dora][backport][PATCH] kernel: don't copy .so.dbg files into kernel source install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,33 +49,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 11:09:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Aug 2014 11:24:45 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2014-08-11 at 13:04 +0200, Martin Jansa wrote:
-> On Wed, Jul 30, 2014 at 10:37:10AM +0800, Robert Yang wrote:
-> > 
-> > On 07/25/2014 08:16 AM, Martin Jansa wrote:
-> > > On Fri, Jul 18, 2014 at 01:16:39AM +0200, Martin Jansa wrote:
-> > >> From: Martin Jansa <martin.jansa@lge.com>
-> > >>
-> > >> * backported from 4.8.2, so daisy isn't affected
-> > >
-> > > Robert, any eta on this one? If we cannot expect this to be merged in
-> > > dora in next few days, let me know and I'll temporary add it to
-> > > .bbappends in our layers.
-> > 
-> > Sorry for the late response, I tested it and worked well, I will confirm
-> > with RP.
-> 
-> There were some dora changes merged today, but this one wasn't one of
-> them, is there some issue with it?
 
-No issue, its in now, thanks for the reminder.
+Op 11 aug. 2014, om 12:04 heeft Richard Purdie =
+<richard.purdie@linuxfoundation.org> het volgende geschreven:
 
-Cheers,
+> On Sat, 2014-08-09 at 11:11 +0200, Koen Kooi wrote:
+>> From: Bruce Ashfield <bruce.ashfield@windriver.com>
+>>=20
+>> In 3.16+ x86-64 kernel builds produce a vdso64.so.dbg file. If this =
+file is
+>> copied into the kernel source install multiple QA failures are =
+triggered.
+>> Specifically, this file triggers a debug package split that results =
+in
+>> files installed but not shipped, and invalid .debug file errors.
+>>=20
+>> By ensuring that .so files are not copied, we avoid this incorrect =
+split
+>> with no impact on future build phases.
+>>=20
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> ---
+>> meta/classes/kernel.bbclass | 2 +-
+>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> Was this mean for daisy, not dora? It doesn't apply to dora but did =
+for
+> daisy...
 
-Richard
+Err, right 'daisy', not 'dora'. Sorry for the confusion.
 
+regards,
+
+Koen=
 
