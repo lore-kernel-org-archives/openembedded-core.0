@@ -1,37 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
-	[74.125.82.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 28E7D617B8
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 30D13617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 14:08:39 +0000 (UTC)
-Received: by mail-we0-f179.google.com with SMTP id u57so8602565wes.24
+	Mon, 11 Aug 2014 14:09:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7BE9VPN019447
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 07:08:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=xM0SjFw/2rF/T/gz/wp4fJ1Pmc/2u0fTlmtbG3t9wfI=;
-	b=GpENK7RW72vFCpyvVN+P9bJaarihb2SAnm076wiPLSNjrzxS/qOS8XbO0tCChKOzZ4
-	32C8EpTbYz8EAOsWzVa/aSi2nSGZpoRl8QDaDYZDH6OYjyGxkSzvElNuL3jDPU4r2UA/
-	Q99bXK2isQ5Ap+mcNHbfxHLYmPq6UuzBtTwHKq57KsXHOvplZA9BRWZ7+By2LARRycl7
-	4yX5NzB6m+ZGqXMJidm52DOg7akmWephgotNdcj8JULe6vfuA4TtfG1PgyvFH+fh9ONN
-	sx2STMS2vY7lBxrFjqRhrUQe6iiGCcjYNhJZkuQZvNN3VTkWs1/DVM2lUYvk1Kxk1eNW
-	4BCA==
-X-Received: by 10.194.71.11 with SMTP id q11mr11658852wju.33.1407766120671;
-	Mon, 11 Aug 2014 07:08:40 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	ex2sm1867468wjd.30.2014.08.11.07.08.39 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Aug 2014 07:08:39 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Aug 2014 16:09:13 +0200
-Message-Id: <1407766153-19712-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.0.4
-In-Reply-To: <3503275.YjDqJfgFMA@peggleto-mobl5.ger.corp.intel.com>
-References: <3503275.YjDqJfgFMA@peggleto-mobl5.ger.corp.intel.com>
-Subject: [PATCH] SIGGEN_EXCLUDERECIPES_ABISAFE: add initscripts
+	Mon, 11 Aug 2014 07:09:31 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 11 Aug 2014 07:09:30 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Aug 2014 07:09:30 -0700
+Message-ID: <cb2d7bb810ded71a9440337d2a46097d45e6c0cf.1407766043.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1407766043.git.liezhi.yang@windriver.com>
+References: <cover.1407766043.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] insane.bbclass: add QA check: file-rdeps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +33,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 14:08:49 -0000
+X-List-Received-Date: Mon, 11 Aug 2014 14:09:30 -0000
+Content-Type: text/plain
 
-* update-rc.d now adds initscripts dependency even to allarch recipes
-  making them effectively TUNE_PKGARCH, "fix" it by excluding
-  initscripts from all signatures
+The ipk or deb can't depend on file such as "/bin/bash" or
+"/usr/bin/perl", so it knows nothing about the pkg depends bash or perl,
+thus there would be dependencies problems when we run "apt-get
+install/remove <pkg>" on the target, this check can help us find the
+issues and then fix them manually.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+* Basic designs:
+  - Get the pkg's FILERPROVIDES from oe.packagedata.read_subpkgdata()
+    and save to set filerdepends.
+
+  - Get the each RPDEPENDS' FILERPROVIDES, RPROVIDES and
+    FILERPROVIDESFLIST, and save to set rdep_rprovides.
+
+  - Do the set "filerdepends -= rdep_rprovides" and QA Issue if
+    filerdepends is not null.
+
+[YOCTO #1662]
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/conf/layer.conf | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/insane.bbclass |   37 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 18609dd..6b0f806 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -30,4 +30,5 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
-   udev-extraconf \
-   packagegroup-x11-xserver \
-   systemd-serialgetty \
-+  initscripts \
- "
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 3dd2e7f..f2e9626 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -29,7 +29,7 @@ QA_SANE = "True"
+ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+             textrel already-stripped incompatible-license files-invalid \
+             installed-vs-shipped compile-host-path install-host-path \
+-            pn-overrides infodir build-deps \
++            pn-overrides infodir build-deps file-rdeps \
+             "
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+@@ -797,6 +797,41 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+                 error_msg = "%s rdepends on %s, but it isn't a build dependency?" % (pkg, rdepend)
+                 sane = package_qa_handle_error("build-deps", error_msg, d)
+ 
++        if "file-rdeps" not in skip:
++            ignored_file_rdeps = set(['/bin/sh', '/usr/bin/env'])
++            # For Saving the FILERDEPENDS
++            filerdepends = set()
++            rdep_data = oe.packagedata.read_subpkgdata(pkg, d)
++            for key in rdep_data:
++                if key.startswith("FILERDEPENDS_"):
++                    for subkey in rdep_data[key].split():
++                        filerdepends.add(subkey)
++            filerdepends -= ignored_file_rdeps
++            if filerdepends:
++                # Check the rprovides of itself
++                if pkg not in rdepends:
++                    rdepends.insert(0, pkg)
++                for rdepend in rdepends:
++                    # For Saving the FILERPROVIDES and RPROVIDES
++                    rdep_rprovides = set()
++                    rdep_data = oe.packagedata.read_subpkgdata(rdepend, d)
++                    for key in rdep_data:
++                        if key.startswith("FILERPROVIDES_") or key.startswith("RPROVIDES_") \
++                                or key.startswith("FILERPROVIDESFLIST_"):
++                            for subkey in rdep_data[key].split():
++                                rdep_rprovides.add(subkey)
++                    filerdepends -= rdep_rprovides
++                    if not filerdepends:
++                            # Break if all the file rdepends are met.
++                            break
++                    else:
++                            # Clear it for the next loop
++                            rdep_rprovides.clear()
++            if filerdepends:
++                error_msg = "%s requires %s, but no providers in its RDEPENDS" % \
++                            (pkg, ', '.join(str(e) for e in filerdepends))
++                sane = package_qa_handle_error("file-rdeps", error_msg, d)
++
+     return sane
+ 
+ def package_qa_check_deps(pkg, pkgdest, skip, d):
 -- 
-2.0.4
+1.7.9.5
 
 
