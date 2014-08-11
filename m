@@ -1,27 +1,27 @@
-Return-Path: <Yasir_Khan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id B3B4165D5E
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id E015370B6C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 14:10:08 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1XGqIa-0000eS-PG from Yasir_Khan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Aug 2014 07:10:08 -0700
-Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 11 Aug 2014 07:10:08 -0700
-From: Yasir Khan <yasir_khan@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Aug 2014 19:09:30 +0500
-Message-Id: <1407766170-39252-1-git-send-email-yasir_khan@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-X-OriginalArrivalTime: 11 Aug 2014 14:10:08.0636 (UTC)
-	FILETIME=[F52B6BC0:01CFB56D]
-Subject: [PATCH] lttng-ust: update to version 2.5.0
+	Mon, 11 Aug 2014 14:17:47 +0000 (UTC)
+Received: from localhost.localdomain (unknown [46.170.72.194])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id C12381169666;
+	Mon, 11 Aug 2014 16:17:31 +0200 (CEST)
+Message-ID: <1407766651.28332.1.camel@open-rnd.pl>
+From: Maciek Borzecki <maciej.borzecki@open-rnd.pl>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Mon, 11 Aug 2014 16:17:31 +0200
+In-Reply-To: <1405977822.3067.26.camel@empanada>
+References: <1405940517-30651-1-git-send-email-maciej.borzecki@open-rnd.pl>
+	<1405977822.3067.26.camel@empanada>
+Organization: Open-RnD sp. z o.o.
+X-Mailer: Evolution 3.12.4 (3.12.4-1.fc20) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-code][PATCH] wic: include partition label in fs image file name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: maciej.borzecki@open-rnd.pl
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -31,41 +31,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 14:10:17 -0000
+X-List-Received-Date: Mon, 11 Aug 2014 14:17:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Yasir-Khan <yasir_khan@mentor.com>
+On pon, 2014-07-21 at 16:23 -0500, Tom Zanussi wrote:
+> On Mon, 2014-07-21 at 13:01 +0200, Maciej Borzecki wrote:
+> > Not including the label image but having multiple partitions of the same
+> > type, the image file of one partition would overwrite the other.
+> > 
+> 
+> Right, the empty-partition case somehow missed the label - good catch.
+> 
+> Acked-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 
-update to latest stable-2.5 revision
 
-Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
----
- .../{lttng-ust_2.4.0.bb => lttng-ust_2.5.0.bb}     |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-ust_2.4.0.bb => lttng-ust_2.5.0.bb} (87%)
+Saul, I think that the patch was missed by due to malformed subject
+line. Would you be able to push it to master?
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
-similarity index 87%
-rename from meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb
-rename to meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
-index 1629554..1595627 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_2.4.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
-@@ -17,11 +17,11 @@ RPROVIDES_${PN} = "lttng2-ust"
- RREPLACES_${PN} = "lttng2-ust"
- RCONFLICTS_${PN} = "lttng2-ust"
- 
--SRCREV = "5ba5bf7fba804d2de773ae1c71106a8ed856c56a"
--PV = "2.4.0"
-+SRCREV = "ce59a997afdb7dc8af02b464430bb7e35549fa66"
-+PV = "2.5.0"
- PE = "2"
- 
--SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.4 \
-+SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.5 \
-            file://lttng-ust-doc-examples-disable.patch \
- 	   "
- 
+> 
+> > Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+> > Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
+> > ---
+> >  scripts/lib/mic/kickstart/custom_commands/partition.py | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > index 06f29a9..d0f1b78 100644
+> > --- a/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > +++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > @@ -343,7 +343,7 @@ class Wic_PartData(Mic_PartData):
+> >          """
+> >          Prepare an empty ext2/3/4 partition.
+> >          """
+> > -        fs = "%s/fs.%s" % (cr_workdir, self.fstype)
+> > +        fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
+> >  
+> >          dd_cmd = "dd if=/dev/zero of=%s bs=1M seek=%d count=0" % \
+> >              (fs, self.size)
+> > @@ -363,7 +363,7 @@ class Wic_PartData(Mic_PartData):
+> >          """
+> >          Prepare an empty btrfs partition.
+> >          """
+> > -        fs = "%s/fs.%s" % (cr_workdir, self.fstype)
+> > +        fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
+> >  
+> >          dd_cmd = "dd if=/dev/zero of=%s bs=1M seek=%d count=0" % \
+> >              (fs, self.size)
+> > @@ -384,7 +384,7 @@ class Wic_PartData(Mic_PartData):
+> >          """
+> >          Prepare an empty vfat partition.
+> >          """
+> > -        fs = "%s/fs.%s" % (cr_workdir, self.fstype)
+> > +        fs = "%s/fs_%s.%s" % (cr_workdir, self.label, self.fstype)
+> >  
+> >          blocks = self.size * 1024
+> >  
+> 
+> 
+
+
 -- 
-1.7.9.5
+Maciej Borzęcki
+Senior Software Developer at Open-RnD Sp. z o.o., Poland
+www.open-rnd.pl
+mobile: +48 889 117 365, fax: +48 42 657 9079
+
+Niniejsza wiadomość wraz z załącznikami może zawierać chronione prawem
+lub poufne informacje i została wysłana wyłącznie do wiadomości i
+użytku osób, do których została zaadresowana. Jeśli wiadomość została
+otrzymana przypadkowo zabrania się jej kopiowania lub rozsyłania do
+osób trzecich. W takim przypadku uprasza się o natychmiastowe
+zniszczenie wiadomości oraz poinformowanie nadawcy o zaistniałej
+sytuacji za pomocą wiadomości zwrotnej. Dziękujemy.
+
+This message, including any attachments hereto, may contain privileged
+or confidential information and is sent solely for the attention and
+use of the intended addressee(s). If you are not an intended addressee,
+you may neither use this message nor copy or deliver it to anyone. In
+such case, you should immediately destroy this message and kindly notify
+the sender by reply email. Thank you.
+
 
 
