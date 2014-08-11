@@ -1,38 +1,29 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f47.google.com (mail-yh0-f47.google.com
-	[209.85.213.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 45F2B60DF7
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4074A65FDC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 00:55:21 +0000 (UTC)
-Received: by mail-yh0-f47.google.com with SMTP id f10so5749161yha.34
+	Mon, 11 Aug 2014 01:19:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7B1JATR010429
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Aug 2014 17:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=EJRGC1/ImA/Ln6TMY2Dfw2S2o/UJVmd+MFBVU7Y+r+k=;
-	b=YHlALVRde/xn7zDh4YoSyAZ9aICx9lZqCZsF6NtZdvs7AIY2FE/3Id4Iu6sSkHp8ko
-	SuclewLaCx/XpuN3AodCng6rYARVAEcfd5DbZJA6OpkSPwxrYtWnrvBqr0fGnUyDQvCw
-	PMvd8HlrXnbeVNivJUaQQ7BLQBDKRfcdzysAEu5jDU3HjHFuMeMZsPV8Te4+I2UCyekh
-	I+Zq61nub6+wBK2WUZZ6bA+fpll+p3AWPUfka9pVtONckYumB3FGvBC55oJERs11Oujf
-	m7H47L35pjY2Tgk/7AluPjj8qZ3rq4FVvt5nT//evX3MzZ+4qpvwfZQRTf+YELh65sIs
-	XK8w==
+	Sun, 10 Aug 2014 18:19:10 -0700 (PDT)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Sun, 10 Aug 2014 18:19:09 -0700
+Message-ID: <53E81A0A.2030701@windriver.com>
+Date: Mon, 11 Aug 2014 09:19:06 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-X-Received: by 10.236.61.69 with SMTP id v45mr8463332yhc.130.1407718522985;
-	Sun, 10 Aug 2014 17:55:22 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.56.201 with HTTP; Sun, 10 Aug 2014 17:55:22 -0700 (PDT)
-In-Reply-To: <1407424632-32649-6-git-send-email-marex@denx.de>
-References: <1407424632-32649-1-git-send-email-marex@denx.de>
-	<1407424632-32649-6-git-send-email-marex@denx.de>
-Date: Sun, 10 Aug 2014 21:55:22 -0300
-X-Google-Sender-Auth: ABC9XEaz4pZZybUKkOKgCV1XmxA
-Message-ID: <CAP9ODKpjzBqm_cueaXW-JBR-ymjz5z=hFJFhezw2UJv+LfApUQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Marek Vasut <marex@denx.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] Yocto: kernel: Add basic fitImage support
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1407227521.git.Chong.Lu@windriver.com>
+	<a7f4e445d762d3fe0c91840b0dc9c1ab625689fd.1407227521.git.Chong.Lu@windriver.com>
+In-Reply-To: <a7f4e445d762d3fe0c91840b0dc9c1ab625689fd.1407227521.git.Chong.Lu@windriver.com>
+X-Originating-IP: [128.224.162.204]
+Subject: Re: [PATCH 1/3] perl: fix the output format of all tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,36 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 00:55:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 11 Aug 2014 01:19:11 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 7, 2014 at 12:17 PM, Marek Vasut <marex@denx.de> wrote:
-> This patch adds support for generating a kernel fitImage, which is
-> a a successor to the uImage format. Unlike uImage, which could only
-> contain the kernel image itself, the fitImage can contain all kinds
-> of artifacts, like the kernel image, device tree blobs, initramfs
-> images, binary firmwares etc. Furthermore, the fitImage supports
-> different kinds of checksums, not only CRC32 like the uImage did.
-> Last, but not least, fitImage supports signatures such that either
-> the whole image or it's parts can be signed and then in turn can
-> be verified by the bootloader.
+ping
+
+On 08/05/2014 04:33 PM, Chong Lu wrote:
+> We should use "PASS:|FAIL:|SKIP: testname" to output results of ptest.
 >
-> So far we only add support for wrapping the kernel image and DTB
-> into the fitImage. The fitImage uses the sha1 checksum, which is
-> the default.
+> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> ---
+>   meta/recipes-devtools/perl/perl-5.20.0/run-ptest | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Signed-off-by: Marek Vasut <marex@denx.de>
+> diff --git a/meta/recipes-devtools/perl/perl-5.20.0/run-ptest b/meta/recipes-devtools/perl/perl-5.20.0/run-ptest
+> index ed59b4b..1e2dd1b 100644
+> --- a/meta/recipes-devtools/perl/perl-5.20.0/run-ptest
+> +++ b/meta/recipes-devtools/perl/perl-5.20.0/run-ptest
+> @@ -1,2 +1,2 @@
+>   #!/bin/sh
+> -cd t && ./TEST | sed -u -e 's/^\([^. \t]*\)\.\.\.\+ok/PASS: \1/' -e 's/^\([^. \t]*\)\.\.\.\+skipped/SKIP: \1/' -e 's/^\([^. \t]*\)\.\.\.\+\(.*\)/FAIL: \1\n\2/'
+> +cd t && ./TEST | sed -u -e 's|\(.*\) .* ok$|PASS: \1|' -e 's|\(.*\) .* skipped|SKIP: \1|' -e 's|\(.*\) \.\(.*\)|FAIL: \1|'
 
-Could it be reworked and split in a class? it seems the code is quite
-big to handle it and I think it will allow for more easy understanding
-and development if we can rework this code to be move out of
-kernel.bbclass. It does seem to be an image type.
-
-You can take a look how ubifs has been included and do something
-similar for FIT.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
