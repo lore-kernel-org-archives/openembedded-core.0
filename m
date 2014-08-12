@@ -1,35 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B436E65D57
+Return-Path: <Li.Wang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E44F65D57
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 08:41:43 +0000 (UTC)
-Received: by mail-qc0-f181.google.com with SMTP id x13so2558214qcv.40
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 01:41:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=erzFAmlYFMX0l7BaKgR868szIF1zTjcws4JPrI8iofo=;
-	b=Sy9YjtJ538qatQOlFdtnvSNyeLRMZR7YSU7kITtYGOhobMIYmYJke0nX2/1cfmjY/l
-	Z/bVCQnObuiWPe5L0P5sLedGFD/VZHYm0+cUexfZo/d1qLqHRLmad6BWq5w8bYiH1+tU
-	KHUmcZTasdtpUVpYcRqMeLnKmZPi+UKIQlq38cYF/wdWJ2TD2OiEYLLIJSGtS0hHmaN6
-	N52nwHpbaoF8+jUAgxSiBrmiw0JjnQfeHuKTo31tQW7w7F+cRJ4wPgKZ6l06aRCa99MM
-	HcNNvAT2T0ROScuIKmUcRHDVMVrZciz0kUX+3oap060aCiilVrt6m3eHPqhT6Ej8EJWm
-	rxPw==
-X-Gm-Message-State: ALoCoQkZrsGBnQhCYuKpx2uYrRiMfpPM3qIpD8Z0CHvDZqpgcixJcQdRKqmPcGbF5LNUViB0ME5c
-X-Received: by 10.140.103.75 with SMTP id x69mr4006163qge.17.1407832904289;
-	Tue, 12 Aug 2014 01:41:44 -0700 (PDT)
+	Tue, 12 Aug 2014 08:44:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7C8iMKo000344
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 12 Aug 2014 01:44:22 -0700 (PDT)
+Received: from [128.224.163.185] (128.224.163.185) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Tue, 12 Aug 2014 01:44:21 -0700
+Message-ID: <53E9D3E2.7020101@windriver.com>
+Date: Tue, 12 Aug 2014 16:44:18 +0800
+From: "Li.Wang" <Li.Wang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-Received: by 10.140.95.235 with HTTP; Tue, 12 Aug 2014 01:41:24 -0700 (PDT)
-In-Reply-To: <1407828058-9939-1-git-send-email-li.wang@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <1407824758-9261-1-git-send-email-li.wang@windriver.com>
 	<1407828058-9939-1-git-send-email-li.wang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Aug 2014 09:41:24 +0100
-Message-ID: <CAJTo0LZW2OdpmevQW+5+j9Vau2M2qUpe+XUEL9aO6b=WS_B5fg@mail.gmail.com>
-To: Li Wang <li.wang@windriver.com>
+	<CAJTo0LZW2OdpmevQW+5+j9Vau2M2qUpe+XUEL9aO6b=WS_B5fg@mail.gmail.com>
+In-Reply-To: <CAJTo0LZW2OdpmevQW+5+j9Vau2M2qUpe+XUEL9aO6b=WS_B5fg@mail.gmail.com>
+X-Originating-IP: [128.224.163.185]
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] rpcbind: add option to fix port number
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,13 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 08:41:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Aug 2014 08:44:25 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 12 August 2014 08:20, Li Wang <li.wang@windriver.com> wrote:
-> fix a random port to offer customer an option for select.
+Hi,
 
-I'm curious as to why this is needed.
+this is a description from customer:
+=====
+customer's description of the problem:
+"
+It would seem rcpbind opens a random port.
+     Clearly not the most simple thing to protect with an ipfilter.
+     Opening random ports in privileged port range, among them one port 
+that
+     identifies itself as pop3s, is not a good practice. Both Ericsson 
+and our
+     customers run regular vulnerability assessment tools against our 
+product,
+     and this will clearly be seen as a potential problem. Furthermore, 
+we will
+     not be able to filter the ports, since they are random, and neither 
+will we
+     be able to provide decent answers to our customers. To summarize: this
+     should be taken care of, ie fix rpcbind so that it uses a non 
+random port
+     and/or to bind to a specific interface.
+=====
 
-Ross
+Thanks,
+LiWang.
+
+On 08/12/2014 04:41 PM, Burton, Ross wrote:
+> On 12 August 2014 08:20, Li Wang <li.wang@windriver.com> wrote:
+>> fix a random port to offer customer an option for select.
+> I'm curious as to why this is needed.
+>
+> Ross
+
 
