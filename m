@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E01A660DF7
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B03965E11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 06:08:10 +0000 (UTC)
+	Tue, 12 Aug 2014 06:08:11 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7C68Bcu028796
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7C68BMR000270
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 23:08:11 -0700 (PDT)
+	Mon, 11 Aug 2014 23:08:13 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 11 Aug 2014 23:08:10 -0700
+	Mon, 11 Aug 2014 23:08:11 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Aug 2014 23:08:10 -0700
-Message-ID: <cover.1407823628.git.liezhi.yang@windriver.com>
+Date: Mon, 11 Aug 2014 23:08:11 -0700
+Message-ID: <0aea2ea3d6ede80c48808b19d848138be0da7483.1407823628.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1407823628.git.liezhi.yang@windriver.com>
+References: <cover.1407823628.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] image.bbclass: image_types.bbclass is a must
+Subject: [PATCH 1/1] image.bbclass: image_types.bbclass is a must
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,52 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 12 Aug 2014 06:08:12 -0000
 Content-Type: text/plain
 
-The following changes since commit 4321c553d5ae816e566234e981a0815bba046d39:
+The image_types.bbclass is a must since we use this in image.bbclass:
 
-  SIGGEN_EXCLUDERECIPES_ABISAFE: add initscripts (2014-08-11 17:44:09 +0100)
+[snip]
+python () {
+    deps = " " + imagetypes_getdepends(d)
+    d.appendVarFlag('do_rootfs', 'depends', deps)
+[snip]
 
-are available in the git repository at:
+The imagetypes_getdepends() is defined in image_types.bbclass. Use "+="
+to replace "?=" since it is a must, so that the user can use
+"IMAGE_CLASSES = foo.bbclass" in local.conf to add their own image
+class.
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/image
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/image
+NOTE: the IMAGE_CLASSES_append = " foo" doesn't work since we use this
+in image.bbclass:
+ IMAGE_CLASSES += "image_types"
+ inherit ${IMAGE_CLASSES}
 
-Robert Yang (1):
-  image.bbclass: image_types.bbclass is a must
+I think that it is because inherit takes effect before append?
 
+Another way to fix the problem is:
+IMAGE_CLASSES ?= ""
+inherit image_types ${IMAGE_CLASSES}
+
+But it seems that we need another name for IMAGE_CLASSES, for example
+IMAGE_CLASSES_EXTRA, and also need update the doc, which would make it
+complicated.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/classes/image.bbclass |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 82605f2..940bdb6 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -163,7 +163,7 @@ python () {
+         d.appendVarFlag('do_bundle_initramfs', 'depends', " %s:do_rootfs" % initramfs_image)
+ }
+ 
+-IMAGE_CLASSES ?= "image_types"
++IMAGE_CLASSES += "image_types"
+ inherit ${IMAGE_CLASSES}
+ 
+ IMAGE_POSTPROCESS_COMMAND ?= ""
 -- 
 1.7.9.5
 
