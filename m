@@ -1,27 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F47D60EFA;
-	Tue, 12 Aug 2014 05:54:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7C5seu1029241
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 11 Aug 2014 22:54:40 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 11 Aug 2014 22:54:39 -0700
-Message-ID: <53E9AC1E.20908@windriver.com>
-Date: Tue, 12 Aug 2014 13:54:38 +0800
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E01A660DF7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Aug 2014 06:08:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7C68Bcu028796
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Aug 2014 23:08:11 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 11 Aug 2014 23:08:10 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Aug 2014 23:08:10 -0700
+Message-ID: <cover.1407823628.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: <openembedded-devel@lists.openembedded.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20140812051548.15823.qmail@f4mail-235-216.rediffmail.com>
-In-Reply-To: <20140812051548.15823.qmail@f4mail-235-216.rediffmail.com>
-Subject: Re: [oe] Error: package not found in the base feeds (genericx86_64 x86_64 noarch any all)
+Subject: [PATCH 0/1] image.bbclass: image_types.bbclass is a must
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 05:54:43 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Aug 2014 06:08:12 -0000
+Content-Type: text/plain
 
+The following changes since commit 4321c553d5ae816e566234e981a0815bba046d39:
 
-Hello,
+  SIGGEN_EXCLUDERECIPES_ABISAFE: add initscripts (2014-08-11 17:44:09 +0100)
 
-I can't see the format in the your email, please send it in plain text if possible.
+are available in the git repository at:
 
-And for your questions:
+  git://git.openembedded.org/openembedded-core-contrib rbt/image
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/image
 
-* where liburiparser1 is coming from
-It is a debian style name, the so is liburiparser.so.1 (note the "1" in
-the end) so the pkg name is liburiparser1, please see the debian.bbclass
-for more info.
+Robert Yang (1):
+  image.bbclass: image_types.bbclass is a must
 
-* For the errors:
-Error: liburiparser1 not found in the base feeds
+ meta/classes/image.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Did you run bitbake liburiparser ?
+-- 
+1.7.9.5
 
-And which package RDEPENDS on liburiparser ?
-
-// Robert
-
-On 08/12/2014 01:15 PM, Himanshu Pandey wrote:
-> Hi,
-> I am constantly getting error:Error: liburiparser1 not found in the base feeds (genericx86_64 x86_64 noarch any all). My receipe name is liburiparser_0.8.0.bb. So from where liburiparser1 is coming from. Very surprising for me.
-> For each and every package it is giving the same error i.e. package not found in the base feeds&nbsp;&nbsp;(genericx86_64 x86_64 noarch any all).
-> My liburiparser receipe is as follows:
-> DESCRIPTION = "uriparser is a strictly RFC 3986 compliant URI parsing library."HOMEPAGE = "http://uriparser.sf.net"SECTION = "base"PR="r10"LICENSE = "BSD"LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"SRC_URI = "http://ncu.dl.sourceforge.net/project/uriparser/Sources/0.8.0/uriparser-${PV}.tar.bz2"SRC_URI[md5sum] = "77601f52ab91c0e100fc5d783d9c1ee5"SRC_URI[sha256sum] = "1dd9f9779d8f17822bd7d68ba042fd67779b6e4ccf162bd3c9d0ff19a8ba9bf7"
-> S = "${WORKDIR}/uriparser-0.8.0"
-> EXTRA_OECONF= "--disable-test --disable-doc"
-> inherit autotools
-> do_compile() {&nbsp; &nbsp; &nbsp; &nbsp; oe_runconf&nbsp; &nbsp; &nbsp; &nbsp; oe_runmake}do_install() {&nbsp; &nbsp; &nbsp; &nbsp; install -d ${D}/usr/lib&nbsp; &nbsp; &nbsp; &nbsp; install -d ${STAGING_INCDIR}/uriparser/&nbsp; &nbsp; &nbsp; &nbsp; install -m 0644 ./include/uriparser/*.h ${STAGING_INCDIR}/uriparser/&nbsp; &nbsp; &nbsp; &nbsp; install -m 644 ${S}/.libs/*.so* ${D}/usr/lib/}PACKAGES =+ "liburiparser"FILES_liburiparser += "${D}${libdir} ${D}${libdir}/liburiparser.so&nbsp;${D}${libdir}/liburiparser.so.1 ${D}${libdir}/liburiparser.so.1.*"BBCLASSEXTEND = "native"
->
-> Please help to resolve the same.
-> Regards,Himanshu
->
 
