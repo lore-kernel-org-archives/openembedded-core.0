@@ -1,36 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 231E661585
+Return-Path: <matt@console-pimps.org>
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E89360809
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 18:58:13 +0000 (UTC)
-Received: by mail-qg0-f49.google.com with SMTP id j107so9954567qga.22
+	Tue, 12 Aug 2014 19:05:31 +0000 (UTC)
+Received: by mail-wg0-f47.google.com with SMTP id b13so10256717wgh.18
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 11:58:14 -0700 (PDT)
+	Tue, 12 Aug 2014 12:05:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=EEcyxqfQSjg2Dl9y1ww+nq4Hm2Unapqxb+bF2++DlGQ=;
-	b=fJ3yc+sKSAj+OeMzsA9u7z/0L+cJ5ewx3651eJtI6oRk9KsdT0RcN3uDyBsqowjjI4
-	HHPruwuHisBaLJnCAbI5LbGWpTezR6jIy7oet0elGkiP0WdFfVzPVu3Yr9GKh5NALr45
-	dPrsSJJWyhMlUQuzlYpqaZAI4/jG5JwXvRE5p8fG05pQWEX2fQP7j+QNm6m32boOmFbZ
-	INibLpuPzcyh/xJAPMaEm68Ocaq1wCLYNKsj4lBJfEigOXVfgGuU0fQyTlZDJQfyi3om
-	TNNcJAClfzr9K5b3X3UlWAWowB/o/eIg6C7nQY+Uwgp8P4TNZ0Y2p8fMGm2sFSn5yxte
-	4yEA==
-X-Gm-Message-State: ALoCoQn0hitKlHzxLeyUAon5lXNBkv9x1ry+nP7Klk7aTFuN94dwF9mLtN+A6ybSvvICUSP9V/bc
-X-Received: by 10.140.82.242 with SMTP id h105mr9321907qgd.98.1407869894733;
-	Tue, 12 Aug 2014 11:58:14 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent;
+	bh=VumOVXDOQHmYOLBWO8Jz7Q+piBLusyJcXpiQOqd8IXI=;
+	b=bAqzqqft4YM+yX0nb0hXlnjskL0xkEzFSezK9/aFwTx4fY+V5xuNLZoulHziEN4qzu
+	wr/llltxzhGeTRY1FBuVST1++9voJYrXClS3bbyu8no4+DrR8X5KWeGegFd4fWs1mDQi
+	apnRrxrdQ0ZIB/2rKgcB9BW+lwX57l/aJ7QH80+8Mf26mhdVpGqji/qQ7PAHZ03KdF/g
+	dqxQ9u5rmPvqiUoPbzy9ebtwoBzm2JGZ3kn07A9yIRBR4WyxSQZJgiGM/IFVOQEDtFt9
+	sCkvyltvOfUJzaGs7ulOlCo78y0UKyHxZ10LF6GkUUkfqD50HxsiAr4w+1CeZ5rGrDmC
+	JqVw==
+X-Gm-Message-State: ALoCoQkVBRq4vlSQkBGKOgeadb3ITo/aeuNNAp945c0g9aMP6d+ZsZV270IFPpOzMEnQJP6NA0/L
+X-Received: by 10.180.74.198 with SMTP id w6mr513751wiv.7.1407870332481;
+	Tue, 12 Aug 2014 12:05:32 -0700 (PDT)
+Received: from localhost ([94.8.35.160])
+	by mx.google.com with ESMTPSA id r1sm59190711wia.21.2014.08.12.12.05.31
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Aug 2014 12:05:31 -0700 (PDT)
+Date: Tue, 12 Aug 2014 20:05:29 +0100
+From: Matt Fleming <matt@console-pimps.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20140812190529.GK15082@console-pimps.org>
+References: <1407857266-13529-1-git-send-email-matt@console-pimps.org>
+	<20140812155138.GR14848@jama>
 MIME-Version: 1.0
-Received: by 10.140.95.235 with HTTP; Tue, 12 Aug 2014 11:57:54 -0700 (PDT)
-In-Reply-To: <53EA5178.7020209@topic.nl>
-References: <53EA5178.7020209@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Aug 2014 19:57:54 +0100
-Message-ID: <CAJTo0LY+Kp14Sn4bdFtX4eYCK4Oea52MEG-=s6TbG_CKoMx9Pg@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Autotools and "foreign"
+In-Reply-To: <20140812155138.GR14848@jama>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Darren Hart <dvhart@linux.intel.com>, Matt Fleming <matt.fleming@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] recipes-devtools: Add OVMF recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,19 +50,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 18:58:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Aug 2014 19:05:38 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 12 August 2014 18:40, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> Is there an alternative to manually patching all of these packages to get
-> them to compile once more?
+On Tue, 12 Aug, at 05:51:38PM, Martin Jansa wrote:
+> 
+> I don't think we have iasl in oe-core.
+ 
+Oops, my bad. I thought I'd checked that but turns out I was looking in
+the wrong tree.
 
-Depends on the package, but generally you'll need to update the
-automake macro at the top of configure.ac (and submit a patch upstream
-as this should have been fixed years ago).
+I'll include the iasl recipe with the next submission.
 
-Encouraging said upstreams to use autoreconf instead of (likely)
-home-grown crazy would be a good move whilst you're talking to them.
+> Also the styleguide says you should use space around = (SRCREV, DEPENDS,
+> COMPATIBLE_HOST, BUILD_OPTIMIZATION, GCC_VER)
+ 
+Thanks, I'll update the patch.
 
-Ross
+> > +# OVMF has trouble building with the default optimization of -O2.
+> > +BUILD_OPTIMIZATION="-pipe"
+> > +
+> > +# OVMF supports IA only, although it could conceivably support ARM someday.
+> > +COMPATIBLE_HOST='(i.86|x86_64).*'
+> > +
+> > +do_patch_append() {
+> > +    bb.build.exec_func('do_fix_iasl', d)
+> > +    bb.build.exec_func('do_fix_toolchain', d)
+> 
+> Why don't you fix them in do_configure_prepend?
+
+What's the tradeoff?
+
+Though I realise that we're not actually *patching* anything and so
+do_configure_prepend() probably does make more semantic sense.
+
+Ah, after a bit of grepping I see that it's a pretty common pattern. OK,
+sure, I'll update this.
+
+Thanks for the review.
+
+-- 
+Matt Fleming, Intel Open Source Technology Center
 
