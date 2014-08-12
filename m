@@ -1,26 +1,26 @@
 Return-Path: <tom.zanussi@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 73DCA65E14
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 67F8F65DB3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 01:35:44 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 11 Aug 2014 18:35:46 -0700
+	Tue, 12 Aug 2014 01:35:43 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 11 Aug 2014 18:35:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,846,1400050800"; d="scan'208";a="586753772"
+X-IronPort-AV: E=Sophos;i="5.01,846,1400050800"; d="scan'208";a="583487602"
 Received: from mmckenna-mobl2.ger.corp.intel.com (HELO localhost)
 	([10.255.12.45])
-	by orsmga002.jf.intel.com with ESMTP; 11 Aug 2014 18:35:45 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 11 Aug 2014 18:35:43 -0700
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Aug 2014 20:35:37 -0500
-Message-Id: <d32ac08b42a7030f7545cae5491ee217d0396392.1407806939.git.tom.zanussi@linux.intel.com>
+Date: Mon, 11 Aug 2014 20:35:36 -0500
+Message-Id: <e646c60804ff223f54de4fb08353ec33cc573d6c.1407806939.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <e3fcfa6ac6fbbcf83a82a3e7a730f87626aea615.1407806939.git.tom.zanussi@linux.intel.com>
 References: <e3fcfa6ac6fbbcf83a82a3e7a730f87626aea615.1407806939.git.tom.zanussi@linux.intel.com>
 In-Reply-To: <cover.1407806939.git.tom.zanussi@linux.intel.com>
 References: <cover.1407806939.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 3/7] wic: Add sourceparam param to partition plugin methods
+Subject: [PATCH 2/7] wic: Add utility function for parsing sourceparams
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,157 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 01:35:44 -0000
+X-List-Received-Date: Tue, 12 Aug 2014 01:35:46 -0000
 
-The sourceparam param allows source plugins to be parameterized
-generically (via --sourceparams="key=val[,key=val], implemented
-previously).
+Parses strings of the form key1=val1[,key2=val2,...] and returns a
+dict.  Also accepts valueless keys i.e. without =.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 ---
- scripts/lib/wic/kickstart/custom_commands/partition.py |  6 +++---
- scripts/lib/wic/pluginbase.py                          | 15 +++++++++------
- scripts/lib/wic/plugins/source/bootimg-efi.py          | 10 ++++++----
- scripts/lib/wic/plugins/source/bootimg-pcbios.py       | 10 ++++++----
- scripts/lib/wic/plugins/source/rootfs.py               |  5 +++--
- 5 files changed, 27 insertions(+), 19 deletions(-)
+ scripts/lib/wic/utils/oe/misc.py | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
-index 3920adb..76cf7a9 100644
---- a/scripts/lib/wic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
-@@ -143,16 +143,16 @@ class Wic_PartData(Mic_PartData):
-             msger.error("The '%s' --source specified for %s doesn't exist.\n\tSee 'wic list source-plugins' for a list of available --sources.\n\tSee 'wic help source-plugins' for details on adding a new source plugin." % (self.source, self.mountpoint))
- 
-         self._source_methods = pluginmgr.get_source_plugin_methods(self.source, partition_methods)
--        self._source_methods["do_configure_partition"](self, cr, cr_workdir,
-+        self._source_methods["do_configure_partition"](self, None, cr, cr_workdir,
-                                                        oe_builddir,
-                                                        bootimg_dir,
-                                                        kernel_dir,
-                                                        native_sysroot)
--        self._source_methods["do_stage_partition"](self, cr, cr_workdir,
-+        self._source_methods["do_stage_partition"](self, None, cr, cr_workdir,
-                                                    oe_builddir,
-                                                    bootimg_dir, kernel_dir,
-                                                    native_sysroot)
--        self._source_methods["do_prepare_partition"](self, cr, cr_workdir,
-+        self._source_methods["do_prepare_partition"](self, None, cr, cr_workdir,
-                                                      oe_builddir,
-                                                      bootimg_dir, kernel_dir, rootfs_dir,
-                                                      native_sysroot)
-diff --git a/scripts/lib/wic/pluginbase.py b/scripts/lib/wic/pluginbase.py
-index 06f318f..b8b3a46 100644
---- a/scripts/lib/wic/pluginbase.py
-+++ b/scripts/lib/wic/pluginbase.py
-@@ -64,8 +64,9 @@ class SourcePlugin(_Plugin):
-         msger.debug("SourcePlugin: do_install_disk: disk: %s" % disk_name)
- 
-     @classmethod
--    def do_stage_partition(self, part, cr, workdir, oe_builddir, bootimg_dir,
--                           kernel_dir, native_sysroot):
-+    def do_stage_partition(self, part, source_params, cr, cr_workdir,
-+                           oe_builddir, bootimg_dir, kernel_dir,
-+                           native_sysroot):
-         """
-         Special content staging hook called before do_prepare_partition(),
-         normally empty.
-@@ -80,8 +81,9 @@ class SourcePlugin(_Plugin):
-         msger.debug("SourcePlugin: do_stage_partition: part: %s" % part)
- 
-     @classmethod
--    def do_configure_partition(self, part, cr, cr_workdir, oe_builddir,
--                               bootimg_dir, kernel_dir, native_sysroot):
-+    def do_configure_partition(self, part, source_params, cr, cr_workdir,
-+                               oe_builddir, bootimg_dir, kernel_dir,
-+                               native_sysroot):
-         """
-         Called before do_prepare_partition(), typically used to create
-         custom configuration files for a partition, for example
-@@ -90,8 +92,9 @@ class SourcePlugin(_Plugin):
-         msger.debug("SourcePlugin: do_configure_partition: part: %s" % part)
- 
-     @classmethod
--    def do_prepare_partition(self, part, cr, cr_workdir, oe_builddir, bootimg_dir,
--                             kernel_dir, rootfs_dir, native_sysroot):
-+    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
-+                             oe_builddir, bootimg_dir, kernel_dir, rootfs_dir,
-+                             native_sysroot):
-         """
-         Called to do the actual content population for a partition i.e. it
-         'prepares' the partition to be incorporated into the image.
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 53f1782..ea94fd2 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -42,8 +42,9 @@ class BootimgEFIPlugin(SourcePlugin):
-     name = 'bootimg-efi'
- 
-     @classmethod
--    def do_configure_partition(self, part, cr, cr_workdir, oe_builddir,
--                               bootimg_dir, kernel_dir, native_sysroot):
-+    def do_configure_partition(self, source_params, part, cr, cr_workdir,
-+                               oe_builddir, bootimg_dir, kernel_dir,
-+                               native_sysroot):
-         """
-         Called before do_prepare_partition(), creates grubefi config
-         """
-@@ -92,8 +93,9 @@ class BootimgEFIPlugin(SourcePlugin):
-         cfg.close()
- 
-     @classmethod
--    def do_prepare_partition(self, part, cr, cr_workdir, oe_builddir, bootimg_dir,
--                             kernel_dir, rootfs_dir, native_sysroot):
-+    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
-+                             oe_builddir, bootimg_dir, kernel_dir,
-+                             rootfs_dir, native_sysroot):
-         """
-         Called to do the actual content population for a partition i.e. it
-         'prepares' the partition to be incorporated into the image.
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index bd2225e..aceed20 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -65,8 +65,9 @@ class BootimgPcbiosPlugin(SourcePlugin):
-             raise ImageError("Unable to set MBR to %s" % full_path)
- 
-     @classmethod
--    def do_configure_partition(self, part, cr, cr_workdir, oe_builddir,
--                               bootimg_dir, kernel_dir, native_sysroot):
-+    def do_configure_partition(self, part, source_params, cr, cr_workdir,
-+                               oe_builddir, bootimg_dir, kernel_dir,
-+                               native_sysroot):
-         """
-         Called before do_prepare_partition(), creates syslinux config
-         """
-@@ -118,8 +119,9 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         cfg.close()
- 
-     @classmethod
--    def do_prepare_partition(self, part, cr, cr_workdir, oe_builddir, bootimg_dir,
--                             kernel_dir, rootfs_dir, native_sysroot):
-+    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
-+                             oe_builddir, bootimg_dir, kernel_dir,
-+                             rootfs_dir, native_sysroot):
-         """
-         Called to do the actual content population for a partition i.e. it
-         'prepares' the partition to be incorporated into the image.
-diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index 919e97e..a432a18 100644
---- a/scripts/lib/wic/plugins/source/rootfs.py
-+++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -62,8 +62,9 @@ class RootfsPlugin(SourcePlugin):
-         return image_rootfs_dir
- 
-     @classmethod
--    def do_prepare_partition(self, part, cr, cr_workdir, oe_builddir, bootimg_dir,
--                             kernel_dir, krootfs_dir, native_sysroot):
-+    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
-+                             oe_builddir, bootimg_dir, kernel_dir,
-+                             krootfs_dir, native_sysroot):
-         """
-         Called to do the actual content population for a partition i.e. it
-         'prepares' the partition to be incorporated into the image.
+diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
+index 87e3041..aa9b235 100644
+--- a/scripts/lib/wic/utils/oe/misc.py
++++ b/scripts/lib/wic/utils/oe/misc.py
+@@ -179,3 +179,26 @@ def get_bitbake_var(key):
+             val = get_line_val(line, key)
+             return val
+     return None
++
++def parse_sourceparams(sourceparams):
++    """
++    Split sourceparams string of the form key1=val1[,key2=val2,...]
++    into a dict.  Also accepts valueless keys i.e. without =.
++
++    Returns dict of param key/val pairs (note that val may be None).
++    """
++    params_dict = {}
++
++    params = sourceparams.split(',')
++    if params:
++        for p in params:
++            if not p:
++                continue
++            if not '=' in p:
++                key = p
++                val = None
++            else:
++                key, val = p.split('=')
++            params_dict[key] = val
++
++    return params_dict
 -- 
 1.8.3.1
 
