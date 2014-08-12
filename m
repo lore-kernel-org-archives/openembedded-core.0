@@ -1,37 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 4772565D57
+Return-Path: <Li.Wang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 49F7465DB1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 08:48:53 +0000 (UTC)
-Received: by mail-qc0-f174.google.com with SMTP id l6so2563472qcy.5
+	Tue, 12 Aug 2014 09:03:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7C93lxk000542
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 01:48:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=n6cLbcrFFPLGt99MDlFJihQyl8SO9md1kPDxs9VYoEM=;
-	b=IvixQN9fFOegcfBtZniJs9yNIFx5xhLWaww1/NbW0xhzcA8mc9QOSJOqtQRJ17SbVy
-	hrMCK4LzDlVf1JgFl4jfJ3l9aup0yvRkU+G/ItGeVzmQMKbM90j3yHx2rrLnjgnAIlKJ
-	dg+/KIdK4FX0FS+V9rBWUs9FLtKLT0pkstPfHfWInIsbwP178VdwFbGL+tJEkrxzsKbw
-	9vLBq6lt0YdZkDx3+j9bHXqXW9m11cvmuhgJK6E56/MYtDoQRve2idcwHdxp0fzWzjLU
-	l50WVY8ZT0WY/CqbKT5ox5qItpkJexhD0SlI+AD7lUX1N9QsZHzuv3P/9zJYmt7nBEEK
-	S8vQ==
-X-Gm-Message-State: ALoCoQkm1PoB9bvurT156g0BONGi1lzmVYQY2ZVR3miyAcyv5NcJwpzKTbGaLLDTfyP5anrYa5vu
-X-Received: by 10.224.44.14 with SMTP id y14mr4220983qae.34.1407833335049;
-	Tue, 12 Aug 2014 01:48:55 -0700 (PDT)
+	Tue, 12 Aug 2014 02:03:47 -0700 (PDT)
+Received: from lwang1-OptiPlex-9010.corp.ad.wrs.com (128.224.162.134) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 12 Aug 2014 02:03:47 -0700
+From: Li Wang <li.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Aug 2014 17:03:44 +0800
+Message-ID: <1407834224-11238-1-git-send-email-li.wang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <CAJTo0La8yDW0iDcmWwOEhMG6AVgnRhWqL3ijkAy7ugBUpds3dA@mail.gmail.com>
+References: <CAJTo0La8yDW0iDcmWwOEhMG6AVgnRhWqL3ijkAy7ugBUpds3dA@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.140.95.235 with HTTP; Tue, 12 Aug 2014 01:48:34 -0700 (PDT)
-In-Reply-To: <1407828058-9939-1-git-send-email-li.wang@windriver.com>
-References: <1407824758-9261-1-git-send-email-li.wang@windriver.com>
-	<1407828058-9939-1-git-send-email-li.wang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Aug 2014 09:48:34 +0100
-Message-ID: <CAJTo0La8yDW0iDcmWwOEhMG6AVgnRhWqL3ijkAy7ugBUpds3dA@mail.gmail.com>
-To: Li Wang <li.wang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rpcbind: add option to fix port number
+Subject: [PATCH] rpcbind: add option to fix port number
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,14 +33,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 08:49:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Aug 2014 09:03:47 -0000
+Content-Type: text/plain
 
-On 12 August 2014 08:20, Li Wang <li.wang@windriver.com> wrote:
-> ++      } else
-> +       xprt = svc_tli_create(fd, 0, (struct t_bind *) 0, 0, 0);
+fix a random port to offer customer an option for select.
 
-*Please* don't do that, match bracket style instead.
+Signed-off-by: Li Wang <li.wang@windriver.com>
+---
+ .../rpcbind_add_option_to_fix_port_number.patch    |   97 ++++++++++++++++++++
+ meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb     |    1 +
+ 2 files changed, 98 insertions(+)
+ create mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
 
-Ross
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch b/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
+new file mode 100644
+index 0000000..31adb07
+--- /dev/null
++++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
+@@ -0,0 +1,97 @@
++rpcbind: add option to fix port number
++
++fix a random port to offer customer an option for select.
++
++Upstream-Status: Pending
++Signed-off-by: Li Wang <li.wang@windriver.com>
++---
++ src/rpcb_svc_com.c |   20 +++++++++++++++++++-
++ src/rpcbind.c      |    6 +++++-
++ 2 files changed, 24 insertions(+), 2 deletions(-)
++
++diff --git a/src/rpcb_svc_com.c b/src/rpcb_svc_com.c
++index f6bd6bd..866a0e0 100644
++--- a/src/rpcb_svc_com.c
+++++ b/src/rpcb_svc_com.c
++@@ -48,6 +48,7 @@
++ #include <rpc/rpc.h>
++ #include <rpc/rpcb_prot.h>
++ #include <rpc/svc_dg.h>
+++#include <rpc/rpc_com.h>
++ #include <netconfig.h>
++ #include <errno.h>
++ #include <syslog.h>
++@@ -496,6 +497,7 @@ xdr_opaque_parms(XDR *xdrs, struct r_rmtcall_args *cap)
++ 
++ static struct rmtcallfd_list *rmthead;
++ static struct rmtcallfd_list *rmttail;
+++extern unsigned short random_port;
++ 
++ int
++ create_rmtcall_fd(struct netconfig *nconf)
++@@ -503,6 +505,8 @@ create_rmtcall_fd(struct netconfig *nconf)
++ 	int fd;
++ 	struct rmtcallfd_list *rmt;
++ 	SVCXPRT *xprt;
+++	struct __rpc_sockinfo si;
+++	struct t_bind taddr;
++ 
++ 	if ((fd = __rpc_nconf2fd(nconf)) == -1) {
++ 		if (debugging)
++@@ -511,7 +515,21 @@ create_rmtcall_fd(struct netconfig *nconf)
++ 			nconf->nc_device, errno);
++ 		return (-1);
++ 	}
++-	xprt = svc_tli_create(fd, 0, (struct t_bind *) 0, 0, 0);
+++
+++	if (random_port) {
+++		__rpc_fd2sockinfo(fd, &si);
+++		memset(&taddr, 0, sizeof(taddr));
+++		taddr.addr.maxlen = taddr.addr.len = si.si_alen;
+++		taddr.addr.buf = malloc(si.si_alen);
+++		if (taddr.addr.buf == NULL) {
+++			return -1;
+++		}
+++		*(unsigned short *)(&(taddr.addr.buf[0])) = si.si_af;
+++		*(unsigned short *)(&(taddr.addr.buf[2])) = htons(random_port);
+++		xprt = svc_tli_create(fd, nconf, &taddr, RPC_MAXDATASIZE, RPC_MAXDATASIZE);
+++	} else {
+++		xprt = svc_tli_create(fd, 0, (struct t_bind *) 0, 0, 0);
+++	}
++ 	if (xprt == NULL) {
++ 		if (debugging)
++ 			fprintf(stderr,
++diff --git a/src/rpcbind.c b/src/rpcbind.c
++index 83dbe93..e82cf45 100644
++--- a/src/rpcbind.c
+++++ b/src/rpcbind.c
++@@ -99,6 +99,7 @@ int runasdaemon = 0;
++ int insecure = 0;
++ int oldstyle_local = 0;
++ int verboselog = 0;
+++unsigned short random_port = 0;
++ 
++ char **hosts = NULL;
++ int nhosts = 0;
++@@ -748,7 +749,7 @@ parseargs(int argc, char *argv[])
++ {
++ 	int c;
++ 	oldstyle_local = 1;
++-	while ((c = getopt(argc, argv, "adh:ilswf")) != -1) {
+++	while ((c = getopt(argc, argv, "adh:p:ilswf")) != -1) {
++ 		switch (c) {
++ 		case 'a':
++ 			doabort = 1;	/* when debugging, do an abort on */
++@@ -766,6 +767,9 @@ parseargs(int argc, char *argv[])
++ 			if (hosts[nhosts - 1] == NULL)
++ 				errx(1, "Out of memory");
++ 			break;
+++		case 'p':
+++			random_port = atoi(optarg);
+++			break;
++ 		case 'i':
++ 			insecure = 1;
++ 			break;
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb
+index 89e567b..65351d0 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb
+@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b46486e4c4a416602693a711bb5bfa39 \
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
+            file://0001-rpcbind-rpcuser-not-being-set-in-Makefile.am.patch \
++           file://rpcbind_add_option_to_fix_port_number.patch \
+            file://init.d \
+            ${UCLIBCPATCHES} \
+            file://rpcbind.conf \
+-- 
+1.7.9.5
+
 
