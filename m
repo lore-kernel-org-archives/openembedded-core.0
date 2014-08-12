@@ -1,26 +1,42 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2740060DF7
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 0604E609C0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 11:10:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7CBAJh3017915
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 12 Aug 2014 11:24:52 +0000 (UTC)
+Received: by mail-wi0-f172.google.com with SMTP id n3so5674624wiv.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 04:10:19 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 12 Aug 2014 04:10:19 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Aug 2014 04:10:19 -0700
-Message-ID: <cf27f471a5feb7deaaa24694028d7b4dc34fea02.1407836032.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1407836032.git.liezhi.yang@windriver.com>
-References: <cover.1407836032.git.liezhi.yang@windriver.com>
+	Tue, 12 Aug 2014 04:24:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=aoT8HnoPQZ/d7GS6J0RDIpZXDPRsrmnCah7Nzb39eos=;
+	b=Q9b8kpAWCcNf9RSglRWcfWbDvc6EWrY6Z7SldA4qqtj5d5yKKMRmQ3kpS5Ow0lMW5c
+	SxbijixKU3s4/kdRd7k4ctHtqj8lLVerfJ6Fsdwqgvexdvn/6jodVfF3IlxRwlCw+MZB
+	mDg37Ttpbt8tI6mOXPcyI8pDCotLElzqO0DQKtZvrdkvbE8knCv51QMph5CPN2SiriS3
+	q7AijBchBxnjVRCjvUVG9TygPgG0VyWoGDrNBJXONq28EzPXk/g6IBG/U4ffVPy2cDoN
+	KulrtbVEaLcEYLmuRcSl8cJhlFY7gLzs86QJZCESYWsz6Y7KAWqyC1CPlshm/AHQwbxf
+	lVtQ==
+X-Received: by 10.180.103.74 with SMTP id fu10mr32371818wib.47.1407842693588; 
+	Tue, 12 Aug 2014 04:24:53 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	u7sm55208802wif.3.2014.08.12.04.24.52 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Aug 2014 04:24:52 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 12 Aug 2014 13:25:28 +0200
+To: Sujith H <sujith.h@gmail.com>
+Message-ID: <20140812112528.GE14848@jama>
+References: <1407834260-22021-1-git-send-email-sujith.h@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] perf.bb: fix multilib build
+In-Reply-To: <1407834260-22021-1-git-send-email-sujith.h@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Sujith H <Sujith_Haridasan@mentor.com>,
+	Christopher Larson <chris_larson@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pyparted: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,68 +49,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 11:10:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 Aug 2014 11:25:00 -0000
+X-Groupsio-MsgNum: 56347
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="jL3CgPauyjmRqeXN"
+Content-Disposition: inline
 
-Fixed:
-$ bitbake perf lib32-perf
-ERROR: QA Issue: lib32-perf: Files/directories were installed but not shipped
-  /usr/lib64
-  /usr/lib64/traceevent
-  /usr/lib64/traceevent/plugins
-  /usr/lib64/traceevent/plugins/plugin_function.so
-  /usr/lib64/traceevent/plugins/plugin_scsi.so
-  /usr/lib64/traceevent/plugins/plugin_hrtimer.so
-  /usr/lib64/traceevent/plugins/plugin_kmem.so
-  /usr/lib64/traceevent/plugins/plugin_jbd2.so
-  /usr/lib64/traceevent/plugins/plugin_xen.so
-  /usr/lib64/traceevent/plugins/plugin_mac80211.so
-  /usr/lib64/traceevent/plugins/plugin_cfg80211.so
-  /usr/lib64/traceevent/plugins/plugin_sched_switch.so
-  /usr/lib64/traceevent/plugins/plugin_kvm.so [installed-vs-shipped]
+--jL3CgPauyjmRqeXN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The perf.do_configure edits kernel's
-${STAGING_KERNEL_DIR}/tools/perf/config/Makefile, there would be
-problems since kernel doesn't have multilib, and the build result is
-undetermined.
+On Tue, Aug 12, 2014 at 02:34:20PM +0530, Sujith H wrote:
+> From: Sujith H <Sujith_Haridasan@mentor.com>
+>=20
+> This recipe will provide a set of Python modules that
+> provide Python programmers an interface to libparted,
+> the GNU parted library for disk partitioning and filesystem
+> manipulation.
 
-Previously, the sed command changed libdir to /usr/lib64 (or 32) in the
-Makefile, so the build result was different if we build perf (64) first
-or lib32-perf first.
-
-Use the weak assignment "libdir ?=" to instead of "libdir =" will fix
-the problem since the multilib builds are in different processes, and
-they won't affect each other any more.
-
-The sed command will match both $(prefix)/$(lib) and $(prefix)/lib since
-the Makefile may has been modified before this patch.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-kernel/perf/perf.bb |    8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index bfd210c..ebfedb9 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -121,10 +121,12 @@ do_configure_prepend () {
-     # detected by perf, since it triggers via: ifeq ($(ARCH),x86_64). In a 32 bit
-     # build, with a 64 bit multilib, the arch won't match and the detection of a 
-     # 64 bit build (and library) are not exected. To ensure that libraries are
--    # installed to the correct location, we can make the substitution in the 
--    # config/Makefile. For non multilib builds, this has no impact.
-+    # installed to the correct location, we can use the weak assignment in the
-+    # config/Makefile.
-     if [ -e "${S}/tools/perf/config/Makefile" ]; then
--        sed -i 's,libdir = $(prefix)/$(lib),libdir = $(prefix)/${baselib},' ${S}/tools/perf/config/Makefile
-+        # Match $(prefix)/$(lib) and $(prefix)/lib
-+        sed -i 's,^libdir = \($(prefix)/.*lib\),libdir ?= \1,' \
-+            ${S}/tools/perf/config/Makefile
-     fi
-     # We need to ensure the --sysroot option in CC is preserved
-     if [ -e "${S}/tools/perf/Makefile.perf" ]; then
--- 
-1.7.9.5
+Why not add it to meta-python?
 
 
+>=20
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
+> ---
+>  meta/recipes-extended/pyparted/pyparted_3.9.bb | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>  create mode 100644 meta/recipes-extended/pyparted/pyparted_3.9.bb
+>=20
+> diff --git a/meta/recipes-extended/pyparted/pyparted_3.9.bb b/meta/recipe=
+s-extended/pyparted/pyparted_3.9.bb
+> new file mode 100644
+> index 0000000..7b284cc
+> --- /dev/null
+> +++ b/meta/recipes-extended/pyparted/pyparted_3.9.bb
+> @@ -0,0 +1,21 @@
+> +DESCRIPTION =3D "pyparted is a set of Python modules that provide Python=
+ programmers \
+> +an interface to libparted, the GNU parted library for disk partitioning =
+and \
+> +filesystem manipulation."
+> +SUMMARY =3D "Python bindings for libparted"
+> +HOMEPAGE =3D "https://fedorahosted.org/pyparted/"
+> +SCM_URI =3D "git://git.fedorahosted.org/pyparted.git"
+> +LICENSE =3D "GPL-2.0+"
+> +LIC_FILES_CHKSUM =3D "\
+> +    file://COPYING;md5=3D8ca43cbc842c2336e835926c2166c28b \
+> +    file://src/_pedmodule.c;startline=3D10;endline=3D22;md5=3D70c62bd737=
+82a03f56a0571a9f08ea46 \
+> +"
+> +DEPENDS +=3D "parted"
+> +PR =3D "r0"
+^ drop
+> +
+> +SRC_URI =3D "https://fedorahosted.org/releases/p/y/pyparted/pyparted-${P=
+V}.tar.gz"
+> +SRC_URI[md5sum] =3D "f16c7ef7f5fa4a43fcb2a4654b487e39"
+> +SRC_URI[sha256sum] =3D "a56712e3d058ce3d859c158236dbbf45224018919efd3d88=
+0ea80f9e0d0bebbb"
+> +
+> +inherit distutils
+> +
+> +BBCLASSEXTEND +=3D "native"
+> --=20
+> 1.8.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--jL3CgPauyjmRqeXN
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPp+agACgkQN1Ujt2V2gBxf2ACfed0oa3a3gtt5sIrQD0amqZKQ
+iFMAoLBBNa/o8TanW7STNtjT45A//aRb
+=jyMQ
+-----END PGP SIGNATURE-----
+
+--jL3CgPauyjmRqeXN--
