@@ -1,37 +1,40 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
-	[209.85.216.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 22D4F70C5D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 08F0D65E2B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 13:25:14 +0000 (UTC)
-Received: by mail-qa0-f44.google.com with SMTP id f12so8852220qad.17
+	Tue, 12 Aug 2014 14:05:24 +0000 (UTC)
+Received: by mail-wg0-f43.google.com with SMTP id l18so9825891wgh.26
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 06:25:13 -0700 (PDT)
+	Tue, 12 Aug 2014 07:05:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=uOs0iFKUJYLTxYcIWSbsB6XYUCh3UB9PLqb3IlLyh/8=;
-	b=apcO9L+UETjKD/CM/IcWcQ+IZBHQTgoZcTI+VvUhXw585H33NqO2i6YM3IvyMfMFLt
-	/p5GtsNAwhJ89vWq9epGgK8VcowZ8r/i3Uhdb+gfjFs2EmWpHb2kVBSUS3YFGhlyRKks
-	Jh1DsZOMY0rws48VAzM0k7WLnHDvMwW0JPhE5OWkjf9SaqxTOaJyn0pGVd7LYxZ280Jf
-	BI/hpmC0+0PJkDwB1Rx/yQzMohY1peviVLGp4pJFov/W5i3YnIXX43Z0k1g3eVXoUCPy
-	Zo9EjLc89V1CVSMD9Ulo5AIi9eGyYPhMFcxRWwwCC5wpeh+GF4VF5TJbia4LBLO1PP/d
-	7V4A==
-X-Received: by 10.140.51.37 with SMTP id t34mr6374408qga.50.1407849913449;
-	Tue, 12 Aug 2014 06:25:13 -0700 (PDT)
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=HjpPYsXL2sbk7XN3CHMXey7BpYoQyZVX3O2r0MjuLWU=;
+	b=L1cEqX81u8996AIJkrf4z6SQcbySUMI12l+lsIw7nSLuPxLe3xEH7H1DJSrDlBSJPv
+	N+HxTxDrBP/T6eoJoM98H82zrOx8FXGBLtH1RlIDOTWsPBX7pKFTDA54Mz57ZHHXOBq9
+	d0JvTLtUHJZz27BklPTaCCdy0VCyRXAutwfNfsQTBcERN/MR2Fqb0lsurmps0tqRff1a
+	s/vr+c1UUpvRrtaOeTa5D/zW7+tBB/JQwydMXxoXC31E8R69166d5H3WO/a/EWSZCsvk
+	u0Riw0WVKWgLFOgPDK9/7BVZgcEy2g1Onqg2wNm/AjkvHc+JxwoKBZn71l69YGNQqww4
+	hdoA==
+X-Received: by 10.194.91.228 with SMTP id ch4mr5443575wjb.59.1407852325599;
+	Tue, 12 Aug 2014 07:05:25 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	bx2sm9453185wjb.47.2014.08.12.07.05.24 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Aug 2014 07:05:24 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 12 Aug 2014 16:06:00 +0200
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Message-ID: <20140812140600.GM14848@jama>
+References: <1406667922-15716-1-git-send-email-dv@pseudoterminal.org>
+	<1406667922-15716-7-git-send-email-dv@pseudoterminal.org>
 MIME-Version: 1.0
-Received: by 10.140.41.148 with HTTP; Tue, 12 Aug 2014 06:24:53 -0700 (PDT)
-In-Reply-To: <20140812112528.GE14848@jama>
-References: <1407834260-22021-1-git-send-email-sujith.h@gmail.com>
-	<20140812112528.GE14848@jama>
-From: sujith h <sujith.h@gmail.com>
-Date: Tue, 12 Aug 2014 18:54:53 +0530
-Message-ID: <CADyYWL=JLhLhYd1KhhRKi+mDDd0aDnrTx1oNiwQX5+1XbJ_rvA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Sujith H <Sujith_Haridasan@mentor.com>,
-	Christopher Larson <chris_larson@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pyparted: Add recipe
+In-Reply-To: <1406667922-15716-7-git-send-email-dv@pseudoterminal.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 7/7] gstreamer1.0-omx: upgrade to 1.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,207 +47,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 13:25:18 -0000
-Content-Type: multipart/alternative; boundary=001a11351a5afd29e105006e9946
+X-List-Received-Date: Tue, 12 Aug 2014 14:05:32 -0000
+X-Groupsio-MsgNum: 56356
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="VpRFFy90J6DTn7yH"
+Content-Disposition: inline
 
---001a11351a5afd29e105006e9946
-Content-Type: text/plain; charset=UTF-8
+--VpRFFy90J6DTn7yH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 12, 2014 at 4:55 PM, Martin Jansa <martin.jansa@gmail.com>
-wrote:
+On Tue, Jul 29, 2014 at 11:05:22PM +0200, Carlos Rafael Giani wrote:
+> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+> ---
+>  .../{gstreamer1.0-omx_1.0.0.bb =3D> gstreamer1.0-omx_1.2.0.bb}          =
+| 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.0.0.bb =3D>=
+ gstreamer1.0-omx_1.2.0.bb} (69%)
 
-> On Tue, Aug 12, 2014 at 02:34:20PM +0530, Sujith H wrote:
-> > From: Sujith H <Sujith_Haridasan@mentor.com>
-> >
-> > This recipe will provide a set of Python modules that
-> > provide Python programmers an interface to libparted,
-> > the GNU parted library for disk partitioning and filesystem
-> > manipulation.
->
-> Why not add it to meta-python?
->
->
-Sure. Sending the patch to meta-python for review.
+would you mind fixing these floating deps?
 
->
-> >
-> > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> > Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
-> > ---
-> >  meta/recipes-extended/pyparted/pyparted_3.9.bb | 21
-> +++++++++++++++++++++
-> >  1 file changed, 21 insertions(+)
-> >  create mode 100644 meta/recipes-extended/pyparted/pyparted_3.9.bb
-> >
-> > diff --git a/meta/recipes-extended/pyparted/pyparted_3.9.bb
-> b/meta/recipes-extended/pyparted/pyparted_3.9.bb
-> > new file mode 100644
-> > index 0000000..7b284cc
-> > --- /dev/null
-> > +++ b/meta/recipes-extended/pyparted/pyparted_3.9.bb
-> > @@ -0,0 +1,21 @@
-> > +DESCRIPTION =3D "pyparted is a set of Python modules that provide Pyth=
-on
-> programmers \
-> > +an interface to libparted, the GNU parted library for disk partitionin=
-g
-> and \
-> > +filesystem manipulation."
-> > +SUMMARY =3D "Python bindings for libparted"
-> > +HOMEPAGE =3D "https://fedorahosted.org/pyparted/"
-> > +SCM_URI =3D "git://git.fedorahosted.org/pyparted.git"
-> > +LICENSE =3D "GPL-2.0+"
-> > +LIC_FILES_CHKSUM =3D "\
-> > +    file://COPYING;md5=3D8ca43cbc842c2336e835926c2166c28b \
-> > +
->  file://src/_pedmodule.c;startline=3D10;endline=3D22;md5=3D70c62bd73782a0=
-3f56a0571a9f08ea46
-> \
-> > +"
-> > +DEPENDS +=3D "parted"
-> > +PR =3D "r0"
-> ^ drop
-> > +
-> > +SRC_URI =3D "
-> https://fedorahosted.org/releases/p/y/pyparted/pyparted-${PV}.tar.gz"
-> > +SRC_URI[md5sum] =3D "f16c7ef7f5fa4a43fcb2a4654b487e39"
-> > +SRC_URI[sha256sum] =3D
-> "a56712e3d058ce3d859c158236dbbf45224018919efd3d880ea80f9e0d0bebbb"
-> > +
-> > +inherit distutils
-> > +
-> > +BBCLASSEXTEND +=3D "native"
-> > --
-> > 1.8.4
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->
+gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libegl-mesa, but it is=
+n't a build dependency? [build-deps]
+gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libudev, but it isn't =
+a build dependency? [build-deps]
+gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on wayland, but it isn't =
+a build dependency? [build-deps]
+gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libgstgl-1.0, but it i=
+sn't a build dependency? [build-deps]
+gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libxdamage, but it isn=
+'t a build dependency? [build-deps]
+gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libgbm, but it isn't a=
+ build dependency? [build-deps]
+gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libwayland-egl, but it=
+ isn't a build dependency? [build-deps]
+gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libdrm, but it isn't a=
+ build dependency? [build-deps]
+gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libxfixes, but it isn'=
+t a build dependency? [build-deps]
+gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libgl-mesa, but it isn=
+'t a build dependency? [build-deps]
+gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libglu, but it isn't a=
+ build dependency? [build-deps]
+gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libglapi, but it isn't=
+ a build dependency? [build-deps]
+gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libxxf86vm, but it isn=
+'t a build dependency? [build-deps]
 
-
+>=20
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.0.0.bb =
+b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.2.0.bb
+> similarity index 69%
+> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.0.0.bb
+> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.2.0.bb
+> index f5956c6..fe7c91c 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.0.0.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.2.0.bb
+> @@ -5,8 +5,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd25=
+5951079008b364516c \
+> =20
+>  SRC_URI =3D "http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.=
+tar.xz"
+> =20
+> -SRC_URI[md5sum] =3D "bb34b5742223267298bcffc209104a92"
+> -SRC_URI[sha256sum] =3D "7a1d8d28d70dacc6bd3c7ee7d7e40df6d5a1d38d7c256d5c=
+9c5c8ef15c005014"
+> +SRC_URI[md5sum] =3D "d24e8c0153c35dfefee3e26b1c2c35f8"
+> +SRC_URI[sha256sum] =3D "0b4874961e6488ad9e5808114bd486ea981c540907262caa=
+b1419355fd82d745"
+> =20
+>  S =3D "${WORKDIR}/gst-omx-${PV}"
+> =20
+> --=20
+> 1.8.3.2
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 --=20
-=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
-=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
-Bangalore
-<Project>Contributor to KDE project
-http://fci.wikia.com/wiki/Anti-DRM-Campaign
-<Blog> http://sujithh.info
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---001a11351a5afd29e105006e9946
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--VpRFFy90J6DTn7yH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Tue, Aug 12, 2014 at 4:55 PM, Martin Jansa <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@g=
-mail.com</a>&gt;</span> wrote:<br>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"">On Tue, Aug 12, 2014 at 02:3=
-4:20PM +0530, Sujith H wrote:<br>
-&gt; From: Sujith H &lt;<a href=3D"mailto:Sujith_Haridasan@mentor.com">Suji=
-th_Haridasan@mentor.com</a>&gt;<br>
-&gt;<br>
-&gt; This recipe will provide a set of Python modules that<br>
-&gt; provide Python programmers an interface to libparted,<br>
-&gt; the GNU parted library for disk partitioning and filesystem<br>
-&gt; manipulation.<br>
-<br>
-</div>Why not add it to meta-python?<br>
-<div><div class=3D"h5"><br></div></div></blockquote><div><br></div><div>Sur=
-e. Sending the patch to meta-python for review. <br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
+iEYEARECAAYFAlPqH0gACgkQN1Ujt2V2gBx/GACfTXVYXZnMu4EvwEp4FxMJFJVX
+VgMAnjiga7cu4P+/0WpB/E3VfMEvdc0m
+=qwer
+-----END PGP SIGNATURE-----
 
-<div><div class=3D"h5">
-<br>
-&gt;<br>
-&gt; Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@m=
-entor.com">chris_larson@mentor.com</a>&gt;<br>
-&gt; Signed-off-by: Sujith H &lt;<a href=3D"mailto:Sujith_Haridasan@mentor.=
-com">Sujith_Haridasan@mentor.com</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0meta/recipes-extended/pyparted/<a href=3D"http://pyparted_3.9.bb=
-" target=3D"_blank">pyparted_3.9.bb</a> | 21 +++++++++++++++++++++<br>
-&gt; =C2=A01 file changed, 21 insertions(+)<br>
-&gt; =C2=A0create mode 100644 meta/recipes-extended/pyparted/<a href=3D"htt=
-p://pyparted_3.9.bb" target=3D"_blank">pyparted_3.9.bb</a><br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-extended/pyparted/<a href=3D"http://pyparted=
-_3.9.bb" target=3D"_blank">pyparted_3.9.bb</a> b/meta/recipes-extended/pypa=
-rted/<a href=3D"http://pyparted_3.9.bb" target=3D"_blank">pyparted_3.9.bb</=
-a><br>
-
-
-&gt; new file mode 100644<br>
-&gt; index 0000000..7b284cc<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-extended/pyparted/<a href=3D"http://pyparted_3.9.bb=
-" target=3D"_blank">pyparted_3.9.bb</a><br>
-&gt; @@ -0,0 +1,21 @@<br>
-&gt; +DESCRIPTION =3D &quot;pyparted is a set of Python modules that provid=
-e Python programmers \<br>
-&gt; +an interface to libparted, the GNU parted library for disk partitioni=
-ng and \<br>
-&gt; +filesystem manipulation.&quot;<br>
-&gt; +SUMMARY =3D &quot;Python bindings for libparted&quot;<br>
-&gt; +HOMEPAGE =3D &quot;<a href=3D"https://fedorahosted.org/pyparted/" tar=
-get=3D"_blank">https://fedorahosted.org/pyparted/</a>&quot;<br>
-&gt; +SCM_URI =3D &quot;git://<a href=3D"http://git.fedorahosted.org/pypart=
-ed.git" target=3D"_blank">git.fedorahosted.org/pyparted.git</a>&quot;<br>
-&gt; +LICENSE =3D &quot;GPL-2.0+&quot;<br>
-&gt; +LIC_FILES_CHKSUM =3D &quot;\<br>
-&gt; + =C2=A0 =C2=A0file://COPYING;md5=3D8ca43cbc842c2336e835926c2166c28b \=
-<br>
-&gt; + =C2=A0 =C2=A0file://src/_pedmodule.c;startline=3D10;endline=3D22;md5=
-=3D70c62bd73782a03f56a0571a9f08ea46 \<br>
-&gt; +&quot;<br>
-&gt; +DEPENDS +=3D &quot;parted&quot;<br>
-&gt; +PR =3D &quot;r0&quot;<br>
-</div></div>^ drop<br>
-<div class=3D"HOEnZb"><div class=3D"h5">&gt; +<br>
-&gt; +SRC_URI =3D &quot;<a href=3D"https://fedorahosted.org/releases/p/y/py=
-parted/pyparted-${PV}.tar.gz" target=3D"_blank">https://fedorahosted.org/re=
-leases/p/y/pyparted/pyparted-${PV}.tar.gz</a>&quot;<br>
-&gt; +SRC_URI[md5sum] =3D &quot;f16c7ef7f5fa4a43fcb2a4654b487e39&quot;<br>
-&gt; +SRC_URI[sha256sum] =3D &quot;a56712e3d058ce3d859c158236dbbf4522401891=
-9efd3d880ea80f9e0d0bebbb&quot;<br>
-&gt; +<br>
-&gt; +inherit distutils<br>
-&gt; +<br>
-&gt; +BBCLASSEXTEND +=3D &quot;native&quot;<br>
-&gt; --<br>
-&gt; 1.8.4<br>
-&gt;<br>
-</div></div><span class=3D"HOEnZb"><font color=3D"#888888">&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/ope=
-nembedded-core</a><br>
-<br>
---<br>
-Martin &#39;JaMa&#39; Jansa =C2=A0 =C2=A0 jabber: <a href=3D"mailto:Martin.=
-Jansa@gmail.com">Martin.Jansa@gmail.com</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br>=E0=B4=B8=
-=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=E0=B4=BF=
-=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D<br>Bangalore<br>&lt;Project&g=
-t;Contributor to KDE project<br><a href=3D"http://fci.wikia.com/wiki/Anti-D=
-RM-Campaign" target=3D"_blank">http://fci.wikia.com/wiki/Anti-DRM-Campaign<=
-/a><br>
-
-&lt;Blog&gt; <a href=3D"http://sujithh.info" target=3D"_blank">http://sujit=
-hh.info</a><br>
-</div></div>
-
---001a11351a5afd29e105006e9946--
+--VpRFFy90J6DTn7yH--
