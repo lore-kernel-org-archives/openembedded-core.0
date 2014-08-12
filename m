@@ -1,39 +1,40 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 502FC60EFA
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B01760EFA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 15:46:51 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id eu11so13271169pac.31
+	Tue, 12 Aug 2014 15:47:49 +0000 (UTC)
+Received: by mail-wi0-f169.google.com with SMTP id n3so7192793wiv.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 08:46:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=nbcsxC6PiwLFVL40BiDUUHxdGOcGvG+TpHzzZZrWXBQ=;
-	b=WGpOn9dKBB2Fu1huCR9Sg3tZGSbUx27kuSKCqP9SkR+Vs+bdc9IydCYiODFNL3CyT2
-	DiW2Stmjui2X3rZWLzwmWnm9NntcOaYKlmLMmDnur4ZFrBYeiBJnntfVZ0bEOuZspafa
-	xAUtkfjScy4s/kM+4QdPoJpyG+443dIvDsr5tS6YO/VGjUQ2IACKFw8rTerM5MkOHIWo
-	zfh5flo/tkmDXbEJrtiLqpXYFqwxp5Oqik4vf5kJhZE3a4gOLHmSYdBPMBQkK+MrYWj4
-	BrJc4Vb7IYsanDTuZXRvFHtkOd+f2WX2gF6GBIFwbkAEV0GlnS+X1F+3OYDtN1ozKW6G
-	bxoA==
-X-Gm-Message-State: ALoCoQkbGp4sAmwS/MFYA0Y3UrGvfaJG6Md7UfNod0spg5WWIymmYsiqdMoIfYkiMBkn85qRfi4+
+	Tue, 12 Aug 2014 08:47:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=6qYZ0iLnimzF264jH8w+C5GPQrOjiRlnSH+b1pyrqS0=;
+	b=spe7bzEqcW12zO2zURj5iHp1LCiGgyU0ebQq39NM2WwtN7sI5qAFprXXCWdqVm/8X4
+	xVwLoc8StE9rZbKn+sJ+uXSuyGJOy2c9UWWoBNpLd3wQZRR6bofhjnB2lDZj+p5ptLLB
+	y04DytmTr/B5PJ8AD59Z2DIEixTpldwPgmXw6L1oALx8gobAS222qiJmILCQGt6wzDqn
+	+NzEBd6JMt785vKSlSX2s/YK97mjfk4oZzXD2T2tXHjBL8jhTd7TLEgqpTgTXxrYGX6j
+	4o6n65kVQaDtsZZMGW4guK1iUNS5i/VWh67QCE7k9lp7jyX8XZsJTIvFabYxkGQ41SgD
+	DXmQ==
+X-Received: by 10.194.89.106 with SMTP id bn10mr6072077wjb.121.1407858469983; 
+	Tue, 12 Aug 2014 08:47:49 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	gi5sm10048087wjd.33.2014.08.12.08.47.48 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Aug 2014 08:47:49 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 12 Aug 2014 17:48:25 +0200
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20140812154825.GQ14848@jama>
+References: <8971389.fH3VELLT3O@peggleto-mobl5.ger.corp.intel.com>
 MIME-Version: 1.0
-X-Received: by 10.70.88.39 with SMTP id bd7mr4991645pdb.68.1407858412818; Tue,
-	12 Aug 2014 08:46:52 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.70.57.136 with HTTP; Tue, 12 Aug 2014 08:46:52 -0700 (PDT)
-In-Reply-To: <CAJTo0LYEYgWqTW7mmeonf=JVbH8hXrKhtBTsy_LfSRpuVZQ_tA@mail.gmail.com>
-References: <CAOMwXhMSMY6Bxzn7Qwmz-kUnFez_LkhSU7FArsoo0rdz6ZVifw@mail.gmail.com>
-	<CAJTo0LYEYgWqTW7mmeonf=JVbH8hXrKhtBTsy_LfSRpuVZQ_tA@mail.gmail.com>
-Date: Tue, 12 Aug 2014 16:46:52 +0100
-X-Google-Sender-Auth: hNMXkBWEtnXAfYI3AieSs1KJ3Dw
-Message-ID: <CAOMwXhOxf8x7ty2M4fnBN6yEbmVPbpwWZCeR-1BsEsH=Z9dX+w@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Adding cgdb to meta
+In-Reply-To: <8971389.fH3VELLT3O@peggleto-mobl5.ger.corp.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [yocto] Automatic upgrade helper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,54 +47,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 15:47:00 -0000
-Content-Type: multipart/alternative; boundary=001a11c22bea9729890500709466
+X-List-Received-Date: Tue, 12 Aug 2014 15:47:56 -0000
+X-Groupsio-MsgNum: 56362
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="pwryyPyu+zbGuqhB"
+Content-Disposition: inline
 
---001a11c22bea9729890500709466
-Content-Type: text/plain; charset=UTF-8
-
-On Mon, Aug 11, 2014 at 1:21 PM, Burton, Ross <ross.burton@intel.com> wrote:
-
-> On 11 August 2014 12:35, Laszlo Papp <lpapp@kde.org> wrote:
-> > So, instead of different developers maintaining this in their own layer,
-> how
-> > about including it in meta?
->
-> I'd suggest sending a recipe to meta-oe.
->
-
-That layer is too big. It is nearly everything that is rejected from meta;
-ok there are some dedicated layers, like meta-networking, but it feels like
-the last resort shelter where everything can just be thrown at.
-
-I do not think it is just us who do not wanna pull it into their project.
-Never mind, it remains to be a feature in our layer, which is closed
-source, then. It is a pity, but I will move along.
-
---001a11c22bea9729890500709466
-Content-Type: text/html; charset=UTF-8
+--pwryyPyu+zbGuqhB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On M=
-on, Aug 11, 2014 at 1:21 PM, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
-t;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"">On 11 August 2014 12:35, Las=
-zlo Papp &lt;<a href=3D"mailto:lpapp@kde.org">lpapp@kde.org</a>&gt; wrote:<=
-br>
-&gt; So, instead of different developers maintaining this in their own laye=
-r, how<br>
-&gt; about including it in meta?<br>
-<br>
-</div>I&#39;d suggest sending a recipe to meta-oe.<br></blockquote><div><br=
-></div><div>That layer is too big. It is nearly everything that is rejected=
- from meta; ok there are some dedicated layers, like meta-networking, but i=
-t feels like the last resort shelter where everything can just be thrown at=
-.</div>
-<div><br></div><div>I do not think it is just us who do not wanna pull it i=
-nto their project. Never mind, it remains to be a feature in our layer, whi=
-ch is closed source, then. It is a pity, but I will move along.</div></div>
-</div></div>
+On Tue, Aug 12, 2014 at 04:19:41PM +0100, Paul Eggleton wrote:
+> Hi folks,
+>=20
+> I'd like to announce the immediate availability of the Automatic Upgrade=
+=20
+> Helper, a tool for automating the task of upgrading recipes when a new=20
+> upstream release occurs. It utilises the build system to check if a new=
+=20
+> version of the software built by a particular recipe is available, and if=
+ it=20
+> is, it will attempt to upgrade the recipe to build that new version. The=
+=20
+> outcome of the process is emailed to the maintainer of the recipe along w=
+ith a=20
+> patch to do the upgrade, so that they can send the patch to be merged (if=
+ the=20
+> build succeeded with no warnings) or develop the patch further if problem=
+s=20
+> occurred.
 
---001a11c22bea9729890500709466--
+Does it also check buildhistory output for unexpected changes in
+packaging?
+
+If it doesn't it should ask maintainer to do so manually before
+submitting the patch.
+
+> The tool is available in the following repository:
+>=20
+>   http://git.yoctoproject.org/cgit/cgit.cgi/auto-upgrade-helper/
+>=20
+> Currently it builds upon distrodata.bbclass in order to do the upstream=
+=20
+> version checking, but in future we'd like to make better use of BitBake's=
+=20
+> fetcher to do this and also move some of the additional metadata out of i=
+nc=20
+> files and into recipes as appropriate. There's probably other things we c=
+ould=20
+> do to make the tool more flexible in future as well. Feedback / contribut=
+ions=20
+> welcome.
+>=20
+> (Thanks to Laurentiu Palcu & Marius Avram who did all of the work on this=
+=20
+> tool.)
+>=20
+> Cheers,
+> Paul
+>=20
+> --=20
+>=20
+> Paul Eggleton
+> Intel Open Source Technology Centre
+> --=20
+> _______________________________________________
+> yocto mailing list
+> yocto@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/yocto
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--pwryyPyu+zbGuqhB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPqN0kACgkQN1Ujt2V2gBxW9gCfff6ngtLHeCjlNrIqnqvEUphr
+kDUAoJTHZe9wBv5+XZy5pIPMa4tyn4Kw
+=7tNd
+-----END PGP SIGNATURE-----
+
+--pwryyPyu+zbGuqhB--
