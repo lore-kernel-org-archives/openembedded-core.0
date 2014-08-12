@@ -1,36 +1,24 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 58D0065CA8
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DA9560DF7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 09:08:47 +0000 (UTC)
-Received: by mail-pd0-f175.google.com with SMTP id r10so12165594pdi.6
+	Tue, 12 Aug 2014 11:10:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7CBAJHL004245
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 02:08:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=zZb0/HRRHEia/Mj3c3/TyxND8exS6kFRg4W7H0h1ahc=;
-	b=QuaNKziVbsGbssD+5FUlBZ/BsOA3rSJX61shtU+iQiuwron+OU3X/yYURkAXQ2nmn9
-	Ua8aw6QwTFX8OaT/EwSoJSOy+vNvCkla+keefgEo528pDJA2ZPPMXWYHyF2yorCngTAj
-	WEoteXc/BPJvwTRy+8SiolvYRijR+TbwoUxaA5S4U0HjzPgrZsJnC23z4Jjfnc+jGzZJ
-	g18xpxxz4bIXOqAQMJmbvm7FIUCcfwLKYMROvh7+DMW+fIG9xPhxuV/897hkgRgzuKd3
-	SdTJS76SjJc6VYwIM6waYlOYSMpCjuOz+pHiapll/G8ERoKIKdfXSKQjvnYvAYWFEBjN
-	sycA==
-X-Received: by 10.70.36.33 with SMTP id n1mr3233379pdj.26.1407834528688;
-	Tue, 12 Aug 2014 02:08:48 -0700 (PDT)
-Received: from linux-z8xt.inp.mentorg.com ([139.181.35.34])
-	by mx.google.com with ESMTPSA id
-	do10sm21230091pdb.83.2014.08.12.02.08.46 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Aug 2014 02:08:47 -0700 (PDT)
-From: Sujith H <sujith.h@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Aug 2014 14:34:20 +0530
-Message-Id: <1407834260-22021-1-git-send-email-sujith.h@gmail.com>
-X-Mailer: git-send-email 1.8.4
-Cc: Sujith H <Sujith_Haridasan@mentor.com>,
-	Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] pyparted: Add recipe
+	Tue, 12 Aug 2014 04:10:19 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 12 Aug 2014 04:10:19 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Aug 2014 04:10:18 -0700
+Message-ID: <cover.1407836032.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 0/1] perf.bb: fix multilib build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,50 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 09:08:48 -0000
+X-List-Received-Date: Tue, 12 Aug 2014 11:10:18 -0000
+Content-Type: text/plain
 
-From: Sujith H <Sujith_Haridasan@mentor.com>
+The following changes since commit 4321c553d5ae816e566234e981a0815bba046d39:
 
-This recipe will provide a set of Python modules that
-provide Python programmers an interface to libparted,
-the GNU parted library for disk partitioning and filesystem
-manipulation.
+  SIGGEN_EXCLUDERECIPES_ABISAFE: add initscripts (2014-08-11 17:44:09 +0100)
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
----
- meta/recipes-extended/pyparted/pyparted_3.9.bb | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
- create mode 100644 meta/recipes-extended/pyparted/pyparted_3.9.bb
+are available in the git repository at:
 
-diff --git a/meta/recipes-extended/pyparted/pyparted_3.9.bb b/meta/recipes-extended/pyparted/pyparted_3.9.bb
-new file mode 100644
-index 0000000..7b284cc
---- /dev/null
-+++ b/meta/recipes-extended/pyparted/pyparted_3.9.bb
-@@ -0,0 +1,21 @@
-+DESCRIPTION = "pyparted is a set of Python modules that provide Python programmers \
-+an interface to libparted, the GNU parted library for disk partitioning and \
-+filesystem manipulation."
-+SUMMARY = "Python bindings for libparted"
-+HOMEPAGE = "https://fedorahosted.org/pyparted/"
-+SCM_URI = "git://git.fedorahosted.org/pyparted.git"
-+LICENSE = "GPL-2.0+"
-+LIC_FILES_CHKSUM = "\
-+    file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
-+    file://src/_pedmodule.c;startline=10;endline=22;md5=70c62bd73782a03f56a0571a9f08ea46 \
-+"
-+DEPENDS += "parted"
-+PR = "r0"
-+
-+SRC_URI = "https://fedorahosted.org/releases/p/y/pyparted/pyparted-${PV}.tar.gz"
-+SRC_URI[md5sum] = "f16c7ef7f5fa4a43fcb2a4654b487e39"
-+SRC_URI[sha256sum] = "a56712e3d058ce3d859c158236dbbf45224018919efd3d880ea80f9e0d0bebbb"
-+
-+inherit distutils
-+
-+BBCLASSEXTEND += "native"
+  git://git.openembedded.org/openembedded-core-contrib rbt/perf
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/perf
+
+Robert Yang (1):
+  perf.bb: fix multilib build
+
+ meta/recipes-kernel/perf/perf.bb |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
 -- 
-1.8.4
+1.7.9.5
 
 
