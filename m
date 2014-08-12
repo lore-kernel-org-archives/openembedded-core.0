@@ -1,24 +1,23 @@
-Return-Path: <max.eliaser@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A1DE65CC1
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa09-10.prod.phx3.secureserver.net
+	(p3plsmtpa09-10.prod.phx3.secureserver.net [173.201.193.239])
+	by mail.openembedded.org (Postfix) with ESMTP id CCB7165C68
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Aug 2014 22:06:39 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 11 Aug 2014 15:00:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,844,1400050800"; d="scan'208";a="557081002"
-Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.63])
-	by orsmga001.jf.intel.com with ESMTP; 11 Aug 2014 15:05:24 -0700
-From: Max Eliaser <max.eliaser@intel.com>
+	Tue, 12 Aug 2014 00:12:05 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa09-10.prod.phx3.secureserver.net with 
+	id dcC51o0061mTNtu01cC5J4; Mon, 11 Aug 2014 17:12:07 -0700
+Message-ID: <53E95BD4.5090007@pabigot.com>
+Date: Mon, 11 Aug 2014 19:12:04 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Aug 2014 15:03:06 -0700
-Message-Id: <3f592eafeda9f97c2dc4b77b35f3a6c51379045f.1407794494.git.max.eliaser@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <cover.1407794494.git.max.eliaser@intel.com>
-References: <cover.1407794494.git.max.eliaser@intel.com>
-In-Reply-To: <cover.1407794494.git.max.eliaser@intel.com>
-References: <cover.1407794494.git.max.eliaser@intel.com>
-Subject: [PATCH 2/3] qemux86: support X11 when QEMU is emulating a different GPU than vmware
+References: <53E9134F.7040108@pabigot.com>
+In-Reply-To: <53E9134F.7040108@pabigot.com>
+Subject: Re: Yocto development with C++11 threads and gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,59 +30,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Aug 2014 22:06:40 -0000
+X-List-Received-Date: Tue, 12 Aug 2014 00:12:10 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-QEMU is capable of emulating four different VGA adapters: cirrus, std, vmware,
-and QXL. By adding the cirrus and fbdev X.Org drivers to the qemux86 image,
-the image can be made to launch an X server on when cirrus and std are chosen,
-in addition to just vmware. (The build of QEMU in OE-Core appears to have QXL
-disabled, meaning a driver for it is unnecessary.)
+On 08/11/2014 02:02 PM, Peter A. Bigot wrote:
+> The program below built on the target with the MACHINE=beaglebone 
+> gcc-4.9.1 compiler from Yocto/OpenEmbedded poky master produces this 
+> error:
+>
+> beaglebone[52]$ g++ -std=c++1y -pthread test.cc && ./a.out
+> starting
+> joining
+> pure virtual method called
+> terminate called without an active exception
+> Aborted (core dumped)
+>
+> When the program is recompiled with the defines for 
+> __GCC_HAVE_SYNC_COMPARE_AND_SWAP_X enabled as suggested at 
+> https://groups.google.com/d/msg/automatak-dnp3/Jisp_zGhd5I/ck_Cj6nO8joJ it 
+> works:
+>
+> beaglebone[53]$ g++ -std=c++1y -pthread test.cc && ./a.out
+> starting
+> joining
+> doit
+> done
+>
+> Preliminary analysis confirms that the built-ins for those defines are 
+> not being added by the compiler because it thinks the target doesn't 
+> support those operations.  Nonetheless, it doesn't use the substitutes 
+> that are obviously available.
+>
+> Can anybody recall anything about the way GCC is built under OE that 
+> would explain this?
 
-The runqemu script now allows the choice of emulated VGA adapter to be
-specified manually, so it's important that qemux86 supports any configuration
-the user might choose without requiring the image to be rebuilt.
+Not an OE problem.  See: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=62100
 
-In addition to adding the two extra drivers to the qemux86 image, a section
-specifying the driver to use is deleted from the image's xorg.conf, allowing
-the X server to automatically select the most appropriate driver. Testing
-shows that it does always pick the correct one.
+I'm testing a patch locally and awaiting GCC maintainer comment before 
+proposing it for OE.
 
-Signed-off-by: Max Eliaser <max.eliaser@intel.com>
----
- meta/conf/machine/qemux86.conf                                       | 2 ++
- .../xorg-xserver/xserver-xf86-config/qemux86/xorg.conf               | 5 -----
- 2 files changed, 2 insertions(+), 5 deletions(-)
+Peter
 
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index ebc27db..3562276 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -19,6 +19,8 @@ XSERVER = "xserver-xorg \
-            xf86-input-vmmouse \
-            xf86-input-keyboard \
-            xf86-input-evdev \
-+           xf86-video-cirrus \
-+           xf86-video-fbdev \
-            xf86-video-vmware"
- 
- MACHINE_FEATURES += "x86"
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
-index 10a6d9a..bbda9ea 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
-@@ -30,11 +30,6 @@ Section "InputDevice"
-     Option        "USB"           "on"
- EndSection
- 
--Section "Device"
--    Identifier    "Graphics Controller"
--    Driver        "vmware"
--EndSection
--
- Section "Monitor"
-     Identifier    "Generic Monitor"
-     Option        "DPMS"
--- 
-1.8.3.2
+>
+> Peter
+>
+> /* g++ -std=c++1y -pthread test.cc && ./a.out */
+> #if 0
+> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_1
+> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2
+> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
+> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8
+> #endif
+>
+> #include <iostream>
+> #include <thread>
+>
+> void
+> doit ()
+> {
+>   std::cerr << "doit\n";
+> }
+>
+> int main (int argc,
+>           char * argv [])
+> {
+>   std::cerr << "starting\n";
+>   std::thread thr{doit};
+>   std::cerr << "joining\n";
+>   thr.join();
+>   std::cerr << "done\n";
+>   return 0;
+> }
+>
 
 
