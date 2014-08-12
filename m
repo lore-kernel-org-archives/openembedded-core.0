@@ -1,23 +1,22 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa09-10.prod.phx3.secureserver.net
-	(p3plsmtpa09-10.prod.phx3.secureserver.net [173.201.193.239])
-	by mail.openembedded.org (Postfix) with ESMTP id CCB7165C68
+Return-Path: <tom.zanussi@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A81F60C19
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 00:12:05 +0000 (UTC)
-Received: from [192.168.65.10] ([66.41.60.82])
-	by p3plsmtpa09-10.prod.phx3.secureserver.net with 
-	id dcC51o0061mTNtu01cC5J4; Mon, 11 Aug 2014 17:12:07 -0700
-Message-ID: <53E95BD4.5090007@pabigot.com>
-Date: Mon, 11 Aug 2014 19:12:04 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
-MIME-Version: 1.0
+	Tue, 12 Aug 2014 01:35:40 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 11 Aug 2014 18:35:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,846,1400050800"; d="scan'208";a="586753761"
+Received: from mmckenna-mobl2.ger.corp.intel.com (HELO localhost)
+	([10.255.12.45])
+	by orsmga002.jf.intel.com with ESMTP; 11 Aug 2014 18:35:40 -0700
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <53E9134F.7040108@pabigot.com>
-In-Reply-To: <53E9134F.7040108@pabigot.com>
-Subject: Re: Yocto development with C++11 threads and gcc
+Date: Mon, 11 Aug 2014 20:35:38 -0500
+Message-Id: <cover.1407806939.git.tom.zanussi@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 0/7] wic: Add gummiboot support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,78 +29,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 00:12:10 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Aug 2014 01:35:41 -0000
 
-On 08/11/2014 02:02 PM, Peter A. Bigot wrote:
-> The program below built on the target with the MACHINE=beaglebone 
-> gcc-4.9.1 compiler from Yocto/OpenEmbedded poky master produces this 
-> error:
->
-> beaglebone[52]$ g++ -std=c++1y -pthread test.cc && ./a.out
-> starting
-> joining
-> pure virtual method called
-> terminate called without an active exception
-> Aborted (core dumped)
->
-> When the program is recompiled with the defines for 
-> __GCC_HAVE_SYNC_COMPARE_AND_SWAP_X enabled as suggested at 
-> https://groups.google.com/d/msg/automatak-dnp3/Jisp_zGhd5I/ck_Cj6nO8joJ it 
-> works:
->
-> beaglebone[53]$ g++ -std=c++1y -pthread test.cc && ./a.out
-> starting
-> joining
-> doit
-> done
->
-> Preliminary analysis confirms that the built-ins for those defines are 
-> not being added by the compiler because it thinks the target doesn't 
-> support those operations.  Nonetheless, it doesn't use the substitutes 
-> that are obviously available.
->
-> Can anybody recall anything about the way GCC is built under OE that 
-> would explain this?
+This add gummiboot support to wic.  It also adds a new --sourceparams
+variable to the partition command, allowing plugins to be
+parameterized.  The BootImgEFIPlugin makes use of it to support
+multiple loaders.
 
-Not an OE problem.  See: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=62100
+The following changes since commit 0f24d9c569db733b4f63803ee4a9c12ec1789791:
 
-I'm testing a patch locally and awaiting GCC maintainer comment before 
-proposing it for OE.
+  SIGGEN_EXCLUDERECIPES_ABISAFE: add initscripts (2014-08-11 17:44:12 +0100)
 
-Peter
+are available in the git repository at:
 
->
-> Peter
->
-> /* g++ -std=c++1y -pthread test.cc && ./a.out */
-> #if 0
-> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_1
-> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2
-> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
-> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8
-> #endif
->
-> #include <iostream>
-> #include <thread>
->
-> void
-> doit ()
-> {
->   std::cerr << "doit\n";
-> }
->
-> int main (int argc,
->           char * argv [])
-> {
->   std::cerr << "starting\n";
->   std::thread thr{doit};
->   std::cerr << "joining\n";
->   thr.join();
->   std::cerr << "done\n";
->   return 0;
-> }
->
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/wic-gummiboot-v1
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/wic-gummiboot-v1
+
+Tom Zanussi (7):
+  wic: Add '--sourceparams' partition option
+  wic: Add utility function for parsing sourceparams
+  wic: Add sourceparam param to partition plugin methods
+  wic: Parse and pass sourceparams to partition plugin methods
+  wic: Add gummiboot support to bootimg-efi
+  wic: Add sourceparams to mkefidisk.wks
+  wic: Add mkgummidisk kickstart file
+
+ scripts/lib/image/canned-wks/mkefidisk.wks         |   2 +-
+ scripts/lib/image/canned-wks/mkgummidisk.wks       |  11 ++
+ .../lib/wic/kickstart/custom_commands/partition.py |  20 +++-
+ scripts/lib/wic/pluginbase.py                      |  15 +--
+ scripts/lib/wic/plugins/source/bootimg-efi.py      | 117 +++++++++++++++++----
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py   |  10 +-
+ scripts/lib/wic/plugins/source/rootfs.py           |   5 +-
+ scripts/lib/wic/utils/oe/misc.py                   |  23 ++++
+ 8 files changed, 164 insertions(+), 39 deletions(-)
+ create mode 100644 scripts/lib/image/canned-wks/mkgummidisk.wks
+
+-- 
+1.8.3.1
 
 
