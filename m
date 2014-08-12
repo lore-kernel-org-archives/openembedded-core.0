@@ -1,28 +1,29 @@
 Return-Path: <mike.looijmans@topic.nl>
-Received: from atl4mhob13.myregisteredsite.com
-	(atl4mhob13.myregisteredsite.com [209.17.115.51])
-	by mail.openembedded.org (Postfix) with ESMTP id B000462252
+Received: from atl4mhob08.myregisteredsite.com
+	(atl4mhob08.myregisteredsite.com [209.17.115.46])
+	by mail.openembedded.org (Postfix) with ESMTP id DE58A65DB1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 07:55:12 +0000 (UTC)
+	Tue, 12 Aug 2014 07:55:11 +0000 (UTC)
 Received: from mailpod.hostingplatform.com ([10.30.71.206])
-	by atl4mhob13.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	s7C7tAup021894 for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 03:55:10 -0400
-Received: (qmail 2346 invoked by uid 0); 12 Aug 2014 07:55:10 -0000
+	by atl4mhob08.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	s7C7tBXd011384 for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Aug 2014 03:55:11 -0400
+Received: (qmail 2375 invoked by uid 0); 12 Aug 2014 07:55:11 -0000
 X-TCPREMOTEIP: 88.159.208.100
 X-Authenticated-UID: mike@milosoftware.com
 Received: from unknown (HELO paradigit.TOPIC.LOCAL)
 	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 12 Aug 2014 07:55:10 -0000
+	by 0 with ESMTPA; 12 Aug 2014 07:55:11 -0000
 From: Mike Looijmans <mike.looijmans@topic.nl>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Aug 2014 09:54:58 +0200
-Message-Id: <1407830099-17923-1-git-send-email-mike.looijmans@topic.nl>
+Date: Tue, 12 Aug 2014 09:54:59 +0200
+Message-Id: <1407830099-17923-2-git-send-email-mike.looijmans@topic.nl>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1407753199.22187.4.camel@ted>
+In-Reply-To: <1407830099-17923-1-git-send-email-mike.looijmans@topic.nl>
 References: <1407753199.22187.4.camel@ted>
+	<1407830099-17923-1-git-send-email-mike.looijmans@topic.nl>
 Cc: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: [PATCH v2 1/2] squashfs-tools: Add support for LZO and LZ4 compression
+Subject: [PATCH v2 2/2] Support image type "squashfs-lzo"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,40 +38,42 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 12 Aug 2014 07:55:17 -0000
 
-For systems that want to optimize for speed rather than size, LZO is
-usually a better choice than gzip or XZ. Kernel support for LZO has
-been available since 2.6.29.
-
-LZ4 support isn't in the mainline kernel yet, but we might as well add
-it now for those who want to experiment with it.
+Add "squashfs-lzo" to the image types. LZO compression support has been
+in both kernel and squashfs tools for many years, but OE never enabled
+it.
 
 Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
 ---
- .../squashfs-tools/squashfs-tools_4.3.bb           |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/image_types.bbclass |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb
-index 54fd3bb..e3783fd 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPL-2 & PD"
- LIC_FILES_CHKSUM = "file://../COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://../../7zC.txt;beginline=12;endline=16;md5=2056cd6d919ebc3807602143c7449a7c \
-                    "
--DEPENDS = "attr zlib xz"
-+DEPENDS = "attr zlib xz lzo lz4"
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 99a07da..d298897 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -63,6 +63,7 @@ IMAGE_CMD_btrfs () {
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/squashfs/squashfs${PV}.tar.gz;name=squashfs \
-            http://downloads.sourceforge.net/sevenzip/lzma465.tar.bz2;name=lzma \
-@@ -23,7 +23,7 @@ S = "${WORKDIR}/squashfs${PV}/squashfs-tools"
- # EXTRA_OEMAKE is typically: -e MAKEFLAGS=
- # the -e causes problems as CFLAGS is modified in the Makefile, so
- # we redefine EXTRA_OEMAKE here
--EXTRA_OEMAKE = "MAKEFLAGS= LZMA_SUPPORT=1 LZMA_DIR=../.. XZ_SUPPORT=1"
-+EXTRA_OEMAKE = "MAKEFLAGS= LZMA_SUPPORT=1 LZMA_DIR=../.. XZ_SUPPORT=1 LZO_SUPPORT=1 LZ4_SUPPORT=1"
+ IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs ${EXTRA_IMAGECMD} -noappend"
+ IMAGE_CMD_squashfs-xz = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs-xz ${EXTRA_IMAGECMD} -noappend -comp xz"
++IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lzo"
+ IMAGE_CMD_tar = "tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar -C ${IMAGE_ROOTFS} ."
  
- do_compile() {
-         oe_runmake mksquashfs
+ IMAGE_CMD_cpio () {
+@@ -121,12 +122,13 @@ IMAGE_DEPENDS_ext4 = "e2fsprogs-native"
+ IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
+ IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
+ IMAGE_DEPENDS_squashfs-xz = "squashfs-tools-native"
++IMAGE_DEPENDS_squashfs-lzo = "squashfs-tools-native"
+ IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
+ IMAGE_DEPENDS_ubi = "mtd-utils-native"
+ IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+ 
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+-IMAGE_TYPES = "jffs2 jffs2.sum cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs iso hddimg squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz tar.lz4 cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 vmdk elf"
++IMAGE_TYPES = "jffs2 jffs2.sum cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs iso hddimg squashfs squashfs-xz squashfs-lzo ubi ubifs tar tar.gz tar.bz2 tar.xz tar.lz4 cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 vmdk elf"
+ 
+ COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum"
+ COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
 -- 
 1.7.9.5
 
