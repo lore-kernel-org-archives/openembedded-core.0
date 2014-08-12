@@ -1,26 +1,36 @@
-Return-Path: <Li.Wang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 49F7465DB1
+Return-Path: <sujith.h@gmail.com>
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 58D0065CA8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 09:03:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7C93lxk000542
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 12 Aug 2014 09:08:47 +0000 (UTC)
+Received: by mail-pd0-f175.google.com with SMTP id r10so12165594pdi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 02:03:47 -0700 (PDT)
-Received: from lwang1-OptiPlex-9010.corp.ad.wrs.com (128.224.162.134) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 12 Aug 2014 02:03:47 -0700
-From: Li Wang <li.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Aug 2014 17:03:44 +0800
-Message-ID: <1407834224-11238-1-git-send-email-li.wang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <CAJTo0La8yDW0iDcmWwOEhMG6AVgnRhWqL3ijkAy7ugBUpds3dA@mail.gmail.com>
-References: <CAJTo0La8yDW0iDcmWwOEhMG6AVgnRhWqL3ijkAy7ugBUpds3dA@mail.gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH] rpcbind: add option to fix port number
+	Tue, 12 Aug 2014 02:08:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=zZb0/HRRHEia/Mj3c3/TyxND8exS6kFRg4W7H0h1ahc=;
+	b=QuaNKziVbsGbssD+5FUlBZ/BsOA3rSJX61shtU+iQiuwron+OU3X/yYURkAXQ2nmn9
+	Ua8aw6QwTFX8OaT/EwSoJSOy+vNvCkla+keefgEo528pDJA2ZPPMXWYHyF2yorCngTAj
+	WEoteXc/BPJvwTRy+8SiolvYRijR+TbwoUxaA5S4U0HjzPgrZsJnC23z4Jjfnc+jGzZJ
+	g18xpxxz4bIXOqAQMJmbvm7FIUCcfwLKYMROvh7+DMW+fIG9xPhxuV/897hkgRgzuKd3
+	SdTJS76SjJc6VYwIM6waYlOYSMpCjuOz+pHiapll/G8ERoKIKdfXSKQjvnYvAYWFEBjN
+	sycA==
+X-Received: by 10.70.36.33 with SMTP id n1mr3233379pdj.26.1407834528688;
+	Tue, 12 Aug 2014 02:08:48 -0700 (PDT)
+Received: from linux-z8xt.inp.mentorg.com ([139.181.35.34])
+	by mx.google.com with ESMTPSA id
+	do10sm21230091pdb.83.2014.08.12.02.08.46 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Aug 2014 02:08:47 -0700 (PDT)
+From: Sujith H <sujith.h@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Aug 2014 14:34:20 +0530
+Message-Id: <1407834260-22021-1-git-send-email-sujith.h@gmail.com>
+X-Mailer: git-send-email 1.8.4
+Cc: Sujith H <Sujith_Haridasan@mentor.com>,
+	Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] pyparted: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,134 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 09:03:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 Aug 2014 09:08:48 -0000
 
-fix a random port to offer customer an option for select.
+From: Sujith H <Sujith_Haridasan@mentor.com>
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
+This recipe will provide a set of Python modules that
+provide Python programmers an interface to libparted,
+the GNU parted library for disk partitioning and filesystem
+manipulation.
+
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
 ---
- .../rpcbind_add_option_to_fix_port_number.patch    |   97 ++++++++++++++++++++
- meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb     |    1 +
- 2 files changed, 98 insertions(+)
- create mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
+ meta/recipes-extended/pyparted/pyparted_3.9.bb | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+ create mode 100644 meta/recipes-extended/pyparted/pyparted_3.9.bb
 
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch b/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
+diff --git a/meta/recipes-extended/pyparted/pyparted_3.9.bb b/meta/recipes-extended/pyparted/pyparted_3.9.bb
 new file mode 100644
-index 0000000..31adb07
+index 0000000..7b284cc
 --- /dev/null
-+++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
-@@ -0,0 +1,97 @@
-+rpcbind: add option to fix port number
++++ b/meta/recipes-extended/pyparted/pyparted_3.9.bb
+@@ -0,0 +1,21 @@
++DESCRIPTION = "pyparted is a set of Python modules that provide Python programmers \
++an interface to libparted, the GNU parted library for disk partitioning and \
++filesystem manipulation."
++SUMMARY = "Python bindings for libparted"
++HOMEPAGE = "https://fedorahosted.org/pyparted/"
++SCM_URI = "git://git.fedorahosted.org/pyparted.git"
++LICENSE = "GPL-2.0+"
++LIC_FILES_CHKSUM = "\
++    file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
++    file://src/_pedmodule.c;startline=10;endline=22;md5=70c62bd73782a03f56a0571a9f08ea46 \
++"
++DEPENDS += "parted"
++PR = "r0"
 +
-+fix a random port to offer customer an option for select.
++SRC_URI = "https://fedorahosted.org/releases/p/y/pyparted/pyparted-${PV}.tar.gz"
++SRC_URI[md5sum] = "f16c7ef7f5fa4a43fcb2a4654b487e39"
++SRC_URI[sha256sum] = "a56712e3d058ce3d859c158236dbbf45224018919efd3d880ea80f9e0d0bebbb"
 +
-+Upstream-Status: Pending
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ src/rpcb_svc_com.c |   20 +++++++++++++++++++-
-+ src/rpcbind.c      |    6 +++++-
-+ 2 files changed, 24 insertions(+), 2 deletions(-)
++inherit distutils
 +
-+diff --git a/src/rpcb_svc_com.c b/src/rpcb_svc_com.c
-+index f6bd6bd..866a0e0 100644
-+--- a/src/rpcb_svc_com.c
-++++ b/src/rpcb_svc_com.c
-+@@ -48,6 +48,7 @@
-+ #include <rpc/rpc.h>
-+ #include <rpc/rpcb_prot.h>
-+ #include <rpc/svc_dg.h>
-++#include <rpc/rpc_com.h>
-+ #include <netconfig.h>
-+ #include <errno.h>
-+ #include <syslog.h>
-+@@ -496,6 +497,7 @@ xdr_opaque_parms(XDR *xdrs, struct r_rmtcall_args *cap)
-+ 
-+ static struct rmtcallfd_list *rmthead;
-+ static struct rmtcallfd_list *rmttail;
-++extern unsigned short random_port;
-+ 
-+ int
-+ create_rmtcall_fd(struct netconfig *nconf)
-+@@ -503,6 +505,8 @@ create_rmtcall_fd(struct netconfig *nconf)
-+ 	int fd;
-+ 	struct rmtcallfd_list *rmt;
-+ 	SVCXPRT *xprt;
-++	struct __rpc_sockinfo si;
-++	struct t_bind taddr;
-+ 
-+ 	if ((fd = __rpc_nconf2fd(nconf)) == -1) {
-+ 		if (debugging)
-+@@ -511,7 +515,21 @@ create_rmtcall_fd(struct netconfig *nconf)
-+ 			nconf->nc_device, errno);
-+ 		return (-1);
-+ 	}
-+-	xprt = svc_tli_create(fd, 0, (struct t_bind *) 0, 0, 0);
-++
-++	if (random_port) {
-++		__rpc_fd2sockinfo(fd, &si);
-++		memset(&taddr, 0, sizeof(taddr));
-++		taddr.addr.maxlen = taddr.addr.len = si.si_alen;
-++		taddr.addr.buf = malloc(si.si_alen);
-++		if (taddr.addr.buf == NULL) {
-++			return -1;
-++		}
-++		*(unsigned short *)(&(taddr.addr.buf[0])) = si.si_af;
-++		*(unsigned short *)(&(taddr.addr.buf[2])) = htons(random_port);
-++		xprt = svc_tli_create(fd, nconf, &taddr, RPC_MAXDATASIZE, RPC_MAXDATASIZE);
-++	} else {
-++		xprt = svc_tli_create(fd, 0, (struct t_bind *) 0, 0, 0);
-++	}
-+ 	if (xprt == NULL) {
-+ 		if (debugging)
-+ 			fprintf(stderr,
-+diff --git a/src/rpcbind.c b/src/rpcbind.c
-+index 83dbe93..e82cf45 100644
-+--- a/src/rpcbind.c
-++++ b/src/rpcbind.c
-+@@ -99,6 +99,7 @@ int runasdaemon = 0;
-+ int insecure = 0;
-+ int oldstyle_local = 0;
-+ int verboselog = 0;
-++unsigned short random_port = 0;
-+ 
-+ char **hosts = NULL;
-+ int nhosts = 0;
-+@@ -748,7 +749,7 @@ parseargs(int argc, char *argv[])
-+ {
-+ 	int c;
-+ 	oldstyle_local = 1;
-+-	while ((c = getopt(argc, argv, "adh:ilswf")) != -1) {
-++	while ((c = getopt(argc, argv, "adh:p:ilswf")) != -1) {
-+ 		switch (c) {
-+ 		case 'a':
-+ 			doabort = 1;	/* when debugging, do an abort on */
-+@@ -766,6 +767,9 @@ parseargs(int argc, char *argv[])
-+ 			if (hosts[nhosts - 1] == NULL)
-+ 				errx(1, "Out of memory");
-+ 			break;
-++		case 'p':
-++			random_port = atoi(optarg);
-++			break;
-+ 		case 'i':
-+ 			insecure = 1;
-+ 			break;
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb
-index 89e567b..65351d0 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b46486e4c4a416602693a711bb5bfa39 \
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
-            file://0001-rpcbind-rpcuser-not-being-set-in-Makefile.am.patch \
-+           file://rpcbind_add_option_to_fix_port_number.patch \
-            file://init.d \
-            ${UCLIBCPATCHES} \
-            file://rpcbind.conf \
++BBCLASSEXTEND += "native"
 -- 
-1.7.9.5
+1.8.4
 
 
