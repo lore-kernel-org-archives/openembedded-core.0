@@ -1,26 +1,26 @@
 Return-Path: <tom.zanussi@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BC9AB65DB3
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5869860C19
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 01:35:47 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Aug 2014 18:35:49 -0700
+	Tue, 12 Aug 2014 01:35:51 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Aug 2014 18:35:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="371139765"
+X-IronPort-AV: E=Sophos;i="5.01,846,1400050800"; d="scan'208";a="575301097"
 Received: from mmckenna-mobl2.ger.corp.intel.com (HELO localhost)
 	([10.255.12.45])
-	by FMSMGA003.fm.intel.com with ESMTP; 11 Aug 2014 18:32:33 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 11 Aug 2014 18:35:50 -0700
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Aug 2014 20:35:39 -0500
-Message-Id: <b67452f93fa0bb7bde463e2511e78c7859bb4383.1407806939.git.tom.zanussi@linux.intel.com>
+Date: Mon, 11 Aug 2014 20:35:40 -0500
+Message-Id: <f9e6cbbaa8772802e8268209282a4edce7c975fe.1407806939.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <e3fcfa6ac6fbbcf83a82a3e7a730f87626aea615.1407806939.git.tom.zanussi@linux.intel.com>
 References: <e3fcfa6ac6fbbcf83a82a3e7a730f87626aea615.1407806939.git.tom.zanussi@linux.intel.com>
 In-Reply-To: <cover.1407806939.git.tom.zanussi@linux.intel.com>
 References: <cover.1407806939.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 5/7] wic: Add gummiboot support to bootimg-efi
+Subject: [PATCH 6/7] wic: Add sourceparams to mkefidisk.wks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,167 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 01:35:48 -0000
+X-List-Received-Date: Tue, 12 Aug 2014 01:35:53 -0000
 
-Add gummiboot support to bootimg-efi, which retains the existing
-grub-efi support (though requires an update to the .wks file).
+The bootimg-efi plugin now requires a loader param, so supply it to
+retain existing behavior.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-efi.py | 113 +++++++++++++++++++++-----
- 1 file changed, 91 insertions(+), 22 deletions(-)
+ scripts/lib/image/canned-wks/mkefidisk.wks | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index ea94fd2..855bbc2 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -42,19 +42,10 @@ class BootimgEFIPlugin(SourcePlugin):
-     name = 'bootimg-efi'
+diff --git a/scripts/lib/image/canned-wks/mkefidisk.wks b/scripts/lib/image/canned-wks/mkefidisk.wks
+index db86caa..58d42e6 100644
+--- a/scripts/lib/image/canned-wks/mkefidisk.wks
++++ b/scripts/lib/image/canned-wks/mkefidisk.wks
+@@ -2,7 +2,7 @@
+ # long-description: Creates a partitioned EFI disk image that the user
+ # can directly dd to boot media.
  
-     @classmethod
--    def do_configure_partition(self, source_params, part, cr, cr_workdir,
--                               oe_builddir, bootimg_dir, kernel_dir,
--                               native_sysroot):
-+    def do_configure_grubefi(self, hdddir, cr, cr_workdir):
-         """
--        Called before do_prepare_partition(), creates grubefi config
-+        Create loader-specific (grub-efi) config
-         """
--        hdddir = "%s/hdd/boot" % cr_workdir
--        rm_cmd = "rm -rf %s" % cr_workdir
--        exec_cmd(rm_cmd)
--
--        install_cmd = "install -d %s/EFI/BOOT" % hdddir
--        exec_cmd(install_cmd)
--
-         splash = os.path.join(cr_workdir, "/EFI/boot/splash.jpg")
-         if os.path.exists(splash):
-             splashline = "menu background splash.jpg"
-@@ -73,7 +64,7 @@ class BootimgEFIPlugin(SourcePlugin):
-         grubefi_conf += "timeout=%s\n" % timeout
-         grubefi_conf += "menuentry 'boot'{\n"
+-part /boot --source bootimg-efi --ondisk sda --label msdos --active --align 1024
++part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label msdos --active --align 1024
  
--        kernel = "/vmlinuz"
-+        kernel = "/bzImage"
+ part / --source rootfs --ondisk sda --fstype=ext3 --label platform --align 1024
  
-         if cr._ptable_format == 'msdos':
-             rootstr = rootdev
-@@ -93,6 +84,79 @@ class BootimgEFIPlugin(SourcePlugin):
-         cfg.close()
- 
-     @classmethod
-+    def do_configure_gummiboot(self, hdddir, cr, cr_workdir):
-+        """
-+        Create loader-specific (gummiboot) config
-+        """
-+        install_cmd = "install -d %s/loader" % hdddir
-+        exec_cmd(install_cmd)
-+
-+        install_cmd = "install -d %s/loader/entries" % hdddir
-+        exec_cmd(install_cmd)
-+
-+        (rootdev, root_part_uuid) = cr._get_boot_config()
-+        options = cr.ks.handler.bootloader.appendLine
-+
-+        timeout = kickstart.get_timeout(cr.ks)
-+        if not timeout:
-+            timeout = 0
-+
-+        loader_conf = ""
-+        loader_conf += "default boot\n"
-+        loader_conf += "timeout %d\n" % timeout
-+
-+        msger.debug("Writing gummiboot config %s/hdd/boot/loader/loader.conf" \
-+                        % cr_workdir)
-+        cfg = open("%s/hdd/boot/loader/loader.conf" % cr_workdir, "w")
-+        cfg.write(loader_conf)
-+        cfg.close()
-+
-+        kernel = "/bzImage"
-+
-+        if cr._ptable_format == 'msdos':
-+            rootstr = rootdev
-+        else:
-+            raise ImageError("Unsupported partition table format found")
-+
-+        boot_conf = ""
-+        boot_conf += "title boot\n"
-+        boot_conf += "linux %s\n" % kernel
-+        boot_conf += "options LABEL=Boot root=%s %s\n" \
-+            % (rootstr, options)
-+
-+        msger.debug("Writing gummiboot config %s/hdd/boot/loader/entries/boot.conf" \
-+                        % cr_workdir)
-+        cfg = open("%s/hdd/boot/loader/entries/boot.conf" % cr_workdir, "w")
-+        cfg.write(boot_conf)
-+        cfg.close()
-+
-+
-+    @classmethod
-+    def do_configure_partition(self, part, source_params, cr, cr_workdir,
-+                               oe_builddir, bootimg_dir, kernel_dir,
-+                               native_sysroot):
-+        """
-+        Called before do_prepare_partition(), creates loader-specific config
-+        """
-+        hdddir = "%s/hdd/boot" % cr_workdir
-+        rm_cmd = "rm -rf %s" % cr_workdir
-+        exec_cmd(rm_cmd)
-+
-+        install_cmd = "install -d %s/EFI/BOOT" % hdddir
-+        exec_cmd(install_cmd)
-+
-+        try:
-+            if source_params['loader'] == 'grub-efi':
-+                self.do_configure_grubefi(hdddir, cr, cr_workdir)
-+            elif source_params['loader'] == 'gummiboot':
-+                self.do_configure_gummiboot(hdddir, cr, cr_workdir)
-+            else:
-+                msger.error("unrecognized bootimg-efi loader: %s" % source_params['loader'])
-+        except KeyError:
-+            msger.error("bootimg-efi requires a loader, none specified")
-+
-+
-+    @classmethod
-     def do_prepare_partition(self, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-                              rootfs_dir, native_sysroot):
-@@ -117,14 +181,21 @@ class BootimgEFIPlugin(SourcePlugin):
-             (staging_kernel_dir, hdddir)
-         exec_cmd(install_cmd)
- 
--        shutil.copyfile("%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir,
--                        "%s/grub.cfg" % cr_workdir)
--
--        cp_cmd = "cp %s/EFI/BOOT/* %s/EFI/BOOT" % (staging_data_dir, hdddir)
--        exec_cmd(cp_cmd, True)
--
--        shutil.move("%s/grub.cfg" % cr_workdir,
--                    "%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir)
-+        try:
-+            if source_params['loader'] == 'grub-efi':
-+                shutil.copyfile("%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir,
-+                                "%s/grub.cfg" % cr_workdir)
-+                cp_cmd = "cp %s/EFI/BOOT/* %s/EFI/BOOT" % (staging_data_dir, hdddir)
-+                exec_cmd(cp_cmd, True)
-+                shutil.move("%s/grub.cfg" % cr_workdir,
-+                            "%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir)
-+            elif source_params['loader'] == 'gummiboot':
-+                cp_cmd = "cp %s/EFI/BOOT/* %s/EFI/BOOT" % (staging_data_dir, hdddir)
-+                exec_cmd(cp_cmd, True)
-+            else:
-+                msger.error("unrecognized bootimg-efi loader: %s" % source_params['loader'])
-+        except KeyError:
-+            msger.error("bootimg-efi requires a loader, none specified")
- 
-         du_cmd = "du -bks %s" % hdddir
-         out = exec_cmd(du_cmd)
-@@ -164,5 +235,3 @@ class BootimgEFIPlugin(SourcePlugin):
- 
-         part.set_size(bootimg_size)
-         part.set_source_file(bootimg)
--
--
 -- 
 1.8.3.1
 
