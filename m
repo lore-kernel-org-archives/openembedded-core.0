@@ -1,27 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E627C609C0
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp06.online.nl (smtp06.online.nl [194.134.42.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 89E2862252
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 16:11:09 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 12 Aug 2014 09:04:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,849,1400050800"; d="scan'208";a="557496946"
-Received: from glucy-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.202])
-	by orsmga001.jf.intel.com with ESMTP; 12 Aug 2014 09:10:30 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 12 Aug 2014 17:10:29 +0100
-Message-ID: <1992651.1Jo3sssU9p@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.13.3 (Linux/3.15.8-200.fc20.x86_64; KDE/4.13.3; x86_64; ; )
-In-Reply-To: <20140812154825.GQ14848@jama>
-References: <8971389.fH3VELLT3O@peggleto-mobl5.ger.corp.intel.com>
-	<20140812154825.GQ14848@jama>
+	Tue, 12 Aug 2014 17:40:10 +0000 (UTC)
+Received: from smtp06.online.nl (localhost [127.0.0.1])
+	by smtp06.online.nl (Postfix) with ESMTP id 3915B96247
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Aug 2014 19:40:09 +0200 (CEST)
+Received: from [192.168.1.6] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp06.online.nl (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Aug 2014 19:40:09 +0200 (CEST)
+Message-ID: <53EA5178.7020209@topic.nl>
+Date: Tue, 12 Aug 2014 19:40:08 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [yocto] Automatic upgrade helper
+To: openembedded-core@lists.openembedded.org
+X-Online-Scanned: by Cloudmark authority (on smtp06.online.nl)
+Subject: Autotools and "foreign"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,38 +33,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 16:11:12 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 12 Aug 2014 17:40:13 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 12 August 2014 17:48:25 Martin Jansa wrote:
-> On Tue, Aug 12, 2014 at 04:19:41PM +0100, Paul Eggleton wrote:
-> > Hi folks,
-> > 
-> > I'd like to announce the immediate availability of the Automatic Upgrade
-> > Helper, a tool for automating the task of upgrading recipes when a new
-> > upstream release occurs. It utilises the build system to check if a new
-> > version of the software built by a particular recipe is available, and if
-> > it is, it will attempt to upgrade the recipe to build that new version.
-> > The outcome of the process is emailed to the maintainer of the recipe
-> > along with a patch to do the upgrade, so that they can send the patch to
-> > be merged (if the build succeeded with no warnings) or develop the patch
-> > further if problems occurred.
-> 
-> Does it also check buildhistory output for unexpected changes in
-> packaging?
-> 
-> If it doesn't it should ask maintainer to do so manually before
-> submitting the patch.
+I tried to upgrade to the current master, and got a few dozen packages 
+now failing to build because of automake errors like this:
 
-Not at the moment, but that's definitely something I agree we should add (and 
-fairly quickly, it should be pretty trivial to do.)
+| Makefile.am: error: required file './NEWS' not found
+| Makefile.am: error: required file './README' not found
+| Makefile.am: error: required file './AUTHORS' not found
 
-Cheers,
-Paul
+This apparently traces down to:
+74b05bba64589da0e4439a4293559ad9670104bd
+"autoconf: remove automake patch enforcing --foreign"
+
+Is there an alternative to manually patching all of these packages to 
+get them to compile once more?
+
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Mike Looijmans
 
