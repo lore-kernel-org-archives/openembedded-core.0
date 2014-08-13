@@ -1,53 +1,48 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 69AFA617B8
+	by mail.openembedded.org (Postfix) with ESMTP id 3088C70BA1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 17:46:42 +0000 (UTC)
+	Wed, 13 Aug 2014 17:47:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id C69682E457
+	by bes.se.axis.com (Postfix) with ESMTP id 54D452E329
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:46:43 +0200 (CEST)
+	Wed, 13 Aug 2014 19:39:12 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id nI68F9O7cZzn
+	port 10024) with LMTP id 1HIfEzJ2BF+Y
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:46:38 +0200 (CEST)
+	Wed, 13 Aug 2014 19:39:08 +0200 (CEST)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 057712E45B
+	by bes.se.axis.com (Postfix) with ESMTP id 272252E3E2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:46:38 +0200 (CEST)
+	Wed, 13 Aug 2014 19:39:08 +0200 (CEST)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id E26B51469
+	by postfix.imss71 (Postfix) with ESMTP id 07ED51443
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:46:37 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id D599A1468
+	Wed, 13 Aug 2014 19:39:08 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id F0561DF9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:46:37 +0200 (CEST)
+	Wed, 13 Aug 2014 19:39:07 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id D0C553E049
+	by thoth.se.axis.com (Postfix) with ESMTP id EE38034005
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:46:37 +0200 (CEST)
+	Wed, 13 Aug 2014 19:39:07 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id s7DHkbfW003156
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id s7DHd7DG029921
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:46:37 +0200
+	Wed, 13 Aug 2014 19:39:07 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id s7DHkbsm003155
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id s7DHd7Lu029920
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Aug 2014 19:46:37 +0200
+	Wed, 13 Aug 2014 19:39:07 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Aug 2014 19:46:36 +0200
-Message-Id: <452f76082d13b3d1c7f9930c8754553c336bd176.1407951966.git.pkj@axis.com>
+Date: Wed, 13 Aug 2014 19:39:01 +0200
+Message-Id: <cover.1407951483.git.pkj@axis.com>
 X-Mailer: git-send-email 1.9.0
-In-Reply-To: <cover.1407951966.git.pkj@axis.com>
-References: <cover.1407951966.git.pkj@axis.com>
-In-Reply-To: <cover.1407951966.git.pkj@axis.com>
-References: <cover.1407951966.git.pkj@axis.com>
-Subject: [PATCH 2/2] gstreamer1.0-plugins-good: Add a PACKAGECONFIG for udev
+Subject: [PATCH 0/3] Fixes for building with USE_NLS=no
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,41 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 17:46:44 -0000
+X-List-Received-Date: Wed, 13 Aug 2014 17:47:12 -0000
 
-This solves these floating dependencies:
+This adds missing inherit of gettext to three recipes that were
+discovered after we added USE_NLS = "no" to our distribution
+configuration.
 
-WARNING: QA Issue: gstreamer1.0-plugins-good-video4linux2 rdepends on
-libudev, but it isn't a build dependency? [build-deps]
-WARNING: QA Issue: gstreamer1.0-plugins-good-video4linux2 rdepends on
-libgudev-1.0, but it isn't a build dependency? [build-deps]
+//Peter
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The following changes since commit 6882d2d9993c8655a292c93e84ea01b4738a700d:
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-index 223e790..b33ab2b 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-@@ -11,7 +11,7 @@ inherit gettext
- PACKAGECONFIG ??= " \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
--    orc cairo flac gdk-pixbuf jpeg libpng soup speex taglib \
-+    orc cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib \
-     "
- 
- X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
-@@ -22,6 +22,7 @@ PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
- PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
- PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
- PACKAGECONFIG[gdk-pixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
-+PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,udev"
- PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
- PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
- PACKAGECONFIG[libpng]     = "--enable-libpng,--disable-libpng,libpng"
+  yocto-project-qs, ref-manual: Added 'socat' package to essentials. (2014-08-12 13:50:32 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/use_nls_no
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/use_nls_no
+
+Peter Kjellerstedt (3):
+  systemd: Inherit gettext
+  libsoup-2.4: Inherit gettext
+  glib-networking: Inherit gettext
+
+ meta/recipes-core/glib-networking/glib-networking_2.38.0.bb | 2 +-
+ meta/recipes-core/systemd/systemd_213.bb                    | 2 +-
+ meta/recipes-support/libsoup/libsoup-2.4_2.46.0.bb          | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
 -- 
 1.9.0
 
