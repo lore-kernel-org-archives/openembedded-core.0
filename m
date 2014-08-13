@@ -1,34 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
-	[209.85.213.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 416686FDE1
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E1EE609C0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 21:19:07 +0000 (UTC)
-Received: by mail-ig0-f171.google.com with SMTP id l13so11610236iga.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 14:19:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=bxDIdSlAjOK1N1nGREDsAfG+VttjUym+7iDDD6zvcE8=;
-	b=MNyCMpMnOJ/nSkP4KtOBl6znW2jqaKxkaNIKw9yPDoTI0G8of13GtcJL7K15OQhOsR
-	h3CIzAXvguYLsjooCyaHxDkcYH0PCAdkYuebRx0485ZnbMuCjUXUrbQYYvbnCzR7zY6L
-	oUQjdkwec9sCw+M2IbtzXtPTY/b5SaVtABSBDCe/OksIMn6GfxuTmTvNtgbXtrjn/lJ6
-	htDNLJja9ZFMe0jUFpacpTep6OQKKdbm2sw6o3zg6aF4kR1waxVQVTKLQC/CiifmZT+c
-	tD/FDwDzAGXVC7PvTEr/gufV1A1v/bXgKzgLFwED6RIDDnKvzqvvhgvo/3tgowGnU8oz
-	Zudg==
-X-Received: by 10.42.65.200 with SMTP id m8mr9398154ici.29.1407964748059; Wed,
-	13 Aug 2014 14:19:08 -0700 (PDT)
+	Wed, 13 Aug 2014 21:23:39 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 45937F811F0; Wed, 13 Aug 2014 15:23:40 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id DD94BF81188;
+	Wed, 13 Aug 2014 15:23:37 -0600 (MDT)
+Message-ID: <53EBD780.9060005@mlbassoc.com>
+Date: Wed, 13 Aug 2014 15:24:16 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-Received: by 10.50.126.103 with HTTP; Wed, 13 Aug 2014 14:18:38 -0700 (PDT)
-In-Reply-To: <53E9134F.7040108@pabigot.com>
-References: <53E9134F.7040108@pabigot.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 13 Aug 2014 14:18:38 -0700
-Message-ID: <CAMKF1soHVxmjWW=TBqjh1P0ddPuMkxtmxXdnbLCSMLgQm2=hcQ@mail.gmail.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Yocto development with C++11 threads and gcc
+To: openembedded-core@lists.openembedded.org
+Subject: GCC 4.9 considered evil
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,75 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 21:19:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 13 Aug 2014 21:23:47 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 11, 2014 at 12:02 PM, Peter A. Bigot <pab@pabigot.com> wrote:
-> The program below built on the target with the MACHINE=beaglebone gcc-4.9.1
-> compiler from Yocto/OpenEmbedded poky master produces this error:
->
-> beaglebone[52]$ g++ -std=c++1y -pthread test.cc && ./a.out
-> starting
-> joining
-> pure virtual method called
-> terminate called without an active exception
-> Aborted (core dumped)
->
-> When the program is recompiled with the defines for
-> __GCC_HAVE_SYNC_COMPARE_AND_SWAP_X enabled as suggested at
-> https://groups.google.com/d/msg/automatak-dnp3/Jisp_zGhd5I/ck_Cj6nO8joJ it
-> works:
->
-> beaglebone[53]$ g++ -std=c++1y -pthread test.cc && ./a.out
-> starting
-> joining
-> doit
-> done
->
-> Preliminary analysis confirms that the built-ins for those defines are not
-> being added by the compiler because it thinks the target doesn't support
-> those operations.  Nonetheless, it doesn't use the substitutes that are
-> obviously available.
->
-> Can anybody recall anything about the way GCC is built under OE that would
-> explain this?
+I've found that the latest GCC doesn't work very well, at
+least not on ARM (and obviously other architectures as well [1])
+When I build Google Chromium browser for my i.MX boards using
+GCC-4.9.x, no pages can be rendered - massive bloodshed and
+failures are shown on the console.  If I use the older GCC 4.8.2,
+everything else the same, all is well.
 
-Can you add -mcpu=cortex-a8 to your cmdline and see if it solves the problem ?
+Here's my configuration:
+BB_VERSION        = "1.23.1"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "Ubuntu-13.10"
+TARGET_SYS        = "arm-amltd-linux-gnueabi"
+MACHINE           = "teton-p0382"
+DISTRO            = "amltd"
+DISTRO_VERSION    = "1.6+snapshot-20140812"
+TUNE_FEATURES     = "arm armv7a vfp neon callconvention-hard cortexa9"
+TARGET_FPU        = "vfp-neon"
+meta              = "master:86afd7eb7c679eb065706137f28f44248f3fbc5a"
+meta-amltd        = "master:899529b4184dc9e3e291e7fcdbbf157233db056d"
+meta-teton-imx6-p0382 = "master:9188e2f8fafd203c95dcd7a3c79cb38a1568e9b5"
+meta-fsl-arm      = "master:b0cf5c78c5f98c5977ae556d331e7495648f154c"
+meta-fsl-arm-extra = "master:12e560967b7136222c325d11633295fe3a0c701c"
+meta-browser      = "master:da93c8e386133a15eff1414d9307c8f2c7a44787"
 
->
-> Peter
->
-> /* g++ -std=c++1y -pthread test.cc && ./a.out */
-> #if 0
-> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_1
-> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2
-> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
-> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8
-> #endif
->
-> #include <iostream>
-> #include <thread>
->
-> void
-> doit ()
-> {
->   std::cerr << "doit\n";
-> }
->
-> int main (int argc,
->           char * argv [])
-> {
->   std::cerr << "starting\n";
->   std::thread thr{doit};
->   std::cerr << "joining\n";
->   thr.join();
->   std::cerr << "done\n";
->   return 0;
-> }
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Should this be filed as a bug?  I don't have much data other than it
+simply breaks (and chrome is not the easiest thing to debug!).  Other
+applications seem OK, but I am loathe to trust it...
+
+I'm going to hold onto GCC-4.8.x for my $DISTRO at least (and I hope
+it doesn't vanish like 4.7.x did too quickly).
+
+[1] http://slashdot.org/story/14/07/27/1838219/linus-torvalds-gcc-490-seems-to-be-terminally-broken
+
+Note: I've also tried this on qemux86 (a totally different
+architecture) and chrome bombs just as badly!
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
