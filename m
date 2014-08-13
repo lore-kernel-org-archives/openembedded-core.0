@@ -1,36 +1,38 @@
-Return-Path: <bobadeshrikant@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id CB56260CFC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id D9F4A60438
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 08:54:26 +0000 (UTC)
-Received: by mail-pa0-f42.google.com with SMTP id lf10so14575283pab.15
+	Wed, 13 Aug 2014 09:29:38 +0000 (UTC)
+Received: by mail-qg0-f54.google.com with SMTP id z60so10793827qgd.27
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 01:54:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ie7YS3RzQH8xcPeQMvlo5Iasgfbqho+0oR0IeuB9NDk=;
-	b=JgoTejjffwXCPqNFiNsK7xU+lmJpsFS0dgb8bGIN3vRs8F4NKmVKzta8IRnDl7gfaG
-	KRCsUbsp6GvlG8iPwsk3Y7Zy1vL+1Us3HQsiyWQ45laQsyxGs87qlgQA8mN62BCPTWvC
-	V0M0W3WRorYwkclT0AT3myvZQhHJryNX+VcDNI8zGpzf9YEJ6wu2v8O+3IqHtiZBzHPV
-	Xgm6MXTSVkbKgy8BgXD6/23FL+RA/W9gipCdRUwRZ5zdQ98fnq+VRklPFfO1hGRjMYM/
-	mQFBvIfpuFRb+EbtNqbnT1my9IUgin2IPFU4oUtlHfcuqebVYq8PEsVdbdjtys8NAwdn
-	iwHg==
-X-Received: by 10.68.69.7 with SMTP id a7mr2827603pbu.49.1407920067844;
-	Wed, 13 Aug 2014 01:54:27 -0700 (PDT)
-Received: from localhost.localdomain ([139.181.35.34])
-	by mx.google.com with ESMTPSA id nn3sm1209929pdb.58.2014.08.13.01.54.25
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 13 Aug 2014 01:54:27 -0700 (PDT)
-From: Shrikant Bobade <bobadeshrikant@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Aug 2014 14:26:25 +0530
-Message-Id: <1407920185-11814-1-git-send-email-bobadeshrikant@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	Shrikant Bobade <Shrikant_Bobade@mentor.com>
-Subject: [PATCH] autoconf: add rdep on perl-module-data-dumper
+	Wed, 13 Aug 2014 02:29:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=v/4/ZTzJoUMPmNyx1P+UUfzyO2r2A5plxyD/K/EU6FY=;
+	b=AEPYZZYNzRnVOi0JKSFqsLJ/gmycxi13raZ8OmnvbOYTps8x7fxRG98CCoAcaMrFXT
+	gByGHTzggBIbj8K8CRzTjWcmNjEphHbKwKKLU05S48iwYygkW0Y79CeXFULsGXTW7j9Z
+	X1EQ3HuWRZSQY3rtdTJiXh+4QDHHFmlB+qa6OXLsAB1ygI75KYpbBLZWcoT+8Pswr9SB
+	aaGtThOpVEggz3+Ceif3uor6m9VxS6gCurmdrZ/MHjUXMUGG9Id8VgoCF/ihAAHSb2w+
+	E6ScOU8jJcXEE2rJAuR64LWVnMDGd0OGygk8xC5/HH25CLnUfF7MNwW5saE9YQm4LwLg
+	GRkQ==
+X-Gm-Message-State: ALoCoQkEIHQ0gFZECwCWHxfdRXP//1oC4WgcU8Dz06Kt9zjGY1R2TVVebpCTcZP2+FI++C6avzTV
+X-Received: by 10.140.47.129 with SMTP id m1mr4424479qga.95.1407922179527;
+	Wed, 13 Aug 2014 02:29:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.95.235 with HTTP; Wed, 13 Aug 2014 02:29:19 -0700 (PDT)
+In-Reply-To: <53EAF40B.8050301@topic.nl>
+References: <53EA5178.7020209@topic.nl>
+	<CAJTo0LY+Kp14Sn4bdFtX4eYCK4Oea52MEG-=s6TbG_CKoMx9Pg@mail.gmail.com>
+	<53EAF40B.8050301@topic.nl>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 13 Aug 2014 10:29:19 +0100
+Message-ID: <CAJTo0LamoP5pE03pPi3=V-VAZxu9RYhJUwmHMWqyVLjNDeN9ww@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Autotools and "foreign"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,32 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 08:54:34 -0000
+X-List-Received-Date: Wed, 13 Aug 2014 09:29:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Shrikant Bobade <Shrikant_Bobade@mentor.com>
+On 13 August 2014 06:13, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+> That might be the case if said upstream people actually still existed. Most
+> of these packages have since long been abandoned.
 
-This patch adds rdepends on perl-module-data-dumper
-for autoconf.
+That's generally where the problems are - packages that expect
+autotools from ten years ago.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-Signed-off-by: Shrikant Bobade <Shrikant_Bobade@mentor.com>
----
- meta/recipes-devtools/autoconf/autoconf.inc |    1 +
- 1 file changed, 1 insertion(+)
+> So I guess I'll have to cook up a class that works around it, just adding
+> the "missing" files into the S directory might do the trick.
 
-diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
-index 8ed4b13..8b00fbd 100644
---- a/meta/recipes-devtools/autoconf/autoconf.inc
-+++ b/meta/recipes-devtools/autoconf/autoconf.inc
-@@ -23,6 +23,7 @@ RDEPENDS_${PN} = "m4 gnu-config \
- 		  perl-module-getopt-long \
- 		  perl-module-io-file \
- 		  perl-module-posix \
-+		  perl-module-data-dumper \
- 		 "
- RDEPENDS_${PN}_class-native = "m4-native gnu-config-native"
- 
--- 
-1.7.9.5
+In my experience of fixing oe-core, most packages that fail here
+already have patches to fix their autotools infrastructure, so adding
+[foreign] is just another fix in the same patch.
 
+Ross
 
