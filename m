@@ -1,35 +1,40 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 98862609B1
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 4477F60196
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 11:09:35 +0000 (UTC)
-Received: by mail-qg0-f44.google.com with SMTP id e89so10778594qgf.3
+	Wed, 13 Aug 2014 11:24:53 +0000 (UTC)
+Received: by mail-wg0-f52.google.com with SMTP id a1so11040178wgh.35
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 04:09:36 -0700 (PDT)
+	Wed, 13 Aug 2014 04:24:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=LQ+NS7pkxQ0nASRDvMGdlYMw0tzSNMCxG/EAtGMfKAQ=;
-	b=Na6FaVuaRLx7BX2uDeJXlyjf5dHTLS2ppUjDDw9pB+S2rU6B14qIgIlIsD8q+SVhrs
-	MpPViHz0pMVrsFpudG22GFbJdB8ttgVn92OoYY45s6hqk7wiM6xS+rCRpo4jtouRX7/t
-	HRjTw12GZ900dXFDALM7h+i9weaMpqOdSuU9xx/RVpqb9d6hkuS6jkk48MLsJ6ClyqWH
-	jnzuH0Ok6KWckhjtfUblABK/G2qUpSqEfwWdx6qixbAKwT8+a/M3+98PLxAURMBEv6Em
-	rtmZvj27kENxgo1OI1P1iqD5iEutDsOQn9RByKwHp29W5c3dnb9oOjll0nmQgCxRMGh9
-	huQA==
-MIME-Version: 1.0
-X-Received: by 10.229.212.194 with SMTP id gt2mr5786712qcb.6.1407928176701;
-	Wed, 13 Aug 2014 04:09:36 -0700 (PDT)
-Received: by 10.140.51.103 with HTTP; Wed, 13 Aug 2014 04:09:36 -0700 (PDT)
-Received: by 10.140.51.103 with HTTP; Wed, 13 Aug 2014 04:09:36 -0700 (PDT)
-In-Reply-To: <CAP71WjyHMhzdRWmxNwM8Ot=t1O0qFvONyaKqpWSaeEZU_+PKVQ@mail.gmail.com>
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=zQ+29mXm9bILF78IrRFpHLQC6OoOKR36Q0H3MlMJ7gk=;
+	b=ZEUnHoV/eAh//km516lkPLPuxgvsMaS+eDH7LCtjHQkbPwXCXYRIXJfusWljXd5Kvn
+	PiCrCJdbGtR4ESl8imb2X0HQez0vsYeIsWwGiErcqfI77y0Wyk89HES15kSkxoAk2iuG
+	tc7znodgIvCfMTcWahdf2nxJsh2it6FiTPNl2AdlYjQSKDnvPuQ0mqvGOmrGqlfD2bqc
+	WCmrPcGaUdLohr069AE1kl66XCj/BVHyXsyeEDN25q4pvu1Io2V1SA9UHJDYLKly8Lo7
+	zd5bCx5XDdaE1Pg/NScfA1EVg+33ol/QYfc30VvDdwxZI3NcYcdqJtlK7uz0V4O5qhLj
+	x05Q==
+X-Received: by 10.180.84.66 with SMTP id w2mr37723709wiy.27.1407929094883;
+	Wed, 13 Aug 2014 04:24:54 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	ga2sm3754474wjb.44.2014.08.13.04.24.53 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 Aug 2014 04:24:53 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 13 Aug 2014 13:25:31 +0200
+To: Yevhen Kyriukha <kirgene@gmail.com>
+Message-ID: <20140813112531.GU14848@jama>
 References: <CADV-EXHPuDtDk8pnFfJ4QQCVQufidX+7YuuK_FdgsEXj_46t6A@mail.gmail.com>
 	<CADV-EXHDKqVR8Quu=Vj7-Tk8BrB-OS1Y=Y0iYi+ES2YNUiREMQ@mail.gmail.com>
 	<CAP71WjyHMhzdRWmxNwM8Ot=t1O0qFvONyaKqpWSaeEZU_+PKVQ@mail.gmail.com>
-Date: Wed, 13 Aug 2014 14:09:36 +0300
-Message-ID: <CADV-EXF_+nNXPUEY0hJ3akxNCb0HeD+tHAYAiVcq9hACCv-ExA@mail.gmail.com>
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+	<CADV-EXF_+nNXPUEY0hJ3akxNCb0HeD+tHAYAiVcq9hACCv-ExA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CADV-EXF_+nNXPUEY0hJ3akxNCb0HeD+tHAYAiVcq9hACCv-ExA@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Two distros with same MACHINE
@@ -45,59 +50,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 11:09:45 -0000
-Content-Type: multipart/alternative; boundary=001a11339280d777c0050080d2a1
+X-List-Received-Date: Wed, 13 Aug 2014 11:25:04 -0000
+X-Groupsio-MsgNum: 56398
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="6Ij8Fe+3khmaPw8P"
+Content-Disposition: inline
 
---001a11339280d777c0050080d2a1
-Content-Type: text/plain; charset=KOI8-R
+--6Ij8Fe+3khmaPw8P
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-13 =E1=D7=C7 2014 =C7. 13:51 =D0=CF=CC=D8=DA=CF=D7=C1=D4=C5=CC=D8 "Nicolas =
-Dechesne" <
-nicolas.dechesne@linaro.org> =CE=C1=D0=C9=D3=C1=CC:
->
-> On Wed, Aug 13, 2014 at 12:46 PM, Yevhen Kyriukha <kirgene@gmail.com>
-wrote:
-> > I have 2 distro configs that use different PACKAGECONFIG settings for
-the
-> > same package. I'm building all distros for single MACHINE. Do I need to
-set
-> > different TMPDIR to build these two distros or I can use same dir?
+On Wed, Aug 13, 2014 at 02:09:36PM +0300, Yevhen Kyriukha wrote:
+> 13 =D0=90=D0=B2=D0=B3 2014 =D0=B3. 13:51 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=
+=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C "Nicolas Dechesne" <
+> nicolas.dechesne@linaro.org> =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BB:
 > >
->
-> yes, you should. i generally recommend to use 1 build dir for each
-> combination of <machine>, <distro> and <OE version>. keep in mind that
-> TMPDIR are 'cheap', assuming you are sharing ssate-cache, downloads
-> and using rm_work..
+> > On Wed, Aug 13, 2014 at 12:46 PM, Yevhen Kyriukha <kirgene@gmail.com>
+> wrote:
+> > > I have 2 distro configs that use different PACKAGECONFIG settings for
+> the
+> > > same package. I'm building all distros for single MACHINE. Do I need =
+to
+> set
+> > > different TMPDIR to build these two distros or I can use same dir?
+> > >
+> >
+> > yes, you should. i generally recommend to use 1 build dir for each
+> > combination of <machine>, <distro> and <OE version>. keep in mind that
+> > TMPDIR are 'cheap', assuming you are sharing ssate-cache, downloads
+> > and using rm_work..
+>=20
+> Thanks!
 
-Thanks!
+I don't agree with separate dirs for <machine>.
 
---001a11339280d777c0050080d2a1
-Content-Type: text/html; charset=KOI8-R
-Content-Transfer-Encoding: quoted-printable
+Sharing the native sysroot and huge part of deploy/ipk/<common-arch> is
+very useful for lowering disk space usage.
 
-<p dir=3D"ltr"><br>
-13 =E1=D7=C7 2014 =C7. 13:51 =D0=CF=CC=D8=DA=CF=D7=C1=D4=C5=CC=D8 &quot;Nic=
-olas Dechesne&quot; &lt;<a href=3D"mailto:nicolas.dechesne@linaro.org">nico=
-las.dechesne@linaro.org</a>&gt; =CE=C1=D0=C9=D3=C1=CC:<br>
-&gt;<br>
-&gt; On Wed, Aug 13, 2014 at 12:46 PM, Yevhen Kyriukha &lt;<a href=3D"mailt=
-o:kirgene@gmail.com">kirgene@gmail.com</a>&gt; wrote:<br>
-&gt; &gt; I have 2 distro configs that use different PACKAGECONFIG settings=
- for the<br>
-&gt; &gt; same package. I&#39;m building all distros for single MACHINE. Do=
- I need to set<br>
-&gt; &gt; different TMPDIR to build these two distros or I can use same dir=
-?<br>
-&gt; &gt;<br>
-&gt;<br>
-&gt; yes, you should. i generally recommend to use 1 build dir for each<br>
-&gt; combination of &lt;machine&gt;, &lt;distro&gt; and &lt;OE version&gt;.=
- keep in mind that<br>
-&gt; TMPDIR are &#39;cheap&#39;, assuming you are sharing ssate-cache, down=
-loads<br>
-&gt; and using rm_work..</p>
-<p dir=3D"ltr">Thanks!<br>
-</p>
 
---001a11339280d777c0050080d2a1--
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--6Ij8Fe+3khmaPw8P
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPrSysACgkQN1Ujt2V2gByhlQCfa0T/xWKKBVBRBb0644qvJQwd
+WZgAoIM6ecM6YS5xQ26XgxRCTkshtyN8
+=km2S
+-----END PGP SIGNATURE-----
+
+--6Ij8Fe+3khmaPw8P--
