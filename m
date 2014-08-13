@@ -1,44 +1,35 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
-	[74.125.82.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A40F60169
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D3C4609B1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 07:27:24 +0000 (UTC)
-Received: by mail-we0-f173.google.com with SMTP id q58so10977544wes.32
+	Wed, 13 Aug 2014 07:37:06 +0000 (UTC)
+Received: by mail-pd0-f169.google.com with SMTP id y10so14062691pdj.28
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 00:27:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=NCzR5VKm20IECPGeKVCmnRI8ne2b0O3KjSwY/qFGhcU=;
-	b=C7qN5TaSJqS0hA6L7eT4ervL4heaPdaLaSUYH0guQyY8tLW2dIjH9RBUSC6cO5GWKX
-	LykFMmXa4oKqNgshAV2+mgE7QmRhAH95HbQhhPBhWBrgFKlEj1VGro8HBPlaajD1e4fH
-	feIBDPk7++WpklJbmvJoYNjmqNMeIE2rIMMxiAkLFJ/D935edbQNrDbE2PNEkybUShm2
-	NqNcyoSo/0RznP+P8ovhs2Zo7W6zwl8nk/yG4bHIA5bqbA6y1yitsBcUWRfpLyP9OGXa
-	m9h7hXpDAh8uyyHC+/GOYMFQblL1znQwN6CwZ2XePjsBLjGozNdspD78iKocxh825gth
-	eABQ==
-X-Gm-Message-State: ALoCoQlhA75/VwYoBf8cehGyAeH2ucM2vIyCmW0WhNoiayVw50IkkYnuCnUEH5guePX5je34xkQQ
-X-Received: by 10.180.86.225 with SMTP id s1mr3362107wiz.46.1407914845769;
-	Wed, 13 Aug 2014 00:27:25 -0700 (PDT)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id m5sm2515862wjx.16.2014.08.13.00.27.24
+	Wed, 13 Aug 2014 00:37:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=2UNsk3mX01Ri5M5TSMLbVzHOu2m44wctyS2CxgOdzi4=;
+	b=PyJbY8wMmGalSs7OiuZ6jFFUVryIPSsfOCrvESUZ3TlGXWVn58iITW2Zl/YtIIZC+p
+	Et7gSb6ScAJ4z+yiLMu6l6Rufi3CS86CS7PGYhHAND8p7zeWxxXXX3DbEiIjXs3jHAoj
+	1cSgp0N0Wbgt0GWEJDVqqUHCs5tfnT7dcciBLfmlmpsqj3encVPC+z9zVhgtPT+ECWfN
+	boieBgDl+AnipqXTx41A98ZxyORBZUN++tDqmi3Msu1syvgV+1gQvon5So5/euEVG2+b
+	ZVPeqnqXTjgyN9Qx2Qlbk/VR1s7Q6LqRwvJTwyhUo0DRznlPHizmVtlf9IqWfYJGKyWv
+	pvEA==
+X-Received: by 10.66.120.176 with SMTP id ld16mr2634882pab.84.1407915427809;
+	Wed, 13 Aug 2014 00:37:07 -0700 (PDT)
+Received: from localhost.localdomain (c-73-162-180-210.hsd1.ca.comcast.net.
+	[73.162.180.210])
+	by mx.google.com with ESMTPSA id am2sm1130593pbc.59.2014.08.13.00.37.06
 	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 13 Aug 2014 00:27:24 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <53EB0F80.6080606@windriver.com>
-Date: Wed, 13 Aug 2014 09:27:23 +0200
-Message-Id: <B5E1C9EF-A02C-4419-B0AC-953935B2205F@dominion.thruhere.net>
-References: <cover.1406793899.git.Qi.Chen@windriver.com>
-	<65f32e0e16b2bf162e5d7b809fd705e0f48b6c20.1406793899.git.Qi.Chen@windriver.com>
-	<B1D0D79B-9B67-487C-98CC-323A5EDB4AEB@dominion.thruhere.net>
-	<53EB0F80.6080606@windriver.com>
-To: ChenQi <Qi.Chen@windriver.com>
-X-Mailer: Apple Mail (2.1878.6)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V5 1/1] systemd: upgrade to 215
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 13 Aug 2014 00:37:07 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Aug 2014 00:36:53 -0700
+Message-Id: <1407915415-9047-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 1/3] curl: add zlib PACKAGECONFIG and remove hardcoded DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,463 +42,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 07:27:34 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 13 Aug 2014 07:37:08 -0000
 
+Add a zlib PACKAGECONFIG control and update PACKAGECONFIG[ssl] to
+include the openssl dependency. Older hardcoded DEPENDS can then
+be removed.
 
-Op 13 aug. 2014, om 09:10 heeft ChenQi <Qi.Chen@windriver.com> het =
-volgende geschreven:
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-support/curl/curl_7.37.1.bb | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-> On 08/01/2014 05:43 PM, Koen Kooi wrote:
->> Op 31 jul. 2014, om 10:08 heeft Chen Qi <Qi.Chen@windriver.com> het =
-volgende geschreven:
->>=20
->>> Upgrade systemd from 213 to 215.
->>>=20
->>> systemd-older-kernel.patch is removed as it's fixed in 215.
->>>=20
->>> Backport two patches to fix compilation problem for qemuppc.
->>>=20
->>>    0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch
->>>    0002-endian-explicitly-include-endian.h-wherever-we-want-.patch
->>>=20
->>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>> ---
->>> ...k-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch |  116 =
-++++++++++++++++++++
->>> ...icitly-include-endian.h-wherever-we-want-.patch |   52 +++++++++
->>> .../systemd/systemd/systemd-older-kernel.patch     |   56 ----------
->>> .../systemd/{systemd_213.bb =3D> systemd_215.bb}     |   10 +-
->>> 4 files changed, 174 insertions(+), 60 deletions(-)
->>> create mode 100644 =
-meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__BIG=
-_ENDIAN-when-chec.patch
->>> create mode 100644 =
-meta/recipes-core/systemd/systemd/0002-endian-explicitly-include-endian.h-=
-wherever-we-want-.patch
->>> delete mode 100644 =
-meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
->>> rename meta/recipes-core/systemd/{systemd_213.bb =3D> =
-systemd_215.bb} (97%)
->>>=20
->>> diff --git =
-a/meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__B=
-IG_ENDIAN-when-chec.patch =
-b/meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__B=
-IG_ENDIAN-when-chec.patch
->>> new file mode 100644
->>> index 0000000..228d835
->>> --- /dev/null
->>> +++ =
-b/meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__B=
-IG_ENDIAN-when-chec.patch
->>> @@ -0,0 +1,116 @@
->>> +Upstream-Status: Backport
->>> +
->>> +Subject: always check for __BYTE_ORDER =3D=3D __BIG_ENDIAN when =
-checking for endianess
->>> +
->>> +Let's always stick to glibc's way to determine byte order, and not =
-mix
->>> +autoconf-specific checks with gcc checks.
->>> +
->>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>> +---
->>> + src/shared/architecture.h |   12 ++++++------
->>> + src/shared/gpt.h          |    4 ++--
->>> + src/shared/time-dst.c     |    6 +++---
->>> + 3 files changed, 11 insertions(+), 11 deletions(-)
->>> +
->>> +diff --git a/src/shared/architecture.h b/src/shared/architecture.h
->>> +index 4821d5d..58e97e5 100644
->>> +--- a/src/shared/architecture.h
->>> ++++ b/src/shared/architecture.h
->>> +@@ -80,7 +80,7 @@ Architecture uname_architecture(void);
->>> + #  define native_architecture() ARCHITECTURE_X86
->>> + #  define LIB_ARCH_TUPLE "i386-linux-gnu"
->>> + #elif defined(__powerpc64__)
->>> +-#  if defined(WORDS_BIGENDIAN)
->>> ++#  if __BYTE_ORDER =3D=3D __BIG_ENDIAN
->>> + #    define native_architecture() ARCHITECTURE_PPC64
->>> + #    define LIB_ARCH_TUPLE "ppc64-linux-gnu"
->>> + #  else
->>> +@@ -88,7 +88,7 @@ Architecture uname_architecture(void);
->>> + #    error "Missing LIB_ARCH_TUPLE for PPC64LE"
->>> + #  endif
->>> + #elif defined(__powerpc__)
->>> +-#  if defined(WORDS_BIGENDIAN)
->>> ++#  if __BYTE_ORDER =3D=3D __BIG_ENDIAN
->>> + #    define native_architecture() ARCHITECTURE_PPC
->>> + #    define LIB_ARCH_TUPLE "powerpc-linux-gnu"
->>> + #  else
->>> +@@ -117,7 +117,7 @@ Architecture uname_architecture(void);
->>> + #  define native_architecture() ARCHITECTURE_SPARC
->>> + #  define LIB_ARCH_TUPLE "sparc-linux-gnu"
->>> + #elif defined(__mips64__)
->>> +-#  if defined(WORDS_BIGENDIAN)
->>> ++#  if __BYTE_ORDER =3D=3D __BIG_ENDIAN
->>> + #    define native_architecture() ARCHITECTURE_MIPS64
->>> + #    error "Missing LIB_ARCH_TUPLE for MIPS64"
->>> + #  else
->>> +@@ -125,7 +125,7 @@ Architecture uname_architecture(void);
->>> + #    error "Missing LIB_ARCH_TUPLE for MIPS64_LE"
->>> + #  endif
->>> + #elif defined(__mips__)
->>> +-#  if defined(WORDS_BIGENDIAN)
->>> ++#  if __BYTE_ORDER =3D=3D __BIG_ENDIAN
->>> + #    define native_architecture() ARCHITECTURE_MIPS
->>> + #    define LIB_ARCH_TUPLE "mips-linux-gnu"
->>> + #  else
->>> +@@ -136,7 +136,7 @@ Architecture uname_architecture(void);
->>> + #  define native_architecture() ARCHITECTURE_ALPHA
->>> + #  define LIB_ARCH_TUPLE "alpha-linux-gnu"
->>> + #elif defined(__aarch64__)
->>> +-#  if defined(WORDS_BIGENDIAN)
->>> ++#  if __BYTE_ORDER =3D=3D __BIG_ENDIAN
->>> + #    define native_architecture() ARCHITECTURE_ARM64_BE
->>> + #    define LIB_ARCH_TUPLE "aarch64_be-linux-gnu"
->>> + #  else
->>> +@@ -144,7 +144,7 @@ Architecture uname_architecture(void);
->>> + #    define LIB_ARCH_TUPLE "aarch64-linux-gnu"
->>> + #  endif
->>> + #elif defined(__arm__)
->>> +-#  if defined(WORDS_BIGENDIAN)
->>> ++#  if __BYTE_ORDER =3D=3D __BIG_ENDIAN
->>> + #    define native_architecture() ARCHITECTURE_ARM_BE
->>> + #    if defined(__ARM_EABI__)
->>> + #      if defined(__ARM_PCS_VFP)
->>> +diff --git a/src/shared/gpt.h b/src/shared/gpt.h
->>> +index 64090e0..278940b 100644
->>> +--- a/src/shared/gpt.h
->>> ++++ b/src/shared/gpt.h
->>> +@@ -42,10 +42,10 @@
->>> + #  define GPT_ROOT_NATIVE GPT_ROOT_X86
->>> + #endif
->>> +
->>> +-#if defined(__aarch64__) && !defined(WORDS_BIGENDIAN)
->>> ++#if defined(__aarch64__) && (__BYTE_ORDER !=3D __BIG_ENDIAN)
->>> + #  define GPT_ROOT_NATIVE GPT_ROOT_ARM_64
->>> + #  define GPT_ROOT_SECONDARY GPT_ROOT_ARM
->>> +-#elif defined(__arm__) && !defined(WORDS_BIGENDIAN)
->>> ++#elif defined(__arm__) && (__BYTE_ORDER !=3D __BIG_ENDIAN)
->>> + #  define GPT_ROOT_NATIVE GPT_ROOT_ARM
->>> + #endif
->>> +
->>> +diff --git a/src/shared/time-dst.c b/src/shared/time-dst.c
->>> +index ceca2fa..6195b11 100644
->>> +--- a/src/shared/time-dst.c
->>> ++++ b/src/shared/time-dst.c
->>> +@@ -207,8 +207,8 @@ read_again:
->>> +                 if (type_idxs[i] >=3D num_types)
->>> +                         return -EINVAL;
->>> +
->>> +-        if (BYTE_ORDER =3D=3D BIG_ENDIAN ? sizeof(time_t) =3D=3D 8 =
-&& trans_width =3D=3D 4
->>> +-                                     : sizeof(time_t) =3D=3D 4 || =
-trans_width =3D=3D 4) {
->>> ++        if (__BYTE_ORDER =3D=3D __BIG_ENDIAN ? sizeof(time_t) =3D=3D=
- 8 && trans_width =3D=3D 4
->>> ++                                         : sizeof(time_t) =3D=3D 4 =
-|| trans_width =3D=3D 4) {
->>> +                 /* Decode the transition times, stored as 4-byte =
-integers in
->>> +                    network (big-endian) byte order.  We work from =
-the end of
->>> +                    the array so as not to clobber the next element =
-to be
->>> +@@ -216,7 +216,7 @@ read_again:
->>> +                 i =3D num_transitions;
->>> +                 while (i-- > 0)
->>> +                         transitions[i] =3D decode((char =
-*)transitions + i * 4);
->>> +-        } else if (BYTE_ORDER !=3D BIG_ENDIAN && sizeof(time_t) =3D=3D=
- 8) {
->>> ++        } else if (__BYTE_ORDER !=3D __BIG_ENDIAN && =
-sizeof(time_t) =3D=3D 8) {
->>> +                 /* Decode the transition times, stored as 8-byte =
-integers in
->>> +                    network (big-endian) byte order.  */
->>> +                 for (i =3D 0; i < num_transitions; ++i)
->>> +--
->>> +1.7.9.5
->>> +
->>> diff --git =
-a/meta/recipes-core/systemd/systemd/0002-endian-explicitly-include-endian.=
-h-wherever-we-want-.patch =
-b/meta/recipes-core/systemd/systemd/0002-endian-explicitly-include-endian.=
-h-wherever-we-want-.patch
->>> new file mode 100644
->>> index 0000000..5494192
->>> --- /dev/null
->>> +++ =
-b/meta/recipes-core/systemd/systemd/0002-endian-explicitly-include-endian.=
-h-wherever-we-want-.patch
->>> @@ -0,0 +1,52 @@
->>> +Upstream-Status: Backport
->>> +
->>> +Subject: endian: explicitly include endian.h wherever we want to =
-use __BYTE_ORDER
->>> +
->>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>> +---
->>> + src/libsystemd/sd-bus/bus-protocol.h |    1 +
->>> + src/shared/architecture.h            |    2 ++
->>> + src/shared/gpt.h                     |    2 ++
->>> + 3 files changed, 5 insertions(+)
->>> +
->>> +diff --git a/src/libsystemd/sd-bus/bus-protocol.h =
-b/src/libsystemd/sd-bus/bus-protocol.h
->>> +index 5046d17..4f46468 100644
->>> +--- a/src/libsystemd/sd-bus/bus-protocol.h
->>> ++++ b/src/libsystemd/sd-bus/bus-protocol.h
->>> +@@ -21,6 +21,7 @@
->>> +   along with systemd; If not, see <http://www.gnu.org/licenses/>.
->>> + ***/
->>> +
->>> ++#include <endian.h>
->>> +
->>> + /* Endianness */
->>> +
->>> +diff --git a/src/shared/architecture.h b/src/shared/architecture.h
->>> +index 58e97e5..38780d1 100644
->>> +--- a/src/shared/architecture.h
->>> ++++ b/src/shared/architecture.h
->>> +@@ -21,6 +21,8 @@
->>> +   along with systemd; If not, see <http://www.gnu.org/licenses/>.
->>> + ***/
->>> +
->>> ++#include <endian.h>
->>> ++
->>> + #include "util.h"
->>> +
->>> + /* A cleaned up architecture definition. We don't want to get lost =
-in
->>> +diff --git a/src/shared/gpt.h b/src/shared/gpt.h
->>> +index 278940b..ef3444f 100644
->>> +--- a/src/shared/gpt.h
->>> ++++ b/src/shared/gpt.h
->>> +@@ -19,6 +19,8 @@
->>> +   along with systemd; If not, see <http://www.gnu.org/licenses/>.
->>> + ***/
->>> +
->>> ++#include <endian.h>
->>> ++
->>> + #include "sd-id128.h"
->>> +
->>> + /* We only support root disk discovery for x86, x86-64 and ARM for
->>> +--
->>> +1.7.9.5
->>> +
->>> diff --git =
-a/meta/recipes-core/systemd/systemd/systemd-older-kernel.patch =
-b/meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
->>> deleted file mode 100644
->>> index 18b50e7..0000000
->>> --- a/meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
->>> +++ /dev/null
->>> @@ -1,56 +0,0 @@
->>> -=46rom 6109f02dcc4f2d7a461c5772bab494f5753a2203 Mon Sep 17 00:00:00 =
-2001
->>> -From: Robert Yang <liezhi.yang@windriver.com>
->>> -Date: Thu, 29 May 2014 08:09:07 +0000
->>> -Subject: [PATCH] rtnl-types.c: check IFLA_VLAN_PROTOCOL
->>> -
->>> -The older kernel's linux/if_link.h doesn't have IFLA_VLAN_PROTOCOL, =
-we need
->>> -check whether it has been defined or not.
->>> -
->>> -The maintainer said that he would fix it:
->>> -
->>> -http://thread.gmane.org/gmane.comp.sysutils.systemd.devel/18200
->>> -
->>> -Also we need redefine IFLA_MAX from 34 to 35 when define =
-IFLA_CARRIER,
->>> -otherwise there would be error:
->>> -
->>> -| src/libsystemd/sd-rtnl/rtnl-types.c:233:9: error: array index in =
-initializer exceeds array bounds
->>> -|          [IFLA_CARRIER]          =3D { .type =3D NLA_U8 },
->>> -
->>> -Upstream-Status: Pending
->>> -
->>> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>> ----
->>> - src/libsystemd/sd-rtnl/rtnl-types.c | 2 ++
->>> - src/shared/missing.h                | 2 ++
->>> - 2 files changed, 4 insertions(+)
->>> -
->>> -diff --git a/src/libsystemd/sd-rtnl/rtnl-types.c =
-b/src/libsystemd/sd-rtnl/rtnl-types.c
->>> -index 44ac5ec..ab6161f 100644
->>> ---- a/src/libsystemd/sd-rtnl/rtnl-types.c
->>> -+++ b/src/libsystemd/sd-rtnl/rtnl-types.c
->>> -@@ -67,7 +67,9 @@ static const NLType =
-rtnl_link_info_data_vlan_types[IFLA_VLAN_MAX + 1] =3D {
->>> -         [IFLA_VLAN_EGRESS_QOS]  =3D { .type =3D NLA_NESTED },
->>> -         [IFLA_VLAN_INGRESS_QOS] =3D { .type =3D NLA_NESTED },
->>> - */
->>> -+#ifdef IFLA_VLAN_PROTOCOL
->>> -         [IFLA_VLAN_PROTOCOL]    =3D { .type =3D NLA_U16 },
->>> -+#endif
->>> - };
->>> -
->>> - static const NLType rtnl_link_info_data_bond_types[IFLA_BOND_MAX + =
-1] =3D {
->>> -diff --git a/src/shared/missing.h b/src/shared/missing.h
->>> -index d5ec2f8..732853f 100644
->>> ---- a/src/shared/missing.h
->>> -+++ b/src/shared/missing.h
->>> -@@ -94,6 +94,8 @@
->>> -
->>> - #ifndef IFLA_CARRIER
->>> -   #define IFLA_CARRIER 33
->>> -+  #undef IFLA_MAX
->>> -+  #define IFLA_MAX 35
->>> -   #ifndef IFLA_NUM_RX_QUEUES
->>> -     #define IFLA_NUM_RX_QUEUES 32
->>> -     #ifndef IFLA_NUM_TX_QUEUES
->>> ---
->>> -1.8.3.4
->>> -
->>> diff --git a/meta/recipes-core/systemd/systemd_213.bb =
-b/meta/recipes-core/systemd/systemd_215.bb
->>> similarity index 97%
->>> rename from meta/recipes-core/systemd/systemd_213.bb
->>> rename to meta/recipes-core/systemd/systemd_215.bb
->>> index 5de7cdc..9eafa38 100644
->>> --- a/meta/recipes-core/systemd/systemd_213.bb
->>> +++ b/meta/recipes-core/systemd/systemd_215.bb
->>> @@ -17,9 +17,9 @@ SECTION =3D "base/shell"
->>>=20
->>> inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d =
-update-alternatives qemu systemd ptest
->>>=20
->>> -SRCREV =3D "c9679c652b3c31f2510e8805d81630680ebc7e95"
->>> +SRCREV =3D "252ff40a3827b4e8e62e03a5e2f80da3fe02bee6"
->>>=20
->>> -PV =3D "213+git${SRCPV}"
->>> +PV =3D "215+git${SRCPV}"
->>>=20
->>> SRC_URI =3D =
-"git://anongit.freedesktop.org/systemd/systemd;branch=3Dmaster;protocol=3D=
-git \
->>>            file://binfmt-install.patch \
->>> @@ -31,12 +31,13 @@ SRC_URI =3D =
-"git://anongit.freedesktop.org/systemd/systemd;branch=3Dmaster;protocol=3D=
-
->>>            file://0001-uClibc-doesn-t-implement-pwritev-preadv.patch =
-\
->>>            file://uclibc-sysinfo_h.patch \
->>>            file://uclibc-get-physmem.patch \
->>> +           =
-file://0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch \
->>> +           =
-file://0002-endian-explicitly-include-endian.h-wherever-we-want-.patch \
->>>            file://touchscreen.rules \
->>>            file://00-create-volatile.conf \
->>>            file://init \
->>>            file://run-ptest \
->>> -           file://systemd-older-kernel.patch \
->>> -          "
->>> +         "
->>>=20
->>> S =3D "${WORKDIR}/git"
->>>=20
->>> @@ -231,6 +232,7 @@ FILES_${PN} =3D " ${base_bindir}/* \
->>>                 ${exec_prefix}/lib/systemd \
->>>                 ${exec_prefix}/lib/modules-load.d \
->>>                 ${exec_prefix}/lib/sysctl.d \
->>> +                ${exec_prefix}/lib/sysusers.d \
->>>                 ${localstatedir} \
->>>                 /lib/udev/rules.d/70-uaccess.rules \
->>>                 /lib/udev/rules.d/71-seat.rules \
->>=20
->> Like I keep saying, the sysusers files need to be in CONFFILES
->>=20
->=20
-> Hi Koen,
->=20
-> Sorry for the late reply.
->=20
-> I checked the initial commit of sysusers.d/ in the systemd git repo.
->=20
-> "
-> This also adds a minimal user definition file, that should be
->    sufficient for most basic systems. Distributions are expected to =
-patch
->    these files and augment the contents, for example with fixed UIDs =
-for
->    the users where that's necessary.
-> "
->=20
-> =46rom the above commit message, we can tell that these files are =
-expected to be modified by distros instead of users including admins.
-
-Nowhere does it say "instead of users", it only says "by distros". The =
-question to ask is: do you want changes to this to get blown away by =
-package upgrades?
-
-> If a file is not expected to be modified by users, how can it be a =
-configuration file?
->=20
-> Below is the complete commit message in the git repo.
->=20
-> """"
->=20
-> sysusers: add minimal tool to reconstruct /etc/passwd and /etc/group =
-from static files
->=20
->    systemd-sysusers is a tool to reconstruct /etc/passwd and =
-/etc/group
->    from static definition files that take a lot of inspiration from
->    tmpfiles snippets. These snippets should carry information about =
-system
->    users only. To make sure it is not misused for normal users these
->    snippets only allow configuring UID and gecos field for each user, =
-but
->    do not allow configuration of the home directory or shell, which is
->    necessary for real login users.
->=20
->    The purpose of this tool is to enable state-less systems that can
->    populate /etc with the minimal files necessary, solely from static =
-data
->    in /usr. systemd-sysuser is additive only, and will never override
->    existing users.
->=20
->    This tool will create these files directly, and not via some user
->    database abtsraction layer. This is appropriate as this tool is =
-supposed
->    to run really early at boot, and is only useful for creating system
->    users, and system users cannot be stored in remote databases =
-anyway.
->=20
->    The tool is also useful to be invoked from RPM scriptlets, instead =
-of
->    useradd. This allows moving from imperative user descriptions in =
-RPM to
->    declarative descriptions.
->=20
->    The UID/GID for a user/group to be created can either be chosen =
-dynamic,
->    or fixed, or be read from the owner of a file in the file system, =
-in
->    order to support reconstructing the correct IDs for files that =
-shall be
->    owned by them.
->=20
->    This also adds a minimal user definition file, that should be
->    sufficient for most basic systems. Distributions are expected to =
-patch
->    these files and augment the contents, for example with fixed UIDs =
-for
->    the users where that's necessary.
->=20
->=20
-> """"
->=20
-> Best Regards,
-> Chen Qi
->=20
+diff --git a/meta/recipes-support/curl/curl_7.37.1.bb b/meta/recipes-support/curl/curl_7.37.1.bb
+index dc1d6a6..e51e06d 100644
+--- a/meta/recipes-support/curl/curl_7.37.1.bb
++++ b/meta/recipes-support/curl/curl_7.37.1.bb
+@@ -5,10 +5,6 @@ SECTION = "console/network"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e664ac"
+ 
+-DEPENDS = "zlib gnutls"
+-DEPENDS_class-native = "zlib-native openssl-native"
+-DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-openssl"
+-
+ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://pkgconfig_fix.patch \
+ "
+@@ -23,22 +19,23 @@ SRC_URI[sha256sum] = "c3ef3cd148f3778ddbefb344117d7829db60656efe1031f9e3065fc0fa
+ 
+ inherit autotools pkgconfig binconfig multilib_header
+ 
+-PACKAGECONFIG ??= "gnutls ${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)}"
+-PACKAGECONFIG_class-native = "ipv6 ssl"
+-PACKAGECONFIG_class-nativesdk = "ipv6 ssl"
++PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)} gnutls zlib"
++PACKAGECONFIG_class-native = "ipv6 ssl zlib"
++PACKAGECONFIG_class-nativesdk = "ipv6 ssl zlib"
++
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+-PACKAGECONFIG[ssl] =  "--with-ssl, --without-ssl, ,"
+-PACKAGECONFIG[gnutls] =  "--with-gnutls=${STAGING_LIBDIR}/../, --without-gnutls, gnutls,"
++PACKAGECONFIG[ssl] = "--with-ssl,--without-ssl,openssl"
++PACKAGECONFIG[gnutls] = "--with-gnutls=${STAGING_LIBDIR}/../,--without-gnutls,gnutls"
++PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_LIBDIR}/../,--without-zlib,zlib"
+ 
+-EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
+-                --without-libssh2 \
++EXTRA_OECONF = "--without-libssh2 \
+                 --with-random=/dev/urandom \
+                 --without-libidn \
+                 --enable-crypto-auth \
+                 --disable-ldap \
+                 --disable-ldaps \
+                 --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
+-                "
++"
+ 
+ do_configure_prepend() {
+ 	sed -i s:OPT_GNUTLS/bin:OPT_GNUTLS:g ${S}/configure.ac
+-- 
+1.8.3.2
 
 
