@@ -1,36 +1,32 @@
-Return-Path: <aymeric.dumaz@gmail.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B68760CFC
+Return-Path: <pandey_himanshu80@rediffmail.com>
+Received: from rediffmail.com (unknown [202.137.235.239])
+	by mail.openembedded.org (Postfix) with SMTP id 9287E65CB2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 00:20:34 +0000 (UTC)
-Received: by mail-wi0-f175.google.com with SMTP id ho1so6644961wib.14
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 17:20:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=W10NSM5llDG8mgyKQQwwwYfSVh20mRUFEyAi4xrCI80=;
-	b=VEjYeIhWby+TMtKf+S8r0o5qGEdmNVMgWPpBz1k12t40Cc2QmneKOrVW+G00rjV992
-	TQF++htUJ/tfIZVNoQI270XoYGjvQ+Niu7aXDaMtRFG7a+Wn8DOQJ1Vd2G6qQGSsp9nZ
-	cUjKXsaVqTuzVaHXK93Qz6Vfje7AtMRvtq4FJGHsR0jVGdLIOE4QwKWLkUjN0EryX3b2
-	9b51+BaSWtKhsAz+ZI5EujPSczQE5oiuSDMhu5STgGkeVVO46enOnNL9bfSdRMOcgXzO
-	nCqE9eCSkbWpGpc0VzxvoPKXTuOmwMeFnMUPMoplLj8HcU4DlhgTfmOWDYKLIs9aLBwq
-	Rd6g==
-X-Received: by 10.194.103.38 with SMTP id ft6mr1012097wjb.18.1407889235403;
-	Tue, 12 Aug 2014 17:20:35 -0700 (PDT)
-Received: from localhost.localdomain (136.217.123.78.rev.sfr.net.
-	[78.123.217.136])
-	by mx.google.com with ESMTPSA id q2sm605995wjo.13.2014.08.12.17.20.34
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 12 Aug 2014 17:20:34 -0700 (PDT)
-Sender: Aymeric Dumaz <aymericdumaz@gmail.com>
-From: Aymeric Dumaz <aymeric.dumaz@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Aug 2014 02:20:13 +0200
-Message-Id: <1407889213-22396-1-git-send-email-aymeric.dumaz@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] package.bbclass: Add ASSUME_SONAME variable
+	Wed, 13 Aug 2014 04:57:53 +0000 (UTC)
+Received: (qmail 6087 invoked by uid 510); 13 Aug 2014 04:57:47 -0000
+Comment: DomainKeys? See http://antispam.yahoo.com/domainkeys
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=redf; d=rediffmail.com;
+	b=SQ1Y7F/x1qLms/tOUOnH78KZzi9+BBrRX45M/44e/VD2febO6XQ42b5k5bJhQdwCENJWRkWgmX1IuLkNVKaBaNRZbk4FTLUR9E/cp0X1Om8ESP2Lk7tkCNDmiLYvzeMLBbDxkU8qA38baoptIU4yEsfuMgOXNFUPgH3R7RIXa5A=
+	; 
+x-m-msg: asd54ad564ad7aa6sd5as6d5; a6da7d6asas6dasd77; 5dad65ad5sd;
+X-CTCH-Spam: Unknown
+X-CTCH-VOD: Unknown
+X-CTCH-Flags: : 0
+X-CTCH-RefID: str=0001.0A160204.53EAF04A.0289, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0
+X-REDF-OSEN: pandey_himanshu80@rediffmail.com
+Date: 13 Aug 2014 04:57:46 -0000
+MIME-Version: 1.0
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Received: from unknown 103.25.205.2 by rediffmail.com via HTTP;
+	13 Aug 2014 04:57:46 -0000
+Message-ID: <1407840950.S.69623.autosave.drafts.old.1407905866.6016@webmail.rediffmail.com>
+Sender: pandey_himanshu80@rediffmail.com
+From: "Himanshu  Pandey" <pandey_himanshu80@rediffmail.com>
+Subject: Regarding PR flag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,78 +39,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 00:20:34 -0000
+X-List-Received-Date: Wed, 13 Aug 2014 04:57:59 -0000
+Content-Type: multipart/alternative;
+	boundary="=_b5ebea8f4c29d8bdac2d0d2cfca16149"
 
-When libraries don't have a SONAME in their section, their name aren't added in
-the .list file generated during do_package.
-Other recipes are able to build against them but are not able to find them
-afterwards, leading to missing dependencies.
+--=_b5ebea8f4c29d8bdac2d0d2cfca16149
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 
-For example, with qtbase and proprietary libraries for the OMAP3:
-NOTE: Couldn't find shared library provider for libGLESv2.so, used by files:
-[...]
+Hi,
+How to bump up PR flag automatically. The problem is that every time I clean and compile my image, some of the .bb files are not compiled, then in that case I bump their PR by 1 and then they get compiled. So I want to avoid this situation. I want that every time I do clean &amp; compile all the packages shall be compiled without any problem.
+Please help.
+Regards,Himanshu
 
-This patch add the possibility to manually define a list of librairies that will
-be exported in the .list file.
-A hack in a lacking-SONAME recipe can be made on package_do_shlibs_append to
-copy .list file manually made, but files from others PACKAGES in this recipe
-will produce similar warnings during their creation because their name aren't in
-the shlib_provider variable.
+--=_b5ebea8f4c29d8bdac2d0d2cfca16149
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="UTF-8"
 
-The darwin_so is not patched because it isn't relying on SONAME.
+Hi,<div><br></div><div>How to bump up PR flag automatically. The problem is=
+ that every time I clean and compile my image, some of the .bb files are no=
+t compiled, then in that case I bump their PR by 1 and then they get compil=
+ed. So I want to avoid this situation. I want that every time I do clean &a=
+mp; compile all the packages shall be compiled without any problem.</div><d=
+iv><br></div><div>Please help.</div><div><br></div><div>Regards,</div><div>=
+Himanshu</div>
+<br><A HREF=3D"http://sigads.rediff.com/RealMedia/ads/click_nx.ads/www.redi=
+ffmail.com/signatureline.htm@Middle?" target=3D"_blank"><IMG SRC=3D"http://=
+sigads.rediff.com/RealMedia/ads/adstream_nx.ads/www.rediffmail.com/signatur=
+eline.htm@Middle"></A><table cellpadding=3D"0" cellspacing=3D"0"><tbody><tr=
+><td><div style=3D"font-family: Arial, Helvetica, sans-serif; font-size:14p=
+x">Get your own <span style=3D"padding-bottom: 0px; background-color: #cc00=
+00; padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, s=
+ans-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></=
+span> website,  <span style=3D"padding-bottom: 0px; background-color: #c00;=
+ padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, sans=
+-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></spa=
+n> domain &amp; <span style=3D"padding-bottom: 0px; background-color: #c00;=
+ padding-left: 3px; padding-RIGHT: 3px; font-family: Arial, Helvetica, sans=
+-serif; color: #ffffff; font-size: 12px; padding-top: 0px"><b>FREE</b></spa=
+n> mobile app with Company email. &nbsp;</div></td><td><a href=3D"http://tr=
+ack.rediff.com/click?url=3D___http://businessemail.rediff.com/email-ids-for=
+-companies-with-less-than-50-employees?sc_cid=3Dsign-1-10-13___&cmp=3Dhost&=
+lnk=3Dsign-1-10-13&nsrv1=3Dhost" style=3D"font-family: Arial, Helvetica, sa=
+ns-serif; color: #fff; font-size: 14px; color:#0000cc" target=3D"_blank"><b=
+>Know More ></b></a><!-- <in-put type=3D"button" cl-ass=3D"button" on-click=
+=3D"parent.location=3D&#39;http://track.rediff.com/click?url=3D___http://bu=
+sinessemail.rediff.com/company-email-hosting-services?sc_cid=3Dsignature-23=
+-9-13___&amp;cmp=3Dsignature-23-9-13&amp;lnk=3Dmypagelogout&amp;nsrv1=3Dhos=
+t&#39;" value=3D"Know more &gt;"> </input> --></td></tr></tbody></table>
 
-Signed-off-by: Aymeric Dumaz <aymeric.dumaz@gmail.com>
----
- meta/classes/package.bbclass | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 6a552d9..766e118 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1399,7 +1399,7 @@ python package_do_shlibs() {
-                             shlib_provider[s[0]] = {}
-                         shlib_provider[s[0]][s[1]] = (dep_pkg, s[2])
- 
--    def linux_so(file, needed, sonames, renames, pkgver):
-+    def linux_so(file, needed, sonames, renames, assumed_sonames, pkgver):
-         needs_ldconfig = False
-         ldir = os.path.dirname(file).replace(pkgdest + "/" + pkg, '')
-         cmd = d.getVar('OBJDUMP', True) + " -p " + pipes.quote(file) + " 2>/dev/null"
-@@ -1419,8 +1419,15 @@ python package_do_shlibs() {
-                 if dep not in needed[pkg]:
-                     needed[pkg].append((dep, file, rpath))
-             m = re.match("\s+SONAME\s+([^\s]*)", l)
-+            this_soname = None
-             if m:
-                 this_soname = m.group(1)
-+            if not this_soname:
-+                file_basename = os.path.basename(file)
-+                for s in assumed_sonames:
-+                    if s in file_basename:
-+                        this_soname = s
-+            if this_soname:
-                 prov = (this_soname, ldir, pkgver)
-                 if not prov in sonames:
-                     # if library is private (only used by package) then do not build shlib for it
-@@ -1513,6 +1520,7 @@ python package_do_shlibs() {
-         needed[pkg] = []
-         sonames = list()
-         renames = list()
-+        assumed_sonames = (d.getVar('ASSUME_SONAME_' + pkg, True) or "").split()
-         for file in pkgfiles[pkg]:
-                 soname = None
-                 if cpath.islink(file):
-@@ -1520,7 +1528,7 @@ python package_do_shlibs() {
-                 if targetos == "darwin" or targetos == "darwin8":
-                     darwin_so(file, needed, sonames, renames, pkgver)
-                 elif os.access(file, os.X_OK) or lib_re.match(file):
--                    ldconfig = linux_so(file, needed, sonames, renames, pkgver)
-+                    ldconfig = linux_so(file, needed, sonames, renames, assumed_sonames, pkgver)
-                     needs_ldconfig = needs_ldconfig or ldconfig
-         for (old, new) in renames:
-             bb.note("Renaming %s to %s" % (old, new))
--- 
-1.9.1
-
-
+--=_b5ebea8f4c29d8bdac2d0d2cfca16149--
