@@ -1,48 +1,45 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7723F70BE2
+Return-Path: <matt@console-pimps.org>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 03E7665C68
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 17:47:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 6A4031805A
+	Wed, 13 Aug 2014 19:41:47 +0000 (UTC)
+Received: by mail-wi0-f170.google.com with SMTP id f8so8867793wiw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:47:58 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id MYcvHbBlXmuI
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:47:54 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 49C06180A7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:47:54 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 32D1C1465
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:47:54 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 27B1B340
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:47:54 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 25DED3E049
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:47:54 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id s7DHlsRJ004775
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 19:47:54 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id s7DHls8b004772
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Aug 2014 19:47:54 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Aug 2014 19:47:51 +0200
-Message-Id: <cover.1407952036.git.pkj@axis.com>
-X-Mailer: git-send-email 1.9.0
-Subject: [PATCH 0/1] Update gstreamer1.0-rtsp-server to 1.4.0
+	Wed, 13 Aug 2014 12:41:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent;
+	bh=5nwauDNSy4XtaQgZQgM2LTZHIyTUy45zNDh+nfey/xo=;
+	b=HJXimcA3HYbYIAXdzEyXmOPcIMCADUHupFmZkXILZT2nxYsjTzvPf9faAZpB+bxHjw
+	fTiE70HcBdzn0fF+tYJD8ePM2o2Y5uXRFtsQbhbBYZaebDNPMHPAgwMDMf1edE5qvWC+
+	58yjkDOifuBSBP4+36PlVgF4JthbUhoKX6JTgKJThSQbxIO/iF7ccihxQIJMS4jwchw1
+	cxjlqw0e525t8L55OggJ0S3rXs0m5TtJ4n2Jnm4mIx3GlygA010KZ1V6rHmy/zmb7oed
+	hKhLf8ojYriWF5zEVpWKo1bqLqVo1JBtR3Wdl5svJIFNsNlH2K5Na8fS6KFEnP6VZSi8
+	v8FA==
+X-Gm-Message-State: ALoCoQlKvMYYlsLCmGDvCMxh98IrF1gYq2/I/okxOLOSS68MBbujF2k/+vaTTuP1DvWFpCNd5+Si
+X-Received: by 10.180.80.225 with SMTP id u1mr6542881wix.69.1407958908180;
+	Wed, 13 Aug 2014 12:41:48 -0700 (PDT)
+Received: from localhost (05428d07.skybroadband.com. [5.66.141.7])
+	by mx.google.com with ESMTPSA id 10sm6404368wjx.26.2014.08.13.12.41.46
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 Aug 2014 12:41:47 -0700 (PDT)
+Date: Wed, 13 Aug 2014 20:41:45 +0100
+From: Matt Fleming <matt@console-pimps.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20140813194145.GW15082@console-pimps.org>
+References: <1407935023-9284-1-git-send-email-matt@console-pimps.org>
+	<1407935023-9284-2-git-send-email-matt@console-pimps.org>
+	<20140813134511.GV14848@jama>
+MIME-Version: 1.0
+In-Reply-To: <20140813134511.GV14848@jama>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Matt Fleming <matt.fleming@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] recipes-extended: Add iasl recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,30 +52,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 17:47:57 -0000
+X-List-Received-Date: Wed, 13 Aug 2014 19:41:55 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This updates gstreamer1.0-rtsp-server to 1.4.0. I have no idea why
-this was not done when all the other GStreamer recipes were updated.
+On Wed, 13 Aug, at 03:45:11PM, Martin Jansa wrote:
+> 
+> There is acpica-unix2 in meta-oe:
+> meta-oe/recipes-extended/acpica/acpica_20140424.bb:SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz \
+> 
+> can we use that one instead?
 
-//Peter
+Sure, I don't see why not. Though something like this is probably
+required?
 
-The following changes since commit 6882d2d9993c8655a292c93e84ea01b4738a700d:
+---
 
-  yocto-project-qs, ref-manual: Added 'socat' package to essentials. (2014-08-12 13:50:32 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/gstreamer1.0-rtsp-server
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/gstreamer1.0-rtsp-server
-
-Peter Kjellerstedt (1):
-  gstreamer1.0-rtsp-server: Upgrade to 1.4.0
-
- ...r1.0-rtsp-server_1.2.3.bb => gstreamer1.0-rtsp-server_1.4.0.bb} | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.2.3.bb => gstreamer1.0-rtsp-server_1.4.0.bb} (43%)
+diff --git a/meta-luv/recipes-extended/acpica/acpica_20140424.bb b/meta-luv/recipes-extended/acpica/acpica_20140424.bb
+index d10a31b..03f69ad 100644
+--- a/meta-luv/recipes-extended/acpica/acpica_20140424.bb
++++ b/meta-luv/recipes-extended/acpica/acpica_20140424.bb
+@@ -32,3 +32,5 @@ do_install() {
+ }
+ 
+ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
++
++BBCLASSEXTEND = "native"
 
 -- 
-1.9.0
-
+Matt Fleming, Intel Open Source Technology Center
 
