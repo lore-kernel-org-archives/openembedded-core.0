@@ -1,43 +1,36 @@
-Return-Path: <matt@console-pimps.org>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E89360809
+Return-Path: <aymeric.dumaz@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id DE4E660CFC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 19:05:31 +0000 (UTC)
-Received: by mail-wg0-f47.google.com with SMTP id b13so10256717wgh.18
+	Wed, 13 Aug 2014 00:18:00 +0000 (UTC)
+Received: by mail-wi0-f175.google.com with SMTP id ho1so6643362wib.14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Aug 2014 12:05:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent;
-	bh=VumOVXDOQHmYOLBWO8Jz7Q+piBLusyJcXpiQOqd8IXI=;
-	b=bAqzqqft4YM+yX0nb0hXlnjskL0xkEzFSezK9/aFwTx4fY+V5xuNLZoulHziEN4qzu
-	wr/llltxzhGeTRY1FBuVST1++9voJYrXClS3bbyu8no4+DrR8X5KWeGegFd4fWs1mDQi
-	apnRrxrdQ0ZIB/2rKgcB9BW+lwX57l/aJ7QH80+8Mf26mhdVpGqji/qQ7PAHZ03KdF/g
-	dqxQ9u5rmPvqiUoPbzy9ebtwoBzm2JGZ3kn07A9yIRBR4WyxSQZJgiGM/IFVOQEDtFt9
-	sCkvyltvOfUJzaGs7ulOlCo78y0UKyHxZ10LF6GkUUkfqD50HxsiAr4w+1CeZ5rGrDmC
-	JqVw==
-X-Gm-Message-State: ALoCoQkVBRq4vlSQkBGKOgeadb3ITo/aeuNNAp945c0g9aMP6d+ZsZV270IFPpOzMEnQJP6NA0/L
-X-Received: by 10.180.74.198 with SMTP id w6mr513751wiv.7.1407870332481;
-	Tue, 12 Aug 2014 12:05:32 -0700 (PDT)
-Received: from localhost ([94.8.35.160])
-	by mx.google.com with ESMTPSA id r1sm59190711wia.21.2014.08.12.12.05.31
+	Tue, 12 Aug 2014 17:18:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=i9mF4OnjJshZCeyQHdCg9Thz3BxuFzFPtkZZaNhwyW4=;
+	b=rrl5BEEYod0vhChMP9NzlnH9D3qUeNMRwrlw7zR5Dg2sE1DikeGP1a8cH6MuzNo116
+	lHYmd9ik2sRcsTpGyqbrSTvqQ5tpyJtRD1EJB/qQJD3H/YkRjsfH3AeYwxAoW7XsTspW
+	9TXxXOQueW/c62cv3ykpKu9Rk8YXricLr55CGoZlkkNHAJxiWELHeV7XwPdnQ8VDlwQV
+	6xozEE4j9lgyyCvI2ZnH32WAoGLiJTE/MMy3kUfstPoB+MfSLAqJEEOrIuQI0XFoUYb8
+	WyZDxIaensTibPeJUrbTC9iKpqnFduF1+htfDoySQnc32EvCDq5efFzJKPd9JzBaJzfp
+	Mv2g==
+X-Received: by 10.180.38.39 with SMTP id d7mr1762204wik.24.1407889081861;
+	Tue, 12 Aug 2014 17:18:01 -0700 (PDT)
+Received: from localhost.localdomain (136.217.123.78.rev.sfr.net.
+	[78.123.217.136])
+	by mx.google.com with ESMTPSA id bv16sm2194730wib.2.2014.08.12.17.18.00
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Aug 2014 12:05:31 -0700 (PDT)
-Date: Tue, 12 Aug 2014 20:05:29 +0100
-From: Matt Fleming <matt@console-pimps.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20140812190529.GK15082@console-pimps.org>
-References: <1407857266-13529-1-git-send-email-matt@console-pimps.org>
-	<20140812155138.GR14848@jama>
-MIME-Version: 1.0
-In-Reply-To: <20140812155138.GR14848@jama>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Darren Hart <dvhart@linux.intel.com>, Matt Fleming <matt.fleming@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] recipes-devtools: Add OVMF recipe
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 12 Aug 2014 17:18:01 -0700 (PDT)
+Sender: Aymeric Dumaz <aymericdumaz@gmail.com>
+From: Aymeric Dumaz <aymeric.dumaz@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Aug 2014 02:17:55 +0200
+Message-Id: <1407889075-22290-1-git-send-email-aymeric.dumaz@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [dora/daisy][PATCH] package.bbclass: Add ASSUME_SONAME variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,46 +43,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Aug 2014 19:05:38 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 13 Aug 2014 00:18:06 -0000
 
-On Tue, 12 Aug, at 05:51:38PM, Martin Jansa wrote:
-> 
-> I don't think we have iasl in oe-core.
- 
-Oops, my bad. I thought I'd checked that but turns out I was looking in
-the wrong tree.
+When libraries don't have a SONAME in their section, their name aren't added in
+the .list/.ver files generated during do_package.
+Other recipes are able to build against them but are not able to find them
+afterwards, leading to missing dependencies.
 
-I'll include the iasl recipe with the next submission.
+For example, with qtbase and proprietary libraries for the OMAP3:
+NOTE: Couldn't find shared library provider for libGLESv2.so, used by files:
+[...]
 
-> Also the styleguide says you should use space around = (SRCREV, DEPENDS,
-> COMPATIBLE_HOST, BUILD_OPTIMIZATION, GCC_VER)
- 
-Thanks, I'll update the patch.
+This patch add the possibility to manually define a list of librairies that will
+be exported in the .list/.ver files.
+A hack in a lacking-SONAME recipe can be made on package_do_shlibs_append to
+copy .list/.ver files manually made, but files from others PACKAGES in this
+recipe will produce similar warnings during their creation because their name
+aren't in the shlib_provider variable.
 
-> > +# OVMF has trouble building with the default optimization of -O2.
-> > +BUILD_OPTIMIZATION="-pipe"
-> > +
-> > +# OVMF supports IA only, although it could conceivably support ARM someday.
-> > +COMPATIBLE_HOST='(i.86|x86_64).*'
-> > +
-> > +do_patch_append() {
-> > +    bb.build.exec_func('do_fix_iasl', d)
-> > +    bb.build.exec_func('do_fix_toolchain', d)
-> 
-> Why don't you fix them in do_configure_prepend?
+The darwin_so is not patched because it isn't relying on SONAME.
 
-What's the tradeoff?
+Signed-off-by: Aymeric Dumaz <aymeric.dumaz@gmail.com>
+---
+ meta/classes/package.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Though I realise that we're not actually *patching* anything and so
-do_configure_prepend() probably does make more semantic sense.
-
-Ah, after a bit of grepping I see that it's a pretty common pattern. OK,
-sure, I'll update this.
-
-Thanks for the review.
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 5b1e902..9471e90 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1353,8 +1353,15 @@ python package_do_shlibs() {
+                 if m.group(1) not in needed[pkg]:
+                     needed[pkg].append(m.group(1))
+             m = re.match("\s+SONAME\s+([^\s]*)", l)
++            this_soname = None
+             if m:
+                 this_soname = m.group(1)
++            if not this_soname:
++                file_basename = os.path.basename(file)
++                for s in assumed_sonames:
++                    if s in file_basename:
++                        this_soname = s
++            if this_soname:
+                 if not this_soname in sonames:
+                     # if library is private (only used by package) then do not build shlib for it
+                     if not private_libs or -1 == private_libs.find(this_soname):
+@@ -1452,6 +1459,7 @@ python package_do_shlibs() {
+         needed[pkg] = []
+         sonames = list()
+         renames = list()
++        assumed_sonames = (d.getVar('ASSUME_SONAME_' + pkg, True) or "").split()
+         for file in pkgfiles[pkg]:
+                 soname = None
+                 if cpath.islink(file):
 -- 
-Matt Fleming, Intel Open Source Technology Center
+1.9.1
+
 
