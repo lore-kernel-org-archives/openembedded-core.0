@@ -1,37 +1,27 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C1A665CC1
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A44BE60DF7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 07:37:25 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id lf10so14490889pab.30
+	Wed, 13 Aug 2014 08:10:43 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7D8Ai5U019206
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 00:37:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=dJbTpMBqrHUBPp3JMMtmltjYJzjw07UXAA+iQuCADMw=;
-	b=jneFMYlHPACHkB+ZW2tQgKl6NnRqL/vjy6Zwf5M3CARxEHMG0GltrnR+8yuWgrB4no
-	z/mb8yVzvJwPcGujFTT8+8BABlhRRbYO6K7ly27xSoscac305no7wdMX2CUbzPplqGMp
-	neg0uIgKAXLJfp7xcx4WCjLSQ9YSG82N8cvMakDgOTl+Ab7WBKfiiidp17xUJpzjpXNH
-	ZNKjbUjuML0rpKNSSBDvfuHrf6+wUEM1h1QXmnqRJVFnO/dZv6sWzQ3ZSHrh4anEUgSe
-	7QudtTxEqovA2BWwNghznXmNUIGIGjp82Nhw1O90fYvrmqbZ++j1tPCJeUSqqISXSDeX
-	FiRw==
-X-Received: by 10.67.12.175 with SMTP id er15mr1032169pad.143.1407915446159;
-	Wed, 13 Aug 2014 00:37:26 -0700 (PDT)
-Received: from localhost.localdomain (c-73-162-180-210.hsd1.ca.comcast.net.
-	[73.162.180.210])
-	by mx.google.com with ESMTPSA id am2sm1130593pbc.59.2014.08.13.00.37.24
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 13 Aug 2014 00:37:25 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Aug 2014 00:36:55 -0700
-Message-Id: <1407915415-9047-3-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <1407915415-9047-1-git-send-email-armccurdy@gmail.com>
-References: <1407915415-9047-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 3/3] curl: --with-random is only applicable with openssl
+	Wed, 13 Aug 2014 01:10:44 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 13 Aug 2014 01:10:43 -0700
+Message-ID: <53EB1D82.4070009@windriver.com>
+Date: Wed, 13 Aug 2014 16:10:42 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1407766043.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1407766043.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/1 V2] insane.bbclass: add QA check: file-rdeps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,32 +34,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 07:37:25 -0000
+X-List-Received-Date: Wed, 13 Aug 2014 08:10:51 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-support/curl/curl_7.37.1.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Talked with RP, we need check all the deps on the dependencies
+chain, I will update it sooner.
 
-diff --git a/meta/recipes-support/curl/curl_7.37.1.bb b/meta/recipes-support/curl/curl_7.37.1.bb
-index 4b7f9ec..8bcd9ba 100644
---- a/meta/recipes-support/curl/curl_7.37.1.bb
-+++ b/meta/recipes-support/curl/curl_7.37.1.bb
-@@ -24,12 +24,11 @@ PACKAGECONFIG_class-native = "ipv6 ssl zlib"
- PACKAGECONFIG_class-nativesdk = "ipv6 ssl zlib"
- 
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
--PACKAGECONFIG[ssl] = "--with-ssl,--without-ssl,openssl"
-+PACKAGECONFIG[ssl] = "--with-ssl --with-random=/dev/urandom,--without-ssl,openssl"
- PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
- PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_LIBDIR}/../,--without-zlib,zlib"
- 
- EXTRA_OECONF = "--without-libssh2 \
--                --with-random=/dev/urandom \
-                 --without-libidn \
-                 --enable-crypto-auth \
-                 --disable-ldap \
--- 
-1.8.3.2
+// Robert
 
+On 08/11/2014 10:09 PM, Robert Yang wrote:
+> * Changes of V2:
+>    Refer build-deps to check all the files' rdepends rather than only
+>    check bash, perl and python as RP suggested.
+>
+> Next:
+> * Fix the issues one by one:
+>    - Remove the depends is possible (such as bash)
+>    - Split the packages for perl and python depends when needed.
+>
+> // Robert
+>
+> The following changes since commit 63cbed337241191f33fe951662a39ce59dce6774:
+>
+>    oeqa/runtime: add new cpp test and file (2014-08-11 12:30:16 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib rbt/file-rdeps
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/file-rdeps
+>
+> Robert Yang (1):
+>    insane.bbclass: add QA check: file-rdeps
+>
+>   meta/classes/insane.bbclass |   37 ++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 36 insertions(+), 1 deletion(-)
+>
 
