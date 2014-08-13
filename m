@@ -1,26 +1,36 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1332F65E0C
+Return-Path: <bobadeshrikant@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id CB56260CFC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 08:23:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7D8NEt0019304
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 13 Aug 2014 08:54:26 +0000 (UTC)
+Received: by mail-pa0-f42.google.com with SMTP id lf10so14575283pab.15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 01:23:14 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 13 Aug 2014 01:23:14 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Aug 2014 01:23:13 -0700
-Message-ID: <7870042734abc804036f137ea34cabdb5601f2b5.1407918169.git.liezhi.yang@windriver.com>
+	Wed, 13 Aug 2014 01:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=ie7YS3RzQH8xcPeQMvlo5Iasgfbqho+0oR0IeuB9NDk=;
+	b=JgoTejjffwXCPqNFiNsK7xU+lmJpsFS0dgb8bGIN3vRs8F4NKmVKzta8IRnDl7gfaG
+	KRCsUbsp6GvlG8iPwsk3Y7Zy1vL+1Us3HQsiyWQ45laQsyxGs87qlgQA8mN62BCPTWvC
+	V0M0W3WRorYwkclT0AT3myvZQhHJryNX+VcDNI8zGpzf9YEJ6wu2v8O+3IqHtiZBzHPV
+	Xgm6MXTSVkbKgy8BgXD6/23FL+RA/W9gipCdRUwRZ5zdQ98fnq+VRklPFfO1hGRjMYM/
+	mQFBvIfpuFRb+EbtNqbnT1my9IUgin2IPFU4oUtlHfcuqebVYq8PEsVdbdjtys8NAwdn
+	iwHg==
+X-Received: by 10.68.69.7 with SMTP id a7mr2827603pbu.49.1407920067844;
+	Wed, 13 Aug 2014 01:54:27 -0700 (PDT)
+Received: from localhost.localdomain ([139.181.35.34])
+	by mx.google.com with ESMTPSA id nn3sm1209929pdb.58.2014.08.13.01.54.25
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 13 Aug 2014 01:54:27 -0700 (PDT)
+From: Shrikant Bobade <bobadeshrikant@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Aug 2014 14:26:25 +0530
+Message-Id: <1407920185-11814-1-git-send-email-bobadeshrikant@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1407918169.git.liezhi.yang@windriver.com>
-References: <cover.1407918169.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] python-pygtk: fix native python path
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Shrikant Bobade <Shrikant_Bobade@mentor.com>
+Subject: [PATCH] autoconf: add rdep on perl-module-data-dumper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 08:23:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 13 Aug 2014 08:54:34 -0000
 
-Fixed:
-1) Set IMAGE_INSTALL_append = " python-pygtk-demo" in local.conf
-2) $ bitbake core-image-minimal
-[snip]
-Computing transaction...error: Can't install python-pygtk-demo-2.24.0-r1@core2_64: no package provides /usr/bin/python-native/python
-[snip]
+From: Shrikant Bobade <Shrikant_Bobade@mentor.com>
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+This patch adds rdepends on perl-module-data-dumper
+for autoconf.
+
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Shrikant Bobade <Shrikant_Bobade@mentor.com>
 ---
- .../recipes-devtools/python/python-pygtk_2.24.0.bb |    1 +
+ meta/recipes-devtools/autoconf/autoconf.inc |    1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-index 3dbef89..8fc194f 100644
---- a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-+++ b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-@@ -44,6 +44,7 @@ do_install_append() {
- 	find ${D} -name "*.la"|xargs rm -f
- 	rm -f ${D}/${bindir}/pygtk-codegen-2.0
- 	rm -rf ${D}/${libdir}/pkgconfig
-+	sed -i -e '1s|^#!.*python|#!/usr/bin/env python|' ${D}${bindir}/pygtk-demo
- }
+diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
+index 8ed4b13..8b00fbd 100644
+--- a/meta/recipes-devtools/autoconf/autoconf.inc
++++ b/meta/recipes-devtools/autoconf/autoconf.inc
+@@ -23,6 +23,7 @@ RDEPENDS_${PN} = "m4 gnu-config \
+ 		  perl-module-getopt-long \
+ 		  perl-module-io-file \
+ 		  perl-module-posix \
++		  perl-module-data-dumper \
+ 		 "
+ RDEPENDS_${PN}_class-native = "m4-native gnu-config-native"
  
- # dirty fix #2: fix build system paths leaking in
 -- 
 1.7.9.5
 
