@@ -1,30 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 02CD760169
+Return-Path: <Yasir_Khan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 838CB60169
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 07:10:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7D7AgTG026755
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 13 Aug 2014 00:10:42 -0700 (PDT)
-Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Wed, 13 Aug 2014 00:10:41 -0700
-Message-ID: <53EB0F80.6080606@windriver.com>
-Date: Wed, 13 Aug 2014 15:10:56 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
-MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <cover.1406793899.git.Qi.Chen@windriver.com>
-	<65f32e0e16b2bf162e5d7b809fd705e0f48b6c20.1406793899.git.Qi.Chen@windriver.com>
-	<B1D0D79B-9B67-487C-98CC-323A5EDB4AEB@dominion.thruhere.net>
-In-Reply-To: <B1D0D79B-9B67-487C-98CC-323A5EDB4AEB@dominion.thruhere.net>
-X-Originating-IP: [128.224.162.187]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V5 1/1] systemd: upgrade to 215
+	Wed, 13 Aug 2014 07:21:33 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1XHSsA-0004wO-9k from Yasir_Khan@mentor.com ;
+	Wed, 13 Aug 2014 00:21:26 -0700
+Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Wed, 13 Aug 2014 00:21:25 -0700
+From: Yasir Khan <yasir_khan@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Aug 2014 12:20:00 +0500
+Message-Id: <1407914400-50293-1-git-send-email-yasir_khan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+X-OriginalArrivalTime: 13 Aug 2014 07:21:26.0190 (UTC)
+	FILETIME=[317A9CE0:01CFB6C7]
+Subject: [PATCH] prelink: apply patch for ARM IFUNC support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,385 +30,307 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 07:10:51 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Aug 2014 07:21:36 -0000
 
-On 08/01/2014 05:43 PM, Koen Kooi wrote:
-> Op 31 jul. 2014, om 10:08 heeft Chen Qi <Qi.Chen@windriver.com> het volgende geschreven:
->
->> Upgrade systemd from 213 to 215.
->>
->> systemd-older-kernel.patch is removed as it's fixed in 215.
->>
->> Backport two patches to fix compilation problem for qemuppc.
->>
->>     0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch
->>     0002-endian-explicitly-include-endian.h-wherever-we-want-.patch
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->> ...k-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch |  116 ++++++++++++++++++++
->> ...icitly-include-endian.h-wherever-we-want-.patch |   52 +++++++++
->> .../systemd/systemd/systemd-older-kernel.patch     |   56 ----------
->> .../systemd/{systemd_213.bb => systemd_215.bb}     |   10 +-
->> 4 files changed, 174 insertions(+), 60 deletions(-)
->> create mode 100644 meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch
->> create mode 100644 meta/recipes-core/systemd/systemd/0002-endian-explicitly-include-endian.h-wherever-we-want-.patch
->> delete mode 100644 meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
->> rename meta/recipes-core/systemd/{systemd_213.bb => systemd_215.bb} (97%)
->>
->> diff --git a/meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch b/meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch
->> new file mode 100644
->> index 0000000..228d835
->> --- /dev/null
->> +++ b/meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch
->> @@ -0,0 +1,116 @@
->> +Upstream-Status: Backport
->> +
->> +Subject: always check for __BYTE_ORDER == __BIG_ENDIAN when checking for endianess
->> +
->> +Let's always stick to glibc's way to determine byte order, and not mix
->> +autoconf-specific checks with gcc checks.
->> +
->> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> +---
->> + src/shared/architecture.h |   12 ++++++------
->> + src/shared/gpt.h          |    4 ++--
->> + src/shared/time-dst.c     |    6 +++---
->> + 3 files changed, 11 insertions(+), 11 deletions(-)
->> +
->> +diff --git a/src/shared/architecture.h b/src/shared/architecture.h
->> +index 4821d5d..58e97e5 100644
->> +--- a/src/shared/architecture.h
->> ++++ b/src/shared/architecture.h
->> +@@ -80,7 +80,7 @@ Architecture uname_architecture(void);
->> + #  define native_architecture() ARCHITECTURE_X86
->> + #  define LIB_ARCH_TUPLE "i386-linux-gnu"
->> + #elif defined(__powerpc64__)
->> +-#  if defined(WORDS_BIGENDIAN)
->> ++#  if __BYTE_ORDER == __BIG_ENDIAN
->> + #    define native_architecture() ARCHITECTURE_PPC64
->> + #    define LIB_ARCH_TUPLE "ppc64-linux-gnu"
->> + #  else
->> +@@ -88,7 +88,7 @@ Architecture uname_architecture(void);
->> + #    error "Missing LIB_ARCH_TUPLE for PPC64LE"
->> + #  endif
->> + #elif defined(__powerpc__)
->> +-#  if defined(WORDS_BIGENDIAN)
->> ++#  if __BYTE_ORDER == __BIG_ENDIAN
->> + #    define native_architecture() ARCHITECTURE_PPC
->> + #    define LIB_ARCH_TUPLE "powerpc-linux-gnu"
->> + #  else
->> +@@ -117,7 +117,7 @@ Architecture uname_architecture(void);
->> + #  define native_architecture() ARCHITECTURE_SPARC
->> + #  define LIB_ARCH_TUPLE "sparc-linux-gnu"
->> + #elif defined(__mips64__)
->> +-#  if defined(WORDS_BIGENDIAN)
->> ++#  if __BYTE_ORDER == __BIG_ENDIAN
->> + #    define native_architecture() ARCHITECTURE_MIPS64
->> + #    error "Missing LIB_ARCH_TUPLE for MIPS64"
->> + #  else
->> +@@ -125,7 +125,7 @@ Architecture uname_architecture(void);
->> + #    error "Missing LIB_ARCH_TUPLE for MIPS64_LE"
->> + #  endif
->> + #elif defined(__mips__)
->> +-#  if defined(WORDS_BIGENDIAN)
->> ++#  if __BYTE_ORDER == __BIG_ENDIAN
->> + #    define native_architecture() ARCHITECTURE_MIPS
->> + #    define LIB_ARCH_TUPLE "mips-linux-gnu"
->> + #  else
->> +@@ -136,7 +136,7 @@ Architecture uname_architecture(void);
->> + #  define native_architecture() ARCHITECTURE_ALPHA
->> + #  define LIB_ARCH_TUPLE "alpha-linux-gnu"
->> + #elif defined(__aarch64__)
->> +-#  if defined(WORDS_BIGENDIAN)
->> ++#  if __BYTE_ORDER == __BIG_ENDIAN
->> + #    define native_architecture() ARCHITECTURE_ARM64_BE
->> + #    define LIB_ARCH_TUPLE "aarch64_be-linux-gnu"
->> + #  else
->> +@@ -144,7 +144,7 @@ Architecture uname_architecture(void);
->> + #    define LIB_ARCH_TUPLE "aarch64-linux-gnu"
->> + #  endif
->> + #elif defined(__arm__)
->> +-#  if defined(WORDS_BIGENDIAN)
->> ++#  if __BYTE_ORDER == __BIG_ENDIAN
->> + #    define native_architecture() ARCHITECTURE_ARM_BE
->> + #    if defined(__ARM_EABI__)
->> + #      if defined(__ARM_PCS_VFP)
->> +diff --git a/src/shared/gpt.h b/src/shared/gpt.h
->> +index 64090e0..278940b 100644
->> +--- a/src/shared/gpt.h
->> ++++ b/src/shared/gpt.h
->> +@@ -42,10 +42,10 @@
->> + #  define GPT_ROOT_NATIVE GPT_ROOT_X86
->> + #endif
->> +
->> +-#if defined(__aarch64__) && !defined(WORDS_BIGENDIAN)
->> ++#if defined(__aarch64__) && (__BYTE_ORDER != __BIG_ENDIAN)
->> + #  define GPT_ROOT_NATIVE GPT_ROOT_ARM_64
->> + #  define GPT_ROOT_SECONDARY GPT_ROOT_ARM
->> +-#elif defined(__arm__) && !defined(WORDS_BIGENDIAN)
->> ++#elif defined(__arm__) && (__BYTE_ORDER != __BIG_ENDIAN)
->> + #  define GPT_ROOT_NATIVE GPT_ROOT_ARM
->> + #endif
->> +
->> +diff --git a/src/shared/time-dst.c b/src/shared/time-dst.c
->> +index ceca2fa..6195b11 100644
->> +--- a/src/shared/time-dst.c
->> ++++ b/src/shared/time-dst.c
->> +@@ -207,8 +207,8 @@ read_again:
->> +                 if (type_idxs[i] >= num_types)
->> +                         return -EINVAL;
->> +
->> +-        if (BYTE_ORDER == BIG_ENDIAN ? sizeof(time_t) == 8 && trans_width == 4
->> +-                                     : sizeof(time_t) == 4 || trans_width == 4) {
->> ++        if (__BYTE_ORDER == __BIG_ENDIAN ? sizeof(time_t) == 8 && trans_width == 4
->> ++                                         : sizeof(time_t) == 4 || trans_width == 4) {
->> +                 /* Decode the transition times, stored as 4-byte integers in
->> +                    network (big-endian) byte order.  We work from the end of
->> +                    the array so as not to clobber the next element to be
->> +@@ -216,7 +216,7 @@ read_again:
->> +                 i = num_transitions;
->> +                 while (i-- > 0)
->> +                         transitions[i] = decode((char *)transitions + i * 4);
->> +-        } else if (BYTE_ORDER != BIG_ENDIAN && sizeof(time_t) == 8) {
->> ++        } else if (__BYTE_ORDER != __BIG_ENDIAN && sizeof(time_t) == 8) {
->> +                 /* Decode the transition times, stored as 8-byte integers in
->> +                    network (big-endian) byte order.  */
->> +                 for (i = 0; i < num_transitions; ++i)
->> +--
->> +1.7.9.5
->> +
->> diff --git a/meta/recipes-core/systemd/systemd/0002-endian-explicitly-include-endian.h-wherever-we-want-.patch b/meta/recipes-core/systemd/systemd/0002-endian-explicitly-include-endian.h-wherever-we-want-.patch
->> new file mode 100644
->> index 0000000..5494192
->> --- /dev/null
->> +++ b/meta/recipes-core/systemd/systemd/0002-endian-explicitly-include-endian.h-wherever-we-want-.patch
->> @@ -0,0 +1,52 @@
->> +Upstream-Status: Backport
->> +
->> +Subject: endian: explicitly include endian.h wherever we want to use __BYTE_ORDER
->> +
->> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> +---
->> + src/libsystemd/sd-bus/bus-protocol.h |    1 +
->> + src/shared/architecture.h            |    2 ++
->> + src/shared/gpt.h                     |    2 ++
->> + 3 files changed, 5 insertions(+)
->> +
->> +diff --git a/src/libsystemd/sd-bus/bus-protocol.h b/src/libsystemd/sd-bus/bus-protocol.h
->> +index 5046d17..4f46468 100644
->> +--- a/src/libsystemd/sd-bus/bus-protocol.h
->> ++++ b/src/libsystemd/sd-bus/bus-protocol.h
->> +@@ -21,6 +21,7 @@
->> +   along with systemd; If not, see <http://www.gnu.org/licenses/>.
->> + ***/
->> +
->> ++#include <endian.h>
->> +
->> + /* Endianness */
->> +
->> +diff --git a/src/shared/architecture.h b/src/shared/architecture.h
->> +index 58e97e5..38780d1 100644
->> +--- a/src/shared/architecture.h
->> ++++ b/src/shared/architecture.h
->> +@@ -21,6 +21,8 @@
->> +   along with systemd; If not, see <http://www.gnu.org/licenses/>.
->> + ***/
->> +
->> ++#include <endian.h>
->> ++
->> + #include "util.h"
->> +
->> + /* A cleaned up architecture definition. We don't want to get lost in
->> +diff --git a/src/shared/gpt.h b/src/shared/gpt.h
->> +index 278940b..ef3444f 100644
->> +--- a/src/shared/gpt.h
->> ++++ b/src/shared/gpt.h
->> +@@ -19,6 +19,8 @@
->> +   along with systemd; If not, see <http://www.gnu.org/licenses/>.
->> + ***/
->> +
->> ++#include <endian.h>
->> ++
->> + #include "sd-id128.h"
->> +
->> + /* We only support root disk discovery for x86, x86-64 and ARM for
->> +--
->> +1.7.9.5
->> +
->> diff --git a/meta/recipes-core/systemd/systemd/systemd-older-kernel.patch b/meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
->> deleted file mode 100644
->> index 18b50e7..0000000
->> --- a/meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
->> +++ /dev/null
->> @@ -1,56 +0,0 @@
->> -From 6109f02dcc4f2d7a461c5772bab494f5753a2203 Mon Sep 17 00:00:00 2001
->> -From: Robert Yang <liezhi.yang@windriver.com>
->> -Date: Thu, 29 May 2014 08:09:07 +0000
->> -Subject: [PATCH] rtnl-types.c: check IFLA_VLAN_PROTOCOL
->> -
->> -The older kernel's linux/if_link.h doesn't have IFLA_VLAN_PROTOCOL, we need
->> -check whether it has been defined or not.
->> -
->> -The maintainer said that he would fix it:
->> -
->> -http://thread.gmane.org/gmane.comp.sysutils.systemd.devel/18200
->> -
->> -Also we need redefine IFLA_MAX from 34 to 35 when define IFLA_CARRIER,
->> -otherwise there would be error:
->> -
->> -| src/libsystemd/sd-rtnl/rtnl-types.c:233:9: error: array index in initializer exceeds array bounds
->> -|          [IFLA_CARRIER]          = { .type = NLA_U8 },
->> -
->> -Upstream-Status: Pending
->> -
->> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ----
->> - src/libsystemd/sd-rtnl/rtnl-types.c | 2 ++
->> - src/shared/missing.h                | 2 ++
->> - 2 files changed, 4 insertions(+)
->> -
->> -diff --git a/src/libsystemd/sd-rtnl/rtnl-types.c b/src/libsystemd/sd-rtnl/rtnl-types.c
->> -index 44ac5ec..ab6161f 100644
->> ---- a/src/libsystemd/sd-rtnl/rtnl-types.c
->> -+++ b/src/libsystemd/sd-rtnl/rtnl-types.c
->> -@@ -67,7 +67,9 @@ static const NLType rtnl_link_info_data_vlan_types[IFLA_VLAN_MAX + 1] = {
->> -         [IFLA_VLAN_EGRESS_QOS]  = { .type = NLA_NESTED },
->> -         [IFLA_VLAN_INGRESS_QOS] = { .type = NLA_NESTED },
->> - */
->> -+#ifdef IFLA_VLAN_PROTOCOL
->> -         [IFLA_VLAN_PROTOCOL]    = { .type = NLA_U16 },
->> -+#endif
->> - };
->> -
->> - static const NLType rtnl_link_info_data_bond_types[IFLA_BOND_MAX + 1] = {
->> -diff --git a/src/shared/missing.h b/src/shared/missing.h
->> -index d5ec2f8..732853f 100644
->> ---- a/src/shared/missing.h
->> -+++ b/src/shared/missing.h
->> -@@ -94,6 +94,8 @@
->> -
->> - #ifndef IFLA_CARRIER
->> -   #define IFLA_CARRIER 33
->> -+  #undef IFLA_MAX
->> -+  #define IFLA_MAX 35
->> -   #ifndef IFLA_NUM_RX_QUEUES
->> -     #define IFLA_NUM_RX_QUEUES 32
->> -     #ifndef IFLA_NUM_TX_QUEUES
->> ---
->> -1.8.3.4
->> -
->> diff --git a/meta/recipes-core/systemd/systemd_213.bb b/meta/recipes-core/systemd/systemd_215.bb
->> similarity index 97%
->> rename from meta/recipes-core/systemd/systemd_213.bb
->> rename to meta/recipes-core/systemd/systemd_215.bb
->> index 5de7cdc..9eafa38 100644
->> --- a/meta/recipes-core/systemd/systemd_213.bb
->> +++ b/meta/recipes-core/systemd/systemd_215.bb
->> @@ -17,9 +17,9 @@ SECTION = "base/shell"
->>
->> inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest
->>
->> -SRCREV = "c9679c652b3c31f2510e8805d81630680ebc7e95"
->> +SRCREV = "252ff40a3827b4e8e62e03a5e2f80da3fe02bee6"
->>
->> -PV = "213+git${SRCPV}"
->> +PV = "215+git${SRCPV}"
->>
->> SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=git \
->>             file://binfmt-install.patch \
->> @@ -31,12 +31,13 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
->>             file://0001-uClibc-doesn-t-implement-pwritev-preadv.patch \
->>             file://uclibc-sysinfo_h.patch \
->>             file://uclibc-get-physmem.patch \
->> +           file://0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch \
->> +           file://0002-endian-explicitly-include-endian.h-wherever-we-want-.patch \
->>             file://touchscreen.rules \
->>             file://00-create-volatile.conf \
->>             file://init \
->>             file://run-ptest \
->> -           file://systemd-older-kernel.patch \
->> -          "
->> +         "
->>
->> S = "${WORKDIR}/git"
->>
->> @@ -231,6 +232,7 @@ FILES_${PN} = " ${base_bindir}/* \
->>                  ${exec_prefix}/lib/systemd \
->>                  ${exec_prefix}/lib/modules-load.d \
->>                  ${exec_prefix}/lib/sysctl.d \
->> +                ${exec_prefix}/lib/sysusers.d \
->>                  ${localstatedir} \
->>                  /lib/udev/rules.d/70-uaccess.rules \
->>                  /lib/udev/rules.d/71-seat.rules \
->
-> Like I keep saying, the sysusers files need to be in CONFFILES
->
+From: Yasir-Khan <yasir_khan@mentor.com>
 
-Hi Koen,
+From Julian Brown, see
+http://sourcery.sje.mentorg.com/pipermail/gnu-arm-releases/2014-April/015072.html.
 
-Sorry for the late reply.
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
+---
+ .../prelink/prelink/arm-ifunc.patch                |  264 ++++++++++++++++++++
+ meta/recipes-devtools/prelink/prelink_git.bb       |    4 +-
+ 2 files changed, 267 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/prelink/prelink/arm-ifunc.patch
 
-I checked the initial commit of sysusers.d/ in the systemd git repo.
+diff --git a/meta/recipes-devtools/prelink/prelink/arm-ifunc.patch b/meta/recipes-devtools/prelink/prelink/arm-ifunc.patch
+new file mode 100644
+index 0000000..b63affc
+--- /dev/null
++++ b/meta/recipes-devtools/prelink/prelink/arm-ifunc.patch
+@@ -0,0 +1,264 @@
++Kyle McMartin  <kmcmartin@redhat.com>
++Jakub Jelinek  <jakub@redhat.com>
++Julian Brown  <julian@codesourcery.com>
++
++* testsuite/ifunc.h: Add ARM support.
++* src/prelink.h (R_ARM_IRELATIVE): Define.
++* src/arch-arm.c (arm_adjust_rel, arm_adjust_rela)
++(arm_prelink_rel, arm_prelink_rela, arm_apply_conflict_rela)
++(arm_rela_to_rel, arm_rel_to_rela, arm_undo_prelink_rel):
++Handle R_ARM_IRELATIVE.
++(arm_prelink_conflict_rel, arm_prelink_conflict_rela): Handle
++R_ARM_IRELATIVE, ifunc conflicts.
++
++Upstream-Status: Pending [This is applied to the CodeBench toolchain, but not to upstream prelink, nor to prelink-cross]
++
++Index: trunk/src/arch-arm.c
++===================================================================
++--- trunk.orig/src/arch-arm.c	2014-04-25 16:07:02.190843841 -0700
+++++ trunk/src/arch-arm.c	2014-04-25 16:08:12.211355745 -0700
++@@ -1,4 +1,4 @@
++-/* Copyright (C) 2001, 2002, 2004, 2009, 2011 Red Hat, Inc.
+++/* Copyright (C) 2001, 2002, 2004, 2009, 2011, 2013 Red Hat, Inc.
++    Written by Jakub Jelinek <jakub@redhat.com>, 2001.
++ 
++    This program is free software; you can redistribute it and/or modify
++@@ -80,6 +80,7 @@
++     {
++     case R_ARM_RELATIVE:
++     case R_ARM_JUMP_SLOT:
+++    case R_ARM_IRELATIVE:
++       data = read_une32 (dso, rel->r_offset);
++       if (data >= start)
++ 	write_ne32 (dso, rel->r_offset, data + adjust);
++@@ -97,6 +98,7 @@
++   switch (GELF_R_TYPE (rela->r_info))
++     {
++     case R_ARM_RELATIVE:
+++    case R_ARM_IRELATIVE:
++       if ((Elf32_Addr) rela->r_addend >= start)
++ 	{
++ 	  rela->r_addend += (Elf32_Sword) adjust;
++@@ -123,6 +125,7 @@
++   Elf32_Sword val;
++ 
++   if (GELF_R_TYPE (rel->r_info) == R_ARM_RELATIVE
+++      || GELF_R_TYPE (rel->r_info) == R_ARM_IRELATIVE
++       || GELF_R_TYPE (rel->r_info) == R_ARM_NONE)
++     /* Fast path: nothing to do.  */
++     return 0;
++@@ -212,6 +215,7 @@
++   Elf32_Sword val;
++ 
++   if (GELF_R_TYPE (rela->r_info) == R_ARM_RELATIVE
+++      || GELF_R_TYPE (rela->r_info) == R_ARM_IRELATIVE
++       || GELF_R_TYPE (rela->r_info) == R_ARM_NONE)
++     /* Fast path: nothing to do.  */
++     return 0;
++@@ -293,6 +297,8 @@
++ arm_apply_conflict_rela (struct prelink_info *info, GElf_Rela *rela,
++ 			 char *buf, GElf_Addr dest_addr)
++ {
+++  GElf_Rela *ret;
+++
++   switch (GELF_R_TYPE (rela->r_info))
++     {
++     case R_ARM_GLOB_DAT:
++@@ -300,6 +306,16 @@
++     case R_ARM_ABS32:
++       buf_write_ne32 (info->dso, buf, rela->r_addend);
++       break;
+++    case R_ARM_IRELATIVE:
+++      if (dest_addr == 0)
+++	return 5;
+++      ret = prelink_conflict_add_rela (info);
+++      if (ret == NULL)
+++	return 1;
+++      ret->r_offset = dest_addr;
+++      ret->r_info = GELF_R_INFO (0, R_ARM_IRELATIVE);
+++      ret->r_addend = rela->r_addend;
+++      break;
++     default:
++       abort ();
++     }
++@@ -399,35 +415,31 @@
++   GElf_Rela *ret;
++ 
++   if (GELF_R_TYPE (rel->r_info) == R_ARM_RELATIVE
++-      || GELF_R_TYPE (rel->r_info) == R_ARM_NONE
++-      || info->dso == dso)
+++      || GELF_R_TYPE (rel->r_info) == R_ARM_NONE)
++     /* Fast path: nothing to do.  */
++     return 0;
++   conflict = prelink_conflict (info, GELF_R_SYM (rel->r_info),
++ 			       GELF_R_TYPE (rel->r_info));
++   if (conflict == NULL)
++     {
++-      if (info->curtls == NULL)
++-	return 0;
++-
++       switch (GELF_R_TYPE (rel->r_info))
++ 	{
++ 	/* Even local DTPMOD and TPOFF relocs need conflicts.  */
++ 	case R_ARM_TLS_DTPMOD32:
++ 	case R_ARM_TLS_TPOFF32:
+++	  if (info->curtls == NULL || info->dso == dso)
+++	    return 0;
+++	  break;
+++	/* Similarly IRELATIVE relocations always need conflicts.  */
+++	case R_ARM_IRELATIVE:
++ 	  break;
++-
++ 	default:
++ 	  return 0;
++ 	}
++       value = 0;
++     }
++-  else if (conflict->ifunc)
++-    {
++-      error (0, 0, "%s: STT_GNU_IFUNC not handled on ARM yet",
++-	     dso->filename);
++-      return 1;
++-    }
+++  else if (info->dso == dso && !conflict->ifunc)
+++    return 0;
++   else
++     {
++       /* DTPOFF32 wants to see only real conflicts, not lookups
++@@ -450,6 +462,11 @@
++     case R_ARM_GLOB_DAT:
++     case R_ARM_JUMP_SLOT:
++       ret->r_addend = (Elf32_Sword) value;
+++      if (conflict != NULL && conflict->ifunc)
+++	ret->r_info = GELF_R_INFO (0, R_ARM_IRELATIVE);
+++      break;
+++    case R_ARM_IRELATIVE:
+++      ret->r_addend = (Elf32_Sword) read_une32 (dso, rel->r_offset);
++       break;
++     case R_ARM_ABS32:
++     case R_ARM_PC24:
++@@ -508,8 +525,7 @@
++   Elf32_Sword val;
++ 
++   if (GELF_R_TYPE (rela->r_info) == R_ARM_RELATIVE
++-      || GELF_R_TYPE (rela->r_info) == R_ARM_NONE
++-      || info->dso == dso)
+++      || GELF_R_TYPE (rela->r_info) == R_ARM_NONE)
++     /* Fast path: nothing to do.  */
++     return 0;
++   conflict = prelink_conflict (info, GELF_R_SYM (rela->r_info),
++@@ -517,27 +533,24 @@
++ 
++   if (conflict == NULL)
++     {
++-      if (info->curtls == NULL)
++-	return 0;
++-
++       switch (GELF_R_TYPE (rela->r_info))
++ 	{
++ 	/* Even local DTPMOD and TPOFF relocs need conflicts.  */
++ 	case R_ARM_TLS_DTPMOD32:
++ 	case R_ARM_TLS_TPOFF32:
+++	  if (info->curtls == NULL || info->dso == dso)
+++	    return 0;
+++	  break;
+++	/* Similarly IRELATIVE relocations always need conflicts.  */
+++	case R_ARM_IRELATIVE:
++ 	  break;
++-
++ 	default:
++ 	  return 0;
++ 	}
++       value = 0;
++     }
++-  else if (conflict->ifunc)
++-    {
++-      error (0, 0, "%s: STT_GNU_IFUNC not handled on ARM yet",
++-	     dso->filename);
++-      return 1;
++-    }
+++  else if (info->dso == dso && !conflict->ifunc)
+++    return 0;
++   else
++     {
++       /* DTPOFF32 wants to see only real conflicts, not lookups
++@@ -560,7 +573,10 @@
++     case R_ARM_GLOB_DAT:
++     case R_ARM_JUMP_SLOT:
++     case R_ARM_ABS32:
+++    case R_ARM_IRELATIVE:
++       ret->r_addend = (Elf32_Sword) (value + rela->r_addend);
+++      if (conflict && conflict->ifunc)
+++	ret->r_info = GELF_R_INFO (0, R_ARM_IRELATIVE);
++       break;
++     case R_ARM_PC24:
++       val = value + rela->r_addend - rela->r_offset;
++@@ -625,6 +641,7 @@
++       /* We should be never converting .rel.plt into .rela.plt.  */
++       abort ();
++     case R_ARM_RELATIVE:
+++    case R_ARM_IRELATIVE:
++     case R_ARM_ABS32:
++     case R_ARM_TLS_TPOFF32:
++     case R_ARM_TLS_DTPOFF32:
++@@ -656,6 +673,7 @@
++ 	 and thus never .rela.plt back to .rel.plt.  */
++       abort ();
++     case R_ARM_RELATIVE:
+++    case R_ARM_IRELATIVE:
++     case R_ARM_ABS32:
++     case R_ARM_TLS_TPOFF32:
++     case R_ARM_TLS_DTPOFF32:
++@@ -794,6 +812,7 @@
++   switch (GELF_R_TYPE (rel->r_info))
++     {
++     case R_ARM_RELATIVE:
+++    case R_ARM_IRELATIVE:
++     case R_ARM_NONE:
++       break;
++     case R_ARM_JUMP_SLOT:
++Index: trunk/src/prelink.h
++===================================================================
++--- trunk.orig/src/prelink.h	2014-04-25 16:07:02.000000000 -0700
+++++ trunk/src/prelink.h	2014-04-25 16:08:12.235355916 -0700
++@@ -145,6 +145,10 @@
++ #define R_390_IRELATIVE		61
++ #endif
++ 
+++#ifndef R_ARM_IRELATIVE
+++#define R_ARM_IRELATIVE		160
+++#endif
+++
++ struct prelink_entry;
++ struct prelink_info;
++ struct PLArch;
++Index: trunk/testsuite/ifunc.h
++===================================================================
++--- trunk.orig/testsuite/ifunc.h	2014-04-25 16:07:02.000000000 -0700
+++++ trunk/testsuite/ifunc.h	2014-04-25 16:08:43.831585698 -0700
++@@ -35,6 +35,25 @@
++      IFUNC_ASM (PICK (fn1, fn2))			\
++      "\t.size " #name ", .-.L" #name "\n")
++ # endif
+++#elif defined __arm__
+++# ifdef __thumb__
+++#  define PIPE_OFFSET "4"
+++# else
+++#  define PIPE_OFFSET "8"
+++# endif
+++# define IFUNC_ASM(fn)					\
+++     "\tldr r0, .L" fn "\n"				\
+++   "1:\tadd r0, pc, r0\n"				\
+++     "\tmov pc, lr\n"					\
+++     ".L" fn ": .long " fn " - 1b - " PIPE_OFFSET "\n"
+++# define IFUNC_DECL(name, hidden, fn1, fn2)		\
+++asm (".text\n"						\
+++     "\t.globl " #name "\n"				\
+++     "\t" hidden " " #name "\n"				\
+++     "\t.type " #name ", %gnu_indirect_function\n"	\
+++     #name ":\n"					\
+++     IFUNC_ASM (PICK (fn1, fn2))			\
+++     "\t.size " #name ", .-" #name "\n")
++ #else
++ # error Architecture not supported
++ #endif
+diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
+index 3288822..5aa850d 100644
+--- a/meta/recipes-devtools/prelink/prelink_git.bb
++++ b/meta/recipes-devtools/prelink/prelink_git.bb
+@@ -30,7 +30,9 @@ SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink \
+            file://prelink.conf \
+            file://prelink.cron.daily \
+            file://prelink.default \
+-	   file://macros.prelink"
++	   file://macros.prelink \
++           file://arm-ifunc.patch \
++"
+ 
+ TARGET_OS_ORIG := "${TARGET_OS}"
+ OVERRIDES_append = ":${TARGET_OS_ORIG}"
+-- 
+1.7.9.5
 
-"
-This also adds a minimal user definition file, that should be
-     sufficient for most basic systems. Distributions are expected to patch
-     these files and augment the contents, for example with fixed UIDs for
-     the users where that's necessary.
-"
-
- From the above commit message, we can tell that these files are 
-expected to be modified by distros instead of users including admins.
-If a file is not expected to be modified by users, how can it be a 
-configuration file?
-
-Below is the complete commit message in the git repo.
-
-""""
-
-sysusers: add minimal tool to reconstruct /etc/passwd and /etc/group 
-from static files
-
-     systemd-sysusers is a tool to reconstruct /etc/passwd and /etc/group
-     from static definition files that take a lot of inspiration from
-     tmpfiles snippets. These snippets should carry information about system
-     users only. To make sure it is not misused for normal users these
-     snippets only allow configuring UID and gecos field for each user, but
-     do not allow configuration of the home directory or shell, which is
-     necessary for real login users.
-
-     The purpose of this tool is to enable state-less systems that can
-     populate /etc with the minimal files necessary, solely from static data
-     in /usr. systemd-sysuser is additive only, and will never override
-     existing users.
-
-     This tool will create these files directly, and not via some user
-     database abtsraction layer. This is appropriate as this tool is 
-supposed
-     to run really early at boot, and is only useful for creating system
-     users, and system users cannot be stored in remote databases anyway.
-
-     The tool is also useful to be invoked from RPM scriptlets, instead of
-     useradd. This allows moving from imperative user descriptions in RPM to
-     declarative descriptions.
-
-     The UID/GID for a user/group to be created can either be chosen 
-dynamic,
-     or fixed, or be read from the owner of a file in the file system, in
-     order to support reconstructing the correct IDs for files that shall be
-     owned by them.
-
-     This also adds a minimal user definition file, that should be
-     sufficient for most basic systems. Distributions are expected to patch
-     these files and augment the contents, for example with fixed UIDs for
-     the users where that's necessary.
-
-
-""""
-
-Best Regards,
-Chen Qi
 
