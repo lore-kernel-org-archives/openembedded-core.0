@@ -1,29 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2006762252
+Return-Path: <Yasir_Khan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id A8D9D617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 05:35:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7D5ZM2O017860
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 12 Aug 2014 22:35:22 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 12 Aug 2014 22:35:20 -0700
-Message-ID: <53EAF917.7050604@windriver.com>
-Date: Wed, 13 Aug 2014 13:35:19 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
-MIME-Version: 1.0
-To: Mike Looijmans <mike.looijmans@topic.nl>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <53EA5178.7020209@topic.nl>	<CAJTo0LY+Kp14Sn4bdFtX4eYCK4Oea52MEG-=s6TbG_CKoMx9Pg@mail.gmail.com>
-	<53EAF40B.8050301@topic.nl>
-In-Reply-To: <53EAF40B.8050301@topic.nl>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Autotools and "foreign"
+	Wed, 13 Aug 2014 06:02:07 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1XHRdP-00077b-Ta from Yasir_Khan@mentor.com ;
+	Tue, 12 Aug 2014 23:02:07 -0700
+Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Tue, 12 Aug 2014 23:02:07 -0700
+From: Yasir Khan <yasir_khan@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Aug 2014 10:59:44 +0500
+Message-Id: <1407909584-48528-1-git-send-email-yasir_khan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+X-OriginalArrivalTime: 13 Aug 2014 06:02:07.0711 (UTC)
+	FILETIME=[1D3456F0:01CFB6BC]
+Subject: [PATCH] python-native: disable user site support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,59 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 05:35:30 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Aug 2014 06:02:09 -0000
 
+From: Yasir-Khan <yasir_khan@mentor.com>
 
+The user site-packages gets inserted into sys.path ahead of the
+system site directories, so a site package installed there will
+be used in preference to what's in our sysroot, causing less
+deterministic builds, and potential build breakage, depending
+on what the user has installed there. Disable it for our native
+python, so they don't affect our builds.
 
-On 08/13/2014 01:13 PM, Mike Looijmans wrote:
-> On 08/12/2014 08:57 PM, Burton, Ross wrote:
->> On 12 August 2014 18:40, Mike Looijmans <mike.looijmans@topic.nl> wrote:
->>> Is there an alternative to manually patching all of these packages to get
->>> them to compile once more?
->>
->> Depends on the package, but generally you'll need to update the
->> automake macro at the top of configure.ac (and submit a patch upstream
->> as this should have been fixed years ago).
->
-> Basically, you're saying "no" then?
->
->> Encouraging said upstreams to use autoreconf instead of (likely)
->> home-grown crazy would be a good move whilst you're talking to them.
->
-> That might be the case if said upstream people actually still existed. Most of
-> these packages have since long been abandoned.
->
-> So I guess I'll have to cook up a class that works around it, just adding the
-> "missing" files into the S directory might do the trick.
->
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
+---
+ .../recipes-devtools/python/python-native_2.7.3.bb |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-How about add this to configure.ac:
+diff --git a/meta/recipes-devtools/python/python-native_2.7.3.bb b/meta/recipes-devtools/python/python-native_2.7.3.bb
+index 827654d..e55f5fe 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.3.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.3.bb
+@@ -58,4 +58,8 @@ do_install() {
+ 	# (these often end up too long for the #! parser in the kernel as the
+ 	# buffer is 128 bytes long).
+ 	ln -s python-native/python ${D}${bindir}/nativepython
++	
++	# We don't want modules in ~/.local being used in preference to those
++	# installed in the native sysroot, so disable user site support.
++	sed -i -e 's,^\(ENABLE_USER_SITE = \).*,\1False,' ${D}${libdir}/python${PYTHON_MAJMIN}/site.py
+ }
+-- 
+1.7.9.5
 
-AM_INIT_AUTOMAKE([foreign])
-
-// Robert
-
-
-> Mike.
->
->
-> Met vriendelijke groet / kind regards,
->
-> Mike Looijmans
->
-> TOPIC Embedded Systems
-> Eindhovenseweg 32-C, NL-5683 KH Best
-> Postbus 440, NL-5680 AK Best
-> Telefoon: (+31) (0) 499 33 69 79
-> Telefax:  (+31) (0) 499 33 69 70
-> E-mail: mike.looijmans@topic.nl
-> Website: www.topic.nl
->
-> Please consider the environment before printing this e-mail
->
-> Bezoek ons op 9 en 10 september tijdens Technology for Health Den Bosch (stand 53)
-> http://www.technologyforhealth.nl
->
 
