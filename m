@@ -1,24 +1,34 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa07-08.prod.phx3.secureserver.net
-	(p3plsmtpa07-08.prod.phx3.secureserver.net [173.201.192.237])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E4D660889
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 38AB86084E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 21:36:53 +0000 (UTC)
-Received: from [192.168.65.10] ([66.41.60.82])
-	by p3plsmtpa07-08.prod.phx3.secureserver.net with 
-	id eMct1o0061mTNtu01Mcurs; Wed, 13 Aug 2014 14:36:54 -0700
-Message-ID: <53EBDA75.4040101@pabigot.com>
-Date: Wed, 13 Aug 2014 16:36:53 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Wed, 13 Aug 2014 22:06:23 +0000 (UTC)
+Received: by mail-ig0-f181.google.com with SMTP id h3so3200801igd.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Aug 2014 15:06:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=llYPf9EYt1aGuAXVwMq78uoAlPDZtC4X+rG6bS3MgKA=;
+	b=nSkdkGZwH1PW61lZi95/hf5WPyVXTOJ22gSlG8jTzg7Gtv1AWci+JLZsJmvuzBafHd
+	sgnouc4xEk9Wuf11ZkY/qMK0q4j8f8dNpXXCZ1SXcQOqevjZE5SP6Z1MwwTCwoT7XbJ/
+	n1m+2mqg43+RbFxH2BJFbAFsbqL4zZOGDmzveHipyPUmKYA70ijptY3DApVNOZ00rfXi
+	0dqWjDJSNoZnuCY9YcOyy1EiaaVheTkFg6KCUiGvq3/k5Rzmj+L8ejCLusZ3qpjqZPyG
+	whp8M41yLn1WDdMgIdIF0f3OpE5gfhuzKVeRAE4uKsCfCs4TuJpng6/Sxa3xnu+1usVf
+	Bc4w==
+X-Received: by 10.50.25.71 with SMTP id a7mr52217508igg.17.1407967584268; Wed,
+	13 Aug 2014 15:06:24 -0700 (PDT)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
+Received: by 10.50.126.103 with HTTP; Wed, 13 Aug 2014 15:05:53 -0700 (PDT)
+In-Reply-To: <53EBDA75.4040101@pabigot.com>
 References: <53E9134F.7040108@pabigot.com>
 	<CAMKF1soHVxmjWW=TBqjh1P0ddPuMkxtmxXdnbLCSMLgQm2=hcQ@mail.gmail.com>
-	<53EBD76A.3010401@pabigot.com>
-In-Reply-To: <53EBD76A.3010401@pabigot.com>
+	<53EBD76A.3010401@pabigot.com> <53EBDA75.4040101@pabigot.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 13 Aug 2014 15:05:53 -0700
+Message-ID: <CAMKF1soioSe+U1CkB+PDsZyfDyaEFovugjOr+Tw+rGNjK57cJg@mail.gmail.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Yocto development with C++11 threads and gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -33,105 +43,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 21:37:00 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Aug 2014 22:06:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 08/13/2014 04:23 PM, Peter A. Bigot wrote:
-> On 08/13/2014 04:18 PM, Khem Raj wrote:
->> On Mon, Aug 11, 2014 at 12:02 PM, Peter A. Bigot <pab@pabigot.com> 
->> wrote:
->>> The program below built on the target with the MACHINE=beaglebone 
->>> gcc-4.9.1
->>> compiler from Yocto/OpenEmbedded poky master produces this error:
->>>
->>> beaglebone[52]$ g++ -std=c++1y -pthread test.cc && ./a.out
->>> starting
->>> joining
->>> pure virtual method called
->>> terminate called without an active exception
->>> Aborted (core dumped)
->>>
->>> When the program is recompiled with the defines for
->>> __GCC_HAVE_SYNC_COMPARE_AND_SWAP_X enabled as suggested at
->>> https://groups.google.com/d/msg/automatak-dnp3/Jisp_zGhd5I/ck_Cj6nO8joJ 
->>> it
->>> works:
->>>
->>> beaglebone[53]$ g++ -std=c++1y -pthread test.cc && ./a.out
->>> starting
->>> joining
->>> doit
->>> done
->>>
->>> Preliminary analysis confirms that the built-ins for those defines 
->>> are not
->>> being added by the compiler because it thinks the target doesn't 
->>> support
->>> those operations.  Nonetheless, it doesn't use the substitutes that are
->>> obviously available.
->>>
->>> Can anybody recall anything about the way GCC is built under OE that 
->>> would
->>> explain this?
->> Can you add -mcpu=cortex-a8 to your cmdline and see if it solves the 
->> problem ?
->
-> Yes, it does.  That's a good clue.
+On Wed, Aug 13, 2014 at 2:36 PM, Peter A. Bigot <pab@pabigot.com> wrote:
+> In any case, Khem can you run with this?  It'd be fixed a lot better that
+> way....
 
-More specifically, the build logs say gcc-runtime was built with:
+We do not configure target gcc with right matching cpu defaults,
+atomic instruction strex/ldrex are only added after armv6 but defaults
+for gcc if not specified is armv5t and hence it does not use the right
+set as expected by libstdc++ which has been cross compiled. so while
+you are at it and can reproduce it. Try to add
 
-arm-poky-linux-gnueabi-gcc  -march=armv7-a -mthumb-interwork 
--mfloat-abi=hard -mfpu=neon -mtune=cortex-a8
+EXTRA_OECONF += '${@bb.utils.contains("TUNE_FEATURES", "armv7a", "
+--with-cpu=armv7-a", "", d)}'
 
-and using those flags instead of -mcpu=cortex-a8 also solves the problem.
-
-So either gcc-runtime needs to stop using those flags, or gcc itself 
-needs to default to them.  Or some other solution.
-
-In any case, Khem can you run with this?  It'd be fixed a lot better 
-that way....
-
-Peter
-
->
-> Peter
->
->>> Peter
->>>
->>> /* g++ -std=c++1y -pthread test.cc && ./a.out */
->>> #if 0
->>> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_1
->>> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2
->>> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
->>> #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8
->>> #endif
->>>
->>> #include <iostream>
->>> #include <thread>
->>>
->>> void
->>> doit ()
->>> {
->>>    std::cerr << "doit\n";
->>> }
->>>
->>> int main (int argc,
->>>            char * argv [])
->>> {
->>>    std::cerr << "starting\n";
->>>    std::thread thr{doit};
->>>    std::cerr << "joining\n";
->>>    thr.join();
->>>    std::cerr << "done\n";
->>>    return 0;
->>> }
->>>
->>> -- 
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
+to gcc-target.inc and see if resulting gcc is any better
 
