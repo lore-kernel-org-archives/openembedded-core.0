@@ -1,36 +1,35 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id A66EB610F5
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B7B8610F5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 22:52:18 +0000 (UTC)
-Received: by mail-ig0-f172.google.com with SMTP id h15so11778642igd.5
+	Wed, 13 Aug 2014 22:54:49 +0000 (UTC)
+Received: by mail-ig0-f181.google.com with SMTP id h3so3295207igd.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 15:52:19 -0700 (PDT)
+	Wed, 13 Aug 2014 15:54:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=zpZnAEtvjhrQYQZaGWX5nRClv4CjSMh4eXe8hdDQfjA=;
-	b=gE4wfmvmEpzzuHfVhDj+mZXVOHMqekKOtAK0t41mKhCqjQLPJ0fv0qNxIZprEqo1hh
-	KZZ2mJR+d/macRC7kmXqDUFrXIm2lEp2ndx1o0GU5nX6ba7XmsdDXrdjK+dmxNHEZFWk
-	LcVZ5y84/uG/7pdBPtJIZxDEvbqgA1dOWg8M2DGWyLNTIh8tUucodDok5kA15VkPcoTZ
-	ejVF9YZtdwQZyOkBa5eA/REmzzRBRCJJipvEMLD/zKsgzYTw5Gb+uOeI/t3ePBS1m9ZY
-	St2ICmNv5qC0IM8JTx2EyygdwToPsSRd0rlKwNIwQWsY7FzGErtQL9CCI10BsxNPVFzH
-	MtNQ==
-X-Received: by 10.43.64.198 with SMTP id xj6mr9755692icb.70.1407970339247;
-	Wed, 13 Aug 2014 15:52:19 -0700 (PDT)
+	bh=cHk0NYcQ2Mt2eo5t54JA//YOEBAiEk0NyF8EDQ2GF+M=;
+	b=hrbuhZCVXqfVtBko/5ljjWLsD0UefDU/ZRvBPohM2n+4pmjVaOIi4KgEisEp4+ft5J
+	vXyK3g5OKN9YmAfKacq256rN1RYuRtXDP3bIAt8Woi/w0Bv86hDZqzgJFH4Cve2HxzLL
+	5eTM3DmSNRZvQk9l9u4LHULm/idiqC+4UGAh7o0muubgt6RQnF5x+dGoHNF9/3wtAJfc
+	gOD69MDFKPjk2r8/nju5X8d4LgfKKFoHA75l3QR6lcvlpUzRXBo3UbpNwlMHQIYS4fif
+	IR6xNAfUL0Pm6eY/eDcz3L9N0ZkCIRTWH+IkLJfNkDlTYUjdJoZLYUngNEIUVcH0h93D
+	1NmQ==
+X-Received: by 10.50.43.225 with SMTP id z1mr11677246igl.17.1407970491346;
+	Wed, 13 Aug 2014 15:54:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.50.126.103 with HTTP; Wed, 13 Aug 2014 15:51:49 -0700 (PDT)
-In-Reply-To: <1407963825-20257-6-git-send-email-pab@pabigot.com>
-References: <1407963825-20257-1-git-send-email-pab@pabigot.com>
-	<1407963825-20257-6-git-send-email-pab@pabigot.com>
+Received: by 10.50.126.103 with HTTP; Wed, 13 Aug 2014 15:54:21 -0700 (PDT)
+In-Reply-To: <53EBD780.9060005@mlbassoc.com>
+References: <53EBD780.9060005@mlbassoc.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 13 Aug 2014 15:51:49 -0700
-Message-ID: <CAMKF1soD=7dfxCezZHOnMNnvatiN+-bue1u3R5uzsq-B7fEYXA@mail.gmail.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
+Date: Wed, 13 Aug 2014 15:54:21 -0700
+Message-ID: <CAMKF1sq3urKBFvQpb8H3NrX5HGBgP6ZbTmw6fJJ5J22mQrr4xg@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] gcc-target: make --enable-clocale consistent with gcc-runtime
+Subject: Re: GCC 4.9 considered evil
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,34 +42,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 22:52:25 -0000
+X-List-Received-Date: Wed, 13 Aug 2014 22:54:52 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Aug 13, 2014 at 2:03 PM, Peter A. Bigot <pab@pabigot.com> wrote:
-> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-target.inc | 2 ++
->  1 file changed, 2 insertions(+)
+On Wed, Aug 13, 2014 at 2:24 PM, Gary Thomas <gary@mlbassoc.com> wrote:
+> I've found that the latest GCC doesn't work very well, at
+> least not on ARM (and obviously other architectures as well [1])
+> When I build Google Chromium browser for my i.MX boards using
+> GCC-4.9.x, no pages can be rendered - massive bloodshed and
+> failures are shown on the console.  If I use the older GCC 4.8.2,
+> everything else the same, all is well.
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-> index 8941f5f..0f9a5f8 100644
-> --- a/meta/recipes-devtools/gcc/gcc-target.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-target.inc
-> @@ -8,6 +8,8 @@ EXTRA_OECONF_PATHS = "\
->      --with-gxx-include-dir=${includedir}/c++/${BINV} \
->  "
+> Here's my configuration:
+> BB_VERSION        = "1.23.1"
+> BUILD_SYS         = "x86_64-linux"
+> NATIVELSBSTRING   = "Ubuntu-13.10"
+> TARGET_SYS        = "arm-amltd-linux-gnueabi"
+> MACHINE           = "teton-p0382"
+> DISTRO            = "amltd"
+> DISTRO_VERSION    = "1.6+snapshot-20140812"
+> TUNE_FEATURES     = "arm armv7a vfp neon callconvention-hard cortexa9"
+> TARGET_FPU        = "vfp-neon"
+> meta              = "master:86afd7eb7c679eb065706137f28f44248f3fbc5a"
+> meta-amltd        = "master:899529b4184dc9e3e291e7fcdbbf157233db056d"
+> meta-teton-imx6-p0382 = "master:9188e2f8fafd203c95dcd7a3c79cb38a1568e9b5"
+> meta-fsl-arm      = "master:b0cf5c78c5f98c5977ae556d331e7495648f154c"
+> meta-fsl-arm-extra = "master:12e560967b7136222c325d11633295fe3a0c701c"
+> meta-browser      = "master:da93c8e386133a15eff1414d9307c8f2c7a44787"
 >
-> +EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
-> +
+> Should this be filed as a bug?  I don't have much data other than it
+> simply breaks (and chrome is not the easiest thing to debug!).  Other
+> applications seem OK, but I am loathe to trust it...
 
-this looks ok
+You need to provide more info to get any traction on this. If you can
+narrow it down more that will be helpful.
 
->  EXTRA_OECONF_FPU = "${@get_gcc_fpu_setting(bb, d)}"
 >
->  PACKAGES = "\
+> I'm going to hold onto GCC-4.8.x for my $DISTRO at least (and I hope
+> it doesn't vanish like 4.7.x did too quickly).
+>
+> [1]
+> http://slashdot.org/story/14/07/27/1838219/linus-torvalds-gcc-490-seems-to-be-terminally-broken
+>
+
+thats probably unrelated to what you are seeing.
+
+> Note: I've also tried this on qemux86 (a totally different
+> architecture) and chrome bombs just as badly!
+>
 > --
-> 1.8.5.5
->
+> ------------------------------------------------------------
+> Gary Thomas                 |  Consulting for the
+> MLB Associates              |    Embedded world
+> ------------------------------------------------------------
 > --
 > _______________________________________________
 > Openembedded-core mailing list
