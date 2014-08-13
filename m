@@ -1,27 +1,37 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa06-10.prod.phx3.secureserver.net
-	(p3plsmtpa06-10.prod.phx3.secureserver.net [173.201.192.111])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D86F60438
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
+	[209.85.160.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EC6160438
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 23:23:34 +0000 (UTC)
-Received: from [192.168.65.10] ([66.41.60.82])
-	by p3plsmtpa06-10.prod.phx3.secureserver.net with 
-	id ePPa1o0071mTNtu01PPaXQ; Wed, 13 Aug 2014 16:23:35 -0700
-Message-ID: <53EBF375.1070701@pabigot.com>
-Date: Wed, 13 Aug 2014 18:23:33 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Wed, 13 Aug 2014 23:25:03 +0000 (UTC)
+Received: by mail-yk0-f176.google.com with SMTP id 19so407773ykq.7
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Aug 2014 16:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=oJSUAuc8DfB3mv2jIi+vDzeT54VLdGa1pZR/OcAnono=;
+	b=cmUIllAZJ7mS6O/FQ2z8FVqdPhsw3ffieXxm+AkLdV3AYylIj4j+4OvIlz+CMk67Lc
+	aslPoyNFsQwaZzMfZVVhYQ0eDen/fL5F4BNxyff8w0fXapC8Nj14iDafPYHhOWYID8Hs
+	ajoHoNQxYw97EhiOBe1R4UK9S8vTp+drUheD9GOM/hOUABqSSWl3FCBsL+Ifp6aXM2RU
+	6dI8uJrCn4ev4bvFL3HLDQKa9y27K7LozsYEMCjiCskGyKZ4etK9n3QKRtS/WZ92VFe8
+	HBQZoXQo/+O8h4RiNhXJ/QmBUjIv/+ogZk1j7QpMeLTAtQxR0IHahjEmDokCMd7WJsYy
+	wGrg==
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <53E9134F.7040108@pabigot.com>
-	<CAMKF1soHVxmjWW=TBqjh1P0ddPuMkxtmxXdnbLCSMLgQm2=hcQ@mail.gmail.com>
-	<53EBD76A.3010401@pabigot.com> <53EBDA75.4040101@pabigot.com>
-	<CAMKF1soioSe+U1CkB+PDsZyfDyaEFovugjOr+Tw+rGNjK57cJg@mail.gmail.com>
-In-Reply-To: <CAMKF1soioSe+U1CkB+PDsZyfDyaEFovugjOr+Tw+rGNjK57cJg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Yocto development with C++11 threads and gcc
+X-Received: by 10.236.85.208 with SMTP id u56mr11637338yhe.48.1407972304962;
+	Wed, 13 Aug 2014 16:25:04 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.56.201 with HTTP; Wed, 13 Aug 2014 16:25:04 -0700 (PDT)
+In-Reply-To: <53EBD780.9060005@mlbassoc.com>
+References: <53EBD780.9060005@mlbassoc.com>
+Date: Wed, 13 Aug 2014 20:25:04 -0300
+X-Google-Sender-Auth: PyNol2_APuXqi1X11Kg7j6-L_pY
+Message-ID: <CAP9ODKpND6P-x7ZKE9SuZ6vbfFF8RxoVSL3X9UDzj-WhV9yTpw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Gary Thomas <gary@mlbassoc.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: GCC 4.9 considered evil
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,54 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 23:23:36 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Aug 2014 23:25:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 08/13/2014 05:05 PM, Khem Raj wrote:
-> On Wed, Aug 13, 2014 at 2:36 PM, Peter A. Bigot <pab@pabigot.com> wrote:
->> In any case, Khem can you run with this?  It'd be fixed a lot better that
->> way....
-> We do not configure target gcc with right matching cpu defaults,
-> atomic instruction strex/ldrex are only added after armv6 but defaults
-> for gcc if not specified is armv5t and hence it does not use the right
-> set as expected by libstdc++ which has been cross compiled. so while
-> you are at it and can reproduce it. Try to add
+On Wed, Aug 13, 2014 at 6:24 PM, Gary Thomas <gary@mlbassoc.com> wrote:
+> I've found that the latest GCC doesn't work very well, at
+> least not on ARM (and obviously other architectures as well [1])
+> When I build Google Chromium browser for my i.MX boards using
+> GCC-4.9.x, no pages can be rendered - massive bloodshed and
+> failures are shown on the console.  If I use the older GCC 4.8.2,
+> everything else the same, all is well.
 >
-> EXTRA_OECONF += '${@bb.utils.contains("TUNE_FEATURES", "armv7a", "
-> --with-cpu=armv7-a", "", d)}'
+> Here's my configuration:
+> BB_VERSION        = "1.23.1"
+> BUILD_SYS         = "x86_64-linux"
+> NATIVELSBSTRING   = "Ubuntu-13.10"
+> TARGET_SYS        = "arm-amltd-linux-gnueabi"
+> MACHINE           = "teton-p0382"
+> DISTRO            = "amltd"
+> DISTRO_VERSION    = "1.6+snapshot-20140812"
+> TUNE_FEATURES     = "arm armv7a vfp neon callconvention-hard cortexa9"
+> TARGET_FPU        = "vfp-neon"
+> meta              = "master:86afd7eb7c679eb065706137f28f44248f3fbc5a"
+> meta-amltd        = "master:899529b4184dc9e3e291e7fcdbbf157233db056d"
+> meta-teton-imx6-p0382 = "master:9188e2f8fafd203c95dcd7a3c79cb38a1568e9b5"
+> meta-fsl-arm      = "master:b0cf5c78c5f98c5977ae556d331e7495648f154c"
+> meta-fsl-arm-extra = "master:12e560967b7136222c325d11633295fe3a0c701c"
+> meta-browser      = "master:da93c8e386133a15eff1414d9307c8f2c7a44787"
 >
-> to gcc-target.inc and see if resulting gcc is any better
+> Should this be filed as a bug?  I don't have much data other than it
+> simply breaks (and chrome is not the easiest thing to debug!).  Other
+> applications seem OK, but I am loathe to trust it...
+>
+> I'm going to hold onto GCC-4.8.x for my $DISTRO at least (and I hope
+> it doesn't vanish like 4.7.x did too quickly).
+>
+> [1]
+> http://slashdot.org/story/14/07/27/1838219/linus-torvalds-gcc-490-seems-to-be-terminally-broken
+>
+> Note: I've also tried this on qemux86 (a totally different
+> architecture) and chrome bombs just as badly!
 
-I had to make it:
+I confirm that GCC 4.9 does NOT work for Chromium 35. At this moment I
+am not aware of any fix for it.
 
-EXTRA_OECONF += '${@bb.utils.contains("TUNE_FEATURES", "armv7a", 
-"--with-cpu=generic-armv7-a", "", d)}'
+IIRC the Chromium 37 works though.
 
-to get gcc to build but at runtime I then get:
-
-beaglebone[16]$ g++ -std=c++11 -pthread test.cc && ./a.out
-Assembler messages:
-Error: unknown cpu `generic-armv7-a'
-Error: unrecognized option -mcpu=generic-armv7-a
-
-which indicates the flag's being passed to the assembler which doesn't 
-recognize it even though g++ is happy with it.  I suppose we could hack 
-binutils to substitute whatever spelling it wants to see.
-
-(Also tried --with-cpu=arm7, but that generates assembler errors related 
-to unsupported RM mode "bx lr").
-
-The approach bothers me, though.  Instead of explicitly changing 
-gcc-target to match gcc-runtime, shouldn't it be a general rule that 
-gcc-runtime not apply OE-specific target flags that aren't going to be 
-used by direct invocations of the compiler outside of the OE build 
-environment?  That seems a little more robust, as the default target 
-flags may be changed upstream or by bbappends within OE, and having to 
-make them match in gcc-runtime as well would be a headache.
-
-And would we need similar overrides for other architectures? There's 
-something similar already in gcc-configure-common.inc for mips64.
-
-Peter
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
