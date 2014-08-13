@@ -1,27 +1,27 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DF7560030
+	by mail.openembedded.org (Postfix) with ESMTP id 02CD760169
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 07:00:30 +0000 (UTC)
+	Wed, 13 Aug 2014 07:10:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7D70Rbw025114
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7D7AgTG026755
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 13 Aug 2014 00:00:27 -0700 (PDT)
+	Wed, 13 Aug 2014 00:10:42 -0700 (PDT)
 Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Wed, 13 Aug 2014 00:00:27 -0700
-Message-ID: <53EB0D19.3000108@windriver.com>
-Date: Wed, 13 Aug 2014 15:00:41 +0800
+	Wed, 13 Aug 2014 00:10:41 -0700
+Message-ID: <53EB0F80.6080606@windriver.com>
+Date: Wed, 13 Aug 2014 15:10:56 +0800
 From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
 References: <cover.1406793899.git.Qi.Chen@windriver.com>
 	<65f32e0e16b2bf162e5d7b809fd705e0f48b6c20.1406793899.git.Qi.Chen@windriver.com>
-	<20140811115935.GB14848@jama>
-In-Reply-To: <20140811115935.GB14848@jama>
+	<B1D0D79B-9B67-487C-98CC-323A5EDB4AEB@dominion.thruhere.net>
+In-Reply-To: <B1D0D79B-9B67-487C-98CC-323A5EDB4AEB@dominion.thruhere.net>
 X-Originating-IP: [128.224.162.187]
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH V5 1/1] systemd: upgrade to 215
@@ -37,45 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 07:00:38 -0000
+X-List-Received-Date: Wed, 13 Aug 2014 07:10:51 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/11/2014 07:59 PM, Martin Jansa wrote:
-> On Thu, Jul 31, 2014 at 04:08:05PM +0800, Chen Qi wrote:
+On 08/01/2014 05:43 PM, Koen Kooi wrote:
+> Op 31 jul. 2014, om 10:08 heeft Chen Qi <Qi.Chen@windriver.com> het volgende geschreven:
+>
 >> Upgrade systemd from 213 to 215.
 >>
 >> systemd-older-kernel.patch is removed as it's fixed in 215.
 >>
 >> Backport two patches to fix compilation problem for qemuppc.
 >>
->>      0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch
->>      0002-endian-explicitly-include-endian.h-wherever-we-want-.patch
-> Can you please fix following warnings, I haven't seen them with 213 version.
->
-> WARNING: QA Issue: systemd rdepends on libdw, but it isn't a build dependency? [build-deps]
-> WARNING: QA Issue: libgudev-1.0 rdepends on libdw, but it isn't a build dependency? [build-deps]
-> WARNING: QA Issue: libsystemd rdepends on libdw, but it isn't a build dependency? [build-deps]
-> WARNING: QA Issue: libudev rdepends on libdw, but it isn't a build dependency? [build-deps]
-
-Just noticed this email.
-Thank you very much.
-I'll fix them and send out a new version.
-
-Best Regards,
-Chen Qi
-
+>>     0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch
+>>     0002-endian-explicitly-include-endian.h-wherever-we-want-.patch
+>>
 >> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 >> ---
->>   ...k-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch |  116 ++++++++++++++++++++
->>   ...icitly-include-endian.h-wherever-we-want-.patch |   52 +++++++++
->>   .../systemd/systemd/systemd-older-kernel.patch     |   56 ----------
->>   .../systemd/{systemd_213.bb => systemd_215.bb}     |   10 +-
->>   4 files changed, 174 insertions(+), 60 deletions(-)
->>   create mode 100644 meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch
->>   create mode 100644 meta/recipes-core/systemd/systemd/0002-endian-explicitly-include-endian.h-wherever-we-want-.patch
->>   delete mode 100644 meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
->>   rename meta/recipes-core/systemd/{systemd_213.bb => systemd_215.bb} (97%)
+>> ...k-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch |  116 ++++++++++++++++++++
+>> ...icitly-include-endian.h-wherever-we-want-.patch |   52 +++++++++
+>> .../systemd/systemd/systemd-older-kernel.patch     |   56 ----------
+>> .../systemd/{systemd_213.bb => systemd_215.bb}     |   10 +-
+>> 4 files changed, 174 insertions(+), 60 deletions(-)
+>> create mode 100644 meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch
+>> create mode 100644 meta/recipes-core/systemd/systemd/0002-endian-explicitly-include-endian.h-wherever-we-want-.patch
+>> delete mode 100644 meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
+>> rename meta/recipes-core/systemd/{systemd_213.bb => systemd_215.bb} (97%)
 >>
 >> diff --git a/meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch b/meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch
 >> new file mode 100644
@@ -327,48 +315,107 @@ Chen Qi
 >> --- a/meta/recipes-core/systemd/systemd_213.bb
 >> +++ b/meta/recipes-core/systemd/systemd_215.bb
 >> @@ -17,9 +17,9 @@ SECTION = "base/shell"
->>   
->>   inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest
->>   
+>>
+>> inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest
+>>
 >> -SRCREV = "c9679c652b3c31f2510e8805d81630680ebc7e95"
 >> +SRCREV = "252ff40a3827b4e8e62e03a5e2f80da3fe02bee6"
->>   
+>>
 >> -PV = "213+git${SRCPV}"
 >> +PV = "215+git${SRCPV}"
->>   
->>   SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=git \
->>              file://binfmt-install.patch \
+>>
+>> SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=git \
+>>             file://binfmt-install.patch \
 >> @@ -31,12 +31,13 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
->>              file://0001-uClibc-doesn-t-implement-pwritev-preadv.patch \
->>              file://uclibc-sysinfo_h.patch \
->>              file://uclibc-get-physmem.patch \
+>>             file://0001-uClibc-doesn-t-implement-pwritev-preadv.patch \
+>>             file://uclibc-sysinfo_h.patch \
+>>             file://uclibc-get-physmem.patch \
 >> +           file://0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch \
 >> +           file://0002-endian-explicitly-include-endian.h-wherever-we-want-.patch \
->>              file://touchscreen.rules \
->>              file://00-create-volatile.conf \
->>              file://init \
->>              file://run-ptest \
+>>             file://touchscreen.rules \
+>>             file://00-create-volatile.conf \
+>>             file://init \
+>>             file://run-ptest \
 >> -           file://systemd-older-kernel.patch \
 >> -          "
 >> +         "
->>   
->>   S = "${WORKDIR}/git"
->>   
->> @@ -231,6 +232,7 @@ FILES_${PN} = " ${base_bindir}/* \
->>                   ${exec_prefix}/lib/systemd \
->>                   ${exec_prefix}/lib/modules-load.d \
->>                   ${exec_prefix}/lib/sysctl.d \
->> +                ${exec_prefix}/lib/sysusers.d \
->>                   ${localstatedir} \
->>                   /lib/udev/rules.d/70-uaccess.rules \
->>                   /lib/udev/rules.d/71-seat.rules \
->> -- 
->> 1.7.9.5
 >>
->> -- 
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> S = "${WORKDIR}/git"
+>>
+>> @@ -231,6 +232,7 @@ FILES_${PN} = " ${base_bindir}/* \
+>>                  ${exec_prefix}/lib/systemd \
+>>                  ${exec_prefix}/lib/modules-load.d \
+>>                  ${exec_prefix}/lib/sysctl.d \
+>> +                ${exec_prefix}/lib/sysusers.d \
+>>                  ${localstatedir} \
+>>                  /lib/udev/rules.d/70-uaccess.rules \
+>>                  /lib/udev/rules.d/71-seat.rules \
+>
+> Like I keep saying, the sysusers files need to be in CONFFILES
+>
 
+Hi Koen,
+
+Sorry for the late reply.
+
+I checked the initial commit of sysusers.d/ in the systemd git repo.
+
+"
+This also adds a minimal user definition file, that should be
+     sufficient for most basic systems. Distributions are expected to patch
+     these files and augment the contents, for example with fixed UIDs for
+     the users where that's necessary.
+"
+
+ From the above commit message, we can tell that these files are 
+expected to be modified by distros instead of users including admins.
+If a file is not expected to be modified by users, how can it be a 
+configuration file?
+
+Below is the complete commit message in the git repo.
+
+""""
+
+sysusers: add minimal tool to reconstruct /etc/passwd and /etc/group 
+from static files
+
+     systemd-sysusers is a tool to reconstruct /etc/passwd and /etc/group
+     from static definition files that take a lot of inspiration from
+     tmpfiles snippets. These snippets should carry information about system
+     users only. To make sure it is not misused for normal users these
+     snippets only allow configuring UID and gecos field for each user, but
+     do not allow configuration of the home directory or shell, which is
+     necessary for real login users.
+
+     The purpose of this tool is to enable state-less systems that can
+     populate /etc with the minimal files necessary, solely from static data
+     in /usr. systemd-sysuser is additive only, and will never override
+     existing users.
+
+     This tool will create these files directly, and not via some user
+     database abtsraction layer. This is appropriate as this tool is 
+supposed
+     to run really early at boot, and is only useful for creating system
+     users, and system users cannot be stored in remote databases anyway.
+
+     The tool is also useful to be invoked from RPM scriptlets, instead of
+     useradd. This allows moving from imperative user descriptions in RPM to
+     declarative descriptions.
+
+     The UID/GID for a user/group to be created can either be chosen 
+dynamic,
+     or fixed, or be read from the owner of a file in the file system, in
+     order to support reconstructing the correct IDs for files that shall be
+     owned by them.
+
+     This also adds a minimal user definition file, that should be
+     sufficient for most basic systems. Distributions are expected to patch
+     these files and augment the contents, for example with fixed UIDs for
+     the users where that's necessary.
+
+
+""""
+
+Best Regards,
+Chen Qi
 
