@@ -1,38 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id D9F4A60438
+Return-Path: <kirgene@gmail.com>
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E0A9561FE4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 09:29:38 +0000 (UTC)
-Received: by mail-qg0-f54.google.com with SMTP id z60so10793827qgd.27
+	Wed, 13 Aug 2014 10:46:27 +0000 (UTC)
+Received: by mail-qg0-f44.google.com with SMTP id e89so10738798qgf.31
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 02:29:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=v/4/ZTzJoUMPmNyx1P+UUfzyO2r2A5plxyD/K/EU6FY=;
-	b=AEPYZZYNzRnVOi0JKSFqsLJ/gmycxi13raZ8OmnvbOYTps8x7fxRG98CCoAcaMrFXT
-	gByGHTzggBIbj8K8CRzTjWcmNjEphHbKwKKLU05S48iwYygkW0Y79CeXFULsGXTW7j9Z
-	X1EQ3HuWRZSQY3rtdTJiXh+4QDHHFmlB+qa6OXLsAB1ygI75KYpbBLZWcoT+8Pswr9SB
-	aaGtThOpVEggz3+Ceif3uor6m9VxS6gCurmdrZ/MHjUXMUGG9Id8VgoCF/ihAAHSb2w+
-	E6ScOU8jJcXEE2rJAuR64LWVnMDGd0OGygk8xC5/HH25CLnUfF7MNwW5saE9YQm4LwLg
-	GRkQ==
-X-Gm-Message-State: ALoCoQkEIHQ0gFZECwCWHxfdRXP//1oC4WgcU8Dz06Kt9zjGY1R2TVVebpCTcZP2+FI++C6avzTV
-X-Received: by 10.140.47.129 with SMTP id m1mr4424479qga.95.1407922179527;
-	Wed, 13 Aug 2014 02:29:39 -0700 (PDT)
+	Wed, 13 Aug 2014 03:46:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=5wRdFwioCN9gX/op4iVWHCpUJ/jAvIl1WC56qVDUNA8=;
+	b=kHymBjsvUMw14Y3x9MXKKk3ERVY5YEYSyj9u60jBaxonUN4AFlBq343ZCsi+UaihiD
+	l9RxspkkwVu9Xck2NMQw6Q7GmHSRNuGrRyVGdGKUoBEAS0ei9JYKaENOwWjolZ1Ymfg0
+	jFbzD56bQRuNZu/XM4tOlBkjNeZinGHos6kQ3+FD/310HlgaPxEBtWQapsFlZsd4oyTm
+	dduNnsZC9mWTCvn7Zx/t+J72JZeqA1CKhVbL5HPIsKfW9Xyshlgzn0f9XN7nDj6a+8nr
+	Q8p7U6ziwR9HLlaGgg/k3KkdI92BveFza1uItSphYCI6n8bdb2G8AS3uS+deASlB+xot
+	gonw==
 MIME-Version: 1.0
-Received: by 10.140.95.235 with HTTP; Wed, 13 Aug 2014 02:29:19 -0700 (PDT)
-In-Reply-To: <53EAF40B.8050301@topic.nl>
-References: <53EA5178.7020209@topic.nl>
-	<CAJTo0LY+Kp14Sn4bdFtX4eYCK4Oea52MEG-=s6TbG_CKoMx9Pg@mail.gmail.com>
-	<53EAF40B.8050301@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 13 Aug 2014 10:29:19 +0100
-Message-ID: <CAJTo0LamoP5pE03pPi3=V-VAZxu9RYhJUwmHMWqyVLjNDeN9ww@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Autotools and "foreign"
+X-Received: by 10.224.112.1 with SMTP id u1mr5262522qap.7.1407926788337; Wed,
+	13 Aug 2014 03:46:28 -0700 (PDT)
+Received: by 10.140.51.103 with HTTP; Wed, 13 Aug 2014 03:46:28 -0700 (PDT)
+Received: by 10.140.51.103 with HTTP; Wed, 13 Aug 2014 03:46:28 -0700 (PDT)
+In-Reply-To: <CADV-EXHPuDtDk8pnFfJ4QQCVQufidX+7YuuK_FdgsEXj_46t6A@mail.gmail.com>
+References: <CADV-EXHPuDtDk8pnFfJ4QQCVQufidX+7YuuK_FdgsEXj_46t6A@mail.gmail.com>
+Date: Wed, 13 Aug 2014 13:46:28 +0300
+Message-ID: <CADV-EXHDKqVR8Quu=Vj7-Tk8BrB-OS1Y=Y0iYi+ES2YNUiREMQ@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Two distros with same MACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,22 +41,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 09:29:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 13 Aug 2014 10:46:32 -0000
+Content-Type: multipart/alternative; boundary=047d7b673a4e16b99305008080ca
 
-On 13 August 2014 06:13, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> That might be the case if said upstream people actually still existed. Most
-> of these packages have since long been abandoned.
+--047d7b673a4e16b99305008080ca
+Content-Type: text/plain; charset=ISO-8859-1
 
-That's generally where the problems are - packages that expect
-autotools from ten years ago.
+I have 2 distro configs that use different PACKAGECONFIG settings for the
+same package. I'm building all distros for single MACHINE. Do I need to set
+different TMPDIR to build these two distros or I can use same dir?
 
-> So I guess I'll have to cook up a class that works around it, just adding
-> the "missing" files into the S directory might do the trick.
+--047d7b673a4e16b99305008080ca
+Content-Type: text/html; charset=ISO-8859-1
 
-In my experience of fixing oe-core, most packages that fail here
-already have patches to fix their autotools infrastructure, so adding
-[foreign] is just another fix in the same patch.
+<p dir="ltr">I have 2 distro configs that use different PACKAGECONFIG settings for the same package. I&#39;m building all distros for single MACHINE. Do I need to set different TMPDIR to build these two distros or I can use same dir?</p>
 
-Ross
 
+--047d7b673a4e16b99305008080ca--
