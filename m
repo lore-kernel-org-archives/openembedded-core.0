@@ -1,36 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
-	[209.85.217.180])
-	by mail.openembedded.org (Postfix) with ESMTP id F38F4609C0;
-	Wed, 13 Aug 2014 20:38:33 +0000 (UTC)
-Received: by mail-lb0-f180.google.com with SMTP id v6so239272lbi.11
-	for <multiple recipients>; Wed, 13 Aug 2014 13:38:34 -0700 (PDT)
+Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
+	[209.85.217.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BCF965DA3;
+	Wed, 13 Aug 2014 20:39:49 +0000 (UTC)
+Received: by mail-lb0-f182.google.com with SMTP id z11so228529lbi.41
+	for <multiple recipients>; Wed, 13 Aug 2014 13:39:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=ARzwvYVDZAlXvXU9zO+JkLnrajDuNH/vpmQ2rO0VVhE=;
-	b=xVPC6BjQMWNpVjXBZMnKpLhhyB+Gih7KEvmTR0WknO61GNzHKWiqCsIJAHRz96/vEG
-	YoovMMZI3gNsy6MOW9JFz2uQPk94ykRC2K2Ei6YiHDTjX7rnGp7SMWqpGvExiKxiO2FG
-	MqaMxHaAn1RJC50/1qxswUJ/1swE+L9YcL0lJT+F01q3TMA4CaW6q+mEzz9PAVva2Swp
-	N24HFE0fpMlDwIUI7YsrL0NnrgjKp+4Genapp9gdeNeirsai6DlooTc+W2WLYHF0KWG8
-	Ypyo4SGIwujUanAYRDW0wNQd7V78dfCgAtOr9TlXsvHPBNkGOyWEfXVmVEVNr0AJXHpe
-	2hMw==
-X-Received: by 10.152.44.230 with SMTP id h6mr383539lam.51.1407962314220;
-	Wed, 13 Aug 2014 13:38:34 -0700 (PDT)
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=snIYEooBIuxi1ylfunE3I6WIaa7aSXbl+rh+mKd5p78=;
+	b=mYvqTD+RPiq6sW2BMlyGRNW4WynTnGAB6BpUm1p6XnhSOCzuQqrl/zBvusrqzsqfpm
+	/phJkDgDSv4g4Ius7gk+y7Nhcz782/8enc/aa8Pi0rgy7dmCfBxddvNhNAP0A6OKVOOx
+	eo2hr7VSPXp5xkvGdFOf9Xnlt/4biIIuHU3KBdsTAcU7KsSe3csHk1YmV6FqQGEOTBPp
+	1CnTxBn1EyMyWStTaPbL0moeBQhaz4z6nm+iij3wAmbPMgGsG+UsIVcz7DsMutq5O1OG
+	qv9SCTdRYRIlXkifIX5hsjs5DqaLrbuIyhHzpYPdJthIofvd9tbOY9EL3Em6wx2U4sUC
+	6Pjg==
+X-Received: by 10.152.4.97 with SMTP id j1mr427769laj.10.1407962390028;
+	Wed, 13 Aug 2014 13:39:50 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	xl2sm4540791lbb.47.2014.08.13.13.38.32 for <multiple recipients>
+	sc8sm4557590lbb.27.2014.08.13.13.39.48 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Aug 2014 13:38:33 -0700 (PDT)
+	Wed, 13 Aug 2014 13:39:49 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 13 Aug 2014 22:39:09 +0200
+Date: Wed, 13 Aug 2014 22:40:26 +0200
 To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20140813203909.GY14848@jama>
+	Cristian Iorga <cristian.iorga@intel.com>
+Message-ID: <20140813204025.GZ14848@jama>
+References: <20140811095511.ADAAF503E6@opal.openembedded.org>
 MIME-Version: 1.0
+In-Reply-To: <20140811095511.ADAAF503E6@opal.openembedded.org>
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: State of bitbake world, Failed tasks 2014-08-13
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Cristian Iorga : qemu: upgrade to 2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,220 +46,261 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Aug 2014 20:38:44 -0000
-X-Groupsio-MsgNum: 56425
+X-List-Received-Date: Wed, 13 Aug 2014 20:39:53 -0000
+X-Groupsio-MsgNum: 56426
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="nPYEf/DvajCvrriP"
+	protocol="application/pgp-signature"; boundary="Syt9/4BcFIM5c5mV"
 Content-Disposition: inline
 
---nPYEf/DvajCvrriP
+--Syt9/4BcFIM5c5mV
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Fix for dnsmasq is already on ML (and applied for qemux86*)
+On Mon, Aug 11, 2014 at 09:55:11AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 3ae32d0d6c7cf8294300f32d346da36748e05f3d
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D3ae32d0d6c7cf8294300f32d346da36748e05f3d
+>=20
+> Author: Cristian Iorga <cristian.iorga@intel.com>
+> Date:   Wed Aug  6 10:43:25 2014 +0300
+>=20
+> qemu: upgrade to 2.1
+>=20
 
-rabbitmq-c is new recipe from review, issue was reported
+This causes new QA warning:
+qemu-2.1.0: qemu rdepends on lzo, but it isn't a build dependency? [build-d=
+eps]
 
-http://www.openembedded.org/wiki/Bitbake_World_Status
+please fix that
 
-=3D=3D Failed tasks 2014-08-13 =3D=3D
-
-=3D=3D=3D common () =3D=3D=3D
-
-=3D=3D=3D common-x86 (1) =3D=3D=3D
-    * meta-browser/recipes-browser/chromium/chromium_37.0.2062.0.bb, do_com=
-pile
-
-=3D=3D=3D qemuarm (1) =3D=3D=3D
-    * meta-openembedded/meta-networking/recipes-support/dnsmasq/dnsmasq_2.6=
-8.bb, do_patch
-
-=3D=3D=3D qemux86 (0) =3D=3D=3D
-
-=3D=3D=3D qemux86_64 (3) =3D=3D=3D
-    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
-    * meta-openembedded/meta-oe/recipes-connectivity/rabbitmq-c/rabbitmq-c_=
-0.5.0.bb, do_compile
-    * meta-qt5/recipes-qt/qt5/qtwebengine_git.bb, do_compile
-
-=3D=3D=3D Number of failed tasks =3D=3D=3D
-{| class=3Dwikitable
-|-
-||qemuarm       ||1     ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
-og.world.20140810_115305.log/||http://errors.yoctoproject.org:80/Errors/Sea=
-rch/1/1702/
-|-
-||qemux86       ||2     ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
-og.world.20140811_084941.log/||http://errors.yoctoproject.org:80/Errors/Sea=
-rch/1/1705/
-|-
-||qemux86_64    ||4     ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
-og.world.20140813_111311.log/||http://errors.yoctoproject.org:80/Errors/Sea=
-rch/1/1706/
-|}
-
-More importantly here is full QA log (the build was without sstate-cache),
-the number says in how many qa.log files it was found
-
-      1 gstreamer1.0-libav-1.4.0: ELF binary '/home/jenkins/oe/world/shr-co=
-re/tmp-eglibc/work/armv5te-oe-linux-gnueabi/gstreamer1.0-libav/1.4.0-r0/pac=
-kages-split/gstreamer1.0-libav/usr/lib/gstreamer-1.0/libgstlibav.so' has re=
-locations in .text [textrel]
-      1 gstreamer1.0-libav-1.4.0: ELF binary '/home/jenkins/oe/world/shr-co=
-re/tmp-eglibc/work/i586-oe-linux/gstreamer1.0-libav/1.4.0-r0/packages-split=
-/gstreamer1.0-libav/usr/lib/gstreamer-1.0/libgstlibav.so' has relocations i=
-n .text [textrel]
-      3 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libdrm, but it=
- isn't a build dependency? [build-deps]
-      3 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libegl-mesa, b=
-ut it isn't a build dependency? [build-deps]
-      3 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libgbm, but it=
- isn't a build dependency? [build-deps]
-      3 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libgl-mesa, bu=
-t it isn't a build dependency? [build-deps]
-      3 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libglapi, but =
-it isn't a build dependency? [build-deps]
-      1 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libgles2-mesa,=
- but it isn't a build dependency? [build-deps]
-      3 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libglu, but it=
- isn't a build dependency? [build-deps]
-      3 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libgstgl-1.0, =
-but it isn't a build dependency? [build-deps]
-      3 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libudev, but i=
-t isn't a build dependency? [build-deps]
-      3 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libwayland-egl=
-, but it isn't a build dependency? [build-deps]
-      3 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libxdamage, bu=
-t it isn't a build dependency? [build-deps]
-      3 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libxfixes, but=
- it isn't a build dependency? [build-deps]
-      3 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on libxxf86vm, bu=
-t it isn't a build dependency? [build-deps]
-      3 gstreamer1.0-omx-1.2.0: gstreamer1.0-omx rdepends on wayland, but i=
-t isn't a build dependency? [build-deps]
-      4 gstreamer1.0-plugins-bad-1.4.0: gstreamer1.0-plugins-bad-opengl rde=
-pends on libglu, but it isn't a build dependency? [build-deps]
-      4 gstreamer1.0-plugins-bad-1.4.0: gstreamer1.0-plugins-bad-opengl rde=
-pends on libjpeg-turbo, but it isn't a build dependency? [build-deps]
-      4 gstreamer1.0-plugins-bad-1.4.0: gstreamer1.0-plugins-bad-opengl rde=
-pends on libpng, but it isn't a build dependency? [build-deps]
-      4 gstreamer1.0-plugins-bad-1.4.0: libgstgl-1.0 rdepends on libglu, bu=
-t it isn't a build dependency? [build-deps]
-      4 gypsy-0.9: gypsy: configure was passed unrecognised options: --with=
--distro [unknown-configure-option]
-      1 libav-9.13: ELF binary '/home/jenkins/oe/world/shr-core/tmp-eglibc/=
-work/armv5te-oe-linux-gnueabi/libav/9.13-r0/packages-split/libavcodec/usr/l=
-ib/libavcodec.so.54.35.0' has relocations in .text [textrel]
-      1 libav-9.13: ELF binary '/home/jenkins/oe/world/shr-core/tmp-eglibc/=
-work/i586-oe-linux/libav/9.13-r0/packages-split/libavcodec/usr/lib/libavcod=
-ec.so.54.35.0' has relocations in .text [textrel]
-      1 libav-9.13: ELF binary '/home/jenkins/oe/world/shr-core/tmp-eglibc/=
-work/i586-oe-linux/libav/9.13-r0/packages-split/libavdevice/usr/lib/libavde=
-vice.so.53.2.0' has relocations in .text [textrel]
-      1 libav-9.13: ELF binary '/home/jenkins/oe/world/shr-core/tmp-eglibc/=
-work/i586-oe-linux/libav/9.13-r0/packages-split/libavfilter/usr/lib/libavfi=
-lter.so.3.3.0' has relocations in .text [textrel]
-      1 libav-9.13: ELF binary '/home/jenkins/oe/world/shr-core/tmp-eglibc/=
-work/i586-oe-linux/libav/9.13-r0/packages-split/libavformat/usr/lib/libavfo=
-rmat.so.54.20.4' has relocations in .text [textrel]
-      1 libav-9.13: ELF binary '/home/jenkins/oe/world/shr-core/tmp-eglibc/=
-work/i586-oe-linux/libav/9.13-r0/packages-split/libavresample/usr/lib/libav=
-resample.so.1.0.1' has relocations in .text [textrel]
-      1 libav-9.13: ELF binary '/home/jenkins/oe/world/shr-core/tmp-eglibc/=
-work/i586-oe-linux/libav/9.13-r0/packages-split/libavutil/usr/lib/libavutil=
-=2Eso.52.3.0' has relocations in .text [textrel]
-      1 libav-9.13: ELF binary '/home/jenkins/oe/world/shr-core/tmp-eglibc/=
-work/i586-oe-linux/libav/9.13-r0/packages-split/libswscale/usr/lib/libswsca=
-le.so.2.1.1' has relocations in .text [textrel]
-      1 libgcrypt-1.6.1: ELF binary '/home/jenkins/oe/world/shr-core/tmp-eg=
-libc/work/armv5te-oe-linux-gnueabi/libgcrypt/1.6.1-r0/packages-split/libgcr=
-ypt/usr/lib/libgcrypt.so.20.0.1' has relocations in .text [textrel]
-      1 libpostproc-52.3.0+gitAUTOINC+811db3b957: ELF binary '/home/jenkins=
-/oe/world/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/libpostproc/52.=
-3.0+gitAUTOINC+811db3b957-r0/packages-split/libpostproc/usr/lib/libpostproc=
-=2Eso.52.3.0' has relocations in .text [textrel]
-      1 libpostproc-52.3.0+gitAUTOINC+811db3b957: ELF binary '/home/jenkins=
-/oe/world/shr-core/tmp-eglibc/work/i586-oe-linux/libpostproc/52.3.0+gitAUTO=
-INC+811db3b957-r0/packages-split/libpostproc/usr/lib/libpostproc.so.52.3.0'=
- has relocations in .text [textrel]
-      2 libwebp-0.4.0: libwebp-bin rdepends on libgl-mesa, but it isn't a b=
-uild dependency? [build-deps]
-      2 libwebp-0.4.0: libwebp-bin rdepends on mesa-glut, but it isn't a bu=
-ild dependency? [build-deps]
-      1 mpg123-1.19.0: ELF binary '/home/jenkins/oe/world/shr-core/tmp-egli=
-bc/work/i586-oe-linux/mpg123/1.19.0-r0/packages-split/mpg123/usr/lib/libmpg=
-123.so.0.40.1' has relocations in .text [textrel]
-      4 openldap-2.4.39: openldap: Files/directories were installed but not=
- shipped  /run [installed-vs-shipped]
-      4 oscam-1.10+9164: File '/usr/bin/oscam' from oscam was already strip=
-ped, this will prevent future debugging! [already-stripped]
-      2 qemu-2.1.0: qemu rdepends on lzo, but it isn't a build dependency? =
-[build-deps]
-      1 qtwebengine-0.9.99+gitAUTOINC+21f6ce84ec: ELF binary '/home/jenkins=
-/oe/world/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/qtwebengine/0.9=
-=2E99+gitAUTOINC+21f6ce84ec-r0/packages-split/qtwebengine/usr/lib/libQt0Web=
-EngineCore.so.0.9.0' has relocations in .text [textrel]
-      1 qtwebkit-5.3.1: ELF binary '/home/jenkins/oe/world/shr-core/tmp-egl=
-ibc/work/i586-oe-linux/qtwebkit/5.3.1-r0/packages-split/qtwebkit/usr/lib/li=
-bQt5WebKit.so.5.3.1' has relocations in .text [textrel]
-      5 qwt-6.0.1: File '/usr/lib/libqwt.so.6.0.1' from qwt was already str=
-ipped, this will prevent future debugging! [already-stripped]
-      5 qwt-6.0.1: File '/usr/lib/libqwtmathml.so.6.0.1' from qwt was alrea=
-dy stripped, this will prevent future debugging! [already-stripped]
-      5 qwt-6.0.1: File '/usr/lib/qt4/plugins/designer/libqwt_designer_plug=
-in.so' from qwt was already stripped, this will prevent future debugging! [=
-already-stripped]
-      1 webkit-efl-2.3.4+svnr164189: ELF binary '/home/jenkins/oe/world/shr=
--core/tmp-eglibc/work/i586-oe-linux/webkit-efl/2.3.4+svnr164189-r0/packages=
--split/webkit-efl/usr/lib/libjavascriptcore_efl.so.0.1.0' has relocations i=
-n .text [textrel]
-      1 webkit-gtk-1.8.3: ELF binary '/home/jenkins/oe/world/shr-core/tmp-e=
-glibc/work/i586-oe-linux/webkit-gtk/1.8.3-r1/packages-split/libjavascriptco=
-re/usr/lib/libjavascriptcoregtk-1.0.so.0.13.4' has relocations in .text [te=
-xtrel]
-
-Fixes on ML
-      1 dconf-0.18.0: dconf-editor rdepends on libxml2, but it isn't a buil=
-d dependency? [build-deps]
-      4 evopedia-0.4.2+gitrAUTOINC+36ca70acb4: evopedia rdepends on libbz2,=
- but it isn't a build dependency? [build-deps]
-      1 expedite-1.7.9: expedite rdepends on evas-engine-fb, but it isn't a=
- build dependency? [build-deps]
-      1 expedite-1.7.9: expedite rdepends on evas-engine-software-generic, =
-but it isn't a build dependency? [build-deps]
-      1 expedite-1.7.9: expedite rdepends on evas-loader-png, but it isn't =
-a build dependency? [build-deps]
-      1 expedite-1.7.9: expedite rdepends on libsdl, but it isn't a build d=
-ependency? [build-deps]
-      1 webmin-1.620: webmin rdepends on perl-module-timelocal, but it isn'=
-t a build dependency? [build-deps]
-      1 webmin-1.620: webmin-module-proc rdepends on procps, but it isn't a=
- build dependency? [build-deps]
-      1 webmin-1.620: webmin-module-raid rdepends on mdadm, but it isn't a =
-build dependency? [build-deps]
-      1 gtksourceview2-2.10.5: gtksourceview2 rdepends on libxml2, but it i=
-sn't a build dependency? [build-deps]
-      1 kernelshark-1.2+gitAUTOINC+7055ffd37b: kernelshark rdepends on libx=
-ml2, but it isn't a build dependency? [build-deps]
-      1 libxklavier-5.3: libxklavier rdepends on libxml2, but it isn't a bu=
-ild dependency? [build-deps]
-      2 talloc-2.0.1: talloc: Files/directories were installed but not ship=
-ped  /usr/bin [installed-vs-shipped]
+> QEMU 2.1 comes with fixes and improvements.
+> See http://wiki.qemu.org/ChangeLog/2.1 for details.
+> - Added config for quorum support, depending on gnutls.
+> - pcie_better_hotplug_support.patch removed,
+> integrated upstream.
+> - Qemu-Arm-versatilepb-Add-memory-size-checking.patch updated
+> to 2.1 source code.
+> - no-strip.patch removed, no longer necessary due to code changes.
+>=20
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  ...-Arm-versatilepb-Add-memory-size-checking.patch |  2 +-
+>  .../qemu/files/pcie_better_hotplug_support.patch   | 74 ----------------=
+------
+>  meta/recipes-devtools/qemu/qemu.inc                |  2 +-
+>  meta/recipes-devtools/qemu/qemu/no-strip.patch     | 15 -----
+>  .../qemu/{qemu_2.0.0.bb =3D> qemu_2.1.0.bb}          |  7 +-
+>  5 files changed, 4 insertions(+), 96 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-me=
+mory-size-checking.patch b/meta/recipes-devtools/qemu/files/Qemu-Arm-versat=
+ilepb-Add-memory-size-checking.patch
+> index 3834aed..7f1c5a9 100644
+> --- a/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-si=
+ze-checking.patch
+> +++ b/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-si=
+ze-checking.patch
+> @@ -32,7 +32,7 @@ index b48d84c..ad2cd5a 100644
+>  +                ((unsigned int)ram_size / (1 << 20)));
+>  +        exit(1);
+>  +    }
+> -     memory_region_init_ram(ram, NULL, "versatile.ram", args->ram_size);
+> +     memory_region_init_ram(ram, NULL, "versatile.ram", machine->ram_siz=
+e);
+>       vmstate_register_ram_global(ram);
+>       /* ??? RAM should repeat to fill physical memory space.  */
+>  --=20
+> diff --git a/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support=
+=2Epatch b/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.pat=
+ch
+> deleted file mode 100644
+> index c7035b2..0000000
+> --- a/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
+> +++ /dev/null
+> @@ -1,74 +0,0 @@
+> -The current code is broken: it does surprise removal which crashes guest=
+s.
+> -
+> -Reimplemented the steps:
+> - - Hotplug triggers both 'present detect change' and
+> -   'attention button pressed'.
+> -
+> - - Hotunplug starts by triggering 'attention button pressed',
+> -   then waits for the OS to power off the device and only
+> -   then detaches it.
+> -
+> -Fixes CVE-2014-3471.
+> -
+> -Originated-by: Marcel Apfelbaum <address@hidden>
+> -Updated-by: Daniel BORNAZ <daniel.bornaz@enea.com>
+> -
+> ---- a/hw/pci/pcie.c	2014-04-17 15:44:44.000000000 +0200
+> -+++ b/hw/pci/pcie.c	2014-07-15 13:03:16.905070562 +0200
+> -@@ -258,7 +258,8 @@ void pcie_cap_slot_hotplug_cb(HotplugHan
+> -=20
+> -     pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
+> -                                PCI_EXP_SLTSTA_PDS);
+> --    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev), PCI_EXP_HP_EV_PDC);
+> -+    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev),
+> -+                        PCI_EXP_HP_EV_PDC | PCI_EXP_HP_EV_ABP);
+> - }
+> -=20
+> - void pcie_cap_slot_hot_unplug_cb(HotplugHandler *hotplug_dev, DeviceSta=
+te *dev,
+> -@@ -268,10 +269,7 @@ void pcie_cap_slot_hot_unplug_cb(Hotplug
+> -=20
+> -     pcie_cap_slot_hotplug_common(PCI_DEVICE(hotplug_dev), dev, &exp_cap=
+, errp);
+> -=20
+> --    object_unparent(OBJECT(dev));
+> --    pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
+> --                                 PCI_EXP_SLTSTA_PDS);
+> --    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev), PCI_EXP_HP_EV_PDC);
+> -+    pcie_cap_slot_push_attention_button(PCI_DEVICE(hotplug_dev));
+> - }
+> -=20
+> - /* pci express slot for pci express root/downstream port
+> -@@ -352,6 +350,11 @@ void pcie_cap_slot_reset(PCIDevice *dev)
+> -     hotplug_event_update_event_status(dev);
+> - }
+> -=20
+> -+static void pcie_unplug_device(PCIBus *bus, PCIDevice *dev, void *opaqu=
+e)
+> -+{
+> -+    object_unparent(OBJECT(dev));
+> -+}
+> -+
+> - void pcie_cap_slot_write_config(PCIDevice *dev,
+> -                                 uint32_t addr, uint32_t val, int len)
+> - {
+> -@@ -376,6 +379,22 @@ void pcie_cap_slot_write_config(PCIDevic
+> -                         sltsta);
+> -     }
+> -=20
+> -+    /*
+> -+     * If the slot is polulated, power indicator is off and power
+> -+     * controller is off, it is safe to detach the devices.
+> -+     */
+> -+    if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
+> -+        ((val & PCI_EXP_SLTCTL_PIC_OFF) =3D=3D PCI_EXP_SLTCTL_PIC_OFF))=
+ {
+> -+            PCIBus *sec_bus =3D pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
+> -+            pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+> -+                                pcie_unplug_device, NULL);
+> -+
+> -+            pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
+> -+                                         PCI_EXP_SLTSTA_PDS);
+> -+            pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
+> -+                                       PCI_EXP_SLTSTA_PDC);
+> -+    }
+> -+
+> -     hotplug_event_notify(dev);
+> -=20
+> -     /*=20
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+> index 84330ae..57907ae 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -17,7 +17,6 @@ QEMU_TARGETS ?=3D "arm i386 mips mipsel mips64 mips64el=
+ ppc sh4 x86_64"
+> =20
+>  SRC_URI =3D "\
+>      file://powerpc_rom.bin \
+> -    file://no-strip.patch \
+>      file://larger_default_ram_size.patch \
+>      file://disable-grabs.patch \
+>      file://exclude-some-arm-EABI-obsolete-syscalls.patch \
+> @@ -89,6 +88,7 @@ PACKAGECONFIG[virtfs] =3D "--enable-virtfs --enable-att=
+r,--disable-virtfs,libcap a
+>  PACKAGECONFIG[aio] =3D "--enable-linux-aio,--disable-linux-aio,libaio,"
+>  PACKAGECONFIG[xfs] =3D "--enable-xfsctl,--disable-xfsctl,xfsprogs,"
+>  PACKAGECONFIG[xen] =3D "--enable-xen, --disable-xen,,"
+> +PACKAGECONFIG[quorum] =3D "--enable-quorum, --disable-quorum, gnutls,"
+>  PACKAGECONFIG[vnc-tls] =3D "--enable-vnc --enable-vnc-tls,--disable-vnc-=
+tls, gnutls,"
+>  PACKAGECONFIG[vnc-ws] =3D "--enable-vnc --enable-vnc-ws,--disable-vnc-ws=
+, gnutls,"
+>  PACKAGECONFIG[vnc-sasl] =3D "--enable-vnc --enable-vnc-sasl,--disable-vn=
+c-sasl,cyrus-sasl,"
+> diff --git a/meta/recipes-devtools/qemu/qemu/no-strip.patch b/meta/recipe=
+s-devtools/qemu/qemu/no-strip.patch
+> deleted file mode 100644
+> index d6a4377..0000000
+> --- a/meta/recipes-devtools/qemu/qemu/no-strip.patch
+> +++ /dev/null
+> @@ -1,15 +0,0 @@
+> -Upstream-Status: Inappropriate [configuration]
+> -
+> -Index: qemu-0.14.0/Makefile
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ---- qemu-0.14.0.orig/Makefile
+> -+++ qemu-0.14.0/Makefile
+> -@@ -235,7 +235,7 @@ install-sysconfig:
+> - install: all $(if $(BUILD_DOCS),install-doc) install-sysconfig
+> - 	$(INSTALL_DIR) "$(DESTDIR)$(bindir)"
+> - ifneq ($(TOOLS),)
+> --	$(INSTALL_PROG) $(STRIP_OPT) $(TOOLS) "$(DESTDIR)$(bindir)"
+> -+	$(INSTALL_PROG) $(TOOLS) "$(DESTDIR)$(bindir)"
+> - endif
+> - ifneq ($(BLOBS),)
+> - 	$(INSTALL_DIR) "$(DESTDIR)$(datadir)"
+> diff --git a/meta/recipes-devtools/qemu/qemu_2.0.0.bb b/meta/recipes-devt=
+ools/qemu/qemu_2.1.0.bb
+> similarity index 81%
+> rename from meta/recipes-devtools/qemu/qemu_2.0.0.bb
+> rename to meta/recipes-devtools/qemu/qemu_2.1.0.bb
+> index 9a530a6..abf8dfc 100644
+> --- a/meta/recipes-devtools/qemu/qemu_2.0.0.bb
+> +++ b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
+> @@ -5,14 +5,11 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D441c28d2cf86=
+e15a37fa47e15a72fbac \
+> =20
+>  SRC_URI +=3D "file://qemu-enlarge-env-entry-size.patch \
+>              file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+> -            file://pcie_better_hotplug_support.patch \
+>              "
+> =20
+> -
+> -
+>  SRC_URI_prepend =3D "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+> -SRC_URI[md5sum] =3D "2790f44fd76da5de5024b4aafeb594c2"
+> -SRC_URI[sha256sum] =3D "60cc1aa0cad39cec891f970bed60ca8a484f071adad49431=
+23599ac223543a3b"
+> +SRC_URI[md5sum] =3D "6726977292b448cbc7f89998fac6983b"
+> +SRC_URI[sha256sum] =3D "397e23184f4bf613589a8fe0c6542461dc2afdf17ed337e9=
+7e6fd2f31e8f8802"
+> =20
+>  COMPATIBLE_HOST_class-target_mips64 =3D "null"
+> =20
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---nPYEf/DvajCvrriP
+--Syt9/4BcFIM5c5mV
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlPrzO0ACgkQN1Ujt2V2gBxOIgCfQBs8CletOdXp4BRFIcSKelbt
-+WsAoIIH5fOpmjszibc87BOs+9yXSllk
-=LqIX
+iEYEARECAAYFAlPrzTkACgkQN1Ujt2V2gBxVZwCfUvIQVn1aIabx7goJEKQ1Dn2G
+BEYAnix8lOVwe7BIljjSZb0EVfuRH9eE
+=jOmJ
 -----END PGP SIGNATURE-----
 
---nPYEf/DvajCvrriP--
+--Syt9/4BcFIM5c5mV--
