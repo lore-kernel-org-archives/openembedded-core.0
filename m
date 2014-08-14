@@ -1,35 +1,42 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F36B60424
+Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id CA5F760EFA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 16:46:57 +0000 (UTC)
-Received: by mail-lb0-f171.google.com with SMTP id l4so1079203lbv.16
+	Thu, 14 Aug 2014 16:50:36 +0000 (UTC)
+Received: by mail-la0-f43.google.com with SMTP id hr17so1414840lab.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 09:46:58 -0700 (PDT)
+	Thu, 14 Aug 2014 09:50:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=O0oNwxCfbu+NLQX71z2A/jyK91xILoX+uRbz+bMvLGQ=;
-	b=xKZnFHsGPJwGrwqITIyZQxOG0zk/owD0qZfJJ95JwjtuFbkxrCcj1NC8anyQ5qpB7k
-	QXIHn/U3WLN4YnszK2gjOwqiLdQSDDoa+2Zg/nqZb1aoZCScrUTJDDAgIVZjRzr1si++
-	6XRfGE4FU2R2U3dkmQIDt13J2XnXShWs+QixmhsA8R9QZefiAlE6heWj1tg5P3y5looo
-	JwPgxHjOgqK5opJomw5zJdrCHt6IdIwMbmHLihJPlRTHjr8FhF6WKBQ11E3nAKZQDRoN
-	U96IjZ+TN57XC+EFN2oh2EsCkK8I1oduJWa+7Igj2T5KhBBPL5fXbegLK7VHeV9eiEPW
-	ZnyA==
-X-Received: by 10.152.87.229 with SMTP id bb5mr6547336lab.75.1408034818145;
-	Thu, 14 Aug 2014 09:46:58 -0700 (PDT)
-Received: from localhost.localdomain (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id xu8sm3386002lab.41.2014.08.14.09.46.56
+	h=sender:date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=ZBR7GDjhtsCK2JUwh16a8siTB0Dqa+n38nplzkrzW+g=;
+	b=bBPQEbNbNoZ9tbiWnwa5EFIiwH593eWm/thH11knJ2o5lLn0vacZL7HhpQE2NQyJES
+	ZrOh/dWGmNtbxZJPNhilDNvhQW0kjWdyzkut1cL7RMRBkcnVTFdfgX5yKusy+oGfHIfV
+	O80YyY5qq0xib7okESOVj9a9+d/bKTDtVneFmeiPsVUTdtWRA5zODoSelc+nOsT/K2Rt
+	6sRsZRS7xeEWBXPjhJbGrqqOLT5kYEePzmqaYI1bVlzgbkbcba0tOIhZatYXtX/oTL7Y
+	SICOx0rvm7fWxHVaD12AdpeLDs0YjBlA1lB1w9TrrIS2se9feIlZoIE+hf+XVnGhK6o/
+	DK4A==
+X-Received: by 10.112.242.162 with SMTP id wr2mr6212182lbc.10.1408035036923;
+	Thu, 14 Aug 2014 09:50:36 -0700 (PDT)
+Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
+	by mx.google.com with ESMTPSA id dk3sm3395641lad.25.2014.08.14.09.50.35
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 14 Aug 2014 09:46:57 -0700 (PDT)
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 14 Aug 2014 09:50:36 -0700 (PDT)
 Sender: Paul Barker <paul.betafive@gmail.com>
+Date: Thu, 14 Aug 2014 16:50:33 +0000
 From: Paul Barker <paul@paulbarker.me.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Aug 2014 16:46:51 +0000
-Message-Id: <1408034811-7024-1-git-send-email-paul@paulbarker.me.uk>
-X-Mailer: git-send-email 2.0.4
-Subject: [PATCH] opkg: Protect add-exclude.patch from malloc failure
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20140814165033.GF13399@gmail.com>
+References: <1407497829-9330-1-git-send-email-paul@paulbarker.me.uk>
+	<1407497829-9330-3-git-send-email-paul@paulbarker.me.uk>
+	<20140808121346.GE14848@jama> <20140808121628.GH32767@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20140808121628.GH32767@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] opkg: Add runtime dep on gnupg if 'gpg' is in PACAKGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,76 +49,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 16:47:04 -0000
+X-List-Received-Date: Thu, 14 Aug 2014 16:50:38 -0000
+X-Groupsio-MsgNum: 56522
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Sw7tCqrGA+HQ0/zt"
+Content-Disposition: inline
 
-In the code added by add-exclude.patch, the return values of malloc and realloc
-were not checked before being dereferenced.
+--Sw7tCqrGA+HQ0/zt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In opkg we can use xmalloc and xrealloc instead of malloc and realloc. These
-functions terminate the program instead of returning NULL if memory allocation
-fails.
+On Fri, Aug 08, 2014 at 12:16:28PM +0000, Paul Barker wrote:
+> On Fri, Aug 08, 2014 at 02:13:46PM +0200, Martin Jansa wrote:
+> > On Fri, Aug 08, 2014 at 11:37:09AM +0000, Paul Barker wrote:
+> > > The 'opkg-key' utility requires gpg to manage the list of trusted key=
+s. The
+> > > ability to verify package signatures is not much use without the abil=
+ity to add
+> > > keys to the trusted list...
+> > >=20
+> > > Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+> > > ---
+> > >  meta/recipes-devtools/opkg/opkg.inc | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devto=
+ols/opkg/opkg.inc
+> > > index ba21d84..56c54b6 100644
+> > > --- a/meta/recipes-devtools/opkg/opkg.inc
+> > > +++ b/meta/recipes-devtools/opkg/opkg.inc
+> > > @@ -27,7 +27,7 @@ OPKGLIBDIR =3D "${target_localstatedir}/lib"
+> > > =20
+> > >  PACKAGECONFIG ??=3D ""
+> > > =20
+> > > -PACKAGECONFIG[gpg] =3D "--enable-gpg,--disable-gpg,gpgme libgpg-erro=
+r"
+> > > +PACKAGECONFIG[gpg] =3D "--enable-gpg,--disable-gpg,gpgme libgpg-erro=
+r,gnupg"
+> >=20
+> > Shouldn't this be gpgme?
+> >=20
+>=20
+> Which bit? The PACKAGECONFIG name or one of the comma separated fields?
+>=20
 
-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
----
- meta/recipes-devtools/opkg/opkg/add-exclude.patch | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+Sorry Martin, I didn't understand your comment. Could you clarify for me?
 
-diff --git a/meta/recipes-devtools/opkg/opkg/add-exclude.patch b/meta/recipes-devtools/opkg/opkg/add-exclude.patch
-index cf95ee2..c684534 100644
---- a/meta/recipes-devtools/opkg/opkg/add-exclude.patch
-+++ b/meta/recipes-devtools/opkg/opkg/add-exclude.patch
-@@ -1,4 +1,4 @@
--From 45a1e33a048f479b15b99d09df3dd1b62fef0253 Mon Sep 17 00:00:00 2001
-+From 5d707bbfcafd88b8b5b5821972c8c958fc3b2039 Mon Sep 17 00:00:00 2001
- From: Paul Barker <paul@paulbarker.me.uk>
- Date: Fri, 28 Mar 2014 15:20:22 +0000
- Subject: [PATCH 2/2] opkg-0.2.x: add-exclude
-@@ -12,10 +12,14 @@ no error will be generated.
- The lifespan of the exclude_list covers the execution of the process,
- so there is no need to free the data.
- 
-+v2: Use xmalloc instead of malloc and xrealloc instead of realloc. In opkg,
-+these functions are guaranteed not to return NULL.
-+
- Upstream-Status: Pending
- 
- Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
- Signed-off-by: Jonathan Liu <net147@gmail.com>
-+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
- ---
-  libopkg/opkg_conf.c   |  1 +
-  libopkg/opkg_conf.h   |  2 ++
-@@ -76,7 +80,7 @@ index d2d279e..b572e18 100644
-  		    if (satisfying_pkg != NULL) {
-  			 satisfier_entry_pkg = satisfying_pkg;
- diff --git a/src/opkg-cl.c b/src/opkg-cl.c
--index 0315d41..0db2794 100644
-+index 0315d41..67366b9 100644
- --- a/src/opkg-cl.c
- +++ b/src/opkg-cl.c
- @@ -45,6 +45,7 @@ enum {
-@@ -103,11 +107,11 @@ index 0315d41..0db2794 100644
- +			tuple = xstrdup(optarg);
- +			if (!conf->exclude_list) {
- +				conf->exclude_count = 1;
--+				conf->exclude_list = malloc(sizeof(char *) * conf->exclude_count);
-++				conf->exclude_list = xmalloc(sizeof(char *) * conf->exclude_count);
- +				conf->exclude_list[conf->exclude_count - 1] = tuple;
- +			} else {
- +				conf->exclude_count++;
--+				conf->exclude_list = realloc(conf->exclude_list, sizeof(char *) * conf->exclude_count);
-++				conf->exclude_list = xrealloc(conf->exclude_list, sizeof(char *) * conf->exclude_count);
- +				conf->exclude_list[conf->exclude_count - 1] = tuple;
- +			}
- +			break;
-@@ -123,5 +127,5 @@ index 0315d41..0db2794 100644
-  	printf("\t                                than the higher version one if more\n");
-  	printf("\t                                than one candidate is found.\n");
- -- 
--1.9.1
-+2.0.4
- 
--- 
-2.0.4
+Thanks,
 
+--=20
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
+
+--Sw7tCqrGA+HQ0/zt
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQEcBAEBAgAGBQJT7OjZAAoJEBwoJlo7UPQD7hUH/2JDmdFFLl3lSihOSv30yrtC
+vQ0eUWXny30ld7/vu59FK6grT5mk44NBIiUnQJTTvkWwoy2lJGieD3s9Gjam8SV5
+hRPXtndmpZqNMcMqCP3EtjLY9nyqvt1Y9GnjrFR/Jh3zVgb3JMAwi3FX8Lrc4nAo
+vt7DKkgctY8p0MhXrhjxzwsMmsN+n6SC9PoAUQ2GmL5oqztdyyYAcCLtFSWKZPp6
+0sTpocQgDUFlKndq0/JWVVTfbEGfaL2Jha8zUbNEQnmwBtm4LJhvmtGRlFm1jCbR
+CVWLCg4IcXGPh4KSjGUfm1ooRDoDT3PrZbG25dPFrbDTl6ceTp8k8Yx6mPkfo3A=
+=qwmL
+-----END PGP SIGNATURE-----
+
+--Sw7tCqrGA+HQ0/zt--
