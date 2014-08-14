@@ -1,43 +1,26 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 05729609B1
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2405160424
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 17:19:10 +0000 (UTC)
-Received: by mail-la0-f42.google.com with SMTP id pv20so1451796lab.1
+	Thu, 14 Aug 2014 17:57:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7EHvsda015424
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 10:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=QPgrqtnZhwSRLeTIwX1bJRKClukZhTePawWzsoJJPT8=;
-	b=eS96FnCQ1qKN+9irF5zFll2uqJe3ro45dky/rwNLguMTSqyumlKOHr69G45its/kyJ
-	d3kZ0Bsf1v4fLite35zXw8G7qNo8qdWZ2zacNkY6z6OvScf0J+5pqNCe4TTtEO+Lfm2i
-	ZogNq9EgBhTr60HeT19qxfSCCixvEpt0yhaGnxMT/EdyFKthywBvE4bnk9CB5Pp8HomF
-	qHSQtLWvwoy/BChGdIaTDLsX/8jINYD/FTcCsdRCiNjeW6DKj0EmdCUeFihIRlqi8fpu
-	Gss6pf8FUU0UlkfYClMUSRYUwxqxz2TGe+khvV+9a3a9NulMaRGUtPHCknKfZ8TrpHuo
-	OjiQ==
-X-Received: by 10.112.35.97 with SMTP id g1mr6469821lbj.20.1408036751145;
-	Thu, 14 Aug 2014 10:19:11 -0700 (PDT)
-Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id kv3sm8702374lbc.37.2014.08.14.10.19.09
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Aug 2014 10:19:10 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-Date: Thu, 14 Aug 2014 17:19:06 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20140814171906.GG13399@gmail.com>
-References: <1407497829-9330-1-git-send-email-paul@paulbarker.me.uk>
-	<1407497829-9330-3-git-send-email-paul@paulbarker.me.uk>
-	<20140808121346.GE14848@jama> <20140808121628.GH32767@gmail.com>
-	<20140814165033.GF13399@gmail.com> <20140814171653.GN14848@jama>
+	Thu, 14 Aug 2014 10:57:55 -0700 (PDT)
+Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 14 Aug 2014 10:57:54 -0700
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 14 Aug 2014 13:03:36 -0500
+Message-ID: <f0d789d9b4c8bff5538d2b1d48c999f03f1b1dd7.1408038028.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1408038028.git.peter.seebach@windriver.com>
+References: <cover.1408038028.git.peter.seebach@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20140814171653.GN14848@jama>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] opkg: Add runtime dep on gnupg if 'gpg' is in PACAKGECONFIG
+Subject: [PATCH 1/1] multilib_global.bbclass: PREFERRED_PROVIDERS for multilibs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,90 +33,291 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 17:19:11 -0000
-X-Groupsio-MsgNum: 56524
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Uu2n37VG4rOBDVuR"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 14 Aug 2014 17:57:56 -0000
+Content-Type: text/plain
 
---Uu2n37VG4rOBDVuR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The code in base.bbclass to spread PREFERRED_PROVIDERS values
+to multilibs doesn't work for things which rely on TARGET_PREFIX,
+such as virtual/${TARGET_PREFIX}gcc. This is because the expansion
+of TARGET_PREFIX produces the wrong value if executed prior to
+the assignment of TARGET_VENDOR_virtclass-multilib-libxx, which
+will always happen since that assignment doesn't happen until recipe
+parsing, but the PREFERRED_PROVIDERS expansion is happening
+around ConfigParsed.
 
-On Thu, Aug 14, 2014 at 07:16:53PM +0200, Martin Jansa wrote:
-> On Thu, Aug 14, 2014 at 04:50:33PM +0000, Paul Barker wrote:
-> > On Fri, Aug 08, 2014 at 12:16:28PM +0000, Paul Barker wrote:
-> > > On Fri, Aug 08, 2014 at 02:13:46PM +0200, Martin Jansa wrote:
-> > > > On Fri, Aug 08, 2014 at 11:37:09AM +0000, Paul Barker wrote:
-> > > > > The 'opkg-key' utility requires gpg to manage the list of trusted=
- keys. The
-> > > > > ability to verify package signatures is not much use without the =
-ability to add
-> > > > > keys to the trusted list...
-> > > > >=20
-> > > > > Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
-> > > > > ---
-> > > > >  meta/recipes-devtools/opkg/opkg.inc | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >=20
-> > > > > diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-d=
-evtools/opkg/opkg.inc
-> > > > > index ba21d84..56c54b6 100644
-> > > > > --- a/meta/recipes-devtools/opkg/opkg.inc
-> > > > > +++ b/meta/recipes-devtools/opkg/opkg.inc
-> > > > > @@ -27,7 +27,7 @@ OPKGLIBDIR =3D "${target_localstatedir}/lib"
-> > > > > =20
-> > > > >  PACKAGECONFIG ??=3D ""
-> > > > > =20
-> > > > > -PACKAGECONFIG[gpg] =3D "--enable-gpg,--disable-gpg,gpgme libgpg-=
-error"
-> > > > > +PACKAGECONFIG[gpg] =3D "--enable-gpg,--disable-gpg,gpgme libgpg-=
-error,gnupg"
-> > > >=20
-> > > > Shouldn't this be gpgme?
-> > > >=20
-> > >=20
-> > > Which bit? The PACKAGECONFIG name or one of the comma separated field=
-s?
-> > >=20
-> >=20
-> > Sorry Martin, I didn't understand your comment. Could you clarify for m=
-e?
->=20
-> Sorry for late reply, I haven't noticed your earlier e-mail.
->=20
-> It has build-time dependency on gpgme and runtime dependency on gnupg
-> (in comma separated fields) - it could be OK, I just wasn't sure.
->=20
-> Is opkg-key calling gnupg tools?
->=20
+To solve this, we make a couple of changes. First, the creation
+of the TARGET_VENDOR override values is moved into a new ConfigParsed
+event handler in multilib_global. Second, the preferred_ml_updates()
+function's code is moved into that function too. It seems safe to
+assume that PREFERRED_PROVIDER values only need to be spread to
+other multilibs when multilibs are in use.
 
-Yes, opkg-key is just a shell script which runs 'gpg' with appropriate comm=
-and
-line options. The main opkg program uses the gpgme library instead.
+I don't think this directly affects any use cases that don't involve
+third-party or alternative toolchains.
 
-Thanks,
+Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+---
+ meta/classes/base.bbclass            |  108 -------------------------------
+ meta/classes/multilib_global.bbclass |  117 +++++++++++++++++++++++++++++++++-
+ 2 files changed, 114 insertions(+), 111 deletions(-)
 
---=20
-Paul Barker
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 2c007ab..c0d61fe 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -133,113 +133,6 @@ def pkgarch_mapping(d):
+         if d.getVar("TUNE_PKGARCH", True) == "armv7a-vfp-neon":
+             d.setVar("TUNE_PKGARCH", "armv7a")
+ 
+-def preferred_ml_updates(d):
+-    # If any PREFERRED_PROVIDER or PREFERRED_VERSION are set,
+-    # we need to mirror these variables in the multilib case;
+-    multilibs = d.getVar('MULTILIBS', True) or ""
+-    if not multilibs:
+-        return
+-
+-    prefixes = []
+-    for ext in multilibs.split():
+-        eext = ext.split(':')
+-        if len(eext) > 1 and eext[0] == 'multilib':
+-            prefixes.append(eext[1])
+-
+-    versions = []
+-    providers = []
+-    for v in d.keys():
+-        if v.startswith("PREFERRED_VERSION_"):
+-            versions.append(v)
+-        if v.startswith("PREFERRED_PROVIDER_"):
+-            providers.append(v)
+-
+-    for v in versions:
+-        val = d.getVar(v, False)
+-        pkg = v.replace("PREFERRED_VERSION_", "")
+-        if pkg.endswith("-native") or "-crosssdk-" in pkg or pkg.startswith(("nativesdk-", "virtual/nativesdk-")):
+-            continue
+-        if '-cross-' in pkg and '${' in pkg:
+-            for p in prefixes:
+-                localdata = bb.data.createCopy(d)
+-                override = ":virtclass-multilib-" + p
+-                localdata.setVar("OVERRIDES", localdata.getVar("OVERRIDES", False) + override)
+-                bb.data.update_data(localdata)
+-                newname = localdata.expand(v).replace("PREFERRED_VERSION_", "PREFERRED_VERSION_" + p + '-')
+-                if newname != v:
+-                    newval = localdata.expand(val)
+-                    d.setVar(newname, newval)
+-            # Avoid future variable key expansion
+-            vexp = d.expand(v)
+-            if v != vexp and d.getVar(v, False):
+-                d.renameVar(v, vexp)
+-            continue
+-        for p in prefixes:
+-            newname = "PREFERRED_VERSION_" + p + "-" + pkg
+-            if not d.getVar(newname, False):
+-                d.setVar(newname, val)
+-
+-    for prov in providers:
+-        val = d.getVar(prov, False)
+-        pkg = prov.replace("PREFERRED_PROVIDER_", "")
+-        if pkg.endswith("-native") or "-crosssdk-" in pkg or pkg.startswith(("nativesdk-", "virtual/nativesdk-")):
+-            continue
+-        if 'cross-canadian' in pkg:
+-            for p in prefixes:
+-                localdata = bb.data.createCopy(d)
+-                override = ":virtclass-multilib-" + p
+-                localdata.setVar("OVERRIDES", localdata.getVar("OVERRIDES", False) + override)
+-                bb.data.update_data(localdata)
+-                newname = localdata.expand(prov)
+-                if newname != prov:
+-                    newval = localdata.expand(val)
+-                    d.setVar(newname, newval)
+-            # Avoid future variable key expansion
+-            provexp = d.expand(prov)
+-            if prov != provexp and d.getVar(prov, False):
+-                d.renameVar(prov, provexp)
+-            continue
+-        virt = ""
+-        if pkg.startswith("virtual/"):
+-            pkg = pkg.replace("virtual/", "")
+-            virt = "virtual/"
+-        for p in prefixes:
+-            if pkg != "kernel":
+-                newval = p + "-" + val
+-
+-            # implement variable keys
+-            localdata = bb.data.createCopy(d)
+-            override = ":virtclass-multilib-" + p
+-            localdata.setVar("OVERRIDES", localdata.getVar("OVERRIDES", False) + override)
+-            bb.data.update_data(localdata)
+-            newname = localdata.expand(prov)
+-            if newname != prov and not d.getVar(newname, False):
+-                d.setVar(newname, localdata.expand(newval))
+-
+-            # implement alternative multilib name
+-            newname = localdata.expand("PREFERRED_PROVIDER_" + virt + p + "-" + pkg)
+-            if not d.getVar(newname, False):
+-                d.setVar(newname, newval)
+-        # Avoid future variable key expansion
+-        provexp = d.expand(prov)
+-        if prov != provexp and d.getVar(prov, False):
+-            d.renameVar(prov, provexp)
+-
+-
+-    mp = (d.getVar("MULTI_PROVIDER_WHITELIST", True) or "").split()
+-    extramp = []
+-    for p in mp:
+-        if p.endswith("-native") or "-crosssdk-" in p or p.startswith(("nativesdk-", "virtual/nativesdk-")) or 'cross-canadian' in p:
+-            continue
+-        virt = ""
+-        if p.startswith("virtual/"):
+-            p = p.replace("virtual/", "")
+-            virt = "virtual/"
+-        for pref in prefixes:
+-            extramp.append(virt + pref + "-" + p)
+-    d.setVar("MULTI_PROVIDER_WHITELIST", " ".join(mp + extramp))
+-
+-
+ def get_layers_branch_rev(d):
+     layers = (d.getVar("BBLAYERS", True) or "").split()
+     layers_branch_rev = ["%-17s = \"%s:%s\"" % (os.path.basename(i), \
+@@ -290,7 +183,6 @@ python base_eventhandler() {
+         e.data.setVar("NATIVELSBSTRING", lsb_distro_identifier(e.data))
+         e.data.setVar('BB_VERSION', bb.__version__)
+         pkgarch_mapping(e.data)
+-        preferred_ml_updates(e.data)
+         oe.utils.features_backfill("DISTRO_FEATURES", e.data)
+         oe.utils.features_backfill("MACHINE_FEATURES", e.data)
+ 
+diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
+index 3315ba9..8ea2a5a 100644
+--- a/meta/classes/multilib_global.bbclass
++++ b/meta/classes/multilib_global.bbclass
+@@ -1,11 +1,122 @@
+-python multilib_virtclass_handler_global () {
+-    if not e.data:
++def preferred_ml_updates(d):
++    # If any PREFERRED_PROVIDER or PREFERRED_VERSION are set,
++    # we need to mirror these variables in the multilib case;
++    multilibs = d.getVar('MULTILIBS', True) or ""
++    if not multilibs:
+         return
+ 
+-    if isinstance(e, bb.event.RecipePreFinalise):
++    prefixes = []
++    for ext in multilibs.split():
++        eext = ext.split(':')
++        if len(eext) > 1 and eext[0] == 'multilib':
++            prefixes.append(eext[1])
++
++    versions = []
++    providers = []
++    for v in d.keys():
++        if v.startswith("PREFERRED_VERSION_"):
++            versions.append(v)
++        if v.startswith("PREFERRED_PROVIDER_"):
++            providers.append(v)
++
++    for v in versions:
++        val = d.getVar(v, False)
++        pkg = v.replace("PREFERRED_VERSION_", "")
++        if pkg.endswith("-native") or "-crosssdk-" in pkg or pkg.startswith(("nativesdk-", "virtual/nativesdk-")):
++            continue
++        if '-cross-' in pkg and '${' in pkg:
++            for p in prefixes:
++                localdata = bb.data.createCopy(d)
++                override = ":virtclass-multilib-" + p
++                localdata.setVar("OVERRIDES", localdata.getVar("OVERRIDES", False) + override)
++                bb.data.update_data(localdata)
++                newname = localdata.expand(v).replace("PREFERRED_VERSION_", "PREFERRED_VERSION_" + p + '-')
++                if newname != v:
++                    newval = localdata.expand(val)
++                    d.setVar(newname, newval)
++            # Avoid future variable key expansion
++            vexp = d.expand(v)
++            if v != vexp and d.getVar(v, False):
++                d.renameVar(v, vexp)
++            continue
++        for p in prefixes:
++            newname = "PREFERRED_VERSION_" + p + "-" + pkg
++            if not d.getVar(newname, False):
++                d.setVar(newname, val)
++
++    for prov in providers:
++        val = d.getVar(prov, False)
++        pkg = prov.replace("PREFERRED_PROVIDER_", "")
++        if pkg.endswith("-native") or "-crosssdk-" in pkg or pkg.startswith(("nativesdk-", "virtual/nativesdk-")):
++            continue
++        if 'cross-canadian' in pkg:
++            for p in prefixes:
++                localdata = bb.data.createCopy(d)
++                override = ":virtclass-multilib-" + p
++                localdata.setVar("OVERRIDES", localdata.getVar("OVERRIDES", False) + override)
++                bb.data.update_data(localdata)
++                newname = localdata.expand(prov)
++                if newname != prov:
++                    newval = localdata.expand(val)
++                    d.setVar(newname, newval)
++            # Avoid future variable key expansion
++            provexp = d.expand(prov)
++            if prov != provexp and d.getVar(prov, False):
++                d.renameVar(prov, provexp)
++            continue
++        virt = ""
++        if pkg.startswith("virtual/"):
++            pkg = pkg.replace("virtual/", "")
++            virt = "virtual/"
++        for p in prefixes:
++            if pkg != "kernel":
++                newval = p + "-" + val
++
++            # implement variable keys
++            localdata = bb.data.createCopy(d)
++            override = ":virtclass-multilib-" + p
++            localdata.setVar("OVERRIDES", localdata.getVar("OVERRIDES", False) + override)
++            bb.data.update_data(localdata)
++            newname = localdata.expand(prov)
++            if newname != prov and not d.getVar(newname, False):
++                d.setVar(newname, localdata.expand(newval))
++
++            # implement alternative multilib name
++            newname = localdata.expand("PREFERRED_PROVIDER_" + virt + p + "-" + pkg)
++            if not d.getVar(newname, False):
++                d.setVar(newname, newval)
++        # Avoid future variable key expansion
++        provexp = d.expand(prov)
++        if prov != provexp and d.getVar(prov, False):
++            d.renameVar(prov, provexp)
++
++
++    mp = (d.getVar("MULTI_PROVIDER_WHITELIST", True) or "").split()
++    extramp = []
++    for p in mp:
++        if p.endswith("-native") or "-crosssdk-" in p or p.startswith(("nativesdk-", "virtual/nativesdk-")) or 'cross-canadian' in p:
++            continue
++        virt = ""
++        if p.startswith("virtual/"):
++            p = p.replace("virtual/", "")
++            virt = "virtual/"
++        for pref in prefixes:
++            extramp.append(virt + pref + "-" + p)
++    d.setVar("MULTI_PROVIDER_WHITELIST", " ".join(mp + extramp))
++
++python multilib_virtclass_handler_vendor () {
++    if isinstance(e, bb.event.ConfigParsed):
+         for v in e.data.getVar("MULTILIB_VARIANTS", True).split():
+             if e.data.getVar("TARGET_VENDOR_virtclass-multilib-" + v, False) is None:
+                 e.data.setVar("TARGET_VENDOR_virtclass-multilib-" + v, e.data.getVar("TARGET_VENDOR", False) + "ml" + v)
++        preferred_ml_updates(e.data)
++}
++addhandler multilib_virtclass_handler_vendor
++multilib_virtclass_handler_vendor[eventmask] = "bb.event.ConfigParsed"
++
++python multilib_virtclass_handler_global () {
++    if not e.data:
++        return
+ 
+     variant = e.data.getVar("BBEXTENDVARIANT", True)
+ 
+-- 
+1.7.1
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
---Uu2n37VG4rOBDVuR
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQEcBAEBAgAGBQJT7O+KAAoJEBwoJlo7UPQDVNcH/Rvd0o2XIG7jgyUACb4M4tDR
-i4Nkgm9yVyDxskkoNG7I/v8jlGsiI2Dx6s2FZEndpMjFFxBHJwh7iaYK+LJ2z8Ne
-8Qf7+iAg7hgF51TX11i/fnoSa7iBsq5MjqGE5+bBk7JO6ulpt4fJ6IURbkI1alTH
-vHs7HpsqNoqhq29xiRtFA8hYTJEgwal+abJE4drkVjYIQScBRe+j/Rfr/ovj3uJU
-erzHZ9zKfuCmWZBvFOTBwvBz2ZeX1yICqzHHyAS7sQEOEQo5vouH6G11yw5vwkF0
-B1/QUw5LmPJU4Yz/7p+1XtOm6RvahN7Bo2Q95QdYKpANOpzl0C4+j9BlDNDUOVk=
-=+WOC
------END PGP SIGNATURE-----
-
---Uu2n37VG4rOBDVuR--
