@@ -1,31 +1,28 @@
-Return-Path: <Stefan_Seefeld@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 00B2C60DF7
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 45A9C60438
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 13:42:26 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1XHvIR-0007S1-Ce from Stefan_Seefeld@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Aug 2014 06:42:27 -0700
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Thu, 14 Aug 2014 06:42:27 -0700
-Received: from [0.0.0.0] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server id 14.2.247.3;
-	Thu, 14 Aug 2014 06:42:26 -0700
-Message-ID: <53ECBCBF.4060209@mentor.com>
-Date: Thu, 14 Aug 2014 09:42:23 -0400
-From: Stefan Seefeld <stefan_seefeld@mentor.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.7.0
+	Thu, 14 Aug 2014 13:53:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7EDrA3L012020
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Aug 2014 06:53:10 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.234) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 14 Aug 2014 06:53:09 -0700
+Message-ID: <53ECBF45.2000809@windriver.com>
+Date: Thu, 14 Aug 2014 08:53:09 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <1408023506.22187.106.camel@ted>
-In-Reply-To: <1408023506.22187.106.camel@ted>
-X-OriginalArrivalTime: 14 Aug 2014 13:42:27.0284 (UTC)
-	FILETIME=[962A7940:01CFB7C5]
-Subject: Re: [PATCH] site: Add common-darwin
+References: <1408023326.22187.105.camel@ted>
+In-Reply-To: <1408023326.22187.105.camel@ted>
+Subject: Re: [PATCH] buildtools-tarball: Add nativesdk-pseudo to buildtools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,32 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 13:42:31 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Thu, 14 Aug 2014 13:53:12 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/14/2014 09:38 AM, Richard Purdie wrote:
-> We need this to ensure there are some correct values when building with
-> meta-darwin. This matches the addition of a common-mingw site file in
-> the core.
-> 
-> diff --git a/meta/site/common-darwin b/meta/site/common-darwin
-> new file mode 100644
-> index 0000000..604c04b
-> --- /dev/null
-> +++ b/meta/site/common-darwin
-> @@ -0,0 +1,2 @@
-> +ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
-> +ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getgrgid_r=yes}
+On 8/14/14, 8:35 AM, Richard Purdie wrote:
+> I was pointing someone at this as a way to get pseudo, only to find it
+> isn't there. Its a useful tool to have in a standalone environment with
+> little overhead so lets add it.
 
-This looks like a typo. Shouldn't the second line start with
-"ac_cv_func_posix_getgrgid_r=..." ?
+This will only add one version of the pseudo wrapper libraries.  If the system 
+runnings the SDK is a different native word size (i.e. 32-bit SDK, 64-bit system 
+userspace) or the target system has both wordsizes installed, pseudo will not be 
+able to intercept calls for the non-SDK word size.
 
-	Stefan
+--Mark
 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+> index c54d9e8..6807db3 100644
+> --- a/meta/recipes-core/meta/buildtools-tarball.bb
+> +++ b/meta/recipes-core/meta/buildtools-tarball.bb
+> @@ -42,6 +42,7 @@ TOOLCHAIN_HOST_TASK ?= "\
+>       nativesdk-pigz \
+>       nativesdk-make \
+>       nativesdk-wget \
+> +    nativesdk-pseudo \
+>       "
+>
+>   TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
+>
+>
 
--- 
-Stefan Seefeld
-CodeSourcery / Mentor Embedded
-http://www.mentor.com/embedded-software/
 
