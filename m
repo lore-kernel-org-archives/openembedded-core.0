@@ -1,23 +1,43 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id CE4516059A
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 08:24:29 +0000 (UTC)
-Received: from [192.168.178.14] (chello062178118086.5.14.vie.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 6705433423
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 10:24:30 +0200 (CEST)
-Message-ID: <53EC723D.5000807@pseudoterminal.org>
-Date: Thu, 14 Aug 2014 10:24:29 +0200
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id F0EED60CFC;
+	Thu, 14 Aug 2014 08:38:40 +0000 (UTC)
+Received: by mail-la0-f42.google.com with SMTP id pv20so736297lab.15
+	for <multiple recipients>; Thu, 14 Aug 2014 01:38:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=bqZYJcwmF5ipjIP8hdxvX0kOa5KV23qp4EI/yeIqj1E=;
+	b=ILqNzdw1XWhS3Wjxfx1efMzyZUaULe2nMfydSjcf57t2w0Qbgs8DbhAj1s+t4jdyR6
+	WY+MEyWydo8eKFquqQ80LN1wvPAINpUlYBHvnmj4UcHVKDT3rRDN3fS0ZiS+bxyoA6oa
+	1hLhZkN0xn8aKY/12GI6PKMKSebqYyVZiXKBU3BSM6mavbIYOjqSvPF7yJm9C1RArJxE
+	el6mnvQ/DdtJjRbcUx5mVOWb9chahUxMOHkBthzvCeaTtc/FBKiJH0j+bnwXZkD8Tn+8
+	P7OhpY02GvsOySaSJ6sgIS0kJ6nQsaKlmvfGg4of2bE2VFclPhiLYcaLNlUsL0lJE/jP
+	CRtQ==
+X-Received: by 10.152.171.69 with SMTP id as5mr1485054lac.94.1408005520962;
+	Thu, 14 Aug 2014 01:38:40 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id f2sm6949813lbo.2.2014.08.14.01.38.39
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 14 Aug 2014 01:38:39 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 14 Aug 2014 10:39:17 +0200
+To: "Iorga, Cristian" <cristian.iorga@intel.com>
+Message-ID: <20140814083917.GE14848@jama>
+References: <20140811095511.ADAAF503E6@opal.openembedded.org>
+	<20140813204025.GZ14848@jama> <53EC1B2A.8070503@windriver.com>
+	<969F26A8BAB325438E7EB80D3C3134FB2F2C0D6C@IRSMSX105.ger.corp.intel.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <53EBD780.9060005@mlbassoc.com>	<CAP9ODKpND6P-x7ZKE9SuZ6vbfFF8RxoVSL3X9UDzj-WhV9yTpw@mail.gmail.com>	<CAMKF1soYYaAQ9tY7462=zEgo9urFaaAV-qDk6qhO=8_n0xdDyA@mail.gmail.com>	<53EC6F53.4070908@pseudoterminal.org>
-	<53EC71B1.3000200@pabigot.com>
-In-Reply-To: <53EC71B1.3000200@pabigot.com>
-Subject: Re: GCC 4.9 considered evil
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB2F2C0D6C@IRSMSX105.ger.corp.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] Cristian Iorga : qemu: upgrade to 2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,351 +50,521 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 08:24:37 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060607070805040609090302"
+X-List-Received-Date: Thu, 14 Aug 2014 08:38:42 -0000
+X-Groupsio-MsgNum: 56461
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="X7JfAZXCART3xQo9"
+Content-Disposition: inline
 
---------------060607070805040609090302
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+--X7JfAZXCART3xQo9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 08/14/2014 10:22 AM, Peter A. Bigot wrote:
-> On 08/14/2014 03:12 AM, Carlos Rafael Giani wrote:
->> On 08/14/2014 02:46 AM, Khem Raj wrote:
->>>
->>>
->>> On Wednesday, August 13, 2014, Otavio Salvador 
->>> <otavio@ossystems.com.br <mailto:otavio@ossystems.com.br>> wrote:
->>>
->>>     On Wed, Aug 13, 2014 at 6:24 PM, Gary Thomas <gary@mlbassoc.com
->>>     <javascript:;>> wrote:
->>>     > I've found that the latest GCC doesn't work very well, at
->>>     > least not on ARM (and obviously other architectures as well [1])
->>>     > When I build Google Chromium browser for my i.MX boards using
->>>     > GCC-4.9.x, no pages can be rendered - massive bloodshed and
->>>     > failures are shown on the console.  If I use the older GCC 4.8.2,
->>>     > everything else the same, all is well.
->>>     >
->>>     > Here's my configuration:
->>>     > BB_VERSION        = "1.23.1"
->>>     > BUILD_SYS         = "x86_64-linux"
->>>     > NATIVELSBSTRING   = "Ubuntu-13.10"
->>>     > TARGET_SYS        = "arm-amltd-linux-gnueabi"
->>>     > MACHINE           = "teton-p0382"
->>>     > DISTRO            = "amltd"
->>>     > DISTRO_VERSION    = "1.6+snapshot-20140812"
->>>     > TUNE_FEATURES     = "arm armv7a vfp neon callconvention-hard
->>>     cortexa9"
->>>     > TARGET_FPU        = "vfp-neon"
->>>     > meta              =
->>>     "master:86afd7eb7c679eb065706137f28f44248f3fbc5a"
->>>     > meta-amltd        =
->>>     "master:899529b4184dc9e3e291e7fcdbbf157233db056d"
->>>     > meta-teton-imx6-p0382 =
->>>     "master:9188e2f8fafd203c95dcd7a3c79cb38a1568e9b5"
->>>     > meta-fsl-arm      =
->>>     "master:b0cf5c78c5f98c5977ae556d331e7495648f154c"
->>>     > meta-fsl-arm-extra =
->>>     "master:12e560967b7136222c325d11633295fe3a0c701c"
->>>     > meta-browser      =
->>>     "master:da93c8e386133a15eff1414d9307c8f2c7a44787"
->>>     >
->>>     > Should this be filed as a bug?  I don't have much data other
->>>     than it
->>>     > simply breaks (and chrome is not the easiest thing to debug!).
->>>      Other
->>>     > applications seem OK, but I am loathe to trust it...
->>>     >
->>>     > I'm going to hold onto GCC-4.8.x for my $DISTRO at least (and
->>>     I hope
->>>     > it doesn't vanish like 4.7.x did too quickly).
->>>     >
->>>     > [1]
->>>     >
->>>     http://slashdot.org/story/14/07/27/1838219/linus-torvalds-gcc-490-seems-to-be-terminally-broken
->>>     >
->>>     > Note: I've also tried this on qemux86 (a totally different
->>>     > architecture) and chrome bombs just as badly!
->>>
->>>     I confirm that GCC 4.9 does NOT work for Chromium 35. At this
->>>     moment I
->>>     am not aware of any fix for it.
->>>
->>>
->>> Again Its a broad brush statement. Something concrete is needed if 
->>> some.action is to taken
->>>
->>>
->>>     IIRC the Chromium 37 works though.
->>>
->>>
->>> Well then its less chance.that someone will fix 35
->>>
->>>     --
->>>     Otavio Salvador                             O.S. Systems
->>>     http://www.ossystems.com.br http://code.ossystems.com.br
->>>     Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->>>     --
->>>     _______________________________________________
->>>     Openembedded-core mailing list
->>>     Openembedded-core@lists.openembedded.org <javascript:;>
->>>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>>
->>>
->>
->>
->> The problem is that narrowing down is very difficult, since the 
->> problems manifest themselves as seemingly random stack corruptions. I 
->> have tried to dig into it, but got nowhere. Pointers suddenly became 
->> null for no apparent reason, or were corrupted, free() calls failed, 
->> values on the stack suddenly changed without being modified by the 
->> code etc.
->>
->> I wouldn't rule out that Linus Torvald's find isn't the cause here. 
->> Look at this part of his message:
->>
->> "The x86-64 ABI specifies a 128-byte red-zone under the stack 
->> pointer, and this is ok by that limit. It looks like it's illegal 
->> (136 > 128), but the fact is, we've had four "pushq"s to update %rsp 
->> since loading the frame pointer, so it's just *barely* legal with the 
->> red-zoning."
->>
->> Perhaps gcc is pushing further outside of the red zone bounds, thus 
->> causing the problems. No idea how to check for that at the moment though.
->
-> Simplest would be to apply the upstream fix to Yocto's gcc and see if 
-> that helps.  You'd want commit 
-> 556537c4ad0df4cbebb74197bb2bdea75cf5dd35 from 
-> git://gcc.gnu.org/git/gcc.git.  (The patch went into gcc-4_9-branch 
-> one day after 4.9.1 was released.)
->
-> I'd add it to the current set but ATT Khem and I both have pending 
-> patches that touch the same gcc files, so it'd just increase the 
-> conflicts.
->
-> Peter
->
->>
->>
->
->
->
+On Thu, Aug 14, 2014 at 06:12:17AM +0000, Iorga, Cristian wrote:
+> Hello Martin, Kai,
+> Same goes for me as for Kai.
+> Kai, thanks for testing.
+> Martin, can you give more details?
 
+Have you built lzo before building qemu?
 
+insane_qa won't detect it if it isn't in sysroot.
 
-To further elaborate, the Chromium developers know about problems with 
-GCC 4.9. Here is an example: 
-https://code.google.com/p/chromium/issues/detail?id=385729
+> Cristian Iorga
+> Yocto Project
+> Intel Corporation
+>=20
+> From: Kang Kai [mailto:Kai.Kang@windriver.com]
+> Sent: Thursday, August 14, 2014 5:13 AM
+> To: Martin Jansa; openembedded-core@lists.openembedded.org; Iorga, Cristi=
+an
+> Cc: openembedded-commits@lists.openembedded.org
+> Subject: Re: [OE-core] [oe-commits] Cristian Iorga : qemu: upgrade to 2.1
+>=20
+> On 2014=E5=B9=B408=E6=9C=8814=E6=97=A5 04:40, Martin Jansa wrote:
+>=20
+> On Mon, Aug 11, 2014 at 09:55:11AM +0000, git@git.openembedded.org<mailto=
+:git@git.openembedded.org> wrote:
+>=20
+> Module: openembedded-core.git
+>=20
+> Branch: master
+>=20
+> Commit: 3ae32d0d6c7cf8294300f32d346da36748e05f3d
+>=20
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D3ae32d0d6c7cf8294300f32d346da36748e05f3d
+>=20
+>=20
+>=20
+> Author: Cristian Iorga <cristian.iorga@intel.com><mailto:cristian.iorga@i=
+ntel.com>
+>=20
+> Date:   Wed Aug  6 10:43:25 2014 +0300
+>=20
+>=20
+>=20
+> qemu: upgrade to 2.1
+>=20
+>=20
+>=20
+>=20
+>=20
+> This causes new QA warning:
+>=20
+> qemu-2.1.0: qemu rdepends on lzo, but it isn't a build dependency? [build=
+-deps]
+>=20
+> I  built qemu-2.1.0 for qemux86 and no such warning. What's the arch the =
+warning shows and does it need other configs?
+>=20
+> Regards,
+> Kai
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+> please fix that
+>=20
+>=20
+>=20
+> QEMU 2.1 comes with fixes and improvements.
+>=20
+> See http://wiki.qemu.org/ChangeLog/2.1 for details.
+>=20
+> - Added config for quorum support, depending on gnutls.
+>=20
+> - pcie_better_hotplug_support.patch removed,
+>=20
+> integrated upstream.
+>=20
+> - Qemu-Arm-versatilepb-Add-memory-size-checking.patch updated
+>=20
+> to 2.1 source code.
+>=20
+> - no-strip.patch removed, no longer necessary due to code changes.
+>=20
+>=20
+>=20
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com><mailto:cristian.=
+iorga@intel.com>
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org><mailto=
+:richard.purdie@linuxfoundation.org>
+>=20
+>=20
+>=20
+> ---
+>=20
+>=20
+>=20
+>  ...-Arm-versatilepb-Add-memory-size-checking.patch |  2 +-
+>=20
+>  .../qemu/files/pcie_better_hotplug_support.patch   | 74 ----------------=
+------
+>=20
+>  meta/recipes-devtools/qemu/qemu.inc                |  2 +-
+>=20
+>  meta/recipes-devtools/qemu/qemu/no-strip.patch     | 15 -----
+>=20
+>  .../qemu/{qemu_2.0.0.bb =3D> qemu_2.1.0.bb}          |  7 +-
+>=20
+>  5 files changed, 4 insertions(+), 96 deletions(-)
+>=20
+>=20
+>=20
+> diff --git a/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-me=
+mory-size-checking.patch b/meta/recipes-devtools/qemu/files/Qemu-Arm-versat=
+ilepb-Add-memory-size-checking.patch
+>=20
+> index 3834aed..7f1c5a9 100644
+>=20
+> --- a/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-si=
+ze-checking.patch
+>=20
+> +++ b/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-si=
+ze-checking.patch
+>=20
+> @@ -32,7 +32,7 @@ index b48d84c..ad2cd5a 100644
+>=20
+>  +                ((unsigned int)ram_size / (1 << 20)));
+>=20
+>  +        exit(1);
+>=20
+>  +    }
+>=20
+> -     memory_region_init_ram(ram, NULL, "versatile.ram", args->ram_size);
+>=20
+> +     memory_region_init_ram(ram, NULL, "versatile.ram", machine->ram_siz=
+e);
+>=20
+>       vmstate_register_ram_global(ram);
+>=20
+>       /* ??? RAM should repeat to fill physical memory space.  */
+>=20
+>  --
+>=20
+> diff --git a/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support=
+=2Epatch b/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.pat=
+ch
+>=20
+> deleted file mode 100644
+>=20
+> index c7035b2..0000000
+>=20
+> --- a/meta/recipes-devtools/qemu/files/pcie_better_hotplug_support.patch
+>=20
+> +++ /dev/null
+>=20
+> @@ -1,74 +0,0 @@
+>=20
+> -The current code is broken: it does surprise removal which crashes guest=
+s.
+>=20
+> -
+>=20
+> -Reimplemented the steps:
+>=20
+> - - Hotplug triggers both 'present detect change' and
+>=20
+> -   'attention button pressed'.
+>=20
+> -
+>=20
+> - - Hotunplug starts by triggering 'attention button pressed',
+>=20
+> -   then waits for the OS to power off the device and only
+>=20
+> -   then detaches it.
+>=20
+> -
+>=20
+> -Fixes CVE-2014-3471.
+>=20
+> -
+>=20
+> -Originated-by: Marcel Apfelbaum <address@hidden>
+>=20
+> -Updated-by: Daniel BORNAZ <daniel.bornaz@enea.com><mailto:daniel.bornaz@=
+enea.com>
+>=20
+> -
+>=20
+> ---- a/hw/pci/pcie.c 2014-04-17 15:44:44.000000000 +0200
+>=20
+> -+++ b/hw/pci/pcie.c 2014-07-15 13:03:16.905070562 +0200
+>=20
+> -@@ -258,7 +258,8 @@ void pcie_cap_slot_hotplug_cb(HotplugHan
+>=20
+> -
+>=20
+> -     pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
+>=20
+> -                                PCI_EXP_SLTSTA_PDS);
+>=20
+> --    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev), PCI_EXP_HP_EV_PDC);
+>=20
+> -+    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev),
+>=20
+> -+                        PCI_EXP_HP_EV_PDC | PCI_EXP_HP_EV_ABP);
+>=20
+> - }
+>=20
+> -
+>=20
+> - void pcie_cap_slot_hot_unplug_cb(HotplugHandler *hotplug_dev, DeviceSta=
+te *dev,
+>=20
+> -@@ -268,10 +269,7 @@ void pcie_cap_slot_hot_unplug_cb(Hotplug
+>=20
+> -
+>=20
+> -     pcie_cap_slot_hotplug_common(PCI_DEVICE(hotplug_dev), dev, &exp_cap=
+, errp);
+>=20
+> -
+>=20
+> --    object_unparent(OBJECT(dev));
+>=20
+> --    pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
+>=20
+> --                                 PCI_EXP_SLTSTA_PDS);
+>=20
+> --    pcie_cap_slot_event(PCI_DEVICE(hotplug_dev), PCI_EXP_HP_EV_PDC);
+>=20
+> -+    pcie_cap_slot_push_attention_button(PCI_DEVICE(hotplug_dev));
+>=20
+> - }
+>=20
+> -
+>=20
+> - /* pci express slot for pci express root/downstream port
+>=20
+> -@@ -352,6 +350,11 @@ void pcie_cap_slot_reset(PCIDevice *dev)
+>=20
+> -     hotplug_event_update_event_status(dev);
+>=20
+> - }
+>=20
+> -
+>=20
+> -+static void pcie_unplug_device(PCIBus *bus, PCIDevice *dev, void *opaqu=
+e)
+>=20
+> -+{
+>=20
+> -+    object_unparent(OBJECT(dev));
+>=20
+> -+}
+>=20
+> -+
+>=20
+> - void pcie_cap_slot_write_config(PCIDevice *dev,
+>=20
+> -                                 uint32_t addr, uint32_t val, int len)
+>=20
+> - {
+>=20
+> -@@ -376,6 +379,22 @@ void pcie_cap_slot_write_config(PCIDevic
+>=20
+> -                         sltsta);
+>=20
+> -     }
+>=20
+> -
+>=20
+> -+    /*
+>=20
+> -+     * If the slot is polulated, power indicator is off and power
+>=20
+> -+     * controller is off, it is safe to detach the devices.
+>=20
+> -+     */
+>=20
+> -+    if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
+>=20
+> -+        ((val & PCI_EXP_SLTCTL_PIC_OFF) =3D=3D PCI_EXP_SLTCTL_PIC_OFF))=
+ {
+>=20
+> -+            PCIBus *sec_bus =3D pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
+>=20
+> -+            pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+>=20
+> -+                                pcie_unplug_device, NULL);
+>=20
+> -+
+>=20
+> -+            pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
+>=20
+> -+                                         PCI_EXP_SLTSTA_PDS);
+>=20
+> -+            pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
+>=20
+> -+                                       PCI_EXP_SLTSTA_PDC);
+>=20
+> -+    }
+>=20
+> -+
+>=20
+> -     hotplug_event_notify(dev);
+>=20
+> -
+>=20
+> -     /*
+>=20
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+>=20
+> index 84330ae..57907ae 100644
+>=20
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+>=20
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+>=20
+> @@ -17,7 +17,6 @@ QEMU_TARGETS ?=3D "arm i386 mips mipsel mips64 mips64el=
+ ppc sh4 x86_64"
+>=20
+>=20
+>=20
+>  SRC_URI =3D "\
+>=20
+>      file://powerpc_rom.bin<file:///\\powerpc_rom.bin> \
+>=20
+> -    file://no-strip.patch<file:///\\no-strip.patch> \
+>=20
+>      file://larger_default_ram_size.patch<file:///\\larger_default_ram_si=
+ze.patch> \
+>=20
+>      file://disable-grabs.patch<file:///\\disable-grabs.patch> \
+>=20
+>      file://exclude-some-arm-EABI-obsolete-syscalls.patch<file:///\\exclu=
+de-some-arm-EABI-obsolete-syscalls.patch> \
+>=20
+> @@ -89,6 +88,7 @@ PACKAGECONFIG[virtfs] =3D "--enable-virtfs --enable-att=
+r,--disable-virtfs,libcap a
+>=20
+>  PACKAGECONFIG[aio] =3D "--enable-linux-aio,--disable-linux-aio,libaio,"
+>=20
+>  PACKAGECONFIG[xfs] =3D "--enable-xfsctl,--disable-xfsctl,xfsprogs,"
+>=20
+>  PACKAGECONFIG[xen] =3D "--enable-xen, --disable-xen,,"
+>=20
+> +PACKAGECONFIG[quorum] =3D "--enable-quorum, --disable-quorum, gnutls,"
+>=20
+>  PACKAGECONFIG[vnc-tls] =3D "--enable-vnc --enable-vnc-tls,--disable-vnc-=
+tls, gnutls,"
+>=20
+>  PACKAGECONFIG[vnc-ws] =3D "--enable-vnc --enable-vnc-ws,--disable-vnc-ws=
+, gnutls,"
+>=20
+>  PACKAGECONFIG[vnc-sasl] =3D "--enable-vnc --enable-vnc-sasl,--disable-vn=
+c-sasl,cyrus-sasl,"
+>=20
+> diff --git a/meta/recipes-devtools/qemu/qemu/no-strip.patch b/meta/recipe=
+s-devtools/qemu/qemu/no-strip.patch
+>=20
+> deleted file mode 100644
+>=20
+> index d6a4377..0000000
+>=20
+> --- a/meta/recipes-devtools/qemu/qemu/no-strip.patch
+>=20
+> +++ /dev/null
+>=20
+> @@ -1,15 +0,0 @@
+>=20
+> -Upstream-Status: Inappropriate [configuration]
+>=20
+> -
+>=20
+> -Index: qemu-0.14.0/Makefile
+>=20
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> ---- qemu-0.14.0.orig/Makefile
+>=20
+> -+++ qemu-0.14.0/Makefile
+>=20
+> -@@ -235,7 +235,7 @@ install-sysconfig:
+>=20
+> - install: all $(if $(BUILD_DOCS),install-doc) install-sysconfig
+>=20
+> -    $(INSTALL_DIR) "$(DESTDIR)$(bindir)"
+>=20
+> - ifneq ($(TOOLS),)
+>=20
+> --   $(INSTALL_PROG) $(STRIP_OPT) $(TOOLS) "$(DESTDIR)$(bindir)"
+>=20
+> -+   $(INSTALL_PROG) $(TOOLS) "$(DESTDIR)$(bindir)"
+>=20
+> - endif
+>=20
+> - ifneq ($(BLOBS),)
+>=20
+> -    $(INSTALL_DIR) "$(DESTDIR)$(datadir)"
+>=20
+> diff --git a/meta/recipes-devtools/qemu/qemu_2.0.0.bb b/meta/recipes-devt=
+ools/qemu/qemu_2.1.0.bb
+>=20
+> similarity index 81%
+>=20
+> rename from meta/recipes-devtools/qemu/qemu_2.0.0.bb
+>=20
+> rename to meta/recipes-devtools/qemu/qemu_2.1.0.bb
+>=20
+> index 9a530a6..abf8dfc 100644
+>=20
+> --- a/meta/recipes-devtools/qemu/qemu_2.0.0.bb
+>=20
+> +++ b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
+>=20
+> @@ -5,14 +5,11 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D441c28d2cf86=
+e15a37fa47e15a72fbac \<file:///\\COPYING;md5=3D441c28d2cf86e15a37fa47e15a72=
+fbac\SRC_URI+=3D>
+>=20
+>  <file:///\\COPYING;md5=3D441c28d2cf86e15a37fa47e15a72fbac\SRC_URI+=3D>
+>=20
+>  SRC_URI +=3D "</a<file:///\\COPYING;md5=3D441c28d2cf86e15a37fa47e15a72fb=
+ac\SRC_URI+=3D>"file://qemu-enlarge-env-entry-size.patch \
+>=20
+>              file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch<f=
+ile:///\\Qemu-Arm-versatilepb-Add-memory-size-checking.patch> \
+>=20
+> -            file://pcie_better_hotplug_support.patch<file:///\\pcie_bett=
+er_hotplug_support.patch> \
+>=20
+>              "
+>=20
+>=20
+>=20
+> -
+>=20
+> -
+>=20
+>  SRC_URI_prepend =3D "http://wiki.qemu-project.org/download/${BP}.tar.bz2=
+"<http://wiki.qemu-project.org/download/$%7bBP%7d.tar.bz2>
+>=20
+> -SRC_URI[md5sum] =3D "2790f44fd76da5de5024b4aafeb594c2"
+>=20
+> -SRC_URI[sha256sum] =3D "60cc1aa0cad39cec891f970bed60ca8a484f071adad49431=
+23599ac223543a3b"
+>=20
+> +SRC_URI[md5sum] =3D "6726977292b448cbc7f89998fac6983b"
+>=20
+> +SRC_URI[sha256sum] =3D "397e23184f4bf613589a8fe0c6542461dc2afdf17ed337e9=
+7e6fd2f31e8f8802"
+>=20
+>=20
+>=20
+>  COMPATIBLE_HOST_class-target_mips64 =3D "null"
+>=20
+>=20
+>=20
+>=20
+>=20
+> --
+>=20
+> _______________________________________________
+>=20
+> Openembedded-commits mailing list
+>=20
+> Openembedded-commits@lists.openembedded.org<mailto:Openembedded-commits@l=
+ists.openembedded.org>
+>=20
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+> --
+>=20
+> Regards,
+>=20
+> Neil | Kai Kang
 
-Note that while a build of Chromium 37 works, I've had internal compiler 
-errors happen. I actually had to re-run the run.do_compile script about 
-30 times until the build finished (the ICE's happen only sometimes, so 
-repeated attempts at compiling eventually yields a result.)
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Thanks for the link. I'll try it out when I have the time. Aside from 
-that, I recommend to keep the GCC 4.8 recipes for the time being. At 
-least they should not be removed as quickly as the 4.7 ones.
+--X7JfAZXCART3xQo9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
---------------060607070805040609090302
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 08/14/2014 10:22 AM, Peter A. Bigot
-      wrote:<br>
-    </div>
-    <blockquote cite="mid:53EC71B1.3000200@pabigot.com" type="cite">
-      <meta content="text/html; charset=ISO-8859-1"
-        http-equiv="Content-Type">
-      <div class="moz-cite-prefix">On 08/14/2014 03:12 AM, Carlos Rafael
-        Giani wrote:<br>
-      </div>
-      <blockquote cite="mid:53EC6F53.4070908@pseudoterminal.org"
-        type="cite">
-        <meta content="text/html; charset=ISO-8859-1"
-          http-equiv="Content-Type">
-        <div class="moz-cite-prefix">On 08/14/2014 02:46 AM, Khem Raj
-          wrote:<br>
-        </div>
-        <blockquote
-cite="mid:CAMKF1soYYaAQ9tY7462=zEgo9urFaaAV-qDk6qhO=8_n0xdDyA@mail.gmail.com"
-          type="cite"><br>
-          <br>
-          On Wednesday, August 13, 2014, Otavio Salvador &lt;<a
-            moz-do-not-send="true" href="mailto:otavio@ossystems.com.br">otavio@ossystems.com.br</a>&gt;
+iEYEARECAAYFAlPsdbUACgkQN1Ujt2V2gBwP8gCgux4Yvy3LuO3/ZF3X7MtfePeC
+R54AoKqDfgptNzyA2c9UtRXi2Wzz8fof
+=Ibn9
+-----END PGP SIGNATURE-----
 
-
-          wrote:<br>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex"> On Wed,
-            Aug 13, 2014 at 6:24 PM, Gary Thomas &lt;<a
-              moz-do-not-send="true" href="javascript:;"
-              onclick="_e(event, 'cvml', 'gary@mlbassoc.com')">gary@mlbassoc.com</a>&gt;
-            wrote:<br>
-            &gt; I've found that the latest GCC doesn't work very well,
-            at<br>
-            &gt; least not on ARM (and obviously other architectures as
-            well [1])<br>
-            &gt; When I build Google Chromium browser for my i.MX boards
-            using<br>
-            &gt; GCC-4.9.x, no pages can be rendered - massive bloodshed
-            and<br>
-            &gt; failures are shown on the console. &nbsp;If I use the older
-            GCC 4.8.2,<br>
-            &gt; everything else the same, all is well.<br>
-            &gt;<br>
-            &gt; Here's my configuration:<br>
-            &gt; BB_VERSION &nbsp; &nbsp; &nbsp; &nbsp;= "1.23.1"<br>
-            &gt; BUILD_SYS &nbsp; &nbsp; &nbsp; &nbsp; = "x86_64-linux"<br>
-            &gt; NATIVELSBSTRING &nbsp; = "Ubuntu-13.10"<br>
-            &gt; TARGET_SYS &nbsp; &nbsp; &nbsp; &nbsp;= "arm-amltd-linux-gnueabi"<br>
-            &gt; MACHINE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = "teton-p0382"<br>
-            &gt; DISTRO &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= "amltd"<br>
-            &gt; DISTRO_VERSION &nbsp; &nbsp;= "1.6+snapshot-20140812"<br>
-            &gt; TUNE_FEATURES &nbsp; &nbsp; = "arm armv7a vfp neon
-            callconvention-hard cortexa9"<br>
-            &gt; TARGET_FPU &nbsp; &nbsp; &nbsp; &nbsp;= "vfp-neon"<br>
-            &gt; meta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
-            "master:86afd7eb7c679eb065706137f28f44248f3fbc5a"<br>
-            &gt; meta-amltd &nbsp; &nbsp; &nbsp; &nbsp;=
-            "master:899529b4184dc9e3e291e7fcdbbf157233db056d"<br>
-            &gt; meta-teton-imx6-p0382 =
-            "master:9188e2f8fafd203c95dcd7a3c79cb38a1568e9b5"<br>
-            &gt; meta-fsl-arm &nbsp; &nbsp; &nbsp;=
-            "master:b0cf5c78c5f98c5977ae556d331e7495648f154c"<br>
-            &gt; meta-fsl-arm-extra =
-            "master:12e560967b7136222c325d11633295fe3a0c701c"<br>
-            &gt; meta-browser &nbsp; &nbsp; &nbsp;=
-            "master:da93c8e386133a15eff1414d9307c8f2c7a44787"<br>
-            &gt;<br>
-            &gt; Should this be filed as a bug? &nbsp;I don't have much data
-            other than it<br>
-            &gt; simply breaks (and chrome is not the easiest thing to
-            debug!). &nbsp;Other<br>
-            &gt; applications seem OK, but I am loathe to trust it...<br>
-            &gt;<br>
-            &gt; I'm going to hold onto GCC-4.8.x for my $DISTRO at
-            least (and I hope<br>
-            &gt; it doesn't vanish like 4.7.x did too quickly).<br>
-            &gt;<br>
-            &gt; [1]<br>
-            &gt; <a moz-do-not-send="true"
-href="http://slashdot.org/story/14/07/27/1838219/linus-torvalds-gcc-490-seems-to-be-terminally-broken"
-              target="_blank">http://slashdot.org/story/14/07/27/1838219/linus-torvalds-gcc-490-seems-to-be-terminally-broken</a><br>
-            &gt;<br>
-            &gt; Note: I've also tried this on qemux86 (a totally
-            different<br>
-            &gt; architecture) and chrome bombs just as badly!<br>
-            <br>
-            I confirm that GCC 4.9 does NOT work for Chromium 35. At
-            this moment I<br>
-            am not aware of any fix for it.</blockquote>
-          <div><br>
-          </div>
-          <div>Again Its a broad brush statement. Something concrete is
-            needed if some.action is to taken</div>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex"> <br>
-            IIRC the Chromium 37 works though.<br>
-            <br>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>Well then its less chance.that someone will fix 35&nbsp;</div>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex"> --<br>
-            Otavio Salvador &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; O.S. Systems<br>
-            <a moz-do-not-send="true" href="http://www.ossystems.com.br"
-              target="_blank">http://www.ossystems.com.br</a> &nbsp; &nbsp; &nbsp; &nbsp;<a
-              moz-do-not-send="true" href="http://code.ossystems.com.br"
-              target="_blank">http://code.ossystems.com.br</a><br>
-            Mobile: +55 (53) 9981-7854 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Mobile: +1 (347)
-            903-9750<br>
-            --<br>
-            _______________________________________________<br>
-            Openembedded-core mailing list<br>
-            <a moz-do-not-send="true" href="javascript:;"
-              onclick="_e(event, 'cvml',
-              'Openembedded-core@lists.openembedded.org')">Openembedded-core@lists.openembedded.org</a><br>
-            <a moz-do-not-send="true"
-              href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-              target="_blank">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-          </blockquote>
-          <br>
-          <fieldset class="mimeAttachmentHeader"></fieldset>
-          <br>
-        </blockquote>
-        <br>
-        <br>
-        The problem is that narrowing down is very difficult, since the
-        problems manifest themselves as seemingly random stack
-        corruptions. I have tried to dig into it, but got nowhere.
-        Pointers suddenly became null for no apparent reason, or were
-        corrupted, free() calls failed, values on the stack suddenly
-        changed without being modified by the code etc.<br>
-        <br>
-        I wouldn't rule out that Linus Torvald's find isn't the cause
-        here. Look at this part of his message:<br>
-        <br>
-        <meta http-equiv="content-type" content="text/html;
-          charset=ISO-8859-1">
-        "The x86-64 ABI specifies a 128-byte red-zone under the stack
-        pointer, and this is ok by that limit. It looks like it's
-        illegal (136 &gt; 128), but the fact is, we've had four "pushq"s
-        to update %rsp since loading the frame pointer, so it's just
-        *barely* legal with the red-zoning."<br>
-        <br>
-        Perhaps gcc is pushing further outside of the red zone bounds,
-        thus causing the problems. No idea how to check for that at the
-        moment though.<br>
-      </blockquote>
-      <br>
-      Simplest would be to apply the upstream fix to Yocto's gcc and see
-      if that helps.&nbsp; You'd want commit
-      556537c4ad0df4cbebb74197bb2bdea75cf5dd35 from
-      git://gcc.gnu.org/git/gcc.git.&nbsp; (The patch went into
-      gcc-4_9-branch one day after 4.9.1 was released.)<br>
-      <br>
-      I'd add it to the current set but ATT Khem and I both have pending
-      patches that touch the same gcc files, so it'd just increase the
-      conflicts.<br>
-      <br>
-      Peter<br>
-      <br>
-      <blockquote cite="mid:53EC6F53.4070908@pseudoterminal.org"
-        type="cite"> <br>
-        <fieldset class="mimeAttachmentHeader"></fieldset>
-        <br>
-      </blockquote>
-      <br>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-    <br>
-    <br>
-    To further elaborate, the Chromium developers know about problems
-    with GCC 4.9. Here is an example:
-    <a class="moz-txt-link-freetext" href="https://code.google.com/p/chromium/issues/detail?id=385729">https://code.google.com/p/chromium/issues/detail?id=385729</a><br>
-    <br>
-    Note that while a build of Chromium 37 works, I've had internal
-    compiler errors happen. I actually had to re-run the run.do_compile
-    script about 30 times until the build finished (the ICE's happen
-    only sometimes, so repeated attempts at compiling eventually yields
-    a result.)<br>
-    <br>
-    Thanks for the link. I'll try it out when I have the time. Aside
-    from that, I recommend to keep the GCC 4.8 recipes for the time
-    being. At least they should not be removed as quickly as the 4.7
-    ones.<br>
-  </body>
-</html>
-
---------------060607070805040609090302--
+--X7JfAZXCART3xQo9--
