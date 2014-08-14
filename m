@@ -1,37 +1,40 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 07D3065D5F
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 15AFE60B05
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 05:02:01 +0000 (UTC)
-Received: by mail-pa0-f47.google.com with SMTP id kx10so935831pab.20
+	Thu, 14 Aug 2014 05:32:32 +0000 (UTC)
+Received: by mail-ig0-f171.google.com with SMTP id l13so12517559iga.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Aug 2014 22:02:02 -0700 (PDT)
+	Wed, 13 Aug 2014 22:32:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=KS8O44PouYVmKYnDZjgkNxLoazAZMZVnYPGqO+UngMc=;
-	b=z4CpwjOm4+ie+hNTgTsO1C/reW9i5Eo/c2b0DHK13KDlV9WBIkYsPcwayW1LBuzNbU
-	LR7b07lSqjhyjJZl3DkntXhmNsKKbEt1QUQnmMUyNEQ0PHDzZCtcSE4o49b6CoawE8y2
-	VtFQcfwZ4EvOT0C/TfhscX86Zun7VtCmwWGv+PKuzT2Xqgf4ly9q/0r5KpRgaMRYeWMe
-	+F9tF+QY8fIjMw/GNr1OYpltqGr2WA+4ZBBZdI+qbII6ZmK5N7OvvAzfDto48ZRx/sAv
-	G1qeqXu5wpCj3EvaGtmSTMZtZpu34vVadMGtRzmmaw9h/nW5b3Mn6NLOXVceQREPLlAM
-	awuQ==
-X-Received: by 10.68.69.69 with SMTP id c5mr200348pbu.155.1407992522641;
-	Wed, 13 Aug 2014 22:02:02 -0700 (PDT)
-Received: from localhost.localdomain (c-98-207-177-218.hsd1.ca.comcast.net.
-	[98.207.177.218])
-	by mx.google.com with ESMTPSA id u1sm5773604pdm.82.2014.08.13.22.02.01
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Aug 2014 22:02:02 -0700 (PDT)
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=sPz6iVyXyVVMfUKwZMHGXyLd4L080FqeE/LO4z4cs94=;
+	b=NQyueL3dTWw5Y2UeUCXJrYRXyyBcQ4ofo3KmW1XP787a3g1+jTWe+uU23T/OIqwuKh
+	3jB3QbgA8cYJ0L3p2kFibwfxB5QkQc+zlinu2On82gfa11MxvaEZlZ8eKORr2jepxUhH
+	vJ5/kHD/ZWpvUtaIBfjG+oP1kQ7R2DFYAbq+Vo4PFMCk5v93hzQNTtTBV1H07tzLqTxZ
+	+MKnq8d2CPkNRgHzJijMkEgveV27Uq8BthHQYtMmWDoiyhqwXgGHcRdSnmoutwZI05Ez
+	F2sX2O71ebPtvtSufIa25zCEsDvk0mw74JAeZKQNAd6j2fqtqKAWMnLD776QMrXnm+oT
+	pd4A==
+X-Received: by 10.50.176.202 with SMTP id ck10mr55677788igc.2.1407994352265;
+	Wed, 13 Aug 2014 22:32:32 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.126.103 with HTTP; Wed, 13 Aug 2014 22:32:02 -0700 (PDT)
+In-Reply-To: <53EC16FC.8020109@pabigot.com>
+References: <53E9134F.7040108@pabigot.com>
+	<CAMKF1soHVxmjWW=TBqjh1P0ddPuMkxtmxXdnbLCSMLgQm2=hcQ@mail.gmail.com>
+	<53EBD76A.3010401@pabigot.com> <53EBDA75.4040101@pabigot.com>
+	<CAMKF1soioSe+U1CkB+PDsZyfDyaEFovugjOr+Tw+rGNjK57cJg@mail.gmail.com>
+	<53EBF375.1070701@pabigot.com>
+	<CAMKF1srUa9tUqu7bNXZ0g=yCa0e8E2K5XrzTHUUxB6BbTwYZ6g@mail.gmail.com>
+	<53EC16FC.8020109@pabigot.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Aug 2014 22:05:15 -0700
-Message-Id: <276a924664f8404d4e360e6af0ecb29d4d7403ab.1407992030.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1407992030.git.raj.khem@gmail.com>
-References: <cover.1407992030.git.raj.khem@gmail.com>
-Subject: [PATCH 1/1] gcc-cross-initial: Use good old bfd linker by default
+Date: Wed, 13 Aug 2014 22:32:02 -0700
+Message-ID: <CAMKF1srPpoob-sxfv_OF-5po41tAFZNaparZJ2WOrzMTjB=n2g@mail.gmail.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Yocto development with C++11 threads and gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,40 +47,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 05:02:04 -0000
+X-List-Received-Date: Thu, 14 Aug 2014 05:32:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-We already indicate our intentions to use ld.bfd by
-specifying it in configure using --with-ld which works
-ok unless here where we manually create symlinks to
-binutils-cross components, when we use ld-is-gold feature
-default ld points to gold and this symlinking has to be
-aware of the fact that we configured binutils and gcc-cross to use
-gold as default ld but gcc-cross-initial uses BFD ld
+On Wed, Aug 13, 2014 at 6:55 PM, Peter A. Bigot <pab@pabigot.com> wrote:
+>> EXTRA_OECONF += '${@bb.utils.contains("TUNE_FEATURES", "armv7a",
+>> "--with-cpu=generic-armv7-a", "", d)}'
+>>
+>
+> Sorry a typo there you   need  --with-arch
+>
+>
+> OK, that works. So do we need to do the same thing for every TUNE_FEATURES
+> element that ends up changing the value of -march= in TUNE_CCARGS which ends
+> up getting passed into gcc-runtime?
 
-This would be visible when using gold and rebuilding
-eglibc
+Not really but arm v6+ is an exception here due to reasons explained
+earlier. gcc as a target package is a bit
+different than rest of them since it has mind of its own when it comes
+to configuring it. It encodes certain
+defaults into its driver etc. based on the configure parameters.
+Ideally when we pass the flags via CFLAGS
+it does it for most of packages but not for gcc.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-cross-initial.inc |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-index 5a6da8b..23a6d4b 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-@@ -57,7 +57,9 @@ do_install () {
- 	# found. These need to be relative paths so they work in different locations.
- 	dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
- 	install -d $dest
--	for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
-+	useld=${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '.bfd', '', d)}
-+	ln -sf ${BINRELPATH}/${TARGET_PREFIX}ld${useld} ${dest}ld
-+	for t in ar as nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
- 		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
- 	done
- 	# fixed limits.h infact includes the so called real limits.h
--- 
-1.7.10.4
-
+>
+> If so would it be better to add a TUNE_ARCH setting to all the tune-foo.inc
+> files and use that in both TUNE_CCARGS and the --with-arch= flag passed to
+> gcc?  Just to avoid having this stuff hidden inside gcc-target.inc where
+> it's pretty obscure.
 
