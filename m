@@ -1,26 +1,21 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A1CF470D34
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa12-04.prod.phx3.secureserver.net
+	(p3plsmtpa12-04.prod.phx3.secureserver.net [68.178.252.233])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C4AE60424
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 08:46:09 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7E8kBI0006615
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 01:46:11 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 14 Aug 2014 01:46:07 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Aug 2014 16:46:09 +0800
-Message-ID: <e9504d14f0e8793c3765d3f2450c31fa03b375b4.1408005909.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1408005909.git.Qi.Chen@windriver.com>
-References: <cover.1408005909.git.Qi.Chen@windriver.com>
+	Thu, 14 Aug 2014 08:47:32 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa12-04.prod.phx3.secureserver.net with 
+	id eYnX1o0051mTNtu01YnXQe; Thu, 14 Aug 2014 01:47:33 -0700
+Message-ID: <53EC77A2.9040809@pabigot.com>
+Date: Thu, 14 Aug 2014 03:47:30 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-Subject: [PATCH 10/10] dhcp: add dhcpd.service
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: reconciling pending gcc recipe updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,73 +28,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 08:46:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 14 Aug 2014 08:47:32 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add dhcpd.service to support systemd systems.
+Khem and I both have pending patches to recipes-devtools/gcc.  A problem 
+is that the first one of mine is a whitespace cleanup, and I don't think 
+his are based on that.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-connectivity/dhcp/dhcp.inc            |   18 ++++++++++++++----
- meta/recipes-connectivity/dhcp/files/dhcpd.service |   11 +++++++++++
- 2 files changed, 25 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-connectivity/dhcp/files/dhcpd.service
+What can be done to effectively reconcile any conflicts between these?
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
-index 512127c..b281f94 100644
---- a/meta/recipes-connectivity/dhcp/dhcp.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp.inc
-@@ -14,11 +14,16 @@ DEPENDS = "openssl bind"
- 
- SRC_URI = "ftp://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
-            file://site.h \
--	   file://init-relay file://default-relay \
--	   file://init-server file://default-server \
--	   file://dhclient.conf file://dhcpd.conf"
-+           file://init-relay file://default-relay \
-+           file://init-server file://default-server \
-+           file://dhclient.conf file://dhcpd.conf \
-+           file://dhcpd.service"
- 
--inherit autotools
-+inherit autotools systemd
-+
-+SYSTEMD_PACKAGES = "dhcp-server"
-+SYSTEMD_SERVICE_dhcp-server = "dhcpd.service"
-+SYSTEMD_AUTO_ENABLE_dhcp-server = "disable"
- 
- TARGET_CFLAGS += "-D_GNU_SOURCE"
- EXTRA_OECONF = "--with-srv-lease-file=${localstatedir}/lib/dhcp/dhcpd.leases \
-@@ -51,6 +56,11 @@ do_install_append () {
- 		mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
- 	fi
- 	install -m 0755 ${S}/client/scripts/linux ${D}${base_sbindir}/dhclient-script
-+
-+	# Install systemd unit files
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 0644 ${WORKDIR}/dhcpd.service ${D}${systemd_unitdir}/system
-+	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/dhcpd.service
- }
- 
- PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
-diff --git a/meta/recipes-connectivity/dhcp/files/dhcpd.service b/meta/recipes-connectivity/dhcp/files/dhcpd.service
-new file mode 100644
-index 0000000..5c9ef6f
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/files/dhcpd.service
-@@ -0,0 +1,11 @@
-+[Unit]
-+Description=DHCP Server Daemon
-+After=network.target
-+After=time-sync.target
-+
-+[Service]
-+EnvironmentFile=/etc/default/dhcp-server
-+ExecStart=-@SBINDIR@/dhcpd -q $INTERFACES
-+
-+[Install]
-+WantedBy=multi-user.target
--- 
-1.7.9.5
+I'd really prefer to keep the cleanup patch, so I'd be happy to 
+cherry-pick Khem's changes into my series.  I'm not sure if his "Looks 
+good" follow-ups qualify for the addition of Signed-of-by in my other 
+changes.  I also expect at least one more cleanup patch (a rename so the 
+recipe nomenclature matches the GCC configuration option naming, viz. 
+s/fpu/float/ when determining --with-float which is different from 
+--with-fpu).
 
+If my series stays live I'd be happy to add the gcc 4.9.x patch that got 
+Torvalds' knickers in a twist to the set.
+
+Peter
 
