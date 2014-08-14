@@ -1,29 +1,48 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 4527A617B8
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 966DE6059A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 10:44:21 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id E245CF811F1; Thu, 14 Aug 2014 04:44:22 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
+	Thu, 14 Aug 2014 11:13:57 +0000 (UTC)
+Received: from amavisd-new (mailscanner07.wrt-nm.internl.net [217.149.192.117])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 7DB043F8D7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Aug 2014 13:13:57 +0200 (CEST)
+X-Spam-scanned: scanned by InterNLnet Mail Scan System
+X-Spam-Flag: NO
+X-Spam-Score: -2.9
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id BBB6DF811D8;
-	Thu, 14 Aug 2014 04:44:19 -0600 (MDT)
-Message-ID: <53EC932B.2000506@mlbassoc.com>
-Date: Thu, 14 Aug 2014 04:44:59 -0600
-From: Gary Thomas <gary@mlbassoc.com>
+X-Spam-Status: No, score=-2.9 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9] autolearn=no
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner07.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Aug 2014 13:13:57 +0200 (CEST)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Aug 2014 13:13:55 +0200 (CEST)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Thu, 14 Aug 2014 13:14:06 +0200
+Message-ID: <53EC99F3.1070004@topic.nl>
+Date: Thu, 14 Aug 2014 13:13:55 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <53EBD780.9060005@mlbassoc.com>	<CAP9ODKpND6P-x7ZKE9SuZ6vbfFF8RxoVSL3X9UDzj-WhV9yTpw@mail.gmail.com>	<CAMKF1soYYaAQ9tY7462=zEgo9urFaaAV-qDk6qhO=8_n0xdDyA@mail.gmail.com>	<53EC6F53.4070908@pseudoterminal.org>	<53EC71B1.3000200@pabigot.com>	<53EC723D.5000807@pseudoterminal.org>
-	<53EC8951.5070700@pabigot.com>
-In-Reply-To: <53EC8951.5070700@pabigot.com>
-Subject: Re: GCC 4.9 considered evil
+To: <openembedded-core@lists.openembedded.org>
+References: <CADV-EXHPuDtDk8pnFfJ4QQCVQufidX+7YuuK_FdgsEXj_46t6A@mail.gmail.com>	<CADV-EXHDKqVR8Quu=Vj7-Tk8BrB-OS1Y=Y0iYi+ES2YNUiREMQ@mail.gmail.com>	<CAP71WjyHMhzdRWmxNwM8Ot=t1O0qFvONyaKqpWSaeEZU_+PKVQ@mail.gmail.com>	<CADV-EXF_+nNXPUEY0hJ3akxNCb0HeD+tHAYAiVcq9hACCv-ExA@mail.gmail.com>
+	<20140813112531.GU14848@jama>
+In-Reply-To: <20140813112531.GU14848@jama>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: Re: Two distros with same MACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,135 +55,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 10:44:23 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Aug 2014 11:14:05 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On 2014-08-14 04:02, Peter A. Bigot wrote:
-> On 08/14/2014 03:24 AM, Carlos Rafael Giani wrote:
->> On 08/14/2014 10:22 AM, Peter A. Bigot wrote:
->>> On 08/14/2014 03:12 AM, Carlos Rafael Giani wrote:
->>>> On 08/14/2014 02:46 AM, Khem Raj wrote:
->>>>>
->>>>>
->>>>> On Wednesday, August 13, 2014, Otavio Salvador <otavio@ossystems.com.br <mailto:otavio@ossystems.com.br>> wrote:
->>>>>
->>>>>     On Wed, Aug 13, 2014 at 6:24 PM, Gary Thomas <gary@mlbassoc.com <javascript:;>> wrote:
->>>>>     > I've found that the latest GCC doesn't work very well, at
->>>>>     > least not on ARM (and obviously other architectures as well [1])
->>>>>     > When I build Google Chromium browser for my i.MX boards using
->>>>>     > GCC-4.9.x, no pages can be rendered - massive bloodshed and
->>>>>     > failures are shown on the console.  If I use the older GCC 4.8.2,
->>>>>     > everything else the same, all is well.
->>>>>     >
->>>>>     > Here's my configuration:
->>>>>     > BB_VERSION        = "1.23.1"
->>>>>     > BUILD_SYS         = "x86_64-linux"
->>>>>     > NATIVELSBSTRING   = "Ubuntu-13.10"
->>>>>     > TARGET_SYS        = "arm-amltd-linux-gnueabi"
->>>>>     > MACHINE           = "teton-p0382"
->>>>>     > DISTRO            = "amltd"
->>>>>     > DISTRO_VERSION    = "1.6+snapshot-20140812"
->>>>>     > TUNE_FEATURES     = "arm armv7a vfp neon callconvention-hard cortexa9"
->>>>>     > TARGET_FPU        = "vfp-neon"
->>>>>     > meta              = "master:86afd7eb7c679eb065706137f28f44248f3fbc5a"
->>>>>     > meta-amltd        = "master:899529b4184dc9e3e291e7fcdbbf157233db056d"
->>>>>     > meta-teton-imx6-p0382 = "master:9188e2f8fafd203c95dcd7a3c79cb38a1568e9b5"
->>>>>     > meta-fsl-arm      = "master:b0cf5c78c5f98c5977ae556d331e7495648f154c"
->>>>>     > meta-fsl-arm-extra = "master:12e560967b7136222c325d11633295fe3a0c701c"
->>>>>     > meta-browser      = "master:da93c8e386133a15eff1414d9307c8f2c7a44787"
->>>>>     >
->>>>>     > Should this be filed as a bug?  I don't have much data other than it
->>>>>     > simply breaks (and chrome is not the easiest thing to debug!).  Other
->>>>>     > applications seem OK, but I am loathe to trust it...
->>>>>     >
->>>>>     > I'm going to hold onto GCC-4.8.x for my $DISTRO at least (and I hope
->>>>>     > it doesn't vanish like 4.7.x did too quickly).
->>>>>     >
->>>>>     > [1]
->>>>>     > http://slashdot.org/story/14/07/27/1838219/linus-torvalds-gcc-490-seems-to-be-terminally-broken
->>>>>     >
->>>>>     > Note: I've also tried this on qemux86 (a totally different
->>>>>     > architecture) and chrome bombs just as badly!
->>>>>
->>>>>     I confirm that GCC 4.9 does NOT work for Chromium 35. At this moment I
->>>>>     am not aware of any fix for it.
->>>>>
->>>>>
->>>>> Again Its a broad brush statement. Something concrete is needed if some.action is to taken
->>>>>
->>>>>
->>>>>     IIRC the Chromium 37 works though.
->>>>>
->>>>>
->>>>> Well then its less chance.that someone will fix 35
->>>>>
->>>>>     --
->>>>>     Otavio Salvador                             O.S. Systems
->>>>>     http://www.ossystems.com.br http://code.ossystems.com.br
->>>>>     Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->>>>>     --
->>>>>     _______________________________________________
->>>>>     Openembedded-core mailing list
->>>>>     Openembedded-core@lists.openembedded.org <javascript:;>
->>>>>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>>>
->>>>>
->>>>>
->>>>
->>>>
->>>> The problem is that narrowing down is very difficult, since the problems manifest themselves as seemingly random stack corruptions. I have tried to dig into it, but got
->>>> nowhere. Pointers suddenly became null for no apparent reason, or were corrupted, free() calls failed, values on the stack suddenly changed without being modified by the code etc.
->>>>
->>>> I wouldn't rule out that Linus Torvald's find isn't the cause here. Look at this part of his message:
->>>>
->>>> "The x86-64 ABI specifies a 128-byte red-zone under the stack pointer, and this is ok by that limit. It looks like it's illegal (136 > 128), but the fact is, we've had four
->>>> "pushq"s to update %rsp since loading the frame pointer, so it's just *barely* legal with the red-zoning."
->>>>
->>>> Perhaps gcc is pushing further outside of the red zone bounds, thus causing the problems. No idea how to check for that at the moment though.
+=EF=BB=BFOn 08/13/2014 01:25 PM, Martin Jansa wrote:
+> On Wed, Aug 13, 2014 at 02:09:36PM +0300, Yevhen Kyriukha wrote:
+>> 13 =D0=90=D0=B2=D0=B3 2014 =D0=B3. 13:51 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=
+=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C "Nicolas Dechesne" <
+>> nicolas.dechesne@linaro.org> =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BB:
 >>>
->>> Simplest would be to apply the upstream fix to Yocto's gcc and see if that helps.  You'd want commit 556537c4ad0df4cbebb74197bb2bdea75cf5dd35 from
->>> git://gcc.gnu.org/git/gcc.git.  (The patch went into gcc-4_9-branch one day after 4.9.1 was released.)
->>>
->>> I'd add it to the current set but ATT Khem and I both have pending patches that touch the same gcc files, so it'd just increase the conflicts.
->>>
->>> Peter
->>>
->>>>
+>>> On Wed, Aug 13, 2014 at 12:46 PM, Yevhen Kyriukha <kirgene@gmail.com>
+>> wrote:
+>>>> I have 2 distro configs that use different PACKAGECONFIG settings for
+>> the
+>>>> same package. I'm building all distros for single MACHINE. Do I need t=
+o
+>> set
+>>>> different TMPDIR to build these two distros or I can use same dir?
 >>>>
 >>>
->>>
->>>
+>>> yes, you should. i generally recommend to use 1 build dir for each
+>>> combination of <machine>, <distro> and <OE version>. keep in mind that
+>>> TMPDIR are 'cheap', assuming you are sharing ssate-cache, downloads
+>>> and using rm_work..
 >>
->>
->>
->> To further elaborate, the Chromium developers know about problems with GCC 4.9. Here is an example: https://code.google.com/p/chromium/issues/detail?id=385729
+>> Thanks!
 >
-> For what little comfort it might give, that one turns out to be a bug in Chromium that was exposed by GCC 4.9, not a GCC 4.9 bug. "Still, the root issue exists on every branch and
-> it's sheer chance that most builds don't appear to be affected."
+> I don't agree with separate dirs for <machine>.
 >
->> Note that while a build of Chromium 37 works, I've had internal compiler errors happen. I actually had to re-run the run.do_compile script about 30 times until the build finished
->> (the ICE's happen only sometimes, so repeated attempts at compiling eventually yields a result.)
->>
->> Thanks for the link. I'll try it out when I have the time. Aside from that, I recommend to keep the GCC 4.8 recipes for the time being. At least they should not be removed as
->> quickly as the 4.7 ones.
->
-> I'm adding the twisted-Torvalds'-knickers patch to both gcc 4.8 and 4.9 in my gcc series.
->
-> Peter
+> Sharing the native sysroot and huge part of deploy/ipk/<common-arch> is
+> very useful for lowering disk space usage.
 >
 
-Fair enough.  I'm glad that I'm not the only one seeing such
-issues (although I seem to have been the first to kick the hornet's
-nest!).  My comments were not so much for "please fix this" as
-they were "buyer beware".  I've seen problems with other tools
-when built with GCC 4.9, e.g. midori also fails pretty badly on
-at least one target but seems OK when built with 4.8, so for now
-I'm sticking with the older compiler.
+I'd name it as one of the major improvements over classic OE, being able to=
+=20
+build multiple machines while sharing common things.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+As for disk space, I found that it helps to occasionally remove the tmp dir=
+=20
+and start over. That usually yields a few GB back. It would be nice if rm_w=
+ork=20
+tried harder to remove stuff.
+
+M.
+
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Bezoek ons op 9 en 10 september tijdens Technology for Health Den Bosch (st=
+and 53)
+http://www.technologyforhealth.nl
+
 
