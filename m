@@ -1,27 +1,38 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 818F060EFA
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f45.google.com (mail-yh0-f45.google.com
+	[209.85.213.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AD6A609C0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 12:13:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7ECDCho011640
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 14 Aug 2014 13:07:58 +0000 (UTC)
+Received: by mail-yh0-f45.google.com with SMTP id 29so971575yhl.32
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 05:13:12 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 14 Aug 2014 05:13:11 -0700
-Message-ID: <53ECA7D6.2030408@windriver.com>
-Date: Thu, 14 Aug 2014 20:13:10 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Thu, 14 Aug 2014 06:07:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=I9qU02JWsxumpyQ5Chi6fzMXFric4Eu+03Wg7ZALAmY=;
+	b=ZXH7p9RIzqw03wgqfud7IYr6xHnK6vhw/g7Lql7FpmuDzD1cN5M2iyqGC1XVHExV/g
+	90vzQHPbZVEj7QDNZF2Z56MzoFT9MwFnSgyRWI6HY/npODTRb4QmQvWW0MqFeRfn5bfj
+	GjR8dL1mgzPQLK9yAHx24rtOf2yyowbD16ucHJvX5BBs2HdEjgrbFl2gFjQm6JUZRkCn
+	9N18qnmSDqGuqsSKxnB28+7Ax/MNV67cfhaGwtNbxXP6z2/RklwvsSRuNC0BVCdBB4+p
+	Y2jiDYh10/AjIMbHsqbh2AotYC3JJB2RkK59F1vU1FTbNFdwmLOX1/mO6Xv7vzB5/UkZ
+	mQwA==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1407917762.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1407917762.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/2] Set CONFIG_SHELL for xz and gzip
+X-Received: by 10.236.199.13 with SMTP id w13mr17026286yhn.105.1408021678770; 
+	Thu, 14 Aug 2014 06:07:58 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.56.201 with HTTP; Thu, 14 Aug 2014 06:07:58 -0700 (PDT)
+In-Reply-To: <18e2b9ecac47dcfef1b00a538a61d1f5d4fe51fd.1408005909.git.Qi.Chen@windriver.com>
+References: <cover.1408005909.git.Qi.Chen@windriver.com>
+	<18e2b9ecac47dcfef1b00a538a61d1f5d4fe51fd.1408005909.git.Qi.Chen@windriver.com>
+Date: Thu, 14 Aug 2014 10:07:58 -0300
+X-Google-Sender-Auth: mfbdRUXLI8QeVMm8LcSv2NjGvO4
+Message-ID: <CAP9ODKrPqTqnDuMoWXcrqukCfUMEc1SS1976i5VvPmN7Xm_7zQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 08/10] v86d: set INHIBIT_UPDATERCD_BBCLASS if 'sysvinit' not in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,72 +45,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 12:13:12 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Aug 2014 13:08:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-I added grep's patch which is similar to xz and gzip to the repo,
-so there should be 3 patches:
+On Thu, Aug 14, 2014 at 5:46 AM, Chen Qi <Qi.Chen@windriver.com> wrote:
+> Set INHIBIT_UPDATERCD_BBCLASS to "1" if 'sysvinit' is not in DISTRO_FEATURES.
+>
+> The functionality of the init script 'fbsetup' is implemented internally in
+> systemd. So fbsetup is not installed if 'sysvinit' is in DISTRO_FEATURES.
+>
+> That's why we need to set INHIBIT_UPDATERCD_BBCLASS to "1" to avoid
+> generation of update-rc.d related preinst/postinst scripts.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 
-git://git.openembedded.org/openembedded-core-contrib rbt/bash
+Shouldn't this be handled in systemd class?
 
-
-====== patch ======
-
-grep: set CONFIG_SHELL to /bin/sh
-
-It would be bash, sh, ksh or sh5 according to the host if we don't set
-this, and its scripts don't have bashism as the checkbashisms shows.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
-  meta/recipes-extended/grep/grep_2.19.bb   |    1 +
-  meta/recipes-extended/grep/grep_2.5.1a.bb |    2 ++
-  2 files changed, 3 insertions(+)
-
-diff --git a/meta/recipes-extended/grep/grep_2.19.bb 
-b/meta/recipes-extended/grep/grep_2.19.bb
-index f38a9a6..9c162cc 100644
---- a/meta/recipes-extended/grep/grep_2.19.bb
-+++ b/meta/recipes-extended/grep/grep_2.19.bb
-@@ -36,3 +36,4 @@ ALTERNATIVE_LINK_NAME[grep] = "${base_bindir}/grep"
-  ALTERNATIVE_LINK_NAME[egrep] = "${base_bindir}/egrep"
-  ALTERNATIVE_LINK_NAME[fgrep] = "${base_bindir}/fgrep"
-
-+export CONFIG_SHELL="/bin/sh"
-diff --git a/meta/recipes-extended/grep/grep_2.5.1a.bb 
-b/meta/recipes-extended/grep/grep_2.5.1a.bb
-index 79842ba..1ce112e 100644
---- a/meta/recipes-extended/grep/grep_2.5.1a.bb
-+++ b/meta/recipes-extended/grep/grep_2.5.1a.bb
-@@ -47,3 +47,5 @@ ALTERNATIVE_${PN} = "grep egrep fgrep"
-  ALTERNATIVE_LINK_NAME[grep] = "${base_bindir}/grep"
-  ALTERNATIVE_LINK_NAME[egrep] = "${base_bindir}/egrep"
-  ALTERNATIVE_LINK_NAME[fgrep] = "${base_bindir}/fgrep"
-+
-+export CONFIG_SHELL="/bin/sh"
 -- 
-1.7.9.5
-
-// Robert
-
-
-On 08/13/2014 04:18 PM, Robert Yang wrote:
-> The following changes since commit 4321c553d5ae816e566234e981a0815bba046d39:
->
->    SIGGEN_EXCLUDERECIPES_ABISAFE: add initscripts (2014-08-11 17:44:09 +0100)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib rbt/bash
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/bash
->
-> Robert Yang (2):
->    xz: set CONFIG_SHELL to /bin/sh
->    gzip: set CONFIG_SHELL to /bin/sh
->
->   meta/recipes-extended/gzip/gzip.inc       |    2 ++
->   meta/recipes-extended/xz/xz_5.1.3alpha.bb |    2 ++
->   2 files changed, 4 insertions(+)
->
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
