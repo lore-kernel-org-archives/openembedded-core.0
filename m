@@ -1,24 +1,23 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 464A560EFA
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F2D4609B1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 17:57:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7EHvrxB029844
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 14 Aug 2014 18:14:07 +0000 (UTC)
+Received: from [192.168.178.14] (chello062178118086.5.14.vie.surfer.at
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id C27A8331EA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 10:57:54 -0700 (PDT)
-Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 14 Aug 2014 10:57:53 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Aug 2014 13:03:35 -0500
-Message-ID: <cover.1408038028.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.1
+	Thu, 14 Aug 2014 20:14:08 +0200 (CEST)
+Message-ID: <53ECFC70.5020306@pseudoterminal.org>
+Date: Thu, 14 Aug 2014 20:14:08 +0200
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-Subject: [PATCH 0/1] PREFERRED_PROVIDER and multilibs
+To: openembedded-core@lists.openembedded.org
+References: <53EBD780.9060005@mlbassoc.com>	<CAP9ODKpND6P-x7ZKE9SuZ6vbfFF8RxoVSL3X9UDzj-WhV9yTpw@mail.gmail.com>	<CAMKF1soYYaAQ9tY7462=zEgo9urFaaAV-qDk6qhO=8_n0xdDyA@mail.gmail.com>	<53EC6F53.4070908@pseudoterminal.org>
+	<53EC71B1.3000200@pabigot.com>
+In-Reply-To: <53EC71B1.3000200@pabigot.com>
+Subject: Re: GCC 4.9 considered evil
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +30,329 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 17:57:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 14 Aug 2014 18:14:15 -0000
+Content-Type: multipart/alternative;
+	boundary="------------020104000007000401040103"
 
-A value of the form PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}gcc = "..."
-doesn't work for multilibs in some cases, because of the order in which
-things are configured. Move the multilib-aware code for PREFERRED_PROVIDER
-and PREFERRED_VERSION into multilib_global in a new ConfigParsed handler
-so it can execute at the right time.
+--------------020104000007000401040103
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I do have a pending mystery, though:
+On 08/14/2014 10:22 AM, Peter A. Bigot wrote:
+> On 08/14/2014 03:12 AM, Carlos Rafael Giani wrote:
+>> On 08/14/2014 02:46 AM, Khem Raj wrote:
+>>>
+>>>
+>>> On Wednesday, August 13, 2014, Otavio Salvador 
+>>> <otavio@ossystems.com.br <mailto:otavio@ossystems.com.br>> wrote:
+>>>
+>>>     On Wed, Aug 13, 2014 at 6:24 PM, Gary Thomas <gary@mlbassoc.com
+>>>     <javascript:;>> wrote:
+>>>     > I've found that the latest GCC doesn't work very well, at
+>>>     > least not on ARM (and obviously other architectures as well [1])
+>>>     > When I build Google Chromium browser for my i.MX boards using
+>>>     > GCC-4.9.x, no pages can be rendered - massive bloodshed and
+>>>     > failures are shown on the console.  If I use the older GCC 4.8.2,
+>>>     > everything else the same, all is well.
+>>>     >
+>>>     > Here's my configuration:
+>>>     > BB_VERSION        = "1.23.1"
+>>>     > BUILD_SYS         = "x86_64-linux"
+>>>     > NATIVELSBSTRING   = "Ubuntu-13.10"
+>>>     > TARGET_SYS        = "arm-amltd-linux-gnueabi"
+>>>     > MACHINE           = "teton-p0382"
+>>>     > DISTRO            = "amltd"
+>>>     > DISTRO_VERSION    = "1.6+snapshot-20140812"
+>>>     > TUNE_FEATURES     = "arm armv7a vfp neon callconvention-hard
+>>>     cortexa9"
+>>>     > TARGET_FPU        = "vfp-neon"
+>>>     > meta              =
+>>>     "master:86afd7eb7c679eb065706137f28f44248f3fbc5a"
+>>>     > meta-amltd        =
+>>>     "master:899529b4184dc9e3e291e7fcdbbf157233db056d"
+>>>     > meta-teton-imx6-p0382 =
+>>>     "master:9188e2f8fafd203c95dcd7a3c79cb38a1568e9b5"
+>>>     > meta-fsl-arm      =
+>>>     "master:b0cf5c78c5f98c5977ae556d331e7495648f154c"
+>>>     > meta-fsl-arm-extra =
+>>>     "master:12e560967b7136222c325d11633295fe3a0c701c"
+>>>     > meta-browser      =
+>>>     "master:da93c8e386133a15eff1414d9307c8f2c7a44787"
+>>>     >
+>>>     > Should this be filed as a bug?  I don't have much data other
+>>>     than it
+>>>     > simply breaks (and chrome is not the easiest thing to debug!).
+>>>      Other
+>>>     > applications seem OK, but I am loathe to trust it...
+>>>     >
+>>>     > I'm going to hold onto GCC-4.8.x for my $DISTRO at least (and
+>>>     I hope
+>>>     > it doesn't vanish like 4.7.x did too quickly).
+>>>     >
+>>>     > [1]
+>>>     >
+>>>     http://slashdot.org/story/14/07/27/1838219/linus-torvalds-gcc-490-seems-to-be-terminally-broken
+>>>     >
+>>>     > Note: I've also tried this on qemux86 (a totally different
+>>>     > architecture) and chrome bombs just as badly!
+>>>
+>>>     I confirm that GCC 4.9 does NOT work for Chromium 35. At this
+>>>     moment I
+>>>     am not aware of any fix for it.
+>>>
+>>>
+>>> Again Its a broad brush statement. Something concrete is needed if 
+>>> some.action is to taken
+>>>
+>>>
+>>>     IIRC the Chromium 37 works though.
+>>>
+>>>
+>>> Well then its less chance.that someone will fix 35
+>>>
+>>>     --
+>>>     Otavio Salvador                             O.S. Systems
+>>>     http://www.ossystems.com.br http://code.ossystems.com.br
+>>>     Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>>>     --
+>>>     _______________________________________________
+>>>     Openembedded-core mailing list
+>>>     Openembedded-core@lists.openembedded.org <javascript:;>
+>>>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>>
+>>>
+>>
+>>
+>> The problem is that narrowing down is very difficult, since the 
+>> problems manifest themselves as seemingly random stack corruptions. I 
+>> have tried to dig into it, but got nowhere. Pointers suddenly became 
+>> null for no apparent reason, or were corrupted, free() calls failed, 
+>> values on the stack suddenly changed without being modified by the 
+>> code etc.
+>>
+>> I wouldn't rule out that Linus Torvald's find isn't the cause here. 
+>> Look at this part of his message:
+>>
+>> "The x86-64 ABI specifies a 128-byte red-zone under the stack 
+>> pointer, and this is ok by that limit. It looks like it's illegal 
+>> (136 > 128), but the fact is, we've had four "pushq"s to update %rsp 
+>> since loading the frame pointer, so it's just *barely* legal with the 
+>> red-zoning."
+>>
+>> Perhaps gcc is pushing further outside of the red zone bounds, thus 
+>> causing the problems. No idea how to check for that at the moment though.
+>
+> Simplest would be to apply the upstream fix to Yocto's gcc and see if 
+> that helps.  You'd want commit 
+> 556537c4ad0df4cbebb74197bb2bdea75cf5dd35 from 
+> git://gcc.gnu.org/git/gcc.git.  (The patch went into gcc-4_9-branch 
+> one day after 4.9.1 was released.)
+>
+> I'd add it to the current set but ATT Khem and I both have pending 
+> patches that touch the same gcc files, so it'd just increase the 
+> conflicts.
+>
+> Peter
 
-For versions:
-+        if '-cross-' in pkg and '${' in pkg:
-For providers:
-+        if 'cross-canadian' in pkg:
+Are you sure this is the right patch? Commit message:
 
-I don't know why these are different, or whether it's intentional.
+[PATCH] 2014-07-17  Richard Biener  <rguenther@suse.de>
 
-The following changes since commit 4321c553d5ae816e566234e981a0815bba046d39:
+         PR rtl-optimization/61801
+         * sched-deps.c (sched_analyze_2): For ASM_OPERANDS and
+         ASM_INPUT don't set reg_pending_barrier if it appears in a
+         debug-insn.
 
-  SIGGEN_EXCLUDERECIPES_ABISAFE: add initscripts (2014-08-11 17:44:09 +0100)
+It does not apply cleanly on gcc in either master or master-next . 
+Patching ChangeLog fails. I will try to use it with the ChangeLog patch 
+part omitted.
 
-are available in the git repository at:
-  git://git.yoctoproject.org/poky-contrib seebs/preferred_ml
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/preferred_ml
+--------------020104000007000401040103
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Peter Seebach (1):
-  multilib_global.bbclass: PREFERRED_PROVIDERS for multilibs
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 08/14/2014 10:22 AM, Peter A. Bigot
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:53EC71B1.3000200@pabigot.com" type="cite">
+      <meta content="text/html; charset=ISO-8859-1"
+        http-equiv="Content-Type">
+      <div class="moz-cite-prefix">On 08/14/2014 03:12 AM, Carlos Rafael
+        Giani wrote:<br>
+      </div>
+      <blockquote cite="mid:53EC6F53.4070908@pseudoterminal.org"
+        type="cite">
+        <meta content="text/html; charset=ISO-8859-1"
+          http-equiv="Content-Type">
+        <div class="moz-cite-prefix">On 08/14/2014 02:46 AM, Khem Raj
+          wrote:<br>
+        </div>
+        <blockquote
+cite="mid:CAMKF1soYYaAQ9tY7462=zEgo9urFaaAV-qDk6qhO=8_n0xdDyA@mail.gmail.com"
+          type="cite"><br>
+          <br>
+          On Wednesday, August 13, 2014, Otavio Salvador &lt;<a
+            moz-do-not-send="true" href="mailto:otavio@ossystems.com.br">otavio@ossystems.com.br</a>&gt;
 
- meta/classes/base.bbclass            |  108 -------------------------------
- meta/classes/multilib_global.bbclass |  117 +++++++++++++++++++++++++++++++++-
- 2 files changed, 114 insertions(+), 111 deletions(-)
 
+          wrote:<br>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex"> On Wed,
+            Aug 13, 2014 at 6:24 PM, Gary Thomas &lt;<a
+              moz-do-not-send="true" href="javascript:;"
+              onclick="_e(event, 'cvml', 'gary@mlbassoc.com')">gary@mlbassoc.com</a>&gt;
+            wrote:<br>
+            &gt; I've found that the latest GCC doesn't work very well,
+            at<br>
+            &gt; least not on ARM (and obviously other architectures as
+            well [1])<br>
+            &gt; When I build Google Chromium browser for my i.MX boards
+            using<br>
+            &gt; GCC-4.9.x, no pages can be rendered - massive bloodshed
+            and<br>
+            &gt; failures are shown on the console. &nbsp;If I use the older
+            GCC 4.8.2,<br>
+            &gt; everything else the same, all is well.<br>
+            &gt;<br>
+            &gt; Here's my configuration:<br>
+            &gt; BB_VERSION &nbsp; &nbsp; &nbsp; &nbsp;= "1.23.1"<br>
+            &gt; BUILD_SYS &nbsp; &nbsp; &nbsp; &nbsp; = "x86_64-linux"<br>
+            &gt; NATIVELSBSTRING &nbsp; = "Ubuntu-13.10"<br>
+            &gt; TARGET_SYS &nbsp; &nbsp; &nbsp; &nbsp;= "arm-amltd-linux-gnueabi"<br>
+            &gt; MACHINE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = "teton-p0382"<br>
+            &gt; DISTRO &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= "amltd"<br>
+            &gt; DISTRO_VERSION &nbsp; &nbsp;= "1.6+snapshot-20140812"<br>
+            &gt; TUNE_FEATURES &nbsp; &nbsp; = "arm armv7a vfp neon
+            callconvention-hard cortexa9"<br>
+            &gt; TARGET_FPU &nbsp; &nbsp; &nbsp; &nbsp;= "vfp-neon"<br>
+            &gt; meta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+            "master:86afd7eb7c679eb065706137f28f44248f3fbc5a"<br>
+            &gt; meta-amltd &nbsp; &nbsp; &nbsp; &nbsp;=
+            "master:899529b4184dc9e3e291e7fcdbbf157233db056d"<br>
+            &gt; meta-teton-imx6-p0382 =
+            "master:9188e2f8fafd203c95dcd7a3c79cb38a1568e9b5"<br>
+            &gt; meta-fsl-arm &nbsp; &nbsp; &nbsp;=
+            "master:b0cf5c78c5f98c5977ae556d331e7495648f154c"<br>
+            &gt; meta-fsl-arm-extra =
+            "master:12e560967b7136222c325d11633295fe3a0c701c"<br>
+            &gt; meta-browser &nbsp; &nbsp; &nbsp;=
+            "master:da93c8e386133a15eff1414d9307c8f2c7a44787"<br>
+            &gt;<br>
+            &gt; Should this be filed as a bug? &nbsp;I don't have much data
+            other than it<br>
+            &gt; simply breaks (and chrome is not the easiest thing to
+            debug!). &nbsp;Other<br>
+            &gt; applications seem OK, but I am loathe to trust it...<br>
+            &gt;<br>
+            &gt; I'm going to hold onto GCC-4.8.x for my $DISTRO at
+            least (and I hope<br>
+            &gt; it doesn't vanish like 4.7.x did too quickly).<br>
+            &gt;<br>
+            &gt; [1]<br>
+            &gt; <a moz-do-not-send="true"
+href="http://slashdot.org/story/14/07/27/1838219/linus-torvalds-gcc-490-seems-to-be-terminally-broken"
+              target="_blank">http://slashdot.org/story/14/07/27/1838219/linus-torvalds-gcc-490-seems-to-be-terminally-broken</a><br>
+            &gt;<br>
+            &gt; Note: I've also tried this on qemux86 (a totally
+            different<br>
+            &gt; architecture) and chrome bombs just as badly!<br>
+            <br>
+            I confirm that GCC 4.9 does NOT work for Chromium 35. At
+            this moment I<br>
+            am not aware of any fix for it.</blockquote>
+          <div><br>
+          </div>
+          <div>Again Its a broad brush statement. Something concrete is
+            needed if some.action is to taken</div>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex"> <br>
+            IIRC the Chromium 37 works though.<br>
+            <br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>Well then its less chance.that someone will fix 35&nbsp;</div>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex"> --<br>
+            Otavio Salvador &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; O.S. Systems<br>
+            <a moz-do-not-send="true" href="http://www.ossystems.com.br"
+              target="_blank">http://www.ossystems.com.br</a> &nbsp; &nbsp; &nbsp; &nbsp;<a
+              moz-do-not-send="true" href="http://code.ossystems.com.br"
+              target="_blank">http://code.ossystems.com.br</a><br>
+            Mobile: +55 (53) 9981-7854 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Mobile: +1 (347)
+            903-9750<br>
+            --<br>
+            _______________________________________________<br>
+            Openembedded-core mailing list<br>
+            <a moz-do-not-send="true" href="javascript:;"
+              onclick="_e(event, 'cvml',
+              'Openembedded-core@lists.openembedded.org')">Openembedded-core@lists.openembedded.org</a><br>
+            <a moz-do-not-send="true"
+              href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+              target="_blank">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
+          </blockquote>
+          <br>
+          <fieldset class="mimeAttachmentHeader"></fieldset>
+          <br>
+        </blockquote>
+        <br>
+        <br>
+        The problem is that narrowing down is very difficult, since the
+        problems manifest themselves as seemingly random stack
+        corruptions. I have tried to dig into it, but got nowhere.
+        Pointers suddenly became null for no apparent reason, or were
+        corrupted, free() calls failed, values on the stack suddenly
+        changed without being modified by the code etc.<br>
+        <br>
+        I wouldn't rule out that Linus Torvald's find isn't the cause
+        here. Look at this part of his message:<br>
+        <br>
+        <meta http-equiv="content-type" content="text/html;
+          charset=ISO-8859-1">
+        "The x86-64 ABI specifies a 128-byte red-zone under the stack
+        pointer, and this is ok by that limit. It looks like it's
+        illegal (136 &gt; 128), but the fact is, we've had four "pushq"s
+        to update %rsp since loading the frame pointer, so it's just
+        *barely* legal with the red-zoning."<br>
+        <br>
+        Perhaps gcc is pushing further outside of the red zone bounds,
+        thus causing the problems. No idea how to check for that at the
+        moment though.<br>
+      </blockquote>
+      <br>
+      Simplest would be to apply the upstream fix to Yocto's gcc and see
+      if that helps.&nbsp; You'd want commit
+      556537c4ad0df4cbebb74197bb2bdea75cf5dd35 from
+      git://gcc.gnu.org/git/gcc.git.&nbsp; (The patch went into
+      gcc-4_9-branch one day after 4.9.1 was released.)<br>
+      <br>
+      I'd add it to the current set but ATT Khem and I both have pending
+      patches that touch the same gcc files, so it'd just increase the
+      conflicts.<br>
+      <br>
+      Peter<br>
+    </blockquote>
+    <br>
+    Are you sure this is the right patch? Commit message:<br>
+    <br>
+    [PATCH] 2014-07-17&nbsp; Richard Biener&nbsp; <a class="moz-txt-link-rfc2396E" href="mailto:rguenther@suse.de">&lt;rguenther@suse.de&gt;</a><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PR rtl-optimization/61801<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * sched-deps.c (sched_analyze_2): For ASM_OPERANDS and<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ASM_INPUT don't set reg_pending_barrier if it appears in a<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; debug-insn.<br>
+    <br>
+    It does not apply cleanly on gcc in either master or master-next .
+    Patching ChangeLog fails. I will try to use it with the ChangeLog
+    patch part omitted.<br>
+  </body>
+</html>
 
+--------------020104000007000401040103--
