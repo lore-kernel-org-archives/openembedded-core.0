@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 13B9B70A38
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 82E9470A38
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 08:45:53 +0000 (UTC)
+	Thu, 14 Aug 2014 08:45:54 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7E8jsw3006600
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7E8jtbT010443
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 01:45:54 -0700 (PDT)
+	Thu, 14 Aug 2014 01:45:56 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 14 Aug 2014 01:45:54 -0700
+	14.3.174.1; Thu, 14 Aug 2014 01:45:55 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Aug 2014 16:46:01 +0800
-Message-ID: <d77cfaf8b63e3dd1d7b05ff4b547b6a4a4fc6b47.1408005909.git.Qi.Chen@windriver.com>
+Date: Thu, 14 Aug 2014 16:46:02 +0800
+Message-ID: <0f0c6994d25886a0e1e95a19ad9171c2723cd58c.1408005909.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1408005909.git.Qi.Chen@windriver.com>
 References: <cover.1408005909.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 02/10] systemd: add libdw to RDEPENDS
+Subject: [PATCH 03/10] systemd: make runlevel work in non-runlevel targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 08:45:53 -0000
+X-List-Received-Date: Thu, 14 Aug 2014 08:45:54 -0000
 Content-Type: text/plain
 
-Add libdw to RDEPENDS of systemd to avoid build-deps QA warning.
+Previously, after booting into the targets like multi-user.target or
+graphical.target, the output of `runlevel' command is 'unknown'.
+
+This is confusing for users. Normally, we would expect mutli-user.target
+would have a `runlevel' output of 'N 3'.
+This is the behaviour of Fedora20.
+
+This patch installs symlinks for systemd-update-utmp-runlevel.service
+in do_install task to fix the above problem.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/systemd/systemd_215.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd_215.bb |   12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/meta/recipes-core/systemd/systemd_215.bb b/meta/recipes-core/systemd/systemd_215.bb
-index 770787b..a52a042 100644
+index a52a042..10dab8e 100644
 --- a/meta/recipes-core/systemd/systemd_215.bb
 +++ b/meta/recipes-core/systemd/systemd_215.bb
-@@ -244,7 +244,7 @@ FILES_${PN} = " ${base_bindir}/* \
- FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
- FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+@@ -127,6 +127,18 @@ do_install() {
  
--RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
-+RDEPENDS_${PN} += "libdw kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
- RDEPENDS_${PN} += "volatile-binds"
+         # Delete journal README, as log can be symlinked inside volatile.
+         rm -f ${D}/${localstatedir}/log/README
++
++	# Create symlinks for systemd-update-utmp-runlevel.service
++	install -d ${D}${systemd_unitdir}/system/graphical.target.wants
++	install -d ${D}${systemd_unitdir}/system/multi-user.target.wants
++	install -d ${D}${systemd_unitdir}/system/poweroff.target.wants
++	install -d ${D}${systemd_unitdir}/system/reboot.target.wants
++	install -d ${D}${systemd_unitdir}/system/rescue.target.wants
++	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/graphical.target.wants/systemd-update-utmp-runlevel.service
++	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/multi-user.target.wants/systemd-update-utmp-runlevel.service
++	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/poweroff.target.wants/systemd-update-utmp-runlevel.service
++	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/reboot.target.wants/systemd-update-utmp-runlevel.service
++	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/rescue.target.wants/systemd-update-utmp-runlevel.service
+ }
  
- RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units udev-hwdb\
+ do_install_ptest () {
 -- 
 1.7.9.5
 
