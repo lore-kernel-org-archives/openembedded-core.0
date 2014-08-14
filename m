@@ -1,30 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E591B70CD7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id AD7B960144
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 22:10:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7EMAELM004141 for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 23:10:47 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 2o2gPCL6G-It
+	Thu, 14 Aug 2014 22:11:58 +0000 (UTC)
+Received: by mail-ig0-f174.google.com with SMTP id c1so299240igq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 23:10:47 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7EMAj7T004157
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 23:10:46 +0100
-Message-ID: <1408054245.21596.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Aug 2014 23:10:45 +0100
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] lttng-ust/lttng-modules: Update LICENSE to reflect MIT
+	Thu, 14 Aug 2014 15:11:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=njwUw4eV4kKBAGebH8r6Pmpo9dN1+0nxsJk5awUZjXU=;
+	b=0UGEsUQE+zg1xKFx7Wv1/KJqHDJ+Msl0YBPzbnTW4SJX1GL7jylzmIqHagF8O5JkVn
+	1ADhyl4ipTbaMpjD8rGaTl/7pnpTE3hb02jt1OGpSO4w24ChrrcUw5p7IcpkyRvOkH3c
+	lKhCEUTKW0GG3BPbgkKcxw6nBsZk3o3WqdPPQ90Ni2wK0SR6F6teyMECZ12ZD98vEW2L
+	EqVNjfqcQ+XxXC38/l5UjdDb0uX0Hfat909foDFGOUwK4/z6NojS3hipTQHNcHD8ERVi
+	HbN6GnhERipARBLSvI3jXY+x7hsnWs8kryZQpPpvN54112gqOymTPh5ZicQ59qalzeRl
+	Lecw==
+X-Received: by 10.42.82.6 with SMTP id b6mr17418781icl.51.1408054319533; Thu,
+	14 Aug 2014 15:11:59 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.126.103 with HTTP; Thu, 14 Aug 2014 15:11:29 -0700 (PDT)
+In-Reply-To: <53ED3164.2010705@pabigot.com>
+References: <53E9134F.7040108@pabigot.com>
+	<CAMKF1soHVxmjWW=TBqjh1P0ddPuMkxtmxXdnbLCSMLgQm2=hcQ@mail.gmail.com>
+	<53EBD76A.3010401@pabigot.com> <53EBDA75.4040101@pabigot.com>
+	<CAMKF1soioSe+U1CkB+PDsZyfDyaEFovugjOr+Tw+rGNjK57cJg@mail.gmail.com>
+	<53EBF375.1070701@pabigot.com>
+	<CAMKF1srUa9tUqu7bNXZ0g=yCa0e8E2K5XrzTHUUxB6BbTwYZ6g@mail.gmail.com>
+	<53EC16FC.8020109@pabigot.com>
+	<CAMKF1srPpoob-sxfv_OF-5po41tAFZNaparZJ2WOrzMTjB=n2g@mail.gmail.com>
+	<53EC7E27.6010507@pabigot.com> <1408052429.21596.2.camel@ted>
+	<53ED3164.2010705@pabigot.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 14 Aug 2014 15:11:29 -0700
+Message-ID: <CAMKF1sovJkCXMBzREUaiacbHntGDcUgALMXjPA1ktmTd=CxmKg@mail.gmail.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Yocto development with C++11 threads and gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +50,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 22:10:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Aug 2014 22:11:58 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The code in question clearly states MIT is a third license. Update
-LICENSE to reflect this (in one case, we did list BSD which is effectively
-the same thing but this removes confusion).
+On Thu, Aug 14, 2014 at 3:00 PM, Peter A. Bigot <pab@pabigot.com> wrote:
+> I'm content with the solution in my v2 gcc patch series, but I expect
+> someday the underlying cause will re-appear as new processors have new
+> features with ABI impacts due to gcc target optimization. Hopefully when
+> that happens the discussion here will be of some help in identifying the
+> problem.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
-index d873741..9310f0f 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
-@@ -1,7 +1,7 @@
- SECTION = "devel"
- SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
- DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
--LICENSE = "LGPLv2.1 & GPLv2"
-+LICENSE = "LGPLv2.1 & GPLv2 & MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1412caf5a1aa90d6a48588a4794c0eac \
-                     file://gpl-2.0.txt;md5=751419260aa954499f7abaabaa882bbe \
-                     file://lgpl-2.1.txt;md5=243b725d71bb5df4a1e5920b344b86ad"
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
-index 1595627..1468fc1 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "The LTTng UST 2.x package contains the userspace tracer library t
- HOMEPAGE = "http://lttng.org/ust"
- BUGTRACKER = "https://bugs.lttng.org/projects/lttng-ust"
- 
--LICENSE = "LGPLv2.1+ & BSD & GPLv2"
-+LICENSE = "LGPLv2.1+ & MIT & GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
-                     file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
-                     file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
-
-
+general usecase on arm thus far is to use cross compilers and I think
+we are good there. target compilation is not a norm but this might
+change soon but then we can propose to change defaults in gcc to use
+armv6+, we build arm native gcc using canadian cross method, thats
+kind of different than usual known gcc compilation methods so there
+may be less favors for this use case.
 
