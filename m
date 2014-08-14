@@ -1,43 +1,40 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id AD7B960144
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
+	[209.85.215.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 932B070D1A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 22:11:58 +0000 (UTC)
-Received: by mail-ig0-f174.google.com with SMTP id c1so299240igq.1
+	Thu, 14 Aug 2014 22:17:58 +0000 (UTC)
+Received: by mail-la0-f47.google.com with SMTP id mc6so1754272lab.34
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 15:11:59 -0700 (PDT)
+	Thu, 14 Aug 2014 15:17:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=njwUw4eV4kKBAGebH8r6Pmpo9dN1+0nxsJk5awUZjXU=;
-	b=0UGEsUQE+zg1xKFx7Wv1/KJqHDJ+Msl0YBPzbnTW4SJX1GL7jylzmIqHagF8O5JkVn
-	1ADhyl4ipTbaMpjD8rGaTl/7pnpTE3hb02jt1OGpSO4w24ChrrcUw5p7IcpkyRvOkH3c
-	lKhCEUTKW0GG3BPbgkKcxw6nBsZk3o3WqdPPQ90Ni2wK0SR6F6teyMECZ12ZD98vEW2L
-	EqVNjfqcQ+XxXC38/l5UjdDb0uX0Hfat909foDFGOUwK4/z6NojS3hipTQHNcHD8ERVi
-	HbN6GnhERipARBLSvI3jXY+x7hsnWs8kryZQpPpvN54112gqOymTPh5ZicQ59qalzeRl
-	Lecw==
-X-Received: by 10.42.82.6 with SMTP id b6mr17418781icl.51.1408054319533; Thu,
-	14 Aug 2014 15:11:59 -0700 (PDT)
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=mtbtTtlycfHTWExu0M+2awI1QmyTB2W/BKqiMESJ6Yc=;
+	b=MpAG0l+Dp7Y/+qhLviZ6hysxu3WHMfBgMYPOe7nKPPagRfEaaDDx4xVX3pWNS7S6+o
+	JkC2H1QtfYi+VBh1yCGeuy3pr2+ddjfDQT2sjn1F1v7Qmfx65CefuNiV6XqSNgUlg8nh
+	+qLH2w2Zl+kYB8yT5A3IWaPUrRbhPw0xb53ZmsVg04WMFWP3Wgk6mXUU+mi4TSLuk4hu
+	CWGtmgYJf+lO9s58q4cuY84ZeyoVdDRQn9yU7Ek4GzLt81j6NmH7v1mEn5oW1VXv7cOD
+	YNrgWH/gn3AsvBxIiy/dt7pLDPYnI8Y99S06swlpr3lT4zVjr2jC9xoB6oqW3TlTdLm4
+	Z+Bw==
+X-Received: by 10.152.19.5 with SMTP id a5mr1774302lae.21.1408054678875;
+	Thu, 14 Aug 2014 15:17:58 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	lm8sm3819883lac.36.2014.08.14.15.17.57 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 14 Aug 2014 15:17:57 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 15 Aug 2014 00:18:35 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20140814221835.GQ14848@jama>
+References: <1408054245.21596.6.camel@ted>
 MIME-Version: 1.0
-Received: by 10.50.126.103 with HTTP; Thu, 14 Aug 2014 15:11:29 -0700 (PDT)
-In-Reply-To: <53ED3164.2010705@pabigot.com>
-References: <53E9134F.7040108@pabigot.com>
-	<CAMKF1soHVxmjWW=TBqjh1P0ddPuMkxtmxXdnbLCSMLgQm2=hcQ@mail.gmail.com>
-	<53EBD76A.3010401@pabigot.com> <53EBDA75.4040101@pabigot.com>
-	<CAMKF1soioSe+U1CkB+PDsZyfDyaEFovugjOr+Tw+rGNjK57cJg@mail.gmail.com>
-	<53EBF375.1070701@pabigot.com>
-	<CAMKF1srUa9tUqu7bNXZ0g=yCa0e8E2K5XrzTHUUxB6BbTwYZ6g@mail.gmail.com>
-	<53EC16FC.8020109@pabigot.com>
-	<CAMKF1srPpoob-sxfv_OF-5po41tAFZNaparZJ2WOrzMTjB=n2g@mail.gmail.com>
-	<53EC7E27.6010507@pabigot.com> <1408052429.21596.2.camel@ted>
-	<53ED3164.2010705@pabigot.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 14 Aug 2014 15:11:29 -0700
-Message-ID: <CAMKF1sovJkCXMBzREUaiacbHntGDcUgALMXjPA1ktmTd=CxmKg@mail.gmail.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Yocto development with C++11 threads and gcc
+In-Reply-To: <1408054245.21596.6.camel@ted>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lttng-ust/lttng-modules: Update LICENSE to reflect MIT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,20 +47,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 22:11:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 14 Aug 2014 22:18:06 -0000
+X-Groupsio-MsgNum: 56551
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="v/TrXvwt1ekXxwZL"
+Content-Disposition: inline
 
-On Thu, Aug 14, 2014 at 3:00 PM, Peter A. Bigot <pab@pabigot.com> wrote:
-> I'm content with the solution in my v2 gcc patch series, but I expect
-> someday the underlying cause will re-appear as new processors have new
-> features with ABI impacts due to gcc target optimization. Hopefully when
-> that happens the discussion here will be of some help in identifying the
-> problem.
+--v/TrXvwt1ekXxwZL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-general usecase on arm thus far is to use cross compilers and I think
-we are good there. target compilation is not a norm but this might
-change soon but then we can propose to change defaults in gcc to use
-armv6+, we build arm native gcc using canadian cross method, thats
-kind of different than usual known gcc compilation methods so there
-may be less favors for this use case.
+On Thu, Aug 14, 2014 at 11:10:45PM +0100, Richard Purdie wrote:
+> The code in question clearly states MIT is a third license. Update
+> LICENSE to reflect this (in one case, we did list BSD which is effectively
+> the same thing but this removes confusion).
 
+Thank you
+
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb b/meta/reci=
+pes-kernel/lttng/lttng-modules_2.5.0.bb
+> index d873741..9310f0f 100644
+> --- a/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
+> @@ -1,7 +1,7 @@
+>  SECTION =3D "devel"
+>  SUMMARY =3D "Linux Trace Toolkit KERNEL MODULE"
+>  DESCRIPTION =3D "The lttng-modules 2.0 package contains the kernel trace=
+r modules"
+> -LICENSE =3D "LGPLv2.1 & GPLv2"
+> +LICENSE =3D "LGPLv2.1 & GPLv2 & MIT"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1412caf5a1aa90d6a48588a4794c0=
+eac \
+>                      file://gpl-2.0.txt;md5=3D751419260aa954499f7abaabaa8=
+82bbe \
+>                      file://lgpl-2.1.txt;md5=3D243b725d71bb5df4a1e5920b34=
+4b86ad"
+> diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb b/meta/recipes-=
+kernel/lttng/lttng-ust_2.5.0.bb
+> index 1595627..1468fc1 100644
+> --- a/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
+> @@ -3,7 +3,7 @@ DESCRIPTION =3D "The LTTng UST 2.x package contains the u=
+serspace tracer library t
+>  HOMEPAGE =3D "http://lttng.org/ust"
+>  BUGTRACKER =3D "https://bugs.lttng.org/projects/lttng-ust"
+> =20
+> -LICENSE =3D "LGPLv2.1+ & BSD & GPLv2"
+> +LICENSE =3D "LGPLv2.1+ & MIT & GPLv2"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc963eb366b781252b0bf0fdf1624d=
+9e9 \
+>                      file://snprintf/snprintf.c;endline=3D32;md5=3Dd3d544=
+959d8a3782b2e07451be0a903c \
+>                      file://snprintf/various.h;endline=3D31;md5=3D89f2509=
+b6b4682c4fc95255eec4abe44"
+>=20
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--v/TrXvwt1ekXxwZL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlPtNbsACgkQN1Ujt2V2gBzSGACfUSdsVmRZ++NfojiN+Ch+5HXG
+KboAn0aa2Ths00BdSP3v1ZcpmqEET7s/
+=wExH
+-----END PGP SIGNATURE-----
+
+--v/TrXvwt1ekXxwZL--
