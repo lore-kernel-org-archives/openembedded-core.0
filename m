@@ -1,25 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 480C260EFA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 29EEE609BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 13:16:08 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 14 Aug 2014 06:16:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,863,1400050800"; d="scan'208";a="468690483"
-Received: from atdias-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.159])
-	by azsmga001.ch.intel.com with ESMTP; 14 Aug 2014 06:16:03 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Aug 2014 14:15:42 +0100
-Message-Id: <ee097f6bf2c415ede7bb093f89f066e50b2a2762.1408022072.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1408022072.git.paul.eggleton@linux.intel.com>
-References: <cover.1408022072.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1408022072.git.paul.eggleton@linux.intel.com>
-References: <cover.1408022072.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] libav: update 9.x version to 9.16
+	Thu, 14 Aug 2014 13:30:59 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7EDUwoK013982 for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Aug 2014 14:30:58 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id DkplfSw0FkTC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Aug 2014 14:30:58 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7EDUtlC013978
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Aug 2014 14:30:57 +0100
+Message-ID: <1408023055.22187.98.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 14 Aug 2014 14:30:55 +0100
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] e2fsprogs: 1.42.9 -> 1.42.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +37,2035 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 13:16:11 -0000
+X-List-Received-Date: Thu, 14 Aug 2014 13:31:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-multimedia/libav/{libav_9.13.bb => libav_9.16.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/libav/{libav_9.13.bb => libav_9.16.bb} (74%)
+Patches were all merged upstream.
 
-diff --git a/meta/recipes-multimedia/libav/libav_9.13.bb b/meta/recipes-multimedia/libav/libav_9.16.bb
-similarity index 74%
-rename from meta/recipes-multimedia/libav/libav_9.13.bb
-rename to meta/recipes-multimedia/libav/libav_9.16.bb
-index 7bfbc48..d046885 100644
---- a/meta/recipes-multimedia/libav/libav_9.13.bb
-+++ b/meta/recipes-multimedia/libav/libav_9.16.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- 
- SRC_URI = "http://libav.org/releases/${BP}.tar.xz"
- 
--SRC_URI[md5sum] = "23b9e34bffdaee366710fdf20157a570"
--SRC_URI[sha256sum] = "2ff05df6cd2259b3bb277eb16c234214f8e0530700d0c774d033eba23edde6ca"
-+SRC_URI[md5sum] = "7b44b75cec24b8e7545e5029e76917e0"
-+SRC_URI[sha256sum] = "ca846473b0b8ed8e3404c52e5e92df6d35cb5fa487eec498525de3ffda4367a0"
- 
- DEFAULT_PREFERENCE = "-1"
--- 
-1.9.3
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsprogs-fix-cross-compilation-problem.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsprogs-fix-cross-compilation-problem.patch
+deleted file mode 100644
+index 73043be..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsprogs-fix-cross-compilation-problem.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-Upstream-Status: Pending
+-
+-Subject: e2fsprogs: fix cross compilation problem
+-
+-The checking of types in parse-types.sh doesn't make much sense in a
+-cross-compilation environment, because the generated binary is executed
+-on build machine.
+-
+-So even if asm_types.h has got correct statements for types, it's possible
+-that the generated binary will report an error. Because these types are for
+-the target machine.
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- config/parse-types.sh |    6 ++++--
+- configure.in          |    6 +++++-
+- 2 files changed, 9 insertions(+), 3 deletions(-)
+-
+-diff --git a/config/parse-types.sh b/config/parse-types.sh
+-index 5076f6c..24d2a99 100755
+---- a/config/parse-types.sh
+-+++ b/config/parse-types.sh
+-@@ -118,8 +118,10 @@ if ./asm_types
+- then
+-     true
+- else
+--    echo "Problem detected with asm_types.h"
+--    echo "" > asm_types.h
+-+    if [ "${CROSS_COMPILE}" != "1" ]; then
+-+	echo "Problem detected with asm_types.h"
+-+	echo "" > asm_types.h
+-+    fi
+- fi
+- rm asm_types.c asm_types
+- 
+-diff --git a/configure.in b/configure.in
+-index 68adf0d..ed1697b 100644
+---- a/configure.in
+-+++ b/configure.in
+-@@ -953,7 +953,11 @@ AC_SUBST(SIZEOF_LONG)
+- AC_SUBST(SIZEOF_LONG_LONG)
+- AC_SUBST(SIZEOF_OFF_T)
+- AC_C_BIGENDIAN
+--BUILD_CC="$BUILD_CC" CPP="$CPP" /bin/sh $ac_aux_dir/parse-types.sh
+-+if test $cross_compiling = no; then
+-+  BUILD_CC="$BUILD_CC" CPP="$CPP" /bin/sh $ac_aux_dir/parse-types.sh
+-+else
+-+  CROSS_COMPILE="1" BUILD_CC="$BUILD_CC" CPP="$CPP" /bin/sh $ac_aux_dir/parse-types.sh
+-+fi
+- ASM_TYPES_HEADER=./asm_types.h
+- AC_SUBST_FILE(ASM_TYPES_HEADER)
+- dnl
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch
+deleted file mode 100644
+index 9ea413e..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch
++++ /dev/null
+@@ -1,98 +0,0 @@
+-From c98fec004f077e566b9dfa20b25e3b86cb462a2e Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Tue, 24 Dec 2013 01:41:08 -0500
+-Subject: [PATCH 01/11] mke2fs: add the ability to copy files from a given
+- directory
+-
+-We will add a -d option which will be used for adding the files from a
+-given directory to the filesystem, it is similiar to genext2fs, but
+-genext2fs doesn't fully support ext4.
+-
+-* We already have the basic operations in debugfs:
+-  - Copy regular file
+-  - Create directory
+-  - Create symlink
+-  - Create special file
+-
+-  We will move these operations into create_inode.h and create_inode.c,
+-  then let both mke2fs and debugfs use them.
+-
+-* What we need to do are:
+-  - Copy the given directory recursively, this will be done by the
+-    populate_fs()
+-  - Set the owner, mode and other informations
+-  - Handle the hard links
+-
+-TODO:
+-  - The libext2fs can't create the socket file (S_IFSOCK), do we have a
+-    plan to support it ?
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+----
+- misc/create_inode.c |   26 ++++++++++++++++++++++++++
+- misc/create_inode.h |   17 +++++++++++++++++
+- 2 files changed, 43 insertions(+)
+- create mode 100644 misc/create_inode.c
+- create mode 100644 misc/create_inode.h
+-
+-diff --git a/misc/create_inode.c b/misc/create_inode.c
+-new file mode 100644
+-index 0000000..46aaa60
+---- /dev/null
+-+++ b/misc/create_inode.c
+-@@ -0,0 +1,26 @@
+-+#include "create_inode.h"
+-+
+-+/* Make a special file which is block, character and fifo */
+-+errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st)
+-+{
+-+}
+-+
+-+/* Make a symlink name -> target */
+-+errcode_t do_symlink_internal(ext2_ino_t cwd, const char *name, char *target)
+-+{
+-+}
+-+
+-+/* Make a directory in the fs */
+-+errcode_t do_mkdir_internal(ext2_ino_t cwd, const char *name, struct stat *st)
+-+{
+-+}
+-+
+-+/* Copy the native file to the fs */
+-+errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest)
+-+{
+-+}
+-+
+-+/* Copy files from source_dir to fs */
+-+errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
+-+{
+-+}
+-diff --git a/misc/create_inode.h b/misc/create_inode.h
+-new file mode 100644
+-index 0000000..9fc97fa
+---- /dev/null
+-+++ b/misc/create_inode.h
+-@@ -0,0 +1,17 @@
+-+#include <sys/types.h>
+-+#include <sys/stat.h>
+-+#include <fcntl.h>
+-+#include "et/com_err.h"
+-+#include "e2p/e2p.h"
+-+#include "ext2fs/ext2fs.h"
+-+#include "nls-enable.h"
+-+
+-+ext2_filsys    current_fs;
+-+ext2_ino_t     root;
+-+
+-+/* For populating the filesystem */
+-+extern errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir);
+-+extern errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st);
+-+extern errcode_t do_symlink_internal(ext2_ino_t cwd, const char *name, char *target);
+-+extern errcode_t do_mkdir_internal(ext2_ino_t cwd, const char *name, struct stat *st);
+-+extern errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest);
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0002-misc-create_inode.c-copy-files-recursively.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0002-misc-create_inode.c-copy-files-recursively.patch
+deleted file mode 100644
+index 9bff644..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0002-misc-create_inode.c-copy-files-recursively.patch
++++ /dev/null
+@@ -1,135 +0,0 @@
+-From 08dfbaf4e3f704232ff46d78c0758a6cfe3961c8 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Mon, 23 Dec 2013 02:59:10 -0500
+-Subject: [PATCH 02/11] misc/create_inode.c: copy files recursively
+-
+-Use opendir() and readdir() to read the native directory, then use
+-lstat() to identify the file type and call the corresponding function to
+-add the file to the filesystem, call the populate_fs() recursively if it
+-is a directory.
+-
+-NOTE: the libext2fs can't create the socket file.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+----
+- misc/create_inode.c |   97 +++++++++++++++++++++++++++++++++++++++++++++++++++
+- 1 file changed, 97 insertions(+)
+-
+-diff --git a/misc/create_inode.c b/misc/create_inode.c
+-index 46aaa60..b68b910 100644
+---- a/misc/create_inode.c
+-+++ b/misc/create_inode.c
+-@@ -1,5 +1,13 @@
+- #include "create_inode.h"
+- 
+-+#if __STDC_VERSION__ < 199901L
+-+# if __GNUC__ >= 2
+-+#  define __func__ __FUNCTION__
+-+# else
+-+#  define __func__ "<unknown>"
+-+# endif
+-+#endif
+-+
+- /* Make a special file which is block, character and fifo */
+- errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st)
+- {
+-@@ -23,4 +31,93 @@ errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest)
+- /* Copy files from source_dir to fs */
+- errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
+- {
+-+	const char	*name;
+-+	DIR		*dh;
+-+	struct dirent	*dent;
+-+	struct stat	st;
+-+	char		ln_target[PATH_MAX];
+-+	ext2_ino_t	ino;
+-+	errcode_t	retval;
+-+	int		read_cnt;
+-+
+-+	root = EXT2_ROOT_INO;
+-+
+-+	if (chdir(source_dir) < 0) {
+-+		com_err(__func__, errno,
+-+			_("while changing working directory to \"%s\""), source_dir);
+-+		return errno;
+-+	}
+-+
+-+	if (!(dh = opendir("."))) {
+-+		com_err(__func__, errno,
+-+			_("while openning directory \"%s\""), source_dir);
+-+		return errno;
+-+	}
+-+
+-+	while((dent = readdir(dh))) {
+-+		if((!strcmp(dent->d_name, ".")) || (!strcmp(dent->d_name, "..")))
+-+			continue;
+-+		lstat(dent->d_name, &st);
+-+		name = dent->d_name;
+-+
+-+		switch(st.st_mode & S_IFMT) {
+-+			case S_IFCHR:
+-+			case S_IFBLK:
+-+			case S_IFIFO:
+-+				if ((retval = do_mknod_internal(parent_ino, name, &st))) {
+-+					com_err(__func__, retval,
+-+						_("while creating special file \"%s\""), name);
+-+					return retval;
+-+				}
+-+				break;
+-+			case S_IFSOCK:
+-+				/* FIXME: there is no make socket function atm. */
+-+				com_err(__func__, 0,
+-+					_("ignoring socket file \"%s\""), name);
+-+				continue;
+-+			case S_IFLNK:
+-+				if((read_cnt = readlink(name, ln_target, sizeof(ln_target))) == -1) {
+-+					com_err(__func__, errno,
+-+						_("while trying to readlink \"%s\""), name);
+-+					return errno;
+-+				}
+-+				ln_target[read_cnt] = '\0';
+-+				if ((retval = do_symlink_internal(parent_ino, name, ln_target))) {
+-+					com_err(__func__, retval,
+-+						_("while writing symlink\"%s\""), name);
+-+					return retval;
+-+				}
+-+				break;
+-+			case S_IFREG:
+-+				if ((retval = do_write_internal(parent_ino, name, name))) {
+-+					com_err(__func__, retval,
+-+						_("while writing file \"%s\""), name);
+-+					return retval;
+-+				}
+-+				break;
+-+			case S_IFDIR:
+-+				if ((retval = do_mkdir_internal(parent_ino, name, &st))) {
+-+					com_err(__func__, retval,
+-+						_("while making dir \"%s\""), name);
+-+					return retval;
+-+				}
+-+				if ((retval = ext2fs_namei(current_fs, root, parent_ino, name, &ino))) {
+-+					com_err(name, retval, 0);
+-+						return retval;
+-+				}
+-+				/* Populate the dir recursively*/
+-+				retval = populate_fs(ino, name);
+-+				if (retval) {
+-+					com_err(__func__, retval, _("while adding dir \"%s\""), name);
+-+					return retval;
+-+				}
+-+				chdir("..");
+-+				break;
+-+			default:
+-+				com_err(__func__, 0,
+-+					_("ignoring entry \"%s\""), name);
+-+		}
+-+	}
+-+	closedir(dh);
+-+	return retval;
+- }
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0003-misc-create_inode.c-create-special-file.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0003-misc-create_inode.c-create-special-file.patch
+deleted file mode 100644
+index 3847b6e..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0003-misc-create_inode.c-create-special-file.patch
++++ /dev/null
+@@ -1,103 +0,0 @@
+-From ae7d33823bfc330e08b25c5fe4d25838ef7c77ce Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Mon, 23 Dec 2013 03:13:28 -0500
+-Subject: [PATCH 03/11] misc/create_inode.c: create special file
+-
+-The do_mknod_internal() is used for creating special file which is
+-block, character and fifo, most of the code are from debugfs/debugfs.c,
+-the debugfs/debugfs.c will be modified to use this function.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+----
+- misc/create_inode.c |   72 +++++++++++++++++++++++++++++++++++++++++++++++++++
+- 1 file changed, 72 insertions(+)
+-
+-diff --git a/misc/create_inode.c b/misc/create_inode.c
+-index b68b910..4da8aff 100644
+---- a/misc/create_inode.c
+-+++ b/misc/create_inode.c
+-@@ -11,6 +11,78 @@
+- /* Make a special file which is block, character and fifo */
+- errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st)
+- {
+-+	ext2_ino_t		ino;
+-+	errcode_t 		retval;
+-+	struct ext2_inode	inode;
+-+	unsigned long		major, minor, mode;
+-+	int			filetype;
+-+
+-+	switch(st->st_mode & S_IFMT) {
+-+		case S_IFCHR:
+-+			mode = LINUX_S_IFCHR;
+-+			filetype = EXT2_FT_CHRDEV;
+-+			break;
+-+		case S_IFBLK:
+-+			mode = LINUX_S_IFBLK;
+-+			filetype =  EXT2_FT_BLKDEV;
+-+			break;
+-+		case S_IFIFO:
+-+			mode = LINUX_S_IFIFO;
+-+			filetype = EXT2_FT_FIFO;
+-+			break;
+-+	}
+-+
+-+	if (!(current_fs->flags & EXT2_FLAG_RW)) {
+-+		com_err(__func__, 0, "Filesystem opened read/only");
+-+		return -1;
+-+	}
+-+	retval = ext2fs_new_inode(current_fs, cwd, 010755, 0, &ino);
+-+	if (retval) {
+-+		com_err(__func__, retval, 0);
+-+		return retval;
+-+	}
+-+
+-+#ifdef DEBUGFS
+-+	printf("Allocated inode: %u\n", ino);
+-+#endif
+-+	retval = ext2fs_link(current_fs, cwd, name, ino, filetype);
+-+	if (retval == EXT2_ET_DIR_NO_SPACE) {
+-+		retval = ext2fs_expand_dir(current_fs, cwd);
+-+		if (retval) {
+-+			com_err(__func__, retval, "while expanding directory");
+-+			return retval;
+-+		}
+-+		retval = ext2fs_link(current_fs, cwd, name, ino, filetype);
+-+	}
+-+	if (retval) {
+-+		com_err(name, retval, 0);
+-+		return -1;
+-+	}
+-+        if (ext2fs_test_inode_bitmap2(current_fs->inode_map, ino))
+-+		com_err(__func__, 0, "Warning: inode already set");
+-+	ext2fs_inode_alloc_stats2(current_fs, ino, +1, 0);
+-+	memset(&inode, 0, sizeof(inode));
+-+	inode.i_mode = mode;
+-+	inode.i_atime = inode.i_ctime = inode.i_mtime =
+-+		current_fs->now ? current_fs->now : time(0);
+-+
+-+	major = major(st->st_rdev);
+-+	minor = minor(st->st_rdev);
+-+
+-+	if ((major < 256) && (minor < 256)) {
+-+		inode.i_block[0] = major * 256 + minor;
+-+		inode.i_block[1] = 0;
+-+	} else {
+-+		inode.i_block[0] = 0;
+-+		inode.i_block[1] = (minor & 0xff) | (major << 8) | ((minor & ~0xff) << 12);
+-+	}
+-+	inode.i_links_count = 1;
+-+
+-+	retval = ext2fs_write_new_inode(current_fs, ino, &inode);
+-+	if (retval)
+-+		com_err(__func__, retval, "while creating inode %u", ino);
+-+
+-+	return retval;
+- }
+- 
+- /* Make a symlink name -> target */
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0004-misc-create_inode.c-create-symlink.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0004-misc-create_inode.c-create-symlink.patch
+deleted file mode 100644
+index 83d198c..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0004-misc-create_inode.c-create-symlink.patch
++++ /dev/null
+@@ -1,63 +0,0 @@
+-From 09d3049776882167f7249ee26265b4163d7222c1 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Mon, 23 Dec 2013 03:19:55 -0500
+-Subject: [PATCH 04/11] misc/create_inode.c: create symlink
+-
+-The do_symlink_internal() is used for creating symlinks, most of the
+-code are from debugfs/debugfs.c, the debugfs/debugfs.c will be modified
+-to use this function.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+----
+- misc/create_inode.c |   32 ++++++++++++++++++++++++++++++++
+- 1 file changed, 32 insertions(+)
+-
+-diff --git a/misc/create_inode.c b/misc/create_inode.c
+-index 4da8aff..f845103 100644
+---- a/misc/create_inode.c
+-+++ b/misc/create_inode.c
+-@@ -88,6 +88,38 @@ errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st)
+- /* Make a symlink name -> target */
+- errcode_t do_symlink_internal(ext2_ino_t cwd, const char *name, char *target)
+- {
+-+	char			*cp;
+-+	ext2_ino_t		parent_ino;
+-+	errcode_t		retval;
+-+	struct ext2_inode	inode;
+-+	struct stat		st;
+-+
+-+	cp = strrchr(name, '/');
+-+	if (cp) {
+-+		*cp = 0;
+-+		if ((retval =  ext2fs_namei(current_fs, root, cwd, name, &parent_ino))){
+-+			com_err(name, retval, 0);
+-+			return retval;
+-+		}
+-+		name = cp+1;
+-+	} else
+-+		parent_ino = cwd;
+-+
+-+try_again:
+-+	retval = ext2fs_symlink(current_fs, parent_ino, 0, name, target);
+-+	if (retval == EXT2_ET_DIR_NO_SPACE) {
+-+		retval = ext2fs_expand_dir(current_fs, parent_ino);
+-+		if (retval) {
+-+			com_err("do_symlink_internal", retval, "while expanding directory");
+-+			return retval;
+-+		}
+-+		goto try_again;
+-+	}
+-+	if (retval) {
+-+		com_err("ext2fs_symlink", retval, 0);
+-+		return retval;
+-+	}
+-+
+- }
+- 
+- /* Make a directory in the fs */
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0005-misc-create_inode.c-copy-regular-file.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0005-misc-create_inode.c-copy-regular-file.patch
+deleted file mode 100644
+index 7935cd8..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0005-misc-create_inode.c-copy-regular-file.patch
++++ /dev/null
+@@ -1,224 +0,0 @@
+-From 2973c74afaa532f3f72639b463322b2523519c20 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Mon, 23 Dec 2013 03:28:12 -0500
+-Subject: [PATCH 05/11] misc/create_inode.c: copy regular file
+-
+-The do_write_internal() is used for copying file from native fs to
+-target, most of the code are from debugfs/debugfs.c, the
+-debugfs/debugfs.c will be modified to use this function.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+----
+- misc/create_inode.c |  183 +++++++++++++++++++++++++++++++++++++++++++++++++++
+- 1 file changed, 183 insertions(+)
+-
+-diff --git a/misc/create_inode.c b/misc/create_inode.c
+-index f845103..98f4a93 100644
+---- a/misc/create_inode.c
+-+++ b/misc/create_inode.c
+-@@ -8,6 +8,16 @@
+- # endif
+- #endif
+- 
+-+/* 64KiB is the minimium blksize to best minimize system call overhead. */
+-+#ifndef IO_BUFSIZE
+-+#define IO_BUFSIZE 64*1024
+-+#endif
+-+
+-+/* Block size for `st_blocks' */
+-+#ifndef S_BLKSIZE
+-+#define S_BLKSIZE 512
+-+#endif
+-+
+- /* Make a special file which is block, character and fifo */
+- errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st)
+- {
+-@@ -127,9 +137,182 @@ errcode_t do_mkdir_internal(ext2_ino_t cwd, const char *name, struct stat *st)
+- {
+- }
+- 
+-+static errcode_t copy_file(int fd, ext2_ino_t newfile, int bufsize, int make_holes)
+-+{
+-+	ext2_file_t	e2_file;
+-+	errcode_t	retval;
+-+	int		got;
+-+	unsigned int	written;
+-+	char		*buf;
+-+	char		*ptr;
+-+	char		*zero_buf;
+-+	int		cmp;
+-+
+-+	retval = ext2fs_file_open(current_fs, newfile,
+-+				  EXT2_FILE_WRITE, &e2_file);
+-+	if (retval)
+-+		return retval;
+-+
+-+	retval = ext2fs_get_mem(bufsize, &buf);
+-+	if (retval) {
+-+		com_err("copy_file", retval, "can't allocate buffer\n");
+-+		return retval;
+-+	}
+-+
+-+	/* This is used for checking whether the whole block is zero */
+-+	retval = ext2fs_get_memzero(bufsize, &zero_buf);
+-+	if (retval) {
+-+		com_err("copy_file", retval, "can't allocate buffer\n");
+-+		ext2fs_free_mem(&buf);
+-+		return retval;
+-+	}
+-+
+-+	while (1) {
+-+		got = read(fd, buf, bufsize);
+-+		if (got == 0)
+-+			break;
+-+		if (got < 0) {
+-+			retval = errno;
+-+			goto fail;
+-+		}
+-+		ptr = buf;
+-+
+-+		/* Sparse copy */
+-+		if (make_holes) {
+-+			/* Check whether all is zero */
+-+			cmp = memcmp(ptr, zero_buf, got);
+-+			if (cmp == 0) {
+-+				 /* The whole block is zero, make a hole */
+-+				retval = ext2fs_file_lseek(e2_file, got, EXT2_SEEK_CUR, NULL);
+-+				if (retval)
+-+					goto fail;
+-+				got = 0;
+-+			}
+-+		}
+-+
+-+		/* Normal copy */
+-+		while (got > 0) {
+-+			retval = ext2fs_file_write(e2_file, ptr,
+-+						   got, &written);
+-+			if (retval)
+-+				goto fail;
+-+
+-+			got -= written;
+-+			ptr += written;
+-+		}
+-+	}
+-+	ext2fs_free_mem(&buf);
+-+	ext2fs_free_mem(&zero_buf);
+-+	retval = ext2fs_file_close(e2_file);
+-+	return retval;
+-+
+-+fail:
+-+	ext2fs_free_mem(&buf);
+-+	ext2fs_free_mem(&zero_buf);
+-+	(void) ext2fs_file_close(e2_file);
+-+	return retval;
+-+}
+-+
+- /* Copy the native file to the fs */
+- errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest)
+- {
+-+	int		fd;
+-+	struct stat	statbuf;
+-+	ext2_ino_t	newfile;
+-+	errcode_t	retval;
+-+	struct ext2_inode inode;
+-+	int		bufsize = IO_BUFSIZE;
+-+	int		make_holes = 0;
+-+
+-+	fd = open(src, O_RDONLY);
+-+	if (fd < 0) {
+-+		com_err(src, errno, 0);
+-+		return errno;
+-+	}
+-+	if (fstat(fd, &statbuf) < 0) {
+-+		com_err(src, errno, 0);
+-+		close(fd);
+-+		return errno;
+-+	}
+-+
+-+	retval = ext2fs_namei(current_fs, root, cwd, dest, &newfile);
+-+	if (retval == 0) {
+-+		com_err(__func__, 0, "The file '%s' already exists\n", dest);
+-+		close(fd);
+-+		return retval;
+-+	}
+-+
+-+	retval = ext2fs_new_inode(current_fs, cwd, 010755, 0, &newfile);
+-+	if (retval) {
+-+		com_err(__func__, retval, 0);
+-+		close(fd);
+-+		return retval;
+-+	}
+-+#ifdef DEBUGFS
+-+	printf("Allocated inode: %u\n", newfile);
+-+#endif
+-+	retval = ext2fs_link(current_fs, cwd, dest, newfile,
+-+				EXT2_FT_REG_FILE);
+-+	if (retval == EXT2_ET_DIR_NO_SPACE) {
+-+		retval = ext2fs_expand_dir(current_fs, cwd);
+-+		if (retval) {
+-+			com_err(__func__, retval, "while expanding directory");
+-+			close(fd);
+-+			return retval;
+-+		}
+-+		retval = ext2fs_link(current_fs, cwd, dest, newfile,
+-+					EXT2_FT_REG_FILE);
+-+	}
+-+	if (retval) {
+-+		com_err(dest, retval, 0);
+-+		close(fd);
+-+		return retval;
+-+	}
+-+        if (ext2fs_test_inode_bitmap2(current_fs->inode_map, newfile))
+-+		com_err(__func__, 0, "Warning: inode already set");
+-+	ext2fs_inode_alloc_stats2(current_fs, newfile, +1, 0);
+-+	memset(&inode, 0, sizeof(inode));
+-+	inode.i_mode = (statbuf.st_mode & ~LINUX_S_IFMT) | LINUX_S_IFREG;
+-+	inode.i_atime = inode.i_ctime = inode.i_mtime =
+-+		current_fs->now ? current_fs->now : time(0);
+-+	inode.i_links_count = 1;
+-+	inode.i_size = statbuf.st_size;
+-+	if (current_fs->super->s_feature_incompat &
+-+	    EXT3_FEATURE_INCOMPAT_EXTENTS) {
+-+		int i;
+-+		struct ext3_extent_header *eh;
+-+
+-+		eh = (struct ext3_extent_header *) &inode.i_block[0];
+-+		eh->eh_depth = 0;
+-+		eh->eh_entries = 0;
+-+		eh->eh_magic = ext2fs_cpu_to_le16(EXT3_EXT_MAGIC);
+-+		i = (sizeof(inode.i_block) - sizeof(*eh)) /
+-+			sizeof(struct ext3_extent);
+-+		eh->eh_max = ext2fs_cpu_to_le16(i);
+-+		inode.i_flags |= EXT4_EXTENTS_FL;
+-+	}
+-+
+-+	if ((retval = ext2fs_write_new_inode(current_fs, newfile, &inode))) {
+-+		com_err(__func__, retval, "while creating inode %u", newfile);
+-+		close(fd);
+-+		return retval;
+-+	}
+-+	if (LINUX_S_ISREG(inode.i_mode)) {
+-+		if (statbuf.st_blocks < statbuf.st_size / S_BLKSIZE) {
+-+			make_holes = 1;
+-+			/*
+-+			 * Use I/O blocksize as buffer size when
+-+			 * copying sparse files.
+-+			 */
+-+			bufsize = statbuf.st_blksize;
+-+		}
+-+		retval = copy_file(fd, newfile, bufsize, make_holes);
+-+		if (retval)
+-+			com_err("copy_file", retval, 0);
+-+	}
+-+	close(fd);
+-+
+-+	return 0;
+- }
+- 
+- /* Copy files from source_dir to fs */
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0006-misc-create_inode.c-create-directory.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0006-misc-create_inode.c-create-directory.patch
+deleted file mode 100644
+index 5c7ca9c..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0006-misc-create_inode.c-create-directory.patch
++++ /dev/null
+@@ -1,62 +0,0 @@
+-From c8d1c43be24489036137f8fdebcfccc208f7cc8b Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Mon, 23 Dec 2013 03:34:14 -0500
+-Subject: [PATCH 06/11] misc/create_inode.c: create directory
+-
+-The do_mkdir_internal() is used for making dir on the target fs, most of
+-the code are from debugfs/debugfs.c, the debugfs/debugfs.c will be
+-modified to use this function.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+----
+- misc/create_inode.c |   31 +++++++++++++++++++++++++++++++
+- 1 file changed, 31 insertions(+)
+-
+-diff --git a/misc/create_inode.c b/misc/create_inode.c
+-index 98f4a93..6a8c92a 100644
+---- a/misc/create_inode.c
+-+++ b/misc/create_inode.c
+-@@ -135,6 +135,37 @@ try_again:
+- /* Make a directory in the fs */
+- errcode_t do_mkdir_internal(ext2_ino_t cwd, const char *name, struct stat *st)
+- {
+-+	char			*cp;
+-+	ext2_ino_t		parent_ino, ino;
+-+	errcode_t		retval;
+-+	struct ext2_inode	inode;
+-+
+-+
+-+	cp = strrchr(name, '/');
+-+	if (cp) {
+-+		*cp = 0;
+-+		if ((retval =  ext2fs_namei(current_fs, root, cwd, name, &parent_ino))){
+-+			com_err(name, retval, 0);
+-+			return retval;
+-+		}
+-+		name = cp+1;
+-+	} else
+-+		parent_ino = cwd;
+-+
+-+try_again:
+-+	retval = ext2fs_mkdir(current_fs, parent_ino, 0, name);
+-+	if (retval == EXT2_ET_DIR_NO_SPACE) {
+-+		retval = ext2fs_expand_dir(current_fs, parent_ino);
+-+		if (retval) {
+-+			com_err(__func__, retval, "while expanding directory");
+-+			return retval;
+-+		}
+-+		goto try_again;
+-+	}
+-+	if (retval) {
+-+		com_err("ext2fs_mkdir", retval, 0);
+-+		return retval;
+-+	}
+- }
+- 
+- static errcode_t copy_file(int fd, ext2_ino_t newfile, int bufsize, int make_holes)
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0007-misc-create_inode.c-set-owner-mode-time-for-the-inod.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0007-misc-create_inode.c-set-owner-mode-time-for-the-inod.patch
+deleted file mode 100644
+index f296393..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0007-misc-create_inode.c-set-owner-mode-time-for-the-inod.patch
++++ /dev/null
+@@ -1,81 +0,0 @@
+-From 2b1f6e6b386703a5d7e60b7d8b72746f3d31a8bc Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Mon, 23 Dec 2013 03:39:56 -0500
+-Subject: [PATCH 07/11] misc/create_inode.c: set owner/mode/time for the inode
+-
+-Set the uid, gid, mode and time for inode.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+----
+- misc/create_inode.c |   45 +++++++++++++++++++++++++++++++++++++++++++++
+- 1 file changed, 45 insertions(+)
+-
+-diff --git a/misc/create_inode.c b/misc/create_inode.c
+-index 6a8c92a..aad7354 100644
+---- a/misc/create_inode.c
+-+++ b/misc/create_inode.c
+-@@ -18,6 +18,40 @@
+- #define S_BLKSIZE 512
+- #endif
+- 
+-+/* Fill the uid, gid, mode and time for the inode */
+-+static void fill_inode(struct ext2_inode *inode, struct stat *st)
+-+{
+-+	if (st != NULL) {
+-+		inode->i_uid = st->st_uid;
+-+		inode->i_gid = st->st_gid;
+-+		inode->i_mode |= st->st_mode;
+-+		inode->i_atime = st->st_atime;
+-+		inode->i_mtime = st->st_mtime;
+-+		inode->i_ctime = st->st_ctime;
+-+	}
+-+}
+-+
+-+/* Set the uid, gid, mode and time for the inode */
+-+errcode_t set_inode_extra(ext2_ino_t cwd, ext2_ino_t ino, struct stat *st)
+-+{
+-+	errcode_t		retval;
+-+	struct ext2_inode	inode;
+-+
+-+	retval = ext2fs_read_inode(current_fs, ino, &inode);
+-+        if (retval) {
+-+		com_err(__func__, retval, "while reading inode %u", ino);
+-+		return retval;
+-+	}
+-+
+-+	fill_inode(&inode, st);
+-+
+-+	retval = ext2fs_write_inode(current_fs, ino, &inode);
+-+	if (retval) {
+-+		com_err(__func__, retval, "while writing inode %u", ino);
+-+		return retval;
+-+	}
+-+}
+-+
+- /* Make a special file which is block, character and fifo */
+- errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st)
+- {
+-@@ -435,6 +469,17 @@ errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
+- 				com_err(__func__, 0,
+- 					_("ignoring entry \"%s\""), name);
+- 		}
+-+
+-+		if ((retval =  ext2fs_namei(current_fs, root, parent_ino, name, &ino))){
+-+			com_err(name, retval, 0);
+-+			return retval;
+-+		}
+-+
+-+		if ((retval = set_inode_extra(parent_ino, ino, &st))) {
+-+			com_err(__func__, retval,
+-+				_("while setting inode for \"%s\""), name);
+-+			return retval;
+-+		}
+- 	}
+- 	closedir(dh);
+- 	return retval;
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0008-mke2fs.c-add-an-option-d-root-directory.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0008-mke2fs.c-add-an-option-d-root-directory.patch
+deleted file mode 100644
+index 1f98673..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0008-mke2fs.c-add-an-option-d-root-directory.patch
++++ /dev/null
+@@ -1,168 +0,0 @@
+-From df856929e42bd4f3bdc8d4f59ee82ae8b28532e6 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Tue, 24 Dec 2013 01:50:45 -0500
+-Subject: [PATCH 08/11] mke2fs.c: add an option: -d root-directory
+-
+-This option is used for adding the files from a given directory (the
+-root-directory) to the filesystem, it is similiar to genext2fs, but
+-genext2fs doesn't fully support ext4.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+----
+- misc/Makefile.in |   14 ++++++++++----
+- misc/mke2fs.c    |   32 +++++++++++++++++++++++---------
+- 2 files changed, 33 insertions(+), 13 deletions(-)
+-
+-diff --git a/misc/Makefile.in b/misc/Makefile.in
+-index 553c361..8253723 100644
+---- a/misc/Makefile.in
+-+++ b/misc/Makefile.in
+-@@ -42,7 +42,8 @@ LPROGS=		@E2INITRD_PROG@
+- 
+- TUNE2FS_OBJS=	tune2fs.o util.o
+- MKLPF_OBJS=	mklost+found.o
+--MKE2FS_OBJS=	mke2fs.o util.o profile.o prof_err.o default_profile.o
+-+MKE2FS_OBJS=	mke2fs.o util.o profile.o prof_err.o default_profile.o \
+-+			create_inode.o
+- CHATTR_OBJS=	chattr.o
+- LSATTR_OBJS=	lsattr.o
+- UUIDGEN_OBJS=	uuidgen.o
+-@@ -60,7 +61,8 @@ E2FREEFRAG_OBJS= e2freefrag.o
+- PROFILED_TUNE2FS_OBJS=	profiled/tune2fs.o profiled/util.o
+- PROFILED_MKLPF_OBJS=	profiled/mklost+found.o
+- PROFILED_MKE2FS_OBJS=	profiled/mke2fs.o profiled/util.o profiled/profile.o \
+--			profiled/prof_err.o profiled/default_profile.o
+-+			profiled/prof_err.o profiled/default_profile.o \
+-+			profiled/create_inode.o
+- PROFILED_CHATTR_OBJS=	profiled/chattr.o
+- PROFILED_LSATTR_OBJS=	profiled/lsattr.o
+- PROFILED_UUIDGEN_OBJS=	profiled/uuidgen.o
+-@@ -82,7 +84,7 @@ SRCS=	$(srcdir)/tune2fs.c $(srcdir)/mklost+found.c $(srcdir)/mke2fs.c \
+- 		$(srcdir)/uuidgen.c $(srcdir)/blkid.c $(srcdir)/logsave.c \
+- 		$(srcdir)/filefrag.c $(srcdir)/base_device.c \
+- 		$(srcdir)/ismounted.c $(srcdir)/../e2fsck/profile.c \
+--		$(srcdir)/e2undo.c $(srcdir)/e2freefrag.c
+-+		$(srcdir)/e2undo.c $(srcdir)/e2freefrag.c $(srcdir)/create_inode.c
+- 
+- LIBS= $(LIBEXT2FS) $(LIBCOM_ERR) 
+- DEPLIBS= $(LIBEXT2FS) $(DEPLIBCOM_ERR)
+-@@ -630,7 +632,7 @@ mke2fs.o: $(srcdir)/mke2fs.c $(top_builddir)/lib/config.h \
+-  $(top_srcdir)/lib/ext2fs/ext2_ext_attr.h $(top_srcdir)/lib/ext2fs/bitops.h \
+-  $(top_srcdir)/lib/e2p/e2p.h $(top_srcdir)/lib/ext2fs/ext2fs.h \
+-  $(srcdir)/util.h profile.h prof_err.h $(top_srcdir)/version.h \
+-- $(srcdir)/nls-enable.h $(top_srcdir)/lib/quota/mkquota.h \
+-+ $(srcdir)/nls-enable.h $(top_srcdir)/lib/quota/mkquota.h $(srcdir)/create_inode.h\
+-  $(top_srcdir)/lib/quota/quotaio.h $(top_srcdir)/lib/quota/dqblk_v2.h \
+-  $(top_srcdir)/lib/quota/quotaio_tree.h $(top_srcdir)/lib/../e2fsck/dict.h
+- chattr.o: $(srcdir)/chattr.c $(top_builddir)/lib/config.h \
+-@@ -710,3 +712,7 @@ e2freefrag.o: $(srcdir)/e2freefrag.c $(top_builddir)/lib/config.h \
+-  $(top_srcdir)/lib/ext2fs/ext2_io.h $(top_builddir)/lib/ext2fs/ext2_err.h \
+-  $(top_srcdir)/lib/ext2fs/ext2_ext_attr.h $(top_srcdir)/lib/ext2fs/bitops.h \
+-  $(srcdir)/e2freefrag.h
+-+create_inode.o: $(srcdir)/create_inode.h $(srcdir)/create_inode.c \
+-+ $(top_builddir)/lib/config.h $(top_srcdir)/lib/ext2fs/ext2fs.h \
+-+ $(top_srcdir)/lib/et/com_err.h $(top_srcdir)/lib/e2p/e2p.h \
+-+ $(srcdir)/nls-enable.h
+-diff --git a/misc/mke2fs.c b/misc/mke2fs.c
+-index 2e8ba60..578b62d 100644
+---- a/misc/mke2fs.c
+-+++ b/misc/mke2fs.c
+-@@ -22,7 +22,6 @@
+- #include <stdio.h>
+- #include <string.h>
+- #include <strings.h>
+--#include <fcntl.h>
+- #include <ctype.h>
+- #include <time.h>
+- #ifdef __linux__
+-@@ -44,24 +43,19 @@ extern int optind;
+- #include <errno.h>
+- #endif
+- #include <sys/ioctl.h>
+--#include <sys/types.h>
+--#include <sys/stat.h>
+- #include <libgen.h>
+- #include <limits.h>
+- #include <blkid/blkid.h>
+- 
+- #include "ext2fs/ext2_fs.h"
+- #include "ext2fs/ext2fsP.h"
+--#include "et/com_err.h"
+- #include "uuid/uuid.h"
+--#include "e2p/e2p.h"
+--#include "ext2fs/ext2fs.h"
+- #include "util.h"
+- #include "profile.h"
+- #include "prof_err.h"
+- #include "../version.h"
+--#include "nls-enable.h"
+- #include "quota/mkquota.h"
+-+#include "create_inode.h"
+- 
+- #define STRIDE_LENGTH 8
+- 
+-@@ -105,6 +99,7 @@ static char *mount_dir;
+- char *journal_device;
+- static int sync_kludge;	/* Set using the MKE2FS_SYNC env. option */
+- static char **fs_types;
+-+const char *root_dir;  /* Copy files from the specified directory */
+- 
+- static profile_t	profile;
+- 
+-@@ -116,7 +111,8 @@ static void usage(void)
+- 	fprintf(stderr, _("Usage: %s [-c|-l filename] [-b block-size] "
+- 	"[-C cluster-size]\n\t[-i bytes-per-inode] [-I inode-size] "
+- 	"[-J journal-options]\n"
+--	"\t[-G flex-group-size] [-N number-of-inodes]\n"
+-+	"\t[-G flex-group-size] [-N number-of-inodes] "
+-+	"[-d root-directory]\n"
+- 	"\t[-m reserved-blocks-percentage] [-o creator-os]\n"
+- 	"\t[-g blocks-per-group] [-L volume-label] "
+- 	"[-M last-mounted-directory]\n\t[-O feature[,...]] "
+-@@ -1394,7 +1390,7 @@ profile_error:
+- 	}
+- 
+- 	while ((c = getopt (argc, argv,
+--		    "b:cg:i:jl:m:no:qr:s:t:vC:DE:FG:I:J:KL:M:N:O:R:ST:U:V")) != EOF) {
+-+		    "b:cg:i:jl:m:no:qr:s:t:d:vC:DE:FG:I:J:KL:M:N:O:R:ST:U:V")) != EOF) {
+- 		switch (c) {
+- 		case 'b':
+- 			blocksize = parse_num_blocks2(optarg, -1);
+-@@ -1582,6 +1578,9 @@ profile_error:
+- 		case 'U':
+- 			fs_uuid = optarg;
+- 			break;
+-+		case 'd':
+-+			root_dir = optarg;
+-+			break;
+- 		case 'v':
+- 			verbose = 1;
+- 			break;
+-@@ -2726,6 +2725,21 @@ no_journal:
+- 				       EXT4_FEATURE_RO_COMPAT_QUOTA))
+- 		create_quota_inodes(fs);
+- 
+-+	/* Copy files from the specified directory */
+-+	if (root_dir) {
+-+		if (!quiet)
+-+			printf("%s", _("Copying files into the device: "));
+-+
+-+		current_fs = fs;
+-+		root = EXT2_ROOT_INO;
+-+		retval = populate_fs(root, root_dir);
+-+		if (retval)
+-+			fprintf(stderr, "%s",
+-+				_("\nError while populating file system"));
+-+		else if (!quiet)
+-+			printf("%s", _("done\n"));
+-+	}
+-+
+- 	if (!quiet)
+- 		printf("%s", _("Writing superblocks and "
+- 		       "filesystem accounting information: "));
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0009-misc-create_inode.c-handle-hardlinks.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0009-misc-create_inode.c-handle-hardlinks.patch
+deleted file mode 100644
+index a330ee4..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0009-misc-create_inode.c-handle-hardlinks.patch
++++ /dev/null
+@@ -1,210 +0,0 @@
+-From d83dc950b3ec1fbde33b23d42c5154091a74f4d9 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Mon, 23 Dec 2013 03:44:03 -0500
+-Subject: [PATCH 09/11] misc/create_inode.c: handle hardlinks
+-
+-Create the inode and save the native inode number when we meet the hard
+-link (st_nlink > 1) at the first time, use ext2fs_link() to link the
+-name to the target inode number when we meet the same native inode
+-number again.
+-
+-This algorithm is referred from the genext2fs.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+----
+- misc/create_inode.c |   88 +++++++++++++++++++++++++++++++++++++++++++++++++++
+- misc/create_inode.h |   18 +++++++++++
+- misc/mke2fs.c       |   12 +++++++
+- 3 files changed, 118 insertions(+)
+-
+-diff --git a/misc/create_inode.c b/misc/create_inode.c
+-index aad7354..763504d 100644
+---- a/misc/create_inode.c
+-+++ b/misc/create_inode.c
+-@@ -18,6 +18,44 @@
+- #define S_BLKSIZE 512
+- #endif
+- 
+-+/* For saving the hard links */
+-+int hdlink_cnt = HDLINK_CNT;
+-+
+-+/* Link an inode number to a directory */
+-+static errcode_t add_link(ext2_ino_t parent_ino, ext2_ino_t ino, const char *name)
+-+{
+-+	struct ext2_inode	inode;
+-+	errcode_t		retval;
+-+
+-+	retval = ext2fs_read_inode(current_fs, ino, &inode);
+-+        if (retval) {
+-+		com_err(__func__, retval, "while reading inode %u", ino);
+-+		return retval;
+-+	}
+-+
+-+	retval = ext2fs_link(current_fs, parent_ino, name, ino, inode.i_flags);
+-+	if (retval == EXT2_ET_DIR_NO_SPACE) {
+-+		retval = ext2fs_expand_dir(current_fs, parent_ino);
+-+		if (retval) {
+-+			com_err(__func__, retval, "while expanding directory");
+-+			return retval;
+-+		}
+-+		retval = ext2fs_link(current_fs, parent_ino, name, ino, inode.i_flags);
+-+	}
+-+	if (retval) {
+-+		com_err(__func__, retval, "while linking %s", name);
+-+		return retval;
+-+	}
+-+
+-+	inode.i_links_count++;
+-+
+-+	retval = ext2fs_write_inode(current_fs, ino, &inode);
+-+	if (retval)
+-+		com_err(__func__, retval, "while writing inode %u", ino);
+-+
+-+	return retval;
+-+}
+-+
+- /* Fill the uid, gid, mode and time for the inode */
+- static void fill_inode(struct ext2_inode *inode, struct stat *st)
+- {
+-@@ -278,6 +316,17 @@ fail:
+- 	return retval;
+- }
+- 
+-+int is_hardlink(ext2_ino_t ino)
+-+{
+-+	int i;
+-+
+-+	for(i = 0; i < hdlinks.count; i++) {
+-+		if(hdlinks.hdl[i].src_ino == ino)
+-+			return i;
+-+	}
+-+	return -1;
+-+}
+-+
+- /* Copy the native file to the fs */
+- errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest)
+- {
+-@@ -388,9 +437,11 @@ errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
+- 	struct dirent	*dent;
+- 	struct stat	st;
+- 	char		ln_target[PATH_MAX];
+-+	unsigned int	save_inode;
+- 	ext2_ino_t	ino;
+- 	errcode_t	retval;
+- 	int		read_cnt;
+-+	int		hdlink;
+- 
+- 	root = EXT2_ROOT_INO;
+- 
+-@@ -412,6 +463,22 @@ errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
+- 		lstat(dent->d_name, &st);
+- 		name = dent->d_name;
+- 
+-+		/* Check for hardlinks */
+-+		save_inode = 0;
+-+		if (!S_ISDIR(st.st_mode) && !S_ISLNK(st.st_mode) && st.st_nlink > 1) {
+-+			hdlink = is_hardlink(st.st_ino);
+-+			if (hdlink >= 0) {
+-+				retval = add_link(parent_ino,
+-+						hdlinks.hdl[hdlink].dst_ino, name);
+-+				if (retval) {
+-+					com_err(__func__, retval, "while linking %s", name);
+-+					return retval;
+-+				}
+-+				continue;
+-+			} else
+-+				save_inode = 1;
+-+		}
+-+
+- 		switch(st.st_mode & S_IFMT) {
+- 			case S_IFCHR:
+- 			case S_IFBLK:
+-@@ -480,6 +547,27 @@ errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
+- 				_("while setting inode for \"%s\""), name);
+- 			return retval;
+- 		}
+-+
+-+		/* Save the hardlink ino */
+-+		if (save_inode) {
+-+			/*
+-+			 * Check whether need more memory, and we don't need
+-+			 * free() since the lifespan will be over after the fs
+-+			 * populated.
+-+			 */
+-+			if (hdlinks.count == hdlink_cnt) {
+-+				if ((hdlinks.hdl = realloc (hdlinks.hdl,
+-+						(hdlink_cnt + HDLINK_CNT) *
+-+						sizeof (struct hdlink_s))) == NULL) {
+-+					com_err(name, errno, "Not enough memory");
+-+					return errno;
+-+				}
+-+				hdlink_cnt += HDLINK_CNT;
+-+			}
+-+			hdlinks.hdl[hdlinks.count].src_ino = st.st_ino;
+-+			hdlinks.hdl[hdlinks.count].dst_ino = ino;
+-+			hdlinks.count++;
+-+		}
+- 	}
+- 	closedir(dh);
+- 	return retval;
+-diff --git a/misc/create_inode.h b/misc/create_inode.h
+-index 9fc97fa..2b6d429 100644
+---- a/misc/create_inode.h
+-+++ b/misc/create_inode.h
+-@@ -6,9 +6,27 @@
+- #include "ext2fs/ext2fs.h"
+- #include "nls-enable.h"
+- 
+-+struct hdlink_s
+-+{
+-+	ext2_ino_t src_ino;
+-+	ext2_ino_t dst_ino;
+-+};
+-+
+-+struct hdlinks_s
+-+{
+-+	int count;
+-+	struct hdlink_s *hdl;
+-+};
+-+
+-+struct hdlinks_s hdlinks;
+-+
+- ext2_filsys    current_fs;
+- ext2_ino_t     root;
+- 
+-+/* For saving the hard links */
+-+#define HDLINK_CNT     4
+-+extern int hdlink_cnt;
+-+
+- /* For populating the filesystem */
+- extern errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir);
+- extern errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st);
+-diff --git a/misc/mke2fs.c b/misc/mke2fs.c
+-index 578b62d..a63f0b7 100644
+---- a/misc/mke2fs.c
+-+++ b/misc/mke2fs.c
+-@@ -2730,6 +2730,18 @@ no_journal:
+- 		if (!quiet)
+- 			printf("%s", _("Copying files into the device: "));
+- 
+-+		/*
+-+		 * Allocate memory for the hardlinks, we don't need free()
+-+		 * since the lifespan will be over after the fs populated.
+-+		 */
+-+		if ((hdlinks.hdl = (struct hdlink_s *)
+-+				malloc(hdlink_cnt * sizeof(struct hdlink_s))) == NULL) {
+-+			fprintf(stderr, "%s", _("\nNot enough memory\n"));
+-+			retval = ext2fs_close(fs);
+-+			return retval;
+-+		}
+-+
+-+		hdlinks.count = 0;
+- 		current_fs = fs;
+- 		root = EXT2_ROOT_INO;
+- 		retval = populate_fs(root, root_dir);
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0010-debugfs-use-the-functions-in-misc-create_inode.c.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0010-debugfs-use-the-functions-in-misc-create_inode.c.patch
+deleted file mode 100644
+index 2a6ca8f..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0010-debugfs-use-the-functions-in-misc-create_inode.c.patch
++++ /dev/null
+@@ -1,496 +0,0 @@
+-From db89992fab2215f52dce4c595a39271b4ff3000b Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Mon, 23 Dec 2013 04:22:22 -0500
+-Subject: [PATCH 10/11] debugfs: use the functions in misc/create_inode.c
+-
+-* Use the functions in misc/create_inode.c, and remove the duplicated
+-  code.
+-
+-* The CREATE_INODE_DEPS in the debugfs/Makefile.in is used for recording
+-  create_inode.o's depends which is from misc/Makefile.in, we have to
+-  recompile create_inode.o because we need it to print more messages when
+-  it is used by debugfs, just like we recompile e2freefrag.o, but it seems
+-  that the e2freefrag.o's depends in debugfs/Makefile.in is incorrect, it
+-  would not rebuild when its depends (e.g.: lib/config.h) is changed,
+-  which would cause unexpected errors. Make duplicated code in
+-  debugfs/Makefile.in and misc/Makefile.in is not a good idea, maybe we'd
+-  better define CREATE_INODE_DEPS in the top Makefile, I'd like to send
+-  another patch and fix the e2freefrag if you are fine with it.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+----
+- debugfs/Makefile.in |   17 ++-
+- debugfs/debugfs.c   |  305 +++------------------------------------------------
+- debugfs/debugfs.h   |    1 +
+- 3 files changed, 31 insertions(+), 292 deletions(-)
+-
+-diff --git a/debugfs/Makefile.in b/debugfs/Makefile.in
+-index bf037e0..f51b78e 100644
+---- a/debugfs/Makefile.in
+-+++ b/debugfs/Makefile.in
+-@@ -18,7 +18,7 @@ MK_CMDS=	_SS_DIR_OVERRIDE=../lib/ss ../lib/ss/mk_cmds
+- 
+- DEBUG_OBJS= debug_cmds.o debugfs.o util.o ncheck.o icheck.o ls.o \
+- 	lsdel.o dump.o set_fields.o logdump.o htree.o unused.o e2freefrag.o \
+--	filefrag.o extent_cmds.o extent_inode.o zap.o
+-+	filefrag.o extent_cmds.o extent_inode.o zap.o create_inode.o
+- 
+- RO_DEBUG_OBJS= ro_debug_cmds.o ro_debugfs.o util.o ncheck.o icheck.o ls.o \
+- 	lsdel.o logdump.o htree.o e2freefrag.o filefrag.o extent_cmds.o \
+-@@ -28,7 +28,13 @@ SRCS= debug_cmds.c $(srcdir)/debugfs.c $(srcdir)/util.c $(srcdir)/ls.c \
+- 	$(srcdir)/ncheck.c $(srcdir)/icheck.c $(srcdir)/lsdel.c \
+- 	$(srcdir)/dump.c $(srcdir)/set_fields.c ${srcdir}/logdump.c \
+- 	$(srcdir)/htree.c $(srcdir)/unused.c ${srcdir}/../misc/e2freefrag.c \
+--	$(srcdir)/filefrag.c $(srcdir)/extent_inode.c $(srcdir)/zap.c
+-+	$(srcdir)/filefrag.c $(srcdir)/extent_inode.c $(srcdir)/zap.c \
+-+	$(srcdir)/../misc/create_inode.c
+-+
+-+CREATE_INODE_DEPS= $(srcdir)/../misc/create_inode.h \
+-+	$(srcdir)/../misc/create_inode.c $(top_builddir)/lib/config.h \
+-+	$(srcdir)/../lib/ext2fs/ext2fs.h $(srcdir)/../lib/et/com_err.h \
+-+	$(srcdir)/../lib/e2p/e2p.h $(srcdir)/../misc/nls-enable.h
+- 
+- LIBS= $(LIBEXT2FS) $(LIBE2P) $(LIBSS) $(LIBCOM_ERR) $(LIBBLKID) \
+- 	$(LIBUUID)
+-@@ -81,6 +87,11 @@ e2freefrag.o: $(srcdir)/../misc/e2freefrag.c
+- 	$(E) "	CC $@"
+- 	$(Q) $(CC) -c $(ALL_CFLAGS) -I$(srcdir) $< -DDEBUGFS -o $@
+- 
+-+create_inode.o: $(CREATE_INODE_DEPS)
+-+	$(E) "	CC $@"
+-+	$(Q) $(CC) -c $(ALL_CFLAGS) -I$(srcdir) \
+-+		 $(srcdir)/../misc/create_inode.c -DDEBUGFS -o $@
+-+
+- debugfs.8: $(DEP_SUBSTITUTE) $(srcdir)/debugfs.8.in
+- 	$(E) "	SUBST $@"
+- 	$(Q) $(SUBSTITUTE_UPTIME) $(srcdir)/debugfs.8.in debugfs.8
+-@@ -142,7 +153,7 @@ debugfs.o: $(srcdir)/debugfs.c $(top_srcdir)/lib/et/com_err.h \
+-  $(top_srcdir)/lib/ext2fs/ext2_ext_attr.h $(top_srcdir)/lib/ext2fs/bitops.h \
+-  $(top_srcdir)/lib/e2p/e2p.h $(top_srcdir)/version.h $(srcdir)/jfs_user.h \
+-  $(top_srcdir)/lib/ext2fs/kernel-jbd.h $(top_srcdir)/lib/ext2fs/jfs_compat.h \
+-- $(top_srcdir)/lib/ext2fs/kernel-list.h
+-+ $(top_srcdir)/lib/ext2fs/kernel-list.h $(top_srcdir)/misc/util.h
+- util.o: $(srcdir)/util.c $(srcdir)/debugfs.h \
+-  $(top_srcdir)/lib/ext2fs/ext2_fs.h $(top_builddir)/lib/ext2fs/ext2_types.h \
+-  $(top_srcdir)/lib/ext2fs/ext2fs.h $(top_srcdir)/lib/ext2fs/ext3_extents.h \
+-diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
+-index 9c215f7..62e9f44 100644
+---- a/debugfs/debugfs.c
+-+++ b/debugfs/debugfs.c
+-@@ -25,8 +25,6 @@ extern char *optarg;
+- #include <errno.h>
+- #endif
+- #include <fcntl.h>
+--#include <sys/types.h>
+--#include <sys/stat.h>
+- 
+- #include "debugfs.h"
+- #include "uuid/uuid.h"
+-@@ -41,22 +39,11 @@ extern char *optarg;
+- #define BUFSIZ 8192
+- #endif
+- 
+--/* 64KiB is the minimium blksize to best minimize system call overhead. */
+--#ifndef IO_BUFSIZE
+--#define IO_BUFSIZE 64*1024
+--#endif
+--
+--/* Block size for `st_blocks' */
+--#ifndef S_BLKSIZE
+--#define S_BLKSIZE 512
+--#endif
+--
+- ss_request_table *extra_cmds;
+- const char *debug_prog_name;
+- int sci_idx;
+- 
+--ext2_filsys	current_fs = NULL;
+--ext2_ino_t	root, cwd;
+-+ext2_ino_t	cwd;
+- 
+- static void open_filesystem(char *device, int open_flags, blk64_t superblock,
+- 			    blk64_t blocksize, int catastrophic,
+-@@ -1576,189 +1563,24 @@ void do_find_free_inode(int argc, char *argv[])
+- }
+- 
+- #ifndef READ_ONLY
+--static errcode_t copy_file(int fd, ext2_ino_t newfile, int bufsize, int make_holes)
+--{
+--	ext2_file_t	e2_file;
+--	errcode_t	retval;
+--	int		got;
+--	unsigned int	written;
+--	char		*buf;
+--	char		*ptr;
+--	char		*zero_buf;
+--	int		cmp;
+--
+--	retval = ext2fs_file_open(current_fs, newfile,
+--				  EXT2_FILE_WRITE, &e2_file);
+--	if (retval)
+--		return retval;
+--
+--	retval = ext2fs_get_mem(bufsize, &buf);
+--	if (retval) {
+--		com_err("copy_file", retval, "can't allocate buffer\n");
+--		return retval;
+--	}
+--
+--	/* This is used for checking whether the whole block is zero */
+--	retval = ext2fs_get_memzero(bufsize, &zero_buf);
+--	if (retval) {
+--		com_err("copy_file", retval, "can't allocate buffer\n");
+--		ext2fs_free_mem(&buf);
+--		return retval;
+--	}
+--
+--	while (1) {
+--		got = read(fd, buf, bufsize);
+--		if (got == 0)
+--			break;
+--		if (got < 0) {
+--			retval = errno;
+--			goto fail;
+--		}
+--		ptr = buf;
+--
+--		/* Sparse copy */
+--		if (make_holes) {
+--			/* Check whether all is zero */
+--			cmp = memcmp(ptr, zero_buf, got);
+--			if (cmp == 0) {
+--				 /* The whole block is zero, make a hole */
+--				retval = ext2fs_file_lseek(e2_file, got, EXT2_SEEK_CUR, NULL);
+--				if (retval)
+--					goto fail;
+--				got = 0;
+--			}
+--		}
+--
+--		/* Normal copy */
+--		while (got > 0) {
+--			retval = ext2fs_file_write(e2_file, ptr,
+--						   got, &written);
+--			if (retval)
+--				goto fail;
+--
+--			got -= written;
+--			ptr += written;
+--		}
+--	}
+--	ext2fs_free_mem(&buf);
+--	ext2fs_free_mem(&zero_buf);
+--	retval = ext2fs_file_close(e2_file);
+--	return retval;
+--
+--fail:
+--	ext2fs_free_mem(&buf);
+--	ext2fs_free_mem(&zero_buf);
+--	(void) ext2fs_file_close(e2_file);
+--	return retval;
+--}
+--
+--
+- void do_write(int argc, char *argv[])
+- {
+--	int		fd;
+--	struct stat	statbuf;
+--	ext2_ino_t	newfile;
+- 	errcode_t	retval;
+--	struct ext2_inode inode;
+--	int		bufsize = IO_BUFSIZE;
+--	int		make_holes = 0;
+- 
+- 	if (common_args_process(argc, argv, 3, 3, "write",
+- 				"<native file> <new file>", CHECK_FS_RW))
+- 		return;
+- 
+--	fd = open(argv[1], O_RDONLY);
+--	if (fd < 0) {
+--		com_err(argv[1], errno, 0);
+--		return;
+--	}
+--	if (fstat(fd, &statbuf) < 0) {
+--		com_err(argv[1], errno, 0);
+--		close(fd);
+--		return;
+--	}
+--
+--	retval = ext2fs_namei(current_fs, root, cwd, argv[2], &newfile);
+--	if (retval == 0) {
+--		com_err(argv[0], 0, "The file '%s' already exists\n", argv[2]);
+--		close(fd);
+--		return;
+--	}
+--
+--	retval = ext2fs_new_inode(current_fs, cwd, 010755, 0, &newfile);
+--	if (retval) {
+-+	if ((retval = do_write_internal(cwd, argv[1], argv[2])))
+- 		com_err(argv[0], retval, 0);
+--		close(fd);
+--		return;
+--	}
+--	printf("Allocated inode: %u\n", newfile);
+--	retval = ext2fs_link(current_fs, cwd, argv[2], newfile,
+--			     EXT2_FT_REG_FILE);
+--	if (retval == EXT2_ET_DIR_NO_SPACE) {
+--		retval = ext2fs_expand_dir(current_fs, cwd);
+--		if (retval) {
+--			com_err(argv[0], retval, "while expanding directory");
+--			close(fd);
+--			return;
+--		}
+--		retval = ext2fs_link(current_fs, cwd, argv[2], newfile,
+--				     EXT2_FT_REG_FILE);
+--	}
+--	if (retval) {
+--		com_err(argv[2], retval, 0);
+--		close(fd);
+--		return;
+--	}
+--        if (ext2fs_test_inode_bitmap2(current_fs->inode_map,newfile))
+--		com_err(argv[0], 0, "Warning: inode already set");
+--	ext2fs_inode_alloc_stats2(current_fs, newfile, +1, 0);
+--	memset(&inode, 0, sizeof(inode));
+--	inode.i_mode = (statbuf.st_mode & ~LINUX_S_IFMT) | LINUX_S_IFREG;
+--	inode.i_atime = inode.i_ctime = inode.i_mtime =
+--		current_fs->now ? current_fs->now : time(0);
+--	inode.i_links_count = 1;
+--	inode.i_size = statbuf.st_size;
+--	if (current_fs->super->s_feature_incompat &
+--	    EXT3_FEATURE_INCOMPAT_EXTENTS) {
+--		int i;
+--		struct ext3_extent_header *eh;
+--
+--		eh = (struct ext3_extent_header *) &inode.i_block[0];
+--		eh->eh_depth = 0;
+--		eh->eh_entries = 0;
+--		eh->eh_magic = ext2fs_cpu_to_le16(EXT3_EXT_MAGIC);
+--		i = (sizeof(inode.i_block) - sizeof(*eh)) /
+--			sizeof(struct ext3_extent);
+--		eh->eh_max = ext2fs_cpu_to_le16(i);
+--		inode.i_flags |= EXT4_EXTENTS_FL;
+--	}
+--	if (debugfs_write_new_inode(newfile, &inode, argv[0])) {
+--		close(fd);
+--		return;
+--	}
+--	if (LINUX_S_ISREG(inode.i_mode)) {
+--		if (statbuf.st_blocks < statbuf.st_size / S_BLKSIZE) {
+--			make_holes = 1;
+--			/*
+--			 * Use I/O blocksize as buffer size when
+--			 * copying sparse files.
+--			 */
+--			bufsize = statbuf.st_blksize;
+--		}
+--		retval = copy_file(fd, newfile, bufsize, make_holes);
+--		if (retval)
+--			com_err("copy_file", retval, 0);
+--	}
+--	close(fd);
+- }
+- 
+- void do_mknod(int argc, char *argv[])
+- {
+- 	unsigned long	mode, major, minor;
+--	ext2_ino_t	newfile;
+- 	errcode_t 	retval;
+--	struct ext2_inode inode;
+- 	int		filetype, nr;
+-+	struct stat	st;
+- 
+- 	if (check_fs_open(argv[0]))
+- 		return;
+-@@ -1767,115 +1589,50 @@ void do_mknod(int argc, char *argv[])
+- 		com_err(argv[0], 0, "Usage: mknod <name> [p| [c|b] <major> <minor>]");
+- 		return;
+- 	}
+-+
+- 	mode = minor = major = 0;
+- 	switch (argv[2][0]) {
+- 		case 'p':
+--			mode = LINUX_S_IFIFO;
+--			filetype = EXT2_FT_FIFO;
+-+			st.st_mode = S_IFIFO;
+- 			nr = 3;
+- 			break;
+- 		case 'c':
+--			mode = LINUX_S_IFCHR;
+--			filetype = EXT2_FT_CHRDEV;
+-+			st.st_mode = S_IFCHR;
+- 			nr = 5;
+- 			break;
+- 		case 'b':
+--			mode = LINUX_S_IFBLK;
+--			filetype = EXT2_FT_BLKDEV;
+-+			st.st_mode = S_IFBLK;
+- 			nr = 5;
+- 			break;
+- 		default:
+--			filetype = 0;
+- 			nr = 0;
+- 	}
+-+
+- 	if (nr == 5) {
+- 		major = strtoul(argv[3], argv+3, 0);
+- 		minor = strtoul(argv[4], argv+4, 0);
+- 		if (major > 65535 || minor > 65535 || argv[3][0] || argv[4][0])
+- 			nr = 0;
+- 	}
+-+
+- 	if (argc != nr)
+- 		goto usage;
+--	if (check_fs_read_write(argv[0]))
+--		return;
+--	retval = ext2fs_new_inode(current_fs, cwd, 010755, 0, &newfile);
+--	if (retval) {
+-+
+-+	st.st_rdev = makedev(major, minor);
+-+	if ((retval = do_mknod_internal(cwd, argv[1], &st)))
+- 		com_err(argv[0], retval, 0);
+--		return;
+--	}
+--	printf("Allocated inode: %u\n", newfile);
+--	retval = ext2fs_link(current_fs, cwd, argv[1], newfile, filetype);
+--	if (retval == EXT2_ET_DIR_NO_SPACE) {
+--		retval = ext2fs_expand_dir(current_fs, cwd);
+--		if (retval) {
+--			com_err(argv[0], retval, "while expanding directory");
+--			return;
+--		}
+--		retval = ext2fs_link(current_fs, cwd, argv[1], newfile,
+--				     filetype);
+--	}
+--	if (retval) {
+--		com_err(argv[1], retval, 0);
+--		return;
+--	}
+--        if (ext2fs_test_inode_bitmap2(current_fs->inode_map,newfile))
+--		com_err(argv[0], 0, "Warning: inode already set");
+--	ext2fs_inode_alloc_stats2(current_fs, newfile, +1, 0);
+--	memset(&inode, 0, sizeof(inode));
+--	inode.i_mode = mode;
+--	inode.i_atime = inode.i_ctime = inode.i_mtime =
+--		current_fs->now ? current_fs->now : time(0);
+--	if ((major < 256) && (minor < 256)) {
+--		inode.i_block[0] = major*256+minor;
+--		inode.i_block[1] = 0;
+--	} else {
+--		inode.i_block[0] = 0;
+--		inode.i_block[1] = (minor & 0xff) | (major << 8) | ((minor & ~0xff) << 12);
+--	}
+--	inode.i_links_count = 1;
+--	if (debugfs_write_new_inode(newfile, &inode, argv[0]))
+--		return;
+- }
+- 
+- void do_mkdir(int argc, char *argv[])
+- {
+--	char	*cp;
+--	ext2_ino_t	parent;
+--	char	*name;
+- 	errcode_t retval;
+- 
+- 	if (common_args_process(argc, argv, 2, 2, "mkdir",
+- 				"<filename>", CHECK_FS_RW))
+- 		return;
+- 
+--	cp = strrchr(argv[1], '/');
+--	if (cp) {
+--		*cp = 0;
+--		parent = string_to_inode(argv[1]);
+--		if (!parent) {
+--			com_err(argv[1], ENOENT, 0);
+--			return;
+--		}
+--		name = cp+1;
+--	} else {
+--		parent = cwd;
+--		name = argv[1];
+--	}
+--
+--try_again:
+--	retval = ext2fs_mkdir(current_fs, parent, 0, name);
+--	if (retval == EXT2_ET_DIR_NO_SPACE) {
+--		retval = ext2fs_expand_dir(current_fs, parent);
+--		if (retval) {
+--			com_err(argv[0], retval, "while expanding directory");
+--			return;
+--		}
+--		goto try_again;
+--	}
+--	if (retval) {
+--		com_err("ext2fs_mkdir", retval, 0);
+--		return;
+--	}
+-+	if ((retval = do_mkdir_internal(cwd, argv[1], NULL)))
+-+		com_err(argv[0], retval, 0);
+- 
+- }
+- 
+-@@ -2270,44 +2027,14 @@ void do_punch(int argc, char *argv[])
+- 
+- void do_symlink(int argc, char *argv[])
+- {
+--	char		*cp;
+--	ext2_ino_t	parent;
+--	char		*name, *target;
+- 	errcode_t	retval;
+- 
+- 	if (common_args_process(argc, argv, 3, 3, "symlink",
+- 				"<filename> <target>", CHECK_FS_RW))
+- 		return;
+- 
+--	cp = strrchr(argv[1], '/');
+--	if (cp) {
+--		*cp = 0;
+--		parent = string_to_inode(argv[1]);
+--		if (!parent) {
+--			com_err(argv[1], ENOENT, 0);
+--			return;
+--		}
+--		name = cp+1;
+--	} else {
+--		parent = cwd;
+--		name = argv[1];
+--	}
+--	target = argv[2];
+--
+--try_again:
+--	retval = ext2fs_symlink(current_fs, parent, 0, name, target);
+--	if (retval == EXT2_ET_DIR_NO_SPACE) {
+--		retval = ext2fs_expand_dir(current_fs, parent);
+--		if (retval) {
+--			com_err(argv[0], retval, "while expanding directory");
+--			return;
+--		}
+--		goto try_again;
+--	}
+--	if (retval) {
+--		com_err("ext2fs_symlink", retval, 0);
+--		return;
+--	}
+-+	if ((retval = do_symlink_internal(cwd, argv[1], argv[2])))
+-+		com_err(argv[0], retval, 0);
+- 
+- }
+- 
+-diff --git a/debugfs/debugfs.h b/debugfs/debugfs.h
+-index 6b4f6ef..2d464c1 100644
+---- a/debugfs/debugfs.h
+-+++ b/debugfs/debugfs.h
+-@@ -5,6 +5,7 @@
+- #include "ss/ss.h"
+- #include "ext2fs/ext2_fs.h"
+- #include "ext2fs/ext2fs.h"
+-+#include "../misc/create_inode.h"
+- 
+- #ifdef __STDC__
+- #define NOARGS void
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0011-mke2fs.8.in-update-the-manual-for-the-d-option.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0011-mke2fs.8.in-update-the-manual-for-the-d-option.patch
+deleted file mode 100644
+index ddd2cb8..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0011-mke2fs.8.in-update-the-manual-for-the-d-option.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From 89fca439f1b58595f2f424598a27869f8c7bd815 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Mon, 23 Dec 2013 04:43:18 -0500
+-Subject: [PATCH 11/11] mke2fs.8.in: update the manual for the -d option
+-
+-Update the manual for the -d option
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+----
+- misc/mke2fs.8.in |    7 +++++++
+- 1 file changed, 7 insertions(+)
+-
+-diff --git a/misc/mke2fs.8.in b/misc/mke2fs.8.in
+-index fea50da..b1ca486 100644
+---- a/misc/mke2fs.8.in
+-+++ b/misc/mke2fs.8.in
+-@@ -52,6 +52,10 @@ mke2fs \- create an ext2/ext3/ext4 filesystem
+- .I number-of-inodes
+- ]
+- [
+-+.B \-d
+-+.I root-directory
+-+]
+-+[
+- .B \-n
+- ]
+- [
+-@@ -502,6 +506,9 @@ the
+- ratio).  This allows the user to specify the number
+- of desired inodes directly.
+- .TP
+-+.BI \-d " root-directory"
+-+Add the files from the root-directory to the filesystem.
+-+.TP
+- .BI \-o " creator-os"
+- Overrides the default value of the "creator operating system" field of the
+- filesystem.  The creator field is set by default to the name of the OS the
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/misc-mke2fs.c-return-error-when-failed-to-populate-fs.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/misc-mke2fs.c-return-error-when-failed-to-populate-fs.patch
+deleted file mode 100644
+index 9b467c3..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/misc-mke2fs.c-return-error-when-failed-to-populate-fs.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From e4ffd6fe975888d306b5f700ba54af18b59f6759 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Thu, 20 Mar 2014 11:10:21 +0800
+-Subject: [PATCH] misc/mke2fs.c: return error when failed to populate filesystem
+-
+-We need return retval when "mke2fs -d" failed, otherwise the "$?" would
+-be 0 which is misleading.
+-
+-Upstream-Status Submitted
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- misc/mke2fs.c | 7 ++++---
+- 1 file changed, 4 insertions(+), 3 deletions(-)
+-
+-diff --git a/misc/mke2fs.c b/misc/mke2fs.c
+-index a63f0b7..846190e 100644
+---- a/misc/mke2fs.c
+-+++ b/misc/mke2fs.c
+-@@ -2745,10 +2745,11 @@ no_journal:
+- 		current_fs = fs;
+- 		root = EXT2_ROOT_INO;
+- 		retval = populate_fs(root, root_dir);
+--		if (retval)
+-+		if (retval) {
+- 			fprintf(stderr, "%s",
+--				_("\nError while populating file system"));
+--		else if (!quiet)
+-+				_("\nError while populating file system\n"));
+-+			return retval;
+-+		} else if (!quiet)
+- 			printf("%s", _("done\n"));
+- 	}
+- 
+--- 
+-1.8.3.1
+-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.11.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.11.bb
+new file mode 100644
+index 0000000..5658c92
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.11.bb
+@@ -0,0 +1,72 @@
++require e2fsprogs.inc
++
++
++SRC_URI += "file://acinclude.m4 \
++            file://remove.ldconfig.call.patch \
++            file://fix-icache.patch \
++            file://quiet-debugfs.patch \
++            file://macros.patch \
++"
++
++SRC_URI[md5sum] = "412acbbd64a866c2ed1c729deaf4ae7c"
++SRC_URI[sha256sum] = "4bd8a770b6925c3f4ec5dce82c55774e4566cd6f3ffb5805177e3c92c8910b76"
++
++EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-elf-shlibs --disable-libuuid --disable-uuidd"
++EXTRA_OECONF_darwin = "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-bsd-shlibs"
++
++do_configure_prepend () {
++	cp ${WORKDIR}/acinclude.m4 ${S}/
++}
++
++do_compile_prepend () {
++	find ./ -print | grep -v ./patches | xargs chmod u=rwX
++	( cd ${S}/util; ${BUILD_CC} subst.c -o ${B}/util/subst )
++}
++
++do_install () {
++	oe_runmake 'DESTDIR=${D}' install
++	oe_runmake 'DESTDIR=${D}' install-libs
++	# We use blkid from util-linux now so remove from here
++	rm -f ${D}${base_libdir}/libblkid*
++	rm -rf ${D}${includedir}/blkid
++	rm -f ${D}${base_libdir}/pkgconfig/blkid.pc
++	rm -f ${D}${base_sbindir}/blkid
++	rm -f ${D}${base_sbindir}/fsck
++	rm -f ${D}${base_sbindir}/findfs
++
++	# e2initrd_helper and the pkgconfig files belong in libdir
++	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
++		install -d ${D}${libdir}
++		mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
++		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
++	fi
++
++	oe_multilib_header ext2fs/ext2_types.h
++	install -d ${D}${base_bindir}
++	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
++}
++
++RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
++RRECOMMENDS_e2fsprogs = "e2fsprogs-mke2fs e2fsprogs-e2fsck"
++
++PACKAGES =+ "e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-tune2fs e2fsprogs-badblocks"
++PACKAGES =+ "libcomerr libss libe2p libext2fs"
++
++FILES_e2fsprogs-e2fsck = "${base_sbindir}/e2fsck ${base_sbindir}/fsck.ext*"
++FILES_e2fsprogs-mke2fs = "${base_sbindir}/mke2fs ${base_sbindir}/mkfs.ext* ${sysconfdir}/mke2fs.conf"
++FILES_e2fsprogs-tune2fs = "${base_sbindir}/tune2fs ${base_sbindir}/e2label"
++FILES_e2fsprogs-badblocks = "${base_sbindir}/badblocks"
++FILES_libcomerr = "${base_libdir}/libcom_err.so.*"
++FILES_libss = "${base_libdir}/libss.so.*"
++FILES_libe2p = "${base_libdir}/libe2p.so.*"
++FILES_libext2fs = "${libdir}/e2initrd_helper ${base_libdir}/libext2fs.so.*"
++FILES_${PN}-dev += "${datadir}/*/*.awk ${datadir}/*/*.sed ${base_libdir}/*.so"
++
++BBCLASSEXTEND = "native"
++
++inherit update-alternatives
++
++ALTERNATIVE_${PN} = "chattr"
++ALTERNATIVE_PRIORITY = "100"
++ALTERNATIVE_LINK_NAME[chattr] = "${base_bindir}/chattr"
++ALTERNATIVE_TARGET[chattr] = "${base_bindir}/chattr.e2fsprogs"
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+deleted file mode 100644
+index 5302554..0000000
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
++++ /dev/null
+@@ -1,84 +0,0 @@
+-require e2fsprogs.inc
+-
+-
+-SRC_URI += "file://acinclude.m4 \
+-            file://remove.ldconfig.call.patch \
+-            file://fix-icache.patch \
+-            file://quiet-debugfs.patch \
+-            file://0001-mke2fs-add-the-ability-to-copy-files-from-a-given-di.patch \
+-            file://0002-misc-create_inode.c-copy-files-recursively.patch \
+-            file://0003-misc-create_inode.c-create-special-file.patch \
+-            file://0004-misc-create_inode.c-create-symlink.patch \
+-            file://0005-misc-create_inode.c-copy-regular-file.patch \
+-            file://0006-misc-create_inode.c-create-directory.patch \
+-            file://0007-misc-create_inode.c-set-owner-mode-time-for-the-inod.patch \
+-            file://0008-mke2fs.c-add-an-option-d-root-directory.patch \
+-            file://0009-misc-create_inode.c-handle-hardlinks.patch \
+-            file://0010-debugfs-use-the-functions-in-misc-create_inode.c.patch \
+-            file://0011-mke2fs.8.in-update-the-manual-for-the-d-option.patch \
+-            file://0001-e2fsprogs-fix-cross-compilation-problem.patch \
+-            file://misc-mke2fs.c-return-error-when-failed-to-populate-fs.patch \
+-"
+-
+-SRC_URI[md5sum] = "3f8e41e63b432ba114b33f58674563f7"
+-SRC_URI[sha256sum] = "2f92ac06e92fa00f2ada3ee67dad012d74d685537527ad1241d82f2d041f2802"
+-
+-EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-elf-shlibs --disable-libuuid --disable-uuidd"
+-EXTRA_OECONF_darwin = "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-bsd-shlibs"
+-
+-do_configure_prepend () {
+-	cp ${WORKDIR}/acinclude.m4 ${S}/
+-}
+-
+-do_compile_prepend () {
+-	find ./ -print | grep -v ./patches | xargs chmod u=rwX
+-	( cd ${S}/util; ${BUILD_CC} subst.c -o ${B}/util/subst )
+-}
+-
+-do_install () {
+-	oe_runmake 'DESTDIR=${D}' install
+-	oe_runmake 'DESTDIR=${D}' install-libs
+-	# We use blkid from util-linux now so remove from here
+-	rm -f ${D}${base_libdir}/libblkid*
+-	rm -rf ${D}${includedir}/blkid
+-	rm -f ${D}${base_libdir}/pkgconfig/blkid.pc
+-	rm -f ${D}${base_sbindir}/blkid
+-	rm -f ${D}${base_sbindir}/fsck
+-	rm -f ${D}${base_sbindir}/findfs
+-
+-	# e2initrd_helper and the pkgconfig files belong in libdir
+-	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
+-		install -d ${D}${libdir}
+-		mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
+-		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
+-	fi
+-
+-	oe_multilib_header ext2fs/ext2_types.h
+-	install -d ${D}${base_bindir}
+-	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
+-}
+-
+-RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
+-RRECOMMENDS_e2fsprogs = "e2fsprogs-mke2fs e2fsprogs-e2fsck"
+-
+-PACKAGES =+ "e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-tune2fs e2fsprogs-badblocks"
+-PACKAGES =+ "libcomerr libss libe2p libext2fs"
+-
+-FILES_e2fsprogs-e2fsck = "${base_sbindir}/e2fsck ${base_sbindir}/fsck.ext*"
+-FILES_e2fsprogs-mke2fs = "${base_sbindir}/mke2fs ${base_sbindir}/mkfs.ext* ${sysconfdir}/mke2fs.conf"
+-FILES_e2fsprogs-tune2fs = "${base_sbindir}/tune2fs ${base_sbindir}/e2label"
+-FILES_e2fsprogs-badblocks = "${base_sbindir}/badblocks"
+-FILES_libcomerr = "${base_libdir}/libcom_err.so.*"
+-FILES_libss = "${base_libdir}/libss.so.*"
+-FILES_libe2p = "${base_libdir}/libe2p.so.*"
+-FILES_libext2fs = "${libdir}/e2initrd_helper ${base_libdir}/libext2fs.so.*"
+-FILES_${PN}-dev += "${datadir}/*/*.awk ${datadir}/*/*.sed ${base_libdir}/*.so"
+-
+-BBCLASSEXTEND = "native"
+-
+-inherit update-alternatives
+-
+-ALTERNATIVE_${PN} = "chattr"
+-ALTERNATIVE_PRIORITY = "100"
+-ALTERNATIVE_LINK_NAME[chattr] = "${base_bindir}/chattr"
+-ALTERNATIVE_TARGET[chattr] = "${base_bindir}/chattr.e2fsprogs"
+
 
 
