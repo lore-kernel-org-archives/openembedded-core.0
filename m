@@ -1,41 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-la0-f54.google.com (mail-la0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id A52FA60144
+Return-Path: <voipio@kos.to>
+X-Greylist: delayed 359 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 14 Aug 2014 09:10:08 UTC
+Received: from afflict.kos.to (afflict.kos.to [92.243.29.197])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F0FE65D9B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 08:53:55 +0000 (UTC)
-Received: by mail-la0-f54.google.com with SMTP id hz20so750826lab.27
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 01:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=dqdlEuJzDTxAisybyX/sQ7iUlbDATkEn6JLNhqCcdHc=;
-	b=c7/5Or/cGgmAn8jIBUch28jv+ADPOMqnzvpiDfSR10VEG9awls5QxXie1CN0qKRzTl
-	Ry/I4M2rBKnxnvUECHh1KzcBywS2yxWPBq/ersr6/afdEDfuyhiPk8Lwdi0RKvvEndS9
-	52A41YkdZqjhXmVvn1Gj4o1QoivpJsJcc0rXK8C1rSWeeCOvqPYEOWP3HmnpH8CWsyVk
-	ZXyDSOH1a8kPsfRF0j/Cxg2sTFXOoN3MKFlUwnbFp02u9fD7kNb2l9KtSCCV+42YpKi4
-	XjH5dRedAQDI9TeTJCuRKaHV5m55ccA6vPeLox6Yk8iO/WvzZu2+wfIbPv+sr9TUPrEY
-	/SFQ==
-X-Received: by 10.112.73.164 with SMTP id m4mr3264599lbv.3.1408006436649;
-	Thu, 14 Aug 2014 01:53:56 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	x10sm2741253lal.13.2014.08.14.01.53.54 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Aug 2014 01:53:55 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 14 Aug 2014 10:54:32 +0200
-To: Chen Qi <Qi.Chen@windriver.com>
-Message-ID: <20140814085432.GG14848@jama>
-References: <cover.1408005909.git.Qi.Chen@windriver.com>
-	<d77cfaf8b63e3dd1d7b05ff4b547b6a4a4fc6b47.1408005909.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <d77cfaf8b63e3dd1d7b05ff4b547b6a4a4fc6b47.1408005909.git.Qi.Chen@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 02/10] systemd: add libdw to RDEPENDS
+	Thu, 14 Aug 2014 09:10:08 +0000 (UTC)
+Received: from aimless.kos.to (91-157-196-38.elisa-laajakaista.fi
+	[91.157.196.38])
+	(using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by afflict.kos.to (Postfix) with ESMTPSA id 7C88E2651C;
+	Thu, 14 Aug 2014 11:04:09 +0200 (CEST)
+Received: (nullmailer pid 22813 invoked by uid 1000);
+	Thu, 14 Aug 2014 09:04:07 -0000
+From: Riku Voipio <riku.voipio@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Aug 2014 12:03:53 +0300
+Message-Id: <1408007033-22777-1-git-send-email-riku.voipio@linaro.org>
+X-Mailer: git-send-email 2.0.1
+Cc: patches@linaro.org
+Subject: [PATCH] udev: fix /var/volatile/tmp permissions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,71 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 08:53:58 -0000
-X-Groupsio-MsgNum: 56474
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Xv6Km4yt4judTFSp"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 14 Aug 2014 09:10:09 -0000
 
---Xv6Km4yt4judTFSp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Mariadb postinstall will fail with:
 
-On Thu, Aug 14, 2014 at 04:46:01PM +0800, Chen Qi wrote:
-> Add libdw to RDEPENDS of systemd to avoid build-deps QA warning.
->=20
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/recipes-core/systemd/systemd_215.bb |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-core/systemd/systemd_215.bb b/meta/recipes-core=
-/systemd/systemd_215.bb
-> index 770787b..a52a042 100644
-> --- a/meta/recipes-core/systemd/systemd_215.bb
-> +++ b/meta/recipes-core/systemd/systemd_215.bb
-> @@ -244,7 +244,7 @@ FILES_${PN} =3D " ${base_bindir}/* \
->  FILES_${PN}-dbg +=3D "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${s=
-ystemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
->  FILES_${PN}-dev +=3D "${base_libdir}/security/*.la ${datadir}/dbus-1/int=
-erfaces/ ${sysconfdir}/rpm/macros.systemd"
-> =20
-> -RDEPENDS_${PN} +=3D "kmod dbus util-linux-mount udev (=3D ${EXTENDPKGV})"
-> +RDEPENDS_${PN} +=3D "libdw kmod dbus util-linux-mount udev (=3D ${EXTEND=
-PKGV})"
+ERROR: 1  Can't create/write to file '/tmp/#sql_a2a_0.MAI' (Errcode: 13)
+140814  8:14:06 [ERROR] Aborting
 
-Shouldn't it be build-time dependency?
+/tmp is a link to /var/volatile/tmp, set as:
 
-If it's detected from sysroot in do_configure then it has to be in
-DEPENDS to get deterministic results.
+drwxr-xr-x 3 root root 60 Aug 14 08:07 .
 
->  RDEPENDS_${PN} +=3D "volatile-binds"
-> =20
->  RRECOMMENDS_${PN} +=3D "systemd-serialgetty systemd-compat-units udev-hw=
-db\
-> --=20
-> 1.7.9.5
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+populate-volatiles.sh does not create the directory or set
+permissions, because it already exists:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Checking for -/var/volatile/tmp-.
+Creating directory -/var/volatile/tmp-.
+Target already exists. Skipping.
 
---Xv6Km4yt4judTFSp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Traced the creation to the initfile in udev. Create with -m 1755
+to be sure. With this patch applied, mysql postinst succeeds and
+creates the neccesary user tables.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
+---
+ meta/recipes-core/udev/udev/init | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-iEYEARECAAYFAlPseUgACgkQN1Ujt2V2gBxC7QCgsOLe8wfeg3UECaqEo4pJX2HD
-hNAAn34ONbJIO8L6xSZKOI9T7fKpcNzD
-=CXwT
------END PGP SIGNATURE-----
+diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+index f2c84d5..a442c74 100644
+--- a/meta/recipes-core/udev/udev/init
++++ b/meta/recipes-core/udev/udev/init
+@@ -57,7 +57,7 @@ case "$1" in
+     # the automount rule for udev needs /tmp directory available, as /tmp is a symlink
+     # to /var/tmp which in turn is a symlink to /var/volatile/tmp, we need to make sure
+     # /var/volatile/tmp directory to be available.
+-    mkdir -p /var/volatile/tmp
++    mkdir -m 1777 -p /var/volatile/tmp
+ 
+     # Cache handling.
+     # A list of files which are used as a criteria to judge whether the udev cache could be reused.
+-- 
+2.0.1
 
---Xv6Km4yt4judTFSp--
+
