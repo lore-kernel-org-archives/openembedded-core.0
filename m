@@ -1,43 +1,25 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
-	[74.125.82.177])
-	by mail.openembedded.org (Postfix) with ESMTP id F069D60889
+Return-Path: <Yasir_Khan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id B09916084E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 14:42:44 +0000 (UTC)
-Received: by mail-we0-f177.google.com with SMTP id w62so1186891wes.36
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 07:42:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=t6ku5WirRdP2Qzw82DKkjoh//HQWZ+uEnvxz5HJSo8Y=;
-	b=YyOBObGE3zinyIevpdp8zMe5QutQAq8QVDvzbJnyBf6KrNQyF3IrB6nn2UfGXa1htg
-	C/RKT9p4j6nN87fYsUTxL313Jnxt5ba9pe/HdzaZIrxbswJYFAoerCZ0ZdeJDpL4NdBW
-	4I84Ol7CHm0tX8eIyb5bdP8yZa55/QYxtN5XBrWGN2J6loeNwzpYKr2AzOSsY5GTSL4n
-	ShGgDfPbD0Cdf+3JdpLwspSmayKf+II5o9w8JbLgBZol6IDECaNTYOv2BdGSNkS9U4Zn
-	fbf0C67uKNMY+DbENGL9pI1chY2Q+oMTpNhNxw2ZEtDvZcijNQsFV8MWtJI3NHFVy61R
-	QqnA==
-X-Gm-Message-State: ALoCoQkn+1m5a4GMokWU2+QV135dita0F2M4WsGbJZQQzyIa1OJ/Vpu3ZfwsG844Y1s/igEOTqdq
-X-Received: by 10.181.13.112 with SMTP id ex16mr41157044wid.58.1408027363825; 
-	Thu, 14 Aug 2014 07:42:43 -0700 (PDT)
-Received: from [172.29.23.6] (zk223.dresearch-fe.de. [217.92.177.116])
-	by mx.google.com with ESMTPSA id
-	x11sm11905671wjr.15.2014.08.14.07.42.42 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Aug 2014 07:42:42 -0700 (PDT)
-Message-ID: <53ECCADF.9040400@dresearch-fe.de>
-Date: Thu, 14 Aug 2014 16:42:39 +0200
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
-MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-devel <openembedded-devel@lists.openembedded.org>
-References: <53E89286.7050303@dresearch-fe.de>
-In-Reply-To: <53E89286.7050303@dresearch-fe.de>
-Subject: Re: Ralink RT3572/RT5572?
+	Thu, 14 Aug 2014 14:57:02 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1XHwSd-00068d-IC from Yasir_Khan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 14 Aug 2014 07:57:03 -0700
+Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 14 Aug 2014 07:57:03 -0700
+From: Yasir Khan <yasir_khan@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Aug 2014 19:56:37 +0500
+Message-Id: <1408028197-21536-1-git-send-email-yasir_khan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+X-OriginalArrivalTime: 14 Aug 2014 14:57:03.0408 (UTC)
+	FILETIME=[0224CB00:01CFB7D0]
+Cc: Abbas Raza <Abbas_Raza@mentor.com>
+Subject: [PATCH] udev-extraconf: Unmount SD card after ejection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,23 +32,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 14:42:52 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 14 Aug 2014 14:57:03 -0000
 
-On 11.08.2014 11:53, Steffen Sledz wrote:
-> Are the linux kernel modules for Ralink WiFi-USB devices with RT3572 and/or RT5572 (available from <http://www.mediatek.com/en/downloads/>) still integrated in an OE-Layer?
-> 
-> If not, what would be the right place for them (openembedded-core, meta-networking, or something else)?
+From: Yasir-Khan <yasir_khan@mentor.com>
 
-Ping!
+Adds udev rule to unmount SD card partitions in case of improper
+ejection from card reader.
 
+When SD card is ejected from card reader without being unmounted
+first, kernel does not generate a REMOVE event, instead it
+generates a CHANGE event(only if polling is enabled
+/sys/module/block/parameters/events_dfl_poll_msecs) and we don't
+have any udev rule in automount.rules to handle this event,so
+partitions never get unmounted. Unmounting of partitions can be
+done if udev rules handle this CHANGE event.
+
+Signed-off-by: Abbas Raza <Abbas_Raza@mentor.com>
+Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
+---
+ .../udev/udev-extraconf/automount.rules            |    2 +-
+ meta/recipes-core/udev/udev-extraconf/mount.sh     |    3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-core/udev/udev-extraconf/automount.rules b/meta/recipes-core/udev/udev-extraconf/automount.rules
+index 7e844c3..62578ea 100644
+--- a/meta/recipes-core/udev/udev-extraconf/automount.rules
++++ b/meta/recipes-core/udev/udev-extraconf/automount.rules
+@@ -16,4 +16,4 @@
+ # Media automounting
+ SUBSYSTEM=="block", ACTION=="add"    RUN+="/etc/udev/scripts/mount.sh"
+ SUBSYSTEM=="block", ACTION=="remove" RUN+="/etc/udev/scripts/mount.sh"
+-
++SUBSYSTEM=="block", ACTION=="change", ENV{DISK_MEDIA_CHANGE}=="1" RUN+="/etc/udev/scripts/mount.sh"
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index 7df1b6e..3eea910 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -78,8 +78,7 @@ if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_t
+ fi
+ 
+ 
+-
+-if [ "$ACTION" = "remove" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
++if [ "$ACTION" = "remove" ] || [ "$ACTION" = "change" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
+ 	for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
+ 	do
+ 		$UMOUNT $mnt
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+1.7.9.5
+
 
