@@ -1,20 +1,20 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa08-05.prod.phx3.secureserver.net
 	(p3plsmtpa08-05.prod.phx3.secureserver.net [173.201.193.106])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A6AD70CEA
+	by mail.openembedded.org (Postfix) with ESMTP id 678E870CEC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 19:06:03 +0000 (UTC)
+	Thu, 14 Aug 2014 19:06:07 +0000 (UTC)
 Received: from llc.pab ([66.41.60.82])
 	by p3plsmtpa08-05.prod.phx3.secureserver.net with 
-	id ej621o0091mTNtu01j64JB; Thu, 14 Aug 2014 12:06:05 -0700
+	id ej621o0091mTNtu01j68K9; Thu, 14 Aug 2014 12:06:09 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Aug 2014 14:05:52 -0500
-Message-Id: <1408043159-8108-3-git-send-email-pab@pabigot.com>
+Date: Thu, 14 Aug 2014 14:05:59 -0500
+Message-Id: <1408043159-8108-10-git-send-email-pab@pabigot.com>
 X-Mailer: git-send-email 1.8.5.5
 In-Reply-To: <1408043159-8108-1-git-send-email-pab@pabigot.com>
 References: <1408043159-8108-1-git-send-email-pab@pabigot.com>
-Subject: [PATCH v2 2/9] gcc: remove inappropriate patch
+Subject: [PATCH v2 9/9] gcc: update compiler architecture to match gcc-runtime (armv6, armv7a)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,195 +29,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 14 Aug 2014 19:06:07 -0000
 
-0037-gcc-4.8-PR56797.patch was originally added as an OE backport during
-4.8.0.  Upstream merged it in 4.8.1, and it was present in 4.9.0.
+The gcc-runtime recipe builds the gcc libraries including libstdc++ with
+$TARGET_CC_ARCH flags, which include -march=FOO flags that affect
+whether atomic instructions are available.  This causes an ABI
+incompatibility when the compiler by default generates code for less
+capable architectures.  For example, gcc-runtime libraries on a
+Cortex-A8 are built with a different C++11/C++14 mutex implementation
+than is used code compiled outside OE and without architecture-specific
+flags.
 
-The original patch still applies to 4.9.1 (and presumably 4.8.2), but
-now is modifying store_multiple_sequence instead of
-load_multiple_sequence (the two functions are nearly identical).  It may
-or may not be necessary in store_multiple_sequence, but absent a bug
-report upstream supporting its application in this case, or a least an
-updated comment and upstream status in the patch, I think this patch
-should be dropped.
+This commit fixes the problem specifically for ABI issues related to
+atomic instructions available in ARMV6 and subsequent architectures.
+Other ABI incompatibilities may remain in other architectures.
+
+See: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=62100
 
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.8.inc              |  1 -
- .../gcc/gcc-4.8/0037-gcc-4.8-PR56797.patch         | 66 ----------------------
- meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 -
- .../gcc/gcc-4.9/0037-gcc-4.8-PR56797.patch         | 66 ----------------------
- 4 files changed, 134 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0037-gcc-4.8-PR56797.patch
- delete mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0037-gcc-4.8-PR56797.patch
+ meta/recipes-devtools/gcc/gcc-configure-common.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index 80a3fc4..dbe1ba6 100644
---- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -59,7 +59,6 @@ SRC_URI = "\
-     file://0033-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch \
-     file://0034-Use-the-multilib-config-files-from-B-instead-of-usin.patch \
-     file://0035-wcast-qual-PR-55383.patch \
--    file://0037-gcc-4.8-PR56797.patch \
-     file://0038-gcc-4.8-build-args.patch \
-     file://0039-gcc-4.8-PR57717.patch \
-     file://0040-fix-g++-sysroot.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0037-gcc-4.8-PR56797.patch b/meta/recipes-devtools/gcc/gcc-4.8/0037-gcc-4.8-PR56797.patch
-deleted file mode 100644
-index b5d7b86..0000000
---- a/meta/recipes-devtools/gcc/gcc-4.8/0037-gcc-4.8-PR56797.patch
-+++ /dev/null
-@@ -1,66 +0,0 @@
--Upstream-Status: Backport
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--From patchwork Fri Apr 19 09:34:49 2013
--Content-Type: text/plain; charset="utf-8"
--MIME-Version: 1.0
--Content-Transfer-Encoding: 7bit
--Subject: [ARM] Fix PR56797
--Date: Thu, 18 Apr 2013 23:34:49 -0000
--From: Greta Yorsh <Greta.Yorsh@arm.com>
--X-Patchwork-Id: 237891
--Message-Id: <000801ce3ce1$23fbdd60$6bf39820$@yorsh@arm.com>
--To: "GCC Patches" <gcc-patches@gcc.gnu.org>
--Cc: <raj.khem@gmail.com>, "Richard Earnshaw" <Richard.Earnshaw@arm.com>,
-- "Ramana Radhakrishnan" <Ramana.Radhakrishnan@arm.com>
--
--Fix PR56797
--http://gcc.gnu.org/bugzilla/show_bug.cgi?id=56797
--
--The problem is that peephole optimizer thinks it can generate an ldm, but
--the pattern for ldm no longer matches, because after r188738 it requires
--that if one of the destination registers is SP then the base register must
--be SP, and it's not SP in the test case. 
--
--The test case fails on armv5t but doesn't fail on armv6t2 or armv7-a because
--peephole doesn't trigger there (because there is a different epilogue
--sequence). It looks like a latent problem for other architecture or CPUs.
--
--This patch adds this condition to the peephole optimizer.
--
--No regression on qemu for arm-none-eabi and fixes the test reported in the
--PR. I couldn't minimize the test sufficiently to include it in the
--testsuite. 
--
--Ok for trunk?
--
--Thanks,
--Greta
--
--gcc/ 
--
--2013-04-18  Greta Yorsh  <Greta.Yorsh@arm.com>
--	
--	PR target/56797
--	* config/arm/arm.c (load_multiple_sequence): Require SP
--        as base register for loads if SP is in the register list.
--
--
--diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
--index d00849c..60fef78 100644
----- a/gcc/config/arm/arm.c
--+++ b/gcc/config/arm/arm.c
--@@ -10347,6 +10347,13 @@ load_multiple_sequence (rtx *operands, int nops, int *regs, int *saved_order,
-- 	      || (i != nops - 1 && unsorted_regs[i] == base_reg))
-- 	    return 0;
-- 
--+          /* Don't allow SP to be loaded unless it is also the base
--+             register.  It guarantees that SP is reset correctly when
--+             an LDM instruction is interruptted.  Otherwise, we might
--+             end up with a corrupt stack.  */
--+          if (unsorted_regs[i] == SP_REGNUM && base_reg != SP_REGNUM)
--+            return 0;
--+
-- 	  unsorted_offsets[i] = INTVAL (offset);
-- 	  if (i == 0 || unsorted_offsets[i] < unsorted_offsets[order[0]])
-- 	    order[0] = i;
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 5a1c028..01dfde1 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -58,7 +58,6 @@ SRC_URI = "\
-     file://0032-libtool.patch \
-     file://0033-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch \
-     file://0034-Use-the-multilib-config-files-from-B-instead-of-usin.patch \
--    file://0037-gcc-4.8-PR56797.patch \
-     file://0040-fix-g++-sysroot.patch \
-     file://0041-libtool-avoid-libdir.patch \
-     file://0043-cpp.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0037-gcc-4.8-PR56797.patch b/meta/recipes-devtools/gcc/gcc-4.9/0037-gcc-4.8-PR56797.patch
-deleted file mode 100644
-index b5d7b86..0000000
---- a/meta/recipes-devtools/gcc/gcc-4.9/0037-gcc-4.8-PR56797.patch
-+++ /dev/null
-@@ -1,66 +0,0 @@
--Upstream-Status: Backport
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--From patchwork Fri Apr 19 09:34:49 2013
--Content-Type: text/plain; charset="utf-8"
--MIME-Version: 1.0
--Content-Transfer-Encoding: 7bit
--Subject: [ARM] Fix PR56797
--Date: Thu, 18 Apr 2013 23:34:49 -0000
--From: Greta Yorsh <Greta.Yorsh@arm.com>
--X-Patchwork-Id: 237891
--Message-Id: <000801ce3ce1$23fbdd60$6bf39820$@yorsh@arm.com>
--To: "GCC Patches" <gcc-patches@gcc.gnu.org>
--Cc: <raj.khem@gmail.com>, "Richard Earnshaw" <Richard.Earnshaw@arm.com>,
-- "Ramana Radhakrishnan" <Ramana.Radhakrishnan@arm.com>
--
--Fix PR56797
--http://gcc.gnu.org/bugzilla/show_bug.cgi?id=56797
--
--The problem is that peephole optimizer thinks it can generate an ldm, but
--the pattern for ldm no longer matches, because after r188738 it requires
--that if one of the destination registers is SP then the base register must
--be SP, and it's not SP in the test case. 
--
--The test case fails on armv5t but doesn't fail on armv6t2 or armv7-a because
--peephole doesn't trigger there (because there is a different epilogue
--sequence). It looks like a latent problem for other architecture or CPUs.
--
--This patch adds this condition to the peephole optimizer.
--
--No regression on qemu for arm-none-eabi and fixes the test reported in the
--PR. I couldn't minimize the test sufficiently to include it in the
--testsuite. 
--
--Ok for trunk?
--
--Thanks,
--Greta
--
--gcc/ 
--
--2013-04-18  Greta Yorsh  <Greta.Yorsh@arm.com>
--	
--	PR target/56797
--	* config/arm/arm.c (load_multiple_sequence): Require SP
--        as base register for loads if SP is in the register list.
--
--
--diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
--index d00849c..60fef78 100644
----- a/gcc/config/arm/arm.c
--+++ b/gcc/config/arm/arm.c
--@@ -10347,6 +10347,13 @@ load_multiple_sequence (rtx *operands, int nops, int *regs, int *saved_order,
-- 	      || (i != nops - 1 && unsorted_regs[i] == base_reg))
-- 	    return 0;
-- 
--+          /* Don't allow SP to be loaded unless it is also the base
--+             register.  It guarantees that SP is reset correctly when
--+             an LDM instruction is interruptted.  Otherwise, we might
--+             end up with a corrupt stack.  */
--+          if (unsorted_regs[i] == SP_REGNUM && base_reg != SP_REGNUM)
--+            return 0;
--+
-- 	  unsorted_offsets[i] = INTVAL (offset);
-- 	  if (i == 0 || unsorted_offsets[i] < unsorted_offsets[order[0]])
-- 	    order[0] = i;
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index 71dce12..48fb799 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -64,6 +64,13 @@ EXTRA_OECONF_append_libc-uclibc = " --enable-__cxa_atexit"
+ EXTRA_OECONF_append_mips64 = " --with-abi=64 --with-arch-64=mips64 --with-tune-64=mips64"
+ EXTRA_OECONF_append_mips64el = " --with-abi=64 --with-arch-64=mips64 --with-tune-64=mips64"
+ 
++# ARMv6+ adds atomic instructions that affect the ABI in libraries built
++# with TUNE_CCARGS in gcc-runtime.  Make the compiler default to a
++# compatible architecture.  armv6 and armv7a cover the minimum tune
++# features used in OE.
++EXTRA_OECONF_append_armv6 = " --with-arch=armv6"
++EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a"
++
+ EXTRA_OECONF_GCC_FLOAT ??= ""
+ CPPFLAGS = ""
+ 
 -- 
 1.8.5.5
 
