@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 84D3760196
+	by mail.openembedded.org (Postfix) with ESMTP id F13E360196
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 14:27:30 +0000 (UTC)
+	Thu, 14 Aug 2014 14:27:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7EERUca016459 for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 15:27:30 +0100
+	s7EERkJg016477 for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Aug 2014 15:27:46 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TxOAfZLTyKBY
+	with LMTP id Y0q6WVR1FQcM
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 15:27:30 +0100 (BST)
+	Thu, 14 Aug 2014 15:27:46 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7EERObH016455
+	s7EERg8T016473
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 15:27:25 +0100
-Message-ID: <1408026445.22187.114.camel@ted>
+	Thu, 14 Aug 2014 15:27:43 +0100
+Message-ID: <1408026462.22187.115.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Aug 2014 15:27:25 +0100
+Date: Thu, 14 Aug 2014 15:27:42 +0100
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] qemu: Fixup target sdl configuration to use PACKAGECONFIG
+Subject: [PATCH] qemu: Move dtc(fdt) configuration to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 14:27:31 -0000
+X-List-Received-Date: Thu, 14 Aug 2014 14:27:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-SDL is now controlled by PACKAGECONFIG, remove the DEPENDS remnant
-set PACKAGECONFIG accordingly.
+Converting this dependency to become a PACKAGECONFIG makes sense.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc
-b/meta/recipes-devtools/qemu/qemu.inc
-index 8e2a9b2..0c89e0b 100644
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index d24a92d..8e2a9b2 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
 @@ -1,7 +1,7 @@
  SUMMARY = "Fast open source processor emulator"
  HOMEPAGE = "http://qemu.org"
  LICENSE = "GPLv2 & LGPLv2.1"
--DEPENDS = "glib-2.0 zlib alsa-lib pixman libsdl \
-+DEPENDS = "glib-2.0 zlib alsa-lib pixman \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'x11',
-'virtual/libx11', '', d)}"
- DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native
-pixman-native dtc-native"
- DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl
-nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
+-DEPENDS = "glib-2.0 zlib alsa-lib pixman dtc libsdl \
++DEPENDS = "glib-2.0 zlib alsa-lib pixman libsdl \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11', '', d)}"
+ DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native dtc-native"
+ DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
 @@ -79,7 +79,7 @@ do_install_append() {
  }
  # END of qemu-mips workaround
  
--PACKAGECONFIG ??= "fdt"
-+PACKAGECONFIG ??= "fdt sdl"
- PACKAGECONFIG[virtfs] = "--enable-virtfs
---enable-attr,--disable-virtfs,libcap attr,"
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ??= "fdt"
+ PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr,--disable-virtfs,libcap attr,"
  PACKAGECONFIG[aio] = "--enable-linux-aio,--disable-linux-aio,libaio,"
  PACKAGECONFIG[xfs] = "--enable-xfsctl,--disable-xfsctl,xfsprogs,"
+@@ -99,6 +99,7 @@ PACKAGECONFIG[libcap-ng] = "--enable-cap-ng,--disable-cap-ng,libcap-ng,"
+ PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl,"
+ PACKAGECONFIG[ssh2] = "--enable-libssh2,--disable-libssh2,libssh2,"
+ PACKAGECONFIG[libusb] = "--enable-libusb,--disable-libusb,libusb1"
++PACKAGECONFIG[fdt] = "--enable-fdt,--disable-fdt,dtc"
+ 
+ # Qemu target will not build in world build for ARM or Mips
+ BROKEN_qemuarm = "1"
 
 
 
