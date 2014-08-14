@@ -1,27 +1,27 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa07-08.prod.phx3.secureserver.net
-	(p3plsmtpa07-08.prod.phx3.secureserver.net [173.201.192.237])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FF31610F5
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 818F060EFA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 11:50:53 +0000 (UTC)
-Received: from [192.168.65.10] ([66.41.60.82])
-	by p3plsmtpa07-08.prod.phx3.secureserver.net with 
-	id ebqt1o00M1mTNtu01bqu4V; Thu, 14 Aug 2014 04:50:54 -0700
-Message-ID: <53ECA29D.10204@pabigot.com>
-Date: Thu, 14 Aug 2014 06:50:53 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Thu, 14 Aug 2014 12:13:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7ECDCho011640
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Aug 2014 05:13:12 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 14 Aug 2014 05:13:11 -0700
+Message-ID: <53ECA7D6.2030408@windriver.com>
+Date: Thu, 14 Aug 2014 20:13:10 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1407963825-20257-1-git-send-email-pab@pabigot.com>
-	<1407963825-20257-3-git-send-email-pab@pabigot.com>
-	<CAMKF1soo1HEfuD99aDVpY7Q8PyUgqV4ujtSTRvjeDaGfuRyUCQ@mail.gmail.com>
-In-Reply-To: <CAMKF1soo1HEfuD99aDVpY7Q8PyUgqV4ujtSTRvjeDaGfuRyUCQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] gcc-4.8, gcc-4.9: remove inappropriate patch
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1407917762.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1407917762.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/2] Set CONFIG_SHELL for xz and gzip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,29 +34,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 11:50:57 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 14 Aug 2014 12:13:12 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/13/2014 05:44 PM, Khem Raj wrote:
-> On Wed, Aug 13, 2014 at 2:03 PM, Peter A. Bigot <pab@pabigot.com> wrote:
->> 0037-gcc-4.8-PR56797.patch was originally added as an OE backport during
->> 4.8.0.  Upstream merged it in 4.8.1, and it was present in 4.9.0.
->>
->> The original patch still applies to 4.9.1 (and presumably 4.8.2), but
->> now is modifying store_multiple_sequence instead of
->> load_multiple_sequence (the two functions are nearly identical).  It may
->> or may not be necessary in store_multiple_sequence, but absent a bug
->> report upstream supporting its application in this case, or a least an
->> updated comment and upstream status in the patch, I think this patch
->> should be dropped.
->>
->> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
-> This looks good.
+I added grep's patch which is similar to xz and gzip to the repo,
+so there should be 3 patches:
 
-May (should) I add S-o-b lines from you to the V2 series for these or 
-are these informal acks?
+git://git.openembedded.org/openembedded-core-contrib rbt/bash
 
-Peter
 
+====== patch ======
+
+grep: set CONFIG_SHELL to /bin/sh
+
+It would be bash, sh, ksh or sh5 according to the host if we don't set
+this, and its scripts don't have bashism as the checkbashisms shows.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+  meta/recipes-extended/grep/grep_2.19.bb   |    1 +
+  meta/recipes-extended/grep/grep_2.5.1a.bb |    2 ++
+  2 files changed, 3 insertions(+)
+
+diff --git a/meta/recipes-extended/grep/grep_2.19.bb 
+b/meta/recipes-extended/grep/grep_2.19.bb
+index f38a9a6..9c162cc 100644
+--- a/meta/recipes-extended/grep/grep_2.19.bb
++++ b/meta/recipes-extended/grep/grep_2.19.bb
+@@ -36,3 +36,4 @@ ALTERNATIVE_LINK_NAME[grep] = "${base_bindir}/grep"
+  ALTERNATIVE_LINK_NAME[egrep] = "${base_bindir}/egrep"
+  ALTERNATIVE_LINK_NAME[fgrep] = "${base_bindir}/fgrep"
+
++export CONFIG_SHELL="/bin/sh"
+diff --git a/meta/recipes-extended/grep/grep_2.5.1a.bb 
+b/meta/recipes-extended/grep/grep_2.5.1a.bb
+index 79842ba..1ce112e 100644
+--- a/meta/recipes-extended/grep/grep_2.5.1a.bb
++++ b/meta/recipes-extended/grep/grep_2.5.1a.bb
+@@ -47,3 +47,5 @@ ALTERNATIVE_${PN} = "grep egrep fgrep"
+  ALTERNATIVE_LINK_NAME[grep] = "${base_bindir}/grep"
+  ALTERNATIVE_LINK_NAME[egrep] = "${base_bindir}/egrep"
+  ALTERNATIVE_LINK_NAME[fgrep] = "${base_bindir}/fgrep"
++
++export CONFIG_SHELL="/bin/sh"
+-- 
+1.7.9.5
+
+// Robert
+
+
+On 08/13/2014 04:18 PM, Robert Yang wrote:
+> The following changes since commit 4321c553d5ae816e566234e981a0815bba046d39:
+>
+>    SIGGEN_EXCLUDERECIPES_ABISAFE: add initscripts (2014-08-11 17:44:09 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib rbt/bash
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/bash
+>
+> Robert Yang (2):
+>    xz: set CONFIG_SHELL to /bin/sh
+>    gzip: set CONFIG_SHELL to /bin/sh
+>
+>   meta/recipes-extended/gzip/gzip.inc       |    2 ++
+>   meta/recipes-extended/xz/xz_5.1.3alpha.bb |    2 ++
+>   2 files changed, 4 insertions(+)
+>
 
