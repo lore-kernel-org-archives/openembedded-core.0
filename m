@@ -1,38 +1,21 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f45.google.com (mail-yh0-f45.google.com
-	[209.85.213.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AD6A609C0
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 958DE609C0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 13:07:58 +0000 (UTC)
-Received: by mail-yh0-f45.google.com with SMTP id 29so971575yhl.32
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 06:07:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=I9qU02JWsxumpyQ5Chi6fzMXFric4Eu+03Wg7ZALAmY=;
-	b=ZXH7p9RIzqw03wgqfud7IYr6xHnK6vhw/g7Lql7FpmuDzD1cN5M2iyqGC1XVHExV/g
-	90vzQHPbZVEj7QDNZF2Z56MzoFT9MwFnSgyRWI6HY/npODTRb4QmQvWW0MqFeRfn5bfj
-	GjR8dL1mgzPQLK9yAHx24rtOf2yyowbD16ucHJvX5BBs2HdEjgrbFl2gFjQm6JUZRkCn
-	9N18qnmSDqGuqsSKxnB28+7Ax/MNV67cfhaGwtNbxXP6z2/RklwvsSRuNC0BVCdBB4+p
-	Y2jiDYh10/AjIMbHsqbh2AotYC3JJB2RkK59F1vU1FTbNFdwmLOX1/mO6Xv7vzB5/UkZ
-	mQwA==
-MIME-Version: 1.0
-X-Received: by 10.236.199.13 with SMTP id w13mr17026286yhn.105.1408021678770; 
-	Thu, 14 Aug 2014 06:07:58 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.56.201 with HTTP; Thu, 14 Aug 2014 06:07:58 -0700 (PDT)
-In-Reply-To: <18e2b9ecac47dcfef1b00a538a61d1f5d4fe51fd.1408005909.git.Qi.Chen@windriver.com>
-References: <cover.1408005909.git.Qi.Chen@windriver.com>
-	<18e2b9ecac47dcfef1b00a538a61d1f5d4fe51fd.1408005909.git.Qi.Chen@windriver.com>
-Date: Thu, 14 Aug 2014 10:07:58 -0300
-X-Google-Sender-Auth: mfbdRUXLI8QeVMm8LcSv2NjGvO4
-Message-ID: <CAP9ODKrPqTqnDuMoWXcrqukCfUMEc1SS1976i5VvPmN7Xm_7zQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 08/10] v86d: set INHIBIT_UPDATERCD_BBCLASS if 'sysvinit' not in DISTRO_FEATURES
+	Thu, 14 Aug 2014 13:16:07 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 14 Aug 2014 06:16:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,863,1400050800"; d="scan'208";a="468690464"
+Received: from atdias-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.159])
+	by azsmga001.ch.intel.com with ESMTP; 14 Aug 2014 06:16:01 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Aug 2014 14:15:40 +0100
+Message-Id: <cover.1408022072.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH 0/2] libav upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,24 +28,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Aug 2014 13:08:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 14 Aug 2014 13:16:09 -0000
 
-On Thu, Aug 14, 2014 at 5:46 AM, Chen Qi <Qi.Chen@windriver.com> wrote:
-> Set INHIBIT_UPDATERCD_BBCLASS to "1" if 'sysvinit' is not in DISTRO_FEATURES.
->
-> The functionality of the init script 'fbsetup' is implemented internally in
-> systemd. So fbsetup is not installed if 'sysvinit' is in DISTRO_FEATURES.
->
-> That's why we need to set INHIBIT_UPDATERCD_BBCLASS to "1" to avoid
-> generation of update-rc.d related preinst/postinst scripts.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+The following changes since commit 4321c553d5ae816e566234e981a0815bba046d39:
 
-Shouldn't this be handled in systemd class?
+  SIGGEN_EXCLUDERECIPES_ABISAFE: add initscripts (2014-08-11 17:44:09 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/libav-upgrade
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/libav-upgrade
+
+Paul Eggleton (2):
+  libav: update 0.8 version to 0.8.15
+  libav: update 9.x version to 9.16
+
+ meta/recipes-multimedia/libav/{libav_0.8.11.bb => libav_0.8.15.bb} | 4 ++--
+ meta/recipes-multimedia/libav/{libav_9.13.bb => libav_9.16.bb}     | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-multimedia/libav/{libav_0.8.11.bb => libav_0.8.15.bb} (79%)
+ rename meta/recipes-multimedia/libav/{libav_9.13.bb => libav_9.16.bb} (74%)
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.9.3
+
 
