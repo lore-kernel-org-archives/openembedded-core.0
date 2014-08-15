@@ -1,36 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E82070CF8
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id EBA1770D44
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 16:55:28 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id hi2so1069384wib.17
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 09:55:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=KsZBXTaNTihNQD8ZBbV0IfwM1BzyOBv5AjaPcBAwQSo=;
-	b=dcRjVTXDhRWjU+2o7NID/KmWaHftMziar6pZ70j7Njgi0X/9rbR55Sm0U8rMRCfzEQ
-	z8gK4A1kF8/Ns3Q8G+AJPC3vUt3BWrq94YtmhacepxIYqP2UY7CsdpDILgQgbKAOsPJa
-	fuxS0PiRuf6KPrJiI9wL4prYPeKMWsqKpO86Bi5zhHUl+sEw0VnwsvjnlKdrbz8oMTYV
-	EosgOS8cAGhIa7yN2EWSBPEyD+75FPtOYzN6QFn0RqToZiev6OxomR3qhPcRsmlfwwwD
-	PC4SGBwpr0gb+GitebbscFDhUdQoJ1VPRzfedMJ7H7GnpRWMLkaSghYJwmXFqEGMcbiI
-	iNGQ==
-X-Gm-Message-State: ALoCoQnjOAV3kEE+SndzME+5L3nOObOW7MGaqOffbifqyCYHyp8vZRz8orHM/Wq1Z8vL6EqDJMAH
-X-Received: by 10.180.99.4 with SMTP id em4mr21872205wib.8.1408121728602;
-	Fri, 15 Aug 2014 09:55:28 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id ge8sm8393779wib.4.2014.08.15.09.55.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Aug 2014 09:55:27 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Aug 2014 17:55:22 +0100
-Message-Id: <1408121722-20308-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH][V2] avahi: unset FILES_avahi to avoid packaging files there
+	Fri, 15 Aug 2014 16:56:27 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 15 Aug 2014 09:56:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,871,1400050800"; d="scan'208";a="469165369"
+Received: from unknown (HELO [10.255.12.111]) ([10.255.12.111])
+	by azsmga001.ch.intel.com with ESMTP; 15 Aug 2014 09:56:01 -0700
+Message-ID: <53EE3BA1.6050001@linux.intel.com>
+Date: Fri, 15 Aug 2014 09:56:01 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
+MIME-Version: 1.0
+To: jackie.huang@windriver.com, openembedded-core@lists.openembedded.org
+References: <1406706883-15375-1-git-send-email-jackie.huang@windriver.com>
+In-Reply-To: <1406706883-15375-1-git-send-email-jackie.huang@windriver.com>
+Subject: Re: [PATCH] ghostscript: add missing dependencies on libgcrypt and libgpg-error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,46 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Aug 2014 16:55:38 -0000
+X-List-Received-Date: Fri, 15 Aug 2014 16:56:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The main avahi recipe doesn't package anything into ${PN}.  If a library is
-enabled but not put into a separate package it ends up in ${PN} and all the
-packages are renamed using it's soname - ie libdns-sd-daemon.
+On 07/30/2014 12:54 AM, jackie.huang@windriver.com wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
+>
+> Fix error:
+> tmp/sysroots/x86_64-linux/usr/libexec/x86_64-wrs-linux/gcc/x86_64-wrs-linux/4.9.0/ld: cannot find -lgcrypt
+> tmp/sysroots/x86_64-linux/usr/libexec/x86_64-wrs-linux/gcc/x86_64-wrs-linux/4.9.0/ld: cannot find -lgpg-error
+>
+Are these true dependencies or are there optional configurations that 
+should be covered with PACKAGECONFIG?  There is a patch to disable gcrypt.
 
-Avoid this by clearing FILES_avahi so extra files are unpackaged instead of
-creating a new package.  Also actually remove /var as the comments claim so the
-avahi package is truly empty.
+Is this meant to be a daisy patch?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-connectivity/avahi/avahi.inc |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Sau!
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 3318f40..b97c4c5 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -73,6 +73,9 @@ do_configure_prepend() {
- 
- PACKAGES =+ "avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
- 
-+# As avahi doesn't put any files into PN, clear the files list to avoid problems
-+# if extra libraries appear.
-+FILES_avahi = ""
- FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
-                        ${sysconfdir}/avahi/avahi-autoipd.action \
-                        ${sysconfdir}/dhcp/*/avahi-autoipd \
-@@ -122,7 +125,8 @@ do_install() {
- 	# don't install /var/run when populating rootfs. Do it through volatile
- 	# /var/run of current version is empty, so just remove it.
- 	# if /var/run become non-empty in the future, need to install it via volatile
--	rm -rf ${D}/var/run
-+	rm -rf ${D}${localstatedir}/run
-+	rmdir --ignore-fail-on-non-empty ${D}${localstatedir}
- 	rm -rf ${D}${datadir}/dbus-1/interfaces
- 	rmdir --ignore-fail-on-non-empty ${D}${datadir}/dbus-1
- 	rm -rf ${D}${libdir}/avahi
--- 
-1.7.10.4
 
+
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> ---
+>   .../ghostscript/ghostscript_9.14.bb                |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.14.bb b/meta/recipes-extended/ghostscript/ghostscript_9.14.bb
+> index e14e656..fbec6ce 100644
+> --- a/meta/recipes-extended/ghostscript/ghostscript_9.14.bb
+> +++ b/meta/recipes-extended/ghostscript/ghostscript_9.14.bb
+> @@ -15,7 +15,7 @@ SECTION = "console/utils"
+>   LICENSE = "GPLv3"
+>   LIC_FILES_CHKSUM = "file://LICENSE;md5=aad21ea85123608e6a0a58d54ee23567"
+>
+> -DEPENDS = "ghostscript-native tiff jpeg fontconfig cups"
+> +DEPENDS = "ghostscript-native tiff jpeg fontconfig cups libgcrypt libgpg-error"
+>   DEPENDS_class-native = ""
+>
+>   SRC_URI_BASE = "http://downloads.ghostscript.com/public/ghostscript-${PV}.tar.gz"
+>
 
