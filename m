@@ -1,43 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 5374070D30
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F32F70D50
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 09:09:18 +0000 (UTC)
-Received: by mail-la0-f48.google.com with SMTP id gl10so2012443lab.7
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 02:09:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=d/7f8WKxf08UNH5g5+y2NLhcHBCf58rW32kWrHhHsMU=;
-	b=XfeZV0whQ9ijq1I5y4zK9rZcoc5rNxl6+5HSqBmWTHVMQzQ1S0Ac4Fwrz+iLL30c1e
-	YFl44udV33lhagUWZY2wn9+dwcOtnpIDDBb1t+2+Glr7I9u9nAyBE9eEYSGv0XEypPa/
-	+O8O+q/6zGx+0rL7pCk9VK9Ry+a9SF/xKvW7H7gYG7EdrUmBY6o+0+IZFdjOkdFmnbhn
-	ZSGDJJ3Yd2rBnZIpLFAk5znTOsqrg/rKA/BWL4/d86r7gDj32r4cUb8Hh2F0mIzKjIZV
-	24j7UaqdWo+ikJM8rgwcp2zUtaR+H+jyRn4bZ1CylVqb9kUVuWAymdNR7MDMftteqa6V
-	aYpw==
-X-Received: by 10.112.40.161 with SMTP id y1mr10549857lbk.61.1408093758965;
-	Fri, 15 Aug 2014 02:09:18 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	qz5sm11860916lbb.39.2014.08.15.02.09.17 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Aug 2014 02:09:17 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 15 Aug 2014 11:09:56 +0200
-To: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <20140815090956.GC22747@jama>
-References: <cover.1408005909.git.Qi.Chen@windriver.com>
-	<d77cfaf8b63e3dd1d7b05ff4b547b6a4a4fc6b47.1408005909.git.Qi.Chen@windriver.com>
-	<20140814085432.GG14848@jama> <1408009147.22187.87.camel@ted>
-	<53ED77DE.7020208@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <53ED77DE.7020208@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+	Fri, 15 Aug 2014 09:45:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7F9jckh019790; Fri, 15 Aug 2014 10:45:38 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id OPvwfp4OGfh1; Fri, 15 Aug 2014 10:45:38 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7F9jYXm019786
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 15 Aug 2014 10:45:35 +0100
+Message-ID: <1408095935.21596.20.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Fri, 15 Aug 2014 10:45:35 +0100
+In-Reply-To: <1407788504-27417-3-git-send-email-otavio@ossystems.com.br>
+References: <1407788504-27417-1-git-send-email-otavio@ossystems.com.br>
+	<1407788504-27417-3-git-send-email-otavio@ossystems.com.br>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 02/10] systemd: add libdw to RDEPENDS
+Subject: Re: [PATCH 3/3] libpam: Allow use during build and in SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,95 +37,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Aug 2014 09:09:24 -0000
-X-Groupsio-MsgNum: 56576
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="9Ek0hoCL9XbhcSqy"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 15 Aug 2014 09:45:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---9Ek0hoCL9XbhcSqy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2014-08-11 at 17:21 -0300, Otavio Salvador wrote:
+> The recipe had libpam hardcoded in some places which were causing
+> failures as the metadata renaming hooks does not change those,
+> generating a broken dependencies list.
+> 
+> This patch fixes those and add the native and nativesdk support.
 
-On Fri, Aug 15, 2014 at 11:00:46AM +0800, ChenQi wrote:
-> On 08/14/2014 05:39 PM, Richard Purdie wrote:
-> > On Thu, 2014-08-14 at 10:54 +0200, Martin Jansa wrote:
-> >> On Thu, Aug 14, 2014 at 04:46:01PM +0800, Chen Qi wrote:
-> >>> Add libdw to RDEPENDS of systemd to avoid build-deps QA warning.
-> >>>
-> >>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> >>> ---
-> >>>   meta/recipes-core/systemd/systemd_215.bb |    2 +-
-> >>>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/meta/recipes-core/systemd/systemd_215.bb b/meta/recipes-=
-core/systemd/systemd_215.bb
-> >>> index 770787b..a52a042 100644
-> >>> --- a/meta/recipes-core/systemd/systemd_215.bb
-> >>> +++ b/meta/recipes-core/systemd/systemd_215.bb
-> >>> @@ -244,7 +244,7 @@ FILES_${PN} =3D " ${base_bindir}/* \
-> >>>   FILES_${PN}-dbg +=3D "${rootlibdir}/.debug ${systemd_unitdir}/.debu=
-g ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
-> >>>   FILES_${PN}-dev +=3D "${base_libdir}/security/*.la ${datadir}/dbus-=
-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
-> >>>  =20
-> >>> -RDEPENDS_${PN} +=3D "kmod dbus util-linux-mount udev (=3D ${EXTENDPK=
-GV})"
-> >>> +RDEPENDS_${PN} +=3D "libdw kmod dbus util-linux-mount udev (=3D ${EX=
-TENDPKGV})"
-> >> Shouldn't it be build-time dependency?
-> >>
-> >> If it's detected from sysroot in do_configure then it has to be in
-> >> DEPENDS to get deterministic results.
-> > Right. Secondly, what benefit does this library bring us?
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> >
->=20
-> Richard & Martin,
->=20
-> Thanks for reminding me about this.
-> I shouldn't have rushed into fixing the QA warning without looking into=
-=20
-> the configure.ac file.
->=20
-> It should really be a PACKAGECONFIG for 'elfutils'.
-> PACKAGECONFIG[elfutils] =3D "--enable-elfutils,--disable-elfutils,libelf=
-=20
-> libdw,libelf libdw"
+Well, it doesn't as far as I can tell.
 
-I don't think there is libdw and libelf recipe, they are just packages crea=
-ted by
-elfutils recipe, so I think it should be:
+Firstly, the autobuilder blew up since nativesdk-coreutils isn't
+available, which in turn shows nativesdk-libcap isn't either. I pushed
+patches into master-next for those, next I see:
 
-PACKAGECONFIG[elfutils] =3D "--enable-elfutils,--disable-elfutils,elfutils"
+WARNING: QA Issue: nativesdk-pam-plugin-xauth rdepends on nativesdk-nativesdk-libpam-suffix, but it isn't a build dependency? [build-deps]
 
-the runtime dependency is added automatically by shlibs code (as the QA
-warning confirmed).
+So I'd love to know what testing this had?
 
-> I will send out V2 of this patchset.
->=20
-> Best Regards,
-> Chen Qi
+Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Richard
 
---9Ek0hoCL9XbhcSqy
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>  meta/recipes-extended/pam/libpam_1.1.6.bb |   19 +++++++++++--------
+>  1 file changed, 11 insertions(+), 8 deletions(-)
+> 
+> diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
+> index 3190aaf..c06709f 100644
+> --- a/meta/recipes-extended/pam/libpam_1.1.6.bb
+> +++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
+> @@ -61,7 +61,7 @@ FILES_${PN}-dev += "${base_libdir}/security/*.la ${base_libdir}/*.la ${base_libd
+>  FILES_${PN}-runtime = "${sysconfdir}"
+>  FILES_${PN}-xtests = "${datadir}/Linux-PAM/xtests"
+>  
+> -PACKAGES_DYNAMIC += "^pam-plugin-.*"
+> +PACKAGES_DYNAMIC += "^${MLPREFIX}pam-plugin-.*"
+>  
+>  def get_multilib_bit(d):
+>      baselib = d.getVar('baselib', True) or ''
+> @@ -69,12 +69,12 @@ def get_multilib_bit(d):
+>  
+>  libpam_suffix = "suffix${@get_multilib_bit(d)}"
+>  
+> -RPROVIDES_${PN} += "libpam-${libpam_suffix}"
+> -RPROVIDES_${PN}-runtime += "libpam-runtime-${libpam_suffix}"
+> +RPROVIDES_${PN} += "${PN}-${libpam_suffix}"
+> +RPROVIDES_${PN}-runtime += "${PN}-runtime-${libpam_suffix}"
+>  
+> -RDEPENDS_${PN}-runtime = "libpam-${libpam_suffix} pam-plugin-deny-${libpam_suffix} pam-plugin-permit-${libpam_suffix} pam-plugin-warn-${libpam_suffix} pam-plugin-unix-${libpam_suffix}"
+> -RDEPENDS_${PN}-xtests = "libpam-${libpam_suffix} pam-plugin-access-${libpam_suffix} pam-plugin-debug-${libpam_suffix} pam-plugin-cracklib-${libpam_suffix} pam-plugin-pwhistory-${libpam_suffix} pam-plugin-succeed-if-${libpam_suffix} pam-plugin-time-${libpam_suffix} coreutils"
+> -RRECOMMENDS_${PN} = "libpam-runtime-${libpam_suffix}"
+> +RDEPENDS_${PN}-runtime = "${PN}-${libpam_suffix} pam-plugin-deny-${libpam_suffix} pam-plugin-permit-${libpam_suffix} pam-plugin-warn-${libpam_suffix} pam-plugin-unix-${libpam_suffix}"
+> +RDEPENDS_${PN}-xtests = "${PN}-${libpam_suffix} pam-plugin-access-${libpam_suffix} pam-plugin-debug-${libpam_suffix} pam-plugin-cracklib-${libpam_suffix} pam-plugin-pwhistory-${libpam_suffix} pam-plugin-succeed-if-${libpam_suffix} pam-plugin-time-${libpam_suffix} coreutils"
+> +#RRECOMMENDS_${PN} = "${PN}-runtime-${libpam_suffix}"
+>  
+>  python populate_packages_prepend () {
+>      def pam_plugin_append_file(pn, dir, file):
+> @@ -85,14 +85,15 @@ python populate_packages_prepend () {
+>          d.setVar('FILES_' + pn, nf)
+>  
+>      def pam_plugin_hook(file, pkg, pattern, format, basename):
+> +        pn = d.getVar('PN', True)
+>          libpam_suffix = d.getVar('libpam_suffix', True)
+>          mlprefix = d.getVar('MLPREFIX', True) or ''
+>  
+>          rdeps = d.getVar('RDEPENDS_' + pkg, True)
+>          if rdeps:
+> -            rdeps = rdeps + " " + mlprefix + "libpam-" + libpam_suffix
+> +            rdeps = rdeps + " " + mlprefix + pn + "-" + libpam_suffix
+>          else:
+> -            rdeps = mlprefix + "libpam-" + libpam_suffix
+> +            rdeps = mlprefix + pn + "-" + libpam_suffix
+>          d.setVar('RDEPENDS_' + pkg, rdeps)
+>  
+>          provides = d.getVar('RPROVIDES_' + pkg, True)
+> @@ -142,3 +143,5 @@ python do_pam_sanity () {
+>          bb.warn("Building libpam but 'pam' isn't in DISTRO_FEATURES, PAM won't work correctly")
+>  }
+>  addtask pam_sanity before do_configure
+> +
+> +BBCLASSEXTEND = "nativesdk native"
+> -- 
+> 1.7.10.4
+> 
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
 
-iEYEARECAAYFAlPtzmQACgkQN1Ujt2V2gBxlrACgnx3hifbV3yhjqeMxmrEtiJ7L
-ZX4An03wOKmJdRplPiGJZyJ7uZMQMiCu
-=ghYI
------END PGP SIGNATURE-----
 
---9Ek0hoCL9XbhcSqy--
