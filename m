@@ -1,34 +1,36 @@
-Return-Path: <jatedev@gmail.com>
-Received: from mail-qa0-f49.google.com (mail-qa0-f49.google.com
-	[209.85.216.49])
-	by mail.openembedded.org (Postfix) with ESMTP id C3705601A0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E82070CF8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 15:41:09 +0000 (UTC)
-Received: by mail-qa0-f49.google.com with SMTP id dc16so2193024qab.22
+	Fri, 15 Aug 2014 16:55:28 +0000 (UTC)
+Received: by mail-wi0-f178.google.com with SMTP id hi2so1069384wib.17
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 08:41:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=QKeeh8noL/pAtTd9oZqsk+kCMK4krcsayXe2+g+sF+w=;
-	b=zOF3gsVX0AMAus/BbVGokOxhjkXnW9KIyUhoQHOLxn6NzVObZ+SpKnM1DleVt4VL15
-	NnA72xdN94Wob5N1uGkoXxSJXEi60iPYqQsjmN9QqvrkO3Q/Wq7gTbBhgJp9DwE9RrMd
-	4Ec2zTbQuiur4vm5OOm+a00V2oFKclIBUSFg3tyJFPOQ/+Yu1R/fMZcrOKSWQzdIj4kt
-	UIj1miH3bRIlp92g6u/ReKTKSO4F9hZx+/4fmDyX70UuQGK97Gzo8yWGTdfXae+FPdj5
-	xv1UfPAPpMHRAixMgmocLKFjqZAgEu3Q3TAyhZtYlnsTfb4iyZ8ijDJxI5x3C8jW/jiA
-	/3zA==
-MIME-Version: 1.0
-X-Received: by 10.140.38.169 with SMTP id t38mr26983937qgt.3.1408117270088;
-	Fri, 15 Aug 2014 08:41:10 -0700 (PDT)
-Received: by 10.140.34.76 with HTTP; Fri, 15 Aug 2014 08:41:10 -0700 (PDT)
-In-Reply-To: <1407704441-29326-1-git-send-email-jatedev@gmail.com>
-References: <1407704441-29326-1-git-send-email-jatedev@gmail.com>
-Date: Fri, 15 Aug 2014 11:41:10 -0400
-Message-ID: <CAPphmga1t=kfqpAkSntSC4_MH3BXOpWWkQWim-9c38+Xt5GHAg@mail.gmail.com>
-From: Jate Sujjavanich <jatedev@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] useradd: Add setscene dep on pseudo-native
+	Fri, 15 Aug 2014 09:55:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=KsZBXTaNTihNQD8ZBbV0IfwM1BzyOBv5AjaPcBAwQSo=;
+	b=dcRjVTXDhRWjU+2o7NID/KmWaHftMziar6pZ70j7Njgi0X/9rbR55Sm0U8rMRCfzEQ
+	z8gK4A1kF8/Ns3Q8G+AJPC3vUt3BWrq94YtmhacepxIYqP2UY7CsdpDILgQgbKAOsPJa
+	fuxS0PiRuf6KPrJiI9wL4prYPeKMWsqKpO86Bi5zhHUl+sEw0VnwsvjnlKdrbz8oMTYV
+	EosgOS8cAGhIa7yN2EWSBPEyD+75FPtOYzN6QFn0RqToZiev6OxomR3qhPcRsmlfwwwD
+	PC4SGBwpr0gb+GitebbscFDhUdQoJ1VPRzfedMJ7H7GnpRWMLkaSghYJwmXFqEGMcbiI
+	iNGQ==
+X-Gm-Message-State: ALoCoQnjOAV3kEE+SndzME+5L3nOObOW7MGaqOffbifqyCYHyp8vZRz8orHM/Wq1Z8vL6EqDJMAH
+X-Received: by 10.180.99.4 with SMTP id em4mr21872205wib.8.1408121728602;
+	Fri, 15 Aug 2014 09:55:28 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id ge8sm8393779wib.4.2014.08.15.09.55.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 Aug 2014 09:55:27 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Aug 2014 17:55:22 +0100
+Message-Id: <1408121722-20308-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH][V2] avahi: unset FILES_avahi to avoid packaging files there
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,96 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Aug 2014 15:41:15 -0000
-Content-Type: multipart/alternative; boundary=001a11c12ce6b01a980500acd9c2
+X-List-Received-Date: Fri, 15 Aug 2014 16:55:38 -0000
 
---001a11c12ce6b01a980500acd9c2
-Content-Type: text/plain; charset=UTF-8
+The main avahi recipe doesn't package anything into ${PN}.  If a library is
+enabled but not put into a separate package it ends up in ${PN} and all the
+packages are renamed using it's soname - ie libdns-sd-daemon.
 
-Ping
+Avoid this by clearing FILES_avahi so extra files are unpackaged instead of
+creating a new package.  Also actually remove /var as the comments claim so the
+avahi package is truly empty.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-connectivity/avahi/avahi.inc |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index 3318f40..b97c4c5 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -73,6 +73,9 @@ do_configure_prepend() {
+ 
+ PACKAGES =+ "avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
+ 
++# As avahi doesn't put any files into PN, clear the files list to avoid problems
++# if extra libraries appear.
++FILES_avahi = ""
+ FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
+                        ${sysconfdir}/avahi/avahi-autoipd.action \
+                        ${sysconfdir}/dhcp/*/avahi-autoipd \
+@@ -122,7 +125,8 @@ do_install() {
+ 	# don't install /var/run when populating rootfs. Do it through volatile
+ 	# /var/run of current version is empty, so just remove it.
+ 	# if /var/run become non-empty in the future, need to install it via volatile
+-	rm -rf ${D}/var/run
++	rm -rf ${D}${localstatedir}/run
++	rmdir --ignore-fail-on-non-empty ${D}${localstatedir}
+ 	rm -rf ${D}${datadir}/dbus-1/interfaces
+ 	rmdir --ignore-fail-on-non-empty ${D}${datadir}/dbus-1
+ 	rm -rf ${D}${libdir}/avahi
+-- 
+1.7.10.4
 
 
-On Sun, Aug 10, 2014 at 5:00 PM, Jate Sujjavanich <jatedev@gmail.com> wrote:
-
-> A recipe will sometimes be rebuilt unnecessarily if it adds users via
-> useradd and the pseudo-native task has not been populated.
->
-> This patch adds the correct dependency.
->
-> Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
-> ---
->  meta/classes/useradd.bbclass |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-> index ea15dab..3b70e80 100644
-> --- a/meta/classes/useradd.bbclass
-> +++ b/meta/classes/useradd.bbclass
-> @@ -126,7 +126,7 @@ SYSROOTPOSTFUNC_class-cross = ""
->  SYSROOTPOSTFUNC_class-native = ""
->  SYSROOTPOSTFUNC_class-nativesdk = ""
->
-> -USERADDSETSCENEDEPS =
-> "${MLPREFIX}base-passwd:do_populate_sysroot_setscene
-> shadow-native:do_populate_sysroot_setscene
-> ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
-> +USERADDSETSCENEDEPS =
-> "${MLPREFIX}base-passwd:do_populate_sysroot_setscene
-> pseudo-native:do_populate_sysroot_setscene
-> shadow-native:do_populate_sysroot_setscene
-> ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
->  USERADDSETSCENEDEPS_class-cross = ""
->  USERADDSETSCENEDEPS_class-native = ""
->  USERADDSETSCENEDEPS_class-nativesdk = ""
-> --
-> 1.7.9.5
->
->
-
---001a11c12ce6b01a980500acd9c2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Ping<br><div class=3D"gmail_extra"><br><br><div class=3D"g=
-mail_quote">On Sun, Aug 10, 2014 at 5:00 PM, Jate Sujjavanich <span dir=3D"=
-ltr">&lt;<a href=3D"mailto:jatedev@gmail.com" target=3D"_blank">jatedev@gma=
-il.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">A recipe will sometimes be rebuilt unnecessa=
-rily if it adds users via<br>
-useradd and the pseudo-native task has not been populated.<br>
-<br>
-This patch adds the correct dependency.<br>
-<br>
-Signed-off-by: Jate Sujjavanich &lt;<a href=3D"mailto:jatedev@gmail.com">ja=
-tedev@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/useradd.bbclass |=C2=A0 =C2=A0 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass<br=
->
-index ea15dab..3b70e80 100644<br>
---- a/meta/classes/useradd.bbclass<br>
-+++ b/meta/classes/useradd.bbclass<br>
-@@ -126,7 +126,7 @@ SYSROOTPOSTFUNC_class-cross =3D &quot;&quot;<br>
-=C2=A0SYSROOTPOSTFUNC_class-native =3D &quot;&quot;<br>
-=C2=A0SYSROOTPOSTFUNC_class-nativesdk =3D &quot;&quot;<br>
-<br>
--USERADDSETSCENEDEPS =3D &quot;${MLPREFIX}base-passwd:do_populate_sysroot_s=
-etscene shadow-native:do_populate_sysroot_setscene ${MLPREFIX}shadow-sysroo=
-t:do_populate_sysroot_setscene&quot;<br>
-+USERADDSETSCENEDEPS =3D &quot;${MLPREFIX}base-passwd:do_populate_sysroot_s=
-etscene pseudo-native:do_populate_sysroot_setscene shadow-native:do_populat=
-e_sysroot_setscene ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene&q=
-uot;<br>
-
-=C2=A0USERADDSETSCENEDEPS_class-cross =3D &quot;&quot;<br>
-=C2=A0USERADDSETSCENEDEPS_class-native =3D &quot;&quot;<br>
-=C2=A0USERADDSETSCENEDEPS_class-nativesdk =3D &quot;&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.7.9.5<br>
-<br>
-</font></span></blockquote></div><br></div></div>
-
---001a11c12ce6b01a980500acd9c2--
