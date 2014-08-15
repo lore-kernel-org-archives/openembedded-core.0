@@ -1,26 +1,35 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D6E5D70D44
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id EDAC565CC1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 11:08:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7FB8AK4006491
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 15 Aug 2014 12:11:55 +0000 (UTC)
+Received: by mail-wg0-f50.google.com with SMTP id n12so2196342wgh.21
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 04:08:10 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 15 Aug 2014 04:08:10 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Aug 2014 04:08:10 -0700
-Message-ID: <56a48d85ff4607f8998498d981edd2b0c749c83b.1408100754.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1408100754.git.liezhi.yang@windriver.com>
-References: <cover.1408100754.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] insane.bbclass: add QA check: file-rdeps
+	Fri, 15 Aug 2014 05:11:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=qwLSobchUstR+5hUQ1Ks4GQPKjSMqU7f3BLwfl95FxA=;
+	b=lZvbdC1cX4be273hFDszvpQp04FcAmcK1ZD4CtdsVXS6Ri0eEpAvaB8uDJN7ML/EOq
+	dnq6bEr95ASiNBVrBEstyPPdubJqu+9jFs6A7BtE/02Rv7koOU3WlA0/4xX/Hsyg/rJ2
+	S2HSAZFOmSGhEqc9oOQ5zLV/LYzw1N7lvgkc3YO6GH5AB3poY45DC25FKd7RwcZ6CUxP
+	y//K6+LNbJzObKJt/mFXpvbuRN5Kqd/C0JAfDXa6GtNmTK0m04Zsjq770cooc062Uuse
+	YyLJqZubYHc35WlTwohYUI6eu7FB0pFAK4TRKYdghK21rWCeu2gxcPFr87IiodTOik9U
+	PP0w==
+X-Gm-Message-State: ALoCoQlTv8sAwZOy1NCgeqZSCuq+6fIk6wG3KvaPX66VAPt7FkR6GDqRLzzDn94FUtHw1lw41WOg
+X-Received: by 10.180.75.49 with SMTP id z17mr19744280wiv.80.1408104715835;
+	Fri, 15 Aug 2014 05:11:55 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id t6sm6300578wib.4.2014.08.15.05.11.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 Aug 2014 05:11:55 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Aug 2014 13:11:46 +0100
+Message-Id: <1408104707-17250-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/2] libxml2: port AM_PATH_XML2 to use pkg-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,136 +42,241 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Aug 2014 11:08:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 15 Aug 2014 12:11:59 -0000
 
-The ipk or deb can't depend on file such as "/bin/bash" or
-"/usr/bin/perl", so it knows nothing about the pkg depends bash or perl,
-thus there would be dependencies problems when we run "apt-get
-install/remove <pkg>" on the target, this check can help us find the
-issues and then fix them manually.
+Upstream AM_PATH_XML2 uses xml2-config which we disable, so port this macro to
+use pkg-config.
 
-* Benefits:
-  - Help to fix file rdepends issues for ipk and deb
-  - Help to fix abnormal rdepends.
-  - Help to check whether the rdepends is OK or not after build each
-    recipe (don't have to install to the image), for example, a recipe may
-    generate 10 binary packages, only a part of them will be installed to
-    the image by default, we can know whether the rdepends are OK or
-    not for the ones which are installed, but can't know the ones which
-    are not installed, this patch can help check all the 10 binary
-    packages' rdepends.
-
-* Basic designs:
-  - Get all the rdeps on the chain (e.g., A -> B -> C)
-
-  - Get the pkg's FILERDEPENDS by oe.packagedata.read_subpkgdata()
-    and save to set filerdepends.
-
-  - Get each rdeps' FILERPROVIDES, RPROVIDES and FILES_INFO(the file
-    list), and save to set rdep_rprovides.
-
-  - Do the set "filerdepends -= rdep_rprovides" and QA issue if
-    filerdepends is not null.
-
-[YOCTO #1662]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/insane.bbclass |   72 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 71 insertions(+), 1 deletion(-)
+ meta/recipes-core/libxml/libxml2.inc               |    1 +
+ .../libxml/libxml2/libxml-m4-use-pkgconfig.patch   |  204 ++++++++++++++++++++
+ 2 files changed, 205 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 3dd2e7f..c6dea22 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -29,7 +29,7 @@ QA_SANE = "True"
- WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
-             textrel already-stripped incompatible-license files-invalid \
-             installed-vs-shipped compile-host-path install-host-path \
--            pn-overrides infodir build-deps \
-+            pn-overrides infodir build-deps file-rdeps \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -797,6 +797,76 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                 error_msg = "%s rdepends on %s, but it isn't a build dependency?" % (pkg, rdepend)
-                 sane = package_qa_handle_error("build-deps", error_msg, d)
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 9aa640b..2dffc5a 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -20,6 +20,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://run-ptest \
+            file://libxml2-CVE-2014-0191-fix.patch \
+            file://python-sitepackages-dir.patch \
++           file://libxml-m4-use-pkgconfig.patch \
+           "
  
-+        if "file-rdeps" not in skip:
-+            ignored_file_rdeps = set(['/bin/sh', '/usr/bin/env', 'rtld(GNU_HASH)'])
-+            if bb.data.inherits_class('nativesdk', d):
-+                ignored_file_rdeps |= set(['/bin/bash', '/usr/bin/perl'])
-+            # For Saving the FILERDEPENDS
-+            filerdepends = set()
-+            rdep_data = oe.packagedata.read_subpkgdata(pkg, d)
-+            for key in rdep_data:
-+                if key.startswith("FILERDEPENDS_"):
-+                    for subkey in rdep_data[key].split():
-+                        filerdepends.add(subkey)
-+            filerdepends -= ignored_file_rdeps
+ BINCONFIG = "${bindir}/xml2-config"
+diff --git a/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
+new file mode 100644
+index 0000000..0fc8407
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
+@@ -0,0 +1,204 @@
++AM_PATH_XML2 uses xml-config which we disable through
++binconfig-disabled.bbclass, so port it to use pkg-config instead.
 +
-+            if filerdepends:
-+                next = rdepends
-+                done = rdepends[:]
-+                # Find all the rdepends on the dependency chain
-+                while next:
-+                    new = []
-+                    for rdep in next:
-+                        rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
-+                        sub_rdeps = rdep_data.get("RDEPENDS_" + rdep)
-+                        if not sub_rdeps:
-+                            continue
-+                        for sub_rdep in sub_rdeps.split():
-+                            if sub_rdep in done:
-+                                continue
-+                            if not sub_rdep.startswith('(') and \
-+                                    oe.packagedata.has_subpkgdata(sub_rdep, d):
-+                                # It's a new rdep
-+                                done.append(sub_rdep)
-+                                new.append(sub_rdep)
-+                    next = new
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+                # Add the rprovides of itself
-+                if pkg not in done:
-+                    done.insert(0, pkg)
-+
-+                # The python is not a package, but python-core provides it, so
-+                # skip checking /usr/bin/python if python is in the rdeps, in
-+                # case there is a RDEPENDS_pkg = "python" in the recipe.
-+                for py in [ d.getVar('MLPREFIX', True) + "python", "python" ]:
-+                    if py in done:
-+                        filerdepends.discard("/usr/bin/python")
-+                        done.remove(py)
-+                for rdep in done:
-+                    # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
-+                    rdep_rprovides = set()
-+                    rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
-+                    for key in rdep_data:
-+                        if key.startswith("FILERPROVIDES_") or key.startswith("RPROVIDES_"):
-+                            for subkey in rdep_data[key].split():
-+                                rdep_rprovides.add(subkey)
-+                        # Add the files list to the rprovides
-+                        if key == "FILES_INFO":
-+                            # Use eval() to make it as a dict
-+                            for subkey in eval(rdep_data[key]):
-+                                rdep_rprovides.add(subkey)
-+                    filerdepends -= rdep_rprovides
-+                    if not filerdepends:
-+                        # Break if all the file rdepends are met
-+                        break
-+                    else:
-+                        # Clear it for the next loop
-+                        rdep_rprovides.clear()
-+            if filerdepends:
-+                error_msg = "%s requires %s, but no providers in its RDEPENDS" % \
-+                            (pkg, ', '.join(str(e) for e in filerdepends))
-+                sane = package_qa_handle_error("file-rdeps", error_msg, d)
-+
-     return sane
- 
- def package_qa_check_deps(pkg, pkgdest, skip, d):
++diff --git a/libxml.m4 b/libxml.m4
++index 68cd824..5fa0a9b 100644
++--- a/libxml.m4
+++++ b/libxml.m4
++@@ -1,188 +1,12 @@
++-# Configure paths for LIBXML2
++-# Mike Hommey 2004-06-19
++-# use CPPFLAGS instead of CFLAGS
++-# Toshio Kuratomi 2001-04-21
++-# Adapted from:
++-# Configure paths for GLIB
++-# Owen Taylor     97-11-3
++-
++ dnl AM_PATH_XML2([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
++ dnl Test for XML, and define XML_CPPFLAGS and XML_LIBS
++ dnl
++-AC_DEFUN([AM_PATH_XML2],[ 
++-AC_ARG_WITH(xml-prefix,
++-            [  --with-xml-prefix=PFX   Prefix where libxml is installed (optional)],
++-            xml_config_prefix="$withval", xml_config_prefix="")
++-AC_ARG_WITH(xml-exec-prefix,
++-            [  --with-xml-exec-prefix=PFX Exec prefix where libxml is installed (optional)],
++-            xml_config_exec_prefix="$withval", xml_config_exec_prefix="")
++-AC_ARG_ENABLE(xmltest,
++-              [  --disable-xmltest       Do not try to compile and run a test LIBXML program],,
++-              enable_xmltest=yes)
++-
++-  if test x$xml_config_exec_prefix != x ; then
++-     xml_config_args="$xml_config_args"
++-     if test x${XML2_CONFIG+set} != xset ; then
++-        XML2_CONFIG=$xml_config_exec_prefix/bin/xml2-config
++-     fi
++-  fi
++-  if test x$xml_config_prefix != x ; then
++-     xml_config_args="$xml_config_args --prefix=$xml_config_prefix"
++-     if test x${XML2_CONFIG+set} != xset ; then
++-        XML2_CONFIG=$xml_config_prefix/bin/xml2-config
++-     fi
++-  fi
++-
++-  AC_PATH_PROG(XML2_CONFIG, xml2-config, no)
++-  min_xml_version=ifelse([$1], ,2.0.0,[$1])
++-  AC_MSG_CHECKING(for libxml - version >= $min_xml_version)
++-  no_xml=""
++-  if test "$XML2_CONFIG" = "no" ; then
++-    no_xml=yes
++-  else
++-    XML_CPPFLAGS=`$XML2_CONFIG $xml_config_args --cflags`
++-    XML_LIBS=`$XML2_CONFIG $xml_config_args --libs`
++-    xml_config_major_version=`$XML2_CONFIG $xml_config_args --version | \
++-           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
++-    xml_config_minor_version=`$XML2_CONFIG $xml_config_args --version | \
++-           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
++-    xml_config_micro_version=`$XML2_CONFIG $xml_config_args --version | \
++-           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
++-    if test "x$enable_xmltest" = "xyes" ; then
++-      ac_save_CPPFLAGS="$CPPFLAGS"
++-      ac_save_LIBS="$LIBS"
++-      CPPFLAGS="$CPPFLAGS $XML_CPPFLAGS"
++-      LIBS="$XML_LIBS $LIBS"
++-dnl
++-dnl Now check if the installed libxml is sufficiently new.
++-dnl (Also sanity checks the results of xml2-config to some extent)
++-dnl
++-      rm -f conf.xmltest
++-      AC_TRY_RUN([
++-#include <stdlib.h>
++-#include <stdio.h>
++-#include <string.h>
++-#include <libxml/xmlversion.h>
++-
++-int 
++-main()
++-{
++-  int xml_major_version, xml_minor_version, xml_micro_version;
++-  int major, minor, micro;
++-  char *tmp_version;
++-
++-  system("touch conf.xmltest");
++-
++-  /* Capture xml2-config output via autoconf/configure variables */
++-  /* HP/UX 9 (%@#!) writes to sscanf strings */
++-  tmp_version = (char *)strdup("$min_xml_version");
++-  if (sscanf(tmp_version, "%d.%d.%d", &major, &minor, &micro) != 3) {
++-     printf("%s, bad version string from xml2-config\n", "$min_xml_version");
++-     exit(1);
++-   }
++-   free(tmp_version);
++-
++-   /* Capture the version information from the header files */
++-   tmp_version = (char *)strdup(LIBXML_DOTTED_VERSION);
++-   if (sscanf(tmp_version, "%d.%d.%d", &xml_major_version, &xml_minor_version, &xml_micro_version) != 3) {
++-     printf("%s, bad version string from libxml includes\n", "LIBXML_DOTTED_VERSION");
++-     exit(1);
++-   }
++-   free(tmp_version);
++-
++- /* Compare xml2-config output to the libxml headers */
++-  if ((xml_major_version != $xml_config_major_version) ||
++-      (xml_minor_version != $xml_config_minor_version) ||
++-      (xml_micro_version != $xml_config_micro_version))
++-    {
++-      printf("*** libxml header files (version %d.%d.%d) do not match\n",
++-         xml_major_version, xml_minor_version, xml_micro_version);
++-      printf("*** xml2-config (version %d.%d.%d)\n",
++-         $xml_config_major_version, $xml_config_minor_version, $xml_config_micro_version);
++-      return 1;
++-    } 
++-/* Compare the headers to the library to make sure we match */
++-  /* Less than ideal -- doesn't provide us with return value feedback, 
++-   * only exits if there's a serious mismatch between header and library.
++-   */
++-    LIBXML_TEST_VERSION;
++-
++-    /* Test that the library is greater than our minimum version */
++-    if ((xml_major_version > major) ||
++-        ((xml_major_version == major) && (xml_minor_version > minor)) ||
++-        ((xml_major_version == major) && (xml_minor_version == minor) &&
++-        (xml_micro_version >= micro)))
++-      {
++-        return 0;
++-       }
++-     else
++-      {
++-        printf("\n*** An old version of libxml (%d.%d.%d) was found.\n",
++-               xml_major_version, xml_minor_version, xml_micro_version);
++-        printf("*** You need a version of libxml newer than %d.%d.%d. The latest version of\n",
++-           major, minor, micro);
++-        printf("*** libxml is always available from ftp://ftp.xmlsoft.org.\n");
++-        printf("***\n");
++-        printf("*** If you have already installed a sufficiently new version, this error\n");
++-        printf("*** probably means that the wrong copy of the xml2-config shell script is\n");
++-        printf("*** being found. The easiest way to fix this is to remove the old version\n");
++-        printf("*** of LIBXML, but you can also set the XML2_CONFIG environment to point to the\n");
++-        printf("*** correct copy of xml2-config. (In this case, you will have to\n");
++-        printf("*** modify your LD_LIBRARY_PATH enviroment variable, or edit /etc/ld.so.conf\n");
++-        printf("*** so that the correct libraries are found at run-time))\n");
++-    }
++-  return 1;
++-}
++-],, no_xml=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
++-       CPPFLAGS="$ac_save_CPPFLAGS"
++-       LIBS="$ac_save_LIBS"
++-     fi
++-  fi
+++AC_DEFUN([AM_PATH_XML2],[
+++  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
++ 
++-  if test "x$no_xml" = x ; then
++-     AC_MSG_RESULT(yes (version $xml_config_major_version.$xml_config_minor_version.$xml_config_micro_version))
++-     ifelse([$2], , :, [$2])     
++-  else
++-     AC_MSG_RESULT(no)
++-     if test "$XML2_CONFIG" = "no" ; then
++-       echo "*** The xml2-config script installed by LIBXML could not be found"
++-       echo "*** If libxml was installed in PREFIX, make sure PREFIX/bin is in"
++-       echo "*** your path, or set the XML2_CONFIG environment variable to the"
++-       echo "*** full path to xml2-config."
++-     else
++-       if test -f conf.xmltest ; then
++-        :
++-       else
++-          echo "*** Could not run libxml test program, checking why..."
++-          CPPFLAGS="$CPPFLAGS $XML_CPPFLAGS"
++-          LIBS="$LIBS $XML_LIBS"
++-          AC_TRY_LINK([
++-#include <libxml/xmlversion.h>
++-#include <stdio.h>
++-],      [ LIBXML_TEST_VERSION; return 0;],
++-        [ echo "*** The test program compiled, but did not run. This usually means"
++-          echo "*** that the run-time linker is not finding LIBXML or finding the wrong"
++-          echo "*** version of LIBXML. If it is not finding LIBXML, you'll need to set your"
++-          echo "*** LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf to point"
++-          echo "*** to the installed location  Also, make sure you have run ldconfig if that"
++-          echo "*** is required on your system"
++-          echo "***"
++-          echo "*** If you have an old version installed, it is best to remove it, although"
++-          echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH" ],
++-        [ echo "*** The test program failed to compile or link. See the file config.log for the"
++-          echo "*** exact error that occured. This usually means LIBXML was incorrectly installed"
++-          echo "*** or that you have moved LIBXML since it was installed. In the latter case, you"
++-          echo "*** may want to edit the xml2-config script: $XML2_CONFIG" ])
++-          CPPFLAGS="$ac_save_CPPFLAGS"
++-          LIBS="$ac_save_LIBS"
++-       fi
++-     fi
+++  verdep=ifelse([$1], [], [], [>= $1])
+++  PKG_CHECK_MODULES(XML, [libxml-2.0 $verdep], [$2], [$3])
++ 
++-     XML_CPPFLAGS=""
++-     XML_LIBS=""
++-     ifelse([$3], , :, [$3])
++-  fi
+++  XML_CPPFLAGS=$XML_CFLAGS
++   AC_SUBST(XML_CPPFLAGS)
++-  AC_SUBST(XML_LIBS)
++-  rm -f conf.xmltest
++ ])
 -- 
-1.7.9.5
+1.7.10.4
 
 
