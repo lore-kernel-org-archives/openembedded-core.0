@@ -1,24 +1,29 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BC4060438
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 538FD601A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 01:37:06 +0000 (UTC)
+	Fri, 15 Aug 2014 01:57:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7F1b5pg020172
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7F1vEO9017216
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 18:37:07 -0700 (PDT)
-Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 14 Aug 2014 18:37:04 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Aug 2014 20:42:46 -0500
-Message-ID: <cover.1408066680.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.1
+	Thu, 14 Aug 2014 18:57:14 -0700 (PDT)
+Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Thu, 14 Aug 2014 18:57:13 -0700
+Message-ID: <53ED690B.7020700@windriver.com>
+Date: Fri, 15 Aug 2014 09:57:31 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-Subject: [PATCH 0/1] qemumips.conf: Use mips32r2 tuning definitions
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1408005909.git.Qi.Chen@windriver.com>
+	<18e2b9ecac47dcfef1b00a538a61d1f5d4fe51fd.1408005909.git.Qi.Chen@windriver.com>
+In-Reply-To: <18e2b9ecac47dcfef1b00a538a61d1f5d4fe51fd.1408005909.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.162.187]
+Subject: Re: [PATCH 08/10] v86d: set INHIBIT_UPDATERCD_BBCLASS if 'sysvinit' not in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +36,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Aug 2014 01:37:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 15 Aug 2014 01:57:16 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This makes two changes, one explicit and one implicit.
+On 08/14/2014 04:46 PM, Chen Qi wrote:
+> Set INHIBIT_UPDATERCD_BBCLASS to "1" if 'sysvinit' is not in DISTRO_FEATURES.
+>
+> The functionality of the init script 'fbsetup' is implemented internally in
+> systemd. So fbsetup is not installed if 'sysvinit' is in DISTRO_FEATURES.
+>
+> That's why we need to set INHIBIT_UPDATERCD_BBCLASS to "1" to avoid
+> generation of update-rc.d related preinst/postinst scripts.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/recipes-bsp/v86d/v86d_0.1.10.bb |    7 +++++++
+>   1 file changed, 7 insertions(+)
+>
+> diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+> index 08438be..7ccb4ee 100644
+> --- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+> +++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+> @@ -49,4 +49,11 @@ do_install () {
+>           fi
+>   }
+>   
+> +# As the recipe doesn't inherit systemd.bbclass, we need to set this variable
+> +# manually to avoid unnecessary postinst/preinst generated.
+> +python __anonymous() {
+> +    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+> +        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+> +}
+> +
+>   inherit update-rc.d
 
-Explicit: Change the included tune file.
-Implicit: Change the default tune.
+This recipe doesn't inherit systemd.bbclass, it doesn't have a systemd 
+unit file.
 
-qemumips appears to support mips32r2 just fine, and there's not
-a huge amount of interest in plain-old mips32. This matters to
-me because I have a desire to use a toolchain which supports
-mips32r2 but not mips32r1. (At least, in terms of prebuilt
-binaries.) But it might generally improve life for people
-using qemumips a lot to have it be slightly closer to typical
-modern hardware, and I don't think it'll hurt anyone.
+There are more related information in the commit message of the 
+following patch.
+[OE-core] [PATCH 04/10] update-rc.d: fix logic in 
+populate_packages_updatercd
 
-The following changes since commit 4321c553d5ae816e566234e981a0815bba046d39:
-
-  SIGGEN_EXCLUDERECIPES_ABISAFE: add initscripts (2014-08-11 17:44:09 +0100)
-
-are available in the git repository at:
-  git://git.yoctoproject.org/poky-contrib seebs/qemumips32r2
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/qemumips32r2
-
-Peter Seebach (1):
-  qemumips.conf: Default to (and support) mips32r2
-
- meta/conf/machine/qemumips.conf |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
+Best Regards,
+Chen Qi
 
