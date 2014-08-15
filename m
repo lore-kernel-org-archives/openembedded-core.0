@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 88AD165E03
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AF95F610F5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 03:08:53 +0000 (UTC)
+	Fri, 15 Aug 2014 03:08:54 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7F38tqv020818
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7F38uov022316
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 20:08:55 -0700 (PDT)
+	Thu, 14 Aug 2014 20:08:56 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 14 Aug 2014 20:08:54 -0700
+	14.3.174.1; Thu, 14 Aug 2014 20:08:55 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Aug 2014 11:09:02 +0800
-Message-ID: <0dea41015eb209dd18d69ef67633948272545dd1.1408071677.git.Qi.Chen@windriver.com>
+Date: Fri, 15 Aug 2014 11:09:03 +0800
+Message-ID: <db101abe288eac303e6c04a225e2812418af70e8.1408071677.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1408071677.git.Qi.Chen@windriver.com>
 References: <cover.1408071677.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 02/10] systemd: add PACKAGECONFIG for 'elfutils'
+Subject: [PATCH V2 03/10] systemd: make runlevel work in non-runlevel targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Aug 2014 03:08:53 -0000
+X-List-Received-Date: Fri, 15 Aug 2014 03:08:55 -0000
 Content-Type: text/plain
 
-Add PACKAGECONFIG for 'elfutils'.
-This also fixes a build-deps QA warning about libdw.
+Previously, after booting into the targets like multi-user.target or
+graphical.target, the output of `runlevel' command is 'unknown'.
+
+This is confusing for users. Normally, we would expect mutli-user.target
+would have a `runlevel' output of 'N 3'.
+This is the behaviour of Fedora20.
+
+This patch installs symlinks for systemd-update-utmp-runlevel.service
+in do_install task to fix the above problem.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/systemd/systemd_215.bb |    2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/systemd/systemd_215.bb |   12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/meta/recipes-core/systemd/systemd_215.bb b/meta/recipes-core/systemd/systemd_215.bb
-index 770787b..28c8114 100644
+index 28c8114..0ed9a6f 100644
 --- a/meta/recipes-core/systemd/systemd_215.bb
 +++ b/meta/recipes-core/systemd/systemd_215.bb
-@@ -58,6 +58,8 @@ DEPENDS += "libgcrypt"
- PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
- PACKAGECONFIG[cryptsetup] = "--enable-libcryptsetup,--disable-libcryptsetup,cryptsetup"
- PACKAGECONFIG[microhttpd] = "--enable-microhttpd,--disable-microhttpd,libmicrohttpd"
-+# Build with elfutils support
-+PACKAGECONFIG[elfutils] = "--enable-elfutils,--disable-elfutils,libelf libdw,libelf libdw"
+@@ -129,6 +129,18 @@ do_install() {
  
- CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
+         # Delete journal README, as log can be symlinked inside volatile.
+         rm -f ${D}/${localstatedir}/log/README
++
++	# Create symlinks for systemd-update-utmp-runlevel.service
++	install -d ${D}${systemd_unitdir}/system/graphical.target.wants
++	install -d ${D}${systemd_unitdir}/system/multi-user.target.wants
++	install -d ${D}${systemd_unitdir}/system/poweroff.target.wants
++	install -d ${D}${systemd_unitdir}/system/reboot.target.wants
++	install -d ${D}${systemd_unitdir}/system/rescue.target.wants
++	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/graphical.target.wants/systemd-update-utmp-runlevel.service
++	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/multi-user.target.wants/systemd-update-utmp-runlevel.service
++	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/poweroff.target.wants/systemd-update-utmp-runlevel.service
++	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/reboot.target.wants/systemd-update-utmp-runlevel.service
++	ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_unitdir}/system/rescue.target.wants/systemd-update-utmp-runlevel.service
+ }
  
+ do_install_ptest () {
 -- 
 1.7.9.5
 
