@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E06E370D6C
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AFF070D6D
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 15 Aug 2014 08:49:27 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7F8nTfs023378
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7F8nR9N020448
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 01:49:29 -0700 (PDT)
+	Fri, 15 Aug 2014 01:49:28 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 15 Aug 2014 01:49:28 -0700
+	Fri, 15 Aug 2014 01:49:26 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Aug 2014 01:49:26 -0700
-Message-ID: <2209793d9f1cb962c181308634d3c2f36f9869fc.1408092524.git.liezhi.yang@windriver.com>
+Date: Fri, 15 Aug 2014 01:49:25 -0700
+Message-ID: <27d6a067f84e300af1e31238f07667e46556bc72.1408092524.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1408092524.git.liezhi.yang@windriver.com>
 References: <cover.1408092524.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] gdb-cross-canadian: add nativesdk-ncurses-libncurses to RDEPENDS
+Subject: [PATCH 1/2] python3-distribute: fix interpreter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +36,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 15 Aug 2014 08:49:28 -0000
 Content-Type: text/plain
 
-We had nativesdk-ncurses in the DEPENDS, also need add
-nativesdk-ncurses-libncurses to the RDEPENDS, otherwise libncurses.so.5
-is not in the rdepends chain.
+It should use "/usr/bin/env python3" rather than python, otherwise it
+would cause python2 to be installed when we install python3-distribute.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/gdb/gdb-cross-canadian.inc |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../python/python3-distribute_0.6.32.bb            |    2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-index e594bb1..2be427a 100644
---- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-+++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
-@@ -7,7 +7,9 @@ BPN = "gdb"
+diff --git a/meta/recipes-devtools/python/python3-distribute_0.6.32.bb b/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
+index 573096c..0ef3a87 100644
+--- a/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
++++ b/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
+@@ -37,6 +37,8 @@ do_install_append() {
+     rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
+     mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
+     echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
++    sed -i -e '1s|^#!.*python|#!/usr/bin/env python3|' \
++        ${D}${PYTHON_SITEPACKAGES_DIR}/distribute-${PV}-py${PYTHON_BASEVERSION}.egg/setuptools/tests/test_resources.py
+ }
  
- DEPENDS = "nativesdk-ncurses nativesdk-expat nativesdk-gettext nativesdk-readline nativesdk-python"
- RDEPENDS_${PN} += "nativesdk-python-core nativesdk-python-lang nativesdk-python-re \
--                   nativesdk-python-codecs nativesdk-python-netclient"
-+                   nativesdk-python-codecs nativesdk-python-netclient \
-+                   nativesdk-ncurses-libncurses \
-+                  "
- 
- GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
- 
+ RDEPENDS_${PN} = "\
 -- 
 1.7.9.5
 
