@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 29330610F5
+	by mail.openembedded.org (Postfix) with ESMTP id 24B1F70D39
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 03:09:00 +0000 (UTC)
+	Fri, 15 Aug 2014 03:09:04 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7F3921e020831
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7F395et020834
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Aug 2014 20:09:02 -0700 (PDT)
+	Thu, 14 Aug 2014 20:09:05 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 14 Aug 2014 20:09:01 -0700
+	14.3.174.1; Thu, 14 Aug 2014 20:09:05 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Aug 2014 11:09:08 +0800
-Message-ID: <07e9de9b510a5b4c62ed54463d4486d55bc20434.1408071677.git.Qi.Chen@windriver.com>
+Date: Fri, 15 Aug 2014 11:09:10 +0800
+Message-ID: <b660198da7165e309eda41054ea53e3769262b47.1408071677.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1408071677.git.Qi.Chen@windriver.com>
 References: <cover.1408071677.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 08/10] v86d: set INHIBIT_UPDATERCD_BBCLASS if 'sysvinit' not in DISTRO_FEATURES
+Subject: [PATCH V2 10/10] dhcp: add dhcpd.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +33,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Aug 2014 03:09:03 -0000
+X-List-Received-Date: Fri, 15 Aug 2014 03:09:04 -0000
 Content-Type: text/plain
 
-Set INHIBIT_UPDATERCD_BBCLASS to "1" if 'sysvinit' is not in DISTRO_FEATURES.
-
-The functionality of the init script 'fbsetup' is implemented internally in
-systemd. So fbsetup is not installed if 'sysvinit' is in DISTRO_FEATURES.
-
-That's why we need to set INHIBIT_UPDATERCD_BBCLASS to "1" to avoid
-generation of update-rc.d related preinst/postinst scripts.
+Add dhcpd.service to support systemd systems.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-bsp/v86d/v86d_0.1.10.bb |    7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/recipes-connectivity/dhcp/dhcp.inc            |   18 ++++++++++++++----
+ meta/recipes-connectivity/dhcp/files/dhcpd.service |   11 +++++++++++
+ 2 files changed, 25 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-connectivity/dhcp/files/dhcpd.service
 
-diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-index 08438be..7ccb4ee 100644
---- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-+++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-@@ -49,4 +49,11 @@ do_install () {
-         fi
+diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
+index 512127c..b281f94 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp.inc
++++ b/meta/recipes-connectivity/dhcp/dhcp.inc
+@@ -14,11 +14,16 @@ DEPENDS = "openssl bind"
+ 
+ SRC_URI = "ftp://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
+            file://site.h \
+-	   file://init-relay file://default-relay \
+-	   file://init-server file://default-server \
+-	   file://dhclient.conf file://dhcpd.conf"
++           file://init-relay file://default-relay \
++           file://init-server file://default-server \
++           file://dhclient.conf file://dhcpd.conf \
++           file://dhcpd.service"
+ 
+-inherit autotools
++inherit autotools systemd
++
++SYSTEMD_PACKAGES = "dhcp-server"
++SYSTEMD_SERVICE_dhcp-server = "dhcpd.service"
++SYSTEMD_AUTO_ENABLE_dhcp-server = "disable"
+ 
+ TARGET_CFLAGS += "-D_GNU_SOURCE"
+ EXTRA_OECONF = "--with-srv-lease-file=${localstatedir}/lib/dhcp/dhcpd.leases \
+@@ -51,6 +56,11 @@ do_install_append () {
+ 		mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
+ 	fi
+ 	install -m 0755 ${S}/client/scripts/linux ${D}${base_sbindir}/dhclient-script
++
++	# Install systemd unit files
++	install -d ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/dhcpd.service ${D}${systemd_unitdir}/system
++	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/dhcpd.service
  }
  
-+# As the recipe doesn't inherit systemd.bbclass, we need to set this variable
-+# manually to avoid unnecessary postinst/preinst generated.
-+python __anonymous() {
-+    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
-+        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
-+}
+ PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
+diff --git a/meta/recipes-connectivity/dhcp/files/dhcpd.service b/meta/recipes-connectivity/dhcp/files/dhcpd.service
+new file mode 100644
+index 0000000..5c9ef6f
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/files/dhcpd.service
+@@ -0,0 +1,11 @@
++[Unit]
++Description=DHCP Server Daemon
++After=network.target
++After=time-sync.target
 +
- inherit update-rc.d
++[Service]
++EnvironmentFile=/etc/default/dhcp-server
++ExecStart=-@SBINDIR@/dhcpd -q $INTERFACES
++
++[Install]
++WantedBy=multi-user.target
 -- 
 1.7.9.5
 
