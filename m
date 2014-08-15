@@ -1,35 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id EDAC565CC1
+Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B4EF65E03
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 12:11:55 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id n12so2196342wgh.21
+	Fri, 15 Aug 2014 12:11:56 +0000 (UTC)
+Received: by mail-wg0-f46.google.com with SMTP id m15so2236154wgh.17
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 05:11:56 -0700 (PDT)
+	Fri, 15 Aug 2014 05:11:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=qwLSobchUstR+5hUQ1Ks4GQPKjSMqU7f3BLwfl95FxA=;
-	b=lZvbdC1cX4be273hFDszvpQp04FcAmcK1ZD4CtdsVXS6Ri0eEpAvaB8uDJN7ML/EOq
-	dnq6bEr95ASiNBVrBEstyPPdubJqu+9jFs6A7BtE/02Rv7koOU3WlA0/4xX/Hsyg/rJ2
-	S2HSAZFOmSGhEqc9oOQ5zLV/LYzw1N7lvgkc3YO6GH5AB3poY45DC25FKd7RwcZ6CUxP
-	y//K6+LNbJzObKJt/mFXpvbuRN5Kqd/C0JAfDXa6GtNmTK0m04Zsjq770cooc062Uuse
-	YyLJqZubYHc35WlTwohYUI6eu7FB0pFAK4TRKYdghK21rWCeu2gxcPFr87IiodTOik9U
-	PP0w==
-X-Gm-Message-State: ALoCoQlTv8sAwZOy1NCgeqZSCuq+6fIk6wG3KvaPX66VAPt7FkR6GDqRLzzDn94FUtHw1lw41WOg
-X-Received: by 10.180.75.49 with SMTP id z17mr19744280wiv.80.1408104715835;
-	Fri, 15 Aug 2014 05:11:55 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-type:content-transfer-encoding;
+	bh=TZYL5s4eC9esTM0EIgSNR6Im3GL5PeZTNNTmbepSGJ8=;
+	b=B9uAnlv4u4t5MGpqePf+gmcjlOS/pV1izx4P8I2FiRy6kAHHnHhdQrTrFQ+2E+SM6F
+	f7Q/EKEedluJ3EKVvC9K9Gt4872FhkGzitERtRGzhkM5i3bDRLO/KQxVJNWi5SZkLH7S
+	UnqqT2lDMm3Z4fvjCfrr/4s7Jq3nhSf/DlAnCWziz7IgAb47AuIG/4JxPYKhNaTB17g3
+	Ms8cjPswGWVt0kP/8WI1UnR0w/cN70sBbAdsFqjogsFxPfUsFK7UbbVrBkraXSF4xoTR
+	uYSjvSflZD6wezIBIUn6sQQ/xn9kXc9W3XtT+J0UmgzS+I7PDjEERLi/KRCMBIi1bI1g
+	hh8w==
+X-Gm-Message-State: ALoCoQk+cSKJJHhG+xnApR+V1GIQ7mOmx+SMMTRM+h/aE1Q3vZ0XVUxDFWL2qod3x00rLX/BUWDh
+X-Received: by 10.194.71.11 with SMTP id q11mr19547263wju.33.1408104717081;
+	Fri, 15 Aug 2014 05:11:57 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id t6sm6300578wib.4.2014.08.15.05.11.54
+	by mx.google.com with ESMTPSA id t6sm6300578wib.4.2014.08.15.05.11.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Aug 2014 05:11:55 -0700 (PDT)
+	Fri, 15 Aug 2014 05:11:56 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Aug 2014 13:11:46 +0100
-Message-Id: <1408104707-17250-1-git-send-email-ross.burton@intel.com>
+Date: Fri, 15 Aug 2014 13:11:47 +0100
+Message-Id: <1408104707-17250-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/2] libxml2: port AM_PATH_XML2 to use pkg-config
+In-Reply-To: <1408104707-17250-1-git-send-email-ross.burton@intel.com>
+References: <1408104707-17250-1-git-send-email-ross.burton@intel.com>
+MIME-Version: 1.0
+Subject: [PATCH 2/2] lttng-tools: update to version 2.5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,239 +47,129 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 15 Aug 2014 12:11:59 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Upstream AM_PATH_XML2 uses xml2-config which we disable, so port this macro to
-use pkg-config.
+Update to latest stable-2.5 revision.
+
+* Drop Fix-alignment-problems-on-targets-not-supporting-una.patch, merged
+  upstream.
+* New build-dependency on libxml2, so inherit pkgconfig so the test works and
+  delete the copy of libxml.m4 that overrides our sysroot.
+
+Based on a patch from Yasir-Khan <yasir_khan@mentor.com>.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/libxml/libxml2.inc               |    1 +
- .../libxml/libxml2/libxml-m4-use-pkgconfig.patch   |  204 ++++++++++++++++++++
- 2 files changed, 205 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
+ ...nt-problems-on-targets-not-supporting-una.patch |   47 --------------------
+ .../{lttng-tools_2.4.0.bb => lttng-tools_2.5.0.bb} |   17 ++++---
+ 2 files changed, 10 insertions(+), 54 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/Fix-alignment-problems-on-targets-not-supporting-una.patch
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.4.0.bb => lttng-tools_2.5.0.bb} (83%)
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 9aa640b..2dffc5a 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -20,6 +20,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://run-ptest \
-            file://libxml2-CVE-2014-0191-fix.patch \
-            file://python-sitepackages-dir.patch \
-+           file://libxml-m4-use-pkgconfig.patch \
-           "
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/Fix-alignment-problems-on-targets-not-supporting-una.patch b/meta/recipes-kernel/lttng/lttng-tools/Fix-alignment-problems-on-targets-not-supporting-una.patch
+deleted file mode 100644
+index 2c1756e..0000000
+--- a/meta/recipes-kernel/lttng/lttng-tools/Fix-alignment-problems-on-targets-not-supporting-una.patch
++++ /dev/null
+@@ -1,47 +0,0 @@
+-From 9dc4d3a8dcc7cfb6991e760e78f614afd593bf66 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Fredrik=20Markstr=C3=B6m?= <fredrik.markstrom@gmail.com>
+-Date: Tue, 1 Apr 2014 17:46:23 +0200
+-Subject: [PATCH v2] Fix: alignment problems on targets not supporting unaligned
+- access.
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Upstream-Status: Submitted (https://www.mail-archive.com/lttng-dev@lists.lttng.org/msg06012.html) 
+-
+-Accessing floats, doubles and 64 bit int at unaligned addresses is not
+-supported on all configurations of arm processors and if it is it's
+-emulated and slow. This patch replaces direct assignments with memcpy.
+-
+-Signed-off-by: Fredrik Markström <fredrik.markstrom@gmail.com>
+-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+-Acked-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+----
+- src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c |    4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c b/src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c
+-index 762d604..8c6dc96 100644
+---- a/src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c
+-+++ b/src/lib/lttng-ctl/filter/filter-visitor-generate-bytecode.c
+-@@ -222,7 +222,7 @@ int visit_node_load(struct filter_parser_ctx *ctx, struct ir_op *node)
+- 		if (!insn)
+- 			return -ENOMEM;
+- 		insn->op = FILTER_OP_LOAD_S64;
+--		*(int64_t *) insn->data = node->u.load.u.num;
+-+		memcpy(insn->data, &node->u.load.u.num, sizeof(int64_t));
+- 		ret = bytecode_push(&ctx->bytecode, insn, 1, insn_len);
+- 		free(insn);
+- 		return ret;
+-@@ -237,7 +237,7 @@ int visit_node_load(struct filter_parser_ctx *ctx, struct ir_op *node)
+- 		if (!insn)
+- 			return -ENOMEM;
+- 		insn->op = FILTER_OP_LOAD_DOUBLE;
+--		*(double *) insn->data = node->u.load.u.flt;
+-+		memcpy(insn->data, &node->u.load.u.flt, sizeof(double));
+- 		ret = bytecode_push(&ctx->bytecode, insn, 1, insn_len);
+- 		free(insn);
+- 		return ret;
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
+similarity index 83%
+rename from meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
+rename to meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
+index aab9bf6..14e5f9e 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.4.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
+@@ -9,25 +9,24 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
+                     file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
  
- BINCONFIG = "${bindir}/xml2-config"
-diff --git a/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
-new file mode 100644
-index 0000000..0fc8407
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
-@@ -0,0 +1,204 @@
-+AM_PATH_XML2 uses xml-config which we disable through
-+binconfig-disabled.bbclass, so port it to use pkg-config instead.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/libxml.m4 b/libxml.m4
-+index 68cd824..5fa0a9b 100644
-+--- a/libxml.m4
-++++ b/libxml.m4
-+@@ -1,188 +1,12 @@
-+-# Configure paths for LIBXML2
-+-# Mike Hommey 2004-06-19
-+-# use CPPFLAGS instead of CFLAGS
-+-# Toshio Kuratomi 2001-04-21
-+-# Adapted from:
-+-# Configure paths for GLIB
-+-# Owen Taylor     97-11-3
-+-
-+ dnl AM_PATH_XML2([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
-+ dnl Test for XML, and define XML_CPPFLAGS and XML_LIBS
-+ dnl
-+-AC_DEFUN([AM_PATH_XML2],[ 
-+-AC_ARG_WITH(xml-prefix,
-+-            [  --with-xml-prefix=PFX   Prefix where libxml is installed (optional)],
-+-            xml_config_prefix="$withval", xml_config_prefix="")
-+-AC_ARG_WITH(xml-exec-prefix,
-+-            [  --with-xml-exec-prefix=PFX Exec prefix where libxml is installed (optional)],
-+-            xml_config_exec_prefix="$withval", xml_config_exec_prefix="")
-+-AC_ARG_ENABLE(xmltest,
-+-              [  --disable-xmltest       Do not try to compile and run a test LIBXML program],,
-+-              enable_xmltest=yes)
-+-
-+-  if test x$xml_config_exec_prefix != x ; then
-+-     xml_config_args="$xml_config_args"
-+-     if test x${XML2_CONFIG+set} != xset ; then
-+-        XML2_CONFIG=$xml_config_exec_prefix/bin/xml2-config
-+-     fi
-+-  fi
-+-  if test x$xml_config_prefix != x ; then
-+-     xml_config_args="$xml_config_args --prefix=$xml_config_prefix"
-+-     if test x${XML2_CONFIG+set} != xset ; then
-+-        XML2_CONFIG=$xml_config_prefix/bin/xml2-config
-+-     fi
-+-  fi
-+-
-+-  AC_PATH_PROG(XML2_CONFIG, xml2-config, no)
-+-  min_xml_version=ifelse([$1], ,2.0.0,[$1])
-+-  AC_MSG_CHECKING(for libxml - version >= $min_xml_version)
-+-  no_xml=""
-+-  if test "$XML2_CONFIG" = "no" ; then
-+-    no_xml=yes
-+-  else
-+-    XML_CPPFLAGS=`$XML2_CONFIG $xml_config_args --cflags`
-+-    XML_LIBS=`$XML2_CONFIG $xml_config_args --libs`
-+-    xml_config_major_version=`$XML2_CONFIG $xml_config_args --version | \
-+-           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
-+-    xml_config_minor_version=`$XML2_CONFIG $xml_config_args --version | \
-+-           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
-+-    xml_config_micro_version=`$XML2_CONFIG $xml_config_args --version | \
-+-           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
-+-    if test "x$enable_xmltest" = "xyes" ; then
-+-      ac_save_CPPFLAGS="$CPPFLAGS"
-+-      ac_save_LIBS="$LIBS"
-+-      CPPFLAGS="$CPPFLAGS $XML_CPPFLAGS"
-+-      LIBS="$XML_LIBS $LIBS"
-+-dnl
-+-dnl Now check if the installed libxml is sufficiently new.
-+-dnl (Also sanity checks the results of xml2-config to some extent)
-+-dnl
-+-      rm -f conf.xmltest
-+-      AC_TRY_RUN([
-+-#include <stdlib.h>
-+-#include <stdio.h>
-+-#include <string.h>
-+-#include <libxml/xmlversion.h>
-+-
-+-int 
-+-main()
-+-{
-+-  int xml_major_version, xml_minor_version, xml_micro_version;
-+-  int major, minor, micro;
-+-  char *tmp_version;
-+-
-+-  system("touch conf.xmltest");
-+-
-+-  /* Capture xml2-config output via autoconf/configure variables */
-+-  /* HP/UX 9 (%@#!) writes to sscanf strings */
-+-  tmp_version = (char *)strdup("$min_xml_version");
-+-  if (sscanf(tmp_version, "%d.%d.%d", &major, &minor, &micro) != 3) {
-+-     printf("%s, bad version string from xml2-config\n", "$min_xml_version");
-+-     exit(1);
-+-   }
-+-   free(tmp_version);
-+-
-+-   /* Capture the version information from the header files */
-+-   tmp_version = (char *)strdup(LIBXML_DOTTED_VERSION);
-+-   if (sscanf(tmp_version, "%d.%d.%d", &xml_major_version, &xml_minor_version, &xml_micro_version) != 3) {
-+-     printf("%s, bad version string from libxml includes\n", "LIBXML_DOTTED_VERSION");
-+-     exit(1);
-+-   }
-+-   free(tmp_version);
-+-
-+- /* Compare xml2-config output to the libxml headers */
-+-  if ((xml_major_version != $xml_config_major_version) ||
-+-      (xml_minor_version != $xml_config_minor_version) ||
-+-      (xml_micro_version != $xml_config_micro_version))
-+-    {
-+-      printf("*** libxml header files (version %d.%d.%d) do not match\n",
-+-         xml_major_version, xml_minor_version, xml_micro_version);
-+-      printf("*** xml2-config (version %d.%d.%d)\n",
-+-         $xml_config_major_version, $xml_config_minor_version, $xml_config_micro_version);
-+-      return 1;
-+-    } 
-+-/* Compare the headers to the library to make sure we match */
-+-  /* Less than ideal -- doesn't provide us with return value feedback, 
-+-   * only exits if there's a serious mismatch between header and library.
-+-   */
-+-    LIBXML_TEST_VERSION;
-+-
-+-    /* Test that the library is greater than our minimum version */
-+-    if ((xml_major_version > major) ||
-+-        ((xml_major_version == major) && (xml_minor_version > minor)) ||
-+-        ((xml_major_version == major) && (xml_minor_version == minor) &&
-+-        (xml_micro_version >= micro)))
-+-      {
-+-        return 0;
-+-       }
-+-     else
-+-      {
-+-        printf("\n*** An old version of libxml (%d.%d.%d) was found.\n",
-+-               xml_major_version, xml_minor_version, xml_micro_version);
-+-        printf("*** You need a version of libxml newer than %d.%d.%d. The latest version of\n",
-+-           major, minor, micro);
-+-        printf("*** libxml is always available from ftp://ftp.xmlsoft.org.\n");
-+-        printf("***\n");
-+-        printf("*** If you have already installed a sufficiently new version, this error\n");
-+-        printf("*** probably means that the wrong copy of the xml2-config shell script is\n");
-+-        printf("*** being found. The easiest way to fix this is to remove the old version\n");
-+-        printf("*** of LIBXML, but you can also set the XML2_CONFIG environment to point to the\n");
-+-        printf("*** correct copy of xml2-config. (In this case, you will have to\n");
-+-        printf("*** modify your LD_LIBRARY_PATH enviroment variable, or edit /etc/ld.so.conf\n");
-+-        printf("*** so that the correct libraries are found at run-time))\n");
-+-    }
-+-  return 1;
-+-}
-+-],, no_xml=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
-+-       CPPFLAGS="$ac_save_CPPFLAGS"
-+-       LIBS="$ac_save_LIBS"
-+-     fi
-+-  fi
-++AC_DEFUN([AM_PATH_XML2],[
-++  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
-+ 
-+-  if test "x$no_xml" = x ; then
-+-     AC_MSG_RESULT(yes (version $xml_config_major_version.$xml_config_minor_version.$xml_config_micro_version))
-+-     ifelse([$2], , :, [$2])     
-+-  else
-+-     AC_MSG_RESULT(no)
-+-     if test "$XML2_CONFIG" = "no" ; then
-+-       echo "*** The xml2-config script installed by LIBXML could not be found"
-+-       echo "*** If libxml was installed in PREFIX, make sure PREFIX/bin is in"
-+-       echo "*** your path, or set the XML2_CONFIG environment variable to the"
-+-       echo "*** full path to xml2-config."
-+-     else
-+-       if test -f conf.xmltest ; then
-+-        :
-+-       else
-+-          echo "*** Could not run libxml test program, checking why..."
-+-          CPPFLAGS="$CPPFLAGS $XML_CPPFLAGS"
-+-          LIBS="$LIBS $XML_LIBS"
-+-          AC_TRY_LINK([
-+-#include <libxml/xmlversion.h>
-+-#include <stdio.h>
-+-],      [ LIBXML_TEST_VERSION; return 0;],
-+-        [ echo "*** The test program compiled, but did not run. This usually means"
-+-          echo "*** that the run-time linker is not finding LIBXML or finding the wrong"
-+-          echo "*** version of LIBXML. If it is not finding LIBXML, you'll need to set your"
-+-          echo "*** LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf to point"
-+-          echo "*** to the installed location  Also, make sure you have run ldconfig if that"
-+-          echo "*** is required on your system"
-+-          echo "***"
-+-          echo "*** If you have an old version installed, it is best to remove it, although"
-+-          echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH" ],
-+-        [ echo "*** The test program failed to compile or link. See the file config.log for the"
-+-          echo "*** exact error that occured. This usually means LIBXML was incorrectly installed"
-+-          echo "*** or that you have moved LIBXML since it was installed. In the latter case, you"
-+-          echo "*** may want to edit the xml2-config script: $XML2_CONFIG" ])
-+-          CPPFLAGS="$ac_save_CPPFLAGS"
-+-          LIBS="$ac_save_LIBS"
-+-       fi
-+-     fi
-++  verdep=ifelse([$1], [], [], [>= $1])
-++  PKG_CHECK_MODULES(XML, [libxml-2.0 $verdep], [$2], [$3])
-+ 
-+-     XML_CPPFLAGS=""
-+-     XML_LIBS=""
-+-     ifelse([$3], , :, [$3])
-+-  fi
-++  XML_CPPFLAGS=$XML_CFLAGS
-+   AC_SUBST(XML_CPPFLAGS)
-+-  AC_SUBST(XML_LIBS)
-+-  rm -f conf.xmltest
-+ ])
+-DEPENDS = "liburcu popt lttng-ust"
++DEPENDS = "liburcu popt lttng-ust libxml2"
+ RDEPENDS_${PN}-ptest += "make"
+ 
+-SRCREV = "8e3234eea2d81f8a962214c570532f8e096a9a8d"
+-PV = "v2.4.0"
++SRCREV = "8b27cacb277c2cdab791139b08da8eb87ab14a88"
++PV = "v2.5.0"
+ 
+-SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.4 \
++SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.5 \
+            file://runtest-2.4.0.patch \
+            file://run-ptest \
+-           file://Fix-alignment-problems-on-targets-not-supporting-una.patch \
+ 	  "
+ 
+ S = "${WORKDIR}/git"
+ 
+-inherit autotools-brokensep ptest
++inherit autotools-brokensep ptest pkgconfig
+ 
+ export KERNELDIR="${STAGING_KERNEL_DIR}"
+ 
+-FILES_${PN} += "${libdir}/lttng/libexec/*"
++FILES_${PN} += "${libdir}/lttng/libexec/* ${datadir}/xml/lttng"
+ FILES_${PN}-dbg += "${libdir}/lttng/libexec/.debug"
+ 
+ # Since files are installed into ${libdir}/lttng/libexec we match 
+@@ -35,6 +34,10 @@ FILES_${PN}-dbg += "${libdir}/lttng/libexec/.debug"
+ INSANE_SKIP_${PN} = "libexec"
+ INSANE_SKIP_${PN}-dbg = "libexec"
+ 
++do_configure_prepend () {
++	# Delete a shipped m4 file that overrides our patched one
++	rm -f ${S}/config/libxml.m4
++}
+ 
+ do_install_ptest () {
+ 	chmod +x ${D}/${libdir}/${PN}/ptest/tests/utils/utils.sh
 -- 
 1.7.10.4
 
