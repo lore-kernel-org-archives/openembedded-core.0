@@ -1,36 +1,29 @@
-Return-Path: <Yasir_Khan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id CE535610F5
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D2381601A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 10:07:58 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1XIEQR-0007di-Bs from Yasir_Khan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Aug 2014 03:07:59 -0700
-Received: from SVR-IES-FEM-03.mgc.mentorg.com ([137.202.0.108]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Fri, 15 Aug 2014 03:07:59 -0700
-Received: from EU-MBX-02.mgc.mentorg.com ([169.254.3.3]) by
-	SVR-IES-FEM-03.mgc.mentorg.com ([137.202.0.108]) with mapi id
-	14.02.0247.003; Fri, 15 Aug 2014 11:07:58 +0100
-From: "Khan, Yasir" <Yasir_Khan@mentor.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] bluez5: Allow method calls over dbus for bluetooth daemon
-Thread-Index: AQHPsKBpbzR/5wqtqk6Ckdoa0+3Yi5vRf/12
-Date: Fri, 15 Aug 2014 10:07:57 +0000
-Message-ID: <428317DA8188854B9B82598D29DA15E24E0E76F9@EU-MBX-02.mgc.mentorg.com>
-References: <1407238076-60915-1-git-send-email-yasir_khan@mentor.com>
-In-Reply-To: <1407238076-60915-1-git-send-email-yasir_khan@mentor.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
+	Fri, 15 Aug 2014 10:47:15 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7FAlEXa026765
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 15 Aug 2014 03:47:14 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Fri, 15 Aug 2014 03:47:14 -0700
+Message-ID: <53EDE530.9090100@windriver.com>
+Date: Fri, 15 Aug 2014 18:47:12 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-X-OriginalArrivalTime: 15 Aug 2014 10:07:59.0206 (UTC)
-	FILETIME=[CA9B5860:01CFB870]
-Subject: Re: [PATCH] bluez5: Allow method calls over dbus for bluetooth daemon
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1408092524.git.liezhi.yang@windriver.com>	
+	<2209793d9f1cb962c181308634d3c2f36f9869fc.1408092524.git.liezhi.yang@windriver.com>
+	<1408092857.21596.7.camel@ted>
+In-Reply-To: <1408092857.21596.7.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] gdb-cross-canadian: add nativesdk-ncurses-libncurses to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,53 +36,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Aug 2014 10:08:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 15 Aug 2014 10:47:16 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello all,=0A=
-=0A=
-Any response on this ?=0A=
-=0A=
-Regards=0A=
-Yasir=0A=
-________________________________________=0A=
-From: Khan, Yasir=0A=
-Sent: Tuesday, August 05, 2014 4:27 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Cc: Khan, Yasir=0A=
-Subject: [PATCH] bluez5: Allow method calls over dbus for bluetooth daemon=
-=0A=
-=0A=
-From: Yasir-Khan <yasir_khan@mentor.com>=0A=
-=0A=
-This patch changes the dbus policy settings in order to allow=0A=
-calling methods over dbus. bluez5 and pulseaudio rely on this=0A=
-mechanism to configure media end points. Previously bluetoothd=0A=
-was failing to configure the media end points with error=0A=
-org.freedesktop.DBus.Error.AccessDenied, due to which bluetooth=0A=
-headset and smartphone were unable to connect in A2DP mode.=0A=
-=0A=
-Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>=0A=
----=0A=
- .../bluez5/bluez5/bluetooth.conf                   |    1 +=0A=
- 1 file changed, 1 insertion(+)=0A=
-=0A=
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf b/meta/=
-recipes-connectivity/bluez5/bluez5/bluetooth.conf=0A=
-index e21e72e..26845bb 100644=0A=
---- a/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf=0A=
-+++ b/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf=0A=
-@@ -11,6 +11,7 @@=0A=
-     <allow own=3D"org.bluez"/>=0A=
-     <allow send_destination=3D"org.bluez"/>=0A=
-     <allow send_interface=3D"org.bluez.Agent1"/>=0A=
-+    <allow send_type=3D"method_call"/>=0A=
-   </policy>=0A=
-=0A=
- </busconfig>=0A=
---=0A=
-1.7.9.5=0A=
-=0A=
+
+
+On 08/15/2014 04:54 PM, Richard Purdie wrote:
+> On Fri, 2014-08-15 at 01:49 -0700, Robert Yang wrote:
+>> We had nativesdk-ncurses in the DEPENDS, also need add
+>> nativesdk-ncurses-libncurses to the RDEPENDS, otherwise libncurses.so.5
+>> is not in the rdepends chain.
+>
+> This doesn't make sense. Can you please give more information about the
+> problem you're solving here please?
+
+Sorry, I should put more info in the commit message. Yes, it doesn't
+make sense to package_rpm, but makes sense to package_ipk (verified)
+and package_deb (not yet verified).
+
+My host is X86_64 (doesn't matter)
+
+# Make sure it is a clean build
+$ bitbake meta-toolchain -ccleansstate
+
+$ bitbake meta-toolchain
+
+$ find tmp/work/core2-64-poky-linux/meta-toolchain/1.0-r7/sdk/image/ | grep 
+poky-linux-gdb
+tmp/work/core2-64-poky-linux/meta-toolchain/1.0-r7/sdk/image/opt/poky/1.6+snapshot/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gdb
+#### Note gdb-cross has been installed
+
+$ find tmp/work/core2-64-poky-linux/meta-toolchain/1.0-r7/sdk/image/ | grep ncurses
+### No output, libncurses.so isn't installed.
+
+And if we use PACKAGE_CLASSES = "package_rpm", we can see that libncurses.so
+is installed.
+
+This is because:
+
+$ rpm -qpR 
+tmp/deploy/rpm/x86_64_nativesdk/gdb-cross-canadian-x86-64-7.7.1-r0.x86_64_nativesdk.rpm 
+| grep ncurses
+libncurses.so.5()(64bit)
+### There is a file depends (libncurses.so.5)
+
+$ dpkg-deb -I 
+tmp/deploy/ipk/x86_64-nativesdk/gdb-cross-canadian-x86-64_7.7.1-r0_x86_64-nativesdk.ipk 
+| grep ncurses
+### No output, ipk knows nothing about the file depends (libncurses.so.5),
+### so that it would not be  installed.
+
+I updated the commit message in the repo, please feel free to let me know if
+you have any questions.
+
+git://git.openembedded.org/openembedded-core-contrib rbt/python3-gdb
+
+We had nativesdk-ncurses in the DEPENDS, also need add
+nativesdk-ncurses-libncurses to the RDEPENDS, otherwise libncurses will
+not be installed when PACKAGE_CLASSES = "package_ipk" or deb.
+
+Fixed:
+- Set these in local.conf:
+   MACHINE = "qemux86-64"
+   PACKAGE_CLASSES = "package_ipk"
+
+$ bitbake meta-toolchain
+$ find tmp/work/core2-64-poky-linux/meta-toolchain/1.0-r7/sdk/image/ | grep ncurses
+   ## No output, ncurses isn't installed, but it should.
+
+// Robert
+
+>
+> If its a dynamically linked lib, the dependency should be detected
+> automatically.
+>
+> Cheers,
+>
+> Richard
+>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   meta/recipes-devtools/gdb/gdb-cross-canadian.inc |    4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+>> index e594bb1..2be427a 100644
+>> --- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+>> +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+>> @@ -7,7 +7,9 @@ BPN = "gdb"
+>>
+>>   DEPENDS = "nativesdk-ncurses nativesdk-expat nativesdk-gettext nativesdk-readline nativesdk-python"
+>>   RDEPENDS_${PN} += "nativesdk-python-core nativesdk-python-lang nativesdk-python-re \
+>> -                   nativesdk-python-codecs nativesdk-python-netclient"
+>> +                   nativesdk-python-codecs nativesdk-python-netclient \
+>> +                   nativesdk-ncurses-libncurses \
+>> +                  "
+>>
+>>   GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
+>>
+>> --
+>> 1.7.9.5
+>>
+>
+>
+>
+>
 
