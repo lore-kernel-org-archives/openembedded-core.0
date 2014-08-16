@@ -1,35 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 18ACC70D4E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2741970D90
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Aug 2014 01:41:06 +0000 (UTC)
-Received: by mail-pd0-f176.google.com with SMTP id y10so4188522pdj.7
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 18:41:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=QkpsbJJy5rjZeerV5f3Vfyjryx3maMKd3Uj3HE4nexo=;
-	b=uC2lV5oak0TEYcaNZkAoyBgjRNFjHcjKXzR7uCDlmZajwjzDCz1xqAiQa+LBwpViEc
-	lCA4WMkeRivV+fP1/toZ9CnJroRdOhdnEdmX/jA4OHqSnORA511tT8Gczt5Bfi/HSMS7
-	809TEXJnE3Wj79qtPQjuHtTY1CzIv2G5LAHIbeqH9yDRJCBNcOpaJEaJGAQHvxcLBuBX
-	J6GksV1ODvfhAX3FrpKeqmSq79IU3m2DQqtjbfjsNbr3moKiHm9jg/maI5AR4L2WHI/O
-	knSV5hJDv9pNwNV9W8aXFoa5lRUeq12Z/tkqYcBbEaufWDOGsQJdIW9ne7EYBQ3+YmAO
-	DGSw==
-X-Received: by 10.66.66.202 with SMTP id h10mr16796440pat.70.1408153267392;
-	Fri, 15 Aug 2014 18:41:07 -0700 (PDT)
-Received: from localhost.localdomain (c-98-207-177-218.hsd1.ca.comcast.net.
-	[98.207.177.218])
-	by mx.google.com with ESMTPSA id px5sm9197723pbc.23.2014.08.15.18.41.06
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Aug 2014 18:41:06 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Aug 2014 18:44:16 -0700
-Message-Id: <1408153456-15502-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH V3] openssl: Repace if-else with case and add musl triplet
+	Sat, 16 Aug 2014 01:59:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7G1xc3s010143
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 15 Aug 2014 18:59:38 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Fri, 15 Aug 2014 18:59:38 -0700
+Message-ID: <53EEBB08.1070403@windriver.com>
+Date: Sat, 16 Aug 2014 09:59:36 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
+MIME-Version: 1.0
+To: Ross Burton <ross.burton@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1408121722-20308-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1408121722-20308-1-git-send-email-ross.burton@intel.com>
+Subject: Re: [PATCH][V2] avahi: unset FILES_avahi to avoid packaging files there
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,48 +34,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Aug 2014 01:41:08 -0000
+X-List-Received-Date: Sat, 16 Aug 2014 01:59:51 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Simplifies the code and adds knowlwdge about musl targets
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-connectivity/openssl/openssl.inc |   20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index b839c00..a99953e 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -60,17 +60,17 @@ do_configure () {
- 	ln -sf apps/openssl.pod crypto/crypto.pod ssl/ssl.pod doc/
- 
- 	os=${HOST_OS}
--	if [ "x$os" = "xlinux-uclibc" ]; then
-+	case $os in
-+	linux-uclibceabi |\
-+	linux-gnueabi |\
-+	linux-uclibcspe |\
-+	linux-gnuspe |\
-+	linux-musl*)
- 		os=linux
--	elif [ "x$os" = "xlinux-uclibceabi" ]; then
--		os=linux
--	elif [ "x$os" = "xlinux-uclibcspe" ]; then
--		os=linux
--	elif [ "x$os" = "xlinux-gnuspe" ]; then
--		os=linux
--	elif [ "x$os" = "xlinux-gnueabi" ]; then
--		os=linux
--	fi
-+		;;
-+		*)
-+		;;
-+	esac
- 	target="$os-${HOST_ARCH}"
- 	case $target in
- 	linux-arm)
--- 
-1.7.10.4
+On 08/16/2014 12:55 AM, Ross Burton wrote:
+> The main avahi recipe doesn't package anything into ${PN}.  If a library is
+> enabled but not put into a separate package it ends up in ${PN} and all the
+> packages are renamed using it's soname - ie libdns-sd-daemon.
+>
+> Avoid this by clearing FILES_avahi so extra files are unpackaged instead of
+> creating a new package.  Also actually remove /var as the comments claim so the
+> avahi package is truly empty.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>   meta/recipes-connectivity/avahi/avahi.inc |    6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+> index 3318f40..b97c4c5 100644
+> --- a/meta/recipes-connectivity/avahi/avahi.inc
+> +++ b/meta/recipes-connectivity/avahi/avahi.inc
+> @@ -73,6 +73,9 @@ do_configure_prepend() {
+>
+>   PACKAGES =+ "avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
+>
+> +# As avahi doesn't put any files into PN, clear the files list to avoid problems
+> +# if extra libraries appear.
+> +FILES_avahi = ""
+>   FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
+>                          ${sysconfdir}/avahi/avahi-autoipd.action \
+>                          ${sysconfdir}/dhcp/*/avahi-autoipd \
+> @@ -122,7 +125,8 @@ do_install() {
+>   	# don't install /var/run when populating rootfs. Do it through volatile
+>   	# /var/run of current version is empty, so just remove it.
+>   	# if /var/run become non-empty in the future, need to install it via volatile
+> -	rm -rf ${D}/var/run
+> +	rm -rf ${D}${localstatedir}/run
+> +	rmdir --ignore-fail-on-non-empty ${D}${localstatedir}
 
+Got a do_install error because of this:
+
+rmdir: failed to remove `/path/to/avahi-ui/0.6.31-r11.0/image/var': No such file 
+or directory
+
+This is because there is a "rmdir ${D}${localstatedir}" in do_install_append(),
+once the first one removes it successfully, the later one would cause errors.
+
+// Robert
+
+>   	rm -rf ${D}${datadir}/dbus-1/interfaces
+>   	rmdir --ignore-fail-on-non-empty ${D}${datadir}/dbus-1
+>   	rm -rf ${D}${libdir}/avahi
+>
 
