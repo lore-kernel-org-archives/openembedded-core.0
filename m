@@ -1,30 +1,26 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 872BE601A0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4609C601A0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Aug 2014 04:38:41 +0000 (UTC)
-Received: from frontend1.mail.m-online.net (frontend1.mail.intern.m-online.net
-	[192.168.8.180])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3hZpgQ2XZcz3hhlD;
-	Sat, 16 Aug 2014 06:38:42 +0200 (CEST)
-X-Auth-Info: fD1j5RGAORgzTh2xLKeIzCQE/8Xh7u10xr3FsdEOKs4=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3hZpgQ0Dskz7S6Rr; 
-	Sat, 16 Aug 2014 06:38:42 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Fri, 15 Aug 2014 22:53:02 +0200
-User-Agent: KMail/1.13.7 (Linux/3.13-trunk-amd64; KDE/4.13.1; x86_64; ; )
-References: <1407425157-2736-1-git-send-email-marex@denx.de>
-	<CAP9ODKpCTJTLg2iwP+JmL+X_dyj919gB0k85r2HtKNKy_nhd_w@mail.gmail.com>
-In-Reply-To: <CAP9ODKpCTJTLg2iwP+JmL+X_dyj919gB0k85r2HtKNKy_nhd_w@mail.gmail.com>
+	Sat, 16 Aug 2014 05:15:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7G5F3UH005948
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Aug 2014 22:15:03 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Fri, 15 Aug 2014 22:15:03 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 15 Aug 2014 22:15:02 -0700
+Message-ID: <ff7a9e4f5b0e1149f7a16194f6055e9eb4c67d08.1408166066.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1408166066.git.liezhi.yang@windriver.com>
+References: <cover.1408166066.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Message-Id: <201408152253.02781.marex@denx.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Yocto: qt4: Let qmake control some compiler/linker flags
+Subject: [PATCH 1/1] syslinux: fix race issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,54 +33,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Aug 2014 04:38:48 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 16 Aug 2014 05:15:07 -0000
+Content-Type: text/plain
 
-On Monday, August 11, 2014 at 02:49:16 AM, Otavio Salvador wrote:
-> Hello Marek,
->=20
-> On Thu, Aug 7, 2014 at 12:25 PM, Marek Vasut <marex@denx.de> wrote:
-> > In the case of building an Qt application outside of the Yocto
-> > build system, we want to make sure that a "debug" configuration
-> > of the application does contain debug symbols and is has the
-> > compiler optimalization unset. On the other hand, we want to
-> > have a "release" build which does not contain the debug symbols
-> > and has the compiler optimalization turned on.
-> >=20
-> > The OE_QMAKE_* flags serve to pass all kinds of flags into the
-> > qmake-generated Makefile. Currently, we set OE_QMAKE_CFLAGS to
-> > be ${CFLAGS} and ditto for CXXFLAGS and LDFLAGS in the SDK
-> > toolchain environment script. This poses a problem, since the
-> > CFLAGS can contain optimization options (-O*) and even flags to
-> > produce debugging info (-g). The LDFLAGS may also contain some
-> > harmful flags.
-> >=20
-> > The easy way out is to let qmake's army of configuration files
-> > handle the proper configuration of CFLAGS, CXXFLAGS and LDFLAGS
-> > for the generated Makefile and don't interfere with qmake's
-> > decisions by adding arbitrary flags. This patch completely
-> > scrubs OE_QMAKE_C{,XX}FLAGS and leaves only harmless flags in
-> > OE_QMAKE_LDFLAGS. With this patch, the behavior is as it is
-> > explained in the first paragraph.
-> >=20
-> > Signed-off-by: Marek Vasut <marex@denx.de>
-> > Cc: Eric B=E9nard <eric@eukrea.com>
->=20
-> I understand your problem however I don't think the solution you found
-> is optimal. It does fix the issue you refer in the commit log however
-> it also makes difficult for user to "reuse" default SDK flags to test
-> the application.
+Fixed do_install failed:
+cp -r syslinux-6.01/com32/libupload/*.h image/usr/share/syslinux/com32/include/
+[snip]
+rm -rf image/usr/share/syslinux/com32/include
+[snip]
+cp: cannot create regular file `image/usr/share/syslinux/com32/include/serial.h': No such file or directory
 
-What solution do you propose then?
+The cp is happened in the "libupload" dir, while "rm -fr" is happend in
+"lib" dir, let "libupload" depend "lib" will fix the problem.
 
-The default SDK flags effectively disallow qmake to operate correctly -- th=
-at=20
-is, to control the compiler/linker flags.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ .../files/syslinux-libupload-depend-lib.patch      |   34 ++++++++++++++++++++
+ meta/recipes-devtools/syslinux/syslinux_6.01.bb    |    1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-devtools/syslinux/files/syslinux-libupload-depend-lib.patch
 
-[...]
+diff --git a/meta/recipes-devtools/syslinux/files/syslinux-libupload-depend-lib.patch b/meta/recipes-devtools/syslinux/files/syslinux-libupload-depend-lib.patch
+new file mode 100644
+index 0000000..c0714b5
+--- /dev/null
++++ b/meta/recipes-devtools/syslinux/files/syslinux-libupload-depend-lib.patch
+@@ -0,0 +1,34 @@
++From 490fc3bbd65c2c252c1fdf3da0fac9898aa9eea6 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Fri, 15 Aug 2014 21:09:16 -0700
++Subject: [PATCH] com32/Makefile: fix parallel issue
++
++Fixed:
++cp -r syslinux-6.01/com32/libupload/*.h image/usr/share/syslinux/com32/include/
++[snip]
++rm -rf image/usr/share/syslinux/com32/include
++[snip]
++cp: cannot create regular file `image/usr/share/syslinux/com32/include/serial.h': No such file or directory
++
++The cp is happened in the "libupload" dir, while "rm -fr" is happend in
++"lib" dir, let "libupload" depend "lib" will fix the problem.
++
++Upstream-Status: Pending
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ com32/Makefile |    1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/com32/Makefile b/com32/Makefile
++index 9a1721b..f172db2 100644
++--- a/com32/Makefile
+++++ b/com32/Makefile
++@@ -21,3 +21,4 @@ rosh: lib libutil
++ samples: libutil elflink/ldlinux
++ sysdump: libupload gpllib
++ gpllib: lib
+++libupload: lib
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-devtools/syslinux/syslinux_6.01.bb b/meta/recipes-devtools/syslinux/syslinux_6.01.bb
+index 2377cc0..7885390 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_6.01.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_6.01.bb
+@@ -15,6 +15,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/6.xx/syslinux-${PV}.tar
+            file://0004-pxe-use-bios_fbm-and-real_base_mem-to-calculate-free.patch \
+            file://syslinux-fix-parallel-building-issue.patch \
+            file://isohybrid-fix-overflow-on-32-bit-system.patch \
++           file://syslinux-libupload-depend-lib.patch \
+            "
+ 
+ SRC_URI[md5sum] = "6945ee89e29119d459baed4937bbc534"
+-- 
+1.7.9.5
 
-Best regards,
-Marek Vasut
 
