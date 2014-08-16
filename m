@@ -1,34 +1,36 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F51F70D61
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B11F70DF3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Aug 2014 01:33:39 +0000 (UTC)
-Received: by mail-pa0-f54.google.com with SMTP id fa1so4404203pad.27
+	Sat, 16 Aug 2014 01:34:53 +0000 (UTC)
+Received: by mail-ig0-f172.google.com with SMTP id h15so3522032igd.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Aug 2014 18:33:40 -0700 (PDT)
+	Fri, 15 Aug 2014 18:34:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=GGrfcUayWtha4aOVmaqClbldSpkyzyO4IcHZ1VIVewY=;
-	b=z1FGNbfmOjU0QrhC5OTEk9XEk1eErjCQyAbFE7gBjb29/Qmla+rrR7XSt3aXBjhWfS
-	i1UWrJR0/0KqKLLGiKLehsg9pKTnA8OLRVo3gjOYcYp3vEBMBhHr4iLeXn255XG90XgF
-	tkPSdKLti1ZT6ocfxJ4Nqj/BBHWIfhVFxZS7wukwCc8h8jKA5qFIq4zDJn/MHsSmQTMI
-	mcIxn7yDUDK/ja1DlgdkJM+pIOPt1530XoyvxPOpKL8ChZJD6Cm+tGyhKtOCc+hBu9T5
-	AjKbFNlAd3MtEj1nc/0/14fC9Ejm2TtLy/32I8ZNmvCuyZAATgfM/f0Pwykfxkfyhs1Z
-	pDeA==
-X-Received: by 10.66.66.198 with SMTP id h6mr6370242pat.72.1408152820792;
-	Fri, 15 Aug 2014 18:33:40 -0700 (PDT)
-Received: from localhost.localdomain (c-98-207-177-218.hsd1.ca.comcast.net.
-	[98.207.177.218]) by mx.google.com with ESMTPSA id
-	ln10sm9171124pbc.96.2014.08.15.18.33.39 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Aug 2014 18:33:39 -0700 (PDT)
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=RH7fOn6TtPUzlhnjL2EOz8dX27mk/EGFNBwoFkrxkdk=;
+	b=l6n3yVQgzqW4+35SKVdL11j4bEAZtG2Y1yWDkhR/zKPzw1OXj+hNqOrRU1QNVf6Yoa
+	sCOob/aCwxmpo7nRPyxcY9lpfGUuRPo9gL7+D4hLJKYOr96y75EwVW8ooCu8Pq9lQivZ
+	JbFtN7ep/5WuN+tOJkJeR6ZaTMNOmjDu6BDw5Mkrjljz+D/KCmlR4LST9N0vDMHcsKUw
+	sD+z8xrR7BElY3gXAcOdvIr99l46wzK7SU+k0cdyhJesfrLL1Xklom45pf4DUBxYpL53
+	DJFr3dEsbch9nZknyqhHin17Y1bT2NmvcXTqoU1Nvsjz3649o7KGsi1w4XKpDDDcHuss
+	Vgrw==
+X-Received: by 10.42.216.135 with SMTP id hi7mr4825037icb.12.1408152894524;
+	Fri, 15 Aug 2014 18:34:54 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.126.103 with HTTP; Fri, 15 Aug 2014 18:34:24 -0700 (PDT)
+In-Reply-To: <1408123065.21596.32.camel@ted>
+References: <1408009882-28210-1-git-send-email-raj.khem@gmail.com>
+	<1408123065.21596.32.camel@ted>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Aug 2014 18:36:50 -0700
-Message-Id: <1408153010-14450-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH V2] openssl: Repace if-else with case and add musl triplet
+Date: Fri, 15 Aug 2014 18:34:24 -0700
+Message-ID: <CAMKF1sr3qkviDchhQ+gj0f1VZ4Kj6Su1_SWpJAxn5j2CeJev=Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl: Repace if-else with case and add musl triplet
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,49 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Aug 2014 01:33:45 -0000
+X-List-Received-Date: Sat, 16 Aug 2014 01:34:56 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Simplifies the code and adds knowlwdge about musl targets
+On Fri, Aug 15, 2014 at 10:17 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> This breaks x32 builds:
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-x32/builds/204/steps/BuildImages/logs/stdio
+>
+> (target doesn't end up set to linux-x32 which it needs to be)
+>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-connectivity/openssl/openssl.inc |   21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index b839c00..3a33702 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -60,17 +60,18 @@ do_configure () {
- 	ln -sf apps/openssl.pod crypto/crypto.pod ssl/ssl.pod doc/
- 
- 	os=${HOST_OS}
--	if [ "x$os" = "xlinux-uclibc" ]; then
-+	case $os in
-+	linux-uclibceabi |\
-+	linux-gnueabi |\
-+	linux-uclibcspe |\
-+	linux-gnuspe |\
-+	linux-musl* |
-+        )
- 		os=linux
--	elif [ "x$os" = "xlinux-uclibceabi" ]; then
--		os=linux
--	elif [ "x$os" = "xlinux-uclibcspe" ]; then
--		os=linux
--	elif [ "x$os" = "xlinux-gnuspe" ]; then
--		os=linux
--	elif [ "x$os" = "xlinux-gnueabi" ]; then
--		os=linux
--	fi
-+		;;
-+		*)
-+		;;
-+	esac
- 	target="$os-${HOST_ARCH}"
- 	case $target in
- 	linux-arm)
--- 
-1.7.10.4
-
+oops it will also break mips64/n32 :(. I have posted a V2 to address
+both the issues
 
