@@ -1,40 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CF4060424
+Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C3E3610F5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Aug 2014 18:21:10 +0000 (UTC)
-Received: by mail-lb0-f171.google.com with SMTP id l4so2941246lbv.16
+	Sat, 16 Aug 2014 18:22:57 +0000 (UTC)
+Received: by mail-la0-f45.google.com with SMTP id ty20so3281019lab.32
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Aug 2014 11:21:11 -0700 (PDT)
+	Sat, 16 Aug 2014 11:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=qdxvf0lBcJteazCk8WVnA8v2qMgUDm4fTdqzbASgvVg=;
-	b=IPU6HXLnVb3HMpC9IjrBCLSqss0wJg3FdiF6NiHPQPpgs1nekmywna7kE2qQZh5zPc
-	Ev+krIVnvvO0V2t4Rqc9986BX9CGJPXC2s3PdkjdEovbCBezVG/Ax8YSBN2tm5bMPLkA
-	ZedPrIrLvJd0vTqUm9P8EckEDB+oh6rzHOAdMYRpnYR5OYCv/h7xQuIYYHxDrFmWiCFl
-	qJ/cOzRWVavok8YqDO7sWtTiPyqFOq/9zfOLAsaas7lIeQMg+hSPhCEIviX4SwmW1/7w
-	y5r182g9lom5wQx3fijfTxWjzAPj2A3Ay/dYGEb5wmqxJ2Jvl1hdiAIVE9HMe49fxlYd
-	iArw==
-X-Received: by 10.152.205.35 with SMTP id ld3mr18719062lac.48.1408213271395;
-	Sat, 16 Aug 2014 11:21:11 -0700 (PDT)
+	bh=4Y5kJlS820EXBEz5xxaWaPZsIdViwerbY+py+ZCid2A=;
+	b=lEJthq4ojyLE7q5uuTZEArmKl11iQbzkC1pKPMVrALfwP9x8EqNBdaKi3aPy55f0Ko
+	aYOYFfA95Oa/OHWYjY8L1Rcmk23gr9BN4b7upyp+Drins1SRbUdIWf5EOQJ0eofTF6Nc
+	rPSj39LfMSsswx279OmZnxzKM8JIAD5guBB/QH8MATrg0mmob9DlhSGJciPbEzpTJQSD
+	rtA3X/OSxoY7Vh2iZE3GenRSz0D3CiihN0R0BM9k7qPUrIiv+YsYv3z6LxPfYsWda1iL
+	afFAVqiK1DuqY63xakvsMVkEVlyXpA5cjQdQJ4F92hkSx3xASWafRursZ8EM4LECgYkq
+	/p3A==
+X-Received: by 10.112.30.39 with SMTP id p7mr18164497lbh.35.1408213378780;
+	Sat, 16 Aug 2014 11:22:58 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	f9sm18522458lbd.46.2014.08.16.11.21.10
+	x10sm7225940lal.13.2014.08.16.11.22.57
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 16 Aug 2014 11:21:10 -0700 (PDT)
+	Sat, 16 Aug 2014 11:22:57 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sat, 16 Aug 2014 20:21:09 +0200
+Date: Sat, 16 Aug 2014 20:22:56 +0200
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20140816182109.GC3660@jama>
-References: <1406294138-31362-1-git-send-email-Martin.Jansa@gmail.com>
+Message-ID: <20140816182256.GD3660@jama>
+References: <1406736276-25623-1-git-send-email-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1406294138-31362-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1406736276-25623-1-git-send-email-Martin.Jansa@gmail.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCH] buildhistory: rename build-id to build-id.txt and add more info
+Subject: Re: [RFC][PATCH] qemu.bbclass: add -r ${OLDEST_KERNEL} parameter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,98 +47,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Aug 2014 18:21:11 -0000
-X-Groupsio-MsgNum: 56614
+X-List-Received-Date: Sat, 16 Aug 2014 18:23:07 -0000
+X-Groupsio-MsgNum: 56615
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="aT9PWwzfKXlsBJM1"
+	protocol="application/pgp-signature"; boundary="6WlEvdN9Dv0WHSBl"
 Content-Disposition: inline
 
---aT9PWwzfKXlsBJM1
+--6WlEvdN9Dv0WHSBl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 25, 2014 at 03:15:38PM +0200, Martin Jansa wrote:
-> * use .txt extension like other reports (e.g. image-info.txt) it's
->   also useful when looking at the file from web server which doesn't
->   have text/plain as default content-type
-> * include whole BUILDCFG_HEADER/BUILDCFG_FUNCS instead of just layer
->   info
-> * this makes it easier for distro to include more fields without the
->   need to modify buildhistory.bbclass
-> * currently it adds following fields:
->   Build Configuration:
->   BB_VERSION        =3D "1.23.1"
->   BUILD_SYS         =3D "x86_64-linux"
->   NATIVELSBSTRING   =3D "Gentoo-2.2"
->   TARGET_SYS        =3D "x86_64-oe-linux"
->   MACHINE           =3D "qemux86-64"
->   DISTRO            =3D "shr"
->   DISTRO_VERSION    =3D "2013.07-next-20140725"
->   TUNE_FEATURES     =3D "m64 core2"
->   TARGET_FPU        =3D ""
+On Wed, Jul 30, 2014 at 06:04:36PM +0200, Martin Jansa wrote:
+> * in some cases (e.g. with external toolchain which doesn't respect our
+>   reasonably old version set in OLDEST_KERNEL) it's possible to have libc
+>   which requires newer kernel than what we have on builders, qemu supports
+>   -r param to use different uname than what's returned by host system.
+> * change qemu_run_binary to pass -r ${OLDEST_KERNEL} and add the same to
+>   QEMU_OPTIONS which are used by qemuwrapper-cross
+> * maybe we should eventually convert all qemu_run_binary usages always in=
+clude
+>   qemuwrapper-cross dependency and always call qemu through that (it
+>   seems very strange that qemu_target_binary is called from qemuwrapper
+>   and for allarch recipes it can return qemu-allarch as qemu binary).
+>=20
+>   qemu_run_binary is used by:
+>   meta/classes/gtk-immodules-cache.bbclass:            ${@qemu_run_binary=
+(d, '$D', '${bindir}/gtk-query-immodules-$maj_ver.0')} \
+>   meta/classes/qemu.bbclass:def qemu_run_binary(data, rootfs_path, binary=
+):
+>   meta/recipes-core/systemd/systemd_213.bb:         ${@qemu_run_binary(d,=
+ '$D', '${base_bindir}/udevadm')} hwdb --update \
+>   meta/recipes-graphics/pango/pango.inc:    ${@qemu_run_binary(d, '$D','$=
+{bindir}/${MLPREFIX}pango-querymodules')} \
+>=20
+>   and qemuwrapper directly by:
+>   scripts/postinst-intercepts/update_font_cache:PSEUDO_UNLOAD=3D1 qemuwra=
+pper -L $D -E LD_LIBRARY_PATH=3D$D/${libdir}:$D/${base_libdir}\
+>   scripts/postinst-intercepts/update_pixbuf_cache:PSEUDO_UNLOAD=3D1 qemuw=
+rapper -L $D -E LD_LIBRARY_PATH=3D$D/${libdir}:$D/${base_libdir}\
 
-ping
+no comment?
 
 >=20
 > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->  meta/classes/buildhistory.bbclass | 26 ++++++++++++++++++--------
->  1 file changed, 18 insertions(+), 8 deletions(-)
+>  meta/classes/qemu.bbclass | 25 +++++++++++++------------
+>  1 file changed, 13 insertions(+), 12 deletions(-)
 >=20
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistor=
-y.bbclass
-> index 20382ce..479e460 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -461,10 +461,10 @@ END
->  	echo "IMAGESIZE =3D $imagesize" >> ${BUILDHISTORY_DIR_IMAGE}/image-info=
-=2Etxt
+> diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+> index abee8aa..b2cf85d 100644
+> --- a/meta/classes/qemu.bbclass
+> +++ b/meta/classes/qemu.bbclass
+> @@ -29,19 +29,20 @@ def qemu_run_binary(data, rootfs_path, binary):
 > =20
->  	# Add some configuration information
-> -	echo "${MACHINE}: ${IMAGE_BASENAME} configured for ${DISTRO} ${DISTRO_V=
-ERSION}" > ${BUILDHISTORY_DIR_IMAGE}/build-id
-> +	echo "${MACHINE}: ${IMAGE_BASENAME} configured for ${DISTRO} ${DISTRO_V=
-ERSION}" > ${BUILDHISTORY_DIR_IMAGE}/build-id.txt
+>      libdir =3D rootfs_path + data.getVar("libdir", False)
+>      base_libdir =3D rootfs_path + data.getVar("base_libdir", False)
+> +    oldest_kernel =3D data.getVar("OLDEST_KERNEL", True)
 > =20
-> -	cat >> ${BUILDHISTORY_DIR_IMAGE}/build-id <<END
-> -${@buildhistory_get_layers(d)}
-> +	cat >> ${BUILDHISTORY_DIR_IMAGE}/build-id.txt <<END
-> +${@buildhistory_get_build_id(d)}
->  END
->  }
+> -    return "PSEUDO_UNLOAD=3D1 " + qemu_binary + " -L " + rootfs_path\
+> +    return "PSEUDO_UNLOAD=3D1 " + qemu_binary + " -r " + oldest_kernel +=
+ " -L " + rootfs_path\
+>              + " -E LD_LIBRARY_PATH=3D" + libdir + ":" + base_libdir + " =
+"\
+>              + rootfs_path + binary
 > =20
-> @@ -498,11 +498,21 @@ POPULATE_SDK_POST_HOST_COMMAND_append =3D " buildhi=
-story_list_installed_sdk_host ;
-> =20
->  SDK_POSTPROCESS_COMMAND +=3D "buildhistory_get_sdkinfo ; "
-> =20
-> -def buildhistory_get_layers(d):
-> -    if d.getVar('BB_WORKERCONTEXT', True) !=3D '1':
-> -        return ""
-> -    layertext =3D "Configured metadata layers:\n%s\n" % '\n'.join(get_la=
-yers_branch_rev(d))
-> -    return layertext
-> +def buildhistory_get_build_id(d):
-> +    localdata =3D bb.data.createCopy(d)
-> +    bb.data.update_data(localdata)
-> +    statuslines =3D []
-> +    for func in oe.data.typed_value('BUILDCFG_FUNCS', localdata):
-> +        g =3D globals()
-> +        if func not in g:
-> +            bb.warn("Build configuration function '%s' does not exist" %=
- func)
-> +        else:
-> +            flines =3D g[func](localdata)
-> +            if flines:
-> +                statuslines.extend(flines)
-> +
-> +    statusheader =3D d.getVar('BUILDCFG_HEADER', True)
-> +    return('\n%s\n%s\n' % (statusheader, '\n'.join(statuslines)))
-> =20
->  def buildhistory_get_metadata_revs(d):
->      # We want an easily machine-readable format here, so get_layers_bran=
-ch_rev isn't quite what we want
+> -QEMU_OPTIONS =3D ""
+> -QEMU_OPTIONS_iwmmxt    =3D "-cpu pxa270-c5"
+> -QEMU_OPTIONS_armv6     =3D "-cpu arm1136"
+> -QEMU_OPTIONS_armv7a    =3D "-cpu cortex-a8"
+> -QEMU_OPTIONS_e500v2    =3D "-cpu e500v2"
+> -QEMU_OPTIONS_e500mc    =3D "-cpu e500mc"
+> -QEMU_OPTIONS_e5500     =3D "-cpu e5500"
+> -QEMU_OPTIONS_e5500-64b =3D "-cpu e5500"
+> -QEMU_OPTIONS_e6500     =3D "-cpu e6500"
+> -QEMU_OPTIONS_e6500-64b =3D "-cpu e6500"
+> -QEMU_OPTIONS_ppc7400   =3D "-cpu 7400"
+> +QEMU_OPTIONS =3D "-r ${OLDEST_KERNEL}"
+> +QEMU_OPTIONS_append_iwmmxt    =3D " -cpu pxa270-c5"
+> +QEMU_OPTIONS_append_armv6     =3D " -cpu arm1136"
+> +QEMU_OPTIONS_append_armv7a    =3D " -cpu cortex-a8"
+> +QEMU_OPTIONS_append_e500v2    =3D " -cpu e500v2"
+> +QEMU_OPTIONS_append_e500mc    =3D " -cpu e500mc"
+> +QEMU_OPTIONS_append_e5500     =3D " -cpu e5500"
+> +QEMU_OPTIONS_append_e5500-64b =3D " -cpu e5500"
+> +QEMU_OPTIONS_append_e6500     =3D " -cpu e6500"
+> +QEMU_OPTIONS_append_e6500-64b =3D " -cpu e6500"
+> +QEMU_OPTIONS_append_ppc7400   =3D " -cpu 7400"
 > --=20
 > 2.0.2
 >=20
@@ -146,16 +141,16 @@ ch_rev isn't quite what we want
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---aT9PWwzfKXlsBJM1
+--6WlEvdN9Dv0WHSBl
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlPvoRUACgkQN1Ujt2V2gByzjwCePNOigMufJTULUwaIkh36qnst
-PsYAn2G65etazX9FPrkw71oGvZzk+NGn
-=XhFU
+iEYEARECAAYFAlPvoYAACgkQN1Ujt2V2gBykSwCdEWzXZk7Q0Bk2e19SG9UeURBx
+/60An0T1dUKUa0fhc1RufAt9xh7tLRh+
+=wosN
 -----END PGP SIGNATURE-----
 
---aT9PWwzfKXlsBJM1--
+--6WlEvdN9Dv0WHSBl--
