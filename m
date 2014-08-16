@@ -1,41 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
-	[209.85.217.175])
-	by mail.openembedded.org (Postfix) with ESMTP id A1312705E3
+Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
+	[209.85.215.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 582AC60424
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Aug 2014 18:19:48 +0000 (UTC)
-Received: by mail-lb0-f175.google.com with SMTP id 10so2872348lbg.20
+	Sat, 16 Aug 2014 18:20:45 +0000 (UTC)
+Received: by mail-la0-f52.google.com with SMTP id b17so3209699lan.25
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Aug 2014 11:19:49 -0700 (PDT)
+	Sat, 16 Aug 2014 11:20:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=S3OowAGPXkhiW5CrefdlKDBwO16duH4ZtjWjsPk+fn4=;
-	b=bi4dX+qC5VKr3D8LwEtv2HkFlH2bykv8z4tG1uUkvKvk2VxkDVfiWchANDyXmbHQIg
-	Lj9/u5Qqsa3Q65jVtilOWjpaUHZCMz+P9yVK+zg96Y4CBHiKape/RY5gmPzH/0ZcBM4N
-	JGjxmB+NU3qx8b1F7P0LVhrhT2VlVWiQCEDNbT/w+k/OMJkpkkqtV/yDKznAv0XwU91B
-	0yN0goaFgaJ8CdlCk9f2eaYaIuoGZdIAOcL7ZTI2vxX0f6IQZTIluWNzenbkNmMwlgRe
-	1xh/R1FvNrpkDREpfDY6CyyXvPtd6iyAcd5JOzpWDzqvLw2dTcKs2EA2JuAFo2Bd2M3q
-	n0EQ==
-X-Received: by 10.152.45.8 with SMTP id i8mr19087012lam.3.1408213189400;
-	Sat, 16 Aug 2014 11:19:49 -0700 (PDT)
+	bh=naqAVaUlkcqHom5ZDVdC3KrpQjZL0pM1HnrLX7mH3IA=;
+	b=0AkcQ8Kops2IujsTRamcBF/2Uq5JQ6LNig6bJexqo3hdaSCcV6Zh08lHsW7JNDxuid
+	ragQ0qW5+j1xE+HGsu+HnxPOTq8xnzvglJBIsSGDCcD071vJPT2jDhQaRhEyTBqrYCEZ
+	5xJJBDPkpisSQu4usCJyAtX/GbBIJ8zPs4pKhF3CXrrmzkWE3ofKXDBpYoIk2j7wy+K2
+	qncoCJGQbj8DygnU37VN20kM3OEzlQZq2KICkJp4isXEleC8TUvv3DskPnUx5hLziJfv
+	3bCL0K/qGNWXV8GalNnxeFH5ITyeixJ2MfRKi+2Lx/We9Cjd3Nrx95FYlMWY+jPxTPp9
+	10pA==
+X-Received: by 10.152.25.170 with SMTP id d10mr18771307lag.37.1408213245934;
+	Sat, 16 Aug 2014 11:20:45 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	a17sm18518100lbh.45.2014.08.16.11.19.48
+	um4sm8763611lbb.40.2014.08.16.11.20.44
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 16 Aug 2014 11:19:48 -0700 (PDT)
+	Sat, 16 Aug 2014 11:20:44 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sat, 16 Aug 2014 20:19:47 +0200
+Date: Sat, 16 Aug 2014 20:20:43 +0200
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20140816181947.GA3660@jama>
-References: <1407600483-31215-1-git-send-email-Martin.Jansa@gmail.com>
-	<1407600483-31215-5-git-send-email-Martin.Jansa@gmail.com>
+Message-ID: <20140816182043.GB3660@jama>
+References: <1405512834-14423-1-git-send-email-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1407600483-31215-5-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1405512834-14423-1-git-send-email-Martin.Jansa@gmail.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCH 5/8] piglit: add dependency on libxrender
+Subject: Re: [RFC][PATCH] libav: drop unused FFMPEG_LIBS and move libpostproc only to 0.8.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,62 +47,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Aug 2014 18:19:52 -0000
-X-Groupsio-MsgNum: 56612
+X-List-Received-Date: Sat, 16 Aug 2014 18:20:47 -0000
+X-Groupsio-MsgNum: 56613
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="NzB8fVQJ5HfG6fxh"
+	protocol="application/pgp-signature"; boundary="i0/AhcQY5QxfSsSZ"
 Content-Disposition: inline
 
---NzB8fVQJ5HfG6fxh
+--i0/AhcQY5QxfSsSZ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Aug 09, 2014 at 06:08:00PM +0200, Martin Jansa wrote:
-> * fixes floating dependency:
->   piglit/piglit/latest lost dependency on  libxrender
+On Wed, Jul 16, 2014 at 02:13:54PM +0200, Martin Jansa wrote:
+> * standalone libpostproc recipe depends on libav, but current PACKAGES_DY=
+NAMIC indicated
+>   that libav-9.13 also provides libpostproc
 
 ping
 
 >=20
 > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->  meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-multimedia/libav/libav.inc       | 5 -----
+>  meta/recipes-multimedia/libav/libav_0.8.11.bb | 2 ++
+>  meta/recipes-multimedia/libav/libav_9.13.bb   | 3 +++
+>  3 files changed, 5 insertions(+), 5 deletions(-)
 >=20
-> diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-gr=
-aphics/piglit/piglit_git.bb
-> index 64289ed..32e73af 100644
-> --- a/meta/recipes-graphics/piglit/piglit_git.bb
-> +++ b/meta/recipes-graphics/piglit/piglit_git.bb
-> @@ -11,7 +11,7 @@ PV =3D "1.0+gitr${SRCPV}"
+> diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multi=
+media/libav/libav.inc
+> index 1d617a2..ff1ab0e 100644
+> --- a/meta/recipes-multimedia/libav/libav.inc
+> +++ b/meta/recipes-multimedia/libav/libav.inc
+> @@ -87,9 +87,6 @@ do_install_append() {
+>      install -m 0644 ${S}/libavfilter/*.h ${D}${includedir}/libavfilter/
+>  }
 > =20
->  S =3D "${WORKDIR}/git"
+> -FFMPEG_LIBS =3D "libavcodec libavdevice libavformat \
+> -               libavutil libpostproc libswscale libavfilter"
+> -
+>  PACKAGES +=3D "${PN}-vhook-dbg ${PN}-vhook ffmpeg-x264-presets"
 > =20
-> -DEPENDS =3D "virtual/libx11 waffle virtual/libgl libglu python-mako-nati=
-ve python-numpy-native"
-> +DEPENDS =3D "virtual/libx11 libxrender waffle virtual/libgl libglu pytho=
-n-mako-native python-numpy-native"
+>  RSUGGESTS_${PN} =3D "mplayer"
+> @@ -142,5 +139,3 @@ python populate_packages_prepend() {
+>          for pkg in pkgs:
+>              d.appendVar('INSANE_SKIP_%s' % pkg, ' textrel')
+>  }
+> -
+> -PACKAGES_DYNAMIC +=3D "^lib(av(codec|device|filter|format|util)|postproc=
+|swscale).*"
+> diff --git a/meta/recipes-multimedia/libav/libav_0.8.11.bb b/meta/recipes=
+-multimedia/libav/libav_0.8.11.bb
+> index 662d205..1344a2a 100644
+> --- a/meta/recipes-multimedia/libav/libav_0.8.11.bb
+> +++ b/meta/recipes-multimedia/libav/libav_0.8.11.bb
+> @@ -16,3 +16,5 @@ PROVIDES +=3D "libpostproc"
+>  EXTRA_OECONF +=3D " \
+>      --enable-postproc \
+>  "
+> +
+> +PACKAGES_DYNAMIC +=3D "^lib(av(codec|device|filter|format|util)|postproc=
+|swscale).*"
+> diff --git a/meta/recipes-multimedia/libav/libav_9.13.bb b/meta/recipes-m=
+ultimedia/libav/libav_9.13.bb
+> index 7bfbc48..f9c413f 100644
+> --- a/meta/recipes-multimedia/libav/libav_9.13.bb
+> +++ b/meta/recipes-multimedia/libav/libav_9.13.bb
+> @@ -11,3 +11,6 @@ SRC_URI[md5sum] =3D "23b9e34bffdaee366710fdf20157a570"
+>  SRC_URI[sha256sum] =3D "2ff05df6cd2259b3bb277eb16c234214f8e0530700d0c774=
+d033eba23edde6ca"
 > =20
->  # depends on virtual/libx11
->  REQUIRED_DISTRO_FEATURES =3D "x11"
+>  DEFAULT_PREFERENCE =3D "-1"
+> +
+> +# unlike 0.8.11 we don't provide libpostproc
+> +PACKAGES_DYNAMIC +=3D "^lib(av(codec|device|filter|format|util)|swscale)=
+=2E*"
 > --=20
-> 2.0.4
+> 2.0.0
 >=20
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---NzB8fVQJ5HfG6fxh
+--i0/AhcQY5QxfSsSZ
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlPvoMMACgkQN1Ujt2V2gBxZXQCePfF/DvCHz1j/cnxFFTYQLvrB
-QJYAn07x9wcxnXf9Q8L8EMJ+vMBxYhtk
-=ZKGV
+iEYEARECAAYFAlPvoPsACgkQN1Ujt2V2gBwWqwCfYeRMCrqc+z+/K6/oieWkxuVa
+aoYAn1CCrfytnitlNwaUL722vlMk4gHK
+=zhgw
 -----END PGP SIGNATURE-----
 
---NzB8fVQJ5HfG6fxh--
+--i0/AhcQY5QxfSsSZ--
