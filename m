@@ -1,35 +1,35 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id CE54D60169
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 52BA665DEC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Aug 2014 23:04:40 +0000 (UTC)
-Received: by mail-pa0-f54.google.com with SMTP id fa1so6577389pad.13
+	Sun, 17 Aug 2014 23:06:51 +0000 (UTC)
+Received: by mail-pd0-f175.google.com with SMTP id r10so6259661pdi.20
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Aug 2014 16:04:42 -0700 (PDT)
+	Sun, 17 Aug 2014 16:06:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id;
-	bh=wbMH7DgFCx7gguU2XJ7IZzwZ1DfHfe4ccrkXS/qv84k=;
-	b=PxZ+GPg+xFC/LF5YB1LV8Pe2AhEQbrPj/Sk/nCPlcAWouecGTSABdcGVrrLWGDdvnj
-	Dg8+J1F9nbVeWEPoYGmqsaOjjDbMsvipRjq3rgcD7q4EBP3fyGcz+R6lIhO6SA4pHcqP
-	rm3JK+GwW9Df7A3S0hqjgXgzZVcAd9zXerw5YLZxsjrORU73Mol7XdkAJFy/SQR65wsz
-	PrU5ai6vOantYJxKWzCqF+iROJ5gNtmeUg5jEbTGA/Qk5MtlHt4JCbQLKpcUGnyZ7QlM
-	dgC1vhN+DTyPYBc/aNfQcvRXp0qK21cOPSL27O5h5OXzQQDC6hHXp2MwLwPPq+pnS+H0
-	QKCw==
-X-Received: by 10.68.203.198 with SMTP id ks6mr30116811pbc.140.1408316681953; 
-	Sun, 17 Aug 2014 16:04:41 -0700 (PDT)
+	bh=QRDQTE6G+RyA0hWa4lkHJ3OrTq5Y3gXbdOl/apaXESQ=;
+	b=BGqkoI8nuptIsR25yy7mWPxWv8D3lNuZC8JZTezE3xNiey4B+4Yw3e4Ien5L5ldarg
+	gX3p4YcAvmQ13kBDmvEeUEV5YUdC5oaKppK+iExsmX0G30a4vPnOyeTxgBuUSVoZycdX
+	IAwwy1KR61+yfMV0GOSkSlLdTqDDoIlEJpMtz+Bt3Moep4q5F5IHBaSBdClA1sI5CR0e
+	iL4Xcg7TAsIP3dAlX37oCN/xgW1S5gDBZOJEMGav0f6LnSbzLmIbKipVx1fbp3NhYH+x
+	KKqB/Qk4daCrTXh/c3S+r29TfIqPgWAuSKwbNvUGnW/AkOOoKJiHXZXSpuGNUxcD3FPm
+	xeFg==
+X-Received: by 10.70.44.70 with SMTP id c6mr28407690pdm.75.1408316812345;
+	Sun, 17 Aug 2014 16:06:52 -0700 (PDT)
 Received: from Pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by mx.google.com with ESMTPSA id br1sm14329334pbc.6.2014.08.17.16.04.39
+	[76.20.92.207]) by mx.google.com with ESMTPSA id
+	ak1sm14320642pbc.58.2014.08.17.16.06.50
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Aug 2014 16:04:40 -0700 (PDT)
+	Sun, 17 Aug 2014 16:06:51 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Aug 2014 16:04:38 -0700
-Message-Id: <1408316678-13283-1-git-send-email-akuster808@gmail.com>
+Date: Sun, 17 Aug 2014 16:06:48 -0700
+Message-Id: <1408316808-13486-1-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] nettle: update nettle to version 3.0
+Subject: [PATCH v3] nettle: update nettle to version 3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,14 +42,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Aug 2014 23:04:48 -0000
+X-List-Received-Date: Sun, 17 Aug 2014 23:06:53 -0000
 
-With this update, LGPLv3 was added to many files.
+With this update, LGPLv3 or GPLv3 where  added to many files.
 Each supported algorithms govern which license they want.
 Many are stated as  "ether v2 or v3 or both in parallel".
-Update license to be v2 or LGPLv3.
+Update license to be v2 or LGPLv3 or GPLv3.
 
-The previous verion had one GPLv3 file so the licesne was incorrect.
+The previous verion had one GPLv3 file so the license was incorrect.
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
@@ -61,7 +61,7 @@ diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-support/
 similarity index 53%
 rename from meta/recipes-support/nettle/nettle_2.7.1.bb
 rename to meta/recipes-support/nettle/nettle_3.0.bb
-index f53afcc..0dc9bb6 100644
+index f53afcc..a54317f 100644
 --- a/meta/recipes-support/nettle/nettle_2.7.1.bb
 +++ b/meta/recipes-support/nettle/nettle_3.0.bb
 @@ -1,17 +1,18 @@
@@ -73,7 +73,7 @@ index f53afcc..0dc9bb6 100644
 -                    file://serpent-decrypt.c;beginline=53;endline=67;md5=bcfd4745d53ca57f82907089898e390d \
 -                    file://serpent-set-key.c;beginline=56;endline=70;md5=bcfd4745d53ca57f82907089898e390d"
 -
-+LICENSE = "LGPLv2.1 & GPLv2 | LGPLv3"
++LICENSE = "LGPLv2.1 & GPLv2 | LGPLv3 | GPLv3"
 +LIC_FILES_CHKSUM = "file://COPYINGv2;md5=b234ee4d69f5fce4486a80fdaf4a4263\
 +                    file://COPYING.LESSERv3;md5=6a6a8e020838b23406c81b19c1d46df6\
 +                    file://COPYINGv3;md5=11cc2d3ee574f9d6b7ee797bdce4d423\
