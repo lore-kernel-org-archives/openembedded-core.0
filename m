@@ -1,35 +1,36 @@
-Return-Path: <diego.sueiro@gmail.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C40D665DD6;
-	Sun, 17 Aug 2014 11:50:57 +0000 (UTC)
-Received: by mail-qc0-f175.google.com with SMTP id w7so3777323qcr.20
-	for <multiple recipients>; Sun, 17 Aug 2014 04:50:58 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
+	[209.85.217.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 995B665E11
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Aug 2014 11:51:56 +0000 (UTC)
+Received: by mail-lb0-f177.google.com with SMTP id s7so3234703lbd.22
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Aug 2014 04:51:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=ywAGlFg8T4/UMwDo8IvZ6WXPoJGpKS2FPze7LfU7F7M=;
-	b=SrJBujENxmi44lXvrILMuqpNvJDZ0nddCuXt7LYNGpO5wjSWm+HTpdDj1dPn5Bvczb
-	h+efgfZduyyD5imanJ+V/pPiRF4sPAXk8XrmDKTzNgNKknCs/pak2D8f3ttSXrNZrfdD
-	hzGZJk1rimIWtcCkbscT1MnHLfuWHG/9STuHODdk/5GVkGx9N9rh2jGgUfh4ihdpcvHF
-	yQ0QnKMFY4Xbzba75R2DQGSyDgley9w0wB+kDuX6Gdwq/hwLTPxofA1SHtCe0AA1PKyn
-	2pM1b9T0tLcFd75Rl1xUBgCCe8kvIFn3qILdzCpEUGEwAE1+xrS+fltmL3jrk3edTfUU
-	VCbw==
-X-Received: by 10.140.32.134 with SMTP id h6mr43842382qgh.49.1408276258234;
-	Sun, 17 Aug 2014 04:50:58 -0700 (PDT)
+	bh=l/2Tml5GBtME0C2sukxOTm7Sykf3MmNW6c7QdG7qBRE=;
+	b=fDFeG0+2aPykyhuC82pM+v35v4RIoVWKHWKrpQcH04W+50yWqFeRrTLmlWMjgKoKMd
+	gi9S91GMLUKa+D+vHJwe8SGNIzVxy7FTvr9+dNK4WtNs/AX/IFaHLn+91y7dXu90arzp
+	/ctR+wkTbbj7ke9GieMtdNPx/F1NRp8QWqUF8bZBXv7Ew3349mCS3LlN3WjPpyRtZDhC
+	Qw0wgPHv0hQGgD0Am9I9HXCxAp+vTogecCOT47LiY9Cv+GJtcbHCiaEL8buiwuwjfsf+
+	XbmTgSdZ4uPk6ASL3TIhb7x2HAyiFWaREkJI7pqGE0hgA56L1Gw0hAZlW0JQ7tHiqrZe
+	/03Q==
 MIME-Version: 1.0
-Received: by 10.140.85.83 with HTTP; Sun, 17 Aug 2014 04:50:38 -0700 (PDT)
-In-Reply-To: <CAMKF1sp9Z6vj1Dz96_WYiHOtYFqa-zECrNHOFgb=dBUDJN2Z_g@mail.gmail.com>
-References: <CAMKF1sp9Z6vj1Dz96_WYiHOtYFqa-zECrNHOFgb=dBUDJN2Z_g@mail.gmail.com>
-From: Diego Sueiro <diego.sueiro@gmail.com>
-Date: Sun, 17 Aug 2014 08:50:38 -0300
-Message-ID: <CAMCfZKFWAsu8m2h907RwM6XMCr6NbpsxeWE2hfuC=FtFyLAS5A@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Announcing meta-musl OE/Yocto layer supporting musl C library
+X-Received: by 10.152.5.66 with SMTP id q2mr23114757laq.11.1408276317816; Sun,
+	17 Aug 2014 04:51:57 -0700 (PDT)
+Received: by 10.112.26.210 with HTTP; Sun, 17 Aug 2014 04:51:57 -0700 (PDT)
+In-Reply-To: <1408265720.24858.6.camel@ted>
+References: <1406969694.6981.22.camel@ted>
+	<CAPbeDCnE1f7Hcu7OpHWJFE=Jr6-_P7eowweAMvV2Cm0wvBCHNA@mail.gmail.com>
+	<1408265720.24858.6.camel@ted>
+Date: Sun, 17 Aug 2014 13:51:57 +0200
+Message-ID: <CAPbeDCkhxy037E3Jk70s2zrtOArwZcySXy4BnjN3+TOhv2A2RQ@mail.gmail.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH RFC] pixbufcache: Use sceneQueueComplete event to simplify usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,140 +43,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Aug 2014 11:51:02 -0000
-Content-Type: multipart/alternative; boundary=001a113b3e041e29d10500d1de22
+X-List-Received-Date: Sun, 17 Aug 2014 11:51:58 -0000
+Content-Type: multipart/alternative; boundary=089e0141a1ceab4c660500d1e12c
 
---001a113b3e041e29d10500d1de22
-Content-Type: text/plain; charset=ISO-8859-1
+--089e0141a1ceab4c660500d1e12c
+Content-Type: text/plain; charset=UTF-8
 
-Wow!!!!
+On Sun, Aug 17, 2014 at 10:55 AM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-This is a really great job. Nice work.
-
-I'm gonna test it.
-
-
-Regards,
-
---
-*dS
-Diego Sueiro
-
-Administrador do Embarcados
-www.embarcados.com.br
-<http://www.embarcados.com.br/?utm_source=assinatura_diego&utm_medium=e-mail&utm_campaign=Assinatura%20Email%20Diego>
-
-/*long live rock 'n roll*/
-
-
-On Sat, Aug 16, 2014 at 9:50 PM, Khem Raj <raj.khem@gmail.com> wrote:
-
-> Hello All
+> On Sun, 2014-08-17 at 10:33 +0200, Jacob Kroon wrote:
+> > On Sat, Aug 2, 2014 at 10:54 AM, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> >         [This is an RFC which depends on a patch to bitbake to
+> >         operate]
+> >
+> >         Currently, we have a mess of dependencies for pixbufcache and
+> >         even then
+> >         it breaks since they might be controlled by PACKAGECONFIG.
+> >
+> >         Instead, this patch proposes an alternative approach where we
+> >         allow
+> >         "fixups" from a sceneQueueComplete() event at the end of the
+> >         setscene
+> >         process. We signal the need for these using simply stamp
+> >         files.
+> >
+> >         The one downside is that the processing code needs to be in a
+> >         global
+> >         event handler like base.bbclass rather than
+> >         pixbufcache.bbclass but this
+> >         is probably a price worth paying to avoid the dependency mess?
+> >
+> >         Signed-off-by: Richard Purdie
+> >         <richard.purdie@linuxfoundation.org>
+> >
+> >
+> >
+> > Instead of having the sstate_postinst() touch "needpixbuf", could we
+> > make it write out the actual script that needs to be executed ?
+> >
+> > Then base.bbclass could iterate over any scripts installed by any
+> > sstate_postinst() and execute them. At least this would better isolate
+> > the pixbuf-code to pixbufcache.bbclass, and make the snippet in
+> > base.bbclass more generic.
 >
-> musl <http://www.musl-libc.org/> is a newer implementation licensed
-> under MIT licence
-> A layer to support musl to supply your system C library as an
-> alternative to uclibc and eglibc/glibc  is now available at
+> It does become trickier to avoid races when writing out that script.
+> Touching the file is rather easy from a lock perspective :)
 >
-> https://github.com/kraj/meta-musl
 >
-> README describes way to get going with it.
->
-> Few things to note
->
-> * Supports gcc 4.9 in OE not 4.8
-> * Current musl recipe is 1.1.4 based
-> * You need latest master of OE-Core
-> (106305227003761c3fc562c21bb859a5256f2b36) or          newer and
-> bitbake
-> * Its only able to build core-image-minimal
-> * core-image-minimal boots on qemuarm, qemuppc, qemumips, qemux86,
-> qemux86-64
->
-> I will send a request to add it to layerindex soon and then you should
-> be able to find it using
-> layerindex.opernembedded.org as well
->
-> If you try it out on your hardware and/or have feedback I am
-> interested. Fork it from github, file bugs
-> send patches ....
->
-> Happy hacking
->
-> -Khem
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Ah.. right, I didn't think of that. Is there no framework already in place
+in bitbake/OE/Python that we could use for doing atomic
+write-out-file-if-it-doesn't-exist-yet ?
 
---001a113b3e041e29d10500d1de22
-Content-Type: text/html; charset=ISO-8859-1
+--089e0141a1ceab4c660500d1e12c
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Wow!!!!<div><br></div><div>This is a really great job. Nic=
-e work.<br></div><div><br></div><div>I&#39;m gonna test it.</div><div><br><=
-/div><div class=3D"gmail_extra"><br clear=3D"all"><div><div dir=3D"ltr"><di=
-v>Regards,</div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On S=
+un, Aug 17, 2014 at 10:55 AM, Richard Purdie <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.pu=
+rdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=3D"h5">On S=
+un, 2014-08-17 at 10:33 +0200, Jacob Kroon wrote:<br>
+&gt; On Sat, Aug 2, 2014 at 10:54 AM, Richard Purdie<br>
+&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purd=
+ie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[This is an RFC which depends on a pa=
+tch to bitbake to<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0operate]<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Currently, we have a mess of dependen=
+cies for pixbufcache and<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0even then<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0it breaks since they might be control=
+led by PACKAGECONFIG.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Instead, this patch proposes an alter=
+native approach where we<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0allow<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;fixups&quot; from a sceneQueueC=
+omplete() event at the end of the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0setscene<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0process. We signal the need for these=
+ using simply stamp<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0files.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The one downside is that the processi=
+ng code needs to be in a<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0global<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0event handler like base.bbclass rathe=
+r than<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pixbufcache.bbclass but this<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0is probably a price worth paying to a=
+void the dependency mess?<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Signed-off-by: Richard Purdie<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"mailto:richard.purdie@=
+linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; Instead of having the sstate_postinst() touch &quot;needpixbuf&quot;, =
+could we<br>
+&gt; make it write out the actual script that needs to be executed ?<br>
+&gt;<br>
+&gt; Then base.bbclass could iterate over any scripts installed by any<br>
+&gt; sstate_postinst() and execute them. At least this would better isolate=
+<br>
+&gt; the pixbuf-code to pixbufcache.bbclass, and make the snippet in<br>
+&gt; base.bbclass more generic.<br>
+<br>
+</div></div>It does become trickier to avoid races when writing out that sc=
+ript.<br>
+Touching the file is rather easy from a lock perspective :)<br>
+<br></blockquote><br></div>Ah.. right, I didn&#39;t think of that. Is there=
+ no framework already in place in bitbake/OE/Python that we could use for d=
+oing atomic write-out-file-if-it-doesn&#39;t-exist-yet ?<br></div></div>
 
-<div><br></div>--<br>*dS<br>Diego Sueiro<br><br>Administrador do Embarcados=
-<br><a href=3D"http://www.embarcados.com.br/?utm_source=3Dassinatura_diego&=
-amp;utm_medium=3De-mail&amp;utm_campaign=3DAssinatura%20Email%20Diego" targ=
-et=3D"_blank">www.embarcados.com.br</a><br>
-
-<br>/*long live rock &#39;n roll*/<br></div></div>
-<br><br><div class=3D"gmail_quote">On Sat, Aug 16, 2014 at 9:50 PM, Khem Ra=
-j <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_bl=
-ank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">
-
-Hello All<br>
-<br>
-musl &lt;<a href=3D"http://www.musl-libc.org/" target=3D"_blank">http://www=
-.musl-libc.org/</a>&gt; is a newer implementation licensed<br>
-under MIT licence<br>
-A layer to support musl to supply your system C library as an<br>
-alternative to uclibc and eglibc/glibc=A0 is now available at<br>
-<br>
-<a href=3D"https://github.com/kraj/meta-musl" target=3D"_blank">https://git=
-hub.com/kraj/meta-musl</a><br>
-<br>
-README describes way to get going with it.<br>
-<br>
-Few things to note<br>
-<br>
-* Supports gcc 4.9 in OE not 4.8<br>
-* Current musl recipe is 1.1.4 based<br>
-* You need latest master of OE-Core<br>
-(106305227003761c3fc562c21bb859a5256f2b36) or=A0 =A0 =A0 =A0 =A0 newer and<=
-br>
-bitbake<br>
-* Its only able to build core-image-minimal<br>
-* core-image-minimal boots on qemuarm, qemuppc, qemumips, qemux86, qemux86-=
-64<br>
-<br>
-I will send a request to add it to layerindex soon and then you should<br>
-be able to find it using<br>
-<a href=3D"http://layerindex.opernembedded.org" target=3D"_blank">layerinde=
-x.opernembedded.org</a> as well<br>
-<br>
-If you try it out on your hardware and/or have feedback I am<br>
-interested. Fork it from github, file bugs<br>
-send patches ....<br>
-<br>
-Happy hacking<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
--Khem<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a><br>
-</font></span></blockquote></div><br></div></div>
-
---001a113b3e041e29d10500d1de22--
+--089e0141a1ceab4c660500d1e12c--
