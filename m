@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FCA965E03
+	by mail.openembedded.org (Postfix) with ESMTP id BFC3160169
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Aug 2014 08:51:04 +0000 (UTC)
+	Sun, 17 Aug 2014 08:51:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7H8p3j1018943 for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Aug 2014 09:51:03 +0100
+	s7H8pVUK018962 for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Aug 2014 09:51:31 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 5n3B2cHho90T
+	with LMTP id 2CsNNbPAxs8Z
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Aug 2014 09:51:03 +0100 (BST)
+	Sun, 17 Aug 2014 09:51:31 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7H8p1ws018940
+	s7H8pSxC018959
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Aug 2014 09:51:02 +0100
-Message-ID: <1408265461.24858.1.camel@ted>
+	Sun, 17 Aug 2014 09:51:30 +0100
+Message-ID: <1408265489.24858.2.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 17 Aug 2014 09:51:01 +0100
+Date: Sun, 17 Aug 2014 09:51:29 +0100
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
-Subject: [PATCH] qemu-targets.inc: Update to handle mingw/darwin
+Subject: [PATCH] qemu.inc: Drop unneeded nativesdk-libsdl RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +37,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Aug 2014 08:51:04 -0000
+X-List-Received-Date: Sun, 17 Aug 2014 08:51:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-For non-linux targets, don't return linux-user qemu targets. This change
-also improves readability of the functions through better variable names.
+Now sdl is completely handled by PACKAGECONFIG, we can drop this RDEPENDS.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-devtools/qemu/qemu-targets.inc b/meta/recipes-devtools/qemu/qemu-targets.inc
-index 9f009bf..5c35655 100644
---- a/meta/recipes-devtools/qemu/qemu-targets.inc
-+++ b/meta/recipes-devtools/qemu/qemu-targets.inc
-@@ -5,14 +5,18 @@
- def get_qemu_target_list(d):
-     import bb
-     archs = d.getVar('QEMU_TARGETS', True).split()
--    targets = ""
-+    tos = d.getVar('HOST_OS', True)
-+    softmmuonly = ""
-     for arch in ['mips64', 'mips64el', 'ppcemb']:
-         if arch in archs:
--            targets += arch + "-softmmu,"
-+            softmmuonly += arch + "-softmmu,"
-             archs.remove(arch)
-+    linuxuseronly = ""
-     for arch in ['armeb', 'alpha', 'ppc64abi32', 'sparc32plus']:
-         if arch in archs:
--            targets += arch + "-linux-user,"
-+            linuxuseronly += arch + "-linux-user,"
-             archs.remove(arch)
--    return targets + ''.join([arch + "-linux-user" + "," + arch + "-softmmu" + "," for arch in archs]).rstrip(',')
-+    if 'linux' not in tos:
-+        return softmmuonly + ''.join([arch + "-softmmu" + "," for arch in archs]).rstrip(',')
-+    return softmmuonly + linuxuseronly + ''.join([arch + "-linux-user" + "," + arch + "-softmmu" + "," for arch in archs]).rstrip(',')
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index e2842f0..d47a44e 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -2,7 +2,6 @@ SUMMARY = "Fast open source processor emulator"
+ HOMEPAGE = "http://qemu.org"
+ LICENSE = "GPLv2 & LGPLv2.1"
+ DEPENDS = "glib-2.0 zlib pixman"
+-RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
+ RDEPENDS_${PN}_class-target += "bash python"
  
+ require qemu-targets.inc
 
 
 
