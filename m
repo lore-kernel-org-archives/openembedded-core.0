@@ -1,29 +1,44 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id F1E0E610F5
+Return-Path: <nick.lewis@usa.g4s.com>
+X-Greylist: delayed 407 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 18 Aug 2014 14:57:08 UTC
+Received: from mail1.bemta5.messagelabs.com (mail1.bemta5.messagelabs.com
+	[195.245.231.147])
+	by mail.openembedded.org (Postfix) with ESMTP id 502BA65CB2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 14:39:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7IEdBet031080; Mon, 18 Aug 2014 15:39:11 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id F7tGmTWdFBQf; Mon, 18 Aug 2014 15:39:11 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7IEd9RV031077
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 18 Aug 2014 15:39:10 +0100
-Message-ID: <1408372750.1669.30.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 18 Aug 2014 15:39:10 +0100
-In-Reply-To: <20140818131443.GL3660@jama>
-References: <1408366010.1669.11.camel@ted> <20140818131443.GL3660@jama>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Allarch and packagegroup improvement proposal
+	Mon, 18 Aug 2014 14:57:08 +0000 (UTC)
+Received: from [85.158.139.35:4851] by server-11.bemta-5.messagelabs.com id
+	BB/E1-31757-DA212F35; Mon, 18 Aug 2014 14:50:21 +0000
+X-Env-Sender: nick.lewis@usa.g4s.com
+X-Msg-Ref: server-13.tower-179.messagelabs.com!1408373420!36792229!1
+X-Originating-IP: [89.206.228.155]
+X-StarScan-Received: 
+X-StarScan-Version: 6.11.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 1002 invoked from network); 18 Aug 2014 14:50:20 -0000
+Received: from unallocated.star.net.uk (HELO gbtwk10s037.Technology.local)
+	(89.206.228.155)
+	by server-13.tower-179.messagelabs.com with RC4-SHA encrypted SMTP;
+	18 Aug 2014 14:50:20 -0000
+Received: from GBTWK10E001.Technology.local ([10.234.1.29]) by
+	gbtwk10s037.Technology.local ([10.234.1.39]) with mapi; Mon, 18 Aug 2014
+	15:50:20 +0100
+From: "Lewis, Nick" <nick.lewis@usa.g4s.com>
+To: "'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Aug 2014 15:50:19 +0100
+Thread-Topic: [OE-core] image build with python fails due to missing
+	berkeley db 5.3
+Thread-Index: AQHPutA/YnOAFLXIt06m/WY1QqEawpvWZQUw
+Message-ID: <AAE0766F5AF36B46BAB7E0EFB927320633FFF45E5C@GBTWK10E001.Technology.local>
+References: <AAE0766F5AF36B46BAB7E0EFB927320633FFF45E56@GBTWK10E001.Technology.local>
+	<4c5ac8f6664340f988bc68367cc3fa0a@BL2PR04MB852.namprd04.prod.outlook.com>
+In-Reply-To: <4c5ac8f6664340f988bc68367cc3fa0a@BL2PR04MB852.namprd04.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: image build with python fails due to missing berkeley db 5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,71 +51,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Aug 2014 14:39:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Aug 2014 14:57:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2014-08-18 at 15:14 +0200, Martin Jansa wrote:
-> On Mon, Aug 18, 2014 at 01:46:50PM +0100, Richard Purdie wrote:
-> > As some people are already painfully aware, the current way packagegroup
-> > and allarch interact with the sstate signatures is painful.
-> > 
-> > Some example problem cases:
-> > 
-> > * An allarch package of scripts with an interpretor dependency (e.g perl)
-> > 
-> > * A packagegroup with dependencies on something which is debian renamed 
-> >   e.g. build-essentials on libgmp 
-> > 
-> > 
-> > Currently, packagegroups default to allarch and have their sstate
-> > dependencies truncated. This means that when something like gmp
-> > rebuilds, it can change package name thanks to debian renaming but the
-> > packagegroup referencing the old name remains, causing image creation
-> > failures.
-> > 
-> > So the "obvious" fix is to stop truncating the dependencies? Well, that
-> > means that the allarch package is written out every time machine changes
-> > to a different arch.
-> > 
-> > So we need to make packagegroups PACKAGE_ARCH specific? Well, this still
-> > doesn't solve the problem of allarch packages having ever greater
-> > problems with things like dependencies on perl.
-> 
-> Well then maybe that allarch package with perl dependency shouldn't be
-> marked as allarch.
+>> My image build on yocto master fails reporting that python-bsddb
+>> cannot be installed as no package provides libdb-5.3.so. On
+>> examination it is evident that the "bitbake db" command builds
+>> BerkeleyDB 6.0 instead of 5.3
 
-Take a step back and think about this from the end user system
-perspective. The packages are all identical for each architecture,
-"perl" doesn't change name. 
+> PREFERRED_VERSION_db =3D "5.3.28"
 
-To me that means the correct end result is such a package should be
-"allarch" in the package feeds.
+Thanks Martin - is there also a version specific variant of RDEPENDS that c=
+an be added to python-bsddb to get this working without manual intervention=
+?
 
-The question then becomes, how do we generate such things in a sane way.
+>> As an experiment I added "#define HAVE_CXX_STDHEADERS" to the top of
+>> this file (I guess I should have made a patch or passed it from the
+>> recipe). The db_5.3.28.bb recipe then built okay and the image build
+>> stopped complaining about missing libdb-5.3 when installing
+>> python-bsddb
 
-> I'm in favor of removing default allarch and setting correct
-> PACKAGE_ARCH manually in the packagegroup recipes like we do elsewhere.
-> 
-> packagegroups are small and "rebuilt" quickly, so I don't mind
-> "building" them once per TUNE_PKGARCH or even once per MACHINE_ARCH like
-> we do for couple of them already.
-> 
-> I can even find few changes from me on ML which do exactly that.
+> I had similar issue with db-4.8* and zeroc-ice, HAVE_CXX_STDHEADERS is de=
+fined by default, when db recipes passes --enable-cxx, then <iostream> is i=
+ncluded instead of iostream.h and zeroc-ice builds ok.
 
-It does seem a bit of a cop out to do this on the grounds that its
-small/fast :/.
+I see that recipe-support/db/db_5.3.28.bb already has --enable-cxx so I am =
+a bit confused why it failed
 
-I agree there is good reason why some should be PKGARCH but we can
-probably do better than just marking them all that way IMO. I think we
-should try and mark them correctly too, i.e. think about whether the
-packages really are identical and/or make sense as allarch and try and
-avoid duplication if so.
+>> Does anyone else have this issue? Should python-bsddb be using BerkeleyD=
+B 6.0 now?
 
-Cheers,
+It seems unfortunate that python-bsddb needs libdb 5.3 when everything else=
+ in the master is using 6.0. What would need to change in the recipes-devto=
+ols/python/python/python-2.7.3-berkeley-db-5.3.patch to get it to work with=
+ libdb 6.0?
 
-Richard
+Nick
 
 
+The details of this company are as follows:
+G4S Technology Limited, Registered Office: Challenge House, International D=
+rive, Tewkesbury, Gloucestershire GL20 8UQ, Registered in England No. 23823=
+38.
 
+This communication may contain information which is confidential, personal =
+and/or privileged.
+
+It is for the exclusive use of the intended recipient(s).
+If you are not the intended recipient(s), please note that any distribution=
+, forwarding, copying or use of this communication or the information in it=
+ is strictly prohibited.
+
+Any personal views expressed in this e-mail are those of the individual sen=
+der and the company does not endorse or accept responsibility for them.
+
+Prior to taking any action based upon this e-mail message, you should seek =
+appropriate confirmation of its authenticity.
+
+This e-mail has been scanned for all viruses by MessageLabs.
 
