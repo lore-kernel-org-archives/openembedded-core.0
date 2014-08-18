@@ -1,24 +1,26 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E4776FCE0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8ED4965E11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 05:43:52 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7I5hr64027843
+	Mon, 18 Aug 2014 06:06:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7I66cUf026317
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Aug 2014 22:43:53 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 17 Aug 2014 22:43:53 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
+	Sun, 17 Aug 2014 23:06:39 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Sun, 17 Aug 2014 23:06:38 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Aug 2014 13:39:31 +0800
-Message-ID: <cover.1408340319.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Date: Sun, 17 Aug 2014 23:06:33 -0700
+Message-ID: <4a6c27bc8a4fb1db09447348a674645e0661c7de.1408341623.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1408341623.git.liezhi.yang@windriver.com>
+References: <cover.1408341623.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/1] piglit: enable ptest support
+Subject: [PATCH 2/6] sed: add sed to RDEPENDS sed-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Aug 2014 05:43:55 -0000
+X-List-Received-Date: Mon, 18 Aug 2014 06:06:40 -0000
 Content-Type: text/plain
 
-The following changes since commit 59b0f7f01bbac6f1c10ee00382c5136d1f327960:
+Its test scripts require /bin/sed.
 
-  chrpath: Drop warning from darwn builds (2014-08-17 10:01:36 +0100)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-extended/sed/sed_4.2.2.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib chonglu/piglit
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/piglit
-
-Chong Lu (1):
-  piglit: enable ptest support
-
- meta/recipes-graphics/piglit/piglit/run-ptest |  5 +++++
- meta/recipes-graphics/piglit/piglit_git.bb    | 10 +++++++---
- 2 files changed, 12 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-graphics/piglit/piglit/run-ptest
-
+diff --git a/meta/recipes-extended/sed/sed_4.2.2.bb b/meta/recipes-extended/sed/sed_4.2.2.bb
+index 74ac16b..ea39dae 100644
+--- a/meta/recipes-extended/sed/sed_4.2.2.bb
++++ b/meta/recipes-extended/sed/sed_4.2.2.bb
+@@ -14,7 +14,7 @@ SRC_URI[md5sum] = "4111de4faa3b9848a0686b2f260c5056"
+ SRC_URI[sha256sum] = "fea0a94d4b605894f3e2d5572e3f96e4413bcad3a085aae7367c2cf07908b2ff"
+ 
+ inherit autotools texinfo update-alternatives gettext ptest
+-RDEPENDS_${PN}-ptest += "make locale-base-ru-ru"
++RDEPENDS_${PN}-ptest += "make locale-base-ru-ru ${PN}"
+ 
+ EXTRA_OECONF = "--disable-acl \
+                 ${@bb.utils.contains('PTEST_ENABLED', '1', '--enable-regex-tests', '', d)}"
 -- 
-1.9.1
+1.7.9.5
 
 
