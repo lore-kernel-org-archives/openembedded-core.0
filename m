@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 903016ACD6
+	by mail.openembedded.org (Postfix) with ESMTP id 911476FCE0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 06:06:38 +0000 (UTC)
+	Mon, 18 Aug 2014 06:06:36 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7I66dj9026320
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7I66bkK026314
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Aug 2014 23:06:39 -0700 (PDT)
+	Sun, 17 Aug 2014 23:06:38 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 17 Aug 2014 23:06:39 -0700
+	Sun, 17 Aug 2014 23:06:37 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 17 Aug 2014 23:06:35 -0700
-Message-ID: <e6c58447a5f51790ee120ce8796acf4616646576.1408341623.git.liezhi.yang@windriver.com>
+Date: Sun, 17 Aug 2014 23:06:31 -0700
+Message-ID: <cover.1408341623.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1408341623.git.liezhi.yang@windriver.com>
-References: <cover.1408341623.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/6] run-ptest: fix bashism
+Subject: [PATCH 0/6] meta: fix rdepends issues for test related packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,105 +34,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 18 Aug 2014 06:06:40 -0000
 Content-Type: text/plain
 
-These script use /bin/sh as the interpreter, but contains bashism:
-    recipes-devtools/insserv/files/run-ptest
-    recipes-devtools/quilt/quilt/run-ptest
-    recipes-devtools/tcltk/tcl/run-ptest
-    recipes-extended/gawk/gawk-4.1.1/run-ptest
-    recipes-support/beecrypt/beecrypt/run-ptest
+* Fix rdepends issues for test related packages
+* Debash for bootchart2
 
-Fixed:
-    "==" -> "=" (should be -eq when integer)
-    "&>log" -> ">log 2>&1"
+// Robert
 
-And quilt's test scripts requires bash, add bash to RDEPENDS_quilt-ptest
+The following changes since commit d0be4b37743492fc9c178fd6f9ef73a5eb2fd9c3:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/insserv/files/run-ptest    |    2 +-
- meta/recipes-devtools/quilt/quilt-0.63.inc       |    2 +-
- meta/recipes-devtools/quilt/quilt/run-ptest      |    2 +-
- meta/recipes-devtools/tcltk/tcl/run-ptest        |    4 ++--
- meta/recipes-extended/gawk/gawk-4.1.1/run-ptest  |    4 ++--
- meta/recipes-support/beecrypt/beecrypt/run-ptest |    2 +-
- 6 files changed, 8 insertions(+), 8 deletions(-)
+  chrpath: Drop warning from darwn builds (2014-08-17 10:01:30 +0100)
 
-diff --git a/meta/recipes-devtools/insserv/files/run-ptest b/meta/recipes-devtools/insserv/files/run-ptest
-index 495d155..4a6da30 100644
---- a/meta/recipes-devtools/insserv/files/run-ptest
-+++ b/meta/recipes-devtools/insserv/files/run-ptest
-@@ -11,7 +11,7 @@ output() {
- }
- 
- for i in test_simple_sequence test_undetected_loop; \
--  do $i &>/dev/null ; output; \
-+  do $i >/dev/null 2>&1; output; \
- done
- 
- rm -rf ${tmpdir}
-diff --git a/meta/recipes-devtools/quilt/quilt-0.63.inc b/meta/recipes-devtools/quilt/quilt-0.63.inc
-index f375785..433d6b4 100644
---- a/meta/recipes-devtools/quilt/quilt-0.63.inc
-+++ b/meta/recipes-devtools/quilt/quilt-0.63.inc
-@@ -55,5 +55,5 @@ do_install_ptest() {
- RDEPENDS_${PN}-ptest = "make file sed gawk diffutils findutils ed perl \
-                         perl-module-filehandle perl-module-getopt-std \
-                         perl-module-posix perl-module-file-temp \
--                        perl-module-text-parsewords \
-+                        perl-module-text-parsewords bash \
- "
-diff --git a/meta/recipes-devtools/quilt/quilt/run-ptest b/meta/recipes-devtools/quilt/quilt/run-ptest
-index 1ea0dae..958a9df 100755
---- a/meta/recipes-devtools/quilt/quilt/run-ptest
-+++ b/meta/recipes-devtools/quilt/quilt/run-ptest
-@@ -1,5 +1,5 @@
- #!/bin/sh
- 
- ln -sf /bin/ed /usr/bin/ed
--for i in `ls test/*.test |awk -F. '{print $1}' |awk -F/ '{print $2}'`; do make check-$i; if [ $? == 0 ]; then echo PASS: $i.test; else echo FAIL: $i.test; fi; done
-+for i in `ls test/*.test |awk -F. '{print $1}' |awk -F/ '{print $2}'`; do make check-$i; if [ $? -eq 0 ]; then echo PASS: $i.test; else echo FAIL: $i.test; fi; done
- rm -f /usr/bin/ed
-diff --git a/meta/recipes-devtools/tcltk/tcl/run-ptest b/meta/recipes-devtools/tcltk/tcl/run-ptest
-index a5d6548..dadba65 100644
---- a/meta/recipes-devtools/tcltk/tcl/run-ptest
-+++ b/meta/recipes-devtools/tcltk/tcl/run-ptest
-@@ -1,8 +1,8 @@
- #!/bin/sh
- 
- for i in `ls tests/*.test |awk -F/ '{print $2}'`; \
--    do TCL_LIBRARY=library ./tcltest tests/all.tcl -file $i &>$i.tmp; \
-+    do TCL_LIBRARY=library ./tcltest tests/all.tcl -file $i >$i.tmp 2>&1; \
-     grep -q "^Files with failing tests:" $i.tmp; \
--    if [ $? == 0 ]; then echo "FAIL: $i"; \
-+    if [ $? -eq 0 ]; then echo "FAIL: $i"; \
-     else echo "PASS: $i"; rm -f $i.tmp; fi; \
- done
-diff --git a/meta/recipes-extended/gawk/gawk-4.1.1/run-ptest b/meta/recipes-extended/gawk/gawk-4.1.1/run-ptest
-index 7d214ea..d23f0bf 100644
---- a/meta/recipes-extended/gawk/gawk-4.1.1/run-ptest
-+++ b/meta/recipes-extended/gawk/gawk-4.1.1/run-ptest
-@@ -3,8 +3,8 @@
- cd test
- for i in `grep -vE "@|^$|#|Gt-dummy" Maketests |awk -F: '{print $1}'`; \
-   do LC_ALL=${GAWKLOCALE:-C} LANG=${GAWKLOCALE:-C} srcdir=`pwd` AWK=gawk CMP=cmp \
--  make -f Maketests $i &>$i.tmp; \
-+  make -f Maketests $i >$i.tmp 2>&1; \
-   grep -q "Error" $i.tmp; \
--  if [ $? == 0 ]; then echo "FAIL: $i"; \
-+  if [ $? -eq 0 ]; then echo "FAIL: $i"; \
-   else echo "PASS: $i"; rm -f $i.tmp; fi; \
- done
-diff --git a/meta/recipes-support/beecrypt/beecrypt/run-ptest b/meta/recipes-support/beecrypt/beecrypt/run-ptest
-index 5bc7460..2ee294d 100644
---- a/meta/recipes-support/beecrypt/beecrypt/run-ptest
-+++ b/meta/recipes-support/beecrypt/beecrypt/run-ptest
-@@ -1,5 +1,5 @@
- #!/bin/sh
- 
- cd tests
--for i in `ls`; do ./$i; if [ $? == 0 ]; then echo "PASS: $i"; \
-+for i in `ls`; do ./$i; if [ $? -eq 0 ]; then echo "PASS: $i"; \
-     else echo "FAIL: $i"; fi; done
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/test
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/test
+
+Robert Yang (6):
+  meta: fix RDEPNEDS for the test related pkgs
+  sed: add sed to RDEPENDS sed-ptest
+  lsbtest: no bashism in LSB_Test.sh
+  run-ptest: fix bashism
+  valgrind/oprofile/systemd: no need bash in run-ptest
+  bootchart2: no bashism in bootchartd.in
+
+ meta/recipes-core/libxml/libxml2.inc               |    2 ++
+ meta/recipes-core/systemd/systemd/run-ptest        |    2 ++
+ meta/recipes-core/udev/udev.inc                    |    2 +-
+ .../bootchart2/bootchartd-no-bashism.patch         |   27 ++++++++++++++++++++
+ meta/recipes-devtools/bootchart2/bootchart2_git.bb |    6 +++--
+ meta/recipes-devtools/insserv/files/run-ptest      |    2 +-
+ meta/recipes-devtools/quilt/quilt-0.63.inc         |    2 +-
+ meta/recipes-devtools/quilt/quilt/run-ptest        |    2 +-
+ meta/recipes-devtools/tcltk/tcl/run-ptest          |    4 +--
+ meta/recipes-devtools/valgrind/valgrind/run-ptest  |    3 ++-
+ meta/recipes-extended/gawk/gawk-4.1.1/run-ptest    |    4 +--
+ meta/recipes-extended/lsb/lsbtest/LSB_Test.sh      |    2 +-
+ meta/recipes-extended/pam/libpam_1.1.6.bb          |   11 ++++++--
+ meta/recipes-extended/sed/sed_4.2.2.bb             |    2 +-
+ meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb     |    2 +-
+ meta/recipes-kernel/oprofile/oprofile/run-ptest    |    3 ++-
+ meta/recipes-support/beecrypt/beecrypt/run-ptest   |    2 +-
+ 17 files changed, 60 insertions(+), 18 deletions(-)
+ create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch
+
 -- 
 1.7.9.5
 
