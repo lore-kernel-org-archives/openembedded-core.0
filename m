@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5647C70D90
+	by mail.openembedded.org (Postfix) with ESMTP id 578E070E30
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 01:51:23 +0000 (UTC)
+	Mon, 18 Aug 2014 01:51:28 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7I1pOg4024551
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7I1pTVe024557
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Aug 2014 18:51:24 -0700 (PDT)
+	Sun, 17 Aug 2014 18:51:29 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 17 Aug 2014 18:51:24 -0700
+	14.3.174.1; Sun, 17 Aug 2014 18:51:29 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Aug 2014 09:51:37 +0800
-Message-ID: <cover.1408326458.git.Qi.Chen@windriver.com>
+Date: Mon, 18 Aug 2014 09:51:41 +0800
+Message-ID: <13d0eedbf2c329b87eb743680f43825364c6e7b7.1408326458.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1408326458.git.Qi.Chen@windriver.com>
+References: <cover.1408326458.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 00/10] upgrade systemd to 215 and other misc fixes
+Subject: [PATCH V3 04/10] update-rc.d: fix logic in populate_packages_updatercd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,50 +33,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Aug 2014 01:51:28 -0000
+X-List-Received-Date: Mon, 18 Aug 2014 01:51:29 -0000
 Content-Type: text/plain
 
-The following changes since commit 4321c553d5ae816e566234e981a0815bba046d39:
+The 'and' logic for the check is wrong. To make things clear, please
+see the example below.
 
-  SIGGEN_EXCLUDERECIPES_ABISAFE: add initscripts (2014-08-11 17:44:09 +0100)
+Say that we have a recipe A, which has a sysv-init style init script named
+initA and no corresponding service file. The recipe inherits update-rc.d,
+but it doesn't inherit systemd.bbclass. The DISTRO_FEATURES has 'systemd'
+inside it, but it doesn't have 'sysvinit'. Now if we build an image, with
+the 'and' logic in the check, the symlinks for initA would not be installed
+into /etc/rc?.d directory.
+This is incorrect. Because there's no corresponding service. The symlinks
+in /etc/rc?.d/ should be created so that the service would be correctly
+started at boot time.
 
-are available in the git repository at:
+The logic should really be 'or' in the check. This is actually what the code
+was when it was originally written.
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-misc-fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-misc-fixes
+Several different situations are listed below to prove the correctness of the
+'or' logic.
 
-Chen Qi (10):
-  systemd: upgrade to 215
-  systemd: add PACKAGECONFIG for 'elfutils'
-  systemd: make runlevel work in non-runlevel targets
-  update-rc.d: fix logic in populate_packages_updatercd
-  alsa-state: fix pkg_postinst and set INHIBIT_UPDATERCD_BBCLASS
-  keymaps: fix for systemd
-  systemd: add kbd-keymaps to RRECOMMENDS of systemd-vconsole-setup
-  v86d: set INHIBIT_UPDATERCD_BBCLASS if 'sysvinit' not in
-    DISTRO_FEATURES
-  systemd: add support for executing scripts under /etc/rcS.d
-  dhcp: add dhcpd.service
+If 'sysvinit' is in DISTRO_FEATURES, the initA script would always be installed
+with corresponding preisnt/postinst generated and added.
 
- meta/classes/update-rc.d.bbclass                   |    2 +-
- meta/recipes-bsp/alsa-state/alsa-state.bb          |   11 +-
- meta/recipes-bsp/keymaps/keymaps_1.0.bb            |   17 ++-
- meta/recipes-bsp/v86d/v86d_0.1.10.bb               |    7 ++
- meta/recipes-connectivity/dhcp/dhcp.inc            |   18 ++-
- meta/recipes-connectivity/dhcp/files/dhcpd.service |   11 ++
- ...ort-for-executing-scripts-under-etc-rcS.d.patch |   93 ++++++++++++++++
- ...k-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch |  116 ++++++++++++++++++++
- ...icitly-include-endian.h-wherever-we-want-.patch |   52 +++++++++
- .../systemd/systemd/systemd-older-kernel.patch     |   56 ----------
- .../systemd/{systemd_213.bb => systemd_215.bb}     |   27 ++++-
- 11 files changed, 338 insertions(+), 72 deletions(-)
- create mode 100644 meta/recipes-connectivity/dhcp/files/dhcpd.service
- create mode 100644 meta/recipes-core/systemd/systemd/0001-add-support-for-executing-scripts-under-etc-rcS.d.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0001-always-check-for-__BYTE_ORDER-__BIG_ENDIAN-when-chec.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0002-endian-explicitly-include-endian.h-wherever-we-want-.patch
- delete mode 100644 meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
- rename meta/recipes-core/systemd/{systemd_213.bb => systemd_215.bb} (89%)
+If 'sysvinit' is not in DISTRO_FEATURES, we have three situations.
+1) A has initA and A.service.
+   In such situation, systemd.bbclass would set INHIBIT_UPDATERCD_BBCLASS,
+   so no preinst/postinst about update-rc.d would be added and the symlinks
+   for initA would not be created.
 
+2) A has initA, and the functionality of initA is not implemented internally
+   in systemd.
+   In such situation, symlinks for initA would be installed.
+
+3) A has initA, and the functionality of initA is implemented internally in
+   systemd or in some other recipe.
+   Examples for such situation are alsa-state and keymaps in OE.
+   In such situation, we need to set INHIBIT_UPDATERCD_BBCLASS in the recipe
+   so that there would be no preinst/postinst scripts about update-rc.d added.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/classes/update-rc.d.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 19b081d..3c5414b 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -121,7 +121,7 @@ python populate_packages_updatercd () {
+ 
+     # Check that this class isn't being inhibited (generally, by
+     # systemd.bbclass) before doing any work.
+-    if bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d) and \
++    if bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d) or \
+        not d.getVar("INHIBIT_UPDATERCD_BBCLASS", True):
+         pkgs = d.getVar('INITSCRIPT_PACKAGES', True)
+         if pkgs == None:
 -- 
 1.7.9.5
 
