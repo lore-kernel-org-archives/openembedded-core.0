@@ -1,21 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E4CDC65DB1
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f54.google.com (mail-la0-f54.google.com
+	[209.85.215.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 89326610F5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 14:21:58 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 18 Aug 2014 07:22:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,886,1400050800"; d="scan'208";a="560045326"
-Received: from sdoherty-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.63])
-	by orsmga001.jf.intel.com with ESMTP; 18 Aug 2014 07:21:58 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Aug 2014 15:21:53 +0100
-Message-Id: <cover.1408371675.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH 0/1] sstate task dependency fix
+	Mon, 18 Aug 2014 14:36:43 +0000 (UTC)
+Received: by mail-la0-f54.google.com with SMTP id hz20so4658159lab.13
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Aug 2014 07:36:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=jQBbsZKTspo0zDbuPQDfWy+JS6EfUpX8P3IFHKKDnH8=;
+	b=zLsoDJlNpOPTaP/Y0vFFK33y+kDN99fYskjhEUl4dw4tZaSz/L1bkbclWQX1AB3xu+
+	ehVRqFHnbZa4V167B63zWQP1XeAresPvGoreP63iT8SIkqoN9seXxzqiW0UTGjm3X7ia
+	vmNy3ds4dmITX20kJBdL6CnQTar6P8nXwYRHmaM/CY3g75MdOkORtP42hydnB5+Xdo65
+	mdmeHaaJIfFaAhX6H7PegK+PwMYES1Sp4IP1DDr7mHXrkT0ocilufKhDFy7JPObHEjVJ
+	KZUqIqnpNZtXlzYjrLbLfmgpHy4StFm8ngRatQbIsYSGo07FmhZDl0hfluRAw5kNkUv8
+	FDOA==
+X-Received: by 10.152.5.194 with SMTP id u2mr13333538lau.68.1408372604393;
+	Mon, 18 Aug 2014 07:36:44 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.43.42 with HTTP; Mon, 18 Aug 2014 07:36:24 -0700 (PDT)
+In-Reply-To: <1408356737-8743-1-git-send-email-jackie.huang@windriver.com>
+References: <1408356737-8743-1-git-send-email-jackie.huang@windriver.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 18 Aug 2014 07:36:24 -0700
+X-Google-Sender-Auth: ppO_-NgjsCrUnedAMBNjN2RUJqk
+Message-ID: <CABcZAN=w5G2126KMhoEPZBuM7bmeNZG+FAG2kyfUfVyMYpvCCw@mail.gmail.com>
+To: jackie.huang@windriver.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl: add DEPENDS on openssl-native for rehash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,25 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Aug 2014 14:22:00 -0000
+X-List-Received-Date: Mon, 18 Aug 2014 14:36:46 -0000
+Content-Type: multipart/alternative; boundary=089e013d173acbe1900500e84ca5
 
-The following change since commit 0300a46a8350cc58b40cfc5887ab04f0b0f5435e:
+--089e013d173acbe1900500e84ca5
+Content-Type: text/plain; charset=UTF-8
 
-  site/common-darwin: Really fix common-darwin typo (2014-08-18 10:00:14 +0100)
+On Mon, Aug 18, 2014 at 3:12 AM, <jackie.huang@windriver.com> wrote:
 
-is available in the git repository at:
+>  DEPENDS = "perl-native-runtime"
+> +DEPENDS_class-target = "openssl-native"
+>
 
-  git://git.openembedded.org/openembedded-core-contrib paule/sstate
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/sstate
-
-Paul Eggleton (1):
-  classes/sstate: ensure do_package_qa_setscene doesn't pull in
-    do_package_setscene
-
- meta/classes/sstate.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
+This is removing the perl-native-runtime dependency for the target recipe,
+is that really the intent?
 -- 
-1.9.3
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--089e013d173acbe1900500e84ca5
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Mon, Aug 18, 2014 at 3:12 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:j=
+ackie.huang@windriver.com" target=3D"_blank">jackie.huang@windriver.com</a>=
+&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":1ex" class=3D"a3s" style=3D"over=
+flow:hidden">=C2=A0DEPENDS =3D &quot;perl-native-runtime&quot;<br>
++DEPENDS_class-target =3D &quot;openssl-native&quot;</div></blockquote></di=
+v><br></div><div class=3D"gmail_extra">This is removing the perl-native-run=
+time dependency for the target recipe, is that really the intent?<br>-- <br=
+>
+
+Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, Open=
+Embedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Men=
+tor Graphics
+</div></div>
+
+--089e013d173acbe1900500e84ca5--
