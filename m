@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Chong.Lu@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AD3E70E45
+	by mail.openembedded.org (Postfix) with ESMTP id 1E3D4617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 06:24:08 +0000 (UTC)
+	Mon, 18 Aug 2014 06:30:51 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7I6O9Xf026460
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7I6Uq24026529
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Aug 2014 23:24:09 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 17 Aug 2014 23:24:09 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Sun, 17 Aug 2014 23:30:52 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 17 Aug 2014 23:30:51 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 17 Aug 2014 23:24:02 -0700
-Message-ID: <1ed709cebd9fc80c008eb3d5cf7daa46e8759f02.1408342506.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1408342506.git.liezhi.yang@windriver.com>
-References: <cover.1408342506.git.liezhi.yang@windriver.com>
+Date: Mon, 18 Aug 2014 14:26:30 +0800
+Message-ID: <cover.1408343136.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH 1/7] bitbake.conf: add bash-native to ASSUME_PROVIDED
+Subject: [PATCH 0/1] librsvg: disable Bsymbolic if it is not supported on some hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Aug 2014 06:24:12 -0000
+X-List-Received-Date: Mon, 18 Aug 2014 06:30:51 -0000
 Content-Type: text/plain
 
-A few native scipts requires bash-native, and we don't build
-bash-native, so add it to ASSUME_PROVIDED.
+The following changes since commit 59b0f7f01bbac6f1c10ee00382c5136d1f327960:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/conf/bitbake.conf |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+  chrpath: Drop warning from darwn builds (2014-08-17 10:01:36 +0100)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 5872d1d..afe8661 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -169,7 +169,8 @@ ASSUME_PROVIDED = "\
-     python-native-runtime \
-     tar-native \
-     virtual/libintl-native \
--    texinfo-native\
-+    texinfo-native \
-+    bash-native \
-     "
- # gzip-native should be listed above?
- 
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib chonglu/librsvg
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/librsvg
+
+Chong Lu (1):
+  librsvg: disable Bsymbolic if it is not supported on some hosts
+
+ meta/recipes-gnome/librsvg/librsvg_2.40.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-1.7.9.5
+1.9.1
 
 
