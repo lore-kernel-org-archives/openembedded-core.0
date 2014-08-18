@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C7EB617B8
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1370F70D30
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 06:24:10 +0000 (UTC)
+	Mon, 18 Aug 2014 06:24:09 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7I6OBOn000974
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7I6OBuB026468
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 17 Aug 2014 23:24:11 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 17 Aug 2014 23:24:11 -0700
+	Sun, 17 Aug 2014 23:24:10 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 17 Aug 2014 23:24:07 -0700
-Message-ID: <eabe5ee196b6316939b50a55312695efb388872d.1408342506.git.liezhi.yang@windriver.com>
+Date: Sun, 17 Aug 2014 23:24:06 -0700
+Message-ID: <14fa79af05a9f7b1e358d5983d3f6c8e3302364e.1408342506.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1408342506.git.liezhi.yang@windriver.com>
 References: <cover.1408342506.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/7] apt: add bash to RDEPENDS_apt
+Subject: [PATCH 5/7] xmlto: add bash to RDEPENDS_xmlto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Aug 2014 06:24:11 -0000
+X-List-Received-Date: Mon, 18 Aug 2014 06:24:12 -0000
 Content-Type: text/plain
 
 Bash scripts:
-apt/usr/lib64/dpkg/methods/apt/update
-apt/usr/lib64/dpkg/methods/apt/install
+xmlto/usr/bin/xmlto.real
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/apt/apt_0.9.9.4.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/xmlto/xmlto_0.0.25.bb |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/apt/apt_0.9.9.4.bb b/meta/recipes-devtools/apt/apt_0.9.9.4.bb
-index ae9ed6c..86ffe66 100644
---- a/meta/recipes-devtools/apt/apt_0.9.9.4.bb
-+++ b/meta/recipes-devtools/apt/apt_0.9.9.4.bb
-@@ -1,5 +1,5 @@
- DEPENDS = "curl db"
--RDEPENDS_${PN} = "dpkg"
-+RDEPENDS_${PN} = "dpkg bash"
- LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
- require apt.inc
+diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.25.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.25.bb
+index 2747d6d..2698b1c 100644
+--- a/meta/recipes-devtools/xmlto/xmlto_0.0.25.bb
++++ b/meta/recipes-devtools/xmlto/xmlto_0.0.25.bb
+@@ -15,11 +15,12 @@ SRC_URI[sha256sum] = "c52b56d929e8d20fc19cd3b7ec238f8d039730c56ee311cc352e843147
  
+ inherit autotools
+ 
+-# xmlto needs getopt/xmllint/xsltproc at runtime
++# xmlto needs getopt/xmllint/xsltproc/bash at runtime
+ RDEPENDS_${PN} = "docbook-xml-dtd4 \
+                   docbook-xsl-stylesheets \
+                   util-linux \
+                   libxml2 \
++                  bash \
+ "
+ RDEPENDS_${PN}_append_class-target = " \
+                   libxslt-bin \
 -- 
 1.7.9.5
 
