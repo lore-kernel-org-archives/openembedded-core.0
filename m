@@ -1,30 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AECC65E11
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 8ACEB70C65
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 09:10:08 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7I99ocX015451; Mon, 18 Aug 2014 10:10:07 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RVfkyszLm8jI; Mon, 18 Aug 2014 10:10:07 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7I9A1YW015474
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 18 Aug 2014 10:10:02 +0100
-Message-ID: <1408353001.13042.1.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chong Lu <Chong.Lu@windriver.com>
-Date: Mon, 18 Aug 2014 10:10:01 +0100
-In-Reply-To: <a181226a852b3dbe8131a658144b0689c6022b93.1408343136.git.Chong.Lu@windriver.com>
-References: <cover.1408343136.git.Chong.Lu@windriver.com>
-	<a181226a852b3dbe8131a658144b0689c6022b93.1408343136.git.Chong.Lu@windriver.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] librsvg: disable Bsymbolic if it is not supported on some hosts
+	Mon, 18 Aug 2014 09:44:30 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Aug 2014 02:44:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,885,1400050800"; d="scan'208";a="578119221"
+Received: from sentry.rb.intel.com ([10.237.105.37])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Aug 2014 02:44:04 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Aug 2014 12:44:00 +0300
+Message-Id: <1408355040-22171-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] qemu: fix Darwin cross-compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,52 +27,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Aug 2014 09:10:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Aug 2014 09:44:30 -0000
 
-On Mon, 2014-08-18 at 14:26 +0800, Chong Lu wrote:
-> When trying to build on my Centos 5.5 machine, got below error:
-> | checking for gdk-pixbuf-query-loaders... /home/build/clu1/build/qemux86_standard_glibc-std/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/gdk-pixbuf-query-loaders
-> | checking if gcc  supports "-Wl,-Bsymbolic-functions" flag...
-> | configure: error: -Bsymbolic requested but not supported by ld. Use --disable-Bsymbolic to disable
-> | Configure failed. The contents of all config.log files follows to aid debugging
-> | ERROR: oe_runconf failed
-> 
-> Set --enable-Bsymbolic=auto to disable it when it is not suppported.
-> 
-> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> ---
->  meta/recipes-gnome/librsvg/librsvg_2.40.2.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.2.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.2.bb
-> index 34d8ca1..d288d4b 100644
-> --- a/meta/recipes-gnome/librsvg/librsvg_2.40.2.bb
-> +++ b/meta/recipes-gnome/librsvg/librsvg_2.40.2.bb
-> @@ -20,7 +20,7 @@ SRC_URI += "file://gtk-option.patch \
->  SRC_URI[archive.md5sum] = "acdecdb9f08f3bf662a68bf7dafb8b82"
->  SRC_URI[archive.sha256sum] = "48049b643294636df7de1a4b997414d699666f5dc44776945c218a257d2a291c"
->  
-> -EXTRA_OECONF = "--disable-introspection --disable-vala"
-> +EXTRA_OECONF = "--disable-introspection --disable-vala --enable-Bsymbolic=auto"
+Darwin target will not be detected correctly
+if qemu is cross-compiled under a Linux host.
 
-Please can you add a comment in to the recipe alongside this explaining
-why we need to do this. In 12 months time, nobody will be able to
-remember why we're passing in this option without looking at the
-history.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../configure-fix-Darwin-target-detection.patch    | 32 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.1.0.bb           |  4 +--
+ 2 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/configure-fix-Darwin-target-detection.patch
 
-Also, we only need this in the -native case, correct?
-
-Cheers,
-
-Richard
-
->  PACKAGECONFIG ??= "gdkpixbuf"
->  # The gdk-pixbuf loader
-> -- 
-> 1.9.1
-> 
-
+diff --git a/meta/recipes-devtools/qemu/qemu/configure-fix-Darwin-target-detection.patch b/meta/recipes-devtools/qemu/qemu/configure-fix-Darwin-target-detection.patch
+new file mode 100644
+index 0000000..59cdc1c
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/configure-fix-Darwin-target-detection.patch
+@@ -0,0 +1,32 @@
++Upstream-Status: Pending
++Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
++
++From 9ac096d8eccf2d56ece646320c282c8369f8337c Mon Sep 17 00:00:00 2001
++From: Cristian Iorga <cristian.iorga@intel.com>
++Date: Tue, 29 Jul 2014 18:35:59 +0300
++Subject: [PATCH] configure: fix Darwin target detection
++
++fix Darwin target detection for qemu
++cross-compilation.
++
++Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
++---
++ configure | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/configure b/configure
++index 283c71c..1c66a11 100755
++--- a/configure
+++++ b/configure
++@@ -444,6 +444,8 @@ elif check_define __sun__ ; then
++   targetos='SunOS'
++ elif check_define __HAIKU__ ; then
++   targetos='Haiku'
+++elif check_define __APPLE__ ; then
+++  targetos='Darwin'
++ else
++   targetos=`uname -s`
++ fi
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu_2.1.0.bb b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
+index abf8dfc..9b8337a 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.1.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
+@@ -3,10 +3,10 @@ require qemu.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+ 
+-SRC_URI += "file://qemu-enlarge-env-entry-size.patch \
++SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
++            file://qemu-enlarge-env-entry-size.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+             "
+-
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "6726977292b448cbc7f89998fac6983b"
+ SRC_URI[sha256sum] = "397e23184f4bf613589a8fe0c6542461dc2afdf17ed337e97e6fd2f31e8f8802"
+-- 
+1.9.1
 
 
