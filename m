@@ -1,26 +1,26 @@
 Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D400D70738
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CE79E70E34
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 18 Aug 2014 05:23:47 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7I5Nn2b026594
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7I5Nl6Y025989
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Aug 2014 22:23:49 -0700 (PDT)
+	Sun, 17 Aug 2014 22:23:48 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 17 Aug 2014 22:23:48 -0700
+	14.3.174.1; Sun, 17 Aug 2014 22:23:43 -0700
 From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Aug 2014 13:19:22 +0800
-Message-ID: <54429201385cf5e7e237ee6166a9efb7910bf9b7.1408339065.git.Chong.Lu@windriver.com>
+Date: Mon, 18 Aug 2014 13:19:21 +0800
+Message-ID: <6428f634c556ba5fe72378b34a52950ef4780935.1408339065.git.Chong.Lu@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1408339065.git.Chong.Lu@windriver.com>
 References: <cover.1408339065.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] strace: fix ptest execution failure
+Subject: [PATCH 1/2] perl: fix the output format of all tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,59 +33,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Aug 2014 05:23:48 -0000
+X-List-Received-Date: Mon, 18 Aug 2014 05:23:50 -0000
 Content-Type: text/plain
 
-ptest needs runtest-TESTS target.
-serial-tests is required to generate this target.
+We should use "PASS:|FAIL:|SKIP: testname" to output results of ptest.
 
 Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
 ---
- .../strace/strace-4.8/Makefile-ptest.patch              | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/perl/perl-5.20.0/run-ptest | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
-index f5556b2..3a0eb39 100644
---- a/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
-+++ b/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
-@@ -1,11 +1,13 @@
- strace: Add ptest
- 
-+Upstream-Status: Inappropriate
-+
- Signed-off-by: Gabriel Barbu <gabriel.barbu@enea.com>
--Upstream-Status: Pending
-+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
- 
- --- old/tests/Makefile.am	2013-07-23 13:44:24.660481381 +0200
- +++ new/tests/Makefile.am	2013-07-23 16:22:42.937654391 +0200
--@@ -9,3 +9,20 @@
-+@@ -9,3 +9,21 @@
-  EXTRA_DIST = init.sh $(TESTS)
-  
-  CLEANFILES = check.log
-@@ -18,6 +20,7 @@ Upstream-Status: Pending
- +	install -d $(DESTDIR)/$(TESTDIR)
- +	cp $(BUILDDIR)/$(TESTDIR)/Makefile $(DESTDIR)/$(TESTDIR)
- +	sed -i -e 's/^Makefile:/_Makefile:/' $(DESTDIR)/$(TESTDIR)/Makefile
-++	sed -i -e 's/bash/sh/' $(DESTDIR)/$(TESTDIR)/Makefile
- +	for file in $(check_PROGRAMS); do \
- +		install $(BUILDDIR)/$(TESTDIR)/$$file $(DESTDIR)/$(TESTDIR); \
- +	done
-@@ -26,3 +29,13 @@ Upstream-Status: Pending
- +		sed -i -e 's/$${srcdir=.}/./g' $(DESTDIR)/$(TESTDIR)/$$file; \
- +	done
- +	sed -i -e 's/$$srcdir/./g' $(DESTDIR)/$(TESTDIR)/net
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -6,7 +6,7 @@ AC_INIT([strace],
-+ AC_CONFIG_SRCDIR([strace.c])
-+ AC_CONFIG_AUX_DIR([.])
-+ AC_CONFIG_HEADERS([config.h])
-+-AM_INIT_AUTOMAKE([foreign dist-xz no-dist-gzip silent-rules])
-++AM_INIT_AUTOMAKE([foreign dist-xz no-dist-gzip silent-rules serial-tests])
-+ AM_MAINTAINER_MODE
-+ AC_CANONICAL_HOST
+diff --git a/meta/recipes-devtools/perl/perl-5.20.0/run-ptest b/meta/recipes-devtools/perl/perl-5.20.0/run-ptest
+index ed59b4b..1e2dd1b 100644
+--- a/meta/recipes-devtools/perl/perl-5.20.0/run-ptest
++++ b/meta/recipes-devtools/perl/perl-5.20.0/run-ptest
+@@ -1,2 +1,2 @@
+ #!/bin/sh
+-cd t && ./TEST | sed -u -e 's/^\([^. \t]*\)\.\.\.\+ok/PASS: \1/' -e 's/^\([^. \t]*\)\.\.\.\+skipped/SKIP: \1/' -e 's/^\([^. \t]*\)\.\.\.\+\(.*\)/FAIL: \1\n\2/'
++cd t && ./TEST | sed -u -e 's|\(.*\) .* ok$|PASS: \1|' -e 's|\(.*\) .* skipped|SKIP: \1|' -e 's|\(.*\) \.\(.*\)|FAIL: \1|'
 -- 
 1.9.1
 
