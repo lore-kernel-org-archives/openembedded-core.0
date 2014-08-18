@@ -1,40 +1,41 @@
-Return-Path: <nick.lewis@usa.g4s.com>
-X-Greylist: delayed 409 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 18 Aug 2014 10:20:58 UTC
-Received: from mail1.bemta14.messagelabs.com (mail1.bemta14.messagelabs.com
-	[193.109.254.114])
-	by mail.openembedded.org (Postfix) with ESMTP id E9EA560169
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id AAE6560169
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 10:20:58 +0000 (UTC)
-Received: from [85.158.140.195:41010] by server-10.bemta-14.messagelabs.com id
-	51/E4-06615-1F1D1F35; Mon, 18 Aug 2014 10:14:09 +0000
-X-Env-Sender: nick.lewis@usa.g4s.com
-X-Msg-Ref: server-2.tower-193.messagelabs.com!1408356849!15428490!1
-X-Originating-IP: [89.206.228.155]
-X-StarScan-Received: 
-X-StarScan-Version: 6.11.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 8120 invoked from network); 18 Aug 2014 10:14:09 -0000
-Received: from unallocated.star.net.uk (HELO gbtwk10s038.Technology.local)
-	(89.206.228.155)
-	by server-2.tower-193.messagelabs.com with RC4-SHA encrypted SMTP;
-	18 Aug 2014 10:14:09 -0000
-Received: from GBTWK10E001.Technology.local ([10.234.1.29]) by
-	gbtwk10s038.Technology.local ([10.234.1.40]) with mapi; Mon, 18 Aug 2014
-	11:14:09 +0100
-From: "Lewis, Nick" <nick.lewis@usa.g4s.com>
-To: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Aug 2014 11:14:08 +0100
-Thread-Topic: image build with python fails due to missing berkeley db 5.3
-Thread-Index: Ac+6zMbez4Ds+snzSuW+U7sSfo4oBg==
-Message-ID: <AAE0766F5AF36B46BAB7E0EFB927320633FFF45E56@GBTWK10E001.Technology.local>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
+	Mon, 18 Aug 2014 10:36:16 +0000 (UTC)
+Received: by mail-la0-f41.google.com with SMTP id s18so4391923lam.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Aug 2014 03:36:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=qIEhjNvhODheGdqguJoryZnWjulk39eabUjIN2+Z0co=;
+	b=yH8FfV+9n/l8K5BRqoHv+/kMKVnyQUj//kBhAcazqhop5hNgG6C2RlWzDQXhh95c0e
+	4Y1Ps9lZ862vLFkYbPIyxn8sn6w6BWfU+CEu5oSRGDTXunKt7WEHoVeMo3VtVTGh/EIq
+	m8hXTXOMNK6tQ/xhAlcl+XGhj3/pntTBg8VR7yAB7AGLbehNipg/1XIQFVxBuNV3uNRi
+	akN12vzOfatXjaquVEWwc0LQfvN1TPo/ShNqcpLVS4aCbIxXlkJN9+GrZmxVQ15ZXkA3
+	BUc7aRhLdnCpYdfMLTZeD0l9KxmkgyBKC9yFh7VRTUCE9R7gfg47bSLoERLB2qqD1zwC
+	rt2A==
+X-Received: by 10.152.164.229 with SMTP id yt5mr28671397lab.19.1408358176294; 
+	Mon, 18 Aug 2014 03:36:16 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	tl7sm9514678lbb.9.2014.08.18.03.36.14 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Aug 2014 03:36:15 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 18 Aug 2014 12:36:13 +0200
+To: "Lewis, Nick" <nick.lewis@usa.g4s.com>
+Message-ID: <20140818103613.GK3660@jama>
+References: <AAE0766F5AF36B46BAB7E0EFB927320633FFF45E56@GBTWK10E001.Technology.local>
 MIME-Version: 1.0
-Subject: image build with python fails due to missing berkeley db 5.3
+In-Reply-To: <AAE0766F5AF36B46BAB7E0EFB927320633FFF45E56@GBTWK10E001.Technology.local>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: "'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: image build with python fails due to missing berkeley db 5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,208 +48,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Aug 2014 10:21:05 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_AAE0766F5AF36B46BAB7E0EFB927320633FFF45E56GBTWK10E001Te_"
+X-List-Received-Date: Mon, 18 Aug 2014 10:36:24 -0000
+X-Groupsio-MsgNum: 56687
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vJI8q/aziP9idhqk"
+Content-Disposition: inline
 
---_000_AAE0766F5AF36B46BAB7E0EFB927320633FFF45E56GBTWK10E001Te_
-Content-Type: text/plain; charset="us-ascii"
+--vJI8q/aziP9idhqk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-My image build on yocto master fails reporting that python-bsddb cannot be =
-installed as no package provides libdb-5.3.so. On examination it is evident=
- that the "bitbake db" command builds BerkeleyDB 6.0 instead of 5.3
+On Mon, Aug 18, 2014 at 11:14:08AM +0100, Lewis, Nick wrote:
+> My image build on yocto master fails reporting that python-bsddb cannot b=
+e installed as no package provides libdb-5.3.so. On examination it is evide=
+nt that the "bitbake db" command builds BerkeleyDB 6.0 instead of 5.3
+>=20
+> As an experiment I temporarily renamed the "recipe-support/db_6.0.30.bb" =
+recipe in order to force the "recipe-support/db_5.3.28.bb" recipe to run (I=
+ guess there is a proper way to do this with preferred provider but I canno=
+t remember how). The db_5.3.28.bb recipe ran but failed on missing include =
+"#include <iostream.h>" in tmp/work/cortexa9hf-neon-poky-linux-gnueabi/db/5=
+=2E3.28-r0/db-5.3.28/build_unix/db_cxx.h
 
-As an experiment I temporarily renamed the "recipe-support/db_6.0.30.bb" re=
-cipe in order to force the "recipe-support/db_5.3.28.bb" recipe to run (I g=
-uess there is a proper way to do this with preferred provider but I cannot =
-remember how). The db_5.3.28.bb recipe ran but failed on missing include "#=
-include <iostream.h>" in tmp/work/cortexa9hf-neon-poky-linux-gnueabi/db/5.3=
-.28-r0/db-5.3.28/build_unix/db_cxx.h
+PREFERRED_VERSION_db =3D "5.3.28"
 
-As an experiment I added "#define HAVE_CXX_STDHEADERS" to the top of this f=
-ile (I guess I should have made a patch or passed it from the recipe). The =
-db_5.3.28.bb recipe then built okay and the image build stopped complaining=
- about missing libdb-5.3 when installing python-bsddb
+> As an experiment I added "#define HAVE_CXX_STDHEADERS" to the top of this=
+ file (I guess I should have made a patch or passed it from the recipe). Th=
+e db_5.3.28.bb recipe then built okay and the image build stopped complaini=
+ng about missing libdb-5.3 when installing python-bsddb
 
-Does anyone else have this issue? Should python-bsddb be using BerkeleyDB 6=
-.0 now?
+I had similar issue with db-4.8* and zeroc-ice, HAVE_CXX_STDHEADERS is
+defined by default, when db recipes passes --enable-cxx, then <iostream>
+is included instead of iostream.h and zeroc-ice builds ok.
 
-Best Regards
-Nick
+> Does anyone else have this issue? Should python-bsddb be using BerkeleyDB=
+ 6.0 now?
+>=20
+> Best Regards
+> Nick
+>=20
+> Nick Lewis
+> nick.lewis@usa.g4s.com<mailto:nick.lewis@usa.g4s.com>
+> +44 1684 277137<tel:+441684277137>
+> www.g4stechnology.com<http://www.g4stechnology.com/>
+> New Challenge House, International Drive, Tewkesbury, Gloucestershire, GL=
+20 8UQ, UK
+>=20
+> P Please consider the environment before printing this email
+>=20
+>=20
+> ________________________________
+> The details of this company are as follows:
+> G4S Technology Limited, Registered Office: Challenge House, International=
+ Drive, Tewkesbury, Gloucestershire GL20 8UQ, Registered in England No. 238=
+2338.
+>=20
+> This communication may contain information which is confidential, persona=
+l and/or privileged.
+>=20
+> It is for the exclusive use of the intended recipient(s).
+> If you are not the intended recipient(s), please note that any distributi=
+on, forwarding, copying or use of this communication or the information in =
+it is strictly prohibited.
+>=20
+> Any personal views expressed in this e-mail are those of the individual s=
+ender and the company does not endorse or accept responsibility for them.
+>=20
+> Prior to taking any action based upon this e-mail message, you should see=
+k appropriate confirmation of its authenticity.
+>=20
+> This e-mail has been scanned for all viruses by MessageLabs.
 
-Nick Lewis
-nick.lewis@usa.g4s.com<mailto:nick.lewis@usa.g4s.com>
-+44 1684 277137<tel:+441684277137>
-www.g4stechnology.com<http://www.g4stechnology.com/>
-New Challenge House, International Drive, Tewkesbury, Gloucestershire, GL20=
- 8UQ, UK
-
-P Please consider the environment before printing this email
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
-________________________________
-The details of this company are as follows:
-G4S Technology Limited, Registered Office: Challenge House, International D=
-rive, Tewkesbury, Gloucestershire GL20 8UQ, Registered in England No. 23823=
-38.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-This communication may contain information which is confidential, personal =
-and/or privileged.
+--vJI8q/aziP9idhqk
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-It is for the exclusive use of the intended recipient(s).
-If you are not the intended recipient(s), please note that any distribution=
-, forwarding, copying or use of this communication or the information in it=
- is strictly prohibited.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-Any personal views expressed in this e-mail are those of the individual sen=
-der and the company does not endorse or accept responsibility for them.
+iEYEARECAAYFAlPx1x0ACgkQN1Ujt2V2gBy1hwCeKJ0QgZlFh4JizoUEUM+jFUuw
+lmsAn39MWFlI7gzL2XiPbR0N9QmHbeqs
+=uNx/
+-----END PGP SIGNATURE-----
 
-Prior to taking any action based upon this e-mail message, you should seek =
-appropriate confirmation of its authenticity.
-
-This e-mail has been scanned for all viruses by MessageLabs.
-
---_000_AAE0766F5AF36B46BAB7E0EFB927320633FFF45E56GBTWK10E001Te_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Webdings;
-	panose-1:5 3 1 2 1 5 9 6 7 3;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";
-	mso-fareast-language:EN-US;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri","sans-serif";
-	mso-fareast-language:EN-US;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-GB" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">My image build on yocto master fails reporting that =
-python-bsddb cannot be installed as no package provides libdb-5.3.so. On ex=
-amination it is evident that the &#8220;bitbake db&#8221; command builds Be=
-rkeleyDB 6.0 instead of 5.3<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">As an experiment I temporarily renamed the &#8220;re=
-cipe-support/db_6.0.30.bb&#8221; recipe in order to force the &#8220;recipe=
--support/db_5.3.28.bb&#8221; recipe to run (I guess there is a proper way t=
-o do this with preferred provider but I cannot remember how).
- The db_5.3.28.bb recipe ran but failed on missing include &#8220;#include =
-&lt;iostream.h&gt;&#8221; in tmp/work/cortexa9hf-neon-poky-linux-gnueabi/db=
-/5.3.28-r0/db-5.3.28/build_unix/db_cxx.h<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">As an experiment I added &#8220;#define HAVE_CXX_STD=
-HEADERS&#8221; to the top of this file (I guess I should have made a patch =
-or passed it from the recipe). The db_5.3.28.bb recipe then built okay and =
-the image build stopped complaining about missing
- libdb-5.3 when installing python-bsddb<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Does anyone else have this issue? Should python-bsdd=
-b be using BerkeleyDB 6.0 now?<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Best Regards<o:p></o:p></p>
-<p class=3D"MsoNormal">Nick<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:10.0pt;font-family:&quot=
-;Arial&quot;,&quot;sans-serif&quot;;color:black;mso-fareast-language:EN-GB"=
->Nick Lewis<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,&quot;sans-serif&quot;;color:black;mso-fareast-language:EN-GB"><a=
- href=3D"mailto:nick.lewis@usa.g4s.com">nick.lewis@usa.g4s.com</a><o:p></o:=
-p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,&quot;sans-serif&quot;;color:black;mso-fareast-language:EN-GB"><a=
- href=3D"tel:&#43;441684277137">&#43;44 1684 277137</a><o:p></o:p></span></=
-p>
-<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-GB"><a href=
-=3D"http://www.g4stechnology.com/">www.g4stechnology.com</a><o:p></o:p></sp=
-an></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:#1F497D;mso-fare=
-ast-language:EN-GB">New Challenge House, International Drive, Tewkesbury, G=
-loucestershire, GL20 8UQ, UK<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:10.0pt;font-family:Webdi=
-ngs;color:#00B050;mso-fareast-language:EN-GB"><o:p>&nbsp;</o:p></span></b><=
-/p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:10.0pt;font-family:Webdi=
-ngs;color:#00B050;mso-fareast-language:EN-GB">P</span></b><b><span style=3D=
-"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;colo=
-r:#00B050;mso-fareast-language:EN-GB"> Please consider the
- environment before printing this email</span></b><b><span style=3D"font-fa=
-mily:&quot;Arial&quot;,&quot;sans-serif&quot;;color:#00B050;mso-fareast-lan=
-guage:EN-GB"><o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<br>
-<hr>
-<font face=3D"Arial" color=3D"Gray" size=3D"1">The details of this company =
-are as follows:<br>
-G4S Technology Limited, Registered Office: Challenge House, International D=
-rive, Tewkesbury, Gloucestershire GL20 8UQ, Registered in England No. 23823=
-38.<br>
-<br>
-This communication may contain information which is confidential, personal =
-and/or privileged.<br>
-<br>
-It is for the exclusive use of the intended recipient(s).<br>
-If you are not the intended recipient(s), please note that any distribution=
-, forwarding, copying or use of this communication or the information in it=
- is strictly prohibited.<br>
-<br>
-Any personal views expressed in this e-mail are those of the individual sen=
-der and the company does not endorse or accept responsibility for them.<br>
-<br>
-Prior to taking any action based upon this e-mail message, you should seek =
-appropriate confirmation of its authenticity.<br>
-<br>
-This e-mail has been scanned for all viruses by MessageLabs.<br>
-</font>
-</body>
-</html>
-
---_000_AAE0766F5AF36B46BAB7E0EFB927320633FFF45E56GBTWK10E001Te_--
+--vJI8q/aziP9idhqk--
