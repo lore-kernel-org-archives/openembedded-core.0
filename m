@@ -1,40 +1,35 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id DD14565E11;
-	Mon, 18 Aug 2014 19:08:18 +0000 (UTC)
-Received: by mail-lb0-f171.google.com with SMTP id l4so4633145lbv.16
-	for <multiple recipients>; Mon, 18 Aug 2014 12:08:18 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 4ADD760030;
+	Mon, 18 Aug 2014 19:14:36 +0000 (UTC)
+Received: by mail-ig0-f180.google.com with SMTP id l13so8586667iga.7
+	for <multiple recipients>; Mon, 18 Aug 2014 12:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=iMUA0ZsmP1FD2IbVnxp2LAd1ACgY4byeiuPqQNbXjR8=;
-	b=ODFIK9xxlPgyp36slaegTSKtAW6aXMzjWQ2YfennhMqpWJCPeg6GOWRDCNEHV4iRUy
-	ZM4M1KWoM/WWYPFKxgHagzBmnQPVR7PW/XKd6NhNdKpvwRs3q5LxDeA0yeh9pMGWXFH9
-	2cm+b6yIS5syb2GhJbNAU97LtuRv7TDNgKzGnwxpY7tlG2FIgbHcuswexLR/pVgJYxrT
-	VGeMXLx4EzGlVZb1AxP6oDZ4LHSNhvORqnRBvyKBBP0GbYsgktXQAaUwrHbZdHy0JeDx
-	AbBf17p4x2J8rpAw3idCtDqMSJ4XBWhjwiVVX8KAHJvOOEUaw43IeRdZY3Zdc5mqgzma
-	UFjA==
-X-Received: by 10.152.22.165 with SMTP id e5mr10452955laf.57.1408388898704;
-	Mon, 18 Aug 2014 12:08:18 -0700 (PDT)
-Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id pz3sm28406413lbb.1.2014.08.18.12.08.16
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Aug 2014 12:08:17 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-Date: Mon, 18 Aug 2014 19:08:14 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20140818190814.GB7174@gmail.com>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=0FaXe83G92+jVtWY92NDkYr0kdaAwHflfhqfdMIgf7I=;
+	b=tChUbYIZ63K6TO8mJhBcjn2BwdLqDtLBAG9TDjmrmxl5nhU3e5iQqhPTKwNxHUUzwS
+	5MKdX8Of5d+FY7Inc5DXdg+4zCSW+h6dE7ZnJReC5hS9kTb1iVqcyWDlHAdlUw4+YFNd
+	fL8z/rIOmyn8NIY8qm1jgiBA7A6WFA+Zp9zBHCif6U1Bsrdb5K50OCTXETN4M4zGRFQw
+	hQLbs3tanOIRGIukHGiBYDO16SAvDywj1CMz6K/2hgwZTWn5+DIYHzadfW4zOhdfvbpJ
+	wJA3x9++y3qyRecVik90eIKTq3h83XErqCsQYqHmxMG3LTscimONUmheccGSBzk+CCwl
+	8Q+g==
+X-Received: by 10.42.103.143 with SMTP id m15mr36197761ico.50.1408389278076;
+	Mon, 18 Aug 2014 12:14:38 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.126.103 with HTTP; Mon, 18 Aug 2014 12:14:08 -0700 (PDT)
+In-Reply-To: <20140818190814.GB7174@gmail.com>
 References: <CAMKF1sp9Z6vj1Dz96_WYiHOtYFqa-zECrNHOFgb=dBUDJN2Z_g@mail.gmail.com>
 	<20140818181424.GG12992@gmail.com>
 	<CAMKF1srjVfmfAWZ0mx+AfE_nR4erYtAEYt2OVhEsU+q++XKVrg@mail.gmail.com>
 	<20140818185009.GA7174@gmail.com>
 	<CAMKF1spkQkfbZMkL2Gg41hF9bm=+HS8sU8LME3pV6yMzDLLs-Q@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1spkQkfbZMkL2Gg41hF9bm=+HS8sU8LME3pV6yMzDLLs-Q@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+	<20140818190814.GB7174@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 18 Aug 2014 12:14:08 -0700
+Message-ID: <CAMKF1sq+qbSPSOaU4iyi1Vr8=Xvzuyd2gHx2QN5PPNtUo0JLAQ@mail.gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
 Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>, musl@lists.openwall.com,
 	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
@@ -52,58 +47,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Aug 2014 19:08:21 -0000
-X-Groupsio-MsgNum: 56704
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="eAbsdosE1cNLO4uF"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 18 Aug 2014 19:14:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
---eAbsdosE1cNLO4uF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Aug 18, 2014 at 12:08 PM, Paul Barker <paul@paulbarker.me.uk> wrote:
+>> That would be handy too. But I wanted was to keep this info in project
+>> for folks to try it out.
+>>
+>
+> I'll just post one ticket for now.
+>
 
-On Mon, Aug 18, 2014 at 12:04:54PM -0700, Khem Raj wrote:
-> On Mon, Aug 18, 2014 at 11:50 AM, Paul Barker <paul@paulbarker.me.uk> wro=
-te:
-> > On Mon, Aug 18, 2014 at 11:26:26AM -0700, Khem Raj wrote:
-> >>
-> >> Thanks cool. Can you open a ticket on github with this information ?
-> >
-> > Will do. Do you want just want one ticket or do you want to separate th=
-ese into
-> > one ticket per failing recipe or similar?
-> >
->=20
-> That would be handy too. But I wanted was to keep this info in project
-> for folks to try it out.
->=20
+Thats fine too.
 
-I'll just post one ticket for now.
+> I think I've got a fix for e2fsprogs as well.
 
-I think I've got a fix for e2fsprogs as well.
+Great. when we write patches that arise out of musl systems we should
+make sure that
 
-Cheers,
+1. If patch fixes a genuine issue surfaced with musl, fight it out ar
+respective package upstream and in OE universe add it to the original
+layer where recipe primarily resides
+but we can keep the patches in meta-musl as a last resort.
 
---=20
-Paul Barker
+2. If its something musl specific then lets keep it in meta-musl and
+see how musl can be changed to fix it.
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Thanks
+-Khem
 
---eAbsdosE1cNLO4uF
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQEcBAEBAgAGBQJT8k8eAAoJEBwoJlo7UPQDCOcH/iJFLEIGQBNsYf/7QWowUUe9
-Cdef877UsoXNfPcwAKrmgu/G+fuUHvRICZlZgv/MEC5/J2WTC+ayt7okE7k0fvs0
-T4NJch5P8llRRqHx0r2PRQtaqPx3VgIqiBxOTmnTD7LeVAY2axsCz02LU4F4/Q37
-R/OBH9ZivN8K8qyqTqCxx0mU2PuV7YSWM7GoR87yuVzqQMZZM661p09u1JYUVrBD
-h3HPClt3lPlJPVWJ1d+m8VEvatp23XM/LzkadnoBbVhKXHy40l3U3F6MOmCiVJQi
-ADNfST2D3jEAz+879Go6tlHbXG7MQ/xpzhA8cmRQaUSCDYbkl1pmJZvVSqnDJUY=
-=WPck
------END PGP SIGNATURE-----
-
---eAbsdosE1cNLO4uF--
