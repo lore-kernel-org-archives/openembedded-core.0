@@ -1,48 +1,30 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
-	[217.149.192.138])
-	by mail.openembedded.org (Postfix) with ESMTP id D1301617B8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AECC65E11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 08:12:49 +0000 (UTC)
-Received: from amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.58])
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 9AD1A3F742
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 10:12:49 +0200 (CEST)
-X-Spam-scanned: scanned by InterNLnet Mail Scan System
-X-Spam-Flag: NO
-X-Spam-Score: -0.5
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 tagged_above=-999 required=4.5
-	tests=[BAYES_05=-0.5] autolearn=no
-X-Spam-Languages: en
-Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
-	by amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 10:12:49 +0200 (CEST)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 10:12:47 +0200 (CEST)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Mon, 18 Aug 2014 10:12:57 +0200
-Message-ID: <53F1B57E.3040902@topic.nl>
-Date: Mon, 18 Aug 2014 10:12:46 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: "OE Core (openembedded-core@lists.openembedded.org)"
-	<openembedded-core@lists.openembedded.org>
-References: <53843793.3030309@topic.nl>
-In-Reply-To: <53843793.3030309@topic.nl>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Subject: Re: How to find out why shared sstate is not being used for a recipe
+	Mon, 18 Aug 2014 09:10:08 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7I99ocX015451; Mon, 18 Aug 2014 10:10:07 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id RVfkyszLm8jI; Mon, 18 Aug 2014 10:10:07 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7I9A1YW015474
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 18 Aug 2014 10:10:02 +0100
+Message-ID: <1408353001.13042.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chong Lu <Chong.Lu@windriver.com>
+Date: Mon, 18 Aug 2014 10:10:01 +0100
+In-Reply-To: <a181226a852b3dbe8131a658144b0689c6022b93.1408343136.git.Chong.Lu@windriver.com>
+References: <cover.1408343136.git.Chong.Lu@windriver.com>
+	<a181226a852b3dbe8131a658144b0689c6022b93.1408343136.git.Chong.Lu@windriver.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] librsvg: disable Bsymbolic if it is not supported on some hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,77 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Aug 2014 08:12:50 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 18 Aug 2014 09:10:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-=EF=BB=BFOn 05/27/2014 08:58 AM, Mike Looijmans wrote:
-> I have a deja-vu feeling about this question.
->
-> I have this recipe:
->
-> https://github.com/topic-embedded-products/meta-topic/blob/master/recipes=
--bsp/fpga/fpga-image-miami.bb
->
->
-> Which includes this one:
-> https://github.com/topic-embedded-products/meta-topic/blob/master/recipes=
--bsp/fpga/fpga-image.inc
->
->
-> I have a build server that exports its sstate-cache directory through HTT=
-P,
-> and a local host that attempts to use that sstate-cache. This works fine,
-> except for the recipe above. Building this recipe takes about 1 hour, so =
-i
-> really really really want to share that state at any cost. As you can see=
-,
-> I've done a big shotgun blast of "vardepdsexclude" to get the recipe to b=
-e as
-> common as possible. Still any host wants to build its own version.
->
+On Mon, 2014-08-18 at 14:26 +0800, Chong Lu wrote:
+> When trying to build on my Centos 5.5 machine, got below error:
+> | checking for gdk-pixbuf-query-loaders... /home/build/clu1/build/qemux86_standard_glibc-std/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/gdk-pixbuf-query-loaders
+> | checking if gcc  supports "-Wl,-Bsymbolic-functions" flag...
+> | configure: error: -Bsymbolic requested but not supported by ld. Use --disable-Bsymbolic to disable
+> | Configure failed. The contents of all config.log files follows to aid debugging
+> | ERROR: oe_runconf failed
+> 
+> Set --enable-Bsymbolic=auto to disable it when it is not suppported.
+> 
+> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> ---
+>  meta/recipes-gnome/librsvg/librsvg_2.40.2.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.2.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.2.bb
+> index 34d8ca1..d288d4b 100644
+> --- a/meta/recipes-gnome/librsvg/librsvg_2.40.2.bb
+> +++ b/meta/recipes-gnome/librsvg/librsvg_2.40.2.bb
+> @@ -20,7 +20,7 @@ SRC_URI += "file://gtk-option.patch \
+>  SRC_URI[archive.md5sum] = "acdecdb9f08f3bf662a68bf7dafb8b82"
+>  SRC_URI[archive.sha256sum] = "48049b643294636df7de1a4b997414d699666f5dc44776945c218a257d2a291c"
+>  
+> -EXTRA_OECONF = "--disable-introspection --disable-vala"
+> +EXTRA_OECONF = "--disable-introspection --disable-vala --enable-Bsymbolic=auto"
 
-I recently figured out the cause of this:
+Please can you add a comment in to the recipe alongside this explaining
+why we need to do this. In 12 months time, nobody will be able to
+remember why we're passing in this option without looking at the
+history.
 
-LIC_FILES_CHKSUM =3D=20
-"file://${META_ZYNQ_BASE}/COPYING;md5=3D751419260aa954499f7abaabaa882bbe"
+Also, we only need this in the -native case, correct?
 
-The META_ZYNQ_BASE variable is set to the overlay path in the layer.conf fi=
-le.=20
-This path varies on different machines.
+Cheers,
 
-I added the following line to layer.conf to prevent this from happening:
-META_ZYNQ_BASE[vardepvalue] =3D "meta-zynq"
+Richard
 
-This triggered a rebuild of all pacakges that I've seen to have this sstate=
-=20
-problem, thereby confirming that this really was the cause.
+>  PACKAGECONFIG ??= "gdkpixbuf"
+>  # The gdk-pixbuf loader
+> -- 
+> 1.9.1
+> 
 
-It DID surprise me that the LIC_FILES_CHKSUM full path filename somehow end=
-ed=20
-up in the hash for the package's contents. It would have been better to onl=
-y=20
-include the license contents itself (or its checksum).
-
-Mike.
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Bezoek ons op 9 en 10 september tijdens Technology for Health Den Bosch (st=
-and 53)
-http://www.technologyforhealth.nl
 
 
