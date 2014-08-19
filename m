@@ -1,30 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B30465DEB
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id 261B46FE55
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 12:43:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7JChL3K005080 for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 13:43:21 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id u97J8AnfKrsc
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 13:43:21 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7JChHKm005075
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 13:43:18 +0100
-Message-ID: <1408452198.1669.60.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Aug 2014 13:43:18 +0100
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Subject: [PATCH] Disable runtime mapping of RPROVIDES/RCONFLICTS/RREPLACES
+	Tue, 19 Aug 2014 13:14:37 +0000 (UTC)
+Received: from localhost.localdomain (unknown [46.170.72.194])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 4B19C3FC813;
+	Tue, 19 Aug 2014 15:14:37 +0200 (CEST)
+From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Aug 2014 15:14:17 +0200
+Message-Id: <1408454058-2192-2-git-send-email-maciej.borzecki@open-rnd.pl>
+X-Mailer: git-send-email 1.9.0
+In-Reply-To: <1408454058-2192-1-git-send-email-maciej.borzecki@open-rnd.pl>
+References: <1408454058-2192-1-git-send-email-maciej.borzecki@open-rnd.pl>
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
+	Maciek Borzecki <maciek.borzecki@gmail.com>
+Subject: [PATCH 1/2] wic: do not steal sectors from the first partition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +28,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Aug 2014 12:43:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Aug 2014 13:14:43 -0000
 
-It doesn't really make sense to run the remapping code on these
-variables. If specific renaming is needed, it should be applied
-manually. This means that the debian RPROVIDES of the original package
-name can be preserved. There was also a bug report about this on the
-OE-Core mailing list recently where someone else ran into this problem
-too.
+In order to make up for space loss due to overhead located before the
+first partition, same amount of bytes was extracted from the first
+partition's size. This leads to unexpected change of first partition's
+size, and is not matched by similar adjustment at the time the partition
+image is generated. Thus it is possible that the first partition may
+partially overwrite contents of the following partition, as the
+partition image is larger than the allocated space.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+This is also problematic on certain platforms such as OMAP, where the
+first partition is required for have an even number of
+sectors (typically already expressed by --size in kickstart
+file). Subtracting an odd number of sectors lost for overhead, leads to
+an odd number of sectors assigned for partition, preventing the board,
+such as beaglebone, from booting correctly.
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 6a552d9..88793fa 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -2029,7 +2029,4 @@ def mapping_rename_hook(d):
-     runtime_mapping_rename("RDEPENDS", pkg, d)
-     runtime_mapping_rename("RRECOMMENDS", pkg, d)
-     runtime_mapping_rename("RSUGGESTS", pkg, d)
--    runtime_mapping_rename("RPROVIDES", pkg, d)
--    runtime_mapping_rename("RREPLACES", pkg, d)
--    runtime_mapping_rename("RCONFLICTS", pkg, d)
+Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
+---
+ scripts/lib/wic/utils/partitionedfs.py | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
+index 76aa421..36ef406 100644
+--- a/scripts/lib/wic/utils/partitionedfs.py
++++ b/scripts/lib/wic/utils/partitionedfs.py
+@@ -155,9 +155,6 @@ class Image:
  
-
+                 # Skip one sector required for the partitioning scheme overhead
+                 d['offset'] += overhead
+-                # Steal few sectors from the first partition to offset for the
+-                # partitioning overhead
+-                p['size'] -= overhead
+ 
+             if p['align']:
+                 # If not first partition and we do have alignment set we need
+-- 
+1.9.0
 
 
