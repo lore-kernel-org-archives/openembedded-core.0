@@ -1,25 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3850465DD6
+Return-Path: <Yang.Shi@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AE8BE60169
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 16:37:46 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 19 Aug 2014 09:37:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,895,1400050800"; d="scan'208";a="586985054"
-Received: from kmcfarla-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.95])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Aug 2014 09:37:45 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Aug 2014 17:37:41 +0100
-Message-Id: <7e2b751f8cd22a408f6bb6196f5612000f80daf1.1408466227.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1408466227.git.paul.eggleton@linux.intel.com>
-References: <cover.1408466227.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1408466227.git.paul.eggleton@linux.intel.com>
-References: <cover.1408466227.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] classes/autotools: avoid error if recipe is first in task dependency tree
+	Tue, 19 Aug 2014 18:14:57 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7JIEuLY004892
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Aug 2014 11:14:57 -0700 (PDT)
+Received: from yshi-Precision-T5600.corp.ad.wrs.com (147.11.216.82) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 19 Aug 2014 11:14:56 -0700
+From: Yang Shi <yang.shi@windriver.com>
+To: <bruce.ashfield@windriver.com>, <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Aug 2014 11:13:45 -0700
+Message-ID: <1408472025-4777-1-git-send-email-yang.shi@windriver.com>
+X-Mailer: git-send-email 2.0.2
+MIME-Version: 1.0
+Subject: [PATCH] kernel: Prevent from installing so files into source dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Aug 2014 16:37:49 -0000
+X-List-Received-Date: Tue, 19 Aug 2014 18:15:04 -0000
+Content-Type: text/plain
 
-If the recipe being built is listed first in BB_TASKDEPDATA (i.e. item
-0) this is still valid and should not trigger an error.
+vdso build could generate so files, avoid installing such so files into kernel
+source dir.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Yang Shi <yang.shi@windriver.com>
 ---
- meta/classes/autotools.bbclass | 2 +-
+ meta/classes/kernel.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index c49f063..6b99bdd 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -148,7 +148,7 @@ python autotools_copy_aclocals () {
-         if data[1] == "do_configure" and data[0] == pn:
-             start = dep
-             break
--    if not start:
-+    if start is None:
-         bb.fatal("Couldn't find ourself in BB_TASKDEPDATA?")
- 
-     # We need to find configure tasks which are either from <target> -> <target>
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 819c302..435b6f0 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -253,7 +253,7 @@ kernel_do_install() {
+ 	# dir. This ensures the original Makefiles are used and not the
+ 	# redirecting Makefiles in the build directory.
+ 	#
+-	find . -depth -not -name "*.cmd" -not -name "*.o" -not -name "*.so.dbg" -not -path "./Documentation*" -not -path "./source*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
++	find . -depth -not -name "*.cmd" -not -name "*.o" -not -name "*.so.dbg" -not -name "*.so" -not -path "./Documentation*" -not -path "./source*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
+ 	cp .config $kerneldir
+ 	if [ "${S}" != "${B}" ]; then
+ 		pwd="$PWD"
 -- 
-1.9.3
+2.0.2
 
 
