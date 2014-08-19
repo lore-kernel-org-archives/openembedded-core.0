@@ -1,47 +1,34 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 90C6065D56;
-	Mon, 18 Aug 2014 19:54:13 +0000 (UTC)
-Received: by mail-lb0-f170.google.com with SMTP id l4so4692679lbv.15
-	for <multiple recipients>; Mon, 18 Aug 2014 12:54:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=AtZopuneLlRf0zhIUvfvEIDqmxtavoM2lEHmmkCS+HE=;
-	b=FLJiKwfJ9Z+Yz70Hvh9atLL74bkWOfghcIFREG6+HkddshE/DVcHONZbS3tnoIBt2y
-	w0rMK8Q5/7m3XzcHzjSM0TMcsUORghSYJx23gEmehNrAM3M6JkbRgqdi9w8CB8AV+AiJ
-	3gwKSwfOKcDv41ecoZvN92xHi5US/Wmv8UJl6vIkvzMCdUwAfB8kIIfBfnMSeBPL1fmG
-	cwT9T00tOe8WaC57cADYP0M276lExMFJiX4PIRY6iBTVyjxKXBSTtchRe5fxHQoecldT
-	q9ZA/c3/eFIP1XIjGqOfv6ewQ3c80bHaRMMI8v52nR+AsBS50iD8j8DhZtqctl/K5rpu
-	Lxvg==
-X-Received: by 10.153.4.6 with SMTP id ca6mr31892298lad.32.1408391654599;
-	Mon, 18 Aug 2014 12:54:14 -0700 (PDT)
-Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id g8sm11113683lam.23.2014.08.18.12.54.10
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Aug 2014 12:54:11 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-Date: Mon, 18 Aug 2014 19:54:08 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20140818195408.GD7174@gmail.com>
-References: <CAMKF1sp9Z6vj1Dz96_WYiHOtYFqa-zECrNHOFgb=dBUDJN2Z_g@mail.gmail.com>
-	<20140818181424.GG12992@gmail.com>
-	<CAMKF1srjVfmfAWZ0mx+AfE_nR4erYtAEYt2OVhEsU+q++XKVrg@mail.gmail.com>
-	<20140818185009.GA7174@gmail.com>
-	<CAMKF1spkQkfbZMkL2Gg41hF9bm=+HS8sU8LME3pV6yMzDLLs-Q@mail.gmail.com>
-	<20140818190814.GB7174@gmail.com>
-	<CAMKF1sq+qbSPSOaU4iyi1Vr8=Xvzuyd2gHx2QN5PPNtUo0JLAQ@mail.gmail.com>
-	<20140818193102.GC7174@gmail.com>
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F23DF65CB2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Aug 2014 01:22:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7J1MlT7011652
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Aug 2014 18:22:47 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.155]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0174.001;
+	Mon, 18 Aug 2014 18:22:46 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: Christopher Larson <clarson@kergoth.com>
+Thread-Topic: [OE-core] [PATCH] openssl: add DEPENDS on openssl-native for
+	rehash
+Thread-Index: AQHPuvHYn1ed+1cA40iNS4a9Dky/CpvXIeHA
+Date: Tue, 19 Aug 2014 01:22:46 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AABCAE3AA6@ALA-MBA.corp.ad.wrs.com>
+References: <1408356737-8743-1-git-send-email-jackie.huang@windriver.com>
+	<CABcZAN=w5G2126KMhoEPZBuM7bmeNZG+FAG2kyfUfVyMYpvCCw@mail.gmail.com>
+In-Reply-To: <CABcZAN=w5G2126KMhoEPZBuM7bmeNZG+FAG2kyfUfVyMYpvCCw@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.135]
 MIME-Version: 1.0
-In-Reply-To: <20140818193102.GC7174@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Announcing meta-musl OE/Yocto layer supporting musl C library
+Subject: Re: [PATCH] openssl: add DEPENDS on openssl-native for rehash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,92 +41,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Aug 2014 19:54:16 -0000
-X-Groupsio-MsgNum: 56707
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="2iBwrppp/7QCDedR"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 19 Aug 2014 01:22:49 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_1B858668EC6A94408DCA5225FDFA85AABCAE3AA6ALAMBAcorpadwrs_"
 
---2iBwrppp/7QCDedR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--_000_1B858668EC6A94408DCA5225FDFA85AABCAE3AA6ALAMBAcorpadwrs_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Aug 18, 2014 at 07:31:02PM +0000, Paul Barker wrote:
-> On Mon, Aug 18, 2014 at 12:14:08PM -0700, Khem Raj wrote:
-> > On Mon, Aug 18, 2014 at 12:08 PM, Paul Barker <paul@paulbarker.me.uk> w=
-rote:
-> > >> That would be handy too. But I wanted was to keep this info in proje=
-ct
-> > >> for folks to try it out.
-> > >>
-> > >
-> > > I'll just post one ticket for now.
-> > >
-> >=20
-> > Thats fine too.
-> >=20
-> > > I think I've got a fix for e2fsprogs as well.
-> >=20
-> > Great. when we write patches that arise out of musl systems we should
-> > make sure that
-> >=20
-> > 1. If patch fixes a genuine issue surfaced with musl, fight it out ar
-> > respective package upstream and in OE universe add it to the original
-> > layer where recipe primarily resides
-> > but we can keep the patches in meta-musl as a last resort.
-> >=20
-> > 2. If its something musl specific then lets keep it in meta-musl and
-> > see how musl can be changed to fix it.
-> >=20
-> > Thanks
-> > -Khem
->=20
-> That makes sense. I'd suggest adding that to the README file in meta-musl=
- so
-> other would-be-contributors notice it.
->=20
-> In this case, it's ensuring that 'uint64_t' is used instead of '__uint64_=
-t' and
-> that <limits.h> is included where needed for 'PATH_MAX'. So I'd say those=
- fixes
-> belong in oe-core and are candidates for submitting upstream.
->=20
+Tm8sIEkgc2hvdWxkIGJlIF9hcHBlbmQsIHNvcnJ5IGZvciB0aGF0LCBJIHdpbGwgZml4IGFuZCBy
+ZXNlbmQuDQoNClRoYW5rcywNCkphY2tpZQ0KDQpGcm9tOiBrZXJnb3RoQGdtYWlsLmNvbSBbbWFp
+bHRvOmtlcmdvdGhAZ21haWwuY29tXSBPbiBCZWhhbGYgT2YgQ2hyaXN0b3BoZXIgTGFyc29uDQpT
+ZW50OiBNb25kYXksIEF1Z3VzdCAxOCwgMjAxNCAxMDozNiBQTQ0KVG86IEh1YW5nLCBKaWUgKEph
+Y2tpZSkNCkNjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXll
+cg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIG9wZW5zc2w6IGFkZCBERVBFTkRTIG9u
+IG9wZW5zc2wtbmF0aXZlIGZvciByZWhhc2gNCg0KDQpPbiBNb24sIEF1ZyAxOCwgMjAxNCBhdCAz
+OjEyIEFNLCA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb208bWFpbHRvOmphY2tpZS5odWFuZ0B3
+aW5kcml2ZXIuY29tPj4gd3JvdGU6DQogREVQRU5EUyA9ICJwZXJsLW5hdGl2ZS1ydW50aW1lIg0K
+K0RFUEVORFNfY2xhc3MtdGFyZ2V0ID0gIm9wZW5zc2wtbmF0aXZlIg0KDQpUaGlzIGlzIHJlbW92
+aW5nIHRoZSBwZXJsLW5hdGl2ZS1ydW50aW1lIGRlcGVuZGVuY3kgZm9yIHRoZSB0YXJnZXQgcmVj
+aXBlLCBpcyB0aGF0IHJlYWxseSB0aGUgaW50ZW50Pw0KLS0NCkNocmlzdG9waGVyIExhcnNvbg0K
+Y2xhcnNvbiBhdCBrZXJnb3RoIGRvdCBjb20NCkZvdW5kZXIgLSBCaXRCYWtlLCBPcGVuRW1iZWRk
+ZWQsIE9wZW5aYXVydXMNCk1haW50YWluZXIgLSBUc2xpYg0KU2VuaW9yIFNvZnR3YXJlIEVuZ2lu
+ZWVyLCBNZW50b3IgR3JhcGhpY3MNCg==
 
-Actually, both of these are fixed upstream already, but not as isolated com=
-mits
-I can backport. There is a newer upstream release (v1.42.11) but it doesn't
-contain the necessary fixes. It appears that the missing <limits.h> inclusi=
-on is
-in a file added by patches in openembedded-core.
+--_000_1B858668EC6A94408DCA5225FDFA85AABCAE3AA6ALAMBAcorpadwrs_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-I shan't attempt the upgrade as there are a lot of patches in openembedded-=
-core
-to consider. I will try to make an isolated fix for the build issues with m=
-usl
-though.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
+dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
+MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
+MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
+Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
+Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
+bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
+bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
+bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
+aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
+bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
+dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
+LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
+NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
+b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
+CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
+DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
+LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
+bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
+YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
+b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
+IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
+aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+Tm8sIEkgc2hvdWxkIGJlIF9hcHBlbmQsIHNvcnJ5IGZv
+ciB0aGF0LCBJIHdpbGwgZml4IGFuZCByZXNlbmQuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
+N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
+dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5UaGFua3MsPG86cD48L286
+cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
+ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlm
+JnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkphY2tpZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5
+OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdE
+Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTti
+b3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQiPg0K
+PGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0I1QzRERiAx
+LjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxi
+PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZx
+dW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9
+ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3Nh
+bnMtc2VyaWYmcXVvdDsiPiBrZXJnb3RoQGdtYWlsLmNvbSBbbWFpbHRvOmtlcmdvdGhAZ21haWwu
+Y29tXQ0KPGI+T24gQmVoYWxmIE9mIDwvYj5DaHJpc3RvcGhlciBMYXJzb248YnI+DQo8Yj5TZW50
+OjwvYj4gTW9uZGF5LCBBdWd1c3QgMTgsIDIwMTQgMTA6MzYgUE08YnI+DQo8Yj5Ubzo8L2I+IEh1
+YW5nLCBKaWUgKEphY2tpZSk8YnI+DQo8Yj5DYzo8L2I+IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25z
+IGFib3V0IHRoZSBvZS1jb3JlIGxheWVyPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29y
+ZV0gW1BBVENIXSBvcGVuc3NsOiBhZGQgREVQRU5EUyBvbiBvcGVuc3NsLW5hdGl2ZSBmb3IgcmVo
+YXNoPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij5PbiBNb24sIEF1ZyAxOCwgMjAxNCBhdCAzOjEyIEFNLCAmbHQ7PGEgaHJlZj0ibWFpbHRvOmph
+Y2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tIiB0YXJnZXQ9Il9ibGFuayI+amFja2llLmh1YW5nQHdp
+bmRyaXZlci5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxkaXYgaWQ9IjoxZXgi
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7REVQRU5EUyA9ICZxdW90O3BlcmwtbmF0aXZl
+LXJ1bnRpbWUmcXVvdDs8YnI+DQomIzQzO0RFUEVORFNfY2xhc3MtdGFyZ2V0ID0gJnF1b3Q7b3Bl
+bnNzbC1uYXRpdmUmcXVvdDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPlRoaXMgaXMgcmVtb3ZpbmcgdGhlIHBlcmwtbmF0aXZlLXJ1bnRpbWUg
+ZGVwZW5kZW5jeSBmb3IgdGhlIHRhcmdldCByZWNpcGUsIGlzIHRoYXQgcmVhbGx5IHRoZSBpbnRl
+bnQ/PGJyPg0KLS0gPGJyPg0KQ2hyaXN0b3BoZXIgTGFyc29uPGJyPg0KY2xhcnNvbiBhdCBrZXJn
+b3RoIGRvdCBjb208YnI+DQpGb3VuZGVyIC0gQml0QmFrZSwgT3BlbkVtYmVkZGVkLCBPcGVuWmF1
+cnVzPGJyPg0KTWFpbnRhaW5lciAtIFRzbGliPGJyPg0KU2VuaW9yIFNvZnR3YXJlIEVuZ2luZWVy
+LCBNZW50b3IgR3JhcGhpY3MgPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+
+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-Cheers,
-
---=20
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
-
---2iBwrppp/7QCDedR
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQEcBAEBAgAGBQJT8lngAAoJEBwoJlo7UPQD+BcIAI3vj7PFLa/rhNfIVocW9BTM
-GH34AZXemAVc2XVY8GR+zmQPqugPUy2/9rU4IVmyJLmYmgbQPfDlYL0kdkI9U4nw
-iFE4opRQIeTb8qtDOERoiyLy6XRFNzLuqLxfxp/I+BgJ70B9B2YrJ7texyXFLMg7
-3nrEDvsRLs80xjvvF/VpPLYWDhqhTqeqtZ9Hjzsc+xtpKur+Evj5T5YZeWG0JA02
-kJW0opeF5EZGNjoylethp3oSuLhds/eU7ScNPYG0vgDGHXAWV43NDBGRKnkrcr/7
-b+PcMJR7ccdbOslaKan1D/qnJnREwbVt7Mie2lMznzn6TM3faW+CFX1ApkHGb6g=
-=8oaa
------END PGP SIGNATURE-----
-
---2iBwrppp/7QCDedR--
+--_000_1B858668EC6A94408DCA5225FDFA85AABCAE3AA6ALAMBAcorpadwrs_--
