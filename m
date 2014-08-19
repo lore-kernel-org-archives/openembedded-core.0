@@ -1,24 +1,27 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4149E65DEB
+Return-Path: <Fupan.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E23265DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 03:25:06 +0000 (UTC)
+	Tue, 19 Aug 2014 03:29:06 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7J3P6bJ012639
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Aug 2014 20:25:06 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 18 Aug 2014 20:25:06 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Aug 2014 11:24:56 +0800
-Message-ID: <cover.1408417518.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7J3T7D1012578
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Aug 2014 20:29:07 -0700 (PDT)
+Received: from [0.0.0.0] (147.11.46.69) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 18 Aug 2014 20:29:07 -0700
+Message-ID: <53F2C46F.4020306@windriver.com>
+Date: Tue, 19 Aug 2014 11:28:47 +0800
+From: fupan <fupan.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 0/1] classes/compress_doc.bbclass: compress man/info pages
+To: <openembedded-core@lists.openembedded.org>
+References: <1408418282-113361-1-git-send-email-fupan.li@windriver.com>
+In-Reply-To: <1408418282-113361-1-git-send-email-fupan.li@windriver.com>
+Subject: Re: [oe] [kernel.bbclass] [PATCH] let the multi-version kernel header files coexist on the target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,103 +34,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Aug 2014 03:25:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 Aug 2014 03:29:09 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Test Steps:
+On 08/19/2014 11:18 AM, fupan.li@windriver.com wrote:
+> From: fupan li <fupan.li@windriver.com>
+Hi, All
 
-1. vim local.conf
-...
-IMAGE_INSTALL_append = " man info man-doc e2fsprogs-doc vim-doc"
-INHERIT += "compress_doc"
-DOC_COMPRESS = "xz"
-...
+Please ignore this patch, I'll send another one!
 
-2. bitbake core-image-minimal
-
-3. Identify already compressed items, verify they conform to
-compression policy. Take man for example ('gz' --> 'xz')
-
-$ cd tmp/work/armv5te-poky-linux-gnueabi/man/1.6g-r1
-$ find image/usr/share/man/
-image/usr/share/man/
-image/usr/share/man/man7
-image/usr/share/man/man7/man.7.gz
-image/usr/share/man/man1
-image/usr/share/man/man1/man2html.1
-image/usr/share/man/man1/man.1.gz
-image/usr/share/man/man5
-image/usr/share/man/man5/manpath.5.gz
-
-$ find package/usr/share/man/
-package/usr/share/man/
-package/usr/share/man/man7
-package/usr/share/man/man7/man.7.xz
-package/usr/share/man/man1
-package/usr/share/man/man1/man.1.xz
-package/usr/share/man/man1/man2html.1.xz
-package/usr/share/man/man5
-package/usr/share/man/man5/manpath.5.xz
-
-4. The hardlink files could be compressed and re-hardlink correctly.
-Take e2fsprogs for example:
-
-$ cd tmp/work/armv5te-poky-linux-gnueabi/e2fsprogs/1.42.9-r0
-$ ls -al image/usr/share/man/man8/mk*
--rw-r--r-- 5 jiahongxu jiahongxu 20221 Aug 14 18:17 image/usr/share/man/man8/mke2fs.8
--rw-r--r-- 5 jiahongxu jiahongxu 20221 Aug 14 18:17 image/usr/share/man/man8/mkfs.ext2.8
--rw-r--r-- 5 jiahongxu jiahongxu 20221 Aug 14 18:17 image/usr/share/man/man8/mkfs.ext3.8
--rw-r--r-- 5 jiahongxu jiahongxu 20221 Aug 14 18:17 image/usr/share/man/man8/mkfs.ext4.8
--rw-r--r-- 5 jiahongxu jiahongxu 20221 Aug 14 18:17 image/usr/share/man/man8/mkfs.ext4dev.8
-
-$ ls -al package/usr/share/man/man8/mk*
--rw-r--r-- 10 jiahongxu jiahongxu 6828 Aug 14 18:17 package/usr/share/man/man8/mke2fs.8.xz
--rw-r--r-- 10 jiahongxu jiahongxu 6828 Aug 14 18:17 package/usr/share/man/man8/mkfs.ext2.8.xz
--rw-r--r-- 10 jiahongxu jiahongxu 6828 Aug 14 18:17 package/usr/share/man/man8/mkfs.ext3.8.xz
--rw-r--r-- 10 jiahongxu jiahongxu 6828 Aug 14 18:17 package/usr/share/man/man8/mkfs.ext4.8.xz
--rw-r--r-- 10 jiahongxu jiahongxu 6828 Aug 14 18:17 package/usr/share/man/man8/mkfs.ext4dev.8.xz
-
-5. The symlink files could be compressed and re-symlink correctly.
-Take 'vim' for example:
-
-$ cd tmp/work/armv5te-poky-linux-gnueabi/vim/7.4.373-r0
-$ ls -al `find image/usr/share/man/man1/ -type l`
-lrwxrwxrwx 1 jiahongxu jiahongxu 5 Aug 15 17:17 image/usr/share/man/man1/ex.1 -> vim.1
-lrwxrwxrwx 1 jiahongxu jiahongxu 5 Aug 15 17:17 image/usr/share/man/man1/rview.1 -> vim.1
-lrwxrwxrwx 1 jiahongxu jiahongxu 5 Aug 15 17:17 image/usr/share/man/man1/rvim.1 -> vim.1
-lrwxrwxrwx 1 jiahongxu jiahongxu 5 Aug 15 17:17 image/usr/share/man/man1/view.1 -> vim.1
-
-$ ls -al `find package/usr/share/man/man1/ -type l`
-lrwxrwxrwx 1 jiahongxu jiahongxu 8 Aug 15 17:31 package/usr/share/man/man1/ex.1.xz -> vim.1.xz
-lrwxrwxrwx 1 jiahongxu jiahongxu 8 Aug 15 17:31 package/usr/share/man/man1/rview.1.xz -> vim.1.xz
-lrwxrwxrwx 1 jiahongxu jiahongxu 8 Aug 15 17:31 package/usr/share/man/man1/rvim.1.xz -> vim.1.xz
-lrwxrwxrwx 1 jiahongxu jiahongxu 8 Aug 15 17:31 package/usr/share/man/man1/view.1.xz -> vim.1.xz
-
-6. Start qemu
-
-7. On target, check the compressed man/info files could work. Currently only gz could work.
-
-8. Change DOC_COMPRESS = "xz" to DOC_COMPRESS = "bz2" and repeat steps 2-7.
-
-//Hongxu
-
-The following changes since commit 870bb8d35547b8313b3a487d7e8b914ab9470e64:
-
-  local.conf.sample.extended: fix example for EXTRA_USERS_PARAMS (2014-08-04 17:38:24 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/compress-doc
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/compress-doc
-
-Hongxu Jia (1):
-  classes/compress_doc.bbclass: compress man/info pages
-
- meta/classes/compress_doc.bbclass | 224 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 224 insertions(+)
- create mode 100644 meta/classes/compress_doc.bbclass
-
--- 
-1.9.1
+Thanks
+> When do RCPL upgrading, we want to keep the different RCPL's kernel header files coexist, just
+> as the kernel image does.
+>
+> Signed-off-by: fupan li <fupan.li@windriver.com>
+> ---
+>   meta/classes/kernel.bbclass | 18 ++++++++++++++----
+>   1 file changed, 14 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 6d9e646..e6ed716 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -75,9 +75,11 @@ EXTRA_OEMAKE = ""
+>   
+>   KERNEL_ALT_IMAGETYPE ??= ""
+>   
+> -# Define where the kernel headers are installed on the target as well as where
+> -# they are staged.
+> -KERNEL_SRC_PATH = "/usr/src/kernel"
+> +# Define where the kernel headers are staged.
+> +KERNEL_SRC_EXPORT_PATH = "/usr/src/kernel"
+> +#put the kernel headers in /usr/src/kernel-${@legitimize_package_name('${KERNEL_VERSION}')} to
+> +#let the different RCPL's kernel headers coexist.
+> +KERNEL_SRC_PATH = "/usr/src/kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
+>   
+>   KERNEL_IMAGETYPE_FOR_MAKE = "${@(lambda s: s[:-3] if s[-3:] == ".gz" else s)(d.getVar('KERNEL_IMAGETYPE', True))}"
+>   
+> @@ -313,7 +315,7 @@ kernelscripts_sstate_postinst () {
+>   }
+>   
+>   sysroot_stage_all_append() {
+> -	sysroot_stage_dir ${D}${KERNEL_SRC_PATH} ${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}
+> +	sysroot_stage_dir ${D}${KERNEL_SRC_PATH} ${SYSROOT_DESTDIR}${KERNEL_SRC_EXPORT_PATH}
+>   }
+>   
+>   kernel_do_configure() {
+> @@ -386,6 +388,14 @@ pkg_postrm_kernel-image () {
+>   	update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
+>   }
+>   
+> +pkg_postinst_kernel-dev () {
+> +        update-alternatives --install ${KERNEL_SRC_EXPORT_PATH} kernel-path kernel-${@legitimize_package_name('${KERNEL_VERSION}')} ${KERNEL_PRIORITY} || true
+> +}
+> +
+> +pkg_postrm_kernel-dev () {
+> +        update-alternatives --remove kernel-path kernel-${@legitimize_package_name('${KERNEL_VERSION}')} || true
+> +}
+> +
+>   PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
+>   
+>   python split_kernel_packages () {
 
 
