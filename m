@@ -1,28 +1,29 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7472C617B8
+Return-Path: <Yang.Shi@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BFBEA60169
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 19:56:42 +0000 (UTC)
+	Tue, 19 Aug 2014 21:21:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7JJugRL026844
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7JLLonI017817
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 12:56:42 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	Tue, 19 Aug 2014 14:21:50 -0700 (PDT)
+Received: from [147.11.216.83] (147.11.216.83) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 19 Aug 2014 12:56:39 -0700
-Message-ID: <53F3ABEA.6060602@windriver.com>
-Date: Tue, 19 Aug 2014 15:56:26 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Tue, 19 Aug 2014 14:21:50 -0700
+Message-ID: <53F3BFEE.70904@windriver.com>
+Date: Tue, 19 Aug 2014 14:21:50 -0700
+From: Yang Shi <yang.shi@windriver.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: Yang Shi <yang.shi@windriver.com>,
+To: Bruce Ashfield <bruce.ashfield@windriver.com>,
 	<openembedded-core@lists.openembedded.org>
 References: <1408473570-17890-1-git-send-email-yang.shi@windriver.com>
 	<53F39AA2.4020405@windriver.com> <53F39E7C.2090601@windriver.com>
-In-Reply-To: <53F39E7C.2090601@windriver.com>
+	<53F3ABEA.6060602@windriver.com>
+In-Reply-To: <53F3ABEA.6060602@windriver.com>
 Subject: Re: [V2 PATCH] kernel: Prevent from installing so files into source dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,67 +37,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Aug 2014 19:56:43 -0000
+X-List-Received-Date: Tue, 19 Aug 2014 21:21:59 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 14-08-19 02:59 PM, Yang Shi wrote:
-> On 8/19/2014 11:42 AM, Bruce Ashfield wrote:
->> On 14-08-19 02:39 PM, Yang Shi wrote:
->>> vdso build could generate so files, avoid installing such so files
->>> into kernel
->>> source dir, otherwise the below package QA error might be hit:
+On 8/19/2014 12:56 PM, Bruce Ashfield wrote:
+> On 14-08-19 02:59 PM, Yang Shi wrote:
+>> On 8/19/2014 11:42 AM, Bruce Ashfield wrote:
+>>> On 14-08-19 02:39 PM, Yang Shi wrote:
+>>>> vdso build could generate so files, avoid installing such so files
+>>>> into kernel
+>>>> source dir, otherwise the below package QA error might be hit:
+>>>>
+>>>> ERROR: QA Issue: File '/usr/src/kernel/arch/x86/vdso/vdso64.so' from
+>>>> linux-windriver was already stripped, this will prevent future
 >>>
->>> ERROR: QA Issue: File '/usr/src/kernel/arch/x86/vdso/vdso64.so' from
->>> linux-windriver was already stripped, this will prevent future
+>>> We wouldn't want to capture linux-windriver in the commit log .. I 
+>>> assume
+>>> that this is possible to see with the stock linux-yocto kernel as
+>>> well ?
 >>
->> We wouldn't want to capture linux-windriver in the commit log .. I assume
->> that this is possible to see with the stock linux-yocto kernel as
->> well ?
+>> I didn't try it with linux-yocto. But, if we use externalsrc, I think
+>> linux-yocto should have the same problem.
 >
-> I didn't try it with linux-yocto. But, if we use externalsrc, I think
-> linux-yocto should have the same problem.
+> Shouldn't be too hard to confirm. We want the log to be based on
+> oe-core components (as the tests should be), so it is worth a
+> quick re-test and a v3 .. sorry for being a pain on this.
 
-Shouldn't be too hard to confirm. We want the log to be based on
-oe-core components (as the tests should be), so it is worth a
-quick re-test and a v3 .. sorry for being a pain on this.
+Tested on oe-core, updated commit log accordingly. V3 is coming soon.
 
-Bruce
+Yang
 
 >
-> Yang
+> Bruce
 >
 >>
->> Bruce
+>> Yang
 >>
->>> debugging! [already-stripped]
 >>>
->>> Signed-off-by: Yang Shi <yang.shi@windriver.com>
->>> ---
->>>   meta/classes/kernel.bbclass | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>> Bruce
 >>>
->>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->>> index 819c302..435b6f0 100644
->>> --- a/meta/classes/kernel.bbclass
->>> +++ b/meta/classes/kernel.bbclass
->>> @@ -253,7 +253,7 @@ kernel_do_install() {
->>>       # dir. This ensures the original Makefiles are used and not the
->>>       # redirecting Makefiles in the build directory.
->>>       #
->>> -    find . -depth -not -name "*.cmd" -not -name "*.o" -not -name
->>> "*.so.dbg" -not -path "./Documentation*" -not -path "./source*" -not
->>> -path "./.*" -print0 | cpio --null -pdlu $kerneldir
->>> +    find . -depth -not -name "*.cmd" -not -name "*.o" -not -name
->>> "*.so.dbg" -not -name "*.so" -not -path "./Documentation*" -not -path
->>> "./source*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
->>>       cp .config $kerneldir
->>>       if [ "${S}" != "${B}" ]; then
->>>           pwd="$PWD"
+>>>> debugging! [already-stripped]
+>>>>
+>>>> Signed-off-by: Yang Shi <yang.shi@windriver.com>
+>>>> ---
+>>>>   meta/classes/kernel.bbclass | 2 +-
+>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>>>> index 819c302..435b6f0 100644
+>>>> --- a/meta/classes/kernel.bbclass
+>>>> +++ b/meta/classes/kernel.bbclass
+>>>> @@ -253,7 +253,7 @@ kernel_do_install() {
+>>>>       # dir. This ensures the original Makefiles are used and not the
+>>>>       # redirecting Makefiles in the build directory.
+>>>>       #
+>>>> -    find . -depth -not -name "*.cmd" -not -name "*.o" -not -name
+>>>> "*.so.dbg" -not -path "./Documentation*" -not -path "./source*" -not
+>>>> -path "./.*" -print0 | cpio --null -pdlu $kerneldir
+>>>> +    find . -depth -not -name "*.cmd" -not -name "*.o" -not -name
+>>>> "*.so.dbg" -not -name "*.so" -not -path "./Documentation*" -not -path
+>>>> "./source*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
+>>>>       cp .config $kerneldir
+>>>>       if [ "${S}" != "${B}" ]; then
+>>>>           pwd="$PWD"
+>>>>
+>>>
+>>>
 >>>
 >>
->>
->>
+>
+>
 >
 
 
