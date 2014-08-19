@@ -1,27 +1,36 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B54160030
+Return-Path: <abhijitpotnis@gmail.com>
+Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 56DE6617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 06:22:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7J6M4E0025749
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Aug 2014 23:22:04 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 18 Aug 2014 23:22:03 -0700
-Message-ID: <53F2ED09.7020009@windriver.com>
-Date: Tue, 19 Aug 2014 14:22:01 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1407845300.git.hongxu.jia@windriver.com>
-In-Reply-To: <cover.1407845300.git.hongxu.jia@windriver.com>
-Cc: saul.wold@intel.com
-Subject: Re: [PATCH 0/1] busybox : fix do_compile failed on qemumips when DEBUG_BUILD (ICE)
+	Tue, 19 Aug 2014 07:04:51 +0000 (UTC)
+Received: by mail-pd0-f176.google.com with SMTP id y10so9025333pdj.7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Aug 2014 00:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=v5weXtY+otFQdSM77UmMzy+IGPWJ/voz8MLn7UcpUUw=;
+	b=OQ6axU7P/793m0NGqbS2zffKS6fRlC1bzfav5eLBMKEw267RpI/AN0XJJqnqZNMRgS
+	pzeAJ9X1vru6IeZp2VktF5xm47guZd0/Gl4Qq030f2BKycCOrHrNW8Jtf7YXG21rfoFb
+	3z8wruBWX/hmb3jVLgQ+GLkoYKuo7ZzirUOcwqrMqt5cUCgtPnHJ3/yuYyeTVGZ0wqkR
+	+FML5KIk5ja1uiVCeT9z+G/PGz5x9NclXsqpaBH4+VfMOla3+VDcXWP9MHvCjztk0QfW
+	bF0oK96BGYS9HVNSdvaYnr3akFbhRtsArmwbuv+DG/tlLC1eFU3vtVUmeuZaWGZxdfJI
+	MEGg==
+X-Received: by 10.68.252.229 with SMTP id zv5mr42273541pbc.16.1408431890255;
+	Tue, 19 Aug 2014 00:04:50 -0700 (PDT)
+Received: from localhost.localdomain ([139.181.35.34])
+	by mx.google.com with ESMTPSA id
+	ki8sm27912958pdb.89.2014.08.19.00.04.48 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 19 Aug 2014 00:04:49 -0700 (PDT)
+From: Abhijit Potnis <abhijitpotnis@gmail.com>
+X-Google-Original-From: Abhijit Potnis <abhijit_potnis@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Aug 2014 12:34:39 +0530
+Message-Id: <1408431879-12912-1-git-send-email-abhijit_potnis@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Abhijit Potnis <abhijit_potnis@mentor.com>
+Subject: [PATCH] libxkbcommon: Add missing dependency on xkeyboard-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Aug 2014 06:22:04 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Aug 2014 07:04:59 -0000
 
-Ping
+From: Mikhail Durnev <mikhail_durnev@mentor.com>
 
-//Hongxu
+libxkbcommon depends on xkeyboard-config
 
-On 08/12/2014 08:10 PM, Hongxu Jia wrote:
-> Test Steps:
->
-> 1. vim local.conf:
-> ...
-> MACHINE ?= "qemumips"
-> DEBUG_BUILD = "1"
-> ...
->
-> 2. bitbake busybox
->
-> //Hongxu
->
-> The following changes since commit 870bb8d35547b8313b3a487d7e8b914ab9470e64:
->
->    local.conf.sample.extended: fix example for EXTRA_USERS_PARAMS (2014-08-04 17:38:24 +0100)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib hongxu/fix-busybox-ice-mips
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-busybox-ice-mips
->
-> Hongxu Jia (1):
->    busybox : fix do_compile failed on qemumips when DEBUG_BUILD (ICE)
->
->   .../fix-ice-on-mips-while-compiling-with-g-O.patch | 65 ++++++++++++++++++++++
->   meta/recipes-core/busybox/busybox_1.22.1.bb        |  4 ++
->   2 files changed, 69 insertions(+)
->   create mode 100644 meta/recipes-core/busybox/busybox/fix-ice-on-mips-while-compiling-with-g-O.patch
->
+Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
+Signed-off-by: Abhijit Potnis <abhijit_potnis@mentor.com>
+---
+ meta/recipes-graphics/xorg-lib/libxkbcommon_0.4.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.4.0.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.4.0.bb
+index 2ad5448..6ab827b 100644
+--- a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.4.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.4.0.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9c0b824e72a22f9d2c40b9c93b1f0ddc"
+ LICENSE = "MIT & MIT-style"
+ 
+ DEPENDS = "util-macros flex-native bison-native"
++DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'xkeyboard-config', '', d)}"
+ 
+ SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
+ 
+-- 
+1.9.1
 
 
