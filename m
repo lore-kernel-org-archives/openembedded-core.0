@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3936570738
+	by mail.openembedded.org (Postfix) with ESMTP id 3850465DD6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 16:37:45 +0000 (UTC)
+	Tue, 19 Aug 2014 16:37:46 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 19 Aug 2014 09:37:45 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 19 Aug 2014 09:37:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,895,1400050800"; d="scan'208";a="586985042"
+X-IronPort-AV: E=Sophos;i="5.01,895,1400050800"; d="scan'208";a="586985054"
 Received: from kmcfarla-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.95])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Aug 2014 09:37:44 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 19 Aug 2014 09:37:45 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Aug 2014 17:37:40 +0100
-Message-Id: <cover.1408466227.git.paul.eggleton@linux.intel.com>
+Date: Tue, 19 Aug 2014 17:37:41 +0100
+Message-Id: <7e2b751f8cd22a408f6bb6196f5612000f80daf1.1408466227.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
-Subject: [PATCH 0/1] BB_TASKDEPDATA usage fix
+In-Reply-To: <cover.1408466227.git.paul.eggleton@linux.intel.com>
+References: <cover.1408466227.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1408466227.git.paul.eggleton@linux.intel.com>
+References: <cover.1408466227.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] classes/autotools: avoid error if recipe is first in task dependency tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,22 +34,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 19 Aug 2014 16:37:49 -0000
 
-The following change since commit 47d1fc9f5c38f3d092937c47bd4c2f45adaa7fe6:
+If the recipe being built is listed first in BB_TASKDEPDATA (i.e. item
+0) this is still valid and should not trigger an error.
 
-  qemu: fix Darwin cross-compilation (2014-08-18 20:43:24 +0100)
-
-is available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/autotools
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/autotools
-
-Paul Eggleton (1):
-  classes/autotools: avoid error if recipe is first in task dependency
-    tree
-
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
  meta/classes/autotools.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index c49f063..6b99bdd 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -148,7 +148,7 @@ python autotools_copy_aclocals () {
+         if data[1] == "do_configure" and data[0] == pn:
+             start = dep
+             break
+-    if not start:
++    if start is None:
+         bb.fatal("Couldn't find ourself in BB_TASKDEPDATA?")
+ 
+     # We need to find configure tasks which are either from <target> -> <target>
 -- 
 1.9.3
 
