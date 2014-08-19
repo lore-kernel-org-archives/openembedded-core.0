@@ -1,24 +1,20 @@
-Return-Path: <Yang.Shi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C41A660169
+Return-Path: <max.eliaser@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 93D5D65D53
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 21:22:52 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7JLMrQP027990
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 14:22:53 -0700 (PDT)
-Received: from yshi-Precision-T5600.corp.ad.wrs.com (147.11.216.82) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 19 Aug 2014 14:22:53 -0700
-From: Yang Shi <yang.shi@windriver.com>
-To: <bruce.ashfield@windriver.com>, <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Aug 2014 14:21:41 -0700
-Message-ID: <1408483301-7800-1-git-send-email-yang.shi@windriver.com>
-X-Mailer: git-send-email 2.0.2
-MIME-Version: 1.0
-Subject: [V3 PATCH] kernel: Prevent from installing so files into source dir
+	Tue, 19 Aug 2014 21:31:52 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 19 Aug 2014 14:25:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.01,897,1400050800"; d="scan'208";a="560775874"
+Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.68])
+	by orsmga001.jf.intel.com with ESMTP; 19 Aug 2014 14:31:52 -0700
+From: Max Eliaser <max.eliaser@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Aug 2014 14:29:21 -0700
+Message-Id: <cover.1408483685.git.max.eliaser@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH 0/3] Add xf86-video-fbdev and xf86-video-cirrus to qemux86 and qemux86-64 (revised again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +27,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Aug 2014 21:22:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 Aug 2014 21:31:56 -0000
 
-vdso build could generate so files, avoid installing such so files into kernel
-source dir, otherwise the below package QA error might be hit:
+Hello list,
 
-ERROR: QA Issue: File '/usr/src/kernel/arch/x86/vdso/vdso64.so' from
-linux-yocto was already stripped, this will prevent future
-debugging! [already-stripped]
+This series adds additional x.org drivers to the qemux86 and qemux86-64
+machines. Now, instead of just including the "vmware" driver, GUI images for
+these machines will also include "cirrus" and "fbdev" drivers. Rationale: now
+that the runqemu script allows users to select which VGA adapter they want
+qemu to emulate, the qemu images should be able to start X servers with any
+adapter without requiring a rebuild of the image.
 
-Signed-off-by: Yang Shi <yang.shi@windriver.com>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Note that the drivers have only been added to the qemux86 and qemux86-64
+machines. If someone is interested in trying them on the other qemu machines,
+they shouldn't be hard to add.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 819c302..435b6f0 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -253,7 +253,7 @@ kernel_do_install() {
- 	# dir. This ensures the original Makefiles are used and not the
- 	# redirecting Makefiles in the build directory.
- 	#
--	find . -depth -not -name "*.cmd" -not -name "*.o" -not -name "*.so.dbg" -not -path "./Documentation*" -not -path "./source*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
-+	find . -depth -not -name "*.cmd" -not -name "*.o" -not -name "*.so.dbg" -not -name "*.so" -not -path "./Documentation*" -not -path "./source*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
- 	cp .config $kerneldir
- 	if [ "${S}" != "${B}" ]; then
- 		pwd="$PWD"
+xf86-video-cirrus did not previously have a recipe, so a new one is also added
+as part of this series.
+
+REVISED AGAIN: yet another dependency correction in xf86-video-cirrus.
+
+Regards,
+-Max Eliaser
+The following changes since commit 6882d2d9993c8655a292c93e84ea01b4738a700d:
+
+  yocto-project-qs, ref-manual: Added 'socat' package to essentials. (2014-08-12 13:50:32 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib meliaser/qemu-x-drivers
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=meliaser/qemu-x-drivers
+
+Max Eliaser (3):
+  xorg-drivers: xf86-video-cirrus: add a recipe for the Cirrus Logic
+    X.Org driver
+  qemux86: support X11 when QEMU is emulating a different GPU than
+    vmware
+  qemux86-64: support X11 when QEMU is emulating a different GPU than
+    vmware
+
+ meta/conf/machine/qemux86-64.conf                           |  2 ++
+ meta/conf/machine/qemux86.conf                              |  2 ++
+ .../recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb | 13 +++++++++++++
+ .../xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf   |  5 -----
+ .../xorg-xserver/xserver-xf86-config/qemux86/xorg.conf      |  5 -----
+ 5 files changed, 17 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb
+
 -- 
-2.0.2
+1.8.3.2
 
 
