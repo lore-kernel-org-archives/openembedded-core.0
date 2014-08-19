@@ -1,35 +1,39 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
-	[209.85.217.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 08627617B8
+Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 88F18617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 18:52:26 +0000 (UTC)
-Received: by mail-lb0-f173.google.com with SMTP id u10so5827328lbd.32
+	Tue, 19 Aug 2014 18:55:29 +0000 (UTC)
+Received: by mail-la0-f50.google.com with SMTP id pi18so6256008lab.23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 11:52:27 -0700 (PDT)
+	Tue, 19 Aug 2014 11:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=I75DQxTNjdjcTHglqb6YignMPpPF12ey4fM8QzWtSr0=;
-	b=bml+Xa95uff2YHuq6FmNOTmlOwJSr09oBOaCx3sFQqYZVWudgp336wvuhN0EzMRaRM
-	/Z4c66NZgLkTc18NlfMKGf55Q7Stt2TQiiG3AnYMps2Y2X5fexgdNQLkn2K5JKwbzPuA
-	2EBBwtufBU1fW9NXRby5uVVirXfgCbF0nPTwc29kYIw1d0AbwWnekGbWAH612fLNQj0e
-	UVkprB33ua6HFKTAZ7sjocx+BQ0eovuwuf2c2zfyXryvBf5mQT6uxUHa9jAoJ099qk6U
-	IUoFy9qPBS0ycqQZM8um1fTsisi6xuExygbETZtY8aQ964OZonA9lVHaKi7bptEiCH3X
-	8QfQ==
-X-Received: by 10.112.22.37 with SMTP id a5mr36020304lbf.76.1408474346933;
-	Tue, 19 Aug 2014 11:52:26 -0700 (PDT)
-Received: from localhost.localdomain (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id d7sm12968994lah.46.2014.08.19.11.52.25
+	h=sender:date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=40liuSBSwnHLwxfEYyDxteB8euuzcb4aB4X1SO9DlOU=;
+	b=tno6kCNPa2jL4pVmNnEMyqKXoaKJedbkWfRi+6i0EVEQNJteDLFE087h3ZpkLRi9Sx
+	yUHNfRDH7pTA6DoBryS+kaj4Ksf7d8US3lWVyODm/o55f8TFexUxPpoaqe2xPdqVvEfU
+	mVjDKNf71X4l0vd/d0O2J/PCHJVkih5/7czec5/cVDn6HgxmSeWVEySz73/iQAfojLi3
+	D57cqEH4JkBo63eiVa6gOOBKymcBfD8VNJujr1i06tnkayqQuLFjgP09xedSMqHgM0Zd
+	o0AeYN4dcABjbUGkuIRCQHHMmHTO8Qi2m4Ck5krLwOayv3XY2BcwN9el3VIJnwt4LbTl
+	+dFA==
+X-Received: by 10.112.91.196 with SMTP id cg4mr34855365lbb.42.1408474529824;
+	Tue, 19 Aug 2014 11:55:29 -0700 (PDT)
+Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
+	by mx.google.com with ESMTPSA id t3sm33311045lby.22.2014.08.19.11.55.28
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 19 Aug 2014 11:52:26 -0700 (PDT)
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Aug 2014 11:55:28 -0700 (PDT)
 Sender: Paul Barker <paul.betafive@gmail.com>
+Date: Tue, 19 Aug 2014 18:55:26 +0000
 From: Paul Barker <paul@paulbarker.me.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Aug 2014 18:52:17 +0000
-Message-Id: <1408474337-26481-1-git-send-email-paul@paulbarker.me.uk>
-X-Mailer: git-send-email 2.0.4
-Subject: [PATCH] e2fsprogs: Backport fixes for building with musl
+Message-ID: <20140819185526.GG7174@gmail.com>
+References: <1407497829-9330-1-git-send-email-paul@paulbarker.me.uk>
+MIME-Version: 1.0
+In-Reply-To: <1407497829-9330-1-git-send-email-paul@paulbarker.me.uk>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Re: [PATCH 0/2] Fix gpg support in opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,92 +46,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Aug 2014 18:52:29 -0000
+X-List-Received-Date: Tue, 19 Aug 2014 18:55:37 -0000
+X-Groupsio-MsgNum: 56757
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="oOB74oR0WcNeq9Zb"
+Content-Disposition: inline
 
-Both of these fixes have been applied upstream and improve general code
-correctness.  They are needed when building with TCLIBC=musl but shouldn't cause
-any harm with other libc implementations.
+--oOB74oR0WcNeq9Zb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
----
- .../e2fsprogs/0012-Fix-musl-build-failures.patch   | 54 ++++++++++++++++++++++
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0012-Fix-musl-build-failures.patch
+On Fri, Aug 08, 2014 at 11:37:07AM +0000, Paul Barker wrote:
+> After recent changes to disable binconfig programs, 'gpgme-config' is no =
+longer
+> installed with gpgme. This prevents opkg from finding gpgme which is need=
+ed when
+> 'gpg' is added to PACKAGECONFIG. This is fixed in two stages:
+>=20
+>   - A 'gpgme.pc' file was created and added to openembedded-core to be in=
+stalled
+>     with gpgme. The Cflags and Libs values for this file were found by ru=
+nning
+>     'gpgme-config' on my development machine. This patch is included here.
+>=20
+>   - Changes were made to 'configure.ac' in opkg to use pkg-config to find=
+ gpgme
+>     instead of using 'gpgme-config'. These changes could be added as a pa=
+tch in
+>     openembedded-core but I don't think there's much point. opkg-0.2.3 sh=
+ould be
+>     released in the next couple of weeks and I'll include the relevant ch=
+anges
+>     in that.
+>=20
+> Additionally, I found that gpg itself wasn't installed when opkg was inst=
+alled
+> with gpg support. The 'opkg-key' program uses gpg to manage the list of t=
+rusted
+> keys so without gpg it isn't possible to set up package feed verification=
+ on a
+> device. Therefore, I've added 'gnupg' to RDEPENDS when 'gpg' is in
+> PACKAGECONFIG.
+>=20
+> Paul Barker (2):
+>   gpgme: Add pkg-config file
+>   opkg: Add runtime dep on gnupg if 'gpg' is in PACAKGECONFIG
+>=20
+>  meta/recipes-devtools/opkg/opkg.inc             |  2 +-
+>  meta/recipes-support/gpgme/gpgme-1.4.3/gpgme.pc | 10 ++++++++++
+>  meta/recipes-support/gpgme/gpgme_1.4.3.bb       |  8 +++++++-
+>  3 files changed, 18 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-support/gpgme/gpgme-1.4.3/gpgme.pc
+>=20
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0012-Fix-musl-build-failures.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0012-Fix-musl-build-failures.patch
-new file mode 100644
-index 0000000..2624f90
---- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0012-Fix-musl-build-failures.patch
-@@ -0,0 +1,54 @@
-+From c6ff7feb9038d6e8aaffe2e69b205ad5fa33df2f Mon Sep 17 00:00:00 2001
-+From: Paul Barker <paul@paulbarker.me.uk>
-+Date: Mon, 18 Aug 2014 21:02:56 +0200
-+Subject: [PATCH] Fix musl build failures
-+
-+In lib/ext2fs/unix_io.c, __u64 should be used instead of __uint64_t. This type
-+is guaranteed by the e2fsprogs build system.
-+(795c02def3681a99cc792a5ebc162d06f8a1eeb7)
-+
-+In misc/create_inode.c, <limits.h> is needed for the definition of PATH_MAX.
-+(bbccc6f3c6a106721fb6f1ef4df6bc32c7986235)
-+
-+Both of these fixes have been made upstream with the git commit IDs given but
-+those are larger commits containing other changes not needed here.
-+
-+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
-+
-+Upstream-status: Backport
-+---
-+ lib/ext2fs/unix_io.c | 6 +++---
-+ misc/create_inode.c  | 1 +
-+ 2 files changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/lib/ext2fs/unix_io.c b/lib/ext2fs/unix_io.c
-+index 19be630..0cc0f52 100644
-+--- a/lib/ext2fs/unix_io.c
-++++ b/lib/ext2fs/unix_io.c
-+@@ -931,10 +931,10 @@ static errcode_t unix_discard(io_channel channel, unsigned long long block,
-+ 
-+ 	if (channel->flags & CHANNEL_FLAGS_BLOCK_DEVICE) {
-+ #ifdef BLKDISCARD
-+-		__uint64_t range[2];
-++		__u64 range[2];
-+ 
-+-		range[0] = (__uint64_t)(block) * channel->block_size;
-+-		range[1] = (__uint64_t)(count) * channel->block_size;
-++		range[0] = (__u64)(block) * channel->block_size;
-++		range[1] = (__u64)(count) * channel->block_size;
-+ 
-+ 		ret = ioctl(data->dev, BLKDISCARD, &range);
-+ #else
-+diff --git a/misc/create_inode.c b/misc/create_inode.c
-+index 6d8de04..fcec5aa 100644
-+--- a/misc/create_inode.c
-++++ b/misc/create_inode.c
-+@@ -1,4 +1,5 @@
-+ #include "create_inode.h"
-++#include <limits.h>
-+ 
-+ #if __STDC_VERSION__ < 199901L
-+ # if __GNUC__ >= 2
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-index 5302554..a08e937 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-@@ -16,6 +16,7 @@ SRC_URI += "file://acinclude.m4 \
-             file://0009-misc-create_inode.c-handle-hardlinks.patch \
-             file://0010-debugfs-use-the-functions-in-misc-create_inode.c.patch \
-             file://0011-mke2fs.8.in-update-the-manual-for-the-d-option.patch \
-+            file://0012-Fix-musl-build-failures.patch \
-             file://0001-e2fsprogs-fix-cross-compilation-problem.patch \
-             file://misc-mke2fs.c-return-error-when-failed-to-populate-fs.patch \
- "
--- 
-2.0.4
+Ping on these two patches. I think I've addressed Martin's question on the
+second patch now, they should hopefully be ok to merge.
 
+Thanks,
 
+--=20
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
+
+--oOB74oR0WcNeq9Zb
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQEcBAEBAgAGBQJT852eAAoJEBwoJlo7UPQDewEIAIGxo3jNRPn2ag5UtnzhaIgL
+xryvLf6uD62l4HI0t3YkUTf27rd2V5C9TiTKk084AX5O4Hm4z1QTIlEV6ve6OYC1
+kL1T+LnGK+b+cqhaXfTsNZ7W1mPvswEp+nO0SEzX/QjXA3EliR6WH3sCvQU62k5i
+cxKYxp6QrVXxU+S3UkOjoxvAkdNDeb8/L/8sTo9GiF3psLPrBEAuZcsVVPYFkAWQ
+TY/t/yjulo/IzAKWEK6t+Tp3ou2CSeYPpQo1VhAYonq1SLQY1nvdq2LQ0USZPJ4D
+4C3AGmGnRlffh6Ti+4YGCEO4sQiCIKbTA8ozW/Da+cQVaYgEsZKo9CSmWBZN0BQ=
+=sZXU
+-----END PGP SIGNATURE-----
+
+--oOB74oR0WcNeq9Zb--
