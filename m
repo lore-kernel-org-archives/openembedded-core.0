@@ -1,24 +1,24 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 98C9470E41
+Return-Path: <Fupan.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AD8F860030
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 01:44:40 +0000 (UTC)
+	Tue, 19 Aug 2014 03:19:28 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7J1iew2002183
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7J3JT5g012601
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Aug 2014 18:44:40 -0700 (PDT)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
+	Mon, 18 Aug 2014 20:19:29 -0700 (PDT)
+Received: from pek-bsp-build1.wrs.com (128.224.179.105) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 18 Aug 2014 18:44:40 -0700
-From: <jackie.huang@windriver.com>
+	14.3.174.1; Mon, 18 Aug 2014 20:19:28 -0700
+From: <fupan.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Aug 2014 21:44:38 -0400
-Message-ID: <1408412678-6787-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
+Date: Tue, 19 Aug 2014 11:18:02 +0800
+Message-ID: <1408418282-113361-1-git-send-email-fupan.li@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Subject: [PATCH v2] openssl: add DEPENDS on openssl-native for rehash
+Subject: [oe] [kernel.bbclass] [PATCH] let the multi-version kernel header files coexist on the target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,50 +31,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Aug 2014 01:44:44 -0000
+X-List-Received-Date: Tue, 19 Aug 2014 03:19:28 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
+From: fupan li <fupan.li@windriver.com>
 
-'make rehash' used the compiled openssl to get hash value
-for files, it always failed when cross compiling:
+When do RCPL upgrading, we want to keep the different RCPL's kernel header files coexist, just
+as the kernel image does.
 
-/path/to/openssl/1.0.1i-r0/openssl-1.0.1i/util/shlib_wrap.sh:
-line 96: /path/to/openssl/1.0.1i-r0/openssl-1.0.1i/util/../apps/openssl:
-cannot execute binary file
-
-so add DEPENDS on openssl-native for target package and use it
-instead of the one compiled from target package.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: fupan li <fupan.li@windriver.com>
 ---
- meta/recipes-connectivity/openssl/openssl.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/classes/kernel.bbclass | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index a99953e..b63d164 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -9,6 +9,7 @@ LICENSE = "openssl"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 6d9e646..e6ed716 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -75,9 +75,11 @@ EXTRA_OEMAKE = ""
  
- DEPENDS = "perl-native-runtime"
-+DEPENDS_append_class-target = " openssl-native"
+ KERNEL_ALT_IMAGETYPE ??= ""
  
- SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-           "
-@@ -137,6 +138,10 @@ do_configure () {
- 	perl ./Configure ${EXTRA_OECONF} shared --prefix=$useprefix --openssldir=${libdir}/ssl --libdir=`basename ${libdir}` $target
+-# Define where the kernel headers are installed on the target as well as where
+-# they are staged.
+-KERNEL_SRC_PATH = "/usr/src/kernel"
++# Define where the kernel headers are staged.
++KERNEL_SRC_EXPORT_PATH = "/usr/src/kernel"
++#put the kernel headers in /usr/src/kernel-${@legitimize_package_name('${KERNEL_VERSION}')} to
++#let the different RCPL's kernel headers coexist.
++KERNEL_SRC_PATH = "/usr/src/kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
+ 
+ KERNEL_IMAGETYPE_FOR_MAKE = "${@(lambda s: s[:-3] if s[-3:] == ".gz" else s)(d.getVar('KERNEL_IMAGETYPE', True))}"
+ 
+@@ -313,7 +315,7 @@ kernelscripts_sstate_postinst () {
  }
  
-+do_compile_prepend_class-target () {
-+    sed -i 's/\((OPENSSL=\)".*"/\1"openssl"/' Makefile
+ sysroot_stage_all_append() {
+-	sysroot_stage_dir ${D}${KERNEL_SRC_PATH} ${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}
++	sysroot_stage_dir ${D}${KERNEL_SRC_PATH} ${SYSROOT_DESTDIR}${KERNEL_SRC_EXPORT_PATH}
+ }
+ 
+ kernel_do_configure() {
+@@ -386,6 +388,14 @@ pkg_postrm_kernel-image () {
+ 	update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
+ }
+ 
++pkg_postinst_kernel-dev () {
++        update-alternatives --install ${KERNEL_SRC_EXPORT_PATH} kernel-path kernel-${@legitimize_package_name('${KERNEL_VERSION}')} ${KERNEL_PRIORITY} || true
 +}
 +
- do_compile () {
- 	oe_runmake
- }
++pkg_postrm_kernel-dev () {
++        update-alternatives --remove kernel-path kernel-${@legitimize_package_name('${KERNEL_VERSION}')} || true
++}
++
+ PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
+ 
+ python split_kernel_packages () {
 -- 
-2.0.0
+1.8.1.2
 
 
