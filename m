@@ -1,26 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A2A265F1E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 72CAD65E14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 10:04:45 +0000 (UTC)
+	Tue, 19 Aug 2014 10:04:44 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7JA4kb1016708
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7JA4ibZ023178
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 19 Aug 2014 03:04:46 -0700 (PDT)
+	Tue, 19 Aug 2014 03:04:44 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 19 Aug 2014 03:04:46 -0700
+	14.3.174.1; Tue, 19 Aug 2014 03:04:44 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Aug 2014 18:04:42 +0800
-Message-ID: <398026f7666fb8fdeb09a17e8b728f591f3e5dd1.1408442536.git.hongxu.jia@windriver.com>
+Date: Tue, 19 Aug 2014 18:04:41 +0800
+Message-ID: <cover.1408442536.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1408442536.git.hongxu.jia@windriver.com>
-References: <cover.1408442536.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 1/1] bind: refer ubuntu/redhat to add bind user/group
+Subject: [PATCH 0/1] bind: refer ubuntu/redhat to add bind user/group
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,74 +34,23 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 19 Aug 2014 10:04:48 -0000
 Content-Type: text/plain
 
-We refer what ubuntu/redhat did, gave bind a user/group
+The following changes since commit 870bb8d35547b8313b3a487d7e8b914ab9470e64:
 
-Here is the example in ubuntu 14.04:
+  local.conf.sample.extended: fix example for EXTRA_USERS_PARAMS (2014-08-04 17:38:24 +0100)
 
-$ ps -eo user,group,cmd | grep "named"
-...
-bind     bind     /usr/sbin/named -u bind
-...
+are available in the git repository at:
 
-$vim bind9_1%3a9.9.5.dfsg-3_amd64.deb/postinst
-...
-    # lets give them a bind user/group in all cases.
-    getent group bind >/dev/null 2>&1 || addgroup --system bind
-    getent passwd bind >/dev/null 2>&1 ||
-    adduser --system --home /var/cache/bind --no-create-home \
-        --disabled-password --ingroup bind bind
-...
+  git://git.pokylinux.org/poky-contrib hongxu/bind-useradd
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/bind-useradd
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
+Hongxu Jia (1):
+  bind: refer ubuntu/redhat to add bind user/group
+
  meta/recipes-connectivity/bind/bind/bind9    |  2 ++
  meta/recipes-connectivity/bind/bind_9.9.5.bb | 10 +++++++++-
  2 files changed, 11 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-connectivity/bind/bind/bind9
 
-diff --git a/meta/recipes-connectivity/bind/bind/bind9 b/meta/recipes-connectivity/bind/bind/bind9
-new file mode 100644
-index 0000000..968679f
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/bind9
-@@ -0,0 +1,2 @@
-+# startup options for the server
-+OPTIONS="-u bind"
-diff --git a/meta/recipes-connectivity/bind/bind_9.9.5.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-index de10eb8..ebd38ef 100644
---- a/meta/recipes-connectivity/bind/bind_9.9.5.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-@@ -15,6 +15,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://dont-test-on-host.patch \
-            file://generate-rndc-key.sh \
-            file://named.service \
-+           file://bind9 \
-            file://init.d-add-support-for-read-only-rootfs.patch \
- 	   "
- 
-@@ -30,7 +31,11 @@ EXTRA_OECONF = " ${ENABLE_IPV6} --with-randomdev=/dev/random --disable-threads \
-                  --with-openssl=${STAGING_LIBDIR}/.. --with-libxml2=${STAGING_LIBDIR}/.. \
-                  --enable-exportlib --with-export-includedir=${includedir} --with-export-libdir=${libdir} \
-                "
--inherit autotools-brokensep update-rc.d systemd
-+inherit autotools-brokensep update-rc.d systemd useradd
-+
-+USERADD_PACKAGES = "${PN}"
-+USERADD_PARAM_${PN} = "--system --home /var/cache/bind --no-create-home \
-+                       --user-group bind"
- 
- INITSCRIPT_NAME = "bind"
- INITSCRIPT_PARAMS = "defaults"
-@@ -67,6 +72,9 @@ do_install_append() {
- 	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
- 	       -e 's,@SBINDIR@,${sbindir},g' \
- 	       ${D}${systemd_unitdir}/system/named.service
-+
-+	install -d ${D}${sysconfdir}/default
-+	install -m 0644 ${WORKDIR}/bind9 ${D}${sysconfdir}/default
- }
- 
- CONFFILES_${PN} = " \
 -- 
 1.9.1
 
