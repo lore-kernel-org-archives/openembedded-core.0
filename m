@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8591360030
+	by mail.openembedded.org (Postfix) with ESMTP id E398460030
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 12:34:40 +0000 (UTC)
+	Tue, 19 Aug 2014 12:35:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7JCYdjA004602 for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 13:34:39 +0100
+	s7JCZusA004716 for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Aug 2014 13:35:56 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 2FP1rufTS76n
+	with LMTP id 6F_trE7lXSE7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 13:34:39 +0100 (BST)
+	Tue, 19 Aug 2014 13:35:56 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7JCYZup004598
+	s7JCZq0Y004713
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 13:34:36 +0100
-Message-ID: <1408451676.1669.50.camel@ted>
+	Tue, 19 Aug 2014 13:35:53 +0100
+Message-ID: <1408451752.1669.52.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Aug 2014 13:34:36 +0100
+Date: Tue, 19 Aug 2014 13:35:52 +0100
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
-Subject: [PATCH] packagegroup: Make allarch inherit conditional
+Subject: [PATCH] allarch: Add warning about packagegroup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Aug 2014 12:34:46 -0000
+X-List-Received-Date: Tue, 19 Aug 2014 12:35:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Make the allarch inherit conditional on PACKAGE_ARCH being left as
-all. The one downside to this approach is that recipes need to set
-PACKAGE_ARCH *before* inheriting the class in order to avoid the inherit.
-
-The advantage is that we could start to detect the use of the
-allarch inherit in the sstatesig code for improved task checksums.
+Since we want to start including this class conditionally, detect cases
+where packagegroup files use the old ordering and inform the user they 
+need to update this.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/packagegroup.bbclass b/meta/classes/packagegroup.bbclass
-index 6606bc6..a79d5b05 100644
---- a/meta/classes/packagegroup.bbclass
-+++ b/meta/classes/packagegroup.bbclass
-@@ -9,7 +9,8 @@ PACKAGES = "${PN}"
- # By default, packagegroup packages do not depend on a certain architecture.
- # Only if dependencies are modified by MACHINE_FEATURES, packages
- # need to be set to MACHINE_ARCH after inheriting packagegroup.bbclass
--inherit allarch
-+PACKAGE_ARCH ??= "all"
-+inherit ${@oe.utils.ifelse(d.getVar('PACKAGE_ARCH', True) == 'all', 'allarch', '')}
+diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+index c953e7c..4bc9927 100644
+--- a/meta/classes/allarch.bbclass
++++ b/meta/classes/allarch.bbclass
+@@ -37,5 +37,7 @@ python () {
+         d.setVar("EXCLUDE_FROM_SHLIBS", "1")
+         d.setVar("INHIBIT_PACKAGE_DEBUG_SPLIT", "1")
+         d.setVar("INHIBIT_PACKAGE_STRIP", "1")
++    elif bb.data.inherits_class('packagegroup', d) and not bb.data.inherits_class('nativesdk', d):
++        bb.error("Please ensure recipe %s sets PACKAGE_ARCH before inherit packagegroup" % d.getVar("FILE", True))
+ }
  
- # This automatically adds -dbg and -dev flavours of all PACKAGES
- # to the list. Their dependencies (RRECOMMENDS) are handled as usual
 
 
 
