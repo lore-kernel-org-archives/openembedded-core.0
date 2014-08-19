@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5961765DEB
+	by mail.openembedded.org (Postfix) with ESMTP id F28D165DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 12:38:37 +0000 (UTC)
+	Tue, 19 Aug 2014 12:40:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7JCcaAg004869 for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 13:38:36 +0100
+	s7JCeeeU004964 for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Aug 2014 13:40:40 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ctwMxohvO5Jm
+	with LMTP id q7zWs7oZLGqU
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 13:38:36 +0100 (BST)
+	Tue, 19 Aug 2014 13:40:40 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7JCcYi6004865
+	s7JCeZJI004960
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 13:38:35 +0100
-Message-ID: <1408451914.1669.55.camel@ted>
+	Tue, 19 Aug 2014 13:40:36 +0100
+Message-ID: <1408452036.1669.57.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Aug 2014 13:38:34 +0100
+Date: Tue, 19 Aug 2014 13:40:36 +0100
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
-Subject: [PATCH] sstatesig: Only squash dependencies for allarch packagegroups
+Subject: [PATCH] debian: Set RPROVIDES to include the original packagename when renaming
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Aug 2014 12:38:37 -0000
+X-List-Received-Date: Tue, 19 Aug 2014 12:40:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The idea of squashing packagegroup dependencies was to avoid allarch 
-packages rebuilding upon tune/arch changes. Now that the allarch class
-inclusion is conditional, we can narrow down the packagegroup squashing
-to be specifically applied to allarch recipes.
+Currently its hard for a packagegroup recipe to depend on something who's name
+can change unpredictably. We therefore add in RPROVIDES for the original
+package name so that these are also available to use as dependencies.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index d58147f..4188873 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -14,6 +14,9 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
-     def isPackageGroup(fn):
-         inherits = " ".join(dataCache.inherits[fn])
-         return "/packagegroup.bbclass" in inherits
-+    def isAllArch(fn):
-+        inherits = " ".join(dataCache.inherits[fn])
-+        return "/allarch.bbclass" in inherits
-     def isImage(fn):
-         return "/image.bbclass" in " ".join(dataCache.inherits[fn])
+diff --git a/meta/classes/debian.bbclass b/meta/classes/debian.bbclass
+index 47d3ed8..8fe67c8 100644
+--- a/meta/classes/debian.bbclass
++++ b/meta/classes/debian.bbclass
+@@ -113,6 +113,7 @@ python debian_package_name_hook () {
+                             newpkg = mlpre + newpkg
+                     if newpkg != pkg:
+                         d.setVar('PKG_' + pkg, newpkg)
++                        d.appendVar('RPROVIDES_' + pkg, " " + pkg)
  
-@@ -36,8 +39,8 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
- 
-     # Only target packages beyond here
- 
--    # packagegroups are assumed to have well behaved names which don't change between architecures/tunes
--    if isPackageGroup(fn):
-+    # allarch packagegroups are assumed to have well behaved names which don't change between architecures/tunes
-+    if isPackageGroup(fn) and isAllArch(fn):
-         return False  
- 
-     # Exclude well defined machine specific configurations which don't change ABI
+     # reversed sort is needed when some package is substring of another
+     # ie in ncurses we get without reverse sort: 
 
 
 
