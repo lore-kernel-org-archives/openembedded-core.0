@@ -1,31 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 33E0160030
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
+	[209.85.217.172])
+	by mail.openembedded.org (Postfix) with ESMTP id ECD2565E14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 11:23:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7JBJteK001883; Tue, 19 Aug 2014 12:23:10 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 7GgVs1xHrOnh; Tue, 19 Aug 2014 12:23:10 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7JBN46x001956
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 19 Aug 2014 12:23:06 +0100
-Message-ID: <1408447385.1669.44.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 19 Aug 2014 12:23:05 +0100
-In-Reply-To: <22E8A6CB-313F-4713-B76F-FE090570EB15@dominion.thruhere.net>
-References: <1408366010.1669.11.camel@ted> <20140818131443.GL3660@jama>
-	<1408372750.1669.30.camel@ted> <1408376104.1669.33.camel@ted>
-	<22E8A6CB-313F-4713-B76F-FE090570EB15@dominion.thruhere.net>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Allarch and packagegroup improvement proposal
+	Tue, 19 Aug 2014 11:42:36 +0000 (UTC)
+Received: by mail-lb0-f172.google.com with SMTP id z11so5375018lbi.17
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Aug 2014 04:42:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=EPMJny35SLllOdFQNZ8CQJSowye3vS+fwLaL1+Bo3ww=;
+	b=llyVDUNhcDlBjnPLh+E4a6lR9vL4d5gmV+Ug4wYBZfjacSRC/cgGQBI9yhypxcUOor
+	EOvpxgUZCTeHrPFjzk8jn689/Dgv94OstmTWXmI2nKSwCPba72clREPBgt365qRb4sse
+	K94FG0CU9qULjenXZHFiId2ALBMFMm4Oxc+SZ5UO+JbTsuhSD37Crb3AnG6MqyZJQ+b+
+	dOPlD+maLF27pr/xIEaKOFmUTA1hAf8HzyTVkHk4asYDv9ldhzgpPHEuqOezzOo2Rhvx
+	hlAYtAfywvBrCt6eY8+QvengVye2+yNssNj9RrxUOcH7LeoZ9QuYRSgqdS0qFGRWUGfF
+	oh0A==
+X-Received: by 10.112.155.226 with SMTP id vz2mr33638061lbb.23.1408448555231; 
+	Tue, 19 Aug 2014 04:42:35 -0700 (PDT)
+Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
+	by mx.google.com with ESMTPSA id
+	dp4sm12349648lad.27.2014.08.19.04.42.33
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Aug 2014 04:42:34 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+Date: Tue, 19 Aug 2014 11:42:29 +0000
+From: Paul Barker <paul@paulbarker.me.uk>
+To: OE Core <openembedded-core@lists.openembedded.org>
+Message-ID: <20140819114229.GE7174@gmail.com>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: core-image-full-cmdline build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,80 +45,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Aug 2014 11:23:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Aug 2014 11:42:39 -0000
+X-Groupsio-MsgNum: 56723
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="lteA1dqeVaWQ9QQl"
+Content-Disposition: inline
 
-On Tue, 2014-08-19 at 12:41 +0200, Koen Kooi wrote:
-> Op 18 aug. 2014, om 17:35 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
-> 
-> > On Mon, 2014-08-18 at 15:39 +0100, Richard Purdie wrote:
-> >> On Mon, 2014-08-18 at 15:14 +0200, Martin Jansa wrote:
-> >>> Well then maybe that allarch package with perl dependency shouldn't be
-> >>> marked as allarch.
-> >> 
-> >> Take a step back and think about this from the end user system
-> >> perspective. The packages are all identical for each architecture,
-> >> "perl" doesn't change name. 
-> >> 
-> >> To me that means the correct end result is such a package should be
-> >> "allarch" in the package feeds.
-> >> 
-> >> The question then becomes, how do we generate such things in a sane way.
-> >> 
-> >>> I'm in favor of removing default allarch and setting correct
-> >>> PACKAGE_ARCH manually in the packagegroup recipes like we do elsewhere.
-> >>> 
-> >>> packagegroups are small and "rebuilt" quickly, so I don't mind
-> >>> "building" them once per TUNE_PKGARCH or even once per MACHINE_ARCH like
-> >>> we do for couple of them already.
-> >>> 
-> >>> I can even find few changes from me on ML which do exactly that.
-> >> 
-> >> It does seem a bit of a cop out to do this on the grounds that its
-> >> small/fast :/.
-> >> 
-> >> I agree there is good reason why some should be PKGARCH but we can
-> >> probably do better than just marking them all that way IMO. I think we
-> >> should try and mark them correctly too, i.e. think about whether the
-> >> packages really are identical and/or make sense as allarch and try and
-> >> avoid duplication if so.
-> > 
-> > I also have one other idea. We could adjust debian.bbclass so that it
-> > adds an RPROVIDES for the original package name. We could then instruct
-> > packagegroups specifically not to adjust the naming for debian renaming.
-> > 
-> > This would mean that the packagegroups would know the dependencies by
-> > their non-debian, unversioned name.
-> > 
-> > Would that work for people?
-> > 
-> > I'm torn on the idea right now but thought I'd share it.
-> 
-> What happens in the following situation:
-> 
-> foo.bb generates foo.ipk (/usr/bin/foo) and libfoo5.ipk
-> (/usr/lib/libfoo.so.5), will libfoo5 RPROVIDE 'foo', 'libfoo' or
-> something else?
+--lteA1dqeVaWQ9QQl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-libfoo
+Hi all,
 
-Its very unlikely someone would write a package which the namespaces
-conflicted in the way we use things currently.
+I'm getting consistent failures trying to build core-image-full-cmdline wit=
+h an
+up-to-date oe-core (d0be4b3) and bitbake (38d4f65). The useradd commands for
+rpcbind and openssh-sshd are running before the base-passwd package has been
+installed and so are not finding /etc/passwd.
 
-The other related question is whether we should be doing automatic
-remapping in RPROVIDES/RREPLACES/RCONFLICTS ?
+I've hacked together a local fix for this by modifying the do_rootfs comman=
+d to
+install base-passwd before installing other packages. If this is a common
+failure and it's not just me seeing it, would it be worth expanding the pac=
+kage
+types listed in the install manifest? Currently we have 'mip' for must inst=
+all
+package, 'aop' for attempt only, etc. If we need to ensure certain packages=
+ are
+installed first, perhaps we could add something like 'ep' for early package.
 
-Since at the moment if we put libfoo into RPROVIDES, it gets mapped to
-libfoo5 by the remapping code...
+Looking into the rpcbind package, the useradd commands are performed in a
+preinst script so I don't think the problem is opkg running the script too
+early. Do other package managers guarantee that a package's dependencies are
+installed before the preinst script is ran? If so, I may need to re-order t=
+hings
+within opkg. If not, I think the above solution of listing certain packages=
+ for
+early installation would be best.
 
-I have patches which make various things work, I'll probably post them
-and people can see what they think. 
+Thanks,
 
-Cheers,
+--=20
+Paul Barker
 
-Richard
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
+--lteA1dqeVaWQ9QQl
+Content-Type: application/pgp-signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iQEcBAEBAgAGBQJT8zglAAoJEBwoJlo7UPQDmt8IAJDHlqJIwWzWJVNBnXxxUo3w
+5/9dH9J58OZ8sbFoJCqI7cIpjKYlLkgoIIjAHKRC+XTYjTxKGNfiKFmP7P7JhTdO
+/RIT4a3SBXRf5SEe7YgKtrY5lqBU7m7h3Q8CQlCAnHZjJrD3UJ8R8d9TwbDxUh9/
+7JPutrNB0XLE9g8gITUFfw/VZrLtlU1vZMEAfx1dBEb7ZcQDhfeYCDSq+B6nmz/3
+MAez7Dg/6ToG2Gaf+42QHQNo7A6AckaOkXsiBx53pgdGz8dUW8RmO7GY7maoaIYk
+DUgQPaXlgx2JDxH2T3sGVsyDRbU+iOoOQuxKABVM+5cntWz9UqMXoKbq7nlO8wU=
+=qpVD
+-----END PGP SIGNATURE-----
 
+--lteA1dqeVaWQ9QQl--
