@@ -1,24 +1,28 @@
-Return-Path: <max.eliaser@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C582570E6B
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B9636FE55
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Aug 2014 21:31:55 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 19 Aug 2014 14:25:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.01,897,1400050800"; d="scan'208";a="560775876"
-Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.68])
-	by orsmga001.jf.intel.com with ESMTP; 19 Aug 2014 14:31:53 -0700
-From: Max Eliaser <max.eliaser@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Aug 2014 14:29:23 -0700
-Message-Id: <9a75d2d91ff7a27accc4a9077a3f52bec483ef5c.1408483685.git.max.eliaser@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <cover.1408483685.git.max.eliaser@intel.com>
-References: <cover.1408483685.git.max.eliaser@intel.com>
-In-Reply-To: <cover.1408483685.git.max.eliaser@intel.com>
-References: <cover.1408483685.git.max.eliaser@intel.com>
-Subject: [PATCH 2/3] qemux86: support X11 when QEMU is emulating a different GPU than vmware
+	Wed, 20 Aug 2014 01:45:31 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7K1jWZe000423
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Aug 2014 18:45:32 -0700 (PDT)
+Received: from server.local (128.224.21.169) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 19 Aug 2014 18:45:32 -0700
+Message-ID: <53F3FD81.7080500@windriver.com>
+Date: Tue, 19 Aug 2014 21:44:33 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: Yang Shi <yang.shi@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1408483301-7800-1-git-send-email-yang.shi@windriver.com>
+In-Reply-To: <1408483301-7800-1-git-send-email-yang.shi@windriver.com>
+Subject: Re: [V3 PATCH] kernel: Prevent from installing so files into source dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,59 +35,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Aug 2014 21:31:57 -0000
+X-List-Received-Date: Wed, 20 Aug 2014 01:45:38 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-QEMU is capable of emulating four different VGA adapters: cirrus, std, vmware,
-and QXL. By adding the cirrus and fbdev X.Org drivers to the qemux86 image,
-the image can be made to launch an X server on when cirrus and std are chosen,
-in addition to just vmware. (The build of QEMU in OE-Core appears to have QXL
-disabled, meaning a driver for it is unnecessary.)
+On 2014-08-19, 5:21 PM, Yang Shi wrote:
+> vdso build could generate so files, avoid installing such so files into kernel
+> source dir, otherwise the below package QA error might be hit:
+>
+> ERROR: QA Issue: File '/usr/src/kernel/arch/x86/vdso/vdso64.so' from
+> linux-yocto was already stripped, this will prevent future
+> debugging! [already-stripped]
 
-The runqemu script now allows the choice of emulated VGA adapter to be
-specified manually, so it's important that qemux86 supports any configuration
-the user might choose without requiring the image to be rebuilt.
+Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-In addition to adding the two extra drivers to the qemux86 image, a section
-specifying the driver to use is deleted from the image's xorg.conf, allowing
-the X server to automatically select the most appropriate driver. Testing
-shows that it does always pick the correct one.
-
-Signed-off-by: Max Eliaser <max.eliaser@intel.com>
----
- meta/conf/machine/qemux86.conf                                       | 2 ++
- .../xorg-xserver/xserver-xf86-config/qemux86/xorg.conf               | 5 -----
- 2 files changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index ebc27db..3562276 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -19,6 +19,8 @@ XSERVER = "xserver-xorg \
-            xf86-input-vmmouse \
-            xf86-input-keyboard \
-            xf86-input-evdev \
-+           xf86-video-cirrus \
-+           xf86-video-fbdev \
-            xf86-video-vmware"
- 
- MACHINE_FEATURES += "x86"
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
-index 10a6d9a..bbda9ea 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
-@@ -30,11 +30,6 @@ Section "InputDevice"
-     Option        "USB"           "on"
- EndSection
- 
--Section "Device"
--    Identifier    "Graphics Controller"
--    Driver        "vmware"
--EndSection
--
- Section "Monitor"
-     Identifier    "Generic Monitor"
-     Option        "DPMS"
--- 
-1.8.3.2
+>
+> Signed-off-by: Yang Shi <yang.shi@windriver.com>
+> ---
+>   meta/classes/kernel.bbclass | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 819c302..435b6f0 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -253,7 +253,7 @@ kernel_do_install() {
+>   	# dir. This ensures the original Makefiles are used and not the
+>   	# redirecting Makefiles in the build directory.
+>   	#
+> -	find . -depth -not -name "*.cmd" -not -name "*.o" -not -name "*.so.dbg" -not -path "./Documentation*" -not -path "./source*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
+> +	find . -depth -not -name "*.cmd" -not -name "*.o" -not -name "*.so.dbg" -not -name "*.so" -not -path "./Documentation*" -not -path "./source*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
+>   	cp .config $kerneldir
+>   	if [ "${S}" != "${B}" ]; then
+>   		pwd="$PWD"
+>
 
 
