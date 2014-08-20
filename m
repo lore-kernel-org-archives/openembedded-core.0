@@ -1,26 +1,24 @@
 Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C4A865DD0
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F170F6FDEB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Aug 2014 21:18:37 +0000 (UTC)
+	Wed, 20 Aug 2014 21:18:33 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7KLIYJV016521
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7KLIXCQ028460
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Aug 2014 14:18:35 -0700 (PDT)
+	Wed, 20 Aug 2014 14:18:34 -0700 (PDT)
 Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 20 Aug 2014 14:18:34 -0700
+	Wed, 20 Aug 2014 14:18:33 -0700
 From: Peter Seebach <peter.seebach@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Aug 2014 16:24:21 -0500
-Message-ID: <3976806770dbe3eaac9d3bf772665b368c5c17bc.1408569719.git.peter.seebach@windriver.com>
+Date: Wed, 20 Aug 2014 16:24:20 -0500
+Message-ID: <cover.1408569719.git.peter.seebach@windriver.com>
 X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1408569719.git.peter.seebach@windriver.com>
-References: <cover.1408569719.git.peter.seebach@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] libc-common.bbclass: rename ALL the packages
+Subject: [PATCH 0/1] libc-common.bbclass: rename ALL the packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,49 +34,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 20 Aug 2014 21:18:41 -0000
 Content-Type: text/plain
 
-The DEBIAN_NAMES feature renames some of the libc packages to
-"libc6*" names --but only some. A previous patch added the -dbg
-package. However, this doesn't cover other packages (such as
-the -doc package), and it didn't take multilibs into account.
+The DEBIAN_NAMES setting renames some libc packages, but doesn't
+rename them all, or work correctly with multilibs. I sent this patch
+out some time back, then never got around to making a suggested change
+(renaming a variable for clarity). With the patch, everything in
+libc gets renamed, not just a specific list that would have to be
+updated to continue working if the package list changes.
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
-Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
+The following changes since commit 47d1fc9f5c38f3d092937c47bd4c2f45adaa7fe6:
+
+  qemu: fix Darwin cross-compilation (2014-08-18 20:43:24 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib seebs/renamelibc
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/renamelibc
+
+Peter Seebach (1):
+  libc-common.bbclass: rename ALL the packages
+
  meta/classes/libc-common.bbclass |   19 +++++++++++++------
  1 files changed, 13 insertions(+), 6 deletions(-)
-
-diff --git a/meta/classes/libc-common.bbclass b/meta/classes/libc-common.bbclass
-index daf499d..bbc8016 100644
---- a/meta/classes/libc-common.bbclass
-+++ b/meta/classes/libc-common.bbclass
-@@ -25,12 +25,19 @@ def get_libc_fpu_setting(bb, d):
- 
- python populate_packages_prepend () {
-     if d.getVar('DEBIAN_NAMES', True):
-+        pkgs = d.getVar('PACKAGES', True).split()
-         bpn = d.getVar('BPN', True)
--        d.setVar('PKG_'+bpn, 'libc6')
--        d.setVar('PKG_'+bpn+'-dev', 'libc6-dev')
--        d.setVar('PKG_'+bpn+'-dbg', 'libc6-dbg')
-+        prefix = d.getVar('MLPREFIX', True) or ""
-+        # Set the base package...
-+        d.setVar('PKG_' + prefix + bpn, prefix + 'libc6')
-+        libcprefix = prefix + bpn + '-'
-+        for p in pkgs:
-+            # And all the subpackages.
-+            if p.startswith(libcprefix):
-+                renamed = p.replace(bpn, 'libc6', 1)
-+                d.setVar('PKG_' + p, renamed)
-         # For backward compatibility with old -dbg package
--        d.appendVar('RPROVIDES_' + bpn + '-dbg', ' libc-dbg')
--        d.appendVar('RCONFLICTS_' + bpn + '-dbg', ' libc-dbg')
--        d.appendVar('RREPLACES_' + bpn + '-dbg', ' libc-dbg')
-+        d.appendVar('RPROVIDES_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
-+        d.appendVar('RCONFLICTS_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
-+        d.appendVar('RREPLACES_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
- }
--- 
-1.7.1
 
 
