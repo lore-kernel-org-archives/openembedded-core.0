@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CA78770EEC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B0F3E70EE0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Aug 2014 16:21:45 +0000 (UTC)
+	Wed, 20 Aug 2014 16:21:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7KGLZUM024547
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7KGLd3J012417
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Aug 2014 09:21:36 -0700 (PDT)
+	Wed, 20 Aug 2014 09:21:39 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 20 Aug 2014 09:21:35 -0700
+	14.3.174.1; Wed, 20 Aug 2014 09:21:39 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 20 Aug 2014 12:21:27 -0400
-Message-ID: <3f8565e722a4381ee7fe74937fc46accac160634.1408551509.git.bruce.ashfield@windriver.com>
+Date: Wed, 20 Aug 2014 12:21:32 -0400
+Message-ID: <bfd3ab2ad54e84b2f8c4cbf0163e4e1dda6cd400.1408551509.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1408551509.git.bruce.ashfield@windriver.com>
 References: <cover.1408551509.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/7] linux-yocto/3.14: add ARM kprobes support
+Subject: [PATCH 7/7] linux-yocto/3.14: feature merges and configuration updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,83 +36,92 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 20 Aug 2014 16:21:46 -0000
 Content-Type: text/plain
 
-Adding the following commits to the 3.14 tree for ARM kprobe support:
+As part of LTSI efforts, the 3.14 kernel is receiving feature backports
+from newer kernels.
 
-   c1750e55eb75 ARM: add uprobes support
-   33e8a1334afe ARM: Make arch_specific_insn a define for new arch_probes_insn structure
-   b1d3feead083 ARM: Add an emulate flag to the kprobes/uprobes instruction decode functions
-   84b5b70a01a2 ARM: Change the remaining shared kprobes/uprobes symbols to something generic
-   624e5e9aab5a ARM: Rename the shared kprobes/uprobe return value enum
-   7741eac39c2e ARM: Change more ARM kprobes symbol names to something more generic
-   47f51bac6a2d ARM: Make the kprobes condition_check symbol names more generic
-   3af2f454bb8e ARM: Remove use of struct kprobe from generic probes code
-   a31964d3143a ARM: use a function table for determining instruction interpreter action
-   6de77767abfc ARM: move generic thumb instruction parsing code to new files for use by other feature
-   eb2db188b856 ARM: Move generic arm instruction parsing code to new files for sharing between features
-   bbc0a43ff46e ARM: move shared uprobe/kprobe definitions into new include file
-   f5f2896020e6 uprobes: allow ignoring of probe hits
-   cb133db6bd60 ARM: Fix missing includes in kprobes sources
+With this change, we update the 3.14 SRCREVs to make the following
+changes available:
+
+ - full nohz backports (v3.16)
+ - loopback NFS (v3.16)
+ - numa updates (v3.16)
+ - cgroups: vm_cgroup: basic infrastructure
+ - cgroups: Resource controller for open files
+
+And the following configuration change:
+
+ - meta: features/ieee802154: add configuration fragment for IEEE 802.15.4
+ - meta: features/bluetooth: add configuration fragment for Bluetooth support
+ - meta: intel-common-standard: add ericson-3g to intel-common-standard.scc
+ - cgroups: enable virtual memory resource controller
+ - full nohz: Enable full dynticks system for nohz
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 14 +++++++-------
- 3 files changed, 10 insertions(+), 10 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 16 ++++++++--------
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-index 78209b1070ef..4a91638c55b4 100644
+index 11b8dd9a5c4c..0c5767a49e5b 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-@@ -3,8 +3,8 @@ require recipes-kernel/linux/linux-yocto.inc
+@@ -3,9 +3,9 @@ require recipes-kernel/linux/linux-yocto.inc
  KBRANCH = "standard/preempt-rt/base"
  KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
  
--SRCREV_machine ?= "8ef1733b66a1646b85338a310f787e0057a6a4e9"
--SRCREV_machine_qemuppc ?= "3079c794c30b0de82bc87b19cf477d82405a9094"
-+SRCREV_machine ?= "9e6a44f2c638dc94692a8094eda3919cbc53cdb7"
-+SRCREV_machine_qemuppc ?= "04464fbce3be9894f0752d3fbd5c1bf3fb14ebcf"
- SRCREV_meta ?= "54d07ec2566afe2a4c1eee4995781aab5599b5d5"
+-SRCREV_machine ?= "41b789900aa5f2626069989710603ad1b9ab010f"
+-SRCREV_machine_qemuppc ?= "b4edefacfca31c880cf3a2188e92c99f69fcb97a"
+-SRCREV_meta ?= "3eefa4379f073768df150184e9dad1ff3228a0ff"
++SRCREV_machine ?= "77d54dcdf1e078290d88e85adbbe3f90d41f4c9e"
++SRCREV_machine_qemuppc ?= "ba132753cc6688c1c22d7147b02e434a3441833c"
++SRCREV_meta ?= "3c987080bc943b8eae37fb6672368bb74978e484"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-index 47be35769d0d..8cc1d5660849 100644
+index b37e07d21601..3e8c0bc67127 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-@@ -8,7 +8,7 @@ LINUX_VERSION ?= "3.14.5"
+@@ -8,8 +8,8 @@ LINUX_VERSION ?= "3.14.13"
  
  KMETA = "meta"
  
--SRCREV_machine ?= "5724bf17acbf54cf61003ab242448fd96d189384"
-+SRCREV_machine ?= "c1750e55eb751d4773ea4c3e924e1858feb15e4e"
- SRCREV_meta ?= "54d07ec2566afe2a4c1eee4995781aab5599b5d5"
+-SRCREV_machine ?= "d61940e2aaeeedc43f166c9e7ac763461f380cd2"
+-SRCREV_meta ?= "3eefa4379f073768df150184e9dad1ff3228a0ff"
++SRCREV_machine ?= "d2f8bdb8818bf2b83ac75b6b5e8428be61242d19"
++SRCREV_meta ?= "3c987080bc943b8eae37fb6672368bb74978e484"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-index 1e397e902648..52ba9336dc16 100644
+index 9cf522d9b27d..8c3cceec7d8d 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-@@ -10,13 +10,13 @@ KBRANCH_qemux86  = "standard/common-pc/base"
+@@ -10,14 +10,14 @@ KBRANCH_qemux86  = "standard/common-pc/base"
  KBRANCH_qemux86-64  = "standard/common-pc-64/base"
  KBRANCH_qemumips64 = "standard/mti-malta64"
  
--SRCREV_machine_qemuarm ?= "b38b84aebf889d84e65e81ac11122b977f0c5155"
--SRCREV_machine_qemumips ?= "c9d827207d8dfab330787659b2842485dbd36d77"
--SRCREV_machine_qemuppc ?= "58b7cb00580985410ba8491c61e80d2572552ed9"
--SRCREV_machine_qemux86 ?= "5b327970eb1dba02c65cb8330dc8f3049c4fa580"
--SRCREV_machine_qemux86-64 ?= "5724bf17acbf54cf61003ab242448fd96d189384"
--SRCREV_machine_qemumips64 ?= "34837892b66eaa034cd3e3d339cab0ea6f594511"
--SRCREV_machine ?= "5724bf17acbf54cf61003ab242448fd96d189384"
-+SRCREV_machine_qemuarm ?= "b91ab4c1bf0dccef4c93aeb184fca3a933682ba0"
-+SRCREV_machine_qemumips ?= "1fdf6bfb5ecefccddead6e1d53b6e19d52da092e"
-+SRCREV_machine_qemuppc ?= "8a44bd5e4fca2260d2e24e2cb4a5f276d000fae8"
-+SRCREV_machine_qemux86 ?= "984636272f33a48803e1b0f8f48553894306b4e2"
-+SRCREV_machine_qemux86-64 ?= "c1750e55eb751d4773ea4c3e924e1858feb15e4e"
-+SRCREV_machine_qemumips64 ?= "a240524ebe0051faf7ada3cdb3241dda6d8d3ba3"
-+SRCREV_machine ?= "c1750e55eb751d4773ea4c3e924e1858feb15e4e"
- SRCREV_meta ?= "54d07ec2566afe2a4c1eee4995781aab5599b5d5"
+-SRCREV_machine_qemuarm ?= "b712808b59883692245fc2f28defcc03cdb60dd1"
+-SRCREV_machine_qemumips ?= "f5b6f121c61c72f91b25f85f19e5d410b7f66b21"
+-SRCREV_machine_qemuppc ?= "047f8cacac6a0f160ea15fb9f6de6a063ddceb63"
+-SRCREV_machine_qemux86 ?= "f148e056dbce4206edd68b4fbd913f2757b3a7bb"
+-SRCREV_machine_qemux86-64 ?= "d61940e2aaeeedc43f166c9e7ac763461f380cd2"
+-SRCREV_machine_qemumips64 ?= "cc1dad65948575548188866c85fae5fbd55c7e66"
+-SRCREV_machine ?= "d61940e2aaeeedc43f166c9e7ac763461f380cd2"
+-SRCREV_meta ?= "3eefa4379f073768df150184e9dad1ff3228a0ff"
++SRCREV_machine_qemuarm ?= "92de8060e113e4a13f16c6b4b5333f538e291c6d"
++SRCREV_machine_qemumips ?= "313647599dd3cd7f42374d918a9397f82eed36fb"
++SRCREV_machine_qemuppc ?= "45ef97bc22532a5a2d2fb94df3eec0aca27d0335"
++SRCREV_machine_qemux86 ?= "edec15a07d310c4368b8149496da0548b564a413"
++SRCREV_machine_qemux86-64 ?= "d2f8bdb8818bf2b83ac75b6b5e8428be61242d19"
++SRCREV_machine_qemumips64 ?= "474fc6753d80afbd4483ea5531b03bc5b9c1ac18"
++SRCREV_machine ?= "d2f8bdb8818bf2b83ac75b6b5e8428be61242d19"
++SRCREV_meta ?= "3c987080bc943b8eae37fb6672368bb74978e484"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ 
 -- 
 1.8.1.2
 
