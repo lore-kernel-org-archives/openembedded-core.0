@@ -1,27 +1,35 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B013D65DD6;
-	Wed, 20 Aug 2014 08:39:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7K8d0un004578
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Aug 2014 01:39:01 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 20 Aug 2014 01:39:00 -0700
-Message-ID: <53F45EA1.6000900@windriver.com>
-Date: Wed, 20 Aug 2014 16:38:57 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
-MIME-Version: 1.0
-To: <pab@pabigot.com>
-References: <20140815172255.043D8505EB@opal.openembedded.org>
-In-Reply-To: <20140815172255.043D8505EB@opal.openembedded.org>
-Cc: openembedded-core@lists.openembedded.org,
-	openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Peter A. Bigot : gcc: update compiler architecture to match gcc-runtime ( armv6, armv7a)
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
+	[209.85.217.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 9659E65D53
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Aug 2014 10:14:35 +0000 (UTC)
+Received: by mail-lb0-f179.google.com with SMTP id v6so6522753lbi.38
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Aug 2014 03:14:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=rFewJq9daO8cuGKBbfChRrf8fBD6napgj0x+QX8lydE=;
+	b=ir0Nmo0oOy/FUhItl5pFVyKUON3XpzN5dnN30x0Dgh3Y5+sSGYjUFHalsjDwQF9zZ0
+	XdZgtk4U8wFF0Gjfct2051cmvaSHZgt8YOvNnaKyVxKc4fWn1y++kV2bbKtbNxaA9STF
+	FF8uSqzLIHoY1xnmGpPPwbE0aUjHqcUYYPZPGsFyrkAwkRNIFtxd41dNWqiRsET9rsTF
+	1dQmSjIP0sk+QXU4XqkaUC0WDPY4EX62H8fG6OVimWv2FvOEYhCOOhVBqG+kZDkzHBwP
+	kgafi1/JQx4YUiyCvjzJ7kPCJZP1lSmflcbU+Ln5CUCWmV+Xfoz//1IQ14mFaCKrEYFE
+	VCNg==
+X-Received: by 10.112.57.195 with SMTP id k3mr38175408lbq.48.1408529675815;
+	Wed, 20 Aug 2014 03:14:35 -0700 (PDT)
+Received: from localhost.localdomain (ygg.betafive.co.uk. [5.9.90.21])
+	by mx.google.com with ESMTPSA id
+	zf7sm36445724lbb.23.2014.08.20.03.14.34 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 20 Aug 2014 03:14:35 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Aug 2014 10:14:03 +0000
+Message-Id: <1408529643-27065-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 2.0.4
+Subject: [PATCH] procps: Fix musl build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,77 +42,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Aug 2014 08:39:47 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Aug 2014 10:14:39 -0000
 
-Hi Peter,
+This is a simple fix, <limits.h> just needs to be included before PATH_MAX is
+used.
 
-The commit caused building gcc-crosssdk-initial-x86_64 failed.
-...
-Unknown CPU given in --with-arch=armv7-a.
-...
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+---
+ .../procps-3.2.8/0001-Fix-musl-build-failure.patch | 29 ++++++++++++++++++++++
+ meta/recipes-extended/procps/procps_3.2.8.bb       |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-extended/procps/procps-3.2.8/0001-Fix-musl-build-failure.patch
 
-While crosssdk, TARGET_ARCH = "${SDK_ARCH}" (set in crosssdk.bbclass)
-so the values of '--target=x86_64-wrlinuxsdk-linux --with-arch=armv7-a'
-triggered the above failure.
-
-How about override for the 'target/cross' and not for 'crosssdk' ?
-
-//Hongxu
-
-On 08/16/2014 01:22 AM, git@opal.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master-next
-> Commit: 0ba6ab39f187ecd4261f08e768f365f461384a3a
-> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=0ba6ab39f187ecd4261f08e768f365f461384a3a
->
-> Author: Peter A. Bigot <pab@pabigot.com>
-> Date:   Thu Aug 14 14:05:59 2014 -0500
->
-> gcc: update compiler architecture to match gcc-runtime (armv6, armv7a)
->
-> The gcc-runtime recipe builds the gcc libraries including libstdc++ with
-> $TARGET_CC_ARCH flags, which include -march=FOO flags that affect
-> whether atomic instructions are available.  This causes an ABI
-> incompatibility when the compiler by default generates code for less
-> capable architectures.  For example, gcc-runtime libraries on a
-> Cortex-A8 are built with a different C++11/C++14 mutex implementation
-> than is used code compiled outside OE and without architecture-specific
-> flags.
->
-> This commit fixes the problem specifically for ABI issues related to
-> atomic instructions available in ARMV6 and subsequent architectures.
-> Other ABI incompatibilities may remain in other architectures.
->
-> See: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=62100
->
-> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> ---
->
->   meta/recipes-devtools/gcc/gcc-configure-common.inc | 7 +++++++
->   1 file changed, 7 insertions(+)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> index 71dce12..48fb799 100644
-> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> @@ -64,6 +64,13 @@ EXTRA_OECONF_append_libc-uclibc = " --enable-__cxa_atexit"
->   EXTRA_OECONF_append_mips64 = " --with-abi=64 --with-arch-64=mips64 --with-tune-64=mips64"
->   EXTRA_OECONF_append_mips64el = " --with-abi=64 --with-arch-64=mips64 --with-tune-64=mips64"
->   
-> +# ARMv6+ adds atomic instructions that affect the ABI in libraries built
-> +# with TUNE_CCARGS in gcc-runtime.  Make the compiler default to a
-> +# compatible architecture.  armv6 and armv7a cover the minimum tune
-> +# features used in OE.
-> +EXTRA_OECONF_append_armv6 = " --with-arch=armv6"
-> +EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a"
-> +
->   EXTRA_OECONF_GCC_FLOAT ??= ""
->   CPPFLAGS = ""
->   
->
+diff --git a/meta/recipes-extended/procps/procps-3.2.8/0001-Fix-musl-build-failure.patch b/meta/recipes-extended/procps/procps-3.2.8/0001-Fix-musl-build-failure.patch
+new file mode 100644
+index 0000000..71dc3f0
+--- /dev/null
++++ b/meta/recipes-extended/procps/procps-3.2.8/0001-Fix-musl-build-failure.patch
+@@ -0,0 +1,29 @@
++From 6f2fd55ef7621fd7ab7897aee2c2651b6faf9e6a Mon Sep 17 00:00:00 2001
++From: Paul Barker <paul@paulbarker.me.uk>
++Date: Wed, 20 Aug 2014 11:56:11 +0200
++Subject: [PATCH] Fix musl build failure
++
++Include <limits.h> for PATH_MAX.
++
++Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
++
++Upstream-status: Pending
++---
++ proc/readproc.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/proc/readproc.c b/proc/readproc.c
++index 4fad11d..c5b1869 100644
++--- a/proc/readproc.c
+++++ b/proc/readproc.c
++@@ -26,6 +26,7 @@
++ #include <sys/dir.h>
++ #include <sys/types.h>
++ #include <sys/stat.h>
+++#include <limits.h>
++ 
++ // sometimes it's easier to do this manually, w/o gcc helping
++ #ifdef PROF
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/procps/procps_3.2.8.bb b/meta/recipes-extended/procps/procps_3.2.8.bb
+index b314bfe..6211a7c 100644
+--- a/meta/recipes-extended/procps/procps_3.2.8.bb
++++ b/meta/recipes-extended/procps/procps_3.2.8.bb
+@@ -12,6 +12,7 @@ SRC_URI += "file://procmodule.patch \
+             file://procps-3.2.7-top-remcpu.patch \
+             file://procps-3.2.8-ps-cgroup.patch \
+             file://detect_bitness.patch \
++            file://0001-Fix-musl-build-failure.patch \
+            "
+ 
+ SRC_URI[md5sum] = "9532714b6846013ca9898984ba4cd7e0"
+-- 
+2.0.4
 
 
