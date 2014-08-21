@@ -1,28 +1,26 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 64D5F65DD6
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9179B62252
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 04:23:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7L4N6iu020192
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Aug 2014 21:23:06 -0700 (PDT)
-Received: from server.local (128.224.21.165) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 20 Aug 2014 21:23:05 -0700
-Message-ID: <53F573E6.4050101@windriver.com>
-Date: Thu, 21 Aug 2014 00:21:58 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Thu, 21 Aug 2014 06:54:45 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7L6skQC027728
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Aug 2014 23:54:47 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 20 Aug 2014 23:54:46 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Aug 2014 14:55:12 +0800
+Message-ID: <7f14cd53dd0190a96a4f4c3a7f1355f973405aa3.1408604060.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1408604060.git.Qi.Chen@windriver.com>
+References: <cover.1408604060.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-To: Yang Shi <yang.shi@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1405536132-31250-1-git-send-email-yang.shi@windriver.com>
-	<53F51261.6090403@windriver.com>
-In-Reply-To: <53F51261.6090403@windriver.com>
-Subject: Re: [PATCH 0/1 V2] Fix KERNEL_ALT_IMAGETYPE deploy
+Subject: [PATCH 1/1] sudo: remove volatile configuration file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,84 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Aug 2014 04:23:13 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Aug 2014 06:54:53 -0000
+Content-Type: text/plain
 
-On 2014-08-20, 5:25 PM, Yang Shi wrote:
-> On 7/16/2014 11:42 AM, Yang Shi wrote:
->> When trying to bootup qemuarma9 BSP with uImage, I ran into the below
->> issues:
->
-> In some usecases, a BSP may need two kernel image types coexist, like
-> zImage and uImage.
->
-> For example, qemuarm BSP could be run on arm-versatile-926 board too,
-> but it needs uImage. However, qemu needs zImage.
+The new version of sudo has fixed the problem and will create the
+directory if it doesn't exist. So the configuration file is no longer
+needed.
 
-The change looks ok to me .. it's not the first time I've run into the
-same target needing two different image types to be booted on h/w vs
-simulation.
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-extended/sudo/sudo_1.8.10p3.bb |    7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-I can always pull this into my next series if there are no objections
-to it on the list.
-
-Cheers,
-
-Bruce
-
->
-> Yang
->
->>
->> 1. Need u-boot-mkimage-native depend.
->> kernel.bbclass just checks if KERNEL_IMAGETYPE is uImage, if it is the
->> depend will be added. But, it doesn't check KERNEL_ALT_IMAGETYPE.
->> In the patch, the check for alt image is added.
->>
->> 2. UBOOT_LOADADDRESS is passed to uboot-mkimage in do_uboot_mkimage.
->> But, this function just check if KERNEL_IMAGETYPE is uImage or not. It
->> doesn't check KERNEL_ALT_IMAGETYPE.
->> The patch adds the check.
->>
->> 3. KERNEL_ALT_IMAGETYPE is not deployed at all, although it is built.
->> So, we need install, deploy and package the atl image.
->>
->> Changelog V1 -> V2:
->> Check if KERNEL_ALT_IMAGETYPE is empty or not. If KERNEL_ALT_IMAGETYPE
->> is empty, just skip alt image install and deploy, otherwise it is
->> failed to install/deploy
->> because KERNEL_ALT_OUTPUT doesn't point to a real kernel image file.
->>
->> Yang
->>
->>
->> The following changes since commit
->> 68824d9b8f6e290da078383316b3f4b732585f2b:
->>
->>    u-boot-fw-utils: install config file (2014-06-25 13:51:49 +0100)
->>
->> are available in the git repository at:
->>
->>    git://git.yoctoproject.org/poky-contrib yshi/kernel_altimg_v2
->>
->> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=yshi/kernel_altimg_v2
->>
->>
->> for you to fetch changes up to a4d3971a48d0fb490537d755a19740cb25ea5f4c:
->>
->>    oe-core/kernel: Deploy KERNEL_ALT_IMAGETYPE and check it for uImage
->> (2014-07-16 11:36:12 -0700)
->>
->> ----------------------------------------------------------------
->> Yang Shi (1):
->>        oe-core/kernel: Deploy KERNEL_ALT_IMAGETYPE and check it for
->> uImage
->>
->>   meta/classes/kernel.bbclass | 38 +++++++++++++++++++++++++++++++++++---
->>   1 file changed, 35 insertions(+), 3 deletions(-)
->>
->>
->
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.10p3.bb b/meta/recipes-extended/sudo/sudo_1.8.10p3.bb
+index 46d4781..4c53032 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.10p3.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.10p3.bb
+@@ -2,7 +2,7 @@ require sudo.inc
+ 
+ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+-           file://volatiles.99_sudo"
++          "
+ 
+ PAM_SRC_URI = "file://sudo.pam"
+ 
+@@ -22,9 +22,6 @@ do_install_append () {
+ 	chmod 4111 ${D}${bindir}/sudo
+ 	chmod 0440 ${D}${sysconfdir}/sudoers
+ 
+-	# Explicitly remove the ${localstatedir}/run directory as we can
+-	# manage it by a configuration file under ${sysconfdir}/default/volatiles/
++	# Explicitly remove the ${localstatedir}/run directory to avoid QA error
+ 	rmdir -p --ignore-fail-on-non-empty ${D}${localstatedir}/run/sudo
+-	install -d ${D}/${sysconfdir}/default/volatiles
+-	install -m 644 ${WORKDIR}/volatiles.99_sudo ${D}/${sysconfdir}/default/volatiles/99_sudo
+ }
+-- 
+1.7.9.5
 
 
