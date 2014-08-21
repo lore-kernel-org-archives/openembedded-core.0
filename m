@@ -1,30 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 006D770E41
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D16AD65D56
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 07:50:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7L7osZm024907; Thu, 21 Aug 2014 08:50:54 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jMmUcmEE711y; Thu, 21 Aug 2014 08:50:54 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7L7oogT024903
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 21 Aug 2014 08:50:51 +0100
-Message-ID: <1408607451.1669.109.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mario Domenech Goulart <mario@ossystems.com.br>
-Date: Thu, 21 Aug 2014 08:50:51 +0100
-In-Reply-To: <1408047639-18852-1-git-send-email-mario@ossystems.com.br>
-References: <1408047639-18852-1-git-send-email-mario@ossystems.com.br>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libxml2: explicitly disable zlib for native builds
+	Thu, 21 Aug 2014 09:28:52 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7L9Srad022323
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Aug 2014 02:28:53 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 21 Aug 2014 02:28:52 -0700
+Message-ID: <53F5BBD1.1050203@windriver.com>
+Date: Thu, 21 Aug 2014 17:28:49 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
+MIME-Version: 1.0
+To: Chen Qi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1408604060.git.Qi.Chen@windriver.com>
+	<7f14cd53dd0190a96a4f4c3a7f1355f973405aa3.1408604060.git.Qi.Chen@windriver.com>
+In-Reply-To: <7f14cd53dd0190a96a4f4c3a7f1355f973405aa3.1408604060.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 1/1] sudo: remove volatile configuration file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,47 +35,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Aug 2014 07:51:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 21 Aug 2014 09:28:59 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2014-08-14 at 17:20 -0300, Mario Domenech Goulart wrote:
-> Without this change, meta-openembedded's php recipe (as of 45e62fb8 --
-> "php 5.4.14: use pkg-config for libxml2 detection") breaks with this
-> error on my system:
-> 
->    tmp/sysroots/x86_64-linux/usr/lib/libxml2.so: undefined reference
->    to `gzopen64@ZLIB_1.2.3.3'
-> 
-> It seems that the host's zlib is leaking into libxml2's build.
+We should remove volatiles.99_sudo file also.
 
-It turns out we need a zlib dependency here, else createrepo fails to
-deal with the compressed index files in the rpm repos. With rpm enabled,
-you can reproduce with:
+//Hongxu
 
-"bitbake package-index"
-
-Unfortunately this error causes a cascade of other problems and caused
-several people hours of work trying to figure out why the autobuilder
-was "exploding".
-
-Basically, the error above triggers a binary character to be emitted
-into the logs. The error reporting tool chokes on this since JSON can't
-handle the character causing an exception deep in the event handling
-code.
-
-That exception is badly handled and causes bitbake to enter an infinite
-loop, spewing traceback data to the console. That in turn creates
-gigabytes of log files and the autobuilder falls over.
-
-So if anyone wonders why we haven't had patches merging, this is why.
-We're now quite behind with the queue.
-
-Obviously there are fixes to make in multiple parts of the system to
-stop this kind of error escalating so badly again.
-
-Cheers,
-
-Richard
+On 08/21/2014 02:55 PM, Chen Qi wrote:
+> The new version of sudo has fixed the problem and will create the
+> directory if it doesn't exist. So the configuration file is no longer
+> needed.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/recipes-extended/sudo/sudo_1.8.10p3.bb |    7 ++-----
+>   1 file changed, 2 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/recipes-extended/sudo/sudo_1.8.10p3.bb b/meta/recipes-extended/sudo/sudo_1.8.10p3.bb
+> index 46d4781..4c53032 100644
+> --- a/meta/recipes-extended/sudo/sudo_1.8.10p3.bb
+> +++ b/meta/recipes-extended/sudo/sudo_1.8.10p3.bb
+> @@ -2,7 +2,7 @@ require sudo.inc
+>   
+>   SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+>              ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+> -           file://volatiles.99_sudo"
+> +          "
+>   
+>   PAM_SRC_URI = "file://sudo.pam"
+>   
+> @@ -22,9 +22,6 @@ do_install_append () {
+>   	chmod 4111 ${D}${bindir}/sudo
+>   	chmod 0440 ${D}${sysconfdir}/sudoers
+>   
+> -	# Explicitly remove the ${localstatedir}/run directory as we can
+> -	# manage it by a configuration file under ${sysconfdir}/default/volatiles/
+> +	# Explicitly remove the ${localstatedir}/run directory to avoid QA error
+>   	rmdir -p --ignore-fail-on-non-empty ${D}${localstatedir}/run/sudo
+> -	install -d ${D}/${sysconfdir}/default/volatiles
+> -	install -m 644 ${WORKDIR}/volatiles.99_sudo ${D}/${sysconfdir}/default/volatiles/99_sudo
+>   }
 
 
