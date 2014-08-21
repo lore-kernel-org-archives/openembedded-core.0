@@ -1,24 +1,37 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 458F070EA4
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AAA765DD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 19:49:05 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7LJn5Yo019450
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 21 Aug 2014 20:44:46 +0000 (UTC)
+Received: by mail-pd0-f171.google.com with SMTP id z10so14549566pdj.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 12:49:06 -0700 (PDT)
-Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 21 Aug 2014 12:49:05 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Aug 2014 14:54:54 -0500
-Message-ID: <cover.1408649791.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.1
-MIME-Version: 1.0
-Subject: [PATCH 0/1] Change default for cortexa* to armv7at-neon.
+	Thu, 21 Aug 2014 13:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=kBgS8lIix2XAgJZjjMTDb4pQLwChyXEYEQtFWAWt82A=;
+	b=mMxpoUJ00liC3mAHpllWsojyg1x9F0Jgrv4aZXZRZcXJfBWgyrhYER6FUAa0bGccbJ
+	ZxXyZwXvPo39eOUMdHVBFyTErdFVWd2VGI9BnBexxGjsaqDyLOrun8XErmrrVdoftrCr
+	Fl0EE8j2tCeLEqpLDChyRVpLT7ax9D6AQglPMuvhebVjzR2LlQS1bhY5ZFvf8AGPhPf9
+	mBPDRNElRKLrZIDg5Xv0ftjxEherW32W+M2b3tsba6JWy99Y5H5t4f9HVQiMCcgnsTAw
+	4t50C12RJxDMvHG2e4cWPFKBPKdM+mVYPqFlqfRrKDpxEB1MmWE8gW8ObZRqNyzy8HAR
+	hP3g==
+X-Received: by 10.70.96.193 with SMTP id du1mr1172640pdb.132.1408653888069;
+	Thu, 21 Aug 2014 13:44:48 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by mx.google.com with ESMTPSA id
+	pk15sm40192804pdb.49.2014.08.21.13.44.45
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 21 Aug 2014 13:44:46 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Aug 2014 13:44:41 -0700
+Message-Id: <1408653881-7021-2-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1408653881-7021-1-git-send-email-akuster808@gmail.com>
+References: <1408653881-7021-1-git-send-email-akuster808@gmail.com>
+Subject: [PATCH]] gpm: ppc64 build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +44,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Aug 2014 19:49:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Aug 2014 20:44:52 -0000
 
-The various cortex chips generally support thumb code, so the armv7at
-tunings are a better default for them than the plain armv7a tunings.
-The armv7at tuning allows generation of both arm and thumb code, while
-armv7a only allows arm code, which is typically significantly bigger.
-(It may be faster in some cases, but the tradeoffs aren't totally
-obvious, because smaller code fits in caches better.) Since they
-all had armv7a-neon as default, change them to armv7at-neon.
+tmp-gcd_1.s: Assembler messages:
+| tmp-gcd_1.s:94: Error: unsupported relocation against BMOD_1_TO_MOD_1_THRESHOLD
+| make[2]: *** [gcd_1.lo] Error 1
 
-The following changes since commit 47d1fc9f5c38f3d092937c47bd4c2f45adaa7fe6:
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-support/gmp/gmp/gpm-6.0.0-ppc64.patch | 25 ++++++++++++++++++++++
+ meta/recipes-support/gmp/gmp_6.0.0.bb              |  1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-support/gmp/gmp/gpm-6.0.0-ppc64.patch
 
-  qemu: fix Darwin cross-compilation (2014-08-18 20:43:24 +0100)
-
-are available in the git repository at:
-  git://git.yoctoproject.org/poky-contrib seebs/armv7at
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/armv7at
-
-Peter Seebach (1):
-  tune-cortexa*.inc: use armv7at by default
-
- meta/conf/machine/include/tune-cortexa15.inc |    2 +-
- meta/conf/machine/include/tune-cortexa5.inc  |    2 +-
- meta/conf/machine/include/tune-cortexa7.inc  |    2 +-
- meta/conf/machine/include/tune-cortexa8.inc  |    2 +-
- meta/conf/machine/include/tune-cortexa9.inc  |    2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+diff --git a/meta/recipes-support/gmp/gmp/gpm-6.0.0-ppc64.patch b/meta/recipes-support/gmp/gmp/gpm-6.0.0-ppc64.patch
+new file mode 100644
+index 0000000..19bb4fa
+--- /dev/null
++++ b/meta/recipes-support/gmp/gmp/gpm-6.0.0-ppc64.patch
+@@ -0,0 +1,25 @@
++
++Signed-off-by: Armin Kuster <akuster808@gmail.com>
++
++This patch with pulled from gmp.
++https://gmplib.org/repo/gmp/rev/4a6d258b467f
++
++# HG changeset patch
++# User Torbjorn Granlund <tege@gmplib.org>
++# Date 1395835068 -3600
++# Node ID 4a6d258b467f661da0894cc60ecd060f2e3c67c7
++# Parent  301ce2788826a2d4d2725bd5cf01e998638db37a
++Provide default for BMOD_1_TO_MOD_1_THRESHOLD.
++
++diff -r 301ce2788826 -r 4a6d258b467f mpn/powerpc64/mode64/gcd_1.asm
++--- a/mpn/powerpc64/mode64/gcd_1.asm    Tue Mar 25 15:34:52 2014 +0100
+++++ b/mpn/powerpc64/mode64/gcd_1.asm    Wed Mar 26 12:57:48 2014 +0100
++@@ -43,6 +43,9 @@
++ define(`n',     `r4')
++ define(`v0',    `r5')
++
+++ifdef(`BMOD_1_TO_MOD_1_THRESHOLD',,
+++  `define(`BMOD_1_TO_MOD_1_THRESHOLD',30)')
+++
++ EXTERN_FUNC(mpn_mod_1)
++ EXTERN_FUNC(mpn_modexact_1c_odd)
+diff --git a/meta/recipes-support/gmp/gmp_6.0.0.bb b/meta/recipes-support/gmp/gmp_6.0.0.bb
+index 19e5f4d..cd515e8 100644
+--- a/meta/recipes-support/gmp/gmp_6.0.0.bb
++++ b/meta/recipes-support/gmp/gmp_6.0.0.bb
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ "
+ SRC_URI_append = " file://use-includedir.patch \
+                    file://append_user_provided_flags.patch \
++                   file://gpm-6.0.0-ppc64.patch \
+ "
+ 
+ SRC_URI[md5sum] = "b7ff2d88cae7f8085bd5006096eed470"
+-- 
+1.9.1
 
 
