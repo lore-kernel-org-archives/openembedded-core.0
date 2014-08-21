@@ -1,24 +1,28 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DDB46601A8
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 64D5F65DD6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 02:37:02 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7L2awHE007079
+	Thu, 21 Aug 2014 04:23:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7L4N6iu020192
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Aug 2014 19:36:58 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 20 Aug 2014 19:36:58 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Aug 2014 10:36:53 +0800
-Message-ID: <cover.1408588282.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Wed, 20 Aug 2014 21:23:06 -0700 (PDT)
+Received: from server.local (128.224.21.165) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 20 Aug 2014 21:23:05 -0700
+Message-ID: <53F573E6.4050101@windriver.com>
+Date: Thu, 21 Aug 2014 00:21:58 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 0/1] bbclass/sstate: only allowed sstate-cache objects are allowed in a build (read-only sstate-cache)
+To: Yang Shi <yang.shi@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1405536132-31250-1-git-send-email-yang.shi@windriver.com>
+	<53F51261.6090403@windriver.com>
+In-Reply-To: <53F51261.6090403@windriver.com>
+Subject: Re: [PATCH 0/1 V2] Fix KERNEL_ALT_IMAGETYPE deploy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,68 +35,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Aug 2014 02:37:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Aug 2014 04:23:13 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Test steps:
+On 2014-08-20, 5:25 PM, Yang Shi wrote:
+> On 7/16/2014 11:42 AM, Yang Shi wrote:
+>> When trying to bootup qemuarma9 BSP with uImage, I ran into the below
+>> issues:
+>
+> In some usecases, a BSP may need two kernel image types coexist, like
+> zImage and uImage.
+>
+> For example, qemuarm BSP could be run on arm-versatile-926 board too,
+> but it needs uImage. However, qemu needs zImage.
 
-1) Create a sstate cache for testing
-$ bitbake db
+The change looks ok to me .. it's not the first time I've run into the
+same target needing two different image types to be booted on h/w vs
+simulation.
 
-2) Add gzip to SSTATECACHE_WHITELIST, it enabled read-only sstate-cache,
-vim local.conf
-...
-SSTATECACHE_WHITELIST = 'gzip'
-...
+I can always pull this into my next series if there are no objections
+to it on the list.
 
-3) Remove tmp dir and build db from sstate-cache succeed
-$ mv tmp tmp-back && bitbake db
+Cheers,
 
-4) tweak db's do_configure task by adding comments
---- a/meta/recipes-support/db/db_6.0.30.bb
-+++ b/meta/recipes-support/db/db_6.0.30.bb
-@@ -27,6 +27,8 @@ LIC_FILES_CHKSUM = "file://../LICENSE;md5=1ec8b0b17cc31513fe35ab10716f8490"
-@@ -82,6 +84,7 @@ do_configure() {
-        gnu-configize --force ${S}
-        export STRIP="true"
-        oe_runconf
-+       echo "hello"
- }
+Bruce
 
-5) build db and there is a build failure
-$ bitbake db
-
-6) clean db and there is a clean failure
-bitbake db -ccleansstate
-
-7) Append the missing recipe's PN to SSTATECACHE_WHITELIST
-vim local.conf
-...
-SSTATECACHE_WHITELIST = 'gzip db rpm-native gcc-runtime eglibc linux-libc-headers libgcc'
-...
-
-8) Build db and clean db succeed
-$ bitbake db && bitbake db -ccleansstate
-
-//Hongxu
-
-The following changes since commit 34436672f3ef4915e7526770a0fa8dcff328f93d:
-
-  bitbake: runqueue.py: Fix typoes/grammar in comments. (2014-08-19 20:41:26 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/readonly-sstatecache
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/readonly-sstatecache
-
-Hongxu Jia (1):
-  bbclass/sstate: only allowed sstate-cache objects are allowed in a
-    build (read-only sstate-cache)
-
- meta/classes/sstate.bbclass | 40 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
-
--- 
-1.9.1
+>
+> Yang
+>
+>>
+>> 1. Need u-boot-mkimage-native depend.
+>> kernel.bbclass just checks if KERNEL_IMAGETYPE is uImage, if it is the
+>> depend will be added. But, it doesn't check KERNEL_ALT_IMAGETYPE.
+>> In the patch, the check for alt image is added.
+>>
+>> 2. UBOOT_LOADADDRESS is passed to uboot-mkimage in do_uboot_mkimage.
+>> But, this function just check if KERNEL_IMAGETYPE is uImage or not. It
+>> doesn't check KERNEL_ALT_IMAGETYPE.
+>> The patch adds the check.
+>>
+>> 3. KERNEL_ALT_IMAGETYPE is not deployed at all, although it is built.
+>> So, we need install, deploy and package the atl image.
+>>
+>> Changelog V1 -> V2:
+>> Check if KERNEL_ALT_IMAGETYPE is empty or not. If KERNEL_ALT_IMAGETYPE
+>> is empty, just skip alt image install and deploy, otherwise it is
+>> failed to install/deploy
+>> because KERNEL_ALT_OUTPUT doesn't point to a real kernel image file.
+>>
+>> Yang
+>>
+>>
+>> The following changes since commit
+>> 68824d9b8f6e290da078383316b3f4b732585f2b:
+>>
+>>    u-boot-fw-utils: install config file (2014-06-25 13:51:49 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.yoctoproject.org/poky-contrib yshi/kernel_altimg_v2
+>>
+>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=yshi/kernel_altimg_v2
+>>
+>>
+>> for you to fetch changes up to a4d3971a48d0fb490537d755a19740cb25ea5f4c:
+>>
+>>    oe-core/kernel: Deploy KERNEL_ALT_IMAGETYPE and check it for uImage
+>> (2014-07-16 11:36:12 -0700)
+>>
+>> ----------------------------------------------------------------
+>> Yang Shi (1):
+>>        oe-core/kernel: Deploy KERNEL_ALT_IMAGETYPE and check it for
+>> uImage
+>>
+>>   meta/classes/kernel.bbclass | 38 +++++++++++++++++++++++++++++++++++---
+>>   1 file changed, 35 insertions(+), 3 deletions(-)
+>>
+>>
+>
 
 
