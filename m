@@ -1,28 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D16AD65D56
+	by mail.openembedded.org (Postfix) with ESMTP id 0F1E56FE55
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 09:28:52 +0000 (UTC)
+	Thu, 21 Aug 2014 10:24:12 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7L9Srad022323
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7LAOEGZ001940
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 02:28:53 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 21 Aug 2014 02:28:52 -0700
-Message-ID: <53F5BBD1.1050203@windriver.com>
-Date: Thu, 21 Aug 2014 17:28:49 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Thu, 21 Aug 2014 03:24:14 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 21 Aug 2014 03:24:13 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Aug 2014 18:24:41 +0800
+Message-ID: <cover.1408616635.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Chen Qi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1408604060.git.Qi.Chen@windriver.com>
-	<7f14cd53dd0190a96a4f4c3a7f1355f973405aa3.1408604060.git.Qi.Chen@windriver.com>
-In-Reply-To: <7f14cd53dd0190a96a4f4c3a7f1355f973405aa3.1408604060.git.Qi.Chen@windriver.com>
-Subject: Re: [PATCH 1/1] sudo: remove volatile configuration file
+Subject: [PATCH V2 0/1] sudo: remove volatile configuration file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,47 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Aug 2014 09:28:59 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Aug 2014 10:24:20 -0000
+Content-Type: text/plain
 
-We should remove volatiles.99_sudo file also.
+The following changes since commit 47d1fc9f5c38f3d092937c47bd4c2f45adaa7fe6:
 
-//Hongxu
+  qemu: fix Darwin cross-compilation (2014-08-18 20:43:24 +0100)
 
-On 08/21/2014 02:55 PM, Chen Qi wrote:
-> The new version of sudo has fixed the problem and will create the
-> directory if it doesn't exist. So the configuration file is no longer
-> needed.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-extended/sudo/sudo_1.8.10p3.bb |    7 ++-----
->   1 file changed, 2 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-extended/sudo/sudo_1.8.10p3.bb b/meta/recipes-extended/sudo/sudo_1.8.10p3.bb
-> index 46d4781..4c53032 100644
-> --- a/meta/recipes-extended/sudo/sudo_1.8.10p3.bb
-> +++ b/meta/recipes-extended/sudo/sudo_1.8.10p3.bb
-> @@ -2,7 +2,7 @@ require sudo.inc
->   
->   SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
->              ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-> -           file://volatiles.99_sudo"
-> +          "
->   
->   PAM_SRC_URI = "file://sudo.pam"
->   
-> @@ -22,9 +22,6 @@ do_install_append () {
->   	chmod 4111 ${D}${bindir}/sudo
->   	chmod 0440 ${D}${sysconfdir}/sudoers
->   
-> -	# Explicitly remove the ${localstatedir}/run directory as we can
-> -	# manage it by a configuration file under ${sysconfdir}/default/volatiles/
-> +	# Explicitly remove the ${localstatedir}/run directory to avoid QA error
->   	rmdir -p --ignore-fail-on-non-empty ${D}${localstatedir}/run/sudo
-> -	install -d ${D}/${sysconfdir}/default/volatiles
-> -	install -m 644 ${WORKDIR}/volatiles.99_sudo ${D}/${sysconfdir}/default/volatiles/99_sudo
->   }
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/sudo_volatile
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/sudo_volatile
+
+Chen Qi (1):
+  sudo: remove volatile configuration file
+
+ meta/recipes-extended/sudo/files/volatiles.99_sudo |    1 -
+ meta/recipes-extended/sudo/sudo_1.8.10p3.bb        |    7 ++-----
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+ delete mode 100644 meta/recipes-extended/sudo/files/volatiles.99_sudo
+
+-- 
+1.7.9.5
 
 
