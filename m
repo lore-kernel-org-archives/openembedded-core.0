@@ -1,26 +1,26 @@
-Return-Path: <Chong.Lu@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5588670D4E
+	by mail.openembedded.org (Postfix) with ESMTP id B8F53601A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 01:31:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7L1Vlmp018930
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Aug 2014 18:31:48 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 20 Aug 2014 18:31:47 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
+	Thu, 21 Aug 2014 02:37:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7L2b0pp019468
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 20 Aug 2014 19:37:00 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 20 Aug 2014 19:36:59 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Aug 2014 09:27:13 +0800
-Message-ID: <b38f388e5c760d8bd1a86790d3ff00b605cd6077.1408584365.git.Chong.Lu@windriver.com>
+Date: Thu, 21 Aug 2014 10:36:54 +0800
+Message-ID: <990d4ba779e4127ff546796d62e2921392dbc0f7.1408588282.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1408584365.git.Chong.Lu@windriver.com>
-References: <cover.1408584365.git.Chong.Lu@windriver.com>
+In-Reply-To: <cover.1408588282.git.hongxu.jia@windriver.com>
+References: <cover.1408588282.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] expect: fix shared object file cannot be opened
+Cc: saul.wold@intel.com
+Subject: [PATCH 1/1] bbclass/sstate: only allowed sstate-cache objects are allowed in a build (read-only sstate-cache)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +33,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Aug 2014 01:31:48 -0000
+X-List-Received-Date: Thu, 21 Aug 2014 02:37:02 -0000
 Content-Type: text/plain
 
-When we require Expect package in tcl script, we will get following error:
+The requirement is the developer who demand only the "new" software
+they write is allowed to be compiled from source, they only want to
+reuse binaries from an existed sstate-cache, if the developer makes
+a change that triggers a rebuild, it should be an instant error.
 
-couldn't load file "/usr/lib/expect5.45/libexpect5.45.so": /usr/lib/expect5.45/libexpect5.45.so: cannot open shared object file: No such file or directory
-    while executing
-"load /usr/lib/expect5.45/libexpect5.45.so"
-    ("package ifneeded Expect 5.45" script)
-    invoked from within
-"package require Expect"
-    (file "hello.tcl" line 3)
+The purpose of this is for the sstate-cache to check if the item
+exists or not. If it doesn't the item needs to be in a whitelist
+or we need to fail.
 
-This patch fixes this issue.
+In the sstate-cache code, add a checking in the return path of
+sstate_checkhashes. If read-only sstate-cache enable, and the
+recipe's ${PN} not in the ${SSTATECACHE_WHITELIST}, it trigered
+an instant error.
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+...
+$ bitbake db
+ERROR: Read-only sstate-cache is enabled, the build of
+"db rpm-native gcc-runtime eglibc linux-libc-headers libgcc"
+did not come from sstate-cache. Only the recipe listed in
+SSTATECACHE_WHITELIST is allowed to build from source
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+...
+
+[YOCTO #6639]
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/expect/expect_5.45.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/sstate.bbclass | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/meta/recipes-devtools/expect/expect_5.45.bb b/meta/recipes-devtools/expect/expect_5.45.bb
-index 970f4a5..3e839a2 100644
---- a/meta/recipes-devtools/expect/expect_5.45.bb
-+++ b/meta/recipes-devtools/expect/expect_5.45.bb
-@@ -35,6 +35,7 @@ do_install_append() {
-         install -m 0755 ${S}/fixline1           ${D}${libdir}/expect${PV}/
-         install -m 0755 ${S}/example/*          ${D}${libdir}/expect${PV}/
-         rm ${D}${libdir}/expect${PV}/libexpect*.so
-+        sed -e 's|$dir|${libdir}|' -i ${D}${libdir}/expect${PV}/pkgIndex.tcl
- }
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 4eec6bd..4a04efb 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -41,6 +41,14 @@ EXTRA_STAGING_FIXMES ?= ""
+ sstate_create_package[dirs] = "${SSTATE_BUILDDIR}"
+ sstate_unpack_package[dirs] = "${SSTATE_INSTDIR}"
  
- EXTRA_OECONF += "--includedir=${STAGING_INCDIR} \
++# 1) If ${SSTATECACHE_WHITELIST} is "", it means read-only sstate-cache
++#    disabled;
++#
++# 2) If read-only sstate-cache enabled and the recipe's ${PN} not listed
++#    in ${SSTATECACHE_WHITELIST}, the build from source will triger an
++#    instant error;
++SSTATECACHE_WHITELIST ?= ""
++
+ python () {
+     if bb.data.inherits_class('native', d):
+         d.setVar('SSTATE_PKGARCH', d.getVar('BUILD_ARCH'))
+@@ -382,6 +390,15 @@ sstate_clean[vardepsexclude] = "SSTATE_MANFILEPREFIX"
+ CLEANFUNCS += "sstate_cleanall"
+ 
+ python sstate_cleanall() {
++    whitelist = d.getVar('SSTATECACHE_WHITELIST', True)
++    if whitelist:
++        pn = d.getVar('PN', True)
++        if pn not in whitelist.split():
++            msg =  'Read-only sstate-cache is enabled, the clean of \n'
++            msg += '%s is not allowed. Only the recipe listed in\n' % pn
++            msg += 'SSTATECACHE_WHITELIST is allowed to clean sstate-cache'
++            bb.fatal(msg)
++
+     bb.note("Removing shared state for package %s" % d.getVar('PN', True))
+ 
+     manifest_dir = d.getVar('SSTATE_MANIFESTS', True)
+@@ -704,6 +721,29 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+             evdata['found'].append( (sq_fn[task], sq_task[task], sq_hash[task], sstatefile ) )
+         bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
+ 
++    whitelist = d.getVar('SSTATECACHE_WHITELIST', True)
++    if whitelist:
++        missed_pn = []
++        for task in missed:
++            fn = sq_fn[task]
++            data = bb.cache.Cache.loadDataFull(fn, '', d)
++            pn = data.getVar('PN', True) or ""
++            if pn and pn not in missed_pn:
++                missed_pn.append(pn)
++
++        if missed_pn:
++            blacklist = [pn for pn in missed_pn if pn not in whitelist.split()]
++            if blacklist:
++                # We should manually unlock the bitbake lock, because the fatal
++                # msg will exit the build immediately.
++                lockfile = d.expand("${TOPDIR}/bitbake.lock")
++                os.unlink(lockfile)
++                msg =  'Read-only sstate-cache is enabled, the build of \n'
++                msg += '"' + ' '.join(blacklist) + '"\n'
++                msg += 'did not come from sstate-cache. Only the recipe listed in\n'
++                msg += 'SSTATECACHE_WHITELIST is allowed to build from source'
++                bb.msg.fatal('sstate', msg)
++
+     return ret
+ 
+ BB_SETSCENE_DEPVALID = "setscene_depvalid"
 -- 
 1.9.1
 
