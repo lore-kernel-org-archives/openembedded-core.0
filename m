@@ -1,30 +1,38 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3867865D56
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f182.google.com (mail-yk0-f182.google.com
+	[209.85.160.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 25A77601A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 16:47:54 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7LGlsl6015413
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 21 Aug 2014 16:55:11 +0000 (UTC)
+Received: by mail-yk0-f182.google.com with SMTP id q9so7830251ykb.41
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 09:47:55 -0700 (PDT)
-Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.39]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0174.001;
-	Thu, 21 Aug 2014 09:47:54 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: INCOMPATIBLE_LICENSE - native vs target
-Thread-Index: Ac+9XwnLnHWDpgQyS0+2f5lS4HfiDA==
-Date: Thu, 21 Aug 2014 16:47:54 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF845CC0FECE@ALA-MBB.corp.ad.wrs.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.216.76]
+	Thu, 21 Aug 2014 09:55:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=g445NKFS5npIv0qWDpJiokjx7/CNCNnfa5jY2elvT94=;
+	b=uepw1Sh5IvbeGDsKcos8ss02jhnAau0W+3XoWgZyiZwbfKRqUokJiRPrmvP83lHohX
+	1KJfavrInXn8/NjWsApx3BKQc+lgMZpxkhJuV5/xozoCxPZDIn6nkAGF7gB078BH5eYU
+	uai8ovMwj0PMbarXoTj5MqPwCOROpumYFAVoJ1MIMnTC0FZJqm4F4cyd29neZBouPfy2
+	v793XMVMuwXv4v8MIaCf23Jftic+wlN/Day9K2pD2zMjZpXKBLGphoHjANpzmP5ZPdem
+	wpvRHiO8o6uqtdhNJkoOmMPcVraqTBgzJvkhF1zAO0Ibj0THDbUpXjrcybvZaa/qjQB7
+	wluQ==
 MIME-Version: 1.0
-Subject: INCOMPATIBLE_LICENSE - native vs target
+X-Received: by 10.236.23.70 with SMTP id u46mr81949664yhu.13.1408640112939;
+	Thu, 21 Aug 2014 09:55:12 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.56.201 with HTTP; Thu, 21 Aug 2014 09:55:12 -0700 (PDT)
+In-Reply-To: <53F60350.4010005@gmail.com>
+References: <1408316808-13486-1-git-send-email-akuster808@gmail.com>
+	<1408606690.1669.103.camel@ted> <53F60350.4010005@gmail.com>
+Date: Thu, 21 Aug 2014 13:55:12 -0300
+X-Google-Sender-Auth: 5hzcwvzfR0QHA3Umu2Ryj-V6iq4
+Message-ID: <CAP9ODKr7T+64hTcNr6-L=c11RxzX_QPXQioeu6hx5LZatTFx4w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: akuster808 <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] nettle: update nettle to version 3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,105 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Aug 2014 16:47:58 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_007BD92917A2324FA403BCF9A464CF845CC0FECEALAMBBcorpadwrs_"
+X-List-Received-Date: Thu, 21 Aug 2014 16:55:12 -0000
+Content-Type: text/plain; charset=UTF-8
 
---_000_007BD92917A2324FA403BCF9A464CF845CC0FECEALAMBBcorpadwrs_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Is there some way to specify incompatible licenses for native recipes?  An =
-alternate mechanism might work,
-but here is a case in which it would be valuable:
-
-If I do not allow AGPL licenses, rpm builds with db-5.  rpm-native builds w=
-ith db-6.  When you try
-to run rpm on the target it gets very upset, apparently with the database. =
- In any event, it is happy
-if both rpm and rpm-native use db-6.
-
-In this particular case, there could be some way, although I don't know wha=
-t, to force rpm-native to
-use the same db version as the target, but that doesn't sound like a great =
-idea.
-
-Joe
-
-
---_000_007BD92917A2324FA403BCF9A464CF845CC0FECEALAMBBcorpadwrs_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On Thu, Aug 21, 2014 at 11:33 AM, akuster808 <akuster808@gmail.com> wrote:
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri","sans-serif";}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Is there some way to specify incompatible licenses f=
-or native recipes?&nbsp; An alternate mechanism might work,<o:p></o:p></p>
-<p class=3D"MsoNormal">but here is a case in which it would be valuable:<o:=
-p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">If I do not allow AGPL licenses, rpm builds with db-=
-5.&nbsp; rpm-native builds with db-6.&nbsp; When you try<o:p></o:p></p>
-<p class=3D"MsoNormal">to run rpm on the target it gets very upset, apparen=
-tly with the database.&nbsp; In any event, it is happy<o:p></o:p></p>
-<p class=3D"MsoNormal">if both rpm and rpm-native use db-6.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">In this particular case, there could be some way, al=
-though I don't know what, to force rpm-native to<o:p></o:p></p>
-<p class=3D"MsoNormal">use the same db version as the target, but that does=
-n't sound like a great idea.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Joe<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+>
+> On 08/21/2014 12:38 AM, Richard Purdie wrote:
+>>
+>> On Sun, 2014-08-17 at 16:06 -0700, Armin Kuster wrote:
+>>>
+>>> With this update, LGPLv3 or GPLv3 where  added to many files.
+>>> Each supported algorithms govern which license they want.
+>>> Many are stated as  "ether v2 or v3 or both in parallel".
+>>> Update license to be v2 or LGPLv3 or GPLv3.
+>>>
+>>> The previous verion had one GPLv3 file so the license was incorrect.
+>>
+>>
+>> With this change, "bitbke gnutls" stops working.
+>>
+>
+>  gnutls is targeting to port to nettle 3.0 in gnutls version 3.4.
+>
+> what should I do?
 
---_000_007BD92917A2324FA403BCF9A464CF845CC0FECEALAMBBcorpadwrs_--
+Revert for now? :)
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
