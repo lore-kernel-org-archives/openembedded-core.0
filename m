@@ -1,24 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B7FB70E75
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F2C765F1E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 06:54:44 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7L6sjwU021987
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Aug 2014 23:54:45 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 20 Aug 2014 23:54:44 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Aug 2014 14:55:11 +0800
-Message-ID: <cover.1408604060.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH 0/1] sudo: remove volatile configuration file
+	Thu, 21 Aug 2014 07:38:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7L7cGPJ024540; Thu, 21 Aug 2014 08:38:16 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id nqf_LggQaeuc; Thu, 21 Aug 2014 08:38:15 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7L7cAn3024535
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 21 Aug 2014 08:38:12 +0100
+Message-ID: <1408606690.1669.103.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Armin Kuster <akuster808@gmail.com>
+Date: Thu, 21 Aug 2014 08:38:10 +0100
+In-Reply-To: <1408316808-13486-1-git-send-email-akuster808@gmail.com>
+References: <1408316808-13486-1-git-send-email-akuster808@gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] nettle: update nettle to version 3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +36,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Aug 2014 06:54:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Aug 2014 07:38:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 47d1fc9f5c38f3d092937c47bd4c2f45adaa7fe6:
+On Sun, 2014-08-17 at 16:06 -0700, Armin Kuster wrote:
+> With this update, LGPLv3 or GPLv3 where  added to many files.
+> Each supported algorithms govern which license they want.
+> Many are stated as  "ether v2 or v3 or both in parallel".
+> Update license to be v2 or LGPLv3 or GPLv3.
+> 
+> The previous verion had one GPLv3 file so the license was incorrect.
 
-  qemu: fix Darwin cross-compilation (2014-08-18 20:43:24 +0100)
+With this change, "bitbke gnutls" stops working.
 
-are available in the git repository at:
+Cheers,
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/sudo_volatile
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/sudo_volatile
-
-Chen Qi (1):
-  sudo: remove volatile configuration file
-
- meta/recipes-extended/sudo/sudo_1.8.10p3.bb |    7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
-
--- 
-1.7.9.5
+Richard
 
 
