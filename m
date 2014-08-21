@@ -1,32 +1,32 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 075A665DB1
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 7811865D56
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 14:10:42 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id et14so14291005pad.21
+	Thu, 21 Aug 2014 14:33:55 +0000 (UTC)
+Received: by mail-pa0-f53.google.com with SMTP id rd3so14613139pab.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 07:10:43 -0700 (PDT)
+	Thu, 21 Aug 2014 07:33:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=message-id:date:from:user-agent:mime-version:to:cc:subject
 	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=4LNCEElSVuSEKcPezBLKRz8IP0mP6OtNDMWyrrxRUDM=;
-	b=gcK5j7pyYTBxsZXKDQfq24MVodsXvGt5eXmUKH8VMUWAgQ84bWvp8aJ8eQ8VKhvpI2
-	43SR+fSpcUwwuHgNOMeS0PpEDDuRWv9+rYhipqfHLtaZ/DNRPOB34MNvnaUUtaMJB5Yy
-	UGbwD9ThP835BmRnWozmquM7umVwNgO+2tUIx2G5nGCC3Zd841tKjVge1SkCdUn4Ines
-	pQqQipDmmc1qrths49SgkVel4aTIko4Eb7iWhDL2dxMfsWQEXAqqF2Nvlo3bv8OxMzVY
-	sAHR2+ikOa64jnMf/xQH7uQD0D/TGNCZZj6A10LVStIspL8C7mlx55s4Eind6Qjl97bF
-	1nqg==
-X-Received: by 10.68.200.101 with SMTP id jr5mr53894862pbc.36.1408630242618;
-	Thu, 21 Aug 2014 07:10:42 -0700 (PDT)
+	bh=KotCy5Tx1NCNdvlJIqiORI+lpjQsAsydZx20H5oVve0=;
+	b=kX0rGAVPH9WcCUM+UIsulFQWwxbSOil5el68lZ6JqH+aVppKAMo4IwqI1dq/Y3kReC
+	Jx8brxfuuPqKYfUO40IweO+QIvmHilnttD4XjoAhQjL7UUt3biHSAwhUZ4P65vCIBRuB
+	h6NaQvaxtiWi5IPg9O91G0WZ2JG7dm9l6oU33tYcKOxvvLP0aU7NmqQ2tuPf1FLpja8o
+	hQHD91/EaKHApPkU0+wclm2EP0rosBo9tSov5ucGJREuGjiwnJ1Oh+Zm5Vq8trZqCznQ
+	+ug6wV+tdD1WAOai2ogQRVIl2+GrfVGtYzucRIijXu8UzeBtm4ej/m/IuCT4y7jymMSx
+	pijQ==
+X-Received: by 10.68.219.102 with SMTP id pn6mr59647478pbc.135.1408631636280; 
+	Thu, 21 Aug 2014 07:33:56 -0700 (PDT)
 Received: from ?IPv6:2601:c:9380:601:2933:84ae:665a:84e2?
 	([2601:c:9380:601:2933:84ae:665a:84e2])
-	by mx.google.com with ESMTPSA id
-	cj17sm38964313pdb.75.2014.08.21.07.10.40 for <multiple recipients>
+	by mx.google.com with ESMTPSA id h4sm39064821pdi.30.2014.08.21.07.33.54
+	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 Aug 2014 07:10:41 -0700 (PDT)
-Message-ID: <53F5FDDE.30609@gmail.com>
-Date: Thu, 21 Aug 2014 07:10:38 -0700
+	Thu, 21 Aug 2014 07:33:55 -0700 (PDT)
+Message-ID: <53F60350.4010005@gmail.com>
+Date: Thu, 21 Aug 2014 07:33:52 -0700
 From: akuster808 <akuster808@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.0
@@ -49,8 +49,8 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Aug 2014 14:10:46 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 21 Aug 2014 14:34:03 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
@@ -65,13 +65,14 @@ On 08/21/2014 12:38 AM, Richard Purdie wrote:
 >> The previous verion had one GPLv3 file so the license was incorrect.
 >
 > With this change, "bitbke gnutls" stops working.
+>
 
-dang.
+  gnutls is targeting to port to nettle 3.0 in gnutls version 3.4.
 
-I will look into it.
+what should I do?
 
 - Armin
->
+
 > Cheers,
 >
 > Richard
