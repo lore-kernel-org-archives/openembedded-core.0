@@ -1,21 +1,23 @@
 Return-Path: <rich.tollerton@ni.com>
 Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id F118870F48
+	by mail.openembedded.org (Postfix) with ESMTP id F031270F3F
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 22 Aug 2014 21:31:19 +0000 (UTC)
 Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
 	[130.164.19.134])
 	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s7MLVKbL009129; Fri, 22 Aug 2014 16:31:20 -0500
+	s7MLVKbO009129; Fri, 22 Aug 2014 16:31:20 -0500
 Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
 	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014082216312021-290489 ;
+	with ESMTP id 2014082216312034-290495 ;
 	Fri, 22 Aug 2014 16:31:20 -0500 
 From: Richard Tollerton <rich.tollerton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Aug 2014 16:30:46 -0500
-Message-Id: <cover.1408742574.git.rich.tollerton@ni.com>
+Date: Fri, 22 Aug 2014 16:30:52 -0500
+Message-Id: <a5198a6341134175d468759dfed1630ee3f2b36d.1408742574.git.rich.tollerton@ni.com>
 X-Mailer: git-send-email 2.0.4
+In-Reply-To: <cover.1408742574.git.rich.tollerton@ni.com>
+References: <cover.1408742574.git.rich.tollerton@ni.com>
 X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
 	8.5.3FP6|November 21, 2013) at 08/22/2014 04:31:20 PM,
 	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
@@ -26,7 +28,7 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
 	definitions=2014-08-22_06:2014-08-22, 2014-08-22,
 	1970-01-01 signatures=0
 Cc: otavio@ossystems.com.br
-Subject: [PATCH v2 00/12] udev-cache related changes
+Subject: [PATCH v2 06/12] udev-cache: omit sockets and filesystems mounted under /dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,60 +43,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 22 Aug 2014 21:31:23 -0000
 
-This is v2 of the changes submitted by Ben Shelton on August 4. I've reworked the
-patches quite a bit, larger changes include:
+Archiving sockets causes tar to report an error and return a nonzero
+exit status. Archiving a mounted filesystem is harmless, but may greatly
+bloat the size of the cache tarball, and wastes time on boot.
 
-- All non-udev-cache-related patches have been omitted. I'll submit those
-  separately.
-- Use `find` to build `tar` filelist. This eliminates the need for GNU- and
-  busybox-specific tar options.
-- No new settings have been added to udev-cache.default in order to preserve
-  compatibility with older overrides of udev-cache.default. Note, this means a
-  lot of new settings are duplicated between initscripts.
-- System config is now generated immediately before the tarball is generated,
-  and is manipulated at the file level instead of the shell variable level.
-- Internal/corporate commit message fields stripped.
-- Spurious whitespace changes should all be fixed.
+To fix these issues, use `find` to only include the files we want, which
+are the file types that udev will create (block/char devices and
+symlinks) that are on the same filesystem as /dev.
 
-There is one requested fix I'm pushing back on: Copying both $CMP_FILE_LIST and
-/dev to tmpfs in a single operation to minimize race conditions. For a variety
-of reasons, I abandoned trying to make this work in a single command. Instead
-it's done in two: grabbing the system configuration (i.e reading /proc files and
-udev rules) is done first, then /dev is archived as an uncompressed tarball.
-Notably, using tar instead of cp means that I can use `find -xdev` and `find
--type` to eliminate a lot of other complexity. I think this approach will wind
-up being faster than the straight-up copy approach, although I have not made any
-attempt to confirm that.
+While we're at it, remove a subshell by archiving /dev as an absolute
+path. However, `tar` will complain about stripping the leading slash on
+stderr. To inhibit this, `cut` out the leading slash.
 
-The following changes since commit 47d1fc9f5c38f3d092937c47bd4c2f45adaa7fe6:
+An alternative solution is to use `tar --exclude`, but that is modestly
+more brittle, since we'd need to explicitly list every socket and
+filesystem to exclude. Note that `tar --one-file-system` is
+GNU-specific, and tar implementations generally have nothing equivalent
+to `find -type`.
 
-  qemu: fix Darwin cross-compilation (2014-08-18 20:43:24 +0100)
+If using busybox `find`, this change requires CONFIG_FEATURE_FIND_TYPE=y
+and CONFIG_FEATURE_FIND_XDEV=y. If using busybox `tar`, this change
+requires CONFIG_FEATURE_TAR_FROM=y.
 
-are available in the git repository at:
+Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+---
+ meta/recipes-core/udev/udev/udev-cache | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-  git://github.com/rtollert/openembedded-core dev/rtollert/udev-cache-7
-  https://github.com/rtollert/openembedded-core/tree/dev/rtollert/udev-cache-7
-
-Richard Tollerton (12):
-  udev-cache: Update cache tarball atomically
-  udev-cache: Compress the cache
-  udev-cache: choose a more descriptive cache filename
-  busybox: enable `tar -m`
-  udev-cache: strip timestamps on extract
-  udev-cache: omit sockets and filesystems mounted under /dev
-  udev-cache: Don't ignore error messages from cache extract
-  udev-cache: parametrize sysconf file paths
-  udev-cache: get system config immediately before cache
-  udev-cache: invalidate on rules.d changes
-  udev-cache: Update cache asynchronously
-  udev-cache: refactor; improve verbosity and error handling
-
- meta/recipes-core/busybox/busybox/defconfig    |  2 +-
- meta/recipes-core/udev/udev/init               | 53 ++++++++++++--------------
- meta/recipes-core/udev/udev/udev-cache         | 42 ++++++++++++++++++--
- meta/recipes-core/udev/udev/udev-cache.default |  2 +-
- 4 files changed, 64 insertions(+), 35 deletions(-)
-
+diff --git a/meta/recipes-core/udev/udev/udev-cache b/meta/recipes-core/udev/udev/udev-cache
+index ec07f50..aaf1ddd 100644
+--- a/meta/recipes-core/udev/udev/udev-cache
++++ b/meta/recipes-core/udev/udev/udev-cache
+@@ -26,7 +26,8 @@ fi
+ 
+ if [ "$DEVCACHE" != "" -a -e /dev/shm/udev.cache ]; then
+ 	echo "Populating dev cache"
+-	(cd /; tar cf "${DEVCACHE_TMP}" dev)
++	find /dev -xdev \( -type b -o -type c -o -type l \) | cut -c 2- \
++		| xargs tar cf "${DEVCACHE_TMP}" -T-
+ 	gzip < "${DEVCACHE_TMP}" > "$DEVCACHE"
+ 	rm -f "${DEVCACHE_TMP}"
+ 	mv /dev/shm/udev.cache /etc/udev/cache.data
 -- 
 2.0.4
 
