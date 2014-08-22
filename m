@@ -1,35 +1,36 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 16DE465D53
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f54.google.com (mail-la0-f54.google.com
+	[209.85.215.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DC8E707D7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 21:36:01 +0000 (UTC)
-Received: by mail-pa0-f51.google.com with SMTP id ey11so14840817pad.24
+	Fri, 22 Aug 2014 00:58:18 +0000 (UTC)
+Received: by mail-la0-f54.google.com with SMTP id hz20so9095608lab.41
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 14:36:02 -0700 (PDT)
+	Thu, 21 Aug 2014 17:58:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=81AqApYtyUd1MylT5Y0eipcLFl33phWW12Ney7lkNEg=;
-	b=V4/EhqcpY/UlPfD+PmrTFDUiWcNscJUNLmkESd8TchBI9TdMPj8uFPDo6QzaH1ZEF+
-	yrCFr/5hKqnCAanPfGO7UJrZ8RxNfscMcBNnGlXsVlAz7repVr/WUD0sUvda+DcjiCS9
-	8PDmcXZJaZVxony1UcYqfA/m48FLsWXA4b2T4s6H8wzwPyPexV4JkG2HpVUhA3sFhtmq
-	3XhbEaqvpXTfHBsyE2FiqlP24af1orKAq2W5iZUBOenzGk9qRDnykurFiqlPclGDlUfG
-	jW6rmyEXPnYGTk/uLWxouAZzFsXqAf3ldwbtP7Umb/XdX+tr4VGUGBVeJXBKquvutKuK
-	6PsQ==
-X-Received: by 10.67.13.176 with SMTP id ez16mr1496889pad.54.1408656962742;
-	Thu, 21 Aug 2014 14:36:02 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by mx.google.com with ESMTPSA id
-	pk15sm40321599pdb.49.2014.08.21.14.36.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Aug 2014 14:36:01 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Aug 2014 14:35:58 -0700
-Message-Id: <1408656958-2280-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2] gmp: ppc64 build issue
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=jPxnQPtrfU2EmsyUKoHKkW1MbSR3XERXcD9EuOH1Ym4=;
+	b=n4i5GXxbcwfrRhXYdNcWrgSo2JhbXBT0RpquroH78qG/ngvFm4nXNjXcr5p6txM04T
+	zEHE7Ynp0Bk9gNzkNd63wVWgsljANXNthica+O7ftyWZEGijcWWxpV6XjblIGWiLD1xI
+	MHCzF+373IGUMqEsDMDwA8S6yFSx5cJbdqSc+52A1iTmyHM/EMYmtwMhlvrZ9r3rPb4W
+	Z9MQQbqG9OY0of6YGX/OLeLfW+SjmT+kkt6XtByXjP5oBBs26cGzX0gyUOsFZ11UuCPR
+	0IaI4SRwTK8j0Q/MRK1QzhB6CUH6Yiz4FJ8a6Yf8aHSLYFyMiR2iQFYbLEvWPa2PDJ1d
+	TQAg==
+X-Received: by 10.112.138.102 with SMTP id qp6mr1600921lbb.60.1408669099185;
+	Thu, 21 Aug 2014 17:58:19 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.43.42 with HTTP; Thu, 21 Aug 2014 17:57:59 -0700 (PDT)
+In-Reply-To: <1408653988.1669.116.camel@ted>
+References: <1408653988.1669.116.camel@ted>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 21 Aug 2014 17:57:59 -0700
+X-Google-Sender-Auth: jFQ17qQ-9-cXQtTG-sq1MNkp2BU
+Message-ID: <CABcZAN=cp3NHtPMQymoFFUhsoEXCtFUBtnx1ynmRmp+N=cX11w@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lib/oe/package_manager: Add utils function for multiprocess execution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,66 +43,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Aug 2014 21:36:03 -0000
+X-List-Received-Date: Fri, 22 Aug 2014 00:58:20 -0000
+Content-Type: multipart/alternative; boundary=089e01183292435cac05012d55ea
+
+--089e01183292435cac05012d55ea
+Content-Type: text/plain; charset=UTF-8
+
+On Thu, Aug 21, 2014 at 1:46 PM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> Our usage of multitprocessing is problematic. In particular, there is a bug
+> in python 2.7 multiprocessing where signals are not handled until command
+> completion instead of immediately.
 
 
-tmp-gcd_1.s: Assembler messages:
-| tmp-gcd_1.s:94: Error: unsupported relocation against BMOD_1_TO_MOD_1_THRESHOLD
-| make[2]: *** [gcd_1.lo] Error 1
-
-V2: fixed PN name
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-support/gmp/gmp/gmp-6.0.0-ppc64.patch | 25 ++++++++++++++++++++++
- meta/recipes-support/gmp/gmp_6.0.0.bb              |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-support/gmp/gmp/gmp-6.0.0-ppc64.patch
-
-diff --git a/meta/recipes-support/gmp/gmp/gmp-6.0.0-ppc64.patch b/meta/recipes-support/gmp/gmp/gmp-6.0.0-ppc64.patch
-new file mode 100644
-index 0000000..19bb4fa
---- /dev/null
-+++ b/meta/recipes-support/gmp/gmp/gmp-6.0.0-ppc64.patch
-@@ -0,0 +1,25 @@
-+
-+Signed-off-by: Armin Kuster <akuster808@gmail.com>
-+
-+This patch with pulled from gmp.
-+https://gmplib.org/repo/gmp/rev/4a6d258b467f
-+
-+# HG changeset patch
-+# User Torbjorn Granlund <tege@gmplib.org>
-+# Date 1395835068 -3600
-+# Node ID 4a6d258b467f661da0894cc60ecd060f2e3c67c7
-+# Parent  301ce2788826a2d4d2725bd5cf01e998638db37a
-+Provide default for BMOD_1_TO_MOD_1_THRESHOLD.
-+
-+diff -r 301ce2788826 -r 4a6d258b467f mpn/powerpc64/mode64/gcd_1.asm
-+--- a/mpn/powerpc64/mode64/gcd_1.asm    Tue Mar 25 15:34:52 2014 +0100
-++++ b/mpn/powerpc64/mode64/gcd_1.asm    Wed Mar 26 12:57:48 2014 +0100
-+@@ -43,6 +43,9 @@
-+ define(`n',     `r4')
-+ define(`v0',    `r5')
-+
-++ifdef(`BMOD_1_TO_MOD_1_THRESHOLD',,
-++  `define(`BMOD_1_TO_MOD_1_THRESHOLD',30)')
-++
-+ EXTERN_FUNC(mpn_mod_1)
-+ EXTERN_FUNC(mpn_modexact_1c_odd)
-diff --git a/meta/recipes-support/gmp/gmp_6.0.0.bb b/meta/recipes-support/gmp/gmp_6.0.0.bb
-index 19e5f4d..6218491 100644
---- a/meta/recipes-support/gmp/gmp_6.0.0.bb
-+++ b/meta/recipes-support/gmp/gmp_6.0.0.bb
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
- "
- SRC_URI_append = " file://use-includedir.patch \
-                    file://append_user_provided_flags.patch \
-+                   file://gmp-6.0.0-ppc64.patch \
- "
- 
- SRC_URI[md5sum] = "b7ff2d88cae7f8085bd5006096eed470"
+This looks good, but the subject is misleading, in my opinion:
+"lib/oe/package_manager:
+Add utils function for multiprocess execution". It should probably either
+mention both utils and package_manager, or be split into two commits.
 -- 
-1.9.1
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--089e01183292435cac05012d55ea
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Thu, Aug 21, 2014 at 1:46 PM, Richard Purdie <span dir=3D"ltr">&=
+lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">=
+richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">Our usage of multitproces=
+sing is problematic. In particular, there is a bug<br>
+in python 2.7 multiprocessing where signals are not handled until command<b=
+r>
+completion instead of immediately.</blockquote><div>=C2=A0<br>This looks go=
+od, but the subject is misleading, in my opinion: &quot;<span class=3D"">li=
+b/oe/package_manager: Add utils function for multiprocess execution&quot;</=
+span>. It should probably either mention both utils and package_manager, or=
+ be split into two commits.<br clear=3D"all">
+
+</div></div>-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Foun=
+der - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Sof=
+tware Engineer, Mentor Graphics
+</div></div>
+
+--089e01183292435cac05012d55ea--
