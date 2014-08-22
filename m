@@ -1,20 +1,20 @@
 Return-Path: <rich.tollerton@ni.com>
 Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C72070F6D
+	by mail.openembedded.org (Postfix) with ESMTP id 4C63370F69
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 22 Aug 2014 21:31:19 +0000 (UTC)
 Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
 	[130.164.19.134])
 	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s7MLVKkF008678; Fri, 22 Aug 2014 16:31:20 -0500
+	s7MLVKkI008678; Fri, 22 Aug 2014 16:31:20 -0500
 Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
 	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014082216312029-290493 ;
+	with ESMTP id 2014082216312041-290501 ;
 	Fri, 22 Aug 2014 16:31:20 -0500 
 From: Richard Tollerton <rich.tollerton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Aug 2014 16:30:50 -0500
-Message-Id: <b8fbabc1986f2e429af2e6acb4957e78f82d21cf.1408742574.git.rich.tollerton@ni.com>
+Date: Fri, 22 Aug 2014 16:30:58 -0500
+Message-Id: <fda8933d3d23815d7eee6a2e4398e00bb97947b5.1408742574.git.rich.tollerton@ni.com>
 X-Mailer: git-send-email 2.0.4
 In-Reply-To: <cover.1408742574.git.rich.tollerton@ni.com>
 References: <cover.1408742574.git.rich.tollerton@ni.com>
@@ -28,7 +28,7 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
 	definitions=2014-08-22_06:2014-08-22, 2014-08-22,
 	1970-01-01 signatures=0
 Cc: otavio@ossystems.com.br
-Subject: [PATCH v2 04/12] busybox: enable `tar -m`
+Subject: [PATCH v2 12/12] udev-cache: refactor; improve verbosity and error handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,28 +43,66 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 22 Aug 2014 21:31:24 -0000
 
-CONFIG_FEATURE_TAR_NOPRESERVE_TIME=y is needed for the commit
-"udev-cache: strip timestamps on extract". Enabling this flag increases
-the size of busybox by 0 bytes on x86.
+Most of /etc/init.d/udev-cache is in a conditional block which can be
+replaced by a `[ ... ] || exit 0` to reduce nesting. This also
+provides an opportunity to improve handling of VERBOSE a bit.
+
+Previously, errors encountered during find, tar, etc. were ignored,
+which could mask some problems, or cause invalid cache files to get
+created. To solve: abort the update process (and report an error) if any
+command in the process fails; and write the system configuration to
+$SYSCONF_TMP first -- only update $SYSCONF_CACHED when we are certain
+that the cache tarball was successfully created.
 
 Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
 ---
- meta/recipes-core/busybox/busybox/defconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/udev/udev/udev-cache | 33 ++++++++++++++++++++-------------
+ 1 file changed, 20 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index 35f1026..8394067 100644
---- a/meta/recipes-core/busybox/busybox/defconfig
-+++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -159,7 +159,7 @@ CONFIG_FEATURE_TAR_GNU_EXTENSIONS=y
- # CONFIG_FEATURE_TAR_LONG_OPTIONS is not set
- # CONFIG_FEATURE_TAR_TO_COMMAND is not set
- # CONFIG_FEATURE_TAR_UNAME_GNAME is not set
--# CONFIG_FEATURE_TAR_NOPRESERVE_TIME is not set
-+CONFIG_FEATURE_TAR_NOPRESERVE_TIME=y
- # CONFIG_FEATURE_TAR_SELINUX is not set
- # CONFIG_UNCOMPRESS is not set
- # CONFIG_UNLZMA is not set
+diff --git a/meta/recipes-core/udev/udev/udev-cache b/meta/recipes-core/udev/udev/udev-cache
+index baeb125..dc97198 100644
+--- a/meta/recipes-core/udev/udev/udev-cache
++++ b/meta/recipes-core/udev/udev/udev-cache
+@@ -41,19 +41,26 @@ if [ "$ROOTFS_READ_ONLY" = "yes" ]; then
+     exit 0
+ fi
+ 
+-if [ "$DEVCACHE" != "" -a -e "$DEVCACHE_REGEN" ]; then
+-	echo "Populating dev cache"
+-	(
+-		# Run sysconf_cmd before `tar`, not after, so that as little
+-		# time as possible elapses between creating $SYSCONF_CACHED and
+-		# $DEVCACHE.
+-		sysconf_cmd > "$SYSCONF_CACHED"
+-		find /dev -xdev \( -type b -o -type c -o -type l \) | cut -c 2- \
+-			| xargs tar cf "${DEVCACHE_TMP}" -T-
+-		gzip < "${DEVCACHE_TMP}" > "$DEVCACHE"
+-		rm -f "${DEVCACHE_TMP}"
+-		rm -f "$DEVCACHE_REGEN"
+-	) &
++[ "$DEVCACHE" != "" ] || exit 0
++[ "${VERBOSE}" == "no" ] || echo -n "udev-cache: checking for ${DEVCACHE_REGEN}... "
++if ! [ -e "$DEVCACHE_REGEN" ]; then
++	[ "${VERBOSE}" == "no" ] || echo "not found."
++	exit 0
+ fi
++[ "${VERBOSE}" == "no" ] || echo "found; building cache."
++
++(
++	# Run sysconf_cmd before `tar`, not after, so that as little time as
++	# possible elapses between creating $SYSCONF_CACHED and $DEVCACHE.
++	if ! { sysconf_cmd > "$SYSCONF_TMP" \
++		&& find /dev -xdev \( -type b -o -type c -o -type l \) | cut -c 2- \
++		| xargs tar cf "${DEVCACHE_TMP}" -T- \
++		&& gzip < "${DEVCACHE_TMP}" > "$DEVCACHE" \
++		&& mv "$SYSCONF_TMP" "$SYSCONF_CACHED" \
++		&& rm -f "$DEVCACHE_REGEN" "${DEVCACHE_TMP}"; }
++	then
++		echo "udev-cache: update failed!"
++	fi
++) &
+ 
+ exit 0
 -- 
 2.0.4
 
