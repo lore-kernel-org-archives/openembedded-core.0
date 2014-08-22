@@ -1,36 +1,26 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-la0-f54.google.com (mail-la0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DC8E707D7
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2458D70E61
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Aug 2014 00:58:18 +0000 (UTC)
-Received: by mail-la0-f54.google.com with SMTP id hz20so9095608lab.41
+	Fri, 22 Aug 2014 08:31:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7M8VSUI010297
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Aug 2014 17:58:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=jPxnQPtrfU2EmsyUKoHKkW1MbSR3XERXcD9EuOH1Ym4=;
-	b=n4i5GXxbcwfrRhXYdNcWrgSo2JhbXBT0RpquroH78qG/ngvFm4nXNjXcr5p6txM04T
-	zEHE7Ynp0Bk9gNzkNd63wVWgsljANXNthica+O7ftyWZEGijcWWxpV6XjblIGWiLD1xI
-	MHCzF+373IGUMqEsDMDwA8S6yFSx5cJbdqSc+52A1iTmyHM/EMYmtwMhlvrZ9r3rPb4W
-	Z9MQQbqG9OY0of6YGX/OLeLfW+SjmT+kkt6XtByXjP5oBBs26cGzX0gyUOsFZ11UuCPR
-	0IaI4SRwTK8j0Q/MRK1QzhB6CUH6Yiz4FJ8a6Yf8aHSLYFyMiR2iQFYbLEvWPa2PDJ1d
-	TQAg==
-X-Received: by 10.112.138.102 with SMTP id qp6mr1600921lbb.60.1408669099185;
-	Thu, 21 Aug 2014 17:58:19 -0700 (PDT)
+	Fri, 22 Aug 2014 01:31:28 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Fri, 22 Aug 2014 01:31:28 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Aug 2014 01:31:27 -0700
+Message-ID: <2df065ff7652c0c8247a3a073e75a33bb6b6a2f7.1408695516.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1408695516.git.liezhi.yang@windriver.com>
+References: <cover.1408695516.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.43.42 with HTTP; Thu, 21 Aug 2014 17:57:59 -0700 (PDT)
-In-Reply-To: <1408653988.1669.116.camel@ted>
-References: <1408653988.1669.116.camel@ted>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 21 Aug 2014 17:57:59 -0700
-X-Google-Sender-Auth: jFQ17qQ-9-cXQtTG-sq1MNkp2BU
-Message-ID: <CABcZAN=cp3NHtPMQymoFFUhsoEXCtFUBtnx1ynmRmp+N=cX11w@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lib/oe/package_manager: Add utils function for multiprocess execution
+Subject: [PATCH 1/1] sanity.bbclass: check the format of MIRRORS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,54 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Aug 2014 00:58:20 -0000
-Content-Type: multipart/alternative; boundary=089e01183292435cac05012d55ea
+X-List-Received-Date: Fri, 22 Aug 2014 08:31:30 -0000
+Content-Type: text/plain
 
---089e01183292435cac05012d55ea
-Content-Type: text/plain; charset=UTF-8
+Check the format of MIRRORS, PREMIRRORS and SSTATE_MIRRORS:
+* Each mirror shoudl contain two memebers.
+* The local "file://" url must use absolute path (file:///).
+* The protocol must in protocols list.
 
-On Thu, Aug 21, 2014 at 1:46 PM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/sanity.bbclass |   33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-> Our usage of multitprocessing is problematic. In particular, there is a bug
-> in python 2.7 multiprocessing where signals are not handled until command
-> completion instead of immediately.
-
-
-This looks good, but the subject is misleading, in my opinion:
-"lib/oe/package_manager:
-Add utils function for multiprocess execution". It should probably either
-mention both utils and package_manager, or be split into two commits.
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index b5fab6a..5b019b1 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -754,6 +754,39 @@ def check_sanity_everybuild(status, d):
+     if oeroot.find(' ') != -1:
+         status.addresult("Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space since autotools doesn't support this.")
+ 
++    # Check the format of MIRRORS, PREMIRRORS and SSTATE_MIRRORS
++    mir_types = ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
++    protocols = ['http://', 'ftp://', 'file://', 'https://', 'https?$://', \
++        'git://', 'gitsm://', 'hg://', 'osc://', 'p4://', 'svk://', 'svn://', \
++        'bzr://', 'cvs://']
++    for mir_type in mir_types:
++        mirros = (d.getVar(mir_type, True) or '').split('\\n')
++        for mir in mirros:
++            mir_list = mir.split()
++            # Should be two members.
++            if len(mir_list) not in [0, 2]:
++                bb.warn('Invalid %s: %s, should be 2 members, but found %s.' \
++                    % (mir_type, mir.strip(), len(mir_list)))
++            elif len(mir_list) == 2:
++                # Each member should start with protocols
++                valid_protocol_0 = False
++                valid_protocol_1 = False
++                file_absolute = True
++                for protocol in protocols:
++                    if not valid_protocol_0 and mir_list[0].startswith(protocol):
++                        valid_protocol_0 = True
++                    if not valid_protocol_1 and mir_list[1].startswith(protocol):
++                        valid_protocol_1 = True
++                        # The file:// must be an absolute path.
++                        if protocol == 'file://' and not mir_list[1].startswith('file:///'):
++                            file_absolute = False
++                    if valid_protocol_0 and valid_protocol_1:
++                        break
++                if not (valid_protocol_0 and valid_protocol_1):
++                    bb.warn('Invalid protocol in %s: %s' % (mir_type, mir.strip()))
++                if not file_absolute:
++                    bb.warn('Invalid file url in %s: %s, must be absolute path (file:///)' % (mir_type, mir.strip()))
++
+     # Check that TMPDIR hasn't changed location since the last time we were run
+     tmpdir = d.getVar('TMPDIR', True)
+     checkfile = os.path.join(tmpdir, "saved_tmpdir")
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+1.7.9.5
 
---089e01183292435cac05012d55ea
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Thu, Aug 21, 2014 at 1:46 PM, Richard Purdie <span dir=3D"ltr">&=
-lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">=
-richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">Our usage of multitproces=
-sing is problematic. In particular, there is a bug<br>
-in python 2.7 multiprocessing where signals are not handled until command<b=
-r>
-completion instead of immediately.</blockquote><div>=C2=A0<br>This looks go=
-od, but the subject is misleading, in my opinion: &quot;<span class=3D"">li=
-b/oe/package_manager: Add utils function for multiprocess execution&quot;</=
-span>. It should probably either mention both utils and package_manager, or=
- be split into two commits.<br clear=3D"all">
-
-</div></div>-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Foun=
-der - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Sof=
-tware Engineer, Mentor Graphics
-</div></div>
-
---089e01183292435cac05012d55ea--
