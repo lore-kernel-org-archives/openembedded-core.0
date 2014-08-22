@@ -1,38 +1,41 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id DE37870E4F
+Return-Path: <rich.tollerton@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 086F670DFF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Aug 2014 15:20:13 +0000 (UTC)
-Received: by mail-wg0-f48.google.com with SMTP id x13so10555901wgg.31
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Aug 2014 08:20:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=WNv/W0BdUUiwZ3dD+o3KHJhfS0rv2wFawv6JNuHerA8=;
-	b=ct8oZ4x7nPAZBca8Cw+jGws7MyaNOlnnF3byw8X/2Mxp9KqNaBsmruP/SCLkB7IIY8
-	q6+0DXpakpidjSbkU3iZRjn0yDLxxjCmddEmd5eD43d6on9uUKzOvdd8jYMO/xwYD+0L
-	/SXor+qGTtmRDAw/BhcFbNCeXja5R4gB4k+vSmhPrjFPxWGHAnemMHtxS0IUGTB5Q2N1
-	+ChuGcGPARehND0v8A0P5KGM0SJK7UiO0QCZWVdRHbqvDgsc4uysihnsEy4IRE+Pv0Pz
-	GnPRXv3DoF20SdBI7TnkiB5ZWkGY0bQjotDDtf1/7RH7sT1PhC7YwPzj7lLWFC1r4uh9
-	NAog==
-X-Gm-Message-State: ALoCoQnBLFEHOk3cFmbNlpyhG5NyrHssSDhD2Yiu0Ic1SA62GKIrCfJNATrBF6wGv47RWfCMBT4+
-X-Received: by 10.194.19.165 with SMTP id g5mr6021233wje.65.1408720814266;
-	Fri, 22 Aug 2014 08:20:14 -0700 (PDT)
-Received: from lpapp@archlinux.us (mail.polatis.com. [212.44.19.228])
-	by mx.google.com with ESMTPSA id es9sm75886410wjd.1.2014.08.22.08.20.11
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 22 Aug 2014 08:20:13 -0700 (PDT)
-Sender: Laszlo Papp <lpapp@archlinux.us>
-Received: by lpapp@archlinux.us (sSMTP sendmail emulation);
-	Fri, 22 Aug 2014 16:20:06 +0100
-From: Laszlo Papp <lpapp@kde.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Aug 2014 16:20:03 +0100
-Message-Id: <1408720803-11737-1-git-send-email-lpapp@kde.org>
-X-Mailer: git-send-email 2.0.4
-Subject: [PATCH] Add support for ccache builds with the SDK
+	Fri, 22 Aug 2014 15:24:43 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s7MFOhlb031775; Fri, 22 Aug 2014 10:24:43 -0500
+Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014082210244319-274949 ;
+	Fri, 22 Aug 2014 10:24:43 -0500 
+From: Richard Tollerton <rich.tollerton@ni.com>
+To: Randy MacLeod <randy.macleod@windriver.com>, philip@balister.org
+In-Reply-To: <53E14013.1000301@windriver.com>
+References: <cover.1407177403.git.ben.shelton@ni.com>
+	<78fc1827553729a69ee665bf4ef7e33495d9de0b.1407177403.git.ben.shelton@ni.com>
+	<53E129D4.3050402@windriver.com>
+	<CAP9ODKqt79-1XkYDi01Wn-ZT5f13e4s=BhF08=zj8B==Hcjkpg@mail.gmail.com>
+	<53E14013.1000301@windriver.com>
+User-Agent: Notmuch/0.18.1 (http://notmuchmail.org) Emacs/24.3.1
+	(x86_64-unknown-linux-gnu)
+Date: Fri, 22 Aug 2014 10:24:43 -0500
+Message-ID: <8761hkpmx0.fsf@weregild.amer.corp.natinst.com>
+MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 08/22/2014 10:24:43 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 08/22/2014 10:24:43 AM,
+	Serialize complete at 08/22/2014 10:24:43 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
+	0.0.0000
+	definitions=2014-08-22_05:2014-08-22, 2014-08-22,
+	1970-01-01 signatures=0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Patch message guidelines and internal/corporate fields
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,34 +48,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Aug 2014 15:20:22 -0000
+X-List-Received-Date: Fri, 22 Aug 2014 15:24:45 -0000
+Content-Type: text/plain
 
-Signed-off-by: Laszlo Papp <lpapp@kde.org>
----
- meta/classes/toolchain-scripts.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+Randy MacLeod <randy.macleod@windriver.com> writes:
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 6cc8eba..60278d6 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -19,6 +19,7 @@ toolchain_create_sdk_env_script () {
- 		EXTRAPATH="$EXTRAPATH:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_ARCH}${TARGET_VENDOR}-$i"
- 	done
- 	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}'$EXTRAPATH':$PATH' >> $script
-+	echo 'export CCACHE_PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}'$EXTRAPATH':$CCACHE_PATH' >> $script
- 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
- 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig' >> $script
- 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
-@@ -37,6 +38,7 @@ toolchain_create_tree_env_script () {
- 	rm -f $script
- 	touch $script
- 	echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${PATH}' >> $script
-+	echo 'export CCACHE_PATH=${STAGING_DIR_NATIVE}/usr/bin:${CCACHE_PATH}' >> $script
- 	echo 'export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_SYSROOT_DIR}' >> $script
- 	echo 'export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}' >> $script
- 	echo 'export CONFIG_SITE="${@siteinfo_get_files(d)}"' >> $script
+> Wind River patches used to include a "CQID" tag but we've changed
+> our process to avoid needing such internal tags. If National
+> Instruments can do so as well, that'd be best.
+>
+> I did check my oe-core email list history and this seems like the
+> first patch from NI that has the tags included so I thought
+> I'd reply and see if we can get the tags dropped.
+
+IIRC, we pinged Phil a few months ago on this topic, and he thought
+internal tags were OK. I think Wind River might have been cited as an
+example.
+
+I see that
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines hasn't
+been updated with this requirement. Should it be? Will that require TSC
+approval?
+
+> -- 
+> # Randy MacLeod. SMTS, Linux, Wind River
+> Direct: 613.963.1350
+> -- 
+
 -- 
-2.0.4
-
+Richard Tollerton <rich.tollerton@ni.com>
 
