@@ -1,28 +1,34 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DC8065DB1
+Return-Path: <rich.tollerton@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id EE676707D7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Aug 2014 20:50:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7MKoHCh020678
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 22 Aug 2014 13:50:17 -0700 (PDT)
-Received: from e6410-2 (172.25.40.227) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 22 Aug 2014 13:50:16 -0700
-Date: Fri, 22 Aug 2014 15:49:54 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20140822154954.04d4fc02@e6410-2>
-In-Reply-To: <20140822193910.GD20524@jama>
-References: <cover.1408649791.git.peter.seebach@windriver.com>
-	<53F77370.2060603@balister.org> <20140822133349.76751634@e6410-2>
-	<20140822193910.GD20524@jama>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] Change default for cortexa* to armv7at-neon.
+	Fri, 22 Aug 2014 21:31:19 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s7MLVKbP009129; Fri, 22 Aug 2014 16:31:20 -0500
+Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014082216312038-290499 ;
+	Fri, 22 Aug 2014 16:31:20 -0500 
+From: Richard Tollerton <rich.tollerton@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Aug 2014 16:30:56 -0500
+Message-Id: <6b39f0e8a7e0d8f904828fe21cc73f09e4f2dd47.1408742574.git.rich.tollerton@ni.com>
+X-Mailer: git-send-email 2.0.4
+In-Reply-To: <cover.1408742574.git.rich.tollerton@ni.com>
+References: <cover.1408742574.git.rich.tollerton@ni.com>
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 08/22/2014 04:31:20 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 08/22/2014 04:31:20 PM,
+	Serialize complete at 08/22/2014 04:31:20 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
+	0.0.0000
+	definitions=2014-08-22_06:2014-08-22, 2014-08-22,
+	1970-01-01 signatures=0
+Cc: otavio@ossystems.com.br
+Subject: [PATCH v2 10/12] udev-cache: invalidate on rules.d changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,38 +41,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Aug 2014 20:50:31 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Aug 2014 21:31:23 -0000
 
-On Fri, 22 Aug 2014 21:39:10 +0200
-Martin Jansa <martin.jansa@gmail.com> wrote:
+Presently, the cache is not regenerated if udev rules are modified,
+which may cause the cache to preserve an old configuration. To fix,
+include the size, mtime, and filename of all udev rules in the system
+configuration.
 
-> Even enabling thumb seems wrong, because ARM_INSTRUCTION_SET is arm by
-> default, so this change is only renaming the feed, but still building
-> the same binaries (unless distro sets ARM_INSTRUCTION_SET).
+This change requires `stat`. If busybox supplies stat,
+CONFIG_FEATURE_STAT_FORMAT must be enabled.
 
-I think that's okay, because the point is to correctly indicate that
-the CPU can run thumb binaries if someone had a reason to make them.
+Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+---
+ meta/recipes-core/udev/udev/init       | 5 +++++
+ meta/recipes-core/udev/udev/udev-cache | 5 +++++
+ 2 files changed, 10 insertions(+)
 
-I mean, strictly speaking, I don't even *know of* an actual chip for which
-armv7a-neon is a correct descriptor. Because "armv7a-neon" is a chip which
-*cannot* run thumb binaries. Does anyone actually make a neon armv7a which
-can't run thumb binaries?
-
-And yeah, the RFC and ensuing discussion gets to some sort of underlying
-questions about what the purpose of DEFAULTTUNE is. I am inclined to think
-that the DEFAULTTUNE for a given tune-foo should be either the baseline of
-that chipset or a somewhat optimized tune for it.
-
-I note that tune-core2 and tune-corei7 both set tunes (core2-32, corei7-64)
-which include target-specific optimizations; this would be comparable to
-using cortexa9t-neon as the default tune for tune-cortexa9.inc.
-
-I don't think the current state of tunings reflects a completely consistent
-view of what DEFAULTTUNE means in a tuning file.
-
--s
+diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+index 10cbf56..c44dc2d 100644
+--- a/meta/recipes-core/udev/udev/init
++++ b/meta/recipes-core/udev/udev/init
+@@ -22,9 +22,14 @@ DEVCACHE_REGEN="/dev/shm/udev-regen" # create to request cache regen
+ CMP_FILE_LIST="/proc/version /proc/cmdline /proc/devices"
+ [ -f /proc/atags ] && CMP_FILE_LIST="$CMP_FILE_LIST /proc/atags"
+ 
++# List of files whose metadata (size/mtime/name) will be included in cached
++# system state.
++META_FILE_LIST="lib/udev/rules.d/* etc/udev/rules.d/*"
++
+ # Command to compute system configuration.
+ sysconf_cmd () {
+ 	cat -- $CMP_FILE_LIST
++	stat -L -c '%s %Y %n' -- $META_FILE_LIST | awk -F/ '{print $1 " " $NF;}'
+ }
+ [ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
+ [ -f /etc/udev/udev.conf ] && . /etc/udev/udev.conf
+diff --git a/meta/recipes-core/udev/udev/udev-cache b/meta/recipes-core/udev/udev/udev-cache
+index 5a1bc78..c499676 100644
+--- a/meta/recipes-core/udev/udev/udev-cache
++++ b/meta/recipes-core/udev/udev/udev-cache
+@@ -25,9 +25,14 @@ DEVCACHE_REGEN="/dev/shm/udev-regen" # create to request cache regen
+ CMP_FILE_LIST="/proc/version /proc/cmdline /proc/devices"
+ [ -f /proc/atags ] && CMP_FILE_LIST="$CMP_FILE_LIST /proc/atags"
+ 
++# List of files whose metadata (size/mtime/name) will be included in cached
++# system state.
++META_FILE_LIST="lib/udev/rules.d/* etc/udev/rules.d/*"
++
+ # Command to compute system configuration.
+ sysconf_cmd () {
+ 	cat -- $CMP_FILE_LIST
++	stat -L -c '%s %Y %n' -- $META_FILE_LIST | awk -F/ '{print $1 " " $NF;}'
+ }
+ [ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
+ 
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+2.0.4
+
 
