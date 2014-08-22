@@ -1,34 +1,42 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C8C870F70
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C975601A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Aug 2014 21:31:19 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s7MLVKRI008683; Fri, 22 Aug 2014 16:31:20 -0500
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014082216312037-290498 ;
-	Fri, 22 Aug 2014 16:31:20 -0500 
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Aug 2014 16:30:55 -0500
-Message-Id: <7db18f933460f111085749ee49a70796eab4068a.1408742574.git.rich.tollerton@ni.com>
-X-Mailer: git-send-email 2.0.4
-In-Reply-To: <cover.1408742574.git.rich.tollerton@ni.com>
-References: <cover.1408742574.git.rich.tollerton@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/22/2014 04:31:20 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/22/2014 04:31:20 PM,
-	Serialize complete at 08/22/2014 04:31:20 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
-	0.0.0000
-	definitions=2014-08-22_06:2014-08-22, 2014-08-22,
-	1970-01-01 signatures=0
-Cc: otavio@ossystems.com.br
-Subject: [PATCH v2 09/12] udev-cache: get system config immediately before cache
+	Fri, 22 Aug 2014 21:46:21 +0000 (UTC)
+Received: by mail-wi0-f173.google.com with SMTP id f8so277828wiw.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Aug 2014 14:46:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=4xK7eRDZF6aXErzLNA41dJYGrIaCjFo/MLpbeiv1cWs=;
+	b=cBz9J9fF2eYRWlJYtqs4/ZirkMLftUOjjAOOP53Zbh2fwu5olcAAuJesO3BIYzDrpH
+	K83J2kOBnqogzeVfA2Wth6DigKi7yt5A7dDvx7RC96IzKi/aVBVuG9+fwz9PqrnCV2/9
+	ApPF0tzz8N1EnNEUPtNfLmR99GM3lLAj31lThUCItVorzKccqF5xB8SuDkyqsnEmJwR4
+	2My8XPZyN75NB30fYzFq7HKZStAwPnY9EjuqIAurTTPE30Bzxz78g8SH2PMkCexWTlnQ
+	atwJaIGrD1oqwLodJp+4lchLX5SMgySGN0yKBN6lXrfqzh0J6NqBm3Edbu2teazk6YMe
+	YNnA==
+X-Received: by 10.194.237.194 with SMTP id ve2mr7566039wjc.89.1408743982394;
+	Fri, 22 Aug 2014 14:46:22 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	ck5sm48300352wjb.24.2014.08.22.14.46.21 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 22 Aug 2014 14:46:21 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 22 Aug 2014 23:46:26 +0200
+To: Peter Seebach <peter.seebach@windriver.com>
+Message-ID: <20140822214626.GF20524@jama>
+References: <cover.1408649791.git.peter.seebach@windriver.com>
+	<53F77370.2060603@balister.org> <20140822133349.76751634@e6410-2>
+	<20140822193910.GD20524@jama> <20140822154954.04d4fc02@e6410-2>
+MIME-Version: 1.0
+In-Reply-To: <20140822154954.04d4fc02@e6410-2>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] Change default for cortexa* to armv7at-neon.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,180 +49,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Aug 2014 21:31:24 -0000
+X-List-Received-Date: Fri, 22 Aug 2014 21:46:31 -0000
+X-Groupsio-MsgNum: 56863
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="hcut4fGOf7Kh6EdG"
+Content-Disposition: inline
 
-The system device configuration -- /proc/devices, /proc/cmdline, etc. --
-and the contents of /dev must be stored as simultaneously as possible.
-Otherwise, hotplug events could be processed between the time we get the
-system config and the time we archive /dev, and the udev cache may be
-incorrect.
+--hcut4fGOf7Kh6EdG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-To solve this, update the cached system configuration inside the
-udev-cache initscript, not the udev initscript. Also, run it before
-archiving /dev, because it should execute nearly instantaneously.
+On Fri, Aug 22, 2014 at 03:49:54PM -0500, Peter Seebach wrote:
+> On Fri, 22 Aug 2014 21:39:10 +0200
+> Martin Jansa <martin.jansa@gmail.com> wrote:
+>=20
+> > Even enabling thumb seems wrong, because ARM_INSTRUCTION_SET is arm by
+> > default, so this change is only renaming the feed, but still building
+> > the same binaries (unless distro sets ARM_INSTRUCTION_SET).
+>=20
+> I think that's okay, because the point is to correctly indicate that
+> the CPU can run thumb binaries if someone had a reason to make them.
+>=20
+> I mean, strictly speaking, I don't even *know of* an actual chip for which
+> armv7a-neon is a correct descriptor. Because "armv7a-neon" is a chip which
+> *cannot* run thumb binaries. Does anyone actually make a neon armv7a which
+> can't run thumb binaries?
+>=20
+> And yeah, the RFC and ensuing discussion gets to some sort of underlying
+> questions about what the purpose of DEFAULTTUNE is. I am inclined to think
+> that the DEFAULTTUNE for a given tune-foo should be either the baseline of
+> that chipset or a somewhat optimized tune for it.
 
-We still need to compute the system configuration inside the udev
-initscript, to detect if it changed, so refactor it into a new function
-sysconf_cmd(). This also allows administrators to modify it for
-machine-specific requirements.
+For me it's sane default for shared binary feed and DISTRO config is the
+right place to decide common denominator for your MACHINEs (if all
+MACHINEs you support are cortexa9 then yes, it would be better
+DEFAULTTUNE, if you enable "thumb" in default ARM_INSTRUCTION_SET, then
+yes it makes sense to enable it in DEFAULTTUNE as well, but changing
+default DEFAULTTUNE (and TUNE_PKGARCH with that) to have thumb while
+still building with -marm doesn't make much sense to me and is only
+confusing.
 
-Evaluating the system configuration requires a shell function
-readfiles() defined in the udev initscript. The only salient differences
-between readfiles() and just using `cat` directly are a) readfiles()
-skips files without error if they don't exist, which is necessary
-because /proc/atags is in CMP_FILE_LIST but does not exist on all
-targets; and b) input lines are concatenated into an output shell
-variable with newlines stripped. (a) can be eliminated by not including
-/proc/atags in CMP_FILE_LIST if it doesn't exist. (b) is O(n^2) anyway,
-and makes $NEWDATA, $OLDDATA etc. very hard to read, and we don't need
-to strip newlines anyway. So make sysconf_cmd() use `cat` and remove
-readfiles().
+Every distro can use something more "optimized" DEFAULTTUNEs for each
+MACHINE they use, I do it for SHR:
+https://github.com/shr-distribution/meta-smartphone/blob/shr/meta-shr-distr=
+o/conf/distro/include/defaulttunes.inc
 
-Instead of storing system configuration in shell variables ($NEWDATA,
-$OLDDATA), store them directly in files: redirect to $SYSCONF_TMP
-instead of storing in $NEWDATA; read from $SYSCONF_CACHED directly
-instead of reading it into $OLDDATA. This turns comparing $NEWDATA vs.
-$OLDDATA into a call to `cmp`. However, busybox lacks `cmp -q`, so
-instead, redirect cmp's output to /dev/null.
+and for webOS-ports we used it for a while and then reverted back to
+default, because the difference between cortexa8-neon, cortexa9-neon and
+armv8a-neon wasn't worth building and maintaining separate binary feed
+(see links in .inc file)
+https://github.com/webOS-ports/meta-webos-ports/blob/master/conf/distro/inc=
+lude/defaulttunes.inc
 
-$OLDDATA and $NEWDATA go away. This obviates the most of error message
-printed when the udev cache can't be used, but it probably wasn't of
-much help, because $OLDDATA and $NEWDATA are so large that they would
-have scrolled off the screen anyway. Beyond that, this error is so
-important that it should probably be printed regardless of the setting
-of VERBOSE. So leave the "udev: cache not used" log message and remove
-everything else.
+> I note that tune-core2 and tune-corei7 both set tunes (core2-32, corei7-6=
+4)
+> which include target-specific optimizations; this would be comparable to
+> using cortexa9t-neon as the default tune for tune-cortexa9.inc.
+>=20
+> I don't think the current state of tunings reflects a completely consiste=
+nt
+> view of what DEFAULTTUNE means in a tuning file.
+>=20
+> -s
+> --=20
+> Listen, get this.  Nobody with a good compiler needs to be justified.
 
-Because the udev-cache initscript evaluates the system configuration
-itself, it makes no sense to signal it to run by storing the system
-configuration in a file. Instead, signal udev-cache execution by
-touching a file, $DEVCACHE_REGEN.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
----
- meta/recipes-core/udev/udev/init       | 44 +++++++++++++---------------------
- meta/recipes-core/udev/udev/udev-cache | 17 +++++++++++--
- 2 files changed, 31 insertions(+), 30 deletions(-)
+--hcut4fGOf7Kh6EdG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
-index 7ffa4a6..10cbf56 100644
---- a/meta/recipes-core/udev/udev/init
-+++ b/meta/recipes-core/udev/udev/init
-@@ -16,21 +16,20 @@ export TZ=/etc/localtime
- [ -x @UDEVD@ ] || exit 1
- SYSCONF_CACHED="/etc/udev/cache.data"
- SYSCONF_TMP="/dev/shm/udev.cache"
-+DEVCACHE_REGEN="/dev/shm/udev-regen" # create to request cache regen
-+
-+# List of files whose contents will be included in cached system state.
-+CMP_FILE_LIST="/proc/version /proc/cmdline /proc/devices"
-+[ -f /proc/atags ] && CMP_FILE_LIST="$CMP_FILE_LIST /proc/atags"
-+
-+# Command to compute system configuration.
-+sysconf_cmd () {
-+	cat -- $CMP_FILE_LIST
-+}
- [ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
- [ -f /etc/udev/udev.conf ] && . /etc/udev/udev.conf
- [ -f /etc/default/rcS ] && . /etc/default/rcS
- 
--readfiles () {
--   READDATA=""
--   for filename in $@; do
--	   if [ -r $filename ]; then
--		   while read line; do
--			   READDATA="$READDATA$line"
--		   done < $filename
--	   fi
--   done
--}
--
- kill_udevd () {
-     pid=`pidof -x udevd`
-     [ -n "$pid" ] && kill $pid
-@@ -62,35 +61,24 @@ case "$1" in
-     mkdir -p /var/volatile/tmp
- 
-     # Cache handling.
--    # A list of files which are used as a criteria to judge whether the udev cache could be reused.
--    CMP_FILE_LIST="/proc/version /proc/cmdline /proc/devices /proc/atags"
-     if [ "$DEVCACHE" != "" ]; then
-             if [ -e $DEVCACHE ]; then
--		    readfiles $CMP_FILE_LIST
--		    NEWDATA="$READDATA"
--		    readfiles "$SYSCONF_CACHED"
--		    OLDDATA="$READDATA"
--		    if [ "$OLDDATA" = "$NEWDATA" ]; then
-+		    sysconf_cmd > $SYSCONF_TMP
-+		    if cmp $SYSCONF_CACHED $SYSCONF_TMP >/dev/null; then
-                             tar xmf $DEVCACHE -C / -m
-                             not_first_boot=1
-                             [ "$VERBOSE" != "no" ] && echo "udev: using cache file $DEVCACHE"
--                            [ -e $SYSCONF_TMP ] && rm -f "$SYSCONF_TMP"
-+                            [ -e "$DEVCACHE_REGEN" ] && rm -f "$DEVCACHE_REGEN"
-                     else
- 			    # Output detailed reason why the cached /dev is not used
--			    if [ "$VERBOSE" != "no" ]; then
--				    echo "udev: udev cache not used"
--				    echo "udev: we use $CMP_FILE_LIST as criteria to judge whether the cache /dev could be resued"
--				    echo "udev: olddata: $OLDDATA"
--				    echo "udev: newdata: $NEWDATA"
--			    fi
--			    echo "$NEWDATA" > "$SYSCONF_TMP"
-+			    echo "udev: cache not used"
-+			    touch "$DEVCACHE_REGEN"
-                     fi
- 	    else
- 		    if [ "$ROOTFS_READ_ONLY" != "yes" ]; then
- 			    # If rootfs is not read-only, it's possible that a new udev cache would be generated;
- 			    # otherwise, we do not bother to read files.
--			    readfiles $CMP_FILE_LIST
--			    echo "$READDATA" > "$SYSCONF_TMP"
-+			    touch "$DEVCACHE_REGEN"
- 		    fi
-             fi
-     fi
-diff --git a/meta/recipes-core/udev/udev/udev-cache b/meta/recipes-core/udev/udev/udev-cache
-index 497d257..5a1bc78 100644
---- a/meta/recipes-core/udev/udev/udev-cache
-+++ b/meta/recipes-core/udev/udev/udev-cache
-@@ -19,6 +19,16 @@ export TZ=/etc/localtime
- DEVCACHE_TMP="/dev/shm/udev-cache-tmp.tar"
- SYSCONF_CACHED="/etc/udev/cache.data"
- SYSCONF_TMP="/dev/shm/udev.cache"
-+DEVCACHE_REGEN="/dev/shm/udev-regen" # create to request cache regen
-+
-+# List of files whose contents will be included in cached system state.
-+CMP_FILE_LIST="/proc/version /proc/cmdline /proc/devices"
-+[ -f /proc/atags ] && CMP_FILE_LIST="$CMP_FILE_LIST /proc/atags"
-+
-+# Command to compute system configuration.
-+sysconf_cmd () {
-+	cat -- $CMP_FILE_LIST
-+}
- [ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
- 
- if [ "$ROOTFS_READ_ONLY" = "yes" ]; then
-@@ -26,13 +36,16 @@ if [ "$ROOTFS_READ_ONLY" = "yes" ]; then
-     exit 0
- fi
- 
--if [ "$DEVCACHE" != "" -a -e "$SYSCONF_TMP" ]; then
-+if [ "$DEVCACHE" != "" -a -e "$DEVCACHE_REGEN" ]; then
- 	echo "Populating dev cache"
-+	# Run sysconf_cmd before `tar`, not after, so that as little time as
-+	# possible elapses between creating $SYSCONF_CACHED and $DEVCACHE.
-+	sysconf_cmd > "$SYSCONF_CACHED"
- 	find /dev -xdev \( -type b -o -type c -o -type l \) | cut -c 2- \
- 		| xargs tar cf "${DEVCACHE_TMP}" -T-
- 	gzip < "${DEVCACHE_TMP}" > "$DEVCACHE"
- 	rm -f "${DEVCACHE_TMP}"
--	mv "$SYSCONF_TMP" "$SYSCONF_CACHED"
-+	rm -f "$DEVCACHE_REGEN"
- fi
- 
- exit 0
--- 
-2.0.4
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iEYEARECAAYFAlP3ujIACgkQN1Ujt2V2gBy5OwCeIO7aow42DkELuqVyM5vW1ucU
+ObIAn1nj+NFTtx8khP3j1ilNe47yLJGp
+=PNmM
+-----END PGP SIGNATURE-----
 
+--hcut4fGOf7Kh6EdG--
