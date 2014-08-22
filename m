@@ -1,41 +1,25 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 086F670DFF
+Return-Path: <philip@balister.org>
+X-Greylist: delayed 399 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 22 Aug 2014 16:51:15 UTC
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 1B93065DB1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Aug 2014 15:24:43 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s7MFOhlb031775; Fri, 22 Aug 2014 10:24:43 -0500
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014082210244319-274949 ;
-	Fri, 22 Aug 2014 10:24:43 -0500 
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: Randy MacLeod <randy.macleod@windriver.com>, philip@balister.org
-In-Reply-To: <53E14013.1000301@windriver.com>
-References: <cover.1407177403.git.ben.shelton@ni.com>
-	<78fc1827553729a69ee665bf4ef7e33495d9de0b.1407177403.git.ben.shelton@ni.com>
-	<53E129D4.3050402@windriver.com>
-	<CAP9ODKqt79-1XkYDi01Wn-ZT5f13e4s=BhF08=zj8B==Hcjkpg@mail.gmail.com>
-	<53E14013.1000301@windriver.com>
-User-Agent: Notmuch/0.18.1 (http://notmuchmail.org) Emacs/24.3.1
-	(x86_64-unknown-linux-gnu)
-Date: Fri, 22 Aug 2014 10:24:43 -0500
-Message-ID: <8761hkpmx0.fsf@weregild.amer.corp.natinst.com>
+	Fri, 22 Aug 2014 16:51:15 +0000 (UTC)
+Received: (qmail 11529 invoked by uid 1003); 22 Aug 2014 16:44:36 -0000
+Received: from unknown (HELO ?10.50.10.85?) (philip@opensdr.com@69.7.123.146)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	22 Aug 2014 16:44:36 -0000
+Message-ID: <53F77370.2060603@balister.org>
+Date: Fri, 22 Aug 2014 10:44:32 -0600
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.7.0
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/22/2014 10:24:43 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/22/2014 10:24:43 AM,
-	Serialize complete at 08/22/2014 10:24:43 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
-	0.0.0000
-	definitions=2014-08-22_05:2014-08-22, 2014-08-22,
-	1970-01-01 signatures=0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Patch message guidelines and internal/corporate fields
+To: Peter Seebach <peter.seebach@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1408649791.git.peter.seebach@windriver.com>
+In-Reply-To: <cover.1408649791.git.peter.seebach@windriver.com>
+Subject: Re: [PATCH 0/1] Change default for cortexa* to armv7at-neon.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,33 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Aug 2014 15:24:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 22 Aug 2014 16:51:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Randy MacLeod <randy.macleod@windriver.com> writes:
+On 08/21/2014 01:54 PM, Peter Seebach wrote:
+> The various cortex chips generally support thumb code, so the armv7at
+> tunings are a better default for them than the plain armv7a tunings.
+> The armv7at tuning allows generation of both arm and thumb code, while
+> armv7a only allows arm code, which is typically significantly bigger.
+> (It may be faster in some cases, but the tradeoffs aren't totally
+> obvious, because smaller code fits in caches better.) Since they
+> all had armv7a-neon as default, change them to armv7at-neon.
 
-> Wind River patches used to include a "CQID" tag but we've changed
-> our process to avoid needing such internal tags. If National
-> Instruments can do so as well, that'd be best.
->
-> I did check my oe-core email list history and this seems like the
-> first patch from NI that has the tags included so I thought
-> I'd reply and see if we can get the tags dropped.
+Can we also move to hard float abi?
 
-IIRC, we pinged Phil a few months ago on this topic, and he thought
-internal tags were OK. I think Wind River might have been cited as an
-example.
+Philip
 
-I see that
-http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines hasn't
-been updated with this requirement. Should it be? Will that require TSC
-approval?
 
-> -- 
-> # Randy MacLeod. SMTS, Linux, Wind River
-> Direct: 613.963.1350
-> -- 
-
--- 
-Richard Tollerton <rich.tollerton@ni.com>
+> 
+> The following changes since commit 47d1fc9f5c38f3d092937c47bd4c2f45adaa7fe6:
+> 
+>   qemu: fix Darwin cross-compilation (2014-08-18 20:43:24 +0100)
+> 
+> are available in the git repository at:
+>   git://git.yoctoproject.org/poky-contrib seebs/armv7at
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/armv7at
+> 
+> Peter Seebach (1):
+>   tune-cortexa*.inc: use armv7at by default
+> 
+>  meta/conf/machine/include/tune-cortexa15.inc |    2 +-
+>  meta/conf/machine/include/tune-cortexa5.inc  |    2 +-
+>  meta/conf/machine/include/tune-cortexa7.inc  |    2 +-
+>  meta/conf/machine/include/tune-cortexa8.inc  |    2 +-
+>  meta/conf/machine/include/tune-cortexa9.inc  |    2 +-
+>  5 files changed, 5 insertions(+), 5 deletions(-)
+> 
 
