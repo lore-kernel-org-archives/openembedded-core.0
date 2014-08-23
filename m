@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E6B670F90
+	by mail.openembedded.org (Postfix) with ESMTP id E5EE070F3F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Aug 2014 11:04:36 +0000 (UTC)
+	Sat, 23 Aug 2014 11:11:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7NB4Ymm015704; Sat, 23 Aug 2014 12:04:34 +0100
+	s7NBBGh1015917; Sat, 23 Aug 2014 12:11:16 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id tQFdYVitW_Zu; Sat, 23 Aug 2014 12:04:34 +0100 (BST)
+	with LMTP id P1Egjigm0A-X; Sat, 23 Aug 2014 12:11:16 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7NB4WhT015700
+	s7NBBDXJ015913
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sat, 23 Aug 2014 12:04:34 +0100
-Message-ID: <1408791873.5457.16.camel@ted>
+	Sat, 23 Aug 2014 12:11:14 +0100
+Message-ID: <1408792274.5457.18.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <clarson@kergoth.com>
-Date: Sat, 23 Aug 2014 12:04:33 +0100
-In-Reply-To: <CABcZAN=cp3NHtPMQymoFFUhsoEXCtFUBtnx1ynmRmp+N=cX11w@mail.gmail.com>
-References: <1408653988.1669.116.camel@ted>
-	<CABcZAN=cp3NHtPMQymoFFUhsoEXCtFUBtnx1ynmRmp+N=cX11w@mail.gmail.com>
+To: Richard Tollerton <rich.tollerton@ni.com>
+Date: Sat, 23 Aug 2014 12:11:14 +0100
+In-Reply-To: <7db18f933460f111085749ee49a70796eab4068a.1408742574.git.rich.tollerton@ni.com>
+References: <cover.1408742574.git.rich.tollerton@ni.com>
+	<7db18f933460f111085749ee49a70796eab4068a.1408742574.git.rich.tollerton@ni.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lib/oe/package_manager: Add utils function for multiprocess execution
+Cc: otavio@ossystems.com.br, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 09/12] udev-cache: get system config immediately before cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +37,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Aug 2014 11:04:39 -0000
+X-List-Received-Date: Sat, 23 Aug 2014 11:11:22 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2014-08-21 at 17:57 -0700, Christopher Larson wrote:
+On Fri, 2014-08-22 at 16:30 -0500, Richard Tollerton wrote:
+> The system device configuration -- /proc/devices, /proc/cmdline, etc. --
+> and the contents of /dev must be stored as simultaneously as possible.
+> Otherwise, hotplug events could be processed between the time we get the
+> system config and the time we archive /dev, and the udev cache may be
+> incorrect.
+> 
+> To solve this, update the cached system configuration inside the
+> udev-cache initscript, not the udev initscript. Also, run it before
+> archiving /dev, because it should execute nearly instantaneously.
+> 
+> We still need to compute the system configuration inside the udev
+> initscript, to detect if it changed, so refactor it into a new function
+> sysconf_cmd(). This also allows administrators to modify it for
+> machine-specific requirements.
+> 
+> Evaluating the system configuration requires a shell function
+> readfiles() defined in the udev initscript. The only salient differences
+> between readfiles() and just using `cat` directly are a) readfiles()
+> skips files without error if they don't exist, which is necessary
+> because /proc/atags is in CMP_FILE_LIST but does not exist on all
+> targets; and b) input lines are concatenated into an output shell
+> variable with newlines stripped. (a) can be eliminated by not including
+> /proc/atags in CMP_FILE_LIST if it doesn't exist. (b) is O(n^2) anyway,
+> and makes $NEWDATA, $OLDDATA etc. very hard to read, and we don't need
+> to strip newlines anyway. So make sysconf_cmd() use `cat` and remove
+> readfiles().
 
-> On Thu, Aug 21, 2014 at 1:46 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->         Our usage of multitprocessing is problematic. In particular,
->         there is a bug
->         in python 2.7 multiprocessing where signals are not handled
->         until command
->         completion instead of immediately.
->  
-> This looks good, but the subject is misleading, in my opinion:
-> "lib/oe/package_manager: Add utils function for multiprocess
-> execution". It should probably either mention both utils and
-> package_manager, or be split into two commits.
+The reason this was done was actually c) avoid having to execute cat as
+a new process.
 
-Good point, I tweaked before merging, thanks. It was the (bad) result of
-rearranging a few commits.
+> Instead of storing system configuration in shell variables ($NEWDATA,
+> $OLDDATA), store them directly in files: redirect to $SYSCONF_TMP
+> instead of storing in $NEWDATA; read from $SYSCONF_CACHED directly
+> instead of reading it into $OLDDATA. This turns comparing $NEWDATA vs.
+> $OLDDATA into a call to `cmp`. However, busybox lacks `cmp -q`, so
+> instead, redirect cmp's output to /dev/null.
+
+The above reason c) is also why we don't use cmp. It turned out to be
+faster to read into a variable than fork/exec cmp.
 
 Cheers,
 
 Richard
-
 
 
