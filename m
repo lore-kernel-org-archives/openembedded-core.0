@@ -1,30 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E5EE070F3F
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BCC362252
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Aug 2014 11:11:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7NBBGh1015917; Sat, 23 Aug 2014 12:11:16 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id P1Egjigm0A-X; Sat, 23 Aug 2014 12:11:16 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7NBBDXJ015913
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sat, 23 Aug 2014 12:11:14 +0100
-Message-ID: <1408792274.5457.18.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Richard Tollerton <rich.tollerton@ni.com>
-Date: Sat, 23 Aug 2014 12:11:14 +0100
-In-Reply-To: <7db18f933460f111085749ee49a70796eab4068a.1408742574.git.rich.tollerton@ni.com>
-References: <cover.1408742574.git.rich.tollerton@ni.com>
-	<7db18f933460f111085749ee49a70796eab4068a.1408742574.git.rich.tollerton@ni.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: otavio@ossystems.com.br, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 09/12] udev-cache: get system config immediately before cache
+	Sat, 23 Aug 2014 17:31:44 +0000 (UTC)
+Received: by mail-wi0-f180.google.com with SMTP id n3so898608wiv.13
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 23 Aug 2014 10:31:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=zAmdzxNu7mtr8vvroTjiJGoaj/QnWMME8NaQfSrlDgs=;
+	b=A0ic/ZcSNTdF/tH6osfjk82HS//X1DSucda1rErzeXswtBus/P5YY9LgIk5hAnA07H
+	rkMCd9cUYDXCKcPq+iazrHX42u3tySSddAhXOKqtIy2QrmaWgCijIYHNMZ+tSm+j81f1
+	A8HbUlbZYjqnuSG1B15G4GoWBWvPTTVguG/ecpRn4sQXy2Qa9X71dWhxAPKsFaDCGJhB
+	MIzbcNuaXvsATMWV5dYNMhgC4ZsJ4smJuunnosRqh7aRaZSxdhJCx+Q28m5RuV4EToi7
+	wkBXdTRZm/RkEcfy4vvWx9FVRoyLdO9djUepxcFYUF3hDzNrj/6fxpXUgdEit8zZahI/
+	pDAg==
+X-Gm-Message-State: ALoCoQnLv1YY4bXUqdtEXnoaXdQeOfvqY3kgZeunkTCFOokVtSxJzUw91xK5zD/ZwMj9Bxy8Yygx
+X-Received: by 10.194.184.101 with SMTP id et5mr12261693wjc.14.1408815104779; 
+	Sat, 23 Aug 2014 10:31:44 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::305b:65ad:85ac:4118?
+	([2001:610:612:0:305b:65ad:85ac:4118])
+	by mx.google.com with ESMTPSA id es9sm84913690wjd.1.2014.08.23.10.31.43
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 23 Aug 2014 10:31:43 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <cover.1408649791.git.peter.seebach@windriver.com>
+Date: Sat, 23 Aug 2014 19:32:14 +0200
+Message-Id: <279BFA02-D387-4463-AF6D-F759B89A30EC@dominion.thruhere.net>
+References: <cover.1408649791.git.peter.seebach@windriver.com>
+To: Peter Seebach <peter.seebach@windriver.com>
+X-Mailer: Apple Mail (2.1878.6)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] Change default for cortexa* to armv7at-neon.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +49,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Aug 2014 11:11:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 23 Aug 2014 17:31:46 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2014-08-22 at 16:30 -0500, Richard Tollerton wrote:
-> The system device configuration -- /proc/devices, /proc/cmdline, etc. --
-> and the contents of /dev must be stored as simultaneously as possible.
-> Otherwise, hotplug events could be processed between the time we get the
-> system config and the time we archive /dev, and the udev cache may be
-> incorrect.
-> 
-> To solve this, update the cached system configuration inside the
-> udev-cache initscript, not the udev initscript. Also, run it before
-> archiving /dev, because it should execute nearly instantaneously.
-> 
-> We still need to compute the system configuration inside the udev
-> initscript, to detect if it changed, so refactor it into a new function
-> sysconf_cmd(). This also allows administrators to modify it for
-> machine-specific requirements.
-> 
-> Evaluating the system configuration requires a shell function
-> readfiles() defined in the udev initscript. The only salient differences
-> between readfiles() and just using `cat` directly are a) readfiles()
-> skips files without error if they don't exist, which is necessary
-> because /proc/atags is in CMP_FILE_LIST but does not exist on all
-> targets; and b) input lines are concatenated into an output shell
-> variable with newlines stripped. (a) can be eliminated by not including
-> /proc/atags in CMP_FILE_LIST if it doesn't exist. (b) is O(n^2) anyway,
-> and makes $NEWDATA, $OLDDATA etc. very hard to read, and we don't need
-> to strip newlines anyway. So make sysconf_cmd() use `cat` and remove
-> readfiles().
 
-The reason this was done was actually c) avoid having to execute cat as
-a new process.
+Op 21 aug. 2014, om 21:54 heeft Peter Seebach =
+<peter.seebach@windriver.com> het volgende geschreven:
 
-> Instead of storing system configuration in shell variables ($NEWDATA,
-> $OLDDATA), store them directly in files: redirect to $SYSCONF_TMP
-> instead of storing in $NEWDATA; read from $SYSCONF_CACHED directly
-> instead of reading it into $OLDDATA. This turns comparing $NEWDATA vs.
-> $OLDDATA into a call to `cmp`. However, busybox lacks `cmp -q`, so
-> instead, redirect cmp's output to /dev/null.
+> The various cortex chips generally support thumb code, so the armv7at
+> tunings are a better default for them than the plain armv7a tunings.
 
-The above reason c) is also why we don't use cmp. It turned out to be
-faster to read into a variable than fork/exec cmp.
+Thumb1 or thumb2? In the case of t1, it's useless on armv7a. The t2 case =
+it more involved. The SoCs produced in the first ~2 years need a ton of =
+erratum fixups enabled in the kernel, some of them mutually exclusive =
+(e.g. enabling a work around on cortex-a8 breaks cortex-a9).
 
-Cheers,
+Angstrom switched to t2 builds a few months ago and a lot of devices =
+didn't boot anymore (kernel) or segfaulted early (/sbin/init) without =
+the appropriated kernel fixups.
 
-Richard
+So ensure everything is in place to deal with potential t2 code, all =
+devices on my desk work with it, but that's just a tiny subset of =
+everything out there.
 
+regards,
+
+Koen=
 
