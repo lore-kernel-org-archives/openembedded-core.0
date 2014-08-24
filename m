@@ -1,44 +1,36 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F9A065D53
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f46.google.com (mail-yh0-f46.google.com
+	[209.85.213.46])
+	by mail.openembedded.org (Postfix) with ESMTP id EBAF065E94
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Aug 2014 18:15:12 +0000 (UTC)
-Received: by mail-wg0-f45.google.com with SMTP id x12so12100694wgg.28
+	Sun, 24 Aug 2014 19:39:19 +0000 (UTC)
+Received: by mail-yh0-f46.google.com with SMTP id a41so10262548yho.19
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Aug 2014 11:15:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=Mh6BjQXkeljY8ddeKgHiDxWRYJXqqktl3ltIYJ0LwqA=;
-	b=jNL9G4B+39puhhd188ERfSSJWJ9JPQ5ttUl/IfdGHR105XxFyqVdn/4YH87358mKia
-	MCDR77oMjyK869AfDP0zQp21cEjlUbMCdqqB8kGTw2oJ6ck3ESymo+yPuNWXnP06SmLT
-	VPt52gSskGVgK8Inb/sT9qOI5KS+gwhryugZHhgmfE+LqujgsmHf/ErXRKDT508eR+Z5
-	K+t74VU14YMiz8Wlf/i4p7oztYDMsq+/ucG6bhR74kZHlGBfCmC+WrpcQ3X5anEur4VT
-	l9nOyztc6Z3avmIfwHoq+GhbSIElz3tUpJQLRlg8AREuWHuOrRw9lGs5MgnDiCMUoTsc
-	yMmA==
-X-Gm-Message-State: ALoCoQnCW3PDP65Z9+g9Nsei+d/T/gMAEqvrbF1DKDu01tK5qLSKjhnw6wmI1ySapvLLElY+JPvQ
-X-Received: by 10.194.176.68 with SMTP id cg4mr27072wjc.132.1408904113576;
-	Sun, 24 Aug 2014 11:15:13 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::ac71:2cc0:b1e4:a02b?
-	([2001:610:612:0:ac71:2cc0:b1e4:a02b])
-	by mx.google.com with ESMTPSA id
-	di7sm93407107wjb.34.2014.08.24.11.15.12 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 24 Aug 2014 11:15:12 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <53F9FA38.6040809@balister.org>
-Date: Sun, 24 Aug 2014 20:15:43 +0200
-Message-Id: <F1AB33FC-5B35-49B8-8690-78BD416098FE@dominion.thruhere.net>
-References: <cover.1408649791.git.peter.seebach@windriver.com>
-	<53F77370.2060603@balister.org> <53F99AC9.7030604@topic.nl>
-	<53F9FA38.6040809@balister.org>
-To: Philip Balister <philip@balister.org>
-X-Mailer: Apple Mail (2.1878.6)
-Cc: Mike Looijmans <mike.looijmans@topic.nl>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] Change default for cortexa* to armv7at-neon.
+	Sun, 24 Aug 2014 12:39:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=vrGrYFO2pbJxw1QMue5ZadEqFHKmyyN6G3WD0gWeMFY=;
+	b=XEDY/6tEsuYYk7/Sto/Co0QvXY+KhsH9YcAyLWSq6/1bpvIwUBKsExLay3XyGETb4k
+	L8arODkAjaE4iMaea+HsyDletGCk8R+9D8uPhtuXO6NIcDQuLF8E4ky11EC33T6LKDdG
+	nJTCgXXg9trfy3CGBwHV16lzsw55m/ZaSfjWlu9Z0B4n+p0J/1AqaO7mwWHIiQyN9hUh
+	fQ8BTY2Fce8MPV9ZrdOVnkqOVTNGZy6gH77fBKOF09BNv+82Fi9Oh9mqvcMHHHKw2mbk
+	cl29ueWC9K3GNgebAkEtyZ7etqOPVsM3VKeWhY/btp/YSamgbw5P/2yI+UGuh5nCfySp
+	MScA==
+X-Received: by 10.236.119.146 with SMTP id n18mr28597589yhh.23.1408909160871; 
+	Sun, 24 Aug 2014 12:39:20 -0700 (PDT)
+Received: from monster.lab.ossystems.com.br ([177.35.70.10])
+	by mx.google.com with ESMTPSA id o43sm2937087yha.42.2014.08.24.12.39.19
+	for <multiple recipients>
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Sun, 24 Aug 2014 12:39:20 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 24 Aug 2014 16:39:15 -0300
+Message-Id: <1408909155-29559-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] libxml2: Explicitly enable zlib support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,30 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Aug 2014 18:15:20 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 24 Aug 2014 19:39:23 -0000
 
+The zlib support is a must if you are using RPM backend. So this
+explicitly enable it and adds a comment in the recipe to avoid its
+removal by mistake.
 
-Op 24 aug. 2014, om 16:44 heeft Philip Balister <philip@balister.org> =
-het volgende geschreven:
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-core/libxml/libxml2.inc |    7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-> On 08/24/2014 01:56 AM, Mike Looijmans wrote:
->> On 08/22/2014 06:44 PM, Philip Balister wrote:
->> ...
->>> Can we also move to hard float abi?
->>>=20
->>=20
->> +1 to that.
->>=20
->> Especially since "neon" implies "float" support on the Cortex.
->>=20
->> We moved to hard float on the MIPS (mostly broadcom) many years ago. =
-I
->> always wondered why the ARM never made that move.
->>=20
->=20
-> The problem in the past has been binary blobs compiled for soft float.
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 2dffc5a..24ea66a 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -39,10 +39,11 @@ do_configure_prepend_class-nativesdk () {
+ 	export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
+ }
+ 
++# WARNING: zlib is require for RPM use
+ EXTRA_OECONF = "--without-python --without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
+-EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma"
+-EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma"
+-EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-docbook --with-c14n --without-lzma"
++EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
++EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
++EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
+ 
+ # required for pythong binding
+ export HOST_SYS
+-- 
+1.7.10.4
 
-You mean softfp, which is very different from soft float.=
 
