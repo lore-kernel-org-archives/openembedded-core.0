@@ -1,24 +1,28 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id 8E73E706F1
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0656660169
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Aug 2014 14:44:23 +0000 (UTC)
-Received: (qmail 31725 invoked by uid 1003); 24 Aug 2014 14:44:24 -0000
-Received: from unknown (HELO ?10.50.10.85?) (philip@opensdr.com@69.7.123.146)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	24 Aug 2014 14:44:24 -0000
-Message-ID: <53F9FA38.6040809@balister.org>
-Date: Sun, 24 Aug 2014 08:44:08 -0600
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.7.0
+	Sun, 24 Aug 2014 15:33:40 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Aug 2014 08:33:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,390,1406617200"; d="scan'208";a="589178462"
+Received: from rrhewawa-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.41])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Aug 2014 08:33:40 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 24 Aug 2014 16:33:39 +0100
+Message-ID: <1911375.NGZ7NJg80z@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.13.3 (Linux/3.15.10-200.fc20.x86_64; KDE/4.13.3; x86_64; ;
+	)
+In-Reply-To: <1408783244.5457.10.camel@ted>
+References: <cover.1407177403.git.ben.shelton@ni.com>
+	<8761hkpmx0.fsf@weregild.amer.corp.natinst.com>
+	<1408783244.5457.10.camel@ted>
 MIME-Version: 1.0
-To: Mike Looijmans <mike.looijmans@topic.nl>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1408649791.git.peter.seebach@windriver.com>	<53F77370.2060603@balister.org>
-	<53F99AC9.7030604@topic.nl>
-In-Reply-To: <53F99AC9.7030604@topic.nl>
-Subject: Re: [PATCH 0/1] Change default for cortexa* to armv7at-neon.
+Subject: Re: Patch message guidelines and internal/corporate fields
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Aug 2014 14:44:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 24 Aug 2014 15:33:45 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 08/24/2014 01:56 AM, Mike Looijmans wrote:
-> On 08/22/2014 06:44 PM, Philip Balister wrote:
-> ...
->> Can we also move to hard float abi?
->>
+On Saturday 23 August 2014 09:40:44 Richard Purdie wrote:
+> On Fri, 2014-08-22 at 10:24 -0500, Richard Tollerton wrote:
+> > Randy MacLeod <randy.macleod@windriver.com> writes:
+> > > Wind River patches used to include a "CQID" tag but we've changed
+> > > our process to avoid needing such internal tags. If National
+> > > Instruments can do so as well, that'd be best.
+> > > 
+> > > I did check my oe-core email list history and this seems like the
+> > > first patch from NI that has the tags included so I thought
+> > > I'd reply and see if we can get the tags dropped.
+> > 
+> > IIRC, we pinged Phil a few months ago on this topic, and he thought
+> > internal tags were OK. I think Wind River might have been cited as an
+> > example.
+> > 
+> > I see that
+> > http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines hasn't
+> > been updated with this requirement. Should it be? Will that require TSC
+> > approval?
 > 
-> +1 to that.
+> I don't have a strong preference on this to be honest. I can imagine
+> cases where its useful to have some kind of tracking of issues into the
+> final commits.
 > 
-> Especially since "neon" implies "float" support on the Cortex.
+> Obviously it would be better if everyone can understand what the numbers
+> mean, equally, it seems pointless to force people to strip them when
+> they might be useful to people contributing to the project.
 > 
-> We moved to hard float on the MIPS (mostly broadcom) many years ago. I
-> always wondered why the ARM never made that move.
+> If they are used as a substitute for a good commit message, that
+> wouldn't be acceptable. Also, if they were taking over the commit
+> messages, that would able be unacceptable. So if we can keep them to a
+> small part of the commit, I'm prepared to let them pass but it can't be
+> at the expense of good commit messages.
 > 
+> I don't believe we need a TSC decision, that would only be needed if
+> there were strong disagreements we were unable to resolve and I don't
+> think we're quite there yet :) I'll let others comment though and see
+> where we're at.
 
-The problem in the past has been binary blobs compiled for soft float.
+FWIW I agree with all of the above - if they make contributors' lives easier 
+then I don't see a good reason to disallow their usage given we're only 
+talking about one line at the end of a proper commit message.
 
-Philip
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
