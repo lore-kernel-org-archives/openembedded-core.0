@@ -1,37 +1,35 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id B9A357107F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 0545770703
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Aug 2014 21:41:31 +0000 (UTC)
-Received: by mail-pd0-f169.google.com with SMTP id y10so19081340pdj.28
+	Sun, 24 Aug 2014 23:39:45 +0000 (UTC)
+Received: by mail-ie0-f172.google.com with SMTP id lx4so8946281iec.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Aug 2014 14:41:32 -0700 (PDT)
+	Sun, 24 Aug 2014 16:39:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=LspRBgm9Ai+6tiAvd/2fp9sWwj/RNSrfhih19rSyMm8=;
-	b=BdwyaO3Erv7WKUAA0uSnSUYq6QIy7lXPa7GodnVnFM77kvO5mnq/e3+i0rnl/kvPtm
-	hx4/aHS+XCRlkvE/GIBjt6pReK/zzaXvpCsWC7VbtvMBjeGzRt7oU/NbtsLYe2lvTU5B
-	S+vrYa08cyesoh+tQEHdhxrZWoFF/0Zn/ZlTZSThRxC1AHaCYkMyRD9dBW+coXI0GT7h
-	3FMA+ScNhVgJ11QmGFj5ymrdJorbq4k+2bpqTTD+lAiw8ZBywggfco/n41FQrDg8GuJa
-	l22o2eOLO+tE+pwuDN2nBZYUQYlCtmYU7APO8Mpr4tn6M+Ln6DdU4DXDFTbHCWVxWs2h
-	mK4g==
-X-Received: by 10.70.65.34 with SMTP id u2mr13659740pds.58.1408916492511;
-	Sun, 24 Aug 2014 14:41:32 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by mx.google.com with ESMTPSA id
-	s16sm31659860pdj.21.2014.08.24.14.41.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 24 Aug 2014 14:41:31 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 24 Aug 2014 14:41:19 -0700
-Message-Id: <1408916479-31831-4-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1408916479-31831-1-git-send-email-akuster808@gmail.com>
-References: <1408916479-31831-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 3/3] IBM power7: Add new tune file for PPC power7
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=aa8tQ4I6erBCrkZnqnnZS6Gwd1lLmDMddDcjmz18LiU=;
+	b=q7Dc+4qOW/sxXbuoccMC0A+lP9m4ChA6YrZVqhfNohC39jTzjKbEiTWUclcFUeVK+/
+	cCaThAot8PkIYWxFeQhB+hRwUZhLTx4/TGvc9cmMhymKyF4QeibO+zaOR8FUYFSNR5g7
+	lnyv2b+g42pNNA+2DjH4STW5Zjy3GFBg76CU5Jaq60vgE4VaTVmWUmTRG/JSI4/Q9bla
+	x7G+fDdLPxlwId2PSJEef/jPcfxHKEZKlx+Ukwn7jOkUW64Sh3Dv2KukS9zGsda0gVNK
+	OEOfDeMiGCbO7wXLEp831enO+cykRVRRD3ZvCZd8hy1/N43VRBthFim3Z05Uj9siaex0
+	vpkQ==
+X-Received: by 10.43.75.7 with SMTP id yy7mr294100icb.15.1408923586678; Sun,
+	24 Aug 2014 16:39:46 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.102.67 with HTTP; Sun, 24 Aug 2014 16:39:16 -0700 (PDT)
+In-Reply-To: <CAP9ODKrHQz8yOnRy9c7E=6TOgbJuh1124uKiSPumTFdy9evpoA@mail.gmail.com>
+References: <CAP9ODKrHQz8yOnRy9c7E=6TOgbJuh1124uKiSPumTFdy9evpoA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 24 Aug 2014 16:39:16 -0700
+Message-ID: <CAMKF1spfWfHpKV3bhqksSiw6LuuMa7POTnpp1ObTj2uUAEHadg@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: FTBFS: nativesdk-alsa-lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,42 +42,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Aug 2014 21:41:31 -0000
+X-List-Received-Date: Sun, 24 Aug 2014 23:39:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/conf/machine/include/tune-ppcpower7.inc | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
- create mode 100644 meta/conf/machine/include/tune-ppcpower7.inc
+On Sun, Aug 24, 2014 at 2:02 PM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> Hello,
+>
+> Today testing the SDK build based in today's tip of master I found
+>
+> do_configure log:
+>
+> checking for i686-oelsdk-linux-gcc... i686-oelsdk-linux-gcc
+> -march=i686 --sysroot=.../build/tmp/sysroots/cortexa9hf-vfp-neon-mx6-oelsdk-linux
+> checking whether the C compiler works... no
+> configure: error: in
+> `.../build/tmp/work/cortexa9hf-vfp-neon-mx6-oelsdk-linux/nativesdk-alsa-lib/1.0.27.2-r0/build':
+> configure: error: C compiler cannot create executables
+> See `config.log' for more details
+> Configure failed. The contents of all config.log files follows to aid debugging
+> ERROR: oe_runconf failed
+>
+> config.log:
+>
+> .../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+> cannot find crt1.o: No such file or directory
+> .../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+> cannot find crti.o: No such file or directory
+> .../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+> cannot find crtbegin.o: No such file or directory
+> .../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+> cannot find -lgcc
+> .../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+> cannot find -lgcc_s
+> .../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+> cannot find -lc
+> .../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+> cannot find -lgcc
+> .../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+> cannot find -lgcc_s
+> .../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+> cannot find crtend.o: No such file or directory
+> .../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+> cannot find crtn.o: No such file or directory
+>
+> Does someone has a clue where to start looking to fix this?
 
-diff --git a/meta/conf/machine/include/tune-ppcpower7.inc b/meta/conf/machine/include/tune-ppcpower7.inc
-new file mode 100644
-index 0000000..7069e75
---- /dev/null
-+++ b/meta/conf/machine/include/tune-ppcpower7.inc
-@@ -0,0 +1,21 @@
-+DEFAULTTUNE ?= "ppcpr7"
-+
-+require conf/machine/include/powerpc/arch-powerpc64.inc
-+
-+TUNEVALID[power7] = "Enable IBM Power7 specific processor optimizations"
-+TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "power7", " -mcpu=power7", "", d)}"
-+
-+AVAILTUNES += "ppcp7 ppc64p7"
-+TUNE_FEATURES_tune-ppcp7 = "m32 fpu-hard power7 altivec"
-+BASE_LIB_tune-ppcp7 = "lib"
-+TUNE_PKGARCH_tune-ppcp7 = "ppcp7"
-+PACKAGE_EXTRA_ARCHS_tune-ppcp7 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc} ppcp7"
-+
-+TUNE_FEATURES_tune-ppc64p7 = "m64 fpu-hard power7 altivec"
-+BASE_LIB_tune-ppc64p7 = "lib64"
-+TUNE_PKGARCH_tune-ppc64p7 = "ppc64p7"
-+PACKAGE_EXTRA_ARCHS_tune-ppc64p7 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc64} ppc64p7"
-+
-+# glibc configure options to get power7 specific library
-+GLIBC_EXTRA_OECONF_powerpc64 += "${@bb.utils.contains("TUNE_FEATURES", "power7", "--with-cpu=power7", "", d)}"
-+GLIBC_EXTRA_OECONF_powerpc += "${@bb.utils.contains("TUNE_FEATURES", "power7", "--with-cpu=power7", "", d)}"
--- 
-1.9.1
-
+are you building out of sstate ? it may be that dependencies on
+nativesdk-gcc-runtime and nativesdk-libgcc and nativesdk-glibc are
+missing.
 
