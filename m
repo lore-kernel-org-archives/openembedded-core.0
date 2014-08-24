@@ -1,36 +1,33 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f46.google.com (mail-yh0-f46.google.com
-	[209.85.213.46])
-	by mail.openembedded.org (Postfix) with ESMTP id EBAF065E94
+Received: from mail-yk0-f179.google.com (mail-yk0-f179.google.com
+	[209.85.160.179])
+	by mail.openembedded.org (Postfix) with ESMTP id BE9976FE64
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Aug 2014 19:39:19 +0000 (UTC)
-Received: by mail-yh0-f46.google.com with SMTP id a41so10262548yho.19
+	Sun, 24 Aug 2014 21:02:37 +0000 (UTC)
+Received: by mail-yk0-f179.google.com with SMTP id 142so9948347ykq.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Aug 2014 12:39:20 -0700 (PDT)
+	Sun, 24 Aug 2014 14:02:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=vrGrYFO2pbJxw1QMue5ZadEqFHKmyyN6G3WD0gWeMFY=;
-	b=XEDY/6tEsuYYk7/Sto/Co0QvXY+KhsH9YcAyLWSq6/1bpvIwUBKsExLay3XyGETb4k
-	L8arODkAjaE4iMaea+HsyDletGCk8R+9D8uPhtuXO6NIcDQuLF8E4ky11EC33T6LKDdG
-	nJTCgXXg9trfy3CGBwHV16lzsw55m/ZaSfjWlu9Z0B4n+p0J/1AqaO7mwWHIiQyN9hUh
-	fQ8BTY2Fce8MPV9ZrdOVnkqOVTNGZy6gH77fBKOF09BNv+82Fi9Oh9mqvcMHHHKw2mbk
-	cl29ueWC9K3GNgebAkEtyZ7etqOPVsM3VKeWhY/btp/YSamgbw5P/2yI+UGuh5nCfySp
-	MScA==
-X-Received: by 10.236.119.146 with SMTP id n18mr28597589yhh.23.1408909160871; 
-	Sun, 24 Aug 2014 12:39:20 -0700 (PDT)
-Received: from monster.lab.ossystems.com.br ([177.35.70.10])
-	by mx.google.com with ESMTPSA id o43sm2937087yha.42.2014.08.24.12.39.19
-	for <multiple recipients>
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Sun, 24 Aug 2014 12:39:20 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
+	h=mime-version:sender:date:message-id:subject:from:to:content-type;
+	bh=4GAc9dChT79Z0SzxTZ9jfyiYiM9+ajHdUT9ARKfc/g4=;
+	b=o35J3eVVU4w4yOnd4PGMz5Fs8gK0V64VQhkU/yXXw3Msnf/FwNVQVPiCPtTHPjecDt
+	A5eP0giphFrtUZ94gib64lD5xvzGQRun4sml7tX0nBhmoiCZplFMfqlrAPhyBFLif3DB
+	zEvcS4UMNDRUIaVoVhENk1+zoEyC7UJPSQ/Tnpj0jcmwHYCkI+RSsnNtKXZFHMEt50hx
+	7WP4iQCLRlkBnlreJ62eQnpEQG8C8bfGlDAHZcX4bfTO4Khbqro1WxdhaLgzYJp9erlt
+	ZNlYd8g24QFwrdyv7DXPoQEPnf2inJLmR3i2Ug6lMKhb5tJmkxIDwsGT01zaqI4jmhlW
+	FV1g==
+MIME-Version: 1.0
+X-Received: by 10.236.19.196 with SMTP id n44mr29507575yhn.83.1408914158904;
+	Sun, 24 Aug 2014 14:02:38 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.56.201 with HTTP; Sun, 24 Aug 2014 14:02:38 -0700 (PDT)
+Date: Sun, 24 Aug 2014 18:02:38 -0300
+X-Google-Sender-Auth: MuhjAUfBKqt2cD6loURWt8K86_8
+Message-ID: <CAP9ODKrHQz8yOnRy9c7E=6TOgbJuh1124uKiSPumTFdy9evpoA@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 24 Aug 2014 16:39:15 -0300
-Message-Id: <1408909155-29559-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] libxml2: Explicitly enable zlib support
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: FTBFS: nativesdk-alsa-lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +40,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Aug 2014 19:39:23 -0000
+X-List-Received-Date: Sun, 24 Aug 2014 21:02:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The zlib support is a must if you are using RPM backend. So this
-explicitly enable it and adds a comment in the recipe to avoid its
-removal by mistake.
+Hello,
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-core/libxml/libxml2.inc |    7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Today testing the SDK build based in today's tip of master I found
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 2dffc5a..24ea66a 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -39,10 +39,11 @@ do_configure_prepend_class-nativesdk () {
- 	export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
- }
- 
-+# WARNING: zlib is require for RPM use
- EXTRA_OECONF = "--without-python --without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
--EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma"
--EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma"
--EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-docbook --with-c14n --without-lzma"
-+EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-+EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-+EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
- 
- # required for pythong binding
- export HOST_SYS
+do_configure log:
+
+checking for i686-oelsdk-linux-gcc... i686-oelsdk-linux-gcc
+-march=i686 --sysroot=.../build/tmp/sysroots/cortexa9hf-vfp-neon-mx6-oelsdk-linux
+checking whether the C compiler works... no
+configure: error: in
+`.../build/tmp/work/cortexa9hf-vfp-neon-mx6-oelsdk-linux/nativesdk-alsa-lib/1.0.27.2-r0/build':
+configure: error: C compiler cannot create executables
+See `config.log' for more details
+Configure failed. The contents of all config.log files follows to aid debugging
+ERROR: oe_runconf failed
+
+config.log:
+
+.../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+cannot find crt1.o: No such file or directory
+.../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+cannot find crti.o: No such file or directory
+.../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+cannot find crtbegin.o: No such file or directory
+.../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+cannot find -lgcc
+.../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+cannot find -lgcc_s
+.../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+cannot find -lc
+.../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+cannot find -lgcc
+.../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+cannot find -lgcc_s
+.../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+cannot find crtend.o: No such file or directory
+.../build/tmp/sysroots/x86_64-linux/usr/libexec/i686-oelsdk-linux/gcc/i686-oelsdk-linux/4.9.1/ld:
+cannot find crtn.o: No such file or directory
+
+Does someone has a clue where to start looking to fix this?
+
 -- 
-1.7.10.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
