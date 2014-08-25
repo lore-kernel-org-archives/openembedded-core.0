@@ -1,42 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 91C0E6FE64
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 01:15:25 +0000 (UTC)
-Received: by mail-pa0-f41.google.com with SMTP id rd3so19901468pab.14
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Aug 2014 18:15:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=4E+21NJ7gOWuB6c/UGpnXwCRMYis4kpuoF+SmXu37oQ=;
-	b=ueDNPs9juAFhUo5R9VOUXRY8ZqO9PFmwerHld6QZ47ythuSIFOx5sw82Mh8e2YxfU5
-	Qe9tjl1LwUe92ALn5aCx10XyVH/DC4aoqBCc4JKdqy5Vr56tQ1jJaMgdI85pe8fFZAk4
-	xZgtgVtfHvNtYvwdWMuJDvnl9Yf03KiOm8v0n5pFeHPXVn94nSYJ7I2X6IzE/cv7SMly
-	9JXF0FzFDDyScz9Gf+IMK5HCQiVnSCjyuSpTEQCLd2I8KeE9yIGo1oBbTALudABFZpkn
-	WVkCZVdiZsRLYyN/HbDZgwen5W5QsFTsaboCi3vRBSbYChKJmexUG0+Xm3AitSzx9jEj
-	atHQ==
-X-Received: by 10.68.139.99 with SMTP id qx3mr24012678pbb.75.1408929326668;
-	Sun, 24 Aug 2014 18:15:26 -0700 (PDT)
-Received: from haswell ([2601:9:3580:7a5:baca:3aff:fe80:aa8f])
-	by mx.google.com with ESMTPSA id
-	ey1sm129845143pab.19.2014.08.24.18.15.25 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 24 Aug 2014 18:15:26 -0700 (PDT)
-Date: Sun, 24 Aug 2014 18:19:11 -0700
-From: Khem Raj <raj.khem@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20140825011911.GA17537@haswell>
-References: <cover.1407177403.git.ben.shelton@ni.com>
-	<8761hkpmx0.fsf@weregild.amer.corp.natinst.com>
-	<1408783244.5457.10.camel@ted>
-	<1911375.NGZ7NJg80z@peggleto-mobl5.ger.corp.intel.com>
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DD59C65D00;
+	Mon, 25 Aug 2014 02:14:43 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7P2Eh0b012735
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 24 Aug 2014 19:14:43 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Sun, 24 Aug 2014 19:14:42 -0700
+Message-ID: <53FA9C10.1060408@windriver.com>
+Date: Mon, 25 Aug 2014 10:14:40 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-In-Reply-To: <1911375.NGZ7NJg80z@peggleto-mobl5.ger.corp.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Patch message guidelines and internal/corporate fields
+To: Martin Jansa <martin.jansa@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20140823220223.0DA1E50496@opal.openembedded.org>
+	<20140824155625.GJ20524@jama>
+In-Reply-To: <20140824155625.GJ20524@jama>
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Robert Yang : sanity.bbclass: check the format of MIRRORS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,68 +35,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Aug 2014 01:15:25 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 25 Aug 2014 02:14:46 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 14-08-24 16:33:39, Paul Eggleton wrote:
-> On Saturday 23 August 2014 09:40:44 Richard Purdie wrote:
-> > On Fri, 2014-08-22 at 10:24 -0500, Richard Tollerton wrote:
-> > > Randy MacLeod <randy.macleod@windriver.com> writes:
-> > > > Wind River patches used to include a "CQID" tag but we've changed
-> > > > our process to avoid needing such internal tags. If National
-> > > > Instruments can do so as well, that'd be best.
-> > > > 
-> > > > I did check my oe-core email list history and this seems like the
-> > > > first patch from NI that has the tags included so I thought
-> > > > I'd reply and see if we can get the tags dropped.
-> > > 
-> > > IIRC, we pinged Phil a few months ago on this topic, and he thought
-> > > internal tags were OK. I think Wind River might have been cited as an
-> > > example.
-> > > 
-> > > I see that
-> > > http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines hasn't
-> > > been updated with this requirement. Should it be? Will that require TSC
-> > > approval?
-> > 
-> > I don't have a strong preference on this to be honest. I can imagine
-> > cases where its useful to have some kind of tracking of issues into the
-> > final commits.
-> > 
-> > Obviously it would be better if everyone can understand what the numbers
-> > mean, equally, it seems pointless to force people to strip them when
-> > they might be useful to people contributing to the project.
-> > 
-> > If they are used as a substitute for a good commit message, that
-> > wouldn't be acceptable. Also, if they were taking over the commit
-> > messages, that would able be unacceptable. So if we can keep them to a
-> > small part of the commit, I'm prepared to let them pass but it can't be
-> > at the expense of good commit messages.
-> > 
-> > I don't believe we need a TSC decision, that would only be needed if
-> > there were strong disagreements we were unable to resolve and I don't
-> > think we're quite there yet :) I'll let others comment though and see
-> > where we're at.
-> 
-> FWIW I agree with all of the above - if they make contributors' lives easier 
-> then I don't see a good reason to disallow their usage given we're only 
-> talking about one line at the end of a proper commit message.
 
-I would rather think that if the information is not accessible to community
-members, its not a useful to add these numbers. Secondly it could be fixing
-someone else's bug in a different bug tracking system with different
-tracking number and if he she does a backport and adds his tracking
-number as well to commit. Now think of what will happen if people start
-to do it for Linux kernel. So IMHO its best that companies track it in
-their respective issue tracking systems by adding upstream commit urls or SHA ids
-whatever is convinient to support any automation tools they might
-have(if any) That way we solve the problem for everyone. On
-these grounds I would not recommend adding it in commit messages. We let Yocto
-bugzilla entries in commits because that system is accessible to everyone using OE.
 
-Thanks
+On 08/24/2014 11:56 PM, Martin Jansa wrote:
+> On Sat, Aug 23, 2014 at 10:02:23PM +0000, git@git.openembedded.org wrote:
+>> Module: openembedded-core.git
+>> Branch: master
+>> Commit: c8c213bb25b137cf70ba8ce9a45e60065d926735
+>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=c8c213bb25b137cf70ba8ce9a45e60065d926735
+>>
+>> Author: Robert Yang <liezhi.yang@windriver.com>
+>> Date:   Fri Aug 22 01:31:27 2014 -0700
+>>
+>> sanity.bbclass: check the format of MIRRORS
+>>
+>> Check the format of MIRRORS, PREMIRRORS and SSTATE_MIRRORS:
+>> * Each mirror shoudl contain two memebers.
+>
+> shoudl -> should
+>
+>> * The local "file://" url must use absolute path (file:///).
+>> * The protocol must in protocols list.
+>
+> must "be"? seems like something is missing
+>
 
--Khem
+Sorry for the typos.
 
+
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>
+>> ---
+>>
+>>   meta/classes/sanity.bbclass | 33 +++++++++++++++++++++++++++++++++
+>>   1 file changed, 33 insertions(+)
+>>
+>> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+>> index 3b40ebe..dbcc26b 100644
+>> --- a/meta/classes/sanity.bbclass
+>> +++ b/meta/classes/sanity.bbclass
+>> @@ -753,6 +753,39 @@ def check_sanity_everybuild(status, d):
+>>       if oeroot.find(' ') != -1:
+>>           status.addresult("Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space since autotools doesn't support this.")
+>>
+>> +    # Check the format of MIRRORS, PREMIRRORS and SSTATE_MIRRORS
+>> +    mir_types = ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
+>> +    protocols = ['http://', 'ftp://', 'file://', 'https://', 'https?$://', \
+>> +        'git://', 'gitsm://', 'hg://', 'osc://', 'p4://', 'svk://', 'svn://', \
+>> +        'bzr://', 'cvs://']
+>> +    for mir_type in mir_types:
+>> +        mirros = (d.getVar(mir_type, True) or '').split('\\n')
+>
+> Is the "\n" (followed by actuall line break) really required as separator?
+>
+> openembedded-core/meta/classes/own-mirrors.bbclass doesn't separate the
+> entries with "\n".
+>
+> and bitbake code seems to handle them both:
+> def mirror_from_string(data):
+>      return [ i.split() for i in (data or "").replace('\\n','\n').split('\n') if i ]
+
+I think that "\n" is required, otherwise it can't split it as the code shows,
+and I had tried that it didn't work without the "\n" at the end of the line
+(except the last line, but we really need add the "\n" to the last line even
+it works, in case of _append).
+
+I will update the own-mirrors.bbclass after more investigations.
+
+>
+> If you want to unify the format to enforce "\\n" then I think it would
+> be better to show the warning in bitbake fetcher, not in stanity.bbclass
+>
+> Also the list of supported protocols would be IMHO better in bitbake fetcher module.
+
+Do it in the fetcher sounds fine to me, but we have to do more work,
+for example, make sure that only check the various MIRRORS once rather
+than checked in every do_fetch.
+
+// Robert
+
+>
+>> +        for mir in mirros:
+>> +            mir_list = mir.split()
+>> +            # Should be two members.
+>> +            if len(mir_list) not in [0, 2]:
+>> +                bb.warn('Invalid %s: %s, should be 2 members, but found %s.' \
+>> +                    % (mir_type, mir.strip(), len(mir_list)))
+>> +            elif len(mir_list) == 2:
+>> +                # Each member should start with protocols
+>> +                valid_protocol_0 = False
+>> +                valid_protocol_1 = False
+>> +                file_absolute = True
+>> +                for protocol in protocols:
+>> +                    if not valid_protocol_0 and mir_list[0].startswith(protocol):
+>> +                        valid_protocol_0 = True
+>> +                    if not valid_protocol_1 and mir_list[1].startswith(protocol):
+>> +                        valid_protocol_1 = True
+>> +                        # The file:// must be an absolute path.
+>> +                        if protocol == 'file://' and not mir_list[1].startswith('file:///'):
+>> +                            file_absolute = False
+>> +                    if valid_protocol_0 and valid_protocol_1:
+>> +                        break
+>> +                if not (valid_protocol_0 and valid_protocol_1):
+>> +                    bb.warn('Invalid protocol in %s: %s' % (mir_type, mir.strip()))
+>> +                if not file_absolute:
+>> +                    bb.warn('Invalid file url in %s: %s, must be absolute path (file:///)' % (mir_type, mir.strip()))
+>> +
+>>       # Check that TMPDIR hasn't changed location since the last time we were run
+>>       tmpdir = d.getVar('TMPDIR', True)
+>>       checkfile = os.path.join(tmpdir, "saved_tmpdir")
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-commits mailing list
+>> Openembedded-commits@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+>
 
