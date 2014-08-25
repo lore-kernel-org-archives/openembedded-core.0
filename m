@@ -1,41 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FCF86FE3B;
-	Mon, 25 Aug 2014 15:43:14 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id et14so21056146pad.7
-	for <multiple recipients>; Mon, 25 Aug 2014 08:43:15 -0700 (PDT)
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 458376FCE0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Aug 2014 16:00:45 +0000 (UTC)
+Received: by mail-pa0-f41.google.com with SMTP id rd3so21289716pab.28
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Aug 2014 09:00:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=mDOMxdYF5/y6tPPfki+CTEbF0sTDypPjWmKvoV8s4iM=;
-	b=nEY9DU3vq4uNh1YYm2KaEHZHfKomAup/KcdstkmI3/ueRGdeHnobapa5XsGhUVWnFA
-	lqrAkxfQkO5Drooj7Z86jLBxMHfDyM3Ig0Fb86hr37V+aEX4SxrjlMhwP9GzH4EHHMiP
-	49QiJbBI4c/azBD6al9bWTz9RgYli9AMa1uo+KgAP0civywpxObyRdUcQEgQT5T+a8VX
-	hCW8HkIDHfmRRccG/tHglipMkIz5FixFcoGvB9kUPZocle11BBsWfDdJEZAycMBCtVZT
-	Ect7NYmsFxyHV+0x/z/W3ohBONVWUWw9r6GXA0UhVRxt8+ZUtxS8u4HsnflOhr3JcJ3x
-	aDIQ==
-X-Received: by 10.70.95.138 with SMTP id dk10mr5396604pdb.66.1408981394945;
-	Mon, 25 Aug 2014 08:43:14 -0700 (PDT)
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=wr7r2DfRxlnlQGm4jHyIq0zeaSlzWUq1FSkoERoL9QI=;
+	b=vl5/G67swUVVr10MYJQ8VgC9h1NexlceQzpTjQpI4BRsOVAiszLLltxownlxjTGyUB
+	Kr8/fXijUJnfJJAfY5IWFXs8FAeUE387LxESVneuW0NlQZECBtdpax0glMRnWBsWhwfM
+	ls9z8Lgw4nmeTsCIaTCY20HhdoiQVpAjGG4/jrKWhss8siab7x1N6EQ36Gq6zaayvGiH
+	w13/cqz8v2fgr6iLt56axAZ+7Wy5AHWp44M3lD8olLI1sDKYG9NeQ8BSE4bJ3AB5LOu5
+	7YD5ouIcAJvY/QHt321ZALs3wAU2bRa9WxCIcpgp7/FzUi8K515XDzQKXK+oRPpzfke/
+	kzGw==
+X-Received: by 10.69.19.193 with SMTP id gw1mr29673866pbd.106.1408982441572;
+	Mon, 25 Aug 2014 09:00:41 -0700 (PDT)
 Received: from haswell ([2601:9:3580:7a5:baca:3aff:fe80:aa8f])
-	by mx.google.com with ESMTPSA id zm5sm129672pbb.76.2014.08.25.08.43.13
+	by mx.google.com with ESMTPSA id ct1sm275057pdb.64.2014.08.25.09.00.40
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 25 Aug 2014 08:43:14 -0700 (PDT)
-Date: Mon, 25 Aug 2014 08:46:57 -0700
+	Mon, 25 Aug 2014 09:00:41 -0700 (PDT)
+Date: Mon, 25 Aug 2014 09:04:25 -0700
 From: Khem Raj <raj.khem@gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-ID: <20140825154657.GA21358@haswell>
-References: <D435FD3B-FAF6-4EA2-BADF-95F56CD6775F@sd-kyber.com>
-	<53FB5549.3020504@windriver.com>
+To: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+Message-ID: <20140825160425.GB21358@haswell>
+References: <1408935491-79054-1-git-send-email-benjamin.esquivel@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <53FB5549.3020504@windriver.com>
+In-Reply-To: <1408935491-79054-1-git-send-email-benjamin.esquivel@linux.intel.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: bitbake-devel@lists.openembedded.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] *-dbg package...
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] eglibc: Fix to egrep 'yes$' instead 'yes' at configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,163 +46,198 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Aug 2014 15:43:18 -0000
+X-List-Received-Date: Mon, 25 Aug 2014 16:00:49 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-On 14-08-25 10:24:57, Mark Hatle wrote:
-> First this is the wrong list.  The question should have gone to oe-core
-> devel, or openembedded-devel lists.  (I have CC'd the first)
+On 14-08-24 21:58:11, Benjamin Esquivel wrote:
+> The pre-processed output of conftest.c contains an include dir
+> and if the path of it contains a 'yes' it will cause some variables
+> to be wrongly set to yes because of the way it greps for it.
+> Fix is to egrep for yes$ instead.
+> This has to be done at the configure and the configure.ac files given
+> the configure file comes straight out of the source tarball.
+
+May be its better to use a different string then 'yes' which is more
+unique and less likely to conflict in tests somthing
+like
+
+[AC_EGREP_CPP(we_have_that_sysconf_val,[#ifdef __ARM_PCS_VFP
+                       we_have_that_sysconf_val
+                      #endif
+                     .....
+
+
 > 
-> On 8/21/14, 9:59 PM, info@sd-kyber.com wrote:
-> >Hi,
-> >I’m trying to write ( and to use ) a recipe which should build a simple  .rpm,
-> >  which contains the /usr/lib/libaffinity.so and a  few header files within
-> >/usr/include/affinity/* subdir.
-
-if you install it right then you should get one rpm with library another
-one ${PN}-dev which should contain the headers and all debug info will
-be split out into a rpm of its own ${PN}-dbg, this is standard
-packaging strategy in OE.
-
-
-> >
-> >However, it looks like bitbake is trying / “forcing” me to  build a ${PN}-dbg
-> >package….:
-
-Yes it will, is there any issue with that ?
-
-
-> >
-> >I’m doing the following steps:
-> >
-> >1. recipe:
-> >“
-> >…
-> >inherit  cmake pkgconfig
-> >
-> >PACKAGES = "${PN}"
-
-overriding PACKAGES will leave some unpackaged files.
-
-> >FILES_${PN} = "${libdir}/libaffinity.so /usr/include/affinity/*”
-> >…
-
-I would suggest to use standard packaging split if thats not a big
-issue.
-
-> >“
+> [YOCTO #6614]
 > 
-> Just removing '${PN}-dbg' does not inform the system that you do not want
-> debug information to be generated.  There is a set of standard routines,
-> performed after do_install, that will generate the debug information unless
-> disabled.
+> Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+> ---
+>  .../eglibc-2.19/fix-yesdir-falsepositive.patch     | 136 +++++++++++++++++++++
+>  meta/recipes-core/eglibc/eglibc_2.19.bb            |   1 +
+>  2 files changed, 137 insertions(+)
+>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.19/fix-yesdir-falsepositive.patch
 > 
-> To disable the routines you set:
-> 
-> INHIBIT_PACKAGE_DEBUG_SPLIT = '1'
-> INHIBIT_PACKAGE_STRIP = '1'
-> 
-> There are two settings they can be used separately, but in your case you
-> likely want both.
-> 
-> INHIBIT_PACKAGE_DEBUG_SPLIT = '1' disables the files in your package from
-> being split into run-time and debug components.
-> 
-> INHIBIT_PACKAGE_STRIP = '1' disabled the system from attempting to strip the
-> run-time components of debug information.
-> 
-> --Mark
-> 
-> >So, I assume  I’ m asking to build only 1 package.
-> >
-> >2. During the bitbake processing, as the compilation, build,  and installation
-> >are over, the  files are copied into the ${D} directory, as expected:
-> >“
-> >michael@localhost image]$ pwd
-> >/home/michael/Devlab/poky/build-atmel/tmp/work/cortexa5t2hf-vfp-poky-linux-gnueabi/affinityng/0.1-r0/image
-> >[michael@localhost image]$ cd usr
-> >[michael@localhost usr]$ ls -la
-> >total 16
-> >drwxr-xr-x. 4 michael michael 4096 Aug 21 19:57 .
-> >drwxr-xr-x. 3 michael michael 4096 Aug 21 19:57 ..
-> >drwxr-xr-x. 3 michael michael 4096 Aug 21 19:57 include
-> >drwxr-xr-x. 2 michael michael 4096 Aug 21 19:57 lib
-> >“
-> >So far, everything as expected in accordance with the Yocto reference.
-> >
-> >3. According to the manual reference  - "The |do_package| and
-> >|do_packagedata| tasks combine to analyze the files found in the |D|
-> ><http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html#var-D> directory…”,
-> >  I would expect that the package would be build.
-> >However, the  attempt to build is failing. with the error:
-> >“…
-> >ERROR: QA Issue: affinityng: Files/directories were installed but not shipped
-> >   /usr/src
-> >   /usr/lib/.debug
-> >   /usr/lib/.debug/libaffinity.so
-> >   /usr/src/debug
-> >   /usr/src/debug/affinityng
-> >   /usr/src/debug/affinityng/0.1-r0
-> >   /usr/src/debug/affinityng/0.1-r0/kernel
-> >…
-> >“
-> >
-> >4. Following the reference, I checked the PKGD directory, where the files should
-> >be before split….
-> >And I noticed that there is the src directory there,  in addition to
-> >  directories — include and lib — the only ones I was expecting to see there.
-> >( see log below ) .
-> >
-> >“
-> >/home/michael/Devlab/poky/build-atmel/tmp/work/cortexa5t2hf-vfp-poky-linux-gnueabi/affinityng/0.1-r0/package/usr
-> >….
-> >[michael@localhost usr]$ ls -la
-> >total 20
-> >drwxr-xr-x. 5 michael michael 4096 Aug 21 19:57 .
-> >drwxr-xr-x. 3 michael michael 4096 Aug 21 19:57 ..
-> >drwxr-xr-x. 3 michael michael 4096 Aug 21 19:57 include
-> >drwxr-xr-x. 3 michael michael 4096 Aug 21 19:57 lib
-> >drwxr-xr-x. 3 michael michael 4096 Aug 21 19:57 src
-> >[michael@localhost usr]$ pwd
-> >/home/michael/Devlab/poky/build-atmel/tmp/work/cortexa5t2hf-vfp-poky-linux-gnueabi/affinityng/0.1-r0/package/usr
-> >[michael@localhost usr]$ cd src
-> >[michael@localhost src]$ ls -la
-> >total 12
-> >drwxr-xr-x. 3 michael michael 4096 Aug 21 19:57 .
-> >drwxr-xr-x. 5 michael michael 4096 Aug 21 19:57 ..
-> >drwxr-xr-x. 3 michael michael 4096 Aug 21 19:57 debug
-> >[michael@localhost src]$
-> >“
-> >5. It looks like that as result of package split, the  include & lib directories
-> >are used properly to build affinityng package, at least it is shown in
-> >packages-split properly.
-> >But then ,  the content of the src directory is causing the problem with QA.
-> >
-> >6. At the same time, if I ask to build  ${PN}-dbg package in addition - both
-> >packages are build, no QA complains, and all src/debug/* are going into the -dbg
-> >package…
-> >
-> >I wonder,
-> >- why does the src directory appear within  PKGD/usr? ( If there is no such
-> >directory within the ${D} directory...)
-> >- where is the definition for  -dbg package is coming from, and is it possible
-> >to disable it?
-> >
-> >May be somebody have the answer or suggestion what to check next….
-> >
-> >Thanks for a kind attention to the matter.
-> >
-> >Have a great day,
-> >Michael.
-> >
-> >
-> >
+> diff --git a/meta/recipes-core/eglibc/eglibc-2.19/fix-yesdir-falsepositive.patch b/meta/recipes-core/eglibc/eglibc-2.19/fix-yesdir-falsepositive.patch
+> new file mode 100644
+> index 0000000..962203e
+> --- /dev/null
+> +++ b/meta/recipes-core/eglibc/eglibc-2.19/fix-yesdir-falsepositive.patch
+> @@ -0,0 +1,136 @@
+> +The pre-processed output of conftest.c contains an include directory and if
+> +the path of it contains a 'yes' it will cause some variables to be wrongly set
+> +to yes because of the way it greps for it. Fix is to egrep for yes$ instead.
+> +
+> +Upstream-status: Pending
+> +Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com> 
+> +Index: libc/ports/sysdeps/aarch64/configure
+> +===================================================================
+> +--- libc.orig/ports/sysdeps/aarch64/configure
+> ++++ libc/ports/sysdeps/aarch64/configure
+> +@@ -153,7 +153,7 @@ else
+> + 
+> + _ACEOF
+> + if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
+> +-  $EGREP "yes" >/dev/null 2>&1; then :
+> ++  $EGREP "yes$" >/dev/null 2>&1; then :
+> +   libc_cv_aarch64_be=yes
+> + else
+> +   libc_cv_aarch64_be=no
+> +Index: libc/ports/sysdeps/arm/configure
+> +===================================================================
+> +--- libc.orig/ports/sysdeps/arm/configure
+> ++++ libc/ports/sysdeps/arm/configure
+> +@@ -184,7 +184,7 @@ else
+> + 
+> + _ACEOF
+> + if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
+> +-  $EGREP "yes" >/dev/null 2>&1; then :
+> ++  $EGREP "yes$" >/dev/null 2>&1; then :
+> +   libc_cv_arm_pcs_vfp=yes
+> + else
+> +   libc_cv_arm_pcs_vfp=no
+> +Index: libc/ports/sysdeps/mips/configure
+> +===================================================================
+> +--- libc.orig/ports/sysdeps/mips/configure
+> ++++ libc/ports/sysdeps/mips/configure
+> +@@ -147,7 +147,7 @@ yes
+> + #endif
+> + _ACEOF
+> + if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
+> +-  $EGREP "yes" >/dev/null 2>&1; then :
+> ++  $EGREP "yes$" >/dev/null 2>&1; then :
+> +   libc_cv_mips_nan2008=yes
+> + else
+> +   libc_cv_mips_nan2008=no
+> +Index: libc/ports/sysdeps/aarch64/configure.ac
+> +===================================================================
+> +--- libc.orig/ports/sysdeps/aarch64/configure.ac
+> ++++ libc/ports/sysdeps/aarch64/configure.ac
+> +@@ -10,7 +10,7 @@ GLIBC_PROVIDES dnl See aclocal.m4 in the
+> + # the dynamic linker via %ifdef.
+> + AC_CACHE_CHECK([for big endian],
+> +   [libc_cv_aarch64_be],
+> +-  [AC_EGREP_CPP(yes,[#ifdef __AARCH64EB__
+> ++  [AC_EGREP_CPP(yes$$,[#ifdef __AARCH64EB__
+> +                       yes
+> +                      #endif
+> +   ], libc_cv_aarch64_be=yes, libc_cv_aarch64_be=no)])
+> +Index: libc/ports/sysdeps/arm/configure.ac
+> +===================================================================
+> +--- libc.orig/ports/sysdeps/arm/configure.ac
+> ++++ libc/ports/sysdeps/arm/configure.ac
+> +@@ -34,7 +34,7 @@ fi
+> + # the dynamic linker via %ifdef.
+> + AC_CACHE_CHECK([whether the compiler is using the ARM hard-float ABI],
+> +   [libc_cv_arm_pcs_vfp],
+> +-  [AC_EGREP_CPP(yes,[#ifdef __ARM_PCS_VFP
+> ++  [AC_EGREP_CPP(yes$$,[#ifdef __ARM_PCS_VFP
+> +                       yes
+> +                      #endif
+> +   ], libc_cv_arm_pcs_vfp=yes, libc_cv_arm_pcs_vfp=no)])
+> +Index: libc/ports/sysdeps/mips/configure.ac
+> +===================================================================
+> +--- libc.orig/ports/sysdeps/mips/configure.ac
+> ++++ libc/ports/sysdeps/mips/configure.ac
+> +@@ -6,7 +6,7 @@ dnl position independent way.
+> + dnl AC_DEFINE(PI_STATIC_AND_HIDDEN)
+> + 
+> + AC_CACHE_CHECK([whether the compiler is using the 2008 NaN encoding],
+> +-  libc_cv_mips_nan2008, [AC_EGREP_CPP(yes, [dnl
+> ++  libc_cv_mips_nan2008, [AC_EGREP_CPP(yes$$, [dnl
+> + #ifdef __mips_nan2008
+> + yes
+> + #endif], libc_cv_mips_nan2008=yes, libc_cv_mips_nan2008=no)])
+> +Index: libc/ports/sysdeps/unix/sysv/linux/mips/configure
+> +===================================================================
+> +--- libc.orig/ports/sysdeps/unix/sysv/linux/mips/configure
+> ++++ libc/ports/sysdeps/unix/sysv/linux/mips/configure
+> +@@ -249,7 +249,7 @@ yes
+> + #endif
+> + _ACEOF
+> + if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
+> +-  $EGREP "yes" >/dev/null 2>&1; then :
+> ++  $EGREP "yes$" >/dev/null 2>&1; then :
+> +   libc_cv_mips_nan2008=yes
+> + else
+> +   libc_cv_mips_nan2008=no
+> +Index: libc/ports/sysdeps/unix/sysv/linux/mips/configure.ac
+> +===================================================================
+> +--- libc.orig/ports/sysdeps/unix/sysv/linux/mips/configure.ac
+> ++++ libc/ports/sysdeps/unix/sysv/linux/mips/configure.ac
+> +@@ -45,7 +45,7 @@ if test -z "$libc_mips_float"; then
+> + fi
+> + 
+> + AC_CACHE_CHECK([whether the compiler is using the 2008 NaN encoding],
+> +-  libc_cv_mips_nan2008, [AC_EGREP_CPP(yes, [dnl
+> ++  libc_cv_mips_nan2008, [AC_EGREP_CPP(yes$$, [dnl
+> + #ifdef __mips_nan2008
+> + yes
+> + #endif], libc_cv_mips_nan2008=yes, libc_cv_mips_nan2008=no)])
+> +Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
+> +===================================================================
+> +--- libc.orig/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
+> ++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
+> +@@ -147,7 +147,7 @@ else
+> + 
+> + _ACEOF
+> + if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
+> +-  $EGREP "yes" >/dev/null 2>&1; then :
+> ++  $EGREP "yes$" >/dev/null 2>&1; then :
+> +   libc_cv_ppc64_elfv2_abi=yes
+> + else
+> +   libc_cv_ppc64_elfv2_abi=no
+> +Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
+> +===================================================================
+> +--- libc.orig/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
+> ++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
+> +@@ -4,7 +4,7 @@ GLIBC_PROVIDES dnl See aclocal.m4 in the
+> + # Define default-abi according to compiler flags.
+> + AC_CACHE_CHECK([whether the compiler is using the PowerPC64 ELFv2 ABI],
+> +   [libc_cv_ppc64_elfv2_abi],
+> +-  [AC_EGREP_CPP(yes,[#if _CALL_ELF == 2
+> ++  [AC_EGREP_CPP(yes$$,[#if _CALL_ELF == 2
+> +                       yes
+> +                      #endif
+> +   ], libc_cv_ppc64_elfv2_abi=yes, libc_cv_ppc64_elfv2_abi=no)])
+> diff --git a/meta/recipes-core/eglibc/eglibc_2.19.bb b/meta/recipes-core/eglibc/eglibc_2.19.bb
+> index 19bd52d..a97e1cf 100644
+> --- a/meta/recipes-core/eglibc/eglibc_2.19.bb
+> +++ b/meta/recipes-core/eglibc/eglibc_2.19.bb
+> @@ -28,6 +28,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr25
+>             file://grok_gold.patch \
+>             file://fix_am_rootsbindir.patch;striplevel=2 \
+>             file://timezone-re-written-tzselect-as-posix-sh.patch \
+> +           file://fix-yesdir-falsepositive.patch \
+>            "
+>  SRC_URI[md5sum] = "197836c2ba42fb146e971222647198dd"
+>  SRC_URI[sha256sum] = "baaa030531fc308f7820c46acdf8e1b2f8e3c1f40bcd28b6e440d1c95d170d4c"
+> -- 
+> 1.8.5.5
 > 
 > -- 
 > _______________________________________________
-> bitbake-devel mailing list
-> bitbake-devel@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/bitbake-devel
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
