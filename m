@@ -1,34 +1,35 @@
-Return-Path: <sven.ebenfeld@gmail.com>
-Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 14DE3617B8
+Return-Path: <bobadeshrikant@gmail.com>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 53D8D6ACBA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 07:57:19 +0000 (UTC)
-Received: by mail-wg0-f42.google.com with SMTP id l18so12560853wgh.1
+	Mon, 25 Aug 2014 08:05:46 +0000 (UTC)
+Received: by mail-wi0-f182.google.com with SMTP id d1so2118316wiv.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 00:57:20 -0700 (PDT)
+	Mon, 25 Aug 2014 01:05:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=OCxeqlVMAFUrsvgXVr0oI9O+s4U56LrUYJq8VjbCamY=;
-	b=RMAbjY7bk2LlUj/6gj33VhBhP7OSAlHt4sLGLprIaX4zdEHfKadseHI+OlImGlTD+z
-	btWn82yT/yd4mlTMNHcOd0PrFILTcVG9JB71ltnG/QUQwwHBxaAe9aocdJ/J5z4NYWWe
-	f8yMq3L0Bb17sgByYVpT34MyRRBSA2hWVZRm8G94xKZmz9o5QhiR7nTi4UtMLHxT0qvs
-	cRbQ92obhtaQFbJSfUzCbggnsC0WMT+5DRv/tE56IUhdTdCwO5YzX3S00EtfXyLfdw2y
-	BD4hbykyEMaxLnT9aqC50cAZ10MjZSkv7aYsFX9Fly3HO614c1fE10f+ju6OZKq/aynT
-	4Lhw==
-X-Received: by 10.180.21.141 with SMTP id v13mr13831120wie.48.1408953440671;
-	Mon, 25 Aug 2014 00:57:20 -0700 (PDT)
-Received: from localhost.localdomain (pD9F9BCF9.dip0.t-ipconnect.de.
-	[217.249.188.249]) by mx.google.com with ESMTPSA id
-	fa10sm41381107wjd.42.2014.08.25.00.57.19 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Aug 2014 00:57:19 -0700 (PDT)
-From: Sven Ebenfeld <sven.ebenfeld@gmail.com>
+	bh=5Rgz3xpH8ex+7QiTFYIjiFU1EosAqxUZgFAtxvysmsk=;
+	b=S7o7oKddwxGOV6MLjnc9FlqxpQLiI8dy9g0iK+zVNB459ciNVEKQBD/wWYnsvYInxL
+	b3GBkE0GhycXXU47rAtsiu8l/EjI7tKENDi+W7KQk+TPBHOjEf4KIt7mi6uGekyKDjwc
+	WOGGMcC+c8p95jzmJmRrLNIAEhp3Bbsj6r5wDgaWaXoAB209OX6q88BgYHKk449DuzS3
+	b6qWdvX8H8Dmi/9HKgP9H67bO0URS0m28hN/LxcmlbgjxFtTZjRv9hDzmXHsacX3kpZk
+	/BP83PVy7G8aKu7qn8ijnNKKR8tyqXWZ1ZLIOb/VLRPAuw4B7qcAtW0H9IZyFCLTJbWC
+	S0Yg==
+X-Received: by 10.180.20.40 with SMTP id k8mr14014092wie.54.1408953947299;
+	Mon, 25 Aug 2014 01:05:47 -0700 (PDT)
+Received: from localhost.localdomain ([139.181.35.34])
+	by mx.google.com with ESMTPSA id
+	ws10sm31919295wjb.48.2014.08.25.01.05.44 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 25 Aug 2014 01:05:46 -0700 (PDT)
+From: Shrikant Bobade <bobadeshrikant@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Aug 2014 09:56:31 +0200
-Message-Id: <1408953391-25759-1-git-send-email-sven.ebenfeld@gmail.com>
-X-Mailer: git-send-email 1.8.1.rc3
-Cc: Sven Ebenfeld <sven.ebenfeld@gmail.com>
-Subject: [meta-oe][PATCH] md5deep: Add Recipe for md5deep package version 4.4
+Date: Mon, 25 Aug 2014 13:38:49 +0530
+Message-Id: <1408954129-5915-1-git-send-email-bobadeshrikant@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Shrikant Bobade <Shrikant_Bobade@mentor.com>
+Subject: [PATCH] autogen-native: inherit pkgconfig to fix a build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,86 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Aug 2014 07:57:26 -0000
+X-List-Received-Date: Mon, 25 Aug 2014 08:05:47 -0000
 
-I need to build hashdeep/md5deep within OE to include it in my images. This recipe enables OE to cross-compile md5deep. I needed to add the patch as do_configure_qa is complaining about cross-compilation errors otherwise. I added a pull request for the issue with the variable expansion to hashdeep as well.
+From: Shrikant Bobade <Shrikant_Bobade@mentor.com>
 
-Signed-off-by: Sven Ebenfeld <sven.ebenfeld@gmail.com>
+This patch is to inherit pkgconfig to fix a build
+failure.
+
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+Signed-off-by: Shrikant Bobade <Shrikant_Bobade@mentor.com>
 ---
- .../md5deep/files/wrong-variable-expansion.patch   | 39 ++++++++++++++++++++++
- meta-oe/recipes-extended/md5deep/md5deep_4.4.bb    | 16 +++++++++
- 2 files changed, 55 insertions(+)
- create mode 100644 meta-oe/recipes-extended/md5deep/files/wrong-variable-expansion.patch
- create mode 100644 meta-oe/recipes-extended/md5deep/md5deep_4.4.bb
+ .../autogen/autogen-native_5.18.3.bb               |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-oe/recipes-extended/md5deep/files/wrong-variable-expansion.patch b/meta-oe/recipes-extended/md5deep/files/wrong-variable-expansion.patch
-new file mode 100644
-index 0000000..3a4c4f4
---- /dev/null
-+++ b/meta-oe/recipes-extended/md5deep/files/wrong-variable-expansion.patch
-@@ -0,0 +1,39 @@
-+--- a/configure.ac	2014-08-22 12:22:54.290884351 +0200
-++++ b/configure.ac	2014-08-22 12:23:15.822306295 +0200
-+@@ -42,18 +42,6 @@
-+      ;;		 		     
-+ esac
-+ 
-+-
-+-# Bring additional directories where things might be found into our
-+-# search path. I don't know why autoconf doesn't do this by default
-+-if test x"${mingw}" == "xno" ; then
-+-  for spfx in /usr/local /opt/local /sw ; do
-+-    echo checking ${spfx}/include
-+-    if test -d ${spfx}/include; then
-+-        CPPFLAGS="-I${spfx}/include $CPPFLAGS"
-+-        LDFLAGS="-L${spfx}/lib $LDFLAGS"
-+-    fi
-+-  done
-+-fi
-+ #
-+ #
-+ ################################################################
-+@@ -71,7 +59,7 @@
-+ 
-+ if test $mingw = "no" ; then
-+   # add the warnings we don't want to do on mingw
-+-  $WARNINGS_TO_TEST="$WARNINGS_TO_TEST -Wall -Wstrict-prototypes  -Weffc++"
-++  WARNINGS_TO_TEST="$WARNINGS_TO_TEST -Wall -Wstrict-prototypes  -Weffc++"
-+ fi
-+ 
-+ for option in $WARNINGS_TO_TEST
-+@@ -105,7 +93,7 @@
-+ 
-+ if test $mingw = "no" ; then
-+   # add the warnings we don't want to do on mingw
-+-  $WARNINGS_TO_TEST="$WARNINGS_TO_TEST  -Weffc++"
-++  WARNINGS_TO_TEST="$WARNINGS_TO_TEST  -Weffc++"
-+ fi
-+ 
-+ for option in $WARNINGS_TO_TEST
-diff --git a/meta-oe/recipes-extended/md5deep/md5deep_4.4.bb b/meta-oe/recipes-extended/md5deep/md5deep_4.4.bb
-new file mode 100644
-index 0000000..4e4a2f5
---- /dev/null
-+++ b/meta-oe/recipes-extended/md5deep/md5deep_4.4.bb
-@@ -0,0 +1,16 @@
-+DESCRIPTION = "md5deep"
-+AUTHOR = "Jesse Kornblum, Simson L. Garfinkel"
-+HOMEPAGE = "http://md5deep.sourceforge.net"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=9190f660105b9a56cdb272309bfd5491"
-+
-+inherit autotools
-+
-+SRC_URI = "git://github.com/jessek/hashdeep.git \
-+        file://wrong-variable-expansion.patch \
-+        "
-+
-+# Release 4.4
-+SRCREV = "cd2ed7416685a5e83eb10bb659d6e9bec01244ae"
-+
-+S = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/autogen/autogen-native_5.18.3.bb b/meta/recipes-devtools/autogen/autogen-native_5.18.3.bb
+index 61bd21f..abc0a42 100644
+--- a/meta/recipes-devtools/autogen/autogen-native_5.18.3.bb
++++ b/meta/recipes-devtools/autogen/autogen-native_5.18.3.bb
+@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "73d05a689105eb9b8be54f32498c99ddbd360776fc61cf45be6a2a4eb4
+ 
+ DEPENDS = "guile-native libtool-native libxml2-native"
+ 
+-inherit autotools texinfo native
++inherit autotools texinfo native pkgconfig
+ 
+ # autogen-native links against libguile which may have been relocated with sstate
+ # these environment variables ensure there isn't a relocation issue
 -- 
-1.8.1.rc3
+1.7.9.5
 
 
