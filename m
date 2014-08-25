@@ -1,40 +1,38 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id B27E66ACBA
+Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 88ABD60E49
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 22:47:10 +0000 (UTC)
-Received: by mail-pd0-f175.google.com with SMTP id r10so21250756pdi.34
+	Mon, 25 Aug 2014 22:50:51 +0000 (UTC)
+Received: by mail-la0-f50.google.com with SMTP id pi18so13938939lab.23
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 15:47:11 -0700 (PDT)
+	Mon, 25 Aug 2014 15:50:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=/ZumF0ilPZVNL0Xxtq8680Xx/nb40Olx3yXjp5kwJ7I=;
-	b=s2CTgU8Amcad0U2RHX22aykF8+7EKXoOa7D8BgMoOMbL+1y+rsFnF29xkkXB4cFwkX
-	s5dJBzloM0TXjtgiLOY4WgK3SR6IgXCiWw4xY60SS7hkFF/D1xMKsyEsUePbNs/6rFtE
-	qI5F7ooYArj/ZtyfJ8kcKFVHo0+RWxMb11S9GJOFHt5VG9e/JGjtiLUiFnVqwc+2PvT2
-	pukuChtqgdgaG3j4qq9UVT6EpRILEh7ApfKxN/laes/JXv1f5N8Csp7ppilF/JIWur/8
-	M6FDu0v7Xn2qOPDAilAufsh28hX/rO7d5rhJZh/fePX+Bjux5ZP6wyzQgfLzXhnt2Loh
-	3hLw==
-X-Received: by 10.68.189.137 with SMTP id gi9mr31777172pbc.87.1409006831829;
-	Mon, 25 Aug 2014 15:47:11 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id j5sm1513440pdp.9.2014.08.25.15.47.09
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Aug 2014 15:47:10 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Aug 2014 15:46:58 -0700
-Message-Id: <47b5636f4c87979aecfbcb743235a9e010bedd23.1409006757.git.chris_larson@mentor.com>
-X-Mailer: git-send-email 1.8.3.4
-In-Reply-To: <cover.1409006757.git.chris_larson@mentor.com>
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=EBvQ0HOxWpQ2Ki26oRH8VtfddoUv1PewgbtWYYu39WA=;
+	b=TvVYyPtqI9MeEFl4zacn4LNlEcy0VwbL499QsTLumPZ/vzBZ2iojoV2P7/OnS/yMQA
+	xdi+983aUYyg8W8SdcExr1iHHNos8dJZCd7a8hknBXSJOs77SpOPx8tkzeKG/QG+vJ84
+	jKL4C9mCoxCkOXFUOJHBayS+WNSoMIzcPi8fjVI8pJccfj0ng0XQZktkKHxPT0jplI6l
+	K5MKEIIEOo4NqrXEPLrZTsfwcJBzjVXmcfGSrnRBExpuyX6oY3GVTEGs1clXEuGzckvo
+	B1BIQor8nhQDWhMABaY9IzwXLD8yX59hy3tDMcdLLD0m9Vku8HBNPvTbp4ZV/tC+fc05
+	kyMw==
+X-Received: by 10.152.5.133 with SMTP id s5mr10555375las.78.1409007051784;
+	Mon, 25 Aug 2014 15:50:51 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.43.42 with HTTP; Mon, 25 Aug 2014 15:50:31 -0700 (PDT)
+In-Reply-To: <ef9b349c3b2f16c96a386054212baebdd9722c1b.1409006757.git.chris_larson@mentor.com>
 References: <cover.1409006757.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1409006757.git.chris_larson@mentor.com>
-References: <cover.1409006757.git.chris_larson@mentor.com>
+	<ef9b349c3b2f16c96a386054212baebdd9722c1b.1409006757.git.chris_larson@mentor.com>
+From: Christopher Larson <chris_larson@mentor.com>
+Date: Mon, 25 Aug 2014 15:50:31 -0700
+X-Google-Sender-Auth: p9xZz-fQWx9HJWrd6AY21OslRUE
+Message-ID: <CABcZANkuX6BjYH1LKLcfQqXZ-W2KeGN2wo5ufzxiLg5Md=yo_w@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 3/3] sanity: refactor mirrors checks to be more pythonic
+Subject: Re: [PATCH 1/3] sanity: handle both \n and \n in mirror vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,106 +45,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Aug 2014 22:47:10 -0000
+X-List-Received-Date: Mon, 25 Aug 2014 22:50:59 -0000
+Content-Type: multipart/alternative; boundary=089e013d0ffccec6e705017c045e
 
-From: Christopher Larson <chris_larson@mentor.com>
+--089e013d0ffccec6e705017c045e
+Content-Type: text/plain; charset=UTF-8
 
-- Use clearer variable names
-- Use variable unpacking to reference elements by name rather than index
-- Sacrifice a small amount of time (iterate over protocols twice per entry
-  rather than once) for clarity: use readable generator expressions with any()
-  rather than maintaining state.
+On Mon, Aug 25, 2014 at 3:46 PM, Christopher Larson <kergoth@gmail.com>
+wrote:
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/classes/sanity.bbclass | 73 ++++++++++++++++++++++-----------------------
- 1 file changed, 35 insertions(+), 38 deletions(-)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index f655d8b..5be5efb 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -755,44 +755,41 @@ def check_sanity_everybuild(status, d):
- 
-     # Check the format of MIRRORS, PREMIRRORS and SSTATE_MIRRORS
-     import re
--    mir_types = ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
--    protocols = ['http://', 'ftp://', 'file://', 'https://', \
--        'git://', 'gitsm://', 'hg://', 'osc://', 'p4://', 'svk://', 'svn://', \
--        'bzr://', 'cvs://']
--    for mir_type in mir_types:
--        mirros = (d.getVar(mir_type, True) or '').replace('\\n', '\n').split('\n')
--        for mir in mirros:
--            mir_list = mir.split()
--            # Should be two members.
--            if len(mir_list) not in [0, 2]:
--                bb.warn('Invalid %s: %s, should be 2 members, but found %s.' \
--                    % (mir_type, mir.strip(), len(mir_list)))
--            elif len(mir_list) == 2:
--                decoded = bb.fetch2.decodeurl(mir_list[0])
--                try:
--                    pattern_scheme = re.compile(decoded[0])
--                except re.error as exc:
--                    bb.warn('Invalid scheme regex (%s) in %s: %s' % (decoded[0], mir_type, mir.strip()))
--                    continue
--
--                # Each member should start with protocols
--                valid_protocol_0 = False
--                valid_protocol_1 = False
--                file_absolute = True
--                for protocol in protocols:
--                    if not valid_protocol_0 and pattern_scheme.match(protocol[:-3]):
--                        valid_protocol_0 = True
--                    if not valid_protocol_1 and mir_list[1].startswith(protocol):
--                        valid_protocol_1 = True
--                        # The file:// must be an absolute path.
--                        if protocol == 'file://' and not mir_list[1].startswith('file:///'):
--                            file_absolute = False
--                    if valid_protocol_0 and valid_protocol_1:
--                        break
--                if not (valid_protocol_0 and valid_protocol_1):
--                    bb.warn('Invalid protocol in %s: %s' % (mir_type, mir.strip()))
--                if not file_absolute:
--                    bb.warn('Invalid file url in %s: %s, must be absolute path (file:///)' % (mir_type, mir.strip()))
-+    mirror_vars = ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
-+    protocols = ['http', 'ftp', 'file', 'https', \
-+                 'git', 'gitsm', 'hg', 'osc', 'p4', 'svk', 'svn', \
-+                 'bzr', 'cvs']
-+    for mirror_var in mirror_vars:
-+        mirrors = (d.getVar(mirror_var, True) or '').replace('\\n', '\n').split('\n')
-+        for mirror_entry in mirrors:
-+            mirror_entry = mirror_entry.strip()
-+            if not mirror_entry:
-+                # ignore blank lines
-+                continue
-+
-+            try:
-+                pattern, mirror = mirror_entry.split()
-+            except ValueError:
-+                bb.warn('Invalid %s: %s, should be 2 members.' % (mirror_var, mirror_entry.strip()))
-+                continue
-+
-+            decoded = bb.fetch2.decodeurl(pattern)
-+            try:
-+                pattern_scheme = re.compile(decoded[0])
-+            except re.error as exc:
-+                bb.warn('Invalid scheme regex (%s) in %s; %s' % (pattern, mirror_var, mirror_entry))
-+                continue
-+
-+            if not any(pattern_scheme.match(protocol) for protocol in protocols):
-+                bb.warn('Invalid protocol (%s) in %s: %s' % (decoded[0], mirror_var, mirror_entry))
-+                continue
-+
-+            if not any(mirror.startswith(protocol + '://') for protocol in protocols):
-+                bb.warn('Invalid protocol in %s: %s' % (mirror_var, mirror_entry))
-+                continue
-+
-+            if mirror.startswith('file://') and not mirror.startswith('file:///'):
-+                bb.warn('Invalid file url in %s: %s, must be absolute path (file:///)' % (mirror_var, mirror_entry))
- 
-     # Check that TMPDIR hasn't changed location since the last time we were run
-     tmpdir = d.getVar('TMPDIR', True)
--- 
-1.8.3.4
+> From: Christopher Larson <chris_larson@mentor.com>
+>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>
 
 
+Bah, typo in the subject, fixing. :)
+
+-Chris
+
+--089e013d0ffccec6e705017c045e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Mon, Aug 25, 2014 at 3:46 PM, Christopher Larson <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>=
+&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":21i" class=3D"a3s" style=3D"over=
+flow:hidden">From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@me=
+ntor.com">chris_larson@mentor.com</a>&gt;<br>
+
+
+<br>
+Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
+.com">chris_larson@mentor.com</a>&gt;</div></blockquote></div><br><br></div=
+><div class=3D"gmail_extra">Bah, typo in the subject, fixing. :)<br><br></d=
+iv>
+
+<div class=3D"gmail_extra">-Chris<br></div></div>
+
+--089e013d0ffccec6e705017c045e--
