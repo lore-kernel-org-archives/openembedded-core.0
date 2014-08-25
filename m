@@ -1,40 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id C0DA0601A8
+Return-Path: <fahad.usman@gmail.com>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DC01601A8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 16:20:07 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id et14so21136566pad.21
+	Mon, 25 Aug 2014 16:22:40 +0000 (UTC)
+Received: by mail-wi0-f182.google.com with SMTP id d1so2802419wiv.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 09:20:09 -0700 (PDT)
+	Mon, 25 Aug 2014 09:22:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=eYZicqYnop3+L7NeH0oerFk6HzjXgnihM8BFzTZVJIg=;
-	b=YHGv0QYuKPeG7FKi/oUtlss16Uxtj+QdxmtDyEdShbYiQjyIlbVpR5ExNj+WTnMtl1
-	RX0iHQzinZOQ4lKDdIiqL+GuuNcAw1SsMpQY9jZccCGARjvJsx56zxHeWkiUstw+Eck5
-	tqbsZ8aRW4V2Kw1pxb02qFq9ptmxLDpPg4nzBZ4lk0ZdqJjNKcvsBT70JjaIpZVaDekm
-	joo2QcmgtF1hb0JZt96OJXUXNi3xjk6N3Ql20MXmPI2b+HRXa30QlKDuQ3RjvmG56vL5
-	+od54xa09TSvZ4tAAKV4ziJpNYQCDjhPYuKh9sphJIP68cUqsZ+Cc8CZMHBY0w0gOaLD
-	vGbA==
-X-Received: by 10.68.221.166 with SMTP id qf6mr30438586pbc.12.1408983609069;
-	Mon, 25 Aug 2014 09:20:09 -0700 (PDT)
-Received: from haswell ([2601:9:3580:7a5:baca:3aff:fe80:aa8f])
-	by mx.google.com with ESMTPSA id yw4sm221194pbc.69.2014.08.25.09.20.08
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=0OeNhX6LQOqZDkzZaS+LBfpkc6fdvZCP/H0someYhUs=;
+	b=anb3aw580imw+MpJtmOGI4t9LkWdTN1uWpNQf58OUr0f2OEkpJXW9XROO7KR4CIKJp
+	hJJ3ksT0masYRE9s3KB/QevxRXoO5ev852W/5mMLeyc3qW+oa00mxWChwWBW3GHrQPMi
+	3jcpO1unktCn9vratzYHUgX7nnr8v5KbZcVKnYqLBYsjwySvKYzTcGTho7z3LXQeZBEn
+	yi+LgNqLbrxiKxg4G+Fr9VTPTFdCRiww8k0m5TCRFIH/+ogCLzCBtwpelYOKGluYwpSj
+	DBFQz9eggHFBmpXdZdf9jY1dNhs+JIbWTDcANGu/T7T5CXe+0crY1TcsI1gLaTXS9KkT
+	40eA==
+X-Received: by 10.180.75.49 with SMTP id z17mr16094603wiv.80.1408983761794;
+	Mon, 25 Aug 2014 09:22:41 -0700 (PDT)
+Received: from svr-pkl-eng-06.pkl.mentorg.com ([110.93.212.98])
+	by mx.google.com with ESMTPSA id fy1sm2186140wic.6.2014.08.25.09.22.39
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 25 Aug 2014 09:20:08 -0700 (PDT)
-Date: Mon, 25 Aug 2014 09:23:52 -0700
-From: Khem Raj <raj.khem@gmail.com>
-To: Peter Seebach <peter.seebach@windriver.com>
-Message-ID: <20140825162352.GA22907@haswell>
-References: <cover.1408066680.git.peter.seebach@windriver.com>
-	<5303a1f15a0c44dcc34e7bdec060629518e6cd6e.1408066680.git.peter.seebach@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <5303a1f15a0c44dcc34e7bdec060629518e6cd6e.1408066680.git.peter.seebach@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] qemumips.conf: Default to (and support) mips32r2
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 25 Aug 2014 09:22:41 -0700 (PDT)
+Sender: Fahad Usman <fahad.usman@gmail.com>
+From: Fahad Usman <fahad_usman@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Aug 2014 21:22:04 +0500
+Message-Id: <1408983725-45864-1-git-send-email-fahad_usman@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/2] logrotate: obey our flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,36 +42,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Aug 2014 16:20:09 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 25 Aug 2014 16:22:46 -0000
 
-On 14-08-14 20:42:47, Peter Seebach wrote:
-> The MIPS emulation for qemumips actually supports
-> mips32r2:
-> 	isa                     : mips1 mips2 mips32r1 mips32r2
-> 
-> We should probably use that tuning file.
-> 
-> This implicitly changes the default value of DEFAULTTUNE to
-> mips32r2.
-> 
-> Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
-> ---
->  meta/conf/machine/qemumips.conf |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
-> index ce1c419..d9d2421 100644
-> --- a/meta/conf/machine/qemumips.conf
-> +++ b/meta/conf/machine/qemumips.conf
-> @@ -3,7 +3,7 @@
->  #@DESCRIPTION: mti_malta32_be
->  
->  require conf/machine/include/qemu.inc
-> -require conf/machine/include/tune-mips32.inc
-> +require conf/machine/include/tune-mips32r2.inc
+Needed to quiet GNU_HASH warnings, amd some minor fixes.
 
-I am OK with this.
+Signed-off-by: Fahad Usman <fahad.usman@gmail.com>
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+---
+ meta/recipes-extended/logrotate/logrotate_3.8.7.bb |   18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb b/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
+index 3a6a228..42cd764 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
+@@ -16,7 +16,21 @@ SRC_URI = "https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.g
+ SRC_URI[md5sum] = "99e08503ef24c3e2e3ff74cc5f3be213"
+ SRC_URI[sha256sum] = "f6ba691f40e30e640efa2752c1f9499a3f9738257660994de70a45fe00d12b64"
+ 
+-EXTRA_OEMAKE = ""
++# If RPM_OPT_FLAGS is unset, it adds -g itself rather than obeying our
++# optimization variables, so use it rather than EXTRA_CFLAGS.
++EXTRA_OEMAKE = "\
++    LFS= \
++    OS_NAME='${OS_NAME}' \
++    \
++    'CC=${CC}' \
++    'RPM_OPT_FLAGS=${CFLAGS}' \
++    'EXTRA_LDFLAGS=${LDFLAGS}' \
++"
++
++# OS_NAME in the makefile defaults to `uname -s`. The behavior for
++# freebsd/netbsd is questionable, so leave it as Linux, which only sets
++# INSTALL=install and BASEDIR=/usr.
++OS_NAME = "Linux"
+ 
+ do_compile_prepend() {
+     # Make sure the recompile is OK
+@@ -24,7 +38,7 @@ do_compile_prepend() {
+ }
+ 
+ do_install(){
+-    oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir}
++    oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir} BINDIR=${bindir}
+     mkdir -p ${D}${sysconfdir}/logrotate.d
+     mkdir -p ${D}${sysconfdir}/cron.daily
+     mkdir -p ${D}${localstatedir}/lib
+-- 
+1.7.9.5
 
 
