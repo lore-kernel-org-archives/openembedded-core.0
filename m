@@ -1,35 +1,37 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 039006AC7B
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id E2E1C6AC7B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 18:57:22 +0000 (UTC)
-Received: by mail-pd0-f181.google.com with SMTP id g10so20509255pdj.40
+	Mon, 25 Aug 2014 18:57:33 +0000 (UTC)
+Received: by mail-pd0-f175.google.com with SMTP id r10so20419563pdi.20
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 11:57:24 -0700 (PDT)
+	Mon, 25 Aug 2014 11:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=6oLRrlGMTT9OokoULmCeoYAatxeEK9+JOgkPWpq2ycU=;
-	b=e9NNTqQduryB34OboDFyfmJbLTRnprMWR9zYg8hX4iHCgl0Y3NlgXGELSduS/51l89
-	LifZjI/pYdg9bH5fdXEyrYKFmgyWERajyQJdW2/8t67aXYvVBvKMN7Dyu4OAGWqx+vNf
-	EJL68T5c9Kml16DE4J37mV0r3NwkGsAl5j+zcxOmdSJE4ZxidH9l7ibk4rPQDhu2qBFt
-	cGRMl51O22kelDQTjvrpaMMM3IbmE4cNhzJ0vi/340Jhge1HGtxh3P1UvaesPOCNk4fi
-	UNM+LHfV7e7TjjQnjwjcK/7FkXAcKoOtC13zra8bRYg70NrmJW213df6xZfvdbVqBJH/
-	e87g==
-X-Received: by 10.66.139.232 with SMTP id rb8mr13501134pab.130.1408993044167; 
-	Mon, 25 Aug 2014 11:57:24 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=um6LALNLGVc39+vBWZcaqfInfmhpbNZBe471kSTzuOE=;
+	b=bR+ndytjsj996kdO1l0rOlL5fE/4FAzpTbfyg2njqKgRHl4kdzVlQMVI4mYAceF4Yz
+	Fmtr/9bLnvWsBGxiY45KKF71XORwfhg+QDcQh+2NlowAAwrJbuVZxBpPA123s6TOh3qi
+	UOQA4WBDcp57qkp+4/4HwG49yO9qwC/clutsg3F7lu67EDxAVpFd5W8J6X/Y0q9S0kyv
+	hvaUJ188n0EfowT8/IvDyFiwR5VAamBtt966oOCb/Hx6+A4W4bPRn5UA90+LL0JiAMQJ
+	uwMopamjW0HPA1jJ9pvAkmmDKaWAkjm8smSQaZ8Uvimwqs8EL88pLrZ1dbfFOZyNmnzU
+	jSlA==
+X-Received: by 10.70.37.67 with SMTP id w3mr30941881pdj.107.1408993054956;
+	Mon, 25 Aug 2014 11:57:34 -0700 (PDT)
 Received: from localhost.localdomain (c-98-207-177-218.hsd1.ca.comcast.net.
 	[98.207.177.218])
-	by mx.google.com with ESMTPSA id ju4sm605825pbc.6.2014.08.25.11.57.23
+	by mx.google.com with ESMTPSA id dq9sm815399pdb.70.2014.08.25.11.57.34
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 25 Aug 2014 11:57:23 -0700 (PDT)
+	Mon, 25 Aug 2014 11:57:34 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Aug 2014 12:01:03 -0700
-Message-Id: <cover.1408993148.git.raj.khem@gmail.com>
+Date: Mon, 25 Aug 2014 12:01:17 -0700
+Message-Id: <0e3c53a4d84fa2a3c5e6b53697b953fab59a71bc.1408993148.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/1] Empty out MACHINE overrides for native and nativesdk
+In-Reply-To: <cover.1408993148.git.raj.khem@gmail.com>
+References: <cover.1408993148.git.raj.khem@gmail.com>
+Subject: [PATCH 1/1] native/nativesdk: Clear MACHINEOVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,25 +44,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Aug 2014 18:57:24 -0000
+X-List-Received-Date: Mon, 25 Aug 2014 18:57:34 -0000
 
+In cases where we override variables e.g PACKAGE_ARCH
+conditionally and use a MACHINEOVERRIDE to qualify the
+override like
 
-The following changes since commit 217aa4d9802609d2c3628c8751a27a5d25900898:
+PACKAGE_ARCH_<MACHINE> = "some target PACKAGE_ARCH"
 
-  autogen-native: inherit pkgconfig to fix a build failure (2014-08-25 10:25:54 +0100)
+This would also be effective if this recipe is
+BBEXTENDED to native or nativesdk which is undesired
+This particular issue will cause wrong sysroot to be
+used for nativesdk case since PACKAGE_ARCH would have
+been modified and eventually changing value of
+STAGING_DIR_TARGET which we use as --sysroot option
+to cross and cross-canadian built SDK gcc
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib kraj/machineoverride
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/machineoverrides
-
-Khem Raj (1):
-  native/nativesdk: Clear MACHINEOVERRIDES
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
  meta/classes/native.bbclass    |    1 +
  meta/classes/nativesdk.bbclass |    1 +
  2 files changed, 2 insertions(+)
 
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index 9dec318..adebb97 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -109,6 +109,7 @@ PKG_CONFIG_SYSROOT_DIR = ""
+ # we dont want libc-uclibc or libc-glibc to kick in for native recipes
+ LIBCOVERRIDE = ""
+ CLASSOVERRIDE = "class-native"
++MACHINEOVERRIDES = ""
+ 
+ PATH_prepend = "${COREBASE}/scripts/native-intercept:"
+ 
+diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
+index 37c9f79..5e78116 100644
+--- a/meta/classes/nativesdk.bbclass
++++ b/meta/classes/nativesdk.bbclass
+@@ -8,6 +8,7 @@ STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${S
+ NATIVESDKLIBC ?= "libc-glibc"
+ LIBCOVERRIDE = ":${NATIVESDKLIBC}"
+ CLASSOVERRIDE = "class-nativesdk"
++MACHINEOVERRIDES = ""
+ 
+ #
+ # Update PACKAGE_ARCH and PACKAGE_ARCHS
 -- 
 1.7.10.4
 
