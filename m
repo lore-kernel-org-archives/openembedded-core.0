@@ -1,38 +1,35 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F2456FCE0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 039006AC7B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 18:20:01 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	s7PIK07h015313; Mon, 25 Aug 2014 13:20:00 -0500
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014082513200020-363532 ;
-	Mon, 25 Aug 2014 13:20:00 -0500 
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1408792274.5457.18.camel@ted>
-References: <cover.1408742574.git.rich.tollerton@ni.com>
-	<7db18f933460f111085749ee49a70796eab4068a.1408742574.git.rich.tollerton@ni.com>
-	<1408792274.5457.18.camel@ted>
-User-Agent: Notmuch/0.18.1 (http://notmuchmail.org) Emacs/24.3.1
-	(x86_64-unknown-linux-gnu)
-Date: Mon, 25 Aug 2014 13:20:00 -0500
-Message-ID: <87zjeso2i7.fsf@weregild.amer.corp.natinst.com>
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/25/2014 01:20:00 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 08/25/2014 01:20:00 PM,
-	Serialize complete at 08/25/2014 01:20:00 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
-	0.0.0000
-	definitions=2014-08-25_05:2014-08-25, 2014-08-25,
-	1970-01-01 signatures=0
-Cc: otavio@ossystems.com.br, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 09/12] udev-cache: get system config immediately before cache
+	Mon, 25 Aug 2014 18:57:22 +0000 (UTC)
+Received: by mail-pd0-f181.google.com with SMTP id g10so20509255pdj.40
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Aug 2014 11:57:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=6oLRrlGMTT9OokoULmCeoYAatxeEK9+JOgkPWpq2ycU=;
+	b=e9NNTqQduryB34OboDFyfmJbLTRnprMWR9zYg8hX4iHCgl0Y3NlgXGELSduS/51l89
+	LifZjI/pYdg9bH5fdXEyrYKFmgyWERajyQJdW2/8t67aXYvVBvKMN7Dyu4OAGWqx+vNf
+	EJL68T5c9Kml16DE4J37mV0r3NwkGsAl5j+zcxOmdSJE4ZxidH9l7ibk4rPQDhu2qBFt
+	cGRMl51O22kelDQTjvrpaMMM3IbmE4cNhzJ0vi/340Jhge1HGtxh3P1UvaesPOCNk4fi
+	UNM+LHfV7e7TjjQnjwjcK/7FkXAcKoOtC13zra8bRYg70NrmJW213df6xZfvdbVqBJH/
+	e87g==
+X-Received: by 10.66.139.232 with SMTP id rb8mr13501134pab.130.1408993044167; 
+	Mon, 25 Aug 2014 11:57:24 -0700 (PDT)
+Received: from localhost.localdomain (c-98-207-177-218.hsd1.ca.comcast.net.
+	[98.207.177.218])
+	by mx.google.com with ESMTPSA id ju4sm605825pbc.6.2014.08.25.11.57.23
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 25 Aug 2014 11:57:23 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Aug 2014 12:01:03 -0700
+Message-Id: <cover.1408993148.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/1] Empty out MACHINE overrides for native and nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,100 +42,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Aug 2014 18:20:08 -0000
-Content-Type: text/plain
-
-Richard Purdie <richard.purdie@linuxfoundation.org> writes:
-
-> The above reason c) is also why we don't use cmp. It turned out to be
-> faster to read into a variable than fork/exec cmp.
-
-You appear to be wrong: cat+cmp is 27-41% faster than readfiles. In
-fact, testing cat alone (without cmp) shows that `cat` to tmpfs file is
-2x-3x as fast as readfiles.
-
-These figures reproduce on both a Xilinx Zynq Cortex-A9 and my Xeon dev
-machine; the former running busybox sh, the latter running bash.
-
-See below for test script.
-
----
-
-#!/bin/busybox sh
-
-files="/proc/version /proc/cmdline /proc/devices"
-runs=100
-
-readfiles () {
-   READDATA=""
-   for filename in $@; do
-	   if [ -r $filename ]; then
-		   while read line; do
-			   READDATA="$READDATA$line"
-		   done < $filename
-	   fi
-   done
-}
-
-dotest_cat_inner () {
-	cat $@
-}
-
-dotest_cat () {
-	cat $@ > /tmp/a.txt
-	cat $@ > /tmp/b.txt
-	cmp /tmp/a.txt /tmp/b.txt
-}
-
-dotest_readfiles_inner () {
-	readfiles $@
-	echo "$READDATA"
-}
-
-dotest_readfiles () {
-	readfiles $@
-	NEWDATA="$READDATA"
-	readfiles $@
-	OLDDATA="$OLDDATA"
-	[ "$OLDDATA" = "$NEWDATA" ]
-}
-
-timetest () {
-	cmd=$1
-	i=$2
-	shift 2
-	while [ "$i" -gt 0 ]; do
-		$cmd $@ >/dev/null
-		i=$(( i-1 ))
-	done
-}
-
-case $1 in
-cat) timetest dotest_cat $runs $files ;;
-readfiles) timetest dotest_readfiles $runs $files ;;
-inner_cat) timetest dotest_cat_inner $runs $files ;;
-inner_readfiles) timetest dotest_readfiles_inner $runs $files ;;
-*) 
-	printf 'cat:\n'
-	time $0 cat
-
-	printf '\nreadfiles:\n'
-	time $0 readfiles
-
-	printf '\ncat_inner:\n'
-	time $0 inner_cat
-
-	printf '\nreadfiles_inner:\n'
-	time $0 inner_readfiles
-	;;
-esac
+X-List-Received-Date: Mon, 25 Aug 2014 18:57:24 -0000
 
 
-> Cheers,
->
-> Richard
->
+The following changes since commit 217aa4d9802609d2c3628c8751a27a5d25900898:
+
+  autogen-native: inherit pkgconfig to fix a build failure (2014-08-25 10:25:54 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/machineoverride
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/machineoverrides
+
+Khem Raj (1):
+  native/nativesdk: Clear MACHINEOVERRIDES
+
+ meta/classes/native.bbclass    |    1 +
+ meta/classes/nativesdk.bbclass |    1 +
+ 2 files changed, 2 insertions(+)
 
 -- 
-Richard Tollerton <rich.tollerton@ni.com>
+1.7.10.4
+
 
