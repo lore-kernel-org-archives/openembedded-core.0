@@ -1,35 +1,29 @@
-Return-Path: <sven.ebenfeld@gmail.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B46971042
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 10:51:35 +0000 (UTC)
-Received: by mail-ig0-f170.google.com with SMTP id h3so3937038igd.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 03:51:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=0dKRtBXW3rkQNKtGVMqVmqWZ8iujfuUVgVg5TA456uI=;
-	b=JxUZoLAagGVSFiyS2iA2hUn33o5nEwK0+VCYld6fRXnoEsJfw8h+ff0am4ndOX2ddC
-	8uMwjPsC6OfBiDdfvjAseGE/ngtkm/8S9RS3smGSEXJOze7j5vRJEoO8YUETaqMHqs5k
-	v2BqF8TdeAVTaWDlYhE5G3bPLvxVmghX+ZleYvm/kJyB0WIb1h39QhELTq4IyfFt+EiN
-	9exwmT1wiSYUspDiNI6MTgbGZJe1n2zFDSkE10d+1EDx4YT5lIGqF4YIbKpMEagbqFvp
-	oEExhUySl0qOippNBKPDnZ52PhYX3Hq8KMQUfYTsCY6NYxKztlIkn6lGqVhxUUaR6Pa5
-	UuLQ==
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D5A46AC7B;
+	Mon, 25 Aug 2014 11:45:06 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7PBj5mM020034
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 25 Aug 2014 04:45:05 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 25 Aug 2014 04:45:05 -0700
+Message-ID: <53FB21BF.5000502@windriver.com>
+Date: Mon, 25 Aug 2014 19:45:03 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-X-Received: by 10.50.33.73 with SMTP id p9mr14451757igi.24.1408963896411; Mon,
-	25 Aug 2014 03:51:36 -0700 (PDT)
-Received: by 10.107.35.133 with HTTP; Mon, 25 Aug 2014 03:51:36 -0700 (PDT)
-In-Reply-To: <20140825101437.GP20524@jama>
-References: <1408953391-25759-1-git-send-email-sven.ebenfeld@gmail.com>
-	<20140825101437.GP20524@jama>
-Date: Mon, 25 Aug 2014 12:51:36 +0200
-Message-ID: <CAD0=qkK6b35LFkFx9+9Z847B+aFRrDTJh4GMfH+EfyhAbwyeUQ@mail.gmail.com>
-From: Sven Ebenfeld <sven.ebenfeld@gmail.com>
 To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH] md5deep: Add Recipe for md5deep package version 4.4
+References: <20140823220223.0DA1E50496@opal.openembedded.org>
+	<20140824155625.GJ20524@jama> <53FA9C10.1060408@windriver.com>
+	<20140825101224.GO20524@jama>
+In-Reply-To: <20140825101224.GO20524@jama>
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Robert Yang : sanity.bbclass: check the format of MIRRORS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,120 +36,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Aug 2014 10:51:36 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 25 Aug 2014 11:45:09 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you, I've posted an updated patch to openembedded-devel mailing list.
 
-2014-08-25 12:14 GMT+02:00 Martin Jansa <martin.jansa@gmail.com>:
-> On Mon, Aug 25, 2014 at 09:56:31AM +0200, Sven Ebenfeld wrote:
->> I need to build hashdeep/md5deep within OE to include it in my images. T=
-his recipe enables OE to cross-compile md5deep. I needed to add the patch a=
-s do_configure_qa is complaining about cross-compilation errors otherwise. =
-I added a pull request for the issue with the variable expansion to hashdee=
-p as well.
->
-> Please send this to openembedded-devel@lists.openembedded.org
->
->
->> Signed-off-by: Sven Ebenfeld <sven.ebenfeld@gmail.com>
->> ---
->>  .../md5deep/files/wrong-variable-expansion.patch   | 39 +++++++++++++++=
-+++++++
->>  meta-oe/recipes-extended/md5deep/md5deep_4.4.bb    | 16 +++++++++
->>  2 files changed, 55 insertions(+)
->>  create mode 100644 meta-oe/recipes-extended/md5deep/files/wrong-variabl=
-e-expansion.patch
->>  create mode 100644 meta-oe/recipes-extended/md5deep/md5deep_4.4.bb
+
+On 08/25/2014 06:12 PM, Martin Jansa wrote:
+> On Mon, Aug 25, 2014 at 10:14:40AM +0800, Robert Yang wrote:
 >>
->> diff --git a/meta-oe/recipes-extended/md5deep/files/wrong-variable-expan=
-sion.patch b/meta-oe/recipes-extended/md5deep/files/wrong-variable-expansio=
-n.patch
->> new file mode 100644
->> index 0000000..3a4c4f4
->> --- /dev/null
->> +++ b/meta-oe/recipes-extended/md5deep/files/wrong-variable-expansion.pa=
-tch
->> @@ -0,0 +1,39 @@
->> +--- a/configure.ac   2014-08-22 12:22:54.290884351 +0200
->> ++++ b/configure.ac   2014-08-22 12:23:15.822306295 +0200
->> +@@ -42,18 +42,6 @@
->> +      ;;
->> + esac
->> +
->> +-
->> +-# Bring additional directories where things might be found into our
->> +-# search path. I don't know why autoconf doesn't do this by default
->> +-if test x"${mingw}" =3D=3D "xno" ; then
->> +-  for spfx in /usr/local /opt/local /sw ; do
->> +-    echo checking ${spfx}/include
->> +-    if test -d ${spfx}/include; then
->> +-        CPPFLAGS=3D"-I${spfx}/include $CPPFLAGS"
->> +-        LDFLAGS=3D"-L${spfx}/lib $LDFLAGS"
->> +-    fi
->> +-  done
->> +-fi
->> + #
->> + #
->> + ################################################################
->> +@@ -71,7 +59,7 @@
->> +
->> + if test $mingw =3D "no" ; then
->> +   # add the warnings we don't want to do on mingw
->> +-  $WARNINGS_TO_TEST=3D"$WARNINGS_TO_TEST -Wall -Wstrict-prototypes  -W=
-effc++"
->> ++  WARNINGS_TO_TEST=3D"$WARNINGS_TO_TEST -Wall -Wstrict-prototypes  -We=
-ffc++"
->> + fi
->> +
->> + for option in $WARNINGS_TO_TEST
->> +@@ -105,7 +93,7 @@
->> +
->> + if test $mingw =3D "no" ; then
->> +   # add the warnings we don't want to do on mingw
->> +-  $WARNINGS_TO_TEST=3D"$WARNINGS_TO_TEST  -Weffc++"
->> ++  WARNINGS_TO_TEST=3D"$WARNINGS_TO_TEST  -Weffc++"
->> + fi
->> +
->> + for option in $WARNINGS_TO_TEST
->> diff --git a/meta-oe/recipes-extended/md5deep/md5deep_4.4.bb b/meta-oe/r=
-ecipes-extended/md5deep/md5deep_4.4.bb
->> new file mode 100644
->> index 0000000..4e4a2f5
->> --- /dev/null
->> +++ b/meta-oe/recipes-extended/md5deep/md5deep_4.4.bb
->> @@ -0,0 +1,16 @@
->> +DESCRIPTION =3D "md5deep"
->
-> Please use better description than just PN (and use SUMMARY if it's
-> still short).
->
->> +AUTHOR =3D "Jesse Kornblum, Simson L. Garfinkel"
->> +HOMEPAGE =3D "http://md5deep.sourceforge.net"
->> +LICENSE =3D "GPLv2"
->> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D9190f660105b9a56cdb272309bfd=
-5491"
->> +
->> +inherit autotools
->> +
->> +SRC_URI =3D "git://github.com/jessek/hashdeep.git \
->> +        file://wrong-variable-expansion.patch \
->> +        "
->> +
->> +# Release 4.4
->> +SRCREV =3D "cd2ed7416685a5e83eb10bb659d6e9bec01244ae"
->> +
->> +S =3D "${WORKDIR}/git"
->> --
->> 1.8.1.rc3
 >>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> On 08/24/2014 11:56 PM, Martin Jansa wrote:
+>>> On Sat, Aug 23, 2014 at 10:02:23PM +0000, git@git.openembedded.org wrote:
+>>>> Module: openembedded-core.git
+>>>> Branch: master
+>>>> Commit: c8c213bb25b137cf70ba8ce9a45e60065d926735
+>>>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=c8c213bb25b137cf70ba8ce9a45e60065d926735
+>>>>
+>>>> Author: Robert Yang <liezhi.yang@windriver.com>
+>>>> Date:   Fri Aug 22 01:31:27 2014 -0700
+>>>>
+>>>> sanity.bbclass: check the format of MIRRORS
+>>>>
+>>>> Check the format of MIRRORS, PREMIRRORS and SSTATE_MIRRORS:
+>>>> * Each mirror shoudl contain two memebers.
+>>>
+>>> shoudl -> should
+>>>
+>>>> * The local "file://" url must use absolute path (file:///).
+>>>> * The protocol must in protocols list.
+>>>
+>>> must "be"? seems like something is missing
+>>>
+>>
+>> Sorry for the typos.
+>>
+>>
+>>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>>>
+>>>> ---
+>>>>
+>>>>    meta/classes/sanity.bbclass | 33 +++++++++++++++++++++++++++++++++
+>>>>    1 file changed, 33 insertions(+)
+>>>>
+>>>> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+>>>> index 3b40ebe..dbcc26b 100644
+>>>> --- a/meta/classes/sanity.bbclass
+>>>> +++ b/meta/classes/sanity.bbclass
+>>>> @@ -753,6 +753,39 @@ def check_sanity_everybuild(status, d):
+>>>>        if oeroot.find(' ') != -1:
+>>>>            status.addresult("Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space since autotools doesn't support this.")
+>>>>
+>>>> +    # Check the format of MIRRORS, PREMIRRORS and SSTATE_MIRRORS
+>>>> +    mir_types = ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
+>>>> +    protocols = ['http://', 'ftp://', 'file://', 'https://', 'https?$://', \
+>>>> +        'git://', 'gitsm://', 'hg://', 'osc://', 'p4://', 'svk://', 'svn://', \
+>>>> +        'bzr://', 'cvs://']
+>>>> +    for mir_type in mir_types:
+>>>> +        mirros = (d.getVar(mir_type, True) or '').split('\\n')
+>>>
+>>> Is the "\n" (followed by actuall line break) really required as separator?
+>>>
+>>> openembedded-core/meta/classes/own-mirrors.bbclass doesn't separate the
+>>> entries with "\n".
+>>>
+>>> and bitbake code seems to handle them both:
+>>> def mirror_from_string(data):
+>>>       return [ i.split() for i in (data or "").replace('\\n','\n').split('\n') if i ]
+>>
+>> I think that "\n" is required, otherwise it can't split it as the code shows,
 >
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> I think the code shows that it splits it by normal line feed,
+> "\\n" are replaced with "\n" so they probably just add extra line feed
+> which is ignored because of empty line it produces.
+>
+> On the other hand "\\n" is probably still useful when appending to it as
+> multiline variable (with \ at the end of line) - then the line feeds
+> aren't preserved when parsing and \\n is needed.
+
+Yes, without the "\n", it's not easy to set:
+PREMIRRORS += "
+git://.*/.* file://path/to/downloads/ \n \
+svn://.*/.* file://path/to/downloads/ \n \
+"
+They would be treated as one mirror, but they are two.
+
+>
+>> and I had tried that it didn't work without the "\n" at the end of the line
+>> (except the last line, but we really need add the "\n" to the last line even
+>> it works, in case of _append).
+>>
+>> I will update the own-mirrors.bbclass after more investigations.
+>>
+>>>
+>>> If you want to unify the format to enforce "\\n" then I think it would
+>>> be better to show the warning in bitbake fetcher, not in stanity.bbclass
+>>>
+>>> Also the list of supported protocols would be IMHO better in bitbake fetcher module.
+>>
+>> Do it in the fetcher sounds fine to me, but we have to do more work,
+>> for example, make sure that only check the various MIRRORS once rather
+>> than checked in every do_fetch.
+>
+> On the other hand it will show the warning in all projects which can
+> possibly use bitbake and it will make easier to ensure that checked
+> conditions are consistent with the code.
+
+I think that you mean the project which doesn't have sanity.bbclass ?
+Then I'm glad to add it to bitbake if RP is OK with that.
+
+// Robert
+
+>
+>>
+>> // Robert
+>>
+>>>
+>>>> +        for mir in mirros:
+>>>> +            mir_list = mir.split()
+>>>> +            # Should be two members.
+>>>> +            if len(mir_list) not in [0, 2]:
+>>>> +                bb.warn('Invalid %s: %s, should be 2 members, but found %s.' \
+>>>> +                    % (mir_type, mir.strip(), len(mir_list)))
+>>>> +            elif len(mir_list) == 2:
+>>>> +                # Each member should start with protocols
+>>>> +                valid_protocol_0 = False
+>>>> +                valid_protocol_1 = False
+>>>> +                file_absolute = True
+>>>> +                for protocol in protocols:
+>>>> +                    if not valid_protocol_0 and mir_list[0].startswith(protocol):
+>>>> +                        valid_protocol_0 = True
+>>>> +                    if not valid_protocol_1 and mir_list[1].startswith(protocol):
+>>>> +                        valid_protocol_1 = True
+>>>> +                        # The file:// must be an absolute path.
+>>>> +                        if protocol == 'file://' and not mir_list[1].startswith('file:///'):
+>>>> +                            file_absolute = False
+>>>> +                    if valid_protocol_0 and valid_protocol_1:
+>>>> +                        break
+>>>> +                if not (valid_protocol_0 and valid_protocol_1):
+>>>> +                    bb.warn('Invalid protocol in %s: %s' % (mir_type, mir.strip()))
+>>>> +                if not file_absolute:
+>>>> +                    bb.warn('Invalid file url in %s: %s, must be absolute path (file:///)' % (mir_type, mir.strip()))
+>>>> +
+>>>>        # Check that TMPDIR hasn't changed location since the last time we were run
+>>>>        tmpdir = d.getVar('TMPDIR', True)
+>>>>        checkfile = os.path.join(tmpdir, "saved_tmpdir")
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-commits mailing list
+>>>> Openembedded-commits@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+>>>
+>
 
