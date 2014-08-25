@@ -1,42 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 8227E6ACBA
+Return-Path: <rich.tollerton@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F2456FCE0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 17:48:00 +0000 (UTC)
-Received: by mail-pa0-f42.google.com with SMTP id lf10so21665821pab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 10:48:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=WDIObNG49FYNmiCqUhn6pqzraZMRXUwtMO9qTxNSMfA=;
-	b=Y80DDMBqgVBNr63VajUgYWKZTm3HoIaksCPud33m6JVfc0RQ8kvzDMrUt6MbI8PmJn
-	zPj1MlwLXT7b5YEjOME8PZ9D0SKFEEVAI5DZt0A5CrDLm5DTQpZagF7rVlOp99ST9uXY
-	820JE09lxtywABBaYInVIMUYJhVF3kecye8FMjTJV688/4lJbomX2QSLstt2bD7mKEUQ
-	Py37q4byxKhYR0FCTn1+rgvcmAjx3EhwCqp4wxmLlvLoJ/HMQ5SJT4Rx9cux7iZiSO8u
-	KLnD9afzBPRiUz0MLar6HFAf4J4CZCVUx0c+rA23/8gvrZCUmW8Jzoc2Ua0CXuBF0vc8
-	Fdyw==
-X-Received: by 10.70.19.166 with SMTP id g6mr30117559pde.99.1408988881626;
-	Mon, 25 Aug 2014 10:48:01 -0700 (PDT)
-Received: from haswell ([2601:9:3580:7a5:baca:3aff:fe80:aa8f])
-	by mx.google.com with ESMTPSA id pd7sm1527163pac.33.2014.08.25.10.48.00
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 25 Aug 2014 10:48:00 -0700 (PDT)
-Date: Mon, 25 Aug 2014 10:51:47 -0700
-From: Khem Raj <raj.khem@gmail.com>
-To: Christopher Larson <clarson@kergoth.com>
-Message-ID: <20140825175147.GB25050@haswell>
-References: <1408983725-45864-1-git-send-email-fahad_usman@mentor.com>
-	<20140825171945.GA25050@haswell>
-	<CABcZAN=x7u=gF=-NfbBNLUcqvXgzte_CK_52rQGYikaNSXqU_A@mail.gmail.com>
+	Mon, 25 Aug 2014 18:20:01 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
+	s7PIK07h015313; Mon, 25 Aug 2014 13:20:00 -0500
+Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014082513200020-363532 ;
+	Mon, 25 Aug 2014 13:20:00 -0500 
+From: Richard Tollerton <rich.tollerton@ni.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1408792274.5457.18.camel@ted>
+References: <cover.1408742574.git.rich.tollerton@ni.com>
+	<7db18f933460f111085749ee49a70796eab4068a.1408742574.git.rich.tollerton@ni.com>
+	<1408792274.5457.18.camel@ted>
+User-Agent: Notmuch/0.18.1 (http://notmuchmail.org) Emacs/24.3.1
+	(x86_64-unknown-linux-gnu)
+Date: Mon, 25 Aug 2014 13:20:00 -0500
+Message-ID: <87zjeso2i7.fsf@weregild.amer.corp.natinst.com>
 MIME-Version: 1.0
-In-Reply-To: <CABcZAN=x7u=gF=-NfbBNLUcqvXgzte_CK_52rQGYikaNSXqU_A@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] logrotate: obey our flags
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 08/25/2014 01:20:00 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 08/25/2014 01:20:00 PM,
+	Serialize complete at 08/25/2014 01:20:00 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.27,
+	0.0.0000
+	definitions=2014-08-25_05:2014-08-25, 2014-08-25,
+	1970-01-01 signatures=0
+Cc: otavio@ossystems.com.br, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 09/12] udev-cache: get system config immediately before cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,52 +45,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Aug 2014 17:48:07 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 25 Aug 2014 18:20:08 -0000
+Content-Type: text/plain
 
-On 14-08-25 10:21:31, Christopher Larson wrote:
-> On Mon, Aug 25, 2014 at 10:19 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> 
-> > On 14-08-25 21:22:04, Fahad Usman wrote:
-> > > Needed to quiet GNU_HASH warnings, amd some minor fixes.
-> > >
-> > > Signed-off-by: Fahad Usman <fahad.usman@gmail.com>
-> > > Signed-off-by: Christopher Larson <kergoth@gmail.com>
-> > > ---
-> > >  meta/recipes-extended/logrotate/logrotate_3.8.7.bb |   18
-> > ++++++++++++++++--
-> > >  1 file changed, 16 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
-> > b/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
-> > > index 3a6a228..42cd764 100644
-> > > --- a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
-> > > +++ b/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
-> > > @@ -16,7 +16,21 @@ SRC_URI = "
-> > https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.g
-> > >  SRC_URI[md5sum] = "99e08503ef24c3e2e3ff74cc5f3be213"
-> > >  SRC_URI[sha256sum] =
-> > "f6ba691f40e30e640efa2752c1f9499a3f9738257660994de70a45fe00d12b64"
-> > >
-> > > -EXTRA_OEMAKE = ""
-> > > +# If RPM_OPT_FLAGS is unset, it adds -g itself rather than obeying our
-> > > +# optimization variables, so use it rather than EXTRA_CFLAGS.
-> > > +EXTRA_OEMAKE = "\
-> > > +    LFS= \
-> > > +    OS_NAME='${OS_NAME}' \
-> > > +    \
-> > > +    'CC=${CC}' \
-> >
-> > hmmm CC may have spaces in it so you might need 'CC="${CC}"' or somesuch
-> 
-> 
-> Nope, the whole CC=${CC} argument is already quoted, note the single quotes
-> around it. Those quotes mean the entire CC=${CC} bit ends up in the
-> appropriate argument for make, so there's no need to quote the value alone.
+Richard Purdie <richard.purdie@linuxfoundation.org> writes:
 
-What happens inside makefile is what I am concerned
-in case of python, IIRC it passed it but when CC was used it would
-freak out since CC now was a multiword str but then those were not inside makefiles
-if you have verified thats fine here then I am OK.
+> The above reason c) is also why we don't use cmp. It turned out to be
+> faster to read into a variable than fork/exec cmp.
+
+You appear to be wrong: cat+cmp is 27-41% faster than readfiles. In
+fact, testing cat alone (without cmp) shows that `cat` to tmpfs file is
+2x-3x as fast as readfiles.
+
+These figures reproduce on both a Xilinx Zynq Cortex-A9 and my Xeon dev
+machine; the former running busybox sh, the latter running bash.
+
+See below for test script.
+
+---
+
+#!/bin/busybox sh
+
+files="/proc/version /proc/cmdline /proc/devices"
+runs=100
+
+readfiles () {
+   READDATA=""
+   for filename in $@; do
+	   if [ -r $filename ]; then
+		   while read line; do
+			   READDATA="$READDATA$line"
+		   done < $filename
+	   fi
+   done
+}
+
+dotest_cat_inner () {
+	cat $@
+}
+
+dotest_cat () {
+	cat $@ > /tmp/a.txt
+	cat $@ > /tmp/b.txt
+	cmp /tmp/a.txt /tmp/b.txt
+}
+
+dotest_readfiles_inner () {
+	readfiles $@
+	echo "$READDATA"
+}
+
+dotest_readfiles () {
+	readfiles $@
+	NEWDATA="$READDATA"
+	readfiles $@
+	OLDDATA="$OLDDATA"
+	[ "$OLDDATA" = "$NEWDATA" ]
+}
+
+timetest () {
+	cmd=$1
+	i=$2
+	shift 2
+	while [ "$i" -gt 0 ]; do
+		$cmd $@ >/dev/null
+		i=$(( i-1 ))
+	done
+}
+
+case $1 in
+cat) timetest dotest_cat $runs $files ;;
+readfiles) timetest dotest_readfiles $runs $files ;;
+inner_cat) timetest dotest_cat_inner $runs $files ;;
+inner_readfiles) timetest dotest_readfiles_inner $runs $files ;;
+*) 
+	printf 'cat:\n'
+	time $0 cat
+
+	printf '\nreadfiles:\n'
+	time $0 readfiles
+
+	printf '\ncat_inner:\n'
+	time $0 inner_cat
+
+	printf '\nreadfiles_inner:\n'
+	time $0 inner_readfiles
+	;;
+esac
+
+
+> Cheers,
+>
+> Richard
+>
+
+-- 
+Richard Tollerton <rich.tollerton@ni.com>
 
