@@ -1,38 +1,38 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
-	[209.85.160.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B5EE6FCE0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BACF6AC7B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 01:33:58 +0000 (UTC)
-Received: by mail-yk0-f170.google.com with SMTP id 9so10932400ykp.1
+	Tue, 26 Aug 2014 02:00:43 +0000 (UTC)
+Received: by mail-pd0-f178.google.com with SMTP id w10so21553648pde.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 18:34:00 -0700 (PDT)
+	Mon, 25 Aug 2014 19:00:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type:content-transfer-encoding;
-	bh=iOrA32lM25rc3id3JFRciqImOUhb0X85tS66VuWs9Wg=;
-	b=PoZH8UwpfgXseauZItVitm9BLPkondNRCcRjJafdxKkowHnOhi8/KVBH7EwdwLnTcf
-	kqKzeYo7mXFCsi6RgSv0Wt4ZjRunwMjeXWXp1NhgrGFu9rm5OAwqTClwK5L2dSsCjGVv
-	6h3DnB3K+Udumy1zQqPTSHh17UzLRreEzmbPuo/gZGYm+1xl8yOPE+MIkNyKrw8WNMA9
-	AQRCaF6VZzEVO/7raoGJhXbX5qBuGowt9WDDWhRf2+6huDw/ro0ZBXlIzSqRFadV1fYe
-	E4h0iSbnv3zJa1lXycxwgSdI1ptwpnHpQnnOlxwOf8x10JkNKX34fGSYPCIfXg7uDK4r
-	4T6w==
-MIME-Version: 1.0
-X-Received: by 10.236.151.231 with SMTP id b67mr35276026yhk.24.1409016839897; 
-	Mon, 25 Aug 2014 18:33:59 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.56.201 with HTTP; Mon, 25 Aug 2014 18:33:59 -0700 (PDT)
-In-Reply-To: <201408152253.02781.marex@denx.de>
-References: <1407425157-2736-1-git-send-email-marex@denx.de>
-	<CAP9ODKpCTJTLg2iwP+JmL+X_dyj919gB0k85r2HtKNKy_nhd_w@mail.gmail.com>
-	<201408152253.02781.marex@denx.de>
-Date: Mon, 25 Aug 2014 22:33:59 -0300
-X-Google-Sender-Auth: vylecEGyuj0dY0LAcUemAdQ6aJs
-Message-ID: <CAP9ODKqsksd5H0LXkN-NWfPpuDJyRpN1CtiDTvUPLbGx9JhbYQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=DdBnaajif0ydve7M9OYdzxfqsQ/+FTs/CvdKguBxzlQ=;
+	b=X/CSsCnnlLXdHTNF19CeXJY9KFPfNoT2xf4WOHJylZ1UijUpVP1k3CiVV3XWoO9YfX
+	3v9Gt3aB/wLbolPkLJIzOfLUFR6ETrTQuMUC3UmKhyh0lpYgfY6k6gI+W313HC1z8nA/
+	iyLFI8pT+f2iULPVDhFXemg9kzupMiULuNIzR45t+zR4rnrRE6V3AA97voPVCtG+LV3K
+	mEiBVzSxqj/t1KlScZDGDH6r2Bif6wLTp5p/DzpsTmyRElbg/3PgqGChHeDTepFamLIk
+	uFliuigD3VCibvk2gjfYrXv5xKiQFHsYSG/hgZsiHpbB4lr4dxIbep/fnJOIITIOKmbL
+	R5wQ==
+X-Received: by 10.70.94.103 with SMTP id db7mr3482517pdb.122.1409018444841;
+	Mon, 25 Aug 2014 19:00:44 -0700 (PDT)
+Received: from haswell ([2601:9:3580:7a5:baca:3aff:fe80:aa8f])
+	by mx.google.com with ESMTPSA id ct1sm1923030pdb.64.2014.08.25.19.00.43
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 25 Aug 2014 19:00:44 -0700 (PDT)
+Date: Mon, 25 Aug 2014 19:04:30 -0700
+From: Khem Raj <raj.khem@gmail.com>
 To: Marek Vasut <marex@denx.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Message-ID: <20140826020430.GB18989@haswell>
+References: <1407425157-2736-1-git-send-email-marex@denx.de>
+MIME-Version: 1.0
+In-Reply-To: <1407425157-2736-1-git-send-email-marex@denx.de>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] Yocto: qt4: Let qmake control some compiler/linker flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -46,61 +46,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Aug 2014 01:34:02 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 26 Aug 2014 02:00:45 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Fri, Aug 15, 2014 at 5:53 PM, Marek Vasut <marex@denx.de> wrote:
-> On Monday, August 11, 2014 at 02:49:16 AM, Otavio Salvador wrote:
->> Hello Marek,
->>
->> On Thu, Aug 7, 2014 at 12:25 PM, Marek Vasut <marex@denx.de> wrote:
->> > In the case of building an Qt application outside of the Yocto
->> > build system, we want to make sure that a "debug" configuration
->> > of the application does contain debug symbols and is has the
->> > compiler optimalization unset. On the other hand, we want to
->> > have a "release" build which does not contain the debug symbols
->> > and has the compiler optimalization turned on.
->> >
->> > The OE_QMAKE_* flags serve to pass all kinds of flags into the
->> > qmake-generated Makefile. Currently, we set OE_QMAKE_CFLAGS to
->> > be ${CFLAGS} and ditto for CXXFLAGS and LDFLAGS in the SDK
->> > toolchain environment script. This poses a problem, since the
->> > CFLAGS can contain optimization options (-O*) and even flags to
->> > produce debugging info (-g). The LDFLAGS may also contain some
->> > harmful flags.
->> >
->> > The easy way out is to let qmake's army of configuration files
->> > handle the proper configuration of CFLAGS, CXXFLAGS and LDFLAGS
->> > for the generated Makefile and don't interfere with qmake's
->> > decisions by adding arbitrary flags. This patch completely
->> > scrubs OE_QMAKE_C{,XX}FLAGS and leaves only harmless flags in
->> > OE_QMAKE_LDFLAGS. With this patch, the behavior is as it is
->> > explained in the first paragraph.
->> >
->> > Signed-off-by: Marek Vasut <marex@denx.de>
->> > Cc: Eric B=C3=A9nard <eric@eukrea.com>
->>
->> I understand your problem however I don't think the solution you found
->> is optimal. It does fix the issue you refer in the commit log however
->> it also makes difficult for user to "reuse" default SDK flags to test
->> the application.
->
-> What solution do you propose then?
->
-> The default SDK flags effectively disallow qmake to operate correctly -- =
-that
-> is, to control the compiler/linker flags.
+On 14-08-07 17:25:57, Marek Vasut wrote:
+> In the case of building an Qt application outside of the Yocto
+> build system, we want to make sure that a "debug" configuration
+> of the application does contain debug symbols and is has the
+> compiler optimalization unset. On the other hand, we want to
+> have a "release" build which does not contain the debug symbols
+> and has the compiler optimalization turned on.
+> 
+> The OE_QMAKE_* flags serve to pass all kinds of flags into the
+> qmake-generated Makefile. Currently, we set OE_QMAKE_CFLAGS to
+> be ${CFLAGS} and ditto for CXXFLAGS and LDFLAGS in the SDK
+> toolchain environment script. This poses a problem, since the
+> CFLAGS can contain optimization options (-O*) and even flags to
+> produce debugging info (-g). The LDFLAGS may also contain some
+> harmful flags.
+> 
+> The easy way out is to let qmake's army of configuration files
+> handle the proper configuration of CFLAGS, CXXFLAGS and LDFLAGS
+> for the generated Makefile and don't interfere with qmake's
+> decisions by adding arbitrary flags. This patch completely
+> scrubs OE_QMAKE_C{,XX}FLAGS and leaves only harmless flags in
+> OE_QMAKE_LDFLAGS. With this patch, the behavior is as it is
+> explained in the first paragraph.
 
-I understand your issue and I agree we need to address this somehow,
-however we should not regret the usability we had before.
+This is fine if you see it from QT app developer POV, however I see a
+downside, where we are then not compiling the application with the same
+consistent set of flags which you would use with OE-mill when you
+integrate the app back into OE build system. This reminds me of the
+scenario where apps built with MSVS ended up shipping debug builds
+because that was what developers tested on and there wasnt enough time
+to fix release builds.
 
-This remain unnoticed for such long time means people didn't notice
-the lack of this so we need to find a way to support the debugging
-without losing the use of SDK configured flags to release builds.
+Having said that, I would prefer that you add -g flag to whatever you
+are getting from SDK and debug using that ( which will be -g -O2)
+in most cases optimized code debugging works well with modern gcc if it
+does not we can always complain to gcc community.
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+IMHO its better to debug the code that you will ship. It saves a lot of
+time as various steps of code life cycle.
+
+-Khem
+
 
