@@ -1,34 +1,38 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 7434D710EE
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id AE886710CC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 20:40:30 +0000 (UTC)
-Received: by mail-lb0-f178.google.com with SMTP id l4so2065700lbv.9
+	Tue, 26 Aug 2014 21:43:56 +0000 (UTC)
+Received: by mail-la0-f48.google.com with SMTP id gl10so15887034lab.35
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 13:40:30 -0700 (PDT)
+	Tue, 26 Aug 2014 14:43:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=lpGWu/NE226JLnOM6r4N2jCPPDoo4+jyUjIOY14HDN0=;
-	b=n+ivxmj1r10N4LwSNlLVvhoRW6bk/lyUQ/j3A+iZB81mfwuA6+o3OEUuhAcZEATMaE
-	ObIUVLNT4jKZcMFYZXDeNH6XtuUz/sLsPo3bjrB3Di+92Dvndnf+3A0hoHW7EnAKftbR
-	faXpusZS423qJIc7prEyTt6hRUsQKigyvaeIcNOp4UHsDwbp2nFY+hIvCKhbo8SGctZA
-	yLxnMVHq/wff4pMH3O79SSdv2LzUOayIFTnv7xzmdPDWsX62wNhnY1cud6+vtZR4Ejga
-	+KiTJfZUTJQ1sMmQv6tUaaWZAq8oyCdMtjxwmHWXct105ZUkUW/ujzGDJkRiELXYf9yZ
-	Fi7A==
-X-Received: by 10.112.55.238 with SMTP id v14mr4699975lbp.93.1409085630586;
-	Tue, 26 Aug 2014 13:40:30 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.43.42 with HTTP; Tue, 26 Aug 2014 13:40:10 -0700 (PDT)
-In-Reply-To: <53FCE823.9050800@mlbassoc.com>
-References: <53FCE823.9050800@mlbassoc.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 26 Aug 2014 13:40:10 -0700
-X-Google-Sender-Auth: -S4bcuvtwHVgMqGRsXvBO4kZKmo
-Message-ID: <CABcZANnq=U5u-tuEbhAZj_nQ_kh84XntTS-greDFnMuamLUwAw@mail.gmail.com>
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=zo71sBXWt4OUJWDyj86BZsNcidb8c6dLeCr8RtWkJ2Y=;
+	b=AR3930cdDAPxj08mo3HMyy/5cdQZQt5kMUpZ+E4Rjigzbb72Gp3EzxQF1zwnE4r0Za
+	0lSDifINDSpCAJP5lW9CQhJ5e/vbo0kyj4+X7PxjInLD/YbsgveNl/Ur1Yvrv4b3rieO
+	8mi3jrb+ez/F20cpG/azy16wvWtXTIU5OODuRLNF13RFP0zunnvhgZQNajv8andpWzyu
+	bsZ1Bl4K6WMzaEYsO0993FJgb7hhi7m3u3p5R7fxkdf2WHelxO2M4awW/SOdvdk8r/iF
+	q7GDr7ra1iiZSoy8lYdFez6ADsTLAcaR3yNC/rMLi6oAFxRUc1KBMR+JyjZDVzX63BM1
+	6gig==
+X-Received: by 10.112.161.72 with SMTP id xq8mr28408530lbb.18.1409089436734;
+	Tue, 26 Aug 2014 14:43:56 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	ls6sm2848881lac.2.2014.08.26.14.43.54 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 26 Aug 2014 14:43:55 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 26 Aug 2014 23:44:03 +0200
 To: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <20140826214403.GA20524@jama>
+References: <53FCE823.9050800@mlbassoc.com>
+MIME-Version: 1.0
+In-Reply-To: <53FCE823.9050800@mlbassoc.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: own-mirrors broken
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,63 +47,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Aug 2014 20:40:35 -0000
-Content-Type: multipart/alternative; boundary=001a1133c96678248305018e5028
+X-List-Received-Date: Tue, 26 Aug 2014 21:44:03 -0000
+X-Groupsio-MsgNum: 56992
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ijywFOGgtBfiIjQx"
+Content-Disposition: inline
 
---001a1133c96678248305018e5028
-Content-Type: text/plain; charset=UTF-8
+--ijywFOGgtBfiIjQx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 26, 2014 at 1:03 PM, Gary Thomas <gary@mlbassoc.com> wrote:
-
+On Tue, Aug 26, 2014 at 02:03:47PM -0600, Gary Thomas wrote:
 > This commit breaks "own-mirrors"
->
+>=20
 > commit 0ae7b58060f1ee7914dd45d462e48d4b8a3751ad  (Poky/Yocto)
 > Author: Robert Yang <liezhi.yang@windriver.com>
 > Date:   Fri Aug 22 01:31:27 2014 -0700
->
->     sanity.bbclass: check the format of MIRRORS
->
+>=20
+>      sanity.bbclass: check the format of MIRRORS
+>=20
 > Since this change, use of "own-mirrors" produces this error:
->
 
-One of the commits in the series I sent to oe-core yesterday fixes it (just
-makes it first replace \\n with \n, then split on \n).
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+It was already reported before:
+http://lists.openembedded.org/pipermail/openembedded-core/2014-August/09623=
+0.html
 
---001a1133c96678248305018e5028
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Luckily kergoth already sent fixes for it.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, Aug 26, 2014 at 1:03 PM, Gary Thomas <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:gary@mlbassoc.com" target=3D"_blank">gary@mlbassoc.com</a>&gt;</=
-span> wrote:<br>
+> WARNING: Invalid PREMIRRORS: cvs://.*/.*     file:///local/poky-cutting-e=
+dge/sources/
+> svn://.*/.*     file:///local/poky-cutting-edge/sources/
+> git://.*/.*     file:///local/poky-cutting-edge/sources/
+> gitsm://.*/.*   file:///local/poky-cutting-edge/sources/
+> hg://.*/.*      file:///local/poky-cutting-edge/sources/
+> bzr://.*/.*     file:///local/poky-cutting-edge/sources/
+> svk://.*/.*     file:///local/poky-cutting-edge/sources/
+> p4://.*/.*      file:///local/poky-cutting-edge/sources/
+> osc://.*/.*     file:///local/poky-cutting-edge/sources/
+> https?$://.*/.* file:///local/poky-cutting-edge/sources/
+> ftp://.*/.*     file:///local/poky-cutting-edge/sources/, should be 2 mem=
+bers, but found 22.
+>=20
+> --=20
+> ------------------------------------------------------------
+> Gary Thomas                 |  Consulting for the
+> MLB Associates              |    Embedded world
+> ------------------------------------------------------------
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":c7" class=3D"a3s" style=3D"overf=
-low:hidden">This commit breaks &quot;own-mirrors&quot;<br>
-<br>
-commit 0ae7b58060f1ee7914dd45d462e48d<u></u>4b8a3751ad=C2=A0 (Poky/Yocto)<b=
-r>
-Author: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com" target=
-=3D"_blank">liezhi.yang@windriver.com</a>&gt;<br>
-Date:=C2=A0 =C2=A0Fri Aug 22 01:31:27 2014 -0700<br>
-<br>
-=C2=A0 =C2=A0 sanity.bbclass: check the format of MIRRORS<br>
-<br>
-Since this change, use of &quot;own-mirrors&quot; produces this error:</div=
-></blockquote></div><br></div><div class=3D"gmail_extra">One of the commits=
- in the series I sent to oe-core yesterday fixes it (just makes it first re=
-place \\n with \n, then split on \n).<br>
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics
-</div></div>
+--ijywFOGgtBfiIjQx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
---001a1133c96678248305018e5028--
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlP8/6MACgkQN1Ujt2V2gByjigCgkGZz2U0tDd3Rdip0OGeMYLM3
+xykAn3tMIdSN8nmqXZulXhdvrSklOBng
+=NFcA
+-----END PGP SIGNATURE-----
+
+--ijywFOGgtBfiIjQx--
