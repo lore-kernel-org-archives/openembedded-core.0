@@ -1,34 +1,39 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A65E70E5A
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
+	[209.85.160.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B5EE6FCE0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 00:51:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 712F2314DDA4;
-	Tue, 26 Aug 2014 02:51:22 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id FYknrdasjP6M; Tue, 26 Aug 2014 02:51:17 +0200 (CEST)
-Received: from [172.22.22.61] (55d44efc.access.ecotel.net [85.212.78.252])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 47671314DDA2;
-	Tue, 26 Aug 2014 02:51:17 +0200 (CEST)
-Message-ID: <53FBDA04.4070609@opendreambox.org>
-Date: Tue, 26 Aug 2014 02:51:16 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Tue, 26 Aug 2014 01:33:58 +0000 (UTC)
+Received: by mail-yk0-f170.google.com with SMTP id 9so10932400ykp.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Aug 2014 18:34:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=iOrA32lM25rc3id3JFRciqImOUhb0X85tS66VuWs9Wg=;
+	b=PoZH8UwpfgXseauZItVitm9BLPkondNRCcRjJafdxKkowHnOhi8/KVBH7EwdwLnTcf
+	kqKzeYo7mXFCsi6RgSv0Wt4ZjRunwMjeXWXp1NhgrGFu9rm5OAwqTClwK5L2dSsCjGVv
+	6h3DnB3K+Udumy1zQqPTSHh17UzLRreEzmbPuo/gZGYm+1xl8yOPE+MIkNyKrw8WNMA9
+	AQRCaF6VZzEVO/7raoGJhXbX5qBuGowt9WDDWhRf2+6huDw/ro0ZBXlIzSqRFadV1fYe
+	E4h0iSbnv3zJa1lXycxwgSdI1ptwpnHpQnnOlxwOf8x10JkNKX34fGSYPCIfXg7uDK4r
+	4T6w==
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1321087015.26881.15.camel@ted>
-In-Reply-To: <1321087015.26881.15.camel@ted>
+X-Received: by 10.236.151.231 with SMTP id b67mr35276026yhk.24.1409016839897; 
+	Mon, 25 Aug 2014 18:33:59 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.56.201 with HTTP; Mon, 25 Aug 2014 18:33:59 -0700 (PDT)
+In-Reply-To: <201408152253.02781.marex@denx.de>
+References: <1407425157-2736-1-git-send-email-marex@denx.de>
+	<CAP9ODKpCTJTLg2iwP+JmL+X_dyj919gB0k85r2HtKNKy_nhd_w@mail.gmail.com>
+	<201408152253.02781.marex@denx.de>
+Date: Mon, 25 Aug 2014 22:33:59 -0300
+X-Google-Sender-Auth: vylecEGyuj0dY0LAcUemAdQ6aJs
+Message-ID: <CAP9ODKqsksd5H0LXkN-NWfPpuDJyRpN1CtiDTvUPLbGx9JhbYQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Marek Vasut <marex@denx.de>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rootfs_ipk.bbclass: Ensure bad recommendations persist in the status file
+Subject: Re: [PATCH] Yocto: qt4: Let qmake control some compiler/linker flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,48 +46,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Aug 2014 00:51:28 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Aug 2014 01:34:02 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello Richard,
+On Fri, Aug 15, 2014 at 5:53 PM, Marek Vasut <marex@denx.de> wrote:
+> On Monday, August 11, 2014 at 02:49:16 AM, Otavio Salvador wrote:
+>> Hello Marek,
+>>
+>> On Thu, Aug 7, 2014 at 12:25 PM, Marek Vasut <marex@denx.de> wrote:
+>> > In the case of building an Qt application outside of the Yocto
+>> > build system, we want to make sure that a "debug" configuration
+>> > of the application does contain debug symbols and is has the
+>> > compiler optimalization unset. On the other hand, we want to
+>> > have a "release" build which does not contain the debug symbols
+>> > and has the compiler optimalization turned on.
+>> >
+>> > The OE_QMAKE_* flags serve to pass all kinds of flags into the
+>> > qmake-generated Makefile. Currently, we set OE_QMAKE_CFLAGS to
+>> > be ${CFLAGS} and ditto for CXXFLAGS and LDFLAGS in the SDK
+>> > toolchain environment script. This poses a problem, since the
+>> > CFLAGS can contain optimization options (-O*) and even flags to
+>> > produce debugging info (-g). The LDFLAGS may also contain some
+>> > harmful flags.
+>> >
+>> > The easy way out is to let qmake's army of configuration files
+>> > handle the proper configuration of CFLAGS, CXXFLAGS and LDFLAGS
+>> > for the generated Makefile and don't interfere with qmake's
+>> > decisions by adding arbitrary flags. This patch completely
+>> > scrubs OE_QMAKE_C{,XX}FLAGS and leaves only harmless flags in
+>> > OE_QMAKE_LDFLAGS. With this patch, the behavior is as it is
+>> > explained in the first paragraph.
+>> >
+>> > Signed-off-by: Marek Vasut <marex@denx.de>
+>> > Cc: Eric B=C3=A9nard <eric@eukrea.com>
+>>
+>> I understand your problem however I don't think the solution you found
+>> is optimal. It does fix the issue you refer in the commit log however
+>> it also makes difficult for user to "reuse" default SDK flags to test
+>> the application.
+>
+> What solution do you propose then?
+>
+> The default SDK flags effectively disallow qmake to operate correctly -- =
+that
+> is, to control the compiler/linker flags.
 
-sorry for digging out such an old message, but please see below.
+I understand your issue and I agree we need to address this somehow,
+however we should not regret the usability we had before.
 
-On 12.11.2011 09:36, Richard Purdie wrote:
-> Currently bad recommendations are added to the status file with status
-> "ok". After a single opkg command, whilst it will ignore the recommendation,
-> the status changes to "installed" even if the recommended package was not
-> installed. Whilst this is likely a glitch in opkg's logic, the correct
-> way to persist the information in the status file is to set the status
-> to "hold" as deinstall packages with that status remain. With this change
-> the bad recommendations persist accross multiple opkg runs and the system
-> behaves as expected.
-> 
-> [YOCTO #1758]
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-> index 3b4c392..4a5a2dd 100644
-> --- a/meta/classes/rootfs_ipk.bbclass
-> +++ b/meta/classes/rootfs_ipk.bbclass
-> @@ -44,7 +44,7 @@ fakeroot rootfs_ipk_do_rootfs () {
->  		pkginfo="`opkg-cl ${IPKG_ARGS} info $i`"
->  		if [ ! -z "$pkginfo" ]; then
->  			echo "$pkginfo" | grep -e '^Package:' -e '^Architecture:' -e '^Version:' >> $STATUS
-> -			echo "Status: deinstall ok not-installed" >> $STATUS
-> +			echo "Status: deinstall hold not-installed" >> $STATUS
+This remain unnoticed for such long time means people didn't notice
+the lack of this so we need to find a way to support the debugging
+without losing the use of SDK configured flags to release builds.
 
-I just implemented bad recommendations for deb (in dora) and by looking
-at dpkg's source code I realized that "hold" is only a valid value for
-the first field. Maybe you meant to write "Status: hold ok
-not-installed" instead? Valid values for the second field are ok and
-reinstreq.
-
-The code above doesn't exist in master anymore, but the status line
-hasn't changed in the newer version implemented in python.
-
-Regards,
-Andreas
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
