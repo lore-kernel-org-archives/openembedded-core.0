@@ -1,32 +1,39 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
-	[209.85.217.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 285B4710B6
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
+	by mail.openembedded.org (Postfix) with ESMTP id B5C8965D56
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 19:43:58 +0000 (UTC)
-Received: by mail-lb0-f180.google.com with SMTP id 10so1928879lbg.25
+	Tue, 26 Aug 2014 19:56:22 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
+	via TCP (outbound) with ESMTPS id 20140826195622971
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 12:43:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=vC7d0ireQJzZRvF0nOItnzG0uAIJ5p79Tf3I+VGlLmA=;
-	b=ssVJAW0q1I16TnYa4cwU/wvHFP3TGjBhn4YtpWR7oF4ZjxB/RFCnKoonJM9AHTbzO/
-	y/HI6jrKHWCwish7ohOBI0cP3/JQjpDUYGUrvX/FiaWEU6zUxS7hmZ/mSBuH+GL0gR+r
-	bXtTRRRaecb3GlnItBJ1qNjYe8wircCdqDrjlEnPLjyecQOkundQ482uXAxPSrXwmGst
-	HFXu3P//RYKlG/+ugh+jdMZWTcD7DGccEcbHb2fT+dSHpjYN5S/psFdZ2BwqXMMMcm3h
-	7DFYAX3vGBERDN0SVkVP60x7UIoVk3ET0Q61c9AM3ViOpVTg5/g7emof+1T4y1O52d/J
-	bxjw==
-MIME-Version: 1.0
-X-Received: by 10.112.165.68 with SMTP id yw4mr28690366lbb.5.1409082238509;
-	Tue, 26 Aug 2014 12:43:58 -0700 (PDT)
-Received: by 10.112.202.67 with HTTP; Tue, 26 Aug 2014 12:43:58 -0700 (PDT)
-In-Reply-To: <alpine.LFD.2.11.1408261510310.8225@localhost>
+	Tue, 26 Aug 2014 19:56:22 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=54766 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1XMMqn-0008WH-3F; Tue, 26 Aug 2014 15:56:17 -0400
+Date: Tue, 26 Aug 2014 15:56:14 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+In-Reply-To: <CADkTA4MAOB21eT+pM7BE4nxXWm1PSOv2EPFmoLY8T2-gAu4HWA@mail.gmail.com>
+Message-ID: <alpine.LFD.2.11.1408261555490.8552@localhost>
 References: <alpine.LFD.2.11.1408261510310.8225@localhost>
-Date: Tue, 26 Aug 2014 15:43:58 -0400
-Message-ID: <CADkTA4MAOB21eT+pM7BE4nxXWm1PSOv2EPFmoLY8T2-gAu4HWA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+	<CADkTA4MAOB21eT+pM7BE4nxXWm1PSOv2EPFmoLY8T2-gAu4HWA@mail.gmail.com>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: is INITRAMFS_TASK still useful, or can it be tossed?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -41,64 +48,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Aug 2014 19:44:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 26 Aug 2014 19:56:30 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Tue, Aug 26, 2014 at 3:14 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->
->   just noticed the following -- here's snippets from kernel.bbclass:
->
-> ... snip ...
-> INITRAMFS_TASK ?= ""
-> ... snip ...
->     # NOTE: setting INITRAMFS_TASK is for backward compatibility
->     #       The preferred method is to set INITRAMFS_IMAGE, because
->     #       this INITRAMFS_TASK has circular dependency problems
->     #       if the initramfs requires kernel modules
->     image_task = d.getVar('INITRAMFS_TASK', True)
->     if image_task:
->         d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
->     ... snip ...
->         if [ "$use_alternate_initrd" = "" ] && [ "${INITRAMFS_TASK}" != "" ] ; then
->                 # The old style way of copying an prebuilt image and building it
->                 # is turned on via INTIRAMFS_TASK != ""
->     ... snip ...
->
->   i have about a dozen layers checked out and the only other place i
-> see that variable used is:
->
-> meta-oe/meta-initramfs/recipes-kernel/linux/linux-yocto-tiny-kexecboot_3.10.bb:
->   INITRAMFS_TASK = "${INITRAMFS_IMAGE}:do_rootfs"
+On Tue, 26 Aug 2014, Bruce Ashfield wrote:
 
-check meta-handheld, it was an existing use case we didn't want to break.
+> On Tue, Aug 26, 2014 at 3:14 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> >
+> >   just noticed the following -- here's snippets from kernel.bbclass:
+> >
+> > ... snip ...
+> > INITRAMFS_TASK ?= ""
+> > ... snip ...
+> >     # NOTE: setting INITRAMFS_TASK is for backward compatibility
+> >     #       The preferred method is to set INITRAMFS_IMAGE, because
+> >     #       this INITRAMFS_TASK has circular dependency problems
+> >     #       if the initramfs requires kernel modules
+> >     image_task = d.getVar('INITRAMFS_TASK', True)
+> >     if image_task:
+> >         d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
+> >     ... snip ...
+> >         if [ "$use_alternate_initrd" = "" ] && [ "${INITRAMFS_TASK}" != "" ] ; then
+> >                 # The old style way of copying an prebuilt image and building it
+> >                 # is turned on via INTIRAMFS_TASK != ""
+> >     ... snip ...
+> >
+> >   i have about a dozen layers checked out and the only other place i
+> > see that variable used is:
+> >
+> > meta-oe/meta-initramfs/recipes-kernel/linux/linux-yocto-tiny-kexecboot_3.10.bb:
+> >   INITRAMFS_TASK = "${INITRAMFS_IMAGE}:do_rootfs"
+>
+> check meta-handheld, it was an existing use case we didn't want to break.
 
-Bruce
+  ah, that wasn't one of the layers i had checked out, thanks.
 
->
-> so has INITRAMFS_TASK been obsoleted by INITRAMFS_IMAGE? or is it
-> still worth hanging onto?
->
-> rday
->
-> --
->
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+rday
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
