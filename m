@@ -1,37 +1,37 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id BEAA47070E
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 19373710BE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 03:13:06 +0000 (UTC)
-Received: by mail-pa0-f47.google.com with SMTP id kx10so22087844pab.34
+	Tue, 26 Aug 2014 03:13:08 +0000 (UTC)
+Received: by mail-pd0-f179.google.com with SMTP id v10so21649085pde.38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Aug 2014 20:13:07 -0700 (PDT)
+	Mon, 25 Aug 2014 20:13:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=T7Ra31Y1K0x53hQZVWycehA9hHPiYiLFrV8XOnwGoHU=;
-	b=nrwaKYeHKExzCS9RCmewBne29xU2TfEMRnEbBjQBsKlAiXLJe9TTWcH970P/XeM5vE
-	ii69vi+pG84agAh02WENcGX+xZBx2Qrp2YzO+JGAlUDIYsbJA0Tk/KpNI3H9iu2gQqHS
-	BjtVgJneceAthwyeB8pgZXnDR1raQ35/L3iRujs2A8NkSfyxG07OUJ0je4f1ADWCLQqC
-	j6Z3NLr1L1F8JuJLeUYjBP5Zm+4Gk+RKsLCvxFbMKspOaNpgiZ5z2m4j+bh/6EqmpKWc
-	rTJF5QzkolC95vnlXy/tJlOtiflMzTcXy9cI8aa09x8V0xFus3GVMrAz7dC8fSx3uzpv
-	OT/Q==
-X-Received: by 10.70.137.37 with SMTP id qf5mr22385076pdb.56.1409022787882;
-	Mon, 25 Aug 2014 20:13:07 -0700 (PDT)
+	bh=ZQWUQFMh5Cs3B2HNE72B6uy/o+LwEsbGqW6hmkMAlF0=;
+	b=kyp6OXJDD+W5B3xwKovtZHEnYy8X3qLylfwD+mg0jz8i5HjCNeDPteMKbuuFLgVHAY
+	NT28X3I1qEsq7ebeDS9E2TqknyxfsjC1OPZ/aNOQzAldTUb3N6Dqbe/i12l7NuofrFGS
+	AdO5+AB+cnVh/XgQ/9/SmNUT8aNHGoVpvLWnP47Nell72RhaRTSY0lvER0OUngp3qWL/
+	rW5mmtNfZr5Kbhq993ZNXghlwrLS4xuY1u6ALi+OwwsyCZ2JydDPkDtH6V/Y9Uk+MfMg
+	Uoou3rbPWKXDIv95D2rM1PRbTW6wR7wMqO4alZpiLVXI5UFIwrvbaj7h/rrJU2Jktokz
+	ScoQ==
+X-Received: by 10.68.245.9 with SMTP id xk9mr16418761pbc.123.1409022789962;
+	Mon, 25 Aug 2014 20:13:09 -0700 (PDT)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by mx.google.com with ESMTPSA id qv9sm1233944pbb.86.2014.08.25.20.13.05
+	by mx.google.com with ESMTPSA id qv9sm1233944pbb.86.2014.08.25.20.13.07
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 25 Aug 2014 20:13:06 -0700 (PDT)
+	Mon, 25 Aug 2014 20:13:08 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Aug 2014 20:12:57 -0700
-Message-Id: <1409022778-29904-3-git-send-email-akuster808@gmail.com>
+Date: Mon, 25 Aug 2014 20:12:58 -0700
+Message-Id: <1409022778-29904-4-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1409022778-29904-1-git-send-email-akuster808@gmail.com>
 References: <1409022778-29904-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 2/3] IBM power6 v2: Add new tune file for PPC power6
+Subject: [PATCH 3/3] IBM power7 v2: Add new tune file for PPC power7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,43 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Aug 2014 03:13:07 -0000
+X-List-Received-Date: Tue, 26 Aug 2014 03:13:09 -0000
 
 v2: rename file
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/conf/machine/include/tune-power6.inc | 21 +++++++++++++++++++++
+ meta/conf/machine/include/tune-power7.inc | 21 +++++++++++++++++++++
  1 file changed, 21 insertions(+)
- create mode 100644 meta/conf/machine/include/tune-power6.inc
+ create mode 100644 meta/conf/machine/include/tune-power7.inc
 
-diff --git a/meta/conf/machine/include/tune-power6.inc b/meta/conf/machine/include/tune-power6.inc
+diff --git a/meta/conf/machine/include/tune-power7.inc b/meta/conf/machine/include/tune-power7.inc
 new file mode 100644
-index 0000000..7563798
+index 0000000..7069e75
 --- /dev/null
-+++ b/meta/conf/machine/include/tune-power6.inc
++++ b/meta/conf/machine/include/tune-power7.inc
 @@ -0,0 +1,21 @@
-+DEFAULTTUNE ?= "ppcpr6"
++DEFAULTTUNE ?= "ppcpr7"
 +
 +require conf/machine/include/powerpc/arch-powerpc64.inc
 +
-+TUNEVALID[power6] = "Enable IBM Power6 specific processor optimizations"
-+TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "power6", " -mcpu=power6", "", d)}"
++TUNEVALID[power7] = "Enable IBM Power7 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "power7", " -mcpu=power7", "", d)}"
 +
-+AVAILTUNES += "ppcp6 ppc64p6"
-+TUNE_FEATURES_tune-ppcp6 = "m32 fpu-hard power6 altivec"
-+BASE_LIB_tune-ppcp6 = "lib"
-+TUNE_PKGARCH_tune-ppcp6 = "ppcp6"
-+PACKAGE_EXTRA_ARCHS_tune-ppcp6 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc} ppcp6"
++AVAILTUNES += "ppcp7 ppc64p7"
++TUNE_FEATURES_tune-ppcp7 = "m32 fpu-hard power7 altivec"
++BASE_LIB_tune-ppcp7 = "lib"
++TUNE_PKGARCH_tune-ppcp7 = "ppcp7"
++PACKAGE_EXTRA_ARCHS_tune-ppcp7 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc} ppcp7"
 +
-+TUNE_FEATURES_tune-ppc64p6 = "m64 fpu-hard power6 altivec"
-+BASE_LIB_tune-ppc64p6 = "lib64"
-+TUNE_PKGARCH_tune-ppc64p6 = "ppc64p6"
-+PACKAGE_EXTRA_ARCHS_tune-ppc64p6 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc64} ppc64p6"
++TUNE_FEATURES_tune-ppc64p7 = "m64 fpu-hard power7 altivec"
++BASE_LIB_tune-ppc64p7 = "lib64"
++TUNE_PKGARCH_tune-ppc64p7 = "ppc64p7"
++PACKAGE_EXTRA_ARCHS_tune-ppc64p7 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc64} ppc64p7"
 +
-+# glibc configure options to get power6 specific library
-+GLIBC_EXTRA_OECONF_powerpc64 += "${@bb.utils.contains("TUNE_FEATURES", "power6", "--with-cpu=power6", "", d)}"
-+GLIBC_EXTRA_OECONF_powerpc += "${@bb.utils.contains("TUNE_FEATURES", "power6", "--with-cpu=power6", "", d)}"
++# glibc configure options to get power7 specific library
++GLIBC_EXTRA_OECONF_powerpc64 += "${@bb.utils.contains("TUNE_FEATURES", "power7", "--with-cpu=power7", "", d)}"
++GLIBC_EXTRA_OECONF_powerpc += "${@bb.utils.contains("TUNE_FEATURES", "power7", "--with-cpu=power7", "", d)}"
 -- 
 1.9.1
 
