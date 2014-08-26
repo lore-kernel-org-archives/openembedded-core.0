@@ -1,36 +1,25 @@
-Return-Path: <Fahad_Usman@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D1C170E5A
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B1682706F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 07:45:06 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1XMBPu-0000AE-Uc from Fahad_Usman@mentor.com ;
-	Tue, 26 Aug 2014 00:43:46 -0700
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Tue, 26 Aug 2014 00:43:44 -0700
-Received: from [137.202.156.82] (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.2.247.3; Tue, 26 Aug 2014 08:43:43 +0100
-Message-ID: <53FC3AAA.7030700@mentor.com>
-Date: Tue, 26 Aug 2014 12:43:38 +0500
-From: "Usman, Fahad" <Fahad_Usman@mentor.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>, Christopher Larson <clarson@kergoth.com>
-References: <1408983725-45864-1-git-send-email-fahad_usman@mentor.com>
-	<20140825171945.GA25050@haswell>
-	<CABcZAN=x7u=gF=-NfbBNLUcqvXgzte_CK_52rQGYikaNSXqU_A@mail.gmail.com>
-	<20140825175147.GB25050@haswell>
-In-Reply-To: <20140825175147.GB25050@haswell>
-X-Originating-IP: [137.202.0.76]
-X-OriginalArrivalTime: 26 Aug 2014 07:43:44.0659 (UTC)
-	FILETIME=[76A38630:01CFC101]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] logrotate: obey our flags
+	Tue, 26 Aug 2014 08:00:13 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 26 Aug 2014 00:54:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,402,1406617200"; d="scan'208";a="593336833"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 26 Aug 2014 01:00:14 -0700
+Received: from localhost.localdomain (unknown [10.237.112.162])
+	by linux.intel.com (Postfix) with ESMTP id 67E132C8002;
+	Tue, 26 Aug 2014 00:59:33 -0700 (PDT)
+From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Aug 2014 13:05:41 +0300
+Message-Id: <1409047544-7026-2-git-send-email-corneliux.stoicescu@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1409047544-7026-1-git-send-email-corneliux.stoicescu@intel.com>
+References: <1409047544-7026-1-git-send-email-corneliux.stoicescu@intel.com>
+Subject: [PATCH 1/4] classes/populate_sdk_base.bbclass: add a manifest for target sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,26 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Aug 2014 07:45:11 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Aug 2014 08:00:17 -0000
 
-On 08/25/2014 10:51 PM, Khem Raj wrote:
->>>> +    LFS= \
->>>> > > >+    OS_NAME='${OS_NAME}' \
->>>> > > >+    \
->>>> > > >+    'CC=${CC}' \
->>> > >
->>> > >hmmm CC may have spaces in it so you might need 'CC="${CC}"' or somesuch
->> >
->> >
->> >Nope, the whole CC=${CC} argument is already quoted, note the single quotes
->> >around it. Those quotes mean the entire CC=${CC} bit ends up in the
->> >appropriate argument for make, so there's no need to quote the value alone.
-> What happens inside makefile is what I am concerned
-> in case of python, IIRC it passed it but when CC was used it would
-> freak out since CC now was a multiword str but then those were not inside makefiles
-> if you have verified thats fine here then I am OK.
-Just checked the CC do have spaces, and it works fine. I am re-sending 
-the patch with the fixed typo.
+Similar to the way BSP images have rootfs a manifest, the toolchain now also has a manifest file created alongside the sdk image.
+
+Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+---
+ meta/classes/populate_sdk_base.bbclass | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 9e3bd61..db64d3a 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -52,6 +52,18 @@ EXCLUDE_FROM_WORLD = "1"
+ 
+ SDK_PACKAGING_FUNC ?= "create_shar"
+ 
++SDK_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.manifest"
++python write_target_sdk_manifest () {
++    from oe.sdk import sdk_list_installed_packages
++    sdkmanifestdir = os.path.dirname(d.getVar("SDK_MANIFEST", True))
++    if not os.path.exists(sdkmanifestdir):
++        bb.utils.mkdirhier(sdkmanifestdir)
++    with open(d.getVar('SDK_MANIFEST', True), 'w') as output:
++        output.write(sdk_list_installed_packages(d, True, 'ver'))
++}
++
++POPULATE_SDK_POST_TARGET_COMMAND_append = " write_target_sdk_manifest ; "
++
+ fakeroot python do_populate_sdk() {
+     from oe.sdk import populate_sdk
+     from oe.manifest import create_manifest, Manifest
+-- 
+1.8.3.2
+
 
