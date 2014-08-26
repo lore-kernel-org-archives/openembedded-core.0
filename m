@@ -1,43 +1,35 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
-	[209.85.217.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 148026FCE0
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 33A0470E5A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 10:59:08 +0000 (UTC)
-Received: by mail-lb0-f176.google.com with SMTP id c11so1152915lbj.35
+	Tue, 26 Aug 2014 12:07:53 +0000 (UTC)
+Received: by mail-lb0-f170.google.com with SMTP id p9so1248053lbv.29
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 03:59:09 -0700 (PDT)
+	Tue, 26 Aug 2014 05:07:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=7JGvE5hQbxtwVIYB/e6WfZAMS0OxtzZRGHk1/Lr+SGw=;
-	b=I3QzBpMCOeDApmYjisQr5opGHM7eXYbdRcea/FSVxrMn/STbDZwcCpy5zJUVjRU7MG
-	+L6bbo4n57zEefu8kXAwMcuRaKRPLMYek9xG8OMIcakBGa1Pi6PardhQwJBXzi/V/90Q
-	1/eS6GglrMRr1XrUeirg4EnbT+Nwm/WJhVxNpVhYtFJoPpWQJh6c0SjKFHIbMzyieuhx
-	StGaUIavUBXXkIen1K9IQYytu9np9v46ZiH102SXV2Z8uBA9VXzcVXCtyzJA5FoV/WNz
-	rvH9H0civp+n8p/CwEEgDDE7LEkxFMYmo7Kc5s38fTuQJv6qUUschBLQGdGEmaszWL4t
-	SXNA==
-X-Received: by 10.112.205.200 with SMTP id li8mr25388918lbc.70.1409050749119; 
-	Tue, 26 Aug 2014 03:59:09 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=ur8wMOWfR9EfMMpTbjaevgemBzhlkRqYHLn6+ivUdCQ=;
+	b=F9UAU2W0kuq+xLftnmmsUqjZmwbsNUM06NhDZ8MNZiFsNe32rYKBNEIbrhBZylmwOs
+	zEFfAJrgl+fOU6knj0nS3soLrBAERGq2phlOU/A1IKhjdHuoQnaxdOmQrdumbETk6oLq
+	nsX8WQld2ldHHheUHpU0siajIF/g4eMkfx0tZyk+t9dGEkWnhhQw/sL3HZxPx+6powIc
+	PkxqMLmUqi26epBiATHSTchNF4FI3OXbEUrXZLY4sHKcLsE3qfqGUaVzYioy6nUhtWgc
+	I8aR37AdLCHvicq/W5BGK52nhQJ8WXjGQ/pRu3Hypo8vZ3/HEddMjZRppsffeR8HiPb2
+	BnkA==
+X-Received: by 10.112.170.138 with SMTP id am10mr13662881lbc.74.1409054873533; 
+	Tue, 26 Aug 2014 05:07:53 -0700 (PDT)
+Received: from localhost.localdomain (ygg.betafive.co.uk. [5.9.90.21])
 	by mx.google.com with ESMTPSA id
-	e9sm1808830laf.36.2014.08.26.03.59.07 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Aug 2014 03:59:08 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 26 Aug 2014 12:59:15 +0200
-To: Christopher Larson <kergoth@gmail.com>
-Message-ID: <20140826105915.GW20524@jama>
-References: <cover.1409007366.git.chris_larson@mentor.com>
-	<483e2f9eb1085db0958bb1ef9184814766bbd214.1409007366.git.chris_larson@mentor.com>
-	<20140826105149.GV20524@jama>
-MIME-Version: 1.0
-In-Reply-To: <20140826105149.GV20524@jama>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2 1/3] sanity: handle both \n and \\n in mirror vars
+	ay15sm1916628lab.41.2014.08.26.05.07.52 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 26 Aug 2014 05:07:52 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Aug 2014 12:07:47 +0000
+Message-Id: <1409054867-10600-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] psmisc: Update patch status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,73 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Aug 2014 10:59:12 -0000
-X-Groupsio-MsgNum: 56963
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="VcZjVMblxkg0/8Ur"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 26 Aug 2014 12:07:55 -0000
 
---VcZjVMblxkg0/8Ur
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The patch "Include <limits.h> for PATH_MAX" was accepted into the master branch
+of psmisc by the maintainer. It should be included in the next release.
 
-On Tue, Aug 26, 2014 at 12:51:49PM +0200, Martin Jansa wrote:
-> On Mon, Aug 25, 2014 at 03:57:42PM -0700, Christopher Larson wrote:
-> > From: Christopher Larson <chris_larson@mentor.com>
-> >=20
-> > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> > ---
-> >  meta/classes/sanity.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> > index dbcc26b..7cfc4be 100644
-> > --- a/meta/classes/sanity.bbclass
-> > +++ b/meta/classes/sanity.bbclass
-> > @@ -759,7 +759,7 @@ def check_sanity_everybuild(status, d):
-> >          'git://', 'gitsm://', 'hg://', 'osc://', 'p4://', 'svk://', 's=
-vn://', \
-> >          'bzr://', 'cvs://']
-> >      for mir_type in mir_types:
-> > -        mirros =3D (d.getVar(mir_type, True) or '').split('\\n')
-> > +        mirros =3D (d.getVar(mir_type, True) or '').replace('\\n', '\n=
-').split('\n')
->=20
-> Would you mind fixing the typo in variable name as well?
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+---
+ .../psmisc/files/0002-Include-limits.h-for-PATH_MAX.patch               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Nevermind, it's refactored in 3/3, sorry for noise.
-
-> >          for mir in mirros:
-> >              mir_list =3D mir.split()
-> >              # Should be two members.
-> > --=20
-> > 1.8.3.4
-> >=20
-> > --=20
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-extended/psmisc/files/0002-Include-limits.h-for-PATH_MAX.patch b/meta/recipes-extended/psmisc/files/0002-Include-limits.h-for-PATH_MAX.patch
+index d8d1482..c0835e0 100644
+--- a/meta/recipes-extended/psmisc/files/0002-Include-limits.h-for-PATH_MAX.patch
++++ b/meta/recipes-extended/psmisc/files/0002-Include-limits.h-for-PATH_MAX.patch
+@@ -7,7 +7,7 @@ When building against musl libc, PATH_MAX is defined in <limits.h>.
+ 
+ Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+ 
+-Upstream-status: Pending
++Upstream-status: Accepted (Should be in next release after 22.21)
+ ---
+  src/pstree.c | 1 +
+  1 file changed, 1 insertion(+)
+-- 
+2.1.0
 
 
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---VcZjVMblxkg0/8Ur
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlP8aIMACgkQN1Ujt2V2gBwv1gCfbg8ZaW5NU2aq29lcy6rVjpUz
-sZ0AoI+0/BJWekpHCZZHWhAHwALL9adj
-=0BU1
------END PGP SIGNATURE-----
-
---VcZjVMblxkg0/8Ur--
