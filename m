@@ -1,24 +1,24 @@
 Return-Path: <max.eliaser@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5ECC0710DB
+	by mail.openembedded.org (Postfix) with ESMTP id 521C4710DA
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 26 Aug 2014 17:36:58 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 26 Aug 2014 10:36:55 -0700
+	by orsmga101.jf.intel.com with ESMTP; 26 Aug 2014 10:36:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,405,1406617200"; d="scan'208";a="593594932"
+X-IronPort-AV: E=Sophos;i="5.04,405,1406617200"; d="scan'208";a="593594929"
 Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.68])
 	by orsmga002.jf.intel.com with ESMTP; 26 Aug 2014 10:36:54 -0700
 From: Max Eliaser <max.eliaser@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Aug 2014 10:34:12 -0700
-Message-Id: <f322f9db4f8d7065f86014ba610698c3fd81f8e3.1409074419.git.max.eliaser@intel.com>
+Date: Tue, 26 Aug 2014 10:34:09 -0700
+Message-Id: <f1186585c1df35a69c67f79ee08901e6d1a713ee.1409074419.git.max.eliaser@intel.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <cover.1409074419.git.max.eliaser@intel.com>
 References: <cover.1409074419.git.max.eliaser@intel.com>
 In-Reply-To: <cover.1409074419.git.max.eliaser@intel.com>
 References: <cover.1409074419.git.max.eliaser@intel.com>
-Subject: [PATCH 4/5] qemux86-64: xorg.conf: allow X.Org driver to be selected automatically.
+Subject: [PATCH 1/5] xorg-drivers: xf86-video-cirrus: add a recipe for the Cirrus Logic X.Org driver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +33,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 26 Aug 2014 17:36:59 -0000
 
-A section specifying the driver to use is deleted from the image's xorg.conf,
-allowing the X server to automatically select the most appropriate driver.
-Testing shows that it does always pick the correct one.
+This driver allows X.Org to use the Cirrus Logic family of VGA adapters. Since
+QEMU can emulate a Cirrus VGA adapter, this driver will be of use for images
+that are expected to run under QEMU, if QEMU's other VGA adapters are
+unavailable.
 
 Signed-off-by: Max Eliaser <max.eliaser@intel.com>
 ---
- .../xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf            | 5 -----
- 1 file changed, 5 deletions(-)
+ .../recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
-index 10a6d9a..bbda9ea 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86-64/xorg.conf
-@@ -30,11 +30,6 @@ Section "InputDevice"
-     Option        "USB"           "on"
- EndSection
- 
--Section "Device"
--    Identifier    "Graphics Controller"
--    Driver        "vmware"
--EndSection
--
- Section "Monitor"
-     Identifier    "Generic Monitor"
-     Option        "DPMS"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb b/meta/recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb
+new file mode 100644
+index 0000000..01cd37e
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-cirrus_1.5.2.bb
+@@ -0,0 +1,13 @@
++require xorg-driver-video.inc
++
++SUMMARY = "X.Org X server -- cirrus display driver"
++DESCRIPTION = "cirrus is an Xorg driver for Cirrus Logic VGA adapters. These \
++devices are not so common in the wild anymore, but QEMU can emulate one, so \
++the driver is still useful."
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=6ddc7ca860dc5fd014e7f160ea699295"
++
++SRC_URI[md5sum] = "91fd6b677d62027cd3001debb587a6a6"
++SRC_URI[sha256sum] = "3361e1a65d9b84c464752fd612bdf6087622c6dd204121715366a170e5c3ccd7"
++
++DEPENDS += "libpciaccess"
 -- 
 1.8.3.2
 
