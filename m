@@ -1,26 +1,24 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AC926710CB
+Return-Path: <max.eliaser@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 302CA710D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 17:29:32 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7QHTXcA011050
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 10:29:33 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 26 Aug 2014 10:29:33 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Aug 2014 10:29:31 -0700
-Message-ID: <1409074171-25977-2-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <1409074171-25977-1-git-send-email-jslater@windriver.com>
-References: <1409074171-25977-1-git-send-email-jslater@windriver.com>
-MIME-Version: 1.0
-Subject: [[v2][PATCH 1/1] archiver.bbclass: add revision to git tarfile name
+	Tue, 26 Aug 2014 17:36:57 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 26 Aug 2014 10:36:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,405,1406617200"; d="scan'208";a="593594930"
+Received: from maxtothemax-studio-xps-8000.jf.intel.com ([10.7.196.68])
+	by orsmga002.jf.intel.com with ESMTP; 26 Aug 2014 10:36:54 -0700
+From: Max Eliaser <max.eliaser@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Aug 2014 10:34:10 -0700
+Message-Id: <2d9025b17efef76fa87c8e63d336189a880dac64.1409074419.git.max.eliaser@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <cover.1409074419.git.max.eliaser@intel.com>
+References: <cover.1409074419.git.max.eliaser@intel.com>
+In-Reply-To: <cover.1409074419.git.max.eliaser@intel.com>
+References: <cover.1409074419.git.max.eliaser@intel.com>
+Subject: [PATCH 2/5] qemux86: xorg.conf: allow X.Org driver to be selected automatically.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Aug 2014 17:29:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Aug 2014 17:36:59 -0000
 
-When archiving original source, insert the first 10
-characters of srcrev, after stripping off any
-AUTOINC+, into the filename for tarfiles created
-from directories.
+A section specifying the driver to use is deleted from the image's xorg.conf,
+allowing the X server to automatically select the most appropriate driver.
+Testing shows that it does always pick the correct one.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
+Signed-off-by: Max Eliaser <max.eliaser@intel.com>
 ---
- meta/classes/archiver.bbclass |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
+ .../xorg-xserver/xserver-xf86-config/qemux86/xorg.conf               | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 35e5411..058ba63 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -146,7 +146,12 @@ python do_ar_original() {
-             fetch.unpack(tmpdir, (url,))
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
+index 10a6d9a..bbda9ea 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemux86/xorg.conf
+@@ -30,11 +30,6 @@ Section "InputDevice"
+     Option        "USB"           "on"
+ EndSection
  
-             os.chdir(tmpdir)
--            tarname = os.path.join(ar_outdir, basename + '.tar.gz')
-+            # We split on '+' to chuck any annoying AUTOINC+ in the revision.
-+            try:
-+                src_rev = bb.fetch2.get_srcrev(d).split('+')[-1][:10]
-+            except:
-+                src_rev = 'NOREV'
-+            tarname = os.path.join(ar_outdir, basename + '.' + src_rev + '.tar.gz')
-             tar = tarfile.open(tarname, 'w:gz')
-             tar.add('.')
-             tar.close()
+-Section "Device"
+-    Identifier    "Graphics Controller"
+-    Driver        "vmware"
+-EndSection
+-
+ Section "Monitor"
+     Identifier    "Generic Monitor"
+     Option        "DPMS"
 -- 
-1.7.3.4
+1.8.3.2
 
 
