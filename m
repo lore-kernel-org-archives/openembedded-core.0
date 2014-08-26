@@ -1,24 +1,42 @@
-Return-Path: <Li.Wang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 756006FE3B
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E09E6FCE0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 08:33:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7Q8XQR1003165
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 26 Aug 2014 10:51:46 +0000 (UTC)
+Received: by mail-la0-f42.google.com with SMTP id pv20so14837610lab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 01:33:27 -0700 (PDT)
-Received: from lwang1-OptiPlex-9010.corp.ad.wrs.com (128.224.162.134) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 26 Aug 2014 01:33:26 -0700
-From: Li Wang <li.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Aug 2014 16:33:24 +0800
-Message-ID: <1409042004-6029-1-git-send-email-li.wang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Tue, 26 Aug 2014 03:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=+IdR0srzFVrpAi39F3wtH9Jjpjw2eet105K/p3VLFek=;
+	b=bgXxSZQAQwXgB6+4zBKyCSbW+ZBE+KYAqHcyMOyBI6r/4qHj8Qx94eZxxDd3qVEeaf
+	eT4B6Kw6yatb/rjOetp0rt/yNGvwwIuyVVFAscVkwMNro2gAvUQdBDMkRS01SLesLyIa
+	WCYk+j6ZIzr/Sskn7HG49jas1Dt/laMigFMXEryLCXeZDxrjpwHCIqjXiIL4wcKQZSg4
+	45qjFELk2DWrLR4B/ZQBmvDgfnVxyoxMf1vF9OnlHLwyYrqZJhB76FfdbRmBBlfPqNV3
+	/Ob4jPx9upKWxoyS3qRmp1C4qRUqQ0hXu29REsTVWbIfKMThUHjfHVqejF3e7RY1R5rR
+	ZCPQ==
+X-Received: by 10.112.33.14 with SMTP id n14mr1957188lbi.99.1409050306923;
+	Tue, 26 Aug 2014 03:51:46 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	my10sm4621092lbb.9.2014.08.26.03.51.41 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 26 Aug 2014 03:51:42 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 26 Aug 2014 12:51:49 +0200
+To: Christopher Larson <kergoth@gmail.com>
+Message-ID: <20140826105149.GV20524@jama>
+References: <cover.1409007366.git.chris_larson@mentor.com>
+	<483e2f9eb1085db0958bb1ef9184814766bbd214.1409007366.git.chris_larson@mentor.com>
 MIME-Version: 1.0
-Subject: [PATCH] nss: CVE-2014-1544
+In-Reply-To: <483e2f9eb1085db0958bb1ef9184814766bbd214.1409007366.git.chris_larson@mentor.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2 1/3] sanity: handle both \n and \\n in mirror vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,86 +49,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Aug 2014 08:33:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Aug 2014 10:51:50 -0000
+X-Groupsio-MsgNum: 56962
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="GrZJL/A7LJaW37J8"
+Content-Disposition: inline
 
-the patch comes from:
-https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2014-1544
-https://hg.mozilla.org/projects/nss/rev/204f22c527f8
+--GrZJL/A7LJaW37J8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-author  Robert Relyea <rrelyea@redhat.com>
-https://bugzilla.mozilla.org/show_bug.cgi?id=963150
-Bug 963150: Add nssCertificate_AddRef and nssCertificate_Destroy calls
-to PK11_ImportCert to prevent nssTrustDomain_AddCertsToCache from
-freeing the CERTCertificate associated with the NSSCertificate. r=wtc.
+On Mon, Aug 25, 2014 at 03:57:42PM -0700, Christopher Larson wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+>=20
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+>  meta/classes/sanity.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index dbcc26b..7cfc4be 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -759,7 +759,7 @@ def check_sanity_everybuild(status, d):
+>          'git://', 'gitsm://', 'hg://', 'osc://', 'p4://', 'svk://', 'svn=
+://', \
+>          'bzr://', 'cvs://']
+>      for mir_type in mir_types:
+> -        mirros =3D (d.getVar(mir_type, True) or '').split('\\n')
+> +        mirros =3D (d.getVar(mir_type, True) or '').replace('\\n', '\n')=
+=2Esplit('\n')
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
----
- .../nss/files/nss-CVE-2014-1544.patch              |   41 ++++++++++++++++++++
- meta/recipes-support/nss/nss.inc                   |    1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-support/nss/files/nss-CVE-2014-1544.patch
+Would you mind fixing the typo in variable name as well?
 
-diff --git a/meta/recipes-support/nss/files/nss-CVE-2014-1544.patch b/meta/recipes-support/nss/files/nss-CVE-2014-1544.patch
-new file mode 100644
-index 0000000..d6434df
---- /dev/null
-+++ b/meta/recipes-support/nss/files/nss-CVE-2014-1544.patch
-@@ -0,0 +1,41 @@
-+nss: CVE-2014-1544
-+
-+the patch comes from:
-+https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2014-1544
-+https://hg.mozilla.org/projects/nss/rev/204f22c527f8
-+
-+author	Robert Relyea <rrelyea@redhat.com>
-+https://bugzilla.mozilla.org/show_bug.cgi?id=963150
-+Bug 963150: Add nssCertificate_AddRef and nssCertificate_Destroy calls
-+to PK11_ImportCert to prevent nssTrustDomain_AddCertsToCache from
-+freeing the CERTCertificate associated with the NSSCertificate. r=wtc.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ nss/lib/pk11wrap/pk11cert.c |    7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/nss/lib/pk11wrap/pk11cert.c b/nss/lib/pk11wrap/pk11cert.c
-+index 39168b9..3f3edb1 100644
-+--- a/nss/lib/pk11wrap/pk11cert.c
-++++ b/nss/lib/pk11wrap/pk11cert.c
-+@@ -981,8 +981,15 @@ PK11_ImportCert(PK11SlotInfo *slot, CERTCertificate *cert,
-+      * CERTCertificate, and finish
-+      */
-+     nssPKIObject_AddInstance(&c->object, certobj);
-++    /* nssTrustDomain_AddCertsToCache may release a reference to 'c' and
-++     * replace 'c' by a different value. So we add a reference to 'c' to
-++     * prevent 'c' from being destroyed. */
-++    nssCertificate_AddRef(c);
-+     nssTrustDomain_AddCertsToCache(STAN_GetDefaultTrustDomain(), &c, 1);
-++    /* XXX should we pass the original value of 'c' to
-++     * STAN_ForceCERTCertificateUpdate? */
-+     (void)STAN_ForceCERTCertificateUpdate(c);
-++    nssCertificate_Destroy(c);
-+     SECITEM_FreeItem(keyID,PR_TRUE);
-+     return SECSuccess;
-+ loser:
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
-index 69f98b5..d706c43 100644
---- a/meta/recipes-support/nss/nss.inc
-+++ b/meta/recipes-support/nss/nss.inc
-@@ -22,6 +22,7 @@ SRC_URI = "\
-     file://nss-CVE-2013-1740.patch \
-     file://nss-3.15.1-fix-CVE-2013-1739.patch \
-     file://nss-CVE-2013-5606.patch \
-+    file://nss-CVE-2014-1544.patch \
- "
- SRC_URI_append_class-target = "\
-     file://nss.pc.in \
--- 
-1.7.9.5
+>          for mir in mirros:
+>              mir_list =3D mir.split()
+>              # Should be two members.
+> --=20
+> 1.8.3.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--GrZJL/A7LJaW37J8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlP8ZsUACgkQN1Ujt2V2gBypigCgqj6A8jdlEvt9Sf2bWbTQFHto
+LIUAn0A4pLKcxgKcMOTEzqdcCNdgRvJR
+=GnlR
+-----END PGP SIGNATURE-----
+
+--GrZJL/A7LJaW37J8--
