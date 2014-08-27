@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 976056FE2A
+	by mail.openembedded.org (Postfix) with ESMTP id 940CB6FE2A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 07:53:35 +0000 (UTC)
+	Wed, 27 Aug 2014 07:53:39 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7R7rXu3016801
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7R7rdwo016807
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 27 Aug 2014 00:53:33 -0700 (PDT)
+	Wed, 27 Aug 2014 00:53:39 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 27 Aug 2014 00:53:33 -0700
+	14.3.174.1; Wed, 27 Aug 2014 00:53:39 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>, <mark.hatle@windriver.com>
-Date: Wed, 27 Aug 2014 15:53:22 +0800
-Message-ID: <cover.1409124921.git.hongxu.jia@windriver.com>
+Date: Wed, 27 Aug 2014 15:53:24 +0800
+Message-ID: <299d4160742094b9af08cb099874dce8bc119c88.1409124921.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1409124921.git.hongxu.jia@windriver.com>
+References: <cover.1409124921.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/3] bbclass/sstate: only allowed sstate-cache objects are allowed in a build (read-only sstate-cache)
+Subject: [PATCH 2/3] bbclass/sstate: add hook SSTATE_CHECK_FUNCTIONS for sstate checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,110 +33,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 07:53:37 -0000
+X-List-Received-Date: Wed, 27 Aug 2014 07:53:39 -0000
 Content-Type: text/plain
 
-Changed in V2:
+Provide hook for sstate checking, the checking failure will
+break the building immediately. Pass input parameters by
+bb.data (d.getVar/d.setVar).
 
-- add hook SSTATE_CHECK_FUNCTIONS for sstate checking, and
-  add a new bbclass/sstate_readonly, rather than directly
-  modify bbclass/sstate
+Hook  : SSTATE_CHECK_FUNCTIONS
+Input : missed    - list of missing sstate file index in sq
+      : found     - list of existing sstate file index in sq
+      : sq_fn     - list of filenames in the sq
+      : sq_task   - list of task names in the sq
+      : sq_hash   - list of task hash in the sq
+      : sq_hashfn - list of hashfn in the sq
 
-- terminate build safely while RunQueueExecuteScenequeue
-  init failed, the previous bb.msg.fatal is too hack.
+[YOCTO #6639]
 
-Test steps:
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/classes/sstate.bbclass | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-1) vim local.conf
-INHERIT += 'sstate_readonly'
-
-2) Create a sstate cache for testing
-$ bitbake db-native
-
-3) Remove tmp dir and build db-native from sstate-cache
-$ mv tmp tmp-back && bitbake db-native
-
-4) Add gzip to SSTATECACHE_WHITELIST, it enabled read-only sstate-cache,
-vim local.conf
-...
-SSTATECACHE_WHITELIST = 'gzip'
-...
-
-5) Remove tmp dir and build db-native from sstate-cache
-$ mv tmp tmp-back && bitbake db-native
-
-6) tweak db's do_configure task by adding comments
---- a/meta/recipes-support/db/db_6.0.30.bb
-+++ b/meta/recipes-support/db/db_6.0.30.bb
-@@ -82,6 +82,7 @@ do_configure() {
-        gnu-configize --force ${S}
-        export STRIP="true"
-        oe_runconf
-+       echo "hello"
- }
-
-
-7) build db-native and there is a build failure
-$ bitbake db-native
-...
-NOTE: Preparing runqueue
-ERROR: Read-only sstate-cache is enabled, the build of 
-"db-native"
-did not come from sstate-cache. Only the recipe listed in
-SSTATECACHE_WHITELIST is allowed to build from source
-...
-
-8) clean db-native failed
-$ bitbake db-native -ccleansstate
-...
-ERROR: Read-only sstate-cache is enabled, the clean of 
-db-native is not allowed. Only the recipe listed in
-SSTATECACHE_WHITELIST is allowed to clean sstate-cache
-...
-
-$ bitbake db-native -ccleanall
-...
-ERROR: Read-only sstate-cache is enabled, the clean of 
-db-native is not allowed. Only the recipe listed in
-SSTATECACHE_WHITELIST is allowed to clean sstate-cache
-...
-
-9) Add db-native to SSTATECACHE_WHITELIST
-vim local.conf
-...
-SSTATECACHE_WHITELIST = 'gzip db-native'
-...
-
-10) build/clean db-native succee
-$ bitbake db-native
-$ bitbake db-native -ccleansstate
-$ bitbake db-native -ccleanall
-
-//Hongxu
-
-
-The following changes since commit 52b788c6df9201764130ab744bf67b770b24b896:
-
-  autogen-native: inherit pkgconfig to fix a build failure (2014-08-25 10:26:00 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/readonly-sstatecache
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/readonly-sstatecache
-
-Hongxu Jia (3):
-  bitbake: runqueue: terminate build safely while
-    RunQueueExecuteScenequeue init failed
-  bbclass/sstate: add hook SSTATE_CHECK_FUNCTIONS for sstate checking
-  bbclass/sstate_readonly: only allowed sstate-cache objects are allowed
-    in a build (read-only sstate-cache)
-
- bitbake/lib/bb/runqueue.py           |  7 ++++-
- meta/classes/sstate.bbclass          | 26 ++++++++++++++++++
- meta/classes/sstate_readonly.bbclass | 51 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 83 insertions(+), 1 deletion(-)
- create mode 100644 meta/classes/sstate_readonly.bbclass
-
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 4eec6bd..466fdf4 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -36,6 +36,18 @@ SSTATEPREINSTFUNCS ?= ""
+ SSTATEPOSTINSTFUNCS ?= ""
+ EXTRA_STAGING_FIXMES ?= ""
+ 
++# Provide hook for sstate checking, the checking failure will
++# break the building immediately. Pass input parameters by
++# bb.data (d.getVar).
++# Input : missed    - list of missing sstate file index in sq
++#       : found     - list of existing sstate file index in sq
++#       : sq_fn     - list of filenames in the sq
++#       : sq_task   - list of task names in the sq
++#       : sq_hash   - list of task hash in the sq
++#       : sq_hashfn - list of hashfn in the sq
++#
++SSTATE_CHECK_FUNCTIONS ?= ""
++
+ # Specify dirs in which the shell function is executed and don't use ${B}
+ # as default dirs to avoid possible race about ${B} with other task.
+ sstate_create_package[dirs] = "${SSTATE_BUILDDIR}"
+@@ -704,6 +716,20 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+             evdata['found'].append( (sq_fn[task], sq_task[task], sq_hash[task], sstatefile ) )
+         bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
+ 
++    localdata = bb.data.createCopy(d)
++    bb.data.update_data(localdata)
++    for f in (localdata.getVar('SSTATE_CHECK_FUNCTIONS', True) or '').split():
++        localdata = bb.data.createCopy(d)
++        bb.data.update_data(localdata)
++        localdata.setVar('missed', missed)
++        localdata.setVar('found', ret)
++        localdata.setVar('sq_fn', sq_fn)
++        localdata.setVar('sq_task', sq_task)
++        localdata.setVar('sq_hash', sq_hash)
++        localdata.setVar('sq_hashfn', sq_hashfn)
++
++        bb.build.exec_func(f, localdata)
++
+     return ret
+ 
+ BB_SETSCENE_DEPVALID = "setscene_depvalid"
 -- 
 1.9.1
 
