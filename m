@@ -1,38 +1,36 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id D965F60169
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
+	[209.85.216.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 7076A60169
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 16:19:42 +0000 (UTC)
-Received: by mail-lb0-f171.google.com with SMTP id w7so762400lbi.16
+	Wed, 27 Aug 2014 16:23:26 +0000 (UTC)
+Received: by mail-qa0-f51.google.com with SMTP id k15so430103qaq.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 09:19:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=SkGVZh5ATAy5H5lStwiDc8/W08Mc7fy3KNv1tqejODY=;
-	b=w4ltB+hib6c0XOI7Gu2sIS7Ge2LKRtGqY+6sdFD7DR2xXiDH3b7h0SNdlfl8hA1N8H
-	ZzwjGKujyYw1shJgkWpRae4WqwpoF1IkdzPm7nLOy+fIdLSsBVwhlTD7PLRX0xpwUtTC
-	q/UMlyR7czxS+ODetQRjPB+85AjkbvegZfl4bdLmenSO6qxRtN4R9lO9E3AOL3ejWBWi
-	0NT/tkKD0/cuQ70TUmrmjgRabVKQ8jDuqip6TwEzh9VQEuOzr07xN3KCSSMBv7TxyexR
-	tQps6S9u3m2ShYofeMRy21fxXvYUzTeOLihUn8KN2Vegr0pBX/Ijs99RTcJvBaZlgypF
-	YJ2Q==
-X-Received: by 10.112.55.238 with SMTP id v14mr4073353lbp.93.1409156382446;
-	Wed, 27 Aug 2014 09:19:42 -0700 (PDT)
+	Wed, 27 Aug 2014 09:23:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=JGjBOQ7AVPsQ/FK1UMiLrJmu+BvH1QJrKHBYFQBJ0bc=;
+	b=ZOA/umrpYmj1Yk7gCck/ub9K7SJ32bKI16N3ld4HF35JhWbaHjHMxjE+584/VPRT40
+	64xyNx3Wts1FoWQ4ybJfZAFijHfn8sMn8fB9w/XkozGqPni1e4Xbao6VyFBPyrnlcdz9
+	8KJbuz+fXwxVFOjY4iQ6VEPOrDhzqQmLIOjkh6HPN2xqhRhxbpy93LfqvowHJjt2v0jW
+	eZE2bISa1A0KI1f1Ar+sq0BRTEmLQH3BtbM/sbGYRHwHOHWrq1X3J2VeAIwNpW1U3fA0
+	kvosv7zrgy/J6CG66JEnZWuxr69fBUqEfq96fFes43IfnOgQrF0YgJnNY4yEZQUMKxtF
+	XFiQ==
+X-Gm-Message-State: ALoCoQl5PhI8DUk5mkuRNbvEi3gWTPB6Dql0oFcr+OVtc5A9Kcpaj4tpqiehA/vSDbNEavW3CVFR
+X-Received: by 10.224.38.10 with SMTP id z10mr60172884qad.52.1409156607238;
+	Wed, 27 Aug 2014 09:23:27 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.43.42 with HTTP; Wed, 27 Aug 2014 09:19:22 -0700 (PDT)
-In-Reply-To: <CAJTo0LZK3uY+-hZb34ZHWyEumwb1AqWY0Epy45r+eBg7bmwJVA@mail.gmail.com>
-References: <1408983725-45864-1-git-send-email-fahad_usman@mentor.com>
-	<1408983725-45864-2-git-send-email-fahad_usman@mentor.com>
-	<CAJTo0LZK3uY+-hZb34ZHWyEumwb1AqWY0Epy45r+eBg7bmwJVA@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Wed, 27 Aug 2014 09:19:22 -0700
-X-Google-Sender-Auth: qbMuEaq2bnxsCTnanB8-_r7VLm4
-Message-ID: <CABcZAN=FQ_z4vdYAjoR7DPT0n5OQZKnAF_-wVb-NZCK+28p16w@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+Received: by 10.140.29.183 with HTTP; Wed, 27 Aug 2014 09:23:07 -0700 (PDT)
+In-Reply-To: <53EF6634.10202@pabigot.com>
+References: <53EF6634.10202@pabigot.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 27 Aug 2014 17:23:07 +0100
+Message-ID: <CAJTo0LY7e19LZbs1pmP4LShTYm8VFmEevM6kGRem=0KqKkFdbQ@mail.gmail.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] logrotate: add packageconfigs
+Subject: Re: implicit renaming of packages containing libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,63 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 16:19:45 -0000
-Content-Type: multipart/alternative; boundary=001a1133c9669bdc6705019ec909
-
---001a1133c9669bdc6705019ec909
+X-List-Received-Date: Wed, 27 Aug 2014 16:23:35 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Aug 27, 2014 at 8:52 AM, Burton, Ross <ross.burton@intel.com> wrote:
+On 16 August 2014 15:09, Peter A. Bigot <pab@pabigot.com> wrote:
+> Is this intentional?  Is it documented somewhere?  I wouldn't be terribly
+> upset if lmsensors-libsensors got renamed to lmsensors-libsensors4 because
+> Debian policy expects the SO number to be part of the name, but it's weird
+> to have the owning package stripped off like this.
 
-> On 25 August 2014 17:22, Fahad Usman <fahad_usman@mentor.com> wrote:
-> > +    ${@base_contains('PACKAGECONFIG', 'acl', 'WITH_ACL=yes', '', d)} \
-> > +    ${@base_contains('PACKAGECONFIG', 'selinux', 'WITH_SELINUX=yes',
-> '', d)} \
->
-> Should this have WITH_XXX=no for clarity and safety?
+Yes, it's intentional.
+http://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#ref-classes-debian
+is the documentation, it's quite sparse and could be expanded but does
+cover the basics.
 
+Some recipes - eg mesa - override the renaming because they want the
+origin recipe to be part of the name.
 
-Yeah, that'd be a good idea, so we don't rely on the default behavior of
-the underlying buildsystem, which could change in future releases. We can
-submit an additional patch to improve that.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+(FWIW, Debian has a source package lm-sensors but the library is libsensors4)
 
---001a1133c9669bdc6705019ec909
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Ross
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Aug 27, 2014 at 8:52 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
-a>&gt;</span> wrote:<br>
-
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div>On 25 August 2014 17:22, Fahad Usman &l=
-t;<a href=3D"mailto:fahad_usman@mentor.com" target=3D"_blank">fahad_usman@m=
-entor.com</a>&gt; wrote:<br>
-
-
-
-&gt; +=C2=A0 =C2=A0 ${@base_contains(&#39;PACKAGECONFIG&#39;, &#39;acl&#39;=
-, &#39;WITH_ACL=3Dyes&#39;, &#39;&#39;, d)} \<br>
-&gt; +=C2=A0 =C2=A0 ${@base_contains(&#39;PACKAGECONFIG&#39;, &#39;selinux&=
-#39;, &#39;WITH_SELINUX=3Dyes&#39;, &#39;&#39;, d)} \<br>
-<br>
-</div>Should this have WITH_XXX=3Dno for clarity and safety?</blockquote></=
-div><br></div><div class=3D"gmail_extra">Yeah, that&#39;d be a good idea, s=
-o we don&#39;t rely on the default behavior of the underlying buildsystem, =
-which could change in future releases. We can submit an additional patch to=
- improve that.<br>
-
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics
-</div></div>
-
---001a1133c9669bdc6705019ec909--
