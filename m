@@ -1,39 +1,34 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B1036FE64
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1185D6FE64
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 14:21:30 +0000 (UTC)
-Received: by mail-pa0-f47.google.com with SMTP id kx10so378948pab.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 07:21:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=rzfvKXRiGmZDVyp+CeDBQoD0z55SgendtQsFfauzuWg=;
-	b=UCIhhpKDlIHse6PabgnBdbl2ZmDZESqUmrxjhgGkfwHWOkqghTQCvppdg+EBrM6LoH
-	QWFa7EOFwPDAnC1mbfSTCIu1gSaJmo9Z+9KdfnscAoQ+e1KUDUD3+yALaRvDez2vb8sX
-	uGazgldS6AsoyYJoNpEzelpY0qbcc1+zslbBvUcbHXTbTc6U6Fv9u+YcvzjRUDu/SiXt
-	a8/QlhFJXCAD8l4qrtSG3thfKTJYdRMyv2tiuoURmSGBEXe4Q5lO3mDepiG7f3AqngLM
-	qI1aYGoFW+UL+b/kZEZKghc17+JWqaroij9WJuaRsdilA65GjKHODXv6Cb8C+3bTpliT
-	GqyQ==
-X-Received: by 10.68.202.196 with SMTP id kk4mr45776707pbc.37.1409149291196;
-	Wed, 27 Aug 2014 07:21:31 -0700 (PDT)
-Received: from localhost.localdomain (75-128-22-150.dhcp.snlo.ca.charter.com.
-	[75.128.22.150])
-	by mx.google.com with ESMTPSA id ol8sm739177pdb.82.2014.08.27.07.21.29
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Aug 2014 07:21:30 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <TicoTimo@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Aug 2014 07:21:21 -0700
-Message-Id: <1409149281-27471-1-git-send-email-TicoTimo@gmail.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH] classes/cpan_build.bbclass: add EXTRA_CPAN_BUILD_FLAGS
+	Wed, 27 Aug 2014 14:39:06 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Aug 2014 07:39:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,411,1406617200"; d="scan'208";a="582398825"
+Received: from besquive-mobl.zpn.intel.com (HELO [10.219.26.196])
+	([10.219.26.196])
+	by fmsmga001.fm.intel.com with ESMTP; 27 Aug 2014 07:39:07 -0700
+Message-ID: <1409150346.3566.101.camel@besquive-mobl.amr.corp.intel.com>
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Aug 2014 09:39:06 -0500
+In-Reply-To: <20140825233139.GB9458@haswell>
+References: <1408935491-79054-1-git-send-email-benjamin.esquivel@linux.intel.com>
+	<20140825160425.GB21358@haswell>
+	<1409007467.2532.13.camel@besquive-mobl.amr.corp.intel.com>
+	<20140825233139.GB9458@haswell>
+Organization: Intel OTC
+X-Mailer: Evolution 3.10.4 (3.10.4-3.fc20) 
+Mime-Version: 1.0
+Cc: Andreas Schwab <schwab@linux-m68k.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] eglibc: Fix to egrep 'yes$' instead 'yes' at configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: benjamin.esquivel@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -43,41 +38,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 14:21:39 -0000
+X-List-Received-Date: Wed, 27 Aug 2014 14:39:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Some packages have additional configuration options that are currently
-not accessible through cpan_build.bbclass. Similar to cpan.bbclass, add
-EXTRA_CPAN_BUILD_FLAGS to pass the optional parameters to perl Build.PL.
+Ok, I will re-do the patch and send it over
 
-Signed-off-by: Tim Orling <TicoTimo@gmail.com>
----
- meta/classes/cpan_build.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+On Mon, 2014-08-25 at 16:31 -0700, Khem Raj wrote:
+> On 14-08-25 17:57:47, Benjamin Esquivel wrote:
+> > To Khem and Andreas, 
+> > 
+> > I would say that the proposed patch is based on the existing design, a
+> > corner case was found and it deserves a fix but not so sure about
+> > redesigning it
+> > 
+> > By redesign I mean to modify also the part where the string is thrown
+> > into the conftest.c
+> > 
+> > Please let me know your thoughts
+> 
+> there is nothing wrong in redoing it. It would fix the issue and make it
+> more readable too.
 
-diff --git a/meta/classes/cpan_build.bbclass b/meta/classes/cpan_build.bbclass
-index 5b0ad61..2eb8162 100644
---- a/meta/classes/cpan_build.bbclass
-+++ b/meta/classes/cpan_build.bbclass
-@@ -3,6 +3,8 @@
- #
- inherit cpan-base perlnative
- 
-+EXTRA_CPAN_BUILD_FLAGS ?= ""
-+
- # Env var which tells perl if it should use host (no) or target (yes) settings
- export PERLCONFIGTARGET = "${@is_target(d)}"
- export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}"
-@@ -36,7 +38,8 @@ cpan_build_do_configure () {
- 				--install_path script=${bindir} \
- 				--install_path bin=${bindir} \
- 				--install_path bindoc=${mandir}/man1 \
--				--install_path libdoc=${mandir}/man3
-+				--install_path libdoc=${mandir}/man3 \
-+                                ${EXTRA_CPAN_BUILD_FLAGS}
- }
- 
- cpan_build_do_compile () {
--- 
-1.9.3
 
 
