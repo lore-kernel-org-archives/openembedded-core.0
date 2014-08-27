@@ -1,18 +1,22 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 10C9662252
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 53BAF710C6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 20:15:03 +0000 (UTC)
-Received: from localhost.localdomain (chello062178118086.5.14.vie.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 899F42369D
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 22:15:04 +0200 (CEST)
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Aug 2014 22:14:53 +0200
-Message-Id: <1409170493-18242-1-git-send-email-dv@pseudoterminal.org>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] libsdl: add packageconfigs for x11, directfb, opengl
+	Wed, 27 Aug 2014 20:37:09 +0000 (UTC)
+Received: (qmail 8737 invoked by uid 1003); 27 Aug 2014 20:37:10 -0000
+Received: from unknown (HELO ?192.168.1.123?) (philip@opensdr.com@71.171.37.28)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	27 Aug 2014 20:37:10 -0000
+Message-ID: <53FE4175.5090001@balister.org>
+Date: Wed, 27 Aug 2014 16:37:09 -0400
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.7.0
+MIME-Version: 1.0
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: OpenEmbedded BoF at Linaro Connect
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,55 +29,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 20:15:11 -0000
+X-List-Received-Date: Wed, 27 Aug 2014 20:37:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
----
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+Khem has organized an OpenEmbedded BoF at Linaro Connect.
 
-diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-index e544b60..b0ae299 100644
---- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-+++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-@@ -12,10 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
- 
- PROVIDES = "virtual/libsdl"
- 
--DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
--           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl libglu', '', d)} \
--           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
--           tslib"
-+DEPENDS = "tslib"
- DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
- 
- PR = "r3"
-@@ -42,16 +39,19 @@ EXTRA_OECONF = "--disable-static --enable-cdrom --enable-threads --enable-timers
-                 --disable-video-fbcon --disable-video-ps2gs --disable-video-ps3 \
-                 --disable-xbios --disable-gem --disable-video-dummy \
-                 --enable-input-events --enable-input-tslib --enable-pthreads \
--                ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', '--enable-video-directfb', '--disable-video-directfb', d)} \
--                ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
--                ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '--enable-video-x11', '--disable-video-x11', d)} \
-                 --disable-video-svga \
-                 --disable-video-picogui --disable-video-qtopia --enable-sdl-dlopen \
-                 --disable-rpath \
-                 --disable-pulseaudio"
- 
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
--PACKAGECONFIG[alsa] = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
-+PACKAGECONFIG[alsa] = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib"
-+PACKAGECONFIG[directfb] = "--enable-video-directfb,--disable-video-directfb,directfb"
-+PACKAGECONFIG[opengl] = "--enable-video-opengl,--disable-video-opengl,virtual/libgl libglu"
-+PACKAGECONFIG[x11] = "--enable-video-x11,--disable-video-x11,virtual/libx11 libxext libxrandr libxrender"
- 
- PARALLEL_MAKE = ""
- 
--- 
-1.8.3.2
+http://lcu14.zerista.com/event/member/137796
 
+If you are at Connect, please attend so we can have a good turn out.
+
+Thanks for organizing this Khem!
+
+Philip
 
