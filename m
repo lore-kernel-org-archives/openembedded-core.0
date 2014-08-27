@@ -1,22 +1,36 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id 53BAF710C6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id F18727054E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 20:37:09 +0000 (UTC)
-Received: (qmail 8737 invoked by uid 1003); 27 Aug 2014 20:37:10 -0000
-Received: from unknown (HELO ?192.168.1.123?) (philip@opensdr.com@71.171.37.28)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	27 Aug 2014 20:37:10 -0000
-Message-ID: <53FE4175.5090001@balister.org>
-Date: Wed, 27 Aug 2014 16:37:09 -0400
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.7.0
+	Wed, 27 Aug 2014 21:13:05 +0000 (UTC)
+Received: by mail-ig0-f179.google.com with SMTP id r2so101530igi.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Aug 2014 14:13:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=blfDWHgBT8cp8Jsx8ZmmUqEwBhAC/2nGkj98vHsIIyI=;
+	b=EeAwZjAqyijh7TTvY9l+eQTgb7fr0V7kDBDb08T5/Wu7zgKcB8KE0hqkUJ/6n0b4Wu
+	0YVmbhJEbczSUaYl27Ylp0AawoAptG0L0oMBINXy+YDnWYWqtkIzOeBqGnITVmAIv4hS
+	fvt9NL58sJeJSlIPHs8YoMNqyrdOMxL59r3I7eEHaRD8xN3phcBiBsBFhmaaciSPZQLd
+	qDyqh+0g0Md3woY5LfNVQhgK9SGDkBAJdDOgdZwCRBuvTuCZt88Ou9GtmOPyFZwuF4+D
+	Eg9lclRgAOWc0g0dWOncnxedussgB8cBQf6rZuWWOPXMho/EU7xxoG6TGn6V/n2CYWeU
+	zhzQ==
+X-Received: by 10.50.56.38 with SMTP id x6mr686523igp.30.1409173986898; Wed,
+	27 Aug 2014 14:13:06 -0700 (PDT)
 MIME-Version: 1.0
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: OpenEmbedded BoF at Linaro Connect
+Received: by 10.50.102.67 with HTTP; Wed, 27 Aug 2014 14:12:36 -0700 (PDT)
+In-Reply-To: <1409154657.29296.12.camel@ted>
+References: <1409151022.29296.7.camel@ted>
+	<CAMKF1spTdX1Mom+X5LOt5-pRpCMUuNmxTpvfQ+VOjVaasNrS=w@mail.gmail.com>
+	<1409154657.29296.12.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Aug 2014 14:12:36 -0700
+Message-ID: <CAMKF1spmZtTHnU_BM842mzRxQVVcT3+oLkEb=b3z7BMk1hv-+A@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] patchelf: Add patchelf recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,17 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 20:37:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Aug 2014 21:13:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Khem has organized an OpenEmbedded BoF at Linaro Connect.
+On Wed, Aug 27, 2014 at 8:50 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> The issue is one of dependencies. We need chrpath/patchelf to relocate
+> things like {autoconf|automake|pkgconfig}-native. Native
+> patchelf/chrpath depend on those things to build so if we don't have it
+> in ASSUME_PROVIDED, we get circular dependencies.
+>
+> chrpath is widely available in most distros. Unfortunately patchelf is
+> not. We therefore can't easily put patchelf-native into
+> ASSUME_PROVIDED :(
+>
+> So the reason the above didn't merge hasn't really changed, much as I'd
+> also wish it had.
 
-http://lcu14.zerista.com/event/member/137796
+compared to last time now debian testing/ ubuntu utopic have added it
+as well. fedora,suse, gentoo and archlinux were never an issue.
+we can generate a dpkg for older debian-like distros may be ? is it
+worth the effort
 
-If you are at Connect, please attend so we can have a good turn out.
-
-Thanks for organizing this Khem!
-
-Philip
+>
+> This does not stop us using patchelf for other things though (and I
+> believe we should).
+>
 
