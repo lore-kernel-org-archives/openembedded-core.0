@@ -1,24 +1,37 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A63470F06
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
+	[209.85.217.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 23FA26AC85
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 02:31:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7R2VxQX016638
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 27 Aug 2014 06:22:35 +0000 (UTC)
+Received: by mail-lb0-f169.google.com with SMTP id n15so2557275lbi.14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 19:31:59 -0700 (PDT)
-Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 26 Aug 2014 19:31:59 -0700
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Aug 2014 10:31:56 +0800
-Message-ID: <1409106716-19733-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.8.4.1
-MIME-Version: 1.0
-Subject: [PATCH] linux-dummy: bundle_initramfs should not be nostamp any more
+	Tue, 26 Aug 2014 23:22:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=31TadIXLFLikGUM+GZhcULliOj8ioGfWa4JjefU935s=;
+	b=HvmMYymo8C5rQSpNQJc9GLmI17iAwGpXJ9ndaAci4XzL+ENvon48twCcuKbGC0jQsQ
+	7vJmVJFo1N0ptcIOexRD6wZtx++odq1EyYm047aggbanvLn0GLxFwLfTGvPs9+OefIRM
+	zL5no3zHikJDjJi1V9ckSf/53YFZ+kCJXTOSncRK0CGtewkBZ3IDOveF4gtbxVGS3+F9
+	ifErlhuUaDnPYorT92l6Or61OvDaIJyK6Oxo+fED0SsXcFMbFv6eUWSCG5UYAxFyW+rZ
+	CESLxDP1/d2zlVWhCfksffoMHjUBQ84SXGXkODxklsQJ3hKOS8urQMD7XEdCtBgAwkBg
+	hh7Q==
+X-Gm-Message-State: ALoCoQnLNDqtudLlt7Irn5orZ8wTa/kBX1TI3jdqUgg8RqBcIXsIhr+kIFfiUTxFr/+aThfXJsEU
+X-Received: by 10.112.217.2 with SMTP id ou2mr506625lbc.101.1409120556016;
+	Tue, 26 Aug 2014 23:22:36 -0700 (PDT)
+Received: from localhost.localdomain (a91-152-78-194.elisa-laajakaista.fi.
+	[91.152.78.194])
+	by mx.google.com with ESMTPSA id n11sm9022106lbl.13.2014.08.26.23.22.33
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 26 Aug 2014 23:22:35 -0700 (PDT)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Aug 2014 09:22:24 +0300
+Message-Id: <1409120544-32555-1-git-send-email-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] shadow: add Qualcomm and STMicroelectronics SoCs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 02:32:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 27 Aug 2014 06:22:36 -0000
 
-The same change has already been applied to kernel.bbclass in commit 55989cb5:
-[ kernel.bbclass: Stop bundle_initramfs thwarting sstate cache and fix race ]
-
-The dummy kernel should comply with it.
-
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
+Reported-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Reported-by: Peter Griffin <peter.griffin@linaro.org>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 ---
- meta/recipes-kernel/linux/linux-dummy.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/recipes-extended/shadow/files/securetty | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
-index 5d29f5c..8f25f17 100644
---- a/meta/recipes-kernel/linux/linux-dummy.bb
-+++ b/meta/recipes-kernel/linux/linux-dummy.bb
-@@ -45,7 +45,6 @@ do_deploy() {
- 	:
- }
+diff --git a/meta/recipes-extended/shadow/files/securetty b/meta/recipes-extended/shadow/files/securetty
+index d919993..7fecda1 100644
+--- a/meta/recipes-extended/shadow/files/securetty
++++ b/meta/recipes-extended/shadow/files/securetty
+@@ -14,12 +14,27 @@ ttyAMA1
+ ttyAMA2
+ ttyAMA3
  
--do_bundle_initramfs[nostamp] = "1"
--addtask bundle_initramfs after do_compile
-+addtask bundle_initramfs after do_install before do_deploy
- addtask deploy after do_install
++# QCOM Socs
++ttyHSL0
++ttyHSL1
++ttyHSL2
++ttyHSL3
++ttyMSM0
++ttyMSM1
++ttyMSM2
++
+ # Samsung ARM SoCs
+ ttySAC0
+ ttySAC1
+ ttySAC2
+ ttySAC3
  
++# STM SoCs
++ttyAS0
++ttyAS1
++ttyAS2
++ttyAS3
++
+ # TI OMAP SoCs
+ ttyO0
+ ttyO1
 -- 
-1.8.4.1
+2.1.0
 
 
