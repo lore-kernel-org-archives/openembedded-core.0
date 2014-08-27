@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F520710B5
+	by mail.openembedded.org (Postfix) with ESMTP id 8E6C67108F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 15:57:18 +0000 (UTC)
+	Wed, 27 Aug 2014 15:57:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7RFvHAu027023
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7RFvK5Y027029
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 08:57:18 -0700 (PDT)
+	Wed, 27 Aug 2014 08:57:20 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 27 Aug 2014 08:57:17 -0700
+	Wed, 27 Aug 2014 08:57:20 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Aug 2014 08:57:08 -0700
-Message-ID: <0c29ad64f8b73397369ff02b5b9c1e7383acdd13.1409154816.git.liezhi.yang@windriver.com>
+Date: Wed, 27 Aug 2014 08:57:12 -0700
+Message-ID: <3097aa07345ae005af246a099683e54d6da2ca33.1409154816.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1409154816.git.liezhi.yang@windriver.com>
 References: <cover.1409154816.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/9] meta: fix RDEPNEDS for the test related pkgs
+Subject: [PATCH 7/9] sed: add sed to RDEPENDS sed-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,77 +36,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 27 Aug 2014 15:57:23 -0000
 Content-Type: text/plain
 
-Add bash, python or perl to the ptest pkgs to fix the RDEPENDS issues.
+Its test scripts require /bin/sed.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/libxml/libxml2.inc           |    2 ++
- meta/recipes-core/udev/udev.inc                |    2 +-
- meta/recipes-extended/pam/libpam_1.1.6.bb      |   11 +++++++++--
- meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb |    2 +-
- 4 files changed, 13 insertions(+), 4 deletions(-)
+ meta/recipes-extended/sed/sed_4.2.2.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 2dffc5a..10f3d34 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -27,6 +27,8 @@ BINCONFIG = "${bindir}/xml2-config"
+diff --git a/meta/recipes-extended/sed/sed_4.2.2.bb b/meta/recipes-extended/sed/sed_4.2.2.bb
+index 74ac16b..ea39dae 100644
+--- a/meta/recipes-extended/sed/sed_4.2.2.bb
++++ b/meta/recipes-extended/sed/sed_4.2.2.bb
+@@ -14,7 +14,7 @@ SRC_URI[md5sum] = "4111de4faa3b9848a0686b2f260c5056"
+ SRC_URI[sha256sum] = "fea0a94d4b605894f3e2d5572e3f96e4413bcad3a085aae7367c2cf07908b2ff"
  
- inherit autotools pkgconfig binconfig-disabled pythonnative ptest
+ inherit autotools texinfo update-alternatives gettext ptest
+-RDEPENDS_${PN}-ptest += "make locale-base-ru-ru"
++RDEPENDS_${PN}-ptest += "make locale-base-ru-ru ${PN}"
  
-+RDEPENDS_${PN}-ptest += "python-core"
-+
- RDEPENDS_${PN}-ptest_append_libc-glibc += "eglibc-gconv-ebcdic-us eglibc-gconv-ibm1141"
- 
- # We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 11204aa..280da10 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -31,7 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-            file://init"
- 
- inherit autotools pkgconfig update-rc.d ptest
--RDEPENDS_${PN}-ptest += "make"
-+RDEPENDS_${PN}-ptest += "make perl"
- 
- libexecdir = "${base_libdir}"
- EXTRA_OECONF = "--disable-introspection \
-diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
-index c06709f..d7033d0 100644
---- a/meta/recipes-extended/pam/libpam_1.1.6.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
-@@ -72,8 +72,15 @@ libpam_suffix = "suffix${@get_multilib_bit(d)}"
- RPROVIDES_${PN} += "${PN}-${libpam_suffix}"
- RPROVIDES_${PN}-runtime += "${PN}-runtime-${libpam_suffix}"
- 
--RDEPENDS_${PN}-runtime = "${PN}-${libpam_suffix} pam-plugin-deny-${libpam_suffix} pam-plugin-permit-${libpam_suffix} pam-plugin-warn-${libpam_suffix} pam-plugin-unix-${libpam_suffix}"
--RDEPENDS_${PN}-xtests = "${PN}-${libpam_suffix} pam-plugin-access-${libpam_suffix} pam-plugin-debug-${libpam_suffix} pam-plugin-cracklib-${libpam_suffix} pam-plugin-pwhistory-${libpam_suffix} pam-plugin-succeed-if-${libpam_suffix} pam-plugin-time-${libpam_suffix} coreutils"
-+RDEPENDS_${PN}-runtime = "${PN}-${libpam_suffix} \
-+    pam-plugin-deny-${libpam_suffix} pam-plugin-permit-${libpam_suffix} \
-+    pam-plugin-warn-${libpam_suffix} pam-plugin-unix-${libpam_suffix} \
-+    "
-+RDEPENDS_${PN}-xtests = "${PN}-${libpam_suffix} \
-+    pam-plugin-access-${libpam_suffix} pam-plugin-debug-${libpam_suffix} \
-+    pam-plugin-cracklib-${libpam_suffix} pam-plugin-pwhistory-${libpam_suffix} \
-+    pam-plugin-succeed-if-${libpam_suffix} pam-plugin-time-${libpam_suffix} \
-+    coreutils bash"
- #RRECOMMENDS_${PN} = "${PN}-runtime-${libpam_suffix}"
- 
- python populate_packages_prepend () {
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
-index 14e5f9e..560a243 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
-                     file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
- 
- DEPENDS = "liburcu popt lttng-ust libxml2"
--RDEPENDS_${PN}-ptest += "make"
-+RDEPENDS_${PN}-ptest += "make perl bash"
- 
- SRCREV = "8b27cacb277c2cdab791139b08da8eb87ab14a88"
- PV = "v2.5.0"
+ EXTRA_OECONF = "--disable-acl \
+                 ${@bb.utils.contains('PTEST_ENABLED', '1', '--enable-regex-tests', '', d)}"
 -- 
 1.7.9.5
 
