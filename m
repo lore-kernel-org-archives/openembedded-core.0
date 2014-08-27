@@ -1,30 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 136336FE64
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 682076FE64
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 14:48:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7REljb8004582 for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 15:48:13 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vhzI7L11hlji
+	Wed, 27 Aug 2014 14:48:49 +0000 (UTC)
+Received: by mail-qc0-f173.google.com with SMTP id w7so366124qcr.18
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 15:48:13 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7REm7RO004603
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 15:48:08 +0100
-Message-ID: <1409150889.29296.5.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Aug 2014 15:48:09 +0100
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Subject: [PATCH] sstate: Add extra intercept functions
+	Wed, 27 Aug 2014 07:48:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=fX+oE7VoHsI+0W4jdIGkCMTZeARJIpHdrpSeIdPsDSo=;
+	b=SQLOGM/o/9hTGEgxomW7uNe6E9BeJB9OqYdAAj+TfWpcKP1w6fKOppHippuhsgzCzD
+	3L4e/M/kfo4cej6rl/4vJiPFiY7K/pj9ZqvDcNcgFN0JdhOINkYbCvsdqHpKnCt/qfw2
+	Zk6cTxLv9tlE/STVgtGVXE0mpoMzgd2eVBe7ziw9bU6lGAdQElwps6+mNpwyBiOQGyMv
+	lLm4qMCqvc9nVKcujH+xP64xH2ihrPLdwhKeJlFGPr9eppIOZTxZ9NVT2m5AesYGA4O3
+	EUgMiRvxqv9NcZAIVTTGsbbYZXzbBIwbMxcsDDchrFI3s/VPwutbBEDCCzpy2Ah8/ejd
+	Wvtg==
+X-Gm-Message-State: ALoCoQmF2jjfr4FX/HbnJvSgXsekIGf7N5G/YaFv8Mdz6FxMLvQWfP1UJrYrLygnE2kJKp0pVWQF
+X-Received: by 10.224.103.65 with SMTP id j1mr27886697qao.17.1409150929355;
+	Wed, 27 Aug 2014 07:48:49 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.29.183 with HTTP; Wed, 27 Aug 2014 07:48:29 -0700 (PDT)
+In-Reply-To: <ef8574dfdd5992bdd42b788a909d0610d8b23b21.1409074419.git.max.eliaser@intel.com>
+References: <cover.1409074419.git.max.eliaser@intel.com>
+	<ef8574dfdd5992bdd42b788a909d0610d8b23b21.1409074419.git.max.eliaser@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 27 Aug 2014 15:48:29 +0100
+Message-ID: <CAJTo0LZ_fZsexOVt2M1Tb4Pv-zghRJa=2ALMxxAKrHwFPc9Vqw@mail.gmail.com>
+To: Max Eliaser <max.eliaser@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] qemux86: support X11 when QEMU is emulating a different GPU than vmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,129 +44,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 14:48:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Aug 2014 14:48:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-In some cases we do either need to add extra sstate manipulation
-functions, or change the existing modification functions. This patch
-parametrises them to SSTATECREATEFUNCS and SSTATEPOSTUNPACKFUNCS and
-abstracts the "hardcoded path" functions into separate functions using
-these new variables.
+On 26 August 2014 18:34, Max Eliaser <max.eliaser@intel.com> wrote:
+> QEMU is capable of emulating four different VGA adapters: cirrus, std, vmware,
+> and QXL. By adding the cirrus and fbdev X.Org drivers to the qemux86 image,
+> the image can be made to launch an X server on when cirrus and std are chosen,
+> in addition to just vmware. (The build of QEMU in OE-Core appears to have QXL
+> disabled, meaning a driver for it is unnecessary.)
 
-We may use this new functionality to improve binary relocating using
-patchelf for example, this at least lets us have the hooks to be able to
-experiment.
+I knew there was something missing...
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+http://lxr.free-electrons.com/source/drivers/gpu/drm/cirrus/Kconfig
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 3411fac..940b19e 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -32,8 +32,10 @@ BB_HASHFILENAME = "${SSTATE_EXTRAPATH} ${SSTATE_PKGSPEC} ${SSTATE_SWSPEC}"
- 
- SSTATE_MANMACH ?= "${SSTATE_PKGARCH}"
- 
--SSTATEPREINSTFUNCS ?= ""
--SSTATEPOSTINSTFUNCS ?= ""
-+SSTATECREATEFUNCS = "sstate_hardcode_path"
-+SSTATEPREINSTFUNCS = ""
-+SSTATEPOSTUNPACKFUNCS = "sstate_hardcode_path_unpack"
-+SSTATEPOSTINSTFUNCS = ""
- EXTRA_STAGING_FIXMES ?= ""
- 
- # Specify dirs in which the shell function is executed and don't use ${B}
-@@ -239,16 +241,32 @@ def sstate_installpkg(ss, d):
-     d.setVar('SSTATE_INSTDIR', sstateinst)
-     d.setVar('SSTATE_PKG', sstatepkg)
- 
--    for preinst in (d.getVar('SSTATEPREINSTFUNCS', True) or '').split():
--        bb.build.exec_func(preinst, d)
-+    for f in (d.getVar('SSTATEPREINSTFUNCS', True) or '').split() + ['sstate_unpack_package'] + (d.getVar('SSTATEPOSTUNPACKFUNCS', True) or '').split():
-+        bb.build.exec_func(f, d)
- 
--    bb.build.exec_func('sstate_unpack_package', d)
-+    for state in ss['dirs']:
-+        prepdir(state[1])
-+        os.rename(sstateinst + state[0], state[1])
-+    sstate_install(ss, d)
- 
-+    for plain in ss['plaindirs']:
-+        workdir = d.getVar('WORKDIR', True)
-+        src = sstateinst + "/" + plain.replace(workdir, '')
-+        dest = plain
-+        bb.utils.mkdirhier(src)
-+        prepdir(dest)
-+        os.rename(src, dest)
-+
-+    return True
-+
-+python sstate_hardcode_path_unpack () {
-     # Fixup hardcoded paths
-     #
-     # Note: The logic below must match the reverse logic in
-     # sstate_hardcode_path(d)
-+    import subprocess
- 
-+    sstateinst = d.getVar('SSTATE_INSTDIR', True)
-     fixmefn =  sstateinst + "fixmepath"
-     if os.path.isfile(fixmefn):
-         staging = d.getVar('STAGING_DIR', True)
-@@ -276,21 +294,7 @@ def sstate_installpkg(ss, d):
-         # Need to remove this or we'd copy it into the target directory and may 
-         # conflict with another writer
-         os.remove(fixmefn)
--
--    for state in ss['dirs']:
--        prepdir(state[1])
--        os.rename(sstateinst + state[0], state[1])
--    sstate_install(ss, d)
--
--    for plain in ss['plaindirs']:
--        workdir = d.getVar('WORKDIR', True)
--        src = sstateinst + "/" + plain.replace(workdir, '')
--        dest = plain
--        bb.utils.mkdirhier(src)
--        prepdir(dest)
--        os.rename(src, dest)
--
--    return True
-+}
- 
- def sstate_clean_cachefile(ss, d):
-     import oe.path
-@@ -395,7 +399,7 @@ python sstate_cleanall() {
-         sstate_clean(shared_state, ld)
- }
- 
--def sstate_hardcode_path(d):
-+python sstate_hardcode_path () {
-     import subprocess, platform
- 
-     # Need to remove hardcoded paths and fix these when we install the
-@@ -449,6 +453,7 @@ def sstate_hardcode_path(d):
-     else:
-         bb.note("Replacing absolute paths in fixmepath file: '%s'" % (sstate_filelist_relative_cmd))
-         subprocess.call(sstate_filelist_relative_cmd, shell=True)
-+}
- 
- def sstate_package(ss, d):
-     import oe.path
-@@ -506,9 +511,10 @@ def sstate_package(ss, d):
- 
-     d.setVar('SSTATE_BUILDDIR', sstatebuild)
-     d.setVar('SSTATE_PKG', sstatepkg)
--    sstate_hardcode_path(d)
--    bb.build.exec_func('sstate_create_package', d)
--    
-+
-+    for f in (d.getVar('SSTATECREATEFUNCS', True) or '').split() + ['sstate_create_package']:
-+        bb.build.exec_func(f, d)
-+  
-     bb.siggen.dump_this_task(sstatepkg + ".siginfo", d)
- 
-     return
+The kernel has a minimal DRM/KMS driver for the Cirrus that qemu
+emulates, so we should also add xf86-video-modesettings driver to this
+list and ensure that the qemu images enable this kernel driver.
 
-
+Ross
 
