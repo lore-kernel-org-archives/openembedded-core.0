@@ -1,34 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 8939070EE2
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B1036FE64
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 12:58:11 +0000 (UTC)
-Received: by mail-lb0-f174.google.com with SMTP id u10so247029lbd.19
+	Wed, 27 Aug 2014 14:21:30 +0000 (UTC)
+Received: by mail-pa0-f47.google.com with SMTP id kx10so378948pab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 05:58:12 -0700 (PDT)
+	Wed, 27 Aug 2014 07:21:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=8kC2bGVm6POVRV9wDQFecLYb4B0c+dAXf5in7dUMM0Q=;
-	b=xrXLI6zBEjz4TQsTWxpb+o9Om+MP5bwA9esslTgBioMQWoIA6evhhEVGd2KVVCjU65
-	xtmAuRBaZwsm3PMdFaXCEvmCnDARToDEHPv4X3KGCli099RszFCmupHtz9MEcGf6MVJf
-	3yA/WJTUFvqS8uS5tHQHBURSJmhBZShhzxlcLPI7NtX0jLIoGG9+LEteOaTwz4YcZcU2
-	sfZid94HxT3yIpSiQccybEzHu6bZ/H4gMEi1IvFBcCQ40AAaV07dXTHVOtNpqPRRA0En
-	dtaOxVIQoOw+fimpMXZF5zdvJmi7o18hBoJzadaMkd1Aa20mAfcDiEuZsliyfCKBoew/
-	6rVg==
-MIME-Version: 1.0
-X-Received: by 10.152.8.82 with SMTP id p18mr3374196laa.83.1409144292098; Wed,
-	27 Aug 2014 05:58:12 -0700 (PDT)
-Received: by 10.112.202.67 with HTTP; Wed, 27 Aug 2014 05:58:12 -0700 (PDT)
-In-Reply-To: <53FDB8B5.8030802@windriver.com>
-References: <53FDB8B5.8030802@windriver.com>
-Date: Wed, 27 Aug 2014 08:58:12 -0400
-Message-ID: <CADkTA4MepTkfGYS52k-bFYhAPwfo=SNS48_DLi7O_7QnEBfG6A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Kang Kai <Kai.Kang@windriver.com>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Question about aarch64 target
+	h=from:to:cc:subject:date:message-id;
+	bh=rzfvKXRiGmZDVyp+CeDBQoD0z55SgendtQsFfauzuWg=;
+	b=UCIhhpKDlIHse6PabgnBdbl2ZmDZESqUmrxjhgGkfwHWOkqghTQCvppdg+EBrM6LoH
+	QWFa7EOFwPDAnC1mbfSTCIu1gSaJmo9Z+9KdfnscAoQ+e1KUDUD3+yALaRvDez2vb8sX
+	uGazgldS6AsoyYJoNpEzelpY0qbcc1+zslbBvUcbHXTbTc6U6Fv9u+YcvzjRUDu/SiXt
+	a8/QlhFJXCAD8l4qrtSG3thfKTJYdRMyv2tiuoURmSGBEXe4Q5lO3mDepiG7f3AqngLM
+	qI1aYGoFW+UL+b/kZEZKghc17+JWqaroij9WJuaRsdilA65GjKHODXv6Cb8C+3bTpliT
+	GqyQ==
+X-Received: by 10.68.202.196 with SMTP id kk4mr45776707pbc.37.1409149291196;
+	Wed, 27 Aug 2014 07:21:31 -0700 (PDT)
+Received: from localhost.localdomain (75-128-22-150.dhcp.snlo.ca.charter.com.
+	[75.128.22.150])
+	by mx.google.com with ESMTPSA id ol8sm739177pdb.82.2014.08.27.07.21.29
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 27 Aug 2014 07:21:30 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <TicoTimo@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Aug 2014 07:21:21 -0700
+Message-Id: <1409149281-27471-1-git-send-email-TicoTimo@gmail.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] classes/cpan_build.bbclass: add EXTRA_CPAN_BUILD_FLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,54 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 12:58:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 27 Aug 2014 14:21:39 -0000
 
-On Wed, Aug 27, 2014 at 6:53 AM, Kang Kai <Kai.Kang@windriver.com> wrote:
-> Hi Saul,
->
-> I am working on Bug 6487 - Add Aarch64 qemu target. I take tune and config
-> files from linaro then succeeds to build core-image-minimal and
-> core-image-sato.
->
-> And I have 2 question about it now:
-> 1 What should the new qemu aarch64 bsp looks like at the end? Do the files
-> in the patch attached are enough? And what more test should we do except to
+Some packages have additional configuration options that are currently
+not accessible through cpan_build.bbclass. Similar to cpan.bbclass, add
+EXTRA_CPAN_BUILD_FLAGS to pass the optional parameters to perl Build.PL.
 
-I've said this *many* times, but no one has ever responded. We need the kernel
-support to match the linux-yocto* home for the other core/emulated BSPs .. that
-way I can help support, test and bring everything forward.
+Signed-off-by: Tim Orling <TicoTimo@gmail.com>
+---
+ meta/classes/cpan_build.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-We have a 3.14 and 3.16+ version of the recipe available, and I've
-looked into this
-in the past ... the delta needed in those kernel versions is not significant.
-
-Bruce
-
-
-
-> build images such as core-image-sato,  core-image-sato even build world?
->
-> 2 There 2 aarch64 configure files from linaro. First one is little endian
-> and it is as default, and the other one is big endian. I take the little
-> endian one as qemuarm64.conf as linaro does. Do we need add the other one as
-> qemuarm64_be.conf or something like that?
->
-> --
-> Regards,
-> Neil | Kai Kang
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
-
+diff --git a/meta/classes/cpan_build.bbclass b/meta/classes/cpan_build.bbclass
+index 5b0ad61..2eb8162 100644
+--- a/meta/classes/cpan_build.bbclass
++++ b/meta/classes/cpan_build.bbclass
+@@ -3,6 +3,8 @@
+ #
+ inherit cpan-base perlnative
+ 
++EXTRA_CPAN_BUILD_FLAGS ?= ""
++
+ # Env var which tells perl if it should use host (no) or target (yes) settings
+ export PERLCONFIGTARGET = "${@is_target(d)}"
+ export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}"
+@@ -36,7 +38,8 @@ cpan_build_do_configure () {
+ 				--install_path script=${bindir} \
+ 				--install_path bin=${bindir} \
+ 				--install_path bindoc=${mandir}/man1 \
+-				--install_path libdoc=${mandir}/man3
++				--install_path libdoc=${mandir}/man3 \
++                                ${EXTRA_CPAN_BUILD_FLAGS}
+ }
+ 
+ cpan_build_do_compile () {
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.9.3
+
 
