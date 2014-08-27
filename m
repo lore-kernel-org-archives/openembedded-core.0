@@ -1,28 +1,26 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 16C8B7070E
+	by mail.openembedded.org (Postfix) with ESMTP id 4DA80710CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 10:23:59 +0000 (UTC)
+	Wed, 27 Aug 2014 10:53:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7RAO0dQ023188
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 03:24:00 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 27 Aug 2014 03:24:00 -0700
-Message-ID: <53FDB1B9.9020809@windriver.com>
-Date: Wed, 27 Aug 2014 18:23:53 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7RArfsH023396
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 27 Aug 2014 03:53:41 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Wed, 27 Aug 2014 03:53:40 -0700
+Message-ID: <53FDB8B5.8030802@windriver.com>
+Date: Wed, 27 Aug 2014 18:53:41 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1409124921.git.hongxu.jia@windriver.com>
-	<b2c9844ccac90203b25aa89884b1e10b12a4c0d8.1409124921.git.hongxu.jia@windriver.com>
-In-Reply-To: <b2c9844ccac90203b25aa89884b1e10b12a4c0d8.1409124921.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 1/3] bitbake: runqueue: terminate build safely while RunQueueExecuteScenequeue init failed
+To: Saul Wold <sgw@linux.intel.com>
+X-Originating-IP: [128.224.162.231]
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Question about aarch64 target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,95 +33,229 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 10:24:06 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 27 Aug 2014 10:53:41 -0000
+X-Groupsio-MsgNum: 57006
+Content-Type: multipart/mixed; boundary="------------040900050802000505060506"
 
-I will resend this patch to bitbake mailing list=20
-bitbake-devel@lists.openembedded.org,
-sorry for the wrong place.
+--------------040900050802000505060506
+Content-Type: multipart/alternative;
+	boundary="------------030105090806020804050208"
 
-//Hongxu
+--------------030105090806020804050208
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 08/27/2014 03:53 PM, Hongxu Jia wrote:
-> While RunQueueExecuteScenequeue init failed, the exit of build is mess.=
+Hi Saul,
 
-> Here is the example while bb.fatal invoked in RunQueueExecuteScenequeue=
-:
-> ...
-> Traceback (most recent call last):
->    File "/home/jiahongxu/yocto/poky/bitbake/lib/bb/runqueue.py", line 1=
-824, in RunQueueExecuteScenequeue.__init__(rq=3D<bb.runqueue.RunQueue ins=
-tance at 0x7f87dd7d5050>):
->                   locs =3D { "sq_fn" : sq_fn, "sq_task" : sq_taskname, =
-"sq_hash" : sq_hash, "sq_hashfn" : sq_hashfn, "d" : self.cooker.data }
->      >            valid =3D bb.utils.better_eval(call, locs)
->
->    File "/home/jiahongxu/yocto/poky/bitbake/lib/bb/utils.py", line 374,=
- in better_eval(source=3D'sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_=
-hashfn, d)', locals=3D{'sq_fn': ['virtual:native:/home/jiahongxu/yocto/po=
-ky/meta/recipes-support/db/db_6.0.30.bb', 'virtual:native:/home/jiahongxu=
-/yocto/poky/meta/recipes-support/db/db_6.0.30.bb', 'virtual:native:/home/=
-jiahongxu/yocto/poky/meta/recipes-support/db/db_6.0.30.bb'], 'sq_task': [=
-'do_populate_sysroot', 'do_populate_lic', 'do_package_qa'], 'sq_hash': ['=
-7d132e7705b5772accce5544cf785c70', '52387c5751c018ddfe2c6a5eecf59e36', '3=
-15bcde98908fd36442830f9ae7469c1'], 'sq_hashfn': ['Ubuntu-14.04/ sstate:db=
--native:x86_64-linux:6.0.30:r0:x86_64:3: sstate:db::6.0.30:r0::3:', 'Ubun=
-tu-14.04/ sstate:db-native:x86_64-linux:6.0.30:r0:x86_64:3: sstate:db::6.=
-0.30:r0::3:', 'Ubuntu-14.04/ sstate:db-native:x86_64-linux:6.0.30:r0:x86_=
-64:3: sstate:db::6.0.30:r0::3:'], 'd': <bb.data_smart.DataSmart object at=
- 0x7f87e15cde10>}):
->       def better_eval(source, locals):
->      >    return eval(source, get_context(), locals)
->
->    File "<string>", line 1, in <module>
->    File "sstate.bbclass", line 110, in sstate_checkhashes(sq_fn=3D['vir=
-tual:native:/home/jiahongxu/yocto/poky/meta/recipes-support/db/db_6.0.30.=
-bb', 'virtual:native:/home/jiahongxu/yocto/poky/meta/recipes-support/db/d=
-b_6.0.30.bb', 'virtual:native:/home/jiahongxu/yocto/poky/meta/recipes-sup=
-port/db/db_6.0.30.bb'], sq_task=3D['do_populate_sysroot', 'do_populate_li=
-c', 'do_package_qa'], sq_hash=3D['7d132e7705b5772accce5544cf785c70', '523=
-87c5751c018ddfe2c6a5eecf59e36', '315bcde98908fd36442830f9ae7469c1'], sq_h=
-ashfn=3D['Ubuntu-14.04/ sstate:db-native:x86_64-linux:6.0.30:r0:x86_64:3:=
- sstate:db::6.0.30:r0::3:', 'Ubuntu-14.04/ sstate:db-native:x86_64-linux:=
-6.0.30:r0:x86_64:3: sstate:db::6.0.30:r0::3:', 'Ubuntu-14.04/ sstate:db-n=
-ative:x86_64-linux:6.0.30:r0:x86_64:3: sstate:db::6.0.30:r0::3:'], d=3D<b=
-b.data_smart.DataSmart object at 0x7f87e15cde10>)
->    File "/home/jiahongxu/yocto/poky/bitbake/lib/bb/__init__.py", line 1=
-02, in fatal:
->           logger.critical(''.join(args))
->      >    raise BBHandledException()
->
-> BBHandledException
-> ...
->
-> We should terminate build safely while RunQueueExecuteScenequeue init f=
-ailed.
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   bitbake/lib/bb/runqueue.py | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/bitbake/lib/bb/runqueue.py b/bitbake/lib/bb/runqueue.py
-> index e13dc57..c7b1dc0 100644
-> --- a/bitbake/lib/bb/runqueue.py
-> +++ b/bitbake/lib/bb/runqueue.py
-> @@ -1046,7 +1046,12 @@ class RunQueue:
->                   self.state =3D runQueueComplete
->               else:
->                   self.start_worker()
-> -                self.rqexe =3D RunQueueExecuteScenequeue(self)
-> +                try:
-> +                    self.rqexe =3D RunQueueExecuteScenequeue(self)
-> +                except:
-> +                    # The RunQueueExecuteScenequeue init failure
-> +                    # terminated the build safely
-> +                    self.state =3D runQueueComplete
->  =20
->           if self.state in [runQueueSceneRun, runQueueRunning, runQueue=
-CleanUp]:
->               self.dm.check(self)
+I am working on Bug 6487 - Add Aarch64 qemu target. I take tune and 
+config files from linaro then succeeds to build core-image-minimal and 
+core-image-sato.
+
+And I have 2 question about it now:
+1 What should the new qemu aarch64 bsp looks like at the end? Do the 
+files in the patch attached are enough? And what more test should we do 
+except to build images such as core-image-sato, core-image-sato even 
+build world?
+
+2 There 2 aarch64 configure files from linaro. First one is little 
+endian and it is as default, and the other one is big endian. I take the 
+little endian one as qemuarm64.conf as linaro does. Do we need add the 
+other one as qemuarm64_be.conf or something like that?
+
+-- 
+Regards,
+Neil | Kai Kang
 
 
+--------------030105090806020804050208
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <font size="+1">Hi Saul,<br>
+      <br>
+      I am working on Bug 6487 - Add Aarch64 qemu target. I take tune
+      and config files from linaro then succeeds to build
+      core-image-minimal and core-image-sato. <br>
+      <br>
+      And I have 2 question about it now:<br>
+      1 What should the new qemu aarch64 bsp looks like at the end? Do
+      the files in the patch attached are enough? And what more test
+      should we do except to build images such as </font><font
+      size="+1">core-image-sato,  </font><font size="+1">core-image-sato
+      even build world?<br>
+      <br>
+      2 There 2 aarch64 configure files from linaro. First one is little
+      endian and it is as default, and the other one is big endian. I
+      take the little endian one as qemuarm64.conf as linaro does. Do we
+      need add the other one as qemuarm64_be.conf or something like
+      that?<br>
+    </font>
+    <pre class="moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+  </body>
+</html>
+
+--------------030105090806020804050208--
+
+--------------040900050802000505060506
+Content-Type: text/x-patch; name="0001-add-qemu-aarch64.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="0001-add-qemu-aarch64.patch"
+
+From e20a3e1252d895c2098fc99d7a0b8ff42ec2c439 Mon Sep 17 00:00:00 2001
+From: Kai Kang <kai.kang@windriver.com>
+Date: Fri, 22 Aug 2014 10:46:10 +0800
+Subject: [PATCH] add qemu aarch64
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/conf/machine/genericarmv8.conf          | 37 ++++++++++++++++++++++++++
+ meta/conf/machine/genericarmv8b.conf         |  8 ++++++
+ meta/conf/machine/include/arm/arch-armv8.inc | 20 ++++++++++++++
+ meta/conf/machine/qemuarm64.conf             | 39 ++++++++++++++++++++++++++++
+ 4 files changed, 104 insertions(+)
+ create mode 100644 meta/conf/machine/genericarmv8.conf
+ create mode 100644 meta/conf/machine/genericarmv8b.conf
+ create mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
+ create mode 100644 meta/conf/machine/qemuarm64.conf
+
+diff --git a/meta/conf/machine/genericarmv8.conf b/meta/conf/machine/genericarmv8.conf
+new file mode 100644
+index 0000000..1d05238
+--- /dev/null
++++ b/meta/conf/machine/genericarmv8.conf
+@@ -0,0 +1,37 @@
++#@TYPE: Machine
++#@NAME: generic armv8 machine
++#@DESCRIPTION: generic machine to be used by linaro-media-create
++
++require conf/machine/include/arm64/arch-armv8.inc
++
++PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
++
++XSERVER ?= "xserver-xorg \
++            mesa-driver-swrast \
++            xf86-input-evdev \
++            xf86-input-mouse \
++            xf86-video-fbdev \
++            xf86-input-keyboard"
++
++MACHINE_FEATURES = ""
++
++# Don't include kernels in standard images
++RDEPENDS_kernel-base = ""
++
++PREFERRED_PROVIDER_virtual/kernel ?= "linux-linaro"
++
++KERNEL_IMAGETYPE = "Image"
++
++# We have to disable SERIAL_CONSOLE due to auto-serial-console
++#SERIAL_CONSOLE = "115200 ttyAMA0"
++
++# Force auto-serial-console to be used by all image types
++# Ideally this would be part of core oe or as a bbclassappend,
++# but as we don't have an easy way to append a class, defining
++# it here
++EXTRA_IMAGE_FEATURES += "autoserial"
++FEATURE_PACKAGES_autoserial = "auto-serial-console"
++
++# we do not want to have getty running on tty1 as we run
++# auto-serial-console there
++USE_VT = "0"
+diff --git a/meta/conf/machine/genericarmv8b.conf b/meta/conf/machine/genericarmv8b.conf
+new file mode 100644
+index 0000000..e70de08
+--- /dev/null
++++ b/meta/conf/machine/genericarmv8b.conf
+@@ -0,0 +1,8 @@
++#@TYPE: Machine
++#@NAME: generic armv8 big endian machine
++#@DESCRIPTION: generic machine to be used by linaro-media-create
++DEFAULTTUNE = "aarch64_be"
++
++PREFERRED_PROVIDER_virtual/kernel ?= "linux-dummy"
++
++require conf/machine/genericarmv8.conf
+diff --git a/meta/conf/machine/include/arm/arch-armv8.inc b/meta/conf/machine/include/arm/arch-armv8.inc
+new file mode 100644
+index 0000000..c86142a
+--- /dev/null
++++ b/meta/conf/machine/include/arm/arch-armv8.inc
+@@ -0,0 +1,20 @@
++DEFAULTTUNE ?= "aarch64"
++
++ARMPKGARCH ?= "aarch64"
++
++TUNEVALID[aarch64] = "Enable instructions for aarch64"
++TUNEVALID[bigendian] = "Enable big-endian mode."
++TUNECONFLICTS[aarch64] = ""
++MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", ":aarch64", "" ,d)}"
++
++# Little Endian base configs
++AVAILTUNES += "aarch64 aarch64_be"
++TUNE_FEATURES_tune-aarch64 ?= "aarch64"
++TUNE_FEATURES_tune-aarch64_be ?= "${TUNE_FEATURES_tune-aarch64} bigendian"
++
++ARMPKGSFX_ENDIAN = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", "_be", "", d)}"
++
++TUNE_ARCH = "aarch64${ARMPKGSFX_ENDIAN}"
++TUNE_PKGARCH = "aarch64${ARMPKGSFX_ENDIAN}"
++
++PACKAGE_EXTRA_ARCHS = "aarch64${ARMPKGSFX_ENDIAN}"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+new file mode 100644
+index 0000000..eca99f7
+--- /dev/null
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -0,0 +1,39 @@
++#@TYPE: Machine
++#@NAME: generic armv8 machine
++#@DESCRIPTION: generic machine to be used by linaro-media-create
++
++require conf/machine/include/arm/arch-armv8.inc
++
++PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
++
++XSERVER ?= "xserver-xorg \
++            mesa-driver-swrast \
++            xf86-input-evdev \
++            xf86-input-mouse \
++            xf86-video-fbdev \
++            xf86-input-keyboard"
++
++MACHINE_FEATURES = ""
++
++# Don't include kernels in standard images
++RDEPENDS_kernel-base = ""
++
++PREFERRED_PROVIDER_virtual/kernel ?= "linux-linaro"
++
++KERNEL_IMAGETYPE = "Image"
++
++# We have to disable SERIAL_CONSOLE due to auto-serial-console
++#SERIAL_CONSOLE = "115200 ttyAMA0"
++
++# Force auto-serial-console to be used by all image types
++# Ideally this would be part of core oe or as a bbclassappend,
++# but as we don't have an easy way to append a class, defining
++# it here
++#EXTRA_IMAGE_FEATURES += "autoserial"
++#FEATURE_PACKAGES_autoserial = "auto-serial-console"
++
++# we do not want to have getty running on tty1 as we run
++# auto-serial-console there
++USE_VT = "0"
++
++baselib="lib64"
+-- 
+1.9.1
+
+
+--------------040900050802000505060506--
