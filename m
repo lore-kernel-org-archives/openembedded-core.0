@@ -1,20 +1,30 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 93A5A7067B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 136336FE64
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 14:47:10 +0000 (UTC)
-Received: from localhost.localdomain (chello062178118086.5.14.vie.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 01AA523655
+	Wed, 27 Aug 2014 14:48:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7REljb8004582 for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Aug 2014 15:48:13 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id vhzI7L11hlji
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 16:47:10 +0200 (CEST)
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Aug 2014 16:47:03 +0200
-Message-Id: <1409150824-32683-3-git-send-email-dv@pseudoterminal.org>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1409150824-32683-1-git-send-email-dv@pseudoterminal.org>
-References: <1409150824-32683-1-git-send-email-dv@pseudoterminal.org>
-Subject: [PATCH 3/4] gstreamer1.0-plugins-bad: Fix GL/GLES configuration
+	Wed, 27 Aug 2014 15:48:13 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7REm7RO004603
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Aug 2014 15:48:08 +0100
+Message-ID: <1409150889.29296.5.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Aug 2014 15:48:09 +0100
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Subject: [PATCH] sstate: Add extra intercept functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,120 +37,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 14:47:11 -0000
+X-List-Received-Date: Wed, 27 Aug 2014 14:48:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Replace --disable/enable-gl with the individual EGL, GLES, GL switches
-  (--disable-gl turns off GL support entirely)
-* Put the default opengl packageconfig into its own variable to make it
-  easier for distros and BSP layers to define what to use (GL, GLES,
-  or neither)
-* Add libglu as a dependency for desktop GL
-* Patch configure.ac to ensure libraries are only searched and linked to
-  if the corresponding API isn't disabled (this prevents cases where
-  libgstgl is linked to GLU even though desktop GL is dis- and GLES
-  enabled)
+In some cases we do either need to add extra sstate manipulation
+functions, or change the existing modification functions. This patch
+parametrises them to SSTATECREATEFUNCS and SSTATEPOSTUNPACKFUNCS and
+abstracts the "hardcoded path" functions into separate functions using
+these new variables.
 
-Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
----
- .../gstreamer/gstreamer1.0-plugins-bad.inc         |  9 +++--
- ...heck-for-GL-GLU-EGL-GLES2-libs-if-disable.patch | 41 ++++++++++++++++++++++
- .../gstreamer/gstreamer1.0-plugins-bad_1.4.0.bb    |  3 ++
- 3 files changed, 51 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-gl-do-not-check-for-GL-GLU-EGL-GLES2-libs-if-disable.patch
+We may use this new functionality to improve binary relocating using
+patchelf for example, this at least lets us have the hooks to be able to
+experiment.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index 67ee7f7..055eed2 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -8,19 +8,24 @@ S = "${WORKDIR}/gst-plugins-bad-${PV}"
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 3411fac..940b19e 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -32,8 +32,10 @@ BB_HASHFILENAME = "${SSTATE_EXTRAPATH} ${SSTATE_PKGSPEC} ${SSTATE_SWSPEC}"
  
- inherit gettext
+ SSTATE_MANMACH ?= "${SSTATE_PKGARCH}"
  
-+# opengl packageconfig factored out to make it easy for distros
-+# and BSP layers to pick either (desktop) opengl, gles2, or no GL
-+PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2', '', d)}"
+-SSTATEPREINSTFUNCS ?= ""
+-SSTATEPOSTINSTFUNCS ?= ""
++SSTATECREATEFUNCS = "sstate_hardcode_path"
++SSTATEPREINSTFUNCS = ""
++SSTATEPOSTUNPACKFUNCS = "sstate_hardcode_path_unpack"
++SSTATEPOSTINSTFUNCS = ""
+ EXTRA_STAGING_FIXMES ?= ""
  
- PACKAGECONFIG ??= " \
-+    ${PACKAGECONFIG_GL} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
--    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
-     orc curl uvch264 neon sndfile \
-     hls sbc dash bz2 smoothstreaming \
-     "
+ # Specify dirs in which the shell function is executed and don't use ${B}
+@@ -239,16 +241,32 @@ def sstate_installpkg(ss, d):
+     d.setVar('SSTATE_INSTDIR', sstateinst)
+     d.setVar('SSTATE_PKG', sstatepkg)
+ 
+-    for preinst in (d.getVar('SSTATEPREINSTFUNCS', True) or '').split():
+-        bb.build.exec_func(preinst, d)
++    for f in (d.getVar('SSTATEPREINSTFUNCS', True) or '').split() + ['sstate_unpack_package'] + (d.getVar('SSTATEPOSTUNPACKFUNCS', True) or '').split():
++        bb.build.exec_func(f, d)
+ 
+-    bb.build.exec_func('sstate_unpack_package', d)
++    for state in ss['dirs']:
++        prepdir(state[1])
++        os.rename(sstateinst + state[0], state[1])
++    sstate_install(ss, d)
+ 
++    for plain in ss['plaindirs']:
++        workdir = d.getVar('WORKDIR', True)
++        src = sstateinst + "/" + plain.replace(workdir, '')
++        dest = plain
++        bb.utils.mkdirhier(src)
++        prepdir(dest)
++        os.rename(src, dest)
 +
- # dash = Dynamic Adaptive Streaming over HTTP
- PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
- PACKAGECONFIG[curl]            = "--enable-curl,--disable-curl,curl"
--PACKAGECONFIG[gl]              = "--enable-gl,--disable-gl,virtual/egl virtual/libgles2"
-+PACKAGECONFIG[gles2]           = "--enable-gles2 --enable-egl,--disable-gles2 --disable-egl,virtual/libgles2 virtual/egl"
-+PACKAGECONFIG[opengl]          = "--enable-opengl,--disable-opengl,virtual/libgl libglu"
- PACKAGECONFIG[faac]            = "--enable-faac,--disable-faac,faac"
- PACKAGECONFIG[faad]            = "--enable-faad,--disable-faad,faad2"
- PACKAGECONFIG[libmms]          = "--enable-libmms,--disable-libmms,libmms"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-gl-do-not-check-for-GL-GLU-EGL-GLES2-libs-if-disable.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-gl-do-not-check-for-GL-GLU-EGL-GLES2-libs-if-disable.patch
-new file mode 100644
-index 0000000..042a32c
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-gl-do-not-check-for-GL-GLU-EGL-GLES2-libs-if-disable.patch
-@@ -0,0 +1,41 @@
-+From deba0da45ec821209a7ed148a4521d562e6512cd Mon Sep 17 00:00:00 2001
-+From: Carlos Rafael Giani <dv@pseudoterminal.org>
-+Date: Wed, 27 Aug 2014 14:47:25 +0200
-+Subject: [PATCH] gl: do not check for GL/GLU/EGL/GLES2 libs if disabled in
-+ configuration
++    return True
 +
-+Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=735522]
++python sstate_hardcode_path_unpack () {
+     # Fixup hardcoded paths
+     #
+     # Note: The logic below must match the reverse logic in
+     # sstate_hardcode_path(d)
++    import subprocess
+ 
++    sstateinst = d.getVar('SSTATE_INSTDIR', True)
+     fixmefn =  sstateinst + "fixmepath"
+     if os.path.isfile(fixmefn):
+         staging = d.getVar('STAGING_DIR', True)
+@@ -276,21 +294,7 @@ def sstate_installpkg(ss, d):
+         # Need to remove this or we'd copy it into the target directory and may 
+         # conflict with another writer
+         os.remove(fixmefn)
+-
+-    for state in ss['dirs']:
+-        prepdir(state[1])
+-        os.rename(sstateinst + state[0], state[1])
+-    sstate_install(ss, d)
+-
+-    for plain in ss['plaindirs']:
+-        workdir = d.getVar('WORKDIR', True)
+-        src = sstateinst + "/" + plain.replace(workdir, '')
+-        dest = plain
+-        bb.utils.mkdirhier(src)
+-        prepdir(dest)
+-        os.rename(src, dest)
+-
+-    return True
++}
+ 
+ def sstate_clean_cachefile(ss, d):
+     import oe.path
+@@ -395,7 +399,7 @@ python sstate_cleanall() {
+         sstate_clean(shared_state, ld)
+ }
+ 
+-def sstate_hardcode_path(d):
++python sstate_hardcode_path () {
+     import subprocess, platform
+ 
+     # Need to remove hardcoded paths and fix these when we install the
+@@ -449,6 +453,7 @@ def sstate_hardcode_path(d):
+     else:
+         bb.note("Replacing absolute paths in fixmepath file: '%s'" % (sstate_filelist_relative_cmd))
+         subprocess.call(sstate_filelist_relative_cmd, shell=True)
++}
+ 
+ def sstate_package(ss, d):
+     import oe.path
+@@ -506,9 +511,10 @@ def sstate_package(ss, d):
+ 
+     d.setVar('SSTATE_BUILDDIR', sstatebuild)
+     d.setVar('SSTATE_PKG', sstatepkg)
+-    sstate_hardcode_path(d)
+-    bb.build.exec_func('sstate_create_package', d)
+-    
 +
-+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
-+---
-+ configure.ac | 14 ++++++++++----
-+ 1 file changed, 10 insertions(+), 4 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 1a46afb..e85d4ba 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -661,10 +661,16 @@ case $host in
-+     fi
-+   ;;
-+   *)
-+-    AG_GST_CHECK_LIBHEADER(GL, GL, glTexImage2D,, GL/gl.h)
-+-    AG_GST_CHECK_LIBHEADER(GLU, GLU, gluSphere,, GL/glu.h)
-+-    AG_GST_CHECK_LIBHEADER(GLES2, GLESv2, glTexImage2D,, GLES2/gl2.h)
-+-    AG_GST_CHECK_LIBHEADER(EGL, EGL, eglGetError,, EGL/egl.h)
-++    if test "x$NEED_GL" != "xno"; then
-++      AG_GST_CHECK_LIBHEADER(GL, GL, glTexImage2D,, GL/gl.h)
-++      AG_GST_CHECK_LIBHEADER(GLU, GLU, gluSphere,, GL/glu.h)
-++    fi
-++    if test "x$NEED_GLES2" != "xno"; then
-++      AG_GST_CHECK_LIBHEADER(GLES2, GLESv2, glTexImage2D,, GLES2/gl2.h)
-++    fi
-++    if test "x$NEED_EGL" != "xno"; then
-++      AG_GST_CHECK_LIBHEADER(EGL, EGL, eglGetError,, EGL/egl.h)
-++    fi
-+ 
-+     old_LIBS=$LIBS
-+     old_CFLAGS=$CFLAGS
-+-- 
-+1.8.3.2
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.0.bb
-index e6edb26..ff92f09 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.0.bb
-@@ -4,6 +4,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
-                     file://gst/tta/filters.h;beginline=12;endline=29;md5=8a08270656f2f8ad7bb3655b83138e5a \
-                     file://COPYING.LIB;md5=21682e4e8fea52413fd26c60acb907e5 \
-                     file://gst/tta/crc32.h;beginline=12;endline=29;md5=27db269c575d1e5317fffca2d33b3b50"
-+
-+SRC_URI += "file://0001-gl-do-not-check-for-GL-GLU-EGL-GLES2-libs-if-disable.patch"
-+
- SRC_URI[md5sum] = "3bc0fcfe8d16ad1295f0454c1fcb4ba3"
- SRC_URI[sha256sum] = "ff2cb754f7725b205aec66002b1406e440f3a03194b6cad2d126ef5cd00902f9"
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
--- 
-1.8.3.2
++    for f in (d.getVar('SSTATECREATEFUNCS', True) or '').split() + ['sstate_create_package']:
++        bb.build.exec_func(f, d)
++  
+     bb.siggen.dump_this_task(sstatepkg + ".siginfo", d)
+ 
+     return
+
 
 
