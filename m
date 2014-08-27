@@ -1,28 +1,24 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 7202E710E3
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A63470F06
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Aug 2014 22:17:50 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 1FDA1F811E3; Tue, 26 Aug 2014 16:17:52 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 15B42F811DE;
-	Tue, 26 Aug 2014 16:17:51 -0600 (MDT)
-Message-ID: <53FD079C.8000205@mlbassoc.com>
-Date: Tue, 26 Aug 2014 16:18:04 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Wed, 27 Aug 2014 02:31:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7R2VxQX016638
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Aug 2014 19:31:59 -0700 (PDT)
+Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 26 Aug 2014 19:31:59 -0700
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Aug 2014 10:31:56 +0800
+Message-ID: <1409106716-19733-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <53FCE823.9050800@mlbassoc.com> <20140826214403.GA20524@jama>
-In-Reply-To: <20140826214403.GA20524@jama>
-Subject: Re: own-mirrors broken
+Subject: [PATCH] linux-dummy: bundle_initramfs should not be nostamp any more
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Aug 2014 22:17:54 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Aug 2014 02:32:00 -0000
+Content-Type: text/plain
 
-On 2014-08-26 15:44, Martin Jansa wrote:
-> On Tue, Aug 26, 2014 at 02:03:47PM -0600, Gary Thomas wrote:
->> This commit breaks "own-mirrors"
->>
->> commit 0ae7b58060f1ee7914dd45d462e48d4b8a3751ad  (Poky/Yocto)
->> Author: Robert Yang <liezhi.yang@windriver.com>
->> Date:   Fri Aug 22 01:31:27 2014 -0700
->>
->>       sanity.bbclass: check the format of MIRRORS
->>
->> Since this change, use of "own-mirrors" produces this error:
->
-> It was already reported before:
-> http://lists.openembedded.org/pipermail/openembedded-core/2014-August/096230.html
->
-> Luckily kergoth already sent fixes for it.
->
+The same change has already been applied to kernel.bbclass in commit 55989cb5:
+[ kernel.bbclass: Stop bundle_initramfs thwarting sstate cache and fix race ]
 
-It would be really nice if it got merged quickly...
+The dummy kernel should comply with it.
 
->> WARNING: Invalid PREMIRRORS: cvs://.*/.*     file:///local/poky-cutting-edge/sources/
->> svn://.*/.*     file:///local/poky-cutting-edge/sources/
->> git://.*/.*     file:///local/poky-cutting-edge/sources/
->> gitsm://.*/.*   file:///local/poky-cutting-edge/sources/
->> hg://.*/.*      file:///local/poky-cutting-edge/sources/
->> bzr://.*/.*     file:///local/poky-cutting-edge/sources/
->> svk://.*/.*     file:///local/poky-cutting-edge/sources/
->> p4://.*/.*      file:///local/poky-cutting-edge/sources/
->> osc://.*/.*     file:///local/poky-cutting-edge/sources/
->> https?$://.*/.* file:///local/poky-cutting-edge/sources/
->> ftp://.*/.*     file:///local/poky-cutting-edge/sources/, should be 2 members, but found 22.
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-dummy.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
+diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
+index 5d29f5c..8f25f17 100644
+--- a/meta/recipes-kernel/linux/linux-dummy.bb
++++ b/meta/recipes-kernel/linux/linux-dummy.bb
+@@ -45,7 +45,6 @@ do_deploy() {
+ 	:
+ }
+ 
+-do_bundle_initramfs[nostamp] = "1"
+-addtask bundle_initramfs after do_compile
++addtask bundle_initramfs after do_install before do_deploy
+ addtask deploy after do_install
+ 
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+1.8.4.1
+
 
