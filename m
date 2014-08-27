@@ -1,21 +1,20 @@
 Return-Path: <marius.avram@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 576FB60E49
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B5D6E70E5A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 09:16:01 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 27 Aug 2014 02:16:03 -0700
+	Wed, 27 Aug 2014 09:20:04 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Aug 2014 02:20:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,409,1406617200"; 
-	d="scan'208,223";a="473101802"
+X-IronPort-AV: E=Sophos;i="5.04,409,1406617200"; d="scan'208";a="590482681"
 Received: from mavram-vostro.rb.intel.com ([10.237.105.71])
-	by azsmga001.ch.intel.com with ESMTP; 27 Aug 2014 02:16:01 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 27 Aug 2014 02:20:05 -0700
 From: Marius Avram <marius.avram@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Aug 2014 12:19:10 +0300
-Message-Id: <1409131150-7385-1-git-send-email-marius.avram@intel.com>
+Date: Wed, 27 Aug 2014 12:23:13 +0300
+Message-Id: <1409131393-405-1-git-send-email-marius.avram@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: it seemed to fail. This is an updated working version.
+Subject: [PATCH v2] Fix USB not mounted in file manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,12 +27,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 09:16:02 -0000
-
-From faac9d6404d3fe7c65b794682fc5e87bdb0891d9 Mon Sep 17 00:00:00 2001
-From: Marius Avram <marius.avram@intel.com>
-Date: Wed, 27 Aug 2014 12:12:18 +0300
-Subject: [PATCH v2] Fix USB not mounted in file manager
+X-List-Received-Date: Wed, 27 Aug 2014 09:20:10 -0000
 
 Currently a USB stick gets mounted on /run/media/sdX, where X is the
 letter corresponding to a certain drive. In older builds of core-image-sato
