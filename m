@@ -1,20 +1,18 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 92BAB6FE64
+	by mail.openembedded.org (Postfix) with ESMTP id 9488A710C5
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 27 Aug 2014 14:47:09 +0000 (UTC)
 Received: from localhost.localdomain (chello062178118086.5.14.vie.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 9C19223653
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 47C651FC6F
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 27 Aug 2014 16:47:10 +0200 (CEST)
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Aug 2014 16:47:02 +0200
-Message-Id: <1409150824-32683-2-git-send-email-dv@pseudoterminal.org>
+Date: Wed, 27 Aug 2014 16:47:01 +0200
+Message-Id: <1409150824-32683-1-git-send-email-dv@pseudoterminal.org>
 X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1409150824-32683-1-git-send-email-dv@pseudoterminal.org>
-References: <1409150824-32683-1-git-send-email-dv@pseudoterminal.org>
-Subject: [PATCH 2/4] gstreamer1.0-plugins-bad: Add DEPENDS on libpng
+Subject: [PATCH 1/4] gstreamer1.0-omx: Add DEPENDS on gstreamer1.0-plugins-bad
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,27 +27,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 27 Aug 2014 14:47:11 -0000
 
-libpng is automatically linked to if present. This cannot be turned off.
-Adding DEPENDS on libpng ensures that a proper dependency is established.
+gst-omx links to libgstgl if it is present, and libgstgl is built by
+gstreamer1.0-plugins-bad. Adding it as a DEPENDS ensures a proper
+dependency is established.
 
 Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index 8ecc2aa..67ee7f7 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -2,7 +2,7 @@ require gstreamer1.0-plugins.inc
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
+index b423863..d698904 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx.inc
+@@ -3,7 +3,7 @@ SECTION = "multimedia"
+ LICENSE = "LGPLv2.1"
+ LICENSE_FLAGS = "commercial"
+ HOMEPAGE = "http://www.gstreamer.net/"
+-DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base"
++DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+ RDEPENDS_${PN} = "libomxil"
  
- LICENSE = "GPLv2+ & LGPLv2+ & LGPLv2.1+ "
- 
--DEPENDS += "gstreamer1.0-plugins-base bzip2"
-+DEPENDS += "gstreamer1.0-plugins-base bzip2 libpng"
- 
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
- 
+ inherit autotools pkgconfig gettext
 -- 
 1.8.3.2
 
