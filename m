@@ -1,26 +1,20 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 525EC6FE2A
+Return-Path: <marius.avram@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C94176FA94
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 07:53:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7R7rgr7019164
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 27 Aug 2014 00:53:42 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 27 Aug 2014 00:53:41 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>, <mark.hatle@windriver.com>
-Date: Wed, 27 Aug 2014 15:53:25 +0800
-Message-ID: <c10c2fe19dcb2f6ea0ce0ff33ac70caaf161ce51.1409124921.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1409124921.git.hongxu.jia@windriver.com>
-References: <cover.1409124921.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] bbclass/sstate_readonly: only allowed sstate-cache objects are allowed in a build (read-only sstate-cache)
+	Wed, 27 Aug 2014 08:06:44 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 27 Aug 2014 01:06:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,409,1406617200"; d="scan'208";a="593879011"
+Received: from mavram-vostro.rb.intel.com ([10.237.105.71])
+	by orsmga002.jf.intel.com with ESMTP; 27 Aug 2014 01:06:44 -0700
+From: Marius Avram <marius.avram@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Aug 2014 11:09:53 +0300
+Message-Id: <1409126993-26178-1-git-send-email-marius.avram@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] Fix USB not mounted in file manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,97 +27,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 07:53:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 27 Aug 2014 08:06:45 -0000
 
-The requirement is the developer who demand only the "new" software
-they write is allowed to be compiled from source, they only want to
-reuse binaries from an existed sstate-cache, if the developer makes
-a change that triggers a rebuild, it should be an instant error.
+Currently a USB stick gets mounted on /run/media/sdX, where X is the
+letter corresponding to a certain drive. In older builds of core-image-sato
+it got mounted in /media/sdX. This change made the drives to not be
+displayed in graphical applications which use glib-2.0 such as the
+File Manager (pcmanfm). The reason is that the gio component of glib-2.0
+which handles mounts contains a function which determines if a mount
+is worthy to be displayed in the UI or not. The function is called
+g_unix_mount_guess_should_display().
 
-The purpose of this is for the sstate-cache to check if the item
-exists or not. If it doesn't the item needs to be in a whitelist
-or we need to fail.
+It expects a drive to be mounted in /run/media/<username>/sdX, but
+in the current build the username part is missing in case a root user
+is authenticated in the system.
 
-If read-only sstate-cache enable, and the recipe's ${PN} not in the
-${SSTATECACHE_WHITELIST}, it trigered an instant error.
+The easiest solution is to allow the display of drives mounted in the
+path used by the current configuration and that is /run/media/sdX.
 
-...
-$ bitbake db
-ERROR: Read-only sstate-cache is enabled, the build of
-"db rpm-native gcc-runtime eglibc linux-libc-headers libgcc"
-did not come from sstate-cache. Only the recipe listed in
-SSTATECACHE_WHITELIST is allowed to build from source
+[YOCTO #6492]
 
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-...
-
-[YOCTO #6639]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Marius Avram <marius.avram@intel.com>
 ---
- meta/classes/sstate_readonly.bbclass | 51 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
- create mode 100644 meta/classes/sstate_readonly.bbclass
+ ...un-media-sdX-drive-mount-if-username-root.patch |   43 ++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb      |    2 +-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
 
-diff --git a/meta/classes/sstate_readonly.bbclass b/meta/classes/sstate_readonly.bbclass
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch b/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
 new file mode 100644
-index 0000000..9eabf81
+index 0000000..13e35e7
 --- /dev/null
-+++ b/meta/classes/sstate_readonly.bbclass
-@@ -0,0 +1,51 @@
-+SSTATE_CHECK_FUNCTIONS_append = " sstate_readonly_check"
++++ b/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
+@@ -0,0 +1,43 @@
++From: Marius Avram <marius.avram@intel.com>
++Date: Tue, 26 Aug 2014 16:31:51 +0300
++Subject: [PATCH] Allow /run/media/sdX drive mount if username root
 +
-+# 1) If ${SSTATECACHE_WHITELIST} is "", it means read-only sstate-cache
-+#    disabled;
-+#
-+# 2) If read-only sstate-cache enabled and the recipe's ${PN} not listed
-+#    in ${SSTATECACHE_WHITELIST}, the build from source will triger an
-+#    instant error;
-+SSTATECACHE_WHITELIST ?= ""
++In case that the username logged in the system is root
++the drives are directly mounted in /run/media/sdX and
++not /run/media/<username>/sdX as the function
++g_unix_mount_guess_should_display() expects.
 +
-+python sstate_readonly_check(){
-+    whitelist = (d.getVar('SSTATECACHE_WHITELIST', True) or '').split()
-+    if whitelist:
-+        sq_fn = d.getVar('sq_fn', True) or []
-+        missed = d.getVar('missed', True) or []
-+        missed_pn = []
-+        for task in missed:
-+            fn = sq_fn[task]
-+            data = bb.cache.Cache.loadDataFull(fn, '', d)
-+            pn = data.getVar('PN', True)
-+            if pn and pn not in missed_pn:
-+                missed_pn.append(pn)
++Without this change USB stick mounts are not accesible from
++graphical applications such as the File Manager (pcmanfm).
 +
-+        if missed_pn:
-+            blacklist = [pn for pn in missed_pn if pn not in whitelist]
-+            if blacklist:
-+                msg =  'Read-only sstate-cache is enabled, the build of \n'
-+                msg += '"' + ' '.join(blacklist) + '"\n'
-+                msg += 'did not come from sstate-cache. Only the recipe listed in\n'
-+                msg += 'SSTATECACHE_WHITELIST is allowed to build from source'
-+                bb.fatal(msg)
-+}
++Upstream-Status: Inappropriate
 +
-+def _sstate_readonly_clean_check(d):
-+    whitelist = (d.getVar('SSTATECACHE_WHITELIST', True) or '').split()
-+    if whitelist:
-+        pn = d.getVar('PN', True)
-+        if pn not in whitelist:
-+            msg =  'Read-only sstate-cache is enabled, the clean of \n'
-+            msg += '%s is not allowed. Only the recipe listed in\n' % pn
-+            msg += 'SSTATECACHE_WHITELIST is allowed to clean sstate-cache'
-+            bb.fatal(msg)
++Signed-off-by: Marius Avram <marius.avram@intel.com>
++---
++ gio/gunixmounts.c |    6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+python do_cleansstate_prepend() {
-+        _sstate_readonly_clean_check(d)
-+}
++diff --git a/gio/gunixmounts.c b/gio/gunixmounts.c
++index 4999354..5053f5e 100644
++--- a/gio/gunixmounts.c
+++++ b/gio/gunixmounts.c
++@@ -2131,11 +2131,17 @@ g_unix_mount_guess_should_display (GUnixMountEntry *mount_entry)
++       /* Check /run/media/$USER/ */
++       user_name = g_get_user_name ();
++       user_name_len = strlen (user_name);
++       if (strncmp (mount_path, "/run/media/", sizeof ("/run/media/") - 1) == 0 &&
++           strncmp (mount_path + sizeof ("/run/media/") - 1, user_name, user_name_len) == 0 &&
++           mount_path[sizeof ("/run/media/") - 1 + user_name_len] == '/')
++         is_in_runtime_dir = TRUE;
 +
-+python do_cleanall_prepend() {
-+    _sstate_readonly_clean_check(d)
-+}
+++      /* Allow no username in path in /run/media if current user is root */
+++      if (strcmp(user_name, "root") == 0 &&
+++          strncmp (mount_path, "/run/media/", sizeof("run/media")) == 0)
+++        is_in_runtime_dir = TRUE;
+++
++       if (is_in_runtime_dir || g_str_has_prefix (mount_path, "/media/"))
++         {
++           char *path;
++--
++1.7.9.5
 +
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
+index ff1fb87..211bc32 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
+@@ -12,7 +12,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://run-ptest \
+            file://ptest-paths.patch \
+            file://uclibc.patch \
+-           file://0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch \
++           file://allow-run-media-sdX-drive-mount-if-username-root.patch \
+           "
+ 
+ SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
 -- 
-1.9.1
+1.7.9.5
 
 
