@@ -1,20 +1,21 @@
 Return-Path: <marius.avram@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C94176FA94
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 576FB60E49
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 08:06:44 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 27 Aug 2014 01:06:45 -0700
+	Wed, 27 Aug 2014 09:16:01 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 27 Aug 2014 02:16:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,409,1406617200"; d="scan'208";a="593879011"
+X-IronPort-AV: E=Sophos;i="5.04,409,1406617200"; 
+	d="scan'208,223";a="473101802"
 Received: from mavram-vostro.rb.intel.com ([10.237.105.71])
-	by orsmga002.jf.intel.com with ESMTP; 27 Aug 2014 01:06:44 -0700
+	by azsmga001.ch.intel.com with ESMTP; 27 Aug 2014 02:16:01 -0700
 From: Marius Avram <marius.avram@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Aug 2014 11:09:53 +0300
-Message-Id: <1409126993-26178-1-git-send-email-marius.avram@intel.com>
+Date: Wed, 27 Aug 2014 12:19:10 +0300
+Message-Id: <1409131150-7385-1-git-send-email-marius.avram@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] Fix USB not mounted in file manager
+Subject: it seemed to fail. This is an updated working version.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,7 +28,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 08:06:45 -0000
+X-List-Received-Date: Wed, 27 Aug 2014 09:16:02 -0000
+
+From faac9d6404d3fe7c65b794682fc5e87bdb0891d9 Mon Sep 17 00:00:00 2001
+From: Marius Avram <marius.avram@intel.com>
+Date: Wed, 27 Aug 2014 12:12:18 +0300
+Subject: [PATCH v2] Fix USB not mounted in file manager
 
 Currently a USB stick gets mounted on /run/media/sdX, where X is the
 letter corresponding to a certain drive. In older builds of core-image-sato
@@ -49,19 +55,20 @@ path used by the current configuration and that is /run/media/sdX.
 
 Signed-off-by: Marius Avram <marius.avram@intel.com>
 ---
- ...un-media-sdX-drive-mount-if-username-root.patch |   43 ++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb      |    2 +-
- 2 files changed, 44 insertions(+), 1 deletion(-)
+ ...un-media-sdX-drive-mount-if-username-root.patch |   39 ++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb      |    1 +
+ 2 files changed, 40 insertions(+)
  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
 
 diff --git a/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch b/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
 new file mode 100644
-index 0000000..13e35e7
+index 0000000..3d0c008
 --- /dev/null
 +++ b/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
-@@ -0,0 +1,43 @@
+@@ -0,0 +1,39 @@
++From c53e94a520b573aa0dcf12903e9563fe8badc34c Mon Sep 17 00:00:00 2001
 +From: Marius Avram <marius.avram@intel.com>
-+Date: Tue, 26 Aug 2014 16:31:51 +0300
++Date: Wed, 27 Aug 2014 12:10:41 +0300
 +Subject: [PATCH] Allow /run/media/sdX drive mount if username root
 +
 +In case that the username logged in the system is root
@@ -76,22 +83,17 @@ index 0000000..13e35e7
 +
 +Signed-off-by: Marius Avram <marius.avram@intel.com>
 +---
-+ gio/gunixmounts.c |    6 ++++++
-+ 1 file changed, 6 insertions(+)
++ gio/gunixmounts.c |    5 +++++
++ 1 file changed, 5 insertions(+)
 +
 +diff --git a/gio/gunixmounts.c b/gio/gunixmounts.c
-+index 4999354..5053f5e 100644
++index 4999354..f6c1472 100644
 +--- a/gio/gunixmounts.c
 ++++ b/gio/gunixmounts.c
-+@@ -2131,11 +2131,17 @@ g_unix_mount_guess_should_display (GUnixMountEntry *mount_entry)
-+       /* Check /run/media/$USER/ */
-+       user_name = g_get_user_name ();
-+       user_name_len = strlen (user_name);
-+       if (strncmp (mount_path, "/run/media/", sizeof ("/run/media/") - 1) == 0 &&
-+           strncmp (mount_path + sizeof ("/run/media/") - 1, user_name, user_name_len) == 0 &&
++@@ -2136,6 +2136,11 @@ g_unix_mount_guess_should_display (GUnixMountEntry *mount_entry)
 +           mount_path[sizeof ("/run/media/") - 1 + user_name_len] == '/')
 +         is_in_runtime_dir = TRUE;
-+
++ 
 ++      /* Allow no username in path in /run/media if current user is root */
 ++      if (strcmp(user_name, "root") == 0 &&
 ++          strncmp (mount_path, "/run/media/", sizeof("run/media")) == 0)
@@ -100,18 +102,17 @@ index 0000000..13e35e7
 +       if (is_in_runtime_dir || g_str_has_prefix (mount_path, "/media/"))
 +         {
 +           char *path;
-+--
++-- 
 +1.7.9.5
 +
 diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
-index ff1fb87..211bc32 100644
+index ff1fb87..4b1bcf8 100644
 --- a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
 +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
-@@ -12,7 +12,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://run-ptest \
+@@ -13,6 +13,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
             file://ptest-paths.patch \
             file://uclibc.patch \
--           file://0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch \
+            file://0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch \
 +           file://allow-run-media-sdX-drive-mount-if-username-root.patch \
            "
  
