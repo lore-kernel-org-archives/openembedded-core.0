@@ -1,26 +1,20 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DA80710CE
+Return-Path: <marius.avram@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4834F65D34
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 10:53:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7RArfsH023396
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 27 Aug 2014 03:53:41 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Wed, 27 Aug 2014 03:53:40 -0700
-Message-ID: <53FDB8B5.8030802@windriver.com>
-Date: Wed, 27 Aug 2014 18:53:41 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-X-Originating-IP: [128.224.162.231]
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Question about aarch64 target
+	Wed, 27 Aug 2014 11:08:59 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Aug 2014 04:09:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,409,1406617200"; d="scan'208";a="590520291"
+Received: from mavram-vostro.rb.intel.com ([10.237.105.71])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Aug 2014 04:08:59 -0700
+From: Marius Avram <marius.avram@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Aug 2014 14:12:08 +0300
+Message-Id: <1409137928-25490-1-git-send-email-marius.avram@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/2] libfm: Upgrade to 1.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,229 +27,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 10:53:41 -0000
-X-Groupsio-MsgNum: 57006
-Content-Type: multipart/mixed; boundary="------------040900050802000505060506"
+X-List-Received-Date: Wed, 27 Aug 2014 11:09:06 -0000
 
---------------040900050802000505060506
-Content-Type: multipart/alternative;
-	boundary="------------030105090806020804050208"
+Removed patch fix-make-parallelism-issue.patch which doesn't
+seem to be needed anymore, as the build works with multiple threads.
 
---------------030105090806020804050208
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Changed patch for current structure of configure.ac file.
 
-Hi Saul,
-
-I am working on Bug 6487 - Add Aarch64 qemu target. I take tune and 
-config files from linaro then succeeds to build core-image-minimal and 
-core-image-sato.
-
-And I have 2 question about it now:
-1 What should the new qemu aarch64 bsp looks like at the end? Do the 
-files in the patch attached are enough? And what more test should we do 
-except to build images such as core-image-sato, core-image-sato even 
-build world?
-
-2 There 2 aarch64 configure files from linaro. First one is little 
-endian and it is as default, and the other one is big endian. I take the 
-little endian one as qemuarm64.conf as linaro does. Do we need add the 
-other one as qemuarm64_be.conf or something like that?
-
--- 
-Regards,
-Neil | Kai Kang
-
-
---------------030105090806020804050208
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <font size="+1">Hi Saul,<br>
-      <br>
-      I am working on Bug 6487 - Add Aarch64 qemu target. I take tune
-      and config files from linaro then succeeds to build
-      core-image-minimal and core-image-sato. <br>
-      <br>
-      And I have 2 question about it now:<br>
-      1 What should the new qemu aarch64 bsp looks like at the end? Do
-      the files in the patch attached are enough? And what more test
-      should we do except to build images such as </font><font
-      size="+1">core-image-sato,  </font><font size="+1">core-image-sato
-      even build world?<br>
-      <br>
-      2 There 2 aarch64 configure files from linaro. First one is little
-      endian and it is as default, and the other one is big endian. I
-      take the little endian one as qemuarm64.conf as linaro does. Do we
-      need add the other one as qemuarm64_be.conf or something like
-      that?<br>
-    </font>
-    <pre class="moz-signature" cols="72">-- 
-Regards,
-Neil | Kai Kang</pre>
-  </body>
-</html>
-
---------------030105090806020804050208--
-
---------------040900050802000505060506
-Content-Type: text/x-patch; name="0001-add-qemu-aarch64.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="0001-add-qemu-aarch64.patch"
-
-From e20a3e1252d895c2098fc99d7a0b8ff42ec2c439 Mon Sep 17 00:00:00 2001
-From: Kai Kang <kai.kang@windriver.com>
-Date: Fri, 22 Aug 2014 10:46:10 +0800
-Subject: [PATCH] add qemu aarch64
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Marius Avram <marius.avram@intel.com>
 ---
- meta/conf/machine/genericarmv8.conf          | 37 ++++++++++++++++++++++++++
- meta/conf/machine/genericarmv8b.conf         |  8 ++++++
- meta/conf/machine/include/arm/arch-armv8.inc | 20 ++++++++++++++
- meta/conf/machine/qemuarm64.conf             | 39 ++++++++++++++++++++++++++++
- 4 files changed, 104 insertions(+)
- create mode 100644 meta/conf/machine/genericarmv8.conf
- create mode 100644 meta/conf/machine/genericarmv8b.conf
- create mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
- create mode 100644 meta/conf/machine/qemuarm64.conf
+ .../libfm-1.1.2.2/fix-make-parallelism-issue.patch |   31 --------------------
+ .../libfm-1.1.2.2/ignore_automake_warnings.patch   |   14 ---------
+ .../libfm-1.2.1/ignore_automake_warnings.patch     |   16 ++++++++++
+ .../libfm/{libfm_1.1.2.2.bb => libfm_1.2.1.bb}     |   11 +++----
+ 4 files changed, 22 insertions(+), 50 deletions(-)
+ delete mode 100644 meta/recipes-support/libfm/libfm-1.1.2.2/fix-make-parallelism-issue.patch
+ delete mode 100644 meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch
+ create mode 100644 meta/recipes-support/libfm/libfm-1.2.1/ignore_automake_warnings.patch
+ rename meta/recipes-support/libfm/{libfm_1.1.2.2.bb => libfm_1.2.1.bb} (61%)
 
-diff --git a/meta/conf/machine/genericarmv8.conf b/meta/conf/machine/genericarmv8.conf
+diff --git a/meta/recipes-support/libfm/libfm-1.1.2.2/fix-make-parallelism-issue.patch b/meta/recipes-support/libfm/libfm-1.1.2.2/fix-make-parallelism-issue.patch
+deleted file mode 100644
+index 5d39d19..0000000
+--- a/meta/recipes-support/libfm/libfm-1.1.2.2/fix-make-parallelism-issue.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-Fix make parallelism issue
+-
+-- remove pkginclude_HEADERS ( LIBFM_INCLUDES and LIBFM_GTK_INCLUDES
+-variables are empty)
+-- if we don't remove it then we will have a race condition between the code 
+-that tries to symlink ${includedir}/libfm-1.0 to ${includedir}/libfm and the
+-am autogenerated code from the pkginclude_HEADERS definition which
+-tries to create pkgincludedir (${includedir}/libfm);
+-- if pkgincludedir is created before the symlink the symlink will be created
+-in the ${includedir}/libfm dir and it will have libfm-1.0 as name which is
+-wrong (we need the ${includedir}/libfm symlink for pcmanfm)
+-
+-Upstream-Status: Pending
+-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+-
+-Index: libfm-1.1.0/src/Makefile.am
+-===================================================================
+---- libfm-1.1.0.orig/src/Makefile.am
+-+++ libfm-1.1.0/src/Makefile.am
+-@@ -211,11 +211,6 @@ libfmgtkinclude_HEADERS = \
+- 	gtk/fm-gtk-marshal.h \
+- 	$(NULL)
+- 
+--pkginclude_HEADERS = \
+--	$(LIBFM_INCLUDES) \
+--	$(LIBFM_GTK_INCLUDES) \
+--	$(NULL)
+--
+- EXTRA_LTLIBRARIES = libfm-gtk.la libfm-gtk3.la
+- 
+- lib_LTLIBRARIES = libfm.la @LIBFM_GTK_LTLIBRARIES@
+diff --git a/meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch b/meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch
+deleted file mode 100644
+index 58a2f09..0000000
+--- a/meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch
++++ /dev/null
+@@ -1,14 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+-diff -Nurd libfm-1.1.2.2/configure.ac libfm-1.1.2.2/configure.ac
+---- libfm-1.1.2.2/configure.ac	2013-08-22 23:16:09.000000000 +0300
+-+++ libfm-1.1.2.2/configure.ac	2013-10-25 01:35:18.110323079 +0300
+-@@ -3,7 +3,7 @@
+-
+- AC_PREREQ([2.63])
+- AC_INIT([libfm], [1.1.2.2], [http://pcmanfm.sourceforge.net/])
+--AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+-+AM_INIT_AUTOMAKE([-Wall foreign])
+- AC_CONFIG_MACRO_DIR(m4)
+- AC_CONFIG_HEADERS([config.h])
+diff --git a/meta/recipes-support/libfm/libfm-1.2.1/ignore_automake_warnings.patch b/meta/recipes-support/libfm/libfm-1.2.1/ignore_automake_warnings.patch
 new file mode 100644
-index 0000000..1d05238
+index 0000000..4808b20
 --- /dev/null
-+++ b/meta/conf/machine/genericarmv8.conf
-@@ -0,0 +1,37 @@
-+#@TYPE: Machine
-+#@NAME: generic armv8 machine
-+#@DESCRIPTION: generic machine to be used by linaro-media-create
++++ b/meta/recipes-support/libfm/libfm-1.2.1/ignore_automake_warnings.patch
+@@ -0,0 +1,16 @@
++Upstream-Status: Inappropriate [configuration]
 +
-+require conf/machine/include/arm64/arch-armv8.inc
++Signed-off-by: Marius Avram <marius.avram@intel.com>
++Index: libfm-1.2.1/configure.ac
++===================================================================
++--- libfm-1.2.1.orig/configure.ac	2014-07-02 22:42:04.000000000 +0300
+++++ libfm-1.2.1/configure.ac	2014-08-19 15:34:38.218364810 +0300
++@@ -3,7 +3,7 @@
++ 
++ AC_PREREQ([2.63])
++ AC_INIT([libfm], [1.2.1], [http://pcmanfm.sourceforge.net/])
++-AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects no-dist-gzip dist-xz -Wno-portability])
+++AM_INIT_AUTOMAKE([-Wall foreign subdir-objects no-dist-gzip dist-xz -Wno-portability])
++ AC_CONFIG_MACRO_DIR(m4)
++ AC_CONFIG_HEADERS([config.h])
++ 
+diff --git a/meta/recipes-support/libfm/libfm_1.1.2.2.bb b/meta/recipes-support/libfm/libfm_1.2.1.bb
+similarity index 61%
+rename from meta/recipes-support/libfm/libfm_1.1.2.2.bb
+rename to meta/recipes-support/libfm/libfm_1.2.1.bb
+index 10f31d9..0b736d9 100644
+--- a/meta/recipes-support/libfm/libfm_1.1.2.2.bb
++++ b/meta/recipes-support/libfm/libfm_1.2.1.bb
+@@ -4,18 +4,17 @@ HOMEPAGE = "http://pcmanfm.sourceforge.net/"
+ LICENSE = "GPLv2 & GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://src/fm.h;endline=22;md5=e64555171770a551e3b51cc06fc62f1a \
+-                    file://src/base/fm-config.h;endline=23;md5=ad0fc418c3cf041eea35ddb3daf37f17"
++                    file://src/base/fm-config.h;endline=23;md5=71596f90de8d83df26974967cd6b6730"
+ 
+ SECTION = "x11/libs"
+ DEPENDS = "glib-2.0 pango gtk+ menu-cache intltool-native libexif"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.gz \
+-           file://fix-make-parallelism-issue.patch \
++SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz \
+            file://ignore_automake_warnings.patch \
+            "
+ 
+-SRC_URI[md5sum] = "ea3d09b23ef4c37cb84ae57ea16b8f08"
+-SRC_URI[sha256sum] = "158e2b6974350d2dab15932b496bb4d448553e60bbf7cdfe4d6e9bd99d19d682"
++SRC_URI[md5sum] = "9b4790594c2c80f440ce3238c5774d23"
++SRC_URI[sha256sum] = "15b33e9ebe18f745c74cb847605a53b0b5892572f8dcc940a8aecbaee07fdd06"
+ 
+ inherit autotools-brokensep pkgconfig gtk-doc
+ 
+@@ -23,3 +22,5 @@ do_configure[dirs] =+ "${S}/m4"
+ 
+ PACKAGES += "${PN}-mime"
+ FILES_${PN}-mime = "${datadir}/mime/"
 +
-+PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
-+
-+XSERVER ?= "xserver-xorg \
-+            mesa-driver-swrast \
-+            xf86-input-evdev \
-+            xf86-input-mouse \
-+            xf86-video-fbdev \
-+            xf86-input-keyboard"
-+
-+MACHINE_FEATURES = ""
-+
-+# Don't include kernels in standard images
-+RDEPENDS_kernel-base = ""
-+
-+PREFERRED_PROVIDER_virtual/kernel ?= "linux-linaro"
-+
-+KERNEL_IMAGETYPE = "Image"
-+
-+# We have to disable SERIAL_CONSOLE due to auto-serial-console
-+#SERIAL_CONSOLE = "115200 ttyAMA0"
-+
-+# Force auto-serial-console to be used by all image types
-+# Ideally this would be part of core oe or as a bbclassappend,
-+# but as we don't have an easy way to append a class, defining
-+# it here
-+EXTRA_IMAGE_FEATURES += "autoserial"
-+FEATURE_PACKAGES_autoserial = "auto-serial-console"
-+
-+# we do not want to have getty running on tty1 as we run
-+# auto-serial-console there
-+USE_VT = "0"
-diff --git a/meta/conf/machine/genericarmv8b.conf b/meta/conf/machine/genericarmv8b.conf
-new file mode 100644
-index 0000000..e70de08
---- /dev/null
-+++ b/meta/conf/machine/genericarmv8b.conf
-@@ -0,0 +1,8 @@
-+#@TYPE: Machine
-+#@NAME: generic armv8 big endian machine
-+#@DESCRIPTION: generic machine to be used by linaro-media-create
-+DEFAULTTUNE = "aarch64_be"
-+
-+PREFERRED_PROVIDER_virtual/kernel ?= "linux-dummy"
-+
-+require conf/machine/genericarmv8.conf
-diff --git a/meta/conf/machine/include/arm/arch-armv8.inc b/meta/conf/machine/include/arm/arch-armv8.inc
-new file mode 100644
-index 0000000..c86142a
---- /dev/null
-+++ b/meta/conf/machine/include/arm/arch-armv8.inc
-@@ -0,0 +1,20 @@
-+DEFAULTTUNE ?= "aarch64"
-+
-+ARMPKGARCH ?= "aarch64"
-+
-+TUNEVALID[aarch64] = "Enable instructions for aarch64"
-+TUNEVALID[bigendian] = "Enable big-endian mode."
-+TUNECONFLICTS[aarch64] = ""
-+MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", ":aarch64", "" ,d)}"
-+
-+# Little Endian base configs
-+AVAILTUNES += "aarch64 aarch64_be"
-+TUNE_FEATURES_tune-aarch64 ?= "aarch64"
-+TUNE_FEATURES_tune-aarch64_be ?= "${TUNE_FEATURES_tune-aarch64} bigendian"
-+
-+ARMPKGSFX_ENDIAN = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", "_be", "", d)}"
-+
-+TUNE_ARCH = "aarch64${ARMPKGSFX_ENDIAN}"
-+TUNE_PKGARCH = "aarch64${ARMPKGSFX_ENDIAN}"
-+
-+PACKAGE_EXTRA_ARCHS = "aarch64${ARMPKGSFX_ENDIAN}"
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-new file mode 100644
-index 0000000..eca99f7
---- /dev/null
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -0,0 +1,39 @@
-+#@TYPE: Machine
-+#@NAME: generic armv8 machine
-+#@DESCRIPTION: generic machine to be used by linaro-media-create
-+
-+require conf/machine/include/arm/arch-armv8.inc
-+
-+PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
-+
-+XSERVER ?= "xserver-xorg \
-+            mesa-driver-swrast \
-+            xf86-input-evdev \
-+            xf86-input-mouse \
-+            xf86-video-fbdev \
-+            xf86-input-keyboard"
-+
-+MACHINE_FEATURES = ""
-+
-+# Don't include kernels in standard images
-+RDEPENDS_kernel-base = ""
-+
-+PREFERRED_PROVIDER_virtual/kernel ?= "linux-linaro"
-+
-+KERNEL_IMAGETYPE = "Image"
-+
-+# We have to disable SERIAL_CONSOLE due to auto-serial-console
-+#SERIAL_CONSOLE = "115200 ttyAMA0"
-+
-+# Force auto-serial-console to be used by all image types
-+# Ideally this would be part of core oe or as a bbclassappend,
-+# but as we don't have an easy way to append a class, defining
-+# it here
-+#EXTRA_IMAGE_FEATURES += "autoserial"
-+#FEATURE_PACKAGES_autoserial = "auto-serial-console"
-+
-+# we do not want to have getty running on tty1 as we run
-+# auto-serial-console there
-+USE_VT = "0"
-+
-+baselib="lib64"
++FILES_${PN}-dbg += "${libdir}/libfm/modules/.debug"
 -- 
-1.9.1
+1.7.9.5
 
 
---------------040900050802000505060506--
