@@ -1,24 +1,39 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 29BD07117F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f46.google.com (mail-yh0-f46.google.com
+	[209.85.213.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F12370EE2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 18:10:15 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Aug 2014 11:10:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,412,1406617200"; d="scan'208";a="582500090"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Aug 2014 11:10:12 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Aug 2014 21:10:02 +0300
-Message-Id: <98b1d9f41611319c12c0f45844a25c6d67e56107.1409162830.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1409162830.git.cristian.iorga@intel.com>
-References: <cover.1409162830.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1409162830.git.cristian.iorga@intel.com>
-References: <cover.1409162830.git.cristian.iorga@intel.com>
-Subject: [PATCH 2/4] harfbuzz: upgrade to 0.9.35
+	Wed, 27 Aug 2014 19:19:40 +0000 (UTC)
+Received: by mail-yh0-f46.google.com with SMTP id a41so691950yho.19
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Aug 2014 12:19:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=u8jI92mPN9IwZ7OaQx242St8Hy/0xKmoaf+cqoz0v1A=;
+	b=lsQeBbzpZu/9OAI5NItbXjhKxoVJC5G0PkdJqsCmHtRzskEbMRe/ftXCZo+39K03rR
+	50AbLUmT3andTDRhozeZOwjIrnmf2p2Uvtlcj72XScqWo8WifcU1Gbs0wvCxpqZZjCLj
+	qPZcn7+AayLG7+MMESocqNspLHcb7iTXq+3O2M9eyBTvyGQ1S6j7dUD17/uplLZ2spRQ
+	EhThY8rxcpMgt09pCST8nzNFvviOhQF64NbsploR7Z/JZ+dHK0aYck0U+XRvgSXyBsGj
+	vWnpMG9DDAqX3DMSIWzuek85nt1nCD5UoGgH+1JiQlYm+gebzKdPV0ICntW9PX3WWM3g
+	lyVQ==
+X-Received: by 10.236.88.226 with SMTP id a62mr57574507yhf.64.1409167182112;
+	Wed, 27 Aug 2014 12:19:42 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([177.35.70.10])
+	by mx.google.com with ESMTPSA id 6sm644785yhw.38.2014.08.27.12.19.41
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 27 Aug 2014 12:19:41 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
+	id 07E541C4368F1; Wed, 27 Aug 2014 16:19:38 -0300 (BRT)
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Aug 2014 16:19:33 -0300
+Message-Id: <1409167173-18513-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.1.0.rc1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] packagegroup-core-directfb: Set PACKAGE_ARCH to MACHINE_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +46,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 18:10:19 -0000
+X-List-Received-Date: Wed, 27 Aug 2014 19:19:51 -0000
 
-Bug fixes and minor changes/cleanups.
+The contents change depends on the MACHINE_FEATURES so this is clearly
+a machine specific package. Set it accordingly.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../harfbuzz/{harfbuzz_0.9.29.bb => harfbuzz_0.9.35.bb}               | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.29.bb => harfbuzz_0.9.35.bb} (88%)
+ meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.29.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.35.bb
-similarity index 88%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_0.9.29.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_0.9.35.bb
-index 96a4932..2329b2f 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.29.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.35.bb
-@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
- SECTION = "libs"
+diff --git a/meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb b/meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb
+index 7786133..53dc0ae 100644
+--- a/meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb
++++ b/meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb
+@@ -1,6 +1,8 @@
+ SUMMARY = "DirectFB without X11"
+ LICENSE = "MIT"
  
- SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
--SRC_URI[md5sum] = "6251eb6d57e8c4e9e855188dbbdf8b6d"
--SRC_URI[sha256sum] = "601cea38c6fa0cf362dd9042c66cf4db711c5f9390de4ca46d6d2fc3f64de390"
-+SRC_URI[md5sum] = "531ee8650626ecddcd90b2a4637e31d4"
-+SRC_URI[sha256sum] = "0aa1a8aba6f502321cf6fef3c9d2c73dde48389c5ed1d3615a7691944c2a06ed"
- inherit autotools pkgconfig lib_package
++PACKAGE_ARCH = "${MACHINE_ARCH}"
++
+ inherit packagegroup
  
- DEPENDS = "glib-2.0 cairo freetype"
+ TOUCH = ' ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", "tslib tslib-calibrate tslib-tests", "",d)}'
 -- 
-1.9.1
+2.1.0.rc1
 
 
