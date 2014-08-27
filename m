@@ -1,30 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DB99B6FCE0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DBDD6FCE0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 15:51:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7RFp0ie007480; Wed, 27 Aug 2014 16:51:00 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id c1lAc4Uyk8J3; Wed, 27 Aug 2014 16:51:00 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7RFot0s007475
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 27 Aug 2014 16:50:57 +0100
-Message-ID: <1409154657.29296.12.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 27 Aug 2014 16:50:57 +0100
-In-Reply-To: <CAMKF1spTdX1Mom+X5LOt5-pRpCMUuNmxTpvfQ+VOjVaasNrS=w@mail.gmail.com>
-References: <1409151022.29296.7.camel@ted>
-	<CAMKF1spTdX1Mom+X5LOt5-pRpCMUuNmxTpvfQ+VOjVaasNrS=w@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] patchelf: Add patchelf recipe
+	Wed, 27 Aug 2014 15:52:56 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id a108so430328qge.24
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Aug 2014 08:52:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=buEib3luJ3Zd+guS8l9eYurXCCg2l9dBW6szzpPQcSU=;
+	b=I7+sKC89ni3jDaZOIf13R6pWerroMjQcRixAAC2QZyROpp3w/xoAkdfbAMjGMcTqdQ
+	1vPeUkS/vAcLMEIHQlHljvux5aSYIqfSf/7XJ7Hw4bbEW7+ESdroNQJ63FofXPvy5St8
+	lNXbNVfgKwVSyZNFEX85hXEeoYBnZ/mQjJr9GFg1yE3C+UMAi4Osj6btO78oIynyMhmF
+	x7c70c5P79IXgL/uzfZokiZQq/Ns2HievCSpQGYitvdNt7Y5RD4wSosKUqaU3dOE2OAn
+	8b44to52WfdcbNw3V5GOAuxoYVNz/bdyG3P/L92jQRb97mpD2HihvWTiJjj5pp2L2bYh
+	/RcA==
+X-Gm-Message-State: ALoCoQnaxjrALh67WAxLpYNaR3IU5HlzCjwCwjw6WnKccIaaPohCuabQlhE69lyiRSdf5HOSlTsZ
+X-Received: by 10.224.166.195 with SMTP id n3mr55104877qay.22.1409154777909;
+	Wed, 27 Aug 2014 08:52:57 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.29.183 with HTTP; Wed, 27 Aug 2014 08:52:37 -0700 (PDT)
+In-Reply-To: <1408983725-45864-2-git-send-email-fahad_usman@mentor.com>
+References: <1408983725-45864-1-git-send-email-fahad_usman@mentor.com>
+	<1408983725-45864-2-git-send-email-fahad_usman@mentor.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 27 Aug 2014 16:52:37 +0100
+Message-ID: <CAJTo0LZK3uY+-hZb34ZHWyEumwb1AqWY0Epy45r+eBg7bmwJVA@mail.gmail.com>
+To: Fahad Usman <fahad_usman@mentor.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] logrotate: add packageconfigs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,40 +44,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 15:51:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Aug 2014 15:52:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2014-08-27 at 08:08 -0700, Khem Raj wrote:
-> On Wed, Aug 27, 2014 at 7:50 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > This is useful since it allows us to edit the RPATH and interpreter fields
-> > in ELF binaries. This is potentially particularly useful in improving the way
-> > we can use the SDK and also potentially making native binaries more relocatable.
-> >
-> 
-> Long ago I had a patch series to replace chrpath with patchelf see
-> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/patchelf
-> 
-> can that be considered now ?
+On 25 August 2014 17:22, Fahad Usman <fahad_usman@mentor.com> wrote:
+> +    ${@base_contains('PACKAGECONFIG', 'acl', 'WITH_ACL=yes', '', d)} \
+> +    ${@base_contains('PACKAGECONFIG', 'selinux', 'WITH_SELINUX=yes', '', d)} \
 
-The issue is one of dependencies. We need chrpath/patchelf to relocate
-things like {autoconf|automake|pkgconfig}-native. Native
-patchelf/chrpath depend on those things to build so if we don't have it
-in ASSUME_PROVIDED, we get circular dependencies.
+Should this have WITH_XXX=no for clarity and safety?
 
-chrpath is widely available in most distros. Unfortunately patchelf is
-not. We therefore can't easily put patchelf-native into
-ASSUME_PROVIDED :(
-
-So the reason the above didn't merge hasn't really changed, much as I'd
-also wish it had.
-
-This does not stop us using patchelf for other things though (and I
-believe we should).
-
-Cheers,
-
-Richard
-
+Ross
 
