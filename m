@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9112871165
+	by mail.openembedded.org (Postfix) with ESMTP id 91E617117A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 15:57:15 +0000 (UTC)
+	Wed, 27 Aug 2014 15:57:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7RFvGM3027020
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7RFvMZL027032
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 08:57:16 -0700 (PDT)
+	Wed, 27 Aug 2014 08:57:22 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 27 Aug 2014 08:57:15 -0700
+	Wed, 27 Aug 2014 08:57:21 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Aug 2014 08:57:06 -0700
-Message-ID: <b4fb230d5c45199aa7989b1ad5a5eea516d242e1.1409154816.git.liezhi.yang@windriver.com>
+Date: Wed, 27 Aug 2014 08:57:14 -0700
+Message-ID: <939a0d90f31ff970fb7debd89bef2776893217c8.1409154816.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1409154816.git.liezhi.yang@windriver.com>
 References: <cover.1409154816.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/9] insane.bbclass: add QA check: file-rdeps
+Subject: [PATCH 9/9] python3-distribute: fix interpreter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,140 +36,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 27 Aug 2014 15:57:23 -0000
 Content-Type: text/plain
 
-The ipk or deb can't depend on file such as "/bin/bash" or
-"/usr/bin/perl", so it knows nothing about the pkg depends bash or perl,
-thus there would be dependencies problems when we run "apt-get
-install/remove <pkg>" on the target, this check can help us find the
-issues and then fix them manually.
-
-* Benefits:
-  - Help to fix file rdepends issues for ipk and deb
-  - Help to fix abnormal rdepends.
-  - Help to check whether the rdepends is OK or not after build each
-    recipe (don't have to install to the image), for example, a recipe may
-    generate 10 binary packages, only a part of them will be installed to
-    the image by default, we can know whether the rdepends are OK or
-    not for the ones which are installed, but can't know the ones which
-    are not installed, this patch can help check all the 10 binary
-    packages' rdepends.
-
-* Basic designs:
-  - Get all the RDEPENDS on the chain.
-
-  - Get the pkg's FILERPROVIDES from oe.packagedata.read_subpkgdata()
-    and save to set filerdepends.
-
-  - Get each RPDEPENDS' FILERPROVIDES, RPROVIDES and FILERPROVIDESFLIST,
-    and save to set rdep_rprovides.
-
-  - Do the set "filerdepends -= rdep_rprovides" and QA issue if
-    filerdepends is not null.
-
-[YOCTO #1662]
+It should use "/usr/bin/env python3" rather than python.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/insane.bbclass |   73 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 72 insertions(+), 1 deletion(-)
+ .../python/python3-distribute_0.6.32.bb            |    2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 3dd2e7f..d5b4317 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -29,7 +29,7 @@ QA_SANE = "True"
- WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
-             textrel already-stripped incompatible-license files-invalid \
-             installed-vs-shipped compile-host-path install-host-path \
--            pn-overrides infodir build-deps \
-+            pn-overrides infodir build-deps file-rdeps \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -797,6 +797,76 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                 error_msg = "%s rdepends on %s, but it isn't a build dependency?" % (pkg, rdepend)
-                 sane = package_qa_handle_error("build-deps", error_msg, d)
+diff --git a/meta/recipes-devtools/python/python3-distribute_0.6.32.bb b/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
+index 573096c..0ef3a87 100644
+--- a/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
++++ b/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
+@@ -37,6 +37,8 @@ do_install_append() {
+     rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
+     mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
+     echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
++    sed -i -e '1s|^#!.*python|#!/usr/bin/env python3|' \
++        ${D}${PYTHON_SITEPACKAGES_DIR}/distribute-${PV}-py${PYTHON_BASEVERSION}.egg/setuptools/tests/test_resources.py
+ }
  
-+        if "file-rdeps" not in skip:
-+            ignored_file_rdeps = set(['/bin/sh', '/usr/bin/env', 'rtld(GNU_HASH)'])
-+            if bb.data.inherits_class('nativesdk', d):
-+                ignored_file_rdeps |= set(['/bin/bash', '/usr/bin/perl'])
-+            # For Saving the FILERDEPENDS
-+            filerdepends = set()
-+            rdep_data = oe.packagedata.read_subpkgdata(pkg, d)
-+            for key in rdep_data:
-+                if key.startswith("FILERDEPENDS_"):
-+                    for subkey in rdep_data[key].split():
-+                        filerdepends.add(subkey)
-+            filerdepends -= ignored_file_rdeps
-+
-+            if filerdepends:
-+                next = rdepends
-+                done = rdepends[:]
-+                # Find all the rdepends on the dependency chain
-+                while next:
-+                    new = []
-+                    for rdep in next:
-+                        rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
-+                        sub_rdeps = rdep_data.get("RDEPENDS_" + rdep)
-+                        if not sub_rdeps:
-+                            continue
-+                        for sub_rdep in sub_rdeps.split():
-+                            if sub_rdep in done:
-+                                continue
-+                            if not sub_rdep.startswith('(') and \
-+                                    oe.packagedata.has_subpkgdata(sub_rdep, d):
-+                                # It's a new rdep
-+                                done.append(sub_rdep)
-+                                new.append(sub_rdep)
-+                    next = new
-+
-+                # Add the rprovides of itself
-+                if pkg not in done:
-+                    done.insert(0, pkg)
-+
-+                # The python is not a package, but python-core provides it, so
-+                # skip checking /usr/bin/python if python is in the rdeps, in
-+                # case there is a RDEPENDS_pkg = "python" in the recipe.
-+                for py in [ d.getVar('MLPREFIX', True) + "python", "python" ]:
-+                    if py in done:
-+                        filerdepends.discard("/usr/bin/python")
-+                        done.remove(py)
-+                for rdep in done:
-+                    # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
-+                    rdep_rprovides = set()
-+                    rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
-+                    for key in rdep_data:
-+                        if key.startswith("FILERPROVIDES_") or key.startswith("RPROVIDES_"):
-+                            for subkey in rdep_data[key].split():
-+                                rdep_rprovides.add(subkey)
-+                        # Add the files list to the rprovides
-+                        if key == "FILES_INFO":
-+                            # Use eval() to make it as a dict
-+                            for subkey in eval(rdep_data[key]):
-+                                rdep_rprovides.add(subkey)
-+                    filerdepends -= rdep_rprovides
-+                    if not filerdepends:
-+                        # Break if all the file rdepends are met
-+                        break
-+                    else:
-+                        # Clear it for the next loop
-+                        rdep_rprovides.clear()
-+            if filerdepends:
-+                error_msg = "%s requires %s, but no providers in its RDEPENDS" % \
-+                            (pkg, ', '.join(str(e) for e in filerdepends))
-+                sane = package_qa_handle_error("file-rdeps", error_msg, d)
-+
-     return sane
- 
- def package_qa_check_deps(pkg, pkgdest, skip, d):
-@@ -894,6 +964,7 @@ python do_package_qa () {
-     for dep in taskdepdata:
-         taskdeps.add(taskdepdata[dep][0])
- 
-+
-     g = globals()
-     walk_sane = True
-     rdepends_sane = True
+ RDEPENDS_${PN} = "\
 -- 
 1.7.9.5
 
