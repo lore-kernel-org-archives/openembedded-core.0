@@ -1,39 +1,18 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f46.google.com (mail-yh0-f46.google.com
-	[209.85.213.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F12370EE2
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 10C9662252
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 19:19:40 +0000 (UTC)
-Received: by mail-yh0-f46.google.com with SMTP id a41so691950yho.19
+	Wed, 27 Aug 2014 20:15:03 +0000 (UTC)
+Received: from localhost.localdomain (chello062178118086.5.14.vie.surfer.at
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 899F42369D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 12:19:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=u8jI92mPN9IwZ7OaQx242St8Hy/0xKmoaf+cqoz0v1A=;
-	b=lsQeBbzpZu/9OAI5NItbXjhKxoVJC5G0PkdJqsCmHtRzskEbMRe/ftXCZo+39K03rR
-	50AbLUmT3andTDRhozeZOwjIrnmf2p2Uvtlcj72XScqWo8WifcU1Gbs0wvCxpqZZjCLj
-	qPZcn7+AayLG7+MMESocqNspLHcb7iTXq+3O2M9eyBTvyGQ1S6j7dUD17/uplLZ2spRQ
-	EhThY8rxcpMgt09pCST8nzNFvviOhQF64NbsploR7Z/JZ+dHK0aYck0U+XRvgSXyBsGj
-	vWnpMG9DDAqX3DMSIWzuek85nt1nCD5UoGgH+1JiQlYm+gebzKdPV0ICntW9PX3WWM3g
-	lyVQ==
-X-Received: by 10.236.88.226 with SMTP id a62mr57574507yhf.64.1409167182112;
-	Wed, 27 Aug 2014 12:19:42 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([177.35.70.10])
-	by mx.google.com with ESMTPSA id 6sm644785yhw.38.2014.08.27.12.19.41
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Aug 2014 12:19:41 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id 07E541C4368F1; Wed, 27 Aug 2014 16:19:38 -0300 (BRT)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Aug 2014 16:19:33 -0300
-Message-Id: <1409167173-18513-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.1.0.rc1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] packagegroup-core-directfb: Set PACKAGE_ARCH to MACHINE_ARCH
+	Wed, 27 Aug 2014 22:15:04 +0200 (CEST)
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Aug 2014 22:14:53 +0200
+Message-Id: <1409170493-18242-1-git-send-email-dv@pseudoterminal.org>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] libsdl: add packageconfigs for x11, directfb, opengl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,30 +25,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 19:19:51 -0000
+X-List-Received-Date: Wed, 27 Aug 2014 20:15:11 -0000
 
-The contents change depends on the MACHINE_FEATURES so this is clearly
-a machine specific package. Set it accordingly.
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb b/meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb
-index 7786133..53dc0ae 100644
---- a/meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb
-+++ b/meta/recipes-graphics/packagegroups/packagegroup-core-directfb.bb
-@@ -1,6 +1,8 @@
- SUMMARY = "DirectFB without X11"
- LICENSE = "MIT"
+diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+index e544b60..b0ae299 100644
+--- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
++++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+@@ -12,10 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
  
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
- inherit packagegroup
+ PROVIDES = "virtual/libsdl"
  
- TOUCH = ' ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", "tslib tslib-calibrate tslib-tests", "",d)}'
+-DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl libglu', '', d)} \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
+-           tslib"
++DEPENDS = "tslib"
+ DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
+ 
+ PR = "r3"
+@@ -42,16 +39,19 @@ EXTRA_OECONF = "--disable-static --enable-cdrom --enable-threads --enable-timers
+                 --disable-video-fbcon --disable-video-ps2gs --disable-video-ps3 \
+                 --disable-xbios --disable-gem --disable-video-dummy \
+                 --enable-input-events --enable-input-tslib --enable-pthreads \
+-                ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', '--enable-video-directfb', '--disable-video-directfb', d)} \
+-                ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
+-                ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '--enable-video-x11', '--disable-video-x11', d)} \
+                 --disable-video-svga \
+                 --disable-video-picogui --disable-video-qtopia --enable-sdl-dlopen \
+                 --disable-rpath \
+                 --disable-pulseaudio"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
+-PACKAGECONFIG[alsa] = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
++PACKAGECONFIG[alsa] = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib"
++PACKAGECONFIG[directfb] = "--enable-video-directfb,--disable-video-directfb,directfb"
++PACKAGECONFIG[opengl] = "--enable-video-opengl,--disable-video-opengl,virtual/libgl libglu"
++PACKAGECONFIG[x11] = "--enable-video-x11,--disable-video-x11,virtual/libx11 libxext libxrandr libxrender"
+ 
+ PARALLEL_MAKE = ""
+ 
 -- 
-2.1.0.rc1
+1.8.3.2
 
 
