@@ -1,38 +1,24 @@
-Return-Path: <openembedded@mindchasers.com>
-X-Greylist: delayed 496 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 27 Aug 2014 17:28:19 UTC
-Received: from qmta09.westchester.pa.mail.comcast.net
-	(qmta09.westchester.pa.mail.comcast.net [76.96.62.96])
-	by mail.openembedded.org (Postfix) with ESMTP id E7A356FE3B
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 95C217070B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 17:28:19 +0000 (UTC)
-Received: from omta08.westchester.pa.mail.comcast.net ([76.96.62.12])
-	by qmta09.westchester.pa.mail.comcast.net with comcast
-	id jrj01o0070Fqzac59tL40B; Wed, 27 Aug 2014 17:20:04 +0000
-Received: from [192.168.1.10] ([68.38.40.177])
-	by omta08.westchester.pa.mail.comcast.net with comcast
-	id jtL41o0093pLAh83UtL4AY; Wed, 27 Aug 2014 17:20:04 +0000
-Message-ID: <53FE1343.4060601@mindchasers.com>
-Date: Wed, 27 Aug 2014 13:20:03 -0400
-From: Bob Cochran <openembedded@mindchasers.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
-MIME-Version: 1.0
+	Wed, 27 Aug 2014 18:10:11 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Aug 2014 11:10:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,412,1406617200"; d="scan'208";a="582500086"
+Received: from sentry.rb.intel.com ([10.237.105.37])
+	by fmsmga001.fm.intel.com with ESMTP; 27 Aug 2014 11:10:11 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1408451752.1669.52.camel@ted>
-In-Reply-To: <1408451752.1669.52.camel@ted>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=comcast.net;
-	s=q20140121; t=1409160004;
-	bh=L7bsWRaa6RPTOoNhc066Oj2tPreZ1ik8A5JNoY8tOo0=;
-	h=Received:Received:Message-ID:Date:From:MIME-Version:To:Subject:
-	Content-Type;
-	b=aSPNGJfijHaJyr61kgJ6x6T0npe1OVUiD8W/lOMnQwGJVC+g2UhYrwMQbm4fIgSb8
-	v/Bjs/FgHYLxpYxFmSVk+mM1JYtkTd2iAW/Q5ITh7/QDzU6Rsca/ZQbAymtTqQqwnj
-	agpiCF5iNvqhUfwFDBOZ2B16LsnPvxCHO6wZWvGYe6r5+b/3mCplGLKxtZ7vTnaNM6
-	te4/sD34SO4KdLQyN7IP5wV6ixT9T+7Yx+k3CU3dBU1xNwo3kUS4R3I75DfAQel6os
-	qY+ggeg3HGO5cWdWB/U2BrEE1PSeX7EerJdf7bb9QhEyc9vocpPBdwQ9BUO6NCyGD+
-	Q/3OUENKj0oEw==
-Subject: Re: [PATCH] allarch: Add warning about packagegroup
+Date: Wed, 27 Aug 2014 21:10:01 +0300
+Message-Id: <4d56a19d0fc2eaae668da41238d369dc578ff134.1409162830.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1409162830.git.cristian.iorga@intel.com>
+References: <cover.1409162830.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1409162830.git.cristian.iorga@intel.com>
+References: <cover.1409162830.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/4] connman: upgrade to 1.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,55 +31,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 17:28:27 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Aug 2014 18:10:18 -0000
 
-On 08/19/2014 08:35 AM, Richard Purdie wrote:
-> Since we want to start including this class conditionally, detect cases
-> where packagegroup files use the old ordering and inform the user they
-> need to update this.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-> index c953e7c..4bc9927 100644
-> --- a/meta/classes/allarch.bbclass
-> +++ b/meta/classes/allarch.bbclass
-> @@ -37,5 +37,7 @@ python () {
->           d.setVar("EXCLUDE_FROM_SHLIBS", "1")
->           d.setVar("INHIBIT_PACKAGE_DEBUG_SPLIT", "1")
->           d.setVar("INHIBIT_PACKAGE_STRIP", "1")
-> +    elif bb.data.inherits_class('packagegroup', d) and not bb.data.inherits_class('nativesdk', d):
-> +        bb.error("Please ensure recipe %s sets PACKAGE_ARCH before inherit packagegroup" % d.getVar("FILE", True))
+build-libppp-plugin-without-versioning-info.patch
+no longer needed, removed.
+Changelog:
+Fix issue with handling rebind timer for DHCPv6.
+Fix issue with handling DHCP renew transaction.
+Fix issue with user supplied proxy settings and DHCP.
+Fix issue with extra status codes from captive portals.
+Fix issue with service idle state reset on failure.
+Fix issue with DNS label compression handling.
+Add support for experimental P2P Peer service.
 
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ ...ild-libppp-plugin-without-versioning-info.patch | 32 ----------------------
+ .../connman/{connman_1.24.bb => connman_1.25.bb}   |  5 ++--
+ 2 files changed, 2 insertions(+), 35 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
+ rename meta/recipes-connectivity/connman/{connman_1.24.bb => connman_1.25.bb} (59%)
 
-I'm reviewing my recipes today to make sure everything conforms with 
-this methodology.
-
-This is minor, but I'm curious about something with this patch regarding 
-warnings & errors:
-
-Should I care that this commit says 'add warning' but the implementation 
-calls bb.error()?
-
-It looks like neither warning nor error throws an exception, so are they 
-interchangeable, both really warnings?
-
-Although my build this morning produced an image, I had a couple of 
-these errors, or were they just warnings?
-
-Thanks
-
-Bob
-
-
-
-
-
->   }
->
->
->
+diff --git a/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch b/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
+deleted file mode 100644
+index 8e81f1b..0000000
+--- a/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-Upstream-Status: Submitted
+-Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+-
+-From dd8044ed6ccb468558bab037257e27a409903d86 Mon Sep 17 00:00:00 2001
+-From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+-Date: Mon, 21 Jul 2014 15:01:45 +0300
+-Subject: [PATCH] scripts: Build libppp-plugin as a plain .so file
+-
+-There is no need to have module versioning for libppp-plugin.so
+-file so build the plugin same way as other vpn plugins.
+-
+-This issue was seen when building ConnMan for Yocto.
+----
+- Makefile.plugins | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/Makefile.plugins b/Makefile.plugins
+-index 294cae0..8139967 100644
+---- a/Makefile.plugins
+-+++ b/Makefile.plugins
+-@@ -4,7 +4,7 @@ plugin_cflags = -fvisibility=hidden -I$(srcdir)/gdbus \
+- plugin_ldflags = -no-undefined -module -avoid-version
+- 
+- script_cflags = -fvisibility=hidden -I$(srcdir)/gdbus \
+--					@DBUS_CFLAGS@
+-+		@DBUS_CFLAGS@ $(plugin_ldflags) -shared
+- 
+- if LOOPBACK
+- builtin_modules += loopback
+--- 
+-1.8.3.1
+-
+diff --git a/meta/recipes-connectivity/connman/connman_1.24.bb b/meta/recipes-connectivity/connman/connman_1.25.bb
+similarity index 59%
+rename from meta/recipes-connectivity/connman/connman_1.24.bb
+rename to meta/recipes-connectivity/connman/connman_1.25.bb
+index 29e239c..1758c95 100644
+--- a/meta/recipes-connectivity/connman/connman_1.24.bb
++++ b/meta/recipes-connectivity/connman/connman_1.25.bb
+@@ -4,9 +4,8 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+             file://add_xuser_dbus_permission.patch \
+             file://connman \
+-            file://build-libppp-plugin-without-versioning-info.patch \
+             "
+-SRC_URI[md5sum] = "dd6e1b4d9b9a28d127edb9f9b58bdec1"
+-SRC_URI[sha256sum] = "551df7a5f0c6e4d69523dd2b3aa2c54525b323457d5135f64816215bad3dc24c"
++SRC_URI[md5sum] = "a449d2e49871494506e48765747e6624"
++SRC_URI[sha256sum] = "c1d266d6be18d2f66231f3537a7ed17b57637ca43c27328bc13c508cbeacce6e"
+ 
+ RRECOMMENDS_${PN} = "connman-conf"
+-- 
+1.9.1
 
 
