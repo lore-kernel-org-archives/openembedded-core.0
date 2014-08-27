@@ -1,24 +1,20 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 95C217070B
+	by mail.openembedded.org (Postfix) with ESMTP id 96A5571165
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 18:10:11 +0000 (UTC)
+	Wed, 27 Aug 2014 18:10:10 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Aug 2014 11:10:12 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 27 Aug 2014 11:10:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,412,1406617200"; d="scan'208";a="582500086"
+X-IronPort-AV: E=Sophos;i="5.04,412,1406617200"; d="scan'208";a="582500083"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Aug 2014 11:10:11 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 27 Aug 2014 11:10:10 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Aug 2014 21:10:01 +0300
-Message-Id: <4d56a19d0fc2eaae668da41238d369dc578ff134.1409162830.git.cristian.iorga@intel.com>
+Date: Wed, 27 Aug 2014 21:10:00 +0300
+Message-Id: <cover.1409162830.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1409162830.git.cristian.iorga@intel.com>
-References: <cover.1409162830.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1409162830.git.cristian.iorga@intel.com>
-References: <cover.1409162830.git.cristian.iorga@intel.com>
-Subject: [PATCH 1/4] connman: upgrade to 1.25
+Subject: [PATCH 0/4] Various comms and multimedia PUs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,82 +29,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 27 Aug 2014 18:10:18 -0000
 
-build-libppp-plugin-without-versioning-info.patch
-no longer needed, removed.
-Changelog:
-Fix issue with handling rebind timer for DHCPv6.
-Fix issue with handling DHCP renew transaction.
-Fix issue with user supplied proxy settings and DHCP.
-Fix issue with extra status codes from captive portals.
-Fix issue with service idle state reset on failure.
-Fix issue with DNS label compression handling.
-Add support for experimental P2P Peer service.
+Various PUs for comms and multimedia
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- ...ild-libppp-plugin-without-versioning-info.patch | 32 ----------------------
- .../connman/{connman_1.24.bb => connman_1.25.bb}   |  5 ++--
- 2 files changed, 2 insertions(+), 35 deletions(-)
+The below warnings are due to the original test source code present
+in ofono test suite!
+
+WARNING: Trailing white space detected at these locations
+pull-25158/0004-ofono-upgrade-to-1.15.patch:138:+ 
+pull-25158/0004-ofono-upgrade-to-1.15.patch:148:+ 
+pull-25158/0004-ofono-upgrade-to-1.15.patch:150:+
+.....
+
+The following changes since commit c16795477ea7e2159b5d3808268912b572887e2d:
+
+  qemu: add PACKAGECONFIG for numa (2014-08-27 12:13:38 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/PUs
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PUs
+
+Cristian Iorga (4):
+  connman: upgrade to 1.25
+  harfbuzz: upgrade to 0.9.35
+  bluez5: upgrade to 5.22
+  ofono: upgrade to 1.15
+
+ meta/recipes-connectivity/bluez5/bluez5_5.21.bb    |    3 -
+ meta/recipes-connectivity/bluez5/bluez5_5.22.bb    |    3 +
+ ...ild-libppp-plugin-without-versioning-info.patch |   32 -
+ .../connman/{connman_1.24.bb => connman_1.25.bb}   |    5 +-
+ .../ofono/Revert-test-Convert-to-Python-3.patch    | 1270 ++++++++++++++++++++
+ .../ofono/{ofono_1.14.bb => ofono_1.15.bb}         |    7 +-
+ .../{harfbuzz_0.9.29.bb => harfbuzz_0.9.35.bb}     |    4 +-
+ 7 files changed, 1280 insertions(+), 44 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.21.bb
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.22.bb
  delete mode 100644 meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
  rename meta/recipes-connectivity/connman/{connman_1.24.bb => connman_1.25.bb} (59%)
+ create mode 100644 meta/recipes-connectivity/ofono/ofono/Revert-test-Convert-to-Python-3.patch
+ rename meta/recipes-connectivity/ofono/{ofono_1.14.bb => ofono_1.15.bb} (45%)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.29.bb => harfbuzz_0.9.35.bb} (88%)
 
-diff --git a/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch b/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
-deleted file mode 100644
-index 8e81f1b..0000000
---- a/meta/recipes-connectivity/connman/connman/build-libppp-plugin-without-versioning-info.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--Upstream-Status: Submitted
--Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
--
--From dd8044ed6ccb468558bab037257e27a409903d86 Mon Sep 17 00:00:00 2001
--From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
--Date: Mon, 21 Jul 2014 15:01:45 +0300
--Subject: [PATCH] scripts: Build libppp-plugin as a plain .so file
--
--There is no need to have module versioning for libppp-plugin.so
--file so build the plugin same way as other vpn plugins.
--
--This issue was seen when building ConnMan for Yocto.
-----
-- Makefile.plugins | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Makefile.plugins b/Makefile.plugins
--index 294cae0..8139967 100644
----- a/Makefile.plugins
--+++ b/Makefile.plugins
--@@ -4,7 +4,7 @@ plugin_cflags = -fvisibility=hidden -I$(srcdir)/gdbus \
-- plugin_ldflags = -no-undefined -module -avoid-version
-- 
-- script_cflags = -fvisibility=hidden -I$(srcdir)/gdbus \
---					@DBUS_CFLAGS@
--+		@DBUS_CFLAGS@ $(plugin_ldflags) -shared
-- 
-- if LOOPBACK
-- builtin_modules += loopback
---- 
--1.8.3.1
--
-diff --git a/meta/recipes-connectivity/connman/connman_1.24.bb b/meta/recipes-connectivity/connman/connman_1.25.bb
-similarity index 59%
-rename from meta/recipes-connectivity/connman/connman_1.24.bb
-rename to meta/recipes-connectivity/connman/connman_1.25.bb
-index 29e239c..1758c95 100644
---- a/meta/recipes-connectivity/connman/connman_1.24.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.25.bb
-@@ -4,9 +4,8 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
-             file://add_xuser_dbus_permission.patch \
-             file://connman \
--            file://build-libppp-plugin-without-versioning-info.patch \
-             "
--SRC_URI[md5sum] = "dd6e1b4d9b9a28d127edb9f9b58bdec1"
--SRC_URI[sha256sum] = "551df7a5f0c6e4d69523dd2b3aa2c54525b323457d5135f64816215bad3dc24c"
-+SRC_URI[md5sum] = "a449d2e49871494506e48765747e6624"
-+SRC_URI[sha256sum] = "c1d266d6be18d2f66231f3537a7ed17b57637ca43c27328bc13c508cbeacce6e"
- 
- RRECOMMENDS_${PN} = "connman-conf"
 -- 
 1.9.1
 
