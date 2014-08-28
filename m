@@ -1,42 +1,26 @@
-Return-Path: <sven.ebenfeld@gmail.com>
-Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EA4F6AC85
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 55AB86AC85
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 09:39:29 +0000 (UTC)
-Received: by mail-la0-f48.google.com with SMTP id gl10so590875lab.21
+	Thu, 28 Aug 2014 09:44:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7S9iIbC007578
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 02:39:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=Ese1wNhiCEL56TLI0HgOiJVBp7jdv97+heZwE3kimh8=;
-	b=n7YR/+9jNYo0SGidvDlk7elKPWTGtVZfPRPC3uaQIrTx1S0W5rZXnK5lrjHIxQiJLs
-	HAmpy7nWhGSql2aWMLW4K+xIuRNcZuLrbRV686wT9EU37GlPyVToXM4ByZrz5lpLHh+M
-	IKraUjr+OPu5eARlmtfle2FubwfxbWGnVoZfu8lvgW8yAiowz+zSlqnyd/iyI7wnf360
-	j5vCAcBDyK3XMZtyxS9pByWL69yRjNmc1vVk9zhqoWvzM7oPAGtv8xTT2lf5ERv9CUKf
-	2borrat07tM/ifMJbkauwSrvoHRmGAAV7faHsqWgDKnMTDrFvw2jo9FziXDiFG7YfPyj
-	LRDA==
-X-Received: by 10.112.202.69 with SMTP id kg5mr2825684lbc.33.1409218769543;
-	Thu, 28 Aug 2014 02:39:29 -0700 (PDT)
-Received: from [192.168.50.237] (ip-109-90-30-8.hsi11.unitymediagroup.de.
-	[109.90.30.8])
-	by mx.google.com with ESMTPSA id t12sm5059126lbp.44.2014.08.28.02.39.27
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 28 Aug 2014 02:39:28 -0700 (PDT)
-Message-ID: <53FEF8CF.6000801@gmail.com>
-Date: Thu, 28 Aug 2014 11:39:27 +0200
-From: Sven Ebenfeld <sven.ebenfeld@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Thu, 28 Aug 2014 02:44:19 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 28 Aug 2014 02:44:18 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 28 Aug 2014 17:39:12 +0800
+Message-ID: <611d224aec6510fc04e1102773c5d6a577d396b6.1409195325.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1409195325.git.Chong.Lu@windriver.com>
+References: <cover.1409195325.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1408953391-25759-1-git-send-email-sven.ebenfeld@gmail.com>
-	<20140825101437.GP20524@jama>
-In-Reply-To: <20140825101437.GP20524@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH] md5deep: Add Recipe for md5deep package version 4.4
+Subject: [PATCH 1/1] lttng-tools: fix ptest execution failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,18 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Aug 2014 09:39:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Aug 2014 09:44:25 -0000
+Content-Type: text/plain
 
-Am 25.08.2014 12:14, schrieb Martin Jansa:
-> On Mon, Aug 25, 2014 at 09:56:31AM +0200, Sven Ebenfeld wrote:
->> I need to build hashdeep/md5deep within OE to include it in my images. This recipe enables OE to cross-compile md5deep. I needed to add the patch as do_configure_qa is complaining about cross-compilation errors otherwise. I added a pull request for the issue with the variable expansion to hashdeep as well.
-> 
-> Please send this to openembedded-devel@lists.openembedded.org
-> 
-> 
+Ptest will hang when execute "./run.sh fast_regression" and lttng background
+daemon can't be killed normally. This patch fixes this issue and use ${PTEST_PATH}
+instead of long path.
 
-Did I understand this right, that I should send the whole patch to
-OE-Devel ML? Or should I've sent anything else?
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
+index 14e5f9e..00d0cbc 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
+@@ -40,8 +40,8 @@ do_configure_prepend () {
+ }
+ 
+ do_install_ptest () {
+-	chmod +x ${D}/${libdir}/${PN}/ptest/tests/utils/utils.sh
+-	for i in `find ${D}/${libdir}/${PN}/ptest -perm /u+x -type f`; do
++	chmod +x ${D}${PTEST_PATH}/tests/utils/utils.sh
++	for i in `find ${D}${PTEST_PATH} -perm /u+x -type f`; do
+ 		sed -e "s:\$TESTDIR.*/src/bin/lttng/\$LTTNG_BIN:\$LTTNG_BIN:g" \
+ 		  -e "s:\$TESTDIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
+ 		  -e "s:\$DIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
+@@ -56,8 +56,9 @@ do_install_ptest () {
+ 
+ 	sed -e "s:src/bin/lttng-sessiond:$bindir:g" \
+ 	    -e "s:src/bin/lttng-consumerd:${libexecdir}/libexec/:g" \
+-	-i ${D}/${libdir}/${PN}/ptest/tests/regression/run-report.py
+-	sed -e "s:src/bin:bin:g" \
+-	-i ${D}/${libdir}/${PN}/ptest/tests/utils/utils.sh
+-
++	-i ${D}${PTEST_PATH}/tests/regression/run-report.py
++	sed -e "s:src/bin:bin:g" -e "s:lt-::g" \
++	-i ${D}${PTEST_PATH}/tests/utils/utils.sh
++	sed -e "s:ini_config:\.libs\/ini_config:" \
++	-i ${D}${PTEST_PATH}/tests/unit/ini_config/test_ini_config
+ }
+-- 
+1.9.1
+
 
