@@ -1,29 +1,43 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 933A36FE3B
+Return-Path: <sven.ebenfeld@gmail.com>
+Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F56570E5A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 18:53:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7SIrKnl016544
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 28 Aug 2014 19:43:43 +0000 (UTC)
+Received: by mail-la0-f42.google.com with SMTP id mc6so1578668lab.29
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 11:53:21 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 28 Aug 2014 11:53:20 -0700
-Message-ID: <53FF7A9F.8040108@windriver.com>
-Date: Thu, 28 Aug 2014 13:53:19 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	Thu, 28 Aug 2014 12:43:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=OKU7/pvJNceYIbLx+aSng2witJ7+I231/GrJBdDKNVk=;
+	b=PzpnSnv+smDVuEnOXdCWCD8D93bhWZUtpyqi2M8gjGYXq81tq7dTAEA7zIPMuGQIDx
+	Rcp+VkWIrBYpSRCrP3uHm2V2CmGEJGB8P2kCjxdamlMV+KBxEcaC4xZHybBDxsQvX5yJ
+	tqm7VFXpaSSKlKn6R2/Zb1Iq7zwdUSkhp2selu0Sx4sbK5czXn5GOLlgaZfUg5UQfhtM
+	TDl3SOACFKjeSOYiwmPOgvO9mmssHRSt4OoMz9MtKe5Hb+TgdFrQwyMaeVJ222qwB6wi
+	c9so+XjuFGwKqqHNm5QUhzVeS52hG+VOk+9ohY524Pc8FJPIOKoEjNXahItuxDjoFE3V
+	IfnA==
+X-Received: by 10.152.121.8 with SMTP id lg8mr5059690lab.98.1409255024772;
+	Thu, 28 Aug 2014 12:43:44 -0700 (PDT)
+Received: from [192.168.50.237] (ip-109-90-30-8.hsi11.unitymediagroup.de.
+	[109.90.30.8])
+	by mx.google.com with ESMTPSA id la9sm2983821lab.12.2014.08.28.12.43.43
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 28 Aug 2014 12:43:43 -0700 (PDT)
+Message-ID: <53FF866E.8010105@gmail.com>
+Date: Thu, 28 Aug 2014 21:43:42 +0200
+From: Sven Ebenfeld <sven.ebenfeld@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1409251282.git.nitin.a.kamble@intel.com>
-	<e742f96dea187a45c9f9f3ca9383565f1d460566.1409251282.git.nitin.a.kamble@intel.com>
-In-Reply-To: <e742f96dea187a45c9f9f3ca9383565f1d460566.1409251282.git.nitin.a.kamble@intel.com>
-Subject: Re: [PATCH 1/1] imageconfigurator: a new recipe for boottime image configuration
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <1408953391-25759-1-git-send-email-sven.ebenfeld@gmail.com>
+	<20140825101437.GP20524@jama> <53FEF8CF.6000801@gmail.com>
+	<20140828143625.GG16066@jama>
+In-Reply-To: <20140828143625.GG16066@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [meta-oe][PATCH] md5deep: Add Recipe for md5deep package version 4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,86 +50,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Aug 2014 18:53:26 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 28 Aug 2014 19:43:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 8/28/14, 1:47 PM, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->
-> This recipe adds ability to configure a BSP image for a specific
-> machine or platform at the boot time. The machine configurations
-> are not provided here, and are to be provided in the BSP layers.
->
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
->   .../imageconfigurator/imageconfigurator_git.bb     | 50 ++++++++++++++++++++++
->   1 file changed, 50 insertions(+)
->   create mode 100644 meta/recipes-bsp/imageconfigurator/imageconfigurator_git.bb
->
-> diff --git a/meta/recipes-bsp/imageconfigurator/imageconfigurator_git.bb b/meta/recipes-bsp/imageconfigurator/imageconfigurator_git.bb
-> new file mode 100644
-> index 0000000..7208ad0
-> --- /dev/null
-> +++ b/meta/recipes-bsp/imageconfigurator/imageconfigurator_git.bb
-> @@ -0,0 +1,50 @@
-> +SUMMARY = "Daemon to configure an image for a specific machine at boot time."
-> +SECTION = "base"
-> +LICENSE = "GPLv3"
+Am 28.08.2014 16:36, schrieb Martin Jansa:
+> On Thu, Aug 28, 2014 at 11:39:27AM +0200, Sven Ebenfeld wrote:
+>> Am 25.08.2014 12:14, schrieb Martin Jansa:
+>>> On Mon, Aug 25, 2014 at 09:56:31AM +0200, Sven Ebenfeld wrote:
+>>>> I need to build hashdeep/md5deep within OE to include it in my images. This recipe enables OE to cross-compile md5deep. I needed to add the patch as do_configure_qa is complaining about cross-compilation errors otherwise. I added a pull request for the issue with the variable expansion to hashdeep as well.
+>>>
+>>> Please send this to openembedded-devel@lists.openembedded.org
+>>>
+>>>
+>>
+>> Did I understand this right, that I should send the whole patch to
+>> OE-Devel ML? Or should I've sent anything else?
+> 
+> Whole patch as it was sent and picked by patchwork:
+> http://patchwork.openembedded.org/patch/78901/
+> 
+> it was merged in master-next few days ago.
+> 
 
-Any specific reason for GPLv3 vs GPLv2+?  I have a number of customers who are 
-still locked on GPLv2 images for the time being, and they are interested in this 
-kind of tool.
-
---Mark
-
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-> +RDEPENDS_${PN} = "sysvinit sed"
-> +
-> +PE = "1"
-> +PV = "0.1+git${SRCPV}"
-> +
-> +SRCREV = "90603bed54f7c033a7b2f92214c21d011459844b"
-> +
-> +SRC_URI = "git://git.yoctoproject.org/imageconfigurator.git"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +PACKAGE_ARCH = "${MACHINE_ARCH}"
-> +
-> +inherit autotools pkgconfig update-rc.d
-> +
-> +INITSCRIPT_NAME = "imageconfigurator"
-> +INITSCRIPT_PARAMS = "start 00 S . stop 20 0 1 6 ."
-> +
-> +RRECOMMENDS_${PN} += "kernel-module-uinput"
-> +
-> +python __anonymous () {
-> +    src_uri = d.getVar('SRC_URI', True)
-> +    machine_config_files = (d.getVar('MACHINE_CONFIG_FILES', True) or "")
-> +    for file in machine_config_files.split():
-> +         src_uri += " file://" + file
-> +    d.setVar('SRC_URI', src_uri)
-> +}
-> +
-> +do_install_append() {
-> +	{
-> +	echo SUPPORTED_MACHINES=${SUPPORTED_MACHINES}
-> +	echo DEFAULT_MACHINE_SELECTION=${DEFAULT_MACHINE_SELECTION}
-> +	} > ${D}/${sysconfdir}/${BPN}/defaults
-> +
-> +	for file in ${MACHINE_CONFIG_FILES}
-> +	do
-> +		install -m 0644 ${S}/../${file} ${D}/${sysconfdir}/${BPN}/config/
-> +	done
-> +}
-> +
-> +# following variables are initialized to empty values now.
-> +# These need to be populated with the desired machine configurations
-> +# for each BSP in it's own layer.
-> +MACHINE_CONFIG_FILES = ""
-> +SUPPORTED_MACHINES = ""
-> +DEFAULT_MACHINE_SELECTION = "none"
->
-
+Oh, I didn't see that, that's good news. Thanks!
+Is it possible to get that patch into dora and daisy branch as well?
+Unfortunately we are still developing in dora branch atm but I hope to
+switch to daisy branch in near future.
 
