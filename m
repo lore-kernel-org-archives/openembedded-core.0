@@ -1,26 +1,26 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E2BBC71178
+	by mail.openembedded.org (Postfix) with ESMTP id 5396D70F06
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 05:40:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7S5e834005134
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Aug 2014 22:40:08 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 27 Aug 2014 22:40:07 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Aug 2014 22:40:06 -0700
-Message-ID: <fd12f5beea3408e341292fe296678cf97ad743d1.1409204283.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1409204283.git.liezhi.yang@windriver.com>
-References: <cover.1409204283.git.liezhi.yang@windriver.com>
+	Thu, 28 Aug 2014 06:16:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7S6GBNM005424
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 27 Aug 2014 23:16:11 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 27 Aug 2014 23:16:10 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>, <mark.hatle@windriver.com>
+Date: Thu, 28 Aug 2014 14:15:58 +0800
+Message-ID: <0088e0b732886705d3009beb2ab71a3d9874b098.1409206228.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1409206228.git.hongxu.jia@windriver.com>
+References: <cover.1409206228.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] cpan.bbclass: matches more lines
+Subject: [PATCH 1/2] bbclass/sstate: add hook SSTATE_CHECK_FUNCTIONS for sstate checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +33,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Aug 2014 05:40:10 -0000
+X-List-Received-Date: Thu, 28 Aug 2014 06:16:13 -0000
 Content-Type: text/plain
 
-Fixed:
-- There might be a space between "#!" and "/pat/to/usr/bin/perl", e.g.:
-  "#! /usr/bin/perl", now also matches it.
+Provide hook for sstate checking, the checking failure will
+break the building immediately. Pass input parameters by
+bb.data (d.setVar/d.getVar).
 
-- There might be the lines like the following in the body:
-  eval 'exec /path/to/usr/bin/perl-native/perl -S $0 ${1+"$@"}'
+Hook  : SSTATE_CHECK_FUNCTIONS
+Input : missed    - list of missing sstate file index in sq
+      : found     - list of existing sstate file index in sq
+      : sq_fn     - list of filenames in the sq
+      : sq_task   - list of task names in the sq
+      : sq_hash   - list of task hash in the sq
+      : sq_hashfn - list of hashfn in the sq
 
-  Now we only check "#! */path/to/usr/bin/perl" to make sure it is a
-  perl script, but match and fix the lines in both header and body.
+[YOCTO #6639]
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes/cpan.bbclass |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/sstate.bbclass | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/meta/classes/cpan.bbclass b/meta/classes/cpan.bbclass
-index 7088039..e2bbd2f 100644
---- a/meta/classes/cpan.bbclass
-+++ b/meta/classes/cpan.bbclass
-@@ -47,8 +47,8 @@ cpan_do_compile () {
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 4eec6bd..9edd7c4 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -616,6 +616,18 @@ sstate_unpack_package () {
  
- cpan_do_install () {
- 	oe_runmake DESTDIR="${D}" install_vendor
--	for PERLSCRIPT in `grep -rIEl '#!${bindir}/perl-native.*/perl' ${D}`; do
--		sed -i -e 's|^#!${bindir}/perl-native.*/perl|#!/usr/bin/env nativeperl|' $PERLSCRIPT
-+	for PERLSCRIPT in `grep -rIEl '#! *${bindir}/perl-native.*/perl' ${D}`; do
-+		sed -i -e 's|${bindir}/perl-native.*/perl|/usr/bin/env nativeperl|' $PERLSCRIPT
- 	done
- }
+ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
  
++# Provide hook for sstate checking, the checking failure will
++# break the building immediately. Pass input parameters by
++# bb.data (d.setVar/d.getVar).
++# Input : missed    - list of missing sstate file index in sq
++#       : found     - list of existing sstate file index in sq
++#       : sq_fn     - list of filenames in the sq
++#       : sq_task   - list of task names in the sq
++#       : sq_hash   - list of task hash in the sq
++#       : sq_hashfn - list of hashfn in the sq
++#
++SSTATE_CHECK_FUNCTIONS ?= ""
++
+ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+ 
+     ret = []
+@@ -704,6 +716,20 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+             evdata['found'].append( (sq_fn[task], sq_task[task], sq_hash[task], sstatefile ) )
+         bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
+ 
++    localdata = bb.data.createCopy(d)
++    bb.data.update_data(localdata)
++    for f in (localdata.getVar('SSTATE_CHECK_FUNCTIONS', True) or '').split():
++        localdata = bb.data.createCopy(d)
++        bb.data.update_data(localdata)
++        localdata.setVar('missed', missed)
++        localdata.setVar('found', ret)
++        localdata.setVar('sq_fn', sq_fn)
++        localdata.setVar('sq_task', sq_task)
++        localdata.setVar('sq_hash', sq_hash)
++        localdata.setVar('sq_hashfn', sq_hashfn)
++
++        bb.build.exec_func(f, localdata)
++
+     return ret
+ 
+ BB_SETSCENE_DEPVALID = "setscene_depvalid"
 -- 
-1.7.9.5
+1.9.1
 
 
