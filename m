@@ -1,53 +1,48 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 44B84706AE
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id CF7C871191
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 28 Aug 2014 15:11:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 7546F1808A
+	by bes.se.axis.com (Postfix) with ESMTP id 1D9822E2D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 17:11:11 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id xEANM40nSOPb
+	Thu, 28 Aug 2014 17:11:10 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id MtsAklUcHfIM
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 28 Aug 2014 17:11:08 +0200 (CEST)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 3CF3118118
+	by bes.se.axis.com (Postfix) with ESMTP id 360562E3D1
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 28 Aug 2014 17:11:08 +0200 (CEST)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 25E7513EB
+	by postfix.imss71 (Postfix) with ESMTP id 18F5E13E2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 28 Aug 2014 17:11:08 +0200 (CEST)
 Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 1ABF413E9
+	by boulder.se.axis.com (Postfix) with ESMTP id 0C869C44
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 28 Aug 2014 17:11:08 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 18BF13E049
+	by seth.se.axis.com (Postfix) with ESMTP id 0AB5A3E049
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 28 Aug 2014 17:11:08 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id s7SFB89E015261
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id s7SFB8vw015257
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 28 Aug 2014 17:11:08 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id s7SFB85C015260
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id s7SFB7DI015256
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Aug 2014 17:11:08 +0200
+	Thu, 28 Aug 2014 17:11:07 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Aug 2014 17:11:03 +0200
-Message-Id: <712bdb997adab9138755c0ae04cb1b697e0e2484.1409238578.git.pkj@axis.com>
+Date: Thu, 28 Aug 2014 17:11:02 +0200
+Message-Id: <cover.1409238578.git.pkj@axis.com>
 X-Mailer: git-send-email 1.9.0
-In-Reply-To: <cover.1409238578.git.pkj@axis.com>
-References: <cover.1409238578.git.pkj@axis.com>
-In-Reply-To: <cover.1409238578.git.pkj@axis.com>
-References: <cover.1409238578.git.pkj@axis.com>
-Subject: [PATCH 1/2] lib/oe/utils: Make multiprocess_exec() return anything
+Subject: [PATCH 0/2] Serious regression in multiprocess_exec()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,33 +57,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 28 Aug 2014 15:11:18 -0000
 
-The variable "results" was accidentally used for multiple different
-things at the same time, which unintentionally discarded anything that
-was supposed to be returned from the function...
+This fixes a serious regression in multiprocess_exec() which prevented
+it from returning anything. This caused package_do_filedeps() in
+package.bbclass to no longer add any runtime dependencies based on
+what oe.package.filedeprunner() was supposed to return...
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/lib/oe/utils.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Since the change to multiprocess_exec() will _not_ trigger do_package
+to be rerun for the affected packages, I have also included a small
+typo correction to a comment in do_package so its sstate is
+invalidated.
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 92e21a4..3544256 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -167,11 +167,11 @@ def multiprocess_exec(commands, function):
-     imap = pool.imap(function, commands)
- 
-     try:
--        results = list(imap)
-+        res = list(imap)
-         pool.close()
-         pool.join()
-         results = []
--        for result in results:
-+        for result in res:
-             if result is not None:
-                 results.append(result)
-         return results
+The following changes since commit c16795477ea7e2159b5d3808268912b572887e2d:
+
+  qemu: add PACKAGECONFIG for numa (2014-08-27 12:13:38 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/multiprocess_exec
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/multiprocess_exec
+
+Peter Kjellerstedt (2):
+  lib/oe/utils: Make multiprocess_exec() return anything
+  package: Correct two typos in a comment
+
+ meta/classes/package.bbclass | 6 +++---
+ meta/lib/oe/utils.py         | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
 -- 
 1.9.0
 
