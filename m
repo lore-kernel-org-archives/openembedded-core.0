@@ -1,29 +1,41 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B57A711D6
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 884A67067B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 14:33:09 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 5A4A3F811FD; Thu, 28 Aug 2014 08:33:10 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id CCFF3F811F6;
-	Thu, 28 Aug 2014 08:33:08 -0600 (MDT)
-Message-ID: <53FF3DB5.2000004@mlbassoc.com>
-Date: Thu, 28 Aug 2014 08:33:25 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Thu, 28 Aug 2014 14:36:16 +0000 (UTC)
+Received: by mail-wi0-f172.google.com with SMTP id n3so7622674wiv.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Aug 2014 07:36:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=vIuIlx8uQ/LzyBwTuiSC9Cqp5irvxfn9/igtdNY/xd0=;
+	b=EsXJj1gX8tkfTd9QFfjTNlgJansVACfEpz6p/BCJL26gXw0LZO9y0CLy/us8cW+271
+	abhXDVyFSsRYPFEWSzCDRCwm5bhdU6sxFZtOJ69VYzR6uLayvRRH53OJ1cFdRy068K0V
+	ztE5LSsLwQzGupNoxSrtcvvc/1FOWocfCODOICGXR6kHeHlZ7mIrjeHQmOAhCzqreG7U
+	mUOGbnGl+otD6chFjg6gzjjYedfJSBNNAWP+2fCX0GScRHO6MvIYQcj/Uo5EW9Cb7wxI
+	zzrjn2wmJz1WBeYTIHQPWC5aQYKcMM46WT5Xz/CFx9BHAc0Za18YYtbxDeEIuL61F7Wy
+	yUzA==
+X-Received: by 10.194.82.106 with SMTP id h10mr5759404wjy.37.1409236577599;
+	Thu, 28 Aug 2014 07:36:17 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	xm4sm15432393wib.9.2014.08.28.07.36.16 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 28 Aug 2014 07:36:16 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 28 Aug 2014 16:36:25 +0200
+To: Sven Ebenfeld <sven.ebenfeld@gmail.com>
+Message-ID: <20140828143625.GG16066@jama>
+References: <1408953391-25759-1-git-send-email-sven.ebenfeld@gmail.com>
+	<20140825101437.GP20524@jama> <53FEF8CF.6000801@gmail.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1409210206.29296.129.camel@ted>	<53FED7DC.6050707@pseudoterminal.org>
-	<1409235837.29296.143.camel@ted>
-In-Reply-To: <1409235837.29296.143.camel@ted>
-Subject: Re: 1.7 release feature freeze deadline this Friday
+In-Reply-To: <53FEF8CF.6000801@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [meta-oe][PATCH] md5deep: Add Recipe for md5deep package version 4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,51 +48,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Aug 2014 14:33:12 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Aug 2014 14:36:20 -0000
+X-Groupsio-MsgNum: 57089
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="GdbWtwDHkcXqP16f"
+Content-Disposition: inline
 
-On 2014-08-28 08:23, Richard Purdie wrote:
-> On Thu, 2014-08-28 at 09:18 +0200, Carlos Rafael Giani wrote:
->> On 08/28/2014 09:16 AM, Richard Purdie wrote:
->>> If you've been in the various calls or read the minutes you'd know about
->>> this but it was mentioned to me that it has not been highlighted on the
->>> mailing list.
->>>
->>> The M3 milestone close is the end of the week and this marks the feature
->>> freeze point for the 1.7 release. We do have M4 after this but that is a
->>> bug fixing and stabilisation milestone.
->>>
->>> There are some things I may still consider into M4, particular if
->>> they're related to the stated objectives of the release, specifically
->>> the developer workflow enhancements which is running behind schedule. As
->>> time progresses, it will be increasingly unlikely things of that nature
->>> will merge though.
->>>
->>> So if there are things you are after to see in 1.7 time is running out,
->>> I at least need to be aware of them ASAP.
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>
->> Has the GCC 4.9 situation been solved? At least Chromium was failing to
->> build with it. Other packages were affected as well.
->
-> We merged in various gcc updates including a fix for the infamous kernel
-> bug afaik. I don't know the situation with chromium but that did sound
-> like a chromium issue rather than gcc...
->
-> If we're missing patches to gcc please do shout out but I'm not seeing
-> bugs which suggest we should default back to 4.8 at this point.
+--GdbWtwDHkcXqP16f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It's not just chromium - midori (at least on ARM) also fails
-miserably with 4.9 (I've not tried it with the recent changes)
+On Thu, Aug 28, 2014 at 11:39:27AM +0200, Sven Ebenfeld wrote:
+> Am 25.08.2014 12:14, schrieb Martin Jansa:
+> > On Mon, Aug 25, 2014 at 09:56:31AM +0200, Sven Ebenfeld wrote:
+> >> I need to build hashdeep/md5deep within OE to include it in my images.=
+ This recipe enables OE to cross-compile md5deep. I needed to add the patch=
+ as do_configure_qa is complaining about cross-compilation errors otherwise=
+=2E I added a pull request for the issue with the variable expansion to has=
+hdeep as well.
+> >=20
+> > Please send this to openembedded-devel@lists.openembedded.org
+> >=20
+> >=20
+>=20
+> Did I understand this right, that I should send the whole patch to
+> OE-Devel ML? Or should I've sent anything else?
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Whole patch as it was sent and picked by patchwork:
+http://patchwork.openembedded.org/patch/78901/
 
+it was merged in master-next few days ago.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--GdbWtwDHkcXqP16f
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlP/PmkACgkQN1Ujt2V2gBytiQCfUzbkMsu52bsOW4EdLARAjf7g
+1/EAnR2GiXXCPorJ2q0vYDTB/SfidbAz
+=pjmR
+-----END PGP SIGNATURE-----
+
+--GdbWtwDHkcXqP16f--
