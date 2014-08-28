@@ -1,30 +1,29 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C44D71081
+	by mail.openembedded.org (Postfix) with ESMTP id 1DE9770E6E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 10:27:46 +0000 (UTC)
+	Thu, 28 Aug 2014 10:33:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7SARkGR012555 for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 11:27:46 +0100
+	s7SAXUKl012689; Thu, 28 Aug 2014 11:33:30 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id F_IvwmCisLcK
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 11:27:46 +0100 (BST)
+	with LMTP id JCCPlT6jP33T; Thu, 28 Aug 2014 11:33:30 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7SARhRA012551
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 11:27:44 +0100
-Message-ID: <1409221664.29296.135.camel@ted>
+	s7SAXR8d012686
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 28 Aug 2014 11:33:28 +0100
+Message-ID: <1409222009.29296.137.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Aug 2014 11:27:44 +0100
+To: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
+Date: Thu, 28 Aug 2014 11:33:29 +0100
+In-Reply-To: <1409221034-24748-1-git-send-email-muzaffar_mahmood@mentor.com>
+References: <1409221034-24748-1-git-send-email-muzaffar_mahmood@mentor.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
-Subject: [PATCH] populate_sdk_base: Remap TOOLCHAIN_HOST_TASK variable
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemtap: Fixed probe syscall.sendfile failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +36,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Aug 2014 10:27:47 -0000
+X-List-Received-Date: Thu, 28 Aug 2014 10:33:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Currently this variable isn't passed through the magic rename
-mangling. This means that if you try adding "nativesdk-eglibc"
-to an image directly, you can't since the package is renamed
-by debian.bbclass and nothing sees the renaming.
+On Thu, 2014-08-28 at 15:17 +0500, Muzaffar Mahmood wrote:
+> From: Mikhail Durnev <mikhail_durnev@mentor.com>
+> 
+> Marked __syscall.compat_sendfile as optional
+> 
+> Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
+> Signed-off-by: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
+> ---
 
-This is annoying since I wanted to exactly that. This code
-change passes it through the standard renaming function, the
-tricky part is that we have to set PKGDATA_DIR to point to
-the correct sysroot during the call. We create a copy of the
- datastore for the purposes of the call to do this.
+This says what you did but not why. There is nothing at all in the patch
+header, no Upstream-Status, no description, no author.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cheers,
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index db64d3a..abfcdc7 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -72,6 +72,13 @@ fakeroot python do_populate_sdk() {
-     runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", pn, d)
-     runtime_mapping_rename("TOOLCHAIN_TARGET_TASK_ATTEMPTONLY", pn, d)
- 
-+    ld = bb.data.createCopy(d)
-+    ld.setVar("PKGDATA_DIR", "${STAGING_DIR}/${SDK_ARCH}-${SDKPKGSUFFIX}${SDK_VENDOR}-${SDK_OS}/pkgdata")
-+    runtime_mapping_rename("TOOLCHAIN_HOST_TASK", pn, ld)
-+    runtime_mapping_rename("TOOLCHAIN_HOST_TASK_ATTEMPTONLY", pn, ld)
-+    d.setVar("TOOLCHAIN_HOST_TASK", ld.getVar("TOOLCHAIN_HOST_TASK", True))
-+    d.setVar("TOOLCHAIN_HOST_TASK_ATTEMPTONLY", ld.getVar("TOOLCHAIN_HOST_TASK_ATTEMPTONLY", True))
-+    
-     # create target/host SDK manifests
-     create_manifest(d, manifest_dir=d.getVar('SDK_DIR', True),
-                     manifest_type=Manifest.MANIFEST_TYPE_SDK_HOST)
+Richard
+
+>  .../systemtap/tapset-linux-sendfile-syscall.patch  |   12 ++++++++++++
+>  meta/recipes-kernel/systemtap/systemtap_git.inc    |    1 +
+>  2 files changed, 13 insertions(+)
+>  create mode 100644 meta/recipes-kernel/systemtap/systemtap/tapset-linux-sendfile-syscall.patch
+> 
+> diff --git a/meta/recipes-kernel/systemtap/systemtap/tapset-linux-sendfile-syscall.patch b/meta/recipes-kernel/systemtap/systemtap/tapset-linux-sendfile-syscall.patch
+> new file mode 100644
+> index 0000000..b42ab3c
+> --- /dev/null
+> +++ b/meta/recipes-kernel/systemtap/systemtap/tapset-linux-sendfile-syscall.patch
+> @@ -0,0 +1,12 @@
+> +diff -Naur old/tapset/linux/syscalls2.stp new/tapset/linux/syscalls2.stp
+> +--- old/tapset/linux/syscalls2.stp	2014-04-21 01:28:41.000000000 -0500
+> ++++ new/tapset/linux/syscalls2.stp	2014-04-21 01:38:14.961233914 -0500
+> +@@ -1953,7 +1953,7 @@
+> + # COMPAT_SYSCALL_DEFINE4(sendfile64, int, out_fd, int, in_fd,
+> + #		compat_loff_t __user *, offset, compat_size_t, count)
+> + #
+> +-probe syscall.sendfile = __syscall.sendfile, __syscall.compat_sendfile
+> ++probe syscall.sendfile = __syscall.sendfile, __syscall.compat_sendfile ?
+> + {
+> + 	name = "sendfile"
+> + 	out_fd = __int32($out_fd)
+> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+> index 717d66f..3e1e80a 100644
+> --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
+> +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+> @@ -6,6 +6,7 @@ PV = "2.5+git${SRCPV}"
+>  SRC_URI = "git://sourceware.org/git/systemtap.git \
+>             file://docproc-build-fix.patch \
+>             file://obsolete_automake_macros.patch \
+> +           file://tapset-linux-sendfile-syscall.patch \
+>            "
+>  
+>  # systemtap doesn't support mips
+> -- 
+> 1.7.9.5
+> 
 
 
 
