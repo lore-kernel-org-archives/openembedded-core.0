@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D71370F06
+	by mail.openembedded.org (Postfix) with ESMTP id 7F8A371165
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 06:16:09 +0000 (UTC)
+	Thu, 28 Aug 2014 06:16:14 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7S6G9SA029708
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7S6GEH4029717
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 27 Aug 2014 23:16:09 -0700 (PDT)
+	Wed, 27 Aug 2014 23:16:14 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 27 Aug 2014 23:16:08 -0700
+	14.3.174.1; Wed, 27 Aug 2014 23:16:13 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>, <mark.hatle@windriver.com>
-Date: Thu, 28 Aug 2014 14:15:57 +0800
-Message-ID: <cover.1409206228.git.hongxu.jia@windriver.com>
+Date: Thu, 28 Aug 2014 14:15:59 +0800
+Message-ID: <dcf275752cdb75cd8d82ef7e5e72759eeca68b09.1409206228.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1409206228.git.hongxu.jia@windriver.com>
+References: <cover.1409206228.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 0/2] bbclass/sstate: only allowed sstate-cache objects are allowed in a build (read-only sstate-cache)
+Subject: [PATCH 2/2] bbclass/sstate_readonly: only allowed sstate-cache objects are allowed in a build (read-only sstate-cache)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,111 +33,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Aug 2014 06:16:15 -0000
+X-List-Received-Date: Thu, 28 Aug 2014 06:16:17 -0000
 Content-Type: text/plain
 
-Changed in V3:
-- remove bitbake patch, which was sent to bitbake-devel
-- rebase 'bbclass/sstate' patch, which was conflicted with
-  'sstate: Add extra intercept functions' patch in master-next
+The requirement is the developer who demand only the "new" software
+they write is allowed to be compiled from source, they only want to
+reuse binaries from an existed sstate-cache, if the developer makes
+a change that triggers a rebuild, it should be an instant error.
 
-Changed in V2:
+The purpose of this is for the sstate-cache to check if the item
+exists or not. If it doesn't the item needs to be in a whitelist
+or we need to fail.
 
-- add hook SSTATE_CHECK_FUNCTIONS for sstate checking, and
-  add a new bbclass/sstate_readonly, rather than directly
-  modify bbclass/sstate
+If read-only sstate-cache enable, and the recipe's ${PN} not in the
+${SSTATECACHE_WHITELIST}, it trigered an instant error.
 
-- terminate build safely while RunQueueExecuteScenequeue
-  init failed, the previous bb.msg.fatal is too hack.
+[YOCTO #6639]
 
-Test steps:
-
-1) vim local.conf
-INHERIT += 'sstate_readonly'
-
-2) Create a sstate cache for testing
-$ bitbake db-native
-
-3) Remove tmp dir and build db-native from sstate-cache
-$ mv tmp tmp-back && bitbake db-native
-
-4) Add gzip to SSTATECACHE_WHITELIST, it enabled read-only sstate-cache,
-vim local.conf
-...
-SSTATECACHE_WHITELIST = 'gzip'
-...
-
-5) Remove tmp dir and build db-native from sstate-cache
-$ mv tmp tmp-back && bitbake db-native
-
-6) tweak db's do_configure task by adding comments
---- a/meta/recipes-support/db/db_6.0.30.bb
-+++ b/meta/recipes-support/db/db_6.0.30.bb
-@@ -82,6 +82,7 @@ do_configure() {
-        gnu-configize --force ${S}
-        export STRIP="true"
-        oe_runconf
-+       echo "hello"
- }
-
-
-7) build db-native and there is a build failure
-$ bitbake db-native
-...
-NOTE: Preparing runqueue
-ERROR: Read-only sstate-cache is enabled, the build of 
-"db-native"
-did not come from sstate-cache. Only the recipe listed in
-SSTATECACHE_WHITELIST is allowed to build from source
-...
-
-8) clean db-native failed
-$ bitbake db-native -ccleansstate
-...
-ERROR: Read-only sstate-cache is enabled, the clean of 
-db-native is not allowed. Only the recipe listed in
-SSTATECACHE_WHITELIST is allowed to clean sstate-cache
-...
-
-$ bitbake db-native -ccleanall
-...
-ERROR: Read-only sstate-cache is enabled, the clean of 
-db-native is not allowed. Only the recipe listed in
-SSTATECACHE_WHITELIST is allowed to clean sstate-cache
-...
-
-9) Add db-native to SSTATECACHE_WHITELIST
-vim local.conf
-...
-SSTATECACHE_WHITELIST = 'gzip db-native'
-...
-
-10) build/clean db-native succee
-$ bitbake db-native
-$ bitbake db-native -ccleansstate
-$ bitbake db-native -ccleanall
-
-//Hongxu
-
-The following changes since commit c16795477ea7e2159b5d3808268912b572887e2d:
-
-  qemu: add PACKAGECONFIG for numa (2014-08-27 12:13:38 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/readonly-sstatecache
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/readonly-sstatecache
-
-Hongxu Jia (2):
-  bbclass/sstate: add hook SSTATE_CHECK_FUNCTIONS for sstate checking
-  bbclass/sstate_readonly: only allowed sstate-cache objects are allowed
-    in a build (read-only sstate-cache)
-
- meta/classes/sstate.bbclass          | 26 ++++++++++++++++++
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  meta/classes/sstate_readonly.bbclass | 51 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 77 insertions(+)
+ 1 file changed, 51 insertions(+)
  create mode 100644 meta/classes/sstate_readonly.bbclass
 
+diff --git a/meta/classes/sstate_readonly.bbclass b/meta/classes/sstate_readonly.bbclass
+new file mode 100644
+index 0000000..9eabf81
+--- /dev/null
++++ b/meta/classes/sstate_readonly.bbclass
+@@ -0,0 +1,51 @@
++SSTATE_CHECK_FUNCTIONS_append = " sstate_readonly_check"
++
++# 1) If ${SSTATECACHE_WHITELIST} is "", it means read-only sstate-cache
++#    disabled;
++#
++# 2) If read-only sstate-cache enabled and the recipe's ${PN} not listed
++#    in ${SSTATECACHE_WHITELIST}, the build from source will triger an
++#    instant error;
++SSTATECACHE_WHITELIST ?= ""
++
++python sstate_readonly_check(){
++    whitelist = (d.getVar('SSTATECACHE_WHITELIST', True) or '').split()
++    if whitelist:
++        sq_fn = d.getVar('sq_fn', True) or []
++        missed = d.getVar('missed', True) or []
++        missed_pn = []
++        for task in missed:
++            fn = sq_fn[task]
++            data = bb.cache.Cache.loadDataFull(fn, '', d)
++            pn = data.getVar('PN', True)
++            if pn and pn not in missed_pn:
++                missed_pn.append(pn)
++
++        if missed_pn:
++            blacklist = [pn for pn in missed_pn if pn not in whitelist]
++            if blacklist:
++                msg =  'Read-only sstate-cache is enabled, the build of \n'
++                msg += '"' + ' '.join(blacklist) + '"\n'
++                msg += 'did not come from sstate-cache. Only the recipe listed in\n'
++                msg += 'SSTATECACHE_WHITELIST is allowed to build from source'
++                bb.fatal(msg)
++}
++
++def _sstate_readonly_clean_check(d):
++    whitelist = (d.getVar('SSTATECACHE_WHITELIST', True) or '').split()
++    if whitelist:
++        pn = d.getVar('PN', True)
++        if pn not in whitelist:
++            msg =  'Read-only sstate-cache is enabled, the clean of \n'
++            msg += '%s is not allowed. Only the recipe listed in\n' % pn
++            msg += 'SSTATECACHE_WHITELIST is allowed to clean sstate-cache'
++            bb.fatal(msg)
++
++python do_cleansstate_prepend() {
++        _sstate_readonly_clean_check(d)
++}
++
++python do_cleanall_prepend() {
++    _sstate_readonly_clean_check(d)
++}
++
 -- 
 1.9.1
 
