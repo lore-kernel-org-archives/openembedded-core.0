@@ -1,41 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 884A67067B
+Return-Path: <Muzaffar_Mahmood@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id BC47565D34
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 14:36:16 +0000 (UTC)
-Received: by mail-wi0-f172.google.com with SMTP id n3so7622674wiv.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 07:36:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=vIuIlx8uQ/LzyBwTuiSC9Cqp5irvxfn9/igtdNY/xd0=;
-	b=EsXJj1gX8tkfTd9QFfjTNlgJansVACfEpz6p/BCJL26gXw0LZO9y0CLy/us8cW+271
-	abhXDVyFSsRYPFEWSzCDRCwm5bhdU6sxFZtOJ69VYzR6uLayvRRH53OJ1cFdRy068K0V
-	ztE5LSsLwQzGupNoxSrtcvvc/1FOWocfCODOICGXR6kHeHlZ7mIrjeHQmOAhCzqreG7U
-	mUOGbnGl+otD6chFjg6gzjjYedfJSBNNAWP+2fCX0GScRHO6MvIYQcj/Uo5EW9Cb7wxI
-	zzrjn2wmJz1WBeYTIHQPWC5aQYKcMM46WT5Xz/CFx9BHAc0Za18YYtbxDeEIuL61F7Wy
-	yUzA==
-X-Received: by 10.194.82.106 with SMTP id h10mr5759404wjy.37.1409236577599;
-	Thu, 28 Aug 2014 07:36:17 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	xm4sm15432393wib.9.2014.08.28.07.36.16 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Aug 2014 07:36:16 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 28 Aug 2014 16:36:25 +0200
-To: Sven Ebenfeld <sven.ebenfeld@gmail.com>
-Message-ID: <20140828143625.GG16066@jama>
-References: <1408953391-25759-1-git-send-email-sven.ebenfeld@gmail.com>
-	<20140825101437.GP20524@jama> <53FEF8CF.6000801@gmail.com>
+	Thu, 28 Aug 2014 14:43:44 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1XN0vR-0001My-KS from Muzaffar_Mahmood@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Aug 2014 07:43:46 -0700
+Received: from svr-pkl-eng-06.pkl.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server (TLS) id 14.2.247.3; Thu, 28 Aug 2014 15:43:44 +0100
+From: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 28 Aug 2014 19:43:07 +0500
+Message-ID: <1409236987-31568-1-git-send-email-muzaffar_mahmood@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-In-Reply-To: <53FEF8CF.6000801@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH] md5deep: Add Recipe for md5deep package version 4.4
+X-Originating-IP: [137.202.0.76]
+Cc: Anant Agrawal <Anant_Agrawal@mentor.com>
+Subject: [PATCH] alsa-utils: interrupt streaming via signal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,51 +33,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Aug 2014 14:36:20 -0000
-X-Groupsio-MsgNum: 57089
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="GdbWtwDHkcXqP16f"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 28 Aug 2014 14:43:50 -0000
+Content-Type: text/plain
 
---GdbWtwDHkcXqP16f
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Mikhail Durnev <mikhail_durnev@mentor.com>
 
-On Thu, Aug 28, 2014 at 11:39:27AM +0200, Sven Ebenfeld wrote:
-> Am 25.08.2014 12:14, schrieb Martin Jansa:
-> > On Mon, Aug 25, 2014 at 09:56:31AM +0200, Sven Ebenfeld wrote:
-> >> I need to build hashdeep/md5deep within OE to include it in my images.=
- This recipe enables OE to cross-compile md5deep. I needed to add the patch=
- as do_configure_qa is complaining about cross-compilation errors otherwise=
-=2E I added a pull request for the issue with the variable expansion to has=
-hdeep as well.
-> >=20
-> > Please send this to openembedded-devel@lists.openembedded.org
-> >=20
-> >=20
->=20
-> Did I understand this right, that I should send the whole patch to
-> OE-Devel ML? Or should I've sent anything else?
+aplay/arecord (alsa-utils v1.0.27.2) cannot interrupt streaming
+via CTRL-C. Fixed the issue by reverting buggy patches and
+properly handling 'in_aborting' flag in appropriate functions.
 
-Whole patch as it was sent and picked by patchwork:
-http://patchwork.openembedded.org/patch/78901/
+Signed-off-by: Anant Agrawal <Anant_Agrawal@mentor.com>
+Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
+Signed-off-by: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
+---
+ ...lsa-utils-aplay-interrupt-signal-handling.patch |   84 ++++++++++++++++++++
+ .../recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb |    1 +
+ 2 files changed, 85 insertions(+)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-utils/alsa-utils-aplay-interrupt-signal-handling.patch
 
-it was merged in master-next few days ago.
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils/alsa-utils-aplay-interrupt-signal-handling.patch b/meta/recipes-multimedia/alsa/alsa-utils/alsa-utils-aplay-interrupt-signal-handling.patch
+new file mode 100644
+index 0000000..a6092fd
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-utils/alsa-utils-aplay-interrupt-signal-handling.patch
+@@ -0,0 +1,84 @@
++Upstream-Status: Pending
++
++aplay/arecord (alsa-utils v1.0.27.2) cannot interrupt streaming
++via CTRL-C. Fixed the issue by reverting buggy patches and
++properly handling 'in_aborting' flag in appropriate functions.
++
++Signed-off-by: Anant Agrawal <Anant_Agrawal@mentor.com>
++Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
++
++--- a/aplay/aplay.c	2014-05-19 16:25:14.000000000 +0530
+++++ b/aplay/aplay.c	2014-05-20 15:17:14.364823007 +0530
++@@ -392,14 +392,22 @@
++ 		putchar('\n');
++ 	if (!quiet_mode)
++ 		fprintf(stderr, _("Aborted by signal %s...\n"), strsignal(sig));
++-	if (handle)
+++	if (stream == SND_PCM_STREAM_CAPTURE) {
+++		if (fmt_rec_table[file_type].end) {
+++			fmt_rec_table[file_type].end(fd);
+++			fd = -1;
+++		}
+++		stream = -1;
+++	}
+++	if (fd > 1) {
+++		close(fd);
+++		fd = -1;
+++	}
+++	if (handle && sig != SIGABRT) {
++ 		snd_pcm_abort(handle);
++-	if (sig == SIGABRT) {
++-		/* do not call snd_pcm_close() and abort immediately */
++ 		handle = NULL;
++-		prg_exit(EXIT_FAILURE);
++ 	}
++-	signal(sig, signal_handler);
+++	prg_exit(EXIT_FAILURE);
++ }
++ 
++ /* call on SIGUSR1 signal. */
++@@ -1921,7 +1929,7 @@
++ 		count = chunk_size;
++ 	}
++ 	data = remap_data(data, count);
++-	while (count > 0) {
+++	while (count > 0 && !in_aborting) {
++ 		if (test_position)
++ 			do_test_position();
++ 		check_stdin();
++@@ -1964,7 +1972,7 @@
++ 		count = chunk_size;
++ 	}
++ 	data = remap_datav(data, count);
++-	while (count > 0) {
+++	while (count > 0 && !in_aborting) {
++ 		unsigned int channel;
++ 		void *bufs[channels];
++ 		size_t offset = result;
++@@ -2013,7 +2021,7 @@
++ 		count = chunk_size;
++ 	}
++ 
++-	while (count > 0) {
+++	while (count > 0 && !in_aborting) {
++ 		if (test_position)
++ 			do_test_position();
++ 		check_stdin();
++@@ -2052,7 +2060,7 @@
++ 		count = chunk_size;
++ 	}
++ 
++-	while (count > 0) {
+++	while (count > 0 && !in_aborting) {
++ 		unsigned int channel;
++ 		void *bufs[channels];
++ 		size_t offset = result;
++@@ -2096,7 +2104,7 @@
++ 	ssize_t result = count, r;
++ 	size_t size;
++ 
++-	while (count > 0) {
+++	while (count > 0 && !in_aborting) {
++ 		size = count;
++ 		if (size > chunk_bytes - buffer_pos)
++ 			size = chunk_bytes - buffer_pos;
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
+index 047fcfe..b139b68 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
+@@ -13,6 +13,7 @@ PACKAGECONFIG[xmlto] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xm
+ 
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
+            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
++           file://alsa-utils-aplay-interrupt-signal-handling.patch \
+           "
+ 
+ SRC_URI[md5sum] = "b65e9a04181bd7c9db7667a4566f8dc3"
+-- 
+1.7.9.5
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---GdbWtwDHkcXqP16f
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlP/PmkACgkQN1Ujt2V2gBytiQCfUzbkMsu52bsOW4EdLARAjf7g
-1/EAnR2GiXXCPorJ2q0vYDTB/SfidbAz
-=pjmR
------END PGP SIGNATURE-----
-
---GdbWtwDHkcXqP16f--
