@@ -1,35 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id F28917108F;
-	Thu, 28 Aug 2014 06:38:15 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id ey11so1259343pad.7
-	for <multiple recipients>; Wed, 27 Aug 2014 23:38:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=UD/zt+pjpozkq/DDI5tUkCxGbT/SbhSr+gQ09DhnCqA=;
-	b=eVbHhXiyWLGf/oTSgIZk+QS0USxbYhZp0mGpS4dRWOKMT43tizi6YvrIhif4f5l4GP
-	GkFjfWM6lRqXVPkwXmJ3ySoHvy6TmosvmPRIHmuvkHyaTQxGQJgUEXGy75yTTkh1U7bN
-	3YOaFk09D2PbyjrkJMm/wCki0pYS3R70JWOlR7DgG8LMUbAFLXTeu6PEhUenaVIVaTpv
-	PRhLbJ9f9Ueb9uIZv5ALIEiQgK7lONuL5N7NmXCV1ReFNXXhiRYHsjqDWF383pKlShWG
-	lw9XFjq3tT90VZv6bV8Pt0mRFRyC3tk7Lf7/SE/BuedB6mTC04AgzsLXRzg35GyA4h4Z
-	2Pzg==
-X-Received: by 10.68.57.144 with SMTP id i16mr2807181pbq.48.1409207896227;
-	Wed, 27 Aug 2014 23:38:16 -0700 (PDT)
-Received: from haswell ([2601:9:3580:7a5:baca:3aff:fe80:aa8f])
-	by mx.google.com with ESMTPSA id l4sm3810693pdp.66.2014.08.27.23.38.15
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Aug 2014 23:38:15 -0700 (PDT)
-Date: Wed, 27 Aug 2014 23:41:50 -0700
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org, yocto@yoctoproject.org
-Message-ID: <20140828064051.GA13139@haswell>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: [RFT] Moving on from eglibc to glibc 2.20
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 021856FE2A
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Aug 2014 07:16:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7S7Gm8S005031; Thu, 28 Aug 2014 08:16:48 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 78wrBvIRInE9; Thu, 28 Aug 2014 08:16:48 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7S7GjP9005028
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 28 Aug 2014 08:16:46 +0100
+Message-ID: <1409210206.29296.129.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 28 Aug 2014 08:16:46 +0100
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: yocto <yocto@yoctoproject.org>
+Subject: 1.7 release feature freeze deadline this Friday
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,36 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Aug 2014 06:38:16 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 28 Aug 2014 07:16:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi All
+If you've been in the various calls or read the minutes you'd know about
+this but it was mentioned to me that it has not been highlighted on the
+mailing list.
 
-As we all know eglibc has been merged back into glibc and 2.19 was the
-last release, here I have put together the recipes for upcoming glibc
-2.20 release and removed eglibc 2.19 in favor of move.
+The M3 milestone close is the end of the week and this marks the feature
+freeze point for the 1.7 release. We do have M4 after this but that is a
+bug fixing and stabilisation milestone.
 
-I also thought about leaving eglibc in there but then eglibc and glibc
-were pretty much same as they always have been that it would be an
-incremental change with lot more patches this time.
+There are some things I may still consider into M4, particular if
+they're related to the stated objectives of the release, specifically
+the developer workflow enhancements which is running behind schedule. As
+time progresses, it will be increasingly unlikely things of that nature
+will merge though.
 
-The tree is here
+So if there are things you are after to see in 1.7 time is running out,
+I at least need to be aware of them ASAP.
 
-http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/eglibc-to-glibc-2.20
+Cheers,
 
-This has not recieved much testing yet and I am looking out for helping
-hands here, so try it out in your buid environments and machines of
-interest and report back on issues.
+Richard
 
-The patches also forward port the options group support and few other
-patches from eglibc, details are in commit logs, which I think would make 
-good candidates for future glibc merge.
-
-This tree will be reworked and rebased so sync back if you see issues
-which we will address here
-
-Thanks for your help
-
--Khem
 
