@@ -1,43 +1,38 @@
-Return-Path: <sven.ebenfeld@gmail.com>
-Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F56570E5A
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 19:43:43 +0000 (UTC)
-Received: by mail-la0-f42.google.com with SMTP id mc6so1578668lab.29
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 12:43:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=OKU7/pvJNceYIbLx+aSng2witJ7+I231/GrJBdDKNVk=;
-	b=PzpnSnv+smDVuEnOXdCWCD8D93bhWZUtpyqi2M8gjGYXq81tq7dTAEA7zIPMuGQIDx
-	Rcp+VkWIrBYpSRCrP3uHm2V2CmGEJGB8P2kCjxdamlMV+KBxEcaC4xZHybBDxsQvX5yJ
-	tqm7VFXpaSSKlKn6R2/Zb1Iq7zwdUSkhp2selu0Sx4sbK5czXn5GOLlgaZfUg5UQfhtM
-	TDl3SOACFKjeSOYiwmPOgvO9mmssHRSt4OoMz9MtKe5Hb+TgdFrQwyMaeVJ222qwB6wi
-	c9so+XjuFGwKqqHNm5QUhzVeS52hG+VOk+9ohY524Pc8FJPIOKoEjNXahItuxDjoFE3V
-	IfnA==
-X-Received: by 10.152.121.8 with SMTP id lg8mr5059690lab.98.1409255024772;
-	Thu, 28 Aug 2014 12:43:44 -0700 (PDT)
-Received: from [192.168.50.237] (ip-109-90-30-8.hsi11.unitymediagroup.de.
-	[109.90.30.8])
-	by mx.google.com with ESMTPSA id la9sm2983821lab.12.2014.08.28.12.43.43
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 28 Aug 2014 12:43:43 -0700 (PDT)
-Message-ID: <53FF866E.8010105@gmail.com>
-Date: Thu, 28 Aug 2014 21:43:42 +0200
-From: Sven Ebenfeld <sven.ebenfeld@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f180.google.com (mail-qc0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 5633370F28
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 28 Aug 2014 20:11:03 +0000 (UTC)
+Received: by mail-qc0-f180.google.com with SMTP id c9so1368153qcz.39
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 28 Aug 2014 13:11:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=AUzEsT1KhiPnFckK5fX0bE6WxQLviYUbvbCTwkkMBqo=;
+	b=m+NbqxmSv3gRcjehQWaKfaZNZsA9JEcWutkebVZSKI1IfEGkXsRDXhUjZ8RVAHLGaX
+	RZY88YHzvCOUNJA8tjkYC1zH2L5R3kNGOIcF0DRpv9bWJ1zKMGjLFXlEpS7X+Td+Fs5S
+	qYqSeDUZUmAdettooE/ODzYRDsATMR9waiMmgdQ26Lvrh7f37aZCkH4EwwhYPU0XTkFb
+	Dm5F3W//RkIXNCMCX8QO1AFwg7Ao8jEDbCMxdGjfnyZ0XQ0A6bT3t8QUGrY+gIhh6oKi
+	AN1VcVnIQzf71QD/oyj/mu+wVf7Vn/hDiKH6bqBVKkDQKBz/oJycbM7vFPygbocCpzXQ
+	WHJg==
+X-Gm-Message-State: ALoCoQmav1mSmNP6hfjzhBi1nIEG/rF1nuD7zNx2L7HXgQaszHUSvWCptH1JbKrr++2+oRFWL4hv
+X-Received: by 10.224.166.195 with SMTP id n3mr1975922qay.22.1409256591124;
+	Thu, 28 Aug 2014 13:09:51 -0700 (PDT)
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1408953391-25759-1-git-send-email-sven.ebenfeld@gmail.com>
-	<20140825101437.GP20524@jama> <53FEF8CF.6000801@gmail.com>
-	<20140828143625.GG16066@jama>
-In-Reply-To: <20140828143625.GG16066@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH] md5deep: Add Recipe for md5deep package version 4.4
+Received: by 10.140.29.183 with HTTP; Thu, 28 Aug 2014 13:09:31 -0700 (PDT)
+In-Reply-To: <e742f96dea187a45c9f9f3ca9383565f1d460566.1409251282.git.nitin.a.kamble@intel.com>
+References: <cover.1409251282.git.nitin.a.kamble@intel.com>
+	<e742f96dea187a45c9f9f3ca9383565f1d460566.1409251282.git.nitin.a.kamble@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 28 Aug 2014 21:09:31 +0100
+Message-ID: <CAJTo0Lb8_A1dyp5a20xjy+pxa990LSwzee2V8YT1ztO1UxtZtA@mail.gmail.com>
+To: Nitin A Kamble <nitin.a.kamble@intel.com>
+Cc: OE-core <Openembedded-core@lists.openembedded.org>,
+	Darren Hart <darren.hart@intel.com>, Saul Wold <saul.wold@intel.com>
+Subject: Re: [PATCH 1/1] imageconfigurator: a new recipe for boottime image configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,31 +45,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Aug 2014 19:43:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Aug 2014 20:11:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Am 28.08.2014 16:36, schrieb Martin Jansa:
-> On Thu, Aug 28, 2014 at 11:39:27AM +0200, Sven Ebenfeld wrote:
->> Am 25.08.2014 12:14, schrieb Martin Jansa:
->>> On Mon, Aug 25, 2014 at 09:56:31AM +0200, Sven Ebenfeld wrote:
->>>> I need to build hashdeep/md5deep within OE to include it in my images. This recipe enables OE to cross-compile md5deep. I needed to add the patch as do_configure_qa is complaining about cross-compilation errors otherwise. I added a pull request for the issue with the variable expansion to hashdeep as well.
->>>
->>> Please send this to openembedded-devel@lists.openembedded.org
->>>
->>>
->>
->> Did I understand this right, that I should send the whole patch to
->> OE-Devel ML? Or should I've sent anything else?
-> 
-> Whole patch as it was sent and picked by patchwork:
-> http://patchwork.openembedded.org/patch/78901/
-> 
-> it was merged in master-next few days ago.
-> 
+On 28 August 2014 19:47,  <nitin.a.kamble@intel.com> wrote:
+> +PE = "1"
 
-Oh, I didn't see that, that's good news. Thanks!
-Is it possible to get that patch into dora and daisy branch as well?
-Unfortunately we are still developing in dora branch atm but I hope to
-switch to daisy branch in near future.
+No need for an epoch.
+
+> +PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+Wouldn't it be simpler to have this as normal architecture, and depend
+on a machine-specific data package?
+
+Ross
 
