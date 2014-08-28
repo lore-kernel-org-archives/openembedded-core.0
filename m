@@ -1,28 +1,53 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D35565D34
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 459AC7117F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 14:55:30 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3hkRn971y2z3hhkT;
-	Thu, 28 Aug 2014 16:55:09 +0200 (CEST)
-X-Auth-Info: OFtbTc33I2LCn1wdESS7Uo5+jNC8dcwp5AW1IBjFzvI=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3hkRn96DJWzvhTk; 
-	Thu, 28 Aug 2014 16:55:09 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 28 Aug 2014 14:52:59 +0200
-User-Agent: KMail/1.13.7 (Linux/3.13-trunk-amd64; KDE/4.13.1; x86_64; ; )
-References: <1407425157-2736-1-git-send-email-marex@denx.de>
-	<20140826020430.GB18989@haswell>
-In-Reply-To: <20140826020430.GB18989@haswell>
-MIME-Version: 1.0
-Message-Id: <201408281452.59494.marex@denx.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Yocto: qt4: Let qmake control some compiler/linker flags
+	Thu, 28 Aug 2014 15:11:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 35E9118099
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Aug 2014 17:11:10 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id HygUqMp0nX6U
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Aug 2014 17:11:08 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 47D6418134
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Aug 2014 17:11:08 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 315ABC44
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Aug 2014 17:11:08 +0200 (CEST)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 262CE13EC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Aug 2014 17:11:08 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 2415A3E049
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Aug 2014 17:11:08 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id s7SFB8gt015265
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Aug 2014 17:11:08 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id s7SFB8xr015264
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Aug 2014 17:11:08 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Aug 2014 17:11:04 +0200
+Message-Id: <84f3a6f2b74809a248d0125647c9f79dad9c4f6d.1409238578.git.pkj@axis.com>
+X-Mailer: git-send-email 1.9.0
+In-Reply-To: <cover.1409238578.git.pkj@axis.com>
+References: <cover.1409238578.git.pkj@axis.com>
+In-Reply-To: <cover.1409238578.git.pkj@axis.com>
+References: <cover.1409238578.git.pkj@axis.com>
+Subject: [PATCH 2/2] package: Correct two typos in a comment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,70 +60,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Aug 2014 14:55:34 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Aug 2014 15:11:18 -0000
 
-On Tuesday, August 26, 2014 at 04:04:30 AM, Khem Raj wrote:
-> On 14-08-07 17:25:57, Marek Vasut wrote:
-> > In the case of building an Qt application outside of the Yocto
-> > build system, we want to make sure that a "debug" configuration
-> > of the application does contain debug symbols and is has the
-> > compiler optimalization unset. On the other hand, we want to
-> > have a "release" build which does not contain the debug symbols
-> > and has the compiler optimalization turned on.
-> > 
-> > The OE_QMAKE_* flags serve to pass all kinds of flags into the
-> > qmake-generated Makefile. Currently, we set OE_QMAKE_CFLAGS to
-> > be ${CFLAGS} and ditto for CXXFLAGS and LDFLAGS in the SDK
-> > toolchain environment script. This poses a problem, since the
-> > CFLAGS can contain optimization options (-O*) and even flags to
-> > produce debugging info (-g). The LDFLAGS may also contain some
-> > harmful flags.
-> > 
-> > The easy way out is to let qmake's army of configuration files
-> > handle the proper configuration of CFLAGS, CXXFLAGS and LDFLAGS
-> > for the generated Makefile and don't interfere with qmake's
-> > decisions by adding arbitrary flags. This patch completely
-> > scrubs OE_QMAKE_C{,XX}FLAGS and leaves only harmless flags in
-> > OE_QMAKE_LDFLAGS. With this patch, the behavior is as it is
-> > explained in the first paragraph.
-> 
-> This is fine if you see it from QT app developer POV, however I see a
-> downside, where we are then not compiling the application with the same
-> consistent set of flags which you would use with OE-mill when you
-> integrate the app back into OE build system.
+This quite coincidentally invalidates the sstate for do_package which
+is needed due to the correction of oe.utils.multiprocess_exec().
 
-This is fine, I want to build Qt application with the RELEASE build flags.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/classes/package.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> This reminds me of the
-> scenario where apps built with MSVS ended up shipping debug builds
-> because that was what developers tested on and there wasnt enough time
-> to fix release builds.
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 0ff5370..a877d28 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1930,9 +1930,9 @@ python do_package () {
+     # Optimisations
+     ###########################################################################
+ 
+-    # Contunually rexpanding complex expressions is inefficient, particularly when
+-    # we write to the datastore and invalidate the expansion cache. This code 
+-    # pre-expands some frequently used variables
++    # Continually expanding complex expressions is inefficient, particularly
++    # when we write to the datastore and invalidate the expansion cache. This
++    # code pre-expands some frequently used variables
+ 
+     def expandVar(x, d):
+         d.setVar(x, d.getVar(x, True))
+-- 
+1.9.0
 
-This is a different scenario -- I know what I want to achieve, but the SDK 
-toolchain is broken and interferes with qmake's operation.
-
-> Having said that, I would prefer that you add -g flag to whatever you
-> are getting from SDK and debug using that ( which will be -g -O2)
-
-I do not want to debug the code. I want to produce a RELEASE build, which means 
-without debug symbols. If I want to debug, I want the code to be build with -g -
-O0 to avoid optimization. Again, the SDK toolchain butts in and forces -O2 into 
-the flags, which makes even the DEBUG build corrupted.
-
-> in most cases optimized code debugging works well with modern gcc if it
-> does not we can always complain to gcc community.
-
-This is a toolchain problem, which disrupts the correct operation of qmake . And 
-this worked until Yocto 1.3 too.
-
-> IMHO its better to debug the code that you will ship. It saves a lot of
-> time as various steps of code life cycle.
-
-I think it would be better to fix the toolchain .
-
-Best regards,
-Marek Vasut
 
