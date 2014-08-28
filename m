@@ -1,39 +1,34 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 24E0065E94
+Return-Path: <fahad.usman@gmail.com>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 666906FA94
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 07:29:34 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id et14so1437327pad.2
+	Thu, 28 Aug 2014 07:36:42 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id ey11so1446183pad.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 00:29:36 -0700 (PDT)
+	Thu, 28 Aug 2014 00:36:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=C3ksyiRtsWHSh+ocmUm6ezc6bq5UxUVTXZWP3g3EPJo=;
-	b=Nq8YpMV0M+y49bJkWfiznJ482LJXda3I2I0c1PkEyTiBH7dSMRw/ujQV9pS6mi6kUB
-	8kt1NIpqp5+Xam+FbmCGm+HeOzuCMaQV08UwC3jlHRCDRk1dMuv/WglvJAtbZH595Cxx
-	rTXAbBRjUX9eBZM2elxQPe2gmiBmQwYDK3zs8ig98pjCb3/YyCMwGZsvIWLTzAgvDqxU
-	uLR1lKxO7e+ZYQDR0V2JwSCuzZhRkBABSs14G0o8bXCAeENkIr29Hj9WwP/fiYBc75Y7
-	VsS5Mmdvs6RFmRvnBdNyr58kqdKPsVOb+tILY5RZzIuCLZPGq7gMqTNj4XGfak4qj8+4
-	kHjg==
-X-Received: by 10.70.96.142 with SMTP id ds14mr2944608pdb.45.1409210975997;
-	Thu, 28 Aug 2014 00:29:35 -0700 (PDT)
-Received: from haswell ([2601:9:3580:7a5:baca:3aff:fe80:aa8f])
-	by mx.google.com with ESMTPSA id qn7sm2664121pbc.14.2014.08.28.00.29.35
+	h=from:to:cc:subject:date:message-id;
+	bh=qX9KFraFEwEP8jCluNKekNJJ5jXL8WlSBPtWNL41VZM=;
+	b=s2979pSRMe9XRfjZWqVALvELTLWxQb7rZlN1yj7mZxcF8MAnofJ7cIkOvYfsk4kPZ2
+	eiVsK4f1LqLou+9eylOCtBKDVOlJxdaQlsXIKC6MC//46ea4nMseF8ijsXKgqGIY/GbW
+	k6U166mQKIvwNaEJxo9hcPTivNU30eNl2S6IivqFSZtwec5VIOZmmSlbGyXTz0mP8cma
+	5tR/gsIVch9ejcg5Cf+LW78tHBIxyjMQnOEIK9Op/wefNx/nVdSK8KTA0lWuyGO0y9DP
+	qBwQnxqdk6a4MoSDVJkzgA4vEm9rpF4U3aABOMro7I5+4zLshsAOqf8BStS+kGTVlDQN
+	grnA==
+X-Received: by 10.68.248.9 with SMTP id yi9mr3131722pbc.118.1409211403040;
+	Thu, 28 Aug 2014 00:36:43 -0700 (PDT)
+Received: from fahad-M4700.pkl.mentorg.com ([110.93.212.98])
+	by mx.google.com with ESMTPSA id aj3sm2568522pbc.92.2014.08.28.00.36.40
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Aug 2014 00:29:35 -0700 (PDT)
-Date: Thu, 28 Aug 2014 00:33:15 -0700
-From: Khem Raj <raj.khem@gmail.com>
-To: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <20140828073315.GF13139@haswell>
-References: <53FDB8B5.8030802@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <53FDB8B5.8030802@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Question about aarch64 target
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 28 Aug 2014 00:36:42 -0700 (PDT)
+From: Fahad Usman <fahad.usman@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Aug 2014 12:36:16 +0500
+Message-Id: <1409211377-6437-1-git-send-email-fahad.usman@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/2] buildtools-tarball: include nativesdk-ca-certificates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,193 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Aug 2014 07:29:40 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 28 Aug 2014 07:36:44 -0000
 
-On 14-08-27 18:53:41, Kang Kai wrote:
-> Hi Saul,
-> 
-> I am working on Bug 6487 - Add Aarch64 qemu target. I take tune and config
-> files from linaro then succeeds to build core-image-minimal and
-> core-image-sato.
-> 
-> And I have 2 question about it now:
-> 1 What should the new qemu aarch64 bsp looks like at the end? Do the files
-> in the patch attached are enough? And what more test should we do except to
-> build images such as core-image-sato, core-image-sato even build world?
-> 
+nativesdk-ca-certificates is needed in order to support oe/yocto builds with
+buildtools-tarball on old hosts, as we provide libcurl, and that needs to be
+able to find the certs, and there's no standard path or bundle path, so we
+can't rely on the host.
 
-may be eventually support linux-yocto, and linux-linaro both, it should
-be tested at same level as other QEMU BSPs
+Signed-off-by: Fahad Usman <fahad.usman@gmail.com>
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+---
+ meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-> 2 There 2 aarch64 configure files from linaro. First one is little endian
-> and it is as default, and the other one is big endian. I take the little
-> endian one as qemuarm64.conf as linaro does. Do we need add the other one as
-> qemuarm64_be.conf or something like that?
-
-Name them same as meta-linaro please, so eventually linaro layer can
-drop it and take up the maintenance of them in OE-Core
-
-> 
-> -- 
-> Regards,
-> Neil | Kai Kang
-> 
-
-> From e20a3e1252d895c2098fc99d7a0b8ff42ec2c439 Mon Sep 17 00:00:00 2001
-> From: Kai Kang <kai.kang@windriver.com>
-> Date: Fri, 22 Aug 2014 10:46:10 +0800
-> Subject: [PATCH] add qemu aarch64
-> 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/conf/machine/genericarmv8.conf          | 37 ++++++++++++++++++++++++++
->  meta/conf/machine/genericarmv8b.conf         |  8 ++++++
->  meta/conf/machine/include/arm/arch-armv8.inc | 20 ++++++++++++++
->  meta/conf/machine/qemuarm64.conf             | 39 ++++++++++++++++++++++++++++
->  4 files changed, 104 insertions(+)
->  create mode 100644 meta/conf/machine/genericarmv8.conf
->  create mode 100644 meta/conf/machine/genericarmv8b.conf
->  create mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
->  create mode 100644 meta/conf/machine/qemuarm64.conf
-> 
-> diff --git a/meta/conf/machine/genericarmv8.conf b/meta/conf/machine/genericarmv8.conf
-> new file mode 100644
-> index 0000000..1d05238
-> --- /dev/null
-> +++ b/meta/conf/machine/genericarmv8.conf
-> @@ -0,0 +1,37 @@
-> +#@TYPE: Machine
-> +#@NAME: generic armv8 machine
-> +#@DESCRIPTION: generic machine to be used by linaro-media-create
-> +
-> +require conf/machine/include/arm64/arch-armv8.inc
-> +
-> +PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
-> +
-> +XSERVER ?= "xserver-xorg \
-> +            mesa-driver-swrast \
-> +            xf86-input-evdev \
-> +            xf86-input-mouse \
-> +            xf86-video-fbdev \
-> +            xf86-input-keyboard"
-> +
-> +MACHINE_FEATURES = ""
-> +
-> +# Don't include kernels in standard images
-> +RDEPENDS_kernel-base = ""
-> +
-> +PREFERRED_PROVIDER_virtual/kernel ?= "linux-linaro"
-> +
-> +KERNEL_IMAGETYPE = "Image"
-> +
-> +# We have to disable SERIAL_CONSOLE due to auto-serial-console
-> +#SERIAL_CONSOLE = "115200 ttyAMA0"
-> +
-> +# Force auto-serial-console to be used by all image types
-> +# Ideally this would be part of core oe or as a bbclassappend,
-> +# but as we don't have an easy way to append a class, defining
-> +# it here
-> +EXTRA_IMAGE_FEATURES += "autoserial"
-> +FEATURE_PACKAGES_autoserial = "auto-serial-console"
-> +
-> +# we do not want to have getty running on tty1 as we run
-> +# auto-serial-console there
-> +USE_VT = "0"
-> diff --git a/meta/conf/machine/genericarmv8b.conf b/meta/conf/machine/genericarmv8b.conf
-> new file mode 100644
-> index 0000000..e70de08
-> --- /dev/null
-> +++ b/meta/conf/machine/genericarmv8b.conf
-> @@ -0,0 +1,8 @@
-> +#@TYPE: Machine
-> +#@NAME: generic armv8 big endian machine
-> +#@DESCRIPTION: generic machine to be used by linaro-media-create
-> +DEFAULTTUNE = "aarch64_be"
-> +
-> +PREFERRED_PROVIDER_virtual/kernel ?= "linux-dummy"
-> +
-> +require conf/machine/genericarmv8.conf
-> diff --git a/meta/conf/machine/include/arm/arch-armv8.inc b/meta/conf/machine/include/arm/arch-armv8.inc
-> new file mode 100644
-> index 0000000..c86142a
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/arch-armv8.inc
-> @@ -0,0 +1,20 @@
-> +DEFAULTTUNE ?= "aarch64"
-> +
-> +ARMPKGARCH ?= "aarch64"
-> +
-> +TUNEVALID[aarch64] = "Enable instructions for aarch64"
-> +TUNEVALID[bigendian] = "Enable big-endian mode."
-> +TUNECONFLICTS[aarch64] = ""
-> +MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", ":aarch64", "" ,d)}"
-> +
-> +# Little Endian base configs
-> +AVAILTUNES += "aarch64 aarch64_be"
-> +TUNE_FEATURES_tune-aarch64 ?= "aarch64"
-> +TUNE_FEATURES_tune-aarch64_be ?= "${TUNE_FEATURES_tune-aarch64} bigendian"
-> +
-> +ARMPKGSFX_ENDIAN = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", "_be", "", d)}"
-> +
-> +TUNE_ARCH = "aarch64${ARMPKGSFX_ENDIAN}"
-> +TUNE_PKGARCH = "aarch64${ARMPKGSFX_ENDIAN}"
-> +
-> +PACKAGE_EXTRA_ARCHS = "aarch64${ARMPKGSFX_ENDIAN}"
-> diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-> new file mode 100644
-> index 0000000..eca99f7
-> --- /dev/null
-> +++ b/meta/conf/machine/qemuarm64.conf
-> @@ -0,0 +1,39 @@
-> +#@TYPE: Machine
-> +#@NAME: generic armv8 machine
-> +#@DESCRIPTION: generic machine to be used by linaro-media-create
-> +
-> +require conf/machine/include/arm/arch-armv8.inc
-> +
-> +PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
-> +
-> +XSERVER ?= "xserver-xorg \
-> +            mesa-driver-swrast \
-> +            xf86-input-evdev \
-> +            xf86-input-mouse \
-> +            xf86-video-fbdev \
-> +            xf86-input-keyboard"
-> +
-> +MACHINE_FEATURES = ""
-> +
-> +# Don't include kernels in standard images
-> +RDEPENDS_kernel-base = ""
-> +
-> +PREFERRED_PROVIDER_virtual/kernel ?= "linux-linaro"
-> +
-> +KERNEL_IMAGETYPE = "Image"
-> +
-> +# We have to disable SERIAL_CONSOLE due to auto-serial-console
-> +#SERIAL_CONSOLE = "115200 ttyAMA0"
-> +
-> +# Force auto-serial-console to be used by all image types
-> +# Ideally this would be part of core oe or as a bbclassappend,
-> +# but as we don't have an easy way to append a class, defining
-> +# it here
-> +#EXTRA_IMAGE_FEATURES += "autoserial"
-> +#FEATURE_PACKAGES_autoserial = "auto-serial-console"
-> +
-> +# we do not want to have getty running on tty1 as we run
-> +# auto-serial-console there
-> +USE_VT = "0"
-> +
-> +baselib="lib64"
-> -- 
-> 1.9.1
-> 
-
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index c54d9e8..07e8e37 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -42,6 +42,7 @@ TOOLCHAIN_HOST_TASK ?= "\
+     nativesdk-pigz \
+     nativesdk-make \
+     nativesdk-wget \
++    nativesdk-ca-certificates \
+     "
+ 
+ TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
+-- 
+1.9.1
 
 
