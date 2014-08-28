@@ -1,37 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f180.google.com (mail-qc0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 5633370F28
+Return-Path: <nitin.a.kamble@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FB1470F28
 	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 20:11:03 +0000 (UTC)
-Received: by mail-qc0-f180.google.com with SMTP id c9so1368153qcz.39
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 13:11:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=AUzEsT1KhiPnFckK5fX0bE6WxQLviYUbvbCTwkkMBqo=;
-	b=m+NbqxmSv3gRcjehQWaKfaZNZsA9JEcWutkebVZSKI1IfEGkXsRDXhUjZ8RVAHLGaX
-	RZY88YHzvCOUNJA8tjkYC1zH2L5R3kNGOIcF0DRpv9bWJ1zKMGjLFXlEpS7X+Td+Fs5S
-	qYqSeDUZUmAdettooE/ODzYRDsATMR9waiMmgdQ26Lvrh7f37aZCkH4EwwhYPU0XTkFb
-	Dm5F3W//RkIXNCMCX8QO1AFwg7Ao8jEDbCMxdGjfnyZ0XQ0A6bT3t8QUGrY+gIhh6oKi
-	AN1VcVnIQzf71QD/oyj/mu+wVf7Vn/hDiKH6bqBVKkDQKBz/oJycbM7vFPygbocCpzXQ
-	WHJg==
-X-Gm-Message-State: ALoCoQmav1mSmNP6hfjzhBi1nIEG/rF1nuD7zNx2L7HXgQaszHUSvWCptH1JbKrr++2+oRFWL4hv
-X-Received: by 10.224.166.195 with SMTP id n3mr1975922qay.22.1409256591124;
-	Thu, 28 Aug 2014 13:09:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Thu, 28 Aug 2014 13:09:31 -0700 (PDT)
-In-Reply-To: <e742f96dea187a45c9f9f3ca9383565f1d460566.1409251282.git.nitin.a.kamble@intel.com>
+	Thu, 28 Aug 2014 20:14:26 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Aug 2014 13:14:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,420,1406617200"; d="scan'208";a="583076995"
+Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Aug 2014 13:14:24 -0700
+Received: from orsmsx158.amr.corp.intel.com (10.22.240.20) by
+	ORSMSX102.amr.corp.intel.com (10.22.225.129) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Thu, 28 Aug 2014 13:14:24 -0700
+Received: from orsmsx103.amr.corp.intel.com ([169.254.2.252]) by
+	ORSMSX158.amr.corp.intel.com ([10.22.240.20]) with mapi id
+	14.03.0195.001; Thu, 28 Aug 2014 13:14:24 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/1] imageconfigurator: a new recipe for
+	boottime image configuration
+Thread-Index: AQHPwvAuLnAH6mPsWkeiY92+tL7cDZvm522A//+LUzA=
+Date: Thu, 28 Aug 2014 20:14:23 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C7CEBAAAE@ORSMSX103.amr.corp.intel.com>
 References: <cover.1409251282.git.nitin.a.kamble@intel.com>
 	<e742f96dea187a45c9f9f3ca9383565f1d460566.1409251282.git.nitin.a.kamble@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 28 Aug 2014 21:09:31 +0100
-Message-ID: <CAJTo0Lb8_A1dyp5a20xjy+pxa990LSwzee2V8YT1ztO1UxtZtA@mail.gmail.com>
-To: Nitin A Kamble <nitin.a.kamble@intel.com>
-Cc: OE-core <Openembedded-core@lists.openembedded.org>,
-	Darren Hart <darren.hart@intel.com>, Saul Wold <saul.wold@intel.com>
+	<CAJTo0Lb8_A1dyp5a20xjy+pxa990LSwzee2V8YT1ztO1UxtZtA@mail.gmail.com>
+In-Reply-To: <CAJTo0Lb8_A1dyp5a20xjy+pxa990LSwzee2V8YT1ztO1UxtZtA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
+MIME-Version: 1.0
+Cc: OE-core <Openembedded-core@lists.openembedded.org>, "Hart,
+	Darren" <darren.hart@intel.com>, "Wold, Saul" <saul.wold@intel.com>
 Subject: Re: [PATCH 1/1] imageconfigurator: a new recipe for boottime image configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -45,18 +46,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Aug 2014 20:11:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 28 Aug 2014 20:14:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 28 August 2014 19:47,  <nitin.a.kamble@intel.com> wrote:
-> +PE = "1"
-
-No need for an epoch.
-
-> +PACKAGE_ARCH = "${MACHINE_ARCH}"
-
-Wouldn't it be simpler to have this as normal architecture, and depend
-on a machine-specific data package?
-
-Ross
+VGhhbmtzIGZvciB0aGUgZmVlZGJhY2sgUm9zcywgTXkgY29tbWVudHMgYmVsb3cuDQoNCg0KPiAt
+LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpy
+b3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo+IFNlbnQ6IFRodXJzZGF5LCBBdWd1c3QgMjgsIDIwMTQg
+MToxMCBQTQ0KPiBUbzogS2FtYmxlLCBOaXRpbiBBDQo+IENjOiBIYXJ0LCBEYXJyZW47IFB1cmRp
+ZSwgUmljaGFyZDsgV29sZCwgU2F1bDsgT0UtY29yZQ0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVd
+IFtQQVRDSCAxLzFdIGltYWdlY29uZmlndXJhdG9yOiBhIG5ldyByZWNpcGUgZm9yDQo+IGJvb3R0
+aW1lIGltYWdlIGNvbmZpZ3VyYXRpb24NCj4gDQo+IE9uIDI4IEF1Z3VzdCAyMDE0IDE5OjQ3LCAg
+PG5pdGluLmEua2FtYmxlQGludGVsLmNvbT4gd3JvdGU6DQo+ID4gK1BFID0gIjEiDQo+IA0KPiBO
+byBuZWVkIGZvciBhbiBlcG9jaC4NCkNvbW1pdCBjaGFuZ2VkIG9uIHRoZSBjb250cmliIGJyYW5j
+aCBmb3IgdGhpcy4NCg0KPiANCj4gPiArUEFDS0FHRV9BUkNIID0gIiR7TUFDSElORV9BUkNIfSIN
+Cj4gDQo+IFdvdWxkbid0IGl0IGJlIHNpbXBsZXIgdG8gaGF2ZSB0aGlzIGFzIG5vcm1hbCBhcmNo
+aXRlY3R1cmUsIGFuZCBkZXBlbmQgb24gYQ0KPiBtYWNoaW5lLXNwZWNpZmljIGRhdGEgcGFja2Fn
+ZT8NCg0KVGhpcyByZWFsbHkgbmVlZCB0byBiZSBtYWNoaW5lIHNwZWNpZmljLiBGb3IgZXZlcnkg
+QlNQIGRpZmZlcmVudCBmaWxlcyB3aWxsIGJlIHBhY2thZ2VkLg0KDQpOaXRpbg0KDQo+IA0KPiBS
+b3NzDQo=
 
