@@ -1,28 +1,32 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 626646FA94
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp05.online.nl (smtp05.online.nl [194.134.41.35])
+	by mail.openembedded.org (Postfix) with ESMTP id 79BE070EE6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 05:46:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7T5kV98022231
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 29 Aug 2014 06:12:03 +0000 (UTC)
+Received: from smtp05.online.nl (localhost [127.0.0.1])
+	by smtp05.online.nl (Postfix) with ESMTP id 05722522F3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 22:46:31 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 28 Aug 2014 22:46:30 -0700
-Message-ID: <540013B5.4090602@windriver.com>
-Date: Fri, 29 Aug 2014 13:46:29 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Fri, 29 Aug 2014 08:12:03 +0200 (CEST)
+Received: from [192.168.1.6] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp05.online.nl (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Aug 2014 08:12:02 +0200 (CEST)
+Message-ID: <540019B2.3090102@topic.nl>
+Date: Fri, 29 Aug 2014 08:12:02 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1409154816.git.liezhi.yang@windriver.com>
-	<b4fb230d5c45199aa7989b1ad5a5eea516d242e1.1409154816.git.liezhi.yang@windriver.com>
-In-Reply-To: <b4fb230d5c45199aa7989b1ad5a5eea516d242e1.1409154816.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 1/9] insane.bbclass: add QA check: file-rdeps
+To: openembedded-core@lists.openembedded.org
+References: <cover.1408649791.git.peter.seebach@windriver.com>	<53F77370.2060603@balister.org>	<20140822133349.76751634@e6410-2>
+	<20140822193910.GD20524@jama>	<20140822154954.04d4fc02@e6410-2>
+	<20140822214626.GF20524@jama>	<20140822170626.13280b11@e6410-2>
+	<20140822222642.GG20524@jama>	<53FB8A87.1010202@windriver.com>	<53F8A551-7665-45B9-A386-DFA43D57E04F@dominion.thruhere.net>
+	<53FF3565.1030604@windriver.com>
+In-Reply-To: <53FF3565.1030604@windriver.com>
+X-Online-Scanned: by Cloudmark authority (on smtp05.online.nl)
+Subject: Re: [PATCH 0/1] Change default for cortexa* to armv7at-neon.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,151 +39,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 05:46:35 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Fri, 29 Aug 2014 06:12:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 08/28/2014 03:57 PM, Mark Hatle wrote:
+> On 8/28/14, 8:50 AM, Koen Kooi wrote:
+>>
+>> Op 25 aug. 2014, om 21:12 heeft Mark Hatle <mark.hatle@windriver.com>
+>> het volgende geschreven:
+>>
+>>> On 8/22/14, 5:26 PM, Martin Jansa wrote:
+>>>> On Fri, Aug 22, 2014 at 05:06:26PM -0500, Peter Seebach wrote:
+>>>>> On Fri, 22 Aug 2014 23:46:26 +0200
+>>>>> Martin Jansa <martin.jansa@gmail.com> wrote:
+>>>>>
+>>>>>> changing
+>>>>>> default DEFAULTTUNE (and TUNE_PKGARCH with that) to have thumb while
+>>>>>> still building with -marm doesn't make much sense to me and is only
+>>>>>> confusing.
+>>>>>
+>>>>> I think the distinction is that if you use armv7at-neon, you *can*
+>>>>> build
+>>>>> specific packages with thumb. Mostly, I guess, I don't think it
+>>>>> makes sense
+>>>>> to use a tuning that specifically states that it can't run thumb
+>>>>> code for
+>>>>> processors which can. Although... May not be an important
+>>>>> distinction, really,
+>>>>> as you note.
+>>>>
+>>>>> I don't think it makes sense to use a tuning that specifically states
+>>>>> that it can't run thumb code
+>>>
+>>> The defaulttune is supposed to supply what the processor and ABI are
+>>> capable of.
+>>>
+>>> So in the case of armv7a, it's saying no thumb support at all, this
+>>> included thumb interwork.
+>>>
+>>> armv7at says that the processor supports thumb, and interwork
+>>> -should- be enabled.  (It can of course be manually disabled, but
+>>> that's another issue to be dealt with...)
+>>>
+>>> armv7at doesn't say it actually includes thumb combines binaries.  (I
+>>> argued originally it should, but was overruled for a variety of
+>>> reasons... not the least of which is the interwork enabled, and
+>>> multilib issues with 'same abi' configurations.)
+>>>
+>>> So I agree the default should be armv7at or armv7at-neon, unless
+>>> there is a compelling reason to leave it as a default with interwork
+>>> disabled.
+>>>
+>>> As for the hard float question.  I'm torn on this.. for compatibility
+>>> a lot of the industry is still soft-float based, and frankly I've not
+>>> exactly encouraged it with my customers.. (I'm not seeing general
+>>> performance improvements, only improvements in select artificial
+>>> benchmarks, or specific pieces of code.)
+>>
+>> Again, softfloat != softfp. The current OE default of softfp *does*
+>> use the VFP, it just passed the floats in the integer registers. Which
+>> is why you will see no difference with hardfloat except for benchmarks
+>> and povray.
+>>
+>
+> Exactly.  Which is why I haven't recommended to my customers that they
+> -need- the HF ABI, like others in the ARM world seem to be insisting.
+>
+> If you have a LOT of functions that pass floats, or you do it often
+> enough to see the behavior -- I can see how it would be useful.  But
+> this is fairly artificial in most of the embedded workloads I'm familiar
+> with.
 
-Removed a blank line and put this patch to:
+That's because we all learned to work around the softfp. I got bitten by 
+it once, so I also learned to avoid passing floats around across library 
+boundaries as much as possible. GCC is smart enough to use hardfloat on 
+internal methods, but its hands are tied when interfacing with externals.
 
-git://git.openembedded.org/openembedded-core-contrib rbt/rdeps
+There are other, more subtle effects to using hardfloat. For one thing, 
+it increases the number of registers available to pass parameters around.
 
-// Robert
+I can see the case for not really needing hardfloat. But I fail to see 
+the advantage of strictly adhering to softfp just "because we used to". 
+What's the big disadvantage in moving to hardfloat?
 
-On 08/27/2014 11:57 PM, Robert Yang wrote:
-> The ipk or deb can't depend on file such as "/bin/bash" or
-> "/usr/bin/perl", so it knows nothing about the pkg depends bash or perl,
-> thus there would be dependencies problems when we run "apt-get
-> install/remove <pkg>" on the target, this check can help us find the
-> issues and then fix them manually.
+
 >
-> * Benefits:
->    - Help to fix file rdepends issues for ipk and deb
->    - Help to fix abnormal rdepends.
->    - Help to check whether the rdepends is OK or not after build each
->      recipe (don't have to install to the image), for example, a recipe may
->      generate 10 binary packages, only a part of them will be installed to
->      the image by default, we can know whether the rdepends are OK or
->      not for the ones which are installed, but can't know the ones which
->      are not installed, this patch can help check all the 10 binary
->      packages' rdepends.
+> So I'd still say I'd like to change the cortexa* DEFAULTTUNES to
+> reference armv7at or armv7at-neon (continue the softfp ABI for the time
+> being).  I'd be fine with the at-neon version, as I think all of the
+> commodity armv7a's have neon.
 >
-> * Basic designs:
->    - Get all the RDEPENDS on the chain.
->
->    - Get the pkg's FILERPROVIDES from oe.packagedata.read_subpkgdata()
->      and save to set filerdepends.
->
->    - Get each RPDEPENDS' FILERPROVIDES, RPROVIDES and FILERPROVIDESFLIST,
->      and save to set rdep_rprovides.
->
->    - Do the set "filerdepends -= rdep_rprovides" and QA issue if
->      filerdepends is not null.
->
-> [YOCTO #1662]
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/classes/insane.bbclass |   73 ++++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 72 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index 3dd2e7f..d5b4317 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -29,7 +29,7 @@ QA_SANE = "True"
->   WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
->               textrel already-stripped incompatible-license files-invalid \
->               installed-vs-shipped compile-host-path install-host-path \
-> -            pn-overrides infodir build-deps \
-> +            pn-overrides infodir build-deps file-rdeps \
->               "
->   ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
->               perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-> @@ -797,6 +797,76 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
->                   error_msg = "%s rdepends on %s, but it isn't a build dependency?" % (pkg, rdepend)
->                   sane = package_qa_handle_error("build-deps", error_msg, d)
->
-> +        if "file-rdeps" not in skip:
-> +            ignored_file_rdeps = set(['/bin/sh', '/usr/bin/env', 'rtld(GNU_HASH)'])
-> +            if bb.data.inherits_class('nativesdk', d):
-> +                ignored_file_rdeps |= set(['/bin/bash', '/usr/bin/perl'])
-> +            # For Saving the FILERDEPENDS
-> +            filerdepends = set()
-> +            rdep_data = oe.packagedata.read_subpkgdata(pkg, d)
-> +            for key in rdep_data:
-> +                if key.startswith("FILERDEPENDS_"):
-> +                    for subkey in rdep_data[key].split():
-> +                        filerdepends.add(subkey)
-> +            filerdepends -= ignored_file_rdeps
-> +
-> +            if filerdepends:
-> +                next = rdepends
-> +                done = rdepends[:]
-> +                # Find all the rdepends on the dependency chain
-> +                while next:
-> +                    new = []
-> +                    for rdep in next:
-> +                        rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
-> +                        sub_rdeps = rdep_data.get("RDEPENDS_" + rdep)
-> +                        if not sub_rdeps:
-> +                            continue
-> +                        for sub_rdep in sub_rdeps.split():
-> +                            if sub_rdep in done:
-> +                                continue
-> +                            if not sub_rdep.startswith('(') and \
-> +                                    oe.packagedata.has_subpkgdata(sub_rdep, d):
-> +                                # It's a new rdep
-> +                                done.append(sub_rdep)
-> +                                new.append(sub_rdep)
-> +                    next = new
-> +
-> +                # Add the rprovides of itself
-> +                if pkg not in done:
-> +                    done.insert(0, pkg)
-> +
-> +                # The python is not a package, but python-core provides it, so
-> +                # skip checking /usr/bin/python if python is in the rdeps, in
-> +                # case there is a RDEPENDS_pkg = "python" in the recipe.
-> +                for py in [ d.getVar('MLPREFIX', True) + "python", "python" ]:
-> +                    if py in done:
-> +                        filerdepends.discard("/usr/bin/python")
-> +                        done.remove(py)
-> +                for rdep in done:
-> +                    # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
-> +                    rdep_rprovides = set()
-> +                    rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
-> +                    for key in rdep_data:
-> +                        if key.startswith("FILERPROVIDES_") or key.startswith("RPROVIDES_"):
-> +                            for subkey in rdep_data[key].split():
-> +                                rdep_rprovides.add(subkey)
-> +                        # Add the files list to the rprovides
-> +                        if key == "FILES_INFO":
-> +                            # Use eval() to make it as a dict
-> +                            for subkey in eval(rdep_data[key]):
-> +                                rdep_rprovides.add(subkey)
-> +                    filerdepends -= rdep_rprovides
-> +                    if not filerdepends:
-> +                        # Break if all the file rdepends are met
-> +                        break
-> +                    else:
-> +                        # Clear it for the next loop
-> +                        rdep_rprovides.clear()
-> +            if filerdepends:
-> +                error_msg = "%s requires %s, but no providers in its RDEPENDS" % \
-> +                            (pkg, ', '.join(str(e) for e in filerdepends))
-> +                sane = package_qa_handle_error("file-rdeps", error_msg, d)
-> +
->       return sane
->
->   def package_qa_check_deps(pkg, pkgdest, skip, d):
-> @@ -894,6 +964,7 @@ python do_package_qa () {
->       for dep in taskdepdata:
->           taskdeps.add(taskdepdata[dep][0])
->
-> +
->       g = globals()
->       walk_sane = True
->       rdepends_sane = True
->
+> --Mark
+
+
+-- 
+Mike Looijmans
 
