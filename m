@@ -1,24 +1,35 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E0FB270F06
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A9A271210
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 13:10:48 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Aug 2014 06:10:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,424,1406617200"; d="scan'208";a="591690125"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Aug 2014 06:10:49 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
+	Fri, 29 Aug 2014 13:38:05 +0000 (UTC)
+Received: by mail-pd0-f179.google.com with SMTP id z10so435127pdj.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Aug 2014 06:38:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=QT+znNXOw07R5Pk9mJcuH+B+BKA3Ye0CLjDuyPD329s=;
+	b=LTSWdeQjk+r/0+1xDiSgyf3jP/3cgvQS0QUsjWr9kwLHzfddcZJthBpM/vEPABJS4R
+	Zto1oD2+6pXqZaQZ1lij9GMYzeAhQ2MpBj0ap7toMvEn2GlGa8/7Omz3snvUWnJOUuZy
+	7IIShtdipEZdJpg5QQ3HiVwYOzT06R22YPi9QJXUJQtFP0jtqr3+d5r65LXOdrEYazPg
+	pI3qJPDn2n3Mq2sBEgdiE2kBVwY/FkLqus5yLeeerWK9lhXyVwBZ0OqyZ1em6b/eTyiX
+	SiZpJgAmk5eIBaYzaP00KqzoUWI5wO0W11tnZ3qk7fLnkju7XgXt1KgNv9KktPuFzOXE
+	PtxQ==
+X-Received: by 10.66.237.206 with SMTP id ve14mr15555033pac.40.1409319486704; 
+	Fri, 29 Aug 2014 06:38:06 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id d3sm3257pbu.32.2014.08.29.06.38.04
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 29 Aug 2014 06:38:05 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Aug 2014 16:10:42 +0300
-Message-Id: <badcf0bac40ddda42b5524af64a1f2b3976f0234.1409317786.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1409317786.git.cristian.iorga@intel.com>
-References: <cover.1409317786.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1409317786.git.cristian.iorga@intel.com>
-References: <cover.1409317786.git.cristian.iorga@intel.com>
-Subject: [PATCH 3/3] libical: upgrade to 1.0.0
+Date: Fri, 29 Aug 2014 23:48:39 +1000
+Message-Id: <1409320119-25825-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 2.0.3
+Subject: [daisy][PATCH] qemu: Explicitly disable libiscsi, its not in DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,107 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 13:10:49 -0000
+X-List-Received-Date: Fri, 29 Aug 2014 13:38:06 -0000
 
-pthread-fix.patch no longer needed, included upstream;
-Switched to new website, new bug tracker, new source repo.
-
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- .../libical/files/pthread-fix.patch                | 52 ----------------------
- .../libical/{libical_0.48.bb => libical_1.0.0.bb}  | 13 +++---
- 2 files changed, 5 insertions(+), 60 deletions(-)
- delete mode 100644 meta/recipes-support/libical/files/pthread-fix.patch
- rename meta/recipes-support/libical/{libical_0.48.bb => libical_1.0.0.bb} (40%)
+ meta/recipes-devtools/qemu/qemu.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libical/files/pthread-fix.patch b/meta/recipes-support/libical/files/pthread-fix.patch
-deleted file mode 100644
-index 877b808..0000000
---- a/meta/recipes-support/libical/files/pthread-fix.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--New added pthread feature leads to some deadlock with some unlock code missing.
--This patch fix it.
--
--Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
--
--Upstream-Status: Pending
--
--Index: libical-0.47/src/libical/icaltimezone.c
--===================================================================
----- libical-0.47.orig/src/libical/icaltimezone.c	2011-12-16 13:42:25.000000000 +0800
--+++ libical-0.47/src/libical/icaltimezone.c	2011-12-16 14:16:25.000000000 +0800
--@@ -1773,7 +1773,7 @@
--     filename = (char*) malloc (filename_len);
--     if (!filename) {
-- 	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
---	return;
--+	goto out;
--     }
-- 
--     snprintf (filename, filename_len, "%s/%s.ics", get_zone_directory(),
--@@ -1783,7 +1783,7 @@
--     free (filename);
--     if (!fp) {
-- 	icalerror_set_errno(ICAL_FILE_ERROR);
---	return;
--+	goto out;
--     }
-- 
-- 	
--@@ -1807,7 +1807,7 @@
-- 
--     if (!subcomp) {
-- 	icalerror_set_errno(ICAL_PARSE_ERROR);
---	return;
--+	goto out;
--     }
-- 
--     icaltimezone_get_vtimezone_properties (zone, subcomp);
--@@ -1817,10 +1817,12 @@
--     icalcomponent_free(comp);
--     }
-- #endif 
---#ifdef HAVE_PTHREAD
--+
--  out:
--+#ifdef HAVE_PTHREAD
--     pthread_mutex_unlock(&builtin_mutex);
-- #endif
--+    return;
-- }
-- 
-- 
-diff --git a/meta/recipes-support/libical/libical_0.48.bb b/meta/recipes-support/libical/libical_1.0.0.bb
-similarity index 40%
-rename from meta/recipes-support/libical/libical_0.48.bb
-rename to meta/recipes-support/libical/libical_1.0.0.bb
-index f464026..07b549e 100644
---- a/meta/recipes-support/libical/libical_0.48.bb
-+++ b/meta/recipes-support/libical/libical_1.0.0.bb
-@@ -1,16 +1,13 @@
- SUMMARY = "iCal and scheduling (RFC 2445, 2446, 2447) library"
--HOMEPAGE = "http://sourceforge.net/projects/freeassociation/"
--BUGTRACKER = "http://sourceforge.net/tracker/?group_id=16077&atid=116077"
-+HOMEPAGE = "https://github.com/libical/libical"
-+BUGTRACKER = "https://github.com/libical/libical/issues"
- LICENSE = "LGPLv2.1 | MPL-1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d4fc58309d8ed46587ac63bb449d82f8 \
-                     file://LICENSE;md5=d1a0891cd3e582b3e2ec8fe63badbbb6"
- SECTION = "libs"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 2702986..472988d 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -26,7 +26,7 @@ SRC_URI_append_class-native = "\
+     file://fix-libcap-header-issue-on-some-distro.patch \
+     "
  
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/project/freeassociation/${BPN}/${P}/${BPN}-${PV}.tar.gz\
--           file://pthread-fix.patch"
--
--SRC_URI[md5sum] = "e549f434d5fbf9cd156c60ed4943618f"
--SRC_URI[sha256sum] = "2ae78b0757f0dd13431acf42a9a8d038339fd4767fd5134e650bf60ee0b4dff0"
-+SRC_URI = "https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz"
-+SRC_URI[md5sum] = "f4b8e33ae5efb2f025eb43ce69682a36"
-+SRC_URI[sha256sum] = "0072e83834092315772e6719b85fc8b11530b1ff53f4d108315fb38cddbce8c2"
+-EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --audio-drv-list=oss,alsa --disable-bluez --with-system-pixman --extra-cflags='${CFLAGS}'"
++EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --audio-drv-list=oss,alsa --disable-bluez --disable-libiscsi --with-system-pixman --extra-cflags='${CFLAGS}'"
  
- inherit autotools
+ EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror \
+ 				"
 -- 
-1.9.1
+2.0.3
 
 
