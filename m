@@ -1,28 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DE2447070E
+Return-Path: <max.eliaser@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 175D86FEA9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 17:40:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7THefS2013356; Fri, 29 Aug 2014 18:40:41 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gc9j1bepS04Z; Fri, 29 Aug 2014 18:40:41 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7THedmk013352
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 29 Aug 2014 18:40:40 +0100
-Message-ID: <1409334040.29296.197.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Aug 2014 18:40:40 +0100
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+	Fri, 29 Aug 2014 18:24:11 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Aug 2014 11:23:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,425,1406617200"; d="scan'208";a="591826031"
+Received: from jfdmzpr06.jf.intel.com (HELO [10.7.196.68]) ([10.7.210.25])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Aug 2014 11:23:45 -0700
+Message-ID: <1409336458.8504.3.camel@maxtothemax-Studio-XPS-8000>
+From: Max Eliaser <max.eliaser@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 29 Aug 2014 11:20:58 -0700
+In-Reply-To: <CAJTo0LZ_fZsexOVt2M1Tb4Pv-zghRJa=2ALMxxAKrHwFPc9Vqw@mail.gmail.com>
+References: <cover.1409074419.git.max.eliaser@intel.com>
+	<ef8574dfdd5992bdd42b788a909d0610d8b23b21.1409074419.git.max.eliaser@intel.com>
+	<CAJTo0LZ_fZsexOVt2M1Tb4Pv-zghRJa=2ALMxxAKrHwFPc9Vqw@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: ronan <ronan.lemartret@open.eurogiciel.org>,
-	Ed Bartosh <eduard.bartosh@intel.com>
-Subject: [PATCH] package_rpm: Add builddir macro to define source directory
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] qemux86: support X11 when QEMU is emulating a different GPU than vmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,26 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 17:40:47 -0000
+X-List-Received-Date: Fri, 29 Aug 2014 18:24:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-This allows its usage in other RPM macros so files in ${S} can be found.
+My understanding is that xf86-video-modesetting is completely
+unaccelerated, whereas xf86-video-cirrus does some 2D acceleration. Is
+that not correct?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Max
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 0f565ac..51910ec 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -689,6 +689,7 @@ python do_package_rpm () {
-     cmd = rpmbuild
-     cmd = cmd + " --nodeps --short-circuit --target " + pkgarch + " --buildroot " + pkgd
-     cmd = cmd + " --define '_topdir " + workdir + "' --define '_rpmdir " + pkgwritedir + "'"
-+    cmd = cmd + " --define '_builddir " + d.getVar('S', True) + "'"
-     cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
-     cmd = cmd + " --define '_use_internal_dependency_generator 0'"
-     if perfiledeps:
+On Wed, 2014-08-27 at 15:48 +0100, Burton, Ross wrote:
+> On 26 August 2014 18:34, Max Eliaser <max.eliaser@intel.com> wrote:
+> > QEMU is capable of emulating four different VGA adapters: cirrus, std, vmware,
+> > and QXL. By adding the cirrus and fbdev X.Org drivers to the qemux86 image,
+> > the image can be made to launch an X server on when cirrus and std are chosen,
+> > in addition to just vmware. (The build of QEMU in OE-Core appears to have QXL
+> > disabled, meaning a driver for it is unnecessary.)
+> 
+> I knew there was something missing...
+> 
+> http://lxr.free-electrons.com/source/drivers/gpu/drm/cirrus/Kconfig
+> 
+> The kernel has a minimal DRM/KMS driver for the Cirrus that qemu
+> emulates, so we should also add xf86-video-modesettings driver to this
+> list and ensure that the qemu images enable this kernel driver.
+> 
+> Ross
 
 
 
