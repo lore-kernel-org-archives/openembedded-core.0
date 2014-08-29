@@ -1,31 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 699877106F
+Return-Path: <jatedev@gmail.com>
+Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id C7ADF710C5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 15:37:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7TFbRtr008256; Fri, 29 Aug 2014 16:37:27 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id XVWa42z-GTfQ; Fri, 29 Aug 2014 16:37:27 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7TFbLVC008253
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 29 Aug 2014 16:37:22 +0100
-Message-ID: <1409326642.29296.190.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Lucian Musat <georgex.l.musat@intel.com>
-Date: Fri, 29 Aug 2014 16:37:22 +0100
-In-Reply-To: <1409320266-29059-3-git-send-email-georgex.l.musat@intel.com>
-References: <1409320266-29059-1-git-send-email-georgex.l.musat@intel.com>
-	<1409320266-29059-3-git-send-email-georgex.l.musat@intel.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: Stefan Stanacar <stefanx.stanacar@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] oeqa/runtime: Automatic test for ptest
+	Fri, 29 Aug 2014 15:40:17 +0000 (UTC)
+Received: by mail-qc0-f171.google.com with SMTP id x3so2516895qcv.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Aug 2014 08:40:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=mqw6ileKaa8g5Vurd/HgjRZDTYdNS3p5+TBwQ0JypTs=;
+	b=XY0SwC5j/sml9Qh8KnekkUg3wrhRBs7ojJNVzBwCTZXxnMuTbOFl+JsHotvZwRn8vh
+	pkfO52MPa9ugwUBTZXs3w5ywEy5Ml7bc9owcd09XCoQyb/fKsIuJRb40UH0r51FKGmG9
+	QCWRyOTUh4B94jN7qUcKHHaoW57ft8SNWK8t2dUhKQd+4wCfJplv914oYIk8ZQM48hV8
+	S2FhzzRAgoq1gnWG+hCTkvVVkUXZuDpRSLyww8YPBbEhX/etEMa9c+96sct/ywiL1SZP
+	+qUVzsTj+VoALGcWWJwtOAUVvfYO9o+LI/mUJ84kqLjXr9W0Y7Ewbs+iPnrBRxwfMZNg
+	LpXg==
+MIME-Version: 1.0
+X-Received: by 10.140.98.7 with SMTP id n7mr17820512qge.83.1409326818617; Fri,
+	29 Aug 2014 08:40:18 -0700 (PDT)
+Received: by 10.140.34.76 with HTTP; Fri, 29 Aug 2014 08:40:18 -0700 (PDT)
+In-Reply-To: <1407704441-29326-1-git-send-email-jatedev@gmail.com>
+References: <1407704441-29326-1-git-send-email-jatedev@gmail.com>
+Date: Fri, 29 Aug 2014 11:40:18 -0400
+Message-ID: <CAPphmgb+9dgJTZ19p0dDOR3V5GQuQs5oZawQRnB9KQa2_Yt-Ag@mail.gmail.com>
+From: Jate Sujjavanich <jatedev@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] useradd: Add setscene dep on pseudo-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,67 +40,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 15:37:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Aug 2014 15:40:27 -0000
+Content-Type: multipart/alternative; boundary=001a113ac3c66576180501c67874
 
-On Fri, 2014-08-29 at 16:51 +0300, Lucian Musat wrote:
-> For images without ptest the packages are automatically installed alongside ptest-runner. Log results are saved in ./results folder.
-> No cleanup is done for packages after the test is finished.
-> 
-> Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
-> Signed-off-by: Lucian Musat <georgex.l.musat@intel.com>
+--001a113ac3c66576180501c67874
+Content-Type: text/plain; charset=UTF-8
+
+There's a commit in poky's master-next with the message "bitbake: runqueue:
+Fix setscene tasks not running".
+
+Should it fix the problem fixed by my patch?
+
+
+Thanks,
+
+- Jate S.
+
+
+
+On Sun, Aug 10, 2014 at 5:00 PM, Jate Sujjavanich <jatedev@gmail.com> wrote:
+
+> A recipe will sometimes be rebuilt unnecessarily if it adds users via
+> useradd and the pseudo-native task has not been populated.
+>
+> This patch adds the correct dependency.
+>
+> Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
 > ---
+>  meta/classes/useradd.bbclass |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+> index ea15dab..3b70e80 100644
+> --- a/meta/classes/useradd.bbclass
+> +++ b/meta/classes/useradd.bbclass
+> @@ -126,7 +126,7 @@ SYSROOTPOSTFUNC_class-cross = ""
+>  SYSROOTPOSTFUNC_class-native = ""
+>  SYSROOTPOSTFUNC_class-nativesdk = ""
+>
+> -USERADDSETSCENEDEPS =
+> "${MLPREFIX}base-passwd:do_populate_sysroot_setscene
+> shadow-native:do_populate_sysroot_setscene
+> ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
+> +USERADDSETSCENEDEPS =
+> "${MLPREFIX}base-passwd:do_populate_sysroot_setscene
+> pseudo-native:do_populate_sysroot_setscene
+> shadow-native:do_populate_sysroot_setscene
+> ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
+>  USERADDSETSCENEDEPS_class-cross = ""
+>  USERADDSETSCENEDEPS_class-native = ""
+>  USERADDSETSCENEDEPS_class-nativesdk = ""
+> --
+> 1.7.9.5
+>
+>
 
-[...]
+--001a113ac3c66576180501c67874
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> +    def get_ptest_packages(self):
-> +        pkgs = set()
-> +        image_pkgtype = self.tc.d.getVar('IMAGE_PKGTYPE', True)
-> +        pkgarchs = self.tc.d.getVar('PACKAGE_ARCHS', True).replace("-","_").split()
-> +        for arch in pkgarchs:
-> +            folder = self.repo_server.root_dir+"/"+image_pkgtype+'/'+arch
-> +            if (os.path.isdir(folder)):
-> +                for fil in os.listdir(folder):
-> +                    if ("ptest" in str(fil) and "ptest-runner" not in str(fil)):
-> +                        #get all the packages with -ptest in the name and remove ptest from them for future comparisons 
-> +                        filez = "".join(str(fil).split("-ptest"))
-> +                        rootfilez = ".".join(filez.split(".")[:-2])
-> +                        filex = str(fil).split("-ptest")[0]
-> +                        #compare with all the packages installed on the board and get a list of potential matches
-> +                        if filex in self.packagelist:
-> +                            i = 0
-> +                            matches = []
-> +                            while i<len(self.pkglist):
-> +                                if filex in self.pkglist[i]:
-> +                                    matches.append(self.pkglist[i])
-> +                                i +=1
-> +                            for i in matches:
-> +                                #sometimes package names differ from corresponding ptest package names (ex. libacl1 != acl-ptest) so we use the Source field from smart info to compare
-> +                                (status, result) = self.target.run("smart info "+i,0)
-> +                                rootpkg = re.search("(.*Source:.*)", result).group(1).split(":")[1][1:]
-> +                                #even source package names mai differ a little so we do a fuzzy string match (ex. libz-1.2.8-r0 -> zlib-1.2.8-r0)
-> +                                m = SequenceMatcher(None, rootpkg, rootfilez)
-> +                                if (m.ratio > 0.9):
-> +                                    filey = "".join(str(fil).split("-ptest")[0])+"-ptest"
-> +                                    pkgs.add(filey)
-> +        if str(pkgs) == "set([])":
-> +            raise AssertionError("Cannot get ptest packages to install!")
-> +        pkgs.add("ptest-runner")
-> +        return pkgs
+<div dir=3D"ltr"><div><div><div>There&#39;s a commit in poky&#39;s master-n=
+ext with the message &quot;bitbake: runqueue: Fix setscene tasks not runnin=
+g&quot;.<br><br></div>Should it fix the problem fixed by my patch?<br><br>
+<br></div>Thanks,<br><br></div>- Jate S.<br><br></div><div class=3D"gmail_e=
+xtra"><br><br><div class=3D"gmail_quote">On Sun, Aug 10, 2014 at 5:00 PM, J=
+ate Sujjavanich <span dir=3D"ltr">&lt;<a href=3D"mailto:jatedev@gmail.com" =
+target=3D"_blank">jatedev@gmail.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">A recipe will sometimes be rebuilt unnecessa=
+rily if it adds users via<br>
+useradd and the pseudo-native task has not been populated.<br>
+<br>
+This patch adds the correct dependency.<br>
+<br>
+Signed-off-by: Jate Sujjavanich &lt;<a href=3D"mailto:jatedev@gmail.com">ja=
+tedev@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/useradd.bbclass |=C2=A0 =C2=A0 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass<br=
+>
+index ea15dab..3b70e80 100644<br>
+--- a/meta/classes/useradd.bbclass<br>
++++ b/meta/classes/useradd.bbclass<br>
+@@ -126,7 +126,7 @@ SYSROOTPOSTFUNC_class-cross =3D &quot;&quot;<br>
+=C2=A0SYSROOTPOSTFUNC_class-native =3D &quot;&quot;<br>
+=C2=A0SYSROOTPOSTFUNC_class-nativesdk =3D &quot;&quot;<br>
+<br>
+-USERADDSETSCENEDEPS =3D &quot;${MLPREFIX}base-passwd:do_populate_sysroot_s=
+etscene shadow-native:do_populate_sysroot_setscene ${MLPREFIX}shadow-sysroo=
+t:do_populate_sysroot_setscene&quot;<br>
++USERADDSETSCENEDEPS =3D &quot;${MLPREFIX}base-passwd:do_populate_sysroot_s=
+etscene pseudo-native:do_populate_sysroot_setscene shadow-native:do_populat=
+e_sysroot_setscene ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene&q=
+uot;<br>
 
-At a quick glance, I wondered if it would be possible to use oe-pkg-util
-here so we have one code path for finding the list of ptest packages
-available? You can see example usage at  lib/oe/package_manager.py, the
-install_complementary function.
+=C2=A0USERADDSETSCENEDEPS_class-cross =3D &quot;&quot;<br>
+=C2=A0USERADDSETSCENEDEPS_class-native =3D &quot;&quot;<br>
+=C2=A0USERADDSETSCENEDEPS_class-nativesdk =3D &quot;&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.7.9.5<br>
+<br>
+</font></span></blockquote></div><br></div>
 
-I did hear a comment that there may be some issues with that function,
-if there are we need to figure out what they are and fix them.
-
-I'm pleased to see progress on this btw!
-
-Cheers,
-
-Richard
-
-
+--001a113ac3c66576180501c67874--
