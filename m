@@ -1,24 +1,20 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 87D486FCE0
+	by mail.openembedded.org (Postfix) with ESMTP id 9FCD570F06
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 29 Aug 2014 18:54:53 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 29 Aug 2014 11:48:23 -0700
+	by orsmga102.jf.intel.com with ESMTP; 29 Aug 2014 11:48:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,425,1406617200"; d="scan'208";a="595239760"
+X-IronPort-AV: E=Sophos;i="5.04,425,1406617200"; d="scan'208";a="595239738"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga002.jf.intel.com with ESMTP; 29 Aug 2014 11:54:02 -0700
+	by orsmga002.jf.intel.com with ESMTP; 29 Aug 2014 11:53:58 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Aug 2014 21:53:46 +0300
-Message-Id: <8e8a1532fe8a32273c9046e9de9e5e3058d8c898.1409338378.git.cristian.iorga@intel.com>
+Date: Fri, 29 Aug 2014 21:53:42 +0300
+Message-Id: <cover.1409338378.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1409338378.git.cristian.iorga@intel.com>
-References: <cover.1409338378.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1409338378.git.cristian.iorga@intel.com>
-References: <cover.1409338378.git.cristian.iorga@intel.com>
-Subject: [PATCH 4/7] gstreamer1.0-plugins-good: upgrade to 1.4.1
+Subject: [PATCH 0/7] gstreamer1.0 upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +29,40 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 29 Aug 2014 18:54:55 -0000
 
-Bugfix release.
+The following changes since commit fe2e53ba30ba679c038bd5b48b9a91a41af4c49e:
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
+  bitbake: toaster: create Build methods for calculating progress and ETA (2014-08-29 13:56:50 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/gstreamer1.0_upg
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/gstreamer1.0_upg
+
+Cristian Iorga (7):
+  gstreamer1.0: upgrade to 1.4.1
+  gstreamer1.0-libav: upgrade to 1.4.1
+  gstreamer1.0-plugins-base: upgrade to 1.4.1
+  gstreamer1.0-plugins-good: upgrade to 1.4.1
+  gstreamer1.0-plugins-bad: upgrade to 1.4.1
+  gstreamer1.0-rtsp-server: upgrade to 1.4.1
+  gstreamer1.0-plugins-ugly: upgrade to 1.4.1
+
+ .../{gstreamer1.0-libav_1.4.0.bb => gstreamer1.0-libav_1.4.1.bb}     | 4 ++--
+ ...mer1.0-plugins-bad_1.4.0.bb => gstreamer1.0-plugins-bad_1.4.1.bb} | 4 ++--
+ ...r1.0-plugins-base_1.4.0.bb => gstreamer1.0-plugins-base_1.4.1.bb} | 4 ++--
  ...r1.0-plugins-good_1.4.0.bb => gstreamer1.0-plugins-good_1.4.1.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ ...r1.0-plugins-ugly_1.4.0.bb => gstreamer1.0-plugins-ugly_1.4.1.bb} | 4 ++--
+ ...mer1.0-rtsp-server_1.4.0.bb => gstreamer1.0-rtsp-server_1.4.1.bb} | 4 ++--
+ .../gstreamer/{gstreamer1.0_1.4.0.bb => gstreamer1.0_1.4.1.bb}       | 5 ++---
+ 7 files changed, 14 insertions(+), 16 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.4.0.bb => gstreamer1.0-libav_1.4.1.bb} (89%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.4.0.bb => gstreamer1.0-plugins-bad_1.4.1.bb} (78%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.4.0.bb => gstreamer1.0-plugins-base_1.4.1.bb} (78%)
  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.4.0.bb => gstreamer1.0-plugins-good_1.4.1.bb} (77%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.4.0.bb => gstreamer1.0-plugins-ugly_1.4.1.bb} (66%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.4.0.bb => gstreamer1.0-rtsp-server_1.4.1.bb} (44%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.4.0.bb => gstreamer1.0_1.4.1.bb} (72%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.1.bb
-similarity index 77%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.1.bb
-index 2d392c6..441dd51 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.1.bb
-@@ -6,8 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
- 
- SRC_URI += "file://0001-gstrtpmp4gpay-set-dafault-value-for-MPEG4-without-co.patch \
- "
--
--SRC_URI[md5sum] = "8007d57a38f6b2882961b2547fa4597c"
--SRC_URI[sha256sum] = "48a62e7987fffa289a091dfc8ccc80b401d110632b8fc1adce5b82fc092f2685"
-+SRC_URI[md5sum] = "eb3a3296b2f6009def1f5a09590ce767"
-+SRC_URI[sha256sum] = "8559d4270065b30ed5c49b826e1b7a3a2bd5ee9a340ae745a2ae3f9718e4c637"
- S = "${WORKDIR}/gst-plugins-good-${PV}"
- 
 -- 
 1.9.1
 
