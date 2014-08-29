@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Chong.Lu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AD9BE7108D
+	by mail.openembedded.org (Postfix) with ESMTP id 1ACF770E45
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 08:38:41 +0000 (UTC)
+	Fri, 29 Aug 2014 08:43:45 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7T8cfI8012862
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7T8hke7013660
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 01:38:42 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 29 Aug 2014 01:38:41 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Fri, 29 Aug 2014 01:43:46 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Fri, 29 Aug 2014 01:43:45 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Aug 2014 01:38:39 -0700
-Message-ID: <f840b13c5d0cb073e74d2474122770caa5ae0241.1409300104.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1409300104.git.liezhi.yang@windriver.com>
-References: <cover.1409300104.git.liezhi.yang@windriver.com>
+Date: Fri, 29 Aug 2014 16:38:35 +0800
+Message-ID: <cover.1409301362.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH 1/2] local.conf.sample.extended: update for RPM_PREFER_ELF_ARCH
+Subject: [PATCH 0/2] perf: add libunwind support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 08:38:41 -0000
+X-List-Received-Date: Fri, 29 Aug 2014 08:43:46 -0000
 Content-Type: text/plain
 
-Updated as the rpm upstream suggested:
-- RPM_PREFER_COLOR -> RPM_PREFER_ELF_ARCH
-- 3 -> 4
+The following changes since commit 669c07d6022174d01fe5a95b7b0faa9ef86da1e2:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/conf/local.conf.sample.extended |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+  bitbake: build/data: Write out more complete python run files (2014-08-28 15:12:45 +0100)
 
-diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-index f7d8798..3211997 100644
---- a/meta/conf/local.conf.sample.extended
-+++ b/meta/conf/local.conf.sample.extended
-@@ -145,12 +145,12 @@
- #MULTILIBS = "multilib:lib32"
- #DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
- 
--# Set RPM_PREFER_COLOR to configure preferred ABI when using rpm packaging
-+# Set RPM_PREFER_ELF_ARCH to configure preferred ABI when using rpm packaging
- # backend to generate a rootfs, choices are:
- # 1: ELF32 wins
- # 2: ELF64 wins
--# 3: ELF64 N32 wins (for mips64 or mips64el only)
--#RPM_PREFER_COLOR ?= "2"
-+# 4: ELF64 N32 wins (for mips64 or mips64el only)
-+#RPM_PREFER_ELF_ARCH ?= "2"
- 
- # The network based PR service host and port
- # Uncomment the following lines to enable PRservice.
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib chonglu/libunwind
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/libunwind
+
+Chong Lu (2):
+  libunwind: add recipes
+  perf: add libunwind support
+
+ meta/recipes-kernel/perf/perf-features.inc      |  2 +-
+ meta/recipes-kernel/perf/perf.bb                |  5 ++++-
+ meta/recipes-support/libunwind/libunwind.inc    | 30 +++++++++++++++++++++++++
+ meta/recipes-support/libunwind/libunwind_1.1.bb |  4 ++++
+ 4 files changed, 39 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/libunwind/libunwind.inc
+ create mode 100644 meta/recipes-support/libunwind/libunwind_1.1.bb
+
 -- 
-1.7.9.5
+1.9.1
 
 
