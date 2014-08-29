@@ -1,24 +1,36 @@
-Return-Path: <Yang.Shi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 512E265D34
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qa0-f41.google.com (mail-qa0-f41.google.com
+	[209.85.216.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 826367054E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 20:33:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7TKXG2h006757
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 29 Aug 2014 13:33:16 -0700 (PDT)
-Received: from yshi-Precision-T5600.corp.ad.wrs.com (147.11.216.82) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 29 Aug 2014 13:33:16 -0700
-From: Yang Shi <yang.shi@windriver.com>
-To: <bruce.ashfield@windriver.com>, <sgw@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Aug 2014 13:31:38 -0700
-Message-ID: <1409344298-22780-1-git-send-email-yang.shi@windriver.com>
-X-Mailer: git-send-email 2.0.2
+	Fri, 29 Aug 2014 20:36:48 +0000 (UTC)
+Received: by mail-qa0-f41.google.com with SMTP id m5so2696488qaj.14
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Aug 2014 13:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=c8fewc+Bc3D26WVXkI4luHg+SvfPG8vKSZ3dynNMLZM=;
+	b=Fk9uQvIYtDwbFdfvYP9fE1Jvfow7BvYFPfSWhH+GAWkJCpTkQL7ZKOwAo5BPDKs001
+	e+5+Jl0wAUSAjZ5kQqEGQsdBoWe3igyfPVp0yuJo8LdOA2rnHiQNzk/vyRyptWLp8AM8
+	XR5hAA9VbekCU6/eoSQSKpYv1DSG2fqo28On6HspJzmGSVsjPeWM1Mv7GUPGEktHmmJo
+	gzhaIwUe1hqD/XoMmf9JjtGIFqx+nKMyxs2FIz97KhFpTiKMP/wr0sn3M4G495G6fal0
+	BI6a66qNVD+I3T8LZVEfwr6Obs1rpAM1t1z5VrcgGEBDAS+e1ZdKmeg9TiHMZypQmJDr
+	qBvQ==
 MIME-Version: 1.0
-Subject: [V3 PATCH] oe-core/kernel: Deploy KERNEL_ALT_IMAGETYPE and check it for uImage
+X-Received: by 10.140.104.162 with SMTP id a31mr19744327qgf.104.1409344609779; 
+	Fri, 29 Aug 2014 13:36:49 -0700 (PDT)
+Received: by 10.96.205.134 with HTTP; Fri, 29 Aug 2014 13:36:49 -0700 (PDT)
+In-Reply-To: <54006899.3020609@pabigot.com>
+References: <CADwFkYeYJVe0KyVY3gipy-cGm4kRhaHoit2WThcKsLnpdyyrOw@mail.gmail.com>
+	<54006899.3020609@pabigot.com>
+Date: Fri, 29 Aug 2014 14:36:49 -0600
+Message-ID: <CACS+7ZRyJJUxQLU_qzbaoTo6p=x9AxRLYigPB_cgz+zg4gRq5Q@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: boost 1.56 compile fail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,162 +43,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 20:33:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 29 Aug 2014 20:36:52 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Install, deploy and package KERNEL_ALT_IMAGETYPE and create kernel-alt-image
-package.
+On 29 August 2014 05:48, Peter A. Bigot <pab@pabigot.com> wrote:
+> On 08/29/2014 06:28 AM, Yi Qingliang wrote:
+>
+> hardware: samsung s3c6410
+>
+> after updated to latest poky, the boost compile fail!
+>
+> error info:
+> libs/atomic/src/lockpool.cpp:127:5: error: 'thread_fence' is not a member of
+> 'boost::atomics::detail'
+> libs/atomic/src/lockpool.cpp:138:5: error: 'signal_fence' is not a member of
+> 'boost::atomics::detail'
+>
+>
+> after dig into it, I found that:
+> the marco 'BOOST_ATOMIC_FLAG_LOCK_FREE' is 0, so it don't include
+> 'operations_lockfree.hpp' which has 'thread_fence' and 'signal_fence', but
+> pthread.h at line 21.
+>
+> in file 'caps_gcc_atomic.hpp', 'BOOST_ATOMIC_FLAG_LOCK_FREE' is set to '0',
+> the author think if '__GCC_ATOMIC_BOOL_LOCK_FREE' is 1, the atomic serial
+> function gcc provided is not lock free.
+>
+>
+> This is the sort of GCC internal header indicator that would have changed
+> value as a result of:
+>
+> http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-devtools/gcc/gcc-configure-common.inc?id=0ba6ab39f187ecd4261f08e768f365f461384a3a
+>
+>
+>
+> at the end of 'caps_gcc_atomic.hpp', it defined 'BOOST_ATOMIC_THREAD_FENCE'
+> as 2.
+>
+> so the conflict is: BOOST_ATOMIC_THREAD_FENCE and
+> BOOST_ATOMIC_FLAG_LOCK_FREE
+>
+> I don't know it is the new poky problem, or the boost problem, any idea?
+>
+>
+> My guess is that Boost is making assumptions about what the internal GCC
+> predefined symbols mean that aren't entirely accurate.  There are several
+> flags that are used in the libstdc++ headers to indicate whether the
+> compiler is using lock-free instructions.
+>
+> Boost-1.56 builds without error for my beaglebone target with poky at:
+>
+> * 669c07d (HEAD, origin/master, origin/HEAD, master/upstream, master/dev)
+> [Wed Aug 27 14:24:52 2014 +0100] bitbake: build/data: Write out more
+> complete python run files
+>
+> so it may have something to do with your target machine.
 
-Check if KERNEL_ALT_IMAGETYPE is empty or not. If KERNEL_ALT_IMAGETYPE is empty,
-just skip alt image install and deploy, otherwise it is failed to install/deploy
-because KERNEL_ALT_OUTPUT doesn't point to a real kernel image file.
-
-Check if KERNEL_ALT_IMAGETYPE is uImage in do_uboot_mkimage and adding
-u-boot-mkimage-native depend if it is uImage.
-
-Signed-off-by: Yang Shi <yang.shi@windriver.com>
----
- meta/classes/kernel.bbclass | 38 +++++++++++++++++++++++++++++++++++---
- 1 file changed, 35 insertions(+), 3 deletions(-)
-
-Refreshed the patch on the latest master branch.
+It absolutely does. I found that armv6 breaks, but armv6zk and newer work.
 
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index b02036f..07331eb 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -13,7 +13,8 @@ INITRAMFS_IMAGE_BUNDLE ?= ""
- 
- python __anonymous () {
-     kerneltype = d.getVar('KERNEL_IMAGETYPE', True)
--    if kerneltype == 'uImage':
-+    kernelalttype = d.getVar('KERNEL_ALT_IMAGETYPE', True)
-+    if kerneltype == 'uImage' or kernelalttype == 'uImage':
-         depends = d.getVar("DEPENDS", True)
-         depends = "%s u-boot-mkimage-native" % depends
-         d.setVar("DEPENDS", depends)
-@@ -74,6 +75,7 @@ KERNEL_EXTRA_ARGS ?= ""
- EXTRA_OEMAKE = ""
- 
- KERNEL_ALT_IMAGETYPE ??= ""
-+KERNEL_ALT_OUTPUT ?= "arch/${ARCH}/boot/${KERNEL_ALT_IMAGETYPE}"
- 
- # Define where the kernel headers are installed on the target as well as where
- # they are staged.
-@@ -200,6 +202,9 @@ kernel_do_install() {
- 	install -d ${D}/${KERNEL_IMAGEDEST}
- 	install -d ${D}/boot
- 	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
-+	if [ "${KERNEL_ALT_IMAGETYPE}" != "" ]; then 
-+		install -m 0644 ${KERNEL_ALT_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_ALT_IMAGETYPE}-${KERNEL_VERSION}
-+	fi
- 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
- 	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
- 	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
-@@ -225,6 +230,7 @@ kernel_do_install() {
- 	#
- 
- 	echo "${KERNEL_IMAGE_BASE_NAME}" >$kerneldir/kernel-image-name
-+	echo "${KERNEL_ALT_IMAGE_BASE_NAME}" >$kerneldir/kernel-alt-image-name
- 
- 	#
- 	# Copy the entire source tree. In case an external build directory is
-@@ -245,6 +251,9 @@ kernel_do_install() {
- 	# the same file. If hardlinking is used, they will be the same, and there's
- 	# no need to install.
- 	! [ ${KERNEL_OUTPUT} -ef $kerneldir/${KERNEL_IMAGETYPE} ] && install -m 0644 ${KERNEL_OUTPUT} $kerneldir/${KERNEL_IMAGETYPE}
-+	if [ "${KERNEL_ALT_IMAGETYPE}" != "" ]; then
-+		! [ ${KERNEL_ALT_OUTPUT} -ef $kerneldir/${KERNEL_ALT_IMAGETYPE} ] && install -m 0644 ${KERNEL_ALT_OUTPUT} $kerneldir/${KERNEL_ALT_IMAGETYPE}
-+	fi
- 	install -m 0644 System.map $kerneldir/System.map-${KERNEL_VERSION}
- 
- 	# Dummy Makefile so the clean below works
-@@ -342,10 +351,11 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
- 
- # kernel-base becomes kernel-${KERNEL_VERSION}
- # kernel-image becomes kernel-image-${KERNEL_VERISON}
--PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
-+PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-alt-image kernel-dev kernel-modules"
- FILES_${PN} = ""
- FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
- FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
-+FILES_kernel-alt-image = "/boot/${KERNEL_ALT_IMAGETYPE}*"
- FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
- FILES_kernel-vmlinux = "/boot/vmlinux*"
- FILES_kernel-modules = ""
-@@ -354,11 +364,13 @@ RDEPENDS_kernel = "kernel-base"
- # not wanted in images as standard
- RDEPENDS_kernel-base ?= "kernel-image"
- PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
-+PKG_kernel-alt-image = "kernel-alt-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
- PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
- RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
- ALLOW_EMPTY_kernel = "1"
- ALLOW_EMPTY_kernel-base = "1"
- ALLOW_EMPTY_kernel-image = "1"
-+ALLOW_EMPTY_kernel-alt-image = "1"
- ALLOW_EMPTY_kernel-modules = "1"
- DESCRIPTION_kernel-modules = "Kernel modules meta package"
- 
-@@ -381,6 +393,14 @@ pkg_postrm_kernel-image () {
- 	update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
- }
- 
-+pkg_postinst_kernel-alt-image () {
-+	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_ALT_IMAGETYPE} ${KERNEL_ALT_IMAGETYPE} /${KERNEL_IMAGEDEST}/${KERNEL_ALT_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
-+}
-+
-+pkg_postrm_kernel-alt-image () {
-+	update-alternatives --remove ${KERNEL_ALT_IMAGETYPE} ${KERNEL_ALT_IMAGETYPE}-${KERNEL_VERSION} || true
-+}
-+
- PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
- 
- python split_kernel_packages () {
-@@ -440,6 +460,10 @@ KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PKGE}-${PKGV}-${PKGR}-${MACHINE
- # Don't include the DATETIME variable in the sstate package signatures
- KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
- KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
-+KERNEL_ALT_IMAGE_BASE_NAME ?= "${KERNEL_ALT_IMAGETYPE}-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
-+# Don't include the DATETIME variable in the sstate package signatures
-+KERNEL_ALT_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
-+KERNEL_ALT_IMAGE_SYMLINK_NAME ?= "${KERNEL_ALT_IMAGETYPE}-${MACHINE}"
- MODULE_IMAGE_BASE_NAME ?= "modules-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
- MODULE_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
- MODULE_TARBALL_BASE_NAME ?= "${MODULE_IMAGE_BASE_NAME}.tgz"
-@@ -448,7 +472,7 @@ MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
- MODULE_TARBALL_DEPLOY ?= "1"
- 
- do_uboot_mkimage() {
--	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
-+	if test "x${KERNEL_IMAGETYPE}" = "xuImage" or "x${KERNEL_ALT_IMAGETYPE}" = "xuImage"; then 
- 		if test "x${KEEPUIMAGE}" != "xyes" ; then
- 			ENTRYPOINT=${UBOOT_ENTRYPOINT}
- 			if test -n "${UBOOT_ENTRYSYMBOL}"; then
-@@ -474,6 +498,9 @@ addtask uboot_mkimage before do_install after do_compile
- 
- kernel_do_deploy() {
- 	install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
-+	if [ "${KERNEL_ALT_IMAGETYPE}" != "" ]; then
-+		install -m 0644 ${KERNEL_ALT_OUTPUT} ${DEPLOYDIR}/${KERNEL_ALT_IMAGE_BASE_NAME}.bin
-+	fi
- 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
- 		mkdir -p ${D}/lib
- 		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
-@@ -483,6 +510,11 @@ kernel_do_deploy() {
- 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGE_SYMLINK_NAME}.bin
- 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGETYPE}
- 
-+	if [ "${KERNEL_ALT_IMAGETYPE}" != "" ]; then
-+		ln -sf ${KERNEL_ALT_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_ALT_IMAGE_SYMLINK_NAME}.bin
-+		ln -sf ${KERNEL_ALT_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_ALT_IMAGETYPE}
-+	fi
-+
- 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
- 
- 	cd ${B}
--- 
-2.0.2
-
+> Peter
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
