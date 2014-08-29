@@ -1,33 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E2747054E;
-	Fri, 29 Aug 2014 10:39:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7TAdHPi028881; Fri, 29 Aug 2014 11:39:17 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id aKmn5V-NG6eh; Fri, 29 Aug 2014 11:39:17 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7TAdECr028878
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 29 Aug 2014 11:39:15 +0100
-Message-ID: <1409308755.29296.148.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 29 Aug 2014 11:39:15 +0100
-In-Reply-To: <CAMKF1spj67i2i_50m=oTUpS3x2J=de0UxGf70zLhn-a7c4M3QA@mail.gmail.com>
-References: <20140828064051.GA13139@haswell> <1409266291.29296.147.camel@ted>
-	<CAMKF1spz2KoO6NDSkZwh=V=pkyYi6e7-G0fpka5P2ifbjnNn6w@mail.gmail.com>
-	<CAMKF1spj67i2i_50m=oTUpS3x2J=de0UxGf70zLhn-a7c4M3QA@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id A96C87070B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Aug 2014 10:54:00 +0000 (UTC)
+Received: by mail-pd0-f181.google.com with SMTP id fp1so197823pdb.40
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Aug 2014 03:54:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=Z/L6EO+DxeQCIfz4F8MwIr03kX9DGPITCRXDMWi6V08=;
+	b=F7OVMzLtvJRYHY3ZCmZCpY+fc5e702LKqdgZfB/qjzbxXgW7+XLLVut0Xd8VK/Nm4t
+	5/EuH8wX99hsw0+4AagiRTfKd+R+u5/Gid8FQJIjZkBM6LEZ++7AqRNMjQ3pdnKkVnYl
+	S7nwQBwjFZULWq6Z9V4sV9tuohz+kCyMYCVlpARjJjVdGF8I9eNxqkw5qjzRfto2WlJ+
+	4TC8rfjbjIl+pCk8H+Mzo04TT6PJUjlFWLVI4+3Kt82qD450PxJt+pCvKXfHItreIN9p
+	N/+Vd5TQoy4tNnstPZ11yrHPWlOhFxcxeqEObyPEn0T/jXnp9hMQgXg/gU3S2i0Xwrfp
+	+YQQ==
+X-Gm-Message-State: ALoCoQkxVJi85la2XhrtUDgLofOuURgo3CjWrDtdUkOYeMTq/LjLwGmSoWb7YHZcKSjmuEvAtj49
+MIME-Version: 1.0
+X-Received: by 10.69.18.65 with SMTP id gk1mr14311603pbd.68.1409309641846;
+	Fri, 29 Aug 2014 03:54:01 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.57.136 with HTTP; Fri, 29 Aug 2014 03:54:01 -0700 (PDT)
+In-Reply-To: <33115ABC4887814E8A92A08FBC93416B23C470D7@IRSMSX103.ger.corp.intel.com>
+References: <1408716303-32264-1-git-send-email-root@pol-lx-007.polatis.com>
+	<33115ABC4887814E8A92A08FBC93416B23C470D7@IRSMSX103.ger.corp.intel.com>
+Date: Fri, 29 Aug 2014 11:54:01 +0100
+X-Google-Sender-Auth: VGLg6My6g1aH6h22AbF-zMH4sq0
+Message-ID: <CAOMwXhNCtMkkpSvCtd4c7r26FVEtxsr4-605acjRMgicTm-rAA@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] Moving on from eglibc to glibc 2.20
+Subject: Re: [PATCH] ptest-runner: return 1 instead of zero if any test fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,27 +47,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 10:39:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Aug 2014 10:54:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2014-08-28 at 18:46 -0700, Khem Raj wrote:
-> On Thu, Aug 28, 2014 at 5:41 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> > reproduced. will apprise as I have some fix.
-> 
-> OK pushed another patch to the contrib tree that should take care of both
-> xf86-input-synaptics xf86-input-vmmouse
+On Mon, Aug 25, 2014 at 7:42 AM, Stoicescu, CorneliuX
+<corneliux.stoicescu@intel.com> wrote:
+> Hello,
+>
+> From my experience with ptest, there will always be a few tests failing, so we will always get exit code 1.
 
-Thanks. I'm having one heck of a problem unentangling all the different
-build failures (from these and other patches) but this one looks like
-glibc:
+Ptest is not only about meta-core, you need to remember that. My use
+case is actually quite different: running ptest only on my binaries,
+and I will trust the rest of the system. For me, it is critical to see
+if there is any issues in my system. This patch resolves that use
+case, but even for Yocto, you really oughta aim for fixing your tests,
+either with "known failure" or correct means.
 
-https://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/18/steps/BuildImages/logs/stdio
+> Should this better return exit code 0 if the individual tests performed correctly(weather they passed or failed) and 1 if there were any errors during the running of the tests?
 
-Cheers,
-
-Richard
-
-
-
+I do not understand this question. This is what the current change tries to do.
 
