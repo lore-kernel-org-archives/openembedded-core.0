@@ -1,33 +1,25 @@
-Return-Path: <jatedev@gmail.com>
-Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id C7ADF710C5
+Return-Path: <max.eliaser@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E9797067B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 15:40:17 +0000 (UTC)
-Received: by mail-qc0-f171.google.com with SMTP id x3so2516895qcv.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 08:40:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=mqw6ileKaa8g5Vurd/HgjRZDTYdNS3p5+TBwQ0JypTs=;
-	b=XY0SwC5j/sml9Qh8KnekkUg3wrhRBs7ojJNVzBwCTZXxnMuTbOFl+JsHotvZwRn8vh
-	pkfO52MPa9ugwUBTZXs3w5ywEy5Ml7bc9owcd09XCoQyb/fKsIuJRb40UH0r51FKGmG9
-	QCWRyOTUh4B94jN7qUcKHHaoW57ft8SNWK8t2dUhKQd+4wCfJplv914oYIk8ZQM48hV8
-	S2FhzzRAgoq1gnWG+hCTkvVVkUXZuDpRSLyww8YPBbEhX/etEMa9c+96sct/ywiL1SZP
-	+qUVzsTj+VoALGcWWJwtOAUVvfYO9o+LI/mUJ84kqLjXr9W0Y7Ewbs+iPnrBRxwfMZNg
-	LpXg==
-MIME-Version: 1.0
-X-Received: by 10.140.98.7 with SMTP id n7mr17820512qge.83.1409326818617; Fri,
-	29 Aug 2014 08:40:18 -0700 (PDT)
-Received: by 10.140.34.76 with HTTP; Fri, 29 Aug 2014 08:40:18 -0700 (PDT)
-In-Reply-To: <1407704441-29326-1-git-send-email-jatedev@gmail.com>
-References: <1407704441-29326-1-git-send-email-jatedev@gmail.com>
-Date: Fri, 29 Aug 2014 11:40:18 -0400
-Message-ID: <CAPphmgb+9dgJTZ19p0dDOR3V5GQuQs5oZawQRnB9KQa2_Yt-Ag@mail.gmail.com>
-From: Jate Sujjavanich <jatedev@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] useradd: Add setscene dep on pseudo-native
+	Fri, 29 Aug 2014 17:04:23 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Aug 2014 10:04:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,425,1406617200"; d="scan'208";a="583531797"
+Received: from jfdmzpr06.jf.intel.com (HELO [10.7.196.68]) ([10.7.210.25])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Aug 2014 10:04:10 -0700
+Message-ID: <1409331683.8504.1.camel@maxtothemax-Studio-XPS-8000>
+From: Max Eliaser <max.eliaser@intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Fri, 29 Aug 2014 10:01:23 -0700
+In-Reply-To: <c8e81a959f95d3537baa1e9c7e8c090a21d8f1b9.1409154816.git.liezhi.yang@windriver.com>
+References: <cover.1409154816.git.liezhi.yang@windriver.com>
+	<c8e81a959f95d3537baa1e9c7e8c090a21d8f1b9.1409154816.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 8/9] bootchart2: no bashism in bootchartd.in
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,108 +32,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 15:40:27 -0000
-Content-Type: multipart/alternative; boundary=001a113ac3c66576180501c67874
+X-List-Received-Date: Fri, 29 Aug 2014 17:04:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a113ac3c66576180501c67874
-Content-Type: text/plain; charset=UTF-8
+Would you be okay with me sending this one upstream? I think it's a
+worthwhile modification.
 
-There's a commit in poky's master-next with the message "bitbake: runqueue:
-Fix setscene tasks not running".
+-Max
 
-Should it fix the problem fixed by my patch?
-
-
-Thanks,
-
-- Jate S.
-
-
-
-On Sun, Aug 10, 2014 at 5:00 PM, Jate Sujjavanich <jatedev@gmail.com> wrote:
-
-> A recipe will sometimes be rebuilt unnecessarily if it adds users via
-> useradd and the pseudo-native task has not been populated.
->
-> This patch adds the correct dependency.
->
-> Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+On Wed, 2014-08-27 at 08:57 -0700, Robert Yang wrote:
+> So use /bin/sh
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 > ---
->  meta/classes/useradd.bbclass |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-> index ea15dab..3b70e80 100644
-> --- a/meta/classes/useradd.bbclass
-> +++ b/meta/classes/useradd.bbclass
-> @@ -126,7 +126,7 @@ SYSROOTPOSTFUNC_class-cross = ""
->  SYSROOTPOSTFUNC_class-native = ""
->  SYSROOTPOSTFUNC_class-nativesdk = ""
->
-> -USERADDSETSCENEDEPS =
-> "${MLPREFIX}base-passwd:do_populate_sysroot_setscene
-> shadow-native:do_populate_sysroot_setscene
-> ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
-> +USERADDSETSCENEDEPS =
-> "${MLPREFIX}base-passwd:do_populate_sysroot_setscene
-> pseudo-native:do_populate_sysroot_setscene
-> shadow-native:do_populate_sysroot_setscene
-> ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
->  USERADDSETSCENEDEPS_class-cross = ""
->  USERADDSETSCENEDEPS_class-native = ""
->  USERADDSETSCENEDEPS_class-nativesdk = ""
-> --
+>  .../bootchart2/bootchartd-no-bashism.patch         |   27 ++++++++++++++++++++
+>  meta/recipes-devtools/bootchart2/bootchart2_git.bb |    6 +++--
+>  2 files changed, 31 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch
+> 
+> diff --git a/meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch b/meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch
+> new file mode 100644
+> index 0000000..b013995
+> --- /dev/null
+> +++ b/meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch
+> @@ -0,0 +1,27 @@
+> +From ffb5bae5d588aaea6325623462a8070a04767196 Mon Sep 17 00:00:00 2001
+> +From: Robert Yang <liezhi.yang@windriver.com>
+> +Date: Thu, 14 Aug 2014 08:33:28 -0700
+> +Subject: [PATCH] bootchartd.in: no bashism
+> +
+> +No bashism in bootchartd.in, so use /bin/sh.
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> +---
+> + bootchartd.in |    2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/bootchartd.in b/bootchartd.in
+> +index a408bab..064f6a4 100755
+> +--- a/bootchartd.in
+> ++++ b/bootchartd.in
+> +@@ -1,4 +1,4 @@
+> +-#!/bin/bash
+> ++#!/bin/sh
+> + #
+> + # Bootchart logger script
+> + # Ziga Mahkovec  <ziga.mahkovec@klika.si>
+> +-- 
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-devtools/bootchart2/bootchart2_git.bb b/meta/recipes-devtools/bootchart2/bootchart2_git.bb
+> index 4116304..04fb901 100644
+> --- a/meta/recipes-devtools/bootchart2/bootchart2_git.bb
+> +++ b/meta/recipes-devtools/bootchart2/bootchart2_git.bb
+> @@ -91,8 +91,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=44ac4678311254db62edf8fd39cb8124"
+>  # one commit beyond 1.14.6 for a systemd-related bugfix
+>  PV = "0.14.6+git${SRCPV}"
+>  
+> -SRC_URI = "git://github.com/mmeeks/bootchart.git"
+> -SRC_URI += "file://bootchartd_stop.sh"
+> +SRC_URI = "git://github.com/mmeeks/bootchart.git \
+> +           file://bootchartd_stop.sh \
+> +           file://bootchartd-no-bashism.patch \
+> +          "
+>  
+>  SRCREV = "b65ed43b0ae832080fb728245de9ef1a4b48d8b5"
+>  
+> -- 
 > 1.7.9.5
->
->
+> 
 
---001a113ac3c66576180501c67874
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div><div>There&#39;s a commit in poky&#39;s master-n=
-ext with the message &quot;bitbake: runqueue: Fix setscene tasks not runnin=
-g&quot;.<br><br></div>Should it fix the problem fixed by my patch?<br><br>
-<br></div>Thanks,<br><br></div>- Jate S.<br><br></div><div class=3D"gmail_e=
-xtra"><br><br><div class=3D"gmail_quote">On Sun, Aug 10, 2014 at 5:00 PM, J=
-ate Sujjavanich <span dir=3D"ltr">&lt;<a href=3D"mailto:jatedev@gmail.com" =
-target=3D"_blank">jatedev@gmail.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">A recipe will sometimes be rebuilt unnecessa=
-rily if it adds users via<br>
-useradd and the pseudo-native task has not been populated.<br>
-<br>
-This patch adds the correct dependency.<br>
-<br>
-Signed-off-by: Jate Sujjavanich &lt;<a href=3D"mailto:jatedev@gmail.com">ja=
-tedev@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/useradd.bbclass |=C2=A0 =C2=A0 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass<br=
->
-index ea15dab..3b70e80 100644<br>
---- a/meta/classes/useradd.bbclass<br>
-+++ b/meta/classes/useradd.bbclass<br>
-@@ -126,7 +126,7 @@ SYSROOTPOSTFUNC_class-cross =3D &quot;&quot;<br>
-=C2=A0SYSROOTPOSTFUNC_class-native =3D &quot;&quot;<br>
-=C2=A0SYSROOTPOSTFUNC_class-nativesdk =3D &quot;&quot;<br>
-<br>
--USERADDSETSCENEDEPS =3D &quot;${MLPREFIX}base-passwd:do_populate_sysroot_s=
-etscene shadow-native:do_populate_sysroot_setscene ${MLPREFIX}shadow-sysroo=
-t:do_populate_sysroot_setscene&quot;<br>
-+USERADDSETSCENEDEPS =3D &quot;${MLPREFIX}base-passwd:do_populate_sysroot_s=
-etscene pseudo-native:do_populate_sysroot_setscene shadow-native:do_populat=
-e_sysroot_setscene ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene&q=
-uot;<br>
 
-=C2=A0USERADDSETSCENEDEPS_class-cross =3D &quot;&quot;<br>
-=C2=A0USERADDSETSCENEDEPS_class-native =3D &quot;&quot;<br>
-=C2=A0USERADDSETSCENEDEPS_class-nativesdk =3D &quot;&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.7.9.5<br>
-<br>
-</font></span></blockquote></div><br></div>
-
---001a113ac3c66576180501c67874--
