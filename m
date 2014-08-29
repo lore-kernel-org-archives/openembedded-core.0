@@ -1,32 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FC106ACBA
+	by mail.openembedded.org (Postfix) with ESMTP id 626646FA94
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 04:33:24 +0000 (UTC)
+	Fri, 29 Aug 2014 05:46:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7T4XOXV021678
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 Aug 2014 21:33:24 -0700 (PDT)
-Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Thu, 28 Aug 2014 21:33:23 -0700
-Message-ID: <54000296.8030300@windriver.com>
-Date: Fri, 29 Aug 2014 12:33:26 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7T5kV98022231
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Aug 2014 22:46:31 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 28 Aug 2014 22:46:30 -0700
+Message-ID: <540013B5.4090602@windriver.com>
+Date: Fri, 29 Aug 2014 13:46:29 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1408326458.git.Qi.Chen@windriver.com>
-	<1408814895.5457.36.camel@ted> <53FADCD1.2050807@windriver.com>
-	<CAMKF1sqxz2DCvH3G9SdvgNbPR6zqGL3tWb85vDSAacz+BOCN8w@mail.gmail.com>
-In-Reply-To: <CAMKF1sqxz2DCvH3G9SdvgNbPR6zqGL3tWb85vDSAacz+BOCN8w@mail.gmail.com>
-X-Originating-IP: [128.224.162.187]
-Cc: Richard Purdie <rpurdie@rpsys.net>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3 00/10] upgrade systemd to 215 and other misc fixes
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1409154816.git.liezhi.yang@windriver.com>
+	<b4fb230d5c45199aa7989b1ad5a5eea516d242e1.1409154816.git.liezhi.yang@windriver.com>
+In-Reply-To: <b4fb230d5c45199aa7989b1ad5a5eea516d242e1.1409154816.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 1/9] insane.bbclass: add QA check: file-rdeps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,65 +35,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 04:33:32 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 29 Aug 2014 05:46:35 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/29/2014 10:58 AM, Khem Raj wrote:
-> On Sun, Aug 24, 2014 at 11:50 PM, ChenQi <Qi.Chen@windriver.com> wrote:
->> On 08/24/2014 01:28 AM, Richard Purdie wrote:
->>> On Mon, 2014-08-18 at 09:51 +0800, Chen Qi wrote:
->>>> The following changes since commit
->>>> 4321c553d5ae816e566234e981a0815bba046d39:
->>>>
->>>>     SIGGEN_EXCLUDERECIPES_ABISAFE: add initscripts (2014-08-11 17:44:09
->>>> +0100)
->>>>
->>>> are available in the git repository at:
->>>>
->>>>     git://git.openembedded.org/openembedded-core-contrib
->>>> ChenQi/systemd-misc-fixes
->>>>
->>>> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-misc-fixes
->>>>
->>>> Chen Qi (10):
->>>>     systemd: upgrade to 215
->>>>     systemd: add PACKAGECONFIG for 'elfutils'
->>>>     systemd: make runlevel work in non-runlevel targets
->>>>     update-rc.d: fix logic in populate_packages_updatercd
->>>>     alsa-state: fix pkg_postinst and set INHIBIT_UPDATERCD_BBCLASS
->>>>     keymaps: fix for systemd
->>>>     systemd: add kbd-keymaps to RRECOMMENDS of systemd-vconsole-setup
->>>>     v86d: set INHIBIT_UPDATERCD_BBCLASS if 'sysvinit' not in
->>>>       DISTRO_FEATURES
->>>>     systemd: add support for executing scripts under /etc/rcS.d
->>>>     dhcp: add dhcpd.service
->>> Testing with this patchset included resulted in:
->>>
->>>
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/6/steps/Running%20Sanity%20Tests_2/logs/stdio
->>>
->>> Could you have a look into this and see if we can figure out why some of
->>> these start failing please?
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>>
->>>
->>>
->>>
->> Got it.
->>
->> I'm looking into the problem.
-> where are we with this ? we shud have systemd 216 in 1.7. can you rebase
->
->
 
-OK.
-I'll do it.
+Removed a blank line and put this patch to:
 
-Best Regards,
-Chen Qi
+git://git.openembedded.org/openembedded-core-contrib rbt/rdeps
+
+// Robert
+
+On 08/27/2014 11:57 PM, Robert Yang wrote:
+> The ipk or deb can't depend on file such as "/bin/bash" or
+> "/usr/bin/perl", so it knows nothing about the pkg depends bash or perl,
+> thus there would be dependencies problems when we run "apt-get
+> install/remove <pkg>" on the target, this check can help us find the
+> issues and then fix them manually.
+>
+> * Benefits:
+>    - Help to fix file rdepends issues for ipk and deb
+>    - Help to fix abnormal rdepends.
+>    - Help to check whether the rdepends is OK or not after build each
+>      recipe (don't have to install to the image), for example, a recipe may
+>      generate 10 binary packages, only a part of them will be installed to
+>      the image by default, we can know whether the rdepends are OK or
+>      not for the ones which are installed, but can't know the ones which
+>      are not installed, this patch can help check all the 10 binary
+>      packages' rdepends.
+>
+> * Basic designs:
+>    - Get all the RDEPENDS on the chain.
+>
+>    - Get the pkg's FILERPROVIDES from oe.packagedata.read_subpkgdata()
+>      and save to set filerdepends.
+>
+>    - Get each RPDEPENDS' FILERPROVIDES, RPROVIDES and FILERPROVIDESFLIST,
+>      and save to set rdep_rprovides.
+>
+>    - Do the set "filerdepends -= rdep_rprovides" and QA issue if
+>      filerdepends is not null.
+>
+> [YOCTO #1662]
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>   meta/classes/insane.bbclass |   73 ++++++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 72 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 3dd2e7f..d5b4317 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -29,7 +29,7 @@ QA_SANE = "True"
+>   WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+>               textrel already-stripped incompatible-license files-invalid \
+>               installed-vs-shipped compile-host-path install-host-path \
+> -            pn-overrides infodir build-deps \
+> +            pn-overrides infodir build-deps file-rdeps \
+>               "
+>   ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+>               perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+> @@ -797,6 +797,76 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+>                   error_msg = "%s rdepends on %s, but it isn't a build dependency?" % (pkg, rdepend)
+>                   sane = package_qa_handle_error("build-deps", error_msg, d)
+>
+> +        if "file-rdeps" not in skip:
+> +            ignored_file_rdeps = set(['/bin/sh', '/usr/bin/env', 'rtld(GNU_HASH)'])
+> +            if bb.data.inherits_class('nativesdk', d):
+> +                ignored_file_rdeps |= set(['/bin/bash', '/usr/bin/perl'])
+> +            # For Saving the FILERDEPENDS
+> +            filerdepends = set()
+> +            rdep_data = oe.packagedata.read_subpkgdata(pkg, d)
+> +            for key in rdep_data:
+> +                if key.startswith("FILERDEPENDS_"):
+> +                    for subkey in rdep_data[key].split():
+> +                        filerdepends.add(subkey)
+> +            filerdepends -= ignored_file_rdeps
+> +
+> +            if filerdepends:
+> +                next = rdepends
+> +                done = rdepends[:]
+> +                # Find all the rdepends on the dependency chain
+> +                while next:
+> +                    new = []
+> +                    for rdep in next:
+> +                        rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
+> +                        sub_rdeps = rdep_data.get("RDEPENDS_" + rdep)
+> +                        if not sub_rdeps:
+> +                            continue
+> +                        for sub_rdep in sub_rdeps.split():
+> +                            if sub_rdep in done:
+> +                                continue
+> +                            if not sub_rdep.startswith('(') and \
+> +                                    oe.packagedata.has_subpkgdata(sub_rdep, d):
+> +                                # It's a new rdep
+> +                                done.append(sub_rdep)
+> +                                new.append(sub_rdep)
+> +                    next = new
+> +
+> +                # Add the rprovides of itself
+> +                if pkg not in done:
+> +                    done.insert(0, pkg)
+> +
+> +                # The python is not a package, but python-core provides it, so
+> +                # skip checking /usr/bin/python if python is in the rdeps, in
+> +                # case there is a RDEPENDS_pkg = "python" in the recipe.
+> +                for py in [ d.getVar('MLPREFIX', True) + "python", "python" ]:
+> +                    if py in done:
+> +                        filerdepends.discard("/usr/bin/python")
+> +                        done.remove(py)
+> +                for rdep in done:
+> +                    # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
+> +                    rdep_rprovides = set()
+> +                    rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
+> +                    for key in rdep_data:
+> +                        if key.startswith("FILERPROVIDES_") or key.startswith("RPROVIDES_"):
+> +                            for subkey in rdep_data[key].split():
+> +                                rdep_rprovides.add(subkey)
+> +                        # Add the files list to the rprovides
+> +                        if key == "FILES_INFO":
+> +                            # Use eval() to make it as a dict
+> +                            for subkey in eval(rdep_data[key]):
+> +                                rdep_rprovides.add(subkey)
+> +                    filerdepends -= rdep_rprovides
+> +                    if not filerdepends:
+> +                        # Break if all the file rdepends are met
+> +                        break
+> +                    else:
+> +                        # Clear it for the next loop
+> +                        rdep_rprovides.clear()
+> +            if filerdepends:
+> +                error_msg = "%s requires %s, but no providers in its RDEPENDS" % \
+> +                            (pkg, ', '.join(str(e) for e in filerdepends))
+> +                sane = package_qa_handle_error("file-rdeps", error_msg, d)
+> +
+>       return sane
+>
+>   def package_qa_check_deps(pkg, pkgdest, skip, d):
+> @@ -894,6 +964,7 @@ python do_package_qa () {
+>       for dep in taskdepdata:
+>           taskdeps.add(taskdepdata[dep][0])
+>
+> +
+>       g = globals()
+>       walk_sane = True
+>       rdepends_sane = True
+>
 
