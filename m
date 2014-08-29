@@ -1,24 +1,28 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 85EB071212
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E3BA7070E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 17:06:40 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 29 Aug 2014 10:06:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,425,1406617200"; d="scan'208";a="565468735"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga001.jf.intel.com with ESMTP; 29 Aug 2014 10:06:40 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Aug 2014 20:06:34 +0300
-Message-Id: <3c28456262cc72a9b68b93a328be0b7c5ffb352a.1409331937.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1409331937.git.cristian.iorga@intel.com>
-References: <cover.1409331937.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1409331937.git.cristian.iorga@intel.com>
-References: <cover.1409331937.git.cristian.iorga@intel.com>
-Subject: [PATCH 3/3] alsa-utils: upgrade to 1.0.28
+	Fri, 29 Aug 2014 17:37:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7THbTf0013071; Fri, 29 Aug 2014 18:37:29 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id eALrJdT2nFj6; Fri, 29 Aug 2014 18:37:29 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7THbNvf013067
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 29 Aug 2014 18:37:24 +0100
+Message-ID: <1409333845.29296.193.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 29 Aug 2014 18:37:25 +0100
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: ronan <ronan.lemartret@open.eurogiciel.org>,
+	Ed Bartosh <eduard.bartosh@intel.com>
+Subject: [PATCH] package_manager.py: enable smart non-interactive mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,121 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 17:06:40 -0000
+X-List-Received-Date: Fri, 29 Aug 2014 17:37:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Changelog:
-http://www.alsa-project.org/main/index.php/Changes_v1.0.27.2_v1.0.28
+From: Ed Bartosh <eduard.bartosh@intel.com>
 
-0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch updated.
+Added --quiet option to smart command line.
+Without this option smart 1.4.1 turns into interactive mode, i.e.
+start asking questions and expecting answers.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- ...f_1.0.27.2.bb => alsa-utils-alsaconf_1.0.28.bb} |  0
- ...-t-let-systemd-unit-restore-the-volume-wh.patch | 42 ++++++++++++++--------
- ...alsa-utils_1.0.27.2.bb => alsa-utils_1.0.28.bb} |  6 ++--
- 3 files changed, 30 insertions(+), 18 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-utils-alsaconf_1.0.27.2.bb => alsa-utils-alsaconf_1.0.28.bb} (100%)
- rename meta/recipes-multimedia/alsa/{alsa-utils_1.0.27.2.bb => alsa-utils_1.0.28.bb} (94%)
+Internally within smart, this changes the default UI to one which
+just prints to stderr, the naming of the parameter is a little
+odd but does what we need.
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.27.2.bb b/meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.28.bb
-similarity index 100%
-rename from meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.27.2.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.28.bb
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
-index 477cd11..e99dd51 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
-+++ b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
-@@ -1,35 +1,44 @@
--From 37c99a3cbff36915b56a5703eeaed3c70796f80f Mon Sep 17 00:00:00 2001
-+From 43a56fa36a12f09ccd78b3cf5e6ae197fcab501f Mon Sep 17 00:00:00 2001
- From: Koen Kooi <koen@dominion.thruhere.net>
--Date: Sun, 9 Oct 2011 20:06:35 +0200
--Subject: [PATCH] alsactl: don't let systemd unit restore the volume when asound.state is missing
-+Date: Fri, 29 Aug 2014 18:58:56 +0300
-+Subject: [PATCH] alsactl: don't let systemd unit restore the volume when
-+ asound.state is missing
- 
- This avoids an error on bootup
- 
--Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
--
- Filed as https://bugtrack.alsa-project.org/alsa-bug/view.php?id=5459
- 
- Upstream-Status: Pending
- 
--Index: alsa-utils-1.0.27.2/alsactl/Makefile.am
--===================================================================
----- alsa-utils-1.0.27.2.orig/alsactl/Makefile.am
--+++ alsa-utils-1.0.27.2/alsactl/Makefile.am
--@@ -36,8 +36,8 @@ install-data-hook:
-+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-+---
-+ alsactl/Makefile.am             | 7 ++++---
-+ alsactl/alsa-restore.service.in | 1 +
-+ 2 files changed, 5 insertions(+), 3 deletions(-)
-+
-+diff --git a/alsactl/Makefile.am b/alsactl/Makefile.am
-+index 47f06e9..b728c06 100644
-+--- a/alsactl/Makefile.am
-++++ b/alsactl/Makefile.am
-+@@ -43,9 +43,10 @@ install-data-hook:
-  endif
-  
-  edit = \
- -	$(SED) -r -e 's,@sbindir\@,$(sbindir),g' \
-+-		  -e 's,@mydatadir\@,$(mydatadir),g' \
- -		  -e 's,@daemonswitch\@,$(ALSACTL_DAEMONSWITCH),g' \
--+	$(SED) -e 's,@localstatedir\@,$(localstatedir),g' -e 's,@sbindir\@,$(sbindir),g' \
-++	$(SED) -e 's,@localstatedir\@,$(localstatedir),g' \
-++	       -e 's,@sbindir\@,$(sbindir),g' \
-++	       -e 's,@mydatadir\@,$(mydatadir),g' \
- +	       -e 's,@daemonswitch\@,$(ALSACTL_DAEMONSWITCH),g' \
-  							< $< > $@ || rm $@
-  
-  alsa-state.service: alsa-state.service.in
--Index: alsa-utils-1.0.27.2/alsactl/alsa-restore.service.in
--===================================================================
----- alsa-utils-1.0.27.2.orig/alsactl/alsa-restore.service.in
--+++ alsa-utils-1.0.27.2/alsactl/alsa-restore.service.in
-+diff --git a/alsactl/alsa-restore.service.in b/alsactl/alsa-restore.service.in
-+index 245a439..b017854 100644
-+--- a/alsactl/alsa-restore.service.in
-++++ b/alsactl/alsa-restore.service.in
- @@ -10,6 +10,7 @@ DefaultDependencies=no
-  After=alsa-state.service
-  Before=shutdown.target
-@@ -38,3 +47,6 @@ Index: alsa-utils-1.0.27.2/alsactl/alsa-restore.service.in
-  
-  [Service]
-  Type=oneshot
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
-similarity index 94%
-rename from meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
-index 047fcfe..d6b24f1 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
-@@ -11,12 +11,12 @@ PACKAGECONFIG ??= "udev"
- PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d,,udev"
- PACKAGECONFIG[xmlto] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
- 
--SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-+SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/${BP}.tar.bz2 \
-            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
-           "
- 
--SRC_URI[md5sum] = "b65e9a04181bd7c9db7667a4566f8dc3"
--SRC_URI[sha256sum] = "02bfac39092f3b68d743c23ad3d688d6c5aa8df69f2ccd692c5b8282edb352ea"
-+SRC_URI[md5sum] = "361552d5b1cacd0a1e7ba09e69990211"
-+SRC_URI[sha256sum] = "f3ff4c89b0125a7797b1b13cd094cc92276e655458274967386e812d03642acc"
- 
- # lazy hack. needs proper fixing in gettext.m4, see
- # http://bugs.openembedded.org/show_bug.cgi?id=2348
--- 
-1.9.1
+Signed-off-by: Ed Bartosh <eduard.bartosh@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index f8fc3c2..612c835 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -543,7 +543,7 @@ class RpmPM(PackageManager):
+         self.install_dir = os.path.join(self.target_rootfs, "install")
+         self.rpm_cmd = bb.utils.which(os.getenv('PATH'), "rpm")
+         self.smart_cmd = bb.utils.which(os.getenv('PATH'), "smart")
+-        self.smart_opt = "--data-dir=" + os.path.join(target_rootfs,
++        self.smart_opt = "--quiet --data-dir=" + os.path.join(target_rootfs,
+                                                       'var/lib/smart')
+         self.scriptlet_wrapper = self.d.expand('${WORKDIR}/scriptlet_wrapper')
+         self.solution_manifest = self.d.expand('${T}/saved/%s_solution' %
+
 
 
