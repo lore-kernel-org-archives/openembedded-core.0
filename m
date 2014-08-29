@@ -1,25 +1,25 @@
-Return-Path: <georgex.l.musat@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8536971213
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CD2D6710C5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 13:55:57 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 29 Aug 2014 06:55:58 -0700
+	Fri, 29 Aug 2014 15:26:53 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by orsmga102.jf.intel.com with ESMTP; 29 Aug 2014 08:20:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,424,1406617200"; d="scan'208";a="595111166"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 29 Aug 2014 06:55:58 -0700
-Received: from localhost.localdomain (unknown [10.237.112.174])
-	by linux.intel.com (Postfix) with ESMTP id 6939C6A4087;
-	Fri, 29 Aug 2014 06:55:16 -0700 (PDT)
-From: Lucian Musat <georgex.l.musat@intel.com>
+X-IronPort-AV: E=Sophos;i="5.04,424,1406617200"; d="scan'208";a="473835164"
+Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
+	swold-linux.amr.corp.intel.com) ([10.255.12.242])
+	by azsmga001.ch.intel.com with ESMTP; 29 Aug 2014 08:26:34 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Aug 2014 16:51:05 +0300
-Message-Id: <1409320266-29059-2-git-send-email-georgex.l.musat@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1409320266-29059-1-git-send-email-georgex.l.musat@intel.com>
-References: <1409320266-29059-1-git-send-email-georgex.l.musat@intel.com>
-Subject: [PATCH 2/3] oeqa/utils/logparser.py: results based log parser utility
+Date: Fri, 29 Aug 2014 08:26:30 -0700
+Message-Id: <d43674d46b1507c90010f035203ff70bff532eb2.1409325858.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1409325858.git.sgw@linux.intel.com>
+References: <cover.1409325858.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1409325858.git.sgw@linux.intel.com>
+References: <cover.1409325858.git.sgw@linux.intel.com>
+Subject: [PATCH 4/5] libassuan: Upgrade to 2.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,153 +32,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 13:56:04 -0000
+X-List-Received-Date: Fri, 29 Aug 2014 15:26:56 -0000
 
-A module for parsing results based logs like ptest, compliance and performance.
-Supports breaking the logs into multiple sections and also provides a result object to use the parser with.
-The parser is initialized with the regex required to identify results and section statements in the target log file.
-
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
-Signed-off-by: Lucian Musat <georgex.l.musat@intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/lib/oeqa/utils/logparser.py | 126 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
- create mode 100644 meta/lib/oeqa/utils/logparser.py
+ .../libassuan-add-pkgconfig-support.patch          | 38 +++++++++++-----------
+ .../{libassuan_2.1.1.bb => libassuan_2.1.2.bb}     |  4 +--
+ 2 files changed, 21 insertions(+), 21 deletions(-)
+ rename meta/recipes-support/libassuan/{libassuan_2.1.1.bb => libassuan_2.1.2.bb} (86%)
 
-diff --git a/meta/lib/oeqa/utils/logparser.py b/meta/lib/oeqa/utils/logparser.py
-new file mode 100644
-index 0000000..9dc7827
---- /dev/null
-+++ b/meta/lib/oeqa/utils/logparser.py
-@@ -0,0 +1,126 @@
-+#!/usr/bin/env python
-+
-+import sys
-+import os
-+import re
-+
-+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'meta/lib')))
-+import oeqa.utils.ftools as ftools
-+
-+
-+# A parser that can be used to identify weather a line is a test result or a section statement.
-+class Lparser(object):
-+
-+    def __init__(self, test_0_pass_regex, test_0_fail_regex, section_0_begin_regex=None, section_0_end_regex=None, **kwargs):
-+        # Initialize the arguments dictionary
-+        if kwargs:
-+            self.args = kwargs
-+        else:
-+            self.args = {}
-+
-+        # Add the default args to the dictionary
-+        self.args['test_0_pass_regex'] = test_0_pass_regex
-+        self.args['test_0_fail_regex'] = test_0_fail_regex
-+        if section_0_begin_regex:
-+            self.args['section_0_begin_regex'] = section_0_begin_regex
-+        if section_0_end_regex:
-+            self.args['section_0_end_regex'] = section_0_end_regex
-+
-+        self.test_possible_status = ['pass', 'fail', 'error']
-+        self.section_possible_status = ['begin', 'end']
-+
-+        self.initialized = False
-+
-+
-+    # Initialize the parser with the current configuration
-+    def init(self):
-+
-+        # extra arguments can be added by the user to define new test and section categories. They must follow a pre-defined pattern: <type>_<category_name>_<status>_regex
-+        self.test_argument_pattern = "^test_(.+?)_(%s)_regex" % '|'.join(map(str, self.test_possible_status))
-+        self.section_argument_pattern = "^section_(.+?)_(%s)_regex" % '|'.join(map(str, self.section_possible_status))
-+
-+        # Initialize the test and section regex dictionaries
-+        self.test_regex = {}
-+        self.section_regex ={}
-+
-+        for arg, value in self.args.items():
-+            if not value:
-+                raise Exception('The value of provided argument %s is %s. Should have a valid value.' % (key, value))
-+            is_test =  re.search(self.test_argument_pattern, arg)
-+            is_section = re.search(self.section_argument_pattern, arg)
-+            if is_test:
-+                if not is_test.group(1) in self.test_regex:
-+                    self.test_regex[is_test.group(1)] = {}
-+                self.test_regex[is_test.group(1)][is_test.group(2)] = re.compile(value)
-+            elif is_section:
-+                if not is_section.group(1) in self.section_regex:
-+                    self.section_regex[is_section.group(1)] = {}
-+                self.section_regex[is_section.group(1)][is_section.group(2)] = re.compile(value)
-+            else:
-+                # TODO: Make these call a traceback instead of a simple exception..
-+                raise Exception("The provided argument name does not correspond to any valid type. Please give one of the following types:\nfor tests: %s\nfor sections: %s" % (self.test_argument_pattern, self.section_argument_pattern))
-+
-+        self.initialized = True
-+
-+    # Parse a line and return a tuple containing the type of result (test/section) and its category, status and name
-+    def parse_line(self, line):
-+        if not self.initialized:
-+            raise Exception("The parser is not initialized..")
-+
-+        for test_category, test_status_list in self.test_regex.items():
-+            for test_status, status_regex in test_status_list.items():
-+                test_name = status_regex.search(line)
-+                if test_name:
-+                    return ['test', test_category, test_status, test_name.group(1)]
-+
-+        for section_category, section_status_list in self.section_regex.items():
-+            for section_status, status_regex in section_status_list.items():
-+                section_name = status_regex.search(line)
-+                if section_name:
-+                    return ['section', section_category, section_status, section_name.group(1)]
-+        return None
-+
-+
-+class Result(object):
-+
-+    def __init__(self):
-+        self.result_dict = {}
-+
-+    def store(self, section, test, status):
-+        if not section in self.result_dict:
-+            self.result_dict[section] = []
-+
-+        self.result_dict[section].append((test, status))
-+
-+    # sort tests by the test name(the first element of the tuple), for each section. This can be helpful when using git to diff for changes by making sure they are always in the same order.
-+    def sort_tests(self):
-+        for package in self.result_dict:
-+            sorted_results = sorted(self.result_dict[package], key=lambda tup: tup[0])
-+            self.result_dict[package] = sorted_results
-+
-+    # Log the results as files. The file name is the section name and the contents are the tests in that section.
-+    def log_as_files(self, target_dir, test_status):
-+        status_regex = re.compile('|'.join(map(str, test_status)))
-+        if not type(test_status) == type([]):
-+            raise Exception("test_status should be a list. Got " + str(test_status) + " instead.")
-+        if not os.path.exists(target_dir):
-+            raise Exception("Target directory does not exist: %s" % target_dir)
-+
-+        for section, test_results in self.result_dict.items():
-+            prefix = ''
-+            for x in test_status:
-+                prefix +=x+'.'
-+            prefix += section
-+            section_file = os.path.join(target_dir, prefix)
-+            # purge the file contents if it exists
-+            open(section_file, 'w').close()
-+            for test_result in test_results:
-+                (test_name, status) = test_result
-+                # we log only the tests with status in the test_status list
-+                match_status = status_regex.search(status)
-+                if match_status:
-+                    ftools.append_file(section_file, status + ": " + test_name)
-+
-+    # Not yet implemented!
-+    def log_to_lava(self):
-+        pass
-\ No newline at end of file
+diff --git a/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch b/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
+index 4f96881..f130d85 100644
+--- a/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
++++ b/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
+@@ -6,18 +6,18 @@ Upstream-Status: Rejected
+ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+ Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+ 
+-Index: libassuan-2.1.1/Makefile.am
++Index: libassuan-2.1.2/Makefile.am
+ ===================================================================
+---- libassuan-2.1.1.orig/Makefile.am	2014-05-13 20:57:37.794398357 +0000
+-+++ libassuan-2.1.1/Makefile.am	2014-05-13 20:57:37.790398357 +0000
+-@@ -24,10 +24,13 @@
++--- libassuan-2.1.2.orig/Makefile.am
+++++ libassuan-2.1.2/Makefile.am
++@@ -24,10 +24,13 @@ AUTOMAKE_OPTIONS = dist-bzip2 no-dist-gz
+  # (A suitable gitlog-to-changelog script can be found in GnuPG master.)
+  GITLOG_TO_CHANGELOG=gitlog-to-changelog
+  
+ +pkgconfigdir = $(libdir)/pkgconfig
+ +pkgconfig_DATA = libassuan.pc
+ +
+- EXTRA_DIST = config.rpath autogen.sh README.GIT                  	\
++ EXTRA_DIST = autogen.sh autogen.rc README.GIT         	                \
+               ChangeLog-2011 doc/ChangeLog-2011 src/ChangeLog-2011 	\
+               tests/ChangeLog-2011 contrib/ChangeLog-2011     		\
+ -             build-aux/git-log-footer build-aux/git-log-fix
+@@ -25,10 +25,10 @@ Index: libassuan-2.1.1/Makefile.am
+  
+  SUBDIRS = m4 src doc tests
+  
+-Index: libassuan-2.1.1/libassuan.pc.in
++Index: libassuan-2.1.2/libassuan.pc.in
+ ===================================================================
+---- /dev/null	1970-01-01 00:00:00.000000000 +0000
+-+++ libassuan-2.1.1/libassuan.pc.in	2014-05-13 20:57:37.790398357 +0000
++--- /dev/null
+++++ libassuan-2.1.2/libassuan.pc.in
+ @@ -0,0 +1,14 @@
+ +prefix=@prefix@
+ +exec_prefix=@exec_prefix@
+@@ -44,11 +44,11 @@ Index: libassuan-2.1.1/libassuan.pc.in
+ +Libs: -L${libdir} -lassuan
+ +Libs.private: -lgpg-error
+ +Cflags: -I${includedir}
+-Index: libassuan-2.1.1/configure.ac
++Index: libassuan-2.1.2/configure.ac
+ ===================================================================
+---- libassuan-2.1.1.orig/configure.ac	2014-05-13 20:57:37.794398357 +0000
+-+++ libassuan-2.1.1/configure.ac	2014-05-13 20:57:37.790398357 +0000
+-@@ -434,7 +434,7 @@
++--- libassuan-2.1.2.orig/configure.ac
+++++ libassuan-2.1.2/configure.ac
++@@ -439,7 +439,7 @@ AC_CONFIG_FILES([doc/Makefile])
+  AC_CONFIG_FILES([tests/Makefile])
+  AC_CONFIG_FILES([src/libassuan-config], [chmod +x src/libassuan-config])
+  AC_CONFIG_FILES([src/versioninfo.rc])
+@@ -57,11 +57,11 @@ Index: libassuan-2.1.1/configure.ac
+  AC_OUTPUT
+  
+  echo "
+-Index: libassuan-2.1.1/src/libassuan.m4
++Index: libassuan-2.1.2/src/libassuan.m4
+ ===================================================================
+---- libassuan-2.1.1.orig/src/libassuan.m4	2011-04-06 15:37:26.000000000 +0000
+-+++ libassuan-2.1.1/src/libassuan.m4	2014-05-13 21:06:53.402395537 +0000
+-@@ -15,18 +15,6 @@
++--- libassuan-2.1.2.orig/src/libassuan.m4
+++++ libassuan-2.1.2/src/libassuan.m4
++@@ -15,18 +15,6 @@ dnl Returns ok set to yes or no.
+  dnl
+  AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
+  [ AC_REQUIRE([AC_CANONICAL_HOST])
+@@ -80,7 +80,7 @@ Index: libassuan-2.1.1/src/libassuan.m4
+  
+    tmp=ifelse([$1], ,1:0.9.2,$1)
+    if echo "$tmp" | grep ':' >/dev/null 2>/dev/null ; then
+-@@ -37,51 +25,12 @@
++@@ -37,51 +25,12 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
+      min_libassuan_version="$tmp"
+    fi
+  
+@@ -134,7 +134,7 @@ Index: libassuan-2.1.1/src/libassuan.m4
+        if test "$tmp" -gt 0 ; then
+          AC_MSG_CHECKING([LIBASSUAN API version])
+          if test "$req_libassuan_api" -eq "$tmp" ; then
+-@@ -96,7 +45,7 @@
++@@ -96,7 +45,7 @@ AC_DEFUN([_AM_PATH_LIBASSUAN_COMMON],
+  
+    if test $ok = yes; then
+      if test x"$host" != x ; then
+@@ -143,7 +143,7 @@ Index: libassuan-2.1.1/src/libassuan.m4
+        if test x"$libassuan_config_host" != xnone ; then
+          if test x"$libassuan_config_host" != x"$host" ; then
+    AC_MSG_WARN([[
+-@@ -137,12 +86,8 @@
++@@ -137,12 +86,8 @@ dnl
+  AC_DEFUN([AM_PATH_LIBASSUAN],
+  [ _AM_PATH_LIBASSUAN_COMMON($1)
+    if test $ok = yes; then
+diff --git a/meta/recipes-support/libassuan/libassuan_2.1.1.bb b/meta/recipes-support/libassuan/libassuan_2.1.2.bb
+similarity index 86%
+rename from meta/recipes-support/libassuan/libassuan_2.1.1.bb
+rename to meta/recipes-support/libassuan/libassuan_2.1.2.bb
+index d660233..6d89107 100644
+--- a/meta/recipes-support/libassuan/libassuan_2.1.1.bb
++++ b/meta/recipes-support/libassuan/libassuan_2.1.2.bb
+@@ -13,8 +13,8 @@ DEPENDS = "libgpg-error"
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libassuan/libassuan-${PV}.tar.bz2 \
+ 	   file://libassuan-add-pkgconfig-support.patch"
+ 
+-SRC_URI[md5sum] = "757243cc4a71b30ed8d8dbe784035d36"
+-SRC_URI[sha256sum] = "23e2d67779b88e90d29fe1df6b157109f1c2a647d0f1b2a0f4295bb3c0b2039d"
++SRC_URI[md5sum] = "1dc4c3e1dbfb3939bfa2d72db8e136ba"
++SRC_URI[sha256sum] = "39f8a7c9349aaaf7ccd937b90660153ec4d2d4df2465018754e5bcae5b1db77b"
+ 
+ BINCONFIG = "${bindir}/libassuan-config"
+ 
 -- 
-1.9.1
+1.8.3.1
 
 
