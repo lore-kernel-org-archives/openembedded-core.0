@@ -1,40 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 31A7471044
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 69E8971044
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 10:54:31 +0000 (UTC)
-Received: by mail-wi0-f176.google.com with SMTP id bs8so8893070wib.9
+	Fri, 29 Aug 2014 10:55:31 +0000 (UTC)
+Received: by mail-pd0-f169.google.com with SMTP id g10so198251pdj.14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 03:54:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=bQS5oz9HSoQII8A4yaZOsbwyaMJWHtS4FoTOI6ka49k=;
-	b=hga7oHmUmFlt+HuUV0B/NUq7i9W0yE97Du8+roI41TE297xw0OsoPA9JFUmlt2JqNU
-	2Wk9TBOSQK/ngLrA3krQYmJB8bjMLlBi7YhXZMZq9XLILjZV6fr9m0e8fEpyFnmkHtk9
-	tP9cmWaKmx+CrqAOvM9R5x00+owJUcbiFFwZJEgIOFgLmhfE5bSY37MSXu8XAj4cfMQk
-	7vvaNws/jCHYlEg9Nm/G/LgbZD/q9DbqmUrymvDCxBBjmTmL3FQwmbDS6NMeUvFd0MNT
-	IX9Qi+/NME0ps2cjmbPj1N2Nk/EXCgxcXA7F3aSoD/aNwg1atnNodQhPSgT/6WmVYZe3
-	klhg==
-X-Received: by 10.180.104.163 with SMTP id gf3mr3062065wib.24.1409309671797;
-	Fri, 29 Aug 2014 03:54:31 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	wr10sm17721449wjc.10.2014.08.29.03.54.30 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 29 Aug 2014 03:54:30 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 29 Aug 2014 12:54:41 +0200
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Message-ID: <20140829105441.GN16066@jama>
-References: <1409307382-1835-1-git-send-email-dv@pseudoterminal.org>
+	Fri, 29 Aug 2014 03:55:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=mJhWL5sH0XQNKA51pOmsAHTYp5+YGGr5ZSd7S8iFQIk=;
+	b=Y4pHMrXS5KD0InRhFVhQuaMfq0e3tav/Tjr/Lh6modo4k3TjgF0ikScn5N5KuSErTN
+	d2vGvQuGQmIjO8FVlGBj8VfyRRTbrcxVWePgcUTAOCsxLfNQHWH8Po72ORN6mfHaGP2c
+	RsqVuPVLow0iUw5nDLUCgELDgZ/z9ZgprF9XwOBxYiJiMdmQKHPxhQDwYJGh1oHpih9W
+	SWkZCoqXCicybM/dRL397++dZCH4yQ8UIVFInuKvjlztNrZ/QvLvrOff/im2Kp1JsiHD
+	1YgZMN4QeP82Fpy6tefrlUedtrrYXcS0t68bbPKAIu3bE4UnZa39hI+pFBFU8M+iKF5V
+	3oNA==
+X-Gm-Message-State: ALoCoQl5NPzbkIVm48ItZJltZj9mhLwO+4UvGemqDPj3WF3w2ARoUCwTDFrP3zJ0Elfr6FGkeTOD
 MIME-Version: 1.0
-In-Reply-To: <1409307382-1835-1-git-send-email-dv@pseudoterminal.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] libsdl: add packageconfigs for x11, directfb, opengl
+X-Received: by 10.66.222.74 with SMTP id qk10mr14558960pac.70.1409309733416;
+	Fri, 29 Aug 2014 03:55:33 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.57.136 with HTTP; Fri, 29 Aug 2014 03:55:33 -0700 (PDT)
+In-Reply-To: <1408720803-11737-1-git-send-email-lpapp@kde.org>
+References: <1408720803-11737-1-git-send-email-lpapp@kde.org>
+Date: Fri, 29 Aug 2014 11:55:33 +0100
+X-Google-Sender-Auth: y4XTwQ3xfkT-rT2dU6pgh-RaWqY
+Message-ID: <CAOMwXhNdwEdKY_5o8Mvtyam1LdrnNEUz0vbvW-_WdqBFEH-WxA@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Add support for ccache builds with the SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,132 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 10:54:34 -0000
-X-Groupsio-MsgNum: 57146
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="R4+lwT0Y15rLnKR0"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 29 Aug 2014 10:55:36 -0000
+Content-Type: text/plain; charset=UTF-8
 
---R4+lwT0Y15rLnKR0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+One week passed and there is neither feedback, nor progress. What am I
+doing wrong?
 
-On Fri, Aug 29, 2014 at 12:16:22PM +0200, Carlos Rafael Giani wrote:
-> Also adds special treatment of nativesdk versions to avoid build errors
->=20
-> Adapted from openembedded-core-contrib, commit
-> cb921237643be39aa8f44ea4c35d3cfd30f782c0
->=20
-> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+On Fri, Aug 22, 2014 at 4:20 PM, Laszlo Papp <lpapp@kde.org> wrote:
+> Signed-off-by: Laszlo Papp <lpapp@kde.org>
 > ---
->  meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 25 +++++++++++++++------=
-----
->  1 file changed, 15 insertions(+), 10 deletions(-)
->=20
-> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes=
--graphics/libsdl/libsdl_1.2.15.bb
-> index e544b60..8a30abc 100644
-> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-> @@ -12,11 +12,9 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D27818cd7fd8=
-3877a8e3ef82b82798ef4"
-> =20
->  PROVIDES =3D "virtual/libsdl"
-> =20
-> -DEPENDS =3D "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'direct=
-fb', '', d)} \
-> -           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/li=
-bgl libglu', '', d)} \
-> -           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx1=
-1 libxext libxrandr libxrender', '', d)} \
-> -           tslib"
-> -DEPENDS_class-nativesdk =3D "${@bb.utils.contains('DISTRO_FEATURES', 'x1=
-1', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nati=
-vesdk-libxext', '', d)}"
-> +DEPENDS =3D "tslib"
-> +# necessary because there is no nativesdk-tslib
-> +DEPENDS_class-nativesdk =3D ""
-> =20
->  PR =3D "r3"
-> =20
-> @@ -42,16 +40,23 @@ EXTRA_OECONF =3D "--disable-static --enable-cdrom --e=
-nable-threads --enable-timers
->                  --disable-video-fbcon --disable-video-ps2gs --disable-vi=
-deo-ps3 \
->                  --disable-xbios --disable-gem --disable-video-dummy \
->                  --enable-input-events --enable-input-tslib --enable-pthr=
-eads \
-> -                ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', '--e=
-nable-video-directfb', '--disable-video-directfb', d)} \
-> -                ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '--ena=
-ble-video-opengl', '--disable-video-opengl', d)} \
-> -                ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '--enable=
--video-x11', '--disable-video-x11', d)} \
->                  --disable-video-svga \
->                  --disable-video-picogui --disable-video-qtopia --enable-=
-sdl-dlopen \
->                  --disable-rpath \
->                  --disable-pulseaudio"
-> =20
-> -PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'al=
-sa', '', d)}"
-> -PACKAGECONFIG[alsa] =3D "--enable-alsa --disable-alsatest,--disable-alsa=
-,alsa-lib,"
-> +PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'al=
-sa', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', '=
-directfb', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'op=
-engl', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11',=
- '', d)}"
-> +# virtual/libgl-nativesdk is not available
-> +PACKAGECONFIG_virtclass-nativesdk =3D "${@base_contains('DISTRO_FEATURES=
-', 'alsa', 'alsa', '', d)} \
+>  meta/classes/toolchain-scripts.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+> index 6cc8eba..60278d6 100644
+> --- a/meta/classes/toolchain-scripts.bbclass
+> +++ b/meta/classes/toolchain-scripts.bbclass
+> @@ -19,6 +19,7 @@ toolchain_create_sdk_env_script () {
+>                 EXTRAPATH="$EXTRAPATH:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_ARCH}${TARGET_VENDOR}-$i"
+>         done
+>         echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}'$EXTRAPATH':$PATH' >> $script
+> +       echo 'export CCACHE_PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}'$EXTRAPATH':$CCACHE_PATH' >> $script
+>         echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
+>         echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig' >> $script
+>         echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
+> @@ -37,6 +38,7 @@ toolchain_create_tree_env_script () {
+>         rm -f $script
+>         touch $script
+>         echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${PATH}' >> $script
+> +       echo 'export CCACHE_PATH=${STAGING_DIR_NATIVE}/usr/bin:${CCACHE_PATH}' >> $script
+>         echo 'export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_SYSROOT_DIR}' >> $script
+>         echo 'export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}' >> $script
+>         echo 'export CONFIG_SITE="${@siteinfo_get_files(d)}"' >> $script
+> --
+> 2.0.4
+>
 
-You can use just _class-nativesdk now, it wasn't available when I did my ol=
-d change.
-
-And you should also use bb.utils.contains here.
-
-> +                                     ${@base_contains('DISTRO_FEATURES',=
- 'directfb', 'directfb', '', d)} \
-> +                                     ${@base_contains('DISTRO_FEATURES',=
- 'x11', 'x11', '', d)}"
-> +PACKAGECONFIG[alsa] =3D "--enable-alsa --disable-alsatest,--disable-alsa=
-,alsa-lib"
-> +PACKAGECONFIG[directfb] =3D "--enable-video-directfb,--disable-video-dir=
-ectfb,directfb"
-> +PACKAGECONFIG[opengl] =3D "--enable-video-opengl,--disable-video-opengl,=
-virtual/libgl libglu"
-> +PACKAGECONFIG[x11] =3D "--enable-video-x11,--disable-video-x11,virtual/l=
-ibx11 libxext libxrandr libxrender"
-> =20
->  PARALLEL_MAKE =3D ""
-> =20
-> --=20
-> 1.8.3.2
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---R4+lwT0Y15rLnKR0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlQAW/EACgkQN1Ujt2V2gBzHygCfcwhDM7UChjnTQpUUrshXjz6Q
-JugAnjpOiHC2XS0JJC6AHDJr0lTsL10B
-=OAfj
------END PGP SIGNATURE-----
-
---R4+lwT0Y15rLnKR0--
