@@ -1,38 +1,26 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
-	[209.85.160.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 934657113B
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FADB705FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 23:33:42 +0000 (UTC)
-Received: by mail-yk0-f176.google.com with SMTP id 19so944600ykq.7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 16:33:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=+ZbCoqwZ83L4qIX5bXn1wiADeH6Qs0ztJ6Mc6NY5MO0=;
-	b=kJpVg0X3Y5FBSDaDvrjldH4D5Ro5LAOWNIgUCy1OrYw7g3Oe7fBMPjCxPBAc5RKT2t
-	cikjOnNgjLpgXpwxMaqnZnsBYLPRpL1NKtMbqtFLW8wIOLopHC4w6xTecEJFuvRMBTXr
-	+8d+jfNRGGfggdLqGiUFLlnXANf+1pbjPL+5nThdJ73eqkF2OkfvjCqaF/VHUJWC1AJ1
-	pd/+h8bRZIQVXNSvmHJgSbdmtFINMK5EKnU8zoZSSfxfjnOn3NqjBekVwFoTD67aK4ga
-	FRLSWYqwuah3gKjw58mXCA9h1/i6ihCXFCraYUwQOB2aIy8AyDg1xhfNBCHCXDQthWZJ
-	s1rA==
-X-Received: by 10.236.38.225 with SMTP id a61mr8902430yhb.35.1409268823351;
-	Thu, 28 Aug 2014 16:33:43 -0700 (PDT)
-Received: from monster.lab.ossystems.com.br ([177.35.70.10])
-	by mx.google.com with ESMTPSA id a63sm2423053yhd.53.2014.08.28.16.33.40
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 28 Aug 2014 16:33:42 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Aug 2014 20:33:20 -0300
-Message-Id: <1409268800-17566-2-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1409268800-17566-1-git-send-email-otavio@ossystems.com.br>
-References: <1409268800-17566-1-git-send-email-otavio@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/2] libpam: Fix multilib packaging
+	Fri, 29 Aug 2014 00:14:26 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 28 Aug 2014 17:14:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,421,1406617200"; d="scan'208";a="565079702"
+Received: from mmckenna-mobl2.ger.corp.intel.com (HELO [10.255.12.242])
+	([10.255.12.242])
+	by orsmga001.jf.intel.com with ESMTP; 28 Aug 2014 17:14:26 -0700
+Message-ID: <53FFC5E2.3010207@linux.intel.com>
+Date: Thu, 28 Aug 2014 17:14:26 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.7.0
+MIME-Version: 1.0
+To: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1409221406-25014-1-git-send-email-muzaffar_mahmood@mentor.com>
+In-Reply-To: <1409221406-25014-1-git-send-email-muzaffar_mahmood@mentor.com>
+Subject: Re: [PATCH] systemtap: Patches for version 2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,63 +33,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Aug 2014 23:33:42 -0000
+X-List-Received-Date: Fri, 29 Aug 2014 00:14:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The plugin runtime dependencies were not including the multilib
-prefix, fix it.
+On 08/28/2014 03:23 AM, Muzaffar Mahmood wrote:
+> From: Mikhail Durnev <Mikhail_Durnev@mentor.com>
+>
+Please tell us why?  If you up-revving, does it make more sense to 
+change where we are pointing the git hash?
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-extended/pam/libpam_1.1.6.bb |   21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+> Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
+> Signed-off-by: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
+> ---
+>   .../systemtap/systemtap/system_map_location.patch  |   13 +++++++++++++
+>   meta/recipes-kernel/systemtap/systemtap_git.inc    |    1 +
+>   2 files changed, 14 insertions(+)
+>   create mode 100644 meta/recipes-kernel/systemtap/systemtap/system_map_location.patch
+>
+> diff --git a/meta/recipes-kernel/systemtap/systemtap/system_map_location.patch b/meta/recipes-kernel/systemtap/systemtap/system_map_location.patch
+> new file mode 100644
+> index 0000000..cd4f19e
+> --- /dev/null
+> +++ b/meta/recipes-kernel/systemtap/systemtap/system_map_location.patch
 
-diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
-index f08b4af..183480d 100644
---- a/meta/recipes-extended/pam/libpam_1.1.6.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
-@@ -73,13 +73,18 @@ RPROVIDES_${PN} += "${PN}-${libpam_suffix}"
- RPROVIDES_${PN}-runtime += "${PN}-runtime-${libpam_suffix}"
- 
- RDEPENDS_${PN}-runtime = "${PN}-${libpam_suffix} \
--    pam-plugin-deny-${libpam_suffix} pam-plugin-permit-${libpam_suffix} \
--    pam-plugin-warn-${libpam_suffix} pam-plugin-unix-${libpam_suffix} \
-+    ${MLPREFIX}pam-plugin-deny-${libpam_suffix} \
-+    ${MLPREFIX}pam-plugin-permit-${libpam_suffix} \
-+    ${MLPREFIX}pam-plugin-warn-${libpam_suffix} \
-+    ${MLPREFIX}pam-plugin-unix-${libpam_suffix} \
-     "
- RDEPENDS_${PN}-xtests = "${PN}-${libpam_suffix} \
--    pam-plugin-access-${libpam_suffix} pam-plugin-debug-${libpam_suffix} \
--    pam-plugin-cracklib-${libpam_suffix} pam-plugin-pwhistory-${libpam_suffix} \
--    pam-plugin-succeed-if-${libpam_suffix} pam-plugin-time-${libpam_suffix} \
-+    ${MLPREFIX}pam-plugin-access-${libpam_suffix} \
-+    ${MLPREFIX}pam-plugin-debug-${libpam_suffix} \
-+    ${MLPREFIX}pam-plugin-cracklib-${libpam_suffix} \
-+    ${MLPREFIX}pam-plugin-pwhistory-${libpam_suffix} \
-+    ${MLPREFIX}pam-plugin-succeed-if-${libpam_suffix} \
-+    ${MLPREFIX}pam-plugin-time-${libpam_suffix} \
-     coreutils bash"
- 
- # FIXME: Native suffix breaks here, disable it for now
-@@ -113,13 +118,15 @@ python populate_packages_prepend () {
-             provides = pkg + "-" + libpam_suffix
-         d.setVar('RPROVIDES_' + pkg, provides)
- 
-+    mlprefix = d.getVar('MLPREFIX', True) or ''
-     dvar = bb.data.expand('${WORKDIR}/package', d, True)
-     pam_libdir = d.expand('${base_libdir}/security')
-     pam_sbindir = d.expand('${sbindir}')
-     pam_filterdir = d.expand('${base_libdir}/security/pam_filter')
-+    pam_pkgname = mlprefix + 'pam-plugin%s'
- 
--    do_split_packages(d, pam_libdir, '^pam(.*)\.so$', 'pam-plugin%s', 'PAM plugin for %s', hook=pam_plugin_hook, extra_depends='')
--    mlprefix = d.getVar('MLPREFIX', True) or ''
-+    do_split_packages(d, pam_libdir, '^pam(.*)\.so$', pam_pkgname,
-+                      'PAM plugin for %s', hook=pam_plugin_hook, extra_depends='')
-     pam_plugin_append_file('%spam-plugin-unix' % mlprefix, pam_sbindir, 'unix_chkpwd')
-     pam_plugin_append_file('%spam-plugin-unix' % mlprefix, pam_sbindir, 'unix_update')
-     pam_plugin_append_file('%spam-plugin-tally' % mlprefix, pam_sbindir, 'pam_tally')
--- 
-1.7.10.4
+As with the other patch, this patch file is missing Upstream-Status and 
+Signed-off-by.
 
+See the http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+
+Thanks
+	Sau!
+
+> @@ -0,0 +1,13 @@
+> +Index: git/session.cxx
+> +===================================================================
+> +--- git.orig/session.cxx
+> ++++ git/session.cxx
+> +@@ -1634,7 +1634,7 @@ systemtap_session::parse_kernel_function
+> + 	clog << _F("Kernel symbol table %s unavailable, (%s)",
+> + 		   system_map_path.c_str(), strerror(errno)) << endl;
+> +
+> +-      system_map_path = "/boot/System.map-" + kernel_release;
+> ++      system_map_path = kernel_build_tree + "/System.map-" + kernel_release;
+> +       system_map.clear();
+> +       system_map.open(system_map_path.c_str(), ifstream::in);
+> +       if (! system_map.is_open())
+> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+> index 3e1e80a..33aa136 100644
+> --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
+> +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+> @@ -6,6 +6,7 @@ PV = "2.5+git${SRCPV}"
+>   SRC_URI = "git://sourceware.org/git/systemtap.git \
+>              file://docproc-build-fix.patch \
+>              file://obsolete_automake_macros.patch \
+> +           file://system_map_location.patch \
+>              file://tapset-linux-sendfile-syscall.patch \
+>             "
+>
+>
 
