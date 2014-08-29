@@ -1,25 +1,20 @@
-Return-Path: <max.eliaser@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E9797067B
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id CF5AC6FE64
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 17:04:23 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Aug 2014 10:04:10 -0700
+	Fri, 29 Aug 2014 17:06:38 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 29 Aug 2014 10:06:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,425,1406617200"; d="scan'208";a="583531797"
-Received: from jfdmzpr06.jf.intel.com (HELO [10.7.196.68]) ([10.7.210.25])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Aug 2014 10:04:10 -0700
-Message-ID: <1409331683.8504.1.camel@maxtothemax-Studio-XPS-8000>
-From: Max Eliaser <max.eliaser@intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Fri, 29 Aug 2014 10:01:23 -0700
-In-Reply-To: <c8e81a959f95d3537baa1e9c7e8c090a21d8f1b9.1409154816.git.liezhi.yang@windriver.com>
-References: <cover.1409154816.git.liezhi.yang@windriver.com>
-	<c8e81a959f95d3537baa1e9c7e8c090a21d8f1b9.1409154816.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 8/9] bootchart2: no bashism in bootchartd.in
+X-IronPort-AV: E=Sophos;i="5.04,425,1406617200"; d="scan'208";a="565468706"
+Received: from sentry.rb.intel.com ([10.237.105.37])
+	by orsmga001.jf.intel.com with ESMTP; 29 Aug 2014 10:06:37 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Aug 2014 20:06:31 +0300
+Message-Id: <cover.1409331937.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/3] ALSA upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,78 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 17:04:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Aug 2014 17:06:38 -0000
 
-Would you be okay with me sending this one upstream? I think it's a
-worthwhile modification.
+The following changes since commit fe2e53ba30ba679c038bd5b48b9a91a41af4c49e:
 
--Max
+  bitbake: toaster: create Build methods for calculating progress and ETA (2014-08-29 13:56:50 +0100)
 
-On Wed, 2014-08-27 at 08:57 -0700, Robert Yang wrote:
-> So use /bin/sh
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  .../bootchart2/bootchartd-no-bashism.patch         |   27 ++++++++++++++++++++
->  meta/recipes-devtools/bootchart2/bootchart2_git.bb |    6 +++--
->  2 files changed, 31 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch
-> 
-> diff --git a/meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch b/meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch
-> new file mode 100644
-> index 0000000..b013995
-> --- /dev/null
-> +++ b/meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch
-> @@ -0,0 +1,27 @@
-> +From ffb5bae5d588aaea6325623462a8070a04767196 Mon Sep 17 00:00:00 2001
-> +From: Robert Yang <liezhi.yang@windriver.com>
-> +Date: Thu, 14 Aug 2014 08:33:28 -0700
-> +Subject: [PATCH] bootchartd.in: no bashism
-> +
-> +No bashism in bootchartd.in, so use /bin/sh.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> +---
-> + bootchartd.in |    2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/bootchartd.in b/bootchartd.in
-> +index a408bab..064f6a4 100755
-> +--- a/bootchartd.in
-> ++++ b/bootchartd.in
-> +@@ -1,4 +1,4 @@
-> +-#!/bin/bash
-> ++#!/bin/sh
-> + #
-> + # Bootchart logger script
-> + # Ziga Mahkovec  <ziga.mahkovec@klika.si>
-> +-- 
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-devtools/bootchart2/bootchart2_git.bb b/meta/recipes-devtools/bootchart2/bootchart2_git.bb
-> index 4116304..04fb901 100644
-> --- a/meta/recipes-devtools/bootchart2/bootchart2_git.bb
-> +++ b/meta/recipes-devtools/bootchart2/bootchart2_git.bb
-> @@ -91,8 +91,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=44ac4678311254db62edf8fd39cb8124"
->  # one commit beyond 1.14.6 for a systemd-related bugfix
->  PV = "0.14.6+git${SRCPV}"
->  
-> -SRC_URI = "git://github.com/mmeeks/bootchart.git"
-> -SRC_URI += "file://bootchartd_stop.sh"
-> +SRC_URI = "git://github.com/mmeeks/bootchart.git \
-> +           file://bootchartd_stop.sh \
-> +           file://bootchartd-no-bashism.patch \
-> +          "
->  
->  SRCREV = "b65ed43b0ae832080fb728245de9ef1a4b48d8b5"
->  
-> -- 
-> 1.7.9.5
-> 
+are available in the git repository at:
 
+  git://git.yoctoproject.org/poky-contrib ciorga/PU2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PU2
+
+Cristian Iorga (3):
+  alsa-lib: upgrade to 1.0.28
+  alsa-tools: upgrade to 1.0.28
+  alsa-utils: upgrade to 1.0.28
+
+ .../Check-if-wordexp-function-is-supported.patch   | 31 +++++-----
+ ...-iatomic.h-functions-definitions-for-mips.patch | 68 ----------------------
+ .../{alsa-lib_1.0.27.2.bb => alsa-lib_1.0.28.bb}   |  7 +--
+ .../alsa/alsa-tools/mips_has_no_io_h.patch         | 16 -----
+ .../{alsa-tools_1.0.27.bb => alsa-tools_1.0.28.bb} |  7 +--
+ ...f_1.0.27.2.bb => alsa-utils-alsaconf_1.0.28.bb} |  0
+ ...-t-let-systemd-unit-restore-the-volume-wh.patch | 42 ++++++++-----
+ ...alsa-utils_1.0.27.2.bb => alsa-utils_1.0.28.bb} |  6 +-
+ 8 files changed, 52 insertions(+), 125 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-lib/Update-iatomic.h-functions-definitions-for-mips.patch
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.0.27.2.bb => alsa-lib_1.0.28.bb} (86%)
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-tools/mips_has_no_io_h.patch
+ rename meta/recipes-multimedia/alsa/{alsa-tools_1.0.27.bb => alsa-tools_1.0.28.bb} (82%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-alsaconf_1.0.27.2.bb => alsa-utils-alsaconf_1.0.28.bb} (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.0.27.2.bb => alsa-utils_1.0.28.bb} (94%)
+
+-- 
+1.9.1
 
 
