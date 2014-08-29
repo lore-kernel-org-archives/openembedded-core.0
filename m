@@ -1,27 +1,28 @@
 Return-Path: <Yue.Tao@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 275126AC85
+	by mail.openembedded.org (Postfix) with ESMTP id 06E546AC85
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 06:37:13 +0000 (UTC)
+	Fri, 29 Aug 2014 06:37:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7T6bEPK027049
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7T6bbrr027102
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 23:37:14 -0700 (PDT)
+	Thu, 28 Aug 2014 23:37:37 -0700 (PDT)
 Received: from [128.224.162.151] (128.224.162.151) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 28 Aug 2014 23:37:13 -0700
-Message-ID: <54001FA5.1080701@windriver.com>
-Date: Fri, 29 Aug 2014 14:37:25 +0800
+	Thu, 28 Aug 2014 23:37:37 -0700
+Message-ID: <54001FBC.1020008@windriver.com>
+Date: Fri, 29 Aug 2014 14:37:48 +0800
 From: "yue.tao" <yue.tao@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
 References: <1409293376-10981-1-git-send-email-Yue.Tao@windriver.com>
-In-Reply-To: <1409293376-10981-1-git-send-email-Yue.Tao@windriver.com>
-Subject: Re: [PATCH 1/2] gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-4358
+	<1409293376-10981-2-git-send-email-Yue.Tao@windriver.com>
+In-Reply-To: <1409293376-10981-2-git-send-email-Yue.Tao@windriver.com>
+Subject: Re: [PATCH 2/2] gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0869
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,190 +35,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 06:37:13 -0000
+X-List-Received-Date: Fri, 29 Aug 2014 06:37:36 -0000
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Please ignore the patch, because wrong status: Upstream-Status: Pending. 
-It should be Backporting.
 
-
-
+Ditto
 
 On 2014年08月29日 14:22, Yue Tao wrote:
-> libavcodec/h264.c in FFmpeg before 0.11.4 allows remote attackers to
-> cause a denial of service (crash) via vectors related to alternating bit
-> depths in H.264 data.
+> The field_end function in libavcodec/h264.c in FFmpeg before 1.1.2
+> allows remote attackers to have an unspecified impact via crafted H.264
+> data, related to an SPS and slice mismatch and an out-of-bounds array
+> access.
 >
-> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4358
+> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0869
 >
 > Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 > ---
->   ...t-parameters-from-SPS-whenever-it-changes.patch |  145 ++++++++++++++++++++
+>   ...rror-concealment-when-SPS-and-slices-are-.patch |   33 ++++++++++++++++++++
 >   .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
->   2 files changed, 146 insertions(+)
->   create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-set-parameters-from-SPS-whenever-it-changes.patch
+>   2 files changed, 34 insertions(+)
+>   create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-skip-error-concealment-when-SPS-and-slices-are-.patch
 >
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-set-parameters-from-SPS-whenever-it-changes.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-set-parameters-from-SPS-whenever-it-changes.patch
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-skip-error-concealment-when-SPS-and-slices-are-.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-skip-error-concealment-when-SPS-and-slices-are-.patch
 > new file mode 100644
-> index 0000000..3c4e63d
+> index 0000000..7dcba36
 > --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-set-parameters-from-SPS-whenever-it-changes.patch
-> @@ -0,0 +1,145 @@
-> +gst-ffmpeg: h264: set parameters from SPS whenever it changes
+> +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-skip-error-concealment-when-SPS-and-slices-are-.patch
+> @@ -0,0 +1,33 @@
+> +gst-ffmpeg: h264: skip error concealment when SPS and slices are
+> + mismatching
 > +
-> +Fixes a crash in the fuzzed sample sample_varPAR.avi_s26638 with
-> +alternating bit depths.
+> +Fixes out of array accesses
+> +
+> +Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
+> +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
+> +(cherry picked from commit 695af8eed642ff0104834495652d1ee784a4c14d)
 > +
 > +Upstream-Status: Pending
 > +
+> +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
 > +Signed-off-by: Yue Tao <yue.tao@windriver.com>
+> +---
+> + libavcodec/h264.c |    2 +-
+> + 1 files changed, 1 insertions(+), 1 deletions(-)
 > +
-> +diff --git a/gst-libs/ext/libav/libavcodec/h264.c.old b/gst-libs/ext/libav/libavcodec/h264.c
-> +index 3621f41..718906a 100644
-> +--- a/gst-libs/ext/libav/libavcodec/h264.c.old
+> +diff --git a/libavcodec/h264.c b/libavcodec/h264.c
+> +index da144db..0aab4e7 100644
+> +--- a/gst-libs/ext/libav/libavcodec/h264.c
 > ++++ b/gst-libs/ext/libav/libavcodec/h264.c
-> +@@ -2491,6 +2491,34 @@ int ff_h264_get_profile(SPS *sps)
-> +     return profile;
-> + }
+> +@@ -2351,7 +2351,7 @@ static int field_end(H264Context *h, int in_setup)
+> +      * past end by one (callers fault) and resync_mb_y != 0
+> +      * causes problems for the first MB line, too.
+> +      */
+> +-    if (!FIELD_PICTURE)
+> ++    if (!FIELD_PICTURE && h->current_slice && !h->sps.new)
+> +         ff_er_frame_end(s);
 > +
-> ++static int h264_set_parameter_from_sps(H264Context *h)
-> ++{
-> ++    MpegEncContext *s = &h->s;
-> ++    AVCodecContext * avctx= s->avctx;
-> ++
-> ++    if (s->flags& CODEC_FLAG_LOW_DELAY ||
-> ++        (h->sps.bitstream_restriction_flag && !h->sps.num_reorder_frames))
-> ++        s->low_delay=1;
-> ++
-> ++    if(avctx->has_b_frames < 2)
-> ++        avctx->has_b_frames= !s->low_delay;
-> ++
-> ++    if (avctx->bits_per_raw_sample != h->sps.bit_depth_luma) {
-> ++        if (h->sps.bit_depth_luma >= 8 && h->sps.bit_depth_luma <= 10) {
-> ++            avctx->bits_per_raw_sample = h->sps.bit_depth_luma;
-> ++            h->pixel_shift = h->sps.bit_depth_luma > 8;
-> ++
-> ++            ff_h264dsp_init(&h->h264dsp, h->sps.bit_depth_luma);
-> ++            ff_h264_pred_init(&h->hpc, s->codec_id, h->sps.bit_depth_luma);
-> ++            dsputil_init(&s->dsp, s->avctx);
-> ++        } else {
-> ++            av_log(avctx, AV_LOG_DEBUG, "Unsupported bit depth: %d\n", h->sps.bit_depth_luma);
-> ++            return -1;
-> ++        }
-> ++    }
-> ++    return 0;
-> ++}
-> ++
-> + /**
-> +  * decodes a slice header.
-> +  * This will also call MPV_common_init() and frame_start() as needed.
-> +@@ -2505,7 +2533,7 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
-> +     MpegEncContext * const s0 = &h0->s;
-> +     unsigned int first_mb_in_slice;
-> +     unsigned int pps_id;
-> +-    int num_ref_idx_active_override_flag;
-> ++    int num_ref_idx_active_override_flag, ret;
-> +     unsigned int slice_type, tmp, i, j;
-> +     int default_ref_list_done = 0;
-> +     int last_pic_structure;
-> +@@ -2569,7 +2597,17 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
-> +         av_log(h->s.avctx, AV_LOG_ERROR, "non-existing SPS %u referenced\n", h->pps.sps_id);
-> +         return -1;
-> +     }
-> +-    h->sps = *h0->sps_buffers[h->pps.sps_id];
-> ++
-> ++    if (h->pps.sps_id != h->current_sps_id ||
-> ++        h0->sps_buffers[h->pps.sps_id]->new) {
-> ++        h0->sps_buffers[h->pps.sps_id]->new = 0;
-> ++
-> ++        h->current_sps_id = h->pps.sps_id;
-> ++        h->sps            = *h0->sps_buffers[h->pps.sps_id];
-> ++
-> ++        if ((ret = h264_set_parameter_from_sps(h)) < 0)
-> ++            return ret;
-> ++    }
+> +     ff_MPV_frame_end(s);
+> +--
+> +1.7.5.4
 > +
-> +     s->avctx->profile = ff_h264_get_profile(&h->sps);
-> +     s->avctx->level   = h->sps.level_idc;
-> +@@ -3811,26 +3811,8 @@ static int decode_nal_units(H264Context *h, const uint8_t *buf, int buf_size){
-> +         case NAL_SPS:
-> +             init_get_bits(&s->gb, ptr, bit_length);
-> +             ff_h264_decode_seq_parameter_set(h);
-> +-
-> +-            if (s->flags& CODEC_FLAG_LOW_DELAY ||
-> +-                (h->sps.bitstream_restriction_flag && !h->sps.num_reorder_frames))
-> +-                s->low_delay=1;
-> +-
-> +-            if(avctx->has_b_frames < 2)
-> +-                avctx->has_b_frames= !s->low_delay;
-> +-
-> +-            if (avctx->bits_per_raw_sample != h->sps.bit_depth_luma) {
-> +-                if (h->sps.bit_depth_luma >= 8 && h->sps.bit_depth_luma <= 10) {
-> +-                    avctx->bits_per_raw_sample = h->sps.bit_depth_luma;
-> +-                    h->pixel_shift = h->sps.bit_depth_luma > 8;
-> +-
-> +-                    ff_h264dsp_init(&h->h264dsp, h->sps.bit_depth_luma);
-> +-                    ff_h264_pred_init(&h->hpc, s->codec_id, h->sps.bit_depth_luma);
-> +-                    dsputil_init(&s->dsp, s->avctx);
-> +-                } else {
-> +-                    av_log(avctx, AV_LOG_DEBUG, "Unsupported bit depth: %d\n", h->sps.bit_depth_luma);
-> +-                    return -1;
-> +-                }
-> ++            if (h264_set_parameter_from_sps(h) < 0) {
-> ++                return -1;
-> +             }
-> +             break;
-> +         case NAL_PPS:
-> +diff --git a/gst-libs/ext/libav/libavcodec/h264.h.old b/gst-libs/ext/libav/libavcodec/h264.h
-> +index e3cc815..b77ad98 100644
-> +--- a/gst-libs/ext/libav/libavcodec/h264.h.old
-> ++++ b/gst-libs/ext/libav/libavcodec/h264.h
-> +@@ -202,6 +202,7 @@ typedef struct SPS{
-> +     int bit_depth_chroma;              ///< bit_depth_chroma_minus8 + 8
-> +     int residual_color_transform_flag; ///< residual_colour_transform_flag
-> +     int constraint_set_flags;          ///< constraint_set[0-3]_flag
-> ++    int new;                              ///< flag to keep track if the decoder context needs re-init due to changed SPS
-> + }SPS;
-> +
-> + /**
-> +@@ -333,6 +334,7 @@ typedef struct H264Context{
-> +     int emu_edge_width;
-> +     int emu_edge_height;
-> +
-> ++    unsigned current_sps_id; ///< id of the current SPS
-> +     SPS sps; ///< current sps
-> +
-> +     /**
-> +diff --git a/gst-libs/ext/libav/libavcodec/h264_ps.c.old b/gst-libs/ext/libav/libavcodec/h264_ps.c
-> +index 7491807..0929098 100644
-> +--- a/gst-libs/ext/libav/libavcodec/h264_ps.c.old
-> ++++ b/gst-libs/ext/libav/libavcodec/h264_ps.c
-> +@@ -438,10 +438,13 @@ int ff_h264_decode_seq_parameter_set(H264Context *h){
-> +                sps->timing_info_present_flag ? sps->time_scale : 0
-> +                );
-> +     }
-> ++    sps->new = 1;
-> +
-> +     av_free(h->sps_buffers[sps_id]);
-> +-    h->sps_buffers[sps_id]= sps;
-> +-    h->sps = *sps;
-> ++    h->sps_buffers[sps_id] = sps;
-> ++    h->sps                 = *sps;
-> ++    h->current_sps_id      = sps_id;
-> ++
-> +     return 0;
-> + fail:
-> +     av_free(sps);
 > diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-> index bbe3308..3ccb7be 100644
+> index 3ccb7be..395054d 100644
 > --- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
 > +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-> @@ -53,6 +53,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
->              file://0001-qdm2-check-array-index-before-use-fix-out-of-array-a.patch \
+> @@ -54,6 +54,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
 >              file://0001-lavf-compute-probe-buffer-size-more-reliably.patch \
 >              file://0001-ffserver-set-oformat.patch \
-> +           file://0001-h264-set-parameters-from-SPS-whenever-it-changes.patch \
+>              file://0001-h264-set-parameters-from-SPS-whenever-it-changes.patch \
+> +           file://0001-h264-skip-error-concealment-when-SPS-and-slices-are-.patch \
 >              ${@bb.utils.contains('PACKAGECONFIG', 'libav9', 'file://libav-9.patch', '', d)} \
 >   "
 >   
