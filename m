@@ -1,28 +1,24 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6663F70EF1
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id E82EB62252
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 18:40:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7TIeCZ9023325
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 11:40:12 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 29 Aug 2014 11:40:12 -0700
-Message-ID: <5400C90B.4070100@windriver.com>
-Date: Fri, 29 Aug 2014 13:40:11 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1409334040.29296.197.camel@ted>
-In-Reply-To: <1409334040.29296.197.camel@ted>
-Subject: Re: [PATCH] package_rpm: Add builddir macro to define source directory
+	Fri, 29 Aug 2014 18:54:52 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 29 Aug 2014 11:48:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,425,1406617200"; d="scan'208";a="595239752"
+Received: from sentry.rb.intel.com ([10.237.105.37])
+	by orsmga002.jf.intel.com with ESMTP; 29 Aug 2014 11:54:01 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Aug 2014 21:53:45 +0300
+Message-Id: <5f0a4de977c7b87b84ff08acf6ddd35f8bb3d333.1409338378.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1409338378.git.cristian.iorga@intel.com>
+References: <cover.1409338378.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1409338378.git.cristian.iorga@intel.com>
+References: <cover.1409338378.git.cristian.iorga@intel.com>
+Subject: [PATCH 3/7] gstreamer1.0-plugins-base: upgrade to 1.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,41 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 18:40:18 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Aug 2014 18:54:55 -0000
 
-On 8/29/14, 12:40 PM, Richard Purdie wrote:
-> This allows its usage in other RPM macros so files in ${S} can be found.
+Bugfix release.
 
-Minor note, (traditional) RPM doesn't differentiate between the 'B' and the 'S'. 
-  So build dir has historically be a combination of the two.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ ...er1.0-plugins-base_1.4.0.bb => gstreamer1.0-plugins-base_1.4.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.4.0.bb => gstreamer1.0-plugins-base_1.4.1.bb} (78%)
 
-In this case, 'S' is likely better, because any additional post-processing is 
-going to want to reference the generated objects and not the original source. 
-(If the post processing needs the source, then globally S and B will need to be 
-merged back together in a distribution specific configuration.)
-
-So long story short, no objections.. just wanted to cover why S vs B makes sense 
-here.
-
---Mark
-
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-> index 0f565ac..51910ec 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -689,6 +689,7 @@ python do_package_rpm () {
->       cmd = rpmbuild
->       cmd = cmd + " --nodeps --short-circuit --target " + pkgarch + " --buildroot " + pkgd
->       cmd = cmd + " --define '_topdir " + workdir + "' --define '_rpmdir " + pkgwritedir + "'"
-> +    cmd = cmd + " --define '_builddir " + d.getVar('S', True) + "'"
->       cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
->       cmd = cmd + " --define '_use_internal_dependency_generator 0'"
->       if perfiledeps:
->
->
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.1.bb
+similarity index 78%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.0.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.1.bb
+index 968f092..0db42ce 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.0.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.1.bb
+@@ -9,6 +9,6 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
+             file://get-caps-from-src-pad-when-query-caps.patch \
+ "
+ 
+-SRC_URI[md5sum] = "1ff06280b03b9098a706d1290d8bb3bd"
+-SRC_URI[sha256sum] = "5daed4b983b64e4e3fbe9cd29063e4302812cd03ba685a15b06a790911d04c1e"
++SRC_URI[md5sum] = "a825628225bd0a58c0df87cdd2a5db91"
++SRC_URI[sha256sum] = "aea9e25be6691bd3cc0785d005b2b5d70ce313a2c897901680a3f7e7cab5a499"
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
+-- 
+1.9.1
 
 
