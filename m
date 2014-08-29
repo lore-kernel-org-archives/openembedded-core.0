@@ -1,28 +1,24 @@
-Return-Path: <Yue.Tao@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 06E546AC85
+	by mail.openembedded.org (Postfix) with ESMTP id 589BD7121B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 06:37:35 +0000 (UTC)
+	Fri, 29 Aug 2014 06:43:48 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7T6bbrr027102
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7T6hn4S027686
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Aug 2014 23:37:37 -0700 (PDT)
-Received: from [128.224.162.151] (128.224.162.151) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 28 Aug 2014 23:37:37 -0700
-Message-ID: <54001FBC.1020008@windriver.com>
-Date: Fri, 29 Aug 2014 14:37:48 +0800
-From: "yue.tao" <yue.tao@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Thu, 28 Aug 2014 23:43:49 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 28 Aug 2014 23:43:49 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>
+Date: Fri, 29 Aug 2014 14:43:37 +0800
+Message-ID: <cover.1409294050.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1409293376-10981-1-git-send-email-Yue.Tao@windriver.com>
-	<1409293376-10981-2-git-send-email-Yue.Tao@windriver.com>
-In-Reply-To: <1409293376-10981-2-git-send-email-Yue.Tao@windriver.com>
-Subject: Re: [PATCH 2/2] gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-0869
+Subject: [PATCH V4 0/2] sstate_readonly: only allowed sstate-cache objects to be built (read-only sstate-cache)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,78 +31,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 06:37:36 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 29 Aug 2014 06:43:50 -0000
+Content-Type: text/plain
+
+Changed in V4:
+- Enable read-only sstate-cache by inheriting the bbclass
+  rather than by the SSTATECACHE_WHITELIST value is not null.
+  There will be cases where customers don't want to build
+  -anything- from source. In V3, So they would need to enter
+  a dummy value to get that behavior, and that would not be
+  intuitive. 
+
+Changed in V3:
+- remove bitbake patch, which was sent to bitbake-devel
+- rebase 'bbclass/sstate' patch, which was conflicted with
+  'sstate: Add extra intercept functions' patch in master-next
+
+Changed in V2:
+
+- add hook SSTATE_CHECK_FUNCTIONS for sstate checking, and
+  add a new bbclass/sstate_readonly, rather than directly
+  modify bbclass/sstate
+
+- terminate build safely while RunQueueExecuteScenequeue
+  init failed, the previous bb.msg.fatal is too hack.
+
+Test Steps:
+
+1) Prepare an existed sstate_cache with cache directory "Sstate_Cache_Dir"
+   It contained db-native sstate_cache.
+
+2) Enable read-only sstate-cache by inheriting, and assign SSTATE_DIR
+   with Sstate_Cache_Dir, vim local.conf
+...
+INHERIT += 'sstate_readonly'
+SSTATE_DIR = "Sstate_Cache_Dir"
+...
+
+3) bitbake db-native
+
+4) tweak db's do_configure task by adding comments
+--- a/meta/recipes-support/db/db_6.0.30.bb
++++ b/meta/recipes-support/db/db_6.0.30.bb
+@@ -82,6 +82,7 @@ do_configure() {
+        gnu-configize --force ${S}
+        export STRIP="true"
+        oe_runconf
++       echo "hello"
+ }
 
 
-Ditto
+5) build db-native and there is a build failure
+$ bitbake db-native
+...
+ERROR: Read-only sstate-cache is enabled, the build of 
+"db-native"
+did not come from sstate-cache. Only the recipe listed in
+SSTATECACHE_WHITELIST is allowed to build from source
+ERROR: Hash validation failed in RunQueueExecuteScenequeue Function failed: sstate_readonly_check
+...
 
-On 2014年08月29日 14:22, Yue Tao wrote:
-> The field_end function in libavcodec/h264.c in FFmpeg before 1.1.2
-> allows remote attackers to have an unspecified impact via crafted H.264
-> data, related to an SPS and slice mismatch and an out-of-bounds array
-> access.
->
-> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0869
->
-> Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-> ---
->   ...rror-concealment-when-SPS-and-slices-are-.patch |   33 ++++++++++++++++++++
->   .../gstreamer/gst-ffmpeg_0.10.13.bb                |    1 +
->   2 files changed, 34 insertions(+)
->   create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-skip-error-concealment-when-SPS-and-slices-are-.patch
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-skip-error-concealment-when-SPS-and-slices-are-.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-skip-error-concealment-when-SPS-and-slices-are-.patch
-> new file mode 100644
-> index 0000000..7dcba36
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-h264-skip-error-concealment-when-SPS-and-slices-are-.patch
-> @@ -0,0 +1,33 @@
-> +gst-ffmpeg: h264: skip error concealment when SPS and slices are
-> + mismatching
-> +
-> +Fixes out of array accesses
-> +
-> +Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
-> +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-> +(cherry picked from commit 695af8eed642ff0104834495652d1ee784a4c14d)
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-> +Signed-off-by: Yue Tao <yue.tao@windriver.com>
-> +---
-> + libavcodec/h264.c |    2 +-
-> + 1 files changed, 1 insertions(+), 1 deletions(-)
-> +
-> +diff --git a/libavcodec/h264.c b/libavcodec/h264.c
-> +index da144db..0aab4e7 100644
-> +--- a/gst-libs/ext/libav/libavcodec/h264.c
-> ++++ b/gst-libs/ext/libav/libavcodec/h264.c
-> +@@ -2351,7 +2351,7 @@ static int field_end(H264Context *h, int in_setup)
-> +      * past end by one (callers fault) and resync_mb_y != 0
-> +      * causes problems for the first MB line, too.
-> +      */
-> +-    if (!FIELD_PICTURE)
-> ++    if (!FIELD_PICTURE && h->current_slice && !h->sps.new)
-> +         ff_er_frame_end(s);
-> +
-> +     ff_MPV_frame_end(s);
-> +--
-> +1.7.5.4
-> +
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-> index 3ccb7be..395054d 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-> @@ -54,6 +54,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
->              file://0001-lavf-compute-probe-buffer-size-more-reliably.patch \
->              file://0001-ffserver-set-oformat.patch \
->              file://0001-h264-set-parameters-from-SPS-whenever-it-changes.patch \
-> +           file://0001-h264-skip-error-concealment-when-SPS-and-slices-are-.patch \
->              ${@bb.utils.contains('PACKAGECONFIG', 'libav9', 'file://libav-9.patch', '', d)} \
->   "
->   
+6) clean db-native failed
+$ bitbake db-native -ccleansstate
+...
+ERROR: Read-only sstate-cache is enabled, the clean of 
+db-native is not allowed. Only the recipe listed in
+SSTATECACHE_WHITELIST is allowed to clean sstate-cache
+...
+
+$ bitbake db-native -ccleanall
+...
+ERROR: Read-only sstate-cache is enabled, the clean of 
+db-native is not allowed. Only the recipe listed in
+SSTATECACHE_WHITELIST is allowed to clean sstate-cache
+...
+
+7) Add db-native to SSTATECACHE_WHITELIST
+vim local.conf
+...
+SSTATECACHE_WHITELIST = 'db-native'
+...
+
+8) build/clean db-native succee
+$ bitbake db-native
+$ bitbake db-native -ccleansstate
+$ bitbake db-native -ccleanall
+
+//Hongxu
+
+The following changes since commit 669c07d6022174d01fe5a95b7b0faa9ef86da1e2:
+
+  bitbake: build/data: Write out more complete python run files (2014-08-28 15:12:45 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/readonly-sstatecache
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/readonly-sstatecache
+
+Hongxu Jia (2):
+  bbclass/sstate: add hook SSTATE_CHECK_FUNCTIONS for sstate checking
+  bbclass/sstate_readonly: only allowed sstate-cache objects to be built
+    (read-only sstate-cache)
+
+ meta/classes/sstate.bbclass          | 26 ++++++++++++++++++
+ meta/classes/sstate_readonly.bbclass | 53 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/classes/sstate_readonly.bbclass
+
+-- 
+1.9.1
 
 
