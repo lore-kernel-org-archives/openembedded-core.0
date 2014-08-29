@@ -1,37 +1,30 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 69E8971044
+Return-Path: <niqingliang2003@gmail.com>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B1196ACE5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 10:55:31 +0000 (UTC)
-Received: by mail-pd0-f169.google.com with SMTP id g10so198251pdj.14
+	Fri, 29 Aug 2014 11:28:03 +0000 (UTC)
+Received: by mail-wi0-f177.google.com with SMTP id cc10so2341692wib.16
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 03:55:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=mJhWL5sH0XQNKA51pOmsAHTYp5+YGGr5ZSd7S8iFQIk=;
-	b=Y4pHMrXS5KD0InRhFVhQuaMfq0e3tav/Tjr/Lh6modo4k3TjgF0ikScn5N5KuSErTN
-	d2vGvQuGQmIjO8FVlGBj8VfyRRTbrcxVWePgcUTAOCsxLfNQHWH8Po72ORN6mfHaGP2c
-	RsqVuPVLow0iUw5nDLUCgELDgZ/z9ZgprF9XwOBxYiJiMdmQKHPxhQDwYJGh1oHpih9W
-	SWkZCoqXCicybM/dRL397++dZCH4yQ8UIVFInuKvjlztNrZ/QvLvrOff/im2Kp1JsiHD
-	1YgZMN4QeP82Fpy6tefrlUedtrrYXcS0t68bbPKAIu3bE4UnZa39hI+pFBFU8M+iKF5V
-	3oNA==
-X-Gm-Message-State: ALoCoQl5NPzbkIVm48ItZJltZj9mhLwO+4UvGemqDPj3WF3w2ARoUCwTDFrP3zJ0Elfr6FGkeTOD
+	Fri, 29 Aug 2014 04:28:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=aAJTrYaEDXbUZYvOMpc2UgzWPtfFkb3IA7YCm+vyyqw=;
+	b=teqLpZFdVsVRWjEtwMOF1JmrPORJvZ6YNHpXjrhEZSLxsM4WOfMt7kMfvzO8jNA/TM
+	5P3ZVcBGI7jZ/08d9lc2rYj50lFEZCzJ+jpVDHclBJ4PscBEBX0LlGay42rN7eIIWtc3
+	WpLqWmkZ4bI4BNQb09KzHL6RnRCVPr+qBWQOs0wofMTdqTTc2+zc1kNJDxZGuiUQ1Bxz
+	6FpaNqVsKBn7D37DUhxdwKi3RFb7yupUbO+4h1SSMMJ17/ZEZ4PEaTzV41Aa7B02BFsX
+	LBiGZ0Hyd7HEjOhGvS/iEmQR5vYWl6vkU3cmg1G8k31zhW1pn09A47Q9PjCLQZSaJJRx
+	7w7A==
 MIME-Version: 1.0
-X-Received: by 10.66.222.74 with SMTP id qk10mr14558960pac.70.1409309733416;
-	Fri, 29 Aug 2014 03:55:33 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.70.57.136 with HTTP; Fri, 29 Aug 2014 03:55:33 -0700 (PDT)
-In-Reply-To: <1408720803-11737-1-git-send-email-lpapp@kde.org>
-References: <1408720803-11737-1-git-send-email-lpapp@kde.org>
-Date: Fri, 29 Aug 2014 11:55:33 +0100
-X-Google-Sender-Auth: y4XTwQ3xfkT-rT2dU6pgh-RaWqY
-Message-ID: <CAOMwXhNdwEdKY_5o8Mvtyam1LdrnNEUz0vbvW-_WdqBFEH-WxA@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Add support for ccache builds with the SDK
+X-Received: by 10.180.75.203 with SMTP id e11mr3325357wiw.28.1409311684519;
+	Fri, 29 Aug 2014 04:28:04 -0700 (PDT)
+Received: by 10.217.141.72 with HTTP; Fri, 29 Aug 2014 04:28:04 -0700 (PDT)
+Date: Fri, 29 Aug 2014 11:28:04 +0000
+Message-ID: <CADwFkYeYJVe0KyVY3gipy-cGm4kRhaHoit2WThcKsLnpdyyrOw@mail.gmail.com>
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: boost 1.56 compile fail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,39 +37,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 10:55:36 -0000
+X-List-Received-Date: Fri, 29 Aug 2014 11:28:07 -0000
+Content-Type: multipart/alternative; boundary=f46d0438958f556dd70501c2f2fc
+
+--f46d0438958f556dd70501c2f2fc
 Content-Type: text/plain; charset=UTF-8
 
-One week passed and there is neither feedback, nor progress. What am I
-doing wrong?
+hardware: samsung s3c6410
 
-On Fri, Aug 22, 2014 at 4:20 PM, Laszlo Papp <lpapp@kde.org> wrote:
-> Signed-off-by: Laszlo Papp <lpapp@kde.org>
-> ---
->  meta/classes/toolchain-scripts.bbclass | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-> index 6cc8eba..60278d6 100644
-> --- a/meta/classes/toolchain-scripts.bbclass
-> +++ b/meta/classes/toolchain-scripts.bbclass
-> @@ -19,6 +19,7 @@ toolchain_create_sdk_env_script () {
->                 EXTRAPATH="$EXTRAPATH:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_ARCH}${TARGET_VENDOR}-$i"
->         done
->         echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}'$EXTRAPATH':$PATH' >> $script
-> +       echo 'export CCACHE_PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}'$EXTRAPATH':$CCACHE_PATH' >> $script
->         echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
->         echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig' >> $script
->         echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
-> @@ -37,6 +38,7 @@ toolchain_create_tree_env_script () {
->         rm -f $script
->         touch $script
->         echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${PATH}' >> $script
-> +       echo 'export CCACHE_PATH=${STAGING_DIR_NATIVE}/usr/bin:${CCACHE_PATH}' >> $script
->         echo 'export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_SYSROOT_DIR}' >> $script
->         echo 'export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}' >> $script
->         echo 'export CONFIG_SITE="${@siteinfo_get_files(d)}"' >> $script
-> --
-> 2.0.4
->
+after updated to latest poky, the boost compile fail!
 
+error info:
+libs/atomic/src/lockpool.cpp:127:5: error: 'thread_fence' is not a member
+of 'boost::atomics::detail'
+libs/atomic/src/lockpool.cpp:138:5: error: 'signal_fence' is not a member
+of 'boost::atomics::detail'
+
+
+after dig into it, I found that:
+the marco 'BOOST_ATOMIC_FLAG_LOCK_FREE' is 0, so it don't include
+'operations_lockfree.hpp' which has 'thread_fence' and 'signal_fence', but
+pthread.h at line 21.
+
+in file 'caps_gcc_atomic.hpp', 'BOOST_ATOMIC_FLAG_LOCK_FREE' is set to '0',
+the author think if '__GCC_ATOMIC_BOOL_LOCK_FREE' is 1, the atomic serial
+function gcc provided is not lock free.
+
+at the end of 'caps_gcc_atomic.hpp', it defined 'BOOST_ATOMIC_THREAD_FENCE'
+as 2.
+
+so the conflict is: *BOOST_ATOMIC_THREAD_FENCE* and
+*BOOST_ATOMIC_FLAG_LOCK_FREE*
+
+I don't know it is the new poky problem, or the boost problem, any idea?
+
+
+Yi Qingliang
+
+--f46d0438958f556dd70501c2f2fc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">hardware: samsung s3c6410<br><br>after updated to latest p=
+oky, the boost compile fail!<br><br>error info:<div><div>libs/atomic/src/lo=
+ckpool.cpp:127:5: error: &#39;thread_fence&#39; is not a member of &#39;boo=
+st::atomics::detail&#39;<br>
+</div><div>libs/atomic/src/lockpool.cpp:138:5: error: &#39;signal_fence&#39=
+; is not a member of &#39;boost::atomics::detail&#39;</div></div><div><br><=
+/div><div><br></div><div>after dig into it, I found that:</div><div>the mar=
+co &#39;BOOST_ATOMIC_FLAG_LOCK_FREE&#39; is 0, so it don&#39;t include &#39=
+;operations_lockfree.hpp&#39; which has &#39;thread_fence&#39; and &#39;sig=
+nal_fence&#39;, but pthread.h at line 21.<br>
+<br></div><div>in file &#39;caps_gcc_atomic.hpp&#39;, &#39;BOOST_ATOMIC_FLA=
+G_LOCK_FREE&#39; is set to &#39;0&#39;, the author think if &#39;__GCC_ATOM=
+IC_BOOL_LOCK_FREE&#39; is 1, the atomic serial function gcc provided is not=
+ lock free.</div>
+<div><br></div><div>at the end of &#39;caps_gcc_atomic.hpp&#39;, it defined=
+ &#39;BOOST_ATOMIC_THREAD_FENCE&#39; as 2.</div><div><br></div><div>so the =
+conflict is: <b>BOOST_ATOMIC_THREAD_FENCE</b> and <b>BOOST_ATOMIC_FLAG_LOCK=
+_FREE</b></div>
+<div><b><br></b></div><div>I don&#39;t know it is the new poky problem, or =
+the boost problem, any idea?</div><div><br></div><div><br></div><div>Yi Qin=
+gliang</div></div>
+
+--f46d0438958f556dd70501c2f2fc--
