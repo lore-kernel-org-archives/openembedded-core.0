@@ -1,31 +1,38 @@
 Return-Path: <danismostlikely@gmail.com>
 Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
 	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id F039471186
+	by mail.openembedded.org (Postfix) with ESMTP id 5418F6FCE0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 21:15:30 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id i50so2905318qgf.10
+	Fri, 29 Aug 2014 21:18:30 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id i50so2807574qgf.38
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 14:15:31 -0700 (PDT)
+	Fri, 29 Aug 2014 14:18:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=H4o8aKYmOuWnPcSSkPE5Upifu6Wfdn55Qm6VVCQbLKI=;
-	b=OB9MH6oyPpMn4MrHMvhXBhMePnybEgwLP/jcQViSkKfBe4NuAe9v/Hw9k/iJfJV0wE
-	rTb5Rf+WY0lqKU6xrKhfl3B2lC70YCWSRm62CsuMhS4K5M9RSOjY4FU3MoSNAr/dRfbw
-	OXH2aKrwzdUiyGpUBQ+fy6wBEJNHzCX6Uck6Mj7vs6oCbSvuIOfarr+bnbtoaKSWhpqL
-	+o99tKCXwZsv7C9yF1cgXxka/3HqfO4M4Sil7TOvKtENj+xuM1oVKCU2MI7B5/vgg3aJ
-	BG9Im6sKrghProSa9LL0GWeACMJHmzs5ZyM5l4X33DMF07DyDMQeASV5oFk9AGWblk3p
-	jorQ==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=hHejBJxtktfSppV6gXQqoL6npwO7m2AjcX3IUoAxnJQ=;
+	b=g3kB3824+wr1SacbV9D+VfD/nkHswwX49fqCC4hPpmcYDGQjBY6BYzzTSL1f/9D5Q5
+	qJRAG5eTgWH254ZwDtR5w+9EwnzfCd7b7ZaN1YeFRLuX3OtUSUWAiocvWBMpLn6jrXy4
+	iiitzAlvU1IWGCqajEJbI/FoaWkNVa9BIjTQoImbiEfKFllB6Lt4CIFrhWKcA1WsHAgB
+	QEPkcF+nBID9dxS8EhyNYbkT72fJJJ04FtI0VomG62xW6HC5FXJBiI/7ovxNRuI0FV0I
+	uNm0TfD2P7QkhEKsQx6fQluZoAoY74qrFcblkaKF0ZBA/t8JJkJuLPnUFW4/dWIqyBPv
+	79Sw==
 MIME-Version: 1.0
-X-Received: by 10.140.104.162 with SMTP id a31mr20046399qgf.104.1409346931938; 
-	Fri, 29 Aug 2014 14:15:31 -0700 (PDT)
-Received: by 10.96.205.134 with HTTP; Fri, 29 Aug 2014 14:15:31 -0700 (PDT)
-Date: Fri, 29 Aug 2014 15:15:31 -0600
-Message-ID: <CACS+7ZRkPrqrydPR_HLfUUi=E44x_2Of1gb_i84TNbfWMqjXdQ@mail.gmail.com>
+X-Received: by 10.224.61.144 with SMTP id t16mr22546227qah.2.1409347112312;
+	Fri, 29 Aug 2014 14:18:32 -0700 (PDT)
+Received: by 10.96.205.134 with HTTP; Fri, 29 Aug 2014 14:18:32 -0700 (PDT)
+In-Reply-To: <5400E993.3020903@pabigot.com>
+References: <CADwFkYeYJVe0KyVY3gipy-cGm4kRhaHoit2WThcKsLnpdyyrOw@mail.gmail.com>
+	<54006899.3020609@pabigot.com>
+	<CACS+7ZRyJJUxQLU_qzbaoTo6p=x9AxRLYigPB_cgz+zg4gRq5Q@mail.gmail.com>
+	<5400E993.3020903@pabigot.com>
+Date: Fri, 29 Aug 2014 15:18:32 -0600
+Message-ID: <CACS+7ZSFYoi7Osqbh6kfstSeMUJEk61HrXLBV1mCeDc5_QGaLA@mail.gmail.com>
 From: Dan McGregor <danismostlikely@gmail.com>
-To: Patches and discussions about the oe-core layer
+To: "Peter A. Bigot" <pab@pabigot.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH 4/5] lighttpd: install config file without execute permissions
+Subject: Re: boost 1.56 compile fail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +45,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 21:15:31 -0000
+X-List-Received-Date: Fri, 29 Aug 2014 21:18:31 -0000
 Content-Type: text/plain; charset=UTF-8
 
-From: Dan McGregor <dan.mcgregor@usask.ca>
+On 29 August 2014 14:58, Peter A. Bigot <pab@pabigot.com> wrote:
+> On 08/29/2014 03:36 PM, Dan McGregor wrote:
+>>
+>> On 29 August 2014 05:48, Peter A. Bigot <pab@pabigot.com> wrote:
+>>>
+>>> On 08/29/2014 06:28 AM, Yi Qingliang wrote:
+>>>
+>>> hardware: samsung s3c6410
+>>>
+>>> after updated to latest poky, the boost compile fail!
+>>>
+>>> error info:
+>>> libs/atomic/src/lockpool.cpp:127:5: error: 'thread_fence' is not a member
+>>> of
+>>> 'boost::atomics::detail'
+>>> libs/atomic/src/lockpool.cpp:138:5: error: 'signal_fence' is not a member
+>>> of
+>>> 'boost::atomics::detail'
+>>>
+>>>
+>>> after dig into it, I found that:
+>>> the marco 'BOOST_ATOMIC_FLAG_LOCK_FREE' is 0, so it don't include
+>>> 'operations_lockfree.hpp' which has 'thread_fence' and 'signal_fence',
+>>> but
+>>> pthread.h at line 21.
+>>>
+>>> in file 'caps_gcc_atomic.hpp', 'BOOST_ATOMIC_FLAG_LOCK_FREE' is set to
+>>> '0',
+>>> the author think if '__GCC_ATOMIC_BOOL_LOCK_FREE' is 1, the atomic serial
+>>> function gcc provided is not lock free.
+>>>
+>>>
+>>> This is the sort of GCC internal header indicator that would have changed
+>>> value as a result of:
+>>>
+>>>
+>>> http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-devtools/gcc/gcc-configure-common.inc?id=0ba6ab39f187ecd4261f08e768f365f461384a3a
+>>>
+>>>
+>>>
+>>> at the end of 'caps_gcc_atomic.hpp', it defined
+>>> 'BOOST_ATOMIC_THREAD_FENCE'
+>>> as 2.
+>>>
+>>> so the conflict is: BOOST_ATOMIC_THREAD_FENCE and
+>>> BOOST_ATOMIC_FLAG_LOCK_FREE
+>>>
+>>> I don't know it is the new poky problem, or the boost problem, any idea?
+>>>
+>>>
+>>> My guess is that Boost is making assumptions about what the internal GCC
+>>> predefined symbols mean that aren't entirely accurate.  There are several
+>>> flags that are used in the libstdc++ headers to indicate whether the
+>>> compiler is using lock-free instructions.
+>>>
+>>> Boost-1.56 builds without error for my beaglebone target with poky at:
+>>>
+>>> * 669c07d (HEAD, origin/master, origin/HEAD, master/upstream, master/dev)
+>>> [Wed Aug 27 14:24:52 2014 +0100] bitbake: build/data: Write out more
+>>> complete python run files
+>>>
+>>> so it may have something to do with your target machine.
+>>
+>> It absolutely does. I found that armv6 breaks, but armv6zk and newer work.
+>
+>
+> Interesting.  There are no armv6zk tune features I can see in poky, though
+> google suggests it applies to the Raspberry Pi.
+>
+> The problem then must be with the first override in this:
+>
+> # ARMv6+ adds atomic instructions that affect the ABI in libraries built
+> # with TUNE_CCARGS in gcc-runtime.  Make the compiler default to a
+> # compatible architecture.  armv6 and armv7a cover the minimum tune
+> # features used in OE.
+> EXTRA_OECONF_append_armv6 = " --with-arch=armv6"
+> EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a"
+>
+> ARMv6 has LDREX/STREX, but ARMv6K adds {LD,ST}REX{B,H,D}.  The same problem
+> addressed above is likely to happen if the libraries are built with armv6k
+> but the compiler doesn't default to it.
+>
+> There are no armv6k tune parameters I can locate in poky.  What layers have
+> the tune configurations that are causing problems?
+>
 
-Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
----
- meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+For me meta-raspberrypi failed to build. Its tuning is -march=armv6
+-mtune=arm1176zjf-s by default. I forced it to -march=armv6zk
+-mtune=arm1176jzf-s, and that worked.
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb
-b/meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb
-index 0acc37d..20d5c1c 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb
-@@ -51,7 +51,7 @@ SYSTEMD_SERVICE_${PN} = "lighttpd.service"
- do_install_append() {
-  install -d ${D}${sysconfdir}/init.d ${D}${sysconfdir}/lighttpd.d
-${D}/www/pages/dav
-  install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
-- install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
-+ install -m 0644 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
-  install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
 
-  install -d ${D}${systemd_unitdir}/system
--- 
-1.9.3
+> Peter
+>
 
