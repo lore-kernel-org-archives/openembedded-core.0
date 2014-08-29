@@ -1,31 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A5B660E49
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 22:32:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7TMW4lQ022647; Fri, 29 Aug 2014 23:32:04 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 4j9aei5yXYLI; Fri, 29 Aug 2014 23:32:04 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7TMVxDv022643
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 29 Aug 2014 23:32:01 +0100
-Message-ID: <1409351521.29296.210.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Fri, 29 Aug 2014 23:32:01 +0100
-In-Reply-To: <5400FAED.8030903@windriver.com>
-References: <1409333952.29296.195.camel@ted>
-	<5400C83C.3020306@windriver.com> <1409349774.29296.208.camel@ted>
-	<5400FAED.8030903@windriver.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] package_rpm: Add optional improved directory handling
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id CCC1270EF1;
+	Sat, 30 Aug 2014 00:00:06 +0000 (UTC)
+Received: by mail-ig0-f176.google.com with SMTP id hn18so10436763igb.3
+	for <multiple recipients>; Fri, 29 Aug 2014 17:00:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=niHGcRWSasJdvzSNoN+UzDbdYx5WAnQSQSuSydetGnQ=;
+	b=W+iZcy/NIS5o/xH/Yr966n3I30I9URS9dWNsJgnfppun57Rl2fMOk42FEV9HRXxLtM
+	P7JU9m4nZbYSAinz9kHqMV3/f0iHvubVRT9fLoEqljNnqSzSs1FbKIu/BAFuhTgTYnH8
+	jdL0lN5dYxvZjLT9O2bUaF1hCmvLj5ECRihaix9j5ydtNn3Wd56/WRZWhbaVgrGmAOlQ
+	lmwbGs4zRSgw51F1c/5lENRCP008EbhheXdOHyDCl9RfM9F/v7sfOUsTF7CxojXw6wWF
+	83PzUYDqIGkyPRYz/pfRP2ex708bCS+V189Gw7vGL4IvdMUU7wdi4muptpQQkQ9RokFV
+	xaEg==
+X-Received: by 10.50.39.8 with SMTP id l8mr7897502igk.13.1409356807740; Fri,
+	29 Aug 2014 17:00:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.102.67 with HTTP; Fri, 29 Aug 2014 16:59:36 -0700 (PDT)
+In-Reply-To: <1409314734.29296.169.camel@ted>
+References: <20140828064051.GA13139@haswell> <1409266291.29296.147.camel@ted>
+	<CAMKF1spz2KoO6NDSkZwh=V=pkyYi6e7-G0fpka5P2ifbjnNn6w@mail.gmail.com>
+	<CAMKF1spj67i2i_50m=oTUpS3x2J=de0UxGf70zLhn-a7c4M3QA@mail.gmail.com>
+	<1409314734.29296.169.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 29 Aug 2014 16:59:36 -0700
+Message-ID: <CAMKF1spiNQm8GVSNApqqhd6WFJnD8-=2A0_JxD85dKGaqkgOoA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] Moving on from eglibc to glibc 2.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,64 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 22:32:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 30 Aug 2014 00:00:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 2014-08-29 at 17:13 -0500, Mark Hatle wrote:
-> On 8/29/14, 5:02 PM, Richard Purdie wrote:
-> > On Fri, 2014-08-29 at 13:36 -0500, Mark Hatle wrote:
-> > Going back in time, I remember us specifically talking about directory
-> > ownership and how we likely should try and reach a point where the
-> > common system directories do become owned by specific packages. With
-> > this kind of DIRFILES support we could move in the direction. The perms
-> > tables obviously help to a point ensuring consistent permissions but
-> > they don't help the ownership problem. Or is this less of an issue since
-> > we last discussed it (which admittedly was a while ago)?
-> 
-> No there is currently nothing that says I exclusively own a directory (or link). 
->   The fs-perms.txt could be extended to do this (in a transparent way).
-> 
-> My concern with the DIRFILES as it appears to be implemented can be shown in the 
-> existing example:
-> 
-> I create a new recipe that writes:
-> 
-> /etc/foo.conf
-> /usr/bin/foo
-> 
-> (that's it)
-> 
-> 
-> In the SMACK case, the /etc and /usr/bin directories shouldn't be included.. so 
-> how do we define DIRFILES?  If it's blank, they'll be included.. but we don't 
-> have any directories to set it to... so do we need to do:
->     DIRFILES = "something_random_so_it_works"
-> 
-> That seems very counter intuitive to me.
-> 
-> This is why I'm suggesting an inverse relationship..  We include everything 
-> other then explicitly listed directories.  That way the user can globally define 
-> /etc, /usr/bin, ... and individual recipes can augment this with their own 
-> custom values if appropriate.
-> 
-> and in the default (oe-core) case no change means the directories will continue 
-> to be included -- no flag days required.
+On Fri, Aug 29, 2014 at 5:18 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2014-08-28 at 18:46 -0700, Khem Raj wrote:
+>> On Thu, Aug 28, 2014 at 5:41 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> > reproduced. will apprise as I have some fix.
+>>
+>> OK pushed another patch to the contrib tree that should take care of both
+>> xf86-input-synaptics xf86-input-vmmouse
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-arm/builds/17/steps/BuildImages/logs/stdio
+>
+> xf86-video-imxfb has the same issue and will need the same fix. Otavio
+> cc'd...
+>
 
-I'm more thinking that when we reach this stage, the core would end up
-setting:
+I have sent a patch to meta-fsl-arm for this
 
-DIRFILES = ""
-
-as the default (think a core class or conf file), then recipes can
-override as needed. You don't need something_random_so_it_works, I had
-the empty value specifically in mind to trigger this from the core (as
-opposed to None where the variable isn't set at all).
-
-Cheers,
-
-Richard
-
-
-
+> Cheers,
+>
+> Richard
+>
 
