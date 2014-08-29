@@ -1,33 +1,29 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8626770703
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E871260E49
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 21:20:56 +0000 (UTC)
-Received: by mail-qc0-f182.google.com with SMTP id m20so3102910qcx.27
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 14:20:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=M7l7Y7OPTYprfECDJZyELQ3AT1ax3/yklePXBKWxsN0=;
-	b=SGDzEWWdaJ8qZaShg8QvgjJO5VGZWzIVAZk7/dYIoAuhH5WfYz31szr3CkFMANIB0B
-	wjitr2M8MOHtK67myY3Vyr2C2Ky9Zc2jTw2LnJgCmSx9LhjFE+Wa7+/RmsQeUuvzRXjs
-	x1+gcpRs0OUvyNma0bIcHxWEachVEGGxjNi15+eLo0MI7T2Tjusso8U5enV/PKjfWEoX
-	SWi//CHB5xl2KzEyclVPPVU6jv7OJRV6Ec0wHNWodjmLz/jSdHHxHvEoExAnwrKiA5iq
-	70pUFSc4gMuaiS17HxZ572jp36L+a1Kfqpp987Y95HtZrvCohiIUDOpfKNOK7+63bNra
-	E9jQ==
-MIME-Version: 1.0
-X-Received: by 10.224.134.202 with SMTP id k10mr22281476qat.19.1409347258172; 
-	Fri, 29 Aug 2014 14:20:58 -0700 (PDT)
-Received: by 10.96.205.134 with HTTP; Fri, 29 Aug 2014 14:20:58 -0700 (PDT)
-In-Reply-To: <CACS+7ZS3J37=hLKBTfs7GvEEcXmVU1RPr_Ryvty2BawoBw+BVQ@mail.gmail.com>
-References: <CACS+7ZS3J37=hLKBTfs7GvEEcXmVU1RPr_Ryvty2BawoBw+BVQ@mail.gmail.com>
-Date: Fri, 29 Aug 2014 15:20:58 -0600
-Message-ID: <CACS+7ZQeu-6MPE9fuKAGnzAJeo+qAET-R2eFw5yD7_ooZca6Rg@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] gcc-runtime: enable asan and tsan
+	Fri, 29 Aug 2014 21:51:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7TLpIKc021721; Fri, 29 Aug 2014 22:51:18 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id FhqJM9hqhGHu; Fri, 29 Aug 2014 22:51:18 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s7TLpEIS021718
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 29 Aug 2014 22:51:16 +0100
+Message-ID: <1409349076.29296.200.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Fri, 29 Aug 2014 22:51:16 +0100
+In-Reply-To: <5400C89C.6070901@windriver.com>
+References: <1409333994.29296.196.camel@ted> <5400C89C.6070901@windriver.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] package_rpm: Add %manifest support for spec generation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,84 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 21:20:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 29 Aug 2014 21:51:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 29 August 2014 15:15, Dan McGregor <danismostlikely@gmail.com> wrote:
-> From: Dan McGregor <dan.mcgregor@usask.ca>
->
-> ASan and TSan are useful debugging tools, enable them on the
-> target and add the packages to packagegroup-core-sdk.
->
-> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
-> ---
->  .../recipes-core/packagegroups/packagegroup-core-sdk.bb |  4 +++-
->  meta/recipes-devtools/gcc/gcc-runtime.inc               | 17 +++++++++++++++++
->  2 files changed, 20 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-> b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-> index a544bbd..378336e 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-> @@ -28,7 +28,9 @@ RDEPENDS_packagegroup-core-sdk = "\
->
->  RRECOMMENDS_packagegroup-core-sdk = "\
->      libgomp \
-> -    libgomp-dev"
-> +    libgomp-dev \
-> +    libsanitizer \
-> +    libsanitizer-dev"
->
->  #python generate_sdk_pkgs () {
->  #    poky_pkgs = read_pkgdata('packagegroup-core', d)['PACKAGES']
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> index 7ce84f1..109f8dd 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -11,6 +11,8 @@ EXTRA_OECONF_PATHS = "\
->  EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
->
->  RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic"
-> +RUNTIMETARGET_append_arm = " libsanitizer"
-> +RUNTIMETARGET_append_x86 = " libsanitizer"
->  #  ?
->  # libiberty
->  # libmudflap
-> @@ -88,6 +90,9 @@ PACKAGES = "\
->      libatomic \
->      libatomic-dev \
->      libatomic-staticdev \
-> +    libsanitizer \
-> +    libsanitizer-dev \
-> +    libsanitizer-staticdev \
->  "
->  # The base package doesn't exist, so we clear the recommends.
->  RRECOMMENDS_${PN}-dbg = ""
-> @@ -171,6 +176,18 @@ FILES_libatomic-dev = "\
->  "
->  FILES_libatomic-staticdev = "${libdir}/libatomic.a"
->
-> +FILES_libsanitizer = "${libdir}/libasan.so.* ${libdir}/libubsan.so.*"
-> +FILES_libsanitizer-dev = " \
-> +  ${libdir}/libsanitizer.spec \
-> +  ${libdir}/libasan_preinit.o \
-> +  ${libdir}/libasan.so \
-> +  ${libdir}/libubsan.so \
-> +  ${libdir}/libasan.la \
-> +  ${libdir}/libubsan.la"
-> +FILES_libsanitizer-staticdev = " \
-> +  ${libdir}/libasan.a \
-> +  ${libdir}/libubsan.a"
-> +
->  do_package_write_ipk[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
->  do_package_write_deb[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
->  do_package_write_rpm[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
-> --
-> 1.9.3
+On Fri, 2014-08-29 at 13:38 -0500, Mark Hatle wrote:
+> On 8/29/14, 12:39 PM, Richard Purdie wrote:
+> > From: Ronan Le Martret <ronan@fridu.net>
+> >
+> > The manifest file allow custom smack security for a package.
+> >      https://wiki.tizen.org/wiki/Security/Application_installation_and_Manifest
+> 
+> I'm concerned with this simply because we're adding a very specific (non-oe) 
+> mechanism into the mix.
+> 
+> I'd prefer if there was simple a "perform this generic action, which can add to 
+> the .spec file"
+> 
+> The during the packaging (before writing the .spec) we can call the action and 
+> it can insert the %manifest if appropriate.
+> 
+> That can then be distribution defined and work with any arbitrary mechanisms.
+
+The rough plan forming in my (and other people's) minds is that we need
+a proper python "spec" construction class.
+
+If we had such a thing, customisations like this would be much easier,
+we could also likely more easily reconcile some of the archiver srpm
+pieces too.
+
+Right now we don't have that, there are people needing to fork the whole
+of package_rpm to add the few tweaks I've posted. I'm therefore minded
+to make things easier. If/as or more like when we implement the class,
+this kind of issue should go away.
+
+Cheers,
+
+Richard
 
 
-Gah. It works for x86_64 too, so RUNTTIMETARGET there should also have
-libsanitizer
+
 
