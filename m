@@ -1,20 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A6AC70F06
+	by mail.openembedded.org (Postfix) with ESMTP id 4C5DF7106F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 13:10:46 +0000 (UTC)
+	Fri, 29 Aug 2014 13:10:47 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Aug 2014 06:10:47 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 29 Aug 2014 06:10:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,424,1406617200"; d="scan'208";a="591690113"
+X-IronPort-AV: E=Sophos;i="5.04,424,1406617200"; d="scan'208";a="591690115"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Aug 2014 06:10:46 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 29 Aug 2014 06:10:47 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Aug 2014 16:10:39 +0300
-Message-Id: <cover.1409317786.git.cristian.iorga@intel.com>
+Date: Fri, 29 Aug 2014 16:10:40 +0300
+Message-Id: <4c46eb579ed861938ebeddad954df7fbf55dacb6.1409317786.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 0/3] Various PUs
+In-Reply-To: <cover.1409317786.git.cristian.iorga@intel.com>
+References: <cover.1409317786.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1409317786.git.cristian.iorga@intel.com>
+References: <cover.1409317786.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/3] iproute2: upgrade to 3.16.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,33 +33,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 29 Aug 2014 13:10:48 -0000
 
-The following changes since commit fe2e53ba30ba679c038bd5b48b9a91a41af4c49e:
+Bugfixes.
 
-  bitbake: toaster: create Build methods for calculating progress and ETA (2014-08-29 13:56:50 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ciorga/PUs
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PUs
-
-Cristian Iorga (3):
-  iproute2: upgrade to 3.16.0
-  libpcap: upgrade to 1.6.1
-  libical: upgrade to 1.0.0
-
- .../{iproute2_3.15.0.bb => iproute2_3.16.0.bb}     |  4 +-
- meta/recipes-connectivity/libpcap/libpcap.inc      |  4 +-
- .../libpcap/libpcap/ieee80215-arphrd.patch         | 24 ----------
- .../libpcap/{libpcap_1.5.3.bb => libpcap_1.6.1.bb} |  8 ++--
- .../libical/files/pthread-fix.patch                | 52 ----------------------
- .../libical/{libical_0.48.bb => libical_1.0.0.bb}  | 13 +++---
- 6 files changed, 12 insertions(+), 93 deletions(-)
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../iproute2/{iproute2_3.15.0.bb => iproute2_3.16.0.bb}               | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-connectivity/iproute2/{iproute2_3.15.0.bb => iproute2_3.16.0.bb} (68%)
- delete mode 100644 meta/recipes-connectivity/libpcap/libpcap/ieee80215-arphrd.patch
- rename meta/recipes-connectivity/libpcap/{libpcap_1.5.3.bb => libpcap_1.6.1.bb} (66%)
- delete mode 100644 meta/recipes-support/libical/files/pthread-fix.patch
- rename meta/recipes-support/libical/{libical_0.48.bb => libical_1.0.0.bb} (40%)
 
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.15.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.16.0.bb
+similarity index 68%
+rename from meta/recipes-connectivity/iproute2/iproute2_3.15.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_3.16.0.bb
+index 7cf9115..b1a68f2 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_3.15.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_3.16.0.bb
+@@ -4,8 +4,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://configure-cross.patch \
+            file://0001-iproute2-de-bash-scripts.patch \
+           "
+-SRC_URI[md5sum] = "5b1711c9d16071959052e369a2682d77"
+-SRC_URI[sha256sum] = "5359ed1f31839d8542a057c0c4233131ab9c28d8c41fc9c8484579d9c0b99af4"
++SRC_URI[md5sum] = "6c823b40fdcfa7b8120743349a52ac18"
++SRC_URI[sha256sum] = "1f0a8a6c0e872166f75433f5cbf9766f3002b5c2f13501b3bb8c51846a127b79"
+ 
+ # CFLAGS are computed in Makefile and reference CCOPTS
+ #
 -- 
 1.9.1
 
