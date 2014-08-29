@@ -1,40 +1,40 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id A96C87070B
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 31A7471044
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 10:54:00 +0000 (UTC)
-Received: by mail-pd0-f181.google.com with SMTP id fp1so197823pdb.40
+	Fri, 29 Aug 2014 10:54:31 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id bs8so8893070wib.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 03:54:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=Z/L6EO+DxeQCIfz4F8MwIr03kX9DGPITCRXDMWi6V08=;
-	b=F7OVMzLtvJRYHY3ZCmZCpY+fc5e702LKqdgZfB/qjzbxXgW7+XLLVut0Xd8VK/Nm4t
-	5/EuH8wX99hsw0+4AagiRTfKd+R+u5/Gid8FQJIjZkBM6LEZ++7AqRNMjQ3pdnKkVnYl
-	S7nwQBwjFZULWq6Z9V4sV9tuohz+kCyMYCVlpARjJjVdGF8I9eNxqkw5qjzRfto2WlJ+
-	4TC8rfjbjIl+pCk8H+Mzo04TT6PJUjlFWLVI4+3Kt82qD450PxJt+pCvKXfHItreIN9p
-	N/+Vd5TQoy4tNnstPZ11yrHPWlOhFxcxeqEObyPEn0T/jXnp9hMQgXg/gU3S2i0Xwrfp
-	+YQQ==
-X-Gm-Message-State: ALoCoQkxVJi85la2XhrtUDgLofOuURgo3CjWrDtdUkOYeMTq/LjLwGmSoWb7YHZcKSjmuEvAtj49
+	Fri, 29 Aug 2014 03:54:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=bQS5oz9HSoQII8A4yaZOsbwyaMJWHtS4FoTOI6ka49k=;
+	b=hga7oHmUmFlt+HuUV0B/NUq7i9W0yE97Du8+roI41TE297xw0OsoPA9JFUmlt2JqNU
+	2Wk9TBOSQK/ngLrA3krQYmJB8bjMLlBi7YhXZMZq9XLILjZV6fr9m0e8fEpyFnmkHtk9
+	tP9cmWaKmx+CrqAOvM9R5x00+owJUcbiFFwZJEgIOFgLmhfE5bSY37MSXu8XAj4cfMQk
+	7vvaNws/jCHYlEg9Nm/G/LgbZD/q9DbqmUrymvDCxBBjmTmL3FQwmbDS6NMeUvFd0MNT
+	IX9Qi+/NME0ps2cjmbPj1N2Nk/EXCgxcXA7F3aSoD/aNwg1atnNodQhPSgT/6WmVYZe3
+	klhg==
+X-Received: by 10.180.104.163 with SMTP id gf3mr3062065wib.24.1409309671797;
+	Fri, 29 Aug 2014 03:54:31 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	wr10sm17721449wjc.10.2014.08.29.03.54.30 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 29 Aug 2014 03:54:30 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 29 Aug 2014 12:54:41 +0200
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Message-ID: <20140829105441.GN16066@jama>
+References: <1409307382-1835-1-git-send-email-dv@pseudoterminal.org>
 MIME-Version: 1.0
-X-Received: by 10.69.18.65 with SMTP id gk1mr14311603pbd.68.1409309641846;
-	Fri, 29 Aug 2014 03:54:01 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.70.57.136 with HTTP; Fri, 29 Aug 2014 03:54:01 -0700 (PDT)
-In-Reply-To: <33115ABC4887814E8A92A08FBC93416B23C470D7@IRSMSX103.ger.corp.intel.com>
-References: <1408716303-32264-1-git-send-email-root@pol-lx-007.polatis.com>
-	<33115ABC4887814E8A92A08FBC93416B23C470D7@IRSMSX103.ger.corp.intel.com>
-Date: Fri, 29 Aug 2014 11:54:01 +0100
-X-Google-Sender-Auth: VGLg6My6g1aH6h22AbF-zMH4sq0
-Message-ID: <CAOMwXhNCtMkkpSvCtd4c7r26FVEtxsr4-605acjRMgicTm-rAA@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ptest-runner: return 1 instead of zero if any test fails
+In-Reply-To: <1409307382-1835-1-git-send-email-dv@pseudoterminal.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] libsdl: add packageconfigs for x11, directfb, opengl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,23 +47,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 10:54:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 29 Aug 2014 10:54:34 -0000
+X-Groupsio-MsgNum: 57146
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="R4+lwT0Y15rLnKR0"
+Content-Disposition: inline
 
-On Mon, Aug 25, 2014 at 7:42 AM, Stoicescu, CorneliuX
-<corneliux.stoicescu@intel.com> wrote:
-> Hello,
->
-> From my experience with ptest, there will always be a few tests failing, so we will always get exit code 1.
+--R4+lwT0Y15rLnKR0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ptest is not only about meta-core, you need to remember that. My use
-case is actually quite different: running ptest only on my binaries,
-and I will trust the rest of the system. For me, it is critical to see
-if there is any issues in my system. This patch resolves that use
-case, but even for Yocto, you really oughta aim for fixing your tests,
-either with "known failure" or correct means.
+On Fri, Aug 29, 2014 at 12:16:22PM +0200, Carlos Rafael Giani wrote:
+> Also adds special treatment of nativesdk versions to avoid build errors
+>=20
+> Adapted from openembedded-core-contrib, commit
+> cb921237643be39aa8f44ea4c35d3cfd30f782c0
+>=20
+> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+> ---
+>  meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 25 +++++++++++++++------=
+----
+>  1 file changed, 15 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes=
+-graphics/libsdl/libsdl_1.2.15.bb
+> index e544b60..8a30abc 100644
+> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+> @@ -12,11 +12,9 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D27818cd7fd8=
+3877a8e3ef82b82798ef4"
+> =20
+>  PROVIDES =3D "virtual/libsdl"
+> =20
+> -DEPENDS =3D "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'direct=
+fb', '', d)} \
+> -           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/li=
+bgl libglu', '', d)} \
+> -           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx1=
+1 libxext libxrandr libxrender', '', d)} \
+> -           tslib"
+> -DEPENDS_class-nativesdk =3D "${@bb.utils.contains('DISTRO_FEATURES', 'x1=
+1', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nati=
+vesdk-libxext', '', d)}"
+> +DEPENDS =3D "tslib"
+> +# necessary because there is no nativesdk-tslib
+> +DEPENDS_class-nativesdk =3D ""
+> =20
+>  PR =3D "r3"
+> =20
+> @@ -42,16 +40,23 @@ EXTRA_OECONF =3D "--disable-static --enable-cdrom --e=
+nable-threads --enable-timers
+>                  --disable-video-fbcon --disable-video-ps2gs --disable-vi=
+deo-ps3 \
+>                  --disable-xbios --disable-gem --disable-video-dummy \
+>                  --enable-input-events --enable-input-tslib --enable-pthr=
+eads \
+> -                ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', '--e=
+nable-video-directfb', '--disable-video-directfb', d)} \
+> -                ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '--ena=
+ble-video-opengl', '--disable-video-opengl', d)} \
+> -                ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '--enable=
+-video-x11', '--disable-video-x11', d)} \
+>                  --disable-video-svga \
+>                  --disable-video-picogui --disable-video-qtopia --enable-=
+sdl-dlopen \
+>                  --disable-rpath \
+>                  --disable-pulseaudio"
+> =20
+> -PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'al=
+sa', '', d)}"
+> -PACKAGECONFIG[alsa] =3D "--enable-alsa --disable-alsatest,--disable-alsa=
+,alsa-lib,"
+> +PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'al=
+sa', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', '=
+directfb', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'op=
+engl', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11',=
+ '', d)}"
+> +# virtual/libgl-nativesdk is not available
+> +PACKAGECONFIG_virtclass-nativesdk =3D "${@base_contains('DISTRO_FEATURES=
+', 'alsa', 'alsa', '', d)} \
 
-> Should this better return exit code 0 if the individual tests performed correctly(weather they passed or failed) and 1 if there were any errors during the running of the tests?
+You can use just _class-nativesdk now, it wasn't available when I did my ol=
+d change.
 
-I do not understand this question. This is what the current change tries to do.
+And you should also use bb.utils.contains here.
 
+> +                                     ${@base_contains('DISTRO_FEATURES',=
+ 'directfb', 'directfb', '', d)} \
+> +                                     ${@base_contains('DISTRO_FEATURES',=
+ 'x11', 'x11', '', d)}"
+> +PACKAGECONFIG[alsa] =3D "--enable-alsa --disable-alsatest,--disable-alsa=
+,alsa-lib"
+> +PACKAGECONFIG[directfb] =3D "--enable-video-directfb,--disable-video-dir=
+ectfb,directfb"
+> +PACKAGECONFIG[opengl] =3D "--enable-video-opengl,--disable-video-opengl,=
+virtual/libgl libglu"
+> +PACKAGECONFIG[x11] =3D "--enable-video-x11,--disable-video-x11,virtual/l=
+ibx11 libxext libxrandr libxrender"
+> =20
+>  PARALLEL_MAKE =3D ""
+> =20
+> --=20
+> 1.8.3.2
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--R4+lwT0Y15rLnKR0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlQAW/EACgkQN1Ujt2V2gBzHygCfcwhDM7UChjnTQpUUrshXjz6Q
+JugAnjpOiHC2XS0JJC6AHDJr0lTsL10B
+=OAfj
+-----END PGP SIGNATURE-----
+
+--R4+lwT0Y15rLnKR0--
