@@ -1,20 +1,24 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A81CB6ACE5
+Return-Path: <Yang.Shi@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 512E265D34
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Aug 2014 19:21:11 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Aug 2014 12:21:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,426,1406617200"; d="scan'208";a="583594549"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Aug 2014 12:21:11 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Aug 2014 22:21:06 +0300
-Message-Id: <1409340066-19390-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] libtirpc: upgrade to 0.2.5
+	Fri, 29 Aug 2014 20:33:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7TKXG2h006757
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 29 Aug 2014 13:33:16 -0700 (PDT)
+Received: from yshi-Precision-T5600.corp.ad.wrs.com (147.11.216.82) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Fri, 29 Aug 2014 13:33:16 -0700
+From: Yang Shi <yang.shi@windriver.com>
+To: <bruce.ashfield@windriver.com>, <sgw@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 29 Aug 2014 13:31:38 -0700
+Message-ID: <1409344298-22780-1-git-send-email-yang.shi@windriver.com>
+X-Mailer: git-send-email 2.0.2
+MIME-Version: 1.0
+Subject: [V3 PATCH] oe-core/kernel: Deploy KERNEL_ALT_IMAGETYPE and check it for uImage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,41 +31,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Aug 2014 19:21:13 -0000
+X-List-Received-Date: Fri, 29 Aug 2014 20:33:28 -0000
+Content-Type: text/plain
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+Install, deploy and package KERNEL_ALT_IMAGETYPE and create kernel-alt-image
+package.
+
+Check if KERNEL_ALT_IMAGETYPE is empty or not. If KERNEL_ALT_IMAGETYPE is empty,
+just skip alt image install and deploy, otherwise it is failed to install/deploy
+because KERNEL_ALT_OUTPUT doesn't point to a real kernel image file.
+
+Check if KERNEL_ALT_IMAGETYPE is uImage in do_uboot_mkimage and adding
+u-boot-mkimage-native depend if it is uImage.
+
+Signed-off-by: Yang Shi <yang.shi@windriver.com>
 ---
- .../libtirpc/{libtirpc_0.2.4.bb => libtirpc_0.2.5.bb}               | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/libtirpc/{libtirpc_0.2.4.bb => libtirpc_0.2.5.bb} (82%)
+ meta/classes/kernel.bbclass | 38 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 35 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_0.2.4.bb b/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
-similarity index 82%
-rename from meta/recipes-extended/libtirpc/libtirpc_0.2.4.bb
-rename to meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
-index 88e2d82..3edf002 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_0.2.4.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
-@@ -10,15 +10,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f835cce8852481e4b2bbbdd23b5e47f3 \
- DEPENDS += "xz-native"
- PROVIDES = "virtual/librpc"
+Refreshed the patch on the latest master branch.
+
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index b02036f..07331eb 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -13,7 +13,8 @@ INITRAMFS_IMAGE_BUNDLE ?= ""
  
--SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2;name=libtirpc \
-+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2;name=libtirpc \
-            ${GENTOO_MIRROR}/${BPN}-glibc-nfs.tar.xz;name=glibc-nfs \
-            file://libtirpc-0.2.1-fortify.patch \
-           "
+ python __anonymous () {
+     kerneltype = d.getVar('KERNEL_IMAGETYPE', True)
+-    if kerneltype == 'uImage':
++    kernelalttype = d.getVar('KERNEL_ALT_IMAGETYPE', True)
++    if kerneltype == 'uImage' or kernelalttype == 'uImage':
+         depends = d.getVar("DEPENDS", True)
+         depends = "%s u-boot-mkimage-native" % depends
+         d.setVar("DEPENDS", depends)
+@@ -74,6 +75,7 @@ KERNEL_EXTRA_ARGS ?= ""
+ EXTRA_OEMAKE = ""
  
- SRC_URI_append_libc-uclibc = " file://remove-des-uclibc.patch"
+ KERNEL_ALT_IMAGETYPE ??= ""
++KERNEL_ALT_OUTPUT ?= "arch/${ARCH}/boot/${KERNEL_ALT_IMAGETYPE}"
  
--SRC_URI[libtirpc.md5sum] = "847995e8d002cbf1387bda05947be086"
--SRC_URI[libtirpc.sha256sum] = "45c3e21dfc23a5ba501f9dfc6671678316fdfdb8355a1ec404ae2aa2f81943a1"
-+SRC_URI[libtirpc.md5sum] = "8cd41a5ef5a9b50d0fb6abb98af15368"
-+SRC_URI[libtirpc.sha256sum] = "62f9de7c2c8686c568757730e1fef66502a0e00d6cacf33546d0267984e002db"
- SRC_URI[glibc-nfs.md5sum] = "5ae500b9d0b6b72cb875bc04944b9445"
- SRC_URI[glibc-nfs.sha256sum] = "2677cfedf626f3f5a8f6e507aed5bb8f79a7453b589d684dbbc086e755170d83"
+ # Define where the kernel headers are installed on the target as well as where
+ # they are staged.
+@@ -200,6 +202,9 @@ kernel_do_install() {
+ 	install -d ${D}/${KERNEL_IMAGEDEST}
+ 	install -d ${D}/boot
+ 	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
++	if [ "${KERNEL_ALT_IMAGETYPE}" != "" ]; then 
++		install -m 0644 ${KERNEL_ALT_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_ALT_IMAGETYPE}-${KERNEL_VERSION}
++	fi
+ 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+ 	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+ 	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+@@ -225,6 +230,7 @@ kernel_do_install() {
+ 	#
  
+ 	echo "${KERNEL_IMAGE_BASE_NAME}" >$kerneldir/kernel-image-name
++	echo "${KERNEL_ALT_IMAGE_BASE_NAME}" >$kerneldir/kernel-alt-image-name
+ 
+ 	#
+ 	# Copy the entire source tree. In case an external build directory is
+@@ -245,6 +251,9 @@ kernel_do_install() {
+ 	# the same file. If hardlinking is used, they will be the same, and there's
+ 	# no need to install.
+ 	! [ ${KERNEL_OUTPUT} -ef $kerneldir/${KERNEL_IMAGETYPE} ] && install -m 0644 ${KERNEL_OUTPUT} $kerneldir/${KERNEL_IMAGETYPE}
++	if [ "${KERNEL_ALT_IMAGETYPE}" != "" ]; then
++		! [ ${KERNEL_ALT_OUTPUT} -ef $kerneldir/${KERNEL_ALT_IMAGETYPE} ] && install -m 0644 ${KERNEL_ALT_OUTPUT} $kerneldir/${KERNEL_ALT_IMAGETYPE}
++	fi
+ 	install -m 0644 System.map $kerneldir/System.map-${KERNEL_VERSION}
+ 
+ 	# Dummy Makefile so the clean below works
+@@ -342,10 +351,11 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+ 
+ # kernel-base becomes kernel-${KERNEL_VERSION}
+ # kernel-image becomes kernel-image-${KERNEL_VERISON}
+-PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
++PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-alt-image kernel-dev kernel-modules"
+ FILES_${PN} = ""
+ FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
+ FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
++FILES_kernel-alt-image = "/boot/${KERNEL_ALT_IMAGETYPE}*"
+ FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
+ FILES_kernel-vmlinux = "/boot/vmlinux*"
+ FILES_kernel-modules = ""
+@@ -354,11 +364,13 @@ RDEPENDS_kernel = "kernel-base"
+ # not wanted in images as standard
+ RDEPENDS_kernel-base ?= "kernel-image"
+ PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
++PKG_kernel-alt-image = "kernel-alt-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
+ PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
+ RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
+ ALLOW_EMPTY_kernel = "1"
+ ALLOW_EMPTY_kernel-base = "1"
+ ALLOW_EMPTY_kernel-image = "1"
++ALLOW_EMPTY_kernel-alt-image = "1"
+ ALLOW_EMPTY_kernel-modules = "1"
+ DESCRIPTION_kernel-modules = "Kernel modules meta package"
+ 
+@@ -381,6 +393,14 @@ pkg_postrm_kernel-image () {
+ 	update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
+ }
+ 
++pkg_postinst_kernel-alt-image () {
++	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_ALT_IMAGETYPE} ${KERNEL_ALT_IMAGETYPE} /${KERNEL_IMAGEDEST}/${KERNEL_ALT_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
++}
++
++pkg_postrm_kernel-alt-image () {
++	update-alternatives --remove ${KERNEL_ALT_IMAGETYPE} ${KERNEL_ALT_IMAGETYPE}-${KERNEL_VERSION} || true
++}
++
+ PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
+ 
+ python split_kernel_packages () {
+@@ -440,6 +460,10 @@ KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PKGE}-${PKGV}-${PKGR}-${MACHINE
+ # Don't include the DATETIME variable in the sstate package signatures
+ KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+ KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
++KERNEL_ALT_IMAGE_BASE_NAME ?= "${KERNEL_ALT_IMAGETYPE}-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
++# Don't include the DATETIME variable in the sstate package signatures
++KERNEL_ALT_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
++KERNEL_ALT_IMAGE_SYMLINK_NAME ?= "${KERNEL_ALT_IMAGETYPE}-${MACHINE}"
+ MODULE_IMAGE_BASE_NAME ?= "modules-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
+ MODULE_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+ MODULE_TARBALL_BASE_NAME ?= "${MODULE_IMAGE_BASE_NAME}.tgz"
+@@ -448,7 +472,7 @@ MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
+ MODULE_TARBALL_DEPLOY ?= "1"
+ 
+ do_uboot_mkimage() {
+-	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
++	if test "x${KERNEL_IMAGETYPE}" = "xuImage" or "x${KERNEL_ALT_IMAGETYPE}" = "xuImage"; then 
+ 		if test "x${KEEPUIMAGE}" != "xyes" ; then
+ 			ENTRYPOINT=${UBOOT_ENTRYPOINT}
+ 			if test -n "${UBOOT_ENTRYSYMBOL}"; then
+@@ -474,6 +498,9 @@ addtask uboot_mkimage before do_install after do_compile
+ 
+ kernel_do_deploy() {
+ 	install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
++	if [ "${KERNEL_ALT_IMAGETYPE}" != "" ]; then
++		install -m 0644 ${KERNEL_ALT_OUTPUT} ${DEPLOYDIR}/${KERNEL_ALT_IMAGE_BASE_NAME}.bin
++	fi
+ 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+ 		mkdir -p ${D}/lib
+ 		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
+@@ -483,6 +510,11 @@ kernel_do_deploy() {
+ 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGE_SYMLINK_NAME}.bin
+ 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGETYPE}
+ 
++	if [ "${KERNEL_ALT_IMAGETYPE}" != "" ]; then
++		ln -sf ${KERNEL_ALT_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_ALT_IMAGE_SYMLINK_NAME}.bin
++		ln -sf ${KERNEL_ALT_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_ALT_IMAGETYPE}
++	fi
++
+ 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+ 
+ 	cd ${B}
 -- 
-1.9.1
+2.0.2
 
 
