@@ -1,30 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C36F7122B
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 065967054E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Aug 2014 07:59:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7U7xQu8032301; Sat, 30 Aug 2014 08:59:26 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id oxI-aecGYcsp; Sat, 30 Aug 2014 08:59:26 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7U7xMvH032297
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sat, 30 Aug 2014 08:59:23 +0100
-Message-ID: <1409385563.29296.215.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jate Sujjavanich <jatedev@gmail.com>
-Date: Sat, 30 Aug 2014 08:59:23 +0100
-In-Reply-To: <CAPphmgb+9dgJTZ19p0dDOR3V5GQuQs5oZawQRnB9KQa2_Yt-Ag@mail.gmail.com>
-References: <1407704441-29326-1-git-send-email-jatedev@gmail.com>
-	<CAPphmgb+9dgJTZ19p0dDOR3V5GQuQs5oZawQRnB9KQa2_Yt-Ag@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] useradd: Add setscene dep on pseudo-native
+	Sat, 30 Aug 2014 10:12:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7UACqe6002395
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 30 Aug 2014 03:12:52 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Sat, 30 Aug 2014 03:12:51 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 30 Aug 2014 03:12:49 -0700
+Message-ID: <aaf863f43056faf85c4ca7d40902d8a0c7057832.1409393505.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1409393505.git.liezhi.yang@windriver.com>
+References: <cover.1409393505.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] libpam: remove MLPREFIX from PN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,21 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Aug 2014 07:59:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 30 Aug 2014 10:12:57 -0000
+Content-Type: text/plain
 
-On Fri, 2014-08-29 at 11:40 -0400, Jate Sujjavanich wrote:
-> There's a commit in poky's master-next with the message "bitbake:
-> runqueue: Fix setscene tasks not running".
->
-> Should it fix the problem fixed by my patch?
+The commit df3038768f59f7a0c814974ff674d4e59cbdfca4 changed 'libpam' to
+'pn', then we don't need the "MLPREFIX + pn" any more, otherwise we
+would get the name like: "lib32-lib32-libpam-x", and the warn:
 
-No, your patch does need to merge, I've done that.
+WARNING: QA Issue: lib32-pam-plugin-access rdepends on
+lib32-lib32-libpam-suffix, but it isn't a build dependency? [build-deps]
 
-Cheers,
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-extended/pam/libpam_1.1.6.bb |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Richard
-
+diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
+index d7033d0..a3fb893 100644
+--- a/meta/recipes-extended/pam/libpam_1.1.6.bb
++++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
+@@ -94,13 +94,12 @@ python populate_packages_prepend () {
+     def pam_plugin_hook(file, pkg, pattern, format, basename):
+         pn = d.getVar('PN', True)
+         libpam_suffix = d.getVar('libpam_suffix', True)
+-        mlprefix = d.getVar('MLPREFIX', True) or ''
+ 
+         rdeps = d.getVar('RDEPENDS_' + pkg, True)
+         if rdeps:
+-            rdeps = rdeps + " " + mlprefix + pn + "-" + libpam_suffix
++            rdeps = rdeps + " " + pn + "-" + libpam_suffix
+         else:
+-            rdeps = mlprefix + pn + "-" + libpam_suffix
++            rdeps = pn + "-" + libpam_suffix
+         d.setVar('RDEPENDS_' + pkg, rdeps)
+ 
+         provides = d.getVar('RPROVIDES_' + pkg, True)
+-- 
+1.7.9.5
 
 
