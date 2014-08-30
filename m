@@ -1,40 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id BB269617B8;
-	Sat, 30 Aug 2014 03:02:21 +0000 (UTC)
-Received: by mail-ie0-f177.google.com with SMTP id tp5so3567923ieb.8
-	for <multiple recipients>; Fri, 29 Aug 2014 20:02:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=hC7e67yZslvA4aoNi5FhiOTNJjf00NWkBtwoU6q6NWU=;
-	b=tqN+v0Ag9gmbQkh+z2IIyvdOimblanEgRc/85qX8v0ldFCDuZk28JpakUd0kVcAXCK
-	1qQPSxWfeJucXTrWMHAt90OXSzzI3HeGpYHxuyQccZ3aM+WKMkTePSimHbgrvJGsHhDq
-	C5jnTu7c4A1SWQm1r4ZkF25DsSD9FybfXfOHRIpwkPC6MXwXr53hX5nk/JyK+n4Du8Pi
-	dZM2Y3z2kGFO0GOjhoran9nSJFKfIdCvnLze0giRGMRlUArhc9bha3ToJ/cRYJ8KgkuS
-	keENqN4roKAc9VVvDwCwIPR9K8rjoDUNqbHG3dp+icAjmpC26NPz0xgtZxnC7Me7ybfv
-	nESQ==
-X-Received: by 10.50.21.3 with SMTP id r3mr8533276ige.13.1409367743014; Fri,
-	29 Aug 2014 20:02:23 -0700 (PDT)
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa06-07.prod.phx3.secureserver.net
+	(p3plsmtpa06-07.prod.phx3.secureserver.net [173.201.192.108])
+	by mail.openembedded.org (Postfix) with ESMTP id 27E3670703
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 30 Aug 2014 03:45:30 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa06-07.prod.phx3.secureserver.net with 
+	id krlS1o0051mTNtu01rlSCw; Fri, 29 Aug 2014 20:45:28 -0700
+Message-ID: <540148D5.2040808@pabigot.com>
+Date: Fri, 29 Aug 2014 22:45:25 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-Received: by 10.50.102.67 with HTTP; Fri, 29 Aug 2014 20:01:52 -0700 (PDT)
-In-Reply-To: <CAMKF1spiNQm8GVSNApqqhd6WFJnD8-=2A0_JxD85dKGaqkgOoA@mail.gmail.com>
-References: <20140828064051.GA13139@haswell> <1409266291.29296.147.camel@ted>
-	<CAMKF1spz2KoO6NDSkZwh=V=pkyYi6e7-G0fpka5P2ifbjnNn6w@mail.gmail.com>
-	<CAMKF1spj67i2i_50m=oTUpS3x2J=de0UxGf70zLhn-a7c4M3QA@mail.gmail.com>
-	<1409314734.29296.169.camel@ted>
-	<CAMKF1spiNQm8GVSNApqqhd6WFJnD8-=2A0_JxD85dKGaqkgOoA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 29 Aug 2014 20:01:52 -0700
-Message-ID: <CAMKF1sq7w79s-TBV=RU8d2NP7ueJ8U8UFRSe2jBcfOzJ14qQzw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] Moving on from eglibc to glibc 2.20
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: armv6k support in OE for raspberrypi and s3c6410
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,27 +28,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Aug 2014 03:02:24 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 30 Aug 2014 03:45:33 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 29, 2014 at 4:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Fri, Aug 29, 2014 at 5:18 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Thu, 2014-08-28 at 18:46 -0700, Khem Raj wrote:
->>> On Thu, Aug 28, 2014 at 5:41 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>> > reproduced. will apprise as I have some fix.
->>>
->>> OK pushed another patch to the contrib tree that should take care of both
->>> xf86-input-synaptics xf86-input-vmmouse
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-arm/builds/17/steps/BuildImages/logs/stdio
->>
->> xf86-video-imxfb has the same issue and will need the same fix. Otavio
->> cc'd...
->>
->
-> I have sent a patch to meta-fsl-arm for this
+The topic from 
+http://lists.openembedded.org/pipermail/openembedded-core/2014-August/095830.html 
+is causing trouble again, specifically with meta-raspberrypi and 
+boost-1.56.  Here're the details:
 
-Until its installed, the patch is here
-http://patchwork.openembedded.org/patch/79443/
+For the purposes of defining preprocessor symbols like 
+__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4 gcc 4.9.1 partitions ARM (non-M) 
+architectures into three groups:
+
+1) armv2 armv2a armv3 armv3m armv4 armv4t armv5 armv5e armv5t armv5te 
+iwmmxt iwmmxt2
+2) armv6 armv6j armv6t2 armv6z
+3) armv6k armv6zk armv7-a armv7-r armv7ve armv8-a armv8-a+crc
+
+These indicate increasing levels of support for atomic instructions, and 
+perhaps other differences. (There are other preprocessor defines like 
+__ARCH_ARM_FOO that distinguish within these groups; here I'm focusing 
+only on a specific known problem using __GCC_-prefixed symbols.)
+
+Unlike normal builds of a gcc toolchain, OE builds the runtime libraries 
+separately in gcc-runtime and using the machine's tuning flags which 
+include the architecture.  The flags affect how atomic operations are 
+implemented in the libraries.
+
+Concurrrent applications built to link against the libraries must be 
+compiled to use compatible atomic operations, or they do not work. While 
+this happens naturally for applications built under OE that use the 
+machine-specific tuning flags, it does not occur for on-target builds or 
+for builds using the OE toolchain outside of the OE environment, which 
+instead normally default to the least capable set of features.
+
+The patch I added to gcc-configure-common.inc attempted to fix this by 
+configuring the compiler using --with-arch=foo in cases where the target 
+used -march=foo.
+
+This turns out to be unstable as the rules for inferring defaults are 
+complex.  From gcc/config/arm/arm.h:
+
+/* Support for a compile-time default CPU, et cetera.  The rules are:
+    --with-arch is ignored if -march or -mcpu are specified.
+    --with-cpu is ignored if -march or -mcpu are specified, and is 
+overridden
+     by --with-arch.
+    --with-tune is ignored if -mtune or -mcpu are specified (but not 
+affected
+      by -march).
+    --with-float is ignored if -mfloat-abi is specified.
+    --with-fpu is ignored if -mfpu is specified.
+    --with-abi is ignored if -mabi is specified.
+    --with-tls is ignored if -mtls-dialect is specified. */
+
+As an example, while -mtune=arm1176jzf-s by itself would imply 
+-march=armv6zk for a normally-built gcc, when gcc is built with 
+--with-arch=armv6 the more capable implied architecture is not selected: 
+the --with-arch setting takes precedence.
+
+Which would be fine, except that meta-raspberrypi calls the arm1176jzf-s 
+(which is armv6zk) an armv6 chip so gcc was built targeting a 
+less-capable architecture. You have to explicitly add -march=armv6zk (or 
+-march=armv6k) to make it work.
+
+So it appears that, in order to correctly support the Raspberry PI, OE 
+needs to have meta/conf/machine/include/arm/arch-armv7a.inc refactored 
+to pull out armv6k, and any overrides related to atomic instructions 
+updated to include armv6k as an option.
+
+Or possibly meta-raspberrypi could just claim to be an armv7a platform, 
+but that seems wrong.
+
+Anybody have a better idea?  Is there somebody who can step up and bell 
+this cat?  I'm stretching the limits of my cross-ARM familiarity here 
+and really don't feel comfortable taking on this one.
+
+Peter
+
+PS: Lest anybody think this is a new issue that's the fault of gcc 4.9: 
+it's not.  It was there with gcc-4.8 and maybe even gcc 4.7 as well, but 
+only a few people noticed and none of them told OE about it. 
+https://groups.google.com/forum/#!msg/automatak-dnp3/Jisp_zGhd5I/qJy1jHLFQoUJ
 
