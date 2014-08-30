@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 24D7371218
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 62FFB7124C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Aug 2014 04:38:49 +0000 (UTC)
+	Sat, 30 Aug 2014 04:38:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7U4cnYa007797
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7U4coZk013751
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 29 Aug 2014 21:38:49 -0700 (PDT)
+	Fri, 29 Aug 2014 21:38:50 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
 	14.3.174.1; Fri, 29 Aug 2014 21:38:49 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Sat, 30 Aug 2014 00:38:20 -0400
-Message-ID: <8b7472a97f6128bd2b428d5c7d718fd00775bdfc.1409345003.git.bruce.ashfield@windriver.com>
+Date: Sat, 30 Aug 2014 00:38:21 -0400
+Message-ID: <f0245f9130b06ad98c2e2d1472b90bb4ac9d994a.1409345003.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1409345003.git.bruce.ashfield@windriver.com>
 References: <cover.1409345003.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 17/18] linux-yocto/3.4: remove 3.4 name recipes
+Subject: [PATCH 18/18] linux-libc-headers: update to 3.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,132 +33,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Aug 2014 04:38:49 -0000
+X-List-Received-Date: Sat, 30 Aug 2014 04:38:50 -0000
 Content-Type: text/plain
 
-Removing the 3.4 recipes, since support has not shifted to 3.10 and
-3.14 for LTSI kernel versions, with 3.16+ as the development version.
+Updating the linux-libc-headers to the 3.16 release. This matches the
+current -dev kernel version, and is compatible with the existing
+named kernel versions (3.10, 3.14).
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb   | 30 ------------------
- meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb | 25 ---------------
- meta/recipes-kernel/linux/linux-yocto_3.4.bb      | 37 -----------------------
- 3 files changed, 92 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto_3.4.bb
+ meta/conf/distro/include/tcmode-default.inc                       | 2 +-
+ meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.14.bb | 7 -------
+ meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.16.bb | 7 +++++++
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+ delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.14.bb
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.16.bb
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 41a014721daf..74e8f438516c 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -27,7 +27,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
+ BINUVERSION ?= "2.24"
+ EGLIBCVERSION ?= "2.19"
+ UCLIBCVERSION ?= "0.9.33+git%"
+-LINUXLIBCVERSION ?= "3.14"
++LINUXLIBCVERSION ?= "3.16"
+ 
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.14.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.14.bb
 deleted file mode 100644
-index 6929dfaec198..000000000000
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+index 9ac70af942a1..000000000000
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.14.bb
 +++ /dev/null
-@@ -1,30 +0,0 @@
--require recipes-kernel/linux/linux-yocto.inc
+@@ -1,7 +0,0 @@
+-KORG_ARCHIVE_COMPRESSION = "xz"
 -
--KBRANCH ?= "standard/preempt-rt/base"
--KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
+-require linux-libc-headers.inc
 -
--LINUX_VERSION ?= "3.4.91"
--LINUX_KERNEL_TYPE = "preempt-rt"
+-SRC_URI[md5sum] = "b621207b3f6ecbb67db18b13258f8ea8"
+-SRC_URI[sha256sum] = "61558aa490855f42b6340d1a1596be47454909629327c49a5e4e10268065dffa"
 -
--KMETA = "meta"
--
--SRCREV_machine ?= "5993b0a650d24f810edb22bab577287d0c6d4f4b"
--SRCREV_machine_qemuppc ?= "765d61e4883bb6db3be516722465f2e8d1fc73cd"
--SRCREV_meta ?= "a8742041c8b9f447d4ad4c3f478e022f1e4bfcfd"
--
--PR = "${INC_PR}.1"
--PV = "${LINUX_VERSION}+git${SRCPV}"
--
--SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
--
--# Omit broken machines from COMPATIBLE_MACHINE
--#   qemuppc hangs at boot
--#   qemumips panics at boot
--COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm)"
--
--# Functionality flags
--KERNEL_FEATURES_append = " features/netfilter/netfilter.scc"
--KERNEL_FEATURES_append = " features/taskstats/taskstats.scc"
--KERNEL_FEATURES_append_qemux86 = " cfg/sound.scc"
--KERNEL_FEATURES_append_qemux86-64 = " cfg/sound.scc"
--KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
-deleted file mode 100644
-index bad6b8f4eb9b..000000000000
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
-+++ /dev/null
-@@ -1,25 +0,0 @@
--require recipes-kernel/linux/linux-yocto.inc
--
--# We need lzma (as CONFIG_KERNEL_LZMA=y)
--DEPENDS += "xz-native"
--
--KBRANCH ?= "standard/tiny/base"
--LINUX_KERNEL_TYPE = "tiny"
--KCONFIG_MODE = "--allnoconfig"
--
--LINUX_VERSION ?= "3.4.91"
--
--KMETA = "meta"
--
--SRCREV_machine ?= "498189ccb98f833daa2092ceee72da8c878e0009"
--SRCREV_meta ?= "a8742041c8b9f447d4ad4c3f478e022f1e4bfcfd"
--
--PR = "${INC_PR}.1"
--PV = "${LINUX_VERSION}+git${SRCPV}"
--
--SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
--
--COMPATIBLE_MACHINE = "(qemux86)"
--
--# Functionality flags
--KERNEL_FEATURES = ""
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-deleted file mode 100644
-index 3538afcf9809..000000000000
---- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-+++ /dev/null
-@@ -1,37 +0,0 @@
--require recipes-kernel/linux/linux-yocto.inc
--
--KBRANCH = "standard/base"
--
--# board specific branches
--KBRANCH_qemuarm  ?= "standard/arm-versatile-926ejs"
--KBRANCH_qemumips ?= "standard/mti-malta32"
--KBRANCH_qemuppc  ?= "standard/qemuppc"
--KBRANCH_qemux86  ?= "standard/common-pc/base"
--KBRANCH_qemux86-64  ?= "standard/common-pc-64/base"
--KBRANCH_qemumips64 ?= "standard/mti-malta64"
--
--SRCREV_machine_qemuarm ?= "192b56b2f529af1be014ea85667c9f3fea0afd53"
--SRCREV_machine_qemumips  ?= "58fb8b8fb2f9911cac84cd840d63c8a58bada6ca"
--SRCREV_machine_qemuppc ?= "4fe50989bc8bcb3564ca37c2cffd42ac176b428d"
--SRCREV_machine_qemux86 ?= "498189ccb98f833daa2092ceee72da8c878e0009"
--SRCREV_machine_qemux86-64 ?= "498189ccb98f833daa2092ceee72da8c878e0009"
--SRCREV_machine ?= "498189ccb98f833daa2092ceee72da8c878e0009"
--SRCREV_meta ?= "a8742041c8b9f447d4ad4c3f478e022f1e4bfcfd"
--
--SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
--
--LINUX_VERSION ?= "3.4.91"
--
--PR = "${INC_PR}.5"
--PV = "${LINUX_VERSION}+git${SRCPV}"
--
--KMETA = "meta"
--
--COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemux86-64"
--
--# Functionality flags
--KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
--KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
--KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
--KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
--KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.16.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.16.bb
+new file mode 100644
+index 000000000000..cedaced2da50
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.16.bb
+@@ -0,0 +1,7 @@
++KORG_ARCHIVE_COMPRESSION = "xz"
++
++require linux-libc-headers.inc
++
++SRC_URI[md5sum] = "5c569ed649a0c9711879f333e90c5386"
++SRC_URI[sha256sum] = "4813ad7927a7d92e5339a873ab16201b242b2748934f12cb5df9ba2cfe1d77a0"
++
 -- 
 1.8.1.2
 
