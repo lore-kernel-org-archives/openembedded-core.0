@@ -1,30 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 444BE60E49
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A81C4705FC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Aug 2014 12:06:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7VC6Jro026692; Sun, 31 Aug 2014 13:06:19 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 3_SM66HY81d5; Sun, 31 Aug 2014 13:06:19 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s7VC6Eqf026688
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sun, 31 Aug 2014 13:06:15 +0100
-Message-ID: <1409486775.29296.224.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Cristian Iorga <cristian.iorga@intel.com>
-Date: Sun, 31 Aug 2014 13:06:15 +0100
-In-Reply-To: <22d5fe07fe0d4d2245931dccbb69218bca7c6954.1409331937.git.cristian.iorga@intel.com>
-References: <cover.1409331937.git.cristian.iorga@intel.com>
-	<22d5fe07fe0d4d2245931dccbb69218bca7c6954.1409331937.git.cristian.iorga@intel.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
+	Sun, 31 Aug 2014 13:57:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s7VDvl6X019949
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 31 Aug 2014 06:57:47 -0700 (PDT)
+Received: from server.local (128.224.20.92) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Sun, 31 Aug 2014 06:57:47 -0700
+Message-ID: <540329DA.9010607@windriver.com>
+Date: Sun, 31 Aug 2014 09:57:46 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1409345003.git.bruce.ashfield@windriver.com>
+	<1409479646.29296.223.camel@ted>
+In-Reply-To: <1409479646.29296.223.camel@ted>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] alsa-lib: upgrade to 1.0.28
+Subject: Re: [PATCH 00/18] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 31 Aug 2014 12:06:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 31 Aug 2014 13:57:52 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2014-08-29 at 20:06 +0300, Cristian Iorga wrote:
-> diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.28.bb
-> similarity index 86%
-> rename from meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-> rename to meta/recipes-multimedia/alsa/alsa-lib_1.0.28.bb
-> index fc0847d..d509da2 100644
-> --- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-> +++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.28.bb
-> @@ -14,16 +14,15 @@ BBCLASSEXTEND = "native nativesdk"
->  #FIXME: remove the following
->  ARM_INSTRUCTION_SET = "arm"
->  
-> -SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/alsa-lib-${PV}.tar.bz2 \
-> +SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/${BP}.tar.bz2 \
->             file://Check-if-wordexp-function-is-supported.patch \
+On 2014-08-31, 6:07 AM, Richard Purdie wrote:
+> Thanks for the other fix, I've pulled that in and am retesting. I did
+> also see:
+>
+> https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/24/steps/BuildImages/logs/stdio
+>
+> ERROR: Fetcher failure: Unable to find revision 5a47bbc4c3c2472f3746a8cf1485db7134cf9245 in branch master even from upstream
+> ERROR: Function failed: Fetcher failure for URL: 'git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=master,meta;name=machine,meta'. Unable to fetch URL from any source.
+> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/tmp/work/qemux86_64-poky-linux/linux-yocto-tiny/3.14.17+gitAUTOINC+ccad961c4c_5a47bbc4c3-r0/temp/log.do_fetch.10000
+> NOTE: recipe linux-yocto-tiny-3.14.17+gitAUTOINC+ccad961c4c_5a47bbc4c3-r0: task do_fetch: Failed
+> ERROR: Task 324 (/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb, do_fetch) failed with exit code '1'
+> WARNING: Failed to fetch URL git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=master,meta;name=machine,meta, attempting MIRRORS if available
+> ERROR: Fetcher failure: Unable to find revision 12f9e966eb249c3bdcc935612e2a372e90bad950 in branch master even from upstream
+> ERROR: Function failed: Fetcher failure for URL: 'git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=master,meta;name=machine,meta'. Unable to fetch URL from any source.
+> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/tmp/work/qemux86_64-poky-linux/linux-yocto-rt/3.14.17+gitAUTOINC+ccad961c4c_12f9e966eb-r0/temp/log.do_fetch.9978
+> NOTE: recipe linux-yocto-rt-3.14.17+gitAUTOINC+ccad961c4c_12f9e966eb-r0: task do_fetch: Failed
+> ERROR: Task 325 (/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb, do_fetch) failed with exit code '1
+>
+> (I've a fix in for the other alsa failure)
+>
+> Any idea what's up with this?
 
-This breaks the fetch of alsa-utils-alsaconf. I've reverted this part of
-the change.
+Hmmm. I'm not sure why it is looking for that commit on master for the
+3.14 kernel. That's my merge of v3.14.17, so it definitely will not
+be on the master branch.
 
-Cheers,
 
-Richard
+% git show 5a47bbc4c3c2472f3746a8cf1485db7134cf9245
+commit 5a47bbc4c3c2472f3746a8cf1485db7134cf9245
+Merge: 233bb0d36202 946de0e6b6ed
+Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date:   Mon Aug 25 14:17:26 2014 -0400
+
+     Merge tag 'v3.14.17' into standard/base
+
+     This is the 3.14.17 stable release
+
+I didn't do anything different for this -stable update than any other.
+
+I'm out for the day today, but can look at this again tonight .. I must
+have fat fingered something, since I can't see why the 
+linux-yocto_3.14.bb KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
+
+isn't overriding the linux-yocto.inc default of KBRANCH ?= "master"
+
+Bruce
+
+
+>
+> Cheers,
+>
+> Richard
+>
 
 
