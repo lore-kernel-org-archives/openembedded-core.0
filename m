@@ -1,39 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E4ED701F3
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E3EC7130C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Sep 2014 14:16:48 +0000 (UTC)
-Received: by mail-qc0-f172.google.com with SMTP id o8so5551968qcw.3
+	Mon,  1 Sep 2014 14:34:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s81EYbVX022005
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Sep 2014 07:16:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=/BFhsn/JO+RAeNYqrfrbi4z68LsiSELP3Zsj3msq7eY=;
-	b=SSfrPhEETw9pj/GSCinift+KrdnRSSENNQpGQ+pzOqixmHRQ6uC87X42hPJzS4wn20
-	Scs7KDW9dXxoZoQlwsowGPmSB9gqmN9qptYYsh2W1C+7M6CnDVJHmtWuqpN9tNqzV/eP
-	cL7Fej5fz193WfqGFWDjewSKGXdx3XFuzfozC+NRhJQWFD5eCNFwl4aALpOz00THFYzf
-	Q+2mZawbVydilKupkfnMX72SQf+iD4sKLHmu4IowIVgBeZzAWGjzd36xFD/LzJoL5v83
-	gTYGnEyrCE5SFP7xAhoTHQFK2FstNtGIw7dLWGlYnDz7dcUjTpISUEzYnosXwfSAQc9+
-	za8g==
-X-Gm-Message-State: ALoCoQkd/2sPth+LWsRIDNcRh//FNsUfMhLVy8uCZodK2fHYVfwGml0stCtPVLx6KNp3GxbBATpu
-X-Received: by 10.224.38.10 with SMTP id z10mr45653994qad.52.1409581009654;
-	Mon, 01 Sep 2014 07:16:49 -0700 (PDT)
+	Mon, 1 Sep 2014 07:34:37 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 1 Sep 2014 07:34:36 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 1 Sep 2014 07:34:35 -0700
+Message-ID: <cover.1409580372.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Mon, 1 Sep 2014 07:16:29 -0700 (PDT)
-In-Reply-To: <1409336458.8504.3.camel@maxtothemax-Studio-XPS-8000>
-References: <cover.1409074419.git.max.eliaser@intel.com>
-	<ef8574dfdd5992bdd42b788a909d0610d8b23b21.1409074419.git.max.eliaser@intel.com>
-	<CAJTo0LZ_fZsexOVt2M1Tb4Pv-zghRJa=2ALMxxAKrHwFPc9Vqw@mail.gmail.com>
-	<1409336458.8504.3.camel@maxtothemax-Studio-XPS-8000>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Sep 2014 15:16:29 +0100
-Message-ID: <CAJTo0La9Dmx7kGmQXmt5BTAH1hYBvBUw9O9=rFm0sjFr_VwSEQ@mail.gmail.com>
-To: Max Eliaser <max.eliaser@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/5] qemux86: support X11 when QEMU is emulating a different GPU than vmware
+Subject: [PATCH 0/1] native.bbclass: deltask package_qa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,18 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Sep 2014 14:16:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 01 Sep 2014 14:34:44 -0000
+Content-Type: text/plain
 
-On 29 August 2014 19:20, Max Eliaser <max.eliaser@intel.com> wrote:
-> My understanding is that xf86-video-modesetting is completely
-> unaccelerated, whereas xf86-video-cirrus does some 2D acceleration. Is
-> that not correct?
+The following changes since commit a57b24f848a7cb89cf57830e07682224f8bbc96f:
 
-The question is what acceleration does the qemu cirrus actually
-implement, and is that acceleration actually useful?  Years of working
-on acceleration architectures for the intel gpu driver have generally
-shown that you can't easily beat direct access to the framebuffer...
+  tzcode: update to 2014g (2014-08-31 23:39:13 +0100)
 
-Ross
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/native
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/native
+
+Robert Yang (1):
+  native.bbclass: deltask package_qa
+
+ meta/classes/native.bbclass |    1 +
+ 1 file changed, 1 insertion(+)
+
+-- 
+1.7.9.5
+
 
