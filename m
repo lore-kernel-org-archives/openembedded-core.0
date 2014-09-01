@@ -1,28 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 161F871223
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 531016FE64
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Sep 2014 16:32:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s81GWUWh006362; Mon, 1 Sep 2014 17:32:30 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id FptM7F1NIHIW; Mon,  1 Sep 2014 17:32:30 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s81GWO2J006359
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 1 Sep 2014 17:32:26 +0100
-Message-ID: <1409589146.29296.238.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 01 Sep 2014 17:32:26 +0100
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: ronan <ronan.lemartret@open.eurogiciel.org>,
-	Ed Bartosh <eduard.bartosh@intel.com>
-Subject: [PATCH v2] package_rpm: Add custom extension support for spec generation.
+	Mon,  1 Sep 2014 17:34:36 +0000 (UTC)
+Received: by mail-pd0-f176.google.com with SMTP id g10so6646384pdj.21
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Sep 2014 10:34:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=RBNNaNeNY5BIu3aP3WPEcTFUzZ+GgaR8rPcfS4+alNQ=;
+	b=TVwAFiAMX/ed+DTTPA2MTv1hCmoq9RS2WI60Scq3cxPwKltDpP+rJOzqGZ0wUlqGp6
+	NcQoUZRR651xMOvnWOX/ZhO1BtPF8yCjtjBdBpwdI1USSLHUNU+rFaIR0WoghUTngXkV
+	0DA8UWEArltCA/Y8OUj/cpMkhPbuXJXuOpWphAPazePNGAzKQxzumdQwXiKXsX73LUa6
+	3Pu46LSjdOz3fiR34La0NU+21j5IxqtGzLLzxR2aZMfZ+UFlmgCMxTA4gHMZIJLhra98
+	ZxwU6IKDYxunhobevF3rXJGRKfRHt1FORTBL5X8owElNGi72qo1kWQ5airXEZaXtMlZJ
+	98MQ==
+X-Gm-Message-State: ALoCoQlLBonbZpYm3IeGaUyGylh78m6KqImWJmS7IdJ5xgo5jvVm/TkWuOIpZbHcImtzCIuNNe3+
+MIME-Version: 1.0
+X-Received: by 10.70.52.165 with SMTP id u5mr41724148pdo.62.1409592876877;
+	Mon, 01 Sep 2014 10:34:36 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.57.136 with HTTP; Mon, 1 Sep 2014 10:34:36 -0700 (PDT)
+In-Reply-To: <5400C6A5.6040001@linux.intel.com>
+References: <1408720803-11737-1-git-send-email-lpapp@kde.org>
+	<5400C6A5.6040001@linux.intel.com>
+Date: Mon, 1 Sep 2014 18:34:36 +0100
+X-Google-Sender-Auth: wv9YeqSovT9e9a25gaNTFeuEDOY
+Message-ID: <CAOMwXhPptiMrE7_VNi1rLtv0qzVf=0CHSJ5nn=dTi8GxBtFtHQ@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Add support for ccache builds with the SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +46,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Sep 2014 16:32:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Sep 2014 17:34:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Add hooks to allow customisation of the rpm spec files. Since python functions
-aren't visible in the data store, one variable is used to trigger the call to
-a separately named function. A dummy function is not provided since this then
-triggers various class ordering complexities which are best avoided.
+It is indeed nit, and not something I wishfully spend my time with, so
+feel free to rewrite the commit message and integrate the ccache
+support. As usual, this feature is also applied in our fork, so I am
+fine... It is only the upstream Yocto users who may be missing
+features out.
 
-Ultimately this will be replaced by a refactor of the code to generate the 
-spec file using a python class.
+Having said that, thank you for your feedback.
 
-This allows the tizen layer to add hooks for the security manifests for
-example.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index eecfcb2..ac69b68 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -306,6 +306,7 @@ python write_specfile () {
-     spec_files_bottom = []
- 
-     perfiledeps = (d.getVar("MERGEPERFILEDEPS", True) or "0") == "0"
-+    extra_pkgdata = (d.getVar("RPM_EXTRA_PKGDATA", True) or "0") == "0"
- 
-     for pkg in packages.split():
-         localdata = bb.data.createCopy(d)
-@@ -389,6 +390,8 @@ python write_specfile () {
-             else:
-                 bb.note("Creating RPM package for %s" % splitname)
-                 spec_files_top.append('%files')
-+                if extra_pkgdata:
-+                    package_rpm_extra_pkgdata(splitname, spec_files_top, localdata)
-                 spec_files_top.append('%defattr(-,-,-,-)')
-                 if file_list:
-                     bb.note("Creating RPM package for %s" % splitname)
-@@ -495,6 +498,8 @@ python write_specfile () {
-             bb.note("Not creating empty RPM package for %s" % splitname)
-         else:
-             spec_files_bottom.append('%%files -n %s' % splitname)
-+            if extra_pkgdata:
-+                package_rpm_extra_pkgdata(splitname, spec_files_bottom, localdata)
-             spec_files_bottom.append('%defattr(-,-,-,-)')
-             if file_list:
-                 bb.note("Creating RPM package for %s" % splitname)
-
-
+On Fri, Aug 29, 2014 at 7:29 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>
+> Might be a nit, but can you please follow the Commit Guildlines at
+> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+>
+> The summary should include the filename or area of the fix
+>
+> toolchain-script: Add ...
+>
+> Also can you expand on the why this is needed?
+>
+> Thanks
+>         Sau!
+>
+>
+> On 08/22/2014 08:20 AM, Laszlo Papp wrote:
+>>
+>> Signed-off-by: Laszlo Papp <lpapp@kde.org>
+>> ---
+>>   meta/classes/toolchain-scripts.bbclass | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/classes/toolchain-scripts.bbclass
+>> b/meta/classes/toolchain-scripts.bbclass
+>> index 6cc8eba..60278d6 100644
+>> --- a/meta/classes/toolchain-scripts.bbclass
+>> +++ b/meta/classes/toolchain-scripts.bbclass
+>> @@ -19,6 +19,7 @@ toolchain_create_sdk_env_script () {
+>>
+>> EXTRAPATH="$EXTRAPATH:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_ARCH}${TARGET_VENDOR}-$i"
+>>         done
+>>         echo 'export
+>> PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}'$EXTRAPATH':$PATH'
+>> >> $script
+>> +       echo 'export
+>> CCACHE_PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}'$EXTRAPATH':$CCACHE_PATH'
+>> >> $script
+>>         echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
+>>         echo 'export
+>> PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig' >> $script
+>>         echo 'export
+>> CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
+>> @@ -37,6 +38,7 @@ toolchain_create_tree_env_script () {
+>>         rm -f $script
+>>         touch $script
+>>         echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${PATH}' >>
+>> $script
+>> +       echo 'export
+>> CCACHE_PATH=${STAGING_DIR_NATIVE}/usr/bin:${CCACHE_PATH}' >> $script
+>>         echo 'export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_SYSROOT_DIR}' >>
+>> $script
+>>         echo 'export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}' >> $script
+>>         echo 'export CONFIG_SITE="${@siteinfo_get_files(d)}"' >> $script
+>>
+>
 
