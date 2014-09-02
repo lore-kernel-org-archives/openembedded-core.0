@@ -1,23 +1,36 @@
-Return-Path: <georgex.l.musat@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B92170281
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D01E60DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Sep 2014 13:15:41 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 02 Sep 2014 06:09:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,449,1406617200"; d="scan'208";a="567133402"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 02 Sep 2014 06:15:39 -0700
-Received: from localhost.localdomain (unknown [10.237.112.174])
-	by linux.intel.com (Postfix) with ESMTP id 9D5AD6A4087;
-	Tue,  2 Sep 2014 06:14:56 -0700 (PDT)
-From: Lucian Musat <georgex.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Sep 2014 16:10:38 +0300
-Message-Id: <1409663439-1725-1-git-send-email-georgex.l.musat@intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 1/2] oeqa/utils/logparser.py: results based log parser utility
+	Tue,  2 Sep 2014 13:19:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s82DJpOs006459; Tue, 2 Sep 2014 14:19:51 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id uo7Lg2Dz7_wd; Tue,  2 Sep 2014 14:19:51 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s82DJlua006456
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 2 Sep 2014 14:19:48 +0100
+Message-ID: <1409663988.18528.7.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Tue, 02 Sep 2014 14:19:48 +0100
+In-Reply-To: <CAP9ODKqfNwXn_dEUu-WT6zLoUM_MDDtgPRp2WfUU238UcpuKJw@mail.gmail.com>
+References: <CAP9ODKpWHy4XW6OVs34=-p+GRK6iOLvgsAqr22obSAaj9_2SDQ@mail.gmail.com>
+	<540530B8.8040107@windriver.com>
+	<CAP9ODKrxFsbVs7xNQ1tOW2xmrQ4-omTZCTVQ04aO8ms--Lu9Qw@mail.gmail.com>
+	<540539E6.2030508@windriver.com>
+	<CAP9ODKr_p-1z-nRLuM_nMVpei3A4Z2CuDh9wzEEpZW9jSEoL-w@mail.gmail.com>
+	<540568FB.4040006@windriver.com>
+	<CAP9ODKqfNwXn_dEUu-WT6zLoUM_MDDtgPRp2WfUU238UcpuKJw@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Error while building qemu without X11 support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,154 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Sep 2014 13:15:42 -0000
+X-List-Received-Date: Tue, 02 Sep 2014 13:20:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-A module for parsing results based logs like ptest, compliance and performance.
-Supports breaking the logs into multiple sections and also provides a result object to use the parser with.
-The parser is initialized with the regex required to identify results and section statements in the target log file.
+On Tue, 2014-09-02 at 09:36 -0300, Otavio Salvador wrote:
+> > How about only remove the x11 for target ?
+> >
+> > DISTRO_FEATURES_remove_class-target = "x11"
+> 
+> This is a workaround. Few days ago it built fine so a clear regression.
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
-Signed-off-by: Lucian Musat <georgex.l.musat@intel.com>
----
- meta/lib/oeqa/utils/logparser.py | 127 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 127 insertions(+)
- create mode 100644 meta/lib/oeqa/utils/logparser.py
+Lets take a step back and think about this for a minute.
 
-diff --git a/meta/lib/oeqa/utils/logparser.py b/meta/lib/oeqa/utils/logparser.py
-new file mode 100644
-index 0000000..90116c7
---- /dev/null
-+++ b/meta/lib/oeqa/utils/logparser.py
-@@ -0,0 +1,127 @@
-+#!/usr/bin/env python
-+
-+import sys
-+import os
-+import re
-+
-+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'meta/lib')))
-+import oeqa.utils.ftools as ftools
-+
-+
-+# A parser that can be used to identify weather a line is a test result or a section statement.
-+class Lparser(object):
-+
-+    def __init__(self, test_0_pass_regex, test_0_fail_regex, section_0_begin_regex=None, section_0_end_regex=None, **kwargs):
-+        # Initialize the arguments dictionary
-+        if kwargs:
-+            self.args = kwargs
-+        else:
-+            self.args = {}
-+
-+        # Add the default args to the dictionary
-+        self.args['test_0_pass_regex'] = test_0_pass_regex
-+        self.args['test_0_fail_regex'] = test_0_fail_regex
-+        if section_0_begin_regex:
-+            self.args['section_0_begin_regex'] = section_0_begin_regex
-+        if section_0_end_regex:
-+            self.args['section_0_end_regex'] = section_0_end_regex
-+
-+        self.test_possible_status = ['pass', 'fail', 'error']
-+        self.section_possible_status = ['begin', 'end']
-+
-+        self.initialized = False
-+
-+
-+    # Initialize the parser with the current configuration
-+    def init(self):
-+
-+        # extra arguments can be added by the user to define new test and section categories. They must follow a pre-defined pattern: <type>_<category_name>_<status>_regex
-+        self.test_argument_pattern = "^test_(.+?)_(%s)_regex" % '|'.join(map(str, self.test_possible_status))
-+        self.section_argument_pattern = "^section_(.+?)_(%s)_regex" % '|'.join(map(str, self.section_possible_status))
-+
-+        # Initialize the test and section regex dictionaries
-+        self.test_regex = {}
-+        self.section_regex ={}
-+
-+        for arg, value in self.args.items():
-+            if not value:
-+                raise Exception('The value of provided argument %s is %s. Should have a valid value.' % (key, value))
-+            is_test =  re.search(self.test_argument_pattern, arg)
-+            is_section = re.search(self.section_argument_pattern, arg)
-+            if is_test:
-+                if not is_test.group(1) in self.test_regex:
-+                    self.test_regex[is_test.group(1)] = {}
-+                self.test_regex[is_test.group(1)][is_test.group(2)] = re.compile(value)
-+            elif is_section:
-+                if not is_section.group(1) in self.section_regex:
-+                    self.section_regex[is_section.group(1)] = {}
-+                self.section_regex[is_section.group(1)][is_section.group(2)] = re.compile(value)
-+            else:
-+                # TODO: Make these call a traceback instead of a simple exception..
-+                raise Exception("The provided argument name does not correspond to any valid type. Please give one of the following types:\nfor tests: %s\nfor sections: %s" % (self.test_argument_pattern, self.section_argument_pattern))
-+
-+        self.initialized = True
-+
-+    # Parse a line and return a tuple containing the type of result (test/section) and its category, status and name
-+    def parse_line(self, line):
-+        if not self.initialized:
-+            raise Exception("The parser is not initialized..")
-+
-+        for test_category, test_status_list in self.test_regex.items():
-+            for test_status, status_regex in test_status_list.items():
-+                test_name = status_regex.search(line)
-+                if test_name:
-+                    return ['test', test_category, test_status, test_name.group(1)]
-+
-+        for section_category, section_status_list in self.section_regex.items():
-+            for section_status, status_regex in section_status_list.items():
-+                section_name = status_regex.search(line)
-+                if section_name:
-+                    return ['section', section_category, section_status, section_name.group(1)]
-+        return None
-+
-+
-+class Result(object):
-+
-+    def __init__(self):
-+        self.result_dict = {}
-+
-+    def store(self, section, test, status):
-+        if not section in self.result_dict:
-+            self.result_dict[section] = []
-+
-+        self.result_dict[section].append((test, status))
-+
-+    # sort tests by the test name(the first element of the tuple), for each section. This can be helpful when using git to diff for changes by making sure they are always in the same order.
-+    def sort_tests(self):
-+        for package in self.result_dict:
-+            sorted_results = sorted(self.result_dict[package], key=lambda tup: tup[0])
-+            self.result_dict[package] = sorted_results
-+
-+    # Log the results as files. The file name is the section name and the contents are the tests in that section.
-+    def log_as_files(self, target_dir, test_status):
-+        status_regex = re.compile('|'.join(map(str, test_status)))
-+        if not type(test_status) == type([]):
-+            raise Exception("test_status should be a list. Got " + str(test_status) + " instead.")
-+        if not os.path.exists(target_dir):
-+            raise Exception("Target directory does not exist: %s" % target_dir)
-+
-+        for section, test_results in self.result_dict.items():
-+            prefix = ''
-+            for x in test_status:
-+                prefix +=x+'.'
-+            if (section != ''):
-+                prefix += section
-+            section_file = os.path.join(target_dir, prefix)
-+            # purge the file contents if it exists
-+            open(section_file, 'w').close()
-+            for test_result in test_results:
-+                (test_name, status) = test_result
-+                # we log only the tests with status in the test_status list
-+                match_status = status_regex.search(status)
-+                if match_status:
-+                    ftools.append_file(section_file, status + ": " + test_name)
-+
-+    # Not yet implemented!
-+    def log_to_lava(self):
-+        pass
-\ No newline at end of file
--- 
-1.9.1
+If you build qemu-native configured with sdl, its likely you do want X
+support. As this stood, the linkage with libxext was problematic.
+Robert's patch makes the situation deterministic so in that sense its as
+correct as the various other determinism patches.
+
+The issue is that in some builds, you relied on x11-native not being
+built and this is now showing up as an issue. What can be done is to
+make the libxext dependency conditional on x11 in DISTRO_FEATURES as
+we've done in other cases. It doesn't really make this invalid or a
+regression, just that like other determinism fixes, we've resolved this
+in a way means we need to rethink a few things.
+
+I'd strongly suggest people think about whether they do really want x11
+in "native" DISTRO_FEATURES since in reality, I suspect most people do.
+
+So I'll take a patch making the dependency conditional but I don't
+believe its what most people actually want.
+
+Cheers,
+
+Richard
+
 
 
