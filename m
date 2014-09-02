@@ -1,32 +1,37 @@
-Return-Path: <jefro.net@gmail.com>
-Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 77CAB65C7B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f170.google.com (mail-qc0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 9764F65C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Sep 2014 15:23:18 +0000 (UTC)
-Received: by mail-la0-f51.google.com with SMTP id gl10so8032536lab.10
+	Tue,  2 Sep 2014 15:24:52 +0000 (UTC)
+Received: by mail-qc0-f170.google.com with SMTP id r5so7187714qcx.29
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Sep 2014 08:23:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:from:date:message-id:subject:to:content-type;
-	bh=JhDjbRRBpBwZR0M0CuDdlVldK7W9VnICcuZdA9gu6Og=;
-	b=x3GzCH74NL+AmdEPln+TAjhUuhwmu689/UxWnlwZpgQCQWVvBj5J+nvVGXL5dVW9Y+
-	fR0VaFxa350K9EovKpxMhk2n6gr9aTO61vqdqzz6DxmaccRUvnZ8Ne9vx3FIlKOMXFnQ
-	PtMF9FmqREl5v+sSluMzz3IhJXFYtVuIX4JEAt/XHr66KGIhmS5V8iy6KtOJYjYUmGyM
-	oN90UwGxa/72f3Vcgg25pOJaao4eO5NML1jUntE2KAwzW0vy9Z3TsfRP6zzjyFIsSbTh
-	9Zf2Q8OVhU8CmSnYMJ0cfK30oeTQuWidXsHRbARDPl3MLlj6WcaY+Kwjl0HdQZS1uQl3
-	dxEA==
-X-Received: by 10.112.158.199 with SMTP id ww7mr33961108lbb.71.1409671399250; 
-	Tue, 02 Sep 2014 08:23:19 -0700 (PDT)
+	Tue, 02 Sep 2014 08:24:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=GWOE7T/ue0UFdZtq1wAkaP7R7UqVRJ283+vEwgzUWc0=;
+	b=R8mUxGNI13lX2z8OHkRF0B0/9jVyevYtdhv1gQ6PYXtKz3d8O6FYm8rpz53/YnDR6e
+	jUKVJeFwx8BRdSgT6mL/CqcOlekPinMATRe7S5TKtaxkiVE5738YZ6C9W1clo8sxRjNF
+	b0kG3esgU/OC88V/o21tQEREyK/YsWlfmpK2S3Ybug/Xx0RNXGIhkHqj7zgRA34wLdry
+	AK2gBt4hCUX4nFCpcr3pUA4eJwIkwsIIQeIh6KiNFzokdFKKszs7XUx51W/XjxyVklwC
+	xV7nd88lVX/1mb+1JRsK2ZzsFgA/3Rv0qucB9oOJVBEJZdRWrDyXsENrgFeevfOJi0Tf
+	DdBQ==
+X-Gm-Message-State: ALoCoQkN7NCYn7stCCQadCH8QXwDmIJwlgHdqu2WsXpSfWu9Q25ticVw31Qm+RyKNelutuavIKKq
+X-Received: by 10.224.79.139 with SMTP id p11mr436766qak.93.1409671493256;
+	Tue, 02 Sep 2014 08:24:53 -0700 (PDT)
 MIME-Version: 1.0
-Sender: jefro.net@gmail.com
-Received: by 10.112.89.229 with HTTP; Tue, 2 Sep 2014 08:22:59 -0700 (PDT)
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Date: Tue, 2 Sep 2014 08:22:59 -0700
-X-Google-Sender-Auth: Lcaa9vMOzhfWs0LoXLNUUqPs3CE
-Message-ID: <CA+YB3rZsrzdu2fzmjOjnVH58v_yaZht8Z-RqRbTqXsEg-hVtjQ@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: OpenEmbedded TSC public meeting Tues 9 Sept
+Received: by 10.140.29.183 with HTTP; Tue, 2 Sep 2014 08:24:33 -0700 (PDT)
+In-Reply-To: <87c78f60aa3ef60a850e81fe49b0f4d33a142972.1409655125.git.Qi.Chen@windriver.com>
+References: <cover.1409655125.git.Qi.Chen@windriver.com>
+	<87c78f60aa3ef60a850e81fe49b0f4d33a142972.1409655125.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 2 Sep 2014 16:24:33 +0100
+Message-ID: <CAJTo0LaGiH2SSi=f7mrTsLP87=4CNgBhVhx+k4grQwD5UJRQOg@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 12/26] acpid: upgrade to 2.0.22 and add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,19 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Sep 2014 15:23:23 -0000
+X-List-Received-Date: Tue, 02 Sep 2014 15:24:53 -0000
 Content-Type: text/plain; charset=UTF-8
 
-The next public OpenEmbedded Technical Steering Committee meeting will
-occur on the #oe IRC channel on freenode.net next Tuesday, 9 September
-2014, at:
-9amPDT / 12pm EDT / 5pm UK / 6pmEU / 1pmBrazil / 1amJP
+On 2 September 2014 11:53, Chen Qi <Qi.Chen@windriver.com> wrote:
+> -inherit update-rc.d
+> +inherit autotools update-rc.d systemd
+>
+>  INITSCRIPT_NAME = "acpid"
+>  INITSCRIPT_PARAMS = "defaults"
+>
+> -# Makefile ignores our CFLAGS, so override it.
+> -#
+> -EXTRA_OEMAKE = "CFLAGS='-W -Wall -Werror -Wundef -Wshadow ${CFLAGS} $(DEFS)'"
+> +SYSTEMD_PACKAGES = "acpid"
+> +SYSTEMD_SERVICE_acpid = "acpid.service"
+>
+> -do_compile () {
+> -       oe_runmake 'CC=${CC} -D_GNU_SOURCE' 'CROSS=${HOST_PREFIX}'
+> -}
 
-This meeting is a great place to ask the TSC members questions and to
-get an update on the state of OpenEmbedded. The public meeting is held
-once each month.
+In general it would be nice if the commit mentioned "upstream now uses
+autotools" to make it clear that changes to the build were
+intentional.
 
--- 
-Jeff Osier-Mixon @Intel
-Yocto Project Community Manager http://yoctoproject.org
+Ross
 
