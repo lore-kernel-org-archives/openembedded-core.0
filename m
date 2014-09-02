@@ -1,42 +1,25 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f182.google.com (mail-yk0-f182.google.com
-	[209.85.160.182])
-	by mail.openembedded.org (Postfix) with ESMTP id ED0196FCA3
+Return-Path: <georgex.l.musat@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6910660DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Sep 2014 12:36:02 +0000 (UTC)
-Received: by mail-yk0-f182.google.com with SMTP id 19so4011177ykq.13
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Sep 2014 05:36:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=CBwTDW7KrQ1BNt0atcJQpfTVC9qngxfHxX/HQcZS6kQ=;
-	b=RV6/zAwB3Ha4len4g4J/kh37p9/b2jJomM1FOaEZR24WOewv6sc9SSp33UrwH5aujD
-	FWIjiBnPe2zUcodE/c2/D7N2aRS1yKO3CyOVCJUu2nJkbYyTKUr9UQUDJSJKDvJTgROa
-	RSrRlIfrJMaHfoxPdBwglD6W+I8cEGRqh9cJCOF58YHeeiQVW+5J6nwvoogd3uiq9KkQ
-	yzveMvHoL9Rxw4zpgh2ILUSWDfVtH0CQBdabJL4JQhuIkJ4eDxuETK2iqDwEic34Ifhx
-	Pq7sKEVKDEZSnp46XDCkssnne18h9dwsd3DbEgSfw5dLMDtUHM/nmaOfES3kTcspSyY4
-	MiWg==
-MIME-Version: 1.0
-X-Received: by 10.236.130.210 with SMTP id k58mr13158255yhi.102.1409661363401; 
-	Tue, 02 Sep 2014 05:36:03 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.56.201 with HTTP; Tue, 2 Sep 2014 05:36:03 -0700 (PDT)
-In-Reply-To: <540568FB.4040006@windriver.com>
-References: <CAP9ODKpWHy4XW6OVs34=-p+GRK6iOLvgsAqr22obSAaj9_2SDQ@mail.gmail.com>
-	<540530B8.8040107@windriver.com>
-	<CAP9ODKrxFsbVs7xNQ1tOW2xmrQ4-omTZCTVQ04aO8ms--Lu9Qw@mail.gmail.com>
-	<540539E6.2030508@windriver.com>
-	<CAP9ODKr_p-1z-nRLuM_nMVpei3A4Z2CuDh9wzEEpZW9jSEoL-w@mail.gmail.com>
-	<540568FB.4040006@windriver.com>
-Date: Tue, 2 Sep 2014 09:36:03 -0300
-X-Google-Sender-Auth: mZWyaS6UtSuSbjrTTmN57p4d9sM
-Message-ID: <CAP9ODKqfNwXn_dEUu-WT6zLoUM_MDDtgPRp2WfUU238UcpuKJw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Error while building qemu without X11 support.
+	Tue,  2 Sep 2014 13:15:40 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Sep 2014 06:15:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,449,1406617200"; d="scan'208";a="585070944"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Sep 2014 06:15:41 -0700
+Received: from localhost.localdomain (unknown [10.237.112.174])
+	by linux.intel.com (Postfix) with ESMTP id 1BB0A6A4087;
+	Tue,  2 Sep 2014 06:14:58 -0700 (PDT)
+From: Lucian Musat <georgex.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Sep 2014 16:10:39 +0300
+Message-Id: <1409663439-1725-2-git-send-email-georgex.l.musat@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1409663439-1725-1-git-send-email-georgex.l.musat@intel.com>
+References: <1409663439-1725-1-git-send-email-georgex.l.musat@intel.com>
+Subject: [PATCH 2/2] oeqa/runtime: Automatic test for ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,65 +32,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Sep 2014 12:36:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 02 Sep 2014 13:15:42 -0000
 
-On Tue, Sep 2, 2014 at 3:51 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
-> On 09/02/2014 11:33 AM, Otavio Salvador wrote:
->> On Tue, Sep 2, 2014 at 12:30 AM, Robert Yang <liezhi.yang@windriver.com>
->> wrote:
->>> On 09/02/2014 11:17 AM, Otavio Salvador wrote:
->>>>
->>>>
->>>> On Mon, Sep 1, 2014 at 11:51 PM, Robert Yang <liezhi.yang@windriver.com>
->>>> wrote:
->>>>>
->>>>>
->>>>>
->>>>> On 09/02/2014 10:30 AM, Otavio Salvador wrote:
->>>>>>
->>>>>>
->>>>>>
->>>>>> Hello,
->>>>>>
->>>>>> During our regression tests we found the following error:
->>>>>>
->>>>>> directfb fsl-image-machine-test@imx6qsabresd (1/4) consider defining a
->>>>>> PREFERRED_PROVIDER entry to match jpeg
->>>>>> directfb fsl-image-machine-test@imx6qsabresd (1/4) ERROR: Nothing
->>>>>> PROVIDES 'libxext-native' (but
->>>>>
->>>>>
->>>>>
->>>>>
->>>>> Did you use meta/recipes-graphics/xorg-lib/libxext_git.bb ? This one
->>>>> doesn't provide native, but libxext_1.3.2.bb does.
->>>>>
->>>>> Seems that we need remove the git version since it is older:
->>>>>
->>>>> PV = "1.0.99.1+gitr${SRCPV}"
->>>>>
->>>>> And doesn't see a license issue.
->>>>
->>>>
->>>>
->>>> This has been reproduced in our autobuilder.
->>>>
->>>> It removes:
->>>>
->>>> x11 and wayland
->
->
-> Hi Otavio,
->
-> How about only remove the x11 for target ?
->
-> DISTRO_FEATURES_remove_class-target = "x11"
+For images without ptest the packages are automatically installed alongside ptest-runner. Log results are saved in ./results folder.
+No cleanup is done for packages after the test is finished.
 
-This is a workaround. Few days ago it built fine so a clear regression.
+Signed-off-by: Lucian Musat <georgex.l.musat@intel.com>
+---
+ meta/lib/oeqa/runtime/_ptest.py | 124 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 124 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/_ptest.py
 
+diff --git a/meta/lib/oeqa/runtime/_ptest.py b/meta/lib/oeqa/runtime/_ptest.py
+new file mode 100644
+index 0000000..f945647
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/_ptest.py
+@@ -0,0 +1,124 @@
++import unittest, os, shutil
++from oeqa.oetest import oeRuntimeTest, skipModule
++from oeqa.utils.decorators import *
++from oeqa.utils.logparser import *
++from oeqa.utils.httpserver import HTTPService
++import bb
++import glob
++from oe.package_manager import RpmPkgsList
++import subprocess
++
++def setUpModule():
++    if not oeRuntimeTest.hasFeature("package-management"):
++        skipModule("Image doesn't have package management feature")
++    if not oeRuntimeTest.hasPackage("smart"):
++        skipModule("Image doesn't have smart installed")
++    if "package_rpm" != oeRuntimeTest.tc.d.getVar("PACKAGE_CLASSES", True).split()[0]:
++        skipModule("Rpm is not the primary package manager")
++
++class PtestRunnerTest(oeRuntimeTest):
++
++    # a ptest log parser
++    def parse_ptest(self, logfile):
++        parser = Lparser(test_0_pass_regex="^PASS:(.+)", test_0_fail_regex="^FAIL:(.+)", section_0_begin_regex="^BEGIN: .*/(.+)/ptest", section_0_end_regex="^END: .*/(.+)/ptest")
++        parser.init()
++        result = Result()
++
++        with open(logfile) as f:
++            for line in f:
++                result_tuple = parser.parse_line(line)
++                if not result_tuple:
++                    continue
++                result_tuple = line_type, category, status, name = parser.parse_line(line)
++
++                if line_type == 'section' and status == 'begin':
++                    current_section = name
++                    continue
++
++                if line_type == 'section' and status == 'end':
++                    current_section = None
++                    continue
++
++                if line_type == 'test' and status == 'pass':
++                    result.store(current_section, name, status)
++                    continue
++
++                if line_type == 'test' and status == 'fail':
++                    result.store(current_section, name, status)
++                    continue
++
++        result.sort_tests()
++        return result
++
++    @classmethod
++    def setUpClass(self):
++        #note the existing channels that are on the board before creating new ones
++        self.existingchannels = set()
++        (status, result) = oeRuntimeTest.tc.target.run('smart channel --show | grep "\["', 0)
++        for x in result.split("\n"):
++            self.existingchannels.add(x)
++        self.repo_server = HTTPService(oeRuntimeTest.tc.d.getVar('DEPLOY_DIR', True), oeRuntimeTest.tc.target.server_ip)
++        self.repo_server.start()
++
++    @classmethod
++    def tearDownClass(self):
++        self.repo_server.stop()
++        #remove created channels to be able to repeat the tests on same image
++        (status, result) = oeRuntimeTest.tc.target.run('smart channel --show | grep "\["', 0)
++        for x in result.split("\n"):
++            if x not in self.existingchannels:
++                oeRuntimeTest.tc.target.run('smart channel --remove '+x[1:-1]+' -y', 0)
++
++    def add_smart_channel(self):
++        image_pkgtype = self.tc.d.getVar('IMAGE_PKGTYPE', True)
++        deploy_url = 'http://%s:%s/%s' %(self.target.server_ip, self.repo_server.port, image_pkgtype)
++        pkgarchs = self.tc.d.getVar('PACKAGE_ARCHS', True).replace("-","_").split()
++        for arch in os.listdir('%s/%s' % (self.repo_server.root_dir, image_pkgtype)):
++            if arch in pkgarchs:
++                self.target.run('smart channel -y --add {a} type=rpm-md baseurl={u}/{a}'.format(a=arch, u=deploy_url), 0)
++        self.target.run('smart update', 0)
++
++    def install_complementary(self, globs=None):
++        installed_pkgs_file = os.path.join(oeRuntimeTest.tc.d.getVar('WORKDIR', True),
++                                           "installed_pkgs.txt")
++        self.pkgs_list = RpmPkgsList(oeRuntimeTest.tc.d, oeRuntimeTest.tc.d.getVar('IMAGE_ROOTFS', True), oeRuntimeTest.tc.d.getVar('arch_var', True), oeRuntimeTest.tc.d.getVar('os_var', True))
++        with open(installed_pkgs_file, "w+") as installed_pkgs:
++            installed_pkgs.write(self.pkgs_list.list("arch"))
++
++        cmd = [bb.utils.which(os.getenv('PATH'), "oe-pkgdata-util"),
++               "glob", oeRuntimeTest.tc.d.getVar('PKGDATA_DIR', True), installed_pkgs_file,
++               globs]
++        try:
++            bb.note("Installing complementary packages ...")
++            complementary_pkgs = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
++        except subprocess.CalledProcessError as e:
++            bb.fatal("Could not compute complementary packages list. Command "
++                     "'%s' returned %d:\n%s" %
++                     (' '.join(cmd), e.returncode, e.output))
++
++        return complementary_pkgs.split()
++
++    def setUp(self):
++        self.buildhist_dir = oeRuntimeTest.tc.d.getVar("BUILDHISTORY_DIR_IMAGE", True)
++        self.assertTrue(os.path.exists(self.buildhist_dir))
++        self.ptest_log = os.path.join(oeRuntimeTest.tc.d.getVar("TEST_LOG_DIR",True), "ptest-%s.log" % oeRuntimeTest.tc.d.getVar('DATETIME', True))
++
++    @skipUnlessPassed('test_ssh')
++    def test_ptestrunner(self):
++        self.add_smart_channel()
++        self.install_packages(self.install_complementary("*-ptest"))
++        self.install_packages(['ptest-runner'])
++
++        self.target.run('/usr/bin/ptest-runner > /tmp/ptest.log 2>&1', 0)
++        self.target.copy_from('/tmp/ptest.log', self.ptest_log)
++        shutil.copyfile(self.ptest_log, os.path.join(self.buildhist_dir, "ptest.log"))
++
++        result = self.parse_ptest(os.path.join(self.buildhist_dir, "ptest.log"))
++        log_results_to_location = os.path.join('./results')
++        if not os.path.exists(log_results_to_location):
++            os.makedirs(log_results_to_location)
++
++        # clear the results directory each time
++        for path in os.listdir(log_results_to_location):
++            os.remove(os.path.join(log_results_to_location, path))
++        result.log_as_files(log_results_to_location, test_status = ['fail'])
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.9.1
+
 
