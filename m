@@ -1,29 +1,42 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C45486FE3B
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f182.google.com (mail-yk0-f182.google.com
+	[209.85.160.182])
+	by mail.openembedded.org (Postfix) with ESMTP id ED0196FCA3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Sep 2014 12:11:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s82CBWE8014702
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 2 Sep 2014 05:11:33 -0700 (PDT)
-Received: from server.local (147.11.116.193) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 2 Sep 2014 05:11:32 -0700
-Message-ID: <5405B3F4.4000507@windriver.com>
-Date: Tue, 2 Sep 2014 08:11:32 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Tue,  2 Sep 2014 12:36:02 +0000 (UTC)
+Received: by mail-yk0-f182.google.com with SMTP id 19so4011177ykq.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Sep 2014 05:36:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=CBwTDW7KrQ1BNt0atcJQpfTVC9qngxfHxX/HQcZS6kQ=;
+	b=RV6/zAwB3Ha4len4g4J/kh37p9/b2jJomM1FOaEZR24WOewv6sc9SSp33UrwH5aujD
+	FWIjiBnPe2zUcodE/c2/D7N2aRS1yKO3CyOVCJUu2nJkbYyTKUr9UQUDJSJKDvJTgROa
+	RSrRlIfrJMaHfoxPdBwglD6W+I8cEGRqh9cJCOF58YHeeiQVW+5J6nwvoogd3uiq9KkQ
+	yzveMvHoL9Rxw4zpgh2ILUSWDfVtH0CQBdabJL4JQhuIkJ4eDxuETK2iqDwEic34Ifhx
+	Pq7sKEVKDEZSnp46XDCkssnne18h9dwsd3DbEgSfw5dLMDtUHM/nmaOfES3kTcspSyY4
+	MiWg==
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1409345003.git.bruce.ashfield@windriver.com>	
-	<1409479646.29296.223.camel@ted> <5403DC5C.4020307@windriver.com>
-	<1409587965.29296.233.camel@ted>
-In-Reply-To: <1409587965.29296.233.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/18] kernel-yocto: consolidated pull request
+X-Received: by 10.236.130.210 with SMTP id k58mr13158255yhi.102.1409661363401; 
+	Tue, 02 Sep 2014 05:36:03 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.56.201 with HTTP; Tue, 2 Sep 2014 05:36:03 -0700 (PDT)
+In-Reply-To: <540568FB.4040006@windriver.com>
+References: <CAP9ODKpWHy4XW6OVs34=-p+GRK6iOLvgsAqr22obSAaj9_2SDQ@mail.gmail.com>
+	<540530B8.8040107@windriver.com>
+	<CAP9ODKrxFsbVs7xNQ1tOW2xmrQ4-omTZCTVQ04aO8ms--Lu9Qw@mail.gmail.com>
+	<540539E6.2030508@windriver.com>
+	<CAP9ODKr_p-1z-nRLuM_nMVpei3A4Z2CuDh9wzEEpZW9jSEoL-w@mail.gmail.com>
+	<540568FB.4040006@windriver.com>
+Date: Tue, 2 Sep 2014 09:36:03 -0300
+X-Google-Sender-Auth: mZWyaS6UtSuSbjrTTmN57p4d9sM
+Message-ID: <CAP9ODKqfNwXn_dEUu-WT6zLoUM_MDDtgPRp2WfUU238UcpuKJw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Error while building qemu without X11 support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,63 +49,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Sep 2014 12:11:39 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Sep 2014 12:36:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2014-09-01, 12:12 PM, Richard Purdie wrote:
-> On Sun, 2014-08-31 at 22:39 -0400, Bruce Ashfield wrote:
->> On 2014-08-31, 6:07 AM, Richard Purdie wrote:
->>> Thanks for the other fix, I've pulled that in and am retesting. I did
->>> also see:
->>>
->>> https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/24/steps/BuildImages/logs/stdio
->>>
->>> ERROR: Fetcher failure: Unable to find revision 5a47bbc4c3c2472f3746a8cf1485db7134cf9245 in branch master even from upstream
->>> ERROR: Function failed: Fetcher failure for URL: 'git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=master,meta;name=machine,meta'. Unable to fetch URL from any source.
->>> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/tmp/work/qemux86_64-poky-linux/linux-yocto-tiny/3.14.17+gitAUTOINC+ccad961c4c_5a47bbc4c3-r0/temp/log.do_fetch.10000
->>> NOTE: recipe linux-yocto-tiny-3.14.17+gitAUTOINC+ccad961c4c_5a47bbc4c3-r0: task do_fetch: Failed
->>> ERROR: Task 324 (/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb, do_fetch) failed with exit code '1'
->>> WARNING: Failed to fetch URL git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=master,meta;name=machine,meta, attempting MIRRORS if available
->>> ERROR: Fetcher failure: Unable to find revision 12f9e966eb249c3bdcc935612e2a372e90bad950 in branch master even from upstream
->>> ERROR: Function failed: Fetcher failure for URL: 'git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=master,meta;name=machine,meta'. Unable to fetch URL from any source.
->>> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/build/tmp/work/qemux86_64-poky-linux/linux-yocto-rt/3.14.17+gitAUTOINC+ccad961c4c_12f9e966eb-r0/temp/log.do_fetch.9978
->>> NOTE: recipe linux-yocto-rt-3.14.17+gitAUTOINC+ccad961c4c_12f9e966eb-r0: task do_fetch: Failed
->>> ERROR: Task 325 (/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb, do_fetch) failed with exit code '1
->>>
->>> (I've a fix in for the other alsa failure)
->>>
->>> Any idea what's up with this?
->>
->> Fixed. I just pushed the patch to my contrib zedd/kernel branch. Attached
->> here as well.
->>
->> I did fat finger the conditional assignments and include order in my
->> KBRANCH_DEFAULT removal patch.
->>
->> But it is working now, and I'm back to normally scheduled long weekend
->> activities .. but will of course continue to monitor.
+On Tue, Sep 2, 2014 at 3:51 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+> On 09/02/2014 11:33 AM, Otavio Salvador wrote:
+>> On Tue, Sep 2, 2014 at 12:30 AM, Robert Yang <liezhi.yang@windriver.com>
+>> wrote:
+>>> On 09/02/2014 11:17 AM, Otavio Salvador wrote:
+>>>>
+>>>>
+>>>> On Mon, Sep 1, 2014 at 11:51 PM, Robert Yang <liezhi.yang@windriver.com>
+>>>> wrote:
+>>>>>
+>>>>>
+>>>>>
+>>>>> On 09/02/2014 10:30 AM, Otavio Salvador wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> Hello,
+>>>>>>
+>>>>>> During our regression tests we found the following error:
+>>>>>>
+>>>>>> directfb fsl-image-machine-test@imx6qsabresd (1/4) consider defining a
+>>>>>> PREFERRED_PROVIDER entry to match jpeg
+>>>>>> directfb fsl-image-machine-test@imx6qsabresd (1/4) ERROR: Nothing
+>>>>>> PROVIDES 'libxext-native' (but
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>> Did you use meta/recipes-graphics/xorg-lib/libxext_git.bb ? This one
+>>>>> doesn't provide native, but libxext_1.3.2.bb does.
+>>>>>
+>>>>> Seems that we need remove the git version since it is older:
+>>>>>
+>>>>> PV = "1.0.99.1+gitr${SRCPV}"
+>>>>>
+>>>>> And doesn't see a license issue.
+>>>>
+>>>>
+>>>>
+>>>> This has been reproduced in our autobuilder.
+>>>>
+>>>> It removes:
+>>>>
+>>>> x11 and wayland
 >
-> Thanks, much appreciated. We're down to one remaining issue:
 >
-> https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/27/steps/BuildImages/logs/stdio
+> Hi Otavio,
 >
-> which is basically because by default, meta-skeleton isn't in
-> bblayers.conf. Not quite sure what the correct fix is here.
+> How about only remove the x11 for target ?
+>
+> DISTRO_FEATURES_remove_class-target = "x11"
 
-Aha .. indeed.
+This is a workaround. Few days ago it built fine so a clear regression.
 
->
-> For now I've merged everything in the series except the image addition.
-
-Sounds good. I'll have a look at that image type and see what I can cook up.
-
-Bruce
-
->
-> Cheers,
->
-> Richard
->
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
