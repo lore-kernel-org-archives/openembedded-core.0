@@ -1,39 +1,27 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f171.google.com (mail-yk0-f171.google.com
-	[209.85.160.171])
-	by mail.openembedded.org (Postfix) with ESMTP id D71F06AC7B
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7516265E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Sep 2014 18:04:00 +0000 (UTC)
-Received: by mail-yk0-f171.google.com with SMTP id 9so3448019ykp.2
+	Tue,  2 Sep 2014 01:18:28 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s821ISRv003000
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Sep 2014 11:04:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=GfWy13pNXt/bDIqE3sXBPcKm6w7doA42FVDBLce6bzo=;
-	b=soPHZ1uZQArZf4z3sJyzC00cnzMoohMiBRFQkdmKRlFM3R7ziTL1aGb5Va6c0S+PXI
-	4gGk8brrrWMBkM30+44IHrNBojbjVjxX0ufixT1vX4YsQDwJMevM5Z8EYVWlCVbm3KOK
-	uUBdiLX5fEfoaQo6SlbSu6tNxbXCTGtDrR6OK5Da4mg5V4p8ov4/dJ6lq/DhwjQ29JDT
-	X/FIVHc3vkVgDMrr5jMtoE9X7AgNLTVUaM3CWLt0qG3bjNGbLI5hdEL2wC5ndqb2el1T
-	q0JBhtxND2zHJNuhSjpE2I4VayjNH9zcU2jkdtGdSKKBeYcaoRYWxubrzcQyUm7NpSZc
-	EaAw==
+	Mon, 1 Sep 2014 18:18:28 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 1 Sep 2014 18:18:27 -0700
+Message-ID: <54051AE2.9070309@windriver.com>
+Date: Tue, 2 Sep 2014 09:18:26 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-X-Received: by 10.236.85.10 with SMTP id t10mr16306653yhe.86.1409594641039;
-	Mon, 01 Sep 2014 11:04:01 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.56.201 with HTTP; Mon, 1 Sep 2014 11:04:00 -0700 (PDT)
-In-Reply-To: <CAOMwXhP+A40Kcb-KcgCh8rh-oNXh-9DjyBJ4hAunJ7Q7_i8VUA@mail.gmail.com>
-References: <1408720803-11737-1-git-send-email-lpapp@kde.org>
-	<5400C6A5.6040001@linux.intel.com>
-	<CAOMwXhPptiMrE7_VNi1rLtv0qzVf=0CHSJ5nn=dTi8GxBtFtHQ@mail.gmail.com>
-	<CAOMwXhP+A40Kcb-KcgCh8rh-oNXh-9DjyBJ4hAunJ7Q7_i8VUA@mail.gmail.com>
-Date: Mon, 1 Sep 2014 15:04:00 -0300
-X-Google-Sender-Auth: Ka1f5BfMdwkiNO_FyJFPSjfaXcI
-Message-ID: <CAP9ODKqCq4FZj920GW1ztu_r73MgKuiTfZtThbfZKi2710_BGg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Laszlo Papp <lpapp@kde.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Add support for ccache builds with the SDK
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1407836032.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1407836032.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/1] perf.bb: fix multilib build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,27 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Sep 2014 18:04:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 02 Sep 2014 01:18:31 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Laszlo,
 
-On Mon, Sep 1, 2014 at 2:47 PM, Laszlo Papp <lpapp@kde.org> wrote:
-> Just in case the severity is not clear. Without this change, the Yocto
-> SDK breaks the build for our software since we do prefer to use ccache
-> for speeding the build process up. We are probably not alone with that
-> ...
+Any comments on this one, please ? This can fix the qa error when build
+multilib:
 
-Saul request is very valid. He is asking you to conform to the commit
-guidelines we use and it is no-sense you to expect that he or someone
-else does this for you.
+     ERROR: QA Issue: lib32-perf: Files/directories were installed but not shipped
+       /usr/lib64
+       /usr/lib64/traceevent
+       /usr/lib64/traceevent/plugins
+       /usr/lib64/traceevent/plugins/plugin_function.so
+       /usr/lib64/traceevent/plugins/plugin_scsi.so
+       /usr/lib64/traceevent/plugins/plugin_hrtimer.so
+       /usr/lib64/traceevent/plugins/plugin_kmem.so
+       /usr/lib64/traceevent/plugins/plugin_jbd2.so
+       /usr/lib64/traceevent/plugins/plugin_xen.so
+       /usr/lib64/traceevent/plugins/plugin_mac80211.so
+       /usr/lib64/traceevent/plugins/plugin_cfg80211.so
+       /usr/lib64/traceevent/plugins/plugin_sched_switch.so
+       /usr/lib64/traceevent/plugins/plugin_kvm.so [installed-vs-shipped]
 
-So I think if you expect this to be merged you need to fix and send a v2.
 
-Regards,
+And I usually see it.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+// Robert
+
+On 08/12/2014 07:10 PM, Robert Yang wrote:
+> The following changes since commit 4321c553d5ae816e566234e981a0815bba046d39:
+>
+>    SIGGEN_EXCLUDERECIPES_ABISAFE: add initscripts (2014-08-11 17:44:09 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib rbt/perf
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/perf
+>
+> Robert Yang (1):
+>    perf.bb: fix multilib build
+>
+>   meta/recipes-kernel/perf/perf.bb |    8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
+>
 
