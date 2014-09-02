@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f50.google.com (mail-qa0-f50.google.com
-	[209.85.216.50])
-	by mail.openembedded.org (Postfix) with ESMTP id B9FE8710B8
+Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 8182071387
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Sep 2014 15:39:18 +0000 (UTC)
-Received: by mail-qa0-f50.google.com with SMTP id cm18so6543904qab.9
+	Tue,  2 Sep 2014 17:17:28 +0000 (UTC)
+Received: by mail-qc0-f176.google.com with SMTP id m20so7214194qcx.21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Sep 2014 08:39:19 -0700 (PDT)
+	Tue, 02 Sep 2014 10:17:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=v5dfLOU6lvwuInc04EJNsX2pToWzhoDzYCyxVMYZjaU=;
-	b=NAyHIhn7IY5YySFHwc2wyM5Q4TvAkCmB5ZDxWGvGB2js3ECLWQx35VWZStCFo1z0YT
-	8OXG0RpAh3wS4V7vt9sLbbCuWcuVFYlzn9bDjZPqizWeIgzEKp4kt4CAyqeQqHnXxeNj
-	ryoRGmd3z21XC6vA71OdHT4NQM/RV2AxYiBK8BDwi8eN4NPBDG8OscqgpKdwBZZhtE2Y
-	w6GOSrX1y40W7fzYnIn+5pT27+nrud+4FVDzKtPh+jwYr1ccpfOJ5kZ3rujbjShHiG8Z
-	uokzf4u+W6VIEHC3582dS7qxtdRPne3yC/xQTeMBDLsij93/qWcYIIeqab/5shVD+TNN
-	6Y0A==
-X-Gm-Message-State: ALoCoQmLrSrYXwI5a1WkjwbRloqjE6Gy5wsYMdFdA+PvMUbmQ+MjmYKkJWaE3lhJwPPMbTN/acmR
-X-Received: by 10.224.166.195 with SMTP id n3mr35746577qay.22.1409672359480;
-	Tue, 02 Sep 2014 08:39:19 -0700 (PDT)
+	bh=PcUXl8a3S/y4VVkR4U8rUSrwj84AGROS6U2pbvK10wQ=;
+	b=Ux8uMYsCqMnV4J9tl00aNW44T7G3rCSMOmzBwa9N9JI72FkylSxfIcbA8EEICLr1D3
+	/Xg6YsnJM8Qc06O34bzOaKJNUxrjNOMI06aRYWjqkLLHl3/6xnWmP+uqg0a3NvqkzT7n
+	lfNkMvh3skW8qFo1TOePXTGsXeQN6NbK+f89iKpfBFbfF9EZysIWalxJHDbxqadKbO9m
+	x0wyJUAz2BBnDsEgCGNSJ0C63yzdHKeNjdRtSBWkyhvwY8ggmjKQ3H2l2L2lGrvcJNmm
+	WyNzVqNsBinn+PATfPRVLrQGFEmDwmHZLWbRKJS1uchM10B6fUjj+IMAhs/AGLamMAxe
+	mYUw==
+X-Gm-Message-State: ALoCoQmo1sVoVkUZ8iJk0yu9KqeEgrK1jlnddLLGs7SrwBSs9fQRdsgX/wCC9lrk09BxYtp2IVdg
+X-Received: by 10.229.137.131 with SMTP id w3mr57533926qct.23.1409678248764;
+	Tue, 02 Sep 2014 10:17:28 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Tue, 2 Sep 2014 08:38:59 -0700 (PDT)
-In-Reply-To: <50321ac97381f5d3aea180c0b6506747a5c392c3.1409655125.git.Qi.Chen@windriver.com>
+Received: by 10.140.29.183 with HTTP; Tue, 2 Sep 2014 10:17:08 -0700 (PDT)
+In-Reply-To: <849bb79f1189ff09c1909101b50d3284cf5f6859.1409655125.git.Qi.Chen@windriver.com>
 References: <cover.1409655125.git.Qi.Chen@windriver.com>
-	<50321ac97381f5d3aea180c0b6506747a5c392c3.1409655125.git.Qi.Chen@windriver.com>
+	<849bb79f1189ff09c1909101b50d3284cf5f6859.1409655125.git.Qi.Chen@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Sep 2014 16:38:59 +0100
-Message-ID: <CAJTo0LagWB=cxN5jqV5SQ49Jckpn1+_ycyq7VfMYc+urMufCHQ@mail.gmail.com>
+Date: Tue, 2 Sep 2014 18:17:08 +0100
+Message-ID: <CAJTo0LYODrmCZQbXMmjAAykNS2rgkHjY5ZL_hKF0NAU5+zQDcQ@mail.gmail.com>
 To: Chen Qi <Qi.Chen@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 14/26] cups: add systemd support
+Subject: Re: [PATCH 25/26] run-postinsts.service: remove redundant line
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,15 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Sep 2014 15:39:28 -0000
+X-List-Received-Date: Tue, 02 Sep 2014 17:17:33 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On 2 September 2014 11:54, Chen Qi <Qi.Chen@windriver.com> wrote:
-> +       # Remove sysinit script and symlinks
-> +       rm -rf ${D}${sysconfdir}/init.d/
-> +       rm -rf ${D}${sysconfdir}/rc*
+> The basic.target itself requires sysinit.target, so there's no
+> need to write this redundant line in the run-postinsts unit file.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
+> index 822327a..85a0439 100644
+> --- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
+> +++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
+> @@ -13,5 +13,4 @@ RemainAfterExit=No
+>  TimeoutSec=0
+>
+>  [Install]
+> -WantedBy=basic.target
+>  WantedBy=sysinit.target
 
-Pretty sure you don't mean to unconditionally do that.
+From the commit message it sounds like you meant to remove
+sysinit.target.  What is correct?
 
 Ross
 
