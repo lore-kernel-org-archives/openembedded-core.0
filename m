@@ -1,28 +1,33 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 540376FCA3
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f53.google.com (mail-yh0-f53.google.com
+	[209.85.213.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 326D26FA94
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Sep 2014 02:14:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s822EhdP003404
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 1 Sep 2014 19:14:43 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 1 Sep 2014 19:14:42 -0700
-Message-ID: <54052811.50209@windriver.com>
-Date: Tue, 2 Sep 2014 10:14:41 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Tue,  2 Sep 2014 02:30:14 +0000 (UTC)
+Received: by mail-yh0-f53.google.com with SMTP id a41so3820933yho.40
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Sep 2014 19:30:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:date:message-id:subject:from:to:content-type;
+	bh=q3X39wOLR3ZE1sD7PElUVNTvn8919JUXq3tEoZWO8wg=;
+	b=CslDR0UXcGfnh/PJlF/PxR80YDazZ/1Q4HfbgoemwFP+javXSce8mpvGYX+iproaiN
+	DgBzb0Zhr2a6gC1YRqZ361+kbP/C4yykjwnUye7kLF4FMfYKV5rXLeXsd9lb6j4aZzk4
+	UU3gBFyrvEqhwKSof9FvESsjk+PJcAYpIjkejczgP+rlU3fbaIRjXTQ8q3D4Vzw2J8rz
+	enuEvnK2ggieJsJL1VWT73jCu49lQX70f8bYj9WbOMt5qTK/lNjJ8wUSsXr0gHJaBN6w
+	6HzEam/Ss/7KHJMcx2fu98rIgEWdWdVfLBBr7J6GrHp2nv1eiUzowLoi59srfdnvbLrK
+	BRFg==
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, Chong Lu <Chong.Lu@windriver.com>
-References: <cover.1408340319.git.Chong.Lu@windriver.com>	<d03fddc6174a0fefe406c4dae2daffcca218ce70.1408340319.git.Chong.Lu@windriver.com>
-	<CAJTo0LZ89Wg1QfzYheNO0u2YWVTQFo58je1KqYPnKzJeKK+UGA@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ89Wg1QfzYheNO0u2YWVTQFo58je1KqYPnKzJeKK+UGA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] piglit: enable ptest support
+X-Received: by 10.236.26.7 with SMTP id b7mr17217188yha.72.1409625015876; Mon,
+	01 Sep 2014 19:30:15 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.56.201 with HTTP; Mon, 1 Sep 2014 19:30:15 -0700 (PDT)
+Date: Mon, 1 Sep 2014 23:30:15 -0300
+X-Google-Sender-Auth: e7TUflc5JhwlFH4TCfkPqGx4atw
+Message-ID: <CAP9ODKpWHy4XW6OVs34=-p+GRK6iOLvgsAqr22obSAaj9_2SDQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Error while building qemu without X11 support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +40,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Sep 2014 02:14:45 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Sep 2014 02:30:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
+Hello,
 
+During our regression tests we found the following error:
 
-On 08/28/2014 10:09 PM, Burton, Ross wrote:
-> On 18 August 2014 06:39, Chong Lu <Chong.Lu@windriver.com> wrote:
->> +env PIGLIT_BUILD_DIR=`pwd`/.. piglit-run.py `pwd`/tests/sanity.tests `pwd`/results/sanity.results 2>&1
->
-> You shouldn't need to set PIGLIT_BUILD_DIR.
->
-> The sanity tests are very basic so this won't count as "running
-> piglit" in any meaningful QA sense.
->
->> @@ -36,7 +37,6 @@ do_install() {
->>          cp -Pr lib/ ${D}${libdir}/piglit/
->>          cp -Pr framework/ ${D}${libdir}/piglit/
->>          cp -Pr generated_tests/ ${D}${libdir}/piglit/
->> -       cp -Pr tests/ ${D}${libdir}/piglit/
->>          cp -Pr templates/ ${D}${libdir}/piglit/
->>
->>          sed -i -e 's|sys.path.append(.*)|sys.path.append("${libdir}/piglit")|' ${D}${bindir}/piglit-*.py
->> @@ -46,3 +46,7 @@ do_install() {
->>   FILES_${PN}-dbg += "${libdir}/piglit/*/.debug/"
->>
->>   RDEPENDS_${PN} = "python waffle python-json python-subprocess python-multiprocessing python-textutils python-netserver python-shell mesa-demos"
->> +
->> +do_install_ptest() {
->> +       cp -Pr tests/ ${D}${PTEST_PATH}/
->> +}
->
-> Why move the tests directory to the -ptests package?  That makes
-> piglit unusable without installing piglit-ptest.
+directfb fsl-image-machine-test@imx6qsabresd (1/4) consider defining a
+PREFERRED_PROVIDER entry to match jpeg
+directfb fsl-image-machine-test@imx6qsabresd (1/4) ERROR: Nothing
+PROVIDES 'libxext-native' (but
+virtual:native:.../sources/poky/meta/recipes-devtools/qemu/qemu_2.1.0.bb
+DEPENDS on or otherwise requires it)
+directfb fsl-image-machine-test@imx6qsabresd (1/4) ERROR:
+libxext-native was skipped: missing required distro feature 'x11' (not
+in DISTRO_FEATURES)
+directfb fsl-image-machine-test@imx6qsabresd (1/4) Runtime target
+'pango' is unbuildable, removing...
+directfb fsl-image-machine-test@imx6qsabresd (1/4) Missing or
+unbuildable dependency chain was: ['pango', 'qemu-native',
+'libxext-native']
+directfb fsl-image-machine-test@imx6qsabresd (1/4) Runtime target
+'packagegroup-core-directfb' is unbuildable, removing...
 
-Hello, if we keep the tests dir in piglit, shall we add perl to
-the RDEPENDS ? There are perl scripts in the tests dir.
+Do someone know how to fix it?
 
-// Robert
-
->
-> I agree that piglit should be ptest-enabled, but the piglit-ptest
-> package should simply depend on piglit and contain the runner script.
->
-> Ross
->
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
