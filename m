@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 985AB71353
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A308712AC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Sep 2014 10:54:18 +0000 (UTC)
+	Tue,  2 Sep 2014 10:54:21 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s82AsKtD003992
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s82AsKmN010814
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Sep 2014 03:54:20 -0700 (PDT)
+	Tue, 2 Sep 2014 03:54:23 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 2 Sep 2014 03:54:19 -0700
+	14.3.174.1; Tue, 2 Sep 2014 03:54:20 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 2 Sep 2014 18:53:58 +0800
-Message-ID: <87c78f60aa3ef60a850e81fe49b0f4d33a142972.1409655125.git.Qi.Chen@windriver.com>
+Date: Tue, 2 Sep 2014 18:53:59 +0800
+Message-ID: <010279d1b3a4c009f7231f646d2d34fbce904656.1409655125.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1409655125.git.Qi.Chen@windriver.com>
 References: <cover.1409655125.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 12/26] acpid: upgrade to 2.0.22 and add systemd support
+Subject: [PATCH 13/26] cups: make cups daemon start correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,117 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Sep 2014 10:54:18 -0000
+X-List-Received-Date: Tue, 02 Sep 2014 10:54:21 -0000
 Content-Type: text/plain
 
-For acpid needs to upgrade to work correctly with the new kernel.
-Also add systemd unit file.
+From: In Long <inlong_tec@163.com>
+
+The cups daemon needs the lpadmin group to start correctly.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-bsp/acpid/acpid.inc                   | 24 ++++++++++------------
- meta/recipes-bsp/acpid/acpid/acpid.service         | 10 +++++++++
- .../acpid/acpid/set_socket_noblock.patch           | 10 ---------
- .../acpid/{acpid_1.0.10.bb => acpid_2.0.22.bb}     |  5 ++---
- 4 files changed, 23 insertions(+), 26 deletions(-)
- create mode 100644 meta/recipes-bsp/acpid/acpid/acpid.service
- delete mode 100644 meta/recipes-bsp/acpid/acpid/set_socket_noblock.patch
- rename meta/recipes-bsp/acpid/{acpid_1.0.10.bb => acpid_2.0.22.bb} (55%)
+ meta/recipes-extended/cups/cups.inc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/acpid/acpid.inc b/meta/recipes-bsp/acpid/acpid.inc
-index fad7afd..9b4c3a5 100644
---- a/meta/recipes-bsp/acpid/acpid.inc
-+++ b/meta/recipes-bsp/acpid/acpid.inc
-@@ -4,30 +4,28 @@ BUGTRACKER = "http://sourceforge.net/tracker/?group_id=33140&atid=407341"
- SECTION = "base"
- LICENSE = "GPLv2+"
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index adf21eb..d29b875 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -12,7 +12,10 @@ SRC_URI = "http://www.cups.org/software/${PV}/${BP}-source.tar.bz2 \
  
--SRC_URI = "${SOURCEFORGE_MIRROR}/acpid/acpid-${PV}.tar.gz \
-+SRC_URI = "${SOURCEFORGE_MIRROR}/acpid2/acpid-${PV}.tar.xz \
-            file://init \
--           file://set_socket_noblock.patch "
-+           file://acpid.service \
-+          "
+ LEAD_SONAME = "libcupsdriver.so"
  
--inherit update-rc.d
-+inherit autotools update-rc.d systemd
- 
- INITSCRIPT_NAME = "acpid"
- INITSCRIPT_PARAMS = "defaults"
- 
--# Makefile ignores our CFLAGS, so override it.
--#
--EXTRA_OEMAKE = "CFLAGS='-W -Wall -Werror -Wundef -Wshadow ${CFLAGS} $(DEFS)'"
-+SYSTEMD_PACKAGES = "acpid"
-+SYSTEMD_SERVICE_acpid = "acpid.service"
- 
--do_compile () {
--	oe_runmake 'CC=${CC} -D_GNU_SOURCE' 'CROSS=${HOST_PREFIX}'
--}
--
--do_install () {
--	install -d ${D}${bindir} 
--	oe_runmake 'INSTPREFIX=${D}' install
-+do_install_append () {
- 	install -d ${D}${sysconfdir}/init.d
- 	sed -e 's,/usr/sbin,${sbindir},g' ${WORKDIR}/init > ${D}${sysconfdir}/init.d/acpid
- 	chmod 755 ${D}${sysconfdir}/init.d/acpid
- 
- 	install -d ${D}${sysconfdir}/acpi
- 	install -d ${D}${sysconfdir}/acpi/events
+-inherit autotools-brokensep binconfig
++inherit autotools-brokensep binconfig useradd
 +
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 0644 ${WORKDIR}/acpid.service ${D}${systemd_unitdir}/system
-+	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/acpid.service
- }
-diff --git a/meta/recipes-bsp/acpid/acpid/acpid.service b/meta/recipes-bsp/acpid/acpid/acpid.service
-new file mode 100644
-index 0000000..f70e740
---- /dev/null
-+++ b/meta/recipes-bsp/acpid/acpid/acpid.service
-@@ -0,0 +1,10 @@
-+[Unit]
-+Description=ACPI Event Daemon
-+After=syslog.target
-+
-+[Service]
-+Type=forking
-+ExecStart=@SBINDIR@/acpid
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-bsp/acpid/acpid/set_socket_noblock.patch b/meta/recipes-bsp/acpid/acpid/set_socket_noblock.patch
-deleted file mode 100644
-index 54d6435..0000000
---- a/meta/recipes-bsp/acpid/acpid/set_socket_noblock.patch
-+++ /dev/null
-@@ -1,10 +0,0 @@
----- a/acpid.c
--+++ b/acpid.c
--@@ -307,6 +307,7 @@ main(int argc, char **argv)
-- 				non_root_clients++;
-- 			}
-- 			fcntl(cli_fd, F_SETFD, FD_CLOEXEC);
--+			fcntl(cli_fd, F_SETFL, O_NONBLOCK);
-- 			snprintf(buf, sizeof(buf)-1, "%d[%d:%d]",
-- 				creds.pid, creds.uid, creds.gid);
-- 			acpid_add_client(cli_fd, buf);
-diff --git a/meta/recipes-bsp/acpid/acpid_1.0.10.bb b/meta/recipes-bsp/acpid/acpid_2.0.22.bb
-similarity index 55%
-rename from meta/recipes-bsp/acpid/acpid_1.0.10.bb
-rename to meta/recipes-bsp/acpid/acpid_2.0.22.bb
-index df55bad..603fc2b 100644
---- a/meta/recipes-bsp/acpid/acpid_1.0.10.bb
-+++ b/meta/recipes-bsp/acpid/acpid_2.0.22.bb
-@@ -3,6 +3,5 @@ require acpid.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
-                     file://acpid.h;endline=24;md5=324a9cf225ae69ddaad1bf9d942115b5"
++USERADD_PACKAGES = "${PN}"
++GROUPADD_PARAM_${PN} = "--system lpadmin"
  
--
--SRC_URI[md5sum] = "61156ef32015c56dc0f2e3317f4ae09e"
--SRC_URI[sha256sum] = "22703ce0dd7305aca01bc9ac741659c32b1593f1d6fde492df7f01067a534760"
-+SRC_URI[md5sum] = "c8ba756030d1b21fc973ec3d640f27f1"
-+SRC_URI[sha256sum] = "3d11454f4283c8f771d8dbd5eb6b5f2bbd9d94d9f77d68bab89e35d98b67ab31"
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
+@@ -79,6 +82,7 @@ python do_package_append() {
+ 
+ PACKAGES =+ "${PN}-lib ${PN}-libimage"
+ 
++RDEPENDS_${PN} += "procps"
+ FILES_${PN} += "${libdir}/cups/backend \
+ 		${libdir}/cups/cgi-bin \
+ 		${libdir}/cups/filter \
 -- 
 1.9.1
 
