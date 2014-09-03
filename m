@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D6AEC713F7
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AAE0713E9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 07:09:39 +0000 (UTC)
+	Wed,  3 Sep 2014 07:09:40 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8379f5c005285
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8379gPH023257
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Sep 2014 00:09:41 -0700 (PDT)
+	Wed, 3 Sep 2014 00:09:42 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 3 Sep 2014 00:09:40 -0700
+	14.3.174.1; Wed, 3 Sep 2014 00:09:41 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Sep 2014 15:09:13 +0800
-Message-ID: <1ee7b838fc24767046fac6baaab104335430385a.1409728004.git.Qi.Chen@windriver.com>
+Date: Wed, 3 Sep 2014 15:09:14 +0800
+Message-ID: <cade0d4e5c28c9259a3424d2531ee27ace1a5dd0.1409728004.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1409728004.git.Qi.Chen@windriver.com>
 References: <cover.1409728004.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 16/25] at: inherit update-rc.d to handle sysv init script
+Subject: [PATCH 17/25] keymaps: remove dependency on initscripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,59 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 07:09:40 -0000
+X-List-Received-Date: Wed, 03 Sep 2014 07:09:41 -0000
 Content-Type: text/plain
 
-Inherit update-rc.d.bbclass to handle sysv init script.
-Also make the 'at' daemon start in runlevel 2,3,4,5 instead of S.
+The 'keymaps' package actually doesn't have runtime dependency on
+VIRTUAL-RUNTIME_initscripts, thus removing this dependency.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-extended/at/at/{S99at => atd.init} |  0
- meta/recipes-extended/at/at_3.1.15.bb           | 11 ++++++-----
- 2 files changed, 6 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/at/at/{S99at => atd.init} (100%)
+ meta/recipes-bsp/keymaps/keymaps_1.0.bb | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/at/at/S99at b/meta/recipes-extended/at/at/atd.init
-similarity index 100%
-rename from meta/recipes-extended/at/at/S99at
-rename to meta/recipes-extended/at/at/atd.init
-diff --git a/meta/recipes-extended/at/at_3.1.15.bb b/meta/recipes-extended/at/at_3.1.15.bb
-index 1080df4..0c37d6d 100644
---- a/meta/recipes-extended/at/at_3.1.15.bb
-+++ b/meta/recipes-extended/at/at_3.1.15.bb
-@@ -20,7 +20,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/at/at_${PV}.orig.tar.gz \
-     file://posixtm.c \
-     file://posixtm.h \
-     file://file_replacement_with_gplv2.patch \
--    file://S99at \
-+    file://atd.init \
-     file://atd.service \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
+diff --git a/meta/recipes-bsp/keymaps/keymaps_1.0.bb b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
+index 5a3f974..a3f2d89 100644
+--- a/meta/recipes-bsp/keymaps/keymaps_1.0.bb
++++ b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
+@@ -2,10 +2,7 @@ SUMMARY = "Keyboard maps"
+ DESCRIPTION = "Keymaps and initscript to set the keymap on bootup."
+ SECTION = "base"
  
-@@ -37,7 +37,10 @@ EXTRA_OECONF += "ac_cv_path_SENDMAIL=/bin/true \
-                  --with-atspool=/var/spool/at/spool \
-                  ac_cv_header_security_pam_appl_h=${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'yes', 'no', d)} "
+-# Distro can override initscripts provider
+-VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+-
+-RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_initscripts} kbd"
++RDEPENDS_${PN} = "kbd"
  
--inherit autotools-brokensep systemd
-+inherit autotools-brokensep systemd update-rc.d
-+
-+INITSCRIPT_NAME = "atd"
-+INITSCRIPT_PARAMS = "defaults"
- 
- SYSTEMD_SERVICE_${PN} = "atd.service"
- 
-@@ -51,9 +54,7 @@ do_install () {
- 	oe_runmake -e "IROOT=${D}" install
- 
- 	install -d ${D}${sysconfdir}/init.d
--	install -d ${D}${sysconfdir}/rcS.d
--	install -m 0755    ${WORKDIR}/S99at		${D}${sysconfdir}/init.d/atd
--	ln -sf ../init.d/atd ${D}${sysconfdir}/rcS.d/S99at
-+	install -m 0755    ${WORKDIR}/atd.init		${D}${sysconfdir}/init.d/atd
- 
- 	# install systemd unit files
- 	install -d ${D}${systemd_unitdir}/system
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
 -- 
 1.9.1
 
