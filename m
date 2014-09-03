@@ -1,31 +1,37 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qc0-f180.google.com (mail-qc0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 28B40713DB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B6A670F28
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 15:11:44 +0000 (UTC)
-Received: by mail-qc0-f180.google.com with SMTP id c9so8705053qcz.39
+	Wed,  3 Sep 2014 15:14:20 +0000 (UTC)
+Received: by mail-qg0-f52.google.com with SMTP id z60so8250354qgd.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Sep 2014 08:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=QO3+LfZYksR6haI8QO2lQmm3MYU1nZGyFSmgYyQy4KY=;
-	b=LNqIKiuMAxOxDmTHl3wLw6M81tgkoPff/moZg3ZwIA2gJzNsflokLfxmPr6ezh7BfP
-	FqosT6mNTRnfiZlfBfD8opyfp0tHgVeuZXYQbQ4ACJAWSBgdYny25JtPlXQO20gvx6Dp
-	/6Y6tan0meVB9lWVz7pfQzETPlLLb5x6lFLbuvsviYVkc1jljzi53bn9OOCPlJXCqwQO
-	askKLgh8RRgiPJ7yUIemvdiLtu9nMYB3CI/JX1XWyY98A6zGhgAWGh9XADEOB2V9FXNh
-	JODGtyuYlOFjF48X+Fgxbu+oltwg/xKrzcTfSiLKom2h6RmtkHY2kclDmnLjmEDv7PLl
-	g72g==
+	Wed, 03 Sep 2014 08:14:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=NDv+EZPvHY8+mjUy/z7gLVeoZ43ZUnskiUorUe6Rgpo=;
+	b=GUsuaihKhRiCOO337Eq3nqlP7RR8XYo+u4oVBXx4r5WAobmeDkqT0kpHksJupEVSR+
+	AJr+YgHZZ3v12eJYCezXKBGU0Pl/aI/HO9v7cwRVtYWtA0IH2E2y7UBshpuGIkhv1Qva
+	OqbKhY3tNhLT872PhX7KkUuAsPJZM9cvbLm7Q9M9szWWCZsYoMujuldIVxKPU9j4blfv
+	3sah0BwaT1KXFW592TXmgXvEFOBLofp6GmU+oLBcpLq5sdatyqo7ulTi+IilOtBxrnPp
+	C/PohyrBOqOBeR2q7jwNnkf6nthqN2l0R3AAmuKjvL+Qai1oCPOMhjR791xaDymyhJUy
+	T/qQ==
+X-Gm-Message-State: ALoCoQketLDbVOAaHbUa1jls4yzPMDW+6tMeRHUQ6vBLBn2Oy8w8eNKiPcdvM5jVSMQDsjnWwKYT
+X-Received: by 10.224.103.65 with SMTP id j1mr68584746qao.17.1409757261687;
+	Wed, 03 Sep 2014 08:14:21 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.224.15.201 with SMTP id l9mr28649225qaa.27.1409757105377;
-	Wed, 03 Sep 2014 08:11:45 -0700 (PDT)
-Received: by 10.96.205.134 with HTTP; Wed, 3 Sep 2014 08:11:45 -0700 (PDT)
-Date: Wed, 3 Sep 2014 09:11:45 -0600
-Message-ID: <CACS+7ZQPApooy-T6E9rTXRhSRFs6PZGP0YJTou7f+ckxPN-CjA@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH v2] gcc-runtime: enable sanitizers
+Received: by 10.140.29.183 with HTTP; Wed, 3 Sep 2014 08:14:01 -0700 (PDT)
+In-Reply-To: <1409663439-1725-2-git-send-email-georgex.l.musat@intel.com>
+References: <1409663439-1725-1-git-send-email-georgex.l.musat@intel.com>
+	<1409663439-1725-2-git-send-email-georgex.l.musat@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Sep 2014 16:14:01 +0100
+Message-ID: <CAJTo0LY333THMi1uvDjRpUd1MuP671CGikrSBCg_OoC8r_9BqQ@mail.gmail.com>
+To: Lucian Musat <georgex.l.musat@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] oeqa/runtime: Automatic test for ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,80 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 15:11:46 -0000
+X-List-Received-Date: Wed, 03 Sep 2014 15:14:30 -0000
 Content-Type: text/plain; charset=UTF-8
 
-From: Dan McGregor <dan.mcgregor@usask.ca>
+On 2 September 2014 14:10, Lucian Musat <georgex.l.musat@intel.com> wrote:
+> +    @classmethod
+> +    def tearDownClass(self):
+> +        self.repo_server.stop()
+> +        #remove created channels to be able to repeat the tests on same image
+> +        (status, result) = oeRuntimeTest.tc.target.run('smart channel --show | grep "\["', 0)
+> +        for x in result.split("\n"):
+> +            if x not in self.existingchannels:
+> +                oeRuntimeTest.tc.target.run('smart channel --remove '+x[1:-1]+' -y', 0)
 
-AddressSanitizer is a fast memory error detector.
-ThreadSanitizer detects data races.
-UBSanitizer detectes undefined behaviour.
+If we're not removing the packages we've installed, why do we bother
+removing the smart channels?
 
-All consist of compiler instrumentation and a run-time library.
-The compiler instrumentation was already enabled, this enables
-the run-time library component.
+> +    @skipUnlessPassed('test_ssh')
+> +    def test_ptestrunner(self):
+> +        self.add_smart_channel()
+> +        self.install_packages(self.install_complementary("*-ptest"))
+> +        self.install_packages(['ptest-runner'])
 
-Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
----
- meta/recipes-devtools/gcc/gcc-runtime.inc | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+Can't you check if the ptest IMAGE_FEATURE is enabled and if so, skip this?
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc
-b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 7ce84f1..e1663d1 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -10,7 +10,9 @@ EXTRA_OECONF_PATHS = "\
+> +        log_results_to_location = os.path.join('./results')
 
- EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
+Joining a single item doesn't do anything.
 
--RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic"
-+SANITIZER_ARCHS = "arm i586 i686 x86-64"
-+SANITIZER_TARGET = '${@bb.utils.contains("SANITIZER_ARCHS",
-"${TRANSLATED_TARGET_ARCH}", "libsanitizer", "",d)}'
-+RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic ${SANITIZER_TARGET}"
- #  ?
- # libiberty
- # libmudflap
-@@ -88,6 +90,9 @@ PACKAGES = "\
-     libatomic \
-     libatomic-dev \
-     libatomic-staticdev \
-+    libsanitizer \
-+    libsanitizer-dev \
-+    libsanitizer-staticdev \
- "
- # The base package doesn't exist, so we clear the recommends.
- RRECOMMENDS_${PN}-dbg = ""
-@@ -171,6 +176,28 @@ FILES_libatomic-dev = "\
- "
- FILES_libatomic-staticdev = "${libdir}/libatomic.a"
+> +        if not os.path.exists(log_results_to_location):
+> +            os.makedirs(log_results_to_location)
+> +
+> +        # clear the results directory each time
+> +        for path in os.listdir(log_results_to_location):
+> +            os.remove(os.path.join(log_results_to_location, path))
 
-+FILES_libsanitizer = " \
-+  ${libdir}/libasan.so.* \
-+  ${libdir}/liblsan.so.* \
-+  ${libdir}/libtsan.so.* \
-+  ${libdir}/libubsan.so.*"
-+FILES_libsanitizer-dev = " \
-+  ${libdir}/libsanitizer.spec \
-+  ${libdir}/libasan_preinit.o \
-+  ${libdir}/libasan.so \
-+  ${libdir}/liblsan.so \
-+  ${libdir}/libtsan.so \
-+  ${libdir}/libubsan.so \
-+  ${libdir}/libasan.la \
-+  ${libdir}/liblsan.la \
-+  ${libdir}/libtsan.la \
-+  ${libdir}/libubsan.la"
-+FILES_libsanitizer-staticdev = " \
-+  ${libdir}/libasan.a \
-+  ${libdir}/liblsan.a \
-+  ${libdir}/libtsan.a \
-+  ${libdir}/libubsan.a"
-+
- do_package_write_ipk[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
- do_package_write_deb[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
- do_package_write_rpm[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
--- 
-1.9.3
+I'd do something more like as it's a lot less lines and clear that
+you're deleting the old tree and then creating a fresh one:
+
+if os.path.exists(logdir):
+  shutil.rmtree(logdir)
+os.makedirs(logdir)
+
+
+Ross
 
