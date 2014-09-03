@@ -1,38 +1,35 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CB2370F28
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 85B70713DB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 17:28:03 +0000 (UTC)
-Received: by mail-pd0-f178.google.com with SMTP id y13so11624425pdi.37
+	Wed,  3 Sep 2014 17:28:05 +0000 (UTC)
+Received: by mail-pa0-f53.google.com with SMTP id fa1so17915857pad.40
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Sep 2014 10:28:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=jD3uL15aamuPRIMsypBuqDwSom9vttGuH0zlLOXSbLM=;
-	b=YX+ezgQcwdbQPH/yxsJRXqbgxpLwntfa6Fj30xwzpmheFuc8MzlB9NoI+tbnJ0RSjj
-	ij3gG6oP509cD3Ei+eFK35Dge0YqrE4rqRR5ikVpc4ZjausuI6WmHZzup0LNIiA3PkQu
-	+GqIpVYOGVyjZUAIDlhUh3emOB2yOvanm1GOyfG6K80JEYmQS1BMNArhl2UUTHUGOu3b
-	LX8oJxVi87+DxAq3Lt4YUO2FmcPxv8twGnzjw+/R90Wska2ufyVCJdNC2LNd/Hz9q5QU
-	kP0qljiAMu4M695nsom4COfw8qDxHPxWYRBMYn+W3BTlWmaDuZlGXiNkG+CFxqxlRnnC
-	HBTw==
-X-Received: by 10.66.240.197 with SMTP id wc5mr11662855pac.87.1409765284084;
-	Wed, 03 Sep 2014 10:28:04 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id zm5sm7367263pbb.76.2014.09.03.10.28.01
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Wed, 03 Sep 2014 10:28:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=oqKAxGLPGfDg4I5IBA2cjQg/YwFuYd2h+YjG9Hjz8H0=;
+	b=Ds/mOPCc8PdBXsLcHgmutxItuXN5FWdyj0yev8Q/MkSWsnxa8aDShQ39N2XD0KXaDh
+	EyycDOsF0RFdJ2y5zzUmCwK+0AFfuM5ohLswgxcAauMM1up0wKLiD7Wa183ldSwdVeLo
+	reZrF2yRIZh5PbkQQ4FKHGN0zU2uGQVYkuAfs3rb5HHvDA3nVQHmvPrdBWbZG5yndb7w
+	YZ4tmQfV4sSOgQ5GLgEmlA9xU0Bx+ovOw2NfSkh2rTTR57xvDyc8hCuE5M8yqazGDhk1
+	TLDyDwmotSF/QdKoaIaGbvpEO6nzbtVVIq2DzLAFAMTCM+ED6Zyb+JwEXq6rUVQNNsvi
+	PXCQ==
+X-Received: by 10.66.90.162 with SMTP id bx2mr35723238pab.39.1409765281390;
+	Wed, 03 Sep 2014 10:28:01 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPSA id zm5sm7367263pbb.76.2014.09.03.10.27.59
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 03 Sep 2014 10:28:00 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Sep 2014 10:27:40 -0700
-Message-Id: <41ce6e95dcb9186984cb2cccde974d817dc14781.1409764769.git.chris_larson@mentor.com>
+Date: Wed,  3 Sep 2014 10:27:39 -0700
+Message-Id: <cover.1409764769.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.8.3.4
-In-Reply-To: <cover.1409764769.git.chris_larson@mentor.com>
-References: <cover.1409764769.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1409764769.git.chris_larson@mentor.com>
-References: <cover.1409764769.git.chris_larson@mentor.com>
-Subject: [PATCH 1/8] zlib: obey LDFLAGS for tests
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 0/8] Various fixes to obey LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,78 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 17:28:06 -0000
+X-List-Received-Date: Wed, 03 Sep 2014 17:28:10 -0000
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
----
- .../zlib/zlib-1.2.8/ldflags-tests.patch            | 45 ++++++++++++++++++++++
+From: Christopher Larson <chris_larson@mentor.com>
+
+This patch series fixes 8 recipes to obey LDFLAGS. These issues are easy to
+miss, now that the internal toolchain defaults to passing the correct
+GNU_HASH, so GNU_HASH warnings when LDFLAGS isn't obeyed are only seen when
+using an external toolchain. These were kept in meta-sourcery or meta-mentor,
+but given these are general correctness fixes, regardless of the lack of
+warnings for most users, I think they're appropriate for upstream inclusion.
+
+The following changes since commit e72aac2ae9e5fce1715fa04b7e94034fd06892d9:
+
+  alsa-lib: libasound should runtime depends on alsa-conf (2014-09-03 11:30:11 +0100)
+
+are available in the git repository at:
+
+  git@github.com:kergoth/openembedded-core ldflags-fixes
+  https://github.com/kergoth/openembedded-core ldflags-fixes
+
+for you to fetch changes up to 2cddd349eb9cafbbaf5257fb61beb9dc249df85c:
+
+  python: obey LDFLAGS (2014-09-03 10:18:37 -0700)
+
+----------------------------------------------------------------
+Christopher Larson (8):
+      zlib: obey LDFLAGS for tests
+      gdbm-1.8.3: obey LDFLAGS
+      ossp-uuid: obey LDFLAGS
+      setserial: obey LDFLAGS
+      hostap-utils: obey LDFLAGS
+      blktrace: obey LDFLAGS for btrecord
+      irda-utils: obey LDFLAGS
+      python: obey LDFLAGS
+
+ .../hostap/hostap-utils-0.4.7/ldflags.patch        | 27 ++++++++
+ meta/recipes-bsp/hostap/hostap-utils_0.4.7.bb      |  1 +
+ meta/recipes-bsp/setserial/setserial/ldflags.patch | 23 +++++++
+ meta/recipes-bsp/setserial/setserial_2.17.bb       |  1 +
+ .../irda-utils/irda-utils-0.9.18/ldflags.patch     | 79 ++++++++++++++++++++++
+ .../irda-utils/irda-utils_0.9.18.bb                | 18 +++--
+ .../zlib/zlib-1.2.8/ldflags-tests.patch            | 45 ++++++++++++
  meta/recipes-core/zlib/zlib_1.2.8.bb               |  1 +
- 2 files changed, 46 insertions(+)
+ .../ossp-uuid/ossp-uuid/ldflags.patch              | 23 +++++++
+ meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb |  1 +
+ meta/recipes-devtools/python/python_2.7.3.bb       |  3 +-
+ .../recipes-kernel/blktrace/blktrace/ldflags.patch |  8 ++-
+ meta/recipes-support/gdbm/gdbm-1.8.3/ldflags.patch | 22 ++++++
+ meta/recipes-support/gdbm/gdbm_1.8.3.bb            |  3 +-
+ 14 files changed, 245 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-bsp/hostap/hostap-utils-0.4.7/ldflags.patch
+ create mode 100644 meta/recipes-bsp/setserial/setserial/ldflags.patch
+ create mode 100644 meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/ldflags.patch
  create mode 100644 meta/recipes-core/zlib/zlib-1.2.8/ldflags-tests.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/ldflags.patch
+ create mode 100644 meta/recipes-support/gdbm/gdbm-1.8.3/ldflags.patch
 
-diff --git a/meta/recipes-core/zlib/zlib-1.2.8/ldflags-tests.patch b/meta/recipes-core/zlib/zlib-1.2.8/ldflags-tests.patch
-new file mode 100644
-index 0000000..650794f
---- /dev/null
-+++ b/meta/recipes-core/zlib/zlib-1.2.8/ldflags-tests.patch
-@@ -0,0 +1,45 @@
-+Obey LDFLAGS for tests
-+
-+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-+Upstream-status: Pending
-+
-+--- zlib-1.2.8.orig/Makefile.in
-++++ zlib-1.2.8/Makefile.in
-+@@ -26,7 +26,7 @@ CFLAGS=-O
-+
-+ SFLAGS=-O
-+ LDFLAGS=
-+-TEST_LDFLAGS=-L. libz.a
-++TEST_LDFLAGS=-L. $(LDFLAGS)
-+ LDSHARED=$(CC)
-+ CPP=$(CC) -E
-+
-+@@ -176,22 +176,22 @@ placebo $(SHAREDLIBV): $(PIC_OBJS) libz.
-+	-@rmdir objs
-+
-+ example$(EXE): example.o $(STATICLIB)
-+-	$(CC) $(CFLAGS) -o $@ example.o $(TEST_LDFLAGS)
-++	$(CC) $(CFLAGS) -o $@ example.o $(TEST_LDFLAGS) $(STATICLIB)
-+
-+ minigzip$(EXE): minigzip.o $(STATICLIB)
-+-	$(CC) $(CFLAGS) -o $@ minigzip.o $(TEST_LDFLAGS)
-++	$(CC) $(CFLAGS) -o $@ minigzip.o $(TEST_LDFLAGS) $(STATICLIB)
-+
-+ examplesh$(EXE): example.o $(SHAREDLIBV)
-+-	$(CC) $(CFLAGS) -o $@ example.o -L. $(SHAREDLIBV)
-++	$(CC) $(CFLAGS) -o $@ example.o $(TEST_LDFLAGS) $(SHAREDLIBV)
-+
-+ minigzipsh$(EXE): minigzip.o $(SHAREDLIBV)
-+-	$(CC) $(CFLAGS) -o $@ minigzip.o -L. $(SHAREDLIBV)
-++	$(CC) $(CFLAGS) -o $@ minigzip.o $(TEST_LDFLAGS) $(SHAREDLIBV)
-+
-+ example64$(EXE): example64.o $(STATICLIB)
-+-	$(CC) $(CFLAGS) -o $@ example64.o $(TEST_LDFLAGS)
-++	$(CC) $(CFLAGS) -o $@ example64.o $(TEST_LDFLAGS) $(STATICLIB)
-+
-+ minigzip64$(EXE): minigzip64.o $(STATICLIB)
-+-	$(CC) $(CFLAGS) -o $@ minigzip64.o $(TEST_LDFLAGS)
-++	$(CC) $(CFLAGS) -o $@ minigzip64.o $(TEST_LDFLAGS) $(STATICLIB)
-+
-+ install-libs: $(LIBS)
-+	-@if [ ! -d $(DESTDIR)$(exec_prefix)  ]; then mkdir -p $(DESTDIR)$(exec_prefix); fi
-diff --git a/meta/recipes-core/zlib/zlib_1.2.8.bb b/meta/recipes-core/zlib/zlib_1.2.8.bb
-index bdfa045..ca0ba3f 100644
---- a/meta/recipes-core/zlib/zlib_1.2.8.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.8.bb
-@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://zlib.h;beginline=4;endline=23;md5=fde612df1e5933c428b
- SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.xz \
-            file://remove.ldconfig.call.patch \
-            file://Makefile-runtests.patch \
-+           file://ldflags-tests.patch \
-            file://run-ptest \
-            "
- 
 -- 
 1.8.3.4
 
