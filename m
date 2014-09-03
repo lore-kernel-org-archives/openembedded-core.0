@@ -1,25 +1,24 @@
-Return-Path: <Muzaffar_Mahmood@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 95039712B1
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AABC7108D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 08:15:21 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1XP5ip-0006Nz-4N from Muzaffar_Mahmood@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Sep 2014 01:15:21 -0700
-Received: from svr-pkl-eng-06.pkl.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.2.247.3; Wed, 3 Sep 2014 09:15:17 +0100
-From: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
+	Wed,  3 Sep 2014 09:04:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8394UqV025512
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 3 Sep 2014 02:04:32 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 3 Sep 2014 02:04:30 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Sep 2014 13:14:30 +0500
-Message-ID: <1409732070-33419-1-git-send-email-muzaffar_mahmood@mentor.com>
+Date: Wed, 3 Sep 2014 02:04:29 -0700
+Message-ID: <cover.1409727368.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Originating-IP: [137.202.0.76]
-Subject: [PATCH] systemtap: Fixed probe syscall.sendfile failure
+Subject: [PATCH 0/1] rpmresolve: ignore null requires
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,61 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 08:15:27 -0000
+X-List-Received-Date: Wed, 03 Sep 2014 09:04:35 -0000
 Content-Type: text/plain
 
-From: Mikhail Durnev <mikhail_durnev@mentor.com>
+The following changes since commit 4c0a9ccbad2889b27b4b1d2ab91215a4bdcca3ce:
 
-Marked __syscall.compat_sendfile as optional
+  python-numpy: Fix build for mips64 (2014-09-01 18:00:32 +0100)
 
-Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
-Signed-off-by: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
----
- .../systemtap/tapset-linux-sendfile-syscall.patch  |   22 ++++++++++++++++++++
- meta/recipes-kernel/systemtap/systemtap_git.inc    |    1 +
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/tapset-linux-sendfile-syscall.patch
+are available in the git repository at:
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/tapset-linux-sendfile-syscall.patch b/meta/recipes-kernel/systemtap/systemtap/tapset-linux-sendfile-syscall.patch
-new file mode 100644
-index 0000000..f945760
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/tapset-linux-sendfile-syscall.patch
-@@ -0,0 +1,22 @@
-+systemtap: Fixed probe syscall.sendfile failure
-+
-+compat_sendfile syscall is unavailable in kernels starting version 3.8.
-+Hence systemtap scripts like 'probe syscall.* { if (target()==pid()) log(name." ".argstr) }' fail.
-+This problem is solved by marking __syscall.compat_sendfile as optional in tapset/linux/syscalls2.stp
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
-+
-+diff -Naur old/tapset/linux/syscalls2.stp new/tapset/linux/syscalls2.stp
-+--- old/tapset/linux/syscalls2.stp	2014-04-21 01:28:41.000000000 -0500
-++++ new/tapset/linux/syscalls2.stp	2014-04-21 01:38:14.961233914 -0500
-+@@ -1953,7 +1953,7 @@
-+ # COMPAT_SYSCALL_DEFINE4(sendfile64, int, out_fd, int, in_fd,
-+ #		compat_loff_t __user *, offset, compat_size_t, count)
-+ #
-+-probe syscall.sendfile = __syscall.sendfile, __syscall.compat_sendfile
-++probe syscall.sendfile = __syscall.sendfile, __syscall.compat_sendfile ?
-+ {
-+ 	name = "sendfile"
-+ 	out_fd = __int32($out_fd)
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 717d66f..3e1e80a 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -6,6 +6,7 @@ PV = "2.5+git${SRCPV}"
- SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://docproc-build-fix.patch \
-            file://obsolete_automake_macros.patch \
-+           file://tapset-linux-sendfile-syscall.patch \
-           "
- 
- # systemtap doesn't support mips
+  git://git.openembedded.org/openembedded-core-contrib rbt/rpmresolve
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/rpmresolve
+
+Robert Yang (1):
+  rpmresolve: ignore null requires
+
+ meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c |    8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
 -- 
 1.7.9.5
 
