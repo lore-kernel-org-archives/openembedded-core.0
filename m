@@ -1,26 +1,26 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 90CCE71306
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 384E8713C5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 09:04:32 +0000 (UTC)
+	Wed,  3 Sep 2014 09:11:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8394WuQ024471
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s839B1D6028491
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Sep 2014 02:04:33 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 3 Sep 2014 02:04:32 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Wed, 3 Sep 2014 02:11:01 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 3 Sep 2014 02:11:00 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Sep 2014 02:04:30 -0700
-Message-ID: <27aa87dd02dc9dbe963b2d2ab4e476a5b306d968.1409727368.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1409727368.git.liezhi.yang@windriver.com>
-References: <cover.1409727368.git.liezhi.yang@windriver.com>
+Date: Wed, 3 Sep 2014 17:05:29 +0800
+Message-ID: <ff575b1b7622194f6e15d1b38c191df729a80f47.1409735063.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1409735063.git.Chong.Lu@windriver.com>
+References: <cover.1409735063.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] rpmresolve: ignore null requires
+Subject: [PATCH V2 1/1] perf: fix issue about package splitting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 09:04:35 -0000
+X-List-Received-Date: Wed, 03 Sep 2014 09:11:04 -0000
 Content-Type: text/plain
 
-It is not a problem if a package requires nothing (similar to RDEPENDS
-is null), for example, these packages depends on nothing:
+Currently, perf can't split to perf-archive, perf-tests, perf-python and
+perf-perl. All files are included in perf package. Change the files paths to
+make split successfully and add PACKAGECONFIG to make main pkg depends on sub
+pkgs as default.
 
-[snip]
-alsa-conf-base
-base-files
-eglibc-binary-localedata-en-us
-xserver-xf86-config
-[snip]
-
-The rpmresolve-native's algorithm is:
-===fake code
-for pkg in pkg1, pkg2, pkg3:
-    rc = get_req(pkg)
-return rc
-===fake code
-
-Suppose of the 3 pkgs requires null:
-- We are lukcy if pkg1 or pkg2 is null, nothing happend.
-- We are *not* lukcy if pkg3 is null, and will get the error when "INHERIT +=
-  'buildhistory'":
-  ERROR: Cannot get the package dependencies. Command
-  '/path/to/x86_64-linux/usr/bin/rpmresolve -t /path/to/var/lib/rpm' returned 1:
-
-This patch fixes the problem.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
 ---
- meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c |    8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/perf/perf.bb | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c b/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
-index 4e9d055..7f4caf9 100644
---- a/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
-+++ b/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
-@@ -275,7 +275,13 @@ int printDepList(rpmts *ts, int tscount)
-                 char *name = strdup((char *)he->p.ptr);
-                 /* Get its requires */
-                 he->tag = RPMTAG_REQUIRENAME;
--                rc = (headerGet(h, he, 0) != 1);
-+                if (rc = (headerGet(h, he, 0) != 1)) {
-+                    if (debugmode) {
-+                        printf("DEBUG: %s requires null\n", name);
-+                    }
-+                    rc = 0;
-+                    continue;
-+                }
-                 ARGV_t reqs = (ARGV_t)he->p.ptr;
-                 /* Get its requireflags */
-                 he->tag = RPMTAG_REQUIREFLAGS;
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index bfd210c..baf0077 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -149,20 +149,27 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ PACKAGES =+ "${PN}-archive ${PN}-tests ${PN}-perl ${PN}-python"
+ 
++PACKAGECONFIG ??= "archive perl python tests"
++PACKAGECONFIG[archive] = ",,, ${PN}-archive"
++PACKAGECONFIG[perl] = ",,, ${PN}-perl"
++PACKAGECONFIG[python] = ",,, ${PN}-python"
++PACKAGECONFIG[tests] = ",,, ${PN}-tests"
++
+ RDEPENDS_${PN} += "elfutils"
+ RDEPENDS_${PN}-archive =+ "bash"
+ RDEPENDS_${PN}-python =+ "bash python"
+ RDEPENDS_${PN}-perl =+ "bash perl perl-modules"
++RDEPENDS_${PN}-tests =+ "python"
+ 
+ RSUGGESTS_SCRIPTING = "${@perf_feature_enabled('perf-scripting', '${PN}-perl ${PN}-python', '',d)}"
+ RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
+ 
+-FILES_${PN} += "${libexecdir}/perf-core ${exec_prefix}/libexec/perf-core ${libdir}/traceevent"
++FILES_${PN} += "${libdir}/traceevent"
+ FILES_${PN}-dbg += "${libdir}/python*/site-packages/.debug"
+-FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
+-FILES_${PN}-tests = "${libdir}/perf/perf-core/tests"
+-FILES_${PN}-python = "${libdir}/python*/site-packages ${libdir}/perf/perf-core/scripts/python"
+-FILES_${PN}-perl = "${libdir}/perf/perf-core/scripts/perl"
++FILES_${PN}-archive = "${exec_prefix}/libexec/perf-core/perf-archive"
++FILES_${PN}-tests = "${exec_prefix}/libexec/perf-core/tests"
++FILES_${PN}-python = "${exec_prefix}/libexec/perf-core/scripts/python"
++FILES_${PN}-perl = "${exec_prefix}/libexec/perf-core/scripts/perl"
+ 
+ 
+ INHIBIT_PACKAGE_DEBUG_SPLIT="1"
 -- 
-1.7.9.5
+1.9.1
 
 
