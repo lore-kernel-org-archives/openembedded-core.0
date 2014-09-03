@@ -1,30 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 192BE605BD
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A0CE6ACBA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 03:00:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8330tXV021345
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 2 Sep 2014 20:00:55 -0700 (PDT)
-Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Tue, 2 Sep 2014 20:00:54 -0700
-Message-ID: <54068470.2080605@windriver.com>
-Date: Wed, 3 Sep 2014 11:01:04 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Wed,  3 Sep 2014 06:32:16 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s836WH4Z000728
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 2 Sep 2014 23:32:17 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 2 Sep 2014 23:32:16 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 3 Sep 2014 14:32:13 +0800
+Message-ID: <cover.1409725792.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1409655125.git.Qi.Chen@windriver.com>
-	<50321ac97381f5d3aea180c0b6506747a5c392c3.1409655125.git.Qi.Chen@windriver.com>
-	<CAJTo0LagWB=cxN5jqV5SQ49Jckpn1+_ycyq7VfMYc+urMufCHQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LagWB=cxN5jqV5SQ49Jckpn1+_ycyq7VfMYc+urMufCHQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.187]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 14/26] cups: add systemd support
+Subject: [PATCH 0/1] testimage/targetcontrol.py: test sudo available while invoking runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,23 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 03:01:06 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Sep 2014 06:32:20 -0000
+Content-Type: text/plain
 
-On 09/02/2014 11:38 PM, Burton, Ross wrote:
-> On 2 September 2014 11:54, Chen Qi <Qi.Chen@windriver.com> wrote:
->> +       # Remove sysinit script and symlinks
->> +       rm -rf ${D}${sysconfdir}/init.d/
->> +       rm -rf ${D}${sysconfdir}/rc*
-> Pretty sure you don't mean to unconditionally do that.
->
-> Ross
->
->
+The following changes since commit 83ebcb1f0c6ec48c526d14324b3b2037f0f4fe43:
 
-Thanks for pointing it out.
+  bitbake: process: Ensure abnormal exits set an error level (2014-09-02 18:10:37 +0100)
 
-Best Regards,
-Chen Qi
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-testimage
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-testimage
+
+Hongxu Jia (1):
+  targetcontrol.py: test sudo available while invoking runqemu
+
+ meta/lib/oeqa/targetcontrol.py | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+-- 
+1.9.1
+
 
