@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DEA69713BB
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BF8F713CC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 07:09:14 +0000 (UTC)
+	Wed,  3 Sep 2014 07:09:16 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8379Gen023231
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8379HGk005198
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Sep 2014 00:09:16 -0700 (PDT)
+	Wed, 3 Sep 2014 00:09:17 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 3 Sep 2014 00:09:15 -0700
+	14.3.174.1; Wed, 3 Sep 2014 00:09:17 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Sep 2014 15:09:01 +0800
-Message-ID: <f203ba854e5e6b847c43350c722c9bf22f334c10.1409728004.git.Qi.Chen@windriver.com>
+Date: Wed, 3 Sep 2014 15:09:02 +0800
+Message-ID: <47fd789633fefe49298ad639b01bd9d9d5c2f39d.1409728004.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1409728004.git.Qi.Chen@windriver.com>
 References: <cover.1409728004.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 04/25] update-rc.d: fix logic in populate_packages_updatercd
+Subject: [PATCH 05/25] alsa-state: fix pkg_postinst and set INHIBIT_UPDATERCD_BBCLASS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,65 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 07:09:15 -0000
+X-List-Received-Date: Wed, 03 Sep 2014 07:09:16 -0000
 Content-Type: text/plain
 
-The 'and' logic for the check is wrong. To make things clear, please
-see the example below.
+As alsa-state inherits update-rc.d, the update-rc.d part inpostinst script
+has already been handled in update-rc.d.bbclass.
 
-Say that we have a recipe A, which has a sysv-init style init script named
-initA and no corresponding service file. The recipe inherits update-rc.d,
-but it doesn't inherit systemd.bbclass. The DISTRO_FEATURES has 'systemd'
-inside it, but it doesn't have 'sysvinit'. Now if we build an image, with
-the 'and' logic in the check, the symlinks for initA would not be installed
-into /etc/rc?.d directory.
-This is incorrect. Because there's no corresponding service. The symlinks
-in /etc/rc?.d/ should be created so that the service would be correctly
-started at boot time.
-
-The logic should really be 'or' in the check. This is actually what the code
-was when it was originally written.
-
-Several different situations are listed below to prove the correctness of the
-'or' logic.
-
-If 'sysvinit' is in DISTRO_FEATURES, the initA script would always be installed
-with corresponding preisnt/postinst generated and added.
-
-If 'sysvinit' is not in DISTRO_FEATURES, we have three situations.
-1) A has initA and A.service.
-   In such situation, systemd.bbclass would set INHIBIT_UPDATERCD_BBCLASS,
-   so no preinst/postinst about update-rc.d would be added and the symlinks
-   for initA would not be created.
-
-2) A has initA, and the functionality of initA is not implemented internally
-   in systemd.
-   In such situation, symlinks for initA would be installed.
-
-3) A has initA, and the functionality of initA is implemented internally in
-   systemd or in some other recipe.
-   Examples for such situation are alsa-state and keymaps in OE.
-   In such situation, we need to set INHIBIT_UPDATERCD_BBCLASS in the recipe
-   so that there would be no preinst/postinst scripts about update-rc.d added.
+Besides, we need to set INHIBIT_UPDATERCD_BBCLASS to "1" if 'sysvinit'
+is not in DISTRO_FEATURES. This is because the init script is not installed
+in such situation, adding update-rc.d part in the preinst/postinst scripts
+just makes no sense.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/update-rc.d.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-bsp/alsa-state/alsa-state.bb | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index 19b081d..3c5414b 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -121,7 +121,7 @@ python populate_packages_updatercd () {
+diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb b/meta/recipes-bsp/alsa-state/alsa-state.bb
+index d2f8ea2..17c2d00 100644
+--- a/meta/recipes-bsp/alsa-state/alsa-state.bb
++++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
+@@ -18,6 +18,13 @@ SRC_URI = "\
+   file://alsa-state-init \
+ "
  
-     # Check that this class isn't being inhibited (generally, by
-     # systemd.bbclass) before doing any work.
--    if bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d) and \
-+    if bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d) or \
-        not d.getVar("INHIBIT_UPDATERCD_BBCLASS", True):
-         pkgs = d.getVar('INITSCRIPT_PACKAGES', True)
-         if pkgs == None:
++# As the recipe doesn't inherit systemd.bbclass, we need to set this variable
++# manually to avoid unnecessary postinst/preinst generated.
++python __anonymous() {
++    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
++        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
++}
++
+ inherit update-rc.d
+ 
+ INITSCRIPT_NAME = "alsa-state"
+@@ -54,9 +61,5 @@ pkg_postinst_${PN}() {
+ 		then
+ 			${sbindir}/alsactl -f ${localstatedir}/lib/alsa/asound.state restore
+ 		fi
+-		# INITSCRIPT_PARAMS changed, so remove the old and
+-		# install the new setting.
+-		update-rc.d -f ${INITSCRIPT_NAME} remove
+-		update-rc.d ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
+ 	fi
+ }
 -- 
 1.9.1
 
