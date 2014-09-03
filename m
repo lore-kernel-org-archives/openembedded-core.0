@@ -1,27 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2926162252
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 690DA713B4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 11:18:53 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 03 Sep 2014 04:12:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,456,1406617200"; d="scan'208";a="597247164"
-Received: from svgunawa-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.16])
-	by orsmga002.jf.intel.com with ESMTP; 03 Sep 2014 04:18:22 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Yi Qingliang <niqingliang2003@gmail.com>
-Date: Wed, 03 Sep 2014 12:18:22 +0100
-Message-ID: <128162541.C4CYxaNuW2@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.13.3 (Linux/3.15.10-201.fc20.x86_64; KDE/4.13.3; x86_64; ;
-	)
-In-Reply-To: <CADwFkYe-T3MdkwmwwfW8nb6UsxUxbsSNbznGfJ54+Uz3ud5=+Q@mail.gmail.com>
-References: <CADwFkYe-T3MdkwmwwfW8nb6UsxUxbsSNbznGfJ54+Uz3ud5=+Q@mail.gmail.com>
+	Wed,  3 Sep 2014 14:59:02 +0000 (UTC)
+Received: by mail-qc0-f174.google.com with SMTP id i17so8640044qcy.19
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Sep 2014 07:59:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=OxTzFEUtD+J5m03L8mhAPK+1fmHHUqzCbwRG6rXRc0Q=;
+	b=IHbgMvZE1XEhXLyQ48/nrcSXWY86L8tIVcPi2DG296QF3fiNbW8JfmR0q0lz7rAn+J
+	I/Yaq2F7KSRW0emC/AjSMwx5K7F/8w7FEI3lThBrxg5eQmQ/fx3UVD7C68JJDvNErpQq
+	ZU6O0WA2eHRhQOTZzZ13gTP/k99xGPS2IAXoWf6extN05d0dMgNNrhwpEDW34SO1xEmm
+	81m4jcNDAsL0tiZ4RXCEgVssrfAE/8QXusRUYbF/Pufg3xZqLco3JbygBTDHeWH/CWcj
+	FZ2PxMuNUoHnwhrC5XXEOCtrxEyMvJ+hsMIL9bp5MMxgVowxfotkbq7DFglC7mnmhmia
+	a+dQ==
+X-Gm-Message-State: ALoCoQmC3AfPiqv+Ko6RrN8PKXcLbyDBp80w6RfmXWtxMe1ULlM4oqW+COsN4Kopywy3mvoccuLI
+X-Received: by 10.229.219.138 with SMTP id hu10mr66625111qcb.5.1409756344009; 
+	Wed, 03 Sep 2014 07:59:04 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: libav
+Received: by 10.140.29.183 with HTTP; Wed, 3 Sep 2014 07:58:43 -0700 (PDT)
+In-Reply-To: <1409663439-1725-1-git-send-email-georgex.l.musat@intel.com>
+References: <1409663439-1725-1-git-send-email-georgex.l.musat@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Sep 2014 15:58:43 +0100
+Message-ID: <CAJTo0Lbmrc5w2WfzMFkjNW4xHbAfjmbeeUZJwmThDXdN=iNVgA@mail.gmail.com>
+To: Lucian Musat <georgex.l.musat@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] oeqa/utils/logparser.py: results based log parser utility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,59 +43,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 11:19:02 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 03 Sep 2014 14:59:10 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wednesday 03 September 2014 07:05:18 Yi Qingliang wrote:
-> why there are two versions libav in oe-core? what's the difference?
-> why the opencv will use the 0.8.x version, but not 9.x version?
-> does it should use the higher version?
+On 2 September 2014 14:10, Lucian Musat <georgex.l.musat@intel.com> wrote:
+> +sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'meta/lib')))
+> +import oeqa.utils.ftools as ftools
 
-Upstream libav changed its API in 9.x, and some software has not been updated 
-to handle this change. When we get rid of everything that depends on libav 0.8 
-we can drop it, but until then we are stuck with it. Note that if you need to 
-select the version of libav to be built you would do that by setting e.g.  
-PREFERRED_VERSION_libav = "9.%"
- 
-> libav 0.8.x has warning:
-> 
-> WARNING: QA Issue: ELF binary
-> '/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0
-> /packages-split/libswscale/usr/lib/libswscale.so.2.1.0' has relocations in
-> .text [textrel]
-> WARNING: QA Issue: ELF binary
-> '/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0
-> /packages-split/libpostproc/usr/lib/libpostproc.so.52.0.0' has relocations
-> in .text [textrel]
-> WARNING: QA Issue: ELF binary
-> '/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0
-> /packages-split/libavutil/usr/lib/libavutil.so.51.22.2' has relocations in
-> .text [textrel]
-> WARNING: QA Issue: ELF binary
-> '/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0
-> /packages-split/libavformat/usr/lib/libavformat.so.53.21.1' has relocations
-> in .text [textrel]
-> WARNING: QA Issue: ELF binary
-> '/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0
-> /packages-split/libavfilter/usr/lib/libavfilter.so.2.15.0' has relocations
-> in .text [textrel]
-> WARNING: QA Issue: ELF binary
-> '/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0
-> /packages-split/libavdevice/usr/lib/libavdevice.so.53.2.0' has relocations
-> in .text [textrel]
-> WARNING: QA Issue: ELF binary
-> '/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0
-> /packages-split/libavcodec/usr/lib/libavcodec.so.53.35.0' has relocations in
-> .text [textrel]
+Doesn't that add .../poky/meta/lib/oeqa/meta/lib to the search path,
+which doesn't make any sense.  You shouldn't need to mess with the
+path to import a sibling module.
 
-Which architecture are you building for when you get these?
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
