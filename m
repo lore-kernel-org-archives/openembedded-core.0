@@ -1,31 +1,33 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B8DF7117C
+Return-Path: <jatedev@gmail.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id A4754713BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 19:58:01 +0000 (UTC)
-Received: by mail-qg0-f45.google.com with SMTP id e89so8871009qgf.32
+	Wed,  3 Sep 2014 20:29:09 +0000 (UTC)
+Received: by mail-qg0-f49.google.com with SMTP id j107so8846705qga.22
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Sep 2014 12:57:58 -0700 (PDT)
+	Wed, 03 Sep 2014 13:29:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=bAz2MwZJcV1ZC5+e7vSPo+A42Dsvo1ASbuSjrYQpYyY=;
-	b=Quwlh3klpDhUZ80i3n0AHj/NplXltnApaGMmV3yoYOdrH7xsoWhDnSA7B7qLbdOwkt
-	nAVJ/hIwrdCLIuFbJeHU+F4nkvGDWWmNImITyDxKUs3S4cETvE1sKnOCIIxkSnF4dy2b
-	NeGdOKgYRU8hk1j/pm7zV4ktGWikTi7OUBdswS0CjUgv6F13YuoxeMAEu3BGbr42ymTi
-	RixEvv/EhBI5f1ibHIV+IQRDFYnJQtbow4qqJw8AfgXIrtWaRtl33aYjTdbjRs+c9yua
-	nMSgPcujvB4/teBOp+4F6sYOItbRQfAi5iNhrZ1HvrYejit06pfX3FCPMpKNimfaeWNX
-	K1TQ==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=m1DutZbtZEYMeh/eSdOJ8debvwYyDgJYJocmcw9EBrA=;
+	b=PkS72EtKJw9/o2ViY9gxckV7swlQBKMbixEcykt+Dxhu5GqDjKb9N6L6B6YH50dYkT
+	ihlRB+zkNub0gXL+rLFw75qDXjcMcJxkktaQzkMK/r+P252a85B0lZXr75cWYGoBsdRz
+	9cFd0pqicLQ5c5suYMRVS7fJ7mTVgYnix1futyT+XzqY//E76I4zprOKboZH/Q5reWcC
+	v3puj2dQpsBf4xO9L87e9imcW5+sR83ReL2L8bcGJ9E17NdnIvH5pRn8Hl8GO1cI823T
+	WSyivxCx2KW7rVO71darsI/Reoe3UtNssAqkfCjtIHxm22h9KGIsbvRLUpOlmI0am089
+	CnOQ==
 MIME-Version: 1.0
-X-Received: by 10.224.8.1 with SMTP id f1mr70325392qaf.89.1409774278229; Wed,
-	03 Sep 2014 12:57:58 -0700 (PDT)
-Received: by 10.96.205.134 with HTTP; Wed, 3 Sep 2014 12:57:58 -0700 (PDT)
-Date: Wed, 3 Sep 2014 13:57:58 -0600
-Message-ID: <CACS+7ZQq_tHp0vA0FA8e1W+iLhuzEA3tov0B5QGFaUvGp_cgNg@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH] systemd: Use ${ROOT_HOME} instead of /root
+X-Received: by 10.229.211.132 with SMTP id go4mr27474qcb.0.1409776145517; Wed,
+	03 Sep 2014 13:29:05 -0700 (PDT)
+Received: by 10.140.34.76 with HTTP; Wed, 3 Sep 2014 13:29:05 -0700 (PDT)
+In-Reply-To: <CAPphmgYJQAYbsq+jMQwDU6x6DeCPoLPsRfacYvSch=HP5-C=SA@mail.gmail.com>
+References: <1403791418-2125-1-git-send-email-jatedev@gmail.com>
+	<CAPphmgYJQAYbsq+jMQwDU6x6DeCPoLPsRfacYvSch=HP5-C=SA@mail.gmail.com>
+Date: Wed, 3 Sep 2014 16:29:05 -0400
+Message-ID: <CAPphmgZ7p0v83P1L3DTQuBvTuLvU82yHN6sE0U3pK5C7EayGEw@mail.gmail.com>
+From: Jate Sujjavanich <jatedev@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] resolvconf/initscripts: Change resolv.conf generation for sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,37 +40,368 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 19:58:07 -0000
+X-List-Received-Date: Wed, 03 Sep 2014 20:29:13 -0000
+Content-Type: multipart/alternative; boundary=001a113439965dd75c05022f168f
+
+--001a113439965dd75c05022f168f
 Content-Type: text/plain; charset=UTF-8
 
-From: Dan McGregor <dan.mcgregor@usask.ca>
+Anybody using resolvconf?
 
-systemd avoids using nss lookups for the root user, so
-naturally it assumes that root's home directory is /root.
-In OE that's not the case, and it can lead to long delays when
-shutting down due to user shutdown unit failures.
+Ping
 
-Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
----
- meta/recipes-core/systemd/systemd_216.bb | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_216.bb
-b/meta/recipes-core/systemd/systemd_216.bb
-index a7fd71e..e6b79d2 100644
---- a/meta/recipes-core/systemd/systemd_216.bb
-+++ b/meta/recipes-core/systemd/systemd_216.bb
-@@ -97,6 +97,10 @@ do_configure_prepend() {
-  cp -r ${S}/units ${S}/units.pre_sed
-  fi
-  sed -i -e 's:=/root:=${ROOT_HOME}:g' ${S}/units/*.service*
-+ sed -i -e 's:"/root":"${ROOT_HOME}":g' \
-+        ${S}/src/core/unit-printf.c \
-+        ${S}/src/nspawn/nspawn.c \
-+        ${S}/src/shared/util.c
-  sed -i '/ln --relative --help/d' ${S}/configure.ac
-  sed -i -e 's:\$(LN_S) --relative -f:lnr:g' ${S}/Makefile.am
-  sed -i -e 's:\$(LN_S) --relative:lnr:g' ${S}/Makefile.am
--- 
-1.9.3
+On Sun, Aug 10, 2014 at 8:46 PM, Jate Sujjavanich <jatedev@gmail.com> wrote:
 
+> Patch ping follow up
+>
+>
+>
+> On Thu, Jun 26, 2014 at 10:03 AM, Jate Sujjavanich <jatedev@gmail.com>
+> wrote:
+>
+>> The resolv.conf link generated by initscripts causes a warning with
+>> resolvconf. The resolvconf script expects a different target.
+>>
+>> Use the ALTERNATIVES system to create the link via populate-volatiles.sh.
+>>
+>> Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+>> ---
+>>  .../resolvconf/files/volatiles_resolv-conf         |    1 +
+>>  .../resolvconf/resolvconf_1.75.bb                  |   15
+>> ++++++++++++++-
+>>  .../initscripts/initscripts-1.0/volatiles          |    1 -
+>>  .../initscripts-1.0/volatiles_resolv-conf          |    1 +
+>>  meta/recipes-core/initscripts/initscripts_1.0.bb   |    9 ++++++++-
+>>  5 files changed, 24 insertions(+), 3 deletions(-)
+>>  create mode 100644
+>> meta/recipes-connectivity/resolvconf/files/volatiles_resolv-conf
+>>  create mode 100644
+>> meta/recipes-core/initscripts/initscripts-1.0/volatiles_resolv-conf
+>>
+>> diff --git
+>> a/meta/recipes-connectivity/resolvconf/files/volatiles_resolv-conf
+>> b/meta/recipes-connectivity/resolvconf/files/volatiles_resolv-conf
+>> new file mode 100644
+>> index 0000000..e58993d
+>> --- /dev/null
+>> +++ b/meta/recipes-connectivity/resolvconf/files/volatiles_resolv-conf
+>> @@ -0,0 +1 @@
+>> +l root root 0644 /etc/resolv.conf /etc/resolvconf/run/resolv.conf
+>> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.75.bb
+>> b/meta/recipes-connectivity/resolvconf/resolvconf_1.75.bb
+>> index 7310c83..e108516 100644
+>> --- a/meta/recipes-connectivity/resolvconf/resolvconf_1.75.bb
+>> +++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.75.bb
+>> @@ -11,12 +11,16 @@ AUTHOR = "Thomas Hood"
+>>  HOMEPAGE = "http://packages.debian.org/resolvconf"
+>>  RDEPENDS_${PN} = "bash"
+>>
+>> -SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.xz"
+>> +SRC_URI = "\
+>> +       ${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.xz \
+>> +       file://volatiles_resolv-conf \
+>> +"
+>>
+>>  SRC_URI[md5sum] = "4b8bc86a3cf070e3fd0e9aff7eaaba56"
+>>  SRC_URI[sha256sum] =
+>> "16167f37a77ef4bc4596dcbefece269b6a10d10fa448594ec55ed3303193086e"
+>>
+>>  inherit allarch
+>> +inherit update-alternatives
+>>
+>>  do_compile () {
+>>         :
+>> @@ -30,6 +34,10 @@ do_install () {
+>>                 install -d ${D}${sysconfdir}/tmpfiles.d
+>>                 echo "d /run/${BPN}/interface - - - -" \
+>>                      > ${D}${sysconfdir}/tmpfiles.d/resolvconf.conf
+>> +       else
+>> +               # Use a volatiles script to install resolv.conf symlink
+>> +               install -d install -d ${D}${libdir}/${BPN}
+>> +               install -m 0755 ${WORKDIR}/volatiles_resolv-conf
+>> ${D}${libdir}/${BPN}/resolv-conf
+>>         fi
+>>         install -d ${D}${sysconfdir}/${BPN}
+>>         ln -snf ${localstatedir}/run/${BPN} ${D}${sysconfdir}/${BPN}/run
+>> @@ -42,6 +50,11 @@ do_install () {
+>>         install -m 0644 man/resolvconf.8 ${D}${mandir}/man8/
+>>  }
+>>
+>> +ALTERNATIVE_PRIORITY = "100"
+>> +ALTERNATIVE_${PN}_append = " ${@bb.utils.contains('DISTRO_FEATURES',
+>> 'systemd', '', 'resolvconf', d)}"
+>> +ALTERNATIVE_LINK_NAME[resolv-conf] =
+>> "${sysconfdir}/default/volatiles/00_resolv-conf"
+>> +ALTERNATIVE_TARGET[resolv-conf] = "${libdir}/${BPN}/resolv-conf"
+>> +
+>>  pkg_postinst_${PN} () {
+>>         if [ -z "$D" ]; then
+>>                 if command -v systemd-tmpfiles >/dev/null; then
+>> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+>> b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+>> index 297245d..cd5f1f1 100644
+>> --- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+>> +++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+>> @@ -32,5 +32,4 @@ l root root 1777 /tmp /var/tmp
+>>  d root root 0755 /var/lock/subsys none
+>>  f root root 0664 /var/log/wtmp none
+>>  f root root 0664 /var/run/utmp none
+>> -l root root 0644 /etc/resolv.conf /var/run/resolv.conf
+>>  f root root 0644 /var/run/resolv.conf none
+>> diff --git
+>> a/meta/recipes-core/initscripts/initscripts-1.0/volatiles_resolv-conf
+>> b/meta/recipes-core/initscripts/initscripts-1.0/volatiles_resolv-conf
+>> new file mode 100644
+>> index 0000000..ce7122d
+>> --- /dev/null
+>> +++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles_resolv-conf
+>> @@ -0,0 +1 @@
+>> +l root root 0644 /etc/resolv.conf /var/run/resolv.conf
+>> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb
+>> b/meta/recipes-core/initscripts/initscripts_1.0.bb
+>> index 7273a82..721e258 100644
+>> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+>> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+>> @@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system
+>> startup initialization scrip
+>>  SECTION = "base"
+>>  LICENSE = "GPLv2"
+>>  LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+>> -PR = "r155"
+>> +PR = "r156"
+>>
+>>  INHIBIT_DEFAULT_DEPS = "1"
+>>
+>> @@ -29,6 +29,7 @@ SRC_URI = "file://functions \
+>>             file://populate-volatile.sh \
+>>             file://read-only-rootfs-hook.sh \
+>>             file://volatiles \
+>> +           file://volatiles_resolv-conf \
+>>             file://save-rtc.sh \
+>>             file://GPLv2.patch \
+>>             file://dmesg.sh \
+>> @@ -45,8 +46,14 @@ DEPENDS_append = "
+>> ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-sys
+>>
+>>  PACKAGES =+ "${PN}-functions"
+>>  RDEPENDS_${PN} = "${PN}-functions"
+>> +FILES_${PN} += "${libdir}/${BPN}/"
+>>  FILES_${PN}-functions = "${sysconfdir}/init.d/functions*"
+>>
+>> +ALTERNATIVE_PRIORITY_${PN} = "90"
+>> +ALTERNATIVE_${PN} = "resolv-conf"
+>> +ALTERNATIVE_LINK_NAME[resolv-conf] =
+>> "${sysconfdir}/default/volatiles/00_resolv-conf"
+>> +ALTERNATIVE_TARGET[resolv-conf] = "${libdir}/${BPN}/resolv-conf"
+>> +
+>>  ALTERNATIVE_PRIORITY_${PN}-functions = "90"
+>>  ALTERNATIVE_${PN}-functions = "functions"
+>>  ALTERNATIVE_LINK_NAME[functions] = "${sysconfdir}/init.d/functions"
+>> --
+>> 1.7.9.5
+>>
+>>
+>
+
+--001a113439965dd75c05022f168f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Anybody using resolvconf?<br><br></div>Ping<br></div>=
+<div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Sun, Aug 1=
+0, 2014 at 8:46 PM, Jate Sujjavanich <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:jatedev@gmail.com" target=3D"_blank">jatedev@gmail.com</a>&gt;</span> wro=
+te:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div dir=3D"ltr">Patch ping follow up<div><d=
+iv class=3D"h5"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_=
+quote">On Thu, Jun 26, 2014 at 10:03 AM, Jate Sujjavanich <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:jatedev@gmail.com" target=3D"_blank">jatedev@gmail.c=
+om</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">The resolv.conf link generated by initscript=
+s causes a warning with<br>
+resolvconf. The resolvconf script expects a different target.<br>
+<br>
+Use the ALTERNATIVES system to create the link via populate-volatiles.sh.<b=
+r>
+<br>
+Signed-off-by: Jate Sujjavanich &lt;<a href=3D"mailto:jatedev@gmail.com" ta=
+rget=3D"_blank">jatedev@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0.../resolvconf/files/volatiles_resolv-conf =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | =C2=A0 =C2=A01 +<br>
+=C2=A0.../resolvconf/<a href=3D"http://resolvconf_1.75.bb" target=3D"_blank=
+">resolvconf_1.75.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| =C2=A0 15 ++++++++++++++-<br>
+=C2=A0.../initscripts/initscripts-1.0/volatiles =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0| =C2=A0 =C2=A01 -<br>
+=C2=A0.../initscripts-1.0/volatiles_resolv-conf =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0| =C2=A0 =C2=A01 +<br>
+=C2=A0meta/recipes-core/initscripts/<a href=3D"http://initscripts_1.0.bb" t=
+arget=3D"_blank">initscripts_1.0.bb</a> =C2=A0 | =C2=A0 =C2=A09 ++++++++-<b=
+r>
+=C2=A05 files changed, 24 insertions(+), 3 deletions(-)<br>
+=C2=A0create mode 100644 meta/recipes-connectivity/resolvconf/files/volatil=
+es_resolv-conf<br>
+=C2=A0create mode 100644 meta/recipes-core/initscripts/initscripts-1.0/vola=
+tiles_resolv-conf<br>
+<br>
+diff --git a/meta/recipes-connectivity/resolvconf/files/volatiles_resolv-co=
+nf b/meta/recipes-connectivity/resolvconf/files/volatiles_resolv-conf<br>
+new file mode 100644<br>
+index 0000000..e58993d<br>
+--- /dev/null<br>
++++ b/meta/recipes-connectivity/resolvconf/files/volatiles_resolv-conf<br>
+@@ -0,0 +1 @@<br>
++l root root 0644 /etc/resolv.conf /etc/resolvconf/run/resolv.conf<br>
+diff --git a/meta/recipes-connectivity/resolvconf/<a href=3D"http://resolvc=
+onf_1.75.bb" target=3D"_blank">resolvconf_1.75.bb</a> b/meta/recipes-connec=
+tivity/resolvconf/<a href=3D"http://resolvconf_1.75.bb" target=3D"_blank">r=
+esolvconf_1.75.bb</a><br>
+
+
+index 7310c83..e108516 100644<br>
+--- a/meta/recipes-connectivity/resolvconf/<a href=3D"http://resolvconf_1.7=
+5.bb" target=3D"_blank">resolvconf_1.75.bb</a><br>
++++ b/meta/recipes-connectivity/resolvconf/<a href=3D"http://resolvconf_1.7=
+5.bb" target=3D"_blank">resolvconf_1.75.bb</a><br>
+@@ -11,12 +11,16 @@ AUTHOR =3D &quot;Thomas Hood&quot;<br>
+=C2=A0HOMEPAGE =3D &quot;<a href=3D"http://packages.debian.org/resolvconf" =
+target=3D"_blank">http://packages.debian.org/resolvconf</a>&quot;<br>
+=C2=A0RDEPENDS_${PN} =3D &quot;bash&quot;<br>
+<br>
+-SRC_URI =3D &quot;${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.=
+xz&quot;<br>
++SRC_URI =3D &quot;\<br>
++ =C2=A0 =C2=A0 =C2=A0 ${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.=
+tar.xz \<br>
++ =C2=A0 =C2=A0 =C2=A0 file://volatiles_resolv-conf \<br>
++&quot;<br>
+<br>
+=C2=A0SRC_URI[md5sum] =3D &quot;4b8bc86a3cf070e3fd0e9aff7eaaba56&quot;<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;16167f37a77ef4bc4596dcbefece269b6a10d10f=
+a448594ec55ed3303193086e&quot;<br>
+<br>
+=C2=A0inherit allarch<br>
++inherit update-alternatives<br>
+<br>
+=C2=A0do_compile () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 :<br>
+@@ -30,6 +34,10 @@ do_install () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${sy=
+sconfdir}/tmpfiles.d<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;d /run/$=
+{BPN}/interface - - - -&quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0&gt; ${D}${sysconfdir}/tmpfiles.d/resolvconf.conf<br>
++ =C2=A0 =C2=A0 =C2=A0 else<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Use a volatiles script=
+ to install resolv.conf symlink<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d install -d ${=
+D}${libdir}/${BPN}<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0755 ${WORKDI=
+R}/volatiles_resolv-conf ${D}${libdir}/${BPN}/resolv-conf<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${sysconfdir}/${BPN}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -snf ${localstatedir}/run/${BPN} ${D}${sysco=
+nfdir}/${BPN}/run<br>
+@@ -42,6 +50,11 @@ do_install () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 man/resolvconf.8 ${D}${mandir}/=
+man8/<br>
+=C2=A0}<br>
+<br>
++ALTERNATIVE_PRIORITY =3D &quot;100&quot;<br>
++ALTERNATIVE_${PN}_append =3D &quot; ${@bb.utils.contains(&#39;DISTRO_FEATU=
+RES&#39;, &#39;systemd&#39;, &#39;&#39;, &#39;resolvconf&#39;, d)}&quot;<br=
+>
++ALTERNATIVE_LINK_NAME[resolv-conf] =3D &quot;${sysconfdir}/default/volatil=
+es/00_resolv-conf&quot;<br>
++ALTERNATIVE_TARGET[resolv-conf] =3D &quot;${libdir}/${BPN}/resolv-conf&quo=
+t;<br>
++<br>
+=C2=A0pkg_postinst_${PN} () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -z &quot;$D&quot; ]; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if command -v syste=
+md-tmpfiles &gt;/dev/null; then<br>
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta=
+/recipes-core/initscripts/initscripts-1.0/volatiles<br>
+index 297245d..cd5f1f1 100644<br>
+--- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles<br>
++++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles<br>
+@@ -32,5 +32,4 @@ l root root 1777 /tmp /var/tmp<br>
+=C2=A0d root root 0755 /var/lock/subsys none<br>
+=C2=A0f root root 0664 /var/log/wtmp none<br>
+=C2=A0f root root 0664 /var/run/utmp none<br>
+-l root root 0644 /etc/resolv.conf /var/run/resolv.conf<br>
+=C2=A0f root root 0644 /var/run/resolv.conf none<br>
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles_resolv=
+-conf b/meta/recipes-core/initscripts/initscripts-1.0/volatiles_resolv-conf=
+<br>
+new file mode 100644<br>
+index 0000000..ce7122d<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles_resolv-conf<b=
+r>
+@@ -0,0 +1 @@<br>
++l root root 0644 /etc/resolv.conf /var/run/resolv.conf<br>
+diff --git a/meta/recipes-core/initscripts/<a href=3D"http://initscripts_1.=
+0.bb" target=3D"_blank">initscripts_1.0.bb</a> b/meta/recipes-core/initscri=
+pts/<a href=3D"http://initscripts_1.0.bb" target=3D"_blank">initscripts_1.0=
+.bb</a><br>
+
+
+index 7273a82..721e258 100644<br>
+--- a/meta/recipes-core/initscripts/<a href=3D"http://initscripts_1.0.bb" t=
+arget=3D"_blank">initscripts_1.0.bb</a><br>
++++ b/meta/recipes-core/initscripts/<a href=3D"http://initscripts_1.0.bb" t=
+arget=3D"_blank">initscripts_1.0.bb</a><br>
+@@ -3,7 +3,7 @@ DESCRIPTION =3D &quot;Initscripts provide the basic system =
+startup initialization scrip<br>
+=C2=A0SECTION =3D &quot;base&quot;<br>
+=C2=A0LICENSE =3D &quot;GPLv2&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D751419260aa954499f7ab=
+aabaa882bbe&quot;<br>
+-PR =3D &quot;r155&quot;<br>
++PR =3D &quot;r156&quot;<br>
+<br>
+=C2=A0INHIBIT_DEFAULT_DEPS =3D &quot;1&quot;<br>
+<br>
+@@ -29,6 +29,7 @@ SRC_URI =3D &quot;file://functions \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://populate-volatile.sh \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://read-only-rootfs-hook.sh \=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://volatiles \<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://volatiles_resolv-conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://save-rtc.sh \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://GPLv2.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://dmesg.sh \<br>
+@@ -45,8 +46,14 @@ DEPENDS_append =3D &quot; ${@bb.utils.contains(&#39;DIST=
+RO_FEATURES&#39;,&#39;systemd&#39;,&#39;systemd-sys<br>
+<br>
+=C2=A0PACKAGES =3D+ &quot;${PN}-functions&quot;<br>
+=C2=A0RDEPENDS_${PN} =3D &quot;${PN}-functions&quot;<br>
++FILES_${PN} +=3D &quot;${libdir}/${BPN}/&quot;<br>
+=C2=A0FILES_${PN}-functions =3D &quot;${sysconfdir}/init.d/functions*&quot;=
+<br>
+<br>
++ALTERNATIVE_PRIORITY_${PN} =3D &quot;90&quot;<br>
++ALTERNATIVE_${PN} =3D &quot;resolv-conf&quot;<br>
++ALTERNATIVE_LINK_NAME[resolv-conf] =3D &quot;${sysconfdir}/default/volatil=
+es/00_resolv-conf&quot;<br>
++ALTERNATIVE_TARGET[resolv-conf] =3D &quot;${libdir}/${BPN}/resolv-conf&quo=
+t;<br>
++<br>
+=C2=A0ALTERNATIVE_PRIORITY_${PN}-functions =3D &quot;90&quot;<br>
+=C2=A0ALTERNATIVE_${PN}-functions =3D &quot;functions&quot;<br>
+=C2=A0ALTERNATIVE_LINK_NAME[functions] =3D &quot;${sysconfdir}/init.d/funct=
+ions&quot;<br>
+<span><font color=3D"#888888">--<br>
+1.7.9.5<br>
+<br>
+</font></span></blockquote></div><br></div></div></div></div>
+</blockquote></div><br></div>
+
+--001a113439965dd75c05022f168f--
