@@ -1,35 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 85B70713DB
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FBA6713DB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 17:28:05 +0000 (UTC)
-Received: by mail-pa0-f53.google.com with SMTP id fa1so17915857pad.40
+	Wed,  3 Sep 2014 17:28:10 +0000 (UTC)
+Received: by mail-pd0-f179.google.com with SMTP id z10so11541346pdj.38
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Sep 2014 10:28:02 -0700 (PDT)
+	Wed, 03 Sep 2014 10:28:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=oqKAxGLPGfDg4I5IBA2cjQg/YwFuYd2h+YjG9Hjz8H0=;
-	b=Ds/mOPCc8PdBXsLcHgmutxItuXN5FWdyj0yev8Q/MkSWsnxa8aDShQ39N2XD0KXaDh
-	EyycDOsF0RFdJ2y5zzUmCwK+0AFfuM5ohLswgxcAauMM1up0wKLiD7Wa183ldSwdVeLo
-	reZrF2yRIZh5PbkQQ4FKHGN0zU2uGQVYkuAfs3rb5HHvDA3nVQHmvPrdBWbZG5yndb7w
-	YZ4tmQfV4sSOgQ5GLgEmlA9xU0Bx+ovOw2NfSkh2rTTR57xvDyc8hCuE5M8yqazGDhk1
-	TLDyDwmotSF/QdKoaIaGbvpEO6nzbtVVIq2DzLAFAMTCM+ED6Zyb+JwEXq6rUVQNNsvi
-	PXCQ==
-X-Received: by 10.66.90.162 with SMTP id bx2mr35723238pab.39.1409765281390;
-	Wed, 03 Sep 2014 10:28:01 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=x2gvnAsvoeQ3tY4JReunGI55XLZIeB3d5ra+45TCGW4=;
+	b=FsNQ3icH9xl9UDZtS9EQxjDeX0ZIWQrAPL4taw5bXZYATpKhNxEyfsl46hWUd+GpG/
+	znzQPJfx6OMV63GHhBeal8zwXRz8ibdJyf7DyZ4J13TNA/wlJsIvYVVE49cJn7NoSHHo
+	emRWVvWWuQ3Bcupa0LK05p+TquNbgYz5Tsc5fJLNbXbzZZ++0MLFVFBJALtGcSsQnKSx
+	6z5PPev4JQsxe2y574oBb3iL8HVm28w0CYo46g/6tNG6W13RmNzCIcifdjNE1We5wAni
+	GswOSDarzKHcywgV54o8vQ3fzGhPhzrxoW93MelqkC28cMRXGdub1PbBTjLJzJAze5kq
+	zAtQ==
+X-Received: by 10.66.193.37 with SMTP id hl5mr24851211pac.135.1409765286459;
+	Wed, 03 Sep 2014 10:28:06 -0700 (PDT)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id zm5sm7367263pbb.76.2014.09.03.10.27.59
+	by mx.google.com with ESMTPSA id zm5sm7367263pbb.76.2014.09.03.10.28.04
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 03 Sep 2014 10:28:00 -0700 (PDT)
+	Wed, 03 Sep 2014 10:28:05 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Sep 2014 10:27:39 -0700
-Message-Id: <cover.1409764769.git.chris_larson@mentor.com>
+Date: Wed,  3 Sep 2014 10:27:41 -0700
+Message-Id: <b653dd83769374a634ea182d428b752ae5b54b9a.1409764769.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.8.3.4
+In-Reply-To: <cover.1409764769.git.chris_larson@mentor.com>
+References: <cover.1409764769.git.chris_larson@mentor.com>
+In-Reply-To: <cover.1409764769.git.chris_larson@mentor.com>
+References: <cover.1409764769.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 0/8] Various fixes to obey LDFLAGS
+Subject: [PATCH 2/8] gdbm-1.8.3: obey LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,63 +47,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 17:28:10 -0000
+X-List-Received-Date: Wed, 03 Sep 2014 17:28:11 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-This patch series fixes 8 recipes to obey LDFLAGS. These issues are easy to
-miss, now that the internal toolchain defaults to passing the correct
-GNU_HASH, so GNU_HASH warnings when LDFLAGS isn't obeyed are only seen when
-using an external toolchain. These were kept in meta-sourcery or meta-mentor,
-but given these are general correctness fixes, regardless of the lack of
-warnings for most users, I think they're appropriate for upstream inclusion.
-
-The following changes since commit e72aac2ae9e5fce1715fa04b7e94034fd06892d9:
-
-  alsa-lib: libasound should runtime depends on alsa-conf (2014-09-03 11:30:11 +0100)
-
-are available in the git repository at:
-
-  git@github.com:kergoth/openembedded-core ldflags-fixes
-  https://github.com/kergoth/openembedded-core ldflags-fixes
-
-for you to fetch changes up to 2cddd349eb9cafbbaf5257fb61beb9dc249df85c:
-
-  python: obey LDFLAGS (2014-09-03 10:18:37 -0700)
-
-----------------------------------------------------------------
-Christopher Larson (8):
-      zlib: obey LDFLAGS for tests
-      gdbm-1.8.3: obey LDFLAGS
-      ossp-uuid: obey LDFLAGS
-      setserial: obey LDFLAGS
-      hostap-utils: obey LDFLAGS
-      blktrace: obey LDFLAGS for btrecord
-      irda-utils: obey LDFLAGS
-      python: obey LDFLAGS
-
- .../hostap/hostap-utils-0.4.7/ldflags.patch        | 27 ++++++++
- meta/recipes-bsp/hostap/hostap-utils_0.4.7.bb      |  1 +
- meta/recipes-bsp/setserial/setserial/ldflags.patch | 23 +++++++
- meta/recipes-bsp/setserial/setserial_2.17.bb       |  1 +
- .../irda-utils/irda-utils-0.9.18/ldflags.patch     | 79 ++++++++++++++++++++++
- .../irda-utils/irda-utils_0.9.18.bb                | 18 +++--
- .../zlib/zlib-1.2.8/ldflags-tests.patch            | 45 ++++++++++++
- meta/recipes-core/zlib/zlib_1.2.8.bb               |  1 +
- .../ossp-uuid/ossp-uuid/ldflags.patch              | 23 +++++++
- meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb |  1 +
- meta/recipes-devtools/python/python_2.7.3.bb       |  3 +-
- .../recipes-kernel/blktrace/blktrace/ldflags.patch |  8 ++-
- meta/recipes-support/gdbm/gdbm-1.8.3/ldflags.patch | 22 ++++++
- meta/recipes-support/gdbm/gdbm_1.8.3.bb            |  3 +-
- 14 files changed, 245 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-bsp/hostap/hostap-utils-0.4.7/ldflags.patch
- create mode 100644 meta/recipes-bsp/setserial/setserial/ldflags.patch
- create mode 100644 meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/ldflags.patch
- create mode 100644 meta/recipes-core/zlib/zlib-1.2.8/ldflags-tests.patch
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/ldflags.patch
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/recipes-support/gdbm/gdbm-1.8.3/ldflags.patch | 22 ++++++++++++++++++++++
+ meta/recipes-support/gdbm/gdbm_1.8.3.bb            |  3 ++-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-support/gdbm/gdbm-1.8.3/ldflags.patch
 
+diff --git a/meta/recipes-support/gdbm/gdbm-1.8.3/ldflags.patch b/meta/recipes-support/gdbm/gdbm-1.8.3/ldflags.patch
+new file mode 100644
+index 0000000..2fafbc4
+--- /dev/null
++++ b/meta/recipes-support/gdbm/gdbm-1.8.3/ldflags.patch
+@@ -0,0 +1,22 @@
++Obey LDFLAGS
++
++Signed-off-by: Christopher Larson <chris_larson@mentor.com>
++Upstream-status: Inappropriate [old version]
++
++--- gdbm-1.8.3.orig/Makefile.in
+++++ gdbm-1.8.3/Makefile.in
++@@ -156,12 +156,12 @@ install-compat:
++ 
++ libgdbm.la: $(LOBJS) gdbm.h
++ 	rm -f libgdbm.la
++-	$(LIBTOOL) --mode=link $(CC) -o libgdbm.la -rpath $(libdir) \
+++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o libgdbm.la -rpath $(libdir) \
++ 		-version-info $(SHLIB_VER) $(LOBJS)
++ 
++ libgdbm_compat.la: $(C_LOBJS) gdbm.h
++ 	rm -f libgdbm_compat.la
++-	$(LIBTOOL) --mode=link $(CC) -o libgdbm_compat.la -rpath $(libdir) \
+++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o libgdbm_compat.la -rpath $(libdir) \
++ 		-version-info $(SHLIB_VER) $(C_LOBJS)
++ 
++ gdbm.h:	gdbm.proto gdbmerrno.h gdbm.proto2
+diff --git a/meta/recipes-support/gdbm/gdbm_1.8.3.bb b/meta/recipes-support/gdbm/gdbm_1.8.3.bb
+index aecf47a..2331d1d 100644
+--- a/meta/recipes-support/gdbm/gdbm_1.8.3.bb
++++ b/meta/recipes-support/gdbm/gdbm_1.8.3.bb
+@@ -8,7 +8,8 @@ PR = "r4"
+ 
+ SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz \
+ 	   file://makefile.patch \
+-           file://libtool-mode.patch"
++           file://libtool-mode.patch \
++           file://ldflags.patch"
+ 
+ SRC_URI[md5sum] = "1d1b1d5c0245b1c00aff92da751e9aa1"
+ SRC_URI[sha256sum] = "cc340338a2e28b40058ab9eb5354a21d53f88a1582ea21ba0bb185c37a281dc9"
 -- 
 1.8.3.4
 
