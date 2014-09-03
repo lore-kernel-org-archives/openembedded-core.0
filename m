@@ -1,47 +1,30 @@
-Return-Path: <B50113@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1blp0185.outbound.protection.outlook.com [207.46.163.185])
-	by mail.openembedded.org (Postfix) with ESMTP id B5A04713CC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EC74713DE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 09:50:29 +0000 (UTC)
-Received: from BN3PR0301CA0039.namprd03.prod.outlook.com (25.160.180.177) by
-	BLUPR03MB280.namprd03.prod.outlook.com (10.255.213.24) with Microsoft
-	SMTP Server (TLS) id 15.0.1015.19; Wed, 3 Sep 2014 09:50:29 +0000
-Received: from BN1BFFO11FD035.protection.gbl (2a01:111:f400:7c10::1:175) by
-	BN3PR0301CA0039.outlook.office365.com (2a01:111:e400:4000::49) with
-	Microsoft SMTP Server (TLS) id 15.0.1019.16 via Frontend Transport;
-	Wed, 3 Sep 2014 09:50:29 +0000
-Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BN1BFFO11FD035.mail.protection.outlook.com (10.58.144.98) with
-	Microsoft SMTP Server (TLS) id 15.0.1010.11 via Frontend Transport;
-	Wed, 3 Sep 2014 09:50:28 +0000
-Received: from ubuntu.ap.freescale.net (ubuntu-010192241089.ap.freescale.net
-	[10.192.241.89])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	s839oQT4014529; Wed, 3 Sep 2014 02:50:27 -0700
-From: Zidan Wang <b50113@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Sep 2014 17:50:54 +0800
-Message-ID: <1409737854-29513-1-git-send-email-b50113@freescale.com>
-X-Mailer: git-send-email 1.7.9.5
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:CAL; IPV:NLI;
-	EFV:NLI; SFV:NSPM;
-	SFS:(6009001)(199003)(189002)(68736004)(90102001)(229853001)(6806004)(19580405001)(19580395003)(86362001)(93916002)(44976005)(2351001)(92726001)(74502001)(107046002)(31966008)(83322001)(85852003)(89996001)(88136002)(83072002)(36756003)(77156001)(92566001)(110136001)(95666004)(97736001)(48376002)(87936001)(104166001)(106466001)(4396001)(21056001)(74662001)(26826002)(99396002)(105606002)(81542001)(102836001)(50986999)(50226001)(85306004)(76482001)(64706001)(20776003)(47776003)(50466002)(81342001)(62966002)(80022001)(104016003)(33646002)(87286001)(46102001)(84676001)(77982001)(79102001)(42262002);
-	DIR:OUT; SFP:; SCL:1; SRVR:BLUPR03MB280;
-	H:tx30smr01.am.freescale.net; FPR:; MLV:ovrnspm;
-	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:en; 
-MIME-Version: 1.0
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;UriScan:;
-X-Forefront-PRVS: 032334F434
-Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
-	designate 192.88.168.50 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.168.50)
-	smtp.mailfrom=B50113@freescale.com; 
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] alsa-lib: libasound should runtime depends on alsa-conf
+	Wed,  3 Sep 2014 10:25:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s83AP3bE006756; Wed, 3 Sep 2014 11:25:03 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id KELZ2m0_r5Cx; Wed,  3 Sep 2014 11:25:03 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s83AOxk1006752
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 3 Sep 2014 11:25:01 +0100
+Message-ID: <1409739900.12482.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chong Lu <Chong.Lu@windriver.com>
+Date: Wed, 03 Sep 2014 11:25:00 +0100
+In-Reply-To: <b4a68ca960394f346025bb47035efa6b9e8e52a4.1409736914.git.Chong.Lu@windriver.com>
+References: <cover.1409736914.git.Chong.Lu@windriver.com>
+	<b4a68ca960394f346025bb47035efa6b9e8e52a4.1409736914.git.Chong.Lu@windriver.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] i2c-tools: create i2c-tools-misc package for perl scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,30 +37,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 09:50:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 03 Sep 2014 10:25:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Make libasound runtime depends on alsa-conf to install alsa-conf to rootfs.
+On Wed, 2014-09-03 at 17:36 +0800, Chong Lu wrote:
+> We don't want to install perl on small file systems by default.
+> 
+> The solution is to split those perl scripts from the main package, installing
+> them only when perl is available. We use PACKAGECONFIG to create and enable a
+> new feature "misc".
+> 
+> Add perl to RDEPENDS_i2c-tools-misc.
+> 
+> Signed-off-by: Michel Thebeau <michel.thebeau@windriver.com>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> ---
+>  meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
+> index 4605414..854d180 100644
+> --- a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
+> +++ b/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
+> @@ -3,8 +3,6 @@ SECTION = "base"
+>  LICENSE = "GPLv2+"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+>  
+> -RDEPENDS_${PN} += "perl"
+> -
+>  SRC_URI = "http://dl.lm-sensors.org/i2c-tools/releases/${BP}.tar.bz2 \
+>             file://Module.mk \
+>  "
+> @@ -24,3 +22,15 @@ do_install_append() {
+>      install -m 0644 include/linux/i2c-dev.h ${D}${includedir}/linux/i2c-dev-user.h
+>      rm -f ${D}${includedir}/linux/i2c-dev.h
+>  }
+> +
+> +PACKAGES =+ "${PN}-misc"
+> +RDEPENDS_${PN}-misc += "perl"
+> +FILES_${PN}-misc = "${sbindir}/i2c-stub-from-dump \
+> +                        ${bindir}/ddcmon \
+> +                        ${bindir}/decode-edid \
+> +                        ${bindir}/decode-dimms \
+> +                        ${bindir}/decode-vaio \
+> +                       "
+> +
+> +PACKAGECONFIG ??= "misc"
+> +PACKAGECONFIG[misc] = ",,, ${PN}-misc perl"
 
-Signed-off-by: Zidan Wang <b50113@freescale.com>
----
- meta/recipes-multimedia/alsa/alsa-lib_1.0.28.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+As far as I can tell, these PACKAGECONFIG lines do nothing. Putting the
+perl utils into a separate package is fine but the PACKAGECONFIG does
+nothing...
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.28.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.28.bb
-index d509da2..9a4aab4 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.28.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.28.bb
-@@ -47,7 +47,7 @@ ${datadir}/alsa/pcm/default.conf \
- ${datadir}/alsa/pcm/dmix.conf \
- ${datadir}/alsa/pcm/dsnoop.conf"
- 
--RDEPENDS_libasound = "alsa-conf-base"
-+RDEPENDS_libasound = "alsa-conf-base alsa-conf"
- # upgrade path
- RPROVIDES_${PN}-dev = "alsa-dev"
- RREPLACES_${PN}-dev = "alsa-dev"
--- 
-1.7.9.5
+Cheers,
+
+Richard
 
 
