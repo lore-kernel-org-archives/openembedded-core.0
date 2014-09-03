@@ -1,26 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E4BD71387
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DC1A27137A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 07:09:11 +0000 (UTC)
+	Wed,  3 Sep 2014 07:09:10 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8379C0k005186
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8379AOr023225
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Sep 2014 00:09:12 -0700 (PDT)
+	Wed, 3 Sep 2014 00:09:11 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 3 Sep 2014 00:09:12 -0700
+	14.3.174.1; Wed, 3 Sep 2014 00:09:10 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Sep 2014 15:08:58 +0800
-Message-ID: <9c206378ae88feb02f6799aa4768fa96892240a7.1409728004.git.Qi.Chen@windriver.com>
+Date: Wed, 3 Sep 2014 15:08:57 +0800
+Message-ID: <cover.1409728004.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1409728004.git.Qi.Chen@windriver.com>
-References: <cover.1409728004.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/25] systemd: upgrade to 216
+Subject: [PATCH V2 00/25] systemd upgrade to 216 and other misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,281 +34,109 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 03 Sep 2014 07:09:12 -0000
 Content-Type: text/plain
 
-Upgrade systemd from 213 to 216.
+systemd upgrade has been tested on
+*) qemuarm
+*) qemumips
+*) qemuppc
+*) qemux86
+*) qemux86-64
 
-systemd-older-kernel.patch is removed as it's fixed in 216.
+The whole patchset has passed the following test case on qemux86-64.
+bitbake core-image-sato -ctestimage
 
-0001-uClibc-doesn-t-implement-pwritev-preadv.patch is removed because
-the file it patches has been removed from the project.
+Changes in V2:
+1. merge two dhcp patches into one
+2. fix commit messages to be clearer
+3. use ${sysconfdir} instead of hardcoding /etc
 
-0001-util-Including-missing.h-to-get-MAX_HANDLE_SZ.patch is removed because
-it has been merged.
+//Chen Qi
 
-0001-missing.h-add-fake-__NR_memfd_create-for-MIPS.patch is backported
-to fix compilation error for mips.
+The following changes since commit 4c0a9ccbad2889b27b4b1d2ab91215a4bdcca3ce:
 
-Below are the required kernel versions for systemd 216.
-        Linux kernel >= 3.0
-        Linux kernel >= 3.3 for loop device partition support features with nspawn
-        Linux kernel >= 3.8 for Smack support
+  python-numpy: Fix build for mips64 (2014-09-01 18:00:32 +0100)
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- ...ing.h-add-fake-__NR_memfd_create-for-MIPS.patch | 29 +++++++++++
- ...1-uClibc-doesn-t-implement-pwritev-preadv.patch | 34 -------------
- ...-Including-missing.h-to-get-MAX_HANDLE_SZ.patch | 29 -----------
- .../systemd/systemd/systemd-older-kernel.patch     | 56 ----------------------
- .../systemd/{systemd_213.bb => systemd_216.bb}     | 15 +++---
- 5 files changed, 38 insertions(+), 125 deletions(-)
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-misc-fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-misc-fixes
+
+Chen Qi (24):
+  systemd: upgrade to 216
+  systemd: add PACKAGECONFIG for 'journal-upload'
+  systemd: make runlevel work in non-runlevel targets
+  update-rc.d: fix logic in populate_packages_updatercd
+  alsa-state: fix pkg_postinst and set INHIBIT_UPDATERCD_BBCLASS
+  keymaps: fix for systemd
+  systemd: add kbd-keymaps to RRECOMMENDS of systemd-vconsole-setup
+  v86d: set INHIBIT_UPDATERCD_BBCLASS if 'sysvinit' not in
+    DISTRO_FEATURES
+  systemd: add support for executing scripts under /etc/rcS.d
+  dhcp: add systemd service files
+  acpid: upgrade to 2.0.22 and add systemd support
+  cups: add systemd support
+  rpcbind: avoid entering failed status after stopping daemon
+  at: remove dependency on initscripts
+  at: inherit update-rc.d to handle sysv init script
+  keymaps: remove dependency on initscripts
+  packagegroup-core-boot: conditionally rdepend on
+    VIRTUAL-RUNTIME_initscripts
+  initscripts: mask several init scripts
+  keymaps: mask keymap when necessary
+  v86d: mask fbsetup when necessary
+  psplash: mask psplash in case of systemd
+  modutils-initscripts: mask modutils in case of systemd
+  run-postinsts.service: remove redundant line
+  systemd: enable forwarding messages to syslog daemon
+
+In Long (1):
+  cups: make cups daemon start correctly
+
+ meta/classes/update-rc.d.bbclass                   |   2 +-
+ meta/recipes-bsp/acpid/acpid.inc                   |  24 ++--
+ meta/recipes-bsp/acpid/acpid/acpid.service         |  10 ++
+ .../acpid/acpid/set_socket_noblock.patch           |  10 --
+ .../acpid/{acpid_1.0.10.bb => acpid_2.0.22.bb}     |   5 +-
+ meta/recipes-bsp/alsa-state/alsa-state.bb          |  11 +-
+ meta/recipes-bsp/keymaps/keymaps_1.0.bb            |  32 ++++-
+ meta/recipes-bsp/v86d/v86d_0.1.10.bb               |  17 +++
+ meta/recipes-connectivity/dhcp/dhcp.inc            |  23 +++-
+ meta/recipes-connectivity/dhcp/files/dhcpd.service |  11 ++
+ .../dhcp/files/dhcrelay.service                    |   9 ++
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |   4 +
+ .../packagegroups/packagegroup-core-boot.bb        |   2 +-
+ meta/recipes-core/psplash/psplash_git.bb           |  10 ++
+ ...ort-for-executing-scripts-under-etc-rcS.d.patch | 138 +++++++++++++++++++++
+ ...ing.h-add-fake-__NR_memfd_create-for-MIPS.patch |  29 +++++
+ ...1-uClibc-doesn-t-implement-pwritev-preadv.patch |  34 -----
+ ...-Including-missing.h-to-get-MAX_HANDLE_SZ.patch |  29 -----
+ .../systemd/systemd/systemd-older-kernel.patch     |  56 ---------
+ .../systemd/{systemd_213.bb => systemd_216.bb}     |  34 +++--
+ .../run-postinsts/run-postinsts.service            |   1 -
+ meta/recipes-extended/at/at/{S99at => atd.init}    |   0
+ meta/recipes-extended/at/at_3.1.15.bb              |  13 +-
+ meta/recipes-extended/cups/cups.inc                |  24 +++-
+ meta/recipes-extended/cups/cups/cups.path          |   8 ++
+ meta/recipes-extended/cups/cups/cups.service       |  10 ++
+ meta/recipes-extended/cups/cups/cups.socket        |   8 ++
+ .../rpcbind/rpcbind/rpcbind.service                |   1 +
+ .../modutils-initscripts/modutils-initscripts.bb   |  10 ++
+ 29 files changed, 388 insertions(+), 177 deletions(-)
+ create mode 100644 meta/recipes-bsp/acpid/acpid/acpid.service
+ delete mode 100644 meta/recipes-bsp/acpid/acpid/set_socket_noblock.patch
+ rename meta/recipes-bsp/acpid/{acpid_1.0.10.bb => acpid_2.0.22.bb} (55%)
+ create mode 100644 meta/recipes-connectivity/dhcp/files/dhcpd.service
+ create mode 100644 meta/recipes-connectivity/dhcp/files/dhcrelay.service
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-add-support-for-executing-scripts-under-etc-rcS.d.patch
  create mode 100644 meta/recipes-core/systemd/systemd/0001-missing.h-add-fake-__NR_memfd_create-for-MIPS.patch
  delete mode 100644 meta/recipes-core/systemd/systemd/0001-uClibc-doesn-t-implement-pwritev-preadv.patch
  delete mode 100644 meta/recipes-core/systemd/systemd/0001-util-Including-missing.h-to-get-MAX_HANDLE_SZ.patch
  delete mode 100644 meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
- rename meta/recipes-core/systemd/{systemd_213.bb => systemd_216.bb} (96%)
+ rename meta/recipes-core/systemd/{systemd_213.bb => systemd_216.bb} (87%)
+ rename meta/recipes-extended/at/at/{S99at => atd.init} (100%)
+ create mode 100644 meta/recipes-extended/cups/cups/cups.path
+ create mode 100644 meta/recipes-extended/cups/cups/cups.service
+ create mode 100644 meta/recipes-extended/cups/cups/cups.socket
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-missing.h-add-fake-__NR_memfd_create-for-MIPS.patch b/meta/recipes-core/systemd/systemd/0001-missing.h-add-fake-__NR_memfd_create-for-MIPS.patch
-new file mode 100644
-index 0000000..448ef1a
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-missing.h-add-fake-__NR_memfd_create-for-MIPS.patch
-@@ -0,0 +1,29 @@
-+Upstream-Status: Backport
-+
-+Subject: missing.h: add fake __NR_memfd_create for MIPS
-+
-+We don't have the correct __NR_memfd_create syscall number yet, so set it to
-+0xffffffff for now to prevent compile time errors.
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ src/shared/missing.h | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/src/shared/missing.h b/src/shared/missing.h
-+index 3ff1a21..3051cb5 100644
-+--- a/src/shared/missing.h
-++++ b/src/shared/missing.h
-+@@ -167,6 +167,9 @@ static inline int pivot_root(const char *new_root, const char *put_old) {
-+ #      define __NR_fanotify_mark 5296
-+ #    endif
-+ #  endif
-++#  ifndef __NR_memfd_create
-++#    define __NR_memfd_create 0xffffffff /* FIXME */
-++#  endif
-+ #else
-+ #  ifndef __NR_fanotify_init
-+ #    define __NR_fanotify_init 338
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-core/systemd/systemd/0001-uClibc-doesn-t-implement-pwritev-preadv.patch b/meta/recipes-core/systemd/systemd/0001-uClibc-doesn-t-implement-pwritev-preadv.patch
-deleted file mode 100644
-index 9fdb3c9..0000000
---- a/meta/recipes-core/systemd/systemd/0001-uClibc-doesn-t-implement-pwritev-preadv.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--Upstream-Status: Inappropriate [uclibc specific]
--
--From 7be9273548bcb1f57d011fc252965e45dd2a058c Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 21 Aug 2013 19:09:27 -0700
--Subject: [PATCH] uClibc doesn't implement pwritev/preadv
--
--Lets stub out the testcase for building.
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/libsystemd-bus/test-bus-memfd.c | 2 ++
-- 1 file changed, 2 insertions(+)
--
--Index: systemd-209/src/libsystemd/sd-bus/test-bus-memfd.c
--===================================================================
----- systemd-209.orig/src/libsystemd/sd-bus/test-bus-memfd.c	2014-02-19 15:03:09.983254602 -0800
--+++ systemd-209/src/libsystemd/sd-bus/test-bus-memfd.c	2014-02-19 23:42:10.636652864 -0800
--@@ -151,6 +151,7 @@
--         /* check content */
--         assert_se(memcmp(buf, "ll", 2) == 0);
-- 
--+#ifndef __UCLIBC__
--         /* writev it out*/
--         iov[0].iov_base = (char *)"ABC";
--         iov[0].iov_len = 3;
--@@ -173,6 +174,7 @@
--         assert_se(memcmp(bufv[0], "ABC", 3) == 0);
--         assert_se(memcmp(bufv[1], "DEF", 3) == 0);
--         assert_se(memcmp(bufv[2], "GHI", 3) == 0);
--+#endif /* __UCLIBC__ */
-- 
--         sd_memfd_free(m);
-- 
-diff --git a/meta/recipes-core/systemd/systemd/0001-util-Including-missing.h-to-get-MAX_HANDLE_SZ.patch b/meta/recipes-core/systemd/systemd/0001-util-Including-missing.h-to-get-MAX_HANDLE_SZ.patch
-deleted file mode 100644
-index ba4a21b..0000000
---- a/meta/recipes-core/systemd/systemd/0001-util-Including-missing.h-to-get-MAX_HANDLE_SZ.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 764ecbeda4813f33eafd45fdc3ccb9376356f475 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 25 Aug 2014 15:40:31 -0700
--Subject: [PATCH] util: Including missing.h to get MAX_HANDLE_SZ
--
--Helps compiling on uclibc
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Upstream-Status: [Backport]
-----
-- src/shared/util.h |    1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/shared/util.h b/src/shared/util.h
--index 62eb604..036fc59 100644
----- a/src/shared/util.h
--+++ b/src/shared/util.h
--@@ -84,6 +84,7 @@
-- #endif
-- 
-- #include "macro.h"
--+#include "missing.h"
-- #include "time-util.h"
-- 
-- /* What is interpreted as whitespace? */
---- 
--1.7.10.4
--
-diff --git a/meta/recipes-core/systemd/systemd/systemd-older-kernel.patch b/meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
-deleted file mode 100644
-index 18b50e7..0000000
---- a/meta/recipes-core/systemd/systemd/systemd-older-kernel.patch
-+++ /dev/null
-@@ -1,56 +0,0 @@
--From 6109f02dcc4f2d7a461c5772bab494f5753a2203 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Thu, 29 May 2014 08:09:07 +0000
--Subject: [PATCH] rtnl-types.c: check IFLA_VLAN_PROTOCOL
--
--The older kernel's linux/if_link.h doesn't have IFLA_VLAN_PROTOCOL, we need
--check whether it has been defined or not.
--
--The maintainer said that he would fix it:
--
--http://thread.gmane.org/gmane.comp.sysutils.systemd.devel/18200
--
--Also we need redefine IFLA_MAX from 34 to 35 when define IFLA_CARRIER,
--otherwise there would be error:
--
--| src/libsystemd/sd-rtnl/rtnl-types.c:233:9: error: array index in initializer exceeds array bounds
--|          [IFLA_CARRIER]          = { .type = NLA_U8 },
--
--Upstream-Status: Pending
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- src/libsystemd/sd-rtnl/rtnl-types.c | 2 ++
-- src/shared/missing.h                | 2 ++
-- 2 files changed, 4 insertions(+)
--
--diff --git a/src/libsystemd/sd-rtnl/rtnl-types.c b/src/libsystemd/sd-rtnl/rtnl-types.c
--index 44ac5ec..ab6161f 100644
----- a/src/libsystemd/sd-rtnl/rtnl-types.c
--+++ b/src/libsystemd/sd-rtnl/rtnl-types.c
--@@ -67,7 +67,9 @@ static const NLType rtnl_link_info_data_vlan_types[IFLA_VLAN_MAX + 1] = {
--         [IFLA_VLAN_EGRESS_QOS]  = { .type = NLA_NESTED },
--         [IFLA_VLAN_INGRESS_QOS] = { .type = NLA_NESTED },
-- */
--+#ifdef IFLA_VLAN_PROTOCOL
--         [IFLA_VLAN_PROTOCOL]    = { .type = NLA_U16 },
--+#endif
-- };
-- 
-- static const NLType rtnl_link_info_data_bond_types[IFLA_BOND_MAX + 1] = {
--diff --git a/src/shared/missing.h b/src/shared/missing.h
--index d5ec2f8..732853f 100644
----- a/src/shared/missing.h
--+++ b/src/shared/missing.h
--@@ -94,6 +94,8 @@
-- 
-- #ifndef IFLA_CARRIER
--   #define IFLA_CARRIER 33
--+  #undef IFLA_MAX
--+  #define IFLA_MAX 35
--   #ifndef IFLA_NUM_RX_QUEUES
--     #define IFLA_NUM_RX_QUEUES 32
--     #ifndef IFLA_NUM_TX_QUEUES
---- 
--1.8.3.4
--
-diff --git a/meta/recipes-core/systemd/systemd_213.bb b/meta/recipes-core/systemd/systemd_216.bb
-similarity index 96%
-rename from meta/recipes-core/systemd/systemd_213.bb
-rename to meta/recipes-core/systemd/systemd_216.bb
-index ca071c1..df4a217 100644
---- a/meta/recipes-core/systemd/systemd_213.bb
-+++ b/meta/recipes-core/systemd/systemd_216.bb
-@@ -17,9 +17,9 @@ SECTION = "base/shell"
- 
- inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest gettext
- 
--SRCREV = "c9679c652b3c31f2510e8805d81630680ebc7e95"
-+SRCREV = "5d0ae62c665262c4c55536457e84e278c252cc0b"
- 
--PV = "213+git${SRCPV}"
-+PV = "216+git${SRCPV}"
- 
- SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=git \
-            file://binfmt-install.patch \
-@@ -28,15 +28,13 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
-            file://systemd-pam-fix-fallocate.patch \
-            file://systemd-pam-fix-mkostemp.patch \
-            file://optional_secure_getenv.patch \
--           file://0001-uClibc-doesn-t-implement-pwritev-preadv.patch \
-            file://uclibc-sysinfo_h.patch \
-            file://uclibc-get-physmem.patch \
--           file://0001-util-Including-missing.h-to-get-MAX_HANDLE_SZ.patch \
-+           file://0001-missing.h-add-fake-__NR_memfd_create-for-MIPS.patch \
-            file://touchscreen.rules \
-            file://00-create-volatile.conf \
-            file://init \
-            file://run-ptest \
--           file://systemd-older-kernel.patch \
-           "
- 
- S = "${WORKDIR}/git"
-@@ -126,6 +124,9 @@ do_install() {
- 		sed -i s%@UDEVD@%${rootlibexecdir}/systemd/systemd-udevd% ${D}${sysconfdir}/init.d/systemd-udevd
- 	fi
- 
-+	# Move libgudev back to ${rootlibdir} to keep backward compatibility
-+	[ ${rootlibdir} != ${exec_prefix}/lib ] && mv -t ${D}${rootlibdir} ${D}${exec_prefix}/lib/libgudev*
-+
-         # Delete journal README, as log can be symlinked inside volatile.
-         rm -f ${D}/${localstatedir}/log/README
- }
-@@ -208,6 +209,7 @@ FILES_${PN} = " ${base_bindir}/* \
-                 ${datadir}/dbus-1/system-services \
-                 ${datadir}/polkit-1 \
-                 ${datadir}/${BPN} \
-+                ${datadir}/factory \
-                 ${sysconfdir}/bash_completion.d/ \
-                 ${sysconfdir}/dbus-1/ \
-                 ${sysconfdir}/machine-id \
-@@ -220,7 +222,7 @@ FILES_${PN} = " ${base_bindir}/* \
-                 ${rootlibexecdir}/systemd/* \
-                 ${systemd_unitdir}/* \
-                 ${base_libdir}/security/*.so \
--                ${libdir}/libnss_myhostname.so.2 \
-+                ${exec_prefix}/lib/libnss_* \
-                 /cgroup \
-                 ${bindir}/systemd* \
-                 ${bindir}/busctl \
-@@ -233,6 +235,7 @@ FILES_${PN} = " ${base_bindir}/* \
-                 ${exec_prefix}/lib/systemd \
-                 ${exec_prefix}/lib/modules-load.d \
-                 ${exec_prefix}/lib/sysctl.d \
-+                ${exec_prefix}/lib/sysusers.d \
-                 ${localstatedir} \
-                 /lib/udev/rules.d/70-uaccess.rules \
-                 /lib/udev/rules.d/71-seat.rules \
 -- 
 1.9.1
 
