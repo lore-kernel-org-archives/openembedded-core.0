@@ -1,26 +1,29 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 08442712B1
+Return-Path: <niqingliang2003@gmail.com>
+Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 67B4165D56
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 06:32:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s836WJdn022753
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  3 Sep 2014 07:05:17 +0000 (UTC)
+Received: by mail-wg0-f43.google.com with SMTP id a1so7895618wgh.26
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Sep 2014 23:32:19 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 2 Sep 2014 23:32:18 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Sep 2014 14:32:14 +0800
-Message-ID: <30d04c9e34cd40ba2bb236823d3bc977d22346ca.1409725792.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1409725792.git.hongxu.jia@windriver.com>
-References: <cover.1409725792.git.hongxu.jia@windriver.com>
+	Wed, 03 Sep 2014 00:05:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=eVdVtD+/Z0LFyNTO3Y9Ihx1igVf4btpzBWOhklCtISg=;
+	b=b67uF/0Ifqld2qAFdJUh2C9/IOrc9znroHd9CPokoQdoBwgwYESTWr1yoWPFlnK8YR
+	xQlKnul6SWQ8ApSa0eXToFRg2VpYGw1z9Zdu4oJDKb7G4KVa4H3BFSAg1ID2J2A8KPsA
+	nOAo7gRkUBq5imUr5wXoBcVxHD7XIy+gc7HQXIKoGP31UUDuaO91gqTP+N9LAhy9MrLB
+	yk8PdUMF/e9xxca+Rd4iorV+0QRp2iWJ393YktRcEM9S3vmXUpr39E0mSnj2f8mZEhPA
+	hQRmIkNOZhn7NTpKKqlJql35zLrzpVPO5Rtn/tL5y0JYGCvxAz3rmQhW6usmtSLI369h
+	SASg==
 MIME-Version: 1.0
-Subject: [PATCH 1/1] targetcontrol.py: test sudo available while invoking runqemu
+X-Received: by 10.180.107.100 with SMTP id hb4mr32328279wib.59.1409727918400; 
+	Wed, 03 Sep 2014 00:05:18 -0700 (PDT)
+Received: by 10.217.141.72 with HTTP; Wed, 3 Sep 2014 00:05:18 -0700 (PDT)
+Date: Wed, 3 Sep 2014 07:05:18 +0000
+Message-ID: <CADwFkYe-T3MdkwmwwfW8nb6UsxUxbsSNbznGfJ54+Uz3ud5=+Q@mail.gmail.com>
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: libav
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,55 +36,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 06:32:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 03 Sep 2014 07:05:23 -0000
+Content-Type: multipart/alternative; boundary=e89a8f3baee3ce6baf050223dbac
 
-While TEST_TARGET is qemu, the QemuRunner class invokes runqemu
-to start qemu, and runqemu needs sudo to set up tap interface.
+--e89a8f3baee3ce6baf050223dbac
+Content-Type: text/plain; charset=UTF-8
 
-While sudo is not available, the exit of QemuRunner will cost 60
-seconds and the exit message is not clear, so we add sudo available
-test for QemuRunner before invoking runqemu. Here is the example:
-...
-ERROR: We need setting up tap interface under sudo
-sudo: a password is required
+why there are two versions libav in oe-core? what's the difference?
+why the opencv will use the 0.8.x version, but not 9.x version?
+does it should use the higher version?
 
-ERROR: Function failed: do_testimage
-...
+libav 0.8.x has warning:
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/lib/oeqa/targetcontrol.py | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+WARNING: QA Issue: ELF binary
+'/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0/packages-split/libswscale/usr/lib/libswscale.so.2.1.0'
+has relocations in .text [textrel]
+WARNING: QA Issue: ELF binary
+'/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0/packages-split/libpostproc/usr/lib/libpostproc.so.52.0.0'
+has relocations in .text [textrel]
+WARNING: QA Issue: ELF binary
+'/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0/packages-split/libavutil/usr/lib/libavutil.so.51.22.2'
+has relocations in .text [textrel]
+WARNING: QA Issue: ELF binary
+'/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0/packages-split/libavformat/usr/lib/libavformat.so.53.21.1'
+has relocations in .text [textrel]
+WARNING: QA Issue: ELF binary
+'/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0/packages-split/libavfilter/usr/lib/libavfilter.so.2.15.0'
+has relocations in .text [textrel]
+WARNING: QA Issue: ELF binary
+'/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0/packages-split/libavdevice/usr/lib/libavdevice.so.53.2.0'
+has relocations in .text [textrel]
+WARNING: QA Issue: ELF binary
+'/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/libav/0.8.15-r0/packages-split/libavcodec/usr/lib/libavcodec.so.53.35.0'
+has relocations in .text [textrel]
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index cc582dd..f6af5be 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -15,10 +15,22 @@ from oeqa.utils.qemurunner import QemuRunner
- from oeqa.controllers.testtargetloader import TestTargetLoader
- from abc import ABCMeta, abstractmethod
- 
-+def test_sudo_available(d):
-+    res = subprocess.call('sudo -n ls', shell=True)
-+    p = subprocess.Popen('sudo -n ls',
-+                         shell=True,
-+                         stdout=subprocess.PIPE,
-+                         stderr=subprocess.PIPE)
-+    if p.wait() != 0:
-+        msg = "We need setting up tap interface under sudo\n"
-+        msg += p.communicate()[1]
-+        bb.fatal(msg)
-+
- def get_target_controller(d):
-     testtarget = d.getVar("TEST_TARGET", True)
-     # old, simple names
-     if testtarget == "qemu":
-+        test_sudo_available(d)
-         return QemuTarget(d)
-     elif testtarget == "simpleremote":
-         return SimpleRemoteTarget(d)
--- 
-1.9.1
+--e89a8f3baee3ce6baf050223dbac
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">why there are two versions libav in oe-core? what&#39;s th=
+e difference?<br>why the opencv will use the 0.8.x version, but not 9.x ver=
+sion?<div>does it should use the higher version?</div><div><br></div><div>
+libav 0.8.x has warning:</div><div><br></div><div><div>WARNING: QA Issue: E=
+LF binary &#39;/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linux-gnueabi/=
+libav/0.8.15-r0/packages-split/libswscale/usr/lib/libswscale.so.2.1.0&#39; =
+has relocations in .text [textrel]</div>
+<div>WARNING: QA Issue: ELF binary &#39;/mnt/qt5-test/build/tmp/work/armv6-=
+vfp-jilong-linux-gnueabi/libav/0.8.15-r0/packages-split/libpostproc/usr/lib=
+/libpostproc.so.52.0.0&#39; has relocations in .text [textrel]</div><div>
+WARNING: QA Issue: ELF binary &#39;/mnt/qt5-test/build/tmp/work/armv6-vfp-j=
+ilong-linux-gnueabi/libav/0.8.15-r0/packages-split/libavutil/usr/lib/libavu=
+til.so.51.22.2&#39; has relocations in .text [textrel]</div><div>WARNING: Q=
+A Issue: ELF binary &#39;/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-linu=
+x-gnueabi/libav/0.8.15-r0/packages-split/libavformat/usr/lib/libavformat.so=
+.53.21.1&#39; has relocations in .text [textrel]</div>
+<div>WARNING: QA Issue: ELF binary &#39;/mnt/qt5-test/build/tmp/work/armv6-=
+vfp-jilong-linux-gnueabi/libav/0.8.15-r0/packages-split/libavfilter/usr/lib=
+/libavfilter.so.2.15.0&#39; has relocations in .text [textrel]</div><div>
+WARNING: QA Issue: ELF binary &#39;/mnt/qt5-test/build/tmp/work/armv6-vfp-j=
+ilong-linux-gnueabi/libav/0.8.15-r0/packages-split/libavdevice/usr/lib/liba=
+vdevice.so.53.2.0&#39; has relocations in .text [textrel]</div><div>WARNING=
+: QA Issue: ELF binary &#39;/mnt/qt5-test/build/tmp/work/armv6-vfp-jilong-l=
+inux-gnueabi/libav/0.8.15-r0/packages-split/libavcodec/usr/lib/libavcodec.s=
+o.53.35.0&#39; has relocations in .text [textrel]</div>
+</div><div><br></div></div>
 
+--e89a8f3baee3ce6baf050223dbac--
