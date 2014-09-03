@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EE446713C2
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 21B24713B9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 07:09:21 +0000 (UTC)
+	Wed,  3 Sep 2014 07:09:23 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8379NY6023242
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8379OZ3005216
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Sep 2014 00:09:23 -0700 (PDT)
+	Wed, 3 Sep 2014 00:09:24 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 3 Sep 2014 00:09:22 -0700
+	14.3.174.1; Wed, 3 Sep 2014 00:09:24 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Sep 2014 15:09:04 +0800
-Message-ID: <5b69128ecd77d9aaab5fa45752e908d375b79356.1409728004.git.Qi.Chen@windriver.com>
+Date: Wed, 3 Sep 2014 15:09:05 +0800
+Message-ID: <3475b5f7559f3beaaff3391676363b4f6701fb28.1409728004.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1409728004.git.Qi.Chen@windriver.com>
 References: <cover.1409728004.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 07/25] systemd: add kbd-keymaps to RRECOMMENDS of systemd-vconsole-setup
+Subject: [PATCH 08/25] v86d: set INHIBIT_UPDATERCD_BBCLASS if 'sysvinit' not in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 07:09:22 -0000
+X-List-Received-Date: Wed, 03 Sep 2014 07:09:23 -0000
 Content-Type: text/plain
 
-systemd-vconsole-setup.service not only configures font but also
-keymaps.
+Set INHIBIT_UPDATERCD_BBCLASS to "1" if 'sysvinit' is not in DISTRO_FEATURES.
+
+The functionality of the init script 'fbsetup' is implemented internally in
+systemd. So fbsetup is not installed if 'sysvinit' is in DISTRO_FEATURES.
+
+That's why we need to set INHIBIT_UPDATERCD_BBCLASS to "1" to avoid
+generation of update-rc.d related preinst/postinst scripts.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/systemd/systemd_216.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-bsp/v86d/v86d_0.1.10.bb | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
-index 28456dd..5f7deaf 100644
---- a/meta/recipes-core/systemd/systemd_216.bb
-+++ b/meta/recipes-core/systemd/systemd_216.bb
-@@ -209,7 +209,7 @@ FILES_${PN}-binfmt = "${sysconfdir}/binfmt.d/ \
-                       ${systemd_unitdir}/system/systemd-binfmt.service"
- RRECOMMENDS_${PN}-binfmt = "kernel-module-binfmt-misc"
+diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+index 08438be..7ccb4ee 100644
+--- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
++++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+@@ -49,4 +49,11 @@ do_install () {
+         fi
+ }
  
--RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts"
-+RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts kbd-keymaps"
- 
- CONFFILES_${PN} = "${sysconfdir}/systemd/journald.conf \
-                 ${sysconfdir}/systemd/logind.conf \
++# As the recipe doesn't inherit systemd.bbclass, we need to set this variable
++# manually to avoid unnecessary postinst/preinst generated.
++python __anonymous() {
++    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
++        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
++}
++
+ inherit update-rc.d
 -- 
 1.9.1
 
