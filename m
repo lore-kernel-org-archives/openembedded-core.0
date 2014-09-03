@@ -1,30 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <rpurdie@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EC74713DE
+	by mail.openembedded.org (Postfix) with ESMTP id 383CE713BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 10:25:05 +0000 (UTC)
+	Wed,  3 Sep 2014 10:42:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s83AP3bE006756; Wed, 3 Sep 2014 11:25:03 +0100
+	s83Age3v007828; Wed, 3 Sep 2014 11:42:40 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KELZ2m0_r5Cx; Wed,  3 Sep 2014 11:25:03 +0100 (BST)
+	with LMTP id 5qVaPTDqcqBY; Wed,  3 Sep 2014 11:42:40 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s83AOxk1006752
+	s83Agcqw007825
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 3 Sep 2014 11:25:01 +0100
-Message-ID: <1409739900.12482.0.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed, 3 Sep 2014 11:42:39 +0100
+Message-ID: <1409740959.12482.4.camel@ted>
+From: Richard Purdie <rpurdie@rpsys.net>
 To: Chong Lu <Chong.Lu@windriver.com>
-Date: Wed, 03 Sep 2014 11:25:00 +0100
-In-Reply-To: <b4a68ca960394f346025bb47035efa6b9e8e52a4.1409736914.git.Chong.Lu@windriver.com>
-References: <cover.1409736914.git.Chong.Lu@windriver.com>
-	<b4a68ca960394f346025bb47035efa6b9e8e52a4.1409736914.git.Chong.Lu@windriver.com>
+Date: Wed, 03 Sep 2014 11:42:39 +0100
+In-Reply-To: <ff575b1b7622194f6e15d1b38c191df729a80f47.1409735063.git.Chong.Lu@windriver.com>
+References: <cover.1409735063.git.Chong.Lu@windriver.com>
+	<ff575b1b7622194f6e15d1b38c191df729a80f47.1409735063.git.Chong.Lu@windriver.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] i2c-tools: create i2c-tools-misc package for perl scripts
+Subject: Re: [PATCH V2 1/1] perf: fix issue about package splitting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,62 +37,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 10:25:06 -0000
+X-List-Received-Date: Wed, 03 Sep 2014 10:42:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2014-09-03 at 17:36 +0800, Chong Lu wrote:
-> We don't want to install perl on small file systems by default.
+On Wed, 2014-09-03 at 17:05 +0800, Chong Lu wrote:
+> Currently, perf can't split to perf-archive, perf-tests, perf-python and
+> perf-perl. All files are included in perf package. Change the files paths to
+> make split successfully and add PACKAGECONFIG to make main pkg depends on sub
+> pkgs as default.
 > 
-> The solution is to split those perl scripts from the main package, installing
-> them only when perl is available. We use PACKAGECONFIG to create and enable a
-> new feature "misc".
-> 
-> Add perl to RDEPENDS_i2c-tools-misc.
-> 
-> Signed-off-by: Michel Thebeau <michel.thebeau@windriver.com>
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 > Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
 > ---
->  meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb | 14 ++++++++++++--
->  1 file changed, 12 insertions(+), 2 deletions(-)
+>  meta/recipes-kernel/perf/perf.bb | 17 ++++++++++++-----
+>  1 file changed, 12 insertions(+), 5 deletions(-)
 > 
-> diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
-> index 4605414..854d180 100644
-> --- a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
-> +++ b/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
-> @@ -3,8 +3,6 @@ SECTION = "base"
->  LICENSE = "GPLv2+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+> index bfd210c..baf0077 100644
+> --- a/meta/recipes-kernel/perf/perf.bb
+> +++ b/meta/recipes-kernel/perf/perf.bb
+> @@ -149,20 +149,27 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 >  
-> -RDEPENDS_${PN} += "perl"
-> -
->  SRC_URI = "http://dl.lm-sensors.org/i2c-tools/releases/${BP}.tar.bz2 \
->             file://Module.mk \
->  "
-> @@ -24,3 +22,15 @@ do_install_append() {
->      install -m 0644 include/linux/i2c-dev.h ${D}${includedir}/linux/i2c-dev-user.h
->      rm -f ${D}${includedir}/linux/i2c-dev.h
->  }
+>  PACKAGES =+ "${PN}-archive ${PN}-tests ${PN}-perl ${PN}-python"
+>  
+> +PACKAGECONFIG ??= "archive perl python tests"
+> +PACKAGECONFIG[archive] = ",,, ${PN}-archive"
+> +PACKAGECONFIG[perl] = ",,, ${PN}-perl"
+> +PACKAGECONFIG[python] = ",,, ${PN}-python"
+> +PACKAGECONFIG[tests] = ",,, ${PN}-tests"
 > +
-> +PACKAGES =+ "${PN}-misc"
-> +RDEPENDS_${PN}-misc += "perl"
-> +FILES_${PN}-misc = "${sbindir}/i2c-stub-from-dump \
-> +                        ${bindir}/ddcmon \
-> +                        ${bindir}/decode-edid \
-> +                        ${bindir}/decode-dimms \
-> +                        ${bindir}/decode-vaio \
-> +                       "
-> +
-> +PACKAGECONFIG ??= "misc"
-> +PACKAGECONFIG[misc] = ",,, ${PN}-misc perl"
+>  RDEPENDS_${PN} += "elfutils"
+>  RDEPENDS_${PN}-archive =+ "bash"
+>  RDEPENDS_${PN}-python =+ "bash python"
+>  RDEPENDS_${PN}-perl =+ "bash perl perl-modules"
+> +RDEPENDS_${PN}-tests =+ "python"
 
-As far as I can tell, these PACKAGECONFIG lines do nothing. Putting the
-perl utils into a separate package is fine but the PACKAGECONFIG does
-nothing...
+I now realise the trick you're playing with PACKAGECONFIG here. Instead
+can we just define a package (say ${PN}-all but I'll accept a better
+name) which has dependencies on archive perl python tests so then the
+user can choose ${PN}, ${PN}-all or some other combination depending on
+their needs?
+ 
+>  RSUGGESTS_SCRIPTING = "${@perf_feature_enabled('perf-scripting', '${PN}-perl ${PN}-python', '',d)}"
+>  RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
+>  
+> -FILES_${PN} += "${libexecdir}/perf-core ${exec_prefix}/libexec/perf-core ${libdir}/traceevent"
+> +FILES_${PN} += "${libdir}/traceevent"
+>  FILES_${PN}-dbg += "${libdir}/python*/site-packages/.debug"
+> -FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
+> -FILES_${PN}-tests = "${libdir}/perf/perf-core/tests"
+> -FILES_${PN}-python = "${libdir}/python*/site-packages ${libdir}/perf/perf-core/scripts/python"
+> -FILES_${PN}-perl = "${libdir}/perf/perf-core/scripts/perl"
+> +FILES_${PN}-archive = "${exec_prefix}/libexec/perf-core/perf-archive"
+> +FILES_${PN}-tests = "${exec_prefix}/libexec/perf-core/tests"
+> +FILES_${PN}-python = "${exec_prefix}/libexec/perf-core/scripts/python"
+> +FILES_${PN}-perl = "${exec_prefix}/libexec/perf-core/scripts/perl"
+
+Can we use ${libexecdir} here please rather than hardcode it?
 
 Cheers,
 
 Richard
+
 
 
