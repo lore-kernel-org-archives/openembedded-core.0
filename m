@@ -1,57 +1,41 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CE3671472
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 90307714AF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Sep 2014 18:36:39 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	s84Iab74007140
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	Thu,  4 Sep 2014 19:12:31 +0000 (UTC)
+Received: by mail-qc0-f169.google.com with SMTP id l6so11240746qcy.14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Sep 2014 20:36:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1409855800;
-	bh=RqC7kkrJX1w+o7ViSHMlL48UCPQkw/HsZ1oIDCDsneY=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Content-Transfer-Encoding:Sender;
-	b=F1tw+5ACTQldd2jborPIwPUBgy73UzxLfaxneGGqfhw1qbSbIvY92BpEHXO9dCzB2
-	p4+dmoZmxDinHBB1fBDBeDYiZ7Au2bi0AzN7CTf2xlpLp8XguD8IvuFEfstsLZqrp0
-	qt5s8i8+GJceRL2tSLZsKjMEXUv1VuYLpbWv/Oag=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s84IaXII000884
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Sep 2014 20:36:34 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1XPbtZ-0003PH-6G
-	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Sep 2014 20:36:33 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
+	Thu, 04 Sep 2014 12:12:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=OlVkwtLl3QD58zBodWAd39Cmxe5elLm50HEvb7O2FJE=;
+	b=TZQd+lZ9bBZhUe5d1fSLDUWqTmBEpsXvFA1Jqg9r7qFkHH5l4iZAVrm/IoGCNPBJ14
+	FiFhOABsuUHGB9pSHtntZaCxcSepFeEOn1293CCXfsDKmlKKwa4ZrmQ9V8oCtKWfv/eC
+	ZT7xdmuXqXtHozrzb4rv29TOVg6jzsS8Q/bDfxXGzxJMSMH1/oQPCmoQCd12pAm5cDKl
+	mTVUzH6RtXt6Y0utcdZOK5ra6BU9JYO655smweRGo0DqFOPMQTgjDL1B87hLGitXM3gf
+	281KWIqxLAeZ4UY1OYoJMAYAQArN3ryiU5zcP0rMK0B41CzDYCz7Dg2IZQtlghO1jLaU
+	bbTg==
+X-Gm-Message-State: ALoCoQnPTqQ0V9PWwtRygliJivT/YKm3y3uvVb6YZFTIPXYixkZhI1MTjwVLeCMj822qnzagY7IY
+X-Received: by 10.224.38.10 with SMTP id z10mr10522117qad.52.1409857952060;
+	Thu, 04 Sep 2014 12:12:32 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.29.183 with HTTP; Thu, 4 Sep 2014 12:12:11 -0700 (PDT)
+In-Reply-To: <lyha0nb5cg.fsf@ensc-virt.intern.sigma-chemnitz.de>
 References: <CAJTo0LaRETJdKG-bL+40YtGrVjs4MLVLiydybSUj5ALa2tyxUQ@mail.gmail.com>
 	<lysik75pyt.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<CAJTo0LbNG14cHQN8JewwOd-Z0rBOeSpEQKHOQguSQweiQzLVtQ@mail.gmail.com>
 	<540896F8.9040805@pabigot.com>
 	<lyiol3uxra.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<CALbNGRRTcV8bst1tQYNZ-z6w7_aSXT3=pVMVLRQncDw4TwQEow@mail.gmail.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Thu, 04 Sep 2014 20:36:31 +0200
-In-Reply-To: <CALbNGRRTcV8bst1tQYNZ-z6w7_aSXT3=pVMVLRQncDw4TwQEow@mail.gmail.com>
-	("Andreas =?utf-8?Q?M=C3=BCller=22's?= message of "Thu,
-	4 Sep 2014 19:38:03 +0200")
-Message-ID: <lyha0nb5cg.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.8
-X-Spam-Level: -----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.75
+	<lyha0nb5cg.fsf@ensc-virt.intern.sigma-chemnitz.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 4 Sep 2014 20:12:11 +0100
+Message-ID: <CAJTo0LY9RwZzJ7KhON4EHq-PuLC7z3jcv4_B-u94EZUJWUYvgg@mail.gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [oe] Style issue for recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -65,24 +49,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Sep 2014 18:36:44 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 04 Sep 2014 19:12:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Andreas M=C3=BCller <schnitzeltony-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-writes:
+On 4 September 2014 19:36, Enrico Scholz
+<enrico.scholz@sigma-chemnitz.de> wrote:
+>> Did you ever use 'git blame' for few lines most recipes have?
+>
+> In other projects (e.g. linux kernel) I am using C-x v g in emacs very
+> often to see when/why a certain line was added.  In some OE recipes I
+> would like to do the same...
 
->> it's not only 'git log'; it is 'git blame' too and because git does not
->> support renaming of files natively, the 'git log --follow' method is
->> error prone and might compare the wrong files resp. fail completely when
->> there are too much changes.
->>
-> Did you ever use 'git blame' for few lines most recipes have?
+Personally I find git blame totally disappointing in general, and
+would love to see a "history browser" UI that let me see the history
+of a line in a file without having to repeatedly git blame, get hash,
+show hash, realise that change was whitespace, git blame hash^, rinse,
+repeat.
 
-In other projects (e.g. linux kernel) I am using C-x v g in emacs very
-often to see when/why a certain line was added.  In some OE recipes I
-would like to do the same...
+If someone knows a good UI for blame-digging then please let me know!
 
-
-Enrico
+Ross
 
