@@ -1,40 +1,51 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 30C2E71044;
-	Thu,  4 Sep 2014 15:41:47 +0000 (UTC)
-Received: by mail-pd0-f177.google.com with SMTP id r10so13745647pdi.8
-	for <multiple recipients>; Thu, 04 Sep 2014 08:41:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=P4NEeI0vq/ibP9vxt2X+snNlI5MKg6LSCUl+pHuuJRg=;
-	b=1CXqSHuH2mLIBSUyBDiYjvlBQYl9URpW5Y6QQDpYys5QRAsvNhU8tmD5OJfWZbDzd0
-	DOOyxKWyJ73+sqOA0vVp1oGnabPgHhV47WDnq7wCzq2e69735oySKrEIMCPJb8lCkVG+
-	6KBIdGfQioofO7Vm6glD+cVbt6fDXA83RBiKi9evd8pgTAOyvAa3rpbbyNk0cINMEcnp
-	ajPXTgbYvlwpHWCN2J44hc1T11G+wXCvg1AVpdJ+FQBccbR0OEq95wTCCjYZ8sau+0u8
-	YjN16nWN2rlk42pd0yUpZoOJVmM4vgW0P6bIsdN+OIoUDCu2gaASBr4ZTpI8OA32T8xm
-	+wcg==
-X-Received: by 10.66.155.2 with SMTP id vs2mr9857276pab.60.1409845305154;
-	Thu, 04 Sep 2014 08:41:45 -0700 (PDT)
-Received: from ?IPv6:2601:c:9380:601:9d66:e68f:e0f4:6f0b?
-	([2601:c:9380:601:9d66:e68f:e0f4:6f0b])
-	by mx.google.com with ESMTPSA id qy1sm2000313pbc.27.2014.09.04.08.41.42
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Sep 2014 08:41:43 -0700 (PDT)
-Message-ID: <5408882C.6020506@gmail.com>
-Date: Thu, 04 Sep 2014 08:41:32 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
-MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-devel@lists.openembedded.org, 
-	OE-core <openembedded-core@lists.openembedded.org>
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BDD471470
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Sep 2014 16:07:52 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	s84G7mnn013217
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Sep 2014 18:07:51 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1409846871;
+	bh=oFnwwLKmIC+ejsuREYIA8wHYyrIBJcrElinn3D++sus=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=Ey1Miy6hu1TBP66a3BiVdOKblq4y0H914Nrci2ojeYb0do3myaXYpFUAGRlZrsuRX
+	5NALZqvEN8QhliKP1nHw8LXb8uRxZUQEeyEcax4JOnllDrWo4hU5RgidUv9MoOxAqA
+	2xLHsTSl0NF1MTpr6G/sM7d2Bw9/ESsSxX8/L6sY=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s84G7ciV005073
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Sep 2014 18:07:40 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1XPZZS-000237-Bo
+	for openembedded-core@lists.openembedded.org;
+	Thu, 04 Sep 2014 18:07:38 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
 References: <CAJTo0LaRETJdKG-bL+40YtGrVjs4MLVLiydybSUj5ALa2tyxUQ@mail.gmail.com>
-	<54087F3F.2040103@windriver.com>
-In-Reply-To: <54087F3F.2040103@windriver.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Thu, 04 Sep 2014 18:07:38 +0200
+In-Reply-To: <CAJTo0LaRETJdKG-bL+40YtGrVjs4MLVLiydybSUj5ALa2tyxUQ@mail.gmail.com>
+	(Ross Burton's message of "Thu, 4 Sep 2014 15:12:02 +0100")
+Message-ID: <lysik75pyt.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.8
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
 Subject: Re: [oe] Style issue for recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -48,43 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Sep 2014 15:41:49 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Sep 2014 16:08:01 -0000
+Content-Type: text/plain
 
+"Burton, Ross" <ross.burton@intel.com> writes:
 
-
-On 09/04/2014 08:03 AM, Robert Yang wrote:
+> Quick question of style for the community to bikeshed on: in the
+> general case should recipes be split into foo_1.2.bb and foo.inc, or
+> should they only split to bb/inc if there are multiple versions and
+> generally there should just be foo_1.2.bb.
 >
-> On 09/04/2014 10:12 PM, Burton, Ross wrote:
->> Hi,
->>
->> Quick question of style for the community to bikeshed on:  in the
->> general case should recipes be split into foo_1.2.bb and foo.inc, or
->> should they only split to bb/inc if there are multiple versions and
->> generally there should just be foo_1.2.bb.
->
-> I think that put the constants in .inc is helpful for upgrading, for
-> example, the SUMMARY, DESCRIPTION, HOMEPAGE, SECTION, inherit and so on,
-> they are unlikely to change when upgrade.
+> Specifically I'm looking at the libunwind patch for oe-core (moving
+> from meta-oe) which adds libunwind_1.1.bb and libunwind.inc.
+> Personally I feel that splitting them up complicates packaging and
+> should only be done if there's actually multiple versions being used.
 
-This is the same reason why I have split a bb into two parts when I 
-submit upgrades. I feel it makes reviewing easier the next time a 
-package gets upgraded. Trying to find the actual changes between a file 
-being deleted and the new one being added might lead to missing something.
+.inc files make sense with current packaging because they are revision
+control friendly.  E.g. you can put the logic into .inc and follow its
+history with 'git log' which is not possible when there are only the
+versioned .bb files.
 
-If there are unintentional consequence by doing this, that is a problem.
+Of course, the versioned .bb files do not make much sense nowadays.
+They were useful in old OE times were multiple versions of a package
+were kept in parallel.
 
-- Armin
 
-> // Robert
->
->>
->> Specifically I'm looking at the libunwind patch for oe-core (moving
->> from meta-oe) which adds libunwind_1.1.bb and libunwind.inc.
->> Personally I feel that splitting them up complicates packaging and
->> should only be done if there's actually multiple versions being used.
->>
->> Ross
->>
+
+Enrico
 
