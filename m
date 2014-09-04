@@ -1,36 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
-	[209.85.216.44])
-	by mail.openembedded.org (Postfix) with ESMTP id BDCEA71470
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id B784F7148B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Sep 2014 16:34:48 +0000 (UTC)
-Received: by mail-qa0-f44.google.com with SMTP id j7so9769783qaq.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Sep 2014 09:34:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type;
-	bh=HU7OLAew7EZbFEelvALBWoi3rLISmYYlk7py0Zl2rKg=;
-	b=OWFsfxmpoi/zKv9n5hbl9MlUGPzOGZ9/5YYKJiaa1Z6T+GI6GqoWMgtklGClYOt/Zr
-	GUl9ubumLiHdjsTq+cl2EayIRgdNR1WIvEt95tPwZTmikgY/mWJopa4TQja3Q/80Hhwd
-	Oblqdmg3fTljiyqA+sv2X8IzCzTECwTJH3c7WNtKmHjCNFF8yowES63LarIvB1tVFz2x
-	m8jAx1C9kofDMOVPtY9mGsfcPcdZ2NJTIagDRNWXuyZkjzx9OJx2RuDYV9yB8x9HiZcr
-	8keuCepZqxi0SU4MXKSjuXrzapCf+aW63kFnP3KBGu07Xp8SUWKtqTacb1b7F76ssRyF
-	i1wA==
-X-Gm-Message-State: ALoCoQnwgdHL2aWaYYu6+jxPLWKoDcIdE6RQgAlnShldVQCeEtGRiNblgSoSXyG0w0IA7BgxEbRW
-X-Received: by 10.140.27.173 with SMTP id 42mr8280498qgx.59.1409848487255;
-	Thu, 04 Sep 2014 09:34:47 -0700 (PDT)
+	Thu,  4 Sep 2014 16:37:20 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Thu, 4 Sep 2014
+	18:37:15 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id BDEF0288E2C;
+	Thu,  4 Sep 2014 18:37:15 +0200 (CEST)
+Date: Thu, 4 Sep 2014 18:37:15 +0200
+From: "Maxin B. John" <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20140904163715.GA26129@sestofb10.enea.se>
+References: <1409848435-17406-1-git-send-email-maxin.john@enea.com>
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Thu, 4 Sep 2014 09:34:26 -0700 (PDT)
-In-Reply-To: <CAJTo0LaRETJdKG-bL+40YtGrVjs4MLVLiydybSUj5ALa2tyxUQ@mail.gmail.com>
-References: <CAJTo0LaRETJdKG-bL+40YtGrVjs4MLVLiydybSUj5ALa2tyxUQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 4 Sep 2014 17:34:26 +0100
-Message-ID: <CAJTo0LYhvZHJEEQLWuCsfxqqbBCSXnxR3cxJZJt2Z0fgYgwEww@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	OE-devel <openembedded-devel@lists.openembedded.org>
-Subject: Re: Style issue for recipes
+In-Reply-To: <1409848435-17406-1-git-send-email-maxin.john@enea.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Subject: Re: [PATCH] ltp: upgrade to 20140828
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,22 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Sep 2014 16:34:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 04 Sep 2014 16:37:28 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On 4 September 2014 15:12, Burton, Ross <ross.burton@intel.com> wrote:
-> Quick question of style for the community to bikeshed on:  in the
-> general case should recipes be split into foo_1.2.bb and foo.inc, or
-> should they only split to bb/inc if there are multiple versions and
-> generally there should just be foo_1.2.bb.
+Hi,
+Wrong one. Please ignore this patch.
 
-Another argument against widespread inc files: they encourage the
-impression that maintaining multiple versions is just a matter of
-having a .inc file.  The moment you start having to put
-version-specific statements into a .bb you've entered a world of pain
-in keeping the .bb files in sync, moving options into the .inc as they
-become used by all versions, and purging old version-specific
-statements.
-
-Ross
+On Thu, Sep 04, 2014 at 06:33:55PM +0200, Maxin B. John wrote:
+> Bump to *August 2014* release
+> 
+> Signed-off-by: Maxin B. John <maxin.john@enea.com>
+> ---
+>  meta/recipes-extended/ltp/{ltp_20140422.bb => ltp_20140828.bb} | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>  rename meta/recipes-extended/ltp/{ltp_20140422.bb => ltp_20140828.bb} (100%)
+> 
+> diff --git a/meta/recipes-extended/ltp/ltp_20140422.bb b/meta/recipes-extended/ltp/ltp_20140828.bb
+> similarity index 100%
+> rename from meta/recipes-extended/ltp/ltp_20140422.bb
+> rename to meta/recipes-extended/ltp/ltp_20140828.bb
+> -- 
+> 1.9.1
 
