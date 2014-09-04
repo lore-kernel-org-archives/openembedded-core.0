@@ -1,51 +1,36 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BDD471470
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id C4F6171465
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Sep 2014 16:07:52 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	s84G7mnn013217
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	Thu,  4 Sep 2014 16:27:10 +0000 (UTC)
+Received: by mail-qg0-f50.google.com with SMTP id q108so10074827qgd.37
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Sep 2014 18:07:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1409846871;
-	bh=oFnwwLKmIC+ejsuREYIA8wHYyrIBJcrElinn3D++sus=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=Ey1Miy6hu1TBP66a3BiVdOKblq4y0H914Nrci2ojeYb0do3myaXYpFUAGRlZrsuRX
-	5NALZqvEN8QhliKP1nHw8LXb8uRxZUQEeyEcax4JOnllDrWo4hU5RgidUv9MoOxAqA
-	2xLHsTSl0NF1MTpr6G/sM7d2Bw9/ESsSxX8/L6sY=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s84G7ciV005073
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Sep 2014 18:07:40 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1XPZZS-000237-Bo
-	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Sep 2014 18:07:38 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <CAJTo0LaRETJdKG-bL+40YtGrVjs4MLVLiydybSUj5ALa2tyxUQ@mail.gmail.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Thu, 04 Sep 2014 18:07:38 +0200
-In-Reply-To: <CAJTo0LaRETJdKG-bL+40YtGrVjs4MLVLiydybSUj5ALa2tyxUQ@mail.gmail.com>
-	(Ross Burton's message of "Thu, 4 Sep 2014 15:12:02 +0100")
-Message-ID: <lysik75pyt.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Thu, 04 Sep 2014 09:27:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=vQKH8w/9+lUXLnqNgKcSwX/nc1JYBFK+elwIMvu2X88=;
+	b=W2bCIQK7I81MlHXURakIcfmGrZ8N7m+4Cpn24tGiXfiDHkUyN3sz4WuP/x0TfXqI6Q
+	MdeQcFAXUpIjflhKPQ5QBSNJBsLLyhMEJesG95pQ1CIQZhOGt/nEIsVSQquDORC31LNG
+	iVsxU/V4zc3k5YxFBBNDzHJ3G14Q/Rd+1rqhgvKZoVI4z67hZbmzryR6Ak50FU2VjsWU
+	w+yCvq3mOuNW3IU2+xbgayxBdap3jkxDcVN2Kqw3QszzfDCKxFCLWI6tWOdYczRmCxfo
+	0cIsRUQREJ1RrQ1cNVTGMVEdtpcktJu3ZcIGrgJf/EKpkCNGI/90LbAqw7ug8WUkmDaf
+	e6OQ==
+X-Gm-Message-State: ALoCoQmdhj/bI3TPXHTnEW6ZR+VvcIrDHLBwgjv9bVuv3Vhioojl+FZ8Lh4Bi0RCxA5I8HgtSeYw
+X-Received: by 10.140.27.173 with SMTP id 42mr8211238qgx.59.1409848031259;
+	Thu, 04 Sep 2014 09:27:11 -0700 (PDT)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.8
-X-Spam-Level: -----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.75
+Received: by 10.140.29.183 with HTTP; Thu, 4 Sep 2014 09:26:51 -0700 (PDT)
+In-Reply-To: <5408882C.6020506@gmail.com>
+References: <CAJTo0LaRETJdKG-bL+40YtGrVjs4MLVLiydybSUj5ALa2tyxUQ@mail.gmail.com>
+	<54087F3F.2040103@windriver.com> <5408882C.6020506@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 4 Sep 2014 17:26:51 +0100
+Message-ID: <CAJTo0LZYDn2vZt49Sj40W3GJ7RLiTZjVs8OjbrEU-2NBoTdyOQ@mail.gmail.com>
+To: OE-devel <openembedded-devel@lists.openembedded.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [oe] Style issue for recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,31 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Sep 2014 16:08:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 04 Sep 2014 16:27:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-"Burton, Ross" <ross.burton@intel.com> writes:
-
-> Quick question of style for the community to bikeshed on: in the
-> general case should recipes be split into foo_1.2.bb and foo.inc, or
-> should they only split to bb/inc if there are multiple versions and
-> generally there should just be foo_1.2.bb.
+On 4 September 2014 16:41, akuster808 <akuster808@gmail.com> wrote:
+> This is the same reason why I have split a bb into two parts when I submit
+> upgrades. I feel it makes reviewing easier the next time a package gets
+> upgraded. Trying to find the actual changes between a file being deleted and
+> the new one being added might lead to missing something.
 >
-> Specifically I'm looking at the libunwind patch for oe-core (moving
-> from meta-oe) which adds libunwind_1.1.bb and libunwind.inc.
-> Personally I feel that splitting them up complicates packaging and
-> should only be done if there's actually multiple versions being used.
+> If there are unintentional consequence by doing this, that is a problem.
 
-.inc files make sense with current packaging because they are revision
-control friendly.  E.g. you can put the logic into .inc and follow its
-history with 'git log' which is not possible when there are only the
-versioned .bb files.
+This is what git format-patch -M is for: it detects the rename and
+shows a "proper" diff.
 
-Of course, the versioned .bb files do not make much sense nowadays.
-They were useful in old OE times were multiple versions of a package
-were kept in parallel.
-
-
-
-Enrico
+Ross
 
