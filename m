@@ -1,31 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 11769713E0
+Return-Path: <cazfi74@gmail.com>
+Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 35B83713B6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Sep 2014 22:10:53 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s83MAnc5002035; Wed, 3 Sep 2014 23:10:49 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 1YeCBQeL9FYb; Wed,  3 Sep 2014 23:10:49 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s83MAkXW002029
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 3 Sep 2014 23:10:47 +0100
-Message-ID: <1409782248.12482.16.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 03 Sep 2014 23:10:48 +0100
-In-Reply-To: <CAJTo0LY333THMi1uvDjRpUd1MuP671CGikrSBCg_OoC8r_9BqQ@mail.gmail.com>
-References: <1409663439-1725-1-git-send-email-georgex.l.musat@intel.com>
-	<1409663439-1725-2-git-send-email-georgex.l.musat@intel.com>
-	<CAJTo0LY333THMi1uvDjRpUd1MuP671CGikrSBCg_OoC8r_9BqQ@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] oeqa/runtime: Automatic test for ptest
+	Thu,  4 Sep 2014 00:48:04 +0000 (UTC)
+Received: by mail-la0-f44.google.com with SMTP id hz20so10892775lab.31
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Sep 2014 17:48:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=cY8YALpa64wzMpCIp507XnEap0fEhV2VYSfGws17J9M=;
+	b=RgdsVAR/2sPNB1qoPOkpTYXnmjB7nuYF1D5UBPjWfhmzCyy8zXTqKzCIuuPP82S3da
+	BXULmhHzzpbCFRZrYQe8C6jad0Apx2epuB+R44HgujSZAvwc4dG376+skRl4C4ohfscm
+	I2e79rortAHcE2pplPeOYISa318VvvrKJOql6TBWTSGkVALilpmVCyGlSxjbYCMyZ1th
+	NWFeHHPd8T/MOTTVnfDABDWb5hiKGOP9EJPtP826VLMsJh8huCDmcWAQCA1rmr5KEMfJ
+	LNGnz3JtJSngtckpLp55nm2TEtT9Hlgq0ycCwDMI9dg5fp4EsBTChdQzmNP6Dm5odevf
+	AcUg==
+X-Received: by 10.112.135.137 with SMTP id ps9mr934678lbb.24.1409791684495;
+	Wed, 03 Sep 2014 17:48:04 -0700 (PDT)
+Received: from prime (a91-153-14-158.elisa-laajakaista.fi. [91.153.14.158])
+	by mx.google.com with ESMTPSA id r6sm40705lbp.29.2014.09.03.17.48.02
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 03 Sep 2014 17:48:03 -0700 (PDT)
+Received: from cazfi by prime with local (Exim 4.84)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1XPLDV-0006Tg-E0; Thu, 04 Sep 2014 03:48:01 +0300
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Sep 2014 03:47:53 +0300
+Message-Id: <cover.1409791241.git.cazfi74@gmail.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 0/6] Version updates & misc patch cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,61 +44,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Sep 2014 22:10:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Sep 2014 00:48:07 -0000
 
-On Wed, 2014-09-03 at 16:14 +0100, Burton, Ross wrote:
-> On 2 September 2014 14:10, Lucian Musat <georgex.l.musat@intel.com> wrote:
-> > +    @classmethod
-> > +    def tearDownClass(self):
-> > +        self.repo_server.stop()
-> > +        #remove created channels to be able to repeat the tests on same image
-> > +        (status, result) = oeRuntimeTest.tc.target.run('smart channel --show | grep "\["', 0)
-> > +        for x in result.split("\n"):
-> > +            if x not in self.existingchannels:
-> > +                oeRuntimeTest.tc.target.run('smart channel --remove '+x[1:-1]+' -y', 0)
-> 
-> If we're not removing the packages we've installed, why do we bother
-> removing the smart channels?
-> 
-> > +    @skipUnlessPassed('test_ssh')
-> > +    def test_ptestrunner(self):
-> > +        self.add_smart_channel()
-> > +        self.install_packages(self.install_complementary("*-ptest"))
-> > +        self.install_packages(['ptest-runner'])
-> 
-> Can't you check if the ptest IMAGE_FEATURE is enabled and if so, skip this?
+Mainly updates to newer upstream versions, with some no longer needed patches dropped.
 
-Also, this is smart specific so we probably need an "isRPM?" type check
-somewhere in this test (or use librbary functions and have support for
-other package backends but that is something for another patch series
-sometime).
+It took me a while to create a pull request. Apparently git request-pull has changed
+significantly recently, and scripts/create-pull-request has not been updated accordingly.
 
-Cheers,
 
-Richard
+ - ML
 
-> > +        log_results_to_location = os.path.join('./results')
-> 
-> Joining a single item doesn't do anything.
-> 
-> > +        if not os.path.exists(log_results_to_location):
-> > +            os.makedirs(log_results_to_location)
-> > +
-> > +        # clear the results directory each time
-> > +        for path in os.listdir(log_results_to_location):
-> > +            os.remove(os.path.join(log_results_to_location, path))
-> 
-> I'd do something more like as it's a lot less lines and clear that
-> you're deleting the old tree and then creating a fresh one:
-> 
-> if os.path.exists(logdir):
->   shutil.rmtree(logdir)
-> os.makedirs(logdir)
-> 
-> 
-> Ross
 
+The following changes since commit e72aac2ae9e5fce1715fa04b7e94034fd06892d9:
+
+  alsa-lib: libasound should runtime depends on alsa-conf (2014-09-03 11:30:11 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib 1d09577ffa2838c6465f034555db36dd8fc3476a
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/up
+
+Marko Lindqvist (6):
+  gtk+2: update to 2.24.24
+  libpng: drop unnecessary automake requirement lowering patch
+  libpng: update to 1.6.13
+  pixman: update to 0.32.6
+  pango: update to 1.36.6
+  gtk+3: update to 3.12.2
+
+ ...utton-do-not-prelight-in-touchscreen-mode.patch |  0
+ ...Duplicate-the-exec-string-returned-by-gtk.patch |  0
+ .../cellrenderer-cairo.patch                       |  0
+ .../configure-nm.patch                             |  0
+ .../configurefix.patch                             |  0
+ .../{gtk+-2.24.22 => gtk+-2.24.24}/doc-fixes.patch |  0
+ .../entry-cairo.patch                              |  0
+ .../hardcoded_libtool.patch                        |  0
+ .../run-iconcache.patch                            | 11 +++---
+ .../toggle-font.diff                               |  0
+ .../{gtk+-2.24.22 => gtk+-2.24.24}/xsettings.patch |  0
+ meta/recipes-gnome/gtk+/gtk+3.inc                  |  6 ++-
+ .../fix-build-when-wayland-backend-enabled.patch   | 43 ----------------------
+ .../gtk+/{gtk+3_3.10.7.bb => gtk+3_3.12.2.bb}      |  5 +--
+ .../gtk+/{gtk+_2.24.22.bb => gtk+_2.24.24.bb}      |  4 +-
+ .../pango/{pango_1.36.5.bb => pango_1.36.6.bb}     |  4 +-
+ .../{pixman_0.32.4.bb => pixman_0.32.6.bb}         |  4 +-
+ ...0001-configure-lower-automake-requirement.patch | 31 ----------------
+ .../libpng/{libpng_1.6.10.bb => libpng_1.6.13.bb}  | 11 +++---
+ 19 files changed, 24 insertions(+), 95 deletions(-)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/cellrenderer-cairo.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configure-nm.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configurefix.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/doc-fixes.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/entry-cairo.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/hardcoded_libtool.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/run-iconcache.patch (72%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/toggle-font.diff (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/xsettings.patch (100%)
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.10.7.bb => gtk+3_3.12.2.bb} (75%)
+ rename meta/recipes-gnome/gtk+/{gtk+_2.24.22.bb => gtk+_2.24.24.bb} (93%)
+ rename meta/recipes-graphics/pango/{pango_1.36.5.bb => pango_1.36.6.bb} (56%)
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.32.4.bb => pixman_0.32.6.bb} (89%)
+ delete mode 100644 meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.10.bb => libpng_1.6.13.bb} (58%)
+
+-- 
+2.1.0
 
 
