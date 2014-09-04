@@ -1,42 +1,39 @@
 Return-Path: <cazfi74@gmail.com>
-Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
-	[209.85.217.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 238A0713E6
+Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 21C68713E0
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  4 Sep 2014 00:48:22 +0000 (UTC)
-Received: by mail-lb0-f180.google.com with SMTP id w7so10410322lbi.25
+Received: by mail-la0-f41.google.com with SMTP id s18so193345lam.0
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 03 Sep 2014 17:48:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=yG7MMjqjsSLscEepKdlaCfF4YH7j9qSTJkFIRPyfP4E=;
-	b=cj8N4bFRaYXI4HZCWzLIbTpf9BdCVY4AtTthpW8GJdssVOX2HAP06WxVYpAcL0RcgQ
-	wl2LrFtYFH67zeD19DspW7tbbbV7n/haPsrEa2+WfLGFrhh+LnUSD9ECynLI6EJaQo+j
-	jJ7LUu4Kialfja74yiQ7DPa4sP3Q3GSuNDWkCuKZtQiSlPJRuNSSEgFv6/oMyfTlrfFg
-	q6ijvY4+UQ5TnlovGn5SJg86pMWcTuLuj/MCH9olgndpWUkiz1u1ovpXphk+p7db4lFY
-	kdTD/wL9dKPwQi/zgffyQcxATr5TLpJP99zJukx5BbDzxK/rJJLSCxWjxFbyqOrCBFnc
-	He9Q==
-X-Received: by 10.152.3.35 with SMTP id 3mr872158laz.5.1409791702523;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=kkpNMHP7ac0314bAJNRJK0lW+AHABjCuxjVXP3SFpYQ=;
+	b=rbJvf4GHnItdnFEi0TJSz/4LhyvX1ku8Pf/qS0ssMtXh5MKzS/6G/lDVXjFl8Zpds1
+	MahgFjDmbpDvTxHZYvIcmrt752auUwAVUNto28gompFvXpYf5vYfWMZ1BeHHIbcSTHFN
+	7pOncy2x6/ToHoD7ZdaPA/FCbJezxiZ/V959wy8qLtBwcm0Safebfm9gK+V2uQJRjmFi
+	z+rz2i0AOsjdDZSmvJi3PmpfPaVKeUDPxPkjgnqf0171qFJgcw+YC0K8WuxYdIX9/s6d
+	dipL5TjLkYr56Oc+Dj9/oK8xwTfp/tkQgWh4jekv69eNRWyukFzJ5o1jjjTQnW6OkZU5
+	d4ow==
+X-Received: by 10.152.23.42 with SMTP id j10mr905828laf.82.1409791702885;
 	Wed, 03 Sep 2014 17:48:22 -0700 (PDT)
 Received: from prime (a91-153-14-158.elisa-laajakaista.fi. [91.153.14.158])
-	by mx.google.com with ESMTPSA id cm9sm38555lbb.39.2014.09.03.17.48.21
+	by mx.google.com with ESMTPSA id xe10sm39032lbb.37.2014.09.03.17.48.21
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Wed, 03 Sep 2014 17:48:21 -0700 (PDT)
 Received: from cazfi by prime with local (Exim 4.84)
 	(envelope-from <cazfi74@gmail.com>)
-	id 1XPLDo-0008U8-8J; Thu, 04 Sep 2014 03:48:20 +0300
+	id 1XPLDn-0008TX-VG; Thu, 04 Sep 2014 03:48:20 +0300
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Sep 2014 03:48:13 +0300
-Message-Id: <c05972d08889077609d7f0dfa2fd3def8e5debfa.1409791242.git.cazfi74@gmail.com>
+Date: Thu,  4 Sep 2014 03:48:12 +0300
+Message-Id: <01fc289dc196b0e1bff3359fcfff1a3f33691302.1409791242.git.cazfi74@gmail.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <01fc289dc196b0e1bff3359fcfff1a3f33691302.1409791242.git.cazfi74@gmail.com>
-References: <01fc289dc196b0e1bff3359fcfff1a3f33691302.1409791242.git.cazfi74@gmail.com>
 In-Reply-To: <cover.1409791241.git.cazfi74@gmail.com>
 References: <cover.1409791241.git.cazfi74@gmail.com>
-Subject: [PATCH 2/6] libpng: drop unnecessary automake requirement lowering patch
+Subject: [PATCH 1/6] gtk+2: update to 2.24.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,64 +48,127 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 04 Sep 2014 00:48:25 -0000
 
-Automake recipe provides automake 1.14.1 anyway
-
 Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 ---
- ...0001-configure-lower-automake-requirement.patch | 31 ----------------------
- meta/recipes-multimedia/libpng/libpng_1.6.10.bb    |  1 -
- 2 files changed, 32 deletions(-)
- delete mode 100644 meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch
+ .../0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch  |  0
+ ...bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch |  0
+ .../{gtk+-2.24.22 => gtk+-2.24.24}/cellrenderer-cairo.patch   |  0
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configure-nm.patch    |  0
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configurefix.patch    |  0
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/doc-fixes.patch       |  0
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/entry-cairo.patch     |  0
+ .../{gtk+-2.24.22 => gtk+-2.24.24}/hardcoded_libtool.patch    |  0
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/run-iconcache.patch   | 11 ++++++-----
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/toggle-font.diff      |  0
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/xsettings.patch       |  0
+ meta/recipes-gnome/gtk+/{gtk+_2.24.22.bb => gtk+_2.24.24.bb}  |  4 ++--
+ 12 files changed, 8 insertions(+), 7 deletions(-)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/cellrenderer-cairo.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configure-nm.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configurefix.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/doc-fixes.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/entry-cairo.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/hardcoded_libtool.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/run-iconcache.patch (72%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/toggle-font.diff (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/xsettings.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+_2.24.22.bb => gtk+_2.24.24.bb} (93%)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch b/meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch
-deleted file mode 100644
-index bbbca89..0000000
---- a/meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From fff7cbc01e061a235852f385866fe75fb17867e3 Mon Sep 17 00:00:00 2001
--From: Valentin Popa <valentin.popa@intel.com>
--Date: Tue, 26 Nov 2013 12:06:55 +0200
--Subject: [PATCH] configure: lower automake requirement
--
--We're not using parallel tests in OE-core yet
--
--Signed-off-by: Valentin Popa <valentin.popa@intel.com>
--Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
--
--Upstream-Status: Inapropriate [OE specific build hack]
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index 28200c3..fab2515 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -27,7 +27,7 @@ AC_CONFIG_MACRO_DIR([scripts])
-- # dist-xz requires automake 1.11 or later
-- # 1.12.2 fixes a security issue in 1.11.2 and 1.12.1
-- # 1.13 is required for parallel tests
---AM_INIT_AUTOMAKE([1.13 foreign dist-xz color-tests silent-rules subdir-objects])
--+AM_INIT_AUTOMAKE([1.12.2 foreign dist-xz color-tests silent-rules subdir-objects])
-- # The following line causes --disable-maintainer-mode to be the default to
-- # configure, this is necessary because libpng distributions cannot rely on the
-- # time stamps of the autotools generated files being correct
---- 
--1.8.3.2
--
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.10.bb b/meta/recipes-multimedia/libpng/libpng_1.6.10.bb
-index babf87e..79d9122 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.10.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.10.bb
-@@ -9,7 +9,6 @@ DEPENDS = "zlib"
- LIBV = "16"
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/cellrenderer-cairo.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/cellrenderer-cairo.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/cellrenderer-cairo.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/cellrenderer-cairo.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/configure-nm.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/configure-nm.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/configure-nm.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/configure-nm.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/configurefix.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/configurefix.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/configurefix.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/configurefix.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/doc-fixes.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/doc-fixes.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/doc-fixes.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/doc-fixes.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/entry-cairo.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/entry-cairo.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/entry-cairo.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/entry-cairo.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/hardcoded_libtool.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/hardcoded_libtool.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/hardcoded_libtool.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/hardcoded_libtool.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/run-iconcache.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/run-iconcache.patch
+similarity index 72%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/run-iconcache.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/run-iconcache.patch
+index 597ba32..a4e2254 100644
+--- a/meta/recipes-gnome/gtk+/gtk+-2.24.22/run-iconcache.patch
++++ b/meta/recipes-gnome/gtk+/gtk+-2.24.24/run-iconcache.patch
+@@ -1,21 +1,22 @@
+ Upstream-Status: Inappropriate [configuration]
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
--           file://0001-configure-lower-automake-requirement.patch \
-           "
+-Index: gtk+-2.21.2/gtk/Makefile.am
+-===================================================================
+---- gtk+-2.21.2.orig/gtk/Makefile.am	2010-06-22 17:21:41.000000000 +0800
+-+++ gtk+-2.21.2/gtk/Makefile.am	2010-06-22 17:28:12.000000000 +0800
+-@@ -1376,11 +1376,11 @@
++diff -Nurd gtk+-2.24.24/gtk/Makefile.am gtk+-2.24.24/gtk/Makefile.am
++--- gtk+-2.24.24/gtk/Makefile.am	2014-06-23 18:08:14.000000000 +0300
+++++ gtk+-2.24.24/gtk/Makefile.am	2014-09-03 23:45:12.669307700 +0300
++@@ -1391,12 +1391,12 @@
+  	   ./gtk-update-icon-cache
+  endif
+  
+ -gtkbuiltincache.h: @REBUILD@ stamp-icons
+ -	$(MAKE) $(AM_MAKEFLAGS) gtk-update-icon-cache$(EXEEXT) $(GTK_UPDATE_ICON_CACHE_MANIFEST)
+ -	$(gtk_update_icon_cache_program) --force --ignore-theme-index		\
++-	   --include-image-data							\
+ -	   --source builtin_icons stock-icons > gtkbuiltincache.h.tmp &&        \
+ -	mv gtkbuiltincache.h.tmp gtkbuiltincache.h
+ +#gtkbuiltincache.h: @REBUILD@ stamp-icons
+ +#	$(MAKE) $(AM_MAKEFLAGS) gtk-update-icon-cache$(EXEEXT) $(GTK_UPDATE_ICON_CACHE_MANIFEST)
+ +#	$(gtk_update_icon_cache_program) --force --ignore-theme-index		\
+++#	   --include-image-data							\
+ +#	   --source builtin_icons stock-icons > gtkbuiltincache.h.tmp &&        \
+ +#	mv gtkbuiltincache.h.tmp gtkbuiltincache.h
+  
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/toggle-font.diff b/meta/recipes-gnome/gtk+/gtk+-2.24.24/toggle-font.diff
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/toggle-font.diff
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/toggle-font.diff
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/xsettings.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/xsettings.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/xsettings.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/xsettings.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.22.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.24.bb
+similarity index 93%
+rename from meta/recipes-gnome/gtk+/gtk+_2.24.22.bb
+rename to meta/recipes-gnome/gtk+/gtk+_2.24.24.bb
+index 98c65a5..7d0a0a2 100644
+--- a/meta/recipes-gnome/gtk+/gtk+_2.24.22.bb
++++ b/meta/recipes-gnome/gtk+/gtk+_2.24.24.bb
+@@ -28,8 +28,8 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
+ #        file://combo-arrow-size.patch;striplevel=0
+ #            file://configurefix.patch
  
- SRC_URI[md5sum] = "5f414b20f683b1d96b163c89e3eff768"
+-SRC_URI[md5sum] = "5fbbfb7637bbd571a572a2dae0e736d2"
+-SRC_URI[sha256sum] = "b114b6e9fb389bf3aa8a6d09576538f58dce740779653084046852fb4140ae7f"
++SRC_URI[md5sum] = "f80ac8aa95ea8482ad89656d0370752e"
++SRC_URI[sha256sum] = "12ceb2e198c82bfb93eb36348b6e9293c8fdcd60786763d04cfec7ebe7ed3d6d"
+ 
+ EXTRA_OECONF = "--enable-xkb --disable-glibtest --disable-cups --disable-xinerama"
+ 
 -- 
 2.1.0
 
