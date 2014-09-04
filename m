@@ -1,38 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BDA771421
+Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
+	[209.85.216.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 17E5571434
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Sep 2014 10:48:32 +0000 (UTC)
-Received: by mail-qg0-f45.google.com with SMTP id e89so9609933qgf.4
+	Thu,  4 Sep 2014 10:48:48 +0000 (UTC)
+Received: by mail-qa0-f42.google.com with SMTP id dc16so5248753qab.15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Sep 2014 03:48:34 -0700 (PDT)
+	Thu, 04 Sep 2014 03:48:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=xfYHoHDP3rtgK2jYyPALpUETvQDYzTTBZUnyeiNXW3U=;
-	b=fJrs4NOurE2G3fws8qGYEHJuh8igHYb+BMJixLDtyowIBfCTzoB9NcoWXymfdxPHO5
-	yZeA2H7WVCdtoDKtkJEm526PG99jE2Fl2ybEYm12ulaXn4WhllQuZr612r9fqSDUjWb6
-	R1K9iPCCvBFZwceap4/U1mwXX0gFer0ETWW73AEG7OKoow/vRYxKqgdA0y/2SR9gOHGU
-	I+bZuefEr3HRURKbgSuZEt05bUSrX3Ji8LsPuSlC7F6jcI8NZiMNvUUranT7JhD14ACY
-	CLuwjhE3lAqjogcNiaDuChuBfoHoLN0/yFC0Ni0D7hvjlDCZaYhPxKezxP11Cxmqlnsw
-	lq4Q==
-X-Gm-Message-State: ALoCoQk2MT3eOht2SPia3Ljh66DYIgLKtEWsmW/z6Ju9/griMrFSTPxl/d0hzCjax8VIIzYRLBlh
-X-Received: by 10.140.40.84 with SMTP id w78mr5188546qgw.87.1409827714142;
-	Thu, 04 Sep 2014 03:48:34 -0700 (PDT)
+	bh=0rLRnDXIFSD3uHer0pXt0I4USimMdy1Mqsnre9pidhw=;
+	b=RTKm1zYzjmRC4rKOJowHG+jba7grbgYX3agzkQel/EAxpeVthbsZtr5BpJT/r2EAjf
+	qlHvvkVvnIOOGmX6enS3hiA2FSr1h7PbdfHJS9MJhLFsujBEn7XpLSCi+Rh7Z1BRjbvb
+	7lhVDMx0gIp4+MnsF8mUudfYFaynACWDPtzDoUf5XLdx7Xj1nXXxOWDeNr8ZasucOc+5
+	6JZsNvn4NYDks4Ru4Sgrb83yQ2Z2cakuwDxiS5i3NU26rINQ99lodj8ASrpBBhk86UBT
+	unJa6Qyd5sb1LQW9BFZw+R7FdLhltgI8va6pMkIWT1GquaoIiYjMGjoi4W83fcv3ah/e
+	or3w==
+X-Gm-Message-State: ALoCoQk8kxWATDEdeyEEQMt7/CesDnOOmnm1FgbkoTWR17COyTfi0Qw/H90BlQ7KaQb0kW/TONuT
+X-Received: by 10.140.27.173 with SMTP id 42mr5207577qgx.59.1409827729696;
+	Thu, 04 Sep 2014 03:48:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Thu, 4 Sep 2014 03:48:14 -0700 (PDT)
-In-Reply-To: <75bc00cf71e871a28e5d5b43053c3bfa85157674.1409764769.git.chris_larson@mentor.com>
+Received: by 10.140.29.183 with HTTP; Thu, 4 Sep 2014 03:48:29 -0700 (PDT)
+In-Reply-To: <d323bbf79127a7216a0970375369a0ae773b89c7.1409764769.git.chris_larson@mentor.com>
 References: <cover.1409764769.git.chris_larson@mentor.com>
-	<75bc00cf71e871a28e5d5b43053c3bfa85157674.1409764769.git.chris_larson@mentor.com>
+	<d323bbf79127a7216a0970375369a0ae773b89c7.1409764769.git.chris_larson@mentor.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 4 Sep 2014 11:48:14 +0100
-Message-ID: <CAJTo0LZn81QZnOkiX5Ao4UEkKNdf+AEeiOeqHq2vcQmewa4HEg@mail.gmail.com>
+Date: Thu, 4 Sep 2014 11:48:29 +0100
+Message-ID: <CAJTo0LYvHpfJCO5XRHS=JE0-WaDGi=2sEToPsxD2rTwf9WszZQ@mail.gmail.com>
 To: Christopher Larson <kergoth@gmail.com>
 Cc: Christopher Larson <chris_larson@mentor.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/8] irda-utils: obey LDFLAGS
+Subject: Re: [PATCH 5/8] hostap-utils: obey LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,28 +45,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Sep 2014 10:48:37 -0000
+X-List-Received-Date: Thu, 04 Sep 2014 10:48:49 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On 3 September 2014 18:27, Christopher Larson <kergoth@gmail.com> wrote:
-> +++ b/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/ldflags.patch
+> +++ b/meta/recipes-bsp/hostap/hostap-utils-0.4.7/ldflags.patch
 
-Missing patch header.
-
-> -export SYS_INCLUDES="-I${STAGING_INCDIR}"
-> -
->  inherit autotools-brokensep update-rc.d
->
-> +EXTRA_OEMAKE = "\
-> +    'CC=${CC}' \
-> +    'LD=${LD}' \
-> +    'CFLAGS=${CFLAGS}' \
-> +    'LDFLAGS=${LDFLAGS}' \
-> +    'SYS_INCLUDES=' \
-> +    'V=1' \
-
-The autotools inherit appears to be redundant and can be removed too
-if you're cleaning up the build.
+Missing header.
 
 Ross
 
