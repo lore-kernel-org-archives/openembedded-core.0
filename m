@@ -1,42 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
-	[209.85.216.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 90307714AF
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa06-04.prod.phx3.secureserver.net
+	(p3plsmtpa06-04.prod.phx3.secureserver.net [173.201.192.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 3246B71408
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Sep 2014 19:12:31 +0000 (UTC)
-Received: by mail-qc0-f169.google.com with SMTP id l6so11240746qcy.14
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Sep 2014 12:12:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=OlVkwtLl3QD58zBodWAd39Cmxe5elLm50HEvb7O2FJE=;
-	b=TZQd+lZ9bBZhUe5d1fSLDUWqTmBEpsXvFA1Jqg9r7qFkHH5l4iZAVrm/IoGCNPBJ14
-	FiFhOABsuUHGB9pSHtntZaCxcSepFeEOn1293CCXfsDKmlKKwa4ZrmQ9V8oCtKWfv/eC
-	ZT7xdmuXqXtHozrzb4rv29TOVg6jzsS8Q/bDfxXGzxJMSMH1/oQPCmoQCd12pAm5cDKl
-	mTVUzH6RtXt6Y0utcdZOK5ra6BU9JYO655smweRGo0DqFOPMQTgjDL1B87hLGitXM3gf
-	281KWIqxLAeZ4UY1OYoJMAYAQArN3ryiU5zcP0rMK0B41CzDYCz7Dg2IZQtlghO1jLaU
-	bbTg==
-X-Gm-Message-State: ALoCoQnPTqQ0V9PWwtRygliJivT/YKm3y3uvVb6YZFTIPXYixkZhI1MTjwVLeCMj822qnzagY7IY
-X-Received: by 10.224.38.10 with SMTP id z10mr10522117qad.52.1409857952060;
-	Thu, 04 Sep 2014 12:12:32 -0700 (PDT)
+	Thu,  4 Sep 2014 19:30:14 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa06-04.prod.phx3.secureserver.net with 
+	id n7WE1o00B1mTNtu017WEBf; Thu, 04 Sep 2014 12:30:15 -0700
+Message-ID: <5408BDC6.2060006@pabigot.com>
+Date: Thu, 04 Sep 2014 14:30:14 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Thu, 4 Sep 2014 12:12:11 -0700 (PDT)
-In-Reply-To: <lyha0nb5cg.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <CAJTo0LaRETJdKG-bL+40YtGrVjs4MLVLiydybSUj5ALa2tyxUQ@mail.gmail.com>
-	<lysik75pyt.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0LbNG14cHQN8JewwOd-Z0rBOeSpEQKHOQguSQweiQzLVtQ@mail.gmail.com>
-	<540896F8.9040805@pabigot.com>
-	<lyiol3uxra.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CALbNGRRTcV8bst1tQYNZ-z6w7_aSXT3=pVMVLRQncDw4TwQEow@mail.gmail.com>
-	<lyha0nb5cg.fsf@ensc-virt.intern.sigma-chemnitz.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 4 Sep 2014 20:12:11 +0100
-Message-ID: <CAJTo0LY9RwZzJ7KhON4EHq-PuLC7z3jcv4_B-u94EZUJWUYvgg@mail.gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Style issue for recipes
+To: openembedded-core@lists.openembedded.org
+References: <cover.1409655125.git.Qi.Chen@windriver.com>
+	<c57d855c12c783cdfa52f304e52fc2fd1267dd96.1409655125.git.Qi.Chen@windriver.com>
+In-Reply-To: <c57d855c12c783cdfa52f304e52fc2fd1267dd96.1409655125.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 01/26] systemd: upgrade to 216
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,24 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Sep 2014 19:12:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 04 Sep 2014 19:30:22 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 4 September 2014 19:36, Enrico Scholz
-<enrico.scholz@sigma-chemnitz.de> wrote:
->> Did you ever use 'git blame' for few lines most recipes have?
->
-> In other projects (e.g. linux kernel) I am using C-x v g in emacs very
-> often to see when/why a certain line was added.  In some OE recipes I
-> would like to do the same...
+On 09/02/2014 05:53 AM, Chen Qi wrote:
+> Upgrade systemd from 213 to 216.
 
-Personally I find git blame totally disappointing in general, and
-would love to see a "history browser" UI that let me see the history
-of a line in a file without having to repeatedly git blame, get hash,
-show hash, realise that change was whitespace, git blame hash^, rinse,
-repeat.
+This broke me, because by 216 systemd started managing /etc/resolv.conf 
+which is fine except that it uses a static configuration in 
+/etc/systemd/resolved.conf, whereas in the 213 days I was getting 
+/etc/resolv.conf managed by connman which set up the nameservers based 
+on information it received from dhcp meaning one less per-host 
+configuration file I need to manage.
 
-If someone knows a good UI for blame-digging then please let me know!
+I was able to get working behavior again by doing systemctl disable 
+systemd-resolved, removing the /etc/resolv.conf symlink, and rebooting.
 
-Ross
+Further investigation suggests that systemd-networkd is intended to do 
+the same sort of thing as connman, though so maybe I need to shoot that 
+instead.
+
+I have no answers, but just wanted to note that there now appears to be 
+some conflict between connman and systemd that didn't used to be there. 
+Maybe systemd-networkd and its constituent pieces need to be pulled out 
+as a separate package?  Or some sort of conflict detection if both 
+connman and systemd-networkd are in the same image?
+
+Peter
 
