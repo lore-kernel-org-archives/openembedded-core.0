@@ -1,30 +1,24 @@
-Return-Path: <Chong.Lu@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 80C86713BA
+	by mail.openembedded.org (Postfix) with ESMTP id 6CBFC710C5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Sep 2014 07:27:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s847RhhB009638
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 4 Sep 2014 00:27:43 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Thu, 4 Sep 2014 00:27:42 -0700
-Message-ID: <5408146B.4060903@windriver.com>
-Date: Thu, 4 Sep 2014 15:27:39 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Thu,  4 Sep 2014 07:51:03 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s847p4Ei012219
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Sep 2014 00:51:04 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 4 Sep 2014 00:51:04 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 4 Sep 2014 15:50:59 +0800
+Message-ID: <cover.1409816594.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: Richard Purdie <rpurdie@rpsys.net>
-References: <cover.1409735063.git.Chong.Lu@windriver.com>	
-	<ff575b1b7622194f6e15d1b38c191df729a80f47.1409735063.git.Chong.Lu@windriver.com>
-	<1409740959.12482.4.camel@ted>
-In-Reply-To: <1409740959.12482.4.camel@ted>
-X-Originating-IP: [128.224.162.204]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 1/1] perf: fix issue about package splitting
+Subject: [PATCH V2 0/1] lttng-tools: add PACKAGECONFIG to support --enable-python-bindings and lttng-ust
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,80 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Sep 2014 07:27:44 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Sep 2014 07:51:06 -0000
+Content-Type: text/plain
 
+Changed in V2:
+    The python-bindings requires swig-native as DEPENDS, and 
+    swig-native is not in oe-core, so disable python-bindings
+    by default
 
-On 09/03/2014 06:42 PM, Richard Purdie wrote:
-> On Wed, 2014-09-03 at 17:05 +0800, Chong Lu wrote:
->> Currently, perf can't split to perf-archive, perf-tests, perf-python and
->> perf-perl. All files are included in perf package. Change the files paths to
->> make split successfully and add PACKAGECONFIG to make main pkg depends on sub
->> pkgs as default.
->>
->> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
->> ---
->>   meta/recipes-kernel/perf/perf.bb | 17 ++++++++++++-----
->>   1 file changed, 12 insertions(+), 5 deletions(-)
->>
->> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
->> index bfd210c..baf0077 100644
->> --- a/meta/recipes-kernel/perf/perf.bb
->> +++ b/meta/recipes-kernel/perf/perf.bb
->> @@ -149,20 +149,27 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
->>   
->>   PACKAGES =+ "${PN}-archive ${PN}-tests ${PN}-perl ${PN}-python"
->>   
->> +PACKAGECONFIG ??= "archive perl python tests"
->> +PACKAGECONFIG[archive] = ",,, ${PN}-archive"
->> +PACKAGECONFIG[perl] = ",,, ${PN}-perl"
->> +PACKAGECONFIG[python] = ",,, ${PN}-python"
->> +PACKAGECONFIG[tests] = ",,, ${PN}-tests"
->> +
->>   RDEPENDS_${PN} += "elfutils"
->>   RDEPENDS_${PN}-archive =+ "bash"
->>   RDEPENDS_${PN}-python =+ "bash python"
->>   RDEPENDS_${PN}-perl =+ "bash perl perl-modules"
->> +RDEPENDS_${PN}-tests =+ "python"
-> I now realise the trick you're playing with PACKAGECONFIG here. Instead
-> can we just define a package (say ${PN}-all but I'll accept a better
-> name) which has dependencies on archive perl python tests so then the
-> user can choose ${PN}, ${PN}-all or some other combination depending on
-> their needs?
+//Hongxu
 
-OK, I will put archive perl python and tests in ${PN}-full.
+The following changes since commit a44006262cf3b810ec78b4cccd8076102a7a0f3e:
 
->   
->>   RSUGGESTS_SCRIPTING = "${@perf_feature_enabled('perf-scripting', '${PN}-perl ${PN}-python', '',d)}"
->>   RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
->>   
->> -FILES_${PN} += "${libexecdir}/perf-core ${exec_prefix}/libexec/perf-core ${libdir}/traceevent"
->> +FILES_${PN} += "${libdir}/traceevent"
->>   FILES_${PN}-dbg += "${libdir}/python*/site-packages/.debug"
->> -FILES_${PN}-archive = "${libdir}/perf/perf-core/perf-archive"
->> -FILES_${PN}-tests = "${libdir}/perf/perf-core/tests"
->> -FILES_${PN}-python = "${libdir}/python*/site-packages ${libdir}/perf/perf-core/scripts/python"
->> -FILES_${PN}-perl = "${libdir}/perf/perf-core/scripts/perl"
->> +FILES_${PN}-archive = "${exec_prefix}/libexec/perf-core/perf-archive"
->> +FILES_${PN}-tests = "${exec_prefix}/libexec/perf-core/tests"
->> +FILES_${PN}-python = "${exec_prefix}/libexec/perf-core/scripts/python"
->> +FILES_${PN}-perl = "${exec_prefix}/libexec/perf-core/scripts/perl"
-> Can we use ${libexecdir} here please rather than hardcode it?
+  distro/poky: Add Debian 7.5 and 7.6 version as validated (2014-09-03 16:00:29 +0100)
 
-I checked environment, the variable libexecdir is "/usr/lib/perf". If I 
-use this variable, package can't be split successfully.
+are available in the git repository at:
 
-Best Regards
-Chong
+  git://git.pokylinux.org/poky-contrib hongxu/fix-lttng-tools
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-lttng-tools
 
->
-> Cheers,
->
-> Richard
->
->
->
->
+Hongxu Jia (1):
+  lttng-tools: add PACKAGECONFIG to support --enable-python-bindings and
+    lttng-ust
+
+ meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
+
+-- 
+1.9.1
 
 
