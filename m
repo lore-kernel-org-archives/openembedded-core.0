@@ -1,41 +1,37 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 77AC4713E4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B30A713F2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 18:09:39 +0000 (UTC)
-Received: by mail-qc0-f176.google.com with SMTP id m20so12629528qcx.21
+	Fri,  5 Sep 2014 19:35:47 +0000 (UTC)
+Received: by mail-qc0-f179.google.com with SMTP id l6so12935117qcy.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Sep 2014 11:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=RFZx8HYsPMGy/zsTNboX1LZS8wvVlfHgIddUPgWcY6s=;
-	b=OJZ4+BRY05e2hHKvDM1H9d8+m7YjflOri3j9BySPLVDuXR05250k0YABYzq3x+74y/
-	2t5GVhAvBBVVvCZBbtNiT6Df2G7asTPAy/WN60iy4dkOF3VuR1OqsN7U8G/jJoEZvAk9
-	uj23qAxYN/wFZRrBBkl+YebikPsMHbW4FxzR0i/isz3/5qxJq/WUUCNxrbLW1AuyWFld
-	dfTTM/Ig2olKd88EkI/5QcmChZ49uE+AkuOfoCok2UBwAGOqQH6KCBMJSORhqm37NOmc
-	QyPXkeMAy2CrG5KtqxmRVaxJs8u1WoGeQgwemNWXpsDK7ImqT/DW8SUxTHgugKj7rS93
-	yZ5w==
+	Fri, 05 Sep 2014 12:35:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=4QFb140Siai87ReB0wLEjQmZdfyFKEAa8LerDfK7PF8=;
+	b=ZMxjXeOsJl2AsYU+URCf3JD1902dHNBkchug0L3CbC0JK249GKcCsFOs2dx/GmF5TP
+	mYD5hMrpzPVOo0WlLrWFT58qp7PCv0qnDLQi9tPofm3QyvuRD/JTUKQCSuykhiJ9sVcF
+	1QOHExNX9S+giXqDEwNDI1sqTOHmAnOCtKeVnt8VkpyE1zkUfSHklXpEWCToRGnSrQ+Q
+	qBb2ijkDyu74K/PkTblVJfzoHNgcT64a2wuk2bJ3R14A5OjW46AUqQNXZGb21ToQp0e3
+	TpCPCLk0CcX6QidpsKQuwGbUf/k/tPACeVIkcxljI+HRts87pAvcTSAYYYmJ+tmlg+1l
+	LyNw==
+X-Gm-Message-State: ALoCoQluVdg0z0w2jWfdsm1M982aUIGHKYTrerJNQKxxeZd/Ih4f4Dy7gckZTBHb3fyxBZGucpVw
+X-Received: by 10.140.97.131 with SMTP id m3mr20816639qge.80.1409945748983;
+	Fri, 05 Sep 2014 12:35:48 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.224.15.201 with SMTP id l9mr21140761qaa.27.1409940580368;
-	Fri, 05 Sep 2014 11:09:40 -0700 (PDT)
-Received: by 10.96.147.37 with HTTP; Fri, 5 Sep 2014 11:09:40 -0700 (PDT)
-Received: by 10.96.147.37 with HTTP; Fri, 5 Sep 2014 11:09:40 -0700 (PDT)
-In-Reply-To: <CAJTo0LbQtJFH8Tm3y58WPVx3GGbzCPATrqt5OnNWT3Q1=q1ALA@mail.gmail.com>
-References: <CACS+7ZQq_tHp0vA0FA8e1W+iLhuzEA3tov0B5QGFaUvGp_cgNg@mail.gmail.com>
-	<CAJTo0Lb8TdnZqDObaNS5JQROLYF9MG-67+W5i=kFBF8TE+s8-Q@mail.gmail.com>
-	<CACS+7ZQiCVksBN1FK9wJ56k_hpJhpYFq23sWw3srHQ5ZsE1P9A@mail.gmail.com>
-	<CAJTo0LZNo4MxuZoSOvZU-kaL1v=+Wyy2To=s8Dp68ShszTRSbQ@mail.gmail.com>
-	<5409D739.1030307@windriver.com>
-	<CAJTo0LbQtJFH8Tm3y58WPVx3GGbzCPATrqt5OnNWT3Q1=q1ALA@mail.gmail.com>
-Date: Fri, 5 Sep 2014 12:09:40 -0600
-Message-ID: <CACS+7ZRpzVyKyngYSo-GpyCZu1iM5saphZ=3Fbm7Y_dqD2xu_A@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Use ${ROOT_HOME} instead of /root
+Received: by 10.140.29.183 with HTTP; Fri, 5 Sep 2014 12:35:27 -0700 (PDT)
+In-Reply-To: <5f69db7a3b75248ce543cb11f1fabe57b491a340.1409791242.git.cazfi74@gmail.com>
+References: <cover.1409791241.git.cazfi74@gmail.com>
+	<5f69db7a3b75248ce543cb11f1fabe57b491a340.1409791242.git.cazfi74@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 5 Sep 2014 20:35:27 +0100
+Message-ID: <CAJTo0LZmxUE=51F3EwK+0_ih9upLU9T7MmRHR6b=5m9kFh3xfA@mail.gmail.com>
+To: Marko Lindqvist <cazfi74@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/6] pixman: update to 0.32.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,57 +44,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 18:09:42 -0000
-Content-Type: multipart/alternative; boundary=047d7bdc8c347288fe0502555fb2
-
---047d7bdc8c347288fe0502555fb2
+X-List-Received-Date: Fri, 05 Sep 2014 19:35:53 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Sep 5, 2014 9:54 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
->
-> On 5 September 2014 16:31, Mark Hatle <mark.hatle@windriver.com> wrote:
-> > I'd prefer a patch that used a define myself.  I don't like seds of
-source
-> > or patches...
->
-> A #define for /root might even get upstream.
->
+On 4 September 2014 01:48, Marko Lindqvist <cazfi74@gmail.com> wrote:
+>  meta/recipes-graphics/xorg-lib/{pixman_0.32.4.bb => pixman_0.32.6.bb} | 4 ++--
 
-I hacked up configure to do this. I'll submit it this evening.
+Before we get another submission for this patch, it's stalling as it
+fails to build on qemumips.
 
-> Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
---047d7bdc8c347288fe0502555fb2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<p dir=3D"ltr">On Sep 5, 2014 9:54 AM, &quot;Burton, Ross&quot; &lt;<a href=
-=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On 5 September 2014 16:31, Mark Hatle &lt;<a href=3D"mailto:mark.hatle=
-@windriver.com">mark.hatle@windriver.com</a>&gt; wrote:<br>
-&gt; &gt; I&#39;d prefer a patch that used a define myself.=C2=A0 I don&#39=
-;t like seds of source<br>
-&gt; &gt; or patches...<br>
-&gt;<br>
-&gt; A #define for /root might even get upstream.<br>
-&gt;</p>
-<p dir=3D"ltr">I hacked up configure to do this. I&#39;ll submit it this ev=
-ening.</p>
-<p dir=3D"ltr">&gt; Ross<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
-<br>
-</p>
-
---047d7bdc8c347288fe0502555fb2--
