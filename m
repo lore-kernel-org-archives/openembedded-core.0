@@ -1,27 +1,23 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 144DB71425;
-	Fri,  5 Sep 2014 09:11:54 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Sep 2014 02:11:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="381825983"
-Received: from sydealwi-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.158])
-	by FMSMGA003.fm.intel.com with ESMTP; 05 Sep 2014 02:07:09 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 05 Sep 2014 10:11:53 +0100
-Message-ID: <7503608.dirsGt1W6p@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.13.3 (Linux/3.15.10-201.fc20.x86_64; KDE/4.13.3; x86_64; ;
-	)
-In-Reply-To: <CAJTo0LaRETJdKG-bL+40YtGrVjs4MLVLiydybSUj5ALa2tyxUQ@mail.gmail.com>
-References: <CAJTo0LaRETJdKG-bL+40YtGrVjs4MLVLiydybSUj5ALa2tyxUQ@mail.gmail.com>
+Return-Path: <eric@eukrea.com>
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 14B337135D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Sep 2014 09:13:15 +0000 (UTC)
+Received: from e6520eb (unknown [88.170.243.169])
+	(Authenticated sender: eukrea)
+	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 6268EA621D;
+	Fri,  5 Sep 2014 11:13:14 +0200 (CEST)
+Date: Fri, 5 Sep 2014 11:13:13 +0200
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: Dvorkin Dmitry <dvorkin@tibbo.com>
+Message-ID: <20140905111313.0f978efd@e6520eb>
+In-Reply-To: <540975F3.7050806@tibbo.com>
+References: <540975F3.7050806@tibbo.com>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.10.1 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Style issue for recipes
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: wrong automatic dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,32 +30,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 09:11:57 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 05 Sep 2014 09:13:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Thursday 04 September 2014 15:12:02 Burton, Ross wrote:
-> Quick question of style for the community to bikeshed on:  in the
-> general case should recipes be split into foo_1.2.bb and foo.inc, or
-> should they only split to bb/inc if there are multiple versions and
-> generally there should just be foo_1.2.bb.
-> 
-> Specifically I'm looking at the libunwind patch for oe-core (moving
-> from meta-oe) which adds libunwind_1.1.bb and libunwind.inc.
-> Personally I feel that splitting them up complicates packaging and
-> should only be done if there's actually multiple versions being used.
+Hi Dvorkin,
 
-I think the conclusion we've come to is let's not have inc files just for the 
-sake of having them; if we need to add them to share common functionality we 
-will, but as time goes on it may be appropriate to factor some of them out. 
-(Having said that I think it would cause more harm than good to go on a huge 
-spree and merge a load of them away, at least at this point.)
+Le Fri, 05 Sep 2014 16:36:03 +0800,
+Dvorkin Dmitry <dvorkin@tibbo.com> a =E9crit :
 
-Cheers,
-Paul
+>=20
+> Hello!
+>=20
+> I wrote my own recipe for crda.
+> (http://wireless.kernel.org/en/developers/Regulatory/CRDA)
+>=20
+> Dependencies is:
+> DEPENDS =3D "libgcrypt libnl"
+> RDEPENDS_${PN} =3D "udev wireless-regdb"
+>=20
+> Crda Makefile is using python to rebuild it's database in=20
+> build/installation step.
+> After installation I have several packages: crda itself, crda-dev,=20
+> crda-doc, ... etc.
+> In my image I'm using only 'crda' package that doesn't need python.
+>=20
+> But it seems Yocto detects python and add automatic dependency of python=
+=20
+> to my image anyway.
+>=20
+> $ grep "crda" ./*.dot | grep pyt
+> ./task-depends.dot:"crda.do_build" -> "python-dbus.do_package_write_ipk"
+> ./task-depends.dot:"crda.do_build" -> "python.do_package_write_rpm"
+> ./task-depends.dot:"crda.do_build" -> "python.do_package_write_deb"
+> ./task-depends.dot:"crda.do_build" -> "python.do_package_write_ipk"
+> ./task-depends.dot:"crda.do_build" ->=20
+> "python-pygobject.do_package_write_rpm"
+> ./task-depends.dot:"crda.do_build" ->=20
+> "python-pygobject.do_package_write_deb"
+> ./task-depends.dot:"crda.do_build" ->=20
+> "python-pygobject.do_package_write_ipk"
+> ./task-depends.dot:"crda.do_build" -> "python-dbus.do_package_write_rpm"
+> ./task-depends.dot:"crda.do_build" ->
+> "python-dbus.do_package_write_deb"
+>=20
+> Is there any way to get rid of python dependency in this and only
+> this recipe? it makes my image significally bigger.
 
--- 
+are you sure python is drawn in your image by crda ?
 
-Paul Eggleton
-Intel Open Source Technology Centre
+With the existing recipe, I don't get python RDEPENDS in crda :
+http://layers.openembedded.org/layerindex/recipe/4179/
+
+$ cat cortexa9hf-vfp-neon-oe-linux-gnueabi/crda/crda/latest=20
+PV =3D 1.1.3
+PR =3D r0
+RPROVIDES =3D=20
+RDEPENDS =3D eglibc (>=3D 2.18) libgcrypt (>=3D 1.5.3) libnl (>=3D 3.2.22) =
+libnl-genl (>=3D 3.2.22) udev
+RRECOMMENDS =3D=20
+PKGSIZE =3D 21773
+FILES =3D /usr/bin/* /usr/sbin/* /usr/lib/crda/* /usr/lib/lib*.so.* /etc /c=
+om /var /bin/* /sbin/* /lib/*.so.* /lib/udev/rules.d /usr/lib/udev/rules.d =
+/usr/share/crda /usr/lib/crda/* /usr/share/pixmaps /usr/share/applications =
+/usr/share/idl /usr/share/omf /usr/share/sounds /usr/lib/bonobo/servers /us=
+r/libcrda/regulatory.bin /lib/udev/rules.d/85-regulatory.rules
+FILELIST
+=3D /lib/udev/rules.d/85-regulatory.rules /sbin/crda /sbin/regdbdump /usr/l=
+ib/crda/regulatory.bin
+
+Eric
 
