@@ -1,26 +1,36 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8393C710C7
+Return-Path: <anders@chargestorm.se>
+X-Greylist: delayed 331 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 05 Sep 2014 06:23:27 UTC
+Received: from stoexhubfe02.domain01.net (STOEXHUBFE02.domain01.net
+	[83.145.59.141])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A6C77142C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 03:17:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s853H68p029427
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Sep 2014 20:17:07 -0700 (PDT)
-Received: from [128.224.162.141] (128.224.162.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 4 Sep 2014 20:17:06 -0700
-Message-ID: <54092B32.501@windriver.com>
-Date: Fri, 5 Sep 2014 11:17:06 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+	Fri,  5 Sep 2014 06:23:27 +0000 (UTC)
+Received: from ad.chargestorm.se (213.114.64.43) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.279.1;
+	Fri, 5 Sep 2014 08:17:55 +0200
+Date: Fri, 5 Sep 2014 08:17:38 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Denys Dmytriyenko <denis@denix.org>
+Message-ID: <20140905061727.GB4498@ad.chargestorm.se>
+Mail-Followup-To: Denys Dmytriyenko <denis@denix.org>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: [RFC] Integrate texinfo-4.8 to oe-core
+References: <20110907175510.GB3215@chargestorm.se>
+	<20110908070819.GA3928@chargestorm.se>
+	<20140904230826.GV2480@denix.org>
+MIME-Version: 1.0
+In-Reply-To: <20140904230826.GV2480@denix.org>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-GFI-SMTP-Submission: 1
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Race condition when building external kernel modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,17 +43,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 03:17:08 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Sep 2014 06:23:30 -0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi:
-    I would like to integrate texinfo-4.8 into oe-core,  it was
-released on 2007, and too old, but it is a GPLv2 package. Does
-anyone objects?
+Hi,
 
+* Denys Dmytriyenko <denis@denix.org> [140905 01:09]:
+> This report is exactly from 3 years ago. Has this ever been resolved or l=
+ooked=20
+> at? We have started seeing this a lot lately in our own distro based on D=
+aisy=20
+> with 3.14 kernel when building with 12-24 threads. But it might not be re=
+lease=20
+> specific or even OE specifig...
 
--- 
-Best Reagrds,
-Roy | RongQing Li
+Yes, our usecase was solved by by commit 8681b82e8b466929205edde7ba479f3ac1=
+a6143e,
+"module.bbclass: add lock to prevent error bulding ext modules". That
+seems to still be in modules.bbclass, thus the do_make_scripts task
+ought to be protected.
+
+> All the same symptoms as below - external modules break when building/usi=
+ng=20
+> scripts from the kernel tree ran by do_make_scripts function. Usually the=
+=20
+> failure is due to a race in or around fixdep: error opening depfile, but=
+=20
+> sometimes it's in scripts/dtc or scripts/mod when it can't move a temp fi=
+le=20
+> from a build. Looks like kernel creates .tmp_<name>.o files for use with =
+ksyms=20
+> utils as well as .<name>.o.d files for fixdep and those are usually the f=
+iles=20
+> that are not available at the right moment due to some race...
+
+Do you get the issue also when building just one external module? I'd
+guess not...
+
+Can you verify that it's in the do_make_scripts function the breakage
+occurs, or is it in the do_compile step?
+
+Cheers,
+Anders
+
+--=20
+Anders Darander
+ChargeStorm AB		Tel: +46 702 44 84 36
+Drottninggatan 20	Email: anders@chargestorm.se
+602 24 Norrk=F6ping	Web: www.chargestorm.se
 
