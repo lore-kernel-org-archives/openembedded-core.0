@@ -1,23 +1,37 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id AE1F67135C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B64F7130F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 14:19:51 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Fri, 5 Sep 2014
-	16:19:48 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id A492F288E2C;
-	Fri,  5 Sep 2014 16:19:48 +0200 (CEST)
-From: "Maxin B. John" <maxin.john@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 5 Sep 2014 16:19:45 +0200
-Message-ID: <1409926785-5157-1-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Fri,  5 Sep 2014 14:31:57 +0000 (UTC)
+Received: by mail-qc0-f171.google.com with SMTP id x3so12368618qcv.16
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Sep 2014 07:31:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=qRqQq0SrP4dmB5cK8GyLLDm2RgdonpXX1RG+0j/GoR0=;
+	b=kSIr4g8n98t6pHCT3/UlGfLOBE08jnO0sP/pcYeh3KnH+49ReL9zn0+6uIsEbd7Ku3
+	TiE2cFAUy6n842GO2Y7KyW2Yyuw90q0uZOWpqFbt3U4b1+hKiekO777VMEwCha0Li3Bz
+	85tVXOwqe9nvFw6cbvNNhLXEa9jp8cqjiieCqJ/8bxkjeRgp+VLWJdltcxbtM9KMCW8m
+	+uZXwyQtEoesvweAXNOj6vIhm+Ze4B0Kbub+rJhbHjvw/eprpweVcTuXsqpMGOjgv4k5
+	8Cw9fAhZlMOAPYdvr3zNqxHs8DyGLTojRwbgLYH7VRykofGeYdu9Eq+EK+PqKdTHghOt
+	zZpQ==
+X-Gm-Message-State: ALoCoQnrfilgMzt4EaUQQBcpO20YGk8GR7st1A3CJ/XB8HDL3FmwJ/q50ORiXIoKADTw2CeUR2RH
+X-Received: by 10.224.38.10 with SMTP id z10mr19311141qad.52.1409927518444;
+	Fri, 05 Sep 2014 07:31:58 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [PATCH] ltp: upgrade to 20140828
+Received: by 10.140.29.183 with HTTP; Fri, 5 Sep 2014 07:31:38 -0700 (PDT)
+In-Reply-To: <CAP9ODKo8dwJvw9cwDKEY0fQNo6Z+NrxavZtZs1AjcvQgHc_5JQ@mail.gmail.com>
+References: <53C3A130.4000900@pabigot.com> <53DC39DE.5020105@pabigot.com>
+	<CAP9ODKo8dwJvw9cwDKEY0fQNo6Z+NrxavZtZs1AjcvQgHc_5JQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 5 Sep 2014 15:31:38 +0100
+Message-ID: <CAJTo0LaQh=cMsbVYgt_xjhXqe0L76KC-efk17Pju6A21Da=j0Q@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: patchwork client problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,68 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 14:19:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 05 Sep 2014 14:32:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Upgrade to *August 2014* release
-Removed "automake-foreign.patch" as it has been merged
+On 4 August 2014 21:16, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> And I still get empty documents back from the OE patchwork server for every
+>> pwclient command I try.
+>>
+>> Anybody have any idea what's going wrong?
+>>
+>> Thanks.
+>>
+>> Peter
+>>
+>> llc[40]$ /tmp/pwclient projects
+>> Traceback (most recent call last):
+>>   File "/tmp/pwclient", line 500, in <module>
+>>     main()
+>>   File "/tmp/pwclient", line 439, in main
+>>     action_projects(rpc)
+>>   File "/tmp/pwclient", line 213, in action_projects
+>>     projects = rpc.project_list("", 0)
+>>   File "/usr/lib/python2.7/xmlrpclib.py", line 1224, in __call__
+>>     return self.__send(self.__name, args)
+>>   File "/usr/lib/python2.7/xmlrpclib.py", line 1578, in __request
+>>     verbose=self.__verbose
+>>   File "/usr/lib/python2.7/xmlrpclib.py", line 1264, in request
+>>     return self.single_request(host, handler, request_body, verbose)
+>>   File "/usr/lib/python2.7/xmlrpclib.py", line 1297, in single_request
+>>     return self.parse_response(response)
+>>   File "/usr/lib/python2.7/xmlrpclib.py", line 1471, in parse_response
+>>     p.close()
+>>   File "/usr/lib/python2.7/xmlrpclib.py", line 560, in close
+>>     self._parser.Parse("", 1) # end of data
+>> xml.parsers.expat.ExpatError: no element found: line 1, column 0
+>
+> I have same error; I am adding Khem who I know has access to the
+> server and can know more about it.
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
----
- meta/recipes-extended/ltp/ltp/automake-foreign.patch | 20 --------------------
- .../ltp/{ltp_20140422.bb => ltp_20140828.bb}         |  3 +--
- 2 files changed, 1 insertion(+), 22 deletions(-)
- delete mode 100644 meta/recipes-extended/ltp/ltp/automake-foreign.patch
- rename meta/recipes-extended/ltp/{ltp_20140422.bb => ltp_20140828.bb} (97%)
+Khem - have you been able to look at this?  I was hoping to use
+patchwork to merge patches from the list but obviously this is a bit
+of a blocker.
 
-diff --git a/meta/recipes-extended/ltp/ltp/automake-foreign.patch b/meta/recipes-extended/ltp/ltp/automake-foreign.patch
-deleted file mode 100644
-index c3dd891..0000000
---- a/meta/recipes-extended/ltp/ltp/automake-foreign.patch
-+++ /dev/null
-@@ -1,20 +0,0 @@
--Use foreign strictness to avoid automake errors.
--
--Upstream-Status: Submitted (https://github.com/linux-test-project/ltp/issues/16)
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--diff --git a/configure.ac b/configure.ac
--index 9f397e7..fc57957 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -4 +4 @@
---AM_INIT_AUTOMAKE
--+AM_INIT_AUTOMAKE([foreign])
----- a/utils/ffsb-6.0-rc2/configure.in
--+++ b/utils/ffsb-6.0-rc2/configure.in
--@@ -2,2 +2,3 @@ dnl Process this file with autoconf to produce a configure script.
---AC_INIT(main.c)
---AM_INIT_AUTOMAKE(ffsb, 6.0-RC2)
--+AC_INIT([ffsb], [6.0-RC2])
--+AC_CONFIG_SRCDIR([main.c])
--+AM_INIT_AUTOMAKE([foreign])
-diff --git a/meta/recipes-extended/ltp/ltp_20140422.bb b/meta/recipes-extended/ltp/ltp_20140828.bb
-similarity index 97%
-rename from meta/recipes-extended/ltp/ltp_20140422.bb
-rename to meta/recipes-extended/ltp/ltp_20140828.bb
-index c658bc0..de1929d 100644
---- a/meta/recipes-extended/ltp/ltp_20140422.bb
-+++ b/meta/recipes-extended/ltp/ltp_20140828.bb
-@@ -20,12 +20,11 @@ LIC_FILES_CHKSUM = "\
- "
- 
- DEPENDS = "attr libaio libcap acl openssl"
--SRCREV = "f4c3bfe1eab51eb72caeb0f3336d2790c9a8bd1b"
-+SRCREV = "2c341ad9177f36d9b953e84dee8cf88498286fe5"
- 
- SRC_URI = "git://github.com/linux-test-project/ltp.git \
-     file://0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch \
-     file://ltp-Do-not-link-against-libfl.patch \
--    file://automake-foreign.patch \
- "
- 
- S = "${WORKDIR}/git"
--- 
-1.9.1
-
+Cheers,
+Ross
 
