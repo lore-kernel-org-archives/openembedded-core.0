@@ -1,29 +1,23 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 57902713D9
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id AE1F67135C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 14:05:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s85E57pu008262
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Sep 2014 07:05:08 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 5 Sep 2014 07:05:07 -0700
-Message-ID: <5409C313.20208@windriver.com>
-Date: Fri, 5 Sep 2014 09:05:07 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
+	Fri,  5 Sep 2014 14:19:51 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Fri, 5 Sep 2014
+	16:19:48 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id A492F288E2C;
+	Fri,  5 Sep 2014 16:19:48 +0200 (CEST)
+From: "Maxin B. John" <maxin.john@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1408588282.git.hongxu.jia@windriver.com>	<990d4ba779e4127ff546796d62e2921392dbc0f7.1408588282.git.hongxu.jia@windriver.com>
-	<1409910121.12482.65.camel@ted>
-In-Reply-To: <1409910121.12482.65.camel@ted>
-Subject: Re: [PATCH 1/1] bbclass/sstate: only allowed sstate-cache objects are allowed in a build (read-only sstate-cache)
+Date: Fri, 5 Sep 2014 16:19:45 +0200
+Message-ID: <1409926785-5157-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] ltp: upgrade to 20140828
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,101 +30,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 14:05:12 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Sep 2014 14:19:56 -0000
+Content-Type: text/plain
 
-On 9/5/14, 4:42 AM, Richard Purdie wrote:
-> Hi Hongxu,
->
-> On Thu, 2014-08-21 at 10:36 +0800, Hongxu Jia wrote:
->> The requirement is the developer who demand only the "new" software
->> they write is allowed to be compiled from source, they only want to
->> reuse binaries from an existed sstate-cache, if the developer makes
->> a change that triggers a rebuild, it should be an instant error.
->>
->> The purpose of this is for the sstate-cache to check if the item
->> exists or not. If it doesn't the item needs to be in a whitelist
->> or we need to fail.
->>
->> In the sstate-cache code, add a checking in the return path of
->> sstate_checkhashes. If read-only sstate-cache enable, and the
->> recipe's ${PN} not in the ${SSTATECACHE_WHITELIST}, it trigered
->> an instant error.
->>
->> ...
->> $ bitbake db
->> ERROR: Read-only sstate-cache is enabled, the build of
->> "db rpm-native gcc-runtime eglibc linux-libc-headers libgcc"
->> did not come from sstate-cache. Only the recipe listed in
->> SSTATECACHE_WHITELIST is allowed to build from source
->>
->> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
->
-> Sorry for the delay in getting to this, with the other patches for the
-> release, time has been difficult.
->
-> I have been able to take a look at this and the other locked sstate
-> patches I've had pending for some time.
->
-> Having thought quite a bit about this, I think we really want to make
-> this functionality part of the siggen class code. Where we need to add
-> hooks, we should do so with callbacks into the siggen code.
->
-> I've just sent out a patch which my locked code in it. Could you take a
-> look and see if we can make that approach work with your code too?
->
-> In particular, I don't really want to have multiple whitelist type
-> variables. Could we use the SIGGEN_LOCKEDSIGS variable as the definitive
-> way to control which recipes can float and which should not?
+Upgrade to *August 2014* release
+Removed "automake-foreign.patch" as it has been merged
 
-I'm all for combining this.. however it appears the patches have two slightly 
-separate goals.
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ meta/recipes-extended/ltp/ltp/automake-foreign.patch | 20 --------------------
+ .../ltp/{ltp_20140422.bb => ltp_20140828.bb}         |  3 +--
+ 2 files changed, 1 insertion(+), 22 deletions(-)
+ delete mode 100644 meta/recipes-extended/ltp/ltp/automake-foreign.patch
+ rename meta/recipes-extended/ltp/{ltp_20140422.bb => ltp_20140828.bb} (97%)
 
-The locked sstate patch tells the system to use a specific hash value and ONLY 
-that hash value.   So if a user modified a system behavior in a way that would 
-change the behavior of the component there is no warning or error.
-
-The readonly sstate-cache on the other hand says, to reuse the sstate cache 
-items (there of course may be more then one per recipe name with a different 
-hash based on different configurations), but will warn/error when if the system 
-configuration changes in a way the hash would have changed.
-
-So there needs to be an interface that says which items are allowed to be built 
-from source, and which items require either the locked or readonly sstate behavior.
-
-Something like:
-
-SIGGEN_LOCKEDSIGS = "\
-gcc-cross:do_populate_sysroot:ro \
-eglibc:do_populate_sysroot:ro \
-eglibc:do_packagedata:ro \
-gcc-cross:do_packagedata:ro \
-"
-
-could work to extend it, but I have a concern with this.  It only affects 
-individual recipes.  The request we've had from our customers is that once they 
-have built their environment(s), and distributed the sstate-cache to their 
-developers -- only the items they distributed are allowed to be used, unless an 
-exception is granted.
-
-So having to maintain a SIGGEN_LOCKSIGS = variable with every possible package 
-in the system seems complicated at best (for the RO case).  They really want a 
-switch that sets everything, except exceptions as read-only.
-
-SIGGEN_LOCKEDSIGS = "\
-*:*:ro \
-bash:*:rw \
-"
-
-but I don't know if the glob/wildcarding would add more processing overhead then 
-is acceptable.
-
---Mark
-
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-extended/ltp/ltp/automake-foreign.patch b/meta/recipes-extended/ltp/ltp/automake-foreign.patch
+deleted file mode 100644
+index c3dd891..0000000
+--- a/meta/recipes-extended/ltp/ltp/automake-foreign.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Use foreign strictness to avoid automake errors.
+-
+-Upstream-Status: Submitted (https://github.com/linux-test-project/ltp/issues/16)
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/configure.ac b/configure.ac
+-index 9f397e7..fc57957 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -4 +4 @@
+--AM_INIT_AUTOMAKE
+-+AM_INIT_AUTOMAKE([foreign])
+---- a/utils/ffsb-6.0-rc2/configure.in
+-+++ b/utils/ffsb-6.0-rc2/configure.in
+-@@ -2,2 +2,3 @@ dnl Process this file with autoconf to produce a configure script.
+--AC_INIT(main.c)
+--AM_INIT_AUTOMAKE(ffsb, 6.0-RC2)
+-+AC_INIT([ffsb], [6.0-RC2])
+-+AC_CONFIG_SRCDIR([main.c])
+-+AM_INIT_AUTOMAKE([foreign])
+diff --git a/meta/recipes-extended/ltp/ltp_20140422.bb b/meta/recipes-extended/ltp/ltp_20140828.bb
+similarity index 97%
+rename from meta/recipes-extended/ltp/ltp_20140422.bb
+rename to meta/recipes-extended/ltp/ltp_20140828.bb
+index c658bc0..de1929d 100644
+--- a/meta/recipes-extended/ltp/ltp_20140422.bb
++++ b/meta/recipes-extended/ltp/ltp_20140828.bb
+@@ -20,12 +20,11 @@ LIC_FILES_CHKSUM = "\
+ "
+ 
+ DEPENDS = "attr libaio libcap acl openssl"
+-SRCREV = "f4c3bfe1eab51eb72caeb0f3336d2790c9a8bd1b"
++SRCREV = "2c341ad9177f36d9b953e84dee8cf88498286fe5"
+ 
+ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+     file://0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch \
+     file://ltp-Do-not-link-against-libfl.patch \
+-    file://automake-foreign.patch \
+ "
+ 
+ S = "${WORKDIR}/git"
+-- 
+1.9.1
 
 
