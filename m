@@ -1,23 +1,54 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 137A2714C1
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 02FCE71403
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 10:04:13 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1; Fri, 5 Sep 2014
-	12:04:09 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 2671)	id DF7E8288E2C;
-	Fri,  5 Sep 2014 12:04:09 +0200 (CEST)
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 5 Sep 2014 12:04:08 +0200
-Message-ID: <1409911448-28036-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Fri,  5 Sep 2014 10:21:13 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	s85AL889019341
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 5 Sep 2014 12:21:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1409912472;
+	bh=Cfhu4oXgrCBbqK3NhueT5ErVkFvvrKN/t7Mb1dyhuP8=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=fyidBmaRHb4AbtWYBRZ2eMleUyiZEmR1zmmdRf21XdG5DCJhvjmMj5qXjY7tab5vp
+	CUeZeKmoV/ctsmacPIZgqNg67Et+dx/VYpYIAoV8bKr95aVU1idlU4+RD615nB1Hi2
+	nyL3WhgPqSL0B8MWpPaRVfhKL5Xj2RelZ7QCwrjQ=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s85AL3s5030001
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 5 Sep 2014 12:21:05 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1XPqdZ-0006ap-F9
+	for openembedded-core@lists.openembedded.org;
+	Fri, 05 Sep 2014 12:21:02 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <cover.1409655125.git.Qi.Chen@windriver.com>
+	<c57d855c12c783cdfa52f304e52fc2fd1267dd96.1409655125.git.Qi.Chen@windriver.com>
+	<5408BDC6.2060006@pabigot.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Fri, 05 Sep 2014 12:21:01 +0200
+In-Reply-To: <5408BDC6.2060006@pabigot.com> (Peter A. Bigot's message of "Thu, 
+	04 Sep 2014 14:30:14 -0500")
+Message-ID: <lyoauufjw2.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-Cc: linux@list.enea.se
-Subject: [PATCH] pcihp: fix possible array out of bounds, CVE-2014-5388
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.8
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
+Subject: Re: [PATCH 01/26] systemd: upgrade to 216
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,69 +61,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 10:04:15 -0000
+X-List-Received-Date: Fri, 05 Sep 2014 10:21:18 -0000
 Content-Type: text/plain
 
-Prevent out-of-bounds array access on acpi_pcihp_pci_status.
+"Peter A. Bigot" <pab-VfDNNZTKYKBBDgjK7y7TUQ@public.gmane.org> writes:
 
-[From QEMU: fa365d7cd11185237471823a5a33d36765454e16]
+> Maybe systemd-networkd and its constituent pieces need to be pulled
+> out as a separate package?
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- ...1-Back-porting-security-fix-CVE-2014-5388.patch | 30 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.1.0.bb           |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/files/0001-Back-porting-security-fix-CVE-2014-5388.patch
+Yes; I think this is necessary.  systemd gets larger and larger with
+each release and is providing functionality which is either not needed
+(logind, the network stuff, nspawn, nss modules) or which is solved by
+other parts of the system and is conflicting with them.
 
-diff --git a/meta/recipes-devtools/qemu/files/0001-Back-porting-security-fix-CVE-2014-5388.patch b/meta/recipes-devtools/qemu/files/0001-Back-porting-security-fix-CVE-2014-5388.patch
-new file mode 100644
-index 0000000..ec541fa
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/files/0001-Back-porting-security-fix-CVE-2014-5388.patch
-@@ -0,0 +1,30 @@
-+Prevent out-of-bounds array access on
-+acpi_pcihp_pci_status.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Gonglei <arei.gonglei@huawei.com>
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+---
-+v2:
-+ - change commit message.
-+ - add 'Reviewed-by'
-+---
-+ hw/acpi/pcihp.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-+index fae663a..34dedf1 100644
-+--- a/hw/acpi/pcihp.c
-++++ b/hw/acpi/pcihp.c
-+@@ -231,7 +231,7 @@ static uint64_t pci_read(void *opaque, hwaddr addr, unsigned int size)
-+     uint32_t val = 0;
-+     int bsel = s->hotplug_select;
-+
-+-    if (bsel < 0 || bsel > ACPI_PCIHP_MAX_HOTPLUG_BUS) {
-++    if (bsel < 0 || bsel >= ACPI_PCIHP_MAX_HOTPLUG_BUS) {
-+         return 0;
-+     }
-+
-+--
-+1.7.12.4
-diff --git a/meta/recipes-devtools/qemu/qemu_2.1.0.bb b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-index 9b8337a..a82d052 100644
---- a/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
- SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://qemu-enlarge-env-entry-size.patch \
-             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
-+            file://0001-Back-porting-security-fix-CVE-2014-5388.patch \
-             "
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
- SRC_URI[md5sum] = "6726977292b448cbc7f89998fac6983b"
+
+Enrico
 -- 
-1.9.1
-
+SIGMA Chemnitz GmbH       Registergericht:   Amtsgericht Chemnitz HRB 1750
+Am Erlenwald 13           Geschaeftsfuehrer: Grit Freitag, Frank Pyritz
+09128 Chemnitz
 
