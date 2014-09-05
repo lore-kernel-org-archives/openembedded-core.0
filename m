@@ -1,30 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F241713C4
+Return-Path: <dvorkin@tibbo.com>
+Received: from smtp.tibbo.com (smtp.tibbo.com [93.174.104.90])
+	by mail.openembedded.org (Postfix) with ESMTP id A252F7137A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 08:04:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8584I4Y032653; Fri, 5 Sep 2014 09:04:18 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QPJwur1rqEqt; Fri,  5 Sep 2014 09:04:18 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8584EGA032650
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 5 Sep 2014 09:04:16 +0100
-Message-ID: <1409904255.12482.56.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Rongqing Li <rongqing.li@windriver.com>
-Date: Fri, 05 Sep 2014 09:04:15 +0100
-In-Reply-To: <54092B32.501@windriver.com>
-References: <54092B32.501@windriver.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Integrate texinfo-4.8 to oe-core
+	Fri,  5 Sep 2014 08:36:05 +0000 (UTC)
+Received: (qmail 26855 invoked by uid 508); 5 Sep 2014 12:15:01 +0400
+Received: from 59-120-32-27.hinet-ip.hinet.net (HELO ?192.168.1.20?)
+	(dvorkin@tibbo.com@59.120.32.27)
+	by smtp.tibbo.com with SMTP; 5 Sep 2014 12:15:01 +0400
+Message-ID: <540975F3.7050806@tibbo.com>
+Date: Fri, 05 Sep 2014 16:36:03 +0800
+From: Dvorkin Dmitry <dvorkin@tibbo.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.7.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Subject: wrong automatic dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,21 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 08:04:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 05 Sep 2014 08:36:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2014-09-05 at 11:17 +0800, Rongqing Li wrote:
-> Hi:
->     I would like to integrate texinfo-4.8 into oe-core,  it was
-> released on 2007, and too old, but it is a GPLv2 package. Does
-> anyone objects?
+Hello!
 
-With things that are this old, I'm wondering if its not time we started
-a dedicated layer for the old GPLv2 versions...
+I wrote my own recipe for crda.
+(http://wireless.kernel.org/en/developers/Regulatory/CRDA)
 
-Cheers,
+Dependencies is:
+DEPENDS = "libgcrypt libnl"
+RDEPENDS_${PN} = "udev wireless-regdb"
 
-Richard
+Crda Makefile is using python to rebuild it's database in 
+build/installation step.
+After installation I have several packages: crda itself, crda-dev, 
+crda-doc, ... etc.
+In my image I'm using only 'crda' package that doesn't need python.
 
+But it seems Yocto detects python and add automatic dependency of python 
+to my image anyway.
+
+$ grep "crda" ./*.dot | grep pyt
+./task-depends.dot:"crda.do_build" -> "python-dbus.do_package_write_ipk"
+./task-depends.dot:"crda.do_build" -> "python.do_package_write_rpm"
+./task-depends.dot:"crda.do_build" -> "python.do_package_write_deb"
+./task-depends.dot:"crda.do_build" -> "python.do_package_write_ipk"
+./task-depends.dot:"crda.do_build" -> 
+"python-pygobject.do_package_write_rpm"
+./task-depends.dot:"crda.do_build" -> 
+"python-pygobject.do_package_write_deb"
+./task-depends.dot:"crda.do_build" -> 
+"python-pygobject.do_package_write_ipk"
+./task-depends.dot:"crda.do_build" -> "python-dbus.do_package_write_rpm"
+./task-depends.dot:"crda.do_build" -> "python-dbus.do_package_write_deb"
+
+Is there any way to get rid of python dependency in this and only this 
+recipe? it makes my image significally bigger.
 
