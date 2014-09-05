@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AD17D71498
+	by mail.openembedded.org (Postfix) with ESMTP id 8DA4171493
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 09:40:07 +0000 (UTC)
+	Fri,  5 Sep 2014 09:42:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s859e6GM004521 for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Sep 2014 10:40:06 +0100
+	s859fgWF004555; Fri, 5 Sep 2014 10:42:02 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id PC8HFTLYhXgn
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 10:40:06 +0100 (BST)
+	with LMTP id hYsDOGUFeqvh; Fri,  5 Sep 2014 10:42:02 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s859e1tx004498
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Sep 2014 10:40:02 +0100
-Message-ID: <1409910002.12482.63.camel@ted>
+	s859fx8r004582
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 5 Sep 2014 10:42:01 +0100
+Message-ID: <1409910121.12482.65.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 05 Sep 2014 10:40:02 +0100
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Fri, 05 Sep 2014 10:42:01 +0100
+In-Reply-To: <990d4ba779e4127ff546796d62e2921392dbc0f7.1408588282.git.hongxu.jia@windriver.com>
+References: <cover.1408588282.git.hongxu.jia@windriver.com>
+	<990d4ba779e4127ff546796d62e2921392dbc0f7.1408588282.git.hongxu.jia@windriver.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
-Subject: [PATCH] sstatesig/sstate: Add support for locked down sstate cache usage
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] bbclass/sstate: only allowed sstate-cache objects are allowed in a build (read-only sstate-cache)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,208 +37,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 09:40:13 -0000
+X-List-Received-Date: Fri, 05 Sep 2014 09:42:08 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-I've been giving things some thought, specifically why sstate doesn't
-get used more and why we have people requesting external toolchains. I'm
-guessing the issue is that people don't like how often sstate can change
-and the lack of an easy way to lock it down.
+Hi Hongxu,
 
-Locking it down is actually quite easy so patch implements some basics
-of how you can do this (for example to a specific toolchain). With an 
-addition like this to local.conf (or wherever):
+On Thu, 2014-08-21 at 10:36 +0800, Hongxu Jia wrote:
+> The requirement is the developer who demand only the "new" software
+> they write is allowed to be compiled from source, they only want to
+> reuse binaries from an existed sstate-cache, if the developer makes
+> a change that triggers a rebuild, it should be an instant error.
+> 
+> The purpose of this is for the sstate-cache to check if the item
+> exists or not. If it doesn't the item needs to be in a whitelist
+> or we need to fail.
+> 
+> In the sstate-cache code, add a checking in the return path of
+> sstate_checkhashes. If read-only sstate-cache enable, and the
+> recipe's ${PN} not in the ${SSTATECACHE_WHITELIST}, it trigered
+> an instant error.
+> 
+> ...
+> $ bitbake db
+> ERROR: Read-only sstate-cache is enabled, the build of
+> "db rpm-native gcc-runtime eglibc linux-libc-headers libgcc"
+> did not come from sstate-cache. Only the recipe listed in
+> SSTATECACHE_WHITELIST is allowed to build from source
+> 
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
 
-SIGGEN_LOCKEDSIGS = "\
-gcc-cross:do_populate_sysroot:a8d91b35b98e1494957a2ddaf4598956 \
-eglibc:do_populate_sysroot:13e8c68553dc61f9d67564f13b9b2d67 \
-eglibc:do_packagedata:bfca0db1782c719d373f8636282596ee \
-gcc-cross:do_packagedata:4b601ff4f67601395ee49c46701122f6 \
-"
+Sorry for the delay in getting to this, with the other patches for the
+release, time has been difficult.
 
-the code at the end of the email will force the hashes to those values
-for the recipes mentioned. The system would then find and use those
-specific objects from the sstate cache instead of trying to build
-anything.
+I have been able to take a look at this and the other locked sstate
+patches I've had pending for some time.
 
-Obviously this is a little simplistic, you might need to put an override
-against this to only apply those revisions for a specific architecture
-for example. You'd also probably want to put code in the sstate hash
-validation code to ensure it really did install these from sstate since
-if it didn't you'd want to abort the build.
+Having thought quite a bit about this, I think we really want to make
+this functionality part of the siggen class code. Where we need to add
+hooks, we should do so with callbacks into the siggen code.
 
-This patch also implements support to add to bitbake -S which dumps the
-locked sstate checksums for each task into a ready prepared include file
-locked-sigs.inc (currently placed into cwd). There is a function, 
-bb.parse.siggen.dump_lockedsigs() which can be called to trigger the 
-same functionality from task space.
+I've just sent out a patch which my locked code in it. Could you take a
+look and see if we can make that approach work with your code too?
 
-A warning is added to sstate.bbclass through a call back into the siggen
-class to warn if objects are not used from the locked cache. The 
-SIGGEN_ENFORCE_LOCKEDSIGS variable controls whether this is just a warning 
-or a fatal error.
+In particular, I don't really want to have multiple whitelist type
+variables. Could we use the SIGGEN_LOCKEDSIGS variable as the definitive
+way to control which recipes can float and which should not?
 
-A script is provided to generate sstate directory from a locked-sigs file.
+Cheers,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index ead829e..6316336 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -710,6 +710,9 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
-             evdata['found'].append( (sq_fn[task], sq_task[task], sq_hash[task], sstatefile ) )
-         bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
- 
-+    if hasattr(bb.parse.siggen, "checkhashes"):
-+        bb.parse.siggen.checkhashes(missed, ret, sq_fn, sq_task, sq_hash, sq_hashfn, d)
-+
-     return ret
- 
- BB_SETSCENE_DEPVALID = "setscene_depvalid"
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 4188873..4ff8aaa 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -61,6 +61,16 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
-     # Default to keep dependencies
-     return True
- 
-+def sstate_lockedsigs(d):
-+    sigs = {}
-+    lockedsigs = (d.getVar("SIGGEN_LOCKEDSIGS", True) or "").split()
-+    for ls in lockedsigs:
-+        pn, task, h = ls.split(":", 2)
-+        if pn not in sigs:
-+            sigs[pn] = {}
-+        sigs[pn][task] = h
-+    return sigs
-+
- class SignatureGeneratorOEBasic(bb.siggen.SignatureGeneratorBasic):
-     name = "OEBasic"
-     def init_rundepcheck(self, data):
-@@ -75,10 +85,74 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-     def init_rundepcheck(self, data):
-         self.abisaferecipes = (data.getVar("SIGGEN_EXCLUDERECIPES_ABISAFE", True) or "").split()
-         self.saferecipedeps = (data.getVar("SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS", True) or "").split()
-+        self.lockedsigs = sstate_lockedsigs(data)
-+        self.lockedhashes = {}
-+        self.lockedpnmap = {}
-         pass
-     def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
-         return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
- 
-+    def get_taskdata(self):
-+        data = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskdata()
-+        return (data, self.lockedpnmap)
-+
-+    def set_taskdata(self, data):
-+        coredata, self.lockedpnmap, self.taskdeps = data
-+        super(bb.siggen.SignatureGeneratorBasicHash, self).set_taskdata(coredata)
-+
-+    def dump_sigs(self, dataCache, options):
-+        self.dump_lockedsigs()
-+        return super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigs(dataCache, options)
-+
-+    def get_taskhash(self, fn, task, deps, dataCache):
-+        recipename = dataCache.pkg_fn[fn]
-+        self.lockedpnmap[fn] = recipename
-+        if recipename in self.lockedsigs:
-+            if task in self.lockedsigs[recipename]:
-+                k = fn + "." + task
-+                h = self.lockedsigs[recipename][task]
-+                self.lockedhashes[k] = h
-+                self.taskhash[k] = h
-+                #bb.warn("Using %s %s %s" % (recipename, task, h))
-+                return h
-+        h = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskhash(fn, task, deps, dataCache)
-+        #bb.warn("%s %s %s" % (recipename, task, h))
-+        return h
-+
-+    def dump_sigtask(self, fn, task, stampbase, runtime):
-+        k = fn + "." + task
-+        if k in self.lockedhashes:
-+            return
-+        super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigtask(fn, task, stampbase, runtime)
-+
-+    def dump_lockedsigs(self):
-+        bb.plain("Writing locked sigs to " + os.getcwd() + "/locked-sigs.inc")
-+        with open("locked-sigs.inc", "w") as f:
-+            f.write('SIGGEN_LOCKEDSIGS = "\\\n')
-+            #for fn in self.taskdeps:
-+            for k in self.runtaskdeps:
-+                    #k = fn + "." + task
-+                    fn = k.rsplit(".",1)[0]
-+                    task = k.rsplit(".",1)[1]
-+                    if k not in self.taskhash:
-+                        continue
-+                    f.write("    " + self.lockedpnmap[fn] + ":" + task + ":" + self.taskhash[k] + " \\\n")
-+            f.write('    "\n')
-+
-+    def checkhashes(self, missed, ret, sq_fn, sq_task, sq_hash, sq_hashfn, d):
-+        enforce = (d.getVar("SIGGEN_ENFORCE_LOCKEDSIGS", True) or "1") == "1"
-+        msgs = []
-+        for task in range(len(sq_fn)):
-+            if task not in ret:
-+                for pn in self.lockedsigs:
-+                    if sq_hash[task] in self.lockedsigs[pn].itervalues():
-+                        msgs.append("Locked sig is set for %s:%s (%s) yet not in sstate cache?" % (pn, sq_task[task], sq_hash[task]))
-+        if msgs and enforce:
-+            bb.fatal("\n".join(msgs))
-+        elif msgs:
-+            bb.warn("\n".join(msgs))
-+
-+
- # Insert these classes into siggen's namespace so it can see and select them
- bb.siggen.SignatureGeneratorOEBasic = SignatureGeneratorOEBasic
- bb.siggen.SignatureGeneratorOEBasicHash = SignatureGeneratorOEBasicHash
-diff --git a/scripts/gen-lockedsig-cache b/scripts/gen-lockedsig-cache
-new file mode 100755
-index 0000000..dfb282e
---- /dev/null
-+++ b/scripts/gen-lockedsig-cache
-@@ -0,0 +1,40 @@
-+#!/usr/bin/env python
-+#
-+# gen-lockedsig-cache <locked-sigs.inc> <input-cachedir> <output-cachedir>
-+#
-+
-+import os
-+import sys
-+import glob
-+import shutil
-+import errno
-+
-+def mkdir(d):
-+    try:
-+        os.makedirs(d)
-+    except OSError as e:
-+        if e.errno != errno.EEXIST:
-+            raise e
-+
-+if len(sys.argv) < 3:
-+    print("Incorrect number of arguments specified")
-+    sys.exit(1)
-+
-+sigs = []
-+with open(sys.argv[1]) as f:
-+    for l in f.readlines():
-+        if ":" in l:
-+            sigs.append(l.split(":")[2].split()[0])
-+
-+files = set()
-+for s in sigs:
-+    p = sys.argv[2] + "/" + s[:2] + "/*" + s + "*"
-+    files |= set(glob.glob(p))
-+    p = sys.argv[2] + "/*/" + s[:2] + "/*" + s + "*"
-+    files |= set(glob.glob(p))
-+
-+for f in files:
-+    dst = f.replace(sys.argv[2], sys.argv[3])
-+    mkdir(os.path.dirname(dst))
-+    os.link(f, dst)
-+
-
+Richard
 
 
