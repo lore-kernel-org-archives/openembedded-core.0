@@ -1,39 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FEBD713E4
+Received: from mail-qa0-f52.google.com (mail-qa0-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F56A713E4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 15:24:45 +0000 (UTC)
-Received: by mail-qc0-f181.google.com with SMTP id i17so12148430qcy.40
+	Fri,  5 Sep 2014 15:27:28 +0000 (UTC)
+Received: by mail-qa0-f52.google.com with SMTP id f12so10892103qad.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Sep 2014 08:24:46 -0700 (PDT)
+	Fri, 05 Sep 2014 08:27:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=e9nP65QiKmt1B1PgVyPmObAq25rTJt5sUhqIk+Ec98U=;
-	b=O5KhLeMMGnE4Dd1y21bbt0QNFv8SZduxgRdQI0KlKwzrWywSODd5laWSIF3/k3SobJ
-	aqtaw3Yiitvs/42VULPPg8hIP2Jr18EsnXGy6ELNn59axTgmBz4pv+1Ufyl+lIxekux/
-	7YGsxHT5LGOoeaI/iveqUygDth8CZRE0/KfKC7LLrpHpyLK7VQ73kJzDh2aF+q5JCgpX
-	9fpTVQTCjaKZEdAXT23j5YhQ+hYdaDgBR8h6e/sTPgycBj+83gSGDNU3YWijBptll1ct
-	P9mkJiVJCDQoneboJuw6d3cMxPlUUBgJJoI0xTpOXL2ldgJoSblnKBIVOy3V/YeomUOV
-	gX8g==
-X-Gm-Message-State: ALoCoQmxgvjeWHkah8vHY9G86bzHrGkKRQLJChgEhssxa4Av5NE+JBeusTfXFgn0LVsfG6rwd+qq
-X-Received: by 10.224.103.65 with SMTP id j1mr19987922qao.17.1409930686076;
-	Fri, 05 Sep 2014 08:24:46 -0700 (PDT)
+	bh=Nj2iBLnHeS4RkAKS5wozPjkZ2qbqHg+IcLQfowXkwH0=;
+	b=lAr1/QKzAtt9NgYtn35+ksoff8RrboGR2Wq4G4kSsOAO4aXqmu1g3/ZmVwcWkIihDv
+	/ZS2P4yfoFsaZLkNDX3e7AnKNnQLgV0P1bpHY1YepzWvF5O6caHOnupdiq0JRVznxXBl
+	9w/XPUKYQ7qGKXYp3wHuF8MtB04tRGqsLKE7HYsWJ/LXDivdOKSK/HzknFKIwfIfu9X6
+	zU3mjjVwYWAHB+29P5N/jNlKajxw/Di0ifsrTjVOmVk8XYnzyY7qKUGGr9IDkJ6UC5Sq
+	G/ZBm64JdeGZWhN6Fc676JxC9FraP53ZLYqhLle8mLDu/JAFeYijkfJeX5sZJWqFYYZF
+	ecbQ==
+X-Gm-Message-State: ALoCoQkC9+ggh5OwwZZoA0UxuE1jRNDw2LfszASt4OoBxQpTMkdtprHIJCZ12wTH7j59EysMNnPg
+X-Received: by 10.140.94.234 with SMTP id g97mr18754852qge.77.1409930849487;
+	Fri, 05 Sep 2014 08:27:29 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Fri, 5 Sep 2014 08:24:25 -0700 (PDT)
-In-Reply-To: <53E9D3E2.7020101@windriver.com>
-References: <1407824758-9261-1-git-send-email-li.wang@windriver.com>
-	<1407828058-9939-1-git-send-email-li.wang@windriver.com>
-	<CAJTo0LZW2OdpmevQW+5+j9Vau2M2qUpe+XUEL9aO6b=WS_B5fg@mail.gmail.com>
-	<53E9D3E2.7020101@windriver.com>
+Received: by 10.140.29.183 with HTTP; Fri, 5 Sep 2014 08:27:09 -0700 (PDT)
+In-Reply-To: <CACS+7ZQiCVksBN1FK9wJ56k_hpJhpYFq23sWw3srHQ5ZsE1P9A@mail.gmail.com>
+References: <CACS+7ZQq_tHp0vA0FA8e1W+iLhuzEA3tov0B5QGFaUvGp_cgNg@mail.gmail.com>
+	<CAJTo0Lb8TdnZqDObaNS5JQROLYF9MG-67+W5i=kFBF8TE+s8-Q@mail.gmail.com>
+	<CACS+7ZQiCVksBN1FK9wJ56k_hpJhpYFq23sWw3srHQ5ZsE1P9A@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 5 Sep 2014 16:24:25 +0100
-Message-ID: <CAJTo0Lbw53Ors3EiVY3Jx2_d-CQ7jf58-_Y1TJK3L4oz8QexaQ@mail.gmail.com>
-To: "Li.Wang" <Li.Wang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rpcbind: add option to fix port number
+Date: Fri, 5 Sep 2014 16:27:09 +0100
+Message-ID: <CAJTo0LZNo4MxuZoSOvZU-kaL1v=+Wyy2To=s8Dp68ShszTRSbQ@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Use ${ROOT_HOME} instead of /root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,31 +46,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 15:24:46 -0000
+X-List-Received-Date: Fri, 05 Sep 2014 15:27:39 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 12 August 2014 09:44, Li.Wang <Li.Wang@windriver.com> wrote:
->     Opening random ports in privileged port range, among them one port that
->     identifies itself as pop3s, is not a good practice. Both Ericsson and
-> our
->     customers run regular vulnerability assessment tools against our
-> product,
->     and this will clearly be seen as a potential problem. Furthermore, we
-> will
->     not be able to filter the ports, since they are random, and neither will
-> we
->     be able to provide decent answers to our customers. To summarize: this
->     should be taken care of, ie fix rpcbind so that it uses a non random
-> port
->     and/or to bind to a specific interface.
+On 5 September 2014 15:55, Dan McGregor <danismostlikely@gmail.com> wrote:
+> On 5 September 2014 03:14, Burton, Ross <ross.burton@intel.com> wrote:
+>> On 3 September 2014 20:57, Dan McGregor <danismostlikely@gmail.com> wrote:
+>>>   sed -i -e 's:=/root:=${ROOT_HOME}:g' ${S}/units/*.service*
+>>> + sed -i -e 's:"/root":"${ROOT_HOME}":g' \
+>>> +        ${S}/src/core/unit-printf.c \
+>>> +        ${S}/src/nspawn/nspawn.c \
+>>> +        ${S}/src/shared/util.c
+>>
+>> Sedding service files is one thing, but entire C files is another.
+>> Can you please sent this change as a patch to the source?  FWIW for
+>> patches where the context isn't that relevant I've started using
+>> patches without the context lines so there's more chance of them
+>> applying in future releases.
+>
+> I thought that myself, but ${ROOT_HOME} is a variable. I think to do
+> that a patch would
+> need to make the root home directory configurable, and not simply
+> hardcode it. That shouldn't
+> be too hard to do. I'll do that later tonight.
 
-This has been bothering me so I just did some digging.  rpcbind
-opening random ports is rather "misguided" but it appears that passing
--s to rpcbind will cause it to drop it's privs and setuid down to
-"daemon", with the side-effect that it can't open the privileged ports
-anymore.
+Sed the patch? :)
 
-(source: http://wiki.metawerx.net/wiki/setrpcrandomport)
+Creative solutions welcome, I'm just wary of such loose seds in source
+code.  If the only sane way is to sed then that's what we'll have to
+do.
 
 Ross
 
