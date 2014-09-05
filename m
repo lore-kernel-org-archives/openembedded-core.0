@@ -1,37 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
-	[209.85.216.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 14D41713DA
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 77AC4713E4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 16:56:58 +0000 (UTC)
-Received: by mail-qa0-f53.google.com with SMTP id w8so11052710qac.26
+	Fri,  5 Sep 2014 18:09:39 +0000 (UTC)
+Received: by mail-qc0-f176.google.com with SMTP id m20so12629528qcx.21
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Sep 2014 09:56:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=9lM6U6E8rNRDndoxCzi55IH2mYztLzhAHSpiLUNiSQ4=;
-	b=brut/CIxG5UAHjIVnPdVgACsTzkmPe7DfFcdy+0bK7cd3xUZnmKcPWrjNjwmP6y8az
-	NG7bvJu7A5DnKGnshmvMPfQp/howsVU/AG/U34w0EHwN4eADKNzKs+ujqkiKZ3DtqgZ6
-	cAWbuCA13Y/bmwZRVwDJygFjEhdCWjxJDoBMQeielTkPNwlzzqbbXb7XqXH2ZclLK/hJ
-	m2qkefTaWC+5r0Fp1kcL1U2RQ2F6jnz/o4Ga7ycRccklP7USKsJZEEfL47/WEBwCcP1I
-	UNCoSWd+gG2YG4liRHjudphcbp/WyBx4jSrY25PVElCiG54V8E9DopQOFIIIrMeLMG3H
-	/iGQ==
-X-Gm-Message-State: ALoCoQmSPoN+ts6WajqmsfcWZMtHCYw/d10E5L3G5q9V9TL+mhDVOdOx2uDThU5tHglm/kAs7ycj
-X-Received: by 10.140.97.131 with SMTP id m3mr19456129qge.80.1409936218781;
-	Fri, 05 Sep 2014 09:56:58 -0700 (PDT)
+	Fri, 05 Sep 2014 11:09:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=RFZx8HYsPMGy/zsTNboX1LZS8wvVlfHgIddUPgWcY6s=;
+	b=OJZ4+BRY05e2hHKvDM1H9d8+m7YjflOri3j9BySPLVDuXR05250k0YABYzq3x+74y/
+	2t5GVhAvBBVVvCZBbtNiT6Df2G7asTPAy/WN60iy4dkOF3VuR1OqsN7U8G/jJoEZvAk9
+	uj23qAxYN/wFZRrBBkl+YebikPsMHbW4FxzR0i/isz3/5qxJq/WUUCNxrbLW1AuyWFld
+	dfTTM/Ig2olKd88EkI/5QcmChZ49uE+AkuOfoCok2UBwAGOqQH6KCBMJSORhqm37NOmc
+	QyPXkeMAy2CrG5KtqxmRVaxJs8u1WoGeQgwemNWXpsDK7ImqT/DW8SUxTHgugKj7rS93
+	yZ5w==
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Fri, 5 Sep 2014 09:56:38 -0700 (PDT)
-In-Reply-To: <1409236987-31568-1-git-send-email-muzaffar_mahmood@mentor.com>
-References: <1409236987-31568-1-git-send-email-muzaffar_mahmood@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 5 Sep 2014 17:56:38 +0100
-Message-ID: <CAJTo0Lbcmk+eRyVJwBch9Qu5XYA+Ps_5u7r70jcagVK4vboMDQ@mail.gmail.com>
-To: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
-Cc: Anant Agrawal <Anant_Agrawal@mentor.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] alsa-utils: interrupt streaming via signal
+X-Received: by 10.224.15.201 with SMTP id l9mr21140761qaa.27.1409940580368;
+	Fri, 05 Sep 2014 11:09:40 -0700 (PDT)
+Received: by 10.96.147.37 with HTTP; Fri, 5 Sep 2014 11:09:40 -0700 (PDT)
+Received: by 10.96.147.37 with HTTP; Fri, 5 Sep 2014 11:09:40 -0700 (PDT)
+In-Reply-To: <CAJTo0LbQtJFH8Tm3y58WPVx3GGbzCPATrqt5OnNWT3Q1=q1ALA@mail.gmail.com>
+References: <CACS+7ZQq_tHp0vA0FA8e1W+iLhuzEA3tov0B5QGFaUvGp_cgNg@mail.gmail.com>
+	<CAJTo0Lb8TdnZqDObaNS5JQROLYF9MG-67+W5i=kFBF8TE+s8-Q@mail.gmail.com>
+	<CACS+7ZQiCVksBN1FK9wJ56k_hpJhpYFq23sWw3srHQ5ZsE1P9A@mail.gmail.com>
+	<CAJTo0LZNo4MxuZoSOvZU-kaL1v=+Wyy2To=s8Dp68ShszTRSbQ@mail.gmail.com>
+	<5409D739.1030307@windriver.com>
+	<CAJTo0LbQtJFH8Tm3y58WPVx3GGbzCPATrqt5OnNWT3Q1=q1ALA@mail.gmail.com>
+Date: Fri, 5 Sep 2014 12:09:40 -0600
+Message-ID: <CACS+7ZRpzVyKyngYSo-GpyCZu1iM5saphZ=3Fbm7Y_dqD2xu_A@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Use ${ROOT_HOME} instead of /root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +48,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 16:56:59 -0000
+X-List-Received-Date: Fri, 05 Sep 2014 18:09:42 -0000
+Content-Type: multipart/alternative; boundary=047d7bdc8c347288fe0502555fb2
+
+--047d7bdc8c347288fe0502555fb2
 Content-Type: text/plain; charset=UTF-8
 
-On 28 August 2014 15:43, Muzaffar Mahmood <muzaffar_mahmood@mentor.com> wrote:
-> aplay/arecord (alsa-utils v1.0.27.2) cannot interrupt streaming
-> via CTRL-C. Fixed the issue by reverting buggy patches and
-> properly handling 'in_aborting' flag in appropriate functions.
+On Sep 5, 2014 9:54 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
+>
+> On 5 September 2014 16:31, Mark Hatle <mark.hatle@windriver.com> wrote:
+> > I'd prefer a patch that used a define myself.  I don't like seds of
+source
+> > or patches...
+>
+> A #define for /root might even get upstream.
+>
 
-Applying patch alsa-utils-aplay-interrupt-signal-handling.patch
-patching file aplay/aplay.c
-Hunk #2 FAILED at 1929.
-Hunk #3 FAILED at 1972.
-Hunk #4 FAILED at 2021.
-Hunk #5 FAILED at 2060.
-4 out of 6 hunks FAILED -- rejects in file aplay/aplay.c
-Patch alsa-utils-aplay-interrupt-signal-handling.patch does not apply
-(enforce with -f)
+I hacked up configure to do this. I'll submit it this evening.
 
-This doesn't apply against 1.0.28 which there's also a patch for - can
-you refresh please?
+> Ross
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Ross
+--047d7bdc8c347288fe0502555fb2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<p dir=3D"ltr">On Sep 5, 2014 9:54 AM, &quot;Burton, Ross&quot; &lt;<a href=
+=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On 5 September 2014 16:31, Mark Hatle &lt;<a href=3D"mailto:mark.hatle=
+@windriver.com">mark.hatle@windriver.com</a>&gt; wrote:<br>
+&gt; &gt; I&#39;d prefer a patch that used a define myself.=C2=A0 I don&#39=
+;t like seds of source<br>
+&gt; &gt; or patches...<br>
+&gt;<br>
+&gt; A #define for /root might even get upstream.<br>
+&gt;</p>
+<p dir=3D"ltr">I hacked up configure to do this. I&#39;ll submit it this ev=
+ening.</p>
+<p dir=3D"ltr">&gt; Ross<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
+<br>
+</p>
+
+--047d7bdc8c347288fe0502555fb2--
