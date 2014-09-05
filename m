@@ -1,30 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1311271475
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 57902713D9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 10:55:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s85AtK0s008045 for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Sep 2014 11:55:20 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6Uy3KE3zv0QI
+	Fri,  5 Sep 2014 14:05:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s85E57pu008262
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 11:55:20 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s85AtHNZ008040
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Sep 2014 11:55:18 +0100
-Message-ID: <1409914518.12482.66.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 05 Sep 2014 11:55:18 +0100
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Subject: [PATCH] sstatesig: Improve to handle locking of multiple machines
+	Fri, 5 Sep 2014 07:05:08 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Fri, 5 Sep 2014 07:05:07 -0700
+Message-ID: <5409C313.20208@windriver.com>
+Date: Fri, 5 Sep 2014 09:05:07 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1408588282.git.hongxu.jia@windriver.com>	<990d4ba779e4127ff546796d62e2921392dbc0f7.1408588282.git.hongxu.jia@windriver.com>
+	<1409910121.12482.65.camel@ted>
+In-Reply-To: <1409910121.12482.65.camel@ted>
+Subject: Re: [PATCH 1/1] bbclass/sstate: only allowed sstate-cache objects are allowed in a build (read-only sstate-cache)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,108 +36,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 10:55:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 05 Sep 2014 14:05:12 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Instead of a single monolithic SIGGEN_LOCKEDSIGS, split this into
-separate variables, one per sstate package architecture. Add in
-a new SIGGEN_LOCKEDSIGS_TYPES variable which lists the package
-architectures to load in.
+On 9/5/14, 4:42 AM, Richard Purdie wrote:
+> Hi Hongxu,
+>
+> On Thu, 2014-08-21 at 10:36 +0800, Hongxu Jia wrote:
+>> The requirement is the developer who demand only the "new" software
+>> they write is allowed to be compiled from source, they only want to
+>> reuse binaries from an existed sstate-cache, if the developer makes
+>> a change that triggers a rebuild, it should be an instant error.
+>>
+>> The purpose of this is for the sstate-cache to check if the item
+>> exists or not. If it doesn't the item needs to be in a whitelist
+>> or we need to fail.
+>>
+>> In the sstate-cache code, add a checking in the return path of
+>> sstate_checkhashes. If read-only sstate-cache enable, and the
+>> recipe's ${PN} not in the ${SSTATECACHE_WHITELIST}, it trigered
+>> an instant error.
+>>
+>> ...
+>> $ bitbake db
+>> ERROR: Read-only sstate-cache is enabled, the build of
+>> "db rpm-native gcc-runtime eglibc linux-libc-headers libgcc"
+>> did not come from sstate-cache. Only the recipe listed in
+>> SSTATECACHE_WHITELIST is allowed to build from source
+>>
+>> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+>
+> Sorry for the delay in getting to this, with the other patches for the
+> release, time has been difficult.
+>
+> I have been able to take a look at this and the other locked sstate
+> patches I've had pending for some time.
+>
+> Having thought quite a bit about this, I think we really want to make
+> this functionality part of the siggen class code. Where we need to add
+> hooks, we should do so with callbacks into the siggen code.
+>
+> I've just sent out a patch which my locked code in it. Could you take a
+> look and see if we can make that approach work with your code too?
+>
+> In particular, I don't really want to have multiple whitelist type
+> variables. Could we use the SIGGEN_LOCKEDSIGS variable as the definitive
+> way to control which recipes can float and which should not?
 
-SIGGEN_LOCKEDSIGS_TYPES is made machine specific using overrides.
+I'm all for combining this.. however it appears the patches have two slightly 
+separate goals.
 
-Also sort the hashes in the lists by PN to make diffing them easier.
+The locked sstate patch tells the system to use a specific hash value and ONLY 
+that hash value.   So if a user modified a system behavior in a way that would 
+change the behavior of the component there is no warning or error.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+The readonly sstate-cache on the other hand says, to reuse the sstate cache 
+items (there of course may be more then one per recipe name with a different 
+hash based on different configurations), but will warn/error when if the system 
+configuration changes in a way the hash would have changed.
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 7b860c5..add2619 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -63,12 +63,14 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
- 
- def sstate_lockedsigs(d):
-     sigs = {}
--    lockedsigs = (d.getVar("SIGGEN_LOCKEDSIGS", True) or "").split()
--    for ls in lockedsigs:
--        pn, task, h = ls.split(":", 2)
--        if pn not in sigs:
--            sigs[pn] = {}
--        sigs[pn][task] = h
-+    types = (d.getVar("SIGGEN_LOCKEDSIGS_TYPES", True) or "").split()
-+    for t in types:
-+        lockedsigs = (d.getVar("SIGGEN_LOCKEDSIGS_%s" % t, True) or "").split()
-+        for ls in lockedsigs:
-+            pn, task, h = ls.split(":", 2)
-+            if pn not in sigs:
-+                sigs[pn] = {}
-+            sigs[pn][task] = h
-     return sigs
- 
- class SignatureGeneratorOEBasic(bb.siggen.SignatureGeneratorBasic):
-@@ -88,16 +90,18 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-         self.lockedsigs = sstate_lockedsigs(data)
-         self.lockedhashes = {}
-         self.lockedpnmap = {}
-+        self.lockedhashfn = {}
-+        self.machine = data.getVar("MACHINE", True)
-         pass
-     def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
-         return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
- 
-     def get_taskdata(self):
-         data = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskdata()
--        return (data, self.lockedpnmap)
-+        return (data, self.lockedpnmap, self.lockedhashfn)
- 
-     def set_taskdata(self, data):
--        coredata, self.lockedpnmap = data
-+        coredata, self.lockedpnmap, self.lockedhashfn = data
-         super(bb.siggen.SignatureGeneratorBasicHash, self).set_taskdata(coredata)
- 
-     def dump_sigs(self, dataCache, options):
-@@ -107,6 +111,7 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-     def get_taskhash(self, fn, task, deps, dataCache):
-         recipename = dataCache.pkg_fn[fn]
-         self.lockedpnmap[fn] = recipename
-+        self.lockedhashfn[fn] = dataCache.hashfn[fn]
-         if recipename in self.lockedsigs:
-             if task in self.lockedsigs[recipename]:
-                 k = fn + "." + task
-@@ -127,17 +132,27 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
- 
-     def dump_lockedsigs(self):
-         bb.plain("Writing locked sigs to " + os.getcwd() + "/locked-sigs.inc")
-+        types = {}
-+        for k in self.runtaskdeps:
-+            fn = k.rsplit(".",1)[0]
-+            t = self.lockedhashfn[fn].split(" ")[1].split(":")[5]
-+            if t not in types:
-+                types[t] = []
-+            types[t].append(k)
-+
-         with open("locked-sigs.inc", "w") as f:
--            f.write('SIGGEN_LOCKEDSIGS = "\\\n')
--            #for fn in self.taskdeps:
--            for k in self.runtaskdeps:
--                    #k = fn + "." + task
-+            for t in types:
-+                f.write('SIGGEN_LOCKEDSIGS_%s = "\\\n' % t)
-+                types[t].sort()
-+                sortedk = sorted(types[t], key=lambda k: self.lockedpnmap[k.rsplit(".",1)[0]]) 
-+                for k in sortedk:
-                     fn = k.rsplit(".",1)[0]
-                     task = k.rsplit(".",1)[1]
-                     if k not in self.taskhash:
-                         continue
-                     f.write("    " + self.lockedpnmap[fn] + ":" + task + ":" + self.taskhash[k] + " \\\n")
--            f.write('    "\n')
-+                f.write('    "\n')
-+            f.write('SIGGEN_LOCKEDSIGS_TYPES_%s = "%s"' % (self.machine, " ".join(types.keys())))
- 
-     def checkhashes(self, missed, ret, sq_fn, sq_task, sq_hash, sq_hashfn, d):
-         enforce = (d.getVar("SIGGEN_ENFORCE_LOCKEDSIGS", True) or "1") == "1"
+So there needs to be an interface that says which items are allowed to be built 
+from source, and which items require either the locked or readonly sstate behavior.
 
+Something like:
+
+SIGGEN_LOCKEDSIGS = "\
+gcc-cross:do_populate_sysroot:ro \
+eglibc:do_populate_sysroot:ro \
+eglibc:do_packagedata:ro \
+gcc-cross:do_packagedata:ro \
+"
+
+could work to extend it, but I have a concern with this.  It only affects 
+individual recipes.  The request we've had from our customers is that once they 
+have built their environment(s), and distributed the sstate-cache to their 
+developers -- only the items they distributed are allowed to be used, unless an 
+exception is granted.
+
+So having to maintain a SIGGEN_LOCKSIGS = variable with every possible package 
+in the system seems complicated at best (for the RO case).  They really want a 
+switch that sets everything, except exceptions as read-only.
+
+SIGGEN_LOCKEDSIGS = "\
+*:*:ro \
+bash:*:rw \
+"
+
+but I don't know if the glob/wildcarding would add more processing overhead then 
+is acceptable.
+
+--Mark
+
+> Cheers,
+>
+> Richard
+>
 
 
