@@ -1,23 +1,37 @@
-Return-Path: <eric@eukrea.com>
-Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 14B337135D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f48.google.com (mail-qa0-f48.google.com
+	[209.85.216.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 77EE271408
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 09:13:15 +0000 (UTC)
-Received: from e6520eb (unknown [88.170.243.169])
-	(Authenticated sender: eukrea)
-	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 6268EA621D;
-	Fri,  5 Sep 2014 11:13:14 +0200 (CEST)
-Date: Fri, 5 Sep 2014 11:13:13 +0200
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: Dvorkin Dmitry <dvorkin@tibbo.com>
-Message-ID: <20140905111313.0f978efd@e6520eb>
-In-Reply-To: <540975F3.7050806@tibbo.com>
-References: <540975F3.7050806@tibbo.com>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.10.1 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
+	Fri,  5 Sep 2014 09:14:24 +0000 (UTC)
+Received: by mail-qa0-f48.google.com with SMTP id m5so10500470qaj.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Sep 2014 02:14:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9O6/85POnJ+UD9wQaIKg7L0NIN+aioMlEC/wnb/xTRU=;
+	b=T2er/oE8tRgSS1pMzt6e1WMaNLd60VpY12dfM/Nvy3QUMrFu0o3wp7bYwAhU0/sl8O
+	LhIktWRCP/lVxfq3y5p4iwKXxZvg/erjreNBRwBoQD2HZvb6klkDgs3/MrmYUifYCklb
+	TYrZTfqN+jA0L1QQXnGC35pj23jvNFhKh/JZ9Eu6nmj9oYpQgbsjFE6nhGHJFKbY6uRO
+	ZHVJPoUhC9x6hooZM+isc3VOG8hMGqkEb5qIUh80xVpvSE4Iz+3Kw81xS+8FKNgVBBzE
+	eddTg2j8Bj9oNcA4iAeR3wK9a/HldrBjLi1X41prLL/VWJJ5iWPrweE1DRnXS817eeLo
+	6PpA==
+X-Gm-Message-State: ALoCoQlcBT+SS79jGXGKU6KrrWBOetQiv3Tc46ythBfYOrlPznV85UQ56k/L+94YElef9TmMQmBh
+X-Received: by 10.140.27.173 with SMTP id 42mr15417557qgx.59.1409908465966;
+	Fri, 05 Sep 2014 02:14:25 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: wrong automatic dependency
+Received: by 10.140.29.183 with HTTP; Fri, 5 Sep 2014 02:14:05 -0700 (PDT)
+In-Reply-To: <CACS+7ZQq_tHp0vA0FA8e1W+iLhuzEA3tov0B5QGFaUvGp_cgNg@mail.gmail.com>
+References: <CACS+7ZQq_tHp0vA0FA8e1W+iLhuzEA3tov0B5QGFaUvGp_cgNg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 5 Sep 2014 10:14:05 +0100
+Message-ID: <CAJTo0Lb8TdnZqDObaNS5JQROLYF9MG-67+W5i=kFBF8TE+s8-Q@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Use ${ROOT_HOME} instead of /root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,74 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 09:13:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 05 Sep 2014 09:14:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Dvorkin,
+On 3 September 2014 20:57, Dan McGregor <danismostlikely@gmail.com> wrote:
+>   sed -i -e 's:=/root:=${ROOT_HOME}:g' ${S}/units/*.service*
+> + sed -i -e 's:"/root":"${ROOT_HOME}":g' \
+> +        ${S}/src/core/unit-printf.c \
+> +        ${S}/src/nspawn/nspawn.c \
+> +        ${S}/src/shared/util.c
 
-Le Fri, 05 Sep 2014 16:36:03 +0800,
-Dvorkin Dmitry <dvorkin@tibbo.com> a =E9crit :
+Sedding service files is one thing, but entire C files is another.
+Can you please sent this change as a patch to the source?  FWIW for
+patches where the context isn't that relevant I've started using
+patches without the context lines so there's more chance of them
+applying in future releases.
 
->=20
-> Hello!
->=20
-> I wrote my own recipe for crda.
-> (http://wireless.kernel.org/en/developers/Regulatory/CRDA)
->=20
-> Dependencies is:
-> DEPENDS =3D "libgcrypt libnl"
-> RDEPENDS_${PN} =3D "udev wireless-regdb"
->=20
-> Crda Makefile is using python to rebuild it's database in=20
-> build/installation step.
-> After installation I have several packages: crda itself, crda-dev,=20
-> crda-doc, ... etc.
-> In my image I'm using only 'crda' package that doesn't need python.
->=20
-> But it seems Yocto detects python and add automatic dependency of python=
-=20
-> to my image anyway.
->=20
-> $ grep "crda" ./*.dot | grep pyt
-> ./task-depends.dot:"crda.do_build" -> "python-dbus.do_package_write_ipk"
-> ./task-depends.dot:"crda.do_build" -> "python.do_package_write_rpm"
-> ./task-depends.dot:"crda.do_build" -> "python.do_package_write_deb"
-> ./task-depends.dot:"crda.do_build" -> "python.do_package_write_ipk"
-> ./task-depends.dot:"crda.do_build" ->=20
-> "python-pygobject.do_package_write_rpm"
-> ./task-depends.dot:"crda.do_build" ->=20
-> "python-pygobject.do_package_write_deb"
-> ./task-depends.dot:"crda.do_build" ->=20
-> "python-pygobject.do_package_write_ipk"
-> ./task-depends.dot:"crda.do_build" -> "python-dbus.do_package_write_rpm"
-> ./task-depends.dot:"crda.do_build" ->
-> "python-dbus.do_package_write_deb"
->=20
-> Is there any way to get rid of python dependency in this and only
-> this recipe? it makes my image significally bigger.
-
-are you sure python is drawn in your image by crda ?
-
-With the existing recipe, I don't get python RDEPENDS in crda :
-http://layers.openembedded.org/layerindex/recipe/4179/
-
-$ cat cortexa9hf-vfp-neon-oe-linux-gnueabi/crda/crda/latest=20
-PV =3D 1.1.3
-PR =3D r0
-RPROVIDES =3D=20
-RDEPENDS =3D eglibc (>=3D 2.18) libgcrypt (>=3D 1.5.3) libnl (>=3D 3.2.22) =
-libnl-genl (>=3D 3.2.22) udev
-RRECOMMENDS =3D=20
-PKGSIZE =3D 21773
-FILES =3D /usr/bin/* /usr/sbin/* /usr/lib/crda/* /usr/lib/lib*.so.* /etc /c=
-om /var /bin/* /sbin/* /lib/*.so.* /lib/udev/rules.d /usr/lib/udev/rules.d =
-/usr/share/crda /usr/lib/crda/* /usr/share/pixmaps /usr/share/applications =
-/usr/share/idl /usr/share/omf /usr/share/sounds /usr/lib/bonobo/servers /us=
-r/libcrda/regulatory.bin /lib/udev/rules.d/85-regulatory.rules
-FILELIST
-=3D /lib/udev/rules.d/85-regulatory.rules /sbin/crda /sbin/regdbdump /usr/l=
-ib/crda/regulatory.bin
-
-Eric
+Ross
 
