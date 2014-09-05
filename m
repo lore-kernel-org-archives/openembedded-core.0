@@ -1,36 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
-	[209.85.216.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 679BA71412
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 137A2714C1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 10:00:54 +0000 (UTC)
-Received: by mail-qa0-f51.google.com with SMTP id j7so10574762qaq.24
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Sep 2014 03:00:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=1vmEugizDFujlXyzvhA7Sxbk6xnPFnU+UP3TZeVlw9Q=;
-	b=eEMwJMJavI3eS/pv9gqjP/ZQn/rBhnh9V+MYJNzABYKJCR1Tvc0+J9gfSitWfMMJqm
-	DOT+8CdgA15OHu0FNB4/AfVbiPUOzLFXd3Iju8Du4CCKvh0ZZfWofdycJPUNawvH1xUD
-	HSCOnISJIvDmG0TBIcn+X7TQeX/jF3vcP4yHONar1GzKiyhGym2mXs0p4W3I56jSXFq3
-	NyTPa1yK7EC2hEiKfyfcofLwHRWFQwOmlLM5AMm19uqHWUtRq4UEksxnFJy5Z+SMrmzU
-	rEvTDCAFH4uQ8hpWthfnXxQndalThlvX0B/5ez+f+MH/pHXrIUN0gkKLywQncjHV++M1
-	EW/Q==
-X-Gm-Message-State: ALoCoQnK+yzoIe1W2CFmsk24Kfpatexi7Ns6AsyzBEdsylRTb5/vDXB29iBhJe0Knt9N4bjS2Oh1
-X-Received: by 10.140.27.173 with SMTP id 42mr15708349qgx.59.1409911256039;
-	Fri, 05 Sep 2014 03:00:56 -0700 (PDT)
+	Fri,  5 Sep 2014 10:04:13 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1; Fri, 5 Sep 2014
+	12:04:09 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 2671)	id DF7E8288E2C;
+	Fri,  5 Sep 2014 12:04:09 +0200 (CEST)
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 5 Sep 2014 12:04:08 +0200
+Message-ID: <1409911448-28036-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Fri, 5 Sep 2014 03:00:35 -0700 (PDT)
-In-Reply-To: <1408514703-6424-1-git-send-email-akuster808@gmail.com>
-References: <1408514703-6424-1-git-send-email-akuster808@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 5 Sep 2014 11:00:35 +0100
-Message-ID: <CAJTo0LZpP9z_cMfdfT3M8mD1K19oDGPq--xiYB2N7maJtx9AaQ@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [[PATCH] python: add webbrowser module
+Received-SPF: None (SESTOEX03.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Cc: linux@list.enea.se
+Subject: [PATCH] pcihp: fix possible array out of bounds, CVE-2014-5388
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,15 +30,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 10:00:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 05 Sep 2014 10:04:15 -0000
+Content-Type: text/plain
 
-On 20 August 2014 07:05, Armin Kuster <akuster808@gmail.com> wrote:
->  meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
+Prevent out-of-bounds array access on acpi_pcihp_pci_status.
 
-As the comment at the top of that file says, this is a generated file.
-Please patch scripts/contrib/python/generate-manifest-2.7.py and then
-re-execute the script to update the manifest.inc.
+[From QEMU: fa365d7cd11185237471823a5a33d36765454e16]
 
-Ross
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ ...1-Back-porting-security-fix-CVE-2014-5388.patch | 30 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.1.0.bb           |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/files/0001-Back-porting-security-fix-CVE-2014-5388.patch
+
+diff --git a/meta/recipes-devtools/qemu/files/0001-Back-porting-security-fix-CVE-2014-5388.patch b/meta/recipes-devtools/qemu/files/0001-Back-porting-security-fix-CVE-2014-5388.patch
+new file mode 100644
+index 0000000..ec541fa
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/files/0001-Back-porting-security-fix-CVE-2014-5388.patch
+@@ -0,0 +1,30 @@
++Prevent out-of-bounds array access on
++acpi_pcihp_pci_status.
++
++Upstream-Status: Backport
++
++Signed-off-by: Gonglei <arei.gonglei@huawei.com>
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++v2:
++ - change commit message.
++ - add 'Reviewed-by'
++---
++ hw/acpi/pcihp.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
++index fae663a..34dedf1 100644
++--- a/hw/acpi/pcihp.c
+++++ b/hw/acpi/pcihp.c
++@@ -231,7 +231,7 @@ static uint64_t pci_read(void *opaque, hwaddr addr, unsigned int size)
++     uint32_t val = 0;
++     int bsel = s->hotplug_select;
++
++-    if (bsel < 0 || bsel > ACPI_PCIHP_MAX_HOTPLUG_BUS) {
+++    if (bsel < 0 || bsel >= ACPI_PCIHP_MAX_HOTPLUG_BUS) {
++         return 0;
++     }
++
++--
++1.7.12.4
+diff --git a/meta/recipes-devtools/qemu/qemu_2.1.0.bb b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
+index 9b8337a..a82d052 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.1.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://qemu-enlarge-env-entry-size.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
++            file://0001-Back-porting-security-fix-CVE-2014-5388.patch \
+             "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "6726977292b448cbc7f89998fac6983b"
+-- 
+1.9.1
+
 
