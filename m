@@ -1,37 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B30A713F2
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 98C26713F2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Sep 2014 19:35:47 +0000 (UTC)
-Received: by mail-qc0-f179.google.com with SMTP id l6so12935117qcy.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Sep 2014 12:35:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=4QFb140Siai87ReB0wLEjQmZdfyFKEAa8LerDfK7PF8=;
-	b=ZMxjXeOsJl2AsYU+URCf3JD1902dHNBkchug0L3CbC0JK249GKcCsFOs2dx/GmF5TP
-	mYD5hMrpzPVOo0WlLrWFT58qp7PCv0qnDLQi9tPofm3QyvuRD/JTUKQCSuykhiJ9sVcF
-	1QOHExNX9S+giXqDEwNDI1sqTOHmAnOCtKeVnt8VkpyE1zkUfSHklXpEWCToRGnSrQ+Q
-	qBb2ijkDyu74K/PkTblVJfzoHNgcT64a2wuk2bJ3R14A5OjW46AUqQNXZGb21ToQp0e3
-	TpCPCLk0CcX6QidpsKQuwGbUf/k/tPACeVIkcxljI+HRts87pAvcTSAYYYmJ+tmlg+1l
-	LyNw==
-X-Gm-Message-State: ALoCoQluVdg0z0w2jWfdsm1M982aUIGHKYTrerJNQKxxeZd/Ih4f4Dy7gckZTBHb3fyxBZGucpVw
-X-Received: by 10.140.97.131 with SMTP id m3mr20816639qge.80.1409945748983;
-	Fri, 05 Sep 2014 12:35:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Fri, 5 Sep 2014 12:35:27 -0700 (PDT)
-In-Reply-To: <5f69db7a3b75248ce543cb11f1fabe57b491a340.1409791242.git.cazfi74@gmail.com>
-References: <cover.1409791241.git.cazfi74@gmail.com>
-	<5f69db7a3b75248ce543cb11f1fabe57b491a340.1409791242.git.cazfi74@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 5 Sep 2014 20:35:27 +0100
-Message-ID: <CAJTo0LZmxUE=51F3EwK+0_ih9upLU9T7MmRHR6b=5m9kFh3xfA@mail.gmail.com>
-To: Marko Lindqvist <cazfi74@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] pixman: update to 0.32.6
+	Fri,  5 Sep 2014 20:06:30 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Sep 2014 13:06:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="382099473"
+Received: from gmacartn-mobl.ger.corp.intel.com (HELO
+	swold-linux.amr.corp.intel.com) ([10.255.13.5])
+	by FMSMGA003.fm.intel.com with ESMTP; 05 Sep 2014 13:01:43 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Sep 2014 13:06:27 -0700
+Message-Id: <2164a52936a6fc4b51ed8b8253c851c02a0f75c7.1409947480.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1409947480.git.sgw@linux.intel.com>
+References: <cover.1409947480.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1409947480.git.sgw@linux.intel.com>
+References: <cover.1409947480.git.sgw@linux.intel.com>
+Subject: [PATCH 3/4] libcap: Upgrade to 2.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,14 +32,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Sep 2014 19:35:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 05 Sep 2014 20:06:31 -0000
 
-On 4 September 2014 01:48, Marko Lindqvist <cazfi74@gmail.com> wrote:
->  meta/recipes-graphics/xorg-lib/{pixman_0.32.4.bb => pixman_0.32.6.bb} | 4 ++--
+${S} added because top dir renamed
+libcap now provides pkgconfig files do don't move everything and delete libdir
 
-Before we get another submission for this patch, it's stalling as it
-fails to build on qemumips.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-support/libcap/libcap.inc             | 10 +++---
+ .../libcap/libcap/fix-CAP_LAST_CAP.patch           | 39 ----------------------
+ meta/recipes-support/libcap/libcap_2.22.bb         |  6 ----
+ meta/recipes-support/libcap/libcap_2.24.bb         |  4 +++
+ 4 files changed, 8 insertions(+), 51 deletions(-)
+ delete mode 100644 meta/recipes-support/libcap/libcap/fix-CAP_LAST_CAP.patch
+ delete mode 100644 meta/recipes-support/libcap/libcap_2.22.bb
+ create mode 100644 meta/recipes-support/libcap/libcap_2.24.bb
 
-Ross
+diff --git a/meta/recipes-support/libcap/libcap.inc b/meta/recipes-support/libcap/libcap.inc
+index 0e28ea0..660394e 100644
+--- a/meta/recipes-support/libcap/libcap.inc
++++ b/meta/recipes-support/libcap/libcap.inc
+@@ -7,11 +7,9 @@ LIC_FILES_CHKSUM = "file://License;md5=3f84fd6f29d453a56514cb7e4ead25f1"
+ 
+ DEPENDS = "perl-native-runtime"
+ 
+-SRC_URI = "${DEBIAN_MIRROR}/main/libc/libcap2/${BPN}2_${PV}.orig.tar.gz \
+-           file://fix-CAP_LAST_CAP.patch"
+-
+-PR = "r1"
++SRC_URI = "${DEBIAN_MIRROR}/main/libc/libcap2/${BPN}2_${PV}.orig.tar.xz"
+ 
++S = "${WORKDIR}/${BPN}2-${PV}"
+ inherit lib_package
+ 
+ # do NOT pass target cflags to host compilations
+@@ -56,8 +54,8 @@ do_install_append() {
+ 	# Move the library to base_libdir
+ 	install -d ${D}${base_libdir}
+ 	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
+-		mv ${D}${libdir}/* ${D}${base_libdir}
+-		rmdir ${D}${libdir}
++		mv ${D}${libdir}/libcap* ${D}${base_libdir}
++		mv ${D}${libdir}/security ${D}${base_libdir}
+ 	fi
+ }
+ 
+diff --git a/meta/recipes-support/libcap/libcap/fix-CAP_LAST_CAP.patch b/meta/recipes-support/libcap/libcap/fix-CAP_LAST_CAP.patch
+deleted file mode 100644
+index a557188..0000000
+--- a/meta/recipes-support/libcap/libcap/fix-CAP_LAST_CAP.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-fix CAP_LAST_CAP
+-
+-Upstream-Status: pending
+-
+-Two new capability CAP_BLOCK_SUSPEND and CAP_WAKE_ALARM have been added into
+-kernel, but libcap did not update them.
+-Once libcap uses its capability.h (the default value of KERNEL_HEADERS), and
+-application always use capability.h from kernel, that will make cap_get_flag
+-return wrong value.
+-
+-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+----
+- libcap/include/linux/capability.h |   10 +++++++++-
+- 1 file changed, 9 insertions(+), 1 deletion(-)
+-
+-diff --git a/libcap/include/linux/capability.h b/libcap/include/linux/capability.h
+-index 4924f2a..57026be 100644
+---- a/libcap/include/linux/capability.h
+-+++ b/libcap/include/linux/capability.h
+-@@ -360,7 +360,15 @@ struct cpu_vfs_cap_data {
+-    CAP_SYS_ADMIN is not acceptable anymore. */
+- #define CAP_SYSLOG           34
+- 
+--#define CAP_LAST_CAP         CAP_SYSLOG
+-+/* Allow triggering something that will wake the system */
+-+
+-+#define CAP_WAKE_ALARM            35
+-+
+-+/* Allow preventing system suspends */
+-+
+-+#define CAP_BLOCK_SUSPEND    36
+-+
+-+#define CAP_LAST_CAP         CAP_BLOCK_SUSPEND
+- 
+- #define cap_valid(x) ((x) >= 0 && (x) <= CAP_LAST_CAP)
+- 
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-support/libcap/libcap_2.22.bb b/meta/recipes-support/libcap/libcap_2.22.bb
+deleted file mode 100644
+index a989bb6..0000000
+--- a/meta/recipes-support/libcap/libcap_2.22.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-require libcap.inc
+-
+-PR = "r6"
+-
+-SRC_URI[md5sum] = "b4896816b626bea445f0b3849bdd4077"
+-SRC_URI[sha256sum] = "e1cae65d8febf2579be37c255d2e058715785ead481a4e6a4357a06aff84721f"
+diff --git a/meta/recipes-support/libcap/libcap_2.24.bb b/meta/recipes-support/libcap/libcap_2.24.bb
+new file mode 100644
+index 0000000..4d0df37
+--- /dev/null
++++ b/meta/recipes-support/libcap/libcap_2.24.bb
+@@ -0,0 +1,4 @@
++require libcap.inc
++
++SRC_URI[md5sum] = "1f8934af240ff1e9fb2ef1a2a75d308e"
++SRC_URI[sha256sum] = "51cd1c568a2baf1e687573bd6117a94b07f33b46a05acaa50ee208792a830b79"
+-- 
+1.8.3.1
+
 
