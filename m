@@ -1,26 +1,38 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa06-06.prod.phx3.secureserver.net
-	(p3plsmtpa06-06.prod.phx3.secureserver.net [173.201.192.107])
-	by mail.openembedded.org (Postfix) with ESMTP id D8BA4713BB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 80AD1713AF
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Sep 2014 10:41:40 +0000 (UTC)
-Received: from [192.168.65.10] ([66.41.60.82])
-	by p3plsmtpa06-06.prod.phx3.secureserver.net with 
-	id nmhd1o0011mTNtu01mhdWv; Sat, 06 Sep 2014 03:41:41 -0700
-Message-ID: <540AE4E0.3080209@pabigot.com>
-Date: Sat, 06 Sep 2014 05:41:36 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Sat,  6 Sep 2014 13:32:27 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id j107so447663qga.32
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 06 Sep 2014 06:32:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=eJCpOPb9UZNL7SUjilQy8Kssr/Fuz6tOHf3xEdU6vJw=;
+	b=SIC47w7w+mq25XDh9czLDdskFFjQMpOqxRtgM9g01GrT5UBrsTLVB3XgrCJvyVW5Ke
+	prs375w5g2mjkvSRJVT/TiFBMtbmga3vX2GZxm23WSsH2+8TkYEpjzWHC6Lp99eJGxc9
+	jd5nPkEuviPUPOcUUod5PWskRFm4ZhrXHvrnWPRSpXQ8t/TYmMMabKFGzDJV3TiEIoVb
+	L/0adGMPOTauvVDUxitM4ZO6ryIp5s/5GNqVouzUEfIyB4cMmchrt1gOIoYZ/5B2n7Z0
+	8gyL2QrhRrnc/XOE2pIb8H24foo3G9qRpkhIK5xyoUiM8wsat9wM9MQF19Aiu0HP/VJC
+	z0DA==
+X-Gm-Message-State: ALoCoQmTFc8FjKEilTDh5eZnUaZvxsG50Rv7fHemGOagwbctcMT+T6GbB8Ctp4mdcvmTfOM3fqm3
+X-Received: by 10.224.103.65 with SMTP id j1mr27779895qao.17.1410010349187;
+	Sat, 06 Sep 2014 06:32:29 -0700 (PDT)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
+Received: by 10.140.29.183 with HTTP; Sat, 6 Sep 2014 06:32:09 -0700 (PDT)
+In-Reply-To: <CAMKF1spYXbaKdjQhAYM3SEL8RjqfTeOwmXpsOXNOS0YaXZJzLg@mail.gmail.com>
 References: <53C3A130.4000900@pabigot.com> <53DC39DE.5020105@pabigot.com>
 	<CAP9ODKo8dwJvw9cwDKEY0fQNo6Z+NrxavZtZs1AjcvQgHc_5JQ@mail.gmail.com>
 	<CAJTo0LaQh=cMsbVYgt_xjhXqe0L76KC-efk17Pju6A21Da=j0Q@mail.gmail.com>
 	<CAMKF1sqZZaXy9AkRHEeXyeoMWABWMS-+PK_v-6QAr5d8Qc1hPA@mail.gmail.com>
 	<CAMKF1spYXbaKdjQhAYM3SEL8RjqfTeOwmXpsOXNOS0YaXZJzLg@mail.gmail.com>
-In-Reply-To: <CAMKF1spYXbaKdjQhAYM3SEL8RjqfTeOwmXpsOXNOS0YaXZJzLg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 6 Sep 2014 14:32:09 +0100
+Message-ID: <CAJTo0Lb708rnUEEUf9w0B2er_Ttb890niQUjRdBTTD952BcogQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: patchwork client problems
@@ -36,76 +48,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Sep 2014 10:41:42 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 06 Sep 2014 13:32:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 09/06/2014 05:03 AM, Khem Raj wrote:
-> On Fri, Sep 5, 2014 at 7:40 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Friday, September 5, 2014, Burton, Ross <ross.burton@intel.com> wrote:
->>> On 4 August 2014 21:16, Otavio Salvador <otavio@ossystems.com.br> wrote:
->>>>> And I still get empty documents back from the OE patchwork server for
->>>>> every
->>>>> pwclient command I try.
->>>>>
->>>>> Anybody have any idea what's going wrong?
->>>>>
->>>>> Thanks.
->>>>>
->>>>> Peter
->>>>>
->>>>> llc[40]$ /tmp/pwclient projects
->>>>> Traceback (most recent call last):
->>>>>    File "/tmp/pwclient", line 500, in <module>
->>>>>      main()
->>>>>    File "/tmp/pwclient", line 439, in main
->>>>>      action_projects(rpc)
->>>>>    File "/tmp/pwclient", line 213, in action_projects
->>>>>      projects = rpc.project_list("", 0)
->>>>>    File "/usr/lib/python2.7/xmlrpclib.py", line 1224, in __call__
->>>>>      return self.__send(self.__name, args)
->>>>>    File "/usr/lib/python2.7/xmlrpclib.py", line 1578, in __request
->>>>>      verbose=self.__verbose
->>>>>    File "/usr/lib/python2.7/xmlrpclib.py", line 1264, in request
->>>>>      return self.single_request(host, handler, request_body, verbose)
->>>>>    File "/usr/lib/python2.7/xmlrpclib.py", line 1297, in single_request
->>>>>      return self.parse_response(response)
->>>>>    File "/usr/lib/python2.7/xmlrpclib.py", line 1471, in parse_response
->>>>>      p.close()
->>>>>    File "/usr/lib/python2.7/xmlrpclib.py", line 560, in close
->>>>>      self._parser.Parse("", 1) # end of data
->>>>> xml.parsers.expat.ExpatError: no element found: line 1, column 0
->>>> I have same error; I am adding Khem who I know has access to the
->>>> server and can know more about it.
->>> Khem - have you been able to look at this?  I was hoping to use
->>> patchwork to merge patches from the list but obviously this is a bit
->>> of a blocker.
->>
->> Ok I haven't but over this weekend I can try
+On 6 September 2014 11:03, Khem Raj <raj.khem@gmail.com> wrote:
 > This issue should be fixed now. Please download pwclient from
 > http://patchwork.openembedded.org/pwclient/
 > once again and, it should update your .pwclientrc but there may be
 > gotchas so make sure it is of this form
 
-Thanks.  The new version works for me.  Note that you need to add (e.g.) 
--p oe-core to some commands to select the non-default project, and that 
-the username and password can also be placed in the project sections of 
-.pwclientrc to allow for different login information for different servers.
+Thanks Khem, much appreciated.
 
-Peter
+Presumably the hooks to auto-mark merged patches haven't been
+activated because the git server and the patchwork server are on
+different machines. Has there been previous discussion to get this
+resolved?
 
->
-> [options]
-> default = oe
->
-> username: <yyyy>
-> password: <xxxx>
->
-> [glibc]
-> url = http://patchwork.sourceware.org/xmlrpc/
->
-> [oe]
-> url = http://patchwork.openembedded.org/xmlrpc/
-
+Ross
 
