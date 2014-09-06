@@ -1,41 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 72440713E4
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
+	[209.85.160.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 978066A941
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Sep 2014 17:26:11 +0000 (UTC)
-Received: by mail-ie0-f178.google.com with SMTP id tp5so2730090ieb.23
+	Sat,  6 Sep 2014 19:41:59 +0000 (UTC)
+Received: by mail-yk0-f170.google.com with SMTP id 142so7951095ykq.29
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Sep 2014 10:26:12 -0700 (PDT)
+	Sat, 06 Sep 2014 12:42:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=BY6In4gRUQ77PZxY/mwcy5BWthWa8SFz9ekxPMNryu4=;
-	b=vnSQfbc764NcR++9YMXbrSQRCqIqFssI9nNajnlqIXs2BwTr8YoEGEgE0ESwY9XbdK
-	Mf7sZZ9LC/hrshheFLuEhqT+rHceQ5mQkBAZNFgkqRTz31K+mZZ/AzS+OyqKWGJwW94T
-	4Vn3S0MgjhHBMSTznzk0Ouyhnt4fDWmbyOcjeykjR6COKeL+UOCBF93+3T0LsAqakqtW
-	Z3TgkDm1RpYfDk+WiTCPxrPIyuCkbs+axa/iK3Ojz/DQjIQeMyL55V6mGuC2rML2t+Yj
-	OWJPcNf3HruoP5hCXlSvNKB8Z0WVbtJweXRbOYZ4tWSgfArdNpcLpOFxorEAKoWiUXzb
-	0+JQ==
-X-Received: by 10.42.62.6 with SMTP id w6mr22284295ich.24.1410024372687; Sat,
-	06 Sep 2014 10:26:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.102.67 with HTTP; Sat, 6 Sep 2014 10:25:42 -0700 (PDT)
-In-Reply-To: <CAMKF1srf7AFaYXUzwObkAwxO8_P7v-5e5UdcBYCpqXAp0VN7HA@mail.gmail.com>
-References: <53C3A130.4000900@pabigot.com> <53DC39DE.5020105@pabigot.com>
-	<CAP9ODKo8dwJvw9cwDKEY0fQNo6Z+NrxavZtZs1AjcvQgHc_5JQ@mail.gmail.com>
-	<CAJTo0LaQh=cMsbVYgt_xjhXqe0L76KC-efk17Pju6A21Da=j0Q@mail.gmail.com>
-	<CAMKF1sqZZaXy9AkRHEeXyeoMWABWMS-+PK_v-6QAr5d8Qc1hPA@mail.gmail.com>
-	<CAMKF1spYXbaKdjQhAYM3SEL8RjqfTeOwmXpsOXNOS0YaXZJzLg@mail.gmail.com>
-	<CAJTo0Lb708rnUEEUf9w0B2er_Ttb890niQUjRdBTTD952BcogQ@mail.gmail.com>
-	<CAMKF1srf7AFaYXUzwObkAwxO8_P7v-5e5UdcBYCpqXAp0VN7HA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 6 Sep 2014 10:25:42 -0700
-Message-ID: <CAMKF1sp29d050n4VHSkjmNX6q9i=nDNyUFTBxot218aj-KzQ+Q@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: patchwork client problems
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=8WWeQxBDTYdXNWWh3zVHUNs3kf+RZW5tLUOkDyDWdjs=;
+	b=0BKIQN5zynkxZln7n0FlNvrl0IrOr6ZqIP4W+akh6LRn9aJetK59ol5FUNrOKMeJVC
+	Udmql0PtFMK3CQSjYmY5cMeWewKeIp3ClHe8oVvdZ3guxibVkGzSFv8LNXRKyErWxUJh
+	U0ZmWxuqoczSODhmwNNT/qJfV68cCJy+627VrXMijxe/68ZsS83b4XWSxOT5R1ITf9nB
+	vv7J+PnMJ++zkemuacBAQ9XpCrnGPMbbJzKD8TlRP/nLhVCxlL2gUyu9A1f4S8rzfBXX
+	Aton9hgUAFJ+Xk5bN8Vb2atW1glw2ospsn+PMYhFd/niAur1GVFIc08hdHrfinyQooiH
+	DMPg==
+X-Received: by 10.236.109.35 with SMTP id r23mr25236109yhg.33.1410032520513;
+	Sat, 06 Sep 2014 12:42:00 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([177.35.70.10])
+	by mx.google.com with ESMTPSA id r77sm2391971yhr.28.2014.09.06.12.41.59
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 06 Sep 2014 12:41:59 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
+	id 534681C4C0F4F; Sat,  6 Sep 2014 16:41:56 -0300 (BRT)
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Sat,  6 Sep 2014 16:41:55 -0300
+Message-Id: <1410032515-4718-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.1.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] packagegroup.bbclass: Use immediate expanded PACKAGE_ARCH value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,23 +46,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Sep 2014 17:26:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 06 Sep 2014 19:42:01 -0000
 
-On Sat, Sep 6, 2014 at 8:32 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Sat, Sep 6, 2014 at 6:32 AM, Burton, Ross <ross.burton@intel.com> wrote:
->> Thanks Khem, much appreciated.
->>
->> Presumably the hooks to auto-mark merged patches haven't been
->> activated because the git server and the patchwork server are on
->> different machines. Has there been previous discussion to get this
->> resolved?
->
-> it has been activated and was working in past. Do you see it not happening now ?
+When the PACKAGE_ARCH is dependant of a override, the expanding is
+done too late triggering the false-positive error of wrong inclusion
+order.
 
-update hooks were not working too since they use pwclient themselves
-and pwclient
-was not working thus far. So it should start working again. I have
-updated the hooks
-to reflect the latest changes from patchwork upstream as well
+To fix this we use immediate expansion operator to evaluate the
+PACKAGE_ARCH value in order to choose to load 'allarch' class or not.
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/classes/packagegroup.bbclass | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/packagegroup.bbclass b/meta/classes/packagegroup.bbclass
+index a79d5b0..56cfead 100644
+--- a/meta/classes/packagegroup.bbclass
++++ b/meta/classes/packagegroup.bbclass
+@@ -9,8 +9,12 @@ PACKAGES = "${PN}"
+ # By default, packagegroup packages do not depend on a certain architecture.
+ # Only if dependencies are modified by MACHINE_FEATURES, packages
+ # need to be set to MACHINE_ARCH after inheriting packagegroup.bbclass
+-PACKAGE_ARCH ??= "all"
+-inherit ${@oe.utils.ifelse(d.getVar('PACKAGE_ARCH', True) == 'all', 'allarch', '')}
++PACKAGE_ARCH ?= "all"
++
++# Fully expanded - so it applies the overrides as well
++PACKAGE_ARCH_EXPANDED := "${PACKAGE_ARCH}"
++
++inherit ${@oe.utils.ifelse(d.getVar('PACKAGE_ARCH_EXPANDED', True) == 'all', 'allarch', '')}
+ 
+ # This automatically adds -dbg and -dev flavours of all PACKAGES
+ # to the list. Their dependencies (RRECOMMENDS) are handled as usual
+-- 
+2.1.0
+
 
