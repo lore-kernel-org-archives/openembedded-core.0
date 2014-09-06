@@ -1,31 +1,31 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa07-08.prod.phx3.secureserver.net
-	(p3plsmtpa07-08.prod.phx3.secureserver.net [173.201.192.237])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FDD571399
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qa0-f52.google.com (mail-qa0-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 749FE71397
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Sep 2014 16:03:31 +0000 (UTC)
-Received: from [192.168.65.10] ([66.41.60.82])
-	by p3plsmtpa07-08.prod.phx3.secureserver.net with 
-	id ns3U1o00F1mTNtu01s3VYJ; Sat, 06 Sep 2014 09:03:29 -0700
-Message-ID: <540B3050.4080900@pabigot.com>
-Date: Sat, 06 Sep 2014 11:03:28 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Sat,  6 Sep 2014 17:22:31 +0000 (UTC)
+Received: by mail-qa0-f52.google.com with SMTP id k15so580229qaq.25
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 06 Sep 2014 10:22:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=awJUEHvca6hKcKPpdcMVkTjgJF/qGe/EIDd6IsY/YBY=;
+	b=auNMn3uA/bvihKD4kHUIRQzXSdut5QjU1AoZD28BrT3wRjavjxWVbz1dtmE5hwnyYh
+	hwJP/kqvUh/NYMG6vNDLt95lHUBoU4wOZRJBB+oTzyNOjX0n25jHVYCcaYfcujj0mDkW
+	tjLrEdSXpR+Kq9Bl841dNts9jomvSUH6yNbRApYerMicnOE+q9KQ+7HZfVzOYDh/94vN
+	mkyzCSEs8rz9cvK3rT3Dg9yLdqotMKl26I/O46GG3vFRYMwXmcL2EDmAaaqeWfcwcu7w
+	RyHbRVblqHHBzfE19i/Lzn20dPRSZuV8MNUk1T5fPDFZDWsXA8VWwHWNun5Gey8sv0wQ
+	JTIw==
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <53C3A130.4000900@pabigot.com> <53DC39DE.5020105@pabigot.com>
-	<CAP9ODKo8dwJvw9cwDKEY0fQNo6Z+NrxavZtZs1AjcvQgHc_5JQ@mail.gmail.com>
-	<CAJTo0LaQh=cMsbVYgt_xjhXqe0L76KC-efk17Pju6A21Da=j0Q@mail.gmail.com>
-	<CAMKF1sqZZaXy9AkRHEeXyeoMWABWMS-+PK_v-6QAr5d8Qc1hPA@mail.gmail.com>
-	<CAMKF1spYXbaKdjQhAYM3SEL8RjqfTeOwmXpsOXNOS0YaXZJzLg@mail.gmail.com>
-	<540AE4E0.3080209@pabigot.com>
-	<CAMKF1spvZe+uUBs6z4RX31T+Lax5T5gCbYzBtc=PvYKA5n_KzA@mail.gmail.com>
-In-Reply-To: <CAMKF1spvZe+uUBs6z4RX31T+Lax5T5gCbYzBtc=PvYKA5n_KzA@mail.gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: patchwork client problems
+X-Received: by 10.224.15.201 with SMTP id l9mr28726115qaa.27.1410024152858;
+	Sat, 06 Sep 2014 10:22:32 -0700 (PDT)
+Received: by 10.96.147.37 with HTTP; Sat, 6 Sep 2014 10:22:32 -0700 (PDT)
+Date: Sat, 6 Sep 2014 11:22:32 -0600
+Message-ID: <CACS+7ZSwg4RT8dqd7L7G6u0R=2YfK0k3aUruEPQOq=0WGhfnXA@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCH v3] systemd: Use ${ROOT_HOME} instead of /root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,78 +38,254 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Sep 2014 16:03:41 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 06 Sep 2014 17:22:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 09/06/2014 10:38 AM, Khem Raj wrote:
-> On Sat, Sep 6, 2014 at 3:41 AM, Peter A. Bigot<pab@pabigot.com>  wrote:
->> On 09/06/2014 05:03 AM, Khem Raj wrote:
->>> On Fri, Sep 5, 2014 at 7:40 AM, Khem Raj<raj.khem@gmail.com>  wrote:
->>>> On Friday, September 5, 2014, Burton, Ross<ross.burton@intel.com>  wrote:
->>>>> On 4 August 2014 21:16, Otavio Salvador<otavio@ossystems.com.br>  wrote:
->>>>>>> And I still get empty documents back from the OE patchwork server for
->>>>>>> every
->>>>>>> pwclient command I try.
->>>>>>>
->>>>>>> Anybody have any idea what's going wrong?
->>>>>>>
->>>>>>> Thanks.
->>>>>>>
->>>>>>> Peter
->>>>>>>
->>>>>>> llc[40]$ /tmp/pwclient projects
->>>>>>> Traceback (most recent call last):
->>>>>>>     File "/tmp/pwclient", line 500, in <module>
->>>>>>>       main()
->>>>>>>     File "/tmp/pwclient", line 439, in main
->>>>>>>       action_projects(rpc)
->>>>>>>     File "/tmp/pwclient", line 213, in action_projects
->>>>>>>       projects = rpc.project_list("", 0)
->>>>>>>     File "/usr/lib/python2.7/xmlrpclib.py", line 1224, in __call__
->>>>>>>       return self.__send(self.__name, args)
->>>>>>>     File "/usr/lib/python2.7/xmlrpclib.py", line 1578, in __request
->>>>>>>       verbose=self.__verbose
->>>>>>>     File "/usr/lib/python2.7/xmlrpclib.py", line 1264, in request
->>>>>>>       return self.single_request(host, handler, request_body, verbose)
->>>>>>>     File "/usr/lib/python2.7/xmlrpclib.py", line 1297, in
->>>>>>> single_request
->>>>>>>       return self.parse_response(response)
->>>>>>>     File "/usr/lib/python2.7/xmlrpclib.py", line 1471, in
->>>>>>> parse_response
->>>>>>>       p.close()
->>>>>>>     File "/usr/lib/python2.7/xmlrpclib.py", line 560, in close
->>>>>>>       self._parser.Parse("", 1) # end of data
->>>>>>> xml.parsers.expat.ExpatError: no element found: line 1, column 0
->>>>>> I have same error; I am adding Khem who I know has access to the
->>>>>> server and can know more about it.
->>>>> Khem - have you been able to look at this?  I was hoping to use
->>>>> patchwork to merge patches from the list but obviously this is a bit
->>>>> of a blocker.
->>>> Ok I haven't but over this weekend I can try
->>> This issue should be fixed now. Please download pwclient from
->>> http://patchwork.openembedded.org/pwclient/
->>> once again and, it should update your .pwclientrc but there may be
->>> gotchas so make sure it is of this form
->> Thanks.  The new version works for me.  Note that you need to add (e.g.) -p
->> oe-core to some commands to select the non-default project, and that the
->> username and password can also be placed in the project sections of
->> .pwclientrc to allow for different login information for different servers.
->>
-> can you add a working .pwclientrc to wiki
->
-> http://www.openembedded.org/wiki/Patchwork
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-Apparently not. I don't have an account, and while trying to figure out 
-how to request one got to a situation where I get 502 Bad Gateway on 
-every request to www.openembedded.org.
+systemd avoids using nss lookups for the root user, so
+naturally it assumes that root's home directory is /root.
+In OE that's not the case, and it can lead to long delays when
+shutting down due to user shutdown unit failures.
 
-The help output from pwclient and the comments in your example (and the 
-ones downloaded from each project) cover it pretty well, though.  Just 
-wanted to highlight to the current readership that the new version 
-supports multiple projects in one config file. (Breaking the way I've 
-been doing it for the last couple years which figured out the right 
-default based on context, but hey, progress, right?)
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+---
+ ...1-Make-root-s-home-directory-configurable.patch | 180 +++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_216.bb           |   3 +-
+ 2 files changed, 182 insertions(+), 1 deletion(-)
+ create mode 100644
+meta/recipes-core/systemd/systemd/0001-Make-root-s-home-directory-configurable.patch
 
-Peter
+diff --git a/meta/recipes-core/systemd/systemd/0001-Make-root-s-home-directory-configurable.patch
+b/meta/recipes-core/systemd/systemd/0001-Make-root-s-home-directory-configurable.patch
+new file mode 100644
+index 0000000..77bd370
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-Make-root-s-home-directory-configurable.patch
+@@ -0,0 +1,180 @@
++From 4dc8dee0435bb63cbe474004b0a8df0363fe94dd Mon Sep 17 00:00:00 2001
++From: Dan McGregor <dan.mcgregor@usask.ca>
++Date: Fri, 5 Sep 2014 06:28:58 -0600
++Subject: [PATCH] Make root's home directory configurable.
++
++OpenEmbedded has a configurable home directory for root. Allow
++systemd to be built using its idea of what root's home directory
++should be.
++
++Upstream-Status: Pending
++
++Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
++---
++ Makefile.am                       | 2 ++
++ configure.ac                      | 7 +++++++
++ src/core/unit-printf.c            | 2 +-
++ src/nspawn/nspawn.c               | 4 ++--
++ src/shared/util.c                 | 4 ++--
++ units/console-shell.service.m4.in | 4 ++--
++ units/emergency.service.in        | 4 ++--
++ units/rescue.service.m4.in        | 4 ++--
++ 8 files changed, 20 insertions(+), 11 deletions(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index 4028112..5d18f5c 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -191,6 +191,7 @@ AM_CPPFLAGS = \
++ -DKEXEC=\"$(KEXEC)\" \
++ -DLIBDIR=\"$(libdir)\" \
++ -DROOTLIBDIR=\"$(rootlibdir)\" \
+++ -DROOTHOMEDIR=\"$(roothomedir)\" \
++ -DTEST_DIR=\"$(abs_top_srcdir)/test\" \
++ -I $(top_srcdir)/src \
++ -I $(top_builddir)/src/shared \
++@@ -5584,6 +5585,7 @@ EXTRA_DIST += \
++ substitutions = \
++        '|rootlibexecdir=$(rootlibexecdir)|' \
++        '|rootbindir=$(rootbindir)|' \
+++       '|roothomedir=$(roothomedir)|' \
++        '|bindir=$(bindir)|' \
++        '|SYSTEMCTL=$(rootbindir)/systemctl|' \
++        '|SYSTEMD_NOTIFY=$(rootbindir)/systemd-notify|' \
++diff --git a/configure.ac b/configure.ac
++index 18b7198..365bc73 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1272,6 +1272,11 @@ AC_ARG_WITH([rootlibdir],
++         [],
++         [with_rootlibdir=${libdir}])
++
+++AC_ARG_WITH([roothomedir],
+++        AS_HELP_STRING([--with-roothomedir=DIR], [Home directory for
+the root user]),
+++        [],
+++        [with_roothomedir=/root])
+++
++ AC_ARG_WITH([pamlibdir],
++         AS_HELP_STRING([--with-pamlibdir=DIR], [Directory for PAM modules]),
++         [],
++@@ -1317,6 +1322,7 @@ AC_SUBST([pamlibdir], [$with_pamlibdir])
++ AC_SUBST([pamconfdir], [$with_pamconfdir])
++ AC_SUBST([rootprefix], [$with_rootprefix])
++ AC_SUBST([rootlibdir], [$with_rootlibdir])
+++AC_SUBST([roothomedir], [$with_roothomedir])
++
++ AC_CONFIG_FILES([
++         Makefile po/Makefile.in
++@@ -1400,6 +1406,7 @@ AC_MSG_RESULT([
++         include_prefix:          ${INCLUDE_PREFIX}
++         lib dir:                 ${libdir}
++         rootlib dir:             ${with_rootlibdir}
+++        root home dir:           ${with_roothomedir}
++         SysV init scripts:       ${SYSTEM_SYSVINIT_PATH}
++         SysV rc?.d directories:  ${SYSTEM_SYSVRCND_PATH}
++         Build Python:            ${PYTHON}
++diff --git a/src/core/unit-printf.c b/src/core/unit-printf.c
++index 62599d0..852d34c 100644
++--- a/src/core/unit-printf.c
+++++ b/src/core/unit-printf.c
++@@ -259,7 +259,7 @@ static int specifier_user_home(char specifier,
+void *data, void *userdata, char
++                  * best of it if we can, but fail if we can't */
++
++                 if (!c->user || streq(c->user, "root") || streq(c->user, "0"))
++-                        n = strdup("/root");
+++                        n = strdup(ROOTHOMEDIR);
++                 else
++                         return -ENOTSUP;
++
++diff --git a/src/nspawn/nspawn.c b/src/nspawn/nspawn.c
++index d01da45..3e876d5 100644
++--- a/src/nspawn/nspawn.c
+++++ b/src/nspawn/nspawn.c
++@@ -3312,7 +3312,7 @@ int main(int argc, char *argv[]) {
++                         if (r < 0)
++                                 _exit(EXIT_FAILURE);
++
++-                        if ((asprintf((char**)(envp + n_env++),
+"HOME=%s", home ? home: "/root") < 0) ||
+++                        if ((asprintf((char**)(envp + n_env++),
+"HOME=%s", home ? home: ROOTHOMEDIR) < 0) ||
++                             (asprintf((char**)(envp + n_env++),
+"USER=%s", arg_user ? arg_user : "root") < 0) ||
++                             (asprintf((char**)(envp + n_env++),
+"LOGNAME=%s", arg_user ? arg_user : "root") < 0)) {
++                                 log_oom();
++@@ -3402,7 +3402,7 @@ int main(int argc, char *argv[]) {
++                         } else if (argc > optind)
++                                 execvpe(argv[optind], argv + optind, env_use);
++                         else {
++-                                chdir(home ? home : "/root");
+++                                chdir(home ? home : ROOTHOMEDIR);
++                                 execle("/bin/bash", "-bash", NULL, env_use);
++                                 execle("/bin/sh", "-sh", NULL, env_use);
++                         }
++diff --git a/src/shared/util.c b/src/shared/util.c
++index 85a570a..aef6033 100644
++--- a/src/shared/util.c
+++++ b/src/shared/util.c
++@@ -4377,7 +4377,7 @@ int get_user_creds(
++                         *gid = 0;
++
++                 if (home)
++-                        *home = "/root";
+++                        *home = ROOTHOMEDIR;
++
++                 if (shell)
++                         *shell = "/bin/sh";
++@@ -5363,7 +5363,7 @@ int get_home_dir(char **_h) {
++         /* Hardcode home directory for root to avoid NSS */
++         u = getuid();
++         if (u == 0) {
++-                h = strdup("/root");
+++                h = strdup(ROOTHOMEDIR);
++                 if (!h)
++                         return -ENOMEM;
++
++diff --git a/units/console-shell.service.m4.in
+b/units/console-shell.service.m4.in
++index 3f4904a..e2af652 100644
++--- a/units/console-shell.service.m4.in
+++++ b/units/console-shell.service.m4.in
++@@ -15,8 +15,8 @@ After=rc-local.service
++ Before=getty.target
++
++ [Service]
++-Environment=HOME=/root
++-WorkingDirectory=/root
+++Environment=HOME=@roothomedir@
+++WorkingDirectory=@roothomedir@
++ ExecStart=-/sbin/sulogin
++ ExecStopPost=-@SYSTEMCTL@ poweroff
++ Type=idle
++diff --git a/units/emergency.service.in b/units/emergency.service.in
++index 91fc1bb..659547e 100644
++--- a/units/emergency.service.in
+++++ b/units/emergency.service.in
++@@ -13,8 +13,8 @@ Conflicts=shutdown.target
++ Before=shutdown.target
++
++ [Service]
++-Environment=HOME=/root
++-WorkingDirectory=/root
+++Environment=HOME=@roothomedir@
+++WorkingDirectory=@roothomedir@
++ ExecStartPre=-/bin/plymouth quit
++ ExecStartPre=-/bin/echo -e 'Welcome to emergency mode! After logging
+in, type "journalctl -xb" to view\\nsystem logs, "systemctl reboot" to
+reboot, "systemctl default" to try again\\nto boot into default mode.'
++ ExecStart=-/bin/sh -c "/sbin/sulogin; @SYSTEMCTL@ --fail --no-block default"
++diff --git a/units/rescue.service.m4.in b/units/rescue.service.m4.in
++index ef54369..7aad86f 100644
++--- a/units/rescue.service.m4.in
+++++ b/units/rescue.service.m4.in
++@@ -14,8 +14,8 @@ After=sysinit.target plymouth-start.service
++ Before=shutdown.target
++
++ [Service]
++-Environment=HOME=/root
++-WorkingDirectory=/root
+++Environment=HOME=@roothomedir@
+++WorkingDirectory=@roothomedir@
++ ExecStartPre=-/bin/plymouth quit
++ ExecStartPre=-/bin/echo -e 'Welcome to rescue mode! Type "systemctl
+default" or ^D to enter default mode.\\nType "journalctl -xb" to view
+system logs. Type "systemctl reboot" to reboot.'
++ ExecStart=-/bin/sh -c "/sbin/sulogin; @SYSTEMCTL@ --fail --no-block default"
++--
++1.9.3
++
+diff --git a/meta/recipes-core/systemd/systemd_216.bb
+b/meta/recipes-core/systemd/systemd_216.bb
+index a7fd71e..ddffdf4 100644
+--- a/meta/recipes-core/systemd/systemd_216.bb
++++ b/meta/recipes-core/systemd/systemd_216.bb
+@@ -32,6 +32,7 @@ SRC_URI =
+"git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
+            file://uclibc-get-physmem.patch \
+            file://0001-add-support-for-executing-scripts-under-etc-rcS.d.patch
+\
+            file://0001-missing.h-add-fake-__NR_memfd_create-for-MIPS.patch \
++           file://0001-Make-root-s-home-directory-configurable.patch \
+            file://touchscreen.rules \
+            file://00-create-volatile.conf \
+            file://init \
+@@ -71,6 +72,7 @@ rootlibexecdir = "${rootprefix}/lib"
+ # The gtk+ tools should get built as a separate recipe e.g. systemd-tools
+ EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
+                  --with-rootlibdir=${rootlibdir} \
++                 --with-roothomedir=${ROOT_HOME} \
+                  ${@bb.utils.contains('DISTRO_FEATURES', 'pam',
+'--enable-pam', '--disable-pam', d)} \
+                  --disable-manpages \
+                  --disable-coredump \
+@@ -96,7 +98,6 @@ do_configure_prepend() {
+  else
+  cp -r ${S}/units ${S}/units.pre_sed
+  fi
+- sed -i -e 's:=/root:=${ROOT_HOME}:g' ${S}/units/*.service*
+  sed -i '/ln --relative --help/d' ${S}/configure.ac
+  sed -i -e 's:\$(LN_S) --relative -f:lnr:g' ${S}/Makefile.am
+  sed -i -e 's:\$(LN_S) --relative:lnr:g' ${S}/Makefile.am
+-- 
+1.9.3
 
