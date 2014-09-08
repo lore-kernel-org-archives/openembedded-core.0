@@ -1,36 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
-	[209.85.216.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B8B260703
+Return-Path: <rep.dot.nop@gmail.com>
+Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
+	[209.85.217.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 288B471321
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 12:13:19 +0000 (UTC)
-Received: by mail-qa0-f43.google.com with SMTP id cm18so14036091qab.30
+	Mon,  8 Sep 2014 12:35:28 +0000 (UTC)
+Received: by mail-lb0-f179.google.com with SMTP id p9so4042506lbv.38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Sep 2014 05:13:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=G4rNGJ7rAkgRU8GEpakqSjFe8sPly7UYflT/WLky1eg=;
-	b=B3Iux0aZPS+z2DYIFLp60cM75ydquEDlc9gKdjv55jGcNMSL+504UhPNLfmTImf5fj
-	+Mvp/HM58RNlLcgZSAqLgnijbH++lLfwpl3qmMFUEVyQzu7Xdlh/ywrIDSTlV/0zybGZ
-	Zodj5D2ECgPR5TKzrvJ9J+EXFos4MSv4YrvF/y2hzjZPY3wCxkYf3P6cNCAJBWTauLK0
-	1/cwCp7JlSUVqZj7FQ08uQ6lChlP0IrQDmdhCyGD7ahIOSRCC48LD8/mAA2PVGJWO08r
-	YfGp9n72+1V4wcc3qylz3ANHaw8fX1XseIfB3QPRpyJfAh2kQKxMGsYZJQcqd9jsiMfc
-	YTEg==
-X-Gm-Message-State: ALoCoQmmeBDwGNHrJgqb1jYJBUrFVJe+TM22OxyyBnpEc0RYR4e+sqDlepHt4ZDSs4GYm4B34ewS
-X-Received: by 10.140.105.138 with SMTP id c10mr39241601qgf.15.1410178400318; 
-	Mon, 08 Sep 2014 05:13:20 -0700 (PDT)
+	Mon, 08 Sep 2014 05:35:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Wu+omXvE/PECc83HBIY+w5APOq7FYmeCnN9WR8thQJA=;
+	b=EYbQaifN4MyW9kj8Gs7fM1QgUdhz70Me3KcCrr1vG0IU+hTlQKIqZUjIXVPXIcqaq7
+	27oEw+ND9Smyh+Fwf3Dj6dZqDclKzFxPc9NZe4mbDJ4PEljh7xYMijY2Q+eNlnWLV/hQ
+	ktE6fnMrCG5jA7SDYhitHtd9DWscPMemUxVmtvBxKCZi4jY8qF2j4lTTPsBeWAdQM7XT
+	rKcTH87OqB929vIa96oSrSEGzXMweDas9JJLiYQcs4izKpk0HrcnOL41SzDcDQkfsGA+
+	BKQfxy/rroaI8e2H7idZhr98AxHlmBbrFPGB4TMDeKHWWTgaFMrBvC1EYe8Ga+/XDFMU
+	6ZyA==
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Mon, 8 Sep 2014 05:13:00 -0700 (PDT)
-In-Reply-To: <1409137928-25490-1-git-send-email-marius.avram@intel.com>
-References: <1409137928-25490-1-git-send-email-marius.avram@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 Sep 2014 13:13:00 +0100
-Message-ID: <CAJTo0LbYeJPJxQEQ7nOq39w_sy6fZ9o2SpahkK+NV8GOHe4MNg@mail.gmail.com>
-To: Marius Avram <marius.avram@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] libfm: Upgrade to 1.2.1
+X-Received: by 10.112.75.233 with SMTP id f9mr2265333lbw.102.1410179725459;
+	Mon, 08 Sep 2014 05:35:25 -0700 (PDT)
+Received: by 10.114.74.226 with HTTP; Mon, 8 Sep 2014 05:35:25 -0700 (PDT)
+In-Reply-To: <CAMKF1sp29d050n4VHSkjmNX6q9i=nDNyUFTBxot218aj-KzQ+Q@mail.gmail.com>
+References: <53C3A130.4000900@pabigot.com> <53DC39DE.5020105@pabigot.com>
+	<CAP9ODKo8dwJvw9cwDKEY0fQNo6Z+NrxavZtZs1AjcvQgHc_5JQ@mail.gmail.com>
+	<CAJTo0LaQh=cMsbVYgt_xjhXqe0L76KC-efk17Pju6A21Da=j0Q@mail.gmail.com>
+	<CAMKF1sqZZaXy9AkRHEeXyeoMWABWMS-+PK_v-6QAr5d8Qc1hPA@mail.gmail.com>
+	<CAMKF1spYXbaKdjQhAYM3SEL8RjqfTeOwmXpsOXNOS0YaXZJzLg@mail.gmail.com>
+	<CAJTo0Lb708rnUEEUf9w0B2er_Ttb890niQUjRdBTTD952BcogQ@mail.gmail.com>
+	<CAMKF1srf7AFaYXUzwObkAwxO8_P7v-5e5UdcBYCpqXAp0VN7HA@mail.gmail.com>
+	<CAMKF1sp29d050n4VHSkjmNX6q9i=nDNyUFTBxot218aj-KzQ+Q@mail.gmail.com>
+Date: Mon, 8 Sep 2014 14:35:25 +0200
+Message-ID: <CAC1BbcS-RTmp1MfJZ7vbRNvM4ciijrHUyjpwztBDnymKhr2Sfw@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: patchwork client problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,14 +49,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Sep 2014 12:13:32 -0000
+X-List-Received-Date: Mon, 08 Sep 2014 12:35:35 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 27 August 2014 12:12, Marius Avram <marius.avram@intel.com> wrote:
-> -                    file://src/base/fm-config.h;endline=23;md5=ad0fc418c3cf041eea35ddb3daf37f17"
-> +                    file://src/base/fm-config.h;endline=23;md5=71596f90de8d83df26974967cd6b6730"
+On 6 September 2014 19:25, Khem Raj <raj.khem@gmail.com> wrote:
+> On Sat, Sep 6, 2014 at 8:32 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>> On Sat, Sep 6, 2014 at 6:32 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>>> Thanks Khem, much appreciated.
+>>>
+>>> Presumably the hooks to auto-mark merged patches haven't been
+>>> activated because the git server and the patchwork server are on
+>>> different machines. Has there been previous discussion to get this
+>>> resolved?
+>>
+>> it has been activated and was working in past. Do you see it not happening now ?
+>
+> update hooks were not working too since they use pwclient themselves
+> and pwclient
+> was not working thus far. So it should start working again. I have
+> updated the hooks
+> to reflect the latest changes from patchwork upstream as well
 
-Please explain in the commit log why the license checksum was changed.
+FYI, The current upstream pwclient can now operate on multiple IDs, e.g.:
+pwclient view 1 3 4 9
+pwclient get 2 5
+and you can configure a per-project or global "signoff" option for
+git-am (or on the command-line -- git-am -s 77):
+[options]
+default = my_project2
+signoff = True
+[proj1]
+url = ...
+signoff = True
 
-Ross
+cheers,
 
