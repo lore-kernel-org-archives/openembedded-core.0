@@ -1,42 +1,42 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
-	[74.125.82.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 7645162252
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 77F68702D9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 11:59:08 +0000 (UTC)
-Received: by mail-we0-f180.google.com with SMTP id t60so988515wes.25
+	Mon,  8 Sep 2014 11:59:06 +0000 (UTC)
+Received: by mail-wi0-f173.google.com with SMTP id cc10so2492192wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Sep 2014 04:59:09 -0700 (PDT)
+	Mon, 08 Sep 2014 04:59:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=rpZJbh2rHvl/27eODVITXiM9sQmoXi7GUVPEP3MTcMU=;
-	b=kU5/X4VqrMGxGh8TxX7CbydlGJGWcfa5XtB4RxSTi8jqkJfmtie4lfDgcQSg+y2/Xm
-	eVBfZRa/uFPTxpLgJPQKV1GrPta6jOJsMVIdXrFN6nTGPNStylnSGhBx2O+bn18x0Jj2
-	cKqrHY3rJQ2Ltw7lCs7p92ZQd2BqFLdJQn4qLUO2OfdlREN3UWmUs+zyn6X5CYhpM0oE
-	KWqqTlGumV9ZuVRvqqk00RZbwYbgWypTG+1YHgXYwut+s5Y86ngsVCuU6qHcgG1Jw9Jb
-	gjNkVzb70un7yH5wcrvIy4/U/qFjlFmFst+SfTw+OWSo2rzWty/cUGIgsLFl3WHrvxwZ
-	m5iQ==
-X-Gm-Message-State: ALoCoQmX0yM9KAEyVNqiA/pb0ktIYzHKIcE+SOaXRlknKJgg6dtNazibv43Nz4UHL/ylqdFiU9Bd
-X-Received: by 10.180.149.244 with SMTP id ud20mr21817184wib.55.1410177549611; 
-	Mon, 08 Sep 2014 04:59:09 -0700 (PDT)
+	bh=EJNOTV6yAQDGEeo2RLoB6S5tTyMEOFK0F2H0NTzK5GY=;
+	b=X3FemTTw0zh3sBCgMHcTx+lgGkr62SikX37x8MqHCdfgufAPTHSnq810VTduIEqQVs
+	E0Eu6OnrEqqE8Zz5U28TFvSYCe/9axPcXucKNm725oxIzmiFTGt/WZJDVNB47nbeN/4H
+	5eYG9bKfhZpuqlPyzyHJMNd0FLuk7gxBh4cXQ2UQSQonx4P0r1lXRXnTSBUov6Hpulvk
+	KQQkrnfZ2ntjLcBOZaOWUeNu/YChmqnALOsP2YpahageF9SeBBL1O60jM/gA7M0HR1t+
+	uWXqbNs55v2WRCZLCBFlAJhDYqKrWg+C7lMmMin4Bpq0PEd7Jvr95Gu5tBjWghOFJ2rD
+	LQfg==
+X-Gm-Message-State: ALoCoQncidtMG4TbHzixZpZIUSjVpWvaons3u30uW2jX0FHGRrrafcqjjvz+LkVSUjU7fdxJrZe0
+X-Received: by 10.180.211.172 with SMTP id nd12mr22008829wic.74.1410177547385; 
+	Mon, 08 Sep 2014 04:59:07 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id
-	gl10sm11003928wib.1.2014.09.08.04.59.08
+	gl10sm11003928wib.1.2014.09.08.04.59.06
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Sep 2014 04:59:08 -0700 (PDT)
+	Mon, 08 Sep 2014 04:59:06 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Sep 2014 12:58:32 +0100
-Message-Id: <3617ccefcdc38316356e999de2d2eb054138ae58.1410177322.git.ross.burton@intel.com>
+Date: Mon,  8 Sep 2014 12:58:30 +0100
+Message-Id: <45e3b5435bb05a609f69527710dca3f24e0e252c.1410177322.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
 References: <cover.1410177322.git.ross.burton@intel.com>
 In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
 References: <cover.1410177322.git.ross.burton@intel.com>
-Subject: [PATCH 14/27] libpng: update to 1.6.13
+Subject: [PATCH 12/27] gtk+2: update to 2.24.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,47 +53,127 @@ X-List-Received-Date: Mon, 08 Sep 2014 11:59:09 -0000
 
 From: Marko Lindqvist <cazfi74@gmail.com>
 
-License terms have not changed. In case of LICENSE and png.h lines 0-15
-the version numbers and release dates have changed. In case of png.h lines
-229-343 the text has not changed at all, but old line numbers were not
-pointing to correctly to the licensing terms segment.
-
 Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../libpng/{libpng_1.6.10.bb => libpng_1.6.13.bb}            |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.10.bb => libpng_1.6.13.bb} (62%)
+ ...0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch |    0
+ ...o-584832-Duplicate-the-exec-string-returned-by-gtk.patch |    0
+ .../{gtk+-2.24.22 => gtk+-2.24.24}/cellrenderer-cairo.patch |    0
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configure-nm.patch  |    0
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configurefix.patch  |    0
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/doc-fixes.patch     |    0
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/entry-cairo.patch   |    0
+ .../{gtk+-2.24.22 => gtk+-2.24.24}/hardcoded_libtool.patch  |    0
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/run-iconcache.patch |   11 ++++++-----
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/toggle-font.diff    |    0
+ .../gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/xsettings.patch     |    0
+ .../recipes-gnome/gtk+/{gtk+_2.24.22.bb => gtk+_2.24.24.bb} |    4 ++--
+ 12 files changed, 8 insertions(+), 7 deletions(-)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/cellrenderer-cairo.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configure-nm.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configurefix.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/doc-fixes.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/entry-cairo.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/hardcoded_libtool.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/run-iconcache.patch (72%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/toggle-font.diff (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/xsettings.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+_2.24.22.bb => gtk+_2.24.24.bb} (93%)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.10.bb b/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
-similarity index 62%
-rename from meta/recipes-multimedia/libpng/libpng_1.6.10.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.6.13.bb
-index 79d9122..0c6fd1f 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.10.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
-@@ -2,17 +2,17 @@ SUMMARY = "PNG image format decoding library"
- HOMEPAGE = "http://www.libpng.org/"
- SECTION = "libs"
- LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=cb7a834ba2891bc30b8577e49963a435 \
--                    file://png.h;endline=15;md5=853b11c4a19ec66decd641efd756bc2c \
--                    file://png.h;beginline=209;endline=323;md5=cface34a7db6b71eaa828fe934951f81"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=46401ee4b225b9ec066cb96cf1025c0f \
-+                    file://png.h;endline=15;md5=8167a17735fc618d1df109f8b0f839a6 \
-+                    file://png.h;beginline=229;endline=343;md5=5cdf8564a14e2f00339e4437a83b4913"
- DEPENDS = "zlib"
- LIBV = "16"
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/cellrenderer-cairo.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/cellrenderer-cairo.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/cellrenderer-cairo.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/cellrenderer-cairo.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/configure-nm.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/configure-nm.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/configure-nm.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/configure-nm.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/configurefix.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/configurefix.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/configurefix.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/configurefix.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/doc-fixes.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/doc-fixes.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/doc-fixes.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/doc-fixes.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/entry-cairo.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/entry-cairo.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/entry-cairo.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/entry-cairo.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/hardcoded_libtool.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/hardcoded_libtool.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/hardcoded_libtool.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/hardcoded_libtool.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/run-iconcache.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/run-iconcache.patch
+similarity index 72%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/run-iconcache.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/run-iconcache.patch
+index 597ba32..a4e2254 100644
+--- a/meta/recipes-gnome/gtk+/gtk+-2.24.22/run-iconcache.patch
++++ b/meta/recipes-gnome/gtk+/gtk+-2.24.24/run-iconcache.patch
+@@ -1,21 +1,22 @@
+ Upstream-Status: Inappropriate [configuration]
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
-           "
+-Index: gtk+-2.21.2/gtk/Makefile.am
+-===================================================================
+---- gtk+-2.21.2.orig/gtk/Makefile.am	2010-06-22 17:21:41.000000000 +0800
+-+++ gtk+-2.21.2/gtk/Makefile.am	2010-06-22 17:28:12.000000000 +0800
+-@@ -1376,11 +1376,11 @@
++diff -Nurd gtk+-2.24.24/gtk/Makefile.am gtk+-2.24.24/gtk/Makefile.am
++--- gtk+-2.24.24/gtk/Makefile.am	2014-06-23 18:08:14.000000000 +0300
+++++ gtk+-2.24.24/gtk/Makefile.am	2014-09-03 23:45:12.669307700 +0300
++@@ -1391,12 +1391,12 @@
+  	   ./gtk-update-icon-cache
+  endif
+  
+ -gtkbuiltincache.h: @REBUILD@ stamp-icons
+ -	$(MAKE) $(AM_MAKEFLAGS) gtk-update-icon-cache$(EXEEXT) $(GTK_UPDATE_ICON_CACHE_MANIFEST)
+ -	$(gtk_update_icon_cache_program) --force --ignore-theme-index		\
++-	   --include-image-data							\
+ -	   --source builtin_icons stock-icons > gtkbuiltincache.h.tmp &&        \
+ -	mv gtkbuiltincache.h.tmp gtkbuiltincache.h
+ +#gtkbuiltincache.h: @REBUILD@ stamp-icons
+ +#	$(MAKE) $(AM_MAKEFLAGS) gtk-update-icon-cache$(EXEEXT) $(GTK_UPDATE_ICON_CACHE_MANIFEST)
+ +#	$(gtk_update_icon_cache_program) --force --ignore-theme-index		\
+++#	   --include-image-data							\
+ +#	   --source builtin_icons stock-icons > gtkbuiltincache.h.tmp &&        \
+ +#	mv gtkbuiltincache.h.tmp gtkbuiltincache.h
+  
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/toggle-font.diff b/meta/recipes-gnome/gtk+/gtk+-2.24.24/toggle-font.diff
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/toggle-font.diff
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/toggle-font.diff
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/xsettings.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.24/xsettings.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.22/xsettings.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.24/xsettings.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.22.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.24.bb
+similarity index 93%
+rename from meta/recipes-gnome/gtk+/gtk+_2.24.22.bb
+rename to meta/recipes-gnome/gtk+/gtk+_2.24.24.bb
+index 98c65a5..7d0a0a2 100644
+--- a/meta/recipes-gnome/gtk+/gtk+_2.24.22.bb
++++ b/meta/recipes-gnome/gtk+/gtk+_2.24.24.bb
+@@ -28,8 +28,8 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
+ #        file://combo-arrow-size.patch;striplevel=0
+ #            file://configurefix.patch
  
--SRC_URI[md5sum] = "5f414b20f683b1d96b163c89e3eff768"
--SRC_URI[sha256sum] = "4003f0fd0e36110a2b742fc5b9e1ab93ed7a7ab57ae8dc65f0e8101458775a56"
-+SRC_URI[md5sum] = "9822c25466f060142359f80ed142c9e5"
-+SRC_URI[sha256sum] = "d9c8ce54a5fc8052ed794ca65b553384a74c0608b09ae163cbbb07176018e625"
+-SRC_URI[md5sum] = "5fbbfb7637bbd571a572a2dae0e736d2"
+-SRC_URI[sha256sum] = "b114b6e9fb389bf3aa8a6d09576538f58dce740779653084046852fb4140ae7f"
++SRC_URI[md5sum] = "f80ac8aa95ea8482ad89656d0370752e"
++SRC_URI[sha256sum] = "12ceb2e198c82bfb93eb36348b6e9293c8fdcd60786763d04cfec7ebe7ed3d6d"
  
- BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
+ EXTRA_OECONF = "--enable-xkb --disable-glibtest --disable-cups --disable-xinerama"
  
 -- 
 1.7.10.4
