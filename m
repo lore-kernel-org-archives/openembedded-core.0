@@ -1,26 +1,24 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 648A865FE7
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B41847117C
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  8 Sep 2014 19:55:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s88Jtdoh019781
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s88JtZt4027414
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Sep 2014 12:55:39 -0700 (PDT)
+	Mon, 8 Sep 2014 12:55:37 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 8 Sep 2014 12:55:39 -0700
+	14.3.174.1; Mon, 8 Sep 2014 12:55:34 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 8 Sep 2014 15:55:23 -0400
-Message-ID: <4acec69d24f74514f78156cb21ed8e0f57e89532.1410205901.git.bruce.ashfield@windriver.com>
+Date: Mon, 8 Sep 2014 15:55:20 -0400
+Message-ID: <cover.1410205901.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1410205901.git.bruce.ashfield@windriver.com>
-References: <cover.1410205901.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/7] perf: fix v3.17 powerpc compilation issues
+Subject: [PATCH 0/7] linux-yocto*: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +31,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Sep 2014 19:55:47 -0000
+X-List-Received-Date: Mon, 08 Sep 2014 19:55:49 -0000
 Content-Type: text/plain
 
-The powerpc perf arch port has two issues in the current 3.17-rc
-seriers. Undefined dwarf symbols and undefined pr_debug calls.
+Richard/Saul,
 
-commit a60335ba [perf tools powerpc: Adjust callchain based on DWARF debug info]
-introduces skip-callchain-idx.c, and breaks the perf build.
+Here's the next round of linux-yocto* changes for the 1.7 release. The 
+notable update here, is the introduction of the 3.17-rcX kernel via both
+linux-yoct-dev and a named recipe (which uses the same -dev tree for
+now).
 
-Unitl fixes get into the mainline kernel, we temporarily fix the issues by
-adding a forced linke to -ldw and modifying skip-callchain-idx.c to include
-the proper debug files for pr_debug.
+I've built and booted all the qemu BSPs on this tree, using the kernel-dev
+image type. 
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/perf/perf.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+The fixes required from that testing are the lttng and perf commits. I'll
+drop the perf commit once a fix is available via the upstream kernel. I 
+tested both the perf and lttng updates on older and newer kernels without
+any issues.
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index ebfedb91d715..5bf7af9d4a7c 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -75,6 +75,7 @@ EXTRA_OEMAKE = '\
-     ARCH=${ARCH} \
-     CC="${CC}" \
-     AR="${AR}" \
-+    EXTRA_CFLAGS="-ldw" \
-     perfexecdir=${libexecdir} \
-     NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 NO_LIBUNWIND=1 ${SCRIPTING_DEFINES} \
- '
-@@ -140,6 +141,10 @@ do_configure_prepend () {
-     if [ -e "${S}/tools/perf/config/feature-checks/Makefile" ]; then
-         sed -i 's,CC := $(CROSS_COMPILE)gcc -MD,CC += -MD,' ${S}/tools/perf/config/feature-checks/Makefile
-     fi
-+    # 3.17-rc1+ has a include issue for powerpc. Temporarily sed in the appropriate include
-+    if [ -e "${S}/tools/perf/arch/powerpc/util/skip-callchain-idx.c" ]; then
-+        sed -i 's,#include "util/callchain.h",#include "util/callchain.h"\n#include "util/debug.h",' ${S}/tools/perf/arch/powerpc/util/skip-callchain-idx.c
-+    fi
- }
- 
- python do_package_prepend() {
+I'm on the road for the next three days, but wanted to get this out for
+a preview before being a bit unresponsive, and to let others apply and build
+these if they want.
+
+I've done my best here, but I expect we'll find something in the broader
+testing.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 1894522f357fdf0b6adb2dcc14f12817628596bd:
+
+  bitbake: tinfoil: add a means of enabling variable history tracking (2014-09-05 10:14:25 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (7):
+  linux-yocto/3.10: baytrail i/o updates
+  lttng-modules: fix compilation for 3.17-rcX
+  perf: fix v3.17 powerpc compilation issues
+  linux-yocto: introduce v3.17
+  linux-yocto/3.10: update valleyisland-io merge branch
+  linux-yocto/3.14: configuration updates and feature merges.
+  linux-yocto-dev: bump to v3.17+
+
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |   2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |   6 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |   6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |   4 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |   4 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb |  21 ++++
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      |  16 +--
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      |  16 +--
+ meta/recipes-kernel/linux/linux-yocto_3.17.bb      |  37 ++++++
+ ...probes-should-calculate-alignment-and-eve.patch | 127 +++++++++++++++++++++
+ ...e-kvm-instrumentation-compile-on-3.17-rc1.patch |  43 +++++++
+ .../Update-statedump-to-3.17-nsproxy-locking.patch |  67 +++++++++++
+ meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb   |   3 +
+ meta/recipes-kernel/perf/perf.bb                   |   5 +
+ 14 files changed, 330 insertions(+), 27 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.17.bb
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/Fix-noargs-probes-should-calculate-alignment-and-eve.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/Update-kvm-instrumentation-compile-on-3.17-rc1.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/Update-statedump-to-3.17-nsproxy-locking.patch
+
 -- 
 1.8.1.2
 
