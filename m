@@ -1,29 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2034165CE7
+	by mail.openembedded.org (Postfix) with ESMTP id 417E76FE64
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 11:18:28 +0000 (UTC)
+	Mon,  8 Sep 2014 11:23:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s88BIPbu004484; Mon, 8 Sep 2014 12:18:25 +0100
+	s88BNUFG004647; Mon, 8 Sep 2014 12:23:30 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id W2gDTfJjv5g1; Mon,  8 Sep 2014 12:18:25 +0100 (BST)
+	with LMTP id dCLEGen6L48f; Mon,  8 Sep 2014 12:23:30 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s88BIJs8004481
+	s88BNR2T004644
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 8 Sep 2014 12:18:21 +0100
-Message-ID: <1410175101.19272.1.camel@ted>
+	Mon, 8 Sep 2014 12:23:29 +0100
+Message-ID: <1410175409.19272.6.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Date: Mon, 08 Sep 2014 12:18:21 +0100
-In-Reply-To: <1410174256-3263-1-git-send-email-dv@pseudoterminal.org>
-References: <1410174256-3263-1-git-send-email-dv@pseudoterminal.org>
+To: Chong Lu <Chong.Lu@windriver.com>
+Date: Mon, 08 Sep 2014 12:23:29 +0100
+In-Reply-To: <fcb571da8443a4e87181488e755769edecadeac7.1405322662.git.Chong.Lu@windriver.com>
+References: <cover.1405322662.git.Chong.Lu@windriver.com>
+	<fcb571da8443a4e87181488e755769edecadeac7.1405322662.git.Chong.Lu@windriver.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel.bbclass: handle .dsp firmware
+Subject: Re: [PATCH 1/1] libtool: fix different files in sysroot of sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,37 +37,384 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Sep 2014 11:18:33 -0000
+X-List-Received-Date: Mon, 08 Sep 2014 11:23:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2014-09-08 at 13:04 +0200, Carlos Rafael Giani wrote:
-> A few firmware files use this filename extension, like korg/k1212.dsp .
-> Create respective packages.
+On Mon, 2014-07-14 at 16:10 +0800, Chong Lu wrote:
+> The libtool.m4 and ltmain.m4sh are different in target sysroot between sdk and build
+> environment. The reason is that we have two patches (fixinstall.patch and prefix.patch)
+> for libtool-cross. They change libtool.m4 and ltmain.m4sh and generate files to sysroot
+> dir. But we don't need them for libtool target. In sdk environment, We get libtool.m4
+> and ltmain.sh that don't apply on two patches.
 > 
-> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+> This patch splits prefix.patch to prefix.patch and rename-libtool.patch. Then, improves
+> fixinstall.patch and rename-libtool.patch to apply on conditionally. Apply on both libtool
+> target and libtool-cross to fix different issue in sysroot between sdk and build environment.
+> 
+> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
 > ---
->  meta/classes/kernel.bbclass | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index b02036f..4710719 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -387,6 +387,7 @@ python split_kernel_packages () {
->      do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.bin$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
->      do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.fw$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
->      do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.cis$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
-> +    do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.dsp$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
->  }
+>  .../libtool/libtool-cross_2.4.2.bb                 |   1 +
+>  .../libtool/libtool-native_2.4.2.bb                |   1 +
+>  .../libtool/libtool/fixinstall.patch               | 139 +++++++++++++--------
+>  meta/recipes-devtools/libtool/libtool/prefix.patch |  23 ----
+>  .../libtool/libtool/rename-libtool.patch           |  40 ++++++
+>  meta/recipes-devtools/libtool/libtool_2.4.2.bb     |   3 +
+>  .../libtool/nativesdk-libtool_2.4.2.bb             |   1 +
+>  7 files changed, 131 insertions(+), 77 deletions(-)
+>  create mode 100644 meta/recipes-devtools/libtool/libtool/rename-libtool.patch
 
-Perhaps its time to improve the regex slightly here and use something
-like file_regex='^(.*)\.(bin|fw|cis|dsp)$ rather than multiple calls to
-do_split_packages?
+I was reminded I hadn't reviewed this, sorry for the delay. I had a look
+at it now and this change isn't correct unfortunately.
+
+
+> diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.2.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.2.bb
+> index 72fad37..b189413 100644
+> --- a/meta/recipes-devtools/libtool/libtool-cross_2.4.2.bb
+> +++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.2.bb
+> @@ -3,6 +3,7 @@ require libtool-${PV}.inc
+>  PR = "${INC_PR}.1"
+>  PACKAGES = ""
+>  SRC_URI += "file://prefix.patch"
+> +SRC_URI += "file://rename-libtool.patch"
+>  SRC_URI += "file://fixinstall.patch"
+>  
+>  datadir = "${STAGING_DIR_TARGET}${target_datadir}"
+> diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+> index f1051d8..d060cb8 100644
+> --- a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+> +++ b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
+> @@ -4,6 +4,7 @@ DEPENDS = ""
+>  
+>  PR = "${INC_PR}.1"
+>  SRC_URI += "file://prefix.patch"
+> +SRC_URI += "file://rename-libtool.patch"
+>  
+>  inherit native
+>  
+> diff --git a/meta/recipes-devtools/libtool/libtool/fixinstall.patch b/meta/recipes-devtools/libtool/libtool/fixinstall.patch
+> index 279c07b..1bfd292 100644
+> --- a/meta/recipes-devtools/libtool/libtool/fixinstall.patch
+> +++ b/meta/recipes-devtools/libtool/libtool/fixinstall.patch
+> @@ -14,88 +14,119 @@ which is totally bogus in the sysroot case.
+>  
+>  Upstream-Status: Inappropriate [upstream are unlikely to take a patch like this]
+>  
+> -RP 2011/11/16
+> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> +---
+> + libltdl/config/ltmain.m4sh | 44 ++++++++++++++++++++++++++++++++++++++++++++
+> + 1 file changed, 44 insertions(+)
+>  
+> -Index: libtool-2.4/libltdl/config/ltmain.m4sh
+> -===================================================================
+> ---- libtool-2.4.orig/libltdl/config/ltmain.m4sh	2011-11-16 14:50:01.070383779 +0000
+> -+++ libtool-2.4/libltdl/config/ltmain.m4sh	2011-11-16 15:27:13.582310413 +0000
+> -@@ -2163,7 +2163,7 @@
+> +diff --git a/libltdl/config/ltmain.m4sh b/libltdl/config/ltmain.m4sh
+> +index eebb56e..9480cb8 100644
+> +--- a/libltdl/config/ltmain.m4sh
+> ++++ b/libltdl/config/ltmain.m4sh
+> +@@ -2166,6 +2166,7 @@ func_mode_install ()
+>   	dir="$func_dirname_result"
+>   	func_append dir "$objdir"
+>   
+> --	if test -n "$relink_command"; then
+> -+	if test "$fast_install" = no && test -n "$relink_command"; then
+> ++      if test "$buildtarget" == yes; then
+> + 	if test -n "$relink_command"; then
+>         # Strip any trailing slash from the destination.
+>         func_stripname '' '/' "$libdir"
+> -       destlibdir=$func_stripname_result
+> -@@ -2202,7 +2202,7 @@
+> +@@ -2197,6 +2198,39 @@ func_mode_install ()
+> + 	  func_show_eval "$relink_command" \
+> + 	    'func_fatal_error "error: relink \`$file'\'' with the above command before installing it"'
+> + 	fi
+> ++      else
+> ++	if test "$fast_install" = no && test -n "$relink_command"; then
+> ++      # Strip any trailing slash from the destination.
+> ++      func_stripname '' '/' "$libdir"
+> ++      destlibdir=$func_stripname_result
+> ++
+> ++      func_stripname '' '/' "$destdir"
+> ++      s_destdir=$func_stripname_result
+> ++
+> ++	  # Determine the prefix the user has applied to our future dir.
+> ++	  inst_prefix_dir=`$ECHO "X$s_destdir" | $Xsed -e "s%$destlibdir\$%%"`
+> ++
+> ++	  # Don't allow the user to place us outside of our expected
+> ++	  # location b/c this prevents finding dependent libraries that
+> ++	  # are installed to the same prefix.
+> ++	  # At present, this check doesn't affect windows .dll's that
+> ++	  # are installed into $libdir/../bin (currently, that works fine)
+> ++	  # but it's something to keep an eye on.
+> ++	  test "$inst_prefix_dir" = "$destdir" && \
+> ++	    func_fatal_error "error: cannot install \`$file' to a directory not ending in $libdir"
+> ++
+> ++	  if test -n "$inst_prefix_dir"; then
+> ++	    # Stick the inst_prefix_dir data into the link command.
+> ++	    relink_command=`$ECHO "$relink_command" | $SED "s%@inst_prefix_dir@%-inst-prefix-dir $inst_prefix_dir%"`
+> ++	  else
+> ++	    relink_command=`$ECHO "$relink_command" | $SED "s%@inst_prefix_dir@%%"`
+> ++	  fi
+> ++
+> ++	  func_warning "relinking \`$file'"
+> ++	  func_show_eval "$relink_command" \
+> ++	    'func_fatal_error "error: relink \`$file'\'' with the above command before installing it"'
+> ++	fi
+> ++      fi
+
+Duplicating a block of code like this with cut and paste is bad
+practise. If we wanted this to be conditional we should improve the
+original condition block rather that copying it. This makes the patch
+easier to review too.
+
+> + 	# See the names of the shared library.
+> + 	set dummy $library_names; shift
+> +@@ -2205,7 +2239,11 @@ func_mode_install ()
+>   	  shift
+>   
+>   	  srcname="$realname"
+> --	  test -n "$relink_command" && srcname="$realname"T
+> ++        if test "$buildtarget" == yes; then
+> + 	  test -n "$relink_command" && srcname="$realname"T
+> ++        else
+>  +	  test "$fast_install" = no && test -n "$relink_command" && srcname="$realname"T
+> ++        fi
+>   
+>   	  # Install the shared library and build the symlinks.
+>   	  func_show_eval "$install_shared_prog $dir/$srcname $destdir/$realname" \
+> -@@ -5856,15 +5856,15 @@
+> +@@ -5873,6 +5911,7 @@ func_mode_link ()
+>   	    # Hardcode the library path.
+>   	    # Skip directories that are in the system default run-time
+>   	    # search path.
+> --	    case " $sys_lib_dlsearch_path " in
+> --	    *" $absdir "*) ;;
+> --	    *)
+> --	      case "$compile_rpath " in
+> --	      *" $absdir "*) ;;
+> --	      *) func_append compile_rpath " $absdir" ;;
+> --	      esac
+> --	      ;;
+> --	    esac
+> -+	    #case " $sys_lib_dlsearch_path " in
+> -+	    #*" $absdir "*) ;;
+> -+	    #*)
+> -+	    #  case "$compile_rpath " in
+> -+	    #  *" $absdir "*) ;;
+> -+	    #  *) func_append compile_rpath " $absdir" ;;
+> -+	    #  esac
+> -+	    #  ;;
+> -+	    #esac
+> ++          if test "$buildtarget" == yes; then
+> + 	    case " $sys_lib_dlsearch_path " in
+> + 	    *" $absdir "*) ;;
+> + 	    *)
+
+This is roughly the idea with a conditional however buildtarget is not
+going to be set to yes other than possibly at build time. The
+requirement would be to have this set in all cases where libtool is used
+"on target" which is not the way this will work.
+
+The point in disabling this code is to avoid having to relink the files
+in the ./libs/ directory. When cross compiling we don't execute them and
+libtool jumps through more hoops than we need. This therefore gives
+quite a nice speedup. We might be able to make these sections
+conditional upon cross compilation although libtool doesn't appear to
+have any knowledge of that making it harder to do.
+
+> +@@ -5882,6 +5921,7 @@ func_mode_link ()
+> + 	      esac
+> + 	      ;;
+> + 	    esac
+> ++          fi
+>   	    case " $sys_lib_dlsearch_path " in
+>   	    *" $libdir "*) ;;
+>   	    *)
+> -@@ -5930,15 +5930,15 @@
+> +@@ -5947,6 +5987,7 @@ func_mode_link ()
+>   	    # Hardcode the library path.
+>   	    # Skip directories that are in the system default run-time
+>   	    # search path.
+> --	    case " $sys_lib_dlsearch_path " in
+> --	    *" $absdir "*) ;;
+> --	    *)
+> --	      case "$compile_rpath " in
+> --	      *" $absdir "*) ;;
+> --	      *) func_append compile_rpath " $absdir" ;;
+> --	      esac
+> --	      ;;
+> --	    esac
+> -+	    #case " $sys_lib_dlsearch_path " in
+> -+	    #*" $absdir "*) ;;
+> -+	    #*)
+> -+	    #  case "$compile_rpath " in
+> -+	    #  *" $absdir "*) ;;
+> -+	    #  *) func_append compile_rpath " $absdir" ;;
+> -+	    #  esac
+> -+	    #  ;;
+> -+	    #esac
+> ++          if test "$buildtarget" == yes; then
+> + 	    case " $sys_lib_dlsearch_path " in
+> + 	    *" $absdir "*) ;;
+> + 	    *)
+> +@@ -5956,6 +5997,7 @@ func_mode_link ()
+> + 	      esac
+> + 	      ;;
+> + 	    esac
+> ++          fi
+>   	    case " $sys_lib_dlsearch_path " in
+>   	    *" $libdir "*) ;;
+>   	    *)
+> -@@ -6284,8 +6284,8 @@
+> +@@ -6301,8 +6343,10 @@ func_mode_link ()
+>   		  eval libdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $deplib`
+>   		  test -z "$libdir" && \
+>   		    func_fatal_error "\`$deplib' is not a valid libtool archive"
+> --		  test "$absdir" != "$libdir" && \
+> --		    func_warning "\`$deplib' seems to be moved"
+> -+		  #test "$absdir" != "$libdir" && \
+> -+		  #  func_warning "\`$deplib' seems to be moved"
+> ++                if test "$buildtarget" == yes; then
+> + 		  test "$absdir" != "$libdir" && \
+> + 		    func_warning "\`$deplib' seems to be moved"
+> ++                fi
+>   
+>   		  path="-L$absdir"
+>   		fi
+> +-- 
+> +1.9.1
+> +
+> diff --git a/meta/recipes-devtools/libtool/libtool/prefix.patch b/meta/recipes-devtools/libtool/libtool/prefix.patch
+> index 5e46e68..a242019 100644
+> --- a/meta/recipes-devtools/libtool/libtool/prefix.patch
+> +++ b/meta/recipes-devtools/libtool/libtool/prefix.patch
+> @@ -18,29 +18,6 @@ the simplest fix is just to remove $SHELL.
+>  Updated: Date: 2011/11/09
+>  RP
+>  
+> -Index: libtool-2.4.2/libltdl/m4/libtool.m4
+> -===================================================================
+> ---- libtool-2.4.2.orig/libltdl/m4/libtool.m4
+> -+++ libtool-2.4.2/libltdl/m4/libtool.m4
+> -@@ -94,7 +94,8 @@ _LT_SET_OPTIONS([$0], [$1])
+> - LIBTOOL_DEPS="$ltmain"
+> - 
+> - # Always use our own libtool.
+> --LIBTOOL='$(SHELL) $(top_builddir)/libtool'
+> -+LIBTOOL='$(top_builddir)'
+> -+LIBTOOL="$LIBTOOL/${host_alias}-libtool"
+> - AC_SUBST(LIBTOOL)dnl
+> - 
+> - _LT_SETUP
+> -@@ -206,7 +207,7 @@ aix3*)
+> - esac
+> - 
+> - # Global variables:
+> --ofile=libtool
+> -+ofile=${host_alias}-libtool
+> - can_build_shared=yes
+> - 
+> - # All known linkers require a `.a' archive for static linking (except MSVC,
+>  Index: libtool-2.4.2/Makefile.am
+>  ===================================================================
+>  --- libtool-2.4.2.orig/Makefile.am
+> diff --git a/meta/recipes-devtools/libtool/libtool/rename-libtool.patch b/meta/recipes-devtools/libtool/libtool/rename-libtool.patch
+> new file mode 100644
+> index 0000000..9726e98
+> --- /dev/null
+> +++ b/meta/recipes-devtools/libtool/libtool/rename-libtool.patch
+> @@ -0,0 +1,40 @@
+> +Upstream-Status: Inappropriate [embedded specific]
+> +
+> +Renames "libtool" -> "${TARGET_PREFIX}libtool" which makes sure
+> +it can't be confused with the host libtool.
+> +
+> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> +---
+> +diff --git a/libltdl/m4/libtool.m4 b/libltdl/m4/libtool.m4
+> +index 3866498..008675c 100644
+> +--- a/libltdl/m4/libtool.m4
+> ++++ b/libltdl/m4/libtool.m4
+> +@@ -94,7 +94,12 @@ _LT_SET_OPTIONS([$0], [$1])
+> + LIBTOOL_DEPS="$ltmain"
+> + 
+> + # Always use our own libtool.
+> ++if test "$buildtarget" == yes; then
+> + LIBTOOL='$(SHELL) $(top_builddir)/libtool'
+> ++else
+> ++LIBTOOL='$(top_builddir)'
+> ++LIBTOOL="$LIBTOOL/${host_alias}-libtool"
+> ++fi
+> + AC_SUBST(LIBTOOL)dnl
+> + 
+> + _LT_SETUP
+> +@@ -206,7 +211,11 @@ aix3*)
+> + esac
+> + 
+> + # Global variables:
+> ++if test "$buildtarget" == yes; then
+> + ofile=libtool
+> ++else
+> ++ofile=${host_alias}-libtool
+> ++fi
+> + can_build_shared=yes
+> + 
+> + # All known linkers require a `.a' archive for static linking (except MSVC,
+> +-- 
+> +1.9.1
+> +
+> diff --git a/meta/recipes-devtools/libtool/libtool_2.4.2.bb b/meta/recipes-devtools/libtool/libtool_2.4.2.bb
+> index a2eb4ea..14301ca 100644
+> --- a/meta/recipes-devtools/libtool/libtool_2.4.2.bb
+> +++ b/meta/recipes-devtools/libtool/libtool_2.4.2.bb
+> @@ -1,6 +1,8 @@
+>  require libtool-${PV}.inc
+>  
+>  PR = "${INC_PR}.0"
+> +SRC_URI += "file://rename-libtool.patch"
+> +SRC_URI += "file://fixinstall.patch"
+>  
+>  #
+>  # We want the results of libtool-cross preserved - don't stage anything ourselves.
+> @@ -13,3 +15,4 @@ libtool_sysroot_preprocess () {
+>  	rm -rf ${SYSROOT_DESTDIR}${datadir}/libtool/config/*
+>  }
+>  
+> +EXTRA_OECONF = "buildtarget=yes"
+
+This will perhaps influnce the built version of libtool, it will not
+influence the macros themselves which do need to run differently
+depending on the environment.
+
+Can we take a step back for a minute and remind ourselves why we need
+this change. There are differences in the sysroots due to this change,
+why is that an issue?
 
 Cheers,
 
 Richard
+
+
+> diff --git a/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.2.bb b/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.2.bb
+> index fff15e9..993fe74 100644
+> --- a/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.2.bb
+> +++ b/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.2.bb
+> @@ -5,6 +5,7 @@ PR = "${INC_PR}.0"
+>  FILESEXTRAPATHS =. "${FILE_DIRNAME}/libtool:"
+>  
+>  SRC_URI += "file://prefix.patch"
+> +SRC_URI += "file://rename-libtool.patch"
+>  SRC_URI += "file://fixinstall.patch"
+>  
+>  inherit nativesdk
+> -- 
+> 1.9.1
+> 
 
 
 
