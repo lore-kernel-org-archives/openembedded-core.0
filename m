@@ -1,42 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id C46D9702D9
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id AFCB762252
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 11:59:18 +0000 (UTC)
-Received: by mail-wi0-f170.google.com with SMTP id cc10so2508369wib.3
+	Mon,  8 Sep 2014 11:59:17 +0000 (UTC)
+Received: by mail-wg0-f50.google.com with SMTP id x13so3108473wgg.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Sep 2014 04:59:19 -0700 (PDT)
+	Mon, 08 Sep 2014 04:59:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=1XSAhsFg/Jb9Cj9VWT9hzfQaif+qZ197lJpmLJK6bFA=;
-	b=ASQoCVbMA5tW4I4uP/aN/UUxXjmyu4TEGiL0rM17dGbiwN4/KO07FZyPdbWQAD2SYi
-	bckG4j196qhUrKQNiIdJlFjJROCLRbyBVbIZgwryr9JzUJq4iOUSTar5Ny8QLVn47aaq
-	cgwydGSs9D0ecFlh4nQw6gaPhYcdLNs/hBOOT0m42qmyRgtNa//aOM/l2TSzlyW/1s/p
-	njDwjl42KEoNPsIRLLd+vMNJs+DGDbtVkL3v5M1lGuguh/GEJNOI3C4PDGiJUH5fTWgo
-	X6yzUCaKXj4bdKJW1/iwWmWKrxJu8utqPKQMDv1Pv1we4wcMfeuQ96YjU7SD2y0IvZuy
-	bwkA==
-X-Gm-Message-State: ALoCoQllJK+ZWILJfYfxMBE4NYpCvOJhK+HMZb7YoObLlcbJ+FCiv3K6IArBk6XZnI9/paJfemr1
-X-Received: by 10.195.11.234 with SMTP id el10mr34620431wjd.95.1410177559745; 
-	Mon, 08 Sep 2014 04:59:19 -0700 (PDT)
+	bh=qRHdraESQQWJqXJB6alA7Yg3GThzvVFqsgUFhKHNaUk=;
+	b=gelK2QjwJfQoQRcQGwb2nL0uWrqGpvjYwTnf2GMIM7+z0332gGztoZk9wGEha2D96F
+	VO1fFPDVXtjWyjKMMuqIhO4jVQE+ppRtxtxiRRAO3DTwR1NYspmG7kaRa3Dw2h4V6JIJ
+	92nc1Hz3ZiOMYSuyGvw4/q4NG4c1LZ/2jEFiudJHTtb/XHQlaRjg1CBjRnIv2sWSvxkk
+	VzdeODZXngG42y1CDp3ATDRnODZW6OqURy/KKORJWiL6OACKu4QQl/CGPK6Q2g15VscH
+	uQsUGmQyUrNK7RfZWa9itb9qVubRX7nr89f8reKd2Mxc88m+7BpopgVDYRnDREohhmi2
+	40eQ==
+X-Gm-Message-State: ALoCoQkVQ4nhckDqKkTeYKZ+rf5zTKoND+ZgygXH9u/pCBRXAgoskyWWS5cpIXWqswhqAjOGx5/0
+X-Received: by 10.194.95.8 with SMTP id dg8mr34896605wjb.1.1410177558677;
+	Mon, 08 Sep 2014 04:59:18 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id
-	gl10sm11003928wib.1.2014.09.08.04.59.18
+	gl10sm11003928wib.1.2014.09.08.04.59.17
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Sep 2014 04:59:19 -0700 (PDT)
+	Mon, 08 Sep 2014 04:59:17 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Sep 2014 12:58:39 +0100
-Message-Id: <c1a4a58225d2ccebbbef85eced6db3c14226116a.1410177322.git.ross.burton@intel.com>
+Date: Mon,  8 Sep 2014 12:58:38 +0100
+Message-Id: <95f7feaa16a7249c65ae7da1930014b8601f5e90.1410177322.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
 References: <cover.1410177322.git.ross.burton@intel.com>
 In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
 References: <cover.1410177322.git.ross.burton@intel.com>
-Subject: [PATCH 21/27] bluez5: Allow method calls over dbus for bluetooth daemon
+Subject: [PATCH 20/27] alsa-utils: upgrade to 1.0.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,34 +50,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 08 Sep 2014 11:59:20 -0000
 
-From: Yasir-Khan <yasir_khan@mentor.com>
+From: Cristian Iorga <cristian.iorga@intel.com>
 
-This patch changes the dbus policy settings in order to allow
-calling methods over dbus. bluez5 and pulseaudio rely on this
-mechanism to configure media end points. Previously bluetoothd
-was failing to configure the media end points with error
-org.freedesktop.DBus.Error.AccessDenied, due to which bluetooth
-headset and smartphone were unable to connect in A2DP mode.
+Changelog:
+http://www.alsa-project.org/main/index.php/Changes_v1.0.27.2_v1.0.28
 
-Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch updated.
+
+(From OE-Core rev: 5a3331b7ee8bb565ebb3823fc23123120ccd653d)
+
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf |    1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf b/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
-index e21e72e..26845bb 100644
---- a/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
-+++ b/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
-@@ -11,6 +11,7 @@
-     <allow own="org.bluez"/>
-     <allow send_destination="org.bluez"/>
-     <allow send_interface="org.bluez.Agent1"/>
-+    <allow send_type="method_call"/>
-   </policy>
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
+index 2d23482..d6b24f1 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
+@@ -11,7 +11,7 @@ PACKAGECONFIG ??= "udev"
+ PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d,,udev"
+ PACKAGECONFIG[xmlto] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
  
- </busconfig>
+-SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
++SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/${BP}.tar.bz2 \
+            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
+           "
+ 
 -- 
 1.7.10.4
 
