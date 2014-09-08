@@ -1,42 +1,42 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
-	[74.125.82.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 0491B712AA
+Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
+	[209.85.212.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DCF271361
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 11:58:56 +0000 (UTC)
-Received: by mail-we0-f170.google.com with SMTP id u57so2184384wes.15
+	Mon,  8 Sep 2014 11:58:58 +0000 (UTC)
+Received: by mail-wi0-f171.google.com with SMTP id hi2so2487335wib.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Sep 2014 04:58:57 -0700 (PDT)
+	Mon, 08 Sep 2014 04:58:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=Aph2+7gyxwiBX0/6qhY/8Luj3+BMp2NlZh4baXzgPok=;
-	b=BpZZOFeW9KgfWYDA4wR7Vnn2qrBzP3PLYtGCGDhE5ApetnXSNys4U077pmk4y6gPaC
-	U8AfGchy8XwkHcw8lYvOBmHGj52bmPKrpMg+/7L/VXQgX/IKtZYt9ZEsU8JXaFPF1DKx
-	PQgrMJoZvG1//d+/lbPU5qpT/NvWBmk/rkr0yMhtO0s4iHIg1m13IJej+p+zsN0rlXFE
-	up/SVuPaj0Z1AsthXYmxdat5Hrthz/tz3dro0nVPfS+k3ChE4CkBB9mhIxCVlZzWPKcP
-	+HUYSMtZQnvC+9Lj+JnVQE/qpJT9LkwnDW+P04YNbG0lMSSi178PceCGNpQq1UaUANRN
-	bNxA==
-X-Gm-Message-State: ALoCoQm8VgHgArbO2S509RkHS9s8e9aMpgz7wMcYM50U0DnTbopi+RgMTKVEfPu1A9gpL+tKJzny
-X-Received: by 10.194.193.10 with SMTP id hk10mr12405259wjc.70.1410177537843; 
-	Mon, 08 Sep 2014 04:58:57 -0700 (PDT)
+	bh=YUq5CHIKF4+rQC2ioU4GuTIO2MbyxLeX12hvBgMFJQM=;
+	b=PMmxvfcqnuzzg4aB7k23FcNFruFcMXF6Ki/tSelvrMHN8WeC1W3PgbnAA2wc3hvVCK
+	B5hjiQyY4Pu4wsE4u79F+QhUjSahT23+8kFY7q7wDBLCljO17WozCbz3H9yYbLahlylK
+	EUy9+QjP/a8WkSTPkPUCxsxEED75Aa8si/ZKDE8E9y+pKMY87lsaND+2TaF811OQ1bgF
+	ei0TYdH0PPKSnaJc8Lie1zjo9iEc5P5YV9jRo7P4UoH8LP655KLyyt6D/cdzlTzHwOJ7
+	vKO5CQ3Gogyb+Wyqbodoujkvjo+pc1EANmE77DsqjiB6bTrU2nAO97b6o6mQRO6WC/WP
+	8w8w==
+X-Gm-Message-State: ALoCoQlaJ1h+E0jnIRCxnbEmI9a1x7AxE9wz08bgxaW+VpLHx3LYhFYBbRJ5RXeoSQ+Za8y4wgqJ
+X-Received: by 10.195.11.234 with SMTP id el10mr34617966wjd.95.1410177538936; 
+	Mon, 08 Sep 2014 04:58:58 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id
-	gl10sm11003928wib.1.2014.09.08.04.58.56
+	gl10sm11003928wib.1.2014.09.08.04.58.57
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Sep 2014 04:58:57 -0700 (PDT)
+	Mon, 08 Sep 2014 04:58:58 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Sep 2014 12:58:22 +0100
-Message-Id: <d8e866b42de54a48da5e79a7650b024a11411c33.1410177322.git.ross.burton@intel.com>
+Date: Mon,  8 Sep 2014 12:58:23 +0100
+Message-Id: <b518a8b0337e677b18652bab8b97d5854f2c2129.1410177322.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
 References: <cover.1410177322.git.ross.burton@intel.com>
 In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
 References: <cover.1410177322.git.ross.burton@intel.com>
-Subject: [PATCH 04/27] sudo: make sudoers a config file
+Subject: [PATCH 05/27] lighttpd: install config file without execute permissions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,22 +57,22 @@ Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-extended/sudo/sudo.inc |    2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index 6de984a..1d7e541 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -18,6 +18,8 @@ inherit autotools
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib"
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb
+index 0acc37d..20d5c1c 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb
+@@ -51,7 +51,7 @@ SYSTEMD_SERVICE_${PN} = "lighttpd.service"
+ do_install_append() {
+ 	install -d ${D}${sysconfdir}/init.d ${D}${sysconfdir}/lighttpd.d ${D}/www/pages/dav
+ 	install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
+-	install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
++	install -m 0644 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
+ 	install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
  
-+CONFFILES_${PN} = "${sysconfdir}/sudoers"
-+
- EXTRA_OECONF = "--with-editor=/bin/vi --with-env-editor"
- 
- do_configure_prepend () {
+ 	install -d ${D}${systemd_unitdir}/system
 -- 
 1.7.10.4
 
