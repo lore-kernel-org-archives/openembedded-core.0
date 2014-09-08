@@ -1,39 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D3C4605BD
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CB4365D56
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 17:03:06 +0000 (UTC)
-Received: by mail-qc0-f177.google.com with SMTP id i8so15866127qcq.22
+	Mon,  8 Sep 2014 19:39:06 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id w8so14708713qac.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Sep 2014 10:03:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=6yHGYjzdxNASvbyn0NopkzYGLCxaNddv27AxkZkkrAI=;
-	b=CdQYIIrpeQotVcyr7FkzTjcytnSeatP1d2DQ67DCLOBunpjWUuMHDYfTxcCgIQo/UK
-	9NbiMsX1sAwp4KlhBk5RQcnH762AdQZ3TU/HrW9+BN153HcxQWKKRp+fmE1O6JVbm+xq
-	bKJfo7bHTyVjNz0IKyV6/MRFCIArnr2GS0/9a0yD1mVy+Tth6gQqUxSfu5BxwfUvApEL
-	m/7QbdpOJTIq35xATdwuLJGUw9IV9BdQ3ZjOsRo2+DTwZNHKXxxrQoJfqRAqzby9zYNO
-	aLs9vAhz65NZIySkvyD6pRbj4mRlYOncykUx2NU8R/OTf73eAmIyt2KOxKGkLTwpwb8o
-	e5ag==
-X-Gm-Message-State: ALoCoQndNGGyBZAftTkQ+xp8s63V7jJaq3we257CgUDoBll9thlYtPbdVjXGn/Z0diK08GDvMptn
-X-Received: by 10.224.103.65 with SMTP id j1mr44186690qao.17.1410195786903;
-	Mon, 08 Sep 2014 10:03:06 -0700 (PDT)
+	Mon, 08 Sep 2014 12:39:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Mj8l247IBpG/f4ws0mtRvBSX3SqwC+UoV6firi3fI8s=;
+	b=ncoiLLR+Wvaei3PZO9AxuQp93G4bVYwB4GjQwGomNkyExVEvFY3+ydnF3v1k8Zs8UR
+	a/qx/85Lzak5qtS/gX8CVzD1Xxrw4MOtK7nxxeWQ19ED63mJPbQJmLPmrL68XI/DoI8V
+	G4pu36UJ2Km+KMjRhTlNijiSxAmN9sh4VZHnoAK/nQKtlep49nAsvkABkiFCanCtbh71
+	Tj+TS0fSscEdW8IXyASNuCDKz2w0COKkV6QQcjIyYyrNIfMWZY9IWhU3c3X9I9CzJz9S
+	HK+BlDX8oL3EcukDFODec5l+cTZadBHFuQ2hSCbHTQxPU2lpLj8jQs84IaKxS0Ek5I/7
+	9xEw==
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Mon, 8 Sep 2014 10:02:46 -0700 (PDT)
-In-Reply-To: <lyoauufjw2.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <cover.1409655125.git.Qi.Chen@windriver.com>
-	<c57d855c12c783cdfa52f304e52fc2fd1267dd96.1409655125.git.Qi.Chen@windriver.com>
-	<5408BDC6.2060006@pabigot.com>
-	<lyoauufjw2.fsf@ensc-virt.intern.sigma-chemnitz.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 Sep 2014 18:02:46 +0100
-Message-ID: <CAJTo0La3gCJNf1znoW8M4W045rE0pbsoZo=_My2p3i5ZCkPPrg@mail.gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/26] systemd: upgrade to 216
+X-Received: by 10.140.104.162 with SMTP id a31mr6142469qgf.104.1410205147646; 
+	Mon, 08 Sep 2014 12:39:07 -0700 (PDT)
+Received: by 10.96.147.37 with HTTP; Mon, 8 Sep 2014 12:39:07 -0700 (PDT)
+In-Reply-To: <1410192780-16794-1-git-send-email-ross.burton@intel.com>
+References: <1410192780-16794-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 8 Sep 2014 13:39:07 -0600
+Message-ID: <CACS+7ZRjYi4uy=Q0vBD2FeuU9FqOLaM4=W1nPXDbYdqW5V8u3Q@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: disable resolved and networkd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,22 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Sep 2014 17:03:16 -0000
+X-List-Received-Date: Mon, 08 Sep 2014 19:39:14 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 5 September 2014 11:21, Enrico Scholz
-<enrico.scholz@sigma-chemnitz.de> wrote:
->> Maybe systemd-networkd and its constituent pieces need to be pulled
->> out as a separate package?
+On 8 September 2014 10:13, Ross Burton <ross.burton@intel.com> wrote:
+> These two services are fairly immature and need careful integration into the
+> rest of the system, so disable them for now.
 >
-> Yes; I think this is necessary.  systemd gets larger and larger with
-> each release and is providing functionality which is either not needed
-> (logind, the network stuff, nspawn, nss modules) or which is solved by
-> other parts of the system and is conflicting with them.
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-core/systemd/systemd_216.bb |    2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
+> index a7fd71e..7f7982d 100644
+> --- a/meta/recipes-core/systemd/systemd_216.bb
+> +++ b/meta/recipes-core/systemd/systemd_216.bb
+> @@ -59,6 +59,8 @@ PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
+>  PACKAGECONFIG[cryptsetup] = "--enable-libcryptsetup,--disable-libcryptsetup,cryptsetup"
+>  PACKAGECONFIG[microhttpd] = "--enable-microhttpd,--disable-microhttpd,libmicrohttpd"
+>  PACKAGECONFIG[elfutils] = "--enable-elfutils,--disable-elfutils,elfutils"
+> +PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
+> +PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
+>
+>  CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
+>
+> --
+> 1.7.10.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Considering the number of patches still landing in resolved and
-networkd, I think just disabling them right now is safest.  I just
-sent a patch to do this.
-
-Ross
+Oh good. When I saw that you were going to remove them I got worried.
+Part of me likes networkd and would like to keep it.
 
