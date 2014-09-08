@@ -1,42 +1,39 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 288B471321
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f46.google.com (mail-yh0-f46.google.com
+	[209.85.213.46])
+	by mail.openembedded.org (Postfix) with ESMTP id BBA217117C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 12:35:28 +0000 (UTC)
-Received: by mail-lb0-f179.google.com with SMTP id p9so4042506lbv.38
+	Mon,  8 Sep 2014 12:54:13 +0000 (UTC)
+Received: by mail-yh0-f46.google.com with SMTP id f73so736392yha.33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Sep 2014 05:35:25 -0700 (PDT)
+	Mon, 08 Sep 2014 05:54:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Wu+omXvE/PECc83HBIY+w5APOq7FYmeCnN9WR8thQJA=;
-	b=EYbQaifN4MyW9kj8Gs7fM1QgUdhz70Me3KcCrr1vG0IU+hTlQKIqZUjIXVPXIcqaq7
-	27oEw+ND9Smyh+Fwf3Dj6dZqDclKzFxPc9NZe4mbDJ4PEljh7xYMijY2Q+eNlnWLV/hQ
-	ktE6fnMrCG5jA7SDYhitHtd9DWscPMemUxVmtvBxKCZi4jY8qF2j4lTTPsBeWAdQM7XT
-	rKcTH87OqB929vIa96oSrSEGzXMweDas9JJLiYQcs4izKpk0HrcnOL41SzDcDQkfsGA+
-	BKQfxy/rroaI8e2H7idZhr98AxHlmBbrFPGB4TMDeKHWWTgaFMrBvC1EYe8Ga+/XDFMU
-	6ZyA==
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=+LtWtZatMW2CL9b6UMZF3k/8WpFUyRLQpnlEKWgVicc=;
+	b=q7r1gJ8c2S+rN/l/wezB0NM6K1gTRyxFETtqT2GQ4YnWjAj0KB6AZbls7OOlwfmifV
+	54LDNWJkTCeovtay1mVlSKNTWlxiaYLiGqBf2YdbRsOEj8F3U2A9K2U3g1f6oqculm/5
+	D0g8M/AuaNW0/ZP3aziXwag4zJJSa7Th2qeQJN2WzfeWOT0zLZsJ/gsinHxEF3PFXTD6
+	93PDQ1bGc872xicNl/QsuJEh6Rzumg/ch9mvb+FzrhxMRUqunizuitZxHQsPr8fUgOZK
+	ZZXofMi0MJCNXNd7e/UG1+rNEjnWzcw00Ncki0S510ddT9uK6nlvnzARCoTBRehhQuev
+	3H9w==
 MIME-Version: 1.0
-X-Received: by 10.112.75.233 with SMTP id f9mr2265333lbw.102.1410179725459;
-	Mon, 08 Sep 2014 05:35:25 -0700 (PDT)
-Received: by 10.114.74.226 with HTTP; Mon, 8 Sep 2014 05:35:25 -0700 (PDT)
-In-Reply-To: <CAMKF1sp29d050n4VHSkjmNX6q9i=nDNyUFTBxot218aj-KzQ+Q@mail.gmail.com>
-References: <53C3A130.4000900@pabigot.com> <53DC39DE.5020105@pabigot.com>
-	<CAP9ODKo8dwJvw9cwDKEY0fQNo6Z+NrxavZtZs1AjcvQgHc_5JQ@mail.gmail.com>
-	<CAJTo0LaQh=cMsbVYgt_xjhXqe0L76KC-efk17Pju6A21Da=j0Q@mail.gmail.com>
-	<CAMKF1sqZZaXy9AkRHEeXyeoMWABWMS-+PK_v-6QAr5d8Qc1hPA@mail.gmail.com>
-	<CAMKF1spYXbaKdjQhAYM3SEL8RjqfTeOwmXpsOXNOS0YaXZJzLg@mail.gmail.com>
-	<CAJTo0Lb708rnUEEUf9w0B2er_Ttb890niQUjRdBTTD952BcogQ@mail.gmail.com>
-	<CAMKF1srf7AFaYXUzwObkAwxO8_P7v-5e5UdcBYCpqXAp0VN7HA@mail.gmail.com>
-	<CAMKF1sp29d050n4VHSkjmNX6q9i=nDNyUFTBxot218aj-KzQ+Q@mail.gmail.com>
-Date: Mon, 8 Sep 2014 14:35:25 +0200
-Message-ID: <CAC1BbcS-RTmp1MfJZ7vbRNvM4ciijrHUyjpwztBDnymKhr2Sfw@mail.gmail.com>
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: patchwork client problems
+X-Received: by 10.236.45.33 with SMTP id o21mr3421081yhb.109.1410180854458;
+	Mon, 08 Sep 2014 05:54:14 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.44.19 with HTTP; Mon, 8 Sep 2014 05:54:14 -0700 (PDT)
+In-Reply-To: <540D9C5A.2020204@pseudoterminal.org>
+References: <1410174256-3263-1-git-send-email-dv@pseudoterminal.org>
+	<1410175101.19272.1.camel@ted>
+	<540D9C5A.2020204@pseudoterminal.org>
+Date: Mon, 8 Sep 2014 09:54:14 -0300
+X-Google-Sender-Auth: oE-Rvd4FyV00aE9et3EUhU8QQ0g
+Message-ID: <CAP9ODKoRhgq5DuPe8Toa7iXoCex_FuEJ_1yuaCMykt_JuU=DjA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: handle .dsp firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,38 +46,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Sep 2014 12:35:35 -0000
+X-List-Received-Date: Mon, 08 Sep 2014 12:54:18 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 6 September 2014 19:25, Khem Raj <raj.khem@gmail.com> wrote:
-> On Sat, Sep 6, 2014 at 8:32 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Sat, Sep 6, 2014 at 6:32 AM, Burton, Ross <ross.burton@intel.com> wrote:
->>> Thanks Khem, much appreciated.
->>>
->>> Presumably the hooks to auto-mark merged patches haven't been
->>> activated because the git server and the patchwork server are on
->>> different machines. Has there been previous discussion to get this
->>> resolved?
+On Mon, Sep 8, 2014 at 9:08 AM, Carlos Rafael Giani
+<dv@pseudoterminal.org> wrote:
+> On 09/08/14 13:18, Richard Purdie wrote:
 >>
->> it has been activated and was working in past. Do you see it not happening now ?
+>> On Mon, 2014-09-08 at 13:04 +0200, Carlos Rafael Giani wrote:
+>>>
+>>> A few firmware files use this filename extension, like korg/k1212.dsp .
+>>> Create respective packages.
+>>>
+>>> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+...
+>> Perhaps its time to improve the regex slightly here and use something
+>> like file_regex='^(.*)\.(bin|fw|cis|dsp)$ rather than multiple calls to
+>> do_split_packages?
 >
-> update hooks were not working too since they use pwclient themselves
-> and pwclient
-> was not working thus far. So it should start working again. I have
-> updated the hooks
-> to reflect the latest changes from patchwork upstream as well
+> I had the same thought. However, I figured that perhaps it would be better
+> to do this in a followup patch, to keep the two distinct changes separate
+> (add .dsp support + modify regex to the new and improved version).
 
-FYI, The current upstream pwclient can now operate on multiple IDs, e.g.:
-pwclient view 1 3 4 9
-pwclient get 2 5
-and you can configure a per-project or global "signoff" option for
-git-am (or on the command-line -- git-am -s 77):
-[options]
-default = my_project2
-signoff = True
-[proj1]
-url = ...
-signoff = True
+Agreed.
 
-cheers,
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
