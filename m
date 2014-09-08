@@ -1,41 +1,42 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id AF28D62252
+Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
+	[74.125.82.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B314713C4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 11:59:22 +0000 (UTC)
-Received: by mail-wg0-f48.google.com with SMTP id m15so1352717wgh.19
+	Mon,  8 Sep 2014 11:59:23 +0000 (UTC)
+Received: by mail-we0-f173.google.com with SMTP id u56so1329850wes.18
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Sep 2014 04:59:23 -0700 (PDT)
+	Mon, 08 Sep 2014 04:59:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=3Gjrt3g8lCdPW7shw0++tMZhclyKWK5BglbJ81De2ow=;
-	b=NwL81KlhWuFizcFfUhpLQ/eNFE/XQWJNo7jH3Eg697Zu0MsjrVJRjpG+malB74jvHH
-	1BUX3DxPTSVeDdoQrWibr4LTn4r14f4LpHHA8j0cuqudr8iu+rEs+9d5oRSxuSyFzAmv
-	rwaF8mAW2o1bzeZsYPD4P72cu0yrqPkm1lQFuAW2LX1004fI+S0AvKkqpG20ZKSHEleN
-	cMn/2tbd376EOKRv3AW86bbvcgw9OoKxV2aTizLeds9m02AC+84DIUB/41viXp/sKFcx
-	GuOata/elUn4pfpqY0GsMIWb0ZWhr3zR56SyV7Zo2pDsYs3KikKUfzlApPPflFb573pO
-	yY1Q==
-X-Gm-Message-State: ALoCoQllCJqwnuLpphzSgwsaWRSgYqsWdAXg+vkPDOC2zpR5SGNDVymh9Hiomm+9+tb/w2P6AOJp
-X-Received: by 10.180.36.236 with SMTP id t12mr22678294wij.38.1410177563116;
-	Mon, 08 Sep 2014 04:59:23 -0700 (PDT)
+	bh=Sp4YR/nnLR1cOGW7NlIUd6uLomaXoNMeHbQbKSAphmQ=;
+	b=RecxWFf7JlwCbmX60+fHK0051fbzJ5AJp3PYHoe8dmPBpTncVCr0dfp+rMPjx6MTIl
+	EhmzKGrP9XvdqM4ESWVmr9ojpZlNqdpFkwPBBeqhyy5r461foi2kBovwqNqkbH3A9dFB
+	jRScn61YxSrPeIAt9eaYbPX1gnL5gz4W/GH/efCFc4TzS1qCtqZZiIEM5LMpG0n2kLw/
+	quqrWK38fAU6l8IlinU6Fo9dWg3aK3GmleuxbxjnhQbzI2c1pBTNS7/fSCh9NRisV11g
+	ehGXKuQiZMvg/0ujnhOGBxwSyxFtoOzXRPoHtVp4gU6NlRqahrd845Mfh/8d0Y//tEIL
+	Bb4w==
+X-Gm-Message-State: ALoCoQnrNDRGpy+f6uQAKG6a2zJ4ID6Szzoo+B9n6LKeIybrmBvtGfXnT98c+4rWGZAbafdU1nq+
+X-Received: by 10.194.243.230 with SMTP id xb6mr3872379wjc.100.1410177564255; 
+	Mon, 08 Sep 2014 04:59:24 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id
-	gl10sm11003928wib.1.2014.09.08.04.59.22
+	gl10sm11003928wib.1.2014.09.08.04.59.23
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Sep 2014 04:59:22 -0700 (PDT)
+	Mon, 08 Sep 2014 04:59:23 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Sep 2014 12:58:42 +0100
-Message-Id: <d957e66bd17f8c710e5336a959f9156c718ef3e0.1410177322.git.ross.burton@intel.com>
+Date: Mon,  8 Sep 2014 12:58:43 +0100
+Message-Id: <8ee78e047f024388f05035a3cb06c7adbed00ce8.1410177322.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
 References: <cover.1410177322.git.ross.burton@intel.com>
 In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
 References: <cover.1410177322.git.ross.burton@intel.com>
-Subject: [PATCH 24/27] glib-2.0: fix mount detection
+Subject: [PATCH 25/27] shadow: add Qualcomm and STMicroelectronics SoCs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,92 +51,49 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 08 Sep 2014 11:59:23 -0000
 
-From: Marius Avram <marius.avram@intel.com>
+From: Fathi Boudra <fathi.boudra@linaro.org>
 
-Currently a USB stick gets mounted on /run/media/sdX, where X is the
-letter corresponding to a certain drive. In older builds of core-image-sato
-it got mounted in /media/sdX. This change made the drives to not be
-displayed in graphical applications which use glib-2.0 such as the
-File Manager (pcmanfm). The reason is that the gio component of glib-2.0
-which handles mounts contains a function which determines if a mount
-is worthy to be displayed in the UI or not. The function is called
-g_unix_mount_guess_should_display().
-
-It expects a drive to be mounted in /run/media/<username>/sdX, but
-in the current build the username part is missing in case a root user
-is authenticated in the system.
-
-The easiest solution is to allow the display of drives mounted in the
-path used by the current configuration and that is /run/media/sdX.
-
-[YOCTO #6492]
-
-Signed-off-by: Marius Avram <marius.avram@intel.com>
+Reported-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Reported-by: Peter Griffin <peter.griffin@linaro.org>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...un-media-sdX-drive-mount-if-username-root.patch |   39 ++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb      |    1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
+ meta/recipes-extended/shadow/files/securetty |   15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch b/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
-new file mode 100644
-index 0000000..3d0c008
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
-@@ -0,0 +1,39 @@
-+From c53e94a520b573aa0dcf12903e9563fe8badc34c Mon Sep 17 00:00:00 2001
-+From: Marius Avram <marius.avram@intel.com>
-+Date: Wed, 27 Aug 2014 12:10:41 +0300
-+Subject: [PATCH] Allow /run/media/sdX drive mount if username root
-+
-+In case that the username logged in the system is root
-+the drives are directly mounted in /run/media/sdX and
-+not /run/media/<username>/sdX as the function
-+g_unix_mount_guess_should_display() expects.
-+
-+Without this change USB stick mounts are not accesible from
-+graphical applications such as the File Manager (pcmanfm).
-+
-+Upstream-Status: Inappropriate
-+
-+Signed-off-by: Marius Avram <marius.avram@intel.com>
-+---
-+ gio/gunixmounts.c |    5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/gio/gunixmounts.c b/gio/gunixmounts.c
-+index 4999354..f6c1472 100644
-+--- a/gio/gunixmounts.c
-++++ b/gio/gunixmounts.c
-+@@ -2136,6 +2136,11 @@ g_unix_mount_guess_should_display (GUnixMountEntry *mount_entry)
-+           mount_path[sizeof ("/run/media/") - 1 + user_name_len] == '/')
-+         is_in_runtime_dir = TRUE;
-+ 
-++      /* Allow no username in path in /run/media if current user is root */
-++      if (strcmp(user_name, "root") == 0 &&
-++          strncmp (mount_path, "/run/media/", sizeof("run/media")) == 0)
-++        is_in_runtime_dir = TRUE;
-++
-+       if (is_in_runtime_dir || g_str_has_prefix (mount_path, "/media/"))
-+         {
-+           char *path;
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
-index ff1fb87..4b1bcf8 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://ptest-paths.patch \
-            file://uclibc.patch \
-            file://0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch \
-+           file://allow-run-media-sdX-drive-mount-if-username-root.patch \
-           "
+diff --git a/meta/recipes-extended/shadow/files/securetty b/meta/recipes-extended/shadow/files/securetty
+index d919993..7fecda1 100644
+--- a/meta/recipes-extended/shadow/files/securetty
++++ b/meta/recipes-extended/shadow/files/securetty
+@@ -14,12 +14,27 @@ ttyAMA1
+ ttyAMA2
+ ttyAMA3
  
- SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
++# QCOM Socs
++ttyHSL0
++ttyHSL1
++ttyHSL2
++ttyHSL3
++ttyMSM0
++ttyMSM1
++ttyMSM2
++
+ # Samsung ARM SoCs
+ ttySAC0
+ ttySAC1
+ ttySAC2
+ ttySAC3
+ 
++# STM SoCs
++ttyAS0
++ttyAS1
++ttyAS2
++ttyAS3
++
+ # TI OMAP SoCs
+ ttyO0
+ ttyO1
 -- 
 1.7.10.4
 
