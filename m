@@ -1,41 +1,44 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 21477713C4
+Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id A944C713A6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 11:59:25 +0000 (UTC)
-Received: by mail-wg0-f49.google.com with SMTP id m15so1351064wgh.8
+	Mon,  8 Sep 2014 12:07:24 +0000 (UTC)
+Received: by mail-qa0-f54.google.com with SMTP id x12so13818531qac.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Sep 2014 04:59:26 -0700 (PDT)
+	Mon, 08 Sep 2014 05:07:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=BtoUXigzYx47xCSRrjTtgJ/YkDlUTdQpXddt0dA88LM=;
-	b=iTjbW1KsC80pnTNi5th58SxNO21pDhc0G69fkOM0sXmiJPDO1k6SEEStWGdwc5NtqO
-	urKyYpO4bNw6d9gQzJTc8Rfm8fH4TE1eL7kBAiq0wyIeBAeuyXdsWpAbGHnMmk16OWcn
-	BI37SgEU5nO5uFcKWZu2AhTPrTBARRnchlxuzLpQ2ox4kt1+ZqQnYPcfurcHGIzO+GNt
-	FqLw0pU6E1mzoL5F3Nnu5jotSwmrl0h5qidH1HzqiqM5hEZoYUmz0O0gqMrKOxuGAppi
-	ciiuwgQ1ZteLSJSZNYUe7Qno469lAbnRFo3OfVDZQBDTQP9dtBtlq7307wpWnJ6EJ7Vy
-	x0bA==
-X-Gm-Message-State: ALoCoQmnQNdd82bhdodzv2XROel8J2m1r8u3K77NZkxGGno9Wmzyy1qX+L1Mx/fzt0TuKSIhmKxg
-X-Received: by 10.194.58.83 with SMTP id o19mr35051522wjq.20.1410177566692;
-	Mon, 08 Sep 2014 04:59:26 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	gl10sm11003928wib.1.2014.09.08.04.59.25
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Sep 2014 04:59:25 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Sep 2014 12:58:45 +0100
-Message-Id: <10bd19c2bde21e4e10615548c682c2001741eb19.1410177322.git.ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
-References: <cover.1410177322.git.ross.burton@intel.com>
-In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
-References: <cover.1410177322.git.ross.burton@intel.com>
-Subject: [PATCH 27/27] alsa-utils: hard-code alsa-utils in SRC_URI
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Il6J2NTB0rAc5evaf5pT5wfPHuknmdQd7jNPRI9+lEQ=;
+	b=lWhcIMt+F2ceom+yfmb3AOVr5GHrUrGfzSbDrjo4W8+dK5J+7Kne9jIwgUNAzP49Mw
+	JgCsNlLtk4F1dCx3KmXkrD9NrjpR60x2GRu5JRxG9hAn4Icto/n/EpnZAhODGX3D6YO/
+	sVylTlt98Z1/2iGWViobS2GxXAp+8Cxj8GX79laVc1VC2cCBubhAFfyT4fl6fQKXrVml
+	+jAHNNPRudOax1GW6I6MxcbR3kDx2KcDxPc+wzeVrbFNRPu64qlgEW0lzEj08decs9Nl
+	I2uuVTNOsx3oIgd5/kiuc9FJU2+CjDXXqQUNx9SdawSb+pbN2+iRz5q+wkhFHONfzim4
+	Igeg==
+X-Gm-Message-State: ALoCoQmQnGP9RRfoEhubjLq685NcU9iWZCNldnQyFoeWUq+qRg8Lp0bxhPWos0Gz+H37GHwBR2h/
+X-Received: by 10.140.40.84 with SMTP id w78mr38950546qgw.87.1410178045180;
+	Mon, 08 Sep 2014 05:07:25 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.29.183 with HTTP; Mon, 8 Sep 2014 05:07:05 -0700 (PDT)
+In-Reply-To: <CAMKF1sp29d050n4VHSkjmNX6q9i=nDNyUFTBxot218aj-KzQ+Q@mail.gmail.com>
+References: <53C3A130.4000900@pabigot.com> <53DC39DE.5020105@pabigot.com>
+	<CAP9ODKo8dwJvw9cwDKEY0fQNo6Z+NrxavZtZs1AjcvQgHc_5JQ@mail.gmail.com>
+	<CAJTo0LaQh=cMsbVYgt_xjhXqe0L76KC-efk17Pju6A21Da=j0Q@mail.gmail.com>
+	<CAMKF1sqZZaXy9AkRHEeXyeoMWABWMS-+PK_v-6QAr5d8Qc1hPA@mail.gmail.com>
+	<CAMKF1spYXbaKdjQhAYM3SEL8RjqfTeOwmXpsOXNOS0YaXZJzLg@mail.gmail.com>
+	<CAJTo0Lb708rnUEEUf9w0B2er_Ttb890niQUjRdBTTD952BcogQ@mail.gmail.com>
+	<CAMKF1srf7AFaYXUzwObkAwxO8_P7v-5e5UdcBYCpqXAp0VN7HA@mail.gmail.com>
+	<CAMKF1sp29d050n4VHSkjmNX6q9i=nDNyUFTBxot218aj-KzQ+Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 8 Sep 2014 13:07:05 +0100
+Message-ID: <CAJTo0LYkKXsvKKuTizSVR7abdV6CM9su+p2n5S+82s1oo_jyjQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: patchwork client problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,32 +51,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Sep 2014 11:59:27 -0000
+X-List-Received-Date: Mon, 08 Sep 2014 12:07:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Hi Khem,
 
-This recipe is used by alsa-utils-alsaconf so don't use ${BP} in the SRC_URI.
+On 6 September 2014 18:25, Khem Raj <raj.khem@gmail.com> wrote:
+> update hooks were not working too since they use pwclient themselves
+> and pwclient
+> was not working thus far. So it should start working again. I have
+> updated the hooks
+> to reflect the latest changes from patchwork upstream as well
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Fair enough.  Can you remind me privately of my username/password, and
+would it be possible to get more rights so that I can go and work my
+way through the old patches that have been merged and mark them as
+such?
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
-index d6b24f1..2d23482 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
-@@ -11,7 +11,7 @@ PACKAGECONFIG ??= "udev"
- PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d,,udev"
- PACKAGECONFIG[xmlto] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
- 
--SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/${BP}.tar.bz2 \
-+SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
-           "
- 
--- 
-1.7.10.4
-
+Cheers,
+Ross
 
