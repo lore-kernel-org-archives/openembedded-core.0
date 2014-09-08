@@ -1,23 +1,36 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 86657713AB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
+	[209.85.216.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B8B260703
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 12:08:58 +0000 (UTC)
-Received: from [192.168.178.100] (chello062178118086.5.14.vie.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 408DA284FC;
-	Mon,  8 Sep 2014 14:08:59 +0200 (CEST)
-Message-ID: <540D9C5A.2020204@pseudoterminal.org>
-Date: Mon, 08 Sep 2014 14:08:58 +0200
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Mon,  8 Sep 2014 12:13:19 +0000 (UTC)
+Received: by mail-qa0-f43.google.com with SMTP id cm18so14036091qab.30
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Sep 2014 05:13:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=G4rNGJ7rAkgRU8GEpakqSjFe8sPly7UYflT/WLky1eg=;
+	b=B3Iux0aZPS+z2DYIFLp60cM75ydquEDlc9gKdjv55jGcNMSL+504UhPNLfmTImf5fj
+	+Mvp/HM58RNlLcgZSAqLgnijbH++lLfwpl3qmMFUEVyQzu7Xdlh/ywrIDSTlV/0zybGZ
+	Zodj5D2ECgPR5TKzrvJ9J+EXFos4MSv4YrvF/y2hzjZPY3wCxkYf3P6cNCAJBWTauLK0
+	1/cwCp7JlSUVqZj7FQ08uQ6lChlP0IrQDmdhCyGD7ahIOSRCC48LD8/mAA2PVGJWO08r
+	YfGp9n72+1V4wcc3qylz3ANHaw8fX1XseIfB3QPRpyJfAh2kQKxMGsYZJQcqd9jsiMfc
+	YTEg==
+X-Gm-Message-State: ALoCoQmmeBDwGNHrJgqb1jYJBUrFVJe+TM22OxyyBnpEc0RYR4e+sqDlepHt4ZDSs4GYm4B34ewS
+X-Received: by 10.140.105.138 with SMTP id c10mr39241601qgf.15.1410178400318; 
+	Mon, 08 Sep 2014 05:13:20 -0700 (PDT)
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1410174256-3263-1-git-send-email-dv@pseudoterminal.org>
-	<1410175101.19272.1.camel@ted>
-In-Reply-To: <1410175101.19272.1.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel.bbclass: handle .dsp firmware
+Received: by 10.140.29.183 with HTTP; Mon, 8 Sep 2014 05:13:00 -0700 (PDT)
+In-Reply-To: <1409137928-25490-1-git-send-email-marius.avram@intel.com>
+References: <1409137928-25490-1-git-send-email-marius.avram@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 8 Sep 2014 13:13:00 +0100
+Message-ID: <CAJTo0LbYeJPJxQEQ7nOq39w_sy6fZ9o2SpahkK+NV8GOHe4MNg@mail.gmail.com>
+To: Marius Avram <marius.avram@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] libfm: Upgrade to 1.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,42 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Sep 2014 12:09:02 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Sep 2014 12:13:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 09/08/14 13:18, Richard Purdie wrote:
-> On Mon, 2014-09-08 at 13:04 +0200, Carlos Rafael Giani wrote:
->> A few firmware files use this filename extension, like korg/k1212.dsp .
->> Create respective packages.
->>
->> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
->> ---
->>   meta/classes/kernel.bbclass | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index b02036f..4710719 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -387,6 +387,7 @@ python split_kernel_packages () {
->>       do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.bin$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
->>       do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.fw$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
->>       do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.cis$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
->> +    do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.dsp$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
->>   }
-> Perhaps its time to improve the regex slightly here and use something
-> like file_regex='^(.*)\.(bin|fw|cis|dsp)$ rather than multiple calls to
-> do_split_packages?
->
-> Cheers,
->
-> Richard
->
->
->
+On 27 August 2014 12:12, Marius Avram <marius.avram@intel.com> wrote:
+> -                    file://src/base/fm-config.h;endline=23;md5=ad0fc418c3cf041eea35ddb3daf37f17"
+> +                    file://src/base/fm-config.h;endline=23;md5=71596f90de8d83df26974967cd6b6730"
 
-I had the same thought. However, I figured that perhaps it would be 
-better to do this in a followup patch, to keep the two distinct changes 
-separate (add .dsp support + modify regex to the new and improved version).
+Please explain in the commit log why the license checksum was changed.
+
+Ross
 
