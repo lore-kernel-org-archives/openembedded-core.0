@@ -1,43 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B1A6617B8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D3C4605BD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 16:53:12 +0000 (UTC)
-Received: by mail-ie0-f172.google.com with SMTP id tr6so1645474ieb.3
+	Mon,  8 Sep 2014 17:03:06 +0000 (UTC)
+Received: by mail-qc0-f177.google.com with SMTP id i8so15866127qcq.22
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Sep 2014 09:53:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Q+ZZixweo5biXsjY9/KkalO4HDiKK+gkai4Er0rflB8=;
-	b=VNq5OYCSMNqArsvDaaEOfQQfGwo/9sA55KW508OllmRUqOuHe0LweE9VN8CKFUEigV
-	eJc2SZelafZFAMQkGksPIsgG0MIV9kySlyINhv/n3JVqxrGjdq/uDxeDjGK6wihiS2dG
-	nmfdUzYazG/suD9/hKDlGREX1HMB42My32asayTp7A9oxf7UqUbqx4Lkifx+uxBr1PcY
-	nuSxGUR4agG2iST0vnkTp+lOsUFWSYF6ZoT5EmJMESPvi859t9bPlxGjTLBF+ZqPL0g0
-	8wk6irdQUAJRZBhtsFyfS7p9yHnpXQxVb0YuQx9v1S8F+Kcp6FInxhgvIoDCfuOf4oEt
-	3xqA==
-X-Received: by 10.43.64.198 with SMTP id xj6mr4149803icb.70.1410195193834;
-	Mon, 08 Sep 2014 09:53:13 -0700 (PDT)
+	Mon, 08 Sep 2014 10:03:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=6yHGYjzdxNASvbyn0NopkzYGLCxaNddv27AxkZkkrAI=;
+	b=CdQYIIrpeQotVcyr7FkzTjcytnSeatP1d2DQ67DCLOBunpjWUuMHDYfTxcCgIQo/UK
+	9NbiMsX1sAwp4KlhBk5RQcnH762AdQZ3TU/HrW9+BN153HcxQWKKRp+fmE1O6JVbm+xq
+	bKJfo7bHTyVjNz0IKyV6/MRFCIArnr2GS0/9a0yD1mVy+Tth6gQqUxSfu5BxwfUvApEL
+	m/7QbdpOJTIq35xATdwuLJGUw9IV9BdQ3ZjOsRo2+DTwZNHKXxxrQoJfqRAqzby9zYNO
+	aLs9vAhz65NZIySkvyD6pRbj4mRlYOncykUx2NU8R/OTf73eAmIyt2KOxKGkLTwpwb8o
+	e5ag==
+X-Gm-Message-State: ALoCoQndNGGyBZAftTkQ+xp8s63V7jJaq3we257CgUDoBll9thlYtPbdVjXGn/Z0diK08GDvMptn
+X-Received: by 10.224.103.65 with SMTP id j1mr44186690qao.17.1410195786903;
+	Mon, 08 Sep 2014 10:03:06 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.50.102.67 with HTTP; Mon, 8 Sep 2014 09:52:43 -0700 (PDT)
-In-Reply-To: <CAC1BbcS-RTmp1MfJZ7vbRNvM4ciijrHUyjpwztBDnymKhr2Sfw@mail.gmail.com>
-References: <53C3A130.4000900@pabigot.com> <53DC39DE.5020105@pabigot.com>
-	<CAP9ODKo8dwJvw9cwDKEY0fQNo6Z+NrxavZtZs1AjcvQgHc_5JQ@mail.gmail.com>
-	<CAJTo0LaQh=cMsbVYgt_xjhXqe0L76KC-efk17Pju6A21Da=j0Q@mail.gmail.com>
-	<CAMKF1sqZZaXy9AkRHEeXyeoMWABWMS-+PK_v-6QAr5d8Qc1hPA@mail.gmail.com>
-	<CAMKF1spYXbaKdjQhAYM3SEL8RjqfTeOwmXpsOXNOS0YaXZJzLg@mail.gmail.com>
-	<CAJTo0Lb708rnUEEUf9w0B2er_Ttb890niQUjRdBTTD952BcogQ@mail.gmail.com>
-	<CAMKF1srf7AFaYXUzwObkAwxO8_P7v-5e5UdcBYCpqXAp0VN7HA@mail.gmail.com>
-	<CAMKF1sp29d050n4VHSkjmNX6q9i=nDNyUFTBxot218aj-KzQ+Q@mail.gmail.com>
-	<CAC1BbcS-RTmp1MfJZ7vbRNvM4ciijrHUyjpwztBDnymKhr2Sfw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 8 Sep 2014 09:52:43 -0700
-Message-ID: <CAMKF1spU_uxjc2Ktz0nN3z74FtX9W2yK-rb_0BPtZd4o3E=_0w@mail.gmail.com>
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: patchwork client problems
+Received: by 10.140.29.183 with HTTP; Mon, 8 Sep 2014 10:02:46 -0700 (PDT)
+In-Reply-To: <lyoauufjw2.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <cover.1409655125.git.Qi.Chen@windriver.com>
+	<c57d855c12c783cdfa52f304e52fc2fd1267dd96.1409655125.git.Qi.Chen@windriver.com>
+	<5408BDC6.2060006@pabigot.com>
+	<lyoauufjw2.fsf@ensc-virt.intern.sigma-chemnitz.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 8 Sep 2014 18:02:46 +0100
+Message-ID: <CAJTo0La3gCJNf1znoW8M4W045rE0pbsoZo=_My2p3i5ZCkPPrg@mail.gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/26] systemd: upgrade to 216
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,43 +46,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Sep 2014 16:53:19 -0000
+X-List-Received-Date: Mon, 08 Sep 2014 17:03:16 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Sep 8, 2014 at 5:35 AM, Bernhard Reutner-Fischer
-<rep.dot.nop@gmail.com> wrote:
-> On 6 September 2014 19:25, Khem Raj <raj.khem@gmail.com> wrote:
->> On Sat, Sep 6, 2014 at 8:32 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>> On Sat, Sep 6, 2014 at 6:32 AM, Burton, Ross <ross.burton@intel.com> wrote:
->>>> Thanks Khem, much appreciated.
->>>>
->>>> Presumably the hooks to auto-mark merged patches haven't been
->>>> activated because the git server and the patchwork server are on
->>>> different machines. Has there been previous discussion to get this
->>>> resolved?
->>>
->>> it has been activated and was working in past. Do you see it not happening now ?
->>
->> update hooks were not working too since they use pwclient themselves
->> and pwclient
->> was not working thus far. So it should start working again. I have
->> updated the hooks
->> to reflect the latest changes from patchwork upstream as well
+On 5 September 2014 11:21, Enrico Scholz
+<enrico.scholz@sigma-chemnitz.de> wrote:
+>> Maybe systemd-networkd and its constituent pieces need to be pulled
+>> out as a separate package?
 >
-> FYI, The current upstream pwclient can now operate on multiple IDs, e.g.:
-> pwclient view 1 3 4 9
-> pwclient get 2 5
-> and you can configure a per-project or global "signoff" option for
-> git-am (or on the command-line -- git-am -s 77):
-> [options]
-> default = my_project2
-> signoff = True
-> [proj1]
-> url = ...
-> signoff = True
->
+> Yes; I think this is necessary.  systemd gets larger and larger with
+> each release and is providing functionality which is either not needed
+> (logind, the network stuff, nspawn, nss modules) or which is solved by
+> other parts of the system and is conflicting with them.
 
-Thanks Bernahrd for note. FWIW our patchwork is uptodate so this should work
+Considering the number of patches still landing in resolved and
+networkd, I think just disabling them right now is safest.  I just
+sent a patch to do this.
 
-> cheers,
+Ross
 
