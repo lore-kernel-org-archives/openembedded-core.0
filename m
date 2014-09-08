@@ -1,30 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 417E76FE64
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
+	[209.85.212.171])
+	by mail.openembedded.org (Postfix) with ESMTP id A144862252
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 11:23:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s88BNUFG004647; Mon, 8 Sep 2014 12:23:30 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id dCLEGen6L48f; Mon,  8 Sep 2014 12:23:30 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s88BNR2T004644
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 8 Sep 2014 12:23:29 +0100
-Message-ID: <1410175409.19272.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chong Lu <Chong.Lu@windriver.com>
-Date: Mon, 08 Sep 2014 12:23:29 +0100
-In-Reply-To: <fcb571da8443a4e87181488e755769edecadeac7.1405322662.git.Chong.Lu@windriver.com>
-References: <cover.1405322662.git.Chong.Lu@windriver.com>
-	<fcb571da8443a4e87181488e755769edecadeac7.1405322662.git.Chong.Lu@windriver.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] libtool: fix different files in sysroot of sdk
+	Mon,  8 Sep 2014 11:58:51 +0000 (UTC)
+Received: by mail-wi0-f171.google.com with SMTP id hi2so2485741wib.16
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Sep 2014 04:58:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-type:content-transfer-encoding;
+	bh=cb9TEmGRTE98FF5220TkJQhMg2lvJEHsTgi4SAjXIl4=;
+	b=LNkN5QSYqxzEuod+ZqXISOxnybC8Gy6JJ9WJPS7xhssqZW6dC4AGuLiXHm1ajlIy7S
+	QPYVD/NAjuSxpfPACsJHxrMT5f4ZgL7BsT86kEQLEWHCtLldbB9mdA2+nFdkZehsNjud
+	rP4FdbFcRq0k/Gu3pNZ5o1Ri/hOmBfP/ARJDvGPLFN/2GxvZnZ3eCkzi/WUg8x4iAEa7
+	lXZS4MMkgk4YFFbU0bv3ggtVWH7Hfi55XLJc77D1d8Gyqr9/Zdt/cKGsNy1OJnWumr5z
+	c4PlFix0xBRqAYvDIvIatKx8zk+fl83C6gpvXcFsh8NZL8gL8PjtAkZKO/5ZvschihiO
+	xHpw==
+X-Gm-Message-State: ALoCoQn43dIklwlJ0tJ0/4WNqKQpYrthgefOxsL21JpDyBA+Usrrbn9NYoSu0xLgLRAXqJZWkf6B
+X-Received: by 10.180.212.78 with SMTP id ni14mr22450460wic.44.1410177532905; 
+	Mon, 08 Sep 2014 04:58:52 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	gl10sm11003928wib.1.2014.09.08.04.58.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 08 Sep 2014 04:58:52 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Sep 2014 12:58:18 +0100
+Message-Id: <cover.1410177322.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Subject: [PATCH 00/27] Consolidated pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,385 +46,287 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Sep 2014 11:23:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Sep 2014 11:58:57 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2014-07-14 at 16:10 +0800, Chong Lu wrote:
-> The libtool.m4 and ltmain.m4sh are different in target sysroot between sdk and build
-> environment. The reason is that we have two patches (fixinstall.patch and prefix.patch)
-> for libtool-cross. They change libtool.m4 and ltmain.m4sh and generate files to sysroot
-> dir. But we don't need them for libtool target. In sdk environment, We get libtool.m4
-> and ltmain.sh that don't apply on two patches.
-> 
-> This patch splits prefix.patch to prefix.patch and rename-libtool.patch. Then, improves
-> fixinstall.patch and rename-libtool.patch to apply on conditionally. Apply on both libtool
-> target and libtool-cross to fix different issue in sysroot between sdk and build environment.
-> 
-> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> ---
->  .../libtool/libtool-cross_2.4.2.bb                 |   1 +
->  .../libtool/libtool-native_2.4.2.bb                |   1 +
->  .../libtool/libtool/fixinstall.patch               | 139 +++++++++++++--------
->  meta/recipes-devtools/libtool/libtool/prefix.patch |  23 ----
->  .../libtool/libtool/rename-libtool.patch           |  40 ++++++
->  meta/recipes-devtools/libtool/libtool_2.4.2.bb     |   3 +
->  .../libtool/nativesdk-libtool_2.4.2.bb             |   1 +
->  7 files changed, 131 insertions(+), 77 deletions(-)
->  create mode 100644 meta/recipes-devtools/libtool/libtool/rename-libtool.patch
+Hi,
 
-I was reminded I hadn't reviewed this, sorry for the delay. I had a look
-at it now and this change isn't correct unfortunately.
+Working through the patch backlog, here is my first consolidated pull.  For
+anyone watching closely this has had a few patches removed from the autobuilder
+run which has some failures.
 
+Ross
 
-> diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.2.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.2.bb
-> index 72fad37..b189413 100644
-> --- a/meta/recipes-devtools/libtool/libtool-cross_2.4.2.bb
-> +++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.2.bb
-> @@ -3,6 +3,7 @@ require libtool-${PV}.inc
->  PR = "${INC_PR}.1"
->  PACKAGES = ""
->  SRC_URI += "file://prefix.patch"
-> +SRC_URI += "file://rename-libtool.patch"
->  SRC_URI += "file://fixinstall.patch"
->  
->  datadir = "${STAGING_DIR_TARGET}${target_datadir}"
-> diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
-> index f1051d8..d060cb8 100644
-> --- a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
-> +++ b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
-> @@ -4,6 +4,7 @@ DEPENDS = ""
->  
->  PR = "${INC_PR}.1"
->  SRC_URI += "file://prefix.patch"
-> +SRC_URI += "file://rename-libtool.patch"
->  
->  inherit native
->  
-> diff --git a/meta/recipes-devtools/libtool/libtool/fixinstall.patch b/meta/recipes-devtools/libtool/libtool/fixinstall.patch
-> index 279c07b..1bfd292 100644
-> --- a/meta/recipes-devtools/libtool/libtool/fixinstall.patch
-> +++ b/meta/recipes-devtools/libtool/libtool/fixinstall.patch
-> @@ -14,88 +14,119 @@ which is totally bogus in the sysroot case.
->  
->  Upstream-Status: Inappropriate [upstream are unlikely to take a patch like this]
->  
-> -RP 2011/11/16
-> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> +Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> +---
-> + libltdl/config/ltmain.m4sh | 44 ++++++++++++++++++++++++++++++++++++++++++++
-> + 1 file changed, 44 insertions(+)
->  
-> -Index: libtool-2.4/libltdl/config/ltmain.m4sh
-> -===================================================================
-> ---- libtool-2.4.orig/libltdl/config/ltmain.m4sh	2011-11-16 14:50:01.070383779 +0000
-> -+++ libtool-2.4/libltdl/config/ltmain.m4sh	2011-11-16 15:27:13.582310413 +0000
-> -@@ -2163,7 +2163,7 @@
-> +diff --git a/libltdl/config/ltmain.m4sh b/libltdl/config/ltmain.m4sh
-> +index eebb56e..9480cb8 100644
-> +--- a/libltdl/config/ltmain.m4sh
-> ++++ b/libltdl/config/ltmain.m4sh
-> +@@ -2166,6 +2166,7 @@ func_mode_install ()
->   	dir="$func_dirname_result"
->   	func_append dir "$objdir"
->   
-> --	if test -n "$relink_command"; then
-> -+	if test "$fast_install" = no && test -n "$relink_command"; then
-> ++      if test "$buildtarget" == yes; then
-> + 	if test -n "$relink_command"; then
->         # Strip any trailing slash from the destination.
->         func_stripname '' '/' "$libdir"
-> -       destlibdir=$func_stripname_result
-> -@@ -2202,7 +2202,7 @@
-> +@@ -2197,6 +2198,39 @@ func_mode_install ()
-> + 	  func_show_eval "$relink_command" \
-> + 	    'func_fatal_error "error: relink \`$file'\'' with the above command before installing it"'
-> + 	fi
-> ++      else
-> ++	if test "$fast_install" = no && test -n "$relink_command"; then
-> ++      # Strip any trailing slash from the destination.
-> ++      func_stripname '' '/' "$libdir"
-> ++      destlibdir=$func_stripname_result
-> ++
-> ++      func_stripname '' '/' "$destdir"
-> ++      s_destdir=$func_stripname_result
-> ++
-> ++	  # Determine the prefix the user has applied to our future dir.
-> ++	  inst_prefix_dir=`$ECHO "X$s_destdir" | $Xsed -e "s%$destlibdir\$%%"`
-> ++
-> ++	  # Don't allow the user to place us outside of our expected
-> ++	  # location b/c this prevents finding dependent libraries that
-> ++	  # are installed to the same prefix.
-> ++	  # At present, this check doesn't affect windows .dll's that
-> ++	  # are installed into $libdir/../bin (currently, that works fine)
-> ++	  # but it's something to keep an eye on.
-> ++	  test "$inst_prefix_dir" = "$destdir" && \
-> ++	    func_fatal_error "error: cannot install \`$file' to a directory not ending in $libdir"
-> ++
-> ++	  if test -n "$inst_prefix_dir"; then
-> ++	    # Stick the inst_prefix_dir data into the link command.
-> ++	    relink_command=`$ECHO "$relink_command" | $SED "s%@inst_prefix_dir@%-inst-prefix-dir $inst_prefix_dir%"`
-> ++	  else
-> ++	    relink_command=`$ECHO "$relink_command" | $SED "s%@inst_prefix_dir@%%"`
-> ++	  fi
-> ++
-> ++	  func_warning "relinking \`$file'"
-> ++	  func_show_eval "$relink_command" \
-> ++	    'func_fatal_error "error: relink \`$file'\'' with the above command before installing it"'
-> ++	fi
-> ++      fi
+The following changes since commit 1894522f357fdf0b6adb2dcc14f12817628596bd:
 
-Duplicating a block of code like this with cut and paste is bad
-practise. If we wanted this to be conditional we should improve the
-original condition block rather that copying it. This makes the patch
-easier to review too.
+  bitbake: tinfoil: add a means of enabling variable history tracking (2014-09-05 10:14:25 +0100)
 
-> + 	# See the names of the shared library.
-> + 	set dummy $library_names; shift
-> +@@ -2205,7 +2239,11 @@ func_mode_install ()
->   	  shift
->   
->   	  srcname="$realname"
-> --	  test -n "$relink_command" && srcname="$realname"T
-> ++        if test "$buildtarget" == yes; then
-> + 	  test -n "$relink_command" && srcname="$realname"T
-> ++        else
->  +	  test "$fast_install" = no && test -n "$relink_command" && srcname="$realname"T
-> ++        fi
->   
->   	  # Install the shared library and build the symlinks.
->   	  func_show_eval "$install_shared_prog $dir/$srcname $destdir/$realname" \
-> -@@ -5856,15 +5856,15 @@
-> +@@ -5873,6 +5911,7 @@ func_mode_link ()
->   	    # Hardcode the library path.
->   	    # Skip directories that are in the system default run-time
->   	    # search path.
-> --	    case " $sys_lib_dlsearch_path " in
-> --	    *" $absdir "*) ;;
-> --	    *)
-> --	      case "$compile_rpath " in
-> --	      *" $absdir "*) ;;
-> --	      *) func_append compile_rpath " $absdir" ;;
-> --	      esac
-> --	      ;;
-> --	    esac
-> -+	    #case " $sys_lib_dlsearch_path " in
-> -+	    #*" $absdir "*) ;;
-> -+	    #*)
-> -+	    #  case "$compile_rpath " in
-> -+	    #  *" $absdir "*) ;;
-> -+	    #  *) func_append compile_rpath " $absdir" ;;
-> -+	    #  esac
-> -+	    #  ;;
-> -+	    #esac
-> ++          if test "$buildtarget" == yes; then
-> + 	    case " $sys_lib_dlsearch_path " in
-> + 	    *" $absdir "*) ;;
-> + 	    *)
+are available in the git repository at:
 
-This is roughly the idea with a conditional however buildtarget is not
-going to be set to yes other than possibly at build time. The
-requirement would be to have this set in all cases where libtool is used
-"on target" which is not the way this will work.
+  git://git.yoctoproject.org/poky-contrib ross/mut
 
-The point in disabling this code is to avoid having to relink the files
-in the ./libs/ directory. When cross compiling we don't execute them and
-libtool jumps through more hoops than we need. This therefore gives
-quite a nice speedup. We might be able to make these sections
-conditional upon cross compilation although libtool doesn't appear to
-have any knowledge of that making it harder to do.
+for you to fetch changes up to 10bd19c2bde21e4e10615548c682c2001741eb19:
 
-> +@@ -5882,6 +5921,7 @@ func_mode_link ()
-> + 	      esac
-> + 	      ;;
-> + 	    esac
-> ++          fi
->   	    case " $sys_lib_dlsearch_path " in
->   	    *" $libdir "*) ;;
->   	    *)
-> -@@ -5930,15 +5930,15 @@
-> +@@ -5947,6 +5987,7 @@ func_mode_link ()
->   	    # Hardcode the library path.
->   	    # Skip directories that are in the system default run-time
->   	    # search path.
-> --	    case " $sys_lib_dlsearch_path " in
-> --	    *" $absdir "*) ;;
-> --	    *)
-> --	      case "$compile_rpath " in
-> --	      *" $absdir "*) ;;
-> --	      *) func_append compile_rpath " $absdir" ;;
-> --	      esac
-> --	      ;;
-> --	    esac
-> -+	    #case " $sys_lib_dlsearch_path " in
-> -+	    #*" $absdir "*) ;;
-> -+	    #*)
-> -+	    #  case "$compile_rpath " in
-> -+	    #  *" $absdir "*) ;;
-> -+	    #  *) func_append compile_rpath " $absdir" ;;
-> -+	    #  esac
-> -+	    #  ;;
-> -+	    #esac
-> ++          if test "$buildtarget" == yes; then
-> + 	    case " $sys_lib_dlsearch_path " in
-> + 	    *" $absdir "*) ;;
-> + 	    *)
-> +@@ -5956,6 +5997,7 @@ func_mode_link ()
-> + 	      esac
-> + 	      ;;
-> + 	    esac
-> ++          fi
->   	    case " $sys_lib_dlsearch_path " in
->   	    *" $libdir "*) ;;
->   	    *)
-> -@@ -6284,8 +6284,8 @@
-> +@@ -6301,8 +6343,10 @@ func_mode_link ()
->   		  eval libdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $deplib`
->   		  test -z "$libdir" && \
->   		    func_fatal_error "\`$deplib' is not a valid libtool archive"
-> --		  test "$absdir" != "$libdir" && \
-> --		    func_warning "\`$deplib' seems to be moved"
-> -+		  #test "$absdir" != "$libdir" && \
-> -+		  #  func_warning "\`$deplib' seems to be moved"
-> ++                if test "$buildtarget" == yes; then
-> + 		  test "$absdir" != "$libdir" && \
-> + 		    func_warning "\`$deplib' seems to be moved"
-> ++                fi
->   
->   		  path="-L$absdir"
->   		fi
-> +-- 
-> +1.9.1
-> +
-> diff --git a/meta/recipes-devtools/libtool/libtool/prefix.patch b/meta/recipes-devtools/libtool/libtool/prefix.patch
-> index 5e46e68..a242019 100644
-> --- a/meta/recipes-devtools/libtool/libtool/prefix.patch
-> +++ b/meta/recipes-devtools/libtool/libtool/prefix.patch
-> @@ -18,29 +18,6 @@ the simplest fix is just to remove $SHELL.
->  Updated: Date: 2011/11/09
->  RP
->  
-> -Index: libtool-2.4.2/libltdl/m4/libtool.m4
-> -===================================================================
-> ---- libtool-2.4.2.orig/libltdl/m4/libtool.m4
-> -+++ libtool-2.4.2/libltdl/m4/libtool.m4
-> -@@ -94,7 +94,8 @@ _LT_SET_OPTIONS([$0], [$1])
-> - LIBTOOL_DEPS="$ltmain"
-> - 
-> - # Always use our own libtool.
-> --LIBTOOL='$(SHELL) $(top_builddir)/libtool'
-> -+LIBTOOL='$(top_builddir)'
-> -+LIBTOOL="$LIBTOOL/${host_alias}-libtool"
-> - AC_SUBST(LIBTOOL)dnl
-> - 
-> - _LT_SETUP
-> -@@ -206,7 +207,7 @@ aix3*)
-> - esac
-> - 
-> - # Global variables:
-> --ofile=libtool
-> -+ofile=${host_alias}-libtool
-> - can_build_shared=yes
-> - 
-> - # All known linkers require a `.a' archive for static linking (except MSVC,
->  Index: libtool-2.4.2/Makefile.am
->  ===================================================================
->  --- libtool-2.4.2.orig/Makefile.am
-> diff --git a/meta/recipes-devtools/libtool/libtool/rename-libtool.patch b/meta/recipes-devtools/libtool/libtool/rename-libtool.patch
-> new file mode 100644
-> index 0000000..9726e98
-> --- /dev/null
-> +++ b/meta/recipes-devtools/libtool/libtool/rename-libtool.patch
-> @@ -0,0 +1,40 @@
-> +Upstream-Status: Inappropriate [embedded specific]
-> +
-> +Renames "libtool" -> "${TARGET_PREFIX}libtool" which makes sure
-> +it can't be confused with the host libtool.
-> +
-> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> +Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> +---
-> +diff --git a/libltdl/m4/libtool.m4 b/libltdl/m4/libtool.m4
-> +index 3866498..008675c 100644
-> +--- a/libltdl/m4/libtool.m4
-> ++++ b/libltdl/m4/libtool.m4
-> +@@ -94,7 +94,12 @@ _LT_SET_OPTIONS([$0], [$1])
-> + LIBTOOL_DEPS="$ltmain"
-> + 
-> + # Always use our own libtool.
-> ++if test "$buildtarget" == yes; then
-> + LIBTOOL='$(SHELL) $(top_builddir)/libtool'
-> ++else
-> ++LIBTOOL='$(top_builddir)'
-> ++LIBTOOL="$LIBTOOL/${host_alias}-libtool"
-> ++fi
-> + AC_SUBST(LIBTOOL)dnl
-> + 
-> + _LT_SETUP
-> +@@ -206,7 +211,11 @@ aix3*)
-> + esac
-> + 
-> + # Global variables:
-> ++if test "$buildtarget" == yes; then
-> + ofile=libtool
-> ++else
-> ++ofile=${host_alias}-libtool
-> ++fi
-> + can_build_shared=yes
-> + 
-> + # All known linkers require a `.a' archive for static linking (except MSVC,
-> +-- 
-> +1.9.1
-> +
-> diff --git a/meta/recipes-devtools/libtool/libtool_2.4.2.bb b/meta/recipes-devtools/libtool/libtool_2.4.2.bb
-> index a2eb4ea..14301ca 100644
-> --- a/meta/recipes-devtools/libtool/libtool_2.4.2.bb
-> +++ b/meta/recipes-devtools/libtool/libtool_2.4.2.bb
-> @@ -1,6 +1,8 @@
->  require libtool-${PV}.inc
->  
->  PR = "${INC_PR}.0"
-> +SRC_URI += "file://rename-libtool.patch"
-> +SRC_URI += "file://fixinstall.patch"
->  
->  #
->  # We want the results of libtool-cross preserved - don't stage anything ourselves.
-> @@ -13,3 +15,4 @@ libtool_sysroot_preprocess () {
->  	rm -rf ${SYSROOT_DESTDIR}${datadir}/libtool/config/*
->  }
->  
-> +EXTRA_OECONF = "buildtarget=yes"
+  alsa-utils: hard-code alsa-utils in SRC_URI (2014-09-08 12:53:09 +0100)
 
-This will perhaps influnce the built version of libtool, it will not
-influence the macros themselves which do need to run differently
-depending on the environment.
+----------------------------------------------------------------
+Chong Lu (2):
+      libunwind: add recipes
+      perf: add libunwind support
 
-Can we take a step back for a minute and remind ourselves why we need
-this change. There are differences in the sysroots due to this change,
-why is that an issue?
+Cristian Iorga (1):
+      alsa-utils: upgrade to 1.0.28
 
-Cheers,
+Dan McGregor (2):
+      sudo: make sudoers a config file
+      lighttpd: install config file without execute permissions
 
-Richard
+Drew Moseley (1):
+      gstreamer: Set DEPENDS dynamically for plugins-ugly and plugins-bad
 
+Fathi Boudra (1):
+      shadow: add Qualcomm and STMicroelectronics SoCs
 
-> diff --git a/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.2.bb b/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.2.bb
-> index fff15e9..993fe74 100644
-> --- a/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.2.bb
-> +++ b/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.2.bb
-> @@ -5,6 +5,7 @@ PR = "${INC_PR}.0"
->  FILESEXTRAPATHS =. "${FILE_DIRNAME}/libtool:"
->  
->  SRC_URI += "file://prefix.patch"
-> +SRC_URI += "file://rename-libtool.patch"
->  SRC_URI += "file://fixinstall.patch"
->  
->  inherit nativesdk
-> -- 
-> 1.9.1
-> 
+Hongxu Jia (3):
+      sstate: Add extra intercept functions SSTATEPOSTCREATEFUNCS
+      bbclass/sstate: add hook SSTATE_CHECK_FUNCTIONS for sstate checking
+      bbclass/sstate_readonly: only allowed sstate-cache objects to be built (read-only sstate-cache)
 
+Kévin THIERRY (1):
+      package_manager: RpmPkgsList: determine rpm version
 
+Marius Avram (1):
+      glib-2.0: fix mount detection
+
+Marko Lindqvist (5):
+      gtk+2: update to 2.24.24
+      libpng: drop unnecessary automake requirement lowering patch
+      libpng: update to 1.6.13
+      pango: update to 1.36.6
+      gtk+3: update to 3.12.2
+
+Martin Jansa (1):
+      qemu.bbclass: add -r ${OLDEST_KERNEL} parameter
+
+Mikhail Durnev (1):
+      libxkbcommon: Add missing dependency on xkeyboard-config
+
+Richard Purdie (1):
+      alsa-utils: hard-code alsa-utils in SRC_URI
+
+Robert Yang (2):
+      insane.bbclass: add QA check: file-rdeps
+      package_manager.py: use RPM_PREFER_ELF_ARCH
+
+Ross Burton (1):
+      pixman: upgrade to 0.32.6
+
+Sujith H (2):
+      os-release: Adding a new recipe for operating system identification
+      systemd: Adding RRECOMMENDS for os-release
+
+Yasir-Khan (2):
+      bluez5: Allow method calls over dbus for bluetooth daemon
+      python-native: disable user site support
+
+ meta/classes/insane.bbclass                        |   72 +++++++++++++++++++-
+ meta/classes/qemu.bbclass                          |   25 +++----
+ meta/classes/sstate.bbclass                        |   30 +++++++-
+ meta/classes/sstate_readonly.bbclass               |   53 ++++++++++++++
+ meta/lib/oe/package_manager.py                     |   35 +++++-----
+ meta/lib/oe/rootfs.py                              |    2 +-
+ .../bluez5/bluez5/bluetooth.conf                   |    1 +
+ ...un-media-sdX-drive-mount-if-username-root.patch |   39 +++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb      |    1 +
+ meta/recipes-core/os-release/os-release.bb         |   36 ++++++++++
+ meta/recipes-core/systemd/systemd_216.bb           |    2 +-
+ .../recipes-devtools/python/python-native_2.7.3.bb |    4 ++
+ meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb  |    2 +-
+ meta/recipes-extended/shadow/files/securetty       |   15 ++++
+ meta/recipes-extended/sudo/sudo.inc                |    2 +
+ ...utton-do-not-prelight-in-touchscreen-mode.patch |    0
+ ...Duplicate-the-exec-string-returned-by-gtk.patch |    0
+ .../cellrenderer-cairo.patch                       |    0
+ .../configure-nm.patch                             |    0
+ .../configurefix.patch                             |    0
+ .../{gtk+-2.24.22 => gtk+-2.24.24}/doc-fixes.patch |    0
+ .../entry-cairo.patch                              |    0
+ .../hardcoded_libtool.patch                        |    0
+ .../run-iconcache.patch                            |   11 +--
+ .../toggle-font.diff                               |    0
+ .../{gtk+-2.24.22 => gtk+-2.24.24}/xsettings.patch |    0
+ meta/recipes-gnome/gtk+/gtk+3.inc                  |    6 +-
+ .../fix-build-when-wayland-backend-enabled.patch   |   43 ------------
+ .../gtk+/{gtk+3_3.10.7.bb => gtk+3_3.12.2.bb}      |    5 +-
+ .../gtk+/{gtk+_2.24.22.bb => gtk+_2.24.24.bb}      |    4 +-
+ .../pango/{pango_1.36.5.bb => pango_1.36.6.bb}     |    4 +-
+ .../xorg-lib/libxkbcommon_0.4.3.bb                 |    2 +-
+ .../xorg-lib/pixman/mips-export-revert.patch       |   22 ++++++
+ .../{pixman_0.32.4.bb => pixman_0.32.6.bb}         |    5 +-
+ meta/recipes-kernel/perf/perf-features.inc         |    2 +-
+ meta/recipes-kernel/perf/perf.bb                   |    5 +-
+ .../gstreamer/gst-meta-base_0.10.bb                |    7 +-
+ .../gstreamer/gstreamer1.0-meta-base.bb            |    5 +-
+ ...0001-configure-lower-automake-requirement.patch |   31 ---------
+ .../libpng/{libpng_1.6.10.bb => libpng_1.6.13.bb}  |   11 ++-
+ meta/recipes-support/libunwind/libunwind.inc       |   30 ++++++++
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |    4 ++
+ 42 files changed, 381 insertions(+), 135 deletions(-)
+ create mode 100644 meta/classes/sstate_readonly.bbclass
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
+ create mode 100644 meta/recipes-core/os-release/os-release.bb
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/cellrenderer-cairo.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configure-nm.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configurefix.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/doc-fixes.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/entry-cairo.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/hardcoded_libtool.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/run-iconcache.patch (72%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/toggle-font.diff (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/xsettings.patch (100%)
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.10.7.bb => gtk+3_3.12.2.bb} (75%)
+ rename meta/recipes-gnome/gtk+/{gtk+_2.24.22.bb => gtk+_2.24.24.bb} (93%)
+ rename meta/recipes-graphics/pango/{pango_1.36.5.bb => pango_1.36.6.bb} (56%)
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/mips-export-revert.patch
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.32.4.bb => pixman_0.32.6.bb} (86%)
+ delete mode 100644 meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.10.bb => libpng_1.6.13.bb} (58%)
+ create mode 100644 meta/recipes-support/libunwind/libunwind.inc
+ create mode 100644 meta/recipes-support/libunwind/libunwind_1.1.bb
+
+Chong Lu (2):
+  libunwind: add recipes
+  perf: add libunwind support
+
+Cristian Iorga (1):
+  alsa-utils: upgrade to 1.0.28
+
+Dan McGregor (2):
+  sudo: make sudoers a config file
+  lighttpd: install config file without execute permissions
+
+Drew Moseley (1):
+  gstreamer: Set DEPENDS dynamically for plugins-ugly and plugins-bad
+
+Fathi Boudra (1):
+  shadow: add Qualcomm and STMicroelectronics SoCs
+
+Hongxu Jia (3):
+  sstate: Add extra intercept functions SSTATEPOSTCREATEFUNCS
+  bbclass/sstate: add hook SSTATE_CHECK_FUNCTIONS for sstate checking
+  bbclass/sstate_readonly: only allowed sstate-cache objects to be
+    built (read-only sstate-cache)
+
+Kévin THIERRY (1):
+  package_manager: RpmPkgsList: determine rpm version
+
+Marius Avram (1):
+  glib-2.0: fix mount detection
+
+Marko Lindqvist (5):
+  gtk+2: update to 2.24.24
+  libpng: drop unnecessary automake requirement lowering patch
+  libpng: update to 1.6.13
+  pango: update to 1.36.6
+  gtk+3: update to 3.12.2
+
+Martin Jansa (1):
+  qemu.bbclass: add -r ${OLDEST_KERNEL} parameter
+
+Mikhail Durnev (1):
+  libxkbcommon: Add missing dependency on xkeyboard-config
+
+Richard Purdie (1):
+  alsa-utils: hard-code alsa-utils in SRC_URI
+
+Robert Yang (2):
+  insane.bbclass: add QA check: file-rdeps
+  package_manager.py: use RPM_PREFER_ELF_ARCH
+
+Ross Burton (1):
+  pixman: upgrade to 0.32.6
+
+Sujith H (2):
+  os-release: Adding a new recipe for operating system identification
+  systemd: Adding RRECOMMENDS for os-release
+
+Yasir-Khan (2):
+  bluez5: Allow method calls over dbus for bluetooth daemon
+  python-native: disable user site support
+
+ meta/classes/insane.bbclass                        |   72 +++++++++++++++++++-
+ meta/classes/qemu.bbclass                          |   25 +++----
+ meta/classes/sstate.bbclass                        |   30 +++++++-
+ meta/classes/sstate_readonly.bbclass               |   53 ++++++++++++++
+ meta/lib/oe/package_manager.py                     |   35 +++++-----
+ meta/lib/oe/rootfs.py                              |    2 +-
+ .../bluez5/bluez5/bluetooth.conf                   |    1 +
+ ...un-media-sdX-drive-mount-if-username-root.patch |   39 +++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb      |    1 +
+ meta/recipes-core/os-release/os-release.bb         |   36 ++++++++++
+ meta/recipes-core/systemd/systemd_216.bb           |    2 +-
+ .../recipes-devtools/python/python-native_2.7.3.bb |    4 ++
+ meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb  |    2 +-
+ meta/recipes-extended/shadow/files/securetty       |   15 ++++
+ meta/recipes-extended/sudo/sudo.inc                |    2 +
+ ...utton-do-not-prelight-in-touchscreen-mode.patch |    0
+ ...Duplicate-the-exec-string-returned-by-gtk.patch |    0
+ .../cellrenderer-cairo.patch                       |    0
+ .../configure-nm.patch                             |    0
+ .../configurefix.patch                             |    0
+ .../{gtk+-2.24.22 => gtk+-2.24.24}/doc-fixes.patch |    0
+ .../entry-cairo.patch                              |    0
+ .../hardcoded_libtool.patch                        |    0
+ .../run-iconcache.patch                            |   11 +--
+ .../toggle-font.diff                               |    0
+ .../{gtk+-2.24.22 => gtk+-2.24.24}/xsettings.patch |    0
+ meta/recipes-gnome/gtk+/gtk+3.inc                  |    6 +-
+ .../fix-build-when-wayland-backend-enabled.patch   |   43 ------------
+ .../gtk+/{gtk+3_3.10.7.bb => gtk+3_3.12.2.bb}      |    5 +-
+ .../gtk+/{gtk+_2.24.22.bb => gtk+_2.24.24.bb}      |    4 +-
+ .../pango/{pango_1.36.5.bb => pango_1.36.6.bb}     |    4 +-
+ .../xorg-lib/libxkbcommon_0.4.3.bb                 |    2 +-
+ .../xorg-lib/pixman/mips-export-revert.patch       |   22 ++++++
+ .../{pixman_0.32.4.bb => pixman_0.32.6.bb}         |    5 +-
+ meta/recipes-kernel/perf/perf-features.inc         |    2 +-
+ meta/recipes-kernel/perf/perf.bb                   |    5 +-
+ .../gstreamer/gst-meta-base_0.10.bb                |    7 +-
+ .../gstreamer/gstreamer1.0-meta-base.bb            |    5 +-
+ ...0001-configure-lower-automake-requirement.patch |   31 ---------
+ .../libpng/{libpng_1.6.10.bb => libpng_1.6.13.bb}  |   11 ++-
+ meta/recipes-support/libunwind/libunwind.inc       |   30 ++++++++
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |    4 ++
+ 42 files changed, 381 insertions(+), 135 deletions(-)
+ create mode 100644 meta/classes/sstate_readonly.bbclass
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
+ create mode 100644 meta/recipes-core/os-release/os-release.bb
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/cellrenderer-cairo.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configure-nm.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/configurefix.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/doc-fixes.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/entry-cairo.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/hardcoded_libtool.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/run-iconcache.patch (72%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/toggle-font.diff (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.22 => gtk+-2.24.24}/xsettings.patch (100%)
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.10.7.bb => gtk+3_3.12.2.bb} (75%)
+ rename meta/recipes-gnome/gtk+/{gtk+_2.24.22.bb => gtk+_2.24.24.bb} (93%)
+ rename meta/recipes-graphics/pango/{pango_1.36.5.bb => pango_1.36.6.bb} (56%)
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/mips-export-revert.patch
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.32.4.bb => pixman_0.32.6.bb} (86%)
+ delete mode 100644 meta/recipes-multimedia/libpng/libpng/0001-configure-lower-automake-requirement.patch
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.10.bb => libpng_1.6.13.bb} (58%)
+ create mode 100644 meta/recipes-support/libunwind/libunwind.inc
+ create mode 100644 meta/recipes-support/libunwind/libunwind_1.1.bb
+
+-- 
+1.7.10.4
 
 
