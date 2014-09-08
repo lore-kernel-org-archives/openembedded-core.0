@@ -1,42 +1,42 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id D4B01702D9
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 4563A62252
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 11:59:10 +0000 (UTC)
-Received: by mail-wi0-f171.google.com with SMTP id hi2so2487658wib.10
+	Mon,  8 Sep 2014 11:59:12 +0000 (UTC)
+Received: by mail-wi0-f170.google.com with SMTP id cc10so2507852wib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Sep 2014 04:59:11 -0700 (PDT)
+	Mon, 08 Sep 2014 04:59:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=I3UTpvk7NGHiXs3rnORGQ50b4gSPcc+CJqXq2UzqkEM=;
-	b=Y+8DBBXu1WzyoWHuQ/g6UFAYdsztTJsqiPsuet8wFRy2eyFzRUpNFqflDI1r2ov+C3
-	SjFwiaw6OJ73E9aZ6aC9oxB+GKbK6zOIjiR69fAmJ1pJU+ZI9kF0CokpOghUNPMLEaP/
-	kJfwA8Yr+1X8a5reJdSQDBSgcMm546fpTpE3PswiZUK3fXCHH7aiDX8amcWHgohVnwfN
-	PMW8rT5mo+GN+jDCkBVtSrMxajEK9dBBjeRckp90QGb28KBsty30FavxMxeUQOuFfd6F
-	bBitI11Tm8tIHvw1mGS4OskR6Od0dMECc+7IWOPcbLvRnxUlwa2UHBNMWMUxdf7xmH5x
-	mfOQ==
-X-Gm-Message-State: ALoCoQnWV0LTO4xCfe3zaprh1CDJJXkrwNLFb0McOKBfk6Drvat7gEvfGH3/8yIZ2E7dBgzbzzZs
-X-Received: by 10.194.94.73 with SMTP id da9mr12513510wjb.67.1410177551900;
-	Mon, 08 Sep 2014 04:59:11 -0700 (PDT)
+	bh=OX1ZfwVdOzLWbMngEYZbcL6ODahLfIU/ckvGD7j2xco=;
+	b=Hh7ApkpspDzXoid+4KZHvspcX4mARbsMAZtdP07N9ZfsGowvvDH6PqPoRdWRrqiuL4
+	WrTiSVY/pe23pm97l3WRoYZXGCH5+7Uyq8c5kXNvjz4qyQlcG9XsfToNKGLjPbHPS8cF
+	mAWoc3sqFkbKS4BNfB1rr40UO1n4SF4zlRgDmXc7d1ZweCUsRp1CIOHmr6ILUG2EM/Iq
+	Y9w/OtvHaGPk5v3rm2+Wvp/OYkbRjk7+JxjF3N6MsXBNe7tGoLW9Copu0UFNdHsHGV3u
+	BPu9nwhMTEpjoLNy7cLXD5oWgT2tSLAxL0Bb0JxbeCclUkgxkidUgd14qFFRo/5lWBUM
+	QZug==
+X-Gm-Message-State: ALoCoQl/xdG/E59MUn3SfND80XK4RTcojrQAz/Sy3VzWWfFC69ZsOkVpajGh4T0kLqRLaD06b9en
+X-Received: by 10.194.193.10 with SMTP id hk10mr12407032wjc.70.1410177553195; 
+	Mon, 08 Sep 2014 04:59:13 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id
-	gl10sm11003928wib.1.2014.09.08.04.59.10
+	gl10sm11003928wib.1.2014.09.08.04.59.11
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Sep 2014 04:59:11 -0700 (PDT)
+	Mon, 08 Sep 2014 04:59:12 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Sep 2014 12:58:34 +0100
-Message-Id: <4e11bb8deb9e0df5f3a939bc2185e4c3103d9aa4.1410177322.git.ross.burton@intel.com>
+Date: Mon,  8 Sep 2014 12:58:35 +0100
+Message-Id: <127dfa1b5eb5dc9829b0139d5e84e24b6b2836a6.1410177322.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
 References: <cover.1410177322.git.ross.burton@intel.com>
 In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
 References: <cover.1410177322.git.ross.burton@intel.com>
-Subject: [PATCH 16/27] gtk+3: update to 3.12.2
+Subject: [PATCH 17/27] pixman: upgrade to 0.32.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,111 +49,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Sep 2014 11:59:11 -0000
+X-List-Received-Date: Mon, 08 Sep 2014 11:59:12 -0000
 
-From: Marko Lindqvist <cazfi74@gmail.com>
+Revert a patch to the MIPS-specific code that was causing compile failures.
 
-fix-build-when-wayland-backend-enabled.patch removed as the issue
-is fixed in upstream.
-
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-gnome/gtk+/gtk+3.inc                  |    6 ++-
- .../fix-build-when-wayland-backend-enabled.patch   |   43 --------------------
- .../gtk+/{gtk+3_3.10.7.bb => gtk+3_3.12.2.bb}      |    5 +--
- 3 files changed, 7 insertions(+), 47 deletions(-)
- delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
- rename meta/recipes-gnome/gtk+/{gtk+3_3.10.7.bb => gtk+3_3.12.2.bb} (75%)
+ .../xorg-lib/pixman/mips-export-revert.patch       |   22 ++++++++++++++++++++
+ .../{pixman_0.32.4.bb => pixman_0.32.6.bb}         |    5 +++--
+ 2 files changed, 25 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/mips-export-revert.patch
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.32.4.bb => pixman_0.32.6.bb} (86%)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-index 9e96275..54ca77a 100644
---- a/meta/recipes-gnome/gtk+/gtk+3.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-@@ -49,7 +49,11 @@ LIBV = "3.0.0"
- FILES_${PN}-demo = "${bindir}/gtk3-demo \
-                     ${bindir}/gtk3-demo-application \
-                     ${bindir}/gtk3-widget-factory \
--                    ${datadir}/gtk-3.0/demo"
-+                    ${datadir}/gtk-3.0/demo \
-+                    ${datadir}/applications/gtk3-demo.desktop \
-+                    ${datadir}/applications/gtk3-widget-factory.desktop \
-+                    ${datadir}/icons/hicolor/*/apps/gtk3-demo.png \
-+                    ${datadir}/icons/hicolor/*/apps/gtk3-widget-factory.png"
+diff --git a/meta/recipes-graphics/xorg-lib/pixman/mips-export-revert.patch b/meta/recipes-graphics/xorg-lib/pixman/mips-export-revert.patch
+new file mode 100644
+index 0000000..14a5fd2
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/pixman/mips-export-revert.patch
+@@ -0,0 +1,22 @@
++Revert a commit in pixman 0.32.6 which breaks compliation on MIPS machines with
++errors such as:
++
++pixman-0.32.6/pixman/pixman-mips-dspr2-asm.S:4267:
++Error: invalid operands `mflo $14,$ac3'
++
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++--- b/pixman/pixman-mips-dspr2-asm.h
+++++ a/pixman/pixman-mips-dspr2-asm.h
++@@ -72,10 +72,7 @@
++ #define LEAF_MIPS32R2(symbol)                           \
++                 .globl  symbol;                         \
++                 .align  2;                              \
++-#ifdef __ELF__
++-                .hidden symbol;                         \
++                 .type   symbol, @function;              \
++-#endif
++                 .ent    symbol, 0;                      \
++ symbol:         .frame  sp, 0, ra;                      \
++                 .set    push;                           \
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.32.4.bb b/meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb
+similarity index 86%
+rename from meta/recipes-graphics/xorg-lib/pixman_0.32.4.bb
+rename to meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb
+index 51cca5d..467ba50 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.32.4.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb
+@@ -29,9 +29,10 @@ EXTRA_OECONF_class-native = "--disable-gtk"
  
- # The demo uses PNG files and mime type sniffing, so ensure that these
- # dependencies are present.
-diff --git a/meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch b/meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
-deleted file mode 100644
-index b4b1a09..0000000
---- a/meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--Fix build when wayland backend enabled
--
--Upstream-Status: Submitted
--https://bugzilla.gnome.org/show_bug.cgi?id=710584
--
--Author: Emilio Pozuelo Monfort
--
----- gtk+-3.10.7/gtk/gtkapplication.c
--+++ gtk+-3.10.7/gtk/gtkapplication.c
--@@ -144,7 +144,6 @@
-- 
--   gboolean register_session;
-- 
---#ifdef GDK_WINDOWING_X11
--   guint next_id;
-- 
--   GDBusConnection *session_bus;
--@@ -161,7 +160,6 @@
--   GDBusProxy *client_proxy;
--   gchar *app_id;
--   gchar *client_path;
---#endif
-- 
-- #ifdef GDK_WINDOWING_QUARTZ
--   GMenu *combined;
--@@ -299,6 +297,8 @@
--   g_free (application->priv->client_path);
-- }
-- 
--+#endif
--+
-- const gchar *
-- gtk_application_get_app_menu_object_path (GtkApplication *application)
-- {
--@@ -311,8 +311,6 @@
--   return application->priv->menubar_path;
-- }
-- 
---#endif
---
-- #ifdef GDK_WINDOWING_QUARTZ
-- 
-- typedef struct {
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.10.7.bb b/meta/recipes-gnome/gtk+/gtk+3_3.12.2.bb
-similarity index 75%
-rename from meta/recipes-gnome/gtk+/gtk+3_3.10.7.bb
-rename to meta/recipes-gnome/gtk+/gtk+3_3.12.2.bb
-index d0174f6..f4f1971 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.10.7.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.12.2.bb
-@@ -4,12 +4,11 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ SRC_URI += "\
+             file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
++            file://mips-export-revert.patch \
+ "
  
- SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
-            file://hardcoded_libtool.patch \
--           file://fix-build-when-wayland-backend-enabled.patch \
-            file://fix-flags-for-native.patch \
-           "
+-SRC_URI[md5sum] = "cdb566504fe9daf6728c7b03cc7ea228"
+-SRC_URI[sha256sum] = "ae2bd664057e330d41b40336ed296d3512318ce7f2401cc42601f2613d371e4c"
++SRC_URI[md5sum] = "8a9e8f14743a39cf303803f369c1f344"
++SRC_URI[sha256sum] = "201fc0d7d6bc0017496f2bd27b3ca14224aea0df6b624c5ee2dc0307a4ff14a4"
  
--SRC_URI[md5sum] = "18a81944a8506231529a76bf2b68372b"
--SRC_URI[sha256sum] = "b7e9de15385031cff43897e7e59f6692eaabf500f36eef80e6b9d6486ad49427"
-+SRC_URI[md5sum] = "0d6d8f9f79132b3b47475d047b369b1c"
-+SRC_URI[sha256sum] = "61d74eea74231b1ea4b53084a9d6fc9917ab0e1d71b69d92cbf60a4b4fb385d0"
- 
- S = "${WORKDIR}/gtk+-${PV}"
- 
+ REQUIRED_DISTRO_FEATURES = ""
 -- 
 1.7.10.4
 
