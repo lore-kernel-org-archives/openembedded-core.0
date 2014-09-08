@@ -1,42 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 43F21713DA
+Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id AF28D62252
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 11:59:20 +0000 (UTC)
-Received: by mail-wi0-f182.google.com with SMTP id z2so2494691wiv.15
+	Mon,  8 Sep 2014 11:59:22 +0000 (UTC)
+Received: by mail-wg0-f48.google.com with SMTP id m15so1352717wgh.19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Sep 2014 04:59:22 -0700 (PDT)
+	Mon, 08 Sep 2014 04:59:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=CtaxKZPVbTjG7q8hh8UZe7NGLz71ASw3wLIjqOMvlMM=;
-	b=cTq34h2DfR7DNTOkPiG1BB8+TFPo7klPOCFKLGgF0nKfoHubehL4VMeL6RXGINY6rL
-	eEDD6c1cKQRfS6+GnYOn4vWx+9khSGcqOI84cqkkEuMGe387Fdx3rjE2cyUtHd8mA75r
-	ylI0W9KgnYPAZ2drFewhYG/buDZ3iEhlLuSIrcAuWvQsIb2rLBdr3uF/BM0avoB+V1zN
-	cNSxp17hWChGYQnnVn1yjgMCP1lvykPtJlPwqlQPi6/C21guDhhhc3MOxe4fbP/SvY5M
-	xEeWlG0D7mOPr1hXCaKYyudrtLeOBTzEuzFch5wQkZ9MEPHwkJLRYGCX+tgW5GaE1BKf
-	i7OQ==
-X-Gm-Message-State: ALoCoQmVU31PxvPwjgJn2S6WVG7FgmswSFa0H+6pcPTOtVjHCZ/UUj3DWFX2GMIVbMsv4pQQixE+
-X-Received: by 10.194.176.68 with SMTP id cg4mr2196177wjc.132.1410177562012;
-	Mon, 08 Sep 2014 04:59:22 -0700 (PDT)
+	bh=3Gjrt3g8lCdPW7shw0++tMZhclyKWK5BglbJ81De2ow=;
+	b=NwL81KlhWuFizcFfUhpLQ/eNFE/XQWJNo7jH3Eg697Zu0MsjrVJRjpG+malB74jvHH
+	1BUX3DxPTSVeDdoQrWibr4LTn4r14f4LpHHA8j0cuqudr8iu+rEs+9d5oRSxuSyFzAmv
+	rwaF8mAW2o1bzeZsYPD4P72cu0yrqPkm1lQFuAW2LX1004fI+S0AvKkqpG20ZKSHEleN
+	cMn/2tbd376EOKRv3AW86bbvcgw9OoKxV2aTizLeds9m02AC+84DIUB/41viXp/sKFcx
+	GuOata/elUn4pfpqY0GsMIWb0ZWhr3zR56SyV7Zo2pDsYs3KikKUfzlApPPflFb573pO
+	yY1Q==
+X-Gm-Message-State: ALoCoQllCJqwnuLpphzSgwsaWRSgYqsWdAXg+vkPDOC2zpR5SGNDVymh9Hiomm+9+tb/w2P6AOJp
+X-Received: by 10.180.36.236 with SMTP id t12mr22678294wij.38.1410177563116;
+	Mon, 08 Sep 2014 04:59:23 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id
-	gl10sm11003928wib.1.2014.09.08.04.59.20
+	gl10sm11003928wib.1.2014.09.08.04.59.22
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Sep 2014 04:59:21 -0700 (PDT)
+	Mon, 08 Sep 2014 04:59:22 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Sep 2014 12:58:41 +0100
-Message-Id: <685d5587640c71ae668d56d3e1e30805d174e572.1410177322.git.ross.burton@intel.com>
+Date: Mon,  8 Sep 2014 12:58:42 +0100
+Message-Id: <d957e66bd17f8c710e5336a959f9156c718ef3e0.1410177322.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
 References: <cover.1410177322.git.ross.burton@intel.com>
 In-Reply-To: <cover.1410177322.git.ross.burton@intel.com>
 References: <cover.1410177322.git.ross.burton@intel.com>
-Subject: [PATCH 23/27] python-native: disable user site support
+Subject: [PATCH 24/27] glib-2.0: fix mount detection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,38 +48,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Sep 2014 11:59:21 -0000
+X-List-Received-Date: Mon, 08 Sep 2014 11:59:23 -0000
 
-From: Yasir-Khan <yasir_khan@mentor.com>
+From: Marius Avram <marius.avram@intel.com>
 
-The user site-packages gets inserted into sys.path ahead of the
-system site directories, so a site package installed there will
-be used in preference to what's in our sysroot, causing less
-deterministic builds, and potential build breakage, depending
-on what the user has installed there. Disable it for our native
-python, so they don't affect our builds.
+Currently a USB stick gets mounted on /run/media/sdX, where X is the
+letter corresponding to a certain drive. In older builds of core-image-sato
+it got mounted in /media/sdX. This change made the drives to not be
+displayed in graphical applications which use glib-2.0 such as the
+File Manager (pcmanfm). The reason is that the gio component of glib-2.0
+which handles mounts contains a function which determines if a mount
+is worthy to be displayed in the UI or not. The function is called
+g_unix_mount_guess_should_display().
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
-Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
+It expects a drive to be mounted in /run/media/<username>/sdX, but
+in the current build the username part is missing in case a root user
+is authenticated in the system.
+
+The easiest solution is to allow the display of drives mounted in the
+path used by the current configuration and that is /run/media/sdX.
+
+[YOCTO #6492]
+
+Signed-off-by: Marius Avram <marius.avram@intel.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/python/python-native_2.7.3.bb |    4 ++++
- 1 file changed, 4 insertions(+)
+ ...un-media-sdX-drive-mount-if-username-root.patch |   39 ++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb      |    1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
 
-diff --git a/meta/recipes-devtools/python/python-native_2.7.3.bb b/meta/recipes-devtools/python/python-native_2.7.3.bb
-index 827654d..e55f5fe 100644
---- a/meta/recipes-devtools/python/python-native_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.3.bb
-@@ -58,4 +58,8 @@ do_install() {
- 	# (these often end up too long for the #! parser in the kernel as the
- 	# buffer is 128 bytes long).
- 	ln -s python-native/python ${D}${bindir}/nativepython
-+	
-+	# We don't want modules in ~/.local being used in preference to those
-+	# installed in the native sysroot, so disable user site support.
-+	sed -i -e 's,^\(ENABLE_USER_SITE = \).*,\1False,' ${D}${libdir}/python${PYTHON_MAJMIN}/site.py
- }
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch b/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
+new file mode 100644
+index 0000000..3d0c008
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/allow-run-media-sdX-drive-mount-if-username-root.patch
+@@ -0,0 +1,39 @@
++From c53e94a520b573aa0dcf12903e9563fe8badc34c Mon Sep 17 00:00:00 2001
++From: Marius Avram <marius.avram@intel.com>
++Date: Wed, 27 Aug 2014 12:10:41 +0300
++Subject: [PATCH] Allow /run/media/sdX drive mount if username root
++
++In case that the username logged in the system is root
++the drives are directly mounted in /run/media/sdX and
++not /run/media/<username>/sdX as the function
++g_unix_mount_guess_should_display() expects.
++
++Without this change USB stick mounts are not accesible from
++graphical applications such as the File Manager (pcmanfm).
++
++Upstream-Status: Inappropriate
++
++Signed-off-by: Marius Avram <marius.avram@intel.com>
++---
++ gio/gunixmounts.c |    5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/gio/gunixmounts.c b/gio/gunixmounts.c
++index 4999354..f6c1472 100644
++--- a/gio/gunixmounts.c
+++++ b/gio/gunixmounts.c
++@@ -2136,6 +2136,11 @@ g_unix_mount_guess_should_display (GUnixMountEntry *mount_entry)
++           mount_path[sizeof ("/run/media/") - 1 + user_name_len] == '/')
++         is_in_runtime_dir = TRUE;
++ 
+++      /* Allow no username in path in /run/media if current user is root */
+++      if (strcmp(user_name, "root") == 0 &&
+++          strncmp (mount_path, "/run/media/", sizeof("run/media")) == 0)
+++        is_in_runtime_dir = TRUE;
+++
++       if (is_in_runtime_dir || g_str_has_prefix (mount_path, "/media/"))
++         {
++           char *path;
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
+index ff1fb87..4b1bcf8 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://ptest-paths.patch \
+            file://uclibc.patch \
+            file://0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch \
++           file://allow-run-media-sdX-drive-mount-if-username-root.patch \
+           "
+ 
+ SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
 -- 
 1.7.10.4
 
