@@ -1,30 +1,34 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9426971388
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BF8E65FEC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 14:49:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s89En3XR010554
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 9 Sep 2014 07:49:03 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 9 Sep 2014 07:49:03 -0700
-Message-ID: <540F1360.7060908@windriver.com>
-Date: Tue, 9 Sep 2014 09:49:04 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1408588282.git.hongxu.jia@windriver.com>		<990d4ba779e4127ff546796d62e2921392dbc0f7.1408588282.git.hongxu.jia@windriver.com>	
-	<1409910121.12482.65.camel@ted> <5409C313.20208@windriver.com>
-	<1410081872.12482.134.camel@ted>
-In-Reply-To: <1410081872.12482.134.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] bbclass/sstate: only allowed sstate-cache objects are allowed in a build (read-only sstate-cache)
+	Tue,  9 Sep 2014 15:00:53 +0000 (UTC)
+Received: by mail-pd0-f173.google.com with SMTP id ft15so7134300pdb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Sep 2014 08:00:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=6gmE9JsKSX/DT0cPj0aLlHVQx/fns06RHMXFVTDP7t8=;
+	b=AUEQFRarLHw1Zt2FaFDTOT+jdGERB9aPFjx0p05MDoNkShv0IGB+qKBg041YJqFY5r
+	Ubm+vOJyQ56Ma9RrJjunwf8Zgirlpb/GMH0HwaxC2GpPQ49LDiwvkYfffvLF44qfeJaZ
+	sP+TZXIzwe8AD0xoGIo3YDeAhU3fakvJfuy3iN2wHGhw2a9VeIR3/WQ0CsoRQqs9v982
+	D6kWHZIQMmMexRHO874BoDKeqgpPId8UBhKSAedhCz+T33rzvMPWV8ISvxPuDJbtez36
+	cCZ27GN5GYIdaqd4LKHgiy9EWYSNe1OkQbQv18fE9xBcV/r0S2lH794f1JVybKHb1Qj/
+	4CAQ==
+X-Received: by 10.68.197.170 with SMTP id iv10mr17402706pbc.129.1410274854754; 
+	Tue, 09 Sep 2014 08:00:54 -0700 (PDT)
+Received: from localhost.localdomain (c-98-207-177-218.hsd1.ca.comcast.net.
+	[98.207.177.218]) by mx.google.com with ESMTPSA id
+	ta6sm12449422pac.14.2014.09.09.08.00.53 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 09 Sep 2014 08:00:54 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Sep 2014 08:04:29 -0700
+Message-Id: <1410275069-6700-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] glibc: Incremental bump to 2.20 release branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,126 +41,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 14:49:04 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Sep 2014 15:01:02 -0000
 
-On 9/7/14, 4:24 AM, Richard Purdie wrote:
-> On Fri, 2014-09-05 at 09:05 -0500, Mark Hatle wrote:
->> On 9/5/14, 4:42 AM, Richard Purdie wrote:
->>> Hi Hongxu,
->>>
->>> On Thu, 2014-08-21 at 10:36 +0800, Hongxu Jia wrote:
->>>> The requirement is the developer who demand only the "new" software
->>>> they write is allowed to be compiled from source, they only want to
->>>> reuse binaries from an existed sstate-cache, if the developer makes
->>>> a change that triggers a rebuild, it should be an instant error.
->>>>
->>>> The purpose of this is for the sstate-cache to check if the item
->>>> exists or not. If it doesn't the item needs to be in a whitelist
->>>> or we need to fail.
->>>>
->>>> In the sstate-cache code, add a checking in the return path of
->>>> sstate_checkhashes. If read-only sstate-cache enable, and the
->>>> recipe's ${PN} not in the ${SSTATECACHE_WHITELIST}, it trigered
->>>> an instant error.
->>>>
->>>> ...
->>>> $ bitbake db
->>>> ERROR: Read-only sstate-cache is enabled, the build of
->>>> "db rpm-native gcc-runtime eglibc linux-libc-headers libgcc"
->>>> did not come from sstate-cache. Only the recipe listed in
->>>> SSTATECACHE_WHITELIST is allowed to build from source
->>>>
->>>> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
->>>
->>> Sorry for the delay in getting to this, with the other patches for the
->>> release, time has been difficult.
->>>
->>> I have been able to take a look at this and the other locked sstate
->>> patches I've had pending for some time.
->>>
->>> Having thought quite a bit about this, I think we really want to make
->>> this functionality part of the siggen class code. Where we need to add
->>> hooks, we should do so with callbacks into the siggen code.
->>>
->>> I've just sent out a patch which my locked code in it. Could you take a
->>> look and see if we can make that approach work with your code too?
->>>
->>> In particular, I don't really want to have multiple whitelist type
->>> variables. Could we use the SIGGEN_LOCKEDSIGS variable as the definitive
->>> way to control which recipes can float and which should not?
->>
->> I'm all for combining this.. however it appears the patches have two slightly
->> separate goals.
->>
->> The locked sstate patch tells the system to use a specific hash value and ONLY
->> that hash value.   So if a user modified a system behavior in a way that would
->> change the behavior of the component there is no warning or error.
->>
->> The readonly sstate-cache on the other hand says, to reuse the sstate cache
->> items (there of course may be more then one per recipe name with a different
->> hash based on different configurations), but will warn/error when if the system
->> configuration changes in a way the hash would have changed.
->>
->> So there needs to be an interface that says which items are allowed to be built
->> from source, and which items require either the locked or readonly sstate behavior.
->>
->> Something like:
->>
->> SIGGEN_LOCKEDSIGS = "\
->> gcc-cross:do_populate_sysroot:ro \
->> eglibc:do_populate_sysroot:ro \
->> eglibc:do_packagedata:ro \
->> gcc-cross:do_packagedata:ro \
->> "
->>
->> could work to extend it, but I have a concern with this.  It only affects
->> individual recipes.  The request we've had from our customers is that once they
->> have built their environment(s), and distributed the sstate-cache to their
->> developers -- only the items they distributed are allowed to be used, unless an
->> exception is granted.
->>
->> So having to maintain a SIGGEN_LOCKSIGS = variable with every possible package
->> in the system seems complicated at best (for the RO case).  They really want a
->> switch that sets everything, except exceptions as read-only.
->>
->> SIGGEN_LOCKEDSIGS = "\
->> *:*:ro \
->> bash:*:rw \
->> "
->>
->> but I don't know if the glob/wildcarding would add more processing overhead then
->> is acceptable.
->
-> I guess my main point right now is more about the controlling interface
-> of this which I believe should be the "siggen" class. What I'd like to
-> try and do is standardise on that as being the interface which handles
-> this policy, whatever it may be. If it needs hooks adding, we can do
-> that like the one I added from sstate.
->
-> Whether we end up with one siggen class or we have different ones
-> (perhaps subclassing each other) and we switch between them for
-> different behaviours I'm less sure about right now.
->
-> I'll give the locked sstate interface a bit more thought based on the
-> above, thanks. I suspect it may be a case of adding a new subclass with
-> some different functionality (e.g. readonly cache), then if that is what
-> the user requires, we select that class using BB_SIGNATURE_HANDLER?
+Now that glibc 2.20 has been released. We switch
+to use release branch and remove the already applied
+patch
 
-Works for me.  I don't mind the behavior of subclassing at all.  The key thing 
-is we've gotten requests for odd behaviors (which like I've said before, I don't 
-think the community is or should be interested in -- but something that we have 
-to do for our own customer..)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../glibc/cross-localedef-native_2.20.bb           |    4 +-
+ .../0001-Define-__GI_fegetenv-for-e500-libm.patch  |   45 --------------------
+ meta/recipes-core/glibc/glibc_2.20.bb              |    5 +--
+ 3 files changed, 4 insertions(+), 50 deletions(-)
+ delete mode 100644 meta/recipes-core/glibc/glibc/0001-Define-__GI_fegetenv-for-e500-libm.patch
 
-Nothing like a change (pgp signatures) the cripples the speed of the 
-sstate-cache.  :P
-
---Mark
-
-> Richard
->
->
->
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.20.bb b/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
+index fd8c242..ccf56a9 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
+@@ -16,7 +16,7 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/glibc:"
+ 
+ PV = "2.20"
+ 
+-SRC_URI = "git://sourceware.org/git/glibc.git;branch=master;name=glibc \
++SRC_URI = "git://sourceware.org/git/glibc.git;branch=release/${PV}/master;name=glibc \
+            git://github.com/kraj/localedef;branch=master;name=localedef;destsuffix=git/localedef \
+ 	   file://fix_for_centos_5.8.patch \
+            ${EGLIBCPATCHES} \
+@@ -33,7 +33,7 @@ EGLIBCPATCHES = "\
+            file://eglibc-use-option-groups.patch \
+           "
+ 
+-SRCREV_glibc = "529bf51595fffbe80023e7d895b671391991bb1b"
++SRCREV_glibc = "b8079dd0d360648e4e8de48656c5c38972621072"
+ SRCREV_localedef = "c833367348d39dad7ba018990bfdaffaec8e9ed3"
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-core/glibc/glibc/0001-Define-__GI_fegetenv-for-e500-libm.patch b/meta/recipes-core/glibc/glibc/0001-Define-__GI_fegetenv-for-e500-libm.patch
+deleted file mode 100644
+index c0e155c..0000000
+--- a/meta/recipes-core/glibc/glibc/0001-Define-__GI_fegetenv-for-e500-libm.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-From 07299d036672c86b278256e55ae0cbdae8f751fd Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 29 Aug 2014 16:46:14 -0700
+-Subject: [PATCH] Define __GI_fegetenv for e500 libm
+-
+-generic HAVE_RM_CTX implementation which is used for ppc/e500 as well
+-has introduced calls to fegetenv which should be resolved internally
+-with in libm
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Submitted
+-
+----
+- ChangeLog                                       | 5 +++++
+- sysdeps/powerpc/powerpc32/e500/nofpu/fegetenv.c | 1 +
+- 2 files changed, 6 insertions(+)
+-
+-diff --git a/ChangeLog b/ChangeLog
+-index 6261ed4..629ea8e 100644
+---- a/ChangeLog
+-+++ b/ChangeLog
+-@@ -1,3 +1,8 @@
+-+2014-08-29  Khem Raj  <raj.khem@gmail.com>
+-+
+-+	* sysdeps/powerpc/powerpc32/e500/nofpu/fegetenv.c (fegetenv): Add
+-+	libm_hidden_ver.
+-+
+- 2014-08-27  Allan McRae  <allan@archlinux.org>
+- 
+- 	* sysdeps/i386/fpu/libm-test-ulps: Update ULPs.
+-diff --git a/sysdeps/powerpc/powerpc32/e500/nofpu/fegetenv.c b/sysdeps/powerpc/powerpc32/e500/nofpu/fegetenv.c
+-index 2ae06b8..5faabe8 100644
+---- a/sysdeps/powerpc/powerpc32/e500/nofpu/fegetenv.c
+-+++ b/sysdeps/powerpc/powerpc32/e500/nofpu/fegetenv.c
+-@@ -43,5 +43,6 @@ __fegetenv (fenv_t *envp)
+- strong_alias (__fegetenv, __old_fegetenv)
+- compat_symbol (libm, __old_fegetenv, fegetenv, GLIBC_2_1);
+- #endif
+-+libm_hidden_ver (__fegetenv, fegetenv)
+- 
+- versioned_symbol (libm, __fegetenv, fegetenv, GLIBC_2_2);
+--- 
+-2.1.0
+-
+diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
+index c6ef34a..30a4397 100644
+--- a/meta/recipes-core/glibc/glibc_2.20.bb
++++ b/meta/recipes-core/glibc/glibc_2.20.bb
+@@ -4,9 +4,9 @@ DEPENDS += "gperf-native kconfig-frontends-native"
+ 
+ PV = "2.20"
+ 
+-SRCREV = "529bf51595fffbe80023e7d895b671391991bb1b"
++SRCREV = "b8079dd0d360648e4e8de48656c5c38972621072"
+ 
+-SRC_URI = "git://sourceware.org/git/glibc.git;branch=master \
++SRC_URI = "git://sourceware.org/git/glibc.git;branch=release/${PV}/master \
+            file://IO-acquire-lock-fix.patch \
+            file://mips-rld-map-check.patch \
+            file://etc/ld.so.conf \
+@@ -23,7 +23,6 @@ SRC_URI = "git://sourceware.org/git/glibc.git;branch=master \
+            file://ppce6500-32b_slow_ieee754_sqrt.patch \
+            file://grok_gold.patch \
+            file://fix_am_rootsbindir.patch \
+-           file://0001-Define-__GI_fegetenv-for-e500-libm.patch \
+            ${EGLIBCPATCHES} \
+           "
+ EGLIBCPATCHES = "\
+-- 
+1.7.10.4
 
 
