@@ -1,24 +1,27 @@
-Return-Path: <Li.Wang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DC9F360167
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 56B1F617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 10:20:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s89AKZnU010228
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Sep 2014 03:20:35 -0700 (PDT)
-Received: from lwang1-OptiPlex-9010.corp.ad.wrs.com (128.224.163.149) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 9 Sep 2014 03:20:35 -0700
-From: Li Wang <li.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Sep 2014 18:20:23 +0800
-Message-ID: <1410258023-4285-1-git-send-email-li.wang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Tue,  9 Sep 2014 10:35:03 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 09 Sep 2014 03:35:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,491,1406617200"; d="scan'208";a="600159904"
+Received: from mcorkery-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.35])
+	by orsmga002.jf.intel.com with ESMTP; 09 Sep 2014 03:35:04 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 09 Sep 2014 11:35:03 +0100
+Message-ID: <4509551.NtoOz5O8np@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.13.3 (Linux/3.15.10-201.fc20.x86_64; KDE/4.13.3; x86_64; ;
+	)
+In-Reply-To: <f29804a5c0895ac56335fad8965946fcb08351df.1410257093.git.paul.eggleton@linux.intel.com>
+References: <cover.1410257093.git.paul.eggleton@linux.intel.com>
+	<f29804a5c0895ac56335fad8965946fcb08351df.1410257093.git.paul.eggleton@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH] nfs-utils: debianize start-statd
+Subject: Re: [PATCH 1/1] classes/sstate: fix regression affecting buildhistory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,74 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 10:20:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Sep 2014 10:35:08 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-make start-statd command to use nfscommon configure, too.
+On Tuesday 09 September 2014 11:05:56 Paul Eggleton wrote:
+> SSTATEPOSTINSTFUNCS needs to be set with ?= here - if it's = it'll wipe
+> out what is set in that variable in buildhistory, which ends up being
+> parsed earlier than the statement in sstate.bbclass. This fixes
+> buildhistory no longer recording package information since OE-Core
+> revision 9d659c6f20fa4a141b491c62a3ef0dfb1f896d9c.
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  meta/classes/sstate.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index ead829e..6a77d18 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -35,7 +35,7 @@ SSTATE_MANMACH ?= "${SSTATE_PKGARCH}"
+>  SSTATECREATEFUNCS = "sstate_hardcode_path"
+>  SSTATEPREINSTFUNCS = ""
+>  SSTATEPOSTUNPACKFUNCS = "sstate_hardcode_path_unpack"
+> -SSTATEPOSTINSTFUNCS = ""
+> +SSTATEPOSTINSTFUNCS ?= ""
+>  EXTRA_STAGING_FIXMES ?= ""
+> 
+>  # Specify dirs in which the shell function is executed and don't use ${B}
 
-Signed-off-by: Henrik Riomar <henrik.riomar@ericsson.com>
-Signed-off-by: Li Wang <li.wang@windriver.com>
----
- .../files/nfs-utils-debianize-start-statd.patch    |   36 ++++++++++++++++++++
- .../nfs-utils/nfs-utils_1.2.8.bb                   |    1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch
+OK, so Richard informs me that there was a good reason for making this change. 
+v2 incoming.
 
-diff --git a/meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch b/meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch
-new file mode 100644
-index 0000000..a9894f9
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch
-@@ -0,0 +1,36 @@
-+From aa7c38e728cffa33085991bb9b041793759fb9d9 Mon Sep 17 00:00:00 2001
-+From: Li Wang <li.wang@windriver.com>
-+Date: Fri, 5 Sep 2014 01:39:10 +0800
-+Subject: [PATCH] nfs-utils: debianize start-statd
-+
-+make start-statd command to use nfscommon configure, too.
-+
-+Signed-off-by: Henrik Riomar <henrik.riomar@ericsson.com>
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ utils/statd/start-statd |   10 +++++++++-
-+ 1 file changed, 9 insertions(+), 1 deletion(-)
-+
-+diff --git a/utils/statd/start-statd b/utils/statd/start-statd
-+index c7805ee..78a5525 100644
-+--- a/utils/statd/start-statd
-++++ b/utils/statd/start-statd
-+@@ -4,6 +4,14 @@
-+ # /var/run/rpc.statd.pid).
-+ # It should run run statd with whatever flags are apropriate for this
-+ # site.
-++
-++# Read config
-++DEFAULTFILE=/etc/default/nfs-common
-++NEED_IDMAPD=
-++if [ -f $DEFAULTFILE ]; then
-++    . $DEFAULTFILE
-++fi
-++
-+ PATH=/sbin:/usr/sbin
-+-exec rpc.statd --no-notify
-++exec rpc.statd --no-notify $STATDOPTS
-+ 
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
-index fde8776..1e89123 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
-@@ -16,6 +16,7 @@ RRECOMMENDS_${PN} = "kernel-module-nfsd"
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.bz2 \
-            file://nfs-utils-1.0.6-uclibc.patch \
-            file://nfs-utils-1.2.3-sm-notify-res_init.patch \
-+           file://nfs-utils-debianize-start-statd.patch \
-            file://nfsserver \
-            file://nfscommon \
-            file://nfs-utils.conf \
+Cheers,
+Paul
+
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
