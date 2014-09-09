@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A39E65D59
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 912C665D59
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 07:34:28 +0000 (UTC)
+	Tue,  9 Sep 2014 07:34:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s897YUi1005776
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s897YUIl001154
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 9 Sep 2014 00:34:30 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 9 Sep 2014 00:34:29 -0700
+	Tue, 9 Sep 2014 00:34:30 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Sep 2014 00:34:28 -0700
-Message-ID: <cover.1410247971.git.liezhi.yang@windriver.com>
+Date: Tue, 9 Sep 2014 00:34:29 -0700
+Message-ID: <b4b89028043c706ebd9e5d81d25f55224069e5a5.1410247971.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1410247971.git.liezhi.yang@windriver.com>
+References: <cover.1410247971.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] libxml2: fix python path and enable libxml2-python
+Subject: [PATCH 1/1] libxml2: fix python path and enable libxml2-python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +36,63 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 09 Sep 2014 07:34:29 -0000
 Content-Type: text/plain
 
-* Tested on:
-  qemux86
-  qemux86-64
-  qemuarm
-  qemuppc
-  qemumips.
+We have libxml2-python for native and nativesdk, but don't have it for
+target, and can't find the reason from the git log, libxml2-python is
+widely used, after looked into it's configure.in, we can enable it
+easily.
 
-// Robert
+The previous --with-python=${STAGING_BINDIR}/python is incorrect, it
+acted as work becase it's conigure can check automatically, python is in
+${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}, as known as
+${PYTHON}.
 
-The following changes since commit e72aac2ae9e5fce1715fa04b7e94034fd06892d9:
-
-  alsa-lib: libasound should runtime depends on alsa-conf (2014-09-03 11:30:11 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/libxml2
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/libxml2
-
-Robert Yang (1):
-  libxml2: fix python path and enable libxml2-python
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-core/libxml/libxml2.inc |   17 +++++++----------
  1 file changed, 7 insertions(+), 10 deletions(-)
 
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index bcf9a62..a252c61 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -9,9 +9,7 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
+                     file://list.c;beginline=4;endline=13;md5=cdbfa3dee51c099edb04e39f762ee907 \
+                     file://trio.c;beginline=5;endline=14;md5=6c025753c86d958722ec76e94cae932e"
+ 
+-DEPENDS_class-nativesdk = "nativesdk-python"
+-DEPENDS_class-native = "python-native"
+-DEPENDS =+ "zlib"
++DEPENDS = "zlib python"
+ 
+ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml-64bit.patch \
+@@ -31,20 +29,19 @@ RDEPENDS_${PN}-ptest += "python-core"
+ 
+ RDEPENDS_${PN}-ptest_append_libc-glibc += "glibc-gconv-ebcdic-us glibc-gconv-ibm1141"
+ 
++RDEPENDS_${PN}-python += "python-core"
++
+ # We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header
+ do_configure_prepend () {
+ 	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.in
+ }
+ 
+-do_configure_prepend_class-nativesdk () {
+-	# Ensure we get the correct site-packages path
+-	export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
+-}
++export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
+ 
+ # WARNING: zlib is require for RPM use
+-EXTRA_OECONF = "--without-python --without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
+-EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
+-EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
++EXTRA_OECONF = "--with-python=${PYTHON} --without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
++EXTRA_OECONF_class-native = "--with-python=${PYTHON} --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
++EXTRA_OECONF_class-nativesdk = "--with-python=${PYTHON} --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
+ EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
+ 
+ # required for pythong binding
 -- 
 1.7.9.5
 
