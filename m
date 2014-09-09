@@ -1,27 +1,24 @@
-Return-Path: <tom.zanussi@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E0179713BA
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3725665D58
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 16:23:09 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Sep 2014 09:23:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,492,1406617200"; d="scan'208";a="588657529"
-Received: from unknown (HELO [10.255.12.151]) ([10.255.12.151])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Sep 2014 09:23:03 -0700
-Message-ID: <1410279782.2217.14.camel@empanada.home.network>
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: Ola X Nilsson <ola.x.nilsson@axis.com>
-Date: Tue, 09 Sep 2014 11:23:02 -0500
-In-Reply-To: <4BEA3FF3CAA35E408EA55C7BE2E61D058A282B7855@xmail3.se.axis.com>
-References: <cover.1407533201.git.tom.zanussi@linux.intel.com>
-	<c1491f211598384c7c659589da2c2bd90232e0af.1407533201.git.tom.zanussi@linux.intel.com>
-	<4BEA3FF3CAA35E408EA55C7BE2E61D058A282B7855@xmail3.se.axis.com>
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 15/35] wic: Remove 3rdparty/urlgrabber
+	Tue,  9 Sep 2014 18:59:38 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s89IxcIi017215
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 9 Sep 2014 11:59:39 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 9 Sep 2014 11:59:38 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Sep 2014 11:59:38 -0700
+Message-ID: <1410289178-5328-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+Subject: [PATCH 1/1] gdb: allow compilation for __aarch64__
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,22 +31,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 16:23:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Sep 2014 18:59:47 -0000
+Content-Type: text/plain
 
-On Tue, 2014-09-09 at 13:48 +0200, Ola X Nilsson wrote:
-> This commit breaks wic for me. 
-> Urlgrabber is imported from pykickstart/version.py and pykickstart/parser.py.
-> 
-> Having python-urlgrabber installed in your distro hides this problem.
-> 
+asm/ptrace.h must be included in two files.
 
-Thanks for the report - I just posted a patch to fix this to the list -
-please try it out.
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/recipes-devtools/gdb/gdb.inc                  |    1 +
+ .../gdb/gdb/include_asm_ptrace.patch               |   30 ++++++++++++++++++++
+ 2 files changed, 31 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/gdb/gdb/include_asm_ptrace.patch
 
-Thanks,
-
-Tom
+diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
+index 3321a24..7b3e59a 100644
+--- a/meta/recipes-devtools/gdb/gdb.inc
++++ b/meta/recipes-devtools/gdb/gdb.inc
+@@ -5,6 +5,7 @@ inherit gettext
+ SRC_URI += "file://kill_arm_map_symbols.patch \
+             file://gdbserver-cflags-last.diff;striplevel=0 \
+             file://renesas-sh-native-support.patch \
++            file://include_asm_ptrace.patch \
+            "
+ #LDFLAGS_append = " -s"
+ #export CFLAGS_append=" -L${STAGING_LIBDIR}"
+diff --git a/meta/recipes-devtools/gdb/gdb/include_asm_ptrace.patch b/meta/recipes-devtools/gdb/gdb/include_asm_ptrace.patch
+new file mode 100644
+index 0000000..85e0147
+--- /dev/null
++++ b/meta/recipes-devtools/gdb/gdb/include_asm_ptrace.patch
+@@ -0,0 +1,30 @@
++gdb: include asm/ptrace.h in two aarch64 source files
++
++Both sys/ptrace.h and asm/ptrace.h need to be included.
++
++Upstream-Status: Pending
++
++Signed-off-by: joe.slater@windriver.com
++
++
++--- a/gdb/aarch64-linux-nat.c
+++++ b/gdb/aarch64-linux-nat.c
++@@ -32,6 +32,8 @@
++ #include "elf/common.h"
++ 
++ #include <sys/ptrace.h>
+++#include <asm/ptrace.h>
+++
++ #include <sys/utsname.h>
++ 
++ #include "gregset.h"
++--- a/gdb/gdbserver/linux-aarch64-low.c
+++++ b/gdb/gdbserver/linux-aarch64-low.c
++@@ -26,6 +26,7 @@
++ #include <signal.h>
++ #include <sys/user.h>
++ #include <sys/ptrace.h>
+++#include <asm/ptrace.h>
++ #include <sys/uio.h>
++ 
++ #include "gdb_proc_service.h"
+-- 
+1.7.3.4
 
 
