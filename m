@@ -1,36 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 22FAA6A9D4
+Return-Path: <ola.x.nilsson@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 06A586A9D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 11:42:45 +0000 (UTC)
-Received: by mail-qc0-f173.google.com with SMTP id w7so17099391qcr.32
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Sep 2014 04:42:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=0ZLFa5oK5GeC6CjquLpR4TV91+SwSYdFs2XR29ym4Kw=;
-	b=WoeFA7qsRtIe3MStqdb+h/Fa/OFKErNSRn+2WfYXPDsDvBgARfKTIAS6RHTPVGeBCO
-	T+ow/ELP5wbdIDHiuUsqoTcyW6PzhLSXLyTzOAv8tmG2W1vtXB+RP/FqLUWmTyk+ILoq
-	Jyfs6TueRr+Gv/UFErePB5RcyJtbLfJk4cd19kKNaV9q6xQHqHanXW7vsXiSQACRj7yI
-	43WiafXoHukgLJ/wI/UuJOrm9J6UVbhjiLwmatuqHNgTE5Ogjl2/KwmBavDyl0oVgvqY
-	TLm4YxIMt5V4a6Q1hiCgOmrRztcpfVKvHn6wtVMPiqJm7Kxn3bBp1+Wgp9cbV/0tCdqS
-	TkpA==
-X-Gm-Message-State: ALoCoQnf6iWzXEIgBp7GW6hXNnO2frKiRuhJuClxjOLO6ViHuxFSHLycpuTEFHLZzQ+TS5xIJ5wc
-X-Received: by 10.224.79.139 with SMTP id p11mr17042615qak.93.1410262966824;
-	Tue, 09 Sep 2014 04:42:46 -0700 (PDT)
+	Tue,  9 Sep 2014 11:48:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 55D012E32F;
+	Tue,  9 Sep 2014 13:48:50 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 7mATRv9nNomV; Tue,  9 Sep 2014 13:48:46 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id 8C0FC2E2EA;
+	Tue,  9 Sep 2014 13:48:46 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 44838E81;
+	Tue,  9 Sep 2014 13:48:46 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 37D9C7E9;
+	Tue,  9 Sep 2014 13:48:46 +0200 (CEST)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by thoth.se.axis.com (Postfix) with ESMTP id 3574D34005;
+	Tue,  9 Sep 2014 13:48:46 +0200 (CEST)
+Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail2.se.axis.com
+	([10.0.5.74]) with mapi; Tue, 9 Sep 2014 13:48:46 +0200
+From: Ola X Nilsson <ola.x.nilsson@axis.com>
+To: Tom Zanussi <tom.zanussi@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Sep 2014 13:48:41 +0200
+Thread-Topic: [OE-core] [PATCH 15/35] wic: Remove 3rdparty/urlgrabber
+Thread-Index: Ac+zVaodCHMH3WQARRi6UEWU4t+Q6AYzk+3Q
+Message-ID: <4BEA3FF3CAA35E408EA55C7BE2E61D058A282B7855@xmail3.se.axis.com>
+References: <cover.1407533201.git.tom.zanussi@linux.intel.com>
+	<c1491f211598384c7c659589da2c2bd90232e0af.1407533201.git.tom.zanussi@linux.intel.com>
+In-Reply-To: <c1491f211598384c7c659589da2c2bd90232e0af.1407533201.git.tom.zanussi@linux.intel.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Tue, 9 Sep 2014 04:42:26 -0700 (PDT)
-In-Reply-To: <cover.1410205901.git.bruce.ashfield@windriver.com>
-References: <cover.1410205901.git.bruce.ashfield@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Sep 2014 12:42:26 +0100
-Message-ID: <CAJTo0LaiFxLSrXDkRFKu=hLF0RE6BsOuzpEVQcdturucN=-s7A@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/7] linux-yocto*: consolidated pull request
+Subject: Re: [PATCH 15/35] wic: Remove 3rdparty/urlgrabber
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,17 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 11:42:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 09 Sep 2014 11:48:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 8 September 2014 20:55, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
-> I'm on the road for the next three days, but wanted to get this out for
-> a preview before being a bit unresponsive, and to let others apply and build
-> these if they want.
+This commit breaks wic for me.=20
+Urlgrabber is imported from pykickstart/version.py and pykickstart/parser.p=
+y.
 
-Just noticed this.  I'll pull these into my mut and see what the
-autobuilder makes of them.  If they pass testing and you're away I'll
-fix up the patches myself.
+Having python-urlgrabber installed in your distro hides this problem.
 
-Ross
+--=20
+Ola Nilsson
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Tom Zanussi
+> Sent: den 9 augusti 2014 00:06
+> To: openembedded-core@lists.openembedded.org
+> Cc: Tom Zanussi
+> Subject: [OE-core] [PATCH 15/35] wic: Remove 3rdparty/urlgrabber
+>=20
+> wic doesn't use it, so remove it.
+>=20
+> Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+> ---
+>  .../3rdparty/pykickstart/urlgrabber/__init__.py    |   53 -
+>  .../3rdparty/pykickstart/urlgrabber/byterange.py   |  463 ------
+>  .../mic/3rdparty/pykickstart/urlgrabber/grabber.py | 1477 --------------=
+------
+>  .../3rdparty/pykickstart/urlgrabber/keepalive.py   |  617 --------
+>  .../mic/3rdparty/pykickstart/urlgrabber/mirror.py  |  458 ------
+>  .../3rdparty/pykickstart/urlgrabber/progress.py    |  530 -------
+>  .../3rdparty/pykickstart/urlgrabber/sslfactory.py  |   90 --
+>  7 files changed, 3688 deletions(-)
+>  delete mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/__init__.py
+>  delete mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/byterange.py
+>  delete mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/grabber.py
+>  delete mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/keepalive.py
+>  delete mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/mirror.py
+>  delete mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/progress.py
+>  delete mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/sslfactory.py
+>=20
+> Patch too large to post - see git repository.
+>=20
+> --
+> 1.8.3.1
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
