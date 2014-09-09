@@ -1,27 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 45A65605BD;
-	Tue,  9 Sep 2014 13:02:29 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 09 Sep 2014 05:56:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,491,1406617200"; d="scan'208";a="600221887"
-Received: from mcorkery-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.35])
-	by orsmga002.jf.intel.com with ESMTP; 09 Sep 2014 06:02:26 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Bryan <just4tech83@gmail.com>
-Date: Tue, 09 Sep 2014 14:02:25 +0100
-Message-ID: <48633854.zRbls2qSnV@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.13.3 (Linux/3.15.10-201.fc20.x86_64; KDE/4.13.3; x86_64; ;
-	)
-In-Reply-To: <CAD2C2VTOgCMRsq4em2Bd0hQ4Nz2Zq=B2vXezAw7QXQmhkQOsRQ@mail.gmail.com>
-References: <CAD2C2VTOgCMRsq4em2Bd0hQ4Nz2Zq=B2vXezAw7QXQmhkQOsRQ@mail.gmail.com>
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DA9E7123A
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  9 Sep 2014 13:27:23 +0000 (UTC)
+Received: by mail-qc0-f179.google.com with SMTP id o8so1186328qcw.38
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Sep 2014 06:27:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=5ETTt3OzWaMKboSxodnenIRbckV976z0KHZLLeOzSlc=;
+	b=Ff+sJJpTjyv5H8cjW/3XM0eH1rvEiAb9QIdSHYkPT+Z7IgxrKm1EhntA2G9G8/hubk
+	ahT02feCW0wOezo8vuVWhtejxcAz01RqQvQRyugNEQMqdjgroIbU7nZscCvhRN70s1lI
+	Yor3YnR2QDF8+wC06eg39NCigHc6qWVKX/wJzrtNvQ0UNcX02RUF9xodeL6ocU7BVpUF
+	R1vAIofzbIfiCwOnWDhOTeUDf3FlV/vvywPhXz9KyzSk2zZHmqqcFqyqTDeVMG8UlkU5
+	rZKEMaZSs5NH0DJqXM1G0yhSKVeUR/QovTFmHPbT3dQC9xmEC+YWhklnCGucz1KE4+VO
+	62JA==
+X-Gm-Message-State: ALoCoQl4QSxK+v6Zn+4S23+EX7BlnSFeXl38F3LYMUPjMWg+lCwNM8gjdc4h66CNh1DPj4w2skxG
+X-Received: by 10.229.231.68 with SMTP id jp4mr50672082qcb.4.1410269244330;
+	Tue, 09 Sep 2014 06:27:24 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Backporting of latest recipes on oe-classic
+Received: by 10.140.29.183 with HTTP; Tue, 9 Sep 2014 06:27:04 -0700 (PDT)
+In-Reply-To: <1409830046-28375-1-git-send-email-georgex.l.musat@intel.com>
+References: <1409830046-28375-1-git-send-email-georgex.l.musat@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 9 Sep 2014 14:27:04 +0100
+Message-ID: <CAJTo0LaKoKTfiL3=S-R2fTRLKZCkPc1=+Jb+Goje-H1byOCvtw@mail.gmail.com>
+To: Lucian Musat <georgex.l.musat@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] oeqa: Added package installer to oetest to aid in future automatic install of packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +43,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 13:02:34 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 09 Sep 2014 13:27:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tuesday 09 September 2014 18:23:24 Bryan wrote:
->    We have some queries regarding OE-Classic.
-> 1. Where can we find latest recipes for oe-classic. 
+On 4 September 2014 12:27, Lucian Musat <georgex.l.musat@intel.com> wrote:
+> +    #TODO: use package_manager.py to install packages on any type of image
+> +    def install_packages(self, packagelist):
+> +        for package in packagelist:
+> +            (status, result) = self.target.run("smart install -y "+package)
+> +            if status != 0:
+> +                return status
+> +
 
-http://cgit.openembedded.org/cgit.cgi/openembedded/
+When this function is called on non-rpm images this should cause
+explicit errors by throwing exceptions instead of mysterious errors
+about smart not found.
 
-That's as up-to-date as it gets. There might be other forked repositories 
-floating around, but that is the last official one.
-
-> Does oe-classic is still get updation for latest package support?
-
-No, as discussed on IRC, OE-Classic is now unmaintained. OE-Core and layers on 
-top of it should ideally be used instead.
- 
-> 2. How can we compile latest recipes of oe-core on oe-classic and ofcourse
-> there bitbake version would be different.Basically, we can say we need to
-> backport the recipe to classic.
-> e.g. gtk+2.20.1 & above, glibc-2.11.3 & above
-
-If you are determined to stay with OE-Classic I think you'd be better off just 
-upgrading the recipes in OE-Classic - going backwards is going to be more 
-painful.
-
-Here's the only semi-related information we have, which is about migration in 
-the other direction; it could be helpful in terms of providing pointers:
-
-  http://www.openembedded.org/wiki/Migrating_metadata_to_OE-Core
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
