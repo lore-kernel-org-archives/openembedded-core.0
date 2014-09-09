@@ -1,29 +1,24 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 698A3712AA
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 853C465E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 06:27:22 +0000 (UTC)
+	Tue,  9 Sep 2014 06:35:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s896RNdj019491
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s896ZVOv005083
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Sep 2014 23:27:23 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Mon, 8 Sep 2014 23:27:23 -0700
-Message-ID: <540E9DC8.9090708@windriver.com>
-Date: Tue, 9 Sep 2014 14:27:20 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
+	Mon, 8 Sep 2014 23:35:31 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 8 Sep 2014 23:35:31 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1409301362.git.Chong.Lu@windriver.com>
-	<d2d05abe9ec5edc07e7f064ac52748ea87847c3f.1409301362.git.Chong.Lu@windriver.com>
-In-Reply-To: <d2d05abe9ec5edc07e7f064ac52748ea87847c3f.1409301362.git.Chong.Lu@windriver.com>
-X-Originating-IP: [128.224.162.204]
-Subject: Re: [PATCH 2/2] perf: add libunwind support
+Date: Tue, 9 Sep 2014 14:35:46 +0800
+Message-ID: <cover.1410244514.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/6] Fixes about unsafe references
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,69 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 06:27:24 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Sep 2014 06:35:33 -0000
+Content-Type: text/plain
 
-ping
+The following changes since commit e72aac2ae9e5fce1715fa04b7e94034fd06892d9:
 
-On 08/29/2014 04:38 PM, Chong Lu wrote:
-> Add a new feature named 'perf-libunwind'. Adding this support to perf allows it
-> to do stack traces on ARM - thumb2 and MIPS targets. PERF_FEATURES variable in
-> perf-features.inc will enable the perf-libunwind.
->
-> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> ---
->   meta/recipes-kernel/perf/perf-features.inc | 2 +-
->   meta/recipes-kernel/perf/perf.bb           | 5 ++++-
->   2 files changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-kernel/perf/perf-features.inc b/meta/recipes-kernel/perf/perf-features.inc
-> index b8859ab..2dbbb47 100644
-> --- a/meta/recipes-kernel/perf/perf-features.inc
-> +++ b/meta/recipes-kernel/perf/perf-features.inc
-> @@ -1,4 +1,4 @@
-> -PERF_FEATURES_ENABLE ?= "perf-scripting perf-tui"
-> +PERF_FEATURES_ENABLE ?= "perf-scripting perf-tui perf-libunwind"
->   
->   def perf_feature_enabled(feature, trueval, falseval, d):
->       """
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index bfd210c..ab94a05 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -20,6 +20,7 @@ BUILDPERF_libc-uclibc = "no"
->   # to cover a wide range of kernel we add both dependencies
->   TUI_DEPENDS = "${@perf_feature_enabled('perf-tui', 'libnewt slang', '',d)}"
->   SCRIPTING_DEPENDS = "${@perf_feature_enabled('perf-scripting', 'perl python', '',d)}"
-> +LIBUNWIND_DEPENDS = "${@perf_feature_enabled('perf-libunwind', 'libunwind', '',d)}"
->   
->   DEPENDS = "virtual/kernel \
->       virtual/${MLPREFIX}libc \
-> @@ -27,6 +28,7 @@ DEPENDS = "virtual/kernel \
->       ${MLPREFIX}binutils \
->       ${TUI_DEPENDS} \
->       ${SCRIPTING_DEPENDS} \
-> +    ${LIBUNWIND_DEPENDS} \
->       bison flex \
->   "
->   
-> @@ -62,6 +64,7 @@ B = "${WORKDIR}/${BPN}-${PV}"
->   
->   SCRIPTING_DEFINES = "${@perf_feature_enabled('perf-scripting', '', 'NO_LIBPERL=1 NO_LIBPYTHON=1',d)}"
->   TUI_DEFINES = "${@perf_feature_enabled('perf-tui', '', 'NO_NEWT=1',d)}"
-> +LIBUNWIND_DEFINES = "${@perf_feature_enabled('perf-libunwind', '', 'NO_LIBUNWIND=1',d)}"
->   
->   # The LDFLAGS is required or some old kernels fails due missing
->   # symbols and this is preferred than requiring patches to every old
-> @@ -76,7 +79,7 @@ EXTRA_OEMAKE = '\
->       CC="${CC}" \
->       AR="${AR}" \
->       perfexecdir=${libexecdir} \
-> -    NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 NO_LIBUNWIND=1 ${SCRIPTING_DEFINES} \
-> +    NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${LIBUNWIND_DEFINES} ${SCRIPTING_DEFINES} \
->   '
->   
->   EXTRA_OEMAKE += "\
+  alsa-lib: libasound should runtime depends on alsa-conf (2014-09-03 11:30:11 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/unsafe-reference
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/unsafe-reference
+
+Chen Qi (6):
+  zlib: install into base_libdir
+  udev: fix unsafe reference by installing libgudev in libdir
+  insane.bbclass: make the checking stricter for unsafe references in
+    scripts
+  iputils: fix program location and QA warning
+  kmod: install libkmod into base_libdir
+  busybox: install ping6 into bindir by default
+
+ meta/classes/insane.bbclass                        |  2 +-
+ .../busybox-install-ping6-to-usr-bin.patch         | 25 +++++++++++++++++++
+ meta/recipes-core/udev/udev.inc                    |  8 +++++-
+ meta/recipes-core/zlib/zlib_1.2.8.bb               |  2 +-
+ meta/recipes-extended/iputils/iputils_s20121221.bb | 29 ++++++++++++++--------
+ meta/recipes-kernel/kmod/kmod_git.bb               |  9 ++++---
+ 6 files changed, 58 insertions(+), 17 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox-1.21.1/busybox-install-ping6-to-usr-bin.patch
+
+-- 
+1.9.1
 
 
