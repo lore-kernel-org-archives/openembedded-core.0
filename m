@@ -1,26 +1,35 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D4FB160167
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
+	[209.85.220.54])
+	by mail.openembedded.org (Postfix) with ESMTP id D9D7A617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 01:28:18 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s891SJWT025793
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  9 Sep 2014 01:53:13 +0000 (UTC)
+Received: by mail-pa0-f54.google.com with SMTP id lj1so5109726pab.27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Sep 2014 18:28:19 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 8 Sep 2014 18:28:18 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Sep 2014 09:22:22 +0800
-Message-ID: <563bac1cd65228d68f8d74b92f3ce21ccccee421.1410225676.git.Chong.Lu@windriver.com>
+	Mon, 08 Sep 2014 18:53:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=7hROG59CKa7TKYGAeoqXcXnFDLRW64kPdbK+k6FeJAw=;
+	b=yHHu9DqrmmRHQByCRpe57hXt6LTawfGIeKuWVrDcYcE3QPVU85lC1aOHlUMaCk9SWZ
+	X+03NhhS4AmBzxCaWITWS4/IvZOCYKN5/D2qhM1TqWapAUpbFTIgM6CM73p3DZH1Fxa4
+	A52WndAzzCqps9qX9/UTRX6sLPw2SkX5v6o1KlRZdv4PpjY2MD+i53uCeTbeShvOQkTn
+	etTV7WfFCpuGXCkZcG2pvUEE9zolG8QEi7aYYypeGbcdUS9uD5UhFIBMFfgm5iI529xj
+	yot5K2e+BUwpK7OqIMe4YZpde7xfcYdHDnu3XxL9hdyMdr6GTLznXKNOgckU2TodFTyL
+	u3GQ==
+X-Received: by 10.70.134.205 with SMTP id pm13mr52330290pdb.80.1410227594712; 
+	Mon, 08 Sep 2014 18:53:14 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207])
+	by mx.google.com with ESMTPSA id dm7sm3140760pdb.72.2014.09.08.18.53.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 08 Sep 2014 18:53:13 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Sep 2014 18:53:09 -0700
+Message-Id: <1410227590-14190-1-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1410225676.git.Chong.Lu@windriver.com>
-References: <cover.1410225676.git.Chong.Lu@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V3 1/1] perf: fix issue about package splitting
+Subject: [PATCH] Adding new qemuppc64 machine config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +42,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 01:28:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Sep 2014 01:53:16 -0000
 
-Currently, perf can't split to perf-archive, perf-tests, perf-python and
-perf-perl. All files are included in perf package. Change the perfexecdir
-variable to make split successfull. Add python to RDEPENDS_perf-tests.
+apply after "linux-yocto/3.14: configuration updates and feature merges."
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-kernel/perf/perf.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index ebfedb9..24c7388 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -125,7 +125,8 @@ do_configure_prepend () {
-     # config/Makefile.
-     if [ -e "${S}/tools/perf/config/Makefile" ]; then
-         # Match $(prefix)/$(lib) and $(prefix)/lib
--        sed -i 's,^libdir = \($(prefix)/.*lib\),libdir ?= \1,' \
-+        sed -i -e 's,^libdir = \($(prefix)/.*lib\),libdir ?= \1,' \
-+               -e 's,^perfexecdir = \(.*\),perfexecdir ?= \1,' \
-             ${S}/tools/perf/config/Makefile
-     fi
-     # We need to ensure the --sysroot option in CC is preserved
-@@ -155,6 +156,7 @@ RDEPENDS_${PN} += "elfutils"
- RDEPENDS_${PN}-archive =+ "bash"
- RDEPENDS_${PN}-python =+ "bash python"
- RDEPENDS_${PN}-perl =+ "bash perl perl-modules"
-+RDEPENDS_${PN}-tests =+ "python"
- 
- RSUGGESTS_SCRIPTING = "${@perf_feature_enabled('perf-scripting', '${PN}-perl ${PN}-python', '',d)}"
- RSUGGESTS_${PN} += "${PN}-archive ${PN}-tests ${RSUGGESTS_SCRIPTING}"
+Armin Kuster (1):
+  qemuppc64: add machine
+
+ meta/conf/machine/qemuppc64.conf | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100644 meta/conf/machine/qemuppc64.conf
+
 -- 
 1.9.1
 
