@@ -1,37 +1,24 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id F103D71081
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A2E460017
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 01:53:14 +0000 (UTC)
-Received: by mail-pa0-f54.google.com with SMTP id lj1so5119966pab.13
+	Tue,  9 Sep 2014 01:59:54 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s891xtdA028807
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Sep 2014 18:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=tGpsBHFZGe4NRWK5XIOSVFyYGddGxI6pV6EVnG/CMg4=;
-	b=rZ37YJUyBCFzXp99xqURc8SyaeZ5pAfXDX5JFGEgHmBMVbr+nXIMKFKsT6V2LK5j0z
-	GwDfyPy2Rqgp82kyDY0YrTBfwbZXbN4qpvaYUATB0/w/kqS8IZ2UOlIbeUYIBdXlkqR/
-	TsDrP/SJtcnSwzbuq2ZmIIODhgfyFuGfrZfaMhThM52UyZb28/OdcEmiOTUnSvYeWKP/
-	fCrdAJmFYNTXRzpnyUkKS5NNY1aS/BUBPUmqgbUWYpPlX2rJoy/V7rOrnG3VgK5QaRP+
-	REetGic95ySL4mvRaHxBI4s/XFPITdX3lQxWxGaEyY24kkNJ+9xkRxDsXtQe1Sj0irwm
-	ZUQw==
-X-Received: by 10.69.31.139 with SMTP id km11mr20445pbd.67.1410227596474;
-	Mon, 08 Sep 2014 18:53:16 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by mx.google.com with ESMTPSA id dm7sm3140760pdb.72.2014.09.08.18.53.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 08 Sep 2014 18:53:15 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Sep 2014 18:53:10 -0700
-Message-Id: <1410227590-14190-2-git-send-email-akuster808@gmail.com>
+	Mon, 8 Sep 2014 18:59:55 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 8 Sep 2014 18:59:54 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Sep 2014 09:53:59 +0800
+Message-ID: <cover.1410227568.git.Chong.Lu@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1410227590-14190-1-git-send-email-akuster808@gmail.com>
-References: <1410227590-14190-1-git-send-email-akuster808@gmail.com>
-Subject: [[PATCH] qemuppc64: add machine
+MIME-Version: 1.0
+Subject: [PATCH V2 0/1] i2c-tools: create i2c-tools-misc package for perl scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,37 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 01:53:16 -0000
+X-List-Received-Date: Tue, 09 Sep 2014 01:59:55 -0000
+Content-Type: text/plain
 
-override USER_CLASSES as prelink does not currently
-work on ppc64
----
- meta/conf/machine/qemuppc64.conf | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
- create mode 100644 meta/conf/machine/qemuppc64.conf
+The following changes since commit 1894522f357fdf0b6adb2dcc14f12817628596bd:
 
-diff --git a/meta/conf/machine/qemuppc64.conf b/meta/conf/machine/qemuppc64.conf
-new file mode 100644
-index 0000000..86916e5
---- /dev/null
-+++ b/meta/conf/machine/qemuppc64.conf
-@@ -0,0 +1,16 @@
-+#@TYPE: Machine
-+#@NAME: qemu PPC 64 Emulator setup
-+#@DESCRIPTION: Machine configuration for running an PPC system under qemu emulation
-+
-+require conf/machine/include/qemu.inc
-+DEFAULTTUNE ?= "ppc64p6"
-+require conf/machine/include/tune-power6.inc
-+
-+#prelink broken
-+USER_CLASSES = "buildstats image-mklibs "
-+
-+KERNEL_IMAGETYPE = "vmlinux"
-+
-+IMAGE_FSTYPES = "ext2 ext3"
-+
-+SERIAL_CONSOLE ?= "ttyS0"
+  bitbake: tinfoil: add a means of enabling variable history tracking (2014-09-05 10:14:25 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib chonglu/i2c-tools
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/i2c-tools
+
+Chong Lu (1):
+  i2c-tools: create i2c-tools-misc package for perl scripts
+
+ meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
 -- 
 1.9.1
 
