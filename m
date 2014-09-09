@@ -1,28 +1,24 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <Chong.Lu@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D9C87108D
+	by mail.openembedded.org (Postfix) with ESMTP id 7EB5F60167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 00:22:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s890MDPX000835
+	Tue,  9 Sep 2014 01:28:17 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s891SHBF001517
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Sep 2014 17:22:13 -0700 (PDT)
-Received: from [128.224.162.141] (128.224.162.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 8 Sep 2014 17:22:13 -0700
-Message-ID: <540E4838.6060007@windriver.com>
-Date: Tue, 9 Sep 2014 08:22:16 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Mon, 8 Sep 2014 18:28:18 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 8 Sep 2014 18:28:17 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Sep 2014 09:22:21 +0800
+Message-ID: <cover.1410225676.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: <rongqing.li@windriver.com>
-References: <1410222013-31114-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1410222013-31114-1-git-send-email-rongqing.li@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][meta-networking][v4] tcpslice: add recipe under tcpdump
+Subject: [PATCH V3 0/1] perf: fix issue about package splitting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,18 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 00:22:14 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Sep 2014 01:28:20 -0000
+Content-Type: text/plain
 
-Please drop it, send the wrong maillist
+The following changes since commit a44006262cf3b810ec78b4cccd8076102a7a0f3e:
 
--Roy
+  distro/poky: Add Debian 7.5 and 7.6 version as validated (2014-09-03 16:00:29 +0100)
 
-On 09/09/2014 08:20 AM, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> tcpslice is a tool for extracting parts of a tcpdump packet trace,
-> so put it under tcpdump dir
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib chonglu/perf
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/perf
+
+Chong Lu (1):
+  perf: fix issue about package splitting
+
+ meta/recipes-kernel/perf/perf.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+-- 
+1.9.1
 
 
