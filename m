@@ -1,28 +1,41 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2518060703
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id C23466B8F6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 03:02:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8932waR002534
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Sep 2014 20:02:58 -0700 (PDT)
-Received: from [128.224.162.141] (128.224.162.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 8 Sep 2014 20:02:57 -0700
-Message-ID: <540E6DE5.9060505@windriver.com>
-Date: Tue, 9 Sep 2014 11:03:01 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
+	Tue,  9 Sep 2014 05:03:31 +0000 (UTC)
+Received: by mail-pd0-f179.google.com with SMTP id g10so9325702pdj.10
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Sep 2014 22:03:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=eK/4uOqwtRvhi5hMFW+KzKrZaWAqaCryU8UKvVTMlOc=;
+	b=HJ+TReQfcxCMaHkKm5mEb8Eq3N396JfPVn81Y52e1aKDjDMkyZbW5SBEh//jO/U84s
+	ugvoxhbxKlm2ve2ZrCQPDitpPDaud85/d+a/QKsvh++WVY1R6DmGFUz8lTmJTGDnw4w0
+	HdIjCeSya185kNyZjz5hEjCmCRsUnKqqzHD+qPGVZxEMt4WWYzgqSe4LRQup3PaTmw6B
+	IF0HfHtbSNIMybw24MjjiaHscwTqZ376TpYFosMd1SGpS6TqkAbLtvAxRWZVe09l9kNo
+	u4mJsfO8+W82L3ZRp1MXM44UM5v9nETcpPY3k0vTpYIAUpUcvtbFpk1whVlUi0L4jv/h
+	x3/g==
+X-Received: by 10.70.140.163 with SMTP id rh3mr35183303pdb.53.1410239012287;
+	Mon, 08 Sep 2014 22:03:32 -0700 (PDT)
+Received: from ?IPv6:2601:c:9380:601:fdfa:dfad:1b06:d652?
+	([2601:c:9380:601:fdfa:dfad:1b06:d652])
+	by mx.google.com with ESMTPSA id
+	om6sm10425985pdb.89.2014.09.08.22.03.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 08 Sep 2014 22:03:30 -0700 (PDT)
+Message-ID: <540E8A1F.2010800@gmail.com>
+Date: Mon, 08 Sep 2014 22:03:27 -0700
+From: akuster808 <akuster808@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <54092B32.501@windriver.com> <1409904255.12482.56.camel@ted>
-In-Reply-To: <1409904255.12482.56.camel@ted>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Integrate texinfo-4.8 to oe-core
+To: openembedded-core@lists.openembedded.org
+References: <1410227590-14190-1-git-send-email-akuster808@gmail.com>
+In-Reply-To: <1410227590-14190-1-git-send-email-akuster808@gmail.com>
+Subject: Re: [PATCH] Adding new qemuppc64 machine config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,79 +48,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 03:02:58 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Tue, 09 Sep 2014 05:03:41 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
+I forgot to mention. I will update linux-yocto_3.1x.bb too.
 
+- Armin
 
-On 09/05/2014 04:04 PM, Richard Purdie wrote:
-> On Fri, 2014-09-05 at 11:17 +0800, Rongqing Li wrote:
->> Hi:
->>      I would like to integrate texinfo-4.8 into oe-core,  it was
->> released on 2007, and too old, but it is a GPLv2 package. Does
->> anyone objects?
->
-> With things that are this old, I'm wondering if its not time we started
-> a dedicated layer for the old GPLv2 versions...
->
-> Cheers,
->
-> Richard
->
-I assume you did not object the integration of texinfo-4.8.
-
-there are 45 recipes files for old GPLv2 version packages under
-oe-core, it maybe better to have a oe-core-gplv2 layer.
-
-./meta/recipes-devtools/ccache
-./meta/recipes-devtools/python
-./meta/recipes-devtools/mtools
-./meta/recipes-devtools/make
-./meta/recipes-devtools/m4
-./meta/recipes-devtools/bison
-./meta/recipes-devtools/elfutils
-./meta/recipes-devtools/gcc
-./meta/recipes-devtools/patch
-./meta/recipes-devtools/rsync
-./meta/recipes-qt/qt4
-./meta/recipes-extended/libidn
-./meta/recipes-extended/ed
-./meta/recipes-extended/gzip
-./meta/recipes-extended/sed
-./meta/recipes-extended/texinfo
-./meta/recipes-extended/tar
-./meta/recipes-extended/grep
-./meta/recipes-extended/ghostscript
-./meta/recipes-extended/which
-./meta/recipes-extended/findutils
-./meta/recipes-extended/diffutils
-./meta/recipes-extended/cpio
-./meta/recipes-extended/gperf
-./meta/recipes-extended/gawk
-./meta/recipes-extended/groff
-./meta/recipes-extended/less
-./meta/recipes-extended/xz
-./meta/recipes-extended/mc
-./meta/recipes-extended/bash
-./meta/recipes-multimedia/gstreamer
-./meta/recipes-bsp/grub
-./meta/recipes-core/gettext
-./meta/recipes-core/coreutils
-./meta/recipes-core/readline
-./meta/recipes-support/gnutls
-./meta/recipes-support/gdbm
-./meta/recipes-support/libiconv
-./meta/recipes-support/libproxy
-./meta/recipes-support/gnupg
-./meta/recipes-gnome/gnome
-
--Roy
-
+On 09/08/2014 06:53 PM, Armin Kuster wrote:
+> apply after "linux-yocto/3.14: configuration updates and feature merges."
 >
 >
-
--- 
-Best Reagrds,
-Roy | RongQing Li
+> Armin Kuster (1):
+>    qemuppc64: add machine
+>
+>   meta/conf/machine/qemuppc64.conf | 16 ++++++++++++++++
+>   1 file changed, 16 insertions(+)
+>   create mode 100644 meta/conf/machine/qemuppc64.conf
+>
 
