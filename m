@@ -1,28 +1,30 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A1E2471388
+	by mail.openembedded.org (Postfix) with ESMTP id 9426971388
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 14:46:40 +0000 (UTC)
+	Tue,  9 Sep 2014 14:49:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s89EkdZ3010109
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s89En3XR010554
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 9 Sep 2014 07:46:39 -0700 (PDT)
+	Tue, 9 Sep 2014 07:49:03 -0700 (PDT)
 Received: from Marks-MacBook-Pro.local (172.25.36.226) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 9 Sep 2014 07:46:39 -0700
-Message-ID: <540F12D0.3080900@windriver.com>
-Date: Tue, 9 Sep 2014 09:46:40 -0500
+	14.3.174.1; Tue, 9 Sep 2014 07:49:03 -0700
+Message-ID: <540F1360.7060908@windriver.com>
+Date: Tue, 9 Sep 2014 09:49:04 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
 	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1410227590-14190-1-git-send-email-akuster808@gmail.com>	<1410227590-14190-2-git-send-email-akuster808@gmail.com>
-	<1410249927.19272.42.camel@ted>
-In-Reply-To: <1410249927.19272.42.camel@ted>
-Subject: Re: [[PATCH] qemuppc64: add machine
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1408588282.git.hongxu.jia@windriver.com>		<990d4ba779e4127ff546796d62e2921392dbc0f7.1408588282.git.hongxu.jia@windriver.com>	
+	<1409910121.12482.65.camel@ted> <5409C313.20208@windriver.com>
+	<1410081872.12482.134.camel@ted>
+In-Reply-To: <1410081872.12482.134.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] bbclass/sstate: only allowed sstate-cache objects are allowed in a build (read-only sstate-cache)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,68 +37,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 14:46:46 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 09 Sep 2014 14:49:04 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/9/14, 3:05 AM, Richard Purdie wrote:
-> On Mon, 2014-09-08 at 18:53 -0700, Armin Kuster wrote:
->> override USER_CLASSES as prelink does not currently
->> work on ppc64
->> ---
->>   meta/conf/machine/qemuppc64.conf | 16 ++++++++++++++++
->>   1 file changed, 16 insertions(+)
->>   create mode 100644 meta/conf/machine/qemuppc64.conf
+On 9/7/14, 4:24 AM, Richard Purdie wrote:
+> On Fri, 2014-09-05 at 09:05 -0500, Mark Hatle wrote:
+>> On 9/5/14, 4:42 AM, Richard Purdie wrote:
+>>> Hi Hongxu,
+>>>
+>>> On Thu, 2014-08-21 at 10:36 +0800, Hongxu Jia wrote:
+>>>> The requirement is the developer who demand only the "new" software
+>>>> they write is allowed to be compiled from source, they only want to
+>>>> reuse binaries from an existed sstate-cache, if the developer makes
+>>>> a change that triggers a rebuild, it should be an instant error.
+>>>>
+>>>> The purpose of this is for the sstate-cache to check if the item
+>>>> exists or not. If it doesn't the item needs to be in a whitelist
+>>>> or we need to fail.
+>>>>
+>>>> In the sstate-cache code, add a checking in the return path of
+>>>> sstate_checkhashes. If read-only sstate-cache enable, and the
+>>>> recipe's ${PN} not in the ${SSTATECACHE_WHITELIST}, it trigered
+>>>> an instant error.
+>>>>
+>>>> ...
+>>>> $ bitbake db
+>>>> ERROR: Read-only sstate-cache is enabled, the build of
+>>>> "db rpm-native gcc-runtime eglibc linux-libc-headers libgcc"
+>>>> did not come from sstate-cache. Only the recipe listed in
+>>>> SSTATECACHE_WHITELIST is allowed to build from source
+>>>>
+>>>> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+>>>
+>>> Sorry for the delay in getting to this, with the other patches for the
+>>> release, time has been difficult.
+>>>
+>>> I have been able to take a look at this and the other locked sstate
+>>> patches I've had pending for some time.
+>>>
+>>> Having thought quite a bit about this, I think we really want to make
+>>> this functionality part of the siggen class code. Where we need to add
+>>> hooks, we should do so with callbacks into the siggen code.
+>>>
+>>> I've just sent out a patch which my locked code in it. Could you take a
+>>> look and see if we can make that approach work with your code too?
+>>>
+>>> In particular, I don't really want to have multiple whitelist type
+>>> variables. Could we use the SIGGEN_LOCKEDSIGS variable as the definitive
+>>> way to control which recipes can float and which should not?
 >>
->> diff --git a/meta/conf/machine/qemuppc64.conf b/meta/conf/machine/qemuppc64.conf
->> new file mode 100644
->> index 0000000..86916e5
->> --- /dev/null
->> +++ b/meta/conf/machine/qemuppc64.conf
->> @@ -0,0 +1,16 @@
->> +#@TYPE: Machine
->> +#@NAME: qemu PPC 64 Emulator setup
->> +#@DESCRIPTION: Machine configuration for running an PPC system under qemu emulation
->> +
->> +require conf/machine/include/qemu.inc
->> +DEFAULTTUNE ?= "ppc64p6"
->> +require conf/machine/include/tune-power6.inc
->> +
->> +#prelink broken
->> +USER_CLASSES = "buildstats image-mklibs "
+>> I'm all for combining this.. however it appears the patches have two slightly
+>> separate goals.
+>>
+>> The locked sstate patch tells the system to use a specific hash value and ONLY
+>> that hash value.   So if a user modified a system behavior in a way that would
+>> change the behavior of the component there is no warning or error.
+>>
+>> The readonly sstate-cache on the other hand says, to reuse the sstate cache
+>> items (there of course may be more then one per recipe name with a different
+>> hash based on different configurations), but will warn/error when if the system
+>> configuration changes in a way the hash would have changed.
+>>
+>> So there needs to be an interface that says which items are allowed to be built
+>> from source, and which items require either the locked or readonly sstate behavior.
+>>
+>> Something like:
+>>
+>> SIGGEN_LOCKEDSIGS = "\
+>> gcc-cross:do_populate_sysroot:ro \
+>> eglibc:do_populate_sysroot:ro \
+>> eglibc:do_packagedata:ro \
+>> gcc-cross:do_packagedata:ro \
+>> "
+>>
+>> could work to extend it, but I have a concern with this.  It only affects
+>> individual recipes.  The request we've had from our customers is that once they
+>> have built their environment(s), and distributed the sstate-cache to their
+>> developers -- only the items they distributed are allowed to be used, unless an
+>> exception is granted.
+>>
+>> So having to maintain a SIGGEN_LOCKSIGS = variable with every possible package
+>> in the system seems complicated at best (for the RO case).  They really want a
+>> switch that sets everything, except exceptions as read-only.
+>>
+>> SIGGEN_LOCKEDSIGS = "\
+>> *:*:ro \
+>> bash:*:rw \
+>> "
+>>
+>> but I don't know if the glob/wildcarding would add more processing overhead then
+>> is acceptable.
 >
-> This is horrible. Can we somehow blacklist qemuppc64 in the prelink
-> class itself?
+> I guess my main point right now is more about the controlling interface
+> of this which I believe should be the "siggen" class. What I'd like to
+> try and do is standardise on that as being the interface which handles
+> this policy, whatever it may be. If it needs hooks adding, we can do
+> that like the one I added from sstate.
 >
-> USER_CLASSES_remove = "prelink"
+> Whether we end up with one siggen class or we have different ones
+> (perhaps subclassing each other) and we switch between them for
+> different behaviours I'm less sure about right now.
 >
-> would be better than overriding the users choice like above...
+> I'll give the locked sstate interface a bit more thought based on the
+> above, thanks. I suspect it may be a case of adding a new subclass with
+> some different functionality (e.g. readonly cache), then if that is what
+> the user requires, we select that class using BB_SIGNATURE_HANDLER?
 
-I keep asking people who have access to the PPC 64 systems to investigate and 
-help debug this.
+Works for me.  I don't mind the behavior of subclassing at all.  The key thing 
+is we've gotten requests for odd behaviors (which like I've said before, I don't 
+think the community is or should be interested in -- but something that we have 
+to do for our own customer..)
 
-I don't expect it will be difficult to figure out, but I simply don't have 
-access to this architecture to try.
-
-There is a YP bug, 1331 (https://bugzilla.yoctoproject.org/show_bug.cgi?id=1331).
-
-So please, if you can help diagnose what is going wrong, I'd really like to fix 
-this.
+Nothing like a change (pgp signatures) the cripples the speed of the 
+sstate-cache.  :P
 
 --Mark
 
-> Cheers,
->
 > Richard
 >
->> +KERNEL_IMAGETYPE = "vmlinux"
->> +
->> +IMAGE_FSTYPES = "ext2 ext3"
->> +
->> +SERIAL_CONSOLE ?= "ttyS0"
->> --
->> 1.9.1
->>
 >
 >
 
