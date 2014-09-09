@@ -1,26 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AD3E07125C
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A39E65D59
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 06:35:38 +0000 (UTC)
+	Tue,  9 Sep 2014 07:34:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s896ZdfE021190
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s897YUi1005776
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Sep 2014 23:35:40 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 8 Sep 2014 23:35:39 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Tue, 9 Sep 2014 00:34:30 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 9 Sep 2014 00:34:29 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Sep 2014 14:35:52 +0800
-Message-ID: <2f2f7278925f48a03507499180f2a85500b4b6c6.1410244514.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1410244514.git.Qi.Chen@windriver.com>
-References: <cover.1410244514.git.Qi.Chen@windriver.com>
+Date: Tue, 9 Sep 2014 00:34:28 -0700
+Message-ID: <cover.1410247971.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH 6/6] busybox: install ping6 into bindir by default
+Subject: [PATCH 0/1] libxml2: fix python path and enable libxml2-python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,56 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 06:35:38 -0000
+X-List-Received-Date: Tue, 09 Sep 2014 07:34:29 -0000
 Content-Type: text/plain
 
-[CQID: WIND00444742]
+* Tested on:
+  qemux86
+  qemux86-64
+  qemuarm
+  qemuppc
+  qemumips.
 
-Install `ping6' provided by busybox into /usr/bin to sync with the
-iputils package.
+// Robert
 
-(LOCAL REV: NOT UPSTREAM) -- Sent to oe-core on 20131113
+The following changes since commit e72aac2ae9e5fce1715fa04b7e94034fd06892d9:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Joe MacDonald <joe.macdonald@windriver.com>
-Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
----
- .../busybox-install-ping6-to-usr-bin.patch         | 25 ++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox-1.21.1/busybox-install-ping6-to-usr-bin.patch
+  alsa-lib: libasound should runtime depends on alsa-conf (2014-09-03 11:30:11 +0100)
 
-diff --git a/meta/recipes-core/busybox/busybox-1.21.1/busybox-install-ping6-to-usr-bin.patch b/meta/recipes-core/busybox/busybox-1.21.1/busybox-install-ping6-to-usr-bin.patch
-new file mode 100644
-index 0000000..b99f47f
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox-1.21.1/busybox-install-ping6-to-usr-bin.patch
-@@ -0,0 +1,25 @@
-+Subject: [PATCH] busybox: install ping6 to /usr/bin by default
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ networking/ping.c |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/networking/ping.c b/networking/ping.c
-+index 5e4771f..471c347 100644
-+--- a/networking/ping.c
-++++ b/networking/ping.c
-+@@ -70,7 +70,7 @@
-+ 
-+ /* Needs socket(AF_INET, SOCK_RAW, IPPROTO_ICMP), therefore BB_SUID_MAYBE: */
-+ //applet:IF_PING(APPLET(ping, BB_DIR_BIN, BB_SUID_MAYBE))
-+-//applet:IF_PING6(APPLET(ping6, BB_DIR_BIN, BB_SUID_MAYBE))
-++//applet:IF_PING6(APPLET(ping6, BB_DIR_USR_BIN, BB_SUID_MAYBE))
-+ 
-+ //kbuild:lib-$(CONFIG_PING)  += ping.o
-+ //kbuild:lib-$(CONFIG_PING6) += ping.o
-+-- 
-+1.7.9.5
-+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/libxml2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/libxml2
+
+Robert Yang (1):
+  libxml2: fix python path and enable libxml2-python
+
+ meta/recipes-core/libxml/libxml2.inc |   17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
+
 -- 
-1.9.1
+1.7.9.5
 
 
