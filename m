@@ -1,36 +1,31 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 08A43702CC
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 12:53:02 +0000 (UTC)
-Received: by mail-la0-f51.google.com with SMTP id gi9so7001504lab.38
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Sep 2014 05:53:02 -0700 (PDT)
+Return-Path: <just4tech83@gmail.com>
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EC4D7130F;
+	Tue,  9 Sep 2014 12:53:23 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id w8so15702369qac.12
+	for <multiple recipients>; Tue, 09 Sep 2014 05:53:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Uk0029JcTlykCAFz/KEx2C/N7yypwqFW1/rdps4TtnQ=;
-	b=Rd6h2/ZlaMnCrKPTpOgopQBGq3/9BJQqMTyQT+HcmuJ9mx5QzymOqxPasTduLWdV0R
-	c+k7+naJG81XACeCxlFWi6vKd9guSIv/LpxU7pAljBuU88NtFWdbhSHvEJjFbOYmRMTv
-	GQ0FBhSyh2gdZwaw897VvjnnMK6YHHTTvelPvOHCPl9zzSyqfz+7FGSlfRl5ORaybRF6
-	eR/Hr9qfFbnmgqAuUW/NKAP6hTwV6V6nmt/VqOuyX3rmkMqM2BkgWf5+QCISO/9PRiAe
-	FGi4j3rR+SMWvihQJ7/8GcCBVdkNlohqUMy2XMEQZZBxbOp+xbvPtKcu04nwOSP5wwgk
-	anyA==
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=ss1njvrB4ULb7QCD7xNzg/KAnkk/peFNtz5MyZIbEd4=;
+	b=QYmen1aBKs/GB77qN7PeuiQSFrMMS3rR+TZUXzGEW+C4jH3+i2aZ+3/L3+zfKLVsdm
+	1WdsTy3/JtsFTOAuh0pzQf4ztNhlr2VFx1u/eg1RVg1bB/hBNDsAKexVN85ELFSkhir1
+	NMYM62SpWzF7aokZsRQvsm0L2+NhnRnT9P1HoVpBt/EJevRWI/6Jdyb1n5adVoL8hd2G
+	vh6202IanKnRKsyBFiFLrzkCr/9AT940dhDZGio4ZlYH72I1h4dE+wKGoSjjtgM+BP1L
+	ZyYtSwqEmTv8PZpevrwk4uQeTQplHH0PZbZA2Gy6N9v6pq82ubMnTn3URurac5WE5bwM
+	FOtQ==
 MIME-Version: 1.0
-X-Received: by 10.112.76.6 with SMTP id g6mr11155796lbw.22.1410267182435; Tue,
-	09 Sep 2014 05:53:02 -0700 (PDT)
-Received: by 10.112.202.67 with HTTP; Tue, 9 Sep 2014 05:53:02 -0700 (PDT)
-In-Reply-To: <CAJTo0LaexRywk_BscfMZKbOOA061_4BnvYrw_j4cK3eo09D8bA@mail.gmail.com>
-References: <cover.1410205901.git.bruce.ashfield@windriver.com>
-	<6df082a8d4a4b54ab2967a5746b37a20dc7f6834.1410205901.git.bruce.ashfield@windriver.com>
-	<CAJTo0LaexRywk_BscfMZKbOOA061_4BnvYrw_j4cK3eo09D8bA@mail.gmail.com>
-Date: Tue, 9 Sep 2014 08:53:02 -0400
-Message-ID: <CADkTA4MdJyygE7+BLfZ9yeya-n8LVPz6ahY6U7EdePgkBjgtgw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/7] lttng-modules: fix compilation for 3.17-rcX
+X-Received: by 10.224.47.67 with SMTP id m3mr4702356qaf.28.1410267204444; Tue,
+	09 Sep 2014 05:53:24 -0700 (PDT)
+Received: by 10.140.16.144 with HTTP; Tue, 9 Sep 2014 05:53:24 -0700 (PDT)
+Received: by 10.140.16.144 with HTTP; Tue, 9 Sep 2014 05:53:24 -0700 (PDT)
+Date: Tue, 9 Sep 2014 18:23:24 +0530
+Message-ID: <CAD2C2VTOgCMRsq4em2Bd0hQ4Nz2Zq=B2vXezAw7QXQmhkQOsRQ@mail.gmail.com>
+From: Bryan <just4tech83@gmail.com>
+To: openembedded-devel@lists.openembedded.org, 
+	openembedded-core@lists.openembedded.org, 
+	bitbake-devel@lists.openembedded.org
+Subject: Backporting of latest recipes on oe-classic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,51 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 12:53:07 -0000
+X-List-Received-Date: Tue, 09 Sep 2014 12:53:25 -0000
+Content-Type: multipart/alternative; boundary=001a1134ab00c26b650502a16b4c
+
+--001a1134ab00c26b650502a16b4c
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Sep 9, 2014 at 7:40 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 8 September 2014 20:55, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
->> +++ b/meta/recipes-kernel/lttng/lttng-modules/Fix-noargs-probes-should-calculate-alignment-and-eve.patch
->> @@ -0,0 +1,127 @@
->> +From d3de7f1468be0b18145ff85b3c1a7c7fb1d48c15 Mon Sep 17 00:00:00 2001
->> +From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
->> +Date: Fri, 25 Jul 2014 12:30:43 -0400
->> +Subject: [PATCH 1/3] Fix: noargs probes should calculate alignment and event
->> + length
->> +
->> +A noargs probe could have event fields. noargs just means that the probe
->> +does not receive any argument as parameter. However, it could very well
->> +serialize data into fields (global variables, constants, etc).
->> +
->> +It just happens that LTTng does not serialize any data in noargs events
->> +at the moment, but this may very well change.
->> +
->> +The if (0) with (void) variable access strategy to stop compiler from
->> +complaining from unused variables does not seem to work as expected with
->> +gcc 4.9.1. Use "unused" attribute instead.
->> +
->> +Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
->
-> These patches need Upstream-Status: Backport and your s-o-b.
+Hi,
+   We have some queries regarding OE-Classic.
+1. Where can we find latest recipes for oe-classic. Does oe-classic is
+still get updation for latest package support?
 
-I've never done that before .. and will be on the road until Friday,
-so they'll have
-to wait until then.
+2. How can we compile latest recipes of oe-core on oe-classic and ofcourse
+there bitbake version would be different.Basically, we can say we need to
+backport the recipe to classic.
+e.g. gtk+2.20.1 & above, glibc-2.11.3 & above
 
-Bruce
+3. Does anybody have latest bitbake recipe for ICAClient(Citrix Receiver)
+13 version.
+Though we have created one but not sure whether it is installing all
+components properly.
 
->
-> Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+4. How can we install package like libwebkit or libwebkitgtk 1.0 on
+oe-classic.
 
+Thanks in advance
+Bryan
 
+--001a1134ab00c26b650502a16b4c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+<p dir=3D"ltr">Hi, <br>
+=C2=A0=C2=A0 We have some queries regarding OE-Classic. <br>
+1. Where can we find latest recipes for oe-classic. Does oe-classic is stil=
+l get updation for latest package support?</p>
+<p dir=3D"ltr">2. How can we compile latest recipes of oe-core on oe-classi=
+c and ofcourse there bitbake version would be different.Basically, we can s=
+ay we need to backport the recipe to classic.<br>
+e.g. gtk+2.20.1 &amp; above, glibc-2.11.3 &amp; above</p>
+<p dir=3D"ltr">3. Does anybody have latest bitbake recipe for ICAClient(Cit=
+rix Receiver) 13 version.<br>
+Though we have created one but not sure whether it is installing all compon=
+ents properly.</p>
+<p dir=3D"ltr">4. How can we install package like libwebkit or libwebkitgtk=
+ 1.0 on oe-classic. </p>
+<p dir=3D"ltr">Thanks in advance <br>
+Bryan</p>
 
+--001a1134ab00c26b650502a16b4c--
