@@ -1,30 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E771665D58
+Return-Path: <Li.Wang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EDF4D65FE7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 08:05:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8985VVf016915; Tue, 9 Sep 2014 09:05:31 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6iIQHBpUqcSl; Tue,  9 Sep 2014 09:05:30 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8985Pan016907
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 9 Sep 2014 09:05:26 +0100
-Message-ID: <1410249927.19272.42.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Armin Kuster <akuster808@gmail.com>
-Date: Tue, 09 Sep 2014 09:05:27 +0100
-In-Reply-To: <1410227590-14190-2-git-send-email-akuster808@gmail.com>
-References: <1410227590-14190-1-git-send-email-akuster808@gmail.com>
-	<1410227590-14190-2-git-send-email-akuster808@gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [[PATCH] qemuppc64: add machine
+	Tue,  9 Sep 2014 08:34:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s898Y6xA014842
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 9 Sep 2014 01:34:06 -0700 (PDT)
+Received: from [128.224.163.149] (128.224.163.149) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Tue, 9 Sep 2014 01:34:06 -0700
+Message-ID: <540EBB71.2070105@windriver.com>
+Date: Tue, 9 Sep 2014 16:33:53 +0800
+From: "Li.Wang" <Li.Wang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1407824758-9261-1-git-send-email-li.wang@windriver.com>
+	<1407828058-9939-1-git-send-email-li.wang@windriver.com>
+	<CAJTo0LZW2OdpmevQW+5+j9Vau2M2qUpe+XUEL9aO6b=WS_B5fg@mail.gmail.com>
+	<53E9D3E2.7020101@windriver.com>
+	<CAJTo0Lbw53Ors3EiVY3Jx2_d-CQ7jf58-_Y1TJK3L4oz8QexaQ@mail.gmail.com>
+In-Reply-To: <CAJTo0Lbw53Ors3EiVY3Jx2_d-CQ7jf58-_Y1TJK3L4oz8QexaQ@mail.gmail.com>
+X-Originating-IP: [128.224.163.149]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rpcbind: add option to fix port number
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,54 +39,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 08:05:41 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 09 Sep 2014 08:34:09 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2014-09-08 at 18:53 -0700, Armin Kuster wrote:
-> override USER_CLASSES as prelink does not currently
-> work on ppc64
-> ---
->  meta/conf/machine/qemuppc64.conf | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->  create mode 100644 meta/conf/machine/qemuppc64.conf
-> 
-> diff --git a/meta/conf/machine/qemuppc64.conf b/meta/conf/machine/qemuppc64.conf
-> new file mode 100644
-> index 0000000..86916e5
-> --- /dev/null
-> +++ b/meta/conf/machine/qemuppc64.conf
-> @@ -0,0 +1,16 @@
-> +#@TYPE: Machine
-> +#@NAME: qemu PPC 64 Emulator setup
-> +#@DESCRIPTION: Machine configuration for running an PPC system under qemu emulation
-> +
-> +require conf/machine/include/qemu.inc
-> +DEFAULTTUNE ?= "ppc64p6"
-> +require conf/machine/include/tune-power6.inc
-> +
-> +#prelink broken
-> +USER_CLASSES = "buildstats image-mklibs "
+On 09/05/2014 11:24 PM, Burton, Ross wrote:
+> On 12 August 2014 09:44, Li.Wang <Li.Wang@windriver.com> wrote:
+>>      Opening random ports in privileged port range, among them one port that
+>>      identifies itself as pop3s, is not a good practice. Both Ericsson and
+>> our
+>>      customers run regular vulnerability assessment tools against our
+>> product,
+>>      and this will clearly be seen as a potential problem. Furthermore, we
+>> will
+>>      not be able to filter the ports, since they are random, and neither will
+>> we
+>>      be able to provide decent answers to our customers. To summarize: this
+>>      should be taken care of, ie fix rpcbind so that it uses a non random
+>> port
+>>      and/or to bind to a specific interface.
+> This has been bothering me so I just did some digging.  rpcbind
+> opening random ports is rather "misguided" but it appears that passing
+> -s to rpcbind will cause it to drop it's privs and setuid down to
+> "daemon", with the side-effect that it can't open the privileged ports
+> anymore.
+>
+> (source: http://wiki.metawerx.net/wiki/setrpcrandomport)
+this way uses dynamic library, and I use command option which insert 
+code to rpcbind.
+I think our thought are same, but the complements are different.
 
-This is horrible. Can we somehow blacklist qemuppc64 in the prelink
-class itself?
+indeed, rpcbind has two random ports:
+one can be fixed by configure file.
+the patch is to point at the other one.
 
-USER_CLASSES_remove = "prelink"
-
-would be better than overriding the users choice like above...
-
-Cheers,
-
-Richard
-
-> +KERNEL_IMAGETYPE = "vmlinux"
-> +
-> +IMAGE_FSTYPES = "ext2 ext3"
-> +
-> +SERIAL_CONSOLE ?= "ttyS0"
-> -- 
-> 1.9.1
-> 
-
+Thanks,
+LiWang.
+>
+> Ross
 
 
