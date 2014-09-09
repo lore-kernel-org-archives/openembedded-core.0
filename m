@@ -1,36 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id B4530702CC
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id F13016A9D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 11:19:07 +0000 (UTC)
-Received: by mail-we0-f175.google.com with SMTP id w61so2059643wes.34
+	Tue,  9 Sep 2014 11:40:57 +0000 (UTC)
+Received: by mail-qg0-f47.google.com with SMTP id i50so2738795qgf.34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Sep 2014 04:19:07 -0700 (PDT)
+	Tue, 09 Sep 2014 04:40:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=bgmUS4VrxqXUsgx87pPa6cZNMDofOY5h4eRJ3MiRdV4=;
-	b=erabEmNHIy0igQr5vn+PGIydjGtXSfX07xgBYmDSnHReIij/3JTxFtpHnoFqsHwqIR
-	+wrWmemRvwQaw5Aq7ZrVN+OKx8zhIlZ73kMc7V9jh3wsMuyeffN/q7gt47XI+RfHOhAA
-	uoKRRhCMqz6hs40I9WzudEgna61oF1FomLcQBUonUfDce4eiSoZ7X5NdajETrysaq0qv
-	d7epTBA7BkaXsAXXVIH4687/+8JZmVoK8REN4FQmMF+vR0C71OGNL9IEAF2EF/R5eyT7
-	2TYB1Hp2BwXOPRkCrf/eZEV5D54uyto99FKA/qnrKdel0ty13jwTVnmiOL2JUrRPlaUr
-	6WfA==
-X-Gm-Message-State: ALoCoQlcJUhjrSrul3YvcXazuwcZ8EXOU7NyoOX+GyprG5ZLM77CT4bREbugGG63fGAvwmPCbwIH
-X-Received: by 10.194.78.4 with SMTP id x4mr42053585wjw.44.1410261547438;
-	Tue, 09 Sep 2014 04:19:07 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id xm4sm15091777wib.9.2014.09.09.04.19.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 09 Sep 2014 04:19:06 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Sep 2014 12:18:59 +0100
-Message-Id: <1410261539-6182-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] bluez4: optionally install systemd unit files
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=t4Fwf125wTCImYTFBlhlVY6l8ZIjbrLYTAnM/SD2Los=;
+	b=SRAALJdP46lP3B6ZnitZ0AiKEljO6FPEwtBFaMw/CgOkWnkCsaCz6m2YgFN6Qf1vlp
+	c6Ex+7qwOHrxOBm10k7Qks/h+QRD/Oa1qe4NlzApcOi7HN3zVZ1zwcsXRZTv12c2e7zs
+	CQh7OYx2+geO1dVPCrwwm6LwA1P7Kuh33sLO/93aK+1DjGiHOx8n5luhzTmf5fgWa6qE
+	d536LhM5NIOk387DJyr5luODFwSfDfVumZs+12SKGQ2yvfHXuzMBGqigQS2ZyzZwXZ1r
+	D2awgTyuF9t0IGYw9l9kgfmkIR5IYKvDn9iFiiU99YZccuk7SzzqyBTWCM98EI1jS+Ye
+	m1Mw==
+X-Gm-Message-State: ALoCoQmzRHDtzQDhHp4t4hDQw6MDj2JHwC3ZjJMgOw0uUW3yrSu6+96Gmlq4e88HBbCHBC/fWUwI
+X-Received: by 10.140.40.84 with SMTP id w78mr48153546qgw.87.1410262858364;
+	Tue, 09 Sep 2014 04:40:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.29.183 with HTTP; Tue, 9 Sep 2014 04:40:37 -0700 (PDT)
+In-Reply-To: <6df082a8d4a4b54ab2967a5746b37a20dc7f6834.1410205901.git.bruce.ashfield@windriver.com>
+References: <cover.1410205901.git.bruce.ashfield@windriver.com>
+	<6df082a8d4a4b54ab2967a5746b37a20dc7f6834.1410205901.git.bruce.ashfield@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 9 Sep 2014 12:40:37 +0100
+Message-ID: <CAJTo0LaexRywk_BscfMZKbOOA061_4BnvYrw_j4cK3eo09D8bA@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/7] lttng-modules: fix compilation for 3.17-rcX
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,46 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 11:19:11 -0000
+X-List-Received-Date: Tue, 09 Sep 2014 11:40:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-connectivity/bluez/bluez4.inc |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+On 8 September 2014 20:55, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+> +++ b/meta/recipes-kernel/lttng/lttng-modules/Fix-noargs-probes-should-calculate-alignment-and-eve.patch
+> @@ -0,0 +1,127 @@
+> +From d3de7f1468be0b18145ff85b3c1a7c7fb1d48c15 Mon Sep 17 00:00:00 2001
+> +From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> +Date: Fri, 25 Jul 2014 12:30:43 -0400
+> +Subject: [PATCH 1/3] Fix: noargs probes should calculate alignment and event
+> + length
+> +
+> +A noargs probe could have event fields. noargs just means that the probe
+> +does not receive any argument as parameter. However, it could very well
+> +serialize data into fields (global variables, constants, etc).
+> +
+> +It just happens that LTTng does not serialize any data in noargs events
+> +at the moment, but this may very well change.
+> +
+> +The if (0) with (void) variable access strategy to stop compiler from
+> +complaining from unused variables does not seem to work as expected with
+> +gcc 4.9.1. Use "unused" attribute instead.
+> +
+> +Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4.inc b/meta/recipes-connectivity/bluez/bluez4.inc
-index d7d3796..3f91166 100644
---- a/meta/recipes-connectivity/bluez/bluez4.inc
-+++ b/meta/recipes-connectivity/bluez/bluez4.inc
-@@ -13,9 +13,11 @@ RDEPENDS_${PN}-dev = "bluez-hcidump"
- PACKAGECONFIG ??= "\
-     ${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}\
-     ${@bb.utils.contains('DISTRO_FEATURES', 'pie', 'pie', '', d)}\
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}\
- "
- PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
- PACKAGECONFIG[pie] = "--enable-pie,--disable-pie,"
-+PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/,--without-systemdunitdir,systemd"
- 
- ASNEEDED = ""
- 
-@@ -24,7 +26,7 @@ SRC_URI = "\
- "
- S = "${WORKDIR}/bluez-${PV}"
- 
--inherit autotools pkgconfig
-+inherit autotools pkgconfig systemd
- 
- EXTRA_OECONF = "\
-   --disable-gstreamer \
-@@ -43,4 +45,6 @@ EXTRA_OECONF = "\
-   --with-udevrulesdir=`pkg-config --variable=udevdir udev`/rules.d \
- "
- 
-+SYSTEMD_SERVICE_${PN} = "bluetooth.service"
-+
- EXCLUDE_FROM_WORLD = "1"
--- 
-1.7.10.4
+These patches need Upstream-Status: Backport and your s-o-b.
 
+Ross
 
