@@ -1,24 +1,29 @@
 Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D7D71712AA
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5262A65E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 05:38:32 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s895cWiw004656
+	Tue,  9 Sep 2014 06:26:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s896Quaa019412
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Sep 2014 22:38:33 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 8 Sep 2014 22:38:31 -0700
+	Mon, 8 Sep 2014 23:26:56 -0700 (PDT)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Mon, 8 Sep 2014 23:26:55 -0700
+Message-ID: <540E9DAD.30809@windriver.com>
+Date: Tue, 9 Sep 2014 14:26:53 +0800
 From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Sep 2014 13:32:35 +0800
-Message-ID: <cover.1410240620.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.9.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: [PATCH 0/1] xinetd: add systemd unit file
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1409301362.git.Chong.Lu@windriver.com>
+	<36a722d493c52d16f6d55ed07df82e865e7f3db7.1409301362.git.Chong.Lu@windriver.com>
+In-Reply-To: <36a722d493c52d16f6d55ed07df82e865e7f3db7.1409301362.git.Chong.Lu@windriver.com>
+X-Originating-IP: [128.224.162.204]
+Subject: Re: [PATCH 1/2] libunwind: add recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +36,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 05:38:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 09 Sep 2014 06:26:57 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-root@qemux86:~# systemctl status xinetd
-● xinetd.service - Xinetd A Powerful Replacement For Inetd
-   Loaded: loaded (/lib/systemd/system/xinetd.service; enabled)
-   Active: active (running) since Tue 2014-09-09 05:13:43 UTC; 15s ago
-  Process: 124 ExecStart=/usr/sbin/xinetd -stayalive -pidfile /var/run/xinetd.pid $EXTRAOPTIONS (code=exited, status=0/SUCCESS)
- Main PID: 126 (xinetd)
-   CGroup: /system.slice/xinetd.service
-           └─126 /usr/sbin/xinetd -stayalive -pidfile /var/run/xinetd.pid
+ping
 
-Sep 09 05:13:43 qemux86 xinetd[126]: xinetd Version 2.3.15 started with lib...n.
-Sep 09 05:13:43 qemux86 xinetd[126]: Started working: 0 available services
-
-The following changes since commit 1894522f357fdf0b6adb2dcc14f12817628596bd:
-
-  bitbake: tinfoil: add a means of enabling variable history tracking (2014-09-05 10:14:25 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib chonglu/xinetd
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/xinetd
-
-Chong Lu (1):
-  xinetd: add systemd unit file
-
- meta/recipes-extended/xinetd/xinetd/xinetd.service | 13 +++++++++++++
- meta/recipes-extended/xinetd/xinetd_2.3.15.bb      | 12 +++++++++++-
- 2 files changed, 24 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/xinetd/xinetd/xinetd.service
-
--- 
-1.9.1
+On 08/29/2014 04:38 PM, Chong Lu wrote:
+> Add libunwind from meta-oe to oe-core, since perf depends on it.
+>
+> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> ---
+>   meta/recipes-support/libunwind/libunwind.inc    | 30 +++++++++++++++++++++++++
+>   meta/recipes-support/libunwind/libunwind_1.1.bb |  4 ++++
+>   2 files changed, 34 insertions(+)
+>   create mode 100644 meta/recipes-support/libunwind/libunwind.inc
+>   create mode 100644 meta/recipes-support/libunwind/libunwind_1.1.bb
+>
+> diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
+> new file mode 100644
+> index 0000000..b27b9e5
+> --- /dev/null
+> +++ b/meta/recipes-support/libunwind/libunwind.inc
+> @@ -0,0 +1,30 @@
+> +DESCRIPTION = "a portable and efficient C programming interface (API) to determine the call-chain of a program"
+> +HOMEPAGE = "http://www.nongnu.org/libunwind"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=3fced11d6df719b47505837a51c16ae5"
+> +
+> +SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+> +
+> +inherit autotools
+> +
+> +PACKAGECONFIG ??= ""
+> +PACKAGECONFIG[lzma] = "--enable-minidebuginfo,--disable-minidebuginfo,lzma"
+> +
+> +EXTRA_OECONF_arm = "--enable-debug-frame"
+> +
+> +CFLAGS += "${ATOMICOPS}"
+> +ATOMICOPS_armv5 = "-DAO_USE_PTHREAD_DEFS=1"
+> +ATOMICOPS_armv4 = "-DAO_USE_PTHREAD_DEFS=1"
+> +ATOMICOPS ?= ""
+> +
+> +LDFLAGS += "${LIBATOMICS}"
+> +LIBATOMICS_armv5 = "-latomic_ops"
+> +LIBATOMICS_armv4 = "-latomic_ops"
+> +LIBATOMICS ?= ""
+> +
+> +DEPENDS += "${DEPLIBATOMICS}"
+> +DEPLIBATOMICS_armv5 = "libatomics-ops"
+> +DEPLIBATOMICS_armv4 = "libatomics-ops"
+> +DEPLIBATOMICS ?= ""
+> +
+> +BBCLASSEXTEND = "native"
+> diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
+> new file mode 100644
+> index 0000000..bc38e36
+> --- /dev/null
+> +++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
+> @@ -0,0 +1,4 @@
+> +require libunwind.inc
+> +
+> +SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
+> +SRC_URI[sha256sum] = "9dfe0fcae2a866de9d3942c66995e4b460230446887dbdab302d41a8aee8d09a"
 
 
