@@ -1,41 +1,26 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id C23466B8F6
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D0D276B8F6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 05:03:31 +0000 (UTC)
-Received: by mail-pd0-f179.google.com with SMTP id g10so9325702pdj.10
+	Tue,  9 Sep 2014 05:38:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s895cYFL014547
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Sep 2014 22:03:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=eK/4uOqwtRvhi5hMFW+KzKrZaWAqaCryU8UKvVTMlOc=;
-	b=HJ+TReQfcxCMaHkKm5mEb8Eq3N396JfPVn81Y52e1aKDjDMkyZbW5SBEh//jO/U84s
-	ugvoxhbxKlm2ve2ZrCQPDitpPDaud85/d+a/QKsvh++WVY1R6DmGFUz8lTmJTGDnw4w0
-	HdIjCeSya185kNyZjz5hEjCmCRsUnKqqzHD+qPGVZxEMt4WWYzgqSe4LRQup3PaTmw6B
-	IF0HfHtbSNIMybw24MjjiaHscwTqZ376TpYFosMd1SGpS6TqkAbLtvAxRWZVe09l9kNo
-	u4mJsfO8+W82L3ZRp1MXM44UM5v9nETcpPY3k0vTpYIAUpUcvtbFpk1whVlUi0L4jv/h
-	x3/g==
-X-Received: by 10.70.140.163 with SMTP id rh3mr35183303pdb.53.1410239012287;
-	Mon, 08 Sep 2014 22:03:32 -0700 (PDT)
-Received: from ?IPv6:2601:c:9380:601:fdfa:dfad:1b06:d652?
-	([2601:c:9380:601:fdfa:dfad:1b06:d652])
-	by mx.google.com with ESMTPSA id
-	om6sm10425985pdb.89.2014.09.08.22.03.29
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Sep 2014 22:03:30 -0700 (PDT)
-Message-ID: <540E8A1F.2010800@gmail.com>
-Date: Mon, 08 Sep 2014 22:03:27 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Mon, 8 Sep 2014 22:38:34 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 8 Sep 2014 22:38:33 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Sep 2014 13:32:36 +0800
+Message-ID: <3ce7cbed40ec5f20f202d0b37d9dcf8b9ac6d6f6.1410240620.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1410240620.git.Chong.Lu@windriver.com>
+References: <cover.1410240620.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1410227590-14190-1-git-send-email-akuster808@gmail.com>
-In-Reply-To: <1410227590-14190-1-git-send-email-akuster808@gmail.com>
-Subject: Re: [PATCH] Adding new qemuppc64 machine config
+Subject: [PATCH 1/1] xinetd: add systemd unit file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,23 +33,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 05:03:41 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Sep 2014 05:38:39 -0000
+Content-Type: text/plain
 
-I forgot to mention. I will update linux-yocto_3.1x.bb too.
+Add systemd unit file for xinetd.
 
-- Armin
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ meta/recipes-extended/xinetd/xinetd/xinetd.service | 13 +++++++++++++
+ meta/recipes-extended/xinetd/xinetd_2.3.15.bb      | 12 +++++++++++-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/xinetd/xinetd/xinetd.service
 
-On 09/08/2014 06:53 PM, Armin Kuster wrote:
-> apply after "linux-yocto/3.14: configuration updates and feature merges."
->
->
-> Armin Kuster (1):
->    qemuppc64: add machine
->
->   meta/conf/machine/qemuppc64.conf | 16 ++++++++++++++++
->   1 file changed, 16 insertions(+)
->   create mode 100644 meta/conf/machine/qemuppc64.conf
->
+diff --git a/meta/recipes-extended/xinetd/xinetd/xinetd.service b/meta/recipes-extended/xinetd/xinetd/xinetd.service
+new file mode 100644
+index 0000000..d5fdc5b
+--- /dev/null
++++ b/meta/recipes-extended/xinetd/xinetd/xinetd.service
+@@ -0,0 +1,13 @@
++[Unit]
++Description=Xinetd A Powerful Replacement For Inetd
++After=syslog.target network.target
++
++[Service]
++Type=forking
++PIDFile=/var/run/xinetd.pid
++EnvironmentFile=-/etc/sysconfig/xinetd
++ExecStart=@SBINDIR@/xinetd -stayalive -pidfile /var/run/xinetd.pid "$EXTRAOPTIONS"
++ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
+index 1928949..288186e 100644
+--- a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
++++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
+@@ -17,12 +17,15 @@ SRC_URI = "http://www.xinetd.org/xinetd-${PV}.tar.gz \
+       file://Disable-services-from-inetd.conf-if-a-service-with-t.patch \
+       file://xinetd-should-be-able-to-listen-on-IPv6-even-in-ine.patch \
+       file://xinetd-CVE-2013-4342.patch \
++      file://xinetd.service \
+       "
+ 
+ SRC_URI[md5sum] = "77358478fd58efa6366accae99b8b04c"
+ SRC_URI[sha256sum] = "bf4e060411c75605e4dcbdf2ac57c6bd9e1904470a2f91e01ba31b50a80a5be3"
+ 
+-inherit autotools update-rc.d
++inherit autotools update-rc.d systemd
++
++SYSTEMD_SERVICE_${PN} = "xinetd.service"
+ 
+ INITSCRIPT_NAME = "xinetd"
+ INITSCRIPT_PARAMS = "defaults"
+@@ -52,6 +55,13 @@ do_install() {
+ 	install -m 644 "${WORKDIR}/xinetd.default" "${D}${sysconfdir}/default/xinetd"
+ 	install -m 755 "${B}/xinetd/xinetd" "${D}${sbindir}"
+ 	install -m 755 "${B}/xinetd/itox" "${D}${sbindir}"
++
++	# Install systemd unit files
++	install -d ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/xinetd.service ${D}${systemd_unitdir}/system
++	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
++	       -e 's,@SBINDIR@,${sbindir},g' \
++	       ${D}${systemd_unitdir}/system/xinetd.service
+ }
+ 
+ CONFFILES_${PN} = "${sysconfdir}/xinetd.conf"
+-- 
+1.9.1
+
 
