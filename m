@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 835A065E1A
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CED8D7130F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 06:35:33 +0000 (UTC)
+	Tue,  9 Sep 2014 06:35:34 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s896ZYU8005086
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s896ZaYc021155
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Sep 2014 23:35:35 -0700 (PDT)
+	Mon, 8 Sep 2014 23:35:36 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 8 Sep 2014 23:35:34 -0700
+	14.3.174.1; Mon, 8 Sep 2014 23:35:35 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Sep 2014 14:35:48 +0800
-Message-ID: <aad5305342e10b8fdbf9f7fab8a07dab65412255.1410244514.git.Qi.Chen@windriver.com>
+Date: Tue, 9 Sep 2014 14:35:49 +0800
+Message-ID: <479939f8aff61e4697df9b04a072a52c9108be7c.1410244514.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1410244514.git.Qi.Chen@windriver.com>
 References: <cover.1410244514.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/6] udev: fix unsafe reference by installing libgudev in libdir
+Subject: [PATCH 3/6] insane.bbclass: make the checking stricter for unsafe references in scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 06:35:33 -0000
+X-List-Received-Date: Tue, 09 Sep 2014 06:35:35 -0000
 Content-Type: text/plain
 
 From: Chen Qi <qi.chen@windriver.com>
 
 [CQID: WIND00444742]
 
-This patch fixes the following QA issue about unsafe reference in
-binaries.
+Previously, the checking for unsafe references is not strict enough. It
+only checks whether '/usr/' is in the script. As a result, any script
+containing statements like below will match this check.
 
-/lib/libgudev-1.0.so.0.1.1 requires /usr/lib/libgobject-2.0.so.0.
+	   PATH="/bin:/sbin:/usr/bin:/usr/sbin"
 
-As libgudev is a GObject wrapper for libudev, and the purpose of
-it is to make the development of GObject based applications easier,
-there's no reason why it should remain in /lib. So this patches moves
-the libgudev to /usr/lib.
+However, as we can see, this is actually not an unsafe reference. What
+we really want to check is something like '/usr/bin/tail', so we should
+make the checking stricter.
 
-This patch also removes a duplicate line in the EXTRA_OECONF.
+This patch solves the QA warning in gzip and nfs-utils.
 
 (LOCAL REV: NOT UPSTREAM) -- Sent to oe-core on 20131113
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Joe MacDonald <joe.macdonald@windriver.com>
-Signed-off-by: Joe MacDonald <joe@deserted.net>
 ---
- meta/recipes-core/udev/udev.inc | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/classes/insane.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 280da10..cb6279f 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -42,7 +42,6 @@ EXTRA_OECONF = "--disable-introspection \
-                 ac_cv_file__usr_share_misc_pci_ids=yes \
-                 --sbindir=${base_sbindir} \
-                 --libexecdir=${nonarch_base_libdir} \
--                --with-rootlibdir=${base_libdir} \
-                 --with-rootprefix= \
-                 --without-systemdsystemunitdir \
-                "
-@@ -92,6 +91,13 @@ do_install_append () {
- 	# hid2hci has moved to bluez4. removed in udev as of version 169
- 	rm -f ${D}${base_libdir}/udev/hid2hci
- 
-+	if [ "${libdir}" != "${base_libdir}" ]; then
-+	    # install libgudev.so.* into libdir.
-+	    so_img_name=`basename $(readlink ${D}${libdir}/libgudev-1.0.so)`
-+	    mv ${D}${base_libdir}/libgudev-1.0.so.* ${D}${libdir}
-+	    ln -sf $so_img_name ${D}${libdir}/libgudev-1.0.so
-+	fi
-+
- 	echo 'udev_run="/var/run/udev"' >> ${D}${sysconfdir}/udev/udev.conf
- }
- 
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 3dd2e7f..4dc0220 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -385,7 +385,7 @@ def package_qa_check_unsafe_references_in_scripts(path, name, d, elf, messages):
+         if bool(statinfo.st_mode & stat.S_IXUSR):
+             # grep shell scripts for possible references to /exec_prefix/
+             exec_prefix = d.getVar('exec_prefix', True)
+-            statement = "grep -e '%s/' %s > /dev/null" % (exec_prefix, path)
++            statement = "grep -e '%s/[^ :]\{1,\}/[^ :]\{1,\}' %s > /dev/null" % (exec_prefix, path)
+             if subprocess.call(statement, shell=True) == 0:
+                 error_msg = pn + ": Found a reference to %s/ in %s" % (exec_prefix, path)
+                 package_qa_handle_error("unsafe-references-in-scripts", error_msg, d)
 -- 
 1.9.1
 
