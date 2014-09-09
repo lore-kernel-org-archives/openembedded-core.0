@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BEBBD60703
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E537E702D9
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  9 Sep 2014 03:01:17 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8931HKs002505
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8931IoV003662
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Sep 2014 20:01:17 -0700 (PDT)
+	Mon, 8 Sep 2014 20:01:18 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 8 Sep 2014 20:01:16 -0700
+	14.3.174.1; Mon, 8 Sep 2014 20:01:18 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Sep 2014 11:01:35 +0800
-Message-ID: <cover.1410231534.git.Qi.Chen@windriver.com>
+Date: Tue, 9 Sep 2014 11:01:36 +0800
+Message-ID: <b527ba898c66ab8e6666d6e06f812f3bec1a9b49.1410231534.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1410231534.git.Qi.Chen@windriver.com>
+References: <cover.1410231534.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] Fix the problem of being unable to login in rescue mode if password is set
+Subject: [PATCH 1/2] util-linux: split out util-linux-sulogin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +36,63 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 09 Sep 2014 03:01:23 -0000
 Content-Type: text/plain
 
-To reproduce the problem:
-1. Add in local.conf:
-   INHERIT += "extrausers"
-   EXTRA_USERS_PARAMS = "usermod -P 'root' root; \
-                      useradd -P 'test' test;"
-2. bitbake core-image-minimal
-3. runqemu qemux86 nographic bootparams="-s"
+Split out a new package, util-linux-sulogin.
+This package is needed because busybox's sulogin cannot handle shadow
+files if FEATURE_SHADOWPASSWORDS is not enabled.
 
-The following changes since commit 4c0a9ccbad2889b27b4b1d2ab91215a4bdcca3ce:
-
-  python-numpy: Fix build for mips64 (2014-09-01 18:00:32 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/sulogin-shadow
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/sulogin-shadow
-
-Chen Qi (2):
-  util-linux: split out util-linux-sulogin
-  extrausers: add util-linux-sulogin to IMAGE_INSTALL
-
- meta/classes/extrausers.bbclass             | 2 +-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/recipes-core/util-linux/util-linux.inc | 9 ++++++---
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index ffb84c4..1460498 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -37,7 +37,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+              util-linux-mkfs util-linux-mcookie util-linux-reset \
+              util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
+              util-linux-partx ${PN}-bash-completion util-linux-hwclock \
+-             util-linux-findfs"
++             util-linux-findfs util-linux-sulogin"
+ 
+ SHARED_EXTRA_OECONF = "--disable-use-tty-group \
+                        --disable-makeinstall-chown \
+@@ -93,6 +93,7 @@ FILES_util-linux-mkfs = "${sbindir}/mkfs"
+ FILES_util-linux-fsck.cramfs = "${sbindir}/fsck.cramfs"
+ FILES_util-linux-mkfs.cramfs = "${sbindir}/mkfs.cramfs"
+ 
++FILES_util-linux-sulogin = "${base_sbindir}/sulogin*"
+ 
+ # Util-linux' blkid replaces the e2fsprogs one
+ FILES_util-linux-blkid = "${base_sbindir}/blkid*"
+@@ -169,7 +170,7 @@ ALTERNATIVE_PRIORITY = "100"
+ 
+ ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root"
+ ALTERNATIVE_${PN} += "mkfs.minix hexdump last logger mesg renice wall"
+-ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject getopt sulogin"
++ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject getopt"
+ 
+ ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+ ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
+@@ -180,7 +181,6 @@ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
+ ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
+ ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+ ALTERNATIVE_LINK_NAME[getopt] = "${base_bindir}/getopt"
+-ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
+ ALTERNATIVE_TARGET[getopt] = "${bindir}/getopt"
+ 
+ ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utmpdump.1 reset.1"
+@@ -233,6 +233,9 @@ ALTERNATIVE_util-linux-reset = "reset"
+ ALTERNATIVE_LINK_NAME[reset] = "${bindir}/reset"
+ ALTERNATIVE_TARGET[reset] = "${base_bindir}/reset"
+ 
++ALTERNATIVE_util-linux-sulogin = "sulogin"
++ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ python do_package_prepend () {
 -- 
 1.9.1
 
