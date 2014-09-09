@@ -1,41 +1,21 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 0180765E1A
+Return-Path: <tom.zanussi@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id BDED265C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 15:13:56 +0000 (UTC)
-Received: by mail-pd0-f174.google.com with SMTP id v10so9131595pde.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Sep 2014 08:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=T3IdND77LaoUNWFuHolGeOytx17DrqyGdgFGLfdsiks=;
-	b=S3kpr1TzmS9BNKHpOW7ihgxnJ6VBIFaJf9Fm5qPXUU9FRWRxJaJ3l9IiatNSj9fn5O
-	MySzRL3Ang89+iFFYe0cOGeCXrz/u/JD39dptU5Wsj6+uIMKJTg/KYbvL3sZkz4OZfKX
-	3Pq9lOx03hMvZxyXVWw57bVx3a0GxzQQAp358iQdmey26x6809rnzpzQk95Ao0As9zzC
-	Anb5sKQn+G06THb0m+N9oik3fQgmTg7TF1FTG0TkqczVyTJnqYM40+X1oFJ+GDZULOtl
-	XR5sAYQTtlMlCkkeSpvxxeegZtfJ/inNYOYMYMhlXlicHriWS5bw/ek6j++mHsB8CTqj
-	9Zlg==
-X-Received: by 10.70.38.239 with SMTP id j15mr58599032pdk.109.1410275637943;
-	Tue, 09 Sep 2014 08:13:57 -0700 (PDT)
-Received: from [192.168.18.12] (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by mx.google.com with ESMTPSA id
-	sd4sm11926280pbc.15.2014.09.09.08.13.56 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 09 Sep 2014 08:13:56 -0700 (PDT)
-Message-ID: <540F192A.8000401@gmail.com>
-Date: Tue, 09 Sep 2014 08:13:46 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
-MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1410227590-14190-1-git-send-email-akuster808@gmail.com>	<1410227590-14190-2-git-send-email-akuster808@gmail.com>	<1410249927.19272.42.camel@ted>
-	<540F12D0.3080900@windriver.com>
-In-Reply-To: <540F12D0.3080900@windriver.com>
-Subject: Re: [[PATCH] qemuppc64: add machine
+	Tue,  9 Sep 2014 16:21:59 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 09 Sep 2014 09:21:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,492,1406617200"; d="scan'208";a="600332007"
+Received: from unknown (HELO localhost) ([10.255.12.151])
+	by orsmga002.jf.intel.com with ESMTP; 09 Sep 2014 09:21:58 -0700
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Sep 2014 11:21:56 -0500
+Message-Id: <cover.1410279539.git.tom.zanussi@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 0/1] wic: remove all urlgrabber references
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,80 +28,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 15:13:58 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Sep 2014 16:22:06 -0000
 
+This fixes a problem noticed by a user, that urlgrabber was still
+being referenced even though it had been removed from the 3rdparty
+code.
 
+The following changes since commit a44006262cf3b810ec78b4cccd8076102a7a0f3e:
 
-On 09/09/2014 07:46 AM, Mark Hatle wrote:
-> On 9/9/14, 3:05 AM, Richard Purdie wrote:
->> On Mon, 2014-09-08 at 18:53 -0700, Armin Kuster wrote:
->>> override USER_CLASSES as prelink does not currently
->>> work on ppc64
->>> ---
->>>   meta/conf/machine/qemuppc64.conf | 16 ++++++++++++++++
->>>   1 file changed, 16 insertions(+)
->>>   create mode 100644 meta/conf/machine/qemuppc64.conf
->>>
->>> diff --git a/meta/conf/machine/qemuppc64.conf
->>> b/meta/conf/machine/qemuppc64.conf
->>> new file mode 100644
->>> index 0000000..86916e5
->>> --- /dev/null
->>> +++ b/meta/conf/machine/qemuppc64.conf
->>> @@ -0,0 +1,16 @@
->>> +#@TYPE: Machine
->>> +#@NAME: qemu PPC 64 Emulator setup
->>> +#@DESCRIPTION: Machine configuration for running an PPC system under
->>> qemu emulation
->>> +
->>> +require conf/machine/include/qemu.inc
->>> +DEFAULTTUNE ?= "ppc64p6"
->>> +require conf/machine/include/tune-power6.inc
->>> +
->>> +#prelink broken
->>> +USER_CLASSES = "buildstats image-mklibs "
->>
->> This is horrible. Can we somehow blacklist qemuppc64 in the prelink
->> class itself?
->>
->> USER_CLASSES_remove = "prelink"
->>
->> would be better than overriding the users choice like above...
->
-> I keep asking people who have access to the PPC 64 systems to
-> investigate and help debug this.
->
-> I don't expect it will be difficult to figure out, but I simply don't
-> have access to this architecture to try.
->
-> There is a YP bug, 1331
-> (https://bugzilla.yoctoproject.org/show_bug.cgi?id=1331).
->
-> So please, if you can help diagnose what is going wrong, I'd really like
-> to fix this.
+  distro/poky: Add Debian 7.5 and 7.6 version as validated (2014-09-03 16:00:29 +0100)
 
-Will see what I can do.
+are available in the git repository at:
 
-- Armin
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/wic-urlgrabber-fixes-2
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/wic-urlgrabber-fixes-2
 
->
-> --Mark
->
->> Cheers,
->>
->> Richard
->>
->>> +KERNEL_IMAGETYPE = "vmlinux"
->>> +
->>> +IMAGE_FSTYPES = "ext2 ext3"
->>> +
->>> +SERIAL_CONSOLE ?= "ttyS0"
->>> --
->>> 1.9.1
->>>
->>
->>
->
+Tom Zanussi (1):
+  wic: Completely remove all urlgrabber references
+
+ scripts/lib/wic/3rdparty/pykickstart/parser.py  | 87 +------------------------
+ scripts/lib/wic/3rdparty/pykickstart/version.py | 29 ---------
+ 2 files changed, 2 insertions(+), 114 deletions(-)
+
+-- 
+1.8.3.1
+
 
