@@ -1,36 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 801FA65E1A
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3757360167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 22:29:52 +0000 (UTC)
-Received: by mail-wg0-f43.google.com with SMTP id x12so4405888wgg.26
+	Tue,  9 Sep 2014 23:12:50 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id fa1so5792790pad.30
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Sep 2014 15:29:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=SCowcZSvPxmdRC7TFnYLk3agczMC/IwuIwoW2uMGPoE=;
-	b=WZWI+o0aubc6Bbeestr6gAHoPPkwbyN37KLxhBqSd3biHFiurx3sX6JqrM54zIvO8A
-	rHnrVtawoi0uIWKdxsH3eu/fhE8tLW2SboZhyxc0wjEmGWmn4id9otWKXeymKo7SRZvY
-	vxfJSQex6AqQhidSSPk/kxhqm9s3loKa5rN/8F010hz78Pm/vrbrX6h7Eu2IDthsNuYx
-	dPO//anubmDOwyS7eX1rGmYnMzFneXO8B07oaUTSQNcQOqN1nnMlWAUlw5S7b6EEAlEv
-	ef5bofUj+lBTtG0x6oxu6f8Rxq+eD7/GewIeXjDgWrmH0ZnmQVmUjUVc3dUTtjRJI6jb
-	IYEg==
-X-Gm-Message-State: ALoCoQnoq1AvUNsDmE/kda1DvWyrCObpzf8crWAy2X41Ew9JeixTqrcyV/yBNrKvIFtqwkEFg/Wr
-X-Received: by 10.194.119.193 with SMTP id kw1mr46166944wjb.82.1410301793387; 
-	Tue, 09 Sep 2014 15:29:53 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	Tue, 09 Sep 2014 16:12:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=UMrBODQI1vzOarGqGynMlRSxEau2qhlXLhI4yieUK/4=;
+	b=YMmYzIik22KXny4kffuKV/ndyZrzqEciyimDwDRkJbkxGcb2u5haS8tgCaXwUfGMMO
+	TyaEcUZTDEZzRYMjDwTVXLlxSf9NbxLfcxhNUKVEhk/pGCpxu4npQTCo5XEnadGw6EbT
+	HoXvAXjsB/P5tRUk4Ud4OIJHk3OUdcxzsjAlgR98DeNx4n4zXMuNRLtwbkZA7r+KB244
+	t4ebwZNRy6KWUrnlcc7QWCt1KZATbdUbmouCnk62cPsojj2VsncGqvS3dN/V9Ww4scAV
+	w4k8gu1GCRTi3S3yl20vMnoi8z9osOwufhSNJ4vSqwnEXdioj93FHAW4VUYhyGv42X5x
+	DVTw==
+X-Received: by 10.66.229.8 with SMTP id sm8mr61661901pac.66.1410304372153;
+	Tue, 09 Sep 2014 16:12:52 -0700 (PDT)
+Received: from [10.7.100.251] (64.2.3.195.ptr.us.xo.net. [64.2.3.195])
 	by mx.google.com with ESMTPSA id
-	ew1sm16389781wjb.31.2014.09.09.15.29.51
-	for <openembedded-core@lists.openembedded.org>
+	gi14sm3166131pbd.10.2014.09.09.16.12.50 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 09 Sep 2014 15:29:52 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Sep 2014 23:29:45 +0100
-Message-Id: <1410301785-20464-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] valgrind: backport enabling for glibc 2.20
+	Tue, 09 Sep 2014 16:12:50 -0700 (PDT)
+Message-ID: <540F8971.6020803@gmail.com>
+Date: Tue, 09 Sep 2014 16:12:49 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	akuster808 <akuster808@gmail.com>,
+	"Ashfield, Bruce" <Bruce.Ashfield@windriver.com>
+References: <1410227590-14190-1-git-send-email-akuster808@gmail.com>	<540E8A1F.2010800@gmail.com>
+	<1410274925.19272.44.camel@ted>
+In-Reply-To: <1410274925.19272.44.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Adding new qemuppc64 machine config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,99 +50,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 22:29:59 -0000
+X-List-Received-Date: Tue, 09 Sep 2014 23:12:53 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Now that we're running glibc 2.20 not 2.19, backport the configure.ac fixes from
-upstream.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../valgrind/valgrind/glibc-2.19.patch             |   23 ---------------
- .../valgrind/valgrind/glibc-2.20.patch             |   30 ++++++++++++++++++++
- meta/recipes-devtools/valgrind/valgrind_3.9.0.bb   |    2 +-
- 3 files changed, 31 insertions(+), 24 deletions(-)
- delete mode 100644 meta/recipes-devtools/valgrind/valgrind/glibc-2.19.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/glibc-2.20.patch
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/glibc-2.19.patch b/meta/recipes-devtools/valgrind/valgrind/glibc-2.19.patch
-deleted file mode 100644
-index 7714b99..0000000
---- a/meta/recipes-devtools/valgrind/valgrind/glibc-2.19.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--Add support for compiling with glibc 2.19
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Upstream-Status: Pending
--Index: valgrind-3.9.0/configure.ac
--===================================================================
----- valgrind-3.9.0.orig/configure.ac	2014-02-12 09:03:07.879873700 -0800
--+++ valgrind-3.9.0/configure.ac	2014-02-12 09:07:35.099871774 -0800
--@@ -918,6 +918,13 @@
-- 	DEFAULT_SUPP="$srcdir/glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
-- 	DEFAULT_SUPP="$srcdir/glibc-2.X-drd.supp ${DEFAULT_SUPP}"
-- 	;;
--+     2.19)
--+	AC_MSG_RESULT(2.19 family)
--+	AC_DEFINE([GLIBC_2_19], 1, [Define to 1 if you're using glibc 2.19.x])
--+	DEFAULT_SUPP="glibc-2.X.supp ${DEFAULT_SUPP}"
--+	DEFAULT_SUPP="$srcdir/glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
--+	DEFAULT_SUPP="$srcdir/glibc-2.X-drd.supp ${DEFAULT_SUPP}"
--+	;;
--      darwin)
-- 	AC_MSG_RESULT(Darwin)
-- 	AC_DEFINE([DARWIN_LIBC], 1, [Define to 1 if you're using Darwin])
-diff --git a/meta/recipes-devtools/valgrind/valgrind/glibc-2.20.patch b/meta/recipes-devtools/valgrind/valgrind/glibc-2.20.patch
-new file mode 100644
-index 0000000..fab4044
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/glibc-2.20.patch
-@@ -0,0 +1,30 @@
-+Backport of glibc 2.19 and 2.20 support.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/configure.ac b/configure.ac
-+index 229ab98..1c18108 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -918,6 +918,20 @@ case "${GLIBC_VERSION}" in
-+ 	DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
-+ 	DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
-+ 	;;
-++     2.19)
-++	AC_MSG_RESULT(2.19 family)
-++	AC_DEFINE([GLIBC_2_19], 1, [Define to 1 if you're using glibc 2.19.x])
-++	DEFAULT_SUPP="glibc-2.X.supp ${DEFAULT_SUPP}"
-++	DEFAULT_SUPP="$srcdir/glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
-++	DEFAULT_SUPP="$srcdir/glibc-2.X-drd.supp ${DEFAULT_SUPP}"
-++	;;
-++     2.20)
-++	AC_MSG_RESULT(2.20 family)
-++	AC_DEFINE([GLIBC_2_20], 1, [Define to 1 if you're using glibc 2.20.x])
-++	DEFAULT_SUPP="glibc-2.X.supp ${DEFAULT_SUPP}"
-++	DEFAULT_SUPP="$srcdir/glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
-++	DEFAULT_SUPP="$srcdir/glibc-2.X-drd.supp ${DEFAULT_SUPP}"
-++	;;
-+      darwin)
-+ 	AC_MSG_RESULT(Darwin)
-+ 	AC_DEFINE([DARWIN_LIBC], 1, [Define to 1 if you're using Darwin])
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
-index 3e8c4ce..c415e77 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
-@@ -15,7 +15,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
-            file://fixed-perl-path.patch \
-            file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch \
-            file://sepbuildfix.patch \
--           file://glibc-2.19.patch \
-+           file://glibc-2.20.patch \
-            file://force-nostabs.patch \
-            file://remove-arm-variant-specific.patch \
-            file://remove-ppc-tests-failing-build.patch \
--- 
-1.7.10.4
+On 09/09/2014 08:02 AM, Richard Purdie wrote:
+> On Mon, 2014-09-08 at 22:03 -0700, akuster808 wrote:
+>> I forgot to mention. I will update linux-yocto_3.1x.bb too.
+>
+> You need to talk to Bruce about that. I'm also worried about this coming
+> in this late, after feature freeze.
 
+I wasn't targeting getting it in for 1.7.
+
+I am just passing along it along so maybe someone else might gain some 
+benefit from it.
+
+
+- Armin
+
+>
+> Cheers,
+>
+> Richard
+>
+>> - Armin
+>>
+>> On 09/08/2014 06:53 PM, Armin Kuster wrote:
+>>> apply after "linux-yocto/3.14: configuration updates and feature merges."
+>>>
+>>>
+>>> Armin Kuster (1):
+>>>     qemuppc64: add machine
+>>>
+>>>    meta/conf/machine/qemuppc64.conf | 16 ++++++++++++++++
+>>>    1 file changed, 16 insertions(+)
+>>>    create mode 100644 meta/conf/machine/qemuppc64.conf
+>>>
+>
+>
 
