@@ -1,34 +1,44 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BF8E65FEC
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A7E965FEC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 15:00:53 +0000 (UTC)
-Received: by mail-pd0-f173.google.com with SMTP id ft15so7134300pdb.4
+	Tue,  9 Sep 2014 15:02:04 +0000 (UTC)
+Received: by mail-pd0-f170.google.com with SMTP id fp1so1416916pdb.15
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Sep 2014 08:00:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=6gmE9JsKSX/DT0cPj0aLlHVQx/fns06RHMXFVTDP7t8=;
-	b=AUEQFRarLHw1Zt2FaFDTOT+jdGERB9aPFjx0p05MDoNkShv0IGB+qKBg041YJqFY5r
-	Ubm+vOJyQ56Ma9RrJjunwf8Zgirlpb/GMH0HwaxC2GpPQ49LDiwvkYfffvLF44qfeJaZ
-	sP+TZXIzwe8AD0xoGIo3YDeAhU3fakvJfuy3iN2wHGhw2a9VeIR3/WQ0CsoRQqs9v982
-	D6kWHZIQMmMexRHO874BoDKeqgpPId8UBhKSAedhCz+T33rzvMPWV8ISvxPuDJbtez36
-	cCZ27GN5GYIdaqd4LKHgiy9EWYSNe1OkQbQv18fE9xBcV/r0S2lH794f1JVybKHb1Qj/
-	4CAQ==
-X-Received: by 10.68.197.170 with SMTP id iv10mr17402706pbc.129.1410274854754; 
-	Tue, 09 Sep 2014 08:00:54 -0700 (PDT)
-Received: from localhost.localdomain (c-98-207-177-218.hsd1.ca.comcast.net.
-	[98.207.177.218]) by mx.google.com with ESMTPSA id
-	ta6sm12449422pac.14.2014.09.09.08.00.53 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 09 Sep 2014 08:00:54 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Sep 2014 08:04:29 -0700
-Message-Id: <1410275069-6700-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] glibc: Incremental bump to 2.20 release branch
+	Tue, 09 Sep 2014 08:02:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=yWwxtwvgCGR9kpmL/AZeuotKR9OBoB5HgVmhElaFm4s=;
+	b=BBc3NL85id8yV8r2EBtu7/NaXz59b7JjI0qZXPaJsNRl+EvxhmM+9a/vxuDQjGNiCm
+	ij0zW/slBPyb2TxmymZroZwDOzhouqcFMAZpUKq93mE3ZIkh0t0EzbD7ClZJUSOKhaf+
+	m7XC2z848QKAJBxAIo4cizE8O18Ft3r8jlwzsRIoArQSJddX6//4gLr8cvjI80YJj+0n
+	o66vWeVjD0sGDWFIK6dGf5JihRAZNqHBR1XqcWMj71NGaXICkeMcQFEanhNNAtq1EWgo
+	7eE8z69NSzV2tqGRsacMJ6SH9IG0s8xN8xAPa/KTmC/N5GiFmwxvYcQ7/rKINy4c75PU
+	dz/Q==
+X-Gm-Message-State: ALoCoQnimP+cjx1FHiOjnVErykrBvWnfPgNQAQNISn7NFkF3QeYYRP3nOBr/Y/Gwys14e6jBvmaw
+MIME-Version: 1.0
+X-Received: by 10.66.222.74 with SMTP id qk10mr58100808pac.70.1410274925765;
+	Tue, 09 Sep 2014 08:02:05 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.65.69 with HTTP; Tue, 9 Sep 2014 08:02:05 -0700 (PDT)
+In-Reply-To: <CAGNsrLCzz-9h9kD5f7jUWuC+qFVyOhrp5gTDMAZ6TWyLc9Cj-Q@mail.gmail.com>
+References: <1408720803-11737-1-git-send-email-lpapp@kde.org>
+	<5400C6A5.6040001@linux.intel.com>
+	<CAOMwXhPptiMrE7_VNi1rLtv0qzVf=0CHSJ5nn=dTi8GxBtFtHQ@mail.gmail.com>
+	<CAOMwXhP+A40Kcb-KcgCh8rh-oNXh-9DjyBJ4hAunJ7Q7_i8VUA@mail.gmail.com>
+	<CAP9ODKqCq4FZj920GW1ztu_r73MgKuiTfZtThbfZKi2710_BGg@mail.gmail.com>
+	<CAGNsrLCzz-9h9kD5f7jUWuC+qFVyOhrp5gTDMAZ6TWyLc9Cj-Q@mail.gmail.com>
+Date: Tue, 9 Sep 2014 16:02:05 +0100
+X-Google-Sender-Auth: D9QvIMcspH6lLttWzyFNJKclOz0
+Message-ID: <CAOMwXhPbq8NBdMkDC1QkibxJLUrhSnq=Umgp30CY5ZJGjm_GfQ@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: Fathi Boudra <fathi.boudra@linaro.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Add support for ccache builds with the SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,118 +51,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 15:01:02 -0000
+X-List-Received-Date: Tue, 09 Sep 2014 15:02:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Now that glibc 2.20 has been released. We switch
-to use release branch and remove the already applied
-patch
+On Tue, Sep 2, 2014 at 7:22 AM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+> On 1 September 2014 21:04, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> Laszlo,
+>>
+>> On Mon, Sep 1, 2014 at 2:47 PM, Laszlo Papp <lpapp@kde.org> wrote:
+>>> Just in case the severity is not clear. Without this change, the Yocto
+>>> SDK breaks the build for our software since we do prefer to use ccache
+>>> for speeding the build process up. We are probably not alone with that
+>>> ...
+>>
+>> Saul request is very valid. He is asking you to conform to the commit
+>> guidelines we use and it is no-sense you to expect that he or someone
+>> else does this for you.
+>>
+>> So I think if you expect this to be merged you need to fix and send a v2.
+>
+> fwiw, we've been hit by this maintainers behavior. Several patches are
+> stuck in the queue after 10 days of non-activity, followed up by a
+> nitpick comment.
+> It's a source of frustration for the submitter and is killing his
+> motivation. Such comment could come earlier, while he's in the heat of
+> the action and he's usually more receptive to the review.
+>
+> As a result, we lose a contribution. The
+> project/maintainer/submitter/end-user doesn't benefit from the
+> contribution.
+>
+> my 2cts.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../glibc/cross-localedef-native_2.20.bb           |    4 +-
- .../0001-Define-__GI_fegetenv-for-e500-libm.patch  |   45 --------------------
- meta/recipes-core/glibc/glibc_2.20.bb              |    5 +--
- 3 files changed, 4 insertions(+), 50 deletions(-)
- delete mode 100644 meta/recipes-core/glibc/glibc/0001-Define-__GI_fegetenv-for-e500-libm.patch
+Thanks for trying to get things done, Fathi. I appreciate it. I also
+understand what Richard was writing that they are busy. Sure, I am
+very busy, too, but not helping others to get involved easily will
+leave more burden on them in the long run, sadly.
 
-diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.20.bb b/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
-index fd8c242..ccf56a9 100644
---- a/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
-+++ b/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
-@@ -16,7 +16,7 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/glibc:"
- 
- PV = "2.20"
- 
--SRC_URI = "git://sourceware.org/git/glibc.git;branch=master;name=glibc \
-+SRC_URI = "git://sourceware.org/git/glibc.git;branch=release/${PV}/master;name=glibc \
-            git://github.com/kraj/localedef;branch=master;name=localedef;destsuffix=git/localedef \
- 	   file://fix_for_centos_5.8.patch \
-            ${EGLIBCPATCHES} \
-@@ -33,7 +33,7 @@ EGLIBCPATCHES = "\
-            file://eglibc-use-option-groups.patch \
-           "
- 
--SRCREV_glibc = "529bf51595fffbe80023e7d895b671391991bb1b"
-+SRCREV_glibc = "b8079dd0d360648e4e8de48656c5c38972621072"
- SRCREV_localedef = "c833367348d39dad7ba018990bfdaffaec8e9ed3"
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-core/glibc/glibc/0001-Define-__GI_fegetenv-for-e500-libm.patch b/meta/recipes-core/glibc/glibc/0001-Define-__GI_fegetenv-for-e500-libm.patch
-deleted file mode 100644
-index c0e155c..0000000
---- a/meta/recipes-core/glibc/glibc/0001-Define-__GI_fegetenv-for-e500-libm.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--From 07299d036672c86b278256e55ae0cbdae8f751fd Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 29 Aug 2014 16:46:14 -0700
--Subject: [PATCH] Define __GI_fegetenv for e500 libm
--
--generic HAVE_RM_CTX implementation which is used for ppc/e500 as well
--has introduced calls to fegetenv which should be resolved internally
--with in libm
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Upstream-Status: Submitted
--
-----
-- ChangeLog                                       | 5 +++++
-- sysdeps/powerpc/powerpc32/e500/nofpu/fegetenv.c | 1 +
-- 2 files changed, 6 insertions(+)
--
--diff --git a/ChangeLog b/ChangeLog
--index 6261ed4..629ea8e 100644
----- a/ChangeLog
--+++ b/ChangeLog
--@@ -1,3 +1,8 @@
--+2014-08-29  Khem Raj  <raj.khem@gmail.com>
--+
--+	* sysdeps/powerpc/powerpc32/e500/nofpu/fegetenv.c (fegetenv): Add
--+	libm_hidden_ver.
--+
-- 2014-08-27  Allan McRae  <allan@archlinux.org>
-- 
-- 	* sysdeps/i386/fpu/libm-test-ulps: Update ULPs.
--diff --git a/sysdeps/powerpc/powerpc32/e500/nofpu/fegetenv.c b/sysdeps/powerpc/powerpc32/e500/nofpu/fegetenv.c
--index 2ae06b8..5faabe8 100644
----- a/sysdeps/powerpc/powerpc32/e500/nofpu/fegetenv.c
--+++ b/sysdeps/powerpc/powerpc32/e500/nofpu/fegetenv.c
--@@ -43,5 +43,6 @@ __fegetenv (fenv_t *envp)
-- strong_alias (__fegetenv, __old_fegetenv)
-- compat_symbol (libm, __old_fegetenv, fegetenv, GLIBC_2_1);
-- #endif
--+libm_hidden_ver (__fegetenv, fegetenv)
-- 
-- versioned_symbol (libm, __fegetenv, fegetenv, GLIBC_2_2);
---- 
--2.1.0
--
-diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
-index c6ef34a..30a4397 100644
---- a/meta/recipes-core/glibc/glibc_2.20.bb
-+++ b/meta/recipes-core/glibc/glibc_2.20.bb
-@@ -4,9 +4,9 @@ DEPENDS += "gperf-native kconfig-frontends-native"
- 
- PV = "2.20"
- 
--SRCREV = "529bf51595fffbe80023e7d895b671391991bb1b"
-+SRCREV = "b8079dd0d360648e4e8de48656c5c38972621072"
- 
--SRC_URI = "git://sourceware.org/git/glibc.git;branch=master \
-+SRC_URI = "git://sourceware.org/git/glibc.git;branch=release/${PV}/master \
-            file://IO-acquire-lock-fix.patch \
-            file://mips-rld-map-check.patch \
-            file://etc/ld.so.conf \
-@@ -23,7 +23,6 @@ SRC_URI = "git://sourceware.org/git/glibc.git;branch=master \
-            file://ppce6500-32b_slow_ieee754_sqrt.patch \
-            file://grok_gold.patch \
-            file://fix_am_rootsbindir.patch \
--           file://0001-Define-__GI_fegetenv-for-e500-libm.patch \
-            ${EGLIBCPATCHES} \
-           "
- EGLIBCPATCHES = "\
--- 
-1.7.10.4
+This is not the first time that I have to follow changes for
+relatively long time, and the patch in the end does not get in, even
+when it fails build failures for end users, like this one.
 
+The last long bikeshed was around the busybox-ntp. Since I keep
+patching our Yocto fork, I thought after a while, let us give it a try
+again with a simple thing, and it went as far as this, only after
+follow-ups 1-2 weeks later.
+
+It is probably needless to say, but I feel personally very difficult
+to get involved in the Yocto project and I am not saying it because
+there are cosmetic changes with my patches. That is a good level if it
+is just cosmetic in a newcomer's patch anyway?
+
+I am just trying to write that as someone who is working for a very
+small company, I do not have time for all superfluous perfectionism
+this project tries to follow. I appreciate, but I cannot cope with it.
+My highest responsibility is to get things done and ship products.
+That does not include cosmetic nitpicking in a small company. It might
+be OK for Google, Intel, Linux Foundation, etc, but this is simply not
+any priority when you need to work on getting proper income for your
+family.
+
+Why I am personally a little bit frustrated unfortunately it is not
+because things like this happen, but that it happens in a row. The
+Yocto users are still screwed for using ntp properly with busybox.
+That change also went to /dev/null due to some irrelevant thing. What
+is worse, someone even wrote me in person that it is a shame it did
+not get in since that person would have also needed the feature.
+
+As far as I am concerned, the Yocto project contribution is currently
+unsuitable for small companies and individuals whose highest
+responsibility is to get income, i.e. caring about sustainable
+features rather than nitpicks. I have been on both sides, and I can
+understand when someone is maximalist. It is very difficult to
+understand others in the state of mind; been there, done that.
+
+Anyway, I have a relatively long list of unintegrated features into
+Yocto by now, but this is not quite good that they are going on their
+own way in a fork rather than going in. As it was written in this
+thread, it is quite demotivating to see such nitpicks after 1-2 weeks,
+and then long discussions about who is doing what. I can assure you
+that if I had not had several changes rejected due to such nitpicks, I
+would have already fixed this one, but in this case, I am not doing
+them anymore since I do not see any willingness from the Yocto
+community to try to help me with getting things easily in.
 
