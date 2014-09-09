@@ -1,26 +1,24 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B40A16BBAB
+	by mail.openembedded.org (Postfix) with ESMTP id 3646360703
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Sep 2014 19:55:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s88Jth6G027426
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Sep 2014 12:55:44 -0700 (PDT)
-Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 8 Sep 2014 12:55:40 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 8 Sep 2014 15:55:24 -0400
-Message-ID: <9004f2c195c4b71132ee10b122d6736efb0e51f1.1410205901.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1410205901.git.bruce.ashfield@windriver.com>
-References: <cover.1410205901.git.bruce.ashfield@windriver.com>
+	Tue,  9 Sep 2014 00:20:10 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s890KAuC000816
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Sep 2014 17:20:10 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.141) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 8 Sep 2014 17:20:10 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Sep 2014 08:20:13 +0800
+Message-ID: <1410222013-31114-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/7] linux-yocto: introduce v3.17
+Subject: [PATCH][meta-networking][v4] tcpslice: add recipe under tcpdump
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,94 +31,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Sep 2014 19:55:49 -0000
+X-List-Received-Date: Tue, 09 Sep 2014 00:20:11 -0000
 Content-Type: text/plain
 
-With this commit, we introduce the v3.17-rcX kernels, which will be
-released as part of the 1.7 yocto project.
+From: Roy Li <rongqing.li@windriver.com>
 
-All architectures have been compiled and booted with this revision
-of the kernel.
+tcpslice is a tool for extracting parts of a tcpdump packet trace,
+so put it under tcpdump dir
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb | 21 ++++++++++++
- meta/recipes-kernel/linux/linux-yocto_3.17.bb      | 37 ++++++++++++++++++++++
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.17.bb
+Fix the license
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
+ .../tcpdump/tcpslice/tcpslice-1.2a3-time.patch     |   75 ++++++++++++++++++++
+ .../tcpslice/tcpslice-CVS.20010207-bpf.patch       |   15 ++++
+ .../recipes-support/tcpdump/tcpslice_1.2a3.bb      |   35 +++++++++
+ 3 files changed, 125 insertions(+)
+ create mode 100644 meta-networking/recipes-support/tcpdump/tcpslice/tcpslice-1.2a3-time.patch
+ create mode 100644 meta-networking/recipes-support/tcpdump/tcpslice/tcpslice-CVS.20010207-bpf.patch
+ create mode 100644 meta-networking/recipes-support/tcpdump/tcpslice_1.2a3.bb
+
+diff --git a/meta-networking/recipes-support/tcpdump/tcpslice/tcpslice-1.2a3-time.patch b/meta-networking/recipes-support/tcpdump/tcpslice/tcpslice-1.2a3-time.patch
 new file mode 100644
-index 000000000000..c1cb47ba9057
+index 0000000..386b7f8
 --- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
-@@ -0,0 +1,21 @@
-+KBRANCH ?= "standard/tiny/base"
-+LINUX_KERNEL_TYPE = "tiny"
-+KCONFIG_MODE = "--allnoconfig"
++++ b/meta-networking/recipes-support/tcpdump/tcpslice/tcpslice-1.2a3-time.patch
+@@ -0,0 +1,75 @@
++Upstream-Status: Pending [from tcpdump-4.1.1-1.fc14.src.rpm]
 +
-+require recipes-kernel/linux/linux-yocto.inc
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
 +
-+LINUX_VERSION ?= "3.17-rc4"
-+
-+KMETA = "meta"
-+
-+SRCREV_machine ?= "1a3939eb747a635b23b4234f785795c52dce72a8"
-+SRCREV_meta ?= "7df849fc7eba54765368e26634341dbe6e2ad161"
-+
-+PV = "${LINUX_VERSION}+git${SRCPV}"
-+
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
-+
-+COMPATIBLE_MACHINE = "(qemux86)"
-+
-+# Functionality flags
-+KERNEL_FEATURES = ""
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.17.bb b/meta/recipes-kernel/linux/linux-yocto_3.17.bb
++--- tcpslice-1.2a3.orig/search.c	2000-09-10 10:52:40.000000000 +0200
+++++ tcpslice-1.2a3/search.c	2006-07-28 14:56:55.000000000 +0200
++@@ -53,7 +53,7 @@
++ /* Size of a packet header in bytes; easier than typing the sizeof() all
++  * the time ...
++  */
++-#define PACKET_HDR_LEN (sizeof( struct pcap_pkthdr ))
+++#define PACKET_HDR_LEN (sizeof( struct pcap_sf_pkthdr ))
++ 
++ extern int snaplen;
++ 
++@@ -111,16 +111,24 @@
++ static void
++ extract_header( pcap_t *p, u_char *buf, struct pcap_pkthdr *hdr )
++ 	{
++-	memcpy((char *) hdr, (char *) buf, sizeof(struct pcap_pkthdr));
+++	struct pcap_sf_pkthdr hdri;
+++
+++	memcpy((char *) &hdri, (char *) buf, sizeof(struct pcap_sf_pkthdr));
++ 
++ 	if ( pcap_is_swapped( p ) )
++ 		{
++-		hdr->ts.tv_sec = SWAPLONG(hdr->ts.tv_sec);
++-		hdr->ts.tv_usec = SWAPLONG(hdr->ts.tv_usec);
++-		hdr->len = SWAPLONG(hdr->len);
++-		hdr->caplen = SWAPLONG(hdr->caplen);
+++		hdr->ts.tv_sec = SWAPLONG(hdri.ts.tv_sec);
+++		hdr->ts.tv_usec = SWAPLONG(hdri.ts.tv_usec);
+++		hdr->len = SWAPLONG(hdri.len);
+++		hdr->caplen = SWAPLONG(hdri.caplen);
+++		}
+++	else
+++		{
+++		hdr->ts.tv_sec = hdri.ts.tv_sec;
+++		hdr->ts.tv_usec = hdri.ts.tv_usec;
+++		hdr->len = hdri.len;
+++		hdr->caplen = hdri.caplen;
++ 		}
++-
++ 	/*
++ 	 * From bpf/libpcap/savefile.c:
++ 	 *
++--- tcpslice-1.2a3.orig/tcpslice.h	1995-11-02 00:40:53.000000000 +0100
+++++ tcpslice-1.2a3/tcpslice.h	2006-07-28 14:56:55.000000000 +0200
++@@ -20,6 +20,26 @@
++  */
++ 
++ 
+++#include <time.h>
+++/* #include <net/bpf.h> */
+++
+++/*
+++ * This is a timeval as stored in disk in a dumpfile.
+++ * It has to use the same types everywhere, independent of the actual
+++ * `struct timeval'
+++ */
+++
+++struct pcap_timeval {
+++    bpf_int32 tv_sec;           /* seconds */
+++    bpf_int32 tv_usec;          /* microseconds */
+++};
+++
+++struct pcap_sf_pkthdr {
+++    struct pcap_timeval ts;     /* time stamp */
+++    bpf_u_int32 caplen;         /* length of portion present */
+++    bpf_u_int32 len;            /* length this packet (off wire) */
+++};
+++
++ time_t	gwtm2secs( struct tm *tm );
++ 
++ int	sf_find_end( struct pcap *p, struct timeval *first_timestamp,
+diff --git a/meta-networking/recipes-support/tcpdump/tcpslice/tcpslice-CVS.20010207-bpf.patch b/meta-networking/recipes-support/tcpdump/tcpslice/tcpslice-CVS.20010207-bpf.patch
 new file mode 100644
-index 000000000000..7fe7fdaa4afb
+index 0000000..0a73593
 --- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.17.bb
-@@ -0,0 +1,37 @@
-+KBRANCH ?= "standard/base"
++++ b/meta-networking/recipes-support/tcpdump/tcpslice/tcpslice-CVS.20010207-bpf.patch
+@@ -0,0 +1,15 @@
++Upstream-Status: Pending [from tcpdump-4.1.1-1.fc14.src.rpm]
 +
-+require recipes-kernel/linux/linux-yocto.inc
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++diff -ur tcpdump-3.8.1/tcpslice/tcpslice.c tcpdump-3.8.1.new/tcpslice/tcpslice.c
++--- tcpslice/tcpslice.c	2004-01-15 17:35:53.000000000 +0100
+++++ tcpslice/tcpslice.c	2004-01-15 16:12:57.000000000 +0100
++@@ -35,7 +35,7 @@
++ #include <sys/file.h>
++ #include <sys/stat.h>
++ 
++-#include <net/bpf.h>
+++/* #include <net/bpf.h> */
++ 
++ #include <ctype.h>
++ #ifdef HAVE_FCNTL_H
+diff --git a/meta-networking/recipes-support/tcpdump/tcpslice_1.2a3.bb b/meta-networking/recipes-support/tcpdump/tcpslice_1.2a3.bb
+new file mode 100644
+index 0000000..203d143
+--- /dev/null
++++ b/meta-networking/recipes-support/tcpdump/tcpslice_1.2a3.bb
+@@ -0,0 +1,35 @@
++SUMMARY = "tcpslice"
++DESCRIPTION = "A tool for extracting parts of a tcpdump packet trace."
++HOMEPAGE = "http://www.tcpdump.org/related.html"
++SECTION = "console/network"
 +
-+# board specific branches
-+KBRANCH_qemuarm  ?= "standard/arm-versatile-926ejs"
-+KBRANCH_qemumips ?= "standard/mti-malta32"
-+KBRANCH_qemuppc  ?= "standard/qemuppc"
-+KBRANCH_qemux86  ?= "standard/common-pc"
-+KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
-+KBRANCH_qemumips64 ?= "standard/mti-malta64"
++LICENSE = "BSD-4-Clause"
++LIC_FILES_CHKSUM = "file://tcpslice.c;endline=20;md5=99519e2e5234d1662a4ce16baa62c64e"
 +
-+SRCREV_machine_qemuarm ?= "4bacea69cf78bdf42bcf7619239294b8996c5dac"
-+SRCREV_machine_qemumips ?= "69d4e97c23d4d031f55645cd0486064979e4db5c"
-+SRCREV_machine_qemuppc ?= "4e5f8849093f71f8caebedd8af4660baace9bccb"
-+SRCREV_machine_qemux86 ?= "1a3939eb747a635b23b4234f785795c52dce72a8"
-+SRCREV_machine_qemux86-64 ?= "1a3939eb747a635b23b4234f785795c52dce72a8"
-+SRCREV_machine_qemumips64 ?= "5e036fb17397a241fda2211a6caaa6e6f3121250"
-+SRCREV_machine ?= "1a3939eb747a635b23b4234f785795c52dce72a8"
-+SRCREV_meta ?= "7df849fc7eba54765368e26634341dbe6e2ad161"
++SRC_URI = "ftp://ftp.ee.lbl.gov/${BP}.tar.gz \
++           file://tcpslice-1.2a3-time.patch \
++           file://tcpslice-CVS.20010207-bpf.patch \
++           "
++SRC_URI[md5sum] = "e329cbeb7e589f132d92c3447c477190"
++SRC_URI[sha256sum] = "4096e8debc898cfaa16b5306f1c42f8d18b19e30e60da8d4deb781c8f684c840"
 +
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
++inherit autotools-brokensep
 +
-+LINUX_VERSION ?= "3.17-rc4"
++DEPENDS += "libpcap"
 +
-+PV = "${LINUX_VERSION}+git${SRCPV}"
++# We do not want to autoreconf.  We must specify srcdir as ".".
++# We have to set the ac_cv_* cache variables as well as pass the normal
++# cross-compilation options to configure!
++#
++do_configure () {
++	oe_runconf \
++            --srcdir="." \
++            ac_cv_build=${BUILD_SYS} \
++            ac_cv_host=${HOST_SYS} \
++            ac_cv_target=${HOST_SYS}
++}
 +
-+KMETA = "meta"
++do_install_prepend () {
++	mkdir -p ${D}/usr/sbin
++}
 +
-+COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-+
-+# Functionality flags
-+KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
-+KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
-+KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-+KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
-+KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
 -- 
-1.8.1.2
+1.7.10.4
 
 
