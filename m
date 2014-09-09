@@ -1,36 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DA9E7123A
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A1E2471388
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Sep 2014 13:27:23 +0000 (UTC)
-Received: by mail-qc0-f179.google.com with SMTP id o8so1186328qcw.38
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Sep 2014 06:27:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=5ETTt3OzWaMKboSxodnenIRbckV976z0KHZLLeOzSlc=;
-	b=Ff+sJJpTjyv5H8cjW/3XM0eH1rvEiAb9QIdSHYkPT+Z7IgxrKm1EhntA2G9G8/hubk
-	ahT02feCW0wOezo8vuVWhtejxcAz01RqQvQRyugNEQMqdjgroIbU7nZscCvhRN70s1lI
-	Yor3YnR2QDF8+wC06eg39NCigHc6qWVKX/wJzrtNvQ0UNcX02RUF9xodeL6ocU7BVpUF
-	R1vAIofzbIfiCwOnWDhOTeUDf3FlV/vvywPhXz9KyzSk2zZHmqqcFqyqTDeVMG8UlkU5
-	rZKEMaZSs5NH0DJqXM1G0yhSKVeUR/QovTFmHPbT3dQC9xmEC+YWhklnCGucz1KE4+VO
-	62JA==
-X-Gm-Message-State: ALoCoQl4QSxK+v6Zn+4S23+EX7BlnSFeXl38F3LYMUPjMWg+lCwNM8gjdc4h66CNh1DPj4w2skxG
-X-Received: by 10.229.231.68 with SMTP id jp4mr50672082qcb.4.1410269244330;
-	Tue, 09 Sep 2014 06:27:24 -0700 (PDT)
+	Tue,  9 Sep 2014 14:46:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s89EkdZ3010109
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 9 Sep 2014 07:46:39 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 9 Sep 2014 07:46:39 -0700
+Message-ID: <540F12D0.3080900@windriver.com>
+Date: Tue, 9 Sep 2014 09:46:40 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Tue, 9 Sep 2014 06:27:04 -0700 (PDT)
-In-Reply-To: <1409830046-28375-1-git-send-email-georgex.l.musat@intel.com>
-References: <1409830046-28375-1-git-send-email-georgex.l.musat@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Sep 2014 14:27:04 +0100
-Message-ID: <CAJTo0LaKoKTfiL3=S-R2fTRLKZCkPc1=+Jb+Goje-H1byOCvtw@mail.gmail.com>
-To: Lucian Musat <georgex.l.musat@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] oeqa: Added package installer to oetest to aid in future automatic install of packages
+To: <openembedded-core@lists.openembedded.org>
+References: <1410227590-14190-1-git-send-email-akuster808@gmail.com>	<1410227590-14190-2-git-send-email-akuster808@gmail.com>
+	<1410249927.19272.42.camel@ted>
+In-Reply-To: <1410249927.19272.42.camel@ted>
+Subject: Re: [[PATCH] qemuppc64: add machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,21 +35,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Sep 2014 13:27:30 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 09 Sep 2014 14:46:46 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 4 September 2014 12:27, Lucian Musat <georgex.l.musat@intel.com> wrote:
-> +    #TODO: use package_manager.py to install packages on any type of image
-> +    def install_packages(self, packagelist):
-> +        for package in packagelist:
-> +            (status, result) = self.target.run("smart install -y "+package)
-> +            if status != 0:
-> +                return status
-> +
+On 9/9/14, 3:05 AM, Richard Purdie wrote:
+> On Mon, 2014-09-08 at 18:53 -0700, Armin Kuster wrote:
+>> override USER_CLASSES as prelink does not currently
+>> work on ppc64
+>> ---
+>>   meta/conf/machine/qemuppc64.conf | 16 ++++++++++++++++
+>>   1 file changed, 16 insertions(+)
+>>   create mode 100644 meta/conf/machine/qemuppc64.conf
+>>
+>> diff --git a/meta/conf/machine/qemuppc64.conf b/meta/conf/machine/qemuppc64.conf
+>> new file mode 100644
+>> index 0000000..86916e5
+>> --- /dev/null
+>> +++ b/meta/conf/machine/qemuppc64.conf
+>> @@ -0,0 +1,16 @@
+>> +#@TYPE: Machine
+>> +#@NAME: qemu PPC 64 Emulator setup
+>> +#@DESCRIPTION: Machine configuration for running an PPC system under qemu emulation
+>> +
+>> +require conf/machine/include/qemu.inc
+>> +DEFAULTTUNE ?= "ppc64p6"
+>> +require conf/machine/include/tune-power6.inc
+>> +
+>> +#prelink broken
+>> +USER_CLASSES = "buildstats image-mklibs "
+>
+> This is horrible. Can we somehow blacklist qemuppc64 in the prelink
+> class itself?
+>
+> USER_CLASSES_remove = "prelink"
+>
+> would be better than overriding the users choice like above...
 
-When this function is called on non-rpm images this should cause
-explicit errors by throwing exceptions instead of mysterious errors
-about smart not found.
+I keep asking people who have access to the PPC 64 systems to investigate and 
+help debug this.
 
-Ross
+I don't expect it will be difficult to figure out, but I simply don't have 
+access to this architecture to try.
+
+There is a YP bug, 1331 (https://bugzilla.yoctoproject.org/show_bug.cgi?id=1331).
+
+So please, if you can help diagnose what is going wrong, I'd really like to fix 
+this.
+
+--Mark
+
+> Cheers,
+>
+> Richard
+>
+>> +KERNEL_IMAGETYPE = "vmlinux"
+>> +
+>> +IMAGE_FSTYPES = "ext2 ext3"
+>> +
+>> +SERIAL_CONSOLE ?= "ttyS0"
+>> --
+>> 1.9.1
+>>
+>
+>
+
 
