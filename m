@@ -1,33 +1,29 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CBD04710C7
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 10 Sep 2014 14:12:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8AEC0BF004184
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 10 Sep 2014 07:12:00 -0700 (PDT)
-Received: from [147.11.117.218] (147.11.117.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 10 Sep 2014 07:12:00 -0700
-Message-ID: <54105C2A.6060006@windriver.com>
-Date: Wed, 10 Sep 2014 10:11:54 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 52971710C8;
+	Wed, 10 Sep 2014 14:18:04 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 10 Sep 2014 07:14:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,499,1406617200"; d="scan'208";a="571161327"
+Received: from tmediriw-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.16])
+	by orsmga001.jf.intel.com with ESMTP; 10 Sep 2014 07:14:45 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Bryan <just4tech83@gmail.com>
+Date: Wed, 10 Sep 2014 15:14:39 +0100
+Message-ID: <16596650.PNGFx7nVml@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.13.3 (Linux/3.15.10-201.fc20.x86_64; KDE/4.13.3; x86_64; ;
+	)
+In-Reply-To: <CAD2C2VTjrT-o_SqpTFLENK2T3i=PZ-9xRpenYTmxF5eEGT4Y+A@mail.gmail.com>
+References: <CAD2C2VTOgCMRsq4em2Bd0hQ4Nz2Zq=B2vXezAw7QXQmhkQOsRQ@mail.gmail.com>
+	<CAD2C2VR10GCLaH8CoWtv=ASUX7_W9wwBmFP2uey9WhAaNWbCfA@mail.gmail.com>
+	<CAD2C2VTjrT-o_SqpTFLENK2T3i=PZ-9xRpenYTmxF5eEGT4Y+A@mail.gmail.com>
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Darren Hart
-	<dvhart@linux.intel.com>
-References: <D034EC78.A7DD4%dvhart@linux.intel.com>
-	<1410337664.19272.89.camel@ted>
-In-Reply-To: <1410337664.19272.89.camel@ted>
-Cc: "Brandt, Todd E" <todd.e.brandt@intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	Tom Zanussi <tom.zanussi@linux.intel.com>,
-	"Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: Packaging kernel sources
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Subject: Re: [oe] Backporting of latest recipes on oe-classic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,88 +36,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Sep 2014 14:12:16 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Sep 2014 14:18:10 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 14-09-10 04:27 AM, Richard Purdie wrote:
-> On Tue, 2014-09-09 at 17:42 -0700, Darren Hart wrote:
->> I'm working on a project which needs to have the full kernel sources
->> installed on the target. The kernel-dev package as defined by
->> kernel.bbclass is heavily pruned to minimize packaging time and size and
->> is intended to enable building of external modules on the target.
->>
->> Is there an accepted best-practice for how to get the full source packaged
->> and installed? I can easily write a new recipe,
->> linux-custom-source_git.bb, to install the sources, for example, without
->> impacting the packaging time of "virtual/kernel" package.
->>
->> It would be nice in some respects for it to all come from the same recipe
->> though, but I suspect the impact to the common-case where this is not need
->> would be far too great.
->
-> Personally, I'm leaning towards a couple of big changes in this area:
+On Wednesday 10 September 2014 19:39:58 Bryan wrote:
+> Can u please tell me which latest bitbake version i can use with
+> oe-classic. I used bitbake version 1.8.12 with my infra. So i need to use
+> bitbake version which would be suitable with my old recipes as well.
 
-I'd prefer this sort of larger switch as well.
-
->
-> a) "binning" the kernel-dev package and replacing it with some kind of
-> separate full source recipe like this.
->
-> The benefit is a fully functional on target source which is only built
-> by people who care about it. This means for most users/builds, we no
-> longer need to generate that huge package. The downside is a little more
-> complexity for those that needs this but its not much.
-
-And just so I'm clear, in this case, the current sysroot, grep, sed,
-hack-a-thon version of the kernel would stay as is ?
-
->
->
-> b) binning the separate kernel staging dir and making it work more like
-> the gcc shared work directory. This means external module builds and the
-> tools like perf and so on would use this shared source directory.
->
-> The benefit would be that we no longer have the huge install step in the
-> main kernel recipe and the populate_sysroot step shinks in size.
->
-> The downside has more impact here, the problem with shared work is that
-> it cannot be removed once extracted since the system never knows when
-> something else may need to use it. For gcc the argument was that we have
-> so many users (gcc-cross-initial, gcc-cross, gcc-runtime,
-> gcc-cross-canadian, gcc-crosssdk, gcc-crosssdk-initial and so on) that
-> the multiple copies were far worse. For the kernel, we can argue that we
-> have a ton of disk usage from it in the sysroot anyway so this change
-> just makes things more efficient effectively.
->
-> The other issue is that for shared work dirs, the stamps need to be kept
-> in sync, if they step out, odd things happen (i.e. do_fetch, do_unpack,
-> do_patch task checksums need to match for linux-yocto, perf, kernel
-> modules and anything else using it). We may need to add some better
-> error cases to catch problems. Not an insurmountable problem, just one
-> that will likely need to be addressed.
->
-> I do feel the whole situation with the current kernel size is out of
-> control and badly affecting user experience.
-
-I like (b) myself, since I'm getting tired of copying the source tree,
-having the removals fail as we march forward through kernel versions,
-and then needing to modify everything from the SDK to the out of tree
-module builds to reconstruct scripts, etc.
-
-We'd have the same "don't patch it" restrictions for something that
-builds out of this shared directory (like perf), so there's nothing
-new and horrible there.
+If you use 1.8.12 and it works, wouldn't you just stick with that?
 
 Cheers,
+Paul
 
-Bruce
+-- 
 
->
-> Cheers,
->
-> Richard
->
->
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
