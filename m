@@ -1,25 +1,33 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 54DD27142F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D326765C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Sep 2014 17:20:08 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 10 Sep 2014 10:13:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,500,1406617200"; d="scan'208";a="571260068"
-Received: from tmediriw-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.16])
-	by orsmga001.jf.intel.com with ESMTP; 10 Sep 2014 10:19:42 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Sep 2014 18:19:31 +0100
-Message-Id: <a6f93ae9bba678a6e1e1dbb151e0811058fb8365.1410369386.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1410369386.git.paul.eggleton@linux.intel.com>
-References: <cover.1410369386.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1410369386.git.paul.eggleton@linux.intel.com>
-References: <cover.1410369386.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/2] classes/populate_sdk_base: enable adding custom commands to SDK install script
+	Wed, 10 Sep 2014 19:13:08 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id n8so824485qaq.26
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Sep 2014 12:13:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+	:content-type;
+	bh=xRCSXLq6B+L20CJLsn1pi+BzV9XzYbaddMP2XBHv1cE=;
+	b=d1ZNOotgAtHgYCmzvTBFKdOJGUeuBV/hnv9DD3EYoJ4BTN3jlWspWRJliva7KqGjv0
+	ROYlO5T9WrISczZpywMwsy1KaW7cX9YiQc9oNIFdaCklQrP9Pt9d8UwCdsSj189r8B2x
+	M9jZz2qP8PW7mx8JtvK2+hi8OFs7876gX+kdNprwe7RYEz6kbcv2qFPrgjGK/MyJE+BE
+	9iFnaCM6pIh1OyqnTmP3wK987s5acgju3WsnX7/nb8c6vN8aw7a4OnjZtFYSKQjWg4Yj
+	GhV6TeNIbKn5I8K9BU4iZ2zQWqdQyEsrPJo2PI5mYQvR6jVbm6cQkjfO4X43Kp7AeUXZ
+	mO2Q==
+X-Gm-Message-State: ALoCoQnAJqMig8lCtP/TJ29qVP7P8zMZx99ALNefnO6VAdeOcHosZzJ+LkkXrE9DHUjB99KvYju6
+X-Received: by 10.224.38.10 with SMTP id z10mr64209804qad.52.1410376389110;
+	Wed, 10 Sep 2014 12:13:09 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.29.183 with HTTP; Wed, 10 Sep 2014 12:12:49 -0700 (PDT)
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 10 Sep 2014 20:12:49 +0100
+Message-ID: <CAJTo0LYNAq45aF8dQKTiufrf-grUnZtJ1K9vDGpSvAUpF0cinQ@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Patchwork cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +40,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Sep 2014 17:20:13 -0000
+X-List-Received-Date: Wed, 10 Sep 2014 19:13:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Add an SDK_POST_INSTALL_COMMAND variable which allows additional
-commands to be added towards the end of the SDK install script, for e.g.
-additional processing that needs to be done as part of installing the
-SDK.
+Hi,
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/populate_sdk_base.bbclass | 7 +++++++
- meta/files/toolchain-shar-template.sh  | 2 ++
- 2 files changed, 9 insertions(+)
+I've started running the patchwork post-receive hook manually and
+marking as submitted many patches in the queue, but as there's 132
+patches of patches still (down from 140-odd!) in an attempt to restore
+sanity to the oe-core I think we should just mark as obsolete every
+patch that was submitted before a cutoff date, say 1st January 2014.
+Any thoughts?  As much as I'd love to ensure we didn't drop an
+excellent patch from 2012, I'm not going to manually check all the
+patches that the tool can't find automatically...
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index abfcdc7..946a1d4 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -51,6 +51,7 @@ PID = "${@os.getpid()}"
- EXCLUDE_FROM_WORLD = "1"
- 
- SDK_PACKAGING_FUNC ?= "create_shar"
-+SDK_POST_INSTALL_COMMAND ?= ""
- 
- SDK_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.manifest"
- python write_target_sdk_manifest () {
-@@ -142,10 +143,16 @@ fakeroot create_shar() {
- 	# copy in the template shar extractor script
- 	cp ${COREBASE}/meta/files/toolchain-shar-template.sh ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
- 
-+	cat << "EOF" > ${T}/post_install_command
-+${SDK_POST_INSTALL_COMMAND}
-+EOF
-+	sed -i -e '/@SDK_POST_INSTALL_COMMAND@/r ${T}/post_install_command' ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
-+
- 	# substitute variables
- 	sed -i -e 's#@SDK_ARCH@#${SDK_ARCH}#g' \
- 		-e 's#@SDKPATH@#${SDKPATH}#g' \
- 		-e 's#@REAL_MULTIMACH_TARGET_SYS@#${REAL_MULTIMACH_TARGET_SYS}#g' \
-+		-e '/@SDK_POST_INSTALL_COMMAND@/d' \
- 		${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
- 
- 	# add execution permission
-diff --git a/meta/files/toolchain-shar-template.sh b/meta/files/toolchain-shar-template.sh
-index a37d6ff..02035d4 100644
---- a/meta/files/toolchain-shar-template.sh
-+++ b/meta/files/toolchain-shar-template.sh
-@@ -169,6 +169,8 @@ done
- 
- echo done
- 
-+@SDK_POST_INSTALL_COMMAND@
-+
- # delete the relocating script, so that user is forced to re-run the installer
- # if he/she wants another location for the sdk
- if [ $savescripts = 0 ] ; then
--- 
-1.9.3
-
+Ross
 
