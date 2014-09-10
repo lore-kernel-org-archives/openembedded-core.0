@@ -1,33 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
-	[209.85.216.53])
-	by mail.openembedded.org (Postfix) with ESMTP id D326765C7B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 944967123A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Sep 2014 19:13:08 +0000 (UTC)
-Received: by mail-qa0-f53.google.com with SMTP id n8so824485qaq.26
+	Wed, 10 Sep 2014 20:22:10 +0000 (UTC)
+Received: by mail-ig0-f170.google.com with SMTP id l13so145758iga.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Sep 2014 12:13:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-	:content-type;
-	bh=xRCSXLq6B+L20CJLsn1pi+BzV9XzYbaddMP2XBHv1cE=;
-	b=d1ZNOotgAtHgYCmzvTBFKdOJGUeuBV/hnv9DD3EYoJ4BTN3jlWspWRJliva7KqGjv0
-	ROYlO5T9WrISczZpywMwsy1KaW7cX9YiQc9oNIFdaCklQrP9Pt9d8UwCdsSj189r8B2x
-	M9jZz2qP8PW7mx8JtvK2+hi8OFs7876gX+kdNprwe7RYEz6kbcv2qFPrgjGK/MyJE+BE
-	9iFnaCM6pIh1OyqnTmP3wK987s5acgju3WsnX7/nb8c6vN8aw7a4OnjZtFYSKQjWg4Yj
-	GhV6TeNIbKn5I8K9BU4iZ2zQWqdQyEsrPJo2PI5mYQvR6jVbm6cQkjfO4X43Kp7AeUXZ
-	mO2Q==
-X-Gm-Message-State: ALoCoQnAJqMig8lCtP/TJ29qVP7P8zMZx99ALNefnO6VAdeOcHosZzJ+LkkXrE9DHUjB99KvYju6
-X-Received: by 10.224.38.10 with SMTP id z10mr64209804qad.52.1410376389110;
-	Wed, 10 Sep 2014 12:13:09 -0700 (PDT)
+	Wed, 10 Sep 2014 13:22:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=QbPBzCEu4jrWRO2X93q18XgH6rLD+2IY1bk/v4hv97U=;
+	b=gzI9XJdryYhzR4VEf2vMq4x/2kFn9oXARfogxd6sRMFqSMC4KuZAMARzVjJMtiT10p
+	t5Ifu3wCmGRqZ4ioTQFakBDsIq7L3U2RTr7a5PNHn+OJrySPiK4fvtxxhslMKbpQJWhJ
+	3QkYNd34/n4RfaU0GQk8kEGUrZd085PjM8Bxr0EyHjedCJY6iLOpXFl5b8eOObNYIBI5
+	pw3xpAmYUVM0RgxtWQJs4N1O7+lgsdoagbcWkvl4vYTJhe/WVcbqO2pRZpc6B0XAocIa
+	YiOjqhkoLtDpNsD5QpjU+YD9dvRwaZZpRA50FEmcPJNYSAy+sDsF6Qap5lvXZ+v4EJQ8
+	sL9A==
+X-Received: by 10.42.62.6 with SMTP id w6mr48434915ich.24.1410380531090; Wed,
+	10 Sep 2014 13:22:11 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Wed, 10 Sep 2014 12:12:49 -0700 (PDT)
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 10 Sep 2014 20:12:49 +0100
-Message-ID: <CAJTo0LYNAq45aF8dQKTiufrf-grUnZtJ1K9vDGpSvAUpF0cinQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Patchwork cleanup
+Received: by 10.50.102.67 with HTTP; Wed, 10 Sep 2014 13:21:41 -0700 (PDT)
+In-Reply-To: <CAJTo0LYNAq45aF8dQKTiufrf-grUnZtJ1K9vDGpSvAUpF0cinQ@mail.gmail.com>
+References: <CAJTo0LYNAq45aF8dQKTiufrf-grUnZtJ1K9vDGpSvAUpF0cinQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 10 Sep 2014 13:21:41 -0700
+Message-ID: <CAMKF1sr2YP+L5JWE723k9KynKVfW+AU_TPead1AM_WgJpOMLaA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Patchwork cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,19 +41,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Sep 2014 19:13:16 -0000
+X-List-Received-Date: Wed, 10 Sep 2014 20:22:17 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Hi,
+On Wed, Sep 10, 2014 at 12:12 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> I've started running the patchwork post-receive hook manually and
+> marking as submitted many patches in the queue, but as there's 132
+> patches of patches still (down from 140-odd!) in an attempt to restore
+> sanity to the oe-core I think we should just mark as obsolete every
+> patch that was submitted before a cutoff date, say 1st January 2014.
+> Any thoughts?  As much as I'd love to ensure we didn't drop an
+> excellent patch from 2012, I'm not going to manually check all the
+> patches that the tool can't find automatically...
 
-I've started running the patchwork post-receive hook manually and
-marking as submitted many patches in the queue, but as there's 132
-patches of patches still (down from 140-odd!) in an attempt to restore
-sanity to the oe-core I think we should just mark as obsolete every
-patch that was submitted before a cutoff date, say 1st January 2014.
-Any thoughts?  As much as I'd love to ensure we didn't drop an
-excellent patch from 2012, I'm not going to manually check all the
-patches that the tool can't find automatically...
-
-Ross
+I think its ok. Thanks for doing it.
 
