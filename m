@@ -1,29 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BB98C60703
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id A66EC710C7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Sep 2014 14:43:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8AEhXBw028978; Wed, 10 Sep 2014 15:43:33 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id tcG_c2TAYP6m; Wed, 10 Sep 2014 15:43:33 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8AEhTiI028971
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 10 Sep 2014 15:43:30 +0100
-Message-ID: <1410360210.24030.16.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Wed, 10 Sep 2014 15:43:30 +0100
-In-Reply-To: <cover.1410356905.git.ross.burton@intel.com>
-References: <cover.1410356905.git.ross.burton@intel.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/21] C-Pull
+	Wed, 10 Sep 2014 14:43:52 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
+	Wed, 10 Sep 2014 16:43:46 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id D5AD0288E2C;
+	Wed, 10 Sep 2014 16:43:46 +0200 (CEST)
+From: "Maxin B. John" <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 10 Sep 2014 16:43:22 +0200
+Message-ID: <1410360202-22215-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] curl: upgrade to 7.38.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,23 +30,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Sep 2014 14:43:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Sep 2014 14:43:54 -0000
+Content-Type: text/plain
 
-On Wed, 2014-09-10 at 14:49 +0100, Ross Burton wrote:
-> Hi,
-> 
-> Misc patches, kernel-dev upgrade, QA support for automated ptest execution.
-> 
-> The initial full nightly autobuilder run failed dramatically due to valgrind
-> failing to configure. This is now fixed, and verified with a run of
-> nightly-x86-64.
+Fixes two HTTP cookie related security bugs:
+ 1. CVE-2014-3613
+ 2. CVE-2014-3620
 
-Thanks, I've merged this.
+Changelog:
+	http://curl.haxx.se/changes.html#7_38_0
 
-Cheers,
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ meta/recipes-support/curl/{curl_7.37.1.bb => curl_7.38.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.37.1.bb => curl_7.38.0.bb} (93%)
 
-Richard
+diff --git a/meta/recipes-support/curl/curl_7.37.1.bb b/meta/recipes-support/curl/curl_7.38.0.bb
+similarity index 93%
+rename from meta/recipes-support/curl/curl_7.37.1.bb
+rename to meta/recipes-support/curl/curl_7.38.0.bb
+index 8bcd9ba..3077074 100644
+--- a/meta/recipes-support/curl/curl_7.37.1.bb
++++ b/meta/recipes-support/curl/curl_7.38.0.bb
+@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ #
+ SRC_URI += " file://configure_ac.patch"
+ 
+-SRC_URI[md5sum] = "95c627abcf6494f5abe55effe7cd6a57"
+-SRC_URI[sha256sum] = "c3ef3cd148f3778ddbefb344117d7829db60656efe1031f9e3065fc0faa25136"
++SRC_URI[md5sum] = "af6b3c299bd891f43cb5f76c4091b7b4"
++SRC_URI[sha256sum] = "035bd41e99aa1a4e64713f4cea5ccdf366ca8199e9be1b53d5a043d5165f9eba"
+ 
+ inherit autotools pkgconfig binconfig multilib_header
+ 
+-- 
+1.9.1
 
 
