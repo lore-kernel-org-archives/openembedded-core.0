@@ -1,36 +1,33 @@
-Return-Path: <just4tech83@gmail.com>
-Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id EE6BB710C8;
-	Wed, 10 Sep 2014 14:09:57 +0000 (UTC)
-Received: by mail-qc0-f172.google.com with SMTP id o8so19100935qcw.17
-	for <multiple recipients>; Wed, 10 Sep 2014 07:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=+R4HgHm4fcbJAVuiV3krJy2oEjr8+jiJijJUjPWcX8M=;
-	b=DVgXYrYxPm0WrCF408sDKOogpfmRHhqeYzufSrMXDbp1j5n/c4C3FND4o5E9mk1V5o
-	YGc/+qu2KUiHFAFji96bEoOfe8g56v4u/jM8bZEfBtj8VItKILsl4xAv6Hjv/Mb/t6kz
-	90Pi8pFzZWR64BJQ2YCKj7UkcS/FUFMlNNYr5mGTzUbkGsv3lYjbg1a8w3Y/CBe8EJlo
-	KEnYDdqw6OTCUR5bg3FGyQKIaAiV7e3XCaKwcPiwc3hPOmuTReUybYGAA+WOx9nQIDpo
-	CLV7BRs6u9B/5sD2fC1/BAMf8wgze3lfnypOMkSuJa6ar68aqbYAwBLbo1vUJXpFVmNz
-	r+Ag==
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CBD04710C7
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 10 Sep 2014 14:12:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8AEC0BF004184
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 10 Sep 2014 07:12:00 -0700 (PDT)
+Received: from [147.11.117.218] (147.11.117.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 10 Sep 2014 07:12:00 -0700
+Message-ID: <54105C2A.6060006@windriver.com>
+Date: Wed, 10 Sep 2014 10:11:54 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-X-Received: by 10.140.38.169 with SMTP id t38mr58978845qgt.3.1410358198421;
-	Wed, 10 Sep 2014 07:09:58 -0700 (PDT)
-Received: by 10.140.16.144 with HTTP; Wed, 10 Sep 2014 07:09:58 -0700 (PDT)
-Received: by 10.140.16.144 with HTTP; Wed, 10 Sep 2014 07:09:58 -0700 (PDT)
-In-Reply-To: <CAD2C2VR10GCLaH8CoWtv=ASUX7_W9wwBmFP2uey9WhAaNWbCfA@mail.gmail.com>
-References: <CAD2C2VTOgCMRsq4em2Bd0hQ4Nz2Zq=B2vXezAw7QXQmhkQOsRQ@mail.gmail.com>
-	<48633854.zRbls2qSnV@peggleto-mobl5.ger.corp.intel.com>
-	<CAD2C2VR10GCLaH8CoWtv=ASUX7_W9wwBmFP2uey9WhAaNWbCfA@mail.gmail.com>
-Date: Wed, 10 Sep 2014 19:39:58 +0530
-Message-ID: <CAD2C2VTjrT-o_SqpTFLENK2T3i=PZ-9xRpenYTmxF5eEGT4Y+A@mail.gmail.com>
-From: Bryan <just4tech83@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, raj.khem@gmail.com
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Backporting of latest recipes on oe-classic
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Darren Hart
+	<dvhart@linux.intel.com>
+References: <D034EC78.A7DD4%dvhart@linux.intel.com>
+	<1410337664.19272.89.camel@ted>
+In-Reply-To: <1410337664.19272.89.camel@ted>
+Cc: "Brandt, Todd E" <todd.e.brandt@intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>,
+	Tom Zanussi <tom.zanussi@linux.intel.com>,
+	"Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: Packaging kernel sources
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,157 +40,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Sep 2014 14:10:01 -0000
-Content-Type: multipart/alternative; boundary=001a11c12ce66c50790502b69b89
+X-List-Received-Date: Wed, 10 Sep 2014 14:12:16 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11c12ce66c50790502b69b89
-Content-Type: text/plain; charset=UTF-8
-
-Can u please tell me which latest bitbake version i can use with
-oe-classic. I used bitbake version 1.8.12 with my infra. So i need to use
-bitbake version which would be suitable with my old recipes as well.
-
-Regards
-Bryan
-On Sep 10, 2014 7:13 PM, "Bryan" <just4tech83@gmail.com> wrote:
-
-> Hi Paul,
->               Do you know any forked repository where we can found support
-> for glibc 2.11.x, 2.12.x onwards.
+On 14-09-10 04:27 AM, Richard Purdie wrote:
+> On Tue, 2014-09-09 at 17:42 -0700, Darren Hart wrote:
+>> I'm working on a project which needs to have the full kernel sources
+>> installed on the target. The kernel-dev package as defined by
+>> kernel.bbclass is heavily pruned to minimize packaging time and size and
+>> is intended to enable building of external modules on the target.
+>>
+>> Is there an accepted best-practice for how to get the full source packaged
+>> and installed? I can easily write a new recipe,
+>> linux-custom-source_git.bb, to install the sources, for example, without
+>> impacting the packaging time of "virtual/kernel" package.
+>>
+>> It would be nice in some respects for it to all come from the same recipe
+>> though, but I suspect the impact to the common-case where this is not need
+>> would be far too great.
 >
-> One more query is related to glibc version. Does it become eglibc in later
-> versions as we could not get later version recipes.
+> Personally, I'm leaning towards a couple of big changes in this area:
+
+I'd prefer this sort of larger switch as well.
+
 >
-> Actually i have an old infra and i need to support icaclient 13 (citrix
-> receiver) which require libraries of later versions e.g. glibc, gtk,
-> libwebkit...
+> a) "binning" the kernel-dev package and replacing it with some kind of
+> separate full source recipe like this.
 >
-> Regards
-> Bryan
->  On Sep 9, 2014 6:32 PM, "Paul Eggleton" <paul.eggleton@linux.intel.com>
-> wrote:
+> The benefit is a fully functional on target source which is only built
+> by people who care about it. This means for most users/builds, we no
+> longer need to generate that huge package. The downside is a little more
+> complexity for those that needs this but its not much.
+
+And just so I'm clear, in this case, the current sysroot, grep, sed,
+hack-a-thon version of the kernel would stay as is ?
+
 >
->> On Tuesday 09 September 2014 18:23:24 Bryan wrote:
->> >    We have some queries regarding OE-Classic.
->> > 1. Where can we find latest recipes for oe-classic.
->>
->> http://cgit.openembedded.org/cgit.cgi/openembedded/
->>
->> That's as up-to-date as it gets. There might be other forked repositories
->> floating around, but that is the last official one.
->>
->> > Does oe-classic is still get updation for latest package support?
->>
->> No, as discussed on IRC, OE-Classic is now unmaintained. OE-Core and
->> layers on
->> top of it should ideally be used instead.
->>
->> > 2. How can we compile latest recipes of oe-core on oe-classic and
->> ofcourse
->> > there bitbake version would be different.Basically, we can say we need
->> to
->> > backport the recipe to classic.
->> > e.g. gtk+2.20.1 & above, glibc-2.11.3 & above
->>
->> If you are determined to stay with OE-Classic I think you'd be better off
->> just
->> upgrading the recipes in OE-Classic - going backwards is going to be more
->> painful.
->>
->> Here's the only semi-related information we have, which is about
->> migration in
->> the other direction; it could be helpful in terms of providing pointers:
->>
->>   http://www.openembedded.org/wiki/Migrating_metadata_to_OE-Core
->>
->> Cheers,
->> Paul
->>
->> --
->>
->> Paul Eggleton
->> Intel Open Source Technology Centre
->>
+>
+> b) binning the separate kernel staging dir and making it work more like
+> the gcc shared work directory. This means external module builds and the
+> tools like perf and so on would use this shared source directory.
+>
+> The benefit would be that we no longer have the huge install step in the
+> main kernel recipe and the populate_sysroot step shinks in size.
+>
+> The downside has more impact here, the problem with shared work is that
+> it cannot be removed once extracted since the system never knows when
+> something else may need to use it. For gcc the argument was that we have
+> so many users (gcc-cross-initial, gcc-cross, gcc-runtime,
+> gcc-cross-canadian, gcc-crosssdk, gcc-crosssdk-initial and so on) that
+> the multiple copies were far worse. For the kernel, we can argue that we
+> have a ton of disk usage from it in the sysroot anyway so this change
+> just makes things more efficient effectively.
+>
+> The other issue is that for shared work dirs, the stamps need to be kept
+> in sync, if they step out, odd things happen (i.e. do_fetch, do_unpack,
+> do_patch task checksums need to match for linux-yocto, perf, kernel
+> modules and anything else using it). We may need to add some better
+> error cases to catch problems. Not an insurmountable problem, just one
+> that will likely need to be addressed.
+>
+> I do feel the whole situation with the current kernel size is out of
+> control and badly affecting user experience.
+
+I like (b) myself, since I'm getting tired of copying the source tree,
+having the removals fail as we march forward through kernel versions,
+and then needing to modify everything from the SDK to the out of tree
+module builds to reconstruct scripts, etc.
+
+We'd have the same "don't patch it" restrictions for something that
+builds out of this shared directory (like perf), so there's nothing
+new and horrible there.
+
+Cheers,
+
+Bruce
+
+>
+> Cheers,
+>
+> Richard
+>
 >
 
---001a11c12ce66c50790502b69b89
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr">Can u please tell me which latest bitbake version i can use =
-with oe-classic. I used bitbake version 1.8.12 with my infra. So i need to =
-use bitbake version which would be suitable with my old recipes as well. </=
-p>
-<p dir=3D"ltr">Regards <br>
-Bryan</p>
-<div class=3D"gmail_quote">On Sep 10, 2014 7:13 PM, &quot;Bryan&quot; &lt;<=
-a href=3D"mailto:just4tech83@gmail.com">just4tech83@gmail.com</a>&gt; wrote=
-:<br type=3D"attribution"><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p dir=3D"ltr">Hi =
-Paul,<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 Do you know any forked repository where we can found support for glibc =
-2.11.x, 2.12.x onwards.</p>
-<p dir=3D"ltr">One more query is related to glibc version. Does it become e=
-glibc in later versions as we could not get later version recipes. </p>
-<p dir=3D"ltr">Actually i have an old infra and i need to support icaclient=
- 13 (citrix receiver) which require libraries of later versions e.g. glibc,=
- gtk, libwebkit...<br><br></p>
-<p dir=3D"ltr">Regards <br>
-Bryan<br>
-</p>
-<div class=3D"gmail_quote">On Sep 9, 2014 6:32 PM, &quot;Paul Eggleton&quot=
-; &lt;<a href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">pa=
-ul.eggleton@linux.intel.com</a>&gt; wrote:<br type=3D"attribution"><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">On Tuesday 09 September 2014 18:23:24 Bryan wrote:<b=
-r>
-&gt;=C2=A0 =C2=A0 We have some queries regarding OE-Classic.<br>
-&gt; 1. Where can we find latest recipes for oe-classic.<br>
-<br>
-<a href=3D"http://cgit.openembedded.org/cgit.cgi/openembedded/" target=3D"_=
-blank">http://cgit.openembedded.org/cgit.cgi/openembedded/</a><br>
-<br>
-That&#39;s as up-to-date as it gets. There might be other forked repositori=
-es<br>
-floating around, but that is the last official one.<br>
-<br>
-&gt; Does oe-classic is still get updation for latest package support?<br>
-<br>
-No, as discussed on IRC, OE-Classic is now unmaintained. OE-Core and layers=
- on<br>
-top of it should ideally be used instead.<br>
-<br>
-&gt; 2. How can we compile latest recipes of oe-core on oe-classic and ofco=
-urse<br>
-&gt; there bitbake version would be different.Basically, we can say we need=
- to<br>
-&gt; backport the recipe to classic.<br>
-&gt; e.g. gtk+2.20.1 &amp; above, glibc-2.11.3 &amp; above<br>
-<br>
-If you are determined to stay with OE-Classic I think you&#39;d be better o=
-ff just<br>
-upgrading the recipes in OE-Classic - going backwards is going to be more<b=
-r>
-painful.<br>
-<br>
-Here&#39;s the only semi-related information we have, which is about migrat=
-ion in<br>
-the other direction; it could be helpful in terms of providing pointers:<br=
->
-<br>
-=C2=A0 <a href=3D"http://www.openembedded.org/wiki/Migrating_metadata_to_OE=
--Core" target=3D"_blank">http://www.openembedded.org/wiki/Migrating_metadat=
-a_to_OE-Core</a><br>
-<br>
-Cheers,<br>
-Paul<br>
-<br>
---<br>
-<br>
-Paul Eggleton<br>
-Intel Open Source Technology Centre<br>
-</blockquote></div>
-</blockquote></div>
-
---001a11c12ce66c50790502b69b89--
