@@ -1,34 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B9E1165CD8
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 10 Sep 2014 08:32:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8A8RngP009374; Wed, 10 Sep 2014 09:27:49 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id W7tn9t4jjK1D; Wed, 10 Sep 2014 09:27:49 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8A8Rgqn009359
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 10 Sep 2014 09:27:44 +0100
-Message-ID: <1410337664.19272.89.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Darren Hart <dvhart@linux.intel.com>, "Ashfield, Bruce"
-	<Bruce.Ashfield@windriver.com>
-Date: Wed, 10 Sep 2014 09:27:44 +0100
-In-Reply-To: <D034EC78.A7DD4%dvhart@linux.intel.com>
-References: <D034EC78.A7DD4%dvhart@linux.intel.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: "Brandt, Todd E" <todd.e.brandt@intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	Tom Zanussi <tom.zanussi@linux.intel.com>,
-	"Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: Packaging kernel sources
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F53E7142B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Sep 2014 11:24:46 +0000 (UTC)
+Received: by mail-wi0-f178.google.com with SMTP id hi2so2773290wib.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Sep 2014 04:24:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:content-type:content-transfer-encoding;
+	bh=ja6CEDtf+VHN4WjzJ3P6ATlQW41f4HwFKn4HDQqRh3E=;
+	b=AycIJywsFtxHFlBB833Ig+yxIgNMdxp6kwKuQ5zViBKKi+/SNaEoCa5j5ZkSdqFY71
+	Wrj0jDKfubpAu4DLWyot5zht5IBQFFNrWNRtw7vP9LX5ctbX71PJJSbA2t7wYNS8dMZA
+	VwXiQ+6CAOfVV1yG0+DGIebfQUFIepGGvthRwYTlDzbifPCmTqfwHn3WLN2tBfhkufoX
+	F2D8eXJGuJWnuLCzJ4/MHw19HNRM+7B3sWuu02hlOgrsqsEGr1akepvt8sDicpiSnVRr
+	h2Dq3dogZBUQGsOfvdtmYZvqcLHlv1L9aqrfN4seCSzfg7m4dtV9LflsssbVfe3BSTnw
+	uIUQ==
+X-Gm-Message-State: ALoCoQnqAt61FCrW2nmY0F4pA/nRaKYuU8SgEPaSO1sUORBl/X/01iguzROrtoV7nOQDKLGsn+jC
+X-Received: by 10.180.211.233 with SMTP id nf9mr35535804wic.33.1410348287570; 
+	Wed, 10 Sep 2014 04:24:47 -0700 (PDT)
+Received: from [172.29.23.6] (zk223.dresearch-fe.de. [217.92.177.116])
+	by mx.google.com with ESMTPSA id c7sm2080139wib.12.2014.09.10.04.24.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 10 Sep 2014 04:24:46 -0700 (PDT)
+Message-ID: <541034FD.4090900@dresearch-fe.de>
+Date: Wed, 10 Sep 2014 13:24:45 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
+MIME-Version: 1.0
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: hash generation for PR Service?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,65 +46,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Sep 2014 08:33:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Sep 2014 11:24:54 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2014-09-09 at 17:42 -0700, Darren Hart wrote:
-> I'm working on a project which needs to have the full kernel sources
-> installed on the target. The kernel-dev package as defined by
-> kernel.bbclass is heavily pruned to minimize packaging time and size and
-> is intended to enable building of external modules on the target.
-> 
-> Is there an accepted best-practice for how to get the full source packaged
-> and installed? I can easily write a new recipe,
-> linux-custom-source_git.bb, to install the sources, for example, without
-> impacting the packaging time of "virtual/kernel" package.
-> 
-> It would be nice in some respects for it to all come from the same recipe
-> though, but I suspect the impact to the common-case where this is not need
-> would be far too great.
-
-Personally, I'm leaning towards a couple of big changes in this area:
-
-a) "binning" the kernel-dev package and replacing it with some kind of
-separate full source recipe like this.
-
-The benefit is a fully functional on target source which is only built
-by people who care about it. This means for most users/builds, we no
-longer need to generate that huge package. The downside is a little more
-complexity for those that needs this but its not much.
+I'm not sure if this is the right mailing list for our problem. Please forgive me if not (and tell me the right one).
 
 
-b) binning the separate kernel staging dir and making it work more like
-the gcc shared work directory. This means external module builds and the
-tools like perf and so on would use this shared source directory.
+We're investigating some problems related with package versions going backwards using a PR Service[1].
 
-The benefit would be that we no longer have the huge install step in the
-main kernel recipe and the populate_sysroot step shinks in size. 
-
-The downside has more impact here, the problem with shared work is that
-it cannot be removed once extracted since the system never knows when
-something else may need to use it. For gcc the argument was that we have
-so many users (gcc-cross-initial, gcc-cross, gcc-runtime,
-gcc-cross-canadian, gcc-crosssdk, gcc-crosssdk-initial and so on) that
-the multiple copies were far worse. For the kernel, we can argue that we
-have a ton of disk usage from it in the sysroot anyway so this change
-just makes things more efficient effectively.
-
-The other issue is that for shared work dirs, the stamps need to be kept
-in sync, if they step out, odd things happen (i.e. do_fetch, do_unpack,
-do_patch task checksums need to match for linux-yocto, perf, kernel
-modules and anything else using it). We may need to add some better
-error cases to catch problems. Not an insurmountable problem, just one
-that will likely need to be addressed.
-
-I do feel the whole situation with the current kernel size is out of
-control and badly affecting user experience.
-
-Cheers,
-
-Richard
+Can someone give some hints where we can get information about generation of the hashes which are used to request values from the PR service? Especially which data/files/directories are involved..
 
 
+[1] <https://wiki.yoctoproject.org/wiki/PR_Service>
+
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
