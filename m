@@ -1,39 +1,35 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F53E7142B
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Sep 2014 11:24:46 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id hi2so2773290wib.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Sep 2014 04:24:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:content-type:content-transfer-encoding;
-	bh=ja6CEDtf+VHN4WjzJ3P6ATlQW41f4HwFKn4HDQqRh3E=;
-	b=AycIJywsFtxHFlBB833Ig+yxIgNMdxp6kwKuQ5zViBKKi+/SNaEoCa5j5ZkSdqFY71
-	Wrj0jDKfubpAu4DLWyot5zht5IBQFFNrWNRtw7vP9LX5ctbX71PJJSbA2t7wYNS8dMZA
-	VwXiQ+6CAOfVV1yG0+DGIebfQUFIepGGvthRwYTlDzbifPCmTqfwHn3WLN2tBfhkufoX
-	F2D8eXJGuJWnuLCzJ4/MHw19HNRM+7B3sWuu02hlOgrsqsEGr1akepvt8sDicpiSnVRr
-	h2Dq3dogZBUQGsOfvdtmYZvqcLHlv1L9aqrfN4seCSzfg7m4dtV9LflsssbVfe3BSTnw
-	uIUQ==
-X-Gm-Message-State: ALoCoQnqAt61FCrW2nmY0F4pA/nRaKYuU8SgEPaSO1sUORBl/X/01iguzROrtoV7nOQDKLGsn+jC
-X-Received: by 10.180.211.233 with SMTP id nf9mr35535804wic.33.1410348287570; 
-	Wed, 10 Sep 2014 04:24:47 -0700 (PDT)
-Received: from [172.29.23.6] (zk223.dresearch-fe.de. [217.92.177.116])
-	by mx.google.com with ESMTPSA id c7sm2080139wib.12.2014.09.10.04.24.46
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 10 Sep 2014 04:24:46 -0700 (PDT)
-Message-ID: <541034FD.4090900@dresearch-fe.de>
-Date: Wed, 10 Sep 2014 13:24:45 +0200
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+Return-Path: <just4tech83@gmail.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 3ACA371044;
+	Wed, 10 Sep 2014 13:43:58 +0000 (UTC)
+Received: by mail-qg0-f49.google.com with SMTP id j5so5701203qga.22
+	for <multiple recipients>; Wed, 10 Sep 2014 06:43:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Xx3eHmdgJ28MXqFCtSqYiqVCZAe3B6SuOwoy3biyz9Y=;
+	b=mxO9DZz/OVRFJxcLGVsdopOLIMyUkzM+WXFWmVGCbwB7a8IQlFCq71rLq2dldOLSmc
+	Aq5tbe72QdALE36XETQKNb8WuXAWO1fJY+vtH/bEkdD5TK9HdOk7wKwbPmr2v4sGESUB
+	q/fqtcpvG8qx4r94IucuqXpIpzGUBIKXMAb9XmJuoPoGu0/Rw5X83w/Vj1ze/ELsIAwl
+	2A5fRn4kBBBSx/ytAQQgAFMLJRBvXcR37I10z5PsG8Ss+Bme3h/xCyaGGIeB/Zw1ZA6a
+	jyIHeN9sGj9V+2bYyQhmvc0aKjSloAuNnlbCNojzHzoeF/TsfLJZLP58ukH7KfhTP2BY
+	Nsnw==
 MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: hash generation for PR Service?
+X-Received: by 10.140.38.169 with SMTP id t38mr58721202qgt.3.1410356639132;
+	Wed, 10 Sep 2014 06:43:59 -0700 (PDT)
+Received: by 10.140.16.144 with HTTP; Wed, 10 Sep 2014 06:43:58 -0700 (PDT)
+Received: by 10.140.16.144 with HTTP; Wed, 10 Sep 2014 06:43:58 -0700 (PDT)
+In-Reply-To: <48633854.zRbls2qSnV@peggleto-mobl5.ger.corp.intel.com>
+References: <CAD2C2VTOgCMRsq4em2Bd0hQ4Nz2Zq=B2vXezAw7QXQmhkQOsRQ@mail.gmail.com>
+	<48633854.zRbls2qSnV@peggleto-mobl5.ger.corp.intel.com>
+Date: Wed, 10 Sep 2014 19:13:58 +0530
+Message-ID: <CAD2C2VR10GCLaH8CoWtv=ASUX7_W9wwBmFP2uey9WhAaNWbCfA@mail.gmail.com>
+From: Bryan <just4tech83@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, raj.khem@gmail.com
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe] Backporting of latest recipes on oe-classic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,26 +42,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Sep 2014 11:24:54 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 10 Sep 2014 13:44:06 -0000
+Content-Type: multipart/alternative; boundary=001a11c12ce67b8f4f0502b63e80
 
-I'm not sure if this is the right mailing list for our problem. Please forgive me if not (and tell me the right one).
+--001a11c12ce67b8f4f0502b63e80
+Content-Type: text/plain; charset=UTF-8
 
+Hi Paul,
+              Do you know any forked repository where we can found support
+for glibc 2.11.x, 2.12.x onwards.
 
-We're investigating some problems related with package versions going backwards using a PR Service[1].
+One more query is related to glibc version. Does it become eglibc in later
+versions as we could not get later version recipes.
 
-Can someone give some hints where we can get information about generation of the hashes which are used to request values from the PR service? Especially which data/files/directories are involved..
+Actually i have an old infra and i need to support icaclient 13 (citrix
+receiver) which require libraries of later versions e.g. glibc, gtk,
+libwebkit...
 
+Regards
+Bryan
+ On Sep 9, 2014 6:32 PM, "Paul Eggleton" <paul.eggleton@linux.intel.com>
+wrote:
 
-[1] <https://wiki.yoctoproject.org/wiki/PR_Service>
+> On Tuesday 09 September 2014 18:23:24 Bryan wrote:
+> >    We have some queries regarding OE-Classic.
+> > 1. Where can we find latest recipes for oe-classic.
+>
+> http://cgit.openembedded.org/cgit.cgi/openembedded/
+>
+> That's as up-to-date as it gets. There might be other forked repositories
+> floating around, but that is the last official one.
+>
+> > Does oe-classic is still get updation for latest package support?
+>
+> No, as discussed on IRC, OE-Classic is now unmaintained. OE-Core and
+> layers on
+> top of it should ideally be used instead.
+>
+> > 2. How can we compile latest recipes of oe-core on oe-classic and
+> ofcourse
+> > there bitbake version would be different.Basically, we can say we need to
+> > backport the recipe to classic.
+> > e.g. gtk+2.20.1 & above, glibc-2.11.3 & above
+>
+> If you are determined to stay with OE-Classic I think you'd be better off
+> just
+> upgrading the recipes in OE-Classic - going backwards is going to be more
+> painful.
+>
+> Here's the only semi-related information we have, which is about migration
+> in
+> the other direction; it could be helpful in terms of providing pointers:
+>
+>   http://www.openembedded.org/wiki/Migrating_metadata_to_OE-Core
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
+>
 
--- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+--001a11c12ce67b8f4f0502b63e80
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<p dir=3D"ltr">Hi Paul,<br>
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 Do you know any forked repository where we can found support for glibc =
+2.11.x, 2.12.x onwards.</p>
+<p dir=3D"ltr">One more query is related to glibc version. Does it become e=
+glibc in later versions as we could not get later version recipes. </p>
+<p dir=3D"ltr">Actually i have an old infra and i need to support icaclient=
+ 13 (citrix receiver) which require libraries of later versions e.g. glibc,=
+ gtk, libwebkit...<br><br></p>
+<p dir=3D"ltr">Regards <br>
+Bryan<br>
+</p>
+<div class=3D"gmail_quote">On Sep 9, 2014 6:32 PM, &quot;Paul Eggleton&quot=
+; &lt;<a href=3D"mailto:paul.eggleton@linux.intel.com">paul.eggleton@linux.=
+intel.com</a>&gt; wrote:<br type=3D"attribution"><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex">On Tuesday 09 September 2014 18:23:24 Bryan wrote:<br>
+&gt;=C2=A0 =C2=A0 We have some queries regarding OE-Classic.<br>
+&gt; 1. Where can we find latest recipes for oe-classic.<br>
+<br>
+<a href=3D"http://cgit.openembedded.org/cgit.cgi/openembedded/" target=3D"_=
+blank">http://cgit.openembedded.org/cgit.cgi/openembedded/</a><br>
+<br>
+That&#39;s as up-to-date as it gets. There might be other forked repositori=
+es<br>
+floating around, but that is the last official one.<br>
+<br>
+&gt; Does oe-classic is still get updation for latest package support?<br>
+<br>
+No, as discussed on IRC, OE-Classic is now unmaintained. OE-Core and layers=
+ on<br>
+top of it should ideally be used instead.<br>
+<br>
+&gt; 2. How can we compile latest recipes of oe-core on oe-classic and ofco=
+urse<br>
+&gt; there bitbake version would be different.Basically, we can say we need=
+ to<br>
+&gt; backport the recipe to classic.<br>
+&gt; e.g. gtk+2.20.1 &amp; above, glibc-2.11.3 &amp; above<br>
+<br>
+If you are determined to stay with OE-Classic I think you&#39;d be better o=
+ff just<br>
+upgrading the recipes in OE-Classic - going backwards is going to be more<b=
+r>
+painful.<br>
+<br>
+Here&#39;s the only semi-related information we have, which is about migrat=
+ion in<br>
+the other direction; it could be helpful in terms of providing pointers:<br=
+>
+<br>
+=C2=A0 <a href=3D"http://www.openembedded.org/wiki/Migrating_metadata_to_OE=
+-Core" target=3D"_blank">http://www.openembedded.org/wiki/Migrating_metadat=
+a_to_OE-Core</a><br>
+<br>
+Cheers,<br>
+Paul<br>
+<br>
+--<br>
+<br>
+Paul Eggleton<br>
+Intel Open Source Technology Centre<br>
+</blockquote></div>
+
+--001a11c12ce67b8f4f0502b63e80--
