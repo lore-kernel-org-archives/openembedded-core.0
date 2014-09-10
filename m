@@ -1,35 +1,35 @@
-Return-Path: <just4tech83@gmail.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 3ACA371044;
-	Wed, 10 Sep 2014 13:43:58 +0000 (UTC)
-Received: by mail-qg0-f49.google.com with SMTP id j5so5701203qga.22
-	for <multiple recipients>; Wed, 10 Sep 2014 06:43:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Xx3eHmdgJ28MXqFCtSqYiqVCZAe3B6SuOwoy3biyz9Y=;
-	b=mxO9DZz/OVRFJxcLGVsdopOLIMyUkzM+WXFWmVGCbwB7a8IQlFCq71rLq2dldOLSmc
-	Aq5tbe72QdALE36XETQKNb8WuXAWO1fJY+vtH/bEkdD5TK9HdOk7wKwbPmr2v4sGESUB
-	q/fqtcpvG8qx4r94IucuqXpIpzGUBIKXMAb9XmJuoPoGu0/Rw5X83w/Vj1ze/ELsIAwl
-	2A5fRn4kBBBSx/ytAQQgAFMLJRBvXcR37I10z5PsG8Ss+Bme3h/xCyaGGIeB/Zw1ZA6a
-	jyIHeN9sGj9V+2bYyQhmvc0aKjSloAuNnlbCNojzHzoeF/TsfLJZLP58ukH7KfhTP2BY
-	Nsnw==
-MIME-Version: 1.0
-X-Received: by 10.140.38.169 with SMTP id t38mr58721202qgt.3.1410356639132;
-	Wed, 10 Sep 2014 06:43:59 -0700 (PDT)
-Received: by 10.140.16.144 with HTTP; Wed, 10 Sep 2014 06:43:58 -0700 (PDT)
-Received: by 10.140.16.144 with HTTP; Wed, 10 Sep 2014 06:43:58 -0700 (PDT)
-In-Reply-To: <48633854.zRbls2qSnV@peggleto-mobl5.ger.corp.intel.com>
-References: <CAD2C2VTOgCMRsq4em2Bd0hQ4Nz2Zq=B2vXezAw7QXQmhkQOsRQ@mail.gmail.com>
-	<48633854.zRbls2qSnV@peggleto-mobl5.ger.corp.intel.com>
-Date: Wed, 10 Sep 2014 19:13:58 +0530
-Message-ID: <CAD2C2VR10GCLaH8CoWtv=ASUX7_W9wwBmFP2uey9WhAaNWbCfA@mail.gmail.com>
-From: Bryan <just4tech83@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, raj.khem@gmail.com
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Backporting of latest recipes on oe-classic
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A6DE60167
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Sep 2014 13:49:35 +0000 (UTC)
+Received: by mail-wg0-f49.google.com with SMTP id m15so4603915wgh.32
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Sep 2014 06:49:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=4prBGPZrMu7fyps7GH+K3XgI+qjPOBbTeJ5g1cZM50A=;
+	b=F/0MBHXkIus/tgHDwjVzqTO+IZYBE9UKmbksOmLfC0UeonqzoBbGbXy6g1NpRA7Rvd
+	194sJqqjgm4g0e1rJTeqSh2fnTY4ypRfwdo8Mk8/2X5aUuXBDKNuMhEQjsfjS7TCe1Ds
+	qGEka180ePiAAoLWwQiVBcOqm0nPxpBc1GBpqcZK0gMVVCaxkIs3eT8bbkR0NGz0iovE
+	s8Kw1lKTUFOXuj85KDWV2qNEMS8EoQDnsTU5sLo9aFvskiMO2GltJSzfmH5FRVAl6wiP
+	nNWLZgT6n5ziiqFZzlwG/W00re6cDz31k9u4CBC3DebV1MsTUP3nLBnivVZwvyeD9vvh
+	UdMA==
+X-Gm-Message-State: ALoCoQmW5Zl3EJh2cO8YtrFqJHJEeOZKnvS/4oW/7gctOpHipJoow0NHlF9N7wumEOE2CoQI/4ts
+X-Received: by 10.180.198.50 with SMTP id iz18mr2783540wic.21.1410356976596;
+	Wed, 10 Sep 2014 06:49:36 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id pn5sm18672936wjc.4.2014.09.10.06.49.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 10 Sep 2014 06:49:35 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Sep 2014 14:49:08 +0100
+Message-Id: <cover.1410356905.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 00/21] C-Pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,135 +42,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Sep 2014 13:44:06 -0000
-Content-Type: multipart/alternative; boundary=001a11c12ce67b8f4f0502b63e80
+X-List-Received-Date: Wed, 10 Sep 2014 13:49:43 -0000
 
---001a11c12ce67b8f4f0502b63e80
-Content-Type: text/plain; charset=UTF-8
+Hi,
 
-Hi Paul,
-              Do you know any forked repository where we can found support
-for glibc 2.11.x, 2.12.x onwards.
+Misc patches, kernel-dev upgrade, QA support for automated ptest execution.
 
-One more query is related to glibc version. Does it become eglibc in later
-versions as we could not get later version recipes.
+The initial full nightly autobuilder run failed dramatically due to valgrind
+failing to configure. This is now fixed, and verified with a run of
+nightly-x86-64.
 
-Actually i have an old infra and i need to support icaclient 13 (citrix
-receiver) which require libraries of later versions e.g. glibc, gtk,
-libwebkit...
+Ross
 
-Regards
-Bryan
- On Sep 9, 2014 6:32 PM, "Paul Eggleton" <paul.eggleton@linux.intel.com>
-wrote:
+The following changes since commit 0d3c79524c95a7ab3b87c9dcb49746746900a18a:
 
-> On Tuesday 09 September 2014 18:23:24 Bryan wrote:
-> >    We have some queries regarding OE-Classic.
-> > 1. Where can we find latest recipes for oe-classic.
->
-> http://cgit.openembedded.org/cgit.cgi/openembedded/
->
-> That's as up-to-date as it gets. There might be other forked repositories
-> floating around, but that is the last official one.
->
-> > Does oe-classic is still get updation for latest package support?
->
-> No, as discussed on IRC, OE-Classic is now unmaintained. OE-Core and
-> layers on
-> top of it should ideally be used instead.
->
-> > 2. How can we compile latest recipes of oe-core on oe-classic and
-> ofcourse
-> > there bitbake version would be different.Basically, we can say we need to
-> > backport the recipe to classic.
-> > e.g. gtk+2.20.1 & above, glibc-2.11.3 & above
->
-> If you are determined to stay with OE-Classic I think you'd be better off
-> just
-> upgrading the recipes in OE-Classic - going backwards is going to be more
-> painful.
->
-> Here's the only semi-related information we have, which is about migration
-> in
-> the other direction; it could be helpful in terms of providing pointers:
->
->   http://www.openembedded.org/wiki/Migrating_metadata_to_OE-Core
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
->
+  glibc: Incremental bump to 2.20 release branch (2014-09-10 11:33:26 +0100)
 
---001a11c12ce67b8f4f0502b63e80
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+are available in the git repository at:
 
-<p dir=3D"ltr">Hi Paul,<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 Do you know any forked repository where we can found support for glibc =
-2.11.x, 2.12.x onwards.</p>
-<p dir=3D"ltr">One more query is related to glibc version. Does it become e=
-glibc in later versions as we could not get later version recipes. </p>
-<p dir=3D"ltr">Actually i have an old infra and i need to support icaclient=
- 13 (citrix receiver) which require libraries of later versions e.g. glibc,=
- gtk, libwebkit...<br><br></p>
-<p dir=3D"ltr">Regards <br>
-Bryan<br>
-</p>
-<div class=3D"gmail_quote">On Sep 9, 2014 6:32 PM, &quot;Paul Eggleton&quot=
-; &lt;<a href=3D"mailto:paul.eggleton@linux.intel.com">paul.eggleton@linux.=
-intel.com</a>&gt; wrote:<br type=3D"attribution"><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">On Tuesday 09 September 2014 18:23:24 Bryan wrote:<br>
-&gt;=C2=A0 =C2=A0 We have some queries regarding OE-Classic.<br>
-&gt; 1. Where can we find latest recipes for oe-classic.<br>
-<br>
-<a href=3D"http://cgit.openembedded.org/cgit.cgi/openembedded/" target=3D"_=
-blank">http://cgit.openembedded.org/cgit.cgi/openembedded/</a><br>
-<br>
-That&#39;s as up-to-date as it gets. There might be other forked repositori=
-es<br>
-floating around, but that is the last official one.<br>
-<br>
-&gt; Does oe-classic is still get updation for latest package support?<br>
-<br>
-No, as discussed on IRC, OE-Classic is now unmaintained. OE-Core and layers=
- on<br>
-top of it should ideally be used instead.<br>
-<br>
-&gt; 2. How can we compile latest recipes of oe-core on oe-classic and ofco=
-urse<br>
-&gt; there bitbake version would be different.Basically, we can say we need=
- to<br>
-&gt; backport the recipe to classic.<br>
-&gt; e.g. gtk+2.20.1 &amp; above, glibc-2.11.3 &amp; above<br>
-<br>
-If you are determined to stay with OE-Classic I think you&#39;d be better o=
-ff just<br>
-upgrading the recipes in OE-Classic - going backwards is going to be more<b=
-r>
-painful.<br>
-<br>
-Here&#39;s the only semi-related information we have, which is about migrat=
-ion in<br>
-the other direction; it could be helpful in terms of providing pointers:<br=
->
-<br>
-=C2=A0 <a href=3D"http://www.openembedded.org/wiki/Migrating_metadata_to_OE=
--Core" target=3D"_blank">http://www.openembedded.org/wiki/Migrating_metadat=
-a_to_OE-Core</a><br>
-<br>
-Cheers,<br>
-Paul<br>
-<br>
---<br>
-<br>
-Paul Eggleton<br>
-Intel Open Source Technology Centre<br>
-</blockquote></div>
+  git://git.yoctoproject.org/poky-contrib ross/mut-next
 
---001a11c12ce67b8f4f0502b63e80--
+for you to fetch changes up to 0975ff62201ae6745fdf2e2e5a62c8157a73669e:
+
+  nspr: Upgrade to 4.10.7 (2014-09-10 11:47:20 +0100)
+
+----------------------------------------------------------------
+Bruce Ashfield (7):
+      linux-yocto/3.10: baytrail i/o updates
+      lttng-modules: fix compilation for 3.17-rcX
+      perf: fix v3.17 powerpc compilation issues
+      linux-yocto: introduce v3.17
+      linux-yocto/3.10: update valleyisland-io merge branch
+      linux-yocto/3.14: configuration updates and feature merges.
+      linux-yocto-dev: bump to v3.17+
+
+Carlos Rafael Giani (1):
+      kernel.bbclass: handle .dsp firmware
+
+Chen Qi (1):
+      bitbake.conf: use ??= for IMAGE_ROOTFS_SIZE
+
+Jackie Huang (1):
+      packagegroup-self-hosted: move graphics packages to graphics group
+
+Lucian Musat (3):
+      oeqa: Added package installer to oetest to aid in future automatic install of packages
+      oeqa/utils/logparser.py: results based log parser utility
+      oeqa/runtime: Automatic test for ptest
+
+Otavio Salvador (1):
+      packagegroup.bbclass: Use immediate expanded PACKAGE_ARCH value
+
+Paul Eggleton (1):
+      classes/buildhistory: fix for sstate class change
+
+Ross Burton (4):
+      e2fsprogs: remove chmod
+      e2fsprogs: enable verbose build
+      e2fsprogs: remove manual build of util/subst
+      e2fsprogs: update acinclude.m4
+
+Saul Wold (1):
+      nspr: Upgrade to 4.10.7
+
+Sona Sarmadi (1):
+      pcihp: fix possible array out of bounds, CVE-2014-5388
+
+ meta/classes/buildhistory.bbclass                  |    2 +-
+ meta/classes/kernel.bbclass                        |    1 +
+ meta/classes/packagegroup.bbclass                  |    8 +-
+ meta/conf/bitbake.conf                             |    2 +-
+ meta/lib/oeqa/oetest.py                            |    7 ++
+ meta/lib/oeqa/runtime/_ptest.py                    |  124 +++++++++++++++++++
+ meta/lib/oeqa/utils/logparser.py                   |  125 +++++++++++++++++++
+ .../packagegroups/packagegroup-self-hosted.bb      |   10 +-
+ .../e2fsprogs/e2fsprogs/acinclude.m4               |   53 +++++++-
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |    7 +-
+ ...1-Back-porting-security-fix-CVE-2014-5388.patch |   30 +++++
+ meta/recipes-devtools/qemu/qemu_2.1.0.bb           |    1 +
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |    4 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |    4 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb |   21 ++++
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   16 +--
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      |   16 +--
+ meta/recipes-kernel/linux/linux-yocto_3.17.bb      |   37 ++++++
+ ...probes-should-calculate-alignment-and-eve.patch |  130 ++++++++++++++++++++
+ ...e-kvm-instrumentation-compile-on-3.17-rc1.patch |   46 +++++++
+ .../Update-statedump-to-3.17-nsproxy-locking.patch |   70 +++++++++++
+ meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb   |    3 +
+ meta/recipes-kernel/perf/perf.bb                   |    5 +
+ .../nspr/nspr/fix-build-on-x86_64.patch            |   31 ++---
+ .../nspr/remove-srcdir-from-configure-in.patch     |   19 +++
+ .../nspr/nspr/trickly-fix-build-on-x86_64.patch    |   62 ----------
+ .../nspr/{nspr_4.10.3.bb => nspr_4.10.7.bb}        |   13 +-
+ 30 files changed, 730 insertions(+), 131 deletions(-)
+ create mode 100644 meta/lib/oeqa/runtime/_ptest.py
+ create mode 100644 meta/lib/oeqa/utils/logparser.py
+ create mode 100644 meta/recipes-devtools/qemu/files/0001-Back-porting-security-fix-CVE-2014-5388.patch
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.17.bb
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/Fix-noargs-probes-should-calculate-alignment-and-eve.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/Update-kvm-instrumentation-compile-on-3.17-rc1.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/Update-statedump-to-3.17-nsproxy-locking.patch
+ create mode 100644 meta/recipes-support/nspr/nspr/remove-srcdir-from-configure-in.patch
+ delete mode 100644 meta/recipes-support/nspr/nspr/trickly-fix-build-on-x86_64.patch
+ rename meta/recipes-support/nspr/{nspr_4.10.3.bb => nspr_4.10.7.bb} (91%)
+
+Bruce Ashfield (7):
+  linux-yocto/3.10: baytrail i/o updates
+  lttng-modules: fix compilation for 3.17-rcX
+  perf: fix v3.17 powerpc compilation issues
+  linux-yocto: introduce v3.17
+  linux-yocto/3.10: update valleyisland-io merge branch
+  linux-yocto/3.14: configuration updates and feature merges.
+  linux-yocto-dev: bump to v3.17+
+
+Carlos Rafael Giani (1):
+  kernel.bbclass: handle .dsp firmware
+
+Chen Qi (1):
+  bitbake.conf: use ??= for IMAGE_ROOTFS_SIZE
+
+Jackie Huang (1):
+  packagegroup-self-hosted: move graphics packages to graphics group
+
+Lucian Musat (3):
+  oeqa: Added package installer to oetest to aid in future automatic
+    install of packages
+  oeqa/utils/logparser.py: results based log parser utility
+  oeqa/runtime: Automatic test for ptest
+
+Otavio Salvador (1):
+  packagegroup.bbclass: Use immediate expanded PACKAGE_ARCH value
+
+Paul Eggleton (1):
+  classes/buildhistory: fix for sstate class change
+
+Ross Burton (4):
+  e2fsprogs: remove chmod
+  e2fsprogs: enable verbose build
+  e2fsprogs: remove manual build of util/subst
+  e2fsprogs: update acinclude.m4
+
+Saul Wold (1):
+  nspr: Upgrade to 4.10.7
+
+Sona Sarmadi (1):
+  pcihp: fix possible array out of bounds, CVE-2014-5388
+
+ meta/classes/buildhistory.bbclass                  |    2 +-
+ meta/classes/kernel.bbclass                        |    1 +
+ meta/classes/packagegroup.bbclass                  |    8 +-
+ meta/conf/bitbake.conf                             |    2 +-
+ meta/lib/oeqa/oetest.py                            |    7 ++
+ meta/lib/oeqa/runtime/_ptest.py                    |  124 +++++++++++++++++++
+ meta/lib/oeqa/utils/logparser.py                   |  125 +++++++++++++++++++
+ .../packagegroups/packagegroup-self-hosted.bb      |   10 +-
+ .../e2fsprogs/e2fsprogs/acinclude.m4               |   53 +++++++-
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |    7 +-
+ ...1-Back-porting-security-fix-CVE-2014-5388.patch |   30 +++++
+ meta/recipes-devtools/qemu/qemu_2.1.0.bb           |    1 +
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |    4 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |    4 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb |   21 ++++
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   16 +--
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      |   16 +--
+ meta/recipes-kernel/linux/linux-yocto_3.17.bb      |   37 ++++++
+ ...probes-should-calculate-alignment-and-eve.patch |  130 ++++++++++++++++++++
+ ...e-kvm-instrumentation-compile-on-3.17-rc1.patch |   46 +++++++
+ .../Update-statedump-to-3.17-nsproxy-locking.patch |   70 +++++++++++
+ meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb   |    3 +
+ meta/recipes-kernel/perf/perf.bb                   |    5 +
+ .../nspr/nspr/fix-build-on-x86_64.patch            |   31 ++---
+ .../nspr/remove-srcdir-from-configure-in.patch     |   19 +++
+ .../nspr/nspr/trickly-fix-build-on-x86_64.patch    |   62 ----------
+ .../nspr/{nspr_4.10.3.bb => nspr_4.10.7.bb}        |   13 +-
+ 30 files changed, 730 insertions(+), 131 deletions(-)
+ create mode 100644 meta/lib/oeqa/runtime/_ptest.py
+ create mode 100644 meta/lib/oeqa/utils/logparser.py
+ create mode 100644 meta/recipes-devtools/qemu/files/0001-Back-porting-security-fix-CVE-2014-5388.patch
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.17.bb
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/Fix-noargs-probes-should-calculate-alignment-and-eve.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/Update-kvm-instrumentation-compile-on-3.17-rc1.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/Update-statedump-to-3.17-nsproxy-locking.patch
+ create mode 100644 meta/recipes-support/nspr/nspr/remove-srcdir-from-configure-in.patch
+ delete mode 100644 meta/recipes-support/nspr/nspr/trickly-fix-build-on-x86_64.patch
+ rename meta/recipes-support/nspr/{nspr_4.10.3.bb => nspr_4.10.7.bb} (91%)
+
+-- 
+1.7.10.4
+
+
