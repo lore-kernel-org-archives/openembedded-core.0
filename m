@@ -1,35 +1,27 @@
-Return-Path: <sgarman@zenlinux.com>
-X-Greylist: delayed 478 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 11 Sep 2014 18:06:26 UTC
-Received: from masterfoo.zenlinux.com (masterfoo.zenlinux.com [50.116.21.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 973C865D58
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 80298617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Sep 2014 18:06:26 +0000 (UTC)
-Received: from [192.168.1.12] (c-50-139-96-211.hsd1.or.comcast.net
-	[50.139.96.211])
-	by masterfoo.zenlinux.com (Postfix) with ESMTPSA id 53BD91EA35
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Sep 2014 10:58:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=zenlinux.com; s=dkim;
-	t=1410458309; bh=ER9RQnq4mTOVf4MN0hnm4SLC+rNgJPIS9fA7+9MT7gI=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=D7pyfUzrIOpVZXQRiPoxIVDsk82IdQ8Eksn61iij0MTcMZWuvy8icy3zOVMUoE4/A
-	78DwLVSKX32bk4NA/SAQNH1X2rB8kzYbbg/eUXGI4Xdbaa3pzfbieZ0UnPQyYE/bMw
-	js3e3CBftCHTMJa2H7cHo065NYIYqu01/sxNp7uI=
-Message-ID: <5411E2C3.3080807@zenlinux.com>
-Date: Thu, 11 Sep 2014 10:58:27 -0700
-From: Scott Garman <sgarman@zenlinux.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+	Thu, 11 Sep 2014 18:47:52 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 11 Sep 2014 11:35:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,506,1406617200"; d="scan'208";a="590006740"
+Received: from agalvare-mobl1.amr.corp.intel.com (HELO [10.254.78.160])
+	([10.254.78.160])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Sep 2014 11:44:13 -0700
+User-Agent: Microsoft-MacOutlook/14.4.3.140616
+Date: Thu, 11 Sep 2014 11:44:14 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+Sender: "Hart, Darren" <darren.hart@intel.com>
+To: Chiz Chikwendu <chiz.chikwendu@Haemonetics.com>,
+	"Openembedded List (openembedded-core@lists.openembedded.org)"
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <D0373AAC.A8510%darren.hart@intel.com>
+Thread-Topic: bzImage not included in rootfs
 References: <A0F68394C677A9428EE03709453BAAEC7959C76C@BRS-Exch02.haemo.net>
 In-Reply-To: <A0F68394C677A9428EE03709453BAAEC7959C76C@BRS-Exch02.haemo.net>
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.3.9
-	(masterfoo.zenlinux.com [0.0.0.0]);
-	Thu, 11 Sep 2014 10:58:29 -0700 (PDT)
-X-Virus-Scanned: clamav-milter 0.98.4 at masterfoo
-X-Virus-Status: Clean
+Mime-version: 1.0
 Subject: Re: bzImage not included in rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,54 +35,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Sep 2014 18:06:35 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 11 Sep 2014 18:48:02 -0000
+Content-type: text/plain;
+	charset="ISO-8859-1"
+Content-transfer-encoding: quoted-printable
 
-On 09/11/2014 05:08 AM, Chiz Chikwendu wrote:
-> I am new to Openembedded (and yocto).
-> 
-> I have built an image with poky build environment.
-> 
->  
-> 
-> I noticed that the kernel’s bzImage is not included in the rootfs.
-> 
-> How do I get the system to include “bzImage” in the rootfs (boot/bzImage-)?
-> 
->  
-> 
-> I’ve done some research, and I saw a note about setting the parameter:
-> 
-> RDEPENDS_kernel-base = “zImage”
-> 
->  
-> 
-> This should override the kernel settings and build the kernel into the
-> rootfs. I tried it, however it is not working for me.
+From:  Chiz Chikwendu <chiz.chikwendu@Haemonetics.com>
+Date:  Thursday, September 11, 2014 at 5:08
+To:  "Openembedded List (openembedded-core@lists.openembedded.org)"
+<openembedded-core@lists.openembedded.org>
+Cc:  Darren Hart <darren.hart@intel.com>
+Subject:  bzImage not included in rootfs
+
+
+>I am new to Openembedded (and yocto).
 
 Hi Chiz,
 
-Which MACHINE are you building for? This is probably something that is
-set in the machine's BSP, since some hw platforms use bootloaders which
-look for the kernel in a separate flash disk than the rootfs, so for
-those devices there's no need to put the kernel in the rootfs.
+For future reference, when sending email to public open source mailing
+lists, it's a good idea to use plain text and avoid HTML. Some lists will
+actually block all HTML email.
 
-If you're building one of the qemu machine targets, note that in
-meta/conf/machine/include/qemu.inc there is:
+>=20
+>I have built an image with poky build environment.
+>=20
+>I noticed that the kernel=B9s bzImage is not included in the rootfs.
+>
+>How do I get the system to include =B3bzImage=B2 in the rootfs
+>(boot/bzImage-)?
+>=20
+>I=B9ve done some research, and I saw a note about setting the parameter:
+>RDEPENDS_kernel-base =3D =B3zImage=B2
+>=20
+>This should override the kernel settings and build the kernel into the
+>rootfs. I tried it, however it is not working for me.
+>=20
+>Can anyone help?
 
-# Don't include kernels in standard images
-RDEPENDS_kernel-base = ""
+The kernel image is installed in /boot by the "kernel-image" package. Most
+images do not include this by default as many targets boot with the kernel
+located on a separate system partition.
 
-Finally, where are you trying to set RDEPENDS_kernel-base in your
-example above? I'm assuming in your local.conf file? I believe that
-should be the place to do it so that it overrides the machine
-configuration's definition.
+See the documentation for how to add new packages to existing image
+recipes using variables like:
 
-Finally, make sure you've cleared the build cache for the image
-generation by running bitbake -c cleanall <image-name> before trying to
-generate it again.
+CORE_IMAGE_EXTRA_INSTALL +=3D "kernel-image"
 
-Scott
+http://www.yoctoproject.org/docs/1.6.1/dev-manual/dev-manual.html#usingpoky
+-extend-customimage-localconf
+
+--
+Darren Hart
+Intel Open Source Technology Center
+
+
 
 
