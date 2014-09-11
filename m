@@ -1,43 +1,35 @@
-Return-Path: <chiz.chikwendu@Haemonetics.com>
-X-Greylist: delayed 391 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 11 Sep 2014 18:52:38 UTC
-Received: from mail1.bemta7.messagelabs.com (mail1.bemta7.messagelabs.com
-	[216.82.254.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 9481E617B8
+Return-Path: <soeren.brinkmann@gmail.com>
+Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 341B87108D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Sep 2014 18:52:38 +0000 (UTC)
-Received: from [216.82.253.243:31584] by server-2.bemta-7.messagelabs.com id
-	86/57-05570-0FDE1145; Thu, 11 Sep 2014 18:46:08 +0000
-X-Env-Sender: chiz.chikwendu@Haemonetics.com
-X-Msg-Ref: server-2.tower-171.messagelabs.com!1410461132!21055596!4
-X-Originating-IP: [12.94.3.150]
-X-StarScan-Received: 
-X-StarScan-Version: 6.11.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 3096 invoked from network); 11 Sep 2014 18:46:07 -0000
-Received: from unknown (HELO mail.haemonetics.com) (12.94.3.150)
-	by server-2.tower-171.messagelabs.com with AES128-SHA encrypted SMTP;
-	11 Sep 2014 18:46:07 -0000
-Received: from BRS-EXCH02.haemo.net ([169.254.2.195]) by BRS-Exch01.haemo.net
-	([169.254.1.211]) with mapi id 14.03.0195.001;
-	Thu, 11 Sep 2014 14:45:35 -0400
-From: Chiz Chikwendu <chiz.chikwendu@Haemonetics.com>
-To: Scott Garman <sgarman@zenlinux.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] bzImage not included in rootfs
-Thread-Index: Ac/NuQqbyNbec55cRIGxKCHHjsJZBgAUnlOAAAe7+YA=
-Date: Thu, 11 Sep 2014 18:45:34 +0000
-Message-ID: <A0F68394C677A9428EE03709453BAAEC7959C901@BRS-Exch02.haemo.net>
-References: <A0F68394C677A9428EE03709453BAAEC7959C76C@BRS-Exch02.haemo.net>
-	<5411E2C3.3080807@zenlinux.com>
-In-Reply-To: <5411E2C3.3080807@zenlinux.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.50.1.77]
-MIME-Version: 1.0
-Subject: Re: bzImage not included in rootfs
+	Thu, 11 Sep 2014 20:34:00 +0000 (UTC)
+Received: by mail-qc0-f175.google.com with SMTP id c9so21921912qcz.20
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Sep 2014 13:34:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=QRFZ3MNIii+nRw19alL5pK7kBWS7siKSAq00lceq9Pk=;
+	b=rtyiVNIuNpLJRcIE6dLwDCsLjFxTNiKCBDi4UV1E6Cg31EzDjImzFZeIL+bFtQTf5i
+	WGWL3Pjh+gEiJj7HT4YiF7mpV5I2PuMu2Di798kXObKg0cJ5GFlWdl2d7PoB609nNdjg
+	79e9qTsGzrKForVsUUsjdgfvR5kUfaNYmDRW1xjLxMExygoB89/VA+k5h6no1z5bEsSG
+	OvMBaHj/dfacGntlaQbSlD8lCHwr1DeAtAMemyJCPUFE8JFrmV/c//PqsPV3WG82Zw7F
+	iDhyluDPQkyYBgtCuosDAa1sIKvZar0/JUzSC75ZLXazzBy2xzsLc+4XZh5oD5aP1Bz1
+	BoAQ==
+X-Received: by 10.224.12.199 with SMTP id y7mr5440513qay.49.1410467641357;
+	Thu, 11 Sep 2014 13:34:01 -0700 (PDT)
+Received: from localhost ([149.199.62.254])
+	by mx.google.com with ESMTPSA id b43sm1431195qge.24.2014.09.11.13.34.00
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 11 Sep 2014 13:34:00 -0700 (PDT)
+Sender: =?UTF-8?Q?S=C3=B6ren_Brinkmann?= <soeren.brinkmann@gmail.com>
+From: Soren Brinkmann <soren.brinkmann@xilinx.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Sep 2014 13:33:56 -0700
+Message-Id: <1410467636-17638-1-git-send-email-soren.brinkmann@xilinx.com>
+X-Mailer: git-send-email 2.1.0.1.g27b9230
+Subject: [PATCH] base-files: Allow setting hostname through DISTRO_HOSTNAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,86 +42,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Sep 2014 18:52:41 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 11 Sep 2014 20:34:01 -0000
 
-Hi Scott,
+Add a distro variable to set the hostname. This allows easily assigning
+a hostname in local.conf.
 
-Thanks for your help.=20
+Signed-off-by: Soren Brinkmann <soren.brinkmann@xilinx.com>
+---
+ meta/conf/documentation.conf                      | 1 +
+ meta/recipes-core/base-files/base-files_3.0.14.bb | 5 +++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-I went another route. In my layer, I created an image.bb file.=20
-The .bb file tells yocto to include the kernel in the rootfs. I do this wit=
-h the command:
-IMAGE_INSTALL +=3D kernel-image
-IMAGE_INSTALL +=3D kernel-module
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index dd556857699a..970ce11d96bb 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -139,6 +139,7 @@ DISTRO_EXTRA_RRECOMMENDS[doc] = "Specifies a list of distro-specific packages to
+ DISTRO_FEATURES[doc] = "The features enabled for the distribution."
+ DISTRO_FEATURES_BACKFILL[doc] = "Features to be added to DISTRO_FEATURES if not also present in DISTRO_FEATURES_BACKFILL_CONSIDERED. This variable is set in the meta/conf/bitbake.conf file and it is not intended to be user-configurable."
+ DISTRO_FEATURES_BACKFILL_CONSIDERED[doc] = "Features from DISTRO_FEATURES_BACKFILL that should not be backfilled (i.e. added to DISTRO_FEATURES) during the build."
++DISTRO_HOSTNAME[doc] = "The hostname used in the image."
+ DISTRO_NAME[doc] = "The long name of the distribution."
+ DISTRO_PN_ALIAS[doc] = "Alias names used for the recipe in various Linux distributions."
+ DISTRO_VERSION[doc] = "The version of the distribution."
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index 07f5c54c97d8..71405ddc5337 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -60,9 +60,10 @@ conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
+              ${sysconfdir}/default"
+ 
+ #
+-# set standard hostname, might be a candidate for a DISTRO variable? :M:
++# set standard hostname
+ #
+-hostname = "openembedded"
++DISTRO_HOSTNAME ?= "openembedded"
++hostname = "${DISTRO_HOSTNAME}"
+ 
+ BASEFILESISSUEINSTALL ?= "do_install_basefilesissue"
+ 
+-- 
+2.1.0.1.g27b9230
 
-This installs the kernel image and module in the rootfs.=20
-I can also try your suggested method.=20
-
-Chiz Chikwendu
-Sr. Hardware Engineer
-Tel: 781-356-9739
-
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Scott Garman
-Sent: Thursday, September 11, 2014 1:58 PM
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] bzImage not included in rootfs
-
-On 09/11/2014 05:08 AM, Chiz Chikwendu wrote:
-> I am new to Openembedded (and yocto).
->=20
-> I have built an image with poky build environment.
->=20
-> =20
->=20
-> I noticed that the kernel's bzImage is not included in the rootfs.
->=20
-> How do I get the system to include "bzImage" in the rootfs (boot/bzImage-=
-)?
->=20
-> =20
->=20
-> I've done some research, and I saw a note about setting the parameter:
->=20
-> RDEPENDS_kernel-base =3D "zImage"
->=20
-> =20
->=20
-> This should override the kernel settings and build the kernel into the
-> rootfs. I tried it, however it is not working for me.
-
-Hi Chiz,
-
-Which MACHINE are you building for? This is probably something that is
-set in the machine's BSP, since some hw platforms use bootloaders which
-look for the kernel in a separate flash disk than the rootfs, so for
-those devices there's no need to put the kernel in the rootfs.
-
-If you're building one of the qemu machine targets, note that in
-meta/conf/machine/include/qemu.inc there is:
-
-# Don't include kernels in standard images
-RDEPENDS_kernel-base =3D ""
-
-Finally, where are you trying to set RDEPENDS_kernel-base in your
-example above? I'm assuming in your local.conf file? I believe that
-should be the place to do it so that it overrides the machine
-configuration's definition.
-
-Finally, make sure you've cleared the build cache for the image
-generation by running bitbake -c cleanall <image-name> before trying to
-generate it again.
-
-Scott
-
---=20
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
