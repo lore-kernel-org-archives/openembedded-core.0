@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 76D4E65CE7
+	by mail.openembedded.org (Postfix) with ESMTP id 8FFB165CE7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Sep 2014 15:04:35 +0000 (UTC)
+	Thu, 11 Sep 2014 15:04:38 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8BF4YkM025863
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8BF4cKB025869
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Sep 2014 08:04:34 -0700 (PDT)
+	Thu, 11 Sep 2014 08:04:39 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 11 Sep 2014 08:04:33 -0700
+	14.3.174.1; Thu, 11 Sep 2014 08:04:38 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
 	<richard.purdie@linuxfoundation.org>
-Date: Thu, 11 Sep 2014 23:04:24 +0800
-Message-ID: <cover.1410446513.git.hongxu.jia@windriver.com>
+Date: Thu, 11 Sep 2014 23:04:26 +0800
+Message-ID: <7afd3df45e3b3b2a918d75cb17f4ae94922dfc89.1410446513.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1410446513.git.hongxu.jia@windriver.com>
+References: <cover.1410446513.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/5] Add support for locked down sstate
+Subject: [PATCH 2/5] Richard Purdie : sstatesig: Improve to handle locking of multiple machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,121 +36,119 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 11 Sep 2014 15:04:38 -0000
 Content-Type: text/plain
 
-Patches 4/5, 3/5 are mine, based on Richard's 1/5, 2/5, 3/5.
+From: "git@opal.openembedded.org" <git@opal.openembedded.org>
 
-Test Steps:
+Module: openembedded-core.git
+Branch: master-next
+Commit: a702eb50674ba7017c63829272082d4005237f13
+URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=a702eb50674ba7017c63829272082d4005237f13
 
-1. Prepare a locked sstat-cache by dumping lockedsigs file
-1) vim local.conf
-...
-SIGGEN_DUMP_LOCKEDSIGS = "1"
-SIGGEN_LOCKEDSIGS_CONFIG = "/path/to/locked-sigs.inc"
-SSTATE_DIR ?= "/path/to/sstate-cache"
-...
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date:   Fri Sep  5 11:55:18 2014 +0100
 
-2) Build db-native from a clean environment
-$ bitbake db-native
+sstatesig: Improve to handle locking of multiple machines
 
-3) Back up lockedsigs file
-$ mv /path/to/locked-sigs.inc  /path/to/locked-sigs.inc-back
+Instead of a single monolithic SIGGEN_LOCKEDSIGS, split this into
+separate variables, one per sstate package architecture. Add in
+a new SIGGEN_LOCKEDSIGS_TYPES variable which lists the package
+architectures to load in.
 
-4) Incrementally build ldconfig-native
-$ vim local.conf
-...
-require ${SIGGEN_LOCKEDSIGS_CONFIG}
-...
-$ bitbake ldconfig-native
+SIGGEN_LOCKEDSIGS_TYPES is made machine specific using overrides.
 
-5) Check incrementally dumping lockedsiged file also
-$ vimdiff /path/to/locked-sigs.inc-back /path/to/locked-sigs.inc
+Also sort the hashes in the lists by PN to make diffing them easier.
 
-2. Create a new build which uses previous locked sstat-cache
-1) vim local.conf
-...
-SSTATE_DIR ?= "/path/to/sstate-cache"
-SIGGEN_LOCKEDSIGS_CONFIG = "/path/to/locked-sigs.inc"
-require ${SIGGEN_LOCKEDSIGS_CONFIG}
-SIGGEN_LOCKEDSIGS_CHECK_LEVEL = "error"
-...
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oe/sstatesig.py | 41 ++++++++++++++++++++++++++++-------------
+ 1 file changed, 28 insertions(+), 13 deletions(-)
 
-2) Build db-native
-$ bitbake db-native
-
-3) Tweak db's do_configure task by adding comments
---- a/meta/recipes-support/db/db_6.0.30.bb
-+++ b/meta/recipes-support/db/db_6.0.30.bb
-@@ -82,6 +82,7 @@ do_configure() {
-        gnu-configize --force ${S}
-        export STRIP="true"
-        oe_runconf
-+       echo "hello"
- }
-
-4) Build db-native and abort
-$ bitbake db-native
-...
-ERROR: The db-native:do_configure sig (00546ab0e73b3afd50efc03f26e5f040) changed, use locked sig 9d8f2210506446e76d012d1ebd49a021 to instead
-The db-native:do_compile sig (4442f979d97bdbed71a8fecbbbe41ed3) changed, use locked sig d29a7c568d10859176d733773433fe92 to instead
-The db-native:do_install sig (562cb98d8eb25a7c79ded6a5359c56c1) changed, use locked sig 1e917d8d619c58987a1b2fe286e9288c to instead
-The db-native:do_populate_sysroot sig (91627e36da9ac8fe489f36b67a87ed2e) changed, use locked sig f780d45dbf680e40a871820327c4c56c to instead
-The db-native:do_build sig (ba289cba4a3bfda0c07aed9868fdcd5d) changed, use locked sig d9b84e5fb30011fd31bc0e7d7652fead to instead
-...
-
-5) Remove db-native sstate-cache
-$ bitbake db-native -ccleansstate
-
-6) Build db-native and abort
-$ bitbake db-native
-...
-Locked sig is set for db-native:do_populate_sysroot (f780d45dbf680e40a871820327c4c56c) yet not in sstate cache?
-...
-
-7) Do not break the build
-vim local.conf
-...
-SIGGEN_LOCKEDSIGS_CHECK_LEVEL = "warn"
-...
-
-8) Build db-native
-$ bitbake db-native
-...
-WARNING Locked sig is set for db-native:do_populate_sysroot (f780d45dbf680e40a871820327c4c56c) yet not in sstate cache?
-...
-
-//Hongxu
-
-The following changes since commit bd1a3ab8a63d6b2c109d595c67fcca99817e1daa:
-
-  nspr: Upgrade to 4.10.7 (2014-09-10 15:38:57 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/locked-sstate
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/locked-sstate
-
-Hongxu Jia (2):
-  sstate/sstatesig: optimize the support for locked down sstate cache
-    usage
-  sstatesig: incremental dump lockedsigs
-
-Richard Purdie (1):
-  siggen/runqueue/bitbake-worker: Improve siggen data transfer interface
-
-git@opal.openembedded.org (2):
-  Richard Purdie : sstatesig/sstate: Add support for locked down sstate
-    cache usage
-  Richard Purdie : sstatesig: Improve to handle locking of multiple
-    machines
-
- bitbake/bin/bitbake-worker  |   2 +-
- bitbake/lib/bb/runqueue.py  |   4 +-
- bitbake/lib/bb/siggen.py    |   9 ++--
- meta/classes/sstate.bbclass |  17 ++++++
- meta/lib/oe/sstatesig.py    | 123 ++++++++++++++++++++++++++++++++++++++++++++
- scripts/gen-lockedsig-cache |  40 ++++++++++++++
- 6 files changed, 187 insertions(+), 8 deletions(-)
- create mode 100755 scripts/gen-lockedsig-cache
-
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 7b860c5..add2619 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -63,12 +63,14 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
+ 
+ def sstate_lockedsigs(d):
+     sigs = {}
+-    lockedsigs = (d.getVar("SIGGEN_LOCKEDSIGS", True) or "").split()
+-    for ls in lockedsigs:
+-        pn, task, h = ls.split(":", 2)
+-        if pn not in sigs:
+-            sigs[pn] = {}
+-        sigs[pn][task] = h
++    types = (d.getVar("SIGGEN_LOCKEDSIGS_TYPES", True) or "").split()
++    for t in types:
++        lockedsigs = (d.getVar("SIGGEN_LOCKEDSIGS_%s" % t, True) or "").split()
++        for ls in lockedsigs:
++            pn, task, h = ls.split(":", 2)
++            if pn not in sigs:
++                sigs[pn] = {}
++            sigs[pn][task] = h
+     return sigs
+ 
+ class SignatureGeneratorOEBasic(bb.siggen.SignatureGeneratorBasic):
+@@ -88,16 +90,18 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+         self.lockedsigs = sstate_lockedsigs(data)
+         self.lockedhashes = {}
+         self.lockedpnmap = {}
++        self.lockedhashfn = {}
++        self.machine = data.getVar("MACHINE", True)
+         pass
+     def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
+         return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
+ 
+     def get_taskdata(self):
+         data = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskdata()
+-        return (data, self.lockedpnmap)
++        return (data, self.lockedpnmap, self.lockedhashfn)
+ 
+     def set_taskdata(self, data):
+-        coredata, self.lockedpnmap = data
++        coredata, self.lockedpnmap, self.lockedhashfn = data
+         super(bb.siggen.SignatureGeneratorBasicHash, self).set_taskdata(coredata)
+ 
+     def dump_sigs(self, dataCache, options):
+@@ -107,6 +111,7 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+     def get_taskhash(self, fn, task, deps, dataCache):
+         recipename = dataCache.pkg_fn[fn]
+         self.lockedpnmap[fn] = recipename
++        self.lockedhashfn[fn] = dataCache.hashfn[fn]
+         if recipename in self.lockedsigs:
+             if task in self.lockedsigs[recipename]:
+                 k = fn + "." + task
+@@ -127,17 +132,27 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+ 
+     def dump_lockedsigs(self):
+         bb.plain("Writing locked sigs to " + os.getcwd() + "/locked-sigs.inc")
++        types = {}
++        for k in self.runtaskdeps:
++            fn = k.rsplit(".",1)[0]
++            t = self.lockedhashfn[fn].split(" ")[1].split(":")[5]
++            if t not in types:
++                types[t] = []
++            types[t].append(k)
++
+         with open("locked-sigs.inc", "w") as f:
+-            f.write('SIGGEN_LOCKEDSIGS = "\\\n')
+-            #for fn in self.taskdeps:
+-            for k in self.runtaskdeps:
+-                    #k = fn + "." + task
++            for t in types:
++                f.write('SIGGEN_LOCKEDSIGS_%s = "\\\n' % t)
++                types[t].sort()
++                sortedk = sorted(types[t], key=lambda k: self.lockedpnmap[k.rsplit(".",1)[0]]) 
++                for k in sortedk:
+                     fn = k.rsplit(".",1)[0]
+                     task = k.rsplit(".",1)[1]
+                     if k not in self.taskhash:
+                         continue
+                     f.write("    " + self.lockedpnmap[fn] + ":" + task + ":" + self.taskhash[k] + " \\\n")
+-            f.write('    "\n')
++                f.write('    "\n')
++            f.write('SIGGEN_LOCKEDSIGS_TYPES_%s = "%s"' % (self.machine, " ".join(types.keys())))
+ 
+     def checkhashes(self, missed, ret, sq_fn, sq_task, sq_hash, sq_hashfn, d):
+         enforce = (d.getVar("SIGGEN_ENFORCE_LOCKEDSIGS", True) or "1") == "1"
 -- 
 1.9.1
 
