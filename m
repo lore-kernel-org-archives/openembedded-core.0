@@ -1,26 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AF7F56FE64
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 056486FE64
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Sep 2014 15:04:42 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8BF4gDV027271
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Sep 2014 08:04:43 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 11 Sep 2014 08:04:42 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
-	<richard.purdie@linuxfoundation.org>
-Date: Thu, 11 Sep 2014 23:04:28 +0800
-Message-ID: <72ad01dfa444095899409c957c0f8574da6f8822.1410446513.git.hongxu.jia@windriver.com>
+	Thu, 11 Sep 2014 15:33:59 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Sep 2014 08:33:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,506,1406617200"; d="scan'208";a="589904790"
+Received: from sentry.rb.intel.com ([10.237.105.37])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Sep 2014 08:33:33 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Sep 2014 18:33:25 +0300
+Message-Id: <10f436a0809be875a86ce7ce4656c0760f2eb972.1410449556.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1410446513.git.hongxu.jia@windriver.com>
-References: <cover.1410446513.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 4/5] sstate/sstatesig: optimize the support for locked down sstate cache usage
+In-Reply-To: <cover.1410449556.git.cristian.iorga@intel.com>
+References: <cover.1410449556.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1410449556.git.cristian.iorga@intel.com>
+References: <cover.1410449556.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/1] build-appliance-image: upgraded VMware machine config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,156 +31,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Sep 2014 15:04:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Sep 2014 15:34:01 -0000
 
-This fix is based on Richard Purdie's 'sstatesig: Improve to handle
-locking of multiple machines' which located in master-next.
+Build Appliance VMware configuration has
+been modernized:
+- Default disk is a SATA one;
+- CDROM and Floppy drives removed, no real use;
+- 3D acceleration not really present, removed;
+This solves a warning that VMware
+Player/Workstation was displaying at boot.
+- IDE disk removed.
+- guestOS has been set to a 64bits Linux.
 
-Add code in the sstate hash validation code to ensure it really did
-install these from sstate since if it didn't should to warn/abort
-the build. The judgment condition is:
-1) If a build is replaced by locked sstate-cache, it will triger a
-   warn/error;
-2) If objects are not used from the locked cache, it will triger a
-   warn/error;
-3) Use SIGGEN_LOCKEDSIGS_CHECK_LEVEL variable controls whether this
-   is just a warning or a fatal error or nothing to report.
+Fixes [YOCTO #6680].
 
-Use SIGGEN_DUMP_LOCKEDSIGS variable controls whether to dump
-lockedsigs. Add a event handler at 'bb.event.BuildCompleted', so
-while the locked sstate-cache was created, it will dump the lockedsigs
-files rather than manually invoking 'bitbake -S **' again.
-
-Use SIGGEN_LOCKEDSIGS_CONFIG variable controls where to dump the
-lockedsigs file, the default is placed into ${SSTATE_DIR}/locked-sigs.inc.
-
-[YOCTO #6639]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/classes/sstate.bbclass | 14 ++++++++++++++
- meta/lib/oe/sstatesig.py    | 43 +++++++++++++++++++++++++++----------------
- 2 files changed, 41 insertions(+), 16 deletions(-)
+ .../Yocto_Build_Appliance.vmx                      | 58 ++++++++++------------
+ .../Yocto_Build_Appliance.vmxf                     |  2 +-
+ 2 files changed, 27 insertions(+), 33 deletions(-)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 0cb5235..7a6a107 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -802,3 +802,17 @@ python sstate_eventhandler() {
-         bb.siggen.dump_this_task(sstatepkg + '_' + taskname + ".tgz" ".siginfo", d)
- }
- 
-+SIGGEN_LOCKEDSIGS_CONFIG ?= "${SSTATE_DIR}/locked-sigs.inc"
-+addhandler sstate_dump_lockedsig
-+sstate_dump_lockedsig[eventmask] = "bb.event.BuildCompleted"
-+python sstate_dump_lockedsig() {
-+    d = e.data
-+    if d.getVar('SIGGEN_DUMP_LOCKEDSIGS', True) == '1':
-+        if e.getFailures():
-+            return
-+
-+        if hasattr(bb.parse.siggen, "dump_lockedsigs"):
-+            lockedsigs = d.getVar('SIGGEN_LOCKEDSIGS_CONFIG', True)
-+            bb.parse.siggen.dump_lockedsigs(lockedsigs)
-+}
-+
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index add2619..c9edd80 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -92,6 +92,7 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-         self.lockedpnmap = {}
-         self.lockedhashfn = {}
-         self.machine = data.getVar("MACHINE", True)
-+        self.checkmsgs = []
-         pass
-     def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
-         return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
-@@ -109,18 +110,24 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-         return super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigs(dataCache, options)
- 
-     def get_taskhash(self, fn, task, deps, dataCache):
-+        h = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskhash(fn, task, deps, dataCache)
-+
-         recipename = dataCache.pkg_fn[fn]
-         self.lockedpnmap[fn] = recipename
-         self.lockedhashfn[fn] = dataCache.hashfn[fn]
-         if recipename in self.lockedsigs:
-             if task in self.lockedsigs[recipename]:
-                 k = fn + "." + task
--                h = self.lockedsigs[recipename][task]
--                self.lockedhashes[k] = h
--                self.taskhash[k] = h
-+                h_locked = self.lockedsigs[recipename][task]
-+                self.lockedhashes[k] = h_locked
-+                self.taskhash[k] = h_locked
-                 #bb.warn("Using %s %s %s" % (recipename, task, h))
--                return h
--        h = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskhash(fn, task, deps, dataCache)
-+
-+                if h != h_locked:
-+                    self.checkmsgs.append('The %s:%s sig (%s) changed, use locked sig %s to instead'
-+                                          % (recipename, task, h, h_locked))
-+
-+                return h_locked
-         #bb.warn("%s %s %s" % (recipename, task, h))
-         return h
- 
-@@ -130,8 +137,11 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-             return
-         super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigtask(fn, task, stampbase, runtime)
- 
--    def dump_lockedsigs(self):
--        bb.plain("Writing locked sigs to " + os.getcwd() + "/locked-sigs.inc")
-+    def dump_lockedsigs(self, where_to_dump=None):
-+        if not where_to_dump:
-+            where_to_dump = os.getcwd() + "/locked-sigs.inc"
-+
-+        bb.plain("Writing locked sigs to %s" % where_to_dump)
-         types = {}
-         for k in self.runtaskdeps:
-             fn = k.rsplit(".",1)[0]
-@@ -140,11 +150,11 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-                 types[t] = []
-             types[t].append(k)
- 
--        with open("locked-sigs.inc", "w") as f:
-+        with open(where_to_dump, "w") as f:
-             for t in types:
-                 f.write('SIGGEN_LOCKEDSIGS_%s = "\\\n' % t)
-                 types[t].sort()
--                sortedk = sorted(types[t], key=lambda k: self.lockedpnmap[k.rsplit(".",1)[0]]) 
-+                sortedk = sorted(types[t], key=lambda k: self.lockedpnmap[k.rsplit(".",1)[0]])
-                 for k in sortedk:
-                     fn = k.rsplit(".",1)[0]
-                     task = k.rsplit(".",1)[1]
-@@ -155,17 +165,18 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-             f.write('SIGGEN_LOCKEDSIGS_TYPES_%s = "%s"' % (self.machine, " ".join(types.keys())))
- 
-     def checkhashes(self, missed, ret, sq_fn, sq_task, sq_hash, sq_hashfn, d):
--        enforce = (d.getVar("SIGGEN_ENFORCE_LOCKEDSIGS", True) or "1") == "1"
--        msgs = []
-+        checklevel = d.getVar("SIGGEN_LOCKEDSIGS_CHECK_LEVEL", True)
-         for task in range(len(sq_fn)):
-             if task not in ret:
-                 for pn in self.lockedsigs:
-                     if sq_hash[task] in self.lockedsigs[pn].itervalues():
--                        msgs.append("Locked sig is set for %s:%s (%s) yet not in sstate cache?" % (pn, sq_task[task], sq_hash[task]))
--        if msgs and enforce:
--            bb.fatal("\n".join(msgs))
--        elif msgs:
--            bb.warn("\n".join(msgs))
-+                        self.checkmsgs.append("Locked sig is set for %s:%s (%s) yet not in sstate cache?"
-+                                               % (pn, sq_task[task], sq_hash[task]))
-+
-+        if self.checkmsgs and checklevel == 'warn':
-+            bb.warn("\n".join(self.checkmsgs))
-+        elif self.checkmsgs and checklevel == 'error':
-+            bb.fatal("\n".join(self.checkmsgs))
- 
- 
- # Insert these classes into siggen's namespace so it can see and select them
+diff --git a/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx b/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx
+index b04a1b6..7da9c52 100644
+--- a/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx
++++ b/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx
+@@ -1,17 +1,23 @@
+ .encoding = "UTF-8"
+-displayname = "Yocto Build Appliance"
+-guestos = "other"
+-tools.syncTime = "FALSE"
+-virtualhw.version = "8"
+ config.version = "8"
++virtualHW.version = "10"
+ numvcpus = "2"
+-cpuid.coresPerSocket = "1"
+ vcpu.hotadd = "TRUE"
+-mem.hotadd = "TRUE"
+ memsize = "4096"
+-svga.autodetect = "TRUE"
++mem.hotadd = "TRUE"
++sata0.present = "TRUE"
++sata0:0.present = "TRUE"
++sata0:0.fileName = "/mnt/Yo/yoctoproject/VMs/BA/Yocto_Build_Appliance.vmdk"
++ethernet0.present = "TRUE"
++ethernet0.virtualDev = "e1000"
++ethernet0.wakeOnPcktRcv = "FALSE"
++ethernet0.addressType = "generated"
++usb.present = "TRUE"
++ehci.pciSlotNumber = "0"
++sound.present = "TRUE"
++sound.fileName = "-1"
++sound.autodetect = "TRUE"
+ pciBridge0.present = "TRUE"
+-mks.enable3d = "TRUE"
+ pciBridge4.present = "TRUE"
+ pciBridge4.virtualDev = "pcieRootPort"
+ pciBridge4.functions = "8"
+@@ -25,28 +31,16 @@ pciBridge7.present = "TRUE"
+ pciBridge7.virtualDev = "pcieRootPort"
+ pciBridge7.functions = "8"
+ vmci0.present = "TRUE"
+-floppy0.present = "TRUE"
+-floppy0.fileType = "device"
+-floppy0.autodetect = "FALSE"
+-floppy0.startConnected = "FALSE"
+-ide1:0.present = "TRUE"
+-ide1:0.deviceType = "atapi-cdrom"
+-ide1:0.autodetect = "TRUE"
+-ide1:0.startConnected = "FALSE"
+-ide0:0.present = "TRUE"
+-ide0:0.deviceType = "disk"
+-ide0:0.fileName = "Yocto_Build_Appliance.vmdk"
+-usb.present = "TRUE"
+-scsi0.virtualDev = "lsilogic"
+-scsi0.present = "TRUE"
+-ethernet0.present = "TRUE"
+-ethernet0.virtualDev = "e1000"
+-ethernet0.connectionType = "bridged"
+-ethernet0.startConnected = "TRUE"
+-ethernet0.addressType = "generated"
+-sound.present = "TRUE"
+-sound.virtualDev = "es1371"
+-sound.autodetect = "TRUE"
+-extendedConfigFile = "Yocto_Build_Appliance.vmxf"
+-sound.fileName = "-1"
++hpet0.present = "TRUE"
++usb.vbluetooth.startConnected = "TRUE"
++displayName = "Yocto Build Appliance"
++guestOS = "other3xlinux-64"
+ virtualHW.productCompatibility = "hosted"
++gui.exitOnCLIHLT = "FALSE"
++powerType.powerOff = "soft"
++powerType.powerOn = "soft"
++powerType.suspend = "soft"
++powerType.reset = "soft"
++extendedConfigFile = "Yocto_Build_Appliance.vmxf"
++scsi0:0.present = "FALSE"
++floppy0.present = "FALSE"
+diff --git a/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmxf b/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmxf
+index ca3f026..9e941ff 100644
+--- a/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmxf
++++ b/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmxf
+@@ -1,7 +1,7 @@
+ <?xml version="1.0"?>
+ <Foundry>
+ <VM>
+-<VMId type="string">52 e4 0b df 7b 70 21 f8-88 56 a7 26 47 43 95 93</VMId>
++<VMId type="string">52 a5 d8 cb ed 6c 85 48-cd 99 68 af cc 30 a0 98</VMId>
+ <ClientMetaData>
+ <clientMetaDataAttributes/>
+ <HistoryEventList/></ClientMetaData>
 -- 
 1.9.1
 
