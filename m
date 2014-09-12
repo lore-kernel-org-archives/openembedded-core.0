@@ -1,28 +1,26 @@
-Return-Path: <Kai.Kang@windriver.com>
+Return-Path: <Wenzong.Fan@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BCDB71403
+	by mail.openembedded.org (Postfix) with ESMTP id 4D98165C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Sep 2014 07:49:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8C7nTN4008678
+	Fri, 12 Sep 2014 08:57:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8C8vbrK009364
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Sep 2014 00:49:29 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Fri, 12 Sep 2014 00:49:29 -0700
-From: Kai Kang <kai.kang@windriver.com>
+	Fri, 12 Sep 2014 01:57:37 -0700 (PDT)
+Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Fri, 12 Sep 2014 01:57:37 -0700
+From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Sep 2014 15:43:09 +0800
-Message-ID: <1410507789-9307-2-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1410507789-9307-1-git-send-email-kai.kang@windriver.com>
-References: <1410507789-9307-1-git-send-email-kai.kang@windriver.com>
+Date: Fri, 12 Sep 2014 04:57:34 -0400
+Message-ID: <d0f3a1628526b95857ade6cadf451ff59b3c9065.1410510784.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1410510784.git.wenzong.fan@windriver.com>
+References: <cover.1410510784.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Cc: jslater@windriver.com
-Subject: [PATCH] Add machine qemuarm64
+Subject: [PATCH 1/1] dropbear: add pam modules dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,90 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Sep 2014 07:49:35 -0000
+X-List-Received-Date: Fri, 12 Sep 2014 08:57:42 -0000
 Content-Type: text/plain
 
-Add machine qemuarm64. The configure files are derived from linaro.
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-Update:
-* rename genericarmv8 to qemuarm64 for coordination in oe-core
-* include qemu.inc then remove common part of config
-* disable using autoserial
-* move arch-armv8.inc from machine/include/arm64 to machine/include/arm
+If pam distro feature enabled, dropbear will need below pam rpms
+to work:
 
-And set BASELIB to lib64 in bitbake.conf. libgcc uses
-'aarch64-poky-linux-gcc -print-multi-os-directory' to get install
-directory that the value is 'lib64' then cause [installed-vs-shipped]
-error. The value is set in gcc source file gcc/config/aarch64/t-aarch64-linux.
+  * libpam-runtime
+  * pam-plugin-deny
+  * pam-plugin-permit
+  * pam-plugin-unix
 
-[YOCTO #6487]
+Just add the runtime dependencies explicitly.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- meta/conf/bitbake.conf                       |  1 +
- meta/conf/machine/include/arm/arch-armv8.inc | 20 ++++++++++++++++++++
- meta/conf/machine/qemuarm64.conf             | 12 ++++++++++++
- 3 files changed, 33 insertions(+)
- create mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
- create mode 100644 meta/conf/machine/qemuarm64.conf
+ meta/recipes-core/dropbear/dropbear.inc |    7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 468b175..0ae884c 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -10,6 +10,7 @@
- baselib = "${BASELIB}"
- baselib[vardepvalue] = "${baselib}"
- BASELIB = "lib"
-+BASELIB_aarch64 = "lib64"
- BASELIB_powerpc64 = "lib64"
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 9fec09e..947a491 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -27,6 +27,13 @@ PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
+                file://0006-dropbear-configuration-file.patch \
+                file://dropbear"
  
- # Path prefixes
-diff --git a/meta/conf/machine/include/arm/arch-armv8.inc b/meta/conf/machine/include/arm/arch-armv8.inc
-new file mode 100644
-index 0000000..c86142a
---- /dev/null
-+++ b/meta/conf/machine/include/arm/arch-armv8.inc
-@@ -0,0 +1,20 @@
-+DEFAULTTUNE ?= "aarch64"
++PAM_PLUGINS = "libpam-runtime \
++	pam-plugin-deny \
++	pam-plugin-permit \
++	pam-plugin-unix \
++	"
++RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS}', '', d)}"
 +
-+ARMPKGARCH ?= "aarch64"
-+
-+TUNEVALID[aarch64] = "Enable instructions for aarch64"
-+TUNEVALID[bigendian] = "Enable big-endian mode."
-+TUNECONFLICTS[aarch64] = ""
-+MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", ":aarch64", "" ,d)}"
-+
-+# Little Endian base configs
-+AVAILTUNES += "aarch64 aarch64_be"
-+TUNE_FEATURES_tune-aarch64 ?= "aarch64"
-+TUNE_FEATURES_tune-aarch64_be ?= "${TUNE_FEATURES_tune-aarch64} bigendian"
-+
-+ARMPKGSFX_ENDIAN = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", "_be", "", d)}"
-+
-+TUNE_ARCH = "aarch64${ARMPKGSFX_ENDIAN}"
-+TUNE_PKGARCH = "aarch64${ARMPKGSFX_ENDIAN}"
-+
-+PACKAGE_EXTRA_ARCHS = "aarch64${ARMPKGSFX_ENDIAN}"
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-new file mode 100644
-index 0000000..20bcfba
---- /dev/null
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -0,0 +1,12 @@
-+#@TYPE: Machine
-+#@NAME: generic armv8 machine
-+#@DESCRIPTION: Machine configuration for running a generic armv8
-+
-+require conf/machine/include/arm/arch-armv8.inc
-+require conf/machine/include/qemu.inc
-+
-+MACHINE_FEATURES = ""
-+
-+KERNEL_IMAGETYPE = "Image"
-+
-+SERIAL_CONSOLE = "38400 ttyAMA0"
+ inherit autotools update-rc.d systemd
+ 
+ INITSCRIPT_NAME = "dropbear"
 -- 
-1.9.1
+1.7.9.5
 
 
