@@ -1,29 +1,33 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 18EE171368
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
+	[209.85.215.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 658C06FE3B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Sep 2014 10:32:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8CAWRPk012850
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 12 Sep 2014 03:32:27 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Fri, 12 Sep 2014 03:32:26 -0700
-Message-ID: <5412CBB8.5080409@windriver.com>
-Date: Fri, 12 Sep 2014 18:32:24 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Fri, 12 Sep 2014 13:02:39 +0000 (UTC)
+Received: by mail-la0-f47.google.com with SMTP id mc6so882929lab.34
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Sep 2014 06:02:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=J23EkNoO5VwYtwPYkugIJEpSvaj19Q682c34jfNWJlQ=;
+	b=j9SKfF2XaRiMHyjcyjOpD5CLoKCo/f8QhmYXd0YP6/+yoJmXgMjf3UOfP+sD9oAJrz
+	y9h1LbWpCHWLTiPSK8OPHA6pAlWeP60HbvcM02k9DMDUFAe5T9fZeD22duCPcU2ptOCS
+	NcHbInHvwhHKY5DctjpWo0V+jOpyeoihRV/VYfK4IXA7hzhM3pJwTmnTg2TtN2pkLF5o
+	A+IQ170mRZn/WaicapvGEhoiyTZCO2dZYBE5KzjnGNW/x+M+3thv4xtx7sIfQV0chHbB
+	hvi/cbyoW+QrwyyIe4ca3GtrwtChF00DSQ6yqOaMBCq8IP6cIMWC7qrdRpZIp+N6j6Co
+	ke6Q==
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
+X-Received: by 10.152.23.6 with SMTP id i6mr8816380laf.39.1410526960220; Fri,
+	12 Sep 2014 06:02:40 -0700 (PDT)
+Received: by 10.112.202.67 with HTTP; Fri, 12 Sep 2014 06:02:40 -0700 (PDT)
+In-Reply-To: <CAJTo0La9+9YnJPPaCNXp_7H+_ejYVuOgKb8QRNkV0q3hdZRnAw@mail.gmail.com>
 References: <1410507789-9307-1-git-send-email-kai.kang@windriver.com>
 	<CAJTo0La9+9YnJPPaCNXp_7H+_ejYVuOgKb8QRNkV0q3hdZRnAw@mail.gmail.com>
-	<5412CA29.1090001@windriver.com>
-	<CAJTo0LbogmM5pnT8Y9ZhyS5-Vq63pHU71c2P02yy3v_jbGciRw@mail.gmail.com>
-In-Reply-To: <CAJTo0LbogmM5pnT8Y9ZhyS5-Vq63pHU71c2P02yy3v_jbGciRw@mail.gmail.com>
-X-Originating-IP: [128.224.162.231]
+Date: Fri, 12 Sep 2014 09:02:40 -0400
+Message-ID: <CADkTA4N5K7XecxZNJrgDqvjVzRvGech7pvM0SEyftt7pzf6tvg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Joe Slater <jslater@windriver.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] Add machine qemuarm64
@@ -39,36 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Sep 2014 10:32:30 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 12 Sep 2014 13:02:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2014年09月12日 18:29, Burton, Ross wrote:
-> On 12 September 2014 11:25, Kang Kai <Kai.Kang@windriver.com> wrote:
->> Thanks for try. I just thought to send the patch of gcc  to upstream  first
->> then fill the Upstream-Status. I'll send it now.
-> Ah, that would be the problem. :)
+On Fri, Sep 12, 2014 at 6:22 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 12 September 2014 08:43, Kai Kang <kai.kang@windriver.com> wrote:
+>> There are some packages fail to build with qemuarm64, I will send pathches
+>> for them in another series.
+>
+> I can't build a kernel with MACHINE=qemuarm64:
 
-Oops. The patch of gcc is for another issue about directory of 
-ld-linux-aarch64.so.
-I once met this linux-yocto issue but it builds pass after adding
+Even if this did build, I'm not sure what you'd end up with .. no one
+has sent me
+the linux-yocto machine definition and configuration fragments for qemuarm64
+yet.
 
-BASELIB_aarch64 = "lib64"
+Bruce
 
-I'll check it.
-
-
-Thanks,
-Kai
-
+>
+> |   LINK    vmlinux
+> |   LD      vmlinux.o
+> | aarch64-poky-linux-ld.bfd: cannot find libgcc.a: No such file or directory
+> | aarch64-poky-linux-ld.bfd: cannot find libgcc.a: No such file or directory
+> | make[2]: *** [vmlinux] Error 1
+> | make[1]: *** [sub-make] Error 2
+> | make: *** [all] Error 2
+> | ERROR: oe_runmake failed
+> | WARNING: exit code 1 from a shell command.
+> | ERROR: Function failed: do_compile (log file is located at
+> /data/poky-master/tmp/work/qemuarm64-poky-linux/linux-yocto/3.14.17+gitAUTOINC+a94680bfeb_b85edae6fd-r0/temp/log.do_compile.24366)
+> ERROR: Task 81 (/home/ross/Yocto/poky/meta/recipes-kernel/linux/linux-yocto_3.14.bb,
+> do_compile) failed with exit code '1'
+>
+> I can email build logs if you'd wish.
 >
 > Ross
->
->
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
 
 -- 
-Regards,
-Neil | Kai Kang
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
