@@ -1,36 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
-	[209.85.216.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C28171368
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 18EE171368
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Sep 2014 10:29:25 +0000 (UTC)
-Received: by mail-qa0-f46.google.com with SMTP id k15so458962qaq.33
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Sep 2014 03:29:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=BrtHVBF90W4N9jWWhNA1NL5JII/Jra9n6OeaMW2jTuU=;
-	b=GguSJzDKyr8eRIQ/fY/t0gdxb7yMfj19n8PVkcL4rZixwFPJzJj075sHbV5XFV39RH
-	InD5+FJZZakJ1KiJudg6L1xIn+323RXTCg2QugpERwSrUdfSawcSVRSumrtnwRgkxrGs
-	7r2c26xI+btNN8H/XljhLZ3hylphCnmoNka/edv1zr/X5wF3/JPOo0af/OMcp5SuWje3
-	8EAFSFVVBnNiItP9DFTG3XYYwYY3w6dNSSrDFm+vHSfYzBQmWwYoc/BsWu47O6hadwAH
-	59mNTJORaJi1qYa/zDXg9zG141RKw+VI5ISwt5jkGx0aJ/l3NYBRLwhEiRVy9E+UNtlE
-	upZg==
-X-Gm-Message-State: ALoCoQkkXXCAkIX/aVZ/j+gahyYNrXy56I9HLNzTd9qwUc5jUkM9tuPWClfrS6FHxwMBOFMDm1VH
-X-Received: by 10.224.79.139 with SMTP id p11mr9917597qak.93.1410517767027;
-	Fri, 12 Sep 2014 03:29:27 -0700 (PDT)
+	Fri, 12 Sep 2014 10:32:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8CAWRPk012850
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 12 Sep 2014 03:32:27 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Fri, 12 Sep 2014 03:32:26 -0700
+Message-ID: <5412CBB8.5080409@windriver.com>
+Date: Fri, 12 Sep 2014 18:32:24 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Fri, 12 Sep 2014 03:29:05 -0700 (PDT)
-In-Reply-To: <5412CA29.1090001@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <1410507789-9307-1-git-send-email-kai.kang@windriver.com>
 	<CAJTo0La9+9YnJPPaCNXp_7H+_ejYVuOgKb8QRNkV0q3hdZRnAw@mail.gmail.com>
 	<5412CA29.1090001@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 12 Sep 2014 11:29:05 +0100
-Message-ID: <CAJTo0LbogmM5pnT8Y9ZhyS5-Vq63pHU71c2P02yy3v_jbGciRw@mail.gmail.com>
-To: Kang Kai <Kai.Kang@windriver.com>
+	<CAJTo0LbogmM5pnT8Y9ZhyS5-Vq63pHU71c2P02yy3v_jbGciRw@mail.gmail.com>
+In-Reply-To: <CAJTo0LbogmM5pnT8Y9ZhyS5-Vq63pHU71c2P02yy3v_jbGciRw@mail.gmail.com>
+X-Originating-IP: [128.224.162.231]
 Cc: Joe Slater <jslater@windriver.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] Add machine qemuarm64
@@ -46,14 +39,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Sep 2014 10:29:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 12 Sep 2014 10:32:30 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 12 September 2014 11:25, Kang Kai <Kai.Kang@windriver.com> wrote:
-> Thanks for try. I just thought to send the patch of gcc  to upstream  first
-> then fill the Upstream-Status. I'll send it now.
+On 2014年09月12日 18:29, Burton, Ross wrote:
+> On 12 September 2014 11:25, Kang Kai <Kai.Kang@windriver.com> wrote:
+>> Thanks for try. I just thought to send the patch of gcc  to upstream  first
+>> then fill the Upstream-Status. I'll send it now.
+> Ah, that would be the problem. :)
 
-Ah, that would be the problem. :)
+Oops. The patch of gcc is for another issue about directory of 
+ld-linux-aarch64.so.
+I once met this linux-yocto issue but it builds pass after adding
 
-Ross
+BASELIB_aarch64 = "lib64"
+
+I'll check it.
+
+
+Thanks,
+Kai
+
+>
+> Ross
+>
+>
+
+
+-- 
+Regards,
+Neil | Kai Kang
+
 
