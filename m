@@ -1,36 +1,48 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
-	[209.85.215.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 658C06FE3B
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DCABF6FCE0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Sep 2014 13:02:39 +0000 (UTC)
-Received: by mail-la0-f47.google.com with SMTP id mc6so882929lab.34
+	Fri, 12 Sep 2014 15:05:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id C42FE18071
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Sep 2014 06:02:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=J23EkNoO5VwYtwPYkugIJEpSvaj19Q682c34jfNWJlQ=;
-	b=j9SKfF2XaRiMHyjcyjOpD5CLoKCo/f8QhmYXd0YP6/+yoJmXgMjf3UOfP+sD9oAJrz
-	y9h1LbWpCHWLTiPSK8OPHA6pAlWeP60HbvcM02k9DMDUFAe5T9fZeD22duCPcU2ptOCS
-	NcHbInHvwhHKY5DctjpWo0V+jOpyeoihRV/VYfK4IXA7hzhM3pJwTmnTg2TtN2pkLF5o
-	A+IQ170mRZn/WaicapvGEhoiyTZCO2dZYBE5KzjnGNW/x+M+3thv4xtx7sIfQV0chHbB
-	hvi/cbyoW+QrwyyIe4ca3GtrwtChF00DSQ6yqOaMBCq8IP6cIMWC7qrdRpZIp+N6j6Co
-	ke6Q==
-MIME-Version: 1.0
-X-Received: by 10.152.23.6 with SMTP id i6mr8816380laf.39.1410526960220; Fri,
-	12 Sep 2014 06:02:40 -0700 (PDT)
-Received: by 10.112.202.67 with HTTP; Fri, 12 Sep 2014 06:02:40 -0700 (PDT)
-In-Reply-To: <CAJTo0La9+9YnJPPaCNXp_7H+_ejYVuOgKb8QRNkV0q3hdZRnAw@mail.gmail.com>
-References: <1410507789-9307-1-git-send-email-kai.kang@windriver.com>
-	<CAJTo0La9+9YnJPPaCNXp_7H+_ejYVuOgKb8QRNkV0q3hdZRnAw@mail.gmail.com>
-Date: Fri, 12 Sep 2014 09:02:40 -0400
-Message-ID: <CADkTA4N5K7XecxZNJrgDqvjVzRvGech7pvM0SEyftt7pzf6tvg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Joe Slater <jslater@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Add machine qemuarm64
+	Fri, 12 Sep 2014 17:05:16 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id U2R0Xd92HdBt
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Sep 2014 17:05:14 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 93EA4180AE
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Sep 2014 17:05:14 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 7313FA67
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Sep 2014 17:05:14 +0200 (CEST)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 67FF09B2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Sep 2014 17:05:14 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 660523E048
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Sep 2014 17:05:14 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id s8CF5ED6020885
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Sep 2014 17:05:14 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id s8CF5EHx020884
+	for openembedded-core@lists.openembedded.org;
+	Fri, 12 Sep 2014 17:05:14 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Sep 2014 17:04:59 +0200
+Message-Id: <cover.1410534231.git.pkj@axis.com>
+X-Mailer: git-send-email 1.9.0
+Subject: [PATCH 0/1] Fix for "useradd --root"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,50 +55,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Sep 2014 13:02:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 12 Sep 2014 15:05:29 -0000
 
-On Fri, Sep 12, 2014 at 6:22 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 12 September 2014 08:43, Kai Kang <kai.kang@windriver.com> wrote:
->> There are some packages fail to build with qemuarm64, I will send pathches
->> for them in another series.
->
-> I can't build a kernel with MACHINE=qemuarm64:
+This fixes a problem with useradd where it used the /etc/login.defs
+file from my host system rather than the one provided by Poky. The
+patch has been reported to the pkg-shadow-devel mailing list as well.
 
-Even if this did build, I'm not sure what you'd end up with .. no one
-has sent me
-the linux-yocto machine definition and configuration fragments for qemuarm64
-yet.
+//Peter
 
-Bruce
+The following changes since commit 429802fe6691c8a70ec9735c0db4c6a4e1e1b038:
 
->
-> |   LINK    vmlinux
-> |   LD      vmlinux.o
-> | aarch64-poky-linux-ld.bfd: cannot find libgcc.a: No such file or directory
-> | aarch64-poky-linux-ld.bfd: cannot find libgcc.a: No such file or directory
-> | make[2]: *** [vmlinux] Error 1
-> | make[1]: *** [sub-make] Error 2
-> | make: *** [all] Error 2
-> | ERROR: oe_runmake failed
-> | WARNING: exit code 1 from a shell command.
-> | ERROR: Function failed: do_compile (log file is located at
-> /data/poky-master/tmp/work/qemuarm64-poky-linux/linux-yocto/3.14.17+gitAUTOINC+a94680bfeb_b85edae6fd-r0/temp/log.do_compile.24366)
-> ERROR: Task 81 (/home/ross/Yocto/poky/meta/recipes-kernel/linux/linux-yocto_3.14.bb,
-> do_compile) failed with exit code '1'
->
-> I can email build logs if you'd wish.
->
-> Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  classes/populate_sdk_base: enable adding custom commands to SDK install script (2014-09-11 18:02:55 +0100)
 
+are available in the git repository at:
 
+  git://git.yoctoproject.org/poky-contrib pkj/shadow
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/shadow
+
+Peter Kjellerstedt (1):
+  shadow: Make useradd work correctly with --root again
+
+ ...o-not-read-login.defs-before-doing-chroot.patch | 46 ++++++++++++++++++++++
+ meta/recipes-extended/shadow/shadow.inc            |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-extended/shadow/files/0001-Do-not-read-login.defs-before-doing-chroot.patch
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.9.0
+
 
