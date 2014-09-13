@@ -1,35 +1,35 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 01D5065D59
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id C84A565D59
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Sep 2014 02:49:59 +0000 (UTC)
-Received: by mail-pd0-f175.google.com with SMTP id z10so2431937pdj.20
+	Sat, 13 Sep 2014 02:52:23 +0000 (UTC)
+Received: by mail-pd0-f182.google.com with SMTP id w10so2482740pde.27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Sep 2014 19:50:00 -0700 (PDT)
+	Fri, 12 Sep 2014 19:52:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=i9gMWqmmg3pexW/m9ZyUSco+a+q0SaMhw7GN5989JSk=;
-	b=CeO6aYsOSnwmREJGLbErsdMw/JKDfsOB6CPZ5sqSer9feNGKfezx2qcnC7J2ZCxkGZ
-	VvOsvp4y/EXjNlsOLaBoWkcAykT9zR/bhb98kirJMkKesCirILwjvfAjSoHu2bS4FZNC
-	j5LXmrNVLIntgUa7im2qngT1G0ilnD+FbBIqZpJygdW3BIrmp8YwRIwxnHboyBSkBn49
-	JuzBq43iQgNC1a+TlkkIHigNZ56WKjXrVOYtkS+O6vBxzv6LjpS1xDrtPskPhh3hiDzu
-	RApcUduIE7n8GfF1dpX5Pyz/ZrtiCkcvTD3n9L8swI2/qhULxsrXZV3g7cVQ3rJQY4yQ
-	aJGQ==
-X-Received: by 10.66.167.105 with SMTP id zn9mr17761405pab.103.1410576600483; 
-	Fri, 12 Sep 2014 19:50:00 -0700 (PDT)
+	h=from:to:subject:date:message-id;
+	bh=1vi9F7uJIg0Q7ZRGxZl9frg6gEYQ0GU2tUcumUK8ufQ=;
+	b=fJ4o6lLrwMSJflZVXQ+9Qs6BChfJvXFrOsZjLngup32BTKkAM/41hf8Clr580QrBQj
+	iMV7ayCQzgsXi6UQriaGrJ0G2O9R/C2RFVEiDTfY1OPz1FY/mEDp0T5NmvNy6Tn9aG/I
+	gUPmMml2LXMohxy26Nc3XegDMNNjjjKyTssIq4qZAP3QbTUFf8eCJP1wLyZxah3lSh1r
+	y1iHMkIn4BYctCcNjYWO8kiHp5H6Fl9LwvysSVKJfeiIkV4wMTMbWI6iGjY/jzwcQHEu
+	5Jmo1wE8mEvjS124Gg9oqZPnvwdd4vZJByV1rpjWXFF97ogZI0jOxha8dMVDqfhPpSWl
+	7TpQ==
+X-Received: by 10.70.118.68 with SMTP id kk4mr19666133pdb.21.1410576744765;
+	Fri, 12 Sep 2014 19:52:24 -0700 (PDT)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by mx.google.com with ESMTPSA id qp9sm5138868pbc.31.2014.09.12.19.49.58
-	for <multiple recipients>
+	by mx.google.com with ESMTPSA id jc3sm5098698pbd.59.2014.09.12.19.52.22
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 12 Sep 2014 19:49:59 -0700 (PDT)
+	Fri, 12 Sep 2014 19:52:23 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Sep 2014 19:49:57 -0700
-Message-Id: <1410576597-16290-1-git-send-email-akuster808@gmail.com>
+Date: Fri, 12 Sep 2014 19:52:21 -0700
+Message-Id: <1410576741-16362-1-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] linux-yocto: add to qemuppc64 to bb file
+Subject: [PATCH] scripts: add qemuppc64 qemu scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,44 +42,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Sep 2014 02:50:04 -0000
-
-Not sure if this this is the correct process.
+X-List-Received-Date: Sat, 13 Sep 2014 02:52:24 -0000
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto_3.14.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/runqemu          | 10 +++++++---
+ scripts/runqemu-internal | 30 ++++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-index e06b191..dfe1de0 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-@@ -6,6 +6,7 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH_qemuarm  ?= "standard/arm-versatile-926ejs"
- KBRANCH_qemumips ?= "standard/mti-malta32"
- KBRANCH_qemuppc  ?= "standard/qemuppc"
-+KBRANCH_qemuppc64  ?= "standard/qemuppc"
- KBRANCH_qemux86  ?= "standard/common-pc/base"
- KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
-@@ -13,6 +14,7 @@ KBRANCH_qemumips64 ?= "standard/mti-malta64"
- SRCREV_machine_qemuarm ?= "c32a2e1190325f685a61196f38fc03ceff2645bf"
- SRCREV_machine_qemumips ?= "1ff50c529b49ceb55a670258f7cb8233c8006c6c"
- SRCREV_machine_qemuppc ?= "12e9828a5b78891374375233b4075f682b9fbd0e"
-+SRCREV_machine_qemuppc64 ?= "12e9828a5b78891374375233b4075f682b9fbd0e"
- SRCREV_machine_qemux86 ?= "58d49fe770ad642e2bc0616159195ba837dc513b"
- SRCREV_machine_qemux86-64 ?= "b85edae6fd61ceadfc08099608e8ac90aa4c5c33"
- SRCREV_machine_qemumips64 ?= "dcd579737386fca4d7bcf224bc118b14eb3c1d55"
-@@ -27,7 +29,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index ff64a1d..71cd798 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -109,7 +109,8 @@ while true; do
+     arg=${1}
+     case "$arg" in
+         "qemux86" | "qemux86-64" | "qemuarm" | "qemumips" | "qemumipsel" | \
+-        "qemumips64" | "qemush4"  | "qemuppc" | "qemumicroblaze" | "qemuzynq")
++        "qemumips64" | "qemush4"  | "qemuppc" | "qemuppc64" | \
++        "qemumicroblaze" | "qemuzynq")
+             [ -z "$MACHINE" ] && MACHINE=$arg || \
+                 error "conflicting MACHINE types [$MACHINE] and [$arg]"
+             ;;
+@@ -229,13 +230,13 @@ fi
  
- KMETA = "meta"
+ if [ -z "$MACHINE" ]; then
+     if [ "x$FSTYPE" = "xvmdk" ]; then
+-        MACHINE=`basename $VM | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
++        MACHINE=`basename $VM | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\|qemuppc64).*/\1/p'`
+         if [ -z "$MACHINE" ]; then
+             error "Unable to set MACHINE from vmdk filename [$VM]"
+         fi
+         echo "Set MACHINE to [$MACHINE] based on vmdk [$VM]"
+     else
+-        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
++        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\qemuppc64).*/\1/p'`
+         if [ -z "$MACHINE" ]; then
+             error "Unable to set MACHINE from kernel filename [$KERNEL]"
+         fi
+@@ -316,6 +317,9 @@ QEMUSH4_DEFAULT_FSTYPE=ext3
+ QEMUPPC_DEFAULT_KERNEL=vmlinux-qemuppc.bin
+ QEMUPPC_DEFAULT_FSTYPE=ext3
  
--COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-+COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64"
++QEMUPPC64_DEFAULT_KERNEL=vmlinux-qemuppc64.bin
++QEMUPPC64_DEFAULT_FSTYPE=ext3
++
+ QEMUMICROBLAZE_DEFAULT_KERNEL=linux.bin.ub
+ QEMUMICROBLAZE_DEFAULT_FSTYPE=cpio
  
- # Functionality flags
- KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index 38745dd..800ab69 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -59,6 +59,9 @@ else
+         "qemuppc")
+             mem_size=256
+             ;;
++        "qemuppc64")
++            mem_size=1024
++            ;;
+         "qemush4")
+             mem_size=1024
+             ;;
+@@ -280,6 +283,7 @@ case "$MACHINE" in
+     "qemumips64") ;;
+     "qemush4") ;;
+     "qemuppc") ;;
++    "qemuppc64") ;;
+     "qemuarmv6") ;;
+     "qemuarmv7") ;;
+     "qemux86") ;;
+@@ -548,6 +552,32 @@ if [ "$MACHINE" = "qemuzynq" ]; then
+     fi
+ fi
+ 
++if [ "$MACHINE" = "qemuppc64" ]; then
++    QEMU=qemu-system-ppc64
++    MACHINE_SUBTYPE=pseries
++    CPU_SUBTYPE=POWER7
++    QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
++    if [ "$SLIRP_ENABLED" = "yes" ]; then
++        QEMU_NETWORK_CMD=""
++    else
++        QEMU_NETWORK_CMD="-net nic,model=e1000 $QEMU_TAP_CMD"
++    fi
++    if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
++        KERNCMDLINE="root=/dev/sda rw console=ttyS0 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
++        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
++    fi
++    if [ "$FSTYPE" = "nfs" ]; then
++        if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
++            echo "Error: NFS mount point $ROOTFS doesn't exist"
++            cleanup
++            return 1
++        fi
++        KERNCMDLINE="root=/dev/nfs console=ttyS0 console=tty nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
++        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE -no-reboot $QEMU_UI_OPTIONS"
++    fi
++fi
++
++
+ if [ "x$RAMFS" = "xtrue" ]; then
+     QEMUOPTIONS="-initrd $ROOTFS -nographic"
+     KERNCMDLINE="root=/dev/ram0 console=ttyS0 debugshell"
 -- 
 1.9.1
 
