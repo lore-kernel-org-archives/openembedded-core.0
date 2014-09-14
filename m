@@ -1,24 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B81E71477
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f52.google.com (mail-qa0-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id D1E7465D58
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Sep 2014 10:29:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8EATC7k021587
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sun, 14 Sep 2014 20:22:36 +0000 (UTC)
+Received: by mail-qa0-f52.google.com with SMTP id m5so2943996qaj.39
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Sep 2014 03:29:12 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 14 Sep 2014 03:29:11 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 14 Sep 2014 18:29:39 +0800
-Message-ID: <cover.1410690532.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Sun, 14 Sep 2014 13:22:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=zjWrczsFzqy8zd9kChyqfqCMM+TacshpF8ujrdTHiXI=;
+	b=GZTjjBVo6HkEilJBPpIPnJn2oGRYQxOsdNufdp48yEgAi9I5CVAC+UFDZ+qApul07k
+	6vpgnnnEh+NWOCVEzSpP4JbPnyeUctePASlmrrvoIjkc3y2qjw8NSGqzlCzwuVbFKv0k
+	sWNs5jEfl+hUo174iJshM9JUUaU4vLyphpJUvk3/pzki8u/c+E4cBLa5nA6P947LcuzZ
+	cD00XT/Knc+rgB4X5Z0FmHMhsJBbrK0UgcelcZVtxvJ7zz3VsOHq9DQ/RYOAdjmwKIAv
+	uarMKJrWPt5WUl1mgFHQv7hoErbWnstVFOHHTdIKbV7l07GCGXyxQkeyTHD5KI1Khvu4
+	1Mkg==
+X-Gm-Message-State: ALoCoQl9m4AbOdC6ZNBGJo0r64LMcdd/whU6j2Aqd/L5FcPLBFBRRZUpbZ3mUxWrF34JHRlBnr1z
+X-Received: by 10.140.97.247 with SMTP id m110mr31202802qge.80.1410726156741; 
+	Sun, 14 Sep 2014 13:22:36 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH V2 0/1] systemd: fix to use ${libdir}
+Received: by 10.140.29.183 with HTTP; Sun, 14 Sep 2014 13:22:16 -0700 (PDT)
+In-Reply-To: <2f2f7278925f48a03507499180f2a85500b4b6c6.1410244514.git.Qi.Chen@windriver.com>
+References: <cover.1410244514.git.Qi.Chen@windriver.com>
+	<2f2f7278925f48a03507499180f2a85500b4b6c6.1410244514.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sun, 14 Sep 2014 21:22:16 +0100
+Message-ID: <CAJTo0LYyYuNTWoJXA40aCX2Wj7Qkf7d-eUmUcbzTX71gUTUUcw@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] busybox: install ping6 into bindir by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Sep 2014 10:29:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 14 Sep 2014 20:22:45 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The following changes since commit 10df0718d6a626d99beb68cde8d914ee0820d7eb:
+On 9 September 2014 07:35, Chen Qi <Qi.Chen@windriver.com> wrote:
+> [CQID: WIND00444742]
+>
+> Install `ping6' provided by busybox into /usr/bin to sync with the
+> iputils package.
+>
+> (LOCAL REV: NOT UPSTREAM) -- Sent to oe-core on 20131113
 
-  classes/populate_sdk_base: enable adding custom commands to SDK install script (2014-09-11 17:44:40 +0100)
+I know there was consensus on the list that some vendor tags are fine
+in commit messages, I think the LOCAL REV NOT UPSTREAM lines should be
+stripped.
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-libdir
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-libdir
-
-Chen Qi (1):
-  systemd: fix to use ${libdir}
-
- meta/recipes-core/systemd/systemd_216.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
--- 
-1.9.1
-
+Ross
 
