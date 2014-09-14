@@ -1,35 +1,25 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id EC20B605BD
+Return-Path: <denis@denix.org>
+Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
+	[206.46.173.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 456C060809
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Sep 2014 01:19:52 +0000 (UTC)
-Received: by mail-pd0-f179.google.com with SMTP id g10so3898209pdj.10
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Sep 2014 18:19:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=CNanV7GkkjY+aTQUKUo1FMNnU0EOAqYCzWPjCx3Oj0M=;
-	b=msKC158NX6yQEBAPRxslI/gcibhn4mr8tLyMkoq+iRx3vJb+3uGDSaA5LHI5Mae8+G
-	LseBFr8OaqU63zMXjeb9kIHZEH/GJZeovlN+eIwzBtFz4xb6BTttlxuI/3dimRPxiBbG
-	zBhvhRxtvX79zOi54KOKqCSkIEt/Ej1sEjuMPz/exAtShIAy5DKUlLPw/SD2fz/22LYJ
-	Q6tRBskekSa0cc46NHMVEj6V7/3k8Zdru9jYQDIyO+IlMDAeVXdGS9cG5US+n2/A1aRA
-	xETW4/N92Gnah96Az0pqVmhmbcEx5kCpNRqrUcW+vOeEnG3LrwU15slsgpIJduUF+o00
-	W/7w==
-X-Received: by 10.70.101.10 with SMTP id fc10mr29689545pdb.73.1410657593905;
-	Sat, 13 Sep 2014 18:19:53 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by mx.google.com with ESMTPSA id vi5sm7567169pbc.65.2014.09.13.18.19.51
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 13 Sep 2014 18:19:52 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
+	Sun, 14 Sep 2014 03:34:38 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [108.18.33.160])
+	by vms173021.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0NBV00LXHGL9HJ00@vms173021.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Sat, 13 Sep 2014 22:34:22 -0500 (CDT)
+Received: from localhost.localdomain (elrond [192.168.0.7])
+	by gandalf.denix.org (Postfix) with ESMTP id 0E11420087; Sat,
+	13 Sep 2014 23:34:21 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Sep 2014 18:19:40 -0700
-Message-Id: <1410657580-5311-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH][Daisy] eglibc: CVE-2014-5119 fix
+Date: Sat, 13 Sep 2014 23:34:20 -0400
+Message-id: <1410665660-25145-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.0.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] u-boot: update to version 2014.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,279 +32,334 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Sep 2014 01:19:55 -0000
+X-List-Received-Date: Sun, 14 Sep 2014 03:34:45 -0000
 
-__gconv_translit_find: Disable function [BZ #17187]
+From: Denys Dmytriyenko <denys@ti.com>
 
-This functionality has never worked correctly, and the implementation
-contained a security vulnerability (CVE-2014-5119).
+* Update U-boot and corresponding tools to version 2014.07
+* Small cleanups with indentation and consolidation of u-boot.inc
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
- .../eglibc/eglibc-2.19/CVE-2014-5119.patch         | 240 +++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.19.bb            |   1 +
- 2 files changed, 241 insertions(+)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.19/CVE-2014-5119.patch
+ ...h-Add-use-DEFAULT_LINUX_BOOT_ENV-environm.patch | 74 ----------------------
+ ...2013.07.bb => u-boot-fw-utils-cross_2014.07.bb} | 22 +++----
+ ...utils_2013.07.bb => u-boot-fw-utils_2014.07.bb} | 24 +++----
+ ...kimage_2013.07.bb => u-boot-mkimage_2014.07.bb} | 19 +++---
+ meta/recipes-bsp/u-boot/u-boot.inc                 | 11 +++-
+ .../{u-boot_2013.07.bb => u-boot_2014.07.bb}       | 24 ++-----
+ 6 files changed, 45 insertions(+), 129 deletions(-)
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0001-am335x_evm.h-Add-use-DEFAULT_LINUX_BOOT_ENV-environm.patch
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils-cross_2013.07.bb => u-boot-fw-utils-cross_2014.07.bb} (49%)
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2013.07.bb => u-boot-fw-utils_2014.07.bb} (40%)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2013.07.bb => u-boot-mkimage_2014.07.bb} (51%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2013.07.bb => u-boot_2014.07.bb} (12%)
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.19/CVE-2014-5119.patch b/meta/recipes-core/eglibc/eglibc-2.19/CVE-2014-5119.patch
-new file mode 100644
-index 0000000..51c7037
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.19/CVE-2014-5119.patch
-@@ -0,0 +1,240 @@
-+CVE-2014-5119
+diff --git a/meta/recipes-bsp/u-boot/files/0001-am335x_evm.h-Add-use-DEFAULT_LINUX_BOOT_ENV-environm.patch b/meta/recipes-bsp/u-boot/files/0001-am335x_evm.h-Add-use-DEFAULT_LINUX_BOOT_ENV-environm.patch
+deleted file mode 100644
+index 77e35bb..0000000
+--- a/meta/recipes-bsp/u-boot/files/0001-am335x_evm.h-Add-use-DEFAULT_LINUX_BOOT_ENV-environm.patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-From 5701384cea4a829b772bf7a96a74825b58c22385 Mon Sep 17 00:00:00 2001
+-From: Denys Dmytriyenko <denys@ti.com>
+-Date: Thu, 17 Apr 2014 12:25:40 -0400
+-Subject: [PATCH] am335x_evm.h: Add, use DEFAULT_LINUX_BOOT_ENV environment
+- string
+-
+-Modified version of the patch currently being reviewed for mainline:
+-http://patchwork.ozlabs.org/patch/334861/
+-
+-To deal with a reoccurring problem properly we need to specify addresses
+-for the Linux kernel, Flatted Device Tree and ramdisk that obey the
+-constraints within the kernel's Documentation/arm/Booting file but also
+-make sure that we relocate things within a valid address range.
+-
+-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+-Signed-off-by: Tom Rini <trini@ti.com>
+-
+-Upstream-Status: Pending
+----
+- include/configs/am335x_evm.h | 31 ++++++++++++++++++++++++++-----
+- 1 file changed, 26 insertions(+), 5 deletions(-)
+-
+-diff --git a/include/configs/am335x_evm.h b/include/configs/am335x_evm.h
+-index c5a6d4b..01e32b3 100644
+---- a/include/configs/am335x_evm.h
+-+++ b/include/configs/am335x_evm.h
+-@@ -54,10 +54,7 @@
+- #define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
+- #ifndef CONFIG_SPL_BUILD
+- #define CONFIG_EXTRA_ENV_SETTINGS \
+--	"loadaddr=0x80200000\0" \
+--	"fdtaddr=0x80F80000\0" \
+--	"fdt_high=0xffffffff\0" \
+--	"rdaddr=0x81000000\0" \
+-+	DEFAULT_LINUX_BOOT_ENV \
+- 	"bootdir=/boot\0" \
+- 	"bootfile=uImage\0" \
+- 	"fdtfile=undefined\0" \
+-@@ -197,7 +194,31 @@
+- #define CONFIG_SYS_MEMTEST_END		(CONFIG_SYS_MEMTEST_START \
+- 					+ (8 * 1024 * 1024))
+- 
+--#define CONFIG_SYS_LOAD_ADDR		0x81000000 /* Default load address */
+-+/*
+-+ * Our DDR memory always starts at 0x80000000 and U-Boot shall have
+-+ * relocated itself to higher in memory by the time this value is used.
+-+ * However, set this to a 32MB offset to allow for easier Linux kernel
+-+ * booting as the default is often used as the kernel load address.
+-+ */
+-+#define CONFIG_SYS_LOAD_ADDR		0x82000000 /* Default load address */
+-+
+-+/*
+-+ * We setup defaults based on constraints from the Linux kernel, which should
+-+ * also be safe elsewhere.  We have the default load at 32MB into DDR (for
+-+ * the kernel), FDT above 128MB (the maximum location for the end of the
+-+ * kernel), and the ramdisk 512KB above that (allowing for hopefully never
+-+ * seen large trees).  We say all of this must be within the first 256MB
+-+ * as that will normally be within the kernel lowmem and thus visible via
+-+ * bootm_size and we only run on platforms with 256MB or more of memory.
+-+ */
+-+#define DEFAULT_LINUX_BOOT_ENV \
+-+	"loadaddr=0x82000000\0" \
+-+	"kernel_addr_r=0x82000000\0" \
+-+	"fdtaddr=0x88000000\0" \
+-+	"fdt_addr_r=0x88000000\0" \
+-+	"rdaddr=0x88080000\0" \
+-+	"ramdisk_addr_r=0x88080000\0" \
+-+	"bootm_size=0x10000000\0"
+- 
+- #define CONFIG_MMC
+- #define CONFIG_GENERIC_MMC
+--- 
+-1.9.2
+-
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
+similarity index 49%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
+index e616397..d1f1f9a 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2014.07.bb
+@@ -1,15 +1,15 @@
+ SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
+ SECTION = "bootloader"
+ DEPENDS = "mtd-utils"
+ 
+-# This revision corresponds to the tag "v2013.07"
++# This revision corresponds to the tag "v2014.07"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
++SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
+ 
+-PV = "v2013.07+git${SRCPV}"
++PV = "v2014.07+git${SRCPV}"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+ 
+@@ -17,22 +17,22 @@ S = "${WORKDIR}/git"
+ 
+ inherit uboot-config cross
+ 
+-EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
++EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} ${TOOLCHAIN_OPTIONS}"'
+ 
+ do_compile () {
+-  oe_runmake ${UBOOT_MACHINE}
+-  oe_runmake env
++	oe_runmake ${UBOOT_MACHINE}
++	oe_runmake env
+ }
+ 
+ do_install () {
+-  install -d ${D}${bindir_cross}
+-  install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_printenv
+-  install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
++	install -d ${D}${bindir_cross}
++	install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_printenv
++	install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
+ }
+ 
+ SYSROOT_PREPROCESS_FUNCS = "uboot_fw_utils_cross"
+ uboot_fw_utils_cross() {
+-    sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
++	sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
+ }
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
+similarity index 40%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
+index 89fed8b..a626c95 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2014.07.bb
+@@ -1,35 +1,35 @@
+ SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
+ SECTION = "bootloader"
+ DEPENDS = "mtd-utils"
+ 
+-# This revision corresponds to the tag "v2013.07"
++# This revision corresponds to the tag "v2014.07"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
++SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
+ 
+-PV = "v2013.07+git${SRCPV}"
++PV = "v2014.07+git${SRCPV}"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+ 
+ S = "${WORKDIR}/git"
+ 
+-EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTSTRIP="true"'
++INSANE_SKIP_${PN} = "already-stripped"
+ 
+ inherit uboot-config
+ 
+ do_compile () {
+-  oe_runmake ${UBOOT_MACHINE}
+-  oe_runmake env
++	oe_runmake ${UBOOT_MACHINE}
++	oe_runmake env
+ }
+ 
+ do_install () {
+-  install -d ${D}${base_sbindir}
+-  install -d ${D}${sysconfdir}
+-  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
+-  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
+-  install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
++	install -d ${D}${base_sbindir}
++	install -d ${D}${sysconfdir}
++	install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
++	install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
++	install -m 0644 ${S}/tools/env/fw_env.config ${D}${sysconfdir}/fw_env.config
+ }
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2014.07.bb
+similarity index 51%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2014.07.bb
+index 93c8102..b9fad1b 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2014.07.bb
+@@ -1,14 +1,14 @@
+ SUMMARY = "U-Boot bootloader image creation tool"
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
+ SECTION = "bootloader"
+ 
+-# This revision corresponds to the tag "v2013.07"
++# This revision corresponds to the tag "v2014.07"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
++SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
+ 
+-PV = "v2013.07+git${SRCPV}"
++PV = "v2014.07+git${SRCPV}"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+ 
+@@ -17,16 +17,13 @@ S = "${WORKDIR}/git"
+ EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
+ 
+ do_compile () {
+-  # Make sure the recompile is OK
+-  rm -f ${B}/tools/.depend
+-
+-  oe_runmake tools
++	oe_runmake tools-only
+ }
+ 
+ do_install () {
+-  install -d ${D}${bindir}
+-  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
+-  ln -sf uboot-mkimage ${D}${bindir}/mkimage
++	install -d ${D}${bindir}
++	install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
++	ln -sf uboot-mkimage ${D}${bindir}/mkimage
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 53c87c2..c695b73 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -3,6 +3,15 @@ HOMEPAGE = "http://www.denx.de/wiki/U-Boot/WebHome"
+ SECTION = "bootloaders"
+ PROVIDES = "virtual/bootloader"
+ 
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
 +
-+Signed-off-by: Armin Kuster <akuster808@gmail.com>
++SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
 +
-+Upstream commit:
++S = "${WORKDIR}/git"
 +
-+https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commitdiff;h=a1a6a401ab0a3c9f15fb7eaebbdcee24192254e8
++PACKAGE_ARCH = "${MACHINE_ARCH}"
 +
-+
-+From a1a6a401ab0a3c9f15fb7eaebbdcee24192254e8 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Tue, 26 Aug 2014 19:38:59 +0200
-+Subject: [PATCH] __gconv_translit_find: Disable function [BZ #17187]
-+
-+This functionality has never worked correctly, and the implementation
-+contained a security vulnerability (CVE-2014-5119).
-+---
-+ ChangeLog           |    7 ++
-+ NEWS                |    9 ++-
-+ iconv/gconv_trans.c |  177 +-------------------------------------------------
-+ 3 files changed, 19 insertions(+), 174 deletions(-)
-+
-+Index: libc/NEWS
-+===================================================================
-+--- libc.orig/NEWS
-++++ libc/NEWS
-+@@ -26,7 +26,7 @@ Version 2.19
-+   16271, 16274, 16283, 16289, 16293, 16314, 16316, 16330, 16337, 16338,
-+   16356, 16365, 16366, 16369, 16372, 16375, 16379, 16384, 16385, 16386,
-+   16387, 16390, 16394, 16398, 16400, 16407, 16408, 16414, 16430, 16431,
-+-  16453, 16474, 16506, 16510, 16529
-++  16453, 16474, 16506, 16510, 16529, 17187
-+ 
-+ * Slovenian translations for glibc messages have been contributed by the
-+   Translation Project's Slovenian team of translators.
-+Index: libc/iconv/gconv_trans.c
-+===================================================================
-+--- libc.orig/iconv/gconv_trans.c
-++++ libc/iconv/gconv_trans.c
-+@@ -241,181 +241,12 @@ __gconv_transliterate (struct __gconv_st
-+   return __GCONV_ILLEGAL_INPUT;
-+ }
-+ 
-+-
-+-/* Structure to represent results of found (or not) transliteration
-+-   modules.  */
-+-struct known_trans
-+-{
-+-  /* This structure must remain the first member.  */
-+-  struct trans_struct info;
-+-
-+-  char *fname;
-+-  void *handle;
-+-  int open_count;
-+-};
-+-
-+-
-+-/* Tree with results of previous calls to __gconv_translit_find.  */
-+-static void *search_tree;
-+-
-+-/* We modify global data.   */
-+-__libc_lock_define_initialized (static, lock);
-+-
-+-
-+-/* Compare two transliteration entries.  */
-+-static int
-+-trans_compare (const void *p1, const void *p2)
-+-{
-+-  const struct known_trans *s1 = (const struct known_trans *) p1;
-+-  const struct known_trans *s2 = (const struct known_trans *) p2;
-+-
-+-  return strcmp (s1->info.name, s2->info.name);
-+-}
-+-
-+-
-+-/* Open (maybe reopen) the module named in the struct.  Get the function
-+-   and data structure pointers we need.  */
-+-static int
-+-open_translit (struct known_trans *trans)
-+-{
-+-  __gconv_trans_query_fct queryfct;
-+-
-+-  trans->handle = __libc_dlopen (trans->fname);
-+-  if (trans->handle == NULL)
-+-    /* Not available.  */
-+-    return 1;
-+-
-+-  /* Find the required symbol.  */
-+-  queryfct = __libc_dlsym (trans->handle, "gconv_trans_context");
-+-  if (queryfct == NULL)
-+-    {
-+-      /* We cannot live with that.  */
-+-    close_and_out:
-+-      __libc_dlclose (trans->handle);
-+-      trans->handle = NULL;
-+-      return 1;
-+-    }
-+-
-+-  /* Get the context.  */
-+-  if (queryfct (trans->info.name, &trans->info.csnames, &trans->info.ncsnames)
-+-      != 0)
-+-    goto close_and_out;
-+-
-+-  /* Of course we also have to have the actual function.  */
-+-  trans->info.trans_fct = __libc_dlsym (trans->handle, "gconv_trans");
-+-  if (trans->info.trans_fct == NULL)
-+-    goto close_and_out;
-+-
-+-  /* Now the optional functions.  */
-+-  trans->info.trans_init_fct =
-+-    __libc_dlsym (trans->handle, "gconv_trans_init");
-+-  trans->info.trans_context_fct =
-+-    __libc_dlsym (trans->handle, "gconv_trans_context");
-+-  trans->info.trans_end_fct =
-+-    __libc_dlsym (trans->handle, "gconv_trans_end");
-+-
-+-  trans->open_count = 1;
-+-
-+-  return 0;
-+-}
-+-
-+-
-+ int
-+ internal_function
-+ __gconv_translit_find (struct trans_struct *trans)
-+ {
-+-  struct known_trans **found;
-+-  const struct path_elem *runp;
-+-  int res = 1;
-+-
-+-  /* We have to have a name.  */
-+-  assert (trans->name != NULL);
-+-
-+-  /* Acquire the lock.  */
-+-  __libc_lock_lock (lock);
-+-
-+-  /* See whether we know this module already.  */
-+-  found = __tfind (trans, &search_tree, trans_compare);
-+-  if (found != NULL)
-+-    {
-+-      /* Is this module available?  */
-+-      if ((*found)->handle != NULL)
-+-	{
-+-	  /* Maybe we have to reopen the file.  */
-+-	  if ((*found)->handle != (void *) -1)
-+-	    /* The object is not unloaded.  */
-+-	    res = 0;
-+-	  else if (open_translit (*found) == 0)
-+-	    {
-+-	      /* Copy the data.  */
-+-	      *trans = (*found)->info;
-+-	      (*found)->open_count++;
-+-	      res = 0;
-+-	    }
-+-	}
-+-    }
-+-  else
-+-    {
-+-      size_t name_len = strlen (trans->name) + 1;
-+-      int need_so = 0;
-+-      struct known_trans *newp;
-+-
-+-      /* We have to continue looking for the module.  */
-+-      if (__gconv_path_elem == NULL)
-+-	__gconv_get_path ();
-+-
-+-      /* See whether we have to append .so.  */
-+-      if (name_len <= 4 || memcmp (&trans->name[name_len - 4], ".so", 3) != 0)
-+-	need_so = 1;
-+-
-+-      /* Create a new entry.  */
-+-      newp = (struct known_trans *) malloc (sizeof (struct known_trans)
-+-					    + (__gconv_max_path_elem_len
-+-					       + name_len + 3)
-+-					    + name_len);
-+-      if (newp != NULL)
-+-	{
-+-	  char *cp;
-+-
-+-	  /* Clear the struct.  */
-+-	  memset (newp, '\0', sizeof (struct known_trans));
-+-
-+-	  /* Store a copy of the module name.  */
-+-	  newp->info.name = cp = (char *) (newp + 1);
-+-	  cp = __mempcpy (cp, trans->name, name_len);
-+-
-+-	  newp->fname = cp;
-+-
-+-	  /* Search in all the directories.  */
-+-	  for (runp = __gconv_path_elem; runp->name != NULL; ++runp)
-+-	    {
-+-	      cp = __mempcpy (__stpcpy ((char *) newp->fname, runp->name),
-+-			      trans->name, name_len);
-+-	      if (need_so)
-+-		memcpy (cp, ".so", sizeof (".so"));
-+-
-+-	      if (open_translit (newp) == 0)
-+-		{
-+-		  /* We found a module.  */
-+-		  res = 0;
-+-		  break;
-+-		}
-+-	    }
-+-
-+-	  if (res)
-+-	    newp->fname = NULL;
-+-
-+-	  /* In any case we'll add the entry to our search tree.  */
-+-	  if (__tsearch (newp, &search_tree, trans_compare) == NULL)
-+-	    {
-+-	      /* Yickes, this should not happen.  Unload the object.  */
-+-	      res = 1;
-+-	      /* XXX unload here.  */
-+-	    }
-+-	}
-+-    }
-+-
-+-  __libc_lock_unlock (lock);
-+-
-+-  return res;
-++  /* Transliteration module loading has been removed because it never
-++     worked as intended and suffered from a security vulnerability.
-++     Consequently, this function always fails.  */
-++  return 1;
-+ }
-+Index: libc/ChangeLog
-+===================================================================
-+--- libc.orig/ChangeLog
-++++ libc/ChangeLog
-+@@ -1,3 +1,10 @@
-++2014-08-26  Florian Weimer  <fweimer@redhat.com>
-++
-++	[BZ #17187]
-++	* iconv/gconv_trans.c (struct known_trans, search_tree, lock,
-++	trans_compare, open_translit, __gconv_translit_find):
-++	Remove module loading code.
-++
-+ 2014-02-06  Carlos O'Donell  <carlos@redhat.com>
-+ 
-+ 	[BZ #16529]
-diff --git a/meta/recipes-core/eglibc/eglibc_2.19.bb b/meta/recipes-core/eglibc/eglibc_2.19.bb
-index c65e6a5..090cfe6 100644
---- a/meta/recipes-core/eglibc/eglibc_2.19.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.19.bb
-@@ -26,6 +26,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr25
-            file://fix-tibetian-locales.patch \
-            file://ppce6500-32b_slow_ieee754_sqrt.patch \
-            file://grok_gold.patch \
-+           file://CVE-2014-5119.patch \
-           "
- SRC_URI[md5sum] = "197836c2ba42fb146e971222647198dd"
- SRC_URI[sha256sum] = "baaa030531fc308f7820c46acdf8e1b2f8e3c1f40bcd28b6e440d1c95d170d4c"
+ inherit uboot-config deploy
+ 
+ EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
+@@ -14,7 +23,7 @@ UBOOT_LOCALVERSION ?= ""
+ 
+ # Some versions of u-boot use .bin and others use .img.  By default use .bin
+ # but enable individual recipes to change this value.
+-UBOOT_SUFFIX ?= "bin"
++UBOOT_SUFFIX ??= "bin"
+ UBOOT_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
+ UBOOT_BINARY ?= "u-boot.${UBOOT_SUFFIX}"
+ UBOOT_SYMLINK ?= "u-boot-${MACHINE}.${UBOOT_SUFFIX}"
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot_2014.07.bb
+similarity index 12%
+rename from meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2014.07.bb
+index f8a8856..44cc52e 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2014.07.bb
+@@ -1,25 +1,9 @@
+ require u-boot.inc
+ 
+-# To build u-boot for your machine, provide the following lines in your machine
+-# config, replacing the assignments as appropriate for your machine.
+-# UBOOT_MACHINE = "omap3_beagle_config"
+-# UBOOT_ENTRYPOINT = "0x80008000"
+-# UBOOT_LOADADDRESS = "0x80008000"
++DEPENDS += "dtc-native"
+ 
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+-                    file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
+-
+-# This revision corresponds to the tag "v2013.07"
++# This revision corresponds to the tag "v2014.07"
+ # We use the revision in order to avoid having to fetch it from the repo during parse
+-SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
+-
+-PV = "v2013.07+git${SRCPV}"
+-
+-SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
+-           file://0001-am335x_evm.h-Add-use-DEFAULT_LINUX_BOOT_ENV-environm.patch \
+-"
+-
+-S = "${WORKDIR}/git"
++SRCREV = "524123a70761110c5cf3ccc5f52f6d4da071b959"
+ 
+-PACKAGE_ARCH = "${MACHINE_ARCH}"
++PV = "v2014.07+git${SRCPV}"
 -- 
-1.9.1
+2.0.4
 
 
