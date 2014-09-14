@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id BDFEC65E0C
+Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DE9A60017
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Sep 2014 20:49:16 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id z60so3143720qgd.9
+	Sun, 14 Sep 2014 21:25:56 +0000 (UTC)
+Received: by mail-qc0-f171.google.com with SMTP id x13so836183qcv.30
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Sep 2014 13:49:17 -0700 (PDT)
+	Sun, 14 Sep 2014 14:25:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=3WT0TxQ2h+F4b0iWRvyL1w3s8tx6d22gA3mo9DQhHGQ=;
-	b=T/LpHWOQVtTPW/xBhTHnD2U2SExGP4tN0VPxYOxG0GoJ1jm3BjDKC6fwoPj6Vab7Y6
-	7+9bDnnJ5cn0CkN9hKEQ3GZjbZTRbroRBVDX0oWTpf+Ms9MEU6zBvbe4f6/ApH0uSNWJ
-	4yVFzm5jAswjIEo1iSFruFuCQ2Z0rPtq+s1aelmKyG7MVsAnQfdJE/+dhek8BLvYasyO
-	FpGwV/q83HEX1NoYYkjG9SHY6wf7Zk3HA3oJRQIEOsbtaoWu01dP9RqG5M7J9xhlMVh6
-	lfBMLoMPY1cP1sAZh2BypWgQ9VrR78LWt+68BzIkrUnendFoGhxe7Eg28JhUz0Hem4v5
-	FINw==
-X-Gm-Message-State: ALoCoQnQUqG8IfO8oTGC+xQdn0PBASAuiX8gqo39ya7pr9AwDn9B0xWK9+XtvFSBt8DqHui+Bx28
-X-Received: by 10.224.126.202 with SMTP id d10mr30142684qas.22.1410727757135; 
-	Sun, 14 Sep 2014 13:49:17 -0700 (PDT)
+	bh=3A8rurLbJMZOecPYOSZ8gu+03luvaw1KgFlcaDcFANU=;
+	b=YKYdxzdI5GAZiDDC95mXk/TN1mTNHQA6e5gtFPnMV4Lk4RFNdKIuydf5KF1K7p1dN2
+	x8JmxEjAURxeElA/0obGo19i/Gu3kQBwaOot+lZQvClJenwRi4IPi/hE6qR7ac+oLuRG
+	/HS//wdzLhq6jEMUdecNGOor9+HsKH1NSI6QwtoEYYV/GPuHXc96FzmACfBW6NhIgb1v
+	2Hc1jSfiyaul4gtdpIysYZ3JVgdzywOw+HOqmo/cfJwU+q5gs2/qhFoE9wTADAASE9XC
+	AxR2AMkfqcJ1QQafPGg7ay+uJe3f23SzRzEH2tScGIuKY/uFJFou7cI6/yCFjOYVNNvi
+	C0gA==
+X-Gm-Message-State: ALoCoQkyx5TXlw7Gv9IbPBzv/UhP2XUMsiGZPVTDMn8p8B5sIENcH+RaF+6OEsuNH1WPJCmEhO7t
+X-Received: by 10.140.94.144 with SMTP id g16mr9846619qge.77.1410729958091;
+	Sun, 14 Sep 2014 14:25:58 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Sun, 14 Sep 2014 13:48:57 -0700 (PDT)
-In-Reply-To: <CACS+7ZTLWpoBXXezLOH5k=i9-x4869mrM35ZfhY5=Wsj2d=c7Q@mail.gmail.com>
-References: <CACS+7ZTLWpoBXXezLOH5k=i9-x4869mrM35ZfhY5=Wsj2d=c7Q@mail.gmail.com>
+Received: by 10.140.29.183 with HTTP; Sun, 14 Sep 2014 14:25:37 -0700 (PDT)
+In-Reply-To: <1410549622-30269-1-git-send-email-jslater@windriver.com>
+References: <1410549622-30269-1-git-send-email-jslater@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sun, 14 Sep 2014 21:48:57 +0100
-Message-ID: <CAJTo0LbT0CkWqp5MoOYS-zg838113JP7GhSuRPYK8WNjNegwXA@mail.gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [Patch v2] libsanitizer: Enable GCC sanitizers
+Date: Sun, 14 Sep 2014 22:25:37 +0100
+Message-ID: <CAJTo0Laoky+OvMSOAK3NGSq_2m6Etgdn9XXAmfxpxJbOfJYxdw@mail.gmail.com>
+To: Joe Slater <jslater@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] at-spi2-core: fix DBIND_CHECK_ALIGNOF m4 macro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,19 +43,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Sep 2014 20:49:19 -0000
+X-List-Received-Date: Sun, 14 Sep 2014 21:26:02 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 13 September 2014 04:06, Dan McGregor <danismostlikely@gmail.com> wrote:
-> +python __anonymous () {
-> +    arch = d.getVar("TRANSLATED_TARGET_ARCH", True)
-> +    if arch not in { "i586", "i686", "x86_64", "arm" }:
-> +        raise bb.parse.SkipPackage("libsanitizer only works on Intel and ARM.")
-> +}
+On 12 September 2014 20:20, Joe Slater <jslater@windriver.com> wrote:
+> Modify the macro so it will work when cross-compiling.
+> Note that the values checked are normally in a site file
+> so the macro rarely has to discover them.
 
-Shouldn't this be something like
-COMPATIBLE_HOST=(x86_64.*|i.86.*|arm.*)? (assuming it doesn't work on
-aarch64, which isn't matched by arm.*)
+Awesome.  I need to remember that AC_CHECK_ALIGNOF is magical.  For
+what it's worth I've just submitted this to the gnome bugzilla.
 
 Ross
 
