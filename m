@@ -1,36 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f45.google.com (mail-qa0-f45.google.com
-	[209.85.216.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B74B17143F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f43.google.com (mail-yh0-f43.google.com
+	[209.85.213.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 45FD460144
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 14:32:40 +0000 (UTC)
-Received: by mail-qa0-f45.google.com with SMTP id s7so3882201qap.4
+	Mon, 15 Sep 2014 14:33:33 +0000 (UTC)
+Received: by mail-yh0-f43.google.com with SMTP id v1so2203694yhn.30
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 07:32:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=MDcyA6nO36TtM0QqROz5TE8znmglbjxzhR9P5TVkTNM=;
-	b=HCSRMloa4BpMy2CpvgvoML6ayYZjPr38G/WtOoP8iiOyaNToRzC7eVCm4B8mS3+gjx
-	ZDg34VDhy2Xbv4l2e6hYebwl/3cgZ/OcUUIRONVpzTWC6iljfzhXm6XqW+CRU0BFfgW3
-	1bm/KTRs+WaShT3WUv3rvq+ykXJ7Ubcr40Wy19STm1Xz10WDacfJL75/zJCe0B+eaXwB
-	Fe96y5b+XrLcZM1y0FwYSsby96/3rncwWlWYM37JBtM+WbOBcWCE8nqkgaf1BZc++hbE
-	vo+jErp6VSLn2/RCWLsyu+8fDoIMfeB1mnPspXMkMfbnem+6GJ80A7/HUIOjcVSB/A0N
-	JOZQ==
-X-Gm-Message-State: ALoCoQnDABpmHvrfEj5mUQcR1FlN07y+UFlPckwqF6WtSqg6J3OROkn1beS2n1A2o+M8NeQ4sfDi
-X-Received: by 10.140.40.84 with SMTP id w78mr37946827qgw.87.1410791560866;
-	Mon, 15 Sep 2014 07:32:40 -0700 (PDT)
+	Mon, 15 Sep 2014 07:33:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=k55MDc+wF20BEf1DTrxvvrT+zMjxjwePtzMTIXeZ9y4=;
+	b=MSuUMABJyuLUNjw6AVJg416ju/xM1nUxCcLv4Tf2Xh8viw5J/f+bTf/3G2iQuPjS7r
+	5S79w08ZFkFklCmcGKTVlLcqJuWA7CFG+HY8+2sl+4vS9ETTh7wGncwuReT6j798rxf9
+	hDHmX65joBhAuqISpnM2vVR+ynZXU/I8ulf6JV5NcGCi9EQvR5+SDimj4O0MgxV5nYcm
+	pNoNyuCdRVNqV6ZoJknxnbV0nhHfYtr3tAAz2nTtSjJsbaPKxCIsPpbZTKbziqtVzuI0
+	XD9f6HkGiWDmbRI/Byr7re96iKm+eDDRXN7tWjmR/HX+/UTcmeavhjHcbsP/9+eUv8TQ
+	rKcw==
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Mon, 15 Sep 2014 07:32:20 -0700 (PDT)
-In-Reply-To: <1410769631-5672-1-git-send-email-rongqing.li@windriver.com>
-References: <1410769631-5672-1-git-send-email-rongqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Sep 2014 15:32:20 +0100
-Message-ID: <CAJTo0LZd_5dYP7sc-umCev+rzU_YzGNLWUq6o0Y0ZK9b6ayB3g@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kmod: remove the setting of INHIBIT_PACKAGE_STRIP
+X-Received: by 10.236.70.229 with SMTP id p65mr34729172yhd.50.1410791614915;
+	Mon, 15 Sep 2014 07:33:34 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.44.19 with HTTP; Mon, 15 Sep 2014 07:33:34 -0700 (PDT)
+In-Reply-To: <CAJTo0LZur5=dt6pfPawcEAM50M9W7zd-0_uoDvj5s74RCgNubA@mail.gmail.com>
+References: <1410665660-25145-1-git-send-email-denis@denix.org>
+	<CAJTo0LaB+e=o02t4pbF6kSNKvy8R8YHT5tijT9T43U=6Y_yXdw@mail.gmail.com>
+	<CAP9ODKqtnPzfJ2PwBPQcwQ-jF=yT3dxQiNjWvLB6K71woMX4Vg@mail.gmail.com>
+	<CAJTo0LZur5=dt6pfPawcEAM50M9W7zd-0_uoDvj5s74RCgNubA@mail.gmail.com>
+Date: Mon, 15 Sep 2014 11:33:34 -0300
+X-Google-Sender-Auth: -75AhO6q9ipsPxcNGsl4668P3uI
+Message-ID: <CAP9ODKpSNOeXfgLbviu4G_Bw2Tc9y86cTNmoWDFeSsOFZC4M3Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] u-boot: update to version 2014.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,21 +47,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 14:32:45 -0000
+X-List-Received-Date: Mon, 15 Sep 2014 14:33:35 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 15 September 2014 09:27,  <rongqing.li@windriver.com> wrote:
-> From: Roy Li <rongqing.li@windriver.com>
+On Mon, Sep 15, 2014 at 11:21 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 15 September 2014 14:33, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> I am using 2014.07 in meta-fsl-arm for a while and I support the merge
+>> of this for 1.8.
 >
-> Setting INHIBIT_PACKAGE_STRIP is added by 61cb45869c[kmod: ptest fixes], but I
-> can not reproduce the described issue, and seems it make wrong logical [
-> when enable ptest, INHIBIT_PACKAGE_STRIP is always 1; and when disable ptest,
-> INHIBIT_PACKAGE_STRIP is always 0]
+> But as we're post-freeze, endorsement doesn't qualify as a reason to
+> break the freeze...
 >
-> Cc: Tudor Florea <tudor.florea@enea.com>
+> (queued in my ross/unfreeze branch for when we've thawed)
 
-As Tudor added this I'd love to hear from them about this, but I can
-confirm that this patch doesn't cause warnings with ptest enabled.
+I think it is a way better base for work but I really don't care as I
+use my own recipe in fsl-arm and so does TI.
 
-Ross
+Either way Denys please rework the patch so it is easier to review. We
+decide for merging or not later when it is good.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
