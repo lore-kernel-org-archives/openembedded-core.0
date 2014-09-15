@@ -1,43 +1,23 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 41A4C60144
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BF1D65E0C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 06:19:36 +0000 (UTC)
-Received: by mail-wi0-f182.google.com with SMTP id e4so3463191wiv.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Sep 2014 23:19:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=v6hGzbZ6jgbxMtoiPQ2SoPguR3P32x/5AJtLe7zVksY=;
-	b=Ao468sHrmS0VNs+TRM3jd3wmkM6QvBE8Do3RNx0U0hcpEZsHnZCntbb+bmxYuDQZEE
-	iLJOJLql80XeaohPukRKL9GIijmha+XurCZllhJpbY7IBwHsLeF4M+SbcMO+/qZKM7wI
-	FyUUqIDmO9S7NwiEeRTcios/Ie3AFPexVUG3ezbJ353a+AAFjHx2GzA8Z7CuuC/nOXfb
-	71M/TsYHCGjRR4rlsytSTxkcAVw2C8cQXyaZAdmIyjsuHflULON05z1lbKacYtT287PX
-	M0ozc4UGRoLXMvdg96zIp5WETKNs6zF4k+0uPUieEHG+RC8HzQAeDwOo5GpqRkFQUy+T
-	wMig==
-X-Gm-Message-State: ALoCoQkEbMqr2mm266J7i1abIbvRy86sX/9KTfdJPQsSOcL9Ei1c6vv+GC+sJ+T4XyCq2lpxfPeS
-X-Received: by 10.180.9.144 with SMTP id z16mr21119112wia.26.1410761977116;
-	Sun, 14 Sep 2014 23:19:37 -0700 (PDT)
-Received: from [172.29.23.6] (zk223.dresearch-fe.de. [217.92.177.116])
-	by mx.google.com with ESMTPSA id
-	au4sm13614452wjc.15.2014.09.14.23.19.35
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 14 Sep 2014 23:19:36 -0700 (PDT)
-Message-ID: <541684F7.8040708@dresearch-fe.de>
-Date: Mon, 15 Sep 2014 08:19:35 +0200
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Mon, 15 Sep 2014 08:27:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8F8RAYG008078
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 15 Sep 2014 01:27:11 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.141) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 15 Sep 2014 01:27:10 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <tudor.florea@enea.com>
+Date: Mon, 15 Sep 2014 16:27:11 +0800
+Message-ID: <1410769631-5672-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-References: <541034FD.4090900@dresearch-fe.de>
-In-Reply-To: <541034FD.4090900@dresearch-fe.de>
-Subject: Re: hash generation for PR Service?
+Subject: [PATCH] kmod: remove the setting of INHIBIT_PACKAGE_STRIP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,29 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 06:19:38 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 15 Sep 2014 08:27:19 -0000
+Content-Type: text/plain
 
-On 10.09.2014 13:24, Steffen Sledz wrote:
-> I'm not sure if this is the right mailing list for our problem. Please forgive me if not (and tell me the right one).
-> 
-> 
-> We're investigating some problems related with package versions going backwards using a PR Service[1].
-> 
-> Can someone give some hints where we can get information about generation of the hashes which are used to request values from the PR service? Especially which data/files/directories are involved..
-> 
-> 
-> [1] <https://wiki.yoctoproject.org/wiki/PR_Service>
+From: Roy Li <rongqing.li@windriver.com>
 
-Ping! Who can provide related information?
+Setting INHIBIT_PACKAGE_STRIP is added by 61cb45869c[kmod: ptest fixes], but I
+can not reproduce the described issue, and seems it make wrong logical [
+when enable ptest, INHIBIT_PACKAGE_STRIP is always 1; and when disable ptest,
+INHIBIT_PACKAGE_STRIP is always 0]
 
+Cc: Tudor Florea <tudor.florea@enea.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ meta/recipes-kernel/kmod/kmod_git.bb |    1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+index d4c21a4..9dd5867 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -44,7 +44,6 @@ do_compile_ptest () {
+         oe_runmake buildtest-TESTS rootfs
+ }
+ 
+-INHIBIT_PACKAGE_STRIP = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", "1", "0", d)}"
+ INSANE_SKIP_${PN}-ptest = "arch"
+ 
+ inherit update-alternatives
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+1.7.10.4
+
 
