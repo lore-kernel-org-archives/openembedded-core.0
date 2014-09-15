@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 386AD60809
+Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D5AA60809
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 15:01:13 +0000 (UTC)
-Received: by mail-qc0-f177.google.com with SMTP id o8so3905523qcw.8
+	Mon, 15 Sep 2014 15:03:23 +0000 (UTC)
+Received: by mail-qa0-f54.google.com with SMTP id v10so3969216qac.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 08:01:14 -0700 (PDT)
+	Mon, 15 Sep 2014 08:03:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=G/DMt58PLrUDc/CRnQutjYHT37A4hKz+lR5UlMrl+X8=;
-	b=f7/bJcctqy8sS4tKKk5ToAxJP8va9ZAeIyawpiaHe3vBtZlaqGbvv4cMgoBh0GEfQN
-	YGZOWbqUpfFQOoW1DUU62gj1rsaaOwX8Cg4Ysi6uAGW2YLPQkPzOrzR0su2Y5t7nnlmF
-	jELDdROKMd0I0Oc+n0BMPEeGvBHDaHeD/+H2JX/d+W6HKR31eTR43bLwnZbHbPpa8ujg
-	D4tLSvz01jWLzNWHctqz36dP/nvD66UobupEB6COp8HQ4vCfPDsSgiH/+xSofEtCcETf
-	Ld9kQQK/NISTqj6zQJfImWtDzKGAz7GbJqjmBhlqx8gaG1g0tEelMvGusoLE0C258EuQ
-	WcOQ==
-X-Gm-Message-State: ALoCoQkMewD/EkiV8OWbuluDSF3HVdW77qXhMthXQPESDIEUU6xn6C3azahUruMvIh0pp7rfc4Nq
-X-Received: by 10.224.126.202 with SMTP id d10mr35971133qas.22.1410793274366; 
-	Mon, 15 Sep 2014 08:01:14 -0700 (PDT)
+	bh=P9Gn2wY8HoNsdaU9pSXEd3YfZwlez5xGTFipJ6CX0oI=;
+	b=aoZxq59iQV+9MRm0Gcca3nu3O0NxiKZAMz5zPlYV9CDdpc6kzH8Oz9k4VHEdqsOilM
+	z/ntK+ABIvydGBjrrfw2bUPUz0mh3gwarcCvbdEetAJutB1kbrflr90UHeP/mt7ghdAS
+	+Ad+z69RXq+CC7/3pKavmvRa3dM1beahNbN7oir8yb0pZLbOi3kjbBa8VWJ5GCKaPBsr
+	6lgxPlgb8iRJIqDJuW7tjsKXR8pobjM0Q/3rw47Jpn+vaj6K7lcPWSV12blo362ccNVb
+	3b+lkqGfr/iR/zbjtFDI7ClD+n1DOM85uoFBNth7jcG9ikK0LIJuuXTXZXvooKKIyIr+
+	+Y7w==
+X-Gm-Message-State: ALoCoQlXFlFNtvHh/RDuqojRMPVxFGuy4d8jdYLbV0thWYU6fh63uXqJEKvMzIfvL5kjcVBaeCpH
+X-Received: by 10.140.40.84 with SMTP id w78mr38262333qgw.87.1410793403688;
+	Mon, 15 Sep 2014 08:03:23 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Mon, 15 Sep 2014 08:00:53 -0700 (PDT)
-In-Reply-To: <CACS+7ZTGK6duNi6GQ6tqhmrk3_bNnEbSj=LeEzr60vRP3Dw=OQ@mail.gmail.com>
-References: <CACS+7ZTGK6duNi6GQ6tqhmrk3_bNnEbSj=LeEzr60vRP3Dw=OQ@mail.gmail.com>
+Received: by 10.140.29.183 with HTTP; Mon, 15 Sep 2014 08:03:03 -0700 (PDT)
+In-Reply-To: <5416FBFD.9070406@topic.nl>
+References: <1410536389.14624.1.camel@ted> <5416F0A0.80000@topic.nl>
+	<1410790333.14624.45.camel@ted> <5416FBFD.9070406@topic.nl>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Sep 2014 16:00:53 +0100
-Message-ID: <CAJTo0LZewZ17aYpXao81LrmuPdgWho8WEYmYhzQ5=pP-AO-QQQ@mail.gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] libsanitizer: Enable GCC sanitizers
+Date: Mon, 15 Sep 2014 16:03:03 +0100
+Message-ID: <CAJTo0Laq_U-2txJrN2jcw=0+JznCh7C4TU9Md+aKg5h-n9GaVw@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] license: Improve disk usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,24 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 15:01:15 -0000
+X-List-Received-Date: Mon, 15 Sep 2014 15:03:25 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 15 September 2014 05:00, Dan McGregor <danismostlikely@gmail.com> wrote:
-> From: Dan McGregor <dan.mcgregor@usask.ca>
+On 15 September 2014 15:47, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+> It's just that the try/except version will always work on any system,
+> whereas the device comparison may fail on some setups. And given the habit
+> of programmers to copy these things from other locations, chances are that a
+> device comparison will some day be used on the "downloads" directory which
+> is FAT on my system.
 >
-> AddressSanitizer is a fast memory error detector.
-> ThreadSanitizer detects data races.
-> UBSanitizer detectes undefined behaviour.
->
-> All consist of compiler instrumentation and a run-time library.
-> The compiler instrumentation was already enabled, this builds
-> the run-time library component.
->
-> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+> Also, when the copy fails, the resulting message should be clearer, as the
+> "copyfile" call will be in the stacktrace.
 
-git-am is not happy with this patch, claiming that it's malformed.
-Can you try re-sending or pushing to a branch somewhere?
+I believe this is called the "try and ask forgiveness" pattern.  It's
+race-free, too.
 
 Ross
 
