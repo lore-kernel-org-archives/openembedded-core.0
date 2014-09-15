@@ -1,27 +1,38 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 439C8609B2
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f43.google.com (mail-yh0-f43.google.com
+	[209.85.213.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 62C1971427
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 13:12:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8FDCGhc017474
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 15 Sep 2014 06:12:16 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 15 Sep 2014 06:12:15 -0700
-Message-ID: <5416E596.5070500@windriver.com>
-Date: Mon, 15 Sep 2014 09:11:50 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Mon, 15 Sep 2014 13:33:01 +0000 (UTC)
+Received: by mail-yh0-f43.google.com with SMTP id v1so2112408yhn.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Sep 2014 06:33:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=3spiIAjRVtnq04+J1HPUJ+esOsSZKKuVplaAmoZ3GMI=;
+	b=MoqFWHs8h60OCttlIk6oeSY7gdFtMRdT0wUOAVCqKsE3FD7Mqx5M6W2Xfsd5K6vbsv
+	ZwLbOSsDCp+bibc5bXl56V0fmKYrma+uKahXMUFGiNM19zjALwX7DrMbZJLcRxQaO8gZ
+	QInGHCWIZWSKYZIO/NTNvep7NdcxETH1sos7BmXsSN/Z4hvRiMlIDstUSDyNHRTlX7K+
+	KR2zXsaXEI0xhJatGFAltprlmMjSpKgWWQSZE4TD4Mtkfqt0lBQuG2I+Tl9dqSU/Avmk
+	M14bbOSV1eqSP9lRoFiuddk1pm0PcIn78QBaJ3Ye3TXafZ5tiGJKxM6DQAPgHe9mKhbX
+	0++w==
 MIME-Version: 1.0
-To: Armin Kuster <akuster808@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1410576597-16290-1-git-send-email-akuster808@gmail.com>
-In-Reply-To: <1410576597-16290-1-git-send-email-akuster808@gmail.com>
-Subject: Re: [PATCH] linux-yocto: add to qemuppc64 to bb file
+X-Received: by 10.236.162.7 with SMTP id x7mr33531447yhk.6.1410787982849; Mon,
+	15 Sep 2014 06:33:02 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.44.19 with HTTP; Mon, 15 Sep 2014 06:33:02 -0700 (PDT)
+In-Reply-To: <CAJTo0LaB+e=o02t4pbF6kSNKvy8R8YHT5tijT9T43U=6Y_yXdw@mail.gmail.com>
+References: <1410665660-25145-1-git-send-email-denis@denix.org>
+	<CAJTo0LaB+e=o02t4pbF6kSNKvy8R8YHT5tijT9T43U=6Y_yXdw@mail.gmail.com>
+Date: Mon, 15 Sep 2014 10:33:02 -0300
+X-Google-Sender-Auth: RKZy8eeA0r7rSbDZZvRCTABOg1E
+Message-ID: <CAP9ODKqtnPzfJ2PwBPQcwQ-jF=yT3dxQiNjWvLB6K71woMX4Vg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] u-boot: update to version 2014.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,57 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 13:12:21 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Sep 2014 13:33:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 14-09-12 10:49 PM, Armin Kuster wrote:
-> Not sure if this this is the correct process.
+On Sun, Sep 14, 2014 at 6:40 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 14 September 2014 04:34, Denys Dmytriyenko <denis@denix.org> wrote:
+>> From: Denys Dmytriyenko <denys@ti.com>
+>>
+>> * Update U-boot and corresponding tools to version 2014.07
+>> * Small cleanups with indentation and consolidation of u-boot.inc
+>
+> This missed the feature freeze, so can you justify merging this after
+> the freeze or can it wait until 1.8 opens?
 
-I'll grab the patch and carry it here, and update the SRCREVs at the
-same time as the other BSPs.
+I am using 2014.07 in meta-fsl-arm for a while and I support the merge
+of this for 1.8.
 
-As for adding qemuppc64 fully to the supported set of emulated BSPs
-for 1.7, that's Richard's call (and I haven't checked to see if the
-other patches were merged).
+However I'd love to see a incremental patchset where the indenting
+fixes are done /before/ or /after/ the update. It is hard to identify
+the real changes.
 
-Bruce
+Another thing I think we can improve is to add the other licenses in
+http://git.denx.de/u-boot.git/?p=u-boot.git;a=tree;f=Licenses;h=0d48cfcee2993e1353b3d75d9f6f1c29e7eb8fea;hb=HEAD
+to the tracking of licenses.
 
->
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
->   meta/recipes-kernel/linux/linux-yocto_3.14.bb | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-> index e06b191..dfe1de0 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-> @@ -6,6 +6,7 @@ require recipes-kernel/linux/linux-yocto.inc
->   KBRANCH_qemuarm  ?= "standard/arm-versatile-926ejs"
->   KBRANCH_qemumips ?= "standard/mti-malta32"
->   KBRANCH_qemuppc  ?= "standard/qemuppc"
-> +KBRANCH_qemuppc64  ?= "standard/qemuppc"
->   KBRANCH_qemux86  ?= "standard/common-pc/base"
->   KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
->   KBRANCH_qemumips64 ?= "standard/mti-malta64"
-> @@ -13,6 +14,7 @@ KBRANCH_qemumips64 ?= "standard/mti-malta64"
->   SRCREV_machine_qemuarm ?= "c32a2e1190325f685a61196f38fc03ceff2645bf"
->   SRCREV_machine_qemumips ?= "1ff50c529b49ceb55a670258f7cb8233c8006c6c"
->   SRCREV_machine_qemuppc ?= "12e9828a5b78891374375233b4075f682b9fbd0e"
-> +SRCREV_machine_qemuppc64 ?= "12e9828a5b78891374375233b4075f682b9fbd0e"
->   SRCREV_machine_qemux86 ?= "58d49fe770ad642e2bc0616159195ba837dc513b"
->   SRCREV_machine_qemux86-64 ?= "b85edae6fd61ceadfc08099608e8ac90aa4c5c33"
->   SRCREV_machine_qemumips64 ?= "dcd579737386fca4d7bcf224bc118b14eb3c1d55"
-> @@ -27,7 +29,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
->
->   KMETA = "meta"
->
-> -COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-> +COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64"
->
->   # Functionality flags
->   KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
->
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
