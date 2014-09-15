@@ -1,37 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D5AA60809
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 21DE271478
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 15:03:23 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id v10so3969216qac.13
+	Mon, 15 Sep 2014 15:08:12 +0000 (UTC)
+Received: by mail-pa0-f46.google.com with SMTP id kq14so6548395pab.19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 08:03:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=P9Gn2wY8HoNsdaU9pSXEd3YfZwlez5xGTFipJ6CX0oI=;
-	b=aoZxq59iQV+9MRm0Gcca3nu3O0NxiKZAMz5zPlYV9CDdpc6kzH8Oz9k4VHEdqsOilM
-	z/ntK+ABIvydGBjrrfw2bUPUz0mh3gwarcCvbdEetAJutB1kbrflr90UHeP/mt7ghdAS
-	+Ad+z69RXq+CC7/3pKavmvRa3dM1beahNbN7oir8yb0pZLbOi3kjbBa8VWJ5GCKaPBsr
-	6lgxPlgb8iRJIqDJuW7tjsKXR8pobjM0Q/3rw47Jpn+vaj6K7lcPWSV12blo362ccNVb
-	3b+lkqGfr/iR/zbjtFDI7ClD+n1DOM85uoFBNth7jcG9ikK0LIJuuXTXZXvooKKIyIr+
-	+Y7w==
-X-Gm-Message-State: ALoCoQlXFlFNtvHh/RDuqojRMPVxFGuy4d8jdYLbV0thWYU6fh63uXqJEKvMzIfvL5kjcVBaeCpH
-X-Received: by 10.140.40.84 with SMTP id w78mr38262333qgw.87.1410793403688;
-	Mon, 15 Sep 2014 08:03:23 -0700 (PDT)
+	Mon, 15 Sep 2014 08:08:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=yE9Dnig0igDRulbiPVcAwonpgS9LKb3BLi4KEdAo60U=;
+	b=tu9Hgpl6yyB79kAjQwM9zD8t5WvwuVt4M+KGrhCCLC5ddEY9SlQGn7vlzUZwkr9ECT
+	qNIVU4SQkuV/M5Gx2POYIorllGkI3EuYLB0dNiPLIKfBb/xYofTc0HEDQXHr98Zgun6h
+	ep3s6NsLLKsuAtGu+d3RD3u7K3Ma596C2lpEJRwYlmR/U8Wmd5FPKSVAhSaYCbmhF9JK
+	ekZPISLzQ7M6kleE/HxgecJ0YLUC0xpB3XhmP0V24FcnfgMSsArIVw1Z9Gl2gSkHROLF
+	Uq6CA7qCJwEXyX0Z77lgzPnE4bpjCeCC0xBbE1Aw0XXaPWvGakSaD+9V/zne4X6GR1Pg
+	c3pw==
+X-Received: by 10.68.69.70 with SMTP id c6mr38690254pbu.111.1410793693116;
+	Mon, 15 Sep 2014 08:08:13 -0700 (PDT)
+Received: from ?IPv6:2601:c:9380:601:39d4:f1fb:2ffd:f85c?
+	([2601:c:9380:601:39d4:f1fb:2ffd:f85c])
+	by mx.google.com with ESMTPSA id
+	zf5sm11697260pbc.44.2014.09.15.08.08.11 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 15 Sep 2014 08:08:12 -0700 (PDT)
+Message-ID: <541700DA.90803@gmail.com>
+Date: Mon, 15 Sep 2014 08:08:10 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Mon, 15 Sep 2014 08:03:03 -0700 (PDT)
-In-Reply-To: <5416FBFD.9070406@topic.nl>
-References: <1410536389.14624.1.camel@ted> <5416F0A0.80000@topic.nl>
-	<1410790333.14624.45.camel@ted> <5416FBFD.9070406@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Sep 2014 16:03:03 +0100
-Message-ID: <CAJTo0Laq_U-2txJrN2jcw=0+JznCh7C4TU9Md+aKg5h-n9GaVw@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] license: Improve disk usage
+To: Bruce Ashfield <bruce.ashfield@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1410576597-16290-1-git-send-email-akuster808@gmail.com>
+	<5416E596.5070500@windriver.com>
+In-Reply-To: <5416E596.5070500@windriver.com>
+Subject: Re: [PATCH] linux-yocto: add to qemuppc64 to bb file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,21 +49,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 15:03:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 15 Sep 2014 15:08:16 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 15 September 2014 15:47, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> It's just that the try/except version will always work on any system,
-> whereas the device comparison may fail on some setups. And given the habit
-> of programmers to copy these things from other locations, chances are that a
-> device comparison will some day be used on the "downloads" directory which
-> is FAT on my system.
+
+
+On 09/15/2014 06:11 AM, Bruce Ashfield wrote:
+> On 14-09-12 10:49 PM, Armin Kuster wrote:
+>> Not sure if this this is the correct process.
 >
-> Also, when the copy fails, the resulting message should be clearer, as the
-> "copyfile" call will be in the stacktrace.
+> I'll grab the patch and carry it here, and update the SRCREVs at the
+> same time as the other BSPs.
 
-I believe this is called the "try and ask forgiveness" pattern.  It's
-race-free, too.
+Great, thanks.
 
-Ross
+>
+> As for adding qemuppc64 fully to the supported set of emulated BSPs
+> for 1.7, that's Richard's call (and I haven't checked to see if the
+> other patches were merged).
+
+Being this late in the 1.7 schedule, I would advise targeting such a 
+claim until 1.8.  I was surprised by the number for warnings and errors 
+a limited world build (meta-networking) burped up considering ppc64 is 
+already supported by a few BSP's.
+
+- Armin
+>
+> Bruce
+>
+>>
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>> ---
+>>   meta/recipes-kernel/linux/linux-yocto_3.14.bb | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+>> b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+>> index e06b191..dfe1de0 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+>> @@ -6,6 +6,7 @@ require recipes-kernel/linux/linux-yocto.inc
+>>   KBRANCH_qemuarm  ?= "standard/arm-versatile-926ejs"
+>>   KBRANCH_qemumips ?= "standard/mti-malta32"
+>>   KBRANCH_qemuppc  ?= "standard/qemuppc"
+>> +KBRANCH_qemuppc64  ?= "standard/qemuppc"
+>>   KBRANCH_qemux86  ?= "standard/common-pc/base"
+>>   KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
+>>   KBRANCH_qemumips64 ?= "standard/mti-malta64"
+>> @@ -13,6 +14,7 @@ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+>>   SRCREV_machine_qemuarm ?= "c32a2e1190325f685a61196f38fc03ceff2645bf"
+>>   SRCREV_machine_qemumips ?= "1ff50c529b49ceb55a670258f7cb8233c8006c6c"
+>>   SRCREV_machine_qemuppc ?= "12e9828a5b78891374375233b4075f682b9fbd0e"
+>> +SRCREV_machine_qemuppc64 ?= "12e9828a5b78891374375233b4075f682b9fbd0e"
+>>   SRCREV_machine_qemux86 ?= "58d49fe770ad642e2bc0616159195ba837dc513b"
+>>   SRCREV_machine_qemux86-64 ?= "b85edae6fd61ceadfc08099608e8ac90aa4c5c33"
+>>   SRCREV_machine_qemumips64 ?= "dcd579737386fca4d7bcf224bc118b14eb3c1d55"
+>> @@ -27,7 +29,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
+>>
+>>   KMETA = "meta"
+>>
+>> -COMPATIBLE_MACHINE =
+>> "qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+>> +COMPATIBLE_MACHINE =
+>> "qemuarm|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64"
+>>
+>>   # Functionality flags
+>>   KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+>>
+>
 
