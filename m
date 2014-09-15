@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F05460144
+Received: from mail-qa0-f45.google.com (mail-qa0-f45.google.com
+	[209.85.216.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B74B17143F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 14:26:24 +0000 (UTC)
-Received: by mail-qc0-f173.google.com with SMTP id i8so3767621qcq.32
+	Mon, 15 Sep 2014 14:32:40 +0000 (UTC)
+Received: by mail-qa0-f45.google.com with SMTP id s7so3882201qap.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 07:26:24 -0700 (PDT)
+	Mon, 15 Sep 2014 07:32:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=1AS20b+G87n9RD2C6J26NBvLjrSMsOp4wRkZSQWjebc=;
-	b=PXOnUk+EXKPu2cUwBrIl1PaLIf/LhYrhf7Y462H8exAqjqFga5vISivuak2iOQaqLd
-	KTNVpyjlkHAC4nI+LKtZl7/S7LMirzGs0kowoJm61II5Dqc8LpUGMeWrSCFLRLCi6U6P
-	jHXBU3XCpnyIn4wsKyxxWLV+UjsW/6NCiurVEwjc+XwMVeXJo44A3ve5Bu5o3n3G1rh2
-	B2XU60Vvkq4tJLjpGxTYF6KdzNqF0uJN2ME7foNvgTi2QLkWeaOWWxtWScuSqb0oc4J2
-	L1HucLu82KkZFnS0wluQEojfsE/JnGFrU6jSe5fClFsBuMXz4z5CNddPLx1yCBAZz+wt
-	hIgA==
-X-Gm-Message-State: ALoCoQnU4X4r7QcGzLT4lUzQ09XgXBlXuQPY5CwhjlAXrqS/AoJhz3qrYACgkvPUS8NPcfl9ZN5R
-X-Received: by 10.224.64.201 with SMTP id f9mr37658372qai.64.1410791183323;
-	Mon, 15 Sep 2014 07:26:23 -0700 (PDT)
+	bh=MDcyA6nO36TtM0QqROz5TE8znmglbjxzhR9P5TVkTNM=;
+	b=HCSRMloa4BpMy2CpvgvoML6ayYZjPr38G/WtOoP8iiOyaNToRzC7eVCm4B8mS3+gjx
+	ZDg34VDhy2Xbv4l2e6hYebwl/3cgZ/OcUUIRONVpzTWC6iljfzhXm6XqW+CRU0BFfgW3
+	1bm/KTRs+WaShT3WUv3rvq+ykXJ7Ubcr40Wy19STm1Xz10WDacfJL75/zJCe0B+eaXwB
+	Fe96y5b+XrLcZM1y0FwYSsby96/3rncwWlWYM37JBtM+WbOBcWCE8nqkgaf1BZc++hbE
+	vo+jErp6VSLn2/RCWLsyu+8fDoIMfeB1mnPspXMkMfbnem+6GJ80A7/HUIOjcVSB/A0N
+	JOZQ==
+X-Gm-Message-State: ALoCoQnDABpmHvrfEj5mUQcR1FlN07y+UFlPckwqF6WtSqg6J3OROkn1beS2n1A2o+M8NeQ4sfDi
+X-Received: by 10.140.40.84 with SMTP id w78mr37946827qgw.87.1410791560866;
+	Mon, 15 Sep 2014 07:32:40 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Mon, 15 Sep 2014 07:26:03 -0700 (PDT)
-In-Reply-To: <1410771696-6165-1-git-send-email-rongqing.li@windriver.com>
-References: <1410771696-6165-1-git-send-email-rongqing.li@windriver.com>
+Received: by 10.140.29.183 with HTTP; Mon, 15 Sep 2014 07:32:20 -0700 (PDT)
+In-Reply-To: <1410769631-5672-1-git-send-email-rongqing.li@windriver.com>
+References: <1410769631-5672-1-git-send-email-rongqing.li@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Sep 2014 15:26:03 +0100
-Message-ID: <CAJTo0La22B0oQXuWPU_aHrzJEFzGTHfNQ1okn869oMhWKYJ3NA@mail.gmail.com>
+Date: Mon, 15 Sep 2014 15:32:20 +0100
+Message-ID: <CAJTo0LZd_5dYP7sc-umCev+rzU_YzGNLWUq6o0Y0ZK9b6ayB3g@mail.gmail.com>
 To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rsync: Add PACKAGECONFIG for acl/attr
+Subject: Re: [PATCH] kmod: remove the setting of INHIBIT_PACKAGE_STRIP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,14 +43,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 14:26:28 -0000
+X-List-Received-Date: Mon, 15 Sep 2014 14:32:45 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 15 September 2014 10:01,  <rongqing.li@windriver.com> wrote:
-> +PACKAGECONFIG ?= "acl attr"
+On 15 September 2014 09:27,  <rongqing.li@windriver.com> wrote:
+> From: Roy Li <rongqing.li@windriver.com>
+>
+> Setting INHIBIT_PACKAGE_STRIP is added by 61cb45869c[kmod: ptest fixes], but I
+> can not reproduce the described issue, and seems it make wrong logical [
+> when enable ptest, INHIBIT_PACKAGE_STRIP is always 1; and when disable ptest,
+> INHIBIT_PACKAGE_STRIP is always 0]
+>
+> Cc: Tudor Florea <tudor.florea@enea.com>
 
-Note that this should be ??=.  I've fixed this when merging to my
-branch so no need to re-send.
+As Tudor added this I'd love to hear from them about this, but I can
+confirm that this patch doesn't cause warnings with ptest enabled.
 
 Ross
 
