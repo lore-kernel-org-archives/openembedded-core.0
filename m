@@ -1,24 +1,38 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A4CFA6FCE0
+Return-Path: <iwamatsu@nigauri.org>
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DACF60167
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 22:22:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8FMMrAS021760
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 15 Sep 2014 23:54:20 +0000 (UTC)
+Received: by mail-pd0-f169.google.com with SMTP id fp1so7321945pdb.28
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 15:22:54 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 15 Sep 2014 15:22:53 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Sep 2014 15:22:53 -0700
-Message-ID: <1410819773-1213-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-Subject: [PATCH 1/1] lttng: recognize aarch64
+	Mon, 15 Sep 2014 16:54:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=VQDFUTGtGN9By82myl1v0Q1xuyxRr975Qxc9J/TQbQ8=;
+	b=Qbw+nSqpm3Hd0L1m2JTwvREgX0Laj17JA77mIk5ol4CEySHd6xdLAzhWlCzi2Sn20D
+	EVY8tlb9mWFzKIi99zpdjiPPylI0KSOGqMCkcEgaR72s1lLsHPtnkz4fI/1VAFkb49hn
+	C8Hd/BwfaTaY/wNqPo16Xozx78xz0PP262+yoMf1FJtdUKVaq0lCkz4oIOZ0ZmDoC8kv
+	kHOnuADIserjq1F3Fa/Llt53TrzU3YPVyUlGZ2H5o+4kpDqSlbpfqrFSLC5NP+amlpP8
+	IelEgbJ0f8UMakNP00A6SFR8MA8VApmCq7Yhgt4QiPRE6tuFYsSSspcqUv+8+y7loDIg
+	XqUw==
+X-Gm-Message-State: ALoCoQkCDtIQNQeZVn6ovzLPRP11QPTYdvT/kJ27OqK4/XwIkDt5QajiB5zGkHYdbG6CyjaJSLzO
+X-Received: by 10.66.178.231 with SMTP id db7mr26183998pac.63.1410825261800;
+	Mon, 15 Sep 2014 16:54:21 -0700 (PDT)
+Received: from xps-iwamatsu.renesas.com (49.14.32.202.bf.2iij.net.
+	[202.32.14.49]) by mx.google.com with ESMTPSA id
+	ry9sm12872205pab.37.2014.09.15.16.54.19 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 15 Sep 2014 16:54:20 -0700 (PDT)
+Sender: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+From: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Sep 2014 08:54:10 +0900
+Message-Id: <1410825250-3067-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
+X-Mailer: git-send-email 2.0.0
+Cc: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+Subject: [PATCH] packagegroup-core-standalone-sdk-target: Add libgcov-dev to target sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,97 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 22:23:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Sep 2014 23:54:28 -0000
 
-Add aarch64 architecture to liburcu and lttng-ust.
-Internally it is treated the same as "arm".
+When a user takes coverage in gcc of SDK, it becomes the link error in SDK
+because there is not libgcov.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
+----
+ld: cannot find -lgcov
+collect2: error: ld returned 1 exit status
+----
+
+This adds libgcov-dev to target sysroot.
+
+Signed-off-by: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
 ---
- .../lttng/lttng-ust/add-aarch64.patch              |   19 +++++++++++++++++++
- meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb       |    1 +
- meta/recipes-support/liburcu/files/aarch64.patch   |   19 +++++++++++++++++++
- meta/recipes-support/liburcu/liburcu_0.8.4.bb      |    1 +
- 4 files changed, 40 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch
- create mode 100644 meta/recipes-support/liburcu/files/aarch64.patch
+ .../packagegroup-core-standalone-sdk-target.bb     |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch b/meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch
-new file mode 100644
-index 0000000..cec5410
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch
-@@ -0,0 +1,19 @@
-+lttng-ust: add aarch64 recognition
-+
-+Treat the same as "arm".
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: joe.slater@windriver.com
-+
-+
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -230,6 +230,7 @@ changequote([,])dnl
-+ 	s390) NO_UNALIGNED_ACCESS=1 ;;
-+ 	s390x) NO_UNALIGNED_ACCESS=1 ;;
-+         arm*) NO_UNALIGNED_ACCESS=1 ;;
-++        aarch64) NO_UNALIGNED_ACCESS=1 ;;
-+ 	mips*) NO_UNALIGNED_ACCESS=1 ;;
-+ 	tile*) NO_UNALIGNED_ACCESS=1 ;;
-+ 	*) AC_MSG_ERROR([unable to detect alignment requirements (unsupported architecture ($host_cpu)?)]) ;;
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
-index 71ea5bc..e07d3c7 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
-@@ -24,6 +24,7 @@ PE = "2"
- 
- SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.5 \
-            file://lttng-ust-doc-examples-disable.patch \
-+           file://add-aarch64.patch \
- 	   "
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-support/liburcu/files/aarch64.patch b/meta/recipes-support/liburcu/files/aarch64.patch
-new file mode 100644
-index 0000000..c6cc8c2
---- /dev/null
-+++ b/meta/recipes-support/liburcu/files/aarch64.patch
-@@ -0,0 +1,19 @@
-+libucru: recognize aarch64
-+
-+Make the same as "arm" internally.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: joe.slater@windriver.com
-+
-+
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -77,6 +77,7 @@ AS_CASE([$host_cpu],
-+ 	[alpha*], [ARCHTYPE="alpha"],
-+ 	[ia64], [ARCHTYPE="gcc"],
-+ 	[arm*], [ARCHTYPE="arm"],
-++	[aarch64], [ARCHTYPE="arm"],
-+ 	[mips*], [ARCHTYPE="mips"],
-+ 	[tile*], [ARCHTYPE="gcc"],
-+ 	[ARCHTYPE="unknown"]
-diff --git a/meta/recipes-support/liburcu/liburcu_0.8.4.bb b/meta/recipes-support/liburcu/liburcu_0.8.4.bb
-index cd7af24..a79d4cf 100644
---- a/meta/recipes-support/liburcu/liburcu_0.8.4.bb
-+++ b/meta/recipes-support/liburcu/liburcu_0.8.4.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0f060c30a27922ce9c0d557a639b4fa3 \
-                     file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"
- 
- SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2 \
-+           file://aarch64.patch \
-           "
- 
- SRC_URI[md5sum] = "2ca6671b20a550aa0e8020a1a9a96fd4"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+index 5d1ce97..154a55c 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+@@ -7,6 +7,7 @@ inherit packagegroup
+ RDEPENDS_${PN} = "\
+     libgcc \
+     libgcc-dev \
++    libgcov-dev \
+     libstdc++ \
+     libstdc++-dev \
+     ${LIBC_DEPENDENCIES} \
 -- 
-1.7.3.4
+1.7.9.5
 
 
