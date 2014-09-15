@@ -1,39 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CDDB71427
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A4CFA6FCE0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 20:29:20 +0000 (UTC)
-Received: by mail-qc0-f178.google.com with SMTP id c9so2856118qcz.37
+	Mon, 15 Sep 2014 22:22:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8FMMrAS021760
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 13:29:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=7kFhzXMiWuJszksP/oCtxahj0j3PS+27cIhkAv0ZHSQ=;
-	b=NFMIEd6T1HSfBOgNUCUIxX+DiaveGuZ1j6H4I8uKNg3jvBbVDctm0eYl95EYS5xk/V
-	jACg8ZFrAsdLFgcAwzYvkZKarXTFEGaz/C91oeECZ0yMT1DZPdwMd28KVio50Q1tvAfS
-	uOsIkzIGi9IlvSLMbegwhE216+J3nFLHCGKhKNuv/L2vhH6OqECWPySAGyxeaIgtqvn/
-	D/2fYwn9i35yD6IXmIiDUrwR3czD9J4CiETSEB/hkGGmrNgOGlO8nbNJv690iiTerQFL
-	A80jbiDJVVNmDWsTcyoLjlrihN3QPFWDIgwtmvLaHR0y2V81jqrPgac659jVaMa7Xrx1
-	ppHA==
-X-Gm-Message-State: ALoCoQmYXzdGJd6jESOfli8nPDtbxakVgSFaVTJmsfj14Izp5ljWOTBXWSLKazfb3QLyQ0AFW910
-X-Received: by 10.140.97.247 with SMTP id m110mr41067251qge.80.1410812959799; 
-	Mon, 15 Sep 2014 13:29:19 -0700 (PDT)
+	Mon, 15 Sep 2014 15:22:54 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 15 Sep 2014 15:22:53 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Sep 2014 15:22:53 -0700
+Message-ID: <1410819773-1213-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Mon, 15 Sep 2014 13:28:59 -0700 (PDT)
-In-Reply-To: <CACS+7ZQUcknvEU6M1ioMQKRFHa4k7PO_rRGqEH7KWLU4Jn5f_w@mail.gmail.com>
-References: <CACS+7ZTGK6duNi6GQ6tqhmrk3_bNnEbSj=LeEzr60vRP3Dw=OQ@mail.gmail.com>
-	<CAJTo0LZewZ17aYpXao81LrmuPdgWho8WEYmYhzQ5=pP-AO-QQQ@mail.gmail.com>
-	<CACS+7ZQUcknvEU6M1ioMQKRFHa4k7PO_rRGqEH7KWLU4Jn5f_w@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Sep 2014 21:28:59 +0100
-Message-ID: <CAJTo0LZtwOuer0QnH5=gLFzjZknBtauSbjhGt2-F5QT4f=tF7A@mail.gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] libsanitizer: Enable GCC sanitizers
+Subject: [PATCH 1/1] lttng: recognize aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,19 +31,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 20:29:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 15 Sep 2014 22:23:02 -0000
+Content-Type: text/plain
 
-On 15 September 2014 21:20, Dan McGregor <danismostlikely@gmail.com> wrote:
->> git-am is not happy with this patch, claiming that it's malformed.
->> Can you try re-sending or pushing to a branch somewhere?
->
-> Sure: http://bitbucket.org/dankm/openembedded-core.git, branch "sanitizers".
->
-> It has unrelated changes in it, but this one should be cherry-pickable.
+Add aarch64 architecture to liburcu and lttng-ust.
+Internally it is treated the same as "arm".
 
-Thanks, I've pulled this into my unfreeze branch for when the 1.8 is
-open.  Post updates if there are new patches and I'll rebase.
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ .../lttng/lttng-ust/add-aarch64.patch              |   19 +++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb       |    1 +
+ meta/recipes-support/liburcu/files/aarch64.patch   |   19 +++++++++++++++++++
+ meta/recipes-support/liburcu/liburcu_0.8.4.bb      |    1 +
+ 4 files changed, 40 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch
+ create mode 100644 meta/recipes-support/liburcu/files/aarch64.patch
 
-Ross
+diff --git a/meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch b/meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch
+new file mode 100644
+index 0000000..cec5410
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch
+@@ -0,0 +1,19 @@
++lttng-ust: add aarch64 recognition
++
++Treat the same as "arm".
++
++Upstream-Status: Pending
++
++Signed-off-by: joe.slater@windriver.com
++
++
++--- a/configure.ac
+++++ b/configure.ac
++@@ -230,6 +230,7 @@ changequote([,])dnl
++ 	s390) NO_UNALIGNED_ACCESS=1 ;;
++ 	s390x) NO_UNALIGNED_ACCESS=1 ;;
++         arm*) NO_UNALIGNED_ACCESS=1 ;;
+++        aarch64) NO_UNALIGNED_ACCESS=1 ;;
++ 	mips*) NO_UNALIGNED_ACCESS=1 ;;
++ 	tile*) NO_UNALIGNED_ACCESS=1 ;;
++ 	*) AC_MSG_ERROR([unable to detect alignment requirements (unsupported architecture ($host_cpu)?)]) ;;
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
+index 71ea5bc..e07d3c7 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
+@@ -24,6 +24,7 @@ PE = "2"
+ 
+ SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.5 \
+            file://lttng-ust-doc-examples-disable.patch \
++           file://add-aarch64.patch \
+ 	   "
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-support/liburcu/files/aarch64.patch b/meta/recipes-support/liburcu/files/aarch64.patch
+new file mode 100644
+index 0000000..c6cc8c2
+--- /dev/null
++++ b/meta/recipes-support/liburcu/files/aarch64.patch
+@@ -0,0 +1,19 @@
++libucru: recognize aarch64
++
++Make the same as "arm" internally.
++
++Upstream-Status: Pending
++
++Signed-off-by: joe.slater@windriver.com
++
++
++--- a/configure.ac
+++++ b/configure.ac
++@@ -77,6 +77,7 @@ AS_CASE([$host_cpu],
++ 	[alpha*], [ARCHTYPE="alpha"],
++ 	[ia64], [ARCHTYPE="gcc"],
++ 	[arm*], [ARCHTYPE="arm"],
+++	[aarch64], [ARCHTYPE="arm"],
++ 	[mips*], [ARCHTYPE="mips"],
++ 	[tile*], [ARCHTYPE="gcc"],
++ 	[ARCHTYPE="unknown"]
+diff --git a/meta/recipes-support/liburcu/liburcu_0.8.4.bb b/meta/recipes-support/liburcu/liburcu_0.8.4.bb
+index cd7af24..a79d4cf 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.8.4.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.8.4.bb
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0f060c30a27922ce9c0d557a639b4fa3 \
+                     file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"
+ 
+ SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2 \
++           file://aarch64.patch \
+           "
+ 
+ SRC_URI[md5sum] = "2ca6671b20a550aa0e8020a1a9a96fd4"
+-- 
+1.7.3.4
+
 
