@@ -1,31 +1,26 @@
-Return-Path: <ed.swarthout@hdebug.com>
-X-Greylist: delayed 308 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 15 Sep 2014 05:15:20 UTC
-Received: from mout.perfora.net (mout.perfora.net [74.208.4.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A8EF06FE3B
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 330916FAEC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 05:15:20 +0000 (UTC)
-Received: from [192.168.8.4] (cpe-70-116-37-180.austin.res.rr.com
-	[70.116.37.180])
-	by mrelay.perfora.net (node=mreueus002) with ESMTP (Nemesis)
-	id 0M3kcZ-1YKXIi1Xof-00rJgJ; Mon, 15 Sep 2014 07:10:07 +0200
-Message-ID: <541674AA.8070102@hdebug.com>
-Date: Mon, 15 Sep 2014 00:10:02 -0500
-From: Ed Swarthout <ed.swarthout@hdebug.com>
+	Mon, 15 Sep 2014 05:48:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8F5mqxw010638
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 14 Sep 2014 22:48:53 -0700 (PDT)
+Received: from [128.224.162.141] (128.224.162.141) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Sun, 14 Sep 2014 22:48:52 -0700
+Message-ID: <54167DC6.5060709@windriver.com>
+Date: Mon, 15 Sep 2014 13:48:54 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org, alexandra.safta@enea.com
-X-Provags-ID: V02:K0:ibopljGLS9wvAEdZm1I6xDBnO57fwWembXf2ZhEuXia
-	5J2uk0p4scjg1HrgECE9SrPcymmyIwCBhturEZRNa6XK5L5Xkm
-	wRqTl4AcOJ1ps+/rBelBstlISy6lv4xrIef57B7bhVmMmtLLwZ
-	ww59PfSu5wapI6Sz6wwImrguoq96ACoSMF8+r5GvxHzeZdMAT2
-	fn3RvdeVvaQP3dFyLntUPTcIhnv40VJ291NnMe54khti1YNiuF
-	Qd431crySqE5PSNHuozgZRP0GsrtuMjPXJehgR27KO448rr1j7
-	hHiSI2/qVsMqPuu+0DUc3oKN14mHVr6abw/PhNt0MilzkM/2wq
-	Eq+hCyN3p6j97My1W9DiRP5C1fs1ya4SMNy3zvZhv
-X-UI-Out-Filterresults: notjunk:1;
-Subject: udev ptest leaves symlink loops in target sysroots
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Could we move irda-utils out of oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,34 +33,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 05:15:25 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Mon, 15 Sep 2014 05:48:54 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-I've been working on qemu crashes for the blacklisted emacs build.
-As one of the fixes it would be nice to point qemu directly to the 
-target sysroots directory to find the loader. But this causes qemu to 
-hang because there are symlink loops in the directory tree and it does 
-not know how to ignore loops.
+Hi:
 
-It looks like udev ptest is the culprit:
+Could we move irda-utils out of oe-core?
+I think nearly no one is using it
 
-/f/deb/home/yocto/yocto/build2014/tmp/sysroots/qemuppc/usr/lib/udev/ptest/test/sys/block/loop0/subsystem/loop0/subsystem:
-   total used in directory 8 available 55515512
-   drwxr-xr-x  2 ed ed0 4096 Aug 24 10:51 .
-   lrwxrwxrwx  1 ed ed0   33 Aug 24 10:51 loop0 -> 
-../../devices/virtual/block/loop0
-   lrwxrwxrwx  1 ed ed0   33 Aug 24 10:51 loop1 -> 
-../../devices/virtual/block/loop1
-   lrwxrwxrwx  1 ed ed0   33 Aug 24 10:51 loop2 -> 
-../../devices/virtual/block/loop2
-   lrwxrwxrwx  1 ed ed0   33 Aug 24 10:51 loop3 -> 
-../../devices/virtual/block/loop3
 
-Does it have to leave these there after it completes the test?
-
-Ed
-
-Ed Swarthout
-Austin, Tx
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
