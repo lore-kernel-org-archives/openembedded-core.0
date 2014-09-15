@@ -1,46 +1,39 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
-	[217.149.192.138])
-	by mail.openembedded.org (Postfix) with ESMTP id C40E97143F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f52.google.com (mail-qa0-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id F3F947143F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 13:58:58 +0000 (UTC)
-Received: from amavisd-new (mailscanner05.wrt-nm.internl.net [217.149.192.128])
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 04A9D3F567
+	Mon, 15 Sep 2014 14:02:03 +0000 (UTC)
+Received: by mail-qa0-f52.google.com with SMTP id m5so3784331qaj.25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 15:58:58 +0200 (CEST)
-X-Spam-Flag: NO
-X-Spam-Score: -2.9
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 tagged_above=-999 required=4.5
-	tests=[BAYES_00=-2.9] autolearn=disabled
-X-Spam-Languages: en sco rm
-Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
-	by amavisd-new (mailscanner05.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 15:58:57 +0200 (CEST)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 15:58:57 +0200 (CEST)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Mon, 15 Sep 2014 15:59:10 +0200
-Message-ID: <5416F0A0.80000@topic.nl>
-Date: Mon, 15 Sep 2014 15:58:56 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Mon, 15 Sep 2014 07:02:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=WBdLcpM8wmEpqAyemgKw4UAu7hMdsy+qZ48XU9lG47U=;
+	b=isyzEnCkw0poC5X9jD77ZBBQWGcjAeg1mhHKYKOnQGyeJJ1sI/GSu24+O4ok4bDb7Y
+	8tLEDXDv1aOz8qksgpeBBymDcIdKM8ydmI5A9z4UQZFTtdJX+9FBCvdLVFjI7dC1Q/+u
+	ywP6E7H2h8hdEvENqFy1ku0LuYbcmJUcE6c64hU2PTDalNBPkWXsXswP7VjqRmr/MHEy
+	PK6YMnuKdhtuO55EITTod2aEHKa5bsVLp7XMnTcJyMj1Tzj4bRlNpGrXuPPFUA8hZlAg
+	bYp0UEh1aoXvnC3l2Rl2mw+3UzYd/yBsRTtU72orVNz/zepASq4sAWonn7ESm18tq1/7
+	cyrQ==
+X-Gm-Message-State: ALoCoQnAs1jYvqoQXaeHZLtTyCGI4DjTX4+U3nY/3GSUS34ALL1sIbzKIqMSMN9psb0cwJLjROaW
+X-Received: by 10.224.103.65 with SMTP id j1mr36889666qao.17.1410789722409;
+	Mon, 15 Sep 2014 07:02:02 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1410536389.14624.1.camel@ted>
-In-Reply-To: <1410536389.14624.1.camel@ted>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Subject: Re: [PATCH] license: Improve disk usage
+Received: by 10.140.29.183 with HTTP; Mon, 15 Sep 2014 07:01:42 -0700 (PDT)
+In-Reply-To: <5416E407.4050703@windriver.com>
+References: <cover.1410247971.git.liezhi.yang@windriver.com>
+	<b4b89028043c706ebd9e5d81d25f55224069e5a5.1410247971.git.liezhi.yang@windriver.com>
+	<CAJTo0LZx+PrHbn=2imh1gpFQF2fnHaUZ6xbMeO8bhvixnWWOsA@mail.gmail.com>
+	<5416E407.4050703@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 15 Sep 2014 15:01:42 +0100
+Message-ID: <CAJTo0LZsfdkvr7vsyvCzdK8mvn81jLk-FBdQf6D0SOhOvANuOA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] libxml2: fix python path and enable libxml2-python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,74 +46,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 13:58:59 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 15 Sep 2014 14:02:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-=EF=BB=BFI can probably come up with scenarios where "os.stat(src).st_dev =
-=3D=3D=20
-os.stat(destdir).st_dev" but os.link will still fail.
+On 15 September 2014 14:05, Robert Yang <liezhi.yang@windriver.com> wrote:
+> +PACKAGECONFIG ??= ""
+> +PACKAGECONFIG[python] =
+> +EXTRA_OECONF_class-native = "--with-python=${PYTHON} --without-legacy
+> --without-docbook --with-c14n --without-lzma --with-zlib"
 
-Less code and does not assume that when src and destdir are on the same=20
-device, they can be linked:
+You should remove the python arguments from all overrides of
+EXTRA_OECONF and instead have PACKAGECONFIG overrides to add them
+back.  With this patch, native builds are passed --without-python
+--with-python (one from EXTRA_OECONF, one from the disabled
+PACKAGECONFIG).
 
-try:
-   os.link(src, dst)
-except:
-   shutil.copyfile(src, dst)
-
-Mike.
-
-
-On 09/12/2014 05:39 PM, Richard Purdie wrote:
-> Currently copies of the license files are made which wastes disk space
-> and adversely affects performance. We can link these instead in most
-> cases for small performance gains.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> index 601f561..a34ea39 100644
-> --- a/meta/classes/license.bbclass
-> +++ b/meta/classes/license.bbclass
-> @@ -145,7 +145,14 @@ def copy_license_files(lic_files_paths, destdir):
->       bb.utils.mkdirhier(destdir)
->       for (basename, path) in lic_files_paths:
->           try:
-> -            ret =3D shutil.copyfile(path, os.path.join(destdir, basename=
-))
-> +            src =3D path
-> +            dst =3D os.path.join(destdir, basename)
-> +            if os.path.exists(dst):
-> +                os.remove(dst)
-> +            if (os.stat(src).st_dev =3D=3D os.stat(destdir).st_dev):
-> +                os.link(src, dst)
-> +            else:
-> +                shutil.copyfile(src, dst)
->           except Exception as e:
->               bb.warn("Could not copy license file %s: %s" % (basename, e=
-))
->
->
->
-
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Topic zoekt gedreven (embedded) software specialisten!
-http://topic.nl/vacatures/topic-zoekt-software-engineers/
-
+Ross
 
