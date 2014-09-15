@@ -1,30 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B95F17142E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B290A70E1E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 01:46:44 +0000 (UTC)
+	Mon, 15 Sep 2014 02:04:34 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8F1kiqa009179
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 14 Sep 2014 18:46:44 -0700 (PDT)
-Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Sun, 14 Sep 2014 18:46:43 -0700
-Message-ID: <5416451E.9060004@windriver.com>
-Date: Mon, 15 Sep 2014 09:47:10 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8F24Y1a001545
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 14 Sep 2014 19:04:34 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 14 Sep 2014 19:04:33 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Sep 2014 10:05:02 +0800
+Message-ID: <cover.1410746594.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1410231534.git.Qi.Chen@windriver.com>
-	<d58dd3655ba6634fe15a01e36fc9822cbc83e13a.1410231534.git.Qi.Chen@windriver.com>
-	<CAJTo0LY=XCVYQk6pUKtf2WJ6P1AoGZQ+oZP4XyssNxcEFOPbMg@mail.gmail.com>
-In-Reply-To: <CAJTo0LY=XCVYQk6pUKtf2WJ6P1AoGZQ+oZP4XyssNxcEFOPbMg@mail.gmail.com>
-X-Originating-IP: [128.224.162.187]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] extrausers: add util-linux-sulogin to IMAGE_INSTALL
+Subject: [PATCH V3 0/1] systemd: fix to use ${libdir} for libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 01:46:45 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Sep 2014 02:04:37 -0000
+Content-Type: text/plain
 
-On 09/15/2014 06:51 AM, Burton, Ross wrote:
-> On 9 September 2014 04:01, Chen Qi <Qi.Chen@windriver.com> wrote:
->> Previously, root with password set cannot login in rescue mode for
->> core-image-minimal. This is because that the busybox's sulogin is
->> not configured with FEATURE_SHADOWPASSWORDS enabled.
->>
->> Add util-linux-sulogin in IMAGE_INSTALL_append properly to fix this problem.
-> What's the rationale for installing bits of coreutils, verses enabling
-> FEATURE_SHADOWPASSWORDS in busybox?
->
-> Ross
->
->
+The following changes since commit 10df0718d6a626d99beb68cde8d914ee0820d7eb:
 
-If FEATURE_SHADOWPASSWORDS is enabled in busybox, busybox assumes that 
-there's /etc/shadow in the system, but it's possible that there isn't. 
-In such case, the related utilities from busybox cannot work correctly.
+  classes/populate_sdk_base: enable adding custom commands to SDK install script (2014-09-11 17:44:40 +0100)
 
-That's why I chose to installed util-linux-sulogin conditionally in 
-extrausers.bbclass instead of enabling FEATRUE_SHADOWPASSWORDS in the 
-defconfig of busybox.
+are available in the git repository at:
 
-Best Regards,
-Chen Qi
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-libdir
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-libdir
+
+Chen Qi (1):
+  systemd: fix to use ${libdir} for libraries
+
+ meta/recipes-core/systemd/systemd_216.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+1.9.1
+
 
