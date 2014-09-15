@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A0B170F28
+Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F05460144
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 14:23:43 +0000 (UTC)
-Received: by mail-qg0-f53.google.com with SMTP id q108so3952330qgd.12
+	Mon, 15 Sep 2014 14:26:24 +0000 (UTC)
+Received: by mail-qc0-f173.google.com with SMTP id i8so3767621qcq.32
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 07:23:45 -0700 (PDT)
+	Mon, 15 Sep 2014 07:26:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=yFhuItUjukGu0ZASjkhrvf5foU8ZaIr7y+zYFLimH1Q=;
-	b=DxvLGt3GijM1iUa398nNosmigxNasu66+TEDP3lDwqeQIDnCICgOm9QuCwLzLAQgN8
-	s8Q6PKndX13zmlnlwGVLma6VZWjNSZHs1/aqxt9oFhwzO0rk9p9kzAbqG14FY9BVqJnR
-	2fWqdyOs/f5joWBEFxDiPUZYLClEuNP5wRfkP7Sbz91rTy3W3taVMkTIrkCv/M047UGN
-	A7uo7iOEc5KWIV0kT7LVXzmhTjKgEvGxPStFLLIaQShVZsePloUWiC04c5ES6ICsSflP
-	DS2sNN3a0S+fakB2ASXvc98IMyXyFkiBzRVATQu19ED4huFXtmM0tZXQ0TB3/kUlKagC
-	LLPQ==
-X-Gm-Message-State: ALoCoQnWi7m9zfGViXCLRLqWGVme6K3BPWPpjDYgzMyjGZgO+TpHud/DEPu1nB4yk1jBRZkfVcjO
-X-Received: by 10.140.97.247 with SMTP id m110mr37227423qge.80.1410791025210; 
-	Mon, 15 Sep 2014 07:23:45 -0700 (PDT)
+	bh=1AS20b+G87n9RD2C6J26NBvLjrSMsOp4wRkZSQWjebc=;
+	b=PXOnUk+EXKPu2cUwBrIl1PaLIf/LhYrhf7Y462H8exAqjqFga5vISivuak2iOQaqLd
+	KTNVpyjlkHAC4nI+LKtZl7/S7LMirzGs0kowoJm61II5Dqc8LpUGMeWrSCFLRLCi6U6P
+	jHXBU3XCpnyIn4wsKyxxWLV+UjsW/6NCiurVEwjc+XwMVeXJo44A3ve5Bu5o3n3G1rh2
+	B2XU60Vvkq4tJLjpGxTYF6KdzNqF0uJN2ME7foNvgTi2QLkWeaOWWxtWScuSqb0oc4J2
+	L1HucLu82KkZFnS0wluQEojfsE/JnGFrU6jSe5fClFsBuMXz4z5CNddPLx1yCBAZz+wt
+	hIgA==
+X-Gm-Message-State: ALoCoQnU4X4r7QcGzLT4lUzQ09XgXBlXuQPY5CwhjlAXrqS/AoJhz3qrYACgkvPUS8NPcfl9ZN5R
+X-Received: by 10.224.64.201 with SMTP id f9mr37658372qai.64.1410791183323;
+	Mon, 15 Sep 2014 07:26:23 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Mon, 15 Sep 2014 07:23:25 -0700 (PDT)
-In-Reply-To: <1410776160-23885-1-git-send-email-jackie.huang@windriver.com>
-References: <1410776160-23885-1-git-send-email-jackie.huang@windriver.com>
+Received: by 10.140.29.183 with HTTP; Mon, 15 Sep 2014 07:26:03 -0700 (PDT)
+In-Reply-To: <1410771696-6165-1-git-send-email-rongqing.li@windriver.com>
+References: <1410771696-6165-1-git-send-email-rongqing.li@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Sep 2014 15:23:25 +0100
-Message-ID: <CAJTo0La5gLNDcuwj3TawqphFg2N-a74=nDH_DL7u-crY09KPSw@mail.gmail.com>
-To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
+Date: Mon, 15 Sep 2014 15:26:03 +0100
+Message-ID: <CAJTo0La22B0oQXuWPU_aHrzJEFzGTHfNQ1okn869oMhWKYJ3NA@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libgcrypt: Fix ARM assembly when building __PIC__
+Subject: Re: [PATCH] rsync: Add PACKAGECONFIG for acl/attr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,18 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 14:23:52 -0000
+X-List-Received-Date: Mon, 15 Sep 2014 14:26:28 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 15 September 2014 11:16,  <jackie.huang@windriver.com> wrote:
-> +++ b/meta/recipes-support/libgcrypt/files/libgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch
+On 15 September 2014 10:01,  <rongqing.li@windriver.com> wrote:
+> +PACKAGECONFIG ?= "acl attr"
 
-This is missing upstream-status/signed-off-by tags.
-
-Also, Andrea said:
-> Instead of patching 1.6.1, wouldn't it be better to update to libgcrypt_1.6.2 ?
-
-No, we've feature frozen now, so a backport is appropriate.
+Note that this should be ??=.  I've fixed this when merging to my
+branch so no need to re-send.
 
 Ross
 
