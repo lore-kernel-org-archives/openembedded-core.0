@@ -1,35 +1,33 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id D7BA07146D
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 139606FAEC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 15:10:27 +0000 (UTC)
-Received: by mail-lb0-f171.google.com with SMTP id 10so4652516lbg.16
+	Mon, 15 Sep 2014 17:20:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8FHKGTI007454
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 08:10:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=VBHVWnRjcUUxso0+hqRxKWEAB45sb17idbElRrIGSaw=;
-	b=qp+gxJlu+O1OPM04oraZWFh6l9rvdCGDe88E643ILTKopQGG/ZLrO6ln1Mnp7ycx0s
-	OHzZQard83nkBASndbqOgqOmfZS1ZBUCl4aBQCWqjBuaphXVEXd/eSoh6H6gdU9tjcJP
-	g1HgGI0PO32AMHxdOvIHW3cC/J/l/4fokNycgFtPGPttguqig+ApTcUiuJGxnlbvNhZR
-	dZBO3LdMTLCElYyW+ZnoXmNqjtQ4GPgHQyG2D8bhSZyAlL13qlQX5FEsEr2WusIsyFqB
-	jkDqh2JCiIGuJlW0ORk6+/0tXtsjAFJYiX/fEbKker7Bj81WjiLCfdVbmFrxZXn/rSYS
-	9fZw==
+	Mon, 15 Sep 2014 10:20:17 -0700 (PDT)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.18]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0174.001;
+	Mon, 15 Sep 2014 10:20:16 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [oe-core][PATCH 1/1] sysprof: add aarch64 support
+Thread-Index: AQHPzs0Bf2P8ERShfk65oaLM2kij6ZwBkOcAgADizjA=
+Date: Mon, 15 Sep 2014 17:20:15 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF845CC43BF7@ALA-MBB.corp.ad.wrs.com>
+References: <1410555811-30996-1-git-send-email-jslater@windriver.com>
+	<CAJTo0Lb7wL2J2T1u3JS6LjuuzB2wTvWbkaSL6OX+VqkB1NEptA@mail.gmail.com>
+In-Reply-To: <CAJTo0Lb7wL2J2T1u3JS6LjuuzB2wTvWbkaSL6OX+VqkB1NEptA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.216.76]
 MIME-Version: 1.0
-X-Received: by 10.112.157.162 with SMTP id wn2mr27372795lbb.18.1410793827277; 
-	Mon, 15 Sep 2014 08:10:27 -0700 (PDT)
-Received: by 10.112.189.38 with HTTP; Mon, 15 Sep 2014 08:10:27 -0700 (PDT)
-In-Reply-To: <CAJTo0La5gLNDcuwj3TawqphFg2N-a74=nDH_DL7u-crY09KPSw@mail.gmail.com>
-References: <1410776160-23885-1-git-send-email-jackie.huang@windriver.com>
-	<CAJTo0La5gLNDcuwj3TawqphFg2N-a74=nDH_DL7u-crY09KPSw@mail.gmail.com>
-Date: Mon, 15 Sep 2014 17:10:27 +0200
-Message-ID: <CAAQYJAsfsb7VgBnr-TGrXjgKVwE3HRJWc29ZBoVZ=cWwVv5X2w@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libgcrypt: Fix ARM assembly when building __PIC__
+Subject: Re: [PATCH 1/1] sysprof: add aarch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +40,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 15:10:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 15 Sep 2014 17:20:20 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Sep 15, 2014 at 4:23 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 15 September 2014 11:16,  <jackie.huang@windriver.com> wrote:
->> +++ b/meta/recipes-support/libgcrypt/files/libgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch
->
-> This is missing upstream-status/signed-off-by tags.
->
-> Also, Andrea said:
->> Instead of patching 1.6.1, wouldn't it be better to update to libgcrypt_1.6.2 ?
->
-> No, we've feature frozen now, so a backport is appropriate.
->
-> Ross
-
-Yes,  it's just a bad timing...1.6.2 has been released on 2014-08-21...
-Neverthless the changelog is intriguing
-
-https://lists.gnu.org/archive/html/info-gnu/2014-08/msg00011.html
-
-Cheers
-
-Andrea
-
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQnVydG9uLCBSb3NzIFtt
+YWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPiBTZW50OiBTdW5kYXksIFNlcHRlbWJlciAx
+NCwgMjAxNCAxOjQ0IFBNDQo+IFRvOiBTbGF0ZXIsIEpvc2VwaA0KPiBDYzogT0UtY29yZQ0KPiBT
+dWJqZWN0OiBSZTogW09FLWNvcmVdIFtvZS1jb3JlXVtQQVRDSCAxLzFdIHN5c3Byb2Y6IGFkZCBh
+YXJjaDY0IHN1cHBvcnQNCj4gDQo+IE9uIDEyIFNlcHRlbWJlciAyMDE0IDIyOjAzLCBKb2UgU2xh
+dGVyIDxqc2xhdGVyQHdpbmRyaXZlci5jb20+IHdyb3RlOg0KPiA+ICsrKyBiL21ldGEvcmVjaXBl
+cy1rZXJuZWwvc3lzcHJvZi9maWxlcy9ybWItYXJtLnBhdGNoDQo+IA0KPiBUaGlzIHBhdGNoIGlz
+IG1pc3NpbmcgYSBzaWduZWQtb2ZmLWJ5IGFuZCB1cHN0cmVhbS1zdGF0dXMuDQoNCkkgYW0gbm90
+IGNyZWF0aW5nIHRoaXMgcGF0Y2gsIGp1c3QgbW9kaWZ5aW5nIGl0LiAgVGhlIGV4aXN0aW5nIHBh
+dGNoIGRvZXMNCmhhdmUgYW4gdXBzdHJlYW0tc3RhdHVzLiAgVG8gYXZvaWQgdGhpcyBpc3N1ZSwg
+SSB3aWxsIGZvbGQgdGhlIGNoYW5nZSB0bw0KdXRpbC5oIGludG8gdGhlIG5ldyBwYXRjaCBhbmQg
+bm90IHRvdWNoIHJtYi1hcm0ucGF0Y2guDQoNCkpvZQ0KDQoNCj4gDQo+IFJvc3MNCg==
 
