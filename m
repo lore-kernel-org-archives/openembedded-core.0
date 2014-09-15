@@ -1,41 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id BD51460809
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id C97B571467
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 14:43:20 +0000 (UTC)
-Received: by mail-qc0-f177.google.com with SMTP id o8so3901278qcw.36
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 07:43:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ScWZWnUFFqaMzYNgBzHI0r7bmTekxDIF2pRTlhpm7fQ=;
-	b=BbiefGYgzsAsSVIigHn3zNeKvFFW2apla/WaP0ZpSO9iBMkOwUvdDjou3ZeegDC+0d
-	pDgEfZHtL88LXSGeE3rA1xqqpogVqtBQraSg2qDSPfvBNw+00AJWkCdKGpsBL4uK5ZQc
-	vRr0DYRPEQUcLtJzjoRThWDQ6J7jev81SEMsM93hGzluUn9TGWQItQwNTrkdWCW8m3kD
-	dLHPbdcfg61Llj8h5BBN3exxlqFNM9IVD4zFLskbOzCAh6h9BOyX+S1H+FFTUGtKjS9h
-	F5wUcHjWvqvxhiLDGZ4qil0+DCibS1AE3XJJH5OMDp/YuIEvgP+349E/hq1rozARJFjE
-	jxfg==
-X-Gm-Message-State: ALoCoQnlzWhJfXem5coB/yJYlaPlsEYpIA5ujnw0A6YDolXBHFku1z1MUjwRmw+f8pa8RgaNZEx6
-X-Received: by 10.224.38.10 with SMTP id z10mr37029733qad.52.1410792201238;
-	Mon, 15 Sep 2014 07:43:21 -0700 (PDT)
+	Mon, 15 Sep 2014 14:47:26 +0000 (UTC)
+Received: from amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.127])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 41D013F616;
+	Mon, 15 Sep 2014 16:47:27 +0200 (CEST)
+X-Spam-Flag: NO
+X-Spam-Score: -0.001
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.001 tagged_above=-999 required=4.5
+	tests=[BAYES_20=-0.001] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP; Mon, 15 Sep 2014 16:47:26 +0200 (CEST)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS;
+	Mon, 15 Sep 2014 16:47:26 +0200 (CEST)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Mon, 15 Sep 2014 16:47:39 +0200
+Message-ID: <5416FBFD.9070406@topic.nl>
+Date: Mon, 15 Sep 2014 16:47:25 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Mon, 15 Sep 2014 07:43:01 -0700 (PDT)
-In-Reply-To: <5416F9F4.30101@windriver.com>
-References: <cover.1410247971.git.liezhi.yang@windriver.com>
-	<b4b89028043c706ebd9e5d81d25f55224069e5a5.1410247971.git.liezhi.yang@windriver.com>
-	<CAJTo0LZx+PrHbn=2imh1gpFQF2fnHaUZ6xbMeO8bhvixnWWOsA@mail.gmail.com>
-	<5416E407.4050703@windriver.com>
-	<CAJTo0LZsfdkvr7vsyvCzdK8mvn81jLk-FBdQf6D0SOhOvANuOA@mail.gmail.com>
-	<5416F9F4.30101@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Sep 2014 15:43:01 +0100
-Message-ID: <CAJTo0LbNcGrFTT=dHGz6p6kQVb_n5YAvXT9FAONzHkQ-UU+oBA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libxml2: fix python path and enable libxml2-python
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1410536389.14624.1.camel@ted> <5416F0A0.80000@topic.nl>
+	<1410790333.14624.45.camel@ted>
+In-Reply-To: <1410790333.14624.45.camel@ted>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] license: Improve disk usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,20 +52,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Sep 2014 14:43:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 15 Sep 2014 14:47:33 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On 15 September 2014 15:38, Robert Yang <liezhi.yang@windriver.com> wrote:
-> Ah, yes, then we should set PACKAGECONFIG ??= "python" by default ?
-> Otherwise
-> I'm afraid that there would be errors.
+=EF=BB=BFOn 09/15/2014 04:12 PM, Richard Purdie wrote:
+> On Mon, 2014-09-15 at 15:58 +0200, Mike Looijmans wrote:
+>> =EF=BB=BFI can probably come up with scenarios where "os.stat(src).st_de=
+v =3D=3D
+>> os.stat(destdir).st_dev" but os.link will still fail.
+>>
+>> Less code and does not assume that when src and destdir are on the same
+>> device, they can be linked:
+>>
+>> try:
+>>     os.link(src, dst)
+>> except:
+>>     shutil.copyfile(src, dst)
+>
+> I agree that is probably easier. I'm curious which scenarios you're
+> thinking of though. We do have that device comparison elsewhere in the
+> codebase and I copied it mainly as it was how it was done elsewhere...
+>
 
-No need to set it by default - although my argument here is that we
-don't currently. This should work:
+Simplest case is when the underlying filesystem does not support hardlinks.
 
-PACKAGECONFIG ??= ""
-PACKAGECONFIG_class-native ??= "python"
-PACKAGECONFIG_class-nativesdk ??= "python"
+I admit that chances of that being the case here will be very very small.
 
-Ross
+It's just that the try/except version will always work on any system, where=
+as=20
+the device comparison may fail on some setups. And given the habit of=20
+programmers to copy these things from other locations, chances are that a=20
+device comparison will some day be used on the "downloads" directory which =
+is=20
+FAT on my system.
+
+Also, when the copy fails, the resulting message should be clearer, as the=
+=20
+"copyfile" call will be in the stacktrace.
+
+Mike.
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
+
 
