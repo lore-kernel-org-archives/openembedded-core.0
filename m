@@ -1,29 +1,26 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A601F62252
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 03E8A6AFB5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Sep 2014 09:15:17 +0000 (UTC)
+	Tue, 16 Sep 2014 09:40:05 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8G9FE8V000565
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 16 Sep 2014 02:15:14 -0700 (PDT)
-Received: from [128.224.163.186] (128.224.163.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Tue, 16 Sep 2014 02:15:13 -0700
-Message-ID: <5417FF9E.20803@windriver.com>
-Date: Tue, 16 Sep 2014 17:15:10 +0800
-From: Ming Liu <ming.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8G9e6e0012404
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Sep 2014 02:40:06 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 16 Sep 2014 02:40:06 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 16 Sep 2014 02:40:02 -0700
+Message-ID: <31f9d49e25b93d0b6ec98453caae7c2e87491468.1410860317.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1410860317.git.liezhi.yang@windriver.com>
+References: <cover.1410860317.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>
-References: <1410536356.14624.0.camel@ted> <5417FC26.3080503@windriver.com>
-	<5417FE7C.9070400@windriver.com>
-In-Reply-To: <5417FE7C.9070400@windriver.com>
-X-Originating-IP: [128.224.163.186]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] sstate: Fix incorrect return value handling
+Subject: [PATCH 1/1] coreutils: selinux/flask.h should respect to with_selinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,55 +33,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Sep 2014 09:15:25 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Sep 2014 09:40:12 -0000
+Content-Type: text/plain
 
-On 09/16/2014 05:10 PM, Robert Yang wrote:
->
->
-> On 09/16/2014 05:00 PM, Ming Liu wrote:
->> On 09/12/2014 11:39 PM, Richard Purdie wrote:
->>> The use of [ and && here means $? is reset and the exit 1 error
->>> interception wasn't working, leading to "file changed as we read it"
->>> errors from sstate_create_package when heavily using hardlinks.
->>>
->>> Fix this by placing $? into a variable.
->>>
->>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>
->>> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
->>> index 0cb5235..1145a63c 100644
->>> --- a/meta/classes/sstate.bbclass
->>> +++ b/meta/classes/sstate.bbclass
->>> @@ -599,7 +599,8 @@ sstate_create_package () {
->>>       if [ "$(ls -A)" ]; then
->>>           set +e
->>>           tar -czf $TFILE *
->>> -        if [ $? -ne 0 ] && [ $? -ne 1 ]; then
->>> +        ret=$?
->>> +        if [ $ret -ne 0 ] && [ $ret -ne 1 ]; then
->> Would changing the line to "if [[ $? -ne 0  &&  $? -ne 1 ]] " be a 
->> better fix?
->
-> I'm afraid not, "[[" and "&&" in test are bashism.
-Thanks for pointing it out, please ignore my suggestion then, sorry for 
-the noise.
+Fixed when build with meta-selinux even with --without-selinux:
+runcon.c:49:28: fatal error: selinux/flask.h: No such file or directory
+ # include <selinux/flask.h>
+                            ^
+compilation terminated.
 
-//Ming Liu
->
-> // Robert
->
->>
->> the best,
->> thank you
->>>               exit 1
->>>           fi
->>>           set -e
->>>
->>>
->>
->
->
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ .../coreutils-8.22/fix-selinux-flask.patch         |   39 ++++++++++++++++++++
+ meta/recipes-core/coreutils/coreutils_8.22.bb      |    1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-core/coreutils/coreutils-8.22/fix-selinux-flask.patch
+
+diff --git a/meta/recipes-core/coreutils/coreutils-8.22/fix-selinux-flask.patch b/meta/recipes-core/coreutils/coreutils-8.22/fix-selinux-flask.patch
+new file mode 100644
+index 0000000..9d1ae55
+--- /dev/null
++++ b/meta/recipes-core/coreutils/coreutils-8.22/fix-selinux-flask.patch
+@@ -0,0 +1,39 @@
++From a1d360509fa3a4aff57eedcd528cc0347a87531d Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Tue, 16 Sep 2014 01:59:08 -0700
++Subject: [PATCH] gnulib-comp.m4: selinux/flask.h should respect to
++ with_selinux
++
++Fixed when build with meta-selinux even when --without-selinux:
++runcon.c:49:28: fatal error: selinux/flask.h: No such file or directory
++ # include <selinux/flask.h>
++                            ^
++compilation terminated.
++
++Upstream-Status: Pending
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ m4/gnulib-comp.m4 |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/m4/gnulib-comp.m4 b/m4/gnulib-comp.m4
++index 472d3a0..5f09734 100644
++--- a/m4/gnulib-comp.m4
+++++ b/m4/gnulib-comp.m4
++@@ -1730,11 +1730,11 @@ AC_DEFUN([gl_INIT],
++     AC_LIBOBJ([select])
++   fi
++   gl_SYS_SELECT_MODULE_INDICATOR([select])
++-  AC_CHECK_HEADERS([selinux/flask.h])
++   AC_LIBOBJ([selinux-at])
++   gl_HEADERS_SELINUX_SELINUX_H
++   gl_HEADERS_SELINUX_CONTEXT_H
++   if test "$with_selinux" != no && test "$ac_cv_header_selinux_selinux_h" = yes; then
+++    AC_CHECK_HEADERS([selinux/flask.h])
++     AC_LIBOBJ([getfilecon])
++   fi
++   gl_SERVENT
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-core/coreutils/coreutils_8.22.bb b/meta/recipes-core/coreutils/coreutils_8.22.bb
+index 83f7861..6239600 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.22.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.22.bb
+@@ -16,6 +16,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://remove-usr-local-lib-from-m4.patch \
+            file://dummy_help2man.patch \
+            file://fix-for-dummy-man-usage.patch \
++           file://fix-selinux-flask.patch \
+           "
+ 
+ SRC_URI[md5sum] = "8fb0ae2267aa6e728958adc38f8163a2"
+-- 
+1.7.9.5
 
 
