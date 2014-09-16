@@ -1,36 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 419DD71492
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id C2C3C6A9D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Sep 2014 19:59:44 +0000 (UTC)
-Received: by mail-qc0-f179.google.com with SMTP id i17so599326qcy.10
+	Tue, 16 Sep 2014 22:46:56 +0000 (UTC)
+Received: by mail-ig0-f173.google.com with SMTP id l13so251221iga.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Sep 2014 12:59:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Azm6mRjqBZYWNRkzsuOn2+jj9/XhPVTIy+syog9H0CA=;
-	b=aoFzPiNroBg5OGVrCpeCRJxwnHlmLe2/IO8e+SjdT01+h1ArleIYK5lan+QGCqqU+P
-	/KadxATe9TVIenN1xVoCDA7E5Z8ECzGZ28GjTQWZAy9mxjyNQvx9ZG5uIgpvp5XQs/eC
-	fSkkWjgsRFn7u5Mt66/7ZFfHjXyhnbybq+p4cc3TIFIb51bzKNUleemw7158XnWskpt8
-	/2FpGKpbwt2Rv/qBW/iAsn2tv6puHy/Tot2cf3GC7OJCf9nYjs3VfGB1jmw05m/1BqYj
-	uRoH5On8bciTHDxchaXXxSe6xyKGUPW7/A6rHhYMPYOMEhgmy6qecWXYc+yKlUdszZwI
-	lBAw==
-X-Gm-Message-State: ALoCoQnZrrgkMUNArieY2rcQQH2tDyI+8TQSXboXXX6nuZ3kk/m66ME+o4kXqWim2+jxJEKH0/AJ
-X-Received: by 10.140.97.247 with SMTP id m110mr52326578qge.80.1410897585567; 
-	Tue, 16 Sep 2014 12:59:45 -0700 (PDT)
+	Tue, 16 Sep 2014 15:46:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=yxDRxgYQcHs10s2yjnuuETg2OcNM9xRmnZ5YVI/YrmA=;
+	b=n1MqLVXqRC7+79LrytrH5gy3IxhjZlrjE40zLOfL+mM0zUruEb8l96nFprdp6JRotD
+	eNnpPTU0HY0Mc2d2/nk2qvuzkLtjQ6DGclselKCbrm0lrfivi+mqIpTY417h55JBVeNS
+	9hKtLpAHsdq6peeJJRQYqWveYWH4YuHmy2N6uH1G3CQR9kedA1VhpzlxhxaQUJiCYw8r
+	JnLTvcvpdfYR01DO7Kv8w86w0l9U3EkPlJAkbVBeOzDno4bmWtUcsJSOzOxSp7iFlLmp
+	0OXHEMu2HM7UyfGIsKQ53jN8TXOPnoEWDCIR03CvnBWyyPhmUNJIcqxKsTyDilb4Osjj
+	0gDg==
 MIME-Version: 1.0
-Received: by 10.140.29.183 with HTTP; Tue, 16 Sep 2014 12:59:25 -0700 (PDT)
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF845CC50028@ALA-MBA.corp.ad.wrs.com>
+X-Received: by 10.50.18.42 with SMTP id t10mr2000167igd.30.1410907617620; Tue,
+	16 Sep 2014 15:46:57 -0700 (PDT)
+Received: by 10.50.240.6 with HTTP; Tue, 16 Sep 2014 15:46:57 -0700 (PDT)
+In-Reply-To: <CAJTo0LZKOKaZeOKFGUpCyAtkcLZ9iGus6fGV_X_1ih8CpuwtAg@mail.gmail.com>
 References: <1410555811-30996-1-git-send-email-jslater@windriver.com>
 	<CAMKF1spCXYs2OSUdjN4XCFLJsAX4iHHOQRzqEjEGf9uq7uZDFQ@mail.gmail.com>
 	<007BD92917A2324FA403BCF9A464CF845CC50028@ALA-MBA.corp.ad.wrs.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 16 Sep 2014 20:59:25 +0100
-Message-ID: <CAJTo0LZKOKaZeOKFGUpCyAtkcLZ9iGus6fGV_X_1ih8CpuwtAg@mail.gmail.com>
-To: "Slater, Joseph" <joe.slater@windriver.com>
+	<CAJTo0LZKOKaZeOKFGUpCyAtkcLZ9iGus6fGV_X_1ih8CpuwtAg@mail.gmail.com>
+Date: Tue, 16 Sep 2014 15:46:57 -0700
+Message-ID: <CAMKF1spMpk3HXOdh6h4H3Fcj-75ZUFBDS+_nTP8D+drKo8ScXg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] sysprof: add aarch64 support
@@ -46,14 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Sep 2014 19:59:51 -0000
+X-List-Received-Date: Tue, 16 Sep 2014 22:46:59 -0000
+Content-Type: multipart/alternative; boundary=089e014946b25c218b050336870d
+
+--089e014946b25c218b050336870d
 Content-Type: text/plain; charset=UTF-8
 
-On 16 September 2014 20:27, Slater, Joseph <joe.slater@windriver.com> wrote:
-> It is not runtime tested.  The intent is to allow world builds for aarch64.
+On Tuesday, September 16, 2014, Burton, Ross <ross.burton@intel.com> wrote:
 
-In that case would it be more suitable to use COMPATIBLE_* to exclude
-aarch64 until it is tested?
+> On 16 September 2014 20:27, Slater, Joseph <joe.slater@windriver.com
+> <javascript:;>> wrote:
+> > It is not runtime tested.  The intent is to allow world builds for
+> aarch64.
+>
+> In that case would it be more suitable to use COMPATIBLE_* to exclude
+> aarch64 until it is tested?
+>
+>
+Yes please. Such patches can cause larger pain later. I would avoid them if
+not tested
 
-Ross
+> Ross
+>
 
+--089e014946b25c218b050336870d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Tuesday, September 16, 2014, Burton, Ross &lt;<a href=3D"mailto:=
+ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">On 16 September 2014 20:27, Slater, Joseph &lt;<a href=
+=3D"javascript:;" onclick=3D"_e(event, &#39;cvml&#39;, &#39;joe.slater@wind=
+river.com&#39;)">joe.slater@windriver.com</a>&gt; wrote:<br>
+&gt; It is not runtime tested.=C2=A0 The intent is to allow world builds fo=
+r aarch64.<br>
+<br>
+In that case would it be more suitable to use COMPATIBLE_* to exclude<br>
+aarch64 until it is tested?<br>
+<br></blockquote><div><br></div><div>Yes please. Such patches can cause lar=
+ger pain later. I would avoid them if not tested=C2=A0</div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex">
+Ross<br>
+</blockquote>
+
+--089e014946b25c218b050336870d--
