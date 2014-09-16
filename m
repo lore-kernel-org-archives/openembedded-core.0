@@ -1,30 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B15CE71480
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 651D17122B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Sep 2014 17:00:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8GH0bCW024479; Tue, 16 Sep 2014 18:00:37 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id wB6OiMUcpKBl; Tue, 16 Sep 2014 18:00:37 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8GH0ZWK024476
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 16 Sep 2014 18:00:36 +0100
-Message-ID: <1410886837.14624.65.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Tue, 16 Sep 2014 18:00:37 +0100
-In-Reply-To: <72ad01dfa444095899409c957c0f8574da6f8822.1410446513.git.hongxu.jia@windriver.com>
-References: <cover.1410446513.git.hongxu.jia@windriver.com>
-	<72ad01dfa444095899409c957c0f8574da6f8822.1410446513.git.hongxu.jia@windriver.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/5] sstate/sstatesig: optimize the support for locked down sstate cache usage
+	Tue, 16 Sep 2014 18:42:18 +0000 (UTC)
+Received: by mail-wi0-f177.google.com with SMTP id em10so655388wid.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Sep 2014 11:42:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ciICVfmjmU19NKgs3G5qM9iAk6j/DzpT8ahrtY0Sbq4=;
+	b=M5jYYKVaLCCiPFthCqbLEBlLfAX96B/Ii81fpGgPmtv+NUigkRuTRVuF6qiLMGv6i4
+	13z8/NjqOzi+UskcoRbEoDJpV/yeIMfXxS+wGwo20XGW4iNmgLnSuNxGwnkQQNGdRMtG
+	O2UzpWS0GyjODIv2TZQWp3MxDdDMFrg1BmHOlr6AJqiEQqbH9V280/GIAs9ibE3zkWLq
+	pj639NGwbRSFCNWMJLQ/nYtSpMGjq1cQA0y1WNWOqG2J9hJyO8wKS/9BJE53sDvYiATz
+	uATrlNlVMZD1eMQhmghkAk9L1h+u5AGHCpPYlSqn1/bZzbep9Dw2B2B1zGIsgajYqvWr
+	9+UQ==
+X-Gm-Message-State: ALoCoQmOrZkQ8vJOdeo9Wg9hWa70azdxVnQSVJWuUdCGmeXKT2DtgzelbyCfqyGa2TRFk4sGhFFC
+X-Received: by 10.194.78.170 with SMTP id c10mr45340096wjx.22.1410892939263;
+	Tue, 16 Sep 2014 11:42:19 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id t1sm2791787wiy.8.2014.09.16.11.42.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 16 Sep 2014 11:42:18 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Sep 2014 19:41:52 +0100
+Message-Id: <cover.1410892758.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 00/20] Consolidated pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,181 +43,195 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Sep 2014 17:00:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Sep 2014 18:42:25 -0000
 
-On Thu, 2014-09-11 at 23:04 +0800, Hongxu Jia wrote:
-> This fix is based on Richard Purdie's 'sstatesig: Improve to handle
-> locking of multiple machines' which located in master-next.
-> 
-> Add code in the sstate hash validation code to ensure it really did
-> install these from sstate since if it didn't should to warn/abort
-> the build. The judgment condition is:
-> 1) If a build is replaced by locked sstate-cache, it will triger a
->    warn/error;
-> 2) If objects are not used from the locked cache, it will triger a
->    warn/error;
-> 3) Use SIGGEN_LOCKEDSIGS_CHECK_LEVEL variable controls whether this
->    is just a warning or a fatal error or nothing to report.
-> 
-> Use SIGGEN_DUMP_LOCKEDSIGS variable controls whether to dump
-> lockedsigs. Add a event handler at 'bb.event.BuildCompleted', so
-> while the locked sstate-cache was created, it will dump the lockedsigs
-> files rather than manually invoking 'bitbake -S **' again.
-> 
-> Use SIGGEN_LOCKEDSIGS_CONFIG variable controls where to dump the
-> lockedsigs file, the default is placed into ${SSTATE_DIR}/locked-sigs.inc.
-> 
-> [YOCTO #6639]
-> 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/classes/sstate.bbclass | 14 ++++++++++++++
->  meta/lib/oe/sstatesig.py    | 43 +++++++++++++++++++++++++++----------------
->  2 files changed, 41 insertions(+), 16 deletions(-)
-> 
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index 0cb5235..7a6a107 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -802,3 +802,17 @@ python sstate_eventhandler() {
->          bb.siggen.dump_this_task(sstatepkg + '_' + taskname + ".tgz" ".siginfo", d)
->  }
->  
-> +SIGGEN_LOCKEDSIGS_CONFIG ?= "${SSTATE_DIR}/locked-sigs.inc"
-> +addhandler sstate_dump_lockedsig
-> +sstate_dump_lockedsig[eventmask] = "bb.event.BuildCompleted"
-> +python sstate_dump_lockedsig() {
-> +    d = e.data
-> +    if d.getVar('SIGGEN_DUMP_LOCKEDSIGS', True) == '1':
-> +        if e.getFailures():
-> +            return
-> +
-> +        if hasattr(bb.parse.siggen, "dump_lockedsigs"):
-> +            lockedsigs = d.getVar('SIGGEN_LOCKEDSIGS_CONFIG', True)
-> +            bb.parse.siggen.dump_lockedsigs(lockedsigs)
-> +}
+Hi,
 
+This is a subset of the branch that was on the AB last night.  That failed in a
+few places:
 
-Firstly, I think the change to sstate.bbclass should be as a separate
-patch and I'm not sure I like that patch as it stands. Should this
-perhaps be as a separate class?
+* gcc configure failed during a race.  This race is fixed in the c-pull.
+* qemu build. Looks like a race, and doesn't replicate.  Noted but tricky to
+  replicate.
+* smart QA fail.  /usr/bin/python isn't executable... but is in the image.
+  #6484 is similar so I've re-opened, but again hard to replicate.
 
-> diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-> index add2619..c9edd80 100644
-> --- a/meta/lib/oe/sstatesig.py
-> +++ b/meta/lib/oe/sstatesig.py
-> @@ -92,6 +92,7 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
->          self.lockedpnmap = {}
->          self.lockedhashfn = {}
->          self.machine = data.getVar("MACHINE", True)
-> +        self.checkmsgs = []
+(this pull is against master-next)
 
-I think this should be called "mismatch_msgs" instead.
+Ross
 
->          pass
->      def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
->          return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
-> @@ -109,18 +110,24 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
->          return super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigs(dataCache, options)
->  
->      def get_taskhash(self, fn, task, deps, dataCache):
-> +        h = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskhash(fn, task, deps, dataCache)
-> +
->          recipename = dataCache.pkg_fn[fn]
->          self.lockedpnmap[fn] = recipename
->          self.lockedhashfn[fn] = dataCache.hashfn[fn]
->          if recipename in self.lockedsigs:
->              if task in self.lockedsigs[recipename]:
->                  k = fn + "." + task
-> -                h = self.lockedsigs[recipename][task]
-> -                self.lockedhashes[k] = h
-> -                self.taskhash[k] = h
-> +                h_locked = self.lockedsigs[recipename][task]
-> +                self.lockedhashes[k] = h_locked
-> +                self.taskhash[k] = h_locked
->                  #bb.warn("Using %s %s %s" % (recipename, task, h))
-> -                return h
-> -        h = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskhash(fn, task, deps, dataCache)
-> +
-> +                if h != h_locked:
-> +                    self.checkmsgs.append('The %s:%s sig (%s) changed, use locked sig %s to instead'
-> +                                          % (recipename, task, h, h_locked))
-> +
-> +                return h_locked
->          #bb.warn("%s %s %s" % (recipename, task, h))
->          return h
->  
-> @@ -130,8 +137,11 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
->              return
->          super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigtask(fn, task, stampbase, runtime)
->  
-> -    def dump_lockedsigs(self):
-> -        bb.plain("Writing locked sigs to " + os.getcwd() + "/locked-sigs.inc")
-> +    def dump_lockedsigs(self, where_to_dump=None):
+The following changes since commit fceef0cace6670a8c5f15cd2f31a191176732730:
 
-where_to_dump -> sigfile
+  bitbake: data_smart: Fix remove operator and its interaction with data expansion (2014-09-13 08:52:49 +0100)
 
-> +        if not where_to_dump:
-> +            where_to_dump = os.getcwd() + "/locked-sigs.inc"
-> +
-> +        bb.plain("Writing locked sigs to %s" % where_to_dump)
->          types = {}
->          for k in self.runtaskdeps:
->              fn = k.rsplit(".",1)[0]
-> @@ -140,11 +150,11 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
->                  types[t] = []
->              types[t].append(k)
->  
-> -        with open("locked-sigs.inc", "w") as f:
-> +        with open(where_to_dump, "w") as f:
->              for t in types:
->                  f.write('SIGGEN_LOCKEDSIGS_%s = "\\\n' % t)
->                  types[t].sort()
-> -                sortedk = sorted(types[t], key=lambda k: self.lockedpnmap[k.rsplit(".",1)[0]]) 
-> +                sortedk = sorted(types[t], key=lambda k: self.lockedpnmap[k.rsplit(".",1)[0]])
->                  for k in sortedk:
->                      fn = k.rsplit(".",1)[0]
->                      task = k.rsplit(".",1)[1]
-> @@ -155,17 +165,18 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
->              f.write('SIGGEN_LOCKEDSIGS_TYPES_%s = "%s"' % (self.machine, " ".join(types.keys())))
->  
->      def checkhashes(self, missed, ret, sq_fn, sq_task, sq_hash, sq_hashfn, d):
-> -        enforce = (d.getVar("SIGGEN_ENFORCE_LOCKEDSIGS", True) or "1") == "1"
-> -        msgs = []
-> +        checklevel = d.getVar("SIGGEN_LOCKEDSIGS_CHECK_LEVEL", True)
+are available in the git repository at:
 
-Perhaps this should default to error?
+  git://git.yoctoproject.org/poky-contrib ross/mut
 
->          for task in range(len(sq_fn)):
->              if task not in ret:
->                  for pn in self.lockedsigs:
->                      if sq_hash[task] in self.lockedsigs[pn].itervalues():
-> -                        msgs.append("Locked sig is set for %s:%s (%s) yet not in sstate cache?" % (pn, sq_task[task], sq_hash[task]))
-> -        if msgs and enforce:
-> -            bb.fatal("\n".join(msgs))
-> -        elif msgs:
-> -            bb.warn("\n".join(msgs))
-> +                        self.checkmsgs.append("Locked sig is set for %s:%s (%s) yet not in sstate cache?"
-> +                                               % (pn, sq_task[task], sq_hash[task]))
-> +
-> +        if self.checkmsgs and checklevel == 'warn':
-> +            bb.warn("\n".join(self.checkmsgs))
-> +        elif self.checkmsgs and checklevel == 'error':
-> +            bb.fatal("\n".join(self.checkmsgs))
->  
-> 
->  # Insert these classes into siggen's namespace so it can see and select them
+for you to fetch changes up to 54101aca28cc839e9dec4d203c39490d20dcb7fd:
 
+  gcc-configure/gcc-common: Move preconfigure definition to common include (2014-09-16 19:39:06 +0100)
 
-I have an updated version of this patch at
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=17c255cd72810616139e36ae8ad30cc4daefe9d1
-if you're ok with the changes although I do need to update the commit
-message.
+----------------------------------------------------------------
+Chen Qi (3):
+      portmap: fix INITSCRIPT_PARAMS
+      portmap: add systemd service file
+      systemd: fix to use ${libdir} for libraries
 
-Cheers,
+Chong Lu (1):
+      i2c-tools: create i2c-tools-misc package for perl scripts
 
-Richard
+Cristian Iorga (1):
+      build-appliance-image: remove hardwired path
+
+Hongxu Jia (1):
+      lttng-tools: add PACKAGECONFIG to support --enable-python-bindings and lttng-ust
+
+Jackie Huang (1):
+      libgcrypt: Fix ARM assembly when building __PIC__
+
+Joe Slater (1):
+      at-spi2-core: fix DBIND_CHECK_ALIGNOF m4 macro
+
+Marie Kowalczyk (1):
+      gstreamer1.0-plugins-bad.inc: Add rtmp support in gstreamer.
+
+Peter Kjellerstedt (1):
+      shadow: Make useradd work correctly with --root again
+
+Richard Purdie (5):
+      sstatesig/sstate: Add support for locked down sstate cache usage
+      sstatesig: Improve to handle locking of multiple machines
+      sstate: Fix incorrect return value handling
+      license: Improve disk usage
+      gcc-configure/gcc-common: Move preconfigure definition to common include
+
+Robert Yang (2):
+      sstate.bbclass: fix sstate_hardcode_path()
+      grub-efi: Replace _BSD_SOURCE macro with _DEFAULT_SOURCE
+
+Ross Burton (1):
+      rsync: remove trailing whitespace
+
+Roy Li (1):
+      rsync: Add PACKAGECONFIG for acl/attr
+
+Wenzong Fan (1):
+      dropbear: add pam modules dependencies
+
+ meta/classes/license.bbclass                       |    9 +-
+ meta/classes/sstate.bbclass                        |    8 +-
+ meta/lib/oe/sstatesig.py                           |   89 +++++++++++
+ .../grub/files/grub-efi-fix-with-glibc-2.20.patch  |   32 ++++
+ meta/recipes-bsp/grub/grub-efi_2.00.bb             |    1 +
+ meta/recipes-connectivity/portmap/portmap.inc      |    7 +-
+ .../portmap/portmap/portmap.service                |   10 ++
+ meta/recipes-connectivity/portmap/portmap_6.0.bb   |    7 +-
+ meta/recipes-core/dropbear/dropbear.inc            |    7 +
+ .../Yocto_Build_Appliance.vmx                      |    2 +-
+ meta/recipes-core/systemd/systemd_216.bb           |    4 +-
+ meta/recipes-devtools/gcc/gcc-common.inc           |   10 ++
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |   10 --
+ meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb |   12 +-
+ meta/recipes-devtools/rsync/rsync_3.1.0.bb         |   11 +-
+ ...o-not-read-login.defs-before-doing-chroot.patch |   46 ++++++
+ meta/recipes-extended/shadow/shadow.inc            |    1 +
+ meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb     |   19 ++-
+ .../gstreamer/gstreamer1.0-plugins-bad.inc         |    2 +-
+ meta/recipes-support/atk/at-spi2-core_2.12.0.bb    |    5 +-
+ .../atk/files/core_acinclude_m4.patch              |   40 +++++
+ ...ibgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch |  169 ++++++++++++++++++++
+ meta/recipes-support/libgcrypt/libgcrypt_1.6.1.bb  |    2 +
+ scripts/gen-lockedsig-cache                        |   40 +++++
+ 24 files changed, 512 insertions(+), 31 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/grub-efi-fix-with-glibc-2.20.patch
+ create mode 100644 meta/recipes-connectivity/portmap/portmap/portmap.service
+ create mode 100644 meta/recipes-extended/shadow/files/0001-Do-not-read-login.defs-before-doing-chroot.patch
+ create mode 100644 meta/recipes-support/atk/files/core_acinclude_m4.patch
+ create mode 100644 meta/recipes-support/libgcrypt/files/libgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch
+ create mode 100755 scripts/gen-lockedsig-cache
+
+Chen Qi (3):
+  portmap: fix INITSCRIPT_PARAMS
+  portmap: add systemd service file
+  systemd: fix to use ${libdir} for libraries
+
+Chong Lu (1):
+  i2c-tools: create i2c-tools-misc package for perl scripts
+
+Cristian Iorga (1):
+  build-appliance-image: remove hardwired path
+
+Hongxu Jia (1):
+  lttng-tools: add PACKAGECONFIG to support --enable-python-bindings
+    and lttng-ust
+
+Jackie Huang (1):
+  libgcrypt: Fix ARM assembly when building __PIC__
+
+Joe Slater (1):
+  at-spi2-core: fix DBIND_CHECK_ALIGNOF m4 macro
+
+Marie Kowalczyk (1):
+  gstreamer1.0-plugins-bad.inc: Add rtmp support in gstreamer.
+
+Peter Kjellerstedt (1):
+  shadow: Make useradd work correctly with --root again
+
+Richard Purdie (5):
+  sstatesig/sstate: Add support for locked down sstate cache usage
+  sstatesig: Improve to handle locking of multiple machines
+  sstate: Fix incorrect return value handling
+  license: Improve disk usage
+  gcc-configure/gcc-common: Move preconfigure definition to common
+    include
+
+Robert Yang (2):
+  sstate.bbclass: fix sstate_hardcode_path()
+  grub-efi: Replace _BSD_SOURCE macro with _DEFAULT_SOURCE
+
+Ross Burton (1):
+  rsync: remove trailing whitespace
+
+Roy Li (1):
+  rsync: Add PACKAGECONFIG for acl/attr
+
+Wenzong Fan (1):
+  dropbear: add pam modules dependencies
+
+ meta/classes/license.bbclass                       |    9 +-
+ meta/classes/sstate.bbclass                        |    8 +-
+ meta/lib/oe/sstatesig.py                           |   89 +++++++++++
+ .../grub/files/grub-efi-fix-with-glibc-2.20.patch  |   32 ++++
+ meta/recipes-bsp/grub/grub-efi_2.00.bb             |    1 +
+ meta/recipes-connectivity/portmap/portmap.inc      |    7 +-
+ .../portmap/portmap/portmap.service                |   10 ++
+ meta/recipes-connectivity/portmap/portmap_6.0.bb   |    7 +-
+ meta/recipes-core/dropbear/dropbear.inc            |    7 +
+ .../Yocto_Build_Appliance.vmx                      |    2 +-
+ meta/recipes-core/systemd/systemd_216.bb           |    4 +-
+ meta/recipes-devtools/gcc/gcc-common.inc           |   10 ++
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |   10 --
+ meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb |   12 +-
+ meta/recipes-devtools/rsync/rsync_3.1.0.bb         |   11 +-
+ ...o-not-read-login.defs-before-doing-chroot.patch |   46 ++++++
+ meta/recipes-extended/shadow/shadow.inc            |    1 +
+ meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb     |   19 ++-
+ .../gstreamer/gstreamer1.0-plugins-bad.inc         |    2 +-
+ meta/recipes-support/atk/at-spi2-core_2.12.0.bb    |    5 +-
+ .../atk/files/core_acinclude_m4.patch              |   40 +++++
+ ...ibgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch |  169 ++++++++++++++++++++
+ meta/recipes-support/libgcrypt/libgcrypt_1.6.1.bb  |    2 +
+ scripts/gen-lockedsig-cache                        |   40 +++++
+ 24 files changed, 512 insertions(+), 31 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/grub-efi-fix-with-glibc-2.20.patch
+ create mode 100644 meta/recipes-connectivity/portmap/portmap/portmap.service
+ create mode 100644 meta/recipes-extended/shadow/files/0001-Do-not-read-login.defs-before-doing-chroot.patch
+ create mode 100644 meta/recipes-support/atk/files/core_acinclude_m4.patch
+ create mode 100644 meta/recipes-support/libgcrypt/files/libgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch
+ create mode 100755 scripts/gen-lockedsig-cache
+
+-- 
+1.7.10.4
 
 
