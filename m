@@ -1,38 +1,34 @@
-Return-Path: <iwamatsu@nigauri.org>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id B0C687147E
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C4C4965FFC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Sep 2014 01:01:12 +0000 (UTC)
-Received: by mail-pa0-f42.google.com with SMTP id lj1so7676738pab.1
+	Tue, 16 Sep 2014 01:33:34 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8G1XYr2014019
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 18:01:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=hIsaOG/Y5fWm+MIHG15yZBAJ2YUuCBoi9cbIUF1bwbI=;
-	b=EbSujmB1PkIAm+Yo1Ci6C626JxwoObtmf5TlSdzMyxRbuX591Ie3wFMRz/QWijOjyU
-	wLI3mugGii+ISTscqnaH45HC++GgOz4N6HAlep05gAfgl46DNLdfG7aVwznesK+7Lxp1
-	mXQQlSheJVrIcngie+SFyKRyeYfm50HJZcV6epycMxX9glZK1ZMne+cFqw/SONfdS/Wc
-	dSPTuij6mCtJFWkKxf0BxGeaPJ58sDumNEKBMmtYcMwfHl32tmw3bu09gGazcfln+1oP
-	C2SYVTG8Bd1XOj+ZjNamMHgUuvI/9AyiECr7GTr2FI7Wvdl8GMfkRBJXfi+AK4kEcLqO
-	ddzA==
-X-Gm-Message-State: ALoCoQm9q2I/PSzMhAVV970hU4txc/MMmWVm/H49XAgDWLsbjllubU22ALePfj2I2MDG77ETS3pG
-X-Received: by 10.66.157.231 with SMTP id wp7mr9543616pab.151.1410829271822;
-	Mon, 15 Sep 2014 18:01:11 -0700 (PDT)
-Received: from xps-iwamatsu.renesas.com (49.14.32.202.bf.2iij.net.
-	[202.32.14.49]) by mx.google.com with ESMTPSA id
-	hz4sm12509998pbc.22.2014.09.15.18.01.08 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 15 Sep 2014 18:01:10 -0700 (PDT)
-Sender: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
-From: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Sep 2014 10:01:01 +0900
-Message-Id: <1410829261-4715-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
-X-Mailer: git-send-email 2.0.0
-Cc: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
-Subject: [PATCH] packagegroup-core-standalone-sdk-target: Add libgcov-dev to on device SDK
+	Mon, 15 Sep 2014 18:33:34 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.165]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0174.001;
+	Mon, 15 Sep 2014 18:33:34 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] libgcrypt: Fix ARM assembly when building
+	__PIC__
+Thread-Index: AQHP0PCpp4Ye7fC5w0uL+1vmZFmoN5wC+fhA
+Date: Tue, 16 Sep 2014 01:33:32 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AABD4F3AF2@ALA-MBA.corp.ad.wrs.com>
+References: <1410776160-23885-1-git-send-email-jackie.huang@windriver.com>
+	<CAJTo0La5gLNDcuwj3TawqphFg2N-a74=nDH_DL7u-crY09KPSw@mail.gmail.com>
+In-Reply-To: <CAJTo0La5gLNDcuwj3TawqphFg2N-a74=nDH_DL7u-crY09KPSw@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.134]
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libgcrypt: Fix ARM assembly when building __PIC__
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,28 +41,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Sep 2014 01:01:14 -0000
+X-List-Received-Date: Tue, 16 Sep 2014 01:33:42 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
----
- V2: Update commit message. 
-
- .../packagegroup-core-standalone-sdk-target.bb     |    1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-index 5d1ce97..154a55c 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-@@ -7,6 +7,7 @@ inherit packagegroup
- RDEPENDS_${PN} = "\
-     libgcc \
-     libgcc-dev \
-+    libgcov-dev \
-     libstdc++ \
-     libstdc++-dev \
-     ${LIBC_DEPENDENCIES} \
--- 
-1.7.9.5
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQnVydG9uLCBSb3NzIFtt
+YWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPiBTZW50OiBNb25kYXksIFNlcHRlbWJlciAx
+NSwgMjAxNCAxMDoyMyBQTQ0KPiBUbzogSHVhbmcsIEppZSAoSmFja2llKQ0KPiBDYzogT0UtY29y
+ZQ0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gbGliZ2NyeXB0OiBGaXggQVJNIGFz
+c2VtYmx5IHdoZW4gYnVpbGRpbmcgX19QSUNfXw0KPiANCj4gT24gMTUgU2VwdGVtYmVyIDIwMTQg
+MTE6MTYsICA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb20+IHdyb3RlOg0KPiA+ICsrKyBiL21l
+dGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdjcnlwdC9maWxlcy9saWJnY3J5cHQtMS42LjEtbWFrZS1h
+cm0tYXNtLWZQSUMtZnJpZW5kbHkucGF0Y2gNCj4gDQo+IFRoaXMgaXMgbWlzc2luZyB1cHN0cmVh
+bS1zdGF0dXMvc2lnbmVkLW9mZi1ieSB0YWdzLg0KDQpJIGhhZCBhZGRlZCB0aGUgc3RhdHVzIGFu
+ZCBzaWduZWQtb2ZmLCBjb3VsZCB5b3UgcmUtY2hlY2s/DQoNCitTaWduZWQtb2ZmLWJ5OiBKdXNz
+aSBLaXZpbGlubmEgPGp1c3NpLmtpdmlsaW5uYUBpa2kuZmk+DQorDQorVXBzdHJlYW0tU3RhdHVz
+OiBCYWNrcG9ydA0KKw0KK1NpZ25lZC1vZmYtYnk6IEphY2tpZSBIdWFuZyA8amFja2llLmh1YW5n
+QHdpbmRyaXZlci5jb20+DQorLS0tDQoNClRoYW5rcywNCkphY2tpZQ0KDQo+IA0KPiBBbHNvLCBB
+bmRyZWEgc2FpZDoNCj4gPiBJbnN0ZWFkIG9mIHBhdGNoaW5nIDEuNi4xLCB3b3VsZG4ndCBpdCBi
+ZSBiZXR0ZXIgdG8gdXBkYXRlIHRvIGxpYmdjcnlwdF8xLjYuMiA/DQo+IA0KPiBObywgd2UndmUg
+ZmVhdHVyZSBmcm96ZW4gbm93LCBzbyBhIGJhY2twb3J0IGlzIGFwcHJvcHJpYXRlLg0KPiANCj4g
+Um9zcw0K
 
