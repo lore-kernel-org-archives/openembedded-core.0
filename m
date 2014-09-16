@@ -1,27 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 11C6B60809
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 00194714C0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Sep 2014 15:07:06 +0000 (UTC)
+	Tue, 16 Sep 2014 15:07:09 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8GF76V3028559
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8GF7Ap8006916
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 16 Sep 2014 08:07:06 -0700 (PDT)
+	Tue, 16 Sep 2014 08:07:10 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Tue, 16 Sep 2014 08:07:06 -0700
+	(TLS) id 14.3.174.1; Tue, 16 Sep 2014 08:07:08 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: <ross.burton@intel.com>
-Date: Tue, 16 Sep 2014 23:06:24 +0800
-Message-ID: <f1a77eb073405fd9bcccc0dac37be98848ddf08b.1410879378.git.kai.kang@windriver.com>
+Date: Tue, 16 Sep 2014 23:06:25 +0800
+Message-ID: <4679587b6c0bfd2493f683a5b161d6e715f3b03d.1410879378.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1410879378.git.kai.kang@windriver.com>
 References: <cover.1410879378.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.152]
 Cc: openembedded-core@lists.openembedded.org, jslater@windriver.com
-Subject: [PATCH 3/9] gcc-4.9: redefine dynamic linker for aarch64
+Subject: [PATCH 4/9] libatomics-ops: add aarch64 target iniitial support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,74 +34,276 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Sep 2014 15:07:06 -0000
+X-List-Received-Date: Tue, 16 Sep 2014 15:07:10 -0000
 Content-Type: text/plain
 
-Redefine dynamic linker for aarch64 from /lib to /lib64.
-
-BASELIB of aarch64 has to be defined with 'lib64', then linker file
-ld-linux-aarch64.so.1 is installed into /lib64 rather than /lib. So
-update it here too.
+Add patch for libatomics-ops to add aarch64 target iniitial
+support. It is from linaro repo.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
- .../0056-redefine-dynamic-linker-for-aarch64.patch | 34 ++++++++++++++++++++++
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0056-redefine-dynamic-linker-for-aarch64.patch
+ .../0001-libatomic_ops-Aarch64-basic-port.patch    | 239 +++++++++++++++++++++
+ .../pulseaudio/libatomics-ops_7.2.bb               |   1 +
+ 2 files changed, 240 insertions(+)
+ create mode 100644 meta/recipes-multimedia/pulseaudio/files/0001-libatomic_ops-Aarch64-basic-port.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 25778bd..c434a45 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -70,6 +70,7 @@ SRC_URI = "\
-     file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
-     file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
-     file://0055-PR-rtl-optimization-61801.patch \
-+    file://0056-redefine-dynamic-linker-for-aarch64.patch \
- "
- SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
- SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0056-redefine-dynamic-linker-for-aarch64.patch b/meta/recipes-devtools/gcc/gcc-4.9/0056-redefine-dynamic-linker-for-aarch64.patch
+diff --git a/meta/recipes-multimedia/pulseaudio/files/0001-libatomic_ops-Aarch64-basic-port.patch b/meta/recipes-multimedia/pulseaudio/files/0001-libatomic_ops-Aarch64-basic-port.patch
 new file mode 100644
-index 0000000..6933e2f
+index 0000000..a563b8b
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.9/0056-redefine-dynamic-linker-for-aarch64.patch
-@@ -0,0 +1,34 @@
-+From 8fbb60d89e569b68b13e4fd419e20640eb49cabc Mon Sep 17 00:00:00 2001
-+From: Kai Kang <kai.kang@windriver.com>
-+Date: Tue, 16 Sep 2014 16:01:31 +0800
-+Subject: [PATCH] Redefine dynamic linker for aarch64
++++ b/meta/recipes-multimedia/pulseaudio/files/0001-libatomic_ops-Aarch64-basic-port.patch
+@@ -0,0 +1,239 @@
++From aac120d778ae5fc619b2fb8ef18ea18d3d5d20cc Mon Sep 17 00:00:00 2001
++From: Yvan Roux <yvan.roux@linaro.org>
++Date: Wed, 23 Jan 2013 17:14:16 +0100
++Subject: [PATCH] Aarch64 basic port
 +
-+Redefine dynamic linker for aarch64 from /lib to /lib64.
++Adapted-for-OpenEmbedded-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 +
-+BASELIB of aarch64 has to be defined with 'lib64', then linker file
-+ld-linux-aarch64.so.1 is installed into /lib64 rather than /lib. So
-+update it here too.
 +
-+Upstream-Status: Pending
++Upstream-Status: Backport
++
++It is original from
++https://github.com/ivmai/libatomic_ops/commit/cbbf86330fcb600cfe0f895cb970d922456005d6
 +
 +Signed-off-by: Kai Kang <kai.kang@windriver.com>
 +---
-+ gcc/config/aarch64/aarch64-linux.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/atomic_ops.h                     |    4 
++ src/atomic_ops/sysdeps/Makefile.am   |    1 
++ src/atomic_ops/sysdeps/gcc/aarch64.h |  184 +++++++++++++++++++++++++++++++++++
++ 3 files changed, 189 insertions(+)
++ create mode 100644 src/atomic_ops/sysdeps/gcc/aarch64.h
 +
-+diff --git a/gcc/config/aarch64/aarch64-linux.h b/gcc/config/aarch64/aarch64-linux.h
-+index a8f0771..2a6f06d 100644
-+--- a/gcc/config/aarch64/aarch64-linux.h
-++++ b/gcc/config/aarch64/aarch64-linux.h
-+@@ -21,7 +21,7 @@
-+ #ifndef GCC_AARCH64_LINUX_H
-+ #define GCC_AARCH64_LINUX_H
-+ 
-+-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-aarch64%{mbig-endian:_be}.so.1"
-++#define GLIBC_DYNAMIC_LINKER "/lib64/ld-linux-aarch64%{mbig-endian:_be}.so.1"
-+ 
-+ #define CPP_SPEC "%{pthread:-D_REENTRANT}"
-+ 
-+-- 
-+1.9.1
-+
++--- libatomic_ops-7.2.orig/src/atomic_ops.h
+++++ libatomic_ops-7.2/src/atomic_ops.h
++@@ -242,10 +242,14 @@
++ # endif /* __m68k__ */
++ # if defined(__powerpc__) || defined(__ppc__) || defined(__PPC__) \
++      || defined(__powerpc64__) || defined(__ppc64__)
++ #   include "atomic_ops/sysdeps/gcc/powerpc.h"
++ # endif /* __powerpc__ */
+++# if defined(__aarch64__)
+++#   include "atomic_ops/sysdeps/gcc/aarch64.h"
+++#   define AO_CAN_EMUL_CAS
+++# endif /* __aarch64__ */
++ # if defined(__arm__) && !defined(AO_USE_PTHREAD_DEFS)
++ #   include "atomic_ops/sysdeps/gcc/arm.h"
++ #   define AO_CAN_EMUL_CAS
++ # endif /* __arm__ */
++ # if defined(__cris__) || defined(CRIS)
++--- libatomic_ops-7.2.orig/src/atomic_ops/sysdeps/Makefile.am
+++++ libatomic_ops-7.2/src/atomic_ops/sysdeps/Makefile.am
++@@ -24,10 +24,11 @@ nobase_sysdep_HEADERS= generic_pthread.h
++ 	  standard_ao_double_t.h \
++ 	  README \
++ 	\
++ 	  armcc/arm_v6.h \
++ 	\
+++	  gcc/aarch64.h \
++ 	  gcc/alpha.h gcc/arm.h gcc/avr32.h gcc/cris.h \
++ 	  gcc/hexagon.h gcc/hppa.h gcc/ia64.h gcc/m68k.h \
++ 	  gcc/mips.h gcc/powerpc.h gcc/s390.h \
++ 	  gcc/sh.h gcc/sparc.h gcc/x86.h gcc/x86_64.h \
++ 	\
++--- /dev/null
+++++ libatomic_ops-7.2/src/atomic_ops/sysdeps/gcc/aarch64.h
++@@ -0,0 +1,184 @@
+++/*
+++ * Copyright (c) 1991-1994 by Xerox Corporation.  All rights reserved.
+++ * Copyright (c) 1996-1999 by Silicon Graphics.  All rights reserved.
+++ * Copyright (c) 1999-2003 by Hewlett-Packard Company. All rights reserved.
+++ *
+++ *
+++ * THIS MATERIAL IS PROVIDED AS IS, WITH ABSOLUTELY NO WARRANTY EXPRESSED
+++ * OR IMPLIED.  ANY USE IS AT YOUR OWN RISK.
+++ *
+++ * Permission is hereby granted to use or copy this program
+++ * for any purpose,  provided the above notices are retained on all copies.
+++ * Permission to modify the code and to distribute modified code is granted,
+++ * provided the above notices are retained, and a notice that the code was
+++ * modified is included with the above copyright notice.
+++ *
+++ */
+++
+++#include "../read_ordered.h"
+++
+++#include "../test_and_set_t_is_ao_t.h"
+++
+++AO_INLINE void
+++AO_nop_full(void)
+++{
+++# ifndef AO_UNIPROCESSOR
+++__sync_synchronize ();
+++# endif
+++}
+++#define AO_HAVE_nop_full
+++
+++AO_INLINE AO_t
+++AO_load(const volatile AO_t *addr)
+++{
+++  return  __atomic_load_n (addr, __ATOMIC_RELAXED);
+++}
+++#define AO_HAVE_load
+++
+++AO_INLINE AO_t
+++AO_load_acquire(const volatile AO_t *addr)
+++{
+++  return __atomic_load_n (addr, __ATOMIC_ACQUIRE);
+++}
+++#define AO_HAVE_load_acquire
+++
+++AO_INLINE void
+++ AO_store(volatile AO_t *addr, AO_t value)
+++{
+++  __atomic_store_n(addr, value, __ATOMIC_RELAXED);
+++}
+++#define AO_HAVE_store
+++
+++AO_INLINE void
+++ AO_store_release(volatile AO_t *addr, AO_t value)
+++{
+++  __atomic_store_n(addr, value, __ATOMIC_RELEASE);
+++}
+++#define AO_HAVE_store_release
+++
+++AO_INLINE AO_TS_VAL_t
+++AO_test_and_set(volatile AO_TS_t *addr)
+++{
+++    return __atomic_test_and_set(addr, __ATOMIC_RELAXED);
+++}
+++# define AO_HAVE_test_and_set
+++
+++AO_INLINE AO_TS_VAL_t
+++AO_test_and_set_acquire(volatile AO_TS_t *addr)
+++{
+++    return __atomic_test_and_set(addr, __ATOMIC_ACQUIRE);
+++}
+++# define AO_HAVE_test_and_set_acquire
+++
+++AO_INLINE AO_TS_VAL_t
+++AO_test_and_set_release(volatile AO_TS_t *addr)
+++{
+++    return __atomic_test_and_set(addr, __ATOMIC_RELEASE);
+++}
+++# define AO_HAVE_test_and_set_release
+++
+++AO_INLINE AO_TS_VAL_t
+++AO_test_and_set_full(volatile AO_TS_t *addr)
+++{
+++    return __atomic_test_and_set(addr, __ATOMIC_SEQ_CST);
+++}
+++# define AO_HAVE_test_and_set_full
+++
+++AO_INLINE AO_t
+++AO_fetch_and_add(volatile AO_t *p, AO_t incr)
+++{
+++  return __atomic_fetch_add(p, incr, __ATOMIC_RELAXED);
+++}
+++#define AO_HAVE_fetch_and_add
+++
+++AO_INLINE AO_t
+++AO_fetch_and_add_acquire(volatile AO_t *p, AO_t incr)
+++{
+++  return __atomic_fetch_add(p, incr, __ATOMIC_ACQUIRE);
+++}
+++#define AO_HAVE_fetch_and_add_acquire
+++
+++AO_INLINE AO_t
+++AO_fetch_and_add_release(volatile AO_t *p, AO_t incr)
+++{
+++  return __atomic_fetch_add(p, incr, __ATOMIC_RELEASE);
+++}
+++#define AO_HAVE_fetch_and_add_release
+++
+++AO_INLINE AO_t
+++AO_fetch_and_add_full(volatile AO_t *p, AO_t incr)
+++{
+++  return __atomic_fetch_add(p, incr, __ATOMIC_SEQ_CST);
+++}
+++#define AO_HAVE_fetch_and_add_full
+++
+++AO_INLINE AO_t
+++AO_fetch_and_add1(volatile AO_t *p)
+++{
+++  return __atomic_fetch_add(p, 1, __ATOMIC_RELAXED);
+++}
+++#define AO_HAVE_fetch_and_add1
+++
+++AO_INLINE AO_t
+++AO_fetch_and_add1_acquire(volatile AO_t *p)
+++{
+++  return __atomic_fetch_add(p, 1, __ATOMIC_ACQUIRE);
+++}
+++#define AO_HAVE_fetch_and_add1_acquire
+++
+++AO_INLINE AO_t
+++AO_fetch_and_add1_release(volatile AO_t *p)
+++{
+++  return __atomic_fetch_add(p, 1, __ATOMIC_RELEASE);
+++}
+++#define AO_HAVE_fetch_and_add1_release
+++
+++AO_INLINE AO_t
+++AO_fetch_and_add1_full(volatile AO_t *p)
+++{
+++  return __atomic_fetch_add(p, 1, __ATOMIC_SEQ_CST);
+++}
+++#define AO_HAVE_fetch_and_add1_full
+++
+++AO_INLINE AO_t
+++AO_fetch_and_sub1(volatile AO_t *p)
+++{
+++  return __atomic_fetch_sub(p, 1, __ATOMIC_RELAXED);
+++}
+++#define AO_HAVE_fetch_and_sub1
+++
+++AO_INLINE AO_t
+++AO_fetch_and_sub1_acquire(volatile AO_t *p)
+++{
+++  return __atomic_fetch_sub(p, 1, __ATOMIC_ACQUIRE);
+++}
+++#define AO_HAVE_fetch_and_sub1_acquire
+++
+++AO_INLINE AO_t
+++AO_fetch_and_sub1_release(volatile AO_t *p)
+++{
+++  return __atomic_fetch_sub(p, 1, __ATOMIC_RELEASE);
+++}
+++#define AO_HAVE_fetch_and_sub1_release
+++
+++AO_INLINE AO_t
+++AO_fetch_and_sub1_full(volatile AO_t *p)
+++{
+++  return __atomic_fetch_sub(p, 1, __ATOMIC_SEQ_CST);
+++}
+++#define AO_HAVE_fetch_and_sub1_full
+++
+++/* Returns nonzero if the comparison succeeded.  */
+++AO_INLINE int
+++AO_compare_and_swap(volatile AO_t *addr, AO_t old_val, AO_t new_val)
+++{
+++    return __sync_bool_compare_and_swap(addr, old_val, new_val);
+++}
+++# define AO_HAVE_compare_and_swap
+++
+++AO_INLINE AO_t
+++AO_fetch_compare_and_swap(volatile AO_t *addr, AO_t old_val, AO_t new_val)
+++{
+++    return __sync_val_compare_and_swap(addr, old_val, new_val);
+++}
+++# define AO_HAVE_fetch_compare_and_swap
+diff --git a/meta/recipes-multimedia/pulseaudio/libatomics-ops_7.2.bb b/meta/recipes-multimedia/pulseaudio/libatomics-ops_7.2.bb
+index 4632d24..5a58228 100644
+--- a/meta/recipes-multimedia/pulseaudio/libatomics-ops_7.2.bb
++++ b/meta/recipes-multimedia/pulseaudio/libatomics-ops_7.2.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ PR = "r1"
+ 
+ SRC_URI = "http://www.hpl.hp.com/research/linux/atomic_ops/download/libatomic_ops-${PV}.tar.gz \
++           file://0001-libatomic_ops-Aarch64-basic-port.patch \
+           "
+ 
+ SRC_URI[md5sum] = "890acdc83a7cd10e2e9536062d3741c8"
 -- 
 1.9.1
 
