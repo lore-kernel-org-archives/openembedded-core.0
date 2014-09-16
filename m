@@ -1,24 +1,24 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <Wenzong.Fan@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EB377117E
+	by mail.openembedded.org (Postfix) with ESMTP id 0FCC371478
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Sep 2014 03:09:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8G39wCp022858
+	Tue, 16 Sep 2014 03:10:57 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8G3AxV1022963
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 20:09:58 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 15 Sep 2014 20:09:58 -0700
-From: <rongqing.li@windriver.com>
+	Mon, 15 Sep 2014 20:10:59 -0700 (PDT)
+Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 15 Sep 2014 20:10:58 -0700
+From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 16 Sep 2014 11:09:53 +0800
-Message-ID: <1410836993-18483-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Date: Mon, 15 Sep 2014 23:10:56 -0400
+Message-ID: <cover.1410836877.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH] ltp: add PACKAGECONFIG for numactrl
+Subject: [PATCH 0/1] libpam / xtests: remove bash dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,85 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Sep 2014 03:10:00 -0000
+X-List-Received-Date: Tue, 16 Sep 2014 03:10:58 -0000
 Content-Type: text/plain
 
-From: "Roy.Li" <rongqing.li@windriver.com>
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- .../ltp/ltp/add-knob-for-numa.patch                | 39 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20140422.bb          |  3 ++
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/add-knob-for-numa.patch
+There's not bash specific syntax in the xtests scripts:
 
-diff --git a/meta/recipes-extended/ltp/ltp/add-knob-for-numa.patch b/meta/recipes-extended/ltp/ltp/add-knob-for-numa.patch
-new file mode 100644
-index 0000000..661bdab
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/add-knob-for-numa.patch
-@@ -0,0 +1,39 @@
-+[PATCH] add knob to control whether numa support should be checked
-+
-+Upstream-Status: Pending
-+
-+otherwise the random dependency will be generated
-+
-+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-+---
-+ configure.ac                                       |   10 +-
-+diff --git a/configure.ac b/configure.ac
-+index 9f397e7..1357256 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -142,6 +142,12 @@ else
-+     AC_SUBST([WITH_REALTIME_TESTSUITE],["no"])
-+ fi
-+ 
-++AC_ARG_WITH([numa],
-++  [AC_HELP_STRING([--with-numa],
-++    [have the numa support (default=no)])],
-++  [with_numa=yes],
-++)
-++
-+ AC_CONFIG_SUBDIRS([utils/ffsb-6.0-rc2])
-+ 
-+ # END testsuites knobs
-+@@ -159,7 +165,9 @@ LTP_CHECK_SIGNAL
-+ LTP_CHECK_SYSCALL_EVENTFD
-+ LTP_CHECK_SYSCALL_KEYCTL
-+ LTP_CHECK_SYSCALL_MODIFY_LDT
-++if test "x$with_numa" = xyes; then
-+ LTP_CHECK_SYSCALL_NUMA
-++fi
-+ LTP_CHECK_SYSCALL_QUOTACTL
-+ LTP_CHECK_SYSCALL_SIGNALFD
-+ LTP_CHECK_SYSCALL_UNSHARE
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20140422.bb b/meta/recipes-extended/ltp/ltp_20140422.bb
-index c658bc0..3142cae 100644
---- a/meta/recipes-extended/ltp/ltp_20140422.bb
-+++ b/meta/recipes-extended/ltp/ltp_20140422.bb
-@@ -26,6 +26,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-     file://0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch \
-     file://ltp-Do-not-link-against-libfl.patch \
-     file://automake-foreign.patch \
-+    file://add-knob-for-numa.patch \
- "
- 
- S = "${WORKDIR}/git"
-@@ -39,6 +40,8 @@ export exec_prefix = "/opt/ltp"
- 
- EXTRA_OECONF = " --with-power-management-testsuite --with-realtime-testsuite "
- 
-+PACKAGECONFIG[numa] = "--with-numa=yes, , numactl,"
-+
- # ltp doesn't regenerate ffsb-6.0-rc2 configure and hardcode configure call.
- # we explicitly force regeneration of that directory and pass configure options.
- do_configure_append() {
+  $ cd Linux-PAM-1.1.6/xtests
+  # replace /bin/bash to /bin/sh and check the bashisms:
+  $ checkbashisms *.sh
+  No output
+
+So the runtime dependency to bash could be removed.
+
+The following changes since commit 429802fe6691c8a70ec9735c0db4c6a4e1e1b038:
+
+  classes/populate_sdk_base: enable adding custom commands to SDK install script (2014-09-11 18:02:55 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib wenzong/libpam-bash
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/libpam-bash
+
+Wenzong Fan (1):
+  libpam / xtests: remove bash dependency
+
+ .../libpam-xtests-remove-bash-dependency.patch     |  226 ++++++++++++++++++++
+ meta/recipes-extended/pam/libpam_1.1.6.bb          |    3 +-
+ 2 files changed, 228 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/pam/libpam/libpam-xtests-remove-bash-dependency.patch
+
 -- 
-1.9.1
+1.7.9.5
 
 
