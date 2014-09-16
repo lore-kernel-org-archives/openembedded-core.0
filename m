@@ -1,29 +1,25 @@
-Return-Path: <mark.hatle@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5687260809
+	by mail.openembedded.org (Postfix) with ESMTP id 68CFA60809
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Sep 2014 15:03:36 +0000 (UTC)
+	Tue, 16 Sep 2014 15:07:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8GF3bEo006810
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Sep 2014 08:03:37 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 16 Sep 2014 08:03:36 -0700
-Message-ID: <54185148.6080909@windriver.com>
-Date: Tue, 16 Sep 2014 10:03:36 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8GF712S006910
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 16 Sep 2014 08:07:01 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.174.1; Tue, 16 Sep 2014 08:07:00 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <ross.burton@intel.com>
+Date: Tue, 16 Sep 2014 23:06:21 +0800
+Message-ID: <cover.1410879378.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1410576597-16290-1-git-send-email-akuster808@gmail.com>	<5416E596.5070500@windriver.com>
-	<541700DA.90803@gmail.com>
-In-Reply-To: <541700DA.90803@gmail.com>
-Subject: Re: [PATCH] linux-yocto: add to qemuppc64 to bb file
+X-Originating-IP: [128.224.153.152]
+Cc: openembedded-core@lists.openembedded.org, jslater@windriver.com
+Subject: [PATCH 0/9] V2: Add machine qemuaarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,83 +32,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Sep 2014 15:03:42 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Sep 2014 15:07:03 -0000
+Content-Type: text/plain
 
-On 9/15/14, 10:08 AM, akuster808 wrote:
->
->
-> On 09/15/2014 06:11 AM, Bruce Ashfield wrote:
->> On 14-09-12 10:49 PM, Armin Kuster wrote:
->>> Not sure if this this is the correct process.
->>
->> I'll grab the patch and carry it here, and update the SRCREVs at the
->> same time as the other BSPs.
->
-> Great, thanks.
->
->>
->> As for adding qemuppc64 fully to the supported set of emulated BSPs
->> for 1.7, that's Richard's call (and I haven't checked to see if the
->> other patches were merged).
->
-> Being this late in the 1.7 schedule, I would advise targeting such a
-> claim until 1.8.  I was surprised by the number for warnings and errors
-> a limited world build (meta-networking) burped up considering ppc64 is
-> already supported by a few BSP's.
+V2:
+* fix kernel linux-yocto build faiure
+* redefine position of dynamic linker from /lib to /lib64
+* other fixes of userspace packages
 
-What I've seen is PPC64 (userspace) isn't used much.. most folks are using PPC32 
-userspace w/ a PPC64 kernel..  (and the occasional large memory application.)
+Test with Joe Slater's patches:
+* siteinfo: account for 32 and 64 bit arm
+* sysprof: add aarch64 support
 
-So I'm not surprised there are issues with meta-networking and other components 
-not being well tested on PPC64...
+The following changes since commit fceef0cace6670a8c5f15cd2f31a191176732730:
 
---Mark
+  bitbake: data_smart: Fix remove operator and its interaction with data expansion (2014-09-13 08:52:49 +0100)
 
-> - Armin
->>
->> Bruce
->>
->>>
->>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->>> ---
->>>    meta/recipes-kernel/linux/linux-yocto_3.14.bb | 4 +++-
->>>    1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
->>> b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
->>> index e06b191..dfe1de0 100644
->>> --- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
->>> +++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
->>> @@ -6,6 +6,7 @@ require recipes-kernel/linux/linux-yocto.inc
->>>    KBRANCH_qemuarm  ?= "standard/arm-versatile-926ejs"
->>>    KBRANCH_qemumips ?= "standard/mti-malta32"
->>>    KBRANCH_qemuppc  ?= "standard/qemuppc"
->>> +KBRANCH_qemuppc64  ?= "standard/qemuppc"
->>>    KBRANCH_qemux86  ?= "standard/common-pc/base"
->>>    KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
->>>    KBRANCH_qemumips64 ?= "standard/mti-malta64"
->>> @@ -13,6 +14,7 @@ KBRANCH_qemumips64 ?= "standard/mti-malta64"
->>>    SRCREV_machine_qemuarm ?= "c32a2e1190325f685a61196f38fc03ceff2645bf"
->>>    SRCREV_machine_qemumips ?= "1ff50c529b49ceb55a670258f7cb8233c8006c6c"
->>>    SRCREV_machine_qemuppc ?= "12e9828a5b78891374375233b4075f682b9fbd0e"
->>> +SRCREV_machine_qemuppc64 ?= "12e9828a5b78891374375233b4075f682b9fbd0e"
->>>    SRCREV_machine_qemux86 ?= "58d49fe770ad642e2bc0616159195ba837dc513b"
->>>    SRCREV_machine_qemux86-64 ?= "b85edae6fd61ceadfc08099608e8ac90aa4c5c33"
->>>    SRCREV_machine_qemumips64 ?= "dcd579737386fca4d7bcf224bc118b14eb3c1d55"
->>> @@ -27,7 +29,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
->>>
->>>    KMETA = "meta"
->>>
->>> -COMPATIBLE_MACHINE =
->>> "qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
->>> +COMPATIBLE_MACHINE =
->>> "qemuarm|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64"
->>>
->>>    # Functionality flags
->>>    KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
->>>
->>
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/qemuarm64
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/qemuarm64
+
+Kai Kang (9):
+  linux-yocto: depend on libgcc for aarch64
+  Add machine qemuarm64
+  gcc-4.9: redefine dynamic linker for aarch64
+  libatomics-ops: add aarch64 target iniitial support
+  qt4-native: add aarch64 support
+  qt4: add aarch64 support
+  qt4-embedded: disable webkit
+  libpng: add neon option for aarch64
+  perf: disable libunwind support for aarch64
+
+ meta/conf/bitbake.conf                             |   1 +
+ meta/conf/machine/include/arm/arch-armv8.inc       |  20 +
+ meta/conf/machine/qemuarm64.conf                   |  12 +
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |   1 +
+ .../0056-redefine-dynamic-linker-for-aarch64.patch |  34 ++
+ meta/recipes-kernel/linux/linux-yocto.inc          |   1 +
+ meta/recipes-kernel/perf/perf-features.inc         |   1 +
+ meta/recipes-multimedia/libpng/libpng_1.6.13.bb    |   1 +
+ .../0001-libatomic_ops-Aarch64-basic-port.patch    | 239 ++++++++++
+ .../pulseaudio/libatomics-ops_7.2.bb               |   1 +
+ meta/recipes-qt/qt4/qt4-4.8.6.inc                  |   4 +
+ .../0029-aarch64_arm64_fix_arch_detection.patch    |  53 +++
+ .../0030-aarch64_arm64_qatomic_support.patch       | 491 +++++++++++++++++++++
+ .../qt4/qt4-4.8.6/0031-aarch64_arm64_mkspecs.patch | 124 ++++++
+ .../qt4/qt4-4.8.6/0032-aarch64_add_header.patch    |  18 +
+ meta/recipes-qt/qt4/qt4-embedded_4.8.6.bb          |   1 +
+ meta/recipes-qt/qt4/qt4-native.inc                 |   4 +
+ meta/recipes-qt/qt4/qt4-x11-free_4.8.6.bb          |   3 +
+ meta/recipes-qt/qt4/qt4_arch.inc                   |   1 +
+ 19 files changed, 1010 insertions(+)
+ create mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
+ create mode 100644 meta/conf/machine/qemuarm64.conf
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0056-redefine-dynamic-linker-for-aarch64.patch
+ create mode 100644 meta/recipes-multimedia/pulseaudio/files/0001-libatomic_ops-Aarch64-basic-port.patch
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0029-aarch64_arm64_fix_arch_detection.patch
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0030-aarch64_arm64_qatomic_support.patch
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0031-aarch64_arm64_mkspecs.patch
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0032-aarch64_add_header.patch
+
+-- 
+1.9.1
 
 
