@@ -1,24 +1,35 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A448D65E0C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f182.google.com (mail-ie0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C5F86FD28
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Sep 2014 06:03:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8G63klW028384
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 16 Sep 2014 06:10:55 +0000 (UTC)
+Received: by mail-ie0-f182.google.com with SMTP id tr6so5890916ieb.41
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 23:03:46 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.141) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 15 Sep 2014 23:03:45 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 16 Sep 2014 14:03:48 +0800
-Message-ID: <1410847428-15590-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Mon, 15 Sep 2014 23:10:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=hh3vHNMJRgOC8QrWnciLSj8XtmfIcf4okQexGxshkzk=;
+	b=Br623u0ijFFNiftK7fgq/ntxxuiGE/2fhiz2c237Ld2NrhaqhJzmu1k97SuCzBa0rZ
+	nYt/I5fCtL96q5me1FWGMtiSaBKz8K9VVmkt+ge9zrkPVR0Ccv5brMSZwzDEFe/UX9OM
+	77h9BxyJXMEpnoa9FdD06F2E+Dw3AhogIB7w8Qpil1tYm2fP7GObwRmiwS+jqv53ZyWu
+	ghOteWI1vXnczCsec0WLJvcPqnd6dABxYbzzTawFchHp2sGiaD0wjPQjG+bh8gjmU6Mh
+	VJOy1GL1+QDm/mtjwa8pkqoIc8fql7ww4w4PWyGXGeXdJJ34she9mQdvl0jMrkl+gTME
+	m7iQ==
+X-Received: by 10.42.83.131 with SMTP id h3mr16721icl.77.1410847856539; Mon,
+	15 Sep 2014 23:10:56 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] flex: fix the DEPENDS setting
+Received: by 10.50.102.67 with HTTP; Mon, 15 Sep 2014 23:10:26 -0700 (PDT)
+In-Reply-To: <1410555811-30996-1-git-send-email-jslater@windriver.com>
+References: <1410555811-30996-1-git-send-email-jslater@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 15 Sep 2014 23:10:26 -0700
+Message-ID: <CAMKF1spCXYs2OSUdjN4XCFLJsAX4iHHOQRzqEjEGf9uq7uZDFQ@mail.gmail.com>
+To: Joe Slater <jslater@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] sysprof: add aarch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +42,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Sep 2014 06:03:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 16 Sep 2014 06:11:00 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Roy Li <rongqing.li@windriver.com>
+On Fri, Sep 12, 2014 at 2:03 PM, Joe Slater <jslater@windriver.com> wrote:
+> -+#ifdef __arm__
+> ++#if defined(__arm__) || defined(__aarch64__)
+>  +/*
 
-DEPENDS does not support the override, fix it by checking the DISTRO_FEATURE
-with ptest
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-devtools/flex/flex.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
-index 54e4ec3..bd12f69 100644
---- a/meta/recipes-devtools/flex/flex.inc
-+++ b/meta/recipes-devtools/flex/flex.inc
-@@ -28,7 +28,7 @@ do_install_append_class-nativesdk() {
- }
- 
- RDEPENDS_${PN} += "m4"
--DEPENDS_${PN}-ptest += "bison-native flex-native"
-+DEPENDS +=  "${@base_contains('DISTRO_FEATURES', 'ptest', 'bison-native flex-native', '', d)}"
- 
- do_compile_ptest() {
- 	for i in `find ${S}/tests/ -type d |grep -Ev "concatenated-options|reject|table-opts" | awk -F/ '{print $NF}'`; \
--- 
-1.7.10.4
-
+This code defined memory barriers for 32bit, Are you sure it should be
+same for 64bit as well ?
+how was this tested ?
 
