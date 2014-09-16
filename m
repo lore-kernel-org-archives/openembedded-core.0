@@ -1,27 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5388D7149C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BAA8714A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Sep 2014 15:07:19 +0000 (UTC)
+	Tue, 16 Sep 2014 15:07:23 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8GF7KZq028612
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8GF7I6F006924
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 16 Sep 2014 08:07:20 -0700 (PDT)
+	Tue, 16 Sep 2014 08:07:18 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Tue, 16 Sep 2014 08:07:19 -0700
+	(TLS) id 14.3.174.1; Tue, 16 Sep 2014 08:07:17 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: <ross.burton@intel.com>
-Date: Tue, 16 Sep 2014 23:06:30 +0800
-Message-ID: <21ec391160434407e70d89fe334515ede221d354.1410879378.git.kai.kang@windriver.com>
+Date: Tue, 16 Sep 2014 23:06:29 +0800
+Message-ID: <defeedc89163081fd6b9f2aaea24517d0031e2fe.1410879378.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1410879378.git.kai.kang@windriver.com>
 References: <cover.1410879378.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.152]
 Cc: openembedded-core@lists.openembedded.org, jslater@windriver.com
-Subject: [PATCH 9/9] perf: disable libunwind support for aarch64
+Subject: [PATCH 8/9] libpng: add neon option for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,27 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Sep 2014 15:07:19 -0000
+X-List-Received-Date: Tue, 16 Sep 2014 15:07:23 -0000
 Content-Type: text/plain
 
-Disable libunwind support of perl for aarch aarch64 that libunwind
-doesn't support aarch64.
+Add neon option for aarch64 just as for arm. It fails with:
+
+| ./.libs/libpng16.so: undefined reference to `png_init_filter_functions_neon'
+| collect2: error: ld returned 1 exit status
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-kernel/perf/perf-features.inc | 1 +
+ meta/recipes-multimedia/libpng/libpng_1.6.13.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-kernel/perf/perf-features.inc b/meta/recipes-kernel/perf/perf-features.inc
-index 2dbbb47..1782ae6 100644
---- a/meta/recipes-kernel/perf/perf-features.inc
-+++ b/meta/recipes-kernel/perf/perf-features.inc
-@@ -1,4 +1,5 @@
- PERF_FEATURES_ENABLE ?= "perf-scripting perf-tui perf-libunwind"
-+PERF_FEATURES_ENABLE_aarch64 ?= "perf-scripting perf-tui"
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.13.bb b/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
+index 0c6fd1f..3d32bfe 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
+@@ -20,6 +20,7 @@ inherit autotools binconfig-disabled pkgconfig
  
- def perf_feature_enabled(feature, trueval, falseval, d):
-     """
+ # Work around missing symbols
+ EXTRA_OECONF_append_arm = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
++EXTRA_OECONF_append_aarch64 = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
+ 
+ PACKAGES =+ "${PN}-tools"
+ 
 -- 
 1.9.1
 
