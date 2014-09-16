@@ -1,24 +1,20 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A7DB71480
+	by mail.openembedded.org (Postfix) with ESMTP id 5CCB9601A0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Sep 2014 07:18:07 +0000 (UTC)
+	Tue, 16 Sep 2014 07:18:02 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by fmsmga103.fm.intel.com with ESMTP; 16 Sep 2014 00:09:15 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 16 Sep 2014 00:09:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,533,1406617200"; d="scan'208";a="477796942"
+X-IronPort-AV: E=Sophos;i="5.04,533,1406617200"; d="scan'208";a="477796936"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by azsmga001.ch.intel.com with ESMTP; 16 Sep 2014 00:18:03 -0700
+	by azsmga001.ch.intel.com with ESMTP; 16 Sep 2014 00:18:02 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Sep 2014 10:18:00 +0300
-Message-Id: <e6c2b4fd9a85463a7a41590fad213d83af8ec6d6.1410851846.git.cristian.iorga@intel.com>
+Date: Tue, 16 Sep 2014 10:17:59 +0300
+Message-Id: <cover.1410851846.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1410851846.git.cristian.iorga@intel.com>
-References: <cover.1410851846.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1410851846.git.cristian.iorga@intel.com>
-References: <cover.1410851846.git.cristian.iorga@intel.com>
-Subject: [PATCH 1/1] build-appliance-image: remove hardwired path
+Subject: [PATCH 0/1] Build Appliance: Fix VM disk image location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +29,21 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 16 Sep 2014 07:18:09 -0000
 
-Remove wrong absolute hardwired path
-for the VM disk image.
+The following changes since commit fceef0cace6670a8c5f15cd2f31a191176732730:
 
-Fixes [YOCTO #6728].
+  bitbake: data_smart: Fix remove operator and its interaction with data expansion (2014-09-13 08:52:49 +0100)
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/YB6728
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/YB6728
+
+Cristian Iorga (1):
+  build-appliance-image: remove hardwired path
+
  .../recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx b/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx
-index 7da9c52..6472e87 100644
---- a/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx
-+++ b/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx
-@@ -7,7 +7,7 @@ memsize = "4096"
- mem.hotadd = "TRUE"
- sata0.present = "TRUE"
- sata0:0.present = "TRUE"
--sata0:0.fileName = "/mnt/Yo/yoctoproject/VMs/BA/Yocto_Build_Appliance.vmdk"
-+sata0:0.fileName = "Yocto_Build_Appliance.vmdk"
- ethernet0.present = "TRUE"
- ethernet0.virtualDev = "e1000"
- ethernet0.wakeOnPcktRcv = "FALSE"
 -- 
 1.9.1
 
