@@ -1,35 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f182.google.com (mail-ie0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C5F86FD28
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A7DB71480
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Sep 2014 06:10:55 +0000 (UTC)
-Received: by mail-ie0-f182.google.com with SMTP id tr6so5890916ieb.41
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Sep 2014 23:10:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=hh3vHNMJRgOC8QrWnciLSj8XtmfIcf4okQexGxshkzk=;
-	b=Br623u0ijFFNiftK7fgq/ntxxuiGE/2fhiz2c237Ld2NrhaqhJzmu1k97SuCzBa0rZ
-	nYt/I5fCtL96q5me1FWGMtiSaBKz8K9VVmkt+ge9zrkPVR0Ccv5brMSZwzDEFe/UX9OM
-	77h9BxyJXMEpnoa9FdD06F2E+Dw3AhogIB7w8Qpil1tYm2fP7GObwRmiwS+jqv53ZyWu
-	ghOteWI1vXnczCsec0WLJvcPqnd6dABxYbzzTawFchHp2sGiaD0wjPQjG+bh8gjmU6Mh
-	VJOy1GL1+QDm/mtjwa8pkqoIc8fql7ww4w4PWyGXGeXdJJ34she9mQdvl0jMrkl+gTME
-	m7iQ==
-X-Received: by 10.42.83.131 with SMTP id h3mr16721icl.77.1410847856539; Mon,
-	15 Sep 2014 23:10:56 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.102.67 with HTTP; Mon, 15 Sep 2014 23:10:26 -0700 (PDT)
-In-Reply-To: <1410555811-30996-1-git-send-email-jslater@windriver.com>
-References: <1410555811-30996-1-git-send-email-jslater@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 15 Sep 2014 23:10:26 -0700
-Message-ID: <CAMKF1spCXYs2OSUdjN4XCFLJsAX4iHHOQRzqEjEGf9uq7uZDFQ@mail.gmail.com>
-To: Joe Slater <jslater@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] sysprof: add aarch64 support
+	Tue, 16 Sep 2014 07:18:07 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by fmsmga103.fm.intel.com with ESMTP; 16 Sep 2014 00:09:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,533,1406617200"; d="scan'208";a="477796942"
+Received: from sentry.rb.intel.com ([10.237.105.37])
+	by azsmga001.ch.intel.com with ESMTP; 16 Sep 2014 00:18:03 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Sep 2014 10:18:00 +0300
+Message-Id: <e6c2b4fd9a85463a7a41590fad213d83af8ec6d6.1410851846.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1410851846.git.cristian.iorga@intel.com>
+References: <cover.1410851846.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1410851846.git.cristian.iorga@intel.com>
+References: <cover.1410851846.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/1] build-appliance-image: remove hardwired path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,15 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Sep 2014 06:11:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 16 Sep 2014 07:18:09 -0000
 
-On Fri, Sep 12, 2014 at 2:03 PM, Joe Slater <jslater@windriver.com> wrote:
-> -+#ifdef __arm__
-> ++#if defined(__arm__) || defined(__aarch64__)
->  +/*
+Remove wrong absolute hardwired path
+for the VM disk image.
 
-This code defined memory barriers for 32bit, Are you sure it should be
-same for 64bit as well ?
-how was this tested ?
+Fixes [YOCTO #6728].
+
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx b/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx
+index 7da9c52..6472e87 100644
+--- a/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx
++++ b/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx
+@@ -7,7 +7,7 @@ memsize = "4096"
+ mem.hotadd = "TRUE"
+ sata0.present = "TRUE"
+ sata0:0.present = "TRUE"
+-sata0:0.fileName = "/mnt/Yo/yoctoproject/VMs/BA/Yocto_Build_Appliance.vmdk"
++sata0:0.fileName = "Yocto_Build_Appliance.vmdk"
+ ethernet0.present = "TRUE"
+ ethernet0.virtualDev = "e1000"
+ ethernet0.wakeOnPcktRcv = "FALSE"
+-- 
+1.9.1
+
 
