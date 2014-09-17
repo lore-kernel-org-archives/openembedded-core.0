@@ -1,29 +1,36 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 454CE71492
+Return-Path: <philip.balister@gmail.com>
+Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 57B33710C8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Sep 2014 10:11:09 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
-	14.03.0158.001; Wed, 17 Sep 2014 12:11:08 +0200
-From: Tudor Florea <Tudor.Florea@enea.com>
-To: "Burton, Ross" <ross.burton@intel.com>, "rongqing.li@windriver.com"
-	<rongqing.li@windriver.com>
-Thread-Topic: [OE-core] [PATCH] kmod: remove the setting of
-	INHIBIT_PACKAGE_STRIP
-Thread-Index: AQHP0L7eHbp0T3QBgUW2kEz6bBqpYJwCILEAgAL1oVA=
-Date: Wed, 17 Sep 2014 10:11:07 +0000
-Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A428AC2289@SESTOEX04.enea.se>
-References: <1410769631-5672-1-git-send-email-rongqing.li@windriver.com>
-	<CAJTo0LZd_5dYP7sc-umCev+rzU_YzGNLWUq6o0Y0ZK9b6ayB3g@mail.gmail.com>
-In-Reply-To: <CAJTo0LZd_5dYP7sc-umCev+rzU_YzGNLWUq6o0Y0ZK9b6ayB3g@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.1.188]
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kmod: remove the setting of INHIBIT_PACKAGE_STRIP
+	Wed, 17 Sep 2014 14:33:24 +0000 (UTC)
+Received: by mail-qc0-f173.google.com with SMTP id i8so2266201qcq.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Sep 2014 07:33:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=Hq926llUQGZpW3MTEYqzDW1pyZAfsZvPZNAXdrktPaw=;
+	b=Y2mLoOm77MHuOF6D/iXwpDnfGpTGSa1/4Ao4sYev/z5Z9Gw+jFJNOuH9ww83576qGh
+	nRA2Tngdro2K8CHWhA8kU2rAh2K2XLL4mKk3Pubxbu03YnUMOnoNcZ36gsy918NoqowF
+	IhGF0Jl+OqwFWhuo993vF6PeMo/Zhtt2zJHHkMve+AU4pwUYOBdYwm6PwAQ8TBufUfO+
+	D5OfkTywGiz1lKfBkh2PMZ/PtmQWiPKB1cWHqSu3MpYSCv825clRXca9qP+9QKS++eZz
+	1hrFFby9pfZDXXv1vkYRVlbgbk4e+RbtjmP8bXU/uCVQc+NBPo+7tIiw0aJv5RsV3zqv
+	Z4Qg==
+X-Received: by 10.229.97.67 with SMTP id k3mr56256609qcn.1.1410964405457;
+	Wed, 17 Sep 2014 07:33:25 -0700 (PDT)
+Received: from localhost.localdomain
+	(pool-71-171-45-156.ronkva.east.verizon.net. [71.171.45.156])
+	by mx.google.com with ESMTPSA id l4sm4072883qad.41.2014.09.17.07.33.23
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 17 Sep 2014 07:33:23 -0700 (PDT)
+Sender: Philip Balister <philip.balister@gmail.com>
+From: Philip Balister <philip@balister.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Sep 2014 10:33:19 -0400
+Message-Id: <1410964399-31077-1-git-send-email-philip@balister.org>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] cmake.bbclass : Add support for cmake projects that use .S files.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Sep 2014 10:11:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 17 Sep 2014 14:33:33 -0000
 
-SGkNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCdXJ0b24sIFJvc3Mg
-W21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo+IFNlbnQ6IE1vbmRheSwgU2VwdGVtYmVy
-IDE1LCAyMDE0IDE3OjMyDQo+IFRvOiByb25ncWluZy5saUB3aW5kcml2ZXIuY29tDQo+IENjOiBP
-RS1jb3JlOyBUdWRvciBGbG9yZWENCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGtt
-b2Q6IHJlbW92ZSB0aGUgc2V0dGluZyBvZg0KPiBJTkhJQklUX1BBQ0tBR0VfU1RSSVANCj4gDQo+
-IE9uIDE1IFNlcHRlbWJlciAyMDE0IDA5OjI3LCAgPHJvbmdxaW5nLmxpQHdpbmRyaXZlci5jb20+
-IHdyb3RlOg0KPiA+IEZyb206IFJveSBMaSA8cm9uZ3FpbmcubGlAd2luZHJpdmVyLmNvbT4NCj4g
-Pg0KPiA+IFNldHRpbmcgSU5ISUJJVF9QQUNLQUdFX1NUUklQIGlzIGFkZGVkIGJ5IDYxY2I0NTg2
-OWNba21vZDogcHRlc3QNCj4gZml4ZXNdLCBidXQgSQ0KPiA+IGNhbiBub3QgcmVwcm9kdWNlIHRo
-ZSBkZXNjcmliZWQgaXNzdWUsIGFuZCBzZWVtcyBpdCBtYWtlIHdyb25nIGxvZ2ljYWwgWw0KPiA+
-IHdoZW4gZW5hYmxlIHB0ZXN0LCBJTkhJQklUX1BBQ0tBR0VfU1RSSVAgaXMgYWx3YXlzIDE7IGFu
-ZCB3aGVuIGRpc2FibGUNCj4gcHRlc3QsDQo+ID4gSU5ISUJJVF9QQUNLQUdFX1NUUklQIGlzIGFs
-d2F5cyAwXQ0KPiA+DQo+ID4gQ2M6IFR1ZG9yIEZsb3JlYSA8dHVkb3IuZmxvcmVhQGVuZWEuY29t
-Pg0KPiANCj4gQXMgVHVkb3IgYWRkZWQgdGhpcyBJJ2QgbG92ZSB0byBoZWFyIGZyb20gdGhlbSBh
-Ym91dCB0aGlzLCBidXQgSSBjYW4NCj4gY29uZmlybSB0aGF0IHRoaXMgcGF0Y2ggZG9lc24ndCBj
-YXVzZSB3YXJuaW5ncyB3aXRoIHB0ZXN0IGVuYWJsZWQuDQo+IA0KW1R1ZG9yIEZsb3JlYV0gSXQg
-aXMgaGFyZCB0byByZW1lbWJlciB0aGUgZXhhY3QgcmF0aW9uYWxlIGF0IHRoaXMgbW9tZW50IHRo
-YXQgdGhlIGNvbW1lbnQgc2hvdWxkIGJlIHNlbGYtZXhwbGFuYXRvcnk6DQoiU2luY2Uga21vZCB0
-ZXN0IGZpbGVzIGNvbnRhaW4ga2VybmVsIG1vZHVsZXMgZm9yIG1hbnkgZGlmZmVyZW50IGFyY2hp
-dGVjdHVyZXMsIHN0cmlwIGFuZCBhcmNoIGdldHMgY29uZnVzZWQgYW5kIHRocm93cyBlcnJvcnMi
-DQpJdCBtZWFucyBub3RoaW5nIGlmIGEgc3BlY2lmaWMgcGxhdGZvcm0gZG9lc24ndCBleGhpYml0
-IHRoZSBiZWhhdmlvci4gS21vZCBwdGVzdCBhdHRlbXB0cyB0byBsb2FkIGEgcHJlY29tcGlsZWQg
-KGFuZCB1bnN0cmlwcGVkIGZvciB0aGF0IG1hdHRlcikgaW5hcHByb3ByaWF0ZSBtb2R1bGUgYW5k
-IHZlcmlmeSB0aGlzIGlzIG5vdCBwb3NzaWJsZS4gSSBzdGlsbCB0aGluayB3ZSBzaG91bGQgbm90
-IHJlbW92ZSB0aGUgbGluZSAoZS5nLiB3ZSBzaG91bGQgbm90IGFsdGVyIGttb2QgcHJlY29tcGls
-ZWQgbW9kdWxlcyBmcm9tIHB0ZXN0KS4NCg0KUmVnYXJkcywNCiAgVHVkb3IuDQoNCj4gUm9zcw0K
+UHD and GNU radio use the cmake build system. The toolchain file made
+from cmake.bbclass does not set the variable needs by cmake projects
+that use .S files. UHD added some .S files and these changes are required
+to build recent UHD.
+
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ meta/classes/cmake.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index ab2adec..bfa5995 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -34,10 +34,13 @@ set( CMAKE_SYSTEM_NAME `echo ${TARGET_OS} | sed -e 's/^./\u&/' -e 's/^\(Linux\).
+ set( CMAKE_SYSTEM_PROCESSOR ${TARGET_ARCH} )
+ set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
+ set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
++set( CMAKE_ASM_COMPILER ${OECMAKE_C_COMPILER} )
+ set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
+ set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
++set( CMAKE_ASM_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "ASM FLAGS" )
+ set( CMAKE_C_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "CFLAGS for release" )
+ set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXXFLAGS for release" )
++set( CMAKE_ASM_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "ASM FLAGS for release" )
+ set( CMAKE_C_LINK_FLAGS "${OECMAKE_C_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
+ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
+ 
+-- 
+1.8.3.1
+
 
