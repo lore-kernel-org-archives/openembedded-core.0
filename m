@@ -1,37 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f48.google.com (mail-qa0-f48.google.com
-	[209.85.216.48])
-	by mail.openembedded.org (Postfix) with ESMTP id E3EA071482
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6022171467
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Sep 2014 15:12:13 +0000 (UTC)
-Received: by mail-qa0-f48.google.com with SMTP id v10so1964796qac.7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Sep 2014 08:12:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=0d/eU1MGQZ6D6m3tzF+dlkPfpk79/ltqWBD5E+GcTmc=;
-	b=Mo3FGDtc48YxFUUYKW+O6+LNjvxZqmu7M+RVKj5dzWshc9mbI/Onx5ygeb2QprlxmH
-	DKeB2Yyo/2oZV3aOJFY9PP4v6KjpZyasEA9OEB1SUSkofVP5XAw1jM2R0bwLPg83SrrK
-	b29fdprFNt4gf3KgxaWPZ9NbimHMUmBbkB5vM4OXxt9/WcwPiGHONKFZfTB49RioNy3A
-	ucuG0xvPinbvYxgmBLFQ3tnyImkDXT7k85TU0Cwex6kp3WBa2BHYRhY018KH5o3/jUeC
-	JCPbVqvkVJb+Ftq97OAxXk83QNzFAC0r8E9S3iNRi/Yutqh06xCDX4mkagRgV2EH3tXc
-	TBgQ==
-X-Gm-Message-State: ALoCoQn/ETdjwVqRiLSM2EHajrqoq0nJGIoV+KV2RRHpfB8/gqL3CVJvlBl/dQOA4AwF36BwCy8k
-X-Received: by 10.140.27.139 with SMTP id 11mr16979255qgx.59.1410966733647;
-	Wed, 17 Sep 2014 08:12:13 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Wed, 17 Sep 2014 08:11:53 -0700 (PDT)
-In-Reply-To: <cover.1410879378.git.kai.kang@windriver.com>
-References: <cover.1410879378.git.kai.kang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 17 Sep 2014 16:11:53 +0100
-Message-ID: <CAJTo0LYPVqG9pPrTeMLyzjGH2=2mb7W6av4dYHJq5+ZZk+3r2A@mail.gmail.com>
-To: Kai Kang <kai.kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Joe Slater <jslater@windriver.com>
-Subject: Re: [PATCH 0/9] V2: Add machine qemuaarch64
+	Wed, 17 Sep 2014 16:11:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8HGBDsX007915; Wed, 17 Sep 2014 17:11:13 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id X4Ar8jyGqxF0; Wed, 17 Sep 2014 17:11:13 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8HGB87X007911
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 17 Sep 2014 17:11:09 +0100
+Message-ID: <1410970270.14624.106.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, Steffen
+	Sledz <sledz@dresearch-fe.de>
+Date: Wed, 17 Sep 2014 17:11:10 +0100
+In-Reply-To: <54197EDC.3070406@dresearch-fe.de>
+References: <541034FD.4090900@dresearch-fe.de>
+	<541684F7.8040708@dresearch-fe.de> <54197EDC.3070406@dresearch-fe.de>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: Lianhao Lu <lianhao.lu@intel.com>
+Subject: Re: hash generation for PR Service?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +38,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Sep 2014 15:12:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 17 Sep 2014 16:11:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 16 September 2014 16:06, Kai Kang <kai.kang@windriver.com> wrote:
-> V2:
-> * fix kernel linux-yocto build faiure
-> * redefine position of dynamic linker from /lib to /lib64
-> * other fixes of userspace packages
->
-> Test with Joe Slater's patches:
-> * siteinfo: account for 32 and 64 bit arm
-> * sysprof: add aarch64 support
+On Wed, 2014-09-17 at 14:30 +0200, Steffen Sledz wrote:
+> Hi Guys,
+> 
+> On 15.09.2014 08:19, Steffen Sledz wrote:
+> > On 10.09.2014 13:24, Steffen Sledz wrote:
+> >> I'm not sure if this is the right mailing list for our problem. Please forgive me if not (and tell me the right one).
+> >>
+> >>
+> >> We're investigating some problems related with package versions going backwards using a PR Service[1].
+> >>
+> >> Can someone give some hints where we can get information about
+> generation of the hashes which are used to request values from the PR
+> service? Especially which data/files/directories are involved..
+> >>
+> >>
+> >> [1] <https://wiki.yoctoproject.org/wiki/PR_Service>
+> > 
+> > Ping! Who can provide related information?
+> 
+> there was no feedback in the ml. :(
+> 
+> Can you help us on this issue?
 
-So aarch64 support really needs qemuarm64 in oe-core to be tested, and
-qemuarm64 is a new feature, and we froze for new features two weeks
-ago.  Blindly merging aarch64 patches that we can't currently test
-doesn't seem sensible.
+The hashes are the same hashes bitbake itself uses to decide whether to
+reexecute tasks or not and are the same hashes encoded into the sstate
+objects.
 
-Could someone who is actually testing and working on the aarch64
-support (you?) manage a single branch that tracks master, so when 1.7
-branches off we can do a merge straight away.
+The manual gives information about this:
 
-Ross
+http://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#checksums
+
+Please read and understand that, then if you have specific questions,
+please ask them and you may get a more targeted answer. At the moment
+the question is not specific enough to be easy to answer.
+
+Cheers,
+
+Richard
+
+
+
 
