@@ -1,39 +1,26 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id F26E6713C1
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id A27D165E0C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Sep 2014 16:21:48 +0000 (UTC)
-Received: by mail-qg0-f42.google.com with SMTP id q107so2243564qgd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Sep 2014 09:21:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=uewtRpH3lT2KyvJwweSjpoVeylesMYhxLNQRc3t2oSE=;
-	b=ffMUGyDnt3VWQI3In4ZPN98GW1noZFZ5aS48+TozrEkrF76P1XMBmxVXGoKAC0esWK
-	b0mF63tYGIm63kd6PeXQtiISVx1MyrbasAqddLarUQpolPgJY4hmjqQ8jEJInUDSzwpn
-	KjmlIDQjZ5aEKku9u1JnVatuVTyuPkZ5p/4+1DHDLV/hWfmOOvCl7VhqragNTCvgAkH4
-	ni3CpunMbDcGjbZQOxBSDixoQf5Hrp6EIlADgRhL1CH0Gg/xBiNjsLcm5Hr0Jcbf1Gbx
-	CfQVJTh/bk2Z0EHKnzXKfLsjAXC+GvOZl0H00zsAFsUgdUsnPS2nxYM6ybAt979DCXdY
-	w0HA==
+	Wed, 17 Sep 2014 17:28:18 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by fmsmga103.fm.intel.com with ESMTP; 17 Sep 2014 10:19:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,541,1406617200"; d="scan'208";a="478182442"
+Received: from cfitzsim-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.123])
+	by azsmga001.ch.intel.com with ESMTP; 17 Sep 2014 10:28:18 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, Saul Wold <sgw@linux.intel.com>
+Date: Wed, 17 Sep 2014 18:28:17 +0100
+Message-ID: <2371464.H1mKfG7UmT@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.13.3 (Linux/3.16.2-200.fc20.x86_64; KDE/4.13.3; x86_64; ; )
+In-Reply-To: <1406650385-23946-1-git-send-email-dwatkins@sierrawireless.com>
+References: <1406650385-23946-1-git-send-email-dwatkins@sierrawireless.com>
 MIME-Version: 1.0
-X-Received: by 10.236.162.7 with SMTP id x7mr51434644yhk.6.1410970909956; Wed,
-	17 Sep 2014 09:21:49 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.44.19 with HTTP; Wed, 17 Sep 2014 09:21:49 -0700 (PDT)
-In-Reply-To: <1410970596.14624.108.camel@ted>
-References: <cover.1410939794.git.hongxu.jia@windriver.com>
-	<7e57c471b593b7be818545b5da25869cb506bde1.1410939794.git.hongxu.jia@windriver.com>
-	<1410970596.14624.108.camel@ted>
-Date: Wed, 17 Sep 2014 13:21:49 -0300
-X-Google-Sender-Auth: dnIWunD24iGWaF6IPwWawFnFyD0
-Message-ID: <CAP9ODKoqzBXjjYjALrRH_2K3K2uobEUk4irxL=ZNB1m8hOPe_g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 9/9] sstatesig: incremental dump lockedsigs
+Cc: Darcy Watkins <dwatkins@sierrawireless.com>
+Subject: Re: [daisy][PATCH] binutils: Add fix for recent patch on older gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,37 +33,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Sep 2014 16:21:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 17 Sep 2014 17:28:25 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Sep 17, 2014 at 1:16 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2014-09-17 at 16:08 +0800, Hongxu Jia wrote:
->> The idea of incremental sig is:
->>
->> New sig file = Old sig file (if available) + New sig items in current build.
->>
->> Limit the modification within the dump_lockedsigs, and add two variables
->> 'self.lockedsigs_types' and 'self.lockedsigs_raw' keep old sig file.
->>
->> How to config for incremental dump:
->> ...
->> USER_CLASSES += "sstate_lockedsig"
->> SIGGEN_LOCKEDSIGS_CONFIG = "${TOPDIR}/locked-sigs.inc"
->> require ${SIGGEN_LOCKEDSIGS_CONFIG}
->> ...
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->
-> I'm fine with the idea in principle. Why can't we do something like:
-...
-> which is substantially simpler though?
+On Tuesday 29 July 2014 09:13:05 Darcy Watkins wrote:
+> From: Darcy Watkins <dwatkins>
+> 
+> The recent bintuils patch update breaks on older gccs such as CentOS 6.
+> Backport a patch to address this.
+> 
+> (From master: 540b7a196a00c4dc1bf8f7c87e68e80ab310756e)
+> (From OE-Core rev: 76f65e73081f52cea718ef164f9d1d7a5c65d537)
+> 
+> Signed-off-by: Darcy Watkins <dwatkins@sierrawireless.com>
+> ---
+>  meta/recipes-devtools/binutils/binutils-2.24.inc   |  1 +
+>  .../binutils/binutils-uninitialised-warning.patch  | 50
+> ++++++++++++++++++++++ 2 files changed, 51 insertions(+)
+>  create mode 100644
+> meta/recipes-devtools/binutils/binutils/binutils-uninitialised-warning.patc
+> h
+> 
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.24.inc
+> b/meta/recipes-devtools/binutils/binutils-2.24.inc index ef6a4eb..8f3216f
+> 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.24.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.24.inc
+> @@ -31,6 +31,7 @@ SRC_URI = "\
+>       file://fix-pr16428.patch \
+>       file://replace_macros_with_static_inline.patch \
+>       file://0001-Fix-MMIX-build-breakage-from-bfd_set_section_vma-cha.patch
+> \ +     file://binutils-uninitialised-warning.patch \
+>       "
+> 
+>  SRC_URI[md5sum] = "e0f71a7b2ddab0f8612336ac81d9636b"
+> diff --git
+> a/meta/recipes-devtools/binutils/binutils/binutils-uninitialised-warning.pa
+> tch
+> b/meta/recipes-devtools/binutils/binutils/binutils-uninitialised-warning.pa
+> tch new file mode 100644
+> index 0000000..2feb80c
+> --- /dev/null
+> +++
+> b/meta/recipes-devtools/binutils/binutils/binutils-uninitialised-warning.pa
+> tch @@ -0,0 +1,50 @@
+> +From f9c316c4d75be236bbaa8464ef803ed2d3859d6d Mon Sep 17 00:00:00 2001
+> +From: H.J. Lu <hjl.tools@gmail.com>
+> +Date: Wed, 15 Jan 2014 07:43:19 -0800
+> +Subject: [PATCH 1/1] Silence uninitialized warning on ehdr_start_save
+> +
+> +Older GCC, like 4.1/4.2, will issue an uninitialized warning on
+> +ehdr_start_save.  This patch silences by using
+> +
+> +struct bfd_link_hash_entry ehdr_start_save = ehdr_start_save;
+> +
+> +	* emultempl/elf32.em (gld${EMULATION_NAME}_before_allocation):
+> +	Silence uninitialized warning on ehdr_start_save with older
+> +	GCC.
+> +
+> +Upstream-Status: Backport
+> +---
+> + ld/ChangeLog          |    6 ++++++
+> + ld/emultempl/elf32.em |    2 +-
+> + 2 files changed, 7 insertions(+), 1 deletions(-)
+> +
+> +#diff --git a/ld/ChangeLog b/ld/ChangeLog
+> +#index eaa6b93..91055de 100644
+> +#--- a/ld/ChangeLog
+> +#+++ b/ld/ChangeLog
+> +#@@ -1,3 +1,9 @@
+> +#+2014-01-15  H.J. Lu  <hongjiu.lu@intel.com>
+> +#+
+> +#+	* emultempl/elf32.em (gld${EMULATION_NAME}_before_allocation):
+> +#+	Silence uninitialized warning on ehdr_start_save with older
+> +#+	GCC.
+> +#+
+> +# 2014-01-15  Alan Modra  <amodra@gmail.com>
+> +#
+> +# 	* emultempl/elf32.em (gld${EMULATION_NAME}_before_allocation): Define
+> +diff --git a/ld/emultempl/elf32.em b/ld/emultempl/elf32.em
+> +index 13f86f0..569c7f7 100644
+> +--- a/ld/emultempl/elf32.em
+> ++++ b/ld/emultempl/elf32.em
+> +@@ -1481,7 +1481,7 @@ gld${EMULATION_NAME}_before_allocation (void)
+> +   asection *sinterp;
+> +   bfd *abfd;
+> +   struct elf_link_hash_entry *ehdr_start = NULL;
+> +-  struct bfd_link_hash_entry ehdr_start_save;
+> ++  struct bfd_link_hash_entry ehdr_start_save = ehdr_start_save;
+> +
+> +   if (is_elf_hash_table (link_info.hash))
+> +     {
+> +--
+> +1.7.1
+> +
 
-Wouldn't it keep accumulating locked hashes for same recipes?
+ping - I can confirm the issue on CentOS 6 with daisy and that this patch (or 
+at least the master patch cherry-picked) fixes it.
 
+Cheers,
+Paul
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
