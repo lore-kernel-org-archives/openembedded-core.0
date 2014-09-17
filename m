@@ -1,31 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6022171467
+	by mail.openembedded.org (Postfix) with ESMTP id 8E79A713C1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Sep 2014 16:11:19 +0000 (UTC)
+	Wed, 17 Sep 2014 16:16:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8HGBDsX007915; Wed, 17 Sep 2014 17:11:13 +0100
+	s8HGFqU6008429; Wed, 17 Sep 2014 17:16:35 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id X4Ar8jyGqxF0; Wed, 17 Sep 2014 17:11:13 +0100 (BST)
+	with LMTP id M0Q0Y8N7Ohsr; Wed, 17 Sep 2014 17:16:35 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8HGB87X007911
+	s8HGGXYL008444
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 17 Sep 2014 17:11:09 +0100
-Message-ID: <1410970270.14624.106.camel@ted>
+	Wed, 17 Sep 2014 17:16:34 +0100
+Message-ID: <1410970596.14624.108.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>, Steffen
-	Sledz <sledz@dresearch-fe.de>
-Date: Wed, 17 Sep 2014 17:11:10 +0100
-In-Reply-To: <54197EDC.3070406@dresearch-fe.de>
-References: <541034FD.4090900@dresearch-fe.de>
-	<541684F7.8040708@dresearch-fe.de> <54197EDC.3070406@dresearch-fe.de>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Wed, 17 Sep 2014 17:16:36 +0100
+In-Reply-To: <7e57c471b593b7be818545b5da25869cb506bde1.1410939794.git.hongxu.jia@windriver.com>
+References: <cover.1410939794.git.hongxu.jia@windriver.com>
+	<7e57c471b593b7be818545b5da25869cb506bde1.1410939794.git.hongxu.jia@windriver.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
-Cc: Lianhao Lu <lianhao.lu@intel.com>
-Subject: Re: hash generation for PR Service?
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 9/9] sstatesig: incremental dump lockedsigs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,49 +37,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Sep 2014 16:11:22 -0000
+X-List-Received-Date: Wed, 17 Sep 2014 16:16:48 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2014-09-17 at 14:30 +0200, Steffen Sledz wrote:
-> Hi Guys,
+On Wed, 2014-09-17 at 16:08 +0800, Hongxu Jia wrote:
+> The idea of incremental sig is:
 > 
-> On 15.09.2014 08:19, Steffen Sledz wrote:
-> > On 10.09.2014 13:24, Steffen Sledz wrote:
-> >> I'm not sure if this is the right mailing list for our problem. Please forgive me if not (and tell me the right one).
-> >>
-> >>
-> >> We're investigating some problems related with package versions going backwards using a PR Service[1].
-> >>
-> >> Can someone give some hints where we can get information about
-> generation of the hashes which are used to request values from the PR
-> service? Especially which data/files/directories are involved..
-> >>
-> >>
-> >> [1] <https://wiki.yoctoproject.org/wiki/PR_Service>
-> > 
-> > Ping! Who can provide related information?
+> New sig file = Old sig file (if available) + New sig items in current build.
 > 
-> there was no feedback in the ml. :(
+> Limit the modification within the dump_lockedsigs, and add two variables
+> 'self.lockedsigs_types' and 'self.lockedsigs_raw' keep old sig file.
 > 
-> Can you help us on this issue?
+> How to config for incremental dump:
+> ...
+> USER_CLASSES += "sstate_lockedsig"
+> SIGGEN_LOCKEDSIGS_CONFIG = "${TOPDIR}/locked-sigs.inc"
+> require ${SIGGEN_LOCKEDSIGS_CONFIG}
+> ...
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 
-The hashes are the same hashes bitbake itself uses to decide whether to
-reexecute tasks or not and are the same hashes encoded into the sstate
-objects.
+I'm fine with the idea in principle. Why can't we do something like:
 
-The manual gives information about this:
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index af7617e..1da282e 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -158,10 +158,14 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+                 sortedk = sorted(types[t], key=lambda k: self.lockedpnmap[k.rsplit(".",1)[0]])
+                 for k in sortedk:
+                     fn = k.rsplit(".",1)[0]
++                    pn = self.lockedpnmap[fn]
+                     task = k.rsplit(".",1)[1]
+                     if k not in self.taskhash:
+                         continue
+-                    f.write("    " + self.lockedpnmap[fn] + ":" + task + ":" + self.taskhash[k] + " \\\n")
++                    if pn in self.lockedsigs and task in self.lockedsigs[pn] and self.hashtask[k] == self.lockedsigs[pn][task]:
++                        continue
++                    sigentry = pn + ":" + task + ":" + self.taskhash[k]
++                    f.write("    " + sigentry + " \\\n")
+                 f.write('    "\n')
+             f.write('SIGGEN_LOCKEDSIGS_TYPES_%s = "%s"' % (self.machine, " ".join(types.keys())))
+ 
 
-http://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#checksums
-
-Please read and understand that, then if you have specific questions,
-please ask them and you may get a more targeted answer. At the moment
-the question is not specific enough to be easy to answer.
+which is substantially simpler though?
 
 Cheers,
 
 Richard
-
 
 
 
