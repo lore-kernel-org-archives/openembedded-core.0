@@ -1,36 +1,37 @@
-Return-Path: <philip.balister@gmail.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 57B33710C8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f48.google.com (mail-qa0-f48.google.com
+	[209.85.216.48])
+	by mail.openembedded.org (Postfix) with ESMTP id E3EA071482
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Sep 2014 14:33:24 +0000 (UTC)
-Received: by mail-qc0-f173.google.com with SMTP id i8so2266201qcq.4
+	Wed, 17 Sep 2014 15:12:13 +0000 (UTC)
+Received: by mail-qa0-f48.google.com with SMTP id v10so1964796qac.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Sep 2014 07:33:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=Hq926llUQGZpW3MTEYqzDW1pyZAfsZvPZNAXdrktPaw=;
-	b=Y2mLoOm77MHuOF6D/iXwpDnfGpTGSa1/4Ao4sYev/z5Z9Gw+jFJNOuH9ww83576qGh
-	nRA2Tngdro2K8CHWhA8kU2rAh2K2XLL4mKk3Pubxbu03YnUMOnoNcZ36gsy918NoqowF
-	IhGF0Jl+OqwFWhuo993vF6PeMo/Zhtt2zJHHkMve+AU4pwUYOBdYwm6PwAQ8TBufUfO+
-	D5OfkTywGiz1lKfBkh2PMZ/PtmQWiPKB1cWHqSu3MpYSCv825clRXca9qP+9QKS++eZz
-	1hrFFby9pfZDXXv1vkYRVlbgbk4e+RbtjmP8bXU/uCVQc+NBPo+7tIiw0aJv5RsV3zqv
-	Z4Qg==
-X-Received: by 10.229.97.67 with SMTP id k3mr56256609qcn.1.1410964405457;
-	Wed, 17 Sep 2014 07:33:25 -0700 (PDT)
-Received: from localhost.localdomain
-	(pool-71-171-45-156.ronkva.east.verizon.net. [71.171.45.156])
-	by mx.google.com with ESMTPSA id l4sm4072883qad.41.2014.09.17.07.33.23
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Sep 2014 07:33:23 -0700 (PDT)
-Sender: Philip Balister <philip.balister@gmail.com>
-From: Philip Balister <philip@balister.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Sep 2014 10:33:19 -0400
-Message-Id: <1410964399-31077-1-git-send-email-philip@balister.org>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] cmake.bbclass : Add support for cmake projects that use .S files.
+	Wed, 17 Sep 2014 08:12:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=0d/eU1MGQZ6D6m3tzF+dlkPfpk79/ltqWBD5E+GcTmc=;
+	b=Mo3FGDtc48YxFUUYKW+O6+LNjvxZqmu7M+RVKj5dzWshc9mbI/Onx5ygeb2QprlxmH
+	DKeB2Yyo/2oZV3aOJFY9PP4v6KjpZyasEA9OEB1SUSkofVP5XAw1jM2R0bwLPg83SrrK
+	b29fdprFNt4gf3KgxaWPZ9NbimHMUmBbkB5vM4OXxt9/WcwPiGHONKFZfTB49RioNy3A
+	ucuG0xvPinbvYxgmBLFQ3tnyImkDXT7k85TU0Cwex6kp3WBa2BHYRhY018KH5o3/jUeC
+	JCPbVqvkVJb+Ftq97OAxXk83QNzFAC0r8E9S3iNRi/Yutqh06xCDX4mkagRgV2EH3tXc
+	TBgQ==
+X-Gm-Message-State: ALoCoQn/ETdjwVqRiLSM2EHajrqoq0nJGIoV+KV2RRHpfB8/gqL3CVJvlBl/dQOA4AwF36BwCy8k
+X-Received: by 10.140.27.139 with SMTP id 11mr16979255qgx.59.1410966733647;
+	Wed, 17 Sep 2014 08:12:13 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.34.180 with HTTP; Wed, 17 Sep 2014 08:11:53 -0700 (PDT)
+In-Reply-To: <cover.1410879378.git.kai.kang@windriver.com>
+References: <cover.1410879378.git.kai.kang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 17 Sep 2014 16:11:53 +0100
+Message-ID: <CAJTo0LYPVqG9pPrTeMLyzjGH2=2mb7W6av4dYHJq5+ZZk+3r2A@mail.gmail.com>
+To: Kai Kang <kai.kang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Joe Slater <jslater@windriver.com>
+Subject: Re: [PATCH 0/9] V2: Add machine qemuaarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Sep 2014 14:33:33 -0000
+X-List-Received-Date: Wed, 17 Sep 2014 15:12:19 -0000
+Content-Type: text/plain; charset=UTF-8
 
-UHD and GNU radio use the cmake build system. The toolchain file made
-from cmake.bbclass does not set the variable needs by cmake projects
-that use .S files. UHD added some .S files and these changes are required
-to build recent UHD.
+On 16 September 2014 16:06, Kai Kang <kai.kang@windriver.com> wrote:
+> V2:
+> * fix kernel linux-yocto build faiure
+> * redefine position of dynamic linker from /lib to /lib64
+> * other fixes of userspace packages
+>
+> Test with Joe Slater's patches:
+> * siteinfo: account for 32 and 64 bit arm
+> * sysprof: add aarch64 support
 
-Signed-off-by: Philip Balister <philip@balister.org>
----
- meta/classes/cmake.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+So aarch64 support really needs qemuarm64 in oe-core to be tested, and
+qemuarm64 is a new feature, and we froze for new features two weeks
+ago.  Blindly merging aarch64 patches that we can't currently test
+doesn't seem sensible.
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index ab2adec..bfa5995 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -34,10 +34,13 @@ set( CMAKE_SYSTEM_NAME `echo ${TARGET_OS} | sed -e 's/^./\u&/' -e 's/^\(Linux\).
- set( CMAKE_SYSTEM_PROCESSOR ${TARGET_ARCH} )
- set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
- set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
-+set( CMAKE_ASM_COMPILER ${OECMAKE_C_COMPILER} )
- set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
- set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
-+set( CMAKE_ASM_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "ASM FLAGS" )
- set( CMAKE_C_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "CFLAGS for release" )
- set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXXFLAGS for release" )
-+set( CMAKE_ASM_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "ASM FLAGS for release" )
- set( CMAKE_C_LINK_FLAGS "${OECMAKE_C_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
- set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
- 
--- 
-1.8.3.1
+Could someone who is actually testing and working on the aarch64
+support (you?) manage a single branch that tracks master, so when 1.7
+branches off we can do a merge straight away.
 
+Ross
 
