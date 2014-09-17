@@ -1,35 +1,36 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id B7C3F7117E
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A93771427
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Sep 2014 23:07:47 +0000 (UTC)
-Received: by mail-ie0-f174.google.com with SMTP id y20so77374ier.19
+	Wed, 17 Sep 2014 23:11:34 +0000 (UTC)
+Received: by mail-ig0-f174.google.com with SMTP id r10so187187igi.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Sep 2014 16:07:48 -0700 (PDT)
+	Wed, 17 Sep 2014 16:11:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=maBhaKx7xcQVAUPVifR/SBbbqRKNmOXinTiWPAbR8yo=;
-	b=KEzI1azLXKwlwD+F/nmHGKBVLk3DaMMteuXDsDkTm9Vl6MGQc0LDgShf1LLsueW65L
-	0F5A/lGHan0vwYaDuP96aS7J/Lu1hwCKIX36qnX5PGZAQiOer3vojimhbuqMzO3TRTGv
-	nQ1PQVb0/D42aB7K4EmVHr2B0uk2LLvfIlKGZR6Z3Zf2wYGmZ1lVOZFSxO0huQg0ja8K
-	c7RmT17GhYQ7F2ldiHBB/PwrseF6nXEL/B0/gyBG3BQFoqLns7Lct9puXgv7VMC07qEx
-	kf7k/HOkj/K6uZwCowzmQI6a0d3koRVIqAmrUz5YNj7GLXAen3g8McVaQmIT3IuLlq5C
-	0mJg==
-X-Received: by 10.42.230.144 with SMTP id jm16mr8454327icb.68.1410995268295;
-	Wed, 17 Sep 2014 16:07:48 -0700 (PDT)
+	:cc:content-type:content-transfer-encoding;
+	bh=+h9nC51sAwq6DS3u8pfL7FjNcqfv61SrI6FYwn7Ut18=;
+	b=IHqUSuY2xHlGcvpy4qU2W/3cGGMDtyTh4AsAgPD9aIbjFRecdW/tDRIIfe2x3M1bkz
+	0YzePWHHNAzZZNsRR8E4jyRIaUZXpKBs6GSN9c8S5y4q0iItJU8a2oTR8AblhhNrxEL/
+	Xtb9BCcbA9k1kVC8jqGVn4Z6yBS0/h/sc725jH/GWh60Ov14EusJ/fsv50zZM55zKQrH
+	Fc6KSngge0VoHFNReMo01eKLwVGonj5od2xDKQsyFuvQobx5tnx+IatHexwZT8wJamup
+	ZBbzf9kUdIcOObxmR5goVv8nbo0kuIlD2VKjKiKMyRG+Q2fho4MioZgZTem0LB/6puE4
+	RdTQ==
+X-Received: by 10.50.4.67 with SMTP id i3mr10403285igi.4.1410995495950; Wed,
+	17 Sep 2014 16:11:35 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.50.240.6 with HTTP; Wed, 17 Sep 2014 16:07:18 -0700 (PDT)
-In-Reply-To: <1410964399-31077-1-git-send-email-philip@balister.org>
-References: <1410964399-31077-1-git-send-email-philip@balister.org>
+Received: by 10.50.240.6 with HTTP; Wed, 17 Sep 2014 16:11:05 -0700 (PDT)
+In-Reply-To: <26724FB0BFCB3D4C91BDE184751AA3A428AC2289@SESTOEX04.enea.se>
+References: <1410769631-5672-1-git-send-email-rongqing.li@windriver.com>
+	<CAJTo0LZd_5dYP7sc-umCev+rzU_YzGNLWUq6o0Y0ZK9b6ayB3g@mail.gmail.com>
+	<26724FB0BFCB3D4C91BDE184751AA3A428AC2289@SESTOEX04.enea.se>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 17 Sep 2014 16:07:18 -0700
-Message-ID: <CAMKF1spggZ4tP2A6oOq_-mw9bPhrdYj9dWR9n5dr-5YNFyP_EQ@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake.bbclass : Add support for cmake projects that use .S files.
+Date: Wed, 17 Sep 2014 16:11:05 -0700
+Message-ID: <CAMKF1sq0F=z4o-3T6KHLgsMC+CY87k1kO82WhJ-8-6GXVTyqAw@mail.gmail.com>
+To: Tudor Florea <Tudor.Florea@enea.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kmod: remove the setting of INHIBIT_PACKAGE_STRIP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,48 +43,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Sep 2014 23:07:57 -0000
+X-List-Received-Date: Wed, 17 Sep 2014 23:11:36 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 17, 2014 at 7:33 AM, Philip Balister <philip@balister.org> wrote:
-> UHD and GNU radio use the cmake build system. The toolchain file made
-> from cmake.bbclass does not set the variable needs by cmake projects
-> that use .S files. UHD added some .S files and these changes are required
-> to build recent UHD.
->
+On Wed, Sep 17, 2014 at 3:11 AM, Tudor Florea <Tudor.Florea@enea.com> wrote=
+:
+> "Since kmod test files contain kernel modules for many different architec=
+tures, strip and arch gets confused and throws errors"
+> It means nothing if a specific platform doesn't exhibit the behavior. Kmo=
+d ptest attempts to load a precompiled (and unstripped for that matter) ina=
+ppropriate module and verify this is not possible. I still think we should =
+not remove the line (e.g. we should not alter kmod precompiled modules from=
+ ptest).
 
-I dont know if this is right thing to do in a generic bbclass. Since
-some packages might use bare assembler to compiler assembly files
-
-> Signed-off-by: Philip Balister <philip@balister.org>
-> ---
->  meta/classes/cmake.bbclass | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-> index ab2adec..bfa5995 100644
-> --- a/meta/classes/cmake.bbclass
-> +++ b/meta/classes/cmake.bbclass
-> @@ -34,10 +34,13 @@ set( CMAKE_SYSTEM_NAME `echo ${TARGET_OS} | sed -e 's/^./\u&/' -e 's/^\(Linux\).
->  set( CMAKE_SYSTEM_PROCESSOR ${TARGET_ARCH} )
->  set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
->  set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
-> +set( CMAKE_ASM_COMPILER ${OECMAKE_C_COMPILER} )
->  set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
->  set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
-> +set( CMAKE_ASM_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "ASM FLAGS" )
->  set( CMAKE_C_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "CFLAGS for release" )
->  set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXXFLAGS for release" )
-> +set( CMAKE_ASM_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "ASM FLAGS for release" )
->  set( CMAKE_C_LINK_FLAGS "${OECMAKE_C_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
->  set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
->
-> --
-> 1.8.3.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+kmod should use strip and not cross-strip then
 
