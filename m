@@ -1,26 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 539ED65D59
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FDD3702AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Sep 2014 08:09:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8H890aJ000247
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 17 Sep 2014 01:09:00 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 17 Sep 2014 01:09:00 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
-	<richard.purdie@linuxfoundation.org>
-Date: Wed, 17 Sep 2014 16:08:33 +0800
-Message-ID: <7e57c471b593b7be818545b5da25869cb506bde1.1410939794.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1410939794.git.hongxu.jia@windriver.com>
-References: <cover.1410939794.git.hongxu.jia@windriver.com>
+	Wed, 17 Sep 2014 08:22:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8H8Mdur018214
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Sep 2014 01:22:39 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.141) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 17 Sep 2014 01:22:38 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Sep 2014 16:22:41 +0800
+Message-ID: <1410942161-18469-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Subject: [PATCH 9/9] sstatesig: incremental dump lockedsigs
+Subject: [PATCH] rpcbind: add option to make customer able to use fixed port number
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,88 +31,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Sep 2014 08:09:00 -0000
+X-List-Received-Date: Wed, 17 Sep 2014 08:22:51 -0000
 Content-Type: text/plain
 
-The idea of incremental sig is:
+From: Li Wang <li.wang@windriver.com>
 
-New sig file = Old sig file (if available) + New sig items in current build.
+add option to make customer able to use fixed port number
 
-Limit the modification within the dump_lockedsigs, and add two variables
-'self.lockedsigs_types' and 'self.lockedsigs_raw' keep old sig file.
-
-How to config for incremental dump:
-...
-USER_CLASSES += "sstate_lockedsig"
-SIGGEN_LOCKEDSIGS_CONFIG = "${TOPDIR}/locked-sigs.inc"
-require ${SIGGEN_LOCKEDSIGS_CONFIG}
-...
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- meta/lib/oe/sstatesig.py | 33 +++++++++++++++++++--------------
- 1 file changed, 19 insertions(+), 14 deletions(-)
+ .../rpcbind_add_option_to_fix_port_number.patch    |   97 ++++++++++++++++++++
+ meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb     |    1 +
+ 2 files changed, 98 insertions(+)
+ create mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index af7617e..d8cd8e6 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -93,6 +93,10 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-         self.lockedhashfn = {}
-         self.machine = data.getVar("MACHINE", True)
-         self.mismatch_msgs = []
-+        self.lockedsigs_types = (data.getVar("SIGGEN_LOCKEDSIGS_TYPES", True) or "").split()
-+        self.lockedsigs_raw = {}
-+        for t in self.lockedsigs_types:
-+            self.lockedsigs_raw[t] = (data.getVar("SIGGEN_LOCKEDSIGS_%s" % t, True) or "").split()
-         pass
-     def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
-         return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
-@@ -142,28 +146,29 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-             sigfile = os.getcwd() + "/locked-sigs.inc"
- 
-         bb.plain("Writing locked sigs to %s" % sigfile)
--        types = {}
-         for k in self.runtaskdeps:
-             fn = k.rsplit(".",1)[0]
-             t = self.lockedhashfn[fn].split(" ")[1].split(":")[5]
-             t = 't-' + t.replace('_', '-')
--            if t not in types:
--                types[t] = []
--            types[t].append(k)
-+            if t not in self.lockedsigs_types:
-+                self.lockedsigs_types.append(t)
-+                self.lockedsigs_raw[t] = []
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch b/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
+new file mode 100644
+index 0000000..9193658
+--- /dev/null
++++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
+@@ -0,0 +1,97 @@
++From bb78a9571d6a3d0c542ed9d929bf71fd82448968 Mon Sep 17 00:00:00 2001
++From: Roy Li <rongqing.li@windriver.com>
++Date: Wed, 17 Sep 2014 13:22:14 +0800
++Subject: [PATCH] add option to make customer able to use fixed port number
 +
-+            pn = self.lockedpnmap[fn]
-+            task = k.rsplit(".",1)[1]
-+            hash = self.taskhash[k]
-+            lockedsig = "%s:%s:%s" % (pn, task, hash)
-+            if lockedsig not in self.lockedsigs_raw[t]:
-+                self.lockedsigs_raw[t].append(lockedsig)
++Upstream-status: Pending
++
++Signed-off-by: Li Wang <li.wang@windriver.com>
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ src/rpcb_svc_com.c |   17 +++++++++++++++++
++ src/rpcbind.c      |    6 +++++-
++ 2 files changed, 22 insertions(+), 1 deletion(-)
++
++diff --git a/src/rpcb_svc_com.c b/src/rpcb_svc_com.c
++index f6bd6bd..0bbd6e4 100644
++--- a/src/rpcb_svc_com.c
+++++ b/src/rpcb_svc_com.c
++@@ -48,6 +48,7 @@
++ #include <rpc/rpc.h>
++ #include <rpc/rpcb_prot.h>
++ #include <rpc/svc_dg.h>
+++#include <rpc/rpc_com.h>
++ #include <netconfig.h>
++ #include <errno.h>
++ #include <syslog.h>
++@@ -496,6 +497,7 @@ xdr_opaque_parms(XDR *xdrs, struct r_rmtcall_args *cap)
++ 
++ static struct rmtcallfd_list *rmthead;
++ static struct rmtcallfd_list *rmttail;
+++extern unsigned short fixed_port;
++ 
++ int
++ create_rmtcall_fd(struct netconfig *nconf)
++@@ -503,6 +505,8 @@ create_rmtcall_fd(struct netconfig *nconf)
++ 	int fd;
++ 	struct rmtcallfd_list *rmt;
++ 	SVCXPRT *xprt;
+++	struct __rpc_sockinfo si;
+++	struct t_bind taddr;
++ 
++ 	if ((fd = __rpc_nconf2fd(nconf)) == -1) {
++ 		if (debugging)
++@@ -511,6 +515,19 @@ create_rmtcall_fd(struct netconfig *nconf)
++ 			nconf->nc_device, errno);
++ 		return (-1);
++ 	}
+++
+++	if (fixed_port) {
+++		__rpc_fd2sockinfo(fd, &si);
+++		memset(&taddr, 0, sizeof(taddr));
+++		taddr.addr.maxlen = taddr.addr.len = si.si_alen;
+++		taddr.addr.buf = malloc(si.si_alen);
+++		if (taddr.addr.buf == NULL) {
+++			return -1;
+++		}
+++		*(unsigned short *)(&(taddr.addr.buf[0])) = si.si_af;
+++		*(unsigned short *)(&(taddr.addr.buf[2])) = htons(fixed_port);
+++		xprt = svc_tli_create(fd, nconf, &taddr, RPC_MAXDATASIZE, RPC_MAXDATASIZE);
+++	} else
++ 	xprt = svc_tli_create(fd, 0, (struct t_bind *) 0, 0, 0);
++ 	if (xprt == NULL) {
++ 		if (debugging)
++diff --git a/src/rpcbind.c b/src/rpcbind.c
++index 83dbe93..a2caa32 100644
++--- a/src/rpcbind.c
+++++ b/src/rpcbind.c
++@@ -99,6 +99,7 @@ int runasdaemon = 0;
++ int insecure = 0;
++ int oldstyle_local = 0;
++ int verboselog = 0;
+++unsigned short fixed_port = 0;
++ 
++ char **hosts = NULL;
++ int nhosts = 0;
++@@ -748,7 +749,7 @@ parseargs(int argc, char *argv[])
++ {
++ 	int c;
++ 	oldstyle_local = 1;
++-	while ((c = getopt(argc, argv, "adh:ilswf")) != -1) {
+++	while ((c = getopt(argc, argv, "adh:p:ilswf")) != -1) {
++ 		switch (c) {
++ 		case 'a':
++ 			doabort = 1;	/* when debugging, do an abort on */
++@@ -766,6 +767,9 @@ parseargs(int argc, char *argv[])
++ 			if (hosts[nhosts - 1] == NULL)
++ 				errx(1, "Out of memory");
++ 			break;
+++		case 'p':
+++			fixed_port = atoi(optarg);
+++			break;
++ 		case 'i':
++ 			insecure = 1;
++ 			break;
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb
+index 4a5562b..391f094 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb
+@@ -16,6 +16,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
+            ${UCLIBCPATCHES} \
+            file://rpcbind.conf \
+            file://rpcbind.service \
++           file://rpcbind_add_option_to_fix_port_number.patch \
+           "
  
-         with open(sigfile, "w") as f:
--            for t in types:
-+            for t in sorted(self.lockedsigs_types):
-                 f.write('SIGGEN_LOCKEDSIGS_%s = "\\\n' % t)
--                types[t].sort()
--                sortedk = sorted(types[t], key=lambda k: self.lockedpnmap[k.rsplit(".",1)[0]])
--                for k in sortedk:
--                    fn = k.rsplit(".",1)[0]
--                    task = k.rsplit(".",1)[1]
--                    if k not in self.taskhash:
--                        continue
--                    f.write("    " + self.lockedpnmap[fn] + ":" + task + ":" + self.taskhash[k] + " \\\n")
-+                for ls in sorted(self.lockedsigs_raw[t]):
-+                    f.write("    " + ls + " \\\n")
-                 f.write('    "\n')
--            f.write('SIGGEN_LOCKEDSIGS_TYPES_%s = "%s"' % (self.machine, " ".join(types.keys())))
-+            f.write('SIGGEN_LOCKEDSIGS_TYPES_%s = "%s"' %
-+                    (self.machine, " ".join(sorted(self.lockedsigs_types))))
- 
-     def checkhashes(self, missed, ret, sq_fn, sq_task, sq_hash, sq_hashfn, d):
-         checklevel = d.getVar("SIGGEN_LOCKEDSIGS_CHECK_LEVEL", True)
+ UCLIBCPATCHES_libc-uclibc = "file://0001-uclibc-nss.patch \
 -- 
-1.9.1
+1.7.10.4
 
 
