@@ -1,37 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id A043D713C1
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E55471486
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 01:40:01 +0000 (UTC)
-Received: by mail-ig0-f181.google.com with SMTP id h3so432469igd.8
+	Thu, 18 Sep 2014 05:20:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8I5KhdV005945
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Sep 2014 18:40:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=JgjX3sX8AlNhfIbKkF0uMQU15lhCtzst7Fuk/ezN4WQ=;
-	b=HYio9BrcrzymT5iZs1wI5aN0UPnj7ZMyllPruw5SrvOlrOc4zVa4vU0C0kBlfX0197
-	PxW/h58N0k1nhQ/86dcDrLKSBKXzEv/ZBXBCC6hfta/CA/O06rKvaEM38el3NfMONRXj
-	NzpWKTfRtAzIBqqtOH6Gayp4HYUHOVA+rOEOMJAxeGooiKfdL2dqJ47K8kZhsBWtnQvd
-	NOhiqcTctoGR46hQ+0vTxj0BugaXHL6t1HzoWgTOcoOLSNMfMuPOvkPAvxf3j6bYInZB
-	mqyLAdrWKDcX8SK4OjGl7CjRXgFEW05SqZ7o5aGpezE4WEyPm6RKmYhnjt7PmPINZTi2
-	BLTA==
-X-Received: by 10.50.153.83 with SMTP id ve19mr44475532igb.4.1411004402390;
-	Wed, 17 Sep 2014 18:40:02 -0700 (PDT)
+	Wed, 17 Sep 2014 22:20:43 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 17 Sep 2014 22:20:42 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Sep 2014 13:20:27 +0800
+Message-ID: <cover.1411017574.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.50.240.6 with HTTP; Wed, 17 Sep 2014 18:39:32 -0700 (PDT)
-In-Reply-To: <541A2C62.3060506@windriver.com>
-References: <1410942161-18469-1-git-send-email-rongqing.li@windriver.com>
-	<CAMKF1srbBfDZadaEBmLya5xDDXbVeJ6E4ERkWyuYbgnEzhTiHA@mail.gmail.com>
-	<541A2C62.3060506@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 17 Sep 2014 18:39:32 -0700
-Message-ID: <CAMKF1srR3FmLazudFukO=d9zpdyZM8BWPOFjsKuHr_H58HkODw@mail.gmail.com>
-To: Rongqing Li <rongqing.li@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rpcbind: add option to make customer able to use fixed port number
+Subject: [PATCH 0/1] perl: remove unneeded patches in ptest directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,32 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 01:40:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 18 Sep 2014 05:20:43 -0000
+Content-Type: text/plain
 
-On Wed, Sep 17, 2014 at 5:50 PM, Rongqing Li <rongqing.li@windriver.com> wrote:
->
->
-> On 09/18/2014 07:14 AM, Khem Raj wrote:
->>
->> On Wed, Sep 17, 2014 at 1:22 AM,<rongqing.li@windriver.com>  wrote:
->>>
->>> >From: Li Wang<li.wang@windriver.com>
->>> >
->>> >add option to make customer able to use fixed port number
->>
->> if you have not submitted it upstream please do so. I would be
->> interested to hear feedback from upstream before we apply this patch
->>
->
-> 1. this patch was from a customer requirement. the customer verified it
-> works.
+The following changes since commit fceef0cace6670a8c5f15cd2f31a191176732730:
 
-Nice to know however, its important to not digress w.r.t feature from upstream
+  bitbake: data_smart: Fix remove operator and its interaction with data expansion (2014-09-13 08:52:49 +0100)
 
->
-> 2. I post this patch to rpcbind discussion,
-> https://sourceforge.net/p/rpcbind/discussion/716839/thread/32af721d/
+are available in the git repository at:
 
-Update this thread when you hear back from upstream rpcbind ml.
+  git://git.pokylinux.org/poky-contrib chonglu/perl
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/perl
+
+Chong Lu (1):
+  perl: remove unneeded patches in ptest directory
+
+ meta/recipes-devtools/perl/perl-ptest.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+1.9.1
+
 
