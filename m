@@ -1,26 +1,41 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2604A6FC54
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id D9873714B9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 07:23:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8I7Npmh007889
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 18 Sep 2014 00:23:52 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 18 Sep 2014 00:23:51 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
-	<richard.purdie@linuxfoundation.org>
-Date: Thu, 18 Sep 2014 15:23:43 +0800
-Message-ID: <f45b0061e129e917e88cf64e7097b61e1426442e.1411023982.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1411023982.git.hongxu.jia@windriver.com>
-References: <cover.1411023982.git.hongxu.jia@windriver.com>
+	Thu, 18 Sep 2014 07:26:03 +0000 (UTC)
+Received: by mail-pd0-f181.google.com with SMTP id w10so839162pde.12
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Sep 2014 00:26:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=XdD0QMWRbnWq3MDSQ0QHh1P9wVRt3pucx1SdaEPxIVU=;
+	b=X3maXGw0/Ivzd6/gC8egGzynq9+bRzJGhujSclNNnewKXHBn1C6nFeQNTHKeOmAptm
+	PclCa6F36MKtFHoloTvw9XYcfFa6A822j8vLXMNfi69u13w0kFZr3av7hIpXnTfH3LZ+
+	SV0YU5BlbaWs1BD6tqtwoRdToC41tg3S4bbWlrCYibXRwDohLKddwCb9uixyJUNPMqry
+	hhxEBaeltfFiMIXeYYXF3qEOCQFpF0I/jsVD2qJw5YWyDSPkYXs/uIaQpIW/YsT65dlq
+	0HYseTBl9MjwEfMTTnuX4Z3sKC8ByPAIWMQfoIJi7rF9gGPIQdOqjrjG0fIIFWhr+aS6
+	gU4g==
+X-Received: by 10.68.203.198 with SMTP id ks6mr3389367pbc.140.1411025164983;
+	Thu, 18 Sep 2014 00:26:04 -0700 (PDT)
+Received: from CACSVMO-14452.local (c-98-207-177-218.hsd1.ca.comcast.net.
+	[98.207.177.218]) by mx.google.com with ESMTPSA id
+	fl15sm18775711pdb.92.2014.09.18.00.26.03
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 18 Sep 2014 00:26:04 -0700 (PDT)
+Message-ID: <541A890A.8070709@gmail.com>
+Date: Thu, 18 Sep 2014 00:26:02 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
 MIME-Version: 1.0
-Subject: [PATCH 3/3] sstatesig: fix to support unincremental locked signature dump
+To: openembedded-core@lists.openembedded.org
+References: <1410916622-26204-1-git-send-email-kergoth@gmail.com>
+	<1410916622-26204-7-git-send-email-kergoth@gmail.com>
+In-Reply-To: <1410916622-26204-7-git-send-email-kergoth@gmail.com>
+Subject: Re: [PATCH v2 6/8] blktrace: obey LDFLAGS for btrecord
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +48,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 07:23:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Sep 2014 07:26:04 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-The condition of incremental locked signature dump is an
-existed locked sig file is required and it is also the
-dump sig file.
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-But if they are not the same file or simply no locked sig
-file required, it should be unincremental.
 
-In unincremental dump situation, we should write the locked
-sig file rather than append.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/lib/oe/sstatesig.py | 4 ++++
- 1 file changed, 4 insertions(+)
+On 9/16/14 6:17 PM, Christopher Larson wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+> 
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+>  meta/recipes-kernel/blktrace/blktrace/ldflags.patch | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-kernel/blktrace/blktrace/ldflags.patch b/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
+> index b9c7c20..037d161 100644
+> --- a/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
+> +++ b/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
+> @@ -59,8 +59,12 @@ Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
+>   INCS	= -I. -I.. -I../btt
+>   OCFLAGS	= -UCOUNT_IOS -UDEBUG -DNDEBUG
+>   XCFLAGS	= -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+> -@@ -35,7 +36,7 @@ btrecord: btrecord.o
+> - 	$(CC) $(CFLAGS) -o $@ $(filter %.o,$^)
+> +@@ -32,10 +33,10 @@ clean: docsclean
+> +	$(CC) $(CFLAGS) -c -o $*.o $<
+> +
+> + btrecord: btrecord.o
+> +-	$(CC) $(CFLAGS) -o $@ $(filter %.o,$^)
+> ++	$(CC) $(CFLAGS) -o $@ $(filter %.o,$^) $(LDFLAGS)
+>   
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index b2ffc7e..ce7c960 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -93,6 +93,7 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-         self.lockedhashfn = {}
-         self.machine = data.getVar("MACHINE", True)
-         self.mismatch_msgs = []
-+        self.bbinclude = (data.getVar("BBINCLUDED", True) or "").split()
-         pass
-     def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
-         return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
-@@ -166,6 +167,9 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
-             bb.plain("Nothing added to %s" % sigfile)
-             return
- 
-+        if os.path.abspath(sigfile) not in self.bbinclude:
-+            open(sigfile, "w").close()
-+
-         with open(sigfile, "a") as f:
-             for t in types:
-                 f.write('SIGGEN_LOCKEDSIGS_%s += "\\\n' % t)
--- 
-1.9.1
+aren't you passing LDFLAGS to compile step as well here ?
 
+
+>   btreplay: btreplay.o
+>  -	$(CC) $(CFLAGS) -o $@ $(filter %.o,$^) $(LIBS)
+> 
+
+- -- 
+- -Khem
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG/MacGPG2 v2.0.22 (Darwin)
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlQaiQoACgkQuwUzVZGdMxT8RgCeOnVS1P+8kPTGj+GbRQfGSPyb
+NMAAmgKJL65/3Y5ot35pALZv8ZgRHxQ0
+=DxWh
+-----END PGP SIGNATURE-----
 
