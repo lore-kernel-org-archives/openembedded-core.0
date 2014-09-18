@@ -1,25 +1,29 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 86045617B8
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 766AB6AFB5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 16:02:46 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 18 Sep 2014 09:01:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,548,1406617200"; d="scan'208";a="604885098"
-Received: from new-host-2.jf.intel.com (HELO new-host-2.home) ([10.7.201.163])
-	by orsmga002.jf.intel.com with ESMTP; 18 Sep 2014 09:00:55 -0700
-Message-ID: <541B01B5.9090900@linux.intel.com>
-Date: Thu, 18 Sep 2014 09:00:53 -0700
-From: Randy Witt <randy.e.witt@linux.intel.com>
+	Thu, 18 Sep 2014 16:47:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8IGlcr2016517
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 18 Sep 2014 09:47:38 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 18 Sep 2014 09:47:37 -0700
+Message-ID: <541B0CA7.1040704@windriver.com>
+Date: Fri, 19 Sep 2014 00:47:35 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1411019338.git.Qi.Chen@windriver.com>
-	<cbcf90ef7466703fd5015923cb6d1b3998ee9a95.1411019338.git.Qi.Chen@windriver.com>
-In-Reply-To: <cbcf90ef7466703fd5015923cb6d1b3998ee9a95.1411019338.git.Qi.Chen@windriver.com>
-Subject: Re: [PATCH 1/1] dhcp: set Type=forking for dhcpd.service
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1411023982.git.hongxu.jia@windriver.com>	
+	<afb9eb87d6ebebd33c1f6febf8f37111db63a614.1411023982.git.hongxu.jia@windriver.com>
+	<1411048067.4736.8.camel@ted>
+In-Reply-To: <1411048067.4736.8.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] sstatesig: Only dump incremental locked signatures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +36,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 16:02:50 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Thu, 18 Sep 2014 16:47:41 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/17/2014 10:50 PM, Chen Qi wrote:
-> Set Type=forking for dhcpd.service to make it start up correctly.
+On 09/18/2014 09:47 PM, Richard Purdie wrote:
+> I'm afraid I'm starting to feel very strongly this is not a direction we
+> should move in. Having the ability to write out a .inc file containing
+> on a delta is one thing, writing out a file for automatic inclusion and
+> trying to maintain that file is not something I feel comfortable with.
 >
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-connectivity/dhcp/files/dhcpd.service | 1 +
->   1 file changed, 1 insertion(+)
+> I think that at some point there needs to be external tooling handling
+> the inclusion and updating of this file and that the sigs code is not
+> the place for this.
 >
-> diff --git a/meta/recipes-connectivity/dhcp/files/dhcpd.service b/meta/recipes-connectivity/dhcp/files/dhcpd.service
-> index 8648f1a..80f6c41 100644
-> --- a/meta/recipes-connectivity/dhcp/files/dhcpd.service
-> +++ b/meta/recipes-connectivity/dhcp/files/dhcpd.service
-> @@ -4,6 +4,7 @@ After=network.target
->   After=time-sync.target
->
->   [Service]
-> +Type=forking
+> For example, consider the case where you switch machines and want to
+> share an include file between these machines. With the changes proposed
+> in this patch series it will simply overwrite the file and remove the
+> entries for the other machine.
 
-Is it possible to set "PIDFile=" as well? There can be some weird 
-behaviour if systemd loses track of the child process.
+Yes, you are right, it will overwrite, not for the locked sig file,
+but the core structure self.lockedsigs
 
->   EnvironmentFile=@SYSCONFDIR@/default/dhcp-server
->   ExecStart=-@SBINDIR@/dhcpd -q $INTERFACES
+It could explain the necessary why I add 'type' to self.lockedsigs
+in previous path series.
+{pn:{task:{hash}}} --> {type:{pn:{task:{hash}}}}
+
+//Hongxu
+
 >
+> We could keep trying to patch up this code to cover every combination
+> and eventuality but in the end, I believe the maintenance of this file
+> should be something external, the sigs code should only be concerned
+> with the generation of the core entries.
 >
+> Cheers,
+>
+> Richard
 
 
