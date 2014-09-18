@@ -1,22 +1,24 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 09DA860030
+	by mail.openembedded.org (Postfix) with ESMTP id 0ED4F6FC54
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 09:15:39 +0000 (UTC)
+	Thu, 18 Sep 2014 09:15:47 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3hzCFl1QTNz3hjRF;
-	Thu, 18 Sep 2014 11:15:39 +0200 (CEST)
-X-Auth-Info: wsyIbh64rDdQzv+w0x10Ocz+iMlp/DKMLKlzClDb/8g=
+	by mail-out.m-online.net (Postfix) with ESMTP id 3hzCFn6Tfbz3hjRX;
+	Thu, 18 Sep 2014 11:15:41 +0200 (CEST)
+X-Auth-Info: CutGXtSdSIfAgM43ByijPlWPxshzaBMGWKqKtKC+u10=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3hzCFk3SdPzvhTZ;
-	Thu, 18 Sep 2014 11:15:38 +0200 (CEST)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3hzCFn449RzvhTZ;
+	Thu, 18 Sep 2014 11:15:41 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Sep 2014 11:15:34 +0200
-Message-Id: <1411031735-14721-1-git-send-email-marex@denx.de>
+Date: Thu, 18 Sep 2014 11:15:35 +0200
+Message-Id: <1411031735-14721-2-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.0.0
+In-Reply-To: <1411031735-14721-1-git-send-email-marex@denx.de>
+References: <1411031735-14721-1-git-send-email-marex@denx.de>
 Cc: Marek Vasut <marex@denx.de>, koen@dominion.thruhere.net
-Subject: [PATCH 1/2] nativesdk-packagegroup-python: buildtools-tarball: Introduce NativeSDK package group
+Subject: [PATCH 2/2] meta-toolchain-qt: Install full set of python modules in Qt SDK toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,100 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 09:15:47 -0000
+X-List-Received-Date: Thu, 18 Sep 2014 09:15:48 -0000
 
-Introduce and use nativesdk-packagegroup-python , which contains all
-necessary python components for the native SDK. Make use of this
-package group in buildtools-tarball.bb immediatelly.
+The Qt SDK toolchain pulls in python via packagegroup-cross-canadian-${MACHINE}
+and ships it. But the python is missing many modules and is rather incomplete.
+
+The environment-setup-* script configures the PATH variable to point into
+it's own sysroot first, it means the python from the SDK is used as well
+when the environment is configured. It actually does make sense to use the
+python from the SDK, since the SDK should provide the tools needed to build
+additional software.
+
+The problem is, the python in the SDK image is stripped to a bare minimum
+of modules, which prevents some software from being built with the SDK as
+is. Add the same python modules as the buildtools-tarball.bb adds to make
+the python shipped with the SDK complete via nativesdk-packagegroup-python.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
- meta/recipes-core/meta/buildtools-tarball.bb       | 28 +----------------
- .../python/nativesdk-packagegroup-python.bb        | 36 ++++++++++++++++++++++
- 2 files changed, 37 insertions(+), 27 deletions(-)
- create mode 100644 meta/recipes-devtools/python/nativesdk-packagegroup-python.bb
+ meta/recipes-qt/meta/meta-toolchain-qt.inc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 62e1e0b..7d20238 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -8,33 +8,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d
- TOOLCHAIN_TARGET_TASK ?= ""
+diff --git a/meta/recipes-qt/meta/meta-toolchain-qt.inc b/meta/recipes-qt/meta/meta-toolchain-qt.inc
+index 6b162bd..b8b9c78 100644
+--- a/meta/recipes-qt/meta/meta-toolchain-qt.inc
++++ b/meta/recipes-qt/meta/meta-toolchain-qt.inc
+@@ -1,4 +1,8 @@
+-TOOLCHAIN_HOST_TASK = "nativesdk-packagegroup-${QTNAME}-toolchain-host packagegroup-cross-canadian-${MACHINE}"
++TOOLCHAIN_HOST_TASK = " \
++	nativesdk-packagegroup-${QTNAME}-toolchain-host \
++	packagegroup-cross-canadian-${MACHINE} \
++	nativesdk-packagegroup-python \
++	"
+ TOOLCHAIN_TARGET_TASK = "packagegroup-${QTNAME}-toolchain-target"
+ TOOLCHAIN_OUTPUTNAME = "${SDK_NAME}-toolchain-${QTNAME}-${DISTRO_VERSION}"
  
- TOOLCHAIN_HOST_TASK ?= "\
--    nativesdk-python-core \
--    nativesdk-python-textutils \
--    nativesdk-python-sqlite3 \
--    nativesdk-python-pickle \
--    nativesdk-python-logging \
--    nativesdk-python-elementtree \
--    nativesdk-python-curses \
--    nativesdk-python-compile \
--    nativesdk-python-compiler \
--    nativesdk-python-fcntl \
--    nativesdk-python-shell \
--    nativesdk-python-misc \
--    nativesdk-python-multiprocessing \
--    nativesdk-python-subprocess \
--    nativesdk-python-xmlrpc \
--    nativesdk-python-netclient \
--    nativesdk-python-netserver \
--    nativesdk-python-distutils \
--    nativesdk-python-unixadmin \
--    nativesdk-python-compression \
--    nativesdk-python-json \
--    nativesdk-python-unittest \
--    nativesdk-python-mmap \
--    nativesdk-python-difflib \
--    nativesdk-python-pprint \
--    nativesdk-python-git \
--    nativesdk-python-pkgutil \
-+    nativesdk-packagegroup-python \
-     nativesdk-ncurses-terminfo-base \
-     nativesdk-chrpath \
-     nativesdk-tar \
-diff --git a/meta/recipes-devtools/python/nativesdk-packagegroup-python.bb b/meta/recipes-devtools/python/nativesdk-packagegroup-python.bb
-new file mode 100644
-index 0000000..fdc1006
---- /dev/null
-+++ b/meta/recipes-devtools/python/nativesdk-packagegroup-python.bb
-@@ -0,0 +1,36 @@
-+SUMMARY = "NativeSDK Python package group"
-+DESCRIPTION = "NativeSDK Python package group"
-+PR = "r0"
-+LICENSE = "MIT"
-+
-+inherit packagegroup
-+
-+RDEPENDS_${PN} = "				\
-+	nativesdk-python-core			\
-+	nativesdk-python-textutils		\
-+	nativesdk-python-sqlite3		\
-+	nativesdk-python-pickle			\
-+	nativesdk-python-logging		\
-+	nativesdk-python-elementtree		\
-+	nativesdk-python-curses			\
-+	nativesdk-python-compile		\
-+	nativesdk-python-compiler		\
-+	nativesdk-python-fcntl			\
-+	nativesdk-python-shell			\
-+	nativesdk-python-misc			\
-+	nativesdk-python-multiprocessing	\
-+	nativesdk-python-subprocess		\
-+	nativesdk-python-xmlrpc			\
-+	nativesdk-python-netclient		\
-+	nativesdk-python-netserver		\
-+	nativesdk-python-distutils		\
-+	nativesdk-python-unixadmin		\
-+	nativesdk-python-compression		\
-+	nativesdk-python-json			\
-+	nativesdk-python-unittest		\
-+	nativesdk-python-mmap			\
-+	nativesdk-python-difflib		\
-+	nativesdk-python-pprint			\
-+	nativesdk-python-git			\
-+	nativesdk-python-pkgutil		\
-+    "
 -- 
 2.0.0
 
