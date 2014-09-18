@@ -1,30 +1,42 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D3F77142A
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 401F071467
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 09:40:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8I9e30Y014105
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 18 Sep 2014 02:40:04 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Thu, 18 Sep 2014 02:40:03 -0700
-Message-ID: <541AA872.8090201@windriver.com>
-Date: Thu, 18 Sep 2014 17:40:02 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Thu, 18 Sep 2014 10:29:38 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id fb1so316205pad.7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Sep 2014 03:29:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=FdfJRlXmqX5nT3GRC1jHBsIhUVHYuTV/KLxIAkvkjW0=;
+	b=hNraJ0Zz/lkTDBoQkl9PF/hh+Ml0sYLzhEzquw4+wfM1HdAFgOeTCQiI3DviPiL/iS
+	k+yhu0XQIEM/W4rl0GLZgcnbb+Ye3Eum0rUipqJ20TZO8TwB/+xKYLjT5ITb8Jm2cEKW
+	l14ammDvj8tTmX9itea5mivHIo9WDdQpRVMZOCQViGLhnnjo82VoywyigPwqsCJ3hieD
+	eCI7r2BERehr1KD2grYpjlq60RRrhABybk+N55nSMgOLlup91/AZp+MKZAxcjWY1f0l0
+	eUUS5/3LQkaHQnThnyO73g933TzfjCrjET4NopECZ04upqLAxwI4PVtlbp530Xc3xBT/
+	CQnQ==
+X-Gm-Message-State: ALoCoQlRsNz2pDs+fQ5ttgxAbhGbh+Y93uQv4ppX1KHAuRVt9mM/hYRJQZZZbyMUH5wc/AkxhprC
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1410879378.git.kai.kang@windriver.com>
-	<CAJTo0LYPVqG9pPrTeMLyzjGH2=2mb7W6av4dYHJq5+ZZk+3r2A@mail.gmail.com>
-In-Reply-To: <CAJTo0LYPVqG9pPrTeMLyzjGH2=2mb7W6av4dYHJq5+ZZk+3r2A@mail.gmail.com>
-X-Originating-IP: [128.224.162.231]
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Joe Slater <jslater@windriver.com>
-Subject: Re: [PATCH 0/9] V2: Add machine qemuaarch64
+X-Received: by 10.66.119.103 with SMTP id kt7mr4277942pab.95.1411036179694;
+	Thu, 18 Sep 2014 03:29:39 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.65.69 with HTTP; Thu, 18 Sep 2014 03:29:39 -0700 (PDT)
+In-Reply-To: <201409181130.36388.marex@denx.de>
+References: <1407438629-13369-1-git-send-email-marex@denx.de>
+	<201409181116.07918.marex@denx.de>
+	<CAOMwXhN5=zy_wkKypAMjaPxTY1ezCZ302L8hqokNZQaUBbcfNQ@mail.gmail.com>
+	<201409181130.36388.marex@denx.de>
+Date: Thu, 18 Sep 2014 11:29:39 +0100
+X-Google-Sender-Auth: CN-nJutK2MVBq50xTMtOK-54ha8
+Message-ID: <CAOMwXhOa6rNukzGaCWFgipzvUFczjjcsbgzwOMqJcWwmS3oPiQ@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: Marek Vasut <marex@denx.de>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Yocto: Install full set of python modules in Qt SDK toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +49,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 09:40:07 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 18 Sep 2014 10:29:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2014年09月17日 23:11, Burton, Ross wrote:
-> On 16 September 2014 16:06, Kai Kang <kai.kang@windriver.com> wrote:
->> V2:
->> * fix kernel linux-yocto build faiure
->> * redefine position of dynamic linker from /lib to /lib64
->> * other fixes of userspace packages
+On Thu, Sep 18, 2014 at 10:30 AM, Marek Vasut <marex@denx.de> wrote:
+> On Thursday, September 18, 2014 at 11:23:13 AM, Laszlo Papp wrote:
+>> On Thu, Sep 18, 2014 at 10:16 AM, Marek Vasut <marex@denx.de> wrote:
+>> > On Thursday, September 18, 2014 at 11:11:45 AM, Laszlo Papp wrote:
+>> >> Come on, Yocto maintainers, please...
+>> >>
+>> >> Mark sent this change relatively long ago, and it is still in "new"
+>> >> state, sadly. The current SDK shipped _breaks_ any third-party
+>> >> software that uses standard python with regards to the libraries and
+>> >> all that.
+>> >>
+>> >> This is is slightly frustrating. We also face the same issue. :(
+>> >
+>> > Thanks for the reminder, new version which should fix the issues with the
+>> > previous one is on the ML now. You're all on CC.
 >>
->> Test with Joe Slater's patches:
->> * siteinfo: account for 32 and 64 bit arm
->> * sysprof: add aarch64 support
-> So aarch64 support really needs qemuarm64 in oe-core to be tested, and
-> qemuarm64 is a new feature, and we froze for new features two weeks
-> ago.  Blindly merging aarch64 patches that we can't currently test
-> doesn't seem sensible.
+>> I do not think this is an explicit Qt issue, and hence fixing on that
+>> layer sounds like a weird approach. It seems to be a generic python
+>> issue and so, I think it should be addressed in its core. I opened a
+>> new report for this:
+>>
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=6735
 >
-> Could someone who is actually testing and working on the aarch64
-> support (you?) manage a single branch that tracks master, so when 1.7
-> branches off we can do a merge straight away.
+> Then you probably want to add nativesdk-packagegroup-python class into the other
+> toolchain recipes as well . Or even better, into the base SDK toolchain class
+> (is there one?)
 
-OK. We will continue to work on arch aarch64 and do runtime tests.
-
---Kai
-
->
-> Ross
->
->
-
-
--- 
-Regards,
-Neil | Kai Kang
-
+See, I do not understand why this "feature" was integrated the way it
+was. IMHO, it lacks any kind of reality. Has the SDK been ever tested
+against python based host development systems? My assumption is no. I
+do not think there is any sanity in using a _that_ stripped down
+version of python on desktop. It just really hurts the python users
+for the SDK, since there is no simple workaround and we cannot get the
+SDK to let the system python take precedence. This situation is awful
+in my opinion. Who is up for fixing this in the core? Let us have a
+_standard_ python shipped with the SDK by default or do not ship any
+at all.
 
