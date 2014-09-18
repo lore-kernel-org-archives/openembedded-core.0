@@ -1,24 +1,25 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E6F6271505
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 86045617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 15:32:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8IFWVfZ015448
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 18 Sep 2014 08:32:32 -0700 (PDT)
-Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 18 Sep 2014 08:32:31 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 18 Sep 2014 11:32:26 -0400
-Message-ID: <cover.1411053678.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
+	Thu, 18 Sep 2014 16:02:46 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 18 Sep 2014 09:01:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,548,1406617200"; d="scan'208";a="604885098"
+Received: from new-host-2.jf.intel.com (HELO new-host-2.home) ([10.7.201.163])
+	by orsmga002.jf.intel.com with ESMTP; 18 Sep 2014 09:00:55 -0700
+Message-ID: <541B01B5.9090900@linux.intel.com>
+Date: Thu, 18 Sep 2014 09:00:53 -0700
+From: Randy Witt <randy.e.witt@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/2] linux-yocto/3.10/3.14: SRCREV updates
+To: openembedded-core@lists.openembedded.org
+References: <cover.1411019338.git.Qi.Chen@windriver.com>
+	<cbcf90ef7466703fd5015923cb6d1b3998ee9a95.1411019338.git.Qi.Chen@windriver.com>
+In-Reply-To: <cbcf90ef7466703fd5015923cb6d1b3998ee9a95.1411019338.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 1/1] dhcp: set Type=forking for dhcpd.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,47 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 15:32:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Sep 2014 16:02:50 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi all,
+On 09/17/2014 10:50 PM, Chen Qi wrote:
+> Set Type=forking for dhcpd.service to make it start up correctly.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/recipes-connectivity/dhcp/files/dhcpd.service | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-connectivity/dhcp/files/dhcpd.service b/meta/recipes-connectivity/dhcp/files/dhcpd.service
+> index 8648f1a..80f6c41 100644
+> --- a/meta/recipes-connectivity/dhcp/files/dhcpd.service
+> +++ b/meta/recipes-connectivity/dhcp/files/dhcpd.service
+> @@ -4,6 +4,7 @@ After=network.target
+>   After=time-sync.target
+>
+>   [Service]
+> +Type=forking
 
-Here are the final -stable refresh update for 3.10 and 3.14 for the 1.7
-release.
+Is it possible to set "PIDFile=" as well? There can be some weird 
+behaviour if systemd loses track of the child process.
 
-I've done build and boot testing for the arches on qemu machines, both for
-standard and -rt. That being said, feeding it to a round of automated build
-testing would be ideal, since I can't cover every single config and case.
-
-I'll follow up with h/w reference board updates, which are staying on 
-3.14 for this release, so they need the new SRCREVs as well.
-
-Cheers,
-
-Bruce
-
-The following changes since commit 280b6d0011f101e7a8edabd34c265b37a2f791ed:
-
-  sstatesig: fix overrides behaviour to remove SIGGEN_LOCKEDSIGS_i586 (2014-09-17 22:00:26 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (2):
-  linux-yocto/3.10: update to v3.10.54 and -rt55
-  linux-yocto/3.14: update to v3.14.18 and -rt9
-
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  8 ++++----
- meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  8 ++++----
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 18 +++++++++---------
- meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 18 +++++++++---------
- 6 files changed, 32 insertions(+), 32 deletions(-)
-
--- 
-1.8.1.2
+>   EnvironmentFile=@SYSCONFDIR@/default/dhcp-server
+>   ExecStart=-@SBINDIR@/dhcpd -q $INTERFACES
+>
+>
 
 
