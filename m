@@ -1,29 +1,34 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EDB371482
+	by mail.openembedded.org (Postfix) with ESMTP id A55C771482
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 13:30:32 +0000 (UTC)
+	Thu, 18 Sep 2014 13:36:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8IDUCdQ018956; Thu, 18 Sep 2014 14:30:12 +0100
+	s8IDaee1019369; Thu, 18 Sep 2014 14:36:40 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id HBMRnBOh0i2D; Thu, 18 Sep 2014 14:30:11 +0100 (BST)
+	with LMTP id mANmsN-q_MBn; Thu, 18 Sep 2014 14:36:40 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s8IDU8ZI018953
+	s8IDabfH019366
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 18 Sep 2014 14:30:10 +0100
-Message-ID: <1411047011.4736.0.camel@ted>
+	Thu, 18 Sep 2014 14:36:38 +0100
+Message-ID: <1411047400.4736.3.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Marek Vasut <marex@denx.de>
-Date: Thu, 18 Sep 2014 14:30:11 +0100
-In-Reply-To: <1411031735-14721-1-git-send-email-marex@denx.de>
-References: <1411031735-14721-1-git-send-email-marex@denx.de>
+To: Laszlo Papp <lpapp@kde.org>
+Date: Thu, 18 Sep 2014 14:36:40 +0100
+In-Reply-To: <CAOMwXhOa6rNukzGaCWFgipzvUFczjjcsbgzwOMqJcWwmS3oPiQ@mail.gmail.com>
+References: <1407438629-13369-1-git-send-email-marex@denx.de>
+	<201409181116.07918.marex@denx.de>
+	<CAOMwXhN5=zy_wkKypAMjaPxTY1ezCZ302L8hqokNZQaUBbcfNQ@mail.gmail.com>
+	<201409181130.36388.marex@denx.de>
+	<CAOMwXhOa6rNukzGaCWFgipzvUFczjjcsbgzwOMqJcWwmS3oPiQ@mail.gmail.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
-Cc: koen@dominion.thruhere.net, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] nativesdk-packagegroup-python: buildtools-tarball: Introduce NativeSDK package group
+Cc: Marek Vasut <marex@denx.de>, Koen Kooi <koen@dominion.thruhere.net>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Yocto: Install full set of python modules in Qt SDK toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,111 +41,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 13:30:37 -0000
+X-List-Received-Date: Thu, 18 Sep 2014 13:36:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2014-09-18 at 11:15 +0200, Marek Vasut wrote:
-> Introduce and use nativesdk-packagegroup-python , which contains all
-> necessary python components for the native SDK. Make use of this
-> package group in buildtools-tarball.bb immediatelly.
+On Thu, 2014-09-18 at 11:29 +0100, Laszlo Papp wrote:
+> On Thu, Sep 18, 2014 at 10:30 AM, Marek Vasut <marex@denx.de> wrote:
+> > On Thursday, September 18, 2014 at 11:23:13 AM, Laszlo Papp wrote:
+> >> On Thu, Sep 18, 2014 at 10:16 AM, Marek Vasut <marex@denx.de> wrote:
+> >> > On Thursday, September 18, 2014 at 11:11:45 AM, Laszlo Papp wrote:
+> >> >> Come on, Yocto maintainers, please...
+> >> >>
+> >> >> Mark sent this change relatively long ago, and it is still in "new"
+> >> >> state, sadly. The current SDK shipped _breaks_ any third-party
+> >> >> software that uses standard python with regards to the libraries and
+> >> >> all that.
+> >> >>
+> >> >> This is is slightly frustrating. We also face the same issue. :(
+> >> >
+> >> > Thanks for the reminder, new version which should fix the issues with the
+> >> > previous one is on the ML now. You're all on CC.
+> >>
+> >> I do not think this is an explicit Qt issue, and hence fixing on that
+> >> layer sounds like a weird approach. It seems to be a generic python
+> >> issue and so, I think it should be addressed in its core. I opened a
+> >> new report for this:
+> >>
+> >> https://bugzilla.yoctoproject.org/show_bug.cgi?id=6735
+> >
+> > Then you probably want to add nativesdk-packagegroup-python class into the other
+> > toolchain recipes as well . Or even better, into the base SDK toolchain class
+> > (is there one?)
+> 
+> See, I do not understand why this "feature" was integrated the way it
+> was. IMHO, it lacks any kind of reality. Has the SDK been ever tested
+> against python based host development systems? My assumption is no. I
+> do not think there is any sanity in using a _that_ stripped down
+> version of python on desktop. It just really hurts the python users
+> for the SDK, since there is no simple workaround and we cannot get the
+> SDK to let the system python take precedence. This situation is awful
+> in my opinion. Who is up for fixing this in the core? Let us have a
+> _standard_ python shipped with the SDK by default or do not ship any
+> at all.
 
-Specifically, isn't this the list of packages needed to run bitbake and
-its associated utils? "python" isn't therefore a particularly good
-description of this package?
+If you install nativesdk-python-modules into your SDK, you will get
+python *and* all its modules installed. If you just install the python
+core, you get a cut down python and need to install the modules you
+need.
+
+The python SDK has been tested and used in a number of scenarios. Where
+a full set of modules is needed, nativesdk-python-modules gets installed
+and everyone is happy. If there is some problem with
+nativesdk-python-modules, please let us know.
 
 Cheers,
 
 Richard
 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
->  meta/recipes-core/meta/buildtools-tarball.bb       | 28 +----------------
->  .../python/nativesdk-packagegroup-python.bb        | 36 ++++++++++++++++++++++
->  2 files changed, 37 insertions(+), 27 deletions(-)
->  create mode 100644 meta/recipes-devtools/python/nativesdk-packagegroup-python.bb
-> 
-> diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-> index 62e1e0b..7d20238 100644
-> --- a/meta/recipes-core/meta/buildtools-tarball.bb
-> +++ b/meta/recipes-core/meta/buildtools-tarball.bb
-> @@ -8,33 +8,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d
->  TOOLCHAIN_TARGET_TASK ?= ""
->  
->  TOOLCHAIN_HOST_TASK ?= "\
-> -    nativesdk-python-core \
-> -    nativesdk-python-textutils \
-> -    nativesdk-python-sqlite3 \
-> -    nativesdk-python-pickle \
-> -    nativesdk-python-logging \
-> -    nativesdk-python-elementtree \
-> -    nativesdk-python-curses \
-> -    nativesdk-python-compile \
-> -    nativesdk-python-compiler \
-> -    nativesdk-python-fcntl \
-> -    nativesdk-python-shell \
-> -    nativesdk-python-misc \
-> -    nativesdk-python-multiprocessing \
-> -    nativesdk-python-subprocess \
-> -    nativesdk-python-xmlrpc \
-> -    nativesdk-python-netclient \
-> -    nativesdk-python-netserver \
-> -    nativesdk-python-distutils \
-> -    nativesdk-python-unixadmin \
-> -    nativesdk-python-compression \
-> -    nativesdk-python-json \
-> -    nativesdk-python-unittest \
-> -    nativesdk-python-mmap \
-> -    nativesdk-python-difflib \
-> -    nativesdk-python-pprint \
-> -    nativesdk-python-git \
-> -    nativesdk-python-pkgutil \
-> +    nativesdk-packagegroup-python \
->      nativesdk-ncurses-terminfo-base \
->      nativesdk-chrpath \
->      nativesdk-tar \
-> diff --git a/meta/recipes-devtools/python/nativesdk-packagegroup-python.bb b/meta/recipes-devtools/python/nativesdk-packagegroup-python.bb
-> new file mode 100644
-> index 0000000..fdc1006
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/nativesdk-packagegroup-python.bb
-> @@ -0,0 +1,36 @@
-> +SUMMARY = "NativeSDK Python package group"
-> +DESCRIPTION = "NativeSDK Python package group"
-> +PR = "r0"
-> +LICENSE = "MIT"
-> +
-> +inherit packagegroup
-> +
-> +RDEPENDS_${PN} = "				\
-> +	nativesdk-python-core			\
-> +	nativesdk-python-textutils		\
-> +	nativesdk-python-sqlite3		\
-> +	nativesdk-python-pickle			\
-> +	nativesdk-python-logging		\
-> +	nativesdk-python-elementtree		\
-> +	nativesdk-python-curses			\
-> +	nativesdk-python-compile		\
-> +	nativesdk-python-compiler		\
-> +	nativesdk-python-fcntl			\
-> +	nativesdk-python-shell			\
-> +	nativesdk-python-misc			\
-> +	nativesdk-python-multiprocessing	\
-> +	nativesdk-python-subprocess		\
-> +	nativesdk-python-xmlrpc			\
-> +	nativesdk-python-netclient		\
-> +	nativesdk-python-netserver		\
-> +	nativesdk-python-distutils		\
-> +	nativesdk-python-unixadmin		\
-> +	nativesdk-python-compression		\
-> +	nativesdk-python-json			\
-> +	nativesdk-python-unittest		\
-> +	nativesdk-python-mmap			\
-> +	nativesdk-python-difflib		\
-> +	nativesdk-python-pprint			\
-> +	nativesdk-python-git			\
-> +	nativesdk-python-pkgutil		\
-> +    "
 
 
 
