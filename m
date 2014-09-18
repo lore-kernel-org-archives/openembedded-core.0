@@ -1,29 +1,18 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 33DB365D58
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa07-01.prod.phx3.secureserver.net
+	(p3plsmtpa07-01.prod.phx3.secureserver.net [173.201.192.230])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CE7065D58
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 15:10:46 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8IFAjho015197
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 18 Sep 2014 08:10:45 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 18 Sep 2014 08:10:41 -0700
-Message-ID: <541AF5EF.3050904@windriver.com>
-Date: Thu, 18 Sep 2014 23:10:39 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1411023982.git.hongxu.jia@windriver.com>	
-	<afb9eb87d6ebebd33c1f6febf8f37111db63a614.1411023982.git.hongxu.jia@windriver.com>
-	<1411048067.4736.8.camel@ted>
-In-Reply-To: <1411048067.4736.8.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] sstatesig: Only dump incremental locked signatures
+	Thu, 18 Sep 2014 15:16:50 +0000 (UTC)
+Received: from llc.pab ([75.72.225.8])
+	by p3plsmtpa07-01.prod.phx3.secureserver.net with 
+	id sfGn1o00R0BVjqb01fGnSl; Thu, 18 Sep 2014 08:16:48 -0700
+From: "Peter A. Bigot" <pab@pabigot.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Sep 2014 10:16:39 -0500
+Message-Id: <1411053399-15548-1-git-send-email-pab@pabigot.com>
+X-Mailer: git-send-email 1.8.5.5
+Subject: [PATCH] systemd: disable resolv.conf symlink unless resolved is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,55 +25,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 15:10:52 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Sep 2014 15:16:58 -0000
 
-On 09/18/2014 09:47 PM, Richard Purdie wrote:
-> I'm afraid I'm starting to feel very strongly this is not a direction we
-> should move in. Having the ability to write out a .inc file containing
-> on a delta is one thing, writing out a file for automatic inclusion and
-> trying to maintain that file is not something I feel comfortable with.
+The tmpfiles configuration in systemd unconditionally creates a symlink
+from /etc/resolv.conf to the location where systemd's resolved service
+will place the real file.  This link is only appropriate when resolved
+is enabled and running: its presence prevents connman or other systems
+from providing a working resolv.conf when systemd is not assigned that
+responsibility.  OE has not yet enabled systemd's networkd or resolved
+by default.
 
-Yes, I understand that your worry is reasonable, so many unexpected
-exception needs to be maintained
+There is a TODO in the systemd source to fix this, but it has not been
+addressed upstream.  This patch comments out the corresponding line when
+resolved is not enabled in the package configuration.
 
-> I think that at some point there needs to be external tooling handling
-> the inclusion and updating of this file and that the sigs code is not
-> the place for this.
+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+---
+ ...es.d-etc.conf-disable-resolv.conf-symlink.patch | 35 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_216.bb           |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-tmpfiles.d-etc.conf-disable-resolv.conf-symlink.patch
 
-I once coded a python script to handling the locked sig file from an
-existed sstate, translated sstate item name (ends with '.tgz.siginfo')
-to "<pn>:<task>:<hash>" tuple.
-
-The main blocker is: for some tasks (such as do_patch/do_fetch/
-do_unpack), the target and native have the same pn in sstate, such as:
-''sstate-cache/c6/sstate:automake::1.14.1:r0::3:c667b87f5d4e15198afc744f525895fc_unpack.tgz.siginfo"
-is used for "automake" and "automake-native", you could not figure
-out arch (which used as type in locked sig file) from it neither.
-
-> For example, consider the case where you switch machines and want to
-> share an include file between these machines. With the changes proposed
-> in this patch series it will simply overwrite the file and remove the
-> entries for the other machine.
-
-I think the swith machines case could work in this patch series,
-It appends to the tail of the locked sig file, and not overwrite
-the other machine's sig if incremetnal dump is set.
-
-But I indeed understand what you worry about.
-
-> We could keep trying to patch up this code to cover every combination
-> and eventuality but in the end, I believe the maintenance of this file
-> should be something external, the sigs code should only be concerned
-> with the generation of the core entries.
-
-Completely agree.
-
-//Hongxu
-
-> Cheers,
->
-> Richard
+diff --git a/meta/recipes-core/systemd/systemd/0001-tmpfiles.d-etc.conf-disable-resolv.conf-symlink.patch b/meta/recipes-core/systemd/systemd/0001-tmpfiles.d-etc.conf-disable-resolv.conf-symlink.patch
+new file mode 100644
+index 0000000..7218322
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-tmpfiles.d-etc.conf-disable-resolv.conf-symlink.patch
+@@ -0,0 +1,35 @@
++From f0ab1600fb56d680e6aba3d0d51dfb9ffa3d9403 Mon Sep 17 00:00:00 2001
++From: "Peter A. Bigot" <pab@pabigot.com>
++Date: Thu, 18 Sep 2014 08:36:54 -0500
++Subject: [PATCH] tmpfiles.d/etc.conf: disable resolv.conf symlink
++
++This link is valid only if ENABLE_RESOLVED is configured for systemd.
++If left unconditional, the symlink is created preventing connman from
++storing the configuration it received from DHCP or other sources.
++
++Upstream has a TODO to fix this, but has not done so as of this date.
++Provide a temporary workaround for OE until this is done properly
++upstream.
++
++Upstream-Status: Inappropriate [OE-specific]
++Signed-off-by: Peter A. Bigot <pab@pabigot.com>
++---
++ tmpfiles.d/etc.conf | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/tmpfiles.d/etc.conf b/tmpfiles.d/etc.conf
++index b23272c..5364dd8 100644
++--- a/tmpfiles.d/etc.conf
+++++ b/tmpfiles.d/etc.conf
++@@ -10,6 +10,7 @@
++ L /etc/os-release - - - - ../usr/lib/os-release
++ L /etc/localtime - - - - ../usr/share/zoneinfo/UTC
++ L+ /etc/mtab - - - - ../proc/self/mounts
++-L /etc/resolv.conf - - - - ../run/systemd/resolve/resolv.conf
+++# TODO: conditional on ENABLE_RESOLVED
+++#L /etc/resolv.conf - - - - ../run/systemd/resolve/resolv.conf
++ C /etc/nsswitch.conf - - - -
++ C /etc/pam.d - - - -
++-- 
++1.8.5.5
++
+diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
+index 331da99..ebf9395 100644
+--- a/meta/recipes-core/systemd/systemd_216.bb
++++ b/meta/recipes-core/systemd/systemd_216.bb
+@@ -36,6 +36,7 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
+            file://00-create-volatile.conf \
+            file://init \
+            file://run-ptest \
++           ${@bb.utils.contains('PACKAGECONFIG', 'resolved', '', 'file://0001-tmpfiles.d-etc.conf-disable-resolv.conf-symlink.patch', d)} \
+           "
+ 
+ S = "${WORKDIR}/git"
+-- 
+1.8.5.5
 
 
