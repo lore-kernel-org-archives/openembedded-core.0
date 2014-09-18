@@ -1,40 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F14B65E2B
+Return-Path: <net147@gmail.com>
+Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DB8A6FC4A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 07:30:07 +0000 (UTC)
-Received: by mail-pd0-f176.google.com with SMTP id g10so846363pdj.7
+	Thu, 18 Sep 2014 07:45:18 +0000 (UTC)
+Received: by mail-qc0-f169.google.com with SMTP id r5so708981qcx.28
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 00:30:09 -0700 (PDT)
+	Thu, 18 Sep 2014 00:45:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=fdyILav2XkjQmmtGBoN5ROiwIrnCpe+3llYrZa08nQ8=;
-	b=AZ2OLSqMw+Yg2OLB6QNkcFpECI1szf3krnRnJwPGSHfW1HxwSyLVHFqgRQ80KAGuxW
-	OP5ogasUWUvi/0clTqY1g3Zu3gB1l6fWGcMsCI6hMhiEzIuxV8XbsPylH58Kt4RVjYyy
-	BwAhD952XEFcBcSnojY3qhp4CHv6DIHFYv85ljHPJaYD1nXN/nnwXQ8PzbVHRGkrn/U5
-	DwfNBssGbuGG5ntpeAX6ZLLigha5Hj5fOZjdu6dcef8hqDsO2UY4e/OgQMOvTri+oAXm
-	wO6pUGe+IVnQY/H3XQ4rb2BhHqKKHugi0BiEuogce74AoS3aNAi8vYb4686L0CX5XStx
-	I2dw==
-X-Received: by 10.66.145.133 with SMTP id su5mr3127411pab.11.1411025409076;
-	Thu, 18 Sep 2014 00:30:09 -0700 (PDT)
-Received: from CACSVMO-14452.local (c-98-207-177-218.hsd1.ca.comcast.net.
-	[98.207.177.218])
-	by mx.google.com with ESMTPSA id x13sm3887087pdk.22.2014.09.18.00.30.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 18 Sep 2014 00:30:08 -0700 (PDT)
-Message-ID: <541A89FE.9070509@gmail.com>
-Date: Thu, 18 Sep 2014 00:30:06 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=e+C3GF67E8u6oTd33zaXLwVqlSKk4LP9wOU4F8nhqjg=;
+	b=JRIQdmMuTqht09ppFWHg/7qO30lb8hrZ0cAurWCRr+JEjXXw5PQRDfHpHx2kXOKGFx
+	oGD1hcjvd8fEI24NIk/8SLlNgnOBpMNKSK0y+qy9G+pBzVxMft8tVKrCWAROaHsg5N7R
+	0dB0oMtIY7nt9FDgyEP3UDTgwt06YAFZwV4WpH1BJJLDb5ZGjc7zhY9jN78lpLSj1zL8
+	RMAbxAbfNp1SFALui2Tr+xs30tj47OYRjd6XW5zUo4eWLiq/eUpWp56Nkx2cjkhQkHdJ
+	uzx97AZDh+iUNEIri19dGSrrDwHyfByHKK6E/E1hjHnLdszTAbLtbaKWtx74zlxV6/iL
+	ca8Q==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1409764769.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1409764769.git.chris_larson@mentor.com>
-Subject: Re: [PATCH 0/8] Various fixes to obey LDFLAGS
+X-Received: by 10.224.111.193 with SMTP id t1mr5225494qap.103.1411026319398;
+	Thu, 18 Sep 2014 00:45:19 -0700 (PDT)
+Received: by 10.96.4.133 with HTTP; Thu, 18 Sep 2014 00:45:19 -0700 (PDT)
+In-Reply-To: <1409320119-25825-1-git-send-email-net147@gmail.com>
+References: <1409320119-25825-1-git-send-email-net147@gmail.com>
+Date: Thu, 18 Sep 2014 17:45:19 +1000
+Message-ID: <CANwerB1ifwVuZdixcEpOBNeKX6C-o-p6Vr1fPZrZ1A33eBD_CA@mail.gmail.com>
+From: Jonathan Liu <net147@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [daisy][PATCH] qemu: Explicitly disable libiscsi, its not in DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,83 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 07:30:11 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Sep 2014 07:45:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+On 29 August 2014 23:48, Jonathan Liu <net147@gmail.com> wrote:
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>  meta/recipes-devtools/qemu/qemu.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> index 2702986..472988d 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -26,7 +26,7 @@ SRC_URI_append_class-native = "\
+>      file://fix-libcap-header-issue-on-some-distro.patch \
+>      "
+>
+> -EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --audio-drv-list=oss,alsa --disable-bluez --with-system-pixman --extra-cflags='${CFLAGS}'"
+> +EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --audio-drv-list=oss,alsa --disable-bluez --disable-libiscsi --with-system-pixman --extra-cflags='${CFLAGS}'"
+>
+>  EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror \
+>                                 "
+> --
+> 2.0.3
+>
 
+Ping.
 
-
-On 9/3/14 10:27 AM, Christopher Larson wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
-> 
-> This patch series fixes 8 recipes to obey LDFLAGS. These issues are easy to
-> miss, now that the internal toolchain defaults to passing the correct
-> GNU_HASH, so GNU_HASH warnings when LDFLAGS isn't obeyed are only seen when
-> using an external toolchain. These were kept in meta-sourcery or meta-mentor,
-> but given these are general correctness fixes, regardless of the lack of
-> warnings for most users, I think they're appropriate for upstream inclusion.
-
-may be they should be sent to respective component upstreams first
-
-> 
-> The following changes since commit e72aac2ae9e5fce1715fa04b7e94034fd06892d9:
-> 
->   alsa-lib: libasound should runtime depends on alsa-conf (2014-09-03 11:30:11 +0100)
-> 
-> are available in the git repository at:
-> 
->   git@github.com:kergoth/openembedded-core ldflags-fixes
->   https://github.com/kergoth/openembedded-core ldflags-fixes
-> 
-> for you to fetch changes up to 2cddd349eb9cafbbaf5257fb61beb9dc249df85c:
-> 
->   python: obey LDFLAGS (2014-09-03 10:18:37 -0700)
-> 
-> ----------------------------------------------------------------
-> Christopher Larson (8):
->       zlib: obey LDFLAGS for tests
->       gdbm-1.8.3: obey LDFLAGS
->       ossp-uuid: obey LDFLAGS
->       setserial: obey LDFLAGS
->       hostap-utils: obey LDFLAGS
->       blktrace: obey LDFLAGS for btrecord
->       irda-utils: obey LDFLAGS
->       python: obey LDFLAGS
-> 
->  .../hostap/hostap-utils-0.4.7/ldflags.patch        | 27 ++++++++
->  meta/recipes-bsp/hostap/hostap-utils_0.4.7.bb      |  1 +
->  meta/recipes-bsp/setserial/setserial/ldflags.patch | 23 +++++++
->  meta/recipes-bsp/setserial/setserial_2.17.bb       |  1 +
->  .../irda-utils/irda-utils-0.9.18/ldflags.patch     | 79 ++++++++++++++++++++++
->  .../irda-utils/irda-utils_0.9.18.bb                | 18 +++--
->  .../zlib/zlib-1.2.8/ldflags-tests.patch            | 45 ++++++++++++
->  meta/recipes-core/zlib/zlib_1.2.8.bb               |  1 +
->  .../ossp-uuid/ossp-uuid/ldflags.patch              | 23 +++++++
->  meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb |  1 +
->  meta/recipes-devtools/python/python_2.7.3.bb       |  3 +-
->  .../recipes-kernel/blktrace/blktrace/ldflags.patch |  8 ++-
->  meta/recipes-support/gdbm/gdbm-1.8.3/ldflags.patch | 22 ++++++
->  meta/recipes-support/gdbm/gdbm_1.8.3.bb            |  3 +-
->  14 files changed, 245 insertions(+), 10 deletions(-)
->  create mode 100644 meta/recipes-bsp/hostap/hostap-utils-0.4.7/ldflags.patch
->  create mode 100644 meta/recipes-bsp/setserial/setserial/ldflags.patch
->  create mode 100644 meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/ldflags.patch
->  create mode 100644 meta/recipes-core/zlib/zlib-1.2.8/ldflags-tests.patch
->  create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/ldflags.patch
->  create mode 100644 meta/recipes-support/gdbm/gdbm-1.8.3/ldflags.patch
-> 
-
-- -- 
-- -Khem
------BEGIN PGP SIGNATURE-----
-Version: GnuPG/MacGPG2 v2.0.22 (Darwin)
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlQaif4ACgkQuwUzVZGdMxSgGACdGG6xSxCtB+8Fe71rw7Uscd/H
-LA4AmgNOrOnTSCYUFDTjPPMXsgmnMejp
-=IrqW
------END PGP SIGNATURE-----
+Regards,
+Jonathan
 
