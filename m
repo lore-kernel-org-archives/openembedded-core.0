@@ -1,35 +1,24 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
-	[209.85.216.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DB8A6FC4A
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 74CA070FAB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 07:45:18 +0000 (UTC)
-Received: by mail-qc0-f169.google.com with SMTP id r5so708981qcx.28
+	Thu, 18 Sep 2014 09:02:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8I924AB008897
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 00:45:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=e+C3GF67E8u6oTd33zaXLwVqlSKk4LP9wOU4F8nhqjg=;
-	b=JRIQdmMuTqht09ppFWHg/7qO30lb8hrZ0cAurWCRr+JEjXXw5PQRDfHpHx2kXOKGFx
-	oGD1hcjvd8fEI24NIk/8SLlNgnOBpMNKSK0y+qy9G+pBzVxMft8tVKrCWAROaHsg5N7R
-	0dB0oMtIY7nt9FDgyEP3UDTgwt06YAFZwV4WpH1BJJLDb5ZGjc7zhY9jN78lpLSj1zL8
-	RMAbxAbfNp1SFALui2Tr+xs30tj47OYRjd6XW5zUo4eWLiq/eUpWp56Nkx2cjkhQkHdJ
-	uzx97AZDh+iUNEIri19dGSrrDwHyfByHKK6E/E1hjHnLdszTAbLtbaKWtx74zlxV6/iL
-	ca8Q==
+	Thu, 18 Sep 2014 02:02:04 -0700 (PDT)
+Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 18 Sep 2014 02:02:03 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Sep 2014 05:02:01 -0400
+Message-ID: <cover.1411030646.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Received: by 10.224.111.193 with SMTP id t1mr5225494qap.103.1411026319398;
-	Thu, 18 Sep 2014 00:45:19 -0700 (PDT)
-Received: by 10.96.4.133 with HTTP; Thu, 18 Sep 2014 00:45:19 -0700 (PDT)
-In-Reply-To: <1409320119-25825-1-git-send-email-net147@gmail.com>
-References: <1409320119-25825-1-git-send-email-net147@gmail.com>
-Date: Thu, 18 Sep 2014 17:45:19 +1000
-Message-ID: <CANwerB1ifwVuZdixcEpOBNeKX6C-o-p6Vr1fPZrZ1A33eBD_CA@mail.gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [daisy][PATCH] qemu: Explicitly disable libiscsi, its not in DEPENDS
+Subject: [PATCH 0/1] gstreamer1.0-plugins-bad: disable libssh2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 07:45:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 18 Sep 2014 09:02:07 -0000
+Content-Type: text/plain
 
-On 29 August 2014 23:48, Jonathan Liu <net147@gmail.com> wrote:
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> ---
->  meta/recipes-devtools/qemu/qemu.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-> index 2702986..472988d 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -26,7 +26,7 @@ SRC_URI_append_class-native = "\
->      file://fix-libcap-header-issue-on-some-distro.patch \
->      "
->
-> -EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --audio-drv-list=oss,alsa --disable-bluez --with-system-pixman --extra-cflags='${CFLAGS}'"
-> +EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --audio-drv-list=oss,alsa --disable-bluez --disable-libiscsi --with-system-pixman --extra-cflags='${CFLAGS}'"
->
->  EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror \
->                                 "
-> --
-> 2.0.3
->
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-Ping.
+libssh2 is automatically linked to if present, this undetermined
+dependency may cause build errors like:
 
-Regards,
-Jonathan
+  .../x86_64-poky-linux/4.9.0/ld: cannot find -lssh2
+
+libssh2 isn't an oe-core recipe, disable it for now.
+
+The following changes since commit 280b6d0011f101e7a8edabd34c265b37a2f791ed:
+
+  sstatesig: fix overrides behaviour to remove SIGGEN_LOCKEDSIGS_i586 (2014-09-17 22:00:26 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib wenzong/gst-plugins-bad
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/gst-plugins-bad
+
+Wenzong Fan (1):
+  gstreamer1.0-plugins-bad: disable libssh2
+
+ .../gstreamer/gstreamer1.0-plugins-bad.inc         |    4 ++
+ .../configure-allow-to-disable-libssh2.patch       |   64 ++++++++++++++++++++
+ 2 files changed, 68 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/configure-allow-to-disable-libssh2.patch
+
+-- 
+1.7.9.5
+
 
