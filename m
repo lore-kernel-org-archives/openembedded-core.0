@@ -1,41 +1,40 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id CB12F70E1E
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 22ED771482
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 06:56:46 +0000 (UTC)
-Received: by mail-pd0-f171.google.com with SMTP id p10so797511pdj.2
+	Thu, 18 Sep 2014 07:07:34 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id eu11so869457pac.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Sep 2014 23:56:47 -0700 (PDT)
+	Thu, 18 Sep 2014 00:07:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=message-id:date:from:user-agent:mime-version:to:subject:references
 	:in-reply-to:content-type:content-transfer-encoding;
-	bh=bQsRDGvTKfqc9vFO+MhNfPzS7xmmFpvjK8UognXK1lw=;
-	b=DXalouxMLkz533SFNbng8QIYT2JNj2DZQJUwW629LpTa83L/iEqltLT60j6lDFZS/l
-	6Kmy5VdFfgHX1MPK0FabrAnxNJAHBsW+1lbjSEy+nuiKAx49/PAqnNAXjjZUJuuFDb1o
-	BG1HhFLMPtvmXAsBJ03i7Yl7Dh1mfzMx9ZNEs1PYwhYGmbs6x7eSo4g2pwl4ieaass77
-	jbbLpMCi/rXJJJ/eoSJa1jATqY100GHq9H9H1yrBOlo3Mg52xeahfRM/vdRBaD7mDuKA
-	Jtk/qSj/7VYDeUp6GBsZ++URO8KhCU7whRgiPw3ggCgfMwx/T7grAc9G4Snz7GVba3xL
-	49Kw==
-X-Received: by 10.66.165.4 with SMTP id yu4mr1624517pab.157.1411023407653;
-	Wed, 17 Sep 2014 23:56:47 -0700 (PDT)
-Received: from CACSVMO-14452.local (c-98-207-177-218.hsd1.ca.comcast.net.
-	[98.207.177.218]) by mx.google.com with ESMTPSA id
-	du5sm18676182pbb.80.2014.09.17.23.56.46
+	bh=QdVICsm7LEcH4wOm2FViKILpmTLvA6fj9RsZzLpaxmw=;
+	b=CrpedlAFRjAi75Wkpb5WmNI1Q//QdZA0OhD6jeQVa3ppEHoOkgQcuBxpKEuXKLWRsO
+	it+Xu0jDd0ESZ7AZJyd1mH5lnd0i3qsdmq607iJOLHhccA1LYMT1D1RVHZ83KEKPQxXM
+	qD7RZ/hthFhaQ9BzUD5fFO8wntQEwU9VUsWIK2vWJaRZpP/R0wBOEDNWYLcGXUXH3lMB
+	0QTk9746tGZEK/VrvoYVKA3z3K4pcX3zOE2vS36KHzUXl0DGS+1SWM2WiYAAjbGMJR/w
+	rNL59SOf3FmHeFzOeipRevWUlheAKy475qw+ZXy3V+qinU5TBMAM3FPXL2IrIzKUO9Yg
+	qrdw==
+X-Received: by 10.68.238.137 with SMTP id vk9mr1708162pbc.165.1411024055878;
+	Thu, 18 Sep 2014 00:07:35 -0700 (PDT)
+Received: from CACSVMO-14452.local ([2601:9:3580:7a5:c0c6:c4a3:f3e7:1968])
+	by mx.google.com with ESMTPSA id p3sm18810078pde.35.2014.09.18.00.07.34
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Sep 2014 23:56:47 -0700 (PDT)
-Message-ID: <541A822D.2030702@gmail.com>
-Date: Wed, 17 Sep 2014 23:56:45 -0700
+	Thu, 18 Sep 2014 00:07:35 -0700 (PDT)
+Message-ID: <541A84B5.7020606@gmail.com>
+Date: Thu, 18 Sep 2014 00:07:33 -0700
 From: Khem Raj <raj.khem@gmail.com>
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
 	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
 References: <cover.1410879378.git.kai.kang@windriver.com>
-	<64a67dbfe6aba5a52b7740fa15b6baa6f117defa.1410879378.git.kai.kang@windriver.com>
-In-Reply-To: <64a67dbfe6aba5a52b7740fa15b6baa6f117defa.1410879378.git.kai.kang@windriver.com>
-Subject: Re: [PATCH 1/9] linux-yocto: depend on libgcc for aarch64
+	<21ec391160434407e70d89fe334515ede221d354.1410879378.git.kai.kang@windriver.com>
+In-Reply-To: <21ec391160434407e70d89fe334515ede221d354.1410879378.git.kai.kang@windriver.com>
+Subject: Re: [PATCH 9/9] perf: disable libunwind support for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,9 +47,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 06:56:52 -0000
+X-List-Received-Date: Thu, 18 Sep 2014 07:07:35 -0000
 Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
@@ -58,44 +57,27 @@ Hash: SHA1
 
 
 On 9/16/14 8:06 AM, Kai Kang wrote:
-> Make aarch aarch64 kernel depend on libgcc. In arch/arm64/Makefile, it
-> adds LIBGCC to libs-y:
-> 
-> LIBGCC          := $(shell $(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name)
-> libs-y          += $(LIBGCC)
-> 
-> If build without libgcc, the value of LIBGCC is just libgcc.a without
-> parent directory. linux-yocto fails to build:
-> 
-> |   LD      vmlinux.o
-> | aarch64-poky-linux-ld.bfd: cannot find libgcc.a: No such file or directory
-> 
-> Add libgcc to aarch64 kernel dependency.
-
-really ? usually kernel has its own routines to substitute libgcc needs.
-why is it different here.
-
+> Disable libunwind support of perl for aarch aarch64 that libunwind
+> doesn't support aarch64.
 > 
 > Signed-off-by: Kai Kang <kai.kang@windriver.com>
 > ---
->  meta/recipes-kernel/linux/linux-yocto.inc | 1 +
+>  meta/recipes-kernel/perf/perf-features.inc | 1 +
 >  1 file changed, 1 insertion(+)
 > 
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-> index 4ed3188..db693e6 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
->  INC_PR = "r4"
->  
->  DEPENDS += "xz-native bc-native"
-> +DEPENDS_aarch64 += "libgcc"
+> diff --git a/meta/recipes-kernel/perf/perf-features.inc b/meta/recipes-kernel/perf/perf-features.inc
+> index 2dbbb47..1782ae6 100644
+> --- a/meta/recipes-kernel/perf/perf-features.inc
+> +++ b/meta/recipes-kernel/perf/perf-features.inc
+> @@ -1,4 +1,5 @@
+>  PERF_FEATURES_ENABLE ?= "perf-scripting perf-tui perf-libunwind"
+> +PERF_FEATURES_ENABLE_aarch64 ?= "perf-scripting perf-tui"
 >  
 
-this should be using append instead of +=
+you could also say PERF_FEATURES_ENABLE_remove_aarch64 = "perf-libunwind"
 
->  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
->  # by the kernel. This is typically the branch that should be built,
+>  def perf_feature_enabled(feature, trueval, falseval, d):
+>      """
 > 
 
 - -- 
@@ -104,8 +86,8 @@ this should be using append instead of +=
 Version: GnuPG/MacGPG2 v2.0.22 (Darwin)
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlQagi0ACgkQuwUzVZGdMxQfGwCaAuY+dIXbAnQ9tTOIA4MFSwhe
-wEwAn1FxFeun292octWdy0sYJqtGRPOb
-=5Tcg
+iEYEARECAAYFAlQahLUACgkQuwUzVZGdMxRUTgCbB9mselfaJ3OdHJTFnZp34n15
+OacAni2H6G+Mri1zW7+W5OCHBbgzfE5L
+=lgJC
 -----END PGP SIGNATURE-----
 
