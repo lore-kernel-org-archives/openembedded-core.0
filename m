@@ -1,25 +1,41 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AFE7713C1
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F7EB7023F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 09:05:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8I95oZ5008946
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 18 Sep 2014 09:11:44 +0000 (UTC)
+Received: by mail-pd0-f180.google.com with SMTP id ft15so997914pdb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 02:05:50 -0700 (PDT)
-Received: from localhost (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Thu, 18 Sep 2014 02:05:49 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Sep 2014 17:05:47 +0800
-Message-ID: <1411031147-11764-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Thu, 18 Sep 2014 02:11:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=1Tfb0zHhLmCCulCecqHyyZ/Bo93LSoYx8NwaOdWbHWA=;
+	b=JiyaiqHqUE1NyVZqPv2N+US8cp0kBbsZv7V0f+2JfumfD43QhBS2a+LY68e3oRYKfl
+	/mUbsNik096W55rWRX4lCEduIsn4mlZxoPoXZQb/Lq1w2XPyQ8JClzIu5P2DtiZZK7jl
+	5n3k63MozMRZ1q1Uf2XToEAsTgmNkLlOM4xSK4d3+X4O4QUC4NruxFcEBrhmcu04DrDo
+	LAL2uYnabZg8/TQPB25DIBC29FYM8YfeYqARFHZwmORAcdqy3DG1jCKpATGFY6O8mVeJ
+	AitXqQUUNiK8ejh2d92V2faRuVF0qOSyhCPTlDVr6zrtITe9b9xapfePRI933kRC09aL
+	rpPg==
+X-Gm-Message-State: ALoCoQmz9C5asP6bMaQDPy6K3Wempv0rxmkGUTUqkhUxPr+iipkok0x24gYTimVodqNrL8je5ZCp
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.226]
-Subject: [PATCH] qtdemo-init: Make qtdemo startup correctly
+X-Received: by 10.70.102.200 with SMTP id fq8mr4032775pdb.152.1411031505669;
+	Thu, 18 Sep 2014 02:11:45 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.65.69 with HTTP; Thu, 18 Sep 2014 02:11:45 -0700 (PDT)
+In-Reply-To: <201408112026.32235.marex@denx.de>
+References: <1407438629-13369-1-git-send-email-marex@denx.de>
+	<201408081422.19749.marex@denx.de> <1407752794.22187.3.camel@ted>
+	<201408112026.32235.marex@denx.de>
+Date: Thu, 18 Sep 2014 10:11:45 +0100
+X-Google-Sender-Auth: Ya-NNGuietJ2Kk-4mwUM-bdWazs
+Message-ID: <CAOMwXhNBq9F45HSQj0QuXoxRe_50_9x_F42=yWe22H2_BcPV1Q@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: Marek Vasut <marex@denx.de>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Yocto: Install full set of python modules in Qt SDK toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,59 +48,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 09:05:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Sep 2014 09:11:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The qtdemo can't launch via qtdemo-init initscript. Fix it.
+Come on, Yocto maintainers, please...
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- meta/recipes-qt/qt-demo/qt-demo-init/qtdemo-init |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Mark sent this change relatively long ago, and it is still in "new"
+state, sadly. The current SDK shipped _breaks_ any third-party
+software that uses standard python with regards to the libraries and
+all that.
 
-diff --git a/meta/recipes-qt/qt-demo/qt-demo-init/qtdemo-init b/meta/recipes-qt/qt-demo/qt-demo-init/qtdemo-init
-index 3a1f2cb..21f0273 100644
---- a/meta/recipes-qt/qt-demo/qt-demo-init/qtdemo-init
-+++ b/meta/recipes-qt/qt-demo/qt-demo-init/qtdemo-init
-@@ -2,8 +2,8 @@
- 
- set -e
- 
--if [ -f /usr/bin/qtdemo ]; then
--	QTDEMO="qtdemo > /var/log/Xsession.log 2> &1"
-+if [ -x /usr/bin/qtdemo ]; then
-+	QTDEMO="qtdemo"
- else
- 	QTDEMO="qtdemoE -qws"
- fi
-@@ -18,7 +18,7 @@ case "$1" in
- 		if [ ! -f /etc/pointercal ]; then
- 			/usr/bin/ts_calibrate
- 		fi
--		if [ "$QTDEMO" = qtdemo ]; then
-+		if [ "$QTDEMO" = "qtdemo" ]; then
- 			Xorg &
- 			export DISPLAY=:0
- 			$QTDEMO &
-@@ -26,7 +26,7 @@ case "$1" in
- 			QWS_MOUSE_PROTO=tslib:$TSLIB_TSDEVICE $QTDEMO &
- 		fi
- 	else
--		if [ "$QTDEMO" = qtdemo ]; then
-+		if [ "$QTDEMO" = "qtdemo" ]; then
- 			Xorg &
- 			export DISPLAY=:0
- 		fi
-@@ -35,7 +35,7 @@ case "$1" in
- 	;;
-   stop)
- 	echo "Stopping qtdemo"
--	if [ "$QTDEMO" = qtdemo ]; then
-+	if [ "$QTDEMO" = "qtdemo" ]; then
- 		killall Xorg
- 		killall qtdemo
- 	else
--- 
-1.7.9.5
+This is is slightly frustrating. We also face the same issue. :(
 
+On Mon, Aug 11, 2014 at 7:26 PM, Marek Vasut <marex@denx.de> wrote:
+> On Monday, August 11, 2014 at 12:26:34 PM, Richard Purdie wrote:
+>> On Fri, 2014-08-08 at 14:22 +0200, Marek Vasut wrote:
+>> > On Friday, August 08, 2014 at 07:22:04 AM, Koen Kooi wrote:
+>> > > Since 'yocto' is a project like freedesktop.org your commit message
+>> > > doesn't make sense, it should be something like:
+>> > >
+>> > > meta-toolchain-qt:  Install full set of python modules
+>> >
+>> > Got it, Saul also told me so. I will wait a bit for some more feedback
+>> > and repost with corrections, OK ? Is this approach I took here even
+>> > correct please ?
+>>
+>> I'd really like to see a packagegroup defined somewhere with this list
+>> of python modules which the various recipes can then reference...
+>
+> I agree, that makes sense. Is this approach I took here the correct one please ?
+>
+> Best regards,
+> Marek Vasut
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
