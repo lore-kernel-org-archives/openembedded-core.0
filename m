@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D0A026FC54
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EE9356FC54
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 07:23:46 +0000 (UTC)
+	Thu, 18 Sep 2014 07:23:48 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8I7Njjp021170
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8I7Nlmg007881
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 18 Sep 2014 00:23:45 -0700 (PDT)
+	Thu, 18 Sep 2014 00:23:47 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 18 Sep 2014 00:23:44 -0700
+	14.3.174.1; Thu, 18 Sep 2014 00:23:47 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
 	<richard.purdie@linuxfoundation.org>
-Date: Thu, 18 Sep 2014 15:23:40 +0800
-Message-ID: <cover.1411023982.git.hongxu.jia@windriver.com>
+Date: Thu, 18 Sep 2014 15:23:41 +0800
+Message-ID: <afb9eb87d6ebebd33c1f6febf8f37111db63a614.1411023982.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1411023982.git.hongxu.jia@windriver.com>
+References: <cover.1411023982.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 0/3] sstatesig: add support to dump incremental locked signatures
+Subject: [PATCH 1/3] sstatesig: Only dump incremental locked signatures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,82 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 07:23:49 -0000
+X-List-Received-Date: Thu, 18 Sep 2014 07:23:50 -0000
 Content-Type: text/plain
 
-How to test incrementally locked signature dump:
+The idea of incremental sig is:
 
-1) Create a new build
+New sig file = Old sig file (if available) + New sig items in current build.
 
-2) Dump locked sig file for db
-$ bitbake -S none db
-...
-Writing locked sigs to /home/jiahongxu/yocto/build-20140904-yocto/locked-sigs.inc
-NOTE: Tasks Summary: Attempted 0 tasks of which 0 didn't need to be rerun and all succeeded.
-...
+The condition of incremental locked signature dump is an existed locked sig
+file is required and it is also the dump sig file.
 
-3) Back up locked-sigs.inc
-$ cp locked-sigs.inc locked-sigs.inc.bak
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/lib/oe/sstatesig.py | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-4) Dump locked sig file for db again
-$ bitbake -S none db
-...
-Writing locked sigs to /home/jiahongxu/yocto/build-20140904-yocto/locked-sigs.inc
-NOTE: Tasks Summary: Attempted 0 tasks of which 0 didn't need to be rerun and all succeeded.
-...
-
-5) Compare locked-sigs.inc and locked-sigs.inc.bak to verify nothing changed
-$ vimdiff locked-sigs.inc locked-sigs.inc.bak
-
-6) Require locked-sigs.inc
-vim local.conf
-...
-require "${TOPDIR}/locked-sigs.inc"
-...
-
-7) Incrementally dump locked sig file for world
-$ bitbake -S none world
-...
-Writing locked sigs to /home/jiahongxu/yocto/build-20140904-yocto/locked-sigs.inc
-NOTE: Tasks Summary: Attempted 0 tasks of which 0 didn't need to be rerun and all succeeded.
-...
-
-8) Compare locked-sigs.inc and locked-sigs.inc.bak to verify incrementally dumping
-$ vimdiff locked-sigs.inc locked-sigs.inc.bak
-
-9) Back up locked-sigs.inc
-$ cp locked-sigs.inc locked-sigs.inc.bak
-
-10) Dump for world again
-$ bitbake -S none world
-...
-Writing locked sigs to /home/jiahongxu/yocto/build-20140904-yocto/locked-sigs.inc
-Nothing added to /home/jiahongxu/yocto/build-20140904-yocto/locked-sigs.inc
-NOTE: Tasks Summary: Attempted 0 tasks of which 0 didn't need to be rerun and all succeeded.
-...
-
-11) Compare locked-sigs.inc and locked-sigs.inc.bak to verify nothing changed
-$ vimdiff locked-sigs.inc locked-sigs.inc.bak
-
-//Hongxu
-
-The following changes since commit 280b6d0011f101e7a8edabd34c265b37a2f791ed:
-
-  sstatesig: fix overrides behaviour to remove SIGGEN_LOCKEDSIGS_i586 (2014-09-17 22:00:26 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/locked-sstate
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/locked-sstate
-
-Hongxu Jia (3):
-  sstatesig: Only dump incremental locked signatures
-  sstatesig: add new item checking for locked signature dump
-  sstatesig: fix to support unincremental locked signature dump
-
- meta/lib/oe/sstatesig.py | 33 ++++++++++++++++++++++++++++-----
- 1 file changed, 28 insertions(+), 5 deletions(-)
-
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index af7617e..56fd953 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -151,19 +151,23 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+                 types[t] = []
+             types[t].append(k)
+ 
+-        with open(sigfile, "w") as f:
++        with open(sigfile, "a") as f:
+             for t in types:
+-                f.write('SIGGEN_LOCKEDSIGS_%s = "\\\n' % t)
++                f.write('SIGGEN_LOCKEDSIGS_%s += "\\\n' % t)
+                 types[t].sort()
+                 sortedk = sorted(types[t], key=lambda k: self.lockedpnmap[k.rsplit(".",1)[0]])
+                 for k in sortedk:
+                     fn = k.rsplit(".",1)[0]
++                    pn = self.lockedpnmap[fn]
+                     task = k.rsplit(".",1)[1]
+                     if k not in self.taskhash:
+                         continue
+-                    f.write("    " + self.lockedpnmap[fn] + ":" + task + ":" + self.taskhash[k] + " \\\n")
++                    if pn in self.lockedsigs and task in self.lockedsigs[pn] and self.taskhash[k] == self.lockedsigs[pn][task]:
++                        continue
++                    sigentry = pn + ":" + task + ":" + self.taskhash[k]
++                    f.write("    " + sigentry + " \\\n")
+                 f.write('    "\n')
+-            f.write('SIGGEN_LOCKEDSIGS_TYPES_%s = "%s"' % (self.machine, " ".join(types.keys())))
++            f.write('SIGGEN_LOCKEDSIGS_TYPES_%s += "%s"\n' % (self.machine, " ".join(types.keys())))
+ 
+     def checkhashes(self, missed, ret, sq_fn, sq_task, sq_hash, sq_hashfn, d):
+         checklevel = d.getVar("SIGGEN_LOCKEDSIGS_CHECK_LEVEL", True)
 -- 
 1.9.1
 
