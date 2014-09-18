@@ -1,42 +1,22 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id C969E71486
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 09DA860030
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 09:12:49 +0000 (UTC)
-Received: by mail-pd0-f173.google.com with SMTP id ft15so1005373pdb.18
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 02:12:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=qPP1T7RQUUR4uRKieWEJTZiOT48n6CuqiKY7B3nQkAU=;
-	b=TNJX64Xw2xlvjIEGgjOezymNayFdYaT+sWszgmUXmYHPJTywfTbR4Kb6tBSHYJNaWT
-	tldkTxkutKVzCwzgtnCXyY9SEhOOsajWYdfRcGRg8s5bhIWA79EwWOwJqqypcG42jott
-	5wJUQoH8+bCDdMDZUeg//oqmUFRhqgINKKXe3QRLD4irK2WSjNsMTecFE28scSEF/VZ5
-	rUy+OzIo+e0QjQ2VR9SV2d6FNsZXPs8smBP2vHe/U2mTEmKlA3o2QpRkKg+C9CDhX2NR
-	BGKLNyGkgROVEdp1PY1wtRSiQ4CATwEsYAGdjIK4zfx5ff5uMjzWg7DT+wlfm11XhUPL
-	Pk9Q==
-X-Gm-Message-State: ALoCoQlwbGaKMMatQp8ZX/W0L40D4e5UAlZgqouM61KQ70FIIoUEbnn4eGS8hRH8qsee/DmJRIt1
-MIME-Version: 1.0
-X-Received: by 10.70.30.132 with SMTP id s4mr4117151pdh.96.1411031570594; Thu,
-	18 Sep 2014 02:12:50 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.70.65.69 with HTTP; Thu, 18 Sep 2014 02:12:50 -0700 (PDT)
-In-Reply-To: <CAOMwXhNBq9F45HSQj0QuXoxRe_50_9x_F42=yWe22H2_BcPV1Q@mail.gmail.com>
-References: <1407438629-13369-1-git-send-email-marex@denx.de>
-	<201408081422.19749.marex@denx.de> <1407752794.22187.3.camel@ted>
-	<201408112026.32235.marex@denx.de>
-	<CAOMwXhNBq9F45HSQj0QuXoxRe_50_9x_F42=yWe22H2_BcPV1Q@mail.gmail.com>
-Date: Thu, 18 Sep 2014 10:12:50 +0100
-X-Google-Sender-Auth: IQuNSc3J0NHU8UyyOU1lLajuAHw
-Message-ID: <CAOMwXhMuU01dEUbFGJybyeG2dSiB3BuVvCdkSHg2tuvd+70ptw@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Marek Vasut <marex@denx.de>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Yocto: Install full set of python modules in Qt SDK toolchain
+	Thu, 18 Sep 2014 09:15:39 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3hzCFl1QTNz3hjRF;
+	Thu, 18 Sep 2014 11:15:39 +0200 (CEST)
+X-Auth-Info: wsyIbh64rDdQzv+w0x10Ocz+iMlp/DKMLKlzClDb/8g=
+Received: from chi.lan (unknown [195.140.253.167])
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3hzCFk3SdPzvhTZ;
+	Thu, 18 Sep 2014 11:15:38 +0200 (CEST)
+From: Marek Vasut <marex@denx.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Sep 2014 11:15:34 +0200
+Message-Id: <1411031735-14721-1-git-send-email-marex@denx.de>
+X-Mailer: git-send-email 2.0.0
+Cc: Marek Vasut <marex@denx.de>, koen@dominion.thruhere.net
+Subject: [PATCH 1/2] nativesdk-packagegroup-python: buildtools-tarball: Introduce NativeSDK package group
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,44 +29,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Sep 2014 09:12:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 18 Sep 2014 09:15:47 -0000
 
-I meant to write "Marek". I apologize for the spelling issue.
+Introduce and use nativesdk-packagegroup-python , which contains all
+necessary python components for the native SDK. Make use of this
+package group in buildtools-tarball.bb immediatelly.
 
-On Thu, Sep 18, 2014 at 10:11 AM, Laszlo Papp <lpapp@kde.org> wrote:
-> Come on, Yocto maintainers, please...
->
-> Mark sent this change relatively long ago, and it is still in "new"
-> state, sadly. The current SDK shipped _breaks_ any third-party
-> software that uses standard python with regards to the libraries and
-> all that.
->
-> This is is slightly frustrating. We also face the same issue. :(
->
-> On Mon, Aug 11, 2014 at 7:26 PM, Marek Vasut <marex@denx.de> wrote:
->> On Monday, August 11, 2014 at 12:26:34 PM, Richard Purdie wrote:
->>> On Fri, 2014-08-08 at 14:22 +0200, Marek Vasut wrote:
->>> > On Friday, August 08, 2014 at 07:22:04 AM, Koen Kooi wrote:
->>> > > Since 'yocto' is a project like freedesktop.org your commit message
->>> > > doesn't make sense, it should be something like:
->>> > >
->>> > > meta-toolchain-qt:  Install full set of python modules
->>> >
->>> > Got it, Saul also told me so. I will wait a bit for some more feedback
->>> > and repost with corrections, OK ? Is this approach I took here even
->>> > correct please ?
->>>
->>> I'd really like to see a packagegroup defined somewhere with this list
->>> of python modules which the various recipes can then reference...
->>
->> I agree, that makes sense. Is this approach I took here the correct one please ?
->>
->> Best regards,
->> Marek Vasut
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+ meta/recipes-core/meta/buildtools-tarball.bb       | 28 +----------------
+ .../python/nativesdk-packagegroup-python.bb        | 36 ++++++++++++++++++++++
+ 2 files changed, 37 insertions(+), 27 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/nativesdk-packagegroup-python.bb
+
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 62e1e0b..7d20238 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -8,33 +8,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d
+ TOOLCHAIN_TARGET_TASK ?= ""
+ 
+ TOOLCHAIN_HOST_TASK ?= "\
+-    nativesdk-python-core \
+-    nativesdk-python-textutils \
+-    nativesdk-python-sqlite3 \
+-    nativesdk-python-pickle \
+-    nativesdk-python-logging \
+-    nativesdk-python-elementtree \
+-    nativesdk-python-curses \
+-    nativesdk-python-compile \
+-    nativesdk-python-compiler \
+-    nativesdk-python-fcntl \
+-    nativesdk-python-shell \
+-    nativesdk-python-misc \
+-    nativesdk-python-multiprocessing \
+-    nativesdk-python-subprocess \
+-    nativesdk-python-xmlrpc \
+-    nativesdk-python-netclient \
+-    nativesdk-python-netserver \
+-    nativesdk-python-distutils \
+-    nativesdk-python-unixadmin \
+-    nativesdk-python-compression \
+-    nativesdk-python-json \
+-    nativesdk-python-unittest \
+-    nativesdk-python-mmap \
+-    nativesdk-python-difflib \
+-    nativesdk-python-pprint \
+-    nativesdk-python-git \
+-    nativesdk-python-pkgutil \
++    nativesdk-packagegroup-python \
+     nativesdk-ncurses-terminfo-base \
+     nativesdk-chrpath \
+     nativesdk-tar \
+diff --git a/meta/recipes-devtools/python/nativesdk-packagegroup-python.bb b/meta/recipes-devtools/python/nativesdk-packagegroup-python.bb
+new file mode 100644
+index 0000000..fdc1006
+--- /dev/null
++++ b/meta/recipes-devtools/python/nativesdk-packagegroup-python.bb
+@@ -0,0 +1,36 @@
++SUMMARY = "NativeSDK Python package group"
++DESCRIPTION = "NativeSDK Python package group"
++PR = "r0"
++LICENSE = "MIT"
++
++inherit packagegroup
++
++RDEPENDS_${PN} = "				\
++	nativesdk-python-core			\
++	nativesdk-python-textutils		\
++	nativesdk-python-sqlite3		\
++	nativesdk-python-pickle			\
++	nativesdk-python-logging		\
++	nativesdk-python-elementtree		\
++	nativesdk-python-curses			\
++	nativesdk-python-compile		\
++	nativesdk-python-compiler		\
++	nativesdk-python-fcntl			\
++	nativesdk-python-shell			\
++	nativesdk-python-misc			\
++	nativesdk-python-multiprocessing	\
++	nativesdk-python-subprocess		\
++	nativesdk-python-xmlrpc			\
++	nativesdk-python-netclient		\
++	nativesdk-python-netserver		\
++	nativesdk-python-distutils		\
++	nativesdk-python-unixadmin		\
++	nativesdk-python-compression		\
++	nativesdk-python-json			\
++	nativesdk-python-unittest		\
++	nativesdk-python-mmap			\
++	nativesdk-python-difflib		\
++	nativesdk-python-pprint			\
++	nativesdk-python-git			\
++	nativesdk-python-pkgutil		\
++    "
+-- 
+2.0.0
+
 
