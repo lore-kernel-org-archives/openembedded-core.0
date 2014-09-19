@@ -1,31 +1,18 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 5556965CD8
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa07-05.prod.phx3.secureserver.net
+	(p3plsmtpa07-05.prod.phx3.secureserver.net [173.201.192.234])
+	by mail.openembedded.org (Postfix) with ESMTP id 77F7C6FEA8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 17:13:54 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3j01q72cdxz3hkqm;
-	Fri, 19 Sep 2014 19:13:55 +0200 (CEST)
-X-Auth-Info: 8fJA6TZepcvkRGWyFNH310q02owWuVXo4UPfYMi5Bcg=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3j01q631nWzvdWV; 
-	Fri, 19 Sep 2014 19:13:54 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Fri, 19 Sep 2014 18:52:03 +0200
-User-Agent: KMail/1.13.7 (Linux/3.13-trunk-amd64; KDE/4.13.1; x86_64; ; )
-References: <1411031735-14721-1-git-send-email-marex@denx.de>
-	<201409191827.30418.marex@denx.de>
-	<6249697.nqJ7MiLpN2@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <6249697.nqJ7MiLpN2@peggleto-mobl5.ger.corp.intel.com>
-MIME-Version: 1.0
-Message-Id: <201409191852.03699.marex@denx.de>
-Cc: Christopher Larson <clarson@kergoth.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] nativesdk-packagegroup-python: buildtools-tarball: Introduce NativeSDK package group
+	Fri, 19 Sep 2014 17:44:28 +0000 (UTC)
+Received: from llc.pab ([75.72.225.8])
+	by p3plsmtpa07-05.prod.phx3.secureserver.net with 
+	id t5kT1o00Q0BVjqb015kT4h; Fri, 19 Sep 2014 10:44:28 -0700
+From: "Peter A. Bigot" <pab@pabigot.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Sep 2014 12:44:15 -0500
+Message-Id: <1411148655-5500-1-git-send-email-pab@pabigot.com>
+X-Mailer: git-send-email 1.8.5.5
+Subject: [PATCH] git: add Git perl module to perltools package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,60 +25,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Sep 2014 17:13:56 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Sep 2014 17:44:31 -0000
 
-On Friday, September 19, 2014 at 06:42:14 PM, Paul Eggleton wrote:
-> Hi Marek,
+Git perl tools such as add--interactive load the Git module at runtime.
+A previous patch to eliminate a QA error by deleting it instead of
+packaging it was incorrect.
 
-Hi Paul,
+    beaglebone[62]$ git add -i
+    Can't locate Git.pm in @INC (you may need to install the Git module) (@INC contains: /usr/lib/perl/5.20.0 /prj/pab/Utils/lib/perl5/linux-arm/5.020000 /prj/pab/Utils/lib/perl5/ /prj/pab/Utils/lib/perl5/site_perl/linux-arm /prj/pab/Utils/lib/perl5/site_perl /etc/perl /usr/lib/perl/site_perl/5.20.0/ /usr/lib/perl/site_perl/5.20.0 /usr/lib/perl/vendor_perl/5.20.0/ /usr/lib/perl/vendor_perl/5.20.0 /usr/lib/perl/5.20.0/ /usr/local/lib/site_perl .) at /usr/lib/git/git-core/git-add--interactive line 7.
+    BEGIN failed--compilation aborted at /usr/lib/git/git-core/git-add--interactive line 7.
 
-> On Friday 19 September 2014 18:27:30 Marek Vasut wrote:
-> > On Friday, September 19, 2014 at 06:13:46 PM, Christopher Larson wrote:
-> > > On Fri, Sep 19, 2014 at 12:06 AM, Marek Vasut <marex@denx.de> wrote:
-> > > > On Thursday, September 18, 2014 at 03:30:11 PM, Richard Purdie wrote:
-> > > > > On Thu, 2014-09-18 at 11:15 +0200, Marek Vasut wrote:
-> > > > > > Introduce and use nativesdk-packagegroup-python , which contains
-> > > > > > all necessary python components for the native SDK. Make use of
-> > > > > > this package group in buildtools-tarball.bb immediatelly.
-> > > > > 
-> > > > > Specifically, isn't this the list of packages needed to run bitbake
-> > > > > and
-> > > > > its associated utils? "python" isn't therefore a particularly good
-> > > > > description of this package?
-> > > > 
-> > > > This is really just and only python packages, nothing else.
-> > > 
-> > > The fact that it only contains python packages doesn't mean it contains
-> > > all
-> > > python packages, or is somehow generic. It's a specific subset of
-> > > python modules used by bitbake.
-> > 
-> > OK, so uh, what would be the right solution here to make the toolchain
-> > usable? As I am no expert, I really don't know what to do now. Can you
-> > help please ?
-> 
-> There's clearly a bug here, adding a Python-using component does not mean
-> you should have python in the SDK but that's what currently happens. There
-> is a bug open now covering this, we will do our best to address it in a
-> timely manner.
+[YOCTO#3780]
 
-Thank you, I really appreciate it !
+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+---
+ meta/recipes-devtools/git/git.inc | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-> (FWIW, I would have thought this issue has been present for
-> some time rather than being a recent regression.)
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 7633577..3580275 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -30,11 +30,6 @@ do_install () {
+ 	oe_runmake install DESTDIR="${D}" bindir=${bindir} \
+ 		template_dir=${datadir}/git-core/templates \
+ 		GIT_PYTHON_DIR=${D}${datadir}/git-core/python
+-
+-	# ${libdir} is not applicable here, perl-native files are always
+-	# installed to /usr/lib on both 32/64 bits targets.
+-	rm -rf ${D}${exec_prefix}/lib/perl-native
+-	rmdir ${D}${exec_prefix}/lib || true
+ }
+ 
+ PERLSEDFIXUP = " \
+@@ -48,6 +43,8 @@ REL_GIT_TEMPLATE_DIR = "${@os.path.relpath(datadir, bindir)}/git-core/templates"
+ 
+ do_install_append_class-target () {
+ 	${PERLSEDFIXUP}
++	mv ${D}${libdir}/perl-native/perl ${D}${libdir}
++	rmdir ${D}${libdir}/perl-native || true
+ }
+ 
+ do_install_append_class-native() {
+@@ -90,6 +87,7 @@ PERLTOOLS = " \
+ PACKAGES =+ "${PN}-perltools"
+ FILES_${PN}-perltools += " \
+     ${PERLTOOLS} \
++    ${libdir}/perl \
+     ${datadir}/perl \
+ "
+ RDEPENDS_${PN}-perltools = "${PN} perl perl-module-file-path findutils"
+-- 
+1.8.5.5
 
-Yes, it was. It only hit me recently when U-Boot switched to Kconfig, which 
-needs a python module, which is missing from the SDK toolchain though.
-
-> In the mean time however you can work around it by adding
-> nativesdk-python-modules (an existing meta-package) to your SDK via
-> TOOLCHAIN_HOST_TASK.
-
-Ah, thank you for the hint!
-
-Best regards,
-Marek Vasut
 
