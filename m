@@ -1,33 +1,38 @@
-Return-Path: <fahad.usman@gmail.com>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AB05605BD
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 1769F71476
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 04:07:24 +0000 (UTC)
-Received: by mail-wg0-f45.google.com with SMTP id z12so1790586wgg.28
+	Fri, 19 Sep 2014 04:42:36 +0000 (UTC)
+Received: by mail-ie0-f176.google.com with SMTP id ar1so2613903iec.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 21:07:25 -0700 (PDT)
+	Thu, 18 Sep 2014 21:42:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=VSXb5yFRHDa8/sv9DbMC9Vz+LZtH1SEejyv9S1W1m/U=;
-	b=unNRsGg+Z5th0zcS5Xc22JAjKZye5d+JOgdGxVbwcuSWXujRAHk+bnV6APzZ9cl06i
-	klvLVFskakRDU5t4cCnW8uUznfhrVjYPxTXn08QJiZ9e8+NKWSOQzVDQWZaTLBKfezx3
-	yzG+nq70F4Xb+SYlGGPbStAht1sWN1sYMBBV3l8b5y6ggTGIMrBaqFRMohQ1b/p/Bv72
-	fBdpGeN6Z8E9FEmA2iavdLIy6kRJ6XygLnnuBw/yQEA+sW4NIE4FjSXBTnWnJU9IKLO4
-	GNnJV18llvN2NIiQsFy3joDWQmGuUI7v6XWH4cjXIUhUtJbThYmMLG8tb8Wmwlg2rF/I
-	0DAg==
-X-Received: by 10.194.23.8 with SMTP id i8mr9258347wjf.104.1411099645460;
-	Thu, 18 Sep 2014 21:07:25 -0700 (PDT)
-Received: from svr-pkl-eng-06.pkl.mentorg.com ([110.93.212.98])
-	by mx.google.com with ESMTPSA id v20sm662695wib.4.2014.09.18.21.07.23
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 18 Sep 2014 21:07:24 -0700 (PDT)
-From: Fahad Usman <fahad.usman@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Sep 2014 09:06:03 +0500
-Message-Id: <1411099563-29139-1-git-send-email-fahad.usman@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] sysklogd: set INHIBIT_UPDATERCD_BBCLASS if 'sysvinit' not in DISTRO_FEATURES
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=/JKQKTa2OwlWeBpPEQJ/Z8dIF8OEnNNMyGtFsrpawSM=;
+	b=CWRJ+YlYwh8XGKTRigtdbIQnLI/M9TFqwM4/9254kLqnkhAylbBqy1cgXWeY0k8+PJ
+	Ej8ESdYwKsEApAnYsKrVUC2HeDNoxjRKg9iobcw0jC67fvNwDoDOCPzdA2VvZopMnnvi
+	ba2lwjLhWJbdOXNqQMjHsBZlhdzbfHMwTv+dS6hU/yL9g6oMAj8gJT81eI8fS/wSrQbr
+	fjQeFeJfFz88hzPfwx3X8tp2RwxXelUmZtesA6UYxBsW8NU/gY/ELjU0Sen1w+J8QQhA
+	wA2c8qr33GfbWb5ML8NbqmgJ+6x8xRnOmB/g3pjdOeHAc5D3SivBkUejtrNNdxvra4qO
+	4KzA==
+X-Received: by 10.42.39.142 with SMTP id h14mr17848449ice.32.1411101756599;
+	Thu, 18 Sep 2014 21:42:36 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.240.6 with HTTP; Thu, 18 Sep 2014 21:42:05 -0700 (PDT)
+In-Reply-To: <CABcZANkTvHcwwrswK324f=tFYgqcptGXWQkC-6sopSD3HAXVmQ@mail.gmail.com>
+References: <1410916622-26204-1-git-send-email-kergoth@gmail.com>
+	<1410916622-26204-7-git-send-email-kergoth@gmail.com>
+	<541A890A.8070709@gmail.com>
+	<CABcZANkTvHcwwrswK324f=tFYgqcptGXWQkC-6sopSD3HAXVmQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 18 Sep 2014 21:42:05 -0700
+Message-ID: <CAMKF1sptrwghp4K84adUwEq7_4zMAmK31JRRsOnCRfrNmNqu8w@mail.gmail.com>
+To: Christopher Larson <clarson@kergoth.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 6/8] blktrace: obey LDFLAGS for btrecord
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,31 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Sep 2014 04:07:33 -0000
+X-List-Received-Date: Fri, 19 Sep 2014 04:42:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-We need to set INHIBIT_UPDATERCD_BBCLASS to "1" if 'sysvinit' is not
-present in DISTRO_FEATURES so that any un-necessary package dependencies
-are not added by update-rc.d.bbclass
+On Thu, Sep 18, 2014 at 1:51 PM, Christopher Larson <clarson@kergoth.com> wrote:
+>
+> On Thu, Sep 18, 2014 at 12:26 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> On 9/16/14 6:17 PM, Christopher Larson wrote:
+>> > From: Christopher Larson <chris_larson@mentor.com>
+>> >
+>> > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>> > ---
+>> >  meta/recipes-kernel/blktrace/blktrace/ldflags.patch | 8 ++++++--
+>> >  1 file changed, 6 insertions(+), 2 deletions(-)
+>> >
+>> > diff --git a/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
+>> > b/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
+>> > index b9c7c20..037d161 100644
+>> > --- a/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
+>> > +++ b/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
+>> > @@ -59,8 +59,12 @@ Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
+>> >   INCS        = -I. -I.. -I../btt
+>> >   OCFLAGS     = -UCOUNT_IOS -UDEBUG -DNDEBUG
+>> >   XCFLAGS     = -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
+>> > -@@ -35,7 +36,7 @@ btrecord: btrecord.o
+>> > -     $(CC) $(CFLAGS) -o $@ $(filter %.o,$^)
+>> > +@@ -32,10 +33,10 @@ clean: docsclean
+>> > +     $(CC) $(CFLAGS) -c -o $*.o $<
+>> > +
+>> > + btrecord: btrecord.o
+>> > +-    $(CC) $(CFLAGS) -o $@ $(filter %.o,$^)
+>> > ++    $(CC) $(CFLAGS) -o $@ $(filter %.o,$^) $(LDFLAGS)
+>> >
+>>
+>> aren't you passing LDFLAGS to compile step as well here ?
+>
+>
+> I don't think so. This rule creates btrecord from btrecord.o, it doesn't
+> compile btrecord.c to btrecord.o, that's an entirely different rule.
 
-Signed-off-by: Fahad Usman <fahad.usman@gmail.com>
----
- meta/recipes-extended/sysklogd/sysklogd.inc |    5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
-index bcf8aa7..3cbbdfd 100644
---- a/meta/recipes-extended/sysklogd/sysklogd.inc
-+++ b/meta/recipes-extended/sysklogd/sysklogd.inc
-@@ -56,3 +56,8 @@ pkg_prerm_${PN} () {
- 	fi
- 	fi
- }
-+
-+python __anonymous() {
-+    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
-+        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
-+}
--- 
-1.7.9.5
-
+thats right. I confused it with filter
 
