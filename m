@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id D43F9714EC
+Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B12671497
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 15:06:35 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id v10so2715472qac.41
+	Fri, 19 Sep 2014 15:08:27 +0000 (UTC)
+Received: by mail-qc0-f169.google.com with SMTP id r5so3278171qcx.14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 08:06:36 -0700 (PDT)
+	Fri, 19 Sep 2014 08:08:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=tpf06Bq/dT3kC2DX6Cz+L6pHK8JgaeCi2gwRlXU9NE4=;
-	b=Vlp0n5ZhYAYoppy+/ixSVWuZwJ3WzKUyDa2cpi7x9C+jvhLweJjA6dYPpX8BIOdJie
-	RLEahtkdpsjSxKuZAxImH5yMPIeovGSJeecF9Tj3MaJTuRFl7xpML+uHf5f9XC6/5kRP
-	PtqOnmWv1Cvr7qO88t5ojkhAlQogwl0idvwJQd4aJCzlgnu6LU9r0zJJnC4p+fhIfB7V
-	ti/HJTmOKNVPGId1HXUeBlWpgPSxpFYBBh80HkSSE58NSbg8zLYploAZa1cHvFe7kNCM
-	bX2VMbwKnkRy2CP9usPaBhbg6DP2wLfb2VYkt4JpuZBUeKBjWu/+UnasnzHLgWhdcf1D
-	KH7w==
-X-Gm-Message-State: ALoCoQmyW2Mf7bmGkauNc1Y2Cp7aaxZBKqWY5M1mZvzfHZfiXINVU0oCbn0BdH9IGze150taUD6B
-X-Received: by 10.224.104.2 with SMTP id m2mr1528637qao.52.1411139196649; Fri,
-	19 Sep 2014 08:06:36 -0700 (PDT)
+	bh=Htw4iSkfm2Bs7tv2WK2QXGlcH4Ds6KjGSVDBcE5CnHw=;
+	b=NUB+6MqRqIH2MKkhrZz6dh1zaIDPOQRYCyZm4HAsOZpRK1YLj96g+RtLdEM+GL8672
+	bAVnZ2HfPEK6vmlCpnsPbwQgCT6Ei/uHLQJXI+wXv3w2Y8/bBYjaw+Rofk74Q6sTIie3
+	+tBfmvwcxIYJl0ixLEels31rhsAH/V5z5drZ8QwOlc6Y7/F2FPDbISGqwhJ+QZa2fvwB
+	YTCbziebiLFNqVK2sKTpStAen2X8i4A1hi/10Ps34JVsFkomByDpoO98uwad0P16OMMa
+	c69QlIVJzilK5meis/5kh9BCU93bNZlR841Q0630wxWd6aMp8EuAYmddFHMB9z1szYOS
+	Ajxg==
+X-Gm-Message-State: ALoCoQkkiOXPf1n/z+7r61UVrlpLfZvIYriIupex1bgETbtC+5Fy6qvNmSLpxfIZED9FxevMD0hf
+X-Received: by 10.140.40.84 with SMTP id w78mr1813125qgw.87.1411139308004;
+	Fri, 19 Sep 2014 08:08:28 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Fri, 19 Sep 2014 08:06:16 -0700 (PDT)
-In-Reply-To: <1411109370-27814-1-git-send-email-rongqing.li@windriver.com>
-References: <1411109370-27814-1-git-send-email-rongqing.li@windriver.com>
+Received: by 10.140.34.180 with HTTP; Fri, 19 Sep 2014 08:08:07 -0700 (PDT)
+In-Reply-To: <1411109378-27850-1-git-send-email-rongqing.li@windriver.com>
+References: <1411109378-27850-1-git-send-email-rongqing.li@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 19 Sep 2014 16:06:16 +0100
-Message-ID: <CAJTo0LbxDxYCXTo6p4YS2U7-UY1f6UVnUcO3NaeaGi0BSx2C7w@mail.gmail.com>
+Date: Fri, 19 Sep 2014 16:08:07 +0100
+Message-ID: <CAJTo0LYdghqD+V_0QDCV-dgsEtrU4vSPZjG60Da+BCogkwZ+gQ@mail.gmail.com>
 To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] pinentry: add recipes
+Subject: Re: [PATCH 2/2] gnupg: add pinentry RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,27 +43,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Sep 2014 15:06:43 -0000
+X-List-Received-Date: Fri, 19 Sep 2014 15:08:31 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On 19 September 2014 07:49,  <rongqing.li@windriver.com> wrote:
-> +DEPENDS = "libcap ncurses"
-> +
-> +inherit autotools
-> +
-> +SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
-> +       "
-> +
-> +SRC_URI[md5sum] = "e2b6f94471ba1e978f6e5bf6b275189b"
-> +SRC_URI[sha256sum] = "359db3bf46cb743ba0b3aeef259f6107271ca888ba3e22c1cba525c9aca35612"
-> +
-> +EXTRA_OECONF = "--disable-pinentry-gtk\
-> +               --disable-pinentry-gtk2 \
-> +               --disable-pinentry-qt \
-> +               --disable-pinentry-qt4 \
+> gnupg needs pinentry to run
 
-Add PACKAGECONFIG options so the distro can pick if it wants curses,
-gtk2, gtk3, qt3 or qt4 UIs.
+Isn't this only needed if the agent is enabled?
 
 Ross
 
