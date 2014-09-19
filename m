@@ -1,25 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D0CDA7143F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 263DA714CF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 09:32:28 +0000 (UTC)
+	Fri, 19 Sep 2014 09:32:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8J9WRKv004505
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8J9WTei026377
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 19 Sep 2014 02:32:28 -0700 (PDT)
+	Fri, 19 Sep 2014 02:32:29 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Fri, 19 Sep 2014 02:32:27 -0700
+	(TLS) id 14.3.174.1; Fri, 19 Sep 2014 02:32:29 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: <raj.khem@gmail.com>, <mark.hatle@windriver.com>
-Date: Fri, 19 Sep 2014 17:21:04 +0800
-Message-ID: <cover.1411117403.git.kai.kang@windriver.com>
+Date: Fri, 19 Sep 2014 17:21:05 +0800
+Message-ID: <c5a328b89f31c222740cab151edc553a4672f9aa.1411117403.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1411117403.git.kai.kang@windriver.com>
+References: <cover.1411117403.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.152]
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/9] V3: Add machine qemuaarch64
+Subject: [PATCH 1/9] linux-yocto: depend on libgcc for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +37,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 19 Sep 2014 09:32:31 -0000
 Content-Type: text/plain
 
-According to Khem and Mark's comments, I send V3. 
+Make aarch aarch64 kernel depend on libgcc. In arch/arm64/Makefile, it
+adds LIBGCC to libs-y:
 
-Update:
-* keep dynamic linker in directory /lib, and redefine library install directory from /lib64 to /lib
-* Use _remove to simpilify perf patch
+LIBGCC          := $(shell $(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name)
+libs-y          += $(LIBGCC)
 
-The following changes since commit 280b6d0011f101e7a8edabd34c265b37a2f791ed:
+If build without libgcc, the value of LIBGCC is just libgcc.a without
+parent directory. linux-yocto fails to build:
 
-  sstatesig: fix overrides behaviour to remove SIGGEN_LOCKEDSIGS_i586 (2014-09-17 22:00:26 +0100)
+|   LD      vmlinux.o
+| aarch64-poky-linux-ld.bfd: cannot find libgcc.a: No such file or directory
 
-are available in the git repository at:
+Add libgcc to aarch64 kernel dependency.
 
-  git://git.pokylinux.org/poky-contrib kangkai/qemuarm64
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/qemuarm64
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Kai Kang (9):
-  linux-yocto: depend on libgcc for aarch64
-  Add machine qemuarm64
-  gcc-4.9: redefine default library install directory
-  libatomics-ops: add aarch64 target iniitial support
-  qt4-native: add aarch64 support
-  qt4: add aarch64 support
-  qt4-embedded: disable webkit
-  libpng: add neon option for aarch64
-  perf: disable libunwind support for aarch64
-
- meta/conf/machine/include/arm/arch-armv8.inc       |  20 +
- meta/conf/machine/qemuarm64.conf                   |  12 +
- meta/recipes-devtools/gcc/gcc-4.9.inc              |   1 +
- ...0056-gcc-redefine-library-dir-for-aarch64.patch |  29 ++
- meta/recipes-kernel/linux/linux-yocto.inc          |   1 +
- meta/recipes-kernel/perf/perf-features.inc         |   1 +
- meta/recipes-multimedia/libpng/libpng_1.6.13.bb    |   1 +
- .../0001-libatomic_ops-Aarch64-basic-port.patch    | 239 ++++++++++
- .../pulseaudio/libatomics-ops_7.2.bb               |   1 +
- meta/recipes-qt/qt4/qt4-4.8.6.inc                  |   4 +
- .../0029-aarch64_arm64_fix_arch_detection.patch    |  53 +++
- .../0030-aarch64_arm64_qatomic_support.patch       | 491 +++++++++++++++++++++
- .../qt4/qt4-4.8.6/0031-aarch64_arm64_mkspecs.patch | 124 ++++++
- .../qt4/qt4-4.8.6/0032-aarch64_add_header.patch    |  18 +
- meta/recipes-qt/qt4/qt4-embedded_4.8.6.bb          |   1 +
- meta/recipes-qt/qt4/qt4-native.inc                 |   4 +
- meta/recipes-qt/qt4/qt4-x11-free_4.8.6.bb          |   3 +
- meta/recipes-qt/qt4/qt4_arch.inc                   |   1 +
- 18 files changed, 1004 insertions(+)
- create mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
- create mode 100644 meta/conf/machine/qemuarm64.conf
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0056-gcc-redefine-library-dir-for-aarch64.patch
- create mode 100644 meta/recipes-multimedia/pulseaudio/files/0001-libatomic_ops-Aarch64-basic-port.patch
- create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0029-aarch64_arm64_fix_arch_detection.patch
- create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0030-aarch64_arm64_qatomic_support.patch
- create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0031-aarch64_arm64_mkspecs.patch
- create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0032-aarch64_add_header.patch
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 4ed3188..9018985 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+ INC_PR = "r4"
+ 
+ DEPENDS += "xz-native bc-native"
++DEPENDS_append_aarch64 = " libgcc"
+ 
+ # A KMACHINE is the mapping of a yocto $MACHINE to what is built
+ # by the kernel. This is typically the branch that should be built,
 -- 
 1.9.1
 
