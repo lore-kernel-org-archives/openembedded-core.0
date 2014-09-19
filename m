@@ -1,26 +1,43 @@
-Return-Path: <todd.e.brandt@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D4B2970F28
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id D3873605BD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 22:44:04 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Sep 2014 15:44:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,557,1406617200"; d="scan'208";a="602443839"
-Received: from gmacartn-mobl.ger.corp.intel.com (HELO linux.intel.com)
-	([10.255.13.38])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Sep 2014 15:44:01 -0700
-Date: Fri, 19 Sep 2014 15:44:01 -0700
-From: Todd E Brandt <todd.e.brandt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20140919224401.GA24684@linux.intel.com>
+	Fri, 19 Sep 2014 22:59:04 +0000 (UTC)
+Received: by mail-pd0-f172.google.com with SMTP id y10so796091pdj.31
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Sep 2014 15:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=te3xAMeLPiQFt7TU2HSPphA3dPMIoIGnK+lqwzVSjgo=;
+	b=DKHj190Al0GcY1WNBxsqwhXsn6PexEv+5b6jeY41ZlXyu2331UIfgv1gBoy0xrIKC5
+	UBWywFu4khkDnfNFAbRERCEOqsNm4JuG099arbuSX2vjQcYjohHpOpXeL00gSrA3Eldu
+	sOHfz5ZjKTjhWSSPrCTD1+KNCEBsystlX9Yhhfsd/IZpQfpYFwkTV4Xn5pgC8tui7XIz
+	PqAGs886FvMqBsHYeJT+gnxl0IQdzhIsEDRgoBsjeK8QotHtMPy18t721Q2cYJLW6Mco
+	X2dp/M4wbcoPhgPvl8vMjRH+vKRGQ2HHZymYSS1yEx0vxE1mSB6Y52+542mBBRF8PXU7
+	fhdA==
+X-Received: by 10.67.3.162 with SMTP id bx2mr5305014pad.57.1411167545106;
+	Fri, 19 Sep 2014 15:59:05 -0700 (PDT)
+Received: from ?IPv6:2601:c:9380:601:6d19:1bc3:1ce1:5191?
+	([2601:c:9380:601:6d19:1bc3:1ce1:5191])
+	by mx.google.com with ESMTPSA id k8sm2799712pdo.64.2014.09.19.15.59.03
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 19 Sep 2014 15:59:04 -0700 (PDT)
+Message-ID: <541CB535.9040405@gmail.com>
+Date: Fri, 19 Sep 2014 15:59:01 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: [PATCH] Phoronix Test Suite package
+To: rongqing.li@windriver.com, openembedded-core@lists.openembedded.org
+References: <1411109370-27814-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1411109370-27814-1-git-send-email-rongqing.li@windriver.com>
+Subject: Re: [PATCH 1/2] pinentry: add recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: todd.e.brandt@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -30,46 +47,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Sep 2014 22:44:08 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 19 Sep 2014 22:59:05 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is the package recipe for the phoronix test suite v5.2.1. The
-tool is for benchmarking and testing of the system. 
+This recipe already resides in meta-securty.
 
-Signed-off-by: Todd Brandt <todd.e.brandt@linux.intel.com>
-----
- meta-oe/recipes-devtools/phoronix-test-suite/phoronix-test-suite_5.2.1.bb | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+so I take it it should be removed from that layer?
 
-diff --git a/meta-oe/recipes-devtools/phoronix-test-suite/phoronix-test-suite_5.2.1.bb b/meta-oe/recipes-devtools/phoronix-test-suite/phoronix-test-suite_5.2.1.bb
-new file mode 100644
-index 0000000..f9f5d65
---- /dev/null
-+++ b/meta-oe/recipes-devtools/phoronix-test-suite/phoronix-test-suite_5.2.1.bb
-@@ -0,0 +1,24 @@
-+SUMMARY = "Phoronix Test Suite"
-+DESCRIPTION = "The Phoronix Test Suite is designed to carry out both qualitative \
-+and quantitative benchmarks in a clean, reproducible, and easy-to-use manner."
-+LICENSE = "GPLv3"
-+LIC_FILES_CHKSUM = "file://../phoronix-test-suite/COPYING;md5=d32239bcb673463ab874e80d47fae504"
-+RDEPENDS_${PN} = "php-cli"
-+SECTION = "tests"
-+
-+SRC_URI = "http://www.phoronix-test-suite.com/releases/phoronix-test-suite-5.2.1.tar.gz"
-+SRC_URI[md5sum] = "51e52d883710dc516c5494bd1c377219"
-+SRC_URI[sha256sum] = "1186f460691e2fe7a07df5edb8d8ed1ac0c65327512e646da2b2e3a60dda6cd9"
-+S = "${WORKDIR}/phoronix-test-suite"
-+
-+do_install() {
-+	DESTDIR=${D} ./install-sh /usr
-+}
-+
-+FILES_${PN} += " \
-+	${datadir}/phoronix-test-suite \
-+	${datadir}/appdata/phoronix-test-suite.appdata.xml \
-+	${datadir}/icons/hicolor/48x48/apps/phoronix-test-suite.png \
-+	${datadir}/icons/hicolor/64x64/mimetypes/application-x-openbenchmarking.png \
-+	${datadir}/mime/packages/openbenchmarking-mime.xml \
-+"
+- Armin
+
+
+On 09/18/2014 11:49 PM, rongqing.li@windriver.com wrote:
+> From: Roy Li <rongqing.li@windriver.com>
+>
+> gnupg 5.0 needs pinentry to work, refer to
+> [http://rdist.root.org/2007/04/26/gpg-now-requires-pinentry-package/]
+>
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+>   meta/recipes-support/pinentry/pinentry_0.8.4.bb |   31 +++++++++++++++++++++++
+>   1 file changed, 31 insertions(+)
+>   create mode 100644 meta/recipes-support/pinentry/pinentry_0.8.4.bb
+>
+> diff --git a/meta/recipes-support/pinentry/pinentry_0.8.4.bb b/meta/recipes-support/pinentry/pinentry_0.8.4.bb
+> new file mode 100644
+> index 0000000..e20ebb3
+> --- /dev/null
+> +++ b/meta/recipes-support/pinentry/pinentry_0.8.4.bb
+> @@ -0,0 +1,31 @@
+> +SUMMARY = "Collection of simple PIN or passphrase entry dialogs"
+> +DESCRIPTION = "\
+> +	Pinentry is a collection of simple PIN or passphrase entry dialogs which \
+> +	utilize the Assuan protocol as described by the aegypten project; see \
+> +	http://www.gnupg.org/aegypten/ for details. \
+> +	This package contains the curses (text) based version of the PIN entry dialog."
+> +
+> +HOMEPAGE = "http://www.gnupg.org/related_software/pinentry/index.en.html"
+> +LICENSE = "GPLv2"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=cbbd794e2a0a289b9dfcc9f513d1996e"
+> +
+> +DEPENDS = "libcap ncurses"
+> +
+> +inherit autotools
+> +
+> +SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
+> +	"
+> +
+> +SRC_URI[md5sum] = "e2b6f94471ba1e978f6e5bf6b275189b"
+> +SRC_URI[sha256sum] = "359db3bf46cb743ba0b3aeef259f6107271ca888ba3e22c1cba525c9aca35612"
+> +
+> +EXTRA_OECONF = "--disable-pinentry-gtk\
+> +		--disable-pinentry-gtk2 \
+> +		--disable-pinentry-qt \
+> +		--disable-pinentry-qt4 \
+> +		--with-ncurses-include-dir=${STAGING_LIBDIR}/.. \
+> +		--disable-rpath \
+> +		--disable-dependency-tracking \
+> +		--disable-glibtest \
+> +                --with-libcap=${STAGING_LIBDIR}/.. \
+> +               "
+>
 
