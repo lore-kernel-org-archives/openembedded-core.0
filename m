@@ -1,24 +1,28 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 13D8E65CE7
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 31B906FD28
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 06:49:36 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8J6nXVH024668
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 23:49:33 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.141) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 18 Sep 2014 23:49:33 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Sep 2014 14:49:38 +0800
-Message-ID: <1411109378-27850-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Fri, 19 Sep 2014 07:14:04 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3hzmW05Blyz3hhwS;
+	Fri, 19 Sep 2014 09:14:04 +0200 (CEST)
+X-Auth-Info: fcrwavueEQJgCMbyQwg7GMoxcq95lfXP5aXfJvHRZ/E=
+Received: from chi.localnet (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3hzmW01StmzvhTZ; 
+	Fri, 19 Sep 2014 09:14:04 +0200 (CEST)
+From: Marek Vasut <marex@denx.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Fri, 19 Sep 2014 09:06:30 +0200
+User-Agent: KMail/1.13.7 (Linux/3.13-trunk-amd64; KDE/4.13.1; x86_64; ; )
+References: <1411031735-14721-1-git-send-email-marex@denx.de>
+	<1411047011.4736.0.camel@ted>
+In-Reply-To: <1411047011.4736.0.camel@ted>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] gnupg: add pinentry RDEPENDS
+Message-Id: <201409190906.30763.marex@denx.de>
+Cc: koen@dominion.thruhere.net, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] nativesdk-packagegroup-python: buildtools-tarball: Introduce NativeSDK package group
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +35,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Sep 2014 06:49:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Sep 2014 07:14:11 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-From: "Roy.Li" <rongqing.li@windriver.com>
+On Thursday, September 18, 2014 at 03:30:11 PM, Richard Purdie wrote:
+> On Thu, 2014-09-18 at 11:15 +0200, Marek Vasut wrote:
+> > Introduce and use nativesdk-packagegroup-python , which contains all
+> > necessary python components for the native SDK. Make use of this
+> > package group in buildtools-tarball.bb immediatelly.
+> 
+> Specifically, isn't this the list of packages needed to run bitbake and
+> its associated utils? "python" isn't therefore a particularly good
+> description of this package?
 
-gnupg needs pinentry to run
+This is really just and only python packages, nothing else.
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- meta/recipes-support/gnupg/gnupg_2.0.26.bb |    1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-support/gnupg/gnupg_2.0.26.bb b/meta/recipes-support/gnupg/gnupg_2.0.26.bb
-index c460b7e..c7606eb 100644
---- a/meta/recipes-support/gnupg/gnupg_2.0.26.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.0.26.bb
-@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
-                     file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6"
- 
- DEPENDS = "${PTH} libassuan libksba zlib bzip2 readline libgcrypt"
-+RDEPENDS_${PN} = "pinentry"
- PTH = "pth"
- PTH_libc-uclibc = "npth"
- 
--- 
-1.7.10.4
-
+Best regards,
+Marek Vasut
 
