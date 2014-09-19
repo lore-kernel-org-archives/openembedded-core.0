@@ -1,27 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 263DA714CF
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 448C4714D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 09:32:29 +0000 (UTC)
+	Fri, 19 Sep 2014 09:32:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8J9WTei026377
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8J9WVkp004512
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 19 Sep 2014 02:32:29 -0700 (PDT)
+	Fri, 19 Sep 2014 02:32:31 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Fri, 19 Sep 2014 02:32:29 -0700
+	(TLS) id 14.3.174.1; Fri, 19 Sep 2014 02:32:30 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: <raj.khem@gmail.com>, <mark.hatle@windriver.com>
-Date: Fri, 19 Sep 2014 17:21:05 +0800
-Message-ID: <c5a328b89f31c222740cab151edc553a4672f9aa.1411117403.git.kai.kang@windriver.com>
+Date: Fri, 19 Sep 2014 17:21:06 +0800
+Message-ID: <7edefc498afc748e846628dfba4d4a3c0a59e2fb.1411117403.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1411117403.git.kai.kang@windriver.com>
 References: <cover.1411117403.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.152]
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/9] linux-yocto: depend on libgcc for aarch64
+Subject: [PATCH 2/9] Add machine qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,37 +37,68 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 19 Sep 2014 09:32:31 -0000
 Content-Type: text/plain
 
-Make aarch aarch64 kernel depend on libgcc. In arch/arm64/Makefile, it
-adds LIBGCC to libs-y:
+Add machine qemuarm64. The configure files are derived from linaro.
 
-LIBGCC          := $(shell $(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name)
-libs-y          += $(LIBGCC)
+Update:
+* rename genericarmv8 to qemuarm64 for coordination in oe-core
+* include qemu.inc then remove common part of config
+* disable using autoserial
+* move arch-armv8.inc from machine/include/arm64 to machine/include/arm
 
-If build without libgcc, the value of LIBGCC is just libgcc.a without
-parent directory. linux-yocto fails to build:
-
-|   LD      vmlinux.o
-| aarch64-poky-linux-ld.bfd: cannot find libgcc.a: No such file or directory
-
-Add libgcc to aarch64 kernel dependency.
+[YOCTO #6487]
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/machine/include/arm/arch-armv8.inc | 20 ++++++++++++++++++++
+ meta/conf/machine/qemuarm64.conf             | 12 ++++++++++++
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
+ create mode 100644 meta/conf/machine/qemuarm64.conf
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 4ed3188..9018985 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
- INC_PR = "r4"
- 
- DEPENDS += "xz-native bc-native"
-+DEPENDS_append_aarch64 = " libgcc"
- 
- # A KMACHINE is the mapping of a yocto $MACHINE to what is built
- # by the kernel. This is typically the branch that should be built,
+diff --git a/meta/conf/machine/include/arm/arch-armv8.inc b/meta/conf/machine/include/arm/arch-armv8.inc
+new file mode 100644
+index 0000000..c86142a
+--- /dev/null
++++ b/meta/conf/machine/include/arm/arch-armv8.inc
+@@ -0,0 +1,20 @@
++DEFAULTTUNE ?= "aarch64"
++
++ARMPKGARCH ?= "aarch64"
++
++TUNEVALID[aarch64] = "Enable instructions for aarch64"
++TUNEVALID[bigendian] = "Enable big-endian mode."
++TUNECONFLICTS[aarch64] = ""
++MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", ":aarch64", "" ,d)}"
++
++# Little Endian base configs
++AVAILTUNES += "aarch64 aarch64_be"
++TUNE_FEATURES_tune-aarch64 ?= "aarch64"
++TUNE_FEATURES_tune-aarch64_be ?= "${TUNE_FEATURES_tune-aarch64} bigendian"
++
++ARMPKGSFX_ENDIAN = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", "_be", "", d)}"
++
++TUNE_ARCH = "aarch64${ARMPKGSFX_ENDIAN}"
++TUNE_PKGARCH = "aarch64${ARMPKGSFX_ENDIAN}"
++
++PACKAGE_EXTRA_ARCHS = "aarch64${ARMPKGSFX_ENDIAN}"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+new file mode 100644
+index 0000000..20bcfba
+--- /dev/null
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -0,0 +1,12 @@
++#@TYPE: Machine
++#@NAME: generic armv8 machine
++#@DESCRIPTION: Machine configuration for running a generic armv8
++
++require conf/machine/include/arm/arch-armv8.inc
++require conf/machine/include/qemu.inc
++
++MACHINE_FEATURES = ""
++
++KERNEL_IMAGETYPE = "Image"
++
++SERIAL_CONSOLE = "38400 ttyAMA0"
 -- 
 1.9.1
 
