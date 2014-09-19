@@ -1,41 +1,30 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F01A60144
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 349BC60144
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 17:02:50 +0000 (UTC)
-Received: by mail-la0-f51.google.com with SMTP id gi9so3461799lab.24
+	Fri, 19 Sep 2014 17:08:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8JH8hLA013100 for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Sep 2014 18:08:43 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 8QA1f1kMmPf5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 10:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=kF4rHnAXVkz874G1Nc/A0MOtevznDtkifIMNBC17oKs=;
-	b=f/+c9klgNdmLAa4v2QvX2TANrUvKOOsgVkNx8bLs4PsO67asKcrfoZOzMTXuhTdkbY
-	qbx0t3rnKcU50Sjmpm9K18R3JsOQdNGEK9isWm1E4hzT7aWCWSZj07GgnPasKrKwA8Q1
-	nYEUTBgEKwCKoyEWqfpKoTRV11go0ySz3XzAd1k3ajw7xDa3Hl10fDgFVapB8YjqFgRL
-	dUqD7wOtn8OQ+TL2W141YJF+ryue+6vX9b8tnmyCydRFmL6dqTjtaR+Dp2f0eDei76cX
-	2TpgoqJK1jq202ZaoWpi6Dkq1CYwMD44PjjkBrI8ttq0blFkfbWJTCka0YOQzg8nQ9do
-	BgDw==
-X-Received: by 10.152.37.72 with SMTP id w8mr8029860laj.48.1411146169616; Fri,
-	19 Sep 2014 10:02:49 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.43.236 with HTTP; Fri, 19 Sep 2014 10:02:29 -0700 (PDT)
-In-Reply-To: <6249697.nqJ7MiLpN2@peggleto-mobl5.ger.corp.intel.com>
-References: <1411031735-14721-1-git-send-email-marex@denx.de>
-	<CABcZANkxOj-8VhQvafT5cQP1TDfTmVn=MGDYygkUaxQNtwYezw@mail.gmail.com>
-	<201409191827.30418.marex@denx.de>
-	<6249697.nqJ7MiLpN2@peggleto-mobl5.ger.corp.intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Fri, 19 Sep 2014 10:02:29 -0700
-X-Google-Sender-Auth: 6a0N_uI4Y8vdKxje20_jOh0ivcg
-Message-ID: <CABcZAN=EGg68zyNGoefo9yr4GS8W8SjLjtZjSLSdoECEzZwvFQ@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Marek Vasut <marex@denx.de>, Koen Kooi <koen@dominion.thruhere.net>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] nativesdk-packagegroup-python: buildtools-tarball: Introduce NativeSDK package group
+	Fri, 19 Sep 2014 18:08:42 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8JH8bkj013097
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Sep 2014 18:08:39 +0100
+Message-ID: <1411146520.4736.25.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Sep 2014 18:08:40 +0100
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Subject: [PATCH] meta-environment: Fix TARGET_OS problem for ppc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,61 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Sep 2014 17:02:52 -0000
-Content-Type: multipart/alternative; boundary=089e0160c1562a8c0705036e122e
+X-List-Received-Date: Fri, 19 Sep 2014 17:08:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---089e0160c1562a8c0705036e122e
-Content-Type: text/plain; charset=UTF-8
+Due to the use of the cross-canadian inherit, TARGET_OS can be reset to
+values other than the correct one, leading to generation of the wrong 
+files.
 
-On Fri, Sep 19, 2014 at 9:42 AM, Paul Eggleton <
-paul.eggleton@linux.intel.com> wrote:
+By expanding REAL_MULTIMACH_TARGET_SYS before the inherit, the correct
+OS value is preserved and we generate the right environment files.
 
-> There's clearly a bug here, adding a Python-using component does not mean
-> you
-> should have python in the SDK but that's what currently happens. There is a
-> bug open now covering this, we will do our best to address it in a timely
-> manner. (FWIW, I would have thought this issue has been present for some
-> time
-> rather than being a recent regression.)
->
+[YOCTO #6608]
+[YOCTO #6613]
 
-Ah, we've hit something similar. We had a need to add the git perl tools to
-the buildtools-tarball to support the gitsm:// fetcher (git-submodule is
-perl, iirc), which sucked in nativesdk-perl. At the moment we're doing a
-horrible hack and just rm'ing perl itself after it gets installed, do you
-have the yocto bug # for the python one?
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
---089e0160c1562a8c0705036e122e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
+index cf142ef..c80f8a8 100644
+--- a/meta/recipes-core/meta/meta-environment.bb
++++ b/meta/recipes-core/meta/meta-environment.bb
+@@ -6,9 +6,10 @@ PR = "r8"
+ 
+ EXCLUDE_FROM_WORLD = "1"
+ 
++REAL_MULTIMACH_TARGET_SYS := "${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
++
+ inherit toolchain-scripts
+ TOOLCHAIN_NEED_CONFIGSITE_CACHE += "zlib"
+-REAL_MULTIMACH_TARGET_SYS = "${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
+ 
+ SDK_DIR = "${WORKDIR}/sdk"
+ SDK_OUTPUT = "${SDK_DIR}/image"
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">On Fri, Sep 19, 2014 at 9:42 AM=
-, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"mailto:paul.eggleton@linux=
-.intel.com" target=3D"_blank">paul.eggleton@linux.intel.com</a>&gt;</span> =
-wrote:<br><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":up" class=3D"a3s" style=3D"overflow:hidden">There&#39;s clearly a bug =
-here, adding a Python-using component does not mean you<br>
-should have python in the SDK but that&#39;s what currently happens. There =
-is a<br>
-bug open now covering this, we will do our best to address it in a timely<b=
-r>
-manner. (FWIW, I would have thought this issue has been present for some ti=
-me<br>
-rather than being a recent regression.)</div></blockquote></div><br>Ah, we&=
-#39;ve hit something similar. We had a need to add the git perl tools to th=
-e buildtools-tarball to support the gitsm:// fetcher (git-submodule is perl=
-, iirc), which sucked in nativesdk-perl. At the moment we&#39;re doing a ho=
-rrible hack and just rm&#39;ing perl itself after it gets installed, do you=
- have the yocto bug # for the python one?<br>-- <br>Christopher Larson<br>c=
-larson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br=
->Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics
-</div></div>
 
---089e0160c1562a8c0705036e122e--
+
+
