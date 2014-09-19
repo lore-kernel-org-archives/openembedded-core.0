@@ -1,27 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 448C4714D2
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D0D30714D8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 09:32:30 +0000 (UTC)
+	Fri, 19 Sep 2014 09:32:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8J9WVkp004512
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8J9WWp1026380
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 19 Sep 2014 02:32:31 -0700 (PDT)
+	Fri, 19 Sep 2014 02:32:32 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Fri, 19 Sep 2014 02:32:30 -0700
+	(TLS) id 14.3.174.1; Fri, 19 Sep 2014 02:32:32 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: <raj.khem@gmail.com>, <mark.hatle@windriver.com>
-Date: Fri, 19 Sep 2014 17:21:06 +0800
-Message-ID: <7edefc498afc748e846628dfba4d4a3c0a59e2fb.1411117403.git.kai.kang@windriver.com>
+Date: Fri, 19 Sep 2014 17:21:07 +0800
+Message-ID: <e2dfa7293fc9002fc4f7682cdcf698d1566f6221.1411117403.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1411117403.git.kai.kang@windriver.com>
 References: <cover.1411117403.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.152]
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/9] Add machine qemuarm64
+Subject: [PATCH 3/9] gcc-4.9: redefine default library install directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,71 +34,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Sep 2014 09:32:31 -0000
+X-List-Received-Date: Fri, 19 Sep 2014 09:32:32 -0000
 Content-Type: text/plain
 
-Add machine qemuarm64. The configure files are derived from linaro.
+Packages use 'aarch64-poky-linux-gcc -print-multi-os-directory' to get the
+value of install directory. The value is set by MULTILIB_OSDIRNAMES and default
+is '/lib64'. Add the dynamic linker ld-linux-aarch64.so.1 from package eglibc
+is installed to /lib64.
 
-Update:
-* rename genericarmv8 to qemuarm64 for coordination in oe-core
-* include qemu.inc then remove common part of config
-* disable using autoserial
-* move arch-armv8.inc from machine/include/arm64 to machine/include/arm
+But the default dynamic linker defined in gcc/config/aarch64/aarch64-linux.h
+is:
 
-[YOCTO #6487]
+Then cause all the ELF files fail to launch because fail to find the linker.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/conf/machine/include/arm/arch-armv8.inc | 20 ++++++++++++++++++++
- meta/conf/machine/qemuarm64.conf             | 12 ++++++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
- create mode 100644 meta/conf/machine/qemuarm64.conf
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
+ ...0056-gcc-redefine-library-dir-for-aarch64.patch | 29 ++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0056-gcc-redefine-library-dir-for-aarch64.patch
 
-diff --git a/meta/conf/machine/include/arm/arch-armv8.inc b/meta/conf/machine/include/arm/arch-armv8.inc
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index 25778bd..b747703 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -70,6 +70,7 @@ SRC_URI = "\
+     file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
+     file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
+     file://0055-PR-rtl-optimization-61801.patch \
++    file://0056-gcc-redefine-library-dir-for-aarch64.patch \
+ "
+ SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
+ SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0056-gcc-redefine-library-dir-for-aarch64.patch b/meta/recipes-devtools/gcc/gcc-4.9/0056-gcc-redefine-library-dir-for-aarch64.patch
 new file mode 100644
-index 0000000..c86142a
+index 0000000..23cdb95
 --- /dev/null
-+++ b/meta/conf/machine/include/arm/arch-armv8.inc
-@@ -0,0 +1,20 @@
-+DEFAULTTUNE ?= "aarch64"
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0056-gcc-redefine-library-dir-for-aarch64.patch
+@@ -0,0 +1,29 @@
++Redefine default library directory for aarch64.
 +
-+ARMPKGARCH ?= "aarch64"
++Packages use 'aarch64-poky-linux-gcc -print-multi-os-directory' to get the
++value of install directory. The value is set by MULTILIB_OSDIRNAMES and default
++is '/lib64'. Add the dynamic linker ld-linux-aarch64.so.1 from package eglibc
++is installed to /lib64.
 +
-+TUNEVALID[aarch64] = "Enable instructions for aarch64"
-+TUNEVALID[bigendian] = "Enable big-endian mode."
-+TUNECONFLICTS[aarch64] = ""
-+MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", ":aarch64", "" ,d)}"
++But the default dynamic linker defined in gcc/config/aarch64/aarch64-linux.h
++is:
 +
-+# Little Endian base configs
-+AVAILTUNES += "aarch64 aarch64_be"
-+TUNE_FEATURES_tune-aarch64 ?= "aarch64"
-+TUNE_FEATURES_tune-aarch64_be ?= "${TUNE_FEATURES_tune-aarch64} bigendian"
++#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-aarch64%{mbig-endian:_be}.so.1"
 +
-+ARMPKGSFX_ENDIAN = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", "_be", "", d)}"
++Then cause all the ELF files fail to launch because fail to find the linker.
 +
-+TUNE_ARCH = "aarch64${ARMPKGSFX_ENDIAN}"
-+TUNE_PKGARCH = "aarch64${ARMPKGSFX_ENDIAN}"
++Upstream-Status: Pending
 +
-+PACKAGE_EXTRA_ARCHS = "aarch64${ARMPKGSFX_ENDIAN}"
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-new file mode 100644
-index 0000000..20bcfba
---- /dev/null
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -0,0 +1,12 @@
-+#@TYPE: Machine
-+#@NAME: generic armv8 machine
-+#@DESCRIPTION: Machine configuration for running a generic armv8
-+
-+require conf/machine/include/arm/arch-armv8.inc
-+require conf/machine/include/qemu.inc
-+
-+MACHINE_FEATURES = ""
-+
-+KERNEL_IMAGETYPE = "Image"
-+
-+SERIAL_CONSOLE = "38400 ttyAMA0"
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
++--- gcc-4.9.1/gcc/config/aarch64/t-aarch64-linux.orig	2014-09-19 14:38:47.550669143 +0800
+++++ gcc-4.9.1/gcc/config/aarch64/t-aarch64-linux	2014-09-19 14:39:01.234669516 +0800
++@@ -22,7 +22,7 @@
++ LIB1ASMFUNCS = _aarch64_sync_cache_range
++ 
++ AARCH_BE = $(if $(findstring TARGET_BIG_ENDIAN_DEFAULT=1, $(tm_defines)),_be)
++-MULTILIB_OSDIRNAMES = .=../lib64$(call if_multiarch,:aarch64$(AARCH_BE)-linux-gnu)
+++MULTILIB_OSDIRNAMES = .=../lib$(call if_multiarch,:aarch64$(AARCH_BE)-linux-gnu)
++ MULTIARCH_DIRNAME = $(call if_multiarch,aarch64$(AARCH_BE)-linux-gnu)
++ 
++ # Disable the multilib for linux-gnu targets for the time being; focus
 -- 
 1.9.1
 
