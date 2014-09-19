@@ -1,38 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 1769F71476
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7ED1E71476
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 04:42:36 +0000 (UTC)
-Received: by mail-ie0-f176.google.com with SMTP id ar1so2613903iec.7
+	Fri, 19 Sep 2014 04:50:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8J4o1th009837
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Sep 2014 21:42:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=/JKQKTa2OwlWeBpPEQJ/Z8dIF8OEnNNMyGtFsrpawSM=;
-	b=CWRJ+YlYwh8XGKTRigtdbIQnLI/M9TFqwM4/9254kLqnkhAylbBqy1cgXWeY0k8+PJ
-	Ej8ESdYwKsEApAnYsKrVUC2HeDNoxjRKg9iobcw0jC67fvNwDoDOCPzdA2VvZopMnnvi
-	ba2lwjLhWJbdOXNqQMjHsBZlhdzbfHMwTv+dS6hU/yL9g6oMAj8gJT81eI8fS/wSrQbr
-	fjQeFeJfFz88hzPfwx3X8tp2RwxXelUmZtesA6UYxBsW8NU/gY/ELjU0Sen1w+J8QQhA
-	wA2c8qr33GfbWb5ML8NbqmgJ+6x8xRnOmB/g3pjdOeHAc5D3SivBkUejtrNNdxvra4qO
-	4KzA==
-X-Received: by 10.42.39.142 with SMTP id h14mr17848449ice.32.1411101756599;
-	Thu, 18 Sep 2014 21:42:36 -0700 (PDT)
+	Thu, 18 Sep 2014 21:50:01 -0700 (PDT)
+Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Thu, 18 Sep 2014 21:50:00 -0700
+Message-ID: <541BB61B.7070905@windriver.com>
+Date: Fri, 19 Sep 2014 12:50:35 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.0
 MIME-Version: 1.0
-Received: by 10.50.240.6 with HTTP; Thu, 18 Sep 2014 21:42:05 -0700 (PDT)
-In-Reply-To: <CABcZANkTvHcwwrswK324f=tFYgqcptGXWQkC-6sopSD3HAXVmQ@mail.gmail.com>
-References: <1410916622-26204-1-git-send-email-kergoth@gmail.com>
-	<1410916622-26204-7-git-send-email-kergoth@gmail.com>
-	<541A890A.8070709@gmail.com>
-	<CABcZANkTvHcwwrswK324f=tFYgqcptGXWQkC-6sopSD3HAXVmQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 18 Sep 2014 21:42:05 -0700
-Message-ID: <CAMKF1sptrwghp4K84adUwEq7_4zMAmK31JRRsOnCRfrNmNqu8w@mail.gmail.com>
-To: Christopher Larson <clarson@kergoth.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 6/8] blktrace: obey LDFLAGS for btrecord
+To: <openembedded-core@lists.openembedded.org>
+References: <1411099563-29139-1-git-send-email-fahad.usman@gmail.com>
+In-Reply-To: <1411099563-29139-1-git-send-email-fahad.usman@gmail.com>
+X-Originating-IP: [128.224.162.187]
+Subject: Re: [PATCH] sysklogd: set INHIBIT_UPDATERCD_BBCLASS if 'sysvinit' not in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,45 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Sep 2014 04:42:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 19 Sep 2014 04:50:01 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 18, 2014 at 1:51 PM, Christopher Larson <clarson@kergoth.com> wrote:
+On 09/19/2014 12:06 PM, Fahad Usman wrote:
+> We need to set INHIBIT_UPDATERCD_BBCLASS to "1" if 'sysvinit' is not
+> present in DISTRO_FEATURES so that any un-necessary package dependencies
+> are not added by update-rc.d.bbclass
 >
-> On Thu, Sep 18, 2014 at 12:26 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On 9/16/14 6:17 PM, Christopher Larson wrote:
->> > From: Christopher Larson <chris_larson@mentor.com>
->> >
->> > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
->> > ---
->> >  meta/recipes-kernel/blktrace/blktrace/ldflags.patch | 8 ++++++--
->> >  1 file changed, 6 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
->> > b/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
->> > index b9c7c20..037d161 100644
->> > --- a/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
->> > +++ b/meta/recipes-kernel/blktrace/blktrace/ldflags.patch
->> > @@ -59,8 +59,12 @@ Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
->> >   INCS        = -I. -I.. -I../btt
->> >   OCFLAGS     = -UCOUNT_IOS -UDEBUG -DNDEBUG
->> >   XCFLAGS     = -D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
->> > -@@ -35,7 +36,7 @@ btrecord: btrecord.o
->> > -     $(CC) $(CFLAGS) -o $@ $(filter %.o,$^)
->> > +@@ -32,10 +33,10 @@ clean: docsclean
->> > +     $(CC) $(CFLAGS) -c -o $*.o $<
->> > +
->> > + btrecord: btrecord.o
->> > +-    $(CC) $(CFLAGS) -o $@ $(filter %.o,$^)
->> > ++    $(CC) $(CFLAGS) -o $@ $(filter %.o,$^) $(LDFLAGS)
->> >
->>
->> aren't you passing LDFLAGS to compile step as well here ?
+> Signed-off-by: Fahad Usman <fahad.usman@gmail.com>
+> ---
+>   meta/recipes-extended/sysklogd/sysklogd.inc |    5 +++++
+>   1 file changed, 5 insertions(+)
 >
->
-> I don't think so. This rule creates btrecord from btrecord.o, it doesn't
-> compile btrecord.c to btrecord.o, that's an entirely different rule.
+> diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+> index bcf8aa7..3cbbdfd 100644
+> --- a/meta/recipes-extended/sysklogd/sysklogd.inc
+> +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+> @@ -56,3 +56,8 @@ pkg_prerm_${PN} () {
+>   	fi
+>   	fi
+>   }
+> +
+> +python __anonymous() {
+> +    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+> +        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+> +}
 
-thats right. I confused it with filter
+I'm now adding systemd support for sysklogd.
+This recipe will then inherit systemd.bbclass.
+And the task of setting INHIBIT_UPDATERCD_BBCLASS is automatically done.
+
+The patches will be sent out in one day or two.
+
+Best Regards,
+Chen Qi
 
