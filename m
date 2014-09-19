@@ -1,29 +1,38 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 48E0960030
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 38EB1714CF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 14:07:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8JE7U3l001550
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 19 Sep 2014 07:07:30 -0700 (PDT)
-Received: from [128.224.20.234] (128.224.20.234) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 19 Sep 2014 07:07:26 -0700
-Message-ID: <541C389C.90202@windriver.com>
-Date: Fri, 19 Sep 2014 10:07:24 -0400
-From: Randy MacLeod <randy.macleod@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
+	Fri, 19 Sep 2014 14:14:41 +0000 (UTC)
+Received: by mail-qg0-f48.google.com with SMTP id f51so2732451qge.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Sep 2014 07:14:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=hzJ1ol3oG6gAN6lidt7mnX3egJrJbagcoO+655kHm5g=;
+	b=ioVocJ5DTDv/OSnuiANa2yd0f33f0Gtf7A35R0exy6UvPLTkBHpyE+wgLla8xe09MN
+	k++4xM2m1FNulF/qoyxkz74b2JILreyLRovxdikIJnxoVvmqLcJZYjDgSiiDa0ZteBzl
+	jgevmuPReRgGMNr3pfREdARVtwVCGLnnaVToHjT9y24Wk4jNLa1SR8EP2htItvkBkNc8
+	s7mbk11nho2fVAG3ddoh1VBVrTzqv2XFiY7mG+PJxFsGaBJT8qwWxulAukmknar4N09/
+	eCYqPvZEkd3WDO/957ifFP+eK1kAhavRVE0hOqn+SsFcF69DEV3gkBu5xs32iffBZR7r
+	yadQ==
+X-Gm-Message-State: ALoCoQmVQRWhZzEDXdvrtgHD9NHvPzq/oP1asiaznCWZM81fpce9s6ajTihLZlarop/jHfP9ci4b
+X-Received: by 10.224.79.139 with SMTP id p11mr728689qak.93.1411136083012;
+	Fri, 19 Sep 2014 07:14:43 -0700 (PDT)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, harsh jain
-	<harshjain32@gmail.com>, Kang Kai <kai.kang@windriver.com>
+Received: by 10.140.34.180 with HTTP; Fri, 19 Sep 2014 07:14:22 -0700 (PDT)
+In-Reply-To: <541C389C.90202@windriver.com>
 References: <CAKuL1XT+=AYT_LVveVWOO2qqoiLwCbi6fP0j_b+xq3aMN7jdSQ@mail.gmail.com>
 	<CAJTo0LZZQMBBKRcxpfbOMC2KUWw5ffp=RdBOyymi-wfaq2UL3g@mail.gmail.com>
-In-Reply-To: <CAJTo0LZZQMBBKRcxpfbOMC2KUWw5ffp=RdBOyymi-wfaq2UL3g@mail.gmail.com>
-X-Originating-IP: [128.224.20.234]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+	<541C389C.90202@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 19 Sep 2014 15:14:22 +0100
+Message-ID: <CAJTo0LaGKTk=ubSRrv5wsW2eN9qxMOQsB2sKXuRXJUBujym=-g@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	harsh jain <harshjain32@gmail.com>
 Subject: Re: Recipe file of Python 2.7.4 of later version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -37,38 +46,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Sep 2014 14:07:38 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Sep 2014 14:14:45 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 14-09-19 07:37 AM, Burton, Ross wrote:
-> On 19 September 2014 12:31, harsh jain <harshjain32@gmail.com> wrote:
->> Python version 2.7.3 is not compatible with AARCH64
->> architecture.Support for AARCH64 is added in 2.7.4 onwards._ctypes.so
->> is not compiled by  2.7.3 python version for AARCH64.
->>
->> 1 ) Can we have recipe file of  2.7.4 or later version. If yes from
->> where i can download.
->> 2 ) There are several other python package which have build dependancy
->> on 2.7.3 version.When I try to install 2.7.4 using custom build recipe
->> file these dependencies give warning message.Is there any global
->> setting in configuration file to solve this issue.
+On 19 September 2014 15:07, Randy MacLeod <randy.macleod@windriver.com> wrote:
+> Also Kai (CCed) is going to maintain an aarch64 branch on:
+>   http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-contrib
+> Kai, let us know when your branch is available; hopefully that
+> will be early next week.
 >
-> It's past the feature freeze which means we won't merge upgrades, but
-> I imagine its fairly simple to identify the patches in 2.7.4 which
-> enable aarch64.
+> This branch will be continually rebased on master over the next
+> month or so and then merged to master after 1.7 is branched.
+> Patches welcome. They should be submitted here on the oe-core
+> list with an aarch64 tag in the subject line and CCing Kai please.
 
-Also Kai (CCed) is going to maintain an aarch64 branch on:
-   http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-contrib
-Kai, let us know when your branch is available; hopefully that
-will be early next week.
+Great news, thanks Randy and Kai.
 
-This branch will be continually rebased on master over the next
-month or so and then merged to master after 1.7 is branched.
-Patches welcome. They should be submitted here on the oe-core
-list with an aarch64 tag in the subject line and CCing Kai please.
+(did you mean poky-contrib instead of linux-yocto-contrib?)
 
--- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350
+Ross
 
