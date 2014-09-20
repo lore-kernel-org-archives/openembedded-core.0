@@ -1,38 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id A74E26B876
+Return-Path: <todd.e.brandt@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 590D96B876
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 23:56:14 +0000 (UTC)
-Received: by mail-wg0-f42.google.com with SMTP id a1so377960wgh.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 16:56:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=jzsPLwhey3cMRAKJKUCNp56XKsD7egS93Ozo0OQBbWY=;
-	b=RrrLhCPoLo9gl/QWpGrLL9PsfqDJ0N1HhjLGZWfeGDbnnzfz0w+EoyGScN4WKLXiEi
-	GLQ5OMDADOOiYV5XbxXw5dnluelJeODRLwEvsQ/6GPwR5I3NVqJYPNKF5GipLISteT0k
-	JYdBqDlMYFMyxNW4Rig2yIgmN2eo/7ik4KM5Xx21DSq02lID0VmnUTlRtYN3MfeW8Ni+
-	CfGF7S5yenQjrIR10mdZQibO7S/5kvtK03DRjx5gJxm2x3Q81qdqezS023sXMqP7nlKu
-	wUpPBbx9unT1XC5vxSLMusaLTj5K/uZKmKJfNjujf2cgLVMwtEUWKj56hJURsogIpa6i
-	6EVQ==
-X-Gm-Message-State: ALoCoQlS7d89QzMfU2hlRr360C1dqvuBxejbQgYXfOGTWaU0pItJT7YrrxblbFpvrx1NuQdVR6yW
-X-Received: by 10.194.184.166 with SMTP id ev6mr3999320wjc.61.1411170975691;
-	Fri, 19 Sep 2014 16:56:15 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id u10sm3637798wix.2.2014.09.19.16.56.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 19 Sep 2014 16:56:14 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Sep 2014 00:56:10 +0100
-Message-Id: <1411170970-551-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] irda-utils: remove inherit autotools
+	Sat, 20 Sep 2014 00:05:06 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Sep 2014 17:05:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,558,1406617200"; d="scan'208";a="602469897"
+Received: from gmacartn-mobl.ger.corp.intel.com (HELO linux.intel.com)
+	([10.255.13.38])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Sep 2014 17:05:07 -0700
+Date: Fri, 19 Sep 2014 17:05:07 -0700
+From: Todd E Brandt <todd.e.brandt@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20140920000507.GA27494@linux.intel.com>
+References: <20140919224401.GA24684@linux.intel.com>
+	<CAJTo0La4Etb61dwdMdikLJpByAhFE6OM1-bAHAZPyk12Nok9uw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0La4Etb61dwdMdikLJpByAhFE6OM1-bAHAZPyk12Nok9uw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Phoronix Test Suite package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: todd.e.brandt@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -42,29 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Sep 2014 23:56:18 -0000
+X-List-Received-Date: Sat, 20 Sep 2014 00:05:12 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-irda-utils doesn't use autotools, so don't inherit it.
+On Sat, Sep 20, 2014 at 12:03:43AM +0100, Burton, Ross wrote:
+> On 19 September 2014 23:44, Todd E Brandt <todd.e.brandt@linux.intel.com> wrote:
+> > This is the package recipe for the phoronix test suite v5.2.1. The
+> > tool is for benchmarking and testing of the system.
+> 
+> +RDEPENDS_${PN} = "php-cli"
+> 
+> Surely phoronix has more dependencies than just php...  Or is this
+> just the runner and it talks to slave?  Honestly have no idea how the
+> phoronix test suite is structured.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+it's designed to be a minimal install with only php as the dependency. It uses
+the network to download test definitions and to upload test results.
 
-diff --git a/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb b/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
-index 21891b2..bd60b9f 100644
---- a/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
-+++ b/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
-@@ -18,7 +18,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/irda/irda-utils-${PV}.tar.gz \
- SRC_URI[md5sum] = "84dc12aa4c3f61fccb8d8919bf4079bb"
- SRC_URI[sha256sum] = "61980551e46b2eaa9e17ad31cbc1a638074611fc33bff34163d10c7a67a9fdc6"
- 
--inherit autotools-brokensep update-rc.d
-+inherit update-rc.d
- 
- EXTRA_OEMAKE = "\
-     'CC=${CC}' \
--- 
-1.7.10.4
+> 
+> +SRC_URI = "http://www.phoronix-test-suite.com/releases/phoronix-test-suite-5.2.1.tar.gz"
+> 
+> ${BP} expands to PN-PV, so you can replace that with .../releases/${BP}.tar.gz.
+> 
+> +S = "${WORKDIR}/phoronix-test-suite"
+> 
+> That's the default value, so you can delete this line.
+> 
+> +do_install() {
+> +       DESTDIR=${D} ./install-sh /usr
+> +}
+> 
+> Use ${exec_prefix} instead of /usr.
+> 
+> Finally, this is a patch to meta-oe, so it should go to
+> openembedded-devel@, not openembedded-core@.
 
+ok, I'll resubmit on the proper list, sorry for the mistake and thanks for the feedback.
+
+> 
+> Ross
 
