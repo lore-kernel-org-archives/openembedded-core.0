@@ -1,39 +1,34 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C4DE70F06
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6882965D58
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Sep 2014 20:19:00 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id rd3so514688pab.9
+	Sat, 20 Sep 2014 20:51:27 +0000 (UTC)
+Received: by mail-ie0-f178.google.com with SMTP id at20so5494341iec.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Sep 2014 13:19:01 -0700 (PDT)
+	Sat, 20 Sep 2014 13:51:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=8166dVsC2zJxO7PEfacF2swOBUeRizXtob+nbidpb3A=;
-	b=HWdcYOxIBKPB6QWuFfxWy8yP4Fem9kYaMzyPrJQ1loGlYhQOdAR/FdHKJyd9wX1UUC
-	50Rh5KJGja+YhQnPxxEdua98gbzJv8rHULqtS4NYL0K2s8oKcwgAaDHaiRZdcB7n/9gW
-	jW/v7G9r+uw0jCLLBsfa8nn4sNZOQIfH5E+3L9Kp9aYL4smLl/SSotgl/tYppf3BIu0h
-	zoYEe6rkIiTMLBOauTwYLTIkUV3XNiTwg6iNIkJcGj1FSvBbrXKQtbZMEcFnfbNHRtyV
-	ERfyrcwhooR5jPCHh5xdRyttbJMIdYKRhbIdTWzJGfiZk2Q6SjhYnCuL7k37R6V8otMn
-	iKrg==
-X-Received: by 10.66.66.101 with SMTP id e5mr13093236pat.100.1411244341834;
-	Sat, 20 Sep 2014 13:19:01 -0700 (PDT)
-Received: from ?IPv6:2601:c:9380:601:45e0:336d:c8bc:e4d9?
-	([2601:c:9380:601:45e0:336d:c8bc:e4d9])
-	by mx.google.com with ESMTPSA id r7sm5259999pdj.75.2014.09.20.13.18.59
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 20 Sep 2014 13:19:00 -0700 (PDT)
-Message-ID: <541DE132.7090000@gmail.com>
-Date: Sat, 20 Sep 2014 13:18:58 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=Deue7rGxogAWM0PhFd0LBiJ3bCegmQKbVRbFsLflElc=;
+	b=H7c3tAuSgQbqAhyfK4Xe88SAhrkSh2nKTlb2N3JRRQsIHVLa3FYiOTnLnVnbjRORcL
+	FtvI8yblWjJs5vk/bi329WFPrrAj+1s+QiG0vSrU7N+fFqh1HM71oXW301fOR0iGg0pR
+	nQ005aNJTGdy88vMhCoGbxrKUxcVQS7YHjEeYCBnzukNAZs8qBCbCR1/QEPWwSSV9vYz
+	anRP56HlWoiP+TlOju8q0irIxQ/+2rdvCqJTPrpf/Fj0XaPsVWpc6jPtkxMGHSnPwHug
+	e20cMMFWjVM9GlbvGBNjC9/2LW7oBHmgBg5xHgRDC2RGTFK9vokP93AcvSBoCTDgXf8o
+	UBJg==
+X-Received: by 10.42.92.129 with SMTP id t1mr2788331icm.59.1411246287785; Sat,
+	20 Sep 2014 13:51:27 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1410657580-5311-1-git-send-email-akuster808@gmail.com>
+Received: by 10.50.240.6 with HTTP; Sat, 20 Sep 2014 13:50:57 -0700 (PDT)
 In-Reply-To: <1410657580-5311-1-git-send-email-akuster808@gmail.com>
+References: <1410657580-5311-1-git-send-email-akuster808@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 20 Sep 2014 13:50:57 -0700
+Message-ID: <CAMKF1sodETDMs5wdX7LYquKTkdjsM=Yo3Fz=w0bUGjjPx7jhXw@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH][Daisy] eglibc: CVE-2014-5119 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,26 +42,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Sep 2014 20:19:06 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 20 Sep 2014 20:51:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Did I sent this to the wrong list (wouldn't have been the first time)?
-
-- Armin
-
-On 09/13/2014 06:19 PM, Armin Kuster wrote:
+On Sat, Sep 13, 2014 at 6:19 PM, Armin Kuster <akuster808@gmail.com> wrote:
 > __gconv_translit_find: Disable function [BZ #17187]
 >
 > This functionality has never worked correctly, and the implementation
 > contained a security vulnerability (CVE-2014-5119).
 >
 > Signed-off-by: Armin Kuster <akuster808@gmail.com>
+
+Looks good. Saul please pull it into daisy-next
+
 > ---
->   .../eglibc/eglibc-2.19/CVE-2014-5119.patch         | 240 +++++++++++++++++++++
->   meta/recipes-core/eglibc/eglibc_2.19.bb            |   1 +
->   2 files changed, 241 insertions(+)
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.19/CVE-2014-5119.patch
+>  .../eglibc/eglibc-2.19/CVE-2014-5119.patch         | 240 +++++++++++++++++++++
+>  meta/recipes-core/eglibc/eglibc_2.19.bb            |   1 +
+>  2 files changed, 241 insertions(+)
+>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.19/CVE-2014-5119.patch
 >
 > diff --git a/meta/recipes-core/eglibc/eglibc-2.19/CVE-2014-5119.patch b/meta/recipes-core/eglibc/eglibc-2.19/CVE-2014-5119.patch
 > new file mode 100644
@@ -216,19 +209,19 @@ On 09/13/2014 06:19 PM, Armin Kuster wrote:
 > +-    {
 > +-      /* Is this module available?  */
 > +-      if ((*found)->handle != NULL)
-> +-	{
-> +-	  /* Maybe we have to reopen the file.  */
-> +-	  if ((*found)->handle != (void *) -1)
-> +-	    /* The object is not unloaded.  */
-> +-	    res = 0;
-> +-	  else if (open_translit (*found) == 0)
-> +-	    {
-> +-	      /* Copy the data.  */
-> +-	      *trans = (*found)->info;
-> +-	      (*found)->open_count++;
-> +-	      res = 0;
-> +-	    }
-> +-	}
+> +-      {
+> +-        /* Maybe we have to reopen the file.  */
+> +-        if ((*found)->handle != (void *) -1)
+> +-          /* The object is not unloaded.  */
+> +-          res = 0;
+> +-        else if (open_translit (*found) == 0)
+> +-          {
+> +-            /* Copy the data.  */
+> +-            *trans = (*found)->info;
+> +-            (*found)->open_count++;
+> +-            res = 0;
+> +-          }
+> +-      }
 > +-    }
 > +-  else
 > +-    {
@@ -238,57 +231,57 @@ On 09/13/2014 06:19 PM, Armin Kuster wrote:
 > +-
 > +-      /* We have to continue looking for the module.  */
 > +-      if (__gconv_path_elem == NULL)
-> +-	__gconv_get_path ();
+> +-      __gconv_get_path ();
 > +-
 > +-      /* See whether we have to append .so.  */
 > +-      if (name_len <= 4 || memcmp (&trans->name[name_len - 4], ".so", 3) != 0)
-> +-	need_so = 1;
+> +-      need_so = 1;
 > +-
 > +-      /* Create a new entry.  */
 > +-      newp = (struct known_trans *) malloc (sizeof (struct known_trans)
-> +-					    + (__gconv_max_path_elem_len
-> +-					       + name_len + 3)
-> +-					    + name_len);
+> +-                                          + (__gconv_max_path_elem_len
+> +-                                             + name_len + 3)
+> +-                                          + name_len);
 > +-      if (newp != NULL)
-> +-	{
-> +-	  char *cp;
+> +-      {
+> +-        char *cp;
 > +-
-> +-	  /* Clear the struct.  */
-> +-	  memset (newp, '\0', sizeof (struct known_trans));
+> +-        /* Clear the struct.  */
+> +-        memset (newp, '\0', sizeof (struct known_trans));
 > +-
-> +-	  /* Store a copy of the module name.  */
-> +-	  newp->info.name = cp = (char *) (newp + 1);
-> +-	  cp = __mempcpy (cp, trans->name, name_len);
+> +-        /* Store a copy of the module name.  */
+> +-        newp->info.name = cp = (char *) (newp + 1);
+> +-        cp = __mempcpy (cp, trans->name, name_len);
 > +-
-> +-	  newp->fname = cp;
+> +-        newp->fname = cp;
 > +-
-> +-	  /* Search in all the directories.  */
-> +-	  for (runp = __gconv_path_elem; runp->name != NULL; ++runp)
-> +-	    {
-> +-	      cp = __mempcpy (__stpcpy ((char *) newp->fname, runp->name),
-> +-			      trans->name, name_len);
-> +-	      if (need_so)
-> +-		memcpy (cp, ".so", sizeof (".so"));
+> +-        /* Search in all the directories.  */
+> +-        for (runp = __gconv_path_elem; runp->name != NULL; ++runp)
+> +-          {
+> +-            cp = __mempcpy (__stpcpy ((char *) newp->fname, runp->name),
+> +-                            trans->name, name_len);
+> +-            if (need_so)
+> +-              memcpy (cp, ".so", sizeof (".so"));
 > +-
-> +-	      if (open_translit (newp) == 0)
-> +-		{
-> +-		  /* We found a module.  */
-> +-		  res = 0;
-> +-		  break;
-> +-		}
-> +-	    }
+> +-            if (open_translit (newp) == 0)
+> +-              {
+> +-                /* We found a module.  */
+> +-                res = 0;
+> +-                break;
+> +-              }
+> +-          }
 > +-
-> +-	  if (res)
-> +-	    newp->fname = NULL;
+> +-        if (res)
+> +-          newp->fname = NULL;
 > +-
-> +-	  /* In any case we'll add the entry to our search tree.  */
-> +-	  if (__tsearch (newp, &search_tree, trans_compare) == NULL)
-> +-	    {
-> +-	      /* Yickes, this should not happen.  Unload the object.  */
-> +-	      res = 1;
-> +-	      /* XXX unload here.  */
-> +-	    }
-> +-	}
+> +-        /* In any case we'll add the entry to our search tree.  */
+> +-        if (__tsearch (newp, &search_tree, trans_compare) == NULL)
+> +-          {
+> +-            /* Yickes, this should not happen.  Unload the object.  */
+> +-            res = 1;
+> +-            /* XXX unload here.  */
+> +-          }
+> +-      }
 > +-    }
 > +-
 > +-  __libc_lock_unlock (lock);
@@ -306,25 +299,27 @@ On 09/13/2014 06:19 PM, Armin Kuster wrote:
 > +@@ -1,3 +1,10 @@
 > ++2014-08-26  Florian Weimer  <fweimer@redhat.com>
 > ++
-> ++	[BZ #17187]
-> ++	* iconv/gconv_trans.c (struct known_trans, search_tree, lock,
-> ++	trans_compare, open_translit, __gconv_translit_find):
-> ++	Remove module loading code.
+> ++      [BZ #17187]
+> ++      * iconv/gconv_trans.c (struct known_trans, search_tree, lock,
+> ++      trans_compare, open_translit, __gconv_translit_find):
+> ++      Remove module loading code.
 > ++
 > + 2014-02-06  Carlos O'Donell  <carlos@redhat.com>
 > +
-> + 	[BZ #16529]
+> +       [BZ #16529]
 > diff --git a/meta/recipes-core/eglibc/eglibc_2.19.bb b/meta/recipes-core/eglibc/eglibc_2.19.bb
 > index c65e6a5..090cfe6 100644
 > --- a/meta/recipes-core/eglibc/eglibc_2.19.bb
 > +++ b/meta/recipes-core/eglibc/eglibc_2.19.bb
 > @@ -26,6 +26,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr25
->              file://fix-tibetian-locales.patch \
->              file://ppce6500-32b_slow_ieee754_sqrt.patch \
->              file://grok_gold.patch \
+>             file://fix-tibetian-locales.patch \
+>             file://ppce6500-32b_slow_ieee754_sqrt.patch \
+>             file://grok_gold.patch \
 > +           file://CVE-2014-5119.patch \
->             "
->   SRC_URI[md5sum] = "197836c2ba42fb146e971222647198dd"
->   SRC_URI[sha256sum] = "baaa030531fc308f7820c46acdf8e1b2f8e3c1f40bcd28b6e440d1c95d170d4c"
+>            "
+>  SRC_URI[md5sum] = "197836c2ba42fb146e971222647198dd"
+>  SRC_URI[sha256sum] = "baaa030531fc308f7820c46acdf8e1b2f8e3c1f40bcd28b6e440d1c95d170d4c"
+> --
+> 1.9.1
 >
 
