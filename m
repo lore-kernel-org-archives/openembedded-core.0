@@ -1,30 +1,40 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DDE7713C1
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C4DE70F06
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Sep 2014 05:06:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8K56YUm009821
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 20 Sep 2014 20:19:00 +0000 (UTC)
+Received: by mail-pa0-f50.google.com with SMTP id rd3so514688pab.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 22:06:37 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 19 Sep 2014 22:06:34 -0700
-Message-ID: <541D0B59.2020502@windriver.com>
-Date: Sat, 20 Sep 2014 00:06:33 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Sat, 20 Sep 2014 13:19:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=8166dVsC2zJxO7PEfacF2swOBUeRizXtob+nbidpb3A=;
+	b=HWdcYOxIBKPB6QWuFfxWy8yP4Fem9kYaMzyPrJQ1loGlYhQOdAR/FdHKJyd9wX1UUC
+	50Rh5KJGja+YhQnPxxEdua98gbzJv8rHULqtS4NYL0K2s8oKcwgAaDHaiRZdcB7n/9gW
+	jW/v7G9r+uw0jCLLBsfa8nn4sNZOQIfH5E+3L9Kp9aYL4smLl/SSotgl/tYppf3BIu0h
+	zoYEe6rkIiTMLBOauTwYLTIkUV3XNiTwg6iNIkJcGj1FSvBbrXKQtbZMEcFnfbNHRtyV
+	ERfyrcwhooR5jPCHh5xdRyttbJMIdYKRhbIdTWzJGfiZk2Q6SjhYnCuL7k37R6V8otMn
+	iKrg==
+X-Received: by 10.66.66.101 with SMTP id e5mr13093236pat.100.1411244341834;
+	Sat, 20 Sep 2014 13:19:01 -0700 (PDT)
+Received: from ?IPv6:2601:c:9380:601:45e0:336d:c8bc:e4d9?
+	([2601:c:9380:601:45e0:336d:c8bc:e4d9])
+	by mx.google.com with ESMTPSA id r7sm5259999pdj.75.2014.09.20.13.18.59
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 20 Sep 2014 13:19:00 -0700 (PDT)
+Message-ID: <541DE132.7090000@gmail.com>
+Date: Sat, 20 Sep 2014 13:18:58 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
 MIME-Version: 1.0
-To: Kang Kai <Kai.Kang@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1410879378.git.kai.kang@windriver.com>	<f1a77eb073405fd9bcccc0dac37be98848ddf08b.1410879378.git.kai.kang@windriver.com>	<541A8765.1060800@gmail.com>	<541AE517.70204@windriver.com>
-	<541AE897.4080305@windriver.com> <541BCA94.7010605@windriver.com>
-In-Reply-To: <541BCA94.7010605@windriver.com>
-Subject: Re: [PATCH 3/9] gcc-4.9: redefine dynamic linker for aarch64
+To: openembedded-core@lists.openembedded.org
+References: <1410657580-5311-1-git-send-email-akuster808@gmail.com>
+In-Reply-To: <1410657580-5311-1-git-send-email-akuster808@gmail.com>
+Subject: Re: [PATCH][Daisy] eglibc: CVE-2014-5119 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,155 +47,284 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Sep 2014 05:06:43 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 20 Sep 2014 20:19:06 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 9/19/14, 1:17 AM, Kang Kai wrote:
-> On 2014年09月18日 22:13, Mark Hatle wrote:
->> On 9/18/14, 8:58 AM, Mark Hatle wrote:
->>> On 9/18/14, 2:19 AM, Khem Raj wrote:
->>>> -----BEGIN PGP SIGNED MESSAGE-----
->>>> Hash: SHA1
->>>>
->>>>
->>>>
->>>> On 9/16/14 8:06 AM, Kai Kang wrote:
->>>>> Redefine dynamic linker for aarch64 from /lib to /lib64.
->>>>>
->>>>> BASELIB of aarch64 has to be defined with 'lib64', then linker file
->>>>> ld-linux-aarch64.so.1 is installed into /lib64 rather than /lib. So
->>>>> update it here too.
->>>>
->>>> hmmm since the ldso name is different it can still live in /lib
->>>> and there will be ilp32 version ldso multilib as well later. can we
->>>> keep
->>>> ldso in /lib ?
->>>
->>> I thought the upstream definition (managed by ARM Ltd, and Linaro)
->>> for the ld.so
->>> had changed a few months back so that /lib64 was the 'standard'
->>> location for the
->>> ldso. Perhaps I'm mistaken?
->>
->> I did some research and I'm confused.. aarch64 is screwed up by
->> consensus apparently..
->>
->> Dynamic libraries live in /lib64, and the dynamic linker in /lib.. Whee!
->>
->> So ya, this patch isn't correct.. the dynamic linker needs to stay in
->> /lib. (Nothing says you can't sym/hardlink to lib64.. but it has to
->> refer to in in /lib for the ABI conformance.)
+Did I sent this to the wrong list (wouldn't have been the first time)?
+
+- Armin
+
+On 09/13/2014 06:19 PM, Armin Kuster wrote:
+> __gconv_translit_find: Disable function [BZ #17187]
 >
-> OK. Keep dynamic linker in /lib and change libraries directory from
-> /lib64 to /lib.
-
-The dynamic linker (ldso) goes into '/lib'.  The library directory is /lib or 
-/lib64.  (/lib64 when multilib arm is enabled.)  It's a bit odd, but it means 
-that the link inside of gcc must be hard coded to the default /lib/... path.
-
-The shared libraries would be referenced in the same way they are in the other 
-distributions where either lib, lib64 (or any alternative can be set in the OE 
-code.)
-
---Mark
-
-> --Kai
+> This functionality has never worked correctly, and the implementation
+> contained a security vulnerability (CVE-2014-5119).
 >
->>
->> --Mark
->>
->>> --Mark
->>>
->>>>>
->>>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>>>> ---
->>>>> meta/recipes-devtools/gcc/gcc-4.9.inc | 1 +
->>>>> .../0056-redefine-dynamic-linker-for-aarch64.patch | 34
->>>>> ++++++++++++++++++++++
->>>>> 2 files changed, 35 insertions(+)
->>>>> create mode 100644
->>>>> meta/recipes-devtools/gcc/gcc-4.9/0056-redefine-dynamic-linker-for-aarch64.patch
->>>>>
->>>>> diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc
->>>>> b/meta/recipes-devtools/gcc/gcc-4.9.inc
->>>>> index 25778bd..c434a45 100644
->>>>> --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
->>>>> +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
->>>>> @@ -70,6 +70,7 @@ SRC_URI = "\
->>>>> file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch
->>>>> \
->>>>> file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
->>>>> file://0055-PR-rtl-optimization-61801.patch \
->>>>> + file://0056-redefine-dynamic-linker-for-aarch64.patch \
->>>>> "
->>>>> SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
->>>>> SRC_URI[sha256sum] =
->>>>> "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
->>>>> diff --git
->>>>> a/meta/recipes-devtools/gcc/gcc-4.9/0056-redefine-dynamic-linker-for-aarch64.patch
->>>>> b/meta/recipes-devtools/gcc/gcc-4.9/0056-redefine-dynamic-linker-for-aarch64.patch
->>>>>
->>>>> new file mode 100644
->>>>> index 0000000..6933e2f
->>>>> --- /dev/null
->>>>> +++
->>>>> b/meta/recipes-devtools/gcc/gcc-4.9/0056-redefine-dynamic-linker-for-aarch64.patch
->>>>> @@ -0,0 +1,34 @@
->>>>> +From 8fbb60d89e569b68b13e4fd419e20640eb49cabc Mon Sep 17 00:00:00
->>>>> 2001
->>>>> +From: Kai Kang <kai.kang@windriver.com>
->>>>> +Date: Tue, 16 Sep 2014 16:01:31 +0800
->>>>> +Subject: [PATCH] Redefine dynamic linker for aarch64
->>>>> +
->>>>> +Redefine dynamic linker for aarch64 from /lib to /lib64.
->>>>> +
->>>>> +BASELIB of aarch64 has to be defined with 'lib64', then linker file
->>>>> +ld-linux-aarch64.so.1 is installed into /lib64 rather than /lib. So
->>>>> +update it here too.
->>>>> +
->>>>> +Upstream-Status: Pending
->>>>> +
->>>>> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>>>> +---
->>>>> + gcc/config/aarch64/aarch64-linux.h | 2 +-
->>>>> + 1 file changed, 1 insertion(+), 1 deletion(-)
->>>>> +
->>>>> +diff --git a/gcc/config/aarch64/aarch64-linux.h
->>>>> b/gcc/config/aarch64/aarch64-linux.h
->>>>> +index a8f0771..2a6f06d 100644
->>>>> +--- a/gcc/config/aarch64/aarch64-linux.h
->>>>> ++++ b/gcc/config/aarch64/aarch64-linux.h
->>>>> +@@ -21,7 +21,7 @@
->>>>> + #ifndef GCC_AARCH64_LINUX_H
->>>>> + #define GCC_AARCH64_LINUX_H
->>>>> +
->>>>> +-#define GLIBC_DYNAMIC_LINKER
->>>>> "/lib/ld-linux-aarch64%{mbig-endian:_be}.so.1"
->>>>> ++#define GLIBC_DYNAMIC_LINKER
->>>>> "/lib64/ld-linux-aarch64%{mbig-endian:_be}.so.1"
->>>>> +
->>>>> + #define CPP_SPEC "%{pthread:-D_REENTRANT}"
->>>>> +
->>>>> +--
->>>>> +1.9.1
->>>>> +
->>>>>
->>>>
->>>> - --
->>>> - -Khem
->>>> -----BEGIN PGP SIGNATURE-----
->>>> Version: GnuPG/MacGPG2 v2.0.22 (Darwin)
->>>> Comment: GPGTools - https://gpgtools.org
->>>>
->>>> iEYEARECAAYFAlQah2UACgkQuwUzVZGdMxT98wCghPbcAP/2xFgFn9Lv3Wisexa6
->>>> kHkAni6hykOqPq44VheOimbMbcimHaZD
->>>> =jpy6
->>>> -----END PGP SIGNATURE-----
->>>>
->>>
->>
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>   .../eglibc/eglibc-2.19/CVE-2014-5119.patch         | 240 +++++++++++++++++++++
+>   meta/recipes-core/eglibc/eglibc_2.19.bb            |   1 +
+>   2 files changed, 241 insertions(+)
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.19/CVE-2014-5119.patch
 >
+> diff --git a/meta/recipes-core/eglibc/eglibc-2.19/CVE-2014-5119.patch b/meta/recipes-core/eglibc/eglibc-2.19/CVE-2014-5119.patch
+> new file mode 100644
+> index 0000000..51c7037
+> --- /dev/null
+> +++ b/meta/recipes-core/eglibc/eglibc-2.19/CVE-2014-5119.patch
+> @@ -0,0 +1,240 @@
+> +CVE-2014-5119
+> +
+> +Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> +
+> +Upstream commit:
+> +
+> +https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commitdiff;h=a1a6a401ab0a3c9f15fb7eaebbdcee24192254e8
+> +
+> +
+> +From a1a6a401ab0a3c9f15fb7eaebbdcee24192254e8 Mon Sep 17 00:00:00 2001
+> +From: Florian Weimer <fweimer@redhat.com>
+> +Date: Tue, 26 Aug 2014 19:38:59 +0200
+> +Subject: [PATCH] __gconv_translit_find: Disable function [BZ #17187]
+> +
+> +This functionality has never worked correctly, and the implementation
+> +contained a security vulnerability (CVE-2014-5119).
+> +---
+> + ChangeLog           |    7 ++
+> + NEWS                |    9 ++-
+> + iconv/gconv_trans.c |  177 +-------------------------------------------------
+> + 3 files changed, 19 insertions(+), 174 deletions(-)
+> +
+> +Index: libc/NEWS
+> +===================================================================
+> +--- libc.orig/NEWS
+> ++++ libc/NEWS
+> +@@ -26,7 +26,7 @@ Version 2.19
+> +   16271, 16274, 16283, 16289, 16293, 16314, 16316, 16330, 16337, 16338,
+> +   16356, 16365, 16366, 16369, 16372, 16375, 16379, 16384, 16385, 16386,
+> +   16387, 16390, 16394, 16398, 16400, 16407, 16408, 16414, 16430, 16431,
+> +-  16453, 16474, 16506, 16510, 16529
+> ++  16453, 16474, 16506, 16510, 16529, 17187
+> +
+> + * Slovenian translations for glibc messages have been contributed by the
+> +   Translation Project's Slovenian team of translators.
+> +Index: libc/iconv/gconv_trans.c
+> +===================================================================
+> +--- libc.orig/iconv/gconv_trans.c
+> ++++ libc/iconv/gconv_trans.c
+> +@@ -241,181 +241,12 @@ __gconv_transliterate (struct __gconv_st
+> +   return __GCONV_ILLEGAL_INPUT;
+> + }
+> +
+> +-
+> +-/* Structure to represent results of found (or not) transliteration
+> +-   modules.  */
+> +-struct known_trans
+> +-{
+> +-  /* This structure must remain the first member.  */
+> +-  struct trans_struct info;
+> +-
+> +-  char *fname;
+> +-  void *handle;
+> +-  int open_count;
+> +-};
+> +-
+> +-
+> +-/* Tree with results of previous calls to __gconv_translit_find.  */
+> +-static void *search_tree;
+> +-
+> +-/* We modify global data.   */
+> +-__libc_lock_define_initialized (static, lock);
+> +-
+> +-
+> +-/* Compare two transliteration entries.  */
+> +-static int
+> +-trans_compare (const void *p1, const void *p2)
+> +-{
+> +-  const struct known_trans *s1 = (const struct known_trans *) p1;
+> +-  const struct known_trans *s2 = (const struct known_trans *) p2;
+> +-
+> +-  return strcmp (s1->info.name, s2->info.name);
+> +-}
+> +-
+> +-
+> +-/* Open (maybe reopen) the module named in the struct.  Get the function
+> +-   and data structure pointers we need.  */
+> +-static int
+> +-open_translit (struct known_trans *trans)
+> +-{
+> +-  __gconv_trans_query_fct queryfct;
+> +-
+> +-  trans->handle = __libc_dlopen (trans->fname);
+> +-  if (trans->handle == NULL)
+> +-    /* Not available.  */
+> +-    return 1;
+> +-
+> +-  /* Find the required symbol.  */
+> +-  queryfct = __libc_dlsym (trans->handle, "gconv_trans_context");
+> +-  if (queryfct == NULL)
+> +-    {
+> +-      /* We cannot live with that.  */
+> +-    close_and_out:
+> +-      __libc_dlclose (trans->handle);
+> +-      trans->handle = NULL;
+> +-      return 1;
+> +-    }
+> +-
+> +-  /* Get the context.  */
+> +-  if (queryfct (trans->info.name, &trans->info.csnames, &trans->info.ncsnames)
+> +-      != 0)
+> +-    goto close_and_out;
+> +-
+> +-  /* Of course we also have to have the actual function.  */
+> +-  trans->info.trans_fct = __libc_dlsym (trans->handle, "gconv_trans");
+> +-  if (trans->info.trans_fct == NULL)
+> +-    goto close_and_out;
+> +-
+> +-  /* Now the optional functions.  */
+> +-  trans->info.trans_init_fct =
+> +-    __libc_dlsym (trans->handle, "gconv_trans_init");
+> +-  trans->info.trans_context_fct =
+> +-    __libc_dlsym (trans->handle, "gconv_trans_context");
+> +-  trans->info.trans_end_fct =
+> +-    __libc_dlsym (trans->handle, "gconv_trans_end");
+> +-
+> +-  trans->open_count = 1;
+> +-
+> +-  return 0;
+> +-}
+> +-
+> +-
+> + int
+> + internal_function
+> + __gconv_translit_find (struct trans_struct *trans)
+> + {
+> +-  struct known_trans **found;
+> +-  const struct path_elem *runp;
+> +-  int res = 1;
+> +-
+> +-  /* We have to have a name.  */
+> +-  assert (trans->name != NULL);
+> +-
+> +-  /* Acquire the lock.  */
+> +-  __libc_lock_lock (lock);
+> +-
+> +-  /* See whether we know this module already.  */
+> +-  found = __tfind (trans, &search_tree, trans_compare);
+> +-  if (found != NULL)
+> +-    {
+> +-      /* Is this module available?  */
+> +-      if ((*found)->handle != NULL)
+> +-	{
+> +-	  /* Maybe we have to reopen the file.  */
+> +-	  if ((*found)->handle != (void *) -1)
+> +-	    /* The object is not unloaded.  */
+> +-	    res = 0;
+> +-	  else if (open_translit (*found) == 0)
+> +-	    {
+> +-	      /* Copy the data.  */
+> +-	      *trans = (*found)->info;
+> +-	      (*found)->open_count++;
+> +-	      res = 0;
+> +-	    }
+> +-	}
+> +-    }
+> +-  else
+> +-    {
+> +-      size_t name_len = strlen (trans->name) + 1;
+> +-      int need_so = 0;
+> +-      struct known_trans *newp;
+> +-
+> +-      /* We have to continue looking for the module.  */
+> +-      if (__gconv_path_elem == NULL)
+> +-	__gconv_get_path ();
+> +-
+> +-      /* See whether we have to append .so.  */
+> +-      if (name_len <= 4 || memcmp (&trans->name[name_len - 4], ".so", 3) != 0)
+> +-	need_so = 1;
+> +-
+> +-      /* Create a new entry.  */
+> +-      newp = (struct known_trans *) malloc (sizeof (struct known_trans)
+> +-					    + (__gconv_max_path_elem_len
+> +-					       + name_len + 3)
+> +-					    + name_len);
+> +-      if (newp != NULL)
+> +-	{
+> +-	  char *cp;
+> +-
+> +-	  /* Clear the struct.  */
+> +-	  memset (newp, '\0', sizeof (struct known_trans));
+> +-
+> +-	  /* Store a copy of the module name.  */
+> +-	  newp->info.name = cp = (char *) (newp + 1);
+> +-	  cp = __mempcpy (cp, trans->name, name_len);
+> +-
+> +-	  newp->fname = cp;
+> +-
+> +-	  /* Search in all the directories.  */
+> +-	  for (runp = __gconv_path_elem; runp->name != NULL; ++runp)
+> +-	    {
+> +-	      cp = __mempcpy (__stpcpy ((char *) newp->fname, runp->name),
+> +-			      trans->name, name_len);
+> +-	      if (need_so)
+> +-		memcpy (cp, ".so", sizeof (".so"));
+> +-
+> +-	      if (open_translit (newp) == 0)
+> +-		{
+> +-		  /* We found a module.  */
+> +-		  res = 0;
+> +-		  break;
+> +-		}
+> +-	    }
+> +-
+> +-	  if (res)
+> +-	    newp->fname = NULL;
+> +-
+> +-	  /* In any case we'll add the entry to our search tree.  */
+> +-	  if (__tsearch (newp, &search_tree, trans_compare) == NULL)
+> +-	    {
+> +-	      /* Yickes, this should not happen.  Unload the object.  */
+> +-	      res = 1;
+> +-	      /* XXX unload here.  */
+> +-	    }
+> +-	}
+> +-    }
+> +-
+> +-  __libc_lock_unlock (lock);
+> +-
+> +-  return res;
+> ++  /* Transliteration module loading has been removed because it never
+> ++     worked as intended and suffered from a security vulnerability.
+> ++     Consequently, this function always fails.  */
+> ++  return 1;
+> + }
+> +Index: libc/ChangeLog
+> +===================================================================
+> +--- libc.orig/ChangeLog
+> ++++ libc/ChangeLog
+> +@@ -1,3 +1,10 @@
+> ++2014-08-26  Florian Weimer  <fweimer@redhat.com>
+> ++
+> ++	[BZ #17187]
+> ++	* iconv/gconv_trans.c (struct known_trans, search_tree, lock,
+> ++	trans_compare, open_translit, __gconv_translit_find):
+> ++	Remove module loading code.
+> ++
+> + 2014-02-06  Carlos O'Donell  <carlos@redhat.com>
+> +
+> + 	[BZ #16529]
+> diff --git a/meta/recipes-core/eglibc/eglibc_2.19.bb b/meta/recipes-core/eglibc/eglibc_2.19.bb
+> index c65e6a5..090cfe6 100644
+> --- a/meta/recipes-core/eglibc/eglibc_2.19.bb
+> +++ b/meta/recipes-core/eglibc/eglibc_2.19.bb
+> @@ -26,6 +26,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr25
+>              file://fix-tibetian-locales.patch \
+>              file://ppce6500-32b_slow_ieee754_sqrt.patch \
+>              file://grok_gold.patch \
+> +           file://CVE-2014-5119.patch \
+>             "
+>   SRC_URI[md5sum] = "197836c2ba42fb146e971222647198dd"
+>   SRC_URI[sha256sum] = "baaa030531fc308f7820c46acdf8e1b2f8e3c1f40bcd28b6e440d1c95d170d4c"
 >
-
 
