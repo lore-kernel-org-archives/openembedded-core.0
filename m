@@ -1,38 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id C07676B876
+Received: from mail-qc0-f170.google.com (mail-qc0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 272C670FAB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Sep 2014 00:08:50 +0000 (UTC)
-Received: by mail-qg0-f41.google.com with SMTP id i50so685080qgf.14
+	Sat, 20 Sep 2014 00:27:52 +0000 (UTC)
+Received: by mail-qc0-f170.google.com with SMTP id c9so1289548qcz.29
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Sep 2014 17:08:51 -0700 (PDT)
+	Fri, 19 Sep 2014 17:27:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=cYmbAr3wjUJSFAy4a4+SEZCFMHtX1JS5Roh45G03P7k=;
-	b=KfYIoDqDoAzMsiYSeXwqq6j3bATUioXNoppfEU4/TgNrFdb0gU/jKSofiWgMoOlAvx
-	+dSaxJvbtEbQ1d/MI+r47npE9Qnl9UnWVf0VQPtMJMXUvui0npZAJ550qOmDJ5jTFEUJ
-	Zylrxn0qAZzqVMhNNCTABewt56a8uNdqvxACxhlBPv+xIJFj2oryHCgTzuzKQ75E7KUA
-	Lr/lH/KitsfT49ZHURug/GyzNX1kcaoPqQm+KPEgN4N8l3kmm1aCUXRx1barWX7kq/Hz
-	5apNJrdEQDWLIVMM651a/ept6q5VyOBrH4JH7fe0TeI0DyJq26IwKKrpjpAlyFnq47yp
-	+w2g==
-X-Gm-Message-State: ALoCoQnYYOx6HdeeFhPxHAQlPMlIcPu65jf7MnQvKjhAWXSP1YJjqLL8wM9gEfYEDonYUXPXq9Lm
-X-Received: by 10.224.104.2 with SMTP id m2mr5305480qao.52.1411171731477; Fri,
-	19 Sep 2014 17:08:51 -0700 (PDT)
+	bh=FXNYTgAbkBXY35/7+l/lO0C9ZFgbqGzCx0ZWS8LpqaY=;
+	b=TyLUjxEV1lWerTsBwqHzBFHuVghZHk6KrcRMab0Bf3qCi8HmENd3adk9Z31XagqeE1
+	Olay9lkWxLFZzcHqBKzHUX6uqbJRWshOI7TRmt1ysluTK5jzJcVaTuGjMJKe8daXb7cr
+	XvwvowERBVjtgjZx8KN/qENAYInIfrst8K5UwvRR4M1TjKe8c/QMvzeJhmyEoyyzWpC8
+	HhAtiR7KcS0UIewnPre+8TqRU4Bd1OaTQvwdOQLeVhebng1opc2oKqb4AbM2Pl9J+cez
+	MWO+Myxqh+nT7/rtGmaG8DI+3l7CW+CBxZuiCMgNCtzq4MU5XkItRQP0ky5TKpGziiuw
+	2A3A==
+X-Gm-Message-State: ALoCoQnYNTMux6Ocuo2SMRuVXc98ht3Ht7e1G2sfl0dNdGVguPKzOnm6Q/tli+lxk9iLrSVj/YrO
+X-Received: by 10.224.103.65 with SMTP id j1mr5194890qao.17.1411172868994;
+	Fri, 19 Sep 2014 17:27:48 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Fri, 19 Sep 2014 17:08:31 -0700 (PDT)
-In-Reply-To: <20140920000507.GA27494@linux.intel.com>
-References: <20140919224401.GA24684@linux.intel.com>
-	<CAJTo0La4Etb61dwdMdikLJpByAhFE6OM1-bAHAZPyk12Nok9uw@mail.gmail.com>
-	<20140920000507.GA27494@linux.intel.com>
+Received: by 10.140.34.180 with HTTP; Fri, 19 Sep 2014 17:27:28 -0700 (PDT)
+In-Reply-To: <20140920001156.GA2480@denix.org>
+References: <1410909001-3284-1-git-send-email-denis@denix.org>
+	<CAJTo0LbGHQEa_QjRnekh8L+-+kAn575K3jFJ2ypty-EDkKS6RQ@mail.gmail.com>
+	<20140920001156.GA2480@denix.org>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 20 Sep 2014 01:08:31 +0100
-Message-ID: <CAJTo0LYcfieYJgUmELamwKrjD49=nBFufuJ64mqOM=X0XGyK3w@mail.gmail.com>
-To: todd.e.brandt@linux.intel.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Phoronix Test Suite package
+Date: Sat, 20 Sep 2014 01:27:28 +0100
+Message-ID: <CAJTo0LYdoVWcE8Q7QfGasFG4eY=iejCcHhoRty_b8Ov7NJnjYQ@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/2] u-boot: cleanup indentation and consolidate .inc file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,25 +46,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Sep 2014 00:08:52 -0000
+X-List-Received-Date: Sat, 20 Sep 2014 00:27:59 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 20 September 2014 01:05, Todd E Brandt <todd.e.brandt@linux.intel.com> wrote:
->> Surely phoronix has more dependencies than just php...  Or is this
->> just the runner and it talks to slave?  Honestly have no idea how the
->> phoronix test suite is structured.
->
-> it's designed to be a minimal install with only php as the dependency. It uses
-> the network to download test definitions and to upload test results.
+On 20 September 2014 01:11, Denys Dmytriyenko <denis@denix.org> wrote:
+> Yes, it's outdated and rather misplaced...
 
-Fair enough.
-
->> Finally, this is a patch to meta-oe, so it should go to
->> openembedded-devel@, not openembedded-core@.
->
-> ok, I'll resubmit on the proper list, sorry for the mistake and thanks for the feedback.
-
-No problem, thanks for the recipe. :)
+Thanks.
 
 Ross
 
