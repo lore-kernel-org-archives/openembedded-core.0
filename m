@@ -1,36 +1,19 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 504CB609B2
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F93165CE7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 11:25:17 +0000 (UTC)
-Received: by mail-qc0-f172.google.com with SMTP id x13so6165677qcv.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 04:25:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=F3F0DFg/kDI11BdePwudTAHVzqPdgDeKjY/TgBESIyk=;
-	b=cEzTxJXSCS0aVlXPdG2OtDxx2Y3HC7KOgx/zxc42PQV3JprGkt/WpU4x5OZGdBxKYP
-	Tv4QEq+0xVwv35NMirQA0qwEB49NL4Jyu8FnNYDk0iIb0bO7u8YiWB8eLl8uMNuo2nNR
-	7RLqI3X92QOPLtoChvaj9Fv+TaKRtndqF0YGJTnVT0HB8xlYhgZFOKFo8BeMtxq0DBXt
-	rGJkX1nUB0unzl1lMj75IX8cdTMegOBKQ/G5sltyKtJtb3T/8UZGZZVQfZYN+Fm1w07m
-	+1Fpi46/ReYMJTai0r8y+GE6qKyZBI8DpwIeEepIHnczfEzczqO5URXASbXZ2Et0r4WE
-	84hg==
-X-Gm-Message-State: ALoCoQli+BaCawC00aWjfGnlLYbDJZG/dgzHbjihxqPK5/m3U3CBbDygrkcCt+GJm573B5DU3wWV
-X-Received: by 10.224.104.2 with SMTP id m2mr21557345qao.52.1411385118972;
-	Mon, 22 Sep 2014 04:25:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Mon, 22 Sep 2014 04:24:58 -0700 (PDT)
-In-Reply-To: <541E85E3.7070901@pseudoterminal.org>
-References: <541E85E3.7070901@pseudoterminal.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Sep 2014 12:24:58 +0100
-Message-ID: <CAJTo0Laqdv6NZRN1va1j+f7fb7ZaY-BNdwb6j0m4Z9BbwNUD7g@mail.gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: internal compiler error while building valgrind ptest
+	Mon, 22 Sep 2014 11:36:16 +0000 (UTC)
+Received: from localhost.localdomain (unknown [46.170.72.194])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 247103162602;
+	Mon, 22 Sep 2014 13:36:16 +0200 (CEST)
+From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Sep 2014 13:35:12 +0200
+Message-Id: <1411385721-22264-1-git-send-email-maciej.borzecki@open-rnd.pl>
+X-Mailer: git-send-email 1.9.0
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
+	Otavio Salvador <otavio@ossystems.com.br>, Denys Dmytriyenko <denys@ti.com>
+Subject: [Patch 0/9]: support for generating SD images from wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,17 +26,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Sep 2014 11:25:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 22 Sep 2014 11:36:19 -0000
 
-On 21 September 2014 09:01, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
-> /home/build/OE/poky/build/tmp/work/cortexa9hf-vfp-neon-poky-linux-gnueabi/valgrind/3.9.0-r8/valgrind-3.9.0/none/tests/arm/vcvt_fixed_float_VFP.c:147:3:
-> warning: dereferencing type-punned pointer will break strict-aliasing rules
-> [-Wstrict-aliasing]
->    return *(ULong*)(&block[3]);
+This patch series is a proposal that adds support for generating SD
+card images for embedded boards using wic. I did not want to cross
+post to meta-ti and meta-freescale so Denys and Otavio are added in
+CC. I would be glad to receive some feedback from you.
 
-All we do at compile time when ptest is enabled is run "make check",
-so you might want to report this upstream.
+So far, the 2 most common scenarios I've seen are that either the boot
+files need to be located in a specific partition, or the bootloader is
+located within the disk image, typically directly following MBR. The
+series implements support for the first case. The second case should
+be easily supportable on top of this code.
 
-Ross
+Within the context of boot partition, the proposal adds a new variable
+IMAGE_BOOT_FILES. The variable contains a list of files that need to
+be copied to the boot partition, possibly being renamed during the
+process (example BBB support lists u-boot.img and MLO, analogical
+config can be made up for RsPI). By default the files are picked up
+from DEPLOY_DIR_IMAGE.
+
+Patches 1-4 solve some general problems in wic, so if these go through
+review I'd recommend merging them to master. If that's more convenient
+I can post them again as a separate series.
+
+Patches 5-8 implement IMAGE_BOOT_FILES support, wic source plugin and
+a kickstart for SD card.
+
+Patch 9 adds IMAGE_BOOT_FILES to yocto-bsp BBB config.
+
 
