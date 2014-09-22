@@ -1,28 +1,33 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ABC860030
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 89B0360144
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 00:27:20 +0000 (UTC)
+	Mon, 22 Sep 2014 01:18:57 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8M0RLVK028297
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8M1Is8e022005
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 21 Sep 2014 17:27:21 -0700 (PDT)
-Received: from [128.224.162.141] (128.224.162.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 21 Sep 2014 17:27:20 -0700
-Message-ID: <541F6CF0.8050002@windriver.com>
-Date: Mon, 22 Sep 2014 08:27:28 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
+	Sun, 21 Sep 2014 18:18:55 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Sun, 21 Sep 2014 18:18:54 -0700
+Message-ID: <541F78FC.20204@windriver.com>
+Date: Mon, 22 Sep 2014 09:18:52 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1411109370-27814-1-git-send-email-rongqing.li@windriver.com>
-	<CAJTo0LbxDxYCXTo6p4YS2U7-UY1f6UVnUcO3NaeaGi0BSx2C7w@mail.gmail.com>
-In-Reply-To: <CAJTo0LbxDxYCXTo6p4YS2U7-UY1f6UVnUcO3NaeaGi0BSx2C7w@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] pinentry: add recipes
+To: "Burton, Ross" <ross.burton@intel.com>, Randy MacLeod
+	<randy.macleod@windriver.com>
+References: <CAKuL1XT+=AYT_LVveVWOO2qqoiLwCbi6fP0j_b+xq3aMN7jdSQ@mail.gmail.com>
+	<CAJTo0LZZQMBBKRcxpfbOMC2KUWw5ffp=RdBOyymi-wfaq2UL3g@mail.gmail.com>
+	<541C389C.90202@windriver.com>
+	<CAJTo0LaGKTk=ubSRrv5wsW2eN9qxMOQsB2sKXuRXJUBujym=-g@mail.gmail.com>
+In-Reply-To: <CAJTo0LaGKTk=ubSRrv5wsW2eN9qxMOQsB2sKXuRXJUBujym=-g@mail.gmail.com>
+X-Originating-IP: [128.224.162.231]
+Cc: harsh jain <harshjain32@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Recipe file of Python 2.7.4 of later version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,43 +40,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Sep 2014 00:27:21 -0000
+X-List-Received-Date: Mon, 22 Sep 2014 01:18:58 -0000
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-
-
-On 09/19/2014 11:06 PM, Burton, Ross wrote:
-> On 19 September 2014 07:49,  <rongqing.li@windriver.com> wrote:
->> +DEPENDS = "libcap ncurses"
->> +
->> +inherit autotools
->> +
->> +SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
->> +       "
->> +
->> +SRC_URI[md5sum] = "e2b6f94471ba1e978f6e5bf6b275189b"
->> +SRC_URI[sha256sum] = "359db3bf46cb743ba0b3aeef259f6107271ca888ba3e22c1cba525c9aca35612"
->> +
->> +EXTRA_OECONF = "--disable-pinentry-gtk\
->> +               --disable-pinentry-gtk2 \
->> +               --disable-pinentry-qt \
->> +               --disable-pinentry-qt4 \
+On 2014年09月19日 22:14, Burton, Ross wrote:
+> On 19 September 2014 15:07, Randy MacLeod <randy.macleod@windriver.com> wrote:
+>> Also Kai (CCed) is going to maintain an aarch64 branch on:
+>>    http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-contrib
+>> Kai, let us know when your branch is available; hopefully that
+>> will be early next week.
+>>
+>> This branch will be continually rebased on master over the next
+>> month or so and then merged to master after 1.7 is branched.
+>> Patches welcome. They should be submitted here on the oe-core
+>> list with an aarch64 tag in the subject line and CCing Kai please.
+> Great news, thanks Randy and Kai.
 >
-> Add PACKAGECONFIG options so the distro can pick if it wants curses,
-> gtk2, gtk3, qt3 or qt4 UIs.
+> (did you mean poky-contrib instead of linux-yocto-contrib?)
+
+I put the git repository at:
+
+   git://git.pokylinux.org/poky-contrib kangkai/qemuarm64
+   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/qemuarm64
+
+
+It is ok to build world except 2 known issues.  One depends on valid 
+linux-yocto configs,
+the other one is libunwind issue which should exclude from world for 
+aarch64. And some
+patches from Joe Slater are needed too. Joe has sent them to oe-core. If 
+not merged, I'll
+stage these patches too.
+
+For the kernel support, Zhe has sent the patch to linux-yocto to support 
+aarch64. Bruce knows this work.
+
+--Kai
+
 >
 > Ross
-
-Ok, I will change them
-
-
--Roy
-
 >
 >
+
 
 -- 
-Best Reagrds,
-Roy | RongQing Li
+Regards,
+Neil | Kai Kang
+
 
