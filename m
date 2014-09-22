@@ -1,22 +1,22 @@
 Return-Path: <maciej.borzecki@open-rnd.pl>
 Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 148726FE3B
+	by mail.openembedded.org (Postfix) with ESMTP id AAF0B6FD28
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 22 Sep 2014 11:36:19 +0000 (UTC)
 Received: from localhost.localdomain (unknown [46.170.72.194])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id BA1C73161195;
-	Mon, 22 Sep 2014 13:36:19 +0200 (CEST)
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id A71533162576;
+	Mon, 22 Sep 2014 13:36:20 +0200 (CEST)
 From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Sep 2014 13:35:18 +0200
-Message-Id: <1411385721-22264-7-git-send-email-maciej.borzecki@open-rnd.pl>
+Date: Mon, 22 Sep 2014 13:35:20 +0200
+Message-Id: <1411385721-22264-9-git-send-email-maciej.borzecki@open-rnd.pl>
 X-Mailer: git-send-email 1.9.0
 In-Reply-To: <1411385721-22264-1-git-send-email-maciej.borzecki@open-rnd.pl>
 References: <1411385721-22264-1-git-send-email-maciej.borzecki@open-rnd.pl>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
 	Maciek Borzecki <maciek.borzecki@gmail.com>,
 	Otavio Salvador <otavio@ossystems.com.br>, Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH 6/9] documentation.conf: document IMAGE_BOOT_FILES
+Subject: [PATCH 8/9] wic: add sdimage-bootpart kickstart file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,28 +29,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Sep 2014 11:36:19 -0000
+X-List-Received-Date: Mon, 22 Sep 2014 11:36:20 -0000
 
-Document IMAGE_BOOT_FILES variable.
+Add kickstart for generating a SD card image that should cover most use
+case scenarios. The layout is as follows:
+- 16MB vfat partition that IMAGE_BOOT_FILES will be copied to, 4k
+  alignment
+- ext4 rootfs, 4k alignment
 
 Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
 Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
 ---
- meta/conf/documentation.conf | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/lib/image/canned-wks/sdimage-bootpart.wks | 6 ++++++
+ 1 file changed, 6 insertions(+)
+ create mode 100644 scripts/lib/image/canned-wks/sdimage-bootpart.wks
 
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index dd55685..66ec093 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -204,6 +204,7 @@ ICECC_USER_CLASS_BL[doc] = "Identifies user classes that you do not want the Ice
- ICECC_USER_PACKAGE_BL[doc] = "Identifies user recipes that you do not want the Icecream distributed compile support to consider."
- ICECC_USER_PACKAGE_WL[doc] = "Identifies user recipes that use an empty PARALLEL_MAKE variable that you want to force remote distributed compilation on using the Icecream distributed compile support."
- IMAGE_BASENAME[doc] = "The base name of image output files."
-+IMAGE_BOOT_FILES[doc] = "Whitespace separated list of files from ${DEPLOY_DIR_IMAGE} to place in boot partition. Entries will be installed under a same name as the source file. To change the destination file name, pass a desired name after a semicolon (eg. u-boot.img;uboot)."
- IMAGE_CLASSES[doc] = "A list of classes that all images should inherit."
- IMAGE_FEATURES[doc] = "The primary list of features to include in an image. Configure this variable in an image recipe."
- IMAGE_FSTYPES[doc] = "Formats of root filesystem images that you want to have created."
+diff --git a/scripts/lib/image/canned-wks/sdimage-bootpart.wks b/scripts/lib/image/canned-wks/sdimage-bootpart.wks
+new file mode 100644
+index 0000000..7ffd632
+--- /dev/null
++++ b/scripts/lib/image/canned-wks/sdimage-bootpart.wks
+@@ -0,0 +1,6 @@
++# short-description: Create SD card image with a boot partition
++# long-description: Creates a partitioned SD card image. Boot files
++# are located in the first vfat partition.
++
++part /boot --source bootimg-partition --ondisk mmcblk --fstype=vfat --label boot --active --align 4 --size 16
++part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 4
 -- 
 1.9.0
 
