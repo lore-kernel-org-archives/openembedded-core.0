@@ -1,24 +1,36 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CEBD1605BD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 00783609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 03:18:40 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8M3IemF029376
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 22 Sep 2014 09:41:57 +0000 (UTC)
+Received: by mail-qg0-f43.google.com with SMTP id f51so2564171qge.16
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Sep 2014 20:18:41 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 21 Sep 2014 20:18:40 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Sep 2014 11:18:09 +0800
-Message-ID: <1411355889-28946-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 22 Sep 2014 02:41:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=kA+n8zQw3u0/pEVueBujtqeFH1xGAoMAvLhmYqMsQrc=;
+	b=A7IDScXDJekjfJyPa6/MRi9ldYnhgoNDDR/a/P2GWhblo8v0ppTLrpMl1kJcoLetIv
+	eQICgEFjpJobieiYwb5pbSlxhQdC1E3paugfP0DQUa2u64x9HyKmmi8SHHPtQNsdXvKG
+	vwRKdpXfjGsO1tWS2B0XvEn6NnGEpFonrP37IUcyz7LSPS/DKudM18S1Envcwqq2HTvd
+	tVw5ovrKD8CZg9D3uQxJDqogab4RFL1veRmyZq/I2HjgN+J37aVC4RcZBFLubgApfdzX
+	mYnFFSzXzJPD21v8CdVfDMP0iHBWs9x3mTkJ/tlRNiTnWyY11cEpcUH3C0XhCmwPxOzG
+	nXBg==
+X-Gm-Message-State: ALoCoQnD0t3AonC8FBQmfoy0PesCPgbYYVBfAQI6x+So/1hY+A/f5coriOShVh1ww+0BA3/lIaJL
+X-Received: by 10.224.104.2 with SMTP id m2mr20905184qao.52.1411378918782;
+	Mon, 22 Sep 2014 02:41:58 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v2] pinentry: add recipes
+Received: by 10.140.34.180 with HTTP; Mon, 22 Sep 2014 02:41:38 -0700 (PDT)
+In-Reply-To: <541E7FD4.4010105@pseudoterminal.org>
+References: <541E7FD4.4010105@pseudoterminal.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 22 Sep 2014 10:41:38 +0100
+Message-ID: <CAJTo0LZqCeDbVzvjbo6FhdEy9MxuFxuWik=Cntg8FnWngC-RgA@mail.gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: waf.bbclass does not clean up properly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,58 +43,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Sep 2014 03:18:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 22 Sep 2014 09:42:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Roy Li <rongqing.li@windriver.com>
+On 21 September 2014 08:35, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
+> is there a reason why the waf bbclass does not call "./waf distclean" in a
+> do_clean() function?
+> As a result, the out-of-tree build directory is around even after performing
+> a bitbake -c clean or bitbake -c cleansstate call.
 
-gnupg 2.x.x needs pinentry to work
+It sounds like your recipe is doing out of tree builds wrong, because
+waf.bbclass doesn't support them.
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-support/pinentry/pinentry_0.8.4.bb | 32 +++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
- create mode 100644 meta/recipes-support/pinentry/pinentry_0.8.4.bb
+There's a variable for "build tree", and it's $B, and $B is wiped on
+clean.    autotools.bbclass and cmake.bbclass use $B for the location
+of out-of-tree builds, and waf.bbclass should respect it too.
 
-diff --git a/meta/recipes-support/pinentry/pinentry_0.8.4.bb b/meta/recipes-support/pinentry/pinentry_0.8.4.bb
-new file mode 100644
-index 0000000..7f44bbf
---- /dev/null
-+++ b/meta/recipes-support/pinentry/pinentry_0.8.4.bb
-@@ -0,0 +1,32 @@
-+SUMMARY = "Collection of simple PIN or passphrase entry dialogs"
-+DESCRIPTION = "\
-+	Pinentry is a collection of simple PIN or passphrase entry dialogs which \
-+	utilize the Assuan protocol as described by the aegypten project; see \
-+	http://www.gnupg.org/aegypten/ for details. \
-+	This package contains the curses (text) based version of the PIN entry dialog."
-+
-+HOMEPAGE = "http://www.gnupg.org/related_software/pinentry/index.en.html"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=cbbd794e2a0a289b9dfcc9f513d1996e"
-+
-+inherit autotools-brokensep
-+
-+SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
-+	"
-+
-+SRC_URI[md5sum] = "e2b6f94471ba1e978f6e5bf6b275189b"
-+SRC_URI[sha256sum] = "359db3bf46cb743ba0b3aeef259f6107271ca888ba3e22c1cba525c9aca35612"
-+
-+EXTRA_OECONF = "--disable-rpath \
-+		--disable-dependency-tracking \
-+		--disable-glibtest \
-+	        --disable-pinentry-gtk \
-+	        --disable-pinentry-qt \
-+               "
-+
-+PACKAGECONFIG ??= "ncurses libcap"
-+
-+PACKAGECONFIG[ncurses] = "--enable-ncurses  --with-ncurses-include-dir=${STAGING_INCDIR}, --disable-ncurses, ncurses"
-+PACKAGECONFIG[libcap] = "--with-libcap, --without-libcap, libcap"
-+PACKAGECONFIG[qt4] = "--enable-pinentry-qt4, --disable-pinentry-qt4, qt4-x11"
-+PACKAGECONFIG[gtk2] = "--enable-pinentry-gtk2, --disable-pinentry-gtk2, gtk+ glib-2.0"
--- 
-1.9.1
+As you use waf and out-of-tree builds, would you be able to fix the class?
 
+Ross
 
