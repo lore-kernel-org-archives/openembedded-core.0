@@ -1,38 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 95BB871493
+Return-Path: <alexandre.belloni@free-electrons.com>
+X-Greylist: delayed 556 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 22 Sep 2014 12:46:02 UTC
+Received: from mail.free-electrons.com (top.free-electrons.com [176.31.233.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 7345C71481
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 12:22:31 +0000 (UTC)
-Received: by mail-qc0-f175.google.com with SMTP id w7so6055697qcr.34
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 05:22:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=9gDjSN4ShVpA7n5TmWHrbGzMUjRdqf/7pIf226eHnl8=;
-	b=F1YtlCuVXZv7h8h2fdVuFuUigCuDWWWoKUViZns+4ud7Sr9z1jL2ofYDRCeGwJHw9s
-	7RXlX6oOhZWedKYaJEBJZCkd4vOYeqmNbFckV9pn+M3rW08rvn0Q7oxYgXWz/jXwEy/9
-	mfb4LOhmspgGnt8yk3B0gqON7fKtM+qMje+Say4bCPLU4cLCLy4+ov6XNeugBDoTyOLL
-	c/C542G4r7oECFjCDEbTNh+NxyJB+oQcvDT3YpnjjCOq1cUUGspeviPVAVZZ78dB+i/9
-	/wet9s2Noqusqn6Lb3NdmYBOJeW2YNqA4CWz/akvg9rFDSG9C+AAXLZ5yK8JOl6R8IFi
-	qbEA==
-X-Gm-Message-State: ALoCoQmZKklqHGl+67qdyd9YJvLDdIIRgmk86sv/corwI4qyeilb5rTe1LDVW9fzicc0xWs9MW5s
-X-Received: by 10.140.27.139 with SMTP id 11mr20460978qgx.59.1411388552794;
-	Mon, 22 Sep 2014 05:22:32 -0700 (PDT)
+	Mon, 22 Sep 2014 12:46:02 +0000 (UTC)
+Received: by mail.free-electrons.com (Postfix, from userid 106)
+	id 5E3CE905; Mon, 22 Sep 2014 14:36:47 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	mail.free-electrons.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT,
+	URIBL_BLOCKED shortcircuit=ham autolearn=disabled version=3.4.0
+Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
+	by mail.free-electrons.com (Postfix) with ESMTPSA id 10AA36F3;
+	Mon, 22 Sep 2014 14:36:47 +0200 (CEST)
+Date: Mon, 22 Sep 2014 14:36:42 +0200
+From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+Message-ID: <20140922123642.GA25675@piout.net>
+References: <1411385721-22264-1-git-send-email-maciej.borzecki@open-rnd.pl>
+	<1411385721-22264-6-git-send-email-maciej.borzecki@open-rnd.pl>
 MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Mon, 22 Sep 2014 05:22:12 -0700 (PDT)
-In-Reply-To: <20140922120004.GD32340@gmail.com>
-References: <1411109378-27850-1-git-send-email-rongqing.li@windriver.com>
-	<CAJTo0LYdghqD+V_0QDCV-dgsEtrU4vSPZjG60Da+BCogkwZ+gQ@mail.gmail.com>
-	<541F6BE5.9000002@windriver.com> <20140922120004.GD32340@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Sep 2014 13:22:12 +0100
-Message-ID: <CAJTo0LZy_eOe2TS9N99E9cB9VfjY7WDxVsVeqk99F3xcsHZtuQ@mail.gmail.com>
-To: Paul Barker <paul@paulbarker.me.uk>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gnupg: add pinentry RDEPENDS
+In-Reply-To: <1411385721-22264-6-git-send-email-maciej.borzecki@open-rnd.pl>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Denys Dmytriyenko <denys@ti.com>, Tom Zanussi <tom.zanussi@linux.intel.com>,
+	Maciek Borzecki <maciek.borzecki@gmail.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/9] ref-manual: document IMAGE_BOOT_FILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,21 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Sep 2014 12:22:33 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 22 Sep 2014 12:46:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 22 September 2014 13:00, Paul Barker <paul@paulbarker.me.uk> wrote:
->> You also need the Pinentry package for most function of GnuPG; however
->> it is not a build requirement.  Pinentry is available at
->> ftp://ftp.gnupg.org/gcrypt/pinentry/ .
->>
->
-> There are some uses of gnupg which never need pinentry. For example, managing
-> the set of trusted keys for verifying package and feed signatures with opkg. I'd
-> prefer pinentry to be in RRECOMMENDS so that I can add it to
-> BAD_RECOMMENDATIONS and thereby disable it when I know it isn't needed.
+Hi,
 
-Agreed.
+On 22/09/2014 at 13:35:17 +0200, Maciej Borzecki wrote :
+> Document IMAGE_BOOT_FILES variable.
+> 
+> Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+> Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
+> ---
+>  documentation/ref-manual/ref-variables.xml | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
+> index 7ea753d..5282790 100644
+> --- a/documentation/ref-manual/ref-variables.xml
+> +++ b/documentation/ref-manual/ref-variables.xml
+> @@ -3235,6 +3235,24 @@
+>              </glossdef>
+>          </glossentry>
+>  
+> +        <glossentry id='var-IMAGE_BOOT_FILES'><glossterm>IMAGE_BOOT_FILES</glossterm>
+> +            <glossdef>
+> +                <para>
+> +                    Comma separated list of files that will be installed into
+> +                    boot partition when preparing an image. Source files By default the file
+> +                    is installed unser tha same name as source file. To change
+"under the"
 
-Ross
+-- 
+Alexandre Belloni, Free Electrons
+Embedded Linux, Kernel and Android engineering
+http://free-electrons.com
 
