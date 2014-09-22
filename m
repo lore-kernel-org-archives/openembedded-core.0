@@ -1,22 +1,22 @@
 Return-Path: <maciej.borzecki@open-rnd.pl>
 Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CC2C6FC54
+	by mail.openembedded.org (Postfix) with ESMTP id 963976FD28
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 22 Sep 2014 11:36:18 +0000 (UTC)
 Received: from localhost.localdomain (unknown [46.170.72.194])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id CD4D331626D9;
-	Mon, 22 Sep 2014 13:36:18 +0200 (CEST)
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 460CA3161232;
+	Mon, 22 Sep 2014 13:36:19 +0200 (CEST)
 From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Sep 2014 13:35:16 +0200
-Message-Id: <1411385721-22264-5-git-send-email-maciej.borzecki@open-rnd.pl>
+Date: Mon, 22 Sep 2014 13:35:17 +0200
+Message-Id: <1411385721-22264-6-git-send-email-maciej.borzecki@open-rnd.pl>
 X-Mailer: git-send-email 1.9.0
 In-Reply-To: <1411385721-22264-1-git-send-email-maciej.borzecki@open-rnd.pl>
 References: <1411385721-22264-1-git-send-email-maciej.borzecki@open-rnd.pl>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
 	Maciek Borzecki <maciek.borzecki@gmail.com>,
 	Otavio Salvador <otavio@ossystems.com.br>, Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH 4/9] wic: set bootimg_dir when using image-name artifacts
+Subject: [PATCH 5/9] ref-manual: document IMAGE_BOOT_FILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,71 +31,43 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 22 Sep 2014 11:36:19 -0000
 
-Running wic with -e to use artifacts from a named image, bootimg_dir was
-always passed as empty string to partition source plugins. The patch
-sets bootimg_dir to current value of DEPLOY_DIR_IMAGE, as bootloader
-artifacts end up in that location as well.
+Document IMAGE_BOOT_FILES variable.
 
 Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
 Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
 ---
- scripts/lib/image/engine.py | 9 +++++++--
- scripts/wic                 | 7 ++++---
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ documentation/ref-manual/ref-variables.xml | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/scripts/lib/image/engine.py b/scripts/lib/image/engine.py
-index f1df8b4..3813fec 100644
---- a/scripts/lib/image/engine.py
-+++ b/scripts/lib/image/engine.py
-@@ -67,7 +67,8 @@ def find_artifacts(image_name):
-     """
-     bitbake_env_lines = get_bitbake_env_lines()
+diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
+index 7ea753d..5282790 100644
+--- a/documentation/ref-manual/ref-variables.xml
++++ b/documentation/ref-manual/ref-variables.xml
+@@ -3235,6 +3235,24 @@
+             </glossdef>
+         </glossentry>
  
--    rootfs_dir = kernel_dir = hdddir = staging_data_dir = native_sysroot = ""
-+    rootfs_dir = kernel_dir = bootimg_dir = ""
-+    hdddir = staging_data_dir = native_sysroot = ""
- 
-     for line in bitbake_env_lines.split('\n'):
-         if (get_line_val(line, "IMAGE_ROOTFS")):
-@@ -85,8 +86,12 @@ def find_artifacts(image_name):
-         if (get_line_val(line, "STAGING_DIR_NATIVE")):
-             native_sysroot = get_line_val(line, "STAGING_DIR_NATIVE")
-             continue
-+        if (get_line_val(line, "DEPLOY_DIR_IMAGE")):
-+            bootimg_dir = get_line_val(line, "DEPLOY_DIR_IMAGE")
-+            continue
- 
--    return (rootfs_dir, kernel_dir, hdddir, staging_data_dir, native_sysroot)
-+    return (rootfs_dir, kernel_dir, bootimg_dir, hdddir, staging_data_dir, \
-+            native_sysroot)
- 
- 
- CANNED_IMAGE_DIR = "lib/image/canned-wks" # relative to scripts
-diff --git a/scripts/wic b/scripts/wic
-index 15cc9b3..7314810 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -134,8 +134,8 @@ def wic_create_subcommand(args, usage_str):
-     bootimg_dir = staging_data_dir = hdddir = ""
- 
-     if options.image_name:
--        (rootfs_dir, kernel_dir, hdddir, staging_data_dir, native_sysroot) = \
--            find_artifacts(options.image_name)
-+        (rootfs_dir, kernel_dir, bootimg_dir, hdddir, \
-+         staging_data_dir, native_sysroot) = find_artifacts(options.image_name)
- 
-     wks_file = args[0]
- 
-@@ -172,7 +172,8 @@ def wic_create_subcommand(args, usage_str):
-         not_found = not_found_dir = ""
-         if not os.path.isdir(rootfs_dir):
-             (not_found, not_found_dir) = ("rootfs-dir", rootfs_dir)
--        elif not os.path.isdir(hdddir) and not os.path.isdir(staging_data_dir):
-+        elif not os.path.isdir(bootimg_dir) and not os.path.isdir(hdddir) \
-+             and not os.path.isdir(staging_data_dir):
-             (not_found, not_found_dir) = ("bootimg-dir", bootimg_dir)
-         elif not os.path.isdir(kernel_dir):
-             (not_found, not_found_dir) = ("kernel-dir", kernel_dir)
++        <glossentry id='var-IMAGE_BOOT_FILES'><glossterm>IMAGE_BOOT_FILES</glossterm>
++            <glossdef>
++                <para>
++                    Comma separated list of files that will be installed into
++                    boot partition when preparing an image. Source files By default the file
++                    is installed unser tha same name as source file. To change
++                    the destination name, separate it with &quot;;&quot;. Source files
++                    need to be located in
++                    <link linkend='var-DEPLOY_DIR_IMAGE'><filename>DEPLOY_DIR_IMAGE</filename></link>.
++                    Examples:
++
++                    <literallayout class="monospaced">
++     IMAGE_BOOT_FILES = "u-boot.img uImage:kernel"
++     IMAGE_BOOT_FILES = "u-boot.${UBOOT_SUFFIX} ${KERNEL_IMAGETYPE}""
++                    </literallayout></para>
++            </glossdef>
++        </glossentry>
++
+         <glossentry id='var-IMAGE_CLASSES'><glossterm>IMAGE_CLASSES</glossterm>
+             <glossdef>
+                 <para>
 -- 
 1.9.0
 
