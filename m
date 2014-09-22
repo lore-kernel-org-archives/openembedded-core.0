@@ -1,32 +1,38 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 83D457149C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 95BB871493
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 12:14:24 +0000 (UTC)
-Received: by mail-qc0-f171.google.com with SMTP id x3so6141114qcv.30
+	Mon, 22 Sep 2014 12:22:31 +0000 (UTC)
+Received: by mail-qc0-f175.google.com with SMTP id w7so6055697qcr.34
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 05:14:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=+RKfW3fAg9X1kYF8StZf0N4jig6zUU4SWPhXZh8uwW8=;
-	b=tH/+9jqeZvB35Pyt/I9XTOln3DWpim5XQvBvuEnPy0VAvDWUP6JDzA2vNbmsYGzrgu
-	UrE5BNRqmo8RYz3+wZ+DvMK1QL0xlRU8KjxtPzGFoTrdgYw5brsEOIfHHeH6/3gLxM5o
-	DhLItJLHZ64S/WyQ7ceM28ZYFMDT98hgsTMteyp9uCmBfFichcKa/gel5hjPO8DOwP74
-	HwA1UwCOe3XQTEFpIDgQ6/yGuMAT/VpPlHpxkB0UBpnurDB8666jWsjak6Y75ngtKIzt
-	v1iqcq4EhUzqq+VMBPxQG7N/y6kPvNakl+uaa0hdhTcDOo9XgZVWRzROFL9trp6DKHcq
-	MC2A==
-X-Received: by 10.229.192.197 with SMTP id dr5mr29612507qcb.18.1411388066055; 
-	Mon, 22 Sep 2014 05:14:26 -0700 (PDT)
+	Mon, 22 Sep 2014 05:22:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9gDjSN4ShVpA7n5TmWHrbGzMUjRdqf/7pIf226eHnl8=;
+	b=F1YtlCuVXZv7h8h2fdVuFuUigCuDWWWoKUViZns+4ud7Sr9z1jL2ofYDRCeGwJHw9s
+	7RXlX6oOhZWedKYaJEBJZCkd4vOYeqmNbFckV9pn+M3rW08rvn0Q7oxYgXWz/jXwEy/9
+	mfb4LOhmspgGnt8yk3B0gqON7fKtM+qMje+Say4bCPLU4cLCLy4+ov6XNeugBDoTyOLL
+	c/C542G4r7oECFjCDEbTNh+NxyJB+oQcvDT3YpnjjCOq1cUUGspeviPVAVZZ78dB+i/9
+	/wet9s2Noqusqn6Lb3NdmYBOJeW2YNqA4CWz/akvg9rFDSG9C+AAXLZ5yK8JOl6R8IFi
+	qbEA==
+X-Gm-Message-State: ALoCoQmZKklqHGl+67qdyd9YJvLDdIIRgmk86sv/corwI4qyeilb5rTe1LDVW9fzicc0xWs9MW5s
+X-Received: by 10.140.27.139 with SMTP id 11mr20460978qgx.59.1411388552794;
+	Mon, 22 Sep 2014 05:22:32 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.96.58.201 with HTTP; Mon, 22 Sep 2014 05:14:05 -0700 (PDT)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Mon, 22 Sep 2014 14:14:05 +0200
-Message-ID: <CAPybu_2TqpNtPu+gZWsck8uYsEOYsAUATaYnKBgR-EVe9CvUgA@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Ming Liu <ming.liu@windriver.com>, Saul Wold <sgw@linux.intel.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: ?Regression? Removed linker symbolic link
+Received: by 10.140.34.180 with HTTP; Mon, 22 Sep 2014 05:22:12 -0700 (PDT)
+In-Reply-To: <20140922120004.GD32340@gmail.com>
+References: <1411109378-27850-1-git-send-email-rongqing.li@windriver.com>
+	<CAJTo0LYdghqD+V_0QDCV-dgsEtrU4vSPZjG60Da+BCogkwZ+gQ@mail.gmail.com>
+	<541F6BE5.9000002@windriver.com> <20140922120004.GD32340@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 22 Sep 2014 13:22:12 +0100
+Message-ID: <CAJTo0LZy_eOe2TS9N99E9cB9VfjY7WDxVsVeqk99F3xcsHZtuQ@mail.gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] gnupg: add pinentry RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,47 +45,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Sep 2014 12:14:27 -0000
+X-List-Received-Date: Mon, 22 Sep 2014 12:22:33 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Hello
+On 22 September 2014 13:00, Paul Barker <paul@paulbarker.me.uk> wrote:
+>> You also need the Pinentry package for most function of GnuPG; however
+>> it is not a build requirement.  Pinentry is available at
+>> ftp://ftp.gnupg.org/gcrypt/pinentry/ .
+>>
+>
+> There are some uses of gnupg which never need pinentry. For example, managing
+> the set of trusted keys for verifying package and feed signatures with opkg. I'd
+> prefer pinentry to be in RRECOMMENDS so that I can add it to
+> BAD_RECOMMENDATIONS and thereby disable it when I know it isn't needed.
 
-On my distribution I have a couple of binary packages (java and fglrx)
-that expect the dynamic linker on /lib64/ld-linux-x86-64.so.2
+Agreed.
 
-Therefore I have added a dummy package that justs creates a link on
-/lib/ld-linux-x86-64.so.2 and make both packages depend on this.
-
-This was working ok, but since I updated to  poky 1.6.1 this has
-stopped working :( The link seems to be removed from my rootfs.
-
-It is removed when the function _run_ldconfig on rootfs.py is executed.
-
-After some debugging I found that the cause  is this patch:
-
-
-Date:   Mon May 5 10:30:33 2014 +0800
-
-    ldconfig-native: also default to lib32 and lib64 directories
-
-    make ldconfig default to /lib+/usr/lib, /lib32+/usr/lib32 and
-    /lib64+/usr/lib64 on bi-ABI architectures.
-
-    (From OE-Core rev: c90bb98d4ac14562ef4882691daed3aaa9d08504)
-
-    (From OE-Core rev: 44202d78102fa58ba99040a79d5a61c44033f57d)
-
-    Signed-off-by: Ming Liu <ming.liu@windriver.com>
-    Signed-off-by: Saul Wold <sgw@linux.intel.com>
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Is there something I can do to avoid the removal of this file?
-Any other better method to do this?
-
-Thanks and best regards!
-
-
-
--- 
-Ricardo Ribalda
+Ross
 
