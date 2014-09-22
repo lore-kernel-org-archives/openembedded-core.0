@@ -1,34 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id EEBD5609BF
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CCF716B876
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 17:03:56 +0000 (UTC)
-Received: by mail-ie0-f170.google.com with SMTP id x19so4948562ier.15
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 10:03:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=zhjsPZWNLN1fO10aW45eMAau/ImTP8zhi8D7IvrKAcc=;
-	b=GaO5JA2slsNpGQ0LVCuZ5QeEC5tM0UZ+EaTq6OUBlAw/fudsPGUNFJqgWfUdMVx+Yc
-	JdWjmQOMhEWsiw+wcLIbDxBYeVQWsW0YoFQ1A89MuLHRjHX5JtnGC/VMDkoI5kV5rtnI
-	hhqnOCJ2/uGQ4XcCkZZJ8K5tkbFLXBYiEScpT8z8Gp7TdUqZXNDap+E9h5RvXY6TsoTv
-	XqrkPEOQDZCBT5uf0MAxRoHUfNZ2t60BGJJe3SN53/jwRaLkSr4xAaccalM3f5O1MEF9
-	f+WcYIaFEx3clfsNh4I8juOXN3FUzGAwTe9bhnrZEu53OqIC+CYclbD/qmdyF1kbewMy
-	7atQ==
-X-Received: by 10.50.109.228 with SMTP id hv4mr16039244igb.13.1411405437173;
-	Mon, 22 Sep 2014 10:03:57 -0700 (PDT)
+	Mon, 22 Sep 2014 17:04:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8MH4mEk009847
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 22 Sep 2014 10:04:48 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 22 Sep 2014 10:04:47 -0700
+Message-ID: <542056AF.8080009@windriver.com>
+Date: Mon, 22 Sep 2014 13:04:47 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
 MIME-Version: 1.0
-Received: by 10.50.240.6 with HTTP; Mon, 22 Sep 2014 10:03:27 -0700 (PDT)
-In-Reply-To: <54203FCE.3080901@windriver.com>
+To: Khem Raj <raj.khem@gmail.com>
 References: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
 	<2251278.GaOGmN6XgQ@peggleto-mobl5.ger.corp.intel.com>
 	<54203FCE.3080901@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 22 Sep 2014 10:03:27 -0700
-Message-ID: <CAMKF1srheZyVe5ATST-ToxZQJkXTTNvoh8j+PzrytSVbjVV9wA@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
+	<CAMKF1srheZyVe5ATST-ToxZQJkXTTNvoh8j+PzrytSVbjVV9wA@mail.gmail.com>
+In-Reply-To: <CAMKF1srheZyVe5ATST-ToxZQJkXTTNvoh8j+PzrytSVbjVV9wA@mail.gmail.com>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -45,16 +39,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Sep 2014 17:04:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 22 Sep 2014 17:04:51 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 22, 2014 at 8:27 AM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
-> But the reports we've been getting have been that externalsrc
-> builds are working for kernels, and linux-yocto without the change
-> in place, so I'm looking to reduce the patch footprint and re-submit.
+On 14-09-22 01:03 PM, Khem Raj wrote:
+> On Mon, Sep 22, 2014 at 8:27 AM, Bruce Ashfield
+> <bruce.ashfield@windriver.com> wrote:
+>> But the reports we've been getting have been that externalsrc
+>> builds are working for kernels, and linux-yocto without the change
+>> in place, so I'm looking to reduce the patch footprint and re-submit.
+>
+> no, it cant work if folks were trying the usecase I have mentioned.
+> The fix is infact for
+> non linux-yocto kernels.
 
-no, it cant work if folks were trying the usecase I have mentioned.
-The fix is infact for
-non linux-yocto kernels.
+I'll send out my updated patch shortly, it should fix both cases.
+
+Bruce
+
+>
+
 
