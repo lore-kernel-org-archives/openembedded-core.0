@@ -1,29 +1,37 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 395D16FD28
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-la0-f53.google.com (mail-la0-f53.google.com
+	[209.85.215.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 090C465DD0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 15:27:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8MFRB7f027725
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 22 Sep 2014 08:27:11 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 22 Sep 2014 08:27:11 -0700
-Message-ID: <54203FCE.3080901@windriver.com>
-Date: Mon, 22 Sep 2014 11:27:10 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
+	Mon, 22 Sep 2014 16:01:10 +0000 (UTC)
+Received: by mail-la0-f53.google.com with SMTP id ge10so6863798lab.26
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Sep 2014 09:01:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=xHxJBh94hBncQbcumE8S6V3L+R+A/IBNOunprXtBqsg=;
+	b=j7USE2F5oFptxKIZ3k543rN0uB5Tff74FzPA4/MEmDvSc/SMxrXOUxzsHNdNnjAbOw
+	OADlSmbrUXft5dyEY/UunGRHmwMKs6XtQ6bKErYiKclHm8HwlD9wkeA7k5JOynK89ow2
+	Y7MyJS4mAAgdBL2E5OIgYIUYXXyQqS1890KFPu0XgC3SgSGrRQ1vOggYUyIHtO/GxJhs
+	CrC4DcRTXSnx9UwjElwtamnN2qyIWx4rB+zYa9yyXp7UnqunBrH9WkOZR0cHbOHrBEmc
+	t8EhMAw64olYys5y9VoIQE11QsKwrC0ZeDX8klT7LDmQats1ix4dsAyVQhHO+nhgtn3p
+	plqw==
+X-Gm-Message-State: ALoCoQla8PXUFyHXVf2tBUZZBKVX625WDr1SKScFCP/bKBxL/82J+3ZIv0O8JJHB7m1IwwNHrKVg
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, Khem Raj
-	<raj.khem@gmail.com>
-References: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
-	<2251278.GaOGmN6XgQ@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <2251278.GaOGmN6XgQ@peggleto-mobl5.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] kernel: Enable externalsrc on kernels which instantiate kernel.bbclass
+X-Received: by 10.112.143.36 with SMTP id sb4mr25649964lbb.8.1411401670308;
+	Mon, 22 Sep 2014 09:01:10 -0700 (PDT)
+Received: by 10.112.205.165 with HTTP; Mon, 22 Sep 2014 09:01:10 -0700 (PDT)
+In-Reply-To: <65b2b92067da54c7ae1c4dcfee22e317798e6371.1411117403.git.kai.kang@windriver.com>
+References: <cover.1411117403.git.kai.kang@windriver.com>
+	<65b2b92067da54c7ae1c4dcfee22e317798e6371.1411117403.git.kai.kang@windriver.com>
+Date: Mon, 22 Sep 2014 19:01:10 +0300
+Message-ID: <CAGNsrLCEAtiAW5GpN7K-6jTuK0EgOyduVAREUyVhVt1gb4A-xg@mail.gmail.com>
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: Kai Kang <kai.kang@windriver.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 9/9] perf: disable libunwind support for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,51 +44,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Sep 2014 15:27:35 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Sep 2014 16:01:19 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 14-09-22 11:24 AM, Paul Eggleton wrote:
-> On Thursday 06 February 2014 02:05:05 Khem Raj wrote:
->> This also make a change where for kernel
->> S != B, this is done because when S = B
->> and we use O= option or set KBUILD_OUTPUT
->> to point to objectdir, kernel build system
->> ends up denoting itself dirty and asking for
->> running mrproper during later build steps
->> after do_configure but works perfectly
->> for when S != B
->>
->> Additional fixes make sure that we do not
->> assume directory paths when accessing files
->>
->> Move exporting KBUILD_OUTPUT from kernel-yocto
->> into kernel class
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+On 19 September 2014 12:21, Kai Kang <kai.kang@windriver.com> wrote:
+> Disable libunwind support of perl for aarch aarch64 that libunwind
+> doesn't support aarch64.
+
+typo:
+perl -> perf
+aarch -> arch
+
+Otherwise, the patch doesn't seems correct. libunwind supports aarch64
+since libunwind 1.1 (you need to build with --enable-debug-frame).
+
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/recipes-kernel/perf/perf-features.inc | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> So discussion on this patch seems to have stalled - did you guys make any
-> progress offline?
-
-I have an updated patch that I've been carrying in my tree ever
-since.
-
+> diff --git a/meta/recipes-kernel/perf/perf-features.inc b/meta/recipes-kernel/perf/perf-features.inc
+> index 2dbbb47..7de35f3 100644
+> --- a/meta/recipes-kernel/perf/perf-features.inc
+> +++ b/meta/recipes-kernel/perf/perf-features.inc
+> @@ -1,4 +1,5 @@
+>  PERF_FEATURES_ENABLE ?= "perf-scripting perf-tui perf-libunwind"
+> +PERF_FEATURES_ENABLE_remove_aarch64 = "perf-libunwind"
 >
-> Looking over the patch I'd guess we'd want to try to avoid cd'ing and instead
-> be explicit about the path where needed.
-
-I have some more cleanups to this effect, and will send them post
-1.7.
-
-But the reports we've been getting have been that externalsrc
-builds are working for kernels, and linux-yocto without the change
-in place, so I'm looking to reduce the patch footprint and re-submit.
-
-Bruce
-
+>  def perf_feature_enabled(feature, trueval, falseval, d):
+>      """
+> --
+> 1.9.1
 >
-> Cheers,
-> Paul
->
-
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
