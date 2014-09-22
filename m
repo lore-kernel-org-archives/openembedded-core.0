@@ -1,37 +1,38 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-la0-f53.google.com (mail-la0-f53.google.com
-	[209.85.215.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 090C465DD0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id EEBD5609BF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 16:01:10 +0000 (UTC)
-Received: by mail-la0-f53.google.com with SMTP id ge10so6863798lab.26
+	Mon, 22 Sep 2014 17:03:56 +0000 (UTC)
+Received: by mail-ie0-f170.google.com with SMTP id x19so4948562ier.15
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 09:01:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=xHxJBh94hBncQbcumE8S6V3L+R+A/IBNOunprXtBqsg=;
-	b=j7USE2F5oFptxKIZ3k543rN0uB5Tff74FzPA4/MEmDvSc/SMxrXOUxzsHNdNnjAbOw
-	OADlSmbrUXft5dyEY/UunGRHmwMKs6XtQ6bKErYiKclHm8HwlD9wkeA7k5JOynK89ow2
-	Y7MyJS4mAAgdBL2E5OIgYIUYXXyQqS1890KFPu0XgC3SgSGrRQ1vOggYUyIHtO/GxJhs
-	CrC4DcRTXSnx9UwjElwtamnN2qyIWx4rB+zYa9yyXp7UnqunBrH9WkOZR0cHbOHrBEmc
-	t8EhMAw64olYys5y9VoIQE11QsKwrC0ZeDX8klT7LDmQats1ix4dsAyVQhHO+nhgtn3p
-	plqw==
-X-Gm-Message-State: ALoCoQla8PXUFyHXVf2tBUZZBKVX625WDr1SKScFCP/bKBxL/82J+3ZIv0O8JJHB7m1IwwNHrKVg
+	Mon, 22 Sep 2014 10:03:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=zhjsPZWNLN1fO10aW45eMAau/ImTP8zhi8D7IvrKAcc=;
+	b=GaO5JA2slsNpGQ0LVCuZ5QeEC5tM0UZ+EaTq6OUBlAw/fudsPGUNFJqgWfUdMVx+Yc
+	JdWjmQOMhEWsiw+wcLIbDxBYeVQWsW0YoFQ1A89MuLHRjHX5JtnGC/VMDkoI5kV5rtnI
+	hhqnOCJ2/uGQ4XcCkZZJ8K5tkbFLXBYiEScpT8z8Gp7TdUqZXNDap+E9h5RvXY6TsoTv
+	XqrkPEOQDZCBT5uf0MAxRoHUfNZ2t60BGJJe3SN53/jwRaLkSr4xAaccalM3f5O1MEF9
+	f+WcYIaFEx3clfsNh4I8juOXN3FUzGAwTe9bhnrZEu53OqIC+CYclbD/qmdyF1kbewMy
+	7atQ==
+X-Received: by 10.50.109.228 with SMTP id hv4mr16039244igb.13.1411405437173;
+	Mon, 22 Sep 2014 10:03:57 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.112.143.36 with SMTP id sb4mr25649964lbb.8.1411401670308;
-	Mon, 22 Sep 2014 09:01:10 -0700 (PDT)
-Received: by 10.112.205.165 with HTTP; Mon, 22 Sep 2014 09:01:10 -0700 (PDT)
-In-Reply-To: <65b2b92067da54c7ae1c4dcfee22e317798e6371.1411117403.git.kai.kang@windriver.com>
-References: <cover.1411117403.git.kai.kang@windriver.com>
-	<65b2b92067da54c7ae1c4dcfee22e317798e6371.1411117403.git.kai.kang@windriver.com>
-Date: Mon, 22 Sep 2014 19:01:10 +0300
-Message-ID: <CAGNsrLCEAtiAW5GpN7K-6jTuK0EgOyduVAREUyVhVt1gb4A-xg@mail.gmail.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-To: Kai Kang <kai.kang@windriver.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 9/9] perf: disable libunwind support for aarch64
+Received: by 10.50.240.6 with HTTP; Mon, 22 Sep 2014 10:03:27 -0700 (PDT)
+In-Reply-To: <54203FCE.3080901@windriver.com>
+References: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
+	<2251278.GaOGmN6XgQ@peggleto-mobl5.ger.corp.intel.com>
+	<54203FCE.3080901@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 22 Sep 2014 10:03:27 -0700
+Message-ID: <CAMKF1srheZyVe5ATST-ToxZQJkXTTNvoh8j+PzrytSVbjVV9wA@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] kernel: Enable externalsrc on kernels which instantiate kernel.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +45,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Sep 2014 16:01:19 -0000
+X-List-Received-Date: Mon, 22 Sep 2014 17:04:02 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 19 September 2014 12:21, Kai Kang <kai.kang@windriver.com> wrote:
-> Disable libunwind support of perl for aarch aarch64 that libunwind
-> doesn't support aarch64.
+On Mon, Sep 22, 2014 at 8:27 AM, Bruce Ashfield
+<bruce.ashfield@windriver.com> wrote:
+> But the reports we've been getting have been that externalsrc
+> builds are working for kernels, and linux-yocto without the change
+> in place, so I'm looking to reduce the patch footprint and re-submit.
 
-typo:
-perl -> perf
-aarch -> arch
-
-Otherwise, the patch doesn't seems correct. libunwind supports aarch64
-since libunwind 1.1 (you need to build with --enable-debug-frame).
-
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/recipes-kernel/perf/perf-features.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-kernel/perf/perf-features.inc b/meta/recipes-kernel/perf/perf-features.inc
-> index 2dbbb47..7de35f3 100644
-> --- a/meta/recipes-kernel/perf/perf-features.inc
-> +++ b/meta/recipes-kernel/perf/perf-features.inc
-> @@ -1,4 +1,5 @@
->  PERF_FEATURES_ENABLE ?= "perf-scripting perf-tui perf-libunwind"
-> +PERF_FEATURES_ENABLE_remove_aarch64 = "perf-libunwind"
->
->  def perf_feature_enabled(feature, trueval, falseval, d):
->      """
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+no, it cant work if folks were trying the usecase I have mentioned.
+The fix is infact for
+non linux-yocto kernels.
 
