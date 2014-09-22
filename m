@@ -1,42 +1,36 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 05B6F609BF
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A4EE60030
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 12:00:07 +0000 (UTC)
-Received: by mail-lb0-f170.google.com with SMTP id z11so1218321lbi.15
+	Mon, 22 Sep 2014 12:12:40 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id a1so2535995wgh.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 05:00:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=qLzK73RnLmxA30WVVWFbHRoWT0ju9TmccXqAnjCxSV4=;
-	b=ccXq+AAm5FBoP+WD0wdgX3xiFr8MO9yNtavzX8Q22xk/LAe8jTnWOr3obmgwBUOcn0
-	tPojelIW7HoUaR9DqdVyIF7CZtEGVGrbIa7iHiAzXsLR710lLUSZT8URw5n5FewP2AM4
-	MYQBL/YfOBm6/dC3SG9ZdnEaQtxUxOc6GTwmsanI3+zLzZIqzrEpBkZIXKwGY1xVEUCF
-	s7jSLflxreuxDhbMFJGnkrZW4dWeNhbrpEPCd/Y7u7OOG2qmnFmJIR/tHfLt6qozro5w
-	i3OxC9vDtuX5qecv7u/92c7WuQh8bU9HYvdS8P7ZPWq4HJCYKKaz8+Sbx+YYmo9FIKnr
-	Q6Hw==
-X-Received: by 10.152.170.227 with SMTP id ap3mr25097297lac.15.1411387208085; 
-	Mon, 22 Sep 2014 05:00:08 -0700 (PDT)
-Received: from gmail.com (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id y7sm1453888lbp.46.2014.09.22.05.00.06
-	for <multiple recipients>
+	Mon, 22 Sep 2014 05:12:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=xwjmkQbV9qJhUVGisnAjAwRGRwEjJ978lm5WsDOenbI=;
+	b=jNXEtwlHeaHvAE1H2uGlVP4qeLRcRYxx2NXJLcvaI19OK88A+caNbnrqG+m1vnyLyo
+	AkYaEBx+DRjzk+mY8Vsiazmq/+o3L5BtKdXTXpw0WN4ReKBHH3THUjpsA/qdZu8a9Aff
+	YreuFvvh/KDmvUujuqrGVH0QpoPk/Sewk4WiS4L/U9HtR7FNcahUoJuQN+pyoX2IO7/H
+	9GHOU8zx+qk662FrC8xddPR6FTzRU9D86sviMdPR2dfKEoHaLoKaugSrEwSxMfjv2Ffb
+	rtPKAJsFUnXc8uTN96Peko9fxQQ1fnxx5U1e1+pWpIc8iagjDEUBhWMulpiUMKdUU/dO
+	a9Kg==
+X-Gm-Message-State: ALoCoQkJkD3EPd9mwZAckmTHN+VtSfKTkh21tDR3zmW29RneLUfMwUGt/BPOOZmw6GFQVQORpKTU
+X-Received: by 10.194.220.7 with SMTP id ps7mr20238898wjc.28.1411387961286;
+	Mon, 22 Sep 2014 05:12:41 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
+	by mx.google.com with ESMTPSA id
+	au4sm12119588wjc.15.2014.09.22.05.12.40 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 Sep 2014 05:00:07 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-Date: Mon, 22 Sep 2014 12:00:04 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Rongqing Li <rongqing.li@windriver.com>
-Message-ID: <20140922120004.GD32340@gmail.com>
-References: <1411109378-27850-1-git-send-email-rongqing.li@windriver.com>
-	<CAJTo0LYdghqD+V_0QDCV-dgsEtrU4vSPZjG60Da+BCogkwZ+gQ@mail.gmail.com>
-	<541F6BE5.9000002@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <541F6BE5.9000002@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gnupg: add pinentry RDEPENDS
+	Mon, 22 Sep 2014 05:12:40 -0700 (PDT)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Sep 2014 14:12:32 +0200
+Message-Id: <1411387952-22717-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.9.3
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH] libpng 1.6.13: fix build for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,68 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Sep 2014 12:00:19 -0000
-X-Groupsio-MsgNum: 57996
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="BI5RvnYi6R4T2M87"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 22 Sep 2014 12:12:42 -0000
 
---BI5RvnYi6R4T2M87
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The configure override was too restrictive, it needed both 'arm' and 'neon' to trigger, which breaks on aarch64. Since TUNE_FEATURES is the only qualifier that matters, drop the 'arm' override.
 
-On Mon, Sep 22, 2014 at 08:23:01AM +0800, Rongqing Li wrote:
->=20
->=20
-> On 09/19/2014 11:08 PM, Burton, Ross wrote:
-> >On 19 September 2014 07:49,  <rongqing.li@windriver.com> wrote:
-> >>gnupg needs pinentry to run
-> >
-> >Isn't this only needed if the agent is enabled?
-> >
-> >Ross
-> >
-> >
->=20
->=20
-> No, gnupg 2.x.x always need it;
->=20
-> 1. the below is from README of gnupg
->=20
-> You also need the Pinentry package for most function of GnuPG; however
-> it is not a build requirement.  Pinentry is available at
-> ftp://ftp.gnupg.org/gcrypt/pinentry/ .
->=20
+Buildtested for 'genericarmv8' and 'qemux86' machines.
 
-There are some uses of gnupg which never need pinentry. For example, managi=
-ng
-the set of trusted keys for verifying package and feed signatures with opkg=
-=2E I'd
-prefer pinentry to be in RRECOMMENDS so that I can add it to
-BAD_RECOMMENDATIONS and thereby disable it when I know it isn't needed.
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+ meta/recipes-multimedia/libpng/libpng_1.6.13.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.13.bb b/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
+index 0c6fd1f..8798a96 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
+@@ -19,7 +19,7 @@ BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
+ inherit autotools binconfig-disabled pkgconfig
+ 
+ # Work around missing symbols
+-EXTRA_OECONF_append_arm = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
++EXTRA_OECONF_append = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
+ 
+ PACKAGES =+ "${PN}-tools"
+ 
+-- 
+1.9.3
 
---=20
-Paul Barker
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
-
---BI5RvnYi6R4T2M87
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQEcBAEBAgAGBQJUIA9EAAoJEBwoJlo7UPQD+6wH/jH2wr/f1P1xImYwfVj4OaPu
-FCH/1nrTQcRwpgSfBeJ0z0hicWlcM4/1mo1FxUs6jwxZxGzzEgpMQGoccmDv4OPf
-/nue8EpaiO9ZVvazwveiyoP2oC02QJCDZjK9lSXfr2+S2aXJ5InQWmDU4XpOdlmF
-Nxjulj9ixB9Ov+E7ZkafnFDVIu76e+dBJbQhZpXm1+DcAsh2fKqhewbSPp6yh/CB
-bePqVLfuLKFDJOgDdQCHcGBY6fr1yqcORG95lqeKWLwq5tHRBkrBdk0q9I6Ax8AF
-sloUhmspUTYPkzSURj9ABbHBRavpQawNnLK+HitqR81OwUkZNmQln3K6NQkJXA4=
-=9n0Q
------END PGP SIGNATURE-----
-
---BI5RvnYi6R4T2M87--
