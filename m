@@ -1,43 +1,37 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 5205060167
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id B536A60167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 14:51:36 +0000 (UTC)
-Received: by mail-wg0-f46.google.com with SMTP id a1so4446522wgh.29
+	Tue, 23 Sep 2014 14:52:55 +0000 (UTC)
+Received: by mail-qc0-f177.google.com with SMTP id x13so1810308qcv.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 07:51:37 -0700 (PDT)
+	Tue, 23 Sep 2014 07:52:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=n0YFJ2oRHtppERemQCT7VJAAoB8KRwB7P0jovWBwHb0=;
-	b=QJwmREbDmJaEPE3pt03mjPBNMEQ1nEcgYhDwn0m/RmQh0mQjCZPmHsZR3u9h5hyCvB
-	aPWMNr7gLVdfMy3JxE/1NZ2r5Jeog1nz+sMxG1wVxu8r76DAtIK3Oz1LOPLylJTzOrNU
-	CrowH6W1aRviDOBP+VFSkH4q9Q06lI+MkR5T1a8mCz9Vn6ULf1O24gpOCFaLyXAvnYg9
-	aikqC+YtANqB9ZSoCRUjhCLaNokXx45rZ4MWgEH+uYKHYqJtPTATkc3Dj5uHYenOOpHs
-	21T7zi14fwRRcqPL5KmshSRTKq5TpiqK/7MjRR/rmdUhXPRNbmmzM4EgUZ0slzPVRTmk
-	m1Ng==
-X-Gm-Message-State: ALoCoQlbbEJaHazmUaUN7tGy/0SLQDHRWdo5d4y/MJEqEhtXl7WUW3cZ+kyF3MZYdS7PPnIiNDKG
-X-Received: by 10.180.13.79 with SMTP id f15mr5197348wic.25.1411483897076;
-	Tue, 23 Sep 2014 07:51:37 -0700 (PDT)
-Received: from [172.29.23.6] (zk223.dresearch-fe.de. [217.92.177.116])
-	by mx.google.com with ESMTPSA id
-	cz3sm16167175wjb.23.2014.09.23.07.51.35 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 Sep 2014 07:51:36 -0700 (PDT)
-Message-ID: <542188F7.3080007@dresearch-fe.de>
-Date: Tue, 23 Sep 2014 16:51:35 +0200
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=L8ojX2QVoWFT4yAQD4pMxR7SeJufEWpDvW1U20Nub7o=;
+	b=FLU6UZ4n82IxxcfMblJzZ0gkogyfHDdulKO9I1fOZoIOuWMT4uvAxn1TudL9lSVXzr
+	FifBfwvnvI7AK5IOLSqfrDGmcdcQ6BEV9p/VjdZLbcGcTSXkds2giSasuEV5ikIZC+g6
+	nJgR75sa9y1AYJowKLEUSOGbbl7a8BVmPgpICwJvYDwqau99xQFQ6OnPgcdHKAD8x2Xk
+	tJPu6t1Zfk/Y7rTYMlHWzuZgFXni2Ci5fc48E5+eisoNcVbhAadskZsB7opcUMpiGc95
+	SP8yCTg5QjY/sGF8dqGd6DuV8aEugIsKOlYPF4Mhmj8BFgCYWZRXvCQL1TbL3GScc8M9
+	q9rQ==
+X-Gm-Message-State: ALoCoQkT8Rzy4yIU2fhCM+pj21XLNc9PGoMlXWNw9bmiMt20isgFf25RBDnVwx+P6LTXsf7X0oT5
+X-Received: by 10.140.94.144 with SMTP id g16mr31990873qge.77.1411483976476;
+	Tue, 23 Sep 2014 07:52:56 -0700 (PDT)
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-References: <54216293.4040907@dresearch-fe.de> <1411478501.15825.40.camel@ted>
-In-Reply-To: <1411478501.15825.40.camel@ted>
-Cc: Lianhao Lu <lianhao.lu@intel.com>
-Subject: Re: hash generation/PR service problem with xuser-account and other packages
+Received: by 10.140.34.180 with HTTP; Tue, 23 Sep 2014 07:52:36 -0700 (PDT)
+In-Reply-To: <e33476eb2f61c8a8be679e15114ef90321239dde.1411473883.git.hongxu.jia@windriver.com>
+References: <cover.1411473883.git.hongxu.jia@windriver.com>
+	<e33476eb2f61c8a8be679e15114ef90321239dde.1411473883.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 Sep 2014 15:52:36 +0100
+Message-ID: <CAJTo0LZJFpqwAunH5phXyrdJ07y9RwoKqrAAbq6WPi=vVBHrpQ@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] texinfo: fix info not work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,124 +44,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Sep 2014 14:51:38 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 23 Sep 2014 14:53:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 23.09.2014 15:21, Richard Purdie wrote:
-> On Tue, 2014-09-23 at 14:07 +0200, Steffen Sledz wrote:
->> As i mentioned in another thread before we're investigating some problems related with package versions going backwards using a PR service.
->>
->> Now i have some more information. But i'm not able to understand and fix the problem for myself.
->>
->> Assume we have a clean workspace and i bitbake the xuser-account package with this command:
->>
->>   MACHINE="foo" bitbake xuser-account
->>
->> This generates these packages (the 207 comes from our PR service).
->>
->>   tmp-eglibc/deploy/ipk/all/xuser-account-dbg_0.1-r0.207_all.ipk
->>   tmp-eglibc/deploy/ipk/all/xuser-account-dev_0.1-r0.207_all.ipk
->>   tmp-eglibc/deploy/ipk/all/xuser-account_0.1-r0.207_all.ipk
->>
->> If i call the same bitbake command again, the same packages are generated. Fine!
->>
->> Now i call:
->>
->>   MACHINE="bar" bitbake xuser-account
->>
->> The generated packages now get a new number from the PR server (so they have a different hash i believe).
->>
->>   tmp-eglibc/deploy/ipk/all/xuser-account-dbg_0.1-r0.208_all.ipk
->>   tmp-eglibc/deploy/ipk/all/xuser-account-dev_0.1-r0.208_all.ipk
->>   tmp-eglibc/deploy/ipk/all/xuser-account_0.1-r0.208_all.ipk
->>
->> But this package does not seem to be machine dependent!?
->>
->> If the next build for machine foo is a clean build again (e.g. on our Jenkins continuous integration server which makes clean builds once a week) the PR service generated number wents back to 207 which results in:
->>
->>   "ERROR: QA Issue: Package version for package xuser-account went backwards which would break package feeds"
->>
->> Can someone confirm this behaviour?
->>
->> Is this a bug? I think so.
->>
->> Can someone give some details what went wrong here? Also after studying <http://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#checksums> i was not able to fully understand the background, not to speak of fixing something.
->>
->> BTW: We see the same behaviour for the cpufreq-tweaks, linux-firmware, run-postinsts, and some of our own packages.
-> 
-> I just took a look at this on master. There are some changes between
-> master and daisy and I want to get this resolved in master before we
-> think about daisy. I thought walking through debugging this may be
-> helpful, so, I did:
-> 
-> MACHINE=qemux86 bitbake xuser-account
-> MACHINE=qemuarm bitbake xuser-account
-> 
-> and sure enough, you are correct, things rebuild and they should not for
-> an allarch package like this. Looking at the list of packages being
-> built, its pulling in the toolchain. I checked:
-> 
-> MACHINE=qemuarm bitbake xuser-account -e | grep INHIBIT_DEFAULT_DEPS
-> 
-> and sure enough, that is set (as per allarch.bbclass) so why is it
-> building the toolchain?! It has to be a dependency, so:
-> 
-> MACHINE=qemuarm bitbake xuser-account -e | grep DEPENDS=
-> 
-> and in there we see:
-> 
-> DEPENDS="  base-files base-passwd shadow-native shadow-sysroot shadow"
-> 
-> base-files is whitelisted in conf/layer.conf as a dependency we don't
-> need to checksum. The checksum of shadow-native isn't an issue, the
-> others however are a problem. Since they have well behaved APIs, we can
-> add them to the list in layer.conf.
-> 
-> What this does mean is that if shadow rebuilds, xuser-account will not
-> rebuild automatically. I don't believe that should be an issue.
-> 
-> After doing this, I reran the bitbake commands and then:
-> 
-> ls tmp/stamps/all-poky-linux/xuser-account/
-> 
-> shows things like:
-> 
-> 0.1-r0.do_populate_sysroot.978b6f9bfd5282121de701a24dc52c80.qemuarm
-> 0.1-r0.do_populate_sysroot.978b6f9bfd5282121de701a24dc52c80.qemux86
-> 
-> 
-> basically, the stamp hashes should not change between the two bitbake
-> commands. SO the patch needed to fix xuser is:
-> 
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index 9143bdb..4deee89 100644
-> --- a/meta/conf/layer.conf
-> +++ b/meta/conf/layer.conf
-> @@ -31,6 +31,9 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
->    packagegroup-x11-xserver \
->    systemd-serialgetty \
->    initscripts \
-> +  shadow \
-> +  shadow-sysroot \
-> +  base-passwd \
->  "
->  
->  SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+On 23 September 2014 15:19, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> +pkg_postinst_info () {
+> +    for f in `find $D/${infodir} -name "*.info*"`; do
+> +        install-info $f $D/${infodir}/dir
+> +    done
+> +}
 
-Hi Richard, thanx for this detailled explanation. It is another step on my way to understand all this. ;-)
+For future, this seems like the sort of thing we need a class for.
+There is a texinfo.bbclass now...
 
-> The other recipes will need investigating since I doubt its this issue
-> for them.
-
-Is there someone who can do this work in a similar brightening way Richard did?
-
--- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+Ross
 
