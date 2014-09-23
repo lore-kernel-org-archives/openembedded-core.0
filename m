@@ -1,26 +1,28 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A37437151B
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F4C4609BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 14:57:54 +0000 (UTC)
+	Tue, 23 Sep 2014 15:16:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8NEvtG3025467
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 23 Sep 2014 07:57:55 -0700 (PDT)
-Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 23 Sep 2014 07:57:54 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 23 Sep 2014 10:57:45 -0400
-Message-ID: <b692de2aaa515c04fe66e26b554b7535932349eb.1411483823.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1411483823.git.bruce.ashfield@windriver.com>
-References: <cover.1411483823.git.bruce.ashfield@windriver.com>
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8NFGMP1005845
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Sep 2014 08:16:23 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.233) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 23 Sep 2014 08:16:22 -0700
+Message-ID: <54218EC5.6000708@windriver.com>
+Date: Tue, 23 Sep 2014 10:16:21 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/7] linux-yocto/3.14: update to v3.14.19
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1411473883.git.hongxu.jia@windriver.com>
+In-Reply-To: <cover.1411473883.git.hongxu.jia@windriver.com>
+Subject: Re: [PATCH 0/3] man/info: fix not support xz/bz2 compression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,93 +35,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Sep 2014 14:57:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 23 Sep 2014 15:16:24 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Updating to the latest korg -stable update.
+On 9/23/14, 9:19 AM, Hongxu Jia wrote:
+> Test Case:
+>
+> vim local.conf
+> ..
+> IMAGE_INSTALL_append = " man man-doc texinfo texinfo-doc info info-doc"
+> INHERIT += "compress_doc"
+> DOC_COMPRESS = "xz" or DOC_COMPRESS = "bz2"
+> ..
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  8 ++++----
- meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 18 +++++++++---------
- 3 files changed, 16 insertions(+), 16 deletions(-)
+Patch 1/3 the busybox change.  I'm not sure we really want to make that change 
+as it will increase the size of busybox.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-index 0977b6275c6e..7eecc7fe562b 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-@@ -3,13 +3,13 @@ KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--SRCREV_machine ?= "41975d7825d8043b054378565b01824ffa961834"
--SRCREV_machine_qemuppc ?= "3bbc23a726520784618a3854747b82792d2a108f"
--SRCREV_meta ?= "80c78725e098d26b9464c4d5cffd37c28f42dc7b"
-+SRCREV_machine ?= "63e1f827790683d4ef01c71acfdf20b79f986d99"
-+SRCREV_machine_qemuppc ?= "2c51fd8a6fcf79386e3418ff78d42390ad6b5aa2"
-+SRCREV_meta ?= "0bd3ec19b64191efc9d0ba83d05c9f7f9bf4473a"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
- 
--LINUX_VERSION ?= "3.14.18"
-+LINUX_VERSION ?= "3.14.19"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-index 4eb7b1dd477d..ff4a5748067e 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-@@ -4,12 +4,12 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "3.14.18"
-+LINUX_VERSION ?= "3.14.19"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "fabce749eb25b8053250b5507868a246ddaf4423"
--SRCREV_meta ?= "80c78725e098d26b9464c4d5cffd37c28f42dc7b"
-+SRCREV_machine ?= "14fea2388e7b248c4e9442ac95fcbf1e4d265ee2"
-+SRCREV_meta ?= "0bd3ec19b64191efc9d0ba83d05c9f7f9bf4473a"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-index 6eac062d5964..efc193bb3c4f 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-@@ -10,18 +10,18 @@ KBRANCH_qemux86  ?= "standard/common-pc/base"
- KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "3d5be74be2cab047a1b85e07620beee4791d4594"
--SRCREV_machine_qemumips ?= "2834013809154887772cf1552191a682ed42d9eb"
--SRCREV_machine_qemuppc ?= "44dddef534a3cae1aa952f77f4fd299978552307"
--SRCREV_machine_qemux86 ?= "d77fb23dcc717061f74678babaeb4fa487c55fec"
--SRCREV_machine_qemux86-64 ?= "fabce749eb25b8053250b5507868a246ddaf4423"
--SRCREV_machine_qemumips64 ?= "5c5d8fd23d2b8fb0e8e00e54d2783feeba86ebd0"
--SRCREV_machine ?= "fabce749eb25b8053250b5507868a246ddaf4423"
--SRCREV_meta ?= "80c78725e098d26b9464c4d5cffd37c28f42dc7b"
-+SRCREV_machine_qemuarm ?= "1c7a46a46b2cbf68777713531647cd4b1cf22f12"
-+SRCREV_machine_qemumips ?= "f3dea87bc7aaccae5c24240b378a4e09034d80af"
-+SRCREV_machine_qemuppc ?= "195f2029d49fc2440cf236d5134eb2ab88b8d407"
-+SRCREV_machine_qemux86 ?= "bdef75805ede16c13f4383cc53d66dad3e83da64"
-+SRCREV_machine_qemux86-64 ?= "14fea2388e7b248c4e9442ac95fcbf1e4d265ee2"
-+SRCREV_machine_qemumips64 ?= "b5c533e6ffba299b24d31cc2b8f32f6302f5d7e3"
-+SRCREV_machine ?= "14fea2388e7b248c4e9442ac95fcbf1e4d265ee2"
-+SRCREV_meta ?= "0bd3ec19b64191efc9d0ba83d05c9f7f9bf4473a"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
- 
--LINUX_VERSION ?= "3.14.18"
-+LINUX_VERSION ?= "3.14.19"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
--- 
-1.8.1.2
+(following is me thinking aloud and hopefully someone will have a suggest on how 
+best to unify this..)
+
+I'm wondering if instead of forcing the change for everyone via the busybox 
+change, if it makes sense to add a image validation routine or something that 
+verifies if the DOC_COMPRESS is set, that the corresponding tool was installed 
+into the target environment (along w/ man, info or other appropriate items.. and 
+the pkgs-docs was set as well.. if any of those are missing then a warning 
+should probably be presented.)
+
+I'm sure there is probably a better way to set this via a distribution 
+configuration switch or something as well.. maybe something like?
+
+DISTRO += "man info"
+
+That could then force the man and info systems to add a dependency on bz2 (or xz 
+or whatever else was set in DOC_COMPRESS)..  and also add man, info and the 
+associated man and info pages to the image itself.
+
+(As I see it, DOC_COMPRESS is really a distribution wide setting, so we should 
+treat it as such...)
+
+
+--Mark
+
+> bitbake core-image-minimal
+>
+> runqemu qemux86
+>
+> On target,
+> ...
+> root@qemux86:~# man man
+>
+> root@qemux86:~# info info
+> ...
+>
+> //Hongxu
+>
+> The following changes since commit afdbe3112b940987f3f3cddcb32c91a5e17a297d:
+>
+>    bitbake: bitbake-worker: Fix bitbake -n (2014-09-22 15:54:40 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib hongxu/fix-doc
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-doc
+>
+> Hongxu Jia (3):
+>    busybox: enable CONFIG_BZIP2/CONFIG_XZ/CONFIG_UNXZ by default
+>    man: fix not support xz/bz2 compression
+>    texinfo: fix info not work
+>
+>   meta/recipes-core/busybox/busybox/defconfig  | 6 +++---
+>   meta/recipes-extended/man/man/man.conf       | 3 ++-
+>   meta/recipes-extended/texinfo/texinfo_5.2.bb | 8 +++++++-
+>   3 files changed, 12 insertions(+), 5 deletions(-)
+>
 
 
