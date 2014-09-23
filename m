@@ -1,29 +1,51 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D37560167
+Return-Path: <ting.liu@freescale.com>
+X-Greylist: delayed 913 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 23 Sep 2014 09:40:31 UTC
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1on0145.outbound.protection.outlook.com [157.56.110.145])
+	by mail.openembedded.org (Postfix) with ESMTP id DCBFB617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 09:13:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8N9DIiM019345
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 23 Sep 2014 02:13:18 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Tue, 23 Sep 2014 02:13:17 -0700
-Message-ID: <542139AC.9050201@windriver.com>
-Date: Tue, 23 Sep 2014 17:13:16 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Tue, 23 Sep 2014 09:40:31 +0000 (UTC)
+Received: from BN3PR0301CA0013.namprd03.prod.outlook.com (25.160.180.151) by
+	BL2PR03MB147.namprd03.prod.outlook.com (10.255.230.19) with Microsoft
+	SMTP Server (TLS) id 15.0.1034.13; Tue, 23 Sep 2014 09:25:17 +0000
+Received: from BY2FFO11FD022.protection.gbl (2a01:111:f400:7c0c::197) by
+	BN3PR0301CA0013.outlook.office365.com (2a01:111:e400:4000::23) with
+	Microsoft SMTP Server (TLS) id 15.0.1034.13 via Frontend Transport;
+	Tue, 23 Sep 2014 09:25:17 +0000
+Received: from tx30smr01.am.freescale.net (192.88.168.50) by
+	BY2FFO11FD022.mail.protection.outlook.com (10.1.15.211) with Microsoft
+	SMTP
+	Server (TLS) id 15.0.1029.15 via Frontend Transport; Tue, 23 Sep 2014
+	09:25:16 +0000
+Received: from neptune.ap.freescale.net (neptune.ap.freescale.net
+	[10.192.208.77])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	s8N9PAMu013848; Tue, 23 Sep 2014 02:25:11 -0700
+From: <ting.liu@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 23 Sep 2014 17:20:16 +0800
+Message-ID: <1411464016-8068-1-git-send-email-ting.liu@freescale.com>
+X-Mailer: git-send-email 1.8.3.2
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:CAL; IPV:NLI;
+	EFV:NLI; SFV:NSPM;
+	SFS:(10019020)(6009001)(189002)(199003)(229853001)(80022003)(79102003)(50466002)(95666004)(74502003)(106466001)(26826002)(2351001)(107046002)(102836001)(83322001)(77156001)(19580405001)(48376002)(83072002)(99396002)(19580395003)(85852003)(46102003)(77982003)(104166001)(10300001)(81342003)(74662003)(120916001)(33646002)(31966008)(81542003)(84676001)(105606002)(62966002)(15202345003)(92566001)(92726001)(88136002)(86152002)(76482002)(89996001)(36756003)(20776003)(47776003)(64706001)(85306004)(110136001)(44976005)(6806004)(104016003)(21056001)(90102001)(50986999)(68736004)(87286001)(87936001)(93916002)(86362001)(4396001)(97736003)(15975445006)(50226001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BL2PR03MB147;
+	H:tx30smr01.am.freescale.net; FPR:; MLV:ovrnspm;
+	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-To: Fathi Boudra <fathi.boudra@linaro.org>
-References: <cover.1411117403.git.kai.kang@windriver.com>	<65b2b92067da54c7ae1c4dcfee22e317798e6371.1411117403.git.kai.kang@windriver.com>	<CAGNsrLCEAtiAW5GpN7K-6jTuK0EgOyduVAREUyVhVt1gb4A-xg@mail.gmail.com>	<54210F1F.10907@windriver.com>
-	<CAGNsrLDiRpTjOxhpppTxe8H8UJUrLxxnxxKaZq4MXuAV+HMJDQ@mail.gmail.com>
-In-Reply-To: <CAGNsrLDiRpTjOxhpppTxe8H8UJUrLxxnxxKaZq4MXuAV+HMJDQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.231]
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 9/9] perf: disable libunwind support for aarch64
+X-Microsoft-Antispam: UriScan:;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BL2PR03MB147;
+X-Forefront-PRVS: 0343AC1D30
+Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
+	designate 192.88.168.50 as permitted sender)
+	receiver=protection.outlook.com; 
+	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
+Authentication-Results: spf=fail (sender IP is 192.88.168.50)
+	smtp.mailfrom=ting.liu@freescale.com; 
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] valgrind: pass -maltivec only if it supported
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,99 +58,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Sep 2014 09:13:22 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 23 Sep 2014 09:40:41 -0000
+Content-Type: text/plain
 
-On 2014年09月23日 16:23, Fathi Boudra wrote:
-> On 23 September 2014 09:11, Kang Kai <Kai.Kang@windriver.com> wrote:
->> On 2014年09月23日 00:01, Fathi Boudra wrote:
->>> On 19 September 2014 12:21, Kai Kang <kai.kang@windriver.com> wrote:
->>>> Disable libunwind support of perl for aarch aarch64 that libunwind
->>>> doesn't support aarch64.
->>> typo:
->>> perl -> perf
->>> aarch -> arch
->>>
->>> Otherwise, the patch doesn't seems correct. libunwind supports aarch64
->>> since libunwind 1.1 (you need to build with --enable-debug-frame).
->>
->> When do configure, it fails with:
->>
->> | checking for ELF helper width... configure: error: Unknown ELF target:
->> aarch64
->>
->> It could be fixed by patching configure.ac:
->>
->> --- configure.ac.orig   2014-09-23 13:30:23.415975656 +0800
->> +++ configure.ac        2014-09-23 13:30:47.991976326 +0800
->> @@ -137,7 +137,7 @@
->>   AC_MSG_CHECKING([for ELF helper width])
->>   case "${target_arch}" in
->>   (arm|hppa|ppc32|x86|sh) use_elf32=yes; AC_MSG_RESULT([32]);;
->> -(ia64|ppc64|x86_64)    use_elf64=yes; AC_MSG_RESULT([64]);;
->> +(aarch64|ia64|ppc64|x86_64)    use_elf64=yes; AC_MSG_RESULT([64]);;
->>   (mips)                 use_elfxx=yes; AC_MSG_RESULT([xx]);;
->>   *)                     AC_MSG_ERROR([Unknown ELF target: ${target_arch}])
->>   esac
->>
->> And then it fails with do compile either:
->>
->> | ../include/libunwind.h:25:3: error: #error "Unsupported arch"
->>
->> In include/libunwind.h.in, it checks arch and include header accordingly.
->> For aarch64, it lacks arch check and header file libunwind-arm64.h or
->> libunwind-aarch64.h.
->
-> right, we've upstreamed aarch64 support but it hasn't been released in 1.1.
-> we need the following patches:
-> http://git.savannah.gnu.org/gitweb/?p=libunwind.git;a=commitdiff;h=ac6c0a6535975f1dc2da6e4e2766614baac2a14a
-> http://git.savannah.gnu.org/gitweb/?p=libunwind.git;a=commitdiff;h=2cb00c1eaca437e41556ad5512149508fcc7cb82
+From: Ting Liu <ting.liu@freescale.com>
 
-Thanks , I'll try them.
+none/tests/ppc64/Makefile.am (and ppc32, too) passes the flag -maltivec
+unconditionally. Build will fail if Altivec not supported. add the flag
+only if HAS_ALTIVEC defined.
 
---Kai
+Reference:
+see https://bugs.kde.org/show_bug.cgi?id=338731
 
->
->> Thanks,
->> Kai
->>
->>
->>
->>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>>> ---
->>>>    meta/recipes-kernel/perf/perf-features.inc | 1 +
->>>>    1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/meta/recipes-kernel/perf/perf-features.inc
->>>> b/meta/recipes-kernel/perf/perf-features.inc
->>>> index 2dbbb47..7de35f3 100644
->>>> --- a/meta/recipes-kernel/perf/perf-features.inc
->>>> +++ b/meta/recipes-kernel/perf/perf-features.inc
->>>> @@ -1,4 +1,5 @@
->>>>    PERF_FEATURES_ENABLE ?= "perf-scripting perf-tui perf-libunwind"
->>>> +PERF_FEATURES_ENABLE_remove_aarch64 = "perf-libunwind"
->>>>
->>>>    def perf_feature_enabled(feature, trueval, falseval, d):
->>>>        """
->>>> --
->>>> 1.9.1
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>
->> --
->> Regards,
->> Neil | Kai Kang
->
+Signed-off-by: Ting Liu <ting.liu@freescale.com>
+---
+ .../pass-maltivec-only-if-it-supported.patch       | 68 ++++++++++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.9.0.bb   |  1 +
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/pass-maltivec-only-if-it-supported.patch
 
-
+diff --git a/meta/recipes-devtools/valgrind/valgrind/pass-maltivec-only-if-it-supported.patch b/meta/recipes-devtools/valgrind/valgrind/pass-maltivec-only-if-it-supported.patch
+new file mode 100644
+index 0000000..3781466
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/pass-maltivec-only-if-it-supported.patch
+@@ -0,0 +1,68 @@
++Upstream-status: pending
++
++pass -maltivec only if it supported
++
++none/tests/ppc64/Makefile.am (and ppc32, too) passes the flag -maltivec 
++unconditionally. Build will fail if Altivec not supported. add the flag 
++only if HAS_ALTIVEC defined.
++
++Reference:
++see https://bugs.kde.org/show_bug.cgi?id=338731
++
++Index: none/tests/ppc32/Makefile.am
++===================================================================
++--- a/none/tests/ppc32/Makefile.am	(revision 14477)
+++++ b/none/tests/ppc32/Makefile.am	(working copy)
++@@ -72,8 +72,10 @@
++ allexec_CFLAGS		= $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
++ 
++ if HAS_ALTIVEC
+++BUILD_FLAG_ALTIVEC = -maltivec
++ ALTIVEC_FLAG = -DHAS_ALTIVEC
++ else
+++BUILD_FLAG_ALTIVEC =
++ ALTIVEC_FLAG =
++ endif
++ 
++@@ -101,11 +103,11 @@
++ ISA_2_07_FLAG =
++ endif
++ 
++-jm_insns_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames -maltivec \
++-			@FLAG_M32@ $(ALTIVEC_FLAG)
+++jm_insns_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames \
+++			@FLAG_M32@ $(ALTIVEC_FLAG) $(BUILD_FLAG_ALTIVEC)
++ 
++-testVMX_CFLAGS  = $(AM_CFLAGS) -O -g -Wall -maltivec -mabi=altivec -DALTIVEC \
++-			-DGCC_COMPILER @FLAG_M32@
+++testVMX_CFLAGS  = $(AM_CFLAGS) -O -g -Wall -mabi=altivec -DALTIVEC \
+++			-DGCC_COMPILER @FLAG_M32@  $(BUILD_FLAG_ALTIVEC)
++ 
++ test_isa_2_06_part1_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames $(VSX_FLAG) \
++ 			@FLAG_M32@ $(ALTIVEC_FLAG) $(BUILD_FLAG_VSX)
++Index: none/tests/ppc64/Makefile.am
++===================================================================
++--- a/none/tests/ppc64/Makefile.am	(revision 14477)
+++++ b/none/tests/ppc64/Makefile.am	(working copy)
++@@ -50,8 +50,10 @@
++ allexec_CFLAGS		= $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
++ 
++ if HAS_ALTIVEC
+++BUILD_FLAG_ALTIVEC = -maltivec
++ ALTIVEC_FLAG = -DHAS_ALTIVEC
++ else
+++BUILD_FLAG_ALTIVEC =
++ ALTIVEC_FLAG =
++ endif
++ 
++@@ -88,8 +90,8 @@
++ test_isa_2_06_part3_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames $(VSX_FLAG) \
++ 			@FLAG_M64@ $(ALTIVEC_FLAG) $(BUILD_FLAG_VSX)
++ 
++-jm_insns_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames -maltivec \
++-			@FLAG_M64@ $(ALTIVEC_FLAG)
+++jm_insns_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames \
+++			@FLAG_M64@ $(ALTIVEC_FLAG) $(BUILD_FLAG_ALTIVEC)
++ 
++ test_dfp1_CFLAGS = $(AM_CFLAGS) -Winline -Wall -O -g -mregnames $(DFP_FLAG) \
++ 			@FLAG_M64@ $(BUILD_FLAGS_DFP)
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
+index c415e77..58bb9eb 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
+@@ -19,6 +19,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            file://force-nostabs.patch \
+            file://remove-arm-variant-specific.patch \
+            file://remove-ppc-tests-failing-build.patch \
++           file://pass-maltivec-only-if-it-supported.patch \
+            file://add-ptest.patch \
+            file://run-ptest \
+           "
 -- 
-Regards,
-Neil | Kai Kang
+1.8.3.2
 
 
