@@ -1,26 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 40B45714C2
+	by mail.openembedded.org (Postfix) with ESMTP id 0DE4B714A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 04:31:39 +0000 (UTC)
+	Tue, 23 Sep 2014 06:11:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8N4VeJS018449
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 21:31:40 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 22 Sep 2014 21:31:40 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Sep 2014 21:31:39 -0700
-Message-ID: <fef1ff5442c6c1f0d4f7f8f600c996b2d0685fa9.1411446614.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1411446614.git.liezhi.yang@windriver.com>
-References: <cover.1411446614.git.liezhi.yang@windriver.com>
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8N6BiTa025892
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 22 Sep 2014 23:11:45 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Mon, 22 Sep 2014 23:11:44 -0700
+Message-ID: <54210F1F.10907@windriver.com>
+Date: Tue, 23 Sep 2014 14:11:43 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] ncurses: enable-pc-files requires PKG_CONFIG_LIBDIR existed
+To: Fathi Boudra <fathi.boudra@linaro.org>
+References: <cover.1411117403.git.kai.kang@windriver.com>	<65b2b92067da54c7ae1c4dcfee22e317798e6371.1411117403.git.kai.kang@windriver.com>
+	<CAGNsrLCEAtiAW5GpN7K-6jTuK0EgOyduVAREUyVhVt1gb4A-xg@mail.gmail.com>
+In-Reply-To: <CAGNsrLCEAtiAW5GpN7K-6jTuK0EgOyduVAREUyVhVt1gb4A-xg@mail.gmail.com>
+X-Originating-IP: [128.224.162.231]
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 9/9] perf: disable libunwind support for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +36,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Sep 2014 04:31:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 23 Sep 2014 06:11:54 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Fixed ncurses.do_configure:
-configure: WARNING: did not find library /path/to/tmp/sysroots/qemuarm/usr/lib/pkgconfig
+On 2014年09月23日 00:01, Fathi Boudra wrote:
+> On 19 September 2014 12:21, Kai Kang <kai.kang@windriver.com> wrote:
+>> Disable libunwind support of perl for aarch aarch64 that libunwind
+>> doesn't support aarch64.
+> typo:
+> perl -> perf
+> aarch -> arch
+>
+> Otherwise, the patch doesn't seems correct. libunwind supports aarch64
+> since libunwind 1.1 (you need to build with --enable-debug-frame).
 
-And then anyone requires ncurses.pc will fail.
+When do configure, it fails with:
 
-The configure.in checks:
-[snip]
-if test -n "$PKG_CONFIG_LIBDIR" && test -d "$PKG_CONFIG_LIBDIR" ; then
-[snip]
+| checking for ELF helper width... configure: error: Unknown ELF target: 
+aarch64
 
-Create PKG_CONFIG_LIBDIR in do_configure will fix the problem.
+It could be fixed by patching configure.ac:
 
-We can reproduce the problem by:
-Set SSTATE_DIR=/path/to/sstate-cache
-1) In build1, make sure everything is ready in SSTATE_DIR
-$ bitbake ncurses
-2) In build2, rebuild ncurses only:
-$ bitbake ncurses -ccleansstate && bitbake ncurses
+--- configure.ac.orig   2014-09-23 13:30:23.415975656 +0800
++++ configure.ac        2014-09-23 13:30:47.991976326 +0800
+@@ -137,7 +137,7 @@
+  AC_MSG_CHECKING([for ELF helper width])
+  case "${target_arch}" in
+  (arm|hppa|ppc32|x86|sh) use_elf32=yes; AC_MSG_RESULT([32]);;
+-(ia64|ppc64|x86_64)    use_elf64=yes; AC_MSG_RESULT([64]);;
++(aarch64|ia64|ppc64|x86_64)    use_elf64=yes; AC_MSG_RESULT([64]);;
+  (mips)                 use_elfxx=yes; AC_MSG_RESULT([xx]);;
+  *)                     AC_MSG_ERROR([Unknown ELF target: ${target_arch}])
+  esac
 
-Then we will see the warning in log.do_configure.
+And then it fails with do compile either:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-core/ncurses/ncurses.inc |    2 ++
- 1 file changed, 2 insertions(+)
+| ../include/libunwind.h:25:3: error: #error "Unsupported arch"
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index 521d0e4..10f7dd1 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -98,6 +98,8 @@ do_configure() {
-         # not the case for /dev/null redirections)
-         export cf_cv_working_poll=yes
- 
-+	# The --enable-pc-files requires PKG_CONFIG_LIBDIR existed
-+	mkdir -p ${PKG_CONFIG_LIBDIR}
- 	( cd ${S}; gnu-configize --force )
- 	ncurses_configure "narrowc" || \
- 		return 1
+In include/libunwind.h.in, it checks arch and include header accordingly.
+For aarch64, it lacks arch check and header file libunwind-arm64.h or 
+libunwind-aarch64.h.
+
+Thanks,
+Kai
+
+
+>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   meta/recipes-kernel/perf/perf-features.inc | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-kernel/perf/perf-features.inc b/meta/recipes-kernel/perf/perf-features.inc
+>> index 2dbbb47..7de35f3 100644
+>> --- a/meta/recipes-kernel/perf/perf-features.inc
+>> +++ b/meta/recipes-kernel/perf/perf-features.inc
+>> @@ -1,4 +1,5 @@
+>>   PERF_FEATURES_ENABLE ?= "perf-scripting perf-tui perf-libunwind"
+>> +PERF_FEATURES_ENABLE_remove_aarch64 = "perf-libunwind"
+>>
+>>   def perf_feature_enabled(feature, trueval, falseval, d):
+>>       """
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
 -- 
-1.7.9.5
+Regards,
+Neil | Kai Kang
 
 
