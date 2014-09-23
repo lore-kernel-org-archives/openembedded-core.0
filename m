@@ -1,36 +1,30 @@
-Return-Path: <mgloff@emacinc.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id DB8CD714A8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3192D6A9D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 20:33:13 +0000 (UTC)
-Received: by mail-ig0-f178.google.com with SMTP id r10so5303075igi.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 13:33:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ufIeh2UIdgha2LKWIXc9ukEgDbKGs8bg0qlsVZ77qbY=;
-	b=iRQPNcq41E4+qNML2jM5s4dD5TgSsE1wbfc8udDtg6BClIebf2vuhXijWYBN0k9OW3
-	QqZob1Uq6XLtZWcaSUA5GI6iiEiUI0f/HH9NJ1hLWKbswAX6Z3+HNP7LAlYBQVIGFelH
-	K1+lGFhuiVKYECvltqXh2JtiUyF1nADfI1Ecwecot7W7VAmgcXu8JjD7i7URfDAThzJp
-	9f1mJNd5d5JpF7NUk2uDT3RpD6uDjJ1LQnreJV/dKE9MnpOVISKYSlXGfVqXrO/AcddT
-	1KvV+1cMOsDCGi36kA8Q7hr9Tembr4g2QlG6Gl+4Qe77BKljZrKi9GkZbhHzYCu+v3Ls
-	8VtQ==
-X-Gm-Message-State: ALoCoQnAku7S6YU508NAlKFkffHOYoqVjvc1JtXOohQCvzpNCKOTA5rdZchEhXNs7AZqLspJTJ//
-X-Received: by 10.50.111.167 with SMTP id ij7mr25233647igb.49.1411504395134;
-	Tue, 23 Sep 2014 13:33:15 -0700 (PDT)
-Received: from eng-20-lx.emacinc.com ([66.186.100.194])
-	by mx.google.com with ESMTPSA id l9sm2512651igu.17.2014.09.23.13.33.14
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 23 Sep 2014 13:33:14 -0700 (PDT)
-From: Michael Gloff <mgloff@emacinc.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Sep 2014 15:33:08 -0500
-Message-Id: <1411504388-4251-1-git-send-email-mgloff@emacinc.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] syslog: Change unused variable declaration LOCAL=0 to LOG_LOCAL=1
+	Tue, 23 Sep 2014 20:37:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8NKbKoF011020; Tue, 23 Sep 2014 21:37:20 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id tl_plegusWWu; Tue, 23 Sep 2014 21:37:20 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8NKbIEd011017
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 23 Sep 2014 21:37:19 +0100
+Message-ID: <1411504641.4189.2.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Tue, 23 Sep 2014 21:37:21 +0100
+In-Reply-To: <e33476eb2f61c8a8be679e15114ef90321239dde.1411473883.git.hongxu.jia@windriver.com>
+References: <cover.1411473883.git.hongxu.jia@windriver.com>
+	<e33476eb2f61c8a8be679e15114ef90321239dde.1411473883.git.hongxu.jia@windriver.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] texinfo: fix info not work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,29 +37,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Sep 2014 20:33:16 -0000
+X-List-Received-Date: Tue, 23 Sep 2014 20:37:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This fix allows the correct appending of -L to syslogd arguments when both file and remote logging are selected.
+On Tue, 2014-09-23 at 22:19 +0800, Hongxu Jia wrote:
+> In texinfo, we didn't have info/dir entries, which caused
+> info not work.
+> ...
+> root@qemux86:~# info info
+> info: dir: No such file or directory
+> ...
+> Invoke install-info to create info/dir entries in pkg_postinst_info.
+> 
+> Also fix a QA Issue
+> ...
+> ERROR: QA Issue: texinfo: Files/directories were installed but not shipped
+>   /usr/share/info/info.info.bz2
+>   /usr/share/info/info-stnd.info.bz2 [installed-vs-shipped]
+> ...
+> 
+> [YOCTO #6751]
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/recipes-extended/texinfo/texinfo_5.2.bb | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-extended/texinfo/texinfo_5.2.bb b/meta/recipes-extended/texinfo/texinfo_5.2.bb
+> index be90aba..91552a9 100644
+> --- a/meta/recipes-extended/texinfo/texinfo_5.2.bb
+> +++ b/meta/recipes-extended/texinfo/texinfo_5.2.bb
+> @@ -51,7 +51,7 @@ do_install_append_class-native() {
+>  PACKAGES += "info info-doc"
+>  
+>  FILES_info = "${bindir}/info ${bindir}/infokey ${bindir}/install-info"
+> -FILES_info-doc = "${infodir}/info.info ${infodir}/dir ${infodir}/info-*.info \
+> +FILES_info-doc = "${infodir}/info.info* ${infodir}/dir ${infodir}/info-*.info* \
+>                    ${mandir}/man1/info.1* ${mandir}/man5/info.5* \
+>                    ${mandir}/man1/infokey.1* ${mandir}/man1/install-info.1*"
+>  
+> @@ -61,4 +61,10 @@ FILES_${PN}-doc = "${infodir}/texinfo* \
+>                     ${datadir}/${tex_texinfo} \
+>                     ${mandir}/man1 ${mandir}/man5"
+>  
+> +pkg_postinst_info () {
+> +    for f in `find $D/${infodir} -name "*.info*"`; do
+> +        install-info $f $D/${infodir}/dir
+> +    done
+> +}
+> +
+>  BBCLASSEXTEND = "native"
 
-Signed-off-by: Michael Gloff <mgloff@emacinc.com>
----
- meta/recipes-core/busybox/files/syslog |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/busybox/files/syslog b/meta/recipes-core/busybox/files/syslog
-index 2944d3d..89c4d12 100644
---- a/meta/recipes-core/busybox/files/syslog
-+++ b/meta/recipes-core/busybox/files/syslog
-@@ -28,7 +28,7 @@ if [ -f /etc/syslog-startup.conf ]; then
- 			if [ -n "$ROTATEGENS" ]; then
- 				SYSLOG_ARGS="$SYSLOG_ARGS -b $ROTATEGENS"
- 			fi
--			LOCAL=0
-+			LOG_LOCAL=1
- 		elif [ "$D" = "remote" ]; then
- 			SYSLOG_ARGS="$SYSLOG_ARGS -R $REMOTE"
- 			LOG_REMOTE=1
--- 
-1.7.9.5
+I think there are a few issues here. Firstly, this postinst can run at
+build time which means there is a dependency on texinfo-native. I guess
+if this fails, it will just run on target so its probably "harmless" but
+not deterministic. Secondly, anything installing an info directory
+really needs to update the dir files with its own postinst. For optimal
+handling at rootfs time, that will need trigger/intercept support.
+
+So this probably can merge as it improves things however we need some
+enhacement bugs opening related to this, we may want to force the
+postinst to run on target for now so things are deterministic too.
+
+Cheers,
+
+Richard
+
 
 
