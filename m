@@ -1,39 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id C8ED26FEA8
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 3603 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 23 Sep 2014 20:32:18 UTC
+Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
+	[206.46.173.19])
+	by mail.openembedded.org (Postfix) with ESMTP id AC6B4714A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 20:32:03 +0000 (UTC)
-Received: by mail-qc0-f179.google.com with SMTP id l6so2125226qcy.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 13:32:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=rvHkSHQDBu0R92h+yrCWERD7pZIqGR4qE9kkWJTUMZ4=;
-	b=I6L7+EvHGd0tDai6vfvIpfuf9rjHud3fiXQKg2WiUzWR435tSF94CRDfxEWQZTDEnn
-	SIQFVgUOZqVRL9HLUnMt/3zphUUhVD3ZSHKo7FK4JjmnV0fLwapVLNsSG1h5oDouQ7XN
-	enUVi6/met7+YzhFg7lGFH0kVov60xBMa85O3oJzSnfVnvPlVmipW6cz8JxBR62nLBVw
-	eAXTDcQxkKo4Efxn2uDi/Vriq0o6PHHJXJ5KJKUko0bjk99miE7wwrB7sCowd7EZeMBW
-	EIk1s5/Kv5kLAQ1YSq2+3T4aA1ls2Q/FsYepPOzdtpWAd9jik5/V1WFoU4uverAxu5J3
-	kIdg==
-X-Gm-Message-State: ALoCoQmoKujND7xITt+U6/YAHKwBD3SzOa7/VeAn5pMAalv4faNUDOK3R6ZOUXv2XqSYCBg5MkAH
-X-Received: by 10.229.231.68 with SMTP id jp4mr3244054qcb.4.1411504324271;
-	Tue, 23 Sep 2014 13:32:04 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Tue, 23 Sep 2014 13:31:43 -0700 (PDT)
-In-Reply-To: <20140923202717.GD2480@denix.org>
-References: <1410909001-3284-1-git-send-email-denis@denix.org>
-	<1410909001-3284-2-git-send-email-denis@denix.org>
-	<20140923202717.GD2480@denix.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Sep 2014 21:31:43 +0100
-Message-ID: <CAJTo0LZv3xoTQ8kX4DXcBTRE5LMgtuWj_D6Kzg_tS5M7W0WuiQ@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/2] u-boot: update to version 2014.07
+	Tue, 23 Sep 2014 20:32:18 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [108.18.33.160])
+	by vms173019.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0NCD0042CCXCXO00@vms173019.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 23 Sep 2014 14:32:01 -0500 (CDT)
+Received: from localhost.localdomain (elrond [192.168.0.7])
+	by gandalf.denix.org (Postfix) with ESMTP id 9ED1220357; Tue,
+	23 Sep 2014 15:32:00 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Sep 2014 15:31:54 -0400
+Message-id: <1411500714-17508-3-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.0.4
+In-reply-to: <1411500714-17508-1-git-send-email-denis@denix.org>
+References: <1411500714-17508-1-git-send-email-denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH 3/3] weston: update to version 1.6.0, add libinput PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,18 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Sep 2014 20:32:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 23 Sep 2014 20:32:18 -0000
 
-On 23 September 2014 21:27, Denys Dmytriyenko <denis@denix.org> wrote:
-> Just to confirm - this patch was purposefully skipped in this merge cycle,
-> right?
+From: Denys Dmytriyenko <denys@ti.com>
 
-Yes.  Pending a good rationale for why to break the freeze for u-boot
-it will wait for 1.8.
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ meta/recipes-graphics/wayland/{weston_1.5.0.bb => weston_1.6.0.bb} | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{weston_1.5.0.bb => weston_1.6.0.bb} (93%)
 
-(poky-contrib:ross/unfreeze is where i'm staging patches that look
-good for the 1.8 cycle)
+diff --git a/meta/recipes-graphics/wayland/weston_1.5.0.bb b/meta/recipes-graphics/wayland/weston_1.6.0.bb
+similarity index 93%
+rename from meta/recipes-graphics/wayland/weston_1.5.0.bb
+rename to meta/recipes-graphics/wayland/weston_1.6.0.bb
+index 4a8584f..efbbbe0 100644
+--- a/meta/recipes-graphics/wayland/weston_1.5.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.6.0.bb
+@@ -12,8 +12,8 @@ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://make-lcms-explicitly-configurable.patch \
+            file://make-libwebp-explicitly-configurable.patch \
+ "
+-SRC_URI[md5sum] = "8eb40d230efc2411f083c20656534780"
+-SRC_URI[sha256sum] = "06388ba04ac79aa72d685cc1a8e646ddb2b8cfe11fcc742294f9addac48b7684"
++SRC_URI[md5sum] = "c60ce9dde99a089db0539d8f6b557827"
++SRC_URI[sha256sum] = "dc3ea5d13bbf025fabc006216c5ddc0d80d5f4ebe778912b8c4d1d4acaaa614d"
+ 
+ inherit autotools pkgconfig useradd
+ 
+@@ -60,6 +60,8 @@ PACKAGECONFIG[cairo-glesv2] = "--with-cairo-glesv2,--with-cairo=image,cairo"
+ PACKAGECONFIG[lcms] = "--enable-lcms,--disable-lcms,lcms"
+ # Weston with webp support
+ PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp"
++# Weston with libinput backend
++PACKAGECONFIG[libinput] = "--enable-libinput-backend,--disable-libinput-backend,libinput"
+ 
+ do_install_append() {
+ 	# Weston doesn't need the .la files to load modules, so wipe them
+-- 
+2.0.4
 
-Ross
 
