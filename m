@@ -1,24 +1,26 @@
-Return-Path: <maciej.borzecki@open-rnd.pl>
-Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FD3F71551
+Return-Path: <tom.zanussi@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EB8771527
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 19:15:35 +0000 (UTC)
-Received: from comp-006-thk.localnet (unknown [78.8.239.243])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id EC5B43FD3B1;
-	Tue, 23 Sep 2014 21:15:35 +0200 (CEST)
-From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue, 23 Sep 2014 21:15:35 +0200
-Message-ID: <2738412.mu1sQAsdJT@comp-006-thk>
-User-Agent: KMail/4.13.3 (Linux/3.16.2-201.fc20.x86_64; KDE/4.14.1; x86_64; ; )
-In-Reply-To: <1411499359.15825.59.camel@ted>
+	Tue, 23 Sep 2014 19:29:02 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 23 Sep 2014 12:22:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,581,1406617200"; d="scan'208";a="607357203"
+Received: from justinda-mobl1.ger.corp.intel.com (HELO [10.255.12.217])
+	([10.255.12.217])
+	by orsmga002.jf.intel.com with ESMTP; 23 Sep 2014 12:28:43 -0700
+Message-ID: <1411500521.26861.33.camel@empanada.home.network>
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+Date: Tue, 23 Sep 2014 14:28:41 -0500
+In-Reply-To: <1411385721-22264-1-git-send-email-maciej.borzecki@open-rnd.pl>
 References: <1411385721-22264-1-git-send-email-maciej.borzecki@open-rnd.pl>
-	<4258812.nj1qq677CN@comp-006-thk> <1411499359.15825.59.camel@ted>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org,
-	Tom Zanussi <tom.zanussi@linux.intel.com>,
-	Otavio Salvador <otavio@ossystems.com.br>, Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH 9/9] beaglebone.conf: add IMAGE_BOOT_FILES
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: Denys Dmytriyenko <denys@ti.com>, Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [Patch 0/9]: support for generating SD images from wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,67 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Sep 2014 19:15:38 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 23 Sep 2014 19:29:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 23 of September 2014 20:09:19 Richard Purdie wrote:
-> On Tue, 2014-09-23 at 21:04 +0200, Maciej Borzecki wrote:
-> > On Tuesday 23 of September 2014 14:31:13 Denys Dmytriyenko wrote:
-> > > On Mon, Sep 22, 2014 at 01:35:21PM +0200, Maciej Borzecki wrote:
-> > > > Set IMAGE_BOOT_FILES to list of files that end up in boot
-> > > > partition. This in turn is used by wic to generate a bootable S=
-D card
-> > > > image.
-> > > >=20
-> > > > Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-> > > > Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
-> > >=20
-> > > Acked-by: Denys Dmytriyenko <denys@ti.com>
-> > >=20
-> > > But meta-yocto-bsp is not part of openembedded-core...
-> >=20
-> > Right, thanks for pointing that out. I did not want to cross post a=
-nd some
-> > of the patches depend on one another. Is yocto-bsp more applicable =
-for
-> > this one or just yocto ML?
->=20
-> It should be the poky list but in this case I'll take care of it (I j=
-ust
-> put it into master-next of meta-yocto).
+On Mon, 2014-09-22 at 13:35 +0200, Maciej Borzecki wrote:
+> This patch series is a proposal that adds support for generating SD
+> card images for embedded boards using wic. I did not want to cross
+> post to meta-ti and meta-freescale so Denys and Otavio are added in
+> CC. I would be glad to receive some feedback from you.
+> 
+> So far, the 2 most common scenarios I've seen are that either the boot
+> files need to be located in a specific partition, or the bootloader is
+> located within the disk image, typically directly following MBR. The
+> series implements support for the first case. The second case should
+> be easily supportable on top of this code.
+> 
+> Within the context of boot partition, the proposal adds a new variable
+> IMAGE_BOOT_FILES. The variable contains a list of files that need to
+> be copied to the boot partition, possibly being renamed during the
+> process (example BBB support lists u-boot.img and MLO, analogical
+> config can be made up for RsPI). By default the files are picked up
+> from DEPLOY_DIR_IMAGE.
+> 
+> Patches 1-4 solve some general problems in wic, so if these go through
+> review I'd recommend merging them to master. If that's more convenient
+> I can post them again as a separate series.
+> 
+> Patches 5-8 implement IMAGE_BOOT_FILES support, wic source plugin and
+> a kickstart for SD card.
+> 
+> Patch 9 adds IMAGE_BOOT_FILES to yocto-bsp BBB config.
+> 
 
-Great, thanks.
+This is a nice addition and thanks for fixing the smaller problems you
+found.
 
---=20
+For the whole series:
 
-Maciej Borz=C4=99cki=20
-Senior Software Engineer Open-RnD Sp. z o.o.=20
-www.open-rnd.pl, Facebook, Twitter=20
-mobile: +48 telefon, fax: +48 42 657 9079=20
+Acked-by: Tom Zanussi <tom.zanussi@intel.com>
 
-Niniejsza wiadomo=C5=9B=C4=87 wraz z za=C5=82=C4=85cznikami mo=C5=BCe z=
-awiera=C4=87 chronione prawem lub=20
-poufne informacje i zosta=C5=82a wys=C5=82ana wy=C5=82=C4=85cznie do wi=
-adomo=C5=9Bci i u=C5=BCytku os=C3=B3b, do=20
-kt=C3=B3rych zosta=C5=82a zaadresowana. Je=C5=9Bli wiadomo=C5=9B=C4=87 =
-zosta=C5=82a otrzymana przypadkowo=20
-zabrania si=C4=99 jej kopiowania lub rozsy=C5=82ania do os=C3=B3b trzec=
-ich. W takim przypadku=20
-uprasza si=C4=99 o natychmiastowe zniszczenie wiadomo=C5=9Bci oraz poin=
-formowanie=20
-nadawcy o zaistnia=C5=82ej sytuacji za pomoc=C4=85 wiadomo=C5=9Bci zwro=
-tnej. Dzi=C4=99kujemy.=20
 
-This message, including any attachments hereto, may contain privileged =
-or=20
-confidential information and is sent solely for the attention and use o=
-f the=20
-intended addressee(s). If you are not an intended addressee, you may ne=
-ither=20
-use this message nor copy or deliver it to anyone. In such case, you sh=
-ould=20
-immediately destroy this message and kindly notify the sender by reply =
-email.=20
-Thank you. 
 
