@@ -1,37 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id B536A60167
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A645365FFC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 14:52:55 +0000 (UTC)
-Received: by mail-qc0-f177.google.com with SMTP id x13so1810308qcv.8
+	Tue, 23 Sep 2014 14:56:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8NEuVEN025781 for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Sep 2014 15:56:31 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id YlQPbLt4sKHh
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 07:52:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=L8ojX2QVoWFT4yAQD4pMxR7SeJufEWpDvW1U20Nub7o=;
-	b=FLU6UZ4n82IxxcfMblJzZ0gkogyfHDdulKO9I1fOZoIOuWMT4uvAxn1TudL9lSVXzr
-	FifBfwvnvI7AK5IOLSqfrDGmcdcQ6BEV9p/VjdZLbcGcTSXkds2giSasuEV5ikIZC+g6
-	nJgR75sa9y1AYJowKLEUSOGbbl7a8BVmPgpICwJvYDwqau99xQFQ6OnPgcdHKAD8x2Xk
-	tJPu6t1Zfk/Y7rTYMlHWzuZgFXni2Ci5fc48E5+eisoNcVbhAadskZsB7opcUMpiGc95
-	SP8yCTg5QjY/sGF8dqGd6DuV8aEugIsKOlYPF4Mhmj8BFgCYWZRXvCQL1TbL3GScc8M9
-	q9rQ==
-X-Gm-Message-State: ALoCoQkT8Rzy4yIU2fhCM+pj21XLNc9PGoMlXWNw9bmiMt20isgFf25RBDnVwx+P6LTXsf7X0oT5
-X-Received: by 10.140.94.144 with SMTP id g16mr31990873qge.77.1411483976476;
-	Tue, 23 Sep 2014 07:52:56 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Tue, 23 Sep 2014 07:52:36 -0700 (PDT)
-In-Reply-To: <e33476eb2f61c8a8be679e15114ef90321239dde.1411473883.git.hongxu.jia@windriver.com>
-References: <cover.1411473883.git.hongxu.jia@windriver.com>
-	<e33476eb2f61c8a8be679e15114ef90321239dde.1411473883.git.hongxu.jia@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Sep 2014 15:52:36 +0100
-Message-ID: <CAJTo0LZJFpqwAunH5phXyrdJ07y9RwoKqrAAbq6WPi=vVBHrpQ@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] texinfo: fix info not work
+	Tue, 23 Sep 2014 15:56:31 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8NEuS7w025769
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Sep 2014 15:56:30 +0100
+Message-ID: <1411484191.15825.42.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 23 Sep 2014 15:56:31 +0100
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Subject: [PATCH] oe-init-build-env-memres: Fix automatic port usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,18 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Sep 2014 14:53:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 23 Sep 2014 14:56:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 23 September 2014 15:19, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> +pkg_postinst_info () {
-> +    for f in `find $D/${infodir} -name "*.info*"`; do
-> +        install-info $f $D/${infodir}/dir
-> +    done
-> +}
+The use of an automatic port wasn't working correctly since the server
+was never getting started when port == -1. This fixes things so the
+server is started when port is not specified (i.e. automatic) ensuring 
+this happens before BBSERVER is set.
 
-For future, this seems like the sort of thing we need a class for.
-There is a texinfo.bbclass now...
+[YOCTO #6563]
 
-Ross
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/oe-init-build-env-memres b/oe-init-build-env-memres
+index 0007998..9b9e0f4 100755
+--- a/oe-init-build-env-memres
++++ b/oe-init-build-env-memres
+@@ -60,14 +60,14 @@ if [ -e bitbake.lock ] && grep : bitbake.lock > /dev/null ; then
+     res=$?
+ fi
+ 
++if [ $res != 0 ] ; then
++    bitbake --server-only -t xmlrpc -B localhost:$port
++fi
++
+ if [ $port = -1 ] ; then
+     export BBSERVER=localhost:-1
+     echo "Bitbake server started on demand as needed, use bitbake -m to shut it down"
+ else
+-    if [ $res != 0 ] ; then
+-	bitbake --server-only -t xmlrpc -B localhost:$port
+-    fi
+-
+     export BBSERVER=`cat bitbake.lock`
+ 
+     if [ $res = 0 ] ; then
+
+
 
