@@ -1,26 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E099E6B8F6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 1671F60167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 14:20:09 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8NEKBTc019903
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 23 Sep 2014 14:47:48 +0000 (UTC)
+Received: by mail-qg0-f50.google.com with SMTP id q107so4460591qgd.37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 07:20:11 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 23 Sep 2014 07:20:10 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 Sep 2014 22:19:59 +0800
-Message-ID: <e33476eb2f61c8a8be679e15114ef90321239dde.1411473883.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1411473883.git.hongxu.jia@windriver.com>
-References: <cover.1411473883.git.hongxu.jia@windriver.com>
+	Tue, 23 Sep 2014 07:47:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=kPWVPB0sJP3mppaTuqidOTPGYbjgg7lWlhy1cUSKEKE=;
+	b=RBrGBQhyzj/ygR/aVCR418khszSskbZRGSWzJdj6NxMMyXX1ko73eyJXLTvTG96aUh
+	vXAT8CjXze6Tk+b/t1MEm5qnnQTdbU/5+/d2I8bjesa+GpRh/MzmH8+9HzFxqXWHIjUS
+	/YzAaofOIrRKfhrc5vfRZsQOMEvRC6B8KysFmIGe9MEaJUf3EIPgaYUeFJ2u51o6b1hG
+	pJZqhndBedJUAQm1pUiDKRdCCupYO9xeGFWaKqbH8/daQhRLocvacUJPiHppzf8PZLTU
+	qRj6fl0kUoH8f5P+yO/y1YlETqf0SyH6s8qh041DXsBohEfyBC/wTwvmdoxr4HFQ0q71
+	HeCA==
+X-Gm-Message-State: ALoCoQmN2dv04URNDMw/zBGmSaFEBBiJvv73Ln0LT8zeR47OU+gsjme8Jk4uQdGqzCpDlzdUZMCM
+X-Received: by 10.229.74.136 with SMTP id u8mr166039qcj.5.1411483667953; Tue,
+	23 Sep 2014 07:47:47 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 3/3] texinfo: fix info not work
+Received: by 10.140.34.180 with HTTP; Tue, 23 Sep 2014 07:47:26 -0700 (PDT)
+In-Reply-To: <b5499b7e326e64e196dd73e7229ad9c483b72ff8.1411473883.git.hongxu.jia@windriver.com>
+References: <cover.1411473883.git.hongxu.jia@windriver.com>
+	<b5499b7e326e64e196dd73e7229ad9c483b72ff8.1411473883.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 Sep 2014 15:47:26 +0100
+Message-ID: <CAJTo0LZcTFqhyWKTcYiWDHUCP-zKsYucnjPx9J1yjA3Zi66rvg@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] busybox: enable CONFIG_BZIP2/CONFIG_XZ/CONFIG_UNXZ by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,56 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Sep 2014 14:20:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 23 Sep 2014 14:47:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-In texinfo, we didn't have info/dir entries, which caused
-info not work.
-...
-root@qemux86:~# info info
-info: dir: No such file or directory
-...
-Invoke install-info to create info/dir entries in pkg_postinst_info.
+On 23 September 2014 15:19, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> It was required by info/man command to compress/decompress
+> doc pages with xz/bz2 compression.
 
-Also fix a QA Issue
-...
-ERROR: QA Issue: texinfo: Files/directories were installed but not shipped
-  /usr/share/info/info.info.bz2
-  /usr/share/info/info-stnd.info.bz2 [installed-vs-shipped]
-...
+When changing busybox configuration, it's helpful to list the size change.
 
-[YOCTO #6751]
+So for anyone else curious, buildhistory reports the package size (not
+the binary size) as:
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-extended/texinfo/texinfo_5.2.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+-PKGSIZE = 573632
++PKGSIZE = 585144
 
-diff --git a/meta/recipes-extended/texinfo/texinfo_5.2.bb b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-index be90aba..91552a9 100644
---- a/meta/recipes-extended/texinfo/texinfo_5.2.bb
-+++ b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-@@ -51,7 +51,7 @@ do_install_append_class-native() {
- PACKAGES += "info info-doc"
- 
- FILES_info = "${bindir}/info ${bindir}/infokey ${bindir}/install-info"
--FILES_info-doc = "${infodir}/info.info ${infodir}/dir ${infodir}/info-*.info \
-+FILES_info-doc = "${infodir}/info.info* ${infodir}/dir ${infodir}/info-*.info* \
-                   ${mandir}/man1/info.1* ${mandir}/man5/info.5* \
-                   ${mandir}/man1/infokey.1* ${mandir}/man1/install-info.1*"
- 
-@@ -61,4 +61,10 @@ FILES_${PN}-doc = "${infodir}/texinfo* \
-                    ${datadir}/${tex_texinfo} \
-                    ${mandir}/man1 ${mandir}/man5"
- 
-+pkg_postinst_info () {
-+    for f in `find $D/${infodir} -name "*.info*"`; do
-+        install-info $f $D/${infodir}/dir
-+    done
-+}
-+
- BBCLASSEXTEND = "native"
--- 
-1.9.1
-
+Ross
 
