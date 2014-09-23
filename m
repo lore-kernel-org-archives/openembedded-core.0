@@ -1,29 +1,36 @@
-Return-Path: <denis@denix.org>
-X-Greylist: delayed 3603 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 23 Sep 2014 20:32:18 UTC
-Received: from vms173019pub.verizon.net (vms173019pub.verizon.net
-	[206.46.173.19])
-	by mail.openembedded.org (Postfix) with ESMTP id AC6B4714A8
+Return-Path: <mgloff@emacinc.com>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id DB8CD714A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 20:32:18 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [108.18.33.160])
-	by vms173019.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0NCD0042CCXCXO00@vms173019.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Tue, 23 Sep 2014 14:32:01 -0500 (CDT)
-Received: from localhost.localdomain (elrond [192.168.0.7])
-	by gandalf.denix.org (Postfix) with ESMTP id 9ED1220357; Tue,
-	23 Sep 2014 15:32:00 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
+	Tue, 23 Sep 2014 20:33:13 +0000 (UTC)
+Received: by mail-ig0-f178.google.com with SMTP id r10so5303075igi.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Sep 2014 13:33:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ufIeh2UIdgha2LKWIXc9ukEgDbKGs8bg0qlsVZ77qbY=;
+	b=iRQPNcq41E4+qNML2jM5s4dD5TgSsE1wbfc8udDtg6BClIebf2vuhXijWYBN0k9OW3
+	QqZob1Uq6XLtZWcaSUA5GI6iiEiUI0f/HH9NJ1hLWKbswAX6Z3+HNP7LAlYBQVIGFelH
+	K1+lGFhuiVKYECvltqXh2JtiUyF1nADfI1Ecwecot7W7VAmgcXu8JjD7i7URfDAThzJp
+	9f1mJNd5d5JpF7NUk2uDT3RpD6uDjJ1LQnreJV/dKE9MnpOVISKYSlXGfVqXrO/AcddT
+	1KvV+1cMOsDCGi36kA8Q7hr9Tembr4g2QlG6Gl+4Qe77BKljZrKi9GkZbhHzYCu+v3Ls
+	8VtQ==
+X-Gm-Message-State: ALoCoQnAku7S6YU508NAlKFkffHOYoqVjvc1JtXOohQCvzpNCKOTA5rdZchEhXNs7AZqLspJTJ//
+X-Received: by 10.50.111.167 with SMTP id ij7mr25233647igb.49.1411504395134;
+	Tue, 23 Sep 2014 13:33:15 -0700 (PDT)
+Received: from eng-20-lx.emacinc.com ([66.186.100.194])
+	by mx.google.com with ESMTPSA id l9sm2512651igu.17.2014.09.23.13.33.14
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 23 Sep 2014 13:33:14 -0700 (PDT)
+From: Michael Gloff <mgloff@emacinc.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Sep 2014 15:31:54 -0400
-Message-id: <1411500714-17508-3-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.0.4
-In-reply-to: <1411500714-17508-1-git-send-email-denis@denix.org>
-References: <1411500714-17508-1-git-send-email-denis@denix.org>
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH 3/3] weston: update to version 1.6.0, add libinput PACKAGECONFIG
+Date: Tue, 23 Sep 2014 15:33:08 -0500
+Message-Id: <1411504388-4251-1-git-send-email-mgloff@emacinc.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] syslog: Change unused variable declaration LOCAL=0 to LOG_LOCAL=1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,44 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Sep 2014 20:32:18 -0000
+X-List-Received-Date: Tue, 23 Sep 2014 20:33:16 -0000
 
-From: Denys Dmytriyenko <denys@ti.com>
+This fix allows the correct appending of -L to syslogd arguments when both file and remote logging are selected.
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Signed-off-by: Michael Gloff <mgloff@emacinc.com>
 ---
- meta/recipes-graphics/wayland/{weston_1.5.0.bb => weston_1.6.0.bb} | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{weston_1.5.0.bb => weston_1.6.0.bb} (93%)
+ meta/recipes-core/busybox/files/syslog |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.5.0.bb b/meta/recipes-graphics/wayland/weston_1.6.0.bb
-similarity index 93%
-rename from meta/recipes-graphics/wayland/weston_1.5.0.bb
-rename to meta/recipes-graphics/wayland/weston_1.6.0.bb
-index 4a8584f..efbbbe0 100644
---- a/meta/recipes-graphics/wayland/weston_1.5.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.6.0.bb
-@@ -12,8 +12,8 @@ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://make-lcms-explicitly-configurable.patch \
-            file://make-libwebp-explicitly-configurable.patch \
- "
--SRC_URI[md5sum] = "8eb40d230efc2411f083c20656534780"
--SRC_URI[sha256sum] = "06388ba04ac79aa72d685cc1a8e646ddb2b8cfe11fcc742294f9addac48b7684"
-+SRC_URI[md5sum] = "c60ce9dde99a089db0539d8f6b557827"
-+SRC_URI[sha256sum] = "dc3ea5d13bbf025fabc006216c5ddc0d80d5f4ebe778912b8c4d1d4acaaa614d"
- 
- inherit autotools pkgconfig useradd
- 
-@@ -60,6 +60,8 @@ PACKAGECONFIG[cairo-glesv2] = "--with-cairo-glesv2,--with-cairo=image,cairo"
- PACKAGECONFIG[lcms] = "--enable-lcms,--disable-lcms,lcms"
- # Weston with webp support
- PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp"
-+# Weston with libinput backend
-+PACKAGECONFIG[libinput] = "--enable-libinput-backend,--disable-libinput-backend,libinput"
- 
- do_install_append() {
- 	# Weston doesn't need the .la files to load modules, so wipe them
+diff --git a/meta/recipes-core/busybox/files/syslog b/meta/recipes-core/busybox/files/syslog
+index 2944d3d..89c4d12 100644
+--- a/meta/recipes-core/busybox/files/syslog
++++ b/meta/recipes-core/busybox/files/syslog
+@@ -28,7 +28,7 @@ if [ -f /etc/syslog-startup.conf ]; then
+ 			if [ -n "$ROTATEGENS" ]; then
+ 				SYSLOG_ARGS="$SYSLOG_ARGS -b $ROTATEGENS"
+ 			fi
+-			LOCAL=0
++			LOG_LOCAL=1
+ 		elif [ "$D" = "remote" ]; then
+ 			SYSLOG_ARGS="$SYSLOG_ARGS -R $REMOTE"
+ 			LOG_REMOTE=1
 -- 
-2.0.4
+1.7.9.5
 
 
