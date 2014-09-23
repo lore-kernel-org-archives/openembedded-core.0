@@ -1,24 +1,33 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A6F7960144
+Return-Path: <boon.leong.ong@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 978566FDEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 00:45:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8N0jhT7015054
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Sep 2014 17:45:44 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.141) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 22 Sep 2014 17:45:43 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 Sep 2014 08:45:42 +0800
-Message-ID: <1411433142-9309-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Tue, 23 Sep 2014 01:28:39 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 22 Sep 2014 18:19:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,576,1406617200"; d="scan'208";a="595310801"
+Received: from pgsmsx101.gar.corp.intel.com ([10.221.44.78])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Sep 2014 18:28:40 -0700
+Received: from pgsmsx106.gar.corp.intel.com (10.221.44.98) by
+	PGSMSX101.gar.corp.intel.com (10.221.44.78) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Tue, 23 Sep 2014 09:28:00 +0800
+Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.169]) by
+	pgsmsx106.gar.corp.intel.com ([169.254.9.245]) with mapi id
+	14.03.0195.001; Tue, 23 Sep 2014 09:27:59 +0800
+From: "Ong, Boon Leong" <boon.leong.ong@intel.com>
+To: "'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Python Large File System Support
+Thread-Index: Ac/WzRcu6+IDUCz7St6JngBd02/9OA==
+Date: Tue, 23 Sep 2014 01:27:58 +0000
+Message-ID: <AF233D1473C1364ABD51D28909A1B1B732581ED4@pgsmsx105.gar.corp.intel.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-Subject: [PATCH v2] gnupg: add pinentry into RRECOMMENDS
+Subject: Python Large File System Support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Sep 2014 00:45:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 23 Sep 2014 01:28:41 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Roy Li <rongqing.li@windriver.com>
+Dear all,=20
 
-Pinentry is needed for most function of GnuPG, so add it into RRECOMMENDS
+Based on https://docs.python.org/2/library/posix.html, in order to support =
+LFS in python,=20
+there is a special CFLAGS "-D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=3D64" =
+needed.
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-support/gnupg/gnupg_2.0.26.bb |    1 +
- 1 file changed, 1 insertion(+)
+I did a search around meta/recipes-devtool/python found many recipes files.=
+ =20
+So, I am reaching out to expert in this forum to guide on which is the righ=
+t file
+to be touched to enabled LFS?=20
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.0.26.bb b/meta/recipes-support/gnupg/gnupg_2.0.26.bb
-index c460b7e..92dd3bd 100644
---- a/meta/recipes-support/gnupg/gnupg_2.0.26.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.0.26.bb
-@@ -23,6 +23,7 @@ EXTRA_OECONF = "--disable-ldap \
- 		--with-bzip2=${STAGING_LIBDIR}/.. \
-                 --with-readline=${STAGING_LIBDIR}/.. \
-                "
-+RRECOMMENDS_${PN} = "pinentry"
- 
- do_configure_prepend () {
- 	# Else these could be used in prefernce to those in aclocal-copy
--- 
-1.7.10.4
+I notice perl seems to have this supported in recipes and I believe python =
+user would
+benefit from this enabling too.
+
+Thanks..
+
+Ong Boon Leong
 
 
