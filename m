@@ -1,33 +1,24 @@
-Return-Path: <boon.leong.ong@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 978566FDEB
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AA9865CB2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 01:28:39 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 22 Sep 2014 18:19:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,576,1406617200"; d="scan'208";a="595310801"
-Received: from pgsmsx101.gar.corp.intel.com ([10.221.44.78])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Sep 2014 18:28:40 -0700
-Received: from pgsmsx106.gar.corp.intel.com (10.221.44.98) by
-	PGSMSX101.gar.corp.intel.com (10.221.44.78) with Microsoft SMTP Server
-	(TLS) id 14.3.195.1; Tue, 23 Sep 2014 09:28:00 +0800
-Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.169]) by
-	pgsmsx106.gar.corp.intel.com ([169.254.9.245]) with mapi id
-	14.03.0195.001; Tue, 23 Sep 2014 09:27:59 +0800
-From: "Ong, Boon Leong" <boon.leong.ong@intel.com>
-To: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Python Large File System Support
-Thread-Index: Ac/WzRcu6+IDUCz7St6JngBd02/9OA==
-Date: Tue, 23 Sep 2014 01:27:58 +0000
-Message-ID: <AF233D1473C1364ABD51D28909A1B1B732581ED4@pgsmsx105.gar.corp.intel.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.20.205]
+	Tue, 23 Sep 2014 04:31:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8N4Ve1p016649
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Sep 2014 21:31:40 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 22 Sep 2014 21:31:39 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 22 Sep 2014 21:31:38 -0700
+Message-ID: <cover.1411446614.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: Python Large File System Support
+Subject: [PATCH 0/1] ncurses: enable-pc-files requires PKG_CONFIG_LIBDIR existed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,30 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Sep 2014 01:28:41 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 23 Sep 2014 04:31:41 -0000
+Content-Type: text/plain
 
-Dear all,=20
+The following changes since commit e72aac2ae9e5fce1715fa04b7e94034fd06892d9:
 
-Based on https://docs.python.org/2/library/posix.html, in order to support =
-LFS in python,=20
-there is a special CFLAGS "-D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=3D64" =
-needed.
+  alsa-lib: libasound should runtime depends on alsa-conf (2014-09-03 11:30:11 +0100)
 
-I did a search around meta/recipes-devtool/python found many recipes files.=
- =20
-So, I am reaching out to expert in this forum to guide on which is the righ=
-t file
-to be touched to enabled LFS?=20
+are available in the git repository at:
 
-I notice perl seems to have this supported in recipes and I believe python =
-user would
-benefit from this enabling too.
+  git://git.openembedded.org/openembedded-core-contrib rbt/ncurses
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/ncurses
 
-Thanks..
+Robert Yang (1):
+  ncurses: enable-pc-files requires PKG_CONFIG_LIBDIR existed
 
-Ong Boon Leong
+ meta/recipes-core/ncurses/ncurses.inc |    2 ++
+ 1 file changed, 2 insertions(+)
+
+-- 
+1.7.9.5
 
 
