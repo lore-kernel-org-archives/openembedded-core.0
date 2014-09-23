@@ -1,24 +1,40 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 93FA365CB2
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
+	[209.85.217.169])
+	by mail.openembedded.org (Postfix) with ESMTP id D41F365DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 07:57:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8N7vepY009207
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 23 Sep 2014 08:23:48 +0000 (UTC)
+Received: by mail-lb0-f169.google.com with SMTP id b12so8289661lbj.14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Sep 2014 00:57:40 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.141) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 23 Sep 2014 00:57:39 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 Sep 2014 15:57:39 +0800
-Message-ID: <1411459059-16110-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Tue, 23 Sep 2014 01:23:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=OrkekcBuZE9iauHQ00+WJoRsL8KRAcuTSvibBisA6LI=;
+	b=HDsUGx2X7ninTqVBEHobSVPH0HoBf0+csrxJbDGzf0yhIu3Kms9b1o6fOeLxM4o1uQ
+	TBxq8H3NK9VBamkOwaX5YI3kfGJE0vWaBJF9StnQUKNRK6Ioj0PhM5Sv6fcyU7nNo6E2
+	Y+hMDq7paC//VV3YOo8mrreOgzxZNVi3OMf2FVxRz/7l5WkWnSbyR4JX6a4btQDOMwSp
+	4Vd19X3RmAs7E/HxEAPNRuowfhkAfFID/n6I7b+cBXEBR2fr/FU3yE4lyGZpGHdR7MUg
+	FAOZ5aiJSqRHrqO9FIB8GnL94/YQULqLTTXXo9pA7WYVaMW3UBEz8Nr4z4NZUO+Hsphg
+	ZgzQ==
+X-Gm-Message-State: ALoCoQntVjuaf4sB9sJvdTVBmj2PxT/kGmAjjUMqr60Xc/NycKjxxQXhHDkL/cwBMRGo1wdClEwJ
 MIME-Version: 1.0
-Subject: [PATCH] ltp: make setregid02 be able to pass
+X-Received: by 10.153.4.39 with SMTP id cb7mr30999750lad.19.1411460628849;
+	Tue, 23 Sep 2014 01:23:48 -0700 (PDT)
+Received: by 10.112.205.165 with HTTP; Tue, 23 Sep 2014 01:23:48 -0700 (PDT)
+In-Reply-To: <54210F1F.10907@windriver.com>
+References: <cover.1411117403.git.kai.kang@windriver.com>
+	<65b2b92067da54c7ae1c4dcfee22e317798e6371.1411117403.git.kai.kang@windriver.com>
+	<CAGNsrLCEAtiAW5GpN7K-6jTuK0EgOyduVAREUyVhVt1gb4A-xg@mail.gmail.com>
+	<54210F1F.10907@windriver.com>
+Date: Tue, 23 Sep 2014 11:23:48 +0300
+Message-ID: <CAGNsrLDiRpTjOxhpppTxe8H8UJUrLxxnxxKaZq4MXuAV+HMJDQ@mail.gmail.com>
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: Kang Kai <Kai.Kang@windriver.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 9/9] perf: disable libunwind support for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,103 +47,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Sep 2014 07:57:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 23 Sep 2014 08:23:52 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: "Roy.Li" <rongqing.li@windriver.com>
+On 23 September 2014 09:11, Kang Kai <Kai.Kang@windriver.com> wrote:
+> On 2014=E5=B9=B409=E6=9C=8823=E6=97=A5 00:01, Fathi Boudra wrote:
+>>
+>> On 19 September 2014 12:21, Kai Kang <kai.kang@windriver.com> wrote:
+>>>
+>>> Disable libunwind support of perl for aarch aarch64 that libunwind
+>>> doesn't support aarch64.
+>>
+>> typo:
+>> perl -> perf
+>> aarch -> arch
+>>
+>> Otherwise, the patch doesn't seems correct. libunwind supports aarch64
+>> since libunwind 1.1 (you need to build with --enable-debug-frame).
+>
+>
+> When do configure, it fails with:
+>
+> | checking for ELF helper width... configure: error: Unknown ELF target:
+> aarch64
+>
+> It could be fixed by patching configure.ac:
+>
+> --- configure.ac.orig   2014-09-23 13:30:23.415975656 +0800
+> +++ configure.ac        2014-09-23 13:30:47.991976326 +0800
+> @@ -137,7 +137,7 @@
+>  AC_MSG_CHECKING([for ELF helper width])
+>  case "${target_arch}" in
+>  (arm|hppa|ppc32|x86|sh) use_elf32=3Dyes; AC_MSG_RESULT([32]);;
+> -(ia64|ppc64|x86_64)    use_elf64=3Dyes; AC_MSG_RESULT([64]);;
+> +(aarch64|ia64|ppc64|x86_64)    use_elf64=3Dyes; AC_MSG_RESULT([64]);;
+>  (mips)                 use_elfxx=3Dyes; AC_MSG_RESULT([xx]);;
+>  *)                     AC_MSG_ERROR([Unknown ELF target: ${target_arch}]=
+)
+>  esac
+>
+> And then it fails with do compile either:
+>
+> | ../include/libunwind.h:25:3: error: #error "Unsupported arch"
+>
+> In include/libunwind.h.in, it checks arch and include header accordingly.
+> For aarch64, it lacks arch check and header file libunwind-arm64.h or
+> libunwind-aarch64.h.
 
-[YOCTO #6748]
 
-replace "nobody" group with "nogroup", since the user "nobody"
-belongs to "nogroup" group and no "nobody" group in oe-core
+right, we've upstreamed aarch64 support but it hasn't been released in 1.1.
+we need the following patches:
+http://git.savannah.gnu.org/gitweb/?p=3Dlibunwind.git;a=3Dcommitdiff;h=3Dac=
+6c0a6535975f1dc2da6e4e2766614baac2a14a
+http://git.savannah.gnu.org/gitweb/?p=3Dlibunwind.git;a=3Dcommitdiff;h=3D2c=
+b00c1eaca437e41556ad5512149508fcc7cb82
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- .../ltp/ltp/make-setregid02-work.patch             |   61 ++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20140422.bb          |    1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/make-setregid02-work.patch
-
-diff --git a/meta/recipes-extended/ltp/ltp/make-setregid02-work.patch b/meta/recipes-extended/ltp/ltp/make-setregid02-work.patch
-new file mode 100644
-index 0000000..4836010
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/make-setregid02-work.patch
-@@ -0,0 +1,61 @@
-+[PATCH] make setregid02 work
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+there is no "nobody" group in oe-core, the user "nobody" belongs to
-+"nogroup" group, so replace nobody with nogroup to make the test pass
-+
-+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-+---
-+ testcases/kernel/syscalls/setregid/setregid02.c | 16 ++++++++--------
-+ 1 file changed, 8 insertions(+), 8 deletions(-)
-+
-+diff --git a/testcases/kernel/syscalls/setregid/setregid02.c b/testcases/kernel/syscalls/setregid/setregid02.c
-+index 8058627..866bee4 100644
-+--- a/testcases/kernel/syscalls/setregid/setregid02.c
-++++ b/testcases/kernel/syscalls/setregid/setregid02.c
-+@@ -41,7 +41,7 @@ static gid_t neg_one = -1;
-+ 
-+ static struct passwd *ltpuser;
-+ 
-+-static struct group nobody, root, bin;
-++static struct group nogroup, root, bin;
-+ 
-+ /*
-+  * The following structure contains all test data.  Each structure in the array
-+@@ -57,17 +57,17 @@ struct test_data_t {
-+ 	char *test_msg;
-+ } test_data[] = {
-+ 	{
-+-	&neg_one, &root.gr_gid, EPERM, &nobody, &nobody,
-++	&neg_one, &root.gr_gid, EPERM, &nogroup, &nogroup,
-+ 		    "After setregid(-1, root),"}, {
-+-	&neg_one, &bin.gr_gid, EPERM, &nobody, &nobody,
-++	&neg_one, &bin.gr_gid, EPERM, &nogroup, &nogroup,
-+ 		    "After setregid(-1, bin)"}, {
-+-	&root.gr_gid, &neg_one, EPERM, &nobody, &nobody,
-++	&root.gr_gid, &neg_one, EPERM, &nogroup, &nogroup,
-+ 		    "After setregid(root,-1),"}, {
-+-	&bin.gr_gid, &neg_one, EPERM, &nobody, &nobody,
-++	&bin.gr_gid, &neg_one, EPERM, &nogroup, &nogroup,
-+ 		    "After setregid(bin, -1),"}, {
-+-	&root.gr_gid, &bin.gr_gid, EPERM, &nobody, &nobody,
-++	&root.gr_gid, &bin.gr_gid, EPERM, &nogroup, &nogroup,
-+ 		    "After setregid(root, bin)"}, {
-+-	&bin.gr_gid, &root.gr_gid, EPERM, &nobody, &nobody,
-++	&bin.gr_gid, &root.gr_gid, EPERM, &nogroup, &nogroup,
-+ 		    "After setregid(bin, root),"}
-+ };
-+ 
-+@@ -165,7 +165,7 @@ static void setup(void)
-+ } while (0)
-+ 
-+ 	GET_GID(root);
-+-	GET_GID(nobody);
-++	GET_GID(nogroup);
-+ 	GET_GID(bin);
-+ 
-+ 	TEST_PAUSE;
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20140422.bb b/meta/recipes-extended/ltp/ltp_20140422.bb
-index 30761fd..a3f0ef7 100644
---- a/meta/recipes-extended/ltp/ltp_20140422.bb
-+++ b/meta/recipes-extended/ltp/ltp_20140422.bb
-@@ -26,6 +26,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-     file://0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch \
-     file://ltp-Do-not-link-against-libfl.patch \
-     file://automake-foreign.patch \
-+    file://make-setregid02-work.patch \
- "
- 
- S = "${WORKDIR}/git"
--- 
-1.7.10.4
-
+> Thanks,
+> Kai
+>
+>
+>
+>>
+>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>>> ---
+>>>   meta/recipes-kernel/perf/perf-features.inc | 1 +
+>>>   1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/meta/recipes-kernel/perf/perf-features.inc
+>>> b/meta/recipes-kernel/perf/perf-features.inc
+>>> index 2dbbb47..7de35f3 100644
+>>> --- a/meta/recipes-kernel/perf/perf-features.inc
+>>> +++ b/meta/recipes-kernel/perf/perf-features.inc
+>>> @@ -1,4 +1,5 @@
+>>>   PERF_FEATURES_ENABLE ?=3D "perf-scripting perf-tui perf-libunwind"
+>>> +PERF_FEATURES_ENABLE_remove_aarch64 =3D "perf-libunwind"
+>>>
+>>>   def perf_feature_enabled(feature, trueval, falseval, d):
+>>>       """
+>>> --
+>>> 1.9.1
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+>
+>
+> --
+> Regards,
+> Neil | Kai Kang
 
