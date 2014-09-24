@@ -1,26 +1,22 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 511CB71555
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B5C6715E7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 15:28:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8OFSDes006114
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Sep 2014 08:28:18 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 24 Sep 2014 08:28:09 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
-	<richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
-Date: Wed, 24 Sep 2014 23:27:53 +0800
-Message-ID: <698828316417388ee9440e92d8be4efc64094fac.1411572129.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1411572129.git.hongxu.jia@windriver.com>
-References: <cover.1411572129.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 4/4] man/texinfo: conditionally add gzip/bzip2/xz to RDEPENDS
+	Wed, 24 Sep 2014 16:35:23 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Sep 2014 09:34:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,590,1406617200"; d="scan'208";a="604743204"
+Received: from dvhart-mac01.jf.intel.com (HELO [10.24.25.71]) ([10.24.25.71])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Sep 2014 09:34:55 -0700
+User-Agent: Microsoft-MacOutlook/14.4.3.140616
+Date: Wed, 24 Sep 2014 09:34:53 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Message-ID: <D04840BD.A9FE9%dvhart@linux.intel.com>
+Thread-Topic: daisy: runtime-reverse/udev-hwdb missing during do_rootfs
+Mime-version: 1.0
+Subject: daisy: runtime-reverse/udev-hwdb missing during do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +29,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Sep 2014 15:28:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Sep 2014 16:35:31 -0000
+Content-type: text/plain;
+	charset="US-ASCII"
+Content-transfer-encoding: 7bit
 
-Conditionally add 'xz/bz2/gzip' to info/man's RDEPENDS
-according to DOC_COMPRESS.
+Hi all,
 
-[YOCTO #6750]
-[YOCTO #6751]
+I've hit the following on a custom image recipe (based on core-image):
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-extended/man/man_1.6g.bb        | 13 +++++++++++++
- meta/recipes-extended/texinfo/texinfo_5.2.bb | 13 +++++++++++++
- 2 files changed, 26 insertions(+)
+| Configuring run-postinsts.
+|
+| NOTE: Installing complementary packages ...
+| NOTE: Running intercept scripts:
+| NOTE: Executing write_package_manifest ...
+| DEBUG: Executing python function write_package_manifest
+| DEBUG: Python function write_package_manifest finished
+| NOTE: Executing license_create_manifest ...
+| DEBUG: Executing shell function license_create_manifest
+| ls: cannot access
+/build/yocto/daisy/intel-corei7-64_20140718205500/build/tmp/sysroots/intel-
+internal-corei7-64/pkgdata/runtime-reverse/udev-hwdb: No such file or
+directory
+| readlink: missing operand
+| Try 'readlink --help' for more information.
+| basename: missing operand
+| Try 'basename --help' for more information.
+| WARNING: exit code 1 from a shell command.
+| DEBUG: Python function do_rootfs finished
+| ERROR: Function failed: license_create_manifest (log file is located at
+/build/yocto/daisy/intel-corei7-64_20140718205500/build/tmp/work/intel_inte
+rnal_corei7_64-eywa-linux/core-image-minimal-initramfs/1.0-r0/temp/log.do_r
+ootfs.15414)
+ERROR: Task 150 
+(/build/yocto/daisy/intel-corei7-64_20140718205500/poky/meta/recipes-core/i
+mages/core-image-minimal-initramfs.bb, do_rootfs) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 4727 tasks of which 4697 didn't need to be
+rerun and 1 failed.
+Waiting for 0 running tasks to finish:
 
-diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
-index a66e01c..03fffd6 100644
---- a/meta/recipes-extended/man/man_1.6g.bb
-+++ b/meta/recipes-extended/man/man_1.6g.bb
-@@ -9,6 +9,19 @@ PR = "r1"
- 
- DEPENDS = "groff less"
- 
-+def compress_pkg(d):
-+    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
-+         compress = d.getVar("DOC_COMPRESS", True)
-+         if compress == "gz":
-+             return "gzip"
-+         elif compress == "bz2":
-+             return "bzip2"
-+         elif compress == "xz":
-+             return "xz"
-+    return ""
-+
-+RDEPENDS_${PN} += "${@compress_pkg(d)}"
-+
- SRC_URI = "http://primates.ximian.com/~flucifredi/${BPN}/${BPN}-${PV}.tar.gz \
-            file://man-1.5k-confpath.patch;striplevel=0 \
-            file://man-1.5h1-make.patch \
-diff --git a/meta/recipes-extended/texinfo/texinfo_5.2.bb b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-index cdcb37b..59480e3 100644
---- a/meta/recipes-extended/texinfo/texinfo_5.2.bb
-+++ b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-@@ -9,6 +9,19 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- PROVIDES_append_class-native = " texinfo-replacement-native"
- 
-+def compress_pkg(d):
-+    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
-+         compress = d.getVar("DOC_COMPRESS", True)
-+         if compress == "gz":
-+             return "gzip"
-+         elif compress == "bz2":
-+             return "bzip2"
-+         elif compress == "xz":
-+             return "xz"
-+    return ""
-+
-+RDEPENDS_info += "${@compress_pkg(d)}"
-+
- DEPENDS = "zlib ncurses texinfo-replacement-native"
- DEPENDS_class-native = "zlib-native ncurses-native"
- 
+
+
+
+Using the daisy branch of the following layers (poky, meta-intel, and
+meta-oe layers):
+
+BBLAYERS ?= " \
+  /build/yocto/daisy/intel-corei7-64_20140718205500/poky/meta \
+  /build/yocto/daisy/intel-corei7-64_20140718205500/poky/meta-yocto \
+  /build/yocto/daisy/intel-corei7-64_20140718205500/poky/meta-yocto-bsp \
+  "
+BBLAYERS_NON_REMOVABLE ?= " \
+  /build/yocto/daisy/intel-corei7-64_20140718205500/poky/meta \
+  /build/yocto/daisy/intel-corei7-64_20140718205500/poky/meta-yocto \
+  "
+
+# Automatically generated by bitbake-shell (bs)
+BBLAYERS += 
+"/build/yocto/daisy/intel-corei7-64_20140718205500/poky/meta-yocto"
+BBLAYERS += 
+"/build/yocto/daisy/intel-corei7-64_20140718205500/meta-openembedded/meta-n
+etworking"
+BBLAYERS += "/build/yocto/daisy/intel-corei7-64_20140718205500/meta-intel"
+BBLAYERS += 
+"/build/yocto/daisy/intel-corei7-64_20140718205500/meta-openembedded/meta-x
+fce"
+BBLAYERS += 
+"/build/yocto/daisy/intel-corei7-64_20140718205500/meta-openembedded/meta-o
+e"
+BBLAYERS += 
+"/build/yocto/daisy/intel-corei7-64_20140718205500/meta-openembedded/meta-m
+ultimedia"
+BBLAYERS += 
+"/build/yocto/daisy/intel-corei7-64_20140718205500/meta-openembedded/meta-g
+nome"
+BBLAYERS += "/build/yocto/daisy/intel-corei7-64_20140718205500/eywa/meta"
+BBLAYERS += 
+"/build/yocto/daisy/intel-corei7-64_20140718205500/eywa/meta-intel-internal
+"
+BBLAYERS += "/build/yocto/daisy/intel-corei7-64_20140718205500/poky/meta"
+
+
+Is this a known issue? Have others hit this or have a workaround?
+
+
 -- 
-1.9.1
+Darren Hart					Open Source Technology Center
+darren.hart@intel.com				            Intel Corporation
+
+
 
 
