@@ -1,37 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 832F76A9D4
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa08-02.prod.phx3.secureserver.net
+	(p3plsmtpa08-02.prod.phx3.secureserver.net [173.201.193.103])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AF5465CD8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 09:59:03 +0000 (UTC)
-Received: by mail-qg0-f45.google.com with SMTP id q108so5635265qgd.18
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 02:59:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=2JQD+PV3gE/0OsJ8YfcXPPuJIRRk4llUV4SpMRUOGhQ=;
-	b=L6f2QkJ7Vph4wag5LpxeRFeJwVGvb0kjPX82BjkDMkvr3RAHGAJGEoLc61VW23UIh3
-	u0/TjZAUqDRXKS1cks9SGyrSjPa4ngiOD2s5SSmnzHmk9sP3MXPJrQb/VQ2jZGmXjzMT
-	8t5WeeyHb+MoOZNhVS8iu7RtcjvbZ3REzl0acBZfGVHGynTvTPkpZP398KEFNIe366BR
-	GNHZcN239e5S4zbbIlSoTw6Q48JsE0jcWnf6XxXkA6ZnuSAACMT7VZYdOukDNjS9RDaU
-	h1t8yYa9wDNQEdoDw1fb0XOfligdDkw7F3Ai9FvmZyXV4umpWIuwF8eJ0Vh3jV7ryggg
-	Vfvg==
-X-Gm-Message-State: ALoCoQkTfvo3pgOk6Y0zwUM1joOb6zJiH5qqUpXxBR3ip7rqFcPFMhWLmegbCa1KmaoiSMS7dlq7
-X-Received: by 10.140.97.247 with SMTP id m110mr7641907qge.80.1411552744572;
-	Wed, 24 Sep 2014 02:59:04 -0700 (PDT)
+	Wed, 24 Sep 2014 10:32:24 +0000 (UTC)
+Received: from [192.168.65.10] ([75.72.225.8])
+	by p3plsmtpa08-02.prod.phx3.secureserver.net with 
+	id uyYM1o0070BVjqb01yYMLR; Wed, 24 Sep 2014 03:32:22 -0700
+Message-ID: <54229DB5.90806@pabigot.com>
+Date: Wed, 24 Sep 2014 05:32:21 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
 MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Wed, 24 Sep 2014 02:58:44 -0700 (PDT)
-In-Reply-To: <5421E92D.8020307@pabigot.com>
-References: <1411053399-15548-1-git-send-email-pab@pabigot.com>
-	<5421E92D.8020307@pabigot.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 24 Sep 2014 10:58:44 +0100
-Message-ID: <CAJTo0LZmqvbmOD2=0EaiKTd6UcoGv4M_LTyib4e_8zBbVG+pNQ@mail.gmail.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: disable resolv.conf symlink unless resolved is enabled
+To: openembedded-core@lists.openembedded.org
+References: <1411148655-5500-1-git-send-email-pab@pabigot.com>
+In-Reply-To: <1411148655-5500-1-git-send-email-pab@pabigot.com>
+Subject: Re: [PATCH] git: add Git perl module to perltools package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,16 +30,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Sep 2014 09:59:08 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 24 Sep 2014 10:32:33 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 23 September 2014 22:42, Peter A. Bigot <pab@pabigot.com> wrote:
-> This has missed a couple merges; if the focus is elsewhere or there's a
-> problem with it fine, but I think this belongs in 1.7 as without it
-> systemd+connman doesn't function as it did before the update to 216.
+Ping for this one too (it re-opened Yocto #3780 and has 1.7 as a due date).
 
-Sorry, missed this.  Queued!
+That's all I expect to have for 1.7, unless u-boot 2014.07 gets in 
+(there's a patch needed for BBB in that case, but it's already in 
+meta-ti's version).
 
-Thanks,
-Ross
+Peter
+
+
+On 09/19/2014 12:44 PM, Peter A. Bigot wrote:
+> Git perl tools such as add--interactive load the Git module at runtime.
+> A previous patch to eliminate a QA error by deleting it instead of
+> packaging it was incorrect.
+>
+>      beaglebone[62]$ git add -i
+>      Can't locate Git.pm in @INC (you may need to install the Git module) (@INC contains: /usr/lib/perl/5.20.0 /prj/pab/Utils/lib/perl5/linux-arm/5.020000 /prj/pab/Utils/lib/perl5/ /prj/pab/Utils/lib/perl5/site_perl/linux-arm /prj/pab/Utils/lib/perl5/site_perl /etc/perl /usr/lib/perl/site_perl/5.20.0/ /usr/lib/perl/site_perl/5.20.0 /usr/lib/perl/vendor_perl/5.20.0/ /usr/lib/perl/vendor_perl/5.20.0 /usr/lib/perl/5.20.0/ /usr/local/lib/site_perl .) at /usr/lib/git/git-core/git-add--interactive line 7.
+>      BEGIN failed--compilation aborted at /usr/lib/git/git-core/git-add--interactive line 7.
+>
+> [YOCTO#3780]
+>
+> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+> ---
+>   meta/recipes-devtools/git/git.inc | 8 +++-----
+>   1 file changed, 3 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+> index 7633577..3580275 100644
+> --- a/meta/recipes-devtools/git/git.inc
+> +++ b/meta/recipes-devtools/git/git.inc
+> @@ -30,11 +30,6 @@ do_install () {
+>   	oe_runmake install DESTDIR="${D}" bindir=${bindir} \
+>   		template_dir=${datadir}/git-core/templates \
+>   		GIT_PYTHON_DIR=${D}${datadir}/git-core/python
+> -
+> -	# ${libdir} is not applicable here, perl-native files are always
+> -	# installed to /usr/lib on both 32/64 bits targets.
+> -	rm -rf ${D}${exec_prefix}/lib/perl-native
+> -	rmdir ${D}${exec_prefix}/lib || true
+>   }
+>   
+>   PERLSEDFIXUP = " \
+> @@ -48,6 +43,8 @@ REL_GIT_TEMPLATE_DIR = "${@os.path.relpath(datadir, bindir)}/git-core/templates"
+>   
+>   do_install_append_class-target () {
+>   	${PERLSEDFIXUP}
+> +	mv ${D}${libdir}/perl-native/perl ${D}${libdir}
+> +	rmdir ${D}${libdir}/perl-native || true
+>   }
+>   
+>   do_install_append_class-native() {
+> @@ -90,6 +87,7 @@ PERLTOOLS = " \
+>   PACKAGES =+ "${PN}-perltools"
+>   FILES_${PN}-perltools += " \
+>       ${PERLTOOLS} \
+> +    ${libdir}/perl \
+>       ${datadir}/perl \
+>   "
+>   RDEPENDS_${PN}-perltools = "${PN} perl perl-module-file-path findutils"
+
 
