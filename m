@@ -1,36 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
-	[209.85.216.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C76D460144
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id F33D360144
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 22:28:16 +0000 (UTC)
-Received: by mail-qa0-f46.google.com with SMTP id x12so3744534qac.19
+	Wed, 24 Sep 2014 22:37:35 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id cm18so3864726qab.40
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 15:28:17 -0700 (PDT)
+	Wed, 24 Sep 2014 15:37:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=pSsx4ENKRMX6aW9AKAfm10SAdrK8upI4guUJZ8l8MgE=;
-	b=lizgQHqH20xSS1JwQ1gVALW4z1ncqfn9LeMirFETRJTukJtQfaRdoHv65QELcObIIk
-	VsmOzeU9sJGlQ+79GgTz606eB7mdbBoQ1Zk8Bp/IX2zCuTOff+8sObFl8/lPjEW4h/Dh
-	+m6UnsmrHnRxf1cGP1SzSEptOnFeUdNfpBvurJDAHXwtQ5pGokcKBfLN5V0mJoOR9eD8
-	sW9OQMQYxXFhvPtRhey3vYDScOAUT9Pr84AHplFGZsD6g9XJCjYHlxLaCGRuHzG3vcjH
-	0z+sgzs+PUY75IiewUlVYJ57MlyBrzlyR4MSllXf3ll2sP4r3WqeF8pkFW21IpfJI1Ww
-	aEbQ==
-X-Gm-Message-State: ALoCoQks293bonfmSvQgVahGoGRg3oAvMVBxtymuZSaqt+Lwo/YmrWeyKUinoo9xgKUZuy147OTb
-X-Received: by 10.224.103.194 with SMTP id l2mr13342029qao.93.1411597697597;
-	Wed, 24 Sep 2014 15:28:17 -0700 (PDT)
+	bh=Sb0X5AjJqKjOefL3R6EtqlqELmdbnBUkYsX8F+SwSv4=;
+	b=ePXPLbOfbgVbFcTHc+Da+cQYyTXMPgZVcLL2jynbLdPuPmAXsJGBo2zwe3i25AOd+1
+	awBQg+rdXD/muFKonWsQ4aSDJ7HM2qn4BOueKMJduaeepzHbD+mzVwEa1vKlCAXkGecN
+	BEGofODGFpxrW8wtvsO2yRZwQ3lIWX/dB/swEolFKR1koKaZw6rRLVWAwcJKGCMwVT0L
+	Lg7y/UhhartIC8weyAHOFyQ9/ZIGNzdRTnv5jnMd9dQVmCprT8AayWYFRsix1oU8sTaF
+	iFYSPDSc6MipAGO8wX8RPWglHzv8rW32jVDviRNFRNabUO5rRboJMKR55NZZUX+7iRr8
+	VeBA==
+X-Gm-Message-State: ALoCoQnvb1aNqK5GSNUIdmuv9GKkH20wGOSK3xnxBlLGXT90slXgzH0hPOTf/Yh9THOpg/WM+ank
+X-Received: by 10.224.121.80 with SMTP id g16mr8988477qar.64.1411598256174;
+	Wed, 24 Sep 2014 15:37:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Wed, 24 Sep 2014 15:27:57 -0700 (PDT)
-In-Reply-To: <1410360202-22215-1-git-send-email-maxin.john@enea.com>
-References: <1410360202-22215-1-git-send-email-maxin.john@enea.com>
+Received: by 10.140.34.180 with HTTP; Wed, 24 Sep 2014 15:37:16 -0700 (PDT)
+In-Reply-To: <54083E97.9000005@windriver.com>
+References: <cover.1409813992.git.liezhi.yang@windriver.com>
+	<030c29236dc8bc0b8df2f9a2973c0997a91023b5.1409813992.git.liezhi.yang@windriver.com>
+	<1409819233.12482.25.camel@ted> <540827B3.50509@windriver.com>
+	<1409820816.12482.30.camel@ted> <54083E97.9000005@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 24 Sep 2014 23:27:57 +0100
-Message-ID: <CAJTo0La08fHpt1vJT+Kj97PVT1iDievLPVyEdwZy6ZKykrC8NQ@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@enea.com>
+Date: Wed, 24 Sep 2014 23:37:16 +0100
+Message-ID: <CAJTo0LbKV=-sFB7=-q9zxakdfjtBzuK0rDbEwwFd-vD9_z2=+Q@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] curl: upgrade to 7.38.0
+Subject: Re: [PATCH 1/1] sstate.bbclass: update the timestamps after install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,16 +46,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Sep 2014 22:28:23 -0000
+X-List-Received-Date: Wed, 24 Sep 2014 22:37:39 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 10 September 2014 15:43, Maxin B. John <maxin.john@enea.com> wrote:
-> Fixes two HTTP cookie related security bugs:
->  1. CVE-2014-3613
->  2. CVE-2014-3620
+Hi Robert,
 
-Can these be backported instead to 7.37.1?  Upgrading to a new major
-release with many new features is exceptional now we've frozen.
+On 4 September 2014 11:27, Robert Yang <liezhi.yang@windriver.com> wrote:
+> Under more thoughts, yes, we need the --no-dereferece otherwise the
+> touch may update the file in the SSTATE_MIRRORS, and it's safe to touch
+> a symlink itself (though "test -w" follows symlink) since the permissions
+> of symbolic links are never used.
+>
+> For readonly_dir/ssfile, we can touch the ssfile if "test -w ssfile",
+> it doesn't care about the dir's write permission. Or do we have to
+> check the permission of "dirname ${SSTATE_PKG}" and ${SSTATE_DIR} ?
+> I don't think that we need unless it causes errors.
+>
+> For the ISO, the "test -w {SSTATE_PKG}" would fail so that no touch,
+> here is the updated code, also in the repo:
+
+Can you update this patch with --no-dereference please, or have I
+misunderstood the conversation?
 
 Ross
 
