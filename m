@@ -1,27 +1,36 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D3EC060809
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f45.google.com (mail-qa0-f45.google.com
+	[209.85.216.45])
+	by mail.openembedded.org (Postfix) with ESMTP id ECE6F60144
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 21:18:37 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Sep 2014 14:18:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,591,1406617200"; d="scan'208";a="604875181"
-Received: from dvhart-mac01.jf.intel.com (HELO [10.24.6.33]) ([10.24.6.33])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Sep 2014 14:18:34 -0700
-User-Agent: Microsoft-MacOutlook/14.4.3.140616
-Date: Wed, 24 Sep 2014 14:18:30 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <D0487728.AA0CF%dvhart@linux.intel.com>
-Thread-Topic: [OE-core] daisy: runtime-reverse/udev-hwdb missing during
-	do_rootfs
-References: <D04840BD.A9FE9%dvhart@linux.intel.com>
-	<1411581534.4189.65.camel@ted>
-In-Reply-To: <1411581534.4189.65.camel@ted>
-Mime-version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: daisy: runtime-reverse/udev-hwdb missing during do_rootfs
+	Wed, 24 Sep 2014 21:54:06 +0000 (UTC)
+Received: by mail-qa0-f45.google.com with SMTP id k15so3743139qaq.18
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Sep 2014 14:54:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=VCwoB6Q0/edW9i+KdqvDJ9wnYJg7FhABT389nHxbPWM=;
+	b=J8XQW/nVovOZr1WQtfxfAvPftdGookKDixyplA2eI8JqGnutcDAxuem0ZyvDEzMtZC
+	YaFX2aGUqFQ88EBZktK2jqzJNp7MBRAYftOf4z+ckvoMUAOBLrzUp36ev8N+fV3E+NIM
+	dSWTkfb/GS09ew+el9iN46jEkIgZRtzKaCMiDgWr5gkbcrXzGvUWVTwzQ1BtI0cQCMnh
+	+u8s/iSYpun1Ge4PjprSjJsxczv4eFTGhvmXjv0Lf/6vIRRfUZbGc5KrWafavCLBjE5Z
+	kSSwSQGEPHPMt2sG+mxVV+sCx3UYr2u976oAQBB74CY0xDqBhJQ3zZQDLwcT9bk2qP4m
+	GdeQ==
+X-Gm-Message-State: ALoCoQmaXkb1XPNb1mny3Mrq61Bv8FuRYkaNvCsQqMg4+ilqsz2CBGCXKY+eza7CtxkrdKgz/OpP
+X-Received: by 10.224.103.65 with SMTP id j1mr13517548qao.17.1411595647195;
+	Wed, 24 Sep 2014 14:54:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.34.180 with HTTP; Wed, 24 Sep 2014 14:53:47 -0700 (PDT)
+In-Reply-To: <cover.1411572129.git.hongxu.jia@windriver.com>
+References: <cover.1411572129.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 24 Sep 2014 22:53:47 +0100
+Message-ID: <CAJTo0LYMRuVfx5poDJuNRdu5TPaLBTtgsJLLXJrB_G8e4ur-3Q@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3 0/4] man/info: fix not support xz/bz2 compression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,75 +43,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Sep 2014 21:18:40 -0000
-Content-type: text/plain;
-	charset="US-ASCII"
-Content-transfer-encoding: 7bit
+X-List-Received-Date: Wed, 24 Sep 2014 21:54:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 9/24/14, 10:58, "Richard Purdie" <richard.purdie@linuxfoundation.org>
-wrote:
+Hi Hongxu,
 
->On Wed, 2014-09-24 at 09:34 -0700, Darren Hart wrote:
->> I've hit the following on a custom image recipe (based on core-image):
->> 
->> | Configuring run-postinsts.
->> |
->> | NOTE: Installing complementary packages ...
->> | NOTE: Running intercept scripts:
->> | NOTE: Executing write_package_manifest ...
->> | DEBUG: Executing python function write_package_manifest
->> | DEBUG: Python function write_package_manifest finished
->> | NOTE: Executing license_create_manifest ...
->> | DEBUG: Executing shell function license_create_manifest
->> | ls: cannot access
->> 
->>/build/yocto/daisy/intel-corei7-64_20140718205500/build/tmp/sysroots/inte
->>l-
->> internal-corei7-64/pkgdata/runtime-reverse/udev-hwdb: No such file or
->> directory
->> | readlink: missing operand
->> | Try 'readlink --help' for more information.
->> | basename: missing operand
->> | Try 'basename --help' for more information.
->> | WARNING: exit code 1 from a shell command.
->> | DEBUG: Python function do_rootfs finished
->> | ERROR: Function failed: license_create_manifest (log file is located
->>at
->> 
->>/build/yocto/daisy/intel-corei7-64_20140718205500/build/tmp/work/intel_in
->>te
->> 
->>rnal_corei7_64-eywa-linux/core-image-minimal-initramfs/1.0-r0/temp/log.do
->>_r
->> ootfs.15414)
->> ERROR: Task 150 
->> 
->>(/build/yocto/daisy/intel-corei7-64_20140718205500/poky/meta/recipes-core
->>/i
->> mages/core-image-minimal-initramfs.bb, do_rootfs) failed with exit code
->>'1'
->> NOTE: Tasks Summary: Attempted 4727 tasks of which 4697 didn't need to
->>be
->> rerun and 1 failed.
->> Waiting for 0 running tasks to finish:
+This is failing for me, core-image-minimal for NUC with doc-pkgs:
+
+Collected errors:
+ * check_data_file_clashes: Package util-linux-doc wants to install
+file /data/poky-master/tmp/work/nuc-poky-linux/cor
+e-image-minimal/1.0-r0/rootfs/usr/share/man/man3/libblkid.3.xz
+        But that file is already provided by package  * e2fsprogs-doc
+ * check_data_file_clashes: Package util-linux-doc wants to install
+file /data/poky-master/tmp/work/nuc-poky-linux/cor
+e-image-minimal/1.0-r0/rootfs/usr/share/man/man8/findfs.8.xz
+        But that file is already provided by package  * e2fsprogs-doc
+ * check_data_file_clashes: Package util-linux-doc wants to install
+file /data/poky-master/tmp/work/nuc-poky-linux/cor
+e-image-minimal/1.0-r0/rootfs/usr/share/man/man8/fsck.8.xz
+        But that file is already provided by package  * e2fsprogs-doc
+ * check_data_file_clashes: Package util-linux-doc wants to install
+file /data/poky-master/tmp/work/nuc-poky-linux/cor
+e-image-minimal/1.0-r0/rootfs/usr/share/man/man8/blkid.8.xz
+        But that file is already provided by package  * e2fsprogs-doc
+ * opkg_install_cmd: Cannot install package util-linux-doc.
+
+NOTE: Running intercept scripts:
+NOTE: > Executing update_info_dir intercept ...
+/data/poky-master/tmp/work/nuc-poky-linux/core-image-minimal/1.0-r0/intercept_scripts/update_info_dir:
+line 63: /insta
+ll-info: No such file or directory
+/data/poky-master/tmp/work/nuc-poky-linux/core-image-minimal/1.0-r0/intercept_scripts/update_info_dir:
+line 63: /insta
+ll-info: No such file or directory
+
+Ross
+
+On 24 September 2014 16:27, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> Changed in V3:
+> - Remove Debian-specific code
+> - split() the INHERIT variable
 >
->I don't know why it does this but I can perhaps give some pointers as to
->where to look.
+> Changed in V2:
+> - Conditionally add 'gzip/bzip2/xz' to man/info's RDEPENDS
+>   rather than modify busybox's defconfig.
 >
->udev-hwdb was installed in the image. First question is whether that is
->actually in the build dependencies. "bitbake
->core-image-minimal-initramfs -c rootfs -g", then grep task-depends.dot
->and see if udev is in there.
-
-This was due to switching between systemd in DISTRO_FEATURES and not.
-Cleaning systemd and udev and rebuilding resolved the issue.
-
-Lesson: use different tmp when changing DISTRO_FEATURES.
-
--- 
-Darren Hart					Open Source Technology Center
-darren.hart@intel.com				            Intel Corporation
-
-
-
+> - Refer Ubuntu to add a script to postinst_intercept to
+>   run it after all packages have been installed at build time.
+>
+> Test Case:
+>
+> vim local.conf
+> ..
+> IMAGE_INSTALL_append = " man man-doc texinfo texinfo-doc info info-doc"
+> INHERIT += "compress_doc"
+> DOC_COMPRESS = "xz" or DOC_COMPRESS = "bz2"
+> ..
+>
+> bitbake core-image-minimal
+>
+> runqemu qemux86
+>
+> On target,
+> ...
+> root@qemux86:~# man man
+>
+> root@qemux86:~# info info
+> ...
+>
+> //Hongxu
+>
+>
+> The following changes since commit 8ac8eca2e3bd8c78e2b31ea974930ed0243258a3:
+>
+>   build-appliance-image: Update to dizzy head revision (2014-09-23 22:10:26 +0100)
+>
+> are available in the git repository at:
+>
+>   git://git.pokylinux.org/poky-contrib hongxu/fix-doc
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-doc
+>
+> Hongxu Jia (4):
+>   scripts/postinst-intercepts: add update_info_dir
+>   texinfo: fix QA Error while doc compress enabled
+>   texinfo: fix info not work
+>   man/texinfo: conditionally add gzip/bzip2/xz to RDEPENDS
+>
+>  meta/recipes-extended/man/man_1.6g.bb        | 13 +++++
+>  meta/recipes-extended/texinfo/texinfo_5.2.bb | 68 +++++++++++++++++++++++-
+>  scripts/postinst-intercepts/update_info_dir  | 77 ++++++++++++++++++++++++++++
+>  3 files changed, 157 insertions(+), 1 deletion(-)
+>  create mode 100755 scripts/postinst-intercepts/update_info_dir
+>
+> --
+> 1.9.1
+>
 
