@@ -1,31 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D451165CD8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 832F76A9D4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 09:16:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8O9GG2c023397
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Sep 2014 02:16:17 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 24 Sep 2014 02:16:16 -0700
-Message-ID: <54228BD8.2060908@windriver.com>
-Date: Wed, 24 Sep 2014 17:16:08 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
+	Wed, 24 Sep 2014 09:59:03 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id q108so5635265qgd.18
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Sep 2014 02:59:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=2JQD+PV3gE/0OsJ8YfcXPPuJIRRk4llUV4SpMRUOGhQ=;
+	b=L6f2QkJ7Vph4wag5LpxeRFeJwVGvb0kjPX82BjkDMkvr3RAHGAJGEoLc61VW23UIh3
+	u0/TjZAUqDRXKS1cks9SGyrSjPa4ngiOD2s5SSmnzHmk9sP3MXPJrQb/VQ2jZGmXjzMT
+	8t5WeeyHb+MoOZNhVS8iu7RtcjvbZ3REzl0acBZfGVHGynTvTPkpZP398KEFNIe366BR
+	GNHZcN239e5S4zbbIlSoTw6Q48JsE0jcWnf6XxXkA6ZnuSAACMT7VZYdOukDNjS9RDaU
+	h1t8yYa9wDNQEdoDw1fb0XOfligdDkw7F3Ai9FvmZyXV4umpWIuwF8eJ0Vh3jV7ryggg
+	Vfvg==
+X-Gm-Message-State: ALoCoQkTfvo3pgOk6Y0zwUM1joOb6zJiH5qqUpXxBR3ip7rqFcPFMhWLmegbCa1KmaoiSMS7dlq7
+X-Received: by 10.140.97.247 with SMTP id m110mr7641907qge.80.1411552744572;
+	Wed, 24 Sep 2014 02:59:04 -0700 (PDT)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1411473883.git.hongxu.jia@windriver.com>
-	<e33476eb2f61c8a8be679e15114ef90321239dde.1411473883.git.hongxu.jia@windriver.com>
-	<1411504641.4189.2.camel@ted>
-	<CAJTo0LZCcE0PysOXErBHaoyOU=izE88MkS5tLNB1q1ZGuijiiw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZCcE0PysOXErBHaoyOU=izE88MkS5tLNB1q1ZGuijiiw@mail.gmail.com>
+Received: by 10.140.34.180 with HTTP; Wed, 24 Sep 2014 02:58:44 -0700 (PDT)
+In-Reply-To: <5421E92D.8020307@pabigot.com>
+References: <1411053399-15548-1-git-send-email-pab@pabigot.com>
+	<5421E92D.8020307@pabigot.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 24 Sep 2014 10:58:44 +0100
+Message-ID: <CAJTo0LZmqvbmOD2=0EaiKTd6UcoGv4M_LTyib4e_8zBbVG+pNQ@mail.gmail.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] texinfo: fix info not work
+Subject: Re: [PATCH] systemd: disable resolv.conf symlink unless resolved is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,44 +44,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Sep 2014 09:16:22 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Sep 2014 09:59:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 09/24/2014 04:40 AM, Burton, Ross wrote:
-> On 23 September 2014 21:37, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> I think there are a few issues here. Firstly, this postinst can run at
->> build time which means there is a dependency on texinfo-native. I guess
->> if this fails, it will just run on target so its probably "harmless" but
->> not deterministic. Secondly, anything installing an info directory
->> really needs to update the dir files with its own postinst. For optimal
->> handling at rootfs time, that will need trigger/intercept support.
->>
->> So this probably can merge as it improves things however we need some
->> enhacement bugs opening related to this, we may want to force the
->> postinst to run on target for now so things are deterministic too.
-> There's a texinfo.bbclass which all recipes installing info files are
-> probably inheriting anyway, so moving the postinst there should solve
-> the race on the directory.  That class says that texinfo-native is
-> assume-provided but you'll want to check that usual configurations
-> ship install-info alongside makeinfo on the distributions we support.
+On 23 September 2014 22:42, Peter A. Bigot <pab@pabigot.com> wrote:
+> This has missed a couple merges; if the focus is elsewhere or there's a
+> problem with it fine, but I think this belongs in 1.7 as without it
+> systemd+connman doesn't function as it did before the update to 216.
 
-Hi Ross,
+Sorry, missed this.  Queued!
 
-I am afraid moving the postinst to texinfo.bbclass will cause some
-potential issues:
-
-- It will be invoked many times if multiple packages installed.
-
-- We could not use a generic way to name pkg_postinst.
-   Such as texinfo recipe, we need pkg_postinst_info.
-
-I will refer what Ubuntu/Debian did, add postinst/postrm to info
-packages.
-
-//Hongxu
-
-> Ross
-
+Thanks,
+Ross
 
