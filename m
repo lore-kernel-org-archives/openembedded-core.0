@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E5974715C5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 511CB71555
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 15:28:08 +0000 (UTC)
+	Wed, 24 Sep 2014 15:28:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8OFS8Eo015855
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8OFSDes006114
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Sep 2014 08:28:08 -0700 (PDT)
+	Wed, 24 Sep 2014 08:28:18 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 24 Sep 2014 08:28:07 -0700
+	14.3.174.1; Wed, 24 Sep 2014 08:28:09 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
 	<richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
-Date: Wed, 24 Sep 2014 23:27:52 +0800
-Message-ID: <7c78fadbb5f64dda378c6e574d2120b703aafb26.1411572129.git.hongxu.jia@windriver.com>
+Date: Wed, 24 Sep 2014 23:27:53 +0800
+Message-ID: <698828316417388ee9440e92d8be4efc64094fac.1411572129.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1411572129.git.hongxu.jia@windriver.com>
 References: <cover.1411572129.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] texinfo: fix info not work
+Subject: [PATCH 4/4] man/texinfo: conditionally add gzip/bzip2/xz to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,88 +33,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Sep 2014 15:28:11 -0000
+X-List-Received-Date: Wed, 24 Sep 2014 15:28:18 -0000
 Content-Type: text/plain
 
-In texinfo, we didn't have info/dir entries, which caused
-info not work.
-...
-root@qemux86:~# info info
-info: dir: No such file or directory
-...
+Conditionally add 'xz/bz2/gzip' to info/man's RDEPENDS
+according to DOC_COMPRESS.
 
-Refer ubuntu/debian to invoke install-info to create info/dir
-entries in pkg_postinst_info.
-
+[YOCTO #6750]
 [YOCTO #6751]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-extended/texinfo/texinfo_5.2.bb | 53 ++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ meta/recipes-extended/man/man_1.6g.bb        | 13 +++++++++++++
+ meta/recipes-extended/texinfo/texinfo_5.2.bb | 13 +++++++++++++
+ 2 files changed, 26 insertions(+)
 
+diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
+index a66e01c..03fffd6 100644
+--- a/meta/recipes-extended/man/man_1.6g.bb
++++ b/meta/recipes-extended/man/man_1.6g.bb
+@@ -9,6 +9,19 @@ PR = "r1"
+ 
+ DEPENDS = "groff less"
+ 
++def compress_pkg(d):
++    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
++         compress = d.getVar("DOC_COMPRESS", True)
++         if compress == "gz":
++             return "gzip"
++         elif compress == "bz2":
++             return "bzip2"
++         elif compress == "xz":
++             return "xz"
++    return ""
++
++RDEPENDS_${PN} += "${@compress_pkg(d)}"
++
+ SRC_URI = "http://primates.ximian.com/~flucifredi/${BPN}/${BPN}-${PV}.tar.gz \
+            file://man-1.5k-confpath.patch;striplevel=0 \
+            file://man-1.5h1-make.patch \
 diff --git a/meta/recipes-extended/texinfo/texinfo_5.2.bb b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-index 7b5a11a..cdcb37b 100644
+index cdcb37b..59480e3 100644
 --- a/meta/recipes-extended/texinfo/texinfo_5.2.bb
 +++ b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-@@ -61,4 +61,57 @@ FILES_${PN}-doc = "${infodir}/texinfo* \
-                    ${datadir}/${tex_texinfo} \
-                    ${mandir}/man1 ${mandir}/man5"
+@@ -9,6 +9,19 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
-+pkg_postinst_info () {
-+if [ "x$D" != "x" ]; then
-+    $INTERCEPT_DIR/postinst_intercept update_info_dir ${PKG} \
-+        mlprefix=${MLPREFIX} infodir=${infodir} STAGING_BINDIR_NATIVE=${STAGING_BINDIR_NATIVE}
-+else
-+    errors=0
-+    find "${infodir}" -type f | while read file ; do
-+        case $file in
-+        */dir| */dir.old| \
-+        *-[0-9]|*-[0-9].gz|*-[0-9].xz|*-[0-9].bz2| \
-+        *-[1-9][0-9]|*-[1-9][0-9].gz|*-[1-9][0-9].xz|*-[1-9][0-9].bz2| \
-+        *.png)
-+            # these files are ignored
-+            continue
-+            ;;
-+        *)
-+            install-info "$file" "${infodir}/dir" || {
-+                errors=$[errors+1]
-+            }
-+            ;;
-+        esac
-+    done
-+    if [ $errors -gt 0 ] ; then
-+        echo "Updating the index of info documentation produced $errors errors."
-+        exit 1
-+    fi
-+fi
-+}
+ PROVIDES_append_class-native = " texinfo-replacement-native"
+ 
++def compress_pkg(d):
++    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
++         compress = d.getVar("DOC_COMPRESS", True)
++         if compress == "gz":
++             return "gzip"
++         elif compress == "bz2":
++             return "bzip2"
++         elif compress == "xz":
++             return "xz"
++    return ""
 +
-+pkg_prerm_info () {
-+errors=0
-+find "$D${infodir}" -type f | while read file ; do
-+    case $file in
-+    */dir|*/dir.old| \
-+    *-[0-9]|*-[0-9].gz|*-[0-9].xz|*-[0-9].bz2| \
-+    *-[1-9][0-9]|*-[1-9][0-9].gz|*-[1-9][0-9].xz|*-[1-9][0-9].bz2| \
-+    *.png)
-+        # these files are ignored
-+        continue
-+        ;;
-+    *)
-+        install-info --delete "$file" "$D${infodir}/dir" || {
-+            errors=$[errors+1]
-+        }
-+        ;;
-+    esac
-+done
++RDEPENDS_info += "${@compress_pkg(d)}"
 +
-+if [ $errors -gt 0 ] ; then
-+    echo "Cleaning the index of info documentation produced $errors errors."
-+fi
-+}
-+
- BBCLASSEXTEND = "native"
+ DEPENDS = "zlib ncurses texinfo-replacement-native"
+ DEPENDS_class-native = "zlib-native ncurses-native"
+ 
 -- 
 1.9.1
 
