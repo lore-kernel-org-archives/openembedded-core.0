@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1751760809
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9185971555
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 15:28:02 +0000 (UTC)
+	Wed, 24 Sep 2014 15:28:06 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8OFS2QZ006108
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8OFS4ZL015833
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Sep 2014 08:28:02 -0700 (PDT)
+	Wed, 24 Sep 2014 08:28:04 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 24 Sep 2014 08:28:02 -0700
+	14.3.174.1; Wed, 24 Sep 2014 08:28:04 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
 	<richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
-Date: Wed, 24 Sep 2014 23:27:49 +0800
-Message-ID: <cover.1411572129.git.hongxu.jia@windriver.com>
+Date: Wed, 24 Sep 2014 23:27:50 +0800
+Message-ID: <5a40d381b437e4d9a30694969dde0c67c57cfd38.1411572129.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1411572129.git.hongxu.jia@windriver.com>
+References: <cover.1411572129.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 0/4] man/info: fix not support xz/bz2 compression
+Subject: [PATCH 1/4] scripts/postinst-intercepts: add update_info_dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,64 +33,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Sep 2014 15:28:05 -0000
+X-List-Received-Date: Wed, 24 Sep 2014 15:28:08 -0000
 Content-Type: text/plain
 
-Changed in V3:
-- Remove Debian-specific code
-- split() the INHERIT variable
+We need to run it after all packages have been installed. Here is details:
 
-Changed in V2:
-- Conditionally add 'gzip/bzip2/xz' to man/info's RDEPENDS
-  rather than modify busybox's defconfig.
+NAME
+  update_info_dir - update or create index file from all installed
+  info files in directory
 
-- Refer Ubuntu to add a script to postinst_intercept to
-  run it after all packages have been installed at build time.
+SYNOPSIS
+  update_info_dir [options] [directory]
 
-Test Case:
+DESCRIPTION
+  Update, or create, the index file dir of available documentation
+  in $D/${infodir} (the default) or in given DIRECTORY. The index
+  file info is the directory is usually presented by info browsers
+  on startup.
 
-vim local.conf
-..
-IMAGE_INSTALL_append = " man man-doc texinfo texinfo-doc info info-doc"
-INHERIT += "compress_doc"
-DOC_COMPRESS = "xz" or DOC_COMPRESS = "bz2"
-..
+OPTIONS
+  -h,--help
+    Display help and exit.
 
-bitbake core-image-minimal
+SEE ALSO
+  emacs(1) info(1) install-info(1)
 
-runqemu qemux86
+AUTHOR
+  This manual page was written by Norbert Preining <preining@logic.at>,
+  for the Debian GNU/Linux system (but may be used by others). This
+  manual page was written for the Debian GNU/Linux distribution because
+  the original script was designed  for  Debian  packaging system.
 
-On target,
-...
-root@qemux86:~# man man
+Signed-off-by: Norbert Preining <preining@logic.at>
 
-root@qemux86:~# info info
-...
+Backport update-info-dir from ubuntu 1404, and add xz/bz2 compression support
 
-//Hongxu
+[YOCTO #6751]
 
-
-The following changes since commit 8ac8eca2e3bd8c78e2b31ea974930ed0243258a3:
-
-  build-appliance-image: Update to dizzy head revision (2014-09-23 22:10:26 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-doc
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-doc
-
-Hongxu Jia (4):
-  scripts/postinst-intercepts: add update_info_dir
-  texinfo: fix QA Error while doc compress enabled
-  texinfo: fix info not work
-  man/texinfo: conditionally add gzip/bzip2/xz to RDEPENDS
-
- meta/recipes-extended/man/man_1.6g.bb        | 13 +++++
- meta/recipes-extended/texinfo/texinfo_5.2.bb | 68 +++++++++++++++++++++++-
- scripts/postinst-intercepts/update_info_dir  | 77 ++++++++++++++++++++++++++++
- 3 files changed, 157 insertions(+), 1 deletion(-)
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ scripts/postinst-intercepts/update_info_dir | 77 +++++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
  create mode 100755 scripts/postinst-intercepts/update_info_dir
 
+diff --git a/scripts/postinst-intercepts/update_info_dir b/scripts/postinst-intercepts/update_info_dir
+new file mode 100755
+index 0000000..7b80d28
+--- /dev/null
++++ b/scripts/postinst-intercepts/update_info_dir
+@@ -0,0 +1,77 @@
++#!/bin/bash
++# update-info-dir
++# create a dir file from all installed info files
++# Copyright 2009 Norbert Preining
++# GPLv2
++
++INFODIR=$D${infodir}
++
++set -e
++
++#
++# since user's environment is taken over into root account when sudo-ing
++# we don't want that one's user LANGUAGE setting changes the messages in
++# the dir file. Force it to C. See bug #536476
++LANGUAGE="C"
++LANG="C"
++
++Help ()
++{
++    echo "\
++SYNOPSIS: update-info-dir [-h,--help] [info-directory]
++
++(re-)creates the index of available documentation in info format
++(the file /usr/share/info/dir) which is usually presented by info browsers
++on startup."
++
++    exit 0
++}
++
++
++if [ "$1" = "-h" ] || [ "$1" == "--help" ]; then
++    Help
++fi
++
++if [ -n "$1" ] ; then
++  INFODIR="$1"
++fi
++
++if [ ! -d "$INFODIR" ] ; then
++  echo "Not a directory: $INFODIR." >&2
++  exit 1
++fi
++
++if [ -r "$INFODIR/dir" ] ; then
++  rm -f "$INFODIR/dir.old"
++  cp $INFODIR/dir $INFODIR/dir.old
++fi
++
++# we have to remove the dir file not make ginstall-info being surprised
++rm -f "$INFODIR/dir"
++
++errors=0
++find "$INFODIR" -type f | while read file ; do
++  case $file in
++    */dir|*/dir.old| \
++    *-[0-9]|*-[0-9].gz|*-[0-9].xz|*-[0-9].bz2| \
++    *-[1-9][0-9]|*-[1-9][0-9].gz|*-[1-9][0-9].xz|*-[1-9][0-9].bz2| \
++    *.png)
++      # these files are ignored
++      continue
++      ;;
++    *)
++      ${STAGING_BINDIR_NATIVE}/install-info "$file" "$INFODIR/dir" || {
++        errors=$[errors+1]
++      }
++      ;;
++  esac
++done
++
++if [ $errors -gt 0 ] ; then
++  echo "Updating the index of info documentation produced $errors errors."
++  exit 1
++fi
++
++exit 0
++
++# vim:set expandtab tabstop=2: #
 -- 
 1.9.1
 
