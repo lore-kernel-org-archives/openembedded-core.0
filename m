@@ -1,37 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f170.google.com (mail-qc0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F51371555
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D3EC060809
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 19:43:57 +0000 (UTC)
-Received: by mail-qc0-f170.google.com with SMTP id c9so4045060qcz.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 12:43:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=2jczNGXXehUz4hAyigFN2S0tGH1/409j6Qa7/DZLRks=;
-	b=G/GedOOBfpq9vw1SSmAv8Hv3STsTqVU35dqyL863mY+OWM6rt9d5wpUvviSvmGZeJl
-	RtpTIzTSTkFZoi6UwqrbCoPrU9YFft++L9CbNHIL5BxVcKxrduELqiYKU5/WwlidvcC3
-	TAlcHXqPYD1KZNym0B7uVgrMOqtkQG3/+pkCvgeyN0YPhFY6DLr2Zt7QZ9t9JerZuoxQ
-	/doxfHXHr8yy7PpT4LCeQVtSRCJgf2Ydy9l0obAW0GZUEt7ikfTYQvhl8G1bmrcvjyW6
-	Z9rHa+5K9FlQHoMZYp/HP3nLGkL+ZiMepup/TM/xxERjEcfpodi3hIBk0ooKbm42zVaF
-	5H4A==
-X-Gm-Message-State: ALoCoQm05/HiDpC8z4frNvw0p4qjBVrwWs0jkAiV0ZDaExsHPh9P2F8hw2qBDWAwRJZhdl5J1+sY
-X-Received: by 10.140.97.247 with SMTP id m110mr1074636qge.80.1411587838855;
-	Wed, 24 Sep 2014 12:43:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Wed, 24 Sep 2014 12:43:38 -0700 (PDT)
-In-Reply-To: <AF233D1473C1364ABD51D28909A1B1B732581ED4@pgsmsx105.gar.corp.intel.com>
-References: <AF233D1473C1364ABD51D28909A1B1B732581ED4@pgsmsx105.gar.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 24 Sep 2014 20:43:38 +0100
-Message-ID: <CAJTo0LYFYFqY8kp1GtTAHvQaW0A7PYZy+zfM9HKqWmYHGzK9xg@mail.gmail.com>
-To: "Ong, Boon Leong" <boon.leong.ong@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Python Large File System Support
+	Wed, 24 Sep 2014 21:18:37 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Sep 2014 14:18:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,591,1406617200"; d="scan'208";a="604875181"
+Received: from dvhart-mac01.jf.intel.com (HELO [10.24.6.33]) ([10.24.6.33])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Sep 2014 14:18:34 -0700
+User-Agent: Microsoft-MacOutlook/14.4.3.140616
+Date: Wed, 24 Sep 2014 14:18:30 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <D0487728.AA0CF%dvhart@linux.intel.com>
+Thread-Topic: [OE-core] daisy: runtime-reverse/udev-hwdb missing during
+	do_rootfs
+References: <D04840BD.A9FE9%dvhart@linux.intel.com>
+	<1411581534.4189.65.camel@ted>
+In-Reply-To: <1411581534.4189.65.camel@ted>
+Mime-version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: daisy: runtime-reverse/udev-hwdb missing during do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,23 +34,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Sep 2014 19:44:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 24 Sep 2014 21:18:40 -0000
+Content-type: text/plain;
+	charset="US-ASCII"
+Content-transfer-encoding: 7bit
 
-On 23 September 2014 02:27, Ong, Boon Leong <boon.leong.ong@intel.com> wrote:
-> I did a search around meta/recipes-devtool/python found many recipes files.
-> So, I am reaching out to expert in this forum to guide on which is the right file
-> to be touched to enabled LFS?
+On 9/24/14, 10:58, "Richard Purdie" <richard.purdie@linuxfoundation.org>
+wrote:
 
-The important one is python_2.7.3.bb.  There's a "largefile"
-DISTRO_FEATURE that is sorely under-used and should control whether
-the arguments are added.
+>On Wed, 2014-09-24 at 09:34 -0700, Darren Hart wrote:
+>> I've hit the following on a custom image recipe (based on core-image):
+>> 
+>> | Configuring run-postinsts.
+>> |
+>> | NOTE: Installing complementary packages ...
+>> | NOTE: Running intercept scripts:
+>> | NOTE: Executing write_package_manifest ...
+>> | DEBUG: Executing python function write_package_manifest
+>> | DEBUG: Python function write_package_manifest finished
+>> | NOTE: Executing license_create_manifest ...
+>> | DEBUG: Executing shell function license_create_manifest
+>> | ls: cannot access
+>> 
+>>/build/yocto/daisy/intel-corei7-64_20140718205500/build/tmp/sysroots/inte
+>>l-
+>> internal-corei7-64/pkgdata/runtime-reverse/udev-hwdb: No such file or
+>> directory
+>> | readlink: missing operand
+>> | Try 'readlink --help' for more information.
+>> | basename: missing operand
+>> | Try 'basename --help' for more information.
+>> | WARNING: exit code 1 from a shell command.
+>> | DEBUG: Python function do_rootfs finished
+>> | ERROR: Function failed: license_create_manifest (log file is located
+>>at
+>> 
+>>/build/yocto/daisy/intel-corei7-64_20140718205500/build/tmp/work/intel_in
+>>te
+>> 
+>>rnal_corei7_64-eywa-linux/core-image-minimal-initramfs/1.0-r0/temp/log.do
+>>_r
+>> ootfs.15414)
+>> ERROR: Task 150 
+>> 
+>>(/build/yocto/daisy/intel-corei7-64_20140718205500/poky/meta/recipes-core
+>>/i
+>> mages/core-image-minimal-initramfs.bb, do_rootfs) failed with exit code
+>>'1'
+>> NOTE: Tasks Summary: Attempted 4727 tasks of which 4697 didn't need to
+>>be
+>> rerun and 1 failed.
+>> Waiting for 0 running tasks to finish:
+>
+>I don't know why it does this but I can perhaps give some pointers as to
+>where to look.
+>
+>udev-hwdb was installed in the image. First question is whether that is
+>actually in the build dependencies. "bitbake
+>core-image-minimal-initramfs -c rootfs -g", then grep task-depends.dot
+>and see if udev is in there.
 
-Tempted to say there should be a largefile.bbclass that you can
-control whether it adds to CFLAGS or passes --enable-largefile (as
-used by autoconf's AC_SYS_LARGEFILE).  The catch is that you can't
-pass the defines globally in every recipe as they change the size of
-types, so ABI changes.
+This was due to switching between systemd in DISTRO_FEATURES and not.
+Cleaning systemd and udev and rebuilding resolved the issue.
 
-Ross
+Lesson: use different tmp when changing DISTRO_FEATURES.
+
+-- 
+Darren Hart					Open Source Technology Center
+darren.hart@intel.com				            Intel Corporation
+
+
+
 
