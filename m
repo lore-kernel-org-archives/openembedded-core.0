@@ -1,37 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 09F6D65D59
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D260A60167
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 14:52:23 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id a108so5996548qge.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 07:52:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=NisTVbsTsenBWiN9p5YE7cCNVYi4+GELO5TyMKR9MMs=;
-	b=VrdjAsO3WpCoQ08KABWaZ/jw9xsbMpa2WHZrwbQ9ZvA12y2Er2EsKGHS1KOVwIKXHD
-	1dbr0edWh7zBaYRnhCp9P3YuZt6YRvYkVYTzHNHT8zVkApK26aPYLqaddd9AvMSHYCZR
-	5aOQIW7lcOgLbrsaT81icejBxweaizCcotwc6lsk5Wajez5/aj15itL7BgRlt94E0TXy
-	NGMgHilBipIQwApFXOhlKEN8pCIU1mLyGmTYNiA/00cwuVmEVN8vnHB4VAcLPJo9IvRs
-	ax+Kl8SupzkSaRJUu3A9YT+/BCHUw0lfWXSZAcjrXNl/c0zsH1Y1u18HhOuoj04f9uHw
-	/gvQ==
-X-Gm-Message-State: ALoCoQldqhIPEaZ2J3tt9HJo3oPfA+H9+Q2gWZ6eAzzf7/WFjRXj8ntmCB5rIYCLxnk4lLsan42x
-X-Received: by 10.140.94.144 with SMTP id g16mr9646953qge.77.1411570343167;
-	Wed, 24 Sep 2014 07:52:23 -0700 (PDT)
+	Wed, 24 Sep 2014 15:02:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8OF2U1X007114
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 24 Sep 2014 08:02:31 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 24 Sep 2014 08:02:30 -0700
+Message-ID: <5422DCFD.6070500@windriver.com>
+Date: Wed, 24 Sep 2014 23:02:21 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
 MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Wed, 24 Sep 2014 07:52:02 -0700 (PDT)
-In-Reply-To: <1ae0b3a4ea4c5fff1bd7a785b3d05d2ac6a0e394.1411558039.git.hongxu.jia@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <cover.1411558039.git.hongxu.jia@windriver.com>
-	<1ae0b3a4ea4c5fff1bd7a785b3d05d2ac6a0e394.1411558039.git.hongxu.jia@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 24 Sep 2014 15:52:02 +0100
-Message-ID: <CAJTo0LaVEuz9H=0bYy11myRee806eohDE5uqOyVUcTfTe1yYag@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
+	<7e7372c19a7505befddeb7f5ce6edcba6109515c.1411558039.git.hongxu.jia@windriver.com>
+	<CAJTo0Lb1YrBdRkRZ+_KpEaNvdbef0bAtRDJoLMw1RA=qGyrG9Q@mail.gmail.com>
+In-Reply-To: <CAJTo0Lb1YrBdRkRZ+_KpEaNvdbef0bAtRDJoLMw1RA=qGyrG9Q@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] scripts/postinst-intercepts: add update_info_dir
+Subject: Re: [PATCH 4/4] man/texinfo: conditionally add gzip/bzip2/xz to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Sep 2014 14:52:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 24 Sep 2014 15:02:37 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 24 September 2014 12:38, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> +# since user's environment is taken over into root account when sudo-ing
-> +# we don't want that one's user LANGUAGE setting changes the messages in
-> +# the dir file. Unset LANGUAGE and reload /etc/environment to get
-> +# the system wide settings. See bug #536476
-> +unset LANGUAGE
-> +unset LANG
-> +if [ -r /etc/environment ] ; then
-> +  . /etc/environment
-> +fi
-> +if [ -r /etc/default/locale ] ; then
-> +  . /etc/default/locale
-> +fi
+On 09/24/2014 10:45 PM, Burton, Ross wrote:
+> On 24 September 2014 12:38, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> +    if "compress_doc" in d.getVar("INHERIT", True):
+> You'll want to split() the INHERIT variable so you're searching for a
+> member and not a substring:
+>
+> if "compress_doc" in d.getVar("INHERIT", True).split()
+>
+> Without splitting, an inherited class called decompress_docker will
+> trigger your code.
 
-Isn't this Debian-specific, and also pushing the build host's
-environment settings onto the target?  We should use whatever default
-locale is configured for the image, or easier just force it to C.
+Yes, I will fix that, thanks for figuring that out
 
-Ross
+//Hongxu
+
+>
+> Ross
+
 
