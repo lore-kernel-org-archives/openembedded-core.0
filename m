@@ -1,24 +1,26 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 326C17148E
+Return-Path: <Muzaffar_Mahmood@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id A469E60167
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 11:38:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8OBcKU6028329
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Sep 2014 04:38:20 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 24 Sep 2014 04:38:19 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
-	<richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
-Date: Wed, 24 Sep 2014 19:38:07 +0800
-Message-ID: <cover.1411558039.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Wed, 24 Sep 2014 12:53:47 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1XWm4q-00043n-Kq from Muzaffar_Mahmood@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 24 Sep 2014 05:53:49 -0700
+Received: from svr-pkl-eng-06.pkl.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Wed, 24 Sep 2014 13:53:47 +0100
+From: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Sep 2014 17:52:49 +0500
+Message-ID: <1411563169-49607-1-git-send-email-muzaffar_mahmood@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH V2 0/4] man/info: fix not support xz/bz2 compression
+X-Originating-IP: [137.202.0.76]
+Cc: Anant Agrawal <Anant_Agrawal@mentor.com>
+Subject: [meta-oe][PATCH v2] alsa-utils: interrupt streaming via signal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,60 +33,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Sep 2014 11:38:52 -0000
+X-List-Received-Date: Wed, 24 Sep 2014 12:53:53 -0000
 Content-Type: text/plain
 
-Changed in V2:
-- Conditionally add 'gzip/bzip2/xz' to man/info's RDEPENDS
-  rather than modify busybox's defconfig.
+aplay/arecord (alsa-utils v1.0.28) cannot interrupt streaming
+via CTRL-C. Fixed the issue by reverting buggy patches and
+properly handling 'in_aborting' flag in appropriate functions.
 
-- Refer Ubuntu to add a script to postinst_intercept to
-  run it after all packages have been installed at build time.
+Signed-off-by: Anant Agrawal <Anant_Agrawal@mentor.com>
+Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
+Signed-off-by: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
+---
+ ...lsa-utils-aplay-interrupt-signal-handling.patch |   48 ++++++++++++++++++++
+ .../recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb |    1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-utils/alsa-utils-aplay-interrupt-signal-handling.patch
 
-Test Case:
-
-vim local.conf
-..
-IMAGE_INSTALL_append = " man man-doc texinfo texinfo-doc info info-doc"
-INHERIT += "compress_doc"
-DOC_COMPRESS = "xz" or DOC_COMPRESS = "bz2"
-..
-
-bitbake core-image-minimal
-
-runqemu qemux86
-
-On target,
-...
-root@qemux86:~# man man
-
-root@qemux86:~# info info
-...
-
-//Hongxu
-
-The following changes since commit 8ac8eca2e3bd8c78e2b31ea974930ed0243258a3:
-
-  build-appliance-image: Update to dizzy head revision (2014-09-23 22:10:26 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-doc
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-doc
-
-Hongxu Jia (4):
-  scripts/postinst-intercepts: add update_info_dir
-  texinfo: fix QA Error while doc compress enabled
-  texinfo: fix info not work
-  man/texinfo: conditionally add gzip/bzip2/xz to RDEPENDS
-
- meta/recipes-extended/man/man_1.6g.bb        | 13 +++++
- meta/recipes-extended/texinfo/texinfo_5.2.bb | 68 +++++++++++++++++++++-
- scripts/postinst-intercepts/update_info_dir  | 84 ++++++++++++++++++++++++++++
- 3 files changed, 164 insertions(+), 1 deletion(-)
- create mode 100755 scripts/postinst-intercepts/update_info_dir
-
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils/alsa-utils-aplay-interrupt-signal-handling.patch b/meta/recipes-multimedia/alsa/alsa-utils/alsa-utils-aplay-interrupt-signal-handling.patch
+new file mode 100644
+index 0000000..5df004a
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-utils/alsa-utils-aplay-interrupt-signal-handling.patch
+@@ -0,0 +1,48 @@
++Upstream-Status: Pending
++
++aplay/arecord (alsa-utils v1.0.28) cannot interrupt streaming
++via CTRL-C. Fixed the issue by reverting buggy patches and
++properly handling 'in_aborting' flag in appropriate functions.
++
++Signed-off-by: Anant Agrawal <Anant_Agrawal@mentor.com>
++Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
++
++--- a/aplay/aplay.c	2014-05-19 16:25:14.000000000 +0530
+++++ b/aplay/aplay.c	2014-05-20 15:17:14.364823007 +0530
++@@ -392,14 +392,22 @@
++ 		putchar('\n');
++ 	if (!quiet_mode)
++ 		fprintf(stderr, _("Aborted by signal %s...\n"), strsignal(sig));
++-	if (handle)
+++	if (stream == SND_PCM_STREAM_CAPTURE) {
+++		if (fmt_rec_table[file_type].end) {
+++			fmt_rec_table[file_type].end(fd);
+++			fd = -1;
+++		}
+++		stream = -1;
+++	}
+++	if (fd > 1) {
+++		close(fd);
+++		fd = -1;
+++	}
+++	if (handle && sig != SIGABRT) {
++ 		snd_pcm_abort(handle);
++-	if (sig == SIGABRT) {
++-		/* do not call snd_pcm_close() and abort immediately */
++ 		handle = NULL;
++-		prg_exit(EXIT_FAILURE);
++ 	}
++-	signal(sig, signal_handler);
+++	prg_exit(EXIT_FAILURE);
++ }
++ 
++ /* call on SIGUSR1 signal. */
++@@ -2096,7 +2104,7 @@
++ 	ssize_t result = count, r;
++ 	size_t size;
++ 
++-	while (count > 0) {
+++	while (count > 0 && !in_aborting) {
++ 		size = count;
++ 		if (size > chunk_bytes - buffer_pos)
++ 			size = chunk_bytes - buffer_pos;
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
+index 047fcfe..b139b68 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
+@@ -13,6 +13,7 @@ PACKAGECONFIG[xmlto] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xm
+ 
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
+            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
++           file://alsa-utils-aplay-interrupt-signal-handling.patch \
+           "
+ 
+ SRC_URI[md5sum] = "b65e9a04181bd7c9db7667a4566f8dc3"
 -- 
-1.9.1
+1.7.9.5
 
 
