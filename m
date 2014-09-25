@@ -1,35 +1,28 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id B4DC86116C
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 840CD712AA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 01:54:16 +0000 (UTC)
-Received: by mail-pd0-f173.google.com with SMTP id w10so60964pde.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Sep 2014 18:54:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=9m4LdU4GBKFt16BO7amiW+J0l7z2QFktm6GC/LCY3CI=;
-	b=vAi3haezj8v6Vji4BJaf6pxCco14En+L4sYemLe7ZV50uRxpdRdpFVlwBZ7+G5tz4X
-	a5W3lRg5ASE4w/paSrhZf+rbn3b1wi+k3iwxpKpNWKRvMP/zc6bmhjaP/Ha1VPHf+wy2
-	PQ+22P0kXcdQil6VJZcmnhlsf+Ka9C2nm9Zkcf9ZLUzUpblWhAR+kExdojov5DTxRLiu
-	42/GakRSUH+VZCx/11KaQrVoJzp6fcA8YeSs6kwpWKrHO98wecH0P/wuheAFa3nhB2Xn
-	N6xIG6SmGxSgxI5FE+JlKjPvw4yiKl7uKetFOJZY8oXxPUv5DYxn8jsfx2mlaH4eXr53
-	zRXQ==
-X-Received: by 10.68.87.225 with SMTP id bb1mr13787064pbb.89.1411610058449;
-	Wed, 24 Sep 2014 18:54:18 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id oz6sm520340pdb.38.2014.09.24.18.54.17
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 24 Sep 2014 18:54:17 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Sep 2014 12:05:52 +1000
-Message-Id: <1411610752-12283-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] meta-toolchain-qt: fix up old reference to Nokia and typo
+	Thu, 25 Sep 2014 01:54:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8P1sSKK019898
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 24 Sep 2014 18:54:28 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 24 Sep 2014 18:54:27 -0700
+Message-ID: <542375C6.70804@windriver.com>
+Date: Thu, 25 Sep 2014 09:54:14 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1411572129.git.hongxu.jia@windriver.com>
+	<CAJTo0LYMRuVfx5poDJuNRdu5TPaLBTtgsJLLXJrB_G8e4ur-3Q@mail.gmail.com>
+In-Reply-To: <CAJTo0LYMRuVfx5poDJuNRdu5TPaLBTtgsJLLXJrB_G8e4ur-3Q@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3 0/4] man/info: fix not support xz/bz2 compression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,30 +35,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Sep 2014 01:54:17 -0000
+X-List-Received-Date: Thu, 25 Sep 2014 01:54:30 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The SDK is now called Qt SDK.
+On 09/25/2014 05:53 AM, Burton, Ross wrote:
+> Hi Hongxu,
+>
+> This is failing for me, core-image-minimal for NUC with doc-pkgs:
+>
+> Collected errors:
+>   * check_data_file_clashes: Package util-linux-doc wants to install
+> file /data/poky-master/tmp/work/nuc-poky-linux/cor
+> e-image-minimal/1.0-r0/rootfs/usr/share/man/man3/libblkid.3.xz
+>          But that file is already provided by package  * e2fsprogs-doc
+>   * check_data_file_clashes: Package util-linux-doc wants to install
+> file /data/poky-master/tmp/work/nuc-poky-linux/cor
+> e-image-minimal/1.0-r0/rootfs/usr/share/man/man8/findfs.8.xz
+>          But that file is already provided by package  * e2fsprogs-doc
+>   * check_data_file_clashes: Package util-linux-doc wants to install
+> file /data/poky-master/tmp/work/nuc-poky-linux/cor
+> e-image-minimal/1.0-r0/rootfs/usr/share/man/man8/fsck.8.xz
+>          But that file is already provided by package  * e2fsprogs-doc
+>   * check_data_file_clashes: Package util-linux-doc wants to install
+> file /data/poky-master/tmp/work/nuc-poky-linux/cor
+> e-image-minimal/1.0-r0/rootfs/usr/share/man/man8/blkid.8.xz
+>          But that file is already provided by package  * e2fsprogs-doc
+>   * opkg_install_cmd: Cannot install package util-linux-doc.
+>
+> NOTE: Running intercept scripts:
+> NOTE: > Executing update_info_dir intercept ...
+> /data/poky-master/tmp/work/nuc-poky-linux/core-image-minimal/1.0-r0/intercept_scripts/update_info_dir:
+> line 63: /insta
+> ll-info: No such file or directory
+> /data/poky-master/tmp/work/nuc-poky-linux/core-image-minimal/1.0-r0/intercept_scripts/update_info_dir:
+> line 63: /insta
+> ll-info: No such file or directory
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/recipes-qt/meta/meta-toolchain-qt.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks for testing, the error log shows STAGING_BINDIR_NATIVE is unset,
+but I could not reproduce it, could you paste more details about the config,
+such as
+...
+PACKAGE_CLASSES ?= "package_ipk"
+EXTRA_IMAGE_FEATURES = "debug-tweaks doc-pkgs"
+USER_CLASSES += "compress_doc"
+DOC_COMPRESS = "xz"
+...
 
-diff --git a/meta/recipes-qt/meta/meta-toolchain-qt.inc b/meta/recipes-qt/meta/meta-toolchain-qt.inc
-index c9bdeae..53e5322 100644
---- a/meta/recipes-qt/meta/meta-toolchain-qt.inc
-+++ b/meta/recipes-qt/meta/meta-toolchain-qt.inc
-@@ -26,7 +26,7 @@ toolchain_create_sdk_env_script_append() {
-     echo 'export QMAKESPEC=${SDKTARGETSYSROOT}/${datadir}/${QT_DIR_NAME}/mkspecs/linux-g++' >> $script
-     echo 'export QT_CONF_PATH=${SDKPATHNATIVE}/${sysconfdir}/qt.conf' >> $script
- 
--    # make a symbolic link to mkspecs for compatibility with Nokia's SDK
--    # and QTCreator
-+    # make a symbolic link to mkspecs for compatibility with Qt SDK
-+    # and Qt Creator
-     (cd ${SDK_OUTPUT}/${QT_TOOLS_PREFIX}/..; ln -s ${SDKTARGETSYSROOT}/usr/share/${QT_DIR_NAME}/mkspecs mkspecs;)
- }
--- 
-2.1.0
+bitbake core-image-minimal
+
+//Hongxu
+
+> Ross
+>
+> On 24 September 2014 16:27, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> Changed in V3:
+>> - Remove Debian-specific code
+>> - split() the INHERIT variable
+>>
+>> Changed in V2:
+>> - Conditionally add 'gzip/bzip2/xz' to man/info's RDEPENDS
+>>    rather than modify busybox's defconfig.
+>>
+>> - Refer Ubuntu to add a script to postinst_intercept to
+>>    run it after all packages have been installed at build time.
+>>
+>> Test Case:
+>>
+>> vim local.conf
+>> ..
+>> IMAGE_INSTALL_append = " man man-doc texinfo texinfo-doc info info-doc"
+>> INHERIT += "compress_doc"
+>> DOC_COMPRESS = "xz" or DOC_COMPRESS = "bz2"
+>> ..
+>>
+>> bitbake core-image-minimal
+>>
+>> runqemu qemux86
+>>
+>> On target,
+>> ...
+>> root@qemux86:~# man man
+>>
+>> root@qemux86:~# info info
+>> ...
+>>
+>> //Hongxu
+>>
+>>
+>> The following changes since commit 8ac8eca2e3bd8c78e2b31ea974930ed0243258a3:
+>>
+>>    build-appliance-image: Update to dizzy head revision (2014-09-23 22:10:26 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.pokylinux.org/poky-contrib hongxu/fix-doc
+>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-doc
+>>
+>> Hongxu Jia (4):
+>>    scripts/postinst-intercepts: add update_info_dir
+>>    texinfo: fix QA Error while doc compress enabled
+>>    texinfo: fix info not work
+>>    man/texinfo: conditionally add gzip/bzip2/xz to RDEPENDS
+>>
+>>   meta/recipes-extended/man/man_1.6g.bb        | 13 +++++
+>>   meta/recipes-extended/texinfo/texinfo_5.2.bb | 68 +++++++++++++++++++++++-
+>>   scripts/postinst-intercepts/update_info_dir  | 77 ++++++++++++++++++++++++++++
+>>   3 files changed, 157 insertions(+), 1 deletion(-)
+>>   create mode 100755 scripts/postinst-intercepts/update_info_dir
+>>
+>> --
+>> 1.9.1
+>>
 
 
