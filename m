@@ -1,41 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C2346116C
+Return-Path: <sledz@dresearch-fe.de>
+Received: from zk223.dresearch-fe.de (zk223.dresearch-fe.de [217.92.177.116])
+	by mail.openembedded.org (Postfix) with ESMTP id 50B6960144
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 11:41:52 +0000 (UTC)
-Received: by mail-qg0-f46.google.com with SMTP id q108so7200659qgd.19
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 04:41:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=rdzSuGq4RInERv3gpz8JTuGBY/GDR08jH7J//mkFWd8=;
-	b=OaHp8juO/Kz8fWeExVCwKhDNjyo1ojxMm/eEP4GQfu0+3BZkcUninKQmxPTAWwUMxR
-	jzfE/LqDYl8mI+mOfeuutieuYiMQzhuOl5TN1aPZG99eKjf4VhncMZL+5dY/G1MH0w9J
-	KHv6poe0yp5uHs7LygNxyXGs5XIxGIV96K3DbnA1kW85E5PPU5TeCOnRcwoAB2u5t8CU
-	63d4SXleOZriOV2kjLQkq3rTnOITaddKGdvIMo0jeSj7I/TAPhSHPDI+/eyTudebN3+r
-	ACyXkQTagHj9RxOtG5SuEdmoopwonzkk2FQBV7FZ2ZvTdkuUfmeLX/N3Opp6GdlbkmVK
-	hgtg==
-X-Gm-Message-State: ALoCoQnV4TE9F/C4vzA97EBHXbqKjVZ9LnNXAp1ZXTtDwcm/C2Cv+mIjnB25zTzwFbAw1W5uxS6f
-X-Received: by 10.140.97.247 with SMTP id m110mr6790145qge.80.1411645313174;
-	Thu, 25 Sep 2014 04:41:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Thu, 25 Sep 2014 04:41:33 -0700 (PDT)
-In-Reply-To: <5423FE09.6020002@pabigot.com>
-References: <1411148655-5500-1-git-send-email-pab@pabigot.com>
-	<CAJTo0LY0a9_Rb5Eyq3b20ML89YcVkNS0N=NnXL-zkUQescGu3Q@mail.gmail.com>
-	<5423F97B.6020705@pabigot.com>
-	<1761684.on3aH1HNt7@peggleto-mobl5.ger.corp.intel.com>
-	<5423FE09.6020002@pabigot.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 25 Sep 2014 12:41:33 +0100
-Message-ID: <CAJTo0LaK_Mzpnm32MzVS=iWS-uddYuVVK8=dxEzmqtd_LzedcA@mail.gmail.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] git: add Git perl module to perltools package
+	Thu, 25 Sep 2014 12:25:36 +0000 (UTC)
+Received: from fensuse.internal.dresearch-fe.de
+	(fensuse.internal.dresearch-fe.de [172.29.23.6])
+	by zk223.dresearch-fe.de (Postfix) with ESMTP id 766B6E00CB;
+	Thu, 25 Sep 2014 14:19:41 +0200 (CEST)
+Received: by fensuse.internal.dresearch-fe.de (Postfix, from userid 1000)
+	id 6811F700D59; Thu, 25 Sep 2014 14:19:41 +0200 (CEST)
+From: Steffen Sledz <sledz@dresearch-fe.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Sep 2014 14:17:57 +0200
+Message-Id: <1411647477-12992-3-git-send-email-sledz@dresearch-fe.de>
+X-Mailer: git-send-email 2.1.1
+In-Reply-To: <1411647477-12992-1-git-send-email-sledz@dresearch-fe.de>
+References: <1411647477-12992-1-git-send-email-sledz@dresearch-fe.de>
+Subject: [daisy][PATCH 3/3] layer.conf: Mark opkg-utils as ABISAFE for update-alternatives usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,15 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Sep 2014 11:42:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 25 Sep 2014 12:25:37 -0000
 
-On 25 September 2014 12:35, Peter A. Bigot <pab@pabigot.com> wrote:
-> Shouldn't I have gotten the nothing PROVIDES warning for git-nativesdk even
-> with git-native in ASSUME_PROVIDED?  I'm smelling a missing end-of-line
-> anchor in a regex somewhere.
+Currently linux-firmware rebuilds for each machine due to its usage of
+update-alternatives which in turn means a dependency on opkg-utils.
+Marking opkg-utils as ABISAFE is the only option we have right now
+to avoid this.
 
-Yes, me too.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Steffen Sledz <sledz@dresearch-fe.de>
+---
+ meta/conf/layer.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Ross
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index a764ee0..13814dc 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -14,6 +14,7 @@ LAYERVERSION_core = "4"
+ # Set a variable to get to the top of the metadata location
+ COREBASE = '${@os.path.normpath("${LAYERDIR}/../")}'
+ 
++# opkg-utils is for update-altnernatives :(
+ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+   sysvinit-inittab \
+   shadow-securetty \
+@@ -34,4 +35,5 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+   shadow \
+   shadow-sysroot \
+   base-passwd \
++  opkg-utils \
+ "
+-- 
+2.1.1
+
 
