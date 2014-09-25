@@ -1,28 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C7BEE60144
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 293BE60144
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 09:11:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8P9BHMv003271
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 25 Sep 2014 10:50:10 +0000 (UTC)
+Received: by mail-qc0-f181.google.com with SMTP id w7so1913299qcr.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 02:11:17 -0700 (PDT)
-Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Thu, 25 Sep 2014 02:11:16 -0700
-Message-ID: <5423DC60.6050902@windriver.com>
-Date: Thu, 25 Sep 2014 17:12:00 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
+	Thu, 25 Sep 2014 03:50:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=pZmEKB6rtEGCMSaepOUv4PdwcEF3IXB15J3/y+omJvM=;
+	b=aE1eHN2z58Xsr04/0LLdKAaSRFAsqKcSS0Si1anfJ7XFyZ4WWc8C/VtNvZUp100kSp
+	mm18DjVAaJmZR6LXZBN92Fo2hHiYWZSUiF4IhZvRWeO/IT7BY9AwKNauTzkbADbKPYpG
+	B5UonkU6ZwuHpQZnRtDu3EC3hCzT/B2IDTKPKkXEmmz+4F+MsEJePScQ1ypfPl+kY5Lb
+	CDsgiAX97SArbCyuv7W6L1enLuEewVJT+mTA9ghvCg/UnIQqZCYZ4xRHbC7PJul21Xmv
+	ePCpFaxI2ftj+sImss+LoSs9ilaMR18QqZbRgOEHP6z5nzCBw12inuJfFgZPEAK7ttOq
+	oylw==
+X-Gm-Message-State: ALoCoQmvSR1QIzh0y7LB/9wdn62+ZjhNi/maJ+6mhkVj2UL4rCApxvTbhCS/s6GVhjRn5+iUykOB
+X-Received: by 10.224.121.80 with SMTP id g16mr12336264qar.64.1411642211605;
+	Thu, 25 Sep 2014 03:50:11 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1411114143.git.Qi.Chen@windriver.com>
-In-Reply-To: <cover.1411114143.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.187]
-Subject: Re: [PATCH 0/4] Fixes for syslog services in systemd
+Received: by 10.140.34.180 with HTTP; Thu, 25 Sep 2014 03:49:51 -0700 (PDT)
+In-Reply-To: <54229DB5.90806@pabigot.com>
+References: <1411148655-5500-1-git-send-email-pab@pabigot.com>
+	<54229DB5.90806@pabigot.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 25 Sep 2014 11:49:51 +0100
+Message-ID: <CAJTo0LY0a9_Rb5Eyq3b20ML89YcVkNS0N=NnXL-zkUQescGu3Q@mail.gmail.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] git: add Git perl module to perltools package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Sep 2014 09:11:16 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Sep 2014 10:50:13 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Please drop this one.
+On 24 September 2014 11:32, Peter A. Bigot <pab@pabigot.com> wrote:
+> Ping for this one too (it re-opened Yocto #3780 and has 1.7 as a due date).
+>
+> That's all I expect to have for 1.7, unless u-boot 2014.07 gets in (there's
+> a patch needed for BBB in that case, but it's already in meta-ti's version).
 
-V2 has been sent to fix a problem in the patch for sysklogd.
+This produces errors for nativesdk builds:
 
-//Chen Qi
+ERROR: QA Issue: nativesdk-git: Files/directories were installed but not shipped
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Error.pm
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git.pm
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/perllocal.pod
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/auto
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/auto/Git
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/auto/Git/.packlist
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/SVN.pm
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/IndexInfo.pm
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/I18N.pm
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/SVN
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/SVN/GlobSpec.pm
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/SVN/Ra.pm
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/SVN/Log.pm
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/SVN/Prompt.pm
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/SVN/Utils.pm
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/SVN/Fetcher.pm
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/SVN/Editor.pm
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/SVN/Migration.pm
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/SVN/Memoize
+  /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/lib/perl-native/perl/5.20.0/Git/SVN/Memoize/YAML.pm
+[installed-vs-shipped]
 
-On 09/19/2014 04:11 PM, Chen Qi wrote:
-> The following changes since commit f6a39cc957bf85ff43513f0b76afc3b2c9c906b6:
->
->    sstatesig: fix overrides behaviour to remove SIGGEN_LOCKEDSIGS_i586 (2014-09-17 22:00:05 +0100)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-syslog-service
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-syslog-service
->
-> Chen Qi (4):
->    systemd: enable syslog.socket by default
->    busybox: fix for syslog service in systemd
->    sysklogd: add systemd support
->    sysklog: comment out configuration regarding xconsole
->
->   meta/recipes-core/busybox/busybox.inc              |   9 +-
->   .../busybox/files/busybox-klogd.service.in         |   4 +-
->   .../busybox/files/busybox-syslog.service.in        |   7 +-
->   meta/recipes-core/systemd/systemd_216.bb           |   2 +
->   .../files/0001-syslogd.c-add-systemd-support.patch | 207 +++++++++++++++++++++
->   meta/recipes-extended/sysklogd/files/klogd.service |   9 +
->   .../sysklogd/files/sysklogd.service                |  14 ++
->   meta/recipes-extended/sysklogd/files/syslog.conf   |   8 +-
->   meta/recipes-extended/sysklogd/sysklogd.inc        |  38 +++-
->   9 files changed, 278 insertions(+), 20 deletions(-)
->   create mode 100644 meta/recipes-extended/sysklogd/files/0001-syslogd.c-add-systemd-support.patch
->   create mode 100644 meta/recipes-extended/sysklogd/files/klogd.service
->   create mode 100644 meta/recipes-extended/sysklogd/files/sysklogd.service
->
-
+Ross
 
