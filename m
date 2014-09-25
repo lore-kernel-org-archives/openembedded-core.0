@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D93E0712AA
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id ACF2A712AA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 09:10:08 +0000 (UTC)
+	Thu, 25 Sep 2014 09:10:09 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8P9AAxr012240
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8P9ABxQ003197
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 02:10:10 -0700 (PDT)
+	Thu, 25 Sep 2014 02:10:11 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 25 Sep 2014 02:10:09 -0700
+	14.3.174.1; Thu, 25 Sep 2014 02:10:10 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Sep 2014 17:10:49 +0800
-Message-ID: <93b7f4a3eb8312a9c1e397fab00e37feed90d151.1411635424.git.Qi.Chen@windriver.com>
+Date: Thu, 25 Sep 2014 17:10:50 +0800
+Message-ID: <9155cf2534354c47adf174854781f58a63e38df3.1411635424.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1411635424.git.Qi.Chen@windriver.com>
 References: <cover.1411635424.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 2/4] busybox: fix for syslog service in systemd
+Subject: [PATCH V2 3/4] sysklogd: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,91 +37,358 @@ X-List-Received-Date: Thu, 25 Sep 2014 09:10:11 -0000
 Content-Type: text/plain
 
 This patch includes the following changes:
-1. Explicitly set StandardOutput of the log daemon to null.
-   This would avoid creating a feedback loop of the syslog service.
-   See link below for more information.
-   http://www.freedesktop.org/wiki/Software/systemd/syslog/
-
-2. Use ALTERNATIVE machanism to manage the syslog service file.
-   This is because that other package may also provide a syslog
-   implementation.
-
-3. Make the syslog daemon socket activated only. Otherwise, things
-   would crash if we install busybox-syslog and other syslog packages
-   together in one image.
+1. Add socket activation support for sysklogd.
+2. Add systemd service file.
+3. Use ALTERNATIVE mechanism in OE to manage the syslog service.
+4. Set ALTERNATIVE_PRIORITY to "100" regardless of whether 'systemd'
+   is in DISTRO_FEATURE or not because sysklogd now has systemd support.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/busybox/busybox.inc                     | 9 +++++++--
- meta/recipes-core/busybox/files/busybox-klogd.service.in  | 4 +---
- meta/recipes-core/busybox/files/busybox-syslog.service.in | 7 +++----
- 3 files changed, 11 insertions(+), 9 deletions(-)
+ .../files/0001-syslogd.c-add-systemd-support.patch | 217 +++++++++++++++++++++
+ meta/recipes-extended/sysklogd/files/klogd.service |   9 +
+ .../sysklogd/files/sysklogd.service                |  14 ++
+ meta/recipes-extended/sysklogd/sysklogd.inc        |  37 +++-
+ 4 files changed, 272 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-extended/sysklogd/files/0001-syslogd.c-add-systemd-support.patch
+ create mode 100644 meta/recipes-extended/sysklogd/files/klogd.service
+ create mode 100644 meta/recipes-extended/sysklogd/files/sysklogd.service
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index bd66e4f..a6b205a 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -274,13 +274,12 @@ do_install () {
-     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-         if grep -q "CONFIG_SYSLOGD=y" ${B}/.config; then
-             install -d ${D}${systemd_unitdir}/system
--            sed 's,@base_sbindir@,${base_sbindir},g' < ${WORKDIR}/busybox-syslog.service.in \
-+            sed -e 's,@base_sbindir@,${base_sbindir},g' -e 's,@SYSCONFDIR@,${sysconfdir},g' < ${WORKDIR}/busybox-syslog.service.in \
- 		> ${D}${systemd_unitdir}/system/busybox-syslog.service
-             if [ -f ${WORKDIR}/busybox-syslog.default ] ; then
- 		install -d ${D}${sysconfdir}/default
- 		install -m 0644 ${WORKDIR}/busybox-syslog.default ${D}${sysconfdir}/default/busybox-syslog
-             fi
--            ln -sf /dev/null ${D}${systemd_unitdir}/system/syslog.service
-         fi
-         if grep -q "CONFIG_KLOGD=y" ${B}/.config; then
-             install -d ${D}${systemd_unitdir}/system
-@@ -311,6 +310,12 @@ python () {
-         d.appendVar('ALTERNATIVE_%s-syslog' % (pn), ' syslog-startup-conf')
-         d.setVarFlag('ALTERNATIVE_LINK_NAME', 'syslog-startup-conf', '%s/syslog-startup.conf' % (d.getVar('sysconfdir', True)))
-         d.setVarFlag('ALTERNATIVE_TARGET', 'syslog-startup-conf', '%s/syslog-startup.conf.%s' % (d.getVar('sysconfdir', True), d.getVar('BPN', True)))
+diff --git a/meta/recipes-extended/sysklogd/files/0001-syslogd.c-add-systemd-support.patch b/meta/recipes-extended/sysklogd/files/0001-syslogd.c-add-systemd-support.patch
+new file mode 100644
+index 0000000..84d216c
+--- /dev/null
++++ b/meta/recipes-extended/sysklogd/files/0001-syslogd.c-add-systemd-support.patch
+@@ -0,0 +1,217 @@
++Upstream-Status: Pending
++
++Subject: syslogd.c: add systemd support
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ syslogd.c | 147 ++++++++++++++++++++++++++++++++++++++++++++++++++++++--------
++ 1 file changed, 128 insertions(+), 19 deletions(-)
++
++diff --git a/syslogd.c b/syslogd.c
++index acfd8f1..83b067e 100644
++--- a/syslogd.c
+++++ b/syslogd.c
++@@ -602,6 +602,9 @@ static char sccsid[] = "@(#)syslogd.c	5.27 (Berkeley) 10/10/88";
++ #define _PATH_LOG	"/dev/log"
++ #endif
++ 
+++/* systemd support */
+++#define SD_LISTEN_FDS_START 3
+++
++ char	*ConfFile = _PATH_LOGCONF;
++ char	*PidFile = _PATH_LOGPID;
++ char	ctty[] = _PATH_CONSOLE;
++@@ -822,6 +825,8 @@ int decode(char *name, struct code *codetab);
++ static void dprintf(char *, ...);
++ static void allocate_log(void);
++ void sighup_handler();
+++/* systemd support */
+++int sd_listen_fds(void);
++ 
++ #ifdef SYSLOG_UNIXAF
++ static int create_unix_socket(const char *path);
++@@ -963,9 +968,37 @@ int main(argc, argv)
++ 				 */
++ 				exit(1);
++ 			}
+++
+++			/* We keep stdout and stderr open in case we have to emit something */
+++			close(0);
+++			i = 3;
+++
+++			/* Trying to pass on LISTEN_PID with appropriate value */
+++			const char *e;
+++			unsigned long l;
+++			char buf[24] = { '\0' };
+++			int sd_fds;
+++
+++			if ( (e = getenv("LISTEN_PID")) ) {
+++				errno = 0;
+++				l = strtoul(e, NULL, 10);
+++				if (errno == 0) {
+++					if (getppid() == (pid_t)l) {
+++						snprintf(buf,sizeof(buf), "%d", (int)getpid());
+++						setenv("LISTEN_PID", buf, 1);
+++					} 
+++				}
+++			}
+++
++ 			signal (SIGTERM, SIG_DFL);
++ 			num_fds = getdtablesize();
++-			for (i= 0; i < num_fds; i++)
+++
+++			/* close all further fds except of the fds provided by systemd */
+++			sd_fds = sd_listen_fds();
+++			if (sd_fds > 0) {
+++				i = SD_LISTEN_FDS_START + sd_fds;
+++			}
+++			for ( ; i < num_fds; i++)
++ 				(void) close(i);
++ 			untty();
++ 		}
++@@ -1248,28 +1281,36 @@ static int create_unix_socket(const char *path)
++ {
++ 	struct sockaddr_un sunx;
++ 	int fd;
+++	int n;
++ 	char line[MAXLINE +1];
++ 
++-	if (path[0] == '\0')
+++	n = sd_listen_fds();
+++	if (n > 1) {
++ 		return -1;
++-
++-	(void) unlink(path);
++-
++-	memset(&sunx, 0, sizeof(sunx));
++-	sunx.sun_family = AF_UNIX;
++-	(void) strncpy(sunx.sun_path, path, sizeof(sunx.sun_path));
++-	fd = socket(AF_UNIX, SOCK_DGRAM, 0);
++-	if (fd < 0 || bind(fd, (struct sockaddr *) &sunx,
++-			   sizeof(sunx.sun_family)+strlen(sunx.sun_path)) < 0 ||
++-	    chmod(path, 0666) < 0) {
++-		(void) snprintf(line, sizeof(line), "cannot create %s", path);
++-		logerror(line);
++-		dprintf("cannot create %s (%d).\n", path, errno);
++-		close(fd);
+++	} else if (n == 1) {
+++		fd = SD_LISTEN_FDS_START + 0;
+++	} else {
+++		if (path[0] == '\0')
+++			return -1;
+++
+++		(void) unlink(path);
+++
+++		memset(&sunx, 0, sizeof(sunx));
+++		sunx.sun_family = AF_UNIX;
+++		(void) strncpy(sunx.sun_path, path, sizeof(sunx.sun_path));
+++		fd = socket(AF_UNIX, SOCK_DGRAM, 0);
+++		if (fd < 0 || bind(fd, (struct sockaddr *) &sunx,
+++				   sizeof(sunx.sun_family)+strlen(sunx.sun_path)) < 0 ||
+++		    chmod(path, 0666) < 0) {
+++			(void) snprintf(line, sizeof(line), "cannot create %s", path);
+++			logerror(line);
+++			dprintf("cannot create %s (%d).\n", path, errno);
+++			close(fd);
++ #ifndef SYSV
++-		die(0);
+++			die(0);
++ #endif
++-		return -1;
+++			return -1;
+++		}
++ 	}
++ 	return fd;
++ }
++@@ -1998,12 +2039,27 @@ void wallmsg(f, iov)
++ 	/* open the user login file */
++ 	setutent();
++ 
++-
++ 	/*
++ 	 * Might as well fork instead of using nonblocking I/O
++ 	 * and doing notty().
++ 	 */
++ 	if (fork() == 0) {
+++		/* Trying to pass on the LISTEN_PID with appropriate value */
+++		const char *e;
+++		unsigned long l;
+++		char buf[24] = { '\0' };
+++
+++		if ( (e = getenv("LISTEN_PID")) ) {
+++			errno = 0;
+++			l = strtoul(e, NULL, 10);
+++			if (errno == 0) {
+++				if (getppid() == (pid_t)l) {
+++					snprintf(buf,sizeof(buf), "%d", (int)getpid());
+++					setenv("LISTEN_PID", buf, 1);
+++				}
+++			} 
+++		}
+++
++ 		(void) signal(SIGTERM, SIG_DFL);
++ 		(void) alarm(0);
++ #ifndef SYSV
++@@ -2896,6 +2952,59 @@ void sighup_handler()
++ 	return;
++ }
++ 
+++int sd_listen_fds() {
+++	int r, fd;
+++	const char *e;
+++	unsigned long l;
+++
+++	e = getenv("LISTEN_PID");
+++	if (!e) {
+++		return 0;
+++	}
+++
+++	errno = 0;
+++	l = strtoul(e, NULL, 10);
+++
+++	if (errno != 0) {
+++		return -errno;
+++	}
+++
+++	if (getpid() != (pid_t)l) {
+++		return 0;
+++	}
+++
+++	e = getenv("LISTEN_FDS");
+++	if (!e) {
+++		return 0;
+++	}
+++
+++	errno = 0;
+++	l = strtoul(e, NULL, 10);
+++
+++	if (errno != 0) {
+++		return -errno;
+++	}
+++
+++	for (fd = SD_LISTEN_FDS_START; fd < SD_LISTEN_FDS_START + (int)l; fd++) {
+++		int flags;
+++
+++		flags = fcntl(fd, F_GETFD);
+++		if (flags < 0) {
+++			return -errno;
+++		}
+++
+++		if (flags & FD_CLOEXEC)
+++			continue;
+++
+++		if (fcntl(fd, F_SETFD, flags | FD_CLOEXEC) < 0) {
+++			return -errno;
+++		}
+++	}
+++
+++	r = (int)l;
+++
+++	return r;
+++}
++ /*
++  * Local variables:
++  *  c-indent-level: 8
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/sysklogd/files/klogd.service b/meta/recipes-extended/sysklogd/files/klogd.service
+new file mode 100644
+index 0000000..cf97e9c
+--- /dev/null
++++ b/meta/recipes-extended/sysklogd/files/klogd.service
+@@ -0,0 +1,9 @@
++[Unit]
++Description=sysklogd Kernel Logging Service
++
++[Service]
++Type=forking
++EnvironmentFile=-@SYSCONFDIR@/default/klogd
++PIDFile=/var/run/klogd.pid
++ExecStart=@BASE_SBINDIR@/klogd $KLOGD
++StandardOutput=null
+diff --git a/meta/recipes-extended/sysklogd/files/sysklogd.service b/meta/recipes-extended/sysklogd/files/sysklogd.service
+new file mode 100644
+index 0000000..7806320
+--- /dev/null
++++ b/meta/recipes-extended/sysklogd/files/sysklogd.service
+@@ -0,0 +1,14 @@
++[Unit]
++Description=System Logging Service
++Wants=klogd.service
++Requires=syslog.socket
++
++[Service]
++Type=forking
++EnvironmentFile=-@SYSCONFDIR@/default/sysklogd
++PIDFile=/var/run/syslogd.pid
++ExecStart=@BASE_SBINDIR@/syslogd $SYSLOGD
++StandardOutput=null
++
++[Install]
++Also=klogd.service
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index bcf8aa7..acaa32d 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -11,12 +11,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+                     file://klogd.c;beginline=2;endline=19;md5=7e87ed0ae6142de079bce738c10c899d \
+                    "
+ 
+-inherit update-rc.d update-alternatives
++inherit update-rc.d systemd update-alternatives
+ 
+ SRC_URI = "http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar.gz \
+            file://no-strip-install.patch \
++           file://0001-syslogd.c-add-systemd-support.patch \
+            file://sysklogd \
+            file://syslog.conf \
++           file://sysklogd.service \
++           file://klogd.service \
+            "
+ 
+ SRC_URI_append_e500v2 = " file://no-vectorization.patch"
+@@ -24,6 +27,8 @@ SRC_URI_append_e500v2 = " file://no-vectorization.patch"
+ INITSCRIPT_NAME = "syslog"
+ CONFFILES_${PN} = "${sysconfdir}/syslog.conf.${BPN}"
+ 
++SYSTEMD_SERVICE_${PN} = "sysklogd.service"
++
+ CFLAGS_append = " -DSYSV"
+ 
+ do_install () {
+@@ -35,20 +40,42 @@ do_install () {
+ 	install -d ${D}${sysconfdir}
+ 	install -m 644 ${WORKDIR}/syslog.conf ${D}${sysconfdir}/syslog.conf
+ 	install -d ${D}${sysconfdir}/init.d
+-	install -m 755 ${WORKDIR}/sysklogd ${D}${sysconfdir}/init.d/syslog
++	install -m 755 ${WORKDIR}/sysklogd ${D}${sysconfdir}/init.d/syslog.${BPN}
++
++        install -d ${D}${systemd_unitdir}/system
++        install -m 0644 ${WORKDIR}/sysklogd.service ${D}${systemd_unitdir}/system
++        install -m 0644 ${WORKDIR}/klogd.service ${D}${systemd_unitdir}/system
++	sed -i -e 's,@BASE_SBINDIR@,${base_sbindir},g' \
++		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
++		${D}${systemd_unitdir}/system/*.service
+ }
+ 
+ # sysklogd package has no internal systemd support, so we weigh busybox's
+ # sysklogd utility over it in case of systemd
+-ALTERNATIVE_PRIORITY = "${@bb.utils.contains('DISTRO_FEATURES','systemd','10','100',d)}"
++#ALTERNATIVE_PRIORITY = "${@bb.utils.contains('DISTRO_FEATURES','systemd','10','100',d)}"
++ALTERNATIVE_PRIORITY = '100'
+ 
+-ALTERNATIVE_${PN} = "syslogd klogd syslog-init syslog-conf"
++ALTERNATIVE_${PN} = "syslogd klogd syslog-conf"
+ 
+ ALTERNATIVE_LINK_NAME[syslogd] = "${base_sbindir}/syslogd"
+ ALTERNATIVE_LINK_NAME[klogd] = "${base_sbindir}/klogd"
+-ALTERNATIVE_LINK_NAME[syslog-init] = "${sysconfdir}/init.d/syslog"
+ ALTERNATIVE_LINK_NAME[syslog-conf] = "${sysconfdir}/syslog.conf"
+ 
++python () {
++    if bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
++        pn = d.getVar('PN', True)
++        sysconfdir = d.getVar('sysconfdir', True)
++        d.appendVar('ALTERNATIVE_%s' % (pn), ' syslog-init')
++        d.setVarFlag('ALTERNATIVE_LINK_NAME', 'syslog-init', '%s/init.d/syslog' % (sysconfdir))
++        d.setVarFlag('ALTERNATIVE_TARGET', 'syslog-init', '%s/init.d/syslog.%s' % (d.getVar('sysconfdir', True), d.getVar('BPN', True)))
 +
 +    if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
 +        pn = d.getVar('PN', True)
-+        d.appendVar('ALTERNATIVE_%s-syslog' % (pn), ' syslog-service')
++        d.appendVar('ALTERNATIVE_%s' % (pn), ' syslog-service')
 +        d.setVarFlag('ALTERNATIVE_LINK_NAME', 'syslog-service', '%s/systemd/system/syslog.service' % (d.getVar('sysconfdir', True)))
-+        d.setVarFlag('ALTERNATIVE_TARGET', 'syslog-service', '%s/system/busybox-syslog.service' % (d.getVar('systemd_unitdir', True)))
- }
- 
- python do_package_prepend () {
-diff --git a/meta/recipes-core/busybox/files/busybox-klogd.service.in b/meta/recipes-core/busybox/files/busybox-klogd.service.in
-index d7c7755..90cfc50 100644
---- a/meta/recipes-core/busybox/files/busybox-klogd.service.in
-+++ b/meta/recipes-core/busybox/files/busybox-klogd.service.in
-@@ -3,6 +3,4 @@ Description=Kernel Logging Service
- 
- [Service]
- ExecStart=@base_sbindir@/klogd -n
--
--[Install]
--WantedBy=multi-user.target
-+StandardOutput=null
-diff --git a/meta/recipes-core/busybox/files/busybox-syslog.service.in b/meta/recipes-core/busybox/files/busybox-syslog.service.in
-index 2e04321..c84edaf 100644
---- a/meta/recipes-core/busybox/files/busybox-syslog.service.in
-+++ b/meta/recipes-core/busybox/files/busybox-syslog.service.in
-@@ -1,13 +1,12 @@
- [Unit]
- Description=System Logging Service
- Wants=busybox-klogd.service
-+Requires=syslog.socket
- 
- [Service]
--EnvironmentFile=-/etc/default/busybox-syslog
-+EnvironmentFile=-@SYSCONFDIR@/default/busybox-syslog
- ExecStart=@base_sbindir@/syslogd -n $OPTIONS
--Sockets=syslog.socket
-+StandardOutput=null
- 
- [Install]
--WantedBy=multi-user.target
- Also=busybox-klogd.service
--Alias=syslog.service
++        d.setVarFlag('ALTERNATIVE_TARGET', 'syslog-service', '%s/system/sysklogd.service' % (d.getVar('systemd_unitdir', True)))
++}
++
+ pkg_prerm_${PN} () {
+ 	if test "x$D" = "x"; then
+ 	if test "$1" = "upgrade" -o "$1" = "remove"; then
 -- 
 1.9.1
 
