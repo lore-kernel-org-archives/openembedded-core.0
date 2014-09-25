@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A9346FE64
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 112AE712AA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 06:32:04 +0000 (UTC)
+	Thu, 25 Sep 2014 06:32:09 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8P6W16Y027743
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8P6W8TG008225
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Sep 2014 23:32:02 -0700 (PDT)
+	Wed, 24 Sep 2014 23:32:08 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 24 Sep 2014 23:32:01 -0700
+	14.3.174.1; Wed, 24 Sep 2014 23:32:07 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
 	<richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
-Date: Thu, 25 Sep 2014 14:31:55 +0800
-Message-ID: <cover.1411626154.git.hongxu.jia@windriver.com>
+Date: Thu, 25 Sep 2014 14:31:58 +0800
+Message-ID: <9a4f13d5343d2ee47a4c74498045466b61493dad.1411626154.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1411626154.git.hongxu.jia@windriver.com>
+References: <cover.1411626154.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V4 0/4] man/info: fix not support xz/bz2 compression
+Subject: [PATCH 3/4] texinfo: fix info not work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,69 +36,93 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 25 Sep 2014 06:32:11 -0000
 Content-Type: text/plain
 
-Changed in V4:
-- In info's postinst/prerm, check the existance of ${infodir}
-
-- Remove x permission for scripts/postinst-intercepts/update_info_dir
-  'new file mode 100755'-->'new file mode 100644', rootfs.py
-  use the x permission to decide whether the scripts in
-  postinst-intercepts be invoked or not. Sounds weird, but
-  it is the reason of Ross's build failure.
-
-Changed in V3:
-- Remove Debian-specific code
-- split() the INHERIT variable
-
-Changed in V2:
-- Conditionally add 'gzip/bzip2/xz' to man/info's RDEPENDS
-  rather than modify busybox's defconfig.
-
-- Refer Ubuntu to add a script to postinst_intercept to
-  run it after all packages have been installed at build time.
-
-Test Case:
-
-vim local.conf
-..
-IMAGE_INSTALL_append = " man man-doc texinfo texinfo-doc info info-doc"
-INHERIT += "compress_doc"
-DOC_COMPRESS = "xz" or DOC_COMPRESS = "bz2"
-..
-
-bitbake core-image-minimal
-
-runqemu qemux86
-
-On target,
+In texinfo, we didn't have info/dir entries, which caused
+info not work.
 ...
-root@qemux86:~# man man
-
 root@qemux86:~# info info
+info: dir: No such file or directory
 ...
 
-//Hongxu
+Refer ubuntu/debian to invoke install-info to create info/dir
+entries in pkg_postinst_info.
 
-The following changes since commit 8ac8eca2e3bd8c78e2b31ea974930ed0243258a3:
+[YOCTO #6751]
 
-  build-appliance-image: Update to dizzy head revision (2014-09-23 22:10:26 +0100)
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-extended/texinfo/texinfo_5.2.bb | 61 ++++++++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
 
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-doc
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-doc
-
-Hongxu Jia (4):
-  scripts/postinst-intercepts: add update_info_dir
-  texinfo: fix QA Error while doc compress enabled
-  texinfo: fix info not work
-  man/texinfo: conditionally add gzip/bzip2/xz to RDEPENDS
-
- meta/recipes-extended/man/man_1.6g.bb        | 13 +++++
- meta/recipes-extended/texinfo/texinfo_5.2.bb | 76 ++++++++++++++++++++++++++-
- scripts/postinst-intercepts/update_info_dir  | 77 ++++++++++++++++++++++++++++
- 3 files changed, 165 insertions(+), 1 deletion(-)
- create mode 100644 scripts/postinst-intercepts/update_info_dir
-
+diff --git a/meta/recipes-extended/texinfo/texinfo_5.2.bb b/meta/recipes-extended/texinfo/texinfo_5.2.bb
+index 7b5a11a..11c11aa 100644
+--- a/meta/recipes-extended/texinfo/texinfo_5.2.bb
++++ b/meta/recipes-extended/texinfo/texinfo_5.2.bb
+@@ -61,4 +61,65 @@ FILES_${PN}-doc = "${infodir}/texinfo* \
+                    ${datadir}/${tex_texinfo} \
+                    ${mandir}/man1 ${mandir}/man5"
+ 
++pkg_postinst_info () {
++if [ "x$D" != "x" ]; then
++    $INTERCEPT_DIR/postinst_intercept update_info_dir ${PKG} \
++        mlprefix=${MLPREFIX} infodir=${infodir} STAGING_BINDIR_NATIVE=${STAGING_BINDIR_NATIVE}
++else
++    if [ ! -d "${infodir}" ]; then
++        exit 0
++    fi
++
++    errors=0
++    find "${infodir}" -type f | while read file ; do
++        case $file in
++        */dir| */dir.old| \
++        *-[0-9]|*-[0-9].gz|*-[0-9].xz|*-[0-9].bz2| \
++        *-[1-9][0-9]|*-[1-9][0-9].gz|*-[1-9][0-9].xz|*-[1-9][0-9].bz2| \
++        *.png)
++            # these files are ignored
++            continue
++            ;;
++        *)
++            install-info "$file" "${infodir}/dir" || {
++                errors=$[errors+1]
++            }
++            ;;
++        esac
++    done
++    if [ $errors -gt 0 ] ; then
++        echo "Updating the index of info documentation produced $errors errors."
++        exit 1
++    fi
++fi
++}
++
++pkg_prerm_info () {
++if [ ! -d "$D${infodir}" ]; then
++    exit 0
++fi
++
++errors=0
++find "$D${infodir}" -type f | while read file ; do
++    case $file in
++    */dir|*/dir.old| \
++    *-[0-9]|*-[0-9].gz|*-[0-9].xz|*-[0-9].bz2| \
++    *-[1-9][0-9]|*-[1-9][0-9].gz|*-[1-9][0-9].xz|*-[1-9][0-9].bz2| \
++    *.png)
++        # these files are ignored
++        continue
++        ;;
++    *)
++        install-info --delete "$file" "$D${infodir}/dir" || {
++            errors=$[errors+1]
++        }
++        ;;
++    esac
++done
++
++if [ $errors -gt 0 ] ; then
++    echo "Cleaning the index of info documentation produced $errors errors."
++fi
++}
++
+ BBCLASSEXTEND = "native"
 -- 
 1.9.1
 
