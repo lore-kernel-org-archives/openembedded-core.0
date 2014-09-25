@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FC6A6FE64
+	by mail.openembedded.org (Postfix) with ESMTP id 94B9E6FE64
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 06:32:09 +0000 (UTC)
+	Thu, 25 Sep 2014 06:32:11 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8P6W6MB027751
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8P6WAup027754
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Sep 2014 23:32:06 -0700 (PDT)
+	Wed, 24 Sep 2014 23:32:10 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 24 Sep 2014 23:32:05 -0700
+	14.3.174.1; Wed, 24 Sep 2014 23:32:09 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
 	<richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
-Date: Thu, 25 Sep 2014 14:31:57 +0800
-Message-ID: <7b601290f2052d88d2a78668381ad9970f01beca.1411626154.git.hongxu.jia@windriver.com>
+Date: Thu, 25 Sep 2014 14:31:59 +0800
+Message-ID: <da339b522cf695a911592c0aaacfd38403f96d16.1411626154.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1411626154.git.hongxu.jia@windriver.com>
 References: <cover.1411626154.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] texinfo: fix QA Error while doc compress enabled
+Subject: [PATCH 4/4] man/texinfo: conditionally add gzip/bzip2/xz to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +36,65 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 25 Sep 2014 06:32:11 -0000
 Content-Type: text/plain
 
-While doc compress enabled, ther is a QA issue:
-...
-ERROR: QA Issue: texinfo: Files/directories were installed but not shipped
-  /usr/share/info/info.info.bz2
-  /usr/share/info/info-stnd.info.bz2 [installed-vs-shipped]
-...
+Conditionally add 'xz/bz2/gzip' to info/man's RDEPENDS
+according to DOC_COMPRESS.
+
+[YOCTO #6750]
+[YOCTO #6751]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-extended/texinfo/texinfo_5.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/man/man_1.6g.bb        | 13 +++++++++++++
+ meta/recipes-extended/texinfo/texinfo_5.2.bb | 13 +++++++++++++
+ 2 files changed, 26 insertions(+)
 
+diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
+index a66e01c..03fffd6 100644
+--- a/meta/recipes-extended/man/man_1.6g.bb
++++ b/meta/recipes-extended/man/man_1.6g.bb
+@@ -9,6 +9,19 @@ PR = "r1"
+ 
+ DEPENDS = "groff less"
+ 
++def compress_pkg(d):
++    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
++         compress = d.getVar("DOC_COMPRESS", True)
++         if compress == "gz":
++             return "gzip"
++         elif compress == "bz2":
++             return "bzip2"
++         elif compress == "xz":
++             return "xz"
++    return ""
++
++RDEPENDS_${PN} += "${@compress_pkg(d)}"
++
+ SRC_URI = "http://primates.ximian.com/~flucifredi/${BPN}/${BPN}-${PV}.tar.gz \
+            file://man-1.5k-confpath.patch;striplevel=0 \
+            file://man-1.5h1-make.patch \
 diff --git a/meta/recipes-extended/texinfo/texinfo_5.2.bb b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-index be90aba..7b5a11a 100644
+index 11c11aa..b9a7f8b 100644
 --- a/meta/recipes-extended/texinfo/texinfo_5.2.bb
 +++ b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-@@ -51,7 +51,7 @@ do_install_append_class-native() {
- PACKAGES += "info info-doc"
+@@ -9,6 +9,19 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
- FILES_info = "${bindir}/info ${bindir}/infokey ${bindir}/install-info"
--FILES_info-doc = "${infodir}/info.info ${infodir}/dir ${infodir}/info-*.info \
-+FILES_info-doc = "${infodir}/info.info* ${infodir}/dir ${infodir}/info-*.info* \
-                   ${mandir}/man1/info.1* ${mandir}/man5/info.5* \
-                   ${mandir}/man1/infokey.1* ${mandir}/man1/install-info.1*"
+ PROVIDES_append_class-native = " texinfo-replacement-native"
+ 
++def compress_pkg(d):
++    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
++         compress = d.getVar("DOC_COMPRESS", True)
++         if compress == "gz":
++             return "gzip"
++         elif compress == "bz2":
++             return "bzip2"
++         elif compress == "xz":
++             return "xz"
++    return ""
++
++RDEPENDS_info += "${@compress_pkg(d)}"
++
+ DEPENDS = "zlib ncurses texinfo-replacement-native"
+ DEPENDS_class-native = "zlib-native ncurses-native"
  
 -- 
 1.9.1
