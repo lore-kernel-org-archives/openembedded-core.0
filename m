@@ -1,26 +1,31 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id BFAD4609B2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id EE3BD609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 17:18:00 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Thu, 25 Sep 2014 19:17:53 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 199002884E9;
-	Thu, 25 Sep 2014 19:17:54 +0200 (CEST)
-Date: Thu, 25 Sep 2014 19:17:54 +0200
-From: "Maxin B. John" <maxin.john@enea.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20140925171754.GA7840@sestofb10.enea.se>
-References: <1411644990-20122-1-git-send-email-maxin.john@enea.com>
-	<CAJTo0LbhFF0g1swk1y250QOESwvjmJcuPcbZNvX_ESJTMt3GKA@mail.gmail.com>
+	Thu, 25 Sep 2014 19:09:49 +0000 (UTC)
+Received: by mail-ie0-f181.google.com with SMTP id tr6so13797435ieb.26
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Sep 2014 12:09:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to:content-type;
+	bh=DjOsAzhINO4MFBF7exw43kZ3y8XbnPAhljBjhwGj4NA=;
+	b=gwN4RWSkWBMWsuItZBVYc/39NXlfOW3YGAygu8ip7cXNSybhVTT2VhurJiODyLMc+d
+	mVMc1QgLu6FNOfyKHJrjZMsJ4lqR1geanLhasHADmvZh76LtYpx7UbYx615m0tRKA456
+	/pA9Tyc7WrT+bBB/YCcmJpcI59dIRKRQb2a/53jmUrUBjgRRgXK1mP+Hg3lxCraDtBEG
+	jhlMiJIh8arGRLPfeekRCEwwOwIK1qClfkD5rXoHDalTn28ZZDbTjs4Aekv4TFhW8pG1
+	lHKyEklOTC9bHPlGuaiWy0bH7ykRjfj84QCPqZXIXbhn93nbMLZppdniWpVOTzQ08oeD
+	9ivA==
+X-Received: by 10.50.109.228 with SMTP id hv4mr7342437igb.13.1411672189858;
+	Thu, 25 Sep 2014 12:09:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbhFF0g1swk1y250QOESwvjmJcuPcbZNvX_ESJTMt3GKA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] curl: Security Advisory - CVE-2014-3613 & CVE-2014-3620
+Received: by 10.50.240.6 with HTTP; Thu, 25 Sep 2014 12:09:19 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 25 Sep 2014 12:09:19 -0700
+Message-ID: <CAMKF1soPhqozfNpzg3Vz_x3jkSMdvp9uX_7vEjy87hCD4bAbZQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: kernel cmdline mismatch for root= for vmdk and linux-yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Sep 2014 17:18:08 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 25 Sep 2014 19:09:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Ross,
+commit 842a797460cd07b779ab588a4ece7e5d4d97417b
+Author: Robert Yang <liezhi.yang@windriver.com>
 
-On Thu, Sep 25, 2014 at 04:08:23PM +0100, Burton, Ross wrote:
-> On 25 September 2014 12:36, Maxin B. John <maxin.john@enea.com> wrote:
-> > Details of vulnerabilities are available below:
-> > CVE-2014-3613: http://curl.haxx.se/docs/adv_20140910A.html
-> > CVE-2014-3620: http://curl.haxx.se/docs/adv_20140910B.html
-> >
-> > Signed-off-by: Maxin B. John <maxin.john@enea.com>
-> 
-> This fails to apply:
-> 
-> ERROR: Command Error: exit status: 1  Output:
-> Applying patch CVE-2014-3613.patch
-> patching file lib/cookie.c
-> patching file tests/data/test1105
-> patching file tests/data/test31
-> Hunk #1 FAILED at 49.
-> 1 out of 2 hunks FAILED -- rejects in file tests/data/test31
-> patching file tests/data/test8
-> Patch CVE-2014-3613.patch does not apply (enforce with -f)
-> ERROR: Function failed: patch_do_patch
-> ERROR: Logfile of failure stored in:
-> /data/poky-master/tmp/work/corei7-64-poky-linux/curl/7.37.1-r0/temp/log.do_patch.13247
-> ERROR: Task 1 (/home/ross/Yocto/poky/meta/recipes-support/curl/curl_7.37.1.bb,
-> do_patch) failed with exit code '1'
+Date:   Tue Jul 29 00:05:04 2014 -0700
 
-I have tried it with the latest master and it "worked for me".
-Could you please confirm if it was applied on the "master" branch ?
-(Couldn't recreate this failure at my PC) 
+    image-vmdk.bbclass: use sda rather than hda
 
-> Ross
-Best Regards,
-Maxin
+    The modern kernels may not support IDE (CONFIG_IDE=y), but it should
+    support SCSI in most of the cases. The boot-directdisk.bbclass uses
+    sda, too.
 
+    Remove an extra space from image-live.bbclass and image-vmdk.bbclass to
+    not confuse the user.
+
+    Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+    Signed-off-by: Saul Wold <sgw@linux.intel.com>
+
+
+changed
+
+-SYSLINUX_ROOT = "root=/dev/hda2 "
++SYSLINUX_ROOT ?= "root=/dev/sda2"
+
+but I see that linux-yocto ( 3.17) for qemu still expects /dev/hda2,
+so I guess we also need to set this up in qemu machine conf to match
+linux-yocto's expectation
 
