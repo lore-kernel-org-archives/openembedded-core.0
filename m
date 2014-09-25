@@ -1,26 +1,26 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 3B35A609B2
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D0B2760144
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 09:07:21 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Thu, 25 Sep 2014 11:07:17 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 9F5B92884E9;
-	Thu, 25 Sep 2014 11:07:17 +0200 (CEST)
-Date: Thu, 25 Sep 2014 11:07:17 +0200
-From: "Maxin B. John" <maxin.john@enea.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20140925090717.GA55044@sestofb10.enea.se>
-References: <1410360202-22215-1-git-send-email-maxin.john@enea.com>
-	<CAJTo0La08fHpt1vJT+Kj97PVT1iDievLPVyEdwZy6ZKykrC8NQ@mail.gmail.com>
+	Thu, 25 Sep 2014 09:10:07 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8P9A8DQ003191
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Sep 2014 02:10:08 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 25 Sep 2014 02:10:08 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Sep 2014 17:10:48 +0800
+Message-ID: <d3c30a19101eacd3c339a31578f9bcae81cc08fe.1411635424.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1411635424.git.Qi.Chen@windriver.com>
+References: <cover.1411635424.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0La08fHpt1vJT+Kj97PVT1iDievLPVyEdwZy6ZKykrC8NQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] curl: upgrade to 7.38.0
+Subject: [PATCH V2 1/4] systemd: enable syslog.socket by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,24 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Sep 2014 09:07:27 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 25 Sep 2014 09:10:11 -0000
+Content-Type: text/plain
 
-Hi Ross,
+The syslog daemon behaviour in our systemd system should be like the following
+1. If ForwardToSyslog is disabled, no daemon should be started.
+2. If ForwardToSyslog is enabled, daemon should be started via socket
+   activation. This is very important for OE based system. Because unlike
+   other distros, OE allows serveral syslog packages installed into one
+   image, using ALTERNATIVE mechanism to manage them. If the syslog
+   service is started regardless of socket activation, things crash.
+   For example, if there's 'WantedBy=multi-user.target' in the '[Install]'
+   section of busybox-syslog.service file, then this service would be started
+   anyway, even if syslog.service doesn't point to it. In this case,
+   /sbin/syslogd in busybox-syslog.service might be from other syslog packages
+   like sysklogd or rsyslog.
 
-On Wed, Sep 24, 2014 at 11:27:57PM +0100, Burton, Ross wrote:
-> On 10 September 2014 15:43, Maxin B. John <maxin.john@enea.com> wrote:
-> > Fixes two HTTP cookie related security bugs:
-> >  1. CVE-2014-3613
-> >  2. CVE-2014-3620
-> 
-> Can these be backported instead to 7.37.1?  Upgrading to a new major
-> release with many new features is exceptional now we've frozen.
-Sure. I will backport and send it soon.
+This patch is series of patches to implement the above behaviour. The
+syslog.socket needs to be enabled by default so that other syslog service
+could correctly be activated via socket activation at runtime.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/systemd/systemd_216.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
+index 331da99..e3a0760 100644
+--- a/meta/recipes-core/systemd/systemd_216.bb
++++ b/meta/recipes-core/systemd/systemd_216.bb
+@@ -148,6 +148,8 @@ do_install() {
  
-> Ross
-Best Regards,
-Maxin
+ 	# Enable journal to forward message to syslog daemon
+ 	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
++	# Enable syslog.socket by default, this is specific to our system
++	ln -sf ../syslog.socket ${D}${systemd_unitdir}/system/sockets.target.wants/syslog.socket
+ }
+ 
+ do_install_ptest () {
+-- 
+1.9.1
 
 
