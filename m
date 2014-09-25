@@ -1,26 +1,26 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 94B9E6FE64
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 3B35A609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 06:32:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8P6WAup027754
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Sep 2014 23:32:10 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 24 Sep 2014 23:32:09 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
-	<richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
-Date: Thu, 25 Sep 2014 14:31:59 +0800
-Message-ID: <da339b522cf695a911592c0aaacfd38403f96d16.1411626154.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1411626154.git.hongxu.jia@windriver.com>
-References: <cover.1411626154.git.hongxu.jia@windriver.com>
+	Thu, 25 Sep 2014 09:07:21 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
+	Thu, 25 Sep 2014 11:07:17 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 9F5B92884E9;
+	Thu, 25 Sep 2014 11:07:17 +0200 (CEST)
+Date: Thu, 25 Sep 2014 11:07:17 +0200
+From: "Maxin B. John" <maxin.john@enea.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20140925090717.GA55044@sestofb10.enea.se>
+References: <1410360202-22215-1-git-send-email-maxin.john@enea.com>
+	<CAJTo0La08fHpt1vJT+Kj97PVT1iDievLPVyEdwZy6ZKykrC8NQ@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/4] man/texinfo: conditionally add gzip/bzip2/xz to RDEPENDS
+In-Reply-To: <CAJTo0La08fHpt1vJT+Kj97PVT1iDievLPVyEdwZy6ZKykrC8NQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] curl: upgrade to 7.38.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +33,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Sep 2014 06:32:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 25 Sep 2014 09:07:27 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-Conditionally add 'xz/bz2/gzip' to info/man's RDEPENDS
-according to DOC_COMPRESS.
+Hi Ross,
 
-[YOCTO #6750]
-[YOCTO #6751]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-extended/man/man_1.6g.bb        | 13 +++++++++++++
- meta/recipes-extended/texinfo/texinfo_5.2.bb | 13 +++++++++++++
- 2 files changed, 26 insertions(+)
-
-diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
-index a66e01c..03fffd6 100644
---- a/meta/recipes-extended/man/man_1.6g.bb
-+++ b/meta/recipes-extended/man/man_1.6g.bb
-@@ -9,6 +9,19 @@ PR = "r1"
+On Wed, Sep 24, 2014 at 11:27:57PM +0100, Burton, Ross wrote:
+> On 10 September 2014 15:43, Maxin B. John <maxin.john@enea.com> wrote:
+> > Fixes two HTTP cookie related security bugs:
+> >  1. CVE-2014-3613
+> >  2. CVE-2014-3620
+> 
+> Can these be backported instead to 7.37.1?  Upgrading to a new major
+> release with many new features is exceptional now we've frozen.
+Sure. I will backport and send it soon.
  
- DEPENDS = "groff less"
- 
-+def compress_pkg(d):
-+    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
-+         compress = d.getVar("DOC_COMPRESS", True)
-+         if compress == "gz":
-+             return "gzip"
-+         elif compress == "bz2":
-+             return "bzip2"
-+         elif compress == "xz":
-+             return "xz"
-+    return ""
-+
-+RDEPENDS_${PN} += "${@compress_pkg(d)}"
-+
- SRC_URI = "http://primates.ximian.com/~flucifredi/${BPN}/${BPN}-${PV}.tar.gz \
-            file://man-1.5k-confpath.patch;striplevel=0 \
-            file://man-1.5h1-make.patch \
-diff --git a/meta/recipes-extended/texinfo/texinfo_5.2.bb b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-index 11c11aa..b9a7f8b 100644
---- a/meta/recipes-extended/texinfo/texinfo_5.2.bb
-+++ b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-@@ -9,6 +9,19 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- PROVIDES_append_class-native = " texinfo-replacement-native"
- 
-+def compress_pkg(d):
-+    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
-+         compress = d.getVar("DOC_COMPRESS", True)
-+         if compress == "gz":
-+             return "gzip"
-+         elif compress == "bz2":
-+             return "bzip2"
-+         elif compress == "xz":
-+             return "xz"
-+    return ""
-+
-+RDEPENDS_info += "${@compress_pkg(d)}"
-+
- DEPENDS = "zlib ncurses texinfo-replacement-native"
- DEPENDS_class-native = "zlib-native ncurses-native"
- 
--- 
-1.9.1
+> Ross
+Best Regards,
+Maxin
 
 
