@@ -1,38 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A31A609B2
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AE72609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 22:44:31 +0000 (UTC)
-Received: by mail-qg0-f44.google.com with SMTP id f51so8503540qge.31
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 15:44:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=RtfLOvu4c2/Et6ax3axviDJdBHey3Bx8Coo2v0lmPns=;
-	b=hN6Hij1WrLD1pLKatCdRQvkRVIuoVQnvl63qJ6BzugsMmpS6C8HvuDDjNOB6/a3/13
-	gM7bDvy8PzurmELNKFTx16wBzJO3l3TkKVnt0kXoUneQVlEKC9xeMIDG1EtatS1cLsFB
-	PjLVLBKdnS9NDQ49NMJREB+sLmVTbyzUSL0s1hfShHA1x+6CvHC3LQNcLqjQtZzM4FV1
-	gc8nrBKIqfq/Z27GBZQFlE8VwcIQlqUkMv/LcgP5yp2JeqjfxJUIs5yh/JQklpIbMn+h
-	yRHF/SiGnDan/VwpMJ+y1z/oLSKdS8dc1vIPVs+g4Vs2uCMilBICmRSrh+gHtZQONmzw
-	HZIg==
-X-Gm-Message-State: ALoCoQkDfDHFqjCuFtSGFpDe3GfzobvEay0J3DoycW147KDKm7PAUklq+rF8ZNO5yAqXLeJAjJjE
-X-Received: by 10.224.103.65 with SMTP id j1mr23925991qao.17.1411685072983;
-	Thu, 25 Sep 2014 15:44:32 -0700 (PDT)
+	Thu, 25 Sep 2014 22:48:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8PMmvdA005247
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 25 Sep 2014 15:48:57 -0700 (PDT)
+Received: from msp-dhcp33.wrs.com (172.25.34.33) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 25 Sep 2014 15:48:56 -0700
+Message-ID: <54249BD8.1030702@windriver.com>
+Date: Thu, 25 Sep 2014 17:48:56 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Thu, 25 Sep 2014 15:44:12 -0700 (PDT)
-In-Reply-To: <20140925192722.GP25706@jama>
-References: <cover.1403654908.git.sgw@linux.intel.com>
-	<e33bb2eefbdda30378a55346ff60fb0fb90baff2.1403654908.git.sgw@linux.intel.com>
-	<20140925192722.GP25706@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 25 Sep 2014 23:44:12 +0100
-Message-ID: <CAJTo0LYDznT=8Q5LO7isxbcb2zpLhGBr6xh1SWPN07ipYMgogw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/10] curl: Convert CURLGNUTL to PACKAGECONFIG
+To: <yocto@yoctoproject.org>, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1411641352-19058-1-git-send-email-f.deldegan@endian.com>
+	<CAJTo0LYf-qWXia8EuKSnck5=yYLGspckqm27y3kxMDESSdL5Og@mail.gmail.com>
+In-Reply-To: <CAJTo0LYf-qWXia8EuKSnck5=yYLGspckqm27y3kxMDESSdL5Og@mail.gmail.com>
+Subject: Re: [yocto] [PATCH] bash: update to latest (025) patchset (fixes CVE-2014-6271)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,15 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Sep 2014 22:44:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 25 Sep 2014 22:48:59 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 25 September 2014 20:27, Martin Jansa <martin.jansa@gmail.com> wrote:
-> Can you look into this floating dependency?
+On 9/25/14, 5:40 PM, Burton, Ross wrote:
+> Hu Francesco,
 >
-> curl-7.37.1: libcurl rdepends on rtmpdump, but it isn't a build dependency? [build-deps]
+> On 25 September 2014 11:35, Francesco Del Degan <f.deldegan@endian.com> wrote:
+>> Updated to reflect the latest patchset in bash 4.3.
+>> Fixes the CVE-2014-6271.
+>
+> I'm hearing that this isn't a complete fix, so lets wait for more patches.
+>
+> Is it possible to cherry-pick just the security fixes, instead of
+> every patch they've released?
+>
+> Finally, patches for oe-core should go to openembedded-core@, not yocto@.
+>
+> Ross
+>
 
-Thanks for the heads up, patch incoming.
+Patch 025 fixes CVE-2014-6271, but does NOT fix CVE-2014-7169 or possibly two 
+other issues people are currently looking into.  (None of this is confidential 
+BTW..  you can all follow along on the oss-security mailing list.)
 
-Ross
+So I would recommend that someone get the 025 patch (don't forget to patch bash 
+3.2 as well) in.. and we should wait until their is an official one for 7169.
+
+--Mark
 
