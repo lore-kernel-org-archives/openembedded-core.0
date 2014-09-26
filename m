@@ -1,34 +1,35 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 655A460809
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 890FE60809
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Sep 2014 16:27:42 +0000 (UTC)
-Received: by mail-pd0-f181.google.com with SMTP id r10so13134168pdi.12
+	Fri, 26 Sep 2014 16:29:38 +0000 (UTC)
+Received: by mail-pd0-f182.google.com with SMTP id y10so1370889pdj.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Sep 2014 09:27:43 -0700 (PDT)
+	Fri, 26 Sep 2014 09:29:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=JWz+qZdpyQdNj3chRnuJ7pjQCgq4b7IR6ovtR22qEEY=;
-	b=tEqqHtxMWYAiJf5OPfXytn8xn5UrnVMEEPtrjm/pCNAF6IzbLg6/7ay6fOY9teo43K
-	7L1iUbubUL639/9w2ByoAQGhH5FtG7+5jz8UcIaRD6WURhc3hRaSxlcVcW4AkkaLokw9
-	D9+UTK4Bu+dAAjxcCUnOVIWH3iJA30lk1W58tc3TXsgutZ1VHOR4OH5FuzWKd6PavgQ3
-	GJsmb/6jZrktFVmCy818GtVke0v4/V4SiKCf18bYHPcfvOznc0ENZPr8A2YWiYH6eIpz
-	dNvxiLWDIN4syL9QThBn2go+rm7HOQPIGoZdZxRzHRF9yurnxICpY4kc5YzlOa/liLeP
-	YY7w==
-X-Received: by 10.68.136.232 with SMTP id qd8mr33533605pbb.162.1411748863403; 
-	Fri, 26 Sep 2014 09:27:43 -0700 (PDT)
+	bh=OG6PFJPEhzxv0q85nQ9X3Y26I3aXHZ8ucGK5qhOpGr4=;
+	b=Gd5bwtzVFwektQvLQ24A8jFR2Qel7sj7bdI30hm7G8LNpS1Zd2A+I54CLA/2G22Lpz
+	KDGK3JTas284DycLkE+94uBkSJuYGFI3ekf7UoVcRYIkR1eZY0pob1bei58X4LyIeoE2
+	wwZv/YElH1FkgSoZ0ebOfycegsQX4w0SS5C1nkTCdiyttvN/DJjfLA9JKuo4kJ7DivJ0
+	XlU/O+H7nYQqCcVxpnmKZLDtIn/nC0YeBOB5YI5zV9nNMqcULV7NJCQEkrvGeNJpKuYe
+	fry02fWc7zRgLepOV5BCjnxiC0R+gphACJ3aA2QtEuqIT5nAu8cS+fIRTjQomlqMqjIf
+	Sk/Q==
+X-Received: by 10.68.132.105 with SMTP id ot9mr30447502pbb.76.1411748980287;
+	Fri, 26 Sep 2014 09:29:40 -0700 (PDT)
 Received: from haswell.localdomain (c-76-103-58-225.hsd1.ca.comcast.net.
-	[76.103.58.225]) by mx.google.com with ESMTPSA id
-	jz15sm5304466pbb.86.2014.09.26.09.27.42 for <multiple recipients>
+	[76.103.58.225])
+	by mx.google.com with ESMTPSA id ps7sm5317837pbb.73.2014.09.26.09.29.39
+	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 26 Sep 2014 09:27:42 -0700 (PDT)
+	Fri, 26 Sep 2014 09:29:39 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Sep 2014 09:31:40 -0700
-Message-Id: <1411749100-10465-1-git-send-email-raj.khem@gmail.com>
+Date: Fri, 26 Sep 2014 09:33:38 -0700
+Message-Id: <1411749218-11056-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [daisy[PATCH V2] bash: Fix shellshock vulnerability
+Subject: [PATCH V2] bash: Fix shellshock vulnerability
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,7 +42,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Sep 2014 16:27:44 -0000
+X-List-Received-Date: Fri, 26 Sep 2014 16:29:45 -0000
 
 CVE-2014-6271
 
@@ -278,6 +279,6 @@ index 25b7410..a01fcf1 100644
             "
  
 -- 
-2.1.1
+2.1.0
 
 
