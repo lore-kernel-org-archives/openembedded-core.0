@@ -1,30 +1,24 @@
 Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A7BD46017E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D15E6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Sep 2014 01:41:56 +0000 (UTC)
+	Fri, 26 Sep 2014 01:50:06 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8Q1ftMO021969
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 25 Sep 2014 18:41:57 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Thu, 25 Sep 2014 18:41:54 -0700
-Message-ID: <5424C460.8020302@windriver.com>
-Date: Fri, 26 Sep 2014 09:41:52 +0800
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8Q1o7On023540
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Sep 2014 18:50:07 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 25 Sep 2014 18:50:06 -0700
 From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Sep 2014 09:49:18 +0800
+Message-ID: <cover.1411696027.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1411636114.git.Chong.Lu@windriver.com>
-	<bfe37164c0903446469c66e1bacfc77207c69e65.1411636114.git.Chong.Lu@windriver.com>
-	<CAJTo0La5JxzLKA=VHs3wwnqSwVtEOEEn9ODPtkG_1Fo-P37RcQ@mail.gmail.com>
-In-Reply-To: <CAJTo0La5JxzLKA=VHs3wwnqSwVtEOEEn9ODPtkG_1Fo-P37RcQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.204]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] apt: fix for CVE-2014-0478
+Subject: [PATCH V2 0/1] apt: fix for CVE-2014-0478
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Sep 2014 01:41:59 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Sep 2014 01:50:11 -0000
+Content-Type: text/plain
 
+Change since V1:
+Add Upstream-Status and Signed-off-by in patch.
 
-On 09/26/2014 12:23 AM, Burton, Ross wrote:
-> On 25 September 2014 10:09, Chong Lu <Chong.Lu@windriver.com> wrote:
->> +++ b/meta/recipes-devtools/apt/apt-0.9.9.4/apt-0.9.9.4-CVE-2014-0478.patch
->> @@ -0,0 +1,188 @@
->> +This patch comes from:
->> +https://bugs.debian.org/cgi-bin/bugreport.cgi?msg=73;filename=apt_0.9.7.9%2Bdeb7u2.debdiff;att=1;bug=749795
->> +
->> +diff -uarN apt-0.9.9.4-org/cmdline/apt-get.cc apt-0.9.9.4/cmdline/apt-get.cc
-> This should have Upstream-Status and Signed-off-by tags.
->
-> Ross
->
->
+The following changes since commit 8ac8eca2e3bd8c78e2b31ea974930ed0243258a3:
 
-OK. I will resend a V2.
+  build-appliance-image: Update to dizzy head revision (2014-09-23 22:10:26 +0100)
 
-Best Regards
-Chong
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib chonglu/apt
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/apt
+
+Chong Lu (1):
+  apt: fix for CVE-2014-0478
+
+ .../apt-0.9.9.4/apt-0.9.9.4-CVE-2014-0478.patch    | 193 +++++++++++++++++++++
+ meta/recipes-devtools/apt/apt.inc                  |   1 +
+ 2 files changed, 194 insertions(+)
+ create mode 100644 meta/recipes-devtools/apt/apt-0.9.9.4/apt-0.9.9.4-CVE-2014-0478.patch
+
+-- 
+1.9.1
 
 
