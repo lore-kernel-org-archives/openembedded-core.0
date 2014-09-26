@@ -1,26 +1,36 @@
-Return-Path: <Muzaffar_Mahmood@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 16EDB60167
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A42460167
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Sep 2014 13:30:24 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1XXVbN-0000eN-18 from Muzaffar_Mahmood@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Sep 2014 06:30:25 -0700
-Received: from svr-pkl-eng-06.pkl.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Fri, 26 Sep 2014 14:29:51 +0100
-From: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Sep 2014 18:28:54 +0500
-Message-ID: <1411738134-61403-1-git-send-email-muzaffar_mahmood@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-X-Originating-IP: [137.202.0.76]
-Cc: Anant Agrawal <Anant_Agrawal@mentor.com>
-Subject: [meta-oe][PATCH v3] alsa-utils: interrupt streaming via signal
+	Fri, 26 Sep 2014 16:19:23 +0000 (UTC)
+Received: by mail-pd0-f178.google.com with SMTP id ft15so13125511pdb.9
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Sep 2014 09:19:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=vWa7Glzv4ho630dpol0yIPLqN0Sabh0x4LSN0Vxjcuc=;
+	b=qyDtvuPrgIjmTf0yI8vjvk2nXWMzmrLNgDEe6FzMOqCqLCh+C7n6BLuSjtzoR4wDR/
+	+77kTCyC5slYknTF9aTOwGFWtm1LcIL6ZfcRYb/wW6jjxzspyxACT6Nu81T2hGac7Pwc
+	HQjWMA44AWeTaiTXi+Tvb5J0MgbX+QDBtoXZGAgAtzVMAYaa+WLhXc4Yb7kv/IWi4Mr6
+	P6P7n/GCsg0Iv6FimGlWzMobY9KZxMYGOLyyg3nFbBiyRxDjMIvc+KCJJXmybQHc9rdG
+	jfFs1LdjJMkLB2ULcVp4TqpljsE7KDiASq82ZTLiVC4ke3M7IaIsUa3evs8B9y1fYJZL
+	GU/g==
+X-Received: by 10.70.92.109 with SMTP id cl13mr38910099pdb.1.1411748362496;
+	Fri, 26 Sep 2014 09:19:22 -0700 (PDT)
+Received: from haswell.localdomain (c-76-103-58-225.hsd1.ca.comcast.net.
+	[76.103.58.225])
+	by mx.google.com with ESMTPSA id ny7sm5368228pab.38.2014.09.26.09.19.21
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 26 Sep 2014 09:19:21 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Sep 2014 09:23:20 -0700
+Message-Id: <1411748600-10055-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.0
+Cc: Khem Raj <khem_raj@cable.comcast.com>
+Subject: [PATCH] bash: Fix shellshock vulnerability
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,89 +43,245 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Sep 2014 13:30:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 26 Sep 2014 16:19:34 -0000
 
-aplay/arecord (alsa-utils v1.0.28) cannot interrupt streaming
-via CTRL-C. Fixed the issue by reverting buggy patches and
-properly handling 'in_aborting' flag in appropriate functions.
+From: Khem Raj <khem_raj@cable.comcast.com>
 
-Signed-off-by: Anant Agrawal <Anant_Agrawal@mentor.com>
-Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
-Signed-off-by: Muzaffar Mahmood <muzaffar_mahmood@mentor.com>
+CVE-2014-6271
+
+Change-Id: Ia6a9f7dab108f0ba40c84eef2d8a61dc2303f3f3
+Signed-off-by: Khem Raj <khem_raj@cable.comcast.com>
 ---
- ...lsa-utils-aplay-interrupt-signal-handling.patch |   48 ++++++++++++++++++++
- meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb  |    1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-utils/alsa-utils-aplay-interrupt-signal-handling.patch
+ .../bash/bash-3.2.48/shellshock.patch              |  84 +++++++++++++++++
+ meta/recipes-extended/bash/bash/shellshock.patch   | 101 +++++++++++++++++++++
+ meta/recipes-extended/bash/bash_3.2.48.bb          |   1 +
+ meta/recipes-extended/bash/bash_4.3.bb             |   1 +
+ 4 files changed, 187 insertions(+)
+ create mode 100644 meta/recipes-extended/bash/bash-3.2.48/shellshock.patch
+ create mode 100644 meta/recipes-extended/bash/bash/shellshock.patch
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils/alsa-utils-aplay-interrupt-signal-handling.patch b/meta/recipes-multimedia/alsa/alsa-utils/alsa-utils-aplay-interrupt-signal-handling.patch
+diff --git a/meta/recipes-extended/bash/bash-3.2.48/shellshock.patch b/meta/recipes-extended/bash/bash-3.2.48/shellshock.patch
 new file mode 100644
-index 0000000..5df004a
+index 0000000..bed9cee
 --- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-utils/alsa-utils-aplay-interrupt-signal-handling.patch
-@@ -0,0 +1,48 @@
-+Upstream-Status: Pending
++++ b/meta/recipes-extended/bash/bash-3.2.48/shellshock.patch
+@@ -0,0 +1,84 @@
++Fix CVE-2014-6271
 +
-+aplay/arecord (alsa-utils v1.0.28) cannot interrupt streaming
-+via CTRL-C. Fixed the issue by reverting buggy patches and
-+properly handling 'in_aborting' flag in appropriate functions.
++specially-crafted environment variables can be used to inject shell commands
++taken from
++https://bugzilla.redhat.com/show_bug.cgi?id=1141597
 +
-+Signed-off-by: Anant Agrawal <Anant_Agrawal@mentor.com>
-+Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
++Upstream-Status: Submitted
 +
-+--- a/aplay/aplay.c	2014-05-19 16:25:14.000000000 +0530
-++++ b/aplay/aplay.c	2014-05-20 15:17:14.364823007 +0530
-+@@ -392,14 +392,22 @@
-+ 		putchar('\n');
-+ 	if (!quiet_mode)
-+ 		fprintf(stderr, _("Aborted by signal %s...\n"), strsignal(sig));
-+-	if (handle)
-++	if (stream == SND_PCM_STREAM_CAPTURE) {
-++		if (fmt_rec_table[file_type].end) {
-++			fmt_rec_table[file_type].end(fd);
-++			fd = -1;
-++		}
-++		stream = -1;
-++	}
-++	if (fd > 1) {
-++		close(fd);
-++		fd = -1;
-++	}
-++	if (handle && sig != SIGABRT) {
-+ 		snd_pcm_abort(handle);
-+-	if (sig == SIGABRT) {
-+-		/* do not call snd_pcm_close() and abort immediately */
-+ 		handle = NULL;
-+-		prg_exit(EXIT_FAILURE);
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: bash-3.2.48/variables.c
++===================================================================
++--- bash-3.2.48.orig/variables.c	2008-11-18 05:14:57.000000000 -0800
+++++ bash-3.2.48/variables.c	2014-09-26 09:12:58.700080056 -0700
++@@ -318,12 +318,10 @@
++ 	  temp_string[char_index] = ' ';
++ 	  strcpy (temp_string + char_index + 1, string);
++ 
++-	  parse_and_execute (temp_string, name, SEVAL_NONINT|SEVAL_NOHIST);
++-
++-	  /* Ancient backwards compatibility.  Old versions of bash exported
++-	     functions like name()=() {...} */
++-	  if (name[char_index - 1] == ')' && name[char_index - 2] == '(')
++-	    name[char_index - 2] = '\0';
+++	  /* Don't import function names that are invalid identifiers from the
+++	     environment. */
+++	  if (legal_identifier (name))
+++	    parse_and_execute (temp_string, name, SEVAL_NONINT|SEVAL_NOHIST|SEVAL_FUNCDEF|SEVAL_ONECMD);
++ 
++ 	  if (temp_var = find_function (name))
++ 	    {
++@@ -332,10 +330,6 @@
++ 	    }
++ 	  else
++ 	    report_error (_("error importing function definition for `%s'"), name);
++-
++-	  /* ( */
++-	  if (name[char_index - 1] == ')' && name[char_index - 2] == '\0')
++-	    name[char_index - 2] = '(';		/* ) */
 + 	}
-+-	signal(sig, signal_handler);
-++	prg_exit(EXIT_FAILURE);
-+ }
++ #if defined (ARRAY_VARS)
++ #  if 0
++Index: bash-3.2.48/builtins/common.h
++===================================================================
++--- bash-3.2.48.orig/builtins/common.h	2006-03-06 06:38:44.000000000 -0800
+++++ bash-3.2.48/builtins/common.h	2014-09-26 09:12:58.700080056 -0700
++@@ -33,6 +33,8 @@
++ #define SEVAL_RESETLINE	0x010
 + 
-+ /* call on SIGUSR1 signal. */
-+@@ -2096,7 +2104,7 @@
-+ 	ssize_t result = count, r;
-+ 	size_t size;
++ /* Flags for describe_command, shared between type.def and command.def */
+++#define SEVAL_FUNCDEF	0x080		/* only allow function definitions */
+++#define SEVAL_ONECMD	0x100		/* only allow a single command */
++ #define CDESC_ALL		0x001	/* type -a */
++ #define CDESC_SHORTDESC		0x002	/* command -V */
++ #define CDESC_REUSABLE		0x004	/* command -v */
++Index: bash-3.2.48/builtins/evalstring.c
++===================================================================
++--- bash-3.2.48.orig/builtins/evalstring.c	2008-11-18 05:15:12.000000000 -0800
+++++ bash-3.2.48/builtins/evalstring.c	2014-09-26 09:12:58.700080056 -0700
++@@ -234,6 +234,14 @@
++ 	    {
++ 	      struct fd_bitmap *bitmap;
 + 
-+-	while (count > 0) {
-++	while (count > 0 && !in_aborting) {
-+ 		size = count;
-+ 		if (size > chunk_bytes - buffer_pos)
-+ 			size = chunk_bytes - buffer_pos;
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
-index 2d23482..5f35d76 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
-@@ -13,6 +13,7 @@ PACKAGECONFIG[xmlto] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xm
- 
- SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
-+           file://alsa-utils-aplay-interrupt-signal-handling.patch \
+++	      if ((flags & SEVAL_FUNCDEF) && command->type != cm_function_def)
+++		{
+++		  internal_warning ("%s: ignoring function definition attempt", from_file);
+++		  should_jump_to_top_level = 0;
+++		  last_result = last_command_exit_value = EX_BADUSAGE;
+++		  break;
+++		}
+++
++ 	      bitmap = new_fd_bitmap (FD_BITMAP_SIZE);
++ 	      begin_unwind_frame ("pe_dispose");
++ 	      add_unwind_protect (dispose_fd_bitmap, bitmap);
++@@ -291,6 +299,9 @@
++ 	      dispose_command (command);
++ 	      dispose_fd_bitmap (bitmap);
++ 	      discard_unwind_frame ("pe_dispose");
+++
+++	      if (flags & SEVAL_ONECMD)
+++		break;
++ 	    }
++ 	}
++       else
+diff --git a/meta/recipes-extended/bash/bash/shellshock.patch b/meta/recipes-extended/bash/bash/shellshock.patch
+new file mode 100644
+index 0000000..912e6ff
+--- /dev/null
++++ b/meta/recipes-extended/bash/bash/shellshock.patch
+@@ -0,0 +1,101 @@
++Fix CVE-2014-6271
++
++specially-crafted environment variables can be used to inject shell commands
++taken from
++https://bugzilla.redhat.com/show_bug.cgi?id=1141597
++
++Upstream-Status: Submitted
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: bash-4.3/variables.c
++===================================================================
++--- bash-4.3.orig/variables.c	2014-02-14 08:55:12.000000000 -0800
+++++ bash-4.3/variables.c	2014-09-26 08:40:24.704080056 -0700
++@@ -358,13 +358,11 @@
++ 	  temp_string[char_index] = ' ';
++ 	  strcpy (temp_string + char_index + 1, string);
++ 
++-	  if (posixly_correct == 0 || legal_identifier (name))
++-	    parse_and_execute (temp_string, name, SEVAL_NONINT|SEVAL_NOHIST);
++-
++-	  /* Ancient backwards compatibility.  Old versions of bash exported
++-	     functions like name()=() {...} */
++-	  if (name[char_index - 1] == ')' && name[char_index - 2] == '(')
++-	    name[char_index - 2] = '\0';
+++	  /* Don't import function names that are invalid identifiers from the
+++	     environment, though we still allow them to be defined as shell
+++	     variables. */
+++	  if (legal_identifier (name))
+++	    parse_and_execute (temp_string, name, SEVAL_NONINT|SEVAL_NOHIST|SEVAL_FUNCDEF|SEVAL_ONECMD);
++ 
++ 	  if (temp_var = find_function (name))
++ 	    {
++@@ -381,10 +379,6 @@
++ 	      last_command_exit_value = 1;
++ 	      report_error (_("error importing function definition for `%s'"), name);
++ 	    }
++-
++-	  /* ( */
++-	  if (name[char_index - 1] == ')' && name[char_index - 2] == '\0')
++-	    name[char_index - 2] = '(';		/* ) */
++ 	}
++ #if defined (ARRAY_VARS)
++ #  if ARRAY_EXPORT
++Index: bash-4.3/subst.c
++===================================================================
++--- bash-4.3.orig/subst.c	2014-01-23 13:26:37.000000000 -0800
+++++ bash-4.3/subst.c	2014-09-26 08:40:24.708080056 -0700
++@@ -8029,7 +8029,9 @@
++ 
++ 	  goto return0;
++ 	}
++-      else if (var = find_variable_last_nameref (temp1))
+++      else if (var && (invisible_p (var) || var_isset (var) == 0))
+++	temp = (char *)NULL;
+++      else if ((var = find_variable_last_nameref (temp1)) && var_isset (var) && invisible_p (var) == 0)
++ 	{
++ 	  temp = nameref_cell (var);
++ #if defined (ARRAY_VARS)
++Index: bash-4.3/builtins/common.h
++===================================================================
++--- bash-4.3.orig/builtins/common.h	2013-07-08 13:54:47.000000000 -0700
+++++ bash-4.3/builtins/common.h	2014-09-26 08:40:24.700080056 -0700
++@@ -33,6 +33,8 @@
++ #define SEVAL_RESETLINE	0x010
++ #define SEVAL_PARSEONLY	0x020
++ #define SEVAL_NOLONGJMP 0x040
+++#define SEVAL_FUNCDEF	0x080		/* only allow function definitions */
+++#define SEVAL_ONECMD	0x100		/* only allow a single command */
++ 
++ /* Flags for describe_command, shared between type.def and command.def */
++ #define CDESC_ALL		0x001	/* type -a */
++Index: bash-4.3/builtins/evalstring.c
++===================================================================
++--- bash-4.3.orig/builtins/evalstring.c	2014-02-11 06:42:10.000000000 -0800
+++++ bash-4.3/builtins/evalstring.c	2014-09-26 08:40:24.700080056 -0700
++@@ -308,6 +308,14 @@
++ 	    {
++ 	      struct fd_bitmap *bitmap;
++ 
+++	      if ((flags & SEVAL_FUNCDEF) && command->type != cm_function_def)
+++		{
+++		  internal_warning ("%s: ignoring function definition attempt", from_file);
+++		  should_jump_to_top_level = 0;
+++		  last_result = last_command_exit_value = EX_BADUSAGE;
+++		  break;
+++		}
+++
++ 	      bitmap = new_fd_bitmap (FD_BITMAP_SIZE);
++ 	      begin_unwind_frame ("pe_dispose");
++ 	      add_unwind_protect (dispose_fd_bitmap, bitmap);
++@@ -368,6 +376,9 @@
++ 	      dispose_command (command);
++ 	      dispose_fd_bitmap (bitmap);
++ 	      discard_unwind_frame ("pe_dispose");
+++
+++	      if (flags & SEVAL_ONECMD)
+++		break;
++ 	    }
++ 	}
++       else
+diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
+index fe04b28..07c6540 100644
+--- a/meta/recipes-extended/bash/bash_3.2.48.bb
++++ b/meta/recipes-extended/bash/bash_3.2.48.bb
+@@ -12,6 +12,7 @@ SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
+            file://mkbuiltins_have_stringize.patch \
+            file://build-tests.patch \
+            file://test-output.patch \
++           file://shellshock.patch \
+            file://run-ptest \
            "
  
- SRC_URI[md5sum] = "361552d5b1cacd0a1e7ba09e69990211"
+diff --git a/meta/recipes-extended/bash/bash_4.3.bb b/meta/recipes-extended/bash/bash_4.3.bb
+index 25b7410..a01fcf1 100644
+--- a/meta/recipes-extended/bash/bash_4.3.bb
++++ b/meta/recipes-extended/bash/bash_4.3.bb
+@@ -9,6 +9,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+            file://mkbuiltins_have_stringize.patch \
+            file://build-tests.patch \
+            file://test-output.patch \
++           file://shellshock.patch \
+            file://run-ptest \
+            "
+ 
 -- 
-1.7.9.5
+2.1.0
 
 
