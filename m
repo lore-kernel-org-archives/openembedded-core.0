@@ -1,41 +1,29 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 65CFA715EB
+Return-Path: <paul.eggleton@linux.intel.com>
+X-Greylist: delayed 588 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 26 Sep 2014 08:58:22 UTC
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DD791601A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Sep 2014 06:54:49 +0000 (UTC)
-Received: by mail-wi0-f174.google.com with SMTP id hi2so382023wib.13
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Sep 2014 23:54:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=4Yq7nCCMI1iGmqohW/LFBV5qnHi7A4xrxeZPZGtCHCM=;
-	b=dzZoSt+nsGQEyhDPnuinjbPfQoO1m3YLSa8d9gPfLl0Le8CxrCBbA6jb5QRpiSNZ+c
-	PZmkFlkl10dqUzQ9cSlzDf9F3y34tw2t1WLL1KbziP8fBtFd2K50tGPLgmc/SOpWvIvz
-	ZcO0nVhkBmC9QYhdgxDi4xT128xoe6Zx1+HVN/JcLzuf3gzFgSfBWLLx/LCLyCX4Z/x/
-	c5LH9Pl98KzxPyKtDGeQHlR3MakQfu3TzMcLNjh1ctq23XlwLWBwXGv/dNcRhP/0Ir43
-	fznun3p3J5sMYwyB77syGaC639oL1EPfQGZD1HggHakNnht+WVlYAMVx0Aib7p8ZClBk
-	O9kQ==
-X-Gm-Message-State: ALoCoQltwPgfXn6aOGTXGuYjwOl4595pj7o/DtVcx160TTO6GTte5ZdsZXG07PMTyOKUatnikZvQ
-X-Received: by 10.194.174.39 with SMTP id bp7mr261409wjc.131.1411714490237;
-	Thu, 25 Sep 2014 23:54:50 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::8cb4:fbee:b1e5:5999?
-	([2001:610:612:0:8cb4:fbee:b1e5:5999])
-	by mx.google.com with ESMTPSA id c7sm1105043wib.12.2014.09.25.23.54.48
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 25 Sep 2014 23:54:49 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1411686803-13274-1-git-send-email-ross.burton@intel.com>
-Date: Fri, 26 Sep 2014 08:55:03 +0200
-Message-Id: <9C24F433-394B-4682-B921-7BD865351E64@dominion.thruhere.net>
+	Fri, 26 Sep 2014 08:58:22 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 26 Sep 2014 01:46:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,603,1406617200"; d="scan'208";a="579362026"
+Received: from tmediriw-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.182])
+	by orsmga001.jf.intel.com with ESMTP; 26 Sep 2014 01:48:34 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	Ross Burton <ross.burton@intel.com>
+Date: Fri, 26 Sep 2014 09:48:33 +0100
+Message-ID: <1995466.kcCmvSr1XA@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.1 (Linux/3.16.3-200.fc20.x86_64; KDE/4.14.1; x86_64; ; )
+In-Reply-To: <9C24F433-394B-4682-B921-7BD865351E64@dominion.thruhere.net>
 References: <1411686803-13274-1-git-send-email-ross.burton@intel.com>
-To: Ross Burton <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1878.6)
-Cc: openembedded-core@lists.openembedded.org
+	<9C24F433-394B-4682-B921-7BD865351E64@dominion.thruhere.net>
+MIME-Version: 1.0
+Cc: Koen Kooi <koen@dominion.thruhere.net>
 Subject: Re: [PATCH 1/2] curl: add a PACKAGECONFIG for librtmp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -49,41 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Sep 2014 06:54:52 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 26 Sep 2014 08:58:30 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Friday 26 September 2014 08:55:03 Koen Kooi wrote:
+> Op 26 sep. 2014, om 01:13 heeft Ross Burton <ross.burton@intel.com> het
+> volgende geschreven:
+> > Otherwise this is a non-deterministic build dependency.
+> > 
+> > Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > ---
+> > meta/recipes-support/curl/curl_7.37.1.bb |    1 +
+> > 1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/meta/recipes-support/curl/curl_7.37.1.bb
+> > b/meta/recipes-support/curl/curl_7.37.1.bb index 8bcd9ba..e2852e3 100644
+> > --- a/meta/recipes-support/curl/curl_7.37.1.bb
+> > +++ b/meta/recipes-support/curl/curl_7.37.1.bb
+> > @@ -27,6 +27,7 @@ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+> > PACKAGECONFIG[ssl] = "--with-ssl
+> > --with-random=/dev/urandom,--without-ssl,openssl" PACKAGECONFIG[gnutls] =
+> > "--with-gnutls,--without-gnutls,gnutls"
+> > PACKAGECONFIG[zlib] =
+> > "--with-zlib=${STAGING_LIBDIR}/../,--without-zlib,zlib"
+> > +PACKAGECONFIG[rtmpdump] = "--with-librtmp,--without-librtmp,rtmpdump"
+>
+> Using librtmp has nasty legal consequences in various countries, is there a
+> way to express that risk? Something analogous to the commercial license
+> protection we have.
 
-Op 26 sep. 2014, om 01:13 heeft Ross Burton <ross.burton@intel.com> het =
-volgende geschreven:
+Maybe set LICENSE_FLAGS conditionally upon rtmpdump being in PACKAGECONFIG?
 
-> Otherwise this is a non-deterministic build dependency.
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
-> meta/recipes-support/curl/curl_7.37.1.bb |    1 +
-> 1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/recipes-support/curl/curl_7.37.1.bb =
-b/meta/recipes-support/curl/curl_7.37.1.bb
-> index 8bcd9ba..e2852e3 100644
-> --- a/meta/recipes-support/curl/curl_7.37.1.bb
-> +++ b/meta/recipes-support/curl/curl_7.37.1.bb
-> @@ -27,6 +27,7 @@ PACKAGECONFIG[ipv6] =3D =
-"--enable-ipv6,--disable-ipv6,"
-> PACKAGECONFIG[ssl] =3D "--with-ssl =
---with-random=3D/dev/urandom,--without-ssl,openssl"
-> PACKAGECONFIG[gnutls] =3D "--with-gnutls,--without-gnutls,gnutls"
-> PACKAGECONFIG[zlib] =3D =
-"--with-zlib=3D${STAGING_LIBDIR}/../,--without-zlib,zlib"
-> +PACKAGECONFIG[rtmpdump] =3D =
-"--with-librtmp,--without-librtmp,rtmpdump"
+Cheers,
+Paul
 
-Using librtmp has nasty legal consequences in various countries, is =
-there a way to express that risk? Something analogous to the commercial =
-license protection we have.
+-- 
 
-regards,
-
-Koen=
+Paul Eggleton
+Intel Open Source Technology Centre
 
