@@ -1,36 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 71D8065D59
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Sep 2014 16:20:37 +0000 (UTC)
-Received: by mail-pd0-f173.google.com with SMTP id w10so3539204pde.4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Sep 2014 09:20:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=KQaLm+UtL4LHtf/l67fN7BGW0clHJf1sa9udg20lAEk=;
-	b=hhbfOl7IDofusa4oyPMwbd75RJGBoDFy4Uqbez9w1iKMZjnAUE1qPuC+3Kyn3Mtkgq
-	rfa1FviTGwTVYNDQbld7Phaq3PD93UfYQuGsnTJrIReP9drCADLzbq6SMBkixfK2awxq
-	aOcMiOYQq66/QpG4D8la9TWA1C3ZnMHhNGLkp46HKo4pPnzgEnx3reKV3tvSzz+UR4r2
-	HlxuU8u/qBu4lfBWNinjI6s/Xky7h+7cN/O1o8N4Eg+kNqg98cMnbQDUYGW/50zyJ03M
-	zij5z6OOWTzXnUlk8EEPto5tFIPNk7lYuT64fuqR0qnXZDe3PzjIMzifBCLpdi4sH2l/
-	+GFg==
-X-Received: by 10.66.136.48 with SMTP id px16mr32863540pab.10.1411748439269;
-	Fri, 26 Sep 2014 09:20:39 -0700 (PDT)
-Received: from haswell.localdomain (c-76-103-58-225.hsd1.ca.comcast.net.
-	[76.103.58.225])
-	by mx.google.com with ESMTPSA id yt3sm5329358pbc.34.2014.09.26.09.20.38
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 26 Sep 2014 09:20:38 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Sep 2014 09:24:36 -0700
-Message-Id: <1411748676-10230-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.1.0
-Cc: Khem Raj <khem_raj@cable.comcast.com>
-Subject: [daisy][PATCH] bash: Fix shellshock vulnerability
+Return-Path: <nitin.a.kamble@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id CAD1465D59
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 26 Sep 2014 16:24:12 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Sep 2014 09:23:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,604,1406617200"; d="scan'208";a="597330232"
+Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
+	by fmsmga001.fm.intel.com with ESMTP; 26 Sep 2014 09:23:19 -0700
+Received: from orsmsx103.amr.corp.intel.com ([169.254.2.106]) by
+	ORSMSX108.amr.corp.intel.com ([169.254.4.115]) with mapi id
+	14.03.0195.001; Fri, 26 Sep 2014 09:23:18 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: "Ashfield, Bruce (Wind River)" <bruce.ashfield@windriver.com>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	"Wold, Saul" <saul.wold@intel.com>,
+	"Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>, "Zanussi, Tom"
+	<tom.zanussi@intel.com>, "dvhart@linux.intel.com" <dvhart@linux.intel.com>
+Thread-Topic: [PATCH 1/1] lttng-modules: fix build issues with the v3.17 kernel
+Thread-Index: AQHP2S2nhoEBs3BHlEWX9hNUu92RuJwTJJiAgAB1aQA=
+Date: Fri, 26 Sep 2014 16:23:19 +0000
+Message-ID: <D04AE067.5997%nitin.a.kamble@intel.com>
+References: <cover.1411695722.git.nitin.a.kamble@intel.com>
+	<2ec710f4e16c92f21c8d5dd001c744e177e5e2ea.1411695722.git.nitin.a.kamble@intel.com>
+	<5424CE09.1010108@windriver.com>
+In-Reply-To: <5424CE09.1010108@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/14.4.4.140807
+x-originating-ip: [10.254.119.57]
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] lttng-modules: fix build issues with the v3.17 kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,245 +46,207 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Sep 2014 16:20:38 -0000
+X-List-Received-Date: Fri, 26 Sep 2014 16:24:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <EA2538DEDDFB1C49A1A6EEC06DC0926C@intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-From: Khem Raj <khem_raj@cable.comcast.com>
 
-CVE-2014-6271
 
-Change-Id: Ia6a9f7dab108f0ba40c84eef2d8a61dc2303f3f3
-Signed-off-by: Khem Raj <khem_raj@cable.comcast.com>
----
- .../bash/bash-3.2.48/shellshock.patch              |  84 +++++++++++++++++
- meta/recipes-extended/bash/bash/shellshock.patch   | 101 +++++++++++++++++++++
- meta/recipes-extended/bash/bash_3.2.48.bb          |   1 +
- meta/recipes-extended/bash/bash_4.3.bb             |   1 +
- 4 files changed, 187 insertions(+)
- create mode 100644 meta/recipes-extended/bash/bash-3.2.48/shellshock.patch
- create mode 100644 meta/recipes-extended/bash/bash/shellshock.patch
+On 9/25/14, 7:23 PM, "Bruce Ashfield" <bruce.ashfield@windriver.com> wrote:
 
-diff --git a/meta/recipes-extended/bash/bash-3.2.48/shellshock.patch b/meta/recipes-extended/bash/bash-3.2.48/shellshock.patch
-new file mode 100644
-index 0000000..bed9cee
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash-3.2.48/shellshock.patch
-@@ -0,0 +1,84 @@
-+Fix CVE-2014-6271
-+
-+specially-crafted environment variables can be used to inject shell commands
-+taken from
-+https://bugzilla.redhat.com/show_bug.cgi?id=1141597
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: bash-3.2.48/variables.c
-+===================================================================
-+--- bash-3.2.48.orig/variables.c	2008-11-18 05:14:57.000000000 -0800
-++++ bash-3.2.48/variables.c	2014-09-26 09:12:58.700080056 -0700
-+@@ -318,12 +318,10 @@
-+ 	  temp_string[char_index] = ' ';
-+ 	  strcpy (temp_string + char_index + 1, string);
-+ 
-+-	  parse_and_execute (temp_string, name, SEVAL_NONINT|SEVAL_NOHIST);
-+-
-+-	  /* Ancient backwards compatibility.  Old versions of bash exported
-+-	     functions like name()=() {...} */
-+-	  if (name[char_index - 1] == ')' && name[char_index - 2] == '(')
-+-	    name[char_index - 2] = '\0';
-++	  /* Don't import function names that are invalid identifiers from the
-++	     environment. */
-++	  if (legal_identifier (name))
-++	    parse_and_execute (temp_string, name, SEVAL_NONINT|SEVAL_NOHIST|SEVAL_FUNCDEF|SEVAL_ONECMD);
-+ 
-+ 	  if (temp_var = find_function (name))
-+ 	    {
-+@@ -332,10 +330,6 @@
-+ 	    }
-+ 	  else
-+ 	    report_error (_("error importing function definition for `%s'"), name);
-+-
-+-	  /* ( */
-+-	  if (name[char_index - 1] == ')' && name[char_index - 2] == '\0')
-+-	    name[char_index - 2] = '(';		/* ) */
-+ 	}
-+ #if defined (ARRAY_VARS)
-+ #  if 0
-+Index: bash-3.2.48/builtins/common.h
-+===================================================================
-+--- bash-3.2.48.orig/builtins/common.h	2006-03-06 06:38:44.000000000 -0800
-++++ bash-3.2.48/builtins/common.h	2014-09-26 09:12:58.700080056 -0700
-+@@ -33,6 +33,8 @@
-+ #define SEVAL_RESETLINE	0x010
-+ 
-+ /* Flags for describe_command, shared between type.def and command.def */
-++#define SEVAL_FUNCDEF	0x080		/* only allow function definitions */
-++#define SEVAL_ONECMD	0x100		/* only allow a single command */
-+ #define CDESC_ALL		0x001	/* type -a */
-+ #define CDESC_SHORTDESC		0x002	/* command -V */
-+ #define CDESC_REUSABLE		0x004	/* command -v */
-+Index: bash-3.2.48/builtins/evalstring.c
-+===================================================================
-+--- bash-3.2.48.orig/builtins/evalstring.c	2008-11-18 05:15:12.000000000 -0800
-++++ bash-3.2.48/builtins/evalstring.c	2014-09-26 09:12:58.700080056 -0700
-+@@ -234,6 +234,14 @@
-+ 	    {
-+ 	      struct fd_bitmap *bitmap;
-+ 
-++	      if ((flags & SEVAL_FUNCDEF) && command->type != cm_function_def)
-++		{
-++		  internal_warning ("%s: ignoring function definition attempt", from_file);
-++		  should_jump_to_top_level = 0;
-++		  last_result = last_command_exit_value = EX_BADUSAGE;
-++		  break;
-++		}
-++
-+ 	      bitmap = new_fd_bitmap (FD_BITMAP_SIZE);
-+ 	      begin_unwind_frame ("pe_dispose");
-+ 	      add_unwind_protect (dispose_fd_bitmap, bitmap);
-+@@ -291,6 +299,9 @@
-+ 	      dispose_command (command);
-+ 	      dispose_fd_bitmap (bitmap);
-+ 	      discard_unwind_frame ("pe_dispose");
-++
-++	      if (flags & SEVAL_ONECMD)
-++		break;
-+ 	    }
-+ 	}
-+       else
-diff --git a/meta/recipes-extended/bash/bash/shellshock.patch b/meta/recipes-extended/bash/bash/shellshock.patch
-new file mode 100644
-index 0000000..912e6ff
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash/shellshock.patch
-@@ -0,0 +1,101 @@
-+Fix CVE-2014-6271
-+
-+specially-crafted environment variables can be used to inject shell commands
-+taken from
-+https://bugzilla.redhat.com/show_bug.cgi?id=1141597
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: bash-4.3/variables.c
-+===================================================================
-+--- bash-4.3.orig/variables.c	2014-02-14 08:55:12.000000000 -0800
-++++ bash-4.3/variables.c	2014-09-26 08:40:24.704080056 -0700
-+@@ -358,13 +358,11 @@
-+ 	  temp_string[char_index] = ' ';
-+ 	  strcpy (temp_string + char_index + 1, string);
-+ 
-+-	  if (posixly_correct == 0 || legal_identifier (name))
-+-	    parse_and_execute (temp_string, name, SEVAL_NONINT|SEVAL_NOHIST);
-+-
-+-	  /* Ancient backwards compatibility.  Old versions of bash exported
-+-	     functions like name()=() {...} */
-+-	  if (name[char_index - 1] == ')' && name[char_index - 2] == '(')
-+-	    name[char_index - 2] = '\0';
-++	  /* Don't import function names that are invalid identifiers from the
-++	     environment, though we still allow them to be defined as shell
-++	     variables. */
-++	  if (legal_identifier (name))
-++	    parse_and_execute (temp_string, name, SEVAL_NONINT|SEVAL_NOHIST|SEVAL_FUNCDEF|SEVAL_ONECMD);
-+ 
-+ 	  if (temp_var = find_function (name))
-+ 	    {
-+@@ -381,10 +379,6 @@
-+ 	      last_command_exit_value = 1;
-+ 	      report_error (_("error importing function definition for `%s'"), name);
-+ 	    }
-+-
-+-	  /* ( */
-+-	  if (name[char_index - 1] == ')' && name[char_index - 2] == '\0')
-+-	    name[char_index - 2] = '(';		/* ) */
-+ 	}
-+ #if defined (ARRAY_VARS)
-+ #  if ARRAY_EXPORT
-+Index: bash-4.3/subst.c
-+===================================================================
-+--- bash-4.3.orig/subst.c	2014-01-23 13:26:37.000000000 -0800
-++++ bash-4.3/subst.c	2014-09-26 08:40:24.708080056 -0700
-+@@ -8029,7 +8029,9 @@
-+ 
-+ 	  goto return0;
-+ 	}
-+-      else if (var = find_variable_last_nameref (temp1))
-++      else if (var && (invisible_p (var) || var_isset (var) == 0))
-++	temp = (char *)NULL;
-++      else if ((var = find_variable_last_nameref (temp1)) && var_isset (var) && invisible_p (var) == 0)
-+ 	{
-+ 	  temp = nameref_cell (var);
-+ #if defined (ARRAY_VARS)
-+Index: bash-4.3/builtins/common.h
-+===================================================================
-+--- bash-4.3.orig/builtins/common.h	2013-07-08 13:54:47.000000000 -0700
-++++ bash-4.3/builtins/common.h	2014-09-26 08:40:24.700080056 -0700
-+@@ -33,6 +33,8 @@
-+ #define SEVAL_RESETLINE	0x010
-+ #define SEVAL_PARSEONLY	0x020
-+ #define SEVAL_NOLONGJMP 0x040
-++#define SEVAL_FUNCDEF	0x080		/* only allow function definitions */
-++#define SEVAL_ONECMD	0x100		/* only allow a single command */
-+ 
-+ /* Flags for describe_command, shared between type.def and command.def */
-+ #define CDESC_ALL		0x001	/* type -a */
-+Index: bash-4.3/builtins/evalstring.c
-+===================================================================
-+--- bash-4.3.orig/builtins/evalstring.c	2014-02-11 06:42:10.000000000 -0800
-++++ bash-4.3/builtins/evalstring.c	2014-09-26 08:40:24.700080056 -0700
-+@@ -308,6 +308,14 @@
-+ 	    {
-+ 	      struct fd_bitmap *bitmap;
-+ 
-++	      if ((flags & SEVAL_FUNCDEF) && command->type != cm_function_def)
-++		{
-++		  internal_warning ("%s: ignoring function definition attempt", from_file);
-++		  should_jump_to_top_level = 0;
-++		  last_result = last_command_exit_value = EX_BADUSAGE;
-++		  break;
-++		}
-++
-+ 	      bitmap = new_fd_bitmap (FD_BITMAP_SIZE);
-+ 	      begin_unwind_frame ("pe_dispose");
-+ 	      add_unwind_protect (dispose_fd_bitmap, bitmap);
-+@@ -368,6 +376,9 @@
-+ 	      dispose_command (command);
-+ 	      dispose_fd_bitmap (bitmap);
-+ 	      discard_unwind_frame ("pe_dispose");
-++
-++	      if (flags & SEVAL_ONECMD)
-++		break;
-+ 	    }
-+ 	}
-+       else
-diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
-index fe04b28..07c6540 100644
---- a/meta/recipes-extended/bash/bash_3.2.48.bb
-+++ b/meta/recipes-extended/bash/bash_3.2.48.bb
-@@ -12,6 +12,7 @@ SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
-            file://mkbuiltins_have_stringize.patch \
-            file://build-tests.patch \
-            file://test-output.patch \
-+           file://shellshock.patch \
-            file://run-ptest \
-           "
- 
-diff --git a/meta/recipes-extended/bash/bash_4.3.bb b/meta/recipes-extended/bash/bash_4.3.bb
-index 25b7410..a01fcf1 100644
---- a/meta/recipes-extended/bash/bash_4.3.bb
-+++ b/meta/recipes-extended/bash/bash_4.3.bb
-@@ -9,6 +9,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
-            file://mkbuiltins_have_stringize.patch \
-            file://build-tests.patch \
-            file://test-output.patch \
-+           file://shellshock.patch \
-            file://run-ptest \
-            "
- 
--- 
-2.1.1
+>On 2014-09-25, 10:00 PM, nitin.a.kamble@intel.com wrote:
+>> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+>>
+>> The lttng-modules recipe was failing for meta-intel BSPs with the v3.17
+>>kernel.
+>> These BSP kernels were enabling some of the audio codec drivers, whose
+>> structures are changed recently, causing mismatch with lttng-modules
+>>code
+>> expectations. The qemu machines did not see this issue as they were not
+>> enabling these sound codec kernel configuration.
+>>    Fix the build issue, by changing the lttng-modules code to match with
+>> the structures used by the v3.17 kernel. The code is conditional on the
+>> kernel version, that way it keeps working with the older kernel
+>>versions.
+>>
+>> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+>> ---
+>>   .../fix_build_with_v3.17_kernel.patch              | 111
+>>+++++++++++++++++++++
+>>   meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb   |   1 +
+>>   2 files changed, 112 insertions(+)
+>>   create mode 100644
+>>meta/recipes-kernel/lttng/lttng-modules/fix_build_with_v3.17_kernel.patch
+>>
+>> diff --git=20
+>>a/meta/recipes-kernel/lttng/lttng-modules/fix_build_with_v3.17_kernel.pat
+>>ch=20
+>>b/meta/recipes-kernel/lttng/lttng-modules/fix_build_with_v3.17_kernel.pat
+>>ch
+>> new file mode 100644
+>> index 0000000..86dfa69
+>> --- /dev/null
+>> +++=20
+>>b/meta/recipes-kernel/lttng/lttng-modules/fix_build_with_v3.17_kernel.pat
+>>ch
+>> @@ -0,0 +1,111 @@
+>> +Upstream-Status: Pending
+>> +
+>> +commit 91ec0897b50c9d3f215ce6790b30bc319a136a4e
+>> +Author: Nitin A Kamble <nitin.a.kamble@intel.com>
+>> +Date:   Thu Sep 25 16:51:24 2014 -0700
+>> +
+>> +    asoc.h: fix build with v3.17 kernel
+>> +
+>> +    The snd_soc_codec structure has changed in the v3.17 kernel. Some
+>> +    of the redundant fields have been removed. To be specific this
+>>commit
+>> +    from the v3.17 kernel causes the build failure for lttng-modules.
+>> +
+>> +    |commit f4333203ec933f9272c90c7add01774ec2cf94d3
+>> +    |Author: Lars-Peter Clausen <lars@metafoo.de>
+>> +    |Date:   Mon Jun 16 18:13:02 2014 +0200
+>> +    |
+>> +    |    ASoC: Move name and id from CODEC/platform to component
+>> +    |
+>> +    |    The component struct already has a name and id field which
+>>are initialized to
+>> +    |    the same values as the same fields in the CODEC and platform
+>>structs. So remove
+>> +    |    them from the CODEC and platform structs and used the ones
+>>from the component
+>> +    |    struct instead.
+>> +    |
+>> +    |    Signed-off-by: Lars-Peter Clausen <lars@metafoo.de>
+>> +    |    Signed-off-by: Mark Brown <broonie@linaro.org>
+>> +
+>> +    The asoc.h is changed according to the change in the above kernel
+>>commit
+>> +    to fix the lttng-modules build. The change in the lttng-modules
+>>code is
+>> +    conditional on the kernel version, so that it does not break
+>>builds with
+>> +    previous kernel versions.
+>
+>Nice fix. To be consistent with other patches for lttng, we should
+>probably
+>put an upstream-status field in the header.
+
+It is already at the beginning of the patch. Look few lines above.
+
+>
+>Are you going to send this to the project ? They'll probably want to
+>tweak it, but for our purposes, this builds and looks fine.
+
+That should be fine. Once it is upstream, the next update to the recipe
+can drop the patch.
+
+Nitin
+
+>
+>Bruce
+>
+>> +
+>> +    Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+>> +
+>> +diff --git a/instrumentation/events/lttng-module/asoc.h
+>>b/instrumentation/events/lttng-module/asoc.h
+>> +index 672bea4..bf9cf86 100644
+>> +--- a/instrumentation/events/lttng-module/asoc.h
+>> ++++ b/instrumentation/events/lttng-module/asoc.h
+>> +@@ -21,6 +21,14 @@ struct snd_soc_card;
+>> + struct snd_soc_dapm_widget;
+>> + #endif
+>> +
+>> ++#if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,16,0))
+>> ++#define CODEC_NAME_FIELD component.name
+>> ++#define CODEC_ID_FIELD component.id
+>> ++#else
+>> ++#define CODEC_NAME_FIELD name
+>> ++#define CODEC_ID_FIELD id
+>> ++#endif
+>> ++
+>> + /*
+>> +  * Log register events
+>> +  */
+>> +@@ -32,15 +40,15 @@ DECLARE_EVENT_CLASS(snd_soc_reg,
+>> + 	TP_ARGS(codec, reg, val),
+>> +
+>> + 	TP_STRUCT__entry(
+>> +-		__string(	name,		codec->name	)
+>> ++		__string(	name,		codec->CODEC_NAME_FIELD	)
+>> + 		__field(	int,		id		)
+>> + 		__field(	unsigned int,	reg		)
+>> + 		__field(	unsigned int,	val		)
+>> + 	),
+>> +
+>> + 	TP_fast_assign(
+>> +-		tp_strcpy(name, codec->name)
+>> +-		tp_assign(id, codec->id)
+>> ++		tp_strcpy(name, codec->CODEC_NAME_FIELD)
+>> ++		tp_assign(id, codec->CODEC_ID_FIELD)
+>> + 		tp_assign(reg, reg)
+>> + 		tp_assign(val, val)
+>> + 	),
+>> +@@ -77,15 +85,15 @@ DECLARE_EVENT_CLASS(snd_soc_preg,
+>> + 	TP_ARGS(platform, reg, val),
+>> +
+>> + 	TP_STRUCT__entry(
+>> +-		__string(	name,		platform->name	)
+>> ++		__string(	name,		platform->CODEC_NAME_FIELD	)
+>> + 		__field(	int,		id		)
+>> + 		__field(	unsigned int,	reg		)
+>> + 		__field(	unsigned int,	val		)
+>> + 	),
+>> +
+>> + 	TP_fast_assign(
+>> +-		tp_strcpy(name, platform->name)
+>> +-		tp_assign(id, platform->id)
+>> ++		tp_strcpy(name, platform->CODEC_NAME_FIELD)
+>> ++		tp_assign(id, platform->CODEC_ID_FIELD)
+>> + 		tp_assign(reg, reg)
+>> + 		tp_assign(val, val)
+>> + 	),
+>> +@@ -399,17 +407,17 @@ TRACE_EVENT(snd_soc_cache_sync,
+>> + 	TP_ARGS(codec, type, status),
+>> +
+>> + 	TP_STRUCT__entry(
+>> +-		__string(	name,		codec->name	)
+>> ++		__string(	name,		codec->CODEC_NAME_FIELD	)
+>> + 		__string(	status,		status		)
+>> + 		__string(	type,		type		)
+>> + 		__field(	int,		id		)
+>> + 	),
+>> +
+>> + 	TP_fast_assign(
+>> +-		tp_strcpy(name, codec->name)
+>> ++		tp_strcpy(name, codec->CODEC_NAME_FIELD)
+>> + 		tp_strcpy(status, status)
+>> + 		tp_strcpy(type, type)
+>> +-		tp_assign(id, codec->id)
+>> ++		tp_assign(id, codec->CODEC_ID_FIELD)
+>> + 	),
+>> +
+>> + 	TP_printk("codec=3D%s.%d type=3D%s status=3D%s", __get_str(name),
+>> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
+>>b/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
+>> index 04e2b0c..6ff961a 100644
+>> --- a/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
+>> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
+>> @@ -21,6 +21,7 @@ SRC_URI =3D
+>>"git://git.lttng.org/lttng-modules.git;branch=3Dstable-2.5 \
+>>             =20
+>>file://Fix-noargs-probes-should-calculate-alignment-and-eve.patch \
+>>              file://Update-statedump-to-3.17-nsproxy-locking.patch \
+>>             =20
+>>file://Update-kvm-instrumentation-compile-on-3.17-rc1.patch \
+>> +           file://fix_build_with_v3.17_kernel.patch \
+>>              "
+>>
+>>   export INSTALL_MOD_DIR=3D"kernel/lttng-modules"
+>>
+>
 
 
