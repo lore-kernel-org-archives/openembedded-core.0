@@ -1,36 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C10C71547
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F15E71604
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Sep 2014 20:15:33 +0000 (UTC)
-Received: by mail-qc0-f182.google.com with SMTP id x3so4364041qcv.41
+	Fri, 26 Sep 2014 20:16:56 +0000 (UTC)
+Received: by mail-pd0-f169.google.com with SMTP id p10so1605873pdj.14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Sep 2014 13:15:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=AlV+UG2RG26C5QJTNSKKDKLPNNhaf8BE50mQemDPEvU=;
-	b=BYVqqyDOpRf7PFM8lmLE4kuTr+LDSmgx6JN5BDT3HWjrC3CPVMTYb/etvk/Dl/RYBF
-	1NhC53RWz4Y3hEqCICjEiPpqJugDqkxKPsOQC0+wMdCUKVeJv/JZ6Hmd8XF+wgl/LLKe
-	CmfBqbt9G9a9p7mta7Uiux/iOcz75jy/YcRp0J3YjLKvtUG7kruOW9wgogVwfVhJfgvT
-	XDN6D3CXS27pP3QQPAoePaUaJPgsXNzlv7lDzemnSCRwV7KUZIspswqFiFoVVKSpqjmk
-	JIX8ot7ALviFbCTXOrxim4uf0UeRe+rcJfkTawuqc17lvE4u3coR1oWhYEWm5k+lkfp4
-	hSGg==
-X-Gm-Message-State: ALoCoQlOeFGLOJ9xLZzGn7wxeBqaRhUkFts5GoRsJ9NZstmsFAedsEGQNB4geEsb8X7iNzAZ/CVR
-X-Received: by 10.229.238.133 with SMTP id ks5mr31350367qcb.23.1411762533513; 
-	Fri, 26 Sep 2014 13:15:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Fri, 26 Sep 2014 13:15:13 -0700 (PDT)
-In-Reply-To: <1411749218-11056-1-git-send-email-raj.khem@gmail.com>
-References: <1411749218-11056-1-git-send-email-raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 26 Sep 2014 21:15:13 +0100
-Message-ID: <CAJTo0LbE-jeFDQ0JcQEK0aDT297HtFXNOyh-sH=nB+j--vC5kQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] bash: Fix shellshock vulnerability
+	Fri, 26 Sep 2014 13:16:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=p1PDsQ4t6FCg3SU9rFUkSyinwuDCDEZN5XHT3JVHQUs=;
+	b=ayMjYEGisB7pZYJ4dC2U2crKdwvmSVTTd3NORsOcL6bDGeJFgcOFf99EWluUaL1nvp
+	LreG6XWN0JxpS7uLQ3GE3xZZIY/hyrHZIVIo5rg2haF/gjoIpciuKBIHLhz4kSe+DA1U
+	naXRaq0rizoDpmVPcSN2rolFdIo9Y9fTyhpg8sTpmGgX8chyfzLKWgURDhyxOz97FCkl
+	Lvl+NlHSgIY2sxCrbRC1KLrgUl1MEe9am3L9xPPAbA+iJJDwqwdrLb06dQFqNQ/99Byi
+	jnTpSK3ond/vR4GuE2+Drg7htNQoCZsrgxmiuXV9tTduN4ka0mLwE6Prfy9je4Rmq7b8
+	aMWA==
+X-Received: by 10.66.66.229 with SMTP id i5mr34052699pat.131.1411762618406;
+	Fri, 26 Sep 2014 13:16:58 -0700 (PDT)
+Received: from haswell.localdomain (c-76-103-58-225.hsd1.ca.comcast.net.
+	[76.103.58.225])
+	by mx.google.com with ESMTPSA id f12sm5730775pat.36.2014.09.26.13.16.57
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 26 Sep 2014 13:16:57 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Sep 2014 13:20:54 -0700
+Message-Id: <1411762854-16452-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] bash: Fix CVE-2014-7169
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,15 +42,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Sep 2014 20:15:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 26 Sep 2014 20:16:59 -0000
 
-On 26 September 2014 17:33, Khem Raj <raj.khem@gmail.com> wrote:
-> CVE-2014-6271
+This is a followup patch to incomplete CVE-2014-6271 fix
+code execution via specially-crafted environment
 
-Is this meant to replace the patch I sent last night, or did you not
-notice that?  It's been a funny day here, but I was about to send the
-C-Pull with that integrated.
+Change-Id: Ibb0a587ee6e09b8174e92d005356e822ad40d4ed
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-extended/bash/bash-3.2.48/shellshock1.patch | 16 ++++++++++++++++
+ meta/recipes-extended/bash/bash/shellshock1.patch        | 16 ++++++++++++++++
+ meta/recipes-extended/bash/bash_3.2.48.bb                |  1 +
+ meta/recipes-extended/bash/bash_4.3.bb                   |  1 +
+ 4 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-extended/bash/bash-3.2.48/shellshock1.patch
+ create mode 100644 meta/recipes-extended/bash/bash/shellshock1.patch
 
-Ross
+diff --git a/meta/recipes-extended/bash/bash-3.2.48/shellshock1.patch b/meta/recipes-extended/bash/bash-3.2.48/shellshock1.patch
+new file mode 100644
+index 0000000..2e734de
+--- /dev/null
++++ b/meta/recipes-extended/bash/bash-3.2.48/shellshock1.patch
+@@ -0,0 +1,16 @@
++Taken from http://www.openwall.com/lists/oss-security/2016/09/25/10
++
++Upstream-Status: Backport
++Index: bash-3.2.48/parse.y
++===================================================================
++--- bash-3.2.48.orig/parse.y	2008-04-29 18:24:55.000000000 -0700
+++++ bash-3.2.48/parse.y	2014-09-26 13:07:31.956080056 -0700
++@@ -2503,6 +2503,8 @@
++   FREE (word_desc_to_read);
++   word_desc_to_read = (WORD_DESC *)NULL;
++ 
+++  eol_ungetc_lookahead = 0;
+++
++   last_read_token = '\n';
++   token_to_read = '\n';
++ }
+diff --git a/meta/recipes-extended/bash/bash/shellshock1.patch b/meta/recipes-extended/bash/bash/shellshock1.patch
+new file mode 100644
+index 0000000..3c69121
+--- /dev/null
++++ b/meta/recipes-extended/bash/bash/shellshock1.patch
+@@ -0,0 +1,16 @@
++Taken from http://www.openwall.com/lists/oss-security/2016/09/25/10
++
++Upstream-Status: Backport
++Index: bash-4.3/parse.y
++===================================================================
++--- bash-4.3.orig/parse.y	2014-09-26 13:10:44.340080056 -0700
+++++ bash-4.3/parse.y	2014-09-26 13:11:44.764080056 -0700
++@@ -2953,6 +2953,8 @@
++   FREE (word_desc_to_read);
++   word_desc_to_read = (WORD_DESC *)NULL;
++ 
+++  eol_ungetc_lookahead = 0;
+++
++   current_token = '\n';		/* XXX */
++   last_read_token = '\n';
++   token_to_read = '\n';
+diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
+index 07c6540..5fafdcd 100644
+--- a/meta/recipes-extended/bash/bash_3.2.48.bb
++++ b/meta/recipes-extended/bash/bash_3.2.48.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
+            file://build-tests.patch \
+            file://test-output.patch \
+            file://shellshock.patch \
++           file://shellshock1.patch \
+            file://run-ptest \
+           "
+ 
+diff --git a/meta/recipes-extended/bash/bash_4.3.bb b/meta/recipes-extended/bash/bash_4.3.bb
+index a01fcf1..7b134f8 100644
+--- a/meta/recipes-extended/bash/bash_4.3.bb
++++ b/meta/recipes-extended/bash/bash_4.3.bb
+@@ -10,6 +10,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+            file://build-tests.patch \
+            file://test-output.patch \
+            file://shellshock.patch \
++           file://shellshock1.patch \
+            file://run-ptest \
+            "
+ 
+-- 
+2.1.0
+
 
