@@ -1,35 +1,35 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F15E71604
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id E3985715B5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Sep 2014 20:16:56 +0000 (UTC)
-Received: by mail-pd0-f169.google.com with SMTP id p10so1605873pdj.14
+	Fri, 26 Sep 2014 20:17:23 +0000 (UTC)
+Received: by mail-pd0-f171.google.com with SMTP id y13so13300869pdi.16
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Sep 2014 13:16:58 -0700 (PDT)
+	Fri, 26 Sep 2014 13:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=p1PDsQ4t6FCg3SU9rFUkSyinwuDCDEZN5XHT3JVHQUs=;
-	b=ayMjYEGisB7pZYJ4dC2U2crKdwvmSVTTd3NORsOcL6bDGeJFgcOFf99EWluUaL1nvp
-	LreG6XWN0JxpS7uLQ3GE3xZZIY/hyrHZIVIo5rg2haF/gjoIpciuKBIHLhz4kSe+DA1U
-	naXRaq0rizoDpmVPcSN2rolFdIo9Y9fTyhpg8sTpmGgX8chyfzLKWgURDhyxOz97FCkl
-	Lvl+NlHSgIY2sxCrbRC1KLrgUl1MEe9am3L9xPPAbA+iJJDwqwdrLb06dQFqNQ/99Byi
-	jnTpSK3ond/vR4GuE2+Drg7htNQoCZsrgxmiuXV9tTduN4ka0mLwE6Prfy9je4Rmq7b8
-	aMWA==
-X-Received: by 10.66.66.229 with SMTP id i5mr34052699pat.131.1411762618406;
-	Fri, 26 Sep 2014 13:16:58 -0700 (PDT)
+	bh=9WT2Lbn7SrDURLzjfLt3oqD/kiD94U4GgoGrISpb07Y=;
+	b=bqCJHF36pn/V0/VvbXjIvMwWaZ1pf2QxQCIp5GVkdImo9ObPBVdQ1Xy+7RejMPtkoE
+	pVjoEDXobR9NygIsDh/qnubVpLoyfh0+kMIMoYdcbFP3Y843rSXlNdYCCDR177XMG+IY
+	4pFK3WzR8m4XK0MRfFUQYnaQybKIF0NnXMvTvNZ6jlC+HyPaxHfBDmz1geZD+9GbsBaD
+	beL4aHq3d7gJOAKjMomXxWiAFRVnV0zfdwBvh8vDrn33XRg6tdku5jNjFLG734Kk+UA9
+	sgbTE26ierfQbID0JEXggNkrYcTgD1BloY3loQxYMCrgWVP6PfdM5Jp7U88jdgS1+vtD
+	dNYw==
+X-Received: by 10.68.220.228 with SMTP id pz4mr36104210pbc.16.1411762644645;
+	Fri, 26 Sep 2014 13:17:24 -0700 (PDT)
 Received: from haswell.localdomain (c-76-103-58-225.hsd1.ca.comcast.net.
 	[76.103.58.225])
-	by mx.google.com with ESMTPSA id f12sm5730775pat.36.2014.09.26.13.16.57
+	by mx.google.com with ESMTPSA id l4sm5674638pbq.49.2014.09.26.13.17.23
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 26 Sep 2014 13:16:57 -0700 (PDT)
+	Fri, 26 Sep 2014 13:17:24 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Sep 2014 13:20:54 -0700
-Message-Id: <1411762854-16452-1-git-send-email-raj.khem@gmail.com>
+Date: Fri, 26 Sep 2014 13:21:19 -0700
+Message-Id: <1411762879-16522-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] bash: Fix CVE-2014-7169
+Subject: [daisy][PATCH] bash: Fix CVE-2014-7169
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,7 +42,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Sep 2014 20:16:59 -0000
+X-List-Received-Date: Fri, 26 Sep 2014 20:17:26 -0000
 
 This is a followup patch to incomplete CVE-2014-6271 fix
 code execution via specially-crafted environment
@@ -127,6 +127,6 @@ index a01fcf1..7b134f8 100644
             "
  
 -- 
-2.1.0
+2.1.1
 
 
