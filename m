@@ -1,24 +1,37 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B3E860809
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 001D36DA74
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Sep 2014 21:19:26 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8QLJR8L006899
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 27 Sep 2014 07:22:32 +0000 (UTC)
+Received: by mail-we0-f171.google.com with SMTP id k48so10535398wev.30
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Sep 2014 14:19:27 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 26 Sep 2014 14:19:26 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Sep 2014 14:19:26 -0700
-Message-ID: <1411766366-9917-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-Subject: [PATCH 1/1] oprofile: eliminate git recipe
+	Sat, 27 Sep 2014 00:22:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=iXPkovX7AFhxn3M54PcoFvyb8Uuz07G8zBtCkjS1vgw=;
+	b=fF37wygi95lA7Jf5wVhlSZFZPs4yHUMRJu/MR9mrLUqpshzHCU0M/hZ2TB6iqNbwGy
+	2vaIBk1zSh5oe0d14HQQeaAJTgkBOZ1SeIcP/5taIY2NUdHomt5a3zjv+8GnOXA843fi
+	Zkkedvvh3TEBeXHxT07BBpslsg9eKQzfXjZzZreIGpWabS0kFpmIGfHv50H4wApe5Oro
+	ACqpCbOECju5EdDr0+NBXgu9cY8VBgoqx/fOn04Zy2Vuf5jA4L6pPHXoIa388kQtntLR
+	vkLo32gdTE+O8/P9IRAqLGy3X9wGYuy56scvaqQ+TOSuJbe9f2Ch+lAbC1hF+nfQWOYI
+	6M0A==
+X-Gm-Message-State: ALoCoQmMLHBawVfFkc6S5lqVw1KRXeQrHz01jcvcPWX5BH8O6bFsh/oV3CJ9jzpA7PPCC6nBX3Dv
+X-Received: by 10.180.108.143 with SMTP id hk15mr50104997wib.27.1411802552971; 
+	Sat, 27 Sep 2014 00:22:32 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:beee:7bff:fe9e:ae56])
+	by mx.google.com with ESMTPSA id ic7sm4597555wid.11.2014.09.27.00.22.31
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sat, 27 Sep 2014 00:22:32 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 27 Sep 2014 09:22:24 +0200
+Message-Id: <1411802545-17081-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.9.0
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 1/2] systemd 216: add postinsts for hostname and machine nss modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Sep 2014 21:19:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 27 Sep 2014 07:22:34 -0000
 
-oprofile_git.bb does not unpack because it stills uses
-INC_PR, which is no longer expanded.  If one fixes that,
-patching fails.  Since there is another, later, version oprofile
-recipe, we might just as well get rid of this one.
+The external recipe has postinsts so to make this a true replacement add
+them here as well.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/recipes-kernel/oprofile/oprofile_git.bb |   11 -----------
- 1 files changed, 0 insertions(+), 11 deletions(-)
- delete mode 100644 meta/recipes-kernel/oprofile/oprofile_git.bb
+ meta/recipes-core/systemd/systemd_216.bb | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/meta/recipes-kernel/oprofile/oprofile_git.bb b/meta/recipes-kernel/oprofile/oprofile_git.bb
-deleted file mode 100644
-index ca562db..0000000
---- a/meta/recipes-kernel/oprofile/oprofile_git.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require oprofile.inc
--
--SRCREV = "88f43190d412d28ebf5c75a76ba20343d0fe4c41"
--PV = "0.9.7+git${SRCPV}"
--PR = "${INC_PR}.0"
--
--SRC_URI += "git://oprofile.git.sourceforge.net/gitroot/${BPN}/${BPN}"
--
--S = "${WORKDIR}/git"
--
--DEFAULT_PREFERENCE = "-1"
+diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
+index 331da99..3e572e8 100644
+--- a/meta/recipes-core/systemd/systemd_216.bb
++++ b/meta/recipes-core/systemd/systemd_216.bb
+@@ -369,6 +369,28 @@ pkg_prerm_udev-hwdb () {
+ 	rm -f ${sysconfdir}/udev/hwdb.bin
+ }
+ 
++# Do not activate libnss-resolve by default, that needs more thought
++
++pkg_postinst_${PN} () {
++	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
++		-e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 myhostname \3\4\5/' \
++		-i $D${sysconfdir}/nsswitch.conf
++
++	sed -e '/^hosts:/s/\s*\<mymachine\>//' \
++		-e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 mymachine \3\4\5/' \
++		-i $D${sysconfdir}/nsswitch.conf
++}
++
++pkg_prerm_${PN} () {
++	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
++		-e '/^hosts:/s/\s*myhostname//' \
++		-i $D${sysconfdir}/nsswitch.conf
++
++	sed -e '/^hosts:/s/\s*\<mymachine\>//' \
++		-e '/^hosts:/s/\s*mymachine//' \
++		-i $D${sysconfdir}/nsswitch.conf
++}
++
+ # As this recipe builds udev, respect systemd being in DISTRO_FEATURES so
+ # that we don't build both udev and systemd in world builds.
+ python () {
 -- 
-1.7.3.4
+1.9.0
 
 
