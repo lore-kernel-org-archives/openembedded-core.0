@@ -1,25 +1,18 @@
 Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa12-04.prod.phx3.secureserver.net
-	(p3plsmtpa12-04.prod.phx3.secureserver.net [68.178.252.233])
-	by mail.openembedded.org (Postfix) with ESMTP id DE15E6017E
+Received: from p3plsmtpa09-04.prod.phx3.secureserver.net
+	(p3plsmtpa09-04.prod.phx3.secureserver.net [173.201.193.233])
+	by mail.openembedded.org (Postfix) with ESMTP id BA140701F3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Sep 2014 09:55:41 +0000 (UTC)
-Received: from [192.168.65.10] ([75.72.225.8])
-	by p3plsmtpa12-04.prod.phx3.secureserver.net with 
-	id wZvg1o00D0BVjqb01Zvggt; Sun, 28 Sep 2014 02:55:41 -0700
-Message-ID: <5427DB1C.3000007@pabigot.com>
-Date: Sun, 28 Sep 2014 04:55:40 -0500
+	Sun, 28 Sep 2014 15:38:07 +0000 (UTC)
+Received: from llc.pab ([75.72.225.8])
+	by p3plsmtpa09-04.prod.phx3.secureserver.net with 
+	id wfe61o00B0BVjqb01fe78p; Sun, 28 Sep 2014 08:38:08 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
-MIME-Version: 1.0
-To: Yi Qingliang <niqingliang2003@gmail.com>
-References: <CADwFkYeYJVe0KyVY3gipy-cGm4kRhaHoit2WThcKsLnpdyyrOw@mail.gmail.com>	<54006899.3020609@pabigot.com>	<CACS+7ZRyJJUxQLU_qzbaoTo6p=x9AxRLYigPB_cgz+zg4gRq5Q@mail.gmail.com>	<5400E993.3020903@pabigot.com>	<CACS+7ZSFYoi7Osqbh6kfstSeMUJEk61HrXLBV1mCeDc5_QGaLA@mail.gmail.com>	<54012565.1050605@pabigot.com>	<CADwFkYcxf21JuyXSfsnNDPBdZY2_Xg+fQvv8gh8QnYKE0PsiZw@mail.gmail.com>	<54045A5D.6080207@pabigot.com>
-	<CADwFkYfAyGNjuvw-SKRZ+OFXSrnnwyw65tre7WLfT2xqVpbR1Q@mail.gmail.com>
-In-Reply-To: <CADwFkYfAyGNjuvw-SKRZ+OFXSrnnwyw65tre7WLfT2xqVpbR1Q@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: boost 1.56 compile fail
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 28 Sep 2014 10:37:46 -0500
+Message-Id: <1411918666-21996-1-git-send-email-pab@pabigot.com>
+X-Mailer: git-send-email 1.8.5.5
+Subject: [PATCH] boost: fix atomics for armv6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,615 +25,466 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Sep 2014 09:55:48 -0000
-Content-Type: multipart/alternative;
-	boundary="------------040201020206010302020409"
+X-List-Received-Date: Sun, 28 Sep 2014 15:38:08 -0000
 
---------------040201020206010302020409
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+meta-raspberrypi and some other systems are ARMv6k but tell OE that
+they're ARMv6 which doesn't fully support non-word atomics.  armv6k
+does, but Boost didn't handle the recognition correctly in the 1.56
+release.  Backport the patch that fixes the build.
 
-On 09/27/2014 08:48 PM, Yi Qingliang wrote:
->
-> https://github.com/boostorg/atomic/commit/415db7054723291042e4ff1ffa8fdd5bc8b07163
->
->  Please, see if it helps in your case.
-> https://svn.boost.org/trac/boost/ticket/10446
+See: https://svn.boost.org/trac/boost/ticket/10446
+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+---
 
-This is probably a good patch to apply to boost 1.56 in OE, but it's too 
-large to qualify as "obvious".  I use neither armv6 hosts nor Boost and 
-am not actively working OE at this time, so I can't verify that it works 
-on the target.  Perhaps you, Dan, or somebody else will be willing to 
-create a recipe patch, validate it, and submit it here.
+Note:
+
+I have only tested that this fixes the compile problems; I have not
+verified that the resulting library works correctly with respect to
+atomics.  I'm expecting somebody who uses boost on a platform where this
+is relevant to validate the functional behavior if that's necessary.
+
+Cc: niqingliang2003@gmail.com
+Cc: danismostlikely@gmail.com
 
 Peter
 
->
->
-> On Mon, Sep 1, 2014 at 7:37 PM, Peter A. Bigot <pab@pabigot.com 
-> <mailto:pab@pabigot.com>> wrote:
->
->     On 08/31/2014 09:31 PM, Yi Qingliang wrote:
->>     then what's your suggestion for now?
->
->     If the s3c6410 is ARMv6 and does not support ARMv6-K instructions,
->     then boost 1.56 does not work for your platform.  Try downgrading
->     to 1.55, or asking the Boost folks for a patch to update
->     boost/atomic/detail/caps_gcc_atomic.hpp so that it supports that
->     architecture, which lacks the byte, half-word, and double-word
->     atomic ldrex/strex instruction variants.
->
->     If the s3c6410 does support ARMv6-K instructions, you can try
->     making sure it builds with -march=arvm6k.
->
->     I don't know the conditions under which this becomes an OE-Core
->     problem.  It's not a gcc problem.
->
->     Peter
->
->
->>
->>
->>     On Sat, Aug 30, 2014 at 9:14 AM, Peter A. Bigot <pab@pabigot.com
->>     <mailto:pab@pabigot.com>> wrote:
->>
->>         On 08/29/2014 04:18 PM, Dan McGregor wrote:
->>
->>             On 29 August 2014 14:58, Peter A. Bigot <pab@pabigot.com
->>             <mailto:pab@pabigot.com>> wrote:
->>
->>                 On 08/29/2014 03:36 PM, Dan McGregor wrote:
->>
->>                     On 29 August 2014 05:48, Peter A. Bigot
->>                     <pab@pabigot.com <mailto:pab@pabigot.com>> wrote:
->>
->>                         On 08/29/2014 06:28 AM, Yi Qingliang wrote:
->>
->>                         hardware: samsung s3c6410
->>
->>                         after updated to latest poky, the boost
->>                         compile fail!
->>
->>                         error info:
->>                         libs/atomic/src/lockpool.cpp:127:5: error:
->>                         'thread_fence' is not a member
->>                         of
->>                         'boost::atomics::detail'
->>                         libs/atomic/src/lockpool.cpp:138:5: error:
->>                         'signal_fence' is not a member
->>                         of
->>                         'boost::atomics::detail'
->>
->>
->>                         after dig into it, I found that:
->>                         the marco 'BOOST_ATOMIC_FLAG_LOCK_FREE' is 0,
->>                         so it don't include
->>                         'operations_lockfree.hpp' which has
->>                         'thread_fence' and 'signal_fence',
->>                         but
->>                         pthread.h at line 21.
->>
->>                         in file 'caps_gcc_atomic.hpp',
->>                         'BOOST_ATOMIC_FLAG_LOCK_FREE' is set to
->>                         '0',
->>                         the author think if
->>                         '__GCC_ATOMIC_BOOL_LOCK_FREE' is 1, the
->>                         atomic serial
->>                         function gcc provided is not lock free.
->>
->>
->>                         This is the sort of GCC internal header
->>                         indicator that would have changed
->>                         value as a result of:
->>
->>
->>                         http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-devtools/gcc/gcc-configure-common.inc?id=0ba6ab39f187ecd4261f08e768f365f461384a3a
->>
->>
->>
->>                         at the end of 'caps_gcc_atomic.hpp', it defined
->>                         'BOOST_ATOMIC_THREAD_FENCE'
->>                         as 2.
->>
->>                         so the conflict is: BOOST_ATOMIC_THREAD_FENCE and
->>                         BOOST_ATOMIC_FLAG_LOCK_FREE
->>
->>                         I don't know it is the new poky problem, or
->>                         the boost problem, any idea?
->>
->>
->>                         My guess is that Boost is making assumptions
->>                         about what the internal GCC
->>                         predefined symbols mean that aren't entirely
->>                         accurate.  There are several
->>                         flags that are used in the libstdc++ headers
->>                         to indicate whether the
->>                         compiler is using lock-free instructions.
->>
->>                         Boost-1.56 builds without error for my
->>                         beaglebone target with poky at:
->>
->>                         * 669c07d (HEAD, origin/master, origin/HEAD,
->>                         master/upstream, master/dev)
->>                         [Wed Aug 27 14:24:52 2014 +0100] bitbake:
->>                         build/data: Write out more
->>                         complete python run files
->>
->>                         so it may have something to do with your
->>                         target machine.
->>
->>                     It absolutely does. I found that armv6 breaks,
->>                     but armv6zk and newer work.
->>
->>
->>                 Interesting.  There are no armv6zk tune features I
->>                 can see in poky, though
->>                 google suggests it applies to the Raspberry Pi.
->>
->>                 The problem then must be with the first override in this:
->>
->>                 # ARMv6+ adds atomic instructions that affect the ABI
->>                 in libraries built
->>                 # with TUNE_CCARGS in gcc-runtime. Make the compiler
->>                 default to a
->>                 # compatible architecture.  armv6 and armv7a cover
->>                 the minimum tune
->>                 # features used in OE.
->>                 EXTRA_OECONF_append_armv6 = " --with-arch=armv6"
->>                 EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a"
->>
->>                 ARMv6 has LDREX/STREX, but ARMv6K adds
->>                 {LD,ST}REX{B,H,D}.  The same problem
->>                 addressed above is likely to happen if the libraries
->>                 are built with armv6k
->>                 but the compiler doesn't default to it.
->>
->>                 There are no armv6k tune parameters I can locate in
->>                 poky.  What layers have
->>                 the tune configurations that are causing problems?
->>
->>             For me meta-raspberrypi failed to build. Its tuning is
->>             -march=armv6
->>             -mtune=arm1176zjf-s by default. I forced it to -march=armv6zk
->>             -mtune=arm1176jzf-s, and that worked.
->>
->>
->>         tl;dr: for now, this can be claimed to be a boost problem,
->>         but it may rapidly become an OE problem.
->>
->>         OK, so there's several issues here.
->>
->>         Extracting the predefined symbols from gcc 4.9.1 with:
->>
->>            arm-poky-linux-gnueabi-g++ -march=armv6 -dM -E -xc++ /dev/null
->>
->>         and similarly with -march=armv6k shows that the values of
->>         these atomic-related predefines are different (- = arvm6, + =
->>         armv6k):
->>
->>         -#define __GCC_ATOMIC_BOOL_LOCK_FREE 1
->>         -#define __GCC_ATOMIC_CHAR16_T_LOCK_FREE 1
->>         +#define __GCC_ATOMIC_BOOL_LOCK_FREE 2
->>         +#define __GCC_ATOMIC_CHAR16_T_LOCK_FREE 2
->>         -#define __GCC_ATOMIC_CHAR_LOCK_FREE 1
->>         +#define __GCC_ATOMIC_CHAR_LOCK_FREE 2
->>         -#define __GCC_ATOMIC_LLONG_LOCK_FREE 1
->>         +#define __GCC_ATOMIC_LLONG_LOCK_FREE 2
->>         -#define __GCC_ATOMIC_SHORT_LOCK_FREE 1
->>         +#define __GCC_ATOMIC_SHORT_LOCK_FREE 2
->>         +#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_1 1
->>         +#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2 1
->>         +#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8 1
->>
->>         (armv6zk is the same as armv6k for atomic-related capabilities.)
->>
->>         boost/atomic/detail/caps_gcc_atomic.hpp apparently does not
->>         provide an implementation of thread_fence or signal_fence for
->>         the armv6 configuration, only for the armv6k and later ones.
->>
->>         That's a boost problem.
->>
->>         The fact that -mtune=arm1176jzf-s apparently doesn't enable
->>         the armv6k features even though gcc's source code implies it
->>         should is an anomaly.  (Check this by substituting
->>         -mtune=arm1176jzf-s for -march=armv6 and verifying that the
->>         predefined symbols are the same for both configurations.)
->>
->>         If that anomaly is ever resolved, or if meta-raspberrypi
->>         chooses to switch to -march=armv6zk, then
->>         gcc-configure-common.inc almost certainly need to recognize
->>         armv6k as an override distinct from armv6: mutex-related code
->>         built for armv6k via gcc-runtime will result in a different
->>         ABI from mutex-related code built for armv6 (what gcc will
->>         produce for builds that do not use OE's tuning parameters).
->>
->>         If the solution to the boost problem is to change
->>         meta-raspberrypi to use -march=armv6k then
->>         gcc-configure-common.inc will need to be updated as well. 
->>         Probably OE should recognize it as a distinct ARM
->>         architecture too.
->>
->>
->>         Peter
->>         -- 
->>         _______________________________________________
->>         Openembedded-core mailing list
->>         Openembedded-core@lists.openembedded.org
->>         <mailto:Openembedded-core@lists.openembedded.org>
->>         http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->
->
->
->
+ ...rt-for-extending-operations-to-GCC-atomic.patch | 412 +++++++++++++++++++++
+ meta/recipes-support/boost/boost_1.56.0.bb         |   5 +-
+ 2 files changed, 416 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/boost/boost/0001-Added-support-for-extending-operations-to-GCC-atomic.patch
+
+diff --git a/meta/recipes-support/boost/boost/0001-Added-support-for-extending-operations-to-GCC-atomic.patch b/meta/recipes-support/boost/boost/0001-Added-support-for-extending-operations-to-GCC-atomic.patch
+new file mode 100644
+index 0000000..feece81
+--- /dev/null
++++ b/meta/recipes-support/boost/boost/0001-Added-support-for-extending-operations-to-GCC-atomic.patch
+@@ -0,0 +1,412 @@
++From 415db7054723291042e4ff1ffa8fdd5bc8b07163 Mon Sep 17 00:00:00 2001
++From: Andrey Semashev <andrey.semashev@gmail.com>
++Date: Sat, 27 Sep 2014 20:40:09 +0400
++Subject: [PATCH] Added support for extending operations to GCC atomic backend.
++
++Fix for #10446. Some platforms (e.g. Raspberry Pi) only support atomic ops of some particular size but not less. Use extending arithmetic operations for these platforms. Also, make sure bools are always treated as 8-bit values, even if the actual type is larger. This makes its use in atomic<>, atomic_flag and lock pool more consistent.
++
++Upstream-Status: Backport [https://svn.boost.org/trac/boost/ticket/10446]
++Signed-off-by: Peter A. Bigot <pab@pabigot.com>
++
++---
++ include/boost/atomic/capabilities.hpp           |   1 +
++ include/boost/atomic/detail/atomic_template.hpp |   2 +-
++ include/boost/atomic/detail/caps_gcc_atomic.hpp |  82 +++++------
++ include/boost/atomic/detail/ops_gcc_atomic.hpp  | 184 +++++++++++++++++++++---
++ 4 files changed, 206 insertions(+), 63 deletions(-)
++
++diff --git a/include/boost/atomic/capabilities.hpp b/include/boost/atomic/capabilities.hpp
++index 658dd22..05bbb0f 100644
++--- a/include/boost/atomic/capabilities.hpp
+++++ b/include/boost/atomic/capabilities.hpp
++@@ -142,6 +142,7 @@
++ #define BOOST_ATOMIC_ADDRESS_LOCK_FREE BOOST_ATOMIC_POINTER_LOCK_FREE
++ 
++ #ifndef BOOST_ATOMIC_BOOL_LOCK_FREE
+++// We store bools in 1-byte storage in all backends
++ #define BOOST_ATOMIC_BOOL_LOCK_FREE BOOST_ATOMIC_INT8_LOCK_FREE
++ #endif
++ 
++diff --git a/include/boost/atomic/detail/atomic_template.hpp b/include/boost/atomic/detail/atomic_template.hpp
++index 4fd6d79..bc3922a 100644
++--- a/include/boost/atomic/detail/atomic_template.hpp
+++++ b/include/boost/atomic/detail/atomic_template.hpp
++@@ -234,7 +234,7 @@ class base_atomic< bool, int >
++ {
++ private:
++     typedef bool value_type;
++-    typedef atomics::detail::operations< storage_size_of< value_type >::value, false > operations;
+++    typedef atomics::detail::operations< 1u, false > operations;
++ 
++ protected:
++     typedef value_type value_arg_type;
++diff --git a/include/boost/atomic/detail/caps_gcc_atomic.hpp b/include/boost/atomic/detail/caps_gcc_atomic.hpp
++index 8299ad0..f4e7a70 100644
++--- a/include/boost/atomic/detail/caps_gcc_atomic.hpp
+++++ b/include/boost/atomic/detail/caps_gcc_atomic.hpp
++@@ -29,66 +29,48 @@
++ #define BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG16B 1
++ #endif
++ 
++-#if __GCC_ATOMIC_BOOL_LOCK_FREE == 2
++-#define BOOST_ATOMIC_FLAG_LOCK_FREE 2
++-#else
++-#define BOOST_ATOMIC_FLAG_LOCK_FREE 0
++-#endif
++-#if __GCC_ATOMIC_CHAR_LOCK_FREE == 2
++-#define BOOST_ATOMIC_CHAR_LOCK_FREE 2
++-#else
++-#define BOOST_ATOMIC_CHAR_LOCK_FREE 0
++-#endif
++-#if __GCC_ATOMIC_CHAR16_T_LOCK_FREE == 2
++-#define BOOST_ATOMIC_CHAR16_T_LOCK_FREE 2
++-#else
++-#define BOOST_ATOMIC_CHAR16_T_LOCK_FREE 0
++-#endif
++-#if __GCC_ATOMIC_CHAR32_T_LOCK_FREE == 2
++-#define BOOST_ATOMIC_CHAR32_T_LOCK_FREE 2
+++#if defined(BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG16B) && (defined(BOOST_HAS_INT128) || !defined(BOOST_NO_ALIGNMENT))
+++#define BOOST_ATOMIC_INT128_LOCK_FREE 2
++ #else
++-#define BOOST_ATOMIC_CHAR32_T_LOCK_FREE 0
+++#define BOOST_ATOMIC_INT128_LOCK_FREE 0
++ #endif
++-#if __GCC_ATOMIC_WCHAR_T_LOCK_FREE == 2
++-#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE 2
+++
+++#if __GCC_ATOMIC_LLONG_LOCK_FREE == 2
+++#define BOOST_ATOMIC_LLONG_LOCK_FREE 2
++ #else
++-#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE 0
+++#define BOOST_ATOMIC_LLONG_LOCK_FREE BOOST_ATOMIC_INT128_LOCK_FREE
++ #endif
++-#if __GCC_ATOMIC_SHORT_LOCK_FREE == 2
++-#define BOOST_ATOMIC_SHORT_LOCK_FREE 2
+++
+++#if __GCC_ATOMIC_LONG_LOCK_FREE == 2
+++#define BOOST_ATOMIC_LONG_LOCK_FREE 2
++ #else
++-#define BOOST_ATOMIC_SHORT_LOCK_FREE 0
+++#define BOOST_ATOMIC_LONG_LOCK_FREE BOOST_ATOMIC_LLONG_LOCK_FREE
++ #endif
+++
++ #if __GCC_ATOMIC_INT_LOCK_FREE == 2
++ #define BOOST_ATOMIC_INT_LOCK_FREE 2
++ #else
++-#define BOOST_ATOMIC_INT_LOCK_FREE 0
++-#endif
++-#if __GCC_ATOMIC_LONG_LOCK_FREE == 2
++-#define BOOST_ATOMIC_LONG_LOCK_FREE 2
++-#else
++-#define BOOST_ATOMIC_LONG_LOCK_FREE 0
+++#define BOOST_ATOMIC_INT_LOCK_FREE BOOST_ATOMIC_LONG_LOCK_FREE
++ #endif
++-#if __GCC_ATOMIC_LLONG_LOCK_FREE == 2
++-#define BOOST_ATOMIC_LLONG_LOCK_FREE 2
+++
+++#if __GCC_ATOMIC_SHORT_LOCK_FREE == 2
+++#define BOOST_ATOMIC_SHORT_LOCK_FREE 2
++ #else
++-#define BOOST_ATOMIC_LLONG_LOCK_FREE 0
+++#define BOOST_ATOMIC_SHORT_LOCK_FREE BOOST_ATOMIC_INT_LOCK_FREE
++ #endif
++-#if defined(BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG16B) && (defined(BOOST_HAS_INT128) || !defined(BOOST_NO_ALIGNMENT))
++-#define BOOST_ATOMIC_INT128_LOCK_FREE 2
+++
+++#if __GCC_ATOMIC_CHAR_LOCK_FREE == 2
+++#define BOOST_ATOMIC_CHAR_LOCK_FREE 2
++ #else
++-#define BOOST_ATOMIC_INT128_LOCK_FREE 0
+++#define BOOST_ATOMIC_CHAR_LOCK_FREE BOOST_ATOMIC_SHORT_LOCK_FREE
++ #endif
+++
++ #if __GCC_ATOMIC_POINTER_LOCK_FREE == 2
++ #define BOOST_ATOMIC_POINTER_LOCK_FREE 2
++ #else
++ #define BOOST_ATOMIC_POINTER_LOCK_FREE 0
++ #endif
++-#if __GCC_ATOMIC_BOOL_LOCK_FREE == 2
++-#define BOOST_ATOMIC_BOOL_LOCK_FREE 2
++-#else
++-#define BOOST_ATOMIC_BOOL_LOCK_FREE 0
++-#endif
+++
++ 
++ #define BOOST_ATOMIC_INT8_LOCK_FREE BOOST_ATOMIC_CHAR_LOCK_FREE
++ 
++@@ -128,6 +110,24 @@
++ #define BOOST_ATOMIC_INT64_LOCK_FREE 0
++ #endif
++ 
+++
+++#if __GCC_ATOMIC_WCHAR_T_LOCK_FREE == 2
+++#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE 2
+++#elif BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 8
+++#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE BOOST_ATOMIC_INT64_LOCK_FREE
+++#elif BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 4
+++#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE BOOST_ATOMIC_INT32_LOCK_FREE
+++#elif BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 2
+++#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE BOOST_ATOMIC_INT16_LOCK_FREE
+++#elif BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 1
+++#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE BOOST_ATOMIC_INT8_LOCK_FREE
+++#else
+++#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE 0
+++#endif
+++
+++#define BOOST_ATOMIC_CHAR32_T_LOCK_FREE BOOST_ATOMIC_INT32_LOCK_FREE
+++#define BOOST_ATOMIC_CHAR16_T_LOCK_FREE BOOST_ATOMIC_INT16_LOCK_FREE
+++
++ #define BOOST_ATOMIC_THREAD_FENCE 2
++ #define BOOST_ATOMIC_SIGNAL_FENCE 2
++ 
++diff --git a/include/boost/atomic/detail/ops_gcc_atomic.hpp b/include/boost/atomic/detail/ops_gcc_atomic.hpp
++index 2297791..2e4c37b 100644
++--- a/include/boost/atomic/detail/ops_gcc_atomic.hpp
+++++ b/include/boost/atomic/detail/ops_gcc_atomic.hpp
++@@ -24,6 +24,15 @@
++ #include <boost/atomic/detail/ops_cas_based.hpp>
++ #endif
++ 
+++#if __GCC_ATOMIC_LLONG_LOCK_FREE != BOOST_ATOMIC_LLONG_LOCK_FREE || __GCC_ATOMIC_LONG_LOCK_FREE != BOOST_ATOMIC_LONG_LOCK_FREE ||\
+++    __GCC_ATOMIC_INT_LOCK_FREE != BOOST_ATOMIC_INT_LOCK_FREE || __GCC_ATOMIC_SHORT_LOCK_FREE != BOOST_ATOMIC_SHORT_LOCK_FREE ||\
+++    __GCC_ATOMIC_CHAR_LOCK_FREE != BOOST_ATOMIC_CHAR_LOCK_FREE || __GCC_ATOMIC_BOOL_LOCK_FREE != BOOST_ATOMIC_BOOL_LOCK_FREE ||\
+++    __GCC_ATOMIC_WCHAR_T_LOCK_FREE != BOOST_ATOMIC_WCHAR_T_LOCK_FREE
+++// There are platforms where we need to use larger storage types
+++#include <boost/atomic/detail/int_sizes.hpp>
+++#include <boost/atomic/detail/ops_extending_cas_based.hpp>
+++#endif
+++
++ #ifdef BOOST_HAS_PRAGMA_ONCE
++ #pragma once
++ #endif
++@@ -154,73 +163,206 @@ struct gcc_atomic_operations
++     }
++ };
++ 
++-#if BOOST_ATOMIC_INT8_LOCK_FREE > 0
+++#if BOOST_ATOMIC_INT128_LOCK_FREE > 0
+++#if defined(__clang__) && defined(BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG16B)
+++
+++// Workaround for clang bug: http://llvm.org/bugs/show_bug.cgi?id=19149
+++// Clang 3.4 does not implement 128-bit __atomic* intrinsics even though it defines __GCC_HAVE_SYNC_COMPARE_AND_SWAP_16
++ template< bool Signed >
++-struct operations< 1u, Signed > :
++-    public gcc_atomic_operations< typename make_storage_type< 1u, Signed >::type >
+++struct operations< 16u, Signed > :
+++    public cas_based_operations< gcc_dcas_x86_64< Signed > >
++ {
++ };
+++
+++#else
+++
+++template< bool Signed >
+++struct operations< 16u, Signed > :
+++    public gcc_atomic_operations< typename make_storage_type< 16u, Signed >::type >
+++{
+++};
+++
+++#endif
++ #endif
++ 
++-#if BOOST_ATOMIC_INT16_LOCK_FREE > 0
+++
+++#if BOOST_ATOMIC_INT64_LOCK_FREE > 0
+++#if defined(__clang__) && defined(BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG8B)
+++
+++// Workaround for clang bug http://llvm.org/bugs/show_bug.cgi?id=19355
++ template< bool Signed >
++-struct operations< 2u, Signed > :
++-    public gcc_atomic_operations< typename make_storage_type< 2u, Signed >::type >
+++struct operations< 8u, Signed > :
+++    public cas_based_operations< gcc_dcas_x86< Signed > >
+++{
+++};
+++
+++#elif (BOOST_ATOMIC_DETAIL_SIZEOF_LLONG == 8 && __GCC_ATOMIC_LLONG_LOCK_FREE != BOOST_ATOMIC_LLONG_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_LONG == 8 && __GCC_ATOMIC_LONG_LOCK_FREE != BOOST_ATOMIC_LONG_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_INT == 8 && __GCC_ATOMIC_INT_LOCK_FREE != BOOST_ATOMIC_INT_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_SHORT == 8 && __GCC_ATOMIC_SHORT_LOCK_FREE != BOOST_ATOMIC_SHORT_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 8 && __GCC_ATOMIC_WCHAR_T_LOCK_FREE != BOOST_ATOMIC_WCHAR_T_LOCK_FREE)
+++
+++#define BOOST_ATOMIC_DETAIL_INT64_EXTENDED
+++
+++template< bool Signed >
+++struct operations< 8u, Signed > :
+++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 16u, Signed >::type >, 8u, Signed >
++ {
++ };
+++
+++#else
+++
+++template< bool Signed >
+++struct operations< 8u, Signed > :
+++    public gcc_atomic_operations< typename make_storage_type< 8u, Signed >::type >
+++{
+++};
+++
+++#endif
++ #endif
++ 
++ #if BOOST_ATOMIC_INT32_LOCK_FREE > 0
+++#if (BOOST_ATOMIC_DETAIL_SIZEOF_LLONG == 4 && __GCC_ATOMIC_LLONG_LOCK_FREE != BOOST_ATOMIC_LLONG_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_LONG == 4 && __GCC_ATOMIC_LONG_LOCK_FREE != BOOST_ATOMIC_LONG_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_INT == 4 && __GCC_ATOMIC_INT_LOCK_FREE != BOOST_ATOMIC_INT_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_SHORT == 4 && __GCC_ATOMIC_SHORT_LOCK_FREE != BOOST_ATOMIC_SHORT_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 4 && __GCC_ATOMIC_WCHAR_T_LOCK_FREE != BOOST_ATOMIC_WCHAR_T_LOCK_FREE)
+++
+++#define BOOST_ATOMIC_DETAIL_INT32_EXTENDED
+++
+++#if !defined(BOOST_ATOMIC_DETAIL_INT64_EXTENDED)
+++
+++template< bool Signed >
+++struct operations< 4u, Signed > :
+++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 8u, Signed >::type >, 4u, Signed >
+++{
+++};
+++
+++#else // !defined(BOOST_ATOMIC_DETAIL_INT64_EXTENDED)
+++
+++template< bool Signed >
+++struct operations< 4u, Signed > :
+++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 16u, Signed >::type >, 4u, Signed >
+++{
+++};
+++
+++#endif // !defined(BOOST_ATOMIC_DETAIL_INT64_EXTENDED)
+++
+++#else
+++
++ template< bool Signed >
++ struct operations< 4u, Signed > :
++     public gcc_atomic_operations< typename make_storage_type< 4u, Signed >::type >
++ {
++ };
+++
+++#endif
++ #endif
++ 
++-#if BOOST_ATOMIC_INT64_LOCK_FREE > 0
++-#if defined(__clang__) && defined(BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG8B)
+++#if BOOST_ATOMIC_INT16_LOCK_FREE > 0
+++#if (BOOST_ATOMIC_DETAIL_SIZEOF_LLONG == 2 && __GCC_ATOMIC_LLONG_LOCK_FREE != BOOST_ATOMIC_LLONG_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_LONG == 2 && __GCC_ATOMIC_LONG_LOCK_FREE != BOOST_ATOMIC_LONG_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_INT == 2 && __GCC_ATOMIC_INT_LOCK_FREE != BOOST_ATOMIC_INT_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_SHORT == 2 && __GCC_ATOMIC_SHORT_LOCK_FREE != BOOST_ATOMIC_SHORT_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 2 && __GCC_ATOMIC_WCHAR_T_LOCK_FREE != BOOST_ATOMIC_WCHAR_T_LOCK_FREE)
+++
+++#define BOOST_ATOMIC_DETAIL_INT16_EXTENDED
+++
+++#if !defined(BOOST_ATOMIC_DETAIL_INT32_EXTENDED)
++ 
++-// Workaround for clang bug http://llvm.org/bugs/show_bug.cgi?id=19355
++ template< bool Signed >
++-struct operations< 8u, Signed > :
++-    public cas_based_operations< gcc_dcas_x86< Signed > >
+++struct operations< 2u, Signed > :
+++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 4u, Signed >::type >, 2u, Signed >
+++{
+++};
+++
+++#elif !defined(BOOST_ATOMIC_DETAIL_INT64_EXTENDED)
+++
+++template< bool Signed >
+++struct operations< 2u, Signed > :
+++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 8u, Signed >::type >, 2u, Signed >
++ {
++ };
++ 
++ #else
++ 
++ template< bool Signed >
++-struct operations< 8u, Signed > :
++-    public gcc_atomic_operations< typename make_storage_type< 8u, Signed >::type >
+++struct operations< 2u, Signed > :
+++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 16u, Signed >::type >, 2u, Signed >
+++{
+++};
+++
+++#endif
+++
+++#else
+++
+++template< bool Signed >
+++struct operations< 2u, Signed > :
+++    public gcc_atomic_operations< typename make_storage_type< 2u, Signed >::type >
++ {
++ };
++ 
++ #endif
++ #endif
++ 
++-#if BOOST_ATOMIC_INT128_LOCK_FREE > 0
++-#if defined(__clang__) && defined(BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG16B)
+++#if BOOST_ATOMIC_INT8_LOCK_FREE > 0
+++#if (BOOST_ATOMIC_DETAIL_SIZEOF_LLONG == 1 && __GCC_ATOMIC_LLONG_LOCK_FREE != BOOST_ATOMIC_LLONG_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_LONG == 1 && __GCC_ATOMIC_LONG_LOCK_FREE != BOOST_ATOMIC_LONG_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_INT == 1 && __GCC_ATOMIC_INT_LOCK_FREE != BOOST_ATOMIC_INT_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_SHORT == 1 && __GCC_ATOMIC_SHORT_LOCK_FREE != BOOST_ATOMIC_SHORT_LOCK_FREE) ||\
+++    (BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 1 && __GCC_ATOMIC_WCHAR_T_LOCK_FREE != BOOST_ATOMIC_WCHAR_T_LOCK_FREE) ||\
+++    (__GCC_ATOMIC_CHAR_LOCK_FREE != BOOST_ATOMIC_CHAR_LOCK_FREE) ||\
+++    (__GCC_ATOMIC_BOOL_LOCK_FREE != BOOST_ATOMIC_BOOL_LOCK_FREE)
+++
+++#if !defined(BOOST_ATOMIC_DETAIL_INT16_EXTENDED)
++ 
++-// Workaround for clang bug: http://llvm.org/bugs/show_bug.cgi?id=19149
++-// Clang 3.4 does not implement 128-bit __atomic* intrinsics even though it defines __GCC_HAVE_SYNC_COMPARE_AND_SWAP_16
++ template< bool Signed >
++-struct operations< 16u, Signed > :
++-    public cas_based_operations< gcc_dcas_x86_64< Signed > >
+++struct operations< 1u, Signed > :
+++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 2u, Signed >::type >, 1u, Signed >
+++{
+++};
+++
+++#elif !defined(BOOST_ATOMIC_DETAIL_INT32_EXTENDED)
+++
+++template< bool Signed >
+++struct operations< 1u, Signed > :
+++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 4u, Signed >::type >, 1u, Signed >
+++{
+++};
+++
+++#elif !defined(BOOST_ATOMIC_DETAIL_INT64_EXTENDED)
+++
+++template< bool Signed >
+++struct operations< 1u, Signed > :
+++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 8u, Signed >::type >, 1u, Signed >
++ {
++ };
++ 
++ #else
++ 
++ template< bool Signed >
++-struct operations< 16u, Signed > :
++-    public gcc_atomic_operations< typename make_storage_type< 16u, Signed >::type >
+++struct operations< 1u, Signed > :
+++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 16u, Signed >::type >, 1u, Signed >
+++{
+++};
+++
+++#endif
+++
+++#else
+++
+++template< bool Signed >
+++struct operations< 1u, Signed > :
+++    public gcc_atomic_operations< typename make_storage_type< 1u, Signed >::type >
++ {
++ };
++ 
++ #endif
++ #endif
++ 
+++#undef BOOST_ATOMIC_DETAIL_INT16_EXTENDED
+++#undef BOOST_ATOMIC_DETAIL_INT32_EXTENDED
+++#undef BOOST_ATOMIC_DETAIL_INT64_EXTENDED
+++
++ BOOST_FORCEINLINE void thread_fence(memory_order order) BOOST_NOEXCEPT
++ {
++     __atomic_thread_fence(atomics::detail::convert_memory_order_to_gcc(order));
++-- 
++1.8.5.5
++
+diff --git a/meta/recipes-support/boost/boost_1.56.0.bb b/meta/recipes-support/boost/boost_1.56.0.bb
+index b199c88..dcc77bb 100644
+--- a/meta/recipes-support/boost/boost_1.56.0.bb
++++ b/meta/recipes-support/boost/boost_1.56.0.bb
+@@ -1,4 +1,7 @@
+ include boost-${PV}.inc
+ include boost.inc
+ 
+-SRC_URI += "file://arm-intrinsics.patch"
++SRC_URI += "\
++    file://arm-intrinsics.patch \
++    file://0001-Added-support-for-extending-operations-to-GCC-atomic.patch;striplevel=2 \
++"
+-- 
+1.8.5.5
 
 
---------------040201020206010302020409
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 09/27/2014 08:48 PM, Yi Qingliang
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CADwFkYfAyGNjuvw-SKRZ+OFXSrnnwyw65tre7WLfT2xqVpbR1Q@mail.gmail.com"
-      type="cite">
-      <div dir="ltr"><br>
-         <a moz-do-not-send="true"
-href="https://github.com/boostorg/atomic/commit/415db7054723291042e4ff1ffa8fdd5bc8b07163"
-          target="_blank">https://github.com/boostorg/atomic/commit/415db7054723291042e4ff1ffa8fdd5bc8b07163</a><br>
-        <br>
-         Please, see if it helps in your case.
-        <div class="">
-          <div id=":bb" class="" tabindex="0"><a moz-do-not-send="true"
-              href="https://svn.boost.org/trac/boost/ticket/10446"
-              target="_blank">https://svn.boost.org/trac/boost/ticket/10446</a><br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    This is probably a good patch to apply to boost 1.56 in OE, but it's
-    too large to qualify as "obvious".  I use neither armv6 hosts nor
-    Boost and am not actively working OE at this time, so I can't verify
-    that it works on the target.  Perhaps you, Dan, or somebody else
-    will be willing to create a recipe patch, validate it, and submit it
-    here.<br>
-    <br>
-    Peter<br>
-    <br>
-    <blockquote
-cite="mid:CADwFkYfAyGNjuvw-SKRZ+OFXSrnnwyw65tre7WLfT2xqVpbR1Q@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div><span class=""><font color="#888888"><br>
-            </font></span></div>
-      </div>
-      <div class="gmail_extra"><br>
-        <div class="gmail_quote">On Mon, Sep 1, 2014 at 7:37 PM, Peter
-          A. Bigot <span dir="ltr">&lt;<a moz-do-not-send="true"
-              href="mailto:pab@pabigot.com" target="_blank">pab@pabigot.com</a>&gt;</span>
-          wrote:<br>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">
-            <div bgcolor="#FFFFFF" text="#000000"><span class="">
-                <div>On 08/31/2014 09:31 PM, Yi Qingliang wrote:<br>
-                </div>
-                <blockquote type="cite">
-                  <div dir="ltr">then what's your suggestion for now?</div>
-                </blockquote>
-                <br>
-              </span> If the s3c6410 is ARMv6 and does not support
-              ARMv6-K instructions, then boost 1.56 does not work for
-              your platform.  Try downgrading to 1.55, or asking the
-              Boost folks for a patch to update
-              boost/atomic/detail/caps_gcc_atomic.hpp so that it
-              supports that architecture, which lacks the byte,
-              half-word, and double-word atomic ldrex/strex instruction
-              variants.<br>
-              <br>
-              If the s3c6410 does support ARMv6-K instructions, you can
-              try making sure it builds with -march=arvm6k.<br>
-              <br>
-              I don't know the conditions under which this becomes an
-              OE-Core problem.  It's not a gcc problem.<span
-                class="HOEnZb"><font color="#888888"><br>
-                  <br>
-                  Peter</font></span>
-              <div>
-                <div class="h5"><br>
-                  <br>
-                  <blockquote type="cite">
-                    <div class="gmail_extra"><br>
-                      <br>
-                      <div class="gmail_quote">On Sat, Aug 30, 2014 at
-                        9:14 AM, Peter A. Bigot <span dir="ltr">&lt;<a
-                            moz-do-not-send="true"
-                            href="mailto:pab@pabigot.com"
-                            target="_blank">pab@pabigot.com</a>&gt;</span>
-                        wrote:<br>
-                        <blockquote class="gmail_quote" style="margin:0
-                          0 0 .8ex;border-left:1px #ccc
-                          solid;padding-left:1ex">
-                          <div>
-                            <div>On 08/29/2014 04:18 PM, Dan McGregor
-                              wrote:<br>
-                              <blockquote class="gmail_quote"
-                                style="margin:0 0 0 .8ex;border-left:1px
-                                #ccc solid;padding-left:1ex"> On 29
-                                August 2014 14:58, Peter A. Bigot &lt;<a
-                                  moz-do-not-send="true"
-                                  href="mailto:pab@pabigot.com"
-                                  target="_blank">pab@pabigot.com</a>&gt;
-                                wrote:<br>
-                                <blockquote class="gmail_quote"
-                                  style="margin:0 0 0
-                                  .8ex;border-left:1px #ccc
-                                  solid;padding-left:1ex"> On 08/29/2014
-                                  03:36 PM, Dan McGregor wrote:<br>
-                                  <blockquote class="gmail_quote"
-                                    style="margin:0 0 0
-                                    .8ex;border-left:1px #ccc
-                                    solid;padding-left:1ex"> On 29
-                                    August 2014 05:48, Peter A. Bigot
-                                    &lt;<a moz-do-not-send="true"
-                                      href="mailto:pab@pabigot.com"
-                                      target="_blank">pab@pabigot.com</a>&gt;
-
-                                    wrote:<br>
-                                    <blockquote class="gmail_quote"
-                                      style="margin:0 0 0
-                                      .8ex;border-left:1px #ccc
-                                      solid;padding-left:1ex"> On
-                                      08/29/2014 06:28 AM, Yi Qingliang
-                                      wrote:<br>
-                                      <br>
-                                      hardware: samsung s3c6410<br>
-                                      <br>
-                                      after updated to latest poky, the
-                                      boost compile fail!<br>
-                                      <br>
-                                      error info:<br>
-                                      libs/atomic/src/lockpool.cpp:127:5:
-                                      error: 'thread_fence' is not a
-                                      member<br>
-                                      of<br>
-                                      'boost::atomics::detail'<br>
-                                      libs/atomic/src/lockpool.cpp:138:5:
-                                      error: 'signal_fence' is not a
-                                      member<br>
-                                      of<br>
-                                      'boost::atomics::detail'<br>
-                                      <br>
-                                      <br>
-                                      after dig into it, I found that:<br>
-                                      the marco
-                                      'BOOST_ATOMIC_FLAG_LOCK_FREE' is
-                                      0, so it don't include<br>
-                                      'operations_lockfree.hpp' which
-                                      has 'thread_fence' and
-                                      'signal_fence',<br>
-                                      but<br>
-                                      pthread.h at line 21.<br>
-                                      <br>
-                                      in file 'caps_gcc_atomic.hpp',
-                                      'BOOST_ATOMIC_FLAG_LOCK_FREE' is
-                                      set to<br>
-                                      '0',<br>
-                                      the author think if
-                                      '__GCC_ATOMIC_BOOL_LOCK_FREE' is
-                                      1, the atomic serial<br>
-                                      function gcc provided is not lock
-                                      free.<br>
-                                      <br>
-                                      <br>
-                                      This is the sort of GCC internal
-                                      header indicator that would have
-                                      changed<br>
-                                      value as a result of:<br>
-                                      <br>
-                                      <br>
-                                      <a moz-do-not-send="true"
-href="http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-devtools/gcc/gcc-configure-common.inc?id=0ba6ab39f187ecd4261f08e768f365f461384a3a"
-                                        target="_blank">http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-devtools/gcc/gcc-configure-common.inc?id=0ba6ab39f187ecd4261f08e768f365f461384a3a</a><br>
-                                      <br>
-                                      <br>
-                                      <br>
-                                      at the end of
-                                      'caps_gcc_atomic.hpp', it defined<br>
-                                      'BOOST_ATOMIC_THREAD_FENCE'<br>
-                                      as 2.<br>
-                                      <br>
-                                      so the conflict is:
-                                      BOOST_ATOMIC_THREAD_FENCE and<br>
-                                      BOOST_ATOMIC_FLAG_LOCK_FREE<br>
-                                      <br>
-                                      I don't know it is the new poky
-                                      problem, or the boost problem, any
-                                      idea?<br>
-                                      <br>
-                                      <br>
-                                      My guess is that Boost is making
-                                      assumptions about what the
-                                      internal GCC<br>
-                                      predefined symbols mean that
-                                      aren't entirely accurate.  There
-                                      are several<br>
-                                      flags that are used in the
-                                      libstdc++ headers to indicate
-                                      whether the<br>
-                                      compiler is using lock-free
-                                      instructions.<br>
-                                      <br>
-                                      Boost-1.56 builds without error
-                                      for my beaglebone target with poky
-                                      at:<br>
-                                      <br>
-                                      * 669c07d (HEAD, origin/master,
-                                      origin/HEAD, master/upstream,
-                                      master/dev)<br>
-                                      [Wed Aug 27 14:24:52 2014 +0100]
-                                      bitbake: build/data: Write out
-                                      more<br>
-                                      complete python run files<br>
-                                      <br>
-                                      so it may have something to do
-                                      with your target machine.<br>
-                                    </blockquote>
-                                    It absolutely does. I found that
-                                    armv6 breaks, but armv6zk and newer
-                                    work.<br>
-                                  </blockquote>
-                                  <br>
-                                  Interesting.  There are no armv6zk
-                                  tune features I can see in poky,
-                                  though<br>
-                                  google suggests it applies to the
-                                  Raspberry Pi.<br>
-                                  <br>
-                                  The problem then must be with the
-                                  first override in this:<br>
-                                  <br>
-                                  # ARMv6+ adds atomic instructions that
-                                  affect the ABI in libraries built<br>
-                                  # with TUNE_CCARGS in gcc-runtime. 
-                                  Make the compiler default to a<br>
-                                  # compatible architecture.  armv6 and
-                                  armv7a cover the minimum tune<br>
-                                  # features used in OE.<br>
-                                  EXTRA_OECONF_append_armv6 = "
-                                  --with-arch=armv6"<br>
-                                  EXTRA_OECONF_append_armv7a = "
-                                  --with-arch=armv7-a"<br>
-                                  <br>
-                                  ARMv6 has LDREX/STREX, but ARMv6K adds
-                                  {LD,ST}REX{B,H,D}.  The same problem<br>
-                                  addressed above is likely to happen if
-                                  the libraries are built with armv6k<br>
-                                  but the compiler doesn't default to
-                                  it.<br>
-                                  <br>
-                                  There are no armv6k tune parameters I
-                                  can locate in poky.  What layers have<br>
-                                  the tune configurations that are
-                                  causing problems?<br>
-                                  <br>
-                                </blockquote>
-                                For me meta-raspberrypi failed to build.
-                                Its tuning is -march=armv6<br>
-                                -mtune=arm1176zjf-s by default. I forced
-                                it to -march=armv6zk<br>
-                                -mtune=arm1176jzf-s, and that worked.<br>
-                              </blockquote>
-                              <br>
-                            </div>
-                          </div>
-                          tl;dr: for now, this can be claimed to be a
-                          boost problem, but it may rapidly become an OE
-                          problem.<br>
-                          <br>
-                          OK, so there's several issues here.<br>
-                          <br>
-                          Extracting the predefined symbols from gcc
-                          4.9.1 with:<br>
-                          <br>
-                             arm-poky-linux-gnueabi-g++ -march=armv6 -dM
-                          -E -xc++ /dev/null<br>
-                          <br>
-                          and similarly with -march=armv6k shows that
-                          the values of these atomic-related predefines
-                          are different (- = arvm6, + = armv6k):<br>
-                          <br>
-                          -#define __GCC_ATOMIC_BOOL_LOCK_FREE 1<br>
-                          -#define __GCC_ATOMIC_CHAR16_T_LOCK_FREE 1<br>
-                          +#define __GCC_ATOMIC_BOOL_LOCK_FREE 2<br>
-                          +#define __GCC_ATOMIC_CHAR16_T_LOCK_FREE 2<br>
-                          -#define __GCC_ATOMIC_CHAR_LOCK_FREE 1<br>
-                          +#define __GCC_ATOMIC_CHAR_LOCK_FREE 2<br>
-                          -#define __GCC_ATOMIC_LLONG_LOCK_FREE 1<br>
-                          +#define __GCC_ATOMIC_LLONG_LOCK_FREE 2<br>
-                          -#define __GCC_ATOMIC_SHORT_LOCK_FREE 1<br>
-                          +#define __GCC_ATOMIC_SHORT_LOCK_FREE 2<br>
-                          +#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_1 1<br>
-                          +#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2 1<br>
-                          +#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8 1<br>
-                          <br>
-                          (armv6zk is the same as armv6k for
-                          atomic-related capabilities.)<br>
-                          <br>
-                          boost/atomic/detail/caps_gcc_atomic.hpp
-                          apparently does not provide an implementation
-                          of thread_fence or signal_fence for the armv6
-                          configuration, only for the armv6k and later
-                          ones.<br>
-                          <br>
-                          That's a boost problem.<br>
-                          <br>
-                          The fact that -mtune=arm1176jzf-s apparently
-                          doesn't enable the armv6k features even though
-                          gcc's source code implies it should is an
-                          anomaly.  (Check this by substituting
-                          -mtune=arm1176jzf-s for -march=armv6 and
-                          verifying that the predefined symbols are the
-                          same for both configurations.)<br>
-                          <br>
-                          If that anomaly is ever resolved, or if
-                          meta-raspberrypi chooses to switch to
-                          -march=armv6zk, then gcc-configure-common.inc
-                          almost certainly need to recognize armv6k as
-                          an override distinct from armv6: mutex-related
-                          code built for armv6k via gcc-runtime will
-                          result in a different ABI from mutex-related
-                          code built for armv6 (what gcc will produce
-                          for builds that do not use OE's tuning
-                          parameters).<br>
-                          <br>
-                          If the solution to the boost problem is to
-                          change meta-raspberrypi to use -march=armv6k
-                          then gcc-configure-common.inc will need to be
-                          updated as well.  Probably OE should recognize
-                          it as a distinct ARM architecture too.
-                          <div>
-                            <div><br>
-                              <br>
-                              Peter<br>
-                              -- <br>
-_______________________________________________<br>
-                              Openembedded-core mailing list<br>
-                              <a moz-do-not-send="true"
-                                href="mailto:Openembedded-core@lists.openembedded.org"
-                                target="_blank">Openembedded-core@lists.openembedded.org</a><br>
-                              <a moz-do-not-send="true"
-                                href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                                target="_blank">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-                            </div>
-                          </div>
-                        </blockquote>
-                      </div>
-                      <br>
-                    </div>
-                  </blockquote>
-                  <br>
-                </div>
-              </div>
-            </div>
-          </blockquote>
-        </div>
-        <br>
-      </div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------040201020206010302020409--
