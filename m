@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E5AC7160A
+	by mail.openembedded.org (Postfix) with ESMTP id 9F29E7162E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Sep 2014 02:59:31 +0000 (UTC)
+	Sun, 28 Sep 2014 02:59:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8S2xWbo020306
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8S2xbIS020312
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Sep 2014 19:59:32 -0700 (PDT)
+	Sat, 27 Sep 2014 19:59:37 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Sat, 27 Sep 2014 19:59:31 -0700
+	14.3.174.1; Sat, 27 Sep 2014 19:59:36 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 28 Sep 2014 11:00:16 +0800
-Message-ID: <cover.1411721793.git.Qi.Chen@windriver.com>
+Date: Sun, 28 Sep 2014 11:00:20 +0800
+Message-ID: <16e0c4481ed581a2dc114ff34ca022b5b0970d66.1411721794.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1411721793.git.Qi.Chen@windriver.com>
+References: <cover.1411721793.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 0/4] Fixes for systemd services in systemd
+Subject: [PATCH V3 4/4] sysklog: comment out configuration regarding xconsole
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,38 +36,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sun, 28 Sep 2014 02:59:35 -0000
 Content-Type: text/plain
 
-Changes since V2:
-sysklogd: Unlink /dev/log only if it's not from systemd
+I commented out these configurations for the following reasons:
+We don't have xconsole utility in OE. These configurations are useless
+for us.
 
-The following changes since commit f6a39cc957bf85ff43513f0b76afc3b2c9c906b6:
+Besides, the /dev/xconsole device is created in the init script which means
+if these configuration are enabled, we need to add a script in sysklogd which
+creates /dev/xconsole and is invoked in ExecStartPre in the sysklogd's service
+file.
 
-  sstatesig: fix overrides behaviour to remove SIGGEN_LOCKEDSIGS_i586 (2014-09-17 22:00:05 +0100)
+I think it's better that we just comment these lines out.
 
-are available in the git repository at:
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-extended/sysklogd/files/syslog.conf | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-syslog-service
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-syslog-service
-
-Chen Qi (4):
-  systemd: enable syslog.socket by default
-  busybox: fix for syslog service in systemd
-  sysklogd: add systemd support
-  sysklog: comment out configuration regarding xconsole
-
- meta/recipes-core/busybox/busybox.inc              |   9 +-
- .../busybox/files/busybox-klogd.service.in         |   4 +-
- .../busybox/files/busybox-syslog.service.in        |   7 +-
- meta/recipes-core/systemd/systemd_216.bb           |   2 +
- .../files/0001-syslogd.c-add-systemd-support.patch | 246 +++++++++++++++++++++
- meta/recipes-extended/sysklogd/files/klogd.service |   9 +
- .../sysklogd/files/sysklogd.service                |  14 ++
- meta/recipes-extended/sysklogd/files/syslog.conf   |   8 +-
- meta/recipes-extended/sysklogd/sysklogd.inc        |  38 +++-
- 9 files changed, 317 insertions(+), 20 deletions(-)
- create mode 100644 meta/recipes-extended/sysklogd/files/0001-syslogd.c-add-systemd-support.patch
- create mode 100644 meta/recipes-extended/sysklogd/files/klogd.service
- create mode 100644 meta/recipes-extended/sysklogd/files/sysklogd.service
-
+diff --git a/meta/recipes-extended/sysklogd/files/syslog.conf b/meta/recipes-extended/sysklogd/files/syslog.conf
+index 0849de1..46a734c 100644
+--- a/meta/recipes-extended/sysklogd/files/syslog.conf
++++ b/meta/recipes-extended/sysklogd/files/syslog.conf
+@@ -64,8 +64,8 @@ mail,news.none		-/var/log/messages
+ # NOTE: adjust the list below, or you'll go crazy if you have a reasonably
+ #      busy site..
+ #
+-daemon.*;mail.*;\
+-news.err;\
+-*.=debug;*.=info;\
+-*.=notice;*.=warn	|/dev/xconsole
++#daemon.*;mail.*;\
++#news.err;\
++#*.=debug;*.=info;\
++#*.=notice;*.=warn	|/dev/xconsole
+ 
 -- 
 1.9.1
 
