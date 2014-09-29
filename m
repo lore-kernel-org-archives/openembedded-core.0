@@ -1,37 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
-	[209.85.216.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 764286017E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A9596FD16
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Sep 2014 14:57:03 +0000 (UTC)
-Received: by mail-qc0-f169.google.com with SMTP id r5so8836669qcx.14
+	Mon, 29 Sep 2014 16:44:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8TGiNHD008658 for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Sep 2014 17:44:23 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id eG5anSQfT5Uo
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Sep 2014 07:57:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=lk2RG1On+7xNil34kG2lH85xOzUiAv6ZkLzYFeUWngc=;
-	b=dQmB8NHo8iHReV9LuvKz+bITE8pDS3fX2z6hkE6ZVcb3cnaLsyRsVoRNUfDptEFnJQ
-	q5olypU2h5PtFqWQnJMe7+6x4diuqytDK98TrXX04tKmF314exjwbb2cqW4axWWrK/vw
-	r6gOO99GOB/Yg/8oYA/MZevn4c2IXq/yjgpmhOMUYdOWf03V4MwPDcmeFvsRHlbxuWWE
-	UMHuPWh7VdqhuA7t6VW4aTcoS5F/vimg0klXRpnXsAJneue0NHdh7Aw3cK1+wXcsg0NV
-	MSZsgepjbGRXHxTbf+8jTsi114ZoPSI8sT6Oas31l3NMfJA8wmxV0+6pb+qISB1tH8wt
-	trcw==
-X-Gm-Message-State: ALoCoQn5+vRaQZGi6F/QPh8SJVXolona7STGqd3J44E3SRdbt/Ym6MimVPtzkWV0UhIZN9VVJdv9
-X-Received: by 10.229.74.136 with SMTP id u8mr49940683qcj.5.1412002624561;
-	Mon, 29 Sep 2014 07:57:04 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Mon, 29 Sep 2014 07:56:44 -0700 (PDT)
-In-Reply-To: <201722111.zmNURQEFnj@comp-006-thk>
-References: <1412001614-15126-1-git-send-email-ross.burton@intel.com>
-	<201722111.zmNURQEFnj@comp-006-thk>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 29 Sep 2014 15:56:44 +0100
-Message-ID: <CAJTo0LZ4RCk5eqdXb2MxchvQkZgiT3+4+yUnNuNwQZcX+0Vm4w@mail.gmail.com>
-To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base.bbclass: add SRCREV to do_fetch() hash
+	Mon, 29 Sep 2014 17:44:23 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8TGiKRJ008654
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Sep 2014 17:44:21 +0100
+Message-ID: <1412009093.6893.8.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 29 Sep 2014 17:44:53 +0100
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Subject: [PATCH] meta-environment: Two critical fixes to unbreak toolchains
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,20 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Sep 2014 14:57:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 29 Sep 2014 16:45:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 29 September 2014 15:52, Maciej Borzecki <maciej.borzecki@open-rnd.pl> wrote:
-> So a trick like this will not be needed anymore to automatically rebuild
-> whenever sources in SCM change?
->
-> SRCREV = "${AUTOREV}"
-> PVBASE := "${PV}"
-> PV = "${PVBASE}.${SRCPV}"
+Firstly, when multilib builds were being used, the same output files
+were used in each case, being overwritten each time due to the fact that
+REAL_MULTIMACH_TARGET_SYS has been expanded. Instead of immediate
+expansion, just use assignment. This overrides the problematic define
+in toolchain-scripts.bbclass but allows the multilib code to work.
 
-That's right, you don't need to embed SRCREV in PV to get a rebuild.
-For many recipes it's still a sensible thing to do, but it won't be
-mandatory.
+Secondly, the target sysroot was being defined incorrectly which
+this patch fixes. This was breaking the toolchains.
 
-Ross
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
+index c6d3bb8..bd90f9f 100644
+--- a/meta/recipes-core/meta/meta-environment.bb
++++ b/meta/recipes-core/meta/meta-environment.bb
+@@ -6,14 +6,14 @@ PR = "r8"
+ 
+ EXCLUDE_FROM_WORLD = "1"
+ 
+-REAL_MULTIMACH_TARGET_SYS := "${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
++REAL_MULTIMACH_TARGET_SYS = "${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
+ 
+ inherit toolchain-scripts
+ TOOLCHAIN_NEED_CONFIGSITE_CACHE += "zlib"
+ 
+ SDK_DIR = "${WORKDIR}/sdk"
+ SDK_OUTPUT = "${SDK_DIR}/image"
+-SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${TARGET_SYS}"
++SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}"
+ 
+ inherit cross-canadian
+ 
+
+
 
