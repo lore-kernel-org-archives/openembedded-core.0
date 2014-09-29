@@ -1,36 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
-	[74.125.82.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 72DE76017E
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id 28652605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Sep 2014 14:40:16 +0000 (UTC)
-Received: by mail-we0-f182.google.com with SMTP id x48so1963711wes.41
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Sep 2014 07:40:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=A8qKI4tYVV1ctVxoM2nSXgLWFRKwZrJ3D4YUjbp9q1U=;
-	b=Od1XVoVaL9u9b5Z7+5IZDQZWx+S6t6fKiC3+B0IRknKRmkPKxu8ZZQ2HgNHnolmXwW
-	zVuMKMuVMDfhYmpGdPGxGilews5BLkc1pbK6s2EygfBWt/PVVtfJb+t4QMrTvYNhRJYw
-	3keby+4LJi0TYUGDF3QSlpQNRy6UIj/376ATQtJjsYnHwDp52p9xFs/F77SWhlmtO7Aa
-	cjURrKyVL5DqBeKTaVcGIoHCNhSFPWlesE/twteaqVDvG1fMlk4eXy9cvUena+ECP9RY
-	NbecIJTe4KVdPmjUo9KncQjENE0IQvdlBP+bJaRBkpH/CQjf0F1oSFYrnf7xBhY0lThI
-	lENA==
-X-Gm-Message-State: ALoCoQkFC13bEOzSqQotS1IPAjdj+0wcyQsyYCjpx8HKJw5ha4AcDhuwDl1GndYpM0bXCmCmjhDU
-X-Received: by 10.180.100.202 with SMTP id fa10mr67298569wib.32.1412001617266; 
-	Mon, 29 Sep 2014 07:40:17 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id nf2sm11912198wic.1.2014.09.29.07.40.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Sep 2014 07:40:16 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Sep 2014 15:40:14 +0100
-Message-Id: <1412001614-15126-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] base.bbclass: add SRCREV to do_fetch() hash
+	Mon, 29 Sep 2014 14:52:18 +0000 (UTC)
+Received: from comp-006-thk.localnet (unknown [46.170.72.194])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 76BA03162E16;
+	Mon, 29 Sep 2014 16:52:16 +0200 (CEST)
+From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+To: Ross Burton <ross.burton@intel.com>
+Date: Mon, 29 Sep 2014 16:52:14 +0200
+Message-ID: <201722111.zmNURQEFnj@comp-006-thk>
+User-Agent: KMail/4.14.1 (Linux/3.16.3-200.fc20.x86_64; KDE/4.14.1; x86_64; ; )
+In-Reply-To: <1412001614-15126-1-git-send-email-ross.burton@intel.com>
+References: <1412001614-15126-1-git-send-email-ross.burton@intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] base.bbclass: add SRCREV to do_fetch() hash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,31 +28,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Sep 2014 14:40:22 -0000
+X-List-Received-Date: Mon, 29 Sep 2014 14:52:22 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Without this changing just the SRCREV won't re-fetch unless you embed the SRCREV
-into PV.
+On Monday 29 of September 2014 15:40:14 Ross Burton wrote:
+> Without this changing just the SRCREV won't re-fetch unless you embed=
+ the
+> SRCREV into PV.
 
-The downside here is that every hash changes, so this causes a full rebuild.
+So a trick like this will not be needed anymore to automatically rebuil=
+d=20
+whenever sources in SCM change?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/base.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+SRCREV =3D "${AUTOREV}"
+PVBASE :=3D "${PV}"
+PV =3D "${PVBASE}.${SRCPV}"
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index c0d61fe..ff8c633 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -97,6 +97,7 @@ PATH_prepend = "${@extra_path_elements(d)}"
- addtask fetch
- do_fetch[dirs] = "${DL_DIR}"
- do_fetch[file-checksums] = "${@bb.fetch.get_checksum_file_list(d)}"
-+do_fetch[vardeps] += "SRCREV"
- python base_do_fetch() {
- 
-     src_uri = (d.getVar('SRC_URI', True) or "").split()
--- 
-1.7.10.4
+>=20
+> The downside here is that every hash changes, so this causes a full r=
+ebuild.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/base.bbclass |    1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index c0d61fe..ff8c633 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -97,6 +97,7 @@ PATH_prepend =3D "${@extra_path_elements(d)}"
+>  addtask fetch
+>  do_fetch[dirs] =3D "${DL_DIR}"
+>  do_fetch[file-checksums] =3D "${@bb.fetch.get_checksum_file_list(d)}=
+"
+> +do_fetch[vardeps] +=3D "SRCREV"
+>  python base_do_fetch() {
+>=20
+>      src_uri =3D (d.getVar('SRC_URI', True) or "").split()
 
+
+--=20
+
+Maciej Borz=C4=99cki=20
+Senior Software Engineer Open-RnD Sp. z o.o.=20
+www.open-rnd.pl, Facebook, Twitter=20
+mobile: +48 telefon, fax: +48 42 657 9079=20
+
+Niniejsza wiadomo=C5=9B=C4=87 wraz z za=C5=82=C4=85cznikami mo=C5=BCe z=
+awiera=C4=87 chronione prawem lub=20
+poufne informacje i zosta=C5=82a wys=C5=82ana wy=C5=82=C4=85cznie do wi=
+adomo=C5=9Bci i u=C5=BCytku os=C3=B3b, do=20
+kt=C3=B3rych zosta=C5=82a zaadresowana. Je=C5=9Bli wiadomo=C5=9B=C4=87 =
+zosta=C5=82a otrzymana przypadkowo=20
+zabrania si=C4=99 jej kopiowania lub rozsy=C5=82ania do os=C3=B3b trzec=
+ich. W takim przypadku=20
+uprasza si=C4=99 o natychmiastowe zniszczenie wiadomo=C5=9Bci oraz poin=
+formowanie=20
+nadawcy o zaistnia=C5=82ej sytuacji za pomoc=C4=85 wiadomo=C5=9Bci zwro=
+tnej. Dzi=C4=99kujemy.=20
+
+This message, including any attachments hereto, may contain privileged =
+or=20
+confidential information and is sent solely for the attention and use o=
+f the=20
+intended addressee(s). If you are not an intended addressee, you may ne=
+ither=20
+use this message nor copy or deliver it to anyone. In such case, you sh=
+ould=20
+immediately destroy this message and kindly notify the sender by reply =
+email.=20
+Thank you. 
 
