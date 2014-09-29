@@ -1,37 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
-	[209.85.216.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 11ED4605B3
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 419E4605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Sep 2014 17:23:58 +0000 (UTC)
-Received: by mail-qa0-f46.google.com with SMTP id cs9so2259033qab.5
+	Mon, 29 Sep 2014 18:47:43 +0000 (UTC)
+Received: by mail-wg0-f41.google.com with SMTP id k14so13700950wgh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Sep 2014 10:23:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ax+ooYVNtHaTd9HeE2jt7eiVVPtpILG5fXuOmTFbXCA=;
-	b=lZWhcAB01PrjSt/brsrPn1sE1hy3HQ9kJBWn9EIHKoG0nhgORHYIbW4a/G2OFNa86N
-	5v6QoygnAtoBW2ONlMnhWd40b+sYoyJZldTxfaBDCroY4qj2iQ3Nh+D/Lu/9XIcaZVQ+
-	UiW3uWQ1LbYOuLKpvt78vN0ewgVa45CLUXORC6FSb/5oN2K/5tScqq8UWxh/4cI+P/RJ
-	FayBwtX8Nfw+Y/6KoQRr3O0heRaEyd6GCGN3+ITCagIFaLbbpgHzJUfTt8tNK06VH6Xe
-	eLtoHEvTmNSSrpmtka+9GVRd2RnS5hqHD7VUbry1Yj4lRzAWw298SE8oSnIvTXQTX7Ht
-	LyEg==
-X-Gm-Message-State: ALoCoQkQItiWorZGAU9eyYdV3JYCtWDiRcdV1yzqMHeBbcuLzQsoq8zuHNVHuc6e1avj71YgvXvi
-X-Received: by 10.229.121.7 with SMTP id f7mr4226619qcr.28.1412011439720; Mon,
-	29 Sep 2014 10:23:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Mon, 29 Sep 2014 10:23:39 -0700 (PDT)
-In-Reply-To: <20140929171445.GT25706@jama>
+	Mon, 29 Sep 2014 11:47:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=t0GBVDDgueIw9rNmOQvO8rdG3o1pUNQ8ETILc77dMJw=;
+	b=i7A1QXfM/XBdpjwYOTyfAdLXG2S99K09uj38Sn6APIUgTmyohc52oOgK0ioVB8AZYb
+	qt7vFLHtLkFkJwOOBLrpngbCGtqHdWaoKOYjF7V7Bq4Ov0e2Rwz+mGfUHwJNX+p4G/a8
+	YIj7KC6N0olvpITP5GqGXDw08AdoKo6PmFB9I0G25XqJgHC0a6qRzscLR+vA5fNFifmV
+	mYRoRb5hB2n7O47PpADYY5I1cc5gCCA1Yv3plLpiYJKygoSSQ6/kyM5Rb7Qae0Yhlqvj
+	jCPcJZ9rpvfBvBqkXksfuftKQqEmmjyCrqX1qXLG2nlppAFmewNo7pJSCJzPWkFGVwyQ
+	YWzQ==
+X-Received: by 10.195.13.14 with SMTP id eu14mr17537978wjd.22.1412016464221;
+	Mon, 29 Sep 2014 11:47:44 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	u8sm12558465wia.24.2014.09.29.11.47.42 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Sep 2014 11:47:42 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 29 Sep 2014 20:48:35 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20140929184835.GU25706@jama>
 References: <1412001614-15126-1-git-send-email-ross.burton@intel.com>
 	<201722111.zmNURQEFnj@comp-006-thk>
 	<CAJTo0LZ4RCk5eqdXb2MxchvQkZgiT3+4+yUnNuNwQZcX+0Vm4w@mail.gmail.com>
 	<20140929171445.GT25706@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 29 Sep 2014 18:23:39 +0100
-Message-ID: <CAJTo0LZQCt67M1L7KyPWLoj=fQOf7eccnMsnVioc-kANHD_DLg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+	<CAJTo0LZQCt67M1L7KyPWLoj=fQOf7eccnMsnVioc-kANHD_DLg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZQCt67M1L7KyPWLoj=fQOf7eccnMsnVioc-kANHD_DLg@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] base.bbclass: add SRCREV to do_fetch() hash
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -46,14 +50,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Sep 2014 17:24:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 29 Sep 2014 18:47:51 -0000
+X-Groupsio-MsgNum: 58226
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="VvnGyWaJ9JuxX38U"
+Content-Disposition: inline
 
-On 29 September 2014 18:14, Martin Jansa <martin.jansa@gmail.com> wrote:
-> It will be still mandatory for recipes with multiple SRCREVs (and
-> SRCREV_FORMAT).
+--VvnGyWaJ9JuxX38U
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hm, should SRCREV_FORMAT also be in the hash?
+On Mon, Sep 29, 2014 at 06:23:39PM +0100, Burton, Ross wrote:
+> On 29 September 2014 18:14, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > It will be still mandatory for recipes with multiple SRCREVs (and
+> > SRCREV_FORMAT).
+>=20
+> Hm, should SRCREV_FORMAT also be in the hash?
 
-Ross
+That probably won't be enough, you would need to include all
+SRCREV_foo
+SRCREV_bar
+variables when
+SRCREV_FORMAT =3D "foo_bar"
 
+Maybe we can include SRCPV in hash to cover both cases.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--VvnGyWaJ9JuxX38U
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlQpqYMACgkQN1Ujt2V2gBwbRACdHbLGZH+iXJToVa2HoxqQGGTd
+OtAAoKHwstGOZRvxRYk7EunLW8Jh4ziW
+=ULG2
+-----END PGP SIGNATURE-----
+
+--VvnGyWaJ9JuxX38U--
