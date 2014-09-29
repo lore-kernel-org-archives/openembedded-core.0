@@ -1,18 +1,45 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa09-04.prod.phx3.secureserver.net
-	(p3plsmtpa09-04.prod.phx3.secureserver.net [173.201.193.233])
-	by mail.openembedded.org (Postfix) with ESMTP id BA140701F3
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id E26D16ACFD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Sep 2014 15:38:07 +0000 (UTC)
-Received: from llc.pab ([75.72.225.8])
-	by p3plsmtpa09-04.prod.phx3.secureserver.net with 
-	id wfe61o00B0BVjqb01fe78p; Sun, 28 Sep 2014 08:38:08 -0700
-From: "Peter A. Bigot" <pab@pabigot.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 28 Sep 2014 10:37:46 -0500
-Message-Id: <1411918666-21996-1-git-send-email-pab@pabigot.com>
-X-Mailer: git-send-email 1.8.5.5
-Subject: [PATCH] boost: fix atomics for armv6
+	Mon, 29 Sep 2014 00:51:16 +0000 (UTC)
+Received: by mail-ig0-f172.google.com with SMTP id a13so1888172igq.17
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 28 Sep 2014 17:51:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=PHtDD725KIZLZllHSnrW+4FIOhF7fFVElWk/tsP0FtI=;
+	b=fnLT9oL0PsOJPKJKWRN3wjii8zkXvm7OoPW5YXC3krqQ0xptJedGSxwflukJsbmAoo
+	a2UEt5Tna7KZiubl6DH611P7d+dfugWhpBbweeAtiwF4g0ZGofpNuchch+KQQDlHksIA
+	z8yKgRuCk1Y66wgwFO3G1/W95GSXCs0ix4/w6QjhrClG4IpbbUFVsKNY4uS3JHGgBT7L
+	l2w2WmM7bdQXnjLfGoAHLOu/3NbQVVZEnx3uWqqC1OiKh+XjvMes2F8mTs12d8sWwvBI
+	dHAS6A9BotCjl92zpZpcM9v9vEwuvMAt7eOmZgqFN6VlQljIbTFhqbS1jD7j4/8sTle+
+	yKbA==
+X-Gm-Message-State: ALoCoQlirTIGr4n8uCz+WBbpRAu04vccog4fKBKrJ7S0kR+lK6eBwMCiff2NMI0A+kFNWAOhd0xE
+X-Received: by 10.50.32.10 with SMTP id e10mr48923182igi.7.1411951877856;
+	Sun, 28 Sep 2014 17:51:17 -0700 (PDT)
+Received: from [192.168.141.122] (dsl-173-248-233-100.acanac.net.
+	[173.248.233.100])
+	by mx.google.com with ESMTPSA id ig9sm8633151igb.13.2014.09.28.17.51.17
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 28 Sep 2014 17:51:17 -0700 (PDT)
+Message-ID: <5428AD04.6020006@linaro.org>
+Date: Sun, 28 Sep 2014 20:51:16 -0400
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <CAJTo0LaRETJdKG-bL+40YtGrVjs4MLVLiydybSUj5ALa2tyxUQ@mail.gmail.com>	<lysik75pyt.fsf@ensc-virt.intern.sigma-chemnitz.de>	<CAJTo0LbNG14cHQN8JewwOd-Z0rBOeSpEQKHOQguSQweiQzLVtQ@mail.gmail.com>	<540896F8.9040805@pabigot.com>	<lyiol3uxra.fsf@ensc-virt.intern.sigma-chemnitz.de>	<CALbNGRRTcV8bst1tQYNZ-z6w7_aSXT3=pVMVLRQncDw4TwQEow@mail.gmail.com>	<lyha0nb5cg.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0LY9RwZzJ7KhON4EHq-PuLC7z3jcv4_B-u94EZUJWUYvgg@mail.gmail.com>
+In-Reply-To: <CAJTo0LY9RwZzJ7KhON4EHq-PuLC7z3jcv4_B-u94EZUJWUYvgg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] Style issue for recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,466 +52,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Sep 2014 15:38:08 -0000
+X-List-Received-Date: Mon, 29 Sep 2014 00:51:22 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-meta-raspberrypi and some other systems are ARMv6k but tell OE that
-they're ARMv6 which doesn't fully support non-word atomics.  armv6k
-does, but Boost didn't handle the recognition correctly in the 1.56
-release.  Backport the patch that fixes the build.
+On 09/04/14 15:12, Burton, Ross wrote:
+> If someone knows a good UI for blame-digging then please let me know!
 
-See: https://svn.boost.org/trac/boost/ticket/10446
-Signed-off-by: Peter A. Bigot <pab@pabigot.com>
----
-
-Note:
-
-I have only tested that this fixes the compile problems; I have not
-verified that the resulting library works correctly with respect to
-atomics.  I'm expecting somebody who uses boost on a platform where this
-is relevant to validate the functional behavior if that's necessary.
-
-Cc: niqingliang2003@gmail.com
-Cc: danismostlikely@gmail.com
-
-Peter
-
- ...rt-for-extending-operations-to-GCC-atomic.patch | 412 +++++++++++++++++++++
- meta/recipes-support/boost/boost_1.56.0.bb         |   5 +-
- 2 files changed, 416 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/boost/boost/0001-Added-support-for-extending-operations-to-GCC-atomic.patch
-
-diff --git a/meta/recipes-support/boost/boost/0001-Added-support-for-extending-operations-to-GCC-atomic.patch b/meta/recipes-support/boost/boost/0001-Added-support-for-extending-operations-to-GCC-atomic.patch
-new file mode 100644
-index 0000000..feece81
---- /dev/null
-+++ b/meta/recipes-support/boost/boost/0001-Added-support-for-extending-operations-to-GCC-atomic.patch
-@@ -0,0 +1,412 @@
-+From 415db7054723291042e4ff1ffa8fdd5bc8b07163 Mon Sep 17 00:00:00 2001
-+From: Andrey Semashev <andrey.semashev@gmail.com>
-+Date: Sat, 27 Sep 2014 20:40:09 +0400
-+Subject: [PATCH] Added support for extending operations to GCC atomic backend.
-+
-+Fix for #10446. Some platforms (e.g. Raspberry Pi) only support atomic ops of some particular size but not less. Use extending arithmetic operations for these platforms. Also, make sure bools are always treated as 8-bit values, even if the actual type is larger. This makes its use in atomic<>, atomic_flag and lock pool more consistent.
-+
-+Upstream-Status: Backport [https://svn.boost.org/trac/boost/ticket/10446]
-+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
-+
-+---
-+ include/boost/atomic/capabilities.hpp           |   1 +
-+ include/boost/atomic/detail/atomic_template.hpp |   2 +-
-+ include/boost/atomic/detail/caps_gcc_atomic.hpp |  82 +++++------
-+ include/boost/atomic/detail/ops_gcc_atomic.hpp  | 184 +++++++++++++++++++++---
-+ 4 files changed, 206 insertions(+), 63 deletions(-)
-+
-+diff --git a/include/boost/atomic/capabilities.hpp b/include/boost/atomic/capabilities.hpp
-+index 658dd22..05bbb0f 100644
-+--- a/include/boost/atomic/capabilities.hpp
-++++ b/include/boost/atomic/capabilities.hpp
-+@@ -142,6 +142,7 @@
-+ #define BOOST_ATOMIC_ADDRESS_LOCK_FREE BOOST_ATOMIC_POINTER_LOCK_FREE
-+ 
-+ #ifndef BOOST_ATOMIC_BOOL_LOCK_FREE
-++// We store bools in 1-byte storage in all backends
-+ #define BOOST_ATOMIC_BOOL_LOCK_FREE BOOST_ATOMIC_INT8_LOCK_FREE
-+ #endif
-+ 
-+diff --git a/include/boost/atomic/detail/atomic_template.hpp b/include/boost/atomic/detail/atomic_template.hpp
-+index 4fd6d79..bc3922a 100644
-+--- a/include/boost/atomic/detail/atomic_template.hpp
-++++ b/include/boost/atomic/detail/atomic_template.hpp
-+@@ -234,7 +234,7 @@ class base_atomic< bool, int >
-+ {
-+ private:
-+     typedef bool value_type;
-+-    typedef atomics::detail::operations< storage_size_of< value_type >::value, false > operations;
-++    typedef atomics::detail::operations< 1u, false > operations;
-+ 
-+ protected:
-+     typedef value_type value_arg_type;
-+diff --git a/include/boost/atomic/detail/caps_gcc_atomic.hpp b/include/boost/atomic/detail/caps_gcc_atomic.hpp
-+index 8299ad0..f4e7a70 100644
-+--- a/include/boost/atomic/detail/caps_gcc_atomic.hpp
-++++ b/include/boost/atomic/detail/caps_gcc_atomic.hpp
-+@@ -29,66 +29,48 @@
-+ #define BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG16B 1
-+ #endif
-+ 
-+-#if __GCC_ATOMIC_BOOL_LOCK_FREE == 2
-+-#define BOOST_ATOMIC_FLAG_LOCK_FREE 2
-+-#else
-+-#define BOOST_ATOMIC_FLAG_LOCK_FREE 0
-+-#endif
-+-#if __GCC_ATOMIC_CHAR_LOCK_FREE == 2
-+-#define BOOST_ATOMIC_CHAR_LOCK_FREE 2
-+-#else
-+-#define BOOST_ATOMIC_CHAR_LOCK_FREE 0
-+-#endif
-+-#if __GCC_ATOMIC_CHAR16_T_LOCK_FREE == 2
-+-#define BOOST_ATOMIC_CHAR16_T_LOCK_FREE 2
-+-#else
-+-#define BOOST_ATOMIC_CHAR16_T_LOCK_FREE 0
-+-#endif
-+-#if __GCC_ATOMIC_CHAR32_T_LOCK_FREE == 2
-+-#define BOOST_ATOMIC_CHAR32_T_LOCK_FREE 2
-++#if defined(BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG16B) && (defined(BOOST_HAS_INT128) || !defined(BOOST_NO_ALIGNMENT))
-++#define BOOST_ATOMIC_INT128_LOCK_FREE 2
-+ #else
-+-#define BOOST_ATOMIC_CHAR32_T_LOCK_FREE 0
-++#define BOOST_ATOMIC_INT128_LOCK_FREE 0
-+ #endif
-+-#if __GCC_ATOMIC_WCHAR_T_LOCK_FREE == 2
-+-#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE 2
-++
-++#if __GCC_ATOMIC_LLONG_LOCK_FREE == 2
-++#define BOOST_ATOMIC_LLONG_LOCK_FREE 2
-+ #else
-+-#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE 0
-++#define BOOST_ATOMIC_LLONG_LOCK_FREE BOOST_ATOMIC_INT128_LOCK_FREE
-+ #endif
-+-#if __GCC_ATOMIC_SHORT_LOCK_FREE == 2
-+-#define BOOST_ATOMIC_SHORT_LOCK_FREE 2
-++
-++#if __GCC_ATOMIC_LONG_LOCK_FREE == 2
-++#define BOOST_ATOMIC_LONG_LOCK_FREE 2
-+ #else
-+-#define BOOST_ATOMIC_SHORT_LOCK_FREE 0
-++#define BOOST_ATOMIC_LONG_LOCK_FREE BOOST_ATOMIC_LLONG_LOCK_FREE
-+ #endif
-++
-+ #if __GCC_ATOMIC_INT_LOCK_FREE == 2
-+ #define BOOST_ATOMIC_INT_LOCK_FREE 2
-+ #else
-+-#define BOOST_ATOMIC_INT_LOCK_FREE 0
-+-#endif
-+-#if __GCC_ATOMIC_LONG_LOCK_FREE == 2
-+-#define BOOST_ATOMIC_LONG_LOCK_FREE 2
-+-#else
-+-#define BOOST_ATOMIC_LONG_LOCK_FREE 0
-++#define BOOST_ATOMIC_INT_LOCK_FREE BOOST_ATOMIC_LONG_LOCK_FREE
-+ #endif
-+-#if __GCC_ATOMIC_LLONG_LOCK_FREE == 2
-+-#define BOOST_ATOMIC_LLONG_LOCK_FREE 2
-++
-++#if __GCC_ATOMIC_SHORT_LOCK_FREE == 2
-++#define BOOST_ATOMIC_SHORT_LOCK_FREE 2
-+ #else
-+-#define BOOST_ATOMIC_LLONG_LOCK_FREE 0
-++#define BOOST_ATOMIC_SHORT_LOCK_FREE BOOST_ATOMIC_INT_LOCK_FREE
-+ #endif
-+-#if defined(BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG16B) && (defined(BOOST_HAS_INT128) || !defined(BOOST_NO_ALIGNMENT))
-+-#define BOOST_ATOMIC_INT128_LOCK_FREE 2
-++
-++#if __GCC_ATOMIC_CHAR_LOCK_FREE == 2
-++#define BOOST_ATOMIC_CHAR_LOCK_FREE 2
-+ #else
-+-#define BOOST_ATOMIC_INT128_LOCK_FREE 0
-++#define BOOST_ATOMIC_CHAR_LOCK_FREE BOOST_ATOMIC_SHORT_LOCK_FREE
-+ #endif
-++
-+ #if __GCC_ATOMIC_POINTER_LOCK_FREE == 2
-+ #define BOOST_ATOMIC_POINTER_LOCK_FREE 2
-+ #else
-+ #define BOOST_ATOMIC_POINTER_LOCK_FREE 0
-+ #endif
-+-#if __GCC_ATOMIC_BOOL_LOCK_FREE == 2
-+-#define BOOST_ATOMIC_BOOL_LOCK_FREE 2
-+-#else
-+-#define BOOST_ATOMIC_BOOL_LOCK_FREE 0
-+-#endif
-++
-+ 
-+ #define BOOST_ATOMIC_INT8_LOCK_FREE BOOST_ATOMIC_CHAR_LOCK_FREE
-+ 
-+@@ -128,6 +110,24 @@
-+ #define BOOST_ATOMIC_INT64_LOCK_FREE 0
-+ #endif
-+ 
-++
-++#if __GCC_ATOMIC_WCHAR_T_LOCK_FREE == 2
-++#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE 2
-++#elif BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 8
-++#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE BOOST_ATOMIC_INT64_LOCK_FREE
-++#elif BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 4
-++#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE BOOST_ATOMIC_INT32_LOCK_FREE
-++#elif BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 2
-++#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE BOOST_ATOMIC_INT16_LOCK_FREE
-++#elif BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 1
-++#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE BOOST_ATOMIC_INT8_LOCK_FREE
-++#else
-++#define BOOST_ATOMIC_WCHAR_T_LOCK_FREE 0
-++#endif
-++
-++#define BOOST_ATOMIC_CHAR32_T_LOCK_FREE BOOST_ATOMIC_INT32_LOCK_FREE
-++#define BOOST_ATOMIC_CHAR16_T_LOCK_FREE BOOST_ATOMIC_INT16_LOCK_FREE
-++
-+ #define BOOST_ATOMIC_THREAD_FENCE 2
-+ #define BOOST_ATOMIC_SIGNAL_FENCE 2
-+ 
-+diff --git a/include/boost/atomic/detail/ops_gcc_atomic.hpp b/include/boost/atomic/detail/ops_gcc_atomic.hpp
-+index 2297791..2e4c37b 100644
-+--- a/include/boost/atomic/detail/ops_gcc_atomic.hpp
-++++ b/include/boost/atomic/detail/ops_gcc_atomic.hpp
-+@@ -24,6 +24,15 @@
-+ #include <boost/atomic/detail/ops_cas_based.hpp>
-+ #endif
-+ 
-++#if __GCC_ATOMIC_LLONG_LOCK_FREE != BOOST_ATOMIC_LLONG_LOCK_FREE || __GCC_ATOMIC_LONG_LOCK_FREE != BOOST_ATOMIC_LONG_LOCK_FREE ||\
-++    __GCC_ATOMIC_INT_LOCK_FREE != BOOST_ATOMIC_INT_LOCK_FREE || __GCC_ATOMIC_SHORT_LOCK_FREE != BOOST_ATOMIC_SHORT_LOCK_FREE ||\
-++    __GCC_ATOMIC_CHAR_LOCK_FREE != BOOST_ATOMIC_CHAR_LOCK_FREE || __GCC_ATOMIC_BOOL_LOCK_FREE != BOOST_ATOMIC_BOOL_LOCK_FREE ||\
-++    __GCC_ATOMIC_WCHAR_T_LOCK_FREE != BOOST_ATOMIC_WCHAR_T_LOCK_FREE
-++// There are platforms where we need to use larger storage types
-++#include <boost/atomic/detail/int_sizes.hpp>
-++#include <boost/atomic/detail/ops_extending_cas_based.hpp>
-++#endif
-++
-+ #ifdef BOOST_HAS_PRAGMA_ONCE
-+ #pragma once
-+ #endif
-+@@ -154,73 +163,206 @@ struct gcc_atomic_operations
-+     }
-+ };
-+ 
-+-#if BOOST_ATOMIC_INT8_LOCK_FREE > 0
-++#if BOOST_ATOMIC_INT128_LOCK_FREE > 0
-++#if defined(__clang__) && defined(BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG16B)
-++
-++// Workaround for clang bug: http://llvm.org/bugs/show_bug.cgi?id=19149
-++// Clang 3.4 does not implement 128-bit __atomic* intrinsics even though it defines __GCC_HAVE_SYNC_COMPARE_AND_SWAP_16
-+ template< bool Signed >
-+-struct operations< 1u, Signed > :
-+-    public gcc_atomic_operations< typename make_storage_type< 1u, Signed >::type >
-++struct operations< 16u, Signed > :
-++    public cas_based_operations< gcc_dcas_x86_64< Signed > >
-+ {
-+ };
-++
-++#else
-++
-++template< bool Signed >
-++struct operations< 16u, Signed > :
-++    public gcc_atomic_operations< typename make_storage_type< 16u, Signed >::type >
-++{
-++};
-++
-++#endif
-+ #endif
-+ 
-+-#if BOOST_ATOMIC_INT16_LOCK_FREE > 0
-++
-++#if BOOST_ATOMIC_INT64_LOCK_FREE > 0
-++#if defined(__clang__) && defined(BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG8B)
-++
-++// Workaround for clang bug http://llvm.org/bugs/show_bug.cgi?id=19355
-+ template< bool Signed >
-+-struct operations< 2u, Signed > :
-+-    public gcc_atomic_operations< typename make_storage_type< 2u, Signed >::type >
-++struct operations< 8u, Signed > :
-++    public cas_based_operations< gcc_dcas_x86< Signed > >
-++{
-++};
-++
-++#elif (BOOST_ATOMIC_DETAIL_SIZEOF_LLONG == 8 && __GCC_ATOMIC_LLONG_LOCK_FREE != BOOST_ATOMIC_LLONG_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_LONG == 8 && __GCC_ATOMIC_LONG_LOCK_FREE != BOOST_ATOMIC_LONG_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_INT == 8 && __GCC_ATOMIC_INT_LOCK_FREE != BOOST_ATOMIC_INT_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_SHORT == 8 && __GCC_ATOMIC_SHORT_LOCK_FREE != BOOST_ATOMIC_SHORT_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 8 && __GCC_ATOMIC_WCHAR_T_LOCK_FREE != BOOST_ATOMIC_WCHAR_T_LOCK_FREE)
-++
-++#define BOOST_ATOMIC_DETAIL_INT64_EXTENDED
-++
-++template< bool Signed >
-++struct operations< 8u, Signed > :
-++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 16u, Signed >::type >, 8u, Signed >
-+ {
-+ };
-++
-++#else
-++
-++template< bool Signed >
-++struct operations< 8u, Signed > :
-++    public gcc_atomic_operations< typename make_storage_type< 8u, Signed >::type >
-++{
-++};
-++
-++#endif
-+ #endif
-+ 
-+ #if BOOST_ATOMIC_INT32_LOCK_FREE > 0
-++#if (BOOST_ATOMIC_DETAIL_SIZEOF_LLONG == 4 && __GCC_ATOMIC_LLONG_LOCK_FREE != BOOST_ATOMIC_LLONG_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_LONG == 4 && __GCC_ATOMIC_LONG_LOCK_FREE != BOOST_ATOMIC_LONG_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_INT == 4 && __GCC_ATOMIC_INT_LOCK_FREE != BOOST_ATOMIC_INT_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_SHORT == 4 && __GCC_ATOMIC_SHORT_LOCK_FREE != BOOST_ATOMIC_SHORT_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 4 && __GCC_ATOMIC_WCHAR_T_LOCK_FREE != BOOST_ATOMIC_WCHAR_T_LOCK_FREE)
-++
-++#define BOOST_ATOMIC_DETAIL_INT32_EXTENDED
-++
-++#if !defined(BOOST_ATOMIC_DETAIL_INT64_EXTENDED)
-++
-++template< bool Signed >
-++struct operations< 4u, Signed > :
-++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 8u, Signed >::type >, 4u, Signed >
-++{
-++};
-++
-++#else // !defined(BOOST_ATOMIC_DETAIL_INT64_EXTENDED)
-++
-++template< bool Signed >
-++struct operations< 4u, Signed > :
-++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 16u, Signed >::type >, 4u, Signed >
-++{
-++};
-++
-++#endif // !defined(BOOST_ATOMIC_DETAIL_INT64_EXTENDED)
-++
-++#else
-++
-+ template< bool Signed >
-+ struct operations< 4u, Signed > :
-+     public gcc_atomic_operations< typename make_storage_type< 4u, Signed >::type >
-+ {
-+ };
-++
-++#endif
-+ #endif
-+ 
-+-#if BOOST_ATOMIC_INT64_LOCK_FREE > 0
-+-#if defined(__clang__) && defined(BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG8B)
-++#if BOOST_ATOMIC_INT16_LOCK_FREE > 0
-++#if (BOOST_ATOMIC_DETAIL_SIZEOF_LLONG == 2 && __GCC_ATOMIC_LLONG_LOCK_FREE != BOOST_ATOMIC_LLONG_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_LONG == 2 && __GCC_ATOMIC_LONG_LOCK_FREE != BOOST_ATOMIC_LONG_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_INT == 2 && __GCC_ATOMIC_INT_LOCK_FREE != BOOST_ATOMIC_INT_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_SHORT == 2 && __GCC_ATOMIC_SHORT_LOCK_FREE != BOOST_ATOMIC_SHORT_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 2 && __GCC_ATOMIC_WCHAR_T_LOCK_FREE != BOOST_ATOMIC_WCHAR_T_LOCK_FREE)
-++
-++#define BOOST_ATOMIC_DETAIL_INT16_EXTENDED
-++
-++#if !defined(BOOST_ATOMIC_DETAIL_INT32_EXTENDED)
-+ 
-+-// Workaround for clang bug http://llvm.org/bugs/show_bug.cgi?id=19355
-+ template< bool Signed >
-+-struct operations< 8u, Signed > :
-+-    public cas_based_operations< gcc_dcas_x86< Signed > >
-++struct operations< 2u, Signed > :
-++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 4u, Signed >::type >, 2u, Signed >
-++{
-++};
-++
-++#elif !defined(BOOST_ATOMIC_DETAIL_INT64_EXTENDED)
-++
-++template< bool Signed >
-++struct operations< 2u, Signed > :
-++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 8u, Signed >::type >, 2u, Signed >
-+ {
-+ };
-+ 
-+ #else
-+ 
-+ template< bool Signed >
-+-struct operations< 8u, Signed > :
-+-    public gcc_atomic_operations< typename make_storage_type< 8u, Signed >::type >
-++struct operations< 2u, Signed > :
-++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 16u, Signed >::type >, 2u, Signed >
-++{
-++};
-++
-++#endif
-++
-++#else
-++
-++template< bool Signed >
-++struct operations< 2u, Signed > :
-++    public gcc_atomic_operations< typename make_storage_type< 2u, Signed >::type >
-+ {
-+ };
-+ 
-+ #endif
-+ #endif
-+ 
-+-#if BOOST_ATOMIC_INT128_LOCK_FREE > 0
-+-#if defined(__clang__) && defined(BOOST_ATOMIC_DETAIL_X86_HAS_CMPXCHG16B)
-++#if BOOST_ATOMIC_INT8_LOCK_FREE > 0
-++#if (BOOST_ATOMIC_DETAIL_SIZEOF_LLONG == 1 && __GCC_ATOMIC_LLONG_LOCK_FREE != BOOST_ATOMIC_LLONG_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_LONG == 1 && __GCC_ATOMIC_LONG_LOCK_FREE != BOOST_ATOMIC_LONG_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_INT == 1 && __GCC_ATOMIC_INT_LOCK_FREE != BOOST_ATOMIC_INT_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_SHORT == 1 && __GCC_ATOMIC_SHORT_LOCK_FREE != BOOST_ATOMIC_SHORT_LOCK_FREE) ||\
-++    (BOOST_ATOMIC_DETAIL_SIZEOF_WCHAR_T == 1 && __GCC_ATOMIC_WCHAR_T_LOCK_FREE != BOOST_ATOMIC_WCHAR_T_LOCK_FREE) ||\
-++    (__GCC_ATOMIC_CHAR_LOCK_FREE != BOOST_ATOMIC_CHAR_LOCK_FREE) ||\
-++    (__GCC_ATOMIC_BOOL_LOCK_FREE != BOOST_ATOMIC_BOOL_LOCK_FREE)
-++
-++#if !defined(BOOST_ATOMIC_DETAIL_INT16_EXTENDED)
-+ 
-+-// Workaround for clang bug: http://llvm.org/bugs/show_bug.cgi?id=19149
-+-// Clang 3.4 does not implement 128-bit __atomic* intrinsics even though it defines __GCC_HAVE_SYNC_COMPARE_AND_SWAP_16
-+ template< bool Signed >
-+-struct operations< 16u, Signed > :
-+-    public cas_based_operations< gcc_dcas_x86_64< Signed > >
-++struct operations< 1u, Signed > :
-++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 2u, Signed >::type >, 1u, Signed >
-++{
-++};
-++
-++#elif !defined(BOOST_ATOMIC_DETAIL_INT32_EXTENDED)
-++
-++template< bool Signed >
-++struct operations< 1u, Signed > :
-++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 4u, Signed >::type >, 1u, Signed >
-++{
-++};
-++
-++#elif !defined(BOOST_ATOMIC_DETAIL_INT64_EXTENDED)
-++
-++template< bool Signed >
-++struct operations< 1u, Signed > :
-++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 8u, Signed >::type >, 1u, Signed >
-+ {
-+ };
-+ 
-+ #else
-+ 
-+ template< bool Signed >
-+-struct operations< 16u, Signed > :
-+-    public gcc_atomic_operations< typename make_storage_type< 16u, Signed >::type >
-++struct operations< 1u, Signed > :
-++    public extending_cas_based_operations< gcc_atomic_operations< typename make_storage_type< 16u, Signed >::type >, 1u, Signed >
-++{
-++};
-++
-++#endif
-++
-++#else
-++
-++template< bool Signed >
-++struct operations< 1u, Signed > :
-++    public gcc_atomic_operations< typename make_storage_type< 1u, Signed >::type >
-+ {
-+ };
-+ 
-+ #endif
-+ #endif
-+ 
-++#undef BOOST_ATOMIC_DETAIL_INT16_EXTENDED
-++#undef BOOST_ATOMIC_DETAIL_INT32_EXTENDED
-++#undef BOOST_ATOMIC_DETAIL_INT64_EXTENDED
-++
-+ BOOST_FORCEINLINE void thread_fence(memory_order order) BOOST_NOEXCEPT
-+ {
-+     __atomic_thread_fence(atomics::detail::convert_memory_order_to_gcc(order));
-+-- 
-+1.8.5.5
-+
-diff --git a/meta/recipes-support/boost/boost_1.56.0.bb b/meta/recipes-support/boost/boost_1.56.0.bb
-index b199c88..dcc77bb 100644
---- a/meta/recipes-support/boost/boost_1.56.0.bb
-+++ b/meta/recipes-support/boost/boost_1.56.0.bb
-@@ -1,4 +1,7 @@
- include boost-${PV}.inc
- include boost.inc
- 
--SRC_URI += "file://arm-intrinsics.patch"
-+SRC_URI += "\
-+    file://arm-intrinsics.patch \
-+    file://0001-Added-support-for-extending-operations-to-GCC-atomic.patch;striplevel=2 \
-+"
--- 
-1.8.5.5
-
+http://vimcasts.org/episodes/fugitive-vim-exploring-the-history-of-a-git-repository/
+http://vimcasts.org/episodes/fugitive-vim-browsing-the-git-object-database/
 
