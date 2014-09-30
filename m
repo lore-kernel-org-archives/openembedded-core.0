@@ -1,39 +1,25 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id B84A565DEB
+Return-Path: <noor_ahsan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id D03E56017E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 13:39:23 +0000 (UTC)
-Received: by mail-we0-f175.google.com with SMTP id q59so3863229wes.34
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 06:39:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=7axNHEKqDeupPkFQlOEF94eFlzgNtmhatBsg03qtgDc=;
-	b=pV6u5dVgps7Cwi0wC3JhCrq2B/G5KVb2QAFNoIjTFOgJSEOx/H+RkerhbmjKMIAjf/
-	PEsBtTnwSjVUJOqfczUeC/Eun5atZPbRC2vAzAUF0Uq8PdF9yQzsFM2QAq4Use+I2F3I
-	a9JiL5SHSEQHVAInGKN6/VzOdrPYCwRs3osoR6bK45zcmiYz6572PyJtNUT/ILWjZKZT
-	0wI2n7j1yc6X3/QIfP6JaHkTxhaCIoztAnir3NkbyAWNyiMMwq5tqC+lL8/uQbK/6wOO
-	RszrWYLbRVzqfhWz7eP4nSTMZpqf8ZGSW33RxXVKbPJQBpl9IrfQ/Hb1GHKtioJhfw6n
-	NOYA==
-X-Received: by 10.180.83.69 with SMTP id o5mr3482070wiy.41.1412084364033;
-	Tue, 30 Sep 2014 06:39:24 -0700 (PDT)
-Received: from localhost.localdomain
-	(ip-176-198-252-251.hsi05.unitymediagroup.de. [176.198.252.251])
-	by mx.google.com with ESMTPSA id
-	ll20sm15218949wic.14.2014.09.30.06.39.22
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Sep 2014 06:39:23 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+	Tue, 30 Sep 2014 14:21:35 +0000 (UTC)
+Received: from em-wv03.wv.mentorg.com ([147.34.98.30]
+	helo=em-wv-03.wv.mentorg.com) by relay1.mentorg.com with esmtp 
+	id 1XYyJ4-0005oH-Lo from noor_ahsan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Tue, 30 Sep 2014 07:21:34 -0700
+Received: from gemini.alm.mentorg.com ([134.86.102.153]) by
+	em-wv-03.wv.mentorg.com (8.8.8/CF5.40R)
+Received: from pkl-ahsann-ubuntu.pkl.mentorg.com
+	(pkl-ahsann-ubuntu.pkl.mentorg.com [137.202.157.70])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id s8UELSh0010409; 
+	Tue, 30 Sep 2014 09:21:29 -0500
+From: "Noor, Ahsan" <noor_ahsan@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Sep 2014 15:39:16 +0200
-Message-Id: <1412084356-4002-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-Subject: [PATCH] gtk-doc-stub: update to latest commit
+Date: Tue, 30 Sep 2014 19:20:56 +0500
+Message-Id: <1412086856-1516-1-git-send-email-noor_ahsan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] latencytop: Creats x11 PACKAGECONFIG.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,37 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Sep 2014 13:39:27 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 30 Sep 2014 14:21:38 -0000
 
-* fix build for packages with AC_CONFIG_MACRO_DIR set but not shipping macros
-  causing:
-  | ln: target 'm4/' is not a directory: No such file or directory
-  | cp: cannot create regular file 'm4/': Not a directory
-* In 2012 version was increased to 1.1
+From: Noor <noor_ahsan@mentor.com>
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+* Creates x11 packageconfig and update DEPENDS and EXTRA_OEMAKE_X
+  for better handling.
+
+Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
 ---
- meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/latencytop/latencytop_0.5.bb |    8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb b/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb
-index 9ceeeff..40f3243 100644
---- a/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb
-+++ b/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb
-@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
+index 516e2c5..3fbbd53 100644
+--- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
++++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.latencytop.org/"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://latencytop.c;endline=23;md5=ee9ea9b1415356e5734adad4a87dc7fa"
  
- PROVIDES = "gtk-doc gobject-introspection-stub"
+-DEPENDS = "virtual/libintl ncurses glib-2.0  ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
++DEPENDS = "virtual/libintl ncurses glib-2.0"
  
--SRCREV = "3dfd0a09de696ec8c544762747f8a0f77153622e"
--PV = "0.0+git${SRCPV}"
-+SRCREV = "1dea266593edb766d6d898c79451ef193eb17cfa"
-+PV = "1.1+git${SRCPV}"
+ PR = "r3"
  
- SRC_URI = "git://git.gnome.org/${BPN}"
+@@ -15,7 +15,11 @@ SRC_URI = "http://www.latencytop.org/download/latencytop-${PV}.tar.gz \
+ SRC_URI[md5sum] = "73bb3371c6ee0b0e68e25289027e865c"
+ SRC_URI[sha256sum] = "9e7f72fbea7bd918e71212a1eabaad8488d2c602205d2e3c95d62cd57e9203ef"
+ 
+-EXTRA_OEMAKE_X = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'HAS_GTK_GUI=1', '', d)}"
++PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
++
++PACKAGECONFIG[x11] = ",,gtk+"
++
++EXTRA_OEMAKE_X = "${@bb.utils.contains('PACKAGECONFIG', 'x11', 'HAS_GTK_GUI=1', '', d)}"
+ 
+ CFLAGS += "${LDFLAGS}"
  
 -- 
-1.8.3.1
+1.7.9.5
 
 
