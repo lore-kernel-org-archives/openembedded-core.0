@@ -1,29 +1,24 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 43CA36017E
+Return-Path: <nitin.a.kamble@intel.com>
+X-Greylist: delayed 585 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 30 Sep 2014 21:07:00 UTC
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9985565E1A
 	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 21:00:53 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8UL0qnq011961
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 30 Sep 2014 14:00:52 -0700 (PDT)
-Received: from server.local (128.224.21.58) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 30 Sep 2014 14:00:51 -0700
-Message-ID: <542B19F8.4030805@windriver.com>
-Date: Tue, 30 Sep 2014 17:00:40 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
-To: <nitin.a.kamble@intel.com>, <richard.purdie@linuxfoundation.org>,
-	<saul.wold@intel.com>, <ross.burton@intel.com>,
-	<dvhart@linux.intel.com>, <Openembedded-core@lists.openembedded.org>
-References: <cover.1412108536.git.nitin.a.kamble@intel.com>
-	<09a0bf7dab7a1152fe19faa74436eb4856ce631a.1412108536.git.nitin.a.kamble@intel.com>
-In-Reply-To: <09a0bf7dab7a1152fe19faa74436eb4856ce631a.1412108536.git.nitin.a.kamble@intel.com>
-Subject: Re: [PATCH 1/1] kernel.bbclass: enable a link for external module building
+	Tue, 30 Sep 2014 21:07:00 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 30 Sep 2014 13:55:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,629,1406617200"; d="scan'208";a="611137780"
+Received: from yocto-hm1.jf.intel.com ([10.23.232.34])
+	by orsmga002.jf.intel.com with ESMTP; 30 Sep 2014 13:57:14 -0700
+From: nitin.a.kamble@intel.com
+To: richard.purdie@linuxfoundation.org, saul.wold@intel.com,
+	ross.burton@intel.com, dvhart@linux.intel.com,
+	bruce.ashfield@windriver.com, Openembedded-core@lists.openembedded.org
+Date: Tue, 30 Sep 2014 13:57:27 -0700
+Message-Id: <cover.1412108536.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH 0/1] A bugfix to enable external module building on target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,63 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Sep 2014 21:00:58 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Sep 2014 21:07:05 -0000
 
-On 2014-09-30, 4:57 PM, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->
-> To build external modules, the link /lib/modules/<kernel-version>/build
-> must exist, and point to the proper kernel source area.
->
-> The kernel-dev package already provides the needed source files. Now
-> putting a link in place to unblock the external module building.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-This description is not entirely accurate, at least from my point of
-view.
+The path /lib/modules/<kernel-version>/build was missing on the target.
+It is required to build external modules on the target. The kernel-dev
+package provides all the needed support files for building the external
+kernel modules. This commit creates the required missing link on the
+target, which enables the external modules building.
 
-You can build external modules on the target without this link .. it is
-that many scripts and utilities look in this location for the kernel
-source.
+This has been tested with a simple external module on the qemux86-64 machine
+with the core-image-sato-sdk image.
 
-We are fixing that case, not the general case of building an external
-module.
+See this bug for more details:
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=2968
 
-Cheers,
+Thanks,
+Nitin
 
-Bruce
 
->
-> Fixes Bug:
-> [YOCTO #2968]
->
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
->   meta/classes/kernel.bbclass | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 78b33ce..5ac4ff4 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -213,6 +213,7 @@ kernel_do_install() {
->   	#
->   	kerneldir=${D}${KERNEL_SRC_PATH}
->   	install -d $kerneldir
-> +	ln -sf ${KERNEL_SRC_PATH} "${D}/lib/modules/${KERNEL_VERSION}/build"
->
->   	#
->   	# Store the kernel version in sysroots for module-base.bbclass
-> @@ -346,7 +347,7 @@ PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-mod
->   FILES_${PN} = ""
->   FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
->   FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
-> -FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
-> +FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
->   FILES_kernel-vmlinux = "/boot/vmlinux*"
->   FILES_kernel-modules = ""
->   RDEPENDS_kernel = "kernel-base"
->
+The following changes since commit c34775f8864f9bf9a2b32af1e3a803f7d84e11ba:
+
+  deb_packaging: Added support for multilib (2014-09-30 14:33:31 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib nitin/misc
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+
+Nitin A Kamble (1):
+  kernel.bbclass: enable a link for external module building
+
+ meta/classes/kernel.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+-- 
+1.8.1.4
 
 
