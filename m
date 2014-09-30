@@ -1,40 +1,39 @@
-Return-Path: <walters@verbum.org>
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
-	[66.111.4.29])
-	by mail.openembedded.org (Postfix) with ESMTP id 162EE715B5
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
+	[74.125.82.175])
+	by mail.openembedded.org (Postfix) with ESMTP id B84A565DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 13:26:41 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by gateway2.nyi.internal (Postfix) with ESMTP id EF54E20971
+	Tue, 30 Sep 2014 13:39:23 +0000 (UTC)
+Received: by mail-we0-f175.google.com with SMTP id q59so3863229wes.34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 09:26:42 -0400 (EDT)
-Received: from web2 ([10.202.2.212])
-	by compute5.internal (MEProxy); Tue, 30 Sep 2014 09:26:42 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=message-id:x-sasl-enc:from:to:cc
-	:mime-version:content-transfer-encoding:content-type:in-reply-to
-	:references:subject:date; s=smtpout; bh=Qsa1QLCGTTjaBB1/JZi0n6sB
-	fhE=; b=CBEy0zmcXpWyTjH5tYuJiuP9r+ZN2ONP8otSQ8nvAHJl3xfk034jG0jB
-	7TQTUOCDP5/MN3n6sH+/KLsCfKl7RjyAwIgll7w4RZVKFrXkSIIiiKCHV3wpd5as
-	r8341TcnfrPI2CyPDYbyoHmx6/ry65YPnARmUls2/rLHdhOainE=
-Received: by web2.nyi.internal (Postfix, from userid 99)
-	id CE020540122; Tue, 30 Sep 2014 09:26:42 -0400 (EDT)
-Message-Id: <1412083602.3102889.173435581.79A86724@webmail.messagingengine.com>
-X-Sasl-Enc: mG6RG/+KaVuo96ptm+sB8bsNYC41IpXs3wOPc39u32IS 1412083602
-From: Colin Walters <walters@verbum.org>
-To: "Burton, Ross" <ross.burton@intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>
+	Tue, 30 Sep 2014 06:39:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=7axNHEKqDeupPkFQlOEF94eFlzgNtmhatBsg03qtgDc=;
+	b=pV6u5dVgps7Cwi0wC3JhCrq2B/G5KVb2QAFNoIjTFOgJSEOx/H+RkerhbmjKMIAjf/
+	PEsBtTnwSjVUJOqfczUeC/Eun5atZPbRC2vAzAUF0Uq8PdF9yQzsFM2QAq4Use+I2F3I
+	a9JiL5SHSEQHVAInGKN6/VzOdrPYCwRs3osoR6bK45zcmiYz6572PyJtNUT/ILWjZKZT
+	0wI2n7j1yc6X3/QIfP6JaHkTxhaCIoztAnir3NkbyAWNyiMMwq5tqC+lL8/uQbK/6wOO
+	RszrWYLbRVzqfhWz7eP4nSTMZpqf8ZGSW33RxXVKbPJQBpl9IrfQ/Hb1GHKtioJhfw6n
+	NOYA==
+X-Received: by 10.180.83.69 with SMTP id o5mr3482070wiy.41.1412084364033;
+	Tue, 30 Sep 2014 06:39:24 -0700 (PDT)
+Received: from localhost.localdomain
+	(ip-176-198-252-251.hsi05.unitymediagroup.de. [176.198.252.251])
+	by mx.google.com with ESMTPSA id
+	ll20sm15218949wic.14.2014.09.30.06.39.22
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Sep 2014 06:39:23 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Sep 2014 15:39:16 +0200
+Message-Id: <1412084356-4002-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Mailer: MessagingEngine.com Webmail Interface - ajax-3bf5bee3
-In-Reply-To: <CAJTo0Lb8k5W3dwfgtodG=zh9GEFr4CBdzd+BOav7jV=s9vHCQQ@mail.gmail.com>
-References: <1411802545-17081-1-git-send-email-koen@dominion.thruhere.net>
-	<1411802545-17081-2-git-send-email-koen@dominion.thruhere.net>
-	<1412024343.2853314.173154429.5067015A@webmail.messagingengine.com>
-	<18401A03-E69C-43BB-9956-13955179B13A@dominion.thruhere.net>
-	<CAJTo0Lb8k5W3dwfgtodG=zh9GEFr4CBdzd+BOav7jV=s9vHCQQ@mail.gmail.com>
-Date: Tue, 30 Sep 2014 09:26:42 -0400
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] systemd 216: add system user factory files to CONFFILES
+Subject: [PATCH] gtk-doc-stub: update to latest commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,20 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Sep 2014 13:26:43 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
+X-List-Received-Date: Tue, 30 Sep 2014 13:39:27 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 30, 2014, at 05:36 AM, Burton, Ross wrote:
-> On 30 September 2014 08:39, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> > The real question is: do we want to keep changes to these files on package upgrade or wipe them out?
-> 
-> They're in /usr, so they get overwritten.
+* fix build for packages with AC_CONFIG_MACRO_DIR set but not shipping macros
+  causing:
+  | ln: target 'm4/' is not a directory: No such file or directory
+  | cp: cannot create regular file 'm4/': Not a directory
+* In 2012 version was increased to 1.1
 
-The reason I mention this is in the OSTree model at least, /usr is
-*always* a readonly bind mount, and mutation is not permitted by admins.
- If something is insufficient with the handling of /etc here, let's get
-that fixed in upstream systemd.
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb b/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb
+index 9ceeeff..40f3243 100644
+--- a/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb
++++ b/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb
+@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ 
+ PROVIDES = "gtk-doc gobject-introspection-stub"
+ 
+-SRCREV = "3dfd0a09de696ec8c544762747f8a0f77153622e"
+-PV = "0.0+git${SRCPV}"
++SRCREV = "1dea266593edb766d6d898c79451ef193eb17cfa"
++PV = "1.1+git${SRCPV}"
+ 
+ SRC_URI = "git://git.gnome.org/${BPN}"
+ 
+-- 
+1.8.3.1
 
 
