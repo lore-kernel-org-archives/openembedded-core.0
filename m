@@ -1,36 +1,36 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id A357871648
+Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A108716FA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 15:47:19 +0000 (UTC)
-Received: by mail-ie0-f178.google.com with SMTP id rl12so6876549iec.37
+	Tue, 30 Sep 2014 15:47:22 +0000 (UTC)
+Received: by mail-ie0-f175.google.com with SMTP id y20so7748083ier.20
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 08:47:19 -0700 (PDT)
+	Tue, 30 Sep 2014 08:47:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=m8F5Tg5duxbw3/6Ucx4jV3NaWIm9cCaT1xqP4xa8j6U=;
-	b=dqkDhpDykebXz48xA5/v/7rMoVg5qvS0T6k3dlgjLCJIk1IoWySWPfARuwCzKqsMIz
-	yPK+PQeKumQLhq15DFFPr1dQnhI0so8GQugJPmIeX96hMVscDQDhq5NpWnvrUZ+tUL+8
-	n11pIbmK6SwBacdV2TCsKbWVqLD0sZb4v3hb7bX0gmx77ejvWj6OLoYixXtjxAHZLGE+
-	mC8+T4qeyBTKcOOlmCfkE0vOe4lxhH+NfUAnkbfxRXcZQoir10iUtInwgEztwYbdPqqK
-	YLlGSzyeHrNAnM6lEoX9dOa77h6VFsBn5stF8qC1jPSvmG8Fg0Al60j0r7OChZ3OZMdH
-	BlhA==
-X-Received: by 10.50.138.134 with SMTP id qq6mr9716895igb.0.1412092039796;
-	Tue, 30 Sep 2014 08:47:19 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=R9Tz7gw41L8Hzs3AKVYODdDYtxbM6f1q8f1cv7uP1Es=;
+	b=niiyaQZlC81i9G0/dTc+NBohIi/+A9sRO2b11qsBSd5Of7y4g72Gx+3c8YraH8op4y
+	FK9dv/nZU6YWlOnVWozlSXUCBafGCn3UBonj4l9O4kfZl4t6VXqxGJSTXuGJkzaaDpfR
+	GdpvxhFYdTvqiTplwQYiNBTD1/EG9YkwBGsFnmv3IxqJtGDKYdtlVwghOn1il2Ey0aKI
+	vfs+ySU2JrlFAKzckTyoVOjs6I6VuzzIj4KFcq2OUlgPCzwzCXRoxP9ObMlO/FQqvb1l
+	q/keLvS4dPoQmV3OBzR2VqbdwKknfLO4KT3mkF3X8xceN3q7tRN4NNGiAVdpz66xZBrq
+	TBkg==
+X-Received: by 10.42.101.77 with SMTP id d13mr51975821ico.53.1412092043547;
+	Tue, 30 Sep 2014 08:47:23 -0700 (PDT)
 Received: from localhost.localdomain (75-163-154-89.clsp.qwest.net.
 	[75.163.154.89]) by mx.google.com with ESMTPSA id
-	hg4sm13331857igb.15.2014.09.30.08.47.17 for <multiple recipients>
+	hg4sm13331857igb.15.2014.09.30.08.47.21 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 30 Sep 2014 08:47:18 -0700 (PDT)
+	Tue, 30 Sep 2014 08:47:22 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Sep 2014 08:47:14 -0700
-Message-Id: <1412092036-30364-1-git-send-email-akuster808@gmail.com>
+Date: Tue, 30 Sep 2014 08:47:16 -0700
+Message-Id: <1412092036-30364-3-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [meta-oe][PATCH 0/2] Update timezone recipes to 2014h
+In-Reply-To: <1412092036-30364-1-git-send-email-akuster808@gmail.com>
+References: <1412092036-30364-1-git-send-email-akuster808@gmail.com>
+Subject: [meta-oe][PATCH 2/2] tzdata: update to 2014h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,82 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Sep 2014 15:47:23 -0000
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 30 Sep 2014 15:47:24 -0000
 
-if this has been already submitted, ignore.
-
-These are the following changes:
-
-Changes affecting past time stamps
-
-    America/Jamaica's 1974 spring-forward transition was Jan. 6, not Apr. 28.
-
-    Shanks says Asia/Novokuznetsk switched from LMT (not "NMT") on 1924-05-01,
-    not 1920-01-06.  The old entry was based on a misinterpretation of Shanks.
-
-    Some more zones have been turned into links, when they differed
-    from existing zones only for older time stamps.  As usual,
-    these changes affect UTC offsets in pre-1970 time stamps only.
-    Their old contents have been moved to the 'backzone' file.
-    The affected zones are: Africa/Blantyre, Africa/Bujumbura,
-    Africa/Gaborone, Africa/Harare, Africa/Kigali, Africa/Lubumbashi,
-    Africa/Lusaka, Africa/Maseru, and Africa/Mbabane.
-
-Changes affecting code
-    zdump -V and -v now output gmtoff= values on all platforms,
-    not merely on platforms defining TM_GMTOFF.  
-    
-    The tz library's localtime and mktime functions now set tzname to a value
-    appropriate for the requested time stamp, and zdump now uses this
-    on platforms not defining TM_ZONE, fixing a 2014g regression.
-    (Thanks to Tim Parenti for reporting the problem.)
-
-    The tz library no longer sets tzname if localtime or mktime fails.
-    zdump -c no longer mishandles transitions near year boundaries.
-    (Thanks to Tim Parenti for reporting the problem.)
-
-    An access to uninitalized data has been fixed.
-    (Thanks to Jörg Richter for reporting the problem.)
-
-    When THREAD_SAFE is defined, the code ports to the C11 memory model.
-    A memory leak has been fixed if ALL_STATE and THREAD_SAFE are defined
-    and two threads race to initialize data used by gmtime-like functions.
-    (Thanks to Andy Heninger for reporting the problems.)
-
-Changes affecting build procedure 
-    'make check' now checks better for properly-sorted data.
-
-Changes affecting documentation and commentary
-    zdump's gmtoff=N output is now documented, and its isdst=D output
-    is now documented to possibly output D values other than 0 or 1.
-
-    zdump -c's treatment of years is now documented to use the
-    Gregorian calendar and Universal Time without leap seconds,
-    and its behavior at cutoff boundaries is now documented better.
-    (Thanks to Arthur David Olson and Tim Parenti for reporting the problems.)
-
-    Programs are now documented to use the proleptic Gregorian calendar.
-    (Thanks to Alan Barrett for the suggestion.)
-
-    Fractional-second GMT offsets have been documented for civil time
-    in 19th-century Chennai, Jakarta, and New York.
-
-Armin Kuster (2):
-  tzcode-native: update to 2014h
-  tzdata: update to 2014h
-
- meta/recipes-extended/tzcode/tzcode-native_2014g.bb | 11 -----------
- meta/recipes-extended/tzcode/tzcode-native_2014h.bb | 11 +++++++++++
- meta/recipes-extended/tzdata/tzdata_2014g.bb        |  6 ------
- meta/recipes-extended/tzdata/tzdata_2014h.bb        |  6 ++++++
- 4 files changed, 17 insertions(+), 17 deletions(-)
- delete mode 100644 meta/recipes-extended/tzcode/tzcode-native_2014g.bb
- create mode 100644 meta/recipes-extended/tzcode/tzcode-native_2014h.bb
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-extended/tzdata/tzdata_2014g.bb | 6 ------
+ meta/recipes-extended/tzdata/tzdata_2014h.bb | 6 ++++++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
  delete mode 100644 meta/recipes-extended/tzdata/tzdata_2014g.bb
  create mode 100644 meta/recipes-extended/tzdata/tzdata_2014h.bb
 
+diff --git a/meta/recipes-extended/tzdata/tzdata_2014g.bb b/meta/recipes-extended/tzdata/tzdata_2014g.bb
+deleted file mode 100644
+index e831833..0000000
+--- a/meta/recipes-extended/tzdata/tzdata_2014g.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
+-
+-SRC_URI[tzdata.md5sum] = "f9f59425e55b21d2e52bb3a95fc17b8d"
+-SRC_URI[tzdata.sha256sum] = "5547d5b7a982f7f53fffe68cb2a13692553f591a17d58c8ef15b20679d82a270"
+-
+-require tzdata.inc
+diff --git a/meta/recipes-extended/tzdata/tzdata_2014h.bb b/meta/recipes-extended/tzdata/tzdata_2014h.bb
+new file mode 100644
+index 0000000..9334a62
+--- /dev/null
++++ b/meta/recipes-extended/tzdata/tzdata_2014h.bb
+@@ -0,0 +1,6 @@
++SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
++
++SRC_URI[tzdata.md5sum] = "ed05111948beba8a0f30956baa46b272"
++SRC_URI[tzdata.sha256sum] = "e78152f616fb07c1dea124215ffca57d0de66d8897e00896086542e3de30f69e"
++
++require tzdata.inc
 -- 
 1.9.1
 
