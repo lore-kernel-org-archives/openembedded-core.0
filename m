@@ -1,25 +1,25 @@
 Return-Path: <noor_ahsan@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id D03E56017E
+	by mail.openembedded.org (Postfix) with ESMTP id D121D6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 14:21:35 +0000 (UTC)
+	Tue, 30 Sep 2014 14:25:37 +0000 (UTC)
 Received: from em-wv03.wv.mentorg.com ([147.34.98.30]
 	helo=em-wv-03.wv.mentorg.com) by relay1.mentorg.com with esmtp 
-	id 1XYyJ4-0005oH-Lo from noor_ahsan@mentor.com 
+	id 1XYyN1-0006CF-FA from noor_ahsan@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Sep 2014 07:21:34 -0700
+	Tue, 30 Sep 2014 07:25:39 -0700
 Received: from gemini.alm.mentorg.com ([134.86.102.153]) by
 	em-wv-03.wv.mentorg.com (8.8.8/CF5.40R)
 Received: from pkl-ahsann-ubuntu.pkl.mentorg.com
 	(pkl-ahsann-ubuntu.pkl.mentorg.com [137.202.157.70])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id s8UELSh0010409; 
-	Tue, 30 Sep 2014 09:21:29 -0500
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id s8UEPYfl011487; 
+	Tue, 30 Sep 2014 09:25:35 -0500
 From: "Noor, Ahsan" <noor_ahsan@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Sep 2014 19:20:56 +0500
-Message-Id: <1412086856-1516-1-git-send-email-noor_ahsan@mentor.com>
+Date: Tue, 30 Sep 2014 19:25:04 +0500
+Message-Id: <1412087104-1560-1-git-send-email-noor_ahsan@mentor.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] latencytop: Creats x11 PACKAGECONFIG.
+Subject: [PATCH] sysprof: Creats x11 PACKAGECONFIG.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Sep 2014 14:21:38 -0000
+X-List-Received-Date: Tue, 30 Sep 2014 14:25:39 -0000
 
 From: Noor <noor_ahsan@mentor.com>
 
-* Creates x11 packageconfig and update DEPENDS and EXTRA_OEMAKE_X
-  for better handling.
+* gtk+ and libglade is required to have graphical version of sysprof.
+  Created x11 packageconfig and added these two packages in that config
+  and removed from DEPENDS.
 
 Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
 ---
- meta/recipes-kernel/latencytop/latencytop_0.5.bb |    8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/sysprof/sysprof_git.bb |    7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-index 516e2c5..3fbbd53 100644
---- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-+++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.latencytop.org/"
+diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_git.bb
+index ef1e270..d3fb97a 100644
+--- a/meta/recipes-kernel/sysprof/sysprof_git.bb
++++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
+@@ -2,8 +2,6 @@ SUMMARY = "System-wide Performance Profiler for Linux"
  LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://latencytop.c;endline=23;md5=ee9ea9b1415356e5734adad4a87dc7fa"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
  
--DEPENDS = "virtual/libintl ncurses glib-2.0  ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
-+DEPENDS = "virtual/libintl ncurses glib-2.0"
+-DEPENDS = "gtk+ libglade"
+-
+ SRCREV = "cd44ee6644c3641507fb53b8a2a69137f2971219"
+ PV = "1.2.0+git${SRCPV}"
  
- PR = "r3"
+@@ -18,3 +16,8 @@ SRC_URI_append_mips64 = " file://rmb-mips.patch"
+ S = "${WORKDIR}/git"
  
-@@ -15,7 +15,11 @@ SRC_URI = "http://www.latencytop.org/download/latencytop-${PV}.tar.gz \
- SRC_URI[md5sum] = "73bb3371c6ee0b0e68e25289027e865c"
- SRC_URI[sha256sum] = "9e7f72fbea7bd918e71212a1eabaad8488d2c602205d2e3c95d62cd57e9203ef"
- 
--EXTRA_OEMAKE_X = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'HAS_GTK_GUI=1', '', d)}"
+ inherit autotools pkgconfig
++
 +PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
 +
-+PACKAGECONFIG[x11] = ",,gtk+"
++PACKAGECONFIG[x11] = ",,gtk+ libglade"
 +
-+EXTRA_OEMAKE_X = "${@bb.utils.contains('PACKAGECONFIG', 'x11', 'HAS_GTK_GUI=1', '', d)}"
- 
- CFLAGS += "${LDFLAGS}"
- 
 -- 
 1.7.9.5
 
