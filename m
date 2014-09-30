@@ -1,26 +1,39 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C309716D9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
+	[209.85.216.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 37F0271501
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 09:34:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s8U9YETr013869
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 30 Sep 2014 09:36:33 +0000 (UTC)
+Received: by mail-qa0-f47.google.com with SMTP id cm18so139827qab.34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 02:34:14 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 30 Sep 2014 02:34:13 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 30 Sep 2014 17:33:04 +0800
-Message-ID: <9de76d76afe44e292a22c0c85b6e8b9caa18fda6.1412068157.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1412068156.git.Chong.Lu@windriver.com>
-References: <cover.1412068156.git.Chong.Lu@windriver.com>
+	Tue, 30 Sep 2014 02:36:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=7wrCG5ihprmaG5UV8f6lSzO+IVCbj07skU2DCJaOuJI=;
+	b=DMmu9Im3B6dlMRwUjTGyOeJQsraFwjd1RrLVUJ2CN7QOmj1JjKiUjWiI5xj8dsUP/q
+	pqptmRWq3WM96RIgtNP97TsKR4HdUUS1GRMRXX8ZxL5A8khfe8XEfv5e+adZxX70kDer
+	D9KqNIto/dXA3u+Mzgzx6FD1nZsV6Tr1mXXp6TZ07R+uYWHpbbgc92AveAHgh4y/UyUw
+	QwLwZkYvdkox04wiSbUZ7VBVJWf67TfV2juiRvYdd27OjPOCGcDRFvzIHCmq+HavOty0
+	WbJVUzjjv1F5d9c3Kj01KIUO75KrFeKXItRq8UBHCBNx+RveWeSOH6U3W+7TrgubCLL9
+	hcjQ==
+X-Gm-Message-State: ALoCoQmv8qD9caC7/29v1m8yEVWnS8ZLP3m6sG6ZNDADQ8m165mkXOYiTw1EnD0wK3WQaIGUG1UU
+X-Received: by 10.140.40.84 with SMTP id w78mr20048604qgw.87.1412069790406;
+	Tue, 30 Sep 2014 02:36:30 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/3] tcl: Upgrade to 8.6.2
+Received: by 10.140.34.180 with HTTP; Tue, 30 Sep 2014 02:36:09 -0700 (PDT)
+In-Reply-To: <18401A03-E69C-43BB-9956-13955179B13A@dominion.thruhere.net>
+References: <1411802545-17081-1-git-send-email-koen@dominion.thruhere.net>
+	<1411802545-17081-2-git-send-email-koen@dominion.thruhere.net>
+	<1412024343.2853314.173154429.5067015A@webmail.messagingengine.com>
+	<18401A03-E69C-43BB-9956-13955179B13A@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 30 Sep 2014 10:36:09 +0100
+Message-ID: <CAJTo0Lb8k5W3dwfgtodG=zh9GEFr4CBdzd+BOav7jV=s9vHCQQ@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] systemd 216: add system user factory files to CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,45 +46,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Sep 2014 09:34:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 30 Sep 2014 09:36:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-libgcc_s.so.1 is needed by running ptest, so add libgcc to
-RDEPENDS_${PN}-ptest.
+On 30 September 2014 08:39, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> The real question is: do we want to keep changes to these files on package upgrade or wipe them out?
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-devtools/tcltk/{tcl_8.6.1.bb => tcl_8.6.2.bb} | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/tcltk/{tcl_8.6.1.bb => tcl_8.6.2.bb} (94%)
+They're in /usr, so they get overwritten.
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.1.bb b/meta/recipes-devtools/tcltk/tcl_8.6.2.bb
-similarity index 94%
-rename from meta/recipes-devtools/tcltk/tcl_8.6.1.bb
-rename to meta/recipes-devtools/tcltk/tcl_8.6.2.bb
-index 27f73f2..75fef01 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.2.bb
-@@ -24,8 +24,8 @@ SRC_URI = "${BASE_SRC_URI} \
-            file://alter-includedir.patch \
-            file://run-ptest \
- "
--SRC_URI[md5sum] = "aae4b701ee527c6e4e1a6f9c7399882e"
--SRC_URI[sha256sum] = "16ee769248e64ba1cae6b4834fcc4e4edd7470d881410e8d58f7dd1434343514"
-+SRC_URI[md5sum] = "8103eaf6d71acb716a64224492f09d5f"
-+SRC_URI[sha256sum] = "86f7ae5f581dd0904d04415637ab3aef5a50986c1b6d04c340e2b1b0258da9c4"
- 
- SRC_URI_class-native = "${BASE_SRC_URI}"
- 
-@@ -81,6 +81,7 @@ FILES_${PN}-dev += "${libdir}/tclConfig.sh ${libdir}/tclooConfig.sh"
- # isn't getting picked up by shlibs code
- RDEPENDS_${PN} += "tcl-lib"
- RDEPENDS_${PN}_class-native = ""
-+RDEPENDS_${PN}-ptest += "libgcc"
- 
- BBCLASSEXTEND = "native"
- 
--- 
-1.9.1
-
+Ross
 
