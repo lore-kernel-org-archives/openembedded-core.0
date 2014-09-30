@@ -1,36 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id E75D960809
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 68FAC65F77
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 19:42:01 +0000 (UTC)
-Received: by mail-qc0-f173.google.com with SMTP id x13so2127745qcv.18
+	Tue, 30 Sep 2014 20:07:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8UK7CBN027366 for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Sep 2014 21:07:12 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 2reDLzfr5EcR
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 12:42:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Xct+6G4rElTG6NCLVCAcdgeNOaX5GVeIi+sdrT+N3z8=;
-	b=Qw+ttJzl77PoA0Vqb30WrgSX8yrCndEHSFInjzlt9bqyPYBoQXs8DavvYJ0vlSE6rL
-	l7oeUJdBrwjYVmFnVCEkoYshYbXXoKCOwWqAistybFGT81QTP6Q7kFiQc8vozZWE73KM
-	2ptpuzEKcglOKQLqbc7HTIHUZoeGY+Rt5uG430708N+tUtAL0udp7apAGfrtl4p2Iebp
-	LhinqT9PnhY6dJuCDqzbg/Xr+6xrYHrbCHHvpHzdRhvbQWJQk7Qa/hsrvxXRN51+mMgK
-	hZTGv9mZn+sv9pJqu46HolbUqPQRATGvLQvnR6lbfutQeB4IcRlHsm4h0EFRKbU/8JTD
-	oXpA==
-X-Gm-Message-State: ALoCoQk9twKaViO8IoOymZU2U96dju0aF9XKa79Me9FXk/xwWbkk4Sfs4NJ8DwT5tX4lt62xS3hl
-X-Received: by 10.140.23.50 with SMTP id 47mr45480480qgo.77.1412106122216;
-	Tue, 30 Sep 2014 12:42:02 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Tue, 30 Sep 2014 12:41:42 -0700 (PDT)
-In-Reply-To: <CAAwVp3s=oVU-hsx81CMLb5Aumb6fsbrdsR21fsmTHY69ZAgb8A@mail.gmail.com>
-References: <CAAwVp3s=oVU-hsx81CMLb5Aumb6fsbrdsR21fsmTHY69ZAgb8A@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 30 Sep 2014 20:41:42 +0100
-Message-ID: <CAJTo0La6YvGmjuj9ttNjv9N488jbM6+hmJu0woCAgimTJLFt9w@mail.gmail.com>
-To: Mario Schuknecht <schuknecht@dresearch-fe.de>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: u-boot update?
+	Tue, 30 Sep 2014 21:07:12 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8UK78e3027362
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Sep 2014 21:07:10 +0100
+Message-ID: <1412107662.17658.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 30 Sep 2014 21:07:42 +0100
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Subject: [PATCH] gdb-cross-canadian: Add to sstate whitelist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,17 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Sep 2014 19:42:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 30 Sep 2014 20:07:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 30 September 2014 20:28, Mario Schuknecht <schuknecht@dresearch-fe.de> wrote:
-> is an u-boot recipe update in next release scheduled?
-> Current version is v2013.07.
 
-We're now in the feature freeze so no more upgrades are going in
-unless they're critical.  There is a patch on the list for a more
-recent version which will be merged as soon as 1.7 branches off
-master.
 
-Ross
+The various gdb variants overwrite in datadir so whitelist this for now, they
+are the same files and this is not an issue.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+index e594bb1..844dce9 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
++++ b/meta/recipes-devtools/gdb/gdb-cross-canadian.inc
+@@ -13,6 +13,8 @@ GDBPROPREFIX = "--program-prefix='${TARGET_PREFIX}'"
+ 
+ EXTRA_OECONF_append = "--with-python=${WORKDIR}/python"
+ 
++SSTATE_DUPWHITELIST += "${STAGING_DATADIR}/gdb"
++
+ do_configure_prepend() {
+ cat > ${WORKDIR}/python << EOF
+ #! /bin/sh
+
+
 
