@@ -1,28 +1,32 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B76B460809
+Return-Path: <schuknecht@dresearch-fe.de>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A11865DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 17:55:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s8UHtRLa028547
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 30 Sep 2014 19:28:58 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id z12so5236567wgg.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 10:55:28 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 30 Sep 2014 10:55:27 -0700
-Message-ID: <542AEE8E.6070601@windriver.com>
-Date: Tue, 30 Sep 2014 12:55:26 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Tue, 30 Sep 2014 12:28:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
+	:content-type;
+	bh=vgCaFssY+ZqqBi2d+hUcFqmnH75S8AxUFyuvvjoqj9o=;
+	b=QAJWDki6xqywqjVisQ8QcCDqHymGq2qu2OBUCHierkHpO7a7lwFMruiUFyPZ+hyO3y
+	LCMktgMBBOJnb+NbK7umtuchycPaCqfbAoWNWvT+avZuAbAw1INbkgDIYr2+SzP3Zu0p
+	oguhJNSuOg7wXB3JyvTgb5KwcZdhMkWiy7/ESznL7zuWJMvrOhtGB3D6WHnsFcnCZlmS
+	EGmj7agi/BnPYkeQbHf02EVg5/Y3oFZ2FAvnThJA2ncE0PLrLnxgouUR1e0E8efMusBM
+	EWM4G6tzXcijhAFQvQ7WMls+hfdOzLmdiTMNuqurI/waJ2PMcYk/SFjYOKrYvhi/P047
+	39DA==
+X-Gm-Message-State: ALoCoQkdAMuZov4AH+CbcpT5xtfYPPyCyZSlSR9RLTlWVKKapX0ohlXHjD/3WDd/efj2+s3dxqQa
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <542AE4DF.7060203@gmail.com>
-In-Reply-To: <542AE4DF.7060203@gmail.com>
-Subject: Re: qemuppc64
+X-Received: by 10.181.13.101 with SMTP id ex5mr8048935wid.38.1412105338721;
+	Tue, 30 Sep 2014 12:28:58 -0700 (PDT)
+Received: by 10.180.198.170 with HTTP; Tue, 30 Sep 2014 12:28:58 -0700 (PDT)
+Date: Tue, 30 Sep 2014 21:28:58 +0200
+Message-ID: <CAAwVp3s=oVU-hsx81CMLb5Aumb6fsbrdsR21fsmTHY69ZAgb8A@mail.gmail.com>
+From: Mario Schuknecht <schuknecht@dresearch-fe.de>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: u-boot update?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,23 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Sep 2014 17:55:32 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Sep 2014 19:29:01 -0000
+Content-Type: multipart/alternative; boundary=f46d043c7ce419afb005044d6598
 
-On 9/30/14, 12:14 PM, akuster808 wrote:
-> Hello,
->
-> With 1.7 in the midst of being finalized, when would be a good time for
-> me to continue perusing getting qemuppc64 accepted to master-next?
->
-> regards,
-> Armin
->
+--f46d043c7ce419afb005044d6598
+Content-Type: text/plain; charset=UTF-8
 
-I'd suggest do like the aarch64 stuff.. put the qemuppc64 into a custom branch 
-(along with any other changes you might need).. keep it rebased.. and lets try 
-to get it in once this iteration is complete.. (hopefully right away in the next).
+Hello,
 
---Mark
+is an u-boot recipe update in next release scheduled?
+Current version is v2013.07.
 
+Regards,
+
+Mario
+
+--f46d043c7ce419afb005044d6598
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello,<div><br></div><div>is an u-boot recipe update in ne=
+xt release scheduled?=C2=A0<br clear=3D"all"><div>Current version is v2013.=
+07.</div><div><br></div>Regards,
+<div><br></div><div>Mario</div></div></div>
+
+--f46d043c7ce419afb005044d6598--
