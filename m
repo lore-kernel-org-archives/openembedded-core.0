@@ -1,42 +1,30 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id B292771697
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B58E6FC68
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 07:39:11 +0000 (UTC)
-Received: by mail-wi0-f170.google.com with SMTP id n3so920732wiv.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 00:39:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=AAeZfJ1sjM6f2o+RJXSdBKocwJRlBl70a1+pMY1dj9Q=;
-	b=h6n7sgz8CgdqdwsUkqHO5KIsov22qZh9Da4GGTihxOnl0vwXM4xlbFhUe02ugBmH/B
-	1KpWsoVQ1IlMuFf0PnuD6jqjxhJKfpiEUysyq4UcLLfKQx9FMx+zmz1EtJ/PpLKAM6qP
-	tI7kYTEb1ihXs4zCsGmeryvVVzErQKEzOqgeZolmbCT3ePso2Bs5Rt6ZTSzjtqadZIVS
-	28U8Fht9ExDQN/4oDGS+xdMSKD7ks4+CESpSVCSWcii+XmadcL7ykSETFtmZm2MYnP4e
-	lu85pkPrxQ2eubIseAjoT0cgUX1jj/LTJKSKyZ2oD1D/f9PZop0YF5RbvpDt6WjrYt9U
-	8imw==
-X-Gm-Message-State: ALoCoQkNs3HUtfs6BWVCJLOxCzWL/3bWuaNYOX/vgbCEWprOiqrNHFJaBb2lxkOUaTkkLoxGJbQ0
-X-Received: by 10.180.75.170 with SMTP id d10mr3545951wiw.31.1412062752549;
-	Tue, 30 Sep 2014 00:39:12 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::b9c5:7ce:b413:e5ba?
-	([2001:610:612:0:b9c5:7ce:b413:e5ba])
-	by mx.google.com with ESMTPSA id
-	ny6sm14168395wic.22.2014.09.30.00.39.11 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 30 Sep 2014 00:39:11 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1412024343.2853314.173154429.5067015A@webmail.messagingengine.com>
-Date: Tue, 30 Sep 2014 09:39:10 +0200
-Message-Id: <18401A03-E69C-43BB-9956-13955179B13A@dominion.thruhere.net>
+	Tue, 30 Sep 2014 08:51:54 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8U8pJ2x022098; Tue, 30 Sep 2014 09:51:19 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id iYCbpXCefUoJ; Tue, 30 Sep 2014 09:51:19 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s8U8pE5c022091
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 30 Sep 2014 09:51:16 +0100
+Message-ID: <1412067107.6893.33.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 30 Sep 2014 09:51:47 +0100
+In-Reply-To: <18401A03-E69C-43BB-9956-13955179B13A@dominion.thruhere.net>
 References: <1411802545-17081-1-git-send-email-koen@dominion.thruhere.net>
 	<1411802545-17081-2-git-send-email-koen@dominion.thruhere.net>
 	<1412024343.2853314.173154429.5067015A@webmail.messagingengine.com>
-To: Colin Walters <walters@verbum.org>
-X-Mailer: Apple Mail (2.1878.6)
+	<18401A03-E69C-43BB-9956-13955179B13A@dominion.thruhere.net>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 2/2] systemd 216: add system user factory files to CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -51,26 +39,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Sep 2014 07:39:13 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 30 Sep 2014 08:51:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Tue, 2014-09-30 at 09:39 +0200, Koen Kooi wrote:
+> Op 29 sep. 2014, om 22:59 heeft Colin Walters <walters@verbum.org> het volgende geschreven:
+> 
+> > 
+> > 
+> > On Sat, Sep 27, 2014, at 03:22 AM, Koen Kooi wrote:
+> > 
+> >> +                ${libdir}/sysusers.d/systemd.conf \
+> >> +                ${libdir}/sysusers.d/basic.conf \
+> > 
+> > Admins aren't expected to edit these - instead you override in /etc.  Or
+> > change /etc/passwd after the user has been created, and your changes
+> > will be respected.
+> 
+> The real question is: do we want to keep changes to these files on package upgrade or wipe them out?
+
+or should we encourage users to edit the files that are supposed to be
+edited? 
+
+You could argue this for every file on the system, binaries and all :/.
+
+Cheers,
+
+Richard
 
 
-Op 29 sep. 2014, om 22:59 heeft Colin Walters <walters@verbum.org> het =
-volgende geschreven:
-
->=20
->=20
-> On Sat, Sep 27, 2014, at 03:22 AM, Koen Kooi wrote:
->=20
->> +                ${libdir}/sysusers.d/systemd.conf \
->> +                ${libdir}/sysusers.d/basic.conf \
->=20
-> Admins aren't expected to edit these - instead you override in /etc.  =
-Or
-> change /etc/passwd after the user has been created, and your changes
-> will be respected.
-
-The real question is: do we want to keep changes to these files on =
-package upgrade or wipe them out?=
 
