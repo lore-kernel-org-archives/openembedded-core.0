@@ -1,28 +1,35 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 67B40601A8
+Return-Path: <akuster808@gmail.com>
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
+	[209.85.218.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 014C065F77
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Oct 2014 13:34:20 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Wed, 1 Oct 2014
-	15:34:21 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id D1A4F288D4E;
-	Wed,  1 Oct 2014 15:34:21 +0200 (CEST)
-Date: Wed, 1 Oct 2014 15:34:21 +0200
-From: "Maxin B. John" <maxin.john@enea.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20141001133421.GA61237@sestofb10.enea.se>
-References: <1411644990-20122-1-git-send-email-maxin.john@enea.com>
-	<CAJTo0LbhFF0g1swk1y250QOESwvjmJcuPcbZNvX_ESJTMt3GKA@mail.gmail.com>
-	<20140925171754.GA7840@sestofb10.enea.se>
-	<CAJTo0LbXWbR=P==Na2tZ5+rmMKqoKfESu9rHUV-HK7LOsiJUZQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbXWbR=P==Na2tZ5+rmMKqoKfESu9rHUV-HK7LOsiJUZQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] curl: Security Advisory - CVE-2014-3613 & CVE-2014-3620
+	Wed,  1 Oct 2014 14:23:42 +0000 (UTC)
+Received: by mail-oi0-f50.google.com with SMTP id i138so306135oig.37
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Oct 2014 07:23:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=9HQVfgtfi2OBuoZcCJQUQnQTQpRW8HfTLrqMRyfaeY4=;
+	b=OJEwmrLxwZzsl4wMU7DQgA8JeWGT9Rglc8WNw/BZduZTvAwRitWwDV8vLHu0yM8NvN
+	4eHHfkWfMj6Si+xs2j3rn2Vb2dMaUJ0S1MuT00nLN87ckHg44A4l0HeX700OJvi8snlM
+	QCJvNdz2BXtT/3PchLEWBzQdTLwHVYB/7DCTj+u0qHZ4FXA7EwkoomMHTdGaDdioL1nt
+	ZuJxKpu+NZ+KjsMHjXKp6W/tb8oEiZwRIUVhwuLxwbHpEpOaI1F21JtsNEJW7PbxkY91
+	H+h89nxwR+0Sgj2uWM+QKdQ78+/MAEYbC7cG3YOjiJSco3bWMr5v92IVt7OiSf6byCnG
+	J+8A==
+X-Received: by 10.60.134.237 with SMTP id pn13mr22215286oeb.46.1412173422702; 
+	Wed, 01 Oct 2014 07:23:42 -0700 (PDT)
+Received: from localhost.localdomain (75-163-154-89.clsp.qwest.net.
+	[75.163.154.89])
+	by mx.google.com with ESMTPSA id ix8sm515610obc.11.2014.10.01.07.23.40
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 01 Oct 2014 07:23:41 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Oct 2014 07:23:38 -0700
+Message-Id: <1412173418-32141-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] lz4: update to version r123
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,26 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Oct 2014 13:34:28 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Oct 2014 14:23:46 -0000
 
-Hi Ross,
+Makefile md5sum changed since version is hardcode in it.
 
-On Thu, Sep 25, 2014 at 10:07:37PM +0100, Burton, Ross wrote:
-> On 25 September 2014 18:17, Maxin B. John <maxin.john@enea.com> wrote:
-> > I have tried it with the latest master and it "worked for me".
-> > Could you please confirm if it was applied on the "master" branch ?
-> > (Couldn't recreate this failure at my PC)
-> 
-> I applied this patch to origin/master
-> (8ac8eca2e3bd8c78e2b31ea974930ed0243258a3) and it still fails to apply
-> the patches at build time with rejects in tests/data/test31.
+Added : experimental lz4frame API; special thanks to Takayuki Matsuoka and
+Christopher Jackson for testings and suggestions
+Fix : s390x support, thanks to Nobuhiro Iwamatsu
 
-Mea culpa. Sent an updated patch now.
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-support/lz4/lz4_svn.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> 
-> Ross
-Thanks and Regards,
-Maxin
+diff --git a/meta/recipes-support/lz4/lz4_svn.bb b/meta/recipes-support/lz4/lz4_svn.bb
+index bbd5d93..3a74200 100644
+--- a/meta/recipes-support/lz4/lz4_svn.bb
++++ b/meta/recipes-support/lz4/lz4_svn.bb
+@@ -3,10 +3,10 @@ DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing comp
+ 
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd \
+-                    file://Makefile;md5=68938168b5cee826476a13e1b8d1f480"
++                    file://Makefile;md5=7551cc5d31ca66e003ab06e83486524a"
+ 
+ # Upstream names releases after SVN revs
+-SRCREV = "122"
++SRCREV = "123"
+ PV = "r${SRCREV}"
+ 
+ SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
+-- 
+1.9.1
+
 
