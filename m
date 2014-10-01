@@ -1,20 +1,27 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D063E6A9D4
+Return-Path: <denis@denix.org>
+Received: from vms173023pub.verizon.net (vms173023pub.verizon.net
+	[206.46.173.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D9AF60809
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 22:02:08 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 30 Sep 2014 14:55:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,629,1406617200"; d="scan'208";a="611167268"
-Received: from aehernan-devstation.zpn.intel.com ([10.219.4.60])
-	by orsmga002.jf.intel.com with ESMTP; 30 Sep 2014 15:01:34 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Sep 2014 17:01:24 -0500
-Message-Id: <1412114484-21269-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] apt: apt-key binary was not being installed, including it in the installation
+	Wed,  1 Oct 2014 00:55:50 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [108.18.33.160])
+	by vms173023.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0NCQ00EG1QK9P4A0@vms173023.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 30 Sep 2014 19:55:36 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id CF4EE20141; Tue,
+	30 Sep 2014 20:55:20 -0400 (EDT)
+Date: Tue, 30 Sep 2014 20:55:20 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Steffen Sledz <sledz@dresearch-fe.de>
+Message-id: <20141001005520.GO2480@denix.org>
+References: <1411647477-12992-1-git-send-email-sledz@dresearch-fe.de>
+MIME-version: 1.0
+In-reply-to: <1411647477-12992-1-git-send-email-sledz@dresearch-fe.de>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [daisy][PATCH 1/3] layer.conf: Add in useradd dependencies as ABISAFE dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,28 +34,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Sep 2014 22:02:12 -0000
+X-List-Received-Date: Wed, 01 Oct 2014 00:55:58 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-[YOCTO #6476]
+On Thu, Sep 25, 2014 at 02:17:55PM +0200, Steffen Sledz wrote:
+> Currently allarch recipes using useradd rebuild each time MACHINE
+> changes which is not desireable. Adding the useradd dependencies
+> to this list ensures they do not change under these circumstances.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Steffen Sledz <sledz@dresearch-fe.de>
+> ---
+>  meta/conf/layer.conf | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+> index 18609dd..a764ee0 100644
+> --- a/meta/conf/layer.conf
+> +++ b/meta/conf/layer.conf
+> @@ -30,4 +30,8 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+>    udev-extraconf \
+>    packagegroup-x11-xserver \
+>    systemd-serialgetty \
+> +  initscripts \                                                                                                                                                                                                                                    
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- meta/recipes-devtools/apt/apt-package.inc | 1 +
- 1 file changed, 1 insertion(+)
+This line above ^^^^ has a very long trail of whitespaces and it got commited 
+that way, unfortunately :(
 
-diff --git a/meta/recipes-devtools/apt/apt-package.inc b/meta/recipes-devtools/apt/apt-package.inc
-index 0897d3a..a553aa2 100644
---- a/meta/recipes-devtools/apt/apt-package.inc
-+++ b/meta/recipes-devtools/apt/apt-package.inc
-@@ -42,6 +42,7 @@ FILES_${PN}-dev = "${libdir}/libapt*.so ${includedir}"
- do_install () {
- 	set -x
- 	install -d ${D}${bindir}
-+	install -m 0755 bin/apt-key ${D}${bindir}/
- 	install -m 0755 bin/apt-cdrom ${D}${bindir}/
- 	install -m 0755 bin/apt-get ${D}${bindir}/
- 	install -m 0755 bin/apt-config ${D}${bindir}/
--- 
-1.9.1
 
+> +  shadow \
+> +  shadow-sysroot \
+> +  base-passwd \
+>  "
+> -- 
+> 2.1.1
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
