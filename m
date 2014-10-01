@@ -1,45 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id E3AA66FD28
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B4466FC68
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Oct 2014 15:33:20 +0000 (UTC)
-Received: by mail-wg0-f51.google.com with SMTP id b13so766439wgh.34
+	Wed,  1 Oct 2014 15:57:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s91FvCCd001305 for <openembedded-core@lists.openembedded.org>;
+	Wed, 1 Oct 2014 16:57:12 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id sXgCplKKDemK
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Oct 2014 08:33:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=1MuJqW10MzC/oAshrcanh4XZAZN9TEC6uUWsltDBPcQ=;
-	b=woqzLFTQxYuXqlZb4BldMd6u9z/7JBDojnfsyZ5kz/eK21mSw9Hg2uO1xNTnT9clqL
-	JV0lXXnDqHeJZYH84O8oNNwtje+WSQBvN0WZ9u9F6YRTmQTz2egvyMQZuTNFGBtX1L47
-	alWKHvO+emCSQPE6mqaTpN/QjSWbNMGD4e4885xLTf4fYOGY0096xVx7Spq/CaKj+hYs
-	gRDKQS57rywYlJXefkY1zuvHgsXA+JUjK4aHu5vma78SJGjenQNhQyqVVtRhBbVOLD0z
-	IQdIPeVOWpifuIrWvlpgX+5Rkx3DctpGcY/oTDkL7Ky9jlgZ5/JB82mG4/MCJqDn+hD5
-	GE/A==
-X-Received: by 10.180.221.107 with SMTP id qd11mr15175300wic.61.1412177601365; 
-	Wed, 01 Oct 2014 08:33:21 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	pn5sm1567402wjc.4.2014.10.01.08.33.20 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 01 Oct 2014 08:33:20 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 1 Oct 2014 17:34:15 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20141001153415.GF25706@jama>
-References: <1411647477-12992-1-git-send-email-sledz@dresearch-fe.de>
-	<20141001005520.GO2480@denix.org>
-	<CAMKF1sqJ=QsZWNWe436Q6hNaegEm6HMj76JtXU-gZBhrkRutAQ@mail.gmail.com>
-	<20141001013231.GQ2480@denix.org>
-	<CAMKF1sqa2JtVOhv7f0P=_HfSnrL2kfd2QmP+GM_FsM3zb-xq=g@mail.gmail.com>
-	<20141001041020.GC25706@jama> <1412151136.17658.10.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1412151136.17658.10.camel@ted>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [daisy][PATCH 1/3] layer.conf: Add in useradd dependencies as ABISAFE dependencies
+	Wed,  1 Oct 2014 16:57:12 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s91FvAP1001302
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 1 Oct 2014 16:57:11 +0100
+Message-ID: <1412179063.17658.25.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 01 Oct 2014 16:57:43 +0100
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Subject: [PATCH] oeqa/parselogs: Ignore qemu usbhid errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,82 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Oct 2014 15:33:25 -0000
-X-Groupsio-MsgNum: 58292
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="A9k63Mnmpo23fVdx"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Oct 2014 15:57:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---A9k63Mnmpo23fVdx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+These are harmless from the USB pointer device we install, ignore them.
 
-On Wed, Oct 01, 2014 at 09:12:16AM +0100, Richard Purdie wrote:
-> On Wed, 2014-10-01 at 06:10 +0200, Martin Jansa wrote:
-> > On Tue, Sep 30, 2014 at 08:55:53PM -0700, Khem Raj wrote:
-> > > On Tue, Sep 30, 2014 at 6:32 PM, Denys Dmytriyenko <denis@denix.org> =
-wrote:
-> > > > On Tue, Sep 30, 2014 at 06:25:57PM -0700, Khem Raj wrote:
-> > > >> On Tue, Sep 30, 2014 at 5:55 PM, Denys Dmytriyenko <denis@denix.or=
-g> wrote:
-> > > >> > This line above ^^^^ has a very long trail of whitespaces and it=
- got commited
-> > > >> > that way, unfortunately :(
-> > > >>
-> > > >> Better was if you commented before it went in.
-> > > >
-> > > > And how would you suggest I was supposed to see it?? Nobody saw it.=
- My email
-> > > > client is no different than others - it doesn't mark trailing white=
-spaces. The
-> > > > reason I saw it is because I ran "git log -p" on the file and that =
-explicitly
-> > > > highlights trailing whitespaces in BRIGHT RED... :)
-> > >=20
-> > > just for that may be we should start using gerrit ;)
-> >=20
-> > I'm all for it, it would make my e-mail - review - patchwork -
-> > master-next workflow a lot easier and reliable.
->=20
-> And I am not. Why? I've actually tried using the thing and I absolutely
-> *despise* its interface. This isn't just a mild dislike, I simply cannot
-> do the things I want/need to do with it.
->=20
-> I believe I should have some kind of a say in this since it will
-> directly affect my workflow and general life (since I spend a lot of my
-> time dealing with this).
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-> Its appears to be very easy for other people to tell me how I should work=
- though :(.
+diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
+index 604a29a..078316e 100644
+--- a/meta/lib/oeqa/runtime/parselogs.py
++++ b/meta/lib/oeqa/runtime/parselogs.py
+@@ -9,6 +9,8 @@ errors = ["error", "cannot", "can\'t", "failed"]
+ common_errors = [
+     '(WW) warning, (EE) error, (NI) not implemented, (??) unknown.',
+     'dma timeout',
++    'usbhid .*: can't add hid device:',
++    'usbhid: probe of .* failed with error',
+     ]
+ 
+ x86_common = [
 
-Please calm down, we just said that we like it, we're not forcing it on
-anyone and I don't think khem would start installing it on OE servers
-without much longer and broader discussion between all people who should
-have some kind of say in this..
 
-FWIW: I despised the UI at first as well, then I got used to it (after a mo=
-nth
-or so), now I really like it especially with the "New screen" UI
-introduced IIRC in 2.8 version. Only annoying part for me is more
-complicated permissions model (which I luckily don't need to
-change so often) and missing option to use "simple" server side hooks.
 
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---A9k63Mnmpo23fVdx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlQsHvcACgkQN1Ujt2V2gBxVXwCcDp3CJ/jSlGq9JdLo3g166+dw
-fjUAni85X8A9q9vmUYjJJgtuGY8Olsei
-=S2GN
------END PGP SIGNATURE-----
-
---A9k63Mnmpo23fVdx--
