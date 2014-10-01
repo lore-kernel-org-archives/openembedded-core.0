@@ -1,32 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id ED9EE6017E
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BD5665DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Oct 2014 10:06:49 +0000 (UTC)
-Received: by mail-ie0-f177.google.com with SMTP id rd18so439974iec.36
+	Wed,  1 Oct 2014 11:02:39 +0000 (UTC)
+Received: by mail-wg0-f49.google.com with SMTP id x12so113805wgg.20
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Oct 2014 03:06:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=WvYyzsEMikOCFusVm6rPP+fjtC0bylan2gg0Vn1ykhU=;
-	b=CIkw+JCrKO6Uu0j0ZRf6d4VPvOskh5Us71b9gVjsrrYsQxizH5ZvjcyZ7JO74G7kNP
-	RRerTkM+LJu1lR+l85thPu9pypF7ht6dnvwt/suZMJldvsdKUCSGUeLfE+SXcu10mcs9
-	crlGtMPfUYkqLaPDqJhXtl781XVcBWulyazHPIAz2B4bEFV7z1yL9Cgifbg1X6ZFDbO1
-	8y1WIfPpIlLLd8mZbwBHTcrpxV2BE3mjcOU9Lcny7+AMy6eKLWF+Og2dGQTXYeJiRygq
-	mUoBUZ/3v+2jATdOdDCpc4otOfpzIPHuQ/l9wPjxJ1+s42Tj8/SkFaVFsv8tnruRLA5h
-	AedQ==
-X-Received: by 10.50.87.99 with SMTP id w3mr18167096igz.4.1412158010090; Wed,
-	01 Oct 2014 03:06:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.179.5 with HTTP; Wed, 1 Oct 2014 03:06:19 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 1 Oct 2014 03:06:19 -0700
-Message-ID: <CAMKF1sqWkAd=k9e-XXatP1Dy_B4OARpP1ZPKTfa-PViH8a9eGg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer
+	Wed, 01 Oct 2014 04:02:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=lMA/bHeYhh49ZPeKLdPrGFyP7zfQxRVqvbY+aeV9q7I=;
+	b=ijr13S+Wo4tn5RlbKNXXtAm2BUsJzSJd4ZDZqrLAWImkVlOnQTbLJa5nAjE/pI1xEq
+	qC56z9bxkJRsv8TYu8XObi+6sMLoRHn/+uAiseDMrxakxBXlfL3fo0tJgrvPYfRm/522
+	OKU6LV/HxYXzVnTRe7Ig1/ClyJ1cSfldCjTHb1uL8GbAxGtUop4GG1lfYned/pHw2JGr
+	xTzkvUUo16g4zkos8/JfoxRuPQoTARhFG2JXT9M0SF/mW+9nfGxtXWZxthGTsW+OGjWX
+	DpwftSrHJ+smAMVysIJb7VxEdbsHjMLpL8ttKDKzHcbT5VjDjrRVGnH3bJE00UWq+19l
+	vPLg==
+X-Gm-Message-State: ALoCoQknERplX8a+BIY0xoYw2AvCqcKtPCAFZWRLnxqJCWKWmdcKRgOsUdhdkCDfDJEW+NthABAr
+X-Received: by 10.180.84.193 with SMTP id b1mr13630951wiz.25.1412161359779;
+	Wed, 01 Oct 2014 04:02:39 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::d092:c699:9a58:70cb?
+	([2001:610:612:0:d092:c699:9a58:70cb])
+	by mx.google.com with ESMTPSA id bi7sm972214wib.17.2014.10.01.04.02.38
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 01 Oct 2014 04:02:38 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1412151136.17658.10.camel@ted>
+Date: Wed, 1 Oct 2014 13:02:37 +0200
+Message-Id: <C023D4F6-0FD5-490B-B5E9-8619CB8202DE@dominion.thruhere.net>
+References: <1411647477-12992-1-git-send-email-sledz@dresearch-fe.de>
+	<20141001005520.GO2480@denix.org>
+	<CAMKF1sqJ=QsZWNWe436Q6hNaegEm6HMj76JtXU-gZBhrkRutAQ@mail.gmail.com>
+	<20141001013231.GQ2480@denix.org>
+	<CAMKF1sqa2JtVOhv7f0P=_HfSnrL2kfd2QmP+GM_FsM3zb-xq=g@mail.gmail.com>
+	<20141001041020.GC25706@jama> <1412151136.17658.10.camel@ted>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1878.6)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: shlibs failing to add dependencies if shared objects are called .so
+Subject: Re: [daisy][PATCH 1/3] layer.conf: Add in useradd dependencies as ABISAFE dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,101 +54,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Oct 2014 10:06:57 -0000
-Content-Type: text/plain; charset=UTF-8
-
-Hi Richard
-
-You did bunch of shlib refactoring lately.
-I am seeing a change in dependency list for libegl-gallium and see
-that on master libllvm3.3-llvm-3.3 has gone missing but the .so is
-there in DT_NEEDED section of egl_gallium.so.
+X-List-Received-Date: Wed, 01 Oct 2014 11:02:45 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-i586-rdk-linux/mesa/2_10.1.3-r0/packages-split/libegl-gallium/usr/lib/egl$
-readelf -d egl_gallium.so
+Op 1 okt. 2014, om 10:12 heeft Richard Purdie =
+<richard.purdie@linuxfoundation.org> het volgende geschreven:
 
+> On Wed, 2014-10-01 at 06:10 +0200, Martin Jansa wrote:
+>> On Tue, Sep 30, 2014 at 08:55:53PM -0700, Khem Raj wrote:
+>>> On Tue, Sep 30, 2014 at 6:32 PM, Denys Dmytriyenko <denis@denix.org> =
+wrote:
+>>>> On Tue, Sep 30, 2014 at 06:25:57PM -0700, Khem Raj wrote:
+>>>>> On Tue, Sep 30, 2014 at 5:55 PM, Denys Dmytriyenko =
+<denis@denix.org> wrote:
+>>>>>> This line above ^^^^ has a very long trail of whitespaces and it =
+got commited
+>>>>>> that way, unfortunately :(
+>>>>>=20
+>>>>> Better was if you commented before it went in.
+>>>>=20
+>>>> And how would you suggest I was supposed to see it?? Nobody saw it. =
+My email
+>>>> client is no different than others - it doesn't mark trailing =
+whitespaces. The
+>>>> reason I saw it is because I ran "git log -p" on the file and that =
+explicitly
+>>>> highlights trailing whitespaces in BRIGHT RED... :)
+>>>=20
+>>> just for that may be we should start using gerrit ;)
+>>=20
+>> I'm all for it, it would make my e-mail - review - patchwork -
+>> master-next workflow a lot easier and reliable.
+>=20
+> And I am not. Why? I've actually tried using the thing and I =
+absolutely
+> *despise* its interface. This isn't just a mild dislike, I simply =
+cannot
+> do the things I want/need to do with it.
 
-Dynamic section at offset 0x699394 contains 38 entries:
+I use gerrit at work and I despise the interface as well, but it does =
+address a number is issues plaguing OE-core:
 
-  Tag        Type                         Name/Value
- 0x00000001 (NEEDED)                     Shared library: [libEGL.so.1]
- 0x00000001 (NEEDED)                     Shared library: [libgbm.so.1]
- 0x00000001 (NEEDED)                     Shared library: [libudev.so.1]
- 0x00000001 (NEEDED)                     Shared library: [librt.so.1]
- 0x00000001 (NEEDED)                     Shared library: [libglapi.so.0]
- 0x00000001 (NEEDED)                     Shared library: [libdrm_nouveau.so.2]
- 0x00000001 (NEEDED)                     Shared library: [libdrm_radeon.so.1]
- 0x00000001 (NEEDED)                     Shared library: [libdrm.so.2]
- 0x00000001 (NEEDED)                     Shared library: [libz.so.1]
- 0x00000001 (NEEDED)                     Shared library: [libpthread.so.0]
- 0x00000001 (NEEDED)                     Shared library: [libdl.so.2]
- 0x00000001 (NEEDED)                     Shared library: [libLLVM-3.3.so]
- 0x00000001 (NEEDED)                     Shared library: [libstdc++.so.6]
- 0x00000001 (NEEDED)                     Shared library: [libm.so.6]
- 0x00000001 (NEEDED)                     Shared library: [libc.so.6]
- 0x00000001 (NEEDED)                     Shared library: [libgcc_s.so.1]
- 0x0000000e (SONAME)                     Library soname: [egl_gallium.so]
+1) pull-request doesn't match emailed patches
+2) Patches are forgotten
+3) Wrong version of patch gets applied
+4) Review comments aren't tracked
 
+But patchwork can be used to address the above problems as well. Anyway, =
+this isn't a purely technical problem, see below.
 
+> I believe I should have some kind of a say in this since it will
+> directly affect my workflow and general life (since I spend a lot of =
+my
+> time dealing with this). Its appears to be very easy for other people =
+to
+> tell me how I should work though :(.
 
- The special thing about libllvm3.3-llvm-3.3 is that
-it has libraries which end with .so and they are not in /usr/lib but
-in /usr/lib//llvm3.3
-the one in /usr/lib is a symlink to /usr/lib//llvm3.3
+I think the real solution doesn't involve extra layers of tools, but a =
+move to a kernel style environment where subsystem maintainers collect =
+and vet patches and send pull requests to RP. But that would require =
+formalizing the commit and review rules which I suspect will be =
+controversial.
 
-PV = 3.3
-PR = r0
-RPROVIDES =
-RDEPENDS = glibc (>= 2.20) libgcc (>= 4.9.1) libstdc++ (>= 4.9.1)
-llvm3.3 zlib (>= 1.2.8)
-RRECOMMENDS =
-PKGSIZE = 18250362
-FILES = /usr/lib/libLLVM-3.3.so /usr/lib/llvm3.3/.debug/libLLVM-3.3.so
-/usr/lib/llvm3.3/libLLVM-3.3.so
-FILELIST = /usr/lib/libLLVM-3.3.so /usr/lib/llvm3.3/libLLVM-3.3.so
-
-
-Daisy
-
-"libegl-gallium" -> "libc6";
-"libegl-gallium" -> "libdrm-nouveau2";
-"libegl-gallium" -> "libdrm-radeon1";
-"libegl-gallium" -> "libdrm2";
-"libegl-gallium" -> "libegl-mesa";
-"libegl-gallium" -> "libgbm1";
-"libegl-gallium" -> "libgcc1";
-"libegl-gallium" -> "libglapi0";
-"libegl-gallium" -> "libllvm3.3-llvm-3.3";
-"libegl-gallium" -> "libstdc++6";
-"libegl-gallium" -> "libudev1";
-"libegl-gallium" -> "libz1";
-
-
-master
-
-
-"libegl-gallium" -> "libc6";
-"libegl-gallium" -> "libdrm-nouveau2";
-"libegl-gallium" -> "libdrm-radeon1";
-"libegl-gallium" -> "libdrm2";
-"libegl-gallium" -> "libegl-mesa";
-"libegl-gallium" -> "libgbm1";
-"libegl-gallium" -> "libgcc1";
-"libegl-gallium" -> "libglapi0";
-"libegl-gallium" -> "libstdc++6";
-"libegl-gallium" -> "libudev1";
-"libegl-gallium" -> "libz1";
-
-
-To reproduce it.
-
-MACHINE=qemux86 bitbake mesa
-
-Let me know if more info it needed.
-
-
-Thanks
-
--Khem
+--
+Koen=
 
