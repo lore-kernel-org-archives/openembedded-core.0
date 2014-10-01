@@ -1,44 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 53F926017E
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 972FE65E2B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Oct 2014 04:09:25 +0000 (UTC)
-Received: by mail-wg0-f45.google.com with SMTP id m15so50441wgh.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Sep 2014 21:09:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=MBJ+Tj/puv1OefN3shl91u6ldZerAPJ0mPmvOBOY6Fc=;
-	b=qsxBvqXYEd/r3NjQm2MVatSsxICC34r99nHr4pX+oX9D3X/l6ybG1HRnoGT6KIah8u
-	D/qrLlTg+3gThGeRM+D4DbersGxW/Te63Z+xkjvT78ReYXlxfpT1Rsh3wI3uoFYMclx4
-	LHsvEfbSB/vVYwjSH3Xxtl17ynaSygRdE6kSgGSb5eDJvwb2Ae9efXSxjNd1vDe5F3y2
-	ywqA34pWczgi96oz57PDgKDBcqloOOZz9nHqgB3Ke0GLC9TAg5JRiM54fMBRc4JRvcFC
-	T86LSSGfJLOo+qeGKE6ULyQ8CIVchFDV0MuThTyaouce84jS25JPF9NafttqEDpyEquv
-	3Knw==
-X-Received: by 10.194.110.33 with SMTP id hx1mr59002516wjb.12.1412136566398;
-	Tue, 30 Sep 2014 21:09:26 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	kx2sm21230440wjb.6.2014.09.30.21.09.25 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Sep 2014 21:09:25 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 1 Oct 2014 06:10:20 +0200
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20141001041020.GC25706@jama>
-References: <1411647477-12992-1-git-send-email-sledz@dresearch-fe.de>
-	<20141001005520.GO2480@denix.org>
-	<CAMKF1sqJ=QsZWNWe436Q6hNaegEm6HMj76JtXU-gZBhrkRutAQ@mail.gmail.com>
-	<20141001013231.GQ2480@denix.org>
-	<CAMKF1sqa2JtVOhv7f0P=_HfSnrL2kfd2QmP+GM_FsM3zb-xq=g@mail.gmail.com>
+	Wed,  1 Oct 2014 04:43:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s914hm43007898
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 30 Sep 2014 21:43:48 -0700 (PDT)
+Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 30 Sep 2014 21:43:48 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 1 Oct 2014 00:43:36 -0400
+Message-ID: <eb8c936aec007c2fe418c97ea4d89233bce05113.1412137857.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1412137857.git.bruce.ashfield@windriver.com>
+References: <cover.1412137857.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sqa2JtVOhv7f0P=_HfSnrL2kfd2QmP+GM_FsM3zb-xq=g@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [daisy][PATCH 1/3] layer.conf: Add in useradd dependencies as ABISAFE dependencies
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 6/6] perf: fix undefined pr_* routines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,55 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Oct 2014 04:09:28 -0000
-X-Groupsio-MsgNum: 58275
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="QFYA38BK7dvhx8Kf"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Oct 2014 04:43:51 -0000
+Content-Type: text/plain
 
---QFYA38BK7dvhx8Kf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When cross compiling libunwind support for ARM a missing debug include means
+that pr* macros are not expanded, and hence link failures on the undefined
+functions.
 
-On Tue, Sep 30, 2014 at 08:55:53PM -0700, Khem Raj wrote:
-> On Tue, Sep 30, 2014 at 6:32 PM, Denys Dmytriyenko <denis@denix.org> wrot=
-e:
-> > On Tue, Sep 30, 2014 at 06:25:57PM -0700, Khem Raj wrote:
-> >> On Tue, Sep 30, 2014 at 5:55 PM, Denys Dmytriyenko <denis@denix.org> w=
-rote:
-> >> > This line above ^^^^ has a very long trail of whitespaces and it got=
- commited
-> >> > that way, unfortunately :(
-> >>
-> >> Better was if you commented before it went in.
-> >
-> > And how would you suggest I was supposed to see it?? Nobody saw it. My =
-email
-> > client is no different than others - it doesn't mark trailing whitespac=
-es. The
-> > reason I saw it is because I ran "git log -p" on the file and that expl=
-icitly
-> > highlights trailing whitespaces in BRIGHT RED... :)
->=20
-> just for that may be we should start using gerrit ;)
+Since we must be compatible with many versions of the kernel and perf, we
+sed the proper include into the files, while the permanent fix goes upstream
+to the mainline kernel.
 
-I'm all for it, it would make my e-mail - review - patchwork -
-master-next workflow a lot easier and reliable.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/perf/perf.bb | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index ea7571aa8e29..3771cdb3e9dd 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -145,9 +145,14 @@ do_configure_prepend () {
+     if [ -e "${S}/tools/perf/config/feature-checks/Makefile" ]; then
+         sed -i 's,CC := $(CROSS_COMPILE)gcc -MD,CC += -MD,' ${S}/tools/perf/config/feature-checks/Makefile
+     fi
+-    # 3.17-rc1+ has a include issue for powerpc. Temporarily sed in the appropriate include
+-    if [ -e "${S}/tools/perf/arch/powerpc/util/skip-callchain-idx.c" ]; then
+-        sed -i 's,#include "util/callchain.h",#include "util/callchain.h"\n#include "util/debug.h",' ${S}/tools/perf/arch/powerpc/util/skip-callchain-idx.c
++
++    # 3.17-rc1+ has a include issue for arm/powerpc. Temporarily sed in the appropriate include
++    if [ -e "${S}/tools/perf/arch/$ARCH/util/skip-callchain-idx.c" ]; then
++        sed -i 's,#include "util/callchain.h",#include "util/callchain.h"\n#include "util/debug.h",' ${S}/tools/perf/arch/$ARCH/util/skip-callchain-idx.c
++    fi
++    if [ -e "${S}/tools/perf/arch/arm/util/unwind-libunwind.c" ] && [ -e "${S}/tools/perf/arch/arm/tests/dwarf-unwind.c" ]; then
++        sed -i 's,#include "tests/tests.h",#include "tests/tests.h"\n#include "util/debug.h",' ${S}/tools/perf/arch/arm/tests/dwarf-unwind.c
++        sed -i 's,#include "perf_regs.h",#include "perf_regs.h"\n#include "util/debug.h",' ${S}/tools/perf/arch/arm/util/unwind-libunwind.c
+     fi
+ }
+ 
+-- 
+1.8.1.2
 
---QFYA38BK7dvhx8Kf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlQrfqwACgkQN1Ujt2V2gBy7bwCeNVM+zCLBaBCuMD8zs68EbfOo
-5GkAn3zHT4TeKF4lPpn8ZQvRQT3ogt+i
-=hsPc
------END PGP SIGNATURE-----
-
---QFYA38BK7dvhx8Kf--
