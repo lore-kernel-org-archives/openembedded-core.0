@@ -1,30 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 209F171708
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Oct 2014 09:57:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s929uXER030684 for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Oct 2014 10:56:55 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id qLBQ6Ei8qTeR
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Oct 2014 10:56:55 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s929up4J030711
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Oct 2014 10:56:53 +0100
-Message-ID: <1412243845.17658.33.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 02 Oct 2014 10:57:25 +0100
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Subject: [PATCH] uninative-tarball: Update eglibc -> glibc
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 235D965E1A;
+	Thu,  2 Oct 2014 10:24:49 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 02 Oct 2014 03:14:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="394557376"
+Received: from cpariyar-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.78])
+	by FMSMGA003.fm.intel.com with ESMTP; 02 Oct 2014 03:17:57 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Bryan Evenson <bevenson@melinkcorp.com>
+Date: Thu, 02 Oct 2014 11:24:20 +0100
+Message-ID: <2267005.PMGg7bo8KU@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.1 (Linux/3.16.3-200.fc20.x86_64; KDE/4.14.1; x86_64; ; )
+In-Reply-To: <92223d60b43647d8ba3265cdd621166e@BLUPR05MB037.namprd05.prod.outlook.com>
+References: <92223d60b43647d8ba3265cdd621166e@BLUPR05MB037.namprd05.prod.outlook.com>
+MIME-Version: 1.0
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe] Status of bash patches for dora and dylan?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,25 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Oct 2014 09:57:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 Oct 2014 10:24:59 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Hi Bryan,
 
-diff --git a/meta/recipes-core/meta/uninative-tarball.bb b/meta/recipes-core/meta/uninative-tarball.bb
-index ed1279f..e17685a 100644
---- a/meta/recipes-core/meta/uninative-tarball.bb
-+++ b/meta/recipes-core/meta/uninative-tarball.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d
- TOOLCHAIN_TARGET_TASK = ""
- 
- TOOLCHAIN_HOST_TASK = "\
--    nativesdk-eglibc \
-+    nativesdk-glibc \
-     nativesdk-patchelf \
-     "
- 
+On Wednesday 01 October 2014 12:54:31 Bryan Evenson wrote:
+> I see that patches for bash to fix CVE-2014-7169 and CVE-2014-6271 have been
+> applied to the daisy and master branches of openembedded-core two days ago.
+>  I saw some talk on this mailing list about applying the patches to the
+> dora and dylan.  Are the patches still planned to be applied to the dora
+> and dylan branches?  If so, does someone have a timeframe in mind for
+> backporting the patches?  If not, do you need someone to cherry-pick the
+> commits and verify they work as expected on the dora and dylan branches?
 
+[The bash recipe is part of OE-Core, so this kind of question should really go 
+to the OE-Core mailing list, adding it to CC]
 
+Yes, dora patches have just been sent by Robert. I'm in the process of 
+backporting and testing these for the dylan branch.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
