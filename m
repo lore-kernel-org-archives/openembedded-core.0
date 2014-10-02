@@ -1,37 +1,30 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E4416FC68
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 988F77171C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Oct 2014 09:22:10 +0000 (UTC)
-Received: by mail-vc0-f176.google.com with SMTP id hq11so1082860vcb.21
+	Thu,  2 Oct 2014 09:56:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s929tb6L030618 for <openembedded-core@lists.openembedded.org>;
+	Thu, 2 Oct 2014 10:55:37 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hJAabgfS-PNe
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Oct 2014 02:22:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=2vRE/2jns1X24xzPv0dWgmILN5biqEKq4pIAsD0utig=;
-	b=C8tC1oXOICQBZtZiqMQzQG4cVkwlO59qBnt9eIBNvL4jOSCsTBfQq1YT8U1ljO8Edb
-	KY0BYHWQYDE36yK6/tz8b/Dkq+VRJHOm8j+vFL0Di2ybEmOkeU74NwrglX5mcruwAoHK
-	ZsDvdpxLpJ+YKtPmW/Iw3IXJ9XTJb2Uld+hed4mpz++4KHATP+XPUXM2PJwX616SpIsH
-	ZAxT8d2lcKefuCDwN6Kb+4zD9yNcBBKu8avCptkhjjCmcTTVHgLvxfGtAczRXGVaw8l4
-	3tk657AbII+MK5MRVlR4HTObww8ID2kWg7WF5lN3+SVadEZZmWMYgBOQANPXKoCoFMsC
-	sL1g==
-MIME-Version: 1.0
-X-Received: by 10.220.133.1 with SMTP id d1mr28823893vct.5.1412241731400; Thu,
-	02 Oct 2014 02:22:11 -0700 (PDT)
-Received: by 10.52.171.233 with HTTP; Thu, 2 Oct 2014 02:22:11 -0700 (PDT)
-In-Reply-To: <0d89eb7181ce4f386f585597b9f04e786b759434.1410177322.git.ross.burton@intel.com>
-References: <cover.1410177322.git.ross.burton@intel.com>
-	<0d89eb7181ce4f386f585597b9f04e786b759434.1410177322.git.ross.burton@intel.com>
-Date: Thu, 2 Oct 2014 11:22:11 +0200
-Message-ID: <CALbNGRQAAGk9PM=E=DReoY36OtZh8WTBgRTxoovtXWpJeKudLg@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 26/27] qemu.bbclass: add -r ${OLDEST_KERNEL} parameter
+	Thu,  2 Oct 2014 10:55:37 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s929tX4o030615
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 2 Oct 2014 10:55:34 +0100
+Message-ID: <1412243766.17658.31.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 02 Oct 2014 10:56:06 +0100
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Subject: [PATCH] adt-installer: Set INHIBIT_DEFAULT_DEPS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,114 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Oct 2014 09:22:14 -0000
-Content-Type: multipart/alternative; boundary=001a11362742bcbaaa05046d2696
+X-List-Received-Date: Thu, 02 Oct 2014 09:56:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11362742bcbaaa05046d2696
-Content-Type: text/plain; charset=UTF-8
+We've been seeing an issue on the autobuilder due to the way it builds
+package feed indexes. Packages get copied into the nightly build which
+then creates indexes however this is done without the knowledge of
+sstate. When adt-installer is built, it has dependencies on the toolchain
+and when ipk files already exist, the build throws errors.
 
-On Mon, Sep 8, 2014 at 1:58 PM, Ross Burton <ross.burton@intel.com> wrote:
+Since this recipe doesn't need a toolchain, we can remove the dependencies
+to work around this for now. I'm not particularly happy with what the
+autobuilder is doing but that is a post release issue.
 
-> From: Martin Jansa <martin.jansa@gmail.com>
->
-> * in some cases (e.g. with external toolchain which doesn't respect our
->   reasonably old version set in OLDEST_KERNEL) it's possible to have libc
->   which requires newer kernel than what we have on builders, qemu supports
->   -r param to use different uname than what's returned by host system.
-> * change qemu_run_binary to pass -r ${OLDEST_KERNEL} and add the same to
->   QEMU_OPTIONS which are used by qemuwrapper-cross
-> * maybe we should eventually convert all qemu_run_binary usages always
-> include
->   qemuwrapper-cross dependency and always call qemu through that (it
->   seems very strange that qemu_target_binary is called from qemuwrapper
->   and for allarch recipes it can return qemu-allarch as qemu binary).
->
->   qemu_run_binary is used by:
->   meta/classes/gtk-immodules-cache.bbclass:
-> ${@qemu_run_binary(d, '$D', '${bindir}/gtk-query-immodules-$maj_ver.0')} \
->   meta/classes/qemu.bbclass:def qemu_run_binary(data, rootfs_path, binary):
->   meta/recipes-core/systemd/systemd_213.bb:         ${@qemu_run_binary(d,
-> '$D', '${base_bindir}/udevadm')} hwdb --update \
->   meta/recipes-graphics/pango/pango.inc:    ${@qemu_run_binary(d,
-> '$D','${bindir}/${MLPREFIX}pango-querymodules')} \
->
->   and qemuwrapper directly by:
->   scripts/postinst-intercepts/update_font_cache:PSEUDO_UNLOAD=1
-> qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
->   scripts/postinst-intercepts/update_pixbuf_cache:PSEUDO_UNLOAD=1
-> qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
->
-> Somehow related but I don't understand fully yet:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-do_rootfs complains:
-NOTE: > Executing update_pixbuf_cache intercept ...
-FATAL: kernel too old
-WARNING: The postinstall intercept hook 'update_pixbuf_cache' failed (exit
-code: 127)! See log for details!
+diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+index a90a2b4..07070b5 100644
+--- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
++++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+@@ -29,6 +29,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d
+ LICENSE = "MIT"
+ 
+ PACKAGES = ""
++INHIBIT_DEFAULT_DEPS = "1"
+ 
+ PR = "r11"
+ 
 
-and many other 'kernel too old' messages. Target kernel is 3.14.19 / Host
-is 3.14.17. Too old?
 
-Andreas
 
---001a11362742bcbaaa05046d2696
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On M=
-on, Sep 8, 2014 at 1:58 PM, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: M=
-artin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmai=
-l.com</a>&gt;<br>
-<br>
-* in some cases (e.g. with external toolchain which doesn&#39;t respect our=
-<br>
-=C2=A0 reasonably old version set in OLDEST_KERNEL) it&#39;s possible to ha=
-ve libc<br>
-=C2=A0 which requires newer kernel than what we have on builders, qemu supp=
-orts<br>
-=C2=A0 -r param to use different uname than what&#39;s returned by host sys=
-tem.<br>
-* change qemu_run_binary to pass -r ${OLDEST_KERNEL} and add the same to<br=
->
-=C2=A0 QEMU_OPTIONS which are used by qemuwrapper-cross<br>
-* maybe we should eventually convert all qemu_run_binary usages always incl=
-ude<br>
-=C2=A0 qemuwrapper-cross dependency and always call qemu through that (it<b=
-r>
-=C2=A0 seems very strange that qemu_target_binary is called from qemuwrappe=
-r<br>
-=C2=A0 and for allarch recipes it can return qemu-allarch as qemu binary).<=
-br>
-<br>
-=C2=A0 qemu_run_binary is used by:<br>
-=C2=A0 meta/classes/gtk-immodules-cache.bbclass:=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 ${@qemu_run_binary(d, &#39;$D&#39;, &#39;${bindir}/gtk-query=
--immodules-$maj_ver.0&#39;)} \<br>
-=C2=A0 meta/classes/qemu.bbclass:def qemu_run_binary(data, rootfs_path, bin=
-ary):<br>
-=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd_213.bb" target=
-=3D"_blank">systemd_213.bb</a>:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@qemu_ru=
-n_binary(d, &#39;$D&#39;, &#39;${base_bindir}/udevadm&#39;)} hwdb --update =
-\<br>
-=C2=A0 meta/recipes-graphics/pango/pango.inc:=C2=A0 =C2=A0 ${@qemu_run_bina=
-ry(d, &#39;$D&#39;,&#39;${bindir}/${MLPREFIX}pango-querymodules&#39;)} \<br=
->
-<br>
-=C2=A0 and qemuwrapper directly by:<br>
-=C2=A0 scripts/postinst-intercepts/update_font_cache:PSEUDO_UNLOAD=3D1 qemu=
-wrapper -L $D -E LD_LIBRARY_PATH=3D$D/${libdir}:$D/${base_libdir}\<br>
-=C2=A0 scripts/postinst-intercepts/update_pixbuf_cache:PSEUDO_UNLOAD=3D1 qe=
-muwrapper -L $D -E LD_LIBRARY_PATH=3D$D/${libdir}:$D/${base_libdir}\<br>
-<br></blockquote></div>Somehow related but I don&#39;t understand fully yet=
-:<br><br></div><div class=3D"gmail_extra">do_rootfs complains:<br>NOTE: &gt=
-; Executing update_pixbuf_cache intercept ...<br>FATAL: kernel too old<br>W=
-ARNING: The postinstall intercept hook &#39;update_pixbuf_cache&#39; failed=
- (exit code: 127)! See log for details!<br><br></div><div class=3D"gmail_ex=
-tra">and many other &#39;kernel too old&#39; messages. Target kernel is 3.1=
-4.19 / Host is 3.14.17. Too old?<br><br></div><div class=3D"gmail_extra">An=
-dreas<br></div></div>
-
---001a11362742bcbaaa05046d2696--
