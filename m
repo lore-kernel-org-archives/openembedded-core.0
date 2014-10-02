@@ -1,27 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id AD5A76017E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id ADECB65E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Oct 2014 12:30:19 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by orsmga101.jf.intel.com with ESMTP; 02 Oct 2014 05:29:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,638,1406617200"; d="scan'208";a="481490696"
-Received: from cpariyar-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.78])
-	by azsmga001.ch.intel.com with ESMTP; 02 Oct 2014 05:28:56 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Thu, 02 Oct 2014 13:28:54 +0100
-Message-ID: <5414722.IoP6y5qali@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.1 (Linux/3.16.3-200.fc20.x86_64; KDE/4.14.1; x86_64; ; )
-In-Reply-To: <1c8f43767c7d78872d38652ea808f30ea825bbef.1412233591.git.liezhi.yang@windriver.com>
-References: <cover.1412233591.git.liezhi.yang@windriver.com>
-	<1c8f43767c7d78872d38652ea808f30ea825bbef.1412233591.git.liezhi.yang@windriver.com>
+	Thu,  2 Oct 2014 13:54:24 +0000 (UTC)
+Received: by mail-qc0-f181.google.com with SMTP id r5so2154549qcx.12
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 Oct 2014 06:54:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=KgeFgjOfOkYEN72GzFeoWe6XkIyoMzpeZmZAJKiSQq4=;
+	b=nHNB2bnWgaOnZcJspdn7ihYRLdldAyH77VmCf2i9mCZ35FJr+uWSfabjZiy8FMVvV2
+	HYsuQ7NkIEFi6ARCferfwW+AvV9ozlk2F2y8FoT42jQwbTKzMS3FIcXDkwv/TV1Qj8sf
+	uoGimdDDhnl9+NWus1xrysFqdbRRxAsjeaGZ4VhYrnXu7i8wJrAmhGmZiDlSKPUi/oX4
+	t9OrbWPSkRxqhGD6VzsCus4T2pAZf6hXvzIP+lPkuGnOGmYk2nJBh2RlioZNk3ODOoR+
+	Z9wCsXa0Rx6GCDhib5fD/jR1UVqfw15Ls/8gD58iyrZBJOB/ZJ3xzRxJBlByh4GzKkFs
+	ZqXg==
+X-Gm-Message-State: ALoCoQkyS0bbSztSmsAjrN2QMEDLMa0Vq/iEpb7CaWxTkajB0XWPpQ0Tu2iYJ3Djs0r4XxoQcu8A
+X-Received: by 10.224.103.194 with SMTP id l2mr6726947qao.93.1412258065465;
+	Thu, 02 Oct 2014 06:54:25 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] bash: Fix CVE-2014-7169
+Received: by 10.140.34.180 with HTTP; Thu, 2 Oct 2014 06:54:05 -0700 (PDT)
+In-Reply-To: <1412170188-50070-1-git-send-email-maxin.john@enea.com>
+References: <1412170188-50070-1-git-send-email-maxin.john@enea.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 2 Oct 2014 14:54:05 +0100
+Message-ID: <CAJTo0LYN74cjhqQqNCB58_03Wq8_XLYbZ5_hBdQcc9mzKiOcUw@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@enea.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] curl: Security Advisory - CVE-2014-3613 & CVE-2014-3620
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,73 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Oct 2014 12:30:21 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 02 Oct 2014 13:54:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thursday 02 October 2014 00:07:41 Robert Yang wrote:
-> From: Khem Raj <raj.khem@gmail.com>
-> 
-> This is a followup patch to incomplete CVE-2014-6271 fix
-> code execution via specially-crafted environment
-> 
-> Change-Id: Ibb0a587ee6e09b8174e92d005356e822ad40d4ed
-> (From OE-Core master rev: 76a2d6b83472995edbe967aed80f0fcbb784b3fc)
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+On 1 October 2014 14:29, Maxin B. John <maxin.john@enea.com> wrote:
+> Details of vulnerabilities are available below:
+> CVE-2014-3613: http://curl.haxx.se/docs/adv_20140910A.html
+> CVE-2014-3620: http://curl.haxx.se/docs/adv_20140910B.html
+>
+> Signed-off-by: Maxin B. John <maxin.john@enea.com>
 > ---
->  .../bash/bash-3.2.48/cve-2014-7169.patch           |   16 ++++++++++++++++
->  meta/recipes-extended/bash/bash_3.2.48.bb          |    1 +
->  2 files changed, 17 insertions(+)
->  create mode 100644
-> meta/recipes-extended/bash/bash-3.2.48/cve-2014-7169.patch
-> 
-> diff --git a/meta/recipes-extended/bash/bash-3.2.48/cve-2014-7169.patch
-> b/meta/recipes-extended/bash/bash-3.2.48/cve-2014-7169.patch new file mode
-> 100644
-> index 0000000..2e734de
-> --- /dev/null
-> +++ b/meta/recipes-extended/bash/bash-3.2.48/cve-2014-7169.patch
-> @@ -0,0 +1,16 @@
-> +Taken from http://www.openwall.com/lists/oss-security/2016/09/25/10
-> +
-> +Upstream-Status: Backport
-> +Index: bash-3.2.48/parse.y
-> +===================================================================
-> +--- bash-3.2.48.orig/parse.y	2008-04-29 18:24:55.000000000 -0700
-> ++++ bash-3.2.48/parse.y	2014-09-26 13:07:31.956080056 -0700
-> +@@ -2503,6 +2503,8 @@
-> +   FREE (word_desc_to_read);
-> +   word_desc_to_read = (WORD_DESC *)NULL;
-> +
-> ++  eol_ungetc_lookahead = 0;
-> ++
-> +   last_read_token = '\n';
-> +   token_to_read = '\n';
-> + }
-> diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb
-> b/meta/recipes-extended/bash/bash_3.2.48.bb index 5849ed0..e6a04cd 100644
-> --- a/meta/recipes-extended/bash/bash_3.2.48.bb
-> +++ b/meta/recipes-extended/bash/bash_3.2.48.bb
-> @@ -13,6 +13,7 @@ SRC_URI =
-> "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
-> file://build-tests.patch \
->             file://test-output.patch \
->             file://cve-2014-6271.patch;striplevel=0 \
-> +           file://cve-2014-7169.patch \
->             file://run-ptest \
->            "
 
-Unfortunately these two only patch the 3.x version of the bash recipe, leaving 
-the 4.x version unpatched.
+Still fails to apply the patches (different failure to before).
 
-Cheers,
-Paul
+ERROR: Command Error: exit status: 1  Output:
+Applying patch CVE-2014-3620.patch
+patching file lib/cookie.c
+patching file tests/data/test61
+Hunk #1 FAILED at 23.
+1 out of 1 hunk FAILED -- rejects in file tests/data/test61
+Patch CVE-2014-3620.patch does not apply (enforce with -f)
+ERROR: Function failed: patch_do_patch
+ERROR: Logfile of failure stored in:
+/data/poky-master/tmp/work/corei7-64-poky-linux/curl/7.37.1-r0/temp/log.do_patch.18104
+ERROR: Task 6649
+(/home/ross/Yocto/poky/meta/recipes-support/curl/curl_7.37.1.bb,
+do_patch) failed with exit code '1'
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
