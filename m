@@ -1,36 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AFB260809
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EEF5F6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Oct 2014 20:24:15 +0000 (UTC)
-Received: by mail-qc0-f172.google.com with SMTP id o8so1092074qcw.31
+	Thu,  2 Oct 2014 07:07:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9277g9l013208
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Oct 2014 13:24:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=zliWgNJCVzSNjnQfQD141iXLTxwP7lfDd2gkDf9IDmg=;
-	b=HUvHaW8jDpL37dcXT8GHKq2dUVC6wrodXG14XTcR5R042iLHNxmQ337cMOUeJyX5Mb
-	P6Q47XITwYub2FnEAN82msjTl4NnEhP9S1xfkgpPh2/rQWJzO10GTPb1wD2qvvCcv6jY
-	7ecKotAVGYO0eZBIwZRxbw3ResuN8V9EI6289fcfFLEgJqlH63+dnXTmaP8tHldDyEbm
-	lVCSmmTe8Y9vyrsV8NepvFMgcQ+OlxU4ZWdjDZGRwq0K5d9k5mwjJXmfEgB1DEtiNuYu
-	Kqbsdpg6VHN/EvpcI3pXYPpCSg5xfHdpL/RWbebFY+jxF7f+Z7T6B52nF9Hj3XGrq4g9
-	wJlQ==
-X-Gm-Message-State: ALoCoQm76QLuSDaatDndk6bt507dnVP/feL2hoHpHjt5Km560nBrB1e7bIy/L+SP5Ep/kYAYemvX
-X-Received: by 10.224.63.140 with SMTP id b12mr59824645qai.22.1412195056665;
-	Wed, 01 Oct 2014 13:24:16 -0700 (PDT)
+	Thu, 2 Oct 2014 00:07:42 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 2 Oct 2014 00:07:42 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 2 Oct 2014 00:07:39 -0700
+Message-ID: <32e43d08533a20d2d8be7f6cb83360564601f4a4.1412233591.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1412233591.git.liezhi.yang@windriver.com>
+References: <cover.1412233591.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Wed, 1 Oct 2014 13:23:56 -0700 (PDT)
-In-Reply-To: <1412179063.17658.25.camel@ted>
-References: <1412179063.17658.25.camel@ted>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 1 Oct 2014 21:23:56 +0100
-Message-ID: <CAJTo0LZqXQU3mUKmS-EgpKBf-7xrsbeVNZ3=AgvMgNR-sUbXcw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/parselogs: Ignore qemu usbhid errors
+Subject: [PATCH 1/3] apmd.service: Fix typo (not mandatory EnvironmentFile prefix)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,15 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Oct 2014 20:24:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 02 Oct 2014 07:07:44 -0000
+Content-Type: text/plain
 
-On 1 October 2014 16:57, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> +    'usbhid .*: can't add hid device:',
+From: Tobias Blom <tobias.blom@techne-dev.se>
 
-The apostrophe in "can't" needs escaping.  In related news, the
-autobuilder isn't in a happy place.
+Prefix to EnvironmentFile should be preciding the filenamn.
 
-Ross
+(From OE-Core rev: 1f694e4cb493b0737b6009382c0957e6837ebbed)
+
+Signed-off-by: Tobias Blom <tobias.blom@techne-dev.se>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service b/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service
+index 62d6af1..ffab823 100644
+--- a/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service
++++ b/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service
+@@ -3,5 +3,5 @@ Description=Advanced Power Management daemon
+ After=remote-fs.target
+ 
+ [Service]
+-EnvironmentFile-= @SYSCONFDIR@/default/apmd
++EnvironmentFile=-@SYSCONFDIR@/default/apmd
+ ExecStart=@SBINDIR@/apmd -P @SYSCONFDIR@/apm/apmd_proxy $APMD
+-- 
+1.7.9.5
+
 
