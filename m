@@ -1,24 +1,20 @@
-Return-Path: <Konrad.Scherer@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 97AAB708B3
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CDD87029A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Oct 2014 19:14:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s92JEpHs013938
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Oct 2014 12:14:51 -0700 (PDT)
-Received: from yow-kscherer-d1.wrs.com (128.224.56.217) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 2 Oct 2014 12:14:51 -0700
-From: Konrad Scherer <konrad.scherer@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 2 Oct 2014 15:14:50 -0400
-Message-ID: <1412277290-11352-1-git-send-email-konrad.scherer@windriver.com>
+	Thu,  2 Oct 2014 20:33:13 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 02 Oct 2014 13:33:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,641,1406617200"; d="scan'208";a="612351039"
+Received: from aehernan-devstation.zpn.intel.com ([10.219.4.60])
+	by orsmga002.jf.intel.com with ESMTP; 02 Oct 2014 13:33:04 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  2 Oct 2014 15:33:23 -0500
+Message-Id: <1412282003-5214-1-git-send-email-alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] Makedoc.sh uses home /tmp and fails is noexec is set
+Subject: [PATCH v2] kernel: Added bc-native as DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Oct 2014 19:14:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 02 Oct 2014 20:33:16 -0000
 
-From: Konrad Scherer <Konrad.Scherer@windriver.com>
+The makefile checks for bc during for compilation
 
-The Makedoc.sh script uses the following line to set TMPDIR
+[YOCTO #6781]
 
-export TMPDIR=`mktemp -d ${TMPDIR:-/tmp}/ldt.XXXXXXXXXX`;
-
-and then later in the script:
-
-chmod u+x $TMPDIR/linuxdoc
-
-Since TMPDIR is not set the script will default to /tmp and if /tmp
-is set to noexec (which is becoming more common), the chmod call fails.
-
-Signed-off-by: Konrad Scherer <Konrad.Scherer@windriver.com>
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
-index ed6ab73..9bd2bba 100644
---- a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
-+++ b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
-@@ -19,3 +19,7 @@ inherit autotools-brokensep native
- do_configure () {
- 	oe_runconf
- }
-+
-+do_install() {
-+	oe_runmake TMPDIR=${T} install
-+}
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 78b33ce..0782923 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -1,7 +1,7 @@
+ inherit linux-kernel-base kernel-module-split
+ 
+ PROVIDES += "virtual/kernel"
+-DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross"
++DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross bc-native"
+ 
+ # we include gcc above, we dont need virtual/libc
+ INHIBIT_DEFAULT_DEPS = "1"
 -- 
 1.9.1
 
