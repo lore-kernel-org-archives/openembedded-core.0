@@ -1,34 +1,32 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 95264716A3
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu,  2 Oct 2014 07:25:27 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s927PPCM013492
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 2 Oct 2014 00:25:25 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 2 Oct 2014 00:25:24 -0700
-Message-ID: <542CFDE2.60207@windriver.com>
-Date: Thu, 2 Oct 2014 15:25:22 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
+	[209.85.160.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 819A86FC68
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  2 Oct 2014 07:40:54 +0000 (UTC)
+Received: by mail-yk0-f173.google.com with SMTP id 200so993263ykr.32
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 Oct 2014 00:40:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=0G95RN6Swuj6fV48FAts21M2tGHT2VoD05wt5qF7Huk=;
+	b=C5aiju2M1zwBVtn7nAl3hTOIebl00hD85rE2tNdRAluIRaenG+ClM6A7bL6NIvSxCR
+	rptEtH8WnOO2/Zk/8ywVIetqBbqvAz2dPJ0CswXVXTdiQvdtGEEcO9IOCW1ASVEMoWcx
+	T8TmKlQkcjPAnOqsX33IGxMX92FI3+5xYOIZ25zLk4aGCh6ZKyiSOa1y0ZNxgM3uLMCj
+	bnjkT8wYS9RPpFKUPWkZAaQjxIPVx//WMTcK4SwsAJGTE3QPLIEy3aKlGeD1NB5jkWgh
+	m+VlOXZu6sc3cryhK9A/j6BAhVi/EFMcw6Ca3GxY+3URGJ7Kt1fliqpjLlI0gCrbCUgw
+	1qSQ==
 MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, "Ashfield, Bruce"
-	<Bruce.Ashfield@windriver.com>
-References: <D034EC78.A7DD4%dvhart@linux.intel.com>	<1410337664.19272.89.camel@ted>
-	<D035B829.A7FF6%dvhart@linux.intel.com>
-In-Reply-To: <D035B829.A7FF6%dvhart@linux.intel.com>
-Cc: "Brandt, Todd E" <todd.e.brandt@intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	Tom Zanussi <tom.zanussi@linux.intel.com>,
-	"Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: Packaging kernel sources
+X-Received: by 10.52.68.102 with SMTP id v6mr31765677vdt.8.1412235655328; Thu,
+	02 Oct 2014 00:40:55 -0700 (PDT)
+Received: by 10.52.171.233 with HTTP; Thu, 2 Oct 2014 00:40:55 -0700 (PDT)
+Date: Thu, 2 Oct 2014 09:40:55 +0200
+Message-ID: <CALbNGRT+5fs=_KTNkkVc9VUSD_dLWOsyddEAsT_juXLNOm=Ahw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: xf86-video-fbdev "FBIOPUTCMAP: Invalid argument" problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,88 +39,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Oct 2014 07:25:29 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 Oct 2014 07:41:01 -0000
+Content-Type: multipart/alternative; boundary=001a1136b2b693373705046bbcd0
 
+--001a1136b2b693373705046bbcd0
+Content-Type: text/plain; charset=UTF-8
 
-Hello,
+Hi,
 
-How's this going on, please ?
+After a while of absence for other projects I built my standard image (xfce
+based for gumstix). When starting xserver I see lots of
 
-// Robert
+(EE) FBDEV(0): FBIOPUTCMAP: Invalid argument
 
-On 09/10/2014 11:13 PM, Darren Hart wrote:
-> On 9/10/14, 1:27, "Richard Purdie" <richard.purdie@linuxfoundation.org>
-> wrote:
->
->> On Tue, 2014-09-09 at 17:42 -0700, Darren Hart wrote:
->>> I'm working on a project which needs to have the full kernel sources
->>> installed on the target. The kernel-dev package as defined by
->>> kernel.bbclass is heavily pruned to minimize packaging time and size and
->>> is intended to enable building of external modules on the target.
->>>
->>> Is there an accepted best-practice for how to get the full source
->>> packaged
->>> and installed? I can easily write a new recipe,
->>> linux-custom-source_git.bb, to install the sources, for example, without
->>> impacting the packaging time of "virtual/kernel" package.
->>>
->>> It would be nice in some respects for it to all come from the same
->>> recipe
->>> though, but I suspect the impact to the common-case where this is not
->>> need
->>> would be far too great.
->>
->> Personally, I'm leaning towards a couple of big changes in this area:
->>
->> a) "binning" the kernel-dev package and replacing it with some kind of
->> separate full source recipe like this.
->>
->> The benefit is a fully functional on target source which is only built
->> by people who care about it. This means for most users/builds, we no
->> longer need to generate that huge package. The downside is a little more
->> complexity for those that needs this but its not much.
->
-> The other downside is that the most common use case (building external
-> modules) would now require a lot more disk space than with just kernel-dev
-> (something like 150 MB more iirc).
->
->>
->>
->> b) binning the separate kernel staging dir and making it work more like
->> the gcc shared work directory. This means external module builds and the
->> tools like perf and so on would use this shared source directory.
->
-> I was thinking along the same lines here as well.
->
->>
->> The benefit would be that we no longer have the huge install step in the
->> main kernel recipe and the populate_sysroot step shinks in size.
->>
->> The downside has more impact here, the problem with shared work is that
->> it cannot be removed once extracted since the system never knows when
->> something else may need to use it. For gcc the argument was that we have
->> so many users (gcc-cross-initial, gcc-cross, gcc-runtime,
->> gcc-cross-canadian, gcc-crosssdk, gcc-crosssdk-initial and so on) that
->> the multiple copies were far worse. For the kernel, we can argue that we
->> have a ton of disk usage from it in the sysroot anyway so this change
->> just makes things more efficient effectively.
->>
->> The other issue is that for shared work dirs, the stamps need to be kept
->> in sync, if they step out, odd things happen (i.e. do_fetch, do_unpack,
->> do_patch task checksums need to match for linux-yocto, perf, kernel
->> modules and anything else using it). We may need to add some better
->> error cases to catch problems. Not an insurmountable problem, just one
->> that will likely need to be addressed.
->
-> Good points.
->
->>
->> I do feel the whole situation with the current kernel size is out of
->> control and badly affecting user experience.
->
->
-> Yup.
->
+Anybody out there with similar experiences or even better ideas to solve?
 
+Andreas
+
+--001a1136b2b693373705046bbcd0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi,<br><br>After a while of absence for other project=
+s I built my standard image (xfce based for gumstix). When starting xserver=
+ I see lots of<br><br>(EE) FBDEV(0): FBIOPUTCMAP: Invalid argument<span cla=
+ss=3D"sew3cc0m2qtlh0y"></span><span class=3D"sew3cc0m2qtlh0y"></span><br><b=
+r>Anybody out there with similar experiences or even better ideas to solve?=
+<br><br></div>Andreas<br></div>
+
+--001a1136b2b693373705046bbcd0--
