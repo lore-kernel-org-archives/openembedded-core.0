@@ -1,32 +1,43 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
-	[209.85.160.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 819A86FC68
+Return-Path: <Javier.Viguera@digi.com>
+X-Greylist: delayed 430 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 02 Oct 2014 08:13:15 UTC
+Received: from mail1.bemta12.messagelabs.com (mail1.bemta12.messagelabs.com
+	[216.82.251.12])
+	by mail.openembedded.org (Postfix) with ESMTP id 10F616AC6B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Oct 2014 07:40:54 +0000 (UTC)
-Received: by mail-yk0-f173.google.com with SMTP id 200so993263ykr.32
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Oct 2014 00:40:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=0G95RN6Swuj6fV48FAts21M2tGHT2VoD05wt5qF7Huk=;
-	b=C5aiju2M1zwBVtn7nAl3hTOIebl00hD85rE2tNdRAluIRaenG+ClM6A7bL6NIvSxCR
-	rptEtH8WnOO2/Zk/8ywVIetqBbqvAz2dPJ0CswXVXTdiQvdtGEEcO9IOCW1ASVEMoWcx
-	T8TmKlQkcjPAnOqsX33IGxMX92FI3+5xYOIZ25zLk4aGCh6ZKyiSOa1y0ZNxgM3uLMCj
-	bnjkT8wYS9RPpFKUPWkZAaQjxIPVx//WMTcK4SwsAJGTE3QPLIEy3aKlGeD1NB5jkWgh
-	m+VlOXZu6sc3cryhK9A/j6BAhVi/EFMcw6Ca3GxY+3URGJ7Kt1fliqpjLlI0gCrbCUgw
-	1qSQ==
+	Thu,  2 Oct 2014 08:13:15 +0000 (UTC)
+Received: from [216.82.249.131:60947] by server-12.bemta-12.messagelabs.com id
+	E2/E3-09687-E670D245; Thu, 02 Oct 2014 08:06:06 +0000
+X-Env-Sender: Javier.Viguera@digi.com
+X-Msg-Ref: server-5.tower-28.messagelabs.com!1412237165!33638536!1
+X-Originating-IP: [66.77.174.13]
+X-StarScan-Received: 
+X-StarScan-Version: 6.12.2; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 6688 invoked from network); 2 Oct 2014 08:06:06 -0000
+Received: from mail.mx3.digi.com (HELO mcl-sms-ns1.digi.com) (66.77.174.13)
+	by server-5.tower-28.messagelabs.com with RC4-SHA encrypted SMTP;
+	2 Oct 2014 08:06:06 -0000
+Received: from MTK-SMS-XCH03.digi.com (10.10.8.197) by mail.mx1.digi.com
+	(172.16.1.13) with Microsoft SMTP Server (TLS) id 8.3.342.0;
+	Thu, 2 Oct 2014 03:06:26 -0500
+Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MTK-SMS-XCH03.digi.com
+	(10.10.8.197) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Thu, 2 Oct 2014 03:06:04 -0500
+Received: from log-cln-jviguera.digi.com (10.101.2.54) by
+	dor-sms-xch01.digi.com (10.49.8.99) with Microsoft SMTP Server (TLS) id
+	14.3.181.6; Thu, 2 Oct 2014 10:06:02 +0200
+From: Javier Viguera <javier.viguera@digi.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 2 Oct 2014 10:06:01 +0200
+Message-ID: <1412237161-48093-1-git-send-email-javier.viguera@digi.com>
+X-Mailer: git-send-email 2.1.1
 MIME-Version: 1.0
-X-Received: by 10.52.68.102 with SMTP id v6mr31765677vdt.8.1412235655328; Thu,
-	02 Oct 2014 00:40:55 -0700 (PDT)
-Received: by 10.52.171.233 with HTTP; Thu, 2 Oct 2014 00:40:55 -0700 (PDT)
-Date: Thu, 2 Oct 2014 09:40:55 +0200
-Message-ID: <CALbNGRT+5fs=_KTNkkVc9VUSD_dLWOsyddEAsT_juXLNOm=Ahw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: xf86-video-fbdev "FBIOPUTCMAP: Invalid argument" problem
+X-Originating-IP: [10.101.2.54]
+X-KSE-AntiSpam-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean
+Subject: [PATCH] nativesdk-packagegroup-sdk-host: add nativesdk-u-boot-mkimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,32 +50,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Oct 2014 07:41:01 -0000
-Content-Type: multipart/alternative; boundary=001a1136b2b693373705046bbcd0
+X-List-Received-Date: Thu, 02 Oct 2014 08:13:25 -0000
+Content-Type: text/plain
 
---001a1136b2b693373705046bbcd0
-Content-Type: text/plain; charset=UTF-8
+Add the 'mkimage' host tool to the toolchains generated with 'bitbake
+meta-toolchain' or with 'bitbake -c populate_sdk <image>'.
 
-Hi,
+This allows to use the standalone toolchain to build kernel images of
+type uImage (with u-boot header)
 
-After a while of absence for other projects I built my standard image (xfce
-based for gumstix). When starting xserver I see lots of
+Signed-off-by: Javier Viguera <javier.viguera@digi.com>
+---
+ meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-(EE) FBDEV(0): FBIOPUTCMAP: Invalid argument
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index 0c6a530be6f9..ab68e2ffd3a7 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -24,6 +24,7 @@ RDEPENDS_${PN} = "\
+     nativesdk-makedevs \
+     nativesdk-smartpm \
+     nativesdk-postinst-intercept \
++    nativesdk-u-boot-mkimage \
+     "
+ 
+ RDEPENDS_${PN}_darwin = "\
 
-Anybody out there with similar experiences or even better ideas to solve?
-
-Andreas
-
---001a1136b2b693373705046bbcd0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi,<br><br>After a while of absence for other project=
-s I built my standard image (xfce based for gumstix). When starting xserver=
- I see lots of<br><br>(EE) FBDEV(0): FBIOPUTCMAP: Invalid argument<span cla=
-ss=3D"sew3cc0m2qtlh0y"></span><span class=3D"sew3cc0m2qtlh0y"></span><br><b=
-r>Anybody out there with similar experiences or even better ideas to solve?=
-<br><br></div>Andreas<br></div>
-
---001a1136b2b693373705046bbcd0--
