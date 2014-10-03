@@ -1,38 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 946EE71624
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id E17E6715B5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Oct 2014 10:44:49 +0000 (UTC)
-Received: by mail-qg0-f52.google.com with SMTP id q108so694856qgd.39
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Oct 2014 03:44:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=pkUCT1buAiMiSEbynGVCHZgl4vg9CZkZJGMn80fBmkk=;
-	b=iy5hjPgjK8OtG7I20+wx4H2/JxuU26GDmSDvD8FelUg7BgJwSDvF1M2NU2OiNwE7Ga
-	CvS8u/BYh/PIn7TA1AgRgVuvNcIPdTnlkeZu4/xD51xojDz5IMdGWgUC8HeyczK550cj
-	PRuq2/q7En8vISesrNFxJRAnWz5Jw4kVb8o4whTd5tO2CRmx+dYUPYcugbDQFqmOXevk
-	ZRMTo8Abw684g/hXTxfysfFPrSM9AWZyB36kFpWeAcHvymOIg/I453pP2mAPcJEnWQY/
-	LwNRZz432R884S53OP9+9YCgt3bPX4GHRIuhU5SFbOqKUASnj9zStUdxTN0rNKE3XNYA
-	uVZQ==
-X-Gm-Message-State: ALoCoQmwb9OGS1tARBAOjFGVMsmoh9OHXiBr7Xvai60cj4KI7oTHV/Mk1+wa82rKkvFjfHG8ZBfI
-X-Received: by 10.140.84.84 with SMTP id k78mr3725200qgd.80.1412333090277;
-	Fri, 03 Oct 2014 03:44:50 -0700 (PDT)
+	Fri,  3 Oct 2014 11:01:46 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 03 Oct 2014 03:51:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="395060728"
+Received: from davidgil-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.206])
+	by FMSMGA003.fm.intel.com with ESMTP; 03 Oct 2014 03:54:48 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Fri, 03 Oct 2014 12:01:06 +0100
+Message-ID: <3635595.FVyheZRcZC@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.1 (Linux/3.16.3-200.fc20.x86_64; KDE/4.14.1; x86_64; ; )
+In-Reply-To: <9593c3be6b18927f60bd8728a62173794fb0a53c.1411730802.git.hongxu.jia@windriver.com>
+References: <cover.1411730802.git.hongxu.jia@windriver.com>
+	<9593c3be6b18927f60bd8728a62173794fb0a53c.1411730802.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Fri, 3 Oct 2014 03:44:30 -0700 (PDT)
-In-Reply-To: <CAJTo0LZDeTCp7E3ZMX6To6Ox-bOLS625d_T2QBjjuQ+RZ7==dw@mail.gmail.com>
-References: <CACS+7ZRU6R--qxKFxWmCKGQaHgyDMfd=cUrnLnjZVfsktmhxAQ@mail.gmail.com>
-	<CAJTo0LZDeTCp7E3ZMX6To6Ox-bOLS625d_T2QBjjuQ+RZ7==dw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 3 Oct 2014 11:44:30 +0100
-Message-ID: <CAJTo0LaP2Zu7z8Dp_1uCzkdLuBS_TgZ0xn0CXg5QtNTt3ZCAbw@mail.gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] systemd: Use ${ROOT_HOME} instead of /root
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] package_manager.py: ignore failed smart install with --attempt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,32 +34,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Oct 2014 10:44:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 03 Oct 2014 11:01:55 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 6 September 2014 08:23, Burton, Ross <ross.burton@intel.com> wrote:
->> +++ b/meta/recipes-core/systemd/systemd/0001-Make-root-s-home-directory-configurable.patch
->> @@ -0,0 +1,176 @@
->> +From 00138d820fc0dfce6e5fee03d1edda66db34aa80 Mon Sep 17 00:00:00 2001
->> +From: Dan McGregor <dan.mcgregor@usask.ca>
->> +Date: Fri, 5 Sep 2014 06:28:58 -0600
->> +Subject: [PATCH] Make root's home directory configurable.
->> +
->> +OpenEmbedded has a configurable home directory for root. Allow
->> +systemd to be built using its idea of what root's home directory
->> +should be.
->
-> Patch looks great, but please add signed-off-by/upstream-status tags.
+Hi Hongxu,
 
-Going though my list of "needs work" patches, this still needs patch
-tags and I thought I'd just go it myself but the patch got corrupted
-somewhere:
+On Friday 26 September 2014 19:36:02 Hongxu Jia wrote:
+> Paul's patch added checking in smart to ignore failed install with --attempt
+> ...
+> commit e9c1191da4f84c9743b053e7030ab28b48f57c44
+> Author: Paul Eggleton <paul.eggleton@linux.intel.com>
+> Date:   Thu Feb 6 13:39:01 2014 +0000
+> 
+>     python-smartpm: really ignore conflicts during install with --attempt
+> ...
+> 
+> But if the failure is generated by rpm which smart doesn't resolve, we check
+> the output of smart, filter the failed packages, and attempt to install the
+> rest.
+> 
+> Here is an example, assume there are two packages which have identical file
+> name but different content, that cause confliction. If we install one
+> without --attempt, after it installed and install another with --attempt,
+> the rpm will generate an error which smart does not resolve:
+> ...
+> 
+> |error: file /usr/share/man/man5/passwd.5 from install of
+> 
+> shadow-doc-4.2.1-r0.i586 conflicts with file from package
+> man-pages-3.71-r0.i586
+> 
+> |error: file /usr/share/man/man3/getspnam.3 from install of
+> 
+> shadow-doc-4.2.1-r0.i586 conflicts with file from package
+> man-pages-3.71-r0.i586
+> ...
+> 
+> In this situation, remove failed packages, and attempt to install the rest.
 
-patching file meta/recipes-core/systemd/systemd/0001-Make-root-s-home-directory-configurable.patch
-patch: **** malformed patch at line 107: the root user]),
+Apologies for the delay in reviewing this.
 
-It looks like something is re-wrapping the patches.  Are you using
-git-send-email or pasting the patch into a compose window?
+I see what you're trying to do here. However I am concerned about the other 
+kinds of failure cases we might end up obscuring with this kind of approach. 
+My understanding of attemptonly is that it should ignore conflicts, but any 
+other kind of error should trigger build failure - otherwise you can miss 
+genuine errors that need to be fixed.
 
-Ross
+If possible I would prefer if we would detect and handle this kind of conflict 
+within smart itself and allow it to continue rather than detecting the failure 
+and retrying externally.
+
+Mark (on CC), any opinions?
+
+Cheers,
+Paul
+
+
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
