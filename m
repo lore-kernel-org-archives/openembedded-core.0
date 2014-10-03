@@ -1,41 +1,42 @@
-Return-Path: <gary.robertson@linaro.org>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 07AD0708B3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 20A1F70F3B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Oct 2014 15:18:27 +0000 (UTC)
-Received: by mail-oi0-f51.google.com with SMTP id e131so905161oig.38
+	Fri,  3 Oct 2014 16:47:17 +0000 (UTC)
+Received: by mail-ig0-f171.google.com with SMTP id h15so674759igd.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Oct 2014 08:18:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=nsry8CaaWWu6pgElfsOXe44JtF+aePAsQI4rrBbtAcM=;
-	b=MT+VP7W4W71a9bQylCnHPwEKKVGx4WG82xKkS2q6Wf2EWR1rvCD1aegwa41+aAQzIe
-	2nhauZamCDfAQDnWhnwmQf+6ABw/3XI3OB7JcMQ/PWprlUJRCtnh3jtLpiAj4qCaaPhB
-	F/lFhv0brYN41VaX5UmC5p6SU0ZnkWT8hLPBczSVixO+jAJiTVaTBp5+eAtnQjeORPg2
-	xEmp1dIIjNjysQQueVIkizPoDoOxj/CWxaoMfI8U6NAPMU/M9Yjt7MPKFn3gkPfunyIF
-	GxrsCZMiB8LGnJLdRf7a1HY3auJhcoHHJ3e9OiqO1KcZRBt7/RihfbsHUVfDa1ifxDDP
-	b5ew==
-X-Gm-Message-State: ALoCoQkAP/io70Dxl2Iu5H8TCWaG1jba7W68eJa3a15ELqKda9I5Kwx97KnfQoULZTDIWrUz6jPG
-X-Received: by 10.182.107.234 with SMTP id hf10mr7858791obb.22.1412349506688; 
-	Fri, 03 Oct 2014 08:18:26 -0700 (PDT)
-Received: from honkintosh.cybertech.lan (65-120-133-114.dia.static.qwest.net.
-	[65.120.133.114])
-	by mx.google.com with ESMTPSA id rw6sm4452660obb.28.2014.10.03.08.18.25
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 03 Oct 2014 08:18:25 -0700 (PDT)
-From: "Gary S. Robertson" <gary.robertson@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Oct 2014 10:17:48 -0500
-Message-Id: <1412349468-1146-3-git-send-email-gary.robertson@linaro.org>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1412349468-1146-1-git-send-email-gary.robertson@linaro.org>
-References: <1412349468-1146-1-git-send-email-gary.robertson@linaro.org>
-Cc: mike.holmes@linaro.org
-Subject: [PATCH 2/2] LTP - realtime tests - fix bad robust mutex conditionals
+	Fri, 03 Oct 2014 09:47:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=3ysxqlYnq1Ng4j6cqzP+dwYSgPqEeQHUUIW+nqPATH0=;
+	b=NsG18gNaJitnEZ/HJQl22Nf5GKpDMqbX1QSjmTQNpltUJWjqGKrWdRG0CsMl9ZrB1f
+	GjiIcvkqwHckQYBz3Gb34zlWm8Z0OyZE1j1HKexzJSu1BW+QDXP1xGd6GPm0Tk5ztiuc
+	KIpLOrP78Ai2t8IAdNtnUDxU180SQLcnsOEdYmrKkF+YTSwLRTcZYSUxpomkvq4qU+dM
+	Y9ppnWmGsAy6Zwi1MyZ66/2cTQa2PBvBiUivyMSH2nwpvtROMnF5ee+ryge7QUXDpZu3
+	1pgbV2Do0uE7M9DvuYqlnxQbBmNXGDZzxqqKV1oRir47hzOzhN/k5jFoTqrP5VzR9v73
+	9DMg==
+X-Received: by 10.42.62.6 with SMTP id w6mr14004051ich.24.1412354838193; Fri,
+	03 Oct 2014 09:47:18 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.179.5 with HTTP; Fri, 3 Oct 2014 09:46:48 -0700 (PDT)
+In-Reply-To: <CC366DA2-152C-4E5C-9F9C-2BB6C1ED73B7@dominion.thruhere.net>
+References: <1411647477-12992-1-git-send-email-sledz@dresearch-fe.de>
+	<20141001005520.GO2480@denix.org>
+	<CAMKF1sqJ=QsZWNWe436Q6hNaegEm6HMj76JtXU-gZBhrkRutAQ@mail.gmail.com>
+	<20141001013231.GQ2480@denix.org>
+	<CAMKF1sqa2JtVOhv7f0P=_HfSnrL2kfd2QmP+GM_FsM3zb-xq=g@mail.gmail.com>
+	<20141001041020.GC25706@jama> <1412151136.17658.10.camel@ted>
+	<20141001153415.GF25706@jama>
+	<CC366DA2-152C-4E5C-9F9C-2BB6C1ED73B7@dominion.thruhere.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 3 Oct 2014 09:46:48 -0700
+Message-ID: <CAMKF1so0ewHS3fdZC_2Y_qee=+t6O5=-zF6yhqe9A_0pVWFBsQ@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [daisy][PATCH 1/3] layer.conf: Add in useradd dependencies as ABISAFE dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,103 +49,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Oct 2014 15:18:28 -0000
+X-List-Received-Date: Fri, 03 Oct 2014 16:47:18 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: "Gary S. Robertson" <gary.robertson@linaro.org>
+On Fri, Oct 3, 2014 at 1:24 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> That 'new screen' is indeed an improvement and I also found the switch to make it show a unidiff instead of side-by-side. I still despise the UI, though, but not as much as before :)
 
-The tests for robust mutexes contained conditional clauses which failed in
-autoconf and/or used nonexistent variable names.  Modified these
-conditional clauses to use only the variables actually created by
-LTP autoconf for this purpose.
-
-Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
----
- ...ltime-tests-Fix-robust-mutex-conditionals.patch |   62 ++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20140422.bb          |    1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-robust-mutex-conditionals.patch
-
-diff --git a/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-robust-mutex-conditionals.patch b/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-robust-mutex-conditionals.patch
-new file mode 100644
-index 0000000..ccdd4d0
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-robust-mutex-conditionals.patch
-@@ -0,0 +1,62 @@
-+From 663a14423baea0e05ba79d90d2497dde5e4594bd Mon Sep 17 00:00:00 2001
-+From: "Gary S. Robertson" <gary.robertson@linaro.org>
-+Date: Thu, 11 Sep 2014 13:02:47 -0500
-+Subject: [LTP][PATCH] Realtime tests: Fix robust mutex conditionals
-+
-+sbrk_mutex, testpi-5, and testpi-6 realtime tests in subdir
-+testcases/realtime/func/pi-tests used compile time config variables
-+which were not generated by autoconf in order to configure tests
-+for robust mutexes.  Changed these conditionals to use the config
-+variables actually generated in the autoconf process.
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
-+---
-+ testcases/realtime/func/pi-tests/sbrk_mutex.c |    2 +-
-+ testcases/realtime/func/pi-tests/testpi-5.c   |    2 +-
-+ testcases/realtime/func/pi-tests/testpi-6.c   |    2 +-
-+ 3 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/testcases/realtime/func/pi-tests/sbrk_mutex.c b/testcases/realtime/func/pi-tests/sbrk_mutex.c
-+index 684021f..5c325b4 100644
-+--- a/testcases/realtime/func/pi-tests/sbrk_mutex.c
-++++ b/testcases/realtime/func/pi-tests/sbrk_mutex.c
-+@@ -45,7 +45,7 @@
-+ #include <unistd.h>
-+ #include "librttest.h"
-+ 
-+-#if defined(HAS_PTHREAD_MUTEXTATTR_ROBUST_APIS) && defined(PTHREAD_MUTEX_ROBUST_NP)
-++#if HAS_PTHREAD_MUTEXTATTR_ROBUST_APIS
-+ 
-+ #define NUM_MUTEXES 5000
-+ #define NUM_THREADS 50
-+diff --git a/testcases/realtime/func/pi-tests/testpi-5.c b/testcases/realtime/func/pi-tests/testpi-5.c
-+index a1d93cc..70f02fd 100644
-+--- a/testcases/realtime/func/pi-tests/testpi-5.c
-++++ b/testcases/realtime/func/pi-tests/testpi-5.c
-+@@ -69,7 +69,7 @@ int do_test(int argc, char **argv)
-+ 	pthread_mutexattr_t mutexattr;
-+ 	int retc, protocol;
-+ 
-+-#if HAS_PTHREAD_MUTEXATTR_PROTOCOL_FUNCTIONS
-++#if HAS_PTHREAD_MUTEXTATTR_ROBUST_APIS
-+ 
-+ 	if (pthread_mutexattr_init(&mutexattr) != 0)
-+ 		printf("Failed to init mutexattr\n");
-+diff --git a/testcases/realtime/func/pi-tests/testpi-6.c b/testcases/realtime/func/pi-tests/testpi-6.c
-+index b3c3e4a..f715eee 100644
-+--- a/testcases/realtime/func/pi-tests/testpi-6.c
-++++ b/testcases/realtime/func/pi-tests/testpi-6.c
-+@@ -41,7 +41,7 @@
-+ #include <unistd.h>
-+ #include <librttest.h>
-+ 
-+-#if defined(PTHREAD_MUTEX_ROBUST_NP)
-++#if HAS_PTHREAD_MUTEXTATTR_ROBUST_APIS
-+ pthread_mutex_t child_mutex;
-+ 
-+ void *child_thread(void *arg)
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20140422.bb b/meta/recipes-extended/ltp/ltp_20140422.bb
-index fa42358..8b380a0 100644
---- a/meta/recipes-extended/ltp/ltp_20140422.bb
-+++ b/meta/recipes-extended/ltp/ltp_20140422.bb
-@@ -29,6 +29,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-     file://make-setregid02-work.patch \
-     file://add-knob-for-numa.patch \
-     file://0001-Realtime-tests-Fix-bad-priority-inheritance-conditio.patch \
-+    file://0001-Realtime-tests-Fix-robust-mutex-conditionals.patch \
- "
- 
- S = "${WORKDIR}/git"
--- 
-1.7.9.5
-
+all tools suck, some suck less some suck more.
 
