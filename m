@@ -1,49 +1,21 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EE8F6FD16
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 842AE6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Oct 2014 08:24:21 +0000 (UTC)
-Received: by mail-wi0-f176.google.com with SMTP id hi2so6393229wib.15
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Oct 2014 01:24:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=AXYpwtkkpvG+UlqwRAtlefZAsGBS5gr96vrPAkYMz+s=;
-	b=Gyj1x93sk194h6dshX7TOJGwhPxqlYnLwZzriT3uMe6NKGbJinD8rx0fMWh2INeL4B
-	ngp3bUJu1QHqicbq01tI1TJieviWurxoIxW01uSqT9eWeWpeAviNT/E5aiyN9LRgRX8K
-	arcpbxcKtR2F263FnEUtUDGqASdHEFWHgQN76HohBtByrOFn938kHlnjMAAXqPIetR5P
-	rml+4y+kKjHm/4M5KwRKWD6w4lyj90T9bTn2V/9EwsDeCGk5ef/BcyKXOeiYcrAzVO6q
-	7Yo/jKGPl2b2SSmUdmDG9ClY9e+u/Sbb1n/VGq+fXKsrPRwAARudalnT4ItiDJT3cEVD
-	TciA==
-X-Gm-Message-State: ALoCoQnSafGy1cczUIbLo5krCCxGUspWs/UtoNag8ID5mjrJsBYj5pJcubs89I4M8eVAGZHXi5bB
-X-Received: by 10.194.3.42 with SMTP id 10mr5305916wjz.98.1412324662829;
-	Fri, 03 Oct 2014 01:24:22 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::2850:f1dd:95b5:4541?
-	([2001:610:612:0:2850:f1dd:95b5:4541])
-	by mx.google.com with ESMTPSA id ga9sm7156768wjb.45.2014.10.03.01.24.21
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 03 Oct 2014 01:24:21 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20141001153415.GF25706@jama>
-Date: Fri, 3 Oct 2014 10:24:28 +0200
-Message-Id: <CC366DA2-152C-4E5C-9F9C-2BB6C1ED73B7@dominion.thruhere.net>
-References: <1411647477-12992-1-git-send-email-sledz@dresearch-fe.de>
-	<20141001005520.GO2480@denix.org>
-	<CAMKF1sqJ=QsZWNWe436Q6hNaegEm6HMj76JtXU-gZBhrkRutAQ@mail.gmail.com>
-	<20141001013231.GQ2480@denix.org>
-	<CAMKF1sqa2JtVOhv7f0P=_HfSnrL2kfd2QmP+GM_FsM3zb-xq=g@mail.gmail.com>
-	<20141001041020.GC25706@jama> <1412151136.17658.10.camel@ted>
-	<20141001153415.GF25706@jama>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Mailer: Apple Mail (2.1878.6)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [daisy][PATCH 1/3] layer.conf: Add in useradd dependencies as ABISAFE dependencies
+	Fri,  3 Oct 2014 09:00:47 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Oct 2014 02:00:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,645,1406617200"; d="scan'208";a="609154495"
+Received: from rebeccas-ilbpg2.png.intel.com ([10.88.227.41])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Oct 2014 02:00:46 -0700
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Oct 2014 17:00:17 +0800
+Message-Id: <1412326818-32462-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [daisy] [PATCH 0/1] lttng-modules: update version to 2.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,87 +28,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Oct 2014 08:24:23 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 03 Oct 2014 09:00:58 -0000
 
+Hi all,
 
-Op 1 okt. 2014, om 17:34 heeft Martin Jansa <martin.jansa@gmail.com> het =
-volgende geschreven:
+This is a fix for [YOCTO #6788] where we encounter lttng-modules build
+failure with kernel version 3.10.43.
 
-> On Wed, Oct 01, 2014 at 09:12:16AM +0100, Richard Purdie wrote:
->> On Wed, 2014-10-01 at 06:10 +0200, Martin Jansa wrote:
->>> On Tue, Sep 30, 2014 at 08:55:53PM -0700, Khem Raj wrote:
->>>> On Tue, Sep 30, 2014 at 6:32 PM, Denys Dmytriyenko =
-<denis@denix.org> wrote:
->>>>> On Tue, Sep 30, 2014 at 06:25:57PM -0700, Khem Raj wrote:
->>>>>> On Tue, Sep 30, 2014 at 5:55 PM, Denys Dmytriyenko =
-<denis@denix.org> wrote:
->>>>>>> This line above ^^^^ has a very long trail of whitespaces and it =
-got commited
->>>>>>> that way, unfortunately :(
->>>>>>=20
->>>>>> Better was if you commented before it went in.
->>>>>=20
->>>>> And how would you suggest I was supposed to see it?? Nobody saw =
-it. My email
->>>>> client is no different than others - it doesn't mark trailing =
-whitespaces. The
->>>>> reason I saw it is because I ran "git log -p" on the file and that =
-explicitly
->>>>> highlights trailing whitespaces in BRIGHT RED... :)
->>>>=20
->>>> just for that may be we should start using gerrit ;)
->>>=20
->>> I'm all for it, it would make my e-mail - review - patchwork -
->>> master-next workflow a lot easier and reliable.
->>=20
->> And I am not. Why? I've actually tried using the thing and I =
-absolutely
->> *despise* its interface. This isn't just a mild dislike, I simply =
-cannot
->> do the things I want/need to do with it.
->>=20
->> I believe I should have some kind of a say in this since it will
->> directly affect my workflow and general life (since I spend a lot of =
-my
->> time dealing with this).
->=20
->> Its appears to be very easy for other people to tell me how I should =
-work though :(.
->=20
-> Please calm down, we just said that we like it, we're not forcing it =
-on
-> anyone and I don't think khem would start installing it on OE servers
-> without much longer and broader discussion between all people who =
-should
-> have some kind of say in this..
->=20
-> FWIW: I despised the UI at first as well, then I got used to it (after =
-a month
-> or so), now I really like it especially with the "New screen" UI
-> introduced IIRC in 2.8 version.
+Upgrading the lttng-modules version to 2.4.2 and also removed additional
+patch (bio-bvec-iter.patch) as its fix is already available in version 2.4.2.
 
-That 'new screen' is indeed an improvement and I also found the switch =
-to make it show a unidiff instead of side-by-side. I still despise the =
-UI, though, but not as much as before :)
+This version of lttng-modules has been verified with kernel version 3.10.43
+and older kernel version 3.10.40 to ensure it does not break older kernel
+version build. It is also being verified with kernel 3.14.4.
 
-regards,
+Thank you.
 
-Koen
+Regards,
+Rebecca
 
-> Only annoying part for me is more
-> complicated permissions model (which I luckily don't need to
-> change so often) and missing option to use "simple" server side hooks.
->=20
-> Regards,
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Chang Rebecca Swee Fun (1):
+  lttng-modules: Update to version 2.4.2
+
+ meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb |   38 ----------------------
+ meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb |   38 ++++++++++++++++++++++
+ 2 files changed, 38 insertions(+), 38 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb
+
+-- 
+1.7.9.5
 
 
