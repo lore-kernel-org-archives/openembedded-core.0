@@ -1,26 +1,24 @@
 Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E30C6AC6B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 23A2B71692
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 Oct 2014 22:52:00 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s93Mq2px000622
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s93Mq0Vm020598
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Oct 2014 15:52:02 -0700 (PDT)
+	Fri, 3 Oct 2014 15:52:01 -0700 (PDT)
 Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 3 Oct 2014 15:52:01 -0700
+	Fri, 3 Oct 2014 15:52:00 -0700
 From: Peter Seebach <peter.seebach@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 3 Oct 2014 17:58:31 -0500
-Message-ID: <19a695d43829a77948809158d8e63a5f56d2901b.1412376807.git.peter.seebach@windriver.com>
+Date: Fri, 3 Oct 2014 17:58:30 -0500
+Message-ID: <cover.1412376807.git.peter.seebach@windriver.com>
 X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1412376807.git.peter.seebach@windriver.com>
-References: <cover.1412376807.git.peter.seebach@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] pseudo*.bb: update to pseudo 1.6.2
+Subject: [PATCH 0/1] pseudo 1.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +34,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 03 Oct 2014 22:52:03 -0000
 Content-Type: text/plain
 
-pseudo 1.6.2 fixes problems with 64-bit inodes and some underlying issues
-involving file renames that could occasionally cause very strange behaviors
-files being deleted, linked, or renamed, mostly observed as strange
-recovery if an inode got reused.
----
+This fixes a handful of things that have been creating strange and
+hard-to-replicate failures.
+
+1. The inode data path wasn't quite 64-bit clean, so XFS filesystems
+could produce strange behavior.
+2. When renaming a file, pseudo would sometimes create a link to
+rename when the file had actually already been in the database.
+3. Some operations could spuriously create an additional link to
+a file.
+4. So it was possible for you to end up with a file marked as deleted
+but still having a 'NAMELESS FILE' entry for the same inode which
+could cause strange behaviors galore.
+
+The net outcome of this is that if there's a lot of renames happening
+for files which have recently been hit by a may-unlink but the did-unlink
+hasn't been processed yet, really strange stuff happens.
+
+I think the XFS stuff may have actually been a red herring from some
+of the other parts, which I could reproduce on 32-bit filesystems.
+
+I haven't run builds against the recipe patches yet, but I've sent the
+tarball link to pidge. Pretty optimistic, though, once I got past all
+the crazy parts this was a pretty straightforward patch as such go.
+
+The database change may cause some existing pseudo databases to become
+invalid, but conveniently, it'll also invalidate checksums. They'll
+probably work anyway, because pseudo is okay with inode mismatches.
+
+The following changes since commit 2b85b3f33af5157cd4b6f8a6dc737015c85018c3:
+
+  uninative-tarball: Update eglibc -> glibc (2014-10-02 10:58:18 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib seebs/pseudo162
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/pseudo162
+
+Peter Seebach (1):
+  pseudo*.bb: update to pseudo 1.6.2
+
  .../pseudo/{pseudo_1.6.1.bb => pseudo_1.6.2.bb}    |    4 ++--
  meta/recipes-devtools/pseudo/pseudo_git.bb         |    4 ++--
  2 files changed, 4 insertions(+), 4 deletions(-)
  rename meta/recipes-devtools/pseudo/{pseudo_1.6.1.bb => pseudo_1.6.2.bb} (52%)
-
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.6.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
-similarity index 52%
-rename from meta/recipes-devtools/pseudo/pseudo_1.6.1.bb
-rename to meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
-index 2dff823..ece50bf 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.6.1.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
-@@ -4,7 +4,7 @@ SRC_URI = " \
-     http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
- "
- 
--SRC_URI[md5sum] = "c19e4811635d12f2a923e47061c7d336"
--SRC_URI[sha256sum] = "de9cc755b786bfbe2d416d35fab340f2b8ef9904cb2801be3092eeb7446a7c37"
-+SRC_URI[md5sum] = "4d7b4f9d1b4aafa680ce94a5a9a52f1f"
-+SRC_URI[sha256sum] = "c72be92689511ced7c419149c6aaa1b1a9e4dfc6409d1f16ab72cc35bc1e376a"
- 
- PSEUDO_EXTRA_OPTS ?= "--enable-force-async"
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index d599cfb..8c6f06a 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -1,7 +1,7 @@
- require pseudo.inc
- 
--SRCREV = "2765805641f09109029b88b38f27256dc1b52ba3"
--PV = "1.6.1+git${SRCPV}"
-+SRCREV = "0dc29e7c67f25d0978a7da5cd8965514912c5b36"
-+PV = "1.6.2+git${SRCPV}"
- 
- DEFAULT_PREFERENCE = "-1"
- 
--- 
-1.7.1
 
 
