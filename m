@@ -1,24 +1,34 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 23A2B71692
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id E368B71547
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Oct 2014 22:52:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s93Mq0Vm020598
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat,  4 Oct 2014 02:26:57 +0000 (UTC)
+Received: by mail-wg0-f51.google.com with SMTP id b13so2766105wgh.34
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Oct 2014 15:52:01 -0700 (PDT)
-Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 3 Oct 2014 15:52:00 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 3 Oct 2014 17:58:30 -0500
-Message-ID: <cover.1412376807.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.1
-MIME-Version: 1.0
-Subject: [PATCH 0/1] pseudo 1.6.2
+	Fri, 03 Oct 2014 19:26:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=seZ3VDbaIBCpWV3CQ/dOKvPKFPJ93PK+dq0gvDRg1YM=;
+	b=RgxZwuWWm5LNM2u6u3OC3TEYX/dCqdXWtEXRNjxEGWy5Xr9Lc6QH9AnOeMHvK5tJSP
+	4OPLqRvvkcYZx9gp5QAFfw7FszcxOttz6bkWhG6/AaT6X2lYIggze5LyAkjx6835RekD
+	IdYiTA0Rw+hZR9pcNObC7bKiJFcftO6l1jtnGRCQ8B6KxCoxWUstDzpFI3EpnVcpHuxU
+	lcvyVZC0DDmKFWnYgId6UcwqnBIG0gYRhWvM8qnRDnAT9pgk0Zuyg26p5B+XH4wiOb5C
+	/SzHrjSTNatp/TaXYPAIFWpefY4fFpDFy5ai6K6tJ6y5P5p8j80Zi1ODdFxAEUULONvf
+	y+OA==
+X-Received: by 10.194.95.234 with SMTP id dn10mr11917745wjb.73.1412389618414; 
+	Fri, 03 Oct 2014 19:26:58 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	bj7sm9601791wjc.33.2014.10.03.19.26.57 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 03 Oct 2014 19:26:57 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  4 Oct 2014 04:27:55 +0200
+Message-Id: <1412389675-13389-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.1.1
+Subject: [WIP][PATCH] systemd: don't move libgudev around, it breaks libgudev-1.0.la
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,51 +41,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Oct 2014 22:52:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 04 Oct 2014 02:26:58 -0000
 
-This fixes a handful of things that have been creating strange and
-hard-to-replicate failures.
+* libgudev-1.0.la still references /usr/lib and this change was breaking gypsy (detected in navit) and
+  network-manager-applet
 
-1. The inode data path wasn't quite 64-bit clean, so XFS filesystems
-could produce strange behavior.
-2. When renaming a file, pseudo would sometimes create a link to
-rename when the file had actually already been in the database.
-3. Some operations could spuriously create an additional link to
-a file.
-4. So it was possible for you to end up with a file marked as deleted
-but still having a 'NAMELESS FILE' entry for the same inode which
-could cause strange behaviors galore.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-core/systemd/systemd_216.bb | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-The net outcome of this is that if there's a lot of renames happening
-for files which have recently been hit by a may-unlink but the did-unlink
-hasn't been processed yet, really strange stuff happens.
-
-I think the XFS stuff may have actually been a red herring from some
-of the other parts, which I could reproduce on 32-bit filesystems.
-
-I haven't run builds against the recipe patches yet, but I've sent the
-tarball link to pidge. Pretty optimistic, though, once I got past all
-the crazy parts this was a pretty straightforward patch as such go.
-
-The database change may cause some existing pseudo databases to become
-invalid, but conveniently, it'll also invalidate checksums. They'll
-probably work anyway, because pseudo is okay with inode mismatches.
-
-The following changes since commit 2b85b3f33af5157cd4b6f8a6dc737015c85018c3:
-
-  uninative-tarball: Update eglibc -> glibc (2014-10-02 10:58:18 +0100)
-
-are available in the git repository at:
-  git://git.yoctoproject.org/poky-contrib seebs/pseudo162
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/pseudo162
-
-Peter Seebach (1):
-  pseudo*.bb: update to pseudo 1.6.2
-
- .../pseudo/{pseudo_1.6.1.bb => pseudo_1.6.2.bb}    |    4 ++--
- meta/recipes-devtools/pseudo/pseudo_git.bb         |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/pseudo/{pseudo_1.6.1.bb => pseudo_1.6.2.bb} (52%)
+diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
+index ebf9395..2779823 100644
+--- a/meta/recipes-core/systemd/systemd_216.bb
++++ b/meta/recipes-core/systemd/systemd_216.bb
+@@ -129,9 +129,6 @@ do_install() {
+ 		sed -i s%@UDEVD@%${rootlibexecdir}/systemd/systemd-udevd% ${D}${sysconfdir}/init.d/systemd-udevd
+ 	fi
+ 
+-	# Move libgudev back to ${rootlibdir} to keep backward compatibility
+-	[ ${rootlibdir} != ${libdir} ] && mv -t ${D}${rootlibdir} ${D}${libdir}/libgudev*
+-
+         # Delete journal README, as log can be symlinked inside volatile.
+         rm -f ${D}/${localstatedir}/log/README
+ 
+@@ -171,10 +168,10 @@ python populate_packages_prepend (){
+     systemdlibdir = d.getVar("rootlibdir", True)
+     do_split_packages(d, systemdlibdir, '^lib(.*)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
+ }
+-PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
++PACKAGES_DYNAMIC += "^lib(udev|systemd).*"
+ 
+ PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install \
+-             ${PN}-rpm-macros ${PN}-binfmt ${PN}-pam ${PN}-zsh"
++             ${PN}-rpm-macros ${PN}-binfmt ${PN}-pam ${PN}-zsh libgudev"
+ 
+ SYSTEMD_PACKAGES = "${PN}-binfmt"
+ SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
+@@ -188,6 +185,8 @@ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
+ FILES_${PN}-initramfs = "/init"
+ RDEPENDS_${PN}-initramfs = "${PN}"
+ 
++FILES_libgudev = "${libdir}/libgudev*${SOLIBS}"
++
+ # The test cases need perl and bash to run correctly.
+ RDEPENDS_${PN}-ptest += "perl bash"
+ FILES_${PN}-ptest += "${libdir}/udev/rules.d"
+-- 
+2.1.1
 
 
