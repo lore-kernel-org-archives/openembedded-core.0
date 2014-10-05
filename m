@@ -1,39 +1,35 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qa0-f46.google.com (mail-qa0-f46.google.com
-	[209.85.216.46])
-	by mail.openembedded.org (Postfix) with ESMTP id AC2446AC6B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 08AB27054E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 Oct 2014 15:14:32 +0000 (UTC)
-Received: by mail-qa0-f46.google.com with SMTP id w8so2599862qac.19
+	Sun,  5 Oct 2014 23:12:42 +0000 (UTC)
+Received: by mail-pd0-f171.google.com with SMTP id ft15so2329504pdb.30
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Oct 2014 08:14:33 -0700 (PDT)
+	Sun, 05 Oct 2014 16:12:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=uxn93FPcKvAfCTlI7K+DU1ihSDPjMFLfb5guv8WV73I=;
-	b=MbpTuv0mG9eK92D9Qh+zoszZJzbv8tdyCF2JhLiamaeXGN0Xt9E49GDmtIzDeMalNE
-	U7pmPNhk2c08WAsoSPoGevqbUndOm7Xx+d05Bujr6igEKbT7tQC111Jbvj8dUavdhbSq
-	a2Io3t2Dtvh28JTI467pniKrAvl4JjaDOXHqpUE+crDIQzAM2mMk4SuHFaH5F+uwTkBU
-	dXw1yyXnpjz36EILPgbP+iz+8WIXCBClfln02I58scYxImtuO59PmmSXWSc+8d0BbSn4
-	kOUYXJhYMWtJb9CVq6uwLbizlwMfkbRseTF73GpWlwhuJCN+K0MXUeqFmCYwHnAM3U2y
-	F7rQ==
-X-Received: by 10.224.60.129 with SMTP id p1mr2579270qah.99.1412522073008;
-	Sun, 05 Oct 2014 08:14:33 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([177.35.70.10])
-	by mx.google.com with ESMTPSA id
-	e64sm10461736qga.34.2014.10.05.08.14.31 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 05 Oct 2014 08:14:31 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id B87711C65C960; Sun,  5 Oct 2014 12:14:26 -0300 (BRT)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Sun,  5 Oct 2014 12:14:22 -0300
-Message-Id: <1412522062-31211-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.1.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] package.bbclass: Reverse runtime symlinks should be tied to package generation
+	h=from:to:cc:subject:date:message-id;
+	bh=Y8RMTHH75O9BlNf1e6Bu7Xq2bMvRVQlNq+EzwsatE1s=;
+	b=0q1Dn3IgdzHSR6prNQ5pTPjDa/8fBTbx098W2VYWMudj8/yIBi59OeBzSQZ7sAEmrZ
+	Mp8gbjW6iePrvkXDKW14TYVsykj8U6Pe07Dl8SXnC0YF1A4nVB6hHwFqVyr9SNsOI75b
+	vcWme92EIm9BVgoIv/w77rGKGRFceDU0bjl3MhvqsFnq27Sqf1AKTf8XcOqZaz7l8i/s
+	l0QYD8Xe6ildNZwU25VIH+XxD6MeASjrWHULNfzC16Z7TBtksCnTFayLeJvMEhchirxG
+	9tzdTvlI4sSJCPI+xRtCG7z4RhPIpaMwVY6M2gTsFCh7+Bau5Wa4i2wWzPuAogLpChdU
+	5jsA==
+X-Received: by 10.70.90.171 with SMTP id bx11mr14445065pdb.27.1412550764014;
+	Sun, 05 Oct 2014 16:12:44 -0700 (PDT)
+Received: from haswell.localdomain (c-76-103-58-225.hsd1.ca.comcast.net.
+	[76.103.58.225])
+	by mx.google.com with ESMTPSA id fv6sm9390221pdb.83.2014.10.05.16.12.43
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 05 Oct 2014 16:12:43 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  5 Oct 2014 16:16:19 -0700
+Message-Id: <1412550979-15317-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.2
+Subject: [daisy][PATCH] gnome-desktop-testing: Fix build on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,56 +42,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Oct 2014 15:14:37 -0000
+X-List-Received-Date: Sun, 05 Oct 2014 23:12:43 -0000
 
-In case a package is not generated (is empty and does not has allow
-empty flag set) the package data regarding reverse runtime dependency
-shouldn't be done.
+[YOCTO #6577]
 
-This were causing a false-positive in the meta-fsl-arm layer, when
-building mesa, as:
-
-,----[ Error during build of MX53 in meta-fsl-arm ]
-| ERROR: The recipe mesa is trying to install files into a shared area
-|  when those files already exist. Those files and their manifest
-|  location are:
-|    /.../build/build/tmp/sysroots/imx53qsb/pkgdata/runtime-reverse/libopenvg-dev
-|    Matched in manifest-imx53qsb-amd-gpu-x11-bin-mx51.packagedata
-| Please verify which recipe should provide the above files.
-`----
-
-Fixes [YOCTO: #6795]
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Change-Id: Ia29fb963a7df4e77504993172f85851e0b540c7e
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/package.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ ...process.c-Enable-GNU-extensions-in-system.patch | 35 ++++++++++++++++++++++
+ .../gnome-desktop-testing_2014.1.bb                |  4 ++-
+ 2 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing/0001-gsystem-subprocess.c-Enable-GNU-extensions-in-system.patch
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index a877d28..f17c8d5 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1241,10 +1241,6 @@ python emit_pkgdata() {
-         sf.write('%s_%s: %d\n' % ('PKGSIZE', pkg, total_size))
-         sf.close()
- 
--        # Symlinks needed for reverse lookups (from the final package name)
--        subdata_sym = pkgdatadir + "/runtime-reverse/%s" % pkgval
--        oe.path.symlink("../runtime/%s" % pkg, subdata_sym, True)
--        
-         # Symlinks needed for rprovides lookup
-         if rprov:
-             for p in rprov.strip().split():
-@@ -1259,6 +1255,10 @@ python emit_pkgdata() {
-         os.chdir(root)
-         g = glob('*')
-         if g or allow_empty == "1":
-+            # Symlinks needed for reverse lookups (from the final package name)
-+            subdata_sym = pkgdatadir + "/runtime-reverse/%s" % pkgval
-+            oe.path.symlink("../runtime/%s" % pkg, subdata_sym, True)
+diff --git a/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing/0001-gsystem-subprocess.c-Enable-GNU-extensions-in-system.patch b/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing/0001-gsystem-subprocess.c-Enable-GNU-extensions-in-system.patch
+new file mode 100644
+index 0000000..840666f
+--- /dev/null
++++ b/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing/0001-gsystem-subprocess.c-Enable-GNU-extensions-in-system.patch
+@@ -0,0 +1,35 @@
++From b1de2c6290bc0651fe87a8c4fb52e7a0a5fe6322 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 5 Oct 2014 16:01:49 -0700
++Subject: [PATCH] gsystem-subprocess.c: Enable GNU extensions in system  C
++ library
 +
-             packagedfile = pkgdatadir + '/runtime/%s.packaged' % pkg
-             open(packagedfile, 'w').close()
++This should export O_CLOEXEC where it is only
++available when _GNU_SOURCE is defined .e.g. uclibc based systems
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Upstream-Status: Pending
++
++---
++ src/libgsystem/gsystem-subprocess.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/src/libgsystem/gsystem-subprocess.c b/src/libgsystem/gsystem-subprocess.c
++index a967896..a52a362 100644
++--- a/src/libgsystem/gsystem-subprocess.c
+++++ b/src/libgsystem/gsystem-subprocess.c
++@@ -18,6 +18,10 @@
++ 
++ #include "config.h"
++ 
+++#ifndef _GNU_SOURCE
+++#define _GNU_SOURCE
+++#endif
+++
++ #define _GSYSTEM_NO_LOCAL_ALLOC
++ #include "libgsystem.h"
++ 
++-- 
++2.1.1
++
+diff --git a/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2014.1.bb b/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2014.1.bb
+index 146a02a..c688e9d 100644
+--- a/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2014.1.bb
++++ b/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2014.1.bb
+@@ -2,7 +2,9 @@ SUMMARY = "Test runner for GNOME-style installed tests"
+ HOMEPAGE = "https://wiki.gnome.org/GnomeGoals/InstalledTests"
+ LICENSE = "LGPLv2+"
+ 
+-SRC_URI = "${GNOME_MIRROR}/${BPN}/${PV}/${BPN}-${PV}.tar.xz"
++SRC_URI = "${GNOME_MIRROR}/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
++           file://0001-gsystem-subprocess.c-Enable-GNU-extensions-in-system.patch \
++          "
+ SRC_URI[md5sum] = "a608ad72a77e23a1aecdfd8d07a94baf"
+ SRC_URI[sha256sum] = "1a3eed73678dd22d09d6a7ec4f899557df3e8b4a802affa76d0f163b31286539"
  
 -- 
 2.1.1
