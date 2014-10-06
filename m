@@ -1,36 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id A953A6FC68
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C294B708B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Oct 2014 09:12:22 +0000 (UTC)
-Received: by mail-qc0-f181.google.com with SMTP id r5so3514252qcx.26
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Oct 2014 02:12:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=2O9m4K7KvsV4sZ2s45ml+A/h80Ur6AnzePwDUPYujqw=;
-	b=biKs7m14BD9BQUa1/Z2dXj8P1FlBxL3r28LmThDLKQZ/Eoni70WFrAMoUfc2u1iZ0s
-	iu5pOPEKurzK6a6ryBUR/9c+GlzzYLceS2NEd3AurBDTmdJmAYQIOnNy+N1RFOqIYxWV
-	f+S/RLajoKpvqkGCbDX0UvYZK4Fh51o177cghiNBxMJM0VEURciNG0vX7Tq1/pR52q+n
-	4v8J5lrET+y+7yYNuLkOmil3KDJ/7Xlqu8m2k+NFQv4EFDhqu2muefIeukd/6scwK841
-	g7AcUzcui4aV170a4i4JAa5NSC7ISATtqhSaTWw74YfgqfrnCosamgpRXgwhZZPxe5+R
-	5Vfg==
-X-Gm-Message-State: ALoCoQnnFQhqWi6mjJ1KHjQ86RNhQjBzyzSavinTXqeF9tbbmRRjBnQrNx4AedHDro0OXYCqx/+6
-X-Received: by 10.140.84.84 with SMTP id k78mr7826687qgd.80.1412586743421;
-	Mon, 06 Oct 2014 02:12:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.34.180 with HTTP; Mon, 6 Oct 2014 02:12:03 -0700 (PDT)
-In-Reply-To: <CALXw4G59Kqjxo0RVmMVZzKztnjYd5XdZuGmaaEdNB42sJ2+f-g@mail.gmail.com>
-References: <CALXw4G59Kqjxo0RVmMVZzKztnjYd5XdZuGmaaEdNB42sJ2+f-g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 6 Oct 2014 10:12:03 +0100
-Message-ID: <CAJTo0LZ=uw-PnGbLmU-RnOXBVA5jsJjO2kJF=ftEvHtigBgU4w@mail.gmail.com>
-To: Michael Gloff <mgloff@emacinc.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Busybox/RFKILL
+	Mon,  6 Oct 2014 09:33:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s969WwHY024559; Mon, 6 Oct 2014 10:32:58 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Ypqs_i7My8qF; Mon,  6 Oct 2014 10:32:57 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s969WpsI024556
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 6 Oct 2014 10:32:53 +0100
+Message-ID: <1412588005.2301.7.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Konrad Scherer <konrad.scherer@windriver.com>
+Date: Mon, 06 Oct 2014 10:33:25 +0100
+In-Reply-To: <1412277290-11352-1-git-send-email-konrad.scherer@windriver.com>
+References: <1412277290-11352-1-git-send-email-konrad.scherer@windriver.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Makedoc.sh uses home /tmp and fails is noexec is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +36,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Oct 2014 09:12:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 06 Oct 2014 09:33:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 4 October 2014 19:00, Michael Gloff <mgloff@emacinc.com> wrote:
-> I've run into a slight issue that when I enable RFKILL in busybox config, my
-> config gets overwritten by busybox.inc. I do not have wifi in
-> DISTRO_FEATURES. I believe that
->
-> busybox_cfg(bb.utils.contains('DISTRO_FEATURES', 'wifi', True, False, d),
-> 'CONFIG_RFKILL', cnf, rem)
->
-> is not performing as intended and am unsure how to fix. I've tried a couple
-> of variations, but wound up just commenting it out for my local builds.
->
-> Basically, rfkill does not get configured in unless you have wifi
-> DISRO_FEATURES.
+On Thu, 2014-10-02 at 15:14 -0400, Konrad Scherer wrote:
+> From: Konrad Scherer <Konrad.Scherer@windriver.com>
+> 
+> The Makedoc.sh script uses the following line to set TMPDIR
+> 
+> export TMPDIR=`mktemp -d ${TMPDIR:-/tmp}/ldt.XXXXXXXXXX`;
+> 
+> and then later in the script:
+> 
+> chmod u+x $TMPDIR/linuxdoc
+> 
+> Since TMPDIR is not set the script will default to /tmp and if /tmp
+> is set to noexec (which is becoming more common), the chmod call fails.
+> 
+> Signed-off-by: Konrad Scherer <Konrad.Scherer@windriver.com>
+> ---
+>  meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
+> index ed6ab73..9bd2bba 100644
+> --- a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
+> +++ b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
+> @@ -19,3 +19,7 @@ inherit autotools-brokensep native
+>  do_configure () {
+>  	oe_runconf
+>  }
+> +
+> +do_install() {
+> +	oe_runmake TMPDIR=${T} install
+> +}
 
-That logic is behaving exactly as intended: if the DISTRO_FEATURES
-contains wifi then enable CONFIG_RFKILL, otherwise disable it.
+This actually breaks the builds pretty badly. The fact the image
+directory is empty after the above change is a bad sign. The reason is
+that it needs to be:
 
-I presume you're planning on using rfkill with bluetooth radios?  That
-test needs to be extended to check for either wifi or bluetooth.
-Patches welcome! (change contains() to contains_any(), and pass "wifi
-bluetooth").
+oe_runmake "TMPDIR=${T}" "DESTDIR=${D}" install
 
-Ross
+If you don't specify DESTDIR, the files in the sysroot disappear and you
+get strange errors from recipes like libuser. 
+
+Cheers,
+
+Richard
+
+
 
