@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id EA346717B3
+	by mail.openembedded.org (Postfix) with ESMTP id 89A57717B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Oct 2014 14:06:44 +0000 (UTC)
+	Mon,  6 Oct 2014 14:08:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s96E6AFM002189 for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Oct 2014 15:06:10 +0100
+	s96E7UlW002256 for <openembedded-core@lists.openembedded.org>;
+	Mon, 6 Oct 2014 15:07:30 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id cgs1j2icVr5G
+	with LMTP id RIzl0QKxXEWu
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Oct 2014 15:06:10 +0100 (BST)
+	Mon,  6 Oct 2014 15:07:30 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s96E64bq002186
+	s96E7R8Q002234
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Oct 2014 15:06:06 +0100
-Message-ID: <1412604398.12419.1.camel@ted>
+	Mon, 6 Oct 2014 15:07:28 +0100
+Message-ID: <1412604480.12419.2.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 06 Oct 2014 15:06:38 +0100
+Date: Mon, 06 Oct 2014 15:08:00 +0100
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
-Subject: [PATCH] gcc-runtime: Add linux-gnuspe symlink to fix c++ headers
+Subject: [PATCH] cross-canadian: Disable the packagedata stamp-extra-info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Oct 2014 14:06:52 -0000
+X-List-Received-Date: Mon, 06 Oct 2014 14:08:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Some architectures can mix different TARGET_OS values, in most cases
-we just use one but in the ppc case, can use two different values. In this
-case, to use one toolchain with both, we need to ensure the symlinks exist.
-
-This isn't ideal but does fix the ppc toolchains for the release, after
-which better ways of handling this can be investiaged. Without this, failures
-in the C++ toolchain are seen.
-
-(From OE-Core rev: d73a2c5d3a30a6c72465b39f9a1b5217de99ee01)
+Similarly to native/cross disable this since otherwise the packagedata
+can be marked as machine specific and if you switch machines
+which share an architecture, you'll get toolchain overlapping files
+errors.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 7ce84f1..167869e 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -53,6 +53,9 @@ do_install () {
- 	if [ -d ${D}${infodir} ]; then
- 		rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
- 	fi
-+	if [ "${TARGET_OS}" = "linux-gnuspe" ]; then
-+		ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
-+	fi
- 	chown -R root:root ${D}
- }
+diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+index 6da43fe..fec6438 100644
+--- a/meta/classes/cross-canadian.bbclass
++++ b/meta/classes/cross-canadian.bbclass
+@@ -111,6 +111,7 @@ export PKG_CONFIG_DIR = "${STAGING_DIR_HOST}${layout_libdir}/pkgconfig"
+ export PKG_CONFIG_SYSROOT_DIR = "${STAGING_DIR_HOST}"
+ 
+ do_populate_sysroot[stamp-extra-info] = ""
++do_packagedata[stamp-extra-info] = ""
+ 
+ USE_NLS = "${SDKUSE_NLS}"
  
 
 
