@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 55911713B4
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 33AFF713B4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Oct 2014 22:08:59 +0000 (UTC)
-Received: by mail-qg0-f54.google.com with SMTP id z107so4513012qgd.27
+	Mon,  6 Oct 2014 22:10:42 +0000 (UTC)
+Received: by mail-wi0-f173.google.com with SMTP id fb4so6073698wid.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Oct 2014 15:09:00 -0700 (PDT)
+	Mon, 06 Oct 2014 15:10:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=/tDlWxQAWStIU2Gq7liSbkTd2pw7T/9UF4sYSFtplR8=;
-	b=UPWeWt793k0UYJfGWuVS5C4Q5bJLp4SskwnFUIUheZPBaV+cW1Gq4nJgDhX8kAwnDO
-	+sa2tk0bPpTqDEEZDTmLk77W9FyE3HYhPlaK+byy5fIFdQ+vmOh92wPw2mISY9w/wams
-	2Yc5pfV+FU/KJwFJCAuaDfRXslX0OlVFyuZV1NNASXtORCyySShnlpYU38uJd9iDnger
-	SLSocfAQ4EGc9xcGx/tj9IXBrmVAH+YxpFmn0XYNBesa/2LeqtxZFS3yveJAvbT6/m8L
-	+h6722KRKUwlLOgir1PKDOwvjQVEdo9lhneQQKk3rSFr7wXuIKzV+qyMp/1lYlvuUmP9
-	5whg==
-X-Gm-Message-State: ALoCoQl6yZgHe9/ySmO5FT02Zv7PsqxEN60639CGzKGnf9+a81oZi48kv+5zQYgIBN2dWGTYESCO
-X-Received: by 10.224.121.80 with SMTP id g16mr35475377qar.64.1412633340773;
-	Mon, 06 Oct 2014 15:09:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.106.134 with HTTP; Mon, 6 Oct 2014 15:08:40 -0700 (PDT)
-In-Reply-To: <126742226.547.1412000986930.JavaMail.zimbra@tpip.net>
-References: <126742226.547.1412000986930.JavaMail.zimbra@tpip.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 6 Oct 2014 23:08:40 +0100
-Message-ID: <CAJTo0LaxiXU+Q-+kDKpYkm0_ER-KgRof9kAyrF8BEnH9POjvDQ@mail.gmail.com>
-To: Andreas Schultz <aschultz@tpip.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] bogus dependency from systemd to systemd-binfmt
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=839WgHBh5aHyhd1WLKFqHmeJsg+4VvLjo72iHTtyC0U=;
+	b=U9TiuhvgzMOAXxzKqD2BBC7TkpuXtZPE26Ge+jarvlk8sXNiKcIiozfVtXQ3Io3ewC
+	K/LX9T7Q2LI2W9hPhLvVrFvzsoockQKcDYyCP1dw4U4ocQOhw9/6xjyWWOuB6QZLldsG
+	8UW4xtWru70RAE4NOZR0DfwaL0/WOJMZVyDUpEV4yJ5x22PKd2d0iU61bEJiXYWeAu3V
+	nsMd14+dN6Ingv96nJDwR30BC7aR4F+txjFMdALahFY7IxCh221Uj5+KOKVoQYgumy7F
+	Seq6/8SXssg8H4jR0dH3k9n3yYPh0VnHfVinFoCDqhznoepUWa4iIFaW8XcCqB3SlK1z
+	8FDw==
+X-Gm-Message-State: ALoCoQnuH6CQge2IunBquTBgD5vZ+bQqm/ORfDnYpBb+yKMfp8WWu5tk7TehX30XEYKy7Z9fibJr
+X-Received: by 10.195.13.78 with SMTP id ew14mr1660816wjd.83.1412633443618;
+	Mon, 06 Oct 2014 15:10:43 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id u2sm18614110wjz.11.2014.10.06.15.10.42
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 Oct 2014 15:10:42 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  6 Oct 2014 23:10:33 +0100
+Message-Id: <1412633433-23255-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] systemd: don't add files and dependencies from units Conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,36 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Oct 2014 22:09:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 06 Oct 2014 22:10:56 -0000
 
-On 29 September 2014 15:29, Andreas Schultz <aschultz@tpip.net> wrote:
-> With the current recipes a dependency from systemd to systemd-binfmt is
-> generated. systemd does work fine without systemd-binfmt and binfmt is
-> not required for a working system. So, this dependency should not be there.
+Adding dependencies and moving files based on Conflicts tags in unit files isn't
+right, mainly as it means that systemd depends on systemd-binfmt, because the
+latter ends up containing the shutdown.target unit.
 
-It's more than just a bogus dependency:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/systemd.bbclass |    5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-$ rpm -qpl systemd-binfmt-216+git0+5d0ae62c66-r0.26.corei7_64.rpm
-/etc
-/etc/binfmt.d
-/lib
-/lib/systemd
-/lib/systemd/system
-/lib/systemd/system/proc-sys-fs-binfmt_misc.automount
-/lib/systemd/system/proc-sys-fs-binfmt_misc.mount
-/lib/systemd/system/shutdown.target
-/lib/systemd/system/systemd-binfmt.service
-/lib/systemd/systemd-binfmt
-/usr
-/usr/lib
-/usr/lib/binfmt.d
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 708ba89..c34884b 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -143,10 +143,7 @@ python systemd_populate_packages() {
+         if has_exactly_one_service:
+             has_exactly_one_service = len(get_package_var(d, 'SYSTEMD_SERVICE', systemd_packages).split()) == 1
+ 
+-        keys = 'Also' # Conflicts??
+-        if has_exactly_one_service:
+-            # single service gets also the /dev/null dummies
+-            keys = 'Also Conflicts'
++        keys = 'Also'
+         # scan for all in SYSTEMD_SERVICE[]
+         for pkg_systemd in systemd_packages.split():
+             for service in get_package_var(d, 'SYSTEMD_SERVICE', pkg_systemd).split():
+-- 
+1.7.10.4
 
-Pretty certain shutdown.target doesn't belong in systemd-binfmt!
-
-Right now I can't see a reason to move unit files around and add
-dependencies based on *conflicts*, so I'll send a patch removing that
-path entirely unless someone has a counter-argument.
-
-Ross
 
