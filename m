@@ -1,24 +1,24 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EEA8E717E0
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F80C65E0C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Oct 2014 14:45:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s96Ejm2U025120
+	Mon,  6 Oct 2014 14:50:14 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s96EoEeY016571
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Oct 2014 07:45:48 -0700 (PDT)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 6 Oct 2014 07:45:47 -0700
+	Mon, 6 Oct 2014 07:50:14 -0700 (PDT)
+Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 6 Oct 2014 07:50:13 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 6 Oct 2014 09:45:46 -0500
-Message-ID: <1412606746-83996-1-git-send-email-mark.hatle@windriver.com>
+Date: Mon, 6 Oct 2014 09:50:12 -0500
+Message-ID: <1412607012-84068-1-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.9.3
 MIME-Version: 1.0
-Subject: [PATCH V2] Makedoc.sh uses home /tmp and fails is noexec is set
+Subject: [PATCH V3] linuxdoc-tools-native: Makedoc.sh uses /tmp and fails w/ noexec mount
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Oct 2014 14:45:47 -0000
+X-List-Received-Date: Mon, 06 Oct 2014 14:50:18 -0000
 Content-Type: text/plain
 
 From: Konrad Scherer <Konrad.Scherer@windriver.com>
