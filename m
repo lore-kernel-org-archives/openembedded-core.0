@@ -1,39 +1,36 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 369636FDEB
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Oct 2014 06:40:44 +0000 (UTC)
-Received: by mail-wg0-f51.google.com with SMTP id b13so5703923wgh.22
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Oct 2014 23:40:45 -0700 (PDT)
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id CB85C6FDEB;
+	Mon,  6 Oct 2014 06:48:20 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id hi2so3537381wib.15
+	for <multiple recipients>; Sun, 05 Oct 2014 23:48:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=UeihGkLJUKl1e0O+tK2ALWGfFBNt87LINT9cn6d55MM=;
-	b=AdrlG5pceBR694AWD9LJDhfL9OmenFRKzaobboWIQlTbv9BNNcZW2yFOtTyI1ZwsIX
-	QBP65w95HjT5gyW1wUUmEz5xklyQGBdF0FqwJ3j9DKMN817yLFuIL8sKnWvLzttZVnDP
-	twHYRGEjLtxlO/uts3m8O37deLnY9VQmh/hX48iFSwbDdgJ6PMhp/hm/vT6lGOY7CFYj
-	GVAEVtiGEo7bhA927mpH+LRampGwSS/Idkhu1rZWgFD4M396dGL8YqlCscvwMqZZA8vO
-	xFu8j1D5KXts4dqmraPAaiiHMV+0tBJn76a6AYFn3Y5rx1q1ZVi228msvepHZw76bprJ
-	U4mw==
-X-Received: by 10.180.77.163 with SMTP id t3mr17476882wiw.25.1412577645593;
-	Sun, 05 Oct 2014 23:40:45 -0700 (PDT)
+	h=from:date:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=bsYSc5+DGD6UgO+ZCwCV9tNeEhyYbv/doroxJvqbIqI=;
+	b=PgXECCQgGPqhG7HOucq7mVoTNEvBrXuZ/c/oeqMTYmh/WcV5ka5SvgYjl42q0G8yNg
+	FEGVu4o2sWKi07rJYIaCWvtiPLk9pF+LlqDE2Sau5B4sXJuSBJjiXJU6ano/8817WOkf
+	YgqQjWy2e1hg1PG0dMwH8zlqho8i3mFlhJoxdGEReyC9kJnELiUlaKYtXbBLr/7BU0K+
+	lmn/S4/AuhtNavDjYuyd96MMAeGTFc3ImUa3186txeybTRdug0CxbsvPgBaITaFdVDXl
+	6N6SgEHTX2OyS0LIBdIRxKs+nYhV6lgBHIN4J75OenZcnaeQfttd+h/3XXKdHtA0BIvz
+	51Ng==
+X-Received: by 10.194.8.232 with SMTP id u8mr28250516wja.64.1412578100762;
+	Sun, 05 Oct 2014 23:48:20 -0700 (PDT)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	hu3sm16263768wjb.17.2014.10.05.23.40.44 for <multiple recipients>
+	ba3sm10303656wib.10.2014.10.05.23.48.19 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 05 Oct 2014 23:40:44 -0700 (PDT)
+	Sun, 05 Oct 2014 23:48:20 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 6 Oct 2014 08:41:45 +0200
-To: Brian Lloyd <blloyd@familyhonor.net>
-Message-ID: <20141006064145.GT25706@jama>
-References: <cover.1412567765.git.blloyd@familyhonor.net>
+Date: Mon, 6 Oct 2014 08:49:21 +0200
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20141006064921.GU25706@jama>
 MIME-Version: 1.0
-In-Reply-To: <cover.1412567765.git.blloyd@familyhonor.net>
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] xf-86-video-geode missing config.h include
+Subject: State of bitbake world, Failed tasks 2014-10-06
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,61 +43,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Oct 2014 06:40:52 -0000
-X-Groupsio-MsgNum: 58367
+X-List-Received-Date: Mon, 06 Oct 2014 06:48:26 -0000
+X-Groupsio-MsgNum: 58368
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="mIBGJ7C7ypTjlzw5"
+	protocol="application/pgp-signature"; boundary="PjTdUoKi0+yCYsVx"
 Content-Disposition: inline
 
---mIBGJ7C7ypTjlzw5
+--PjTdUoKi0+yCYsVx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 05, 2014 at 11:00:09PM -0500, Brian Lloyd wrote:
-> This backports a fix already applied to development branh of xf86-video-g=
-eode to latest release since next release could be a ways away.  This allow=
-s compiling xf86-video-geode against the latest linux-yocto kernels.
+http://www.openembedded.org/wiki/Bitbake_World_Status
 
-I've already sent similar patch for oe-devel ML list where this change
-belongs and I plan to merge it tonight.
+All pending issues were fixed, so now it fails only in conflicting packages.
 
-But thanks for getting it fixed in upstream!
+=3D=3D Failed tasks 2014-10-06 =3D=3D
 
-Regards,
+=3D=3D=3D common (6) =3D=3D=3D
+    * meta-openembedded/meta-gnome/recipes-gnome/gnome-keyring/gnome-keyrin=
+g_2.32.1.bb, do_populate_sysroot
+    * meta-openembedded/meta-gnome/recipes-gnome/gnome-menus/gnome-menus_2.=
+30.5.bb, do_populate_sysroot
+    * meta-openembedded/meta-gnome/recipes-gnome/gweather/libgweather_2.30.=
+3.bb, do_populate_sysroot
+    * meta-openembedded/meta-python/recipes-devtools/python/python-dateutil=
+_1.5.bb, do_populate_sysroot
+    * meta-openembedded/meta-webserver/recipes-php/modphp/modphp_5.5.15.bb,=
+ do_populate_sysroot
+    * openembedded-core/meta/recipes-extended/xz/xz_5.1.3alpha.bb, do_popul=
+ate_sysroot
 
-> Brian Lloyd (1):
->   Backports inclusion of config.h to be compatible with newer kernels.
->=20
->  ...1-Add-config.h-include-to-src-lx_memory.c.patch | 40 ++++++++++++++++=
-++++++
->  .../xorg-driver/xf86-video-geode_2.11.16.bb        |  2 +-
->  2 files changed, 41 insertions(+), 1 deletion(-)
->  create mode 100644 meta-oe/recipes-graphics/xorg-driver/xf86-video-geode=
-/0001-Add-config.h-include-to-src-lx_memory.c.patch
->=20
-> --=20
-> 1.9.3
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+=3D=3D=3D common-x86 (0) =3D=3D=3D
+
+=3D=3D=3D qemuarm (0) =3D=3D=3D
+
+=3D=3D=3D qemux86 (0) =3D=3D=3D
+
+=3D=3D=3D qemux86_64 (0) =3D=3D=3D
+
+=3D=3D=3D Number of failed tasks =3D=3D=3D
+{| class=3Dwikitable
+|-
+||qemuarm       ||6     ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
+og.world.20141005_223611.log/||http://errors.yoctoproject.org:80/Errors/Sea=
+rch/1/2897/
+|-
+||qemux86       ||6     ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
+og.world.20141006_020500.log/||http://errors.yoctoproject.org:80/Errors/Sea=
+rch/1/2898/
+|-
+||qemux86_64    ||6     ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
+og.world.20141006_030302.log/||http://errors.yoctoproject.org:80/Errors/Sea=
+rch/1/2899/
+|}
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---mIBGJ7C7ypTjlzw5
+--PjTdUoKi0+yCYsVx
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlQyOakACgkQN1Ujt2V2gBxD+wCaAniPN4nDQ0dWG4rWT89klv7F
-DpwAniZAcJWw4PWvQRNCVZ4SLGObxmza
-=iEU1
+iEYEARECAAYFAlQyO3EACgkQN1Ujt2V2gBxeHQCgkmgwGGaelwJzvs43nYF7g99J
+YF4AniXFrCippIXpnFd+0iZtb7YzaRIs
+=AXuk
 -----END PGP SIGNATURE-----
 
---mIBGJ7C7ypTjlzw5--
+--PjTdUoKi0+yCYsVx--
