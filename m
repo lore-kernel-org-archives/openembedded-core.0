@@ -1,38 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D98F71186
+Return-Path: <Lauren.Post@freescale.com>
+X-Greylist: delayed 917 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 07 Oct 2014 15:39:53 UTC
+Received: from na01-bl2-obe.outbound.protection.outlook.com
+	(mail-bl2on0105.outbound.protection.outlook.com [65.55.169.105])
+	by mail.openembedded.org (Postfix) with ESMTP id D8C786B7CA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Oct 2014 14:44:50 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id i50so5442292qgf.21
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Oct 2014 07:44:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=hV15mRtM/nJaYW1HWsh/i0Sot6wRYFc37QynLk1wLI8=;
-	b=OIZzV5dCtzapFB7+fgVF1sWZF/plvMGqYkqgbv2bedaBw7VcqIEd5WK/vgww82VU8n
-	k9ZleD9z14RfqF9ht5nPBeC38Fp1AsB9/1kVKfRX3VvrwFjvbwfrg3jeyEKX1Nbb2Xl4
-	ABj2X8V3SUSDmAlmA+HaiqN5cZ5OYqWjcn6Ie8qZMyAvkB0DuejaghI6jKiaxYLqIkS/
-	mL+MMETLscHvApc2tme8kQPupakSZrk4CNhHFJZviLB1/IQ65hgOAUvhGYgkB9Xo4j0P
-	eOlImzLqZ7rMKxHZSd48q1EszxlarzE/ttQuoswlCt/frUwGEANJNAVdqaiFvpmwYt+k
-	QZUw==
-X-Gm-Message-State: ALoCoQnm8UaQoNWGsMVJ3RdyObVTlKJ+AqWotfyVj5VatyxPJiA15BsJiANInF6rwSrqHsqg3TwV
-X-Received: by 10.140.23.50 with SMTP id 47mr36683088qgo.77.1412693091702;
-	Tue, 07 Oct 2014 07:44:51 -0700 (PDT)
+	Tue,  7 Oct 2014 15:39:53 +0000 (UTC)
+Received: from CY1PR0301MB0700.namprd03.prod.outlook.com (25.160.159.142) by
+	CY1PR0301MB0699.namprd03.prod.outlook.com (25.160.159.141) with
+	Microsoft
+	SMTP Server (TLS) id 15.0.1049.19; Tue, 7 Oct 2014 15:24:35 +0000
+Received: from CY1PR0301MB0700.namprd03.prod.outlook.com ([25.160.159.142]) by
+	CY1PR0301MB0700.namprd03.prod.outlook.com ([25.160.159.142]) with
+	mapi id 15.00.1044.008; Tue, 7 Oct 2014 15:24:35 +0000
+From: Lauren Post <Lauren.Post@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Multiple issues building from dizzy or master
+Thread-Index: Ac/iQsvC7/qyE+FWQruCM8wynhzxgQ==
+Date: Tue, 7 Oct 2014 15:24:35 +0000
+Message-ID: <e777247650f44526919fb4737b79b0a6@CY1PR0301MB0700.namprd03.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.88.168.50]
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:CY1PR0301MB0699;
+x-forefront-prvs: 035748864E
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(189002)(199003)(107046002)(74316001)(21056001)(107886001)(97736003)(229853001)(2351001)(77096002)(87936001)(105586002)(106356001)(2656002)(4396001)(99286002)(46102003)(122556002)(95666004)(40100002)(80022003)(54356999)(99396003)(108616004)(76576001)(31966008)(66066001)(76482002)(120916001)(86362001)(50986999)(101416001)(85306004)(92566001)(33646002)(20776003)(64706001)(85852003)(110136001)(24736002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB0699;
+	H:CY1PR0301MB0700.namprd03.prod.outlook.com; FPR:; MLV:sfv;
+	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-Received: by 10.140.106.134 with HTTP; Tue, 7 Oct 2014 07:44:31 -0700 (PDT)
-In-Reply-To: <CALbNGRRiHL6P_2PuHPz=6evNKrbYdku71o0z0y=KjHsrzh_a8w@mail.gmail.com>
-References: <1412633433-23255-1-git-send-email-ross.burton@intel.com>
-	<CA+AhUGw=iumQ49Y-kshAM5R8zqww+vL7ADErTN-Ywtq+PYq9ug@mail.gmail.com>
-	<CALbNGRRiHL6P_2PuHPz=6evNKrbYdku71o0z0y=KjHsrzh_a8w@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 7 Oct 2014 15:44:31 +0100
-Message-ID: <CAJTo0La1fFkhdLhpmP79V2E-LxQOv+aQj9hsccD5_B7Ho_TznA@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: don't add files and dependencies from units Conflicts
+X-OriginatorOrg: freescale.com
+Subject: Multiple issues building from dizzy or master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,49 +47,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Oct 2014 14:44:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 07 Oct 2014 15:39:56 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On 7 October 2014 11:40, Andreas M=C3=BCller <schnitzeltony@googlemail.com>=
- wrote:
-> What other packages are missing after this change? Any buildhistory on th=
-is?
+We've been trying for a few weeks to move all our builds to master (yesterd=
+ay dizzy for poky which is the same) and been having random strange problem=
+s on multiple jenkins machines we do our daily builds on.  I talked to Otav=
+io about it but wonder if we are missing something.    I'd appreciate any i=
+deas.   We can build our kernel and uboot fine but when we try to build a m=
+ore complex image with qt5 we have not succeeded any build since yesterday.
 
-$ git checkout master
-$ bitbake core-image-sato
-$ git checkout systemd
-$ bitbake core-image-sato
-$ buildhistory-diff | grep -v PKGR
-Changes to images/nuc/glibc/core-image-sato (files-in-image.txt):
-  /etc/systemd/system/sysinit.target.wants/systemd-binfmt.service was remov=
-ed
-  /var/lib/opkg/info/systemd-binfmt.list was removed
-  /etc/binfmt.d was removed
-  /var/lib/opkg/info/systemd-binfmt.control was removed
-  /lib/systemd/systemd-binfmt was removed
-  /usr/lib/binfmt.d was removed
-  /lib/systemd/system/systemd-binfmt.service was removed
-  /lib/systemd/system/proc-sys-fs-binfmt_misc.automount was removed
-  /var/lib/opkg/info/systemd-binfmt.prerm was removed
-  /var/lib/opkg/info/systemd-binfmt.postinst was removed
-  /lib/systemd/system/proc-sys-fs-binfmt_misc.mount was removed
-  * (installed-package-names.txt):
-  *   systemd-binfmt was removed
-Changes to images/nuc/glibc/core-image-sato (installed-package-names.txt):
-  systemd-binfmt was removed
-packages/corei7-64-poky-linux/systemd/systemd-binfmt: FILELIST:
-removed "/lib/systemd/system/shutdown.target"
-  * FILES: removed "/lib/systemd/system/shutdown.target"
-packages/corei7-64-poky-linux/systemd/systemd-dev: RRECOMMENDS:
-removed "systemd-binfmt-dev"
-packages/corei7-64-poky-linux/systemd/systemd: FILELIST: added
-"/lib/systemd/system/shutdown.target"
-packages/corei7-64-poky-linux/systemd/systemd: RDEPENDS: removed
-"systemd-binfmt"
+As of today we are now getting errors in db compilation
+On both locally and on Jenkins we keep getting a db compile error as of tod=
+ay.
+./db_cxx.h:59:22: fatal error: iostream.h: No such file or directory
+ #include <iostream.h>
+                      ^
+---------------------------------------------------------------------
+For last week we've been battling random gcc_runtime configure errors only =
+on Jenkins machines. =20
 
-That's not a world build but it does include many packages with systemd uni=
-ts.
+This is the configure error.
+checking dynamic linker characteristics... configure: error: Link tests are=
+ not allowed after GCC_NO_EXECUTABLES.
 
-Ross
+---------------------------------------------------------------------------=
+----------------------------
+As of yesterday morning, we are also having many unpack errors on many file=
+s that are disappearing from our downloads before unpack.  The fetch is wor=
+king but then when it unpacks the package has disappeared from downloads.  =
+I've seen this on multiple components (libx11, xproto, inputproto, util-lin=
+ux).  Seems to happen more often with rm_work set but I've seen it without =
+it set.
+
+I'd appreciate any ideas.  The only one I can reproduce locally is the db e=
+rror above but the others seem to only happen on Jenkins machines.  We have=
+ 4 different Jenkins machines all of which can't build on the master branch=
+ but have built fine for months on daisy and dora branches. =20
+
+By the way you can't set your gcc to 4.8.2 - liburcu breaks if you try to u=
+se the older compiler.  So not sure if any of the gcc runtime issues are re=
+lated to the new gcc version.   Not sure if we should keep gcc 4.8.2 in diz=
+zy if it can't be used.
+
+Thanks for any ideas.  I've tried everything I can think of.
+
+Lauren Post
+i.MX Freescale=20
 
