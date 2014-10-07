@@ -1,37 +1,39 @@
-Return-Path: <obi@opendreambox.org>
-X-Greylist: delayed 308 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 07 Oct 2014 20:41:39 UTC
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D7DCD65E1A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 826826B7CA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Oct 2014 20:41:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id DE1B9314EC2D
+	Tue,  7 Oct 2014 21:07:06 +0000 (UTC)
+Received: by mail-qc0-f171.google.com with SMTP id i17so6550681qcy.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Oct 2014 22:36:30 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id Uc7BLhuPX3PY
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Oct 2014 22:36:26 +0200 (CEST)
-Received: from [172.22.22.61] (55d41bdb.access.ecotel.net [85.212.27.219])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 60CCF314EC2C
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Oct 2014 22:36:26 +0200 (CEST)
-Message-ID: <54344EC9.2040303@opendreambox.org>
-Date: Tue, 07 Oct 2014 22:36:25 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
+	Tue, 07 Oct 2014 14:07:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=oSN1Ep/nfyXILQE59mejLfN0xT7EmfQc1iHZIBjsaVk=;
+	b=D/1SHzvH1fTsSxPm83KLL+UJbxDlVeEmIKInAACu7AxMWOAJZ9L3XU23E0YWF5aqvh
+	Fc0G7YNeAQ0M3N75HjSpkwMiwWMbRvItLoOFpfKokihZGdBnX5qeRGXhU6p4yjXKP3nA
+	qkwbJxsOhM/6aId1WAWQguyXc2oy2oazqYP1bk/oxD5sbXOB2+501+OBeq8SRpcd2weJ
+	yCew6IIF5D6YhR76oT8eTi5WwoTQOTI72NwMMuOj1KWLELc5YZCkQuPy1ObTJTdGIzYh
+	erG4qG0XRfaCa1nOcTJv5T/RMT/gXKdIyu6HQYb0p2XnOfcUgBTK7YsE++bo+t+ofOAF
+	n1SQ==
+X-Gm-Message-State: ALoCoQkWrVmY+4Ro93zeFbE2g32bZYlmVaz5DtJz2segxLTx6azsDh9q4r1VoRh2OwN6Cz08fJC3
+X-Received: by 10.224.63.140 with SMTP id b12mr7533960qai.22.1412716026863;
+	Tue, 07 Oct 2014 14:07:06 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1412712030-12657-1-git-send-email-anibal.limon@linux.intel.com>
-In-Reply-To: <1412712030-12657-1-git-send-email-anibal.limon@linux.intel.com>
-Subject: Re: [PATCH] busybox: fix upgrade problem with deb packages
+Received: by 10.140.106.134 with HTTP; Tue, 7 Oct 2014 14:06:46 -0700 (PDT)
+In-Reply-To: <CAJTo0La1fFkhdLhpmP79V2E-LxQOv+aQj9hsccD5_B7Ho_TznA@mail.gmail.com>
+References: <1412633433-23255-1-git-send-email-ross.burton@intel.com>
+	<CA+AhUGw=iumQ49Y-kshAM5R8zqww+vL7ADErTN-Ywtq+PYq9ug@mail.gmail.com>
+	<CALbNGRRiHL6P_2PuHPz=6evNKrbYdku71o0z0y=KjHsrzh_a8w@mail.gmail.com>
+	<CAJTo0La1fFkhdLhpmP79V2E-LxQOv+aQj9hsccD5_B7Ho_TznA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 7 Oct 2014 22:06:46 +0100
+Message-ID: <CAJTo0Lbuu-YBM9va7wgJJ-bzdqWTwsxPjua5T4JL=7iFQfqFtQ@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: don't add files and dependencies from units Conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,133 +46,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Oct 2014 20:41:48 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 07 Oct 2014 21:07:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hello Aníbal,
+On 7 October 2014 15:44, Burton, Ross <ross.burton@intel.com> wrote:
+> That's not a world build but it does include many packages with systemd units.
 
-On 07.10.2014 22:00, Aníbal Limón wrote:
-> Busybox prerm scripts create temp directory and fill with
-> symlinks to common utilities in order to upgrade itself, PATH
-> is exported but dpkg didn't take a look of this links and fails.
-> 
-> In order to fix,
-> 
-> 	Changed temp directory to /usr/loca/bin in debian packages.
-> 	Added missing links for utilities tar, find, tail, cut.
-> 
-> Busybox syslog prerm script tries to stop the daemon but if already
-> stopped returns 1 then causes that dpkg fails because it expects 0.
-> 
-> In order to fix,
-> 
-> 	Added workaround to exit 0 in debian packages.
-> 
-> [YOCTO #6768]
+Just finished a world build:
 
-please don't overwrite files in /usr/local/bin! People may have their
-own tools there.
+$ buildhistory-diff |grep -v PKGR| tee systemd-builddiff
+packages/corei7-64-poky-linux/openssh/openssh-sshd: PKGSIZE changed
+from 739893 to 982046 (+32%)
+packages/corei7-64-poky-linux/systemd/systemd-binfmt: FILELIST:
+removed "/lib/systemd/system/shutdown.target"
+  * FILES: removed "/lib/systemd/system/shutdown.target"
+packages/corei7-64-poky-linux/systemd/systemd-dev: RRECOMMENDS:
+removed "systemd-binfmt-dev"
+packages/corei7-64-poky-linux/systemd/systemd: FILELIST: added
+"/lib/systemd/system/shutdown.target"
+packages/corei7-64-poky-linux/systemd/systemd: RDEPENDS: removed
+"systemd-binfmt"
 
-This, and the creation of these symlinks in a tmpdir in the first place,
-looks wrong to me.
+Looks like a found a floating dependency in openssh, but nothing else
+in oe-core at least was affected.
 
-I think you'd better get rid of update-alternatives-cworth and use an
-implementation written in C.
-
-See
-http://git.openembedded.org/openembedded-core-contrib/log/?h=obi/dora
-for many dpkg-related fixes including an offline-capable version of
-dpkg's update-alternatives. I couldn't test these with master, but this
-branch contains most if not all patches to dpkg backported from master
-to dora.
-
-Regards,
-Andreas
-
-> 
-> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-> ---
->  meta/recipes-core/busybox/busybox.inc | 46 ++++++++++++++++++++++++++++++++++-
->  1 file changed, 45 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-> index bd66e4f..61f12b4 100644
-> --- a/meta/recipes-core/busybox/busybox.inc
-> +++ b/meta/recipes-core/busybox/busybox.inc
-> @@ -377,13 +377,46 @@ pkg_postinst_${PN} () {
->  			fi
->  		done
->  	fi
-> +
-> +	# Workaround for deb packages, clean
-> +        if [ "$DPKG_MAINTSCRIPT_PACKAGE"x != x ]; then
-> +		tmpdir='/usr/local/bin'
-> +		rm -f $tmpdir/[
-> +		rm -f $tmpdir/test
-> +		rm -f $tmpdir/head
-> +		rm -f $tmpdir/sh
-> +		rm -f $tmpdir/basename
-> +		rm -f $tmpdir/echo
-> +		rm -f $tmpdir/mv
-> +		rm -f $tmpdir/ln
-> +		rm -f $tmpdir/dirname
-> +		rm -f $tmpdir/rm
-> +		rm -f $tmpdir/sed
-> +		rm -f $tmpdir/sort
-> +		rm -f $tmpdir/grep
-> +		rm -f $tmpdir/tar
-> +		rm -f $tmpdir/find
-> +		rm -f $tmpdir/tail
-> +		rm -f $tmpdir/cut
-> +        fi
->  }
->  
->  pkg_prerm_${PN} () {
->  	# This is so you can make busybox commit suicide - removing busybox with no other packages
->  	# providing its files, this will make update-alternatives work, but the update-rc.d part
->  	# for syslog, httpd and/or udhcpd will fail if there is no other package providing sh
-> -	tmpdir=`mktemp -d /tmp/busyboxrm-XXXXXX`
-> +
-> +        # Workaround for deb packages, dpkg don't take into account exported PATH variable,
-> +        # use instead local directory.
-> +        if [ "$DPKG_MAINTSCRIPT_PACKAGE"x == x ]; then
-> +		tmpdir=`mktemp -d /tmp/busyboxrm-XXXXXX`
-> +        else
-> +		tmpdir='/usr/local/bin'
-> +		if [ ! -e $tmpdir ]; then
-> +			mkdir -p $tmpdir
-> +		fi
-> +	fi
-> +
->  	ln -s /bin/busybox $tmpdir/[
->  	ln -s /bin/busybox $tmpdir/test
->  	ln -s /bin/busybox $tmpdir/head
-> @@ -397,6 +430,11 @@ pkg_prerm_${PN} () {
->  	ln -s /bin/busybox $tmpdir/sed
->  	ln -s /bin/busybox $tmpdir/sort
->  	ln -s /bin/busybox $tmpdir/grep
-> +	ln -s /bin/busybox $tmpdir/tar
-> +	ln -s /bin/busybox $tmpdir/find
-> +	ln -s /bin/busybox $tmpdir/tail
-> +	ln -s /bin/busybox $tmpdir/cut
-> +
->  	export PATH=$PATH:$tmpdir
->  }
->  
-> @@ -405,6 +443,12 @@ pkg_prerm_${PN}-syslog () {
->  	if test "x$D" = "x"; then
->  		if test "$1" = "upgrade" -o "$1" = "remove"; then
->  			/etc/init.d/syslog stop
-> +
-> +			# Workaround for deb packages, if syslog is already stopped returns
-> +			# 1 but dpkg expects 0 and then fails.
-> +			if [ "$DPKG_MAINTSCRIPT_PACKAGE"x != x ]; then
-> +				exit 0
-> +			fi
->  		fi
->  	fi
->  }
-> 
-
+Ross
 
