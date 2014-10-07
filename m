@@ -1,38 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 540DC717CA;
-	Tue,  7 Oct 2014 04:08:24 +0000 (UTC)
-Received: by mail-wg0-f44.google.com with SMTP id y10so8151265wgg.15
-	for <multiple recipients>; Mon, 06 Oct 2014 21:08:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=WlrKw4xzDRNFHjriXEeWdj2UzrLU5ZgNByo0SVsAkRQ=;
-	b=WHh+4aIuZ5xBwgqzz7xTNKx05qyT+Gnog1GF0JKbJK+W0YapSl+RiaYSZreV+7fNr+
-	HPTUwuJLIKewhj9W193zgoqSnpa0+vRId8wH4vKWRxJkg4OkVfVJ5dVHCx7KjuZaN0Or
-	GmxMP8To5pGm503evKwS+sAvJajEJGMDkcVlUlW1EJICcP5jhinscnEA6ofxL73dbK1N
-	VQb2VNEN+gP1cZ6L0uYbwlsPHa4TvDHAuxpGd85HR7qQ9lNTmJiaxtyO5Nn1NyzCGk7i
-	yCjUo8RtlnWdnSZ/Syt8KTnB3FuH6ZJh0zfOF1WVcN3qch4rH3Mb+V2AOrIM9jqCcFQp
-	Fw9w==
-X-Received: by 10.180.207.100 with SMTP id lv4mr1265966wic.83.1412654905275;
-	Mon, 06 Oct 2014 21:08:25 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	s1sm13170986wiw.6.2014.10.06.21.08.24 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Oct 2014 21:08:24 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 7 Oct 2014 06:09:27 +0200
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20141007040927.GC12322@jama>
-References: <20141006064921.GU25706@jama>
- <20141006174943.GY25706@jama>
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vc0-f178.google.com (mail-vc0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id B793F65E0C;
+	Tue,  7 Oct 2014 06:41:48 +0000 (UTC)
+Received: by mail-vc0-f178.google.com with SMTP id hq12so4385513vcb.9
+	for <multiple recipients>; Mon, 06 Oct 2014 23:41:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=6OZXznXpHVZtvxrPep5OcKPdpdCvZcE+qkO9va/F/3Q=;
+	b=KnFMKcxtSix37Fx71+9Gk9C/u44s/zm468Md+5TNGiGcexjQM1ijaG1ApWbOQRX7D0
+	3YMs5TREKVnZLIBzpt8MDWzDcPzVp8uKMPycudizt/MtnMIROAzRs93tHJc5o7sEoaPa
+	2v9O8sHFkT0v7spS3i5Es1FZU5b1bGpb5gXUWtM+kLDyLbI+sR8sSBvLAWxEvZGE7T7z
+	62TrlUHL7evoRzb5E928t9pP8vMo2R95Zr+j3mSgaf7IlwXII/jopYYIbxTZAB06w/+Q
+	f/507TQ8cQm8wmjKfWV7RpUSozG5Gr61P6QyvjgPH07BBfX11+CCrbiZ2S1huEAXdufh
+	epLQ==
 MIME-Version: 1.0
-In-Reply-To: <20141006174943.GY25706@jama>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: Conflicting files in sysroot Was: State of bitbake world, Failed tasks 2014-10-06
+X-Received: by 10.220.92.198 with SMTP id s6mr1530419vcm.38.1412664109532;
+	Mon, 06 Oct 2014 23:41:49 -0700 (PDT)
+Received: by 10.52.171.233 with HTTP; Mon, 6 Oct 2014 23:41:49 -0700 (PDT)
+In-Reply-To: <20141006152331.GV25706@jama>
+References: <1412151555-19865-1-git-send-email-schnitzeltony@googlemail.com>
+	<1412151555-19865-5-git-send-email-schnitzeltony@googlemail.com>
+	<20141003200426.GM25706@jama> <20141003201007.GN25706@jama>
+	<CALbNGRTP7S6MAxFU-yo2xXWTMbo3h-A8uS94ALLxgOOiONL6nQ@mail.gmail.com>
+	<20141006152331.GV25706@jama>
+Date: Tue, 7 Oct 2014 08:41:49 +0200
+Message-ID: <CALbNGRQ44osDGnd2q+QWsqhXS+SbLMKuBFn8q8Rir9GPn+Akdw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [PATCH][meta-oe 04/15] network-manager-applet: update to 0.9.8.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,155 +47,516 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Oct 2014 04:08:26 -0000
-X-Groupsio-MsgNum: 58391
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="VywGB/WGlW4DM4P8"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 07 Oct 2014 06:41:50 -0000
+Content-Type: multipart/alternative; boundary=089e015384586f8dab0504cf7ed8
 
---VywGB/WGlW4DM4P8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--089e015384586f8dab0504cf7ed8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 06, 2014 at 07:49:43PM +0200, Martin Jansa wrote:
-> On Mon, Oct 06, 2014 at 08:49:21AM +0200, Martin Jansa wrote:
-> > http://www.openembedded.org/wiki/Bitbake_World_Status
-> >=20
-> > All pending issues were fixed, so now it fails only in conflicting pack=
-ages.
-> >=20
-> > =3D=3D Failed tasks 2014-10-06 =3D=3D
-> >=20
-> > =3D=3D=3D common (6) =3D=3D=3D
-> >     * meta-openembedded/meta-gnome/recipes-gnome/gnome-keyring/gnome-ke=
-yring_2.32.1.bb, do_populate_sysroot
-> >     * meta-openembedded/meta-gnome/recipes-gnome/gnome-menus/gnome-menu=
-s_2.30.5.bb, do_populate_sysroot
-> >     * meta-openembedded/meta-gnome/recipes-gnome/gweather/libgweather_2=
-=2E30.3.bb, do_populate_sysroot
-> >     * meta-openembedded/meta-python/recipes-devtools/python/python-date=
-util_1.5.bb, do_populate_sysroot
-> >     * meta-openembedded/meta-webserver/recipes-php/modphp/modphp_5.5.15=
-=2Ebb, do_populate_sysroot
-> >     * openembedded-core/meta/recipes-extended/xz/xz_5.1.3alpha.bb, do_p=
-opulate_sysroot
->=20
-> To make it easier for other people to take action and fix some of these
-> before they are PNBLACKLISTed for release.. These issues are there for
-> very long time, but now they got much more important with the warning
-> changed to fatal error (which is the right thing).
+On Mon, Oct 6, 2014 at 5:23 PM, Martin Jansa <martin.jansa@gmail.com> wrote=
+:
 
-I've sent fix for qtbase, removal for lzma, blacklist for gcr,
-gnome-menus3, libgweather3, gnome-panel3, python-matplotlib, modphp,
-nss-myhostname
+> On Mon, Oct 06, 2014 at 10:32:49AM +0200, Andreas M=C3=BCller wrote:
+> > On Fri, Oct 3, 2014 at 10:10 PM, Martin Jansa <martin.jansa@gmail.com>
+> > wrote:
+> >
+> > > On Fri, Oct 03, 2014 at 10:04:26PM +0200, Martin Jansa wrote:
+> > > > On Wed, Oct 01, 2014 at 10:19:04AM +0200, Andreas M=C3=BCller wrote=
+:
+> > > > > * add libsecret to DEPENDS
+> > > > > * remove libglade from DEPENDS
+> > > > > * wireless (nm-signal-*.png) icons were updated upstream
+> > > > > * inherit gnomebase instead of gnome
+> > > > > * make bluetooth PACKAGECONFIG - disabled by default
+> > > >
+> > > > For some reason it has now the same problem as navit (through
+> gypsy.la)
+> > > >
+> > > > | x86_64-oe-linux-libtool: compile:  x86_64-oe-linux-gcc -m64
+> > > -march=3Dcore2 -mtune=3Dcore2 -msse3 -mfpmath=3Dsse
+> > > --sysroot=3D/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux8=
+6-64
+> > > -DHAVE_CONFIG_H -I.
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/work/core2-64-oe-linux/networ=
+k-manager-applet/0.9.8.10-r0/network-manager-applet-0.9.8.10/src/utils
+> > > -I../.. -pthread
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/gtk-2.0
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/lib/g=
+tk-2.0/include
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/pango-1.0
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/atk-1.0
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/cairo
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/pixman-1
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/libpng16
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/gdk-pixbuf-2.0
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/libpng16
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/pango-1.0
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/harfbuzz
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/pango-1.0
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/glib-2.0
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/lib/g=
+lib-2.0/include
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/home/jenk=
+ins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/include/freetype2
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/freetype2
+> > > -pthread
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/libnm-glib
+> > >
+> -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/inclu=
+de/NetworkManager
+> > > -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64
+> > > > | ../../x86_64-oe-linux-libtool  --tag=3DCC   --mode=3Dlink
+> > > x86_64-oe-linux-gcc  -m64 -march=3Dcore2 -mtune=3Dcore2 -msse3 -mfpma=
+th=3Dsse
+> > > --sysroot=3D/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux8=
+6-64
+> > > -Wall -std=3Dgnu89  -O2 -pipe -g -feliminate-unused-debug-types -Wsha=
+dow
+> > > -Wmissing-declarations -Wmissing-prototypes
+> -Wdeclaration-after-statement
+> > > -Wstrict-prototypes -Wfloat-equal -Wno-unused-parameter
+> -Wno-sign-compare
+> > > -fno-strict-aliasing -Wno-unused-but-set-variable   -Wl,-O1
+> > > -Wl,--hash-style=3Dgnu -Wl,--as-needed -o libutils.la
+> libutils_la-utils.lo
+> > > -lgtk-x11-2.0 -lgdk-x11-2.0 -lpangocairo-1.0 -latk-1.0 -lcairo
+> > > -lgdk_pixbuf-2.0 -lgio-2.0 -lpangoft2-1.0 -lpango-1.0 -lgobject-2.0
+> > > -lglib-2.0 -lfontconfig -lfreetype  -lgio-2.0 -lnm-glib -lnm-util
+> > > -lnm-glib-vpn -ldbus-glib-1 -ldbus-1 -lgobject-2.0 -Wl,--export-dynam=
+ic
+> > > -lgmodule-2.0 -pthread -lglib-2.0
+> > > > | /bin/grep:
+> > > /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/lib=
+/
+> > > libgudev-1.0.la: No such file or directory
+> > > > | sed: can't read
+> > > /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/lib=
+/
+> > > libgudev-1.0.la: No such file or directory
+> > > > | x86_64-oe-linux-libtool: link:
+> > > `/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/li=
+b/
+> > > libgudev-1.0.la' is not a valid libtool archive
+> > > > | make[5]: *** [libutils.la] Error 1
+> > > > | make[5]: Leaving directory
+> > >
+> `/home/jenkins/oe/world/shr-core/tmp-glibc/work/core2-64-oe-linux/network=
+-manager-applet/0.9.8.10-r0/build/src/utils'
+> > > > | make[4]: *** [all-recursive] Error 1
+> > > > | make[4]: Leaving directory
+> > >
+> `/home/jenkins/oe/world/shr-core/tmp-glibc/work/core2-64-oe-linux/network=
+-manager-applet/0.9.8.10-r0/build/src/utils'
+> > >
+> > > the libgudev-1.0.la was moved from /usr/lib to /lib in systemd 215-21=
+6
+> > > updated
+> > >
+> > > --- a/packages/arm920tt-oe-linux-gnueabi/systemd/systemd-dbg/latest
+> > > +++ b/packages/arm920tt-oe-linux-gnueabi/systemd/systemd-dbg/latest
+> > > @@ -1,11 +1,11 @@
+> > >  PE =3D 1
+> > > -PV =3D 215+gitAUTOINC+252ff40a38
+> > > +PV =3D 216+gitAUTOINC+5d0ae62c66
+> > >  PR =3D r0
+> > > -PKGV =3D 215+git0+252ff40a38
+> > > -PKGR =3D r0.1
+> > > +PKGV =3D 216+git0+5d0ae62c66
+> > > +PKGR =3D r0.0
+> > >  RPROVIDES =3D
+> > >  RDEPENDS =3D
+> > > -RRECOMMENDS =3D eglibc-dbg glib-2.0-dbg libacl-dbg libcap-dbg libffi=
+-dbg
+> > > libgcc-dbg libkmod-dbg liblzma-dbg libpam-dbg libudev-dbg
+> > > util-linux-libblkid-dbg zlib-dbg
+> > > -PKGSIZE =3D 49629406
+> > > +RRECOMMENDS =3D glib-2.0-dbg glibc-dbg libacl-dbg libcap-dbg libffi-=
+dbg
+> > > libgcc-dbg libkmod-dbg liblzma-dbg libpam-dbg libudev-dbg
+> > > util-linux-libblkid-dbg zlib-dbg
+> > > +PKGSIZE =3D 50305088
+> > >  FILES =3D /usr/bin/.debug /usr/sbin/.debug /usr/lib/systemd/.debug
+> > > /usr/lib/.debug /bin/.debug /sbin/.debug /lib/.debug
+> > > /usr/lib/systemd/.debug /usr/lib/matchbox-panel/.debug
+> > > /usr/lib/systemd/systemd/.debug /usr/src/debug
+> > > /usr/lib/systemd/ptest/.debug /lib/.debug /lib/systemd/.debug
+> > > /lib/systemd/*/.debug /lib/security/.debug/
+> > > -RDEPENDS =3D libgudev-1.0 libsystemd libudev systemd (=3D
+> > > 1:215+git0+252ff40a38-r0.1)
+> > > -RRECOMMENDS =3D acl-dev base-files-dev base-passwd-dev dbus-dev
+> eglibc-dev
+> > > glib-2.0-dev kmod-dev libacl-dev libcap-dev libcgroup-dev libffi-dev
+> > > libgcc-dev libgcrypt-dev libgudev-1.0-dev libkmod-dev liblzma-dev
+> > > libpam-dev libsystemd-dev libudev-dev readline-dev shadow-dev
+> > > shadow-sysroot-dev systemd-binfmt-dev udev-dev
+> update-alternatives-opkg-dev
+> > > util-linux-dev util-linux-libblkid-dev util-linux-mount-dev
+> > > volatile-binds-dev xz-dev zlib-dev
+> > > -PKGSIZE =3D 78365
+> > > +RDEPENDS =3D libgudev-1.0 libsystemd libudev systemd (=3D
+> > > 1:216+git0+5d0ae62c66-r0.0)
+> > > +RRECOMMENDS =3D acl-dev base-files-dev base-passwd-dev dbus-dev
+> > > glib-2.0-dev glibc-dev kmod-dev libacl-dev libcap-dev libcgroup-dev
+> > > libffi-dev libgcc-dev libgcrypt-dev libgudev-1.0-dev libkmod-dev
+> > > liblzma-dev libpam-dev libsystemd-dev libudev-dev readline-dev
+> shadow-dev
+> > > shadow-sysroot-dev systemd-binfmt-dev udev-dev
+> update-alternatives-opkg-dev
+> > > util-linux-dev util-linux-libblkid-dev util-linux-mount-dev
+> > > volatile-binds-dev xz-dev zlib-dev
+> > > +PKGSIZE =3D 79477
+> > >  FILES =3D /usr/include /lib/lib*.so /usr/lib/lib*.so /usr/lib/*.la
+> > > /usr/lib/*.o /usr/lib/pkgconfig /usr/share/pkgconfig /usr/share/acloc=
+al
+> > > /lib/*.o /usr/lib/systemd/*.la /lib/*.la /lib/security/*.la
+> > > /usr/share/dbus-1/interfaces/ /etc/rpm/macros.systemd
+> > > -FILELIST =3D /lib/security/pam_systemd.la
+> > > /usr/include/gudev-1.0/gudev/gudev.h
+> > > /usr/include/gudev-1.0/gudev/gudevclient.h
+> > > /usr/include/gudev-1.0/gudev/gudevdevice.h
+> > > /usr/include/gudev-1.0/gudev/gudevenumerator.h
+> > > /usr/include/gudev-1.0/gudev/gudevenums.h
+> > > /usr/include/gudev-1.0/gudev/gudevenumtypes.h
+> > > /usr/include/gudev-1.0/gudev/gudevtypes.h /usr/include/libudev.h
+> > > /usr/include/systemd/_sd-common.h /usr/include/systemd/sd-daemon.h
+> > > /usr/include/systemd/sd-id128.h /usr/include/systemd/sd-journal.h
+> > > /usr/include/systemd/sd-login.h /usr/include/systemd/sd-messages.h
+> /usr/lib/
+> > > libgudev-1.0.la /usr/lib/libgudev-1.0.so /usr/lib/libnss_myhostname.l=
+a
+> > > /usr/lib/libsystemd.la /usr/lib/libsystemd.so /usr/lib/libudev.la
+> > > /usr/lib/libudev.so /usr/lib/pkgconfig/gudev-1.0.pc
+> > > /usr/lib/pkgconfig/libsystemd.pc /usr/lib/pkgconfig/libudev.pc
+> > > /usr/share/pkgconfig/systemd.pc /usr/share/pkgconfig/udev.pc
+> > > +FILELIST =3D /lib/libgudev-1.0.la /lib/libgudev-1.0.so /lib/security=
+/
+> > > pam_systemd.la /usr/include/gudev-1.0/gudev/gudev.h
+> > > /usr/include/gudev-1.0/gudev/gudevclient.h
+> > > /usr/include/gudev-1.0/gudev/gudevdevice.h
+> > > /usr/include/gudev-1.0/gudev/gudevenumerator.h
+> > > /usr/include/gudev-1.0/gudev/gudevenums.h
+> > > /usr/include/gudev-1.0/gudev/gudevenumtypes.h
+> > > /usr/include/gudev-1.0/gudev/gudevtypes.h /usr/include/libudev.h
+> > > /usr/include/systemd/_sd-common.h /usr/include/systemd/sd-daemon.h
+> > > /usr/include/systemd/sd-id128.h /usr/include/systemd/sd-journal.h
+> > > /usr/include/systemd/sd-login.h /usr/include/systemd/sd-messages.h
+> /usr/lib/
+> > > libnss_myhostname.la /usr/lib/libnss_mymachines.la /usr/lib/
+> libsystemd.la
+> > > /usr/lib/libsystemd.so /usr/lib/libudev.la /usr/lib/libudev.so
+> > > /usr/lib/pkgconfig/gudev-1.0.pc /usr/lib/pkgconfig/libsystemd.pc
+> > > /usr/lib/pkgconfig/libudev.pc /usr/share/pkgconfig/systemd.pc
+> > > /usr/share/pkgconfig/udev.pc
+> > >
+> > > Hmm - I made my tests with systemd 216 and had no errors. Shouldn't
+> > pkg-config find libgudev <http://libgudev-1.0.la>?
+>
+> See http://patchwork.openembedded.org/patch/81291/ for more details.
+>
+> Yes I saw that - still wondering why it works fine here without this patc=
+h.
 
-If you need one of these in dizzy, send patch soon (before Friday).
+Andreas
 
-> Here is the list of conflicting files and recipes:
-> gnome-keyring - manifest-qemux86-64-gcr.populate_sysroot
-> 4
-> gnome-menus - manifest-qemux86-64-gnome-menus3.populate_sysroot
-> 24
-> libgweather - manifest-qemux86-64-libgweather3.populate_sysroot
-> 876
-> xz manifest-qemux86-64-lzma.populate_sysroot
-> 2
-> systemd - manifest-qemux86-64-nss-myhostname.populate_sysroot
-> 1
-> modphp - manifest-qemux86-64-php.populate_sysroot
-> 466
-> python-dateutil - manifest-qemux86-64-python-matplotlib.populate_sysroot
-> 34
-> qtbase - manifest-qemux86-64-qt4-embedded.populate_sysroot
-> 82
->=20
-> ERROR: The recipe python-dateutil is trying to install files into a share=
-d area when those files already exist. Those files and their manifest locat=
-ion are:
->    /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/lib/=
-python2.7/site-packages/dateutil/tzwin.pyc
->    Matched in manifest-qemux86-64-python-matplotlib.populate_sysroot
->    ...
->=20
-> ERROR: The recipe gnome-keyring is trying to install files into a shared =
-area when those files already exist. Those files and their manifest locatio=
-n are:
->    /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/shar=
-e/glib-2.0/schemas/org.gnome.crypto.pgp.gschema.xml
->    Matched in manifest-qemux86-64-gcr.populate_sysroot
->    /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/shar=
-e/GConf/gsettings/org.gnome.crypto.pgp.convert
->    Matched in manifest-qemux86-64-gcr.populate_sysroot
->=20
-> ERROR: The recipe modphp is trying to install files into a shared area wh=
-en those files already exist. Those files and their manifest location are:
->    /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/incl=
-ude/php/main/win95nt.h
->    Matched in manifest-qemux86-64-php.populate_sysroot
->    ...
->=20
-> ERROR: The recipe qtbase is trying to install files into a shared area wh=
-en those files already exist. Those files and their manifest location are:
->    /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/lib/=
-fonts/unifont_160_50.qpf
->    Matched in manifest-qemux86-64-qt4-embedded.populate_sysroot
->    ...
->=20
-> ERROR: The recipe gnome-menus is trying to install files into a shared ar=
-ea when those files already exist. Those files and their manifest location =
-are:
->    /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/shar=
-e/desktop-directories/X-GNOME-Other.directory
->    Matched in manifest-qemux86-64-gnome-menus3.populate_sysroot
->    ...
->=20
-> ERROR: The recipe systemd is trying to install files into a shared area w=
-hen those files already exist. Those files and their manifest location are:
->    /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/lib/=
-libnss_myhostname.so.2
->    Matched in manifest-qemux86-64-nss-myhostname.populate_sysroot
->=20
-> ERROR: The recipe xz is trying to install files into a shared area when t=
-hose files already exist. Those files and their manifest location are:
->    /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/lib/=
-liblzma.a
->    Matched in manifest-qemux86-64-lzma.populate_sysroot
->=20
-> ERROR: The recipe libgweather is trying to install files into a shared ar=
-ea when those files already exist. Those files and their manifest location =
-are:
->    /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/shar=
-e/libgweather/locations.dtd
->    Matched in manifest-qemux86-64-libgweather3.populate_sysroot
->    /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/shar=
-e/libgweather/Locations.zh_TW.xml
->    Matched in manifest-qemux86-64-libgweather3.populate_sysroot
->    ...
->    /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/shar=
-e/icons/gnome/scalable/status/weather-few-clouds-night-350.svg
->    Matched in manifest-qemux86-64-libgweather3.populate_sysroot
->=20
-> I would like to see this fixed before we create dizzy branch.
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+--089e015384586f8dab0504cf7ed8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On M=
+on, Oct 6, 2014 at 5:23 PM, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><=
+div class=3D"h5">On Mon, Oct 06, 2014 at 10:32:49AM +0200, Andreas M=C3=BCl=
+ler wrote:<br>
+&gt; On Fri, Oct 3, 2014 at 10:10 PM, Martin Jansa &lt;<a href=3D"mailto:ma=
+rtin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt;<br>
+&gt; wrote:<br>
+&gt;<br>
+&gt; &gt; On Fri, Oct 03, 2014 at 10:04:26PM +0200, Martin Jansa wrote:<br>
+&gt; &gt; &gt; On Wed, Oct 01, 2014 at 10:19:04AM +0200, Andreas M=C3=BClle=
+r wrote:<br>
+&gt; &gt; &gt; &gt; * add libsecret to DEPENDS<br>
+&gt; &gt; &gt; &gt; * remove libglade from DEPENDS<br>
+&gt; &gt; &gt; &gt; * wireless (nm-signal-*.png) icons were updated upstrea=
+m<br>
+&gt; &gt; &gt; &gt; * inherit gnomebase instead of gnome<br>
+&gt; &gt; &gt; &gt; * make bluetooth PACKAGECONFIG - disabled by default<br=
+>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; For some reason it has now the same problem as navit (throug=
+h <a href=3D"http://gypsy.la" target=3D"_blank">gypsy.la</a>)<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; | x86_64-oe-linux-libtool: compile:=C2=A0 x86_64-oe-linux-gc=
+c -m64<br>
+&gt; &gt; -march=3Dcore2 -mtune=3Dcore2 -msse3 -mfpmath=3Dsse<br>
+&gt; &gt; --sysroot=3D/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qe=
+mux86-64<br>
+&gt; &gt; -DHAVE_CONFIG_H -I.<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/work/core2-64-oe-linu=
+x/network-manager-applet/0.9.8.10-r0/network-manager-applet-0.9.8.10/src/ut=
+ils<br>
+&gt; &gt; -I../.. -pthread<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/gtk-2.0<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/lib/gtk-2.0/include<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/pango-1.0<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/atk-1.0<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/cairo<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/pixman-1<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/libpng16<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/gdk-pixbuf-2.0<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/libpng16<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/pango-1.0<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/harfbuzz<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/pango-1.0<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/glib-2.0<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/lib/glib-2.0/include<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/h=
+ome/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr/include/fre=
+etype2<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/freetype2<br>
+&gt; &gt; -pthread<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/libnm-glib<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/u=
+sr/include/NetworkManager<br>
+&gt; &gt; -I/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64<b=
+r>
+&gt; &gt; &gt; | ../../x86_64-oe-linux-libtool=C2=A0 --tag=3DCC=C2=A0 =C2=
+=A0--mode=3Dlink<br>
+&gt; &gt; x86_64-oe-linux-gcc=C2=A0 -m64 -march=3Dcore2 -mtune=3Dcore2 -mss=
+e3 -mfpmath=3Dsse<br>
+&gt; &gt; --sysroot=3D/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qe=
+mux86-64<br>
+&gt; &gt; -Wall -std=3Dgnu89=C2=A0 -O2 -pipe -g -feliminate-unused-debug-ty=
+pes -Wshadow<br>
+&gt; &gt; -Wmissing-declarations -Wmissing-prototypes -Wdeclaration-after-s=
+tatement<br>
+&gt; &gt; -Wstrict-prototypes -Wfloat-equal -Wno-unused-parameter -Wno-sign=
+-compare<br>
+&gt; &gt; -fno-strict-aliasing -Wno-unused-but-set-variable=C2=A0 =C2=A0-Wl=
+,-O1<br>
+&gt; &gt; -Wl,--hash-style=3Dgnu -Wl,--as-needed -o <a href=3D"http://libut=
+ils.la" target=3D"_blank">libutils.la</a>=C2=A0 libutils_la-utils.lo<br>
+&gt; &gt; -lgtk-x11-2.0 -lgdk-x11-2.0 -lpangocairo-1.0 -latk-1.0 -lcairo<br=
+>
+&gt; &gt; -lgdk_pixbuf-2.0 -lgio-2.0 -lpangoft2-1.0 -lpango-1.0 -lgobject-2=
+.0<br>
+&gt; &gt; -lglib-2.0 -lfontconfig -lfreetype=C2=A0 -lgio-2.0 -lnm-glib -lnm=
+-util<br>
+&gt; &gt; -lnm-glib-vpn -ldbus-glib-1 -ldbus-1 -lgobject-2.0 -Wl,--export-d=
+ynamic<br>
+&gt; &gt; -lgmodule-2.0 -pthread -lglib-2.0<br>
+&gt; &gt; &gt; | /bin/grep:<br>
+&gt; &gt; /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr=
+/lib/<br>
+&gt; &gt; <a href=3D"http://libgudev-1.0.la" target=3D"_blank">libgudev-1.0=
+.la</a>: No such file or directory<br>
+&gt; &gt; &gt; | sed: can&#39;t read<br>
+&gt; &gt; /home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/usr=
+/lib/<br>
+&gt; &gt; <a href=3D"http://libgudev-1.0.la" target=3D"_blank">libgudev-1.0=
+.la</a>: No such file or directory<br>
+&gt; &gt; &gt; | x86_64-oe-linux-libtool: link:<br>
+&gt; &gt; `/home/jenkins/oe/world/shr-core/tmp-glibc/sysroots/qemux86-64/us=
+r/lib/<br>
+&gt; &gt; <a href=3D"http://libgudev-1.0.la" target=3D"_blank">libgudev-1.0=
+.la</a>&#39; is not a valid libtool archive<br>
+&gt; &gt; &gt; | make[5]: *** [<a href=3D"http://libutils.la" target=3D"_bl=
+ank">libutils.la</a>] Error 1<br>
+&gt; &gt; &gt; | make[5]: Leaving directory<br>
+&gt; &gt; `/home/jenkins/oe/world/shr-core/tmp-glibc/work/core2-64-oe-linux=
+/network-manager-applet/0.9.8.10-r0/build/src/utils&#39;<br>
+&gt; &gt; &gt; | make[4]: *** [all-recursive] Error 1<br>
+&gt; &gt; &gt; | make[4]: Leaving directory<br>
+&gt; &gt; `/home/jenkins/oe/world/shr-core/tmp-glibc/work/core2-64-oe-linux=
+/network-manager-applet/0.9.8.10-r0/build/src/utils&#39;<br>
+&gt; &gt;<br>
+&gt; &gt; the <a href=3D"http://libgudev-1.0.la" target=3D"_blank">libgudev=
+-1.0.la</a> was moved from /usr/lib to /lib in systemd 215-216<br>
+&gt; &gt; updated<br>
+&gt; &gt;<br>
+&gt; &gt; --- a/packages/arm920tt-oe-linux-gnueabi/systemd/systemd-dbg/late=
+st<br>
+&gt; &gt; +++ b/packages/arm920tt-oe-linux-gnueabi/systemd/systemd-dbg/late=
+st<br>
+&gt; &gt; @@ -1,11 +1,11 @@<br>
+&gt; &gt;=C2=A0 PE =3D 1<br>
+&gt; &gt; -PV =3D 215+gitAUTOINC+252ff40a38<br>
+&gt; &gt; +PV =3D 216+gitAUTOINC+5d0ae62c66<br>
+&gt; &gt;=C2=A0 PR =3D r0<br>
+&gt; &gt; -PKGV =3D 215+git0+252ff40a38<br>
+&gt; &gt; -PKGR =3D r0.1<br>
+&gt; &gt; +PKGV =3D 216+git0+5d0ae62c66<br>
+&gt; &gt; +PKGR =3D r0.0<br>
+&gt; &gt;=C2=A0 RPROVIDES =3D<br>
+&gt; &gt;=C2=A0 RDEPENDS =3D<br>
+&gt; &gt; -RRECOMMENDS =3D eglibc-dbg glib-2.0-dbg libacl-dbg libcap-dbg li=
+bffi-dbg<br>
+&gt; &gt; libgcc-dbg libkmod-dbg liblzma-dbg libpam-dbg libudev-dbg<br>
+&gt; &gt; util-linux-libblkid-dbg zlib-dbg<br>
+&gt; &gt; -PKGSIZE =3D 49629406<br>
+&gt; &gt; +RRECOMMENDS =3D glib-2.0-dbg glibc-dbg libacl-dbg libcap-dbg lib=
+ffi-dbg<br>
+&gt; &gt; libgcc-dbg libkmod-dbg liblzma-dbg libpam-dbg libudev-dbg<br>
+&gt; &gt; util-linux-libblkid-dbg zlib-dbg<br>
+&gt; &gt; +PKGSIZE =3D 50305088<br>
+&gt; &gt;=C2=A0 FILES =3D /usr/bin/.debug /usr/sbin/.debug /usr/lib/systemd=
+/.debug<br>
+&gt; &gt; /usr/lib/.debug /bin/.debug /sbin/.debug /lib/.debug<br>
+&gt; &gt; /usr/lib/systemd/.debug /usr/lib/matchbox-panel/.debug<br>
+&gt; &gt; /usr/lib/systemd/systemd/.debug /usr/src/debug<br>
+&gt; &gt; /usr/lib/systemd/ptest/.debug /lib/.debug /lib/systemd/.debug<br>
+&gt; &gt; /lib/systemd/*/.debug /lib/security/.debug/<br>
+&gt; &gt; -RDEPENDS =3D libgudev-1.0 libsystemd libudev systemd (=3D<br>
+&gt; &gt; 1:215+git0+252ff40a38-r0.1)<br>
+&gt; &gt; -RRECOMMENDS =3D acl-dev base-files-dev base-passwd-dev dbus-dev =
+eglibc-dev<br>
+&gt; &gt; glib-2.0-dev kmod-dev libacl-dev libcap-dev libcgroup-dev libffi-=
+dev<br>
+&gt; &gt; libgcc-dev libgcrypt-dev libgudev-1.0-dev libkmod-dev liblzma-dev=
+<br>
+&gt; &gt; libpam-dev libsystemd-dev libudev-dev readline-dev shadow-dev<br>
+&gt; &gt; shadow-sysroot-dev systemd-binfmt-dev udev-dev update-alternative=
+s-opkg-dev<br>
+&gt; &gt; util-linux-dev util-linux-libblkid-dev util-linux-mount-dev<br>
+&gt; &gt; volatile-binds-dev xz-dev zlib-dev<br>
+&gt; &gt; -PKGSIZE =3D 78365<br>
+&gt; &gt; +RDEPENDS =3D libgudev-1.0 libsystemd libudev systemd (=3D<br>
+&gt; &gt; 1:216+git0+5d0ae62c66-r0.0)<br>
+&gt; &gt; +RRECOMMENDS =3D acl-dev base-files-dev base-passwd-dev dbus-dev<=
+br>
+&gt; &gt; glib-2.0-dev glibc-dev kmod-dev libacl-dev libcap-dev libcgroup-d=
+ev<br>
+&gt; &gt; libffi-dev libgcc-dev libgcrypt-dev libgudev-1.0-dev libkmod-dev<=
+br>
+&gt; &gt; liblzma-dev libpam-dev libsystemd-dev libudev-dev readline-dev sh=
+adow-dev<br>
+&gt; &gt; shadow-sysroot-dev systemd-binfmt-dev udev-dev update-alternative=
+s-opkg-dev<br>
+&gt; &gt; util-linux-dev util-linux-libblkid-dev util-linux-mount-dev<br>
+&gt; &gt; volatile-binds-dev xz-dev zlib-dev<br>
+&gt; &gt; +PKGSIZE =3D 79477<br>
+&gt; &gt;=C2=A0 FILES =3D /usr/include /lib/lib*.so /usr/lib/lib*.so /usr/l=
+ib/*.la<br>
+&gt; &gt; /usr/lib/*.o /usr/lib/pkgconfig /usr/share/pkgconfig /usr/share/a=
+clocal<br>
+&gt; &gt; /lib/*.o /usr/lib/systemd/*.la /lib/*.la /lib/security/*.la<br>
+&gt; &gt; /usr/share/dbus-1/interfaces/ /etc/rpm/macros.systemd<br>
+&gt; &gt; -FILELIST =3D /lib/security/<a href=3D"http://pam_systemd.la" tar=
+get=3D"_blank">pam_systemd.la</a><br>
+&gt; &gt; /usr/include/gudev-1.0/gudev/gudev.h<br>
+&gt; &gt; /usr/include/gudev-1.0/gudev/gudevclient.h<br>
+&gt; &gt; /usr/include/gudev-1.0/gudev/gudevdevice.h<br>
+&gt; &gt; /usr/include/gudev-1.0/gudev/gudevenumerator.h<br>
+&gt; &gt; /usr/include/gudev-1.0/gudev/gudevenums.h<br>
+&gt; &gt; /usr/include/gudev-1.0/gudev/gudevenumtypes.h<br>
+&gt; &gt; /usr/include/gudev-1.0/gudev/gudevtypes.h /usr/include/libudev.h<=
+br>
+&gt; &gt; /usr/include/systemd/_sd-common.h /usr/include/systemd/sd-daemon.=
+h<br>
+&gt; &gt; /usr/include/systemd/sd-id128.h /usr/include/systemd/sd-journal.h=
+<br>
+&gt; &gt; /usr/include/systemd/sd-login.h /usr/include/systemd/sd-messages.=
+h /usr/lib/<br>
+&gt; &gt; <a href=3D"http://libgudev-1.0.la" target=3D"_blank">libgudev-1.0=
+.la</a> /usr/lib/<a href=3D"http://libgudev-1.0.so" target=3D"_blank">libgu=
+dev-1.0.so</a> /usr/lib/<a href=3D"http://libnss_myhostname.la" target=3D"_=
+blank">libnss_myhostname.la</a><br>
+&gt; &gt; /usr/lib/<a href=3D"http://libsystemd.la" target=3D"_blank">libsy=
+stemd.la</a> /usr/lib/libsystemd.so /usr/lib/<a href=3D"http://libudev.la" =
+target=3D"_blank">libudev.la</a><br>
+&gt; &gt; /usr/lib/libudev.so /usr/lib/pkgconfig/gudev-1.0.pc<br>
+&gt; &gt; /usr/lib/pkgconfig/libsystemd.pc /usr/lib/pkgconfig/libudev.pc<br=
+>
+&gt; &gt; /usr/share/pkgconfig/systemd.pc /usr/share/pkgconfig/udev.pc<br>
+&gt; &gt; +FILELIST =3D /lib/<a href=3D"http://libgudev-1.0.la" target=3D"_=
+blank">libgudev-1.0.la</a> /lib/<a href=3D"http://libgudev-1.0.so" target=
+=3D"_blank">libgudev-1.0.so</a> /lib/security/<br>
+&gt; &gt; <a href=3D"http://pam_systemd.la" target=3D"_blank">pam_systemd.l=
+a</a> /usr/include/gudev-1.0/gudev/gudev.h<br>
+&gt; &gt; /usr/include/gudev-1.0/gudev/gudevclient.h<br>
+&gt; &gt; /usr/include/gudev-1.0/gudev/gudevdevice.h<br>
+&gt; &gt; /usr/include/gudev-1.0/gudev/gudevenumerator.h<br>
+&gt; &gt; /usr/include/gudev-1.0/gudev/gudevenums.h<br>
+&gt; &gt; /usr/include/gudev-1.0/gudev/gudevenumtypes.h<br>
+&gt; &gt; /usr/include/gudev-1.0/gudev/gudevtypes.h /usr/include/libudev.h<=
+br>
+&gt; &gt; /usr/include/systemd/_sd-common.h /usr/include/systemd/sd-daemon.=
+h<br>
+&gt; &gt; /usr/include/systemd/sd-id128.h /usr/include/systemd/sd-journal.h=
+<br>
+&gt; &gt; /usr/include/systemd/sd-login.h /usr/include/systemd/sd-messages.=
+h /usr/lib/<br>
+</div></div><span class=3D"">&gt; &gt; <a href=3D"http://libnss_myhostname.=
+la" target=3D"_blank">libnss_myhostname.la</a> /usr/lib/<a href=3D"http://l=
+ibnss_mymachines.la" target=3D"_blank">libnss_mymachines.la</a> /usr/lib/<a=
+ href=3D"http://libsystemd.la" target=3D"_blank">libsystemd.la</a><br>
+&gt; &gt; /usr/lib/libsystemd.so /usr/lib/<a href=3D"http://libudev.la" tar=
+get=3D"_blank">libudev.la</a> /usr/lib/libudev.so<br>
+&gt; &gt; /usr/lib/pkgconfig/gudev-1.0.pc /usr/lib/pkgconfig/libsystemd.pc<=
+br>
+&gt; &gt; /usr/lib/pkgconfig/libudev.pc /usr/share/pkgconfig/systemd.pc<br>
+&gt; &gt; /usr/share/pkgconfig/udev.pc<br>
+&gt; &gt;<br>
+&gt; &gt; Hmm - I made my tests with systemd 216 and had no errors. Shouldn=
+&#39;t<br>
+</span>&gt; pkg-config find libgudev &lt;<a href=3D"http://libgudev-1.0.la"=
+ target=3D"_blank">http://libgudev-1.0.la</a>&gt;?<br>
+<br>
+See <a href=3D"http://patchwork.openembedded.org/patch/81291/" target=3D"_b=
+lank">http://patchwork.openembedded.org/patch/81291/</a> for more details.<=
+br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br></div></div></blockquote></div>=
+Yes I saw that - still wondering why it works fine here without this patch.=
+<br><br></div><div class=3D"gmail_extra">Andreas<br></div></div>
 
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---VywGB/WGlW4DM4P8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlQzZ3YACgkQN1Ujt2V2gByMegCfd8Wo6xzLnipI5d2JRkVo+fmd
-d7cAmgKibmL5WHWAVtglltebc9IY1mMZ
-=r/0o
------END PGP SIGNATURE-----
-
---VywGB/WGlW4DM4P8--
+--089e015384586f8dab0504cf7ed8--
