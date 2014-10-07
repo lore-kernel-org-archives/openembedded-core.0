@@ -1,40 +1,39 @@
-Return-Path: <Lauren.Post@freescale.com>
-X-Greylist: delayed 917 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 07 Oct 2014 15:39:53 UTC
-Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2on0105.outbound.protection.outlook.com [65.55.169.105])
-	by mail.openembedded.org (Postfix) with ESMTP id D8C786B7CA
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A7236FC68
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Oct 2014 15:39:53 +0000 (UTC)
-Received: from CY1PR0301MB0700.namprd03.prod.outlook.com (25.160.159.142) by
-	CY1PR0301MB0699.namprd03.prod.outlook.com (25.160.159.141) with
-	Microsoft
-	SMTP Server (TLS) id 15.0.1049.19; Tue, 7 Oct 2014 15:24:35 +0000
-Received: from CY1PR0301MB0700.namprd03.prod.outlook.com ([25.160.159.142]) by
-	CY1PR0301MB0700.namprd03.prod.outlook.com ([25.160.159.142]) with
-	mapi id 15.00.1044.008; Tue, 7 Oct 2014 15:24:35 +0000
-From: Lauren Post <Lauren.Post@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Multiple issues building from dizzy or master
-Thread-Index: Ac/iQsvC7/qyE+FWQruCM8wynhzxgQ==
-Date: Tue, 7 Oct 2014 15:24:35 +0000
-Message-ID: <e777247650f44526919fb4737b79b0a6@CY1PR0301MB0700.namprd03.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.88.168.50]
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:CY1PR0301MB0699;
-x-forefront-prvs: 035748864E
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(189002)(199003)(107046002)(74316001)(21056001)(107886001)(97736003)(229853001)(2351001)(77096002)(87936001)(105586002)(106356001)(2656002)(4396001)(99286002)(46102003)(122556002)(95666004)(40100002)(80022003)(54356999)(99396003)(108616004)(76576001)(31966008)(66066001)(76482002)(120916001)(86362001)(50986999)(101416001)(85306004)(92566001)(33646002)(20776003)(64706001)(85852003)(110136001)(24736002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB0699;
-	H:CY1PR0301MB0700.namprd03.prod.outlook.com; FPR:; MLV:sfv;
-	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+	Tue,  7 Oct 2014 15:50:36 +0000 (UTC)
+Received: by mail-wi0-f174.google.com with SMTP id cc10so8320976wib.7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Oct 2014 08:50:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=TUEE9iE2QjkRCcbqkcnIx2+CYF/he5Q7qmjyvJq6iz0=;
+	b=iSuUfQyo6HPtZOE2thp7RBhYLYASYplqiFph0gPXaRYVF0P5izIiWCi3dPkFNghnRW
+	jrQLBTJ6WKmLFekGUB9g3vhsFxnCIKMvWTaYOX1UtH3HbJ7reLY5X4nhAEftuQAtK2IY
+	gX1G8yI2P7a8B10xAHOgSwDvUif/93gMvXoj0cNKuzugM3pCyrrRSz3yeQ8t5Q1XR3UN
+	TmOghIV2DXSkY6gitj2lJ5+HCc/6ZVjmybiA6P9E3z5nGCqxsFPN9ybLFZzBfvnXEX3M
+	9xpU5akLd3Z61SD4DKzvNepMQW/fpVhkGiGkSJkKzwjBi/m1hnrcoRq8JN6r7S9sx79r
+	T6ig==
+X-Received: by 10.180.104.7 with SMTP id ga7mr5517217wib.36.1412697037555;
+	Tue, 07 Oct 2014 08:50:37 -0700 (PDT)
+Received: from localhost.localdomain
+	(ip-176-198-252-251.hsi05.unitymediagroup.de. [176.198.252.251])
+	by mx.google.com with ESMTPSA id
+	ky3sm21196463wjb.39.2014.10.07.08.50.36
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 07 Oct 2014 08:50:36 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Oct 2014 17:50:30 +0200
+Message-Id: <1412697030-1033-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Multiple issues building from dizzy or master
+Subject: [PATCH] gdb-cross: build with python support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,53 +46,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Oct 2014 15:39:56 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 07 Oct 2014 15:50:40 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-We've been trying for a few weeks to move all our builds to master (yesterd=
-ay dizzy for poky which is the same) and been having random strange problem=
-s on multiple jenkins machines we do our daily builds on.  I talked to Otav=
-io about it but wonder if we are missing something.    I'd appreciate any i=
-deas.   We can build our kernel and uboot fine but when we try to build a m=
-ore complex image with qt5 we have not succeeded any build since yesterday.
+variable contents are displayed properly when debugging qt applications remotely
 
-As of today we are now getting errors in db compilation
-On both locally and on Jenkins we keep getting a db compile error as of tod=
-ay.
-./db_cxx.h:59:22: fatal error: iostream.h: No such file or directory
- #include <iostream.h>
-                      ^
----------------------------------------------------------------------
-For last week we've been battling random gcc_runtime configure errors only =
-on Jenkins machines. =20
+see [1] for further details
 
-This is the configure error.
-checking dynamic linker characteristics... configure: error: Link tests are=
- not allowed after GCC_NO_EXECUTABLES.
+[1] http://qt-project.org/doc/qtcreator-2.6/creator-debugging-helpers.html#debugging-helpers-based-on-python
 
----------------------------------------------------------------------------=
-----------------------------
-As of yesterday morning, we are also having many unpack errors on many file=
-s that are disappearing from our downloads before unpack.  The fetch is wor=
-king but then when it unpacks the package has disappeared from downloads.  =
-I've seen this on multiple components (libx11, xproto, inputproto, util-lin=
-ux).  Seems to happen more often with rm_work set but I've seen it without =
-it set.
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ meta/recipes-devtools/gdb/gdb-cross.inc | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-I'd appreciate any ideas.  The only one I can reproduce locally is the db e=
-rror above but the others seem to only happen on Jenkins machines.  We have=
- 4 different Jenkins machines all of which can't build on the master branch=
- but have built fine for months on daisy and dora branches. =20
+diff --git a/meta/recipes-devtools/gdb/gdb-cross.inc b/meta/recipes-devtools/gdb/gdb-cross.inc
+index cb99b06..6e44778 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross.inc
++++ b/meta/recipes-devtools/gdb/gdb-cross.inc
+@@ -1,8 +1,17 @@
+ require gdb-common.inc
+ 
+-DEPENDS = "expat-native ncurses-native readline-native"
++DEPENDS = "expat-native ncurses-native readline-native python-native"
+ 
+-EXTRA_OECONF += "--without-python"
++inherit pythonnative
++
++EXTRA_OECONF += "--with-python=${STAGING_BINDIR_NATIVE}/python-native/python"
++
++do_compile_prepend() {
++    export BUILD_SYS="${BUILD_SYS}"
++    export HOST_SYS="${HOST_SYS}"
++    export STAGING_LIBDIR="${STAGING_LIBDIR_NATIVE}"
++    export STAGING_INCDIR="${STAGING_INCDIR_NATIVE}"
++}
+ 
+ #EXTRA_OEMAKE += "LDFLAGS='${BUILD_LDFLAGS}'"
+ 
+-- 
+1.8.3.1
 
-By the way you can't set your gcc to 4.8.2 - liburcu breaks if you try to u=
-se the older compiler.  So not sure if any of the gcc runtime issues are re=
-lated to the new gcc version.   Not sure if we should keep gcc 4.8.2 in diz=
-zy if it can't be used.
-
-Thanks for any ideas.  I've tried everything I can think of.
-
-Lauren Post
-i.MX Freescale=20
 
