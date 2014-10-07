@@ -1,36 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 33AFF713B4
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 735DD71547
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Oct 2014 22:10:42 +0000 (UTC)
-Received: by mail-wi0-f173.google.com with SMTP id fb4so6073698wid.6
+	Tue,  7 Oct 2014 01:11:02 +0000 (UTC)
+Received: by mail-wi0-f180.google.com with SMTP id em10so6378662wid.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Oct 2014 15:10:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=839WgHBh5aHyhd1WLKFqHmeJsg+4VvLjo72iHTtyC0U=;
-	b=U9TiuhvgzMOAXxzKqD2BBC7TkpuXtZPE26Ge+jarvlk8sXNiKcIiozfVtXQ3Io3ewC
-	K/LX9T7Q2LI2W9hPhLvVrFvzsoockQKcDYyCP1dw4U4ocQOhw9/6xjyWWOuB6QZLldsG
-	8UW4xtWru70RAE4NOZR0DfwaL0/WOJMZVyDUpEV4yJ5x22PKd2d0iU61bEJiXYWeAu3V
-	nsMd14+dN6Ingv96nJDwR30BC7aR4F+txjFMdALahFY7IxCh221Uj5+KOKVoQYgumy7F
-	Seq6/8SXssg8H4jR0dH3k9n3yYPh0VnHfVinFoCDqhznoepUWa4iIFaW8XcCqB3SlK1z
-	8FDw==
-X-Gm-Message-State: ALoCoQnuH6CQge2IunBquTBgD5vZ+bQqm/ORfDnYpBb+yKMfp8WWu5tk7TehX30XEYKy7Z9fibJr
-X-Received: by 10.195.13.78 with SMTP id ew14mr1660816wjd.83.1412633443618;
-	Mon, 06 Oct 2014 15:10:43 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id u2sm18614110wjz.11.2014.10.06.15.10.42
-	for <openembedded-core@lists.openembedded.org>
+	Mon, 06 Oct 2014 18:11:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=5f66mRSTONcznN3J0u0fFfTHytloghc1RVKlbbPY+mQ=;
+	b=WA4wB2bHYpjftsoWyR06S6luy9skU1aRsK7UeplrD4AKefFFF0E0rHN0eFz5e81VQ0
+	Cd/3vh4ufgmzXV8xVTaz4wY45IVPngNsp00Y1w2Dprww0BbxpLYaPgusqUiE2Bfv/KyP
+	nm0WXddwOGohtZ0Okywm9Tl8cS3Ze7YRBuKHPRDXl5B/P1NoH3ZoaMf4MIwB8tBb/Zi1
+	g1gproAwnqlcGuBOgWwhCjnIHv+xHHeAZh0Lgbu2Vn5Fiv+qWOdS+sbceUNYOH9r9L8D
+	BPhvJ91RorWrznFUd0DK0lbJ4zKWAXY6XcL9HgTAMk4cT5au2q27dDELaibsPvk8EUHs
+	XAiA==
+X-Received: by 10.194.206.103 with SMTP id ln7mr513715wjc.30.1412644263374;
+	Mon, 06 Oct 2014 18:11:03 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	ge1sm1803789wib.4.2014.10.06.18.11.02 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Oct 2014 15:10:42 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 06 Oct 2014 18:11:02 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Oct 2014 23:10:33 +0100
-Message-Id: <1412633433-23255-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] systemd: don't add files and dependencies from units Conflicts
+Date: Tue,  7 Oct 2014 03:12:03 +0200
+Message-Id: <1412644323-15125-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.1.1
+Subject: [RFC][PATCH] nss-myhostname: blacklist because of conflict with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,34 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Oct 2014 22:10:56 -0000
+X-List-Received-Date: Tue, 07 Oct 2014 01:11:05 -0000
 
-Adding dependencies and moving files based on Conflicts tags in unit files isn't
-right, mainly as it means that systemd depends on systemd-binfmt, because the
-latter ends up containing the shutdown.target unit.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/systemd.bbclass |    5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index 708ba89..c34884b 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -143,10 +143,7 @@ python systemd_populate_packages() {
-         if has_exactly_one_service:
-             has_exactly_one_service = len(get_package_var(d, 'SYSTEMD_SERVICE', systemd_packages).split()) == 1
+diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+index 1237602..575ad9d 100644
+--- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
++++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+@@ -11,6 +11,8 @@ SRC_URI = "http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${P
+ SRC_URI[md5sum] = "d4ab9ac36c053ab8fb836db1cbd4a48f"
+ SRC_URI[sha256sum] = "2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d3a7f6c4d67e7caf2"
  
--        keys = 'Also' # Conflicts??
--        if has_exactly_one_service:
--            # single service gets also the /dev/null dummies
--            keys = 'Also Conflicts'
-+        keys = 'Also'
-         # scan for all in SYSTEMD_SERVICE[]
-         for pkg_systemd in systemd_packages.split():
-             for service in get_package_var(d, 'SYSTEMD_SERVICE', pkg_systemd).split():
++PNBLACKLIST[nss-myhostname] = "CONFLICT: systemd provides sysroots/qemux86-64/usr/lib/libnss_myhostname.so.2"
++
+ inherit autotools
+ 
+ pkg_postinst_${PN} () {
 -- 
-1.7.10.4
+2.1.1
 
 
