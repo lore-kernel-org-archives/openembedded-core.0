@@ -1,26 +1,47 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CE72F71624
+Return-Path: <Lauren.Post@freescale.com>
+X-Greylist: delayed 5499 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 08 Oct 2014 14:23:27 UTC
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1on0142.outbound.protection.outlook.com [157.56.110.142])
+	by mail.openembedded.org (Postfix) with ESMTP id 20E3D65DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Oct 2014 12:16:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s98CGgwA001335
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 8 Oct 2014 05:16:42 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 8 Oct 2014 05:16:41 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
-	<paul@paulbarker.me.uk>
-Date: Wed, 8 Oct 2014 20:16:36 +0800
-Message-ID: <241e2535b1e3f4544e31fdc40406337b26e8f8d9.1412770325.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1412770325.git.hongxu.jia@windriver.com>
-References: <cover.1412770325.git.hongxu.jia@windriver.com>
+	Wed,  8 Oct 2014 14:23:27 +0000 (UTC)
+Received: from CY1PR0301MB0698.namprd03.prod.outlook.com (25.160.159.140) by
+	CY1PR0301MB0619.namprd03.prod.outlook.com (25.160.142.26) with
+	Microsoft SMTP
+	Server (TLS) id 15.0.1044.10; Wed, 8 Oct 2014 12:51:37 +0000
+Received: from CY1PR0301MB0700.namprd03.prod.outlook.com (25.160.159.142) by
+	CY1PR0301MB0698.namprd03.prod.outlook.com (25.160.159.140) with
+	Microsoft
+	SMTP Server (TLS) id 15.0.1049.19; Wed, 8 Oct 2014 12:51:35 +0000
+Received: from CY1PR0301MB0700.namprd03.prod.outlook.com ([25.160.159.142]) by
+	CY1PR0301MB0700.namprd03.prod.outlook.com ([25.160.159.142]) with
+	mapi id 15.00.1044.008; Wed, 8 Oct 2014 12:51:35 +0000
+From: Lauren Post <Lauren.Post@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Multiple issues building from dizzy or master
+Thread-Index: Ac/iQsvC7/qyE+FWQruCM8wynhzxgQAso0UA
+Date: Wed, 8 Oct 2014 12:51:35 +0000
+Message-ID: <bfe2e606ebc340318465cdc89c4e8e42@CY1PR0301MB0700.namprd03.prod.outlook.com>
+References: <e777247650f44526919fb4737b79b0a6@CY1PR0301MB0700.namprd03.prod.outlook.com>
+In-Reply-To: <e777247650f44526919fb4737b79b0a6@CY1PR0301MB0700.namprd03.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.88.168.50]
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:CY1PR0301MB0698;UriScan:;
+x-forefront-prvs: 0358535363
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(13464003)(189002)(51694002)(199003)(377454003)(54356999)(76176999)(77096002)(122556002)(105586002)(33646002)(120916001)(99396003)(40100002)(97736003)(99286002)(95666004)(101416001)(74316001)(4396001)(76576001)(80022003)(50986999)(46102003)(19580405001)(85852003)(19580395003)(107046002)(76482002)(21056001)(106356001)(110136001)(66066001)(86362001)(64706001)(92566001)(108616004)(31966008)(15202345003)(20776003)(107886001)(2351001)(2656002)(85306004)(87936001)(15975445006)(575784001)(24736002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB0698;
+	H:CY1PR0301MB0700.namprd03.prod.outlook.com; FPR:; MLV:sfv;
+	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-Subject: [PATCH 1/1] opkg: fix remove pkg with --force-removal-of-dependent-packages failed
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:CY1PR0301MB0619;
+X-OriginatorOrg: freescale.com
+Subject: Re: Multiple issues building from dizzy or master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,95 +54,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Oct 2014 12:16:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 08 Oct 2014 14:23:28 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-opkg remove perl --force-removal-of-dependent-packages
-...
-Removing package perl-module-extutils-mm-dos from root...
-...
-Removing package perl-module-extutils-mm-dos from root...
-You can force removal of packages with failed prerm scripts with the option:
-	--force-remove
-No packages removed.
-Collected errors:
- * pkg_run_script: Internal error: perl-module-extutils-mm-dos has a
-NULL tmp_unpack_dir.
- * opkg_remove_pkg: not removing package "perl-module-extutils-mm-dos",
-prerm script failed
-...
+Last night I moved poky back to 9/16  "0db15bb0626b16201d0767d87e91c61828a4=
+49ef" before the sstate commit and my builds are working now.  Before that =
+I tried reverting some of the earlier patches such as (533a852eddb9a5e77a15=
+001756f03b929a1d0a0b ) brought in on 10/6 but that did not work so somethin=
+g that came in last few weeks is also  causing problems.
 
-While remove pkg with '--force-removal-of-dependent-packages',
-pkg may be added to remove list multiple times, add status
-check to make sure pkg only be removed once.
+My biggest problems is the fetch/unpack.  With tip of poky the task fetch i=
+s working but before unpack the package disappears and task unpack fails.  =
+It happens on many random components and always in downloads I see a lock o=
+n the component but no package.  I see this with dirty and clean builds.
 
-[YOCTO #6819]
+It will take me time to figure out which poky commit is causing the problem=
+s but my team has been waiting on these builds to proceed with testing so I=
+ can only try on one machine.  It is much harder to hit locally - I see it =
+more readily on Jenkins build machines.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...g_remove.c-avoid-remove-pkg-repeatly-with.patch | 39 ++++++++++++++++++++++
- meta/recipes-devtools/opkg/opkg_0.2.2.bb           |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg/opkg/libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch
+I just wanted to verify first it was a poky problem  On all 4 jenkins machi=
+nes building last night none with the reverted poky back to 9/16 had the fe=
+tch/unpack issues I was seeing with the tip of dizzy branch in poky yesterd=
+ay.
 
-diff --git a/meta/recipes-devtools/opkg/opkg/libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch b/meta/recipes-devtools/opkg/opkg/libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch
-new file mode 100644
-index 0000000..08433a9
---- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch
-@@ -0,0 +1,39 @@
-+From 41425d67d3589b1912416a17f740d6407c7834f2 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 8 Oct 2014 19:53:13 +0800
-+Subject: [PATCH] libopkg/opkg_remove.c: avoid remove pkg repeatly with option
-+ --force-removal-of-dependent-packages
-+
-+While remove pkg with '--force-removal-of-dependent-packages',
-+pkg may be added to pkgs remove list multiple times, add status
-+check to make sure pkg only be removed once.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ libopkg/opkg_remove.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/libopkg/opkg_remove.c b/libopkg/opkg_remove.c
-+index 34f9154..a225e41 100644
-+--- a/libopkg/opkg_remove.c
-++++ b/libopkg/opkg_remove.c
-+@@ -250,6 +250,14 @@ opkg_remove_pkg(pkg_t *pkg, int from_upgrade)
-+      if ((parent_pkg = pkg->parent) == NULL)
-+ 	  return 0;
-+ 
-++     /* While remove pkg with '--force-removal-of-dependent-packages',
-++        pkg may be added to remove list multiple times, add status
-++        check to make sure pkg only be removed once. */
-++     if (conf->force_removal_of_dependent_packages &&
-++             pkg->state_flag & SF_FILELIST_CHANGED &&
-++             pkg->state_status == SS_NOT_INSTALLED)
-++         return 0;
-++
-+      /* only attempt to remove dependent installed packages if
-+       * force_depends is not specified or the package is being
-+       * replaced.
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/opkg/opkg_0.2.2.bb b/meta/recipes-devtools/opkg/opkg_0.2.2.bb
-index 3dd7489..867ff7a 100644
---- a/meta/recipes-devtools/opkg/opkg_0.2.2.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.2.2.bb
-@@ -4,6 +4,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
-            file://no-install-recommends.patch \
-            file://add-exclude.patch \
-            file://opkg-configure.service \
-+           file://libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch \
- "
- 
- S = "${WORKDIR}/${BPN}-${PV}"
--- 
-1.9.1
+Lauren Post
+i.MX Freescale
 
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Lauren Post
+Sent: Tuesday, October 07, 2014 10:25 AM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] Multiple issues building from dizzy or master
+
+We've been trying for a few weeks to move all our builds to master (yesterd=
+ay dizzy for poky which is the same) and been having random strange problem=
+s on multiple jenkins machines we do our daily builds on.  I talked to Otav=
+io about it but wonder if we are missing something.    I'd appreciate any i=
+deas.   We can build our kernel and uboot fine but when we try to build a m=
+ore complex image with qt5 we have not succeeded any build since yesterday.
+
+As of today we are now getting errors in db compilation On both locally and=
+ on Jenkins we keep getting a db compile error as of today.
+./db_cxx.h:59:22: fatal error: iostream.h: No such file or directory  #incl=
+ude <iostream.h>
+                      ^
+---------------------------------------------------------------------
+For last week we've been battling random gcc_runtime configure errors only =
+on Jenkins machines. =20
+
+This is the configure error.
+checking dynamic linker characteristics... configure: error: Link tests are=
+ not allowed after GCC_NO_EXECUTABLES.
+
+---------------------------------------------------------------------------=
+----------------------------
+As of yesterday morning, we are also having many unpack errors on many file=
+s that are disappearing from our downloads before unpack.  The fetch is wor=
+king but then when it unpacks the package has disappeared from downloads.  =
+I've seen this on multiple components (libx11, xproto, inputproto, util-lin=
+ux).  Seems to happen more often with rm_work set but I've seen it without =
+it set.
+
+I'd appreciate any ideas.  The only one I can reproduce locally is the db e=
+rror above but the others seem to only happen on Jenkins machines.  We have=
+ 4 different Jenkins machines all of which can't build on the master branch=
+ but have built fine for months on daisy and dora branches. =20
+
+By the way you can't set your gcc to 4.8.2 - liburcu breaks if you try to u=
+se the older compiler.  So not sure if any of the gcc runtime issues are re=
+lated to the new gcc version.   Not sure if we should keep gcc 4.8.2 in diz=
+zy if it can't be used.
+
+Thanks for any ideas.  I've tried everything I can think of.
+
+Lauren Post
+i.MX Freescale
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
