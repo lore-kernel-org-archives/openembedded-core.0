@@ -1,38 +1,35 @@
-Return-Path: <iwamatsu@nigauri.org>
-Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AD0D601A8
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A47736AC7B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Oct 2014 02:57:36 +0000 (UTC)
-Received: by mail-pd0-f172.google.com with SMTP id ft15so6099282pdb.31
+	Wed,  8 Oct 2014 03:00:16 +0000 (UTC)
+Received: by mail-pd0-f180.google.com with SMTP id fp1so6034142pdb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Oct 2014 19:57:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=7FPmw68TndrQJr8rYl9AsTxKBFQkuAGmynz//HSkeGI=;
-	b=gWZbisOayKk68YmPddJwMI0VLfvbBfXXAniDrA9zPeG9GN9a2qtNotCp5ymEB/IlJJ
-	r7wjW5I1rr40Rt4kxNqQyBCnX1ZIaUVOGSc+rCvy2WzoSmA/LMXHJpMhQ1aB9Qn0N/0w
-	NsZEEAd2qKpr1k78eyFGGTxsy7lb+oZ4plxevZ3xqkHXUUTckZTf1uIdqP7oAcjlkgbX
-	/b8KtxYwN1cLGUTsEY+mDmkJpA0nuvAb8otGgoKwREdbzgpDiuUtwZUcQx4z4I4ZGUDN
-	Zjx3EVni9F5VrCdYJp4Oi10YPvqZyuelHkzxKV4QytXeEUXR9yoOZvY6IQKbTt3er3Zn
-	A/AA==
-X-Gm-Message-State: ALoCoQmGM1lfWtuLkpOmlXu7LoSH4NzU06zz1Finxe2W9l4e5+qfDCYZ9c+CZYvjIciM0uKswDLo
-X-Received: by 10.66.184.174 with SMTP id ev14mr7413517pac.20.1412737057809;
-	Tue, 07 Oct 2014 19:57:37 -0700 (PDT)
-Received: from xps-iwamatsu.renesas.com (49.14.32.202.bf.2iij.net.
-	[202.32.14.49]) by mx.google.com with ESMTPSA id
-	pp2sm17105270pbc.66.2014.10.07.19.57.35 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 07 Oct 2014 19:57:36 -0700 (PDT)
-Sender: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
-From: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+	Tue, 07 Oct 2014 20:00:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=uGM1GAxsnX/JajXEmW4WAzMA0V6NfrazcwTfJ7mdcmw=;
+	b=ai6WuRgCz2Q/tK+Ito+02L3il+XQ008uO8Su/Gm5233L8u1TtWPJdOYsoSWataKKN5
+	C/pttKjgQzuSfS6rojrDw78eb4kAoklot8nJv667ad640r0E/ZTiFcydXZii3YTvxc64
+	NxATK9XDaovzvQgjpddWXqycjnPPK0U/XTP/CVHjEcU99L6bMS7IGV602Qxs9k3FjFT1
+	lltIsaFu76EN5eU0iqUNj45nzqfhdSXfe+yOWZJWzR1O1M9FLJc+PjDoDyQsuqIhZ9O6
+	SPS9iD8Y6X8MPwQ9VcSEH67rA7Cs3tkcCcHJnxcs/M7PZBmNhddGhy+nMqaqGVZRTM3a
+	P9Gg==
+X-Received: by 10.69.18.234 with SMTP id gp10mr1218070pbd.149.1412737217891;
+	Tue, 07 Oct 2014 20:00:17 -0700 (PDT)
+Received: from localhost.localdomain (75-128-22-150.dhcp.snlo.ca.charter.com.
+	[75.128.22.150]) by mx.google.com with ESMTPSA id
+	ge5sm17088167pbc.81.2014.10.07.20.00.16 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 07 Oct 2014 20:00:16 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <TicoTimo@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Oct 2014 11:57:27 +0900
-Message-Id: <1412737047-7936-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
-X-Mailer: git-send-email 2.0.0
-Cc: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
-Subject: [PATCH v2] gstreamer1.0-plugins-bad: Add patch for disable pkg-check of wayland-scanner
+Date: Tue,  7 Oct 2014 20:00:12 -0700
+Message-Id: <1412737213-4248-1-git-send-email-TicoTimo@gmail.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH 1/2] clutter-1.0: upgrade to v1.20.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,58 +42,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Oct 2014 02:57:37 -0000
+X-List-Received-Date: Wed, 08 Oct 2014 03:00:18 -0000
 
-wayland plugin can not build by pkg-check of wayland-scanner.
-By applying patch to disable a check of wayland-scanner, wayland plugin can build.
+* The 1.19.x series were "snapshots" and not stable releases.
+* This is the first stable release beyond the 1.18.x series.
+* Tested on nuc with core-image-weston.
 
-Signed-off-by: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+ANNOUNCEMENT:
+https://mail.gnome.org/archives/clutter-list/2014-September/msg00007.html
+
+Signed-off-by: Tim Orling <TicoTimo@gmail.com>
 ---
- v2: Fix Signed-off.
+ meta/recipes-graphics/clutter/clutter-1.0_1.18.2.bb | 8 --------
+ meta/recipes-graphics/clutter/clutter-1.0_1.20.0.bb | 8 ++++++++
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+ delete mode 100644 meta/recipes-graphics/clutter/clutter-1.0_1.18.2.bb
+ create mode 100644 meta/recipes-graphics/clutter/clutter-1.0_1.20.0.bb
 
- .../gstreamer/gstreamer1.0-plugins-bad.inc         |    1 +
- .../disable-wayland-scanner-pkg-check.patch        |   19 +++++++++++++++++++
- 2 files changed, 20 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/disable-wayland-scanner-pkg-check.patch
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index dab0bf5..71badae 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -7,6 +7,7 @@ DEPENDS += "gstreamer1.0-plugins-base bzip2 libpng jpeg"
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
- 
- SRC_URI += "file://configure-allow-to-disable-libssh2.patch \
-+            file://disable-wayland-scanner-pkg-check.patch \
-            "
- 
- inherit gettext
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/disable-wayland-scanner-pkg-check.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/disable-wayland-scanner-pkg-check.patch
+diff --git a/meta/recipes-graphics/clutter/clutter-1.0_1.18.2.bb b/meta/recipes-graphics/clutter/clutter-1.0_1.18.2.bb
+deleted file mode 100644
+index 452e7ee..0000000
+--- a/meta/recipes-graphics/clutter/clutter-1.0_1.18.2.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require clutter-1.0.inc
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+-
+-SRC_URI[archive.md5sum] = "471f5ea423e20d4140c7771873daef29"
+-SRC_URI[archive.sha256sum] = "f9fe12e6148426063c90e67dfaeb56013bf1aea224ef502223d13eab6c1add63"
+-
+-SRC_URI += "file://install-examples.patch"
+diff --git a/meta/recipes-graphics/clutter/clutter-1.0_1.20.0.bb b/meta/recipes-graphics/clutter/clutter-1.0_1.20.0.bb
 new file mode 100644
-index 0000000..decf3f0
+index 0000000..7898810
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/disable-wayland-scanner-pkg-check.patch
-@@ -0,0 +1,19 @@
-+diff --git a/configure.ac b/configure.ac
-+index d28f5e7..8a5e53f 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -2011,13 +2011,11 @@ AG_GST_CHECK_FEATURE(DIRECTFB, [directfb], dfbvideosink , [
-+ dnl **** Wayland ****
-+ translit(dnm, m, l) AM_CONDITIONAL(USE_WAYLAND, true)
-+ AG_GST_CHECK_FEATURE(WAYLAND, [wayland sink], wayland , [
-+-  PKG_CHECK_MODULES(WAYLAND, wayland-client >= 1.4.0 wayland-scanner, [
-++  PKG_CHECK_MODULES(WAYLAND, wayland-client >= 1.4.0, [
-+     HAVE_WAYLAND="yes" ], [ HAVE_WAYLAND="no"
-+   ])
-+ ])
-+ 
-+-AC_PATH_PROG([wayland_scanner], [wayland-scanner])
-+-
-+ dnl **** WebP ****
-+ translit(dnm, m, l) AM_CONDITIONAL(USE_WEBP, true)
-+ AG_GST_CHECK_FEATURE(WEBP, [WebP], webp , [
++++ b/meta/recipes-graphics/clutter/clutter-1.0_1.20.0.bb
+@@ -0,0 +1,8 @@
++require clutter-1.0.inc
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++
++SRC_URI[archive.md5sum] = "a8a33a57a944c6d7c7c013ce9aa3222b"
++SRC_URI[archive.sha256sum] = "cc940809e6e1469ce349c4bddb0cbcc2c13c087d4fc15cda9278d855ee2d1293"
++
++SRC_URI += "file://install-examples.patch"
 -- 
-1.7.9.5
+1.9.3
 
 
