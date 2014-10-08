@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C9A8D712FC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CD435713B4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Oct 2014 08:04:03 +0000 (UTC)
+	Wed,  8 Oct 2014 08:13:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s98844GP029510
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s988DiwO026223
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Oct 2014 01:04:04 -0700 (PDT)
+	Wed, 8 Oct 2014 01:13:44 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 8 Oct 2014 01:04:04 -0700
+	Wed, 8 Oct 2014 01:13:43 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Oct 2014 01:04:03 -0700
-Message-ID: <f179be5fbb3674fdb89904ec8e2e14b9849a2cfb.1412755402.git.liezhi.yang@windriver.com>
+Date: Wed, 8 Oct 2014 01:13:42 -0700
+Message-ID: <a4e4bb6618c2499d7e1c8ba42dae9afe02291f5f.1412755931.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1412755402.git.liezhi.yang@windriver.com>
-References: <cover.1412755402.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1412755931.git.liezhi.yang@windriver.com>
+References: <cover.1412755931.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] git: fix do_install error
+Subject: [PATCH 2/2] sstate.bbclass: split the too long line
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +33,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Oct 2014 08:04:05 -0000
+X-List-Received-Date: Wed, 08 Oct 2014 08:13:44 -0000
 Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Fixed when MACHINE = qemux86-64 and libdir = /usr/lib64:
-mv: cannot stat `/path/to/image/usr/lib64/perl-native/perl': No such file or directory
+The too long line would cause "git send-email" report errors:
+patch contains a line longer than 998 characters
 
-The perl-native files are always installed to /usr/lib on both 32/64
-bits targets.
+Though we can use "--no-validate" to force the send.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/git/git.inc |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/classes/sstate.bbclass |   23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 2515833..5396628 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -36,8 +36,11 @@ perl_native_fixup () {
- 	sed -i -e 's#${STAGING_BINDIR_NATIVE}/perl-native/#${bindir}/#' \
- 	       -e 's#${libdir}/perl-native/#${libdir}/#' \
- 	    ${@d.getVar("PERLTOOLS", True).replace(' /',d.getVar('D', True) + '/')}
--	mv ${D}${libdir}/perl-native/perl ${D}${libdir}
--	rmdir ${D}${libdir}/perl-native || true
-+
-+	# ${libdir} is not applicable here, perl-native files are always
-+	# installed to /usr/lib on both 32/64 bits targets.
-+	mv ${D}${exec_prefix}/lib/perl-native/perl ${D}${libdir}
-+	rmdir -p ${D}${exec_prefix}/lib/perl-native || true
- }
- 
- REL_GIT_EXEC_PATH = "${@os.path.relpath(libexecdir, bindir)}/git-core"
--- 
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index f0f1731..9cd4590 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -188,7 +188,28 @@ def sstate_install(ss, d):
+                 if search_output !=3D "":
+                     match.append("Matched in %s" % search_output.rstrip())
+     if match:
+-        bb.error("The recipe %s is trying to install files into a shared a=
+rea when those files already exist. Those files and their manifest location=
+ are:\n   %s\nPlease verify which recipe should provide the above files.\nT=
+he build has stopped as continuing in this scenario WILL break things, if n=
+ot now, possibly in the future (we've seen builds fail several months later=
+). If the system knew how to recover from this automatically it would howev=
+er there are several different scenarios which can result in this and we do=
+n't know which one this is. It may be you have switched providers of someth=
+ing like virtual/kernel (e.g. from linux-yocto to linux-yocto-dev), in that=
+ case you need to execute the clean task for both recipes and it will resol=
+ve this error. It may be you changed DISTRO_FEATURES from systemd to udev o=
+r vice versa. Cleaning those recipes should again resolve this error howeve=
+r switching DISTRO_FEATURES on an existing build directory is not supported=
+, you should really clean out tmp and rebuild (reusing sstate should be saf=
+e). It could be the overlapping files detected are harmless in which case a=
+dding them to SSTATE_DUPWHITELIST may be the correct solution. It could als=
+o be your build is including two different conflicting versions of things (=
+e.g. bluez 4 and bluez 5 and the correct solution for that would be to reso=
+lve the conflict. If in doubt, please ask on the mailing list, sharing the =
+error and filelist above." % (d.getVar('PN', True), "\n   ".join(match)))
++        bb.error("The recipe %s is trying to install files into a shared" =
+\
++          "area when those files already exist. Those files and their mani=
+fest" \
++          "location are:\n   %s\nPlease verify which recipe should provide=
+ the" \
++          "above files.\nThe build has stopped as continuing in this scena=
+rio WILL" \
++          "break things, if not now, possibly in the future (we've seen bu=
+ilds fail" \
++          "several months later). If the system knew how to recover from t=
+his" \
++          "automatically it would however there are several different scen=
+arios" \
++          "which can result in this and we don't know which one this is. I=
+t may be" \
++          "you have switched providers of something like virtual/kernel (e=
+.g. from" \
++          "linux-yocto to linux-yocto-dev), in that case you need to execu=
+te the" \
++          "clean task for both recipes and it will resolve this error. It =
+may be" \
++          "you changed DISTRO_FEATURES from systemd to udev or vice versa.=
+ Cleaning" \
++          "those recipes should again resolve this error however switching=
+" \
++          "DISTRO_FEATURES on an existing build directory is not supported=
+, you" \
++          "should really clean out tmp and rebuild (reusing sstate should =
+be safe)." \
++          "It could be the overlapping files detected are harmless in whic=
+h case" \
++          "adding them to SSTATE_DUPWHITELIST may be the correct solution.=
+ It could" \
++          "also be your build is including two different conflicting versi=
+ons of" \
++          "things (e.g. bluez 4 and bluez 5 and the correct solution for t=
+hat would" \
++          "be to resolve the conflict. If in doubt, please ask on the mail=
+ing list," \
++          "sharing the error and filelist above." % \
++          (d.getVar('PN', True), "\n ".join(match)))
+         bb.fatal("If the above message is too much, the simpler version is=
+ you're advised to wipe out tmp and rebuild (reusing sstate is fine). That =
+will likely fix things in most (but not all) cases.")
+=20
+     # Write out the manifest
+--=20
 1.7.9.5
 
 
