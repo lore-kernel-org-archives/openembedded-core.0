@@ -1,36 +1,22 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DBD165E0C
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 3931F6AC7B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Oct 2014 23:39:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 55974314E937
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Oct 2014 01:39:13 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id kg5ncPtWKF8C
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Oct 2014 01:39:09 +0200 (CEST)
-Received: from [172.22.22.61] (55d41bdb.access.ecotel.net [85.212.27.219])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id DD4B1314E928
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Oct 2014 01:39:08 +0200 (CEST)
-Message-ID: <5434799B.7020503@opendreambox.org>
-Date: Wed, 08 Oct 2014 01:39:07 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
+	Wed,  8 Oct 2014 01:43:35 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Wed, 8 Oct 2014
+	03:43:30 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id BE52F288D4E;
+	Wed,  8 Oct 2014 03:43:30 +0200 (CEST)
+From: Tudor Florea <tudor.florea@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 Oct 2014 03:43:27 +0200
+Message-ID: <1412732607-17350-1-git-send-email-tudor.florea@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1412712030-12657-1-git-send-email-anibal.limon@linux.intel.com>	<54344EC9.2040303@opendreambox.org>
-	<54346DFB.8030802@linux.intel.com>
-In-Reply-To: <54346DFB.8030802@linux.intel.com>
-Subject: Re: [PATCH] busybox: fix upgrade problem with deb packages
+Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] valgrind: Enforce 30 seconds limit for each test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,171 +29,196 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Oct 2014 23:39:13 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 08 Oct 2014 01:43:40 -0000
+Content-Type: text/plain
 
-On 08.10.2014 00:49, Aníbal Limón wrote:
-> I reviewed the patches and looks good, only i have a comment
-> in this file,
-> 
-> http://git.openembedded.org/openembedded-core-contrib/commit/?h=obi/dora&id=a5f18409d1bf2877f898b902cafc317cbf7462e4
-> 
-> 
-> I didn't know if the same apply for rpm and ipk.
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+---
+ .../valgrind/valgrind/add-ptest.patch              | 68 +++++++++++++++++-----
+ 1 file changed, 53 insertions(+), 15 deletions(-)
 
-I guess so. I'm pretty certain that opkg behaves just like dpkg in this
-regard. I never used rpm, though.
-
-To reproduce the problem, boot an image containing busybox, but not
-bash. Then install bash and deinstall it again. Deinstallation fails,
-resulting in a dangling symlink (/bin/sh -> /bin/bash).
-
-> There are a lot of patches,  Do you have a plan to port them to master?
-> 
-> I can help with that.
-
-I'd like to, but I won't have time to do any testing with master during
-the next weeks. I could rebase my patches onto master and provide a tree
-for you to test. Or you could cherry-pick whatever patches you like and
-submit them to the mailing list after testing. Most patches should apply
-without changes, but those touching rootfs_deb.bbclass and
-package_deb.bbclass will need some porting. What do you think?
-
-Regards,
-Andreas
-
-
-> Best regards.
-> 
-> On 07/10/14 15:36, Andreas Oberritter wrote:
->> Hello Aníbal,
->>
->> On 07.10.2014 22:00, Aníbal Limón wrote:
->>> Busybox prerm scripts create temp directory and fill with
->>> symlinks to common utilities in order to upgrade itself, PATH
->>> is exported but dpkg didn't take a look of this links and fails.
->>>
->>> In order to fix,
->>>
->>>     Changed temp directory to /usr/loca/bin in debian packages.
->>>     Added missing links for utilities tar, find, tail, cut.
->>>
->>> Busybox syslog prerm script tries to stop the daemon but if already
->>> stopped returns 1 then causes that dpkg fails because it expects 0.
->>>
->>> In order to fix,
->>>
->>>     Added workaround to exit 0 in debian packages.
->>>
->>> [YOCTO #6768]
->> please don't overwrite files in /usr/local/bin! People may have their
->> own tools there.
->>
->> This, and the creation of these symlinks in a tmpdir in the first place,
->> looks wrong to me.
->>
->> I think you'd better get rid of update-alternatives-cworth and use an
->> implementation written in C.
->>
->> See
->> http://git.openembedded.org/openembedded-core-contrib/log/?h=obi/dora
->> for many dpkg-related fixes including an offline-capable version of
->> dpkg's update-alternatives. I couldn't test these with master, but this
->> branch contains most if not all patches to dpkg backported from master
->> to dora.
->>
->> Regards,
->> Andreas
->>
->>> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
->>> ---
->>>   meta/recipes-core/busybox/busybox.inc | 46
->>> ++++++++++++++++++++++++++++++++++-
->>>   1 file changed, 45 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-core/busybox/busybox.inc
->>> b/meta/recipes-core/busybox/busybox.inc
->>> index bd66e4f..61f12b4 100644
->>> --- a/meta/recipes-core/busybox/busybox.inc
->>> +++ b/meta/recipes-core/busybox/busybox.inc
->>> @@ -377,13 +377,46 @@ pkg_postinst_${PN} () {
->>>               fi
->>>           done
->>>       fi
->>> +
->>> +    # Workaround for deb packages, clean
->>> +        if [ "$DPKG_MAINTSCRIPT_PACKAGE"x != x ]; then
->>> +        tmpdir='/usr/local/bin'
->>> +        rm -f $tmpdir/[
->>> +        rm -f $tmpdir/test
->>> +        rm -f $tmpdir/head
->>> +        rm -f $tmpdir/sh
->>> +        rm -f $tmpdir/basename
->>> +        rm -f $tmpdir/echo
->>> +        rm -f $tmpdir/mv
->>> +        rm -f $tmpdir/ln
->>> +        rm -f $tmpdir/dirname
->>> +        rm -f $tmpdir/rm
->>> +        rm -f $tmpdir/sed
->>> +        rm -f $tmpdir/sort
->>> +        rm -f $tmpdir/grep
->>> +        rm -f $tmpdir/tar
->>> +        rm -f $tmpdir/find
->>> +        rm -f $tmpdir/tail
->>> +        rm -f $tmpdir/cut
->>> +        fi
->>>   }
->>>     pkg_prerm_${PN} () {
->>>       # This is so you can make busybox commit suicide - removing
->>> busybox with no other packages
->>>       # providing its files, this will make update-alternatives work,
->>> but the update-rc.d part
->>>       # for syslog, httpd and/or udhcpd will fail if there is no
->>> other package providing sh
->>> -    tmpdir=`mktemp -d /tmp/busyboxrm-XXXXXX`
->>> +
->>> +        # Workaround for deb packages, dpkg don't take into account
->>> exported PATH variable,
->>> +        # use instead local directory.
->>> +        if [ "$DPKG_MAINTSCRIPT_PACKAGE"x == x ]; then
->>> +        tmpdir=`mktemp -d /tmp/busyboxrm-XXXXXX`
->>> +        else
->>> +        tmpdir='/usr/local/bin'
->>> +        if [ ! -e $tmpdir ]; then
->>> +            mkdir -p $tmpdir
->>> +        fi
->>> +    fi
->>> +
->>>       ln -s /bin/busybox $tmpdir/[
->>>       ln -s /bin/busybox $tmpdir/test
->>>       ln -s /bin/busybox $tmpdir/head
->>> @@ -397,6 +430,11 @@ pkg_prerm_${PN} () {
->>>       ln -s /bin/busybox $tmpdir/sed
->>>       ln -s /bin/busybox $tmpdir/sort
->>>       ln -s /bin/busybox $tmpdir/grep
->>> +    ln -s /bin/busybox $tmpdir/tar
->>> +    ln -s /bin/busybox $tmpdir/find
->>> +    ln -s /bin/busybox $tmpdir/tail
->>> +    ln -s /bin/busybox $tmpdir/cut
->>> +
->>>       export PATH=$PATH:$tmpdir
->>>   }
->>>   @@ -405,6 +443,12 @@ pkg_prerm_${PN}-syslog () {
->>>       if test "x$D" = "x"; then
->>>           if test "$1" = "upgrade" -o "$1" = "remove"; then
->>>               /etc/init.d/syslog stop
->>> +
->>> +            # Workaround for deb packages, if syslog is already
->>> stopped returns
->>> +            # 1 but dpkg expects 0 and then fails.
->>> +            if [ "$DPKG_MAINTSCRIPT_PACKAGE"x != x ]; then
->>> +                exit 0
->>> +            fi
->>>           fi
->>>       fi
->>>   }
->>>
-> 
+diff --git a/meta/recipes-devtools/valgrind/valgrind/add-ptest.patch b/meta/recipes-devtools/valgrind/valgrind/add-ptest.patch
+index fdc9cc0..225f843 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/add-ptest.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/add-ptest.patch
+@@ -1,6 +1,6 @@
+ Modify vg_test wrapper to support PTEST formats
+ 
+-This commit changes the valgrind regression test script vg_regtest to
++Change the valgrind regression test script vg_regtest to
+ support the yocto ptest stdout reporting format.  The commit adds
+ '--yocto-ptest' as an optional argument to vg_regtest, which alters
+ the output to use the ptest infrastructure reporting format:
+@@ -8,12 +8,16 @@ the output to use the ptest infrastructure reporting format:
+ instead of valgrind's internal test reporting format.  Without the added
+ option, --yocto-ptest, the valgrind regression test output is unchanged.
+ 
++Enforce 30 seconds limit for the test.
++This resume execution of the remaining tests when valgrind hangs.
++
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
++Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+ 
+ diff --git a/tests/vg_regtest.in b/tests/vg_regtest.in
+-index 224385f..dbbd23d 100755
++index 224385f..3e0383b 100755
+ --- a/tests/vg_regtest.in
+ +++ b/tests/vg_regtest.in
+ @@ -39,11 +39,11 @@
+@@ -55,7 +59,41 @@ index 224385f..dbbd23d 100755
+              } else {
+                  die $usage;
+              }
+-@@ -394,19 +397,21 @@ sub do_diffs($$$$)
++@@ -340,13 +343,28 @@ sub read_vgtest_file($)
++ #----------------------------------------------------------------------------
++ # Since most of the program time is spent in system() calls, need this to
++ # propagate a Ctrl-C enabling us to quit.
++-sub mysystem($) 
+++# Enforce 30 seconds limit for the test.
+++# This resume execution of the remaining tests if valgrind hangs.
+++sub mysystem($)
++ {
++-    my $exit_code = system($_[0]);
++-    ($exit_code == 2) and exit 1;      # 2 is SIGINT
++-    return $exit_code;
+++    my $exit_code=0;
+++    eval {
+++        local $SIG{'ALRM'} = sub { die "timed out\n" };
+++        alarm(30);
+++        $exit_code = system($_[0]);
+++        alarm (0);
+++        ($exit_code == 2) and die "SIGINT\n";   # 2 is SIGINT
+++    };
+++    if ($@) {
+++        if ($@ eq "timed out\n") {
+++            print "timed out\n";
+++            return 1;
+++        }
+++        if ($@ eq "SIGINT\n") {
+++            exit 1;
+++        }
+++    }
++ }
++-
++ # if $keepunfiltered, copies $1 to $1.unfiltered.out
++ # renames $0 tp $1
++ sub filtered_rename($$) 
++@@ -394,19 +412,21 @@ sub do_diffs($$$$)
+                  # A match;  remove .out and any previously created .diff files.
+                  unlink("$name.$mid.out");
+                  unlink(<$name.$mid.diff*>);
+@@ -79,7 +117,7 @@ index 224385f..dbbd23d 100755
+      $vgtest =~ /^(.*)\.vgtest/;
+      my $name = $1;
+      my $fullname = "$dir/$name"; 
+-@@ -425,7 +430,11 @@ sub do_one_test($$)
++@@ -425,7 +445,11 @@ sub do_one_test($$)
+          } elsif (256 == $prereq_res) {
+              # Nb: weird Perl-ism -- exit code of '1' is seen by Perl as 256...
+              # Prereq failed, skip.
+@@ -92,7 +130,7 @@ index 224385f..dbbd23d 100755
+              return;
+          } else {
+              # Bad prereq; abort.
+-@@ -438,7 +447,7 @@ sub do_one_test($$)
++@@ -438,7 +462,7 @@ sub do_one_test($$)
+      if (defined $progB) {
+          # If there is a progB, let's start it in background:
+          printf("%-16s valgrind $extraopts $vgopts $prog $args (progB: $progB $argsB)\n",
+@@ -101,7 +139,7 @@ index 224385f..dbbd23d 100755
+          # progB.done used to detect child has finished. See below.
+          # Note: redirection of stdout and stderr is before $progB to allow argsB
+          # to e.g. redirect stdoutB to stderrB
+-@@ -452,7 +461,8 @@ sub do_one_test($$)
++@@ -452,7 +476,8 @@ sub do_one_test($$)
+                       . "touch progB.done)  &");
+          }
+      } else {
+@@ -111,7 +149,7 @@ index 224385f..dbbd23d 100755
+      }
+   
+      # Pass the appropriate --tool option for the directory (can be overridden
+-@@ -487,7 +497,7 @@ sub do_one_test($$)
++@@ -487,7 +512,7 @@ sub do_one_test($$)
+      # Find all the .stdout.exp files.  If none, use /dev/null.
+      my @stdout_exps = <$name.stdout.exp*>;
+      @stdout_exps = ( "/dev/null" ) if (0 == scalar @stdout_exps);
+@@ -120,7 +158,7 @@ index 224385f..dbbd23d 100755
+  
+      # Filter stderr
+      $stderr_filter_args = $name if (! defined $stderr_filter_args);
+-@@ -496,7 +506,7 @@ sub do_one_test($$)
++@@ -496,7 +521,7 @@ sub do_one_test($$)
+      # Find all the .stderr.exp files.  At least one must exist.
+      my @stderr_exps = <$name.stderr.exp*>;
+      (0 != scalar @stderr_exps) or die "Could not find `$name.stderr.exp*'\n";
+@@ -129,7 +167,7 @@ index 224385f..dbbd23d 100755
+  
+      if (defined $progB) {
+          # wait for the child to be finished
+-@@ -520,7 +530,7 @@ sub do_one_test($$)
++@@ -520,7 +545,7 @@ sub do_one_test($$)
+          # Find all the .stdoutB.exp files.  If none, use /dev/null.
+          my @stdoutB_exps = <$name.stdoutB.exp*>;
+          @stdoutB_exps = ( "/dev/null" ) if (0 == scalar @stdoutB_exps);
+@@ -138,7 +176,7 @@ index 224385f..dbbd23d 100755
+          
+          # Filter stderr
+          $stderrB_filter_args = $name if (! defined $stderrB_filter_args);
+-@@ -529,7 +539,7 @@ sub do_one_test($$)
++@@ -529,7 +554,7 @@ sub do_one_test($$)
+          # Find all the .stderrB.exp files.  At least one must exist.
+          my @stderrB_exps = <$name.stderrB.exp*>;
+          (0 != scalar @stderrB_exps) or die "Could not find `$name.stderrB.exp*'\n";
+@@ -147,7 +185,7 @@ index 224385f..dbbd23d 100755
+      }
+  
+      # Maybe do post-test check
+-@@ -541,7 +551,7 @@ sub do_one_test($$)
++@@ -541,7 +566,7 @@ sub do_one_test($$)
+  	    # Find all the .post.exp files.  If none, use /dev/null.
+  	    my @post_exps = <$name.post.exp*>;
+  	    @post_exps = ( "/dev/null" ) if (0 == scalar @post_exps);
+@@ -156,7 +194,7 @@ index 224385f..dbbd23d 100755
+  	}
+      }
+   
+-@@ -550,6 +560,13 @@ sub do_one_test($$)
++@@ -550,6 +575,13 @@ sub do_one_test($$)
+              print("(cleanup operation failed: $cleanup)\n");
+      }
+  
+@@ -170,7 +208,7 @@ index 224385f..dbbd23d 100755
+      $num_tests_done++;
+  }
+  
+-@@ -589,7 +606,7 @@ sub test_one_dir($$)
++@@ -589,7 +621,7 @@ sub test_one_dir($$)
+      my $found_tests = (0 != (grep { $_ =~ /\.vgtest$/ } @fs));
+  
+      if ($found_tests) {
+@@ -179,7 +217,7 @@ index 224385f..dbbd23d 100755
+      }
+      foreach my $f (@fs) {
+          if (-d $f) {
+-@@ -599,7 +616,7 @@ sub test_one_dir($$)
++@@ -599,7 +631,7 @@ sub test_one_dir($$)
+          }
+      }
+      if ($found_tests) {
+@@ -188,7 +226,7 @@ index 224385f..dbbd23d 100755
+      }
+  
+      chdir("..");
+-@@ -625,10 +642,12 @@ sub summarise_results
++@@ -625,10 +657,12 @@ sub summarise_results
+             $num_failures{"stdout"},   plural($num_failures{"stdout"}),
+             $num_failures{"stderrB"},  plural($num_failures{"stderrB"}),
+             $num_failures{"stdoutB"},  plural($num_failures{"stdoutB"}),
+-- 
+1.9.1
 
 
