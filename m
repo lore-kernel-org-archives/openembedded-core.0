@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C125F7029A
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C9A8D712FC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Oct 2014 08:04:02 +0000 (UTC)
+	Wed,  8 Oct 2014 08:04:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s98844Ks026103
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s98844GP029510
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 8 Oct 2014 01:04:04 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 8 Oct 2014 01:04:03 -0700
+	Wed, 8 Oct 2014 01:04:04 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Oct 2014 01:04:02 -0700
-Message-ID: <cover.1412755402.git.liezhi.yang@windriver.com>
+Date: Wed, 8 Oct 2014 01:04:03 -0700
+Message-ID: <f179be5fbb3674fdb89904ec8e2e14b9849a2cfb.1412755402.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1412755402.git.liezhi.yang@windriver.com>
+References: <cover.1412755402.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] git: fix do_install error
+Subject: [PATCH 1/1] git: fix do_install error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 08 Oct 2014 08:04:05 -0000
 Content-Type: text/plain
 
-The following changes since commit 8e3e36bcafcb7a97006f8cc49e51c3a5b8e51a65:
+Fixed when MACHINE = qemux86-64 and libdir = /usr/lib64:
+mv: cannot stat `/path/to/image/usr/lib64/perl-native/perl': No such file or directory
 
-  build-appliance-image: Update to dizzy head revision (2014-10-02 00:43:03 +0100)
+The perl-native files are always installed to /usr/lib on both 32/64
+bits targets.
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/git
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/git
-
-Robert Yang (1):
-  git: fix do_install error
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-devtools/git/git.inc |    7 +++++--
  1 file changed, 5 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 2515833..5396628 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -36,8 +36,11 @@ perl_native_fixup () {
+ 	sed -i -e 's#${STAGING_BINDIR_NATIVE}/perl-native/#${bindir}/#' \
+ 	       -e 's#${libdir}/perl-native/#${libdir}/#' \
+ 	    ${@d.getVar("PERLTOOLS", True).replace(' /',d.getVar('D', True) + '/')}
+-	mv ${D}${libdir}/perl-native/perl ${D}${libdir}
+-	rmdir ${D}${libdir}/perl-native || true
++
++	# ${libdir} is not applicable here, perl-native files are always
++	# installed to /usr/lib on both 32/64 bits targets.
++	mv ${D}${exec_prefix}/lib/perl-native/perl ${D}${libdir}
++	rmdir -p ${D}${exec_prefix}/lib/perl-native || true
+ }
+ 
+ REL_GIT_EXEC_PATH = "${@os.path.relpath(libexecdir, bindir)}/git-core"
 -- 
 1.7.9.5
 
