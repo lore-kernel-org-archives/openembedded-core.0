@@ -1,24 +1,24 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 95C0A601A8
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C125F7029A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Oct 2014 06:46:20 +0000 (UTC)
+	Wed,  8 Oct 2014 08:04:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s986kKVs011161
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s98844Ks026103
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Oct 2014 23:46:20 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 7 Oct 2014 23:46:19 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
+	Wed, 8 Oct 2014 01:04:04 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 8 Oct 2014 01:04:03 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Oct 2014 14:44:39 +0800
-Message-ID: <cover.1412750609.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Date: Wed, 8 Oct 2014 01:04:02 -0700
+Message-ID: <cover.1412755402.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH 0/1] libpcre: Upgrade to 8.36
+Subject: [PATCH 0/1] git: fix do_install error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Oct 2014 06:46:24 -0000
+X-List-Received-Date: Wed, 08 Oct 2014 08:04:05 -0000
 Content-Type: text/plain
 
-The following changes since commit 505a6b696ae990442de720e5e1135a3e44d5f75c:
+The following changes since commit 8e3e36bcafcb7a97006f8cc49e51c3a5b8e51a65:
 
-  bitbake: fetcher: fix BB_STRICT_CHECKSUM datatype check (2014-10-06 16:09:53 +0100)
+  build-appliance-image: Update to dizzy head revision (2014-10-02 00:43:03 +0100)
 
 are available in the git repository at:
 
-  git://git.pokylinux.org/poky-contrib chonglu/libpcre
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/libpcre
+  git://git.openembedded.org/openembedded-core-contrib rbt/git
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/git
 
-Chong Lu (1):
-  libpcre: Upgrade to 8.36
+Robert Yang (1):
+  git: fix do_install error
 
- meta/recipes-support/libpcre/libpcre/Makefile                     | 2 +-
- meta/recipes-support/libpcre/{libpcre_8.35.bb => libpcre_8.36.bb} | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libpcre/{libpcre_8.35.bb => libpcre_8.36.bb} (94%)
+ meta/recipes-devtools/git/git.inc |    7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 -- 
-1.9.1
+1.7.9.5
 
 
