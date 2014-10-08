@@ -1,37 +1,27 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 13C767139A
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 13386601A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Oct 2014 03:00:19 +0000 (UTC)
-Received: by mail-pd0-f176.google.com with SMTP id fp1so6027216pdb.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Oct 2014 20:00:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=VDXWsMr4HWWKeezD1mv3g82R6QYoPC0CkGYhszMIHB0=;
-	b=ePQAS4bS6LlP82gVyPcPwPpxXb7RWtvwoC/nl2glKUfwL4JO3aXdTEQN+v0bOruQ98
-	FkCrVQvdrHYckfhhdCgz3hK2XQz708b+vajHFMBrZQEMxzLDxhrfR8AO0Q6kYYqRxj9/
-	wbgza1KJlJ6M3jNOXnFKQC+FfNwj/fj2D978ylmjgIhQp561m8I9l6vXAbEs+kaVR6hc
-	4zGJnKVC9TFUwIovdFk/l+N0GPjPK7PMxJIrXGFOfuBVgL0W9P3SOJmhT3V2eYaQEouh
-	dORVQ7f+Xt2Tn6ll4nC4k+mWCMIterSnyleA/MBvushqkws0W///sxylA5RNwiMbCyeZ
-	Hn7w==
-X-Received: by 10.68.171.33 with SMTP id ar1mr1249775pbc.148.1412737219684;
-	Tue, 07 Oct 2014 20:00:19 -0700 (PDT)
-Received: from localhost.localdomain (75-128-22-150.dhcp.snlo.ca.charter.com.
-	[75.128.22.150]) by mx.google.com with ESMTPSA id
-	ge5sm17088167pbc.81.2014.10.07.20.00.17 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 Oct 2014 20:00:18 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <TicoTimo@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Oct 2014 20:00:13 -0700
-Message-Id: <1412737213-4248-2-git-send-email-TicoTimo@gmail.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <1412737213-4248-1-git-send-email-TicoTimo@gmail.com>
-References: <1412737213-4248-1-git-send-email-TicoTimo@gmail.com>
-Subject: [PATCH 2/2] clutter-1.0: add ptest
+	Wed,  8 Oct 2014 03:44:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s983iuDo012538
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 7 Oct 2014 20:44:57 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 7 Oct 2014 20:44:56 -0700
+Message-ID: <5434B337.4050509@windriver.com>
+Date: Wed, 8 Oct 2014 11:44:55 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
+MIME-Version: 1.0
+To: "Peter A. Bigot" <pab@pabigot.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1411148655-5500-1-git-send-email-pab@pabigot.com>
+In-Reply-To: <1411148655-5500-1-git-send-email-pab@pabigot.com>
+Subject: Re: [PATCH] git: add Git perl module to perltools package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,96 +34,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Oct 2014 03:00:20 -0000
+X-List-Received-Date: Wed, 08 Oct 2014 03:45:03 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Upstream has reworked installed-tests, use them for ptest.
-Default output format for tests is not TAP, add patch to generate TAP output.
-Run tests with gnome-desktop-testing-runner, which understands TAP output.
 
-Tested on nuc with core-image-clutter and core-image-weston.
+Hi Peter,
 
-Reminder that for "pure" wayland (e.g. core-image-weston) you need to "export CLUTTER_BACKEND = wayland" to get past setting the DISPLAY variable expected for X11 backend.
+On 09/20/2014 01:44 AM, Peter A. Bigot wrote:
+> Git perl tools such as add--interactive load the Git module at runtime.
+> A previous patch to eliminate a QA error by deleting it instead of
+> packaging it was incorrect.
+>
+>      beaglebone[62]$ git add -i
+>      Can't locate Git.pm in @INC (you may need to install the Git module) (@INC contains: /usr/lib/perl/5.20.0 /prj/pab/Utils/lib/perl5/linux-arm/5.020000 /prj/pab/Utils/lib/perl5/ /prj/pab/Utils/lib/perl5/site_perl/linux-arm /prj/pab/Utils/lib/perl5/site_perl /etc/perl /usr/lib/perl/site_perl/5.20.0/ /usr/lib/perl/site_perl/5.20.0 /usr/lib/perl/vendor_perl/5.20.0/ /usr/lib/perl/vendor_perl/5.20.0 /usr/lib/perl/5.20.0/ /usr/local/lib/site_perl .) at /usr/lib/git/git-core/git-add--interactive line 7.
+>      BEGIN failed--compilation aborted at /usr/lib/git/git-core/git-add--interactive line 7.
+>
+> [YOCTO#3780]
+>
+> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+> ---
+>   meta/recipes-devtools/git/git.inc | 8 +++-----
+>   1 file changed, 3 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+> index 7633577..3580275 100644
+> --- a/meta/recipes-devtools/git/git.inc
+> +++ b/meta/recipes-devtools/git/git.inc
+> @@ -30,11 +30,6 @@ do_install () {
+>   	oe_runmake install DESTDIR="${D}" bindir=${bindir} \
+>   		template_dir=${datadir}/git-core/templates \
+>   		GIT_PYTHON_DIR=${D}${datadir}/git-core/python
+> -
+> -	# ${libdir} is not applicable here, perl-native files are always
+> -	# installed to /usr/lib on both 32/64 bits targets.
+> -	rm -rf ${D}${exec_prefix}/lib/perl-native
+> -	rmdir ${D}${exec_prefix}/lib || true
+>   }
+>
+>   PERLSEDFIXUP = " \
+> @@ -48,6 +43,8 @@ REL_GIT_TEMPLATE_DIR = "${@os.path.relpath(datadir, bindir)}/git-core/templates"
+>
+>   do_install_append_class-target () {
+>   	${PERLSEDFIXUP}
+> +	mv ${D}${libdir}/perl-native/perl ${D}${libdir}
+> +	rmdir ${D}${libdir}/perl-native || true
 
-Signed-off-by: Tim Orling <TicoTimo@gmail.com>
----
- meta/recipes-graphics/clutter/clutter-1.0.inc        |  4 +++-
- .../run-installed-tests-with-tap-output.patch        | 20 ++++++++++++++++++++
- meta/recipes-graphics/clutter/clutter-1.0/run-ptest  |  3 +++
- meta/recipes-graphics/clutter/clutter-1.0_1.20.0.bb  |  4 +++-
- 4 files changed, 29 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/clutter/clutter-1.0/run-installed-tests-with-tap-output.patch
- create mode 100644 meta/recipes-graphics/clutter/clutter-1.0/run-ptest
+We can't use the ${libdir} to replace of the {D}${exec_prefix}/lib as
+the comment said that:
 
-diff --git a/meta/recipes-graphics/clutter/clutter-1.0.inc b/meta/recipes-graphics/clutter/clutter-1.0.inc
-index 77035d7..3929765 100644
---- a/meta/recipes-graphics/clutter/clutter-1.0.inc
-+++ b/meta/recipes-graphics/clutter/clutter-1.0.inc
-@@ -2,7 +2,7 @@ SUMMARY = "Graphics library for creating hardware-accelerated user interfaces"
- HOMEPAGE = "http://www.clutter-project.org/"
- LICENSE = "LGPLv2.1+"
- 
--inherit clutter
-+inherit clutter ptest-gnome
- 
- DEPENDS = "pango glib-2.0 json-glib atk udev cogl-1.0"
- PACKAGE_BEFORE_PN += "${PN}-examples"
-@@ -39,6 +39,8 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland',
- FILES_${PN}-dbg += "${libdir}/clutter/examples/.debug"
- FILES_${PN}-examples = "${libdir}/clutter/examples"
- 
-+FILES_${PN}-dbg += "${libexecdir}/installed-tests/.debug"
-+
- do_configure_prepend() {
- 	# see https://bugzilla.gnome.org/show_bug.cgi?id=661128 for this
- 	touch -t 200001010000 ${S}/po/clutter-1.0.pot
-diff --git a/meta/recipes-graphics/clutter/clutter-1.0/run-installed-tests-with-tap-output.patch b/meta/recipes-graphics/clutter/clutter-1.0/run-installed-tests-with-tap-output.patch
-new file mode 100644
-index 0000000..80acab8
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-1.0/run-installed-tests-with-tap-output.patch
-@@ -0,0 +1,20 @@
-+Configure output from installed-tests to be TAP compliant, such that gnome-desktop-testing-runner properly interprets the results.
-+
-+Upstream-status: Pending
-+
-+Signed-off-by: Tim Orling <TicoTimo@gmail.com>
-+
-+Index: clutter-1.20.0/build/autotools/glib-tap.mk
-+===================================================================
-+--- clutter-1.20.0.orig/build/autotools/glib-tap.mk
-++++ clutter-1.20.0/build/autotools/glib-tap.mk
-+@@ -128,7 +128,8 @@ installed_test_meta_DATA = $(installed_t
-+ 	$(AM_V_GEN) (echo '[Test]' > $@.tmp; \
-+ 	echo 'Type=session' >> $@.tmp; \
-+ 	echo 'TestEnvironment=G_ENABLE_DIAGNOSTIC=0;CLUTTER_ENABLE_DIAGNOSTIC=0;' >> $@.tmp; \
-+-	echo 'Exec=$(installed_testdir)/$<' >> $@.tmp; \
-++	echo 'Exec=$(installed_testdir)/$< --tap' >> $@.tmp; \
-++	echo 'Output=TAP' >> $@.tmp; \
-+ 	mv $@.tmp $@)
-+ 
-+ CLEANFILES += $(installed_test_meta_DATA)
-diff --git a/meta/recipes-graphics/clutter/clutter-1.0/run-ptest b/meta/recipes-graphics/clutter/clutter-1.0/run-ptest
-new file mode 100644
-index 0000000..98877e5
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-1.0/run-ptest
-@@ -0,0 +1,3 @@
-+#! /bin/sh
-+
-+gnome-desktop-testing-runner clutter
-diff --git a/meta/recipes-graphics/clutter/clutter-1.0_1.20.0.bb b/meta/recipes-graphics/clutter/clutter-1.0_1.20.0.bb
-index 7898810..5f39a3a 100644
---- a/meta/recipes-graphics/clutter/clutter-1.0_1.20.0.bb
-+++ b/meta/recipes-graphics/clutter/clutter-1.0_1.20.0.bb
-@@ -5,4 +5,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- SRC_URI[archive.md5sum] = "a8a33a57a944c6d7c7c013ce9aa3222b"
- SRC_URI[archive.sha256sum] = "cc940809e6e1469ce349c4bddb0cbcc2c13c087d4fc15cda9278d855ee2d1293"
- 
--SRC_URI += "file://install-examples.patch"
-+SRC_URI += "file://install-examples.patch \
-+            file://run-installed-tests-with-tap-output.patch \
-+            file://run-ptest"
--- 
-1.9.3
+# ${libdir} is not applicable here, perl-native files are always
+# installed to /usr/lib on both 32/64 bits targets.
 
+Other wise we would get errors when:
+MACHINE = qemux86-64 and libdir = /usr/lib64:
+     mv: cannot stat `/path/to/image/usr/lib64/perl-native/perl': No such file 
+or directory
+
+I will send a patch to fix it.
+
+// Robert
+
+>   }
+>
+>   do_install_append_class-native() {
+> @@ -90,6 +87,7 @@ PERLTOOLS = " \
+>   PACKAGES =+ "${PN}-perltools"
+>   FILES_${PN}-perltools += " \
+>       ${PERLTOOLS} \
+> +    ${libdir}/perl \
+>       ${datadir}/perl \
+>   "
+>   RDEPENDS_${PN}-perltools = "${PN} perl perl-module-file-path findutils"
+>
 
