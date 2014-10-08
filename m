@@ -1,39 +1,28 @@
-Return-Path: <iwamatsu@nigauri.org>
-Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 084D96FDEB
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D078971647
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Oct 2014 02:49:55 +0000 (UTC)
-Received: by mail-pd0-f180.google.com with SMTP id fp1so6119593pdb.11
+	Wed,  8 Oct 2014 02:50:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s982oExS022865
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Oct 2014 19:49:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=fNYpHv0E1AQIZ0pBd1dGnlocHPxpLg72y0ZOHPCDQHM=;
-	b=eQ+7HlfxsztbU6QX94USVv3DNvypjQMLXZf3RPRusgelihVWgkhPS2OzBfuWikM0lb
-	/3ne/fhzU48pzYdJyc0oQrhJWaE+zanVHE0PTork3il445h08CM3RpECppYyMLOAWVmH
-	AoDEFxh6e6z3J77uVyRzZxF9MVixMK77u8+1EqTLN3viTdIpTeYFB0qhgeISoBnjUNSI
-	Vc/Q55PD8XF58Kq0+BI/K1Nkf+TWeTO/V9PDp3XnBBmfJ4hC4DdGsw/Q1aX78710LzO3
-	OgPPX7GQvQCMq9xkCswh747rRcvnpiK1gQLqXKhsZD09dNZojcFznf6LnEmUpo2w8Jhh
-	3KNw==
-X-Gm-Message-State: ALoCoQmqKc9lAoyc+GxpW8Vx/kKB1XlamGWFUvansYTevtb0OzP4pq1jldqqhIYyCFn0w3P8iFXL
-X-Received: by 10.67.14.69 with SMTP id fe5mr7303056pad.73.1412736596816;
-	Tue, 07 Oct 2014 19:49:56 -0700 (PDT)
-Received: from xps-iwamatsu.renesas.com (49.14.32.202.bf.2iij.net.
-	[202.32.14.49]) by mx.google.com with ESMTPSA id
-	k11sm17103556pbq.61.2014.10.07.19.49.54 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 07 Oct 2014 19:49:55 -0700 (PDT)
-Sender: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
-From: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Oct 2014 11:49:44 +0900
-Message-Id: <1412736584-7768-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
-X-Mailer: git-send-email 2.0.0
-Cc: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>,
-	Nobuhiro Iwamatsu <nobuhiro.iwamatsu@renesas.com>
-Subject: [PATCH] gstreamer1.0-plugins-bad: Add patch for disable pkg-check of wayland-scanner
+	Tue, 7 Oct 2014 19:50:14 -0700 (PDT)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Tue, 7 Oct 2014 19:50:14 -0700
+Message-ID: <5434A663.4000109@windriver.com>
+Date: Wed, 8 Oct 2014 10:50:11 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1412068156.git.Chong.Lu@windriver.com>
+In-Reply-To: <cover.1412068156.git.Chong.Lu@windriver.com>
+X-Originating-IP: [128.224.162.204]
+Subject: Re: [PATCH 0/3] Update three packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,56 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Oct 2014 02:49:56 -0000
+X-List-Received-Date: Wed, 08 Oct 2014 02:50:16 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-wayland plugin can not build by pkg-check of wayland-scanner.
-By applying patch to disable a check of wayland-scanner, wayland plugin can build.
+ping
 
-Signed-off-by: Nobuhiro Iwamatsu <nobuhiro.iwamatsu@renesas.com>
----
- .../gstreamer/gstreamer1.0-plugins-bad.inc         |    1 +
- .../disable-wayland-scanner-pkg-check.patch        |   19 +++++++++++++++++++
- 2 files changed, 20 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/disable-wayland-scanner-pkg-check.patch
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index dab0bf5..71badae 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -7,6 +7,7 @@ DEPENDS += "gstreamer1.0-plugins-base bzip2 libpng jpeg"
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
- 
- SRC_URI += "file://configure-allow-to-disable-libssh2.patch \
-+            file://disable-wayland-scanner-pkg-check.patch \
-            "
- 
- inherit gettext
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/disable-wayland-scanner-pkg-check.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/disable-wayland-scanner-pkg-check.patch
-new file mode 100644
-index 0000000..decf3f0
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/disable-wayland-scanner-pkg-check.patch
-@@ -0,0 +1,19 @@
-+diff --git a/configure.ac b/configure.ac
-+index d28f5e7..8a5e53f 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -2011,13 +2011,11 @@ AG_GST_CHECK_FEATURE(DIRECTFB, [directfb], dfbvideosink , [
-+ dnl **** Wayland ****
-+ translit(dnm, m, l) AM_CONDITIONAL(USE_WAYLAND, true)
-+ AG_GST_CHECK_FEATURE(WAYLAND, [wayland sink], wayland , [
-+-  PKG_CHECK_MODULES(WAYLAND, wayland-client >= 1.4.0 wayland-scanner, [
-++  PKG_CHECK_MODULES(WAYLAND, wayland-client >= 1.4.0, [
-+     HAVE_WAYLAND="yes" ], [ HAVE_WAYLAND="no"
-+   ])
-+ ])
-+ 
-+-AC_PATH_PROG([wayland_scanner], [wayland-scanner])
-+-
-+ dnl **** WebP ****
-+ translit(dnm, m, l) AM_CONDITIONAL(USE_WEBP, true)
-+ AG_GST_CHECK_FEATURE(WEBP, [WebP], webp , [
--- 
-1.7.9.5
+On 09/30/2014 05:33 PM, Chong Lu wrote:
+> The following changes since commit 39ca8b429b6244e9649e7303cbb240adf007bf22:
+>
+>    bitbake: toastergui fix size rendering in dirinfo page (2014-09-29 14:11:59 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib chonglu/updatepkg
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/updatepkg
+>
+> Chong Lu (3):
+>    tcl: Upgrade to 8.6.2
+>    strace: Upgrade to 4.9
+>    byacc: Upgrade to 20140715
+>
+>   ...-conflict-between-sys-ptrace.h-and-linux-.patch | 108 ---------------------
+>   .../strace-fix-64-bit-process-detection.patch      |  34 -------
+>   .../Makefile-ptest.patch                           |  44 ++++++---
+>   .../{strace-4.8 => strace-4.9}/git-version-gen     |   0
+>   .../strace/{strace-4.8 => strace-4.9}/run-ptest    |   0
+>   .../strace-add-configure-options.patch             |  37 ++++---
+>   .../strace/{strace_4.8.bb => strace_4.9.bb}        |   8 +-
+>   .../tcltk/{tcl_8.6.1.bb => tcl_8.6.2.bb}           |   5 +-
+>   .../byacc/{byacc_20140422.bb => byacc_20140715.bb} |   4 +-
+>   9 files changed, 57 insertions(+), 183 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/strace/strace-4.8/0001-Work-around-conflict-between-sys-ptrace.h-and-linux-.patch
+>   delete mode 100644 meta/recipes-devtools/strace/strace-4.8/strace-fix-64-bit-process-detection.patch
+>   rename meta/recipes-devtools/strace/{strace-4.8 => strace-4.9}/Makefile-ptest.patch (61%)
+>   rename meta/recipes-devtools/strace/{strace-4.8 => strace-4.9}/git-version-gen (100%)
+>   rename meta/recipes-devtools/strace/{strace-4.8 => strace-4.9}/run-ptest (100%)
+>   rename meta/recipes-devtools/strace/{strace-4.8 => strace-4.9}/strace-add-configure-options.patch (63%)
+>   rename meta/recipes-devtools/strace/{strace_4.8.bb => strace_4.9.bb} (77%)
+>   rename meta/recipes-devtools/tcltk/{tcl_8.6.1.bb => tcl_8.6.2.bb} (94%)
+>   rename meta/recipes-extended/byacc/{byacc_20140422.bb => byacc_20140715.bb} (74%)
+>
 
 
