@@ -1,40 +1,26 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id C87DB60167
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 09C2F60167
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Oct 2014 15:52:09 +0000 (UTC)
-Received: by mail-wi0-f177.google.com with SMTP id fb4so11022182wid.16
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Oct 2014 08:52:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-type:content-transfer-encoding;
-	bh=ZG+PfOkB/qrkZWpD07QcL8r7HmRsC4na13UNx/CTSq4=;
-	b=e42py/tr+7E5nW2lR5UkmgoMXfYFnV3S+0DQGqL23cK0c5WiCshUw5qpZcfSGfj1Ah
-	PkhhPgnRIcCTv5ir+UM0CEmU87TpzM3aUB/flu9E0ehS7pUsilx0Iu9VZFQKO2feb76L
-	yifp2qAYzboBrWyi2yfs9wWClX3kyy/lLtN1MCs8i73wl20Dx5M86tRco5Ggwd/8Q27I
-	pD6n1eC3ZjpsX/SWuBoPVWYh000EScX1lfv3d+nRguveVb2NF1+eFV3wANcAdKzZAcYl
-	VLlNc1GhUXXizKTd+uld74qo4LQZQxBVPMMs78+Q/mfzStNxHdJfntTsUHH+yesQf3l8
-	ePyA==
-X-Received: by 10.180.184.225 with SMTP id ex1mr24363402wic.22.1412783530337; 
-	Wed, 08 Oct 2014 08:52:10 -0700 (PDT)
-Received: from localhost.localdomain
-	(ip-176-198-252-251.hsi05.unitymediagroup.de. [176.198.252.251])
-	by mx.google.com with ESMTPSA id pk9sm527948wjb.16.2014.10.08.08.52.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 Oct 2014 08:52:09 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Oct 2014 17:52:00 +0200
-Message-Id: <1412783520-14196-2-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1412783520-14196-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1412783520-14196-1-git-send-email-schnitzeltony@googlemail.com>
+	Wed,  8 Oct 2014 18:00:38 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 08 Oct 2014 10:50:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="397213349"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.59])
+	([10.219.4.59])
+	by FMSMGA003.fm.intel.com with ESMTP; 08 Oct 2014 10:52:41 -0700
+Message-ID: <54357BB2.6090405@linux.intel.com>
+Date: Wed, 08 Oct 2014 13:00:18 -0500
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: systemd: make symlinks for gudev instead of moving around
+To: openembedded-core@lists.openembedded.org
+References: <1412712030-12657-1-git-send-email-anibal.limon@linux.intel.com>	<54344EC9.2040303@opendreambox.org>	<54346DFB.8030802@linux.intel.com>
+	<5434799B.7020503@opendreambox.org>
+In-Reply-To: <5434799B.7020503@opendreambox.org>
+Subject: Re: [PATCH] busybox: fix upgrade problem with deb packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,64 +33,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Oct 2014 15:52:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 08 Oct 2014 18:00:42 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-alternate solution to Martins's approach in [1]
 
-[1] http://lists.openembedded.org/pipermail/openembedded-core/2014-October/097713.html
+On 07/10/14 18:39, Andreas Oberritter wrote:
+> On 08.10.2014 00:49, Aníbal Limón wrote:
+>> I reviewed the patches and looks good, only i have a comment
+>> in this file,
+>>
+>> http://git.openembedded.org/openembedded-core-contrib/commit/?h=obi/dora&id=a5f18409d1bf2877f898b902cafc317cbf7462e4
+>>
+>>
+>> I didn't know if the same apply for rpm and ipk.
+> I guess so. I'm pretty certain that opkg behaves just like dpkg in this
+> regard. I never used rpm, though.
+>
+> To reproduce the problem, boot an image containing busybox, but not
+> bash. Then install bash and deinstall it again. Deinstallation fails,
+> resulting in a dangling symlink (/bin/sh -> /bin/bash).
+>
+>> There are a lot of patches,  Do you have a plan to port them to master?
+>>
+>> I can help with that.
+> I'd like to, but I won't have time to do any testing with master during
+> the next weeks. I could rebase my patches onto master and provide a tree
+> for you to test. Or you could cherry-pick whatever patches you like and
+> submit them to the mailing list after testing. Most patches should apply
+> without changes, but those touching rootfs_deb.bbclass and
+> package_deb.bbclass will need some porting. What do you think?
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- meta/recipes-core/systemd/systemd_216.bb | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+I think we need to port these patches in small changes in order to do
+a good review,
 
-diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
-index ebf9395..c655f9a 100644
---- a/meta/recipes-core/systemd/systemd_216.bb
-+++ b/meta/recipes-core/systemd/systemd_216.bb
-@@ -129,8 +129,15 @@ do_install() {
- 		sed -i s%@UDEVD@%${rootlibexecdir}/systemd/systemd-udevd% ${D}${sysconfdir}/init.d/systemd-udevd
- 	fi
- 
--	# Move libgudev back to ${rootlibdir} to keep backward compatibility
--	[ ${rootlibdir} != ${libdir} ] && mv -t ${D}${rootlibdir} ${D}${libdir}/libgudev*
-+	# Make symlinks for libgudev in ${rootlibdir} to keep backward compatibility
-+	if [ ${rootlibdir} != ${libdir} ]; then
-+		for file in `find ${D}${libdir} -name 'libgudev*'`; do
-+			filebase=`basename $file`
-+			linkloc="${D}${rootlibdir}/$filebase"
-+			relpath=`python -c "import os.path; print os.path.relpath('$file', '$linkloc')"`
-+			ln -s $relpath $linkloc
-+		done
-+	fi
- 
-         # Delete journal README, as log can be symlinked inside volatile.
-         rm -f ${D}/${localstatedir}/log/README
-@@ -171,10 +178,10 @@ python populate_packages_prepend (){
-     systemdlibdir = d.getVar("rootlibdir", True)
-     do_split_packages(d, systemdlibdir, '^lib(.*)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
- }
--PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
-+PACKAGES_DYNAMIC += "^lib(udev|systemd).*"
- 
- PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install \
--             ${PN}-rpm-macros ${PN}-binfmt ${PN}-pam ${PN}-zsh"
-+             ${PN}-rpm-macros ${PN}-binfmt ${PN}-pam ${PN}-zsh libgudev"
- 
- SYSTEMD_PACKAGES = "${PN}-binfmt"
- SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
-@@ -188,6 +195,8 @@ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
- FILES_${PN}-initramfs = "/init"
- RDEPENDS_${PN}-initramfs = "${PN}"
- 
-+FILES_libgudev = "${libdir}/libgudev*${SOLIBS} ${rootlibdir}/libgudev*${SOLIBS}"
-+
- # The test cases need perl and bash to run correctly.
- RDEPENDS_${PN}-ptest += "perl bash"
- FILES_${PN}-ptest += "${libdir}/udev/rules.d"
--- 
-1.8.3.1
+I propose,
+
+1. dpkg update-alternatives offline
+2. apt-get upgrade version
+3. another minor changes like pkg-config
+
+Makes sense?
+
+>
+> Regards,
+> Andreas
+>
+>
+>> Best regards.
+>>
+>> On 07/10/14 15:36, Andreas Oberritter wrote:
+>>> Hello Aníbal,
+>>>
+>>> On 07.10.2014 22:00, Aníbal Limón wrote:
+>>>> Busybox prerm scripts create temp directory and fill with
+>>>> symlinks to common utilities in order to upgrade itself, PATH
+>>>> is exported but dpkg didn't take a look of this links and fails.
+>>>>
+>>>> In order to fix,
+>>>>
+>>>>      Changed temp directory to /usr/loca/bin in debian packages.
+>>>>      Added missing links for utilities tar, find, tail, cut.
+>>>>
+>>>> Busybox syslog prerm script tries to stop the daemon but if already
+>>>> stopped returns 1 then causes that dpkg fails because it expects 0.
+>>>>
+>>>> In order to fix,
+>>>>
+>>>>      Added workaround to exit 0 in debian packages.
+>>>>
+>>>> [YOCTO #6768]
+>>> please don't overwrite files in /usr/local/bin! People may have their
+>>> own tools there.
+>>>
+>>> This, and the creation of these symlinks in a tmpdir in the first place,
+>>> looks wrong to me.
+>>>
+>>> I think you'd better get rid of update-alternatives-cworth and use an
+>>> implementation written in C.
+>>>
+>>> See
+>>> http://git.openembedded.org/openembedded-core-contrib/log/?h=obi/dora
+>>> for many dpkg-related fixes including an offline-capable version of
+>>> dpkg's update-alternatives. I couldn't test these with master, but this
+>>> branch contains most if not all patches to dpkg backported from master
+>>> to dora.
+>>>
+>>> Regards,
+>>> Andreas
+>>>
+>>>> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+>>>> ---
+>>>>    meta/recipes-core/busybox/busybox.inc | 46
+>>>> ++++++++++++++++++++++++++++++++++-
+>>>>    1 file changed, 45 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/recipes-core/busybox/busybox.inc
+>>>> b/meta/recipes-core/busybox/busybox.inc
+>>>> index bd66e4f..61f12b4 100644
+>>>> --- a/meta/recipes-core/busybox/busybox.inc
+>>>> +++ b/meta/recipes-core/busybox/busybox.inc
+>>>> @@ -377,13 +377,46 @@ pkg_postinst_${PN} () {
+>>>>                fi
+>>>>            done
+>>>>        fi
+>>>> +
+>>>> +    # Workaround for deb packages, clean
+>>>> +        if [ "$DPKG_MAINTSCRIPT_PACKAGE"x != x ]; then
+>>>> +        tmpdir='/usr/local/bin'
+>>>> +        rm -f $tmpdir/[
+>>>> +        rm -f $tmpdir/test
+>>>> +        rm -f $tmpdir/head
+>>>> +        rm -f $tmpdir/sh
+>>>> +        rm -f $tmpdir/basename
+>>>> +        rm -f $tmpdir/echo
+>>>> +        rm -f $tmpdir/mv
+>>>> +        rm -f $tmpdir/ln
+>>>> +        rm -f $tmpdir/dirname
+>>>> +        rm -f $tmpdir/rm
+>>>> +        rm -f $tmpdir/sed
+>>>> +        rm -f $tmpdir/sort
+>>>> +        rm -f $tmpdir/grep
+>>>> +        rm -f $tmpdir/tar
+>>>> +        rm -f $tmpdir/find
+>>>> +        rm -f $tmpdir/tail
+>>>> +        rm -f $tmpdir/cut
+>>>> +        fi
+>>>>    }
+>>>>      pkg_prerm_${PN} () {
+>>>>        # This is so you can make busybox commit suicide - removing
+>>>> busybox with no other packages
+>>>>        # providing its files, this will make update-alternatives work,
+>>>> but the update-rc.d part
+>>>>        # for syslog, httpd and/or udhcpd will fail if there is no
+>>>> other package providing sh
+>>>> -    tmpdir=`mktemp -d /tmp/busyboxrm-XXXXXX`
+>>>> +
+>>>> +        # Workaround for deb packages, dpkg don't take into account
+>>>> exported PATH variable,
+>>>> +        # use instead local directory.
+>>>> +        if [ "$DPKG_MAINTSCRIPT_PACKAGE"x == x ]; then
+>>>> +        tmpdir=`mktemp -d /tmp/busyboxrm-XXXXXX`
+>>>> +        else
+>>>> +        tmpdir='/usr/local/bin'
+>>>> +        if [ ! -e $tmpdir ]; then
+>>>> +            mkdir -p $tmpdir
+>>>> +        fi
+>>>> +    fi
+>>>> +
+>>>>        ln -s /bin/busybox $tmpdir/[
+>>>>        ln -s /bin/busybox $tmpdir/test
+>>>>        ln -s /bin/busybox $tmpdir/head
+>>>> @@ -397,6 +430,11 @@ pkg_prerm_${PN} () {
+>>>>        ln -s /bin/busybox $tmpdir/sed
+>>>>        ln -s /bin/busybox $tmpdir/sort
+>>>>        ln -s /bin/busybox $tmpdir/grep
+>>>> +    ln -s /bin/busybox $tmpdir/tar
+>>>> +    ln -s /bin/busybox $tmpdir/find
+>>>> +    ln -s /bin/busybox $tmpdir/tail
+>>>> +    ln -s /bin/busybox $tmpdir/cut
+>>>> +
+>>>>        export PATH=$PATH:$tmpdir
+>>>>    }
+>>>>    @@ -405,6 +443,12 @@ pkg_prerm_${PN}-syslog () {
+>>>>        if test "x$D" = "x"; then
+>>>>            if test "$1" = "upgrade" -o "$1" = "remove"; then
+>>>>                /etc/init.d/syslog stop
+>>>> +
+>>>> +            # Workaround for deb packages, if syslog is already
+>>>> stopped returns
+>>>> +            # 1 but dpkg expects 0 and then fails.
+>>>> +            if [ "$DPKG_MAINTSCRIPT_PACKAGE"x != x ]; then
+>>>> +                exit 0
+>>>> +            fi
+>>>>            fi
+>>>>        fi
+>>>>    }
+>>>>
 
 
