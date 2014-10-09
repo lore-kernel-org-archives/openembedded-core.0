@@ -1,25 +1,28 @@
 Return-Path: <sona.sarmadi@enea.com>
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 4544C65D58
+	by mail.openembedded.org (Postfix) with SMTP id C27DC71835
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Oct 2014 15:44:41 +0000 (UTC)
+	Thu,  9 Oct 2014 15:45:05 +0000 (UTC)
 Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0158.001; Thu, 9 Oct 2014 17:44:40 +0200
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.03.0158.001; Thu, 9 Oct 2014 17:45:06 +0200
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [daisy][PATCH2/4] layer.conf: Mark opkg-utils as
-	ABISAFE for update-alternatives usage
-Thread-Index: Ac/j17NA9fkllHrSRsOAJZSwIhfqzQ==
-Date: Thu, 9 Oct 2014 15:44:40 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E4825762BC8@SESTOEX04.enea.se>
+Thread-Topic: [OE-core] [daisy][PATCH4/4] layer.conf: Mark opkg-utils as
+	ABISAFE	for update-alternatives usage
+Thread-Index: AQHP47wqvGQhQepLskGJ6DZi+fZDspwn6HQg
+Date: Thu, 9 Oct 2014 15:45:05 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E4825762BD1@SESTOEX04.enea.se>
+References: <1412857516-42476-1-git-send-email-sona.sarmadi@enea.com>
+	<1412857516-42476-2-git-send-email-sona.sarmadi@enea.com>
+In-Reply-To: <1412857516-42476-2-git-send-email-sona.sarmadi@enea.com>
 Accept-Language: sv-SE, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [172.21.1.188]
 MIME-Version: 1.0
-Subject: Re: [daisy][PATCH2/4] layer.conf: Mark opkg-utils as ABISAFE for update-alternatives usage
+Subject: Re: [daisy][PATCH4/4] layer.conf: Mark opkg-utils as ABISAFE	for update-alternatives usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +35,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Oct 2014 15:44:43 -0000
+X-List-Received-Date: Thu, 09 Oct 2014 15:45:06 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
@@ -47,7 +50,7 @@ Please ignore this email, this was sent by mistake.=20
 > Of Sona Sarmadi
 > Sent: den 9 oktober 2014 14:25
 > To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [daisy][PATCH2/4] layer.conf: Mark opkg-utils as ABISA=
+> Subject: [OE-core] [daisy][PATCH4/4] layer.conf: Mark opkg-utils as ABISA=
 FE
 > for update-alternatives usage
 >=20
