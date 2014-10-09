@@ -1,23 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D89F16A9D4
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id A098D6FDEB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Oct 2014 09:45:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s999jPkI016130
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 9 Oct 2014 02:45:25 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 9 Oct 2014 02:45:25 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <martin.jansa@gmail.com>
-Date: Thu, 9 Oct 2014 02:45:24 -0700
-Message-ID: <cover.1412847857.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Thu,  9 Oct 2014 12:23:30 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Thu, 9 Oct 2014
+	14:23:28 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 2671)	id C598F288D4F;
+	Thu,  9 Oct 2014 14:23:28 +0200 (CEST)
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 9 Oct 2014 14:23:25 +0200
+Message-ID: <1412857405-44189-2-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1412857405-44189-1-git-send-email-sona.sarmadi@enea.com>
+References: <1412857405-44189-1-git-send-email-sona.sarmadi@enea.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] nss-myhostname: skip it when systemd
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Subject: [daisy][PATCH1/4] layer.conf: Mark opkg-utils as ABISAFE for update-alternatives usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,25 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Oct 2014 09:45:27 -0000
+X-List-Received-Date: Thu, 09 Oct 2014 12:23:32 -0000
 Content-Type: text/plain
 
-The following changes since commit 16cedc3bce6fc37543e9ef053cd7c589e523ca1c:
+From: Steffen Sledz <sledz@dresearch-fe.de>
 
-  package_ipk.bbclass: Fix SRC_URI whitespace handling (2014-10-06 16:03:03 +0100)
+Currently linux-firmware rebuilds for each machine due to its usage of
+update-alternatives which in turn means a dependency on opkg-utils.
+Marking opkg-utils as ABISAFE is the only option we have right now
+to avoid this.
 
-are available in the git repository at:
+(From OE-Core rev: e4c4ca3101062ecc956294ac968dc488321eb33b)
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/nss
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/nss
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Steffen Sledz <sledz@dresearch-fe.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/layer.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Robert Yang (1):
-  nss-myhostname: skip it when systemd
-
- .../nss-myhostname/nss-myhostname_0.3.bb           |    6 ++++++
- 1 file changed, 6 insertions(+)
-
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index a764ee0..13814dc 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -14,6 +14,7 @@ LAYERVERSION_core = "4"
+ # Set a variable to get to the top of the metadata location
+ COREBASE = '${@os.path.normpath("${LAYERDIR}/../")}'
+ 
++# opkg-utils is for update-altnernatives :(
+ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+   sysvinit-inittab \
+   shadow-securetty \
+@@ -34,4 +35,5 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+   shadow \
+   shadow-sysroot \
+   base-passwd \
++  opkg-utils \
+ "
 -- 
-1.7.9.5
+1.9.1
 
 
