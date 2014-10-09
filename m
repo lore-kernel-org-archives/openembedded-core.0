@@ -1,30 +1,35 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9503F65D56
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 501F4708B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Oct 2014 01:19:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s991JdP2015511
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 8 Oct 2014 18:19:39 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Wed, 8 Oct 2014 18:19:38 -0700
-Message-ID: <5435E2A7.30404@windriver.com>
-Date: Thu, 9 Oct 2014 09:19:35 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1412068156.git.Chong.Lu@windriver.com>
-	<5434A663.4000109@windriver.com>
-	<CAJTo0LYP5uP7Ro0cMg27JeRWh67V6mAHT=vaP11kR+GHX=sunQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYP5uP7Ro0cMg27JeRWh67V6mAHT=vaP11kR+GHX=sunQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.204]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Update three packages
+	Thu,  9 Oct 2014 05:29:41 +0000 (UTC)
+Received: by mail-ig0-f176.google.com with SMTP id hn15so10746292igb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Oct 2014 22:29:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=sX74D26GK025Njx6/7jK3l6d/hiEe/2V62eLlrfapcE=;
+	b=0cXjKxSk6fXFX3eUQ2SKC2WpG8V3NTe1nG1t2sGYnCSyakJMqwHPvcZ5x1UqU1dbtV
+	ddveSEldKIvayKG8Ava+TnL4pAeXeAZiYK+NY9A78HFa6LxyI91wG4BiZMywJzq6c0Y3
+	w+Wlwvyp36GdWQmBEzmd0auK6N2YpMvJO+nZ96MtflUUWZXsd4Fg2hvN4Qbi6weFPZeA
+	SqHnFEOEORjhogNM8G6lxpwaybpx+Het99+p9ePZqTVWxpYj3Sxbjh5th9DaT4Xg4oaZ
+	Vjb+SKiGW/cANHQv6Tvi1JhPHEK8jOiL9sz0lk3Sew1DXSom0W5GM4n3IvErcgTwU9lQ
+	+dHQ==
+X-Received: by 10.42.15.201 with SMTP id m9mr4273620ica.80.1412832582883;
+	Wed, 08 Oct 2014 22:29:42 -0700 (PDT)
+Received: from haswell.localdomain (c-76-103-58-225.hsd1.ca.comcast.net.
+	[76.103.58.225])
+	by mx.google.com with ESMTPSA id dx10sm5075360igb.4.2014.10.08.22.29.40
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 08 Oct 2014 22:29:42 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Oct 2014 22:33:05 -0700
+Message-Id: <1412832785-4946-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.2
+Subject: [PATCH] package_do_shlibs: Look for provider in the path thats in shlib_provider dictionary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +42,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Oct 2014 01:19:40 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Oct 2014 05:29:52 -0000
 
+shlib2 code puts the information about path where a provider
+will be found. e.g.
 
-On 10/08/2014 07:11 PM, Burton, Ross wrote:
-> On 8 October 2014 03:50, Chong Lu <Chong.Lu@windriver.com> wrote:
->> ping
->>
->> On 09/30/2014 05:33 PM, Chong Lu wrote:
->>> The following changes since commit
->>> 39ca8b429b6244e9649e7303cbb240adf007bf22:
->>>
->>>     bitbake: toastergui fix size rendering in dirinfo page (2014-09-29
->>> 14:11:59 +0100)
->>>
->>> are available in the git repository at:
->>>
->>>     git://git.pokylinux.org/poky-contrib chonglu/updatepkg
->>>     http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/updatepkg
->>>
->>> Chong Lu (3):
->>>     tcl: Upgrade to 8.6.2
->>>     strace: Upgrade to 4.9
->>>     byacc: Upgrade to 20140715
-> As you should be aware, we're in feature freeze for 1.7.  As such
-> these are waiting for the freeze to be released and 1.7 branching off
-> from master before they are merged.
->
-> Ross
->
+{'/usr/lib/llvm3.3': ('libllvm3.3-llvm-3.3', '3.3')}
 
-Got it, thanks.
+This is obtained from new shlib2 pkgdata from
 
-//Chong
+llvm3.3/3.3-r0/pkgdata/shlibs2/libllvm3.3-llvm-3.3.list
 
+However when we search for NEEDED libraries we ignore the
+key above which is the path where the provider library is installed
+and instead just seach in libdir and base_libdir and hence
+libraries which are not in above standard search paths gets
+ignored even if they appear in DT_NEEDED sections
+
+and a note is emitted
+
+NOTE: Couldn't find shared library provider for libLLVM-3.3.so, used by
+files: ....
+
+IMO this note should actually become an error since if we do
+not have all DT_NEEDED libraries in image the system is dysfunctional.
+
+This patch extracts this libpath from key and add it to seach paths
+when looing for a provider of a shared library
+
+[YOCTO #6798]
+
+Change-Id: Ie5f08632e37ba8d3439c8aaae33bc68b8996792f
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/package.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index f17c8d5..2aec3e6 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1572,8 +1572,11 @@ python package_do_shlibs() {
+                 bb.debug(2, '%s: Dependency %s covered by PRIVATE_LIBS' % (pkg, n[0]))
+                 continue
+             if n[0] in shlib_provider.keys():
++                shlib_provider_path = list()
++                for k in shlib_provider[n[0]].keys():
++                    shlib_provider_path.append(k)
+                 match = None
+-                for p in n[2] + libsearchpath:
++                for p in n[2] + shlib_provider_path + libsearchpath:
+                     if p in shlib_provider[n[0]]:
+                         match = p
+                         break
+-- 
+2.1.1
 
 
