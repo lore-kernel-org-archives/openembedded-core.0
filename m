@@ -1,35 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
-	[209.85.216.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 6016C6FC68
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id DAD6E6FC68
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Oct 2014 15:57:48 +0000 (UTC)
-Received: by mail-qc0-f169.google.com with SMTP id o8so460014qcw.14
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Oct 2014 08:57:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=5HE0kzxXIYuHkoIXg0ul1BUdFBvWvDgdUHmo32Q8CDE=;
-	b=MhIrmtoUuk66inKcQVfS28rzVBuHGMAROPc0VmNLLWZfGoECUouh15K2DhCBWI8cq2
-	TCoaIJTc+Cq00yq2B/4yVu3uJSEbZwNMvYPU9Oct7mdQyKDfr9vYQt+AF56Yb0qPWPgY
-	WIQnRFI/lbwBXQy6TzkDUkEKVsPgq+8wFmBP874MFpXJMJHCjJkLm2g9iLSF+VUeeqRN
-	LcF3+V4Cqu9HJYjMlwh2ObY9u3clDRszaBwclqZd0jpVaX2WuWlmvL6Q1wHArsUPWSRW
-	2nRCwIUK7Mfswy/NTcCF8aWXyCwi19xjzCcRXewlcVHfIJsU/amoTI3sS3Bh97k+4FmS
-	ssxg==
-X-Gm-Message-State: ALoCoQnLKuW5VGQwwyJTQH205mCMyP/PsxJxq0LaV11r5rzhN2i19sV9R6TjJu1lc6c7HzR+E4jr
-X-Received: by 10.229.74.136 with SMTP id u8mr25265737qcj.5.1412870269254;
-	Thu, 09 Oct 2014 08:57:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.106.134 with HTTP; Thu, 9 Oct 2014 08:57:29 -0700 (PDT)
+	Thu,  9 Oct 2014 16:07:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s99G6v1N030622; Thu, 9 Oct 2014 17:06:57 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id TaWCSaa57oMF; Thu,  9 Oct 2014 17:06:57 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s99G6qFG030619
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 9 Oct 2014 17:06:53 +0100
+Message-ID: <1412870846.871.12.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Lauren Post <Lauren.Post@freescale.com>
+Date: Thu, 09 Oct 2014 17:07:26 +0100
 In-Reply-To: <dd407026864c45e6b6fa6f6071469a83@CY1PR0301MB0700.namprd03.prod.outlook.com>
 References: <e777247650f44526919fb4737b79b0a6@CY1PR0301MB0700.namprd03.prod.outlook.com>
 	<dd407026864c45e6b6fa6f6071469a83@CY1PR0301MB0700.namprd03.prod.outlook.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 9 Oct 2014 16:57:29 +0100
-Message-ID: <CAJTo0LbsTYT9N6CVvCqudQ-Y6nPt09agxRs4u05p2Hu3uuUOvg@mail.gmail.com>
-To: Lauren Post <Lauren.Post@freescale.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Multiple issues building from dizzy or master
@@ -45,24 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Oct 2014 15:57:53 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 09 Oct 2014 16:07:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 9 October 2014 16:50, Lauren Post <Lauren.Post@freescale.com> wrote:
-> I also think this poky revision might be causing the fetch/unpack issues.=
-  In this issue we fetch works based on log output, unpack fails and when I=
- look at downloads I see the <package>.lock in the downloads directory.  Ha=
-ppens randomly on many components.  I'm doing a build with only gcc patch a=
-bove to confirm if the unpack failures come back without this commit below =
-reverted.
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=3Ddizzy&id=3D7d8=
-0f8e9468253496a7097685aac8f468940a9c5
+On Thu, 2014-10-09 at 15:50 +0000, Lauren Post wrote:
+> I've narrowed down that 1 or 2 updates on poky from 9/16 are causing my problems.     If I revert only these 2 commits my build problems are resolved.
+> 
+> In our build script on Jenkins we always build kernel, then uboot with a force deploy then our image then we build the image.  I see the errors when we build the  image.  I believe the force deploy might be part of the problem.  We do that so in case of dirty builds we always guarantee the kernel and uboot in the images directory (although I hit this with clean builds every time).  On local machine if I only build image I never see the problem, only when I build locally with our build script.
+> 
+> This gcc revision I believe is causing the db and gcc runtime issues.
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=dizzy&id=14ace86d508a5bdbb8139ce6af09de4d89b44595 
+> 
+> I also think this poky revision might be causing the fetch/unpack
+> issues.  In this issue we fetch works based on log output, unpack
+> fails and when I look at downloads I see the <package>.lock in the
+> downloads directory.  Happens randomly on many components.  I'm doing
+> a build with only gcc patch above to confirm if the unpack failures
+> come back without this commit below reverted.
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=dizzy&id=7d80f8e9468253496a7097685aac8f468940a9c5
 
-That commit changes the format of a comment in the "bitbake -e"
-output.  If you've scripts that invoke that and parse the output then
-they'll need to be updated, but otherwise it won't have caused
-problems with fetching.
+Do you have a link to the full error logs of the issue you're seeing? I
+doubt this second commit would cause issues. It only affects the output
+of bitbake -e when variable history tracking is enabled.
 
-Ross
+The first patch fixed several different problems but is is possible you
+have a different race issue in your toolchain bootstrap process. Its
+hard for me to comment without seeing the errors or knowning which
+layers are involved.
+
+Cheers,
+
+Richard
+
 
