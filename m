@@ -1,28 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A436565E1A
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A34265E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Oct 2014 23:27:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s99NRIUm028388
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  9 Oct 2014 23:31:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 8F0E1314ED1D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Oct 2014 16:27:19 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 9 Oct 2014 16:27:17 -0700
-Message-ID: <543719D4.9080308@windriver.com>
-Date: Thu, 9 Oct 2014 18:27:16 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Fri, 10 Oct 2014 01:31:30 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id GtrCicc_g2H7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Oct 2014 01:31:24 +0200 (CEST)
+Received: from [172.22.22.61] (55d41bd5.access.ecotel.net [85.212.27.213])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 91A2A314ECD9
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Oct 2014 01:31:24 +0200 (CEST)
+Message-ID: <54371ACB.3020009@opendreambox.org>
+Date: Fri, 10 Oct 2014 01:31:23 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1412891594-9608-1-git-send-email-otavio@ossystems.com.br>
-In-Reply-To: <1412891594-9608-1-git-send-email-otavio@ossystems.com.br>
-Subject: Re: [PATCH 1/2] toolchain-scripts.bbclass: Allow sourcing of subscript for environment
+To: openembedded-core@lists.openembedded.org
+References: <1412712030-12657-1-git-send-email-anibal.limon@linux.intel.com>	<54344EC9.2040303@opendreambox.org>	<54346DFB.8030802@linux.intel.com>	<5434799B.7020503@opendreambox.org>	<54357BB2.6090405@linux.intel.com>	<54358935.30909@opendreambox.org>
+	<54370F4B.7030207@linux.intel.com>
+In-Reply-To: <54370F4B.7030207@linux.intel.com>
+Subject: Re: [PATCH] busybox: fix upgrade problem with deb packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,55 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Oct 2014 23:27:18 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Oct 2014 23:31:37 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On 10/9/14, 4:53 PM, Otavio Salvador wrote:
-> Sometimes we require extra environment settings to be available on the
-> environment for proper SDK work. This were done, in past, using
-> '_append' tasks however with the split of the environment in a
-> canadian package this has been broken.
->
-> The easier and more flexible solution is to use environment subscripts
-> which are sources by the main script. These are now looked at:
->
->   $OECORE_NATIVE_SYSROOT/environment-setup.d/*.sh
->
-> and sourced.
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+On 10.10.2014 00:42, Aníbal Limón wrote:
+> Now i'm testing dpkg-ua changes, my first impressions are,
+> 
+> Some work in order to use dpkg-ua version instead of opkg-utils (default),
+> files meta/conf/layer.con and
+> meta/recipes-core/packagegroups/packagegroup-self-hosted.bb.
+> 
+> Currently isn't created symlinks for tools in target image.
+> 
+> Comments?
 
-I really like this approach.  However, is there any way for the subscripts to be 
-arch specific?
+Sounds like this problem:
 
---Mark
+http://comments.gmane.org/gmane.comp.handhelds.openembedded.core/47626
 
-> ---
->   meta/classes/toolchain-scripts.bbclass |   10 ++++++++++
->   1 file changed, 10 insertions(+)
->
-> diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-> index 6cc8eba..11ffbe5 100644
-> --- a/meta/classes/toolchain-scripts.bbclass
-> +++ b/meta/classes/toolchain-scripts.bbclass
-> @@ -72,6 +72,16 @@ toolchain_shared_env_script () {
->   	echo 'export OECORE_SDK_VERSION="${SDK_VERSION}"' >> $script
->   	echo 'export ARCH=${ARCH}' >> $script
->   	echo 'export CROSS_COMPILE=${TARGET_PREFIX}' >> $script
-> +
-> +    cat >> $script <<EOF
-> +
-> +# Append environment subscripts
-> +if [ -d "\$OECORE_NATIVE_SYSROOT/environment-setup.d" ]; then
-> +    for envfile in \$OECORE_NATIVE_SYSROOT/environment-setup.d/*.sh; do
-> +	    source \$envfile
-> +    done
-> +fi
-> +EOF
->   }
->
->   #we get the cached site config in the runtime
->
+Did update-alternatives get staged correctly into your native sysroot?
+
+If opkg-utils-native was built after dpkg-native, it may have
+overwritten update-alternatives. To avoid this I've put the following
+into my local.conf:
+
+INHERIT += "blacklist"
+PNBLACKLIST[opkg-utils-native] = "opkg-utils-native must not be built
+when using debian packages"
+
+I'm not sure whether this may cause a similar effect.
+
+Regards,
+Andreas
 
 
