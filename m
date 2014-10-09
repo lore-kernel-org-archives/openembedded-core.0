@@ -1,38 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 1833865D58
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 70E0971758
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Oct 2014 13:24:46 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id z107so1903265qgd.24
+	Thu,  9 Oct 2014 13:25:48 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id q107so1949172qgd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Oct 2014 06:24:46 -0700 (PDT)
+	Thu, 09 Oct 2014 06:25:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=LplxpDJV6J526WsXfvPoTAIicmhXrcvv9DcjWGtzSh4=;
-	b=dslMHfUphO69igRYHLH3F79iKhXDFkO7AikH4u83pFNSpXGLzBFYAMDGnojgPxuYho
-	K3Qk6cNQIDTjTPMP+nazmlcMyO7F70wzBVffMAFuF5xEwegaHzcX8pthFCycc5iNRDx9
-	TNBhY+heMROGUzj+DcMKCfqXr6IWZfeBs2hcXH/mlIw2xyNiPfSEnswwQO8LgGA94TvO
-	CKvEbQcCntIMJJBf5w5dGFrqrkvpSIaf5eb3bFCYdAEJmubV0N++GU89T2ahGG5zkJ+4
-	ymA5U5xH8pjzoKU63mb/a+eRJ4uCG3wfAmQB+3P85GKmwaD5/VL99GgK3ucrmGNIL0fc
-	2FOg==
-X-Gm-Message-State: ALoCoQm/8Uv3T4LPC1volYa6uoXspdEOIFKg/T8UuKv7lC+LVSIG5s7BOev2aBxcCd2jYstTv6PN
-X-Received: by 10.140.23.50 with SMTP id 47mr54806364qgo.77.1412861086611;
-	Thu, 09 Oct 2014 06:24:46 -0700 (PDT)
+	bh=ewNuHpAyyr0Os/bnJII4GoH2xB8jzeuHo8QIAWxmMeg=;
+	b=ho2axnLE0opdfYQzKMfvTxR174yk0Qe9Uw67T4IVTc0cdCUYjV3qL9AmpSmkkrVt2T
+	j8kvZ4CiyfvW1Ii3U5uzHU86X4nnx52LZdKq6TCYNH7SGH0rZqhLn6BD5oFrvbThJOXp
+	8De4guGfUhGkJBoApqld6P37DT3L8J7GsEsCgevTm3MuEicvDPsVN7uXhcqoubtNLCMA
+	a9GCqUXJ1J9q4gWZ75m7lClZ4uUTTvOnWAbwjPLKSv3ZsQKTXpgZamAshbzdNWLG7SbQ
+	0gHBQsX0Al+EyN/dreA2CzuVgd/f5wTKNkKnOW84iB7C0iEJYdU/a1flYBBz0a/qpq3s
+	J8vQ==
+X-Gm-Message-State: ALoCoQnpIedjZsdL9MNa3Qe41oqxAd/VE4MbQvOFt94nT4E/7MRjEGDbgmgNyGr/zjfkKFTT97KY
+X-Received: by 10.140.84.84 with SMTP id k78mr36407281qgd.80.1412861149354;
+	Thu, 09 Oct 2014 06:25:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.106.134 with HTTP; Thu, 9 Oct 2014 06:24:26 -0700 (PDT)
-In-Reply-To: <365E1805BC95084CBE82381A0B869994E7529E67@EU-MBX-01.mgc.mentorg.com>
-References: <1412093023-3589-1-git-send-email-noor_ahsan@mentor.com>
-	<365E1805BC95084CBE82381A0B869994E7529E67@EU-MBX-01.mgc.mentorg.com>
+Received: by 10.140.106.134 with HTTP; Thu, 9 Oct 2014 06:25:29 -0700 (PDT)
+In-Reply-To: <365E1805BC95084CBE82381A0B869994E7529E44@EU-MBX-01.mgc.mentorg.com>
+References: <1411996493-29494-1-git-send-email-noor_ahsan@mentor.com>
+	<365E1805BC95084CBE82381A0B869994E7529E44@EU-MBX-01.mgc.mentorg.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 9 Oct 2014 14:24:26 +0100
-Message-ID: <CAJTo0LZUt+K09oxQLdnhrNtJbChFE95noNKgYsuTsQ9Nwk0=Bw@mail.gmail.com>
+Date: Thu, 9 Oct 2014 14:25:29 +0100
+Message-ID: <CAJTo0LYmOa1vn6TW9MH3X55xwRGX2+gVNCjDMLRGYPUNpT7o-g@mail.gmail.com>
 To: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] latencytop: Creates x11 PACKAGECONFIG.
+Subject: Re: [PATCH] babeltrace: Add missing bison/flex depensencies.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,13 +45,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Oct 2014 13:24:47 -0000
+X-List-Received-Date: Thu, 09 Oct 2014 13:25:56 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 9 October 2014 09:15, Ahsan, Noor <Noor_Ahsan@mentor.com> wrote:
+On 9 October 2014 09:14, Ahsan, Noor <Noor_Ahsan@mentor.com> wrote:
 > Any update on this patch?
 
-It's in MUT, and should be merged soon.
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=b2637adf847d02c5c3e568937bd88459d45ae7f9
 
 Ross
 
