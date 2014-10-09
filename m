@@ -1,29 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E92371758
+	by mail.openembedded.org (Postfix) with ESMTP id 495BD65D58
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Oct 2014 13:26:06 +0000 (UTC)
+	Thu,  9 Oct 2014 15:37:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s99DPtQG003612
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 9 Oct 2014 06:25:55 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Thu, 9 Oct 2014 06:25:54 -0700
-Message-ID: <54368CE0.9060601@windriver.com>
-Date: Thu, 9 Oct 2014 21:25:52 +0800
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s99Fbgmk010982
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 9 Oct 2014 08:37:42 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 9 Oct 2014 08:37:42 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 9 Oct 2014 08:37:41 -0700
+Message-ID: <d21ab39b5479742ca2faba70c48649d7e4983af5.1412869032.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1412869032.git.liezhi.yang@windriver.com>
+References: <cover.1412869032.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1412847857.git.liezhi.yang@windriver.com>
-	<406803c854b29b938a72d217c889ed63e1d7fe92.1412847857.git.liezhi.yang@windriver.com>
-	<CAJTo0LZ+6dC=FZFYO17YyCKNLr8=-wGFOGTmL+tE9teDKzhJ=g@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ+6dC=FZFYO17YyCKNLr8=-wGFOGTmL+tE9teDKzhJ=g@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] nss-myhostname: skip it when systemd
+Subject: [PATCH 1/1] avahi-ui: fix for building systemd with multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,47 +33,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Oct 2014 13:26:06 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Oct 2014 15:37:44 -0000
+Content-Type: text/plain
 
+Fixed:
+MACHINE = "qemux86-64"
+VIRTUAL-RUNTIME_init_manager = " systemd "
+DISTRO_FEATURES_append = " systemd"
+DISTRO_FEATURES_BACKFILL_CONSIDERED += " sysvinit "
 
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
 
-On 10/09/2014 08:49 PM, Burton, Ross wrote:
-> On 9 October 2014 10:45, Robert Yang <liezhi.yang@windriver.com> wrote:
->> +python () {
->> +       if bb.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d):
->> +               raise bb.parse.SkipPackage("'systemd' in DISTRO_FEATURES")
->> +}
->
-> Please use distro_features_check for conciseness.
+$ bitbake avahi avahi-ui
+ERROR: QA Issue: avahi-ui: Files/directories were installed but not shipped
+  /lib
+  /lib/systemd
+  /lib/systemd/system
+  /lib/systemd/system/avahi-daemon.socket
+  /lib/systemd/system/avahi-dnsconfd.service
+  /lib/systemd/system/avahi-daemon.service [installed-vs-shipped]
+ERROR: The recipe avahi-ui is trying to install files into a sharedarea when those files already exist. Those files and their manifestlocation are:
+   /path/to/sysroots/qemux86-64/lib/systemd/system/avahi-daemon.socket
+ Matched in manifest-qemux86-64-avahi.populate_sysroot
+ /path/to/sysroots/qemux86-64/lib/systemd/system/avahi-dnsconfd.service
+ Matched in manifest-qemux86-64-avahi.populate_sysroot
+ /path/to/sysroots/qemux86-64/lib/systemd/system/avahi-daemon.service
+ Matched in manifest-qemux86-64-avahi.populate_sysroot
+Please verify which recipe should provide theabove files.
 
-Sounds good, updated:
-git://git.openembedded.org/openembedded-core-contrib rbt/nss
+And remove the duplicated line:
+rm ${D}${base_libdir} -rf
 
-diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb 
-b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-index 1237602..bbce9e9 100644
---- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-+++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-@@ -11,7 +11,10 @@ SRC_URI = 
-"http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${P
-  SRC_URI[md5sum] = "d4ab9ac36c053ab8fb836db1cbd4a48f"
-  SRC_URI[sha256sum] = 
-"2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d3a7f6c4d67e7caf2"
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
--inherit autotools
-+inherit autotools distro_features_check
-+
-+# The systemd has its own copy of nss-myhostname
-+CONFLICT_DISTRO_FEATURES = "systemd"
+diff --git a/meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb b/meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb
+index 070530e..eea4d70 100644
+--- a/meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb
++++ b/meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb
+@@ -45,7 +45,11 @@ RDEPENDS_python-avahi = "python-core python-dbus"
+ do_install_append () {
+ 	rm ${D}${sysconfdir} -rf
+ 	rm ${D}${base_libdir} -rf
+-	rm ${D}${base_libdir} -rf
++	rm ${D}${systemd_unitdir} -rf
++	# The ${systemd_unitdir} is /lib/systemd, so we need rmdir /lib,
++	# but not ${base_libdir} here. And the /lib may not exist
++	# whithout systemd.
++	[ ! -d ${D}/lib ] || rmdir ${D}/lib --ignore-fail-on-non-empty
+ 	rm ${D}${bindir}/avahi-b*
+ 	rm ${D}${bindir}/avahi-p*
+ 	rm ${D}${bindir}/avahi-r*
+-- 
+1.7.9.5
 
-  pkg_postinst_${PN} () {
-         sed -e '/^hosts:/s/\s*\<myhostname\>//' \
-
-
->
-> Ross
->
->
 
