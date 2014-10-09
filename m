@@ -1,33 +1,46 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C5C2713AB
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 6567B6A9D4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Oct 2014 08:16:00 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-03.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1Xc8tF-0000i9-Ky from Noor_Ahsan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Oct 2014 01:16:02 -0700
-Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.159]) by
-	SVR-IES-FEM-03.mgc.mentorg.com ([137.202.0.108]) with mapi id
-	14.03.0181.006; Thu, 9 Oct 2014 09:16:00 +0100
-From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: "Ahsan, Noor" <Noor_Ahsan@mentor.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2] latencytop: Creates x11 PACKAGECONFIG.
-Thread-Index: AQHP3MgxvnN/UyptJ06KvTvNoeDpLJwneN9Q
-Date: Thu, 9 Oct 2014 08:15:58 +0000
-Message-ID: <365E1805BC95084CBE82381A0B869994E7529E67@EU-MBX-01.mgc.mentorg.com>
-References: <1412093023-3589-1-git-send-email-noor_ahsan@mentor.com>
-In-Reply-To: <1412093023-3589-1-git-send-email-noor_ahsan@mentor.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
+	Thu,  9 Oct 2014 08:16:32 +0000 (UTC)
+Received: from amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.58])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id E77F03F785
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  9 Oct 2014 10:16:31 +0200 (CEST)
+X-Spam-Flag: NO
+X-Spam-Score: -2.9
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Thu,  9 Oct 2014 10:16:31 +0200 (CEST)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  9 Oct 2014 10:16:29 +0200 (CEST)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Thu, 9 Oct 2014 10:16:44 +0200
+Message-ID: <5436445C.5020503@topic.nl>
+Date: Thu, 9 Oct 2014 10:16:28 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] latencytop: Creates x11 PACKAGECONFIG.
+To: OE-core <openembedded-core@lists.openembedded.org>
+References: <54354CBD.6040506@topic.nl>
+In-Reply-To: <54354CBD.6040506@topic.nl>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: Re: Request to move "gitpkgv.bbclass" from meta-oe to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,66 +53,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Oct 2014 08:16:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 09 Oct 2014 08:16:38 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-Any update on this patch?
+=EF=BB=BFIn partial reply to my own question, this has been discussed 2 yea=
+rs ago, but=20
+apparently nothing ever came out of it.
 
-Noor
+http://lists.openembedded.org/pipermail/openembedded-core/2012-February/056=
+050.html
 
------Original Message-----
-From: Noor, Ahsan [mailto:noor_ahsan@mentor.com]=20
-Sent: Tuesday, September 30, 2014 9:04 PM
-To: openembedded-core@lists.openembedded.org
-Cc: Ahsan, Noor
-Subject: [PATCH v2] latencytop: Creates x11 PACKAGECONFIG.
+So once more the request to be able to get sane version strings for git rep=
+os.=20
+Can we please just move gitpkgv. That's like five minutes work, and if anyo=
+ne=20
+(e.g. me) feels like building something better, he or she is free do submit=
+=20
+that and get rid of the gitpkgv class once it's obsolete.
 
-From: Noor <noor_ahsan@mentor.com>
+Mike.
 
-* Creates x11 packageconfig and update DEPENDS and EXTRA_OEMAKE_X
-  for better handling.
+On 10/08/2014 04:39 PM, Mike Looijmans wrote:
+> The gitpkgv class is very helpful when you want packages to have a consis=
+tent
+> incremental version number, when build machines cannot talk to eachother
+> (ruling out using PRSERVER for example) other than through repositories.
+>
+> However, this small gem is present in meta-oe and not in the core. I now =
+have
+> several layers that pull in all of meta-oe just for being able to number =
+GIT
+> versions incrementally.
+>
+> Could gitpkgv be moved into oe-core? (I'll be happy to write and submit t=
+he
+> patch.) Or, is there an alternative that does something similar?
+>
+> Kind regards,
+> Mike.
+>
+>
+> Met vriendelijke groet / kind regards,
+>
+> Mike Looijmans
+>
+> TOPIC Embedded Systems
+> Eindhovenseweg 32-C, NL-5683 KH Best
+> Postbus 440, NL-5680 AK Best
+> Telefoon: (+31) (0) 499 33 69 79
+> Telefax:  (+31) (0) 499 33 69 70
+> E-mail: mike.looijmans@topic.nl
+> Website: www.topic.nl
+>
+> Please consider the environment before printing this e-mail
+>
+> Topic zoekt gedreven (embedded) software specialisten!
+> http://topic.nl/vacatures/topic-zoekt-software-engineers/
+>
 
-Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
----
- meta/recipes-kernel/latencytop/latencytop_0.5.bb |    8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipe=
-s-kernel/latencytop/latencytop_0.5.bb
-index 516e2c5..e910a96 100644
---- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-+++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-@@ -4,7 +4,7 @@ HOMEPAGE =3D "http://www.latencytop.org/"
- LICENSE =3D "GPLv2"
- LIC_FILES_CHKSUM =3D "file://latencytop.c;endline=3D23;md5=3Dee9ea9b141535=
-6e5734adad4a87dc7fa"
-=20
--DEPENDS =3D "virtual/libintl ncurses glib-2.0  ${@bb.utils.contains('DISTR=
-O_FEATURES', 'x11', 'gtk+', '', d)}"
-+DEPENDS =3D "virtual/libintl ncurses glib-2.0"
-=20
- PR =3D "r3"
-=20
-@@ -15,7 +15,11 @@ SRC_URI =3D "http://www.latencytop.org/download/latencyt=
-op-${PV}.tar.gz \  SRC_URI[md5sum] =3D "73bb3371c6ee0b0e68e25289027e865c"
- SRC_URI[sha256sum] =3D "9e7f72fbea7bd918e71212a1eabaad8488d2c602205d2e3c95=
-d62cd57e9203ef"
-=20
--EXTRA_OEMAKE_X =3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'HAS_GT=
-K_GUI=3D1', '', d)}"
-+PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11',=
- '', d)}"
-+
-+PACKAGECONFIG[x11] =3D ",,gtk+"
-+
-+EXTRA_OEMAKE_X =3D "${@bb.utils.contains('PACKAGECONFIG', 'x11', 'HAS_GTK_=
-GUI=3D1', '', d)}"
-=20
- CFLAGS +=3D "${LDFLAGS}"
-=20
---
-1.7.9.5
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
 
 
