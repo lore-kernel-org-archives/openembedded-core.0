@@ -1,37 +1,20 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
-	[209.85.160.173])
-	by mail.openembedded.org (Postfix) with ESMTP id DF0356FBB9
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 23A036AC7B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Oct 2014 22:27:23 +0000 (UTC)
-Received: by mail-yk0-f173.google.com with SMTP id 200so2033190ykr.4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Oct 2014 15:27:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=gHLMMLQRNt5bHmVku3KevHtD4pfNJR7+/YZdlC0zY24=;
-	b=QI49pcYtECxpfp9uCh6gV9xILRqNrKPFDyl1BZ6BMwSPeLDdp1ZddOsFKBNMHbXNQV
-	JlKM9OTVxlBJj4KmZo2uqGwtpLaoEUmh3c3DttD4UOJGa8RtNogCHvZMhxqSovRGlKyZ
-	pBpnTuoNDNCebbDfIyd0vvA6fKtvQP13b3weKKfHS8p/egAbmkF+zVDUVsHEqWNzK8/O
-	EG81raSPUggm+dSsO1DKLFqIfJlrvGAUTqIMIhOSyyrE28lFzL0GFJ3JAUPIolJQZ9pj
-	GqM6AHITmVrfJ8zQSzdL9iVhFHx5VmNcLeqYY6g1a/dNspgSLHI8zQdYRENyKZSmvG1K
-	LzYQ==
-MIME-Version: 1.0
-X-Received: by 10.236.30.198 with SMTP id k46mr12187336yha.72.1412980044611;
-	Fri, 10 Oct 2014 15:27:24 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.172.70 with HTTP; Fri, 10 Oct 2014 15:27:24 -0700 (PDT)
-In-Reply-To: <1412965751-9778-1-git-send-email-alejandro.hernandez@linux.intel.com>
-References: <1412965751-9778-1-git-send-email-alejandro.hernandez@linux.intel.com>
-Date: Fri, 10 Oct 2014 19:27:24 -0300
-X-Google-Sender-Auth: SDYdNPKk1K4eMSceHBgRCc6EBKo
-Message-ID: <CAP9ODKqXsBNFWkdmnMtHYFO=CmJFhnCii=aLOqFpZXKhfVQ62w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] buildinfo: Added buildinfo recipe
+	Fri, 10 Oct 2014 22:42:26 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 10 Oct 2014 15:42:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,695,1406617200"; d="scan'208";a="587009377"
+Received: from unknown (HELO localhost.jf.intel.com) ([10.7.201.167])
+	by orsmga001.jf.intel.com with ESMTP; 10 Oct 2014 15:40:18 -0700
+From: Randy Witt <randy.e.witt@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Oct 2014 15:39:18 -0700
+Message-Id: <1412980758-35295-1-git-send-email-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] mesa_git.bb: Fix fetch and license errors.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,40 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Oct 2014 22:27:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 10 Oct 2014 22:42:29 -0000
 
-On Fri, Oct 10, 2014 at 3:29 PM, Alejandro Hernandez
-<alejandro.hernandez@linux.intel.com> wrote:
-> Writes build information to target filesystem to help developers
->
-> [YOCTO #6770]
->
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-> ---
->  meta/recipes-extended/buildinfo/buildinfo_0.1.bb | 34 ++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
->  create mode 100644 meta/recipes-extended/buildinfo/buildinfo_0.1.bb
->
-> diff --git a/meta/recipes-extended/buildinfo/buildinfo_0.1.bb b/meta/recipes-extended/buildinfo/buildinfo_0.1.bb
-> new file mode 100644
-> index 0000000..b299efb
-> --- /dev/null
-> +++ b/meta/recipes-extended/buildinfo/buildinfo_0.1.bb
-> @@ -0,0 +1,34 @@
-> +DESCRIPTION = "Writing build information on target filesystem"
-> +SECTION = "MISC"
+Without these changes mesa_git.bb can't be enabled as the
+PREFERRED_VERSION due to build breakage.
 
-MISC? I'd use base.
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ meta/recipes-graphics/mesa/mesa_git.bb | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-> +PR = "r0"
-
-Don't set PR please.
-
+diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
+index 59b0d1c..cda310a 100644
+--- a/meta/recipes-graphics/mesa/mesa_git.bb
++++ b/meta/recipes-graphics/mesa/mesa_git.bb
+@@ -2,13 +2,12 @@ require ${BPN}.inc
+ 
+ DEFAULT_PREFERENCE = "-1"
+ 
+-LIC_FILES_CHKSUM = "file://docs/license.html;md5=f69a4626e9efc40fa0d3cc3b02c9eacf"
++LIC_FILES_CHKSUM = "file://docs/license.html;md5=6a23445982a7a972ac198e93cc1cb3de"
+ 
+-PR = "${INC_PR}.0"
+ SRCREV = "0028eb1083e6adc110a23a5f02c993cda217067a"
+ PV = "10.1.3+git${SRCPV}"
+ 
+-SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa \
++SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;branch=10.1 \
+            file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
+            file://0006-fix-out-of-tree-egl.patch \
+            "
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.9.3
+
 
