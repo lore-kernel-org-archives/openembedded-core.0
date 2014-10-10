@@ -1,20 +1,37 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 65EB070703
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
+	[209.85.160.173])
+	by mail.openembedded.org (Postfix) with ESMTP id DF0356FBB9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Oct 2014 18:28:51 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 10 Oct 2014 11:28:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,693,1406617200"; d="scan'208";a="586884599"
-Received: from aehernan-devstation.zpn.intel.com ([10.219.4.60])
-	by orsmga001.jf.intel.com with ESMTP; 10 Oct 2014 11:28:52 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Oct 2014 13:29:11 -0500
-Message-Id: <1412965751-9778-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] buildinfo: Added buildinfo recipe
+	Fri, 10 Oct 2014 22:27:23 +0000 (UTC)
+Received: by mail-yk0-f173.google.com with SMTP id 200so2033190ykr.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Oct 2014 15:27:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=gHLMMLQRNt5bHmVku3KevHtD4pfNJR7+/YZdlC0zY24=;
+	b=QI49pcYtECxpfp9uCh6gV9xILRqNrKPFDyl1BZ6BMwSPeLDdp1ZddOsFKBNMHbXNQV
+	JlKM9OTVxlBJj4KmZo2uqGwtpLaoEUmh3c3DttD4UOJGa8RtNogCHvZMhxqSovRGlKyZ
+	pBpnTuoNDNCebbDfIyd0vvA6fKtvQP13b3weKKfHS8p/egAbmkF+zVDUVsHEqWNzK8/O
+	EG81raSPUggm+dSsO1DKLFqIfJlrvGAUTqIMIhOSyyrE28lFzL0GFJ3JAUPIolJQZ9pj
+	GqM6AHITmVrfJ8zQSzdL9iVhFHx5VmNcLeqYY6g1a/dNspgSLHI8zQdYRENyKZSmvG1K
+	LzYQ==
+MIME-Version: 1.0
+X-Received: by 10.236.30.198 with SMTP id k46mr12187336yha.72.1412980044611;
+	Fri, 10 Oct 2014 15:27:24 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.172.70 with HTTP; Fri, 10 Oct 2014 15:27:24 -0700 (PDT)
+In-Reply-To: <1412965751-9778-1-git-send-email-alejandro.hernandez@linux.intel.com>
+References: <1412965751-9778-1-git-send-email-alejandro.hernandez@linux.intel.com>
+Date: Fri, 10 Oct 2014 19:27:24 -0300
+X-Google-Sender-Auth: SDYdNPKk1K4eMSceHBgRCc6EBKo
+Message-ID: <CAP9ODKqXsBNFWkdmnMtHYFO=CmJFhnCii=aLOqFpZXKhfVQ62w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] buildinfo: Added buildinfo recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,59 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Oct 2014 18:28:53 -0000
+X-List-Received-Date: Fri, 10 Oct 2014 22:27:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Writes build information to target filesystem to help developers
+On Fri, Oct 10, 2014 at 3:29 PM, Alejandro Hernandez
+<alejandro.hernandez@linux.intel.com> wrote:
+> Writes build information to target filesystem to help developers
+>
+> [YOCTO #6770]
+>
+> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+> ---
+>  meta/recipes-extended/buildinfo/buildinfo_0.1.bb | 34 ++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+>  create mode 100644 meta/recipes-extended/buildinfo/buildinfo_0.1.bb
+>
+> diff --git a/meta/recipes-extended/buildinfo/buildinfo_0.1.bb b/meta/recipes-extended/buildinfo/buildinfo_0.1.bb
+> new file mode 100644
+> index 0000000..b299efb
+> --- /dev/null
+> +++ b/meta/recipes-extended/buildinfo/buildinfo_0.1.bb
+> @@ -0,0 +1,34 @@
+> +DESCRIPTION = "Writing build information on target filesystem"
+> +SECTION = "MISC"
 
-[YOCTO #6770]
+MISC? I'd use base.
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- meta/recipes-extended/buildinfo/buildinfo_0.1.bb | 34 ++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
- create mode 100644 meta/recipes-extended/buildinfo/buildinfo_0.1.bb
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+> +PR = "r0"
 
-diff --git a/meta/recipes-extended/buildinfo/buildinfo_0.1.bb b/meta/recipes-extended/buildinfo/buildinfo_0.1.bb
-new file mode 100644
-index 0000000..b299efb
---- /dev/null
-+++ b/meta/recipes-extended/buildinfo/buildinfo_0.1.bb
-@@ -0,0 +1,34 @@
-+DESCRIPTION = "Writing build information on target filesystem"
-+SECTION = "MISC"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+PR = "r0"
-+
-+inherit buildhistory
-+
-+def buildinfo_target(d):
-+        # Get context
-+        if d.getVar('BB_WORKERCONTEXT', True) != '1':
-+                return ""
-+        # Single and list variables to be read
-+        vars = "DISTRO DISTRO_VERSION BB_VERSION BUILD_SYS TARGET_SYS MACHINE USER_CLASSES IMAGE_CLASSES IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL PACKAGE_EXCLUDE"
-+        listvars = "USER_CLASSES IMAGE_CLASSES IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL PACKAGE_EXCLUDE"
-+        return outputvars(vars, listvars, d)
-+
-+do_install() {
-+        # Write info to file
-+        cat > build <<END
-+-----------------------
-+Build Configuration:  |
-+-----------------------
-+${@buildinfo_target(d)}
-+-----------------------
-+Layer Revisions:      |
-+-----------------------
-+${@buildhistory_get_metadata_revs(d)}
-+END
-+
-+        # Install file with right permissions
-+	install -d ${D}${sysconfdir}
-+	install -m 0444 build ${D}${sysconfdir}
-+}
+Don't set PR please.
+
 -- 
-1.9.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
