@@ -1,26 +1,36 @@
-Return-Path: <alexandre.belloni@free-electrons.com>
-Received: from mail.free-electrons.com (top.free-electrons.com [176.31.233.9])
-	by mail.openembedded.org (Postfix) with ESMTP id A5AE16AC7B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F66870703
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Oct 2014 15:30:49 +0000 (UTC)
-Received: by mail.free-electrons.com (Postfix, from userid 106)
-	id 6B2083C0; Fri, 10 Oct 2014 17:30:50 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	mail.free-electrons.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT
-	shortcircuit=ham autolearn=disabled version=3.4.0
-Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
-	by mail.free-electrons.com (Postfix) with ESMTPSA id DC5273C0
+	Fri, 10 Oct 2014 16:28:20 +0000 (UTC)
+Received: by mail-qa0-f54.google.com with SMTP id i13so1832145qae.41
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Oct 2014 17:30:39 +0200 (CEST)
-Date: Fri, 10 Oct 2014 17:30:34 +0200
-From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20141010153034.GK18916@piout.net>
+	Fri, 10 Oct 2014 09:28:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=cRcCpxKVhRrWoVKId+un+0OrJVVLm3Q6OYzScUWuXso=;
+	b=QXChUinD5If5KZGMkFmzD3KPYESkU7C18H/K/xgGulIWaD4h6gIvfITBS+uESI5UFU
+	o3RWuKYd+CIjGMYhr8m2I+Fb8GMjfRdLWQqEi5Y8kgD+Hfw8dHnbDDffvFEv88jQLLD4
+	WWvy6uhQCnujl3jTEn6pihMVHMriHNyMFiMjFMVh++zdDJENsBQ/TIEGl1K7Fa3ov0x4
+	MjBAYREkjnSC62+pjZflKMrw393y2eKG4ec4d5x65uJJraKyvD60vSG/fTc4OrL8jyij
+	gRINLLqUjddEiM+k+a0XJEMKFffeK5lEjR67+R/hqAtU7r+BQySahT1Fb6eSxIl2ijNO
+	O4Yg==
+X-Gm-Message-State: ALoCoQnWKcSXs6+vQeoPMVV5ADgBuDjdG4q2P9oGZ5rmYpjuibuXI4VVKFKbCHo//5iwLyAyFFFe
+X-Received: by 10.140.105.67 with SMTP id b61mr1385020qgf.87.1412958501758;
+	Fri, 10 Oct 2014 09:28:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Issue with pkgconfig and ncurses
+Received: by 10.140.106.134 with HTTP; Fri, 10 Oct 2014 09:28:01 -0700 (PDT)
+In-Reply-To: <20141010153034.GK18916@piout.net>
+References: <20141010153034.GK18916@piout.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 10 Oct 2014 17:28:01 +0100
+Message-ID: <CAJTo0LZ5-QW2mE5NMM14UvbmfguHGajOimxPrbSEp-EMjfNqEg@mail.gmail.com>
+To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Issue with pkgconfig and ncurses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +43,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Oct 2014 15:30:52 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 10 Oct 2014 16:28:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi,
+On 10 October 2014 16:30, Alexandre Belloni
+<alexandre.belloni@free-electrons.com> wrote:
+> I tracked down the issue: when configuring alsa-utils, configure tries
+> to use pkg-config to fin CFLAGS/LDFLAGS for ncurses. This was failing so
+> it is falling back to use ncursesw5-config which points cflags and
+> ldflags to the x86_64 sysroot.
 
-While building alsa-utils I ran in a weird issue. The build system was
-trying to link alsa-utils with the x86_64 ncurses lib. That issue didn't
-appear on another machine but could be reproduced 9 out of 10 times on
-my main machine.
+http://patchwork.openembedded.org/patch/80727/ is an existing fix for
+this, but it never got merged.  I've queued it locally and hopefully
+we can push it into 1.7.
 
-I tracked down the issue: when configuring alsa-utils, configure tries
-to use pkg-config to fin CFLAGS/LDFLAGS for ncurses. This was failing so
-it is falling back to use ncursesw5-config which points cflags and
-ldflags to the x86_64 sysroot.
-
-That is were this is nasty: the reason why pkg-config is failing is that
-the configure for ncurses is doing that:
-        PKG_CONFIG_LIBDIR=`echo "$PKG_CONFIG_LIBDIR" | sed -e 's/^://' -e 's/:.*//'`
-        if test -n "$PKG_CONFIG_LIBDIR" && test -d "$PKG_CONFIG_LIBDIR" ; then
-
-That test fails one my main machine because at the time ncurses is
-configured, PKG_CONFIG_LIBDIR (that is
-tmp-external-linaro-toolchain/sysroots/am335x-evm/usr/lib/pkgconfig/) is
-not yet created as ncurses is the first package trying to install .pc
-files. The configure script then continues with only a warning but
-deactivate .pc files installation.
-
-This doesn't happen on my other machine because it has more cores
-and finishes to build zlib before trying to configure ncurses!
-
-I tried multiple thing ot fix that but I couldn't decide what is the
-best way.
-
-Should we fix the configure script for ncurses but then it may happen
-again with another package.
-
-Or should we enforce the creation of ${SYSROOT_DESTDIR}/usr/lib/pkgconfig/
-from pkg-config. the main issue being that we actually compile
-pkg-config-native and we want to create that in ${SYSROOT_DESTDIR} for
-the machine.
-
-Any help would be greatly appreciated.
-
--- 
-Alexandre Belloni, Free Electrons
-Embedded Linux, Kernel and Android engineering
-http://free-electrons.com
+Ross
 
