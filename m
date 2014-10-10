@@ -1,20 +1,26 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 123AA6A9D4
+Return-Path: <alexandre.belloni@free-electrons.com>
+Received: from mail.free-electrons.com (top.free-electrons.com [176.31.233.9])
+	by mail.openembedded.org (Postfix) with ESMTP id A5AE16AC7B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Oct 2014 15:20:21 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 10 Oct 2014 08:10:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="398246111"
-Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.13.70])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Oct 2014 08:13:27 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Fri, 10 Oct 2014 15:30:49 +0000 (UTC)
+Received: by mail.free-electrons.com (Postfix, from userid 106)
+	id 6B2083C0; Fri, 10 Oct 2014 17:30:50 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	mail.free-electrons.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT
+	shortcircuit=ham autolearn=disabled version=3.4.0
+Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
+	by mail.free-electrons.com (Postfix) with ESMTPSA id DC5273C0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Oct 2014 17:30:39 +0200 (CEST)
+Date: Fri, 10 Oct 2014 17:30:34 +0200
+From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Oct 2014 08:20:22 -0700
-Message-Id: <1412954422-22885-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] glibc: remove bad patch snippet that eglibc forward ported
+Message-ID: <20141010153034.GK18916@piout.net>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Issue with pkgconfig and ncurses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,85 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Oct 2014 15:20:22 -0000
+X-List-Received-Date: Fri, 10 Oct 2014 15:30:52 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The s_sin.c patch undoes some code changes in glibc itself, these changes have nothing to
-do with the option groups and I suspect crept in as part of the initial conversion.  Undoing
-this patch also fixes a test failure in test-double and test-idouble.
+Hi,
 
-[YOCTO #6808]
+While building alsa-utils I ran in a weird issue. The build system was
+trying to link alsa-utils with the x86_64 ncurses lib. That issue didn't
+appear on another machine but could be reproduced 9 out of 10 times on
+my main machine.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../glibc/glibc/eglibc-use-option-groups.patch     | 54 ----------------------
- 1 file changed, 54 deletions(-)
+I tracked down the issue: when configuring alsa-utils, configure tries
+to use pkg-config to fin CFLAGS/LDFLAGS for ncurses. This was failing so
+it is falling back to use ncursesw5-config which points cflags and
+ldflags to the x86_64 sysroot.
 
-diff --git a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
-index f53a899..40c7832 100644
---- a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
-+++ b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
-@@ -15454,60 +15454,6 @@ Index: git/sysdeps/gnu/Makefile
-  		   pututxline utmpxname updwtmpx getutmpx getutmp
-  
-  sysdep_headers += utmpx.h bits/utmpx.h
--Index: git/sysdeps/ieee754/dbl-64/s_sin.c
--===================================================================
----- git.orig/sysdeps/ieee754/dbl-64/s_sin.c	2014-08-29 20:00:54.260070587 -0700
--+++ git/sysdeps/ieee754/dbl-64/s_sin.c	2014-08-29 20:01:15.240070587 -0700
--@@ -447,21 +447,19 @@
-- 	    }
-- 	  else
-- 	    {
---	      double t;
-- 	      if (a > 0)
-- 		{
-- 		  m = 1;
---		  t = a;
-- 		  db = da;
-- 		}
-- 	      else
-- 		{
-- 		  m = 0;
---		  t = -a;
--+		  a = -a;
-- 		  db = -da;
-- 		}
---	      u.x = big + t;
---	      y = t - (u.x - big);
--+	      u.x = big + a;
--+	      y = a - (u.x - big);
-- 	      res = do_sin (u, y, db, &cor);
-- 	      cor = (cor > 0) ? 1.035 * cor + eps : 1.035 * cor - eps;
-- 	      retval = ((res == res + cor) ? ((m) ? res : -res)
--@@ -673,21 +671,19 @@
-- 	    }
-- 	  else
-- 	    {
---	      double t;
-- 	      if (a > 0)
-- 		{
-- 		  m = 1;
---		  t = a;
-- 		  db = da;
-- 		}
-- 	      else
-- 		{
-- 		  m = 0;
---		  t = -a;
--+		  a = -a;
-- 		  db = -da;
-- 		}
---	      u.x = big + t;
---	      y = t - (u.x - big);
--+	      u.x = big + a;
--+	      y = a - (u.x - big);
-- 	      res = do_sin (u, y, db, &cor);
-- 	      cor = (cor > 0) ? 1.035 * cor + eps : 1.035 * cor - eps;
-- 	      retval = ((res == res + cor) ? ((m) ? res : -res)
- Index: git/sysdeps/ieee754/ldbl-opt/Makefile
- ===================================================================
- --- git.orig/sysdeps/ieee754/ldbl-opt/Makefile	2014-08-29 20:00:54.452070587 -0700
+That is were this is nasty: the reason why pkg-config is failing is that
+the configure for ncurses is doing that:
+        PKG_CONFIG_LIBDIR=`echo "$PKG_CONFIG_LIBDIR" | sed -e 's/^://' -e 's/:.*//'`
+        if test -n "$PKG_CONFIG_LIBDIR" && test -d "$PKG_CONFIG_LIBDIR" ; then
+
+That test fails one my main machine because at the time ncurses is
+configured, PKG_CONFIG_LIBDIR (that is
+tmp-external-linaro-toolchain/sysroots/am335x-evm/usr/lib/pkgconfig/) is
+not yet created as ncurses is the first package trying to install .pc
+files. The configure script then continues with only a warning but
+deactivate .pc files installation.
+
+This doesn't happen on my other machine because it has more cores
+and finishes to build zlib before trying to configure ncurses!
+
+I tried multiple thing ot fix that but I couldn't decide what is the
+best way.
+
+Should we fix the configure script for ncurses but then it may happen
+again with another package.
+
+Or should we enforce the creation of ${SYSROOT_DESTDIR}/usr/lib/pkgconfig/
+from pkg-config. the main issue being that we actually compile
+pkg-config-native and we want to create that in ${SYSROOT_DESTDIR} for
+the machine.
+
+Any help would be greatly appreciated.
+
 -- 
-1.8.3.1
-
+Alexandre Belloni, Free Electrons
+Embedded Linux, Kernel and Android engineering
+http://free-electrons.com
 
