@@ -1,25 +1,20 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C3DD6FBB9
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 65EB070703
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Oct 2014 17:49:19 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 10 Oct 2014 10:39:32 -0700
+	Fri, 10 Oct 2014 18:28:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 10 Oct 2014 11:28:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,693,1406617200"; d="scan'208";a="603497908"
-Received: from unknown (HELO [10.255.13.70]) ([10.255.13.70])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Oct 2014 10:49:20 -0700
-Message-ID: <54381C20.2060602@linux.intel.com>
-Date: Fri, 10 Oct 2014 10:49:20 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.7.0
-MIME-Version: 1.0
-To: Peter Urbanec <openembedded-devel@urbanec.net>, 
-	openembedded-core@lists.openembedded.org
-References: <54380BF4.6010205@urbanec.net>
-In-Reply-To: <54380BF4.6010205@urbanec.net>
-Subject: Re: [PATCH] Fix for gcc bug 61144
+X-IronPort-AV: E=Sophos;i="5.04,693,1406617200"; d="scan'208";a="586884599"
+Received: from aehernan-devstation.zpn.intel.com ([10.219.4.60])
+	by orsmga001.jf.intel.com with ESMTP; 10 Oct 2014 11:28:52 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Oct 2014 13:29:11 -0500
+Message-Id: <1412965751-9778-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] buildinfo: Added buildinfo recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,42 +27,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Oct 2014 17:49:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Oct 2014 18:28:53 -0000
 
-On 10/10/2014 09:40 AM, Peter Urbanec wrote:
-> See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61144 for details.
->
-> This patch is taken from the gcc repository and should be obsoleted by a
-> gcc release after 4.9.1
->
-> The problem is severe enough (at least from my point of view) to need
-> this patch until the next gcc release is available.
->
->
->
->
+Writes build information to target filesystem to help developers
 
-Hi Peter
+[YOCTO #6770]
 
-Thank you for the patches.
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ meta/recipes-extended/buildinfo/buildinfo_0.1.bb | 34 ++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+ create mode 100644 meta/recipes-extended/buildinfo/buildinfo_0.1.bb
 
-Both the patch and the 0056-top-level-reorder_gcc-bug-61144.patch patch 
-file need to have Signed-off-by tags and the gcc patch itself needs an 
-Upstream-Status: Backport tag so we know it was a backport.
-
-Please review the 
-http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-
-I also note the second patch you sent does not have a Signed-off-by in 
-the commit message or the .patch files (which also needs an 
-Upstream-Status tag).
-
-Can you please send a V2 updates commit for both of these.
-
-Thanks
-    Sau!
-
+diff --git a/meta/recipes-extended/buildinfo/buildinfo_0.1.bb b/meta/recipes-extended/buildinfo/buildinfo_0.1.bb
+new file mode 100644
+index 0000000..b299efb
+--- /dev/null
++++ b/meta/recipes-extended/buildinfo/buildinfo_0.1.bb
+@@ -0,0 +1,34 @@
++DESCRIPTION = "Writing build information on target filesystem"
++SECTION = "MISC"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++PR = "r0"
++
++inherit buildhistory
++
++def buildinfo_target(d):
++        # Get context
++        if d.getVar('BB_WORKERCONTEXT', True) != '1':
++                return ""
++        # Single and list variables to be read
++        vars = "DISTRO DISTRO_VERSION BB_VERSION BUILD_SYS TARGET_SYS MACHINE USER_CLASSES IMAGE_CLASSES IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL PACKAGE_EXCLUDE"
++        listvars = "USER_CLASSES IMAGE_CLASSES IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL PACKAGE_EXCLUDE"
++        return outputvars(vars, listvars, d)
++
++do_install() {
++        # Write info to file
++        cat > build <<END
++-----------------------
++Build Configuration:  |
++-----------------------
++${@buildinfo_target(d)}
++-----------------------
++Layer Revisions:      |
++-----------------------
++${@buildhistory_get_metadata_revs(d)}
++END
++
++        # Install file with right permissions
++	install -d ${D}${sysconfdir}
++	install -m 0444 build ${D}${sysconfdir}
++}
+-- 
+1.9.1
 
 
