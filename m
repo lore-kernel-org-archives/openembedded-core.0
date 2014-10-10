@@ -1,27 +1,28 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A49570703
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1652671897
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Oct 2014 16:58:59 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 10 Oct 2014 09:59:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="398299300"
-Received: from ncmcquil-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Oct 2014 09:47:36 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Sona Sarmadi <sona.sarmadi@enea.com>,
-	Catalin Popeanga <Catalin.Popeanga@enea.com>
-Date: Fri, 10 Oct 2014 17:54:30 +0100
-Message-ID: <2201235.jOMcl3bBHv@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.1 (Linux/3.16.3-200.fc20.x86_64; KDE/4.14.1; x86_64; ; )
-In-Reply-To: <1412857516-42476-1-git-send-email-sona.sarmadi@enea.com>
-References: <1412857516-42476-1-git-send-email-sona.sarmadi@enea.com>
+	Fri, 10 Oct 2014 17:03:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9AH3BJM014461
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 10 Oct 2014 10:03:11 -0700 (PDT)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Fri, 10 Oct 2014 10:03:11 -0700
+Message-ID: <5438114E.705@windriver.com>
+Date: Sat, 11 Oct 2014 01:03:10 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] bash: Fix-for-CVE-2014-6278
+To: "Frazer, Will" <will.frazer@eurotech.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <79508df9528e4e3d930335440c8ec2f0@DB4PR05MB397.eurprd05.prod.outlook.com>
+In-Reply-To: <79508df9528e4e3d930335440c8ec2f0@DB4PR05MB397.eurprd05.prod.outlook.com>
+Subject: Re: Additional dora backports for bash 4.2 ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +35,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Oct 2014 16:59:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 10 Oct 2014 17:03:16 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thursday 09 October 2014 14:25:15 Sona Sarmadi wrote:
-> From: Catalin Popeanga <Catalin.Popeanga@enea.com>
-> 
-> This vulnerability exists because of an incomplete fix for CVE-2014-6271,
-> CVE-2014-7169, and CVE-2014-6277
-> 
-> See: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-6278
-> 
-> Signed-off-by: Catalin Popeanga <Catalin.Popeanga@enea.com>
 
-I've build and runtime tested both versions of bash with these patches using 
-shellshocker, and also double-checked that no regressions have been triggered 
-for the 4.x version. Thanks!
+On 10/09/2014 07:55 PM, Frazer, Will wrote:
+> Is there a view on whether the additional CVEs for bash will be backported to
+> the dora branch for bash_4.2?
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Hello,
 
-Cheers,
-Paul
+I will backport the patches for dora when the daisy branch is done.
 
--- 
+// Robert
 
-Paul Eggleton
-Intel Open Source Technology Centre
+>
+> I’m thinking w.r.t. those that were discussed and/or applied recently to 4.3
+>
+> Thanks.
+>
+> Will Frazer | EUROTECH
+>
+>
+>
 
