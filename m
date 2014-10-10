@@ -1,41 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 263366AC7B;
-	Fri, 10 Oct 2014 12:46:04 +0000 (UTC)
-Received: by mail-wg0-f51.google.com with SMTP id b13so3777075wgh.22
-	for <multiple recipients>; Fri, 10 Oct 2014 05:46:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=3PK/FZ5blx2yl3WHzLe7TOG7SgmadRCIUHq6yDMRP2Y=;
-	b=iUu4SAaMKi9QjdV9QVfJOS88sK/ONvfe55dokGkaNtN17H4jINlpWJR6CBQolRPD8W
-	Kv3RBpZDetf3x6BLkbOlGQwd3R3oZCFRjpLK52cHyFFGdSA9Abp1HhxjuJAAGnngmB9A
-	4bcKrg682nMxDz6h38dxAq7FbXJo6n/f2H8IkpS91Tm3GCt5s5Ctz1oo8JYEjYvYDJMv
-	c0kV4+BCYhM5tlt28O1jMthY4ZQpcjDuGtJizrnmTbnRRSZoO6xy64N8pS3d6ppQawCH
-	XdP77KksBpJbmb4gK84hDDHtEahBEvPkSXZ+dN1aUSQjORA0xGd2kXsxD5bxMZJThyOv
-	KUJw==
-X-Received: by 10.180.19.1 with SMTP id a1mr4693440wie.5.1412945163956;
-	Fri, 10 Oct 2014 05:46:03 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	ll20sm2533054wic.14.2014.10.10.05.46.02 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 Oct 2014 05:46:03 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 10 Oct 2014 14:47:09 +0200
-To: Andreas =?iso-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Message-ID: <20141010124709.GN12322@jama>
-References: <20141010103438.GI12322@jama>
-	<CALbNGRTymU+trfTQGPiOi27cauA6T1nrKT+Npbhn4HTyVZj2NQ@mail.gmail.com>
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 70B366AC7B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Oct 2014 13:18:49 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Oct 2014 06:18:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,692,1406617200"; d="scan'208";a="612455368"
+Received: from ncmcquil-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.155])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Oct 2014 06:17:47 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Fri, 10 Oct 2014 14:17:46 +0100
+Message-ID: <20188744.UHIPAMfvA0@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.1 (Linux/3.16.3-200.fc20.x86_64; KDE/4.14.1; x86_64; ; )
+In-Reply-To: <1412891594-9608-1-git-send-email-otavio@ossystems.com.br>
+References: <1412891594-9608-1-git-send-email-otavio@ossystems.com.br>
 MIME-Version: 1.0
-In-Reply-To: <CALbNGRTymU+trfTQGPiOi27cauA6T1nrKT+Npbhn4HTyVZj2NQ@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, Failed tasks 2014-10-10, QA issues
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] toolchain-scripts.bbclass: Allow sourcing of subscript for environment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,59 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Oct 2014 12:46:07 -0000
-X-Groupsio-MsgNum: 58503
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Rzq/nSLlHy1djmXS"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 10 Oct 2014 13:18:51 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---Rzq/nSLlHy1djmXS
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thursday 09 October 2014 18:53:13 Otavio Salvador wrote:
+> Sometimes we require extra environment settings to be available on the
+> environment for proper SDK work. This were done, in past, using
+> '_append' tasks however with the split of the environment in a
+> canadian package this has been broken.
+> 
+> The easier and more flexible solution is to use environment subscripts
+> which are sources by the main script. These are now looked at:
+> 
+>  $OECORE_NATIVE_SYSROOT/environment-setup.d/*.sh
+> 
+> and sourced.
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>  meta/classes/toolchain-scripts.bbclass |   10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/meta/classes/toolchain-scripts.bbclass
+> b/meta/classes/toolchain-scripts.bbclass index 6cc8eba..11ffbe5 100644
+> --- a/meta/classes/toolchain-scripts.bbclass
+> +++ b/meta/classes/toolchain-scripts.bbclass
+> @@ -72,6 +72,16 @@ toolchain_shared_env_script () {
+>  	echo 'export OECORE_SDK_VERSION="${SDK_VERSION}"' >> $script
+>  	echo 'export ARCH=${ARCH}' >> $script
+>  	echo 'export CROSS_COMPILE=${TARGET_PREFIX}' >> $script
+> +
+> +    cat >> $script <<EOF
+> +
+> +# Append environment subscripts
+> +if [ -d "\$OECORE_NATIVE_SYSROOT/environment-setup.d" ]; then
+> +    for envfile in \$OECORE_NATIVE_SYSROOT/environment-setup.d/*.sh; do
+> +	    source \$envfile
+> +    done
+> +fi
+> +EOF
+>  }
+> 
+>  #we get the cached site config in the runtime
 
-On Fri, Oct 10, 2014 at 01:06:32PM +0200, Andreas M=FCller wrote:
-> On Fri, Oct 10, 2014 at 12:34 PM, Martin Jansa <martin.jansa@gmail.com>
-> wrote:
->=20
-> > lxdm-0.5.0+gitAUTOINC+07fb151a99: lxdm requires /bin/bash, but no
-> > providers in its RDEPENDS [file-rdeps]
-> >
->=20
-> This is a false positive: I added bash to RDEPENDS in the last patch. Nee=
-ds
-> further investigation...
+This series looks great to me, and adds a much better extension mechanism than 
+we've had here previously.
 
-It's possible that your last patch wasn't yet included in this build.
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-The second question about QA warnings:
+-- 
 
-The world builds are using default set (distro-less config), you can
-add/remove them by setting ERROR_QA, WARN_QA variables.
+Paul Eggleton
+Intel Open Source Technology Centre
 
-They are shown only when the recipe build isn't reused from sstate,
-that's why I've included qa.log files from last 2 builds (the previous
-one had some change which invalidated a lot of sstate).
-
-The build-deps QA are even harder to reproduce, because you need to
-build whatever was causing that floating dependency to be detected in
-the sysroot before the build of the recipe with issue (that's why
-test-dependencies builds first build "bitbake world" to populate
-sysroot with as much as possible).
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---Rzq/nSLlHy1djmXS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlQ31U0ACgkQN1Ujt2V2gByKrACeKHDXLyiv1BEhfVT8KDEApxqQ
-adEAoIZpL9bplyGN83N84RzkQdjrxU0+
-=MNGR
------END PGP SIGNATURE-----
-
---Rzq/nSLlHy1djmXS--
