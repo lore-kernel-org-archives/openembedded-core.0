@@ -1,26 +1,27 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DF2CB718D5
+	by mail.openembedded.org (Postfix) with ESMTP id 3F58B65DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Oct 2014 09:20:33 +0000 (UTC)
+	Sat, 11 Oct 2014 09:24:24 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9B9KYCW024065
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9B9OPhW024080
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 11 Oct 2014 02:20:34 -0700 (PDT)
-Received: from [128.224.162.141] (128.224.162.141) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Sat, 11 Oct 2014 02:20:33 -0700
-Message-ID: <5438F663.8090303@windriver.com>
-Date: Sat, 11 Oct 2014 17:20:35 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
+	Sat, 11 Oct 2014 02:24:25 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Sat, 11 Oct 2014 02:24:24 -0700
+Message-ID: <5438F744.4010105@windriver.com>
+Date: Sat, 11 Oct 2014 17:24:20 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Rongqing Li <rongqing.li@windriver.com>
 References: <cover.1413018367.git.hongxu.jia@windriver.com>
 	<bc8ec45d7dce55e301079b9949ab32d1d7fcd4d3.1413018367.git.hongxu.jia@windriver.com>
-In-Reply-To: <bc8ec45d7dce55e301079b9949ab32d1d7fcd4d3.1413018367.git.hongxu.jia@windriver.com>
+	<5438F663.8090303@windriver.com>
+In-Reply-To: <5438F663.8090303@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/1] file: add wrapper to nativesdk-file
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -35,52 +36,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Oct 2014 09:20:34 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Sat, 11 Oct 2014 09:24:25 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 10/11/2014 05:07 PM, Hongxu Jia wrote:
-> "file" command in exported SDK doesn't work:
-> ...
-> $ file sysroots/
-> file: could not find any valid magic files!
-> ...
+On 10/11/2014 05:20 PM, Rongqing Li wrote:
 >
-> In commit 7943338d1fea2b9e49b02f1c9f68b4a47188b883, it added wrapper
-> to file-native. Do the same thing for nativesdk-file.
-
-TA;
-but please add commit title after commit id.
-and make sure the commit id can be found in oe-core.
-
--Roy
-
-
 >
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   meta/recipes-devtools/file/file_5.18.bb | 5 +++++
->   1 file changed, 5 insertions(+)
+> On 10/11/2014 05:07 PM, Hongxu Jia wrote:
+>> "file" command in exported SDK doesn't work:
+>> ...
+>> $ file sysroots/
+>> file: could not find any valid magic files!
+>> ...
+>>
+>> In commit 7943338d1fea2b9e49b02f1c9f68b4a47188b883, it added wrapper
+>> to file-native. Do the same thing for nativesdk-file.
 >
-> diff --git a/meta/recipes-devtools/file/file_5.18.bb b/meta/recipes-devtools/file/file_5.18.bb
-> index f2f8d03..9068b93 100644
-> --- a/meta/recipes-devtools/file/file_5.18.bb
-> +++ b/meta/recipes-devtools/file/file_5.18.bb
-> @@ -27,4 +27,9 @@ do_install_append_class-native() {
->   		--magic-file ${datadir}/misc/magic.mgc
->   }
+> TA;
+> but please add commit title after commit id.
+
+In poky, I could not find its 'From OE-Core rev',
+and manually search in oe-core, I found:
+...
+commit 68d548cbae729eaea8ce1403dc95ff63c4a7375c
+Author: Saul Wold <sgw@linux.intel.com>
+Date:   Fri Feb 25 16:18:50 2011 -0800
+
+     file: add wrapper to file-native
+
+     file-native needs a wrapper to pass the correct path to the 
+magic.mgc file
+     This was found to be the case when sstate-cache is used because 
+file hardcodes
+     the path to the magic.mgc file.
+
+     [BUGID #775]
+
+     Signed-off-by: Saul Wold <sgw@linux.intel.com>
+...
+
+//Hongxu
+
+> and make sure the commit id can be found in oe-core.
 >
-> +do_install_append_class-nativesdk() {
-> +	create_cmdline_wrapper ${D}/${bindir}/file \
-> +		--magic-file ${datadir}/misc/magic.mgc
-> +}
-> +
->   BBCLASSEXTEND = "native nativesdk"
+> -Roy
+>
+>
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   meta/recipes-devtools/file/file_5.18.bb | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/meta/recipes-devtools/file/file_5.18.bb 
+>> b/meta/recipes-devtools/file/file_5.18.bb
+>> index f2f8d03..9068b93 100644
+>> --- a/meta/recipes-devtools/file/file_5.18.bb
+>> +++ b/meta/recipes-devtools/file/file_5.18.bb
+>> @@ -27,4 +27,9 @@ do_install_append_class-native() {
+>>           --magic-file ${datadir}/misc/magic.mgc
+>>   }
+>>
+>> +do_install_append_class-nativesdk() {
+>> +    create_cmdline_wrapper ${D}/${bindir}/file \
+>> +        --magic-file ${datadir}/misc/magic.mgc
+>> +}
+>> +
+>>   BBCLASSEXTEND = "native nativesdk"
+>>
 >
 
--- 
-Best Reagrds,
-Roy | RongQing Li
 
