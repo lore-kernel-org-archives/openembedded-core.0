@@ -1,25 +1,21 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6628D718AE
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 4007065DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Oct 2014 02:51:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9B2p1OI020189
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 10 Oct 2014 19:51:01 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 10 Oct 2014 19:51:01 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Sat, 11 Oct 2014 10:50:54 +0800
-Message-ID: <1b6794dcf90821cde13cbec60eafac7293aac955.1412995462.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1412995462.git.hongxu.jia@windriver.com>
-References: <cover.1412995462.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] texinfo: fix info not work
+	Sat, 11 Oct 2014 06:46:16 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 10 Oct 2014 23:36:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="398619916"
+Received: from gmacartn-mobl.ger.corp.intel.com (HELO
+	swold-linux.amr.corp.intel.com) ([10.255.13.71])
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Oct 2014 23:39:19 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Oct 2014 23:46:16 -0700
+Message-Id: <1413009976-2176-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] gcc: backport patch for gcc bug 61144
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,97 +28,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Oct 2014 02:51:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 11 Oct 2014 06:46:18 -0000
 
-In texinfo, we didn't have info/dir entries, which caused
-info not work.
-...
-root@qemux86:~# info info
-info: dir: No such file or directory
-...
+This fixes gcc bug 6144, which in my case exhibited itself as a kernel
+module that failed to load. This was because static platform_data
+structures were being corrupted with the optimiser being set to any
+value other than -O0.
 
-Refer ubuntu/debian to invoke install-info to create info/dir
-entries in pkg_postinst_info.
+Originally-submitted-by: Peter Urbanec <openembedded-devel@urbanec.net>
 
-[YOCTO #6751]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/texinfo/texinfo_5.2.bb | 61 ++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+This was tested via a Full MUT Build on the AB with no noticable side-effects, this should
+be conidered for 1.7 rc4 which which will be built over the weekend.
 
-diff --git a/meta/recipes-extended/texinfo/texinfo_5.2.bb b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-index cf9dcfd..0361607 100644
---- a/meta/recipes-extended/texinfo/texinfo_5.2.bb
-+++ b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-@@ -74,4 +74,65 @@ FILES_${PN}-doc = "${infodir}/texinfo* \
-                    ${datadir}/${tex_texinfo} \
-                    ${mandir}/man1 ${mandir}/man5"
- 
-+pkg_postinst_info () {
-+if [ "x$D" != "x" ]; then
-+    $INTERCEPT_DIR/postinst_intercept update_info_dir ${PKG} \
-+        mlprefix=${MLPREFIX} infodir=${infodir} STAGING_BINDIR_NATIVE=${STAGING_BINDIR_NATIVE}
-+else
-+    if [ ! -d "${infodir}" ]; then
-+        exit 0
-+    fi
+Sau!
+
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
+ .../0056-top-level-reorder_gcc-bug-61144.patch     | 31 ++++++++++++++++++++++
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0056-top-level-reorder_gcc-bug-61144.patch
+
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index 25778bd..9a66cd2 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -70,6 +70,7 @@ SRC_URI = "\
+     file://0053-gcc-fix-segfault-from-calling-free-on-non-malloc-d-a.patch \
+     file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
+     file://0055-PR-rtl-optimization-61801.patch \
++    file://0056-top-level-reorder_gcc-bug-61144.patch \
+ "
+ SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
+ SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0056-top-level-reorder_gcc-bug-61144.patch b/meta/recipes-devtools/gcc/gcc-4.9/0056-top-level-reorder_gcc-bug-61144.patch
+new file mode 100644
+index 0000000..f448932
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0056-top-level-reorder_gcc-bug-61144.patch
+@@ -0,0 +1,31 @@
 +
-+    errors=0
-+    find "${infodir}" -type f | while read file ; do
-+        case $file in
-+        */dir| */dir.old| \
-+        *-[0-9]|*-[0-9].gz|*-[0-9].xz|*-[0-9].bz2| \
-+        *-[1-9][0-9]|*-[1-9][0-9].gz|*-[1-9][0-9].xz|*-[1-9][0-9].bz2| \
-+        *.png)
-+            # these files are ignored
-+            continue
-+            ;;
-+        *)
-+            install-info "$file" "${infodir}/dir" || {
-+                errors=`expr $errors + 1`
-+            }
-+            ;;
-+        esac
-+    done
-+    if [ $errors -gt 0 ] ; then
-+        echo "Updating the index of info documentation produced $errors errors."
-+        exit 1
-+    fi
-+fi
-+}
++Upstream-Status: Backport
 +
-+pkg_prerm_info () {
-+if [ ! -d "$D${infodir}" ]; then
-+    exit 0
-+fi
++Originally-submitted-by: Peter Urbanec <openembedded-devel@urbanec.net>
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
 +
-+errors=0
-+find "$D${infodir}" -type f | while read file ; do
-+    case $file in
-+    */dir|*/dir.old| \
-+    *-[0-9]|*-[0-9].gz|*-[0-9].xz|*-[0-9].bz2| \
-+    *-[1-9][0-9]|*-[1-9][0-9].gz|*-[1-9][0-9].xz|*-[1-9][0-9].bz2| \
-+    *.png)
-+        # these files are ignored
-+        continue
-+        ;;
-+    *)
-+        install-info --delete "$file" "$D${infodir}/dir" || {
-+            errors=`expr $errors + 1`
-+        }
-+        ;;
-+    esac
-+done
++--- /dev/null
+++++ b/meta/recipes-devtools/gcc/gcc-4.9/0056-top-level-reorder_gcc-bug-61144.patch
++@@ -0,0 +1,21 @@
+++--- a/gcc/varpool.c    2014/10/05 02:50:01     215895
++++++ b/gcc/varpool.c    2014/10/05 04:52:19     215896
+++@@ -329,8 +329,16 @@
+++
+++   /* Variables declared 'const' without an initializer
+++      have zero as the initializer if they may not be
+++-     overridden at link or run time.  */
+++-  if (!DECL_INITIAL (real_decl)
++++     overridden at link or run time.
++++
++++     It is actually requirement for C++ compiler to optimize const variables
++++     consistently. As a GNU extension, do not enfore this rule for user defined
++++     weak variables, so we support interposition on:
++++     static const int dummy = 0;
++++     extern const int foo __attribute__((__weak__, __alias__("dummy")));
++++   */
++++  if ((!DECL_INITIAL (real_decl)
++++       || (DECL_WEAK (decl) && !DECL_COMDAT (decl)))
+++       && (DECL_EXTERNAL (decl) || decl_replaceable_p (decl)))
+++     return error_mark_node;
+++ 
 +
-+if [ $errors -gt 0 ] ; then
-+    echo "Cleaning the index of info documentation produced $errors errors."
-+fi
-+}
-+
- BBCLASSEXTEND = "native"
 -- 
-1.9.1
+1.8.3.1
 
 
