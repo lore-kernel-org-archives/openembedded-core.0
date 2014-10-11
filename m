@@ -1,29 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F58B65DA3
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
+	[209.85.216.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 60D6E65DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Oct 2014 09:24:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9B9OPhW024080
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 11 Oct 2014 02:24:25 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Sat, 11 Oct 2014 02:24:24 -0700
-Message-ID: <5438F744.4010105@windriver.com>
-Date: Sat, 11 Oct 2014 17:24:20 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
+	Sat, 11 Oct 2014 09:31:44 +0000 (UTC)
+Received: by mail-qa0-f44.google.com with SMTP id x12so2649095qac.31
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Oct 2014 02:31:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=X5ZOg5CBvfS6Mm4kTmUA9yrW5h7owhaAyLb4YRIDkEE=;
+	b=0NvtEM+WepRD/r0PpB3HbyrPdb0fYt+w0Q2nrrXYehq99OGK85lQ/h2yxJFtLyT04Y
+	gHW47oAl9Cte+OXPecbmWJgxRGl3LaQfue8UVHku94AbWsYSFCCvNfCZ1YiGDDH9GkWa
+	7bPeC2fZ8oNdlobxKPo/DpNYt8dtKWgKKroa9WpJTYXY4zCZf+K89nvjHij5mFLW474R
+	KaHlPtG496JGX33RDIGDg0wop9ktZ3Tj2yWCV6RD0o9rBoCy4W0aTz4tNYrpAL7FvJmB
+	BUhMAIC4rAnnocj5nxah33auxE/GpgGZiFDsnt/uhpENzv+KUgNrKRrneDhM1iukmM4R
+	Braw==
+X-Received: by 10.229.65.135 with SMTP id j7mr17121918qci.22.1413019905666;
+	Sat, 11 Oct 2014 02:31:45 -0700 (PDT)
 MIME-Version: 1.0
-To: Rongqing Li <rongqing.li@windriver.com>
-References: <cover.1413018367.git.hongxu.jia@windriver.com>
-	<bc8ec45d7dce55e301079b9949ab32d1d7fcd4d3.1413018367.git.hongxu.jia@windriver.com>
-	<5438F663.8090303@windriver.com>
-In-Reply-To: <5438F663.8090303@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] file: add wrapper to nativesdk-file
+Sender: paul.betafive@gmail.com
+Received: by 10.140.142.78 with HTTP; Sat, 11 Oct 2014 02:31:05 -0700 (PDT)
+In-Reply-To: <241e2535b1e3f4544e31fdc40406337b26e8f8d9.1412770325.git.hongxu.jia@windriver.com>
+References: <cover.1412770325.git.hongxu.jia@windriver.com>
+	<241e2535b1e3f4544e31fdc40406337b26e8f8d9.1412770325.git.hongxu.jia@windriver.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Sat, 11 Oct 2014 10:31:05 +0100
+X-Google-Sender-Auth: UMM1dIs0QkjOpTbQ4RXa4pncGM0
+Message-ID: <CANyK_8eqiktne2E4EwpWoBpz_-xtDweSS56XdBi6ocKoh_Wq2A@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] opkg: fix remove pkg with --force-removal-of-dependent-packages failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,75 +44,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Oct 2014 09:24:25 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 11 Oct 2014 09:31:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 10/11/2014 05:20 PM, Rongqing Li wrote:
+On 8 October 2014 13:16, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> opkg remove perl --force-removal-of-dependent-packages
+> ...
+> Removing package perl-module-extutils-mm-dos from root...
+> ...
+> Removing package perl-module-extutils-mm-dos from root...
+> You can force removal of packages with failed prerm scripts with the option:
+>         --force-remove
+> No packages removed.
+> Collected errors:
+>  * pkg_run_script: Internal error: perl-module-extutils-mm-dos has a
+> NULL tmp_unpack_dir.
+>  * opkg_remove_pkg: not removing package "perl-module-extutils-mm-dos",
+> prerm script failed
+> ...
 >
+> While remove pkg with '--force-removal-of-dependent-packages',
+> pkg may be added to remove list multiple times, add status
+> check to make sure pkg only be removed once.
 >
-> On 10/11/2014 05:07 PM, Hongxu Jia wrote:
->> "file" command in exported SDK doesn't work:
->> ...
->> $ file sysroots/
->> file: could not find any valid magic files!
->> ...
->>
->> In commit 7943338d1fea2b9e49b02f1c9f68b4a47188b883, it added wrapper
->> to file-native. Do the same thing for nativesdk-file.
+> [YOCTO #6819]
 >
-> TA;
-> but please add commit title after commit id.
-
-In poky, I could not find its 'From OE-Core rev',
-and manually search in oe-core, I found:
-...
-commit 68d548cbae729eaea8ce1403dc95ff63c4a7375c
-Author: Saul Wold <sgw@linux.intel.com>
-Date:   Fri Feb 25 16:18:50 2011 -0800
-
-     file: add wrapper to file-native
-
-     file-native needs a wrapper to pass the correct path to the 
-magic.mgc file
-     This was found to be the case when sstate-cache is used because 
-file hardcodes
-     the path to the magic.mgc file.
-
-     [BUGID #775]
-
-     Signed-off-by: Saul Wold <sgw@linux.intel.com>
-...
-
-//Hongxu
-
-> and make sure the commit id can be found in oe-core.
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  ...g_remove.c-avoid-remove-pkg-repeatly-with.patch | 39 ++++++++++++++++++++++
+>  meta/recipes-devtools/opkg/opkg_0.2.2.bb           |  1 +
+>  2 files changed, 40 insertions(+)
+>  create mode 100644 meta/recipes-devtools/opkg/opkg/libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch
 >
-> -Roy
->
->
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/recipes-devtools/file/file_5.18.bb | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/meta/recipes-devtools/file/file_5.18.bb 
->> b/meta/recipes-devtools/file/file_5.18.bb
->> index f2f8d03..9068b93 100644
->> --- a/meta/recipes-devtools/file/file_5.18.bb
->> +++ b/meta/recipes-devtools/file/file_5.18.bb
->> @@ -27,4 +27,9 @@ do_install_append_class-native() {
->>           --magic-file ${datadir}/misc/magic.mgc
->>   }
->>
->> +do_install_append_class-nativesdk() {
->> +    create_cmdline_wrapper ${D}/${bindir}/file \
->> +        --magic-file ${datadir}/misc/magic.mgc
->> +}
->> +
->>   BBCLASSEXTEND = "native nativesdk"
->>
->
+> diff --git a/meta/recipes-devtools/opkg/opkg/libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch b/meta/recipes-devtools/opkg/opkg/libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch
+> new file mode 100644
+> index 0000000..08433a9
+> --- /dev/null
+> +++ b/meta/recipes-devtools/opkg/opkg/libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch
+> @@ -0,0 +1,39 @@
+> +From 41425d67d3589b1912416a17f740d6407c7834f2 Mon Sep 17 00:00:00 2001
+> +From: Hongxu Jia <hongxu.jia@windriver.com>
+> +Date: Wed, 8 Oct 2014 19:53:13 +0800
+> +Subject: [PATCH] libopkg/opkg_remove.c: avoid remove pkg repeatly with option
+> + --force-removal-of-dependent-packages
+> +
+> +While remove pkg with '--force-removal-of-dependent-packages',
+> +pkg may be added to pkgs remove list multiple times, add status
+> +check to make sure pkg only be removed once.
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +---
+> + libopkg/opkg_remove.c | 8 ++++++++
+> + 1 file changed, 8 insertions(+)
+> +
+> +diff --git a/libopkg/opkg_remove.c b/libopkg/opkg_remove.c
+> +index 34f9154..a225e41 100644
+> +--- a/libopkg/opkg_remove.c
+> ++++ b/libopkg/opkg_remove.c
+> +@@ -250,6 +250,14 @@ opkg_remove_pkg(pkg_t *pkg, int from_upgrade)
+> +      if ((parent_pkg = pkg->parent) == NULL)
+> +         return 0;
+> +
+> ++     /* While remove pkg with '--force-removal-of-dependent-packages',
+> ++        pkg may be added to remove list multiple times, add status
+> ++        check to make sure pkg only be removed once. */
+> ++     if (conf->force_removal_of_dependent_packages &&
+> ++             pkg->state_flag & SF_FILELIST_CHANGED &&
+> ++             pkg->state_status == SS_NOT_INSTALLED)
+> ++         return 0;
+> ++
+> +      /* only attempt to remove dependent installed packages if
+> +       * force_depends is not specified or the package is being
+> +       * replaced.
+> +--
+> +1.9.1
+> +
 
+Your solution looks fine but I'd prefer it to be solved a different
+way upstream.
+
+It should be possible to ensure that duplicates don't enter the
+removal queue in the first place by checking the return of
+pkg_vec_contains(dependent_pkgs, dep_pkg) before calling
+pkg_vec_insert(dependent_pkgs, dep_pkg) in opkg_remove_dependent_pkgs.
+This would keep the logic in opkg_remove_pkg clean.
+
+If you've got time to try this alternative solution could you let me
+know if it works. If so, send the patch to opkg-devel@googlegroups.com
+and I'll merge it upstream. If you're too busy I can have a look at
+this myself next week.
+
+Cheers,
+
+-- 
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
