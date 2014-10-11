@@ -1,29 +1,28 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A96D665DA3
+	by mail.openembedded.org (Postfix) with ESMTP id A76D165DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Oct 2014 10:25:48 +0000 (UTC)
+	Sat, 11 Oct 2014 10:26:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9BAPmx3016855
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9BAQeMH016898
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 11 Oct 2014 03:25:48 -0700 (PDT)
+	Sat, 11 Oct 2014 03:26:40 -0700 (PDT)
 Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Sat, 11 Oct 2014 03:25:48 -0700
-Message-ID: <543905A8.8070409@windriver.com>
-Date: Sat, 11 Oct 2014 18:25:44 +0800
+	Sat, 11 Oct 2014 03:26:39 -0700
+Message-ID: <543905DC.3070705@windriver.com>
+Date: Sat, 11 Oct 2014 18:26:36 +0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-To: Rongqing Li <rongqing.li@windriver.com>
-References: <cover.1413018367.git.hongxu.jia@windriver.com>
-	<bc8ec45d7dce55e301079b9949ab32d1d7fcd4d3.1413018367.git.hongxu.jia@windriver.com>
-	<5438F663.8090303@windriver.com>
-In-Reply-To: <5438F663.8090303@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] file: add wrapper to nativesdk-file
+To: Paul Barker <paul@paulbarker.me.uk>
+References: <cover.1412770325.git.hongxu.jia@windriver.com>	<241e2535b1e3f4544e31fdc40406337b26e8f8d9.1412770325.git.hongxu.jia@windriver.com>	<CANyK_8eqiktne2E4EwpWoBpz_-xtDweSS56XdBi6ocKoh_Wq2A@mail.gmail.com>
+	<543903BC.6020706@windriver.com>
+In-Reply-To: <543903BC.6020706@windriver.com>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] opkg: fix remove pkg with --force-removal-of-dependent-packages failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,61 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Oct 2014 10:25:48 -0000
+X-List-Received-Date: Sat, 11 Oct 2014 10:26:38 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/11/2014 05:20 PM, Rongqing Li wrote:
->
->
-> On 10/11/2014 05:07 PM, Hongxu Jia wrote:
->> "file" command in exported SDK doesn't work:
->> ...
->> $ file sysroots/
->> file: could not find any valid magic files!
->> ...
+On 10/11/2014 06:17 PM, Hongxu Jia wrote:
+> On 10/11/2014 05:31 PM, Paul Barker wrote:
+>> Your solution looks fine but I'd prefer it to be solved a different
+>> way upstream.
 >>
->> In commit 7943338d1fea2b9e49b02f1c9f68b4a47188b883, it added wrapper
->> to file-native. Do the same thing for nativesdk-file.
+>> It should be possible to ensure that duplicates don't enter the
+>> removal queue in the first place by checking the return of
+>> pkg_vec_contains(dependent_pkgs, dep_pkg) before calling
+>> pkg_vec_insert(dependent_pkgs, dep_pkg) in opkg_remove_dependent_pkgs.
+>> This would keep the logic in opkg_remove_pkg clean.
 >
-> TA;
-> but please add commit title after commit id.
-> and make sure the commit id can be found in oe-core.
+> The pkg_vec_contains(dependent_pkgs, dep_pkg) could not work here.
+> Because 'dependent_pkgs' is not global which contains all removed pkgs.
+>
+> The checking will filter duplicated pkg.
 >
 
-Use oe-core commit to instead, update git:
-
-   git://git.pokylinux.org/poky-contrib hongxu/fix-nativesdk-file
-   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nativesdk-file
-
+s/will/will not/
 
 //Hongxu
 
-> -Roy
+> //Hongxu
 >
->
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/recipes-devtools/file/file_5.18.bb | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/meta/recipes-devtools/file/file_5.18.bb 
->> b/meta/recipes-devtools/file/file_5.18.bb
->> index f2f8d03..9068b93 100644
->> --- a/meta/recipes-devtools/file/file_5.18.bb
->> +++ b/meta/recipes-devtools/file/file_5.18.bb
->> @@ -27,4 +27,9 @@ do_install_append_class-native() {
->>           --magic-file ${datadir}/misc/magic.mgc
->>   }
->>
->> +do_install_append_class-nativesdk() {
->> +    create_cmdline_wrapper ${D}/${bindir}/file \
->> +        --magic-file ${datadir}/misc/magic.mgc
->> +}
->> +
->>   BBCLASSEXTEND = "native nativesdk"
->>
+>> If you've got time to try this alternative solution could you let me
+>> know if it works. If so, send the patch toopkg-devel@googlegroups.com
+>> and I'll merge it upstream. If you're too busy I can have a look at
+>> this myself next week.
 >
 
 
