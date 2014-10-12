@@ -1,28 +1,18 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with SMTP id 0815C718F8
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa09-03.prod.phx3.secureserver.net
+	(p3plsmtpa09-03.prod.phx3.secureserver.net [173.201.193.232])
+	by mail.openembedded.org (Postfix) with ESMTP id C5A837190D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Oct 2014 21:38:04 +0000 (UTC)
-Received: (qmail 14872 invoked by uid 1003); 12 Oct 2014 21:38:05 -0000
-Received: from unknown (HELO ?10.43.1.67?) (philip@opensdr.com@195.158.157.135)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	12 Oct 2014 21:38:05 -0000
-Message-ID: <543AF4BB.2000108@balister.org>
-Date: Sun, 12 Oct 2014 23:38:03 +0200
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
-MIME-Version: 1.0
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>
-References: <CA+YB3rZ4_QMScrXSisdB8epxieAs421vAJCzWpK3s+peUOLZXg@mail.gmail.com>
-In-Reply-To: <CA+YB3rZ4_QMScrXSisdB8epxieAs421vAJCzWpK3s+peUOLZXg@mail.gmail.com>
-X-Forwarded-Message-Id: <CA+YB3rZ4_QMScrXSisdB8epxieAs421vAJCzWpK3s+peUOLZXg@mail.gmail.com>
-Subject: 2014 OpenEmbedded General Aseembly Announcement
+	Sun, 12 Oct 2014 23:50:10 +0000 (UTC)
+Received: from llc.pab ([75.72.225.8])
+	by p3plsmtpa09-03.prod.phx3.secureserver.net with 
+	id 2Pq71p0040BVjqb01Pq867; Sun, 12 Oct 2014 16:50:10 -0700
+From: "Peter A. Bigot" <pab@pabigot.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 12 Oct 2014 18:49:52 -0500
+Message-Id: <1413157795-1346-1-git-send-email-pab@pabigot.com>
+X-Mailer: git-send-email 1.8.5.5
+Subject: [PATCH 0/3] pseudo+image.bbclass: changes to avoid host contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,62 +25,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Oct 2014 21:38:06 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 12 Oct 2014 23:50:11 -0000
 
-The eV General Assembly is Tuesday. I'd also like to invite other people
-from the community to join us. This is an good time to join the OE eV. I
-promise to keep the business part of the meeting short so we can spend
-time talking about the future of the OpenEmbedded organization.
+While determining that an anomaly was self-induced, I found some issues
+with pseudo that, with low probability, could result in mis-use of the
+build host /etc/passwd and /etc/group to resolve target uid/gid/names.
 
-If you are interested in joining the eV, send me a bio with information
-about your OpenEmbedded involvement. I do have bios from several people
-already.
+The red herring I was fishing was that pseudo, in its default
+configuration, will fall back to the build host passwd/group files if it
+can't access ones in the chroot or specified by PSEUDO_PASSWD.  To rule
+out this as a cause of my anomaly, I added --without-passwd-fallback to
+the pseudo configuration.
 
-Philip
+This unexpectedly resulted in failed builds that I tracked down to
+pseudo adding an unnecessary directory prefix to the .pwd.lck file,
+causing failures in the attempt to lock /etc/passwd.  The first patch
+fixes pseudo to support --without-passwd-fallback.
 
+The next problem is that pseudo required the fallback path to be
+specified when pseudo itself was configured, and only allowed a single
+runtime-specified path.  This breaks image formation: the preferred path
+should be ${IMAGE_ROOT}, but etc/passwd doesn't exist in that path until
+base-passwd runs pkg_postinst.  Until that happens the version in
+${STAGING_DIR_TARGET} should be used as fallback.  The second patch
+enhances pseudo with the ability to specify multiple search paths, and
+the third uses the feature in image.bbclass to search both ${IMAGE_ROOT}
+and ${STAGING_DIR_TARGET} for passwd/group files.
 
--------- Forwarded Message --------
-Subject: 2014 OpenEmbedded General Aseembly Announcement
-Date: Wed, 27 Aug 2014 09:02:33 -0700
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Reply-To: openembedded-members@lists.openembedded.org
-To: openembedded-members@lists.openembedded.org
-<openembedded-members@lists.openembedded.org>
+I believe OE should add --without-passwd-fallback to the pseudo 1.6.2
+configuration flags early in the 1.8 development cycle, to ensure there
+are no host contamination issues.  I can think of no reason why the
+build host passwd and group files should ever be considered suitable for
+use in determining target user/group characteristics.
 
-The board would like to invite all members to attend the eV General
-Assembly. The Assembly will be held during the Embedded Linux
-Conference in Düsseldorf, Germany
-(http://events.linuxfoundation.org/events/embedded-linux-conference-europe)
-at the Congress Centre Düsseldorf in room 4B, on Tuesday, October 14,
-2014, beginning at 1300.
+However, if this is done various recipes that do things like "chown
+root:root files" in their install fail because they don't currently
+DEPEND on base-passwd.  How to cleanly add that dependency is a topic
+for discussion, and I've left that final step out of the series for now.
 
-The agenda will contain the financial report. Additional agenda items
-may be submitted per the statutes. Please post agenda items here,
-along with your name if you intend to attend:
+Peter
 
-http://openembedded.org/wiki/Dusseldorf,_2014
+Peter A. Bigot (3):
+  pseudo: support --without-passwd-fallback configuration option
+  pseudo: support multiple search directories in PSEUDO_PASSWD
+  image.bbclass: search both rootfs and staging dir for passwd files
 
-That page also has a link to the proxy form. If you are not able to
-attend, please make sure someone who is attending has your signed
-form. More information on proxies will be sent next week.
+ meta/classes/image.bbclass                         |   4 +-
+ ...do_client.c-protect-pwd_lck-against-magic.patch |  56 ++++++++++
+ ..._util-modify-interface-to-pseudo_etc_file.patch |  70 +++++++++++++
+ ...nt.c-support-multiple-directories-in-PSEU.patch | 115 +++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.6.2.bb       |   3 +
+ 5 files changed, 247 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo-1.6.2/0001-pseudo_client.c-protect-pwd_lck-against-magic.patch
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo-1.6.2/0002-pseudo_util-modify-interface-to-pseudo_etc_file.patch
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo-1.6.2/0003-pseudo_client.c-support-multiple-directories-in-PSEU.patch
 
-Some scheduling notes:
-
- * The General Assembly is during ELCE this year, not afterward.
- * There will be a Yocto Project Developer Day on October 16
-(https://www.yoctoproject.org/tools-resources/events/yocto-project-developer-day-elce-2014).
-
-thanks
 -- 
-Jeff Osier-Mixon @Intel
-Yocto Project Community Manager http://yoctoproject.org
--- 
-_______________________________________________
-Openembedded-members mailing list
-Openembedded-members@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-members
-
+1.8.5.5
 
 
