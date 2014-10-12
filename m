@@ -1,40 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 321FC718D5
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa08-07.prod.phx3.secureserver.net
+	(p3plsmtpa08-07.prod.phx3.secureserver.net [173.201.193.108])
+	by mail.openembedded.org (Postfix) with ESMTP id D0059718F4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Oct 2014 20:49:55 +0000 (UTC)
-Received: by mail-qc0-f174.google.com with SMTP id m20so4167402qcx.33
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Oct 2014 13:49:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ityeMSrNsmUJd5PyYC+4IN1vupxrkb0wlzD0PqfUzJE=;
-	b=kNj4dMPyG+47iHw1eTTJdQS+5bgMQ82QR+SJiC/Ctaj8dFrg6Nc5kqnayj2vINM7uP
-	KIHwOAumQZ55IQXmZTaI3vaSCljZ/9pCRSSxdKki8hPKwDK7iDiN9y9scJfBympDeCkN
-	5XYXwONjzqi1NTjCJqfk2Il9do7+QT3mNeHctUZXNOGEajsag08dF76ZKUHzfCR1wA/5
-	oUDA2HNj3C+INPAWUu45jIgCH7/k3y31f6WfbUesE1Ms9SNiCRgaR9Dj/VbMrQe9Sxdw
-	zcT8kaPxc7nhIgwAnck5I3cCQPhDRaxQpwStIgHsysCtkGuKu4hMizcZf3KcciL78Cyp
-	H01g==
-X-Gm-Message-State: ALoCoQkQ5rF2OgneDX7MxTLma8ojUgLQkJwXZLf6V0LKX1penn7KLjlTv5nUBKrpB2PBmn1TSKlx
-X-Received: by 10.229.192.71 with SMTP id dp7mr19220251qcb.5.1413146996514;
-	Sun, 12 Oct 2014 13:49:56 -0700 (PDT)
+	Sun, 12 Oct 2014 21:05:41 +0000 (UTC)
+Received: from [192.168.65.10] ([75.72.225.8])
+	by p3plsmtpa08-07.prod.phx3.secureserver.net with 
+	id 2M5h1p0050BVjqb01M5hpM; Sun, 12 Oct 2014 14:05:42 -0700
+Message-ID: <543AED25.7070201@pabigot.com>
+Date: Sun, 12 Oct 2014 16:05:41 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-Received: by 10.140.106.134 with HTTP; Sun, 12 Oct 2014 13:49:36 -0700 (PDT)
-In-Reply-To: <CACS+7ZTreU8-5jVr7SfBMP3Ogr9Q6XYd2TgQA=7-Tepf6z0PDw@mail.gmail.com>
-References: <CACS+7ZRU6R--qxKFxWmCKGQaHgyDMfd=cUrnLnjZVfsktmhxAQ@mail.gmail.com>
-	<CAJTo0LZDeTCp7E3ZMX6To6Ox-bOLS625d_T2QBjjuQ+RZ7==dw@mail.gmail.com>
-	<CAJTo0LaP2Zu7z8Dp_1uCzkdLuBS_TgZ0xn0CXg5QtNTt3ZCAbw@mail.gmail.com>
-	<CACS+7ZTreU8-5jVr7SfBMP3Ogr9Q6XYd2TgQA=7-Tepf6z0PDw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sun, 12 Oct 2014 21:49:36 +0100
-Message-ID: <CAJTo0LZ0Pioox8tXNdCzuV_pof8axcBAi4A_y6rdLqNLqhLX3w@mail.gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] systemd: Use ${ROOT_HOME} instead of /root
+To: openembedded-core@lists.openembedded.org
+References: <543965E7.3040806@pabigot.com>
+In-Reply-To: <543965E7.3040806@pabigot.com>
+Subject: Re: dbus build host uid/gid leaking into target home directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,19 +30,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Oct 2014 20:49:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 12 Oct 2014 21:05:42 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 9 October 2014 17:57, Dan McGregor <danismostlikely@gmail.com> wrote:
-> I'm using git imap-send to gmail. Perhaps it's corrupting it. I'll double check.
+On 10/11/2014 12:16 PM, Peter A. Bigot wrote:
+> Back at 
+> http://lists.openembedded.org/pipermail/openembedded-core/2011-December/053836.html 
+> it was noted that the dbus home directory /var/lib/dbus on the target 
+> was using the build host uid/gid.  Various discussion agreed this 
+> shouldn't happen, but there was no resolution in the thread.
+>
+> I found https://bugzilla.yoctoproject.org/show_bug.cgi?id=1711 which 
+> is marked fixed, but on a newly installed system I find:
+>
+> root@beaglebone:~# ls -l /var/lib
+> total 52
+> drwxr-xr-x 2 root root 4096 Oct 11  2014 alsa
+> drwxr-xr-x 2 root root 4096 Oct 11  2014 arpd
+> drwxr-xr-x 2 root root 4096 Oct 11 12:30 connman
+> drwxr-xr-x 2  102  105 4096 Oct 11  2014 dbus
+>
+> where the dbus uid/gid is from my host system as shown by:
+>
+> root@beaglebone:~# grep dbus /etc/passwd
+> messagebus:x:999:998::/var/lib/dbus:/bin/false
+> llc[140]$ grep dbus /etc/passwd
+> messagebus:x:102:105::/var/run/dbus:/bin/false
 
-FWIW, I'm using send-email to the gmail SMTP servers, which correctly
-puts the patches into my sent mail folder if that's what you were
-using imap-send for.
+Pilot error.  This ultimately turned out to be a side-effect of the way 
+I create my image media: I unpacking the rootfs tar file onto a mounted 
+sdcard outside the pseudo environment and forgot that tar records 
+user/group by name not uid/gid.
 
-The patch is still corrupted, but I found your branch so I didn't
-bother investigating further. :)
+Peter
 
-Thanks,
-Ross
+> This arises in an image extending core-image-base building meta-ti's 
+> version of beaglebone.  (I'm actually trying to fix the same problem 
+> arising in a patch intended to make sure ntp's home directory exists, 
+> but the dbus one appears to be the same thing.)
+>
+> The suggested workaround for opkg of using a pkg_postinst script 
+> doesn't work in my case because the rpm post-install script gets run 
+> on the build host that's creating rootfs.The ownership is wrong in the 
+> generated rootfs tar files whether or not there's a post-install 
+> script that tries to change it.
+>
+> For my ntp patch I verified that removing the package and installing 
+> it on the target does work as expected.
+>
+> Does anybody else see this sort of thing?
+>
+> If not, where in the image packaging code is the magic that's supposed 
+> to help pseudo record who's really supposed to own the files and 
+> re-apply that when the image packaging is done?
+>
+> Peter
+
+
 
