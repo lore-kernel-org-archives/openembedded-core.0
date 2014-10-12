@@ -1,18 +1,20 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa09-03.prod.phx3.secureserver.net
 	(p3plsmtpa09-03.prod.phx3.secureserver.net [173.201.193.232])
-	by mail.openembedded.org (Postfix) with ESMTP id C5A837190D
+	by mail.openembedded.org (Postfix) with ESMTP id 6C1FB718F4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Oct 2014 23:50:10 +0000 (UTC)
+	Sun, 12 Oct 2014 23:50:18 +0000 (UTC)
 Received: from llc.pab ([75.72.225.8])
 	by p3plsmtpa09-03.prod.phx3.secureserver.net with 
-	id 2Pq71p0040BVjqb01Pq867; Sun, 12 Oct 2014 16:50:10 -0700
+	id 2Pq71p0040BVjqb01PqK7K; Sun, 12 Oct 2014 16:50:19 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Oct 2014 18:49:52 -0500
-Message-Id: <1413157795-1346-1-git-send-email-pab@pabigot.com>
+Date: Sun, 12 Oct 2014 18:49:53 -0500
+Message-Id: <1413157795-1346-2-git-send-email-pab@pabigot.com>
 X-Mailer: git-send-email 1.8.5.5
-Subject: [PATCH 0/3] pseudo+image.bbclass: changes to avoid host contamination
+In-Reply-To: <1413157795-1346-1-git-send-email-pab@pabigot.com>
+References: <1413157795-1346-1-git-send-email-pab@pabigot.com>
+Subject: [PATCH 1/3] pseudo: support --without-passwd-fallback configuration option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,61 +27,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Oct 2014 23:50:11 -0000
+X-List-Received-Date: Sun, 12 Oct 2014 23:50:18 -0000
 
-While determining that an anomaly was self-induced, I found some issues
-with pseudo that, with low probability, could result in mis-use of the
-build host /etc/passwd and /etc/group to resolve target uid/gid/names.
+A bug in pseudo 1.6.2 results in lock failures if this option is
+present.
 
-The red herring I was fishing was that pseudo, in its default
-configuration, will fall back to the build host passwd/group files if it
-can't access ones in the chroot or specified by PSEUDO_PASSWD.  To rule
-out this as a cause of my anomaly, I added --without-passwd-fallback to
-the pseudo configuration.
+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+---
+Cc: peter.seebach@windriver.com
 
-This unexpectedly resulted in failed builds that I tracked down to
-pseudo adding an unnecessary directory prefix to the .pwd.lck file,
-causing failures in the attempt to lock /etc/passwd.  The first patch
-fixes pseudo to support --without-passwd-fallback.
-
-The next problem is that pseudo required the fallback path to be
-specified when pseudo itself was configured, and only allowed a single
-runtime-specified path.  This breaks image formation: the preferred path
-should be ${IMAGE_ROOT}, but etc/passwd doesn't exist in that path until
-base-passwd runs pkg_postinst.  Until that happens the version in
-${STAGING_DIR_TARGET} should be used as fallback.  The second patch
-enhances pseudo with the ability to specify multiple search paths, and
-the third uses the feature in image.bbclass to search both ${IMAGE_ROOT}
-and ${STAGING_DIR_TARGET} for passwd/group files.
-
-I believe OE should add --without-passwd-fallback to the pseudo 1.6.2
-configuration flags early in the 1.8 development cycle, to ensure there
-are no host contamination issues.  I can think of no reason why the
-build host passwd and group files should ever be considered suitable for
-use in determining target user/group characteristics.
-
-However, if this is done various recipes that do things like "chown
-root:root files" in their install fail because they don't currently
-DEPEND on base-passwd.  How to cleanly add that dependency is a topic
-for discussion, and I've left that final step out of the series for now.
-
-Peter
-
-Peter A. Bigot (3):
-  pseudo: support --without-passwd-fallback configuration option
-  pseudo: support multiple search directories in PSEUDO_PASSWD
-  image.bbclass: search both rootfs and staging dir for passwd files
-
- meta/classes/image.bbclass                         |   4 +-
- ...do_client.c-protect-pwd_lck-against-magic.patch |  56 ++++++++++
- ..._util-modify-interface-to-pseudo_etc_file.patch |  70 +++++++++++++
- ...nt.c-support-multiple-directories-in-PSEU.patch | 115 +++++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_1.6.2.bb       |   3 +
- 5 files changed, 247 insertions(+), 1 deletion(-)
+ ...do_client.c-protect-pwd_lck-against-magic.patch | 56 ++++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.6.2.bb       |  1 +
+ 2 files changed, 57 insertions(+)
  create mode 100644 meta/recipes-devtools/pseudo/pseudo-1.6.2/0001-pseudo_client.c-protect-pwd_lck-against-magic.patch
- create mode 100644 meta/recipes-devtools/pseudo/pseudo-1.6.2/0002-pseudo_util-modify-interface-to-pseudo_etc_file.patch
- create mode 100644 meta/recipes-devtools/pseudo/pseudo-1.6.2/0003-pseudo_client.c-support-multiple-directories-in-PSEU.patch
 
+diff --git a/meta/recipes-devtools/pseudo/pseudo-1.6.2/0001-pseudo_client.c-protect-pwd_lck-against-magic.patch b/meta/recipes-devtools/pseudo/pseudo-1.6.2/0001-pseudo_client.c-protect-pwd_lck-against-magic.patch
+new file mode 100644
+index 0000000..d0c0a27
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/pseudo-1.6.2/0001-pseudo_client.c-protect-pwd_lck-against-magic.patch
+@@ -0,0 +1,56 @@
++From e11468a47369596f57c5e99bd0a3dd58b2c6d5e0 Mon Sep 17 00:00:00 2001
++From: "Peter A. Bigot" <pab@pabigot.com>
++Date: Sun, 12 Oct 2014 08:27:14 -0500
++Subject: [PATCH 1/3] pseudo_client.c: protect pwd_lck against magic
++
++While attempting to diagnose unexpected uid/gid assignment I added
++--without-passwd-fallback to the pseudo build.  This caused build
++failures due to inability to lock /etc/passwd.
++
++Instrumentation revealed that attempts to create the lock file ended up
++with pseudo_etc_file() creating the correct lock name, but the
++subsequent open had an extra PSEUDO_PASSWD directory prefix causing
++it to fail.
++
++Inspection of pseudo_client shows the only other use of PSEUDO_ETC_FILE
++to be protected against magic.  Applying the same shield to the
++unprotected calls in pseudo_pwd_lck_{open,close} fixes the issue.
++
++Upstream-Status: Pending
++Signed-off-by: Peter A. Bigot <pab@pabigot.com>
++---
++ pseudo_client.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/pseudo_client.c b/pseudo_client.c
++index 8deaa1b..442dd19 100644
++--- a/pseudo_client.c
+++++ b/pseudo_client.c
++@@ -416,20 +416,24 @@ pseudo_pwd_lck_open(void) {
++ 		}
++ 	}
++ 	pseudo_pwd_lck_close();
+++	pseudo_antimagic();
++ 	pseudo_pwd_lck_fd = PSEUDO_ETC_FILE(".pwd.lock",
++ 					pseudo_pwd_lck_name, O_RDWR | O_CREAT);
+++	pseudo_magic();
++ 	return pseudo_pwd_lck_fd;
++ }
++ 
++ int
++ pseudo_pwd_lck_close(void) {
++ 	if (pseudo_pwd_lck_fd != -1) {
+++		pseudo_antimagic();
++ 		close(pseudo_pwd_lck_fd);
++ 		if (pseudo_pwd_lck_name) {
++ 			unlink(pseudo_pwd_lck_name);
++ 			free(pseudo_pwd_lck_name);
++ 			pseudo_pwd_lck_name = 0;
++ 		}
+++		pseudo_magic();
++ 		pseudo_pwd_lck_fd = -1;
++ 		return 0;
++ 	} else {
++-- 
++1.8.5.5
++
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb b/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
+index ece50bf..df8ce83 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
+@@ -2,6 +2,7 @@ require pseudo.inc
+ 
+ SRC_URI = " \
+     http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
++    file://0001-pseudo_client.c-protect-pwd_lck-against-magic.patch \
+ "
+ 
+ SRC_URI[md5sum] = "4d7b4f9d1b4aafa680ce94a5a9a52f1f"
 -- 
 1.8.5.5
 
