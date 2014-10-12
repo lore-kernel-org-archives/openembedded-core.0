@@ -1,25 +1,40 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 56C8A718D4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 321FC718D5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Oct 2014 20:31:55 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 12 Oct 2014 13:31:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,705,1406617200"; d="scan'208";a="604214977"
-Received: from ohreyal-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.245])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Oct 2014 13:31:55 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Oct 2014 21:31:31 +0100
-Message-Id: <32e6864323cf2e4405b835cf474bcdf6fd572961.1413145831.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1413145831.git.paul.eggleton@linux.intel.com>
-References: <cover.1413145831.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1413145831.git.paul.eggleton@linux.intel.com>
-References: <cover.1413145831.git.paul.eggleton@linux.intel.com>
-Subject: [dylan][PATCH 6/6] bash: Fix-for-CVE-2014-6278
+	Sun, 12 Oct 2014 20:49:55 +0000 (UTC)
+Received: by mail-qc0-f174.google.com with SMTP id m20so4167402qcx.33
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 12 Oct 2014 13:49:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ityeMSrNsmUJd5PyYC+4IN1vupxrkb0wlzD0PqfUzJE=;
+	b=kNj4dMPyG+47iHw1eTTJdQS+5bgMQ82QR+SJiC/Ctaj8dFrg6Nc5kqnayj2vINM7uP
+	KIHwOAumQZ55IQXmZTaI3vaSCljZ/9pCRSSxdKki8hPKwDK7iDiN9y9scJfBympDeCkN
+	5XYXwONjzqi1NTjCJqfk2Il9do7+QT3mNeHctUZXNOGEajsag08dF76ZKUHzfCR1wA/5
+	oUDA2HNj3C+INPAWUu45jIgCH7/k3y31f6WfbUesE1Ms9SNiCRgaR9Dj/VbMrQe9Sxdw
+	zcT8kaPxc7nhIgwAnck5I3cCQPhDRaxQpwStIgHsysCtkGuKu4hMizcZf3KcciL78Cyp
+	H01g==
+X-Gm-Message-State: ALoCoQkQ5rF2OgneDX7MxTLma8ojUgLQkJwXZLf6V0LKX1penn7KLjlTv5nUBKrpB2PBmn1TSKlx
+X-Received: by 10.229.192.71 with SMTP id dp7mr19220251qcb.5.1413146996514;
+	Sun, 12 Oct 2014 13:49:56 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.106.134 with HTTP; Sun, 12 Oct 2014 13:49:36 -0700 (PDT)
+In-Reply-To: <CACS+7ZTreU8-5jVr7SfBMP3Ogr9Q6XYd2TgQA=7-Tepf6z0PDw@mail.gmail.com>
+References: <CACS+7ZRU6R--qxKFxWmCKGQaHgyDMfd=cUrnLnjZVfsktmhxAQ@mail.gmail.com>
+	<CAJTo0LZDeTCp7E3ZMX6To6Ox-bOLS625d_T2QBjjuQ+RZ7==dw@mail.gmail.com>
+	<CAJTo0LaP2Zu7z8Dp_1uCzkdLuBS_TgZ0xn0CXg5QtNTt3ZCAbw@mail.gmail.com>
+	<CACS+7ZTreU8-5jVr7SfBMP3Ogr9Q6XYd2TgQA=7-Tepf6z0PDw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sun, 12 Oct 2014 21:49:36 +0100
+Message-ID: <CAJTo0LZ0Pioox8tXNdCzuV_pof8axcBAi4A_y6rdLqNLqhLX3w@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] systemd: Use ${ROOT_HOME} instead of /root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,290 +47,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Oct 2014 20:31:55 -0000
+X-List-Received-Date: Sun, 12 Oct 2014 20:49:56 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Catalin Popeanga <Catalin.Popeanga@enea.com>
+On 9 October 2014 17:57, Dan McGregor <danismostlikely@gmail.com> wrote:
+> I'm using git imap-send to gmail. Perhaps it's corrupting it. I'll double check.
 
-This vulnerability exists because of an incomplete fix for CVE-2014-6271, CVE-2014-7169, and CVE-2014-6277
+FWIW, I'm using send-email to the gmail SMTP servers, which correctly
+puts the patches into my sent mail folder if that's what you were
+using imap-send for.
 
-See: https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-6278
+The patch is still corrupted, but I found your branch so I didn't
+bother investigating further. :)
 
-(From OE-Core daisy rev: de596b5f31e837dcd2ce991245eb5548f12d72ae)
-
-Signed-off-by: Catalin Popeanga <Catalin.Popeanga@enea.com>
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- .../bash/bash-3.2.48/cve-2014-6278.patch           |  99 ++++++++++++++++
- .../bash/bash-4.2/cve-2014-6278.patch              | 127 +++++++++++++++++++++
- meta/recipes-extended/bash/bash_3.2.48.bb          |   1 +
- meta/recipes-extended/bash/bash_4.2.bb             |   1 +
- 4 files changed, 228 insertions(+)
- create mode 100644 meta/recipes-extended/bash/bash-3.2.48/cve-2014-6278.patch
- create mode 100644 meta/recipes-extended/bash/bash-4.2/cve-2014-6278.patch
-
-diff --git a/meta/recipes-extended/bash/bash-3.2.48/cve-2014-6278.patch b/meta/recipes-extended/bash/bash-3.2.48/cve-2014-6278.patch
-new file mode 100644
-index 0000000..e51ce05
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash-3.2.48/cve-2014-6278.patch
-@@ -0,0 +1,99 @@
-+bash: Fix CVE-2014-6278 (shellshock)
-+ 
-+Upstream-status: backport
-+ 
-+Downloaded from: 
-+ftp://ftp.gnu.org/pub/bash/bash-3.2-patches/bash32-057
-+
-+Author: Chet Ramey <chet.ramey@case.edu>
-+Signed-off-by: Catalin Popeanga <catalin.popeanga@enea.com>
-+
-+			     BASH PATCH REPORT
-+			     =================
-+
-+Bash-Release: 3.2
-+Patch-ID: bash32-057
-+
-+Bug-Reported-by:	Michal Zalewski <lcamtuf@coredump.cx>
-+Bug-Reference-ID:
-+Bug-Reference-URL:
-+
-+Bug-Description:
-+
-+A combination of nested command substitutions and function importing from
-+the environment can cause bash to execute code appearing in the environment
-+variable value following the function definition.
-+
-+--- a/builtins/evalstring.c	2014-09-16 19:08:02.000000000 -0400
-++++ b/builtins/evalstring.c	2014-10-04 15:58:35.000000000 -0400
-+@@ -44,4 +44,5 @@
-+ #include "../redir.h"
-+ #include "../trap.h"
-++#include "../bashintl.h"
-+ 
-+ #if defined (HISTORY)
-+@@ -235,10 +236,23 @@
-+ 	      struct fd_bitmap *bitmap;
-+ 
-+-	      if ((flags & SEVAL_FUNCDEF) && command->type != cm_function_def)
-++	      if (flags & SEVAL_FUNCDEF)
-+ 		{
-+-		  internal_warning ("%s: ignoring function definition attempt", from_file);
-+-		  should_jump_to_top_level = 0;
-+-		  last_result = last_command_exit_value = EX_BADUSAGE;
-+-		  break;
-++		  char *x;
-++
-++		  /* If the command parses to something other than a straight
-++		     function definition, or if we have not consumed the entire
-++		     string, or if the parser has transformed the function
-++		     name (as parsing will if it begins or ends with shell
-++		     whitespace, for example), reject the attempt */
-++		  if (command->type != cm_function_def ||
-++		      ((x = parser_remaining_input ()) && *x) ||
-++		      (STREQ (from_file, command->value.Function_def->name->word) == 0))
-++		    {
-++		      internal_warning (_("%s: ignoring function definition attempt"), from_file);
-++		      should_jump_to_top_level = 0;
-++		      last_result = last_command_exit_value = EX_BADUSAGE;
-++		      reset_parser ();
-++		      break;
-++		    }
-+ 		}
-+ 
-+@@ -302,5 +316,8 @@
-+ 
-+ 	      if (flags & SEVAL_ONECMD)
-+-		break;
-++		{
-++		  reset_parser ();
-++		  break;
-++		}
-+ 	    }
-+ 	}
-+--- a/parse.y	2014-09-30 19:43:22.000000000 -0400
-++++ b/parse.y	2014-10-04 15:58:35.000000000 -0400
-+@@ -2125,4 +2125,14 @@
-+ }
-+ 
-++char *
-++parser_remaining_input ()
-++{
-++  if (shell_input_line == 0)
-++    return 0;
-++  if (shell_input_line_index < 0 || shell_input_line_index >= shell_input_line_len)
-++    return '\0';	/* XXX */
-++  return (shell_input_line + shell_input_line_index);
-++}
-++
-+ #ifdef INCLUDE_UNUSED
-+ /* Back the input pointer up by one, effectively `ungetting' a character. */
-+--- a/shell.h	2008-04-28 22:00:24.000000000 -0400
-++++ b/shell.h	2014-10-04 15:58:35.000000000 -0400
-+@@ -161,4 +161,6 @@
-+ 
-+ /* Let's try declaring these here. */
-++extern char *parser_remaining_input __P((void));
-++
-+ extern sh_parser_state_t *save_parser_state __P((sh_parser_state_t *));
-+ extern void restore_parser_state __P((sh_parser_state_t *));
-diff --git a/meta/recipes-extended/bash/bash-4.2/cve-2014-6278.patch b/meta/recipes-extended/bash/bash-4.2/cve-2014-6278.patch
-new file mode 100644
-index 0000000..b25314f
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash-4.2/cve-2014-6278.patch
-@@ -0,0 +1,127 @@
-+bash: Fix CVE-2014-6278 (shellshock)
-+ 
-+Upstream-status: backport
-+ 
-+Downloaded from: 
-+http://ftp.gnu.org/gnu/bash/bash-4.2-patches/bash42-053
-+
-+Author: Chet Ramey <chet.ramey@case.edu>
-+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-+
-+			     BASH PATCH REPORT
-+			     =================
-+
-+Bash-Release:	4.2
-+Patch-ID:	bash42-053
-+
-+Bug-Reported-by:	Michal Zalewski <lcamtuf@coredump.cx>
-+Bug-Reference-ID:
-+Bug-Reference-URL:
-+
-+Bug-Description:
-+
-+A combination of nested command substitutions and function importing from
-+the environment can cause bash to execute code appearing in the environment
-+variable value following the function definition.
-+
-+Patch (apply with `patch -p0'):
-+
-+*** ../bash-4.2.52/builtins/evalstring.c	2014-09-16 19:35:45.000000000 -0400
-+--- builtins/evalstring.c	2014-10-04 15:00:26.000000000 -0400
-+***************
-+*** 262,271 ****
-+  	      struct fd_bitmap *bitmap;
-+  
-+! 	      if ((flags & SEVAL_FUNCDEF) && command->type != cm_function_def)
-+  		{
-+! 		  internal_warning ("%s: ignoring function definition attempt", from_file);
-+! 		  should_jump_to_top_level = 0;
-+! 		  last_result = last_command_exit_value = EX_BADUSAGE;
-+! 		  break;
-+  		}
-+  
-+--- 262,284 ----
-+  	      struct fd_bitmap *bitmap;
-+  
-+! 	      if (flags & SEVAL_FUNCDEF)
-+  		{
-+! 		  char *x;
-+! 
-+! 		  /* If the command parses to something other than a straight
-+! 		     function definition, or if we have not consumed the entire
-+! 		     string, or if the parser has transformed the function
-+! 		     name (as parsing will if it begins or ends with shell
-+! 		     whitespace, for example), reject the attempt */
-+! 		  if (command->type != cm_function_def ||
-+! 		      ((x = parser_remaining_input ()) && *x) ||
-+! 		      (STREQ (from_file, command->value.Function_def->name->word) == 0))
-+! 		    {
-+! 		      internal_warning (_("%s: ignoring function definition attempt"), from_file);
-+! 		      should_jump_to_top_level = 0;
-+! 		      last_result = last_command_exit_value = EX_BADUSAGE;
-+! 		      reset_parser ();
-+! 		      break;
-+! 		    }
-+  		}
-+  
-+***************
-+*** 332,336 ****
-+  
-+  	      if (flags & SEVAL_ONECMD)
-+! 		break;
-+  	    }
-+  	}
-+--- 345,352 ----
-+  
-+  	      if (flags & SEVAL_ONECMD)
-+! 		{
-+! 		  reset_parser ();
-+! 		  break;
-+! 		}
-+  	    }
-+  	}
-+*** ../bash-4.2.52/parse.y	2014-09-30 19:24:19.000000000 -0400
-+--- parse.y	2014-10-04 15:00:26.000000000 -0400
-+***************
-+*** 2436,2439 ****
-+--- 2436,2449 ----
-+  }
-+  
-++ char *
-++ parser_remaining_input ()
-++ {
-++   if (shell_input_line == 0)
-++     return 0;
-++   if (shell_input_line_index < 0 || shell_input_line_index >= shell_input_line_len)
-++     return '\0';	/* XXX */
-++   return (shell_input_line + shell_input_line_index);
-++ }
-++ 
-+  #ifdef INCLUDE_UNUSED
-+  /* Back the input pointer up by one, effectively `ungetting' a character. */
-+***************
-+*** 3891,3896 ****
-+    /* reset_parser clears shell_input_line and associated variables */
-+    restore_input_line_state (&ls);
-+!   if (interactive)
-+!     token_to_read = 0;
-+  
-+    /* Need to find how many characters parse_and_execute consumed, update
-+--- 3901,3906 ----
-+    /* reset_parser clears shell_input_line and associated variables */
-+    restore_input_line_state (&ls);
-+! 
-+!   token_to_read = 0;
-+  
-+    /* Need to find how many characters parse_and_execute consumed, update
-+*** ../bash-4.2.52/shell.h	2011-11-21 18:03:32.000000000 -0500
-+--- shell.h	2014-10-04 15:00:26.000000000 -0400
-+***************
-+*** 178,181 ****
-+--- 178,183 ----
-+  
-+  /* Let's try declaring these here. */
-++ extern char *parser_remaining_input __P((void));
-++ 
-+  extern sh_parser_state_t *save_parser_state __P((sh_parser_state_t *));
-+  extern void restore_parser_state __P((sh_parser_state_t *));
-diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
-index 82816fd..bee4986 100644
---- a/meta/recipes-extended/bash/bash_3.2.48.bb
-+++ b/meta/recipes-extended/bash/bash_3.2.48.bb
-@@ -15,6 +15,7 @@ SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
-            file://Fix-for-bash-exported-function-namespace-change.patch \
-            file://cve-2014-7186_cve-2014-7187.patch \
-            file://cve-2014-6277.patch \
-+           file://cve-2014-6278.patch \
-           "
- 
- SRC_URI[tarball.md5sum] = "338dcf975a93640bb3eaa843ca42e3f8"
-diff --git a/meta/recipes-extended/bash/bash_4.2.bb b/meta/recipes-extended/bash/bash_4.2.bb
-index 1f49c46..c3e7126 100644
---- a/meta/recipes-extended/bash/bash_4.2.bb
-+++ b/meta/recipes-extended/bash/bash_4.2.bb
-@@ -26,6 +26,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
-            file://Fix-for-bash-exported-function-namespace-change.patch;striplevel=0 \
-            file://cve-2014-7186_cve-2014-7187.patch;striplevel=0 \
-            file://cve-2014-6277.patch \
-+           file://cve-2014-6278.patch;striplevel=0 \
-            file://run-ptest \
-            "
- 
--- 
-1.9.3
-
+Thanks,
+Ross
 
