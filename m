@@ -1,23 +1,28 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa08-07.prod.phx3.secureserver.net
-	(p3plsmtpa08-07.prod.phx3.secureserver.net [173.201.193.108])
-	by mail.openembedded.org (Postfix) with ESMTP id D0059718F4
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with SMTP id 0815C718F8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Oct 2014 21:05:41 +0000 (UTC)
-Received: from [192.168.65.10] ([75.72.225.8])
-	by p3plsmtpa08-07.prod.phx3.secureserver.net with 
-	id 2M5h1p0050BVjqb01M5hpM; Sun, 12 Oct 2014 14:05:42 -0700
-Message-ID: <543AED25.7070201@pabigot.com>
-Date: Sun, 12 Oct 2014 16:05:41 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
+	Sun, 12 Oct 2014 21:38:04 +0000 (UTC)
+Received: (qmail 14872 invoked by uid 1003); 12 Oct 2014 21:38:05 -0000
+Received: from unknown (HELO ?10.43.1.67?) (philip@opensdr.com@195.158.157.135)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	12 Oct 2014 21:38:05 -0000
+Message-ID: <543AF4BB.2000108@balister.org>
+Date: Sun, 12 Oct 2014 23:38:03 +0200
+From: Philip Balister <philip@balister.org>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <543965E7.3040806@pabigot.com>
-In-Reply-To: <543965E7.3040806@pabigot.com>
-Subject: Re: dbus build host uid/gid leaking into target home directory
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>
+References: <CA+YB3rZ4_QMScrXSisdB8epxieAs421vAJCzWpK3s+peUOLZXg@mail.gmail.com>
+In-Reply-To: <CA+YB3rZ4_QMScrXSisdB8epxieAs421vAJCzWpK3s+peUOLZXg@mail.gmail.com>
+X-Forwarded-Message-Id: <CA+YB3rZ4_QMScrXSisdB8epxieAs421vAJCzWpK3s+peUOLZXg@mail.gmail.com>
+Subject: 2014 OpenEmbedded General Aseembly Announcement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,62 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Oct 2014 21:05:42 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 12 Oct 2014 21:38:06 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On 10/11/2014 12:16 PM, Peter A. Bigot wrote:
-> Back at 
-> http://lists.openembedded.org/pipermail/openembedded-core/2011-December/053836.html 
-> it was noted that the dbus home directory /var/lib/dbus on the target 
-> was using the build host uid/gid.  Various discussion agreed this 
-> shouldn't happen, but there was no resolution in the thread.
->
-> I found https://bugzilla.yoctoproject.org/show_bug.cgi?id=1711 which 
-> is marked fixed, but on a newly installed system I find:
->
-> root@beaglebone:~# ls -l /var/lib
-> total 52
-> drwxr-xr-x 2 root root 4096 Oct 11  2014 alsa
-> drwxr-xr-x 2 root root 4096 Oct 11  2014 arpd
-> drwxr-xr-x 2 root root 4096 Oct 11 12:30 connman
-> drwxr-xr-x 2  102  105 4096 Oct 11  2014 dbus
->
-> where the dbus uid/gid is from my host system as shown by:
->
-> root@beaglebone:~# grep dbus /etc/passwd
-> messagebus:x:999:998::/var/lib/dbus:/bin/false
-> llc[140]$ grep dbus /etc/passwd
-> messagebus:x:102:105::/var/run/dbus:/bin/false
+The eV General Assembly is Tuesday. I'd also like to invite other people
+from the community to join us. This is an good time to join the OE eV. I
+promise to keep the business part of the meeting short so we can spend
+time talking about the future of the OpenEmbedded organization.
 
-Pilot error.  This ultimately turned out to be a side-effect of the way 
-I create my image media: I unpacking the rootfs tar file onto a mounted 
-sdcard outside the pseudo environment and forgot that tar records 
-user/group by name not uid/gid.
+If you are interested in joining the eV, send me a bio with information
+about your OpenEmbedded involvement. I do have bios from several people
+already.
 
-Peter
+Philip
 
-> This arises in an image extending core-image-base building meta-ti's 
-> version of beaglebone.  (I'm actually trying to fix the same problem 
-> arising in a patch intended to make sure ntp's home directory exists, 
-> but the dbus one appears to be the same thing.)
->
-> The suggested workaround for opkg of using a pkg_postinst script 
-> doesn't work in my case because the rpm post-install script gets run 
-> on the build host that's creating rootfs.The ownership is wrong in the 
-> generated rootfs tar files whether or not there's a post-install 
-> script that tries to change it.
->
-> For my ntp patch I verified that removing the package and installing 
-> it on the target does work as expected.
->
-> Does anybody else see this sort of thing?
->
-> If not, where in the image packaging code is the magic that's supposed 
-> to help pseudo record who's really supposed to own the files and 
-> re-apply that when the image packaging is done?
->
-> Peter
+
+-------- Forwarded Message --------
+Subject: 2014 OpenEmbedded General Aseembly Announcement
+Date: Wed, 27 Aug 2014 09:02:33 -0700
+From: Jeff Osier-Mixon <jefro@jefro.net>
+Reply-To: openembedded-members@lists.openembedded.org
+To: openembedded-members@lists.openembedded.org
+<openembedded-members@lists.openembedded.org>
+
+The board would like to invite all members to attend the eV General
+Assembly. The Assembly will be held during the Embedded Linux
+Conference in Düsseldorf, Germany
+(http://events.linuxfoundation.org/events/embedded-linux-conference-europe)
+at the Congress Centre Düsseldorf in room 4B, on Tuesday, October 14,
+2014, beginning at 1300.
+
+The agenda will contain the financial report. Additional agenda items
+may be submitted per the statutes. Please post agenda items here,
+along with your name if you intend to attend:
+
+http://openembedded.org/wiki/Dusseldorf,_2014
+
+That page also has a link to the proxy form. If you are not able to
+attend, please make sure someone who is attending has your signed
+form. More information on proxies will be sent next week.
+
+Some scheduling notes:
+
+ * The General Assembly is during ELCE this year, not afterward.
+ * There will be a Yocto Project Developer Day on October 16
+(https://www.yoctoproject.org/tools-resources/events/yocto-project-developer-day-elce-2014).
+
+thanks
+-- 
+Jeff Osier-Mixon @Intel
+Yocto Project Community Manager http://yoctoproject.org
+-- 
+_______________________________________________
+Openembedded-members mailing list
+Openembedded-members@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-members
 
 
 
