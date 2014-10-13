@@ -1,24 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B11856A362
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 26B336ACB8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Oct 2014 03:54:10 +0000 (UTC)
+	Mon, 13 Oct 2014 03:54:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9D3s95G017814
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9D3sChj012596
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 12 Oct 2014 20:54:10 -0700 (PDT)
+	Sun, 12 Oct 2014 20:54:12 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 12 Oct 2014 20:54:09 -0700
+	14.3.174.1; Sun, 12 Oct 2014 20:54:12 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Sun, 12 Oct 2014 23:53:56 -0400
-Message-ID: <cover.1413172183.git.bruce.ashfield@windriver.com>
+Date: Sun, 12 Oct 2014 23:53:59 -0400
+Message-ID: <6a01a5b6d5e737531135479f22ba4baf61c23597.1413172183.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1413172183.git.bruce.ashfield@windriver.com>
+References: <cover.1413172183.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/3] linux-yocto: 1.7 updates
+Subject: [PATCH 3/3] kernel-yocto: fix branch validation for AUTOREV, non machine_meta kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,52 +36,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 13 Oct 2014 03:54:16 -0000
 Content-Type: text/plain
 
-Richard (and patch collecting folks),
+The simplication of do_validate_branches missed a case where a custom
+kernel can supply SRCREV="${AUTOREV}", and not use SRCREV_machine at all.
 
-Here is what may be the final tweaks that are appropriate for the 1.7
-release. I'm holding other changes until after the release (like setting
-the qemu default kernel to be v3.17 again, and korg -stable updates),
-since time is short.
+In this case, we will incorrectly try and test the tree for a non-existent
+commit, and break the build.
 
-What we have here are:
+By simplying the condition of the check to look for an empty SRCREV_machine,
+we can skip manipulating the tree and testing for a SRCREV.
 
-  - The update to the full v3.17 release
-  - A fix for compilation issues in v3.10
-  - A branch validation fix which was breaking the yocto BSP AUTOREV builds
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/kernel-yocto.bbclass | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-I've built and booted my kernel-dev image, as well as build and booting
-sato for the qemu* machines.
-
-Grab what you like from the series.
-
-Cheers,
-
-Bruce
-
-The following changes since commit ccf5a4d2342c4fd40e4e0b332ea7e34e0bf175d4:
-
-  build-appliance-image: Update to dizzy head revision (2014-10-11 08:11:17 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (3):
-  linux-yocto/3.10: 8250/8250_dw: fix compile failure due to
-    stable/Yocto conflict
-  linux-yocto/3.17: v3.17 release and config
-  kernel-yocto: fix branch validation for AUTOREV, non machine_meta
-    kernels
-
- meta/classes/kernel-yocto.bbclass                  | 14 ++++++++------
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 14 +++++++-------
- meta/recipes-kernel/linux/linux-yocto_3.17.bb      | 18 +++++++++---------
- 6 files changed, 30 insertions(+), 28 deletions(-)
-
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 7718f9ab1b58..e672a0e3a5aa 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -288,12 +288,14 @@ do_validate_branches() {
+ 	# check and we can exit early
+ 	if [ "${machine_srcrev}" = "AUTOINC" ]; then
+ 		bbnote "SRCREV validation is not required for AUTOREV"
+-	elif [ "${machine_srcrev}" = "" ] && [ "${SRCREV}" != "AUTOINC" ]; then
+-		# SRCREV_machine_<MACHINE> was not set. This means that a custom recipe
+-		# that doesn't use the SRCREV_FORMAT "machine_meta" is being built. In
+-		# this case, we need to reset to the give SRCREV before heading to patching
+-		bbnote "custom recipe is being built, forcing SRCREV to ${SRCREV}"
+-		force_srcrev="${SRCREV}"
++	elif [ "${machine_srcrev}" = "" ]; then
++		if [ "${SRCREV}" != "AUTOINC" ]; then
++		       # SRCREV_machine_<MACHINE> was not set. This means that a custom recipe
++		       # that doesn't use the SRCREV_FORMAT "machine_meta" is being built. In
++		       # this case, we need to reset to the give SRCREV before heading to patching
++		       bbnote "custom recipe is being built, forcing SRCREV to ${SRCREV}"
++		       force_srcrev="${SRCREV}"
++		fi
+ 	else
+ 		git cat-file -t ${machine_srcrev} > /dev/null
+ 		if [ $? -ne 0 ]; then
 -- 
 1.8.1.2
 
