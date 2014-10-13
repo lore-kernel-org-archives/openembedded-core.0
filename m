@@ -1,34 +1,24 @@
-Return-Path: <openembedded-devel@urbanec.net>
-Received: from mail16.tpgi.com.au (mail16.tpgi.com.au [203.12.160.231])
-	by mail.openembedded.org (Postfix) with ESMTP id ECC3D65D56
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B11856A362
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Oct 2014 03:00:12 +0000 (UTC)
-X-TPG-Junk-Status: Message not scanned
-X-TPG-Antivirus: Passed
-X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
-	date=Mon, 13 Oct 2014 14:00:11 +1100
-Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
-	[60.242.171.118])
-	by mail16.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
-	(8.14.3/8.14.3) with ESMTP id s9D308Ef032462
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Oct 2014 14:00:11 +1100
-Received: from beep.urbanec.net ([192.168.42.2])
-	by gw.urbanec.net with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80.1) (envelope-from <openembedded-devel@urbanec.net>)
-	id 1XdVri-0000iN-PL for openembedded-core@lists.openembedded.org;
-	Mon, 13 Oct 2014 14:00:06 +1100
-Message-ID: <543B4036.7040606@urbanec.net>
-Date: Mon, 13 Oct 2014 14:00:06 +1100
-From: Peter Urbanec <openembedded-devel@urbanec.net>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
+	Mon, 13 Oct 2014 03:54:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9D3s95G017814
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 12 Oct 2014 20:54:10 -0700 (PDT)
+Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 12 Oct 2014 20:54:09 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Sun, 12 Oct 2014 23:53:56 -0400
+Message-ID: <cover.1413172183.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <54380BF4.6010205@urbanec.net>	 <54381C20.2060602@linux.intel.com>
-	<1413011133.7562.5.camel@ted>
-In-Reply-To: <1413011133.7562.5.camel@ted>
-Subject: Re: [PATCH] Fix for gcc bug 61144
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/3] linux-yocto: 1.7 updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,30 +31,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Oct 2014 03:00:19 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 Oct 2014 03:54:16 -0000
+Content-Type: text/plain
 
-On 11/10/14 18:05, Richard Purdie wrote:
-> On Fri, 2014-10-10 at 10:49 -0700, Saul Wold wrote:
->> Thank you for the patches.
->>
->> Please review the
->> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
->
-> Just to be clear, because of the important nature of the gcc fix and our
-> looming release deadlines, Saul has sent out a version of it in this
-> case. We don't normally do that.
+Richard (and patch collecting folks),
 
-Gentlemen,
+Here is what may be the final tweaks that are appropriate for the 1.7
+release. I'm holding other changes until after the release (like setting
+the qemu default kernel to be v3.17 again, and korg -stable updates),
+since time is short.
 
-Thanks for cleaning up the gcc patch and getting it in. Much appreciated!
+What we have here are:
 
-As far as the pre/postrm patch is concerned, I'll resubmit a little 
-later. Now that I have some feedback on the patch, I can see scope for 
-improvement. When I do re-submit, I'll heed the guidelines.
+  - The update to the full v3.17 release
+  - A fix for compilation issues in v3.10
+  - A branch validation fix which was breaking the yocto BSP AUTOREV builds
 
-Thanks for your guidance.
+I've built and booted my kernel-dev image, as well as build and booting
+sato for the qemu* machines.
 
-Peter
+Grab what you like from the series.
+
+Cheers,
+
+Bruce
+
+The following changes since commit ccf5a4d2342c4fd40e4e0b332ea7e34e0bf175d4:
+
+  build-appliance-image: Update to dizzy head revision (2014-10-11 08:11:17 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  linux-yocto/3.10: 8250/8250_dw: fix compile failure due to
+    stable/Yocto conflict
+  linux-yocto/3.17: v3.17 release and config
+  kernel-yocto: fix branch validation for AUTOREV, non machine_meta
+    kernels
+
+ meta/classes/kernel-yocto.bbclass                  | 14 ++++++++------
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 14 +++++++-------
+ meta/recipes-kernel/linux/linux-yocto_3.17.bb      | 18 +++++++++---------
+ 6 files changed, 30 insertions(+), 28 deletions(-)
+
+-- 
+1.8.1.2
+
 
