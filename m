@@ -1,26 +1,25 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 16908716D9
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa07-10.prod.phx3.secureserver.net
+	(p3plsmtpa07-10.prod.phx3.secureserver.net [173.201.192.239])
+	by mail.openembedded.org (Postfix) with ESMTP id 25EB36A362
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Oct 2014 10:46:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9DAkhM4006413
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 13 Oct 2014 03:46:43 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 13 Oct 2014 03:46:43 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
-	<tom.zanussi@linux.intel.com>
-Date: Mon, 13 Oct 2014 18:46:34 +0800
-Message-ID: <9f5aaf46212e253ed141fb5a23bc348e419604f4.1413196789.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1413196789.git.hongxu.jia@windriver.com>
-References: <cover.1413196789.git.hongxu.jia@windriver.com>
+	Mon, 13 Oct 2014 12:00:33 +0000 (UTC)
+Received: from [192.168.65.10] ([75.72.225.8])
+	by p3plsmtpa07-10.prod.phx3.secureserver.net with 
+	id 2c0X1p0040BVjqb01c0XCV; Mon, 13 Oct 2014 05:00:34 -0700
+Message-ID: <543BBEDE.20103@pabigot.com>
+Date: Mon, 13 Oct 2014 07:00:30 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-Subject: [PATCH 1/1] wic/bootimg-pcbios.py: checking the existance of syslinux
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <543965E7.3040806@pabigot.com> <543AED25.7070201@pabigot.com>
+	<2427853.ctRZJaqR28@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <2427853.ctRZJaqR28@peggleto-mobl5.ger.corp.intel.com>
+Subject: Re: dbus build host uid/gid leaking into target home directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,56 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Oct 2014 10:46:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 13 Oct 2014 12:00:43 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-While syslinux not existed in $bootimg_dir, there was a error:
+On 10/13/2014 04:13 AM, Paul Eggleton wrote:
+> On Sunday 12 October 2014 16:05:41 Peter A. Bigot wrote:
+>> On 10/11/2014 12:16 PM, Peter A. Bigot wrote:
+>>> Back at
+>>> http://lists.openembedded.org/pipermail/openembedded-core/2011-December/05
+>>> 3836.html it was noted that the dbus home directory /var/lib/dbus on the
+>>> target was using the build host uid/gid.  Various discussion agreed this
+>>> shouldn't happen, but there was no resolution in the thread.
+>>>
+>>> I found https://bugzilla.yoctoproject.org/show_bug.cgi?id=1711 which
+>>> is marked fixed, but on a newly installed system I find:
+>>>
+>>> root@beaglebone:~# ls -l /var/lib
+>>> total 52
+>>> drwxr-xr-x 2 root root 4096 Oct 11  2014 alsa
+>>> drwxr-xr-x 2 root root 4096 Oct 11  2014 arpd
+>>> drwxr-xr-x 2 root root 4096 Oct 11 12:30 connman
+>>> drwxr-xr-x 2  102  105 4096 Oct 11  2014 dbus
+>>>
+>>> where the dbus uid/gid is from my host system as shown by:
+>>>
+>>> root@beaglebone:~# grep dbus /etc/passwd
+>>> messagebus:x:999:998::/var/lib/dbus:/bin/false
+>>> llc[140]$ grep dbus /etc/passwd
+>>> messagebus:x:102:105::/var/run/dbus:/bin/false
+>> Pilot error.  This ultimately turned out to be a side-effect of the way
+>> I create my image media: I unpacking the rootfs tar file onto a mounted
+>> sdcard outside the pseudo environment and forgot that tar records
+>> user/group by name not uid/gid.
+> I used to use this method previously, and I guess it can still work if you're
+> not including certain packages in your image - but I wonder if we should note
+> this potential pitfall somewhere in the documentation. I'm not entirely sure
+> where such a note would go, though.
 
-$ wic create directdisk -e core-image-minimal
-...
-|Creating image(s)...
-|Error: exec_cmd: install -m 444 /home/jiahongxu/yocto/
-build-20141010-yocto/tmp/deploy/images/qemux86-64/syslinux/
-ldlinux.sys /var/tmp/wic/build/hdd/boot/ldlinux.sys
-returned '1' instead of 0
-...
+Possibly in the section on wic or anything that descibes image building, 
+since I expect wic doesn't have this issue.  I haven't used kickstart 
+for years but really liked the approach when I did, so I'll be switching 
+to wic next time I'm actively working OE. Arguably the classic 
+tar/cpio/non-fs rootfs images are fragile unless there's a way to unpack 
+them onto runtime media that preserves the name/id mappings defined 
+within the image itself.
 
-Add checking for the existance of syslinux to fix this issue.
-If syslinux didn't exist in anywhere, prompt user to build it.
-
-[YOCTO #6826]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- scripts/lib/wic/plugins/source/bootimg-pcbios.py | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index aceed20..6057bab 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -127,10 +127,19 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         'prepares' the partition to be incorporated into the image.
-         In this case, prepare content for legacy bios boot partition.
-         """
--        if not bootimg_dir:
-+        def _has_syslinux(dir):
-+            if dir:
-+                syslinux = "%s/syslinux" % dir
-+                if os.path.exists(syslinux):
-+                    return True
-+            return False
-+
-+        if not _has_syslinux(bootimg_dir):
-             bootimg_dir = get_bitbake_var("STAGING_DATADIR")
-             if not bootimg_dir:
-                 msger.error("Couldn't find STAGING_DATADIR, exiting\n")
-+            if not _has_syslinux(bootimg_dir):
-+                msger.error("Please build syslinux first\n")
-             # just so the result notes display it
-             cr.set_bootimg_dir(bootimg_dir)
- 
--- 
-1.9.1
-
+Peter
 
