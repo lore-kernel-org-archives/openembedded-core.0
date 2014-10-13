@@ -1,26 +1,40 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 12E3160167
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 2952460167
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Oct 2014 21:28:52 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9DLSrAd026165
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 13 Oct 2014 14:28:53 -0700 (PDT)
-Received: from e6410-2 (172.25.40.227) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 13 Oct 2014 14:28:52 -0700
-Date: Mon, 13 Oct 2014 16:28:51 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Message-ID: <20141013162851.58e820e6@e6410-2>
-In-Reply-To: <1413157795-1346-1-git-send-email-pab@pabigot.com>
-References: <1413157795-1346-1-git-send-email-pab@pabigot.com>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+	Mon, 13 Oct 2014 22:18:08 +0000 (UTC)
+Received: by mail-pd0-f180.google.com with SMTP id fp1so6224992pdb.39
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Oct 2014 15:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=GWOd/nVT8bR+LTI59vWHhQhhCUni5ZEhMrt9xglASnA=;
+	b=KwBqOspYP6zLCZFvmf887HKi4p90zxZW0jgNvVYnn9FCq2PnkJGR4XSuKZS1Qc45xJ
+	cxeaxAz6gi7A1KDpod/5KOsNX1ffrafJSvvA5EgO9NrOOkJiTX6Lcpd5VjPe3k3Qg79A
+	jVTSWPsWOHEfOEyc7dsihCCu39nddK1xRZIO5epcvtPQWR24w99XuBcBP91VD7/t6iNZ
+	kquqvOEvpQtxNYAvA/Ey3WiseS2uDEA1Whbj4d+iMHR5DWXNjkxhGxurNfcUN8OMnbKv
+	RN1DVgNMglIVE38LdaLPDydhr1VSIZCL/gR0XMHL9Eon+M+9cAeEhJ7exibPJuvU5937
+	OrDg==
+X-Received: by 10.70.63.70 with SMTP id e6mr1139644pds.27.1413238689854;
+	Mon, 13 Oct 2014 15:18:09 -0700 (PDT)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244]) by mx.google.com with ESMTPSA id
+	ah2sm12302716pad.10.2014.10.13.15.18.07 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 13 Oct 2014 15:18:09 -0700 (PDT)
+Message-ID: <543C4F99.9070409@gmail.com>
+Date: Tue, 14 Oct 2014 09:18:01 +1100
+From: Jonathan Liu <net147@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] pseudo+image.bbclass: changes to avoid host contamination
+To: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <543C4180.1050902@linux.intel.com>
+In-Reply-To: <543C4180.1050902@linux.intel.com>
+Subject: Re: License manifest OR handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +47,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Oct 2014 21:28:53 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 Oct 2014 22:18:15 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, 12 Oct 2014 18:49:52 -0500
-"Peter A. Bigot" <pab@pabigot.com> wrote:
+On 14/10/2014 8:17 AM, Aníbal Limón wrote:
+> Hi everybody,
+>
+> I'm working in one bug [1] related to License manifest creation and i 
+> have some concerns about what is
+> expected in License creation more specifically in the OR's handling.
+>
+> I re-implemented license creation function from shell to python for 
+> use oe.license module and added support
+> for take into account INCOMPATIBLE_LICENSES.
+>
+> For example: Currently if you have LICENSE set to (MPLv2 | GPLv2.1) & 
+> LGPLv3,
+>     - With INCOMPATIBLE_LICENSES not set the result is: MPLv2 LGPLv3.
+>     - With INCOMPATIBLE_LICENSES set to MPLv2 the result is: GPLv2.1 
+> LGPLv3.
+>
+> This is that oe.license model eval's the OR expression and if you have 
+> several OR only one is chosen, this is
+> the expected behavior?, if yes i think is needed to add priorities for 
+> license choose, example [2].
+>
+> Comments?
+>
+> Best regards.
+>
+> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=6765
+> [2] https://gist.github.com/kergoth/1590028
+I think license priority is a good idea. Would you be able to set 
+LICENSE_PRIORITY to a different values for specific recipes too?
 
-> I believe OE should add --without-passwd-fallback to the pseudo 1.6.2
-> configuration flags early in the 1.8 development cycle, to ensure there
-> are no host contamination issues.  I can think of no reason why the
-> build host passwd and group files should ever be considered suitable for
-> use in determining target user/group characteristics.
-
-I endorse this evaluation.
-
-I've been thinking about this more, and I'd like to wave a thought at people:
-
-I propose for consideration the idea that pseudo have a compile-time
-hard-coded default answer to "what is uid 0" and "what is gid 0", and use
-that instead of the "fallback path".
-
-The rationale is basically: Yes, it's a special case. But it's *the* special
-case. It's the special case that is the uid pseudo emulates by default, and
-it's the only one that most packages ever need. If we do this, then the only
-packages which need to depend on base-passwd are those which need to actually
-use a *non-root* uid/gid. And every such package had better already have
-a dependency either directly on the passwd stuff, or on some other package
-which does.
-
-I am pretty sure that this makes more sense than the default fallback to
-host passwd/group. I might want to preserve the option of that fallback, but
-make it a non-default.
-
-Anyone have strong feelings on this? Thoughts I may not have thought through
-yet? I don't know that I actually had a coherent reason in mind for the
-original fallback behavior, and this analysis convinces me that falling back
-to host uid/gid is probably wrong for many-to-most use cases.
-
-I guess it might make sense for something more like a debian package build
-where you really are targeting the host, but even then, I am not sure that the
-default host fallback is a good idea.
-
--s
--- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+Regards,
+Jonathan
 
