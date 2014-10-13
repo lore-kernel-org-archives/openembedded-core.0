@@ -1,33 +1,24 @@
-Return-Path: <openembedded-devel@urbanec.net>
-Received: from mail12.tpgi.com.au (mail12.tpgi.com.au [203.12.160.162])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B7F36A362
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A93BD6A362
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Oct 2014 05:23:17 +0000 (UTC)
-X-TPG-Junk-Status: Message not scanned
-X-TPG-Antivirus: Passed
-X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
-	date=Mon, 13 Oct 2014 16:23:16 +1100
-Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
-	[60.242.171.118])
-	by mail12.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
-	(8.14.3/8.14.3) with ESMTP id s9D5NEma019224; 
-	Mon, 13 Oct 2014 16:23:16 +1100
-Received: from beep.urbanec.net ([192.168.42.2])
-	by gw.urbanec.net with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80.1) (envelope-from <openembedded-devel@urbanec.net>)
-	id 1XdY6C-00082w-D9; Mon, 13 Oct 2014 16:23:12 +1100
-Message-ID: <543B61C0.6050500@urbanec.net>
-Date: Mon, 13 Oct 2014 16:23:12 +1100
-From: Peter Urbanec <openembedded-devel@urbanec.net>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
+	Mon, 13 Oct 2014 07:45:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9D7jLk1008048
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Oct 2014 00:45:22 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 13 Oct 2014 00:45:21 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Oct 2014 15:43:19 +0800
+Message-ID: <cover.1413186161.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: OE Core <openembedded-core@lists.openembedded.org>
-References: <54380D3A.8060904@urbanec.net>
-	<CANyK_8cZMz-JBdWku-yTgA1+RXbt0wGxww+eCf2CBMeb4cFXdA@mail.gmail.com>
-	<CANyK_8cZGNxd0=FKA1NK1Y69RaHT4bVry_FjixuQCMW1zPpsLA@mail.gmail.com>
-In-Reply-To: <CANyK_8cZGNxd0=FKA1NK1Y69RaHT4bVry_FjixuQCMW1zPpsLA@mail.gmail.com>
-Subject: Re: [PATCH] Better support for upgrading packages in opkg and update-rc.d.bbclass
+Subject: [PATCH 0/1] python-smartpm: Add checking for "rpm-ignoresize" option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,40 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Oct 2014 05:23:23 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 Oct 2014 07:45:24 -0000
+Content-Type: text/plain
 
-On 12/10/14 06:17, Paul Barker wrote:
-> opkg_remove_pkg is never called with from_upgrade set to a non-zero
-> value. The removal of an old package during an upgrade is handled by
-> directly calling remove_data_files_and_list and
-> remove_maintainer_scripts from opkg_install_pkg. The desired behaviour
-> is given in the comments in prerm_upgrade_old_pkg in opkg_install.c,
-> the behaviour given by the comment in that function just needs
-> implementing.
+The following changes since commit ccf5a4d2342c4fd40e4e0b332ea7e34e0bf175d4:
 
-Indeed, I got fooled by looking at the call to opkg_install_pkg(pkg, 1)
+  build-appliance-image: Update to dizzy head revision (2014-10-11 08:11:17 +0100)
 
-> This is already entered as issue 104 in the opkg issue tracker:
-> https://code.google.com/p/opkg/issues/detail?id=104
+are available in the git repository at:
 
-So it is. Slightly more work than my trivial opkg patch, but then again, 
-my trivial opkg patch is not much use ;-) Please disregard it.
+  git://git.pokylinux.org/poky-contrib chonglu/smart
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/smart
 
-> Have you tested this patch before submitting it?
+Chong Lu (1):
+  python-smartpm: Add checking for "rpm-ignoresize" option
 
-To be honest, I have not tested the opkg "upgrade" patch in isolation. I 
-have tested the opkg patch for multiple package upgrade case together 
-with my changes to update-rc.d.bbclass changes (i.e. the entire patch I 
-posted to the oe-core list) and this has solved the problems that I 
-encountered initially. The "fix" for my use case is due to the changes 
-in the way the prerm, postrm and postinst scripts work, but reviewing 
-those changes, that's not good enough either.
+ meta/lib/oe/package_manager.py                     |  1 +
+ .../smart-add-for-rpm-ignoresize-check.patch       | 37 ++++++++++++++++++++++
+ .../python/python-smartpm_1.4.1.bb                 |  1 +
+ 3 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-add-for-rpm-ignoresize-check.patch
 
-Thanks for the review.
+-- 
+1.9.1
 
-I'll try again later...
-
-Peter
 
