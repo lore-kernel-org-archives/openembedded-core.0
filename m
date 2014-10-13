@@ -1,40 +1,25 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 2952460167
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa08-07.prod.phx3.secureserver.net
+	(p3plsmtpa08-07.prod.phx3.secureserver.net [173.201.193.108])
+	by mail.openembedded.org (Postfix) with ESMTP id 6949260167
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Oct 2014 22:18:08 +0000 (UTC)
-Received: by mail-pd0-f180.google.com with SMTP id fp1so6224992pdb.39
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Oct 2014 15:18:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=GWOd/nVT8bR+LTI59vWHhQhhCUni5ZEhMrt9xglASnA=;
-	b=KwBqOspYP6zLCZFvmf887HKi4p90zxZW0jgNvVYnn9FCq2PnkJGR4XSuKZS1Qc45xJ
-	cxeaxAz6gi7A1KDpod/5KOsNX1ffrafJSvvA5EgO9NrOOkJiTX6Lcpd5VjPe3k3Qg79A
-	jVTSWPsWOHEfOEyc7dsihCCu39nddK1xRZIO5epcvtPQWR24w99XuBcBP91VD7/t6iNZ
-	kquqvOEvpQtxNYAvA/Ey3WiseS2uDEA1Whbj4d+iMHR5DWXNjkxhGxurNfcUN8OMnbKv
-	RN1DVgNMglIVE38LdaLPDydhr1VSIZCL/gR0XMHL9Eon+M+9cAeEhJ7exibPJuvU5937
-	OrDg==
-X-Received: by 10.70.63.70 with SMTP id e6mr1139644pds.27.1413238689854;
-	Mon, 13 Oct 2014 15:18:09 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244]) by mx.google.com with ESMTPSA id
-	ah2sm12302716pad.10.2014.10.13.15.18.07 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 Oct 2014 15:18:09 -0700 (PDT)
-Message-ID: <543C4F99.9070409@gmail.com>
-Date: Tue, 14 Oct 2014 09:18:01 +1100
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	Mon, 13 Oct 2014 22:29:30 +0000 (UTC)
+Received: from [192.168.65.10] ([75.72.225.8])
+	by p3plsmtpa08-07.prod.phx3.secureserver.net with 
+	id 2mVS1p00b0BVjqb01mVTeC; Mon, 13 Oct 2014 15:29:31 -0700
+Message-ID: <543C5246.30703@pabigot.com>
+Date: Mon, 13 Oct 2014 17:29:26 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-To: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <543C4180.1050902@linux.intel.com>
-In-Reply-To: <543C4180.1050902@linux.intel.com>
-Subject: Re: License manifest OR handling
+To: Peter Seebach <peter.seebach@windriver.com>
+References: <1413157795-1346-1-git-send-email-pab@pabigot.com>
+	<20141013162851.58e820e6@e6410-2>
+In-Reply-To: <20141013162851.58e820e6@e6410-2>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/3] pseudo+image.bbclass: changes to avoid host contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,41 +32,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Oct 2014 22:18:15 -0000
+X-List-Received-Date: Mon, 13 Oct 2014 22:29:37 -0000
+Content-Type: multipart/alternative;
+	boundary="------------070400090704020407030406"
+
+--------------070400090704020407030406
 Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 10/13/2014 04:28 PM, Peter Seebach wrote:
+> On Sun, 12 Oct 2014 18:49:52 -0500
+> "Peter A. Bigot" <pab@pabigot.com> wrote:
+>
+>> I believe OE should add --without-passwd-fallback to the pseudo 1.6.2
+>> configuration flags early in the 1.8 development cycle, to ensure there
+>> are no host contamination issues.  I can think of no reason why the
+>> build host passwd and group files should ever be considered suitable for
+>> use in determining target user/group characteristics.
+> I endorse this evaluation.
+>
+> I've been thinking about this more, and I'd like to wave a thought at people:
+>
+> I propose for consideration the idea that pseudo have a compile-time
+> hard-coded default answer to "what is uid 0" and "what is gid 0", and use
+> that instead of the "fallback path".
+>
+> The rationale is basically: Yes, it's a special case. But it's *the* special
+> case. It's the special case that is the uid pseudo emulates by default, and
+> it's the only one that most packages ever need. If we do this, then the only
+> packages which need to depend on base-passwd are those which need to actually
+> use a *non-root* uid/gid. And every such package had better already have
+> a dependency either directly on the passwd stuff, or on some other package
+> which does.
+
+
+As I noted in an off-list message:
+
+    The thing that worries me is the slippery slope of assumptions.
+    Sure, assume that pw_name for uid 0 is "root". *Probably* pw_gid is
+    0, but is that required by some standard?  pw_dir could be "/" or
+    "/home/root"; which one?  "/bin/sh"?  Not on Ubuntu.  pw_gecos?
+    Guesses can be made for all those, but for many there might be a
+    legitimate reason why the actual final passwd file on the target
+    selects different values, and decisions made based on the guesses
+    might result in very difficult to diagnose inconsistencies.
+
+
+Basically, even if "root" is a special case, taking this path means 
+making assumptions about what the application is doing based on what 
+system/libc functions it invokes.  Too often when somebody assumes a 
+general tool will only be used specific ways, somebody else will prove 
+them wrong.
+
+I can't say it won't turn out to be the best approach, but I'd like to 
+see some thought applied to how the dependency on base-passwd might be 
+added without modifying every recipe.  E.g., something like:
+
+DEPENDS_INSTALL ?= "base-passd:do_populate_sysroot"
+d.appendVarFlag('do_install', 'depends', d.expand(' ${DEPENDS_INSTALL}'))
+
+down in base.bbclass.  (Or whatever is necessary to get the intent of 
+that snippet.)
+
+> I am pretty sure that this makes more sense than the default fallback to
+> host passwd/group. I might want to preserve the option of that fallback, but
+> make it a non-default.
+>
+> Anyone have strong feelings on this? Thoughts I may not have thought through
+> yet? I don't know that I actually had a coherent reason in mind for the
+> original fallback behavior, and this analysis convinces me that falling back
+> to host uid/gid is probably wrong for many-to-most use cases.
+>
+> I guess it might make sense for something more like a debian package build
+> where you really are targeting the host, but even then, I am not sure that the
+> default host fallback is a good idea.
+
+I can't offhand think of a reason host fallback would be necessary, but 
+since it already exists keeping it as a non-default option is maybe 
+worthwhile (see "assumptions" above).
+
+Note that with my enhancement you should be able to do:
+
+PSEUDO_PASSWD = "${STAGING_DIR_TARGET}:"
+
+and get the host files, but that's not a fixed fallback that's always 
+available regardless of invocation options.
+
+Peter
+
+--------------070400090704020407030406
+Content-Type: text/html; charset=windows-1252
 Content-Transfer-Encoding: 8bit
 
-On 14/10/2014 8:17 AM, Aníbal Limón wrote:
-> Hi everybody,
->
-> I'm working in one bug [1] related to License manifest creation and i 
-> have some concerns about what is
-> expected in License creation more specifically in the OR's handling.
->
-> I re-implemented license creation function from shell to python for 
-> use oe.license module and added support
-> for take into account INCOMPATIBLE_LICENSES.
->
-> For example: Currently if you have LICENSE set to (MPLv2 | GPLv2.1) & 
-> LGPLv3,
->     - With INCOMPATIBLE_LICENSES not set the result is: MPLv2 LGPLv3.
->     - With INCOMPATIBLE_LICENSES set to MPLv2 the result is: GPLv2.1 
-> LGPLv3.
->
-> This is that oe.license model eval's the OR expression and if you have 
-> several OR only one is chosen, this is
-> the expected behavior?, if yes i think is needed to add priorities for 
-> license choose, example [2].
->
-> Comments?
->
-> Best regards.
->
-> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=6765
-> [2] https://gist.github.com/kergoth/1590028
-I think license priority is a good idea. Would you be able to set 
-LICENSE_PRIORITY to a different values for specific recipes too?
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 10/13/2014 04:28 PM, Peter Seebach
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:20141013162851.58e820e6@e6410-2" type="cite">
+      <pre wrap="">On Sun, 12 Oct 2014 18:49:52 -0500
+"Peter A. Bigot" <a class="moz-txt-link-rfc2396E" href="mailto:pab@pabigot.com">&lt;pab@pabigot.com&gt;</a> wrote:
 
-Regards,
-Jonathan
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">I believe OE should add --without-passwd-fallback to the pseudo 1.6.2
+configuration flags early in the 1.8 development cycle, to ensure there
+are no host contamination issues.  I can think of no reason why the
+build host passwd and group files should ever be considered suitable for
+use in determining target user/group characteristics.
+</pre>
+      </blockquote>
+      <pre wrap="">
+I endorse this evaluation.
 
+I've been thinking about this more, and I'd like to wave a thought at people:
+
+I propose for consideration the idea that pseudo have a compile-time
+hard-coded default answer to "what is uid 0" and "what is gid 0", and use
+that instead of the "fallback path".
+
+The rationale is basically: Yes, it's a special case. But it's *the* special
+case. It's the special case that is the uid pseudo emulates by default, and
+it's the only one that most packages ever need. If we do this, then the only
+packages which need to depend on base-passwd are those which need to actually
+use a *non-root* uid/gid. And every such package had better already have
+a dependency either directly on the passwd stuff, or on some other package
+which does.</pre>
+    </blockquote>
+    <br>
+    <br>
+    As I noted in an off-list message:<br>
+    <br>
+    <blockquote>
+      The thing that worries me is the slippery slope of assumptions.
+      Sure, assume that pw_name for uid 0 is "root".  <b
+        class="moz-txt-star"><span class="moz-txt-tag">*</span>Probably<span
+          class="moz-txt-tag">*</span></b> pw_gid is 0, but is that
+      required by some standard?  pw_dir could be "/" or "/home/root";
+      which one?  "/bin/sh"?  Not on Ubuntu.  pw_gecos? Guesses can be
+      made for all those, but for many there might be a legitimate
+      reason why the actual final passwd file on the target selects
+      different values, and decisions made based on the guesses might
+      result in very difficult to diagnose inconsistencies.
+      <br>
+    </blockquote>
+    <br>
+    Basically, even if "root" is a special case, taking this path means
+    making assumptions about what the application is doing based on what
+    system/libc functions it invokes.  Too often when somebody assumes a
+    general tool will only be used specific ways, somebody else will
+    prove them wrong.<br>
+    <br>
+    I can't say it won't turn out to be the best approach, but I'd like
+    to see some thought applied to how the dependency on base-passwd
+    might be added without modifying every recipe.  E.g., something
+    like:<br>
+    <br>
+    DEPENDS_INSTALL ?= "base-passd:do_populate_sysroot"<br>
+    d.appendVarFlag('do_install', 'depends', d.expand('
+    ${DEPENDS_INSTALL}'))<br>
+    <br>
+    down in base.bbclass.  (Or whatever is necessary to get the intent
+    of that snippet.)<br>
+    <br>
+    <blockquote cite="mid:20141013162851.58e820e6@e6410-2" type="cite">
+      <pre wrap="">I am pretty sure that this makes more sense than the default fallback to
+host passwd/group. I might want to preserve the option of that fallback, but
+make it a non-default.
+
+Anyone have strong feelings on this? Thoughts I may not have thought through
+yet? I don't know that I actually had a coherent reason in mind for the
+original fallback behavior, and this analysis convinces me that falling back
+to host uid/gid is probably wrong for many-to-most use cases.
+
+I guess it might make sense for something more like a debian package build
+where you really are targeting the host, but even then, I am not sure that the
+default host fallback is a good idea.</pre>
+    </blockquote>
+    <br>
+    I can't offhand think of a reason host fallback would be necessary,
+    but since it already exists keeping it as a non-default option is
+    maybe worthwhile (see "assumptions" above).<br>
+    <br>
+    Note that with my enhancement you should be able to do:<br>
+    <br>
+    PSEUDO_PASSWD = "${STAGING_DIR_TARGET}:"<br>
+    <br>
+    and get the host files, but that's not a fixed fallback that's
+    always available regardless of invocation options.<br>
+    <br>
+    Peter<br>
+  </body>
+</html>
+
+--------------070400090704020407030406--
