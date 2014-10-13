@@ -1,26 +1,33 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 438886ACEC
+Return-Path: <openembedded-devel@urbanec.net>
+Received: from mail12.tpgi.com.au (mail12.tpgi.com.au [203.12.160.162])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B7F36A362
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Oct 2014 03:54:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9D3sAsC012590
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 12 Oct 2014 20:54:11 -0700 (PDT)
-Received: from yow-bashfiel-d3.wrs.com (128.224.56.46) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 12 Oct 2014 20:54:10 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Sun, 12 Oct 2014 23:53:57 -0400
-Message-ID: <9111a8eebb89ea3af262d06c06c7ca0db89f97db.1413172183.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1413172183.git.bruce.ashfield@windriver.com>
-References: <cover.1413172183.git.bruce.ashfield@windriver.com>
+	Mon, 13 Oct 2014 05:23:17 +0000 (UTC)
+X-TPG-Junk-Status: Message not scanned
+X-TPG-Antivirus: Passed
+X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
+	date=Mon, 13 Oct 2014 16:23:16 +1100
+Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
+	[60.242.171.118])
+	by mail12.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
+	(8.14.3/8.14.3) with ESMTP id s9D5NEma019224; 
+	Mon, 13 Oct 2014 16:23:16 +1100
+Received: from beep.urbanec.net ([192.168.42.2])
+	by gw.urbanec.net with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80.1) (envelope-from <openembedded-devel@urbanec.net>)
+	id 1XdY6C-00082w-D9; Mon, 13 Oct 2014 16:23:12 +1100
+Message-ID: <543B61C0.6050500@urbanec.net>
+Date: Mon, 13 Oct 2014 16:23:12 +1100
+From: Peter Urbanec <openembedded-devel@urbanec.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] linux-yocto/3.10: 8250/8250_dw: fix compile failure due to stable/Yocto conflict
+To: OE Core <openembedded-core@lists.openembedded.org>
+References: <54380D3A.8060904@urbanec.net>
+	<CANyK_8cZMz-JBdWku-yTgA1+RXbt0wGxww+eCf2CBMeb4cFXdA@mail.gmail.com>
+	<CANyK_8cZGNxd0=FKA1NK1Y69RaHT4bVry_FjixuQCMW1zPpsLA@mail.gmail.com>
+In-Reply-To: <CANyK_8cZGNxd0=FKA1NK1Y69RaHT4bVry_FjixuQCMW1zPpsLA@mail.gmail.com>
+Subject: Re: [PATCH] Better support for upgrading packages in opkg and update-rc.d.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,124 +40,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Oct 2014 03:54:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 13 Oct 2014 05:23:23 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Updating the SRCREVs for the following fix:
+On 12/10/14 06:17, Paul Barker wrote:
+> opkg_remove_pkg is never called with from_upgrade set to a non-zero
+> value. The removal of an old package during an upgrade is handled by
+> directly calling remove_data_files_and_list and
+> remove_maintainer_scripts from opkg_install_pkg. The desired behaviour
+> is given in the comments in prerm_upgrade_old_pkg in opkg_install.c,
+> the behaviour given by the comment in that function just needs
+> implementing.
 
-   8250/8250_dw: fix compile failure due to stable/Yocto conflict
+Indeed, I got fooled by looking at the call to opkg_install_pkg(pkg, 1)
 
-    As of merge 60a9d9fc565e4503dbb8705803e83d906afc4ad2, "Merge
-    tag 'v3.10.48' into standard/base" the 8250_dw.c fails to
-    compile due to an undeclared variable.
+> This is already entered as issue 104 in the opkg issue tracker:
+> https://code.google.com/p/opkg/issues/detail?id=104
 
-    This happens because stable brought in:
+So it is. Slightly more work than my trivial opkg patch, but then again, 
+my trivial opkg patch is not much use ;-) Please disregard it.
 
-     -------------------------
-     commit 6d5e79331417886196cb3a733bdb6645ba85bc42
-     Author: Tim Kryger <tim.kryger@linaro.org>
-     Date:   Tue Oct 1 10:18:08 2013 -0700
+> Have you tested this patch before submitting it?
 
-        serial: 8250_dw: Improve unwritable LCR workaround
+To be honest, I have not tested the opkg "upgrade" patch in isolation. I 
+have tested the opkg patch for multiple package upgrade case together 
+with my changes to update-rc.d.bbclass changes (i.e. the entire patch I 
+posted to the oe-core list) and this has solved the problems that I 
+encountered initially. The "fix" for my use case is due to the changes 
+in the way the prerm, postrm and postinst scripts work, but reviewing 
+those changes, that's not good enough either.
 
-        commit c49436b657d0a56a6ad90d14a7c3041add7cf64d upstream.
+Thanks for the review.
 
-     [...]
+I'll try again later...
 
-        [wangnan: backport to 3.10.43:
-          - adjust context
-          - remove unneeded local var]
-        Signed-off-by: Wang Nan <wangnan0@huawei.com>
-        Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-     ------------------------
-
-    ...which deletes the p->private_data declaration since it became
-    unused at that point, however in Yocto, we also have this:
-
-     -----------------------
-     commit 0e02b050c3cafbcbf9952125089a27e02d6ecea9
-     Author: David Daney <david.daney@cavium.com>
-     Date:   Wed Jun 19 20:37:27 2013 +0000
-
-        tty/8250_dw: Add support for OCTEON UARTS.
-
-     [...]
-
-        Signed-off-by: Ralf Baechle <ralf@linux-mips.org>
-        (cherry picked from commit d5f1af7ece96cf52e0b110c72210ac15c2f65438)
-        Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-     -----------------------
-
-    ...which _adds_ another user of the p->private_data.
-
-    Here we restore the declaration in order that 8250_dw compiles.
-
-    Signed-off-by: Ong Boon Leong <boon.leong.ong@intel.com>
-    [PG: add root cause info to commit log.]
-    Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 14 +++++++-------
- 3 files changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-index 10759720580c..ad55a2ed8082 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-@@ -3,8 +3,8 @@ KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--SRCREV_machine ?= "0abce5181274dbf37788ab8d2c62e135defd9956"
--SRCREV_machine_qemuppc ?= "c31f38edf5dec2c295632199dbfe3f5a221f7c16"
-+SRCREV_machine ?= "cbaa8c8b83a7da70b94cc6cc1a25090071af4c3f"
-+SRCREV_machine_qemuppc ?= "41338ab2a1c19435e24bbd162ff6b3f8b90d7afa"
- SRCREV_meta ?= "f79a00265eefbe2fffc2cdb03f67235497a9a87e"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-index a53ce544a39b..9e33aa692b63 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "3.10.55"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "8e055f3b669c65e83ba7128c248c632eedafad72"
-+SRCREV_machine ?= "3677ea7f9476458aa6dec440243de3a6fb1343a9"
- SRCREV_meta ?= "f79a00265eefbe2fffc2cdb03f67235497a9a87e"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-index ea6985659598..e612d36e28d0 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-@@ -10,13 +10,13 @@ KBRANCH_qemux86  ?= "standard/common-pc/base"
- KBRANCH_qemux86-64  ?= "standard/common-pc-64/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "a4195791d27ef50feb454765149ea34621ef8ed7"
--SRCREV_machine_qemumips ?= "ff747b3dff7dfa643b3447a348b901cacc5b6a16"
--SRCREV_machine_qemuppc ?= "46e30d608f4268b0ea77362398aae91f1d410ee3"
--SRCREV_machine_qemux86 ?= "8e055f3b669c65e83ba7128c248c632eedafad72"
--SRCREV_machine_qemux86-64 ?= "8e055f3b669c65e83ba7128c248c632eedafad72"
--SRCREV_machine_qemumips64 ?= "42457c568170cb11a9011382ebca4677f22b35c1"
--SRCREV_machine ?= "8e055f3b669c65e83ba7128c248c632eedafad72"
-+SRCREV_machine_qemuarm ?= "9c8da40f662806406940decf972841c1b86895a5"
-+SRCREV_machine_qemumips ?= "96adff9ce54c009ba90c3ddcaa6d16beb7a9c2b3"
-+SRCREV_machine_qemuppc ?= "cf3a9a021e2abb3b19807b2ba3c29c1d0918730b"
-+SRCREV_machine_qemux86 ?= "3677ea7f9476458aa6dec440243de3a6fb1343a9"
-+SRCREV_machine_qemux86-64 ?= "3677ea7f9476458aa6dec440243de3a6fb1343a9"
-+SRCREV_machine_qemumips64 ?= "89ab3082e01c4d98f9d14630aa904dba641c5373"
-+SRCREV_machine ?= "3677ea7f9476458aa6dec440243de3a6fb1343a9"
- SRCREV_meta ?= "f79a00265eefbe2fffc2cdb03f67235497a9a87e"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
--- 
-1.8.1.2
-
+Peter
 
