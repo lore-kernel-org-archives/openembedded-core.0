@@ -1,36 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 966A56A362;
-	Mon, 13 Oct 2014 07:55:06 +0000 (UTC)
-Received: by mail-wi0-f171.google.com with SMTP id em10so6600454wid.16
-	for <multiple recipients>; Mon, 13 Oct 2014 00:55:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=qBo/bdamO1VT5vJytDsYZh9dTUAa8Pj4vBFt6IJ0lQE=;
-	b=Sc/A98QhP4mSruRku4GYjeO+rcezg0nyaR8SPmmZLIHlpkH7eqmBqHTSai8SkdcthE
-	rs5OSzYymo1qePSPcTG+b0di9LnUEavgRTJofVxM4lwYvd5B0b0HG2MwXFATGtMAjvlr
-	C/LVmLGwwq2CKLU37XAfelHjNe1VNjAcUlYzw5uW9zxJCoeohlIdx5ZtsOtz/CBPdC2A
-	p7fIqMJT55nO7eIeldh6f6k0zJ39MrYN2bvf01yfC7VxYpXOL/40Ina5rBPUFWg4i71L
-	kpy3218Frsr9pwJ0TnnLiuJgmNu4MOJLWvjhthuuaEtqXI2fisOzS/W6eX/KwQvv9BiP
-	7h7g==
-X-Received: by 10.180.106.102 with SMTP id gt6mr18399821wib.78.1413186907116; 
-	Mon, 13 Oct 2014 00:55:07 -0700 (PDT)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	u7sm11252368wif.7.2014.10.13.00.55.06 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 Oct 2014 00:55:06 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 13 Oct 2014 09:56:52 +0200
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20141013075652.GE3000@jama>
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C09B6A362
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Oct 2014 09:04:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9D94fVb015515
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Oct 2014 02:04:45 -0700 (PDT)
+Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Mon, 13 Oct 2014 02:04:41 -0700
+Message-ID: <543B95F0.8010707@windriver.com>
+Date: Mon, 13 Oct 2014 17:05:52 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: State of bitbake world, Failed tasks 2014-10-13, QA issues
+To: <openembedded-core@lists.openembedded.org>
+References: <1407488988-14910-1-git-send-email-sujith.h@gmail.com>	<53E511E2.10300@linux.intel.com>
+	<CADyYWLma=JqZF=dJRysw7H4HHWSSKdgcpJe4kL3-As9pcwbK5Q@mail.gmail.com>
+In-Reply-To: <CADyYWLma=JqZF=dJRysw7H4HHWSSKdgcpJe4kL3-As9pcwbK5Q@mail.gmail.com>
+X-Originating-IP: [128.224.162.187]
+Subject: Re: [PATCH] psplash: Adding support for systemd service files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,291 +36,392 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Oct 2014 07:55:11 -0000
-X-Groupsio-MsgNum: 58579
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="dDnEQgWzhgf+8aPe"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 13 Oct 2014 09:04:47 -0000
+Content-Type: multipart/alternative;
+	boundary="------------000009050202010307050500"
 
---dDnEQgWzhgf+8aPe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--------------000009050202010307050500
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-http://www.openembedded.org/wiki/Bitbake_World_Status
+Does anybody know what's the current state of this issue?
 
-=3D=3D Failed tasks 2014-10-13 =3D=3D
+Thanks,
+Chen Qi
 
-=3D=3D=3D common () =3D=3D=3D
-
-=3D=3D=3D common-x86 (0) =3D=3D=3D
-
-=3D=3D=3D qemuarm (0) =3D=3D=3D
-
-=3D=3D=3D qemux86 (0) =3D=3D=3D
-
-=3D=3D=3D qemux86_64 (0) =3D=3D=3D
-
-=3D=3D=3D Number of failed tasks =3D=3D=3D
-{| class=3Dwikitable
-|-
-||qemuarm       ||0
-||http://logs.nslu2-linux.org/buildlogs/oe/world//log.world.20141010_231804=
-=2Elog/||
-|-
-||qemux86       ||0
-||http://logs.nslu2-linux.org/buildlogs/oe/world//log.world.20141011_145654=
-=2Elog/||
-|-
-||qemux86_64    ||0
-||http://logs.nslu2-linux.org/buildlogs/oe/world//log.world.20141012_065401=
-=2Elog/||
-|}
-
-Thanks to fix in shlibs code the QA report looks better now. Thanks RP for =
-letting me know and Khem for the fix.
-
-3   already-stripped:
-1   libdir:
-18   textrel:
-10   build-deps:
-62   file-rdeps:
-0   version-going-backwards:
-
-3       already-stripped:
-qwt-6.0.1: File '/usr/lib/libqwt.so.6.0.1' from qwt was already stripped, t=
-his will prevent future debugging! [already-stripped]
-qwt-6.0.1: File '/usr/lib/libqwtmathml.so.6.0.1' from qwt was already strip=
-ped, this will prevent future debugging! [already-stripped]
-qwt-6.0.1: File '/usr/lib/qt4/plugins/designer/libqwt_designer_plugin.so' f=
-rom qwt was already stripped, this will prevent future debugging! [already-=
-stripped]
-
-
-1       libdir:
-chromium-dbg: found library in wrong location: /usr/bin/chrome/.debug/libff=
-mpegsumo.so [libdir]
-
-
-18      textrel:
-chromium-37.0.2062.94: ELF binary '/tmp/work/i586-oe-linux/chromium/37.0.20=
-62.94-r0/packages-split/chromium/usr/bin/chrome/libffmpegsumo.so' has reloc=
-ations in .text [textrel]
-gstreamer1.0-libav-1.4.1: ELF binary '/tmp/work/armv5te-oe-linux-gnueabi/gs=
-treamer1.0-libav/1.4.1-r0/packages-split/gstreamer1.0-libav/usr/lib/gstream=
-er-1.0/libgstlibav.so' has relocations in .text [textrel]
-gstreamer1.0-libav-1.4.1: ELF binary '/tmp/work/i586-oe-linux/gstreamer1.0-=
-libav/1.4.1-r0/packages-split/gstreamer1.0-libav/usr/lib/gstreamer-1.0/libg=
-stlibav.so' has relocations in .text [textrel]
-libav-9.16: ELF binary '/tmp/work/armv5te-oe-linux-gnueabi/libav/9.16-r0/pa=
-ckages-split/libavcodec/usr/lib/libavcodec.so.54.35.0' has relocations in .=
-text [textrel]
-libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-spli=
-t/libavcodec/usr/lib/libavcodec.so.54.35.0' has relocations in .text [textr=
-el]
-libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-spli=
-t/libavdevice/usr/lib/libavdevice.so.53.2.0' has relocations in .text [text=
-rel]
-libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-spli=
-t/libavfilter/usr/lib/libavfilter.so.3.3.0' has relocations in .text [textr=
-el]
-libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-spli=
-t/libavformat/usr/lib/libavformat.so.54.20.4' has relocations in .text [tex=
-trel]
-libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-spli=
-t/libavresample/usr/lib/libavresample.so.1.0.1' has relocations in .text [t=
-extrel]
-libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-spli=
-t/libavutil/usr/lib/libavutil.so.52.3.0' has relocations in .text [textrel]
-libav-9.16: ELF binary '/tmp/work/i586-oe-linux/libav/9.16-r0/packages-spli=
-t/libswscale/usr/lib/libswscale.so.2.1.1' has relocations in .text [textrel]
-libpostproc-52.3.0+gitAUTOINC+811db3b957: ELF binary '/tmp/work/armv5te-oe-=
-linux-gnueabi/libpostproc/52.3.0+gitAUTOINC+811db3b957-r0/packages-split/li=
-bpostproc/usr/lib/libpostproc.so.52.3.0' has relocations in .text [textrel]
-libpostproc-52.3.0+gitAUTOINC+811db3b957: ELF binary '/tmp/work/i586-oe-lin=
-ux/libpostproc/52.3.0+gitAUTOINC+811db3b957-r0/packages-split/libpostproc/u=
-sr/lib/libpostproc.so.52.3.0' has relocations in .text [textrel]
-mpg123-1.19.0: ELF binary '/tmp/work/i586-oe-linux/mpg123/1.19.0-r0/package=
-s-split/mpg123/usr/lib/libmpg123.so.0.40.1' has relocations in .text [textr=
-el]
-qtwebengine-5.3.2: ELF binary '/tmp/work/armv5te-oe-linux-gnueabi/qtwebengi=
-ne/5.3.2-r0/packages-split/qtwebengine/usr/lib/libQt0WebEngineCore.so.0.9.0=
-' has relocations in .text [textrel]
-qtwebkit-5.3.2: ELF binary '/tmp/work/i586-oe-linux/qtwebkit/5.3.2-r0/packa=
-ges-split/qtwebkit/usr/lib/libQt5WebKit.so.5.3.2' has relocations in .text =
-[textrel]
-webkit-efl-1.11.0: ELF binary '/tmp/work/i586-oe-linux/webkit-efl/1_1.11.0-=
-r0/packages-split/webkit-efl/usr/lib/libjavascriptcore_efl.so.1.11.0' has r=
-elocations in .text [textrel]
-webkit-gtk-1.8.3: ELF binary '/tmp/work/i586-oe-linux/webkit-gtk/1.8.3-r1/p=
-ackages-split/libjavascriptcore/usr/lib/libjavascriptcoregtk-1.0.so.0.13.4'=
- has relocations in .text [textrel]
-
-
-10      build-deps:
-exquisite-0.0.1+svnr82070: exquisite rdepends on initscripts-functions, but=
- it isn't a build dependency? [build-deps]
-gpm-1.99.7: gpm rdepends on initscripts-functions, but it isn't a build dep=
-endency? [build-deps]
-irda-utils-0.9.18: irda-utils rdepends on initscripts-functions, but it isn=
-'t a build dependency? [build-deps]
-libwebp-0.4.0: libwebp-bin rdepends on libgl-mesa, but it isn't a build dep=
-endency? [build-deps]
-libwebp-0.4.0: libwebp-bin rdepends on mesa-glut, but it isn't a build depe=
-ndency? [build-deps]
-proftpd-1.3.4b: proftpd rdepends on initscripts-functions, but it isn't a b=
-uild dependency? [build-deps]
-sysklogd-1.5: sysklogd rdepends on initscripts-functions, but it isn't a bu=
-ild dependency? [build-deps]
-tumbler-0.1.30: tumbler rdepends on gstreamer1.0, but it isn't a build depe=
-ndency? [build-deps]
-tumbler-0.1.30: tumbler rdepends on libgsttag-1.0, but it isn't a build dep=
-endency? [build-deps]
-xinetd-2.3.15: xinetd rdepends on initscripts-functions, but it isn't a bui=
-ld dependency? [build-deps]
-
-
-62      file-rdeps:
-chkconfig-1.3.58: chkconfig requires libnewt.so()(64bit), but no providers =
-in its RDEPENDS [file-rdeps]
-chkconfig-1.3.58: chkconfig requires libnewt.so, but no providers in its RD=
-EPENDS [file-rdeps]
-cloud9-0.6: cloud9 requires /bin/bash, but no providers in its RDEPENDS [fi=
-le-rdeps]
-docbook-xsl-stylesheets-1.78.1: docbook-xsl-stylesheets requires /usr/bin/p=
-erl, /bin/bash, but no providers in its RDEPENDS [file-rdeps]
-dpkg-1.17.4: dpkg requires /usr/bin/perl, but no providers in its RDEPENDS =
-[file-rdeps]
-dvb-apps-1.1.1: dvb-apps requires libucsi.so()(64bit), libdvbapi.so()(64bit=
-), libdvbcfg.so()(64bit), libdvben50221.so()(64bit), libdvbsec.so()(64bit),=
- but no providers in its RDEPENDS [file-rdeps]
-dvb-apps-1.1.1: dvb-apps requires libucsi.so, libdvben50221.so, libdvbsec.s=
-o, libdvbcfg.so, libdvbapi.so, but no providers in its RDEPENDS [file-rdeps]
-dvb-apps-1.1.1: dvb-femon requires libdvbapi.so()(64bit), but no providers =
-in its RDEPENDS [file-rdeps]
-dvb-apps-1.1.1: dvb-femon requires libdvbapi.so, but no providers in its RD=
-EPENDS [file-rdeps]
-dvb-apps-1.1.1: dvb-scan requires libdvbsec.so()(64bit), libdvbapi.so()(64b=
-it), libdvbcfg.so()(64bit), but no providers in its RDEPENDS [file-rdeps]
-dvb-apps-1.1.1: dvb-scan requires libdvbsec.so, libdvbcfg.so, libdvbapi.so,=
- but no providers in its RDEPENDS [file-rdeps]
-dvb-apps-1.1.1: dvbdate requires libucsi.so()(64bit), libdvbapi.so()(64bit)=
-, but no providers in its RDEPENDS [file-rdeps]
-dvb-apps-1.1.1: dvbdate requires libucsi.so, libdvbapi.so, but no providers=
- in its RDEPENDS [file-rdeps]
-dvb-apps-1.1.1: dvbnet requires libdvbapi.so()(64bit), but no providers in =
-its RDEPENDS [file-rdeps]
-dvb-apps-1.1.1: dvbnet requires libdvbapi.so, but no providers in its RDEPE=
-NDS [file-rdeps]
-dvb-apps-1.1.1: dvbtraffic requires libdvbapi.so()(64bit), but no providers=
- in its RDEPENDS [file-rdeps]
-dvb-apps-1.1.1: dvbtraffic requires libdvbapi.so, but no providers in its R=
-DEPENDS [file-rdeps]
-fakeroot-1.18.4: fakeroot requires /bin/bash, but no providers in its RDEPE=
-NDS [file-rdeps]
-fbida-2.09+gitAUTOINC+6aa5563cb3: fbida requires /bin/bash, but no provider=
-s in its RDEPENDS [file-rdeps]
-foxtrotgps-1.1.1: foxtrotgps requires /usr/bin/python, /usr/bin/perl, but n=
-o providers in its RDEPENDS [file-rdeps]
-gammu-1.32.0: gammu requires /bin/bash, but no providers in its RDEPENDS [f=
-ile-rdeps]
-gammu-1.32.0: gammu-dev requires /bin/bash, but no providers in its RDEPEND=
-S [file-rdeps]
-gateone-1.2: gateone requires /usr/bin/perl, /bin/bash, but no providers in=
- its RDEPENDS [file-rdeps]
-giflib-4.1.6: giflib-utils requires /usr/bin/perl, but no providers in its =
-RDEPENDS [file-rdeps]
-glibmm-2.36.2: glibmm-dev requires /usr/bin/perl, but no providers in its R=
-DEPENDS [file-rdeps]
-gnome-desktop-2.32.1: gnome-desktop requires /usr/bin/python, but no provid=
-ers in its RDEPENDS [file-rdeps]
-gnome-panel-2.32.1: gnome-panel requires /usr/bin/python, but no providers =
-in its RDEPENDS [file-rdeps]
-groff-1.22.2: groff requires /bin/sed, but no providers in its RDEPENDS [fi=
-le-rdeps]
-gupnp-0.20.12: gupnp-dev requires /usr/bin/python, but no providers in its =
-RDEPENDS [file-rdeps]
-hplip-3.12.6: hplip-filter requires /usr/bin/perl, but no providers in its =
-RDEPENDS [file-rdeps]
-libbonobo-2.32.1: libbonobo requires /usr/bin/perl, but no providers in its=
- RDEPENDS [file-rdeps]
-libgphoto2-2.4.11: libgphoto2 requires /bin/bash, but no providers in its R=
-DEPENDS [file-rdeps]
-libhugetlbfs-2.18: libhugetlbfs requires /bin/bash, /usr/bin/perl, but no p=
-roviders in its RDEPENDS [file-rdeps]
-libhugetlbfs-2.18: libhugetlbfs-tests requires /bin/bash, but no providers =
-in its RDEPENDS [file-rdeps]
-libnewt-0.52.17: whiptail requires libnewt.so()(64bit), but no providers in=
- its RDEPENDS [file-rdeps]
-libnewt-0.52.17: whiptail requires libnewt.so, but no providers in its RDEP=
-ENDS [file-rdeps]
-libnewt-python-0.52.17: libnewt-python requires libnewt.so()(64bit), but no=
- providers in its RDEPENDS [file-rdeps]
-libnewt-python-0.52.17: libnewt-python requires libnewt.so, but no provider=
-s in its RDEPENDS [file-rdeps]
-lio-utils-4.1+gitAUTOINC+28bd928655: lio-utils requires /bin/bash, but no p=
-roviders in its RDEPENDS [file-rdeps]
-lmsensors-config-1.0: lmsensors-config-cgi requires /usr/bin/rrdcgi, but no=
- providers in its RDEPENDS [file-rdeps]
-mime-support-3.48: mime-support requires /usr/bin/perl, but no providers in=
- its RDEPENDS [file-rdeps]
-nodejs-0.8.18: nodejs requires /bin/bash, but no providers in its RDEPENDS =
-[file-rdeps]
-numptyphysics-0.2+svnr109: numptyphysics requires /bin/bash, /usr/bin/perl,=
- but no providers in its RDEPENDS [file-rdeps]
-packagekit-0.5.6: packagekit requires /bin/bash, but no providers in its RD=
-EPENDS [file-rdeps]
-pcsc-lite-1.8.6: pcsc-lite requires /usr/bin/python, but no providers in it=
-s RDEPENDS [file-rdeps]
-php-5.4.33: php requires /tmp/work/armv5te-oe-linux-gnueabi/php/5.4.33-r0/i=
-mage/usr/bin/php, but no providers in its RDEPENDS [file-rdeps]
-php-5.4.33: php requires /tmp/work/core2-64-oe-linux/php/5.4.33-r0/image/us=
-r/bin/php, but no providers in its RDEPENDS [file-rdeps]
-php-5.4.33: php requires /tmp/work/i586-oe-linux/php/5.4.33-r0/image/usr/bi=
-n/php, but no providers in its RDEPENDS [file-rdeps]
-pm-qa-0.4.14: pm-qa requires /bin/bash, but no providers in its RDEPENDS [f=
-ile-rdeps]
-qt-creator-2.8.1: qt-creator requires /usr/bin/perl, but no providers in it=
-s RDEPENDS [file-rdeps]
-qtbase-5.3.2: qtbase-mkspecs requires /bin/bash, but no providers in its RD=
-EPENDS [file-rdeps]
-syslog-ng-3.5.4.1: syslog-ng requires /usr/bin/awk, but no providers in its=
- RDEPENDS [file-rdeps]
-systemd-216+gitAUTOINC+5d0ae62c66: systemd-kernel-install requires /bin/bas=
-h, but no providers in its RDEPENDS [file-rdeps]
-tracker-0.14.2: tracker-nautilus-extension requires libnautilus-extension.s=
-o.1()(64bit), but no providers in its RDEPENDS [file-rdeps]
-tracker-0.14.2: tracker-nautilus-extension requires libnautilus-extension.s=
-o.1, but no providers in its RDEPENDS [file-rdeps]
-ubx-utils-0.0.0+gitrAUTOINC+b63c0932dd: ubx-utils requires /bin/bash, but n=
-o providers in its RDEPENDS [file-rdeps]
-unionfs-fuse-0.26: unionfs-fuse requires /bin/bash, but no providers in its=
- RDEPENDS [file-rdeps]
-usbpath-0.0+svnr3172: usbpath requires /usr/bin/perl, but no providers in i=
-ts RDEPENDS [file-rdeps]
-webmin-1.700: webmin-module-ajaxterm requires /sbin/runscript, but no provi=
-ders in its RDEPENDS [file-rdeps]
-wvstreams-4.6.1: wvstreams requires /usr/bin/perl, but no providers in its =
-RDEPENDS [file-rdeps]
-xfce4-dev-tools-4.11.0: xfce4-dev-tools requires /bin/bash, but no provider=
-s in its RDEPENDS [file-rdeps]
-xmlto-0.0.25: xmlto requires /bin/bash, but no providers in its RDEPENDS [f=
-ile-rdeps]
+On 08/11/2014 06:00 PM, sujith h wrote:
+>
+>
+>
+> On Fri, Aug 8, 2014 at 11:37 PM, Saul Wold <sgw@linux.intel.com 
+> <mailto:sgw@linux.intel.com>> wrote:
+>
+>     On 08/08/2014 02:09 AM, Sujith H wrote:
+>
+>         From: Sujith H <Sujith_Haridasan@mentor.com
+>         <mailto:Sujith_Haridasan@mentor.com>>
+>
+>         If the DISTRO_FEATURES has systemd, then its better
+>         to have corresponding service files associated with
+>         the psplash. This change will help to do the same.
+>
+>     Can you propose a patch to the psplash upstream which is part of
+>     the Yocto Project (send the patch to yocto@yoctoproject.org
+>     <mailto:yocto@yoctoproject.org>) and then we can do a psplash
+>     upgrade to include these files directly?
+>
+>
+> Ok then I will submit the same patch to Yocto Project.
+>
+> Thanks,
+> Sujith H
+>
+>
+>     Thanks
+>             Sau!
+>
+>
+>         Signed-off-by: Muzaffar Mahmood <muzaffar_mahmood@mentor.com
+>         <mailto:muzaffar_mahmood@mentor.com>>
+>         Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com
+>         <mailto:Sujith_Haridasan@mentor.com>>
+>         ---
+>           meta/recipes-core/psplash/files/psplash-quit.service  | 11
+>         +++++++++++
+>           meta/recipes-core/psplash/files/psplash-start.service | 11
+>         +++++++++++
+>           meta/recipes-core/psplash/psplash_git.bb
+>         <http://psplash_git.bb>              | 12 +++++++++++-
+>           3 files changed, 33 insertions(+), 1 deletion(-)
+>           create mode 100644
+>         meta/recipes-core/psplash/files/psplash-quit.service
+>           create mode 100644
+>         meta/recipes-core/psplash/files/psplash-start.service
+>
+>         diff --git
+>         a/meta/recipes-core/psplash/files/psplash-quit.service
+>         b/meta/recipes-core/psplash/files/psplash-quit.service
+>         new file mode 100644
+>         index 0000000..14bd499
+>         --- /dev/null
+>         +++ b/meta/recipes-core/psplash/files/psplash-quit.service
+>         @@ -0,0 +1,11 @@
+>         +[Unit]
+>         +Description=Terminate Psplash Boot Screen
+>         +After=psplash-start.service
+>         +
+>         +[Service]
+>         +Type=oneshot
+>         +ExecStart=/usr/bin/psplash-write QUIT
+>         +TimeoutSec=20
+>         +
+>         +[Install]
+>         +WantedBy=multi-user.target
+>         diff --git
+>         a/meta/recipes-core/psplash/files/psplash-start.service
+>         b/meta/recipes-core/psplash/files/psplash-start.service
+>         new file mode 100644
+>         index 0000000..502b150
+>         --- /dev/null
+>         +++ b/meta/recipes-core/psplash/files/psplash-start.service
+>         @@ -0,0 +1,11 @@
+>         +[Unit]
+>         +Description=Starts Psplash Boot screen
+>         +Wants=systemd-vconsole-setup.service
+>         +After=systemd-vconsole-setup.service
+>         systemd-udev-trigger.service systemd-udevd.service
+>         +DefaultDependencies=no
+>         +
+>         +[Service]
+>         +ExecStart=/usr/bin/psplash
+>         +
+>         +[Install]
+>         +WantedBy=sysinit.target
+>         diff --git a/meta/recipes-core/psplash/psplash_git.bb
+>         <http://psplash_git.bb>
+>         b/meta/recipes-core/psplash/psplash_git.bb <http://psplash_git.bb>
+>         index 628ced4..16fa0ae 100644
+>         --- a/meta/recipes-core/psplash/psplash_git.bb
+>         <http://psplash_git.bb>
+>         +++ b/meta/recipes-core/psplash/psplash_git.bb
+>         <http://psplash_git.bb>
+>         @@ -11,6 +11,8 @@ PR = "r15"
+>
+>           SRC_URI = "git://git.yoctoproject.org/${BPN}
+>         <http://git.yoctoproject.org/$%7BBPN%7D> \
+>                      file://psplash-init \
+>         +           file://psplash-start.service \
+>         +           file://psplash-quit.service \
+>                      ${SPLASH_IMAGES}"
+>
+>           SPLASH_IMAGES = "file://psplash-poky-img.h;outsuffix=default"
+>         @@ -65,11 +67,14 @@ python __anonymous() {
+>
+>           S = "${WORKDIR}/git"
+>
+>         -inherit autotools pkgconfig update-rc.d update-alternatives
+>         +inherit autotools pkgconfig update-rc.d update-alternatives
+>         systemd
+>
+>           ALTERNATIVE_PRIORITY = "100"
+>           ALTERNATIVE_LINK_NAME[psplash] = "${bindir}/psplash"
+>
+>         +SYSTEMD_PACKAGES =
+>         "${@base_contains('DISTRO_FEATURES','systemd','${PN}','',d)}"
+>         +SYSTEMD_SERVICE_${PN} =
+>         "${@base_contains('DISTRO_FEATURES','systemd','psplash-start.service
+>         psplash-quit.service','',d)}"
+>         +
+>           python do_compile () {
+>               import shutil
+>
+>         @@ -103,6 +108,11 @@ do_install_append() {
+>                         install -m 0755 $i ${D}${bindir}/$i
+>                 done
+>                 rm -f ${D}${bindir}/psplash
+>         +
+>         +       if
+>         ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)};
+>         then
+>         +                install -d ${D}${systemd_unitdir}/system
+>         +                install -m 644 ${WORKDIR}/*.service
+>         ${D}/${systemd_unitdir}/system
+>         +        fi
+>           }
+>
+>           FILES_${PN} += "/mnt/.psplash"
+>
+>
+>
+>
+> -- 
+> സുജിത് ഹരിദാസന്
+> Bangalore
+> <Project>Contributor to KDE project
+> http://fci.wikia.com/wiki/Anti-DRM-Campaign
+> <Blog> http://sujithh.info
+>
+>
 
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+--------------000009050202010307050500
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---dDnEQgWzhgf+8aPe
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">Does anybody know what's the current
+      state of this issue?<br>
+      <br>
+      Thanks,<br>
+      Chen Qi<br>
+      <br>
+      On 08/11/2014 06:00 PM, sujith h wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CADyYWLma=JqZF=dJRysw7H4HHWSSKdgcpJe4kL3-As9pcwbK5Q@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <div dir="ltr"><br>
+        <div>
+          <div class="gmail_extra"><br>
+            <br>
+            <div class="gmail_quote">On Fri, Aug 8, 2014 at 11:37 PM,
+              Saul Wold <span dir="ltr">&lt;<a moz-do-not-send="true"
+                  href="mailto:sgw@linux.intel.com" target="_blank">sgw@linux.intel.com</a>&gt;</span>
+              wrote:<br>
+              <blockquote class="gmail_quote" style="margin:0 0 0
+                .8ex;border-left:1px #ccc solid;padding-left:1ex">
+                <div class="">On 08/08/2014 02:09 AM, Sujith H wrote:<br>
+                  <blockquote class="gmail_quote" style="margin:0 0 0
+                    .8ex;border-left:1px #ccc solid;padding-left:1ex">
+                    From: Sujith H &lt;<a moz-do-not-send="true"
+                      href="mailto:Sujith_Haridasan@mentor.com"
+                      target="_blank">Sujith_Haridasan@mentor.com</a>&gt;<br>
+                    <br>
+                    If the DISTRO_FEATURES has systemd, then its better<br>
+                    to have corresponding service files associated with<br>
+                    the psplash. This change will help to do the same.<br>
+                    <br>
+                  </blockquote>
+                </div>
+                Can you propose a patch to the psplash upstream which is
+                part of the Yocto Project (send the patch to <a
+                  moz-do-not-send="true"
+                  href="mailto:yocto@yoctoproject.org" target="_blank">yocto@yoctoproject.org</a>)
+                and then we can do a psplash upgrade to include these
+                files directly?<br>
+              </blockquote>
+              <div><br>
+              </div>
+              <div>Ok then I will submit the same patch to Yocto
+                Project.<br>
+                <br>
+              </div>
+              <div>Thanks,<br>
+                Sujith H <br>
+              </div>
+              <blockquote class="gmail_quote" style="margin:0 0 0
+                .8ex;border-left:1px #ccc solid;padding-left:1ex">
+                <br>
+                Thanks<br>
+                        Sau!
+                <div class="HOEnZb">
+                  <div class="h5"><br>
+                    <br>
+                    <blockquote class="gmail_quote" style="margin:0 0 0
+                      .8ex;border-left:1px #ccc solid;padding-left:1ex">
+                      Signed-off-by: Muzaffar Mahmood &lt;<a
+                        moz-do-not-send="true"
+                        href="mailto:muzaffar_mahmood@mentor.com"
+                        target="_blank">muzaffar_mahmood@mentor.com</a>&gt;<br>
+                      Signed-off-by: Sujith H &lt;<a
+                        moz-do-not-send="true"
+                        href="mailto:Sujith_Haridasan@mentor.com"
+                        target="_blank">Sujith_Haridasan@mentor.com</a>&gt;<br>
+                      ---<br>
+                        meta/recipes-core/psplash/files/psplash-quit.service
+                       | 11 +++++++++++<br>
+                        meta/recipes-core/psplash/files/psplash-start.service
+                      | 11 +++++++++++<br>
+                        meta/recipes-core/psplash/<a
+                        moz-do-not-send="true"
+                        href="http://psplash_git.bb" target="_blank">psplash_git.bb</a>
+                                   | 12 +++++++++++-<br>
+                        3 files changed, 33 insertions(+), 1 deletion(-)<br>
+                        create mode 100644 meta/recipes-core/psplash/files/psplash-quit.service<br>
+                        create mode 100644 meta/recipes-core/psplash/files/psplash-start.service<br>
+                      <br>
+                      diff --git a/meta/recipes-core/psplash/files/psplash-quit.service
+                      b/meta/recipes-core/psplash/files/psplash-quit.service<br>
+                      new file mode 100644<br>
+                      index 0000000..14bd499<br>
+                      --- /dev/null<br>
+                      +++ b/meta/recipes-core/psplash/files/psplash-quit.service<br>
+                      @@ -0,0 +1,11 @@<br>
+                      +[Unit]<br>
+                      +Description=Terminate Psplash Boot Screen<br>
+                      +After=psplash-start.service<br>
+                      +<br>
+                      +[Service]<br>
+                      +Type=oneshot<br>
+                      +ExecStart=/usr/bin/psplash-write QUIT<br>
+                      +TimeoutSec=20<br>
+                      +<br>
+                      +[Install]<br>
+                      +WantedBy=multi-user.target<br>
+                      diff --git a/meta/recipes-core/psplash/files/psplash-start.service
+                      b/meta/recipes-core/psplash/files/psplash-start.service<br>
+                      new file mode 100644<br>
+                      index 0000000..502b150<br>
+                      --- /dev/null<br>
+                      +++ b/meta/recipes-core/psplash/files/psplash-start.service<br>
+                      @@ -0,0 +1,11 @@<br>
+                      +[Unit]<br>
+                      +Description=Starts Psplash Boot screen<br>
+                      +Wants=systemd-vconsole-setup.service<br>
+                      +After=systemd-vconsole-setup.service
+                      systemd-udev-trigger.service systemd-udevd.service<br>
+                      +DefaultDependencies=no<br>
+                      +<br>
+                      +[Service]<br>
+                      +ExecStart=/usr/bin/psplash<br>
+                      +<br>
+                      +[Install]<br>
+                      +WantedBy=sysinit.target<br>
+                      diff --git a/meta/recipes-core/psplash/<a
+                        moz-do-not-send="true"
+                        href="http://psplash_git.bb" target="_blank">psplash_git.bb</a>
+                      b/meta/recipes-core/psplash/<a
+                        moz-do-not-send="true"
+                        href="http://psplash_git.bb" target="_blank">psplash_git.bb</a><br>
+                      index 628ced4..16fa0ae 100644<br>
+                      --- a/meta/recipes-core/psplash/<a
+                        moz-do-not-send="true"
+                        href="http://psplash_git.bb" target="_blank">psplash_git.bb</a><br>
+                      +++ b/meta/recipes-core/psplash/<a
+                        moz-do-not-send="true"
+                        href="http://psplash_git.bb" target="_blank">psplash_git.bb</a><br>
+                      @@ -11,6 +11,8 @@ PR = "r15"<br>
+                      <br>
+                        SRC_URI = "git://<a moz-do-not-send="true"
+                        href="http://git.yoctoproject.org/$%7BBPN%7D"
+                        target="_blank">git.yoctoproject.org/${BPN}</a>
+                      \<br>
+                                   <a class="moz-txt-link-freetext" href="file://psplash-init">file://psplash-init</a> \<br>
+                      +           <a class="moz-txt-link-freetext" href="file://psplash-start.service">file://psplash-start.service</a> \<br>
+                      +           <a class="moz-txt-link-freetext" href="file://psplash-quit.service">file://psplash-quit.service</a> \<br>
+                                   ${SPLASH_IMAGES}"<br>
+                      <br>
+                        SPLASH_IMAGES = <a class="moz-txt-link-rfc2396E" href="file://psplash-poky-img.h;outsuffix=default">"file://psplash-poky-img.h;outsuffix=default"</a><br>
+                      @@ -65,11 +67,14 @@ python __anonymous() {<br>
+                      <br>
+                        S = "${WORKDIR}/git"<br>
+                      <br>
+                      -inherit autotools pkgconfig update-rc.d
+                      update-alternatives<br>
+                      +inherit autotools pkgconfig update-rc.d
+                      update-alternatives systemd<br>
+                      <br>
+                        ALTERNATIVE_PRIORITY = "100"<br>
+                        ALTERNATIVE_LINK_NAME[psplash] =
+                      "${bindir}/psplash"<br>
+                      <br>
+                      +SYSTEMD_PACKAGES = "${@base_contains('DISTRO_FEATURES','systemd','${PN}','',d)}"<br>
+                      +SYSTEMD_SERVICE_${PN} =
+                      <a class="moz-txt-link-rfc2396E" href="mailto:${@base_contains('DISTRO_FEATURES','systemd','psplash-start.servicepsplash-quit.service','',d)}">"${@base_contains('DISTRO_FEATURES','systemd','psplash-start.service
+                      psplash-quit.service','',d)}"</a><br>
+                      +<br>
+                        python do_compile () {<br>
+                            import shutil<br>
+                      <br>
+                      @@ -103,6 +108,11 @@ do_install_append() {<br>
+                                      install -m 0755 $i
+                      ${D}${bindir}/$i<br>
+                              done<br>
+                              rm -f ${D}${bindir}/psplash<br>
+                      +<br>
+                      +       if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)};
+                      then<br>
+                      +                install -d
+                      ${D}${systemd_unitdir}/system<br>
+                      +                install -m 644
+                      ${WORKDIR}/*.service
+                      ${D}/${systemd_unitdir}/system<br>
+                      +        fi<br>
+                        }<br>
+                      <br>
+                        FILES_${PN} += "/mnt/.psplash"<br>
+                      <br>
+                    </blockquote>
+                  </div>
+                </div>
+              </blockquote>
+            </div>
+            <br>
+            <br clear="all">
+            <br>
+            -- <br>
+            സുജിത് ഹരിദാസന്<br>
+            Bangalore<br>
+            &lt;Project&gt;Contributor to KDE project<br>
+            <a moz-do-not-send="true"
+              href="http://fci.wikia.com/wiki/Anti-DRM-Campaign"
+              target="_blank">http://fci.wikia.com/wiki/Anti-DRM-Campaign</a><br>
+            &lt;Blog&gt; <a moz-do-not-send="true"
+              href="http://sujithh.info" target="_blank">http://sujithh.info</a><br>
+          </div>
+        </div>
+      </div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlQ7hcQACgkQN1Ujt2V2gBxF6ACfRDEuVe+OY7SLRd3RP24fFzoV
-PEUAnjJO6Pq2ntVPA5mIrTbCxI/biZz4
-=zqV0
------END PGP SIGNATURE-----
-
---dDnEQgWzhgf+8aPe--
+--------------000009050202010307050500--
