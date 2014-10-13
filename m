@@ -1,27 +1,23 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 95FF260DD7
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 130536ACEC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Oct 2014 01:30:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9D1UKfX011468
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 12 Oct 2014 18:30:20 -0700 (PDT)
-Received: from e6410-2 (172.25.40.227) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 12 Oct 2014 18:30:20 -0700
-Date: Sun, 12 Oct 2014 20:30:18 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Message-ID: <20141012203018.4874bb1d@e6410-2>
-In-Reply-To: <1413157795-1346-3-git-send-email-pab@pabigot.com>
-References: <1413157795-1346-1-git-send-email-pab@pabigot.com>
-	<1413157795-1346-3-git-send-email-pab@pabigot.com>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] pseudo: support multiple search directories in PSEUDO_PASSWD
+	Mon, 13 Oct 2014 02:08:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 12 Oct 2014 19:06:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,707,1406617200"; d="scan'208";a="587747014"
+Received: from rebeccas-ilbpg2.png.intel.com ([10.88.227.41])
+	by orsmga001.jf.intel.com with ESMTP; 12 Oct 2014 19:08:49 -0700
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Oct 2014 10:08:43 +0800
+Message-Id: <1413166123-2719-2-git-send-email-rebecca.swee.fun.chang@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1413166123-2719-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+References: <1413166123-2719-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [daisy] [PATCHv2 1/1] lttng-modules: Update to version 2.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,44 +30,278 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Oct 2014 01:30:21 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 Oct 2014 02:08:51 -0000
 
-On Sun, 12 Oct 2014 18:49:54 -0500
-"Peter A. Bigot" <pab@pabigot.com> wrote:
+lttng-modules breaks when building with kernel 3.10.43.
+This updates lttng-modules for 2.4.2 and it will also
+fixes the build failure with kernel 3.10.43.
 
-> ++		npasswd_paths = build_passwd_paths(NULL);
-> ++		if (npasswd_paths) {
-> ++			passwd_paths = malloc(npasswd_paths * sizeof(*passwd_paths));
-> ++			if (!passwd_paths) {
-> ++				pseudo_diag("couldn't allocate space for passwd paths.\n");
-> ++				exit(1);
-> ++			}
-> ++			build_passwd_paths(passwd_paths);
+The patch (bio-bvec-iter.patch) was removed since its
+fix was available in version 2.4.2.
 
-I'm slightly inclined to think that this might be better done with a function
-which counts colons and then builds the path list accordingly. But I
-basically like the idea of supporting a path list. As I recall, we talked
-about this early on, but for some reason I formed the theory that it wasn't
-necessary.
+Fixes for [YOCTO #6788]
 
-I'd point out that strictly speaking, the change from [] to * doesn't matter
-in function parameter lists, and I tend to prefer [] when the argument is
-logically an array rather than a pointer to a single item, except that this
-preference is not something I'm very consistent about.
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+---
+ .../lttng/lttng-modules/bio-bvec-iter.patch        |  156 --------------------
+ meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb   |   38 -----
+ meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb   |   38 +++++
+ 3 files changed, 38 insertions(+), 194 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb
 
-But this does seem to me to be correct.
-
-I'll have to think about it a bit because, while the "call once to find out
-how much storage you need, again to use the storage" idiom is pretty good, I
-think its primary benefit over simpler calling patterns is that it can be
-used with arbitrary memory allocation patterns or goals. In this case, with
-only one caller, we probably don't need it. That said, if I'm still busy this
-week (which looks likely) it's not a bad idea to merge this as-is and wait for
-1.6.3 for arguable improvements, since this is pretty clearly correct.
-
--s
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch b/meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+deleted file mode 100644
+index d6c66e4..0000000
+--- a/meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
++++ /dev/null
+@@ -1,156 +0,0 @@
+-Upstream-Status: Pending
+-
+-In 3.14, bi_sector and bi_size were moved into an iterator, thus
+-breaking any tracepoints that still expect them in the bio.  Fix up
+-the lttng-module tracepoints to use the new scheme when the kernel
+-version is >= 3.14.
+-
+-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+-
+-diff --git a/instrumentation/events/lttng-module/block.h b/instrumentation/events/lttng-module/block.h
+-index f3b8bff..0a61543 100644
+---- a/instrumentation/events/lttng-module/block.h
+-+++ b/instrumentation/events/lttng-module/block.h
+-@@ -341,9 +341,15 @@ TRACE_EVENT(block_bio_bounce,
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev ?
+- 					  bio->bi_bdev->bd_dev : 0)
+-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+-+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_assign(sector, bio->bi_sector)
+- 		tp_assign(nr_sector, bio->bi_size >> 9)
+- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+- 	),
+- 
+-@@ -385,14 +391,24 @@ TRACE_EVENT(block_bio_complete,
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+-+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_assign(sector, bio->bi_sector)
+- 		tp_assign(nr_sector, bio->bi_size >> 9)
+-+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+-+
+- #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,38))
+- 		tp_assign(error, error)
+- #else
+- 		tp_assign(error, 0)
+- #endif
+-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+-+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 	),
+- 
+- 	TP_printk("%d,%d %s %llu + %u [%d]",
+-@@ -419,9 +435,15 @@ DECLARE_EVENT_CLASS(block_bio_merge,
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+-+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_assign(sector, bio->bi_sector)
+- 		tp_assign(nr_sector, bio->bi_size >> 9)
+- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+- 	),
+- 
+-@@ -485,9 +507,15 @@ TRACE_EVENT(block_bio_queue,
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+-+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_assign(sector, bio->bi_sector)
+- 		tp_assign(nr_sector, bio->bi_size >> 9)
+- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+- 	),
+- 
+-@@ -513,9 +541,15 @@ DECLARE_EVENT_CLASS(block_bio,
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev ? bio->bi_bdev->bd_dev : 0)
+-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+-+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_assign(sector, bio->bi_sector)
+- 		tp_assign(nr_sector, bio->bi_size >> 9)
+- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+- 	),
+- 
+-@@ -587,10 +621,17 @@ DECLARE_EVENT_CLASS(block_get_rq,
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio ? bio->bi_bdev->bd_dev : 0)
+-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+-+		tp_assign(sector, bio ? bio->bi_iter.bi_sector : 0)
+-+		tp_assign(nr_sector, bio ? bio->bi_iter.bi_size >> 9 : 0)
+-+		blk_fill_rwbs(rwbs, bio ? bio->bi_rw : 0,
+-+			      bio ? bio->bi_iter.bi_size >> 9 : 0)
+-+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_assign(sector, bio ? bio->bi_sector : 0)
+- 		tp_assign(nr_sector, bio ? bio->bi_size >> 9 : 0)
+- 		blk_fill_rwbs(rwbs, bio ? bio->bi_rw : 0,
+- 			      bio ? bio->bi_size >> 9 : 0)
+-+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+-         ),
+- 
+-@@ -759,9 +800,15 @@ TRACE_EVENT(block_split,
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+-+		tp_assign(new_sector, new_sector)
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+-+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_assign(sector, bio->bi_sector)
+- 		tp_assign(new_sector, new_sector)
+- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+- 	),
+- 
+-@@ -805,11 +852,19 @@ TRACE_EVENT(block_remap,
+- 
+- 	TP_fast_assign(
+- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+-+		tp_assign(sector, bio->bi_iter.bi_sector)
+-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+-+		tp_assign(old_dev, dev)
+-+		tp_assign(old_sector, from)
+-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+-+#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 		tp_assign(sector, bio->bi_sector)
+- 		tp_assign(nr_sector, bio->bi_size >> 9)
+- 		tp_assign(old_dev, dev)
+- 		tp_assign(old_sector, from)
+- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+-+#endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)) */
+- 	),
+- 
+- 	TP_printk("%d,%d %s %llu + %u <- (%d,%d) %llu",
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb
+deleted file mode 100644
+index aa01a8d..0000000
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb
++++ /dev/null
+@@ -1,38 +0,0 @@
+-SECTION = "devel"
+-SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
+-DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
+-LICENSE = "LGPLv2.1 & GPLv2"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=1412caf5a1aa90d6a48588a4794c0eac \
+-                    file://gpl-2.0.txt;md5=751419260aa954499f7abaabaa882bbe \
+-                    file://lgpl-2.1.txt;md5=243b725d71bb5df4a1e5920b344b86ad"
+-
+-DEPENDS = "virtual/kernel"
+-
+-inherit module
+-
+-SRCREV = "fb2c37799306d16fb590aebee6fad8be431264b7"
+-PV = "2.4.0"
+-
+-# lttng currently blacklists arm with gcc-4.8
+-COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips).*-linux'
+-
+-SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.4 \
+-           file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch \
+-           file://bio-bvec-iter.patch"
+-
+-export INSTALL_MOD_DIR="kernel/lttng-modules"
+-export KERNEL_SRC="${STAGING_KERNEL_DIR}"
+-
+-
+-S = "${WORKDIR}/git"
+-
+-do_install_append() {
+-	# Delete empty directories to avoid QA failures if no modules were built
+-	find ${D}/lib -depth -type d -empty -exec rmdir {} \;
+-}
+-
+-python do_package_prepend() {
+-    if not os.path.exists(os.path.join(d.getVar('D', True), 'lib/modules')):
+-        bb.warn("%s: no modules were created; this may be due to CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN', True))
+-}
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb b/meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb
+new file mode 100644
+index 0000000..1967631
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb
+@@ -0,0 +1,38 @@
++SECTION = "devel"
++SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
++DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
++LICENSE = "LGPLv2.1 & GPLv2"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=1412caf5a1aa90d6a48588a4794c0eac \
++                    file://gpl-2.0.txt;md5=751419260aa954499f7abaabaa882bbe \
++                    file://lgpl-2.1.txt;md5=243b725d71bb5df4a1e5920b344b86ad"
++
++DEPENDS = "virtual/kernel"
++
++inherit module
++
++SRCREV = "85016adfb21268836df48dfb5cda106391e72fd1"
++PV = "2.4.2"
++
++# lttng currently blacklists arm with gcc-4.8
++COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips).*-linux'
++
++SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.4 \
++           file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch \
++           "
++
++export INSTALL_MOD_DIR="kernel/lttng-modules"
++export KERNEL_SRC="${STAGING_KERNEL_DIR}"
++
++
++S = "${WORKDIR}/git"
++
++do_install_append() {
++	# Delete empty directories to avoid QA failures if no modules were built
++	find ${D}/lib -depth -type d -empty -exec rmdir {} \;
++}
++
++python do_package_prepend() {
++    if not os.path.exists(os.path.join(d.getVar('D', True), 'lib/modules')):
++        bb.warn("%s: no modules were created; this may be due to CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN', True))
++}
++
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+1.7.9.5
+
 
