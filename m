@@ -1,21 +1,34 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DE2C465D56
+Return-Path: <openembedded-devel@urbanec.net>
+Received: from mail16.tpgi.com.au (mail16.tpgi.com.au [203.12.160.231])
+	by mail.openembedded.org (Postfix) with ESMTP id ECC3D65D56
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Oct 2014 02:08:50 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 12 Oct 2014 19:06:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,707,1406617200"; d="scan'208";a="587747004"
-Received: from rebeccas-ilbpg2.png.intel.com ([10.88.227.41])
-	by orsmga001.jf.intel.com with ESMTP; 12 Oct 2014 19:08:46 -0700
-From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+	Mon, 13 Oct 2014 03:00:12 +0000 (UTC)
+X-TPG-Junk-Status: Message not scanned
+X-TPG-Antivirus: Passed
+X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
+	date=Mon, 13 Oct 2014 14:00:11 +1100
+Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
+	[60.242.171.118])
+	by mail16.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
+	(8.14.3/8.14.3) with ESMTP id s9D308Ef032462
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Oct 2014 14:00:11 +1100
+Received: from beep.urbanec.net ([192.168.42.2])
+	by gw.urbanec.net with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80.1) (envelope-from <openembedded-devel@urbanec.net>)
+	id 1XdVri-0000iN-PL for openembedded-core@lists.openembedded.org;
+	Mon, 13 Oct 2014 14:00:06 +1100
+Message-ID: <543B4036.7040606@urbanec.net>
+Date: Mon, 13 Oct 2014 14:00:06 +1100
+From: Peter Urbanec <openembedded-devel@urbanec.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Oct 2014 10:08:42 +0800
-Message-Id: <1413166123-2719-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [daisy] [PATCHv2 0/1] lttng-modules: update version to 2.4.2
+References: <54380BF4.6010205@urbanec.net>	 <54381C20.2060602@linux.intel.com>
+	<1413011133.7562.5.camel@ted>
+In-Reply-To: <1413011133.7562.5.camel@ted>
+Subject: Re: [PATCH] Fix for gcc bug 61144
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,40 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Oct 2014 02:08:51 -0000
+X-List-Received-Date: Mon, 13 Oct 2014 03:00:19 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Changelog V2:
-- Remove bio-bvec-iter.patch from the repo since it was fixed in version 2.4.2
+On 11/10/14 18:05, Richard Purdie wrote:
+> On Fri, 2014-10-10 at 10:49 -0700, Saul Wold wrote:
+>> Thank you for the patches.
+>>
+>> Please review the
+>> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+>
+> Just to be clear, because of the important nature of the gcc fix and our
+> looming release deadlines, Saul has sent out a version of it in this
+> case. We don't normally do that.
 
-Hi all,
+Gentlemen,
 
-This is a fix for [YOCTO #6788] where we encounter lttng-modules build
-failure with kernel version 3.10.43.
+Thanks for cleaning up the gcc patch and getting it in. Much appreciated!
 
-Upgrading the lttng-modules version to 2.4.2 and also removed additional
-patch (bio-bvec-iter.patch) as its fix is already available in version 2.4.2.
+As far as the pre/postrm patch is concerned, I'll resubmit a little 
+later. Now that I have some feedback on the patch, I can see scope for 
+improvement. When I do re-submit, I'll heed the guidelines.
 
-This version of lttng-modules has been verified with kernel version 3.10.43
-and older kernel version 3.10.40 to ensure it does not break older kernel
-version build. It is also being verified with kernel 3.14.4.
+Thanks for your guidance.
 
-Thank you.
-
-Regards,
-Rebecca
-
-Chang Rebecca Swee Fun (1):
-  lttng-modules: Update to version 2.4.2
-
- .../lttng/lttng-modules/bio-bvec-iter.patch        |  156 --------------------
- meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb   |   38 -----
- meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb   |   38 +++++
- 3 files changed, 38 insertions(+), 194 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb
-
--- 
-1.7.9.5
-
+Peter
 
