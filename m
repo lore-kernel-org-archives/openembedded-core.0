@@ -1,37 +1,24 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-qc0-f180.google.com (mail-qc0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id C6E3C6ACB8
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 16C456ACB8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Oct 2014 06:24:31 +0000 (UTC)
-Received: by mail-qc0-f180.google.com with SMTP id x3so6027231qcv.25
+	Tue, 14 Oct 2014 08:42:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9E8g5ZL002459
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Oct 2014 23:24:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=jsO8NUPQ2UR3l5fPK0q32EqZHxc7LWo5Cgi3wTtJM+8=;
-	b=lPaqxJmeux9g4R6ENi4kmYzB77r5x69YQzfAGnD7F5I0ulNxQrPJY2tX582iyaVZcx
-	RhLy2Ww4/udET2ZEjjt7czaldvSwBgPMFWqVa05t+IH7kk3VkJyGjKEjLLEPCG45Gy2/
-	iQhW34bBfb2Zr6to/fLun7wGYn5X1Wy3JyXnWWWzkwPvPIzpEIyAHq9QaaSbwF/2F2JQ
-	hkLI5betDUnj8R4vTqzWCibg7ZKvhYkxppZzP82rfax5LFD2ydYZaCEWH0NlzWs9OEfW
-	63f/b5NDhXupqEGDe9NLM21J9A6I6mh8gNGXhGXEgVIiHm17E3sqcWkPgGGJPc40H2Sr
-	WZ5Q==
-X-Received: by 10.140.39.11 with SMTP id u11mr5572217qgu.32.1413267872466;
-	Mon, 13 Oct 2014 23:24:32 -0700 (PDT)
+	Tue, 14 Oct 2014 01:42:05 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 14 Oct 2014 01:42:04 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 14 Oct 2014 16:39:58 +0800
+Message-ID: <cover.1413275947.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.140.142.78 with HTTP; Mon, 13 Oct 2014 23:23:52 -0700 (PDT)
-In-Reply-To: <2427853.ctRZJaqR28@peggleto-mobl5.ger.corp.intel.com>
-References: <543965E7.3040806@pabigot.com> <543AED25.7070201@pabigot.com>
-	<2427853.ctRZJaqR28@peggleto-mobl5.ger.corp.intel.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Tue, 14 Oct 2014 07:23:52 +0100
-X-Google-Sender-Auth: ZoP2pHZ_PAdoPied5KpEO0MQFZU
-Message-ID: <CANyK_8evAyhrmuyHKmk46sfJoF6fwjnF6h9aJoLn4GPGx_Xe1w@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: dbus build host uid/gid leaking into target home directory
+Subject: [PATCH 0/1] gconf: fix multilib conflict - org.gnome.GConf.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,39 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Oct 2014 06:24:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 14 Oct 2014 08:42:12 -0000
+Content-Type: text/plain
 
-On 13 October 2014 10:13, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> On Sunday 12 October 2014 16:05:41 Peter A. Bigot wrote:
->> Pilot error.  This ultimately turned out to be a side-effect of the way
->> I create my image media: I unpacking the rootfs tar file onto a mounted
->> sdcard outside the pseudo environment and forgot that tar records
->> user/group by name not uid/gid.
->
-> I used to use this method previously, and I guess it can still work if you're
-> not including certain packages in your image - but I wonder if we should note
-> this potential pitfall somewhere in the documentation. I'm not entirely sure
-> where such a note would go, though.
->
+The following changes since commit ccf5a4d2342c4fd40e4e0b332ea7e34e0bf175d4:
 
-It probably does need noting somewhere - I've been doing exactly this
-for the last year or so and never even thought that I might be risking
-bad uid/gid values. It makes sense now I think about it but it never
-crossed my mind.
+  build-appliance-image: Update to dizzy head revision (2014-10-11 08:11:17 +0100)
 
-Looking at 'man tar', there is a '--numeric-owner' option to always
-use numbers for user/group names. It might just be that we need to
-recommend using this option when untarring a rootfs onto a mounted
-volume. This option is present in GNU tar, I'm not sure about other
-implementations, and I haven't given it a proper test, but it looks
-like the thing we want.
+are available in the git repository at:
 
-Cheers,
+  git://git.pokylinux.org/poky-contrib chonglu/gconf
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/gconf
+
+Chong Lu (1):
+  gconf: fix multilib conflict - org.gnome.GConf.service
+
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
 -- 
-Paul Barker
+1.9.1
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
