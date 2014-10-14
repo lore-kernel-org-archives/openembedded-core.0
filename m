@@ -1,27 +1,37 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2158260167
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-qc0-f180.google.com (mail-qc0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id C6E3C6ACB8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Oct 2014 22:35:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9DMZkb8026842
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 13 Oct 2014 15:35:47 -0700 (PDT)
-Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 13 Oct 2014 15:35:46 -0700
-Date: Mon, 13 Oct 2014 17:35:45 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Message-ID: <20141013173545.0d2c5de0@e6410-2>
-In-Reply-To: <543C5246.30703@pabigot.com>
-References: <1413157795-1346-1-git-send-email-pab@pabigot.com>
-	<20141013162851.58e820e6@e6410-2> <543C5246.30703@pabigot.com>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+	Tue, 14 Oct 2014 06:24:31 +0000 (UTC)
+Received: by mail-qc0-f180.google.com with SMTP id x3so6027231qcv.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Oct 2014 23:24:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=jsO8NUPQ2UR3l5fPK0q32EqZHxc7LWo5Cgi3wTtJM+8=;
+	b=lPaqxJmeux9g4R6ENi4kmYzB77r5x69YQzfAGnD7F5I0ulNxQrPJY2tX582iyaVZcx
+	RhLy2Ww4/udET2ZEjjt7czaldvSwBgPMFWqVa05t+IH7kk3VkJyGjKEjLLEPCG45Gy2/
+	iQhW34bBfb2Zr6to/fLun7wGYn5X1Wy3JyXnWWWzkwPvPIzpEIyAHq9QaaSbwF/2F2JQ
+	hkLI5betDUnj8R4vTqzWCibg7ZKvhYkxppZzP82rfax5LFD2ydYZaCEWH0NlzWs9OEfW
+	63f/b5NDhXupqEGDe9NLM21J9A6I6mh8gNGXhGXEgVIiHm17E3sqcWkPgGGJPc40H2Sr
+	WZ5Q==
+X-Received: by 10.140.39.11 with SMTP id u11mr5572217qgu.32.1413267872466;
+	Mon, 13 Oct 2014 23:24:32 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] pseudo+image.bbclass: changes to avoid host contamination
+Sender: paul.betafive@gmail.com
+Received: by 10.140.142.78 with HTTP; Mon, 13 Oct 2014 23:23:52 -0700 (PDT)
+In-Reply-To: <2427853.ctRZJaqR28@peggleto-mobl5.ger.corp.intel.com>
+References: <543965E7.3040806@pabigot.com> <543AED25.7070201@pabigot.com>
+	<2427853.ctRZJaqR28@peggleto-mobl5.ger.corp.intel.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Tue, 14 Oct 2014 07:23:52 +0100
+X-Google-Sender-Auth: ZoP2pHZ_PAdoPied5KpEO0MQFZU
+Message-ID: <CANyK_8evAyhrmuyHKmk46sfJoF6fwjnF6h9aJoLn4GPGx_Xe1w@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: dbus build host uid/gid leaking into target home directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Oct 2014 22:35:51 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Oct 2014 06:24:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 13 Oct 2014 17:29:26 -0500
-"Peter A. Bigot" <pab@pabigot.com> wrote:
+On 13 October 2014 10:13, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> On Sunday 12 October 2014 16:05:41 Peter A. Bigot wrote:
+>> Pilot error.  This ultimately turned out to be a side-effect of the way
+>> I create my image media: I unpacking the rootfs tar file onto a mounted
+>> sdcard outside the pseudo environment and forgot that tar records
+>> user/group by name not uid/gid.
+>
+> I used to use this method previously, and I guess it can still work if you're
+> not including certain packages in your image - but I wonder if we should note
+> this potential pitfall somewhere in the documentation. I'm not entirely sure
+> where such a note would go, though.
+>
 
-> Basically, even if "root" is a special case, taking this path means 
-> making assumptions about what the application is doing based on what 
-> system/libc functions it invokes.  Too often when somebody assumes a 
-> general tool will only be used specific ways, somebody else will prove 
-> them wrong.
+It probably does need noting somewhere - I've been doing exactly this
+for the last year or so and never even thought that I might be risking
+bad uid/gid values. It makes sense now I think about it but it never
+crossed my mind.
 
-True.
+Looking at 'man tar', there is a '--numeric-owner' option to always
+use numbers for user/group names. It might just be that we need to
+recommend using this option when untarring a rootfs onto a mounted
+volume. This option is present in GNU tar, I'm not sure about other
+implementations, and I haven't given it a proper test, but it looks
+like the thing we want.
 
-For the oe-core case, it seems like it might be reasonable for us to set
-pseudo up to, by default, get configured with preloaded things which match
-the expected configuration of base-passwd. If people then go overriding
-base-passwd in strange ways, they could break that, but we at least know what
-the default configuration would be, and could possibly even make base-passwd
-check whether pseudo's configuration matches its answers, and blow up if
-there's a mismatch there.
+Cheers,
 
--s
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
