@@ -1,38 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id C09696A9D4
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CD556A9D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Oct 2014 16:33:00 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id i13so6014729qae.41
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Oct 2014 09:33:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=KHNbGAVFT4zK+vT75HQjjGKel2KcgTiCFGYjPI/GSqs=;
-	b=UCHs9AtR4XO5MNscqyyhHENDBywyyhPKvN/d1TvGPjz6gJLVcav5M4bALmre8D16/F
-	KquYLneAnUKhpfgQzJaQ27UVqd40kp//ehFKAhqHvsRE1FbYLmWvxirrzhh5L3oWk1xl
-	1LS89stMPKFt2kI/OohwJ3R+PbWziQwqJwdEL8ApMr4sWxHW1PyYOTXwEKzo2xNPa6JH
-	yfBERMEgF2m/lw3cuRXqbxsGicEjiobcMJVewn1j01xTGagpB2HqGRGdw3Pkw9aVIK/M
-	o+g8u9AYx1d34g3/4ZGqyCupfbJzvIo3du2XC7GuL+8XQl/+HKt8b0JmCzP/O7fBDB5O
-	lY5g==
-X-Gm-Message-State: ALoCoQmd7U7YOScgzdUi2aq24FgGMdu3Tx92m+N5nO7Cd+U3vtBQZx+TNGVqc+NkmsGB+p2TbnUx
-X-Received: by 10.224.103.200 with SMTP id l8mr10947226qao.52.1413304381857;
-	Tue, 14 Oct 2014 09:33:01 -0700 (PDT)
+	Tue, 14 Oct 2014 19:19:23 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Oct 2014 12:19:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,718,1406617200"; d="scan'208";a="614455376"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.58])
+	([10.219.4.58])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Oct 2014 12:19:22 -0700
+Message-ID: <543D7740.1060701@linux.intel.com>
+Date: Tue, 14 Oct 2014 14:19:28 -0500
+From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-Received: by 10.140.100.239 with HTTP; Tue, 14 Oct 2014 09:32:41 -0700 (PDT)
-In-Reply-To: <C750F69E-0F69-46A9-B81F-6C14AC8639E4@dominion.thruhere.net>
-References: <1412965751-9778-1-git-send-email-alejandro.hernandez@linux.intel.com>
-	<C750F69E-0F69-46A9-B81F-6C14AC8639E4@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 14 Oct 2014 17:32:41 +0100
-Message-ID: <CAJTo0LZ8Jt2BOUmmh4xpCzTpjPDD=49rOrupiA7_UnOBTbUSKg@mail.gmail.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] buildinfo: Added buildinfo recipe
+To: Jonathan Liu <net147@gmail.com>, openembedded-core@lists.openembedded.org
+References: <543C4180.1050902@linux.intel.com> <543C4F99.9070409@gmail.com>
+In-Reply-To: <543C4F99.9070409@gmail.com>
+Subject: Re: License manifest OR handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,20 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Oct 2014 16:33:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 14 Oct 2014 19:19:30 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 11 October 2014 09:53, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> Don't use IMAGE* vars in package recipes, that breaks the orthogonality of the OE system.
+Jonathan,
 
-To expand on what Koen said, you shouldn't use image-specific
-variables in a package as then the package can't be re-used in
-multiple images.  At best you'll end up rebuilding the package every
-time an image is created, at worst images will have incorrect
-buildinfo.
+I think is possible but i don't know how useful it is,
 
-Instead, implement this functionality as an optional image creation
-postprocess hook.
+Can you give an example?
 
-Ross
+Regards.
+
+On 13/10/14 17:18, Jonathan Liu wrote:
+> On 14/10/2014 8:17 AM, Aníbal Limón wrote:
+>> Hi everybody,
+>>
+>> I'm working in one bug [1] related to License manifest creation and i 
+>> have some concerns about what is
+>> expected in License creation more specifically in the OR's handling.
+>>
+>> I re-implemented license creation function from shell to python for 
+>> use oe.license module and added support
+>> for take into account INCOMPATIBLE_LICENSES.
+>>
+>> For example: Currently if you have LICENSE set to (MPLv2 | GPLv2.1) & 
+>> LGPLv3,
+>>     - With INCOMPATIBLE_LICENSES not set the result is: MPLv2 LGPLv3.
+>>     - With INCOMPATIBLE_LICENSES set to MPLv2 the result is: GPLv2.1 
+>> LGPLv3.
+>>
+>> This is that oe.license model eval's the OR expression and if you 
+>> have several OR only one is chosen, this is
+>> the expected behavior?, if yes i think is needed to add priorities 
+>> for license choose, example [2].
+>>
+>> Comments?
+>>
+>> Best regards.
+>>
+>> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=6765
+>> [2] https://gist.github.com/kergoth/1590028
+> I think license priority is a good idea. Would you be able to set 
+> LICENSE_PRIORITY to a different values for specific recipes too?
+>
+> Regards,
+> Jonathan
+
 
