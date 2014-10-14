@@ -1,37 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C36B71210
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FD3B71210
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Oct 2014 09:59:23 +0000 (UTC)
-Received: by mail-qc0-f178.google.com with SMTP id c9so6249632qcz.23
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Oct 2014 02:59:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=x3m6kWYgpgkrX4Nj//JQw43Si0b3SoBSrKnf/dqkE8k=;
-	b=B3X2LRwNBfCwg8m+EhL4V3AgKlIAVoinRPmGR+uqzdZc3i7wE6CtjdvfK+1IePt6nd
-	Z0fU7qOf7a9Yc0T6ldjFXpSBYEM6ZTDhML3Wpixk9lBS1yzkLERqJD0utIkAExGqiJl3
-	/YiW2CR50D/FxJV+UiVzpHeEs3LQH4oeWsfETD3OyNXMJSE/z3z7YQ2gVEr+jlgbw6Tt
-	Xd+ScCFlJDRjv5iUZgLku82z8NZtKB/EU8aUGjybLg9ih5ohq6aZf68cZpSy2+jMyzXG
-	kvNiX65c9F3NwBzusrMgjZWMxJLIAklfhecTj1cpDgwC4yA0Ld5o6zYQWeDDJN3GSLmD
-	0mTw==
-X-Gm-Message-State: ALoCoQn7QHdOkohZswvHkihsdFKndnODomGtDBNC07Hu0Er9kzdNwp5GgzXSHMZUJA9C9sUvyNTz
-X-Received: by 10.224.28.68 with SMTP id l4mr7307240qac.22.1413280764614; Tue,
-	14 Oct 2014 02:59:24 -0700 (PDT)
+	Tue, 14 Oct 2014 10:02:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9EA2FXp004472
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 14 Oct 2014 03:02:15 -0700 (PDT)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Tue, 14 Oct 2014 03:02:14 -0700
+Message-ID: <543CF4A1.9070509@windriver.com>
+Date: Tue, 14 Oct 2014 18:02:09 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Received: by 10.140.100.239 with HTTP; Tue, 14 Oct 2014 02:59:03 -0700 (PDT)
-In-Reply-To: <543CF3AB.9030301@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <cover.1413275947.git.Chong.Lu@windriver.com>
 	<be59231ba5c4dfafcb4d8e9951e8d10414ed0c64.1413275947.git.Chong.Lu@windriver.com>
 	<CAJTo0La_gxKvJ3TqiimF4C6tMNmCay7_=NSQSTqo8itTANCtPw@mail.gmail.com>
 	<543CF3AB.9030301@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 14 Oct 2014 10:59:03 +0100
-Message-ID: <CAJTo0LZQvykUoraK6b7gRyhi0V3fNsubOQ60SD0q+GphX96gHw@mail.gmail.com>
-To: Chong Lu <Chong.Lu@windriver.com>
+	<CAJTo0LZQvykUoraK6b7gRyhi0V3fNsubOQ60SD0q+GphX96gHw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZQvykUoraK6b7gRyhi0V3fNsubOQ60SD0q+GphX96gHw@mail.gmail.com>
+X-Originating-IP: [128.224.162.204]
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] gconf: fix multilib conflict - org.gnome.GConf.service
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -46,14 +39,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Oct 2014 09:59:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 14 Oct 2014 10:02:15 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 14 October 2014 10:58, Chong Lu <Chong.Lu@windriver.com> wrote:
-> Do you mean we should put /usr/lib64/gconf/gconfd-2 into lib64gconf and
-> /usr/lib/gconf/gconfd-2 into lib32gconf?
 
-No, the binary gconfd-2 goes into a separate package, such as gconf.
+On 10/14/2014 05:59 PM, Burton, Ross wrote:
+> On 14 October 2014 10:58, Chong Lu <Chong.Lu@windriver.com> wrote:
+>> Do you mean we should put /usr/lib64/gconf/gconfd-2 into lib64gconf and
+>> /usr/lib/gconf/gconfd-2 into lib32gconf?
+> No, the binary gconfd-2 goes into a separate package, such as gconf.
+>
+> Ross
+>
 
-Ross
+Got it. Thanks
+
+//Chong
+
+
 
