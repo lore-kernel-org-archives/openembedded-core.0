@@ -1,23 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D093F71911
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 81CEB65D56
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 09:23:24 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9F9NPo8000799
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 15 Oct 2014 02:23:25 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 15 Oct 2014 02:23:24 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Wed, 15 Oct 2014 17:23:15 +0800
-Message-ID: <cover.1413364849.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Wed, 15 Oct 2014 09:28:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9F9St8a022445
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Oct 2014 02:28:56 -0700 (PDT)
+Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 15 Oct 2014 02:28:55 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Oct 2014 05:28:54 -0400
+Message-ID: <1413365334-374-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.0.0
 MIME-Version: 1.0
-Subject: [PATCH V2 0/1] multilib.bbclass/package_manager.py: fix <multilib>-meta-toolchain build failure
+Subject: [PATCH] mtools: fix broken /usr/bin/lz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,51 +31,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Oct 2014 09:23:29 -0000
+X-List-Received-Date: Wed, 15 Oct 2014 09:28:55 -0000
 Content-Type: text/plain
 
-Changed in V2: 
-V1 caused build failure of meta-toolchain, in order to avoid it, we
-should use DEFAULTTUNE_virtclass-multilib-lib32 first, if it is not 
-available, and try to use DEFAULTTUNE_ML_<multilib> 
+From: Wenlin Kang <wenlin.kang@windriver.com>
 
-Test steps:
+When build fs with mtools-3.9.9, has file /usr/bin/lz in rootfs,
+it is the symlink to uz:
 
-1. env
-vim local.conf
-...
-MACHINE = "qemux86-64"
-require conf/multilib.conf
-MULTILIBS ?= "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 ?= "x86"
-...
+root@qemu3:~# /usr/bin/lz
+-sh: /usr/bin/lz: No such file or directory
+$root@qemu3:~# ls -l /usr/bin/lz
+lrwxrwxrwx 1 root root 2 Jul 18 18:07 /usr/bin/lz -> uz
+root@qemu3:~# uz
+-sh: uz: command not found
 
-2. build lib32-meta-toolchain success
-$ bitbake lib32-meta-toolchain
+But the uz isn't actually exist, so the result is that lz is a
+broken symlink.
 
-3. build meta-toolchain success
-$ bitbake meta-toolchain
+The root cause is that uz hasn't been installed when install-scripts.
 
-//Hongxu
+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ meta/recipes-devtools/mtools/mtools/fix-broken-lz.patch | 16 ++++++++++++++++
+ meta/recipes-devtools/mtools/mtools_3.9.9.bb            |  4 +++-
+ 2 files changed, 19 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/mtools/mtools/fix-broken-lz.patch
 
-The following changes since commit ccf5a4d2342c4fd40e4e0b332ea7e34e0bf175d4:
-
-  build-appliance-image: Update to dizzy head revision (2014-10-11 08:11:17 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-lib32-meta-toolchain
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-lib32-meta-toolchain
-
-Hongxu Jia (1):
-  multilib.bbclass/package_manager.py: fix <multilib>-meta-toolchain
-    build failure
-
- meta/classes/multilib.bbclass  | 1 +
- meta/lib/oe/package_manager.py | 3 +++
- 2 files changed, 4 insertions(+)
-
+diff --git a/meta/recipes-devtools/mtools/mtools/fix-broken-lz.patch b/meta/recipes-devtools/mtools/mtools/fix-broken-lz.patch
+new file mode 100644
+index 0000000..eaa3a5f
+--- /dev/null
++++ b/meta/recipes-devtools/mtools/mtools/fix-broken-lz.patch
+@@ -0,0 +1,16 @@
++Upstream-Status: Backport
++
++Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
++
++diff -uarN mtools-3.9.9-org/Makefile.in mtools-3.9.9/Makefile.in
++--- mtools-3.9.9-org/Makefile.in	2014-08-05 16:10:25.782241173 +0800
+++++ mtools-3.9.9/Makefile.in	2014-08-05 16:11:30.864155951 +0800
++@@ -250,7 +250,7 @@
++ install-scripts: ${DESTDIR}$(bindir)/mtools
++ 	@$(top_srcdir)/mkinstalldirs ${DESTDIR}$(bindir)
++ 	@for j in $(SCRIPTS) ; do \
++-		$(INSTALL_SCRIPT) $(srcdir)/scripts/$$j ${DESTDIR}$(bindir)/$$j ; \
+++		$(INSTALL_PROGRAM) $(srcdir)/scripts/$$j ${DESTDIR}$(bindir)/$$j ; \
++ 		echo ${DESTDIR}$(bindir)/$$j ; \
++ 	done
++ 	rm -f ${DESTDIR}$(bindir)/lz
+diff --git a/meta/recipes-devtools/mtools/mtools_3.9.9.bb b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
+index d995c8f..f6dd336 100644
+--- a/meta/recipes-devtools/mtools/mtools_3.9.9.bb
++++ b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
+@@ -31,7 +31,9 @@ RRECOMMENDS_${PN} = "\
+ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/mtools-${PV}.tar.gz \
+ 	file://mtools-makeinfo.patch \
+ 	file://mtools.patch \
+-	file://no-x11.patch"
++	file://no-x11.patch \
++	file://fix-broken-lz.patch \
++"
+ 
+ SRC_URI[md5sum] = "3e68b857b4e1f3a6521d1dfefbd30a36"
+ SRC_URI[sha256sum] = "af083a73425d664d4607ef6c6564fd9319a0e47ee7c105259a45356cb834690e"
 -- 
-1.9.1
+2.0.0
 
 
