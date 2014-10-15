@@ -1,24 +1,23 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7304371624
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 54E0665D56
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 03:10:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9F3AnHp014553
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Oct 2014 20:10:51 -0700 (PDT)
-Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 14 Oct 2014 20:10:49 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Oct 2014 23:10:47 -0400
-Message-ID: <cover.1413342461.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Wed, 15 Oct 2014 05:59:07 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9F5x8N6019711
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 14 Oct 2014 22:59:08 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 14 Oct 2014 22:59:08 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Wed, 15 Oct 2014 13:58:59 +0800
+Message-ID: <cover.1413352525.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH 0/1] sstate.bbclass: specify func dirs for sstate_hardcode_path
+Subject: [PATCH 0/1] multilib.bbclass/package_manager.py: fix <multilib>-meta-toolchain build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,23 +30,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Oct 2014 03:10:52 -0000
+X-List-Received-Date: Wed, 15 Oct 2014 05:59:08 -0000
 Content-Type: text/plain
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+Test steps:
 
-For some recipes that inhrient cmake, the ${B} may be removed by
-cmake_do_configure() while sstate_hardcode_path() running, this
-causes build errors:
+1. env
+vim local.conf
+...
+MACHINE = "qemux86-64"
+require conf/multilib.conf
+MULTILIBS ?= "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 ?= "x86"
+...
 
-  Exception: OSError: [Errno 2] No such file or directory: \
-  '/path/to/build'
+2. build lib32-meta-toolchain sucess
+$ bitbake lib32-meta-toolchain
 
-The function sstate_hardcode_path() called command:
-
-  $SSTATE_SCAN_CMD which extended as "find ${SSTATE_BUILDDIR} ..."
-
-So the proper function dirs could be ${SSTATE_BUILDDIR}.
+//Hongxu
 
 The following changes since commit ccf5a4d2342c4fd40e4e0b332ea7e34e0bf175d4:
 
@@ -55,16 +55,18 @@ The following changes since commit ccf5a4d2342c4fd40e4e0b332ea7e34e0bf175d4:
 
 are available in the git repository at:
 
-  git://git.pokylinux.org/poky-contrib wenzong/fix-sstate
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/fix-sstate
+  git://git.pokylinux.org/poky-contrib hongxu/fix-lib32-meta-toolchain
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-lib32-meta-toolchain
 
-Wenzong Fan (1):
-  sstate.bbclass: specify func dirs for sstate_hardcode_path
+Hongxu Jia (1):
+  multilib.bbclass/package_manager.py: fix <multilib>-meta-toolchain
+    build failure
 
- meta/classes/sstate.bbclass |    5 +++++
- 1 file changed, 5 insertions(+)
+ meta/classes/multilib.bbclass  | 1 +
+ meta/lib/oe/package_manager.py | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
 -- 
-1.7.9.5
+1.9.1
 
 
