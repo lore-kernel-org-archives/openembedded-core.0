@@ -1,25 +1,26 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CD556A9D4
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A4006ACB8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Oct 2014 19:19:23 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Oct 2014 12:19:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,718,1406617200"; d="scan'208";a="614455376"
-Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.58])
-	([10.219.4.58])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Oct 2014 12:19:22 -0700
-Message-ID: <543D7740.1060701@linux.intel.com>
-Date: Tue, 14 Oct 2014 14:19:28 -0500
-From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
+	Wed, 15 Oct 2014 02:56:20 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9F2uLd7018064
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Oct 2014 19:56:21 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 14 Oct 2014 19:56:21 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Oct 2014 10:54:11 +0800
+Message-ID: <b2f5f79f9e08f008043508392775c2bb52f819b3.1413341569.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1413341569.git.Chong.Lu@windriver.com>
+References: <cover.1413341569.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-To: Jonathan Liu <net147@gmail.com>, openembedded-core@lists.openembedded.org
-References: <543C4180.1050902@linux.intel.com> <543C4F99.9070409@gmail.com>
-In-Reply-To: <543C4F99.9070409@gmail.com>
-Subject: Re: License manifest OR handling
+Subject: [PATCH V2 1/1] gconf: fix multilib conflict - org.gnome.GConf.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,51 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Oct 2014 19:19:30 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 15 Oct 2014 02:56:26 -0000
+Content-Type: text/plain
 
-Jonathan,
+The gconfd-2 will be called in org.gnome.GConf.service file and the path of
+gconfd-2 is ${libexecdir}, this will get following error when multilib exported
+in the sdk:
+error: file /usr/share/dbus-1/services/org.gnome.GConf.service from install
+of gconf-3.2.6-r0.0.lib32_x86 conflicts with file from package
+gconf-3.2.6-r0.0.x86_64
 
-I think is possible but i don't know how useful it is,
+Split org.gnome.GConf.service to ${PN}-service, the conflict was fixed.
 
-Can you give an example?
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Regards.
-
-On 13/10/14 17:18, Jonathan Liu wrote:
-> On 14/10/2014 8:17 AM, Aníbal Limón wrote:
->> Hi everybody,
->>
->> I'm working in one bug [1] related to License manifest creation and i 
->> have some concerns about what is
->> expected in License creation more specifically in the OR's handling.
->>
->> I re-implemented license creation function from shell to python for 
->> use oe.license module and added support
->> for take into account INCOMPATIBLE_LICENSES.
->>
->> For example: Currently if you have LICENSE set to (MPLv2 | GPLv2.1) & 
->> LGPLv3,
->>     - With INCOMPATIBLE_LICENSES not set the result is: MPLv2 LGPLv3.
->>     - With INCOMPATIBLE_LICENSES set to MPLv2 the result is: GPLv2.1 
->> LGPLv3.
->>
->> This is that oe.license model eval's the OR expression and if you 
->> have several OR only one is chosen, this is
->> the expected behavior?, if yes i think is needed to add priorities 
->> for license choose, example [2].
->>
->> Comments?
->>
->> Best regards.
->>
->> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=6765
->> [2] https://gist.github.com/kergoth/1590028
-> I think license priority is a good idea. Would you be able to set 
-> LICENSE_PRIORITY to a different values for specific recipes too?
->
-> Regards,
-> Jonathan
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+index 17fdafa..9107c90 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+@@ -48,13 +48,16 @@ do_install_append_class-native() {
+ RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)}"
+ RDEPENDS_${PN}_class-native = ""
+ 
++PACKAGES =+ "${PN}-service"
++RDEPENDS_${PN} += "${PN}-service"
++
+ FILES_${PN} += "${libdir}/GConf/* \
+                 ${libdir}/gio/*/*.so \
+                 ${datadir}/polkit* \
+-                ${datadir}/dbus-1/services/*.service \
+                 ${datadir}/dbus-1/system-services/*.service \
+                "
+ FILES_${PN}-dbg += "${libdir}/*/*/.debug"
+ FILES_${PN}-dev += "${datadir}/sgml/gconf/gconf-1.0.dtd"
++FILES_${PN}-service += "${datadir}/dbus-1/services/*.service"
+ 
+ BBCLASSEXTEND = "native"
+-- 
+1.9.1
 
 
