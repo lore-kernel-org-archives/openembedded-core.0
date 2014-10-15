@@ -1,29 +1,31 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FDE765D56
+Return-Path: <openembedded-devel@urbanec.net>
+Received: from mail16.tpgi.com.au (mail16.tpgi.com.au [203.12.160.231])
+	by mail.openembedded.org (Postfix) with ESMTP id 728F865D56
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 11:32:33 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9FBWXqc023933
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 15 Oct 2014 04:32:33 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 15 Oct 2014 04:32:33 -0700
-Message-ID: <543E5B49.4080200@windriver.com>
-Date: Wed, 15 Oct 2014 19:32:25 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
+	Wed, 15 Oct 2014 11:49:44 +0000 (UTC)
+X-TPG-Junk-Status: Message not scanned
+X-TPG-Antivirus: Passed
+X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
+	date=Wed, 15 Oct 2014 22:49:44 +1100
+Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
+	[60.242.171.118])
+	by mail16.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
+	(8.14.3/8.14.3) with ESMTP id s9FBngCF007677
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Oct 2014 22:49:44 +1100
+Received: from beep.urbanec.net ([192.168.42.2])
+	by gw.urbanec.net with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80.1) (envelope-from <openembedded-devel@urbanec.net>)
+	id 1XeN5I-0006HB-Bl for openembedded-core@lists.openembedded.org;
+	Wed, 15 Oct 2014 22:49:40 +1100
+Message-ID: <543E5F54.9090907@urbanec.net>
+Date: Wed, 15 Oct 2014 22:49:40 +1100
+From: Peter Urbanec <openembedded-devel@urbanec.net>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-References: <cover.1413364849.git.hongxu.jia@windriver.com>
-	<ddbf3f85e6178376e6f76048d40ea3e2b8d85a2e.1413364849.git.hongxu.jia@windriver.com>
-	<20141015110009.GA9446@lpalcu-linux>
-In-Reply-To: <20141015110009.GA9446@lpalcu-linux>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] multilib.bbclass/package_manager.py: fix <multilib>-meta-toolchain build failure
+To: OE Core <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 1/2] opkg: Call prerm and postrm scripts on package upgrade.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,105 +38,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Oct 2014 11:32:34 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Wed, 15 Oct 2014 11:49:51 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On 10/15/2014 07:00 PM, Laurentiu Palcu wrote:
-> Hi Hongxu,
->
-> On Wed, Oct 15, 2014 at 05:23:16PM +0800, Hongxu Jia wrote:
->> There is a failure to build lib32-meta-toolchain:
->> ...
->> |ERROR: lib32-packagegroup-core-standalone-sdk-target not found in the base
->> feeds (qemux86_64 x86 noarch any all).
->> ...
->>
->> In package_manager.py, the variable 'DEFAULTTUNE_virtclass-multilib-lib32'
->> is used to process multilib image/toolchain. But for the build of lib32-
->> meta-toolchain, the value of 'DEFAULTTUNE_virtclass-multilib-lib32' is
->> deleted. In 'bitbake lib32-meta-toolchain -e', we got:
->> ...
->> |# $DEFAULTTUNE_virtclass-multilib-lib32 [2 operations]
->> |#   set? /home/jiahongxu/yocto/build-20141010-yocto/conf/local.conf:237
->> |#     "x86"
->> |#   del data_smart.py:406 [finalize]
->> |#     ""
->> |# pre-expansion value:
->> |#   "None"
->> ...
->>
->> The commit 899d45b90061eb3cf3e71029072eee42cd80930c in oe-core deleted
->> it at DataSmart.finalize
->> ...
->> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
->> Date:   Tue May 31 23:52:50 2011 +0100
->>
->>      bitbake/data_smart: Change overrides behaviour to remove
->>         expanded variables from the datastore
->> ...
->>
->> We add an internal variable 'DEFAULTTUNE_ML_<multilib>', assign it with the
->> value of 'DEFAULTTUNE_virtclass-multilib-lib32' before deleting.
->>
->> In package_manager.py, we use DEFAULTTUNE_virtclass-multilib-lib32 first,
->> if it is not available, and try to use DEFAULTTUNE_ML_<multilib>
->>
->> [YOCTO #6842]
-> Is this an RPM only issue? (It's not clear from the bug description...) If
-> not, maybe this should be fixed for the other backends too.
+opkg upgrade will now call prerm and postrm scripts from the old package
+with the "upgrade new-version" arguments, similar to what dpkg does.
 
-Yes, it is rpm only, only rpm staff use the variable
-'DEFAULTTUNE_virtclass-multilib-lib32'.
+Signed-off-by: Peter Urbanec <openembedded-devel@urbanec.net>
+Upstream-Status: Submitted [opkg-devel@googlegroups.com]
+---
+ .../opkg/opkg/prerm-and-postrm-scripts.patch       | 79 ++++++++++++++++++++++
+ meta/recipes-devtools/opkg/opkg_0.2.2.bb           |  1 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
 
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/classes/multilib.bbclass  | 1 +
->>   meta/lib/oe/package_manager.py | 3 +++
->>   2 files changed, 4 insertions(+)
->>
->> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
->> index 6e143dd..6aad894 100644
->> --- a/meta/classes/multilib.bbclass
->> +++ b/meta/classes/multilib.bbclass
->> @@ -60,6 +60,7 @@ python multilib_virtclass_handler () {
->>       newtune = e.data.getVar("DEFAULTTUNE_" + "virtclass-multilib-" + variant, False)
->>       if newtune:
->>           e.data.setVar("DEFAULTTUNE", newtune)
->> +        e.data.setVar('DEFAULTTUNE_ML_%s' % variant, newtune)
->>   }
->>   
->>   addhandler multilib_virtclass_handler
->> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
->> index 27fdf26..d42cdcc 100644
->> --- a/meta/lib/oe/package_manager.py
->> +++ b/meta/lib/oe/package_manager.py
->> @@ -63,6 +63,9 @@ class RpmIndexer(Indexer):
->>                       localdata = bb.data.createCopy(self.d)
->>                       default_tune_key = "DEFAULTTUNE_virtclass-multilib-" + eext[1]
->>                       default_tune = localdata.getVar(default_tune_key, False)
->> +                    if not default_tune:
-> Testing for None should always be done using 'is' or 'is not'. There's a
-> good explanation for this in PEP8.
+diff --git a/meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch b/meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
+new file mode 100644
+index 0000000..c393807
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
+@@ -0,0 +1,79 @@
++From 476965fdb2d6eec559242e6205cbb07d539b80e1 Mon Sep 17 00:00:00 2001
++From: Peter Urbanec <openembedded-devel@urbanec.net>
++Date: Wed, 15 Oct 2014 14:32:22 +1100
++Subject: [PATCH] opkg_install: Call prerm and postrm scripts on package
++ upgrade.
++To: opkg-devel@googlegroups.com
++Cc: paul@paulbarker.me.uk
++
++When upgrading a package from v1 to v2, run "v1-prerm upgrade v2" and
++"v1-postrm upgrade v2", similarly to what dpkg does.
++
++This patch fixes issue 104.
++
++Signed-off-by: Peter Urbanec <openembedded-devel@urbanec.net>
++---
++ libopkg/opkg_install.c | 40 ++++++++++++++++++++++++++++++++++++++--
++ 1 file changed, 38 insertions(+), 2 deletions(-)
++
++diff --git a/libopkg/opkg_install.c b/libopkg/opkg_install.c
++index 4f6fe65..ec0f34a 100644
++--- a/libopkg/opkg_install.c
+++++ b/libopkg/opkg_install.c
++@@ -601,7 +601,25 @@ prerm_upgrade_old_pkg(pkg_t *pkg, pkg_t *old_pkg)
++ 	   Error unwind, for both the above cases:
++ 	   old-postinst abort-upgrade new-version
++      */
++-     return 0;
+++    int err;
+++    char *script_args;
+++    char *new_version;
+++
+++    if (!old_pkg || !pkg)
+++        return 0;
+++
+++    new_version = pkg_version_str_alloc(pkg);
+++
+++    sprintf_alloc(&script_args, "upgrade %s", new_version);
+++    free(new_version);
+++    err = pkg_run_script(old_pkg, "prerm", script_args);
+++    free(script_args);
+++    if (err != 0) {
+++        opkg_msg(ERROR, "prerm script for package \"%s\" failed\n",
+++                 old_pkg->name);
+++        return -1;
+++    }
+++    return 0;
++ }
++ + static int
++@@ -1001,7 +1019,25 @@ postrm_upgrade_old_pkg(pkg_t *pkg, pkg_t *old_pkg)
++ 	   new-postrm failed-upgrade old-version
++ 	Error unwind, for both cases:
++ 	   old-preinst abort-upgrade new-version    */
++-     return 0;
+++    int err;
+++    char *script_args;
+++    char *new_version;
+++
+++    if (!old_pkg || !pkg)
+++        return 0;
+++
+++    new_version = pkg_version_str_alloc(pkg);
+++
+++    sprintf_alloc(&script_args, "upgrade %s", new_version);
+++    free(new_version);
+++    err = pkg_run_script(old_pkg, "postrm", script_args);
+++    free(script_args);
+++    if (err != 0) {
+++        opkg_msg(ERROR, "postrm script for package \"%s\" failed\n",
+++                 old_pkg->name);
+++        return -1;
+++    }
+++    return 0;
++ }
++ + static int
++-- +2.1.2
++
+diff --git a/meta/recipes-devtools/opkg/opkg_0.2.2.bb b/meta/recipes-devtools/opkg/opkg_0.2.2.bb
+index 3dd7489..c5b6561 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.2.2.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.2.2.bb
+@@ -4,6 +4,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+            file://no-install-recommends.patch \
+            file://add-exclude.patch \
+            file://opkg-configure.service \
++           file://prerm-and-postrm-scripts.patch \
+ "
+  S = "${WORKDIR}/${BPN}-${PV}"
+-- 
+2.1.2
 
-Got it, thanks for figuring it out, I will read PEP8, V3 incoming
-
-//Hongxu
-
-> laurentiu
->
->> +                        default_tune_key = "DEFAULTTUNE_ML_" + eext[1]
->> +                        default_tune = localdata.getVar(default_tune_key, False)
->>                       if default_tune:
->>                           localdata.setVar("DEFAULTTUNE", default_tune)
->>                           bb.data.update_data(localdata)
->> -- 
->> 1.9.1
->>
->> -- 
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
