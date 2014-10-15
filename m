@@ -1,33 +1,20 @@
-Return-Path: <openembedded-devel@urbanec.net>
-Received: from mail13.tpgi.com.au (mail13.tpgi.com.au [203.12.160.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 2368C6AD05
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B6E07180F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 22:34:28 +0000 (UTC)
-X-TPG-Junk-Status: Message not scanned
-X-TPG-Antivirus: Passed
-X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
-	date=Thu, 16 Oct 2014 09:34:27 +1100
-Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
-	[60.242.171.118])
-	by mail13.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
-	(8.14.3/8.14.3) with ESMTP id s9FMYPWe016949; 
-	Thu, 16 Oct 2014 09:34:27 +1100
-Received: from beep.urbanec.net ([192.168.42.2])
-	by gw.urbanec.net with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80.1) (envelope-from <openembedded-devel@urbanec.net>)
-	id 1XeX9D-0005PG-Mi; Thu, 16 Oct 2014 09:34:23 +1100
-Message-ID: <543EF66F.7070809@urbanec.net>
-Date: Thu, 16 Oct 2014 09:34:23 +1100
-From: Peter Urbanec <openembedded-devel@urbanec.net>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
-MIME-Version: 1.0
-To: Paul Barker <paul@paulbarker.me.uk>
-References: <543ea179.e25bb40a.2c8a.1e34SMTPIN_ADDED_BROKEN@mx.google.com>
-	<CANyK_8e3EV3dO72UJ6Bo=QodGS3A315j5E_i_7evPjrgGVqxgA@mail.gmail.com>
-In-Reply-To: <CANyK_8e3EV3dO72UJ6Bo=QodGS3A315j5E_i_7evPjrgGVqxgA@mail.gmail.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] opkg: Call prerm and postrm scripts on package upgrade.
+	Wed, 15 Oct 2014 23:05:02 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 15 Oct 2014 15:58:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,728,1406617200"; d="scan'208";a="619502453"
+Received: from aehernan-devstation.zpn.intel.com ([10.219.4.60])
+	by orsmga002.jf.intel.com with ESMTP; 15 Oct 2014 16:03:43 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Oct 2014 18:03:59 -0500
+Message-Id: <1413414239-12159-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] image.bbclass: Added buildinfo IMAGE_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,41 +27,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Oct 2014 22:34:36 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Oct 2014 23:05:03 -0000
 
-On 16/10/14 04:26, Paul Barker wrote:
-> For the sake of future readers within OpenEmbedded, we need to make
-> clearer here that this is opkg issue 104, not an OE issue number. This
-> change isn't needed in the patch to opkg upstream though.
->
->> +
->> +Signed-off-by: Peter Urbanec <openembedded-devel@urbanec.net>
->
-> Sorry to be pedantic but there's now 2 copies of the Signed-off-by
-> line. If you resend this, I'd also bring the Upstream-status line down
-> so that it immediately follows the Signed-off-by line. That's just a
-> minor cosmetic point though, it may be possible for someone to make
-> these edits as the patch is merged.
+Writes build information to target filesystem to help developers
 
-I resent the patch with your suggestions incorporated. Specifically, I 
-mentioned that the patch is for an opkg issue and provided the URL to 
-the relevant opkg issue tracker entry. I also rearranged the 
-Upstream-Status and Signed-off-by lines as suggested.
+[YOCTO #6770]
 
-> This looks fine. As I've said in reply to the patch on the opkg-devel
-> mailing list, I'm busy this week but should have time to test this
-> properly next week. It looks correct to me though, the logic is almost
-> identical to the patch I prepared which covers prerm only.
->
-> It probably doesn't need to wait for my test before going into OE though.
+Signed-off-by: Alejandro Hernandez  <alejandro.hernandez@linux.intel.com>
+---
+ meta/classes/image.bbclass | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
-Thanks. Version 3 of the patch I sent out has no code changes, just the 
-patch meta information and comments.
-
-Cheers,
-
-	Peter
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 940bdb6..d7b54fe 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -22,7 +22,7 @@ inherit ${TESTIMAGECLASS}
+ # IMAGE_FEATURES may contain any available package group
+ IMAGE_FEATURES ?= ""
+ IMAGE_FEATURES[type] = "list"
+-IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs"
++IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs buildinfo"
+ 
+ # rootfs bootstrap install
+ ROOTFS_BOOTSTRAP_INSTALL = "${@bb.utils.contains("IMAGE_FEATURES", "package-management", "", "${ROOTFS_PKGMANAGE_BOOTSTRAP}",d)}"
+@@ -181,6 +181,9 @@ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
+ SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; ", "", d)}'
+ 
++# Write build information to target FS
++IMAGE_PREPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "buildinfo", "buildinfo; ", "",d)}'
++
+ # some default locales
+ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
+ 
+@@ -411,6 +414,30 @@ rootfs_sysroot_relativelinks () {
+ 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
+ }
+ 
++def buildinfo_target(d):
++        # Get context
++        if d.getVar('BB_WORKERCONTEXT', True) != '1':
++                return ""
++        # Single and list variables to be read
++        vars = "DISTRO DISTRO_VERSION BB_VERSION BUILD_SYS TARGET_SYS MACHINE USER_CLASSES IMAGE_CLASSES IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL PACKAGE_EXCLUDE"
++        listvars = "USER_CLASSES IMAGE_CLASSES IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL PACKAGE_EXCLUDE"
++        return outputvars(vars, listvars, d)
++
++# Write build information to target filesystem
++inherit buildhistory
++buildinfo () {
++cat > ${IMAGE_ROOTFS}${sysconfdir}/build <<END
++-----------------------
++Build Configuration:  |
++-----------------------
++${@buildinfo_target(d)}
++-----------------------
++Layer Revisions:      |
++-----------------------
++${@buildhistory_get_metadata_revs(d)}
++END
++}
++
+ do_fetch[noexec] = "1"
+ do_unpack[noexec] = "1"
+ do_patch[noexec] = "1"
+-- 
+1.8.3.1
 
 
