@@ -1,31 +1,31 @@
 Return-Path: <openembedded-devel@urbanec.net>
 Received: from mail16.tpgi.com.au (mail16.tpgi.com.au [203.12.160.231])
-	by mail.openembedded.org (Postfix) with ESMTP id 728F865D56
+	by mail.openembedded.org (Postfix) with ESMTP id BE21971906
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 11:49:44 +0000 (UTC)
+	Wed, 15 Oct 2014 11:49:56 +0000 (UTC)
 X-TPG-Junk-Status: Message not scanned
 X-TPG-Antivirus: Passed
 X-TPG-Abuse: host=60-242-171-118.static.tpgi.com.au; ip=60.242.171.118;
-	date=Wed, 15 Oct 2014 22:49:44 +1100
+	date=Wed, 15 Oct 2014 22:49:57 +1100
 Received: from gw.urbanec.net (60-242-171-118.static.tpgi.com.au
 	[60.242.171.118])
 	by mail16.tpgi.com.au (envelope-from openembedded-devel@urbanec.net)
-	(8.14.3/8.14.3) with ESMTP id s9FBngCF007677
+	(8.14.3/8.14.3) with ESMTP id s9FBnttN008811
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 22:49:44 +1100
+	Wed, 15 Oct 2014 22:49:57 +1100
 Received: from beep.urbanec.net ([192.168.42.2])
 	by gw.urbanec.net with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
 	(Exim 4.80.1) (envelope-from <openembedded-devel@urbanec.net>)
-	id 1XeN5I-0006HB-Bl for openembedded-core@lists.openembedded.org;
-	Wed, 15 Oct 2014 22:49:40 +1100
-Message-ID: <543E5F54.9090907@urbanec.net>
-Date: Wed, 15 Oct 2014 22:49:40 +1100
+	id 1XeN5V-0006HK-On for openembedded-core@lists.openembedded.org;
+	Wed, 15 Oct 2014 22:49:53 +1100
+Message-ID: <543E5F61.2090500@urbanec.net>
+Date: Wed, 15 Oct 2014 22:49:53 +1100
 From: Peter Urbanec <openembedded-devel@urbanec.net>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
 To: OE Core <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/2] opkg: Call prerm and postrm scripts on package upgrade.
+Subject: [PATCH 2/2] update-rc.d.bbclass: Better handling of package upgrades.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,116 +38,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Oct 2014 11:49:51 -0000
+X-List-Received-Date: Wed, 15 Oct 2014 11:49:57 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-opkg upgrade will now call prerm and postrm scripts from the old package
-with the "upgrade new-version" arguments, similar to what dpkg does.
+update-rc.d.bbclass provides default implementations of prerm, postrm,
+preinst and postinst. Unfortunately these default implementations don't
+deal with package upgrades as well as they could.
+
+For example, if "opkg upgrade" contains init-ifupdown, in the list of
+packages to upgrade, the default prerm and preinst scripts will stop
+networking while all the packages are being downloaded, unpacked and
+installed. Networking is not brought back up again until the postinst
+script from the new init-ifupdown package is called. That only happens
+after all the packages have been downloaded, unpacked and installed.
+This leaves a window where any package that needs to be downloaded after
+init-ifupdown was encountered will fail because networking is down.
+
+This patch fixes the problem by delaying the restart of the old service
+during an upgrade until postinst. In the case of a package removal, the
+service will still be stopped in prerm.
 
 Signed-off-by: Peter Urbanec <openembedded-devel@urbanec.net>
-Upstream-Status: Submitted [opkg-devel@googlegroups.com]
 ---
- .../opkg/opkg/prerm-and-postrm-scripts.patch       | 79 ++++++++++++++++++++++
- meta/recipes-devtools/opkg/opkg_0.2.2.bb           |  1 +
- 2 files changed, 80 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
+ meta/classes/update-rc.d.bbclass | 73 ++++++++++++++++++++++++----------------
+ 1 file changed, 44 insertions(+), 29 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch b/meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
-new file mode 100644
-index 0000000..c393807
---- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
-@@ -0,0 +1,79 @@
-+From 476965fdb2d6eec559242e6205cbb07d539b80e1 Mon Sep 17 00:00:00 2001
-+From: Peter Urbanec <openembedded-devel@urbanec.net>
-+Date: Wed, 15 Oct 2014 14:32:22 +1100
-+Subject: [PATCH] opkg_install: Call prerm and postrm scripts on package
-+ upgrade.
-+To: opkg-devel@googlegroups.com
-+Cc: paul@paulbarker.me.uk
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index bc1aa7d..fcb82fe 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -14,45 +14,60 @@ INITSCRIPT_PARAMS ?= "defaults"
+  INIT_D_DIR = "${sysconfdir}/init.d"
+ -updatercd_preinst() {
+-if [ -z "$D" -a -f "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
+-	${INIT_D_DIR}/${INITSCRIPT_NAME} stop
++# pre/postrm scripts come from old package, pre/postinst scripts come from
++# new package. See https://wiki.debian.org/MaintainerScripts for dpkg
++# diagrams. opkg uses a subset, which lacks most of the error handling.
 +
-+When upgrading a package from v1 to v2, run "v1-prerm upgrade v2" and
-+"v1-postrm upgrade v2", similarly to what dpkg does.
-+
-+This patch fixes issue 104.
-+
-+Signed-off-by: Peter Urbanec <openembedded-devel@urbanec.net>
-+---
-+ libopkg/opkg_install.c | 40 ++++++++++++++++++++++++++++++++++++++--
-+ 1 file changed, 38 insertions(+), 2 deletions(-)
-+
-+diff --git a/libopkg/opkg_install.c b/libopkg/opkg_install.c
-+index 4f6fe65..ec0f34a 100644
-+--- a/libopkg/opkg_install.c
-++++ b/libopkg/opkg_install.c
-+@@ -601,7 +601,25 @@ prerm_upgrade_old_pkg(pkg_t *pkg, pkg_t *old_pkg)
-+ 	   Error unwind, for both the above cases:
-+ 	   old-postinst abort-upgrade new-version
-+      */
-+-     return 0;
-++    int err;
-++    char *script_args;
-++    char *new_version;
-++
-++    if (!old_pkg || !pkg)
-++        return 0;
-++
-++    new_version = pkg_version_str_alloc(pkg);
-++
-++    sprintf_alloc(&script_args, "upgrade %s", new_version);
-++    free(new_version);
-++    err = pkg_run_script(old_pkg, "prerm", script_args);
-++    free(script_args);
-++    if (err != 0) {
-++        opkg_msg(ERROR, "prerm script for package \"%s\" failed\n",
-++                 old_pkg->name);
-++        return -1;
-++    }
-++    return 0;
-+ }
-+ + static int
-+@@ -1001,7 +1019,25 @@ postrm_upgrade_old_pkg(pkg_t *pkg, pkg_t *old_pkg)
-+ 	   new-postrm failed-upgrade old-version
-+ 	Error unwind, for both cases:
-+ 	   old-preinst abort-upgrade new-version    */
-+-     return 0;
-++    int err;
-++    char *script_args;
-++    char *new_version;
-++
-++    if (!old_pkg || !pkg)
-++        return 0;
-++
-++    new_version = pkg_version_str_alloc(pkg);
-++
-++    sprintf_alloc(&script_args, "upgrade %s", new_version);
-++    free(new_version);
-++    err = pkg_run_script(old_pkg, "postrm", script_args);
-++    free(script_args);
-++    if (err != 0) {
-++        opkg_msg(ERROR, "postrm script for package \"%s\" failed\n",
-++                 old_pkg->name);
-++        return -1;
-++    }
-++    return 0;
-+ }
-+ + static int
-+-- +2.1.2
-+
-diff --git a/meta/recipes-devtools/opkg/opkg_0.2.2.bb b/meta/recipes-devtools/opkg/opkg_0.2.2.bb
-index 3dd7489..c5b6561 100644
---- a/meta/recipes-devtools/opkg/opkg_0.2.2.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.2.2.bb
-@@ -4,6 +4,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
-            file://no-install-recommends.patch \
-            file://add-exclude.patch \
-            file://opkg-configure.service \
-+           file://prerm-and-postrm-scripts.patch \
- "
-  S = "${WORKDIR}/${BPN}-${PV}"
--- 
-2.1.2
-
++# Old package, step 1
++updatercd_prerm() {
++if [ -z "$D" ]; then
++  if [ "$1" != "upgrade" ] ; then
++    ${INIT_D_DIR}/${INITSCRIPT_NAME} stop
++  fi
++  OPT="-f"
++else
++  OPT="-f -r $D"
+ fi
+ if type update-rc.d >/dev/null 2>/dev/null; then
+-	if [ -n "$D" ]; then
+-		OPT="-f -r $D"
+-	else
+-		OPT="-f"
+-	fi
+-	update-rc.d $OPT ${INITSCRIPT_NAME} remove
++  update-rc.d $OPT ${INITSCRIPT_NAME} remove
+ fi
+ }
+ -updatercd_postinst() {
+-if type update-rc.d >/dev/null 2>/dev/null; then
+-	if [ -n "$D" ]; then
+-		OPT="-r $D"
+-	else
+-		OPT="-s"
+-	fi
+-	update-rc.d $OPT ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
+-fi
++# New package, step 2
++updatercd_preinst() {
++case "$1" in
++  upgrade)
++    ;;
++  *)
++    ;;
++esac
+ }
+ -updatercd_prerm() {
+-if [ -z "$D" ]; then
+-	${INIT_D_DIR}/${INITSCRIPT_NAME} stop
+-fi
++# Old package, step 3
++updatercd_postrm() {
++case "$1" in
++  upgrade)
++    ;;
++  *)
++    ;;
++esac
+ }
+ -updatercd_postrm() {
++# New package, step 4
++# This step runs after all packages have been through steps 1-3. We need to
++# delay service restarts during upgrade until here, otherwise we could end
++# up in situations, like networking going down in the middle of "opkg upgrade",
++# thus resulting in failures to fetch further packages.
++updatercd_postinst() {
++if [ -z "$D" ]; then
++  # This will catch the upgrade case and result in a restart.
++  ${INIT_D_DIR}/${INITSCRIPT_NAME} stop
++  OPT="-s"
++else
++  OPT="-r $D"
++fi
+ if type update-rc.d >/dev/null 2>/dev/null; then
+-	if [ -n "$D" ]; then
+-		OPT="-r $D"
+-	else
+-		OPT=""
+-	fi
+-	update-rc.d $OPT ${INITSCRIPT_NAME} remove
++  update-rc.d $OPT ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
+ fi
+ }
+ -- 2.1.2
 
 
