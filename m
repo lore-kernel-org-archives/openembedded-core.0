@@ -1,23 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 54E0665D56
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 83D0D65DAC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 05:59:07 +0000 (UTC)
+	Wed, 15 Oct 2014 05:59:13 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9F5x8N6019711
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9F5xAdN028920
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 14 Oct 2014 22:59:08 -0700 (PDT)
+	Tue, 14 Oct 2014 22:59:10 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 14 Oct 2014 22:59:08 -0700
+	14.3.174.1; Tue, 14 Oct 2014 22:59:09 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Wed, 15 Oct 2014 13:58:59 +0800
-Message-ID: <cover.1413352525.git.hongxu.jia@windriver.com>
+Date: Wed, 15 Oct 2014 13:59:00 +0800
+Message-ID: <19a9c5389b842d65e4d0e3a5068d9404bb5324ac.1413352525.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1413352525.git.hongxu.jia@windriver.com>
+References: <cover.1413352525.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] multilib.bbclass/package_manager.py: fix <multilib>-meta-toolchain build failure
+Subject: [PATCH 1/1] multilib.bbclass/package_manager.py: fix <multilib>-meta-toolchain build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,42 +32,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Oct 2014 05:59:08 -0000
+X-List-Received-Date: Wed, 15 Oct 2014 05:59:17 -0000
 Content-Type: text/plain
 
-Test steps:
-
-1. env
-vim local.conf
+There is a failure to build lib32-meta-toolchain:
 ...
-MACHINE = "qemux86-64"
-require conf/multilib.conf
-MULTILIBS ?= "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 ?= "x86"
+|ERROR: lib32-packagegroup-core-standalone-sdk-target not found in the base
+feeds (qemux86_64 x86 noarch any all).
 ...
 
-2. build lib32-meta-toolchain sucess
-$ bitbake lib32-meta-toolchain
+In package_manager.py, the variable 'DEFAULTTUNE_virtclass-multilib-lib32'
+is used to process multilib image/toolchain. But for the build of lib32-
+meta-toolchain, the value of 'DEFAULTTUNE_virtclass-multilib-lib32' is
+deleted. In 'bitbake lib32-meta-toolchain -e', we got:
+...
+|# $DEFAULTTUNE_virtclass-multilib-lib32 [2 operations]
+|#   set? /home/jiahongxu/yocto/build-20141010-yocto/conf/local.conf:237
+|#     "x86"
+|#   del data_smart.py:406 [finalize]
+|#     ""
+|# pre-expansion value:
+|#   "None"
+...
 
-//Hongxu
+The commit 899d45b90061eb3cf3e71029072eee42cd80930c in oe-core has delete
+it in DataSmart.finalize
+...
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date:   Tue May 31 23:52:50 2011 +0100
 
-The following changes since commit ccf5a4d2342c4fd40e4e0b332ea7e34e0bf175d4:
+    bitbake/data_smart: Change overrides behaviour to remove
+       expanded variables from the datastore
+...
 
-  build-appliance-image: Update to dizzy head revision (2014-10-11 08:11:17 +0100)
+We add an internal variable 'DEFAULTTUNE_ML_<multilib>', assign it with the
+value of 'DEFAULTTUNE_virtclass-multilib-lib32' before deleting, and read
+it in package_manager.py for multilib processing.
 
-are available in the git repository at:
+[YOCTO #6842]
 
-  git://git.pokylinux.org/poky-contrib hongxu/fix-lib32-meta-toolchain
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-lib32-meta-toolchain
-
-Hongxu Jia (1):
-  multilib.bbclass/package_manager.py: fix <multilib>-meta-toolchain
-    build failure
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  meta/classes/multilib.bbclass  | 1 +
  meta/lib/oe/package_manager.py | 2 +-
  2 files changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 6e143dd..6aad894 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -60,6 +60,7 @@ python multilib_virtclass_handler () {
+     newtune = e.data.getVar("DEFAULTTUNE_" + "virtclass-multilib-" + variant, False)
+     if newtune:
+         e.data.setVar("DEFAULTTUNE", newtune)
++        e.data.setVar('DEFAULTTUNE_ML_%s' % variant, newtune)
+ }
+ 
+ addhandler multilib_virtclass_handler
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 27fdf26..ff66ece 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -61,7 +61,7 @@ class RpmIndexer(Indexer):
+                 eext = ext.split(':')
+                 if len(eext) > 1 and eext[0] == 'multilib':
+                     localdata = bb.data.createCopy(self.d)
+-                    default_tune_key = "DEFAULTTUNE_virtclass-multilib-" + eext[1]
++                    default_tune_key = "DEFAULTTUNE_ML_" + eext[1]
+                     default_tune = localdata.getVar(default_tune_key, False)
+                     if default_tune:
+                         localdata.setVar("DEFAULTTUNE", default_tune)
 -- 
 1.9.1
 
