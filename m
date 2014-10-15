@@ -1,37 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f50.google.com (mail-qa0-f50.google.com
-	[209.85.216.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BD2C65D56
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B633065D56
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 10:43:03 +0000 (UTC)
-Received: by mail-qa0-f50.google.com with SMTP id w8so596217qac.23
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 03:43:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=eBRFs7UFCeirqrUVy2jf4zMZuuKNx2sQqRpX5fVARm0=;
-	b=IwanPPL154Ovp6UqfZc3syr6RsfnCKdS6K/Y/KpGeTZpmVuEe+xOpe8Sct8fCj/SwR
-	l7fa00nTFHeoSj1SEFh2SsnZ91Yy/7X8Fc3ptXG6YpfRbOeoZq5WjFn4BPVjqF9tel0v
-	2MpTzDFYYAzezzFHqtbB7pSAV9HEgcOY/PPz6nWsG07uKmHtMshH6LDKddq9yg05eMzz
-	OG+fHby9JyOzqY5YepX839S7d0XLSs3EYcaE7Pf22Punp0zDlXf9lEIcXDmtJb0o0j0O
-	zULHT/UJjjHr/E+UyCWWMocF5LWe37Wt9NU+uyv3l5NAFwrvWqyOJjE/z1SvXggIrnGY
-	6QFw==
-X-Gm-Message-State: ALoCoQn/S9zfWjLy5qQbcO6R3Ts7ck9yO095HkNmZAZyw4eeGkbz/AzPSmtWzU5ubddSOGUXcfag
-X-Received: by 10.224.28.68 with SMTP id l4mr18713412qac.22.1413369784446;
-	Wed, 15 Oct 2014 03:43:04 -0700 (PDT)
+	Wed, 15 Oct 2014 11:00:14 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 15 Oct 2014 03:50:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="400568855"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.104.113])
+	by FMSMGA003.fm.intel.com with ESMTP; 15 Oct 2014 03:52:57 -0700
+Date: Wed, 15 Oct 2014 14:00:09 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <20141015110009.GA9446@lpalcu-linux>
+References: <cover.1413364849.git.hongxu.jia@windriver.com>
+	<ddbf3f85e6178376e6f76048d40ea3e2b8d85a2e.1413364849.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Received: by 10.140.100.239 with HTTP; Wed, 15 Oct 2014 03:42:44 -0700 (PDT)
-In-Reply-To: <b2f5f79f9e08f008043508392775c2bb52f819b3.1413341569.git.Chong.Lu@windriver.com>
-References: <cover.1413341569.git.Chong.Lu@windriver.com>
-	<b2f5f79f9e08f008043508392775c2bb52f819b3.1413341569.git.Chong.Lu@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 15 Oct 2014 11:42:44 +0100
-Message-ID: <CAJTo0LboKNAOi7_tx31+m2KOxF_HEKEGePU2wnHXSzGpoeGTgA@mail.gmail.com>
-To: Chong Lu <Chong.Lu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/1] gconf: fix multilib conflict - org.gnome.GConf.service
+In-Reply-To: <ddbf3f85e6178376e6f76048d40ea3e2b8d85a2e.1413364849.git.hongxu.jia@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] multilib.bbclass/package_manager.py: fix <multilib>-meta-toolchain build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +32,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Oct 2014 10:43:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 15 Oct 2014 11:00:23 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 15 October 2014 03:54, Chong Lu <Chong.Lu@windriver.com> wrote:
-> The gconfd-2 will be called in org.gnome.GConf.service file and the path of
-> gconfd-2 is ${libexecdir}, this will get following error when multilib exported
-> in the sdk:
-> error: file /usr/share/dbus-1/services/org.gnome.GConf.service from install
-> of gconf-3.2.6-r0.0.lib32_x86 conflicts with file from package
-> gconf-3.2.6-r0.0.x86_64
->
-> Split org.gnome.GConf.service to ${PN}-service, the conflict was fixed.
+Hi Hongxu,
 
-Why are both ML variants of gconf being installed?    Presumably for
-libgconf, which needs to have ML variants and is packaged into $PN.
-$PN also contains the binaries and data files, which are not
-ML-specific and can only be installed once.
+On Wed, Oct 15, 2014 at 05:23:16PM +0800, Hongxu Jia wrote:
+> There is a failure to build lib32-meta-toolchain:
+> ...
+> |ERROR: lib32-packagegroup-core-standalone-sdk-target not found in the base
+> feeds (qemux86_64 x86 noarch any all).
+> ...
+> 
+> In package_manager.py, the variable 'DEFAULTTUNE_virtclass-multilib-lib32'
+> is used to process multilib image/toolchain. But for the build of lib32-
+> meta-toolchain, the value of 'DEFAULTTUNE_virtclass-multilib-lib32' is
+> deleted. In 'bitbake lib32-meta-toolchain -e', we got:
+> ...
+> |# $DEFAULTTUNE_virtclass-multilib-lib32 [2 operations]
+> |#   set? /home/jiahongxu/yocto/build-20141010-yocto/conf/local.conf:237
+> |#     "x86"
+> |#   del data_smart.py:406 [finalize]
+> |#     ""
+> |# pre-expansion value:
+> |#   "None"
+> ...
+> 
+> The commit 899d45b90061eb3cf3e71029072eee42cd80930c in oe-core deleted
+> it at DataSmart.finalize
+> ...
+> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Date:   Tue May 31 23:52:50 2011 +0100
+> 
+>     bitbake/data_smart: Change overrides behaviour to remove
+>        expanded variables from the datastore
+> ...
+> 
+> We add an internal variable 'DEFAULTTUNE_ML_<multilib>', assign it with the
+> value of 'DEFAULTTUNE_virtclass-multilib-lib32' before deleting.
+> 
+> In package_manager.py, we use DEFAULTTUNE_virtclass-multilib-lib32 first,
+> if it is not available, and try to use DEFAULTTUNE_ML_<multilib>
+> 
+> [YOCTO #6842]
+Is this an RPM only issue? (It's not clear from the bug description...) If
+not, maybe this should be fixed for the other backends too.
 
-So, gconf should split the daemon/binaries from the libraries.  I
-suggested this back in July as it seems the logical answer, instead of
-splitting the daemon binary and the service file that defines where
-the binary is.
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/classes/multilib.bbclass  | 1 +
+>  meta/lib/oe/package_manager.py | 3 +++
+>  2 files changed, 4 insertions(+)
+> 
+> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+> index 6e143dd..6aad894 100644
+> --- a/meta/classes/multilib.bbclass
+> +++ b/meta/classes/multilib.bbclass
+> @@ -60,6 +60,7 @@ python multilib_virtclass_handler () {
+>      newtune = e.data.getVar("DEFAULTTUNE_" + "virtclass-multilib-" + variant, False)
+>      if newtune:
+>          e.data.setVar("DEFAULTTUNE", newtune)
+> +        e.data.setVar('DEFAULTTUNE_ML_%s' % variant, newtune)
+>  }
+>  
+>  addhandler multilib_virtclass_handler
+> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+> index 27fdf26..d42cdcc 100644
+> --- a/meta/lib/oe/package_manager.py
+> +++ b/meta/lib/oe/package_manager.py
+> @@ -63,6 +63,9 @@ class RpmIndexer(Indexer):
+>                      localdata = bb.data.createCopy(self.d)
+>                      default_tune_key = "DEFAULTTUNE_virtclass-multilib-" + eext[1]
+>                      default_tune = localdata.getVar(default_tune_key, False)
+> +                    if not default_tune:
+Testing for None should always be done using 'is' or 'is not'. There's a
+good explanation for this in PEP8.
 
-Ross
+laurentiu
+
+> +                        default_tune_key = "DEFAULTTUNE_ML_" + eext[1]
+> +                        default_tune = localdata.getVar(default_tune_key, False)
+>                      if default_tune:
+>                          localdata.setVar("DEFAULTTUNE", default_tune)
+>                          bb.data.update_data(localdata)
+> -- 
+> 1.9.1
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
