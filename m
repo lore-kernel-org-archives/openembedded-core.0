@@ -1,26 +1,38 @@
-Return-Path: <Pengyu.Ma@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EC0F65D56
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id EC66765D56
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 09:47:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9F9leEg022628
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 15 Oct 2014 10:07:46 +0000 (UTC)
+Received: by mail-qc0-f182.google.com with SMTP id i17so645937qcy.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 02:47:40 -0700 (PDT)
-Received: from yu.wr (128.224.163.136) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Wed, 15 Oct 2014 02:47:39 -0700
-Message-ID: <543E42B9.4070004@windriver.com>
-Date: Wed, 15 Oct 2014 17:47:37 +0800
-From: Pengyu Ma <pengyu.ma@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Wed, 15 Oct 2014 03:07:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=yfyu4wsWD7kv5zfJBRWOoJaQrgkQ4g5LT6WH6rnDo/0=;
+	b=gy79cNK7/qqDUDATIWOfPR79pERRnLap/AjHZiuSlhArVoFbJW86yeYddlLFth8ufH
+	pdT5hus1MQnVGTB6HYwOAL+KeHuiBPEJ3ZRrSb5ZiNKtJPlYnOtHXAnk5/+B+2o1Gs/P
+	/VWS+CWSadTdEhW9mOO/36R2gddm9ZQ8SpQrnQWsOChrOEqB9+RSA4lNdAdqIolMnt+x
+	+gX/Z+t8fpj2GyXDlPuheA6NvKSe1nH3uzMU6EL0yYXuIV1dSDhq+S722GsTuXE0HcQ/
+	Vn7O2l9K70mSMZFt56q58ylgMO6X0iFd0mIfhFypfRftjGYLS2HtLBMEB4VdCZ/cPSMo
+	6icQ==
+X-Gm-Message-State: ALoCoQn7+Ly/g7Ch0fBvAdGR8wMzKP0jd39+d4Dh/1v3ae6w6hkHuOBmflVmFk64NuuRHhpTKfMk
+X-Received: by 10.140.28.10 with SMTP id 10mr17307110qgy.15.1413367667808;
+	Wed, 15 Oct 2014 03:07:47 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-X-Originating-IP: [128.224.163.136]
-Subject: test to sub
+Received: by 10.140.100.239 with HTTP; Wed, 15 Oct 2014 03:07:27 -0700 (PDT)
+In-Reply-To: <3230301C09DEF9499B442BBE162C5E482576880D@SESTOEX04.enea.se>
+References: <3230301C09DEF9499B442BBE162C5E482576880D@SESTOEX04.enea.se>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 15 Oct 2014 11:07:27 +0100
+Message-ID: <CAJTo0La=7QNS53qZDgShj+9yr6Ge0hyk9HFAdS+Ue0bZAkck4A@mail.gmail.com>
+To: Sona Sarmadi <sona.sarmadi@enea.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Truly scary SSL 3.0 vuln to be revealed soon:
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,9 +45,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Oct 2014 09:47:45 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Oct 2014 10:07:48 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 15 October 2014 07:48, Sona Sarmadi <sona.sarmadi@enea.com> wrote:
+> The advice is: Disable SSLv3.
+>
+> I created https://bugzilla.yoctoproject.org/show_bug.cgi?id=6843  so we can start to work with this immediately.
 
+Presumably the list of affected packages is:
+- gnutls
+- openssl
+- nss
+
+Are there more?  Will ENEA be able to send patches to these packages?
+
+Ross
 
