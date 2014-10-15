@@ -1,27 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A7CB771902
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 10DC665D56
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 07:54:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9F7rxXk017739
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 15 Oct 2014 00:54:02 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 15 Oct 2014 00:54:00 -0700
-Message-ID: <543E2810.3040102@windriver.com>
-Date: Wed, 15 Oct 2014 15:53:52 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
+	Wed, 15 Oct 2014 09:21:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9F9LU5c022371
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Oct 2014 02:21:30 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.141) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 15 Oct 2014 02:21:29 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Oct 2014 17:21:34 +0800
+Message-ID: <1413364894-25626-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-References: <cover.1413352525.git.hongxu.jia@windriver.com>
-	<19a9c5389b842d65e4d0e3a5068d9404bb5324ac.1413352525.git.hongxu.jia@windriver.com>
-In-Reply-To: <19a9c5389b842d65e4d0e3a5068d9404bb5324ac.1413352525.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 1/1] multilib.bbclass/package_manager.py: fix <multilib>-meta-toolchain build failure
+Subject: [PATCH] nfs-utils: fix a Gcc undefined behavior
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,29 +31,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Oct 2014 07:54:10 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Oct 2014 09:21:33 -0000
+Content-Type: text/plain
 
-On 10/15/2014 01:59 PM, Hongxu Jia wrote:
-> @@ -61,7 +61,7 @@ class RpmIndexer(Indexer):
->                   eext = ext.split(':')
->                   if len(eext) > 1 and eext[0] == 'multilib':
->                       localdata = bb.data.createCopy(self.d)
-> -                    default_tune_key = "DEFAULTTUNE_virtclass-multilib-" + eext[1]
-> +                    default_tune_key = "DEFAULTTUNE_ML_" + eext[1]
->                       default_tune = localdata.getVar(default_tune_key, False)
->                       if default_tune:
->                           localdata.setVar("DEFAULTTUNE", default_tune)
+From: Roy Li <rongqing.li@windriver.com>
 
-It caused build failure of meta-toolchain, in order to avoid it, we
-should use DEFAULTTUNE_virtclass-multilib-lib32 first, if it is not
-available, and try to use DEFAULTTUNE_ML_<multilib>
+Calling strncpy with NULL second argument, even when the size is 0,
+is undefined behavior, which leads to GCC to drop the check old
+variable with NULL in following code.
 
-So it does not affect previous build workflow.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=6743
 
-Please drop it, V2 incoming
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../files/fix-a-Gcc-undefined-behavior.patch       |   38 ++++++++++++++++++++
+ .../nfs-utils/nfs-utils_1.3.0.bb                   |    1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
 
-//Hongxu
+diff --git a/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch b/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
+new file mode 100644
+index 0000000..5843ba0
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
+@@ -0,0 +1,38 @@
++[PATCH] fix a Gcc undefined behavior
++
++Upstream-Status: Pending
++
++Calling strncpy with NULL second argument, even when the size is 0,
++is undefined behavior, which leads to GCC to drop the check old
++variable with NULL in following code.
++
++https://bugzilla.yoctoproject.org/show_bug.cgi?id=6743
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ support/export/client.c |    9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/support/export/client.c b/support/export/client.c
++index dbf47b9..a37ef69 100644
++--- a/support/export/client.c
+++++ b/support/export/client.c
++@@ -482,8 +482,13 @@ add_name(char *old, const char *add)
++ 		else
++ 			cp = cp + strlen(cp);
++ 	}
++-	strncpy(new, old, cp-old);
++-	new[cp-old] = 0;
+++
+++	if (old) {
+++		strncpy(new, old, cp-old);
+++		new[cp-old] = 0;
+++	} else
+++		new[0] = 0;
+++	
++ 	if (cp != old && !*cp)
++ 		strcat(new, ",");
++ 	strcat(new, add);
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
+index c813d7f..f1ef6d9 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
+@@ -31,6 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://nfs-statd.service \
+            file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
+            file://0001-statd-fixed-the-with-statdpath-flag.patch \
++           file://fix-a-Gcc-undefined-behavior.patch \
+ "
+ 
+ SRC_URI[md5sum] = "6e93a7997ca3a1eac56bf219adab72a8"
+-- 
+1.7.10.4
 
 
