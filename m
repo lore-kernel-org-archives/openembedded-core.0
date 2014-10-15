@@ -1,26 +1,24 @@
 Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4826D708B3
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7304371624
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 15 Oct 2014 03:10:51 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9F3AqgS018252
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9F3AnHp014553
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Oct 2014 20:10:52 -0700 (PDT)
+	Tue, 14 Oct 2014 20:10:51 -0700 (PDT)
 Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 14 Oct 2014 20:10:52 -0700
+	14.3.174.1; Tue, 14 Oct 2014 20:10:49 -0700
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Oct 2014 23:10:48 -0400
-Message-ID: <07bfb34f875ba024acee52cf8238ea996bad7e69.1413342461.git.wenzong.fan@windriver.com>
+Date: Tue, 14 Oct 2014 23:10:47 -0400
+Message-ID: <cover.1413342461.git.wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1413342461.git.wenzong.fan@windriver.com>
-References: <cover.1413342461.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] sstate.bbclass: specify func dirs for sstate_hardcode_path
+Subject: [PATCH 0/1] sstate.bbclass: specify func dirs for sstate_hardcode_path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,27 +49,21 @@ The function sstate_hardcode_path() called command:
 
 So the proper function dirs could be ${SSTATE_BUILDDIR}.
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
+The following changes since commit ccf5a4d2342c4fd40e4e0b332ea7e34e0bf175d4:
+
+  build-appliance-image: Update to dizzy head revision (2014-10-11 08:11:17 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib wenzong/fix-sstate
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/fix-sstate
+
+Wenzong Fan (1):
+  sstate.bbclass: specify func dirs for sstate_hardcode_path
+
  meta/classes/sstate.bbclass |    5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 9cd4590..f8695e7 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -47,6 +47,11 @@ SIGGEN_LOCKEDSIGS_CHECK_LEVEL ?= 'error'
- sstate_create_package[dirs] = "${SSTATE_BUILDDIR}"
- sstate_unpack_package[dirs] = "${SSTATE_INSTDIR}"
- 
-+# Do not run sstate_hardcode_path() in ${B}:
-+# the ${B} maybe removed by cmake_do_configure() while
-+# sstate_hardcode_path() running.
-+sstate_hardcode_path[dirs] = "${SSTATE_BUILDDIR}"
-+
- python () {
-     if bb.data.inherits_class('native', d):
-         d.setVar('SSTATE_PKGARCH', d.getVar('BUILD_ARCH'))
 -- 
 1.7.9.5
 
