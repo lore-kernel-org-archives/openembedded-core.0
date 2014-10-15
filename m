@@ -1,24 +1,25 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 10DC665D56
+	by mail.openembedded.org (Postfix) with ESMTP id 91E5C718E7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 09:21:29 +0000 (UTC)
+	Wed, 15 Oct 2014 09:23:25 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9F9LU5c022371
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Oct 2014 02:21:30 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.141) by
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9F9NRnk022381
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 15 Oct 2014 02:23:27 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 15 Oct 2014 02:21:29 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 15 Oct 2014 17:21:34 +0800
-Message-ID: <1413364894-25626-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	14.3.174.1; Wed, 15 Oct 2014 02:23:26 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Wed, 15 Oct 2014 17:23:16 +0800
+Message-ID: <ddbf3f85e6178376e6f76048d40ea3e2b8d85a2e.1413364849.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1413364849.git.hongxu.jia@windriver.com>
+References: <cover.1413364849.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] nfs-utils: fix a Gcc undefined behavior
+Subject: [PATCH 1/1] multilib.bbclass/package_manager.py: fix <multilib>-meta-toolchain build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,81 +32,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Oct 2014 09:21:33 -0000
+X-List-Received-Date: Wed, 15 Oct 2014 09:23:29 -0000
 Content-Type: text/plain
 
-From: Roy Li <rongqing.li@windriver.com>
+There is a failure to build lib32-meta-toolchain:
+...
+|ERROR: lib32-packagegroup-core-standalone-sdk-target not found in the base
+feeds (qemux86_64 x86 noarch any all).
+...
 
-Calling strncpy with NULL second argument, even when the size is 0,
-is undefined behavior, which leads to GCC to drop the check old
-variable with NULL in following code.
+In package_manager.py, the variable 'DEFAULTTUNE_virtclass-multilib-lib32'
+is used to process multilib image/toolchain. But for the build of lib32-
+meta-toolchain, the value of 'DEFAULTTUNE_virtclass-multilib-lib32' is
+deleted. In 'bitbake lib32-meta-toolchain -e', we got:
+...
+|# $DEFAULTTUNE_virtclass-multilib-lib32 [2 operations]
+|#   set? /home/jiahongxu/yocto/build-20141010-yocto/conf/local.conf:237
+|#     "x86"
+|#   del data_smart.py:406 [finalize]
+|#     ""
+|# pre-expansion value:
+|#   "None"
+...
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=6743
+The commit 899d45b90061eb3cf3e71029072eee42cd80930c in oe-core deleted
+it at DataSmart.finalize
+...
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date:   Tue May 31 23:52:50 2011 +0100
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+    bitbake/data_smart: Change overrides behaviour to remove
+       expanded variables from the datastore
+...
+
+We add an internal variable 'DEFAULTTUNE_ML_<multilib>', assign it with the
+value of 'DEFAULTTUNE_virtclass-multilib-lib32' before deleting.
+
+In package_manager.py, we use DEFAULTTUNE_virtclass-multilib-lib32 first,
+if it is not available, and try to use DEFAULTTUNE_ML_<multilib>
+
+[YOCTO #6842]
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../files/fix-a-Gcc-undefined-behavior.patch       |   38 ++++++++++++++++++++
- .../nfs-utils/nfs-utils_1.3.0.bb                   |    1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
+ meta/classes/multilib.bbclass  | 1 +
+ meta/lib/oe/package_manager.py | 3 +++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch b/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
-new file mode 100644
-index 0000000..5843ba0
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
-@@ -0,0 +1,38 @@
-+[PATCH] fix a Gcc undefined behavior
-+
-+Upstream-Status: Pending
-+
-+Calling strncpy with NULL second argument, even when the size is 0,
-+is undefined behavior, which leads to GCC to drop the check old
-+variable with NULL in following code.
-+
-+https://bugzilla.yoctoproject.org/show_bug.cgi?id=6743
-+
-+Signed-off-by: Roy Li <rongqing.li@windriver.com>
-+---
-+ support/export/client.c |    9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/support/export/client.c b/support/export/client.c
-+index dbf47b9..a37ef69 100644
-+--- a/support/export/client.c
-++++ b/support/export/client.c
-+@@ -482,8 +482,13 @@ add_name(char *old, const char *add)
-+ 		else
-+ 			cp = cp + strlen(cp);
-+ 	}
-+-	strncpy(new, old, cp-old);
-+-	new[cp-old] = 0;
-++
-++	if (old) {
-++		strncpy(new, old, cp-old);
-++		new[cp-old] = 0;
-++	} else
-++		new[0] = 0;
-++	
-+ 	if (cp != old && !*cp)
-+ 		strcat(new, ",");
-+ 	strcat(new, add);
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
-index c813d7f..f1ef6d9 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
-@@ -31,6 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://nfs-statd.service \
-            file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
-            file://0001-statd-fixed-the-with-statdpath-flag.patch \
-+           file://fix-a-Gcc-undefined-behavior.patch \
- "
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 6e143dd..6aad894 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -60,6 +60,7 @@ python multilib_virtclass_handler () {
+     newtune = e.data.getVar("DEFAULTTUNE_" + "virtclass-multilib-" + variant, False)
+     if newtune:
+         e.data.setVar("DEFAULTTUNE", newtune)
++        e.data.setVar('DEFAULTTUNE_ML_%s' % variant, newtune)
+ }
  
- SRC_URI[md5sum] = "6e93a7997ca3a1eac56bf219adab72a8"
+ addhandler multilib_virtclass_handler
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 27fdf26..d42cdcc 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -63,6 +63,9 @@ class RpmIndexer(Indexer):
+                     localdata = bb.data.createCopy(self.d)
+                     default_tune_key = "DEFAULTTUNE_virtclass-multilib-" + eext[1]
+                     default_tune = localdata.getVar(default_tune_key, False)
++                    if not default_tune:
++                        default_tune_key = "DEFAULTTUNE_ML_" + eext[1]
++                        default_tune = localdata.getVar(default_tune_key, False)
+                     if default_tune:
+                         localdata.setVar("DEFAULTTUNE", default_tune)
+                         bb.data.update_data(localdata)
 -- 
-1.7.10.4
+1.9.1
 
 
