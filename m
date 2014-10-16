@@ -1,28 +1,24 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 555D660DD7
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 83C8660DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 06:11:20 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0158.001; Thu, 16 Oct 2014 08:11:17 +0200
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: Saul Wold <sgw@linux.intel.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] OpenSSL: SSLv3 POODLE vulnerability
-	(CVE-2014-3566)
-Thread-Index: AQHP6QULMxNJS6zi+EqgSJ/p7PGB1ZwyGXmAgAAkJOA=
-Date: Thu, 16 Oct 2014 06:11:17 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E482576A413@SESTOEX04.enea.se>
-References: <1413438606-4068-1-git-send-email-sona.sarmadi@enea.com>
-	<543F5F0B.3030100@linux.intel.com>
-In-Reply-To: <543F5F0B.3030100@linux.intel.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.140.6]
+	Thu, 16 Oct 2014 07:16:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9G7GZHE027591
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 16 Oct 2014 00:16:35 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 16 Oct 2014 00:16:34 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
+	<richard.purdie@linuxfoundation.org>
+Date: Thu, 16 Oct 2014 15:16:24 +0800
+Message-ID: <cover.1413442931.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Re: [PATCH] OpenSSL: SSLv3 POODLE vulnerability (CVE-2014-3566)
+Subject: [PATCH 0/1][RFC] multilib.bbclass: fix incorrect TARGET_VENDOR in multilib image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,36 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 06:11:29 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 16 Oct 2014 07:16:38 -0000
+Content-Type: text/plain
 
->=20
-> Sona,
->=20
-> Does it make more sense to update to 1.0.1j directly (I know it's late in=
- the
-> 1.7 release cycle), but given there are 3 other CVEs fixed in 'j'
-> along with some other fixes.  People may look more at the version that is
-> part of 1.7 than the back ported fixes.
->=20
-> Please review the changes for 1.0.1j it may be a better approach even at =
-this
-> late stage.
->=20
-> Sau!
+While multilib enabled, both of lib32-core-image-minimal and
+core-image-minimal's WORKDIR located in the same dir.
+$ ls tmp/work/qemux86_64-poky-linux/ -al
+...
+drwxrwxr-x  3 jiahongxu jiahongxu 4096 Oct 13 16:01 core-image-minimal
+drwxrwxr-x  3 jiahongxu jiahongxu 4096 Oct 16 11:11 lib32-core-image-minimal
+...
 
-Hi Saul,
+The reason is variable TARGET_VENDOR was not override for multilib
+in that situation.
 
-I didn't get any comment on https://bugzilla.yoctoproject.org/show_bug.cgi?=
-id=3D6843 so I don't know what is the best approach for 1.7 .
-You guys decide what to do for 1.7 :)  I will re-send the patch for daisy.=
-=20
-I have patch for the other three CVEs as well, I am running some tests, whe=
-n I am finished I will send all 4 patches.
+Is it necessary to do the multilib expansion on TARGET_VENDOR ? (See
+the following patch)
 
-Please ignore this one.
+It affected many other variables, such as:
+"HOST_VENDOR, STAGING_BINDIR_TOOLCHAIN, TARGET_SYS, MULTIMACH_TARGET_SYS,
+REAL_MULTIMACH_TARGET_SYS, SSTATE_PKGSPEC"
 
-/Sona
+If we do the modification, there may be potential issues which were
+caused by the above variables.
+
+Any suggestions is welcomed.
+
+//Hongxu
+
+The following changes since commit ccf5a4d2342c4fd40e4e0b332ea7e34e0bf175d4:
+
+  build-appliance-image: Update to dizzy head revision (2014-10-11 08:11:17 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-ml-rfc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-ml-rfc
+
+Hongxu Jia (1):
+  multilib.bbclass: fix incorrect TARGET_VENDOR in multilib image
+
+ meta/classes/multilib.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
+
+-- 
+1.9.1
+
 
