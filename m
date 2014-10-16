@@ -1,27 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 92C2C60DD7
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 754C260DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 09:51:01 +0000 (UTC)
+	Thu, 16 Oct 2014 09:51:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9G9p2l6012518
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9G9p336024094
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 02:51:02 -0700 (PDT)
+	Thu, 16 Oct 2014 02:51:03 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Thu, 16 Oct 2014 02:51:02 -0700
+	(TLS) id 14.3.174.1; Thu, 16 Oct 2014 02:51:03 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Oct 2014 17:48:33 +0800
-Message-ID: <6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
+Date: Thu, 16 Oct 2014 17:48:34 +0800
+Message-ID: <9fab5e221250480a69cf8946bfc84b84597752e0.1413452836.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1413452836.git.kai.kang@windriver.com>
 References: <cover.1413452836.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.152]
-Subject: [PATCH 1/3] readline: Security Advisory - readline - CVE-2014-2524
+Subject: [PATCH 2/3] gnupg: CVE-2013-4242
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,84 +34,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 09:51:01 -0000
+X-List-Received-Date: Thu, 16 Oct 2014 09:51:02 -0000
 Content-Type: text/plain
 
-The _rl_tropen function in util.c in GNU readline before 6.3 patch 3
-allows local users to create or overwrite arbitrary files via a symlink
-attack on a /var/tmp/rltrace.[PID] file.
+GnuPG before 1.4.14, and Libgcrypt before 1.5.3 as used in GnuPG 2.0.x
+and possibly other products, allows local users to obtain private RSA
+keys via a cache side-channel attack involving the L3 cache, aka
+Flush+Reload.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2524
+Patch from commit e2202ff2b704623efc6277fb5256e4e15bac5676 in
+git://git.gnupg.org/libgcrypt.git
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Yong Zhang <yong.zhang@windriver.com>
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- .../readline/readline-6.3/readline63-003           | 43 ++++++++++++++++++++++
- meta/recipes-core/readline/readline_6.3.bb         |  2 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-core/readline/readline-6.3/readline63-003
+ .../gnupg/gnupg-1.4.7/CVE-2013-4242.patch          | 62 ++++++++++++++++++++++
+ meta/recipes-support/gnupg/gnupg_1.4.7.bb          |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-support/gnupg/gnupg-1.4.7/CVE-2013-4242.patch
 
-diff --git a/meta/recipes-core/readline/readline-6.3/readline63-003 b/meta/recipes-core/readline/readline-6.3/readline63-003
+diff --git a/meta/recipes-support/gnupg/gnupg-1.4.7/CVE-2013-4242.patch b/meta/recipes-support/gnupg/gnupg-1.4.7/CVE-2013-4242.patch
 new file mode 100644
-index 0000000..98a9d81
+index 0000000..c9addca
 --- /dev/null
-+++ b/meta/recipes-core/readline/readline-6.3/readline63-003
-@@ -0,0 +1,43 @@
-+readline: Security Advisory - readline - CVE-2014-2524
++++ b/meta/recipes-support/gnupg/gnupg-1.4.7/CVE-2013-4242.patch
+@@ -0,0 +1,62 @@
++From e2202ff2b704623efc6277fb5256e4e15bac5676 Mon Sep 17 00:00:00 2001
++From: Werner Koch <wk@gnupg.org>
++Date: Thu, 25 Jul 2013 11:17:52 +0200
++Subject: [PATCH] Mitigate a flush+reload cache attack on RSA secret
++ exponents.
++
++commit e2202ff2b704623efc6277fb5256e4e15bac5676 from
++git://git.gnupg.org/libgcrypt.git
++
++* mpi/mpi-pow.c (gcry_mpi_powm): Always perfrom the mpi_mul for
++exponents in secure memory.
 +
 +Upstream-Status: Backport
 +
-+Signed-off-by: Yue Tao <yue.tao@windriver.com>
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++--
 +
-+			   READLINE PATCH REPORT
-+			   =====================
++The attack is published as http://eprint.iacr.org/2013/448 :
 +
-+Readline-Release: 6.3
-+Patch-ID: readline63-003
++Flush+Reload: a High Resolution, Low Noise, L3 Cache Side-Channel
++Attack by Yuval Yarom and Katrina Falkner. 18 July 2013.
 +
-+Bug-Reported-by:
-+Bug-Reference-ID:
-+Bug-Reference-URL:
++  Flush+Reload is a cache side-channel attack that monitors access to
++  data in shared pages. In this paper we demonstrate how to use the
++  attack to extract private encryption keys from GnuPG.  The high
++  resolution and low noise of the Flush+Reload attack enables a spy
++  program to recover over 98% of the bits of the private key in a
++  single decryption or signing round. Unlike previous attacks, the
++  attack targets the last level L3 cache. Consequently, the spy
++  program and the victim do not need to share the execution core of
++  the CPU. The attack is not limited to a traditional OS and can be
++  used in a virtualised environment, where it can attack programs
++  executing in a different VM.
 +
-+Bug-Description:
-+
-+There are debugging functions in the readline release that are theoretically
-+exploitable as security problems.  They are not public functions, but have
-+global linkage.
-+
-+Patch (apply with `patch -p0'):
-+
-+*** ../readline-6.3/util.c	2013-09-02 13:36:12.000000000 -0400
-+--- util.c	2014-03-20 10:25:53.000000000 -0400
-+***************
-+*** 477,480 ****
-+--- 479,483 ----
-+  }
-+  
-++ #if defined (DEBUG)
-+  #if defined (USE_VARARGS)
-+  static FILE *_rl_tracefp;
-+***************
-+*** 539,542 ****
-+--- 542,546 ----
-+  }
-+  #endif
-++ #endif /* DEBUG */
-+  
-+  
-+
-diff --git a/meta/recipes-core/readline/readline_6.3.bb b/meta/recipes-core/readline/readline_6.3.bb
-index aa30f66..2ae73ea 100644
---- a/meta/recipes-core/readline/readline_6.3.bb
-+++ b/meta/recipes-core/readline/readline_6.3.bb
-@@ -1,5 +1,7 @@
- require readline.inc
++Index: gnupg-1.4.7/mpi/mpi-pow.c
++===================================================================
++--- gnupg-1.4.7.orig/mpi/mpi-pow.c
+++++ gnupg-1.4.7/mpi/mpi-pow.c
++@@ -212,7 +212,13 @@ mpi_powm( MPI res, MPI base, MPI exponen
++ 		tp = rp; rp = xp; xp = tp;
++ 		rsize = xsize;
++ 
++-		if( (mpi_limb_signed_t)e < 0 ) {
+++            /* To mitigate the Yarom/Falkner flush+reload cache
+++             * side-channel attack on the RSA secret exponent, we do
+++             * the multiplication regardless of the value of the
+++             * high-bit of E.  But to avoid this performance penalty
+++             * we do it only if the exponent has been stored in secure
+++             * memory and we can thus assume it is a secret exponent.  */
+++		if (esec || (mpi_limb_signed_t)e < 0) {
++ 		    /*mpihelp_mul( xp, rp, rsize, bp, bsize );*/
++ 		    if( bsize < KARATSUBA_THRESHOLD ) {
++ 			mpihelp_mul( xp, rp, rsize, bp, bsize );
++@@ -227,6 +233,8 @@ mpi_powm( MPI res, MPI base, MPI exponen
++ 			mpihelp_divrem(xp + msize, 0, xp, xsize, mp, msize);
++ 			xsize = msize;
++ 		    }
+++		}
+++		if ( (mpi_limb_signed_t)e < 0 ) {
++ 
++ 		    tp = rp; rp = xp; xp = tp;
++ 		    rsize = xsize;
+diff --git a/meta/recipes-support/gnupg/gnupg_1.4.7.bb b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
+index ddcc2c2..7be56fd 100644
+--- a/meta/recipes-support/gnupg/gnupg_1.4.7.bb
++++ b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
+@@ -17,6 +17,7 @@ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/gnupg/gnupg-${PV}.tar.bz2 \
+            file://curl_typeof_fix_backport.patch \
+            file://CVE-2013-4351.patch \
+            file://CVE-2013-4576.patch \
++           file://CVE-2013-4242.patch \
+ 	  "
  
-+SRC_URI_append = " file://readline63-003"
-+
- SRC_URI[archive.md5sum] = "33c8fb279e981274f485fd91da77e94a"
- SRC_URI[archive.sha256sum] = "56ba6071b9462f980c5a72ab0023893b65ba6debb4eeb475d7a563dc65cafd43"
- 
+ SRC_URI[md5sum] = "b06a141cca5cd1a55bbdd25ab833303c"
 -- 
 1.9.1
 
