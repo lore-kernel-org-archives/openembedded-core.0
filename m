@@ -1,53 +1,22 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B67560DD7
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 5EDF360DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 11:06:42 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	s9GB6cUt029364
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 13:06:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1413457601;
-	bh=g7jE5KBKU0WR6EJ9fqCu0RHPRgSWdBa4EyMAR4VJ57c=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=Q9hp2LeFtIzJXBDYUy3hPWM4cn/6Ui4XWHAalu+kT4LdIh8ud9jsmz7ZTO0zNVwev
-	E02MEg3QW850Ul0zkj8P/18j9Rwz5y+gh/9KIRPM/xDJGNir1XXdNxCrnfHnqoEdiB
-	/zeOxxP0kLcFrToubPnr4Jh+dudwXOxphYNWEbNo=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s9GB6YNp025385
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 13:06:36 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1Xeit7-0006Qm-UC
-	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Oct 2014 13:06:34 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1413451107.git.Qi.Chen@windriver.com>
-	<222ef849d28064ba0786fb5bf929554d6389c9cc.1413451107.git.Qi.Chen@windriver.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Thu, 16 Oct 2014 13:06:33 +0200
-In-Reply-To: <222ef849d28064ba0786fb5bf929554d6389c9cc.1413451107.git.Qi.Chen@windriver.com>
-	(Chen Qi's message of "Thu, 16 Oct 2014 17:19:04 +0800")
-Message-ID: <lyr3y8z32e.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Thu, 16 Oct 2014 11:12:43 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
+	Thu, 16 Oct 2014 13:12:44 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 2671)	id 55EDA28FA68;
+	Thu, 16 Oct 2014 13:12:44 +0200 (CEST)
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 16 Oct 2014 13:12:42 +0200
+Message-ID: <1413457962-32322-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.0
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.75
-Subject: Re: [PATCH 1/1] systemd: fix runtime dependency
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] OpenSSL: session tickets memory leak, CVE-2014-3567
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,28 +29,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 11:06:44 -0000
+X-List-Received-Date: Thu, 16 Oct 2014 11:12:49 -0000
 Content-Type: text/plain
 
-Chen Qi <Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
+References:
+http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3567
+https://www.openssl.org/news/secadv_20141015.txt
 
-> Previously, if we set 'NO_RECOMMENDATIONS' to "1", we cannot reach login
-> in systemd systems. 
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ .../openssl/openssl/openssl-CVE-2014-3567.patch    | 34 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.1g.bb |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-CVE-2014-3567.patch
 
-IMO, this is just a configuration issue and can be fixed much better in
-a higher level packagegroup recipe.  RRECOMMENDS for serial getty are
-fine; although a serial console is very common on embedded systems, it
-is not strictly necessary.
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-CVE-2014-3567.patch b/meta/recipes-connectivity/openssl/openssl/openssl-CVE-2014-3567.patch
+new file mode 100644
+index 0000000..7cbabe7
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/openssl-CVE-2014-3567.patch
+@@ -0,0 +1,34 @@
++From 748270554824d2a51d1718f52a8d3ab34116bbfb Mon Sep 17 00:00:00 2001
++From: "Dr. Stephen Henson" <steve@openssl.org>
++Date: Wed, 15 Oct 2014 01:53:55 +0100
++Subject: [PATCH] Fix for session tickets memory leak.
++
++CVE-2014-3567
++
++Upstream-Status: Backport
++
++Reviewed-by: Rich Salz <rsalz@openssl.org>
++Reviewed-by: Matt Caswell <matt@openssl.org>
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ ssl/t1_lib.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/ssl/t1_lib.c b/ssl/t1_lib.c
++index 879467c..77fe232 100644
++--- a/ssl/t1_lib.c
+++++ b/ssl/t1_lib.c
++@@ -3380,7 +3380,10 @@ static int tls_decrypt_ticket(SSL *s, const unsigned char *etick, int eticklen,
++ 	HMAC_Final(&hctx, tick_hmac, NULL);
++ 	HMAC_CTX_cleanup(&hctx);
++ 	if (CRYPTO_memcmp(tick_hmac, etick + eticklen, mlen))
+++		{
+++		EVP_CIPHER_CTX_cleanup(&ctx);
++ 		return 2;
+++		}
++ 	/* Attempt to decrypt session data */
++ 	/* Move p after IV to start of encrypted ticket, update length */
++ 	p = etick + 16 + EVP_CIPHER_CTX_iv_length(&ctx);
++-- 
++1.9.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb
+index cc16875..1cbee92 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb
+@@ -42,6 +42,7 @@ SRC_URI += "file://configure-targets.patch \
+             file://openssl-CVE-2010-5298.patch \
+             file://openssl-CVE-2014-3566.patch \
+             file://openssl-CVE-2014-3513.patch \
++            file://openssl-CVE-2014-3567.patch \
+            "
+ 
+ SRC_URI[md5sum] = "de62b43dfcd858e66a74bee1c834e959"
+-- 
+1.9.1
 
-
-> This patch makes the following changes.
-> 1. Add util-linux-agetty as a runtime dependency.
->    Otherwise, getty services in systemd cannot start correctly.
-
-afais, it would make more sense to move this dependency into
-systemd-serialgetty (and not systemd as in your patch). Or are there
-other units in systemd which call agetty?
-
-
-Enrico
 
