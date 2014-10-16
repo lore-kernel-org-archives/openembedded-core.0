@@ -1,24 +1,25 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2781860DD7
+	by mail.openembedded.org (Postfix) with ESMTP id CDD8560DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 09:17:46 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9G9HmX9017996
+	Thu, 16 Oct 2014 09:51:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9G9p1M5024058
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 02:17:48 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 16 Oct 2014 02:17:47 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Thu, 16 Oct 2014 02:51:01 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.174.1; Thu, 16 Oct 2014 02:51:01 -0700
+From: Kai Kang <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Oct 2014 17:19:03 +0800
-Message-ID: <cover.1413451107.git.Qi.Chen@windriver.com>
+Date: Thu, 16 Oct 2014 17:48:32 +0800
+Message-ID: <cover.1413452836.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH 0/1] systemd: fix runtime dependency
+X-Originating-IP: [128.224.153.152]
+Subject: [PATCH 0/3] CVE fixes of package readline and gnupg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 09:17:50 -0000
+X-List-Received-Date: Thu, 16 Oct 2014 09:51:01 -0000
 Content-Type: text/plain
 
-The following changes since commit fcbd1b19383daf5e160a864df1418130da01be28:
+The following changes since commit 505a6b696ae990442de720e5e1135a3e44d5f75c:
 
-  build-appliance-image: Update to dizzy head revision (2014-10-11 08:11:11 +0100)
+  bitbake: fetcher: fix BB_STRICT_CHECKSUM datatype check (2014-10-06 16:09:53 +0100)
 
 are available in the git repository at:
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-rdepends
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-rdepends
+  git://git.pokylinux.org/poky-contrib kangkai/CVEs
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/CVEs
 
-Chen Qi (1):
-  systemd: fix runtime dependency
+Kai Kang (3):
+  readline: Security Advisory - readline - CVE-2014-2524
+  gnupg: CVE-2013-4242
+  gnupg_1.4.7: add package config libusb
 
- meta/recipes-core/systemd/systemd-serialgetty.bb | 2 --
- meta/recipes-core/systemd/systemd_216.bb         | 5 ++---
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ .../readline/readline-6.3/readline63-003           | 43 +++++++++++++++
+ meta/recipes-core/readline/readline_6.3.bb         |  2 +
+ .../gnupg/gnupg-1.4.7/CVE-2013-4242.patch          | 62 ++++++++++++++++++++++
+ meta/recipes-support/gnupg/gnupg_1.4.7.bb          |  2 +
+ 4 files changed, 109 insertions(+)
+ create mode 100644 meta/recipes-core/readline/readline-6.3/readline63-003
+ create mode 100644 meta/recipes-support/gnupg/gnupg-1.4.7/CVE-2013-4242.patch
 
 -- 
 1.9.1
