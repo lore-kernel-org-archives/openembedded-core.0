@@ -1,38 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f45.google.com (mail-qa0-f45.google.com
-	[209.85.216.45])
-	by mail.openembedded.org (Postfix) with ESMTP id EEAF460DD7
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 520DA60DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 20:00:29 +0000 (UTC)
-Received: by mail-qa0-f45.google.com with SMTP id s7so2916584qap.18
+	Thu, 16 Oct 2014 20:47:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9GKlD1q023257
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 13:00:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=oF7wxPcmjMipgwH/mJqEDdWPbuc87Qo4SSUEBDRfL2Q=;
-	b=aVGU+aWg/797bd3XF0C8plehxiI0t3+p1DHf0dLjo7I7HcOLbF39c5hPMow2llc6UU
-	EYMOnUqz2qouEHCy6q/guHBiGfkdrRJjNpizMxZI2OCBpUjYl92vhvdgYDhqcIEGSyAS
-	AAxWgzQm7VeUQw/+ZliSZVMZ/f11Iey8t3hmXUOuGRG37Yk33ZEqfnGQHLOUdf6/pkPH
-	j4xnyVwn0FAkvai2wF25NbaHGZi/y8LtuuJK95Cv5JqmNboGKzEwy7kikHKV/a1CB2+5
-	VJcse4iS9Bv9L1N1PPJoBkNqXvovIx6UD9qq1XH9RJsR2Dx1yyC2t9y9Z4XBzXcwbAKI
-	AvSg==
-X-Gm-Message-State: ALoCoQkQ9wVXkyY3jn3bK1gJs39YRgnpPrmsERwzyxharQJu4XpBW/dy2AzU+klQDhuFaWq948R4
-X-Received: by 10.229.37.138 with SMTP id x10mr5674067qcd.5.1413489628512;
-	Thu, 16 Oct 2014 13:00:28 -0700 (PDT)
+	Thu, 16 Oct 2014 13:47:13 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 16 Oct 2014 13:47:12 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 16 Oct 2014 13:47:12 -0700
+Message-ID: <1413492432-4344-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Thu, 16 Oct 2014 13:00:08 -0700 (PDT)
-In-Reply-To: <543F33D5.9090102@windriver.com>
-References: <1409294779-11573-1-git-send-email-Yue.Tao@windriver.com>
-	<543F33D5.9090102@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 16 Oct 2014 21:00:08 +0100
-Message-ID: <CAJTo0LbD5oYO0m_QQwWNCNYDsbqu_dMZ0j9hCPpMZ3izDY=JxQ@mail.gmail.com>
-To: Rongqing Li <rongqing.li@windriver.com>
-Cc: Yue Tao <Yue.Tao@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] gst-ffmpeg: Security Advisory - ffmpeg - CVE-2013-4358
+Subject: [PATCH 1/1] cross-localedef-native: provide SRCREV_FORMAT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,13 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 20:00:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 16 Oct 2014 20:47:15 -0000
+Content-Type: text/plain
 
-On 16 October 2014 03:56, Rongqing Li <rongqing.li@windriver.com> wrote:
-> Ping, please merge these two CVE patches.
+Add SRCREV_FORMAT to provide a composite version number
+for get_srcrev() in fetch2 code.
 
-Sorry about that, thanks for the ping.
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ .../glibc/cross-localedef-native_2.20.bb           |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 
-Ross
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.20.bb b/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
+index ccf56a9..8aaa225 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
+@@ -36,6 +36,10 @@ EGLIBCPATCHES = "\
+ SRCREV_glibc = "b8079dd0d360648e4e8de48656c5c38972621072"
+ SRCREV_localedef = "c833367348d39dad7ba018990bfdaffaec8e9ed3"
+ 
++# Makes for a rather long rev (22 characters), but...
++#
++SRCREV_FORMAT = "glibc__localedef"
++
+ S = "${WORKDIR}/git"
+ 
+ EXTRA_OECONF = "--with-glibc=${S}"
+-- 
+1.7.3.4
+
 
