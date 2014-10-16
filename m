@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id D374060DD7
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa08-08.prod.phx3.secureserver.net
+	(p3plsmtpa08-08.prod.phx3.secureserver.net [173.201.193.109])
+	by mail.openembedded.org (Postfix) with ESMTP id E43E8713BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 11:20:59 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id i13so2133941qae.41
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 04:21:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=/VOEH0hq7qaGxIg4BT8XwRMJAE/AvLhR7abRa5dOKBo=;
-	b=KjF0hGtFloRCziR7YmV3ewiin1pBV2vPPqm0VqADSync8wu43Au+N1vjxgiQeLnAUM
-	d1DbhV6kQ8cV6mGbt+dFuasG9OnVnIk2scMHWubWcc5Laz73/uoIhrPA/33dXfNd8IrE
-	9nT6FQAd+O10czZJhaQ0Ru8S69MPW8sdGuzw6la8tSpqMHYB+GWZ8yPeP1tjFKwkUnz5
-	SLpvpOWk5uJjMZWN7qsg2Yxqk9XucpN+cREMQY+Da3Z2itV++stFl2czl6F3cW7QWsB+
-	lds6Kz/CCG9shNHBpI2g9wkbj+aPySHGwRnRNV9IdE1MY8jJ9EEmqjPLK/uewPl/WHCs
-	+WTQ==
-X-Gm-Message-State: ALoCoQnK8/S9GxrcP+APA6RQFo4a9nlWL5Kzqnvi8aO66TvT0eFkGzTzgf1IQLolS32sTn2GYHcL
-X-Received: by 10.140.109.181 with SMTP id l50mr926975qgf.80.1413458460709;
-	Thu, 16 Oct 2014 04:21:00 -0700 (PDT)
+	Thu, 16 Oct 2014 11:29:43 +0000 (UTC)
+Received: from [192.168.65.10] ([75.72.225.8])
+	by p3plsmtpa08-08.prod.phx3.secureserver.net with 
+	id 3nVj1p0080BVjqb01nVjU2; Thu, 16 Oct 2014 04:29:44 -0700
+Message-ID: <543FAC26.70002@pabigot.com>
+Date: Thu, 16 Oct 2014 06:29:42 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Thu, 16 Oct 2014 04:20:40 -0700 (PDT)
-In-Reply-To: <6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
-References: <cover.1413452836.git.kai.kang@windriver.com>
-	<6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 16 Oct 2014 12:20:40 +0100
-Message-ID: <CAJTo0LYZHWzJFtt3xZksna7dj7qx9Esqkn+ONwRBz=S66-sEJQ@mail.gmail.com>
-To: Kai Kang <kai.kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] readline: Security Advisory - readline - CVE-2014-2524
+To: openembedded-core@lists.openembedded.org
+References: <cover.1413451107.git.Qi.Chen@windriver.com>	<222ef849d28064ba0786fb5bf929554d6389c9cc.1413451107.git.Qi.Chen@windriver.com>
+	<lyr3y8z32e.fsf@ensc-virt.intern.sigma-chemnitz.de>
+In-Reply-To: <lyr3y8z32e.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Subject: Re: [PATCH 1/1] systemd: fix runtime dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,18 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 11:21:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 16 Oct 2014 11:29:45 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 16 October 2014 10:48, Kai Kang <kai.kang@windriver.com> wrote:
-> +++ b/meta/recipes-core/readline/readline_6.3.bb
-> @@ -1,5 +1,7 @@
->  require readline.inc
+On 10/16/2014 06:06 AM, Enrico Scholz wrote:
+> Chen Qi <Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
 >
-> +SRC_URI_append = " file://readline63-003"
+>> Previously, if we set 'NO_RECOMMENDATIONS' to "1", we cannot reach login
+>> in systemd systems.
+> IMO, this is just a configuration issue and can be fixed much better in
+> a higher level packagegroup recipe.  RRECOMMENDS for serial getty are
+> fine; although a serial console is very common on embedded systems, it
+> is not strictly necessary.
+>
+>
+>> This patch makes the following changes.
+>> 1. Add util-linux-agetty as a runtime dependency.
+>>     Otherwise, getty services in systemd cannot start correctly.
+> afais, it would make more sense to move this dependency into
+> systemd-serialgetty (and not systemd as in your patch). Or are there
+> other units in systemd which call agetty?
 
-Doing SRC_URI += is the usual thing to do.  Does this CVE also apply
-to readline 5.2 that we ship as a non-GPLv3 alternative?
+There are other units that use getty.  OE's systemd has a patch to use 
+getty not agetty but for some reason console-getty is not one of the 
+units patched (maybe the unit was created after the patch was made); 
+that probably needs to be reviewed.  There is at least one other oe-core 
+provider of getty (viz. mingetty); at one point it was important to use 
+one of them (I forget which) on gumstix Overo boards.
 
-Ross
+Peter
+
 
