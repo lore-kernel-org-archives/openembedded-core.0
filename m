@@ -1,22 +1,37 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 5EDF360DD7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id D374060DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 11:12:43 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Thu, 16 Oct 2014 13:12:44 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 2671)	id 55EDA28FA68;
-	Thu, 16 Oct 2014 13:12:44 +0200 (CEST)
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Oct 2014 13:12:42 +0200
-Message-ID: <1413457962-32322-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 16 Oct 2014 11:20:59 +0000 (UTC)
+Received: by mail-qa0-f54.google.com with SMTP id i13so2133941qae.41
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Oct 2014 04:21:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=/VOEH0hq7qaGxIg4BT8XwRMJAE/AvLhR7abRa5dOKBo=;
+	b=KjF0hGtFloRCziR7YmV3ewiin1pBV2vPPqm0VqADSync8wu43Au+N1vjxgiQeLnAUM
+	d1DbhV6kQ8cV6mGbt+dFuasG9OnVnIk2scMHWubWcc5Laz73/uoIhrPA/33dXfNd8IrE
+	9nT6FQAd+O10czZJhaQ0Ru8S69MPW8sdGuzw6la8tSpqMHYB+GWZ8yPeP1tjFKwkUnz5
+	SLpvpOWk5uJjMZWN7qsg2Yxqk9XucpN+cREMQY+Da3Z2itV++stFl2czl6F3cW7QWsB+
+	lds6Kz/CCG9shNHBpI2g9wkbj+aPySHGwRnRNV9IdE1MY8jJ9EEmqjPLK/uewPl/WHCs
+	+WTQ==
+X-Gm-Message-State: ALoCoQnK8/S9GxrcP+APA6RQFo4a9nlWL5Kzqnvi8aO66TvT0eFkGzTzgf1IQLolS32sTn2GYHcL
+X-Received: by 10.140.109.181 with SMTP id l50mr926975qgf.80.1413458460709;
+	Thu, 16 Oct 2014 04:21:00 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH] OpenSSL: session tickets memory leak, CVE-2014-3567
+Received: by 10.140.93.65 with HTTP; Thu, 16 Oct 2014 04:20:40 -0700 (PDT)
+In-Reply-To: <6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
+References: <cover.1413452836.git.kai.kang@windriver.com>
+	<6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 16 Oct 2014 12:20:40 +0100
+Message-ID: <CAJTo0LYZHWzJFtt3xZksna7dj7qx9Esqkn+ONwRBz=S66-sEJQ@mail.gmail.com>
+To: Kai Kang <kai.kang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] readline: Security Advisory - readline - CVE-2014-2524
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,73 +44,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 11:12:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Oct 2014 11:21:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-References:
-http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3567
-https://www.openssl.org/news/secadv_20141015.txt
+On 16 October 2014 10:48, Kai Kang <kai.kang@windriver.com> wrote:
+> +++ b/meta/recipes-core/readline/readline_6.3.bb
+> @@ -1,5 +1,7 @@
+>  require readline.inc
+>
+> +SRC_URI_append = " file://readline63-003"
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- .../openssl/openssl/openssl-CVE-2014-3567.patch    | 34 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.1g.bb |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-CVE-2014-3567.patch
+Doing SRC_URI += is the usual thing to do.  Does this CVE also apply
+to readline 5.2 that we ship as a non-GPLv3 alternative?
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-CVE-2014-3567.patch b/meta/recipes-connectivity/openssl/openssl/openssl-CVE-2014-3567.patch
-new file mode 100644
-index 0000000..7cbabe7
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/openssl-CVE-2014-3567.patch
-@@ -0,0 +1,34 @@
-+From 748270554824d2a51d1718f52a8d3ab34116bbfb Mon Sep 17 00:00:00 2001
-+From: "Dr. Stephen Henson" <steve@openssl.org>
-+Date: Wed, 15 Oct 2014 01:53:55 +0100
-+Subject: [PATCH] Fix for session tickets memory leak.
-+
-+CVE-2014-3567
-+
-+Upstream-Status: Backport
-+
-+Reviewed-by: Rich Salz <rsalz@openssl.org>
-+Reviewed-by: Matt Caswell <matt@openssl.org>
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+---
-+ ssl/t1_lib.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/ssl/t1_lib.c b/ssl/t1_lib.c
-+index 879467c..77fe232 100644
-+--- a/ssl/t1_lib.c
-++++ b/ssl/t1_lib.c
-+@@ -3380,7 +3380,10 @@ static int tls_decrypt_ticket(SSL *s, const unsigned char *etick, int eticklen,
-+ 	HMAC_Final(&hctx, tick_hmac, NULL);
-+ 	HMAC_CTX_cleanup(&hctx);
-+ 	if (CRYPTO_memcmp(tick_hmac, etick + eticklen, mlen))
-++		{
-++		EVP_CIPHER_CTX_cleanup(&ctx);
-+ 		return 2;
-++		}
-+ 	/* Attempt to decrypt session data */
-+ 	/* Move p after IV to start of encrypted ticket, update length */
-+ 	p = etick + 16 + EVP_CIPHER_CTX_iv_length(&ctx);
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb
-index cc16875..1cbee92 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.1g.bb
-@@ -42,6 +42,7 @@ SRC_URI += "file://configure-targets.patch \
-             file://openssl-CVE-2010-5298.patch \
-             file://openssl-CVE-2014-3566.patch \
-             file://openssl-CVE-2014-3513.patch \
-+            file://openssl-CVE-2014-3567.patch \
-            "
- 
- SRC_URI[md5sum] = "de62b43dfcd858e66a74bee1c834e959"
--- 
-1.9.1
-
+Ross
 
