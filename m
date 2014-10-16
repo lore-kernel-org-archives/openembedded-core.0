@@ -1,24 +1,30 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa08-07.prod.phx3.secureserver.net
-	(p3plsmtpa08-07.prod.phx3.secureserver.net [173.201.193.108])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CF3C60DD7
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id ABC8C60DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 10:59:22 +0000 (UTC)
-Received: from [192.168.65.10] ([75.72.225.8])
-	by p3plsmtpa08-07.prod.phx3.secureserver.net with 
-	id 3mzM1p00T0BVjqb01mzN64; Thu, 16 Oct 2014 03:59:23 -0700
-Message-ID: <543FA509.1040203@pabigot.com>
-Date: Thu, 16 Oct 2014 05:59:21 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
+	Thu, 16 Oct 2014 11:04:11 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0158.001; Thu, 16 Oct 2014 13:04:11 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: Truly scary SSL 3.0 vuln to be revealed soon:
+Thread-Index: Ac/oO1a66AZx1WfuSiqPuqDXwzOnfwAE7haAAAtU9YAALOLhMA==
+Date: Thu, 16 Oct 2014 11:04:10 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E482576A7CB@SESTOEX04.enea.se>
+References: <3230301C09DEF9499B442BBE162C5E482576880D@SESTOEX04.enea.se>
+	<CAJTo0La=7QNS53qZDgShj+9yr6Ge0hyk9HFAdS+Ue0bZAkck4A@mail.gmail.com>
+	<CAJTo0La9iMQ4ZiSuTFo35271c2McpzkSvugOEqL6dBNoncdkZQ@mail.gmail.com>
+In-Reply-To: <CAJTo0La9iMQ4ZiSuTFo35271c2McpzkSvugOEqL6dBNoncdkZQ@mail.gmail.com>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.140.6]
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1413451107.git.Qi.Chen@windriver.com>
-	<222ef849d28064ba0786fb5bf929554d6389c9cc.1413451107.git.Qi.Chen@windriver.com>
-In-Reply-To: <222ef849d28064ba0786fb5bf929554d6389c9cc.1413451107.git.Qi.Chen@windriver.com>
-Subject: Re: [PATCH 1/1] systemd: fix runtime dependency
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Truly scary SSL 3.0 vuln to be revealed soon:
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,74 +37,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 10:59:31 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Oct 2014 11:04:14 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 10/16/2014 04:19 AM, Chen Qi wrote:
-> Previously, if we set 'NO_RECOMMENDATIONS' to "1", we cannot reach login
-> in systemd systems. The problem is that several runtime dependencies are
-> coded as 'recommended' in our project.
->
-> This patch makes the following changes.
-> 1. Add util-linux-agetty as a runtime dependency.
->     Otherwise, getty services in systemd cannot start correctly.
-> 2. Add systemd-serialgetty as a runtime dependency.
->     Otherwise, serialgetty services cannot start correctly in systemd and
->     we would have problem when using `runqemu qemux86 nographic'.
-> 3. Remove 'systemd' from RDEPENDS of systemd-serialgetty.
->     systemd-serialgetty justs ships systemd unit files, even if the init
->     manager is 'sysvinit', these files do no harm.
-
-This looks really weird.  It doesn't make any sense that systemd should 
-depend on systemd-serialgetty; the original dependency was right.
-
-serialgetty works fine under systemd with all my configurations as-is.
-
-I think you need to look more closely at your project-specific 
-configuration to understand why things aren't getting set up correctly 
-for you.
-
-Peter
-
-
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-core/systemd/systemd-serialgetty.bb | 2 --
->   meta/recipes-core/systemd/systemd_216.bb         | 5 ++---
->   2 files changed, 2 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
-> index 1c34d5c..f3acaad 100644
-> --- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-> +++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-> @@ -36,8 +36,6 @@ do_install() {
->   	fi
->   }
->   
-> -RDEPENDS_${PN} = "systemd"
-> -
->   # This is a machine specific file
->   FILES_${PN} = "${systemd_unitdir}/system/*.service ${sysconfdir}"
->   PACKAGE_ARCH = "${MACHINE_ARCH}"
-> diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
-> index ebf9395..62fe5c7 100644
-> --- a/meta/recipes-core/systemd/systemd_216.bb
-> +++ b/meta/recipes-core/systemd/systemd_216.bb
-> @@ -267,11 +267,10 @@ FILES_${PN} = " ${base_bindir}/* \
->   FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
->   FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
->   
-> -RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
-> +RDEPENDS_${PN} += "kmod dbus systemd-serialgetty util-linux-mount util-linux-agetty udev (= ${EXTENDPKGV})"
->   RDEPENDS_${PN} += "volatile-binds"
->   
-> -RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units udev-hwdb\
-> -                      util-linux-agetty \
-> +RRECOMMENDS_${PN} += "systemd-compat-units udev-hwdb\
->                         util-linux-fsck e2fsprogs-e2fsck \
->                         kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 os-release \
->   "
-
+SGkgUm9zcw0KDQo+IFRoZXJlJ3MgYSBvcGVuc3NsIDEuMC4xaiBvdXQgbm93IChmaXhpbmcgRk9V
+UiAoISkgQ1ZFcywgaW5jbHVkaW5nICJkaXNhYmxpbmcNCj4gU1NMdjMgZGlkbid0IHdvcmsiLi4u
+KS4gIEkgdGhpbmsgY29uc2lkZXJpbmcgdGhlIHNpdHVhdGlvbiB3ZSdkIHRha2UgdGhlDQo+IHVw
+Z3JhZGUgZm9yIGRpenp5LCBldmVuIHRob3VnaCB3ZSd2ZSBmcm96ZW4uICBBbnlvbmUgdm9sdW50
+ZWVyaW5nIHRvIHRha2UNCj4gbGVhZCBvZiB1cGdyYWRpbmcgZGl6enkgdG8gMS4wLjFqIGFuZCBi
+YWNrcG9ydGluZyB0aGUgcmVsZXZhbnQgcGF0Y2hlcyB0byB0aGUNCj4gcHJldmlvdXMgcmVsZWFz
+ZXM/IChlZyBkYWlzeSBpcyBvbiAxLjAuMWcpLg0KPiANCj4gUm9zcw0KDQpTb3JyeSwgSSBtaXNz
+ZWQgdGhpcywgSSBhbSBwcmVwYXJpbmcgcGF0Y2hlcyBmb3IgZGFpc3kuIEkgaGF2ZSBzZW50IHR3
+byBwYXRjaGVzIHRvIE9FLWNvcmUgbGlzdCBmb3IgZGFpc3kgYW5kIEkgd2lsbCBzZW50IHR3byBt
+b3JlLiBEb2VzIHRob3NlIHR3byBwYXRjaGVzIGxvb2sgb2s/IA0KSSBoYXZlIGJ1aWx0IGNvcmUt
+aW1hZ2UtbWluaW1hbCBmb3IgcWVtdWFybSBhbmQgYm9vdGVkLiBJIGhhdmVuJ3QgZG9uZSBtb3Jl
+IHRlc3RzIHRvIHZlcmlmeSB0aGUgZml4ZXMuIEkgd2lsbCBzZWFyY2ggYW5kIHNlZSBpZiBJIGNh
+biBmaW5kIHN1aXRhYmxlIHRlc3RzIHNvIHdlIGNhbiBydW4gcHJvcGVyIHRlc3RzIGF0IHRoZSBl
+bmQgYWZ0ZXIgYXBwbHlpbmcgYWxsIHBhdGNoZXMuIA0KDQotLSBTb25hDQo=
 
