@@ -1,42 +1,31 @@
-Return-Path: <rpjday@crashcourse.ca>
-X-Greylist: delayed 406 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 16 Oct 2014 16:04:48 UTC
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 65766716A3
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id F1B406AD01
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 16:04:48 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20141016155803419
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 15:58:03 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [128.107.239.234] (port=42993 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1XenRH-00043H-4t for openembedded-core@lists.openembedded.org;
-	Thu, 16 Oct 2014 11:58:07 -0400
-Date: Thu, 16 Oct 2014 08:57:56 -0700 (PDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-In-Reply-To: <alpine.LFD.2.11.1410160850380.6082@localhost>
-Message-ID: <alpine.LFD.2.11.1410160856580.6180@localhost>
-References: <alpine.LFD.2.11.1410160850380.6082@localhost>
-User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+	Thu, 16 Oct 2014 16:09:34 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.03.0158.001; Thu, 16 Oct 2014 18:09:31 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Catalin Popeanga
+	<Catalin.Popeanga@enea.com>
+Thread-Topic: Truly scary SSL 3.0 vuln to be revealed soon:
+Thread-Index: Ac/oO1a66AZx1WfuSiqPuqDXwzOnfwAE7haAAAtU9YAANUnqoA==
+Date: Thu, 16 Oct 2014 16:09:30 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E482576ADB6@SESTOEX04.enea.se>
+References: <3230301C09DEF9499B442BBE162C5E482576880D@SESTOEX04.enea.se>
+	<CAJTo0La=7QNS53qZDgShj+9yr6Ge0hyk9HFAdS+Ue0bZAkck4A@mail.gmail.com>
+	<CAJTo0La9iMQ4ZiSuTFo35271c2McpzkSvugOEqL6dBNoncdkZQ@mail.gmail.com>
+In-Reply-To: <CAJTo0La9iMQ4ZiSuTFo35271c2McpzkSvugOEqL6dBNoncdkZQ@mail.gmail.com>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.1.188]
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: Re: isn't "do_install_append_pn-uclibc" partly redundant? [NEVER MIND]
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Truly scary SSL 3.0 vuln to be revealed soon:
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,46 +38,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 16:04:49 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 16 Oct 2014 16:09:36 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Thu, 16 Oct 2014, Robert P. J. Day wrote:
-
->
->   perusing recipes for my courseware and ran across this in the listed
-> file:
->
-> meta/recipes-core/uclibc/uclibc.inc:do_install_append_pn-uclibc () {
->
-> now, given that the above file is clearly the general include file for
-> the uclibc package, could the task append definition:
->
->   do_install_append_pn-uclibc () {
->
-> not have been written more simply as:
->
->   do_install_append () {
->
-> as in, given that this task append is clearly only for the uclibc
-> package, it seems unnecessary to add a package-specific override. most
-> other recipes use the second, shorter form, so i was wondering if
-> there was something subtle about the uclibc recipe that necessitated
-> the first form.
-
-  oh, wait, i just saw the associated recipe for uclibc-initial, so
-the package-specific override in the .inc file for just the uclibc
-package now makes sense.
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Um9zcywNCg0KPiA+IFByZXN1bWFibHkgdGhlIGxpc3Qgb2YgYWZmZWN0ZWQgcGFja2FnZXMgaXM6
+DQo+ID4gLSBnbnV0bHMNCj4gPiAtIG9wZW5zc2wNCj4gPiAtIG5zcw0KPiANCj4gVGhlcmUncyBh
+IG9wZW5zc2wgMS4wLjFqIG91dCBub3cgKGZpeGluZyBGT1VSICghKSBDVkVzLCBpbmNsdWRpbmcg
+ImRpc2FibGluZw0KPiBTU0x2MyBkaWRuJ3Qgd29yayIuLi4pLiAgSSB0aGluayBjb25zaWRlcmlu
+ZyB0aGUgc2l0dWF0aW9uIHdlJ2QgdGFrZSB0aGUNCj4gdXBncmFkZSBmb3IgZGl6enksIGV2ZW4g
+dGhvdWdoIHdlJ3ZlIGZyb3plbi4gIEFueW9uZSB2b2x1bnRlZXJpbmcgdG8gdGFrZQ0KPiBsZWFk
+IG9mIHVwZ3JhZGluZyBkaXp6eSB0byAxLjAuMWogYW5kIGJhY2twb3J0aW5nIHRoZSByZWxldmFu
+dCBwYXRjaGVzIHRvIHRoZQ0KPiBwcmV2aW91cyByZWxlYXNlcz8gKGVnIGRhaXN5IGlzIG9uIDEu
+MC4xZykuDQo+IA0KPiBSb3NzDQoNCkRvIHlvdSBrbm93IGlmIGdudXRscyBpbXBsZW1lbnRzIHRo
+ZSBTU0x2MyBwcm90b2NvbD8gIEkgZG9uJ3Qgc2VlIGFueSBuZXcgc2VjdXJpdHkgdXBkYXRlcyBm
+b3IgZ251dGxzIChyZWxhdGVkIHRvIHRoZSBTU0x2MyB2dWxuZXJhYmlsaXR5KSA/IA0KDQovU29u
+YQ0K
 
