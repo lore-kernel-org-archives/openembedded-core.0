@@ -1,24 +1,24 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A7FA27192A
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa08-07.prod.phx3.secureserver.net
+	(p3plsmtpa08-07.prod.phx3.secureserver.net [173.201.193.108])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CF3C60DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 10:27:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9GARJjI002715
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 03:27:19 -0700 (PDT)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 16 Oct 2014 03:27:18 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Oct 2014 06:27:17 -0400
-Message-ID: <1413455237-12164-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
+	Thu, 16 Oct 2014 10:59:22 +0000 (UTC)
+Received: from [192.168.65.10] ([75.72.225.8])
+	by p3plsmtpa08-07.prod.phx3.secureserver.net with 
+	id 3mzM1p00T0BVjqb01mzN64; Thu, 16 Oct 2014 03:59:23 -0700
+Message-ID: <543FA509.1040203@pabigot.com>
+Date: Thu, 16 Oct 2014 05:59:21 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-Subject: [PATCH v2] mtools: fix broken /usr/bin/lz
+To: openembedded-core@lists.openembedded.org
+References: <cover.1413451107.git.Qi.Chen@windriver.com>
+	<222ef849d28064ba0786fb5bf929554d6389c9cc.1413451107.git.Qi.Chen@windriver.com>
+In-Reply-To: <222ef849d28064ba0786fb5bf929554d6389c9cc.1413451107.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 1/1] systemd: fix runtime dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,79 +31,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 10:27:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Oct 2014 10:59:31 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Wenlin Kang <wenlin.kang@windriver.com>
+On 10/16/2014 04:19 AM, Chen Qi wrote:
+> Previously, if we set 'NO_RECOMMENDATIONS' to "1", we cannot reach login
+> in systemd systems. The problem is that several runtime dependencies are
+> coded as 'recommended' in our project.
+>
+> This patch makes the following changes.
+> 1. Add util-linux-agetty as a runtime dependency.
+>     Otherwise, getty services in systemd cannot start correctly.
+> 2. Add systemd-serialgetty as a runtime dependency.
+>     Otherwise, serialgetty services cannot start correctly in systemd and
+>     we would have problem when using `runqemu qemux86 nographic'.
+> 3. Remove 'systemd' from RDEPENDS of systemd-serialgetty.
+>     systemd-serialgetty justs ships systemd unit files, even if the init
+>     manager is 'sysvinit', these files do no harm.
 
-When build fs with mtools-3.9.9, has file /usr/bin/lz in rootfs,
-it is the symlink to uz:
+This looks really weird.  It doesn't make any sense that systemd should 
+depend on systemd-serialgetty; the original dependency was right.
 
-root@qemu3:~# /usr/bin/lz
--sh: /usr/bin/lz: No such file or directory
-$root@qemu3:~# ls -l /usr/bin/lz
-lrwxrwxrwx 1 root root 2 Jul 18 18:07 /usr/bin/lz -> uz
-root@qemu3:~# uz
--sh: uz: command not found
+serialgetty works fine under systemd with all my configurations as-is.
 
-But the uz isn't actually exist, so the result is that lz is a
-broken symlink.
+I think you need to look more closely at your project-specific 
+configuration to understand why things aren't getting set up correctly 
+for you.
 
-The root cause is that uz hasn't been installed when install-scripts.
+Peter
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../mtools/mtools/fix-broken-lz.patch              | 23 ++++++++++++++++++++++
- meta/recipes-devtools/mtools/mtools_3.9.9.bb       |  4 +++-
- 2 files changed, 26 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/mtools/mtools/fix-broken-lz.patch
 
-diff --git a/meta/recipes-devtools/mtools/mtools/fix-broken-lz.patch b/meta/recipes-devtools/mtools/mtools/fix-broken-lz.patch
-new file mode 100644
-index 0000000..cb45491
---- /dev/null
-+++ b/meta/recipes-devtools/mtools/mtools/fix-broken-lz.patch
-@@ -0,0 +1,23 @@
-+Upstream-Status: Backport
-+
-+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+ Makefile.in | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/Makefile.in b/Makefile.in
-+index 8f9305a..694e837 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -251,6 +251,7 @@ install-scripts: ${DESTDIR}$(bindir)/mtools
-+ 	@$(top_srcdir)/mkinstalldirs ${DESTDIR}$(bindir)
-+ 	@for j in $(SCRIPTS) ; do \
-+ 		$(INSTALL_SCRIPT) $(srcdir)/scripts/$$j ${DESTDIR}$(bindir)/$$j ; \
-++		$(INSTALL_PROGRAM) $(srcdir)/scripts/$$j ${DESTDIR}$(bindir)/$$j ; \
-+ 		echo ${DESTDIR}$(bindir)/$$j ; \
-+ 	done
-+ 	rm -f ${DESTDIR}$(bindir)/lz
-+-- 
-+2.0.0
-+
-diff --git a/meta/recipes-devtools/mtools/mtools_3.9.9.bb b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
-index d995c8f..f6dd336 100644
---- a/meta/recipes-devtools/mtools/mtools_3.9.9.bb
-+++ b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
-@@ -31,7 +31,9 @@ RRECOMMENDS_${PN} = "\
- SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/mtools-${PV}.tar.gz \
- 	file://mtools-makeinfo.patch \
- 	file://mtools.patch \
--	file://no-x11.patch"
-+	file://no-x11.patch \
-+	file://fix-broken-lz.patch \
-+"
- 
- SRC_URI[md5sum] = "3e68b857b4e1f3a6521d1dfefbd30a36"
- SRC_URI[sha256sum] = "af083a73425d664d4607ef6c6564fd9319a0e47ee7c105259a45356cb834690e"
--- 
-2.0.0
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/recipes-core/systemd/systemd-serialgetty.bb | 2 --
+>   meta/recipes-core/systemd/systemd_216.bb         | 5 ++---
+>   2 files changed, 2 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
+> index 1c34d5c..f3acaad 100644
+> --- a/meta/recipes-core/systemd/systemd-serialgetty.bb
+> +++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
+> @@ -36,8 +36,6 @@ do_install() {
+>   	fi
+>   }
+>   
+> -RDEPENDS_${PN} = "systemd"
+> -
+>   # This is a machine specific file
+>   FILES_${PN} = "${systemd_unitdir}/system/*.service ${sysconfdir}"
+>   PACKAGE_ARCH = "${MACHINE_ARCH}"
+> diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
+> index ebf9395..62fe5c7 100644
+> --- a/meta/recipes-core/systemd/systemd_216.bb
+> +++ b/meta/recipes-core/systemd/systemd_216.bb
+> @@ -267,11 +267,10 @@ FILES_${PN} = " ${base_bindir}/* \
+>   FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
+>   FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+>   
+> -RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
+> +RDEPENDS_${PN} += "kmod dbus systemd-serialgetty util-linux-mount util-linux-agetty udev (= ${EXTENDPKGV})"
+>   RDEPENDS_${PN} += "volatile-binds"
+>   
+> -RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units udev-hwdb\
+> -                      util-linux-agetty \
+> +RRECOMMENDS_${PN} += "systemd-compat-units udev-hwdb\
+>                         util-linux-fsck e2fsprogs-e2fsck \
+>                         kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 os-release \
+>   "
 
 
