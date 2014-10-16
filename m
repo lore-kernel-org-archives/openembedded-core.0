@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 83C8660DD7
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C2F260DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 07:16:35 +0000 (UTC)
+	Thu, 16 Oct 2014 07:16:36 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9G7GZHE027591
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9G7Galj010881
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 16 Oct 2014 00:16:35 -0700 (PDT)
+	Thu, 16 Oct 2014 00:16:37 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 16 Oct 2014 00:16:34 -0700
+	14.3.174.1; Thu, 16 Oct 2014 00:16:36 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
 	<richard.purdie@linuxfoundation.org>
-Date: Thu, 16 Oct 2014 15:16:24 +0800
-Message-ID: <cover.1413442931.git.hongxu.jia@windriver.com>
+Date: Thu, 16 Oct 2014 15:16:25 +0800
+Message-ID: <ec4a4a3438645872a6c305ef12e6e4c187f62540.1413442931.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1413442931.git.hongxu.jia@windriver.com>
+References: <cover.1413442931.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1][RFC] multilib.bbclass: fix incorrect TARGET_VENDOR in multilib image
+Subject: [PATCH 1/1] multilib.bbclass: fix incorrect TARGET_VENDOR in multilib image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 07:16:38 -0000
+X-List-Received-Date: Thu, 16 Oct 2014 07:16:40 -0000
 Content-Type: text/plain
 
-While multilib enabled, both of lib32-core-image-minimal and
-core-image-minimal's WORKDIR located in the same dir.
+While building multilib extended images such as libXX-core-image-minimal,
+the WORKDIR has the same dir with the building of core-image-minimal.
+
 $ ls tmp/work/qemux86_64-poky-linux/ -al
 ...
 drwxrwxr-x  3 jiahongxu jiahongxu 4096 Oct 13 16:01 core-image-minimal
 drwxrwxr-x  3 jiahongxu jiahongxu 4096 Oct 16 11:11 lib32-core-image-minimal
 ...
 
-The reason is variable TARGET_VENDOR was not override for multilib
-in that situation.
+While image class is inherited, it did not assign OVERRIDES with
+'virtclass-multilib-libXXX', so the reason is variable TARGET_VENDOR was
+not override for multilib in that situation.
 
-Is it necessary to do the multilib expansion on TARGET_VENDOR ? (See
-the following patch)
+It refers what did for PN and MLPREFIX, and manually do the multilib
+override for TARGET_VENDOR in RecipePreFinalise handler.
 
-It affected many other variables, such as:
-"HOST_VENDOR, STAGING_BINDIR_TOOLCHAIN, TARGET_SYS, MULTIMACH_TARGET_SYS,
-REAL_MULTIMACH_TARGET_SYS, SSTATE_PKGSPEC"
+[YOCTO #6844]
 
-If we do the modification, there may be potential issues which were
-caused by the above variables.
-
-Any suggestions is welcomed.
-
-//Hongxu
-
-The following changes since commit ccf5a4d2342c4fd40e4e0b332ea7e34e0bf175d4:
-
-  build-appliance-image: Update to dizzy head revision (2014-10-11 08:11:17 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-ml-rfc
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-ml-rfc
-
-Hongxu Jia (1):
-  multilib.bbclass: fix incorrect TARGET_VENDOR in multilib image
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  meta/classes/multilib.bbclass | 3 +++
  1 file changed, 3 insertions(+)
 
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 6e143dd..2a90d9e 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -21,6 +21,9 @@ python multilib_virtclass_handler () {
+     if bb.data.inherits_class('image', e.data):
+         e.data.setVar("MLPREFIX", variant + "-")
+         e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
++        target_vendor = e.data.getVar("TARGET_VENDOR_" + "virtclass-multilib-" + variant, False)
++        if target_vendor:
++            e.data.setVar("TARGET_VENDOR", target_vendor)
+         return
+ 
+     if bb.data.inherits_class('cross-canadian', e.data):
 -- 
 1.9.1
 
