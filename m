@@ -1,33 +1,24 @@
 Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 03E6C60DD7
+	by mail.openembedded.org (Postfix) with ESMTP id A7FA27192A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 10:25:52 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9GAPrD1002512
+	Thu, 16 Oct 2014 10:27:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9GARJjI002715
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 03:25:53 -0700 (PDT)
-Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.18]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0174.001;
-	Thu, 16 Oct 2014 03:25:53 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] mtools: fix broken /usr/bin/lz
-Thread-Index: AQHP6GKIrKduLkNDKEC5oHD673Ol7Zwyg63g
-Date: Thu, 16 Oct 2014 10:25:52 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AABD523670@ALA-MBB.corp.ad.wrs.com>
-References: <1413365334-374-1-git-send-email-jackie.huang@windriver.com>
-	<CAJTo0LaFVVtrZfnY82BK=VBqeqX=r+3y+MxGUnw6emL+gmO_dg@mail.gmail.com>
-In-Reply-To: <CAJTo0LaFVVtrZfnY82BK=VBqeqX=r+3y+MxGUnw6emL+gmO_dg@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.131]
+	Thu, 16 Oct 2014 03:27:19 -0700 (PDT)
+Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 16 Oct 2014 03:27:18 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 16 Oct 2014 06:27:17 -0400
+Message-ID: <1413455237-12164-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.0.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mtools: fix broken /usr/bin/lz
+Subject: [PATCH v2] mtools: fix broken /usr/bin/lz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,34 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 10:25:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 16 Oct 2014 10:27:19 -0000
+Content-Type: text/plain
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQnVydG9uLCBSb3NzIFtt
-YWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPiBTZW50OiBXZWRuZXNkYXksIE9jdG9iZXIg
-MTUsIDIwMTQgNjoyNiBQTQ0KPiBUbzogSHVhbmcsIEppZSAoSmFja2llKQ0KPiBDYzogT0UtY29y
-ZQ0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gbXRvb2xzOiBmaXggYnJva2VuIC91
-c3IvYmluL2x6DQo+IA0KPiBPbiAxNSBPY3RvYmVyIDIwMTQgMTA6MjgsICA8amFja2llLmh1YW5n
-QHdpbmRyaXZlci5jb20+IHdyb3RlOg0KPiA+ICstICAgICAgICAgICAgICAkKElOU1RBTExfU0NS
-SVBUKSAkKHNyY2Rpcikvc2NyaXB0cy8kaiAke0RFU1RESVJ9JChiaW5kaXIpLyRqIDsgXA0KPiA+
-ICsrICAgICAgICAgICAgICAkKElOU1RBTExfUFJPR1JBTSkgJChzcmNkaXIpL3NjcmlwdHMvJGoN
-Cj4gPiArKyAke0RFU1RESVJ9JChiaW5kaXIpLyRqIDsgXA0KPiANCj4gTWF5YmUgeW91IG1lYW50
-IHRvIGluc3RhbGwgYm90aCBzY3JpcHRzIGFuZCBwcm9ncmFtczoNCg0KWWVzLCB0aGFua3MgZm9y
-IHBvaW50aW5nIG91dCwgdGhlIGV4cGVjdGVkIHJlc3VsdHMgc2hvdWxkIGJlOg0KDQokIGJ1aWxk
-aGlzdG9yeS1kaWZmIA0KcGFja2FnZXMvY29yZTItNjQtcG9reS1saW51eC9tdG9vbHMvbXRvb2xz
-OiBGSUxFTElTVDogYWRkZWQgIi91c3IvYmluL21jb21wIC91c3IvYmluL21jaGVjayAvdXNyL2Jp
-bi9teHRhciAvdXNyL2Jpbi91eiAvdXNyL2Jpbi90Z3oiDQoNCkkgd2lsbCBzZW5kIHYyIGZvciB0
-aGlzLg0KDQpUaGFua3MsDQpKYWNraWUNCg0KPiANCj4gJCBidWlsZGhpc3RvcnktZGlmZg0KPiBw
-YWNrYWdlcy9jb3JlaTctNjQtcG9reS1saW51eC9tdG9vbHMvbXRvb2xzOiBGSUxFTElTVDogcmVt
-b3ZlZCAiL3Vzci9iaW4vdGd6LnRneiIgYWRkZWQNCj4gIi91c3IvYmluL21jb21wIC91c3IvYmlu
-L21jaGVjayAvdXNyL2Jpbi9teHRhciAvdXNyL2Jpbi91eiAvdXNyL2Jpbi90Z3oiDQo+IHBhY2th
-Z2VzL2NvcmVpNy02NC1wb2t5LWxpbnV4L210b29scy9tdG9vbHM6IFBLR1IgY2hhbmdlZCBmcm9t
-IHI2LjAgdG8gcjYuMQ0KPiBwYWNrYWdlcy9jb3JlaTctNjQtcG9reS1saW51eC9tdG9vbHMvbXRv
-b2xzOiBQS0dTSVpFIGNoYW5nZWQgZnJvbQ0KPiA5NTQ1ODggdG8gMTgwMzAyICgtODElKQ0KPiAg
-ICogRklMRUxJU1Q6IHJlbW92ZWQgIi91c3IvYmluL3Rnei50Z3oiIGFkZGVkICIvdXNyL2Jpbi9t
-Y29tcCAvdXNyL2Jpbi9tY2hlY2sgL3Vzci9iaW4vbXh0YXINCj4gL3Vzci9iaW4vdXogL3Vzci9i
-aW4vdGd6Ig0KPiANCj4gVGhpcyBwYXRjaCBtZWFucyAvdXNyL2Jpbi90Z3oudGd6IGlzbid0IHNo
-aXBwZWQgYW55bW9yZS4NCj4gDQo+IFJvc3MNCg==
+From: Wenlin Kang <wenlin.kang@windriver.com>
+
+When build fs with mtools-3.9.9, has file /usr/bin/lz in rootfs,
+it is the symlink to uz:
+
+root@qemu3:~# /usr/bin/lz
+-sh: /usr/bin/lz: No such file or directory
+$root@qemu3:~# ls -l /usr/bin/lz
+lrwxrwxrwx 1 root root 2 Jul 18 18:07 /usr/bin/lz -> uz
+root@qemu3:~# uz
+-sh: uz: command not found
+
+But the uz isn't actually exist, so the result is that lz is a
+broken symlink.
+
+The root cause is that uz hasn't been installed when install-scripts.
+
+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ .../mtools/mtools/fix-broken-lz.patch              | 23 ++++++++++++++++++++++
+ meta/recipes-devtools/mtools/mtools_3.9.9.bb       |  4 +++-
+ 2 files changed, 26 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/mtools/mtools/fix-broken-lz.patch
+
+diff --git a/meta/recipes-devtools/mtools/mtools/fix-broken-lz.patch b/meta/recipes-devtools/mtools/mtools/fix-broken-lz.patch
+new file mode 100644
+index 0000000..cb45491
+--- /dev/null
++++ b/meta/recipes-devtools/mtools/mtools/fix-broken-lz.patch
+@@ -0,0 +1,23 @@
++Upstream-Status: Backport
++
++Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
++Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
++---
++ Makefile.in | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/Makefile.in b/Makefile.in
++index 8f9305a..694e837 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -251,6 +251,7 @@ install-scripts: ${DESTDIR}$(bindir)/mtools
++ 	@$(top_srcdir)/mkinstalldirs ${DESTDIR}$(bindir)
++ 	@for j in $(SCRIPTS) ; do \
++ 		$(INSTALL_SCRIPT) $(srcdir)/scripts/$$j ${DESTDIR}$(bindir)/$$j ; \
+++		$(INSTALL_PROGRAM) $(srcdir)/scripts/$$j ${DESTDIR}$(bindir)/$$j ; \
++ 		echo ${DESTDIR}$(bindir)/$$j ; \
++ 	done
++ 	rm -f ${DESTDIR}$(bindir)/lz
++-- 
++2.0.0
++
+diff --git a/meta/recipes-devtools/mtools/mtools_3.9.9.bb b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
+index d995c8f..f6dd336 100644
+--- a/meta/recipes-devtools/mtools/mtools_3.9.9.bb
++++ b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
+@@ -31,7 +31,9 @@ RRECOMMENDS_${PN} = "\
+ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/mtools-${PV}.tar.gz \
+ 	file://mtools-makeinfo.patch \
+ 	file://mtools.patch \
+-	file://no-x11.patch"
++	file://no-x11.patch \
++	file://fix-broken-lz.patch \
++"
+ 
+ SRC_URI[md5sum] = "3e68b857b4e1f3a6521d1dfefbd30a36"
+ SRC_URI[sha256sum] = "af083a73425d664d4607ef6c6564fd9319a0e47ee7c105259a45356cb834690e"
+-- 
+2.0.0
+
 
