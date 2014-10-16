@@ -1,34 +1,37 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 5155460DD7
+Return-Path: <nitin.a.kamble@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D9A5460DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 20:56:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 1C3BC314EEF7;
-	Thu, 16 Oct 2014 22:56:09 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id Kwhzdlnr3CNg; Thu, 16 Oct 2014 22:56:00 +0200 (CEST)
-Received: from [172.22.22.61] (55d467ef.access.ecotel.net [85.212.103.239])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id EA707314EEF6;
-	Thu, 16 Oct 2014 22:55:59 +0200 (CEST)
-Message-ID: <544030DF.4040807@opendreambox.org>
-Date: Thu, 16 Oct 2014 22:55:59 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
+	Thu, 16 Oct 2014 21:27:24 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Oct 2014 14:27:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,734,1406617200"; d="scan'208";a="615758838"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+	by fmsmga002.fm.intel.com with ESMTP; 16 Oct 2014 14:26:39 -0700
+Received: from orsmsx103.amr.corp.intel.com ([169.254.2.106]) by
+	ORSMSX106.amr.corp.intel.com ([169.254.5.74]) with mapi id
+	14.03.0195.001; Thu, 16 Oct 2014 14:26:38 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [daisy] [PATCHv2 1/1] lttng-modules: Update to
+	version 2.4.2
+Thread-Index: AQHP5oqm1q8dfm+5t0GvB9dVb+nJgJwzQqaA
+Date: Thu, 16 Oct 2014 21:26:38 +0000
+Message-ID: <D06585FF.873F%nitin.a.kamble@intel.com>
+References: <1413166123-2719-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+	<1413166123-2719-2-git-send-email-rebecca.swee.fun.chang@intel.com>
+In-Reply-To: <1413166123-2719-2-git-send-email-rebecca.swee.fun.chang@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/14.4.4.140807
+x-originating-ip: [10.252.135.196]
 MIME-Version: 1.0
-To: Peter Urbanec <openembedded-devel@urbanec.net>, 
-	openembedded-core@lists.openembedded.org
-References: <54380D3A.8060904@urbanec.net> <54395504.1020600@opendreambox.org>
-	<543F2484.2040901@urbanec.net>
-In-Reply-To: <543F2484.2040901@urbanec.net>
-Subject: Re: [PATCH] Better support for upgrading packages in opkg and update-rc.d.bbclass
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: Re: [daisy] [PATCHv2 1/1] lttng-modules: Update to version 2.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,126 +44,311 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 20:56:15 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Oct 2014 21:27:27 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <9FAE4E6F06F4CE479D73FB5FEDA3868E@intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hello Peter,
 
-sorry, I didn't notice this reply before sending out the previous mail.
-I should have looked into my normal inbox first...
 
-On 16.10.2014 03:51, Peter Urbanec wrote:
-> I have revised the patches and have taken some of your feedback on
-> board. See comments further down...
-> 
-> On 12/10/14 03:04, Andreas Oberritter wrote:
->> On 10.10.2014 18:45, Peter Urbanec wrote:
->>> In the case of init-ifupdown, the default prerm and preinst scripts stop
->>> networking.
->>
->> I think prerm and postrm scripts should exit silently on upgrade. At
->> least that's what happens with rpm and with a patch just submitted for
->> deb [1]. I guess ipk should implement the same logic, for which your
->> patch to opkg is a prerequisite.
-> 
-> I modelled my changes on documented behaviour for dpkg since opkg code
-> often refers to dpkg behaviour. dpkg supports error return codes from
-> these scripts and can do various error handling. opkg is less featured
-> in that respect at this moment, but I think in the interest of future
-> compatibility (and the principle of least astonishment) the scripts
-> should return non-zero to signify that the install/remove/upgrade
-> process can not continue. Having said that, I really don't see many
-> reasons for a prerm or postrm script to try to abort an upgrade.
+On 10/12/14, 7:08 PM, "Chang, Rebecca Swee Fun"
+<rebecca.swee.fun.chang@intel.com> wrote:
 
-Yes, opkg should behave like dpkg, I agree.
+>lttng-modules breaks when building with kernel 3.10.43.
+>This updates lttng-modules for 2.4.2 and it will also
+>fixes the build failure with kernel 3.10.43.
+>
+>The patch (bio-bvec-iter.patch) was removed since its
+>fix was available in version 2.4.2.
+>
+>Fixes for [YOCTO #6788]
+>
+>Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 
-But update-rc.d just generates scripts for dpkg, opkg and rpm, using
-OE-Core's expected behaviour, which may well differ from Debian.
+Acked-By: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-What happens when generating rpm (and since few days deb) packages is
-that code gets injected that makes these scripts exit with return code 0
-on upgrades. This may be just a workaround to emulate opkg's
-limitations, but it may also be by design. I guess this should be
-decided upon first. Whatever we'll agree on, the most important thing is
-that all three supported package formats should behave identically.
+>---
+> .../lttng/lttng-modules/bio-bvec-iter.patch        |  156
+>--------------------
+> meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb   |   38 -----
+> meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb   |   38 +++++
+> 3 files changed, 38 insertions(+), 194 deletions(-)
+> delete mode 100644
+>meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+> delete mode 100644 meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb
+> create mode 100644 meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb
+>
+>diff --git a/meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+>b/meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+>deleted file mode 100644
+>index d6c66e4..0000000
+>--- a/meta/recipes-kernel/lttng/lttng-modules/bio-bvec-iter.patch
+>+++ /dev/null
+>@@ -1,156 +0,0 @@
+>-Upstream-Status: Pending
+>-
+>-In 3.14, bi_sector and bi_size were moved into an iterator, thus
+>-breaking any tracepoints that still expect them in the bio.  Fix up
+>-the lttng-module tracepoints to use the new scheme when the kernel
+>-version is >=3D 3.14.
+>-
+>-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+>-
+>-diff --git a/instrumentation/events/lttng-module/block.h
+>b/instrumentation/events/lttng-module/block.h
+>-index f3b8bff..0a61543 100644
+>---- a/instrumentation/events/lttng-module/block.h
+>-+++ b/instrumentation/events/lttng-module/block.h
+>-@@ -341,9 +341,15 @@ TRACE_EVENT(block_bio_bounce,
+>- 	TP_fast_assign(
+>- 		tp_assign(dev, bio->bi_bdev ?
+>- 					  bio->bi_bdev->bd_dev : 0)
+>-+#if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0))
+>-+		tp_assign(sector, bio->bi_iter.bi_sector)
+>-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+>-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+>-+#else /* #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_assign(sector, bio->bi_sector)
+>- 		tp_assign(nr_sector, bio->bi_size >> 9)
+>- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+>-+#endif /* #else #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+>- 	),
+>-=20
+>-@@ -385,14 +391,24 @@ TRACE_EVENT(block_bio_complete,
+>-=20
+>- 	TP_fast_assign(
+>- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+>-+#if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0))
+>-+		tp_assign(sector, bio->bi_iter.bi_sector)
+>-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+>-+#else /* #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_assign(sector, bio->bi_sector)
+>- 		tp_assign(nr_sector, bio->bi_size >> 9)
+>-+#endif /* #else #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>-+
+>- #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(2,6,38))
+>- 		tp_assign(error, error)
+>- #else
+>- 		tp_assign(error, 0)
+>- #endif
+>-+#if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0))
+>-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+>-+#else /* #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+>-+#endif /* #else #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 	),
+>-=20
+>- 	TP_printk("%d,%d %s %llu + %u [%d]",
+>-@@ -419,9 +435,15 @@ DECLARE_EVENT_CLASS(block_bio_merge,
+>-=20
+>- 	TP_fast_assign(
+>- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+>-+#if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0))
+>-+		tp_assign(sector, bio->bi_iter.bi_sector)
+>-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+>-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+>-+#else /* #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_assign(sector, bio->bi_sector)
+>- 		tp_assign(nr_sector, bio->bi_size >> 9)
+>- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+>-+#endif /* #else #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+>- 	),
+>-=20
+>-@@ -485,9 +507,15 @@ TRACE_EVENT(block_bio_queue,
+>-=20
+>- 	TP_fast_assign(
+>- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+>-+#if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0))
+>-+		tp_assign(sector, bio->bi_iter.bi_sector)
+>-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+>-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+>-+#else /* #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_assign(sector, bio->bi_sector)
+>- 		tp_assign(nr_sector, bio->bi_size >> 9)
+>- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+>-+#endif /* #else #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+>- 	),
+>-=20
+>-@@ -513,9 +541,15 @@ DECLARE_EVENT_CLASS(block_bio,
+>-=20
+>- 	TP_fast_assign(
+>- 		tp_assign(dev, bio->bi_bdev ? bio->bi_bdev->bd_dev : 0)
+>-+#if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0))
+>-+		tp_assign(sector, bio->bi_iter.bi_sector)
+>-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+>-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+>-+#else /* #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_assign(sector, bio->bi_sector)
+>- 		tp_assign(nr_sector, bio->bi_size >> 9)
+>- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+>-+#endif /* #else #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+>- 	),
+>-=20
+>-@@ -587,10 +621,17 @@ DECLARE_EVENT_CLASS(block_get_rq,
+>-=20
+>- 	TP_fast_assign(
+>- 		tp_assign(dev, bio ? bio->bi_bdev->bd_dev : 0)
+>-+#if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0))
+>-+		tp_assign(sector, bio ? bio->bi_iter.bi_sector : 0)
+>-+		tp_assign(nr_sector, bio ? bio->bi_iter.bi_size >> 9 : 0)
+>-+		blk_fill_rwbs(rwbs, bio ? bio->bi_rw : 0,
+>-+			      bio ? bio->bi_iter.bi_size >> 9 : 0)
+>-+#else /* #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_assign(sector, bio ? bio->bi_sector : 0)
+>- 		tp_assign(nr_sector, bio ? bio->bi_size >> 9 : 0)
+>- 		blk_fill_rwbs(rwbs, bio ? bio->bi_rw : 0,
+>- 			      bio ? bio->bi_size >> 9 : 0)
+>-+#endif /* #else #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+>-         ),
+>-=20
+>-@@ -759,9 +800,15 @@ TRACE_EVENT(block_split,
+>-=20
+>- 	TP_fast_assign(
+>- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+>-+#if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0))
+>-+		tp_assign(sector, bio->bi_iter.bi_sector)
+>-+		tp_assign(new_sector, new_sector)
+>-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+>-+#else /* #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_assign(sector, bio->bi_sector)
+>- 		tp_assign(new_sector, new_sector)
+>- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+>-+#endif /* #else #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_memcpy(comm, current->comm, TASK_COMM_LEN)
+>- 	),
+>-=20
+>-@@ -805,11 +852,19 @@ TRACE_EVENT(block_remap,
+>-=20
+>- 	TP_fast_assign(
+>- 		tp_assign(dev, bio->bi_bdev->bd_dev)
+>-+#if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0))
+>-+		tp_assign(sector, bio->bi_iter.bi_sector)
+>-+		tp_assign(nr_sector, bio->bi_iter.bi_size >> 9)
+>-+		tp_assign(old_dev, dev)
+>-+		tp_assign(old_sector, from)
+>-+		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_iter.bi_size)
+>-+#else /* #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 		tp_assign(sector, bio->bi_sector)
+>- 		tp_assign(nr_sector, bio->bi_size >> 9)
+>- 		tp_assign(old_dev, dev)
+>- 		tp_assign(old_sector, from)
+>- 		blk_fill_rwbs(rwbs, bio->bi_rw, bio->bi_size)
+>-+#endif /* #else #if (LINUX_VERSION_CODE >=3D KERNEL_VERSION(3,14,0)) */
+>- 	),
+>-=20
+>- 	TP_printk("%d,%d %s %llu + %u <- (%d,%d) %llu",
+>diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb
+>b/meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb
+>deleted file mode 100644
+>index aa01a8d..0000000
+>--- a/meta/recipes-kernel/lttng/lttng-modules_2.4.0.bb
+>+++ /dev/null
+>@@ -1,38 +0,0 @@
+>-SECTION =3D "devel"
+>-SUMMARY =3D "Linux Trace Toolkit KERNEL MODULE"
+>-DESCRIPTION =3D "The lttng-modules 2.0 package contains the kernel tracer
+>modules"
+>-LICENSE =3D "LGPLv2.1 & GPLv2"
+>-LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1412caf5a1aa90d6a48588a4794c0e=
+ac \
+>-                =20
+>file://gpl-2.0.txt;md5=3D751419260aa954499f7abaabaa882bbe \
+>-                =20
+>file://lgpl-2.1.txt;md5=3D243b725d71bb5df4a1e5920b344b86ad"
+>-
+>-DEPENDS =3D "virtual/kernel"
+>-
+>-inherit module
+>-
+>-SRCREV =3D "fb2c37799306d16fb590aebee6fad8be431264b7"
+>-PV =3D "2.4.0"
+>-
+>-# lttng currently blacklists arm with gcc-4.8
+>-COMPATIBLE_HOST =3D '(x86_64|i.86|powerpc|aarch64|mips).*-linux'
+>-
+>-SRC_URI =3D "git://git.lttng.org/lttng-modules.git;branch=3Dstable-2.4 \
+>-           file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch \
+>-           file://bio-bvec-iter.patch"
+>-
+>-export INSTALL_MOD_DIR=3D"kernel/lttng-modules"
+>-export KERNEL_SRC=3D"${STAGING_KERNEL_DIR}"
+>-
+>-
+>-S =3D "${WORKDIR}/git"
+>-
+>-do_install_append() {
+>-	# Delete empty directories to avoid QA failures if no modules were built
+>-	find ${D}/lib -depth -type d -empty -exec rmdir {} \;
+>-}
+>-
+>-python do_package_prepend() {
+>-    if not os.path.exists(os.path.join(d.getVar('D', True),
+>'lib/modules')):
+>-        bb.warn("%s: no modules were created; this may be due to
+>CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN',
+>True))
+>-}
+>-
+>diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb
+>b/meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb
+>new file mode 100644
+>index 0000000..1967631
+>--- /dev/null
+>+++ b/meta/recipes-kernel/lttng/lttng-modules_2.4.2.bb
+>@@ -0,0 +1,38 @@
+>+SECTION =3D "devel"
+>+SUMMARY =3D "Linux Trace Toolkit KERNEL MODULE"
+>+DESCRIPTION =3D "The lttng-modules 2.0 package contains the kernel tracer
+>modules"
+>+LICENSE =3D "LGPLv2.1 & GPLv2"
+>+LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1412caf5a1aa90d6a48588a4794c0e=
+ac \
+>+                =20
+>file://gpl-2.0.txt;md5=3D751419260aa954499f7abaabaa882bbe \
+>+                =20
+>file://lgpl-2.1.txt;md5=3D243b725d71bb5df4a1e5920b344b86ad"
+>+
+>+DEPENDS =3D "virtual/kernel"
+>+
+>+inherit module
+>+
+>+SRCREV =3D "85016adfb21268836df48dfb5cda106391e72fd1"
+>+PV =3D "2.4.2"
+>+
+>+# lttng currently blacklists arm with gcc-4.8
+>+COMPATIBLE_HOST =3D '(x86_64|i.86|powerpc|aarch64|mips).*-linux'
+>+
+>+SRC_URI =3D "git://git.lttng.org/lttng-modules.git;branch=3Dstable-2.4 \
+>+           file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch \
+>+           "
+>+
+>+export INSTALL_MOD_DIR=3D"kernel/lttng-modules"
+>+export KERNEL_SRC=3D"${STAGING_KERNEL_DIR}"
+>+
+>+
+>+S =3D "${WORKDIR}/git"
+>+
+>+do_install_append() {
+>+	# Delete empty directories to avoid QA failures if no modules were built
+>+	find ${D}/lib -depth -type d -empty -exec rmdir {} \;
+>+}
+>+
+>+python do_package_prepend() {
+>+    if not os.path.exists(os.path.join(d.getVar('D', True),
+>'lib/modules')):
+>+        bb.warn("%s: no modules were created; this may be due to
+>CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN',
+>True))
+>+}
+>+
+>--=20
+>1.7.9.5
+>
 
->> This part of the patch wouldn't be needed if package_ipk.bbclass
->> implemented the same logic as rpm mentioned above.
->>
->> But, on the other hand, maybe package_rpm.bbclass is wrong... ;-)
-> 
-> I think you have me confused here. package_ipk.bbclass tries to grab the
-> prerm/postrm and preinst/postinst script variables from the package and
-> writes the contents into the corresponding files within the *.ipk. These
-> scripts are then run by opkg when the *.ipk files are processed.
-
-I meant to say that if package_ipk wanted to behave like package_rpm
-(and package_deb since a few days), then it would inject '[ "$1" !=
-upgrade ] || exit 0' at the beginning of postrm.
-
->>> +# New package context, step 2
->>> +updatercd_preinst() {
->>> +case "$1" in
->>> +  upgrade)
->>> +    ;;
->>> +  *)
->>> +    ;;
->>> +esac
->>>   }
->>>   +# Old package context, step 3
->>>   updatercd_postrm() {
->>> +case "$1" in
->>> +  upgrade)
->>> +    ;;
->>> +  *)
->>> +    ;;
->>> +esac
->>> +}
->>> +
->>
->> The two functions above don't do anything, so they should be removed.
-> 
-> They are used later by update_rcd_package(). They could have been
-> simpler, but I thought that both the presence of comments and the
-> template code would serve as a reminder of the semantics of the upgrade
-> process and the fact that package upgrades are different to package
-> installs or removals.
-
-If they are empty, they should be removed from update_rcd_package(),
-too. There are many more places in OE-Core where postinst scripts are
-used, and the common policy is to implement only those snippets which
-are used. Otherwise it's just a waste of space on the target systems.
-
-The semantics of these scripts should get documented inside the Yocto
-Project docs, or, if you want to document it inline, in a more central
-place like package_{deb,ipk,rpm}, where they are actually used to
-assemble package metadata.
-
->> I have patches to update-rc.d [2] and update-rc.d.bbclass [3] to improve
->> handling of distributions with both systemd and sysvinit distro features
->> enabled. What they try to avoid is direct calls to init scripts, where
->> systemd may provide own unit files. Would it be feasible to use
->> update-rc.d to issue a restart command?
-> 
-> The patch I submitted uses the "-s" flag to update-rc.d to start the
-> service when it is installed, but as far as I can tell, there is no way
-> to just stop the service using update-rc.d and the restart case will not
-> work for scripts that don't support the "restart" argument (such as
-> urandom).
-
-Isn't restart required to be implemented by LSB? Maybe we could just fix
-urandom instead. Does urandom even use update-rc.d? I don't know which
-recipe actually installs a urandom init script, to be honest.
-
-> The restart case is also predicated on a number of conditions
-> that will generally evaluate to false, since the old links would have
-> been removed in prerm.
-
-I don't understand which conditions you're referring to. But if prerm
-was a no-op on upgrade, as with rpm and deb and opkg before your other
-patch, this surely wouldn't be an issue.
-
-Regards,
-Andreas
 
