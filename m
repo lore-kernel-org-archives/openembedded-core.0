@@ -1,30 +1,53 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id ABC8C60DD7
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B67560DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Oct 2014 11:04:11 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0158.001; Thu, 16 Oct 2014 13:04:11 +0200
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: Truly scary SSL 3.0 vuln to be revealed soon:
-Thread-Index: Ac/oO1a66AZx1WfuSiqPuqDXwzOnfwAE7haAAAtU9YAALOLhMA==
-Date: Thu, 16 Oct 2014 11:04:10 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E482576A7CB@SESTOEX04.enea.se>
-References: <3230301C09DEF9499B442BBE162C5E482576880D@SESTOEX04.enea.se>
-	<CAJTo0La=7QNS53qZDgShj+9yr6Ge0hyk9HFAdS+Ue0bZAkck4A@mail.gmail.com>
-	<CAJTo0La9iMQ4ZiSuTFo35271c2McpzkSvugOEqL6dBNoncdkZQ@mail.gmail.com>
-In-Reply-To: <CAJTo0La9iMQ4ZiSuTFo35271c2McpzkSvugOEqL6dBNoncdkZQ@mail.gmail.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.140.6]
+	Thu, 16 Oct 2014 11:06:42 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	s9GB6cUt029364
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Oct 2014 13:06:41 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1413457601;
+	bh=g7jE5KBKU0WR6EJ9fqCu0RHPRgSWdBa4EyMAR4VJ57c=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=Q9hp2LeFtIzJXBDYUy3hPWM4cn/6Ui4XWHAalu+kT4LdIh8ud9jsmz7ZTO0zNVwev
+	E02MEg3QW850Ul0zkj8P/18j9Rwz5y+gh/9KIRPM/xDJGNir1XXdNxCrnfHnqoEdiB
+	/zeOxxP0kLcFrToubPnr4Jh+dudwXOxphYNWEbNo=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s9GB6YNp025385
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Oct 2014 13:06:36 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1Xeit7-0006Qm-UC
+	for openembedded-core@lists.openembedded.org;
+	Thu, 16 Oct 2014 13:06:34 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <cover.1413451107.git.Qi.Chen@windriver.com>
+	<222ef849d28064ba0786fb5bf929554d6389c9cc.1413451107.git.Qi.Chen@windriver.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Thu, 16 Oct 2014 13:06:33 +0200
+In-Reply-To: <222ef849d28064ba0786fb5bf929554d6389c9cc.1413451107.git.Qi.Chen@windriver.com>
+	(Chen Qi's message of "Thu, 16 Oct 2014 17:19:04 +0800")
+Message-ID: <lyr3y8z32e.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
 MIME-Version: 1.0
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Truly scary SSL 3.0 vuln to be revealed soon:
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.0
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
+Subject: Re: [PATCH 1/1] systemd: fix runtime dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,23 +60,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Oct 2014 11:04:14 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 16 Oct 2014 11:06:44 -0000
+Content-Type: text/plain
 
-SGkgUm9zcw0KDQo+IFRoZXJlJ3MgYSBvcGVuc3NsIDEuMC4xaiBvdXQgbm93IChmaXhpbmcgRk9V
-UiAoISkgQ1ZFcywgaW5jbHVkaW5nICJkaXNhYmxpbmcNCj4gU1NMdjMgZGlkbid0IHdvcmsiLi4u
-KS4gIEkgdGhpbmsgY29uc2lkZXJpbmcgdGhlIHNpdHVhdGlvbiB3ZSdkIHRha2UgdGhlDQo+IHVw
-Z3JhZGUgZm9yIGRpenp5LCBldmVuIHRob3VnaCB3ZSd2ZSBmcm96ZW4uICBBbnlvbmUgdm9sdW50
-ZWVyaW5nIHRvIHRha2UNCj4gbGVhZCBvZiB1cGdyYWRpbmcgZGl6enkgdG8gMS4wLjFqIGFuZCBi
-YWNrcG9ydGluZyB0aGUgcmVsZXZhbnQgcGF0Y2hlcyB0byB0aGUNCj4gcHJldmlvdXMgcmVsZWFz
-ZXM/IChlZyBkYWlzeSBpcyBvbiAxLjAuMWcpLg0KPiANCj4gUm9zcw0KDQpTb3JyeSwgSSBtaXNz
-ZWQgdGhpcywgSSBhbSBwcmVwYXJpbmcgcGF0Y2hlcyBmb3IgZGFpc3kuIEkgaGF2ZSBzZW50IHR3
-byBwYXRjaGVzIHRvIE9FLWNvcmUgbGlzdCBmb3IgZGFpc3kgYW5kIEkgd2lsbCBzZW50IHR3byBt
-b3JlLiBEb2VzIHRob3NlIHR3byBwYXRjaGVzIGxvb2sgb2s/IA0KSSBoYXZlIGJ1aWx0IGNvcmUt
-aW1hZ2UtbWluaW1hbCBmb3IgcWVtdWFybSBhbmQgYm9vdGVkLiBJIGhhdmVuJ3QgZG9uZSBtb3Jl
-IHRlc3RzIHRvIHZlcmlmeSB0aGUgZml4ZXMuIEkgd2lsbCBzZWFyY2ggYW5kIHNlZSBpZiBJIGNh
-biBmaW5kIHN1aXRhYmxlIHRlc3RzIHNvIHdlIGNhbiBydW4gcHJvcGVyIHRlc3RzIGF0IHRoZSBl
-bmQgYWZ0ZXIgYXBwbHlpbmcgYWxsIHBhdGNoZXMuIA0KDQotLSBTb25hDQo=
+Chen Qi <Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
+
+> Previously, if we set 'NO_RECOMMENDATIONS' to "1", we cannot reach login
+> in systemd systems. 
+
+IMO, this is just a configuration issue and can be fixed much better in
+a higher level packagegroup recipe.  RRECOMMENDS for serial getty are
+fine; although a serial console is very common on embedded systems, it
+is not strictly necessary.
+
+
+> This patch makes the following changes.
+> 1. Add util-linux-agetty as a runtime dependency.
+>    Otherwise, getty services in systemd cannot start correctly.
+
+afais, it would make more sense to move this dependency into
+systemd-serialgetty (and not systemd as in your patch). Or are there
+other units in systemd which call agetty?
+
+
+Enrico
 
