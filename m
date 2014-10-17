@@ -1,24 +1,20 @@
-Return-Path: <drew_moseley@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id D653B60DD7
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 9513060DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Oct 2014 14:08:24 +0000 (UTC)
-Received: from svr-orw-fem-02x.mgc.mentorg.com ([147.34.96.206]
-	helo=SVR-ORW-FEM-02.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1Xf8Ce-0000qd-Dw from drew_moseley@mentor.com ;
-	Fri, 17 Oct 2014 07:08:24 -0700
-Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
-	svr-orw-fem-02.mgc.mentorg.com (147.34.96.168) with Microsoft SMTP
-	Server id 14.3.181.6; Fri, 17 Oct 2014 07:08:11 -0700
-From: Drew Moseley <drew_moseley@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Oct 2014 10:08:08 -0400
-Message-ID: <1413554888-31319-1-git-send-email-drew_moseley@mentor.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Cc: arindam.nath@amd.com, Ravikiran_Polepalli@mentor.com
-Subject: [PATCH] poky: daisy: grub: add cmdpath to grub configuration file
+	Fri, 17 Oct 2014 17:42:35 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 17 Oct 2014 10:42:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,740,1406617200"; d="scan'208";a="591058088"
+Received: from unknown (HELO localhost.jf.intel.com) ([10.7.201.167])
+	by orsmga001.jf.intel.com with ESMTP; 17 Oct 2014 10:41:39 -0700
+From: Randy Witt <randy.e.witt@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 Oct 2014 10:41:36 -0700
+Message-Id: <1413567696-20950-1-git-send-email-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] libtool: Extend fix-final-rpath.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +27,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Oct 2014 14:08:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 Oct 2014 17:42:43 -0000
 
-From: Arindam Nath <arindam.nath@amd.com>
+When building upower from meta-oe, the following QA error occurred:
+ERROR: QA Issue: package upower contains bad RPATH
 
-An issue was found where when yocto is installed to a hard disk
-from a live USB key, no matter what boot order was selected in
-the BIOS menu, the grub menu of the USB key would always show
-up. The issue was narrowed down to the way grub configuration
-file gets embedded into the standalone bootx64.efi image.
+It appears to have been caused by one of the cases fix-final-rpath.patch
+is meant to address but missed. So this change fixes the additional case
+that was causing upower to have the QA error.
 
-The commit prepends ($cmdpath) to the search path for grub.cfg,
-thus making sure the UEFI environment itself sets this to the
-correct device path. This in-turn lets the grub.cfg of the boot
-device to be loaded.
-
-Signed-off-by: Arindam Nath <arindam.nath@amd.com>
-Reviewed-by: Drew Moseley <drew_moseley@mentor.com>
-Tested-by: Ravikiran Polepalli <Ravikiran_Polepalli@mentor.com>
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
 ---
- meta/recipes-bsp/grub/files/cfg | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../libtool/libtool/fix-final-rpath.patch                | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/files/cfg b/meta/recipes-bsp/grub/files/cfg
-index ffffe47..8ca53d2 100644
---- a/meta/recipes-bsp/grub/files/cfg
-+++ b/meta/recipes-bsp/grub/files/cfg
-@@ -1,2 +1,2 @@
--search.file /EFI/BOOT/grub.cfg root
-+search.file ($cmdpath)/EFI/BOOT/grub.cfg root
- set prefix=($root)/EFI/BOOT
+diff --git a/meta/recipes-devtools/libtool/libtool/fix-final-rpath.patch b/meta/recipes-devtools/libtool/libtool/fix-final-rpath.patch
+index 5c275ff..6f9d321 100644
+--- a/meta/recipes-devtools/libtool/libtool/fix-final-rpath.patch
++++ b/meta/recipes-devtools/libtool/libtool/fix-final-rpath.patch
+@@ -6,12 +6,13 @@ This works around the issue until it gets sorted out upstream.
+ 
+ Fix suggested by Richard Purdie <richard.purdie@intel.com>
+ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+ 
+ Index: libtool-2.4.2/libltdl/config/ltmain.m4sh
+ ===================================================================
+ --- libtool-2.4.2.orig/libltdl/config/ltmain.m4sh
+ +++ libtool-2.4.2/libltdl/config/ltmain.m4sh
+-@@ -7268,9 +7268,11 @@ EOF
++@@ -7268,9 +7268,11 @@
+  	  test "$opt_mode" != relink && rpath="$compile_rpath$rpath"
+  	  for libdir in $rpath; do
+  	    if test -n "$hardcode_libdir_flag_spec"; then
+@@ -25,7 +26,7 @@ Index: libtool-2.4.2/libltdl/config/ltmain.m4sh
+  		if test -z "$hardcode_libdirs"; then
+  		  hardcode_libdirs="$libdir"
+  		else
+-@@ -7999,6 +8001,10 @@ EOF
++@@ -7999,6 +8001,10 @@
+        hardcode_libdirs=
+        for libdir in $compile_rpath $finalize_rpath; do
+  	if test -n "$hardcode_libdir_flag_spec"; then
+@@ -36,3 +37,14 @@ Index: libtool-2.4.2/libltdl/config/ltmain.m4sh
+  	  if test -n "$hardcode_libdir_separator"; then
+  	    if test -z "$hardcode_libdirs"; then
+  	      hardcode_libdirs="$libdir"
++@@ -8050,6 +8056,10 @@
++       hardcode_libdirs=
++       for libdir in $finalize_rpath; do
++ 	if test -n "$hardcode_libdir_flag_spec"; then
+++	  func_replace_sysroot "$libdir"
+++	  libdir=$func_replace_sysroot_result
+++	  func_stripname '=' '' "$libdir"
+++	  libdir=$func_stripname_result
++ 	  if test -n "$hardcode_libdir_separator"; then
++ 	    if test -z "$hardcode_libdirs"; then
++ 	      hardcode_libdirs="$libdir"
 -- 
-1.9.1
+1.9.3
 
 
