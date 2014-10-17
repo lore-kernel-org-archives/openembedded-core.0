@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6737C60DD7
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 716B77190C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Oct 2014 06:36:09 +0000 (UTC)
+	Fri, 17 Oct 2014 06:36:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9H6a8Af018019
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9H6aATJ029435
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 16 Oct 2014 23:36:08 -0700 (PDT)
+	Thu, 16 Oct 2014 23:36:11 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 16 Oct 2014 23:36:08 -0700
+	14.3.174.1; Thu, 16 Oct 2014 23:36:10 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
 	<Qi.Chen@windriver.com>
-Date: Fri, 17 Oct 2014 14:35:56 +0800
-Message-ID: <cover.1413527658.git.hongxu.jia@windriver.com>
+Date: Fri, 17 Oct 2014 14:35:57 +0800
+Message-ID: <202c8dafdad7479bc30c44a3d1d7e51650870026.1413527658.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1413527658.git.hongxu.jia@windriver.com>
+References: <cover.1413527658.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] systemd: move libgudev back to $rootlibdir
+Subject: [PATCH 1/1] systemd: move libgudev back to $rootlibdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 17 Oct 2014 06:36:16 -0000
 Content-Type: text/plain
 
-The following changes since commit ccf5a4d2342c4fd40e4e0b332ea7e34e0bf175d4:
+While upgrading systemd to 216, we manually moved libgudev to
+${rootlibdir} in do_install task to keep backward compatibility.
 
-  build-appliance-image: Update to dizzy head revision (2014-10-11 08:11:17 +0100)
+But libdir in libgudev-1.0.la is still ${libdir}, that caused
+libgudev could not be found by libtool.
 
-are available in the git repository at:
+Add the missing revision to libgudev-1.0.la
 
-  git://git.pokylinux.org/poky-contrib hongxu/fix-systemd
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-systemd
-
-Hongxu Jia (1):
-  systemd: move libgudev back to $rootlibdir
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  meta/recipes-core/systemd/systemd_216.bb | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
+index ebf9395..053825d 100644
+--- a/meta/recipes-core/systemd/systemd_216.bb
++++ b/meta/recipes-core/systemd/systemd_216.bb
+@@ -130,7 +130,8 @@ do_install() {
+ 	fi
+ 
+ 	# Move libgudev back to ${rootlibdir} to keep backward compatibility
+-	[ ${rootlibdir} != ${libdir} ] && mv -t ${D}${rootlibdir} ${D}${libdir}/libgudev*
++	[ ${rootlibdir} != ${libdir} ] && mv -t ${D}${rootlibdir} ${D}${libdir}/libgudev* && \
++        sed -i "s#^libdir=.*#libdir='${rootlibdir}'#" ${D}${rootlibdir}/libgudev-1.0.la
+ 
+         # Delete journal README, as log can be symlinked inside volatile.
+         rm -f ${D}/${localstatedir}/log/README
 -- 
 1.9.1
 
