@@ -1,25 +1,25 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 56F2360600
+	by mail.openembedded.org (Postfix) with ESMTP id 58A9760671
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Oct 2014 19:15:56 +0000 (UTC)
+	Sun, 19 Oct 2014 19:15:58 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3jLW652xlQz3hjZZ;
-	Sun, 19 Oct 2014 21:15:57 +0200 (CEST)
-X-Auth-Info: jFm2m25Y/0swamia77F7h0PbCJckFzRAsboO+UiqNFs=
+	by mail-out.m-online.net (Postfix) with ESMTP id 3jLW663Tysz3hjb1;
+	Sun, 19 Oct 2014 21:15:58 +0200 (CEST)
+X-Auth-Info: 1YL+1C8omOIS5XRHQQNonl/t1FpI5aIZEjNsUkM685Q=
 Received: from chi.lan (host-82-135-33-74.customer.m-online.net [82.135.33.74])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3jLW6503GKzvdWR;
-	Sun, 19 Oct 2014 21:15:56 +0200 (CEST)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3jLW660cN1zvdWV;
+	Sun, 19 Oct 2014 21:15:58 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Oct 2014 21:15:45 +0200
-Message-Id: <1413746147-7120-6-git-send-email-marex@denx.de>
+Date: Sun, 19 Oct 2014 21:15:47 +0200
+Message-Id: <1413746147-7120-8-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.0.0
 In-Reply-To: <1413746147-7120-1-git-send-email-marex@denx.de>
 References: <1413746147-7120-1-git-send-email-marex@denx.de>
 Cc: Marek Vasut <marex@denx.de>, Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 5/7] kernel: Separate out uboot_prep_kimage
+Subject: [PATCH 7/7] kernel: Add basic fitImage support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,87 +32,287 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Oct 2014 19:16:01 -0000
+X-List-Received-Date: Sun, 19 Oct 2014 19:16:02 -0000
 
-Separate the function which prepares the kernel for packing into
-uImage into separate class, so this function can be reused by the
-fitImage class.
+This patch adds support for generating a kernel fitImage, which is
+a a successor to the uImage format. Unlike uImage, which could only
+contain the kernel image itself, the fitImage can contain all kinds
+of artifacts, like the kernel image, device tree blobs, initramfs
+images, binary firmwares etc. Furthermore, the fitImage supports
+different kinds of checksums, not only CRC32 like the uImage did.
+Last, but not least, fitImage supports signatures such that either
+the whole image or it's parts can be signed and then in turn can
+be verified by the bootloader.
+
+So far we only add support for wrapping the kernel image and DTB
+into the fitImage. The fitImage uses the sha1 checksum, which is
+the default.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Koen Kooi <koen@dominion.thruhere.net>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/kernel-uboot.bbclass  | 25 +++++++++++++++++++++++++
- meta/classes/kernel-uimage.bbclass | 26 +-------------------------
- 2 files changed, 26 insertions(+), 25 deletions(-)
- create mode 100644 meta/classes/kernel-uboot.bbclass
+ meta/classes/kernel-fitimage.bbclass | 250 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 250 insertions(+)
+ create mode 100644 meta/classes/kernel-fitimage.bbclass
 
-diff --git a/meta/classes/kernel-uboot.bbclass b/meta/classes/kernel-uboot.bbclass
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
 new file mode 100644
-index 0000000..57bb950
+index 0000000..54406bd
 --- /dev/null
-+++ b/meta/classes/kernel-uboot.bbclass
-@@ -0,0 +1,25 @@
-+inherit kernel
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -0,0 +1,250 @@
++# The fitImage explicitly packs zImage into it for now
++KERNEL_IMAGETYPE_FOR_MAKE = "zImage"
 +
-+DEPENDS += " u-boot-mkimage-native "
-+
-+uboot_prep_kimage() {
-+	if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
-+		vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
-+		linux_suffix=""
-+		linux_comp="none"
-+	else
-+		vmlinux_path="vmlinux"
-+		linux_suffix=".gz"
-+		linux_comp="gzip"
-+	fi
-+
-+	${OBJCOPY} -O binary -R .note -R .comment -S "${vmlinux_path}" linux.bin
-+
-+	if [ "${linux_comp}" != "none" ] ; then
-+		rm -f linux.bin
-+		gzip -9 linux.bin
-+		mv -f "linux.bin${linux_suffix}" linux.bin
-+	fi
-+
-+	echo "${linux_comp}"
-+}
-diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
-index f51321b..1ea0400 100644
---- a/meta/classes/kernel-uimage.bbclass
-+++ b/meta/classes/kernel-uimage.bbclass
-@@ -1,28 +1,4 @@
--inherit kernel
--
--DEPENDS += " u-boot-mkimage-native "
--
--uboot_prep_kimage() {
--	if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
--		vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
--		linux_suffix=""
--		linux_comp="none"
--	else
--		vmlinux_path="vmlinux"
--		linux_suffix=".gz"
--		linux_comp="gzip"
--	fi
--
--	${OBJCOPY} -O binary -R .note -R .comment -S "${vmlinux_path}" linux.bin
--
--	if [ "${linux_comp}" != "none" ] ; then
--		rm -f linux.bin
--		gzip -9 linux.bin
--		mv -f "linux.bin${linux_suffix}" linux.bin
--	fi
--
--	echo "${linux_comp}"
--}
 +inherit kernel-uboot
- 
- do_uboot_mkimage() {
- 	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then
++
++DEPENDS += " dtc-native "
++
++python __anonymous () {
++    import re
++
++    # Only change the KERNEL_IMAGETYPE_FOR_MAKE if it is not already set.
++    # There are image formats (like uImage and fitImage), which need to
++    # build a different kernel image type than KERNEL_IMAGETYPE specifies.
++    kmaketype = d.getVar('KERNEL_IMAGETYPE_FOR_MAKE', True)
++    if not kmaketype:
++        kerneltype = d.getVar('KERNEL_IMAGETYPE', True)
++        d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", re.sub(r'\.[^\.]$', '', kerneltype))
++
++    image = d.getVar('INITRAMFS_IMAGE', True)
++    if image:
++        d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_rootfs')
++        d.appendVarFlag('do_assemble_fitimage', 'depends', ' ${INITRAMFS_IMAGE}:do_rootfs')
++
++    # NOTE: setting INITRAMFS_TASK is for backward compatibility
++    #       The preferred method is to set INITRAMFS_IMAGE, because
++    #       this INITRAMFS_TASK has circular dependency problems
++    #       if the initramfs requires kernel modules
++    image_task = d.getVar('INITRAMFS_TASK', True)
++    if image_task:
++        d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
++}
++
++#
++# Emit the fitImage ITS header
++#
++fitimage_emit_fit_header() {
++	cat << EOF >> fit-image.its
++/dts-v1/;
++
++/ {
++        description = "U-Boot fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}";
++        #address-cells = <1>;
++EOF
++}
++
++#
++# Emit the fitImage section bits
++#
++# $1 ... Section bit type: imagestart - image section start
++#                          confstart  - configuration section start
++#                          sectend    - section end
++#                          fitend     - fitimage end
++#
++fitimage_emit_section_maint() {
++	case $1 in
++	imagestart)
++		cat << EOF >> fit-image.its
++
++        images {
++EOF
++	;;
++	confstart)
++		cat << EOF >> fit-image.its
++
++        configurations {
++EOF
++	;;
++	sectend)
++		cat << EOF >> fit-image.its
++	};
++EOF
++	;;
++	fitend)
++		cat << EOF >> fit-image.its
++};
++EOF
++	;;
++	esac
++}
++
++#
++# Emit the fitImage ITS kernel section
++#
++# $1 ... Image counter
++# $2 ... Path to kernel image
++# $3 ... Compression type
++fitimage_emit_section_kernel() {
++
++	kernel_csum="sha1"
++
++	ENTRYPOINT=${UBOOT_ENTRYPOINT}
++	if test -n "${UBOOT_ENTRYSYMBOL}"; then
++		ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
++			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
++	fi
++
++	cat << EOF >> fit-image.its
++                kernel@${1} {
++                        description = "Linux kernel";
++                        data = /incbin/("${2}");
++                        type = "kernel";
++                        arch = "${UBOOT_ARCH}";
++                        os = "linux";
++                        compression = "${3}";
++                        load = <${UBOOT_LOADADDRESS}>;
++                        entry = <${ENTRYPOINT}>;
++                        hash@1 {
++                                algo = "${kernel_csum}";
++                        };
++                };
++EOF
++}
++
++#
++# Emit the fitImage ITS DTB section
++#
++# $1 ... Image counter
++# $2 ... Path to DTB image
++fitimage_emit_section_dtb() {
++
++	dtb_csum="sha1"
++
++	cat << EOF >> fit-image.its
++                fdt@${1} {
++                        description = "Flattened Device Tree blob";
++                        data = /incbin/("${2}");
++                        type = "flat_dt";
++                        arch = "${UBOOT_ARCH}";
++                        compression = "none";
++                        hash@1 {
++                                algo = "${dtb_csum}";
++                        };
++                };
++EOF
++}
++
++#
++# Emit the fitImage ITS configuration section
++#
++# $1 ... Linux kernel ID
++# $2 ... DTB image ID
++fitimage_emit_section_config() {
++
++	conf_csum="sha1"
++
++	# Test if we have any DTBs at all
++	if [ -z "${2}" ] ; then
++		conf_desc="Boot Linux kernel"
++		fdt_line=""
++	else
++		conf_desc="Boot Linux kernel with FDT blob"
++		fdt_line="fdt = \"fdt@${2}\";"
++	fi
++	kernel_line="kernel = \"kernel@${1}\";"
++
++	cat << EOF >> fit-image.its
++                default = "conf@1";
++                conf@1 {
++                        description = "${conf_desc}";
++			${kernel_line}
++			${fdt_line}
++                        hash@1 {
++                                algo = "${conf_csum}";
++                        };
++                };
++EOF
++}
++
++do_assemble_fitimage () {
++	if test "x${KERNEL_IMAGETYPE}" = "xfitImage" ; then
++		kernelcount=1
++		dtbcount=""
++		rm -f fit-image.its
++
++		fitimage_emit_fit_header
++
++		#
++		# Step 1: Prepare a kernel image section.
++		#
++		fitimage_emit_section_maint imagestart
++
++		uboot_prep_kimage
++		fitimage_emit_section_kernel "${kernelcount}" linux.bin "${linux_comp}"
++
++		#
++		# Step 2: Prepare a DTB image section
++		#
++		if test -n "${KERNEL_DEVICETREE}"; then
++			dtbcount=1
++			for DTB in ${KERNEL_DEVICETREE}; do
++				if echo ${DTB} | grep -q '/dts/'; then
++					bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
++					DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
++				fi
++				DTB_PATH="arch/${ARCH}/boot/dts/${DTB}"
++				if [ ! -e "${DTB_PATH}" ]; then
++					DTB_PATH="arch/${ARCH}/boot/${DTB}"
++				fi
++
++				fitimage_emit_section_dtb ${dtbcount} ${DTB_PATH}
++				dtbcount=`expr ${dtbcount} + 1`
++			done
++		fi
++
++		fitimage_emit_section_maint sectend
++
++		# Force the first Kernel and DTB in the default config
++		kernelcount=1
++		dtbcount=1
++
++		#
++		# Step 3: Prepare a configurations section
++		#
++		fitimage_emit_section_maint confstart
++
++		fitimage_emit_section_config ${kernelcount} ${dtbcount}
++
++		fitimage_emit_section_maint sectend
++
++		fitimage_emit_section_maint fitend
++
++		#
++		# Step 4: Assemble the image
++		#
++		uboot-mkimage -f fit-image.its arch/${ARCH}/boot/fitImage
++	fi
++}
++
++addtask assemble_fitimage before do_install after do_compile
++
++kernel_do_deploy_append() {
++	cd ${B}
++
++	# Update deploy directory
++	if test "x${KERNEL_IMAGETYPE}" = "xfitImage" ; then
++		echo "Copying fit-image.its source file..."
++		its_base_name="${KERNEL_IMAGETYPE}-its-${PV}-${PR}-${MACHINE}-${DATETIME}"
++		its_symlink_name=${KERNEL_IMAGETYPE}-its-${MACHINE}
++		install -m 0644 fit-image.its ${DEPLOYDIR}/${its_base_name}.its
++		linux_bin_base_name="${KERNEL_IMAGETYPE}-linux.bin-${PV}-${PR}-${MACHINE}-${DATETIME}"
++		linux_bin_symlink_name=${KERNEL_IMAGETYPE}-linux.bin-${MACHINE}
++		install -m 0644 linux.bin ${DEPLOYDIR}/${linux_bin_base_name}.bin
++	fi
++
++	cd ${DEPLOYDIR}
++	if test "x${KERNEL_IMAGETYPE}" = "xfitImage" ; then
++		ln -sf ${its_base_name}.its ${its_symlink_name}.its
++		ln -sf ${linux_bin_base_name}.bin ${linux_bin_symlink_name}.bin
++	fi
++}
 -- 
 2.1.1
 
