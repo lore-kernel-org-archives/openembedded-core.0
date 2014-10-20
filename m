@@ -1,25 +1,37 @@
-Return-Path: <Jian.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B57B3607A8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DDC360702
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 09:32:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9K9Wien011679
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 20 Oct 2014 09:40:50 +0000 (UTC)
+Received: by mail-qg0-f43.google.com with SMTP id j107so3200732qga.30
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 02:32:44 -0700 (PDT)
-Received: from [128.224.163.134] (128.224.163.134) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 20 Oct 2014 02:32:44 -0700
-Message-ID: <5444D64D.2030802@windriver.com>
-Date: Mon, 20 Oct 2014 17:30:53 +0800
-From: Liu Jian <jian.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Mon, 20 Oct 2014 02:40:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=LeSc28ZS/rmb6pgGSlEuJmFKacxph9Duo9PTrNFtctk=;
+	b=lM+Q+ePB16jn/lZDXdpDky0rif0ng1B8qg90PJBO0t5fyysYp0TV+Hi1r3PGftTjlR
+	RAEhetHnskdU0SQ5JMbbwf9ZGR1sAbTNifnuxfHX3zrATe0akyjS7t9c6BAoAf6znSVh
+	H+9dhSJvFV4uNezO/iL9tykJR7I4TpW/FbaobvmZ79ZTMs/kr+2CJZ3biwzPLzuF8M15
+	N2ciZTmrTNEIAFJzY839D7/JOMs4NQHg33RAQ6p1ue1/R7gMrxTdee9fTOgY2x7ZcenO
+	/buICaOoSbRPbX67FE7+hUb36VXgxonIbn5Hz5d43K6WFMRxdLKku6H6K01plw4jYvxe
+	1EJQ==
+X-Gm-Message-State: ALoCoQnFB0NxRy5rEV99a+I0+Snn1BnwtmXu2SlrsGQRotUpPHcVPKmiXhYmPgdZ21cZDRNzCUY/
+X-Received: by 10.224.2.135 with SMTP id 7mr34822149qaj.64.1413798050872; Mon,
+	20 Oct 2014 02:40:50 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/1] hdparm: hdparm man pages can not be forbiden
+Received: by 10.140.93.65 with HTTP; Mon, 20 Oct 2014 02:40:30 -0700 (PDT)
+In-Reply-To: <544404D7.9030905@gmail.com>
+References: <544404D7.9030905@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 20 Oct 2014 10:40:30 +0100
+Message-ID: <CAJTo0Lb_tRj9ROyQ5D6ZSca-FoeY_wDt-2qOY9Fe53PFLnspeQ@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Poky X11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,48 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 09:32:48 -0000
-Content-Type: text/plain; charset="GB2312"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Oct 2014 09:40:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
-"--enable-doc-pages" can control if man page of a package is added
-to the file system. "none" and "target" are the two only values.
-default value is none. But man page of hdparm is still included if
---enable-doc-pages equals none while man page of hdparm should be
-included if target is set.
+On 19 October 2014 19:37, akuster808 <akuster808@gmail.com> wrote:
+> When I build 'core-image-x11' on Poky, X on wont start. I am using the
+> standard Poky clone with no added layers. When I manually start x I get the
+> following error:
+>
+> startx
+> /etc/X11/xinit/xinitrc: line 95: twm : command not found
+> /etc/X11/xinit/xinitrc: line 96: xclock : command not found
+> /etc/X11/xinit/xinitrc: line 97: xterm : command not found
+> /etc/X11/xinit/xinitrc: line 98: xterm : command not found
+> /etc/X11/xinit/xinitrc: line 99: exec : command not found
 
-Signed-off-by: Jian Liu <jian.liu@windriver.com>
----
-meta/recipes-extended/hdparm/hdparm_9.39.bb | 4 ++--
-1 file changed, 2 insertions(+), 2 deletions(-)
+Did you at some point do a build with meta-oe enabled, and then not
+enabled?  There's a known bad interaction between oe-core and
+meta-oe's X init scripts which results in problems like this.  The
+quick fix is to wipe your tmp and rebuild (using sstate this should
+take just a few minutes).
 
-diff --git a/meta/recipes-extended/hdparm/hdparm_9.39.bb
-b/meta/recipes-extended/hdparm/hdparm_9.39.bb
-index 58ceb91..e2ad37d 100644
---- a/meta/recipes-extended/hdparm/hdparm_9.39.bb
-+++ b/meta/recipes-extended/hdparm/hdparm_9.39.bb
-@@ -8,12 +8,12 @@ LIC_FILES_CHKSUM =
-"file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24 \
-file://wiper/GPLv2.txt;md5=fcb02dc552a041dee27e4b85c7396067 \
-file://wiper/wiper.sh;beginline=7;endline=31;md5=b7bc642addc152ea307505bf1a296f09"
-
--PR = "r3"
-+PR = "r4"
-
-PACKAGES += "wiper"
-
-FILES_wiper = "${bindir}/wiper.sh"
--FILES_${PN} = "${base_sbindir} ${mandir}"
-+FILES_${PN} = "${base_sbindir}"
-
-RDEPENDS_wiper = "bash gawk stat"
-
--- 
-1.8.5.2.233.g932f7e4
-
--- 
-Jian Liu
-Email: jian.liu@windriver.com
-Office Phone: 86-10-84778539
-
+Ross
 
