@@ -1,38 +1,48 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f43.google.com (mail-yh0-f43.google.com
-	[209.85.213.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 75A3D60671
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 430A765CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 13:36:31 +0000 (UTC)
-Received: by mail-yh0-f43.google.com with SMTP id f73so3138659yha.16
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 06:36:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type:content-transfer-encoding;
-	bh=uEp/5ffoYFZVOIATEco8a8pXQq3bVK7coI2On5tv1Dg=;
-	b=VzIt1l2px+eW2z7y7P/EVct0OZ6XKo7fIidJjzIrIsHxhTewsqF2mvmY+WObMiZWHt
-	jAsw0QS0N5BSW5Ql2IOj28QlAV/OqRF9zTtaAiZB5hnf7YdgNqfDKLXOjYOxZX0PQTXo
-	9OhZXqC8414SZUko8XzMo4BxkfMHJftHRXz9N4TmC+Ek7+V/DP1W2eB0ymVQcc0JbQcp
-	NcyntDqRjsdhGSbWUKf1flH9iQVBsje9UojtyMdI7+YCUldS/+MY0RlVYVtKk68XgSfD
-	LQdz9SkYlv8BfmJtKiwnulAUkAigsa4BomwsLp3ZVtiCm2MTTGHUALjBmSsmUKZ7RmBr
-	xiIg==
+	Mon, 20 Oct 2014 14:00:37 +0000 (UTC)
+Received: from amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.58])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 67A053F6A2;
+	Mon, 20 Oct 2014 16:00:36 +0200 (CEST)
+X-Spam-Flag: NO
+X-Spam-Score: -2.899
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.899 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP; Mon, 20 Oct 2014 16:00:35 +0200 (CEST)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS;
+	Mon, 20 Oct 2014 16:00:34 +0200 (CEST)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Mon, 20 Oct 2014 16:00:49 +0200
+Message-ID: <54451581.6020409@topic.nl>
+Date: Mon, 20 Oct 2014 16:00:33 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-X-Received: by 10.236.30.65 with SMTP id j41mr20373921yha.105.1413812192326;
-	Mon, 20 Oct 2014 06:36:32 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.172.8 with HTTP; Mon, 20 Oct 2014 06:36:32 -0700 (PDT)
-In-Reply-To: <544502B6.5040808@topic.nl>
-References: <5444F848.3040307@topic.nl> <1413806657.17752.154.camel@ted>
-	<544502B6.5040808@topic.nl>
-Date: Mon, 20 Oct 2014 11:36:32 -0200
-X-Google-Sender-Auth: pLlRzkebIJl65T-kyyQg2piLR6I
-Message-ID: <CAP9ODKoALXOnHWeAPH3FYU6=dyFDvjYrsbOD9cXJyzKD+ayKAQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Going beyond MACHINE?
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <54354CBD.6040506@topic.nl>
+	<CAP9ODKpERB+agUBv3-BgPM3JRBQiZ-QKVhONvuSkRFUWi_ZkqQ@mail.gmail.com>
+	<54377059.10606@topic.nl>
+	<1796874.7cz1rBMpRa@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <1796874.7cz1rBMpRa@peggleto-mobl5.ger.corp.intel.com>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Request to move "gitpkgv.bbclass" from meta-oe to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,85 +55,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 13:36:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 20 Oct 2014 14:00:39 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 20, 2014 at 10:40 AM, Mike Looijmans
-<mike.looijmans@topic.nl> wrote:
-> On 10/20/2014 02:04 PM, Richard Purdie wrote:
->>
->> On Mon, 2014-10-20 at 13:55 +0200, Mike Looijmans wrote:
+=EF=BB=BFOn 10/10/2014 05:03 PM, Paul Eggleton wrote:
+> Hi Mike,
+>
+> On Friday 10 October 2014 07:36:25 Mike Looijmans wrote:
+>> On 10/10/2014 12:15 AM, Otavio Salvador wrote:
+>>> On Thu, Oct 9, 2014 at 4:56 PM, Richard Purdie
 >>>
->>> =EF=BB=BFThe short version of my question: Can I define a "level" that =
-goes
->>> beyond MACHINE?
->>>
->>> My problem in detail (and I suspect there are more systems with similar
->>> problems):
->>>
->>> I have an SOC called "topic-miami". There are currently two variants: T=
+>>> <richard.purdie@linuxfoundation.org> wrote:
+>>>> On Thu, 2014-10-09 at 10:16 +0200, Mike Looijmans wrote:
+>>>>> =EF=BB=BFIn partial reply to my own question, this has been discussed=
+ 2 years
+>>>>> ago, but apparently nothing ever came out of it.
+>>>>>
+>>>>> http://lists.openembedded.org/pipermail/openembedded-core/2012-Februa=
+ry/
+>>>>> 056050.html
+>>>>>
+>>>>> So once more the request to be able to get sane version strings for g=
+it
+>>>>> repos. Can we please just move gitpkgv. That's like five minutes work=
+,
+>>>>> and if anyone (e.g. me) feels like building something better, he or s=
 he
->>> 7015
->>> and 7030. They are identical but for one component: They have a differe=
-nt
->>> FPGA
->>> part (the 7030 is bigger and faster).
->>> Both run exactly the same kernel and bootloader, and all other software
->>> and
->>> libraries are exactly the same.
+>>>>> is free do submit that and get rid of the gitpkgv class once it's
+>>>>> obsolete.
+>>>>
+>>>> I do feel quite strongly that this is something which should get
+>>>> improved in the fetcher itself. That is why I've pushed back on the
+>>>> patch since if I take it into OE-Core, there is even less incentive to
+>>>> fix the real problem...
 >>>
->>> Currently I have MACHINE=3D"topic-miami-7015" and then
->>> SOC_FAMILY=3D"topic-miami"
->>> so I can use "topic-miami" as override word for all packages.
->>>
->>> However, this means I get two kernels, two bootloaders, etc. even thoug=
-h
->>> they
->>> are exactly the same.
->>>
->>> The only package that currently differs is the one that delivers the
->>> bitstream(s) for the FPGA. These are big, too big to fit bitstreams for
->>> both
->>> models into flash and leave room for applications, so just installing
->>> both
->>> into the rootfs and pick the correct one at boot time is not really an
->>> option.
->>>
->>> Maybe I could define some extra PACKAGE_ARCH for the bitstreams (which
->>> make
->>> sense, as this is sort of firmware for a different platform). But how
->>> would a
->>> user then pick the right value for this variable, since MACHINE seems t=
-o
->>> be
->>> the only thing he can really choose?
->>>
->>> Any thoughts and ideas are welcome...
+>>> Mike I am also an user of gitpkgv but I must to agree with Richard
+>>> here. Moving this to OE-Core will just make it worse. It is way better
+>>> to prepare a patch and add support for it on the fetcher code of
+>>> BitBake.
 >>
->>
->> One possible solution would be to inject another PACKAGE_ARCH (as the
->> intel gmgd graphics does for example), then mark the MACHINE specific
->> packages as being that package architecture. They'd then only get built
->> once per package architecture yet your bitstreams would still be machine
->> specific. You could probably do the "remarking" using anonymous python
->> injected at the machine level.
+>> Give me some pointers on what you're talking about here, and I'll be hap=
+py
+>> to try and implement it. Currently I have no idea as to what is "wrong"
+>> with the gitpkgv approach, and I also have no clue as to what it is you
+>> want to have implemented in the git fetcher.
 >
+> The code would go into the fetcher itself i.e. lib/bb/fetch2/git.py and
+> lib/bb/fetch2/__init__.py.
 >
-> Sounds doable, but I can't find anything about "intel gmgd" in any layer.
-> Which machine are you referring to here?
+> I'm not sure whether it would be a case of setting a variable in order to=
+ have
+> the value of SRCPV within OE (which calls bb.fetch2.get_srcrev() ) return=
+ the
+> "git describe" style version instead of the current one, or whether we wo=
+uld
+> preserve the separate GITPKGVTAG variable for that purpose. (The GITPKGV =
+case
+> is already handled by the current behaviour of SRCPV, right?)
+>
+> FWIW there is an open bug covering this issue:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2872
 
-We did something similar in meta-fsl-arm, check:
+I followed that link a few clicks deeper and noticed that Richard Purdie=20
+suggested adding another interface method, but I couldn't quite understand=
+=20
+what he meant here.
 
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-fsl-arm/tree/classes/fsl-dyn=
-amic-packagearch.bbclass
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-fsl-arm/tree/conf/machine/in=
-clude/imx-base.inc#n41
 
-This should be easy to adapt for your specific case.
+I figured that "sortable_revision" was the method that I needed to delve in=
+to.=20
+However, it turned out that this one is called about 50 times when building=
+ a=20
+single package, and i cannot really run any git commands at that spot it=20
+seems, the current directory is not inside the repo.
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+So that's a fail (my trial code from git.py with some extra logger output b=
+elow).
+
+
+
+     def sortable_revision(self, ud, d, name):
+         """
+         Return a sortable revision number by counting commits in the histo=
+ry
+         """
+		rev =3D self._build_revision(ud, d, name)
+		logger.warn("git.sortable_revision url=3D%s" % (ud.url))
+		localpath =3D ud.localpath
+		rev_file =3D os.path.join(localpath, "oe-gitpkgv_" + rev)
+		if not os.path.exists(localpath):
+			logger.warn("git.sortable_revision non-existent: %s" % (localpath))
+			commits =3D None
+		else:
+			if not os.path.exists(rev_file) or not os.path.getsize(rev_file):
+				from pipes import quote
+				commits =3D bb.fetch2.runfetchcmd(
+						"git rev-list %s -- 2> /dev/null | wc -l" % (quote(rev)),
+						d, quiet=3DTrue).strip().lstrip('0')
+				if commits:
+					os.unlink(rev_file)
+					open(rev_file, "w").write("%d\n" % int(commits))
+			else:
+				commits =3D open(rev_file, "r").readline(128).strip()
+		logger.warn("git.sortable_revision commits=3D%s\n" % (commits))
+		if commits:
+			return False, "%s+%s" % (commits, rev[:7])
+		else:
+			return True, str(rev)
+
+
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
+
 
