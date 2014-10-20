@@ -1,40 +1,35 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CE9565CEC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 80E4665D27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 03:38:49 +0000 (UTC)
-Received: by mail-la0-f50.google.com with SMTP id s18so3167263lam.23
+	Mon, 20 Oct 2014 03:40:04 +0000 (UTC)
+Received: by mail-ig0-f173.google.com with SMTP id h18so4592022igc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Oct 2014 20:38:48 -0700 (PDT)
+	Sun, 19 Oct 2014 20:40:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=7T0SF96he/foikxzwbh9qxBx/omfsHkcBRSfkzgIQTg=;
-	b=IJmBgrdcdAB0ap/kpzZ4lrTgOn65UFJTQPZ2vMnBpvfkQdOchcMjIPW7K/Hg2MoTuf
-	C5vfsBhw6ZeR7WcL+7SyVpaGSLBiAa9Gbp15n/fdytCVlUjZoHqRKLitGlAqy6Nz+UYm
-	D8ysfidr/ZoC7B96cDxSnpRYZgPweWX84nQ5bNQz5weGtzggO2ecGryxMBxo/PaNMdWU
-	cgsK2YpCDAP3sXQHfzRzgGGNXBJcM/i7MFAlIR0QGv2CRCMUeVSfOQrp2swivfSXrbyg
-	WjwEuSLw5N4vTOL1etGNGw2iJv3j5vs+OSJInVnQv60ZHcvd/YY1pgW9SxBg/wF7iOa3
-	fdGA==
+	bh=3MEoMgeg4v+SyydnW/vwyjw84bt1tZ3/GZEO0IJ8Lo4=;
+	b=YpiHadRfp9nkqxoDO5qcSrtu8smSrw9PvVXSUYnoB8BJ67xyaAhQqVTVPUQkW4teoa
+	9P5pFOVBQF2l+FT4dk5vOrGeP6aBsUhix8qbjbQgkenBsKWTMX5x3YygG3L+uLkcCTIO
+	VgXNsQOW5iS504yuPD81Hb/LeJfbRd3VEb2+Y/0Olp+w8XspeAdTKjW4Z1mZxGVvwBIY
+	83v3gFSMUPCK1MUNgriE6rCG6GRI7Pb22GjS4aoLfYNLxgOHkYQi4Uwg8wjXjgirHwNt
+	KdJy8AzR1vwTGckvO9BUOu199PJZyfGND9ghq7srvXAtQ5yLyt/BnvLwrX+5X8GGIkSI
+	f6fA==
+X-Received: by 10.50.110.65 with SMTP id hy1mr15383916igb.13.1413776404578;
+	Sun, 19 Oct 2014 20:40:04 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.112.147.199 with SMTP id tm7mr118318lbb.92.1413776328763;
-	Sun, 19 Oct 2014 20:38:48 -0700 (PDT)
-Received: by 10.112.4.168 with HTTP; Sun, 19 Oct 2014 20:38:48 -0700 (PDT)
-In-Reply-To: <201410200029.22491.marex@denx.de>
-References: <1413746147-7120-1-git-send-email-marex@denx.de>
-	<1413746147-7120-5-git-send-email-marex@denx.de>
-	<CADkTA4PhjW0vDu2tDW+FzBvOSLf7YSO7Zzzr3T2XGaZMs1k5hw@mail.gmail.com>
-	<201410200029.22491.marex@denx.de>
-Date: Sun, 19 Oct 2014 23:38:48 -0400
-Message-ID: <CADkTA4O9rZh6XiG1VoLObBpS-sEBBbhgQy-kAz4CM4yFWWEaqQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Marek Vasut <marex@denx.de>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	Patches and discussions about the oe-core layer
+Received: by 10.50.169.2 with HTTP; Sun, 19 Oct 2014 20:39:34 -0700 (PDT)
+In-Reply-To: <1413364894-25626-1-git-send-email-rongqing.li@windriver.com>
+References: <1413364894-25626-1-git-send-email-rongqing.li@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 19 Oct 2014 20:39:34 -0700
+Message-ID: <CAMKF1sq03U7B2qN=MBOZemLnpuNqeqOTZdtVCb3V+2FUks_w6A@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/7] kernel: Pull uImage generation into separate class
+Subject: Re: [PATCH] nfs-utils: fix a Gcc undefined behavior
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,45 +42,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 03:38:51 -0000
+X-List-Received-Date: Mon, 20 Oct 2014 03:40:06 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Sun, Oct 19, 2014 at 6:29 PM, Marek Vasut <marex@denx.de> wrote:
-> On Monday, October 20, 2014 at 12:08:57 AM, Bruce Ashfield wrote:
->> On Sun, Oct 19, 2014 at 3:15 PM, Marek Vasut <marex@denx.de> wrote:
->> > Pull the uImage image format generation from kernel.bbclass into
->> > a separate kernel-uimage.bbclass. The recipes which now need to
->> > generate an uImage will have to inherit kernel-uimage instead of
->> > kernel class.
->>
->> The commit log doesn't tell us why. What's the benefit or functionality we
->> gain via the change ?
+On Wed, Oct 15, 2014 at 2:21 AM,  <rongqing.li@windriver.com> wrote:
+> From: Roy Li <rongqing.li@windriver.com>
 >
-> Ah right. I will be recycling some of those functions later on in the fitImage
+> Calling strncpy with NULL second argument, even when the size is 0,
+> is undefined behavior, which leads to GCC to drop the check old
+> variable with NULL in following code.
+>
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=6743
 
-Yep. And that's what is missing from the commit log. As a standalone commit,
-the reader is left wondering why.
-
-> support. Also, it was suggested to me that there should be a separate class for
-> each image type -- that all the image types should not be in kernel.bbclass .
-
-Factoring code and cleanups are great .. but sometimes it is just churn. I've
-never had any problems with the image code being in a single class. So if
-things are broken out, it would be nice to have a technical reason or
-new feature
-to go along with the changes.
-
-Bruce
+FWIW this is correct way to fix it
 
 >
-> Does that make sense please?
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+>  .../files/fix-a-Gcc-undefined-behavior.patch       |   38 ++++++++++++++++++++
+>  .../nfs-utils/nfs-utils_1.3.0.bb                   |    1 +
+>  2 files changed, 39 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
 >
-> Best regards,
-> Marek Vasut
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+> diff --git a/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch b/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
+> new file mode 100644
+> index 0000000..5843ba0
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
+> @@ -0,0 +1,38 @@
+> +[PATCH] fix a Gcc undefined behavior
+> +
+> +Upstream-Status: Pending
+> +
+> +Calling strncpy with NULL second argument, even when the size is 0,
+> +is undefined behavior, which leads to GCC to drop the check old
+> +variable with NULL in following code.
+> +
+> +https://bugzilla.yoctoproject.org/show_bug.cgi?id=6743
+> +
+> +Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> +---
+> + support/export/client.c |    9 +++++++--
+> + 1 file changed, 7 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/support/export/client.c b/support/export/client.c
+> +index dbf47b9..a37ef69 100644
+> +--- a/support/export/client.c
+> ++++ b/support/export/client.c
+> +@@ -482,8 +482,13 @@ add_name(char *old, const char *add)
+> +               else
+> +                       cp = cp + strlen(cp);
+> +       }
+> +-      strncpy(new, old, cp-old);
+> +-      new[cp-old] = 0;
+> ++
+> ++      if (old) {
+> ++              strncpy(new, old, cp-old);
+> ++              new[cp-old] = 0;
+> ++      } else
+> ++              new[0] = 0;
+> ++
+> +       if (cp != old && !*cp)
+> +               strcat(new, ",");
+> +       strcat(new, add);
+> +--
+> +1.7.10.4
+> +
+> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
+> index c813d7f..f1ef6d9 100644
+> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
+> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
+> @@ -31,6 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+>             file://nfs-statd.service \
+>             file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
+>             file://0001-statd-fixed-the-with-statdpath-flag.patch \
+> +           file://fix-a-Gcc-undefined-behavior.patch \
+>  "
+>
+>  SRC_URI[md5sum] = "6e93a7997ca3a1eac56bf219adab72a8"
+> --
+> 1.7.10.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
