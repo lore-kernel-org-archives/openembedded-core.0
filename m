@@ -1,26 +1,30 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 123B260671
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 46ED760233
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 08:11:40 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 20 Oct 2014 01:08:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,754,1406617200"; d="scan'208";a="621721951"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.104.113])
-	by orsmga002.jf.intel.com with ESMTP; 20 Oct 2014 01:11:38 -0700
-Date: Mon, 20 Oct 2014 11:11:37 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20141020081137.GB7633@lpalcu-linux>
-References: <cover.1410257258.git.liezhi.yang@windriver.com>
-	<4e8cdaffb79ea56a3644ede8af0cacbefd167197.1410257258.git.liezhi.yang@windriver.com>
-	<20141020080515.GA7633@lpalcu-linux>
+	Mon, 20 Oct 2014 09:19:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9K9Jcs2009727
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 20 Oct 2014 02:19:38 -0700 (PDT)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Mon, 20 Oct 2014 02:19:37 -0700
+Message-ID: <5444D3A5.7060208@windriver.com>
+Date: Mon, 20 Oct 2014 17:19:33 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-In-Reply-To: <20141020080515.GA7633@lpalcu-linux>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] rootfs.py: fix PRE/POSTPROCESS_COMMANDS for rpm and deb
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1413341569.git.Chong.Lu@windriver.com>
+	<b2f5f79f9e08f008043508392775c2bb52f819b3.1413341569.git.Chong.Lu@windriver.com>
+	<CAJTo0LboKNAOi7_tx31+m2KOxF_HEKEGePU2wnHXSzGpoeGTgA@mail.gmail.com>
+In-Reply-To: <CAJTo0LboKNAOi7_tx31+m2KOxF_HEKEGePU2wnHXSzGpoeGTgA@mail.gmail.com>
+X-Originating-IP: [128.224.162.204]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 1/1] gconf: fix multilib conflict - org.gnome.GConf.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,107 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 08:11:46 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 20 Oct 2014 09:19:42 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-My bad... I saw it now... It's about backend specific pre/post commands.
 
-Sorry for the noise.
+On 10/15/2014 06:42 PM, Burton, Ross wrote:
+> On 15 October 2014 03:54, Chong Lu <Chong.Lu@windriver.com> wrote:
+>> The gconfd-2 will be called in org.gnome.GConf.service file and the path of
+>> gconfd-2 is ${libexecdir}, this will get following error when multilib exported
+>> in the sdk:
+>> error: file /usr/share/dbus-1/services/org.gnome.GConf.service from install
+>> of gconf-3.2.6-r0.0.lib32_x86 conflicts with file from package
+>> gconf-3.2.6-r0.0.x86_64
+>>
+>> Split org.gnome.GConf.service to ${PN}-service, the conflict was fixed.
+> Why are both ML variants of gconf being installed?    Presumably for
+> libgconf, which needs to have ML variants and is packaged into $PN.
+> $PN also contains the binaries and data files, which are not
 
-laurentiu
+Hi Ross,
 
-On Mon, Oct 20, 2014 at 11:05:15AM +0300, Laurentiu Palcu wrote:
-> On Tue, Sep 09, 2014 at 03:16:08AM -0700, Robert Yang wrote:
-> > The rpm didn't run RPM_PREPROCESS_COMMANDS or RPM_POSTPROCESS_COMMANDS,
-> > the similar to deb, this patch fix the problem.
-> I'm not sure I understand this... The pre/post process commands are run
-> in the abstract class Rootfs create() method, which is inherited by all
-> backends. The create_rootfs() function calls the create() method for
-> each backend. So, these have to execute. Unless, there is something else
-> going on, which has to be properly fixed.
-> 
-> > 
-> > And fix a typo:
-> > DEB_POSTPROCESS_COMMAND -> DEB_POSTPROCESS_COMMANDS
-> this change is ok.
-> 
-> > 
-> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > ---
-> >  meta/lib/oe/rootfs.py |   14 +++++++++++++-
-> >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-> > index 0424a01..ed2af80 100644
-> > --- a/meta/lib/oe/rootfs.py
-> > +++ b/meta/lib/oe/rootfs.py
-> > @@ -295,10 +295,14 @@ class RpmRootfs(Rootfs):
-> >  
-> >      def _create(self):
-> >          pkgs_to_install = self.manifest.parse_initial_manifest()
-> > +        rpm_pre_process_cmds = self.d.getVar('RPM_PREPROCESS_COMMANDS', True)
-> > +        rpm_post_process_cmds = self.d.getVar('RPM_POSTPROCESS_COMMANDS', True)
-> >  
-> >          # update PM index files
-> >          self.pm.write_index()
-> >  
-> > +        execute_pre_post_process(self.d, rpm_pre_process_cmds)
-> > +
-> >          self.pm.dump_all_available_pkgs()
-> >  
-> >          if self.inc_rpm_image_gen == "1":
-> > @@ -320,6 +324,8 @@ class RpmRootfs(Rootfs):
-> >  
-> >          self.pm.install_complementary()
-> >  
-> > +        execute_pre_post_process(self.d, rpm_post_process_cmds)
-> > +
-> >          self._log_check()
-> >  
-> >          if self.inc_rpm_image_gen == "1":
-> > @@ -401,6 +407,8 @@ class DpkgRootfs(Rootfs):
-> >  
-> >      def _create(self):
-> >          pkgs_to_install = self.manifest.parse_initial_manifest()
-> > +        deb_pre_process_cmds = self.d.getVar('DEB_PREPROCESS_COMMANDS', True)
-> > +        deb_post_process_cmds = self.d.getVar('DEB_POSTPROCESS_COMMANDS', True)
-> >  
-> >          alt_dir = self.d.expand("${IMAGE_ROOTFS}/var/lib/dpkg/alternatives")
-> >          bb.utils.mkdirhier(alt_dir)
-> > @@ -408,6 +416,8 @@ class DpkgRootfs(Rootfs):
-> >          # update PM index files
-> >          self.pm.write_index()
-> >  
-> > +        execute_pre_post_process(self.d, deb_pre_process_cmds)
-> > +
-> >          self.pm.update()
-> >  
-> >          for pkg_type in self.install_order:
-> > @@ -423,9 +433,11 @@ class DpkgRootfs(Rootfs):
-> >  
-> >          self.pm.run_pre_post_installs()
-> >  
-> > +        execute_pre_post_process(self.d, deb_post_process_cmds)
-> > +
-> >      @staticmethod
-> >      def _depends_list():
-> > -        return ['DEPLOY_DIR_DEB', 'DEB_SDK_ARCH', 'APTCONF_TARGET', 'APT_ARGS', 'DPKG_ARCH', 'DEB_PREPROCESS_COMMANDS', 'DEB_POSTPROCESS_COMMAND']
-> > +        return ['DEPLOY_DIR_DEB', 'DEB_SDK_ARCH', 'APTCONF_TARGET', 'APT_ARGS', 'DPKG_ARCH', 'DEB_PREPROCESS_COMMANDS', 'DEB_POSTPROCESS_COMMANDS']
-> >  
-> >      def _get_delayed_postinsts(self):
-> >          pkg_list = []
-> > -- 
-> > 1.7.9.5
-> > 
-> > -- 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The data file is different between bit-32 and bit-64 environment.
+
+Best Regards
+Chong
+
+> ML-specific and can only be installed once.
+>
+> So, gconf should split the daemon/binaries from the libraries.  I
+> suggested this back in July as it seems the logical answer, instead of
+> splitting the daemon binary and the service file that defines where
+> the binary is.
+>
+> Ross
+>
+>
+
 
