@@ -1,35 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 80E4665D27
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AE60D65CAF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 03:40:04 +0000 (UTC)
-Received: by mail-ig0-f173.google.com with SMTP id h18so4592022igc.6
+	Mon, 20 Oct 2014 05:11:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9K5BJDS010168
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Oct 2014 20:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=3MEoMgeg4v+SyydnW/vwyjw84bt1tZ3/GZEO0IJ8Lo4=;
-	b=YpiHadRfp9nkqxoDO5qcSrtu8smSrw9PvVXSUYnoB8BJ67xyaAhQqVTVPUQkW4teoa
-	9P5pFOVBQF2l+FT4dk5vOrGeP6aBsUhix8qbjbQgkenBsKWTMX5x3YygG3L+uLkcCTIO
-	VgXNsQOW5iS504yuPD81Hb/LeJfbRd3VEb2+Y/0Olp+w8XspeAdTKjW4Z1mZxGVvwBIY
-	83v3gFSMUPCK1MUNgriE6rCG6GRI7Pb22GjS4aoLfYNLxgOHkYQi4Uwg8wjXjgirHwNt
-	KdJy8AzR1vwTGckvO9BUOu199PJZyfGND9ghq7srvXAtQ5yLyt/BnvLwrX+5X8GGIkSI
-	f6fA==
-X-Received: by 10.50.110.65 with SMTP id hy1mr15383916igb.13.1413776404578;
-	Sun, 19 Oct 2014 20:40:04 -0700 (PDT)
+	Sun, 19 Oct 2014 22:11:19 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.141) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 19 Oct 2014 22:11:18 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 20 Oct 2014 13:11:20 +0800
+Message-ID: <1413781881-9876-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Received: by 10.50.169.2 with HTTP; Sun, 19 Oct 2014 20:39:34 -0700 (PDT)
-In-Reply-To: <1413364894-25626-1-git-send-email-rongqing.li@windriver.com>
-References: <1413364894-25626-1-git-send-email-rongqing.li@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 19 Oct 2014 20:39:34 -0700
-Message-ID: <CAMKF1sq03U7B2qN=MBOZemLnpuNqeqOTZdtVCb3V+2FUks_w6A@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nfs-utils: fix a Gcc undefined behavior
+Subject: [PATCH] nfs-utils: fix start-statd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,90 +31,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 03:40:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 20 Oct 2014 05:11:22 -0000
+Content-Type: text/plain
 
-On Wed, Oct 15, 2014 at 2:21 AM,  <rongqing.li@windriver.com> wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> Calling strncpy with NULL second argument, even when the size is 0,
-> is undefined behavior, which leads to GCC to drop the check old
-> variable with NULL in following code.
->
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=6743
+From: "Roy.Li" <rongqing.li@windriver.com>
 
-FWIW this is correct way to fix it
+1. add /bin to PATH of start-statd, otherwise systemctl can not find.
+2. drop error of start-statd
 
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> ---
->  .../files/fix-a-Gcc-undefined-behavior.patch       |   38 ++++++++++++++++++++
->  .../nfs-utils/nfs-utils_1.3.0.bb                   |    1 +
->  2 files changed, 39 insertions(+)
->  create mode 100644 meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
->
-> diff --git a/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch b/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
-> new file mode 100644
-> index 0000000..5843ba0
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
-> @@ -0,0 +1,38 @@
-> +[PATCH] fix a Gcc undefined behavior
-> +
-> +Upstream-Status: Pending
-> +
-> +Calling strncpy with NULL second argument, even when the size is 0,
-> +is undefined behavior, which leads to GCC to drop the check old
-> +variable with NULL in following code.
-> +
-> +https://bugzilla.yoctoproject.org/show_bug.cgi?id=6743
-> +
-> +Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> +---
-> + support/export/client.c |    9 +++++++--
-> + 1 file changed, 7 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/support/export/client.c b/support/export/client.c
-> +index dbf47b9..a37ef69 100644
-> +--- a/support/export/client.c
-> ++++ b/support/export/client.c
-> +@@ -482,8 +482,13 @@ add_name(char *old, const char *add)
-> +               else
-> +                       cp = cp + strlen(cp);
-> +       }
-> +-      strncpy(new, old, cp-old);
-> +-      new[cp-old] = 0;
-> ++
-> ++      if (old) {
-> ++              strncpy(new, old, cp-old);
-> ++              new[cp-old] = 0;
-> ++      } else
-> ++              new[0] = 0;
-> ++
-> +       if (cp != old && !*cp)
-> +               strcat(new, ",");
-> +       strcat(new, add);
-> +--
-> +1.7.10.4
-> +
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
-> index c813d7f..f1ef6d9 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
-> @@ -31,6 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
->             file://nfs-statd.service \
->             file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
->             file://0001-statd-fixed-the-with-statdpath-flag.patch \
-> +           file://fix-a-Gcc-undefined-behavior.patch \
->  "
->
->  SRC_URI[md5sum] = "6e93a7997ca3a1eac56bf219adab72a8"
-> --
-> 1.7.10.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+---
+ .../nfs-utils/nfs-utils/fix-the-start-statd.patch  |   30 ++++++++++++++++++++
+ .../nfs-utils/nfs-utils_1.3.0.bb                   |    1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/fix-the-start-statd.patch
+
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/fix-the-start-statd.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/fix-the-start-statd.patch
+new file mode 100644
+index 0000000..58a9c60
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/fix-the-start-statd.patch
+@@ -0,0 +1,30 @@
++[PATCH] fix the start-statd
++
++
++
++1. add /bin/ to PATH, since systemctl is installed under /bin/
++2. redirect error to /dev/null
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ utils/statd/start-statd |    4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/utils/statd/start-statd b/utils/statd/start-statd
++index cde3583..098ce70 100644
++--- a/utils/statd/start-statd
+++++ b/utils/statd/start-statd
++@@ -4,8 +4,8 @@
++ # /var/run/rpc.statd.pid).
++ # It should run statd with whatever flags are apropriate for this
++ # site.
++-PATH=/sbin:/usr/sbin
++-if systemctl start statd.service
+++PATH=/sbin:/usr/sbin:/bin
+++if systemctl start statd.service 2>/dev/null
++ then :
++ else
++     exec rpc.statd --no-notify
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
+index f1ef6d9..4933e10 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
+@@ -32,6 +32,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
+            file://0001-statd-fixed-the-with-statdpath-flag.patch \
+            file://fix-a-Gcc-undefined-behavior.patch \
++           file://fix-the-start-statd.patch \
+ "
+ 
+ SRC_URI[md5sum] = "6e93a7997ca3a1eac56bf219adab72a8"
+-- 
+1.7.10.4
+
 
