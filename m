@@ -1,37 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 69478601F6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A3A2260097
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 15:05:06 +0000 (UTC)
-Received: by mail-qg0-f42.google.com with SMTP id z60so3655382qgd.29
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 08:05:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=T2bhNQ41mvA8D/SZralOWbydv10ZSHbvr/c+fQELSFs=;
-	b=ToweP+bOVvm96iYWRbZpsEH8bVJ03iEKs/v558ooTpK/jgQPiNUpjagu5Sbl/acU+R
-	5h8VD+eFCf5eYiX6hNk+oTOInxv6ZM14vlciv5TLV77+T5tlaD6BV+r7Uw6GjIg0vyWj
-	+nPDHJ71pPiZ7oJoEf/y8jiFuHjl7X8Xhrqzc1wTp63nnoTTJy3XbLXVG0SfgF89RV4u
-	c3ZI1VJ1bkHUCwT8NS5iq11a0iOkEmUULeTSIzDbeJXC1FUSanX85rlh4JwyOWen3VvE
-	GDMyi+1Po6KnCE3EMIOv50H4LVSYYIc6qyBiq9JTnQTflzpBanHj/jBb9t3DG5yfpbdY
-	ouKQ==
-X-Gm-Message-State: ALoCoQnMMu1DakQrDQJfzQvxDtKoNBp94cOMuvGKZTfCA2JCrMm7csb3aNPWB/4cLiSHFtJnsRtF
-X-Received: by 10.224.28.68 with SMTP id l4mr35540968qac.22.1413817506212;
-	Mon, 20 Oct 2014 08:05:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Mon, 20 Oct 2014 08:04:45 -0700 (PDT)
-In-Reply-To: <CANyK_8dYLsNqhOcE6ip1_wz1L4XNvun7TdoCtQW9dtgDcDaF+A@mail.gmail.com>
-References: <5444D400.90702@windriver.com>
-	<CANyK_8dYLsNqhOcE6ip1_wz1L4XNvun7TdoCtQW9dtgDcDaF+A@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 20 Oct 2014 16:04:45 +0100
-Message-ID: <CAJTo0Lat7Hz4MXC_8O-BjybiKjbp37k=jpjT2U3sAMDyic4mHg@mail.gmail.com>
-To: Liu Jian <jian.liu@windriver.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] opkg_svn: update-alternatives fails for "[" and "[[" in busybox
+	Mon, 20 Oct 2014 15:24:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s9KFNOl5019511; Mon, 20 Oct 2014 16:23:24 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id qXLBCqUQrD6V; Mon, 20 Oct 2014 16:23:24 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s9KFNKOW019508
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Mon, 20 Oct 2014 16:23:21 +0100
+Message-ID: <1413818635.17752.159.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Date: Mon, 20 Oct 2014 16:23:55 +0100
+In-Reply-To: <544502B6.5040808@topic.nl>
+References: <5444F848.3040307@topic.nl> <1413806657.17752.154.camel@ted>
+	<544502B6.5040808@topic.nl>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Going beyond MACHINE?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,23 +37,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 15:05:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 20 Oct 2014 15:24:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 20 October 2014 10:40, Paul Barker <paul@paulbarker.me.uk> wrote:
-> This patch looks to be corrupted, opkg_svn.bb no longer exists in
-> oe-core (it's now opkg_0.2.2.bb) and your commit message is very
-> confusing as it references a log file and a path which only exists on
-> your system.
->
-> What version of poky or oe-core are you sending a patch against? And
-> have you read the contribution guidelines in
-> http://openembedded.org/wiki/Commit_Patch_Message_Guidelines and
-> http://openembedded.org/wiki/Styleguide?
+On Mon, 2014-10-20 at 14:40 +0200, Mike Looijmans wrote:
+> ﻿On 10/20/2014 02:04 PM, Richard Purdie wrote:
+> > On Mon, 2014-10-20 at 13:55 +0200, Mike Looijmans wrote:
+> >> ﻿The short version of my question: Can I define a "level" that goes beyond MACHINE?
+> >>
+> >> My problem in detail (and I suspect there are more systems with similar problems):
+> >>
+> >> I have an SOC called "topic-miami". There are currently two variants: The 7015
+> >> and 7030. They are identical but for one component: They have a different FPGA
+> >> part (the 7030 is bigger and faster).
+> >> Both run exactly the same kernel and bootloader, and all other software and
+> >> libraries are exactly the same.
+> >>
+> >> Currently I have MACHINE="topic-miami-7015" and then SOC_FAMILY="topic-miami"
+> >> so I can use "topic-miami" as override word for all packages.
+> >>
+> >> However, this means I get two kernels, two bootloaders, etc. even though they
+> >> are exactly the same.
+> >>
+> >> The only package that currently differs is the one that delivers the
+> >> bitstream(s) for the FPGA. These are big, too big to fit bitstreams for both
+> >> models into flash and leave room for applications, so just installing both
+> >> into the rootfs and pick the correct one at boot time is not really an option.
+> >>
+> >> Maybe I could define some extra PACKAGE_ARCH for the bitstreams (which make
+> >> sense, as this is sort of firmware for a different platform). But how would a
+> >> user then pick the right value for this variable, since MACHINE seems to be
+> >> the only thing he can really choose?
+> >>
+> >> Any thoughts and ideas are welcome...
+> >
+> > One possible solution would be to inject another PACKAGE_ARCH (as the
+> > intel gmgd graphics does for example), then mark the MACHINE specific
+> > packages as being that package architecture. They'd then only get built
+> > once per package architecture yet your bitstreams would still be machine
+> > specific. You could probably do the "remarking" using anonymous python
+> > injected at the machine level.
+> 
+> Sounds doable, but I can't find anything about "intel gmgd" in any layer. 
+> Which machine are you referring to here?
 
-Specifically the patch is missing an Upstream-Status tag, and as opkg
-is part of the Yocto Project this should be Backport as obviously we'd
-fix our own software instead of patching it.
+Sorry, emgd:
 
-Ross
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel/tree/classes/emgd-gl.bbclass?h=daisy
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel/tree/conf/machine/include/meta-intel-emgd.inc?h=daisy
+
+I have actually sent Scott some text for the manual about this but its
+not been edited yet.
+
+Cheers,
+
+Richard
+
 
