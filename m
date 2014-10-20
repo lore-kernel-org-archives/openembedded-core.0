@@ -1,36 +1,36 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
-	[209.85.216.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B76065C9F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id D80B6607A8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 10:34:37 +0000 (UTC)
-Received: by mail-qa0-f51.google.com with SMTP id k15so3053842qaq.24
+	Mon, 20 Oct 2014 10:59:35 +0000 (UTC)
+Received: by mail-qc0-f169.google.com with SMTP id o8so3445461qcw.28
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 03:34:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=EsJ/rs0nRywCxLSYUZKf8ROfpUNUTxp8wpVE0V33MJY=;
-	b=uVw6yoyiPGbEaJFraUZTiMRGIOofvPI/MwEGWLOUDNhh98uLcQczDUft7b7vpfTTiY
-	uGHVizngst1qHkgKaIdpQk5pwGc4hwQgdouJnxpkiwofyXOjVO28j4Mai3bbItHlaMfV
-	aSU5R24VrFnyToLzUWgdT1HFvzLUskaKT6M//FmwI8ob8Rxk1REqLebeTd21wvBAmaAr
-	8Iotbqb3ldaASAoHJSk2ej6Nb3xi8ThkJaw8MvPwOvKI1FKUFm7lDv6X1JcEshEpKXU0
-	x0FJ20qE3PZmyXq1JQ7GW3jejAqHCpKlBKZS04ADWuXIhgmQJLQCDzi5/zj3ABKr4h7L
-	zh3g==
-X-Received: by 10.140.34.102 with SMTP id k93mr27802799qgk.21.1413801278316;
-	Mon, 20 Oct 2014 03:34:38 -0700 (PDT)
+	Mon, 20 Oct 2014 03:59:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=jMRyqBysQ+XSqMxEyWsgojKqMk+h88ZPpE9ZA2my7hA=;
+	b=bThuu/5tulADYwpjJuxDjPw8D0w3mwkVoQ6J1fK3RLMnMgXBXEHwqhEQAbX66ub1LO
+	jW+cKPIBTcaDxItIyvXa9LT4/JxxEIsIXwVW0ZDD5CNd0OxnRV5YzDvuBDz5Q5KXE6hV
+	SehJw22XxoOiBoKOUEkCC/5Ox2EehuAlzyDPRpTLn6Fz1TI06uAJbt2eeHVoXkhDx6i4
+	diMTPkPVTaUtPrahid+Wx3XsckQ5GhtZ0jMp83lKHO9bCn2z+sABlkKBxss3SzYBJHVX
+	Y31eXQmjpiNMltfFbNWSwwBFcRt7uxB0pUJBLyhDjgOHjiSy1GZ1HCaD3AqWbQYxhrKE
+	+0JA==
+X-Gm-Message-State: ALoCoQnH6Ux7QtqYvpuQ3ljg1zQ2ou8xJxYE4s661vhx/0ncqnNMoV2QKXUMFpXk3ohBaKhalD8I
+X-Received: by 10.224.160.83 with SMTP id m19mr34649523qax.17.1413802775842;
+	Mon, 20 Oct 2014 03:59:35 -0700 (PDT)
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.140.142.78 with HTTP; Mon, 20 Oct 2014 03:33:58 -0700 (PDT)
-In-Reply-To: <5444D64D.2030802@windriver.com>
-References: <5444D64D.2030802@windriver.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Mon, 20 Oct 2014 11:33:58 +0100
-X-Google-Sender-Auth: Jb1wjlNEpU-k02ASorMkTJ-66qA
-Message-ID: <CANyK_8eZFzB9OYYxeV+95=6Yz8wmae7P+-FVKxjexRnjx6eAqw@mail.gmail.com>
-To: Liu Jian <jian.liu@windriver.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] hdparm: hdparm man pages can not be forbiden
+Received: by 10.140.93.65 with HTTP; Mon, 20 Oct 2014 03:59:15 -0700 (PDT)
+In-Reply-To: <1413364894-25626-1-git-send-email-rongqing.li@windriver.com>
+References: <1413364894-25626-1-git-send-email-rongqing.li@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 20 Oct 2014 11:59:15 +0100
+Message-ID: <CAJTo0LZ3p9R2CUnj_XffSQDoDE-_Cg8pmLBQ_VDu5p9TSxYc-Q@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] nfs-utils: fix a Gcc undefined behavior
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,55 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 10:34:38 -0000
+X-List-Received-Date: Mon, 20 Oct 2014 10:59:37 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 20 October 2014 10:30, Liu Jian <jian.liu@windriver.com> wrote:
-> "--enable-doc-pages" can control if man page of a package is added
-> to the file system. "none" and "target" are the two only values.
-> default value is none. But man page of hdparm is still included if
-> --enable-doc-pages equals none while man page of hdparm should be
-> included if target is set.
+On 15 October 2014 10:21,  <rongqing.li@windriver.com> wrote:
+> Calling strncpy with NULL second argument, even when the size is 0,
+> is undefined behavior, which leads to GCC to drop the check old
+> variable with NULL in following code.
 >
-> Signed-off-by: Jian Liu <jian.liu@windriver.com>
-> ---
-> meta/recipes-extended/hdparm/hdparm_9.39.bb | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-extended/hdparm/hdparm_9.39.bb
-> b/meta/recipes-extended/hdparm/hdparm_9.39.bb
-> index 58ceb91..e2ad37d 100644
-> --- a/meta/recipes-extended/hdparm/hdparm_9.39.bb
-> +++ b/meta/recipes-extended/hdparm/hdparm_9.39.bb
-> @@ -8,12 +8,12 @@ LIC_FILES_CHKSUM =
-> "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24 \
-> file://wiper/GPLv2.txt;md5=fcb02dc552a041dee27e4b85c7396067 \
-> file://wiper/wiper.sh;beginline=7;endline=31;md5=b7bc642addc152ea307505bf1a296f09"
->
-> -PR = "r3"
-> +PR = "r4"
->
-> PACKAGES += "wiper"
->
-> FILES_wiper = "${bindir}/wiper.sh"
-> -FILES_${PN} = "${base_sbindir} ${mandir}"
-> +FILES_${PN} = "${base_sbindir}"
->
-> RDEPENDS_wiper = "bash gawk stat"
->
-> --
-> 1.8.5.2.233.g932f7e4
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=6743
 
-It looks like this patch has also been corrupted by your email program
-and is also against an old version of oe-core. The current version of
-hdparm is 9.43 not 9.39 and it looks like this change is no longer
-necessary.
+I've merged this into my MUT branch but we're very late for 1.7.0
+unless it's a critical fix.  We can roll this into 1.7.1 though.
 
-Thanks,
-
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Ross
 
