@@ -1,25 +1,44 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B008165CEC
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 7673F65CEC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 11:36:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9KBaWaG016808
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 20 Oct 2014 04:36:32 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 20 Oct 2014 04:36:31 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Mon, 20 Oct 2014 19:36:28 +0800
-Message-ID: <c878908459697530771e2180430ac5b6b9c1ac61.1413804737.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1413804737.git.hongxu.jia@windriver.com>
-References: <cover.1413804737.git.hongxu.jia@windriver.com>
+	Mon, 20 Oct 2014 11:55:54 +0000 (UTC)
+Received: from amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.127])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id D4A1D4016B
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Oct 2014 13:55:53 +0200 (CEST)
+X-Spam-Flag: NO
+X-Spam-Score: -2.899
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.899 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Oct 2014 13:55:53 +0200 (CEST)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Oct 2014 13:55:53 +0200 (CEST)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Mon, 20 Oct 2014 13:56:08 +0200
+Message-ID: <5444F848.3040307@topic.nl>
+Date: Mon, 20 Oct 2014 13:55:52 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] default-versions.inc: match version of db and db-native while "AGPL-3.0" in ${INCOMPATIBLE_LICENSE}
+To: <openembedded-core@lists.openembedded.org>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: Going beyond MACHINE?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,50 +51,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 11:36:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 Oct 2014 11:55:58 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-The db 6.0.30's LICENSE is 'AGPL-3.0', and db 5.3.28 LICENSE is
-'Sleepycat'
+=EF=BB=BFThe short version of my question: Can I define a "level" that goes=
+ beyond MACHINE?
 
-While building rpm image with "AGPL-3.0" in ${INCOMPATIBLE_LICENSE},
-db 6.0.30 and db-native 5.3.28 were built, the different versions
-caused the rpm doesn't work on target.
+My problem in detail (and I suspect there are more systems with similar pro=
+blems):
 
-...
-root@qemux86-64:~# rpm -qa
-|rpmdb: BDB2531 Unacceptable log file /var/lib/rpm/./log/log.0000000001:
-unsupported log version 21
-|rpmdb: BDB2527 Invalid log file: log.0000000001: Invalid argument
-|rpmdb: BDB0061 PANIC: Invalid argument
-|==> rpmdbe_event_notify(0x623f40, PANIC(0), 0x7fffee0fbc0c) app_private
-(nil)
-|rpmdb: BDB1546 unable to join the environment
-|error: db_init:tmp/work/core2-64-poky-linux/rpm/5.4.14-r0/rpm-5.4.14/
-rpmdb/db3.c:1144: dbenv->open(-30973): BDB0087 DB_RUNRECOVERY: Fatal
-error, run database recovery
-...
+I have an SOC called "topic-miami". There are currently two variants: The 7=
+015=20
+and 7030. They are identical but for one component: They have a different F=
+PGA=20
+part (the 7030 is bigger and faster).
+Both run exactly the same kernel and bootloader, and all other software and=
+=20
+libraries are exactly the same.
 
-[YOCTO #6858]
+Currently I have MACHINE=3D"topic-miami-7015" and then SOC_FAMILY=3D"topic-=
+miami"=20
+so I can use "topic-miami" as override word for all packages.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/conf/distro/include/default-versions.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+However, this means I get two kernels, two bootloaders, etc. even though th=
+ey=20
+are exactly the same.
 
-diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
-index 53ec2e7..20e258b 100644
---- a/meta/conf/distro/include/default-versions.inc
-+++ b/meta/conf/distro/include/default-versions.inc
-@@ -9,3 +9,7 @@ PREFERRED_VERSION_python-native ?= "2.7.3"
- 
- # Force the older version of liberation-fonts until we fix the fontforge issue
- PREFERRED_VERSION_liberation-fonts ?= "1.04"
-+
-+# Force db-native's version to keep sync with db while
-+# 'AGPL-3.0' in ${INCOMPATIBLE_LICENSE} blacklist
-+PREFERRED_VERSION_db-native = "${@base_contains('INCOMPATIBLE_LICENSE', 'AGPL-3.0', '5.%', '6.%', d)}"
--- 
-1.9.1
+The only package that currently differs is the one that delivers the=20
+bitstream(s) for the FPGA. These are big, too big to fit bitstreams for bot=
+h=20
+models into flash and leave room for applications, so just installing both=
+=20
+into the rootfs and pick the correct one at boot time is not really an opti=
+on.
+
+Maybe I could define some extra PACKAGE_ARCH for the bitstreams (which make=
+=20
+sense, as this is sort of firmware for a different platform). But how would=
+ a=20
+user then pick the right value for this variable, since MACHINE seems to be=
+=20
+the only thing he can really choose?
+
+Any thoughts and ideas are welcome...
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
 
 
