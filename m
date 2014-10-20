@@ -1,43 +1,44 @@
 Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 513E365C87
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 41CF865C87
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 10:21:25 +0000 (UTC)
-Received: by mail-wi0-f173.google.com with SMTP id fb4so6671435wid.12
+	Mon, 20 Oct 2014 10:26:06 +0000 (UTC)
+Received: by mail-wi0-f180.google.com with SMTP id em10so5865361wid.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 03:21:25 -0700 (PDT)
+	Mon, 20 Oct 2014 03:26:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:content-type:mime-version:subject:from
 	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=agYIS/BHEeTyFyH+Burt/xcGEFBlG6dGpBeN80rgu5M=;
-	b=ATRZlwR3Pbgk1Ak4FdqN6/jbf3GnqqtB8hrEtmC/f/VKE1miqE+6YhTfXw5faxGU49
-	U1yLrjvmgtpC9oCsgBCzNqApXyPe9LlI9ZKhIshpFdPbslDMDpkWnFwtjN8i/rVE+Q/j
-	UgizpuSmQQWKAuTsFDGpfOsbXC8XiHNNOjvHY67EMVdrM2/XS5Ro3QiyfVCYmlnroEiB
-	vZSTG7esUyxE5ULauC7GAOwL/HZt+iqnAsIWRutAghSZIgzBH8PA6euUrwhhUFedyxRN
-	cdvg9lgpU2bPQPZW1Zwj8+vKuFytyy8kna8YG4Roo1Gy+1gP/5jjYaIpMAhXlM9xhtig
-	z+zQ==
-X-Gm-Message-State: ALoCoQlwvq5vV5PBweio3GHmblCCzTvbhyeFI1P5AKujWlNDUNBglZb9/2EDd2XdxIK+yVvejuZV
-X-Received: by 10.180.39.65 with SMTP id n1mr18901156wik.13.1413800485644;
-	Mon, 20 Oct 2014 03:21:25 -0700 (PDT)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id t9sm11340544wjf.41.2014.10.20.03.21.24
+	:to; bh=ESbmJnUtKBDbp0dWije1fuV69O0+7pxTbsHFjkw74BY=;
+	b=cqTRoD864Crx001YqUWP9tFdYHKVMbUW4J03565XdURAND9Ubxniz4I7Bds6cQPzQ6
+	IUhxJ6O9nd/QW3TygLGR1DDcFMx9Hz+nXbgR//gu8MYUMwzTo4huoHY0x+e2yirX8LEI
+	3h/UZyFvVA3e4K1YsVrlJxBYwU3tR9iqHZEBfkPJtn5yH4FbjO1JQsBsJOjzzRS2Iwqs
+	oXOJC3pzZZUDOzH7rDUDCxVn5vPfQrKUB2s7gbvQXotzpPDBx77Bn1dKTXwpR45Hy2bF
+	ATFokMQNoxBIBOoJKFJGf/VGWipRwaZ/zjKh/6fwKEwKPIYEQMLODz9lIo8fpXoOF0LT
+	P9Bg==
+X-Gm-Message-State: ALoCoQnnXDP+T/H0c4iaaLh4R/9N1q54DSYiLg9g71myQIfwJA6gNuxF9gm/xZ+3wO9q0PgTqhnd
+X-Received: by 10.180.100.106 with SMTP id ex10mr19280066wib.63.1413800766572; 
+	Mon, 20 Oct 2014 03:26:06 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::85bd:42f1:e222:74e0?
+	([2001:610:612:0:85bd:42f1:e222:74e0])
+	by mx.google.com with ESMTPSA id u9sm9116837wiv.8.2014.10.20.03.26.05
 	for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 20 Oct 2014 03:21:24 -0700 (PDT)
+	Mon, 20 Oct 2014 03:26:05 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LboKNAOi7_tx31+m2KOxF_HEKEGePU2wnHXSzGpoeGTgA@mail.gmail.com>
-Date: Mon, 20 Oct 2014 12:21:23 +0200
-Message-Id: <0B4E9113-92D0-404F-ACFD-878A27AD70BC@dominion.thruhere.net>
-References: <cover.1413341569.git.Chong.Lu@windriver.com>
-	<b2f5f79f9e08f008043508392775c2bb52f819b3.1413341569.git.Chong.Lu@windriver.com>
-	<CAJTo0LboKNAOi7_tx31+m2KOxF_HEKEGePU2wnHXSzGpoeGTgA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <1413746147-7120-5-git-send-email-marex@denx.de>
+Date: Mon, 20 Oct 2014 12:26:04 +0200
+Message-Id: <84924DE0-BBAC-45C0-B0B3-66A3EB6841CC@dominion.thruhere.net>
+References: <1413746147-7120-1-git-send-email-marex@denx.de>
+	<1413746147-7120-5-git-send-email-marex@denx.de>
+To: Marek Vasut <marex@denx.de>
 X-Mailer: Apple Mail (2.1990.1)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/1] gconf: fix multilib conflict - org.gnome.GConf.service
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/7] kernel: Pull uImage generation into separate class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,42 +51,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 10:21:26 -0000
+X-List-Received-Date: Mon, 20 Oct 2014 10:26:11 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-> Op 15 okt. 2014, om 12:42 heeft Burton, Ross <ross.burton@intel.com> =
-het volgende geschreven:
+> Op 19 okt. 2014, om 21:15 heeft Marek Vasut <marex@denx.de> het =
+volgende geschreven:
 >=20
-> On 15 October 2014 03:54, Chong Lu <Chong.Lu@windriver.com> wrote:
->> The gconfd-2 will be called in org.gnome.GConf.service file and the =
-path of
->> gconfd-2 is ${libexecdir}, this will get following error when =
-multilib exported
->> in the sdk:
->> error: file /usr/share/dbus-1/services/org.gnome.GConf.service from =
-install
->> of gconf-3.2.6-r0.0.lib32_x86 conflicts with file from package
->> gconf-3.2.6-r0.0.x86_64
->>=20
->> Split org.gnome.GConf.service to ${PN}-service, the conflict was =
-fixed.
->=20
-> Why are both ML variants of gconf being installed?    Presumably for
-> libgconf, which needs to have ML variants and is packaged into $PN.
-> $PN also contains the binaries and data files, which are not
-> ML-specific and can only be installed once.
->=20
-> So, gconf should split the daemon/binaries from the libraries.  I
-> suggested this back in July as it seems the logical answer, instead of
-> splitting the daemon binary and the service file that defines where
-> the binary is.
+> Pull the uImage image format generation from kernel.bbclass into
+> a separate kernel-uimage.bbclass. The recipes which now need to
+> generate an uImage will have to inherit kernel-uimage instead of
+> kernel class.
 
-Keep in mind that both solutions mentioned above will make it virtually =
-impossible to keep a working upgrade path.
+To keep backward compatibility, could you rework this into something =
+like:
+
+kernel.bbclass:
+	inherit kernel-${KERNEL_IMAGETYPE}
+
+kernel-${KERNEL_IMAGETYPE}:
+	inherit kernel-base
+	imagetype stuff
+
+kernel-base:
+	old kernel.bbclass stuff
+
+That would keep existing BSPs working *and* split out the image types.
 
 regards,
 
-Koen=
+Koen
+
+>=20
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Koen Kooi <koen@dominion.thruhere.net>
+> Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+> meta/classes/kernel-uimage.bbclass | 44 =
++++++++++++++++++++++++++++++++++++++
+> meta/classes/kernel.bbclass        | 45 =
+--------------------------------------
+> 2 files changed, 44 insertions(+), 45 deletions(-)
+> create mode 100644 meta/classes/kernel-uimage.bbclass
+>=20
+> diff --git a/meta/classes/kernel-uimage.bbclass =
+b/meta/classes/kernel-uimage.bbclass
+> new file mode 100644
+> index 0000000..f51321b
+> --- /dev/null
+> +++ b/meta/classes/kernel-uimage.bbclass
+> @@ -0,0 +1,44 @@
+> +inherit kernel
+> +
+> +DEPENDS +=3D " u-boot-mkimage-native "
+> +
+> +uboot_prep_kimage() {
+> +	if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
+> +		vmlinux_path=3D"arch/${ARCH}/boot/compressed/vmlinux"
+> +		linux_suffix=3D""
+> +		linux_comp=3D"none"
+> +	else
+> +		vmlinux_path=3D"vmlinux"
+> +		linux_suffix=3D".gz"
+> +		linux_comp=3D"gzip"
+> +	fi
+> +
+> +	${OBJCOPY} -O binary -R .note -R .comment -S "${vmlinux_path}" =
+linux.bin
+> +
+> +	if [ "${linux_comp}" !=3D "none" ] ; then
+> +		rm -f linux.bin
+> +		gzip -9 linux.bin
+> +		mv -f "linux.bin${linux_suffix}" linux.bin
+> +	fi
+> +
+> +	echo "${linux_comp}"
+> +}
+> +
+> +do_uboot_mkimage() {
+> +	if test "x${KERNEL_IMAGETYPE}" =3D "xuImage" ; then
+> +		if test "x${KEEPUIMAGE}" !=3D "xyes" ; then
+> +			uboot_prep_kimage
+> +
+> +			ENTRYPOINT=3D${UBOOT_ENTRYPOINT}
+> +			if test -n "${UBOOT_ENTRYSYMBOL}"; then
+> +				ENTRYPOINT=3D`${HOST_PREFIX}nm =
+${S}/vmlinux | \
+> +					awk '$3=3D=3D"${UBOOT_ENTRYSYMBOL}=
+" {print $1}'`
+> +			fi
+> +
+> +			uboot-mkimage -A ${UBOOT_ARCH} -O linux -T =
+kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n =
+"${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
+> +			rm -f linux.bin
+> +		fi
+> +	fi
+> +}
+> +
+> +addtask uboot_mkimage before do_install after do_compile
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index ec4d930..f3ba19c 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -15,10 +15,6 @@ python __anonymous () {
+>     import re
+>=20
+>     kerneltype =3D d.getVar('KERNEL_IMAGETYPE', True)
+> -    if kerneltype =3D=3D 'uImage':
+> -        depends =3D d.getVar("DEPENDS", True)
+> -        depends =3D "%s u-boot-mkimage-native" % depends
+> -        d.setVar("DEPENDS", depends)
+>=20
+>     d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", re.sub(r'\.[^\.]$', '', =
+kerneltype))
+>=20
+> @@ -448,47 +444,6 @@ MODULE_TARBALL_BASE_NAME ?=3D =
+"${MODULE_IMAGE_BASE_NAME}.tgz"
+> MODULE_TARBALL_SYMLINK_NAME ?=3D "modules-${MACHINE}.tgz"
+> MODULE_TARBALL_DEPLOY ?=3D "1"
+>=20
+> -uboot_prep_kimage() {
+> -	if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
+> -		vmlinux_path=3D"arch/${ARCH}/boot/compressed/vmlinux"
+> -		linux_suffix=3D""
+> -		linux_comp=3D"none"
+> -	else
+> -		vmlinux_path=3D"vmlinux"
+> -		linux_suffix=3D".gz"
+> -		linux_comp=3D"gzip"
+> -	fi
+> -
+> -	${OBJCOPY} -O binary -R .note -R .comment -S "${vmlinux_path}" =
+linux.bin
+> -
+> -	if [ "${linux_comp}" !=3D "none" ] ; then
+> -		rm -f linux.bin
+> -		gzip -9 linux.bin
+> -		mv -f "linux.bin${linux_suffix}" linux.bin
+> -	fi
+> -
+> -	echo "${linux_comp}"
+> -}
+> -
+> -do_uboot_mkimage() {
+> -	if test "x${KERNEL_IMAGETYPE}" =3D "xuImage" ; then=20
+> -		if test "x${KEEPUIMAGE}" !=3D "xyes" ; then
+> -			uboot_prep_kimage
+> -
+> -			ENTRYPOINT=3D${UBOOT_ENTRYPOINT}
+> -			if test -n "${UBOOT_ENTRYSYMBOL}"; then
+> -				ENTRYPOINT=3D`${HOST_PREFIX}nm =
+${S}/vmlinux | \
+> -					awk '$3=3D=3D"${UBOOT_ENTRYSYMBOL}=
+" {print $1}'`
+> -			fi
+> -
+> -			uboot-mkimage -A ${UBOOT_ARCH} -O linux -T =
+kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n =
+"${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
+> -			rm -f linux.bin
+> -		fi
+> -	fi
+> -}
+> -
+> -addtask uboot_mkimage before do_install after do_compile
+> -
+> kernel_do_deploy() {
+> 	install -m 0644 ${KERNEL_OUTPUT} =
+${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+> 	if [ ${MODULE_TARBALL_DEPLOY} =3D "1" ] && (grep -q -i -e =
+'^CONFIG_MODULES=3Dy$' .config); then
+> --=20
+> 2.1.1
+>=20
+>=20
+
 
