@@ -1,44 +1,36 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 41CF865C87
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
+	[209.85.216.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B76065C9F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 10:26:06 +0000 (UTC)
-Received: by mail-wi0-f180.google.com with SMTP id em10so5865361wid.1
+	Mon, 20 Oct 2014 10:34:37 +0000 (UTC)
+Received: by mail-qa0-f51.google.com with SMTP id k15so3053842qaq.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 03:26:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=ESbmJnUtKBDbp0dWije1fuV69O0+7pxTbsHFjkw74BY=;
-	b=cqTRoD864Crx001YqUWP9tFdYHKVMbUW4J03565XdURAND9Ubxniz4I7Bds6cQPzQ6
-	IUhxJ6O9nd/QW3TygLGR1DDcFMx9Hz+nXbgR//gu8MYUMwzTo4huoHY0x+e2yirX8LEI
-	3h/UZyFvVA3e4K1YsVrlJxBYwU3tR9iqHZEBfkPJtn5yH4FbjO1JQsBsJOjzzRS2Iwqs
-	oXOJC3pzZZUDOzH7rDUDCxVn5vPfQrKUB2s7gbvQXotzpPDBx77Bn1dKTXwpR45Hy2bF
-	ATFokMQNoxBIBOoJKFJGf/VGWipRwaZ/zjKh/6fwKEwKPIYEQMLODz9lIo8fpXoOF0LT
-	P9Bg==
-X-Gm-Message-State: ALoCoQnnXDP+T/H0c4iaaLh4R/9N1q54DSYiLg9g71myQIfwJA6gNuxF9gm/xZ+3wO9q0PgTqhnd
-X-Received: by 10.180.100.106 with SMTP id ex10mr19280066wib.63.1413800766572; 
-	Mon, 20 Oct 2014 03:26:06 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::85bd:42f1:e222:74e0?
-	([2001:610:612:0:85bd:42f1:e222:74e0])
-	by mx.google.com with ESMTPSA id u9sm9116837wiv.8.2014.10.20.03.26.05
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 20 Oct 2014 03:26:05 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1413746147-7120-5-git-send-email-marex@denx.de>
-Date: Mon, 20 Oct 2014 12:26:04 +0200
-Message-Id: <84924DE0-BBAC-45C0-B0B3-66A3EB6841CC@dominion.thruhere.net>
-References: <1413746147-7120-1-git-send-email-marex@denx.de>
-	<1413746147-7120-5-git-send-email-marex@denx.de>
-To: Marek Vasut <marex@denx.de>
-X-Mailer: Apple Mail (2.1990.1)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/7] kernel: Pull uImage generation into separate class
+	Mon, 20 Oct 2014 03:34:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=EsJ/rs0nRywCxLSYUZKf8ROfpUNUTxp8wpVE0V33MJY=;
+	b=uVw6yoyiPGbEaJFraUZTiMRGIOofvPI/MwEGWLOUDNhh98uLcQczDUft7b7vpfTTiY
+	uGHVizngst1qHkgKaIdpQk5pwGc4hwQgdouJnxpkiwofyXOjVO28j4Mai3bbItHlaMfV
+	aSU5R24VrFnyToLzUWgdT1HFvzLUskaKT6M//FmwI8ob8Rxk1REqLebeTd21wvBAmaAr
+	8Iotbqb3ldaASAoHJSk2ej6Nb3xi8ThkJaw8MvPwOvKI1FKUFm7lDv6X1JcEshEpKXU0
+	x0FJ20qE3PZmyXq1JQ7GW3jejAqHCpKlBKZS04ADWuXIhgmQJLQCDzi5/zj3ABKr4h7L
+	zh3g==
+X-Received: by 10.140.34.102 with SMTP id k93mr27802799qgk.21.1413801278316;
+	Mon, 20 Oct 2014 03:34:38 -0700 (PDT)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.140.142.78 with HTTP; Mon, 20 Oct 2014 03:33:58 -0700 (PDT)
+In-Reply-To: <5444D64D.2030802@windriver.com>
+References: <5444D64D.2030802@windriver.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Mon, 20 Oct 2014 11:33:58 +0100
+X-Google-Sender-Auth: Jb1wjlNEpU-k02ASorMkTJ-66qA
+Message-ID: <CANyK_8eZFzB9OYYxeV+95=6Yz8wmae7P+-FVKxjexRnjx6eAqw@mail.gmail.com>
+To: Liu Jian <jian.liu@windriver.com>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] hdparm: hdparm man pages can not be forbiden
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,182 +43,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 10:26:11 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 20 Oct 2014 10:34:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-> Op 19 okt. 2014, om 21:15 heeft Marek Vasut <marex@denx.de> het =
-volgende geschreven:
->=20
-> Pull the uImage image format generation from kernel.bbclass into
-> a separate kernel-uimage.bbclass. The recipes which now need to
-> generate an uImage will have to inherit kernel-uimage instead of
-> kernel class.
-
-To keep backward compatibility, could you rework this into something =
-like:
-
-kernel.bbclass:
-	inherit kernel-${KERNEL_IMAGETYPE}
-
-kernel-${KERNEL_IMAGETYPE}:
-	inherit kernel-base
-	imagetype stuff
-
-kernel-base:
-	old kernel.bbclass stuff
-
-That would keep existing BSPs working *and* split out the image types.
-
-regards,
-
-Koen
-
->=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Cc: Koen Kooi <koen@dominion.thruhere.net>
-> Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+On 20 October 2014 10:30, Liu Jian <jian.liu@windriver.com> wrote:
+> "--enable-doc-pages" can control if man page of a package is added
+> to the file system. "none" and "target" are the two only values.
+> default value is none. But man page of hdparm is still included if
+> --enable-doc-pages equals none while man page of hdparm should be
+> included if target is set.
+>
+> Signed-off-by: Jian Liu <jian.liu@windriver.com>
 > ---
-> meta/classes/kernel-uimage.bbclass | 44 =
-+++++++++++++++++++++++++++++++++++++
-> meta/classes/kernel.bbclass        | 45 =
---------------------------------------
-> 2 files changed, 44 insertions(+), 45 deletions(-)
-> create mode 100644 meta/classes/kernel-uimage.bbclass
->=20
-> diff --git a/meta/classes/kernel-uimage.bbclass =
-b/meta/classes/kernel-uimage.bbclass
-> new file mode 100644
-> index 0000000..f51321b
-> --- /dev/null
-> +++ b/meta/classes/kernel-uimage.bbclass
-> @@ -0,0 +1,44 @@
-> +inherit kernel
-> +
-> +DEPENDS +=3D " u-boot-mkimage-native "
-> +
-> +uboot_prep_kimage() {
-> +	if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
-> +		vmlinux_path=3D"arch/${ARCH}/boot/compressed/vmlinux"
-> +		linux_suffix=3D""
-> +		linux_comp=3D"none"
-> +	else
-> +		vmlinux_path=3D"vmlinux"
-> +		linux_suffix=3D".gz"
-> +		linux_comp=3D"gzip"
-> +	fi
-> +
-> +	${OBJCOPY} -O binary -R .note -R .comment -S "${vmlinux_path}" =
-linux.bin
-> +
-> +	if [ "${linux_comp}" !=3D "none" ] ; then
-> +		rm -f linux.bin
-> +		gzip -9 linux.bin
-> +		mv -f "linux.bin${linux_suffix}" linux.bin
-> +	fi
-> +
-> +	echo "${linux_comp}"
-> +}
-> +
-> +do_uboot_mkimage() {
-> +	if test "x${KERNEL_IMAGETYPE}" =3D "xuImage" ; then
-> +		if test "x${KEEPUIMAGE}" !=3D "xyes" ; then
-> +			uboot_prep_kimage
-> +
-> +			ENTRYPOINT=3D${UBOOT_ENTRYPOINT}
-> +			if test -n "${UBOOT_ENTRYSYMBOL}"; then
-> +				ENTRYPOINT=3D`${HOST_PREFIX}nm =
-${S}/vmlinux | \
-> +					awk '$3=3D=3D"${UBOOT_ENTRYSYMBOL}=
-" {print $1}'`
-> +			fi
-> +
-> +			uboot-mkimage -A ${UBOOT_ARCH} -O linux -T =
-kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n =
-"${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
-> +			rm -f linux.bin
-> +		fi
-> +	fi
-> +}
-> +
-> +addtask uboot_mkimage before do_install after do_compile
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index ec4d930..f3ba19c 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -15,10 +15,6 @@ python __anonymous () {
->     import re
->=20
->     kerneltype =3D d.getVar('KERNEL_IMAGETYPE', True)
-> -    if kerneltype =3D=3D 'uImage':
-> -        depends =3D d.getVar("DEPENDS", True)
-> -        depends =3D "%s u-boot-mkimage-native" % depends
-> -        d.setVar("DEPENDS", depends)
->=20
->     d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", re.sub(r'\.[^\.]$', '', =
-kerneltype))
->=20
-> @@ -448,47 +444,6 @@ MODULE_TARBALL_BASE_NAME ?=3D =
-"${MODULE_IMAGE_BASE_NAME}.tgz"
-> MODULE_TARBALL_SYMLINK_NAME ?=3D "modules-${MACHINE}.tgz"
-> MODULE_TARBALL_DEPLOY ?=3D "1"
->=20
-> -uboot_prep_kimage() {
-> -	if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
-> -		vmlinux_path=3D"arch/${ARCH}/boot/compressed/vmlinux"
-> -		linux_suffix=3D""
-> -		linux_comp=3D"none"
-> -	else
-> -		vmlinux_path=3D"vmlinux"
-> -		linux_suffix=3D".gz"
-> -		linux_comp=3D"gzip"
-> -	fi
-> -
-> -	${OBJCOPY} -O binary -R .note -R .comment -S "${vmlinux_path}" =
-linux.bin
-> -
-> -	if [ "${linux_comp}" !=3D "none" ] ; then
-> -		rm -f linux.bin
-> -		gzip -9 linux.bin
-> -		mv -f "linux.bin${linux_suffix}" linux.bin
-> -	fi
-> -
-> -	echo "${linux_comp}"
-> -}
-> -
-> -do_uboot_mkimage() {
-> -	if test "x${KERNEL_IMAGETYPE}" =3D "xuImage" ; then=20
-> -		if test "x${KEEPUIMAGE}" !=3D "xyes" ; then
-> -			uboot_prep_kimage
-> -
-> -			ENTRYPOINT=3D${UBOOT_ENTRYPOINT}
-> -			if test -n "${UBOOT_ENTRYSYMBOL}"; then
-> -				ENTRYPOINT=3D`${HOST_PREFIX}nm =
-${S}/vmlinux | \
-> -					awk '$3=3D=3D"${UBOOT_ENTRYSYMBOL}=
-" {print $1}'`
-> -			fi
-> -
-> -			uboot-mkimage -A ${UBOOT_ARCH} -O linux -T =
-kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n =
-"${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
-> -			rm -f linux.bin
-> -		fi
-> -	fi
-> -}
-> -
-> -addtask uboot_mkimage before do_install after do_compile
-> -
-> kernel_do_deploy() {
-> 	install -m 0644 ${KERNEL_OUTPUT} =
-${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
-> 	if [ ${MODULE_TARBALL_DEPLOY} =3D "1" ] && (grep -q -i -e =
-'^CONFIG_MODULES=3Dy$' .config); then
-> --=20
-> 2.1.1
->=20
->=20
+> meta/recipes-extended/hdparm/hdparm_9.39.bb | 4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-extended/hdparm/hdparm_9.39.bb
+> b/meta/recipes-extended/hdparm/hdparm_9.39.bb
+> index 58ceb91..e2ad37d 100644
+> --- a/meta/recipes-extended/hdparm/hdparm_9.39.bb
+> +++ b/meta/recipes-extended/hdparm/hdparm_9.39.bb
+> @@ -8,12 +8,12 @@ LIC_FILES_CHKSUM =
+> "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24 \
+> file://wiper/GPLv2.txt;md5=fcb02dc552a041dee27e4b85c7396067 \
+> file://wiper/wiper.sh;beginline=7;endline=31;md5=b7bc642addc152ea307505bf1a296f09"
+>
+> -PR = "r3"
+> +PR = "r4"
+>
+> PACKAGES += "wiper"
+>
+> FILES_wiper = "${bindir}/wiper.sh"
+> -FILES_${PN} = "${base_sbindir} ${mandir}"
+> +FILES_${PN} = "${base_sbindir}"
+>
+> RDEPENDS_wiper = "bash gawk stat"
+>
+> --
+> 1.8.5.2.233.g932f7e4
 
+It looks like this patch has also been corrupted by your email program
+and is also against an old version of oe-core. The current version of
+hdparm is 9.43 not 9.39 and it looks like this change is no longer
+necessary.
+
+Thanks,
+
+-- 
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
