@@ -1,32 +1,30 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 2732760884
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4900165CA6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Oct 2014 22:31:16 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3jLbRR4TZcz3hjNg;
-	Mon, 20 Oct 2014 00:31:15 +0200 (CEST)
-X-Auth-Info: +P+QOWNAdGoetnplVe/AhLogW1w3NVLQfoTrJHn6ds4=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3jLbRR1wQbzvdWR; 
-	Mon, 20 Oct 2014 00:31:15 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 20 Oct 2014 00:29:22 +0200
-User-Agent: KMail/1.13.7 (Linux/3.13-trunk-amd64; KDE/4.13.1; x86_64; ; )
-References: <1413746147-7120-1-git-send-email-marex@denx.de>
-	<1413746147-7120-5-git-send-email-marex@denx.de>
-	<CADkTA4PhjW0vDu2tDW+FzBvOSLf7YSO7Zzzr3T2XGaZMs1k5hw@mail.gmail.com>
-In-Reply-To: <CADkTA4PhjW0vDu2tDW+FzBvOSLf7YSO7Zzzr3T2XGaZMs1k5hw@mail.gmail.com>
+	Mon, 20 Oct 2014 03:15:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9K3FhUu009189
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 19 Oct 2014 20:15:43 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Sun, 19 Oct 2014 20:15:42 -0700
+Message-ID: <54447E62.2050905@windriver.com>
+Date: Mon, 20 Oct 2014 11:15:46 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-Message-Id: <201410200029.22491.marex@denx.de>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/7] kernel: Pull uImage generation into separate class
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1413452836.git.kai.kang@windriver.com>
+	<6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
+	<CAJTo0LYZHWzJFtt3xZksna7dj7qx9Esqkn+ONwRBz=S66-sEJQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYZHWzJFtt3xZksna7dj7qx9Esqkn+ONwRBz=S66-sEJQ@mail.gmail.com>
+X-Originating-IP: [128.224.162.231]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] readline: Security Advisory - readline - CVE-2014-2524
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,27 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Oct 2014 22:31:24 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Oct 2014 03:15:49 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Monday, October 20, 2014 at 12:08:57 AM, Bruce Ashfield wrote:
-> On Sun, Oct 19, 2014 at 3:15 PM, Marek Vasut <marex@denx.de> wrote:
-> > Pull the uImage image format generation from kernel.bbclass into
-> > a separate kernel-uimage.bbclass. The recipes which now need to
-> > generate an uImage will have to inherit kernel-uimage instead of
-> > kernel class.
-> 
-> The commit log doesn't tell us why. What's the benefit or functionality we
-> gain via the change ?
+On 2014年10月16日 19:20, Burton, Ross wrote:
+> On 16 October 2014 10:48, Kai Kang <kai.kang@windriver.com> wrote:
+>> +++ b/meta/recipes-core/readline/readline_6.3.bb
+>> @@ -1,5 +1,7 @@
+>>   require readline.inc
+>>
+>> +SRC_URI_append = " file://readline63-003"
+> Doing SRC_URI += is the usual thing to do.
 
-Ah right. I will be recycling some of those functions later on in the fitImage 
-support. Also, it was suggested to me that there should be a separate class for
-each image type -- that all the image types should not be in kernel.bbclass .
+OK. I'll send V2.
 
-Does that make sense please?
+Thanks,
+Kai
 
-Best regards,
-Marek Vasut
+> Does this CVE also apply
+> to readline 5.2 that we ship as a non-GPLv3 alternative?
+>
+> Ross
+>
+>
+
+
+-- 
+Regards,
+Neil | Kai Kang
+
 
