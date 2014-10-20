@@ -1,28 +1,28 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E397A65CAF
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DDCCC65CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 03:22:55 +0000 (UTC)
+	Mon, 20 Oct 2014 03:23:09 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9K3MtWT026338
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9K3NAsD009269
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Oct 2014 20:22:55 -0700 (PDT)
+	Sun, 19 Oct 2014 20:23:10 -0700 (PDT)
 Received: from [128.224.162.141] (128.224.162.141) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 19 Oct 2014 20:22:54 -0700
-Message-ID: <54448010.6020704@windriver.com>
-Date: Mon, 20 Oct 2014 11:22:56 +0800
+	Sun, 19 Oct 2014 20:23:09 -0700
+Message-ID: <5444801F.3060009@windriver.com>
+Date: Mon, 20 Oct 2014 11:23:11 +0800
 From: Rongqing Li <rongqing.li@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
 To: <rongqing.li@windriver.com>
-References: <1413364894-25626-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1413364894-25626-1-git-send-email-rongqing.li@windriver.com>
+References: <1413424950-14820-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1413424950-14820-1-git-send-email-rongqing.li@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] nfs-utils: fix a Gcc undefined behavior
+Subject: Re: [PATCH] rpm: rpm needs gnupg to do signature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,7 +35,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 03:23:03 -0000
+X-List-Received-Date: Mon, 20 Oct 2014 03:23:10 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -43,78 +43,32 @@ ping
 
 -R
 
-On 10/15/2014 05:21 PM, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
+On 10/16/2014 10:02 AM, rongqing.li@windriver.com wrote:
+> From: "Roy.Li" <rongqing.li@windriver.com>
 >
-> Calling strncpy with NULL second argument, even when the size is 0,
-> is undefined behavior, which leads to GCC to drop the check old
-> variable with NULL in following code.
+> rpm needs gnupg to do signature, otherwise the below error:
 >
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=6743
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+>      $ rpm -v --addsign m4-1.4.16-r4.0.x86_64.rpm
+>      Enter pass phrase:
+>      error: Could not exec gpg: No such file or directory
+>      $
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
 > ---
->   .../files/fix-a-Gcc-undefined-behavior.patch       |   38 ++++++++++++++++++++
->   .../nfs-utils/nfs-utils_1.3.0.bb                   |    1 +
->   2 files changed, 39 insertions(+)
->   create mode 100644 meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
+>   meta/recipes-devtools/rpm/rpm_5.4.14.bb | 1 +
+>   1 file changed, 1 insertion(+)
 >
-> diff --git a/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch b/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
-> new file mode 100644
-> index 0000000..5843ba0
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
-> @@ -0,0 +1,38 @@
-> +[PATCH] fix a Gcc undefined behavior
-> +
-> +Upstream-Status: Pending
-> +
-> +Calling strncpy with NULL second argument, even when the size is 0,
-> +is undefined behavior, which leads to GCC to drop the check old
-> +variable with NULL in following code.
-> +
-> +https://bugzilla.yoctoproject.org/show_bug.cgi?id=6743
-> +
-> +Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> +---
-> + support/export/client.c |    9 +++++++--
-> + 1 file changed, 7 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/support/export/client.c b/support/export/client.c
-> +index dbf47b9..a37ef69 100644
-> +--- a/support/export/client.c
-> ++++ b/support/export/client.c
-> +@@ -482,8 +482,13 @@ add_name(char *old, const char *add)
-> + 		else
-> + 			cp = cp + strlen(cp);
-> + 	}
-> +-	strncpy(new, old, cp-old);
-> +-	new[cp-old] = 0;
-> ++
-> ++	if (old) {
-> ++		strncpy(new, old, cp-old);
-> ++		new[cp-old] = 0;
-> ++	} else
-> ++		new[0] = 0;
-> ++	
-> + 	if (cp != old && !*cp)
-> + 		strcat(new, ",");
-> + 	strcat(new, add);
-> +--
-> +1.7.10.4
-> +
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
-> index c813d7f..f1ef6d9 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
-> @@ -31,6 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
->              file://nfs-statd.service \
->              file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
->              file://0001-statd-fixed-the-with-statdpath-flag.patch \
-> +           file://fix-a-Gcc-undefined-behavior.patch \
->   "
+> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> index fb8a507..78a880a 100644
+> --- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> @@ -335,6 +335,7 @@ RDEPENDS_${PN} = "base-files run-postinsts"
+>   RDEPENDS_${PN}_class-native = ""
+>   RDEPENDS_${PN}_class-nativesdk = ""
+>   RDEPENDS_${PN}-build = "file bash perl"
+> +RRECOMMENDS_${PN}_class-target = "gnupg"
 >
->   SRC_URI[md5sum] = "6e93a7997ca3a1eac56bf219adab72a8"
+>   RDEPENDS_python-rpm = "${PN}"
+>
 >
 
 -- 
