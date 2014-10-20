@@ -1,36 +1,41 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id EEA7C65C98
+Return-Path: <Javier.Viguera@digi.com>
+Received: from mail1.bemta8.messagelabs.com (mail1.bemta8.messagelabs.com
+	[216.82.243.197])
+	by mail.openembedded.org (Postfix) with ESMTP id 8757565C66
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 09:41:39 +0000 (UTC)
-Received: by mail-qc0-f175.google.com with SMTP id b13so3725713qcw.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 02:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=Amq3DAM61T1T7kuT8IWb0sfmp5UI83S7Rjt8zrxufyA=;
-	b=R/ox7fQfIDrIAXtY8/gy0v6VclnuYbQYgcgjpN3mO8VFAKhxmAeZu5lbS0C7W93eLQ
-	v7oQnCUpAzD+tM/nnCAKQLLam2L8QUsveWgto/JjxfcEfzcIgDA4gJVTc0zuwpf9kACS
-	696tqaD8A9TancbWPXR4dLRbSzu5+LxeUC95yX7EfUc+vW5YZSlRo+oV2S3AnDdAemAH
-	h+2vyPlaeSAv89En7rWHwDakTFbYhg2EeXTIFVOYBTl+dZVZra1YQRs1F6gK5NJZtWD1
-	fpZGHHEN6/XEr2B7RWT5wctrXylqLEckLpecFMk3IKxWEr65m1XXKJpTAxeq+2fcgTfY
-	LYwg==
-X-Received: by 10.224.132.72 with SMTP id a8mr11228214qat.37.1413798099447;
-	Mon, 20 Oct 2014 02:41:39 -0700 (PDT)
+	Mon, 20 Oct 2014 10:13:22 +0000 (UTC)
+Received: from [216.82.241.132:20028] by server-5.bemta-8.messagelabs.com id
+	6A/18-05345-040E4445; Mon, 20 Oct 2014 10:13:20 +0000
+X-Env-Sender: Javier.Viguera@digi.com
+X-Msg-Ref: server-11.tower-45.messagelabs.com!1413800000!37675295!1
+X-Originating-IP: [66.77.174.13]
+X-StarScan-Received: 
+X-StarScan-Version: 6.12.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 26745 invoked from network); 20 Oct 2014 10:13:20 -0000
+Received: from mail.mx3.digi.com (HELO mcl-sms-ns1.digi.com) (66.77.174.13)
+	by server-11.tower-45.messagelabs.com with RC4-SHA encrypted SMTP;
+	20 Oct 2014 10:13:20 -0000
+Received: from MCL-VMS-XCH01.digi.com (10.5.8.49) by mail.mx1.digi.com
+	(172.16.1.13) with Microsoft SMTP Server (TLS) id 8.3.342.0;
+	Mon, 20 Oct 2014 05:13:11 -0500
+Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MCL-VMS-XCH01.digi.com
+	(10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Mon, 20 Oct 2014 05:13:19 -0500
+Received: from log-cln-jviguera.digi.com (10.101.2.54) by
+	dor-sms-xch01.digi.com (10.49.8.99) with Microsoft SMTP Server (TLS) id
+	14.3.181.6; Mon, 20 Oct 2014 12:13:16 +0200
+From: Javier Viguera <javier.viguera@digi.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 20 Oct 2014 12:13:08 +0200
+Message-ID: <1413799988-50345-1-git-send-email-javier.viguera@digi.com>
+X-Mailer: git-send-email 2.1.1
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.140.142.78 with HTTP; Mon, 20 Oct 2014 02:40:59 -0700 (PDT)
-In-Reply-To: <5444D400.90702@windriver.com>
-References: <5444D400.90702@windriver.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Mon, 20 Oct 2014 10:40:59 +0100
-X-Google-Sender-Auth: ufJrEtoI_8cTT6Sk7-hu8PvemN0
-Message-ID: <CANyK_8dYLsNqhOcE6ip1_wz1L4XNvun7TdoCtQW9dtgDcDaF+A@mail.gmail.com>
-To: Liu Jian <jian.liu@windriver.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] opkg_svn: update-alternatives fails for "[" and "[[" in busybox
+X-Originating-IP: [10.101.2.54]
+X-KSE-AntiSpam-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean
+Subject: [daisy][PATCH] file: add wrapper to nativesdk-file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,36 +48,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 09:41:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 20 Oct 2014 10:13:27 -0000
+Content-Type: text/plain
 
-On 20 October 2014 10:21, Liu Jian <jian.liu@windriver.com> wrote:
->
-> Building a small filesystem with busybox gives the following error lines:
-> (see log.do_rootfs under bitbake_build/tmp/work/)
-> sed: -e expression #1, char 41: unterminated address regex
-> sed: -e expression #1, char 42: unterminated address regex
-> This is caused by the script
-> bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/update-alternatives.
-> "[" can not be used directly in sed expression.
->
-> Signed-off-by: Jian Liu <jian.liu@windriver.com>
+Backport commit 69a3ab3 to 'daisy' which uses a different version of
+file package.
 
-This patch looks to be corrupted, opkg_svn.bb no longer exists in
-oe-core (it's now opkg_0.2.2.bb) and your commit message is very
-confusing as it references a log file and a path which only exists on
-your system.
+Author of the original patch: Hongxu Jia <hongxu.jia@windriver.com>
 
-What version of poky or oe-core are you sending a patch against? And
-have you read the contribution guidelines in
-http://openembedded.org/wiki/Commit_Patch_Message_Guidelines and
-http://openembedded.org/wiki/Styleguide?
+Signed-off-by: Javier Viguera <javier.viguera@digi.com>
+---
+ meta/recipes-devtools/file/file_5.16.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Thanks,
-
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+diff --git a/meta/recipes-devtools/file/file_5.16.bb b/meta/recipes-devtools/file/file_5.16.bb
+index 46dbf88f8db0..a15d952e3de6 100644
+--- a/meta/recipes-devtools/file/file_5.16.bb
++++ b/meta/recipes-devtools/file/file_5.16.bb
+@@ -32,5 +32,9 @@ do_install_append_class-native() {
+ 		--magic-file ${datadir}/misc/magic.mgc
+ }
+ 
++do_install_append_class-nativesdk() {
++	create_cmdline_wrapper ${D}/${bindir}/file \
++		--magic-file ${datadir}/misc/magic.mgc
++}
+ 
+ BBCLASSEXTEND = "native nativesdk"
 
