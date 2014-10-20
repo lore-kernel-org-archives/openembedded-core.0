@@ -1,37 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DDC360702
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id EEA7C65C98
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 09:40:50 +0000 (UTC)
-Received: by mail-qg0-f43.google.com with SMTP id j107so3200732qga.30
+	Mon, 20 Oct 2014 09:41:39 +0000 (UTC)
+Received: by mail-qc0-f175.google.com with SMTP id b13so3725713qcw.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 02:40:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=LeSc28ZS/rmb6pgGSlEuJmFKacxph9Duo9PTrNFtctk=;
-	b=lM+Q+ePB16jn/lZDXdpDky0rif0ng1B8qg90PJBO0t5fyysYp0TV+Hi1r3PGftTjlR
-	RAEhetHnskdU0SQ5JMbbwf9ZGR1sAbTNifnuxfHX3zrATe0akyjS7t9c6BAoAf6znSVh
-	H+9dhSJvFV4uNezO/iL9tykJR7I4TpW/FbaobvmZ79ZTMs/kr+2CJZ3biwzPLzuF8M15
-	N2ciZTmrTNEIAFJzY839D7/JOMs4NQHg33RAQ6p1ue1/R7gMrxTdee9fTOgY2x7ZcenO
-	/buICaOoSbRPbX67FE7+hUb36VXgxonIbn5Hz5d43K6WFMRxdLKku6H6K01plw4jYvxe
-	1EJQ==
-X-Gm-Message-State: ALoCoQnFB0NxRy5rEV99a+I0+Snn1BnwtmXu2SlrsGQRotUpPHcVPKmiXhYmPgdZ21cZDRNzCUY/
-X-Received: by 10.224.2.135 with SMTP id 7mr34822149qaj.64.1413798050872; Mon,
-	20 Oct 2014 02:40:50 -0700 (PDT)
+	Mon, 20 Oct 2014 02:41:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=Amq3DAM61T1T7kuT8IWb0sfmp5UI83S7Rjt8zrxufyA=;
+	b=R/ox7fQfIDrIAXtY8/gy0v6VclnuYbQYgcgjpN3mO8VFAKhxmAeZu5lbS0C7W93eLQ
+	v7oQnCUpAzD+tM/nnCAKQLLam2L8QUsveWgto/JjxfcEfzcIgDA4gJVTc0zuwpf9kACS
+	696tqaD8A9TancbWPXR4dLRbSzu5+LxeUC95yX7EfUc+vW5YZSlRo+oV2S3AnDdAemAH
+	h+2vyPlaeSAv89En7rWHwDakTFbYhg2EeXTIFVOYBTl+dZVZra1YQRs1F6gK5NJZtWD1
+	fpZGHHEN6/XEr2B7RWT5wctrXylqLEckLpecFMk3IKxWEr65m1XXKJpTAxeq+2fcgTfY
+	LYwg==
+X-Received: by 10.224.132.72 with SMTP id a8mr11228214qat.37.1413798099447;
+	Mon, 20 Oct 2014 02:41:39 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Mon, 20 Oct 2014 02:40:30 -0700 (PDT)
-In-Reply-To: <544404D7.9030905@gmail.com>
-References: <544404D7.9030905@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 20 Oct 2014 10:40:30 +0100
-Message-ID: <CAJTo0Lb_tRj9ROyQ5D6ZSca-FoeY_wDt-2qOY9Fe53PFLnspeQ@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Poky X11
+Sender: paul.betafive@gmail.com
+Received: by 10.140.142.78 with HTTP; Mon, 20 Oct 2014 02:40:59 -0700 (PDT)
+In-Reply-To: <5444D400.90702@windriver.com>
+References: <5444D400.90702@windriver.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Mon, 20 Oct 2014 10:40:59 +0100
+X-Google-Sender-Auth: ufJrEtoI_8cTT6Sk7-hu8PvemN0
+Message-ID: <CANyK_8dYLsNqhOcE6ip1_wz1L4XNvun7TdoCtQW9dtgDcDaF+A@mail.gmail.com>
+To: Liu Jian <jian.liu@windriver.com>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] opkg_svn: update-alternatives fails for "[" and "[[" in busybox
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 09:40:53 -0000
+X-List-Received-Date: Mon, 20 Oct 2014 09:41:41 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 19 October 2014 19:37, akuster808 <akuster808@gmail.com> wrote:
-> When I build 'core-image-x11' on Poky, X on wont start. I am using the
-> standard Poky clone with no added layers. When I manually start x I get the
-> following error:
+On 20 October 2014 10:21, Liu Jian <jian.liu@windriver.com> wrote:
 >
-> startx
-> /etc/X11/xinit/xinitrc: line 95: twm : command not found
-> /etc/X11/xinit/xinitrc: line 96: xclock : command not found
-> /etc/X11/xinit/xinitrc: line 97: xterm : command not found
-> /etc/X11/xinit/xinitrc: line 98: xterm : command not found
-> /etc/X11/xinit/xinitrc: line 99: exec : command not found
+> Building a small filesystem with busybox gives the following error lines:
+> (see log.do_rootfs under bitbake_build/tmp/work/)
+> sed: -e expression #1, char 41: unterminated address regex
+> sed: -e expression #1, char 42: unterminated address regex
+> This is caused by the script
+> bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/update-alternatives.
+> "[" can not be used directly in sed expression.
+>
+> Signed-off-by: Jian Liu <jian.liu@windriver.com>
 
-Did you at some point do a build with meta-oe enabled, and then not
-enabled?  There's a known bad interaction between oe-core and
-meta-oe's X init scripts which results in problems like this.  The
-quick fix is to wipe your tmp and rebuild (using sstate this should
-take just a few minutes).
+This patch looks to be corrupted, opkg_svn.bb no longer exists in
+oe-core (it's now opkg_0.2.2.bb) and your commit message is very
+confusing as it references a log file and a path which only exists on
+your system.
 
-Ross
+What version of poky or oe-core are you sending a patch against? And
+have you read the contribution guidelines in
+http://openembedded.org/wiki/Commit_Patch_Message_Guidelines and
+http://openembedded.org/wiki/Styleguide?
+
+Thanks,
+
+-- 
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
