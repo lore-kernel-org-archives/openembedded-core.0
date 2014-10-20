@@ -1,41 +1,43 @@
-Return-Path: <Javier.Viguera@digi.com>
-Received: from mail1.bemta8.messagelabs.com (mail1.bemta8.messagelabs.com
-	[216.82.243.197])
-	by mail.openembedded.org (Postfix) with ESMTP id 8757565C66
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 513E365C87
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 10:13:22 +0000 (UTC)
-Received: from [216.82.241.132:20028] by server-5.bemta-8.messagelabs.com id
-	6A/18-05345-040E4445; Mon, 20 Oct 2014 10:13:20 +0000
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-11.tower-45.messagelabs.com!1413800000!37675295!1
-X-Originating-IP: [66.77.174.13]
-X-StarScan-Received: 
-X-StarScan-Version: 6.12.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 26745 invoked from network); 20 Oct 2014 10:13:20 -0000
-Received: from mail.mx3.digi.com (HELO mcl-sms-ns1.digi.com) (66.77.174.13)
-	by server-11.tower-45.messagelabs.com with RC4-SHA encrypted SMTP;
-	20 Oct 2014 10:13:20 -0000
-Received: from MCL-VMS-XCH01.digi.com (10.5.8.49) by mail.mx1.digi.com
-	(172.16.1.13) with Microsoft SMTP Server (TLS) id 8.3.342.0;
-	Mon, 20 Oct 2014 05:13:11 -0500
-Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MCL-VMS-XCH01.digi.com
-	(10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Mon, 20 Oct 2014 05:13:19 -0500
-Received: from log-cln-jviguera.digi.com (10.101.2.54) by
-	dor-sms-xch01.digi.com (10.49.8.99) with Microsoft SMTP Server (TLS) id
-	14.3.181.6; Mon, 20 Oct 2014 12:13:16 +0200
-From: Javier Viguera <javier.viguera@digi.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Oct 2014 12:13:08 +0200
-Message-ID: <1413799988-50345-1-git-send-email-javier.viguera@digi.com>
-X-Mailer: git-send-email 2.1.1
-MIME-Version: 1.0
-X-Originating-IP: [10.101.2.54]
-X-KSE-AntiSpam-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean
-Subject: [daisy][PATCH] file: add wrapper to nativesdk-file
+	Mon, 20 Oct 2014 10:21:25 +0000 (UTC)
+Received: by mail-wi0-f173.google.com with SMTP id fb4so6671435wid.12
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Oct 2014 03:21:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=agYIS/BHEeTyFyH+Burt/xcGEFBlG6dGpBeN80rgu5M=;
+	b=ATRZlwR3Pbgk1Ak4FdqN6/jbf3GnqqtB8hrEtmC/f/VKE1miqE+6YhTfXw5faxGU49
+	U1yLrjvmgtpC9oCsgBCzNqApXyPe9LlI9ZKhIshpFdPbslDMDpkWnFwtjN8i/rVE+Q/j
+	UgizpuSmQQWKAuTsFDGpfOsbXC8XiHNNOjvHY67EMVdrM2/XS5Ro3QiyfVCYmlnroEiB
+	vZSTG7esUyxE5ULauC7GAOwL/HZt+iqnAsIWRutAghSZIgzBH8PA6euUrwhhUFedyxRN
+	cdvg9lgpU2bPQPZW1Zwj8+vKuFytyy8kna8YG4Roo1Gy+1gP/5jjYaIpMAhXlM9xhtig
+	z+zQ==
+X-Gm-Message-State: ALoCoQlwvq5vV5PBweio3GHmblCCzTvbhyeFI1P5AKujWlNDUNBglZb9/2EDd2XdxIK+yVvejuZV
+X-Received: by 10.180.39.65 with SMTP id n1mr18901156wik.13.1413800485644;
+	Mon, 20 Oct 2014 03:21:25 -0700 (PDT)
+Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id t9sm11340544wjf.41.2014.10.20.03.21.24
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 20 Oct 2014 03:21:24 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LboKNAOi7_tx31+m2KOxF_HEKEGePU2wnHXSzGpoeGTgA@mail.gmail.com>
+Date: Mon, 20 Oct 2014 12:21:23 +0200
+Message-Id: <0B4E9113-92D0-404F-ACFD-878A27AD70BC@dominion.thruhere.net>
+References: <cover.1413341569.git.Chong.Lu@windriver.com>
+	<b2f5f79f9e08f008043508392775c2bb52f819b3.1413341569.git.Chong.Lu@windriver.com>
+	<CAJTo0LboKNAOi7_tx31+m2KOxF_HEKEGePU2wnHXSzGpoeGTgA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1990.1)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 1/1] gconf: fix multilib conflict - org.gnome.GConf.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,31 +50,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 10:13:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 Oct 2014 10:21:26 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Backport commit 69a3ab3 to 'daisy' which uses a different version of
-file package.
 
-Author of the original patch: Hongxu Jia <hongxu.jia@windriver.com>
+> Op 15 okt. 2014, om 12:42 heeft Burton, Ross <ross.burton@intel.com> =
+het volgende geschreven:
+>=20
+> On 15 October 2014 03:54, Chong Lu <Chong.Lu@windriver.com> wrote:
+>> The gconfd-2 will be called in org.gnome.GConf.service file and the =
+path of
+>> gconfd-2 is ${libexecdir}, this will get following error when =
+multilib exported
+>> in the sdk:
+>> error: file /usr/share/dbus-1/services/org.gnome.GConf.service from =
+install
+>> of gconf-3.2.6-r0.0.lib32_x86 conflicts with file from package
+>> gconf-3.2.6-r0.0.x86_64
+>>=20
+>> Split org.gnome.GConf.service to ${PN}-service, the conflict was =
+fixed.
+>=20
+> Why are both ML variants of gconf being installed?    Presumably for
+> libgconf, which needs to have ML variants and is packaged into $PN.
+> $PN also contains the binaries and data files, which are not
+> ML-specific and can only be installed once.
+>=20
+> So, gconf should split the daemon/binaries from the libraries.  I
+> suggested this back in July as it seems the logical answer, instead of
+> splitting the daemon binary and the service file that defines where
+> the binary is.
 
-Signed-off-by: Javier Viguera <javier.viguera@digi.com>
----
- meta/recipes-devtools/file/file_5.16.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+Keep in mind that both solutions mentioned above will make it virtually =
+impossible to keep a working upgrade path.
 
-diff --git a/meta/recipes-devtools/file/file_5.16.bb b/meta/recipes-devtools/file/file_5.16.bb
-index 46dbf88f8db0..a15d952e3de6 100644
---- a/meta/recipes-devtools/file/file_5.16.bb
-+++ b/meta/recipes-devtools/file/file_5.16.bb
-@@ -32,5 +32,9 @@ do_install_append_class-native() {
- 		--magic-file ${datadir}/misc/magic.mgc
- }
- 
-+do_install_append_class-nativesdk() {
-+	create_cmdline_wrapper ${D}/${bindir}/file \
-+		--magic-file ${datadir}/misc/magic.mgc
-+}
- 
- BBCLASSEXTEND = "native nativesdk"
+regards,
+
+Koen=
 
