@@ -1,36 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 88D37607A8
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DC3BE65CDB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 11:01:55 +0000 (UTC)
-Received: by mail-qc0-f182.google.com with SMTP id i17so3431471qcy.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 04:01:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=/QcnhY7dXL2FQNl35HCkj1hrRZmFtY09tXukC2FFMuI=;
-	b=P5yxBkp4jZPF1JE4DvVZlHej9elBzEXUgMVOpQN+hRbZsHfDor/Bjq3XYRdhve2/5e
-	vWc+YR5+iodsn1HT4zPfOVFV0ZFiSDGLtVzA3ED2OwW1vKMadX2O3qzjBiS8rwMUDAii
-	i41pmNq5Uo7megi2sJM43AkoOokKA+iTW2ewJd0nYjlZECbPJ5j6HZQ4JDiU8vif/+Zv
-	ZuxZ8ap9OYwzt5XE4a1nNb3jais25GFvqp7g3PB8omG4xxRUDHENd9Pvllk0Fr+jOV+x
-	YjTM91eLZWrOhjsAURrxa9Lb1aGJf9pik3gAEkCfbobRbEhTobPij65T7JSrWTHCdMeS
-	5L1A==
-X-Gm-Message-State: ALoCoQmD0WB42qlx5LC5W3OC63JNtqTSdvkL7vP9CB+hqKHdYRqW7Y0tbLT/nPyjvmW8vJ10DjhN
-X-Received: by 10.140.96.101 with SMTP id j92mr24675190qge.87.1413802916481;
-	Mon, 20 Oct 2014 04:01:56 -0700 (PDT)
+	Mon, 20 Oct 2014 11:36:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9KBaUIe005973
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 20 Oct 2014 04:36:30 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 20 Oct 2014 04:36:30 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Mon, 20 Oct 2014 19:36:27 +0800
+Message-ID: <cover.1413804737.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Mon, 20 Oct 2014 04:01:36 -0700 (PDT)
-In-Reply-To: <1413424950-14820-1-git-send-email-rongqing.li@windriver.com>
-References: <1413424950-14820-1-git-send-email-rongqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 20 Oct 2014 12:01:36 +0100
-Message-ID: <CAJTo0LZvOGjzLdM_itgf=dFMvPCe=bS=+L0Fc_o6HbddY9Gtbw@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rpm: rpm needs gnupg to do signature
+Subject: [PATCH 0/1] default-versions.inc: match version of db and db-native while "AGPL-3.0" in ${INCOMPATIBLE_LICENSE}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,15 +30,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 11:01:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 20 Oct 2014 11:36:35 -0000
+Content-Type: text/plain
 
-On 16 October 2014 03:02,  <rongqing.li@windriver.com> wrote:
-> +RRECOMMENDS_${PN}_class-target = "gnupg"
+Test Steps:
 
-Recommends means pulled into images unless you use BAD_RECOMMENDATIONS
-to remove it.  As signing isn't a key part of RPM, maybe this should
-be RSUGGESTS?
+1. vim local.conf
+...
+IMAGE_FEATURES += "package-management ssh-server-dropbear"
+INCOMPATIBLE_LICENSE="AGPL-3.0"
+...
 
-Ross
+2. build core-image-minimal
+bitbake core-image-minimal
+
+3. run qemu and execute 'rpm -qa' succeed
+...
+root@qemux86-64:~# rpm -qa
+update-alternatives-opkg-0.1.8+git0+eae0d8fa44-r0.core2_64
+openssl-conf-1.0.1j-r0.core2_64
+ncurses-terminfo-base-5.9-r15.1.core2_64
+base-files-3.0.14-r89.qemux86_64
+netbase-5.2-r0.core2_64
+busybox-1.22.1-r32.core2_64
+update-rc.d-0.7-r5.all
+...
+
+//Hongxu
+
+The following changes since commit 924da20c6f2f183fa7e930e4c3c6b14c090acbe5:
+
+  build-appliance-image: Update to dizzy head revision (2014-10-18 16:16:38 +0200)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-db-native
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-db-native
+
+Hongxu Jia (1):
+  default-versions.inc: match version of db and db-native while
+    "AGPL-3.0" in ${INCOMPATIBLE_LICENSE}
+
+ meta/conf/distro/include/default-versions.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+-- 
+1.9.1
+
 
