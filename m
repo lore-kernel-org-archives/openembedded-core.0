@@ -1,30 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A3A2260097
+Return-Path: <sgarman@zenlinux.com>
+X-Greylist: delayed 512 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 20 Oct 2014 17:01:28 UTC
+Received: from masterfoo.zenlinux.com (masterfoo.zenlinux.com [50.116.21.172])
+	by mail.openembedded.org (Postfix) with ESMTP id AF19F60097
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Oct 2014 15:24:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s9KFNOl5019511; Mon, 20 Oct 2014 16:23:24 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id qXLBCqUQrD6V; Mon, 20 Oct 2014 16:23:24 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s9KFNKOW019508
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 20 Oct 2014 16:23:21 +0100
-Message-ID: <1413818635.17752.159.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Date: Mon, 20 Oct 2014 16:23:55 +0100
-In-Reply-To: <544502B6.5040808@topic.nl>
-References: <5444F848.3040307@topic.nl> <1413806657.17752.154.camel@ted>
-	<544502B6.5040808@topic.nl>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Going beyond MACHINE?
+	Mon, 20 Oct 2014 17:01:28 +0000 (UTC)
+Received: from [192.168.0.31] (75-175-76-162.ptld.qwest.net [75.175.76.162])
+	by masterfoo.zenlinux.com (Postfix) with ESMTPSA id 0C8C21EA36
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Oct 2014 09:52:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=zenlinux.com; s=dkim;
+	t=1413823976; bh=1l+Yi3Y5Gf6TQiK/8YtYEZ96KNa4teyx5uO/ejdSonY=;
+	h=Date:From:To:Subject:From;
+	b=ntUh/Tez528yi8cWTtG39bDh5c7elan9h80tHPLwJ7y5H9Qf9zrtpFbr/Z3bUpxI7
+	Oc3MqKMZmW47GZT5xpvTTenk7pR/AqVg8BI9HoUwZ1hVgsGf2iw0HMVYGIgn2zIbtK
+	Fy8XiK9yp0+K19cEqb3k0TJ40xQc33PXjZLdfIfg=
+Message-ID: <54453DE5.5030207@zenlinux.com>
+Date: Mon, 20 Oct 2014 09:52:53 -0700
+From: Scott Garman <sgarman@zenlinux.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.3.9
+	(masterfoo.zenlinux.com [0.0.0.0]);
+	Mon, 20 Oct 2014 09:52:56 -0700 (PDT)
+X-Virus-Scanned: clamav-milter 0.98.4 at masterfoo
+X-Virus-Status: Clean
+Subject: Yocto/OE developer looking for work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,61 +40,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Oct 2014 15:24:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 20 Oct 2014 17:01:34 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2014-10-20 at 14:40 +0200, Mike Looijmans wrote:
-> ﻿On 10/20/2014 02:04 PM, Richard Purdie wrote:
-> > On Mon, 2014-10-20 at 13:55 +0200, Mike Looijmans wrote:
-> >> ﻿The short version of my question: Can I define a "level" that goes beyond MACHINE?
-> >>
-> >> My problem in detail (and I suspect there are more systems with similar problems):
-> >>
-> >> I have an SOC called "topic-miami". There are currently two variants: The 7015
-> >> and 7030. They are identical but for one component: They have a different FPGA
-> >> part (the 7030 is bigger and faster).
-> >> Both run exactly the same kernel and bootloader, and all other software and
-> >> libraries are exactly the same.
-> >>
-> >> Currently I have MACHINE="topic-miami-7015" and then SOC_FAMILY="topic-miami"
-> >> so I can use "topic-miami" as override word for all packages.
-> >>
-> >> However, this means I get two kernels, two bootloaders, etc. even though they
-> >> are exactly the same.
-> >>
-> >> The only package that currently differs is the one that delivers the
-> >> bitstream(s) for the FPGA. These are big, too big to fit bitstreams for both
-> >> models into flash and leave room for applications, so just installing both
-> >> into the rootfs and pick the correct one at boot time is not really an option.
-> >>
-> >> Maybe I could define some extra PACKAGE_ARCH for the bitstreams (which make
-> >> sense, as this is sort of firmware for a different platform). But how would a
-> >> user then pick the right value for this variable, since MACHINE seems to be
-> >> the only thing he can really choose?
-> >>
-> >> Any thoughts and ideas are welcome...
-> >
-> > One possible solution would be to inject another PACKAGE_ARCH (as the
-> > intel gmgd graphics does for example), then mark the MACHINE specific
-> > packages as being that package architecture. They'd then only get built
-> > once per package architecture yet your bitstreams would still be machine
-> > specific. You could probably do the "remarking" using anonymous python
-> > injected at the machine level.
-> 
-> Sounds doable, but I can't find anything about "intel gmgd" in any layer. 
-> Which machine are you referring to here?
+Hi all,
 
-Sorry, emgd:
+I realize this is primarily a development ML and I don't mean to abuse it.
 
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel/tree/classes/emgd-gl.bbclass?h=daisy
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel/tree/conf/machine/include/meta-intel-emgd.inc?h=daisy
+That said, I'm currently in job-hunt mode and would love to continue 
+working professionally with Yocto/OE if possible. I'm based in Portland, 
+OR and would be interested in hearing about any local or remote-friendly 
+opportunities. You can check out my professional background on LinkedIn:
 
-I have actually sent Scott some text for the manual about this but its
-not been edited yet.
+http://www.linkedin.com/in/scottgarman
 
-Cheers,
+Please respond to me off-list.
 
-Richard
+That's all, thank you!
 
+Scott Garman
 
