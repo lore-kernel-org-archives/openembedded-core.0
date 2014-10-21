@@ -1,37 +1,40 @@
 Return-Path: <mike.holmes@linaro.org>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D49060097
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 9464B65C88
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 21:02:59 +0000 (UTC)
-Received: by mail-qg0-f43.google.com with SMTP id j107so1601961qga.30
+	Tue, 21 Oct 2014 21:03:00 +0000 (UTC)
+Received: by mail-qg0-f48.google.com with SMTP id i50so1507842qgf.7
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 21 Oct 2014 14:03:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
 	bh=ACm+dS1It0bdQiu2vH6Y/enoHtHo5O8ADajlTcQ5YGU=;
-	b=TTUIctPCqww9ESH2VX5HWmV621fdJoP9ZTlcjSx2bDmfQpNTcl/UGaKfhK4akld7k8
-	C/e9LUlki6NDR9O1RxUqr1GmzUJEHeKna/VeW+f5NmU4ecxlvNWPHxeOOro1qmOe/YLa
-	O36m5UHyB9XI67qQ6kxpUqU1TSvRnE0ru5lf2fYmd47GvpephjDvhaY+yxRaiAH7+fdn
-	ufIothAosAIIi3I2ludOYWvFhtoo5Kc4DqN07aJGubYDEXk51/au9s3PzImz1Hr9IN7H
-	0GZw6X01XlzxaTnTyo1yF9gPVJi8Kx4tVEN3fbD5Ej/TIximbdtFRKFLxS0x2pmJS6id
-	kygw==
-X-Gm-Message-State: ALoCoQmic8CfUY5RTV9612ZsH3iC8yKAo9xZTOtLa8eNGq0eJiN07hX4ONp/vbfV6pN1uD2q3Uls
-X-Received: by 10.229.102.72 with SMTP id f8mr49801265qco.9.1413925380153;
+	b=dldcfOcnV+NH9P+aqXNCsj51qPkXzoq02XovdnO/ZYuSQLC/qS9G3vzvOEKPo9GKWi
+	OVMxUX44oB3Q+isemZyrB+kYbt0wO4TpECoe0InnZEJ1G/sjUjbg/0n1rILkjA/hvGg9
+	hL55XMZ6gJMZgHp032bRGbPJlMQgUQ3kBzJXdXlJ2chfdVlzCzLlK0oSJftUzKRu4g78
+	TxxGFSAahF6Mv0sUn/Sb52dvHtYIH6qEYV29dX8s8ux6wMfpKPj9huws8g0RPBsRytJg
+	RSv86LGaaLcLXcZPoPmzFYhL3ca9EUm3hA6el/Bt9eG+Pv9n3KyLj0+hv5IxRVlFoA8C
+	JNcw==
+X-Gm-Message-State: ALoCoQnAnrdtVHqjygHTMeW6BLYdJUEMfilR5wxCzGcw2b88GmCaUppY2ECiwCsk3JNqhNQyKZT6
+X-Received: by 10.224.127.133 with SMTP id g5mr16514393qas.24.1413925380690;
 	Tue, 21 Oct 2014 14:03:00 -0700 (PDT)
 Received: from fedora1.holmesfamily.ws ([98.221.136.245])
 	by mx.google.com with ESMTPSA id
-	m36sm11679500qgd.28.2014.10.21.14.02.59
+	m36sm11679500qgd.28.2014.10.21.14.03.00
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 21 Oct 2014 14:02:59 -0700 (PDT)
+	Tue, 21 Oct 2014 14:03:00 -0700 (PDT)
 From: Mike Holmes <mike.holmes@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Oct 2014 17:02:36 -0400
-Message-Id: <1413925357-53983-1-git-send-email-mike.holmes@linaro.org>
+Date: Tue, 21 Oct 2014 17:02:37 -0400
+Message-Id: <1413925357-53983-2-git-send-email-mike.holmes@linaro.org>
 X-Mailer: git-send-email 1.9.1
-Subject: [meta-oe][PATCH] add CUnit test suite
+In-Reply-To: <1413925357-53983-1-git-send-email-mike.holmes@linaro.org>
+References: <1413925357-53983-1-git-send-email-mike.holmes@linaro.org>
+Subject: [PATCH] add CUnit test suite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
