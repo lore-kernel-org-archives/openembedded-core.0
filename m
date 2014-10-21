@@ -1,24 +1,36 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A53A9601F5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 121A760097
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 11:10:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9LBAvsR007153
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 21 Oct 2014 14:37:36 +0000 (UTC)
+Received: by mail-wi0-f177.google.com with SMTP id fb4so2050652wid.16
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 04:10:58 -0700 (PDT)
-Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 21 Oct 2014 04:10:57 -0700
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Oct 2014 19:10:54 +0800
-Message-ID: <1413889854-10346-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.8.4.1
-MIME-Version: 1.0
-Subject: [PATCH] rpm: realpath is required before expanding _dbpath in chroot
+	Tue, 21 Oct 2014 07:37:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=G9Y9fDoYj5Kok7vnFKw9A28fwwYkYEkA8RsfbpKT9j4=;
+	b=MvdhR1CsPKFU55PW2vxjXZaNBKxrsYQBQlPRPYZRZXQSPUsKAssGb+XWvZkVNx6Shb
+	lAwHYCBhvnv5+8GimSsGKkUGBU2RrvWZMdxUePQENr4QH+gPrk4zc49PvdmVSzhT7iaw
+	R8S5rslE6gcikxAAKllbeQGurRUKsMyrWzKMI6ue3/KqCVdH7FgpQ8GHBr3jlSXz3z0p
+	ozCOrSbzNVKi0qM7MHB3xD69sg6EBJGt49kvJesxRTpqxHnEVX/VvOUbKG8lnP3EJsw4
+	fVsOZZgGqdlG4JS1biW2Znfpgy41R91b2cXSy2ZtrRUc0HrqFed5udzphIROphcqeQey
+	OkEA==
+X-Gm-Message-State: ALoCoQnJHoM4vg4/pGkK8pVb0YSTIMHqp+Le8rNNv15UPrvX9uG83aZCshKPtoHI6R7xOAjqi+tm
+X-Received: by 10.194.109.226 with SMTP id hv2mr42780393wjb.45.1413902256382; 
+	Tue, 21 Oct 2014 07:37:36 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id hc8sm15761714wib.1.2014.10.21.07.37.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 21 Oct 2014 07:37:35 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Oct 2014 15:37:31 +0100
+Message-Id: <1413902251-19519-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] native.bbclass: use BUILD_* variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,79 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Oct 2014 11:11:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 21 Oct 2014 14:37:39 -0000
 
-A regression is introduced by commit 66573093:
-[ rpm: Fix rpm relocation macro usage ]
+Instead of replicating the logic for the host compiler naming from bitbake.conf,
+use the BUILD_* variables directly.
 
-_usr turned out to be a relative path to support dyanmic config after
-that, but it's being used somewhere as a indicator to locate substrings,
-so we must get the real path of it in advance.
-
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/rpm/rpm/rpm-realpath.patch | 24 ++++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4+cvs.bb         |  1 +
- meta/recipes-devtools/rpm/rpm_5.4.14.bb          |  1 +
- 3 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-realpath.patch
+ meta/classes/native.bbclass |   21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-realpath.patch b/meta/recipes-devtools/rpm/rpm/rpm-realpath.patch
-new file mode 100644
-index 0000000..d2d9b09
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-realpath.patch
-@@ -0,0 +1,24 @@
-+chroot: realpath is required before expanding _dbpath
-+
-+_usr turned out to be a relative path to support dyanmic config, but it's
-+being used somewhere as a indicator to locate substrings, so we must get
-+the real path of it in advance.
-+
-+Upstream-Status: Inapproriate (OpenEmbedded specific)
-+
-+Signed-off-by: Ming Liu <ming.liu@windriver.com>
-+
-+diff -urpN a/rpmio/rpmrpc.c b/rpmio/rpmrpc.c
-+--- a/rpmio/rpmrpc.c
-++++ b/rpmio/rpmrpc.c
-+@@ -257,7 +257,9 @@ int Open(const char * path, int flags, m
-+     /* XXX if the open(2) fails, try to strip a possible chroot(2) prefix. */
-+     if (fdno < 0 && errno == ENOENT) {
-+ 	const char *dbpath = rpmExpand("%{?_dbpath}/", NULL);
-+-	const char * fn = strstr(path + 1, dbpath);
-++	char resolved_dbpath[PATH_MAX];
-++	realpath(dbpath, resolved_dbpath);
-++	const char * fn = strstr(path + 1, resolved_dbpath);
-+ 	if (fn)
-+ 	    fdno = open(fn, flags, mode);
-+ 	dbpath = _free(dbpath);
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-index d2dec5f..a85e28f 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-@@ -109,6 +109,7 @@ SRC_URI = "cvs://anonymous@rpm5.org/cvs;tag=rpm-5_4;module=rpm \
- 	   file://rpm-db5-or-db6.patch \
- 	   file://rpm-rpmpgp-fix.patch \
- 	   file://rpm-disable-Wno-override-init.patch \
-+	   file://rpm-realpath.patch \
- 	  "
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index dcd364b..4acc936 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -61,16 +61,17 @@ PTEST_ENABLED = "0"
+ export CONFIG_SITE = "${COREBASE}/meta/site/native"
  
- # Uncomment the following line to enable platform score debugging
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-index fb8a507..6cd932d 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-@@ -93,6 +93,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
- 	   file://rpm-db5-or-db6.patch \
- 	   file://rpm-disable-Wno-override-init.patch \
- 	   file://rpmqv_cc_b_gone.patch \
-+	   file://rpm-realpath.patch \
- 	  "
+ # set the compiler as well. It could have been set to something else
+-export CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_ARCH}"
+-export CXX = "${CCACHE}${HOST_PREFIX}g++ ${HOST_CC_ARCH}"
+-export FC = "${CCACHE}${HOST_PREFIX}gfortran ${HOST_CC_ARCH}"
+-export CPP = "${HOST_PREFIX}gcc ${HOST_CC_ARCH} -E"
+-export LD = "${HOST_PREFIX}ld ${HOST_LD_ARCH} "
+-export CCLD = "${CC}"
+-export AR = "${HOST_PREFIX}ar"
+-export AS = "${HOST_PREFIX}as ${HOST_AS_ARCH}"
+-export RANLIB = "${HOST_PREFIX}ranlib"
+-export STRIP = "${HOST_PREFIX}strip"
++export CC = "${BUILD_CC}"
++export CXX = "${BUILD_CXX}"
++export FC = "${BUILD_FC}"
++export CPP = "${BUILD_CPP}"
++export LD = "${BUILD_LD}"
++export CCLD = "${BUILD_CCLD}"
++export AR = "${BUILD_AR}"
++export AS = "${BUILD_AS}"
++export RANLIB = "${BUILD_RANLIB}"
++export STRIP = "${BUILD_STRIP}"
++export NM = "${BUILD_NM}"
  
- # Uncomment the following line to enable platform score debugging
+ # Path prefixes
+ base_prefix = "${STAGING_DIR_NATIVE}"
 -- 
-1.8.4.1
+1.7.10.4
 
 
