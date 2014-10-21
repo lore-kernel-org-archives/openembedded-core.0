@@ -1,52 +1,24 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id C0D3360672
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A53A9601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 10:03:50 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	s9LA3jEk022364
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	Tue, 21 Oct 2014 11:10:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9LBAvsR007153
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 12:03:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1413885828;
-	bh=v7QpkSL9/g8FsMyyUSnmPjTvF3EL9tTmcVvbXbzowpo=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=PXGK2sSrH9P00Alr7j97+xRyzZpZdX1Z5TvDn4kQJ4JafTOTxHPne8TggZWZ2SKVD
-	XtQl8sbVrXANwBw3UciFRf+Xivi6iSYlyUTzOnz/E9IH4WJAel3d8S58N6ZTw3w8RX
-	efM7Vv5ZjzueZLxAF0SX7vLNxWQHjbnMTYoMzKII=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s9LA3e6Z029381
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 12:03:43 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1XgWHy-0007uu-Ed
-	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Oct 2014 12:03:38 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1413829859-8489-1-git-send-email-jeffrey.honig@windriver.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Tue, 21 Oct 2014 12:03:38 +0200
-In-Reply-To: <1413829859-8489-1-git-send-email-jeffrey.honig@windriver.com>
-	(jeffrey's message of "Mon, 20 Oct 2014 14:30:59 -0400")
-Message-ID: <ly7fzteo3p.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Tue, 21 Oct 2014 04:10:58 -0700 (PDT)
+Received: from PEK-MLIU3-D1.corp.ad.wrs.com (128.224.163.186) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 21 Oct 2014 04:10:57 -0700
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Oct 2014 19:10:54 +0800
+Message-ID: <1413889854-10346-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.7
-X-Spam-Level: -----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.75
-Subject: Re: [PATCH] Refuse to run bitbake on a kernel that is too old.
+Subject: [PATCH] rpm: realpath is required before expanding _dbpath in chroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Oct 2014 10:03:53 -0000
+X-List-Received-Date: Tue, 21 Oct 2014 11:11:01 -0000
 Content-Type: text/plain
 
-<jeffrey.honig-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
+A regression is introduced by commit 66573093:
+[ rpm: Fix rpm relocation macro usage ]
 
-> Bitbake.conf now specifies OLDEST_KERNEL to insure that the SDK is
-> not run on a kernel that is not supported by a component of the SDK
-> (i.e. glibc).
+_usr turned out to be a relative path to support dyanmic config after
+that, but it's being used somewhere as a indicator to locate substrings,
+so we must get the real path of it in advance.
 
-OLDEST_KERNEL is used in glibc recipe only; it would be much better
-to build SDK's glibc with an --enable-kernel matching the target
-distribution.  E.g. by setting a special 'OLDEST_KERNEL_nativesdk'
-variable.
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/recipes-devtools/rpm/rpm/rpm-realpath.patch | 24 ++++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4+cvs.bb         |  1 +
+ meta/recipes-devtools/rpm/rpm_5.4.14.bb          |  1 +
+ 3 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-realpath.patch
 
-> +    # Check that our kernel will work for crosssdk
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-realpath.patch b/meta/recipes-devtools/rpm/rpm/rpm-realpath.patch
+new file mode 100644
+index 0000000..d2d9b09
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/rpm-realpath.patch
+@@ -0,0 +1,24 @@
++chroot: realpath is required before expanding _dbpath
++
++_usr turned out to be a relative path to support dyanmic config, but it's
++being used somewhere as a indicator to locate substrings, so we must get
++the real path of it in advance.
++
++Upstream-Status: Inapproriate (OpenEmbedded specific)
++
++Signed-off-by: Ming Liu <ming.liu@windriver.com>
++
++diff -urpN a/rpmio/rpmrpc.c b/rpmio/rpmrpc.c
++--- a/rpmio/rpmrpc.c
+++++ b/rpmio/rpmrpc.c
++@@ -257,7 +257,9 @@ int Open(const char * path, int flags, m
++     /* XXX if the open(2) fails, try to strip a possible chroot(2) prefix. */
++     if (fdno < 0 && errno == ENOENT) {
++ 	const char *dbpath = rpmExpand("%{?_dbpath}/", NULL);
++-	const char * fn = strstr(path + 1, dbpath);
+++	char resolved_dbpath[PATH_MAX];
+++	realpath(dbpath, resolved_dbpath);
+++	const char * fn = strstr(path + 1, resolved_dbpath);
++ 	if (fn)
++ 	    fdno = open(fn, flags, mode);
++ 	dbpath = _free(dbpath);
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+index d2dec5f..a85e28f 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+@@ -109,6 +109,7 @@ SRC_URI = "cvs://anonymous@rpm5.org/cvs;tag=rpm-5_4;module=rpm \
+ 	   file://rpm-db5-or-db6.patch \
+ 	   file://rpm-rpmpgp-fix.patch \
+ 	   file://rpm-disable-Wno-override-init.patch \
++	   file://rpm-realpath.patch \
+ 	  "
+ 
+ # Uncomment the following line to enable platform score debugging
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+index fb8a507..6cd932d 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+@@ -93,6 +93,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
+ 	   file://rpm-db5-or-db6.patch \
+ 	   file://rpm-disable-Wno-override-init.patch \
+ 	   file://rpmqv_cc_b_gone.patch \
++	   file://rpm-realpath.patch \
+ 	  "
+ 
+ # Uncomment the following line to enable platform score debugging
+-- 
+1.8.4.1
 
-This check should be made overridable for environments which do not
-build SDKs.
-
-> +    if os.uname()[0] == "Linux" and LooseVersion(os.uname()[2]) < LooseVersion(d.getVar('OLDEST_KERNEL')):
-
-This check does not work when you build e.g. in an LXC container.  You
-could define something like
-
-| SDK_UNAME ??= "${@' '.join(os.uname())}"
-
-and do the checks on this.
-
-
-Enrico
 
