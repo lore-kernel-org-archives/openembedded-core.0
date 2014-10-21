@@ -1,36 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A61A965C65
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 8374D608BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 15:26:27 +0000 (UTC)
-Received: by mail-qc0-f174.google.com with SMTP id m20so1110030qcx.5
+	Tue, 21 Oct 2014 15:41:05 +0000 (UTC)
+Received: by mail-qc0-f173.google.com with SMTP id w7so1135125qcr.32
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 08:26:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=JRmSlsGuTK8ldHRHZI+bPnHUYNebPVv4//SFk08K5NE=;
-	b=JIHDUXXHPGd4Y+mjKnnyw9bsUhFerWs2jG+7vtbWW74G6CJE1y8U7bDBJTtvQRYI5e
-	HvisKTxtvMIToqoB4hjtuPuCUHg0ezvR1y7UZGTmmv5BAhRJJ3fgwcSTF6Kxq5jspbxc
-	oYubwIh6DN2DHvtkSqgwNliIlxXg5Z8GXzOV5JmZ4luMiidCAZy1AAuq+dz622gWHqIe
-	UjLHoer3yk1gwCpR2G3Bs9qZDtY/IFV2ZQx/NHwJlzScholHCYkO/ErFUIWZq+0h/Xn5
-	gohAYtcS41w4gFPg9SW5FAKcJ8LADiPB7Us3hbPXIL+NCQPLv9/PkkSD3M0c/fk4kU1f
-	4O+w==
-X-Gm-Message-State: ALoCoQn68PXmey0sxM7L8/mtjqzv4HHLibtawmlsFlkfZRBeb8BxKIha8TjcNDQVjV7gG9mBBV7Z
-X-Received: by 10.140.96.101 with SMTP id j92mr36359021qge.87.1413905188171;
-	Tue, 21 Oct 2014 08:26:28 -0700 (PDT)
+	Tue, 21 Oct 2014 08:41:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=vh8O+2FjwXScPrUlXOJflxJ3+dHREew3qpi0jlDECaE=;
+	b=GIG4x8cvfCO+vlTA4/sNxsyUbMxUEjoAXvfIIPZyuACth3xAg1qdkBnjAomlwHRlbe
+	A+dVm26JNCENveheJ/Sb9+/9qLdL5phb4LltkQufrKmf0pd6Rs3xpwFwblXRpWdwNkV8
+	VZmQsCBvmjLdTPyWm724dL84+yJdK5xe+k1ZiVTkU0Z0pR6hYOt4bLlWMRdDY7BUu8Dq
+	CePnIJ5DjBQR7nyygUdCasYH7vO7a1AzQ7swUV/oOfp0Bt866MKatIsBmszLCadA90Kz
+	go/YZVz56AvhI/rz7wh2rvPkdE3AKL6Xfi8l8txVY7XozXc5+5nvKSnzxOL5hSY4Phb5
+	jR5Q==
+X-Received: by 10.140.39.11 with SMTP id u11mr44817209qgu.32.1413906065109;
+	Tue, 21 Oct 2014 08:41:05 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Tue, 21 Oct 2014 08:26:07 -0700 (PDT)
-In-Reply-To: <1412697030-1033-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1412697030-1033-1-git-send-email-schnitzeltony@googlemail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 21 Oct 2014 16:26:07 +0100
-Message-ID: <CAJTo0LYPW+L1h=nRhEK=VSc4c6Kgh9+DtMd872zHMCteqZUp7g@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdb-cross: build with python support
+Sender: paul.betafive@gmail.com
+Received: by 10.140.142.78 with HTTP; Tue, 21 Oct 2014 08:40:24 -0700 (PDT)
+In-Reply-To: <543ef52e.0879c20a.1785.4076SMTPIN_ADDED_BROKEN@mx.google.com>
+References: <543ef52e.0879c20a.1785.4076SMTPIN_ADDED_BROKEN@mx.google.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Tue, 21 Oct 2014 16:40:24 +0100
+X-Google-Sender-Auth: q8DriNWaG4-9bvmM2_uDjoY62NY
+Message-ID: <CANyK_8cVJEBpBWG2Nes705+1mdmT3W86izEnqYreiaCTD5yBdA@mail.gmail.com>
+To: Peter Urbanec <openembedded-devel@urbanec.net>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3] opkg: Call prerm and postrm scripts on package upgrade.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,20 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Oct 2014 15:26:30 -0000
+X-List-Received-Date: Tue, 21 Oct 2014 15:41:06 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 7 October 2014 16:50, Andreas M=C3=BCller <schnitzeltony@googlemail.com>=
- wrote:
-> -DEPENDS =3D "expat-native ncurses-native readline-native"
-> +DEPENDS =3D "expat-native ncurses-native readline-native python-native"
+On 15 October 2014 23:27, Peter Urbanec <openembedded-devel@urbanec.net> wrote:
+> opkg upgrade will now call prerm and postrm scripts from the old package
+> with "upgrade new-version" arguments, similar to what dpkg does.
 >
-> -EXTRA_OECONF +=3D "--without-python"
-> +inherit pythonnative
+> Signed-off-by: Peter Urbanec <openembedded-devel@urbanec.net>
+> ---
+>  .../opkg/opkg/prerm-and-postrm-scripts.patch       | 81
+> ++++++++++++++++++++++
+>  meta/recipes-devtools/opkg/opkg_0.2.2.bb           |  1 +
+>  2 files changed, 82 insertions(+)
+>  create mode 100644
+> meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
+>
+> diff --git a/meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
+> b/meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
+> new file mode 100644
+> index 0000000..98a447a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
+> @@ -0,0 +1,81 @@
+> +From 476965fdb2d6eec559242e6205cbb07d539b80e1 Mon Sep 17 00:00:00 2001
+> +From: Peter Urbanec <openembedded-devel@urbanec.net>
+> +Date: Wed, 15 Oct 2014 14:32:22 +1100
+> +Subject: [PATCH] opkg_install: Call prerm and postrm scripts on package
+> upgrade.
 
-Do we want to make this a PACKAGECONFIG option?  Adding Python isn't a
-trivial dependency.
+Sorry Peter, it looks like this patch has been corrupted as well as
+the one sent to the opkg-devel list. In this case I think it's mostly
+lines like the above which have been incorrectly wrapped.
 
-Ross
+Could you resend this using 'git send-email' if possible?
+
+Thanks,
+
+-- 
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
