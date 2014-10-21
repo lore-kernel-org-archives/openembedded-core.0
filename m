@@ -1,35 +1,25 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
-	[209.85.215.45])
-	by mail.openembedded.org (Postfix) with ESMTP id EC7A365C88
+Return-Path: <tom.zanussi@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E6C960097
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 16:46:44 +0000 (UTC)
-Received: by mail-la0-f45.google.com with SMTP id q1so1404181lam.32
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 09:46:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=R9/4kRcXEG8H5gb246lksdbKTsuxuFp+Y6lURDYitoc=;
-	b=gGxIHdgH0w8zVXNjl4GJGARhwsiMGNKL3rGTX/tVkQvVtZnV8GRmO9eZLOmli5cK1v
-	NLgseVGrlH2N195L7bTLpA5OEFV8n+qQOGBbekF2HpkcFH5sSy+FoC+3GLl/ftApKtCs
-	lZB3x7JdNJiomxPt5zKFPLyKTYL7ryRStd64XMZbocVIt6i3R2F9DKBC32ewnmbAWhGc
-	1Z0HapSnYEyasDpy6f9zpjHkmd+VYB+cCD+PCFqh/sqji/9sNH03i/VYCXWeC/N9+Mh7
-	f7uT83CGGCJk/ABebUbu5wPm1s9/6Zh0JcSRA7Uniq1bIb33MuCt4BtIgaTV2ZDphs4S
-	7R8A==
-X-Received: by 10.112.45.228 with SMTP id q4mr36401837lbm.35.1413910004271;
-	Tue, 21 Oct 2014 09:46:44 -0700 (PDT)
-Received: from loki.localdomain (ygg.betafive.co.uk. [5.9.90.21])
-	by mx.google.com with ESMTPSA id m1sm4749737lbt.22.2014.10.21.09.46.42
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 21 Oct 2014 09:46:43 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Oct 2014 16:46:36 +0000
-Message-Id: <1413909996-31673-1-git-send-email-paul@paulbarker.me.uk>
-X-Mailer: git-send-email 2.1.2
-Subject: [PATCH] mc: Update patch status
+	Tue, 21 Oct 2014 20:42:33 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Oct 2014 10:56:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,763,1406617200"; d="scan'208";a="608749324"
+Received: from justinda-mobl1.ger.corp.intel.com (HELO [10.255.13.67])
+	([10.255.13.67])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Oct 2014 10:19:10 -0700
+Message-ID: <1413911945.3669.10.camel@empanada.home.network>
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: Philip Balister <philip@balister.org>
+Date: Tue, 21 Oct 2014 12:19:05 -0500
+In-Reply-To: <54454A41.7090900@balister.org>
+References: <54454A41.7090900@balister.org>
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: wic debug suggestions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,29 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Oct 2014 16:46:48 -0000
+X-List-Received-Date: Tue, 21 Oct 2014 20:42:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-mc-CTRL.patch has now been accepted upstream.
+On Mon, 2014-10-20 at 13:45 -0400, Philip Balister wrote:
+> I'm trying to make an sd card using the sdimage-bootpart.wks file. I've
+> made an image and dd'ed it to a card. The card has a good vfat
+> partition, but the ext4 partition won't mount. Looks like bad
+> superblock. I can format the partition manually, so partitions seem OK
+> and card works.
+> 
+> Does anyone have any suggestions for debugging this?
+> 
 
-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
----
- meta/recipes-extended/mc/mc/mc-CTRL.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Philip,
 
-diff --git a/meta/recipes-extended/mc/mc/mc-CTRL.patch b/meta/recipes-extended/mc/mc/mc-CTRL.patch
-index d532bde..e23d9dd 100644
---- a/meta/recipes-extended/mc/mc/mc-CTRL.patch
-+++ b/meta/recipes-extended/mc/mc/mc-CTRL.patch
-@@ -15,7 +15,7 @@ Therefore this should be good to include in OpenEmbedded.
- 
- Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
- 
--Upstream-status: Pending
-+Upstream-status: Accepted (should be included in v4.8.14)
- 
- diff -u mc-4.8.1.7.org/lib/tty/tty-ncurses.c mc-4.8.1.7/lib/tty/tty-ncurses.c
- --- mc-4.8.1.7.org/lib/tty/tty-ncurses.c
--- 
-2.1.2
+If you think there's a problem in the way wic is creating the
+partitions, I'd suggest using the wic --debug option, which will show
+you all the details of the underlying commands used to create the
+partitions.
+
+If that doesn't show anything obvious, please create a bug report and be
+sure to include myself and Maciej, who added the new sdimage-bootpart
+functionality you're having trouble with, in case it turns out not to be
+some more generic problem in the tool.
+
+Thanks,
+
+Tom
+
+> Philip
+
 
 
