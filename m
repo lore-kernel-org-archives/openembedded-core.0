@@ -1,40 +1,25 @@
-Return-Path: <mike.holmes@linaro.org>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 9464B65C88
+Return-Path: <tom.zanussi@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 39A2560233
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 21:03:00 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id i50so1507842qgf.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 14:03:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=ACm+dS1It0bdQiu2vH6Y/enoHtHo5O8ADajlTcQ5YGU=;
-	b=dldcfOcnV+NH9P+aqXNCsj51qPkXzoq02XovdnO/ZYuSQLC/qS9G3vzvOEKPo9GKWi
-	OVMxUX44oB3Q+isemZyrB+kYbt0wO4TpECoe0InnZEJ1G/sjUjbg/0n1rILkjA/hvGg9
-	hL55XMZ6gJMZgHp032bRGbPJlMQgUQ3kBzJXdXlJ2chfdVlzCzLlK0oSJftUzKRu4g78
-	TxxGFSAahF6Mv0sUn/Sb52dvHtYIH6qEYV29dX8s8ux6wMfpKPj9huws8g0RPBsRytJg
-	RSv86LGaaLcLXcZPoPmzFYhL3ca9EUm3hA6el/Bt9eG+Pv9n3KyLj0+hv5IxRVlFoA8C
-	JNcw==
-X-Gm-Message-State: ALoCoQnAnrdtVHqjygHTMeW6BLYdJUEMfilR5wxCzGcw2b88GmCaUppY2ECiwCsk3JNqhNQyKZT6
-X-Received: by 10.224.127.133 with SMTP id g5mr16514393qas.24.1413925380690;
-	Tue, 21 Oct 2014 14:03:00 -0700 (PDT)
-Received: from fedora1.holmesfamily.ws ([98.221.136.245])
-	by mx.google.com with ESMTPSA id
-	m36sm11679500qgd.28.2014.10.21.14.03.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 21 Oct 2014 14:03:00 -0700 (PDT)
-From: Mike Holmes <mike.holmes@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Oct 2014 17:02:37 -0400
-Message-Id: <1413925357-53983-2-git-send-email-mike.holmes@linaro.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1413925357-53983-1-git-send-email-mike.holmes@linaro.org>
-References: <1413925357-53983-1-git-send-email-mike.holmes@linaro.org>
-Subject: [PATCH] add CUnit test suite
+	Tue, 21 Oct 2014 21:12:47 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Oct 2014 10:30:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,762,1406617200"; d="scan'208";a="593122427"
+Received: from justinda-mobl1.ger.corp.intel.com (HELO [10.255.13.67])
+	([10.255.13.67])
+	by orsmga001.jf.intel.com with ESMTP; 21 Oct 2014 08:09:53 -0700
+Message-ID: <1413904192.3669.6.camel@empanada.home.network>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: Philip Balister <philip@balister.org>
+Date: Tue, 21 Oct 2014 10:09:52 -0500
+In-Reply-To: <54454A41.7090900@balister.org>
+References: <54454A41.7090900@balister.org>
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: wic debug suggestions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,39 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Oct 2014 21:03:02 -0000
+X-List-Received-Date: Tue, 21 Oct 2014 21:12:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Mike Holmes <mike.holmes@linaro.org>
----
- meta-oe/recipes-devtools/cunit/cunit_2.1-3.bb | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
- create mode 100644 meta-oe/recipes-devtools/cunit/cunit_2.1-3.bb
+On Mon, 2014-10-20 at 13:45 -0400, Philip Balister wrote:
+> I'm trying to make an sd card using the sdimage-bootpart.wks file. I've
+> made an image and dd'ed it to a card. The card has a good vfat
+> partition, but the ext4 partition won't mount. Looks like bad
+> superblock. I can format the partition manually, so partitions seem OK
+> and card works.
+> 
+> Does anyone have any suggestions for debugging this?
+> 
 
-diff --git a/meta-oe/recipes-devtools/cunit/cunit_2.1-3.bb b/meta-oe/recipes-devtools/cunit/cunit_2.1-3.bb
-new file mode 100644
-index 0000000..0e9b2ff
---- /dev/null
-+++ b/meta-oe/recipes-devtools/cunit/cunit_2.1-3.bb
-@@ -0,0 +1,18 @@
-+DESCRIPTION = "CUnit is a C framework for unit testing. Test output supports comandline and GUI reults reporting"
-+HOMEPAGE = "http://cunit.sourceforge.net"
-+LICENSE = "LGPL-2"
-+SECTION = "libs"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=7734aa853b85d6f935466f081490ddbb"
-+
-+S = "${WORKDIR}/CUnit-${PV}"
-+
-+SRC_URI = "http://downloads.sourceforge.net/project/cunit/CUnit/${PV}/CUnit-${PV}.tar.bz2"
-+SRC_URI[md5sum] = "b5f1a9f6093869c070c6e4a9450cc10c"
-+SRC_URI[sha256sum] = "f5b29137f845bb08b77ec60584fdb728b4e58f1023e6f249a464efa49a40f214"
-+
-+inherit autotools-brokensep
-+
-+EXTRA_OECONF = "--srcdir=`pwd` --prefix=$INSTALL_HOME --enable-debug --enable-memtrace --enable-automated --enable-basic --enable-console"
-+
-+FILES_${PN}-doc += "doc"
-+FILES_${PN}-dev += "${prefix}/share"
--- 
-1.9.1
+If you think there's a problem in the way wic is creating the
+partitions, I'd suggest using the wic --debug option, which will show
+you all the details of the underlying commands used to create the
+partitions.
+
+If that doesn't show anything obvious, please create a bug report and be
+sure to include myself and Maciej, who added the new sdimage-bootpart
+functionality you're having trouble with, in case it turns out not to be
+some more generic problem in the tool.
+
+Thanks,
+
+Tom
+
+> Philip
+
 
 
