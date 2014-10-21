@@ -1,24 +1,52 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5498B601F5
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id C0D3360672
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 09:47:52 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9L9lqVk007347
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 21 Oct 2014 10:03:50 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	s9LA3jEk022364
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 02:47:53 -0700 (PDT)
-Received: from PEK-ZHE-D1.corp.ad.wrs.com (128.224.162.244) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 21 Oct 2014 02:47:52 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Oct 2014 17:47:44 +0800
-Message-ID: <1413884864-10615-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 21 Oct 2014 12:03:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1413885828;
+	bh=v7QpkSL9/g8FsMyyUSnmPjTvF3EL9tTmcVvbXbzowpo=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=PXGK2sSrH9P00Alr7j97+xRyzZpZdX1Z5TvDn4kQJ4JafTOTxHPne8TggZWZ2SKVD
+	XtQl8sbVrXANwBw3UciFRf+Xivi6iSYlyUTzOnz/E9IH4WJAel3d8S58N6ZTw3w8RX
+	efM7Vv5ZjzueZLxAF0SX7vLNxWQHjbnMTYoMzKII=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s9LA3e6Z029381
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Oct 2014 12:03:43 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1XgWHy-0007uu-Ed
+	for openembedded-core@lists.openembedded.org;
+	Tue, 21 Oct 2014 12:03:38 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1413829859-8489-1-git-send-email-jeffrey.honig@windriver.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Tue, 21 Oct 2014 12:03:38 +0200
+In-Reply-To: <1413829859-8489-1-git-send-email-jeffrey.honig@windriver.com>
+	(jeffrey's message of "Mon, 20 Oct 2014 14:30:59 -0400")
+Message-ID: <ly7fzteo3p.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
 MIME-Version: 1.0
-Subject: [PATCH] kernel.bbclass: Create modules directory even if there is no modules installed
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.7
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
+Subject: Re: [PATCH] Refuse to run bitbake on a kernel that is too old.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Oct 2014 09:47:55 -0000
+X-List-Received-Date: Tue, 21 Oct 2014 10:03:53 -0000
 Content-Type: text/plain
 
-From: He Zhe <zhe.he@windriver.com>
+<jeffrey.honig-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
 
-During kernel_do_install it needs to make symbol link at
-${D}/lib/modules/${KERNEL_VERSION}/build, but there will not be
-${D}/lib/modules/${KERNEL_VERSION} if there is no modules installed for current
-image, which will result in a build failure.
-Add "mkdir -p ${D}/lib/modules/${KERNEL_VERSION}" here to avoid this failure
-and the need of similar changes in other scripts that also expect it to exist.
+> Bitbake.conf now specifies OLDEST_KERNEL to insure that the SDK is
+> not run on a kernel that is not supported by a component of the SDK
+> (i.e. glibc).
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- meta/classes/kernel.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+OLDEST_KERNEL is used in glibc recipe only; it would be much better
+to build SDK's glibc with an --enable-kernel matching the target
+distribution.  E.g. by setting a special 'OLDEST_KERNEL_nativesdk'
+variable.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index e958f90..e342ed1 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -233,6 +233,7 @@ kernel_do_install() {
- 	#
- 	kerneldir=${D}${KERNEL_SRC_PATH}
- 	install -d $kerneldir
-+	mkdir -p ${D}/lib/modules/${KERNEL_VERSION}
- 	ln -sf ${KERNEL_SRC_PATH} "${D}/lib/modules/${KERNEL_VERSION}/build"
- 
- 	#
--- 
-1.8.2.1
+> +    # Check that our kernel will work for crosssdk
 
+This check should be made overridable for environments which do not
+build SDKs.
+
+> +    if os.uname()[0] == "Linux" and LooseVersion(os.uname()[2]) < LooseVersion(d.getVar('OLDEST_KERNEL')):
+
+This check does not work when you build e.g. in an LXC container.  You
+could define something like
+
+| SDK_UNAME ??= "${@' '.join(os.uname())}"
+
+and do the checks on this.
+
+
+Enrico
 
