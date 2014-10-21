@@ -1,36 +1,42 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 8374D608BB
+Received: from mail-qa0-f48.google.com (mail-qa0-f48.google.com
+	[209.85.216.48])
+	by mail.openembedded.org (Postfix) with ESMTP id D502465CDB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 15:41:05 +0000 (UTC)
-Received: by mail-qc0-f173.google.com with SMTP id w7so1135125qcr.32
+	Tue, 21 Oct 2014 16:18:05 +0000 (UTC)
+Received: by mail-qa0-f48.google.com with SMTP id dc16so1067370qab.35
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 08:41:05 -0700 (PDT)
+	Tue, 21 Oct 2014 09:18:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type;
-	bh=vh8O+2FjwXScPrUlXOJflxJ3+dHREew3qpi0jlDECaE=;
-	b=GIG4x8cvfCO+vlTA4/sNxsyUbMxUEjoAXvfIIPZyuACth3xAg1qdkBnjAomlwHRlbe
-	A+dVm26JNCENveheJ/Sb9+/9qLdL5phb4LltkQufrKmf0pd6Rs3xpwFwblXRpWdwNkV8
-	VZmQsCBvmjLdTPyWm724dL84+yJdK5xe+k1ZiVTkU0Z0pR6hYOt4bLlWMRdDY7BUu8Dq
-	CePnIJ5DjBQR7nyygUdCasYH7vO7a1AzQ7swUV/oOfp0Bt866MKatIsBmszLCadA90Kz
-	go/YZVz56AvhI/rz7wh2rvPkdE3AKL6Xfi8l8txVY7XozXc5+5nvKSnzxOL5hSY4Phb5
-	jR5Q==
-X-Received: by 10.140.39.11 with SMTP id u11mr44817209qgu.32.1413906065109;
-	Tue, 21 Oct 2014 08:41:05 -0700 (PDT)
+	bh=hbW5d9dUphqs4Pu9WI6VUMRBNblRNjgbYH88u7qIEE8=;
+	b=BRpXbiXqabm72Drug/ghOFHFo6SQ+bjcR8wS85M2vacuAhMwOpqB6qVYOteoQnaoD6
+	BGbQSsxD6i8sAt73Gp/HzgDtxV7d0VqSzgTwuxTnRSHSiEYQ34g3z0X/Ao+lZbUh9JqD
+	ml7Q7k8VwHKX2RebzNUTV4owlUDMGKpF+Z0IXce6MGrYWW+aPOVWzq0IFFE3RB6dcQvK
+	JJ3KeM8s++zbC0QQVnFSg/s/jS7F9cFxkzZY89BI7PBroNfOr9hQwYtpRB3+z7AHwRZO
+	EXt36pcokBTLsKkG079Nc59jw3it0neaLV/n9LdYW3lmE3mekdK1kD6LpWKKbC/edrJR
+	M3Yw==
+X-Received: by 10.224.46.202 with SMTP id k10mr46231875qaf.36.1413908281737;
+	Tue, 21 Oct 2014 09:18:01 -0700 (PDT)
 MIME-Version: 1.0
 Sender: paul.betafive@gmail.com
-Received: by 10.140.142.78 with HTTP; Tue, 21 Oct 2014 08:40:24 -0700 (PDT)
-In-Reply-To: <543ef52e.0879c20a.1785.4076SMTPIN_ADDED_BROKEN@mx.google.com>
-References: <543ef52e.0879c20a.1785.4076SMTPIN_ADDED_BROKEN@mx.google.com>
+Received: by 10.140.142.78 with HTTP; Tue, 21 Oct 2014 09:17:20 -0700 (PDT)
+In-Reply-To: <CANyK_8e2DGuhNL2Cmo4MvrBFWR1_obXHqANJK6pEyixt9NycSw@mail.gmail.com>
+References: <cover.1412770325.git.hongxu.jia@windriver.com>
+	<241e2535b1e3f4544e31fdc40406337b26e8f8d9.1412770325.git.hongxu.jia@windriver.com>
+	<CANyK_8eqiktne2E4EwpWoBpz_-xtDweSS56XdBi6ocKoh_Wq2A@mail.gmail.com>
+	<543903BC.6020706@windriver.com>
+	<CANyK_8fkQmOD8=gCkUBG3BSYhF9PCvn2-CYka2Xnk=XBBgWD7w@mail.gmail.com>
+	<54390771.1040402@windriver.com>
+	<CANyK_8e2DGuhNL2Cmo4MvrBFWR1_obXHqANJK6pEyixt9NycSw@mail.gmail.com>
 From: Paul Barker <paul@paulbarker.me.uk>
-Date: Tue, 21 Oct 2014 16:40:24 +0100
-X-Google-Sender-Auth: q8DriNWaG4-9bvmM2_uDjoY62NY
-Message-ID: <CANyK_8cVJEBpBWG2Nes705+1mdmT3W86izEnqYreiaCTD5yBdA@mail.gmail.com>
-To: Peter Urbanec <openembedded-devel@urbanec.net>
+Date: Tue, 21 Oct 2014 17:17:20 +0100
+X-Google-Sender-Auth: c760-EJxrA0xAicxIh8n_9yIJBs
+Message-ID: <CANyK_8eZPVPZ76vE6h1GBw1w-eOrFYKzLOK3LQ78R9wAgV48PQ@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3] opkg: Call prerm and postrm scripts on package upgrade.
+Subject: Re: [PATCH 1/1] opkg: fix remove pkg with --force-removal-of-dependent-packages failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,40 +49,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Oct 2014 15:41:06 -0000
+X-List-Received-Date: Tue, 21 Oct 2014 16:18:09 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 15 October 2014 23:27, Peter Urbanec <openembedded-devel@urbanec.net> wrote:
-> opkg upgrade will now call prerm and postrm scripts from the old package
-> with "upgrade new-version" arguments, similar to what dpkg does.
+On 11 October 2014 11:37, Paul Barker <paul@paulbarker.me.uk> wrote:
+> On 11 October 2014 11:33, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>>
+>> Here is my patch, and it could not work, I think we are doing
+>> the same thing:
+>>
+>> --- a/libopkg/opkg_remove.c
+>> +++ b/libopkg/opkg_remove.c
+>> @@ -118,8 +118,11 @@ opkg_remove_dependent_pkgs(pkg_t *pkg, abstract_pkg_t
+>> **dependents)
+>>              for (a = 0; a < dep_ab_pkg->pkgs->len; a++) {
+>>                  pkg_t *dep_pkg = dep_ab_pkg->pkgs->pkgs[a];
+>>                  if (dep_pkg->state_status == SS_INSTALLED) {
+>> -                    pkg_vec_insert(dependent_pkgs, dep_pkg);
+>> -                    count++;
+>> +                    if (!pkg_vec_contains(dependent_pkgs, dep_pkg))
+>> +                    {
+>> +                        pkg_vec_insert(dependent_pkgs, dep_pkg);
+>> +                        count++;
+>> +                    }
+>>
+>> //Hongxu
 >
-> Signed-off-by: Peter Urbanec <openembedded-devel@urbanec.net>
-> ---
->  .../opkg/opkg/prerm-and-postrm-scripts.patch       | 81
-> ++++++++++++++++++++++
->  meta/recipes-devtools/opkg/opkg_0.2.2.bb           |  1 +
->  2 files changed, 82 insertions(+)
->  create mode 100644
-> meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
+> My assumption was that duplicates were only being added during a
+> single call to opkg_remove_dependent_pkgs, as on subsequent calls a
+> package will no longer have state_status == SS_INSTALLED if it has
+> already been removed. If my assumption is wrong, your original patch
+> looks to be the best solution.
 >
-> diff --git a/meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
-> b/meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
-> new file mode 100644
-> index 0000000..98a447a
-> --- /dev/null
-> +++ b/meta/recipes-devtools/opkg/opkg/prerm-and-postrm-scripts.patch
-> @@ -0,0 +1,81 @@
-> +From 476965fdb2d6eec559242e6205cbb07d539b80e1 Mon Sep 17 00:00:00 2001
-> +From: Peter Urbanec <openembedded-devel@urbanec.net>
-> +Date: Wed, 15 Oct 2014 14:32:22 +1100
-> +Subject: [PATCH] opkg_install: Call prerm and postrm scripts on package
-> upgrade.
 
-Sorry Peter, it looks like this patch has been corrupted as well as
-the one sent to the opkg-devel list. In this case I think it's mostly
-lines like the above which have been incorrectly wrapped.
+Hongxu's original patch applies correctly upstream and passes the opkg
+test suite. I'll merge this onto the opkg-0.2.x branch and so we can
+change Upstream-status to 'Backport'.
 
-Could you resend this using 'git send-email' if possible?
+Acked-by: Paul Barker <paul@paulbarker.me.uk>
 
 Thanks,
 
