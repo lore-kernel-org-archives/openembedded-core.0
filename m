@@ -1,21 +1,24 @@
-Return-Path: <maciej.borzecki@open-rnd.pl>
-Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id B7BD260097
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D946260097
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 08:17:00 +0000 (UTC)
-Received: from comp-006-thk.localnet (unknown [46.170.72.194])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id 07BB637EECE;
-	Wed, 22 Oct 2014 10:16:57 +0200 (CEST)
-From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-To: Philip Balister <philip@balister.org>
-Date: Wed, 22 Oct 2014 10:16:57 +0200
-Message-ID: <1674569.uPgRA3xl4g@comp-006-thk>
-User-Agent: KMail/4.14.2 (Linux/3.16.6-200.fc20.x86_64; KDE/4.14.2; x86_64; ; )
-In-Reply-To: <2808693.YK3zlpjAPq@comp-006-thk>
-References: <54454A41.7090900@balister.org> <2808693.YK3zlpjAPq@comp-006-thk>
+	Wed, 22 Oct 2014 08:35:40 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9M8ZdxR024942
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Oct 2014 01:35:40 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.141) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 22 Oct 2014 01:35:39 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Oct 2014 16:35:43 +0800
+Message-ID: <1413966943-8920-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: wic debug suggestions
+Subject: [PATCH] python3: do not replace ccache in the middle of a path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,84 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 08:17:08 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Wed, 22 Oct 2014 08:35:41 -0000
+Content-Type: text/plain
 
-On Wednesday 22 of October 2014 09:03:03 Maciej Borzecki wrote:
-> On Monday 20 of October 2014 13:45:37 Philip Balister wrote:
-> > I'm trying to make an sd card using the sdimage-bootpart.wks file. =
-I've
-> > made an image and dd'ed it to a card. The card has a good vfat
-> > partition, but the ext4 partition won't mount. Looks like bad
-> > superblock. I can format the partition manually, so partitions seem=
- OK
-> > and card works.
-> >=20
-> > Does anyone have any suggestions for debugging this?
->=20
-> In default wks, the vfat partition is /boot, ext4 is /. If I understo=
-od you
-> correctly / fails to mount, is that right?
->=20
-> I've rebuilt an image with poky rev
-> 8ac8eca2e3bd8c78e2b31ea974930ed0243258a3. Loading via loopback and mo=
-unting
-> partition 2 (/ in this case) works fine.
+From: Roy Li <rongqing.li@windriver.com>
 
-Verified with current master 924da20c6f2f183fa7e930e4c3c6b14c090acbe5, =
-works=20
-fine. The image works both as loopback and in BeagleBone Black.
+Python recipe did a sed s/ccache/$(CCACHE) on the Makefile, which
+replaces all "ccache" including ones that consist of a full path.
+This leads to build error when building in a project path with
+"ccache" in its name. Fix it by only replacing "ccache " with
+"$(CCACHE) ".
 
->=20
-> Can you post the output this command?
->   wic create -D -e core-image-minimal sdimage-bootpart
->=20
-> Ext4 image is built by image.bbclass (Tom, please correct me if I'm w=
-rong on
-> this). It should be possible to do the loopback/mount thing with the =
-image
-> file as well. Can you check if you can mount it this way?
-Disregard this statement as it is incorrect. I forgot that wic builds a=
-ll=20
-images separately from bitbake. The temp ext4 appears only if you have =
-run wic=20
-at this location: /var/tmp/wic/build/rootfs_root.ext4. Try to mount tha=
-t.
+Same fix on python 2.xx is:
+1181112cf65bc[python: do not replace ccache in the ]
 
-Also try running tune2fs -l /var/tmp/wic/build/rootfs_root.ext4 to see =
-if that=20
-produces any reasonable output.
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ meta/recipes-devtools/python/python3_3.3.3.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=20
+diff --git a/meta/recipes-devtools/python/python3_3.3.3.bb b/meta/recipes-devtools/python/python3_3.3.3.bb
+index a1cb120..4497e02 100644
+--- a/meta/recipes-devtools/python/python3_3.3.3.bb
++++ b/meta/recipes-devtools/python/python3_3.3.3.bb
+@@ -84,7 +84,7 @@ do_compile() {
+         cd -
+ 
+ 	# remove hardcoded ccache, see http://bugs.openembedded.net/show_bug.cgi?id=4144
+-	sed -i -e s,ccache,'$(CCACHE)', Makefile
++	sed -i -e s,ccache\ ,'$(CCACHE) ', Makefile
+ 
+ 	# remove any bogus LD_LIBRARY_PATH
+ 	sed -i -e s,RUNSHARED=.*,RUNSHARED=, Makefile
+-- 
+1.7.10.4
 
-Maciej Borz=C4=99cki=20
-Senior Software Engineer Open-RnD Sp. z o.o.=20
-www.open-rnd.pl, Facebook, Twitter=20
-mobile: +48 telefon, fax: +48 42 657 9079=20
-
-Niniejsza wiadomo=C5=9B=C4=87 wraz z za=C5=82=C4=85cznikami mo=C5=BCe z=
-awiera=C4=87 chronione prawem lub=20
-poufne informacje i zosta=C5=82a wys=C5=82ana wy=C5=82=C4=85cznie do wi=
-adomo=C5=9Bci i u=C5=BCytku os=C3=B3b, do=20
-kt=C3=B3rych zosta=C5=82a zaadresowana. Je=C5=9Bli wiadomo=C5=9B=C4=87 =
-zosta=C5=82a otrzymana przypadkowo=20
-zabrania si=C4=99 jej kopiowania lub rozsy=C5=82ania do os=C3=B3b trzec=
-ich. W takim przypadku=20
-uprasza si=C4=99 o natychmiastowe zniszczenie wiadomo=C5=9Bci oraz poin=
-formowanie=20
-nadawcy o zaistnia=C5=82ej sytuacji za pomoc=C4=85 wiadomo=C5=9Bci zwro=
-tnej. Dzi=C4=99kujemy.=20
-
-This message, including any attachments hereto, may contain privileged =
-or=20
-confidential information and is sent solely for the attention and use o=
-f the=20
-intended addressee(s). If you are not an intended addressee, you may ne=
-ither=20
-use this message nor copy or deliver it to anyone. In such case, you sh=
-ould=20
-immediately destroy this message and kindly notify the sender by reply =
-email.=20
-Thank you. 
 
