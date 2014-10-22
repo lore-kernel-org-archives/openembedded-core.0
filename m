@@ -1,32 +1,21 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A2C5D60557
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id 450C060233
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 06:19:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9M6Jdwu023625
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Oct 2014 23:19:40 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Tue, 21 Oct 2014 23:19:39 -0700
-Message-ID: <54474C78.5030509@windriver.com>
-Date: Wed, 22 Oct 2014 14:19:36 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Wed, 22 Oct 2014 07:03:05 +0000 (UTC)
+Received: from comp-006-thk.localnet (unknown [46.170.72.194])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 657902D692B;
+	Wed, 22 Oct 2014 09:03:04 +0200 (CEST)
+From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+To: Philip Balister <philip@balister.org>
+Date: Wed, 22 Oct 2014 09:03:03 +0200
+Message-ID: <2808693.YK3zlpjAPq@comp-006-thk>
+User-Agent: KMail/4.14.2 (Linux/3.16.6-200.fc20.x86_64; KDE/4.14.2; x86_64; ; )
+In-Reply-To: <54454A41.7090900@balister.org>
+References: <54454A41.7090900@balister.org>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1413341569.git.Chong.Lu@windriver.com>
-	<b2f5f79f9e08f008043508392775c2bb52f819b3.1413341569.git.Chong.Lu@windriver.com>
-	<CAJTo0LboKNAOi7_tx31+m2KOxF_HEKEGePU2wnHXSzGpoeGTgA@mail.gmail.com>
-	<5444D3A5.7060208@windriver.com>
-	<CAJTo0La=Q6Wx8dTBP6mc6A3=b-oXejiAX94dMtgon5aohA1GQg@mail.gmail.com>
-In-Reply-To: <CAJTo0La=Q6Wx8dTBP6mc6A3=b-oXejiAX94dMtgon5aohA1GQg@mail.gmail.com>
-X-Originating-IP: [128.224.162.204]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/1] gconf: fix multilib conflict - org.gnome.GConf.service
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: wic debug suggestions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,36 +28,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 06:19:40 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Oct 2014 07:03:10 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
+On Monday 20 of October 2014 13:45:37 Philip Balister wrote:
+> I'm trying to make an sd card using the sdimage-bootpart.wks file. I'=
+ve
+> made an image and dd'ed it to a card. The card has a good vfat
+> partition, but the ext4 partition won't mount. Looks like bad
+> superblock. I can format the partition manually, so partitions seem O=
+K
+> and card works.
+>=20
+> Does anyone have any suggestions for debugging this?
+In default wks, the vfat partition is /boot, ext4 is /. If I understood=
+ you=20
+correctly / fails to mount, is that right?
 
-On 10/20/2014 08:31 PM, Burton, Ross wrote:
-> On 20 October 2014 10:19, Chong Lu <Chong.Lu@windriver.com> wrote:
->> The data file is different between bit-32 and bit-64 environment.
-> And the data file is specific to the daemon, and you only want that
-> installed once.  Two gconf daemons will attempt to write the same data
-> file, resulting in corruption.
->
-> What I meant is this:
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/gconf&id=fac86eb3f86618f109e3797422aae53d9c8d3b30.
-> Package the client-side libraries into a separate package, so you can
-> have gconfd, libgconf, and lib32-libgconf installed at once.  Both
-> client libraries will talk over DBus to the single gconfd binary.
->
-> (untested, and needs upgrade path dependencies added)
->
-> Ross
+I've rebuilt an image with poky rev 8ac8eca2e3bd8c78e2b31ea974930ed0243=
+258a3.=20
+Loading via loopback and mounting partition 2 (/ in this case) works fi=
+ne.
 
-Hi Ross,
+Can you post the output this command?
+  wic create -D -e core-image-minimal sdimage-bootpart
 
-Thanks for your suggestion, I will send a V3.
+Ext4 image is built by image.bbclass (Tom, please correct me if I'm wro=
+ng on=20
+this). It should be possible to do the loopback/mount thing with the im=
+age=20
+file as well. Can you check if you can mount it this way?
 
-Best Regards
-Chong
+--=20
 
->
->
+Maciej Borz=C4=99cki=20
+Senior Software Engineer Open-RnD Sp. z o.o.=20
+www.open-rnd.pl, Facebook, Twitter=20
+mobile: +48 telefon, fax: +48 42 657 9079=20
 
+Niniejsza wiadomo=C5=9B=C4=87 wraz z za=C5=82=C4=85cznikami mo=C5=BCe z=
+awiera=C4=87 chronione prawem lub=20
+poufne informacje i zosta=C5=82a wys=C5=82ana wy=C5=82=C4=85cznie do wi=
+adomo=C5=9Bci i u=C5=BCytku os=C3=B3b, do=20
+kt=C3=B3rych zosta=C5=82a zaadresowana. Je=C5=9Bli wiadomo=C5=9B=C4=87 =
+zosta=C5=82a otrzymana przypadkowo=20
+zabrania si=C4=99 jej kopiowania lub rozsy=C5=82ania do os=C3=B3b trzec=
+ich. W takim przypadku=20
+uprasza si=C4=99 o natychmiastowe zniszczenie wiadomo=C5=9Bci oraz poin=
+formowanie=20
+nadawcy o zaistnia=C5=82ej sytuacji za pomoc=C4=85 wiadomo=C5=9Bci zwro=
+tnej. Dzi=C4=99kujemy.=20
+
+This message, including any attachments hereto, may contain privileged =
+or=20
+confidential information and is sent solely for the attention and use o=
+f the=20
+intended addressee(s). If you are not an intended addressee, you may ne=
+ither=20
+use this message nor copy or deliver it to anyone. In such case, you sh=
+ould=20
+immediately destroy this message and kindly notify the sender by reply =
+email.=20
+Thank you. 
 
