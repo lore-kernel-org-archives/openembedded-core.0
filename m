@@ -1,36 +1,35 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 65B8260097
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 08:59:55 +0000 (UTC)
-Received: by mail-qg0-f45.google.com with SMTP id q107so2170507qgd.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 01:59:56 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 30700601F5;
+	Wed, 22 Oct 2014 09:36:42 +0000 (UTC)
+Received: by mail-wg0-f47.google.com with SMTP id x13so3277955wgg.18
+	for <multiple recipients>; Wed, 22 Oct 2014 02:36:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=nd/Y3I0d0dljUnQr8asyAiNrW29LXOwiynYsBMjzVoo=;
-	b=HHtgEgJlSOZvUBstqZy7fTgsPLmoXQ/kvoZvGrJr6Bgofg5VH0k9FD7XoivNdefS7N
-	kgSYxA4La6MmI2wWzSypbehQK1oabL8aPyIQHlH67dFdgtJ+R09j9a8yJwdNE3xej4Yb
-	dvjkHoFj8FU4Rv8ZkIESqVM8DR+nTDF1SqlRmC8l1bqWGYaiWiCGVBhfvJJv4rFTVBkF
-	rQBktnDgk3KsQ5h9r5auw7wJZaxqvs/XuUBT9oqM52ZACoDrdyVZ5M+fp04irBlM6mGT
-	Wog/qAXuuBV07FauguOO4SEdHa3WzDbD9lonk+FR9TrI6X5PNRVMUkZVfpixBO6d9Xtm
-	o3/w==
-X-Received: by 10.224.61.7 with SMTP id r7mr54560922qah.9.1413968395978; Wed,
-	22 Oct 2014 01:59:55 -0700 (PDT)
+	h=from:date:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=sbJJ5BfpliuF2sb+dhroxSaFREPw9HNXSA+TQfRcdfc=;
+	b=ztH07NX/d0EmtoLQWkEYhlplCpPRTEbOHDgqVAx1osZj7mGqKbnk0w2kkwB3YJ1AVT
+	cPPqKdwfS3xPASrTwQQkyoghA5Fb1CN3nLFd3hIB+w8DbXf9EaB0b1rgkfb7CaMBSWM7
+	sGfWfo0aeQ/z6GgFYCPkfavxEDYzECleCgY9L84H418+S8JINQ4H5GC6z+k6et/HvxDP
+	SaqEpVMWWoSsdvUCrhX2Yx1DRdI6yR2oRQrFuNMSrIPv2LRazzaIHPeP+wLNJFxIaOb8
+	thAdkubcTnXw7gxXaYpb7mxmf3IdjMMayDU0ZpA2STRf5yKcVpM5AXZJtEVaSiSp2O2y
+	wGMQ==
+X-Received: by 10.194.8.103 with SMTP id q7mr50115449wja.82.1413970602329;
+	Wed, 22 Oct 2014 02:36:42 -0700 (PDT)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	fm10sm1256637wib.21.2014.10.22.02.36.41 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 Oct 2014 02:36:41 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 22 Oct 2014 11:36:43 +0200
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20141022093643.GH2455@jama>
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.140.142.78 with HTTP; Wed, 22 Oct 2014 01:59:15 -0700 (PDT)
-In-Reply-To: <54476E36.1090201@windriver.com>
-References: <54476E36.1090201@windriver.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Wed, 22 Oct 2014 09:59:15 +0100
-X-Google-Sender-Auth: bH6VW5TdN99HScPFRBkBLgrqXrk
-Message-ID: <CANyK_8c4kL8JmEfuH22qzrZrwAsm6tVEmMzwX3_jY9J=G_xajw@mail.gmail.com>
-To: Liu Jian <jian.liu@windriver.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/1] opkg: update-alternatives fails for "[" and "[[" in busybox
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: State of bitbake world, files not tracked by sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,106 +42,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 08:59:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Oct 2014 09:36:47 -0000
+X-Groupsio-MsgNum: 58825
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="6K2R/cS9K4qvcBNq"
+Content-Disposition: inline
 
-On 22 October 2014 09:43, Liu Jian <jian.liu@windriver.com> wrote:
-> Building a small filesystem with busybox gives the following error lines:
-> (see log.do_rootfs under bitbake_build/tmp/work/)
-> sed: -e expression #1, char 41: unterminated address regex
-> sed: -e expression #1, char 42: unterminated address regex
-> This is caused by the script
-> bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/update-alternatives.
-> "[" can not be used directly in sed expression.
->
-> Signed-off-by: Jian Liu <jian.liu@windriver.com>
-> ---
-> ...andle-leftbracket-for-update-alternatives.patch | 23
-> ++++++++++++++++++++++
-> meta/recipes-devtools/opkg/opkg_0.2.2.bb | 1 +
-> 2 files changed, 24 insertions(+)
-> create mode 100644
-> meta/recipes-devtools/opkg/opkg/handle-leftbracket-for-update-alternatives.patch
->
-> diff --git
-> a/meta/recipes-devtools/opkg/opkg/handle-leftbracket-for-update-alternatives.patch
-> b/meta/recipes-devtools/opkg/opkg/handle-leftbracket-for-update-alternatives.patch
-> new file mode 100644
-> index 0000000..7c9eac7
-> --- /dev/null
-> +++
-> b/meta/recipes-devtools/opkg/opkg/handle-leftbracket-for-update-alternatives.patch
-> @@ -0,0 +1,23 @@
-> +diff -Nur trunk.orig/utils/update-alternatives.in
-> trunk/utils/update-alternatives.in
-> +--- trunk.orig/utils/update-alternatives.in 2013-08-16
-> 04:22:29.000000000 +0800
-> ++++ trunk/utils/update-alternatives.in 2014-09-19 10:55:22.238159317 +0800
-> +@@ -68,6 +68,10 @@
-> + sed -e 's/\//\\\//g'
-> + }
-> +
-> ++protect_special_character() {
-> ++ sed -e 's/\[/\\\[/g'
-> ++}
-> ++
-> + remove_alt() {
-> + [ $# -lt 2 ] && return 1
-> + local name="$1"
-> +@@ -75,7 +79,7 @@
-> +
-> + [ ! -f $ad/$name ] && return 0
-> +
-> +- path=`echo $path | protect_slashes`
-> ++ path=`echo $path | protect_slashes | protect_special_character`
-> + sed -ne "/^$path\>.*/!p" $ad/$name > $ad/$name.new
-> + mv $ad/$name.new $ad/$name
-> + }
-> diff --git a/meta/recipes-devtools/opkg/opkg_0.2.2.bb
-> b/meta/recipes-devtools/opkg/opkg_0.2.2.bb
-> index 867ff7a..9d09194 100644
-> --- a/meta/recipes-devtools/opkg/opkg_0.2.2.bb
-> +++ b/meta/recipes-devtools/opkg/opkg_0.2.2.bb
-> @@ -5,6 +5,7 @@ SRC_URI =
-> "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
-> file://add-exclude.patch \
-> file://opkg-configure.service \
-> file://libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch \
-> + file://handle-leftbracket-for-update-alternatives.patch \
-> "
->
-> S = "${WORKDIR}/${BPN}-${PV}"
-> --
-> 1.8.5.2.233.g932f7e4
->
-> --
-> Jian Liu
-> Email: jian.liu@windriver.com
-> Office Phone: 86-10-84778539
->
+--6K2R/cS9K4qvcBNq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-update-alternatives is now provided by the opkg-utils recipe, not
-opkg. opkg-utils is part of the Yocto Project so we maintain upstream
-as well. Could you take a look at the contribution guidelines for
-opkg-utils (http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/tree/CONTRIBUTING)
-and submit the patch against that? We can then just bump the SRCREV
-which is used within OpenEmbedded, rather than maintaining an isolated
-patch.
+These are the files which are installed into sysroot without sstate
+knowledge, so if you reuse the components which created them from sstate
+these files will be missing.
 
-This should hopefully be fairly straightforward to do, the patch you
-have should apply cleanly to update-alternatives (there is no
-'update-alternatives.in' anymore) and then just commit and send to the
-appropriate email addresses. If there's any issues let me know.
+cat << EOF > sstate-sysroot-cruft-whitelist.txt
+[^/]*/home/builder
+[^/]*/usr/src/kernel/patches
+[^/]*/usr/src/kernel/scripts/.*
+[^/]*/usr/lib/gdk-pixbuf-2.0/.*/loaders.cache
+[^/]*/etc/sgml/sgml-docbook.cat
+[^/]*/usr/src/kernel/patches
+[^/]*/etc/sgml/sgml-docbook.cat
+[^/]*/usr/lib/python3.3/__pycache__
+[^/]*/usr/lib/python3.3/[^/]*/__pycache__
+[^/]*/usr/lib/python3.3/[^/]*/[^/]*/__pycache__
+[^/]*/usr/share/dbus
+[^/]*/usr/share/dbus/dbus-bus-introspect.xml
+[^/]*/usr/share/dbus/session.conf
+[^/]*/usr/bin/crossscripts/guile-config
+[^/]*/usr/lib/python2.7/config/libpython2.7.so
+[^/]*/var
+[^/]*/usr/bin/i586-oe-linux-g77
+[^/]*/usr/bin/arm-oe-linux-gnueabi-g77
+[^/]*/usr/lib/php/\.channels.*
+[^/]*/usr/lib/php/\.registry.*
+[^/]*/usr/lib/php/\.depdb.*
+[^/]*/usr/lib/php/\.filemap
+[^/]*/usr/lib/php/\.lock
+[^/]*/usr/lib/gdk-pixbuf-2.0/.*/loaders.cache
+[^/]*/usr/include/ruby-1.9.1/i386-linux
+[^/]*/usr/include/ruby-1.9.1/i386-linux/ruby
+[^/]*/usr/include/ruby-1.9.1/i386-linux/ruby/config.h
+[^/]*/usr/include/ruby-1.9.1/ruby/win32.h
+[^/]*/usr/lib/ruby/i386-linux
+[^/]*/usr/lib/ruby/i386-linux/fake.rb
+[^/]*/usr/lib/ruby/i386-linux/libruby.so.1.9.1
+[^/]*/usr/lib/ruby/i386-linux/libruby-static.a
+[^/]*/usr/lib/ruby/i386-linux/rbconfig.rb
+[^/]*/usr/lib/qt4/plugins/webkit
+[^/]*/usr/lib/qt5/plugins/webkit
+EOF
 
-When opkg v0.3.0 is released, it will no longer contain the
-update-alternatives script so hopefully that will make things less
-confusing.
+You can easily verify it in your build (after build without
+sstate-cache) with:
+openembedded-core/scripts/sstate-sysroot-cruft.sh --tmpdir=3Dtmp-glibc
+--whitelist=3Dsstate-sysroot-cruft-whitelist.txt 2>&1
 
-Thanks,
+RFC for g77 fix was sent couple months ago (no reply):
+http://lists.openembedded.org/pipermail/openembedded-core/2014-April/091480=
+=2Ehtml
 
--- 
-Paul Barker
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+--6K2R/cS9K4qvcBNq
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlRHeqsACgkQN1Ujt2V2gByxxwCgh8sin35TS2pplpTRa2czidp1
+ZZsAn1gt9knRg1mFp7QMlLZ+zA3QCriL
+=3o5L
+-----END PGP SIGNATURE-----
+
+--6K2R/cS9K4qvcBNq--
