@@ -1,30 +1,43 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 9857A65C66
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 676F460673
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 21:50:19 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3jNQNf6HTvz3hjSQ;
-	Wed, 22 Oct 2014 23:50:10 +0200 (CEST)
-X-Auth-Info: Fno1di777i+D1SkyQ9rT7zugwOowevGPnAii45UuCUE=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3jNQNf4BrLzvhTZ; 
-	Wed, 22 Oct 2014 23:50:10 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Wed, 22 Oct 2014 23:45:59 +0200
-User-Agent: KMail/1.13.7 (Linux/3.13-trunk-amd64; KDE/4.13.1; x86_64; ; )
-References: <1413746147-7120-1-git-send-email-marex@denx.de>
-	<201410220128.44782.marex@denx.de>
-	<DBEF9196-DDEF-4862-87CD-24DA0577C08F@dominion.thruhere.net>
-In-Reply-To: <DBEF9196-DDEF-4862-87CD-24DA0577C08F@dominion.thruhere.net>
+	Wed, 22 Oct 2014 22:43:33 +0000 (UTC)
+Received: by mail-qc0-f181.google.com with SMTP id r5so3526027qcx.26
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Oct 2014 15:43:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=oVAXtBtd7ftJR7zt/U4eOqwyrLsMr+2zyYb7W4rCIqI=;
+	b=eVPYTvolHCk4syJwa9G8G4cgpsZY2+5MQeljV+veNGOftia2iIFirNfdmz8YzXnhkd
+	/tWY7lJSpj4ndRcWnZZYoG6c2SMupl4q0xajXkx9F5j0LKrU6Qs2ITHSC2wVwvG456ys
+	2lP/+Sq/qftORDvMFHpCwpPlYuwVC7SMrKHWJGTJb4sfe0cKsxz2YTxQc77D47DL17SP
+	c/At3AI0PRzJ/gJlhYQmqhijliTH7bAZx1ecNk24MR4yx9DSxNzANuVC04cfoGH6WJIf
+	rc1qZL0yHHssnxNVvU+jQq3q+G2w8TnzytO+MiDX+4Z4+06QVvfVky03K8Sl8Tcsaehv
+	l9sg==
+X-Gm-Message-State: ALoCoQlAnM7Mli2ekzFAtHTUpkrkh6QAFIx+9QdA/0+BPjgbTaVbOrYG0ZqyWbGQDv8qDhsR3epW
+X-Received: by 10.229.193.197 with SMTP id dv5mr1825505qcb.23.1414017813701;
+	Wed, 22 Oct 2014 15:43:33 -0700 (PDT)
 MIME-Version: 1.0
-Message-Id: <201410222345.59522.marex@denx.de>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/7] kernel: Pull uImage generation into separate class
+Received: by 10.140.93.65 with HTTP; Wed, 22 Oct 2014 15:43:13 -0700 (PDT)
+In-Reply-To: <CANyK_8eZPVPZ76vE6h1GBw1w-eOrFYKzLOK3LQ78R9wAgV48PQ@mail.gmail.com>
+References: <cover.1412770325.git.hongxu.jia@windriver.com>
+	<241e2535b1e3f4544e31fdc40406337b26e8f8d9.1412770325.git.hongxu.jia@windriver.com>
+	<CANyK_8eqiktne2E4EwpWoBpz_-xtDweSS56XdBi6ocKoh_Wq2A@mail.gmail.com>
+	<543903BC.6020706@windriver.com>
+	<CANyK_8fkQmOD8=gCkUBG3BSYhF9PCvn2-CYka2Xnk=XBBgWD7w@mail.gmail.com>
+	<54390771.1040402@windriver.com>
+	<CANyK_8e2DGuhNL2Cmo4MvrBFWR1_obXHqANJK6pEyixt9NycSw@mail.gmail.com>
+	<CANyK_8eZPVPZ76vE6h1GBw1w-eOrFYKzLOK3LQ78R9wAgV48PQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Oct 2014 23:43:13 +0100
+Message-ID: <CAJTo0LaufykpQnCYSHB7jaP2Od1tNNBiE0auGtJZm8pB4HHnYg@mail.gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] opkg: fix remove pkg with --force-removal-of-dependent-packages failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,67 +50,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 21:50:21 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Oct 2014 22:43:42 -0000
+Content-Type: multipart/alternative; boundary=001a11c251927e086905060aad1d
 
-On Wednesday, October 22, 2014 at 10:42:09 AM, Koen Kooi wrote:
-> > Op 22 okt. 2014, om 01:28 heeft Marek Vasut <marex@denx.de> het volgende
-> > geschreven:
-> > 
-> > On Monday, October 20, 2014 at 12:26:04 PM, Koen Kooi wrote:
-> >>> Op 19 okt. 2014, om 21:15 heeft Marek Vasut <marex@denx.de> het
-> >>> volgende geschreven:
-> >>> 
-> >>> Pull the uImage image format generation from kernel.bbclass into
-> >>> a separate kernel-uimage.bbclass. The recipes which now need to
-> >>> generate an uImage will have to inherit kernel-uimage instead of
-> >>> kernel class.
-> >> 
-> >> To keep backward compatibility, could you rework this into something
-> >> like:
-> >> 
-> >> kernel.bbclass:
-> >> 	inherit kernel-${KERNEL_IMAGETYPE}
-> >> 
-> >> kernel-${KERNEL_IMAGETYPE}:
-> >> 	inherit kernel-base
-> >> 	imagetype stuff
-> >> 
-> >> kernel-base:
-> >> 	old kernel.bbclass stuff
-> >> 
-> >> That would keep existing BSPs working *and* split out the image types.
-> > 
-> > Yes, this makes sense. Are there any traps inside kernel.bbclass I should
-> > be careful about? Like for example ${PN} or other possible variables
-> > which are set based on the name of the file?
-> 
-> You should be safe, PN is supposed to be completely ignored since the
-> output packages will all be 'kernel-<foo>' instead of
-> 'linux-myfirstbsp-<foo>'
+--001a11c251927e086905060aad1d
+Content-Type: text/plain; charset=UTF-8
 
-The kernel_do_configure() and do_configure stuff in kernel.bbclass now bit me.
-I'm not even sure I can explain the problem well, so please bear with me.
+On 21 October 2014 17:17, Paul Barker <paul@paulbarker.me.uk> wrote:
 
-The build system now cannot find do_configure() when building kernel recipe, 
-since by moving kernel.bbclass contents into kernel-base.bbclass, the 
-expectations of prefix of functions passed to 'addtask ... do_configure' and 
-'EXPORT_FUNCTIONS ... do_configure' are no longer met. Before, the functions
-in kernel.bbclass, namely kernel_do_configure() , kernel_do_compile() and 
-kernel_do_install() had prefix matching the name of the bbclass (kernel_) and 
-were used by the addtask...do_configure() and EXPORT_FUNCTIONS...do_configure() 
-without the kernel_ prefix.
+> Hongxu's original patch applies correctly upstream and passes the opkg
+> test suite. I'll merge this onto the opkg-0.2.x branch and so we can
+> change Upstream-status to 'Backport'.
+>
+> Acked-by: Paul Barker <paul@paulbarker.me.uk>
+>
 
-Now that I moved the contents of kernel.bbclass into kernel-base.bbclass, the 
-name of the kernel_do_*() functions no longer matches the bbclass name and so
-I presume the addtask... and EXPORT_FUNCTIONS... things are confused. 
-Furthermore, I presume we want to keep the name of those kernel_do_*() functions
-in case some recipes wanted to override those functions.
+Thanks Paul, tag added and merged to my MUT.
 
-Do you happen to have any suggestion please ?
+Ross
 
-Best regards,
-Marek Vasut
+--001a11c251927e086905060aad1d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 21 October 2014 17:17, Paul Barker <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:paul@paulbarker.me.uk" target=3D"_blank">paul@paulbarker.me.uk</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1l5" class=3D"a3=
+s" style=3D"overflow:hidden">Hongxu&#39;s original patch applies correctly =
+upstream and passes the opkg<br>
+test suite. I&#39;ll merge this onto the opkg-0.2.x branch and so we can<br=
+>
+change Upstream-status to &#39;Backport&#39;.<br>
+<br>
+Acked-by: Paul Barker &lt;<a href=3D"mailto:paul@paulbarker.me.uk">paul@pau=
+lbarker.me.uk</a>&gt;</div></blockquote></div><br>Thanks Paul, tag added an=
+d merged to my MUT.</div><div class=3D"gmail_extra"><br>Ross</div></div>
+
+--001a11c251927e086905060aad1d--
