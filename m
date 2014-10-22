@@ -1,22 +1,37 @@
-Return-Path: <maciej.borzecki@open-rnd.pl>
-Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 2915260097
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f42.google.com (mail-yh0-f42.google.com
+	[209.85.213.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 83D21601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 12:48:54 +0000 (UTC)
-Received: from comp-006-thk.localnet (unknown [78.10.193.111])
-	by open-rnd.nazwa.pl (Postfix) with ESMTP id 58B8543241F;
-	Wed, 22 Oct 2014 14:48:52 +0200 (CEST)
-From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-To: Tom Zanussi <tom.zanussi@intel.com>
-Date: Wed, 22 Oct 2014 14:48:51 +0200
-Message-ID: <3835144.lX68KSfk9D@comp-006-thk>
-User-Agent: KMail/4.14.2 (Linux/3.16.6-200.fc20.x86_64; KDE/4.14.2; x86_64; ; )
-In-Reply-To: <1413981637.8474.30.camel@empanada.home.network>
-References: <54454A41.7090900@balister.org> <2808693.YK3zlpjAPq@comp-006-thk>
-	<1413981637.8474.30.camel@empanada.home.network>
+	Wed, 22 Oct 2014 13:11:41 +0000 (UTC)
+Received: by mail-yh0-f42.google.com with SMTP id t59so3395946yho.15
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Oct 2014 06:11:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=eDZpMyZnrjT3Nu7oYTGhVi42z/5AwdEuuzDFGo8xZF4=;
+	b=egqrkJvDqeHdriNgvNOolOUeHPDTUXHRhOXxHks3A2DOIYuNnUd772mmN63eA/3VTl
+	TkRvJHw7d+0fXi8AQu81kzJpI9jKyihM7xlqqBAAttjYc/eeZaxUXMWHBTHbzTNuPc3I
+	DmU1TrIoA73ITzVC23Z2X3bpr+AF+WOKvcEsXVNRuMjIf9YOVlklHE2q+E4H/dMO8j2h
+	W2Ncqms8P6RpctpzfsEis8rbdXWxk+CD5czamySssLNwyhgK6nKko3Vfesljvjr88Pnc
+	p6mL6FxUixLj5p86/NCwISu7O1pvkSxP/D5eG+LsEAUUFk7uXRG7ett8oIhevCUtmqZd
+	X+hg==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: wic debug suggestions
+X-Received: by 10.236.222.10 with SMTP id s10mr41381782yhp.102.1413983501539; 
+	Wed, 22 Oct 2014 06:11:41 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.172.8 with HTTP; Wed, 22 Oct 2014 06:11:41 -0700 (PDT)
+In-Reply-To: <1413966997-3361-1-git-send-email-jackie.huang@windriver.com>
+References: <1413966997-3361-1-git-send-email-jackie.huang@windriver.com>
+Date: Wed, 22 Oct 2014 11:11:41 -0200
+X-Google-Sender-Auth: 5cTw0JNchfV7ygJcpSQaYm2fyxQ
+Message-ID: <CAP9ODKpSoNU5CgCYngdJ3=FJf-T11CX+F=0365k1zK53zw1F9g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: jackie.huang@windriver.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-firmware: resolve linux-firmware and microcode-ctl file conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,76 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 12:48:58 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Wed, 22 Oct 2014 13:11:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wednesday 22 of October 2014 07:40:37 Tom Zanussi wrote:
-> On Wed, 2014-10-22 at 09:03 +0200, Maciej Borzecki wrote:
-> > On Monday 20 of October 2014 13:45:37 Philip Balister wrote:
-> > > I'm trying to make an sd card using the sdimage-bootpart.wks file=
-. I've
-> > > made an image and dd'ed it to a card. The card has a good vfat
-> > > partition, but the ext4 partition won't mount. Looks like bad
-> > > superblock. I can format the partition manually, so partitions se=
-em OK
-> > > and card works.
-> > >=20
-> > > Does anyone have any suggestions for debugging this?
-> >=20
-> > In default wks, the vfat partition is /boot, ext4 is /. If I unders=
-tood
-> > you
-> > correctly / fails to mount, is that right?
-> >=20
-> > I've rebuilt an image with poky rev
-> > 8ac8eca2e3bd8c78e2b31ea974930ed0243258a3. Loading via loopback and
-> > mounting partition 2 (/ in this case) works fine.
-> >=20
-> > Can you post the output this command?
-> >=20
-> >   wic create -D -e core-image-minimal sdimage-bootpart
->=20
-> It seems the problem is in handling a large file system.  A new bug h=
-as
-> been opened for this:
->=20
-> Bug 6863 - Wic fails to create a working image for a large file syste=
-m
->=20
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D6863
-Do you need help?
+On Wed, Oct 22, 2014 at 6:36 AM,  <jackie.huang@windriver.com> wrote:
+> From: Yue Tao <yue.tao@windriver.com>
+>
+> Use alternatives mechanism to prevent linux-firmware and microcode-ctl bin
+> files from causing conflicts.
+>
+> The error is :
+>
+> error: file /lib/firmware/amd-ucode/microcode_amd.bin from install of
+> linux-firmware conflicts with file from package microcode-ctl-firmware
+>
+> error: file /lib/firmware/amd-ucode/microcode_amd_fam15h.bin from
+> install of linux-firmware conflicts with file from package microcode-ctl-firmware
+>
+> Signed-off-by: Yue Tao <yue.tao@windriver.com>
 
+* The firmware should be split in a specific package, if possible (in
+a separated patch)
+* microcode-ctl-firmware does not exist here
+* microcode-ctl-firmware seems useless if you can rely on
+linux-firmware to provide the file.
 
---=20
-
-Maciej Borz=C4=99cki=20
-Senior Software Engineer Open-RnD Sp. z o.o.=20
-www.open-rnd.pl, Facebook, Twitter=20
-mobile: +48 telefon, fax: +48 42 657 9079=20
-
-Niniejsza wiadomo=C5=9B=C4=87 wraz z za=C5=82=C4=85cznikami mo=C5=BCe z=
-awiera=C4=87 chronione prawem lub=20
-poufne informacje i zosta=C5=82a wys=C5=82ana wy=C5=82=C4=85cznie do wi=
-adomo=C5=9Bci i u=C5=BCytku os=C3=B3b, do=20
-kt=C3=B3rych zosta=C5=82a zaadresowana. Je=C5=9Bli wiadomo=C5=9B=C4=87 =
-zosta=C5=82a otrzymana przypadkowo=20
-zabrania si=C4=99 jej kopiowania lub rozsy=C5=82ania do os=C3=B3b trzec=
-ich. W takim przypadku=20
-uprasza si=C4=99 o natychmiastowe zniszczenie wiadomo=C5=9Bci oraz poin=
-formowanie=20
-nadawcy o zaistnia=C5=82ej sytuacji za pomoc=C4=85 wiadomo=C5=9Bci zwro=
-tnej. Dzi=C4=99kujemy.=20
-
-This message, including any attachments hereto, may contain privileged =
-or=20
-confidential information and is sent solely for the attention and use o=
-f the=20
-intended addressee(s). If you are not an intended addressee, you may ne=
-ither=20
-use this message nor copy or deliver it to anyone. In such case, you sh=
-ould=20
-immediately destroy this message and kindly notify the sender by reply =
-email.=20
-Thank you. 
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
