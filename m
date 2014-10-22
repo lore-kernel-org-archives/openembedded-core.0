@@ -1,29 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E9FB60097;
-	Wed, 22 Oct 2014 09:53:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s9M9qYe2027783; Wed, 22 Oct 2014 10:52:34 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id T0Xhl9g_NtlO; Wed, 22 Oct 2014 10:52:34 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s9M9qWg9027771
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 22 Oct 2014 10:52:34 +0100
-Message-ID: <1413971587.25437.40.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 22 Oct 2014 10:53:07 +0100
-In-Reply-To: <20141022093643.GH2455@jama>
-References: <20141022093643.GH2455@jama>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: State of bitbake world, files not tracked by sstate
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B451601A0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Oct 2014 10:07:41 +0000 (UTC)
+Received: by mail-qc0-f179.google.com with SMTP id x3so2372705qcv.38
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Oct 2014 03:07:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=gUwfi69v3NSyd5/AUpbMOhO9muSPVuO/zsfwKQjRLho=;
+	b=XqOlFObSe/APhaIajX6jJ6r7NiMY8xnj624wAzO93S1C35OSGPrGNTGc31o7IoJ+aI
+	DRaRV1idVOnxYTbfvrOE7K5B1A9g9EUn+KXAy7tqOqiD5lTjCHt2IZRTyYtAQmTP9LtL
+	ayqmdILjea3iV3IClbL/+7D/pfqGs8yMZY8oAXUHCBsh0esU+b0l+sfp4JbhlgfIUivj
+	l1LWa1A6exJcFSrqdBGOi4epqvV9zcd++Nd/m+Ud2Sb0BsIDz0hXx1UJZeM+5inKtl1v
+	cUrHa0Fmd3RyG4JprEZdwzdtEMwSZ9J5AW2eje4/sXKbWGfnOUikpqVJEi/nEWBE8wLz
+	npWg==
+X-Gm-Message-State: ALoCoQmRxWBaI8mvwARX6vjx4FFaKMMDJUaVicYTwjQnS15NJSF99hrcgzbEWnY+my4WSSb6/x/7
+X-Received: by 10.224.79.79 with SMTP id o15mr5709483qak.93.1413972462651;
+	Wed, 22 Oct 2014 03:07:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.93.65 with HTTP; Wed, 22 Oct 2014 03:07:21 -0700 (PDT)
+In-Reply-To: <0ba9a1e61c64e450ed02ea699e01a5f5e292f98b.1413960370.git.Chong.Lu@windriver.com>
+References: <cover.1413960370.git.Chong.Lu@windriver.com>
+	<0ba9a1e61c64e450ed02ea699e01a5f5e292f98b.1413960370.git.Chong.Lu@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Oct 2014 11:07:21 +0100
+Message-ID: <CAJTo0LZKKpiceby03E=fD6yqpxY4RTBXYKiCfqLgRj6CU4deiw@mail.gmail.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3 1/1] gconf: fix multilib conflict - org.gnome.GConf.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,83 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 09:53:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Oct 2014 10:07:44 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2014-10-22 at 11:36 +0200, Martin Jansa wrote:
-> These are the files which are installed into sysroot without sstate
-> knowledge, so if you reuse the components which created them from sstate
-> these files will be missing.
-> 
-> cat << EOF > sstate-sysroot-cruft-whitelist.txt
-> [^/]*/home/builder
-> [^/]*/usr/src/kernel/patches
-> [^/]*/usr/src/kernel/scripts/.*
-> [^/]*/usr/lib/gdk-pixbuf-2.0/.*/loaders.cache
-> [^/]*/etc/sgml/sgml-docbook.cat
-> [^/]*/usr/src/kernel/patches
-> [^/]*/etc/sgml/sgml-docbook.cat
-> [^/]*/usr/lib/python3.3/__pycache__
-> [^/]*/usr/lib/python3.3/[^/]*/__pycache__
-> [^/]*/usr/lib/python3.3/[^/]*/[^/]*/__pycache__
-> [^/]*/usr/share/dbus
-> [^/]*/usr/share/dbus/dbus-bus-introspect.xml
-> [^/]*/usr/share/dbus/session.conf
-> [^/]*/usr/bin/crossscripts/guile-config
-> [^/]*/usr/lib/python2.7/config/libpython2.7.so
-> [^/]*/var
-> [^/]*/usr/bin/i586-oe-linux-g77
-> [^/]*/usr/bin/arm-oe-linux-gnueabi-g77
-> [^/]*/usr/lib/php/\.channels.*
-> [^/]*/usr/lib/php/\.registry.*
-> [^/]*/usr/lib/php/\.depdb.*
-> [^/]*/usr/lib/php/\.filemap
-> [^/]*/usr/lib/php/\.lock
-> [^/]*/usr/lib/gdk-pixbuf-2.0/.*/loaders.cache
-> [^/]*/usr/include/ruby-1.9.1/i386-linux
-> [^/]*/usr/include/ruby-1.9.1/i386-linux/ruby
-> [^/]*/usr/include/ruby-1.9.1/i386-linux/ruby/config.h
-> [^/]*/usr/include/ruby-1.9.1/ruby/win32.h
-> [^/]*/usr/lib/ruby/i386-linux
-> [^/]*/usr/lib/ruby/i386-linux/fake.rb
-> [^/]*/usr/lib/ruby/i386-linux/libruby.so.1.9.1
-> [^/]*/usr/lib/ruby/i386-linux/libruby-static.a
-> [^/]*/usr/lib/ruby/i386-linux/rbconfig.rb
-> [^/]*/usr/lib/qt4/plugins/webkit
-> [^/]*/usr/lib/qt5/plugins/webkit
+On 22 October 2014 08:09, Chong Lu <Chong.Lu@windriver.com> wrote:
+> The gconfd-2 will be called in org.gnome.GConf.service file and the path of
+> gconfd-2 is ${libexecdir}, this will get following error when multilib exported
+> in the sdk:
+> error: file /usr/share/dbus-1/services/org.gnome.GConf.service from install
+> of gconf-3.2.6-r0.0.lib32_x86 conflicts with file from package
+> gconf-3.2.6-r0.0.x86_64
 
-I just want to be clear that this list is not 100% accurate. Some of
-these files are not tracked by sstate however they are generated by
-sstate 'postinsts' so they will be rebuilt upon a rebuild. Examples that
-jump out are:
+I'm clearly not understanding how our multilib implementation works,
+but you don't need many copies of the main gconf package, just one in
+the preferred configuration. What is causing multiple copies of gconf
+to be installed?
 
-[^/]*/usr/lib/gdk-pixbuf-2.0/.*/loaders.cache
-[^/]*/usr/bin/crossscripts/guile-config
-
-Also, 
-
-[^/]*/usr/lib/python3.3/__pycache__
-[^/]*/usr/lib/python3.3/[^/]*/__pycache__
-[^/]*/usr/lib/python3.3/[^/]*/[^/]*/__pycache__
-
-are automatically generated/updated by python.
-
-[^/]*/usr/src/kernel/scripts/.*
-
-is generated by the modules class amongst other things. There was a
-recent different bug report about these files not being cleaned and
-triggering file conflict issues but that is a different problem.
-
-I don't know much about the others and there are also some 'real' issues
-here.
-
-Cheers,
-
-Richard
-
-
-
-
-
+Ross
 
