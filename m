@@ -1,36 +1,21 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vc0-f171.google.com (mail-vc0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F45D60097
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id B7BD260097
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 07:39:36 +0000 (UTC)
-Received: by mail-vc0-f171.google.com with SMTP id hy10so1559331vcb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 00:39:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=bSEQ8ZpEQ7GkDzMy7IlTC+JAD9eZpktbOxhQl5Zt9SI=;
-	b=oYVTcdicMc5SYnMyeBHmM/ZIParmGkfWSq8YgukTf0rfQg24jPnkuadxuBpr0aUu7e
-	+SAZ138Bh6KKh2ZXdtqBAXlgcpmBzCRQqKmGcGGj3dx6gT0IQ2NjHZU7gPMQZG8OvDXI
-	ENXtEHEx3yKsWDM3g/RxdHA1uIWVRcCuYXNZPGFMwEQ1LVayMzut43ZBVXtynKaDdu5W
-	UNB+S4i1Uv7vN/yfiQQN9yp2ACaiwiPybODMgyUQGvBVxuqSZAUZbZNgJz+sqTDfkC3r
-	+7vF5+nBYJdPinB5TJ3Sew7QWC3SyFA4HiWbdQabhOGnPsDyCBicrMXVSvHXmUBX3iAE
-	orOg==
+	Wed, 22 Oct 2014 08:17:00 +0000 (UTC)
+Received: from comp-006-thk.localnet (unknown [46.170.72.194])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 07BB637EECE;
+	Wed, 22 Oct 2014 10:16:57 +0200 (CEST)
+From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+To: Philip Balister <philip@balister.org>
+Date: Wed, 22 Oct 2014 10:16:57 +0200
+Message-ID: <1674569.uPgRA3xl4g@comp-006-thk>
+User-Agent: KMail/4.14.2 (Linux/3.16.6-200.fc20.x86_64; KDE/4.14.2; x86_64; ; )
+In-Reply-To: <2808693.YK3zlpjAPq@comp-006-thk>
+References: <54454A41.7090900@balister.org> <2808693.YK3zlpjAPq@comp-006-thk>
 MIME-Version: 1.0
-X-Received: by 10.220.184.198 with SMTP id cl6mr6977027vcb.36.1413963576667;
-	Wed, 22 Oct 2014 00:39:36 -0700 (PDT)
-Received: by 10.52.102.204 with HTTP; Wed, 22 Oct 2014 00:39:36 -0700 (PDT)
-In-Reply-To: <CAJTo0LYPW+L1h=nRhEK=VSc4c6Kgh9+DtMd872zHMCteqZUp7g@mail.gmail.com>
-References: <1412697030-1033-1-git-send-email-schnitzeltony@googlemail.com>
-	<CAJTo0LYPW+L1h=nRhEK=VSc4c6Kgh9+DtMd872zHMCteqZUp7g@mail.gmail.com>
-Date: Wed, 22 Oct 2014 09:39:36 +0200
-Message-ID: <CALbNGRTfaQ_Z-dQQkSGwTxDMfBro4WiQKiTKTHJXuRgfE8N46Q@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdb-cross: build with python support
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: wic debug suggestions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,65 +28,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 07:39:39 -0000
-Content-Type: multipart/alternative; boundary=001a11c1bc40b674870505fe0c98
-
---001a11c1bc40b674870505fe0c98
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Oct 2014 08:17:08 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Oct 21, 2014 at 5:26 PM, Burton, Ross <ross.burton@intel.com> wrote=
-:
+On Wednesday 22 of October 2014 09:03:03 Maciej Borzecki wrote:
+> On Monday 20 of October 2014 13:45:37 Philip Balister wrote:
+> > I'm trying to make an sd card using the sdimage-bootpart.wks file. =
+I've
+> > made an image and dd'ed it to a card. The card has a good vfat
+> > partition, but the ext4 partition won't mount. Looks like bad
+> > superblock. I can format the partition manually, so partitions seem=
+ OK
+> > and card works.
+> >=20
+> > Does anyone have any suggestions for debugging this?
+>=20
+> In default wks, the vfat partition is /boot, ext4 is /. If I understo=
+od you
+> correctly / fails to mount, is that right?
+>=20
+> I've rebuilt an image with poky rev
+> 8ac8eca2e3bd8c78e2b31ea974930ed0243258a3. Loading via loopback and mo=
+unting
+> partition 2 (/ in this case) works fine.
 
-> On 7 October 2014 16:50, Andreas M=C3=BCller <schnitzeltony@googlemail.co=
-m>
-> wrote:
-> > -DEPENDS =3D "expat-native ncurses-native readline-native"
-> > +DEPENDS =3D "expat-native ncurses-native readline-native python-native=
-"
-> >
-> > -EXTRA_OECONF +=3D "--without-python"
-> > +inherit pythonnative
->
-> Do we want to make this a PACKAGECONFIG option?  Adding Python isn't a
-> trivial dependency.
->
-> Ross
->
-A PACKAGECONFIG for something which will never be included in an image? I
-have no strong opinion on that but need remote debugging for qt. So let me
-know what the decision is.
+Verified with current master 924da20c6f2f183fa7e930e4c3c6b14c090acbe5, =
+works=20
+fine. The image works both as loopback and in BeagleBone Black.
 
-Andreas
+>=20
+> Can you post the output this command?
+>   wic create -D -e core-image-minimal sdimage-bootpart
+>=20
+> Ext4 image is built by image.bbclass (Tom, please correct me if I'm w=
+rong on
+> this). It should be possible to do the loopback/mount thing with the =
+image
+> file as well. Can you check if you can mount it this way?
+Disregard this statement as it is incorrect. I forgot that wic builds a=
+ll=20
+images separately from bitbake. The temp ext4 appears only if you have =
+run wic=20
+at this location: /var/tmp/wic/build/rootfs_root.ext4. Try to mount tha=
+t.
 
---001a11c1bc40b674870505fe0c98
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Also try running tune2fs -l /var/tmp/wic/build/rootfs_root.ext4 to see =
+if that=20
+produces any reasonable output.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
-ue, Oct 21, 2014 at 5:26 PM, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><span=
- class=3D"">On 7 October 2014 16:50, Andreas M=C3=BCller &lt;<a href=3D"mai=
-lto:schnitzeltony@googlemail.com">schnitzeltony@googlemail.com</a>&gt; wrot=
-e:<br>
-&gt; -DEPENDS =3D &quot;expat-native ncurses-native readline-native&quot;<b=
-r>
-&gt; +DEPENDS =3D &quot;expat-native ncurses-native readline-native python-=
-native&quot;<br>
-&gt;<br>
-&gt; -EXTRA_OECONF +=3D &quot;--without-python&quot;<br>
-&gt; +inherit pythonnative<br>
-<br>
-</span>Do we want to make this a PACKAGECONFIG option?=C2=A0 Adding Python =
-isn&#39;t a<br>
-trivial dependency.<br>
-<span class=3D""><font color=3D"#888888"><br>
-Ross<br>
-</font></span></blockquote></div>A PACKAGECONFIG for something which will n=
-ever be included in an image? I have no strong opinion on that but need rem=
-ote debugging for qt. So let me know what the decision is.<br><br></div><di=
-v class=3D"gmail_extra">Andreas<br></div></div>
+--=20
 
---001a11c1bc40b674870505fe0c98--
+Maciej Borz=C4=99cki=20
+Senior Software Engineer Open-RnD Sp. z o.o.=20
+www.open-rnd.pl, Facebook, Twitter=20
+mobile: +48 telefon, fax: +48 42 657 9079=20
+
+Niniejsza wiadomo=C5=9B=C4=87 wraz z za=C5=82=C4=85cznikami mo=C5=BCe z=
+awiera=C4=87 chronione prawem lub=20
+poufne informacje i zosta=C5=82a wys=C5=82ana wy=C5=82=C4=85cznie do wi=
+adomo=C5=9Bci i u=C5=BCytku os=C3=B3b, do=20
+kt=C3=B3rych zosta=C5=82a zaadresowana. Je=C5=9Bli wiadomo=C5=9B=C4=87 =
+zosta=C5=82a otrzymana przypadkowo=20
+zabrania si=C4=99 jej kopiowania lub rozsy=C5=82ania do os=C3=B3b trzec=
+ich. W takim przypadku=20
+uprasza si=C4=99 o natychmiastowe zniszczenie wiadomo=C5=9Bci oraz poin=
+formowanie=20
+nadawcy o zaistnia=C5=82ej sytuacji za pomoc=C4=85 wiadomo=C5=9Bci zwro=
+tnej. Dzi=C4=99kujemy.=20
+
+This message, including any attachments hereto, may contain privileged =
+or=20
+confidential information and is sent solely for the attention and use o=
+f the=20
+intended addressee(s). If you are not an intended addressee, you may ne=
+ither=20
+use this message nor copy or deliver it to anyone. In such case, you sh=
+ould=20
+immediately destroy this message and kindly notify the sender by reply =
+email.=20
+Thank you. 
+
