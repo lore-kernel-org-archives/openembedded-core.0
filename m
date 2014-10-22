@@ -1,24 +1,24 @@
 Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CB5760671
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 99AC360557
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 03:23:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9M3Ng47021911
+	Wed, 22 Oct 2014 05:19:41 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9M5JeLR018120
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 20:23:42 -0700 (PDT)
+	Tue, 21 Oct 2014 22:19:41 -0700 (PDT)
 Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 21 Oct 2014 20:23:42 -0700
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 21 Oct 2014 22:19:40 -0700
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Oct 2014 23:23:39 -0400
-Message-ID: <cover.1413947830.git.wenzong.fan@windriver.com>
+Date: Wed, 22 Oct 2014 01:19:37 -0400
+Message-ID: <cover.1413954957.git.wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH 0/1] lsof: fix LSOF_CCV in version.h
+Subject: [PATCH 0/1] shadow: fix pam configs for chpasswd, newusers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,21 +31,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 03:23:47 -0000
+X-List-Received-Date: Wed, 22 Oct 2014 05:19:44 -0000
 Content-Type: text/plain
 
 From: Wenzong Fan <wenzong.fan@windriver.com>
 
-When using cross compiler to build the package "lsof" on a host,
-the value of LSOF_CCV in version.h genegrated by the Makefile
-is the version of the compiler on the host while it should be
-the version of cross compiler.
+Fix below errors while pam is enabled on target:
 
-On Ubuntu host before fixed:
-  #define LSOF_CCV        "4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5) "
+  root@qemux86:~# newusers
+  newusers: PAM: Authentication failure
+  root@qemux86:~# chpasswd
+  chpasswd: PAM: Authentication failure
 
-After fixed:
-  #define   LSOF_CCV        "4.9.1 (GCC) "
+The configs copied from "chgpasswd" which command works with pam.
 
 The following changes since commit 924da20c6f2f183fa7e930e4c3c6b14c090acbe5:
 
@@ -53,16 +51,15 @@ The following changes since commit 924da20c6f2f183fa7e930e4c3c6b14c090acbe5:
 
 are available in the git repository at:
 
-  git://git.pokylinux.org/poky-contrib wenzong/lsof
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/lsof
+  git://git.pokylinux.org/poky-contrib wenzong/shadow-pam
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/shadow-pam
 
 Wenzong Fan (1):
-  lsof: fix LSOF_CCV in version.h
+  shadow: fix pam configs for chpasswd, newusers
 
- .../lsof/files/compiler-version-fault.patch        |   25 ++++++++++++++++++++
- meta/recipes-extended/lsof/lsof_4.87.bb            |    4 +++-
- 2 files changed, 28 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/lsof/files/compiler-version-fault.patch
+ meta/recipes-extended/shadow/files/pam.d/chpasswd |    2 ++
+ meta/recipes-extended/shadow/files/pam.d/newusers |    2 ++
+ 2 files changed, 4 insertions(+)
 
 -- 
 1.7.9.5
