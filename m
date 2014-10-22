@@ -1,24 +1,24 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E40F65C88
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4318765C88
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 08:36:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9M8adpP019402
+	Wed, 22 Oct 2014 08:41:16 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9M8fG5T025004
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 01:36:39 -0700 (PDT)
+	Wed, 22 Oct 2014 01:41:16 -0700 (PDT)
 Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 22 Oct 2014 01:36:38 -0700
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 22 Oct 2014 01:41:15 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Oct 2014 04:36:37 -0400
-Message-ID: <1413966997-3361-1-git-send-email-jackie.huang@windriver.com>
+Date: Wed, 22 Oct 2014 04:41:14 -0400
+Message-ID: <1413967274-3535-1-git-send-email-jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.0.0
 MIME-Version: 1.0
-Subject: [PATCH] linux-firmware: resolve linux-firmware and microcode-ctl file conflicts
+Subject: [PATCH] Fix alignment trap triggered by NEON instructions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +31,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 08:36:40 -0000
+X-List-Received-Date: Wed, 22 Oct 2014 08:41:24 -0000
 Content-Type: text/plain
 
-From: Yue Tao <yue.tao@windriver.com>
+From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
 
-Use alternatives mechanism to prevent linux-firmware and microcode-ctl bin
-files from causing conflicts.
+NEON instruction VLD1.64 was used to copy 64 bits data after type
+casting, and they will trigger alignment trap.
+This patch uses memcpy to avoid alignment problem.
 
-The error is :
-
-error: file /lib/firmware/amd-ucode/microcode_amd.bin from install of
-linux-firmware conflicts with file from package microcode-ctl-firmware
-
-error: file /lib/firmware/amd-ucode/microcode_amd_fam15h.bin from
-install of linux-firmware conflicts with file from package microcode-ctl-firmware
-
-Signed-off-by: Yue Tao <yue.tao@windriver.com>
+Signed-off-by: Yuanjie Huang <Yuanjie.Huang@windriver.com>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../mtd/mtd-utils/fix-armv7-neon-alignment.patch   | 44 ++++++++++++++++++++++
+ meta/recipes-devtools/mtd/mtd-utils_git.bb         |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/fix-armv7-neon-alignment.patch
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index a107f80..28d71f5 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -228,3 +228,8 @@ python populate_packages_prepend () {
-     firmware_pkgs = oe.utils.packages_filter_out_system(d)
-     d.appendVar('RDEPENDS_linux-firmware', ' ' + ' '.join(firmware_pkgs))
- }
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/fix-armv7-neon-alignment.patch b/meta/recipes-devtools/mtd/mtd-utils/fix-armv7-neon-alignment.patch
+new file mode 100644
+index 0000000..05f1629
+--- /dev/null
++++ b/meta/recipes-devtools/mtd/mtd-utils/fix-armv7-neon-alignment.patch
+@@ -0,0 +1,44 @@
++Upstream-Status: Pending
 +
-+ALTERNATIVE_PRIORITY = "100"
-+ALTERNATIVE_${PN} = "microcode_amd.bin microcode_amd_fam15h.bin"
-+ALTERNATIVE_LINK_NAME[microcode_amd.bin] = "/lib/firmware/amd-ucode/microcode_amd.bin"
-+ALTERNATIVE_LINK_NAME[microcode_amd_fam15h.bin] = "/lib/firmware/amd-ucode/microcode_amd_fam15h.bin"
++NEON instruction VLD1.64 was used to copy 64 bits data after type
++casting, and they will trigger alignment trap.
++This patch uses memcpy to avoid alignment problem.
++
++Signed-off-by: Yuanjie Huang <Yuanjie.Huang@windriver.com>
++
++diff --git a/mkfs.ubifs/key.h b/mkfs.ubifs/key.h
++index d3a02d4..e7e9218 100644
++--- a/mkfs.ubifs/key.h
+++++ b/mkfs.ubifs/key.h
++@@ -141,10 +141,12 @@ static inline void data_key_init(union ubifs_key *key, ino_t inum,
++  */
++ static inline void key_write(const union ubifs_key *from, void *to)
++ {
++-	union ubifs_key *t = to;
+++	__le32 x[2];
++ 
++-	t->j32[0] = cpu_to_le32(from->u32[0]);
++-	t->j32[1] = cpu_to_le32(from->u32[1]);
+++	x[0] = cpu_to_le32(from->u32[0]);
+++	x[1] = cpu_to_le32(from->u32[1]);
+++
+++	memcpy(to, &x, 8);
++ 	memset(to + 8, 0, UBIFS_MAX_KEY_LEN - 8);
++ }
++ 
++@@ -156,10 +158,12 @@ static inline void key_write(const union ubifs_key *from, void *to)
++  */
++ static inline void key_write_idx(const union ubifs_key *from, void *to)
++ {
++-	union ubifs_key *t = to;
+++	__le32 x[2];
+++
+++	x[0] = cpu_to_le32(from->u32[0]);
+++	x[1] = cpu_to_le32(from->u32[1]);
++ 
++-	t->j32[0] = cpu_to_le32(from->u32[0]);
++-	t->j32[1] = cpu_to_le32(from->u32[1]);
+++	memcpy(to, &x, 8);
++ }
++ 
++ /**
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index f78bc7e..52297c6 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ SRCREV = "9f107132a6a073cce37434ca9cda6917dd8d866b"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+ 		file://add-exclusion-to-mkfs-jffs2-git-2.patch \
++		file://fix-armv7-neon-alignment.patch \
+ "
+ 
+ PV = "1.5.1+git${SRCPV}"
 -- 
 2.0.0
 
