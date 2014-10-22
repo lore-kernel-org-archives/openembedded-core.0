@@ -1,30 +1,26 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 007D460232
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 17BE160233
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Oct 2014 23:28:49 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3jMrcw16tPz3hjMJ;
-	Wed, 22 Oct 2014 01:28:47 +0200 (CEST)
-X-Auth-Info: +mzvQNhGUDAWGTUSo5vPSPMz63FdBeRQUXvYD465WNM=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3jMrcv1mnKzvdWR; 
-	Wed, 22 Oct 2014 01:28:47 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Wed, 22 Oct 2014 01:28:44 +0200
-User-Agent: KMail/1.13.7 (Linux/3.13-trunk-amd64; KDE/4.13.1; x86_64; ; )
-References: <1413746147-7120-1-git-send-email-marex@denx.de>
-	<1413746147-7120-5-git-send-email-marex@denx.de>
-	<84924DE0-BBAC-45C0-B0B3-66A3EB6841CC@dominion.thruhere.net>
-In-Reply-To: <84924DE0-BBAC-45C0-B0B3-66A3EB6841CC@dominion.thruhere.net>
+	Wed, 22 Oct 2014 01:46:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9M1kTos002076
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Oct 2014 18:46:29 -0700 (PDT)
+Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 21 Oct 2014 18:46:29 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Oct 2014 21:46:23 -0400
+Message-ID: <5f6d730e53baf381d3acc314b26da4cd2ab27479.1413941715.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1413941715.git.wenzong.fan@windriver.com>
+References: <cover.1413941715.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-Message-Id: <201410220128.44782.marex@denx.de>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/7] kernel: Pull uImage generation into separate class
+Subject: [PATCH 2/4] e2fsprogs: clean host path in compile_et, mk_cmds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,40 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Oct 2014 23:29:00 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Oct 2014 01:46:35 -0000
+Content-Type: text/plain
 
-On Monday, October 20, 2014 at 12:26:04 PM, Koen Kooi wrote:
-> > Op 19 okt. 2014, om 21:15 heeft Marek Vasut <marex@denx.de> het volgende
-> > geschreven:
-> > 
-> > Pull the uImage image format generation from kernel.bbclass into
-> > a separate kernel-uimage.bbclass. The recipes which now need to
-> > generate an uImage will have to inherit kernel-uimage instead of
-> > kernel class.
-> 
-> To keep backward compatibility, could you rework this into something like:
-> 
-> kernel.bbclass:
-> 	inherit kernel-${KERNEL_IMAGETYPE}
-> 
-> kernel-${KERNEL_IMAGETYPE}:
-> 	inherit kernel-base
-> 	imagetype stuff
-> 
-> kernel-base:
-> 	old kernel.bbclass stuff
-> 
-> That would keep existing BSPs working *and* split out the image types.
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-Yes, this makes sense. Are there any traps inside kernel.bbclass I should
-be careful about? Like for example ${PN} or other possible variables which
-are set based on the name of the file?
+* /usr/bin/compile_et
+* /usr/bin/mk_cmds
 
-Thanks!
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |    6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Best regards,
-Marek Vasut
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+index f89e5ac..ecc838b 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+@@ -54,6 +54,12 @@ do_install () {
+ 	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
+ }
+ 
++do_install_append_class-target() {
++	# Clean host path in compile_et, mk_cmds
++	sed -i -e "s,${S}/lib/et,,g" ${D}${bindir}/compile_et
++	sed -i -e "s,${S}/lib/ss,,g" ${D}${bindir}/mk_cmds
++}
++
+ RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
+ RRECOMMENDS_e2fsprogs = "e2fsprogs-mke2fs e2fsprogs-e2fsck"
+ 
+-- 
+1.7.9.5
+
 
