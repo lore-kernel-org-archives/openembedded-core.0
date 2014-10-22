@@ -1,45 +1,25 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id AC6CD65C88
+Return-Path: <Jian.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CAE1260097
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 08:42:12 +0000 (UTC)
-Received: by mail-wi0-f181.google.com with SMTP id n3so186054wiv.8
+	Wed, 22 Oct 2014 08:45:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9M8jRMS023088
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 01:42:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=uN+esbDOvbS7So8+j+32jN5K2nXH95cGLPYKa9gdxdY=;
-	b=bZLyECMA2w3fE25DG+DzxgFcwFspSt3UqPjkaS/RrW5cl/qRYatAKj3gsn9T5j09So
-	4qbm/f0wQIItViLwI5ltWwecWH1vqITWGxt4s+UmHrjUDAgkOSwLNxblb70C/rJhMKgt
-	6+V01uvAxVSm5rbG/p4nOHTCPcWhPnhhUsgMn/Tr7U971HM6o1RU0ZoOm+kNl5jhUZk0
-	HFCwM9gMP7z+k36fT+UE+1J2Mhe3gPY3AGWq1OVKXgGv0aVHNWsReUtXnOwUKdQOz5Lg
-	CaerXMrMqbwkS/ItvbubMKXTEPBH5qSzz/seI4mTMkyfAuqvhtQCeDTW6sFlcAT1aVmq
-	afQA==
-X-Gm-Message-State: ALoCoQm7IYlWUExb/VWmq4sZ7fecCGg+xItlwqg1EzVTNehHIT2M5zpwePJ4P1p/tDE73h+NivRb
-X-Received: by 10.194.185.167 with SMTP id fd7mr28312195wjc.108.1413967332329; 
-	Wed, 22 Oct 2014 01:42:12 -0700 (PDT)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id ws5sm964829wjb.9.2014.10.22.01.42.10
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 22 Oct 2014 01:42:11 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <201410220128.44782.marex@denx.de>
-Date: Wed, 22 Oct 2014 10:42:09 +0200
-Message-Id: <DBEF9196-DDEF-4862-87CD-24DA0577C08F@dominion.thruhere.net>
-References: <1413746147-7120-1-git-send-email-marex@denx.de>
-	<1413746147-7120-5-git-send-email-marex@denx.de>
-	<84924DE0-BBAC-45C0-B0B3-66A3EB6841CC@dominion.thruhere.net>
-	<201410220128.44782.marex@denx.de>
-To: Marek Vasut <marex@denx.de>
-X-Mailer: Apple Mail (2.1990.1)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/7] kernel: Pull uImage generation into separate class
+	Wed, 22 Oct 2014 01:45:27 -0700 (PDT)
+Received: from [128.224.163.134] (128.224.163.134) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 22 Oct 2014 01:45:27 -0700
+Message-ID: <54476E36.1090201@windriver.com>
+Date: Wed, 22 Oct 2014 16:43:34 +0800
+From: Liu Jian <jian.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+To: OE Core <openembedded-core@lists.openembedded.org>
+Subject: [PATCH V2 1/1] opkg: update-alternatives fails for "[" and "[[" in busybox
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,51 +32,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 08:42:15 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 22 Oct 2014 08:45:30 -0000
+Content-Type: text/plain; charset="GB2312"
+Content-Transfer-Encoding: 7bit
 
+Building a small filesystem with busybox gives the following error lines:
+(see log.do_rootfs under bitbake_build/tmp/work/)
+sed: -e expression #1, char 41: unterminated address regex
+sed: -e expression #1, char 42: unterminated address regex
+This is caused by the script
+bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/update-alternatives.
+"[" can not be used directly in sed expression.
 
-> Op 22 okt. 2014, om 01:28 heeft Marek Vasut <marex@denx.de> het =
-volgende geschreven:
->=20
-> On Monday, October 20, 2014 at 12:26:04 PM, Koen Kooi wrote:
->>> Op 19 okt. 2014, om 21:15 heeft Marek Vasut <marex@denx.de> het =
-volgende
->>> geschreven:
->>>=20
->>> Pull the uImage image format generation from kernel.bbclass into
->>> a separate kernel-uimage.bbclass. The recipes which now need to
->>> generate an uImage will have to inherit kernel-uimage instead of
->>> kernel class.
->>=20
->> To keep backward compatibility, could you rework this into something =
-like:
->>=20
->> kernel.bbclass:
->> 	inherit kernel-${KERNEL_IMAGETYPE}
->>=20
->> kernel-${KERNEL_IMAGETYPE}:
->> 	inherit kernel-base
->> 	imagetype stuff
->>=20
->> kernel-base:
->> 	old kernel.bbclass stuff
->>=20
->> That would keep existing BSPs working *and* split out the image =
-types.
->=20
-> Yes, this makes sense. Are there any traps inside kernel.bbclass I =
-should
-> be careful about? Like for example ${PN} or other possible variables =
-which
-> are set based on the name of the file?
+Signed-off-by: Jian Liu <jian.liu@windriver.com>
+---
+...andle-leftbracket-for-update-alternatives.patch | 23
+++++++++++++++++++++++
+meta/recipes-devtools/opkg/opkg_0.2.2.bb | 1 +
+2 files changed, 24 insertions(+)
+create mode 100644
+meta/recipes-devtools/opkg/opkg/handle-leftbracket-for-update-alternatives.patch
 
-You should be safe, PN is supposed to be completely ignored since the =
-output packages will all be 'kernel-<foo>' instead of =
-'linux-myfirstbsp-<foo>'
+diff --git
+a/meta/recipes-devtools/opkg/opkg/handle-leftbracket-for-update-alternatives.patch
+b/meta/recipes-devtools/opkg/opkg/handle-leftbracket-for-update-alternatives.patch
+new file mode 100644
+index 0000000..7c9eac7
+--- /dev/null
++++
+b/meta/recipes-devtools/opkg/opkg/handle-leftbracket-for-update-alternatives.patch
+@@ -0,0 +1,23 @@
++diff -Nur trunk.orig/utils/update-alternatives.in
+trunk/utils/update-alternatives.in
++--- trunk.orig/utils/update-alternatives.in 2013-08-16
+04:22:29.000000000 +0800
+++++ trunk/utils/update-alternatives.in 2014-09-19 10:55:22.238159317 +0800
++@@ -68,6 +68,10 @@
++ sed -e 's/\//\\\//g'
++ }
++
+++protect_special_character() {
+++ sed -e 's/\[/\\\[/g'
+++}
+++
++ remove_alt() {
++ [ $# -lt 2 ] && return 1
++ local name="$1"
++@@ -75,7 +79,7 @@
++
++ [ ! -f $ad/$name ] && return 0
++
++- path=`echo $path | protect_slashes`
+++ path=`echo $path | protect_slashes | protect_special_character`
++ sed -ne "/^$path\>.*/!p" $ad/$name > $ad/$name.new
++ mv $ad/$name.new $ad/$name
++ }
+diff --git a/meta/recipes-devtools/opkg/opkg_0.2.2.bb
+b/meta/recipes-devtools/opkg/opkg_0.2.2.bb
+index 867ff7a..9d09194 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.2.2.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.2.2.bb
+@@ -5,6 +5,7 @@ SRC_URI =
+"http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+file://add-exclude.patch \
+file://opkg-configure.service \
+file://libopkg-opkg_remove.c-avoid-remove-pkg-repeatly-with.patch \
++ file://handle-leftbracket-for-update-alternatives.patch \
+"
 
-regards,
+S = "${WORKDIR}/${BPN}-${PV}"
+-- 
+1.8.5.2.233.g932f7e4
 
-Koen=
+-- 
+Jian Liu
+Email: jian.liu@windriver.com
+Office Phone: 86-10-84778539
+
 
