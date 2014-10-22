@@ -1,28 +1,32 @@
-Return-Path: <Jian.Liu@windriver.com>
+Return-Path: <Chong.Lu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D9E560097
+	by mail.openembedded.org (Postfix) with ESMTP id A2C5D60557
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 06:10:01 +0000 (UTC)
+	Wed, 22 Oct 2014 06:19:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9M6A1RZ022533
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9M6Jdwu023625
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Oct 2014 23:10:01 -0700 (PDT)
-Received: from [128.224.163.134] (128.224.163.134) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 21 Oct 2014 23:10:01 -0700
-Message-ID: <544749C8.4080805@windriver.com>
-Date: Wed, 22 Oct 2014 14:08:08 +0800
-From: Liu Jian <jian.liu@windriver.com>
+	Tue, 21 Oct 2014 23:19:40 -0700 (PDT)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Tue, 21 Oct 2014 23:19:39 -0700
+Message-ID: <54474C78.5030509@windriver.com>
+Date: Wed, 22 Oct 2014 14:19:36 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-To: Paul Barker <paul@paulbarker.me.uk>
-References: <5444D64D.2030802@windriver.com>
-	<CANyK_8eZFzB9OYYxeV+95=6Yz8wmae7P+-FVKxjexRnjx6eAqw@mail.gmail.com>
-In-Reply-To: <CANyK_8eZFzB9OYYxeV+95=6Yz8wmae7P+-FVKxjexRnjx6eAqw@mail.gmail.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] hdparm: hdparm man pages can not be forbiden
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1413341569.git.Chong.Lu@windriver.com>
+	<b2f5f79f9e08f008043508392775c2bb52f819b3.1413341569.git.Chong.Lu@windriver.com>
+	<CAJTo0LboKNAOi7_tx31+m2KOxF_HEKEGePU2wnHXSzGpoeGTgA@mail.gmail.com>
+	<5444D3A5.7060208@windriver.com>
+	<CAJTo0La=Q6Wx8dTBP6mc6A3=b-oXejiAX94dMtgon5aohA1GQg@mail.gmail.com>
+In-Reply-To: <CAJTo0La=Q6Wx8dTBP6mc6A3=b-oXejiAX94dMtgon5aohA1GQg@mail.gmail.com>
+X-Originating-IP: [128.224.162.204]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 1/1] gconf: fix multilib conflict - org.gnome.GConf.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,65 +39,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 06:10:01 -0000
+X-List-Received-Date: Wed, 22 Oct 2014 06:19:40 -0000
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Barker,
 
-You are right. It is my mistake.
-
-I will send a new one later.
-
-Liu Jian
-
-于 2014年10月20日 18:33, Paul Barker 写道:
-> On 20 October 2014 10:30, Liu Jian <jian.liu@windriver.com> wrote:
->> "--enable-doc-pages" can control if man page of a package is added
->> to the file system. "none" and "target" are the two only values.
->> default value is none. But man page of hdparm is still included if
->> --enable-doc-pages equals none while man page of hdparm should be
->> included if target is set.
->>
->> Signed-off-by: Jian Liu <jian.liu@windriver.com>
->> ---
->> meta/recipes-extended/hdparm/hdparm_9.39.bb | 4 ++--
->> 1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-extended/hdparm/hdparm_9.39.bb
->> b/meta/recipes-extended/hdparm/hdparm_9.39.bb
->> index 58ceb91..e2ad37d 100644
->> --- a/meta/recipes-extended/hdparm/hdparm_9.39.bb
->> +++ b/meta/recipes-extended/hdparm/hdparm_9.39.bb
->> @@ -8,12 +8,12 @@ LIC_FILES_CHKSUM =
->> "file://LICENSE.TXT;md5=910a8a42c962d238619c75fdb78bdb24 \
->> file://wiper/GPLv2.txt;md5=fcb02dc552a041dee27e4b85c7396067 \
->> file://wiper/wiper.sh;beginline=7;endline=31;md5=b7bc642addc152ea307505bf1a296f09"
->>
->> -PR = "r3"
->> +PR = "r4"
->>
->> PACKAGES += "wiper"
->>
->> FILES_wiper = "${bindir}/wiper.sh"
->> -FILES_${PN} = "${base_sbindir} ${mandir}"
->> +FILES_${PN} = "${base_sbindir}"
->>
->> RDEPENDS_wiper = "bash gawk stat"
->>
->> --
->> 1.8.5.2.233.g932f7e4
-> It looks like this patch has also been corrupted by your email program
-> and is also against an old version of oe-core. The current version of
-> hdparm is 9.43 not 9.39 and it looks like this change is no longer
-> necessary.
+On 10/20/2014 08:31 PM, Burton, Ross wrote:
+> On 20 October 2014 10:19, Chong Lu <Chong.Lu@windriver.com> wrote:
+>> The data file is different between bit-32 and bit-64 environment.
+> And the data file is specific to the daemon, and you only want that
+> installed once.  Two gconf daemons will attempt to write the same data
+> file, resulting in corruption.
 >
-> Thanks,
+> What I meant is this:
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/gconf&id=fac86eb3f86618f109e3797422aae53d9c8d3b30.
+> Package the client-side libraries into a separate package, so you can
+> have gconfd, libgconf, and lib32-libgconf installed at once.  Both
+> client libraries will talk over DBus to the single gconfd binary.
 >
+> (untested, and needs upgrade path dependencies added)
+>
+> Ross
 
--- 
-Jian Liu
-Email: jian.liu@windriver.com
-Office Phone: 86-10-84778539
+Hi Ross,
+
+Thanks for your suggestion, I will send a V3.
+
+Best Regards
+Chong
+
+>
+>
 
 
