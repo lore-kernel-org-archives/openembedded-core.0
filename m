@@ -1,37 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B451601A0
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E73760097
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 10:07:41 +0000 (UTC)
-Received: by mail-qc0-f179.google.com with SMTP id x3so2372705qcv.38
+	Wed, 22 Oct 2014 10:49:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9MAnKeb028837
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 03:07:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=gUwfi69v3NSyd5/AUpbMOhO9muSPVuO/zsfwKQjRLho=;
-	b=XqOlFObSe/APhaIajX6jJ6r7NiMY8xnj624wAzO93S1C35OSGPrGNTGc31o7IoJ+aI
-	DRaRV1idVOnxYTbfvrOE7K5B1A9g9EUn+KXAy7tqOqiD5lTjCHt2IZRTyYtAQmTP9LtL
-	ayqmdILjea3iV3IClbL/+7D/pfqGs8yMZY8oAXUHCBsh0esU+b0l+sfp4JbhlgfIUivj
-	l1LWa1A6exJcFSrqdBGOi4epqvV9zcd++Nd/m+Ud2Sb0BsIDz0hXx1UJZeM+5inKtl1v
-	cUrHa0Fmd3RyG4JprEZdwzdtEMwSZ9J5AW2eje4/sXKbWGfnOUikpqVJEi/nEWBE8wLz
-	npWg==
-X-Gm-Message-State: ALoCoQmRxWBaI8mvwARX6vjx4FFaKMMDJUaVicYTwjQnS15NJSF99hrcgzbEWnY+my4WSSb6/x/7
-X-Received: by 10.224.79.79 with SMTP id o15mr5709483qak.93.1413972462651;
-	Wed, 22 Oct 2014 03:07:42 -0700 (PDT)
+	Wed, 22 Oct 2014 03:49:21 -0700 (PDT)
+Received: from marks-mbp.corp.ad.wrs.com (128.224.176.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 22 Oct 2014 03:49:20 -0700
+Message-ID: <54478BAF.7040307@windriver.com>
+Date: Wed, 22 Oct 2014 18:49:19 +0800
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Wed, 22 Oct 2014 03:07:21 -0700 (PDT)
-In-Reply-To: <0ba9a1e61c64e450ed02ea699e01a5f5e292f98b.1413960370.git.Chong.Lu@windriver.com>
-References: <cover.1413960370.git.Chong.Lu@windriver.com>
-	<0ba9a1e61c64e450ed02ea699e01a5f5e292f98b.1413960370.git.Chong.Lu@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Oct 2014 11:07:21 +0100
-Message-ID: <CAJTo0LZKKpiceby03E=fD6yqpxY4RTBXYKiCfqLgRj6CU4deiw@mail.gmail.com>
-To: Chong Lu <Chong.Lu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3 1/1] gconf: fix multilib conflict - org.gnome.GConf.service
+To: <openembedded-core@lists.openembedded.org>
+References: <1413829859-8489-1-git-send-email-jeffrey.honig@windriver.com>
+	<ly7fzteo3p.fsf@ensc-virt.intern.sigma-chemnitz.de>
+In-Reply-To: <ly7fzteo3p.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Subject: Re: [PATCH] Refuse to run bitbake on a kernel that is too old.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,21 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 10:07:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Oct 2014 10:49:25 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 22 October 2014 08:09, Chong Lu <Chong.Lu@windriver.com> wrote:
-> The gconfd-2 will be called in org.gnome.GConf.service file and the path of
-> gconfd-2 is ${libexecdir}, this will get following error when multilib exported
-> in the sdk:
-> error: file /usr/share/dbus-1/services/org.gnome.GConf.service from install
-> of gconf-3.2.6-r0.0.lib32_x86 conflicts with file from package
-> gconf-3.2.6-r0.0.x86_64
+On 10/21/14, 6:03 PM, Enrico Scholz wrote:
+> <jeffrey.honig-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
+>
+>> Bitbake.conf now specifies OLDEST_KERNEL to insure that the SDK is
+>> not run on a kernel that is not supported by a component of the SDK
+>> (i.e. glibc).
+>
+> OLDEST_KERNEL is used in glibc recipe only; it would be much better
+> to build SDK's glibc with an --enable-kernel matching the target
+> distribution.  E.g. by setting a special 'OLDEST_KERNEL_nativesdk'
+> variable.
 
-I'm clearly not understanding how our multilib implementation works,
-but you don't need many copies of the main gconf package, just one in
-the preferred configuration. What is causing multiple copies of gconf
-to be installed?
+glibc included with master has a minimum kernel version due to various ABIs that 
+it uses.  My understanding is that the OLDEST_KERNEL does indeed match for the 
+nativesdk.
 
-Ross
+>> +    # Check that our kernel will work for crosssdk
+>
+> This check should be made overridable for environments which do not
+> build SDKs.
+
+Using the buildtools-tarball will result in these issues.. (that is a lot more 
+common, at least for us due to the wide variety of distributions that don't have 
+minimum tool versions...)
+
+>> +    if os.uname()[0] == "Linux" and LooseVersion(os.uname()[2]) < LooseVersion(d.getVar('OLDEST_KERNEL')):
+>
+> This check does not work when you build e.g. in an LXC container.  You
+> could define something like
+>
+> | SDK_UNAME ??= "${@' '.join(os.uname())}"
+>
+> and do the checks on this.
+>
+>
+> Enrico
+>
+
 
