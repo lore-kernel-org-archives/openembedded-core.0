@@ -1,36 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B8CBF65C98
+Received: from mail-qa0-f52.google.com (mail-qa0-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E276565D3B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 23:00:43 +0000 (UTC)
-Received: by mail-qg0-f45.google.com with SMTP id q107so3386470qgd.18
+	Wed, 22 Oct 2014 23:26:20 +0000 (UTC)
+Received: by mail-qa0-f52.google.com with SMTP id v10so1165896qac.39
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 16:00:44 -0700 (PDT)
+	Wed, 22 Oct 2014 16:26:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=Qq/ZezbmPaDOWZd8EXpLopqlam5NgQ3LxMsd4tCF1WM=;
-	b=hn1rz+P4c9ezMtU2jI6IPR0oXiSneUEJhJyStWvCjUUlxZUpcPRulj3fL0i8eywEnw
-	DR1RJlFtkQszKSXBkkkru8eMm9KYX6o0mAWS0U2jAlFH+FeDNqtwYXlqk/CLqSV1v+E3
-	8jP1NHc1oiqdb/zHbyvhfKKcv2jTDCqF+sMTpn9ITpAJUj8wjsYXvrxoD4G8NX7Rdw5y
-	HQ9OTUPgL1At0TF3XgmNk4VjYrHWmrRK8p+WgxEt8ZCwfJ25P8HMo7MyGmPGTtfx3pII
-	gZv6vsWteWABrQkbljCDzFVBcC4L63igeoqe0b7QQIOg6/IP6x2ELV7PdQK4vVH8K0Kn
-	YtMg==
-X-Gm-Message-State: ALoCoQmLewjTQy4iqvuSnwK9qKdmbIbZI0MOhMi1sculcIKYxqxos2x3nMYu9AS6pAbvzZO22x9i
-X-Received: by 10.224.2.135 with SMTP id 7mr1997006qaj.64.1414018843859; Wed,
-	22 Oct 2014 16:00:43 -0700 (PDT)
+	bh=6VTLlPwHssLOOEixwqDAZ48pj7ITqohEbIrKh0CDm9I=;
+	b=TNxoAQPflMfUAF9ZTZ5J6nxHiwdivL+FlJnSH4s+6H6iqLONKOZQN/5UmEhWj9Bq4x
+	z/ElNUFgq1IpYeH0zxj+XA5urwKENV8bgtzeKbQ1DD9GU89o2xmi27IEWApKsRUYciAG
+	/PtJ6lQzK4pw7KQXFCcfZI5cPh5gsrFe83XuS5hPlYvkGvXbkWCgqC70W1CZeaQGRQDk
+	j2cWnCwXodczqEOTKn8VSesWqSUZu/KlSQ9t2V0RMvnuE1RBU5kNHaU+2P03hvseAOMx
+	PW2koVVhu0Ks4n4q8o/IQ0AJJYWYkCKo5ObJDSjOjpARUJ5db+tnRdnREhBkD/DIMBJZ
+	CPyA==
+X-Gm-Message-State: ALoCoQldTTldUuKcjBYEAfBbvQ1HEzjR20snQoFlYVGQSYpEHo5wn0A/s7Z6TdP96VjgZPV8L+X8
+X-Received: by 10.224.103.200 with SMTP id l8mr2165065qao.52.1414020381438;
+	Wed, 22 Oct 2014 16:26:21 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Wed, 22 Oct 2014 16:00:23 -0700 (PDT)
-In-Reply-To: <1410761131-18885-1-git-send-email-rongqing.li@windriver.com>
-References: <1410761131-18885-1-git-send-email-rongqing.li@windriver.com>
+Received: by 10.140.93.65 with HTTP; Wed, 22 Oct 2014 16:26:01 -0700 (PDT)
+In-Reply-To: <1413746147-7120-1-git-send-email-marex@denx.de>
+References: <1413746147-7120-1-git-send-email-marex@denx.de>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 23 Oct 2014 00:00:23 +0100
-Message-ID: <CAJTo0LYZZ_Te26THOzN74WekkjKHQamajtfs0_Q1SG_yC6npkw@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] irda: add systemd service file
+Date: Thu, 23 Oct 2014 00:26:01 +0100
+Message-ID: <CAJTo0LaYpbN7VuyErJGj9e8mbY+uUZCGePgsMeMq=Eq+Op8aCQ@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/7] Add basic fitImage support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,67 +45,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 23:00:53 -0000
-Content-Type: multipart/alternative; boundary=001a11c3defae4ed6e05060aeac9
+X-List-Received-Date: Wed, 22 Oct 2014 23:26:22 -0000
+Content-Type: multipart/alternative; boundary=001a1132e9d28a870805060b4627
 
---001a11c3defae4ed6e05060aeac9
+--001a1132e9d28a870805060b4627
 Content-Type: text/plain; charset=UTF-8
 
-On 15 September 2014 07:05, <rongqing.li@windriver.com> wrote:
+On 19 October 2014 20:15, Marek Vasut <marex@denx.de> wrote:
 
-> +[Unit]
-> +Description= irda
+> This series cleans up the code in kernel.bbclass and
+> separates out the uImage generation. The last patch
+> in this series then adds support for generation of the
+> advanced successor of the uImage, the fitImage.
+>
+> This series adds only very rudimentary support for
+> generation of fitImage. The advanced features might
+> be added in subsequent patches.
+>
+> I would also like to thank Richard for explaining to
+> me how to properly do the implementation and I hope
+> this series is at least close to that.
 >
 
-Leading whitespace.
+For what it's worth I pulled these patches for initial testing and I got
+build failures with the fsl-ppc kernel:
 
+| "mkimage" command not found - U-Boot images will not be built
+https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc-lsb/builds/77/steps/BuildImages/logs/stdio
 
-> +After=syslog.target network.target
->
+These patches were not the only ones pulled into that branch, but they're
+the only relevant change that I can see.  It looks like a native dependency
+disappeared somewhere, can you have a look at this?
 
-Is the default value of After=basic.target sufficient?
-
-
-> +EnvironmentFile=-/etc/sysconfig/irda
->
-
-Hard-coded /etc, sed in sysconfdir.
-
-
-> -inherit autotools-brokensep update-rc.d
-> +inherit autotools-brokensep update-rc.d systemd
->
-
-Dizzy doesn't have this line (autotools was removed as irda isn't
-autotools), please refresh.
-
-Cheers,
 Ross
 
---001a11c3defae4ed6e05060aeac9
+--001a1132e9d28a870805060b4627
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
-5 September 2014 07:05,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing.l=
-i@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">+[Unit]<br>
-+Description=3D irda<br></blockquote><div><br></div><div>Leading whitespace=
-.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-+After=3Dsyslog.target network.target<br>
-</blockquote><div><br></div><div>Is the default value of After=3Dbasic.targ=
-et sufficient?</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">+Enviro=
-nmentFile=3D-/etc/sysconfig/irda<br>
-</blockquote><div><br></div><div>Hard-coded /etc, sed in sysconfdir.</div><=
-div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">-inherit autotools-brokensep=
- update-rc.d<br>
-+inherit autotools-brokensep update-rc.d systemd<br></blockquote><div><br><=
-/div><div>Dizzy doesn&#39;t have this line (autotools was removed as irda i=
-sn&#39;t autotools), please refresh.</div><div><br></div><div>Cheers,</div>=
-<div>Ross=C2=A0</div><div>=C2=A0</div></div><br></div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 October 2014 20:15, Marek Vasut <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:marex@denx.de" target=3D"_blank">marex@denx.de</a>&gt;</span> wrote:<br>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div id=3D":3u3" class=3D"" style=3D"overflow:hidden">This=
+ series cleans up the code in kernel.bbclass and<br>
+separates out the <span class=3D"">uImage</span> generation. The last patch=
+<br>
+in this series then adds support for generation of the<br>
+advanced successor of the <span class=3D"">uImage</span>, the fitImage.<br>
+<br>
+This series adds only very rudimentary support for<br>
+generation of fitImage. The advanced features might<br>
+be added in subsequent patches.<br>
+<br>
+I would also like to thank Richard for explaining to<br>
+me how to properly do the implementation and I hope<br>
+this series is at least close to that.</div></blockquote></div><br>For what=
+ it&#39;s worth I pulled these patches for initial testing and I got build =
+failures with the fsl-ppc kernel:</div><div class=3D"gmail_extra"><br></div=
+><div class=3D"gmail_extra"><div class=3D"gmail_extra">| &quot;mkimage&quot=
+; command not found - U-Boot images will not be built</div><div><a href=3D"=
+https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc-lsb/buil=
+ds/77/steps/BuildImages/logs/stdio">https://autobuilder.yoctoproject.org/ma=
+in/builders/nightly-fsl-ppc-lsb/builds/77/steps/BuildImages/logs/stdio</a><=
+br></div><div><br></div><div>These patches were not the only ones pulled in=
+to that branch, but they&#39;re the only relevant change that I can see.=C2=
+=A0 It looks like a native dependency disappeared somewhere, can you have a=
+ look at this?</div><div><br></div><div>Ross</div></div></div>
 
---001a11c3defae4ed6e05060aeac9--
+--001a1132e9d28a870805060b4627--
