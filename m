@@ -1,37 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FDB7608BB
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C1B565CAF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 20:03:52 +0000 (UTC)
-Received: by mail-qc0-f174.google.com with SMTP id m20so3304765qcx.19
+	Wed, 22 Oct 2014 20:29:17 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id et14so4454842pad.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 13:03:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=d43icysOQhNxKvnl0rlG7S8q4Bm4Xw3gUXaf4xUCJy8=;
-	b=bMRZGHpTXOIu75r6BKIdnoHi5aOlqlTEjImEXoykhHbPSmgfuH/Uvsj+qRdXSMywLJ
-	3eoKxi9iw1/diP9epEMsKfGzjD0Y0CvNmNIKlosXhqx4IQ26cBJtzPFHdxDkAsS0fsbS
-	wpbfY43qc9cIxOSrTlSOUwkEnBiCYjm0S2nVZN6kOLh1J5ejVfh4Q/ULAWcuDyoMXUTc
-	NPt/0rzs1zSXXrn2SMqVq84Kc7G80efyxbgGDcrXW/6sa7KSTL+AdUvMK1qbOysRZyiw
-	suhe2igNN/ubNao4HgMhanNDJq/GUNtZ6C4RcSBjhF2rnkWpl1rC5lIa/FejA2tY666i
-	TXmw==
-X-Gm-Message-State: ALoCoQm+PkcAKwimf+nnLa1Bu5Dg0JIns2SRhNlQdvQGJlrGXKJbEJYUEvvJRmUo+29StEaPZygj
-X-Received: by 10.224.2.135 with SMTP id 7mr685994qaj.64.1414008228676; Wed,
-	22 Oct 2014 13:03:48 -0700 (PDT)
+	Wed, 22 Oct 2014 13:29:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=nA2/9GSsUHSH6XcfWFBO+DOhF82M1PkR62RZ6THN2fM=;
+	b=R2w20QBHCGZaqiI9aE5JIlXfbGbIQPYSilIiktURf5ehcyHdloW9Thsq/6vsPal6U1
+	/RMkF7Y3V9Bn1ip+mLQI1UKj6kCFyc1/A6c5OKPLHHvh+Q0f5Kg6HcKE3eh8lk9nJcai
+	ki6Dx06n7lHN8vKYm8Zt2pjhafWh/wsl+5H/cWqOw5bs5YxTuD3UeYXCR2ZF3vf9dgg/
+	xw9ZoltqoC7ni/DXUH7iszDGebhfSS92JbQTQBGB3JXuTrgud/M/uY/AWzpoes3Tck19
+	rA5RacqkcvlpUpGTmjDXkBqrDBMw+EQs4uW9c6eSLupAcp0nLzlDF3ahn6jI5+mSX3f7
+	Djvw==
+X-Received: by 10.66.228.106 with SMTP id sh10mr415957pac.108.1414009757897;
+	Wed, 22 Oct 2014 13:29:17 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207])
+	by mx.google.com with ESMTPSA id k9sm15031331pdj.41.2014.10.22.13.29.16
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 22 Oct 2014 13:29:16 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Oct 2014 13:29:12 -0700
+Message-Id: <1414009754-26738-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Wed, 22 Oct 2014 13:03:28 -0700 (PDT)
-In-Reply-To: <00f8984de62bbf66c7487bc854c4e5c10ce416fc.1413947830.git.wenzong.fan@windriver.com>
-References: <cover.1413947830.git.wenzong.fan@windriver.com>
-	<00f8984de62bbf66c7487bc854c4e5c10ce416fc.1413947830.git.wenzong.fan@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Oct 2014 21:03:28 +0100
-Message-ID: <CAJTo0LbMFw8TiZkn=nchFCmbA9ZgZhW2+yaQnhg99=g4i3n2=w@mail.gmail.com>
-To: wenzong fan <wenzong.fan@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] lsof: fix LSOF_CCV in version.h
+Subject: [PATCH 0/2] Update timezone recipes 2014i
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,51 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 20:03:56 -0000
-Content-Type: multipart/alternative; boundary=001a11c3defa2e1a4d0506087282
-
---001a11c3defa2e1a4d0506087282
+X-List-Received-Date: Wed, 22 Oct 2014 20:29:19 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 22 October 2014 04:23, <wenzong.fan@windriver.com> wrote:
 
-> +-      @echo '#define  LSOF_CCV        "${CCV}"' >> version.h
-> ++      @LSOF_CCV=`${CC} -v 2>&1 | sed -n 's/.*version \(.*\)/\1/p'` &&\
-> ++      echo "#define   LSOF_CCV        \"${LSOF_CCV}\"" >> version.h
->
+Armin Kuster (2):
+  tzcode: update to 2014i
+  tzdata: update to 2014i
 
-It seems that a better (and importantly, upstreamable) fix would be to pass
-LSOF_CC correctly to ./Configure instead of overriding in do_compile(), and
-change the LSOF_CCV assignment to run LSOF_CC if _CCV isn't already set.
+ meta/recipes-extended/tzcode/tzcode-native_2014h.bb | 11 -----------
+ meta/recipes-extended/tzcode/tzcode-native_2014i.bb | 10 ++++++++++
+ meta/recipes-extended/tzdata/tzdata_2014h.bb        |  6 ------
+ meta/recipes-extended/tzdata/tzdata_2014i.bb        |  6 ++++++
+ 4 files changed, 16 insertions(+), 17 deletions(-)
+ delete mode 100644 meta/recipes-extended/tzcode/tzcode-native_2014h.bb
+ create mode 100644 meta/recipes-extended/tzcode/tzcode-native_2014i.bb
+ delete mode 100644 meta/recipes-extended/tzdata/tzdata_2014h.bb
+ create mode 100644 meta/recipes-extended/tzdata/tzdata_2014i.bb
 
-(My general approach here is spend a little more time getting a fix
-upstreamed so that we're not fixing our patch every few months)
+-- 
+1.9.1
 
-Ross
 
---001a11c3defa2e1a4d0506087282
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 October 2014 04:23,  <span dir=3D"ltr">&lt;<a href=3D"mailto:wenzong.=
-fan@windriver.com" target=3D"_blank">wenzong.fan@windriver.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div id=3D":4fd" class=3D"a3s" =
-style=3D"overflow:hidden">+-=C2=A0 =C2=A0 =C2=A0 @echo &#39;#define=C2=A0 L=
-SOF_CCV=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;${CCV}&quot;&#39; &gt;&gt; version=
-.h<br>
-++=C2=A0 =C2=A0 =C2=A0 @LSOF_CCV=3D`${CC} -v 2&gt;&amp;1 | sed -n &#39;s/.*=
-version \(.*\)/\1/p&#39;` &amp;&amp;\<br>
-++=C2=A0 =C2=A0 =C2=A0 echo &quot;#define=C2=A0 =C2=A0LSOF_CCV=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 \&quot;${LSOF_CCV}\&quot;&quot; &gt;&gt; version.h</div></bl=
-ockquote></div><br>It seems that a better (and importantly, upstreamable) f=
-ix would be to pass LSOF_CC correctly to ./Configure instead of overriding =
-in do_compile(), and change the LSOF_CCV assignment to run LSOF_CC if _CCV =
-isn&#39;t already set.</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">(My general approach here is spend a little more time gett=
-ing a fix upstreamed so that we&#39;re not fixing our patch every few month=
-s)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
-s</div><div class=3D"gmail_extra"><br></div></div>
-
---001a11c3defa2e1a4d0506087282--
