@@ -1,39 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f49.google.com (mail-qa0-f49.google.com
-	[209.85.216.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F6DC601A0
+Return-Path: <tom.zanussi@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C3671601A0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 11:04:52 +0000 (UTC)
-Received: by mail-qa0-f49.google.com with SMTP id f12so2184706qad.22
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 04:04:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=37jOTGb6sDqIGHY4D2NXT+/znlE9pM6VGv4OmA9MK2M=;
-	b=IJt5rfgBitoPreP8ZjXdGse4phLTXX4a2/+PcBmjPUz78GYpwFvLjHNfDBEir1hnA8
-	XDImVMgDs5WpNhaFE+oPq5ieHBjp1oJm8sUrjlUxiALhMTp7eE4WbpPZsggmnCewNJs6
-	ilwB2CDBaV5k6DSHN1BdOsR3hZUAH+VRLbqVCc1LtFw16al1cvSttZXYoP2ivFHjQyGZ
-	KlPmrFAZUHoRpT81pvUnCfurejl6JZGZhhG9QnP/iKr2mDlCVWZbomoY0zUeef+gbjyO
-	34BB5KXJL2ch6hSlMwaofhlnVeLnHqm+q/PdE70fBlO52jS14I3ssZvOfzsOjEsf+YI+
-	F43A==
-X-Gm-Message-State: ALoCoQnyz74SFc2giSPrS+Ly/AkZbbKEjAM4vbpFpGJCTxkn8Svh0k/yXkrTsjO0aeb1Wy8D+kak
-X-Received: by 10.140.96.101 with SMTP id j92mr43693491qge.87.1413975892852;
-	Wed, 22 Oct 2014 04:04:52 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Wed, 22 Oct 2014 04:04:32 -0700 (PDT)
-In-Reply-To: <54478DE1.9080202@windriver.com>
-References: <cover.1413960370.git.Chong.Lu@windriver.com>
-	<0ba9a1e61c64e450ed02ea699e01a5f5e292f98b.1413960370.git.Chong.Lu@windriver.com>
-	<CAJTo0LZKKpiceby03E=fD6yqpxY4RTBXYKiCfqLgRj6CU4deiw@mail.gmail.com>
-	<54478DE1.9080202@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Oct 2014 12:04:32 +0100
-Message-ID: <CAJTo0La-71_Cfb6y2fGR=Tz2TtbDqu_e1DGnFDFm21HYAQqgmg@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3 1/1] gconf: fix multilib conflict - org.gnome.GConf.service
+	Wed, 22 Oct 2014 12:40:38 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 22 Oct 2014 05:39:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,768,1406617200"; d="scan'208";a="623161823"
+Received: from justinda-mobl1.ger.corp.intel.com (HELO [10.255.13.67])
+	([10.255.13.67])
+	by orsmga002.jf.intel.com with ESMTP; 22 Oct 2014 05:40:38 -0700
+Message-ID: <1413981637.8474.30.camel@empanada.home.network>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+Date: Wed, 22 Oct 2014 07:40:37 -0500
+In-Reply-To: <2808693.YK3zlpjAPq@comp-006-thk>
+References: <54454A41.7090900@balister.org> <2808693.YK3zlpjAPq@comp-006-thk>
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: wic debug suggestions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,30 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 11:05:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Oct 2014 12:40:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 22 October 2014 11:58, Mark Hatle <mark.hatle@windriver.com> wrote:
-> Installing both the lib32 and "regular" version of gconf attempts to install
-> the file "/usr/share/dbus-1/services/org.gnome.GConf.service" twice.  (This
-> is normally acceptable, as long as the -contents- of the file are
-> identical.)  For whatever reason the contents are different, and the usual
-> way to fix this is to provide a unique file that both versions can include.
->
-> This way only one version will be installed, but yet the other service
-> elements will be properly duplicated.
->
-> I'd like a bit more information in the commit message indicating what the
-> conflict actually was between both files (since I believe the service file
-> is textual so a diff is easy to include).
+On Wed, 2014-10-22 at 09:03 +0200, Maciej Borzecki wrote:
+> On Monday 20 of October 2014 13:45:37 Philip Balister wrote:
+> > I'm trying to make an sd card using the sdimage-bootpart.wks file. I've
+> > made an image and dd'ed it to a card. The card has a good vfat
+> > partition, but the ext4 partition won't mount. Looks like bad
+> > superblock. I can format the partition manually, so partitions seem OK
+> > and card works.
+> > 
+> > Does anyone have any suggestions for debugging this?
+> In default wks, the vfat partition is /boot, ext4 is /. If I understood you 
+> correctly / fails to mount, is that right?
+> 
+> I've rebuilt an image with poky rev 8ac8eca2e3bd8c78e2b31ea974930ed0243258a3. 
+> Loading via loopback and mounting partition 2 (/ in this case) works fine.
+> 
+> Can you post the output this command?
+>   wic create -D -e core-image-minimal sdimage-bootpart
+> 
 
-This patch moves the org.gnome.GConf.service file into ${libdir} as
-that file contains a reference to ${libexecdir} which is different on
-multilib builds (and a good reason why libexecdir shouldn't depend on
-libdir), so the files are not identical.
+It seems the problem is in handling a large file system.  A new bug has
+been opened for this:
 
-My question is why are we installing two copies of the GConf daemon,
-can't we just install this package once?
+Bug 6863 - Wic fails to create a working image for a large file system
+ 
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=6863
 
-Ross
+Tom 
+
+
+> Ext4 image is built by image.bbclass (Tom, please correct me if I'm wrong on 
+> this). It should be possible to do the loopback/mount thing with the image 
+> file as well. Can you check if you can mount it this way?
+> 
+
+
 
