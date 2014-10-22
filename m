@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id C1CFE65CF5
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B8CBF65C98
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 22:54:54 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id q108so3439099qgd.9
+	Wed, 22 Oct 2014 23:00:43 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id q107so3386470qgd.18
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 15:54:55 -0700 (PDT)
+	Wed, 22 Oct 2014 16:00:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=2XEldJEz+sIqYL1PzW5VdDKzOwRBeKJDMDWWu4b86Tg=;
-	b=hZBR9/DuXilgFxF6B6skkzklspxzLtTQhGLE+V1b6SMGkZ1sON6ArKQQxX+5Auc7LE
-	0tquIcdqgU53hMhskAMRdbSj7p+PnuEJubrujn7+9DxIbnDcH1bYfiiHocaDzAyC3vLz
-	Sk/DNCTWsfQR6bvGfENnH0A6P0lWO19Uyrji+/hIUkl+rIVf4413h27D5uI85l8lI69T
-	93lbYqLOKOAG4VZNeGmcHPTs8iY7e50xV3hGESkiVTIojqnrFnplFiKqXvYW6j7Gr3WZ
-	4y0fz+zCFRGPeEMvWJ5MpskxBYnO1hEfUPbJGDbcCmBK/ZmYOdqe7CXRAZTF9sEqQAqo
-	2lUw==
-X-Gm-Message-State: ALoCoQlHbgiO3/xkLwvnLetAZmXJ4AvbcCCeeVi6aVIoXSzi7AzLeqj9IXWq4w8581QvA9XHagf6
-X-Received: by 10.224.160.83 with SMTP id m19mr1757393qax.17.1414018495402;
-	Wed, 22 Oct 2014 15:54:55 -0700 (PDT)
+	bh=Qq/ZezbmPaDOWZd8EXpLopqlam5NgQ3LxMsd4tCF1WM=;
+	b=hn1rz+P4c9ezMtU2jI6IPR0oXiSneUEJhJyStWvCjUUlxZUpcPRulj3fL0i8eywEnw
+	DR1RJlFtkQszKSXBkkkru8eMm9KYX6o0mAWS0U2jAlFH+FeDNqtwYXlqk/CLqSV1v+E3
+	8jP1NHc1oiqdb/zHbyvhfKKcv2jTDCqF+sMTpn9ITpAJUj8wjsYXvrxoD4G8NX7Rdw5y
+	HQ9OTUPgL1At0TF3XgmNk4VjYrHWmrRK8p+WgxEt8ZCwfJ25P8HMo7MyGmPGTtfx3pII
+	gZv6vsWteWABrQkbljCDzFVBcC4L63igeoqe0b7QQIOg6/IP6x2ELV7PdQK4vVH8K0Kn
+	YtMg==
+X-Gm-Message-State: ALoCoQmLewjTQy4iqvuSnwK9qKdmbIbZI0MOhMi1sculcIKYxqxos2x3nMYu9AS6pAbvzZO22x9i
+X-Received: by 10.224.2.135 with SMTP id 7mr1997006qaj.64.1414018843859; Wed,
+	22 Oct 2014 16:00:43 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Wed, 22 Oct 2014 15:54:35 -0700 (PDT)
-In-Reply-To: <CANyK_8cVJEBpBWG2Nes705+1mdmT3W86izEnqYreiaCTD5yBdA@mail.gmail.com>
-References: <543ef52e.0879c20a.1785.4076SMTPIN_ADDED_BROKEN@mx.google.com>
-	<CANyK_8cVJEBpBWG2Nes705+1mdmT3W86izEnqYreiaCTD5yBdA@mail.gmail.com>
+Received: by 10.140.93.65 with HTTP; Wed, 22 Oct 2014 16:00:23 -0700 (PDT)
+In-Reply-To: <1410761131-18885-1-git-send-email-rongqing.li@windriver.com>
+References: <1410761131-18885-1-git-send-email-rongqing.li@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Oct 2014 23:54:35 +0100
-Message-ID: <CAJTo0LaPRdCw5EatHYZ0TKd1EQvy17XsfPZorC+qVocyquyUeA@mail.gmail.com>
-To: Peter Urbanec <openembedded-devel@urbanec.net>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3] opkg: Call prerm and postrm scripts on package upgrade.
+Date: Thu, 23 Oct 2014 00:00:23 +0100
+Message-ID: <CAJTo0LYZZ_Te26THOzN74WekkjKHQamajtfs0_Q1SG_yC6npkw@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] irda: add systemd service file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +43,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Oct 2014 22:54:56 -0000
-Content-Type: multipart/alternative; boundary=047d7bacb2aa20fad105060ad6bc
+X-List-Received-Date: Wed, 22 Oct 2014 23:00:53 -0000
+Content-Type: multipart/alternative; boundary=001a11c3defae4ed6e05060aeac9
 
---047d7bacb2aa20fad105060ad6bc
+--001a11c3defae4ed6e05060aeac9
 Content-Type: text/plain; charset=UTF-8
 
-On 21 October 2014 16:40, Paul Barker <paul@paulbarker.me.uk> wrote:
+On 15 September 2014 07:05, <rongqing.li@windriver.com> wrote:
 
-> Sorry Peter, it looks like this patch has been corrupted as well as
-> the one sent to the opkg-devel list. In this case I think it's mostly
-> lines like the above which have been incorrectly wrapped.
->
-> Could you resend this using 'git send-email' if possible?
+> +[Unit]
+> +Description= irda
 >
 
-Alternatively (and preferably for large numbers of patches), push your
-changes to a git repo somewhere.
+Leading whitespace.
 
+
+> +After=syslog.target network.target
+>
+
+Is the default value of After=basic.target sufficient?
+
+
+> +EnvironmentFile=-/etc/sysconfig/irda
+>
+
+Hard-coded /etc, sed in sysconfdir.
+
+
+> -inherit autotools-brokensep update-rc.d
+> +inherit autotools-brokensep update-rc.d systemd
+>
+
+Dizzy doesn't have this line (autotools was removed as irda isn't
+autotools), please refresh.
+
+Cheers,
 Ross
 
---047d7bacb2aa20fad105060ad6bc
+--001a11c3defae4ed6e05060aeac9
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 October 2014 16:40, Paul Barker <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:paul@paulbarker.me.uk" target=3D"_blank">paul@paulbarker.me.uk</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1lb" class=3D"a3=
-s" style=3D"overflow:hidden">Sorry Peter, it looks like this patch has been=
- corrupted as well as<br>
-the one sent to the opkg-devel list. In this case I think it&#39;s mostly<b=
-r>
-lines like the above which have been incorrectly wrapped.<br>
-<br>
-Could you resend this using &#39;git send-email&#39; if possible?</div></bl=
-ockquote><div><br></div><div>Alternatively (and preferably for large number=
-s of patches), push your changes to a git repo somewhere.</div><div><br></d=
-iv><div>Ross</div></div></div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+5 September 2014 07:05,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing.l=
+i@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">+[Unit]<br>
++Description=3D irda<br></blockquote><div><br></div><div>Leading whitespace=
+.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
++After=3Dsyslog.target network.target<br>
+</blockquote><div><br></div><div>Is the default value of After=3Dbasic.targ=
+et sufficient?</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">+Enviro=
+nmentFile=3D-/etc/sysconfig/irda<br>
+</blockquote><div><br></div><div>Hard-coded /etc, sed in sysconfdir.</div><=
+div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex">-inherit autotools-brokensep=
+ update-rc.d<br>
++inherit autotools-brokensep update-rc.d systemd<br></blockquote><div><br><=
+/div><div>Dizzy doesn&#39;t have this line (autotools was removed as irda i=
+sn&#39;t autotools), please refresh.</div><div><br></div><div>Cheers,</div>=
+<div>Ross=C2=A0</div><div>=C2=A0</div></div><br></div></div>
 
---047d7bacb2aa20fad105060ad6bc--
+--001a11c3defae4ed6e05060aeac9--
