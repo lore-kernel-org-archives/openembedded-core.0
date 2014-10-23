@@ -1,51 +1,37 @@
-Return-Path: <bogdan.purcareata@freescale.com>
-X-Greylist: delayed 3577 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 23 Oct 2014 14:01:49 UTC
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bon0147.outbound.protection.outlook.com [157.56.111.147])
-	by mail.openembedded.org (Postfix) with ESMTP id EA67565D3F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
+	[209.85.216.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 888F765CAF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Oct 2014 14:01:49 +0000 (UTC)
-Received: from DM2PR03CA0029.namprd03.prod.outlook.com (10.141.96.28) by
-	BL2PR03MB177.namprd03.prod.outlook.com (10.255.230.143) with Microsoft
-	SMTP Server (TLS) id 15.1.6.9; Thu, 23 Oct 2014 11:28:10 +0000
-Received: from BL2FFO11FD024.protection.gbl (2a01:111:f400:7c09::131) by
-	DM2PR03CA0029.outlook.office365.com (2a01:111:e400:2428::28) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.6.9 via Frontend Transport; Thu, 23 Oct 2014
-	11:28:10 +0000
-Received: from az84smr01.freescale.net (192.88.158.2) by
-	BL2FFO11FD024.mail.protection.outlook.com (10.173.161.103) with
-	Microsoft SMTP Server (TLS) id 15.0.1049.20 via Frontend Transport;
-	Thu, 23 Oct 2014 11:28:10 +0000
-Received: from fsr-fed1764-008.ea.freescale.net
-	(fsr-fed1764-008.ea.freescale.net [10.171.73.44])
-	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id s9NBS8sO016392;
-	Thu, 23 Oct 2014 04:28:08 -0700
-From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Oct 2014 14:26:03 -0400
-Message-ID: <1414088763-15256-1-git-send-email-bogdan.purcareata@freescale.com>
-X-Mailer: git-send-email 1.9.rc1
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:CAL; IPV:NLI;
-	EFV:NLI; SFV:NSPM;
-	SFS:(10019020)(6009001)(189002)(199003)(62966002)(575784001)(6806004)(93916002)(19580405001)(229853001)(2351001)(50466002)(86362001)(48376002)(64706001)(20776003)(81156004)(19580395003)(95666004)(104166001)(69596002)(46102003)(105606002)(92566001)(50226001)(44976005)(4396001)(107046002)(68736004)(102836001)(26826002)(84676001)(15975445006)(33646002)(85306004)(77156001)(106466001)(76482002)(31966008)(47776003)(15202345003)(36756003)(97736003)(21056001)(92726001)(80022003)(110136001)(87286001)(99396003)(85852003)(88136002)(89996001)(87936001)(50986999)(120916001)(104016003);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BL2PR03MB177;
-	H:az84smr01.freescale.net; FPR:; MLV:ovrnspm;
-	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
+	Thu, 23 Oct 2014 14:21:21 +0000 (UTC)
+Received: by mail-qa0-f51.google.com with SMTP id k15so699539qaq.38
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Oct 2014 07:21:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=notBgriB+y84koNicq4ZNpOql7ZZ6YVvBcyIkyyn+bE=;
+	b=COenT5yXXofJjmCKgnPYQzTGfXgeAyL3tv9coLPmLUdFern0pEXRSjLiHeTd1w8nIL
+	rpyZErVjfv07unOgHk19i8F7tZSKSiavsSWVqRx4mEwmN7y+hhTnH7LpKpVDlSQFeWNz
+	I0bESrpL9AYllwdpShLeVyyRSpD1ZbqQPgEu68o+BMgxQ7Yw8gedpMOVwAtpHwgvYK+n
+	LPmklIfwp0OvPmrB2Sf8AeK1oeJ1sfYCID6b1nLIGSuOOnOlb8ky6Crbok1EbY9J5j5p
+	xtQ9HWMy135iK4c9IPi4Nm4ynnCVCknTi8RqyjGefVIHTZFKtL8wemgF8pw8/AfSAhVL
+	v7LA==
+X-Gm-Message-State: ALoCoQl2huVSBwnA0YbB4OSkj+j67G08m/gI9zb3+PiwiAEYv6YK5wWvxwZtfZL6M3D1p0wK4h10
+X-Received: by 10.140.96.101 with SMTP id j92mr7498545qge.87.1414074081707;
+	Thu, 23 Oct 2014 07:21:21 -0700 (PDT)
 MIME-Version: 1.0
-X-Microsoft-Antispam: UriScan:;
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BL2PR03MB177;
-X-Forefront-PRVS: 0373D94D15
-Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
-	designate 192.88.158.2 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=192.88.158.2; helo=az84smr01.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.158.2)
-	smtp.mailfrom=bogdan.purcareata@freescale.com; 
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] shadow: enable support for subordinate IDs
+Received: by 10.140.93.65 with HTTP; Thu, 23 Oct 2014 07:21:01 -0700 (PDT)
+In-Reply-To: <6fe7bbee542ba42ae03304919b3c7abbe63bc8b4.1413879309.git.Chong.Lu@windriver.com>
+References: <cover.1413879309.git.Chong.Lu@windriver.com>
+	<6fe7bbee542ba42ae03304919b3c7abbe63bc8b4.1413879309.git.Chong.Lu@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 23 Oct 2014 15:21:01 +0100
+Message-ID: <CAJTo0LYxF2JA+3uaZqrAWPnvNpZkfZRpDvnBg6qg-K04T5_CHg@mail.gmail.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] kmod: fix debuginfo is missing in shared library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,89 +44,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Oct 2014 14:01:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 23 Oct 2014 14:21:23 -0000
+Content-Type: multipart/alternative; boundary=001a113a9d8a53a0f8050617c7ab
 
-Subordinate IDs support is required in order to enable creation of unprivileged
-containers. Pull a required change from upstream in order to make shadow
-cross-compile with subordinate IDs support. Enable flag in recipe.
+--001a113a9d8a53a0f8050617c7ab
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
----
- ..._of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF.patch |   41 ++++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc            |    3 +-
- 2 files changed, 43 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/shadow/files/check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF.patch
+On 21 October 2014 09:16, Chong Lu <Chong.Lu@windriver.com> wrote:
 
-diff --git a/meta/recipes-extended/shadow/files/check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF.patch b/meta/recipes-extended/shadow/files/check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF.patch
-new file mode 100644
-index 0000000..185590c
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF.patch
-@@ -0,0 +1,41 @@
-+From 2cb54158b80cdbd97ca3b36df83f9255e923ae3f Mon Sep 17 00:00:00 2001
-+From: James Le Cuirot <chewi@aura-online.co.uk>
-+Date: Sat, 23 Aug 2014 09:46:39 +0100
-+Subject: [PATCH] Check size of uid_t and gid_t using AC_CHECK_SIZEOF
-+
-+This built-in check is simpler than the previous method and, most
-+importantly, works when cross-compiling.
-+
-+Upstream-Status: Accepted
-+[https://github.com/shadow-maint/shadow/commit/2cb54158b80cdbd97ca3b36df83f9255e923ae3f]
-+
-+Signed-off-by: Serge Hallyn <serge.hallyn@ubuntu.com>
-+---
-+ configure.in | 14 ++++----------
-+ 1 file changed, 4 insertions(+), 10 deletions(-)
-+
-+diff --git a/configure.in b/configure.in
-+index 1a3f841..4a4d6d0 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -335,16 +335,10 @@ if test "$enable_subids" != "no"; then
-+ 	dnl
-+ 	dnl FIXME: check if 32 bit UIDs/GIDs are supported by libc
-+ 	dnl
-+-	AC_RUN_IFELSE([AC_LANG_SOURCE([
-+-#include <sys/types.h>
-+-int main(void) {
-+-	uid_t u;
-+-	gid_t g;
-+-	return (sizeof u < 4) || (sizeof g < 4);
-+-}
-+-	])], [id32bit="yes"], [id32bit="no"])
-+-
-+-	if test "x$id32bit" = "xyes"; then
-++	AC_CHECK_SIZEOF([uid_t],, [#include "sys/types.h"])
-++	AC_CHECK_SIZEOF([gid_t],, [#include "sys/types.h"])
-++
-++	if test "$ac_cv_sizeof_uid_t" -ge 4 && test "$ac_cv_sizeof_gid_t" -ge 4; then
-+ 		AC_DEFINE(ENABLE_SUBIDS, 1, [Define to support the subordinate IDs.])
-+ 		enable_subids="yes"
-+ 	else
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index b2a5f0e..9fada0d 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -16,6 +16,7 @@ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.xz \
-            file://fix-installation-failure-with-subids-disabled.patch \
-            file://0001-su.c-fix-to-exec-command-correctly.patch \
-            file://0001-Do-not-read-login.defs-before-doing-chroot.patch \
-+           file://check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF.patch \
-            ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
-            "
- 
-@@ -52,7 +53,7 @@ EXTRA_OECONF += "--without-audit \
-                  --without-libcrack \
-                  --without-selinux \
-                  --with-group-name-max-length=24 \
--                 --enable-subordinate-ids=no \
-+                 --enable-subordinate-ids=yes \
-                  ${NSCDOPT}"
- 
- NSCDOPT = ""
--- 
-1.7.10.4
+> -INHIBIT_PACKAGE_STRIP = "${@bb.utils.contains("DISTRO_FEATURES", "ptest",
+> "1", "0", d)}"
+> +INHIBIT_PACKAGE_STRIP_${PN}-ptest =
+> "${@bb.utils.contains("DISTRO_FEATURES", "ptest", "1", "0", d)}"
+>
 
+Was this actually tested?
 
+ERROR: runstrip: ''arm-poky-linux-gnueabi-strip' --strip-debug
+--remove-section=.comment --remove-section=.note --preserve-dates
+'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/armv5te-poky-linux-gnueabi/kmod/18+gitAUTOINC+ae58de0fcb-r0/package/usr/lib/kmod/ptest/testsuite/rootfs/test-depmod/detect-loop/lib/modules/4.4.4/kernel/moduleA.ko''
+strip command failed
+
+INHIBIT_PACKAGE_STRIP isn't a per-package variable as stripping happens
+before the package-splitting.   Moving it to happen after splitting won't
+be trivial as you'd need to know what package to put the resultant files
+into.  Maybe we need a strip blacklist?
+
+Ross
+
+--001a113a9d8a53a0f8050617c7ab
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 21 October 2014 09:16, Chong Lu <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+Chong.Lu@windriver.com" target=3D"_blank">Chong.Lu@windriver.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-lef=
+t-style:solid;padding-left:1ex"><div style=3D"overflow:hidden">-INHIBIT_PAC=
+KAGE_STRIP =3D &quot;${@bb.utils.contains(&quot;DISTRO_FEATURES&quot;, &quo=
+t;ptest&quot;, &quot;1&quot;, &quot;0&quot;, d)}&quot;<br>
++INHIBIT_PACKAGE_STRIP_${PN}-ptest =3D &quot;${@bb.utils.contains(&quot;DIS=
+TRO_FEATURES&quot;, &quot;ptest&quot;, &quot;1&quot;, &quot;0&quot;, d)}&qu=
+ot;</div></blockquote></div><br>Was this actually tested?</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_e=
+xtra">ERROR: runstrip: &#39;&#39;arm-poky-linux-gnueabi-strip&#39; --strip-=
+debug --remove-section=3D.comment --remove-section=3D.note --preserve-dates=
+ &#39;/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/buil=
+d/tmp/work/armv5te-poky-linux-gnueabi/kmod/18+gitAUTOINC+ae58de0fcb-r0/pack=
+age/usr/lib/kmod/ptest/testsuite/rootfs/test-depmod/detect-loop/lib/modules=
+/4.4.4/kernel/moduleA.ko&#39;&#39; strip command failed</div><div><br></div=
+><div>INHIBIT_PACKAGE_STRIP isn&#39;t a per-package variable as stripping h=
+appens before the package-splitting. =C2=A0 Moving it to happen after split=
+ting won&#39;t be trivial as you&#39;d need to know what package to put the=
+ resultant files into.=C2=A0 Maybe we need a strip blacklist?</div><div><br=
+></div><div>Ross</div></div></div>
+
+--001a113a9d8a53a0f8050617c7ab--
