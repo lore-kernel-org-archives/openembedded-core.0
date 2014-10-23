@@ -1,37 +1,27 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f41.google.com (mail-yh0-f41.google.com
-	[209.85.213.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EC7365D72
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id BDF6165C98
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Oct 2014 00:32:55 +0000 (UTC)
-Received: by mail-yh0-f41.google.com with SMTP id i57so268530yha.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Oct 2014 17:32:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=5YMDlruyYjjJkvPr/JGrxCJBkJH/q09qTiQoD4r6tZE=;
-	b=Ttc2IFNP7tRGJ8IeXUulZMjtHy9kubGKI4iGhWAH8Fh0Ett9aDnKQYIs1Ox5VNxGiD
-	Ymp55oH/Ilcz17nTjgwJMCkWsvGQbci/vT2TbdVqCy3f4YVFN/nmkrkv2YBlAG7IUu53
-	JrRopQjX/cFcMWzEXSh2+56OmbM7oU1qrL2BKi9+DVYzkiqBn+eiK+X9S+AhmVlHMLII
-	di+cnEPno6IMF5MQGhKfmaRbOXFvTlzjPz/XduCd39KWfsZt9itySnwqbgEXBEv8uSkg
-	YTObkr1eT1puMqz4wW744YJ4lnYDXJ/0O6MTRWn5eMXKTr/deKK5LgIwVNEkfzkyUBZE
-	aPfg==
-MIME-Version: 1.0
-X-Received: by 10.236.61.6 with SMTP id v6mr2331850yhc.44.1414024375687; Wed,
-	22 Oct 2014 17:32:55 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.172.8 with HTTP; Wed, 22 Oct 2014 17:32:55 -0700 (PDT)
-In-Reply-To: <201410222239.17111.marex@denx.de>
+	Thu, 23 Oct 2014 00:51:58 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3jNVQQ0Gq0z3hjdH;
+	Thu, 23 Oct 2014 02:51:57 +0200 (CEST)
+X-Auth-Info: U/g2NxgkcaPAElAtiNoXEk8YoBItGv2VPLGKverdhnM=
+Received: from chi.localnet (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3jNVQP56LRzvdWR; 
+	Thu, 23 Oct 2014 02:51:57 +0200 (CEST)
+From: Marek Vasut <marex@denx.de>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Thu, 23 Oct 2014 02:45:05 +0200
+User-Agent: KMail/1.13.7 (Linux/3.13-trunk-amd64; KDE/4.13.1; x86_64; ; )
 References: <1413746147-7120-1-git-send-email-marex@denx.de>
-	<201410192313.41430.marex@denx.de>
-	<CAP9ODKqJKR6DUCYw5=+28hZr51OUf3di96g5GbzZDKMHHJwYQw@mail.gmail.com>
 	<201410222239.17111.marex@denx.de>
-Date: Wed, 22 Oct 2014 22:32:55 -0200
-X-Google-Sender-Auth: Is3lwYZLYbUG3JjwSnDFeeRPhXA
-Message-ID: <CAP9ODKrOOE5_+=18EyYWHn3WvwbzYBuUZvxKGOHomJHPrchUhw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Marek Vasut <marex@denx.de>
+	<CAP9ODKrOOE5_+=18EyYWHn3WvwbzYBuUZvxKGOHomJHPrchUhw@mail.gmail.com>
+In-Reply-To: <CAP9ODKrOOE5_+=18EyYWHn3WvwbzYBuUZvxKGOHomJHPrchUhw@mail.gmail.com>
+MIME-Version: 1.0
+Message-Id: <201410230245.05157.marex@denx.de>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Koen Kooi <koen@dominion.thruhere.net>,
 	Patches and discussions about the oe-core layer
@@ -49,41 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Oct 2014 00:32:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 23 Oct 2014 00:52:03 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 22, 2014 at 6:39 PM, Marek Vasut <marex@denx.de> wrote:
-> On Sunday, October 19, 2014 at 11:26:32 PM, Otavio Salvador wrote:
->> On Sun, Oct 19, 2014 at 7:13 PM, Marek Vasut <marex@denx.de> wrote:
->> > On Sunday, October 19, 2014 at 09:25:36 PM, Otavio Salvador wrote:
->> >> On Sun, Oct 19, 2014 at 5:15 PM, Marek Vasut <marex@denx.de> wrote:
->> >> > Remove the lambda function setting KERNEL_IMAGETYPE_FOR_MAKE and
->> >> > instead set it in the anonymous python function. This also allows us
->> >> > to handle image types which are not supported directly by kernel, but
->> >> > require some other kernel target to be built. This is the case for
->> >> > example with the fitImage, which is the uImage successor.
->> >> >
->> >> > There is no functional change.
->> >>
->> >> This is not really what the code shows; your regexp is more permissive
->> >> than the previous lambda.
->> >
->> > Do you happen to have a suggestion how to improve the patch please ? I'm
->> > not really a python guru so any help is welcome ...
->>
->> I like the code, just the commit log needs improvement as you did
->> change the functionality here.
->
-> So what do you suggest, just zap the following line from the commit message?
-> "
-> There is no functional change.
-> "
+On Thursday, October 23, 2014 at 02:32:55 AM, Otavio Salvador wrote:
+[...]
+> >> > Do you happen to have a suggestion how to improve the patch please ?
+> >> > I'm not really a python guru so any help is welcome ...
+> >> 
+> >> I like the code, just the commit log needs improvement as you did
+> >> change the functionality here.
+> > 
+> > So what do you suggest, just zap the following line from the commit
+> > message? "
+> > There is no functional change.
+> > "
+> 
+> Works for me :)
 
-Works for me :)
+OK, thanks
 
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Best regards,
+Marek Vasut
 
