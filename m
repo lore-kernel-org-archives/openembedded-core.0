@@ -1,37 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
-	[209.85.216.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 888F765CAF
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (unknown [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 9940765C88
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Oct 2014 14:21:21 +0000 (UTC)
-Received: by mail-qa0-f51.google.com with SMTP id k15so699539qaq.38
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Oct 2014 07:21:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=notBgriB+y84koNicq4ZNpOql7ZZ6YVvBcyIkyyn+bE=;
-	b=COenT5yXXofJjmCKgnPYQzTGfXgeAyL3tv9coLPmLUdFern0pEXRSjLiHeTd1w8nIL
-	rpyZErVjfv07unOgHk19i8F7tZSKSiavsSWVqRx4mEwmN7y+hhTnH7LpKpVDlSQFeWNz
-	I0bESrpL9AYllwdpShLeVyyRSpD1ZbqQPgEu68o+BMgxQ7Yw8gedpMOVwAtpHwgvYK+n
-	LPmklIfwp0OvPmrB2Sf8AeK1oeJ1sfYCID6b1nLIGSuOOnOlb8ky6Crbok1EbY9J5j5p
-	xtQ9HWMy135iK4c9IPi4Nm4ynnCVCknTi8RqyjGefVIHTZFKtL8wemgF8pw8/AfSAhVL
-	v7LA==
-X-Gm-Message-State: ALoCoQl2huVSBwnA0YbB4OSkj+j67G08m/gI9zb3+PiwiAEYv6YK5wWvxwZtfZL6M3D1p0wK4h10
-X-Received: by 10.140.96.101 with SMTP id j92mr7498545qge.87.1414074081707;
-	Thu, 23 Oct 2014 07:21:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Thu, 23 Oct 2014 07:21:01 -0700 (PDT)
-In-Reply-To: <6fe7bbee542ba42ae03304919b3c7abbe63bc8b4.1413879309.git.Chong.Lu@windriver.com>
+	Thu, 23 Oct 2014 17:02:51 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0158.001; Thu, 23 Oct 2014 19:02:45 +0200
+From: Tudor Florea <Tudor.Florea@enea.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Chong Lu <Chong.Lu@windriver.com>
+Thread-Topic: [OE-core] [PATCH 1/1] kmod: fix debuginfo is missing in shared
+	library
+Thread-Index: AQHP7QfebG4LMdAbYEe7LaTs68CQdZw9nY2AgABOLcA=
+Date: Thu, 23 Oct 2014 17:02:44 +0000
+Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A428ACB19F@SESTOEX04.enea.se>
 References: <cover.1413879309.git.Chong.Lu@windriver.com>
 	<6fe7bbee542ba42ae03304919b3c7abbe63bc8b4.1413879309.git.Chong.Lu@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 23 Oct 2014 15:21:01 +0100
-Message-ID: <CAJTo0LYxF2JA+3uaZqrAWPnvNpZkfZRpDvnBg6qg-K04T5_CHg@mail.gmail.com>
-To: Chong Lu <Chong.Lu@windriver.com>
+	<CAJTo0LYxF2JA+3uaZqrAWPnvNpZkfZRpDvnBg6qg-K04T5_CHg@mail.gmail.com>
+In-Reply-To: <CAJTo0LYxF2JA+3uaZqrAWPnvNpZkfZRpDvnBg6qg-K04T5_CHg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.1.188]
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] kmod: fix debuginfo is missing in shared library
+Subject: Re: [PATCH 1/1] kmod: fix debuginfo is missing in shared	library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,60 +36,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Oct 2014 14:21:23 -0000
-Content-Type: multipart/alternative; boundary=001a113a9d8a53a0f8050617c7ab
+X-List-Received-Date: Thu, 23 Oct 2014 17:03:02 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_26724FB0BFCB3D4C91BDE184751AA3A428ACB19FSESTOEX04enease_"
 
---001a113a9d8a53a0f8050617c7ab
-Content-Type: text/plain; charset=UTF-8
+--_000_26724FB0BFCB3D4C91BDE184751AA3A428ACB19FSESTOEX04enease_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 21 October 2014 09:16, Chong Lu <Chong.Lu@windriver.com> wrote:
+SGksDQoNCkZyb206IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZyBbbWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZ10gT24gQmVoYWxmIE9mIEJ1cnRvbiwgUm9zcw0KU2VudDogVGh1cnNkYXksIE9jdG9iZXIg
+MjMsIDIwMTQgMTc6MjENClRvOiBDaG9uZyBMdQ0KQ2M6IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBb
+T0UtY29yZV0gW1BBVENIIDEvMV0ga21vZDogZml4IGRlYnVnaW5mbyBpcyBtaXNzaW5nIGluIHNo
+YXJlZCBsaWJyYXJ5DQoNCg0KT24gMjEgT2N0b2JlciAyMDE0IDA5OjE2LCBDaG9uZyBMdSA8Q2hv
+bmcuTHVAd2luZHJpdmVyLmNvbTxtYWlsdG86Q2hvbmcuTHVAd2luZHJpdmVyLmNvbT4+IHdyb3Rl
+Og0KLUlOSElCSVRfUEFDS0FHRV9TVFJJUCA9ICIke0BiYi51dGlscy5jb250YWlucyg8bWFpbHRv
+OiQlN2JAYmIudXRpbHMuY29udGFpbnMoPiJESVNUUk9fRkVBVFVSRVMiLCAicHRlc3QiLCAiMSIs
+ICIwIiwgZCl9Ig0KK0lOSElCSVRfUEFDS0FHRV9TVFJJUF8ke1BOfS1wdGVzdCA9ICIke0BiYi51
+dGlscy5jb250YWlucyg8bWFpbHRvOiQlN2JAYmIudXRpbHMuY29udGFpbnMoPiJESVNUUk9fRkVB
+VFVSRVMiLCAicHRlc3QiLCAiMSIsICIwIiwgZCl9Ig0KDQpXYXMgdGhpcyBhY3R1YWxseSB0ZXN0
+ZWQ/DQoNCkVSUk9SOiBydW5zdHJpcDogJydhcm0tcG9reS1saW51eC1nbnVlYWJpLXN0cmlwJyAt
+LXN0cmlwLWRlYnVnIC0tcmVtb3ZlLXNlY3Rpb249LmNvbW1lbnQgLS1yZW1vdmUtc2VjdGlvbj0u
+bm90ZSAtLXByZXNlcnZlLWRhdGVzICcvaG9tZS9wb2t5YnVpbGQveW9jdG8tYXV0b2J1aWxkZXIv
+eW9jdG8td29ya2VyL25pZ2h0bHktYXJtL2J1aWxkL2J1aWxkL3RtcC93b3JrL2FybXY1dGUtcG9r
+eS1saW51eC1nbnVlYWJpL2ttb2QvMTgrZ2l0QVVUT0lOQythZTU4ZGUwZmNiLXIwL3BhY2thZ2Uv
+dXNyL2xpYi9rbW9kL3B0ZXN0L3Rlc3RzdWl0ZS9yb290ZnMvdGVzdC1kZXBtb2QvZGV0ZWN0LWxv
+b3AvbGliL21vZHVsZXMvNC40LjQva2VybmVsL21vZHVsZUEua28nJyBzdHJpcCBjb21tYW5kIGZh
+aWxlZA0KDQpJTkhJQklUX1BBQ0tBR0VfU1RSSVAgaXNuJ3QgYSBwZXItcGFja2FnZSB2YXJpYWJs
+ZSBhcyBzdHJpcHBpbmcgaGFwcGVucyBiZWZvcmUgdGhlIHBhY2thZ2Utc3BsaXR0aW5nLiAgIE1v
+dmluZyBpdCB0byBoYXBwZW4gYWZ0ZXIgc3BsaXR0aW5nIHdvbid0IGJlIHRyaXZpYWwgYXMgeW91
+J2QgbmVlZCB0byBrbm93IHdoYXQgcGFja2FnZSB0byBwdXQgdGhlIHJlc3VsdGFudCBmaWxlcyBp
+bnRvLiAgTWF5YmUgd2UgbmVlZCBhIHN0cmlwIGJsYWNrbGlzdD8NCg0KUm9zcw0KDQpPbmUgd2F5
+IHRvIHNvbHZlIHRoaXMgaXMgdG8gcGFjayB0aGUgcHRlc3Qg4oCcc2FtcGxl4oCdIGZpbGVzIGR1
+cmluZyBpbnN0YWxsIChpbiBkb19pbnN0YWxsX2FwcGVuZCkgYW5kIHVucGFjayBiYWNrIHdoZW4g
+cnVubmluZyBwdGVzdCBvbiB0YXJnZXQgKGluIHJ1bi1wdGVzdCkuIFRoZSBkb3duc2lkZSBvZiB0
+aGlzIGlzIHdlIGFkZCBhIGRlcGVuZGVuY3kgb24gdGFyLg0KUGxlYXNlIGxldCBtZSBrbm93IGlm
+IGl0IGlzIGFjY2VwdGFibGUgYW5kIEnigJlsbCBjb21lIHdpdGggYSBwYXRjaCBmb3IgdGhpcy4N
+ClJlZ2FyZHMsDQpUdWRvci4NCg0K
 
-> -INHIBIT_PACKAGE_STRIP = "${@bb.utils.contains("DISTRO_FEATURES", "ptest",
-> "1", "0", d)}"
-> +INHIBIT_PACKAGE_STRIP_${PN}-ptest =
-> "${@bb.utils.contains("DISTRO_FEATURES", "ptest", "1", "0", d)}"
->
+--_000_26724FB0BFCB3D4C91BDE184751AA3A428ACB19FSESTOEX04enease_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Was this actually tested?
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYi
+O30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0K
+CWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNw
+YW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9y
+OnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3
+DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
+Iiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28t
+c3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2Vy
+aWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46
+NzAuODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVwdDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3Bh
+Z2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8
+bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFb
+ZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0i
+ZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91
+dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJi
+bHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
+cXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+
+SGksPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
+bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVv
+dDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFu
+PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj48Yj48
+c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
+b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0i
+Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3Nh
+bnMtc2VyaWYmcXVvdDsiPiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcgW21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmddDQo8Yj5PbiBCZWhhbGYgT2YgPC9iPkJ1cnRvbiwgUm9zczxicj4NCjxiPlNlbnQ6
+PC9iPiBUaHVyc2RheSwgT2N0b2JlciAyMywgMjAxNCAxNzoyMTxicj4NCjxiPlRvOjwvYj4gQ2hv
+bmcgTHU8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtP
+RS1jb3JlXSBbUEFUQ0ggMS8xXSBrbW9kOiBmaXggZGVidWdpbmZvIGlzIG1pc3NpbmcgaW4gc2hh
+cmVkIGxpYnJhcnk8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBz
+dHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj48bzpwPiZu
+YnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2lu
+LWxlZnQ6LjVpbiI+T24gMjEgT2N0b2JlciAyMDE0IDA5OjE2LCBDaG9uZyBMdSAmbHQ7PGEgaHJl
+Zj0ibWFpbHRvOkNob25nLkx1QHdpbmRyaXZlci5jb20iIHRhcmdldD0iX2JsYW5rIj5DaG9uZy5M
+dUB3aW5kcml2ZXIuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2txdW90
+ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRk
+aW5nOjBpbiAwaW4gMGluIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowaW4i
+Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj4t
+SU5ISUJJVF9QQUNLQUdFX1NUUklQID0gJnF1b3Q7PGEgaHJlZj0ibWFpbHRvOiQlN2JAYmIudXRp
+bHMuY29udGFpbnMoIj4ke0BiYi51dGlscy5jb250YWlucyg8L2E+JnF1b3Q7RElTVFJPX0ZFQVRV
+UkVTJnF1b3Q7LCAmcXVvdDtwdGVzdCZxdW90OywgJnF1b3Q7MSZxdW90OywgJnF1b3Q7MCZxdW90
+OywgZCl9JnF1b3Q7PGJyPg0KJiM0MztJTkhJQklUX1BBQ0tBR0VfU1RSSVBfJHtQTn0tcHRlc3Qg
+PSAmcXVvdDs8YSBocmVmPSJtYWlsdG86JCU3YkBiYi51dGlscy5jb250YWlucygiPiR7QGJiLnV0
+aWxzLmNvbnRhaW5zKDwvYT4mcXVvdDtESVNUUk9fRkVBVFVSRVMmcXVvdDssICZxdW90O3B0ZXN0
+JnF1b3Q7LCAmcXVvdDsxJnF1b3Q7LCAmcXVvdDswJnF1b3Q7LCBkKX0mcXVvdDs8bzpwPjwvbzpw
+PjwvcD4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+IiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+PGJyPg0KV2FzIHRoaXMgYWN0dWFsbHkgdGVzdGVk
+PzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5
+bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
+Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj5F
+UlJPUjogcnVuc3RyaXA6ICcnYXJtLXBva3ktbGludXgtZ251ZWFiaS1zdHJpcCcgLS1zdHJpcC1k
+ZWJ1ZyAtLXJlbW92ZS1zZWN0aW9uPS5jb21tZW50IC0tcmVtb3ZlLXNlY3Rpb249Lm5vdGUgLS1w
+cmVzZXJ2ZS1kYXRlcyAnL2hvbWUvcG9reWJ1aWxkL3lvY3RvLWF1dG9idWlsZGVyL3lvY3RvLXdv
+cmtlci9uaWdodGx5LWFybS9idWlsZC9idWlsZC90bXAvd29yay9hcm12NXRlLXBva3ktbGludXgt
+Z251ZWFiaS9rbW9kLzE4JiM0MztnaXRBVVRPSU5DJiM0MzthZTU4ZGUwZmNiLXIwL3BhY2thZ2Uv
+dXNyL2xpYi9rbW9kL3B0ZXN0L3Rlc3RzdWl0ZS9yb290ZnMvdGVzdC1kZXBtb2QvZGV0ZWN0LWxv
+b3AvbGliL21vZHVsZXMvNC40LjQva2VybmVsL21vZHVsZUEua28nJw0KIHN0cmlwIGNvbW1hbmQg
+ZmFpbGVkPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+IiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4N
+CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+SU5I
+SUJJVF9QQUNLQUdFX1NUUklQIGlzbid0IGEgcGVyLXBhY2thZ2UgdmFyaWFibGUgYXMgc3RyaXBw
+aW5nIGhhcHBlbnMgYmVmb3JlIHRoZSBwYWNrYWdlLXNwbGl0dGluZy4gJm5ic3A7IE1vdmluZyBp
+dCB0byBoYXBwZW4gYWZ0ZXIgc3BsaXR0aW5nIHdvbid0IGJlIHRyaXZpYWwgYXMgeW91J2QgbmVl
+ZCB0byBrbm93IHdoYXQgcGFja2FnZSB0byBwdXQgdGhlIHJlc3VsdGFudA0KIGZpbGVzIGludG8u
+Jm5ic3A7IE1heWJlIHdlIG5lZWQgYSBzdHJpcCBibGFja2xpc3Q/PG86cD48L286cD48L3A+DQo8
+L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVp
+biI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+Um9zczxvOnA+PC9vOnA+PC9wPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PGI+PGk+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
+YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMx
+RjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvaT48L2I+PC9wPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PGI+PGk+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0Qi
+Pk9uZSB3YXkgdG8gc29sdmUgdGhpcyBpcyB0byBwYWNrIHRoZSBwdGVzdCDigJxzYW1wbGXigJ0g
+ZmlsZXMgZHVyaW5nIGluc3RhbGwgKGluIGRvX2luc3RhbGxfYXBwZW5kKSBhbmQgdW5wYWNrIGJh
+Y2sgd2hlbiBydW5uaW5nIHB0ZXN0IG9uIHRhcmdldCAoaW4gcnVuLXB0ZXN0KS4NCiBUaGUgZG93
+bnNpZGUgb2YgdGhpcyBpcyB3ZSBhZGQgYSBkZXBlbmRlbmN5IG9uIHRhci48bzpwPjwvbzpwPjwv
+c3Bhbj48L2k+PC9iPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxpPjxzcGFuIHN0eWxl
+PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7
+c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5QbGVhc2UgbGV0IG1lIGtub3cgaWYgaXQg
+aXMgYWNjZXB0YWJsZSBhbmQgSeKAmWxsIGNvbWUgd2l0aCBhIHBhdGNoIGZvciB0aGlzLjxvOnA+
+PC9vOnA+PC9zcGFuPjwvaT48L2I+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PGk+PHNw
+YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
+OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPlJlZ2FyZHMsPG86cD48L286
+cD48L3NwYW4+PC9pPjwvYj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48aT48c3BhbiBz
+dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZx
+dW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+VHVkb3IuPC9zcGFuPjwvaT48L2I+
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+PC9vOnA+PC9z
+cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEu
+MHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90
+Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwv
+ZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-ERROR: runstrip: ''arm-poky-linux-gnueabi-strip' --strip-debug
---remove-section=.comment --remove-section=.note --preserve-dates
-'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/armv5te-poky-linux-gnueabi/kmod/18+gitAUTOINC+ae58de0fcb-r0/package/usr/lib/kmod/ptest/testsuite/rootfs/test-depmod/detect-loop/lib/modules/4.4.4/kernel/moduleA.ko''
-strip command failed
-
-INHIBIT_PACKAGE_STRIP isn't a per-package variable as stripping happens
-before the package-splitting.   Moving it to happen after splitting won't
-be trivial as you'd need to know what package to put the resultant files
-into.  Maybe we need a strip blacklist?
-
-Ross
-
---001a113a9d8a53a0f8050617c7ab
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 October 2014 09:16, Chong Lu <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-Chong.Lu@windriver.com" target=3D"_blank">Chong.Lu@windriver.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-lef=
-t-style:solid;padding-left:1ex"><div style=3D"overflow:hidden">-INHIBIT_PAC=
-KAGE_STRIP =3D &quot;${@bb.utils.contains(&quot;DISTRO_FEATURES&quot;, &quo=
-t;ptest&quot;, &quot;1&quot;, &quot;0&quot;, d)}&quot;<br>
-+INHIBIT_PACKAGE_STRIP_${PN}-ptest =3D &quot;${@bb.utils.contains(&quot;DIS=
-TRO_FEATURES&quot;, &quot;ptest&quot;, &quot;1&quot;, &quot;0&quot;, d)}&qu=
-ot;</div></blockquote></div><br>Was this actually tested?</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_e=
-xtra">ERROR: runstrip: &#39;&#39;arm-poky-linux-gnueabi-strip&#39; --strip-=
-debug --remove-section=3D.comment --remove-section=3D.note --preserve-dates=
- &#39;/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/buil=
-d/tmp/work/armv5te-poky-linux-gnueabi/kmod/18+gitAUTOINC+ae58de0fcb-r0/pack=
-age/usr/lib/kmod/ptest/testsuite/rootfs/test-depmod/detect-loop/lib/modules=
-/4.4.4/kernel/moduleA.ko&#39;&#39; strip command failed</div><div><br></div=
-><div>INHIBIT_PACKAGE_STRIP isn&#39;t a per-package variable as stripping h=
-appens before the package-splitting. =C2=A0 Moving it to happen after split=
-ting won&#39;t be trivial as you&#39;d need to know what package to put the=
- resultant files into.=C2=A0 Maybe we need a strip blacklist?</div><div><br=
-></div><div>Ross</div></div></div>
-
---001a113a9d8a53a0f8050617c7ab--
+--_000_26724FB0BFCB3D4C91BDE184751AA3A428ACB19FSESTOEX04enease_--
