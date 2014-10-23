@@ -1,24 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B6B8865CAF
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F82065CAF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Oct 2014 18:36:28 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Oct 2014 11:36:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,776,1406617200"; d="scan'208";a="610138202"
-Received: from unknown (HELO [10.255.13.134]) ([10.255.13.134])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Oct 2014 11:36:28 -0700
-Message-ID: <54494AAB.90903@linux.intel.com>
-Date: Thu, 23 Oct 2014 11:36:27 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.7.0
+	Thu, 23 Oct 2014 21:42:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9NLgCuj002138
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Oct 2014 14:42:13 -0700 (PDT)
+Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 23 Oct 2014 14:42:11 -0700
+From: Peter Seebach <peter.seebach@windriver.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Oct 2014 16:42:09 -0500
+Message-ID: <cover.1414082526.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1414086210-3393-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1414086210-3393-1-git-send-email-sgw@linux.intel.com>
-Subject: Re: [PATCH] poky-lsb: Set LTSI as base kernel for LSB
+Subject: [PATCH 0/1] multilib.conf: conditionalize MULTILIB_GLOBAL_VARIANTS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Oct 2014 18:36:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Oct 2014 21:42:20 -0000
+Content-Type: text/plain
 
-On 10/23/2014 10:43 AM, Saul Wold wrote:
-> By doing this we will enable the LTSI kernel (3.10 at this time) for the LSB
-> based images.
->
+The actual use case may have been a little unusual, but I ended
+up with a machine's .conf file specifying arch-specific
+MULTILIB_GLOBAL_VARIANTS, and having it not work. On study, I found
+that multilib.conf was getting read after that.
 
-Oops, this should have gone to the poky@yoctoproject.org list, resent, 
-sorry for the noise
+And I think this ought to work more like DEFAULTTUNE, where the idiom
+is:
+	DEFAULTTUNE = "something"
+	require some/tune.inc
 
-Sau!
+and similarly, I think it would make sense to allow:
+	MULTILIB_GLOBAL_VARIANTS = "list of variants"
+	require multilib.conf
 
-> [YOCTO #6853]
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->   meta-yocto/conf/distro/poky-lsb.conf | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta-yocto/conf/distro/poky-lsb.conf b/meta-yocto/conf/distro/poky-lsb.conf
-> index b0c2cf8..a9030a2 100644
-> --- a/meta-yocto/conf/distro/poky-lsb.conf
-> +++ b/meta-yocto/conf/distro/poky-lsb.conf
-> @@ -11,4 +11,5 @@ PREFERRED_PROVIDER_virtual/libx11 = "libx11"
->   # Ensure the kernel nfs server is enabled
->   KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
->
-> -
-> +# Use the LTSI Kernel for LSB Testing
-> +PREFERRED_VERSION_linux-yocto_linuxstdbase ?= "3.10%"
->
+The following changes since commit 97756472d3a69eaca95d105494ffea78c6b077e0:
+
+  build-appliance-image: Update to dizzy head revision (2014-10-18 16:16:27 +0200)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib seebs/multilib_global_variants
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/multilib_global_variants
+
+Peter Seebach (1):
+  multilib.conf: set MULTILIB_GLOBAL_VARIANTS conditionally
+
+ meta/conf/multilib.conf |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
 
