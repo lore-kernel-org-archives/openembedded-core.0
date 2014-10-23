@@ -1,30 +1,42 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id D10CF65D3F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f41.google.com (mail-yh0-f41.google.com
+	[209.85.213.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EC7365D72
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Oct 2014 00:01:41 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3jNTJM0RmLz3hjF8;
-	Thu, 23 Oct 2014 02:01:38 +0200 (CEST)
-X-Auth-Info: hM2FBRhU+0hEAs6NIv8hKdk3WxIGGg/5CtG72r+c9Ck=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3jNTJL17MkzvdWR; 
-	Thu, 23 Oct 2014 02:01:38 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 23 Oct 2014 02:01:30 +0200
-User-Agent: KMail/1.13.7 (Linux/3.13-trunk-amd64; KDE/4.13.1; x86_64; ; )
-References: <1413746147-7120-1-git-send-email-marex@denx.de>
-	<CAJTo0LaYpbN7VuyErJGj9e8mbY+uUZCGePgsMeMq=Eq+Op8aCQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LaYpbN7VuyErJGj9e8mbY+uUZCGePgsMeMq=Eq+Op8aCQ@mail.gmail.com>
+	Thu, 23 Oct 2014 00:32:55 +0000 (UTC)
+Received: by mail-yh0-f41.google.com with SMTP id i57so268530yha.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Oct 2014 17:32:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=5YMDlruyYjjJkvPr/JGrxCJBkJH/q09qTiQoD4r6tZE=;
+	b=Ttc2IFNP7tRGJ8IeXUulZMjtHy9kubGKI4iGhWAH8Fh0Ett9aDnKQYIs1Ox5VNxGiD
+	Ymp55oH/Ilcz17nTjgwJMCkWsvGQbci/vT2TbdVqCy3f4YVFN/nmkrkv2YBlAG7IUu53
+	JrRopQjX/cFcMWzEXSh2+56OmbM7oU1qrL2BKi9+DVYzkiqBn+eiK+X9S+AhmVlHMLII
+	di+cnEPno6IMF5MQGhKfmaRbOXFvTlzjPz/XduCd39KWfsZt9itySnwqbgEXBEv8uSkg
+	YTObkr1eT1puMqz4wW744YJ4lnYDXJ/0O6MTRWn5eMXKTr/deKK5LgIwVNEkfzkyUBZE
+	aPfg==
 MIME-Version: 1.0
-Message-Id: <201410230201.30797.marex@denx.de>
+X-Received: by 10.236.61.6 with SMTP id v6mr2331850yhc.44.1414024375687; Wed,
+	22 Oct 2014 17:32:55 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.172.8 with HTTP; Wed, 22 Oct 2014 17:32:55 -0700 (PDT)
+In-Reply-To: <201410222239.17111.marex@denx.de>
+References: <1413746147-7120-1-git-send-email-marex@denx.de>
+	<201410192313.41430.marex@denx.de>
+	<CAP9ODKqJKR6DUCYw5=+28hZr51OUf3di96g5GbzZDKMHHJwYQw@mail.gmail.com>
+	<201410222239.17111.marex@denx.de>
+Date: Wed, 22 Oct 2014 22:32:55 -0200
+X-Google-Sender-Auth: Is3lwYZLYbUG3JjwSnDFeeRPhXA
+Message-ID: <CAP9ODKrOOE5_+=18EyYWHn3WvwbzYBuUZvxKGOHomJHPrchUhw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Marek Vasut <marex@denx.de>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Koen Kooi <koen@dominion.thruhere.net>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/7] Add basic fitImage support
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] kernel: Clean up KERNEL_IMAGETYPE_FOR_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +49,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Oct 2014 00:01:45 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Oct 2014 00:32:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thursday, October 23, 2014 at 01:26:01 AM, Burton, Ross wrote:
-> On 19 October 2014 20:15, Marek Vasut <marex@denx.de> wrote:
-> > This series cleans up the code in kernel.bbclass and
-> > separates out the uImage generation. The last patch
-> > in this series then adds support for generation of the
-> > advanced successor of the uImage, the fitImage.
-> > 
-> > This series adds only very rudimentary support for
-> > generation of fitImage. The advanced features might
-> > be added in subsequent patches.
-> > 
-> > I would also like to thank Richard for explaining to
-> > me how to properly do the implementation and I hope
-> > this series is at least close to that.
-> 
-> For what it's worth I pulled these patches for initial testing and I got
-> 
-> build failures with the fsl-ppc kernel:
-> | "mkimage" command not found - U-Boot images will not be built
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc-lsb/buil
-> ds/77/steps/BuildImages/logs/stdio
-> 
-> These patches were not the only ones pulled into that branch, but they're
-> the only relevant change that I can see.  It looks like a native dependency
-> disappeared somewhere, can you have a look at this?
+On Wed, Oct 22, 2014 at 6:39 PM, Marek Vasut <marex@denx.de> wrote:
+> On Sunday, October 19, 2014 at 11:26:32 PM, Otavio Salvador wrote:
+>> On Sun, Oct 19, 2014 at 7:13 PM, Marek Vasut <marex@denx.de> wrote:
+>> > On Sunday, October 19, 2014 at 09:25:36 PM, Otavio Salvador wrote:
+>> >> On Sun, Oct 19, 2014 at 5:15 PM, Marek Vasut <marex@denx.de> wrote:
+>> >> > Remove the lambda function setting KERNEL_IMAGETYPE_FOR_MAKE and
+>> >> > instead set it in the anonymous python function. This also allows us
+>> >> > to handle image types which are not supported directly by kernel, but
+>> >> > require some other kernel target to be built. This is the case for
+>> >> > example with the fitImage, which is the uImage successor.
+>> >> >
+>> >> > There is no functional change.
+>> >>
+>> >> This is not really what the code shows; your regexp is more permissive
+>> >> than the previous lambda.
+>> >
+>> > Do you happen to have a suggestion how to improve the patch please ? I'm
+>> > not really a python guru so any help is welcome ...
+>>
+>> I like the code, just the commit log needs improvement as you did
+>> change the functionality here.
+>
+> So what do you suggest, just zap the following line from the commit message?
+> "
+> There is no functional change.
+> "
 
-Yes, thank you for spotting this. I will keep this in mind when submitting V2.
+Works for me :)
 
-I believe this is what Koen had in mind when he mentioned this patchset might 
-break the BSPs. He even proposed a solution, but I need to dig in it a bit
-more and properly understand and implement it.
 
-Best regards,
-Marek Vasut
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
