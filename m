@@ -1,24 +1,23 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6836665C98
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id BB9F160601
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Oct 2014 08:21:14 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9N8LDF0027638
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Oct 2014 01:21:14 -0700 (PDT)
-Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 23 Oct 2014 01:21:08 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Oct 2014 04:21:06 -0400
-Message-ID: <cover.1414052350.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Thu, 23 Oct 2014 09:26:49 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Oct 2014 02:26:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="404714038"
+Received: from ryanpete-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.99])
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Oct 2014 02:19:07 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Oct 2014 10:26:48 +0100
+Message-ID: <2087531.hSXfYzrYH7@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.2 (Linux/3.16.6-200.fc20.x86_64; KDE/4.14.2; x86_64; ; )
 MIME-Version: 1.0
-Subject: [PATCH 0/1 v2] lsof: fix LSOF_CCV in version.h
+Subject: [oe] it is possible that OE servers might be unavailable from 0700UTC till 1300UTC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +30,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Oct 2014 08:21:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 23 Oct 2014 09:26:53 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+Forwarding to OE-Core as well
 
-v2 changes:
-* pass LSOF_CC to configure
-* change the LSOF_CCV assignment to run LSOF_CC get the version of linux compiler.
+----------  Forwarded Message  ----------
 
-The following changes since commit 924da20c6f2f183fa7e930e4c3c6b14c090acbe5:
+Subject: [oe] it is possible that OE servers might be unavailable from 0700UTC 
+till 1300UTC
+Date: Wednesday 22 October 2014, 23:33:00
+From: Tom King <ka6sox@gmail.com>
+To: openembedded-devel@lists.openembedded.org
 
-  build-appliance-image: Update to dizzy head revision (2014-10-18 16:16:38 +0200)
+Due to emergency Network maintenance (bad fibre)
 
-are available in the git repository at:
+Our Hosting provider has warned us that we may experience an outage due to
+replacement of damaged fibre.
 
-  git://git.pokylinux.org/poky-contrib wenzong/lsof
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/lsof
+FYI
 
-Wenzong Fan (1):
-  lsof: fix LSOF_CCV in version.h
-
- .../files/Configure-fix-LSOF_CCV-assignment.patch  |   31 ++++++++++++++++++++
- meta/recipes-extended/lsof/lsof_4.87.bb            |    5 +++-
- 2 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
-
--- 
-1.7.9.5
+Tom
 
 
