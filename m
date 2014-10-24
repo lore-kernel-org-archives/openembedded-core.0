@@ -1,39 +1,37 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-yh0-f52.google.com (mail-yh0-f52.google.com
-	[209.85.213.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 565E365D72
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
+	[209.85.216.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F9416AC0D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 10:50:38 +0000 (UTC)
-Received: by mail-yh0-f52.google.com with SMTP id f10so260130yha.39
+	Fri, 24 Oct 2014 11:08:41 +0000 (UTC)
+Received: by mail-qa0-f43.google.com with SMTP id j7so734225qaq.30
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 03:50:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=Flnd+IWUl8PumxjtAqfgy+uRzShB1cnFvRgmU/9/H6o=;
-	b=ZDHb7bnpfRpug07gHPAu19JBSbgefsArhZIGBiGJ4BRPRe72P7jrrfqa7Nblo8Jc0t
-	ixs0rlIailI0CPLaGzSk4jhZ0M0CP7QCxdAQ8zmgsoOKTEGUCKqRzZkxG5EFjLgMUuRF
-	s1kHbw5yR+PMIuL4tWbgWI+VAgAgcj2856nUXBNl3nGhJdzB9+uSnA5R3MsOWbrLE1eJ
-	4Me0O9tYz5dKahF19pMCsip2g4IhiA1SlsuZCr1B9D0NdyRohrZ8a1yPyG7BszjngE5i
-	dP0vYLOZZ7z3TW8op0OOaSffDE2Z9OiMSxPN9YyyUPAd1da/mI/SUMJaj5vVmr+iC5qX
-	u9lQ==
-X-Received: by 10.170.189.216 with SMTP id g207mr5349167yke.45.1414147838168; 
-	Fri, 24 Oct 2014 03:50:38 -0700 (PDT)
+	Fri, 24 Oct 2014 04:08:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=l1NxSOecdUU9UDN1hkQlFBE76YaQW+UQqeaa8C2ly+Y=;
+	b=lJ1vl5xrCu1xhN24EdmHVJt6Ld8oL6F42dXxpfUJFJ/RzR2VgyZwgC9Vno4eaq9BLC
+	veOZaUgq41SQd0RjE8KMLlB3GVnFZhhtXlqhEbOixdzXvJxPFPb8FZBr8D7FMZb8nTmw
+	lvQeTkJpsW774YhfT+VOtpMt25FOIx3kqQhU+h8WV48fkA/oWdvpDQTUgxxWylbDYBol
+	tT6bJ8DQeueVXhtwmX+gmQ1pe69Xyb1EhCGz7Hmg3yJr/nC0IF1U0u2hfa1r1P3PrN5Z
+	v25rJxfcDbeS1pcVpo+debxo53evEQt0FpcRpZ9zmrpvAo3JHJj67DAWilqV21EzpAKA
+	Bkiw==
+X-Gm-Message-State: ALoCoQnUdmxjVB91Qy7uxYqjhjjt8F9Ws7y1SxQgaZAxNnwJmKb/MtNU92rSB7G/7nnUby3sVAe0
+X-Received: by 10.170.37.10 with SMTP id 10mr5523223ykf.99.1414148921804; Fri,
+	24 Oct 2014 04:08:41 -0700 (PDT)
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.140.142.78 with HTTP; Fri, 24 Oct 2014 03:49:57 -0700 (PDT)
-In-Reply-To: <CAJTo0LaPRdCw5EatHYZ0TKd1EQvy17XsfPZorC+qVocyquyUeA@mail.gmail.com>
-References: <543ef52e.0879c20a.1785.4076SMTPIN_ADDED_BROKEN@mx.google.com>
-	<CANyK_8cVJEBpBWG2Nes705+1mdmT3W86izEnqYreiaCTD5yBdA@mail.gmail.com>
-	<CAJTo0LaPRdCw5EatHYZ0TKd1EQvy17XsfPZorC+qVocyquyUeA@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Fri, 24 Oct 2014 11:49:57 +0100
-X-Google-Sender-Auth: 394alXKfB6fBPMRbWjqrfYAFvIw
-Message-ID: <CANyK_8dA9inDGDhDhb6TcZ-AbTHD5NbCJ-zB6e8m-H+TW2XFHw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Peter Urbanec <openembedded-devel@urbanec.net>,
-	OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3] opkg: Call prerm and postrm scripts on package upgrade.
+Received: by 10.140.93.65 with HTTP; Fri, 24 Oct 2014 04:08:20 -0700 (PDT)
+In-Reply-To: <a7d924a83ec81fcff71ba17281c892f1f3778495.1414131798.git.Chong.Lu@windriver.com>
+References: <cover.1414131798.git.Chong.Lu@windriver.com>
+	<a7d924a83ec81fcff71ba17281c892f1f3778495.1414131798.git.Chong.Lu@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 24 Oct 2014 12:08:20 +0100
+Message-ID: <CAJTo0LY_TALpKFyeFtV-wUOVHhkJxwLTy2VYTgUiGb56gXkEdQ@mail.gmail.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 1/1] kmod: fix debuginfo is missing in shared library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,37 +44,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Oct 2014 10:50:47 -0000
+X-List-Received-Date: Fri, 24 Oct 2014 11:08:44 -0000
+Content-Type: multipart/alternative; boundary=001a11378d5a24dd8c05062934b7
+
+--001a11378d5a24dd8c05062934b7
 Content-Type: text/plain; charset=UTF-8
 
-On 22 October 2014 23:54, Burton, Ross <ross.burton@intel.com> wrote:
+On 24 October 2014 07:25, Chong Lu <Chong.Lu@windriver.com> wrote:
+
+> +++ b/meta/recipes-kernel/kmod/kmod/run-ptest
+> @@ -1,3 +1,4 @@
+>  #!/bin/sh
+>  touch testsuite/stamp-rootfs
+> +tar xf testmodule.tar
+>  make -k runtest-TESTS 2>/dev/null| grep -e ^PASS -e ^FAIL
 >
-> On 21 October 2014 16:40, Paul Barker <paul@paulbarker.me.uk> wrote:
->>
->> Sorry Peter, it looks like this patch has been corrupted as well as
->> the one sent to the opkg-devel list. In this case I think it's mostly
->> lines like the above which have been incorrectly wrapped.
->>
->> Could you resend this using 'git send-email' if possible?
->
->
-> Alternatively (and preferably for large numbers of patches), push your
-> changes to a git repo somewhere.
->
-> Ross
 
-This patch can now be marked as a backport if it is resent.
+We should to make sure that the ptest scripts clean up after themselves, so
+can you change this to delete the modules after the test has ran?
 
-I'd probably say it shouldn't be applied in oe-core until after the
-1.7 branch now as it's so close to release and if any prerm/postrm
-scripts don't check for an "upgrade" argument they may end up doing
-the wrong thing.
+Ross
 
-Cheers,
+--001a11378d5a24dd8c05062934b7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Paul Barker
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 October 2014 07:25, Chong Lu <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+Chong.Lu@windriver.com" target=3D"_blank">Chong.Lu@windriver.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"overflow:hidden=
+">+++ b/meta/recipes-kernel/kmod/kmod/run-ptest<br>
+@@ -1,3 +1,4 @@<br>
+=C2=A0#!/bin/sh<br>
+=C2=A0touch testsuite/stamp-rootfs<br>
++tar xf testmodule.tar<br>
+=C2=A0make -k runtest-TESTS 2&gt;/dev/null| grep -e ^PASS -e ^FAIL</div></b=
+lockquote><div><br></div><div>We should to make sure that the ptest scripts=
+ clean up after themselves, so can you change this to delete the modules af=
+ter the test has ran?</div><div><br></div><div>Ross</div></div></div></div>
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
-
+--001a11378d5a24dd8c05062934b7--
