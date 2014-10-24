@@ -1,39 +1,30 @@
-Return-Path: <anders@chargestorm.se>
-X-Greylist: delayed 333 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 24 Oct 2014 07:07:53 UTC
-Received: from stoexhubfe01.domain01.net (STOEXHUBFE01.domain01.net
-	[83.145.59.140])
-	by mail.openembedded.org (Postfix) with ESMTP id 77E6C65E94
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BD41C6AC19
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 07:07:53 +0000 (UTC)
-Received: from ad.chargestorm.se (83.252.255.124) by stoexhubfe01.domain01.net
-	(10.12.10.6) with Microsoft SMTP Server (TLS) id 8.3.279.1;
-	Fri, 24 Oct 2014 09:02:18 +0200
-Date: Fri, 24 Oct 2014 09:01:47 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: Chong Lu <Chong.Lu@windriver.com>
-Message-ID: <20141024070147.GA16284@ad.chargestorm.se>
-Mail-Followup-To: Chong Lu <Chong.Lu@windriver.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1413960370.git.Chong.Lu@windriver.com>
-	<0ba9a1e61c64e450ed02ea699e01a5f5e292f98b.1413960370.git.Chong.Lu@windriver.com>
-	<73178E47-C311-4EA8-9B4C-6691A7E6B82A@dominion.thruhere.net>
-	<5449EEC4.4070303@windriver.com>
+	Fri, 24 Oct 2014 07:36:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9O7aMdr008485
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 24 Oct 2014 00:36:22 -0700 (PDT)
+Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Fri, 24 Oct 2014 00:36:21 -0700
+Message-ID: <544A01CD.8070704@windriver.com>
+Date: Fri, 24 Oct 2014 15:37:49 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-In-Reply-To: <5449EEC4.4070303@windriver.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-GFI-SMTP-Submission: 1
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3 1/1] gconf: fix multilib conflict - org.gnome.GConf.service
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <cover.1414121198.git.Qi.Chen@windriver.com>
+	<22cefd15362d8fdc8e8e06324412f606f5feca86.1414121198.git.Qi.Chen@windriver.com>
+	<E0AE8D91-A863-456F-9F59-BEBE56BCF062@dominion.thruhere.net>
+In-Reply-To: <E0AE8D91-A863-456F-9F59-BEBE56BCF062@dominion.thruhere.net>
+X-Originating-IP: [128.224.162.187]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] systemd: fix systemd-udev-hwdb-update service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,40 +37,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Oct 2014 07:07:54 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 24 Oct 2014 07:36:32 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* Chong Lu <Chong.Lu@windriver.com> [141024 08:17]:
-> On 10/24/2014 02:10 PM, Koen Kooi wrote:
-> >> Op 22 okt. 2014, om 09:09 heeft Chong Lu <Chong.Lu@windriver.com> het volgende geschreven:
+On 10/24/2014 02:09 PM, Koen Kooi wrote:
+>> Op 24 okt. 2014, om 07:58 heeft Chen Qi <Qi.Chen@windriver.com> het volgende geschreven:
+>>
+>> The new version of systemd has implemented the following feature.
+>> Opointer.de/blog/projects/stateless.html
+>>
+>> As a result, the systemd-udev-hwdb-update.service would always run
+>> at first boot. This will cause failure if the target device doesn't
+>> have enough storage space. Besides, as we run `udevadm hwdb --update' as
+>> a postinst of udev-hwdb at rootfs time, there's no need to run this
+>> again at system start-up.
+>>
+>> The purpose of this patch is as follows.
+>> If `udev hwdb --update' fails at rootfs time, systemd-udev-hwdb-update.service
+>> is executed at first boot; otherwise, the service is not executed.
+>>
+>> This patch achieves the above goal by setting CondistonNeedsUpdate to
+>> "/etc/udev" in the service file, and creating /etc/udev/.updated file if the
+>> postinst succeeds.
+> Ehm, /etc/udev can be created by other packages, why not test for the file you create?
+>
+> regards,
+>
+> Koen
+>
 
-> >> The gconfd-2 will be called in org.gnome.GConf.service file and the path of
-> >> gconfd-2 is ${libexecdir}, this will get following error when multilib exported
-> >> in the sdk:
-> >> error: file /usr/share/dbus-1/services/org.gnome.GConf.service from install
-> >> of gconf-3.2.6-r0.0.lib32_x86 conflicts with file from package
-> >> gconf-3.2.6-r0.0.x86_64
+Hi Koen,
 
-> >> Move org.gnome.GConf.service to ${libdir}, then the conflict was fixed.
-> > And I suspect its dbus service won't work anymore after moving the files. How have you tested this change?
+The tested path must be a directory. If we test a file, then condition 
+will always be true.
 
-> I just focus on the conflicts, not to test dbus service.
-> Or do you have any suggestion to fix this conflicts?
+Below are the related codes from systemd:
 
-Well, if you move a file to a new location, everyone assumes that you
-have verified that the file still will be found by the application that
-needs it. Basically, that's what Koen's question was about. Have you
-made any run-time tests, to verify that your patch doesn't break
-anything?
+<code_snippet>
 
-Besides, there was the other remark whether or not it makes sense to
-have multiple versions of gconf installed...
+static bool condition_test_needs_update(Condition *c) {
+         const char *p;
+         struct stat usr, other;
 
-Cheers,
-Anders
+         assert(c);
+         assert(c->parameter);
+         assert(c->type == CONDITION_NEEDS_UPDATE);
 
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+         /* If the file system is read-only we shouldn't suggest an 
+update */
+         if (path_is_read_only_fs(c->parameter) > 0)
+                 return c->negate;
+
+         /* Any other failure means we should allow the condition to be 
+true,
+          * so that we rather invoke too many update tools then too
+          * few. */
+
+         if (!path_is_absolute(c->parameter))
+                 return !c->negate;
+
+         p = strappenda(c->parameter, "/.updated");
+         if (lstat(p, &other) < 0)
+                 return !c->negate;
+
+         if (lstat("/usr/", &usr) < 0)
+                 return !c->negate;
+
+         return (usr.st_mtim.tv_sec > other.st_mtim.tv_sec ||
+                 (usr.st_mtim.tv_sec == other.st_mtim.tv_sec && 
+usr.st_mtim.tv_nsec > other.st_mtim.tv_nsec)) == !c->negate;
+}
+
+</code_snippet>
+
+This patch makes use of the '.updated' trick.
+
+Best Regards,
+Chen Qi
+
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>> meta/recipes-core/systemd/systemd_216.bb | 18 +++++++++++++++---
+>> 1 file changed, 15 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
+>> index ebf9395..cd81818 100644
+>> --- a/meta/recipes-core/systemd/systemd_216.bb
+>> +++ b/meta/recipes-core/systemd/systemd_216.bb
+>> @@ -149,6 +149,10 @@ do_install() {
+>>
+>> 	# Enable journal to forward message to syslog daemon
+>> 	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
+>> +
+>> +	# Make systemd-udev-hwdb-update to check /etc/udev
+>> +	cp ${D}${systemd_unitdir}/system/systemd-udev-hwdb-update.service ${D}${sysconfdir}/systemd/system
+>> +	sed -i -e 's#ConditionNeedsUpdate=/etc#ConditionNeedsUpdate=/etc/udev#g' ${D}${sysconfdir}/systemd/system/systemd-udev-hwdb-update.service
+>> }
+>>
+>> do_install_ptest () {
+>> @@ -355,10 +359,18 @@ ALTERNATIVE_PRIORITY[runlevel] ?= "300"
+>>
+>> pkg_postinst_udev-hwdb () {
+>> 	if test -n "$D"; then
+>> -		${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
+>> -			--root $D
+>> +		if ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
+>> +			--root $D; then
+>> +			touch $D/etc/udev/.updated
+>> +		else
+>> +			exit 1
+>> +		fi
+>> 	else
+>> -		udevadm hwdb --update
+>> +		if udevadm hwdb --update; then
+>> +			touch $D/etc/udev/.updated
+>> +		else
+>> +			exit 1
+>> +		fi
+>> 	fi
+>> }
+>>
+>> -- 
+>> 1.9.1
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>
+
 
