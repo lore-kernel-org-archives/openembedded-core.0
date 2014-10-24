@@ -1,38 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id A2F3365D40
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 188D465D3C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 11:44:18 +0000 (UTC)
-Received: by mail-qg0-f47.google.com with SMTP id i50so804864qgf.20
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 04:44:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=K+ZIpW/7YHCnM+/HsWChW9Bxun5L+qP09Hp9rW0tZnw=;
-	b=A/nCMU8gObgKugSPSXWthPKuK5TS7+sB6UtdLPMKfFa/2pTTM82vuInC9luoMeHVtY
-	eBljneT6GE9ndOp6yngx11+8TP1RFKHFeckuHPXwEOUchdjpIED84z/3WmM1CrUp92YT
-	vAmuXRcuObzE18NhpmSeTLyQNBSma18PoYYszskn+Jp61ppjF36i7D1ndCzcjmpLbYHb
-	ujb9tONtjo/hyQaJYXKSEiDjlP6+0I7HUN9YtEo6Krx0JZkM/+kX2cF1n3cM1iuLHHxJ
-	CdbvKgKlV1YywzsO+PEY5Y3gpvMwp+rDhk8XA6fSfKqkD0IslFIe14t40dOOyDowhUt5
-	QFzA==
-X-Gm-Message-State: ALoCoQm17FgdUcBPgM/93RO40/Ku+GQUqfa7lxJHP7vzPmvXKkn7UCWQKlceJH5gEvhX2aqxuyTV
-X-Received: by 10.170.150.197 with SMTP id r188mr6025166ykc.1.1414151059049;
-	Fri, 24 Oct 2014 04:44:19 -0700 (PDT)
+	Fri, 24 Oct 2014 11:54:45 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 24 Oct 2014 04:53:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,779,1406617200"; d="scan'208";a="624597941"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.104.113])
+	by orsmga002.jf.intel.com with ESMTP; 24 Oct 2014 04:54:44 -0700
+Date: Fri, 24 Oct 2014 14:54:43 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Pascal Bach <pascal.bach@siemens.com>
+Message-ID: <20141024115443.GA16788@lpalcu-linux>
+References: <1414136470-3075-1-git-send-email-pascal.bach@siemens.com>
 MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Fri, 24 Oct 2014 04:43:58 -0700 (PDT)
-In-Reply-To: <1414130736-1700-2-git-send-email-shan.hai@windriver.com>
-References: <1414130736-1700-1-git-send-email-shan.hai@windriver.com>
-	<1414130736-1700-2-git-send-email-shan.hai@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 24 Oct 2014 12:43:58 +0100
-Message-ID: <CAJTo0Lb=awdqetYPk+6uGjKusnA=JY_CR5G9iJSsD4SES+ipuA@mail.gmail.com>
-To: Shan Hai <shan.hai@windriver.com>
-Cc: par.olsson@windriver.com,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] ldconfig-native: fix a endian-ness bug
+In-Reply-To: <1414136470-3075-1-git-send-email-pascal.bach@siemens.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] image.py: Fix error in graph sorting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,75 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Oct 2014 11:44:24 -0000
-Content-Type: multipart/alternative; boundary=001a1139bd3e88efaa050629b37a
+X-List-Received-Date: Fri, 24 Oct 2014 11:54:47 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a1139bd3e88efaa050629b37a
-Content-Type: text/plain; charset=UTF-8
+On Fri, Oct 24, 2014 at 09:41:10AM +0200, Pascal Bach wrote:
+> The graph sorting algorithm for image dependencies does a look for an
+> occurrence of a searched string instead of comparing the chunk to the
+> searched string. This leads to the problem that ubifs is recognized as ubi aswell.
+> 
+> This fixes this by splitting up the string into chunks.
+> 
+> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+Reviewed-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 
-On 24 October 2014 07:05, Shan Hai <shan.hai@windriver.com> wrote:
+> ---
+>  meta/lib/oe/image.py |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
+> index c9b9033..5e07187 100644
+> --- a/meta/lib/oe/image.py
+> +++ b/meta/lib/oe/image.py
+> @@ -109,7 +109,7 @@ class ImageDepGraph(object):
+>          # remove added nodes from deps_array
+>          for item in group:
+>              for node in self.graph:
+> -                if item in self.graph[node]:
+> +                if item in self.graph[node].split():
+>                      self.deps_array[node][0] -= 1
+>  
+>              self.deps_array.pop(item, None)
+> -- 
+> 1.7.10.4
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-> Some header fields of ELF were read with wrong size on 64bit
-> big-endian machine, fix it by reading the fields with read64
-> instead of read32.
->
-
-For fixes like this which set of all sorts of alarm bells, please include
-more justification.
-
-From a quick look at the code my interpretation is that the values in the
-segment structure are 64-bit but they were being read using 32-bit
-accessors (read32).  On a little-endian 64-bit machine (x86-64, aarch64)
-when the values fit into a 32-bit value the right half was read and it
-still worked.  Then someone tried a 64-bit big-endian build host (I'm
-guessing is a ppc64 or mips64), and the values read are either 0 (if the
-size fits in a 32-bit type) or corrupted (if larger).
-
-Am I right?  Either way, the commit log needs to be clear - the message
-should *why* it does something, not *what* it does.
-
-Finally, do we really need to patch a fork?  We've got the full source
-alongside the recipe, let's just fix it.
-
-This also brings up the point that we really need to do something about
-ldconfig-native.  CC'ing Khem, would anyone be able to liaise with upstream
-and either update our fork or see if upstream would care about our need for
-ldconfig-native?
-
-Ross
-
---001a1139bd3e88efaa050629b37a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
-4 October 2014 07:05, Shan Hai <span dir=3D"ltr">&lt;<a href=3D"mailto:shan=
-.hai@windriver.com" target=3D"_blank">shan.hai@windriver.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":48k" class=3D"a3s" st=
-yle=3D"overflow:hidden">Some header fields of ELF were read with wrong size=
- on 64bit<br>
-big-endian machine, fix it by reading the fields with read64<br>
-instead of read32.</div></blockquote></div><br>For fixes like this which se=
-t of all sorts of alarm bells, please include more justification.</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">From a quick lo=
-ok at the code my interpretation is that the values in the segment structur=
-e are 64-bit but they were being read using 32-bit accessors (read32).=C2=
-=A0 On a little-endian 64-bit machine (x86-64, aarch64) when the values fit=
- into a 32-bit value the right half was read and it still worked.=C2=A0 The=
-n someone tried a 64-bit big-endian build host (I&#39;m guessing is a ppc64=
- or mips64), and the values read are either 0 (if the size fits in a 32-bit=
- type) or corrupted (if larger).</div><div class=3D"gmail_extra"><br></div>=
-<div class=3D"gmail_extra">Am I right?=C2=A0 Either way, the commit log nee=
-ds to be clear - the message should *why* it does something, not *what* it =
-does.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
-Finally, do we really need to patch a fork?=C2=A0 We&#39;ve got the full so=
-urce alongside the recipe, let&#39;s just fix it.</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">This also brings up the point t=
-hat we really need to do something about ldconfig-native.=C2=A0 CC&#39;ing =
-Khem, would anyone be able to liaise with upstream and either update our fo=
-rk or see if upstream would care about our need for ldconfig-native?</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div>
-
---001a1139bd3e88efaa050629b37a--
