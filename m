@@ -1,27 +1,27 @@
 Return-Path: <Chong.Lu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D7FDD6AC20
+	by mail.openembedded.org (Postfix) with ESMTP id 2D03165D3C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 06:28:50 +0000 (UTC)
+	Fri, 24 Oct 2014 06:30:39 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9O6SnZe011594
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9O6UT27012028
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 23 Oct 2014 23:28:49 -0700 (PDT)
+	Thu, 23 Oct 2014 23:30:29 -0700 (PDT)
 Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Thu, 23 Oct 2014 23:28:48 -0700
-Message-ID: <5449F19E.4020200@windriver.com>
-Date: Fri, 24 Oct 2014 14:28:46 +0800
+	Thu, 23 Oct 2014 23:30:29 -0700
+Message-ID: <5449F202.8030206@windriver.com>
+Date: Fri, 24 Oct 2014 14:30:26 +0800
 From: Chong Lu <Chong.Lu@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1413879309.git.Chong.Lu@windriver.com>
-	<6fe7bbee542ba42ae03304919b3c7abbe63bc8b4.1413879309.git.Chong.Lu@windriver.com>
+To: Tudor Florea <Tudor.Florea@enea.com>
+References: <cover.1413879309.git.Chong.Lu@windriver.com>	<6fe7bbee542ba42ae03304919b3c7abbe63bc8b4.1413879309.git.Chong.Lu@windriver.com>
 	<CAJTo0LYxF2JA+3uaZqrAWPnvNpZkfZRpDvnBg6qg-K04T5_CHg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYxF2JA+3uaZqrAWPnvNpZkfZRpDvnBg6qg-K04T5_CHg@mail.gmail.com>
+	<26724FB0BFCB3D4C91BDE184751AA3A428ACB19F@SESTOEX04.enea.se>
+In-Reply-To: <26724FB0BFCB3D4C91BDE184751AA3A428ACB19F@SESTOEX04.enea.se>
 X-Originating-IP: [128.224.162.204]
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] kmod: fix debuginfo is missing in shared library
@@ -37,20 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Oct 2014 06:28:51 -0000
+X-List-Received-Date: Fri, 24 Oct 2014 06:30:40 -0000
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
-On 10/23/2014 10:21 PM, Burton, Ross wrote:
+On 10/24/2014 01:02 AM, Tudor Florea wrote:
+>
+> Hi,
+>
+> *From:*openembedded-core-bounces@lists.openembedded.org 
+> [mailto:openembedded-core-bounces@lists.openembedded.org] *On Behalf 
+> Of *Burton, Ross
+> *Sent:* Thursday, October 23, 2014 17:21
+> *To:* Chong Lu
+> *Cc:* OE-core
+> *Subject:* Re: [OE-core] [PATCH 1/1] kmod: fix debuginfo is missing in 
+> shared library
 >
 > On 21 October 2014 09:16, Chong Lu <Chong.Lu@windriver.com 
 > <mailto:Chong.Lu@windriver.com>> wrote:
 >
->     -INHIBIT_PACKAGE_STRIP = "${@bb.utils.contains("DISTRO_FEATURES",
->     "ptest", "1", "0", d)}"
->     +INHIBIT_PACKAGE_STRIP_${PN}-ptest =
->     "${@bb.utils.contains("DISTRO_FEATURES", "ptest", "1", "0", d)}"
+>     -INHIBIT_PACKAGE_STRIP = "${@bb.utils.contains(
+>     <mailto:$%7b@bb.utils.contains%28>"DISTRO_FEATURES", "ptest", "1",
+>     "0", d)}"
+>     +INHIBIT_PACKAGE_STRIP_${PN}-ptest = "${@bb.utils.contains(
+>     <mailto:$%7b@bb.utils.contains%28>"DISTRO_FEATURES", "ptest", "1",
+>     "0", d)}"
 >
 >
 > Was this actually tested?
@@ -66,9 +79,25 @@ On 10/23/2014 10:21 PM, Burton, Ross wrote:
 > the resultant files into.  Maybe we need a strip blacklist?
 >
 > Ross
+>
+> *//*
+>
+> */One way to solve this is to pack the ptest “sample” files during 
+> install (in do_install_append) and unpack back when running ptest on 
+> target (in run-ptest). The downside of this is we add a dependency on 
+> tar./*
+>
+> */Please let me know if it is acceptable and I’ll come with a patch 
+> for this./*
+>
+> */Regards,/*
+>
+> */Tudor./*
+>
 
-Drop this one, I have send a v2.
+Thanks for your suggestion, I have sent a v2.
 
 Best Regards
 Chong
+
 
