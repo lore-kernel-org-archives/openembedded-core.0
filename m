@@ -1,26 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4853E65CED
+Return-Path: <jhovold@gmail.com>
+Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
+	[209.85.217.174])
+	by mail.openembedded.org (Postfix) with ESMTP id BFE5260671
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 15:24:12 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 24 Oct 2014 08:24:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,780,1406617200"; d="scan'208";a="624718574"
-Received: from nmcnulty-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.119])
-	by orsmga002.jf.intel.com with ESMTP; 24 Oct 2014 08:24:12 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Fri, 24 Oct 2014 16:24:11 +0100
-Message-ID: <1459290.OulfKNcXUt@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.2 (Linux/3.16.6-200.fc20.x86_64; KDE/4.14.2; x86_64; ; )
-In-Reply-To: <1414162585.30118.28.camel@ted>
-References: <1414162585.30118.28.camel@ted>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gnu-config: Deal with "make clean" breakage
+	Fri, 24 Oct 2014 15:42:56 +0000 (UTC)
+Received: by mail-lb0-f174.google.com with SMTP id p9so2836230lbv.33
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Oct 2014 08:42:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=xGmRriPj6SCEiI5Npto5VBxETh6673J8INC6Ou+5BMA=;
+	b=lyBoCXmSy8xej2F/8vZ7cYAxqsT+a24tYORBwV8/GNHV2W4amwXiYnLkbk3jO6lQCk
+	nuX8qdEhh1XWag4D79bRwCBWxfu2m3pJLQ1+FI/fEkkgyph7GqemiBv3FM645EdFe1/1
+	awUrMZSp4tTaSsQeSbRM19AjbW59bxsCZsGKPdD6/PsIsqkHCizkOBzmiX4qGi++GKYO
+	JKq2Af/DCot31fhGiq3ier5yJ/V0tFDKFjbf3yhkPzigzoGbQm9Dzk1iIaj8XwWlkQ3S
+	MHEbFry31ueWJA2EepQFsYKj3dF8k89q9IMtB6mM6JmOgXqgfPtzbSF0cPisvn3SWsLW
+	y0JA==
+X-Received: by 10.152.5.129 with SMTP id s1mr5405266las.59.1414165375550;
+	Fri, 24 Oct 2014 08:42:55 -0700 (PDT)
+Received: from xi.terra (s83-177-171-8.cust.tele2.se. [83.177.171.8])
+	by mx.google.com with ESMTPSA id x1sm1973639laa.20.2014.10.24.08.42.54
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 24 Oct 2014 08:42:54 -0700 (PDT)
+Sender: Johan Hovold <jhovold@gmail.com>
+Received: from johan by xi.terra with local (Exim 4.84)
+	(envelope-from <johan@xi.terra>)
+	id 1Xhgy2-0001lo-Ma; Fri, 24 Oct 2014 17:39:54 +0200
+From: Johan Hovold <johan@kernel.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Oct 2014 17:39:40 +0200
+Message-Id: <1414165180-6770-1-git-send-email-johan@kernel.org>
+X-Mailer: git-send-email 2.0.4
+Subject: [PATCH] udev: fix uevent-helper disable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Oct 2014 15:24:16 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 24 Oct 2014 15:43:06 -0000
 
-Hi Richard,
+Make sure that /proc/sys/kernel/hotplug exists before trying to disable
+the uevent-helper mechanism.
 
-On Friday 24 October 2014 15:56:25 Richard Purdie wrote:
-> gnu-config can't cope with a "make clean" so disable that
-> newly enabled functionality.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> 
-> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
-> b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb index
-> d67466a..910b612 100644
-> --- a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
-> +++ b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
-> @@ -17,6 +17,10 @@ SRC_URI =
-> "http://downloads.yoctoproject.org/releases/gnu-config/gnu-config-${PV
-> SRC_URI[md5sum] = "bcfca5a2bb39edad4aae5a65efc84094"
->  SRC_URI[sha256sum] =
-> "44f99a8e76f3e8e4fec0bb5ad4762f8e44366168554ce66cb85afbe2ed3efd8b"
-> 
-> +do_configure () {
-> +	:
-> +}
-> +
->  do_compile() {
-> 
->  }
-> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-> b/meta/recipes-devtools/gnu-config/gnu-config_git.bb index 00fa759..ee1621f
-> 100644
-> --- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-> +++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-> @@ -17,6 +17,10 @@ SRC_URI = "git://git.sv.gnu.org/config.git \
-> 
->  S = "${WORKDIR}/git"
-> 
-> +do_configure () {
-> +	:
-> +}
-> +
->  do_compile() {
-> 
->  }
+Since kernel commit 86d56134f1b6 ("kobject: Make support for
+uevent_helper optional.") the kernel can be built without uevent-helper
+support. In this case /proc/sys/kernel/hotplug does not exist and the
+current sysvinit script fails with
 
-Would it be worth adding some comments here to explain why these functions are 
-being nulled out?
+	/etc/rcS.d/S04udev: line 132: can't create /proc/sys/kernel/hotplug: nonexistent directory
 
-Cheers,
-Paul
+when trying to disable the uevent-helper mechanism during boot.
 
+Note that a single NULL-character has always been sufficient to disable.
+
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+
+Patch is against daisy-11.0.1 but should apply fine to master. All
+branches affected.
+
+Thanks,
+Johan
+
+
+ meta/recipes-core/udev/udev/init | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+index 410a650bd192..63e59d3950c9 100644
+--- a/meta/recipes-core/udev/udev/init
++++ b/meta/recipes-core/udev/udev/init
+@@ -97,7 +97,7 @@ case "$1" in
+     kill_udevd > "/dev/null" 2>&1
+ 
+     # trigger the sorted events
+-    echo -e '\000\000\000\000' > /proc/sys/kernel/hotplug
++    [ -e /proc/sys/kernel/hotplug ] && echo -e '\000' >/proc/sys/kernel/hotplug
+     @UDEVD@ -d
+ 
+     udevadm control --env=STARTUP=1
 -- 
+2.0.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
