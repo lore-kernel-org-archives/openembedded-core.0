@@ -1,30 +1,39 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D03165D3C
+Return-Path: <anders@chargestorm.se>
+X-Greylist: delayed 333 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 24 Oct 2014 07:07:53 UTC
+Received: from stoexhubfe01.domain01.net (STOEXHUBFE01.domain01.net
+	[83.145.59.140])
+	by mail.openembedded.org (Postfix) with ESMTP id 77E6C65E94
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 06:30:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9O6UT27012028
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 23 Oct 2014 23:30:29 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Thu, 23 Oct 2014 23:30:29 -0700
-Message-ID: <5449F202.8030206@windriver.com>
-Date: Fri, 24 Oct 2014 14:30:26 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Fri, 24 Oct 2014 07:07:53 +0000 (UTC)
+Received: from ad.chargestorm.se (83.252.255.124) by stoexhubfe01.domain01.net
+	(10.12.10.6) with Microsoft SMTP Server (TLS) id 8.3.279.1;
+	Fri, 24 Oct 2014 09:02:18 +0200
+Date: Fri, 24 Oct 2014 09:01:47 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Chong Lu <Chong.Lu@windriver.com>
+Message-ID: <20141024070147.GA16284@ad.chargestorm.se>
+Mail-Followup-To: Chong Lu <Chong.Lu@windriver.com>,
+	Koen Kooi <koen@dominion.thruhere.net>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1413960370.git.Chong.Lu@windriver.com>
+	<0ba9a1e61c64e450ed02ea699e01a5f5e292f98b.1413960370.git.Chong.Lu@windriver.com>
+	<73178E47-C311-4EA8-9B4C-6691A7E6B82A@dominion.thruhere.net>
+	<5449EEC4.4070303@windriver.com>
 MIME-Version: 1.0
-To: Tudor Florea <Tudor.Florea@enea.com>
-References: <cover.1413879309.git.Chong.Lu@windriver.com>	<6fe7bbee542ba42ae03304919b3c7abbe63bc8b4.1413879309.git.Chong.Lu@windriver.com>
-	<CAJTo0LYxF2JA+3uaZqrAWPnvNpZkfZRpDvnBg6qg-K04T5_CHg@mail.gmail.com>
-	<26724FB0BFCB3D4C91BDE184751AA3A428ACB19F@SESTOEX04.enea.se>
-In-Reply-To: <26724FB0BFCB3D4C91BDE184751AA3A428ACB19F@SESTOEX04.enea.se>
-X-Originating-IP: [128.224.162.204]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] kmod: fix debuginfo is missing in shared library
+In-Reply-To: <5449EEC4.4070303@windriver.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-GFI-SMTP-Submission: 1
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3 1/1] gconf: fix multilib conflict - org.gnome.GConf.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,67 +46,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Oct 2014 06:30:40 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 24 Oct 2014 07:07:54 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
+* Chong Lu <Chong.Lu@windriver.com> [141024 08:17]:
+> On 10/24/2014 02:10 PM, Koen Kooi wrote:
+> >> Op 22 okt. 2014, om 09:09 heeft Chong Lu <Chong.Lu@windriver.com> het volgende geschreven:
 
-On 10/24/2014 01:02 AM, Tudor Florea wrote:
->
-> Hi,
->
-> *From:*openembedded-core-bounces@lists.openembedded.org 
-> [mailto:openembedded-core-bounces@lists.openembedded.org] *On Behalf 
-> Of *Burton, Ross
-> *Sent:* Thursday, October 23, 2014 17:21
-> *To:* Chong Lu
-> *Cc:* OE-core
-> *Subject:* Re: [OE-core] [PATCH 1/1] kmod: fix debuginfo is missing in 
-> shared library
->
-> On 21 October 2014 09:16, Chong Lu <Chong.Lu@windriver.com 
-> <mailto:Chong.Lu@windriver.com>> wrote:
->
->     -INHIBIT_PACKAGE_STRIP = "${@bb.utils.contains(
->     <mailto:$%7b@bb.utils.contains%28>"DISTRO_FEATURES", "ptest", "1",
->     "0", d)}"
->     +INHIBIT_PACKAGE_STRIP_${PN}-ptest = "${@bb.utils.contains(
->     <mailto:$%7b@bb.utils.contains%28>"DISTRO_FEATURES", "ptest", "1",
->     "0", d)}"
->
->
-> Was this actually tested?
->
-> ERROR: runstrip: ''arm-poky-linux-gnueabi-strip' --strip-debug 
-> --remove-section=.comment --remove-section=.note --preserve-dates 
-> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/armv5te-poky-linux-gnueabi/kmod/18+gitAUTOINC+ae58de0fcb-r0/package/usr/lib/kmod/ptest/testsuite/rootfs/test-depmod/detect-loop/lib/modules/4.4.4/kernel/moduleA.ko'' 
-> strip command failed
->
-> INHIBIT_PACKAGE_STRIP isn't a per-package variable as stripping 
-> happens before the package-splitting.   Moving it to happen after 
-> splitting won't be trivial as you'd need to know what package to put 
-> the resultant files into.  Maybe we need a strip blacklist?
->
-> Ross
->
-> *//*
->
-> */One way to solve this is to pack the ptest “sample” files during 
-> install (in do_install_append) and unpack back when running ptest on 
-> target (in run-ptest). The downside of this is we add a dependency on 
-> tar./*
->
-> */Please let me know if it is acceptable and I’ll come with a patch 
-> for this./*
->
-> */Regards,/*
->
-> */Tudor./*
->
+> >> The gconfd-2 will be called in org.gnome.GConf.service file and the path of
+> >> gconfd-2 is ${libexecdir}, this will get following error when multilib exported
+> >> in the sdk:
+> >> error: file /usr/share/dbus-1/services/org.gnome.GConf.service from install
+> >> of gconf-3.2.6-r0.0.lib32_x86 conflicts with file from package
+> >> gconf-3.2.6-r0.0.x86_64
 
-Thanks for your suggestion, I have sent a v2.
+> >> Move org.gnome.GConf.service to ${libdir}, then the conflict was fixed.
+> > And I suspect its dbus service won't work anymore after moving the files. How have you tested this change?
 
-Best Regards
-Chong
+> I just focus on the conflicts, not to test dbus service.
+> Or do you have any suggestion to fix this conflicts?
 
+Well, if you move a file to a new location, everyone assumes that you
+have verified that the file still will be found by the application that
+needs it. Basically, that's what Koen's question was about. Have you
+made any run-time tests, to verify that your patch doesn't break
+anything?
+
+Besides, there was the other remark whether or not it makes sense to
+have multiple versions of gconf installed...
+
+Cheers,
+Anders
+
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
