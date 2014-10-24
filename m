@@ -1,38 +1,30 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 3322065C86
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9598F60671
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 14:47:09 +0000 (UTC)
-Received: from mail2.sbs.de (localhost [127.0.0.1])
-	by thoth.sbs.de (8.14.3/8.14.3) with ESMTP id s9OEl62b008949;
-	Fri, 24 Oct 2014 16:47:06 +0200
-Received: from DEFTHW99ERJMSX.ww902.siemens.net
-	(defthw99erjmsx.ww902.siemens.net [139.22.70.135])
-	by mail2.sbs.de (8.14.3/8.14.3) with ESMTP id s9OEl5kg018686
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 24 Oct 2014 16:47:05 +0200
-Received: from DEFTHW99ERTMSX.ww902.siemens.net (139.22.70.200) by
-	DEFTHW99ERJMSX.ww902.siemens.net (139.22.70.135) with Microsoft SMTP
-	Server (TLS) id 14.3.195.1; Fri, 24 Oct 2014 16:47:05 +0200
-Received: from DEFTHW99EH4MSX.ww902.siemens.net ([169.254.2.235]) by
-	DEFTHW99ERTMSX.ww902.siemens.net ([139.22.70.200]) with mapi id
-	14.03.0195.001; Fri, 24 Oct 2014 16:47:04 +0200
-From: "Bach, Pascal" <pascal.bach@siemens.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] cmake: Try and improve cleaning of builds
-	when	B==S
-Thread-Index: AQHP75WwT2e2D9zhw06cvplFAcKAiJw/U0Ag
-Date: Fri, 24 Oct 2014 14:47:04 +0000
-Message-ID: <355BE46A91031048906B695426A8D8E616AE6E06@DEFTHW99EH4MSX.ww902.siemens.net>
-References: <1414160428.30118.19.camel@ted>
-In-Reply-To: <1414160428.30118.19.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [139.22.70.29]
-MIME-Version: 1.0
-Subject: Re: [PATCH] cmake: Try and improve cleaning of builds when	B==S
+	Fri, 24 Oct 2014 14:56:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s9OEtrSM028926 for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Oct 2014 15:55:53 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hZ5YNGIXoQ5R
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Oct 2014 15:55:53 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s9OEtoWA028923
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Oct 2014 15:55:51 +0100
+Message-ID: <1414162585.30118.28.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 24 Oct 2014 15:56:25 +0100
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Subject: [PATCH] gnu-config: Deal with "make clean" breakage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,56 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Oct 2014 14:47:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 24 Oct 2014 14:56:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Just a note it should be sufficient to delete the CMakeCache.txt file to fo=
-rce CMake to reconfigure.
-But deleting the rest doesn't hurt.
+gnu-config can't cope with a "make clean" so disable that
+newly enabled functionality.
 
-Pascal
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Richard Purdie
-> Sent: Freitag, 24. Oktober 2014 16:20
-> To: openembedded-core
-> Subject: [OE-core] [PATCH] cmake: Try and improve cleaning of builds when
-> B=3D=3DS
->=20
-> Currently if B=3D=3DS for a cmake recipe, the build will not reconfigure.=
- This patch
-> adds
-> code to remove the generated cmake files, meaning cmake will then be
-> forced to regenerate
-> them. This forces cmake to see configuration changes it may not otherwise
-> see.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-> index 995ddf1..10f8f98 100644
-> --- a/meta/classes/cmake.bbclass
-> +++ b/meta/classes/cmake.bbclass
-> @@ -79,6 +79,8 @@ cmake_do_configure() {
->  		rm -rf ${B}
->  		mkdir -p ${B}
->  		cd ${B}
-> +	else
-> +		find ${B} -name CMakeFiles -or -name Makefile -or -name
-> cmake_install.cmake -or -name CMakeCache.txt -delete
->  	fi
->=20
->  	# Just like autotools cmake can use a site file to cache result that
-> need generated binaries to run
->=20
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
+index d67466a..910b612 100644
+--- a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
++++ b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
+@@ -17,6 +17,10 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/gnu-config/gnu-config-${PV
+ SRC_URI[md5sum] = "bcfca5a2bb39edad4aae5a65efc84094"
+ SRC_URI[sha256sum] = "44f99a8e76f3e8e4fec0bb5ad4762f8e44366168554ce66cb85afbe2ed3efd8b"
+ 
++do_configure () {
++	:
++}
++
+ do_compile() {
+ 	:
+ }
+diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+index 00fa759..ee1621f 100644
+--- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
++++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+@@ -17,6 +17,10 @@ SRC_URI = "git://git.sv.gnu.org/config.git \
+ 
+ S = "${WORKDIR}/git"
+ 
++do_configure () {
++	:
++}
++
+ do_compile() {
+ 	:
+ }
+
+
 
