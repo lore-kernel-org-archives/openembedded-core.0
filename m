@@ -1,30 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E0116AC46
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4853E65CED
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 14:56:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s9OEuJri028935 for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 15:56:19 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id EWQYxbQouban
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 15:56:19 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s9OEuEWw028931
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 15:56:15 +0100
-Message-ID: <1414162609.30118.29.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Oct 2014 15:56:49 +0100
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Subject: [PATCH] hicolor-icon-theme: Deal with "make clean" breakage
+	Fri, 24 Oct 2014 15:24:12 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 24 Oct 2014 08:24:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,780,1406617200"; d="scan'208";a="624718574"
+Received: from nmcnulty-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.121.119])
+	by orsmga002.jf.intel.com with ESMTP; 24 Oct 2014 08:24:12 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Fri, 24 Oct 2014 16:24:11 +0100
+Message-ID: <1459290.OulfKNcXUt@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.2 (Linux/3.16.6-200.fc20.x86_64; KDE/4.14.2; x86_64; ; )
+In-Reply-To: <1414162585.30118.28.camel@ted>
+References: <1414162585.30118.28.camel@ted>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gnu-config: Deal with "make clean" breakage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +33,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Oct 2014 14:56:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Oct 2014 15:24:16 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-hicolor-icon-theme can't cope with a "make clean" so disable that
-newly enabled functionality.
+Hi Richard,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Friday 24 October 2014 15:56:25 Richard Purdie wrote:
+> gnu-config can't cope with a "make clean" so disable that
+> newly enabled functionality.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
+> b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb index
+> d67466a..910b612 100644
+> --- a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
+> +++ b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
+> @@ -17,6 +17,10 @@ SRC_URI =
+> "http://downloads.yoctoproject.org/releases/gnu-config/gnu-config-${PV
+> SRC_URI[md5sum] = "bcfca5a2bb39edad4aae5a65efc84094"
+>  SRC_URI[sha256sum] =
+> "44f99a8e76f3e8e4fec0bb5ad4762f8e44366168554ce66cb85afbe2ed3efd8b"
+> 
+> +do_configure () {
+> +	:
+> +}
+> +
+>  do_compile() {
+> 
+>  }
+> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+> b/meta/recipes-devtools/gnu-config/gnu-config_git.bb index 00fa759..ee1621f
+> 100644
+> --- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+> +++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+> @@ -17,6 +17,10 @@ SRC_URI = "git://git.sv.gnu.org/config.git \
+> 
+>  S = "${WORKDIR}/git"
+> 
+> +do_configure () {
+> +	:
+> +}
+> +
+>  do_compile() {
+> 
+>  }
 
-diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.13.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.13.bb
-index 9df81cb..9f372c5 100644
---- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.13.bb
-+++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.13.bb
-@@ -18,6 +18,10 @@ SRC_URI[sha256sum] = "a38b038915480d1ddd4e3c421562560a14d42ace0449a5acc07c50f57f
- 
- FILES_${PN} += "${datadir}/icons"
- 
-+autotools_preconfigure () {
-+	:
-+}
-+
- do_install_append () {
- 	install -m 0644 ${WORKDIR}/index.theme ${D}/${datadir}/icons/hicolor
- }
+Would it be worth adding some comments here to explain why these functions are 
+being nulled out?
 
+Cheers,
+Paul
 
+-- 
 
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
