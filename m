@@ -1,38 +1,37 @@
-Return-Path: <markus.boos@kistler.com>
-X-Greylist: delayed 616 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 24 Oct 2014 09:47:34 UTC
-Received: from mx1.kistler.com (mx1.kistler.com [195.49.77.148])
-	by mail.openembedded.org (Postfix) with ESMTP id 316EB65D27
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
+	[209.85.216.42])
+	by mail.openembedded.org (Postfix) with ESMTP id A79CF60671
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 09:47:34 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.04,779,1406584800"; d="scan'208";a="12760308"
-Received: from unknown (HELO kihagsepp01.int.kistler.com) ([192.168.52.67])
-	by mx1.kistler.com with ESMTP/TLS/ADH-AES256-SHA;
-	24 Oct 2014 11:37:16 +0200
-Received: from mx2.kistler.com (unknown [192.168.52.58])
-	by kihagsepp01.int.kistler.com (Postfix) with ESMTPS
+	Fri, 24 Oct 2014 10:30:12 +0000 (UTC)
+Received: by mail-qa0-f42.google.com with SMTP id cs9so694285qab.29
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 11:37:14 +0200 (CEST)
-X-IronPort-AV: E=Sophos;i="5.04,779,1406584800"; 
-   d="scan'208";a="2084810"
-Received: from kihagwinex01.int.kistler.com ([192.168.100.23])
-	by mx2.kistler.com with ESMTP/TLS/AES128-SHA; 24 Oct 2014 11:37:14 +0200
-Received: from kihagwinex02.int.kistler.com ([fe80::10cf:df86:bb65:2502]) by
-	kihagwinex01.int.kistler.com ([fe80::d70:7df0:c903:4e43%16]) with mapi
-	id 14.03.0181.006; Fri, 24 Oct 2014 11:37:14 +0200
-From: Markus Boos <Markus.Boos@kistler.com>
-To: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Discussion about architecure of ptest-runner patch
-Thread-Index: Ac/vbDp/PFRk3LIhTGWd4Cah5c52dw==
-Date: Fri, 24 Oct 2014 09:37:14 +0000
-Message-ID: <345DD4F0215D4B4CB8356943BA192C9913CF0BD0@kihagwinex02.int.kistler.com>
-Accept-Language: de-CH, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.100.116]
+	Fri, 24 Oct 2014 03:30:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Pvib6DnunuXJB8fY9hH70nFlwWTon7UJ9PSZA4EfsfE=;
+	b=JAGTXqLQh2msCxrqeAd0dwGBGMoM+ZOHGI/GwujymydeAgLOFrYOooEq04QPGnDg34
+	M3tr4FPDueSydis9ZGyRyWCG+dJF90nb0n63cdx1PbAu0oJJbvJkQmIgYnIg6k4Y0/9+
+	uZnv8P2EAhlh944jBSj/AGT0e619Axe9z4emYTuCz6H5cKt5ruK54uN+gBYfQZ6Jl9Lm
+	3mA4bfv3gQ5hPhs4Ke+6EelymRxrN6lRXx+GuudLyhebalVgF8d3FeTAYzWZ1d99D61Z
+	6NNwT2EiI3DN6lvqG7IMkLyLC8c4hxMhdNG3B2szS3T+WIGSTECD3r8uuqneCx/AHKz+
+	iIYQ==
+X-Gm-Message-State: ALoCoQmDgsx6AHZy5jsalxlGHXEKNlGMwvP1Dz5dFqZD2AjnwWzj30PQ5eQJWxZ6SnvpZYGfd73X
+X-Received: by 10.170.134.196 with SMTP id a187mr5499013ykc.53.1414146613004; 
+	Fri, 24 Oct 2014 03:30:13 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Discussion about architecure of ptest-runner patch
+Received: by 10.140.93.65 with HTTP; Fri, 24 Oct 2014 03:29:52 -0700 (PDT)
+In-Reply-To: <20141024090416.GB2430@jama>
+References: <1412389675-13389-1-git-send-email-Martin.Jansa@gmail.com>
+	<20141004023040.GO25706@jama> <20141024090416.GB2430@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 24 Oct 2014 11:29:52 +0100
+Message-ID: <CAJTo0LauN8+Qc14WNkuOmQmhrF=2nXzfrM_O560E0gfqMgfLtQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [WIP][PATCH] systemd: don't move libgudev around, it breaks libgudev-1.0.la
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,40 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Oct 2014 09:47:35 -0000
-Content-Language: de-DE
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 24 Oct 2014 10:30:16 -0000
+Content-Type: multipart/alternative; boundary=001a113990da876072050628aac4
+
+--001a113990da876072050628aac4
+Content-Type: text/plain; charset=UTF-8
+
+On 24 October 2014 10:04, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> Should I resend without WIP tag now when ChenQi confirmed that moving
+> libgudev isn't needed?
+>
+
+No need, I've merged it into my staging branch already.
+
+Thanks,
+Ross
+
+--001a113990da876072050628aac4
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 October 2014 10:04, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":zf" class=3D"=
+a3s" style=3D"overflow:hidden">Should I resend without WIP tag now when Che=
+nQi confirmed that moving<br>
+libgudev isn&#39;t needed?</div></blockquote></div><br>No need, I&#39;ve me=
+rged it into my staging branch already.</div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">Thanks,</div><div class=3D"gmail_extra">R=
+oss</div></div>
 
-We patched the ptest-runner script to deliver a xUnit file as a rough overv=
-iew/indicator over the package tests.=20
-Having such a report allows us to use the file in Jenkins and in our ALM to=
-ol to display the results of the ptest run.
-
-Before we send the patch upstream I like to start the discussion about the =
-architecture of the patch because I think it's worth to extend the ptest-ru=
-nner to deliver the results in readable text format (xUnit, JSON, html tabl=
-e, csv,  whateverformat).
-I think of something similar like the automated deployment mechanism where =
-yocto delivers the base class and you can write your own extension with thi=
-s class.
-
-What is the best way to add such a feature?
-
-Simply extend the ptest-runner script with the preferred output formatter?
-
-Or
-
-Write a bitbake class with an interface where you can attach your own prefe=
-rred output formatter?=20
-
-I'm sure there are other solutions possible as well. If you have one in min=
-d, please share it.
-
-Thank you.
-
-Best regards
-Markus
-
+--001a113990da876072050628aac4--
