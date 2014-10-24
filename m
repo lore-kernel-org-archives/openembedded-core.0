@@ -1,35 +1,37 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 2307F60557
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 828D165D27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 16:22:00 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id lj1so1405369pab.18
+	Fri, 24 Oct 2014 16:22:01 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id lj1so1416593pab.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 09:22:01 -0700 (PDT)
+	Fri, 24 Oct 2014 09:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=yZ5YRmN3cPpitsHwHiJHK+gZnVMLm/e2RQnT0sI+Y4s=;
-	b=oQ9tIEve7iSDBxf7EdrZAjLgguEu6Y8lZqEMeXtcU0CuscpLxzev8vx+n97VpBjaq4
-	APLtFRhRVB9FEIXxjJAyK9bclMW6BN+iS5UQigioeogg4pdpw9tx22V0Tc49keTxuXYu
-	Dl7qqyZqYJxPacRNkHf3kfmh2EQJjIWoqi/4o1wa3p3QLIE7yfo9NW08M6ppDOs1Lyuj
-	6BuiuB6u58APxdJoeF1vp3audgkkcN2TICR3st/9D8q1phLk+jP6c3b0FlzHqDPcleJG
-	KMddfUJRObXNW9kl/dofyGDjV6hFGYnTXAux82fIehAiQ1HtZ7uzXLMILVa9Ynm7cAo+
-	mVYQ==
-X-Received: by 10.66.218.168 with SMTP id ph8mr5657441pac.51.1414167721017;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=DLlC/iGfosOHceKqKgHjoVVHyQvhVuiqfNmDZPoN3hU=;
+	b=qkYy0TcItKWJk1SeO4ivTBuLGaCtFKESRKj5fU5b/Jbz3HmUlVBtfHt28F4Rd8HPGc
+	r2JnYUO8yDjH07GHPaLFWsV5ZNnWtVMxzzIUIlMZXhcGco4tgV8xSNOiYKMh6fntMp/V
+	lW2c6OWNoFsUcXBUeRVVypwbb8DUgxzXYAevFZR//6fjO/otdj9xlMdeZxbNf5N7ytee
+	QNrUGPkG3EVsKCDZHit4Y6Ymag208QtlRX4tsh8NMxF0OceO1A1xkQYoxEOAgEVuLO59
+	hf9gUzBKdt0Jxrd9hJBPbMC4C435d4phwaOUOfddCKg2Kr/SaK3wNn7sdrYZkl+QcHoi
+	FSJw==
+X-Received: by 10.67.30.232 with SMTP id kh8mr2404155pad.149.1414167721908;
 	Fri, 24 Oct 2014 09:22:01 -0700 (PDT)
 Received: from haswell.localdomain (c-76-103-58-225.hsd1.ca.comcast.net.
 	[76.103.58.225])
-	by mx.google.com with ESMTPSA id r9sm4251379pdl.60.2014.10.24.09.22.00
+	by mx.google.com with ESMTPSA id r9sm4251379pdl.60.2014.10.24.09.22.01
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 24 Oct 2014 09:22:00 -0700 (PDT)
+	Fri, 24 Oct 2014 09:22:01 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Oct 2014 09:24:57 -0700
-Message-Id: <1414167898-9441-1-git-send-email-raj.khem@gmail.com>
+Date: Fri, 24 Oct 2014 09:24:58 -0700
+Message-Id: <1414167898-9441-2-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.2
-Subject: [PATCH 1/2] glibc: Delete ldconfig when USE_LDCONFIG is not set
+In-Reply-To: <1414167898-9441-1-git-send-email-raj.khem@gmail.com>
+References: <1414167898-9441-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH 2/2] mklibs: Fix loader for mipsel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +44,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Oct 2014 16:22:06 -0000
+X-List-Received-Date: Fri, 24 Oct 2014 16:22:07 -0000
 
-This avoids below QA error/warning
-/sbin/ldconfig [installed-vs-shipped]
+Additionally treat ld.so to be searched in sysroot
 
-Change-Id: I028b692eefeaa6e0e0e6507ab4108caa29e41e91
+Change-Id: I8b4acb821d9855a1163c7149bc8e369c7c438856
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/glibc/glibc-package.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/image-mklibs.bbclass                      |  2 +-
+ .../recipes-devtools/mklibs/files/sysrooted-ldso.patch | 18 ++++++++++++++++++
+ meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb   |  1 +
+ 3 files changed, 20 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/mklibs/files/sysrooted-ldso.patch
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 13209f5..6212e5b 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -92,8 +92,9 @@ do_install_append () {
- 	fi
+diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
+index 11f082b..c455a8e 100644
+--- a/meta/classes/image-mklibs.bbclass
++++ b/meta/classes/image-mklibs.bbclass
+@@ -16,7 +16,7 @@ mklibs_optimize_image_doit() {
+ 		> ${WORKDIR}/mklibs/executables.list
  
- 	if [ "${USE_LDCONFIG}" != "1" ]; then
--		# We won't ship this file (see FILES above) so let's not install it
-+		# We won't ship these files (see FILES above) so let's not install them
- 		rm -f ${D}${sysconfdir}/ld.so.conf
-+		rm -f ${D}${base_sbindir}/ldconfig
- 		# This directory will be empty now so remove it too.
- 		# But check whether it exists first, since it won't for glibc-initial.
- 		if [ -d ${D}${sysconfdir} ]; then
+ 	case ${TARGET_ARCH} in
+-		powerpc | mips | microblaze )
++		powerpc | mips | mipsel | microblaze )
+ 			dynamic_loader="${base_libdir}/ld.so.1"
+ 			;;
+ 		powerpc64)
+diff --git a/meta/recipes-devtools/mklibs/files/sysrooted-ldso.patch b/meta/recipes-devtools/mklibs/files/sysrooted-ldso.patch
+new file mode 100644
+index 0000000..75500a0
+--- /dev/null
++++ b/meta/recipes-devtools/mklibs/files/sysrooted-ldso.patch
+@@ -0,0 +1,18 @@
++In cross builds we will have to respect sysroot
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++
++Index: mklibs-0.1.39/src/mklibs
++===================================================================
++--- mklibs-0.1.39.orig/src/mklibs	2014-03-01 18:25:36.000000000 +0000
+++++ mklibs-0.1.39/src/mklibs	2014-10-19 00:51:46.813534596 +0000
++@@ -495,7 +495,7 @@
++     present_symbols = {}
++     checked_libs = small_libs
++     checked_libs.extend(available_libs)
++-    checked_libs.append(ldlib)
+++    checked_libs.append(sysroot + ldlib)
++     for lib in checked_libs:
++         for symbol in provided_symbols(lib):
++             debug(DEBUG_SPAM, "present_symbols adding %s" % symbol)
+diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb
+index ff8d500..9885561 100644
+--- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb
++++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.39.bb
+@@ -9,6 +9,7 @@ DEPENDS = "python-native dpkg-native"
+ SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.xz \
+ 	file://ac_init_fix.patch\
+ 	file://fix_STT_GNU_IFUNC.patch\
++	file://sysrooted-ldso.patch \
+ "
+ 
+ SRC_URI[md5sum] = "38a579a531401eb76f4bab4ccfb774a2"
 -- 
 1.9.1
 
