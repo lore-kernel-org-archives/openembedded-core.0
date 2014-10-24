@@ -1,26 +1,30 @@
 Return-Path: <Chong.Lu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CD22E65D3C
+	by mail.openembedded.org (Postfix) with ESMTP id D7FDD6AC20
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 06:28:04 +0000 (UTC)
+	Fri, 24 Oct 2014 06:28:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9O6S5DI011534
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Oct 2014 23:28:05 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 23 Oct 2014 23:28:05 -0700
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9O6SnZe011594
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 23 Oct 2014 23:28:49 -0700 (PDT)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Thu, 23 Oct 2014 23:28:48 -0700
+Message-ID: <5449F19E.4020200@windriver.com>
+Date: Fri, 24 Oct 2014 14:28:46 +0800
 From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Oct 2014 14:25:16 +0800
-Message-ID: <a7d924a83ec81fcff71ba17281c892f1f3778495.1414131798.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1414131798.git.Chong.Lu@windriver.com>
-References: <cover.1414131798.git.Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] kmod: fix debuginfo is missing in shared library
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1413879309.git.Chong.Lu@windriver.com>
+	<6fe7bbee542ba42ae03304919b3c7abbe63bc8b4.1413879309.git.Chong.Lu@windriver.com>
+	<CAJTo0LYxF2JA+3uaZqrAWPnvNpZkfZRpDvnBg6qg-K04T5_CHg@mail.gmail.com>
+In-Reply-To: <CAJTo0LYxF2JA+3uaZqrAWPnvNpZkfZRpDvnBg6qg-K04T5_CHg@mail.gmail.com>
+X-Originating-IP: [128.224.162.204]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] kmod: fix debuginfo is missing in shared library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,55 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Oct 2014 06:28:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 24 Oct 2014 06:28:51 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-INHIBIT_PACKAGE_STRIP variable will make debuginfo lose in shared library.
-Pack kernel modules in test cases to avoid strip command failed.
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-kernel/kmod/kmod/run-ptest | 1 +
- meta/recipes-kernel/kmod/kmod_git.bb    | 9 ++++++++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+On 10/23/2014 10:21 PM, Burton, Ross wrote:
+>
+> On 21 October 2014 09:16, Chong Lu <Chong.Lu@windriver.com 
+> <mailto:Chong.Lu@windriver.com>> wrote:
+>
+>     -INHIBIT_PACKAGE_STRIP = "${@bb.utils.contains("DISTRO_FEATURES",
+>     "ptest", "1", "0", d)}"
+>     +INHIBIT_PACKAGE_STRIP_${PN}-ptest =
+>     "${@bb.utils.contains("DISTRO_FEATURES", "ptest", "1", "0", d)}"
+>
+>
+> Was this actually tested?
+>
+> ERROR: runstrip: ''arm-poky-linux-gnueabi-strip' --strip-debug 
+> --remove-section=.comment --remove-section=.note --preserve-dates 
+> '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/armv5te-poky-linux-gnueabi/kmod/18+gitAUTOINC+ae58de0fcb-r0/package/usr/lib/kmod/ptest/testsuite/rootfs/test-depmod/detect-loop/lib/modules/4.4.4/kernel/moduleA.ko'' 
+> strip command failed
+>
+> INHIBIT_PACKAGE_STRIP isn't a per-package variable as stripping 
+> happens before the package-splitting.   Moving it to happen after 
+> splitting won't be trivial as you'd need to know what package to put 
+> the resultant files into.  Maybe we need a strip blacklist?
+>
+> Ross
 
-diff --git a/meta/recipes-kernel/kmod/kmod/run-ptest b/meta/recipes-kernel/kmod/kmod/run-ptest
-index 37adec3..4ed8715 100755
---- a/meta/recipes-kernel/kmod/kmod/run-ptest
-+++ b/meta/recipes-kernel/kmod/kmod/run-ptest
-@@ -1,3 +1,4 @@
- #!/bin/sh
- touch testsuite/stamp-rootfs
-+tar xf testmodule.tar
- make -k runtest-TESTS 2>/dev/null| grep -e ^PASS -e ^FAIL
-diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
-index d4c21a4..8a23ac4 100644
---- a/meta/recipes-kernel/kmod/kmod_git.bb
-+++ b/meta/recipes-kernel/kmod/kmod_git.bb
-@@ -34,6 +34,10 @@ do_install_append () {
-         # install depmod.d file for search/ dir
-         install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_libdir}/depmod.d/search.conf"
- 
-+        if ${@base_contains('DISTRO_FEATURES', 'ptest', 'true', 'false', d)}; then
-+                find testsuite -name \*.ko -exec tar rf testmodule.tar {} \;
-+                find testsuite -name \*.ko -exec rm -f {} \;
-+        fi
- }
- 
- do_compile_prepend() {
-@@ -44,7 +48,10 @@ do_compile_ptest () {
-         oe_runmake buildtest-TESTS rootfs
- }
- 
--INHIBIT_PACKAGE_STRIP = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", "1", "0", d)}"
-+do_install_ptest () {
-+        install testmodule.tar ${D}${PTEST_PATH}
-+}
-+
- INSANE_SKIP_${PN}-ptest = "arch"
- 
- inherit update-alternatives
--- 
-1.9.1
+Drop this one, I have send a v2.
 
+Best Regards
+Chong
 
