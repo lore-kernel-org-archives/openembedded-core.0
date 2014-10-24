@@ -1,37 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
-	[209.85.216.42])
-	by mail.openembedded.org (Postfix) with ESMTP id A79CF60671
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-yh0-f52.google.com (mail-yh0-f52.google.com
+	[209.85.213.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 565E365D72
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 10:30:12 +0000 (UTC)
-Received: by mail-qa0-f42.google.com with SMTP id cs9so694285qab.29
+	Fri, 24 Oct 2014 10:50:38 +0000 (UTC)
+Received: by mail-yh0-f52.google.com with SMTP id f10so260130yha.39
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Oct 2014 03:30:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Pvib6DnunuXJB8fY9hH70nFlwWTon7UJ9PSZA4EfsfE=;
-	b=JAGTXqLQh2msCxrqeAd0dwGBGMoM+ZOHGI/GwujymydeAgLOFrYOooEq04QPGnDg34
-	M3tr4FPDueSydis9ZGyRyWCG+dJF90nb0n63cdx1PbAu0oJJbvJkQmIgYnIg6k4Y0/9+
-	uZnv8P2EAhlh944jBSj/AGT0e619Axe9z4emYTuCz6H5cKt5ruK54uN+gBYfQZ6Jl9Lm
-	3mA4bfv3gQ5hPhs4Ke+6EelymRxrN6lRXx+GuudLyhebalVgF8d3FeTAYzWZ1d99D61Z
-	6NNwT2EiI3DN6lvqG7IMkLyLC8c4hxMhdNG3B2szS3T+WIGSTECD3r8uuqneCx/AHKz+
-	iIYQ==
-X-Gm-Message-State: ALoCoQmDgsx6AHZy5jsalxlGHXEKNlGMwvP1Dz5dFqZD2AjnwWzj30PQ5eQJWxZ6SnvpZYGfd73X
-X-Received: by 10.170.134.196 with SMTP id a187mr5499013ykc.53.1414146613004; 
-	Fri, 24 Oct 2014 03:30:13 -0700 (PDT)
+	Fri, 24 Oct 2014 03:50:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=Flnd+IWUl8PumxjtAqfgy+uRzShB1cnFvRgmU/9/H6o=;
+	b=ZDHb7bnpfRpug07gHPAu19JBSbgefsArhZIGBiGJ4BRPRe72P7jrrfqa7Nblo8Jc0t
+	ixs0rlIailI0CPLaGzSk4jhZ0M0CP7QCxdAQ8zmgsoOKTEGUCKqRzZkxG5EFjLgMUuRF
+	s1kHbw5yR+PMIuL4tWbgWI+VAgAgcj2856nUXBNl3nGhJdzB9+uSnA5R3MsOWbrLE1eJ
+	4Me0O9tYz5dKahF19pMCsip2g4IhiA1SlsuZCr1B9D0NdyRohrZ8a1yPyG7BszjngE5i
+	dP0vYLOZZ7z3TW8op0OOaSffDE2Z9OiMSxPN9YyyUPAd1da/mI/SUMJaj5vVmr+iC5qX
+	u9lQ==
+X-Received: by 10.170.189.216 with SMTP id g207mr5349167yke.45.1414147838168; 
+	Fri, 24 Oct 2014 03:50:38 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.93.65 with HTTP; Fri, 24 Oct 2014 03:29:52 -0700 (PDT)
-In-Reply-To: <20141024090416.GB2430@jama>
-References: <1412389675-13389-1-git-send-email-Martin.Jansa@gmail.com>
-	<20141004023040.GO25706@jama> <20141024090416.GB2430@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 24 Oct 2014 11:29:52 +0100
-Message-ID: <CAJTo0LauN8+Qc14WNkuOmQmhrF=2nXzfrM_O560E0gfqMgfLtQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [WIP][PATCH] systemd: don't move libgudev around, it breaks libgudev-1.0.la
+Sender: paul.betafive@gmail.com
+Received: by 10.140.142.78 with HTTP; Fri, 24 Oct 2014 03:49:57 -0700 (PDT)
+In-Reply-To: <CAJTo0LaPRdCw5EatHYZ0TKd1EQvy17XsfPZorC+qVocyquyUeA@mail.gmail.com>
+References: <543ef52e.0879c20a.1785.4076SMTPIN_ADDED_BROKEN@mx.google.com>
+	<CANyK_8cVJEBpBWG2Nes705+1mdmT3W86izEnqYreiaCTD5yBdA@mail.gmail.com>
+	<CAJTo0LaPRdCw5EatHYZ0TKd1EQvy17XsfPZorC+qVocyquyUeA@mail.gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Fri, 24 Oct 2014 11:49:57 +0100
+X-Google-Sender-Auth: 394alXKfB6fBPMRbWjqrfYAFvIw
+Message-ID: <CANyK_8dA9inDGDhDhb6TcZ-AbTHD5NbCJ-zB6e8m-H+TW2XFHw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Peter Urbanec <openembedded-devel@urbanec.net>,
+	OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3] opkg: Call prerm and postrm scripts on package upgrade.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,37 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Oct 2014 10:30:16 -0000
-Content-Type: multipart/alternative; boundary=001a113990da876072050628aac4
-
---001a113990da876072050628aac4
+X-List-Received-Date: Fri, 24 Oct 2014 10:50:47 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 24 October 2014 10:04, Martin Jansa <martin.jansa@gmail.com> wrote:
-
-> Should I resend without WIP tag now when ChenQi confirmed that moving
-> libgudev isn't needed?
+On 22 October 2014 23:54, Burton, Ross <ross.burton@intel.com> wrote:
 >
+> On 21 October 2014 16:40, Paul Barker <paul@paulbarker.me.uk> wrote:
+>>
+>> Sorry Peter, it looks like this patch has been corrupted as well as
+>> the one sent to the opkg-devel list. In this case I think it's mostly
+>> lines like the above which have been incorrectly wrapped.
+>>
+>> Could you resend this using 'git send-email' if possible?
+>
+>
+> Alternatively (and preferably for large numbers of patches), push your
+> changes to a git repo somewhere.
+>
+> Ross
 
-No need, I've merged it into my staging branch already.
+This patch can now be marked as a backport if it is resent.
 
-Thanks,
-Ross
+I'd probably say it shouldn't be applied in oe-core until after the
+1.7 branch now as it's so close to release and if any prerm/postrm
+scripts don't check for an "upgrade" argument they may end up doing
+the wrong thing.
 
---001a113990da876072050628aac4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 October 2014 10:04, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":zf" class=3D"=
-a3s" style=3D"overflow:hidden">Should I resend without WIP tag now when Che=
-nQi confirmed that moving<br>
-libgudev isn&#39;t needed?</div></blockquote></div><br>No need, I&#39;ve me=
-rged it into my staging branch already.</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">Thanks,</div><div class=3D"gmail_extra">R=
-oss</div></div>
+-- 
+Paul Barker
 
---001a113990da876072050628aac4--
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
+
