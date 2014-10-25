@@ -1,27 +1,42 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (unknown [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 2BDDD65C75
+Return-Path: <dev@codyps.com>
+Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id C2BDA65C98
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Oct 2014 00:57:01 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0158.001; Sat, 25 Oct 2014 02:56:55 +0200
-From: Tudor Florea <Tudor.Florea@enea.com>
-To: Markus Boos <Markus.Boos@kistler.com>,
-	"'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Discussion about architecure of ptest-runner patch
-Thread-Index: Ac/vbDp/PFRk3LIhTGWd4Cah5c52dwAezSPg
-Date: Sat, 25 Oct 2014 00:56:55 +0000
-Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A428ACB8AF@SESTOEX04.enea.se>
-References: <345DD4F0215D4B4CB8356943BA192C9913CF0BD0@kihagwinex02.int.kistler.com>
-In-Reply-To: <345DD4F0215D4B4CB8356943BA192C9913CF0BD0@kihagwinex02.int.kistler.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.1.188]
-MIME-Version: 1.0
-Subject: Re: Discussion about architecure of ptest-runner patch
+	Sat, 25 Oct 2014 16:10:47 +0000 (UTC)
+Received: by mail-qc0-f179.google.com with SMTP id o8so204883qcw.10
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 25 Oct 2014 09:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codyps.com; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=R5OyJgmPnm3+obEW+HH7kmNjnj5E1LrflfSuGFfLiBs=;
+	b=PSGRzemg58yybfkk4KBN4aBq15CEciVph+F5OfoYPYHl3vKk72EzAbbhB3z6INhLTE
+	Fm/KHiFjQdDgpNzDa1kSI0vDeGTBrHS43aTveahIK5wPX089kvjcgBk5c0Mz6N/00c69
+	gcO44ZPOEktm6sECkJq2mykWoOd5k1M3BY+Po=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=R5OyJgmPnm3+obEW+HH7kmNjnj5E1LrflfSuGFfLiBs=;
+	b=XgJeMIeSvhBeMpukYu2NqpBkUxlGFlRV9yzcpirWWqVNGIGNyv0J7A7QDVox1ryTOU
+	p/MhvPRbFZ8AG/rel0/7oF2VuKXUV5CHOog2ywvEn62LXfRp0z7GYEfeDFLUmw2VVDxW
+	6DwIUojopbYq4DhqrA0kfWeKJXx6oKVlVIeSuG+gNOd0jxvFHZZ00G4ylCKa7YCo+aQI
+	/u3dmCyfMeJJHqtETlOQfXTPzZPDnZTZt1CxN8rCdglSjd5RsgXrV78KOXfU9IiEfkNs
+	gzcqeRXkZ3xOFRJJckXHMqbUeNe4t0eILBvPXrvH3xVSUzFPbP1GOkpfGxbaqeq/NwJq
+	cyoA==
+X-Gm-Message-State: ALoCoQmKMSWB+6AoShwoBm+qgezwHHrcdQiEJJmWetStkfz/YZjPKPVnuViUbFNx2VDcUpc8C3BX
+X-Received: by 10.224.4.72 with SMTP id 8mr17130659qaq.4.1414253447993;
+	Sat, 25 Oct 2014 09:10:47 -0700 (PDT)
+Received: from localhost ([2601:6:6b00:f9::fd8])
+	by mx.google.com with ESMTPSA id u3sm6942045qat.27.2014.10.25.09.10.46
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 25 Oct 2014 09:10:46 -0700 (PDT)
+From: Cody P Schafer <dev@codyps.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 25 Oct 2014 12:10:43 -0400
+Message-Id: <1414253443-23679-1-git-send-email-dev@codyps.com>
+X-Mailer: git-send-email 2.0.4
+Subject: [PATCH] Avoid crashing if getgrnam() cannont find a group by the given name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,88 +49,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Oct 2014 00:57:06 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 25 Oct 2014 16:10:53 -0000
 
-Hi,
+Without this, we get (on systems without a 'mail' group):
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Markus Boos
-> Sent: Friday, October 24, 2014 12:37
-> To: 'openembedded-core@lists.openembedded.org'
-> Subject: [OE-core] Discussion about architecure of ptest-runner patch
->=20
-> Hi
->=20
-> We patched the ptest-runner script to deliver a xUnit file as a rough
-> overview/indicator over the package tests.
-> Having such a report allows us to use the file in Jenkins and in our ALM =
-tool to
-> display the results of the ptest run.
->=20
-> Before we send the patch upstream I like to start the discussion about th=
-e
-> architecture of the patch because I think it's worth to extend the ptest-
-> runner to deliver the results in readable text format (xUnit, JSON, html =
-table,
-> csv,  whateverformat).
-> I think of something similar like the automated deployment mechanism
-> where yocto delivers the base class and you can write your own extension
-> with this class.
+	ERROR: Error executing a python function in /home/x/g/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.16.bb:
 
-The concept of ptest is to run the tests using the minimum possible appropr=
-iate resource of a target to be tested.
-As per wiki page (https://wiki.yoctoproject.org/wiki/Ptest):
-"One major point of ptest is to consolidate the output format of all tests =
-into a single common format. The format selected is the automake "simple te=
-st" format
-result: testname"
-As per automake manual (http://www.gnu.org/software/automake/manual/automak=
-e.html#Simple-Tests).
-"The possible results (whose meanings should be clear from the previous Gen=
-eralities about Testing) are PASS, FAIL, SKIP, XFAIL, XPASS and ERROR"
-While I acknowledge that an automated mechanism to process and display the =
-test results would be a nice piece of work for an automated testing framewo=
-rk,  I don't think that this belongs to ptest (ptest-runner).
-The processing of the test results of an embedded tested device should not =
-be done by the embedded device itself (inside ptest-runner in particular) b=
-ut rather by the testing infrastructure (Jenkins? autobuild?) that eventual=
-ly spawn ptest-runner.
+	The stack trace of python calls that resulted in this exception/failure was:
+	File: 'fixup_perms', lineno: 231, function: <module>
+	     0227:                    each_file = os.path.join(root, f)
+	     0228:                    fix_perms(each_file, fs_perms_table[dir].fmode, fs_perms_table[dir].fuid, fs_perms_table[dir].fgid, dir)
+	     0229:
+	     0230:
+	 *** 0231:fixup_perms(d)
+	     0232:
+	File: 'fixup_perms', lineno: 173, function: fixup_perms
+	     0169:                if len(lsplit) != 8 and not (len(lsplit) == 3 and lsplit[1].lower() == "link"):
+	     0170:                    msg = "Fixup perms: %s invalid line: %s" % (conf, line)
+	     0171:                    package_qa_handle_error("perm-line", msg, d)
+	     0172:                    continue
+	 *** 0173:                entry = fs_perms_entry(d.expand(line))
+	     0174:                if entry and entry.path:
+	     0175:                    fs_perms_table[entry.path] = entry
+	     0176:            f.close()
+	     0177:
+	File: 'fixup_perms', lineno: 32, function: __init__
+	  File "fixup_perms", line 32, in __init__
 
-The next steps to improve ptest is to provide parallelism (that is to run p=
-arallel-tests for each feature tested and  to run ptest for many feature in=
- parallel). The work to be done to process the results (e.g. for a readable=
- text format)  should take into consideration this aspect.
+	File: 'fixup_perms', lineno: 44, function: _setdir
+	  File "fixup_perms", line 44, in _setdir
 
-Regards,
-  Tudor.
+	File: 'fixup_perms', lineno: 75, function: _procgid
+	  File "fixup_perms", line 75, in _procgid
 
->=20
-> What is the best way to add such a feature?
->=20
-> Simply extend the ptest-runner script with the preferred output formatter=
-?
->=20
-> Or
->=20
-> Write a bitbake class with an interface where you can attach your own
-> preferred output formatter?
->=20
-> I'm sure there are other solutions possible as well. If you have one in m=
-ind,
-> please share it.
->=20
-> Thank you.
->=20
-> Best regards
-> Markus
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+	Exception: KeyError: 'getgrnam(): name not found: mail'
+
+	ERROR: Function failed: fixup_perms
+	ERROR: Logfile of failure stored in: /home/x/obj/y/tmp/work/i586-poky-linux/linux-libc-headers/3.16-r0/temp/log.do_package.15841
+	ERROR: Task 400 (/home/x/g/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.16.bb, do_package) failed with exit code '1'
+
+Signed-off-by: Cody P Schafer <dev@codyps.com>
+---
+ meta/classes/package.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 2aec3e6..d7c970b 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -568,7 +568,10 @@ python fixup_perms () {
+             elif gid.isdigit():
+                 return int(gid)
+             else:
+-                return grp.getgrnam(gid).gr_gid
++                try:
++                    return grp.getgrnam(gid).gr_gid
++                except Exception:
++                   return -1
+ 
+         # Use for debugging the entries
+         def __str__(self):
+-- 
+2.0.4
+
 
