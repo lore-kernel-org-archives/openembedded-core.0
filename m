@@ -1,37 +1,36 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 73F7060097
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 01D0C65CAC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Oct 2014 15:11:02 +0000 (UTC)
-Received: by mail-wi0-f169.google.com with SMTP id q5so4251769wiv.2
+	Sun, 26 Oct 2014 19:36:33 +0000 (UTC)
+Received: by mail-lb0-f170.google.com with SMTP id u10so4753714lbd.15
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Oct 2014 08:11:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=xo0oNDyITfo2b5UiCzcGa52Mh3BPj3VizCbiRhbwQmM=;
-	b=XHdszJ8WkxnKEmZ8/eCpA53Z7e0laM9Tr/swvGg7XpVVBmJlsQEiqm1vqJyCp0RhHV
-	4dGi3GhjgY0/GnzO0daeeBn6h34VFW4oiiUwyWkzNbWof3k+e4oQIgwCEiYkTNqC+pQ4
-	26+BIIWHdA/khkENayXvvC4jf5VmM+EAZomDBFNtQdz3pCDYvyzgZ3dSJnyECMAXOEpL
-	hk2e7PUsnsSZ2sJScFe+pq+IR/dgZDQoY+aXlXLMZ0TeoZzOjzX45e4R1Ozs8YGrlmVU
-	j+PJ8/VYdsx1u7Wa32WbRe50j0VIc+w0o5NBk0EifYnYTZX+IBgdy3aprGGGKKy70kTn
-	9tRw==
-X-Gm-Message-State: ALoCoQma46L8z2KHtr0AV6691nyPUbwk6FpJdKcVl1I3AUjDjm35r9d4EvLAI8M3xzECfXj2hxcX
-X-Received: by 10.180.12.136 with SMTP id y8mr1500687wib.73.1414336262466;
-	Sun, 26 Oct 2014 08:11:02 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:beee:7bff:fe9e:ae56])
-	by mx.google.com with ESMTPSA id dw9sm8625933wib.0.2014.10.26.08.11.01
+	Sun, 26 Oct 2014 12:36:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=7Kvbypy4m39rsnSqxbuwzItddKI7G9XUMT7LxkjfZrA=;
+	b=V4Vi9FO1QDw9oFB952kzZ8TuzadGw5i2Jv27TWIXTiTP18xHlXTqv8c6XVk+rzoOwb
+	AUIfoU1/b5p5Qxeb+MWyidAJidgD7etji1A4QII6bj87ArqcgSyd+/N9td0CmxEqpxT4
+	rJ4pH5ikP5NuZYKgNBQpsuB48dUkW76xp6z/1cvFJ5AgUgfvkIGfKRrWO8wqZfGQjen/
+	DYEdXJZ2XB8fWakIlr+sQdTSZDFCAonzlUqDyYjoG9cpIu769dWeu0B/HxtvmUEot10s
+	ak9TNkUt2hDOywK/T3MqfstZ31i9AgfyDg+rAv+nT+NwzsxY6TnLDBvKnGJoJUcUmBFs
+	2KpQ==
+X-Received: by 10.152.120.133 with SMTP id lc5mr18820941lab.62.1414352192925; 
+	Sun, 26 Oct 2014 12:36:32 -0700 (PDT)
+Received: from loki.localdomain (ygg.betafive.co.uk. [5.9.90.21])
+	by mx.google.com with ESMTPSA id xs6sm4198917lbb.13.2014.10.26.12.36.31
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sun, 26 Oct 2014 08:11:01 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 26 Oct 2014 12:36:32 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 26 Oct 2014 16:10:54 +0100
-Message-Id: <1414336254-22707-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.9.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] base bbclass: add support for tar.lz
+Date: Sun, 26 Oct 2014 19:36:22 +0000
+Message-Id: <1414352182-30029-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 2.1.2
+Cc: Chris Carr <chris.carr@ge.com>
+Subject: [PATCH] package_manager: Fix BAD_RECOMMENDATIONS for opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Oct 2014 15:11:05 -0000
+X-List-Received-Date: Sun, 26 Oct 2014 19:36:38 -0000
 
-Some GNU packages (e.g. ddrescue) switched to lzip only, so add support for it.
+In package_manager.py, when using opkg as the packager, the command 'opkg <args>
+info <pkg>' is called to get information about each pkg in BAD_RECOMMENDATIONS
+in a format that can be written to the status file. The 'Status: ...' line is
+modified and all other lines are passed through. Changing the verbosity level
+argument for this command will change what it written into the status file.
+Crucially, with the default verbosity level, no blank lines are being printed by
+the opkg command and so no blank lines are being written to the status file to
+separate each package entry.
 
-Needs matching bitbake patch to work properly:
-http://lists.openembedded.org/pipermail/bitbake-devel/2014-October/005093.html
+The package parsing code in opkg expects package entries in the status file to
+be separated by at least one blank line. If no blank line is seen, the next
+package entry is interpreted as a continuation of the last package entry, but
+the new values overwrite the old values.
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+So with the default verbosity level, a blank line follows some package entries
+and these are parsed. The others are dropped due to the lack of blank lines. As
+the verbosity increases, more debugging messages add blank lines and more
+packages are parsed.
+
+The solution to ensure that this works correctly regardless of the verbosity
+level is simply add a blank line after the output of 'opkg info' is written to
+the status file, ensuring that the next package is separated from the current
+package.
+
+[YOCTO #6816]
+
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+Cc: Chris Carr <chris.carr@ge.com>
 ---
- meta/classes/base.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/lib/oe/package_manager.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index ff8c633..128297a 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -478,6 +478,11 @@ python () {
-     elif "osc://" in srcuri:
-         d.appendVarFlag('do_fetch', 'depends', ' osc-native:do_populate_sysroot')
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index ffb83b2..85d7fd4 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -1408,6 +1408,10 @@ class OpkgPM(PackageManager):
+                     else:
+                         status.write(line + "\n")
  
-+    # *.lz should depends on lzip-native for unpacking
-+    # Not endswith because of "*.patch.lz;patch=1". Need bb.fetch.decodeurl in future
-+    if '.lz' in srcuri:
-+        d.appendVarFlag('do_unpack', 'depends', ' lzip-native:do_populate_sysroot')
++                # Append a blank line after each package entry to ensure that it
++                # is separated from the following entry
++                status.write("\n")
 +
-     # *.lz4 should depends on lz4-native for unpacking
-     # Not endswith because of "*.patch.lz4;patch=1". Need bb.fetch.decodeurl in future
-     if '.lz4' in srcuri:
+     '''
+     The following function dummy installs pkgs and returns the log of output.
+     '''
 -- 
-1.9.0
+2.1.2
 
 
