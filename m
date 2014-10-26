@@ -1,26 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F9FD601F5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 54932601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Oct 2014 12:02:14 +0000 (UTC)
+	Sun, 26 Oct 2014 12:02:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9QC2E6C002811
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9QC2C16001268
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Oct 2014 05:02:14 -0700 (PDT)
+	Sun, 26 Oct 2014 05:02:13 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 26 Oct 2014 05:02:13 -0700
+	14.3.174.1; Sun, 26 Oct 2014 05:02:11 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 26 Oct 2014 20:03:44 +0800
-Message-ID: <6913fd42a535242ef1d43674a3eac75632b9a89c.1414324946.git.Qi.Chen@windriver.com>
+Date: Sun, 26 Oct 2014 20:03:43 +0800
+Message-ID: <cover.1414324946.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1414324946.git.Qi.Chen@windriver.com>
-References: <cover.1414324946.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] bind: fix to use correct environment file in service file
+Subject: [PATCH 0/1] bind: fix to use correct environment file in service file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Oct 2014 12:02:15 -0000
+X-List-Received-Date: Sun, 26 Oct 2014 12:02:16 -0000
 Content-Type: text/plain
 
-Use /etc/default/bind9 as the environment file in named.service.
+The following changes since commit 4143f3b0ce0d0c52f5b0babc1bb16ac0ac9610eb:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
+  nativesdk-cmake: Adjust toolchain paths dynamically (2014-10-24 21:59:34 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-bind9
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-bind9
+
+Chen Qi (1):
+  bind: fix to use correct environment file in service file
+
  meta/recipes-connectivity/bind/bind/named.service | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bind/bind/named.service b/meta/recipes-connectivity/bind/bind/named.service
-index 1792e41..cda56ef 100644
---- a/meta/recipes-connectivity/bind/bind/named.service
-+++ b/meta/recipes-connectivity/bind/bind/named.service
-@@ -6,7 +6,7 @@ After=network.target
- 
- [Service]
- Type=forking
--EnvironmentFile=-/etc/sysconfig/named
-+EnvironmentFile=-/etc/default/bind9
- PIDFile=/run/named/named.pid
- 
- ExecStartPre=@SBINDIR@/generate-rndc-key.sh
 -- 
 1.9.1
 
