@@ -1,39 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 11C3971E7D
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id B057D7192B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 12:52:42 +0000 (UTC)
-Received: by mail-qc0-f175.google.com with SMTP id b13so3969649qcw.20
+	Mon, 27 Oct 2014 13:06:57 +0000 (UTC)
+Received: by mail-wi0-f178.google.com with SMTP id q5so6360537wiv.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 05:52:42 -0700 (PDT)
+	Mon, 27 Oct 2014 06:06:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=mn/50tp9zmvpucPFyvSX12Tw43eSMV6VDORtwiCrGws=;
-	b=mw7ievIzoP/Ucb+msHXlnyFGGgr6BABnSRxu+C5okta7tHP4yhIbslRXiAs6VzPBpk
-	ON4nRcnN8e/JfsWIt9CrGJN+RLJeAVKdRkFRIyMlXlkBsouUS3jk4q++Mq/ZVgGLgslM
-	PyKBXp6qw8iEJgzK7z9CwwsWz77+Y2zliod8+Cb3aw2NmAFu/2M1mw3XLKmkHMc7YfdJ
-	RRXdqqkUNIl4sCzIA1sGk9lvcLQEowPH9txPd9WVUILZhEb1KMH3kkXbZNKcd4WGjkxi
-	KET6WVXJr5BPvcxV4hBnvB41PWVuLBSCpfOV9Q3QKHFeDlffAwCTjvz0SBQMnDA+yJdo
-	Hj7Q==
-X-Gm-Message-State: ALoCoQkIyNBvE0rsqjOoS2TNZe1PSgG5XtQ3TWkq5UjfYxrjyywfECOZdeskSQ1NzAS1fc656C0m
-X-Received: by 10.224.160.83 with SMTP id m19mr14295981qax.17.1414414362697;
-	Mon, 27 Oct 2014 05:52:42 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.92.179 with HTTP; Mon, 27 Oct 2014 05:52:22 -0700 (PDT)
-In-Reply-To: <544DA413.1000704@windriver.com>
-References: <cover.1414142394.git.Chong.Lu@windriver.com>
-	<764d0d5ee52d46b0b33d577675d8fecc3e99800f.1414142394.git.Chong.Lu@windriver.com>
-	<CAJTo0LY-oHnKxUrtGUyhA=jPoK5Dcjs==7+YyVTV=6M5Jufesw@mail.gmail.com>
-	<544DA413.1000704@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 27 Oct 2014 12:52:22 +0000
-Message-ID: <CAJTo0LbawpWU+=3m7CNF8mdxLPwD-Q82YuhVesvsx_=_j1NM=Q@mail.gmail.com>
-To: Chong Lu <Chong.Lu@windriver.com>
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=pLvbEVLpgEUFp9OLacga978z2A3aMZnmKJfuGXQ+sbo=;
+	b=foS88vEl6vhsbLs6FKL2azpTZKsTONWoFRawAgduLT30TeAHMD9vg6m4DuNVq5ABm0
+	zYmHaq/jCOfvEI6J9L5PgtmlX5qGsQkHgFCFeICTqmGYetVobefmw9paZ+fyh/Sm4RFt
+	nKwijClokbJZWLhYOTDgOjB06ljhIo7nwIELJ0DjGObB5Qwk0NFj3VJO3Mx8TNAzFqfd
+	OJKE9jjAdJxVW7DX7R+G1G2LZSHltto2OueLMZeoSZQ3dCi4yG3FhqMM0QwyKcD8OByM
+	KMbSuN7tCrT1FIpxUIcWWHIao5XUP3Pf3LRHoi9KVguv4U9W/WPukWIogWy8F6yXle5h
+	vatw==
+X-Gm-Message-State: ALoCoQkpcjzmgKCae1NtqQsBWOVxW1cE05cydcNU5/iVeI220wW4Z3Nilt25FVbls3Ai9yAvBLN2
+X-Received: by 10.180.75.179 with SMTP id d19mr21054509wiw.21.1414415217876;
+	Mon, 27 Oct 2014 06:06:57 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::ed65:2b5a:edaf:eaf8?
+	([2001:610:612:0:ed65:2b5a:edaf:eaf8])
+	by mx.google.com with ESMTPSA id p2sm11845026wiy.1.2014.10.27.06.06.56
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 27 Oct 2014 06:06:57 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0Lam=wC-MBny66h-jC0ieb9tp9nTJUWEQ+KXvLDEqbk23Q@mail.gmail.com>
+Date: Mon, 27 Oct 2014 14:06:55 +0100
+Message-Id: <473E6E55-239E-4EC8-813C-8494BEF78CED@dominion.thruhere.net>
+References: <1414336254-22707-1-git-send-email-koen@dominion.thruhere.net>
+	<CAJTo0LagpRtefUvm_rrOcEyj6hTZRkySk9fVzcYGm+UFFYe_rQ@mail.gmail.com>
+	<18631FB3-E9CA-4DD0-BF5A-DB114D3B7422@dominion.thruhere.net>
+	<CAJTo0Lam=wC-MBny66h-jC0ieb9tp9nTJUWEQ+KXvLDEqbk23Q@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1990.1)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] curl: Security Advisory - curl - CVE-2014-3613
+Subject: Re: [PATCH] base bbclass: add support for tar.lz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,35 +52,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Oct 2014 12:52:51 -0000
-Content-Type: multipart/alternative; boundary=047d7bacb2aaa7bda405066701cd
-
---047d7bacb2aaa7bda405066701cd
-Content-Type: text/plain; charset=UTF-8
-
-On 27 October 2014 01:46, Chong Lu <Chong.Lu@windriver.com> wrote:
-
-> This patch includes windows characters.
->
-
-Ha, "thanks" git/email/etc.  Merged from the branch, thanks.
-
-Cheers,
-Ross
-
---047d7bacb2aaa7bda405066701cd
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Mon, 27 Oct 2014 13:07:02 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 October 2014 01:46, Chong Lu <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-Chong.Lu@windriver.com" target=3D"_blank">Chong.Lu@windriver.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":15u" class=3D"a3s=
-" style=3D"overflow:hidden">This patch includes windows characters.<span cl=
-ass=3D""><br></span></div></blockquote></div><br>Ha, &quot;thanks&quot; git=
-/email/etc.=C2=A0 Merged from the branch, thanks.=C2=A0</div><div class=3D"=
-gmail_extra"><br></div><div class=3D"gmail_extra">Cheers,</div><div class=
-=3D"gmail_extra">Ross</div></div>
 
---047d7bacb2aaa7bda405066701cd--
+> Op 27 okt. 2014, om 12:54 heeft Burton, Ross <ross.burton@intel.com> =
+het volgende geschreven:
+>=20
+>=20
+> On 27 October 2014 11:39, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+> > SRC_URI =3D "http://www.lzop.org/download/${BP}.tar.gz \
+>=20
+> Not quite, 'lzop' is not the same as 'lzip',the problem is this:
+>=20
+> The problem is that the lzop SRC_URI contains the string ".lz", so it =
+incorrectly gains a lzip-native dependency.
+
+
+Ah, two different problems :/=
+
