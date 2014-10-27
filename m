@@ -1,43 +1,38 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id B057D7192B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id D5DEB71E91
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 13:06:57 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id q5so6360537wiv.11
+	Mon, 27 Oct 2014 13:16:09 +0000 (UTC)
+Received: by mail-qg0-f46.google.com with SMTP id z60so3856295qgd.33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 06:06:57 -0700 (PDT)
+	Mon, 27 Oct 2014 06:16:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=pLvbEVLpgEUFp9OLacga978z2A3aMZnmKJfuGXQ+sbo=;
-	b=foS88vEl6vhsbLs6FKL2azpTZKsTONWoFRawAgduLT30TeAHMD9vg6m4DuNVq5ABm0
-	zYmHaq/jCOfvEI6J9L5PgtmlX5qGsQkHgFCFeICTqmGYetVobefmw9paZ+fyh/Sm4RFt
-	nKwijClokbJZWLhYOTDgOjB06ljhIo7nwIELJ0DjGObB5Qwk0NFj3VJO3Mx8TNAzFqfd
-	OJKE9jjAdJxVW7DX7R+G1G2LZSHltto2OueLMZeoSZQ3dCi4yG3FhqMM0QwyKcD8OByM
-	KMbSuN7tCrT1FIpxUIcWWHIao5XUP3Pf3LRHoi9KVguv4U9W/WPukWIogWy8F6yXle5h
-	vatw==
-X-Gm-Message-State: ALoCoQkpcjzmgKCae1NtqQsBWOVxW1cE05cydcNU5/iVeI220wW4Z3Nilt25FVbls3Ai9yAvBLN2
-X-Received: by 10.180.75.179 with SMTP id d19mr21054509wiw.21.1414415217876;
-	Mon, 27 Oct 2014 06:06:57 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::ed65:2b5a:edaf:eaf8?
-	([2001:610:612:0:ed65:2b5a:edaf:eaf8])
-	by mx.google.com with ESMTPSA id p2sm11845026wiy.1.2014.10.27.06.06.56
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 27 Oct 2014 06:06:57 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0Lam=wC-MBny66h-jC0ieb9tp9nTJUWEQ+KXvLDEqbk23Q@mail.gmail.com>
-Date: Mon, 27 Oct 2014 14:06:55 +0100
-Message-Id: <473E6E55-239E-4EC8-813C-8494BEF78CED@dominion.thruhere.net>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=nffbS83hEOFokzzzpg7gVnfAMbynETCjpShSLhXdUiA=;
+	b=kxBPF+v10JGpcDZtD3/JzuiUoVESyPTcKOMJ0HVYLxv11yJJ3F+N8BzP2DOwmgzwpL
+	LjmNeWEIWiUCqCNkLZ8BFe/h9jc3Kp79FS5nCfyaQ7XmTqt5Jafs3OrcHjsG4RcTDKoC
+	0fYPWLDoypNj3GB/7XkP5JThaNUZosaQWjrolit3tQumNSSxVSjnBtc2X59ZeFJixZGk
+	wrS+tfy96xwgoprzQi5W16KCg6Jes/4XN/+xvQVlNCFRPXjYHWZOKLfbNjWOWE1MtKH3
+	XHysAxRZ/7p7c2gR+RORl2PKUI3p9UReQe+kNjsvH74ucmScLYnkCgm+DkypasjxY8AW
+	d01Q==
+X-Gm-Message-State: ALoCoQnHA0Fctzjjy9nb384CpGaQorySDosLwjEnSfegzV9qF3vWZEPCnLcCSgIj5bYwp8K3X8Rw
+X-Received: by 10.224.79.79 with SMTP id o15mr32821713qak.93.1414415770496;
+	Mon, 27 Oct 2014 06:16:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.92.179 with HTTP; Mon, 27 Oct 2014 06:15:50 -0700 (PDT)
+In-Reply-To: <473E6E55-239E-4EC8-813C-8494BEF78CED@dominion.thruhere.net>
 References: <1414336254-22707-1-git-send-email-koen@dominion.thruhere.net>
 	<CAJTo0LagpRtefUvm_rrOcEyj6hTZRkySk9fVzcYGm+UFFYe_rQ@mail.gmail.com>
 	<18631FB3-E9CA-4DD0-BF5A-DB114D3B7422@dominion.thruhere.net>
 	<CAJTo0Lam=wC-MBny66h-jC0ieb9tp9nTJUWEQ+KXvLDEqbk23Q@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1990.1)
+	<473E6E55-239E-4EC8-813C-8494BEF78CED@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 27 Oct 2014 13:15:50 +0000
+Message-ID: <CAJTo0LY5A00MG1hmFL7Smo1sdHnGdfqpun4+kbhDRZ3iAQ2NDw@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] base bbclass: add support for tar.lz
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -52,24 +47,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Oct 2014 13:07:02 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Mon, 27 Oct 2014 13:16:15 -0000
+Content-Type: multipart/alternative; boundary=047d7bdc78f890e2dd05066755ad
+
+--047d7bdc78f890e2dd05066755ad
+Content-Type: text/plain; charset=UTF-8
+
+On 27 October 2014 13:06, Koen Kooi <koen@dominion.thruhere.net> wrote:
+
+> Ah, two different problems :/
+
+
+The problem that lzip-native isn't in oe-core is only a problem when
+there's a .lz SRC_URI in oe-core, but the false-positives are a problem now.
+
+Ross
+
+--047d7bdc78f890e2dd05066755ad
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 October 2014 13:06, Koen Kooi <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:koen@dominion.thruhere.net" target=3D"_blank">koen@dominion.thruhere.net</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Ah, two different pr=
+oblems :/</blockquote></div><br>The problem that lzip-native isn&#39;t in o=
+e-core is only a problem when there&#39;s a .lz SRC_URI in oe-core, but the=
+ false-positives are a problem now.</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
 
-> Op 27 okt. 2014, om 12:54 heeft Burton, Ross <ross.burton@intel.com> =
-het volgende geschreven:
->=20
->=20
-> On 27 October 2014 11:39, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
-> > SRC_URI =3D "http://www.lzop.org/download/${BP}.tar.gz \
->=20
-> Not quite, 'lzop' is not the same as 'lzip',the problem is this:
->=20
-> The problem is that the lzop SRC_URI contains the string ".lz", so it =
-incorrectly gains a lzip-native dependency.
-
-
-Ah, two different problems :/=
-
+--047d7bdc78f890e2dd05066755ad--
