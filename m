@@ -1,38 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 85DB9710C7
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 437C071EC8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 11:54:26 +0000 (UTC)
-Received: by mail-qg0-f43.google.com with SMTP id j107so3803955qga.30
+	Mon, 27 Oct 2014 12:15:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9RCFeIp015973
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 04:54:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=IMHcwNsC62aWd3qKVlkAxj/3C84wR2aYmKD6dFxVk3s=;
-	b=LCRXpwSynupMdF/jM6szvnJbDTy3/pIYuW2s0EpMlIqyqEqqtxfQ5ouEe2r5sQsXlE
-	LilAP75sW/WYajY5BeuqBlzxi2/9xizqQnNpgHReTPvER1jxa31Kn1Bo/hzkBq8yo+LJ
-	3hgrC9XuzmtflHkmScqDKYzEIp+TO0NFQ4PkQqWxufe5LnvGsEUyaXH8iezt7vL7Srwl
-	KJaVwGB9Zs6yqmUM/SazbTZD6kEMXBpbkC/sJH4tKLFL1D2PHEk+gTWQdLh/UA7x/gE1
-	HArut5OdT4A5PvR2C58t0ctqMEC4vg1oCA0ob2Ix8jYDzVAC6OE0GBRmX1d3ZUZP57Jf
-	Ylew==
-X-Gm-Message-State: ALoCoQnofRO1hkbJnZPF3Wumllq+qhoHwA23xHN+3P3wBX3ubtKVfBczohlu1Vol4Gdlvo3m0VDO
-X-Received: by 10.140.28.10 with SMTP id 10mr30554489qgy.15.1414410866818;
-	Mon, 27 Oct 2014 04:54:26 -0700 (PDT)
+	Mon, 27 Oct 2014 05:15:40 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 27 Oct 2014 05:15:39 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Oct 2014 20:17:12 +0800
+Message-ID: <48e14f7ea380f0e38c906fab7e9b4b4226f38ba6.1414412180.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1414412180.git.Qi.Chen@windriver.com>
+References: <cover.1414412180.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Received: by 10.140.92.179 with HTTP; Mon, 27 Oct 2014 04:54:06 -0700 (PDT)
-In-Reply-To: <18631FB3-E9CA-4DD0-BF5A-DB114D3B7422@dominion.thruhere.net>
-References: <1414336254-22707-1-git-send-email-koen@dominion.thruhere.net>
-	<CAJTo0LagpRtefUvm_rrOcEyj6hTZRkySk9fVzcYGm+UFFYe_rQ@mail.gmail.com>
-	<18631FB3-E9CA-4DD0-BF5A-DB114D3B7422@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 27 Oct 2014 11:54:06 +0000
-Message-ID: <CAJTo0Lam=wC-MBny66h-jC0ieb9tp9nTJUWEQ+KXvLDEqbk23Q@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base bbclass: add support for tar.lz
+Subject: [PATCH 1/1] toolchain-shar-template.sh: fix installation of SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,40 +33,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Oct 2014 11:54:29 -0000
-Content-Type: multipart/alternative; boundary=001a1138f44848a0e10506663195
+X-List-Received-Date: Mon, 27 Oct 2014 12:15:43 -0000
+Content-Type: text/plain
 
---001a1138f44848a0e10506663195
-Content-Type: text/plain; charset=UTF-8
+Previously, the installation of our SDK is not consistent.
 
-On 27 October 2014 11:39, Koen Kooi <koen@dominion.thruhere.net> wrote:
+For example, there's a user with user name 'test' and group name 'test', and
+the user has sudo privilege. First, the user tries to install the SDK to his
+own home directory /home/test, and the SDK files are installed with 'test' as
+their owner. Then, the user tries to install the SDK to /opt/ directory which
+is owned by root, and the SDK files are installed with 'root' as their owner.
 
-> > SRC_URI = "http://www.lzop.org/download/${BP}.tar.gz \
->
-> Not quite, 'lzop' is not the same as 'lzip',the problem is this:
->
+We can see from the above example the same SDK would result in different
+installation results only because the installation directories are different.
 
-The problem is that the lzop SRC_URI contains the string ".lz", so it
-incorrectly gains a lzip-native dependency.
+In fact, in the second use case above, the user has to use the `sudo' command
+every time whenever he/she wants to perform some action with the SDK.
 
-Ross
+This patch fixes the above problems by installing the SDK with the current user
+as the owner of the installed files.
 
---001a1138f44848a0e10506663195
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/files/toolchain-shar-template.sh | 31 ++++++++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 11 deletions(-)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 October 2014 11:39, Koen Kooi <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:koen@dominion.thruhere.net" target=3D"_blank">koen@dominion.thruhere.net</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div><div class=3D""=
->&gt; SRC_URI =3D &quot;<a href=3D"http://www.lzop.org/download/${BP}.tar.g=
-z" target=3D"_blank">http://www.lzop.org/download/${BP}.tar.gz</a> \<br>
-<br>
-</div></div>Not quite, &#39;lzop&#39; is not the same as &#39;lzip&#39;,the=
- problem is this:<br></blockquote></div><br>The problem is that the lzop SR=
-C_URI contains the string &quot;.lz&quot;, so it incorrectly gains a lzip-n=
-ative dependency.</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
-mail_extra">Ross</div></div>
+diff --git a/meta/files/toolchain-shar-template.sh b/meta/files/toolchain-shar-template.sh
+index 02035d4..592795c 100644
+--- a/meta/files/toolchain-shar-template.sh
++++ b/meta/files/toolchain-shar-template.sh
+@@ -94,24 +94,33 @@ if [ "$answer" != "Y" -a "$answer" != "y" ]; then
+ 	exit 1
+ fi
+ 
+-# Try to create the directory (this will not succeed if user doesn't have rights)
++# Create directory under current user/group
++USERID=`id -u`
++GROUPID=`id -g`
+ mkdir -p $target_sdk_dir >/dev/null 2>&1
+-
+-# if don't have the right to access dir, gain by sudo 
+-if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; then 
++if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; then
+ 	SUDO_EXEC=$(which "sudo")
+ 	if [ -z $SUDO_EXEC ]; then
+-		echo "No command 'sudo' found, please install sudo first. Abort!"
++		echo "Error: Creating $target_sdk_dir needs sudo privilege, please install sudo or change your installation location. Abort!"
+ 		exit 1
+ 	fi
+-
+-	# test sudo could gain root right
++	# make sure sudo could gain root privilege
+ 	$SUDO_EXEC pwd >/dev/null 2>&1
+-	[ $? -ne 0 ] && echo "Sorry, you are not allowed to execute as root." && exit 1
+-
+-	# now that we have sudo rights, create the directory
+-	$SUDO_EXEC mkdir -p $target_sdk_dir >/dev/null 2>&1
++	[ $? -ne 0 ] && echo "Error: Creating $target_sdk_dir failed. Please make sure you have sudo privilege." && exit 1
++	# create directory and change its owner and group
++	$SUDO_EXEC mkdir -p $target_sdk_dir
++	$SUDO_EXEC chown ${USERID}:${GROUPID} $target_sdk_dir
+ fi
++# Make sure the created directory has the same UID/GID as the current user
++FUID=`stat -c '%u' $target_sdk_dir`
++FGID=`stat -c '%g' $target_sdk_dir`
++if [ $USERID != $FUID -o $GROUPID != $FGID ]; then
++	echo "Error: $target_sdk_dir doesn't have the corret UID/GID. Abort!"
++	exit 1
++fi
++
++# From now on, we don't need to use sudo anymore
++SUDO_EXEC=""
+ 
+ payload_offset=$(($(grep -na -m1 "^MARKER:$" $0|cut -d':' -f1) + 1))
+ 
+-- 
+1.9.1
 
---001a1138f44848a0e10506663195--
+
