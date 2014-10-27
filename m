@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8755070A84
+Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
+	[209.85.217.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EA9E70A8B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 11:00:02 +0000 (UTC)
-Received: by mail-qc0-f182.google.com with SMTP id m20so3451163qcx.41
+	Mon, 27 Oct 2014 11:20:48 +0000 (UTC)
+Received: by mail-lb0-f171.google.com with SMTP id z11so2054471lbi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 04:00:03 -0700 (PDT)
+	Mon, 27 Oct 2014 04:20:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=dbkSyaOqibCsgcIpgqEJRh6taepp6ENBCWcmWOEpY5g=;
-	b=BLCovYZAo5n1zQqQa8UgVyAnLIMOXuws1gP4CJHJeE3xrDx5Icdo1G7u9QmLYgd1e6
-	XtzY7WwLR2BFnEchMvmOBDbjkZlm4xqiVwxMENY+npych/2TbSHpmjKxMgb0el7i7orS
-	g/XmOIMxkRpsoBUDP/ki126t9/tqJVDi2tQbr7eOvOlR7yVHrXANyOAXHLLw+TDfNxc5
-	/U68+U9KgSVyZs4+kT8+K9BLZy2Q7aMgHhLZleQ0q7kMGMd28NotzqrAfDzQqTS46aRc
-	uWLRT83tAQAtME5jaL7cdWSwbide5OCqm29y61izAzCDG2X+bTigFsIQG2QjMO/MXcMY
-	qjDQ==
-X-Gm-Message-State: ALoCoQnwx1wrKg8oFLFWeiWRH7Njj1Oct/Q/iipxe5Xudfcd39pdcBqRjWJAks3fwSLzQql4bWYO
-X-Received: by 10.140.109.244 with SMTP id l107mr8415770qgf.80.1414407603284; 
-	Mon, 27 Oct 2014 04:00:03 -0700 (PDT)
+	bh=0fYw7ri2qEyiLxv6BDHmNoyNDvtmLlGEb7tJtplt8mM=;
+	b=Qr43UV/WC7DNzZdXC0Da4GMhvGY/TUzC7znJw5VYMM2JxhFqgSt3e+FgbUVyPaLXV3
+	4vyZohcJYN0l//cwtGRRRsPiH0f0i3sPPdwdKr9pbBiaEJtHQCmMnPMtnHmExa8jCsyp
+	wUdSqvqD7saeCT40rV+3JL2Je3n1e3xrb0h8CGCX7cjZGy+n+LbaLmDOkiGY0qkYbUIQ
+	99m4CRzRVqpB+Jfxkwgs/4qCG48qqn6zKtZMh89SpH7yu//PwPBMdi9kZdLVugOXD86v
+	hMKjgPh8saBafXr73ZqwdKyaItBWIFNYFbExRuBJkbkebGTvtOzmFLP24HzU+FymZHn5
+	IRXw==
+X-Gm-Message-State: ALoCoQmkxDTQgueMDI4XQb6QKKBV380erTIjDGokMitpnWsH3qmBP1E1GJnQfd/vcI9rGIyW1/Xe
+X-Received: by 10.112.239.12 with SMTP id vo12mr22983070lbc.81.1414408846730; 
+	Mon, 27 Oct 2014 04:20:46 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.92.179 with HTTP; Mon, 27 Oct 2014 03:59:40 -0700 (PDT)
-In-Reply-To: <1414336254-22707-1-git-send-email-koen@dominion.thruhere.net>
-References: <1414336254-22707-1-git-send-email-koen@dominion.thruhere.net>
+Received: by 10.140.92.179 with HTTP; Mon, 27 Oct 2014 04:15:05 -0700 (PDT)
+In-Reply-To: <1414128766-13586-1-git-send-email-rongqing.li@windriver.com>
+References: <1414128766-13586-1-git-send-email-rongqing.li@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 27 Oct 2014 10:59:40 +0000
-Message-ID: <CAJTo0LagpRtefUvm_rrOcEyj6hTZRkySk9fVzcYGm+UFFYe_rQ@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Mon, 27 Oct 2014 11:15:05 +0000
+Message-ID: <CAJTo0LabeHw9JreZLyVuyjkANL38yf8A3NXXmTHLDLZZAWyeCg@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base bbclass: add support for tar.lz
+Subject: Re: [PATCH 2/2] nfs-utils: debianize start-statd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,74 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Oct 2014 11:00:06 -0000
-Content-Type: multipart/alternative; boundary=001a113b7e50c2fc1e0506656efa
+X-List-Received-Date: Mon, 27 Oct 2014 11:20:50 -0000
+Content-Type: multipart/alternative; boundary=001a11348490e07f74050665b88e
 
---001a113b7e50c2fc1e0506656efa
+--001a11348490e07f74050665b88e
 Content-Type: text/plain; charset=UTF-8
 
-On 26 October 2014 15:10, Koen Kooi <koen@dominion.thruhere.net> wrote:
+On 24 October 2014 06:32, <rongqing.li@windriver.com> wrote:
 
-> +    # Not endswith because of "*.patch.lz;patch=1". Need
-> bb.fetch.decodeurl in future
-> +    if '.lz' in srcuri:
+>  .../files/nfs-utils-debianize-start-statd.patch    | 39
+> ++++++++++++++++++++++
 >
 
-I think it's time to implement that todo, as oe-core now fails to build:
+ERROR: Command Error: exit status: 1  Output:
+Applying patch nfs-utils-debianize-start-statd.patch
+patching file utils/statd/start-statd
+Hunk #1 FAILED at 4.
+1 out of 1 hunk FAILED -- rejects in file utils/statd/start-statd
+Patch nfs-utils-debianize-start-statd.patch does not apply (enforce with -f)
 
-ERROR: Nothing PROVIDES 'lzip-native'. Close matches:
-  zip-native
-  lzop-native
-  gzip-native
-ERROR: Nothing RPROVIDES 'lzop-dev' (but
-/home/ross/Yocto/poky/meta/recipes-support/lzop/lzop_1.03.bb RDEPENDS on or
-otherwise requires it)
-ERROR: No eligible RPROVIDERs exist for 'lzop-dev'
-NOTE: Runtime target 'lzop-dev' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['lzop-dev']
-ERROR: Nothing RPROVIDES 'lzop' (but
-/home/ross/Yocto/poky/meta/recipes-support/lzop/lzop_1.03.bb RDEPENDS on or
-otherwise requires it)
-ERROR: No eligible RPROVIDERs exist for 'lzop'
-NOTE: Runtime target 'lzop' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['lzop']
-
-Because:
-
-SRC_URI = "http://www.lzop.org/download/${BP}.tar.gz \
+Please rebase this, there's been changes in master.
 
 Ross
 
---001a113b7e50c2fc1e0506656efa
+--001a11348490e07f74050665b88e
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 October 2014 15:10, Koen Kooi <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:koen@dominion.thruhere.net" target=3D"_blank">koen@dominion.thruhere.net</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
-order-left-style:solid;padding-left:1ex"><div id=3D":hl" class=3D"" style=
-=3D"overflow:hidden">+=C2=A0 =C2=A0 # Not endswith because of &quot;*.patch=
-.lz;patch=3D1&quot;. Need bb.fetch.decodeurl in future<br>
-+=C2=A0 =C2=A0 if &#39;.lz&#39; in srcuri:<br></div></blockquote><div><br><=
-/div><div>I think it&#39;s time to implement that todo, as oe-core now fail=
-s to build:</div><div><br></div><div>ERROR: Nothing PROVIDES &#39;lzip-nati=
-ve&#39;. Close matches:</div><div>=C2=A0 zip-native</div><div>=C2=A0 lzop-n=
-ative</div><div>=C2=A0 gzip-native</div><div>ERROR: Nothing RPROVIDES &#39;=
-lzop-dev&#39; (but /home/ross/Yocto/poky/meta/recipes-support/lzop/<a href=
-=3D"http://lzop_1.03.bb">lzop_1.03.bb</a> RDEPENDS on or otherwise requires=
- it)</div><div>ERROR: No eligible RPROVIDERs exist for &#39;lzop-dev&#39;</=
-div><div>NOTE: Runtime target &#39;lzop-dev&#39; is unbuildable, removing..=
-.</div><div>Missing or unbuildable dependency chain was: [&#39;lzop-dev&#39=
-;]</div><div>ERROR: Nothing RPROVIDES &#39;lzop&#39; (but /home/ross/Yocto/=
-poky/meta/recipes-support/lzop/<a href=3D"http://lzop_1.03.bb">lzop_1.03.bb=
-</a> RDEPENDS on or otherwise requires it)</div><div>ERROR: No eligible RPR=
-OVIDERs exist for &#39;lzop&#39;</div><div>NOTE: Runtime target &#39;lzop&#=
-39; is unbuildable, removing...</div><div>Missing or unbuildable dependency=
- chain was: [&#39;lzop&#39;]=C2=A0</div><div><br></div><div>Because:</div><=
-div><br></div><div>SRC_URI =3D &quot;<a href=3D"http://www.lzop.org/downloa=
-d/${BP}.tar.gz">http://www.lzop.org/download/${BP}.tar.gz</a> \<br></div><d=
-iv><br></div><div>Ross</div></div></div></div>
+On 24 October 2014 06:32,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing=
+.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
+style:solid;padding-left:1ex"><div id=3D":3j9" class=3D"" style=3D"overflow=
+:hidden">=C2=A0.../files/<span class=3D"">nfs</span>-utils-debianize-start-=
+statd.patch=C2=A0 =C2=A0 | 39 ++++++++++++++++++++++<br></div></blockquote>=
+</div><br><div class=3D"gmail_extra">ERROR: Command Error: exit status: 1 =
+=C2=A0Output:</div><div class=3D"gmail_extra">Applying patch nfs-utils-debi=
+anize-start-statd.patch</div><div class=3D"gmail_extra">patching file utils=
+/statd/start-statd</div><div class=3D"gmail_extra">Hunk #1 FAILED at 4.</di=
+v><div class=3D"gmail_extra">1 out of 1 hunk FAILED -- rejects in file util=
+s/statd/start-statd</div><div class=3D"gmail_extra">Patch nfs-utils-debiani=
+ze-start-statd.patch does not apply (enforce with -f)</div><div class=3D"gm=
+ail_extra"><br></div><div class=3D"gmail_extra">Please rebase this, there&#=
+39;s been changes in master.</div><div class=3D"gmail_extra"><br></div><div=
+ class=3D"gmail_extra">Ross</div></div></div>
 
---001a113b7e50c2fc1e0506656efa--
+--001a11348490e07f74050665b88e--
