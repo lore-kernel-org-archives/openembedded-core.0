@@ -1,36 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EA9E70A8B
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id CEA7971938
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 11:20:48 +0000 (UTC)
-Received: by mail-lb0-f171.google.com with SMTP id z11so2054471lbi.2
+	Mon, 27 Oct 2014 11:36:13 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id n3so6045121wiv.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 04:20:47 -0700 (PDT)
+	Mon, 27 Oct 2014 04:36:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=0fYw7ri2qEyiLxv6BDHmNoyNDvtmLlGEb7tJtplt8mM=;
-	b=Qr43UV/WC7DNzZdXC0Da4GMhvGY/TUzC7znJw5VYMM2JxhFqgSt3e+FgbUVyPaLXV3
-	4vyZohcJYN0l//cwtGRRRsPiH0f0i3sPPdwdKr9pbBiaEJtHQCmMnPMtnHmExa8jCsyp
-	wUdSqvqD7saeCT40rV+3JL2Je3n1e3xrb0h8CGCX7cjZGy+n+LbaLmDOkiGY0qkYbUIQ
-	99m4CRzRVqpB+Jfxkwgs/4qCG48qqn6zKtZMh89SpH7yu//PwPBMdi9kZdLVugOXD86v
-	hMKjgPh8saBafXr73ZqwdKyaItBWIFNYFbExRuBJkbkebGTvtOzmFLP24HzU+FymZHn5
-	IRXw==
-X-Gm-Message-State: ALoCoQmkxDTQgueMDI4XQb6QKKBV380erTIjDGokMitpnWsH3qmBP1E1GJnQfd/vcI9rGIyW1/Xe
-X-Received: by 10.112.239.12 with SMTP id vo12mr22983070lbc.81.1414408846730; 
-	Mon, 27 Oct 2014 04:20:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.92.179 with HTTP; Mon, 27 Oct 2014 04:15:05 -0700 (PDT)
-In-Reply-To: <1414128766-13586-1-git-send-email-rongqing.li@windriver.com>
-References: <1414128766-13586-1-git-send-email-rongqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 27 Oct 2014 11:15:05 +0000
-Message-ID: <CAJTo0LabeHw9JreZLyVuyjkANL38yf8A3NXXmTHLDLZZAWyeCg@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] nfs-utils: debianize start-statd
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=RuRzwiPasH5T71rfHdfERbcnSGwk0i4Jm1VFY8ITaH8=;
+	b=XU/un/Bo3aF/Ztkjv0pV8lejT7Cl8Mx/FHhegWvbr0qOfFV/tQTxuJzMgsKWaSCAIX
+	CfGzPSknMftw8jkgZsrirlJHEARj54aLk9pw5Um+5B6wbtqMpldaXIrp5SCa5AeZxnco
+	53rS9DF+MVWYIMTV56sSphyBc9/9nt/yfagq0utGKnY3SIZo6++hUEVPfuqlJdoy1Drw
+	arOS+Ty20jcSAqocbAR3dAle5S6QDqH9DM818LA4DS1D6Jdwdz1M2Za30aQEcc3lz92J
+	SmoRPtUgRt54AVTm8eJwW/pFISeZXpxlzMA+cXUyIIaND9nEnkeWZ2SIvD13OSYK9Tce
+	GEvg==
+X-Gm-Message-State: ALoCoQkN+Uj4KB3Wz0O8D3u26PrttMJmHsaKL+7OUcikFuccqbSNz5ByXgzWoMiDhaYaw2p64dCE
+X-Received: by 10.180.187.44 with SMTP id fp12mr20737370wic.72.1414409773679; 
+	Mon, 27 Oct 2014 04:36:13 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::a450:6148:7bd:4c3f?
+	([2001:610:612:0:a450:6148:7bd:4c3f])
+	by mx.google.com with ESMTPSA id u5sm11577758wiz.9.2014.10.27.04.36.12
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 27 Oct 2014 04:36:12 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1414395756-29588-1-git-send-email-pascal.bach@siemens.com>
+Date: Mon, 27 Oct 2014 12:36:11 +0100
+Message-Id: <8AB2212A-15FB-4CB1-B88B-8C7C8FF5C86D@dominion.thruhere.net>
+References: <1414395756-29588-1-git-send-email-pascal.bach@siemens.com>
+To: Pascal Bach <pascal.bach@siemens.com>
+X-Mailer: Apple Mail (2.1990.1)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] image_types.bbclass: Make ubi depend on ubifs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,50 +49,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Oct 2014 11:20:50 -0000
-Content-Type: multipart/alternative; boundary=001a11348490e07f74050665b88e
-
---001a11348490e07f74050665b88e
-Content-Type: text/plain; charset=UTF-8
-
-On 24 October 2014 06:32, <rongqing.li@windriver.com> wrote:
-
->  .../files/nfs-utils-debianize-start-statd.patch    | 39
-> ++++++++++++++++++++++
->
-
-ERROR: Command Error: exit status: 1  Output:
-Applying patch nfs-utils-debianize-start-statd.patch
-patching file utils/statd/start-statd
-Hunk #1 FAILED at 4.
-1 out of 1 hunk FAILED -- rejects in file utils/statd/start-statd
-Patch nfs-utils-debianize-start-statd.patch does not apply (enforce with -f)
-
-Please rebase this, there's been changes in master.
-
-Ross
-
---001a11348490e07f74050665b88e
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Mon, 27 Oct 2014 11:36:23 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 October 2014 06:32,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing=
-.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
-style:solid;padding-left:1ex"><div id=3D":3j9" class=3D"" style=3D"overflow=
-:hidden">=C2=A0.../files/<span class=3D"">nfs</span>-utils-debianize-start-=
-statd.patch=C2=A0 =C2=A0 | 39 ++++++++++++++++++++++<br></div></blockquote>=
-</div><br><div class=3D"gmail_extra">ERROR: Command Error: exit status: 1 =
-=C2=A0Output:</div><div class=3D"gmail_extra">Applying patch nfs-utils-debi=
-anize-start-statd.patch</div><div class=3D"gmail_extra">patching file utils=
-/statd/start-statd</div><div class=3D"gmail_extra">Hunk #1 FAILED at 4.</di=
-v><div class=3D"gmail_extra">1 out of 1 hunk FAILED -- rejects in file util=
-s/statd/start-statd</div><div class=3D"gmail_extra">Patch nfs-utils-debiani=
-ze-start-statd.patch does not apply (enforce with -f)</div><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra">Please rebase this, there&#=
-39;s been changes in master.</div><div class=3D"gmail_extra"><br></div><div=
- class=3D"gmail_extra">Ross</div></div></div>
 
---001a11348490e07f74050665b88e--
+> Op 27 okt. 2014, om 08:42 heeft Pascal Bach <pascal.bach@siemens.com> =
+het volgende geschreven:
+>=20
+> The ubi command assumes the ubifs file is present.
+> This makes sure this is really the case.
+>=20
+> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+> ---
+> meta/classes/image_types.bbclass |    2 ++
+> 1 file changed, 2 insertions(+)
+>=20
+> diff --git a/meta/classes/image_types.bbclass =
+b/meta/classes/image_types.bbclass
+> index 99a07da..76190fd 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -96,6 +96,8 @@ IMAGE_CMD_ubi () {
+> 	mkfs.ubifs -r ${IMAGE_ROOTFS} -o =
+${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}
+> 	ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubi =
+${UBINIZE_ARGS} ubinize.cfg
+> }
+> +IMAGE_TYPEDEP_ubi =3D "ubifs"
+> +
+
+'ubifs' or 'ubifs-native'?=
+
