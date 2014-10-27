@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
 	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 2510370A84
+	by mail.openembedded.org (Postfix) with ESMTP id 8755070A84
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 10:52:36 +0000 (UTC)
-Received: by mail-qc0-f182.google.com with SMTP id m20so3443379qcx.41
+	Mon, 27 Oct 2014 11:00:02 +0000 (UTC)
+Received: by mail-qc0-f182.google.com with SMTP id m20so3451163qcx.41
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 03:52:36 -0700 (PDT)
+	Mon, 27 Oct 2014 04:00:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=Mhyl/qRmXRKXeiHjG2o2rWhQ7USsaIU9K+ytrgK5SXc=;
-	b=TBdyuIxihd7r4/mHtfrZbehlU8p7OlIk8VSaRfoUOQeT/XDghDZQ9gcbFOnat8q0dn
-	foGnZu8bnRlbgYuwmujUHeKR8KcxtOzNWfATHHrOfX+pNWCOXYv0/MSL9Acwa1CMGmUn
-	YD7sFGjKGtwzU9tBehMTmq0qnwbgNnxiVCUVIZmrJ/i6oWJnudYoSlR2GSO3JHrs6e+r
-	3LzaGLzgzMU+JoUBZFsvUSgfe1Lyyd1PsDOe2CbTBm+R6XD6Q7wUyGbq6hRTMXY4Ltx4
-	rcmRv/fRZLRVV6BfB/m7I4LhB4okxiIYUzUFzHJ0JyW0qs52e8+5aC+Q7rcuyrcbF3IU
-	b6Vw==
-X-Gm-Message-State: ALoCoQlCBDPE0hL1RC3KGOQ2ggPjKc4qssE42IvHK75MaVPFJV348pBojmPbIIw3V/sp3XTsmTEo
-X-Received: by 10.140.109.244 with SMTP id l107mr8361698qgf.80.1414407156585; 
-	Mon, 27 Oct 2014 03:52:36 -0700 (PDT)
+	bh=dbkSyaOqibCsgcIpgqEJRh6taepp6ENBCWcmWOEpY5g=;
+	b=BLCovYZAo5n1zQqQa8UgVyAnLIMOXuws1gP4CJHJeE3xrDx5Icdo1G7u9QmLYgd1e6
+	XtzY7WwLR2BFnEchMvmOBDbjkZlm4xqiVwxMENY+npych/2TbSHpmjKxMgb0el7i7orS
+	g/XmOIMxkRpsoBUDP/ki126t9/tqJVDi2tQbr7eOvOlR7yVHrXANyOAXHLLw+TDfNxc5
+	/U68+U9KgSVyZs4+kT8+K9BLZy2Q7aMgHhLZleQ0q7kMGMd28NotzqrAfDzQqTS46aRc
+	uWLRT83tAQAtME5jaL7cdWSwbide5OCqm29y61izAzCDG2X+bTigFsIQG2QjMO/MXcMY
+	qjDQ==
+X-Gm-Message-State: ALoCoQnwx1wrKg8oFLFWeiWRH7Njj1Oct/Q/iipxe5Xudfcd39pdcBqRjWJAks3fwSLzQql4bWYO
+X-Received: by 10.140.109.244 with SMTP id l107mr8415770qgf.80.1414407603284; 
+	Mon, 27 Oct 2014 04:00:03 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.92.179 with HTTP; Mon, 27 Oct 2014 03:52:16 -0700 (PDT)
-In-Reply-To: <20141027095248.GC2430@jama>
-References: <1414403082-28396-1-git-send-email-jackie.huang@windriver.com>
-	<20141027095248.GC2430@jama>
+Received: by 10.140.92.179 with HTTP; Mon, 27 Oct 2014 03:59:40 -0700 (PDT)
+In-Reply-To: <1414336254-22707-1-git-send-email-koen@dominion.thruhere.net>
+References: <1414336254-22707-1-git-send-email-koen@dominion.thruhere.net>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 27 Oct 2014 10:52:16 +0000
-Message-ID: <CAJTo0LZOAOEoEi=7KA70hgJqdoC65xyqkzYvNHHzfPQn=Gdp1A@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 27 Oct 2014 10:59:40 +0000
+Message-ID: <CAJTo0LagpRtefUvm_rrOcEyj6hTZRkySk9fVzcYGm+UFFYe_rQ@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] which-2.18: Make sure ChangeLog exists for automake
+Subject: Re: [PATCH] base bbclass: add support for tar.lz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,50 +43,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Oct 2014 10:52:39 -0000
-Content-Type: multipart/alternative; boundary=001a113b7e50230cad05066554b6
+X-List-Received-Date: Mon, 27 Oct 2014 11:00:06 -0000
+Content-Type: multipart/alternative; boundary=001a113b7e50c2fc1e0506656efa
 
---001a113b7e50230cad05066554b6
+--001a113b7e50c2fc1e0506656efa
 Content-Type: text/plain; charset=UTF-8
 
-On 27 October 2014 09:52, Martin Jansa <martin.jansa@gmail.com> wrote:
+On 26 October 2014 15:10, Koen Kooi <koen@dominion.thruhere.net> wrote:
 
-> On Mon, Oct 27, 2014 at 05:44:42AM -0400, jackie.huang@windriver.com
-> wrote:
-> > From: Jackie Huang <jackie.huang@windriver.com>
-> >
-> > Fixed:
-> > Makefile.am: error: required file './ChangeLog' not found
+> +    # Not endswith because of "*.patch.lz;patch=1". Need
+> bb.fetch.decodeurl in future
+> +    if '.lz' in srcuri:
 >
-> Isn't it better to pass foreign to automake?
 
+I think it's time to implement that todo, as oe-core now fails to build:
 
-Yes, and talk to upstream to understand why this isn't a problem.  Some
-upstreams are unaware of autoreconf and continue using home-grown tools.
+ERROR: Nothing PROVIDES 'lzip-native'. Close matches:
+  zip-native
+  lzop-native
+  gzip-native
+ERROR: Nothing RPROVIDES 'lzop-dev' (but
+/home/ross/Yocto/poky/meta/recipes-support/lzop/lzop_1.03.bb RDEPENDS on or
+otherwise requires it)
+ERROR: No eligible RPROVIDERs exist for 'lzop-dev'
+NOTE: Runtime target 'lzop-dev' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['lzop-dev']
+ERROR: Nothing RPROVIDES 'lzop' (but
+/home/ross/Yocto/poky/meta/recipes-support/lzop/lzop_1.03.bb RDEPENDS on or
+otherwise requires it)
+ERROR: No eligible RPROVIDERs exist for 'lzop'
+NOTE: Runtime target 'lzop' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['lzop']
+
+Because:
+
+SRC_URI = "http://www.lzop.org/download/${BP}.tar.gz \
 
 Ross
 
---001a113b7e50230cad05066554b6
+--001a113b7e50c2fc1e0506656efa
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
-7 October 2014 09:52, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Mon, Oct =
-27, 2014 at 05:44:42AM -0400, <a href=3D"mailto:jackie.huang@windriver.com"=
->jackie.huang@windriver.com</a> wrote:<br>
-&gt; From: Jackie Huang &lt;<a href=3D"mailto:jackie.huang@windriver.com">j=
-ackie.huang@windriver.com</a>&gt;<br>
-&gt;<br>
-&gt; Fixed:<br>
-&gt; Makefile.am: error: required file &#39;./ChangeLog&#39; not found<br>
-<br>
-</span>Isn&#39;t it better to pass foreign to automake?</blockquote><div><b=
-r></div><div>Yes, and talk to upstream to understand why this isn&#39;t a p=
-roblem.=C2=A0 Some upstreams are unaware of autoreconf and continue using h=
-ome-grown tools.</div><div><br></div><div>Ross=C2=A0</div></div></div></div=
->
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 October 2014 15:10, Koen Kooi <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:koen@dominion.thruhere.net" target=3D"_blank">koen@dominion.thruhere.net</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
+order-left-style:solid;padding-left:1ex"><div id=3D":hl" class=3D"" style=
+=3D"overflow:hidden">+=C2=A0 =C2=A0 # Not endswith because of &quot;*.patch=
+.lz;patch=3D1&quot;. Need bb.fetch.decodeurl in future<br>
++=C2=A0 =C2=A0 if &#39;.lz&#39; in srcuri:<br></div></blockquote><div><br><=
+/div><div>I think it&#39;s time to implement that todo, as oe-core now fail=
+s to build:</div><div><br></div><div>ERROR: Nothing PROVIDES &#39;lzip-nati=
+ve&#39;. Close matches:</div><div>=C2=A0 zip-native</div><div>=C2=A0 lzop-n=
+ative</div><div>=C2=A0 gzip-native</div><div>ERROR: Nothing RPROVIDES &#39;=
+lzop-dev&#39; (but /home/ross/Yocto/poky/meta/recipes-support/lzop/<a href=
+=3D"http://lzop_1.03.bb">lzop_1.03.bb</a> RDEPENDS on or otherwise requires=
+ it)</div><div>ERROR: No eligible RPROVIDERs exist for &#39;lzop-dev&#39;</=
+div><div>NOTE: Runtime target &#39;lzop-dev&#39; is unbuildable, removing..=
+.</div><div>Missing or unbuildable dependency chain was: [&#39;lzop-dev&#39=
+;]</div><div>ERROR: Nothing RPROVIDES &#39;lzop&#39; (but /home/ross/Yocto/=
+poky/meta/recipes-support/lzop/<a href=3D"http://lzop_1.03.bb">lzop_1.03.bb=
+</a> RDEPENDS on or otherwise requires it)</div><div>ERROR: No eligible RPR=
+OVIDERs exist for &#39;lzop&#39;</div><div>NOTE: Runtime target &#39;lzop&#=
+39; is unbuildable, removing...</div><div>Missing or unbuildable dependency=
+ chain was: [&#39;lzop&#39;]=C2=A0</div><div><br></div><div>Because:</div><=
+div><br></div><div>SRC_URI =3D &quot;<a href=3D"http://www.lzop.org/downloa=
+d/${BP}.tar.gz">http://www.lzop.org/download/${BP}.tar.gz</a> \<br></div><d=
+iv><br></div><div>Ross</div></div></div></div>
 
---001a113b7e50230cad05066554b6--
+--001a113b7e50c2fc1e0506656efa--
