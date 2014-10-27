@@ -1,39 +1,38 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 7668E70EF1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 85DB9710C7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 11:43:01 +0000 (UTC)
-Received: from mail2.sbs.de (localhost [127.0.0.1])
-	by david.siemens.de (8.14.3/8.14.3) with ESMTP id s9RBgrR7032195;
-	Mon, 27 Oct 2014 12:42:54 +0100
-Received: from DEFTHW99ERHMSX.ww902.siemens.net
-	(defthw99erhmsx.ww902.siemens.net [139.22.70.133])
-	by mail2.sbs.de (8.14.3/8.14.3) with ESMTP id s9RBgrCm028120
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 27 Oct 2014 12:42:53 +0100
-Received: from DEFTHW99EROMSX.ww902.siemens.net (139.22.70.201) by
-	DEFTHW99ERHMSX.ww902.siemens.net (139.22.70.133) with Microsoft SMTP
-	Server (TLS) id 14.3.210.2; Mon, 27 Oct 2014 12:42:53 +0100
-Received: from DEFTHW99EH4MSX.ww902.siemens.net ([169.254.2.159]) by
-	DEFTHW99EROMSX.ww902.siemens.net ([139.22.70.201]) with mapi id
-	14.03.0210.002; Mon, 27 Oct 2014 12:42:52 +0100
-From: "Bach, Pascal" <pascal.bach@siemens.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Thread-Topic: [OE-core] [PATCH] image_types.bbclass: Make ubi depend on ubifs
-Thread-Index: AQHP8bmaplvHw11RoUG3bEO0e33vfJxDwDOAgAAR3dA=
-Date: Mon, 27 Oct 2014 11:42:51 +0000
-Message-ID: <355BE46A91031048906B695426A8D8E616AF4942@DEFTHW99EH4MSX.ww902.siemens.net>
-References: <1414395756-29588-1-git-send-email-pascal.bach@siemens.com>
-	<8AB2212A-15FB-4CB1-B88B-8C7C8FF5C86D@dominion.thruhere.net>
-In-Reply-To: <8AB2212A-15FB-4CB1-B88B-8C7C8FF5C86D@dominion.thruhere.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [139.22.70.29]
+	Mon, 27 Oct 2014 11:54:26 +0000 (UTC)
+Received: by mail-qg0-f43.google.com with SMTP id j107so3803955qga.30
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Oct 2014 04:54:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=IMHcwNsC62aWd3qKVlkAxj/3C84wR2aYmKD6dFxVk3s=;
+	b=LCRXpwSynupMdF/jM6szvnJbDTy3/pIYuW2s0EpMlIqyqEqqtxfQ5ouEe2r5sQsXlE
+	LilAP75sW/WYajY5BeuqBlzxi2/9xizqQnNpgHReTPvER1jxa31Kn1Bo/hzkBq8yo+LJ
+	3hgrC9XuzmtflHkmScqDKYzEIp+TO0NFQ4PkQqWxufe5LnvGsEUyaXH8iezt7vL7Srwl
+	KJaVwGB9Zs6yqmUM/SazbTZD6kEMXBpbkC/sJH4tKLFL1D2PHEk+gTWQdLh/UA7x/gE1
+	HArut5OdT4A5PvR2C58t0ctqMEC4vg1oCA0ob2Ix8jYDzVAC6OE0GBRmX1d3ZUZP57Jf
+	Ylew==
+X-Gm-Message-State: ALoCoQnofRO1hkbJnZPF3Wumllq+qhoHwA23xHN+3P3wBX3ubtKVfBczohlu1Vol4Gdlvo3m0VDO
+X-Received: by 10.140.28.10 with SMTP id 10mr30554489qgy.15.1414410866818;
+	Mon, 27 Oct 2014 04:54:26 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types.bbclass: Make ubi depend on ubifs
+Received: by 10.140.92.179 with HTTP; Mon, 27 Oct 2014 04:54:06 -0700 (PDT)
+In-Reply-To: <18631FB3-E9CA-4DD0-BF5A-DB114D3B7422@dominion.thruhere.net>
+References: <1414336254-22707-1-git-send-email-koen@dominion.thruhere.net>
+	<CAJTo0LagpRtefUvm_rrOcEyj6hTZRkySk9fVzcYGm+UFFYe_rQ@mail.gmail.com>
+	<18631FB3-E9CA-4DD0-BF5A-DB114D3B7422@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 27 Oct 2014 11:54:06 +0000
+Message-ID: <CAJTo0Lam=wC-MBny66h-jC0ieb9tp9nTJUWEQ+KXvLDEqbk23Q@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] base bbclass: add support for tar.lz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,18 +45,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Oct 2014 11:43:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 27 Oct 2014 11:54:29 -0000
+Content-Type: multipart/alternative; boundary=001a1138f44848a0e10506663195
+
+--001a1138f44848a0e10506663195
+Content-Type: text/plain; charset=UTF-8
+
+On 27 October 2014 11:39, Koen Kooi <koen@dominion.thruhere.net> wrote:
+
+> > SRC_URI = "http://www.lzop.org/download/${BP}.tar.gz \
+>
+> Not quite, 'lzop' is not the same as 'lzip',the problem is this:
+>
+
+The problem is that the lzop SRC_URI contains the string ".lz", so it
+incorrectly gains a lzip-native dependency.
+
+Ross
+
+--001a1138f44848a0e10506663195
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-> > }
-> > +IMAGE_TYPEDEP_ubi =3D "ubifs"
-> > +
->=20
-> 'ubifs' or 'ubifs-native'?
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 October 2014 11:39, Koen Kooi <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:koen@dominion.thruhere.net" target=3D"_blank">koen@dominion.thruhere.net</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div><div class=3D""=
+>&gt; SRC_URI =3D &quot;<a href=3D"http://www.lzop.org/download/${BP}.tar.g=
+z" target=3D"_blank">http://www.lzop.org/download/${BP}.tar.gz</a> \<br>
+<br>
+</div></div>Not quite, &#39;lzop&#39; is not the same as &#39;lzip&#39;,the=
+ problem is this:<br></blockquote></div><br>The problem is that the lzop SR=
+C_URI contains the string &quot;.lz&quot;, so it incorrectly gains a lzip-n=
+ative dependency.</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
+mail_extra">Ross</div></div>
 
-IMAGE_TYPEDEP describes dependencies between image types. So in this case u=
-bifs referred to IMAGE_CMD_ubifs
-I'm not aware that there is ubifs-native image type.
-
+--001a1138f44848a0e10506663195--
