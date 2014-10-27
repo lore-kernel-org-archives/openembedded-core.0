@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 64EBD65E94
+	by mail.openembedded.org (Postfix) with ESMTP id 895A670EF1
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 27 Oct 2014 15:23:34 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 27 Oct 2014 08:22:12 -0700
+	by orsmga102.jf.intel.com with ESMTP; 27 Oct 2014 08:22:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,796,1406617200"; d="scan'208";a="596967979"
+X-IronPort-AV: E=Sophos;i="5.04,796,1406617200"; d="scan'208";a="596967993"
 Received: from tlankage-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl5.isw.intel.com) ([10.252.121.248])
-	by orsmga001.jf.intel.com with ESMTP; 27 Oct 2014 08:23:29 -0700
+	by orsmga001.jf.intel.com with ESMTP; 27 Oct 2014 08:23:30 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Oct 2014 15:23:23 +0000
-Message-Id: <5b27a6cffafddb75301c325bc9aa8eadd09d5551.1414423342.git.paul.eggleton@linux.intel.com>
+Date: Mon, 27 Oct 2014 15:23:24 +0000
+Message-Id: <9474deeb8949dc8edc7cd9a06a7c2f84c97a028a.1414423342.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <cover.1414423342.git.paul.eggleton@linux.intel.com>
 References: <cover.1414423342.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1414423342.git.paul.eggleton@linux.intel.com>
 References: <cover.1414423342.git.paul.eggleton@linux.intel.com>
-Subject: [daisy][PATCH 1/2] python: force off_t size to 8 to enable large file support
+Subject: [daisy][PATCH 2/2] openssh: avoid screen sessions being killed on disconnect with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,38 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Oct 2014 15:23:36 -0000
+X-List-Received-Date: Mon, 27 Oct 2014 15:23:37 -0000
 
-If DISTRO_FEATURES contains "largefile", force the size of off_t to 8 as
-a workaround for having ac_cv_sizeof_off_t=4 on 32-bit systems. In
-future we will likely drop the value from the site file, but for now
-this is a slightly safer fix.
+Tell systemd just to kill the sshd process when the ssh connection drops
+instead of the entire cgroup for sshd, so that any screen sessions (and
+more to the point, processes within them) do not get killed.
 
-Fixes [YOCTO #6813].
+(This is what the Fedora sshd service file does, and what we're already
+doing in the dropbear service file).
 
-(From OE-Core master rev: a8216030ee6c65531de8fbf3eed878a345a94edc)
+(From OE-Core master rev: 3c238dff41fbd3687457989c7b17d22b2cc844be)
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/python/python_2.7.3.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-connectivity/openssh/openssh/sshd@.service | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
-index 0d64172..5270df9 100644
---- a/meta/recipes-devtools/python/python_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python_2.7.3.bb
-@@ -47,6 +47,9 @@ inherit autotools multilib_header python-dir pythonnative
- TARGET_CC_ARCH_append_armv6 = " -D__SOFTFP__"
- TARGET_CC_ARCH_append_armv7a = " -D__SOFTFP__"
- 
-+# The following is a hack until we drop ac_cv_sizeof_off_t from site files
-+EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'ac_cv_sizeof_off_t=8', '', d)}"
-+
- do_configure_prepend() {
- 	rm -f ${S}/Makefile.orig
- 	autoreconf -Wcross --verbose --install --force --exclude=autopoint Modules/_ctypes/libffi || bbnote "_ctypes failed to autoreconf"
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshd@.service b/meta/recipes-connectivity/openssh/openssh/sshd@.service
+index 4eda659..bb2d68e 100644
+--- a/meta/recipes-connectivity/openssh/openssh/sshd@.service
++++ b/meta/recipes-connectivity/openssh/openssh/sshd@.service
+@@ -8,3 +8,4 @@ ExecStart=-@SBINDIR@/sshd -i
+ ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
+ StandardInput=socket
+ StandardError=syslog
++KillMode=process
 -- 
 1.9.3
 
