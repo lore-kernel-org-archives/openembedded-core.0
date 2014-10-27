@@ -1,24 +1,39 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B0AA71ED2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 11C3971E7D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 12:15:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9RCFcCs016332
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 27 Oct 2014 12:52:42 +0000 (UTC)
+Received: by mail-qc0-f175.google.com with SMTP id b13so3969649qcw.20
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 05:15:39 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 27 Oct 2014 05:15:38 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Oct 2014 20:17:11 +0800
-Message-ID: <cover.1414412180.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 27 Oct 2014 05:52:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=mn/50tp9zmvpucPFyvSX12Tw43eSMV6VDORtwiCrGws=;
+	b=mw7ievIzoP/Ucb+msHXlnyFGGgr6BABnSRxu+C5okta7tHP4yhIbslRXiAs6VzPBpk
+	ON4nRcnN8e/JfsWIt9CrGJN+RLJeAVKdRkFRIyMlXlkBsouUS3jk4q++Mq/ZVgGLgslM
+	PyKBXp6qw8iEJgzK7z9CwwsWz77+Y2zliod8+Cb3aw2NmAFu/2M1mw3XLKmkHMc7YfdJ
+	RRXdqqkUNIl4sCzIA1sGk9lvcLQEowPH9txPd9WVUILZhEb1KMH3kkXbZNKcd4WGjkxi
+	KET6WVXJr5BPvcxV4hBnvB41PWVuLBSCpfOV9Q3QKHFeDlffAwCTjvz0SBQMnDA+yJdo
+	Hj7Q==
+X-Gm-Message-State: ALoCoQkIyNBvE0rsqjOoS2TNZe1PSgG5XtQ3TWkq5UjfYxrjyywfECOZdeskSQ1NzAS1fc656C0m
+X-Received: by 10.224.160.83 with SMTP id m19mr14295981qax.17.1414414362697;
+	Mon, 27 Oct 2014 05:52:42 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 0/1] toolchain-shar-template.sh: fix installation of SDK
+Received: by 10.140.92.179 with HTTP; Mon, 27 Oct 2014 05:52:22 -0700 (PDT)
+In-Reply-To: <544DA413.1000704@windriver.com>
+References: <cover.1414142394.git.Chong.Lu@windriver.com>
+	<764d0d5ee52d46b0b33d577675d8fecc3e99800f.1414142394.git.Chong.Lu@windriver.com>
+	<CAJTo0LY-oHnKxUrtGUyhA=jPoK5Dcjs==7+YyVTV=6M5Jufesw@mail.gmail.com>
+	<544DA413.1000704@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 27 Oct 2014 12:52:22 +0000
+Message-ID: <CAJTo0LbawpWU+=3m7CNF8mdxLPwD-Q82YuhVesvsx_=_j1NM=Q@mail.gmail.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] curl: Security Advisory - curl - CVE-2014-3613
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +46,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Oct 2014 12:15:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 27 Oct 2014 12:52:51 -0000
+Content-Type: multipart/alternative; boundary=047d7bacb2aaa7bda405066701cd
 
-The following changes since commit 4143f3b0ce0d0c52f5b0babc1bb16ac0ac9610eb:
+--047d7bacb2aaa7bda405066701cd
+Content-Type: text/plain; charset=UTF-8
 
-  nativesdk-cmake: Adjust toolchain paths dynamically (2014-10-24 21:59:34 +0100)
+On 27 October 2014 01:46, Chong Lu <Chong.Lu@windriver.com> wrote:
 
-are available in the git repository at:
+> This patch includes windows characters.
+>
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/SDK-installation
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/SDK-installation
+Ha, "thanks" git/email/etc.  Merged from the branch, thanks.
 
-Chen Qi (1):
-  toolchain-shar-template.sh: fix installation of SDK
+Cheers,
+Ross
 
- meta/files/toolchain-shar-template.sh | 31 ++++++++++++++++++++-----------
- 1 file changed, 20 insertions(+), 11 deletions(-)
+--047d7bacb2aaa7bda405066701cd
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
-1.9.1
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 October 2014 01:46, Chong Lu <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+Chong.Lu@windriver.com" target=3D"_blank">Chong.Lu@windriver.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":15u" class=3D"a3s=
+" style=3D"overflow:hidden">This patch includes windows characters.<span cl=
+ass=3D""><br></span></div></blockquote></div><br>Ha, &quot;thanks&quot; git=
+/email/etc.=C2=A0 Merged from the branch, thanks.=C2=A0</div><div class=3D"=
+gmail_extra"><br></div><div class=3D"gmail_extra">Cheers,</div><div class=
+=3D"gmail_extra">Ross</div></div>
 
-
+--047d7bacb2aaa7bda405066701cd--
