@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9449C65D59
+	by mail.openembedded.org (Postfix) with ESMTP id 64EBD65E94
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 15:23:30 +0000 (UTC)
+	Mon, 27 Oct 2014 15:23:34 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 27 Oct 2014 08:22:11 -0700
+	by orsmga102.jf.intel.com with ESMTP; 27 Oct 2014 08:22:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,796,1406617200"; d="scan'208";a="596967966"
+X-IronPort-AV: E=Sophos;i="5.04,796,1406617200"; d="scan'208";a="596967979"
 Received: from tlankage-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl5.isw.intel.com) ([10.252.121.248])
-	by orsmga001.jf.intel.com with ESMTP; 27 Oct 2014 08:23:28 -0700
+	by orsmga001.jf.intel.com with ESMTP; 27 Oct 2014 08:23:29 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Oct 2014 15:23:22 +0000
-Message-Id: <cover.1414423342.git.paul.eggleton@linux.intel.com>
+Date: Mon, 27 Oct 2014 15:23:23 +0000
+Message-Id: <5b27a6cffafddb75301c325bc9aa8eadd09d5551.1414423342.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
-Subject: [daisy][PATCH 0/2] A couple of backported fixes for daisy
+In-Reply-To: <cover.1414423342.git.paul.eggleton@linux.intel.com>
+References: <cover.1414423342.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1414423342.git.paul.eggleton@linux.intel.com>
+References: <cover.1414423342.git.paul.eggleton@linux.intel.com>
+Subject: [daisy][PATCH 1/2] python: force off_t size to 8 to enable large file support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,23 +34,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 27 Oct 2014 15:23:36 -0000
 
-The following changes since commit 0692743b51f7daa0154fd4d8982236b4702ea2da:
+If DISTRO_FEATURES contains "largefile", force the size of off_t to 8 as
+a workaround for having ac_cv_sizeof_off_t=4 on 32-bit systems. In
+future we will likely drop the value from the site file, but for now
+this is a slightly safer fix.
 
-  gnupg: CVE-2013-4242 (2014-10-23 21:42:03 +0100)
+Fixes [YOCTO #6813].
 
-are available in the git repository at:
+(From OE-Core master rev: a8216030ee6c65531de8fbf3eed878a345a94edc)
 
-  git://git.openembedded.org/openembedded-core-contrib paule/daisy-fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/daisy-fixes
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/python/python_2.7.3.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Paul Eggleton (2):
-  python: force off_t size to 8 to enable large file support
-  openssh: avoid screen sessions being killed on disconnect with systemd
-
- meta/recipes-connectivity/openssh/openssh/sshd@.service | 1 +
- meta/recipes-devtools/python/python_2.7.3.bb            | 3 +++
- 2 files changed, 4 insertions(+)
-
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index 0d64172..5270df9 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -47,6 +47,9 @@ inherit autotools multilib_header python-dir pythonnative
+ TARGET_CC_ARCH_append_armv6 = " -D__SOFTFP__"
+ TARGET_CC_ARCH_append_armv7a = " -D__SOFTFP__"
+ 
++# The following is a hack until we drop ac_cv_sizeof_off_t from site files
++EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'ac_cv_sizeof_off_t=8', '', d)}"
++
+ do_configure_prepend() {
+ 	rm -f ${S}/Makefile.orig
+ 	autoreconf -Wcross --verbose --install --force --exclude=autopoint Modules/_ctypes/libffi || bbnote "_ctypes failed to autoreconf"
 -- 
 1.9.3
 
