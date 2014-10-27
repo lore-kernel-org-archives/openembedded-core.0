@@ -1,30 +1,26 @@
 Return-Path: <Chong.Lu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A05D265D4F
+	by mail.openembedded.org (Postfix) with ESMTP id A300D60097
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 02:09:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9R296aH000522
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 26 Oct 2014 19:09:06 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Sun, 26 Oct 2014 19:09:05 -0700
-Message-ID: <544DA93F.4010501@windriver.com>
-Date: Mon, 27 Oct 2014 10:09:03 +0800
+	Mon, 27 Oct 2014 05:27:27 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9R5RQ0m003147
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 26 Oct 2014 22:27:28 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 26 Oct 2014 22:27:27 -0700
 From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Oct 2014 13:24:23 +0800
+Message-ID: <ebfd22f5a118f7c9352aebb97b46a9a7f5e39e3d.1414387266.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1414387265.git.Chong.Lu@windriver.com>
+References: <cover.1414387265.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1414131798.git.Chong.Lu@windriver.com>
-	<a7d924a83ec81fcff71ba17281c892f1f3778495.1414131798.git.Chong.Lu@windriver.com>
-	<CAJTo0LY_TALpKFyeFtV-wUOVHhkJxwLTy2VYTgUiGb56gXkEdQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LY_TALpKFyeFtV-wUOVHhkJxwLTy2VYTgUiGb56gXkEdQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.204]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/1] kmod: fix debuginfo is missing in shared library
+Subject: [PATCH V3 1/1] kmod: fix debuginfo is missing in shared library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Oct 2014 02:09:10 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Oct 2014 05:27:38 -0000
+Content-Type: text/plain
 
+INHIBIT_PACKAGE_STRIP variable will make debuginfo lose in shared library.
+The test cases of kmod contain kernel modules for many different architectures,
+strip and arch gets confused and throws errors. Pack kernel modules in test
+cases to avoid strip command failed.
 
-On 10/24/2014 07:08 PM, Burton, Ross wrote:
->
-> On 24 October 2014 07:25, Chong Lu <Chong.Lu@windriver.com 
-> <mailto:Chong.Lu@windriver.com>> wrote:
->
->     +++ b/meta/recipes-kernel/kmod/kmod/run-ptest
->     @@ -1,3 +1,4 @@
->      #!/bin/sh
->      touch testsuite/stamp-rootfs
->     +tar xf testmodule.tar
->      make -k runtest-TESTS 2>/dev/null| grep -e ^PASS -e ^FAIL
->
->
-> We should to make sure that the ptest scripts clean up after 
-> themselves, so can you change this to delete the modules after the 
-> test has ran?
->
-> Ross
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ meta/recipes-kernel/kmod/kmod/run-ptest | 2 ++
+ meta/recipes-kernel/kmod/kmod_git.bb    | 9 ++++++++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-OK, I will send a V2.
+diff --git a/meta/recipes-kernel/kmod/kmod/run-ptest b/meta/recipes-kernel/kmod/kmod/run-ptest
+index 37adec3..598dd2c 100755
+--- a/meta/recipes-kernel/kmod/kmod/run-ptest
++++ b/meta/recipes-kernel/kmod/kmod/run-ptest
+@@ -1,3 +1,5 @@
+ #!/bin/sh
+ touch testsuite/stamp-rootfs
++tar xf testmodule.tar
+ make -k runtest-TESTS 2>/dev/null| grep -e ^PASS -e ^FAIL
++find testsuite -name *.ko -exec rm -f {} \;
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+index d4c21a4..08dd815 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -34,6 +34,10 @@ do_install_append () {
+         # install depmod.d file for search/ dir
+         install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_libdir}/depmod.d/search.conf"
+ 
++        if ${@base_contains('DISTRO_FEATURES', 'ptest', 'true', 'false', d)}; then
++                find testsuite -name *.ko -exec tar rf testmodule.tar {} \;
++                find testsuite -name *.ko -exec rm -f {} \;
++        fi
+ }
+ 
+ do_compile_prepend() {
+@@ -44,7 +48,10 @@ do_compile_ptest () {
+         oe_runmake buildtest-TESTS rootfs
+ }
+ 
+-INHIBIT_PACKAGE_STRIP = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", "1", "0", d)}"
++do_install_ptest () {
++        install testmodule.tar ${D}${PTEST_PATH}
++}
++
+ INSANE_SKIP_${PN}-ptest = "arch"
+ 
+ inherit update-alternatives
+-- 
+1.9.1
 
-Best Regards
-Chong
 
