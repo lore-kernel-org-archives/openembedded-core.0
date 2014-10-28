@@ -1,30 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A1A260097
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CD6B65CED
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 22:59:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s9RMxCbI012585; Mon, 27 Oct 2014 22:59:12 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 7Ri03BlNKLy8; Mon, 27 Oct 2014 22:59:12 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s9RMx9IK012582
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 27 Oct 2014 22:59:10 GMT
-Message-ID: <1414450784.7967.112.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kristof Robot <krirobo@gmail.com>
-Date: Mon, 27 Oct 2014 22:59:44 +0000
-In-Reply-To: <CAFgGSN7et4nS+yD39199rF+7mgHkfApmQ5E9M4u=Zvzw-gGSkg@mail.gmail.com>
-References: <1398958819.30460.86.camel@ted>
-	<CAFgGSN7et4nS+yD39199rF+7mgHkfApmQ5E9M4u=Zvzw-gGSkg@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-common: Only apply fpu settings to target gcc
+	Tue, 28 Oct 2014 00:16:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9S0GWq8024928
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 27 Oct 2014 17:16:32 -0700 (PDT)
+Received: from [128.224.162.141] (128.224.162.141) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 27 Oct 2014 17:16:31 -0700
+Message-ID: <544EE062.5050306@windriver.com>
+Date: Tue, 28 Oct 2014 08:16:34 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1414128766-13586-1-git-send-email-rongqing.li@windriver.com>
+	<CAJTo0LabeHw9JreZLyVuyjkANL38yf8A3NXXmTHLDLZZAWyeCg@mail.gmail.com>
+In-Reply-To: <CAJTo0LabeHw9JreZLyVuyjkANL38yf8A3NXXmTHLDLZZAWyeCg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] nfs-utils: debianize start-statd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,50 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Oct 2014 22:59:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 28 Oct 2014 00:16:35 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2014-10-27 at 20:54 +0100, Kristof Robot wrote:
-> Richard, all,
-> 
-> After bisecting, I found that, since this patch, my toolchain is being
-> built with soft floating point support, while it should be built with
-> hard floating point support:
-> 
-> (1) Compiling parent commit 74d8866814aec520822518cc4cb8a942f7069bf7
-> [1] gives hard floating point support (good):
->     $./build.good74d8/tmp-eglibc/sysroots/x86_64-linux/usr/bin/arm-oe-linux-gnueabi/arm-oe-linux-gnueabi-gcc
->  -dM -E - < /dev/null | grep -i SOFTFP
->     $
-> 
-> (2) Compiling with this patch (commit
-> ce1f3fd20d81545d6d5dfc68f86f9fddf8ac9bbf [2]) gives soft floating
-> point support (bad):
->     $ ./build.badce1f/tmp-eglibc/sysroots/x86_64-linux/usr/bin/arm-oe-linux-gnueabi/arm-oe-linux-gnueabi-gcc
->  -dM -E - < /dev/null | grep -i SOFTFP
->     #define __SOFTFP__ 1
->     $
-> 
-> I am using DEFAULTTUNE = "cortexa7hf-neon-vfpv4", resulting in
-> following build configuration parameters:
->     TUNE_FEATURES     = "arm armv7a vfp neon callconvention-hard vfpv4 cortexa7"
->     TARGET_FPU        = "vfp-vfpv4-neon"
 
-When building in OE, we always pass in the correct flags to gcc to
-ensure the correct thing gets built. The option you're changing with the
-revert just changed the default used by gcc if no option is specified on
-the commandline, so the change of the above test isn't a surprise.
 
-What is the real world problem you're seeing due to this? Is it caused
-by some compiler flags not being passed in somewhere?
+On 10/27/2014 07:15 PM, Burton, Ross wrote:
+>
+> On 24 October 2014 06:32, <rongqing.li@windriver.com
+> <mailto:rongqing.li@windriver.com>> wrote:
+>
+>       .../files/nfs-utils-debianize-start-statd.patch    | 39
+>     ++++++++++++++++++++++
+>
+>
+> ERROR: Command Error: exit status: 1  Output:
+> Applying patch nfs-utils-debianize-start-statd.patch
+> patching file utils/statd/start-statd
+> Hunk #1 FAILED at 4.
+> 1 out of 1 hunk FAILED -- rejects in file utils/statd/start-statd
+> Patch nfs-utils-debianize-start-statd.patch does not apply (enforce with -f)
+>
+> Please rebase this, there's been changes in master.
+>
+> Ross
 
-Note that some changes in master-next start to make the problem much
-more obvious by poisoning the default sysroot option to the compiler.
-When such options get lost, the failures should then be much clearer.
 
-Cheers,
+This patch should follow "[OE-core] [PATCH v2] nfs-utils: fix start-statd"
 
-Richard
-
+-Roy
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
