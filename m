@@ -1,24 +1,24 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 681BC65CED
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 19565601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Oct 2014 02:12:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9S2C1jl020331
+	Tue, 28 Oct 2014 05:09:40 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9S59dCC028018
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Oct 2014 19:12:01 -0700 (PDT)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 27 Oct 2014 19:12:01 -0700
-From: <jackie.huang@windriver.com>
+	Mon, 27 Oct 2014 22:09:40 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.141) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 27 Oct 2014 22:09:38 -0700
+From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Oct 2014 22:12:00 -0400
-Message-ID: <1414462320-15405-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
+Date: Tue, 28 Oct 2014 13:09:41 +0800
+Message-ID: <1414472981-28498-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Subject: [PATCH v2] which-2.18: Use foreign strictness to avoid automake errors
+Subject: [PATCH] elfutils: fix elf_cvt_gnuhash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,71 +31,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Oct 2014 02:12:09 -0000
+X-List-Received-Date: Tue, 28 Oct 2014 05:09:42 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
+From: Roy Li <rongqing.li@windriver.com>
 
-Fixed:
-Makefile.am: error: required file './ChangeLog' not found
+The 'dest' and 'src' can be same, we need to save the value of src32[2]
+before swaping it.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- .../which/which-2.18/automake-foreign.patch        | 28 ++++++++++++++++++++++
- meta/recipes-extended/which/which_2.18.bb          |  4 +++-
- 2 files changed, 31 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/which/which-2.18/automake-foreign.patch
+ .../elfutils/elfutils/Fix_elf_cvt_gunhash.patch    |   29 ++++++++++++++++++++
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    1 +
+ meta/recipes-devtools/elfutils/elfutils_0.158.bb   |    1 +
+ 3 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils/Fix_elf_cvt_gunhash.patch
 
-diff --git a/meta/recipes-extended/which/which-2.18/automake-foreign.patch b/meta/recipes-extended/which/which-2.18/automake-foreign.patch
+diff --git a/meta/recipes-devtools/elfutils/elfutils/Fix_elf_cvt_gunhash.patch b/meta/recipes-devtools/elfutils/elfutils/Fix_elf_cvt_gunhash.patch
 new file mode 100644
-index 0000000..495cdc6
+index 0000000..374cba5
 --- /dev/null
-+++ b/meta/recipes-extended/which/which-2.18/automake-foreign.patch
-@@ -0,0 +1,28 @@
-+Subject: [PATCH] automake foreign strictness
++++ b/meta/recipes-devtools/elfutils/elfutils/Fix_elf_cvt_gunhash.patch
+@@ -0,0 +1,29 @@
++Fix elf_cvt_gunhash if dest and src are same.
 +
-+Use foreign strictness to avoid automake errors.
++Upstream-status: Pending
 +
-+Upstream-Status: Inappropriate [upstream no longer active]
++The 'dest' and 'src' can be same, we need to save the value of src32[2]
++before swaping it.
 +
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+ configure.ac |    5 +++--
-+ 1 files changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index b30b6f5..bd3222c 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1,6 +1,7 @@
-+ dnl Process this file with autoconf to produce a configure script.
-+-AC_INIT(which.c)
-+-AM_INIT_AUTOMAKE(which, 2.18)
-++AC_INIT([which],[2.18])
-++AC_CONFIG_SRCDIR(which.c)
-++AM_INIT_AUTOMAKE([foreign])
-+ AM_CONFIG_HEADER(config.h)
-+ AM_MAINTAINER_MODE
++Signed-off-by: Baoshan Pang <BaoShan.Pang@windriver.com>
++diff --git a/libelf/gnuhash_xlate.h b/libelf/gnuhash_xlate.h
++index 6faf113..04d9ca1 100644
++--- a/libelf/gnuhash_xlate.h
+++++ b/libelf/gnuhash_xlate.h
++@@ -40,6 +40,7 @@ elf_cvt_gnuhash (void *dest, const void *src, size_t len, int encode)
++      words.  We must detangle them here.   */
++   Elf32_Word *dest32 = dest;
++   const Elf32_Word *src32 = src;
+++  Elf32_Word save_src32_2 = src32[2]; // dest could be equal to src
 + 
-+-- 
-+1.7.1
-+
-diff --git a/meta/recipes-extended/which/which_2.18.bb b/meta/recipes-extended/which/which_2.18.bb
-index 5fa5d9e..fd68520 100644
---- a/meta/recipes-extended/which/which_2.18.bb
-+++ b/meta/recipes-extended/which/which_2.18.bb
-@@ -12,7 +12,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- PR = "r2"
++   /* First four control words, 32 bits.  */
++   for (unsigned int cnt = 0; cnt < 4; ++cnt)
++@@ -50,7 +51,7 @@ elf_cvt_gnuhash (void *dest, const void *src, size_t len, int encode)
++       len -= 4;
++     }
++ 
++-  Elf32_Word bitmask_words = encode ? src32[2] : dest32[2];
+++  Elf32_Word bitmask_words = encode ? save_src32_2 : dest32[2];
++ 
++   /* Now the 64 bit words.  */
++   Elf64_Xword *dest64 = (Elf64_Xword *) &dest32[4];
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+index 1106242..ab95639 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+@@ -32,6 +32,7 @@ SRC_URI += "\
+ 	file://dso-link-change.patch \
+ 	file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
+ 	file://elfutils-ar-c-fix-num-passed-to-memset.patch \
++	file://Fix_elf_cvt_gunhash.patch \
+ "
+ # Only apply when building uclibc based target recipe
+ SRC_URI_append_libc-uclibc = " file://uclibc-support.patch"
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.158.bb b/meta/recipes-devtools/elfutils/elfutils_0.158.bb
+index ef3dd0b..42724a1 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.158.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.158.bb
+@@ -30,6 +30,7 @@ SRC_URI += "\
+         file://dso-link-change.patch \
+         file://m4-biarch.m4-tweak-AC_RUN_IFELSE-for-cross-compiling.patch \
+         file://fixheadercheck.patch \
++        file://Fix_elf_cvt_gunhash.patch \
+ "
  
- SRC_URI = "http://www.xs4all.nl/~carlo17/which/which-${PV}.tar.gz \
--           file://fix_name_conflict_group_member.patch"
-+           file://fix_name_conflict_group_member.patch \
-+           file://automake-foreign.patch \
-+"
- 
- SRC_URI[md5sum] = "42d51938e48b91f6e19fabf216f5c3e9"
- SRC_URI[sha256sum] = "9445cd7e02ec0c26a44fd56098464ded064ba5d93dd2e15ec12410ba56b2e544"
+ # Only apply when building uclibc based target recipe
 -- 
-2.0.0
+1.7.10.4
 
 
