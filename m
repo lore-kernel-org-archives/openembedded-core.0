@@ -1,35 +1,24 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ECF9165CED
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 681BC65CED
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Oct 2014 02:03:36 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9S23YTF025968
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 27 Oct 2014 19:03:34 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.16]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0174.001;
-	Mon, 27 Oct 2014 19:03:34 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>, Martin Jansa
-	<martin.jansa@gmail.com>
-Thread-Topic: [OE-core] [PATCH] which-2.18: Make sure ChangeLog exists for
-	automake
-Thread-Index: AQHP8dQk934aq9MkGU2K3pmAPIMNoJxEwRSg
-Date: Tue, 28 Oct 2014 02:03:33 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AABD53ABA7@ALA-MBA.corp.ad.wrs.com>
-References: <1414403082-28396-1-git-send-email-jackie.huang@windriver.com>
-	<20141027095248.GC2430@jama>
-	<CAJTo0LZOAOEoEi=7KA70hgJqdoC65xyqkzYvNHHzfPQn=Gdp1A@mail.gmail.com>
-In-Reply-To: <CAJTo0LZOAOEoEi=7KA70hgJqdoC65xyqkzYvNHHzfPQn=Gdp1A@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.131]
+	Tue, 28 Oct 2014 02:12:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9S2C1jl020331
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Oct 2014 19:12:01 -0700 (PDT)
+Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 27 Oct 2014 19:12:01 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Oct 2014 22:12:00 -0400
+Message-ID: <1414462320-15405-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.0.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] which-2.18: Make sure ChangeLog exists for automake
+Subject: [PATCH v2] which-2.18: Use foreign strictness to avoid automake errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,130 +31,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Oct 2014 02:03:41 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AABD53ABA7ALAMBAcorpadwrs_"
+X-List-Received-Date: Tue, 28 Oct 2014 02:12:09 -0000
+Content-Type: text/plain
 
---_000_1B858668EC6A94408DCA5225FDFA85AABD53ABA7ALAMBAcorpadwrs_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: Jackie Huang <jackie.huang@windriver.com>
 
-VGhlIHVwc3RyZWFtIHNlZW1zIG5vdCBhY3RpdmUgYW55IG1vcmUsIHRoZSBob21lIHBhZ2UgKGh0
-dHA6Ly9jYXJsbzE3LmhvbWUueHM0YWxsLm5sL3doaWNoLykgaXMgZGVhZCwNCmFuZCB0aGUgbGFz
-dCB1cGRhdGUgaW4gY3ZzIGlzIDYgeWVhcnMgYWdvOiBodHRwOi8vY3ZzLnNhdmFubmFoLmdudS5v
-cmcvdmlld3ZjL3doaWNoLz9yb290PXdoaWNoDQoNCkkgd2lsbCBhZGQgYSBwYXRoIHdpdGggdXBz
-dHJlYW0tc3RhdHVzIGluYXBwcm9wcmlhdGUuDQoNClRoYW5rcywNCkphY2tpZQ0KDQpGcm9tOiBC
-dXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBNb25kYXks
-IE9jdG9iZXIgMjcsIDIwMTQgNjo1MiBQTQ0KVG86IE1hcnRpbiBKYW5zYQ0KQ2M6IEh1YW5nLCBK
-aWUgKEphY2tpZSk7IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSB3aGlj
-aC0yLjE4OiBNYWtlIHN1cmUgQ2hhbmdlTG9nIGV4aXN0cyBmb3IgYXV0b21ha2UNCg0KT24gMjcg
-T2N0b2JlciAyMDE0IDA5OjUyLCBNYXJ0aW4gSmFuc2EgPG1hcnRpbi5qYW5zYUBnbWFpbC5jb208
-bWFpbHRvOm1hcnRpbi5qYW5zYUBnbWFpbC5jb20+PiB3cm90ZToNCk9uIE1vbiwgT2N0IDI3LCAy
-MDE0IGF0IDA1OjQ0OjQyQU0gLTA0MDAsIGphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPG1haWx0
-bzpqYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbT4gd3JvdGU6DQo+IEZyb206IEphY2tpZSBIdWFu
-ZyA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb208bWFpbHRvOmphY2tpZS5odWFuZ0B3aW5kcml2
-ZXIuY29tPj4NCj4NCj4gRml4ZWQ6DQo+IE1ha2VmaWxlLmFtOiBlcnJvcjogcmVxdWlyZWQgZmls
-ZSAnLi9DaGFuZ2VMb2cnIG5vdCBmb3VuZA0KDQpJc24ndCBpdCBiZXR0ZXIgdG8gcGFzcyBmb3Jl
-aWduIHRvIGF1dG9tYWtlPw0KDQpZZXMsIGFuZCB0YWxrIHRvIHVwc3RyZWFtIHRvIHVuZGVyc3Rh
-bmQgd2h5IHRoaXMgaXNuJ3QgYSBwcm9ibGVtLiAgU29tZSB1cHN0cmVhbXMgYXJlIHVuYXdhcmUg
-b2YgYXV0b3JlY29uZiBhbmQgY29udGludWUgdXNpbmcgaG9tZS1ncm93biB0b29scy4NCg0KUm9z
-cw0K
+Fixed:
+Makefile.am: error: required file './ChangeLog' not found
 
---_000_1B858668EC6A94408DCA5225FDFA85AABD53ABA7ALAMBAcorpadwrs_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ .../which/which-2.18/automake-foreign.patch        | 28 ++++++++++++++++++++++
+ meta/recipes-extended/which/which_2.18.bb          |  4 +++-
+ 2 files changed, 31 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/which/which-2.18/automake-foreign.patch
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
-NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
-b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
-DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
-LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
-bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
-DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
-YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
-b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
-IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+VGhlIHVwc3RyZWFtIHNlZW1zIG5vdCBhY3RpdmUgYW55
-IG1vcmUsIHRoZSBob21lIHBhZ2UgKDxhIGhyZWY9Imh0dHA6Ly9jYXJsbzE3LmhvbWUueHM0YWxs
-Lm5sL3doaWNoLyI+aHR0cDovL2NhcmxvMTcuaG9tZS54czRhbGwubmwvd2hpY2gvPC9hPikgaXMg
-ZGVhZCw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZx
-dW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+YW5kIHRoZSBsYXN0IHVwZGF0ZSBp
-biBjdnMgaXMgNiB5ZWFycyBhZ286DQo8YSBocmVmPSJodHRwOi8vY3ZzLnNhdmFubmFoLmdudS5v
-cmcvdmlld3ZjL3doaWNoLz9yb290PXdoaWNoIj5odHRwOi8vY3ZzLnNhdmFubmFoLmdudS5vcmcv
-dmlld3ZjL3doaWNoLz9yb290PXdoaWNoPC9hPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5
-OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdE
-Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
-biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+SSB3aWxsIGFkZCBhIHBhdGgg
-d2l0aCB1cHN0cmVhbS1zdGF0dXMgaW5hcHByb3ByaWF0ZS48bzpwPjwvbzpwPjwvc3Bhbj48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
-LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6
-IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPlRoYW5rcyw8bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMt
-c2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+SmFja2llPG86cD48L286cD48L3NwYW4+PC9wPg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
-YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMx
-RjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpu
-b25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowaW4gMGluIDBpbiA0LjBw
-dCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjQjVD
-NERGIDEuMHB0O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFo
-b21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9zcGFuPjwvYj48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1
-b3Q7c2Fucy1zZXJpZiZxdW90OyI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGlu
-dGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBNb25kYXksIE9jdG9iZXIgMjcsIDIwMTQgNjo1
-MiBQTTxicj4NCjxiPlRvOjwvYj4gTWFydGluIEphbnNhPGJyPg0KPGI+Q2M6PC9iPiBIdWFuZywg
-SmllIChKYWNraWUpOyBPRS1jb3JlPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0g
-W1BBVENIXSB3aGljaC0yLjE4OiBNYWtlIHN1cmUgQ2hhbmdlTG9nIGV4aXN0cyBmb3IgYXV0b21h
-a2U8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj5PbiAyNyBPY3RvYmVyIDIwMTQgMDk6NTIsIE1hcnRpbiBKYW5zYSAmbHQ7
-PGEgaHJlZj0ibWFpbHRvOm1hcnRpbi5qYW5zYUBnbWFpbC5jb20iIHRhcmdldD0iX2JsYW5rIj5t
-YXJ0aW4uamFuc2FAZ21haWwuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj5PbiBNb24sIE9jdCAyNywgMjAxNCBhdCAwNTo0NDo0MkFNIC0wNDAw
-LCA8YSBocmVmPSJtYWlsdG86amFja2llLmh1YW5nQHdpbmRyaXZlci5jb20iPg0KamFja2llLmh1
-YW5nQHdpbmRyaXZlci5jb208L2E+IHdyb3RlOjxicj4NCiZndDsgRnJvbTogSmFja2llIEh1YW5n
-ICZsdDs8YSBocmVmPSJtYWlsdG86amFja2llLmh1YW5nQHdpbmRyaXZlci5jb20iPmphY2tpZS5o
-dWFuZ0B3aW5kcml2ZXIuY29tPC9hPiZndDs8YnI+DQomZ3Q7PGJyPg0KJmd0OyBGaXhlZDo8YnI+
-DQomZ3Q7IE1ha2VmaWxlLmFtOiBlcnJvcjogcmVxdWlyZWQgZmlsZSAnLi9DaGFuZ2VMb2cnIG5v
-dCBmb3VuZDxicj4NCjxicj4NCklzbid0IGl0IGJldHRlciB0byBwYXNzIGZvcmVpZ24gdG8gYXV0
-b21ha2U/PG86cD48L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
-bmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5ZZXMs
-IGFuZCB0YWxrIHRvIHVwc3RyZWFtIHRvIHVuZGVyc3RhbmQgd2h5IHRoaXMgaXNuJ3QgYSBwcm9i
-bGVtLiZuYnNwOyBTb21lIHVwc3RyZWFtcyBhcmUgdW5hd2FyZSBvZiBhdXRvcmVjb25mIGFuZCBj
-b250aW51ZSB1c2luZyBob21lLWdyb3duIHRvb2xzLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzJm5ic3A7PG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8
-L2h0bWw+DQo=
+diff --git a/meta/recipes-extended/which/which-2.18/automake-foreign.patch b/meta/recipes-extended/which/which-2.18/automake-foreign.patch
+new file mode 100644
+index 0000000..495cdc6
+--- /dev/null
++++ b/meta/recipes-extended/which/which-2.18/automake-foreign.patch
+@@ -0,0 +1,28 @@
++Subject: [PATCH] automake foreign strictness
++
++Use foreign strictness to avoid automake errors.
++
++Upstream-Status: Inappropriate [upstream no longer active]
++
++Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
++---
++ configure.ac |    5 +++--
++ 1 files changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index b30b6f5..bd3222c 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1,6 +1,7 @@
++ dnl Process this file with autoconf to produce a configure script.
++-AC_INIT(which.c)
++-AM_INIT_AUTOMAKE(which, 2.18)
+++AC_INIT([which],[2.18])
+++AC_CONFIG_SRCDIR(which.c)
+++AM_INIT_AUTOMAKE([foreign])
++ AM_CONFIG_HEADER(config.h)
++ AM_MAINTAINER_MODE
++ 
++-- 
++1.7.1
++
+diff --git a/meta/recipes-extended/which/which_2.18.bb b/meta/recipes-extended/which/which_2.18.bb
+index 5fa5d9e..fd68520 100644
+--- a/meta/recipes-extended/which/which_2.18.bb
++++ b/meta/recipes-extended/which/which_2.18.bb
+@@ -12,7 +12,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ PR = "r2"
+ 
+ SRC_URI = "http://www.xs4all.nl/~carlo17/which/which-${PV}.tar.gz \
+-           file://fix_name_conflict_group_member.patch"
++           file://fix_name_conflict_group_member.patch \
++           file://automake-foreign.patch \
++"
+ 
+ SRC_URI[md5sum] = "42d51938e48b91f6e19fabf216f5c3e9"
+ SRC_URI[sha256sum] = "9445cd7e02ec0c26a44fd56098464ded064ba5d93dd2e15ec12410ba56b2e544"
+-- 
+2.0.0
 
---_000_1B858668EC6A94408DCA5225FDFA85AABD53ABA7ALAMBAcorpadwrs_--
+
