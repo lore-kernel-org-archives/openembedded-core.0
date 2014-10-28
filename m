@@ -1,46 +1,36 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id F367F601F6
+Return-Path: <krirobo@gmail.com>
+Received: from mail-ob0-f175.google.com (mail-ob0-f175.google.com
+	[209.85.214.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 5471F601A0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Oct 2014 09:36:11 +0000 (UTC)
-Received: by mail-wi0-f173.google.com with SMTP id ex7so8677324wid.6
+	Tue, 28 Oct 2014 10:30:53 +0000 (UTC)
+Received: by mail-ob0-f175.google.com with SMTP id wm4so256116obc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Oct 2014 02:36:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=tA3qYLJxtqNnE+aRvE6gZdjpLNpLwgGm3FEOyn34AJc=;
-	b=RVZbVOKHL7BCDL9X2DJvsyygH2CpV/8OgU5xGUJ4vKgZx+hFPxqsN9gRxAsRQqLxD3
-	51+miltGFfiOnofv5EAlb5qMjdXmQuE39emvICifvtNBgMJmVxy5Li87/o91rsgnDOC1
-	q/0T6g6CQr1dxU7FfPYX3X0zizJ2n4O+C3v3oUs7IFh0U8VbfzjiNeRmx6dND1QG7MLF
-	C6HyaqhU7fxHLa9CF2m9hiBaS2f5sIN0anC+3HRvm+TmpqWOF7W3eshzHRV8LfesVoiu
-	T0Ib7JW861a/JIKoC2P8yc1PiWNOxJ0N5/A9+37/dMBZjCKYkUqZ7KjuujclNGItIXGs
-	GJCQ==
-X-Gm-Message-State: ALoCoQl7abUQ75vrjdeJlaloUtN2qN3ySZrs3TKTZ/CeOOgzI491V3ez+yBxX5zPet5vs7yI8ENV
-X-Received: by 10.180.77.79 with SMTP id q15mr26454470wiw.8.1414488972174;
-	Tue, 28 Oct 2014 02:36:12 -0700 (PDT)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id ge1sm14725848wib.4.2014.10.28.02.36.10
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 28 Oct 2014 02:36:11 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LY5A00MG1hmFL7Smo1sdHnGdfqpun4+kbhDRZ3iAQ2NDw@mail.gmail.com>
-Date: Tue, 28 Oct 2014 10:36:09 +0100
-Message-Id: <A5FC7B4F-F911-4DFA-8F66-C006740DC0F4@dominion.thruhere.net>
-References: <1414336254-22707-1-git-send-email-koen@dominion.thruhere.net>
-	<CAJTo0LagpRtefUvm_rrOcEyj6hTZRkySk9fVzcYGm+UFFYe_rQ@mail.gmail.com>
-	<18631FB3-E9CA-4DD0-BF5A-DB114D3B7422@dominion.thruhere.net>
-	<CAJTo0Lam=wC-MBny66h-jC0ieb9tp9nTJUWEQ+KXvLDEqbk23Q@mail.gmail.com>
-	<473E6E55-239E-4EC8-813C-8494BEF78CED@dominion.thruhere.net>
-	<CAJTo0LY5A00MG1hmFL7Smo1sdHnGdfqpun4+kbhDRZ3iAQ2NDw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1990.1)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base bbclass: add support for tar.lz
+	Tue, 28 Oct 2014 03:30:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=QepkgB+qP6LPUoA1qaUpwZdjbOn1CiOvLasgin5FoaY=;
+	b=HS9XWGqYj6dQrVV7obbivLEx8dfh6h7xbAxxQQ33w/PK6OumIwZk8IlUsY6bpOB8yl
+	NrvJ+25WbXlKJXqcM7orzLUJ2TkpUOIZm8q13pytRotmlJMdO8XCZCtb8T+b7vByQoHV
+	bswdjXmT3pUzt24ckpPxsckVXuCZHG04O/3fkEKo5Qk1UJvgrCX6Uw94082uIeIwtGNW
+	8sWmfsXgba30pbI2Aj5KZqwKhuT+URTIon2T9DdRk+Af0LsBZPwwCk4gGQ5xTUorDmWO
+	6W/JLBs2LjYAmfLFIxIFsyChoI/u5YLIjkWakGP9E+ZNjKV3WhDTINUAig1uVSXt0d5o
+	FDQw==
+MIME-Version: 1.0
+X-Received: by 10.202.86.82 with SMTP id k79mr1669975oib.58.1414492253650;
+	Tue, 28 Oct 2014 03:30:53 -0700 (PDT)
+Received: by 10.76.150.38 with HTTP; Tue, 28 Oct 2014 03:30:53 -0700 (PDT)
+In-Reply-To: <1414450784.7967.112.camel@ted>
+References: <1398958819.30460.86.camel@ted>
+	<CAFgGSN7et4nS+yD39199rF+7mgHkfApmQ5E9M4u=Zvzw-gGSkg@mail.gmail.com>
+	<1414450784.7967.112.camel@ted>
+Date: Tue, 28 Oct 2014 11:30:53 +0100
+Message-ID: <CAFgGSN6xBxoQpF3wSJMNnyeAnOQ-MDTAr4DqJ4adXb9MgEnEpw@mail.gmail.com>
+From: Kristof Robot <krirobo@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-common: Only apply fpu settings to target gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,37 +43,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Oct 2014 09:36:16 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Oct 2014 10:30:58 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Mon, Oct 27, 2014 at 11:59 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2014-10-27 at 20:54 +0100, Kristof Robot wrote:
+>> Richard, all,
+>>
+>> After bisecting, I found that, since this patch, my toolchain is being
+>> built with soft floating point support, while it should be built with
+>> hard floating point support:
+>>
+[snip]
+>> I am using DEFAULTTUNE = "cortexa7hf-neon-vfpv4", resulting in
+>> following build configuration parameters:
+>>     TUNE_FEATURES     = "arm armv7a vfp neon callconvention-hard vfpv4 cortexa7"
+>>     TARGET_FPU        = "vfp-vfpv4-neon"
+>
+> When building in OE, we always pass in the correct flags to gcc to
+> ensure the correct thing gets built. The option you're changing with the
+> revert just changed the default used by gcc if no option is specified on
+> the commandline, so the change of the above test isn't a surprise.
+>
+> What is the real world problem you're seeing due to this? Is it caused
+> by some compiler flags not being passed in somewhere?
 
-> Op 27 okt. 2014, om 14:15 heeft Burton, Ross <ross.burton@intel.com> =
-het volgende geschreven:
->=20
->=20
-> On 27 October 2014 13:06, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
-> Ah, two different problems :/
->=20
-> The problem that lzip-native isn't in oe-core is only a problem when =
-there's a .lz SRC_URI in oe-core, but the false-positives are a problem =
-now.
+The real world problem is a compilation of the meta-ros libfreenect
+library [1] for a Cubieboard2 [2] - this build fails because the
+compiler fails to find <gnu/stubs-hard.h> (only gnu/stubs-soft.h is
+available).
+In other words, somehow libfreenect (correctly) expects hard floating
+point, but then runs into troubles as the toolchain is (incorrectly)
+compiled using soft floating point.
+See also [3], which describes a similar problem, and [4], which seems
+to provide relevant info.
 
-Apart from this dependency problem, bitbake has a problem as well. Does =
-anyone know why bitbake does:
+More generally, I would actually assume that everything is being built
+hard floating point, as a result of the provided DEFAULTTUNE =
+"cortexa7hf-neon-vfpv4".
 
-	compressiontool --stdout file.tar.compressed | tar x
+Isn't this the correct way to force hard floating point?
 
-instead of:
+Thanks!
 
-	tar xf file.tar.compressed=20
+Kristof
 
-Tar seems to do the right thing with 'tar xf' after installing lzip on =
-my angstrom system, I don't have and .tar.lz lzops lying around to test =
-with, though.
-
-regards,
-
-Koen=
+[1] https://github.com/bmwcarit/meta-ros/blob/master/recipes-extended/libfreenect/libfreenect_0.2.1.bb
+[2] http://cubieboard.org/2013/06/19/cubieboard2-is-here/
+[3] https://gcc.gnu.org/ml/gcc-help/2013-02/msg00141.html
+[4] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61796
 
