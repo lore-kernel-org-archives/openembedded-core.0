@@ -1,38 +1,25 @@
-Return-Path: <alexandru.damian@intel.com>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 21F2460557
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D9E6601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Oct 2014 14:09:24 +0000 (UTC)
-Received: by mail-wg0-f51.google.com with SMTP id l18so924400wgh.34
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Oct 2014 07:09:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=HnXw91q3wMt2e60QBDzgapr/7YSvY3zSuGkv8EWHx0U=;
-	b=K62phWXlgaDzMiZ6Wy2rRL1W/TCiXDHH2NES2jpCaF42JGd/tUenQWmvpqzaC7hfWY
-	zTJMQ8PFcZ2tZTgnTNAA4Dzq407xt7p8p9h71KtMpLCANmQ5Pc6JRBgrDzMls9/fVByC
-	UYzKZZnRmgjCMuIi1v9Tk/Urx6rN04Dg0jpgerTHZ5Wl+b6vp+zSCrV7Ikf2lbIKHfzI
-	p/ntbNOdCZpOtMUHKeAQyh90JOEe3JO4w5NO02xA10umigQ6LJEcBFMSUXgOmr2oTNsq
-	fpH21ozjuhPSnrYApl6Q0c5yowA+SIUBDS169dQWjRAdd74dF7DST/80y4LN09IX+17O
-	F8FQ==
-X-Gm-Message-State: ALoCoQkjNYgis+Db9rT2pYoXZBnP90C015EuUyIW9G1QzE3q8L4wMVu+4cRqLgg/gg4iiw2imXIU
-X-Received: by 10.180.73.19 with SMTP id h19mr27993868wiv.3.1414505363027;
-	Tue, 28 Oct 2014 07:09:23 -0700 (PDT)
-Received: from adamian-desk.corp.intel.com ([83.217.123.106])
-	by mx.google.com with ESMTPSA id mc4sm2354382wic.6.2014.10.28.07.09.20
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Oct 2014 07:09:22 -0700 (PDT)
-Received: by adamian-desk.corp.intel.com (Postfix, from userid 1000)
-	id 176B7561BD7; Tue, 28 Oct 2014 14:09:21 +0000 (GMT)
-From: Alex DAMIAN <alexandru.damian@intel.com>
+	Tue, 28 Oct 2014 15:05:49 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 408C8F811EB; Tue, 28 Oct 2014 09:05:49 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from Zeus.chez-thomas.org (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 316CDF811EA;
+	Tue, 28 Oct 2014 09:05:48 -0600 (MDT)
+From: Gary Thomas <gary@mlbassoc.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Oct 2014 14:09:19 +0000
-Message-Id: <1414505359-1271-1-git-send-email-alexandru.damian@intel.com>
+Date: Tue, 28 Oct 2014 09:05:47 -0600
+Message-Id: <1414508747-4688-1-git-send-email-gary@mlbassoc.com>
 X-Mailer: git-send-email 1.9.1
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH 01/27] toaster: add toaster layer configuration file
+Cc: Gary Thomas <gary@mlbassoc.com>
+Subject: [PATCH] python-pygtk: Restore pkg-config file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,105 +32,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Oct 2014 14:09:28 -0000
+X-List-Received-Date: Tue, 28 Oct 2014 15:06:04 -0000
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+Some previous version of this recipe was errantly removing the pygtk-2.0.pc
+(pkg-config) file.  This is needed for other packages to be able to build
+against this library.
 
-In managed mode, Toaster tries to discover layers
-that are being checked-out on disk.
+Also update the .pc file to match current pkg-config use (libdir was missing).
 
-In base layers, the toasterconf.json file
-describes basic configuration file for builds based
-on that layer, like default configuration variable
-settings, toaster-compatible branches, and the
-layerindex URL where the base layer and
-compatible layers are listed.
-
-This patch adds toasterconf.json file to the oe core layer.
-
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
 ---
- meta/conf/toasterconf.json | 71 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
- create mode 100644 meta/conf/toasterconf.json
+ .../python/python-pygtk/fix-pygtk-2.0.pc.patch              | 13 +++++++++++++
+ meta/recipes-devtools/python/python-pygtk_2.24.0.bb         |  2 +-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python-pygtk/fix-pygtk-2.0.pc.patch
 
-diff --git a/meta/conf/toasterconf.json b/meta/conf/toasterconf.json
+diff --git a/meta/recipes-devtools/python/python-pygtk/fix-pygtk-2.0.pc.patch b/meta/recipes-devtools/python/python-pygtk/fix-pygtk-2.0.pc.patch
 new file mode 100644
-index 0000000..cdc7564
+index 0000000..b615654
 --- /dev/null
-+++ b/meta/conf/toasterconf.json
-@@ -0,0 +1,71 @@
-+{
-+    "config": {"MACHINE": "qemux86", "DISTRO": "poky"},
-+    "layersources": [
-+        {
-+            "name": "Poky",
-+            "sourcetype": 0,
-+            "apiurl": "../../",
-+            "branches": ["master"],
-+            "layers": [
-+                {
-+                    "name": "openembedded-core",
-+                    "local_path": "meta",
-+                    "vcs_url": "remote:origin",
-+                    "dirpath": "meta"
-+                },
-+                {
-+                    "name": "meta-yocto",
-+                    "local_path": "meta",
-+                    "vcs_url": "remote:origin",
-+                    "dirpath": "meta-yocto"
-+                },
-+                {
-+                    "name": "meta-yocto-bsp",
-+                    "local_path": "meta",
-+                    "vcs_url": "remote:origin",
-+                    "dirpath": "meta-yocto-bsp"
-+                }
++++ b/meta/recipes-devtools/python/python-pygtk/fix-pygtk-2.0.pc.patch
+@@ -0,0 +1,13 @@
++Upstream-Status: Inappropriate [configuration]
 +
-+            ]
-+        },
-+        {
-+            "name": "OpenEmbedded",
-+            "sourcetype": 1,
-+            "apiurl": "http://layers.openembedded.org/layerindex/api/",
-+            "branches": ["master", "dizzy"]
-+        }
-+    ],
-+    "bitbake" : [
-+        {
-+            "name": "master",
-+            "giturl": "git://git.yoctoproject.org/poky.git",
-+            "branch": "dizzy",
-+            "dirpath": "bitbake"
-+        },
-+        {
-+            "name": "master",
-+            "giturl": "git://git.yoctoproject.org/poky.git",
-+            "branch": "master",
-+            "dirpath": "bitbake"
-+        }
-+    ],
-+
-+    "defaultrelease": "master",
-+
-+    "releases": [
-+        {
-+            "name": "master",
-+            "description": "Yocto Project master",
-+            "bitbake": "master",
-+            "branch": "master",
-+            "defaultlayers": [ "Poky:openembedded-core", "Poky:meta-yocto", "Poky:meta-yocto-bsp"]
-+        },
-+        {
-+            "name": "dizzy",
-+            "description": "Yocto Project 1.7 Dizzy",
-+            "bitbake": "master",
-+            "branch": "dizzy",
-+            "defaultlayers": [ "Poky:openembedded-core", "Poky:meta-yocto", "Poky:meta-yocto-bsp"]
-+        }
-+    ]
-+}
++Index: pygtk-2.24.0/pygtk-2.0.pc.in
++===================================================================
++--- pygtk-2.24.0.orig/pygtk-2.0.pc.in
+++++ pygtk-2.24.0/pygtk-2.0.pc.in
++@@ -1,5 +1,6 @@
++ prefix=@prefix@
++ exec_prefix=@exec_prefix@
+++libdir=@libdir@
++ includedir=@includedir@
++ datarootdir=@datarootdir@
++ datadir=@datadir@
+diff --git a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
+index 8fc194f..bd26ebb 100644
+--- a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
++++ b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
+@@ -15,6 +15,7 @@ SRC_URI = "ftp://ftp.gnome.org/pub/gnome/sources/pygtk/2.24/${SRCNAME}-${PV}.tar
+            file://fix-gtkunixprint.patch \
+            file://prevent_to_get_display_during_import.patch \
+            file://nodocs.patch \
++	   file://fix-pygtk-2.0.pc.patch \
+            file://acinclude.m4 \
+            file://update-dependences-of-defs.c.patch"
+ 
+@@ -43,7 +44,6 @@ do_configure_prepend() {
+ do_install_append() {
+ 	find ${D} -name "*.la"|xargs rm -f
+ 	rm -f ${D}/${bindir}/pygtk-codegen-2.0
+-	rm -rf ${D}/${libdir}/pkgconfig
+ 	sed -i -e '1s|^#!.*python|#!/usr/bin/env python|' ${D}${bindir}/pygtk-demo
+ }
+ 
 -- 
 1.9.1
 
