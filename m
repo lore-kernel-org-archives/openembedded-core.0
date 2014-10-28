@@ -1,32 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 085D26AC47
+Return-Path: <alexandru.damian@intel.com>
+Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 21F2460557
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Oct 2014 11:31:08 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s9SBUVcu011508; Tue, 28 Oct 2014 11:30:31 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id zvzu6sg8ARkn; Tue, 28 Oct 2014 11:30:31 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s9SBUSHr011504
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 28 Oct 2014 11:30:29 GMT
-Message-ID: <1414495863.7967.142.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kristof Robot <krirobo@gmail.com>
-Date: Tue, 28 Oct 2014 11:31:03 +0000
-In-Reply-To: <CAFgGSN6xBxoQpF3wSJMNnyeAnOQ-MDTAr4DqJ4adXb9MgEnEpw@mail.gmail.com>
-References: <1398958819.30460.86.camel@ted>
-	<CAFgGSN7et4nS+yD39199rF+7mgHkfApmQ5E9M4u=Zvzw-gGSkg@mail.gmail.com>
-	<1414450784.7967.112.camel@ted>
-	<CAFgGSN6xBxoQpF3wSJMNnyeAnOQ-MDTAr4DqJ4adXb9MgEnEpw@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-common: Only apply fpu settings to target gcc
+	Tue, 28 Oct 2014 14:09:24 +0000 (UTC)
+Received: by mail-wg0-f51.google.com with SMTP id l18so924400wgh.34
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Oct 2014 07:09:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=HnXw91q3wMt2e60QBDzgapr/7YSvY3zSuGkv8EWHx0U=;
+	b=K62phWXlgaDzMiZ6Wy2rRL1W/TCiXDHH2NES2jpCaF42JGd/tUenQWmvpqzaC7hfWY
+	zTJMQ8PFcZ2tZTgnTNAA4Dzq407xt7p8p9h71KtMpLCANmQ5Pc6JRBgrDzMls9/fVByC
+	UYzKZZnRmgjCMuIi1v9Tk/Urx6rN04Dg0jpgerTHZ5Wl+b6vp+zSCrV7Ikf2lbIKHfzI
+	p/ntbNOdCZpOtMUHKeAQyh90JOEe3JO4w5NO02xA10umigQ6LJEcBFMSUXgOmr2oTNsq
+	fpH21ozjuhPSnrYApl6Q0c5yowA+SIUBDS169dQWjRAdd74dF7DST/80y4LN09IX+17O
+	F8FQ==
+X-Gm-Message-State: ALoCoQkjNYgis+Db9rT2pYoXZBnP90C015EuUyIW9G1QzE3q8L4wMVu+4cRqLgg/gg4iiw2imXIU
+X-Received: by 10.180.73.19 with SMTP id h19mr27993868wiv.3.1414505363027;
+	Tue, 28 Oct 2014 07:09:23 -0700 (PDT)
+Received: from adamian-desk.corp.intel.com ([83.217.123.106])
+	by mx.google.com with ESMTPSA id mc4sm2354382wic.6.2014.10.28.07.09.20
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 Oct 2014 07:09:22 -0700 (PDT)
+Received: by adamian-desk.corp.intel.com (Postfix, from userid 1000)
+	id 176B7561BD7; Tue, 28 Oct 2014 14:09:21 +0000 (GMT)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Oct 2014 14:09:19 +0000
+Message-Id: <1414505359-1271-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: [PATCH 01/27] toaster: add toaster layer configuration file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,80 +45,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Oct 2014 11:31:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Oct 2014 14:09:28 -0000
 
-On Tue, 2014-10-28 at 11:30 +0100, Kristof Robot wrote:
-> On Mon, Oct 27, 2014 at 11:59 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Mon, 2014-10-27 at 20:54 +0100, Kristof Robot wrote:
-> >> Richard, all,
-> >>
-> >> After bisecting, I found that, since this patch, my toolchain is being
-> >> built with soft floating point support, while it should be built with
-> >> hard floating point support:
-> >>
-> [snip]
-> >> I am using DEFAULTTUNE = "cortexa7hf-neon-vfpv4", resulting in
-> >> following build configuration parameters:
-> >>     TUNE_FEATURES     = "arm armv7a vfp neon callconvention-hard vfpv4 cortexa7"
-> >>     TARGET_FPU        = "vfp-vfpv4-neon"
-> >
-> > When building in OE, we always pass in the correct flags to gcc to
-> > ensure the correct thing gets built. The option you're changing with the
-> > revert just changed the default used by gcc if no option is specified on
-> > the commandline, so the change of the above test isn't a surprise.
-> >
-> > What is the real world problem you're seeing due to this? Is it caused
-> > by some compiler flags not being passed in somewhere?
-> 
-> The real world problem is a compilation of the meta-ros libfreenect
-> library [1] for a Cubieboard2 [2] - this build fails because the
-> compiler fails to find <gnu/stubs-hard.h> (only gnu/stubs-soft.h is
-> available).
-> In other words, somehow libfreenect (correctly) expects hard floating
-> point, but then runs into troubles as the toolchain is (incorrectly)
-> compiled using soft floating point.
-> See also [3], which describes a similar problem, and [4], which seems
-> to provide relevant info.
-> 
-> More generally, I would actually assume that everything is being built
-> hard floating point, as a result of the provided DEFAULTTUNE =
-> "cortexa7hf-neon-vfpv4".
->
-> Isn't this the correct way to force hard floating point?
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-There is something wrong somewhere by the sounds of it but I'm not 100%
-sure where. With that tune, bitbake -e | grep CC= should show that CC is
-something along the lines of:
+In managed mode, Toaster tries to discover layers
+that are being checked-out on disk.
 
-CC="arm-poky-linux-gnueabi-gcc  -march=armv7-a -mthumb-interwork -mfloat-abi=hard -mfpu=neon-vfpv4 -mtune=cortex-a7 --sysroot=X"
+In base layers, the toasterconf.json file
+describes basic configuration file for builds based
+on that layer, like default configuration variable
+settings, toaster-compatible branches, and the
+layerindex URL where the base layer and
+compatible layers are listed.
 
-the key part being -mfloat-abi=hard. When (e)glibc is built, which
-should be built specifically for this configuration, it should see that
-setting in the various flags and should generate headers like:
+This patch adds toasterconf.json file to the oe core layer.
 
-./image/usr/include/gnu/stubs-hard.h
-./image/usr/include/gnu/stubs.h
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+---
+ meta/conf/toasterconf.json | 71 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+ create mode 100644 meta/conf/toasterconf.json
 
-i.e. it should build a C library that matches this configuration and has
-the right headers. When libfreenect is built, the right headers should
-then be available.
-
-So, I'd suggest checking that the compiler flags in CC are what you'd
-expect and then that the C library is built with the right format
-headers. Something, somewhere isn't honouring the flags correctly as far
-as I can tell but I don't know what.
-
-Also, I'd be aware of the fact that we build one cross compiler
-(gcc-cross) for arm which is meant to work for all arm targets. If you
-build a softfloat something, then a hardfloat machine, it may be that
-something bad is creeping into the build process and a straight revert
-may not reproduce the bug you're seeing.
-
-Cheers,
-
-Richard
+diff --git a/meta/conf/toasterconf.json b/meta/conf/toasterconf.json
+new file mode 100644
+index 0000000..cdc7564
+--- /dev/null
++++ b/meta/conf/toasterconf.json
+@@ -0,0 +1,71 @@
++{
++    "config": {"MACHINE": "qemux86", "DISTRO": "poky"},
++    "layersources": [
++        {
++            "name": "Poky",
++            "sourcetype": 0,
++            "apiurl": "../../",
++            "branches": ["master"],
++            "layers": [
++                {
++                    "name": "openembedded-core",
++                    "local_path": "meta",
++                    "vcs_url": "remote:origin",
++                    "dirpath": "meta"
++                },
++                {
++                    "name": "meta-yocto",
++                    "local_path": "meta",
++                    "vcs_url": "remote:origin",
++                    "dirpath": "meta-yocto"
++                },
++                {
++                    "name": "meta-yocto-bsp",
++                    "local_path": "meta",
++                    "vcs_url": "remote:origin",
++                    "dirpath": "meta-yocto-bsp"
++                }
++
++            ]
++        },
++        {
++            "name": "OpenEmbedded",
++            "sourcetype": 1,
++            "apiurl": "http://layers.openembedded.org/layerindex/api/",
++            "branches": ["master", "dizzy"]
++        }
++    ],
++    "bitbake" : [
++        {
++            "name": "master",
++            "giturl": "git://git.yoctoproject.org/poky.git",
++            "branch": "dizzy",
++            "dirpath": "bitbake"
++        },
++        {
++            "name": "master",
++            "giturl": "git://git.yoctoproject.org/poky.git",
++            "branch": "master",
++            "dirpath": "bitbake"
++        }
++    ],
++
++    "defaultrelease": "master",
++
++    "releases": [
++        {
++            "name": "master",
++            "description": "Yocto Project master",
++            "bitbake": "master",
++            "branch": "master",
++            "defaultlayers": [ "Poky:openembedded-core", "Poky:meta-yocto", "Poky:meta-yocto-bsp"]
++        },
++        {
++            "name": "dizzy",
++            "description": "Yocto Project 1.7 Dizzy",
++            "bitbake": "master",
++            "branch": "dizzy",
++            "defaultlayers": [ "Poky:openembedded-core", "Poky:meta-yocto", "Poky:meta-yocto-bsp"]
++        }
++    ]
++}
+-- 
+1.9.1
 
 
