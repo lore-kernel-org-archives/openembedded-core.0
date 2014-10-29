@@ -1,22 +1,24 @@
 Return-Path: <tom.zanussi@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 22B9D65D59
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E6F770EE2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Oct 2014 22:04:23 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 29 Oct 2014 15:03:00 -0700
+	Wed, 29 Oct 2014 22:04:27 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 29 Oct 2014 15:04:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,280,1413270000"; d="scan'208";a="627922351"
+X-IronPort-AV: E=Sophos;i="5.07,280,1413270000"; d="scan'208";a="598625611"
 Received: from enewy-mobl1.amr.corp.intel.com (HELO localhost) ([10.254.56.8])
-	by orsmga002.jf.intel.com with ESMTP; 29 Oct 2014 15:04:23 -0700
+	by orsmga001.jf.intel.com with ESMTP; 29 Oct 2014 15:04:25 -0700
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: philip@balister.org, maciej.borzecki@open-rnd.pl,
 	openembedded-core@lists.openembedded.org
-Date: Wed, 29 Oct 2014 17:04:20 -0500
-Message-Id: <cover.1414618765.git.tom.zanussi@linux.intel.com>
+Date: Wed, 29 Oct 2014 17:04:19 -0500
+Message-Id: <92a50f084bc31cb2824d01435737b85be99f0d1d.1414618765.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
+In-Reply-To: <cover.1414618765.git.tom.zanussi@linux.intel.com>
+References: <cover.1414618765.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 0/6] some wic bugfixes
+Subject: [PATCH 1/6] wic: Don't allow mkfs to fail silently in partition command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,48 +31,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Oct 2014 22:04:25 -0000
+X-List-Received-Date: Wed, 29 Oct 2014 22:04:30 -0000
 
-This patchset fixes a couple serious wic bugs:
+The return code from the mkfs command used by the partition creation
+command was being ignored, allowing it to silently fail and leaving
+users mystified as to why the resulting filesystem was corrupted.
 
-[YOCTO #6863] - Wic fails to create a working image for a large file system
-[YOCTO #6290] - Update WIC for gummiboot
+This became obvious when failures occurred when creating large
+e.g. sdk filesystems [YOCTO #6863].
 
-I generated core-image-sdk images for each of the wic image types and
-was able to fsck/mount the resulting filesystems.
+Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+---
+ .../lib/wic/kickstart/custom_commands/partition.py | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-These should be applied to the next dizzy point release.
-
-The following changes since commit cf82c6756bad8f7a5edc92ce513e02816b88efb3:
-
-  bitbake: prserv: don't wait until exit to sync (2014-10-28 15:00:39 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/wic-bugfixes-v1
-  http://git.yoctoproject.org/cgit.cgi//log/?h=tzanussi/wic-bugfixes-v1
-
-Tom Zanussi (6):
-  wic: Don't allow mkfs to fail silently in partition command
-  wic: Use overhead factor when creating partitions from rootfs
-    directories
-  wic: Update the help text to include -D (--debug)
-  Revert "wic: set bootimg_dir when using image-name artifacts"
-  wic: Remove special-case bootimg_dir
-  wic: Update bootimg-partition to use bootimg_dir
-
- scripts/lib/image/engine.py                        | 42 +++++-----------------
- scripts/lib/image/help.py                          | 23 ++++++++----
- scripts/lib/wic/imager/direct.py                   |  5 +--
- .../lib/wic/kickstart/custom_commands/partition.py | 24 +++++++++----
- scripts/lib/wic/plugins/imager/direct_plugin.py    | 20 +++++------
- scripts/lib/wic/plugins/source/bootimg-efi.py      |  5 ++-
- .../lib/wic/plugins/source/bootimg-partition.py    |  9 +++--
- scripts/lib/wic/plugins/source/bootimg-pcbios.py   |  3 +-
- scripts/lib/wic/utils/oe/misc.py                   |  1 +
- scripts/wic                                        | 13 +++----
- 10 files changed, 68 insertions(+), 77 deletions(-)
-
+diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
+index 8b0ace6..3950b43 100644
+--- a/scripts/lib/wic/kickstart/custom_commands/partition.py
++++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
+@@ -241,8 +241,10 @@ class Wic_PartData(Mic_PartData):
+ 
+         mkfs_cmd = "mkfs.%s -F %s %s -d %s" % \
+             (self.fstype, extra_imagecmd, rootfs, image_rootfs)
+-        exec_native_cmd(pseudo + mkfs_cmd, native_sysroot)
+-
++        (rc, out) = exec_native_cmd(pseudo + mkfs_cmd, native_sysroot)
++        if rc:
++            print "rootfs_dir: %s" % rootfs_dir
++            msger.error("ERROR: mkfs.%s returned '%s' instead of 0 (which you probably don't want to ignore, use --debug for details) when creating filesystem from rootfs directory: %s" % (self.fstype, rc, rootfs_dir))
+ 
+         # get the rootfs size in the right units for kickstart (Mb)
+         du_cmd = "du -Lbms %s" % rootfs
+@@ -284,7 +286,9 @@ class Wic_PartData(Mic_PartData):
+ 
+         mkfs_cmd = "mkfs.%s -b %d -r %s %s" % \
+             (self.fstype, rootfs_size * 1024, image_rootfs, rootfs)
+-        exec_native_cmd(pseudo + mkfs_cmd, native_sysroot)
++        (rc, out) = exec_native_cmd(pseudo + mkfs_cmd, native_sysroot)
++        if rc:
++            msger.error("ERROR: mkfs.%s returned '%s' instead of 0 (which you probably don't want to ignore, use --debug for details) when creating filesystem from rootfs directory: %s" % (self.fstype, rc, rootfs_dir))
+ 
+         # get the rootfs size in the right units for kickstart (Mb)
+         du_cmd = "du -Lbms %s" % rootfs
+@@ -396,7 +400,9 @@ class Wic_PartData(Mic_PartData):
+         extra_imagecmd = "-i 8192"
+ 
+         mkfs_cmd = "mkfs.%s -F %s %s" % (self.fstype, extra_imagecmd, fs)
+-        exec_native_cmd(mkfs_cmd, native_sysroot)
++        (rc, out) = exec_native_cmd(mkfs_cmd, native_sysroot)
++        if rc:
++            msger.error("ERROR: mkfs.%s returned '%s' instead of 0 (which you probably don't want to ignore, use --debug for details)" % (self.fstype, rc))
+ 
+         self.source_file = fs
+ 
+@@ -414,10 +420,14 @@ class Wic_PartData(Mic_PartData):
+         exec_cmd(dd_cmd)
+ 
+         mkfs_cmd = "mkfs.%s -b %d %s" % (self.fstype, self.size * 1024, rootfs)
+-        exec_native_cmd(mkfs_cmd, native_sysroot)
++        (rc, out) = exec_native_cmd(mkfs_cmd, native_sysroot)
++        if rc:
++            msger.error("ERROR: mkfs.%s returned '%s' instead of 0 (which you probably don't want to ignore, use --debug for details)" % (self.fstype, rc))
+ 
+         mkfs_cmd = "mkfs.%s -F %s %s" % (self.fstype, extra_imagecmd, fs)
+-        exec_native_cmd(mkfs_cmd, native_sysroot)
++        (rc, out) = exec_native_cmd(mkfs_cmd, native_sysroot)
++        if rc:
++            msger.error("ERROR: mkfs.%s returned '%s' instead of 0 (which you probably don't want to ignore, use --debug for details)" % (self.fstype, rc))
+ 
+         self.source_file = fs
+ 
 -- 
 1.9.3
 
