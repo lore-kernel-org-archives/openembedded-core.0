@@ -1,26 +1,37 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B1FD86E633
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C9FB601A0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Oct 2014 07:11:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9T7BtKj022699
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 29 Oct 2014 08:38:26 +0000 (UTC)
+Received: by mail-la0-f45.google.com with SMTP id gm9so2115800lab.18
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Oct 2014 00:11:55 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 29 Oct 2014 00:11:55 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Oct 2014 15:08:44 +0800
-Message-ID: <ba7a4bc229dc090e4b8242ca3f784c15a1656518.1414566472.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1414566472.git.Chong.Lu@windriver.com>
-References: <cover.1414566472.git.Chong.Lu@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] docbook-xsl-stylesheets: add perl to RDEPENDS
+	Wed, 29 Oct 2014 01:38:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=qpXENsuHVHeqzBRm8GAQLQPAFI6fMIvETzvSilbYTdA=;
+	b=ZZVbRXuk+oxyM3GYcxcaKq3QVpwYCq1GjNtgIMQxOfHhaD/5QN3cJtgVoyDOW/6Kx0
+	hphk9+MGL3f+nF7g5NIqvBV6VV7kLrENOmwdJRGEzO72xO4bXOrPXJKFWoRkmaYB4HXd
+	aEvXZCzunMFi3BMdfA1sGh6P3ljoObkzaQL2QTrahgVAOcGCtAb0PkRsEY9vSDeQDCld
+	jtUyBk0Ko7b1mcqtk9lKhvqOa0+joR/xQoVxw8aLv57Sw1v1RLrAlDKnEWa3RG2E83PE
+	39obGQsQOOEYb1klWhvTETCWa1CI3MYE5yRSh1RQ3PdnXEbsffevZBSsCLAJhIEHPbO2
+	QnSA==
+X-Gm-Message-State: ALoCoQl7MSu240zUKxUDVP7p1VfJ+QHvgi3eC4DhwIeTStVQfQnadGgiGLJdkwzq2zGiTPfSmmZb
+X-Received: by 10.152.5.201 with SMTP id u9mr9756127lau.24.1414571906749;
+	Wed, 29 Oct 2014 01:38:26 -0700 (PDT)
+Received: from localhost.localdomain (a91-152-81-141.elisa-laajakaista.fi.
+	[91.152.81.141])
+	by mx.google.com with ESMTPSA id f6sm1643160lbh.10.2014.10.29.01.38.25
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 29 Oct 2014 01:38:26 -0700 (PDT)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Oct 2014 10:38:21 +0200
+Message-Id: <1414571901-17418-1-git-send-email-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.1.1
+Subject: [PATCH] ltp: update to 20140828 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +44,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Oct 2014 07:11:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 29 Oct 2014 08:38:29 -0000
 
-This solves the following warning:
+bump SRCREV to 20140828 tag
+drop automake-foreign patch - fixed upstream (commit 18594de and edbae29)
+update realtime tests fixes upstream status from submitted to backported - merged upstream
 
-docbook-xsl-stylesheets-1.78.1: docbook-xsl-stylesheets requires /usr/bin/perl,
-/bin/bash, but no providers in its RDEPENDS [file-rdeps]
-
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 ---
- meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ ...tests-Fix-bad-priority-inheritance-conditio.patch |  2 +-
+ ...ealtime-tests-Fix-robust-mutex-conditionals.patch |  2 +-
+ meta/recipes-extended/ltp/ltp/automake-foreign.patch | 20 --------------------
+ .../ltp/{ltp_20140422.bb => ltp_20140828.bb}         |  3 +--
+ 4 files changed, 3 insertions(+), 24 deletions(-)
+ delete mode 100644 meta/recipes-extended/ltp/ltp/automake-foreign.patch
+ rename meta/recipes-extended/ltp/{ltp_20140422.bb => ltp_20140828.bb} (98%)
 
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb
-index 39528c8..b546043 100644
---- a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb
-@@ -36,6 +36,7 @@ do_install () {
- 		roundtrip slides template tests tools webhelp website \
- 		xhtml xhtml-1_1 catalog.xml \
- 	${D}${datadir}/xml/docbook/xsl-stylesheets-1.78.1
-+	sed -e "s|bash|sh|g" -i ${D}${datadir}/xml/docbook/xsl-stylesheets-1.78.1/tools/bin/docbook-xsl-update
+diff --git a/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-bad-priority-inheritance-conditio.patch b/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-bad-priority-inheritance-conditio.patch
+index fa20b08..631f926 100644
+--- a/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-bad-priority-inheritance-conditio.patch
++++ b/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-bad-priority-inheritance-conditio.patch
+@@ -9,7 +9,7 @@ both referenced a non-existent autoconf configuration setting variable.
+ Replaced the invalid variable name with the variable actually created
+ by autoconf.
  
- 	ln -s VERSION ${D}/${datadir}/xml/docbook/xsl-stylesheets-1.78.1/VERSION.xsl
+-Upstream-Status: Submitted
++Upstream-Status: Backported
  
-@@ -63,5 +64,6 @@ docbook_xsl_stylesheets_sysroot_preprocess () {
-     sed -i -e "s|file:///usr/share/xml|file://${datadir}/xml|g" ${SYSROOT_DESTDIR}${sysconfdir}/xml/docbook-xsl.xml
- }
+ Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
+ ---
+diff --git a/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-robust-mutex-conditionals.patch b/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-robust-mutex-conditionals.patch
+index ccdd4d0..1fdd281 100644
+--- a/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-robust-mutex-conditionals.patch
++++ b/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-robust-mutex-conditionals.patch
+@@ -9,7 +9,7 @@ which were not generated by autoconf in order to configure tests
+ for robust mutexes.  Changed these conditionals to use the config
+ variables actually generated in the autoconf process.
  
-+RDEPENDS_${PN} += "perl"
- FILES_${PN} = "${datadir}/xml/* ${sysconfdir}/xml/docbook-xsl.xml"
- FILES_${PN}-doc = "${datadir}/doc/*"
+-Upstream-Status: Submitted
++Upstream-Status: Backported
+ 
+ Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
+ ---
+diff --git a/meta/recipes-extended/ltp/ltp/automake-foreign.patch b/meta/recipes-extended/ltp/ltp/automake-foreign.patch
+deleted file mode 100644
+index c3dd891..0000000
+--- a/meta/recipes-extended/ltp/ltp/automake-foreign.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Use foreign strictness to avoid automake errors.
+-
+-Upstream-Status: Submitted (https://github.com/linux-test-project/ltp/issues/16)
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/configure.ac b/configure.ac
+-index 9f397e7..fc57957 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -4 +4 @@
+--AM_INIT_AUTOMAKE
+-+AM_INIT_AUTOMAKE([foreign])
+---- a/utils/ffsb-6.0-rc2/configure.in
+-+++ b/utils/ffsb-6.0-rc2/configure.in
+-@@ -2,2 +2,3 @@ dnl Process this file with autoconf to produce a configure script.
+--AC_INIT(main.c)
+--AM_INIT_AUTOMAKE(ffsb, 6.0-RC2)
+-+AC_INIT([ffsb], [6.0-RC2])
+-+AC_CONFIG_SRCDIR([main.c])
+-+AM_INIT_AUTOMAKE([foreign])
+diff --git a/meta/recipes-extended/ltp/ltp_20140422.bb b/meta/recipes-extended/ltp/ltp_20140828.bb
+similarity index 98%
+rename from meta/recipes-extended/ltp/ltp_20140422.bb
+rename to meta/recipes-extended/ltp/ltp_20140828.bb
+index 5deaabf..844d0a3 100644
+--- a/meta/recipes-extended/ltp/ltp_20140422.bb
++++ b/meta/recipes-extended/ltp/ltp_20140828.bb
+@@ -20,12 +20,11 @@ LIC_FILES_CHKSUM = "\
+ "
+ 
+ DEPENDS = "attr libaio libcap acl openssl zip-native"
+-SRCREV = "f4c3bfe1eab51eb72caeb0f3336d2790c9a8bd1b"
++SRCREV = "2c341ad9177f36d9b953e84dee8cf88498286fe5"
+ 
+ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+     file://0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch \
+     file://ltp-Do-not-link-against-libfl.patch \
+-    file://automake-foreign.patch \
+     file://make-setregid02-work.patch \
+     file://add-knob-for-numa.patch \
+     file://0001-Realtime-tests-Fix-bad-priority-inheritance-conditio.patch \
 -- 
-1.9.1
+2.1.1
 
 
