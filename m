@@ -1,24 +1,25 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa07-04.prod.phx3.secureserver.net
-	(p3plsmtpa07-04.prod.phx3.secureserver.net [173.201.192.233])
-	by mail.openembedded.org (Postfix) with ESMTP id 207166E633
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EB1B60670
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Oct 2014 10:59:56 +0000 (UTC)
-Received: from [192.168.65.10] ([75.72.225.8])
-	by p3plsmtpa07-04.prod.phx3.secureserver.net with 
-	id 8yzu1p00F0BVjqb01yzu4K; Wed, 29 Oct 2014 03:59:55 -0700
-Message-ID: <5450C8AA.9070305@pabigot.com>
-Date: Wed, 29 Oct 2014 05:59:54 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Wed, 29 Oct 2014 11:09:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9TB9UBM008823
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Oct 2014 04:09:30 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.174.1; Wed, 29 Oct 2014 04:09:29 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Oct 2014 19:06:10 +0800
+Message-ID: <1414580771-32464-1-git-send-email-kai.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1414550044-1427-1-git-send-email-jackie.huang@windriver.com>
-	<CAMKF1sqH9mGSoXaZkbSBy0rpFoDDHp2UhaFW-G53ogx3VueHEg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqH9mGSoXaZkbSBy0rpFoDDHp2UhaFW-G53ogx3VueHEg@mail.gmail.com>
-Subject: Re: [PATCH] gcc: fix ICE in dwarf2out_var_location
+X-Originating-IP: [128.224.153.152]
+Subject: [PATCH 1/2] beecrpty: add option --with-dev-dsp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,100 +32,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Oct 2014 11:00:04 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Oct 2014 11:09:35 -0000
+Content-Type: text/plain
 
-On 10/28/2014 10:41 PM, Khem Raj wrote:
-> On Tue, Oct 28, 2014 at 7:34 PM,  <jackie.huang@windriver.com> wrote:
->> From: Jackie Huang <jackie.huang@windriver.com>
->>
->> Fixed the ICE:
->> internal compiler error: in dwarf2out_var_location, at dwarf2out.c:21261
->>
-> this looks ok. but we need the test case too. and a nit more documentation
+Add this configure option for developer to control if the
+/dev/dsp should be used on target. Instead of judging it
+based on the very device file of build server.
 
-Agreed.  We're getting a lot of Wind River patches these days that are 
-pretty sparse on context and justification.
+Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ .../beecrypt/beecrypt/add-option-dev-dsp.patch     | 34 ++++++++++++++++++++++
+ meta/recipes-support/beecrypt/beecrypt_4.2.1.bb    |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-support/beecrypt/beecrypt/add-option-dev-dsp.patch
 
-For backport patches to GCC and most other projects, I'd really love to 
-see them provided by cloning the upstream repository and using 
-format-patch on the upstream commit that's being backported.  This 
-practice of discarding all that relevant information in favor of a terse 
-submitter-defined description makes it difficult to keep the OE patch 
-set current on upstream updates and trust in the appropriateness of the 
-patch.  Add only your sign-off and the Upstream-Status with a reference 
-to the upstream bugreport.
-
-You might look at gcc-4.9's OE patch 
-0055-PR-rtl-optimization-61801.patch for an example.
-
-Peter
-
->
->> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->> ---
->>   meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
->>   .../0058-gcc-ice-dwarf2out_var_location.patch      | 31 ++++++++++++++++++++++
->>   2 files changed, 32 insertions(+)
->>   create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0058-gcc-ice-dwarf2out_var_location.patch
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
->> index 9a66cd2..89c405a 100644
->> --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
->> @@ -71,6 +71,7 @@ SRC_URI = "\
->>       file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
->>       file://0055-PR-rtl-optimization-61801.patch \
->>       file://0056-top-level-reorder_gcc-bug-61144.patch \
->> +    file://0058-gcc-ice-dwarf2out_var_location.patch \
->>   "
->>   SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
->>   SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
->> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0058-gcc-ice-dwarf2out_var_location.patch b/meta/recipes-devtools/gcc/gcc-4.9/0058-gcc-ice-dwarf2out_var_location.patch
->> new file mode 100644
->> index 0000000..28e7756
->> --- /dev/null
->> +++ b/meta/recipes-devtools/gcc/gcc-4.9/0058-gcc-ice-dwarf2out_var_location.patch
->> @@ -0,0 +1,31 @@
->> +From d358f8ba2e530850795adce19bd00b57139d9397 Mon Sep 17 00:00:00 2001
->> +From: Baoshan Pang <baoshan.pang@windriver.com>
->> +Date: Tue, 16 Sep 2014 13:32:13 -0700
->> +Subject: [PATCH] Fix ICE in dwarf2out_var_location
->> +
->> +Upstream-Status: Backport
->> +
->> +Signed-off-by: Baoshan Pang <baoshan.pang@windriver.com>
->> +---
->> + gcc/dwarf2out.c |    5 +++++
->> + 1 file changed, 5 insertions(+)
->> +
->> +diff --git a/gcc/dwarf2out.c b/gcc/dwarf2out.c
->> +index 1df565b..0e1557d 100644
->> +--- a/gcc/dwarf2out.c
->> ++++ b/gcc/dwarf2out.c
->> +@@ -21255,6 +21255,11 @@ dwarf2out_var_location (rtx loc_note)
->> +       ca_loc->call_arg_loc_note = loc_note;
->> +       ca_loc->next = NULL;
->> +       ca_loc->label = last_label;
->> ++      while(prev && !CALL_P(prev) && !(GET_CODE (PATTERN (prev)) == SEQUENCE
->> ++                                     && CALL_P (XVECEXP (PATTERN (prev), 0, 0)))){
->> ++      gcc_assert(NONJUMP_INSN_P (prev));
->> ++      prev = prev_real_insn (prev);
->> ++      }
->> +       gcc_assert (prev
->> +                 && (CALL_P (prev)
->> +                     || (NONJUMP_INSN_P (prev)
->> +--
->> +1.7.9.5
->> +
->> --
->> 2.0.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-support/beecrypt/beecrypt/add-option-dev-dsp.patch b/meta/recipes-support/beecrypt/beecrypt/add-option-dev-dsp.patch
+new file mode 100644
+index 0000000..b3298ce
+--- /dev/null
++++ b/meta/recipes-support/beecrypt/beecrypt/add-option-dev-dsp.patch
+@@ -0,0 +1,34 @@
++Add config option --with-dev-dsp.
++
++Upstream-Status: Pending
++
++Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
++---
++--- a/configure.ac
+++++ b/configure.ac
++@@ -106,6 +106,16 @@ AC_ARG_WITH(python,[  --with-python[[=AR
++   fi
++   ])
++ 
+++AC_ARG_WITH(dev-dsp,[  --with-dev-dsp          enables dev/dsp for entropy producing. auto for auto-detecting dev/dep on host. [[default=no]]],[
+++  if test "$withval" = yes; then
+++    AC_DEFINE([HAVE_DEV_DSP], 1)
+++  else
+++    if test "$withval" = auto;  then
+++      ac_detect_dev_dsp=yes
+++    fi
+++  fi
+++  ],[ac_detect_dev_dsp=no])
+++
++ # Check for expert mode
++ if test "$ac_enable_expert_mode" = yes; then
++   BEE_EXPERT_MODE
++@@ -464,7 +474,7 @@ linux*)
++       ac_cv_have_dev_dsp=no
++     fi
++     ])
++-  if test "$ac_cv_have_dev_dsp" = yes; then
+++  if test "$ac_cv_have_dev_dsp" = yes && test "$ac_detect_dev_dsp" = yes; then
++     AC_DEFINE([HAVE_DEV_DSP], 1)
++   fi
++   ;;
+diff --git a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
+index 209b92e..1e626f1 100644
+--- a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
++++ b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
+@@ -11,6 +11,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/beecrypt/beecrypt-${PV}.tar.gz \
+            file://fix-for-gcc-4.7.patch \
+            file://run-ptest \
+            file://beecrypt-enable-ptest-support.patch \
++           file://add-option-dev-dsp.patch \
+           "
+ 
+ SRC_URI[md5sum] = "8441c014170823f2dff97e33df55af1e"
+-- 
+1.9.1
 
 
