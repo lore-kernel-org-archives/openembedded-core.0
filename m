@@ -1,25 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EB1B60670
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 75FDE65C87
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 29 Oct 2014 11:09:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9TB9UBM008823
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9TB9Vvu027986
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Oct 2014 04:09:30 -0700 (PDT)
+	Wed, 29 Oct 2014 04:09:31 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Wed, 29 Oct 2014 04:09:29 -0700
+	(TLS) id 14.3.174.1; Wed, 29 Oct 2014 04:09:31 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Oct 2014 19:06:10 +0800
-Message-ID: <1414580771-32464-1-git-send-email-kai.kang@windriver.com>
+Date: Wed, 29 Oct 2014 19:06:11 +0800
+Message-ID: <1414580771-32464-2-git-send-email-kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1414580771-32464-1-git-send-email-kai.kang@windriver.com>
+References: <1414580771-32464-1-git-send-email-kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.152]
-Subject: [PATCH 1/2] beecrpty: add option --with-dev-dsp
+Subject: [PATCH 2/2] python-2.7.3:remove BOM insertion code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,70 +37,65 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 29 Oct 2014 11:09:35 -0000
 Content-Type: text/plain
 
-Add this configure option for developer to control if the
-/dev/dsp should be used on target. Instead of judging it
-based on the very device file of build server.
+Backport patch from:
+https://hg.python.org/cpython/rev/af46a001d5ec
 
-Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
+SysLogHandler converts message to utf8 and adds BOM, supposedly
+to conform with RFC5424, but the implementation is broken:
+the RFC specifies that the BOM should prefix only unstructured
+message part, but current Python implementation puts it in the
+middle of structured part, thus confusing RFC-compliant receivers.
+
+Signed-off-by: yzhu1 <yanjun.zhu@windriver.com>
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- .../beecrypt/beecrypt/add-option-dev-dsp.patch     | 34 ++++++++++++++++++++++
- meta/recipes-support/beecrypt/beecrypt_4.2.1.bb    |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-support/beecrypt/beecrypt/add-option-dev-dsp.patch
+ .../python/python/remove-BOM-insection-code.patch  | 24 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.3.bb       |  1 +
+ 2 files changed, 25 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/remove-BOM-insection-code.patch
 
-diff --git a/meta/recipes-support/beecrypt/beecrypt/add-option-dev-dsp.patch b/meta/recipes-support/beecrypt/beecrypt/add-option-dev-dsp.patch
+diff --git a/meta/recipes-devtools/python/python/remove-BOM-insection-code.patch b/meta/recipes-devtools/python/python/remove-BOM-insection-code.patch
 new file mode 100644
-index 0000000..b3298ce
+index 0000000..6c96e30
 --- /dev/null
-+++ b/meta/recipes-support/beecrypt/beecrypt/add-option-dev-dsp.patch
-@@ -0,0 +1,34 @@
-+Add config option --with-dev-dsp.
++++ b/meta/recipes-devtools/python/python/remove-BOM-insection-code.patch
+@@ -0,0 +1,24 @@
++# HG changeset patch
++# User Vinay Sajip <vinay_sajip@yahoo.co.uk>
++# Date 1334583503 -3600
++# Node ID af46a001d5eca99a7ff44ed18256c235c5c3f1d0
++# Parent  33bc53e0aa9ea42c6a6bb077d182e62c8c569aa1
++Issue #14452: remove BOM insertion code.
++
++Backport from https://hg.python.org/cpython/rev/af46a001d5ec.
 +
 +Upstream-Status: Pending
-+
-+Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
 +---
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -106,6 +106,16 @@ AC_ARG_WITH(python,[  --with-python[[=AR
-+   fi
-+   ])
-+ 
-++AC_ARG_WITH(dev-dsp,[  --with-dev-dsp          enables dev/dsp for entropy producing. auto for auto-detecting dev/dep on host. [[default=no]]],[
-++  if test "$withval" = yes; then
-++    AC_DEFINE([HAVE_DEV_DSP], 1)
-++  else
-++    if test "$withval" = auto;  then
-++      ac_detect_dev_dsp=yes
-++    fi
-++  fi
-++  ],[ac_detect_dev_dsp=no])
-++
-+ # Check for expert mode
-+ if test "$ac_enable_expert_mode" = yes; then
-+   BEE_EXPERT_MODE
-+@@ -464,7 +474,7 @@ linux*)
-+       ac_cv_have_dev_dsp=no
-+     fi
-+     ])
-+-  if test "$ac_cv_have_dev_dsp" = yes; then
-++  if test "$ac_cv_have_dev_dsp" = yes && test "$ac_detect_dev_dsp" = yes; then
-+     AC_DEFINE([HAVE_DEV_DSP], 1)
-+   fi
-+   ;;
-diff --git a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
-index 209b92e..1e626f1 100644
---- a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
-+++ b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
-@@ -11,6 +11,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/beecrypt/beecrypt-${PV}.tar.gz \
-            file://fix-for-gcc-4.7.patch \
-            file://run-ptest \
-            file://beecrypt-enable-ptest-support.patch \
-+           file://add-option-dev-dsp.patch \
-           "
++diff --git a/Lib/logging/handlers.py b/Lib/logging/handlers.py
++--- a/Lib/logging/handlers.py
+++++ b/Lib/logging/handlers.py
++@@ -821,8 +821,6 @@ class SysLogHandler(logging.Handler):
++         # Message is a string. Convert to bytes as required by RFC 5424
++         if type(msg) is unicode:
++             msg = msg.encode('utf-8')
++-            if codecs:
++-                msg = codecs.BOM_UTF8 + msg
++         msg = prio + msg
++         try:
++             if self.unixsocket:
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index cc92ebc..f2e6fde 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -38,6 +38,7 @@ SRC_URI += "\
+   file://python-2.7.3-CVE-2014-1912.patch \
+   file://json-flaw-fix.patch \
+   file://posix_close.patch \
++  file://remove-BOM-insection-code.patch \
+ "
  
- SRC_URI[md5sum] = "8441c014170823f2dff97e33df55af1e"
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 1.9.1
 
