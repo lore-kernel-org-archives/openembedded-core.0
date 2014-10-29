@@ -1,27 +1,21 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DB91D70A8A
+Return-Path: <martin@hundeboll.net>
+Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
+	by mail.openembedded.org (Postfix) with ESMTP id 22E3A65C87
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Oct 2014 11:19:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9TBJPg7010972
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Oct 2014 04:19:25 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Wed, 29 Oct 2014 04:19:25 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Oct 2014 19:16:08 +0800
-Message-ID: <1414581368-532-3-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1414581368-532-1-git-send-email-kai.kang@windriver.com>
-References: <1414581368-532-1-git-send-email-kai.kang@windriver.com>
+	Wed, 29 Oct 2014 11:27:23 +0000 (UTC)
+Received: from hundeboll.es.aau.dk (192.38.55.25.natpool.es.aau.dk
+	[192.38.55.25])
+	by mail.hundeboll.net (Postfix) with ESMTPSA id 8BC3C1BF62D;
+	Wed, 29 Oct 2014 12:18:49 +0100 (CET)
+From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@hundeboll.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Oct 2014 12:18:47 +0100
+Message-Id: <1414581527-5448-3-git-send-email-martin@hundeboll.net>
+X-Mailer: git-send-email 2.1.2
+In-Reply-To: <1414581527-5448-1-git-send-email-martin@hundeboll.net>
+References: <1414581527-5448-1-git-send-email-martin@hundeboll.net>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Subject: [PATCH 2/2] python-2.7.3:remove BOM insertion code
+Subject: [RFC 2/2] meta: rm __pycache__ in glib.inc::do_install_append()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,69 +28,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Oct 2014 11:19:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 29 Oct 2014 11:27:33 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Backport patch from:
-https://hg.python.org/cpython/rev/af46a001d5ec
+Python3 places bytecode files in./ __pycache__ instead of simple .pyc
+and .pyo in the script folder.
 
-SysLogHandler converts message to utf8 and adds BOM, supposedly
-to conform with RFC5424, but the implementation is broken:
-the RFC specifies that the BOM should prefix only unstructured
-message part, but current Python implementation puts it in the
-middle of structured part, thus confusing RFC-compliant receivers.
+With python3 as the default python binary (i.e. /usr/bin/python ->
+python3), the building glib-2.0 fails in do_package() due to the mentioned
+python cache files not being installed/removed. Fix this by removing the
+__pycache__ folder during do_install_append(), as is done with *.pyc and
+*.pyo.
 
-Signed-off-by: yzhu1 <yanjun.zhu@windriver.com>
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Martin Hundebøll <martin@hundeboll.net>
 ---
- .../python/python/remove-BOM-insection-code.patch  | 24 ++++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.3.bb       |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/remove-BOM-insection-code.patch
+ meta/recipes-core/glib-2.0/glib.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/python/python/remove-BOM-insection-code.patch b/meta/recipes-devtools/python/python/remove-BOM-insection-code.patch
-new file mode 100644
-index 0000000..3462620
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/remove-BOM-insection-code.patch
-@@ -0,0 +1,24 @@
-+# HG changeset patch
-+# User Vinay Sajip <vinay_sajip@yahoo.co.uk>
-+# Date 1334583503 -3600
-+# Node ID af46a001d5eca99a7ff44ed18256c235c5c3f1d0
-+# Parent  33bc53e0aa9ea42c6a6bb077d182e62c8c569aa1
-+Issue #14452: remove BOM insertion code.
-+
-+Backport from https://hg.python.org/cpython/rev/af46a001d5ec.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+diff --git a/Lib/logging/handlers.py b/Lib/logging/handlers.py
-+--- a/Lib/logging/handlers.py
-++++ b/Lib/logging/handlers.py
-+@@ -821,8 +821,6 @@ class SysLogHandler(logging.Handler):
-+         # Message is a string. Convert to bytes as required by RFC 5424
-+         if type(msg) is unicode:
-+             msg = msg.encode('utf-8')
-+-            if codecs:
-+-                msg = codecs.BOM_UTF8 + msg
-+         msg = prio + msg
-+         try:
-+             if self.unixsocket:
-diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
-index cc92ebc..f2e6fde 100644
---- a/meta/recipes-devtools/python/python_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python_2.7.3.bb
-@@ -38,6 +38,7 @@ SRC_URI += "\
-   file://python-2.7.3-CVE-2014-1912.patch \
-   file://json-flaw-fix.patch \
-   file://posix_close.patch \
-+  file://remove-BOM-insection-code.patch \
- "
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 993320b..77644a9 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -63,6 +63,7 @@ do_install_append () {
+ 	# Remove some unpackaged files
+ 	rm -f ${D}${datadir}/glib-2.0/codegen/*.pyc
+ 	rm -f ${D}${datadir}/glib-2.0/codegen/*.pyo
++	rm -rf ${D}${datadir}/glib-2.0/codegen/__pycache__/
  
- S = "${WORKDIR}/Python-${PV}"
+ 	# Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
+ 	# for target as /usr/bin/perl, so fix it to /usr/bin/perl.
 -- 
-1.9.1
+2.1.2
 
 
