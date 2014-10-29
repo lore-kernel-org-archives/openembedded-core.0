@@ -1,26 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E6686E633
+	by mail.openembedded.org (Postfix) with ESMTP id 9F38C6E67C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Oct 2014 05:54:58 +0000 (UTC)
+	Wed, 29 Oct 2014 05:54:56 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9T5sxN9017057
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9T5stKY017049
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 28 Oct 2014 22:54:59 -0700 (PDT)
+	Tue, 28 Oct 2014 22:54:55 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 28 Oct 2014 22:54:58 -0700
+	14.3.174.1; Tue, 28 Oct 2014 22:54:55 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
 	<paul.eggleton@linux.intel.com>
-Date: Wed, 29 Oct 2014 13:54:50 +0800
-Message-ID: <b23e329b6e222fbb20227bbe98c5a69890fecfea.1414561710.git.hongxu.jia@windriver.com>
+Date: Wed, 29 Oct 2014 13:54:48 +0800
+Message-ID: <cover.1414561710.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1414561710.git.hongxu.jia@windriver.com>
-References: <cover.1414561710.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] python-smartpm: report warn rather than error during install with --attempt
+Subject: [PATCH 0/3] fix man-pages confliction and smart install with --attempt failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,80 +34,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 29 Oct 2014 05:55:01 -0000
 Content-Type: text/plain
 
-With the following config and build image:
+1. vim local.conf
 ...
-IMAGE_INSTALL_append = "shadow man-pages"
+IMAGE_INSTALL_append = "shadow man-pages hdparm"
 EXTRA_IMAGE_FEATURES += "doc-pkgs"
 ...
 
-There is an error during install with --attempt, and it breaks the build.
-...
-|error: file /usr/share/man/man5/passwd.5 from install of
-shadow-doc-4.2.1-r0.i586 conflicts with file from package
-man-pages-3.71-r0.i586
-...
+2. bitbake core-image-minimal
 
-For complementary and 'attemptonly' package processing, we should make sure
-the warn rather than error messages reported.
+//Hongxu
 
-[YOCTO #6769]
+The following changes since commit dacc4ce59e48129a1a1e5316e10780f7358e29ef:
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
+  nativesdk-cmake: Adjust toolchain paths dynamically (2014-10-24 21:59:46 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-man-pages
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-man-pages
+
+Hongxu Jia (3):
+  man-pages/shadow: resolve man pages confliction
+  python-smartpm: report warn rather than error during install with
+    --attempt
+  rootfs.py: tweak inner warn message catching
+
+ meta/lib/oe/rootfs.py                              |  2 +-
  .../python/python-smartpm/smart-attempt.patch      | 27 +++++++++++++++++++---
- 1 file changed, 24 insertions(+), 3 deletions(-)
+ meta/recipes-extended/man-pages/man-pages_3.71.bb  |  7 ++++++
+ meta/recipes-extended/shadow/shadow.inc            |  4 ++++
+ 4 files changed, 36 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch b/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
-index 1136182..45f7947 100644
---- a/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
-+++ b/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
-@@ -1,4 +1,4 @@
--From 7ee23804a06f81476cc2b31a6db11b52d7af764e Mon Sep 17 00:00:00 2001
-+From b105e7fe812da3ccaf7155c0fe14c8728b0d39a5 Mon Sep 17 00:00:00 2001
- From: Mark Hatle <mark.hatle@windriver.com>
- Date: Mon, 20 Jan 2014 14:30:52 +0000
- Subject: [PATCH] Add mechanism to attempt install without failing
-@@ -13,11 +13,32 @@ Upstream-Status: Pending
- 
- Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
- Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-+
-+For complementary and 'attemptonly' package processing, we should
-+make sure the warn rather than error reported.
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-+ smart.py                  |  5 +++-
-  smart/commands/install.py |  5 ++++
-  smart/transaction.py      | 65 +++++++++++++++++++++++++++++++++++------------
-- 2 files changed, 54 insertions(+), 16 deletions(-)
-+ 3 files changed, 58 insertions(+), 17 deletions(-)
- 
-+diff --git a/smart.py b/smart.py
-+index c5c7a02..7e7fd34 100755
-+--- a/smart.py
-++++ b/smart.py
-+@@ -179,7 +179,10 @@ def main(argv):
-+         if opts and opts.log_level == "debug":
-+             import traceback
-+             traceback.print_exc()
-+-        if iface.object:
-++        if iface.object and sysconf.has("attempt-install", soft=True):
-++            iface.warning(unicode(e))
-++            exitcode = 0
-++        elif iface.object:
-+             iface.error(unicode(e))
-+         else:
-+             sys.stderr.write(_("error: %s\n") % e)
- diff --git a/smart/commands/install.py b/smart/commands/install.py
- index 590222c..6ef9682 100644
- --- a/smart/commands/install.py
-@@ -163,5 +184,5 @@ index 5730a42..e3e61c6 100644
-                      self._remove(pkg, changeset, locked, pending)
-                  elif op is UPGRADE:
- -- 
--1.8.4.2
-+1.9.1
- 
 -- 
 1.9.1
 
