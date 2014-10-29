@@ -1,24 +1,29 @@
-Return-Path: <martin@hundeboll.net>
-Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
-	by mail.openembedded.org (Postfix) with ESMTP id B619B60670
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 70A7160557
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Oct 2014 13:18:47 +0000 (UTC)
-Received: from [172.26.72.41] (192.38.55.25.natpool.es.aau.dk [192.38.55.25])
-	by mail.hundeboll.net (Postfix) with ESMTPSA id 3A61D1BF29B;
-	Wed, 29 Oct 2014 14:18:47 +0100 (CET)
-Message-ID: <5450E937.7040501@hundeboll.net>
-Date: Wed, 29 Oct 2014 14:18:47 +0100
-From: =?UTF-8?B?TWFydGluIEh1bmRlYsO4bGw=?= <martin@hundeboll.net>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Wed, 29 Oct 2014 13:32:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9TDW4K7000369
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Oct 2014 06:32:04 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.229) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 29 Oct 2014 06:32:03 -0700
+Message-ID: <5450EC54.4000708@windriver.com>
+Date: Wed, 29 Oct 2014 08:32:04 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: Paul Barker <paul@paulbarker.me.uk>
-References: <1414581527-5448-1-git-send-email-martin@hundeboll.net>
-	<1414581527-5448-2-git-send-email-martin@hundeboll.net>
-	<CANyK_8d3=cmQ0aDxwDtzGZcqHvaL1fhasnS2kimBia0WhJgSuw@mail.gmail.com>
-In-Reply-To: <CANyK_8d3=cmQ0aDxwDtzGZcqHvaL1fhasnS2kimBia0WhJgSuw@mail.gmail.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC 1/2] scripts: use python2 explicitly in shebangs
+To: <openembedded-core@lists.openembedded.org>
+References: <1414550044-1427-1-git-send-email-jackie.huang@windriver.com>	<CAMKF1sqH9mGSoXaZkbSBy0rpFoDDHp2UhaFW-G53ogx3VueHEg@mail.gmail.com>	<5450C8AA.9070305@pabigot.com>
+	<5450E88E.5090105@windriver.com>
+In-Reply-To: <5450E88E.5090105@windriver.com>
+Subject: Re: [PATCH] gcc: fix ICE in dwarf2out_var_location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,81 +36,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Oct 2014 13:18:56 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 29 Oct 2014 13:32:09 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Paul,
+On 10/29/14, 8:15 AM, Mark Hatle wrote:
+> On 10/29/14, 5:59 AM, Peter A. Bigot wrote:
+>> On 10/28/2014 10:41 PM, Khem Raj wrote:
+>>> On Tue, Oct 28, 2014 at 7:34 PM,  <jackie.huang@windriver.com> wrote:
+>>>> From: Jackie Huang <jackie.huang@windriver.com>
+>>>>
+>>>> Fixed the ICE:
+>>>> internal compiler error: in dwarf2out_var_location, at dwarf2out.c:21261
+>>>>
+>>> this looks ok. but we need the test case too. and a nit more documentation
+>>
+>> Agreed.  We're getting a lot of Wind River patches these days that are
+>> pretty sparse on context and justification.
+>>
+>> For backport patches to GCC and most other projects, I'd really love to
+>> see them provided by cloning the upstream repository and using
+>> format-patch on the upstream commit that's being backported.  This
+>> practice of discarding all that relevant information in favor of a terse
+>
+> I just want to be clear the information isn't being discarded or "removed".  The
+> original work is being done by taking the latest tree, and diffing sections of
+> the code to find a relevant fix -- or looking in the mailing list for
+> discussions on similar problems.
+>
+> Also as far as I know the upstream gcc repository is still SVN, so the
+> "format-patch" git methods don't work.  Yes, I know there are people who have
+> converted the GCC SVN to git, but these are not canonical sources -- so I'm not
+> sure that is really an acceptable place to work.
+>
+> See: https://gcc.gnu.org
+> "Our sources are readily and freely available via SVN and weekly snapshots."
 
-On 2014-10-29 14:05, Paul Barker wrote:
-> On 29 October 2014 11:18, Martin Hundebøll <martin@hundeboll.net> wrote:
->> As distributions start moving to python3, scripts should explicity
->> request python2 in the shebang. This patch changes all occurences of
->>      #!/usr/bin/python and #!/usr/bin/env python
->> to
->>      #!/usr/bin/env python2
+Just to follow up, there is an apparently undocumented git mirror of the SVN on 
+the GNU site.  I still don't know if it's a canonical source, but since it's on 
+the GNU website, I'd have to assume it is.
+
+git://gcc.gnu.org/git/gcc.git
+
+(I really wish GNU would get away from SVN...)
+
+--Mark
+
+>> submitter-defined description makes it difficult to keep the OE patch
+>> set current on upstream updates and trust in the appropriateness of the
+>> patch.  Add only your sign-off and the Upstream-Status with a reference
+>> to the upstream bugreport.
+>
+> As for the other component critiques, I agree.. the message needs more
+> information, and if possible more information on what the backport actually
+> originated from is needed as well.  This example is terse at best and generally
+> not acceptable.
+>
+> --Mark
+>
+>> You might look at gcc-4.9's OE patch
+>> 0055-PR-rtl-optimization-61801.patch for an example.
+>>
+>> Peter
+>>
+>>>
+>>>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+>>>> ---
+>>>>     meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
+>>>>     .../0058-gcc-ice-dwarf2out_var_location.patch      | 31 ++++++++++++++++++++++
+>>>>     2 files changed, 32 insertions(+)
+>>>>     create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0058-gcc-ice-dwarf2out_var_location.patch
+>>>>
+>>>> diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+>>>> index 9a66cd2..89c405a 100644
+>>>> --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
+>>>> +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+>>>> @@ -71,6 +71,7 @@ SRC_URI = "\
+>>>>         file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
+>>>>         file://0055-PR-rtl-optimization-61801.patch \
+>>>>         file://0056-top-level-reorder_gcc-bug-61144.patch \
+>>>> +    file://0058-gcc-ice-dwarf2out_var_location.patch \
+>>>>     "
+>>>>     SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
+>>>>     SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
+>>>> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0058-gcc-ice-dwarf2out_var_location.patch b/meta/recipes-devtools/gcc/gcc-4.9/0058-gcc-ice-dwarf2out_var_location.patch
+>>>> new file mode 100644
+>>>> index 0000000..28e7756
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-devtools/gcc/gcc-4.9/0058-gcc-ice-dwarf2out_var_location.patch
+>>>> @@ -0,0 +1,31 @@
+>>>> +From d358f8ba2e530850795adce19bd00b57139d9397 Mon Sep 17 00:00:00 2001
+>>>> +From: Baoshan Pang <baoshan.pang@windriver.com>
+>>>> +Date: Tue, 16 Sep 2014 13:32:13 -0700
+>>>> +Subject: [PATCH] Fix ICE in dwarf2out_var_location
+>>>> +
+>>>> +Upstream-Status: Backport
+>>>> +
+>>>> +Signed-off-by: Baoshan Pang <baoshan.pang@windriver.com>
+>>>> +---
+>>>> + gcc/dwarf2out.c |    5 +++++
+>>>> + 1 file changed, 5 insertions(+)
+>>>> +
+>>>> +diff --git a/gcc/dwarf2out.c b/gcc/dwarf2out.c
+>>>> +index 1df565b..0e1557d 100644
+>>>> +--- a/gcc/dwarf2out.c
+>>>> ++++ b/gcc/dwarf2out.c
+>>>> +@@ -21255,6 +21255,11 @@ dwarf2out_var_location (rtx loc_note)
+>>>> +       ca_loc->call_arg_loc_note = loc_note;
+>>>> +       ca_loc->next = NULL;
+>>>> +       ca_loc->label = last_label;
+>>>> ++      while(prev && !CALL_P(prev) && !(GET_CODE (PATTERN (prev)) == SEQUENCE
+>>>> ++                                     && CALL_P (XVECEXP (PATTERN (prev), 0, 0)))){
+>>>> ++      gcc_assert(NONJUMP_INSN_P (prev));
+>>>> ++      prev = prev_real_insn (prev);
+>>>> ++      }
+>>>> +       gcc_assert (prev
+>>>> +                 && (CALL_P (prev)
+>>>> +                     || (NONJUMP_INSN_P (prev)
+>>>> +--
+>>>> +1.7.9.5
+>>>> +
+>>>> --
+>>>> 2.0.0
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >>
 >
-> <snip lots>
->
->> diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
->> index bba6f8f..b514aa5 100755
->> --- a/scripts/oe-buildenv-internal
->> +++ b/scripts/oe-buildenv-internal
->> @@ -33,7 +33,7 @@ fi
->>   # sanity.bbclass because bitbake's source code doesn't even pass
->>   # parsing stage when used with python v3, so we catch it here so we
->>   # can offer a meaningful error message.
->> -py_v3_check=`/usr/bin/env python --version 2>&1 | grep "Python 3"`
->> +py_v3_check=`/usr/bin/env python2 --version 2>&1 | grep "Python 3"`
->>   if [ "$py_v3_check" != "" ]; then
->>          echo >&2 "Bitbake is not compatible with python v3"
->>          echo >&2 "Please set up python v2 as your default python interpreter"
->> @@ -43,7 +43,7 @@ fi
->>   # Similarly, we now have code that doesn't parse correctly with older
->>   # versions of Python, and rather than fixing that and being eternally
->>   # vigilant for any other new feature use, just check the version here.
->> -py_v26_check=`python -c 'import sys; print sys.version_info >= (2,7,3)'`
->> +py_v26_check=`python2 -c 'import sys; print sys.version_info >= (2,7,3)'`
->>   if [ "$py_v26_check" != "True" ]; then
->>          echo >&2 "BitBake requires Python 2.7.3 or later"
->>          return 1
->
-> This is the section of shell script which checks the python version
-> when you run 'oe-init-build-env'. If you want to change the way python
-> is ran I'd start by looking at this code. If this script could
-> automatically try 'python2' if 'python' is found to be Python 3, and
-> ensure the correct interpreter is used in all commands that run after
-> the environment is setup that would be fantastic. It'd probably be a
-> mess to implement though.
 
-True and true. It would be nice with some auto-config which sets up the 
-environment to use the right python binary/symlink, and shouldn't be too 
-messy if it's doable through something similar to virtualenv. I've seen 
-similar approaches done with autoconf in gnome's jhbuild (although it 
-failed on Arch too).
-
-Yet, it's still needed to correct all the places using /usr/bin/python 
-directly instead of depending on the environment.
-
-> The change as it currently stands looks confusing as py_v3_check is
-> set by running python2.
-
-It becomes kind of redundant, yes. Maybe spit out a warning and some 
-hints if default is python v3? A lot of packages might still depend on 
-python2 as default, so users should be warned...
-
-> I used to use a virtualenv to temporarily set Python 2 as the default
-> for the shell in which I ran bitbake commands. That was a while ago
-> though, all my current builds are running on Ubuntu 12.04/14.04 server
-> instances which I access via ssh from my Arch Linux box.
-
-Using a compatible distro-install is of course the easiest way to get 
-going. Could also work with a virtual machine.
-
-If this has interest, I will work on a python snippet to detect the 
-possible python version, and setup the environment correspondingly.
-
-Thanks,
-Martin
 
