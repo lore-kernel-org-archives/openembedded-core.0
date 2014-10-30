@@ -1,33 +1,44 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AC8465C87
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id BB42A65D3C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 13:28:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s9UDR9WU012460; Thu, 30 Oct 2014 13:28:08 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id sZlDJ-739HDv; Thu, 30 Oct 2014 13:28:08 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	s9UDS2su012509
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 30 Oct 2014 13:28:03 GMT
-Message-ID: <1414675717.7649.56.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 30 Oct 2014 13:28:37 +0000
-In-Reply-To: <20141030132053.GF15148@jama>
-References: <1406209379-1662-1-git-send-email-Martin.Jansa@gmail.com>
-	<1406209379-1662-2-git-send-email-Martin.Jansa@gmail.com>
-	<CAJTo0La2AZo=nxBJGnkQrC+=jB9hoO+tsYyuCMbfAT0vwwd-qg@mail.gmail.com>
-	<20140724152218.GM2492@jama> <1406553510.13346.17.camel@ted>
-	<20140806114831.GG14848@jama> <20141030132053.GF15148@jama>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] recipes: add x11 to required DISTRO_FEATURES
+	Thu, 30 Oct 2014 14:17:18 +0000 (UTC)
+Received: from amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.58])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id C15D34013B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Oct 2014 15:17:16 +0100 (CET)
+X-Spam-Flag: NO
+X-Spam-Score: 0
+X-Spam-Level: 
+X-Spam-Status: No, score=0 tagged_above=-999 required=4.5
+	tests=[BAYES_20=-0.001, URIBL_BLOCKED=0.001] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Oct 2014 15:17:16 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Oct 2014 15:17:15 +0100 (CET)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Thu, 30 Oct 2014 15:17:30 +0100
+Message-ID: <5452486B.6070303@topic.nl>
+Date: Thu, 30 Oct 2014 15:17:15 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: Weird ALTERNATIVES and staging conflict.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,100 +51,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Oct 2014 13:28:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Oct 2014 14:17:21 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2014-10-30 at 14:20 +0100, Martin Jansa wrote:
-> On Wed, Aug 06, 2014 at 01:48:31PM +0200, Martin Jansa wrote:
-> > On Mon, Jul 28, 2014 at 02:18:30PM +0100, Richard Purdie wrote:
-> > > On Thu, 2014-07-24 at 17:22 +0200, Martin Jansa wrote:
-> > > > On Thu, Jul 24, 2014 at 02:52:45PM +0100, Burton, Ross wrote:
-> > > > > On 24 July 2014 14:42, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > > > > > +REQUIRED_DISTRO_FEATURES = "x11"
-> > > > > 
-> > > > > Now I'm wondering why this is the solution.
-> > > > > 
-> > > > > If you attempt to build e.g. gnome-desktop explicitly without the x11
-> > > > > distro feature you understandably get an error message, because
-> > > > > gnome-desktop depends on libx11 which sanity checks the distro
-> > > > > features.  This seems correct.
-> > > > > 
-> > > > > Presumably you're problem is that you're running world builds and
-> > > > > they're producing errors on gnome-desktop because they can't satisfy a
-> > > > > dependency on libx11.  It seems that bubbling up the
-> > > > > REQUIRED_DISTRO_FEATURES tests isn't the right thing to do here - why
-> > > > > can't SkipPackage be handled specially, so if you do bitbake -k world
-> > > > > and libx11 emits SkipPackage, anything that has unsatisfiable
-> > > > > dependencies because of this is also skipped?
-> > > > 
-> > > > We discussed this many months ago and IIRC the conclusion was that user
-> > > > should explicitly say that he wants to skip the recipes which depend on
-> > > > something skipped (so that he is aware of what he is missing).
-> > > > 
-> > > > At that time there wasn't REQUIRED_DISTRO_FEATURES support, so I've
-> > > > created huge list of PNBLACKLISTs to blacklist everything not available
-> > > > in our setup - so I can do world builds without ERRORs at the beginning.
-> > > > 
-> > > > REQUIRED_DISTRO_FEATURES seems to me like reasonable compromise, that's
-> > > > why I've sent this patchset to replace small part of my huge blacklist.
-> > > > 
-> > > > This is the list:
-> > > > https://github.com/openwebos/meta-webos/blob/master/conf/distro/include/webos-recipe-blacklist-world.inc
-> > > > 
-> > > > If someone has time to improve SkipPackage and we really want to skip
-> > > > all depending packages, I would be glad to test such patch (because it
-> > > > allows to easily drop all those blacklists for "depends-on-broken"
-> > > > components)
-> > > 
-> > > The question here is whether we want a system which calculates what it
-> > > thinks is right or that we declare it.
-> > > 
-> > > The risk is that if SkipPackage (now known as SkipRecipe) were to
-> > > automatically "spread", you could in theory break the toolchain, have
-> > > nothing buildable and "bitbake world" would return success.
-> > > 
-> > > Effectively the -k option to bitbake already does the SkipPackage
-> > > "spread" idea since bitbake just removes dependencies until it works. If
-> > > does that in a fairly verbose way but it does so deliberately so you can
-> > > see what is going on.
-> > > 
-> > > The alternative is to declare what a given recipe supports and then we
-> > > can know whether it should be skipped or not under a given circumstance.
-> > > 
-> > > Personally, I'm leaning towards a more declarative approach where we
-> > > specify what should and shouldn't be expected to work. I'm open to
-> > > discussion on it though...
-> > 
-> > I agree with more declarative approach.
-> > 
-> > I don't mind maintaining PNBLACKLIST e.g. for components depending on
-> > something we decided to blacklist ourselves in distro config.
-> > 
-> > But for components like this, where we really know that they won't work
-> > without X11 in DISTRO_FEATURES, I think bitbake should skip them
-> > automatically (thanks to REQUIRED_DISTRO_FEATURES). It already
-> > automatically skips all recipes in xorg-lib directory, why it shouldn't
-> > skip other recipes living somewhere else?
-> 
-> Can we make some decision now?
+=EF=BB=BFI have this base script that builds FPGA bitstreams:
 
-Well, I think there was an implied outcome of this:
+https://github.com/topic-embedded-products/meta-topic/blob/master/recipes-b=
+sp/fpga/fpga-image.inc
 
-a) We don't want to automatically do things, we want something
-declarative
+Now you can have multiple recipes using it, and as such, it seemed a good i=
+dea=20
+to add these lines to that recipe:
 
-b) We therefore need to go and add REQUIRED_DISTRO_FEATURES = "x11" to
-some further places.
-
-As such, I'll take patches.
-
-Was that what other people understood?
-
-Cheers,
-
-Richard
++ALTERNATIVE_${PN} =3D "fpga.bin bitstreams"
++ALTERNATIVE_LINK_NAME[fpga.bin] =3D "${datadir}/fpga.bin"
++ALTERNATIVE_TARGET[fpga.bin] =3D "${datadir}/fpga.bin"
++ALTERNATIVE_LINK_NAME[bitstreams] =3D "${datadir}/bitstreams"
++ALTERNATIVE_TARGET[bitstreams] =3D "${datadir}/bitstreams"
 
 
+This still resulted in staging conflicts. So I made two simple recipes to=20
+demonstrate the problem:
+
+SUMMARY =3D "FPGA bitstream"
+XILINX_VIVADO_VERSION =3D "2014.1"
+require recipes-bsp/fpga/fpga-image.inc
+LICENSE =3D "internal"
+LIC_FILES_CHKSUM =3D=20
+"file://${METATOPIC_BASE}/LICENSE;md5=3Dcf85de037de7ae12cc2d0059741fdbae"
+SRC_URI =3D ""
+S =3D "${WORKDIR}"
+
+do_compile() {
+	echo "${PN}" > fpga.bit
+}
+do_convert_bitstreams() {
+	ln -f fpga.bit fpga.bin
+}
+
+
+I save this as "fpga-image-fake-one.bb" and "fpga-image-fake-two.bb"
+
+I then create an image that installs them both, and bitbake that image. Thi=
+s=20
+(still) results in the following error:
+
+
+ERROR: The recipe fpga-image-fake-two is trying to install files into a sha=
+red=20
+area when those files already exist. Those files and their manifest locatio=
+n are:
+=20
+/home/mike/zynq_platform/build/tmp-glibc/sysroots/topic-miami-7015/usr/shar=
+e/fpga.bin
+  Matched in manifest-topic-miami-7015-fpga-image-fake-one.populate_sysroot
+Please verify which recipe should provide the above files.
+
+
+
+But looking at the contents of the fake packages, the fpga.bin has been=20
+renamed by alternatives (as expected), and the symlink will be created afte=
+r=20
+installing, so how come I still get this?
+
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+System Expert
+
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
 
 
