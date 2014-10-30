@@ -1,20 +1,36 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CE9A65C87
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 8113160557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 19:19:42 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Oct 2014 12:19:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,288,1413270000"; d="scan'208";a="623684522"
-Received: from aehernan-devstation.zpn.intel.com ([10.219.4.47])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Oct 2014 12:19:20 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Oct 2014 13:19:19 -0600
-Message-Id: <1414696759-12871-1-git-send-email-alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v3] buildinfo.bblass: Added buildinfo class
+	Thu, 30 Oct 2014 19:49:25 +0000 (UTC)
+Received: by mail-qg0-f42.google.com with SMTP id i50so3647128qgf.15
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Oct 2014 12:49:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=+mouzs04pmEwqmZ55u57J9OBDE5eaLrWExaadp501fo=;
+	b=jpuFvizcq9SGN1qK/gebCSTeRLkkZpgLg5SipoeyPW3QgHA/mX06A6psFFQCkDEiDB
+	ursBotAbt37EFxoK4cW8TR3hzJGLORv6FGekPanTpas2qJclTofO9cNbgFUr1JGj4Wyg
+	fKw9TIbrdDXgQlbAb17TsE6QQE2DC37sJPN1s8hXZHAmBye6c1BPLAhkEA7mJzJK4aiC
+	qV4/ug/hd8j0uLcMLIXfZJmISXAAWJ08gyozW0CXqXi9MGSwx4jhXNFh9/qCFhptbyKZ
+	I/BWs6pEey77+UKsUK0rn/pBje/wJpAWDrEuY75nrUApKKC70HwjO29P2TxgpN23+vgn
+	IKzQ==
+X-Received: by 10.229.106.68 with SMTP id w4mr29786834qco.18.1414698565699;
+	Thu, 30 Oct 2014 12:49:25 -0700 (PDT)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.140.142.78 with HTTP; Thu, 30 Oct 2014 12:48:42 -0700 (PDT)
+In-Reply-To: <CALXw4G7x6Xbf3Wr=mKUCk6G5e4k=8sz_pph9VUMegLn1txA9WQ@mail.gmail.com>
+References: <CALXw4G7x6Xbf3Wr=mKUCk6G5e4k=8sz_pph9VUMegLn1txA9WQ@mail.gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Thu, 30 Oct 2014 19:48:42 +0000
+X-Google-Sender-Auth: PzQu_h8g7O-HZbqIQy7mqA32Nd4
+Message-ID: <CANyK_8cv3go0ghbLD73WwEdEyPiB5bLzaN_w8Wa4KxDQo92quQ@mail.gmail.com>
+To: Michael Gloff <mgloff@emacinc.com>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: Opkg 0.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,115 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Oct 2014 19:19:55 -0000
+X-List-Received-Date: Thu, 30 Oct 2014 19:49:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Writes build information to target filesystem to help developers
+On 30 October 2014 19:15, Michael Gloff <mgloff@emacinc.com> wrote:
+> As Paul mentioned yesterday opkg 0.2.4 is on it's way and 0.2.3 has been
+> available for 2 months. If there are not any objections, I have an updated
+> recipe and re-created previous patches that I could send. This should also
+> modify opkg-colateral to use the new syntax for lists_dir.
 
-[YOCTO #6770]
+I'm also sat on tested patches, I was planning to send them tomorrow.
+I've held the patches back as the deadline for such changes for OE 1.7
+had passed.
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- meta/classes/buildinfo.bbclass | 90 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 90 insertions(+)
- create mode 100644 meta/classes/buildinfo.bbclass
+> I would also at this time like to propose changing the default list
+> directory from /var/lib to something else (/usr/lib ?). On a read only
+> rootfs, everything in /var/lib/ gets mounted on the tmpfs, therefore
+> packages installed get lost.
 
-diff --git a/meta/classes/buildinfo.bbclass b/meta/classes/buildinfo.bbclass
-new file mode 100644
-index 0000000..f00b073
---- /dev/null
-+++ b/meta/classes/buildinfo.bbclass
-@@ -0,0 +1,90 @@
-+#
-+# Writes build information to target filesystem
-+#
-+# Usage: add INHERIT += "buildinfo" to your conf file
-+#
-+# Based in part on buildhistory.bbclass
-+#
-+# Copyright (C) 2014 Intel Corporation
-+# Author: Alejandro Enedino Hernandez Samaniego <alejandro.hernandez@intel.com>
-+#
-+# Licensed under the MIT license, see COPYING.MIT for details
-+#
-+
-+# From buildhistory.bbclass
-+def squashspaces(string):
-+    import re
-+    return re.sub("\s+", " ", string).strip()
-+
-+# From buildhistory.bbclass
-+def outputvars(vars, listvars, d): 
-+    vars = vars.split()
-+    listvars = listvars.split()
-+    ret = ""
-+    for var in vars:
-+        value = d.getVar(var, True) or ""
-+        if var in listvars:
-+            value = squashspaces(value)
-+        ret += "%s = %s\n" % (var, value)
-+    return ret.rstrip('\n')
-+
-+# From buildhistory.bbclass
-+def base_get_metadata_git_branch(path, d): 
-+    branch = os.popen('cd %s; git branch 2>&1 | grep "^* " | tr -d "* "' % path).read()
-+    if len(branch) != 0:
-+        return branch
-+    return "<unknown>"
-+
-+# From buildhistory.bbclass
-+def base_get_metadata_git_revision(path, d): 
-+    f = os.popen("cd %s; git log -n 1 --pretty=oneline -- 2>&1" % path)
-+    data = f.read()
-+    if f.close() is None:
-+        rev = data.split(" ")[0]
-+        if len(rev) != 0:
-+            return rev 
-+    return "<unknown>"
-+
-+# Gets git branch's status (clean or dirty)
-+def get_layer_git_status(path):
-+    f = os.popen("cd %s; git diff --stat 2>&1 | tail -n 1" % path)
-+    data = f.read()
-+    if f.close() is None:
-+        if len(data) != 0:
-+            return "-- modified"
-+    return ""
-+
-+# Returns layer revisions along with their respective status
-+def get_layer_revs(d):
-+    layers = (d.getVar("BBLAYERS", True) or "").split()
-+    medadata_revs = ["%-17s = %s:%s %s" % (os.path.basename(i), \
-+        base_get_metadata_git_branch(i, None).strip(), \
-+        base_get_metadata_git_revision(i, None), \
-+        get_layer_git_status(i)) \
-+            for i in layers]
-+    return '\n'.join(medadata_revs)
-+
-+def buildinfo_target(d):
-+        # Get context
-+        if d.getVar('BB_WORKERCONTEXT', True) != '1':
-+                return ""
-+        # Single and list variables to be read
-+        vars = "DISTRO DISTRO_VERSION BB_VERSION BUILD_SYS TARGET_SYS MACHINE USER_CLASSES IMAGE_CLASSES IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL PACKAGE_EXCLUDE"
-+        listvars = "USER_CLASSES IMAGE_CLASSES IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL PACKAGE_EXCLUDE"
-+        return outputvars(vars, listvars, d)
-+
-+# Write build information to target filesystem
-+buildinfo () {
-+cat > ${IMAGE_ROOTFS}${sysconfdir}/build <<END
-+-----------------------
-+Build Configuration:  |
-+-----------------------
-+${@buildinfo_target(d)}
-+-----------------------
-+Layer Revisions:      |   
-+-----------------------
-+${@get_layer_revs(d)}
-+END
-+}
-+
-+IMAGE_PREPROCESS_COMMAND += "buildinfo;"
+Changes in v0.3.0 will make this much easier to configure. You'll be
+able to set cache_dir, lists_dir, info_dir, lock_file and status_file
+in opkg.conf. I'd rather we left the defaults as-is and use those
+settings once v0.3.0 is released. v0.3.0 will also create any
+directories needed if they don't exist. So it may make sense to set
+cache_dir to something under /tmp, lock_file to something under /var
+or /run and everything else under /usr if that's what's desired.
+
+> I've tested changing the lists_dir and everything is working as expected.
+>
+> Michael Gloff
+>
+
+Thanks,
+
 -- 
-1.9.1
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
