@@ -1,38 +1,22 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ob0-f169.google.com (mail-ob0-f169.google.com
-	[209.85.214.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 15F2765CA0
+Return-Path: <Alexandra.Safta@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 9676465C87
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 16:14:05 +0000 (UTC)
-Received: by mail-ob0-f169.google.com with SMTP id va2so4408937obc.28
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 09:14:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=mrUiE8JP7HuDZiWK3HMlUByNuCo2hkgnERuzQnAi+Y4=;
-	b=aU7noxxCvnA+hatL5Z0yjxFARXbK1ulrxsSzmDaoUmMK3Dmx1iSqt9QOVpJksksEUn
-	gYL3l+cnJdaHwM8AE4ksp5mJn7s5ECgvbw2oA2kuQGKfBpe1iB+OM4tr6Co7INWrq7Du
-	0R3RR18vcDRozJuIaMVfvYzjn6K5aSqsj6wFH9A2CyjL3Kfv4P+ilSXQmkx38lMSiXv2
-	mIL52Y+GM8/Y2JufK+Cq5ewdp+WTgGeewl6s/A+fKw1o1fCWmy8jz3h8O4tIbfJOODQY
-	kLkrMD+UR8X+ELrDBq6jwAXx+a/YdMaSlxpfNpR7ZkCah7iamZKNK5bz47+4pqSkFQ24
-	5plA==
+	Thu, 30 Oct 2014 16:46:54 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
+	Thu, 30 Oct 2014 17:46:47 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4436)	id E001528FAF9;
+	Thu, 30 Oct 2014 17:46:47 +0100 (CET)
+From: Alexandra Safta <alexandra.safta@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 30 Oct 2014 17:46:39 +0100
+Message-ID: <1414687599-36822-1-git-send-email-alexandra.safta@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Received: by 10.60.67.165 with SMTP id o5mr15380284oet.24.1414685646187;
-	Thu, 30 Oct 2014 09:14:06 -0700 (PDT)
-Received: by 10.202.67.84 with HTTP; Thu, 30 Oct 2014 09:14:06 -0700 (PDT)
-In-Reply-To: <54525BA9.9000606@mlbassoc.com>
-References: <1414508747-4688-1-git-send-email-gary@mlbassoc.com>
-	<CAJTo0LaLRhRASrwdHQboWYjbsGzBmCZgq4J1Qv_i5KDo17ZhVQ@mail.gmail.com>
-	<CALbNGRTQQTza3PftOobxDqMvJUGwsGKRAcRX49CXtzUeTOcSzQ@mail.gmail.com>
-	<54525BA9.9000606@mlbassoc.com>
-Date: Thu, 30 Oct 2014 17:14:06 +0100
-Message-ID: <CALbNGRTdXwm4dSwLhoOPjb-B6hqfYZHcorUX1p3LqSUWu9U19A@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-pygtk: Restore pkg-config file
+Received-SPF: None (SESTOEX03.enea.se: alexandra.safta@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] Valgrind: Remove test apps not building with ppc64 and PTEST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,17 +29,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Oct 2014 16:14:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 30 Oct 2014 16:46:56 -0000
+Content-Type: text/plain
 
-On Thu, Oct 30, 2014 at 4:39 PM, Gary Thomas <gary@mlbassoc.com> wrote:
->
-> Wow, since Jan 2013 and no action?
->
-> Was this proposed to OE-core (i.e. sent to the list)?
->
-No - my expiereineces sending patches to oe-core are not the best.
-Usually they just cause me efforts and aren't applied anyway..
+Signed-off-by: Alexandra Safta <alexandra.safta@enea.com>
+---
+ .../valgrind/remove-ppc64-tests-failing-build.patch      | 16 ++++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.9.0.bb         |  3 ++-
+ 2 files changed, 18 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-ppc64-tests-failing-build.patch
 
-Andreas
+diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-ppc64-tests-failing-build.patch b/meta/recipes-devtools/valgrind/valgrind/remove-ppc64-tests-failing-build.patch
+new file mode 100644
+index 0000000..7bf3a21
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/remove-ppc64-tests-failing-build.patch
+@@ -0,0 +1,16 @@
++--- a/none/tests/ppc64/Makefile.am	2014-10-22 16:33:20.686773392 +0200
+++++ b/none/tests/ppc64/Makefile.am	2014-10-23 10:31:38.948654523 +0200
++@@ -35,11 +35,10 @@
++
++ check_PROGRAMS = \
++ 	allexec \
++-	jm-insns lsw round std_reg_imm twi_tdi tw_td power6_bcmp \
+++	lsw round std_reg_imm twi_tdi tw_td power6_bcmp \
++ 	power6_mf_gpr test_isa_2_06_part1 test_isa_2_06_part2 \
++ 	test_isa_2_06_part3 test_dfp1 test_dfp2 test_dfp3 test_dfp4 \
++-	test_dfp5 test_isa_2_07_part1 test_isa_2_07_part2 \
++-	test_tm test_touch_tm
+++	test_dfp5
++
++ AM_CFLAGS    += @FLAG_M64@
++ AM_CXXFLAGS  += @FLAG_M64@
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
+index c415e77..f642856 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
+@@ -19,6 +19,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            file://force-nostabs.patch \
+            file://remove-arm-variant-specific.patch \
+            file://remove-ppc-tests-failing-build.patch \
++           file://remove-ppc64-tests-failing-build.patch \
+            file://add-ptest.patch \
+            file://run-ptest \
+           "
+@@ -63,7 +64,7 @@ do_install_ptest() {
+     #
+     # The regression tests require scripts and data files that are not
+     # copied to the build directory.  They must be copied from the
+-    # source directory.
++    # source directory.
+     saved_dir=$PWD
+     for parent_dir in ${S} ${B} ; do
+         cd $parent_dir
+--
+1.9.1
+
 
