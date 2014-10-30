@@ -1,36 +1,30 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 8113160557
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id B970B60557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 19:49:25 +0000 (UTC)
-Received: by mail-qg0-f42.google.com with SMTP id i50so3647128qgf.15
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 12:49:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=+mouzs04pmEwqmZ55u57J9OBDE5eaLrWExaadp501fo=;
-	b=jpuFvizcq9SGN1qK/gebCSTeRLkkZpgLg5SipoeyPW3QgHA/mX06A6psFFQCkDEiDB
-	ursBotAbt37EFxoK4cW8TR3hzJGLORv6FGekPanTpas2qJclTofO9cNbgFUr1JGj4Wyg
-	fKw9TIbrdDXgQlbAb17TsE6QQE2DC37sJPN1s8hXZHAmBye6c1BPLAhkEA7mJzJK4aiC
-	qV4/ug/hd8j0uLcMLIXfZJmISXAAWJ08gyozW0CXqXi9MGSwx4jhXNFh9/qCFhptbyKZ
-	I/BWs6pEey77+UKsUK0rn/pBje/wJpAWDrEuY75nrUApKKC70HwjO29P2TxgpN23+vgn
-	IKzQ==
-X-Received: by 10.229.106.68 with SMTP id w4mr29786834qco.18.1414698565699;
-	Thu, 30 Oct 2014 12:49:25 -0700 (PDT)
+	Thu, 30 Oct 2014 19:54:53 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0158.001; Thu, 30 Oct 2014 20:54:53 +0100
+From: Tudor Florea <Tudor.Florea@enea.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Alexandra Safta
+	<Alexandra.Safta@enea.com>
+Thread-Topic: [OE-core] [PATCH] Valgrind: Remove test apps not building with
+	ppc64 and PTEST
+Thread-Index: AQHP9GoSkg2e794LJEGUZKT9n6EyypxJC8bg
+Date: Thu, 30 Oct 2014 19:54:52 +0000
+Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A428ACD1F0@SESTOEX04.enea.se>
+References: <1414687599-36822-1-git-send-email-alexandra.safta@enea.com>
+	<1414691416.7649.71.camel@ted>
+In-Reply-To: <1414691416.7649.71.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.1.188]
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.140.142.78 with HTTP; Thu, 30 Oct 2014 12:48:42 -0700 (PDT)
-In-Reply-To: <CALXw4G7x6Xbf3Wr=mKUCk6G5e4k=8sz_pph9VUMegLn1txA9WQ@mail.gmail.com>
-References: <CALXw4G7x6Xbf3Wr=mKUCk6G5e4k=8sz_pph9VUMegLn1txA9WQ@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Thu, 30 Oct 2014 19:48:42 +0000
-X-Google-Sender-Auth: PzQu_h8g7O-HZbqIQy7mqA32Nd4
-Message-ID: <CANyK_8cv3go0ghbLD73WwEdEyPiB5bLzaN_w8Wa4KxDQo92quQ@mail.gmail.com>
-To: Michael Gloff <mgloff@emacinc.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: Opkg 0.2.3
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Valgrind: Remove test apps not building with ppc64 and PTEST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,42 +37,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Oct 2014 19:49:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 30 Oct 2014 19:54:58 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 30 October 2014 19:15, Michael Gloff <mgloff@emacinc.com> wrote:
-> As Paul mentioned yesterday opkg 0.2.4 is on it's way and 0.2.3 has been
-> available for 2 months. If there are not any objections, I have an updated
-> recipe and re-created previous patches that I could send. This should also
-> modify opkg-colateral to use the new syntax for lists_dir.
 
-I'm also sat on tested patches, I was planning to send them tomorrow.
-I've held the patches back as the deadline for such changes for OE 1.7
-had passed.
 
-> I would also at this time like to propose changing the default list
-> directory from /var/lib to something else (/usr/lib ?). On a read only
-> rootfs, everything in /var/lib/ gets mounted on the tmpfs, therefore
-> packages installed get lost.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Richard Purdie
+> Sent: Thursday, October 30, 2014 19:50
+> To: Alexandra Safta
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] Valgrind: Remove test apps not building wi=
+th
+> ppc64 and PTEST
+>=20
+> On Thu, 2014-10-30 at 17:46 +0100, Alexandra Safta wrote:
+> > Signed-off-by: Alexandra Safta <alexandra.safta@enea.com>
+>=20
+> This removes the tests for all architectures? Why is that a good idea?
+> At the very least this needs more explanation.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
 
-Changes in v0.3.0 will make this much easier to configure. You'll be
-able to set cache_dir, lists_dir, info_dir, lock_file and status_file
-in opkg.conf. I'd rather we left the defaults as-is and use those
-settings once v0.3.0 is released. v0.3.0 will also create any
-directories needed if they don't exist. So it may make sense to set
-cache_dir to something under /tmp, lock_file to something under /var
-or /run and everything else under /usr if that's what's desired.
+The patch is indented to remove tests that does not compile only for ppc64 =
+architecture: changes are only on none/tests/ppc64/Makefile.am file.
+The patch is quite similar with the one existing for ppc architecture.
 
-> I've tested changing the lists_dir and everything is working as expected.
->
-> Michael Gloff
->
+Regards,
+  Tudor.
 
-Thanks,
 
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+>=20
+>=20
+>=20
+> >  .../valgrind/remove-ppc64-tests-failing-build.patch      | 16
+> ++++++++++++++++
+> >  meta/recipes-devtools/valgrind/valgrind_3.9.0.bb         |  3 ++-
+> >  2 files changed, 18 insertions(+), 1 deletion(-)
+> >  create mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-
+> ppc64-tests-failing-build.patch
+> >
+> > diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-ppc64-tests=
+-
+> failing-build.patch b/meta/recipes-devtools/valgrind/valgrind/remove-
+> ppc64-tests-failing-build.patch
+> > new file mode 100644
+> > index 0000000..7bf3a21
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/valgrind/valgrind/remove-ppc64-tests-
+> failing-build.patch
+> > @@ -0,0 +1,16 @@
+> > +--- a/none/tests/ppc64/Makefile.am	2014-10-22
+> 16:33:20.686773392 +0200
+> > ++++ b/none/tests/ppc64/Makefile.am	2014-10-23
+> 10:31:38.948654523 +0200
+> > +@@ -35,11 +35,10 @@
+> > +
+> > + check_PROGRAMS =3D \
+> > + 	allexec \
+> > +-	jm-insns lsw round std_reg_imm twi_tdi tw_td power6_bcmp \
+> > ++	lsw round std_reg_imm twi_tdi tw_td power6_bcmp \
+> > + 	power6_mf_gpr test_isa_2_06_part1 test_isa_2_06_part2 \
+> > + 	test_isa_2_06_part3 test_dfp1 test_dfp2 test_dfp3 test_dfp4 \
+> > +-	test_dfp5 test_isa_2_07_part1 test_isa_2_07_part2 \
+> > +-	test_tm test_touch_tm
+> > ++	test_dfp5
+> > +
+> > + AM_CFLAGS    +=3D @FLAG_M64@
+> > + AM_CXXFLAGS  +=3D @FLAG_M64@
+> > diff --git a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
+> b/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
+> > index c415e77..f642856 100644
+> > --- a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
+> > +++ b/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
+> > @@ -19,6 +19,7 @@ SRC_URI =3D
+> "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+> >             file://force-nostabs.patch \
+> >             file://remove-arm-variant-specific.patch \
+> >             file://remove-ppc-tests-failing-build.patch \
+> > +           file://remove-ppc64-tests-failing-build.patch \
+> >             file://add-ptest.patch \
+> >             file://run-ptest \
+> >            "
+> > @@ -63,7 +64,7 @@ do_install_ptest() {
+> >      #
+> >      # The regression tests require scripts and data files that are not
+> >      # copied to the build directory.  They must be copied from the
+> > -    # source directory.
+> > +    # source directory.
+> >      saved_dir=3D$PWD
+> >      for parent_dir in ${S} ${B} ; do
+> >          cd $parent_dir
+> > --
+> > 1.9.1
+> >
+>=20
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
