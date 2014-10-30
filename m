@@ -1,33 +1,20 @@
-Return-Path: <mgloff@emacinc.com>
-Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
-	[209.85.213.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 3835C6AC49
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CE9A65C87
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 19:15:14 +0000 (UTC)
-Received: by mail-ig0-f171.google.com with SMTP id hl2so3956256igb.16
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 12:15:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
-	:content-type;
-	bh=yMhDH5zs0gOCLqLgHEUqEmfHkL9AUTWNeGi7ZC6htts=;
-	b=GkgLeYULA7XfWXRzZRKXBfy7mSLWGn61IyK+5jsY22tphxgXSzFDs/56ww25oDWr/G
-	NCh13WxJok3Wb5uZca+dw5Wagu/jqaBl1d++xPviCHLp9bKvgYRvi1I8ka5jgTR0rbJt
-	elO55+ljrIojnrqKamAN8xBXJqO/TVSU+3xq0FNYCETBT9oQyXRZ1Hun1nqzkIWTwO4z
-	2rOGVI1c+OUBkt8XEgdDp5gGsmcGQoz6QrBttQBDAfPxlKwojc5P02SW1LUtuRqGZ2dh
-	uhu4y7M1xzarN7e8OI4ZXM1DPJTIZQDqP26cUe/oAOugQXY2EYCad/xA9kpfHPKP8lHo
-	BYcA==
-X-Gm-Message-State: ALoCoQkWGKoF3qODy6uQzT4AiX8wbf0MwZxk481AJcKp0XEmDpwFahXc6owy/AD19QROKDlZz5fZ
-MIME-Version: 1.0
-X-Received: by 10.107.13.137 with SMTP id 131mr22454058ion.2.1414696515057;
-	Thu, 30 Oct 2014 12:15:15 -0700 (PDT)
-Received: by 10.107.148.145 with HTTP; Thu, 30 Oct 2014 12:15:15 -0700 (PDT)
-Date: Thu, 30 Oct 2014 14:15:15 -0500
-Message-ID: <CALXw4G7x6Xbf3Wr=mKUCk6G5e4k=8sz_pph9VUMegLn1txA9WQ@mail.gmail.com>
-From: Michael Gloff <mgloff@emacinc.com>
+	Thu, 30 Oct 2014 19:19:42 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Oct 2014 12:19:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,288,1413270000"; d="scan'208";a="623684522"
+Received: from aehernan-devstation.zpn.intel.com ([10.219.4.47])
+	by fmsmga002.fm.intel.com with ESMTP; 30 Oct 2014 12:19:20 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Opkg 0.2.3
+Date: Thu, 30 Oct 2014 13:19:19 -0600
+Message-Id: <1414696759-12871-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH v3] buildinfo.bblass: Added buildinfo class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,37 +27,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Oct 2014 19:15:20 -0000
-Content-Type: multipart/alternative; boundary=001a113fdfd43eeacd0506a8b366
+X-List-Received-Date: Thu, 30 Oct 2014 19:19:55 -0000
 
---001a113fdfd43eeacd0506a8b366
-Content-Type: text/plain; charset=UTF-8
+Writes build information to target filesystem to help developers
 
-As Paul mentioned yesterday opkg 0.2.4 is on it's way and 0.2.3 has been
-available for 2 months. If there are not any objections, I have an updated
-recipe and re-created previous patches that I could send. This should also
-modify opkg-colateral to use the new syntax for lists_dir.
-I would also at this time like to propose changing the default list
-directory from /var/lib to something else (/usr/lib ?). On a read only
-rootfs, everything in /var/lib/ gets mounted on the tmpfs, therefore
-packages installed get lost.
-I've tested changing the lists_dir and everything is working as expected.
+[YOCTO #6770]
 
-Michael Gloff
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ meta/classes/buildinfo.bbclass | 90 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 90 insertions(+)
+ create mode 100644 meta/classes/buildinfo.bbclass
 
---001a113fdfd43eeacd0506a8b366
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/classes/buildinfo.bbclass b/meta/classes/buildinfo.bbclass
+new file mode 100644
+index 0000000..f00b073
+--- /dev/null
++++ b/meta/classes/buildinfo.bbclass
+@@ -0,0 +1,90 @@
++#
++# Writes build information to target filesystem
++#
++# Usage: add INHERIT += "buildinfo" to your conf file
++#
++# Based in part on buildhistory.bbclass
++#
++# Copyright (C) 2014 Intel Corporation
++# Author: Alejandro Enedino Hernandez Samaniego <alejandro.hernandez@intel.com>
++#
++# Licensed under the MIT license, see COPYING.MIT for details
++#
++
++# From buildhistory.bbclass
++def squashspaces(string):
++    import re
++    return re.sub("\s+", " ", string).strip()
++
++# From buildhistory.bbclass
++def outputvars(vars, listvars, d): 
++    vars = vars.split()
++    listvars = listvars.split()
++    ret = ""
++    for var in vars:
++        value = d.getVar(var, True) or ""
++        if var in listvars:
++            value = squashspaces(value)
++        ret += "%s = %s\n" % (var, value)
++    return ret.rstrip('\n')
++
++# From buildhistory.bbclass
++def base_get_metadata_git_branch(path, d): 
++    branch = os.popen('cd %s; git branch 2>&1 | grep "^* " | tr -d "* "' % path).read()
++    if len(branch) != 0:
++        return branch
++    return "<unknown>"
++
++# From buildhistory.bbclass
++def base_get_metadata_git_revision(path, d): 
++    f = os.popen("cd %s; git log -n 1 --pretty=oneline -- 2>&1" % path)
++    data = f.read()
++    if f.close() is None:
++        rev = data.split(" ")[0]
++        if len(rev) != 0:
++            return rev 
++    return "<unknown>"
++
++# Gets git branch's status (clean or dirty)
++def get_layer_git_status(path):
++    f = os.popen("cd %s; git diff --stat 2>&1 | tail -n 1" % path)
++    data = f.read()
++    if f.close() is None:
++        if len(data) != 0:
++            return "-- modified"
++    return ""
++
++# Returns layer revisions along with their respective status
++def get_layer_revs(d):
++    layers = (d.getVar("BBLAYERS", True) or "").split()
++    medadata_revs = ["%-17s = %s:%s %s" % (os.path.basename(i), \
++        base_get_metadata_git_branch(i, None).strip(), \
++        base_get_metadata_git_revision(i, None), \
++        get_layer_git_status(i)) \
++            for i in layers]
++    return '\n'.join(medadata_revs)
++
++def buildinfo_target(d):
++        # Get context
++        if d.getVar('BB_WORKERCONTEXT', True) != '1':
++                return ""
++        # Single and list variables to be read
++        vars = "DISTRO DISTRO_VERSION BB_VERSION BUILD_SYS TARGET_SYS MACHINE USER_CLASSES IMAGE_CLASSES IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL PACKAGE_EXCLUDE"
++        listvars = "USER_CLASSES IMAGE_CLASSES IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL PACKAGE_EXCLUDE"
++        return outputvars(vars, listvars, d)
++
++# Write build information to target filesystem
++buildinfo () {
++cat > ${IMAGE_ROOTFS}${sysconfdir}/build <<END
++-----------------------
++Build Configuration:  |
++-----------------------
++${@buildinfo_target(d)}
++-----------------------
++Layer Revisions:      |   
++-----------------------
++${@get_layer_revs(d)}
++END
++}
++
++IMAGE_PREPROCESS_COMMAND += "buildinfo;"
+-- 
+1.9.1
 
-<div dir=3D"ltr"><div><div><div>As Paul mentioned yesterday opkg 0.2.4 is o=
-n it&#39;s way and 0.2.3 has been available for 2 months. If there are not =
-any objections, I have an updated recipe and re-created previous patches th=
-at I could send. This should also modify opkg-colateral to use the new synt=
-ax for lists_dir. <br></div>I would also at this time like to propose chang=
-ing the default list directory from /var/lib to something else (/usr/lib ?)=
-. On a read only rootfs, everything in /var/lib/ gets mounted on the tmpfs,=
- therefore packages installed get lost.<br></div>I&#39;ve tested changing t=
-he lists_dir and everything is working as expected. <br><br></div>Michael G=
-loff<br></div>
 
---001a113fdfd43eeacd0506a8b366--
