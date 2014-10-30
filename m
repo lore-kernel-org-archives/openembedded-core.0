@@ -1,28 +1,28 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D2DDC6AC49
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D9C1765D59
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 21:50:11 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Oct 2014 14:50:11 -0700
+	Thu, 30 Oct 2014 23:07:39 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 30 Oct 2014 16:06:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="408742816"
-Received: from unknown (HELO [10.255.13.109]) ([10.255.13.109])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Oct 2014 14:42:01 -0700
-Message-ID: <5452B292.6050204@linux.intel.com>
-Date: Thu, 30 Oct 2014 14:50:10 -0700
-From: Saul Wold <sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.07,289,1413270000"; d="scan'208";a="599383419"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.154])
+	([10.219.4.154])
+	by orsmga001.jf.intel.com with ESMTP; 30 Oct 2014 16:07:40 -0700
+Message-ID: <5452C4D9.20501@linux.intel.com>
+Date: Thu, 30 Oct 2014 17:08:09 -0600
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.7.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-To: Paul Barker <paul@paulbarker.me.uk>
-References: <545281C5.2020004@linux.intel.com>
-	<CANyK_8cJA7F3CTZ8psAUaAz-qBG31cM2fJEsd6VLX-ALcxBoKg@mail.gmail.com>
-In-Reply-To: <CANyK_8cJA7F3CTZ8psAUaAz-qBG31cM2fJEsd6VLX-ALcxBoKg@mail.gmail.com>
-Cc: Yocto Project Discussion <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Package Upgrading for 1.8
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1414607656-12144-1-git-send-email-anibal.limon@linux.intel.com>	
+	<1414607656-12144-2-git-send-email-anibal.limon@linux.intel.com>
+	<1414618120.7649.8.camel@ted>
+In-Reply-To: <1414618120.7649.8.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/4] license_class: Reimplemented manifest creation in python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,49 +35,215 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Oct 2014 21:50:18 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Oct 2014 23:07:47 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 10/30/2014 12:07 PM, Paul Barker wrote:
-> On 30 October 2014 18:21, Saul Wold <sgw@linux.intel.com> wrote:
+Richard,
+
+I did the changes that you suggest and another small changes adding
+LIC_FILES_CHKSUM in some recipes to avoid warnings in manifest creation.
+
+I put together into this branch for review,
+
+https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=alimon/license
+
+Best regards.
+
+On 29/10/14 15:28, Richard Purdie wrote:
+> On Wed, 2014-10-29 at 12:34 -0600, Aníbal Limón wrote:
+>> Reimplemented license_manifest_create from shell to python, in
+>> order to use oe.license module for handle INCOMPATIBLE_LICENSE
+>> and add License prorities into OR's evaluation.
 >>
->> Folks,
+>> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+>> ---
+>>   meta/classes/license.bbclass | 161 ++++++++++++++++++++++++-------------------
+>>   1 file changed, 90 insertions(+), 71 deletions(-)
 >>
->> Just a reminder now that master is open again for patches, now is a great
->> time to consider doing package Updates.  Based on some rough estimates from
->> 1.7 we did around 300 updates from 34 contributors, that got us about 73%
->> packages upgrades.
->>
->> We currently have about 180 packages due to be updated based on the Package
->> Reporting from this last week, about 65 of those where not updated in 1.7 so
->> should be given some priority (see attached file), there are also 10 that
->> need maintainers, let me know if you are interested in any of them.
+>> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+>> index a34ea39..c8a86ce 100644
+>> --- a/meta/classes/license.bbclass
+>> +++ b/meta/classes/license.bbclass
+>> @@ -25,78 +25,97 @@ python write_package_manifest() {
+>>           'w+').write(image_list_installed_packages(d))
+>>   }
+>>   
+>> -license_create_manifest() {
+>> -        # Test if BUILD_IMAGES_FROM_FEEDS is defined in env
+>> -        if [ -n "${BUILD_IMAGES_FROM_FEEDS}" ]; then
+>> -          exit 0
+>> -        fi
+>> -
+>> -	INSTALLED_PKGS=`cat ${LICENSE_DIRECTORY}/${IMAGE_NAME}/package.manifest`
+>> -	LICENSE_MANIFEST="${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest"
+>> -	# remove existing license.manifest file
+>> -	if [ -f ${LICENSE_MANIFEST} ]; then
+>> -		rm ${LICENSE_MANIFEST}
+>> -	fi
+>> -	touch ${LICENSE_MANIFEST}
+>> -	for pkg in ${INSTALLED_PKGS}; do
+>> -		filename=`ls ${PKGDATA_DIR}/runtime-reverse/${pkg}| head -1`
+>> -		pkged_pn="$(sed -n 's/^PN: //p' ${filename})"
+>> -
+>> -		# check to see if the package name exists in the manifest. if so, bail.
+>> -		if grep -q "^PACKAGE NAME: ${pkg}" ${LICENSE_MANIFEST}; then
+>> -			continue
+>> -		fi
+>> -
+>> -		pkged_pv="$(sed -n 's/^PV: //p' ${filename})"
+>> -		pkged_name="$(basename $(readlink ${filename}))"
+>> -		pkged_lic="$(sed -n "/^LICENSE_${pkged_name}: /{ s/^LICENSE_${pkged_name}: //; s/[|&()*]/ /g; s/  */ /g; p }" ${filename})"
+>> -		if [ -z ${pkged_lic} ]; then
+>> -			# fallback checking value of LICENSE
+>> -			pkged_lic="$(sed -n "/^LICENSE: /{ s/^LICENSE: //; s/[|&()*]/ /g; s/  */ /g; p }" ${filename})"
+>> -		fi
+>> -
+>> -		echo "PACKAGE NAME:" ${pkg} >> ${LICENSE_MANIFEST}
+>> -		echo "PACKAGE VERSION:" ${pkged_pv} >> ${LICENSE_MANIFEST}
+>> -		echo "RECIPE NAME:" ${pkged_pn} >> ${LICENSE_MANIFEST}
+>> -		printf "LICENSE:" >> ${LICENSE_MANIFEST}
+>> -		for lic in ${pkged_lic}; do
+>> -			# to reference a license file trim trailing + symbol
+>> -			if ! [ -e "${LICENSE_DIRECTORY}/${pkged_pn}/generic_${lic%+}" ]; then
+>> -				bbwarn "The license listed ${lic} was not in the licenses collected for ${pkged_pn}"
+>> -			fi
+>> -                        printf " ${lic}" >> ${LICENSE_MANIFEST}
+>> -		done
+>> -		printf "\n\n" >> ${LICENSE_MANIFEST}
+>> -	done
+>> -
+>> -	# Two options here:
+>> -	# - Just copy the manifest
+>> -	# - Copy the manifest and the license directories
+>> -	# With both options set we see a .5 M increase in core-image-minimal
+>> -	if [ "${COPY_LIC_MANIFEST}" = "1" ]; then
+>> -		mkdir -p ${IMAGE_ROOTFS}/usr/share/common-licenses/
+>> -		cp ${LICENSE_MANIFEST} ${IMAGE_ROOTFS}/usr/share/common-licenses/license.manifest
+>> -		if [ "${COPY_LIC_DIRS}" = "1" ]; then
+>> -			for pkg in ${INSTALLED_PKGS}; do
+>> -				mkdir -p ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}
+>> -				pkged_pn="$(oe-pkgdata-util lookup-recipe ${PKGDATA_DIR} ${pkg})"
+>> -				for lic in `ls ${LICENSE_DIRECTORY}/${pkged_pn}`; do
+>> -					# Really don't need to copy the generics as they're
+>> -					# represented in the manifest and in the actual pkg licenses
+>> -					# Doing so would make your image quite a bit larger
+>> -					if [ "${lic#generic_}" = "${lic}" ]; then
+>> -						cp ${LICENSE_DIRECTORY}/${pkged_pn}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}/${lic}
+>> -					else
+>> -						if [ ! -f ${IMAGE_ROOTFS}/usr/share/common-licenses/${lic} ]; then
+>> -							cp ${LICENSE_DIRECTORY}/${pkged_pn}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/
+>> -						fi
+>> -						ln -sf ../${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}/${lic}
+>> -					fi
+>> -				done
+>> -			done
+>> -		fi
+>> -	fi
+>> +python license_create_manifest() {
+>> +    import shutil
+>> +    import re
+>>   
+>> +    build_images_from_feeds = d.getVar('BUILD_IMAGES_FROM_FEEDS', True)
+>> +    if build_images_from_feeds == "1":
+>> +        return 0
+>> +
+>> +    pkg_dic = {}
+>> +    package_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
+>> +                        d.getVar('IMAGE_NAME', True), 'package.manifest')
+>> +    with open(package_manifest, "r") as package_file:
+>> +        pkg_list = package_file.read().split()
+>> +        for pkg in pkg_list:
+>> +            pkg_info = os.path.join(d.getVar('PKGDATA_DIR', True),
+>> +                                    'runtime-reverse', pkg)
+>> +            with open(pkg_info, "r") as pkg_info_file:
+>> +                pkg_dic[pkg] = {}
+>> +
+>> +                pkg_lic_name = os.path.basename(os.readlink(pkg_info))
+>> +
+>> +                for line in pkg_info_file.read().split("\n"):
+>> +                    if re.match("^PN: .*$", line):
+>> +                        pkg_dic[pkg]["PN"] = re.search("PN: (.*)$", line).group(1)
+>> +
+>> +                    if re.match("^PV: .*$", line):
+>> +                        pkg_dic[pkg]["PV"] = re.search("PV: (.*)$", line).group(1)
+>> +
+>> +                    if re.match("^LICENSE_%s: (.*)$" % re.escape(pkg_lic_name)
+>> +                                , line):
+>> +                        pkg_dic[pkg]["LICENSE"] = re.search("^LICENSE_%s: (.*)$"
+>> +                                    % pkg_lic_name, line).group(1)
+>> +                    elif re.match("^LICENSE: (.*)$", line):
+>> +                        pkg_dic[pkg]["LICENSE"] = re.search("^LICENSE: (.*)$",
+>> +                                    line).group(1)
+> Could you have a look at oe.packagedata.read_pkgdatafile(x) and see if
+> the above could use that instead please?
 >
-> I don't see opkg, opkg-utils or libarchive in those emails or on
-> http://packages.yoctoproject.org/upgradepkgname. Any particular reason
-> they're missing?
+>> +    license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
+>> +                        d.getVar('IMAGE_NAME', True), 'license.manifest')
+>> +    with open(license_manifest, "w") as license_file:
+>> +        for pkg in sorted(pkg_dic):
+>> +            license_file.write("PACKAGE NAME: %s\n" % pkg)
+>> +            license_file.write("PACKAGE VERSION: %s\n" % pkg_dic[pkg]["PV"])
+>> +            license_file.write("RECIPE NAME: %s\n" % pkg_dic[pkg]["PN"])
+>> +            license_file.write("LICENSE:")
+>> +
+>> +            licenses = re.sub('[|&()*]', '', pkg_dic[pkg]["LICENSE"])
+>> +            licenses = re.sub('  *', ' ', licenses)
+>> +            for lic in licenses.split():
+>> +                lic = re.sub('\+', '', lic)
+>> +                lic_file = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
+>> +                                        pkg_dic[pkg]["PN"], "generic_%s" % lic)
+>> +                if not os.path.exists(lic_file):
+>> +                   bb.warn("The license listed %s was not in the "\
+>> +                            "licenses collected for recipe %s"
+>> +                            % (lic, pkg_dic[pkg]["PN"]))
+>> +                license_file.write(" %s" % lic)
+>> +            license_file.write("\n\n")
+>> +
+>> +    # Two options here:
+>> +    # - Just copy the manifest
+>> +    # - Copy the manifest and the license directories
+>> +    # With both options set we see a .5 M increase in core-image-minimal
+>> +    copy_lic_manifest = d.getVar('COPY_LIC_MANIFEST', True)
+>> +    copy_lic_dirs = d.getVar('COPY_LIC_DIRS', True)
+>> +    if copy_lic_manifest == "1":
+>> +        rootfs_license_dir = os.path.join(d.getVar('IMAGE_ROOTFS', 'True'),
+>> +                                'usr', 'share', 'common-licenses')
+>> +        os.makedirs(rootfs_license_dir)
+>> +        rootfs_license_manifest = os.path.join(rootfs_license_dir,
+>> +                                                'license.manifest')
+>> +        shutil.copyfile(license_manifest, rootfs_license_manifest)
+>> +
+>> +        if copy_lic_dirs == "1":
+>> +            for pkg in sorted(pkg_dic):
+>> +                pkg_rootfs_license_dir = os.path.join(rootfs_license_dir, pkg)
+>> +                os.makedirs(pkg_rootfs_license_dir)
+>> +                pkg_license_dir = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
+>> +                                            pkg_dic[pkg]["PN"])
+>> +                licenses = os.listdir(pkg_license_dir)
+>> +                for lic in licenses:
+>> +                    rootfs_license = os.path.join(rootfs_license_dir, lic)
+>> +                    pkg_license = os.path.join(pkg_license_dir, lic)
+>> +                    pkg_rootfs_license = os.path.join(pkg_rootfs_license_dir, lic)
+>> +
+>> +                    if re.match("^generic_.*$", lic):
+>> +                        if not os.path.exists(pkg_rootfs_license):
+>> +                            shutil.copyfile(pkg_license, rootfs_license)
+>> +
+>> +                        os.symlink(os.path.join('..', lic), pkg_rootfs_license)
+>> +                    else:
+>> +                        shutil.copyfile(pkg_license, pkg_rootfs_license)
+> One small tweak we could make here is to hardlink these files. There are
+> several copies of many of them and it would reduce image size a bit. I
+> appreciate the original doesn't but I've been doing this in other places
+> and this is probably another we should put on the list...
 >
-I will look into that, could be that the code in the fetcher is not 
-catching opkg correctly, we are working on updating that code to do a 
-better job.
+> Otherwise looks good, thanks.
+>
+> Richard
+>
+>
+>
+>
 
-> I'll send an upgrade to opkg v0.2.3 tomorrow, then further upgrades
-> once they're available.
->
-> Once I've merged a patch by Jian Liu to opkg-utils there will likely
-> be an opkg-utils SRCREV update.
->
-> I have my eye on libarchive as well as I'm using it within the
-> development versions of opkg. I'm subscribed to their announcement
-> mailing list so I'll know when a new release is made.
->
-Thanks, saw your email earlier, thanks your hard work on the OPKG* know 
-it's appreciated.
-
-Sau!
-
-
-> Cheers,
->
 
