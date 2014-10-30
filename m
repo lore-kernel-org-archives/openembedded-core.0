@@ -1,42 +1,33 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B27C565C87
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AC8465C87
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 13:27:16 +0000 (UTC)
-Received: by mail-wi0-f181.google.com with SMTP id n3so7395468wiv.14
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 06:27:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=/iiPcGAOw6LpKP9oftEDyRSdiVLw2JvAQjaE3/O7MFA=;
-	b=JQw4t+e0fQh76lrvQNSzpYpn8oAcQ3o4wfYYkzmXpYE2JSJTOj3sCAnV5zpYCtor7o
-	CzIO7Bf0HsdqsgPNGb/1ju12c+nodiZTI+Apmkx7eUa4lL/pxEJhnduwYkpbujSdEvk1
-	OwlNo+S6HxjxjdC8V2pF2mFHMc+IANqdT4DzqpI8xLGQ6txG+a7/Bjlve93dVSFUl3R6
-	NOioyfqZm5+EF2c7XQMK+HbP93A/e9wOHj7OAoEA1jTPs2IoJbXPInawrVGE+UIVTtY9
-	QBTHRVJqki66tZbP+mUtvabZUzNv/hkqTn0GIcQCux+pGSqXYw4BGXXGY3Pq6OzF1zJn
-	f77A==
-X-Gm-Message-State: ALoCoQn32CnJK6MNWFASRizY9TukXMhNcWFlpJ/Oyj5531pzg7CzYH2dY/Fg1sORx2fuJf4Tqdtt
-X-Received: by 10.180.101.200 with SMTP id fi8mr43696488wib.77.1414675636932; 
-	Thu, 30 Oct 2014 06:27:16 -0700 (PDT)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id
-	iz14sm17811338wic.23.2014.10.30.06.27.15 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 30 Oct 2014 06:27:16 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <33a3b945ec946aa6f0fba68afe7242c3cf8c0fc9.1414659743.git.Qi.Chen@windriver.com>
-Date: Thu, 30 Oct 2014 14:27:14 +0100
-Message-Id: <6DFFE445-39DB-47D1-97F2-04CA26866DEC@dominion.thruhere.net>
-References: <cover.1414659743.git.Qi.Chen@windriver.com>
-	<33a3b945ec946aa6f0fba68afe7242c3cf8c0fc9.1414659743.git.Qi.Chen@windriver.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-X-Mailer: Apple Mail (2.1990.1)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] libpam: add system-auth in case of systemd
+	Thu, 30 Oct 2014 13:28:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s9UDR9WU012460; Thu, 30 Oct 2014 13:28:08 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id sZlDJ-739HDv; Thu, 30 Oct 2014 13:28:08 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s9UDS2su012509
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 30 Oct 2014 13:28:03 GMT
+Message-ID: <1414675717.7649.56.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 30 Oct 2014 13:28:37 +0000
+In-Reply-To: <20141030132053.GF15148@jama>
+References: <1406209379-1662-1-git-send-email-Martin.Jansa@gmail.com>
+	<1406209379-1662-2-git-send-email-Martin.Jansa@gmail.com>
+	<CAJTo0La2AZo=nxBJGnkQrC+=jB9hoO+tsYyuCMbfAT0vwwd-qg@mail.gmail.com>
+	<20140724152218.GM2492@jama> <1406553510.13346.17.camel@ted>
+	<20140806114831.GG14848@jama> <20141030132053.GF15148@jama>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] recipes: add x11 to required DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,85 +40,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Oct 2014 13:27:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 30 Oct 2014 13:28:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Thu, 2014-10-30 at 14:20 +0100, Martin Jansa wrote:
+> On Wed, Aug 06, 2014 at 01:48:31PM +0200, Martin Jansa wrote:
+> > On Mon, Jul 28, 2014 at 02:18:30PM +0100, Richard Purdie wrote:
+> > > On Thu, 2014-07-24 at 17:22 +0200, Martin Jansa wrote:
+> > > > On Thu, Jul 24, 2014 at 02:52:45PM +0100, Burton, Ross wrote:
+> > > > > On 24 July 2014 14:42, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > > > > > +REQUIRED_DISTRO_FEATURES = "x11"
+> > > > > 
+> > > > > Now I'm wondering why this is the solution.
+> > > > > 
+> > > > > If you attempt to build e.g. gnome-desktop explicitly without the x11
+> > > > > distro feature you understandably get an error message, because
+> > > > > gnome-desktop depends on libx11 which sanity checks the distro
+> > > > > features.  This seems correct.
+> > > > > 
+> > > > > Presumably you're problem is that you're running world builds and
+> > > > > they're producing errors on gnome-desktop because they can't satisfy a
+> > > > > dependency on libx11.  It seems that bubbling up the
+> > > > > REQUIRED_DISTRO_FEATURES tests isn't the right thing to do here - why
+> > > > > can't SkipPackage be handled specially, so if you do bitbake -k world
+> > > > > and libx11 emits SkipPackage, anything that has unsatisfiable
+> > > > > dependencies because of this is also skipped?
+> > > > 
+> > > > We discussed this many months ago and IIRC the conclusion was that user
+> > > > should explicitly say that he wants to skip the recipes which depend on
+> > > > something skipped (so that he is aware of what he is missing).
+> > > > 
+> > > > At that time there wasn't REQUIRED_DISTRO_FEATURES support, so I've
+> > > > created huge list of PNBLACKLISTs to blacklist everything not available
+> > > > in our setup - so I can do world builds without ERRORs at the beginning.
+> > > > 
+> > > > REQUIRED_DISTRO_FEATURES seems to me like reasonable compromise, that's
+> > > > why I've sent this patchset to replace small part of my huge blacklist.
+> > > > 
+> > > > This is the list:
+> > > > https://github.com/openwebos/meta-webos/blob/master/conf/distro/include/webos-recipe-blacklist-world.inc
+> > > > 
+> > > > If someone has time to improve SkipPackage and we really want to skip
+> > > > all depending packages, I would be glad to test such patch (because it
+> > > > allows to easily drop all those blacklists for "depends-on-broken"
+> > > > components)
+> > > 
+> > > The question here is whether we want a system which calculates what it
+> > > thinks is right or that we declare it.
+> > > 
+> > > The risk is that if SkipPackage (now known as SkipRecipe) were to
+> > > automatically "spread", you could in theory break the toolchain, have
+> > > nothing buildable and "bitbake world" would return success.
+> > > 
+> > > Effectively the -k option to bitbake already does the SkipPackage
+> > > "spread" idea since bitbake just removes dependencies until it works. If
+> > > does that in a fairly verbose way but it does so deliberately so you can
+> > > see what is going on.
+> > > 
+> > > The alternative is to declare what a given recipe supports and then we
+> > > can know whether it should be skipped or not under a given circumstance.
+> > > 
+> > > Personally, I'm leaning towards a more declarative approach where we
+> > > specify what should and shouldn't be expected to work. I'm open to
+> > > discussion on it though...
+> > 
+> > I agree with more declarative approach.
+> > 
+> > I don't mind maintaining PNBLACKLIST e.g. for components depending on
+> > something we decided to blacklist ourselves in distro config.
+> > 
+> > But for components like this, where we really know that they won't work
+> > without X11 in DISTRO_FEATURES, I think bitbake should skip them
+> > automatically (thanks to REQUIRED_DISTRO_FEATURES). It already
+> > automatically skips all recipes in xorg-lib directory, why it shouldn't
+> > skip other recipes living somewhere else?
+> 
+> Can we make some decision now?
+
+Well, I think there was an implied outcome of this:
+
+a) We don't want to automatically do things, we want something
+declarative
+
+b) We therefore need to go and add REQUIRED_DISTRO_FEATURES = "x11" to
+some further places.
+
+As such, I'll take patches.
+
+Was that what other people understood?
+
+Cheers,
+
+Richard
 
 
-> Op 30 okt. 2014, om 10:08 heeft Chen Qi <Qi.Chen@windriver.com> het =
-volgende geschreven:
->=20
-> systemd needs this file to be there because one of its configuration =
-file
-> in pam.d, systemd-user, requires it. Otherwise, we would have errors =
-like
-> below.
->=20
->    systemd: PAM _pam_load_conf_file: unable to open =
-/etc/pam.d/system-auth
-
-Isn't it the same as 'common-auth'? ISTR this is due to debian vs fedora =
-naming of PAM stuff. I think it would make more sense to check what =
-systemd actually wants and then see if a symlink to common-auth or =
-patching systemd to use common-auth is the right answer instead of =
-blindly adding system-auth.
-
-regards,
-
-Koen
-
-
->=20
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
-> meta/recipes-extended/pam/libpam/pam.d/system-auth | 12 ++++++++++++
-> meta/recipes-extended/pam/libpam_1.1.6.bb          |  1 +
-> 2 files changed, 13 insertions(+)
-> create mode 100644 meta/recipes-extended/pam/libpam/pam.d/system-auth
->=20
-> diff --git a/meta/recipes-extended/pam/libpam/pam.d/system-auth =
-b/meta/recipes-extended/pam/libpam/pam.d/system-auth
-> new file mode 100644
-> index 0000000..ffb08ab
-> --- /dev/null
-> +++ b/meta/recipes-extended/pam/libpam/pam.d/system-auth
-> @@ -0,0 +1,12 @@
-> +# This file comes from systemd.
-> +
-> +auth     sufficient pam_unix.so nullok try_first_pass
-> +
-> +account  required   pam_nologin.so
-> +account  sufficient pam_unix.so
-> +
-> +password sufficient pam_unix.so nullok sha512 shadow try_first_pass =
-try_authtok
-> +
-> +-session optional   pam_loginuid.so
-> +-session optional   pam_systemd.so
-> +session  sufficient pam_unix.so
-> diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb =
-b/meta/recipes-extended/pam/libpam_1.1.6.bb
-> index a84e51e..0910b6f 100644
-> --- a/meta/recipes-extended/pam/libpam_1.1.6.bb
-> +++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
-> @@ -17,6 +17,7 @@ SRC_URI =3D =
-"http://linux-pam.org/library/Linux-PAM-${PV}.tar.bz2 \
->            file://pam.d/common-session \
->            file://pam.d/common-session-noninteractive \
->            file://pam.d/other \
-> +           ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', =
-'file://pam.d/system-auth', '', d)} \
->            file://libpam-xtests.patch \
->            file://destdirfix.patch \
->            file://fixsepbuild.patch \
-> --=20
-> 1.9.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
 
 
