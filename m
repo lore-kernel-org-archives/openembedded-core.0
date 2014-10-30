@@ -1,26 +1,20 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id EABEB70EF1
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 184BE65D59
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Oct 2014 22:05:29 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Oct 2014 15:05:30 -0700
+	Thu, 30 Oct 2014 01:08:06 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 29 Oct 2014 18:08:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,280,1413270000"; d="scan'208";a="623067096"
-Received: from enewy-mobl1.amr.corp.intel.com (HELO localhost) ([10.254.56.8])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Oct 2014 15:04:47 -0700
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: philip@balister.org, maciej.borzecki@open-rnd.pl,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 29 Oct 2014 17:04:24 -0500
-Message-Id: <464ab2ede090e850c4fba52900543d19d7300879.1414618765.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <92a50f084bc31cb2824d01435737b85be99f0d1d.1414618765.git.tom.zanussi@linux.intel.com>
-References: <92a50f084bc31cb2824d01435737b85be99f0d1d.1414618765.git.tom.zanussi@linux.intel.com>
-In-Reply-To: <cover.1414618765.git.tom.zanussi@linux.intel.com>
-References: <cover.1414618765.git.tom.zanussi@linux.intel.com>
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 6/6] wic: Update bootimg-partition to use bootimg_dir
+X-IronPort-AV: E=Sophos;i="5.07,281,1413270000"; d="scan'208";a="627996790"
+Received: from aehernan-devstation.zpn.intel.com ([10.219.4.47])
+	by orsmga002.jf.intel.com with ESMTP; 29 Oct 2014 18:08:06 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Oct 2014 19:07:54 -0600
+Message-Id: <1414631274-12001-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH v2] image.bbclass: Added buildinfo IMAGE_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +27,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Oct 2014 22:05:31 -0000
+X-List-Received-Date: Thu, 30 Oct 2014 01:08:13 -0000
 
-Update bootimg-partition to use bootimg_dir instead of img_deploy_dir,
-to match similar usage in other plugins.
+Writes build information to target filesystem to help developers
 
-As mentioned elsewhere, plugins should use the passed-in value for
-bootimg_dir directly if non-null, which corresponds to a user-assigned
-value specified via a -b command-line param, and only fetch the value
-from bitbake if that value is null.
+[YOCTO #6770]
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+Signed-off-by: Alejandro Hernandez  <alejandro.hernandez@linux.intel.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-partition.py | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ meta/classes/image.bbclass | 46 +++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 45 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
-index cc72b2f..abf2494 100644
---- a/scripts/lib/wic/plugins/source/bootimg-partition.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
-@@ -71,8 +71,13 @@ class BootimgPartitionPlugin(SourcePlugin):
-         install_cmd = "install -d %s" % hdddir
-         exec_cmd(install_cmd)
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 940bdb6..fe7cd43 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -22,7 +22,7 @@ inherit ${TESTIMAGECLASS}
+ # IMAGE_FEATURES may contain any available package group
+ IMAGE_FEATURES ?= ""
+ IMAGE_FEATURES[type] = "list"
+-IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs"
++IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs buildinfo"
  
-+        if not bootimg_dir:
-+            bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
-+            if not bootimg_dir:
-+                msger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting\n")
+ # rootfs bootstrap install
+ ROOTFS_BOOTSTRAP_INSTALL = "${@bb.utils.contains("IMAGE_FEATURES", "package-management", "", "${ROOTFS_PKGMANAGE_BOOTSTRAP}",d)}"
+@@ -181,6 +181,9 @@ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
+ SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; ", "", d)}'
+ 
++# Write build information to target FS
++IMAGE_PREPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "buildinfo", "buildinfo; ", "",d)}'
 +
-         msger.debug('Bootimg dir: %s' % bootimg_dir)
--        img_deploy_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
+ # some default locales
+ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
+ 
+@@ -411,6 +414,47 @@ rootfs_sysroot_relativelinks () {
+ 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
+ }
+ 
++def get_layer_git_status(path):
++    f = os.popen("cd %s; git diff --stat 2>&1 | tail -n 1" % path)
++    data = f.read()
++    if f.close() is None:
++        if len(data) != 0:
++            return "-- modified"
++    return ""
 +
-         boot_files = get_bitbake_var("IMAGE_BOOT_FILES")
- 
-         if not boot_files:
-@@ -93,7 +98,7 @@ class BootimgPartitionPlugin(SourcePlugin):
- 
-         for deploy_entry in deploy_files:
-             src, dst = deploy_entry
--            src_path = os.path.join(img_deploy_dir, src)
-+            src_path = os.path.join(bootimg_dir, src)
-             dst_path = os.path.join(hdddir, dst)
- 
-             msger.debug('Install %s as %s' % (os.path.basename(src_path),
++def get_layer_revs(d):
++    layers = (d.getVar("BBLAYERS", True) or "").split()
++    medadata_revs = ["%-17s = %s:%s %s" % (os.path.basename(i), \
++        base_get_metadata_git_branch(i, None).strip(), \
++        base_get_metadata_git_revision(i, None), \
++        get_layer_git_status(i)) \
++            for i in layers]
++    return '\n'.join(medadata_revs)
++
++def buildinfo_target(d):
++        # Get context
++        if d.getVar('BB_WORKERCONTEXT', True) != '1':
++                return ""
++        # Single and list variables to be read
++        vars = "DISTRO DISTRO_VERSION BB_VERSION BUILD_SYS TARGET_SYS MACHINE USER_CLASSES IMAGE_CLASSES IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL PACKAGE_EXCLUDE"
++        listvars = "USER_CLASSES IMAGE_CLASSES IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL PACKAGE_EXCLUDE"
++        return outputvars(vars, listvars, d)
++
++# Write build information to target filesystem
++inherit buildhistory
++buildinfo () {
++cat > ${IMAGE_ROOTFS}${sysconfdir}/build <<END
++-----------------------
++Build Configuration:  |
++-----------------------
++${@buildinfo_target(d)}
++-----------------------
++Layer Revisions:      |
++-----------------------
++${@get_layer_revs(d)}
++END
++}
++
+ do_fetch[noexec] = "1"
+ do_unpack[noexec] = "1"
+ do_patch[noexec] = "1"
 -- 
-1.9.3
+1.9.1
 
 
