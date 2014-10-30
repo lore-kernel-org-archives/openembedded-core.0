@@ -1,31 +1,44 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id C701C65C87
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 374C365C87
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 15:39:16 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id B7BC6F811E4; Thu, 30 Oct 2014 09:39:16 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id D84F7F811DF;
-	Thu, 30 Oct 2014 09:39:15 -0600 (MDT)
-Message-ID: <54525BA9.9000606@mlbassoc.com>
-Date: Thu, 30 Oct 2014 09:39:21 -0600
-From: Gary Thomas <gary@mlbassoc.com>
+	Thu, 30 Oct 2014 15:42:23 +0000 (UTC)
+Received: by mail-ie0-f170.google.com with SMTP id tp5so5601696ieb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Oct 2014 08:42:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=y8hy38j7oedLfoqP9XCkA3MU7NpSJwYAbyUpWQoH7HU=;
+	b=Cofj85xW3EtZCrGZtCbXSqvP1L+7BysUNTqLvoFcfKyLHJavJqaUkTGEHy0Sr8du9R
+	h70WbxFXazQl/52oeqzH8fenXQ1d2yuSYKxB/uFkz85x+M+W04Fi6SVbiTIoYqH3P6BR
+	J6SE/HBTIMRkXgmfXYl0iUF/D2yhDvPN79BQEzQa4phRKeunFJURuwe48r5IHGok36wa
+	3ug/Lykpc19vim/OMmiwI8j+gKydTxon2ZDD+lkjEBrKQK4zDNyjeU3RBuOe4Zx5vXAh
+	igPqy2WhU2hFXwyUDMgUtU0I/m1ErpKeXlA03mrwRL8NArqBipFag3vWG2mrqXmbv81n
+	paWQ==
+X-Gm-Message-State: ALoCoQnMs/sBTb72QkVf51X9qbK4nBCcwDw98ZMxnNnEfa4TQHlcjR6egXMod8Ue/iqN36s1al9L
+X-Received: by 10.50.118.35 with SMTP id kj3mr21410771igb.30.1414683744392;
+	Thu, 30 Oct 2014 08:42:24 -0700 (PDT)
+Received: from [192.168.141.122] ([67.55.43.177])
+	by mx.google.com with ESMTPSA id qa7sm3194742igb.1.2014.10.30.08.42.23
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 30 Oct 2014 08:42:23 -0700 (PDT)
+Message-ID: <54525C63.4070309@linaro.org>
+Date: Thu, 30 Oct 2014 11:42:27 -0400
+From: Trevor Woerner <trevor.woerner@linaro.org>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.0
 MIME-Version: 1.0
-To: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@googlemail.com>, 
-	"Burton, Ross" <ross.burton@intel.com>
-References: <1414508747-4688-1-git-send-email-gary@mlbassoc.com>	<CAJTo0LaLRhRASrwdHQboWYjbsGzBmCZgq4J1Qv_i5KDo17ZhVQ@mail.gmail.com>
-	<CALbNGRTQQTza3PftOobxDqMvJUGwsGKRAcRX49CXtzUeTOcSzQ@mail.gmail.com>
-In-Reply-To: <CALbNGRTQQTza3PftOobxDqMvJUGwsGKRAcRX49CXtzUeTOcSzQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-pygtk: Restore pkg-config file
+To: Paul Barker <paul@paulbarker.me.uk>, 
+	Yocto discussion list <yocto@yoctoproject.org>,
+	OE Core <openembedded-core@lists.openembedded.org>
+References: <CANyK_8cFPyXs2R5+x3AiMNnPW4Q6hWnNdsjTHrf50M4F6VGJQQ@mail.gmail.com>
+In-Reply-To: <CANyK_8cFPyXs2R5+x3AiMNnPW4Q6hWnNdsjTHrf50M4F6VGJQQ@mail.gmail.com>
+Subject: Re: opkg Status Update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,42 +51,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Oct 2014 15:39:19 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Oct 2014 15:42:26 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On 2014-10-30 09:26, Andreas Müller wrote:
-> On Thu, Oct 30, 2014 at 1:57 PM, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> On 28 October 2014 15:05, Gary Thomas <gary@mlbassoc.com> wrote:
->>>
->>> Some previous version of this recipe was errantly removing the
->>> pygtk-2.0.pc
->>> (pkg-config) file.  This is needed for other packages to be able to build
->>> against this library.
->>
->>
->> It's deleting the code generator too.  This entire recipe gives me the
->> heebie-jeebies...
->>
->> Ross
->>
-> I have a similar patch in for very long time [1]. At the time of
-> creation I ran several tests without suspicious results. The whole
-> 'dirty fix #1' can go.
->
-> Andreas
->
-> [1] https://gitorious.org/schnitzeltony-oe-meta/oe-core/commit/dedf83428f297e9461f5c88c32c78192fa96585e
->
+Hi Paul,
 
-Wow, since Jan 2013 and no action?
+I too wanted to express my thanks to you for this work!
 
-Was this proposed to OE-core (i.e. sent to the list)?
+On 10/28/14 19:33, Paul Barker wrote:
+> This would be a great time for someone to step up and
+> help move things forward to v0.4.0 and beyond.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Is there a roadmap for opkg somewhere?
+
+Best regards,
+    Trevor
 
