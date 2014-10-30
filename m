@@ -1,44 +1,38 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 374C365C87
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ob0-f169.google.com (mail-ob0-f169.google.com
+	[209.85.214.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 15F2765CA0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 15:42:23 +0000 (UTC)
-Received: by mail-ie0-f170.google.com with SMTP id tp5so5601696ieb.1
+	Thu, 30 Oct 2014 16:14:05 +0000 (UTC)
+Received: by mail-ob0-f169.google.com with SMTP id va2so4408937obc.28
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 08:42:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=y8hy38j7oedLfoqP9XCkA3MU7NpSJwYAbyUpWQoH7HU=;
-	b=Cofj85xW3EtZCrGZtCbXSqvP1L+7BysUNTqLvoFcfKyLHJavJqaUkTGEHy0Sr8du9R
-	h70WbxFXazQl/52oeqzH8fenXQ1d2yuSYKxB/uFkz85x+M+W04Fi6SVbiTIoYqH3P6BR
-	J6SE/HBTIMRkXgmfXYl0iUF/D2yhDvPN79BQEzQa4phRKeunFJURuwe48r5IHGok36wa
-	3ug/Lykpc19vim/OMmiwI8j+gKydTxon2ZDD+lkjEBrKQK4zDNyjeU3RBuOe4Zx5vXAh
-	igPqy2WhU2hFXwyUDMgUtU0I/m1ErpKeXlA03mrwRL8NArqBipFag3vWG2mrqXmbv81n
-	paWQ==
-X-Gm-Message-State: ALoCoQnMs/sBTb72QkVf51X9qbK4nBCcwDw98ZMxnNnEfa4TQHlcjR6egXMod8Ue/iqN36s1al9L
-X-Received: by 10.50.118.35 with SMTP id kj3mr21410771igb.30.1414683744392;
-	Thu, 30 Oct 2014 08:42:24 -0700 (PDT)
-Received: from [192.168.141.122] ([67.55.43.177])
-	by mx.google.com with ESMTPSA id qa7sm3194742igb.1.2014.10.30.08.42.23
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 Oct 2014 08:42:23 -0700 (PDT)
-Message-ID: <54525C63.4070309@linaro.org>
-Date: Thu, 30 Oct 2014 11:42:27 -0400
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.0
+	Thu, 30 Oct 2014 09:14:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=mrUiE8JP7HuDZiWK3HMlUByNuCo2hkgnERuzQnAi+Y4=;
+	b=aU7noxxCvnA+hatL5Z0yjxFARXbK1ulrxsSzmDaoUmMK3Dmx1iSqt9QOVpJksksEUn
+	gYL3l+cnJdaHwM8AE4ksp5mJn7s5ECgvbw2oA2kuQGKfBpe1iB+OM4tr6Co7INWrq7Du
+	0R3RR18vcDRozJuIaMVfvYzjn6K5aSqsj6wFH9A2CyjL3Kfv4P+ilSXQmkx38lMSiXv2
+	mIL52Y+GM8/Y2JufK+Cq5ewdp+WTgGeewl6s/A+fKw1o1fCWmy8jz3h8O4tIbfJOODQY
+	kLkrMD+UR8X+ELrDBq6jwAXx+a/YdMaSlxpfNpR7ZkCah7iamZKNK5bz47+4pqSkFQ24
+	5plA==
 MIME-Version: 1.0
-To: Paul Barker <paul@paulbarker.me.uk>, 
-	Yocto discussion list <yocto@yoctoproject.org>,
-	OE Core <openembedded-core@lists.openembedded.org>
-References: <CANyK_8cFPyXs2R5+x3AiMNnPW4Q6hWnNdsjTHrf50M4F6VGJQQ@mail.gmail.com>
-In-Reply-To: <CANyK_8cFPyXs2R5+x3AiMNnPW4Q6hWnNdsjTHrf50M4F6VGJQQ@mail.gmail.com>
-Subject: Re: opkg Status Update
+X-Received: by 10.60.67.165 with SMTP id o5mr15380284oet.24.1414685646187;
+	Thu, 30 Oct 2014 09:14:06 -0700 (PDT)
+Received: by 10.202.67.84 with HTTP; Thu, 30 Oct 2014 09:14:06 -0700 (PDT)
+In-Reply-To: <54525BA9.9000606@mlbassoc.com>
+References: <1414508747-4688-1-git-send-email-gary@mlbassoc.com>
+	<CAJTo0LaLRhRASrwdHQboWYjbsGzBmCZgq4J1Qv_i5KDo17ZhVQ@mail.gmail.com>
+	<CALbNGRTQQTza3PftOobxDqMvJUGwsGKRAcRX49CXtzUeTOcSzQ@mail.gmail.com>
+	<54525BA9.9000606@mlbassoc.com>
+Date: Thu, 30 Oct 2014 17:14:06 +0100
+Message-ID: <CALbNGRTdXwm4dSwLhoOPjb-B6hqfYZHcorUX1p3LqSUWu9U19A@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python-pygtk: Restore pkg-config file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,20 +45,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Oct 2014 15:42:26 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Oct 2014 16:14:14 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Paul,
+On Thu, Oct 30, 2014 at 4:39 PM, Gary Thomas <gary@mlbassoc.com> wrote:
+>
+> Wow, since Jan 2013 and no action?
+>
+> Was this proposed to OE-core (i.e. sent to the list)?
+>
+No - my expiereineces sending patches to oe-core are not the best.
+Usually they just cause me efforts and aren't applied anyway..
 
-I too wanted to express my thanks to you for this work!
-
-On 10/28/14 19:33, Paul Barker wrote:
-> This would be a great time for someone to step up and
-> help move things forward to v0.4.0 and beyond.
-
-Is there a roadmap for opkg somewhere?
-
-Best regards,
-    Trevor
+Andreas
 
