@@ -1,37 +1,45 @@
-Return-Path: <mgloff@emacinc.com>
-Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id E91547182C
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A67F65D3C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 07:14:37 +0000 (UTC)
-Received: by mail-ie0-f173.google.com with SMTP id tr6so713278ieb.18
+	Fri, 31 Oct 2014 07:22:19 +0000 (UTC)
+Received: by mail-wi0-f182.google.com with SMTP id d1so515771wiv.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 00:14:38 -0700 (PDT)
+	Fri, 31 Oct 2014 00:22:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=qfFEWst32GaxvirbQWAA+9RlB8fZkMkNw3ofuQEc/MI=;
-	b=Tb156Ll+wPyosCsnDPf7QUHKgADn6p8seCPQJufPKMUOly1sGzP0S9BGEmUyBM+CJR
-	7ld9W8nA701mPUNYZ5rIRyysZ6/RCrDvblinMc+xax3BFvU8nmdz9Rlbdmz7YT/Lz68e
-	jjahU67LtVgWGxtF5W7tZCf/6SyF1X55r6IppKlBUDUKhNDNBYjGG52UvpnRA3nreUCH
-	q6dtD7SDXMhB03Zc3NOgy71m/FOz6DyFCyfXQzMf1fBBrh3VWRQ2P28rsr4Wa1vFyuYQ
-	Lrb0R6TkBAhzq2e8XFNIjRai/GoUsxt0yI1SHXpn3ZtuU5yK3emiFgtaiq1NHtE/ySci
-	22xQ==
-X-Gm-Message-State: ALoCoQml7vTwzV6eAHE5tuVRwuwGruGRkFZmBZdM0xE0q79Ke9X54JitY4RSfPMfWnbonz5yrdaB
-MIME-Version: 1.0
-X-Received: by 10.43.128.71 with SMTP id hd7mr21889278icc.36.1414739678051;
-	Fri, 31 Oct 2014 00:14:38 -0700 (PDT)
-Received: by 10.107.148.145 with HTTP; Fri, 31 Oct 2014 00:14:38 -0700 (PDT)
-In-Reply-To: <CANyK_8cv3go0ghbLD73WwEdEyPiB5bLzaN_w8Wa4KxDQo92quQ@mail.gmail.com>
-References: <CALXw4G7x6Xbf3Wr=mKUCk6G5e4k=8sz_pph9VUMegLn1txA9WQ@mail.gmail.com>
-	<CANyK_8cv3go0ghbLD73WwEdEyPiB5bLzaN_w8Wa4KxDQo92quQ@mail.gmail.com>
-Date: Fri, 31 Oct 2014 02:14:38 -0500
-Message-ID: <CALXw4G5O2NRCzQ4MiF8fG4G1C_bZNYbuH8NcdYbJUhRctjCgfA@mail.gmail.com>
-From: Michael Gloff <mgloff@emacinc.com>
-To: Paul Barker <paul@paulbarker.me.uk>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: Opkg 0.2.3
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=GO6NyJFTXU53Nr0CP+b30+8hKgju9ydsUrHmgVkBqyU=;
+	b=HCIaUNV+FsFh3m39fcEH6qpVHb6cGxGVR7UcepSejn1e1jdZL+1l9/8Jlsx76W3upO
+	H+uxv1WEwhxv1UhyCZxosLzAYhqmnjVpvjNH+uvKhrnJ3eLX8kXUDY2zArHrsRQfzkcG
+	tz0uYQVbx/0UjtZ7/gqG3l2kdFrhL4rynRzA4REJ6fdyAeZaYyIw+8EkJGKJ2utT3NKr
+	nPBu6QYRrn6H/LSDQ7eDwNiwBniuYOn24DHqb2uFNkU6lWe0pn78nGmWbLAPu2xb59L1
+	BFEc4W7LinIEI2bEKl4aMlnFGEYpMLBVoEzaG3J6fCbfQWOehacn3SN3Wfe8vZHif71n
+	8u2w==
+X-Gm-Message-State: ALoCoQl2Lugas6BrlXNJU58dihmdq090yI+H9vGQFAmXfz381BHO9FLdQiPmubWVRqYfaPcosXSR
+X-Received: by 10.194.104.170 with SMTP id gf10mr26407455wjb.88.1414740140030; 
+	Fri, 31 Oct 2014 00:22:20 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::6db5:d436:8f57:324a?
+	([2001:610:612:0:6db5:d436:8f57:324a])
+	by mx.google.com with ESMTPSA id t9sm11086558wjf.41.2014.10.31.00.22.18
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 31 Oct 2014 00:22:19 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <5452FB02.4040206@windriver.com>
+Date: Fri, 31 Oct 2014 08:22:17 +0100
+Message-Id: <5119E558-0182-4F53-80DC-F4E62FA2E42A@dominion.thruhere.net>
+References: <cover.1414659743.git.Qi.Chen@windriver.com>
+	<33a3b945ec946aa6f0fba68afe7242c3cf8c0fc9.1414659743.git.Qi.Chen@windriver.com>
+	<6DFFE445-39DB-47D1-97F2-04CA26866DEC@dominion.thruhere.net>
+	<5452FB02.4040206@windriver.com>
+To: ChenQi <Qi.Chen@windriver.com>
+X-Mailer: Apple Mail (2.1990.1)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] libpam: add system-auth in case of systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,142 +52,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Oct 2014 07:14:46 -0000
-Content-Type: multipart/alternative; boundary=001a11c20560f5ec1c0506b2bf5f
-
---001a11c20560f5ec1c0506b2bf5f
-Content-Type: text/plain; charset=UTF-8
-
-On Thu, Oct 30, 2014 at 2:48 PM, Paul Barker <paul@paulbarker.me.uk> wrote:
-
-> On 30 October 2014 19:15, Michael Gloff <mgloff@emacinc.com> wrote:
-> > As Paul mentioned yesterday opkg 0.2.4 is on it's way and 0.2.3 has been
-> > available for 2 months. If there are not any objections, I have an
-> updated
-> > recipe and re-created previous patches that I could send. This should
-> also
-> > modify opkg-colateral to use the new syntax for lists_dir.
->
-> I'm also sat on tested patches, I was planning to send them tomorrow.
-> I've held the patches back as the deadline for such changes for OE 1.7
-> had passed.
->
-
-Thanks Paul. I'll wait for your patch set. I hit send before checking inbox.
-
-
->
-> > I would also at this time like to propose changing the default list
-> > directory from /var/lib to something else (/usr/lib ?). On a read only
-> > rootfs, everything in /var/lib/ gets mounted on the tmpfs, therefore
-> > packages installed get lost.
->
-> Changes in v0.3.0 will make this much easier to configure. You'll be
-> able to set cache_dir, lists_dir, info_dir, lock_file and status_file
-> in opkg.conf. I'd rather we left the defaults as-is and use those
-> settings once v0.3.0 is released. v0.3.0 will also create any
-> directories needed if they don't exist. So it may make sense to set
-> cache_dir to something under /tmp, lock_file to something under /var
-> or /run and everything else under /usr if that's what's desired.
->
->
-Cool, I'm looking forward to v0.3.0 and beyond
-Why not use the new syntax? The recipe should reflect the version of the
-package.
-Changing the lists_dir with 0.2.1 did not work for me. I can test the old
-syntax on 0.2.3 and see, if there is interest.
-
-Is there a reason why opkg-collateral.bb exists? And couldn't be merged
-with opkg?
-
-Michael Gloff
-
-
-
-
-> > I've tested changing the lists_dir and everything is working as expected.
-> >
-> > Michael Gloff
-> >
->
-> Thanks,
->
-> --
-> Paul Barker
->
-> Email: paul@paulbarker.me.uk
-> http://www.paulbarker.me.uk
->
-
---001a11c20560f5ec1c0506b2bf5f
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Fri, 31 Oct 2014 07:22:28 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
-hu, Oct 30, 2014 at 2:48 PM, Paul Barker <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:paul@paulbarker.me.uk" target=3D"_blank">paul@paulbarker.me.uk</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 30 =
-October 2014 19:15, Michael Gloff &lt;<a href=3D"mailto:mgloff@emacinc.com"=
- target=3D"_blank">mgloff@emacinc.com</a>&gt; wrote:<br>
-&gt; As Paul mentioned yesterday opkg 0.2.4 is on it&#39;s way and 0.2.3 ha=
-s been<br>
-&gt; available for 2 months. If there are not any objections, I have an upd=
-ated<br>
-&gt; recipe and re-created previous patches that I could send. This should =
-also<br>
-&gt; modify opkg-colateral to use the new syntax for lists_dir.<br>
-<br>
-I&#39;m also sat on tested patches, I was planning to send them tomorrow.<b=
-r>
-I&#39;ve held the patches back as the deadline for such changes for OE 1.7<=
-br>
-had passed.<br></blockquote><div><br>Thanks Paul. I&#39;ll wait for your pa=
-tch set. I hit send before checking inbox.<br>=C2=A0<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; I would also at this time like to propose changing the default list<br=
->
-&gt; directory from /var/lib to something else (/usr/lib ?). On a read only=
-<br>
-&gt; rootfs, everything in /var/lib/ gets mounted on the tmpfs, therefore<b=
-r>
-&gt; packages installed get lost.<br>
-<br>
-Changes in v0.3.0 will make this much easier to configure. You&#39;ll be<br=
->
-able to set cache_dir, lists_dir, info_dir, lock_file and status_file<br>
-in opkg.conf. I&#39;d rather we left the defaults as-is and use those<br>
-settings once v0.3.0 is released. v0.3.0 will also create any<br>
-directories needed if they don&#39;t exist. So it may make sense to set<br>
-cache_dir to something under /tmp, lock_file to something under /var<br>
-or /run and everything else under /usr if that&#39;s what&#39;s desired.<br=
->
-<br></blockquote><div><br>Cool, I&#39;m looking forward to v0.3.0 and beyon=
-d<br>Why not use the new syntax? The recipe should reflect the version of t=
-he package.<br>Changing the lists_dir with 0.2.1 did not work for me. I can=
- test the old syntax on 0.2.3 and see, if there is interest. <br><br>Is the=
-re a reason why <a href=3D"http://opkg-collateral.bb">opkg-collateral.bb</a=
-> exists? And couldn&#39;t be merged with opkg?<br><br></div><div>Michael G=
-loff<br></div><div><br><br></div><div>=C2=A0</div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">
-&gt; I&#39;ve tested changing the lists_dir and everything is working as ex=
-pected.<br>
-&gt;<br>
-&gt; Michael Gloff<br>
-&gt;<br>
-<br>
-Thanks,<br>
-<span><font color=3D"#888888"><br>
---<br>
-Paul Barker<br>
-<br>
-Email: <a href=3D"mailto:paul@paulbarker.me.uk" target=3D"_blank">paul@paul=
-barker.me.uk</a><br>
-<a href=3D"http://www.paulbarker.me.uk" target=3D"_blank">http://www.paulba=
-rker.me.uk</a><br>
-</font></span></blockquote></div><br></div></div>
 
---001a11c20560f5ec1c0506b2bf5f--
+> Op 31 okt. 2014, om 03:59 heeft ChenQi <Qi.Chen@windriver.com> het =
+volgende geschreven:
+>=20
+> On 10/30/2014 09:27 PM, Koen Kooi wrote:
+>>> Op 30 okt. 2014, om 10:08 heeft Chen Qi <Qi.Chen@windriver.com> het =
+volgende geschreven:
+>>>=20
+>>> systemd needs this file to be there because one of its configuration =
+file
+>>> in pam.d, systemd-user, requires it. Otherwise, we would have errors =
+like
+>>> below.
+>>>=20
+>>>    systemd: PAM _pam_load_conf_file: unable to open =
+/etc/pam.d/system-auth
+>> Isn't it the same as 'common-auth'? ISTR this is due to debian vs =
+fedora naming of PAM stuff. I think it would make more sense to check =
+what systemd actually wants and then see if a symlink to common-auth or =
+patching systemd to use common-auth is the right answer instead of =
+blindly adding system-auth.
+>>=20
+>> regards,
+>>=20
+>> Koen
+>>=20
+>=20
+> Hi Koen,
+>=20
+> An alternative is to patch systemd's source code to change the =
+systemd-user configuration file.
+>=20
+> In fact, I have seen patches in OE whose purpose is merely changing =
+'system-auth' to 'common-auth' in the pam configuration files of the =
+packages.
+>=20
+> So we have two options here:
+> 1. Provide system-auth
+> 2. Patch packages that make use of system-auth and maintain those =
+patches.
+>=20
+> I think solution 1 is more reasonable but if you and other people in =
+community think that solution 2 can bring us more benefits, I can send =
+out a patch using solution 2.
+
+Solution 1) introduces a new PAM file that seems to do the same as one =
+of the common-<foo> files we have. So from a reuse and maintainability =
+standpoint 2) would be better.
+
+regards,
+
+Koen
+
+
+
+>=20
+> Best Regards,
+> Chen Qi
+>=20
+>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>> ---
+>>> meta/recipes-extended/pam/libpam/pam.d/system-auth | 12 ++++++++++++
+>>> meta/recipes-extended/pam/libpam_1.1.6.bb          |  1 +
+>>> 2 files changed, 13 insertions(+)
+>>> create mode 100644 =
+meta/recipes-extended/pam/libpam/pam.d/system-auth
+>>>=20
+>>> diff --git a/meta/recipes-extended/pam/libpam/pam.d/system-auth =
+b/meta/recipes-extended/pam/libpam/pam.d/system-auth
+>>> new file mode 100644
+>>> index 0000000..ffb08ab
+>>> --- /dev/null
+>>> +++ b/meta/recipes-extended/pam/libpam/pam.d/system-auth
+>>> @@ -0,0 +1,12 @@
+>>> +# This file comes from systemd.
+>>> +
+>>> +auth     sufficient pam_unix.so nullok try_first_pass
+>>> +
+>>> +account  required   pam_nologin.so
+>>> +account  sufficient pam_unix.so
+>>> +
+>>> +password sufficient pam_unix.so nullok sha512 shadow try_first_pass =
+try_authtok
+>>> +
+>>> +-session optional   pam_loginuid.so
+>>> +-session optional   pam_systemd.so
+>>> +session  sufficient pam_unix.so
+>>> diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb =
+b/meta/recipes-extended/pam/libpam_1.1.6.bb
+>>> index a84e51e..0910b6f 100644
+>>> --- a/meta/recipes-extended/pam/libpam_1.1.6.bb
+>>> +++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
+>>> @@ -17,6 +17,7 @@ SRC_URI =3D =
+"http://linux-pam.org/library/Linux-PAM-${PV}.tar.bz2 \
+>>>            file://pam.d/common-session \
+>>>            file://pam.d/common-session-noninteractive \
+>>>            file://pam.d/other \
+>>> +           ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', =
+'file://pam.d/system-auth', '', d)} \
+>>>            file://libpam-xtests.patch \
+>>>            file://destdirfix.patch \
+>>>            file://fixsepbuild.patch \
+>>> --=20
+>>> 1.9.1
+>>>=20
+>>> --=20
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>=20
+>>=20
+>=20
+>=20
+
+
