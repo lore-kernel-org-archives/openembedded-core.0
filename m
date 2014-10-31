@@ -1,26 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B37726E63E
+Return-Path: <tom.zanussi@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2864E71F2C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 16:38:55 +0000 (UTC)
+	Fri, 31 Oct 2014 16:47:09 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 31 Oct 2014 09:37:28 -0700
+	by orsmga103.jf.intel.com with ESMTP; 31 Oct 2014 09:45:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,295,1413270000"; d="scan'208";a="629104280"
-Received: from kcathuko-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.50])
-	by orsmga002.jf.intel.com with ESMTP; 31 Oct 2014 09:38:54 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Date: Fri, 31 Oct 2014 16:38:53 +0000
-Message-ID: <1941981.zgfgvyTG7I@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.2 (Linux/3.16.6-203.fc20.x86_64; KDE/4.14.2; x86_64; ; )
-In-Reply-To: <1414715106-4840-1-git-send-email-alejandro.hernandez@linux.intel.com>
-References: <1414715106-4840-1-git-send-email-alejandro.hernandez@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v4] buildinfo.bblass: Added buildinfo class
+X-IronPort-AV: E=Sophos;i="5.07,295,1413270000"; d="scan'208";a="629109561"
+Received: from unknown (HELO [10.255.13.19]) ([10.255.13.19])
+	by orsmga002.jf.intel.com with ESMTP; 31 Oct 2014 09:47:02 -0700
+Message-ID: <1414774022.3268.18.camel@empanada.home.network>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Date: Fri, 31 Oct 2014 11:47:02 -0500
+In-Reply-To: <5453AC6C.5090206@pabigot.com>
+References: <5453AC6C.5090206@pabigot.com>
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: issues encountered using wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,195 +31,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Oct 2014 16:38:59 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 31 Oct 2014 16:47:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Alejandro,
+Hi,
 
-This looks much better as an implementation. Some comments below though.
-
-On Thursday 30 October 2014 18:25:06 Alejandro Hernandez wrote:
-> Writes build information to target filesystem on /etc/build, such as
+On Fri, 2014-10-31 at 10:36 -0500, Peter A. Bigot wrote:
+> I've started to transition to wic (in master) in hopes it reduces the 
+> amount of host passwd contamination resulting from creating SD images by 
+> untarring the rootfs onto an SD card.  I've run into the following 
+> initial issues:
 > 
-> enabled layers, their current status and commit, squashspaces and outputvars
+> First, wic requires a populated rootfs, by default in the recipe build 
+> directory.  Two issues: (1) this normally removed by rm_work, and (2) 
+> bitbake foo-image will not populate that directory if the required 
+> artifacts are available from sstate-cache (as happens when you then add 
+> foo-image to RM_WORK_EXCLUDE and reinvoke bitbake).
 > 
-> functions moved from buidlhistory.bbclass to oe/utils.py, to be used by
+> Both could be solved by getting the rootfs contents from an archive 
+> created by the image instead of assuming it's unpacked somewhere 
+> already.  Requiring IMAGE_FSTYPES to contain "tar.bz2" for wic doesn't 
+> seem burdensome.  Taking this path also opens up the possibility for wic 
+> plug-ins to customize configuration files (such as host keys) in the 
+> image rootfs without contaminating a shared resource used by other 
+> invocations of wic.
 > 
-> different classes and avoid code duplication.
+> If this seems like a reasonable approach and the wic maintainers would 
+> like assistance with it, I'd be happy to put together a patch.
 > 
-> [YOCTO #6770]
-> 
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-> ---
->  meta/classes/buildhistory.bbclass | 39 ++++++++--------------------
->  meta/classes/buildinfo.bbclass    | 53
-> +++++++++++++++++++++++++++++++++++++++ meta/lib/oe/utils.py              |
-> 16 ++++++++++++
->  3 files changed, 80 insertions(+), 28 deletions(-)
->  create mode 100644 meta/classes/buildinfo.bbclass
-> 
-> diff --git a/meta/classes/buildhistory.bbclass
-> b/meta/classes/buildhistory.bbclass index 8b5d5c2..3f87f08 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -155,7 +155,7 @@ python buildhistory_emit_pkghistory() {
->          with open(os.path.join(pkgdata_dir, pn)) as f:
->              for line in f.readlines():
->                  if line.startswith('PACKAGES: '):
-> -                    packages = squashspaces(line.split(': ', 1)[1])
-> +                    packages = oe.utils.squashspaces(line.split(': ',
-> 1)[1]) break
->      except IOError as e:
->          if e.errno == errno.ENOENT:
-> @@ -181,7 +181,7 @@ python buildhistory_emit_pkghistory() {
->      rcpinfo.pe = pe
->      rcpinfo.pv = pv
->      rcpinfo.pr = pr
-> -    rcpinfo.depends = sortlist(squashspaces(d.getVar('DEPENDS', True) or
-> "")) +    rcpinfo.depends =
-> sortlist(oe.utils.squashspaces(d.getVar('DEPENDS', True) or ""))
-> rcpinfo.packages = packages
->      write_recipehistory(rcpinfo, d)
-> 
-> @@ -222,13 +222,13 @@ python buildhistory_emit_pkghistory() {
->          pkginfo.pkge = pkge
->          pkginfo.pkgv = pkgv
->          pkginfo.pkgr = pkgr
-> -        pkginfo.rprovides =
-> sortpkglist(squashspaces(pkgdata.get('RPROVIDES', ""))) -       
-> pkginfo.rdepends = sortpkglist(squashspaces(pkgdata.get('RDEPENDS', ""))) -
->        pkginfo.rrecommends =
-> sortpkglist(squashspaces(pkgdata.get('RRECOMMENDS', ""))) -       
-> pkginfo.rsuggests = sortpkglist(squashspaces(pkgdata.get('RSUGGESTS', "")))
-> -        pkginfo.rreplaces =
-> sortpkglist(squashspaces(pkgdata.get('RREPLACES', ""))) -       
-> pkginfo.rconflicts = sortpkglist(squashspaces(pkgdata.get('RCONFLICTS',
-> ""))) -        pkginfo.files = squashspaces(pkgdata.get('FILES', ""))
-> +        pkginfo.rprovides =
-> sortpkglist(oe.utils.squashspaces(pkgdata.get('RPROVIDES', ""))) +       
-> pkginfo.rdepends =
-> sortpkglist(oe.utils.squashspaces(pkgdata.get('RDEPENDS', ""))) +       
-> pkginfo.rrecommends =
-> sortpkglist(oe.utils.squashspaces(pkgdata.get('RRECOMMENDS', ""))) +       
-> pkginfo.rsuggests =
-> sortpkglist(oe.utils.squashspaces(pkgdata.get('RSUGGESTS', ""))) +       
-> pkginfo.rreplaces =
-> sortpkglist(oe.utils.squashspaces(pkgdata.get('RREPLACES', ""))) +       
-> pkginfo.rconflicts =
-> sortpkglist(oe.utils.squashspaces(pkgdata.get('RCONFLICTS', ""))) +       
-> pkginfo.files = oe.utils.squashspaces(pkgdata.get('FILES', "")) for filevar
-> in pkginfo.filevars:
->              pkginfo.filevars[filevar] = pkgdata.get(filevar, "")
-> 
-> @@ -525,36 +525,19 @@ def buildhistory_get_metadata_revs(d):
->              for i in layers]
->      return '\n'.join(medadata_revs)
-> 
-> -
-> -def squashspaces(string):
-> -    import re
-> -    return re.sub("\s+", " ", string).strip()
-> -
-> -def outputvars(vars, listvars, d):
-> -    vars = vars.split()
-> -    listvars = listvars.split()
-> -    ret = ""
-> -    for var in vars:
-> -        value = d.getVar(var, True) or ""
-> -        if var in listvars:
-> -            # Squash out spaces
-> -            value = squashspaces(value)
-> -        ret += "%s = %s\n" % (var, value)
-> -    return ret.rstrip('\n')
 
-I appreciate we generally want to avoid code duplication, but specifically for 
-outputvars() can we keep this implementation specific to buildhistory.bbclass? 
-If you need to copy it (or parts of it) to the new class by all means do, but 
-if we share it in oe.utils it means if we ever change the output format for 
-one it will be changed everywhere, which might not be desirable.
+It sounds like a nice enhancement, though I'm not sure about the exact
+implementation.  As it happens, someone just today asked me to review
+some changes to wic that include a 'rootfs building functionality' that
+might overlap with this.  Let me take a look at that and get back to
+once I've taken a look.
+
+> Second, wic requires IMAGE_BOOT_FILES to be provided (normally in 
+> machine.conf, as with meta-yocto-bsp's beaglebone.conf).  I normally use 
+> the beaglebone.conf from meta-ti, and found copying the IMAGE_BOOT_FILES 
+> setting to that BSP layer didn't work because the reference to 
+> ${UBOOT_SUFFIX} remained empty. meta-yocto-bsp's beaglebone.conf defines 
+> and uses UBOOT_SUFFIX="img", but this is fragile as the real 
+> UBOOT_SUFFIX comes from u-boot.inc (where the default is "bin") or some 
+> other override.
+> 
+> Is there a way to resolve the potential inconsistency other than 
+> hard-coding a specific suffix in machine.conf?  "include u-boot.inc" in 
+> the machine.conf seems like a bad idea.
+> 
+
+I don't see any way around this, unless you added wildcarding.  Adding
+Maciej, who added this capability for uboot and might have some ideas...
+
+Tom 
+
+> Peter
 
 
->  def buildhistory_get_imagevars(d):
->      if d.getVar('BB_WORKERCONTEXT', True) != '1':
->          return ""
->      imagevars = "DISTRO DISTRO_VERSION USER_CLASSES IMAGE_CLASSES
-> IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL BAD_RECOMMENDATIONS
-> NO_RECOMMENDATIONS PACKAGE_EXCLUDE ROOTFS_POSTPROCESS_COMMAND
-> IMAGE_POSTPROCESS_COMMAND" listvars = "USER_CLASSES IMAGE_CLASSES
-> IMAGE_FEATURES IMAGE_LINGUAS IMAGE_INSTALL BAD_RECOMMENDATIONS
-> PACKAGE_EXCLUDE" -    return outputvars(imagevars, listvars, d)
-> +    return oe.utils.outputvars(imagevars, listvars, d)
-> 
->  def buildhistory_get_sdkvars(d):
->      if d.getVar('BB_WORKERCONTEXT', True) != '1':
->          return ""
->      sdkvars = "DISTRO DISTRO_VERSION SDK_NAME SDK_VERSION SDKMACHINE
-> SDKIMAGE_FEATURES BAD_RECOMMENDATIONS NO_RECOMMENDATIONS PACKAGE_EXCLUDE"
-> listvars = "SDKIMAGE_FEATURES BAD_RECOMMENDATIONS PACKAGE_EXCLUDE" -   
-> return outputvars(sdkvars, listvars, d)
-> +    return oe.utils.outputvars(sdkvars, listvars, d)
-> 
-> 
->  def buildhistory_get_cmdline(d):
-> diff --git a/meta/classes/buildinfo.bbclass b/meta/classes/buildinfo.bbclass
-> new file mode 100644
-> index 0000000..a0220b2
-> --- /dev/null
-> +++ b/meta/classes/buildinfo.bbclass
-
-Can you name this image-buildinfo.bbclass instead?
-
-
-> @@ -0,0 +1,53 @@
-> +#
-> +# Writes build information to target filesystem
-> +#
-> +# Usage: add INHERIT += "buildinfo" to your conf file
-> +#
-> +# Copyright (C) 2014 Intel Corporation
-> +# Author: Alejandro Enedino Hernandez Samaniego
-> <alejandro.hernandez@intel.com> +#
-> +# Licensed under the MIT license, see COPYING.MIT for details
-> +#
-> +
-> +# Gets git branch's status (clean or dirty)
-> +def get_layer_git_status(path):
-> +    f = os.popen("cd %s; git diff --stat 2>&1 | tail -n 1" % path)
-> +    data = f.read()
-> +    if f.close() is None:
-> +        if len(data) != 0:
-> +            return "-- modified"
-> +    return ""
-> +
-> +# Returns layer revisions along with their respective status
-> +def get_layer_revs(d):
-> +    layers = (d.getVar("BBLAYERS", True) or "").split()
-> +    medadata_revs = ["%-17s = %s:%s %s" % (os.path.basename(i), \
-> +        base_get_metadata_git_branch(i, None).strip(), \
-> +        base_get_metadata_git_revision(i, None), \
-> +        get_layer_git_status(i)) \
-> +            for i in layers]
-> +    return '\n'.join(medadata_revs)
-> +
-> +def buildinfo_target(d):
-> +        # Get context
-> +        if d.getVar('BB_WORKERCONTEXT', True) != '1':
-> +                return ""
-> +        # Single and list variables to be read
-> +        vars = "DISTRO DISTRO_VERSION BB_VERSION BUILD_SYS TARGET_SYS
-> MACHINE USER_CLASSES IMAGE_CLASSES IMAGE_FEATURES IMAGE_LINGUAS
-> IMAGE_INSTALL PACKAGE_EXCLUDE" 
-
-Could you set this from a variable (perhaps IMAGE_BUILDINFO_VARS) defaulted in 
-the class with ?= and be a bit more conservative as to the default value? I'd 
-say "DISTRO DISTRO_VERSION" would be a good as a default.
-
-Thanks,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
