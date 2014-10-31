@@ -1,26 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B2F0660557
+Return-Path: <martin@hundeboll.net>
+Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
+	by mail.openembedded.org (Postfix) with ESMTP id 6627D60169
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 10:11:46 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 31 Oct 2014 03:11:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,293,1413270000"; d="scan'208";a="628904815"
-Received: from kcathuko-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.50])
-	by orsmga002.jf.intel.com with ESMTP; 31 Oct 2014 03:11:46 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Date: Fri, 31 Oct 2014 10:11:45 +0000
-Message-ID: <2081396.TZUWxDdga2@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.2 (Linux/3.16.6-203.fc20.x86_64; KDE/4.14.2; x86_64; ; )
-In-Reply-To: <54535EF1.20202@pabigot.com>
-References: <54535EF1.20202@pabigot.com>
+	Fri, 31 Oct 2014 10:17:03 +0000 (UTC)
+Received: from hundeboll.es.aau.dk (192.38.55.25.natpool.es.aau.dk
+	[192.38.55.25])
+	by mail.hundeboll.net (Postfix) with ESMTPSA id 3B9031BF287;
+	Fri, 31 Oct 2014 11:17:03 +0100 (CET)
+From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@hundeboll.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Oct 2014 11:17:01 +0100
+Message-Id: <1414750622-17745-1-git-send-email-martin@hundeboll.net>
+X-Mailer: git-send-email 2.1.3
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: preferred remotes for git pulls?
+Cc: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@hundeboll.net>
+Subject: [PATCH] Use env in python-shebangs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +27,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Oct 2014 10:11:50 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 31 Oct 2014 10:17:07 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Peter,
+To make fake env or virtualenv possible, make sure python scripts use
+ "#!/usr/bin/env python" as shebang.
 
-On Friday 31 October 2014 05:05:37 Peter A. Bigot wrote:
-> There are two changes (virtual/bluez and pseudo-no-host-passwd) that I'd
-> like to rework and propose for master now that it's reopened.  Both are
-> likely to touch multiple files.  Previous comments and the wiki how-to
-> suggest that git-pull is preferred over patchwork-only for multi-patch
-> changes like this.
-> 
-> I have existing github resources that I could use as the source. Would
-> that be acceptable to the maintainers?
+Comments to previous patches/rfcs rejected the idea of either explicit
+use of python2 in the env-shebang or a python2-symlink in the bitbake
+environment, so this is dropped.
 
-I think for OE-Core at least the contrib repo is preferred but not necessarily 
-mandatory.
- 
-> If using an openembedded-hosted -contrib repository is preferred, what's
-> the process for getting access?  I'd be touching openembedded-core and
-> meta-openembedded at the least.
+Still we would like to make the lifes easier for those unfortunate souls
+that live in a python3-first world/distro :)
 
-Getting push access to the contrib repos is pretty easy - just email Michael 
-Halstead <michael@yoctoproject.org> asking for access specifying the 
-repositories, specify your desired prefix for contrib branches (e.g. mine is 
-paule/), and attach your SSH pubkey if you haven't already sent it previously.
+Thanks for the previous comments!
 
-Cheers,
-Paul
+Martin Hundebøll (1):
+  scripts: use '/usr/bin/env' in shebangs with python
+
+ bitbake/lib/progressbar.py                                | 2 +-
+ scripts/lib/wic/conf.py                                   | 2 +-
+ scripts/lib/wic/creator.py                                | 2 +-
+ scripts/lib/wic/imager/baseimager.py                      | 2 +-
+ scripts/lib/wic/kickstart/__init__.py                     | 2 +-
+ scripts/lib/wic/kickstart/custom_commands/micboot.py      | 2 +-
+ scripts/lib/wic/kickstart/custom_commands/micpartition.py | 2 +-
+ scripts/lib/wic/msger.py                                  | 2 +-
+ scripts/lib/wic/plugin.py                                 | 2 +-
+ scripts/lib/wic/pluginbase.py                             | 2 +-
+ scripts/lib/wic/utils/errors.py                           | 2 +-
+ scripts/lib/wic/utils/fs_related.py                       | 2 +-
+ scripts/lib/wic/utils/misc.py                             | 2 +-
+ scripts/lib/wic/utils/partitionedfs.py                    | 2 +-
+ scripts/lib/wic/utils/runner.py                           | 2 +-
+ scripts/pybootchartgui/pybootchartgui.py                  | 2 +-
+ 16 files changed, 16 insertions(+), 16 deletions(-)
 
 -- 
+2.1.3
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
