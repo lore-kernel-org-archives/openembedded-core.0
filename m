@@ -1,37 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 654AC60169
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E9A160169
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 10:19:18 +0000 (UTC)
-Received: by mail-qg0-f43.google.com with SMTP id f51so5339520qge.16
+	Fri, 31 Oct 2014 10:21:17 +0000 (UTC)
+Received: by mail-qc0-f169.google.com with SMTP id i17so5696879qcy.14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 03:19:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=zXIVsFQYA1izikgSPiHfKIcz0u9xaaXKYXYcrLAJjlA=;
-	b=Rtpid6HH+hPt1k9gFTpLDwl8joDFumDhdQPlVDID/leEpdgqC7ClgCYB5d0H7DlGgV
-	Iq7UIcZy2Dr63X+nevNlbLBXC9CNkPcZDY2lVOaH22LQGjkfN9LW1yKWo5E9ERcE/FyP
-	UZZLFJPGNNnvR+ZRu8lIZqFtwr8NgmYGBQBc8XJeyB7iEMfFM8/M3HiLIqPd1ShcfJzw
-	dKZVoJCE9NLOMqOFfl8wteUG6AnaKyWusk3UpymyFE9XBmquVlY7HcvAMPgLM/L/6Byy
-	0NnO/GFiB5s4pff9QfST96NhbNymOQ6onhllA0lM64CxvYQgN00du5ffuimO8sEcb6Y3
-	WuIg==
-X-Gm-Message-State: ALoCoQllrYtyJ/IqAMxVJrtjG7+Ijlb13phQ/4CFoRbKQJdvp/K1nu6Y+ZI+jwuzTxR6evWQXSzB
-X-Received: by 10.224.28.193 with SMTP id n1mr5655424qac.93.1414750755997;
-	Fri, 31 Oct 2014 03:19:15 -0700 (PDT)
+	Fri, 31 Oct 2014 03:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=2W2iKXRq2zuvPo+YhdTB8dfm8GExZd9jLoCtN5E49Zc=;
+	b=drghiYvpiRCNWB2fCGmTPSPbxZYvrwjS624LqNzJ3Cxi/M3mmc2QyCfZAFbzdGGNaz
+	5vq/PIk/VaUGm7W2jz4uk7kJKYw9vnzhY120XdxodJwSzpCIf15Smwu1AniBK0QeMZ+9
+	3/Yn6LhJfYv7689aLXNl9ZtYkelnnJ4l81K6V/CWroopjMnKPbFAKIgQZfkhgZmb21Vr
+	0Up0qozIwISnKmwaGeOc+isA1qu7zQBfX500FW1Fq55tLeSJtuMqFi475H6vhoCCSH7+
+	gF5CWKAYB4rRtTmwd0+g6PobmOZpqF0U02nnuc+gJxFfwj6a/lHSSwi1P1EbzExDFjwa
+	2rJw==
+X-Received: by 10.140.32.227 with SMTP id h90mr32610427qgh.13.1414750878396;
+	Fri, 31 Oct 2014 03:21:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Fri, 31 Oct 2014 03:18:55 -0700 (PDT)
-In-Reply-To: <2081396.TZUWxDdga2@peggleto-mobl5.ger.corp.intel.com>
-References: <54535EF1.20202@pabigot.com>
-	<2081396.TZUWxDdga2@peggleto-mobl5.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 31 Oct 2014 10:18:55 +0000
-Message-ID: <CAJTo0LZf5R3QK8=_+Qxme7=6bF0WC3NBEJkHoAFWYO8-kHMOpw@mail.gmail.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: preferred remotes for git pulls?
+Sender: paul.betafive@gmail.com
+Received: by 10.140.142.78 with HTTP; Fri, 31 Oct 2014 03:20:38 -0700 (PDT)
+In-Reply-To: <CALXw4G5O2NRCzQ4MiF8fG4G1C_bZNYbuH8NcdYbJUhRctjCgfA@mail.gmail.com>
+References: <CALXw4G7x6Xbf3Wr=mKUCk6G5e4k=8sz_pph9VUMegLn1txA9WQ@mail.gmail.com>
+	<CANyK_8cv3go0ghbLD73WwEdEyPiB5bLzaN_w8Wa4KxDQo92quQ@mail.gmail.com>
+	<CALXw4G5O2NRCzQ4MiF8fG4G1C_bZNYbuH8NcdYbJUhRctjCgfA@mail.gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Fri, 31 Oct 2014 10:20:38 +0000
+X-Google-Sender-Auth: USJIxW5V39EMisoaaipkwN-NWq8
+Message-ID: <CANyK_8e79R1X=wex2Z9BhRSFDL458eNXVtRz5PQj0yQiWGc2cA@mail.gmail.com>
+To: Michael Gloff <mgloff@emacinc.com>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: Opkg 0.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,47 +45,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Oct 2014 10:19:20 -0000
-Content-Type: multipart/alternative; boundary=001a11c2ca3041dde60506b5547d
-
---001a11c2ca3041dde60506b5547d
+X-List-Received-Date: Fri, 31 Oct 2014 10:21:20 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 31 October 2014 10:11, Paul Eggleton <paul.eggleton@linux.intel.com>
-wrote:
-
-> > I have existing github resources that I could use as the source. Would
-> > that be acceptable to the maintainers?
+On 31 October 2014 07:14, Michael Gloff <mgloff@emacinc.com> wrote:
+> On Thu, Oct 30, 2014 at 2:48 PM, Paul Barker <paul@paulbarker.me.uk> wrote:
+>>
+>> On 30 October 2014 19:15, Michael Gloff <mgloff@emacinc.com> wrote:
+>> > I would also at this time like to propose changing the default list
+>> > directory from /var/lib to something else (/usr/lib ?). On a read only
+>> > rootfs, everything in /var/lib/ gets mounted on the tmpfs, therefore
+>> > packages installed get lost.
+>>
+>> Changes in v0.3.0 will make this much easier to configure. You'll be
+>> able to set cache_dir, lists_dir, info_dir, lock_file and status_file
+>> in opkg.conf. I'd rather we left the defaults as-is and use those
+>> settings once v0.3.0 is released. v0.3.0 will also create any
+>> directories needed if they don't exist. So it may make sense to set
+>> cache_dir to something under /tmp, lock_file to something under /var
+>> or /run and everything else under /usr if that's what's desired.
+>>
 >
-> I think for OE-Core at least the contrib repo is preferred but not
-> necessarily
-> mandatory.
+> Cool, I'm looking forward to v0.3.0 and beyond
+> Why not use the new syntax? The recipe should reflect the version of the
+> package.
 
+A change to the lists_dir syntax isn't included in the patches I've
+got prepared. Perhaps you could send a patch to change this after I've
+updated the opkg recipe to v0.2.3?
 
-poky-contrib or openembedded-core-contrib is preferred as they're already
-in various people's remotes configuration, but any git repo is preferable
-to no git repo!
+> Changing the lists_dir with 0.2.1 did not work for me. I can test the old
+> syntax on 0.2.3 and see, if there is interest.
+>
+> Is there a reason why opkg-collateral.bb exists? And couldn't be merged with
+> opkg?
+>
 
-Ross
+opkg-collateral pre-dates my involvement with opkg and OE. We could
+propose merging opkg-collateral.bb and opkg-config-base_1.0.bb into
+the main opkg recipe, it could simplify things a little.
 
---001a11c2ca3041dde60506b5547d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Thanks,
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 3=
-1 October 2014 10:11, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@linux.intel=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D=
-"">&gt; I have existing github resources that I could use as the source. Wo=
-uld<br>
-&gt; that be acceptable to the maintainers?<br>
-<br>
-</span>I think for OE-Core at least the contrib repo is preferred but not n=
-ecessarily<br>
-mandatory.</blockquote></div><br>poky-contrib or openembedded-core-contrib =
-is preferred as they&#39;re already in various people&#39;s remotes configu=
-ration, but any git repo is preferable to no git repo!</div><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+-- 
+Paul Barker
 
---001a11c2ca3041dde60506b5547d--
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
+
