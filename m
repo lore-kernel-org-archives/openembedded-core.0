@@ -1,26 +1,30 @@
-Return-Path: <Chong.Lu@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9525971EC3
+	by mail.openembedded.org (Postfix) with ESMTP id B194A65E94
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 01:59:52 +0000 (UTC)
+	Fri, 31 Oct 2014 02:57:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9V1xpKe029714
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 18:59:52 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 30 Oct 2014 18:59:51 -0700
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 31 Oct 2014 09:56:32 +0800
-Message-ID: <b7733fcdfaea20fb9ad43aee02ebe0cdbedc3cc2.1414720498.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1414720498.git.Chong.Lu@windriver.com>
-References: <cover.1414720498.git.Chong.Lu@windriver.com>
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9V2vaGA000490
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 30 Oct 2014 19:57:36 -0700 (PDT)
+Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Thu, 30 Oct 2014 19:57:36 -0700
+Message-ID: <5452FB02.4040206@windriver.com>
+Date: Fri, 31 Oct 2014 10:59:14 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] libxml2: fix python path and add libxml2-python
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <cover.1414659743.git.Qi.Chen@windriver.com>
+	<33a3b945ec946aa6f0fba68afe7242c3cf8c0fc9.1414659743.git.Qi.Chen@windriver.com>
+	<6DFFE445-39DB-47D1-97F2-04CA26866DEC@dominion.thruhere.net>
+In-Reply-To: <6DFFE445-39DB-47D1-97F2-04CA26866DEC@dominion.thruhere.net>
+X-Originating-IP: [128.224.162.187]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] libpam: add system-auth in case of systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,68 +37,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Oct 2014 01:59:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 31 Oct 2014 02:57:41 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Robert Yang <liezhi.yang@windriver.com>
+On 10/30/2014 09:27 PM, Koen Kooi wrote:
+>> Op 30 okt. 2014, om 10:08 heeft Chen Qi <Qi.Chen@windriver.com> het volgende geschreven:
+>>
+>> systemd needs this file to be there because one of its configuration file
+>> in pam.d, systemd-user, requires it. Otherwise, we would have errors like
+>> below.
+>>
+>>     systemd: PAM _pam_load_conf_file: unable to open /etc/pam.d/system-auth
+> Isn't it the same as 'common-auth'? ISTR this is due to debian vs fedora naming of PAM stuff. I think it would make more sense to check what systemd actually wants and then see if a symlink to common-auth or patching systemd to use common-auth is the right answer instead of blindly adding system-auth.
+>
+> regards,
+>
+> Koen
+>
 
-We have libxml2-python for native and nativesdk, but don't have it for
-target, and can't find the reason from the git log, libxml2-python is
-widely used, after looked into it's configure.in, we can add it
-by PACKAGECONFIG.
+Hi Koen,
 
-The previous --with-python=${STAGING_BINDIR}/python is incorrect, it
-acted as work becase it's conigure can check automatically, python is in
-${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}, as known as
-${PYTHON}.
+An alternative is to patch systemd's source code to change the 
+systemd-user configuration file.
 
-Add python to PACKAGECONFIG, since createrepo rdepends on libxml2-python.
+In fact, I have seen patches in OE whose purpose is merely changing 
+'system-auth' to 'common-auth' in the pam configuration files of the 
+packages.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-core/libxml/libxml2.inc | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+So we have two options here:
+1. Provide system-auth
+2. Patch packages that make use of system-auth and maintain those patches.
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index c729c19..2bdfed0 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -9,8 +9,6 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
-                     file://list.c;beginline=4;endline=13;md5=cdbfa3dee51c099edb04e39f762ee907 \
-                     file://trio.c;beginline=5;endline=14;md5=6c025753c86d958722ec76e94cae932e"
- 
--DEPENDS_class-nativesdk = "nativesdk-python"
--DEPENDS_class-native = "python-native"
- DEPENDS =+ "zlib"
- 
- SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-@@ -37,16 +35,17 @@ do_configure_prepend () {
- 	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.in
- }
- 
--do_configure_prepend_class-nativesdk () {
--	# Ensure we get the correct site-packages path
--	export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
--}
-+export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
-+
-+PACKAGECONFIG ??= "python"
-+PACKAGECONFIG_linuxstdbase ??= ""
- 
-+PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python,python-core"
- # WARNING: zlib is require for RPM use
--EXTRA_OECONF = "--without-python --without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
--EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
--EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
--EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
-+EXTRA_OECONF = "--without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
-+EXTRA_OECONF_class-native = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-+EXTRA_OECONF_class-nativesdk = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-+EXTRA_OECONF_linuxstdbase = "--with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
- 
- # required for pythong binding
- export HOST_SYS
--- 
-1.9.1
+I think solution 1 is more reasonable but if you and other people in 
+community think that solution 2 can bring us more benefits, I can send 
+out a patch using solution 2.
+
+Best Regards,
+Chen Qi
+
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>> meta/recipes-extended/pam/libpam/pam.d/system-auth | 12 ++++++++++++
+>> meta/recipes-extended/pam/libpam_1.1.6.bb          |  1 +
+>> 2 files changed, 13 insertions(+)
+>> create mode 100644 meta/recipes-extended/pam/libpam/pam.d/system-auth
+>>
+>> diff --git a/meta/recipes-extended/pam/libpam/pam.d/system-auth b/meta/recipes-extended/pam/libpam/pam.d/system-auth
+>> new file mode 100644
+>> index 0000000..ffb08ab
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/pam/libpam/pam.d/system-auth
+>> @@ -0,0 +1,12 @@
+>> +# This file comes from systemd.
+>> +
+>> +auth     sufficient pam_unix.so nullok try_first_pass
+>> +
+>> +account  required   pam_nologin.so
+>> +account  sufficient pam_unix.so
+>> +
+>> +password sufficient pam_unix.so nullok sha512 shadow try_first_pass try_authtok
+>> +
+>> +-session optional   pam_loginuid.so
+>> +-session optional   pam_systemd.so
+>> +session  sufficient pam_unix.so
+>> diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
+>> index a84e51e..0910b6f 100644
+>> --- a/meta/recipes-extended/pam/libpam_1.1.6.bb
+>> +++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
+>> @@ -17,6 +17,7 @@ SRC_URI = "http://linux-pam.org/library/Linux-PAM-${PV}.tar.bz2 \
+>>             file://pam.d/common-session \
+>>             file://pam.d/common-session-noninteractive \
+>>             file://pam.d/other \
+>> +           ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://pam.d/system-auth', '', d)} \
+>>             file://libpam-xtests.patch \
+>>             file://destdirfix.patch \
+>>             file://fixsepbuild.patch \
+>> -- 
+>> 1.9.1
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>
 
 
