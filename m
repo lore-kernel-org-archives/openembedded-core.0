@@ -1,37 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
-	[209.85.216.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 98B6765D59
+Return-Path: <alexandru.damian@intel.com>
+Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AFF471F3A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 10:26:11 +0000 (UTC)
-Received: by mail-qa0-f51.google.com with SMTP id f12so7877272qad.24
+	Mon,  3 Nov 2014 10:27:27 +0000 (UTC)
+Received: by mail-wg0-f46.google.com with SMTP id x13so10682812wgg.19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Nov 2014 02:26:11 -0800 (PST)
+	Mon, 03 Nov 2014 02:27:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=5FOLMrqWc1p4ca8zfpfhM61fzuh2A5efvyYKhzvOWtA=;
-	b=a1cB/Tjp8QheyGNET3Xq82puIVXMnE3qWvXvDzGReI4AA01ci4J0S4ERaUpwFMo4MQ
-	JsEeb6c52UvBn43O3y8nHkSXfeq3dBMta+2BCeVAhB9sw2gxR9+sUOpDecgnjJaMgCWH
-	W44dpQ6DRmcDgyWTBS78BcPGx1yV1PO0TPxeei24JKkbuZv8Irw7kNOYBXnh6bSBBsqY
-	ykRgx+0Sb9yDHL35Kq/76F/K849AFfHqcWf7XlvaOCc+niXeG/9lwbtxFRY23ymqZzwW
-	x6UWYv4fTQ+rjBsqIA0fsfMx/WWGgFyRCmwLbn+6pVipJTQK/AYwlnh9zgBYsxZ6iJeJ
-	X94w==
-X-Gm-Message-State: ALoCoQmwEikBFkShldHY5e+5DBeFdkKSpCqC/WB+iz17rJ/+Kr2MMViwYzEbEHlM61u04JajPVxI
-X-Received: by 10.140.17.67 with SMTP id 61mr59055717qgc.59.1415010371717;
-	Mon, 03 Nov 2014 02:26:11 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Mon, 3 Nov 2014 02:25:51 -0800 (PST)
-In-Reply-To: <1C408B9F-5383-488A-AE4C-E18D69800825@dominion.thruhere.net>
-References: <1411387952-22717-1-git-send-email-koen.kooi@linaro.org>
-	<1C408B9F-5383-488A-AE4C-E18D69800825@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Nov 2014 10:25:51 +0000
-Message-ID: <CAJTo0LYOHMZCoGS342Wnh06LbJWUS1K_aDFfDWG4gxeFswm7EA@mail.gmail.com>
-To: Koen Kooi <koen.kooi@linaro.org>, Kang Kai <Kai.Kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libpng 1.6.13: fix build for aarch64
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=oztiNRv7iaP/fhw1IYGBNwLgzCcJUCY2ru1szJAj0KY=;
+	b=I7OW4LVbg5vHcnHmNpkQjUV8NSwwWJtROaFzKiwMjcXBYpLybglmC5YWTPiEz+Jcjh
+	S8xUN4iIYtgPR8rX6UCtxUcRowDfZWPylEAjcoHKJs4cZ7H9weqhnNvkg8L2EO5apYxe
+	e/xa01txpTJ+R8uHUzg9rHP8Ijnc+ZCySRbEkuHfl969rmt2jmTEB9LyfUe2hvszGtEF
+	TkobqcylgWh74ZOc4Vyvhh9+KovU5VCLuCrlv22yQihm3DVR2S9ph2wzeph90EPN8ADf
+	QalZCC/FcgKEwezE79NPWUGhoW/D/w15PJP/dtH7jTWes5agE3FYbGFcSfiOb1ecIVXO
+	HhvA==
+X-Gm-Message-State: ALoCoQk7md6Ovx7fB88lPpeWtCV9ECQScjjg5Jx8qh8GyoDI/37FL1TbNi1zKm4lEKasMfflrC+E
+X-Received: by 10.180.95.201 with SMTP id dm9mr14871180wib.27.1415010447791;
+	Mon, 03 Nov 2014 02:27:27 -0800 (PST)
+Received: from adamian-desk.corp.intel.com ([83.217.123.106])
+	by mx.google.com with ESMTPSA id
+	q10sm21665081wjq.35.2014.11.03.02.27.26 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Nov 2014 02:27:26 -0800 (PST)
+Received: by adamian-desk.corp.intel.com (Postfix, from userid 1000)
+	id 21A03560632; Fri, 31 Oct 2014 19:15:50 +0000 (GMT)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Oct 2014 19:15:48 +0000
+Message-Id: <1414782948-13922-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: [PATCH 1/1] toaster.bbclass: read elapsed time from the stats file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +45,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 10:26:18 -0000
-Content-Type: multipart/alternative; boundary=001a11c0fa288f7fb70506f1c6d4
+X-List-Received-Date: Mon, 03 Nov 2014 10:27:31 -0000
 
---001a11c0fa288f7fb70506f1c6d4
-Content-Type: text/plain; charset=UTF-8
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-On 3 November 2014 09:57, Koen Kooi <koen@dominion.thruhere.net> wrote:
+We read the elapsed time fromt the build stats file, instead
+of computing it independently.
 
-> ping
->
+[YOCTO #6833]
+[YOCTO #6685]
 
-Last night I was looking at my "post-1.7" tag and the number of aarch64
-patches there.   Kai, did you continue work on that staging branch for all
-of the aarch64 patches that were being posted?
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+---
+ meta/classes/toaster.bbclass | 36 +++++++++++++++++++++++-------------
+ 1 file changed, 23 insertions(+), 13 deletions(-)
 
-Ross
+diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
+index 95499a5..1525317 100644
+--- a/meta/classes/toaster.bbclass
++++ b/meta/classes/toaster.bbclass
+@@ -187,8 +187,10 @@ python toaster_collect_task_stats() {
+     def _read_stats(filename):
+         cpu_usage = 0
+         disk_io = 0
+-        startio = ''
+-        endio = ''
++        startio = '0'
++        endio = '0'
++        started = '0'
++        ended = '0'
+         pn = ''
+         taskname = ''
+         statinfo = {}
+@@ -198,20 +200,28 @@ python toaster_collect_task_stats() {
+                 k,v = line.strip().split(": ", 1)
+                 statinfo[k] = v
+ 
+-        try:
+-            cpu_usage = statinfo["CPU usage"]
+-            endio = statinfo["EndTimeIO"]
+-            startio = statinfo["StartTimeIO"]
+-        except KeyError:
+-            pass    # we may have incomplete data here
++        if "CPU usage" in statinfo:
++            cpu_usage = str(statinfo["CPU usage"]).strip('% \n\r')
+ 
+-        if startio and endio:
+-            disk_io = int(endio.strip('\n ')) - int(startio.strip('\n '))
++        if "EndTimeIO" in statinfo:
++            endio = str(statinfo["EndTimeIO"]).strip('% \n\r')
+ 
+-        if cpu_usage:
+-            cpu_usage = float(cpu_usage.strip('% \n'))
++        if "StartTimeIO" in statinfo:
++            startio = str(statinfo["StartTimeIO"]).strip('% \n\r')
+ 
+-        return {'cpu_usage': cpu_usage, 'disk_io': disk_io}
++        if "Started" in statinfo:
++            started = str(statinfo["Started"]).strip('% \n\r')
++
++        if "Ended" in statinfo:
++            ended = str(statinfo["Ended"]).strip('% \n\r')
++
++        disk_io = int(endio) - int(startio)
++
++        elapsed_time = float(ended) - float(started)
++
++        cpu_usage = float(cpu_usage)
++
++        return {'cpu_usage': cpu_usage, 'disk_io': disk_io, 'elapsed_time': elapsed_time}
+ 
+ 
+     if isinstance(e, (bb.build.TaskSucceeded, bb.build.TaskFailed)):
+-- 
+1.9.1
 
---001a11c0fa288f7fb70506f1c6d4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 3=
- November 2014 09:57, Koen Kooi <span dir=3D"ltr">&lt;<a href=3D"mailto:koe=
-n@dominion.thruhere.net" target=3D"_blank">koen@dominion.thruhere.net</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">ping<br></blockquote><di=
-v><br></div><div>Last night I was looking at my &quot;post-1.7&quot; tag an=
-d the number of aarch64 patches there. =C2=A0 Kai, did you continue work on=
- that staging branch for all of the aarch64 patches that were being posted?=
-</div><div><br></div><div>Ross</div></div></div></div>
-
---001a11c0fa288f7fb70506f1c6d4--
