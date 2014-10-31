@@ -1,38 +1,30 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B5BD96E63E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 01AFC71F05
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 10:45:04 +0000 (UTC)
-Received: by mail-qc0-f181.google.com with SMTP id w7so5578515qcr.40
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 03:45:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=eqn+A6oX9o+dNAxvvOM5/Bq83Y9CHrYm+J9RJ7VAwCw=;
-	b=TqDQEbc2dixWi15p9w6J7WTbCVvH51rzqTsebN9K4zyPW5duYtvsXq5c1Hma4Vu0xL
-	i/ExDylmV7/9ABqCAJPdsCTO7I2g2H4BhD/rozHoJS9k6nGdnttrHRFiBpnwvHgWCZ7T
-	kGkivsKWz4DCETyjWl4eTI6o5UomH0FOmmD4FJHrGRiD7Og4TzE6l1BXW0lFHuRTsSNe
-	vBvxmOhj/xS21a+h1WCs+DJyapgOqYHYsO/yfZEdCNN2uaDs6065lQduA/Qo1txfVJzp
-	2t+aZTEndRVwrViTE084vsw2ugQrFAJtBk4EWVfIeAgCFZvvmjacvLC0AdIz8jsDadLV
-	3Mrg==
-X-Received: by 10.224.61.7 with SMTP id r7mr36059748qah.9.1414752304541; Fri,
-	31 Oct 2014 03:45:04 -0700 (PDT)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.140.142.78 with HTTP; Fri, 31 Oct 2014 03:44:24 -0700 (PDT)
-In-Reply-To: <54525C63.4070309@linaro.org>
-References: <CANyK_8cFPyXs2R5+x3AiMNnPW4Q6hWnNdsjTHrf50M4F6VGJQQ@mail.gmail.com>
-	<54525C63.4070309@linaro.org>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Fri, 31 Oct 2014 10:44:24 +0000
-X-Google-Sender-Auth: FQA3DNZo83Eynv93gCvTdjo3iBA
-Message-ID: <CANyK_8dxGiwRJ_o-g-QCYS2XBrZDV0jHbZ+gO=6n5pBs_4Q7xA@mail.gmail.com>
-To: Trevor Woerner <trevor.woerner@linaro.org>
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: opkg Status Update
+	Fri, 31 Oct 2014 10:58:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s9VAw13e023551; Fri, 31 Oct 2014 10:58:01 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id L7gNw_zxoopl; Fri, 31 Oct 2014 10:58:01 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	s9VAvskE023548
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Fri, 31 Oct 2014 10:57:57 GMT
+Message-ID: <1414753109.7649.91.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 31 Oct 2014 10:58:29 +0000
+In-Reply-To: <CAJTo0LY+r2qFgFmOmEXda1brymM8wpAfYFywsDAfWNtuedC+Ng@mail.gmail.com>
+References: <1414571901-17418-1-git-send-email-fathi.boudra@linaro.org>
+	<CAJTo0LY+r2qFgFmOmEXda1brymM8wpAfYFywsDAfWNtuedC+Ng@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ltp: update to 20140828 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,36 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Oct 2014 10:45:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 31 Oct 2014 10:58:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 30 October 2014 15:42, Trevor Woerner <trevor.woerner@linaro.org> wrote:
-> Hi Paul,
+On Fri, 2014-10-31 at 09:44 +0000, Burton, Ross wrote:
+> On 29 October 2014 08:38, Fathi Boudra <fathi.boudra@linaro.org>
+> wrote:
+>         bump SRCREV to 20140828 tag
+>         drop automake-foreign patch - fixed upstream (commit 18594de
+>         and edbae29)
+>         update realtime tests fixes upstream status from submitted to
+>         backported - merged upstream
 >
-> I too wanted to express my thanks to you for this work!
+> This doesn't build on the autobuilders, see for
+> example https://autobuilder.yoctoproject.org/main/builders/minnow/builds/84/steps/BuildImages/logs/stdio
 >
-> On 10/28/14 19:33, Paul Barker wrote:
->> This would be a great time for someone to step up and
->> help move things forward to v0.4.0 and beyond.
->
-> Is there a roadmap for opkg somewhere?
+> There are hundreds of compiler warnings, and a missing header.
 
-There isn't currently a roadmap. I'm currently just trying to get
-v0.3.0 out the door as it's dragged on a lot longer than I'd planned.
-I'm probably going to aim for shorter, smaller development cycles
-after this release.
+Now, since I've heard complaints that we don't merge patches quickly, I
+want to highlight what this means.
 
-Once v0.3.0 is released I'll be updating the opkg issue tracker
-(https://code.google.com/p/opkg/issues) to include planned bugfixes
-and enhancements for the v0.4.0 and v0.5.0 releases. If you've got any
-feature requests for the next release cycle or two, please add them to
-the issue tracker.
+We tried this patch, we found it had issues, therefore whenever we see
+similar patches from similar authors, we now have a nagging doubt about
+how much testing they've had. This means we when we aggregate those
+patches there is more risk to the build, we need a clean build before we
+merge patches so it can delay other people's patches. This is a bit of a
+vicious circle and its why you see some of the behaviour we get
+complaints about.
 
-Thanks,
+So I'd remind people that if they send things which don't work, it does
+have an impact. There is also something you can do to influence this.
 
--- 
-Paul Barker
+Cheers,
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Richard
+
+
 
