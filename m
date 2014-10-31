@@ -1,24 +1,26 @@
 Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BAB6665DEB
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 214167117E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 03:25:28 +0000 (UTC)
+	Fri, 31 Oct 2014 03:25:30 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9V3PSwn000825
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9V3PUfD023961
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Oct 2014 20:25:29 -0700 (PDT)
+	Thu, 30 Oct 2014 20:25:30 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 30 Oct 2014 20:25:27 -0700
+	14.3.174.1; Thu, 30 Oct 2014 20:25:29 -0700
 From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 31 Oct 2014 11:22:09 +0800
-Message-ID: <cover.1414725684.git.Chong.Lu@windriver.com>
+Date: Fri, 31 Oct 2014 11:22:10 +0800
+Message-ID: <30c6b34b50f003daa80a7c3ae43d89fdf18b9343.1414725684.git.Chong.Lu@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1414725684.git.Chong.Lu@windriver.com>
+References: <cover.1414725684.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] gst-plugin-bluetooth: remove systemd service file
+Subject: [PATCH 1/1] gst-plugin-bluetooth: remove systemd service file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 31 Oct 2014 03:25:35 -0000
 Content-Type: text/plain
 
-The following changes since commit f19b4e995ea47f9243f152b39337330307453c9f:
+The service file should be included in bluez4 package, not in plugin package.
 
-  bitbake: bitbake: clarify startup message (2014-10-30 13:39:52 +0000)
+This solves the following warning:
 
-are available in the git repository at:
+WARNING: QA Issue: gst-plugin-bluetooth: Files/directories were installed but not shipped
+  /lib
+  /lib/systemd
+  /lib/systemd/system
+  /lib/systemd/system/bluetooth.service [installed-vs-shipped]
 
-  git://git.pokylinux.org/poky-contrib chonglu/gst
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/gst
-
-Chong Lu (1):
-  gst-plugin-bluetooth: remove systemd service file
-
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
  meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb | 1 +
  1 file changed, 1 insertion(+)
 
+diff --git a/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb b/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb
+index f2dc0da..c71d612 100644
+--- a/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb
++++ b/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb
+@@ -25,6 +25,7 @@ do_install_append() {
+   	rm -rf ${D}${libdir}/alsa-lib
+   	rm -rf ${D}${datadir}
+ 	rm -rf ${D}${includedir}
++	rm -rf ${D}${nonarch_base_libdir}
+ }
+ 
+ FILES_${PN} = "${libdir}/gstreamer-0.10/lib*.so"
 -- 
 1.9.1
 
