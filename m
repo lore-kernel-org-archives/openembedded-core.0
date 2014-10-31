@@ -1,36 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id D517B65CED
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 41D8160557
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 09:44:40 +0000 (UTC)
-Received: by mail-qg0-f41.google.com with SMTP id q107so5329586qgd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 02:44:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=rgoHn7dxSPc67wSsW+Ux0zjUXsatUcIivO3Dv1UujrE=;
-	b=hUJrKAzV0YXdvUM9g6FFsxGOag79u/9QJ/GILPmHQeAaYbGTF/pJhoYrxp9NFDg6+J
-	pyr+lhPA3vWa6XOQN4Iw9QM8dYaTqAT2C7fXUSE+VO+sy3MFEK5HO/I45jy7TqroGc+t
-	a30k+D3C5yBSs/Lwr4TJpmHd3wUjH9HEEjY7lYHVJSOomD747mFQ2KA3IAKGwm0jC0iK
-	gcFP3Oi6vxRwYwOuf93HZSSHlkaOsz4p36H4LdxZIcbBJeH8TWFuZ49q8BRsvGKo5FJp
-	asfcAF4qqCd51hOS85BLdbnIHiUcfEgSftJ2F+AdZgz3JMAnMWlfCVMrbCKPdn3JEq/g
-	ZkAA==
-X-Gm-Message-State: ALoCoQnnH/yNrU9hEqXq3Zsdhm5eyjhbMXhXRMwTAl1rKlZWpDQF7n6EIrjnxrrgkvX7k8wX0Yzv
-X-Received: by 10.224.28.68 with SMTP id l4mr33817108qac.22.1414748680960;
-	Fri, 31 Oct 2014 02:44:40 -0700 (PDT)
+	Fri, 31 Oct 2014 09:46:28 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s9V9kSaD008276
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 31 Oct 2014 02:46:28 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Fri, 31 Oct 2014 02:46:27 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
+	<Martin.Jansa@gmail.com>
+Date: Fri, 31 Oct 2014 17:46:23 +0800
+Message-ID: <cover.1414748681.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Fri, 31 Oct 2014 02:44:20 -0700 (PDT)
-In-Reply-To: <1414571901-17418-1-git-send-email-fathi.boudra@linaro.org>
-References: <1414571901-17418-1-git-send-email-fathi.boudra@linaro.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 31 Oct 2014 09:44:20 +0000
-Message-ID: <CAJTo0LY+r2qFgFmOmEXda1brymM8wpAfYFywsDAfWNtuedC+Ng@mail.gmail.com>
-To: Fathi Boudra <fathi.boudra@linaro.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ltp: update to 20140828 release
+Subject: [PATCH V2 0/1] package_manager.py: fix rpm based do_rootfs failed while IMAGE_INSTALL_append = " python3"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,48 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Oct 2014 09:44:42 -0000
-Content-Type: multipart/alternative; boundary=001a11c2c3ce935c8c0506b4d8e7
+X-List-Received-Date: Fri, 31 Oct 2014 09:46:29 -0000
+Content-Type: text/plain
 
---001a11c2c3ce935c8c0506b4d8e7
-Content-Type: text/plain; charset=UTF-8
+Changed in V2: 
+- Remove debug commented out line;
+- Tweak the way of function invoking;
 
-On 29 October 2014 08:38, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+vim local.conf
+...
+IMAGE_INSTALL_append " python3"
+...
 
-> bump SRCREV to 20140828 tag
-> drop automake-foreign patch - fixed upstream (commit 18594de and edbae29)
-> update realtime tests fixes upstream status from submitted to backported -
-> merged upstream
->
+bitbake core-image-minimal
 
-This doesn't build on the autobuilders, see for example
-https://autobuilder.yoctoproject.org/main/builders/minnow/builds/84/steps/BuildImages/logs/stdio
+//Hongxu
 
-There are hundreds of compiler warnings, and a missing header.
+The following changes since commit dacc4ce59e48129a1a1e5316e10780f7358e29ef:
 
-Ross
+  nativesdk-cmake: Adjust toolchain paths dynamically (2014-10-24 21:59:46 +0100)
 
---001a11c2c3ce935c8c0506b4d8e7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+are available in the git repository at:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 29 October 2014 08:38, Fathi Boudra <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:fathi.boudra@linaro.org" target=3D"_blank">fathi.boudra@linaro.org</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
-er-left-style:solid;padding-left:1ex"><div id=3D":17s" class=3D"" style=3D"=
-overflow:hidden">bump SRCREV to 20140828 tag<br>
-drop automake-foreign patch - fixed upstream (commit 18594de and edbae29)<b=
-r>
-update realtime tests fixes upstream status from submitted to backported - =
-merged upstream</div></blockquote></div><br>This doesn&#39;t build on the a=
-utobuilders, see for example=C2=A0<a href=3D"https://autobuilder.yoctoproje=
-ct.org/main/builders/minnow/builds/84/steps/BuildImages/logs/stdio">https:/=
-/autobuilder.yoctoproject.org/main/builders/minnow/builds/84/steps/BuildIma=
-ges/logs/stdio</a></div><div class=3D"gmail_extra"><br></div><div class=3D"=
-gmail_extra">There are hundreds of compiler warnings, and a missing header.=
-</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
-/div></div>
+  git://git.pokylinux.org/poky-contrib hongxu/fix-rootfs
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-rootfs
 
---001a11c2c3ce935c8c0506b4d8e7--
+Hongxu Jia (1):
+  package_manager.py: fix rpm based do_rootfs failed while
+    IMAGE_INSTALL_append = " python3"
+
+ meta/lib/oe/package_manager.py | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
+
+-- 
+1.9.1
+
+
