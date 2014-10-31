@@ -1,29 +1,36 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B0C2065CED
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id D517B65CED
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 09:30:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s9V9UZrZ006185
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 31 Oct 2014 02:30:36 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 31 Oct 2014 02:30:35 -0700
-Message-ID: <545356B8.3070800@windriver.com>
-Date: Fri, 31 Oct 2014 17:30:32 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Fri, 31 Oct 2014 09:44:40 +0000 (UTC)
+Received: by mail-qg0-f41.google.com with SMTP id q107so5329586qgd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Oct 2014 02:44:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=rgoHn7dxSPc67wSsW+Ux0zjUXsatUcIivO3Dv1UujrE=;
+	b=hUJrKAzV0YXdvUM9g6FFsxGOag79u/9QJ/GILPmHQeAaYbGTF/pJhoYrxp9NFDg6+J
+	pyr+lhPA3vWa6XOQN4Iw9QM8dYaTqAT2C7fXUSE+VO+sy3MFEK5HO/I45jy7TqroGc+t
+	a30k+D3C5yBSs/Lwr4TJpmHd3wUjH9HEEjY7lYHVJSOomD747mFQ2KA3IAKGwm0jC0iK
+	gcFP3Oi6vxRwYwOuf93HZSSHlkaOsz4p36H4LdxZIcbBJeH8TWFuZ49q8BRsvGKo5FJp
+	asfcAF4qqCd51hOS85BLdbnIHiUcfEgSftJ2F+AdZgz3JMAnMWlfCVMrbCKPdn3JEq/g
+	ZkAA==
+X-Gm-Message-State: ALoCoQnnH/yNrU9hEqXq3Zsdhm5eyjhbMXhXRMwTAl1rKlZWpDQF7n6EIrjnxrrgkvX7k8wX0Yzv
+X-Received: by 10.224.28.68 with SMTP id l4mr33817108qac.22.1414748680960;
+	Fri, 31 Oct 2014 02:44:40 -0700 (PDT)
 MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-References: <cover.1414738674.git.hongxu.jia@windriver.com>
-	<1fa40bddf992a49a28c52f18d723bd4b76a36fa0.1414738674.git.hongxu.jia@windriver.com>
-	<20141031085008.GB3482@lpalcu-linux>
-In-Reply-To: <20141031085008.GB3482@lpalcu-linux>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] package_manager.py: fix rpm based do_rootfs failed while IMAGE_INSTALL_append = " python3"
+Received: by 10.140.98.213 with HTTP; Fri, 31 Oct 2014 02:44:20 -0700 (PDT)
+In-Reply-To: <1414571901-17418-1-git-send-email-fathi.boudra@linaro.org>
+References: <1414571901-17418-1-git-send-email-fathi.boudra@linaro.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 31 Oct 2014 09:44:20 +0000
+Message-ID: <CAJTo0LY+r2qFgFmOmEXda1brymM8wpAfYFywsDAfWNtuedC+Ng@mail.gmail.com>
+To: Fathi Boudra <fathi.boudra@linaro.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ltp: update to 20140828 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,108 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Oct 2014 09:30:41 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 Oct 2014 09:44:42 -0000
+Content-Type: multipart/alternative; boundary=001a11c2c3ce935c8c0506b4d8e7
 
-On 10/31/2014 04:50 PM, Laurentiu Palcu wrote:
-> On Fri, Oct 31, 2014 at 03:05:58PM +0800, Hongxu Jia wrote:
->> While a pkg name (such as python3) not existed in variable
->> PACKAGES, but provided by another pkg (such as python-core),
->> in this situation, rpm based do_rootfs could not search it in
->> the feeds.
->>
->> The fix is to invoke 'smart query --provides' to do the search
->> if the feeds search failed. We don't drop the feeds search,
->> because the smart query search is too slow, and the feeds
->> search is fast and could work well with most pkgs.
->>
->> [YOCTO #6918]
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/lib/oe/package_manager.py | 21 +++++++++++++++++++++
->>   1 file changed, 21 insertions(+)
->>
->> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
->> index ffb83b2..d5704e6 100644
->> --- a/meta/lib/oe/package_manager.py
->> +++ b/meta/lib/oe/package_manager.py
->> @@ -671,6 +671,23 @@ class RpmPM(PackageManager):
->>   
->>           return ""
->>   
->> +    def _search_pkg_provider_in_smart(self, pkg, feed_archs):
->> +        output = self._invoke_smart('query  --provides %s' % pkg) or ""
->> +        for provider in output.split('\n'):
->> +            # Filter out the line which is empty or start with space
->> +            if provider.strip() == '' or provider[0] == ' ':
->> +                continue
->> +
->> +            for arch in feed_archs:
->> +                arch = '@' + arch.replace('-', '_')
->> +                if arch in provider:
->> +                    # First found is best match
->> +                    # bb.note("%s -> %s" % (pkg, provider))
-> Why not remove the bb.note above since it's commented out?
+--001a11c2c3ce935c8c0506b4d8e7
+Content-Type: text/plain; charset=UTF-8
 
-The commented out line is left for debug purpose, it is helpful
-to trace what changed when you debug.
+On 29 October 2014 08:38, Fathi Boudra <fathi.boudra@linaro.org> wrote:
 
-If it caused confusion, I will remove it.
-
+> bump SRCREV to 20140828 tag
+> drop automake-foreign patch - fixed upstream (commit 18594de and edbae29)
+> update realtime tests fixes upstream status from submitted to backported -
+> merged upstream
 >
->> +                    return provider
->> +
->> +        return ''
->> +
->> +
->>       '''
->>       Translate the OE multilib format names to the RPM/Smart format names
->>       It searched the RPM/Smart format names in probable multilib feeds first,
->> @@ -693,6 +710,8 @@ class RpmPM(PackageManager):
->>                       feed_archs = self.ml_prefix_list[mlib]
->>                       new_pkg = self._search_pkg_name_in_feeds(subst, feed_archs)
->>                       if not new_pkg:
->> +                        new_pkg = self._search_pkg_provider_in_smart(subst, feed_archs)
->> +                    if not new_pkg:
-> This entire construct:
-> ...
-> new_pkg = self._search_pkg_name_in_feeds(subst, feed_archs)
-> if not new_pkg:
-> 	new_pkg = self._search_pkg_provider_in_smart(subst, feed_archs)
-> if not new_pkg:
-> ...
->
-> could be replaced with:
-> ...
-> new_pkg = self._search_pkg_name_in_feeds(subst, feed_archs) or \
-> 	self._search_pkg_provider_in_smart(subst, feed_archs)
-> if not new_pkg:
-> ...
->
-> I'd say it looks cleaner but it's a matter of personal taste. :)
 
-Fine, I will improve it.
+This doesn't build on the autobuilders, see for example
+https://autobuilder.yoctoproject.org/main/builders/minnow/builds/84/steps/BuildImages/logs/stdio
 
-V2 incoming
+There are hundreds of compiler warnings, and a missing header.
 
-//Hongxu
+Ross
 
+--001a11c2c3ce935c8c0506b4d8e7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 29 October 2014 08:38, Fathi Boudra <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:fathi.boudra@linaro.org" target=3D"_blank">fathi.boudra@linaro.org</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
+er-left-style:solid;padding-left:1ex"><div id=3D":17s" class=3D"" style=3D"=
+overflow:hidden">bump SRCREV to 20140828 tag<br>
+drop automake-foreign patch - fixed upstream (commit 18594de and edbae29)<b=
+r>
+update realtime tests fixes upstream status from submitted to backported - =
+merged upstream</div></blockquote></div><br>This doesn&#39;t build on the a=
+utobuilders, see for example=C2=A0<a href=3D"https://autobuilder.yoctoproje=
+ct.org/main/builders/minnow/builds/84/steps/BuildImages/logs/stdio">https:/=
+/autobuilder.yoctoproject.org/main/builders/minnow/builds/84/steps/BuildIma=
+ges/logs/stdio</a></div><div class=3D"gmail_extra"><br></div><div class=3D"=
+gmail_extra">There are hundreds of compiler warnings, and a missing header.=
+</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
+/div></div>
 
->
->>                           # Failed to translate, package not found!
->>                           err_msg = '%s not found in the %s feeds (%s).\n' % \
->>                                     (pkg, mlib, " ".join(feed_archs))
->> @@ -711,6 +730,8 @@ class RpmPM(PackageManager):
->>                   default_archs = self.ml_prefix_list['default']
->>                   new_pkg = self._search_pkg_name_in_feeds(pkg, default_archs)
->>                   if not new_pkg:
->> +                    new_pkg = self._search_pkg_provider_in_smart(pkg, default_archs)
->> +                if not new_pkg:
-> ditto
->
-> laurentiu
-
-
+--001a11c2c3ce935c8c0506b4d8e7--
