@@ -1,24 +1,35 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa07-03.prod.phx3.secureserver.net
-	(p3plsmtpa07-03.prod.phx3.secureserver.net [173.201.192.232])
-	by mail.openembedded.org (Postfix) with ESMTP id CFAC060557
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id CA61D6AC4A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Nov 2014 17:11:32 +0000 (UTC)
-Received: from [192.168.65.10] ([75.72.225.8])
-	by p3plsmtpa07-03.prod.phx3.secureserver.net with 
-	id AHBY1p0030BVjqb01HBYWK; Sat, 01 Nov 2014 10:11:32 -0700
-Message-ID: <54551443.2060800@pabigot.com>
-Date: Sat, 01 Nov 2014 12:11:31 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
-MIME-Version: 1.0
+	Sat,  1 Nov 2014 19:35:20 +0000 (UTC)
+Received: by mail-pa0-f52.google.com with SMTP id fa1so9747362pad.11
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 01 Nov 2014 12:35:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=p17yhHjQdclIaO0gIP2ilyvNt2c1kPwANjjlkgh4aIA=;
+	b=0FIV5BZnJmem9c94GBY5UKbc9podtT4xuT2oOavN3hqvtZfUbtR5z6WCUCGjprug0K
+	xSNHG37udECu67btiYUGsfbMDsNRRFVeyF1om0CMEoAHX1VyMdeE8tax6Ak+uQRg7uV5
+	8S5uOKIqCzeCyVbpsxa0RSlTWFJT/hT0dc9IZQjdHZvU6sm9ywf6536PmcMqmorX2Ocl
+	kUJRohmO63QXdcWaVXk5VLfg56tE2GwJ9fCickzHmD0Phye9NIy2hD7Oxxq/dhNd5zIN
+	x+QuVbUZqSMXcU8MQnSSmEroWxlRqzzUtWALeQSVntk8lL+muNStZ7IUtR+fKQ7b2LrI
+	cbog==
+X-Received: by 10.70.51.42 with SMTP id h10mr32405419pdo.21.1414870520835;
+	Sat, 01 Nov 2014 12:35:20 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by mx.google.com with ESMTPSA id
+	uw6sm13204709pac.41.2014.11.01.12.35.18
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 01 Nov 2014 12:35:19 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <1413157795-1346-1-git-send-email-pab@pabigot.com>	<20141013162851.58e820e6@e6410-2>	<543C5246.30703@pabigot.com>	<20141013173545.0d2c5de0@e6410-2>
-	<54545E7C.2060804@pabigot.com>
-In-Reply-To: <54545E7C.2060804@pabigot.com>
-Subject: Re: [PATCH 0/3] pseudo+image.bbclass: changes to avoid host contamination
+Date: Sat,  1 Nov 2014 12:35:16 -0700
+Message-Id: <1414870516-10814-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] pinentry: update 0.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,129 +42,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Nov 2014 17:11:34 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 01 Nov 2014 19:35:32 -0000
 
-On 10/31/2014 11:15 PM, Peter A. Bigot wrote:
-> On 10/13/2014 05:35 PM, Peter Seebach wrote:
->> On Mon, 13 Oct 2014 17:29:26 -0500
->> "Peter A. Bigot" <pab@pabigot.com> wrote:
->>
->>> Basically, even if "root" is a special case, taking this path means
->>> making assumptions about what the application is doing based on what
->>> system/libc functions it invokes.  Too often when somebody assumes a
->>> general tool will only be used specific ways, somebody else will prove
->>> them wrong.
->> True.
->>
->> For the oe-core case, it seems like it might be reasonable for us to set
->> pseudo up to, by default, get configured with preloaded things which 
->> match
->> the expected configuration of base-passwd. If people then go overriding
->> base-passwd in strange ways, they could break that, but we at least 
->> know what
->> the default configuration would be, and could possibly even make 
->> base-passwd
->> check whether pseudo's configuration matches its answers, and blow up if
->> there's a mismatch there.
->
-> I've discovered a few more cases where OE packages get the wrong 
-> target username/group for files, at least in RPM packages.
->
-> First, revisiting the discussion above I've played with using 
-> --without-passwd-fallback and adding base-passwd as an explicit 
-> dependency. This won't work: glibc-initial requires base-passwd for 
-> group name lookups, and base-passwd includes update-passwd as an 
-> executable which requires glibc.
->
-> The options seem to be to split base-passwd into separate recipes for 
-> the data files and the utility to break the circular dependency, or 
-> having pseudo synthesize a fallback passwd/group. Prior to gaining 
-> experience I didn't like the second choice, but I like the first even 
-> less.  As long as pseudo emits a note saying what it's doing so we can 
-> add the DEPENDS=base-passwd where that's not circular (as with 
-> tzdata), my vote goes toward pseudo synthesis. I'm hoping somebody 
-> disagrees and comes up with a better, third alternative.
+removed  some EXTRA_OECONF to  fix:
+WARNING: QA Issue: pinentry: configure was passed unrecognised options: --disable-glibtest --disable-pinentry-gtk --disable-pinentry-qt [unknown-configure-option]
 
-I did find an alternative, and the patches to enforce 
---without-passwd-fallback have been posted.
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../pinentry/{pinentry_0.8.4.bb => pinentry_0.9.0.bb}        | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+ rename meta/recipes-support/pinentry/{pinentry_0.8.4.bb => pinentry_0.9.0.bb} (78%)
 
->
-> However, I've also discovered another issue, possibly related to: 
-> http://lists.openembedded.org/pipermail/openembedded-core/2011-December/053866.html 
->
->
-> On my development machine my uid:gid are both 1000 and correspond to 
-> pab:pab.  Using poky master with MACHINE=beaglebone building 
-> core-image-sato the corresponding user:group is xuser:xuser.
->
-> Running the following script:
->
-> find tmp/deploy/ -name '*.rpm' \
->   | while read f ; do \
->     rpm -qlvp ${f} 2>/dev/null \
->       | awk '$3~/pab|xuser/ || $4~/pab|xuser/ {print;}' \
->       > /tmp/c$$ ; \
->     if [ -s /tmp/c$$ ] ; then \
->       echo ; \
->       echo $f; \
->       cat /tmp/c$$ ; \
->     fi ; \
->   done
->
-> I find the following packages include files that are given group or 
-> user xuser, indicating that the files were installed with user:group 
-> set to the host value 1000:1000 instead of being remapped to 0:0 by 
-> pseudo, but when packaging pseudo does "correctly" interpret the 
-> uid:gid using the target passwd/group files:
->
-> tmp/deploy/rpm/cortexa8hf_vfp_neon/attr-ptest-2.4.47-r0.0.cortexa8hf_vfp_neon.rpm 
->
-> tmp/deploy/rpm/cortexa8hf_vfp_neon/acl-ptest-2.2.52-r0.0.cortexa8hf_vfp_neon.rpm 
->
-> tmp/deploy/rpm/cortexa8hf_vfp_neon/systemd-216+git0+5d0ae62c66-r0.0.cortexa8hf_vfp_neon.rpm 
->
-> tmp/deploy/rpm/cortexa8hf_vfp_neon/perl-ptest-5.20.0-r1.0.cortexa8hf_vfp_neon.rpm 
->
->
-> For example:
->
-> llc[11]$ rpm -qlvp 
-> tmp/deploy/rpm/cortexa8hf_vfp_neon/perl-ptest-5.20.0-r1.0.cortexa8hf_vfp_neon.rpm
-> -r--r--r--    1 xuser   xuser                   45590 May 26 08:34 
-> /usr/lib/perl/ptest/AUTHORS
-> -r--r--r--    1 xuser   xuser                    6321 Jan 31  2014 
-> /usr/lib/perl/ptest/Artistic
-> -r--r--r--    1 xuser   xuser                    3168 Jan 31  2014 
-> /usr/lib/perl/ptest/Changes
-> -r-xr-xr-x    1 xuser   xuser                  552838 Oct 31 15:34 
-> /usr/lib/perl/ptest/Configure
-
-The issue of the underlying gid not being correct are still present.  It 
-is non-deterministic, and may or may not be happening with uid as well.  
-It does seem to happen most with *-ptest-* recipes and others that 
-install files probably whole-directory-at-a-time.
-
-> Further, this one even manages to get the user:group names from the host:
->
-> llc[12]$ rpm -qlvp 
-> tmp/deploy/rpm/cortexa8hf_vfp_neon/libgcc-s-dev-4.9.1-r0.0.cortexa8hf_vfp_neon.rpm 
-> | grep pab
-> lrwxrwxrwx    1 pab     pab                        22 Oct 31 15:17 
-> /usr/lib/arm-poky-linux -> arm-poky-linux-gnueabi
-
-This problem was fixed by eliminating host fallback.
-
-Peter
-
-> My tentative conclusion is that these new behaviors aren't related to 
-> the pseudo falling back to host /etc files, but probably instead by 
-> files getting installed (and in one case somehow packaged) without 
-> using pseudo.  I have no idea why that's happening, but it does appear 
-> something's not working right.
->
-> Peter
->
+diff --git a/meta/recipes-support/pinentry/pinentry_0.8.4.bb b/meta/recipes-support/pinentry/pinentry_0.9.0.bb
+similarity index 78%
+rename from meta/recipes-support/pinentry/pinentry_0.8.4.bb
+rename to meta/recipes-support/pinentry/pinentry_0.9.0.bb
+index acc6992..68d2478 100644
+--- a/meta/recipes-support/pinentry/pinentry_0.8.4.bb
++++ b/meta/recipes-support/pinentry/pinentry_0.9.0.bb
+@@ -10,17 +10,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=cbbd794e2a0a289b9dfcc9f513d1996e"
+ 
+ inherit autotools-brokensep
+ 
+-SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
+-	"
++SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "e2b6f94471ba1e978f6e5bf6b275189b"
+-SRC_URI[sha256sum] = "359db3bf46cb743ba0b3aeef259f6107271ca888ba3e22c1cba525c9aca35612"
++SRC_URI[md5sum] = "40a05856cb3accf6679987b7899b0f5a"
++SRC_URI[sha256sum] = "90045a07ab8e1a8e1ecf5d19b51691f195525e579fa5d71d7e92c120b05490ab"
+ 
+ EXTRA_OECONF = "--disable-rpath \
+-		--disable-dependency-tracking \
+-		--disable-glibtest \
+-	        --disable-pinentry-gtk \
+-	        --disable-pinentry-qt \
++		        --disable-dependency-tracking \
+                "
+ 
+ PACKAGECONFIG ??= "ncurses libcap"
+-- 
+1.9.1
 
 
