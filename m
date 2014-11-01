@@ -1,24 +1,35 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa08-04.prod.phx3.secureserver.net
-	(p3plsmtpa08-04.prod.phx3.secureserver.net [173.201.193.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 42E0C71F40
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lb0-f181.google.com (mail-lb0-f181.google.com
+	[209.85.217.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CA4965C87
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Nov 2014 04:15:58 +0000 (UTC)
-Received: from [192.168.65.10] ([75.72.225.8])
-	by p3plsmtpa08-04.prod.phx3.secureserver.net with 
-	id A4Fw1p0080BVjqb014FwlW; Fri, 31 Oct 2014 21:15:57 -0700
-Message-ID: <54545E7C.2060804@pabigot.com>
-Date: Fri, 31 Oct 2014 23:15:56 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
-MIME-Version: 1.0
+	Sat,  1 Nov 2014 16:57:13 +0000 (UTC)
+Received: by mail-lb0-f181.google.com with SMTP id l4so782008lbv.40
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 01 Nov 2014 09:57:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=PPONIieUCmjl2hNjOuYATxxVPzJc/qVDdaIM4kVxZWg=;
+	b=TfdXraBcGMpsSI8kY1cutoF4TTfJ+Sw0BdFmcUslWEvSPDev4+jQXBOqmkiR1UpIyL
+	2m1Muc8bxhrnatF7y+WbXswUxZdu14HA3ID8FextlvTLQT0AP3z/XmI/N/bWQHIjjm2A
+	75Abie4RYHHROvi7g2DM1OB6Rr2GAwE+fsOLG2ka23Wl7H84QYS9BVPIxRlyosrHjGsL
+	AGsTpntK2sLPa1iWS4BZqFFYK7iTOlXmT60OfZWAfj7Vfe4/AloyH4EAkaNpJBzSrxC2
+	EokADPMH68mb7rhTWUDpb3/041NVjet55Luz6VcL/PEoHvDqB8okFjHcZaW9wHWaDmX/
+	4Gjw==
+X-Received: by 10.112.156.168 with SMTP id wf8mr35368109lbb.28.1414861033318; 
+	Sat, 01 Nov 2014 09:57:13 -0700 (PDT)
+Received: from neopili.fritz.box
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by mx.google.com with ESMTPSA id e3sm5793328lam.26.2014.11.01.09.57.11
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 01 Nov 2014 09:57:12 -0700 (PDT)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <1413157795-1346-1-git-send-email-pab@pabigot.com>	<20141013162851.58e820e6@e6410-2>	<543C5246.30703@pabigot.com>
-	<20141013173545.0d2c5de0@e6410-2>
-In-Reply-To: <20141013173545.0d2c5de0@e6410-2>
-Subject: Re: [PATCH 0/3] pseudo+image.bbclass: changes to avoid host contamination
+Date: Sat,  1 Nov 2014 17:57:07 +0100
+Message-Id: <1414861027-13914-1-git-send-email-ricardo.ribalda@gmail.com>
+X-Mailer: git-send-email 2.1.1
+Subject: [PATCH] package_manager: Fix populate_sdk for dpkg packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,106 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Nov 2014 04:16:01 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 01 Nov 2014 16:57:21 -0000
 
-On 10/13/2014 05:35 PM, Peter Seebach wrote:
-> On Mon, 13 Oct 2014 17:29:26 -0500
-> "Peter A. Bigot" <pab@pabigot.com> wrote:
->
->> Basically, even if "root" is a special case, taking this path means
->> making assumptions about what the application is doing based on what
->> system/libc functions it invokes.  Too often when somebody assumes a
->> general tool will only be used specific ways, somebody else will prove
->> them wrong.
-> True.
->
-> For the oe-core case, it seems like it might be reasonable for us to set
-> pseudo up to, by default, get configured with preloaded things which match
-> the expected configuration of base-passwd. If people then go overriding
-> base-passwd in strange ways, they could break that, but we at least know what
-> the default configuration would be, and could possibly even make base-passwd
-> check whether pseudo's configuration matches its answers, and blow up if
-> there's a mismatch there.
+Without this patch:
 
-I've discovered a few more cases where OE packages get the wrong target 
-username/group for files, at least in RPM packages.
+ERROR: Unable to install packages. Command '/var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/sysroots/x86_64-linux/usr/bin/apt-get  install --force-yes --allow-unauthenticated nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-qt5022' returned 100:
+Reading package lists...
+Building dependency tree...
+Reading state information...
+W: Unable to read /var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/work/bobcat_64-poky-linux/meta-toolchain/1.0-r7/apt-sdk/preferences.d/ - DirectoryExists (2: No such file or directory)
+E: Unable to locate package nativesdk-packagegroup-sdk-host
+E: Unable to locate package packagegroup-cross-canadian-qt5022
 
-First, revisiting the discussion above I've played with using 
---without-passwd-fallback and adding base-passwd as an explicit 
-dependency. This won't work: glibc-initial requires base-passwd for 
-group name lookups, and base-passwd includes update-passwd as an 
-executable which requires glibc.
+ERROR: Function failed: do_populate_sdk
+ERROR: Logfile of failure stored in: /var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/work/bobcat_64-poky-linux/meta-toolchain/1.0-r7/temp/log.do_populate_sdk.4926
+NOTE: recipe meta-toolchain-1.0-r7: task do_populate_sdk: Failed
+ERROR: Task 7 (/var/lib/jenkins/jobs/qt5022-cesium/workspace/repo/yocto/meta/recipes-core/meta/meta-toolchain.bb, do_populate_sdk) failed with exit code '1'
+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+---
 
-The options seem to be to split base-passwd into separate recipes for 
-the data files and the utility to break the circular dependency, or 
-having pseudo synthesize a fallback passwd/group.  Prior to gaining 
-experience I didn't like the second choice, but I like the first even 
-less.  As long as pseudo emits a note saying what it's doing so we can 
-add the DEPENDS=base-passwd where that's not circular (as with tzdata), 
-my vote goes toward pseudo synthesis. I'm hoping somebody disagrees and 
-comes up with a better, third alternative.
+Tested on yocto 1.7
 
-However, I've also discovered another issue, possibly related to: 
-http://lists.openembedded.org/pipermail/openembedded-core/2011-December/053866.html
+Only build test, not tested on target.
 
-On my development machine my uid:gid are both 1000 and correspond to 
-pab:pab.  Using poky master with MACHINE=beaglebone building 
-core-image-sato the corresponding user:group is xuser:xuser.
+ meta/lib/oe/package_manager.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Running the following script:
-
-find tmp/deploy/ -name '*.rpm' \
-   | while read f ; do \
-     rpm -qlvp ${f} 2>/dev/null \
-       | awk '$3~/pab|xuser/ || $4~/pab|xuser/ {print;}' \
-       > /tmp/c$$ ; \
-     if [ -s /tmp/c$$ ] ; then \
-       echo ; \
-       echo $f; \
-       cat /tmp/c$$ ; \
-     fi ; \
-   done
-
-I find the following packages include files that are given group or user 
-xuser, indicating that the files were installed with user:group set to 
-the host value 1000:1000 instead of being remapped to 0:0 by pseudo, but 
-when packaging pseudo does "correctly" interpret the uid:gid using the 
-target passwd/group files:
-
-tmp/deploy/rpm/cortexa8hf_vfp_neon/attr-ptest-2.4.47-r0.0.cortexa8hf_vfp_neon.rpm
-tmp/deploy/rpm/cortexa8hf_vfp_neon/acl-ptest-2.2.52-r0.0.cortexa8hf_vfp_neon.rpm
-tmp/deploy/rpm/cortexa8hf_vfp_neon/systemd-216+git0+5d0ae62c66-r0.0.cortexa8hf_vfp_neon.rpm
-tmp/deploy/rpm/cortexa8hf_vfp_neon/perl-ptest-5.20.0-r1.0.cortexa8hf_vfp_neon.rpm
-
-For example:
-
-llc[11]$ rpm -qlvp 
-tmp/deploy/rpm/cortexa8hf_vfp_neon/perl-ptest-5.20.0-r1.0.cortexa8hf_vfp_neon.rpm
--r--r--r--    1 xuser   xuser                   45590 May 26 08:34 
-/usr/lib/perl/ptest/AUTHORS
--r--r--r--    1 xuser   xuser                    6321 Jan 31  2014 
-/usr/lib/perl/ptest/Artistic
--r--r--r--    1 xuser   xuser                    3168 Jan 31  2014 
-/usr/lib/perl/ptest/Changes
--r-xr-xr-x    1 xuser   xuser                  552838 Oct 31 15:34 
-/usr/lib/perl/ptest/Configure
-
-Further, this one even manages to get the user:group names from the host:
-
-llc[12]$ rpm -qlvp 
-tmp/deploy/rpm/cortexa8hf_vfp_neon/libgcc-s-dev-4.9.1-r0.0.cortexa8hf_vfp_neon.rpm 
-| grep pab
-lrwxrwxrwx    1 pab     pab                        22 Oct 31 15:17 
-/usr/lib/arm-poky-linux -> arm-poky-linux-gnueabi
-
-My tentative conclusion is that these new behaviors aren't related to 
-the pseudo falling back to host /etc files, but probably instead by 
-files getting installed (and in one case somehow packaged) without using 
-pseudo.  I have no idea why that's happening, but it does appear 
-something's not working right.
-
-Peter
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 27fdf26..8828bce 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -188,7 +188,7 @@ class DpkgIndexer(Indexer):
+                 release.write("Label: %s\n" % arch)
+ 
+             cmd += "PSEUDO_UNLOAD=1 %s release . >> Release" % apt_ftparchive
+-            
++
+             index_cmds.append(cmd)
+ 
+             deb_dirs_found = True
+@@ -1467,6 +1467,7 @@ class DpkgPM(PackageManager):
+     def __init__(self, d, target_rootfs, archs, base_archs, apt_conf_dir=None):
+         super(DpkgPM, self).__init__(d)
+         self.target_rootfs = target_rootfs
++        self.pkg_archs = archs
+         self.deploy_dir = self.d.getVar('DEPLOY_DIR_DEB', True)
+         if apt_conf_dir is None:
+             self.apt_conf_dir = self.d.expand("${APTCONF_TARGET}/apt")
+@@ -1662,7 +1663,7 @@ class DpkgPM(PackageManager):
+         bb.utils.mkdirhier(self.apt_conf_dir + "/apt.conf.d/")
+ 
+         arch_list = []
+-        for arch in self.all_arch_list:
++        for arch in self.pkg_archs.split():
+             if not os.path.exists(os.path.join(self.deploy_dir, arch)):
+                 continue
+             arch_list.append(arch)
+-- 
+2.1.1
 
 
