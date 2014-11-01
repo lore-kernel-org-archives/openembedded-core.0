@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id D8C1971F4C
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id D7F8571F1E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 23:19:03 +0000 (UTC)
-Received: by mail-qa0-f47.google.com with SMTP id dc16so6045863qab.34
+	Sat,  1 Nov 2014 00:14:30 +0000 (UTC)
+Received: by mail-wi0-f173.google.com with SMTP id n3so2563785wiv.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 16:19:03 -0700 (PDT)
+	Fri, 31 Oct 2014 17:14:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=bQ6YLOmMTspdAX2GUEHIdVZMPn7BXS9joefF2zZrojU=;
-	b=UKvlnkqtJ+rbKOiZFkDhjmXLudXxYHWC+YreEH6kcW20/ZDz48sPyQaLnE/ssA5CMn
-	z/ChcuI4MuOW0HgqfuyUQNnrrUNFWy414ReejMTXpnTjIGmkZrDU9DmLl76eraXohYIx
-	2KObNTz1uMXNVUUX8j46kDQDJI7tmhD3I44vPc68aaGuFsNmGWBR2mpWeQSP4rJ69/UT
-	UE6/iVFHU7F7Q3bcFwGivvJudvRWxUSHCcuesu3FLPa8i5fiqA3aVS4T+dEDETRx1KhG
-	GZPZOAHVL7FUx1U3siGNYbDd7cG3cdLJVt9kUUAfnSyv1sXU/WkQypkfSbX3kJ5X4047
-	fYcg==
-X-Gm-Message-State: ALoCoQmZ3p+EF4gHHYycvtO/9cMFfcLKzpFt5NuoINNooJnO/BLjNnwuEFw/ESqLoVl3tIYZPGcc
-X-Received: by 10.140.17.67 with SMTP id 61mr39263334qgc.59.1414797543534;
-	Fri, 31 Oct 2014 16:19:03 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Fri, 31 Oct 2014 16:18:43 -0700 (PDT)
-In-Reply-To: <1414687599-36822-1-git-send-email-alexandra.safta@enea.com>
-References: <1414687599-36822-1-git-send-email-alexandra.safta@enea.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 31 Oct 2014 23:18:43 +0000
-Message-ID: <CAJTo0LbneXWPk67XSZMJGiFhM8WGQOZE_nP5i4apOL7rDi_xfQ@mail.gmail.com>
-To: Alexandra Safta <alexandra.safta@enea.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Valgrind: Remove test apps not building with ppc64 and PTEST
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=4I46LebFnFc1ixpFdiGuv2/fd3Jwb/iNdtN3VxbvzuU=;
+	b=N1734yAyDTJDhw3j/6O2Qm6/O+rF3FL4XeL6ooOFzl986TjPydQyhl7gRuDjb3t+7L
+	BpJpshg5iRWWdrMPA1tFGVg21NCF4H7VV5Lq/7TDU2Kus3Wf/NnydCHa77NrhmmwrirA
+	wrcBL7eyARzCtxkL3FhFzCc1LEg80QredTnd0XOqWnDod6YdAXDLXrd7+o3vYtk0KkS8
+	JS74/+x36JRRqdk+szxddNliyRew9xilC6evyl6QZpAGsGC340fYfGa5ZvkWL4erINm0
+	4spS4egt6ygcocVXWEQXf8cKo/5hbY8+77aMG67sCz80gWX6gz7imf7YS1cYK7ov/zDK
+	wu8w==
+X-Gm-Message-State: ALoCoQmipBmDQact8Qvjj8PEdG8NbC+kgKDaGgnOlNLsQfYR/BmrUAvURvAdsUIG/RbOBmGzpj9q
+X-Received: by 10.180.79.169 with SMTP id k9mr591731wix.34.1414800871295;
+	Fri, 31 Oct 2014 17:14:31 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id b6sm305511wiy.22.2014.10.31.17.14.30
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 31 Oct 2014 17:14:30 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  1 Nov 2014 00:12:41 +0000
+Message-Id: <1414800761-14649-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] acl: add acl dependency to acl-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,38 +43,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Oct 2014 23:19:08 -0000
-Content-Type: multipart/alternative; boundary=001a11c0fa28030dcd0506c03928
+X-List-Received-Date: Sat, 01 Nov 2014 00:14:32 -0000
 
---001a11c0fa28030dcd0506c03928
-Content-Type: text/plain; charset=UTF-8
+The acl test suite doesn't work without the acl binaries, so add an explicit
+dependency.
 
-On 30 October 2014 16:46, Alexandra Safta <alexandra.safta@enea.com> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-support/attr/acl.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->  .../valgrind/remove-ppc64-tests-failing-build.patch      | 16
-> ++++++++++++++++
->  meta/recipes-devtools/valgrind/valgrind_3.9.0.bb         |  3 ++-
->
+diff --git a/meta/recipes-support/attr/acl.inc b/meta/recipes-support/attr/acl.inc
+index bc9fd6d..b2bc8ba 100644
+--- a/meta/recipes-support/attr/acl.inc
++++ b/meta/recipes-support/attr/acl.inc
+@@ -36,4 +36,4 @@ do_install_ptest() {
+ 	cp ${S}/include/builddefs ${S}/include/buildmacros ${S}/include/buildrules ${D}${PTEST_PATH}/include/
+ }
+ 
+-RDEPENDS_${PN}-ptest = "bash coreutils perl perl-module-filehandle perl-module-getopt-std perl-module-posix shadow"
++RDEPENDS_${PN}-ptest = "acl bash coreutils perl perl-module-filehandle perl-module-getopt-std perl-module-posix shadow"
+-- 
+1.7.10.4
 
-This patch doesn't apply to master, please rebase and re-test.
 
-Ross
-
---001a11c0fa28030dcd0506c03928
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 October 2014 16:46, Alexandra Safta <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:alexandra.safta@enea.com" target=3D"_blank">alexandra.safta@enea.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":15l" c=
-lass=3D"a3s" style=3D"overflow:hidden">=C2=A0.../valgrind/remove-ppc64-test=
-s-failing-build.patch=C2=A0 =C2=A0 =C2=A0 | 16 ++++++++++++++++<br>
-=C2=A0meta/recipes-devtools/valgrind/<a href=3D"http://valgrind_3.9.0.bb" t=
-arget=3D"_blank">valgrind_3.9.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 3 ++-<br></div></blockquote></div><br>This patch doesn&#39;t apply t=
-o master, please rebase and re-test.</div><div class=3D"gmail_extra"><br></=
-div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11c0fa28030dcd0506c03928--
