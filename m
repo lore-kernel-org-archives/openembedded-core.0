@@ -1,18 +1,20 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa09-07.prod.phx3.secureserver.net
 	(p3plsmtpa09-07.prod.phx3.secureserver.net [173.201.193.236])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B7E765C87
+	by mail.openembedded.org (Postfix) with ESMTP id 4A84560557
 	for <openembedded-core@lists.openembedded.org>;
 	Sat,  1 Nov 2014 17:04:58 +0000 (UTC)
 Received: from llc.pab ([75.72.225.8])
 	by p3plsmtpa09-07.prod.phx3.secureserver.net with 
-	id AH4w1p0070BVjqb01H4wW0; Sat, 01 Nov 2014 10:04:58 -0700
+	id AH4w1p0070BVjqb01H4yW4; Sat, 01 Nov 2014 10:04:59 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Nov 2014 12:04:36 -0500
-Message-Id: <1414861479-5493-1-git-send-email-pab@pabigot.com>
+Date: Sat,  1 Nov 2014 12:04:37 -0500
+Message-Id: <1414861479-5493-2-git-send-email-pab@pabigot.com>
 X-Mailer: git-send-email 1.8.5.5
-Subject: [PATCH 0/3] prevent pseudo host passwd/group contamination
+In-Reply-To: <1414861479-5493-1-git-send-email-pab@pabigot.com>
+References: <1414861479-5493-1-git-send-email-pab@pabigot.com>
+Subject: [PATCH 1/3] pseudo: default --without-passwd-fallback
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,58 +29,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 01 Nov 2014 17:05:00 -0000
 
-I don't have my -contrib accounts yet so can't do pull requests, but
-these are simple.
+No good reason exists to fall back to the build host /etc files when
+attempting to resolve user and group information.  Recipe dependencies
+should be updated so the correct target files are available.
 
-These patches build on the following unmerged fixes for pseudo's support
-for --without-passwd-fallback:
+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+---
+ meta/recipes-devtools/pseudo/pseudo_1.6.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  http://patches.openembedded.org/patch/81591/
-  http://patches.openembedded.org/patch/81593/
-  http://patches.openembedded.org/patch/81595/
-
-The new patches use --without-passwd-fallback, preventing contamination
-from the host files during the early build stages when the target
-versions from base-passwd aren't yet available.
-
-Experimentation with adding an explicit DEPENDS="base-passwd" showed
-that approach would touch a large number of recipes.  For some of those
-recipes, the dependency became circular because base-passwd includes a
-target utility program that can't be built without glibc and other files
-that can't be installed without the ability to look up user and group
-names.
-
-The solution chosen is to use the capability in the previous patches to
-install last-resort passwd and group in ${STAGING_DIR_NATIVE}, and use
-those only when the files are not present in ${STAGING_DIR_TARGET}.  The
-last-resort files must contain the usernames (root) and groups (root,
-mail) that are specified in meta/files/fs-perms.txt so that packaging
-succeeds.  Only names required for a successful build have been provided
-in these fall-back files, and the id values match those in the
-base-passwd files.
-
-I've done a clean (no sstate) core-image-sato build in poky for
-beaglebone+systemd with no issues.  Further, with this patch the true
-host uid/username/gid/groupname contamination noted in my email last
-night has been eliminated.  Unfortunately there are still cases where
-the build system gid ends up as the gid of installed files.
-
-I believe that any issues that do arise will represent a true dependency
-on base-passwd that should be added to the failing recipe.
-
-Peter A. Bigot (3):
-  pseudo: default --without-passwd-fallback
-  pseudo: provide fallback passwd and group files
-  bitbake.conf: pseudo fall back to last-resort passwd files
-
- meta/conf/bitbake.conf                             |  2 +-
- meta/recipes-devtools/pseudo/files/fallback-group  |  2 ++
- meta/recipes-devtools/pseudo/files/fallback-passwd |  1 +
- meta/recipes-devtools/pseudo/pseudo_1.6.2.bb       | 10 +++++++++-
- 4 files changed, 13 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/pseudo/files/fallback-group
- create mode 100644 meta/recipes-devtools/pseudo/files/fallback-passwd
-
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb b/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
+index 78eeedf..fb85f89 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
+@@ -10,4 +10,4 @@ SRC_URI = " \
+ SRC_URI[md5sum] = "4d7b4f9d1b4aafa680ce94a5a9a52f1f"
+ SRC_URI[sha256sum] = "c72be92689511ced7c419149c6aaa1b1a9e4dfc6409d1f16ab72cc35bc1e376a"
+ 
+-PSEUDO_EXTRA_OPTS ?= "--enable-force-async"
++PSEUDO_EXTRA_OPTS ?= "--enable-force-async --without-passwd-fallback"
 -- 
 1.8.5.5
 
