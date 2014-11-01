@@ -1,35 +1,18 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lb0-f181.google.com (mail-lb0-f181.google.com
-	[209.85.217.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CA4965C87
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa09-07.prod.phx3.secureserver.net
+	(p3plsmtpa09-07.prod.phx3.secureserver.net [173.201.193.236])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B7E765C87
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Nov 2014 16:57:13 +0000 (UTC)
-Received: by mail-lb0-f181.google.com with SMTP id l4so782008lbv.40
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Nov 2014 09:57:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=PPONIieUCmjl2hNjOuYATxxVPzJc/qVDdaIM4kVxZWg=;
-	b=TfdXraBcGMpsSI8kY1cutoF4TTfJ+Sw0BdFmcUslWEvSPDev4+jQXBOqmkiR1UpIyL
-	2m1Muc8bxhrnatF7y+WbXswUxZdu14HA3ID8FextlvTLQT0AP3z/XmI/N/bWQHIjjm2A
-	75Abie4RYHHROvi7g2DM1OB6Rr2GAwE+fsOLG2ka23Wl7H84QYS9BVPIxRlyosrHjGsL
-	AGsTpntK2sLPa1iWS4BZqFFYK7iTOlXmT60OfZWAfj7Vfe4/AloyH4EAkaNpJBzSrxC2
-	EokADPMH68mb7rhTWUDpb3/041NVjet55Luz6VcL/PEoHvDqB8okFjHcZaW9wHWaDmX/
-	4Gjw==
-X-Received: by 10.112.156.168 with SMTP id wf8mr35368109lbb.28.1414861033318; 
-	Sat, 01 Nov 2014 09:57:13 -0700 (PDT)
-Received: from neopili.fritz.box
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by mx.google.com with ESMTPSA id e3sm5793328lam.26.2014.11.01.09.57.11
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 01 Nov 2014 09:57:12 -0700 (PDT)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+	Sat,  1 Nov 2014 17:04:58 +0000 (UTC)
+Received: from llc.pab ([75.72.225.8])
+	by p3plsmtpa09-07.prod.phx3.secureserver.net with 
+	id AH4w1p0070BVjqb01H4wW0; Sat, 01 Nov 2014 10:04:58 -0700
+From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Nov 2014 17:57:07 +0100
-Message-Id: <1414861027-13914-1-git-send-email-ricardo.ribalda@gmail.com>
-X-Mailer: git-send-email 2.1.1
-Subject: [PATCH] package_manager: Fix populate_sdk for dpkg packages
+Date: Sat,  1 Nov 2014 12:04:36 -0500
+Message-Id: <1414861479-5493-1-git-send-email-pab@pabigot.com>
+X-Mailer: git-send-email 1.8.5.5
+Subject: [PATCH 0/3] prevent pseudo host passwd/group contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,63 +25,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Nov 2014 16:57:21 -0000
+X-List-Received-Date: Sat, 01 Nov 2014 17:05:00 -0000
 
-Without this patch:
+I don't have my -contrib accounts yet so can't do pull requests, but
+these are simple.
 
-ERROR: Unable to install packages. Command '/var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/sysroots/x86_64-linux/usr/bin/apt-get  install --force-yes --allow-unauthenticated nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-qt5022' returned 100:
-Reading package lists...
-Building dependency tree...
-Reading state information...
-W: Unable to read /var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/work/bobcat_64-poky-linux/meta-toolchain/1.0-r7/apt-sdk/preferences.d/ - DirectoryExists (2: No such file or directory)
-E: Unable to locate package nativesdk-packagegroup-sdk-host
-E: Unable to locate package packagegroup-cross-canadian-qt5022
+These patches build on the following unmerged fixes for pseudo's support
+for --without-passwd-fallback:
 
-ERROR: Function failed: do_populate_sdk
-ERROR: Logfile of failure stored in: /var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/work/bobcat_64-poky-linux/meta-toolchain/1.0-r7/temp/log.do_populate_sdk.4926
-NOTE: recipe meta-toolchain-1.0-r7: task do_populate_sdk: Failed
-ERROR: Task 7 (/var/lib/jenkins/jobs/qt5022-cesium/workspace/repo/yocto/meta/recipes-core/meta/meta-toolchain.bb, do_populate_sdk) failed with exit code '1'
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
----
+  http://patches.openembedded.org/patch/81591/
+  http://patches.openembedded.org/patch/81593/
+  http://patches.openembedded.org/patch/81595/
 
-Tested on yocto 1.7
+The new patches use --without-passwd-fallback, preventing contamination
+from the host files during the early build stages when the target
+versions from base-passwd aren't yet available.
 
-Only build test, not tested on target.
+Experimentation with adding an explicit DEPENDS="base-passwd" showed
+that approach would touch a large number of recipes.  For some of those
+recipes, the dependency became circular because base-passwd includes a
+target utility program that can't be built without glibc and other files
+that can't be installed without the ability to look up user and group
+names.
 
- meta/lib/oe/package_manager.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+The solution chosen is to use the capability in the previous patches to
+install last-resort passwd and group in ${STAGING_DIR_NATIVE}, and use
+those only when the files are not present in ${STAGING_DIR_TARGET}.  The
+last-resort files must contain the usernames (root) and groups (root,
+mail) that are specified in meta/files/fs-perms.txt so that packaging
+succeeds.  Only names required for a successful build have been provided
+in these fall-back files, and the id values match those in the
+base-passwd files.
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 27fdf26..8828bce 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -188,7 +188,7 @@ class DpkgIndexer(Indexer):
-                 release.write("Label: %s\n" % arch)
- 
-             cmd += "PSEUDO_UNLOAD=1 %s release . >> Release" % apt_ftparchive
--            
-+
-             index_cmds.append(cmd)
- 
-             deb_dirs_found = True
-@@ -1467,6 +1467,7 @@ class DpkgPM(PackageManager):
-     def __init__(self, d, target_rootfs, archs, base_archs, apt_conf_dir=None):
-         super(DpkgPM, self).__init__(d)
-         self.target_rootfs = target_rootfs
-+        self.pkg_archs = archs
-         self.deploy_dir = self.d.getVar('DEPLOY_DIR_DEB', True)
-         if apt_conf_dir is None:
-             self.apt_conf_dir = self.d.expand("${APTCONF_TARGET}/apt")
-@@ -1662,7 +1663,7 @@ class DpkgPM(PackageManager):
-         bb.utils.mkdirhier(self.apt_conf_dir + "/apt.conf.d/")
- 
-         arch_list = []
--        for arch in self.all_arch_list:
-+        for arch in self.pkg_archs.split():
-             if not os.path.exists(os.path.join(self.deploy_dir, arch)):
-                 continue
-             arch_list.append(arch)
+I've done a clean (no sstate) core-image-sato build in poky for
+beaglebone+systemd with no issues.  Further, with this patch the true
+host uid/username/gid/groupname contamination noted in my email last
+night has been eliminated.  Unfortunately there are still cases where
+the build system gid ends up as the gid of installed files.
+
+I believe that any issues that do arise will represent a true dependency
+on base-passwd that should be added to the failing recipe.
+
+Peter A. Bigot (3):
+  pseudo: default --without-passwd-fallback
+  pseudo: provide fallback passwd and group files
+  bitbake.conf: pseudo fall back to last-resort passwd files
+
+ meta/conf/bitbake.conf                             |  2 +-
+ meta/recipes-devtools/pseudo/files/fallback-group  |  2 ++
+ meta/recipes-devtools/pseudo/files/fallback-passwd |  1 +
+ meta/recipes-devtools/pseudo/pseudo_1.6.2.bb       | 10 +++++++++-
+ 4 files changed, 13 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/files/fallback-group
+ create mode 100644 meta/recipes-devtools/pseudo/files/fallback-passwd
+
 -- 
-2.1.1
+1.8.5.5
 
 
