@@ -1,36 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id D7F8571F1E
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa08-04.prod.phx3.secureserver.net
+	(p3plsmtpa08-04.prod.phx3.secureserver.net [173.201.193.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 42E0C71F40
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Nov 2014 00:14:30 +0000 (UTC)
-Received: by mail-wi0-f173.google.com with SMTP id n3so2563785wiv.12
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Oct 2014 17:14:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=4I46LebFnFc1ixpFdiGuv2/fd3Jwb/iNdtN3VxbvzuU=;
-	b=N1734yAyDTJDhw3j/6O2Qm6/O+rF3FL4XeL6ooOFzl986TjPydQyhl7gRuDjb3t+7L
-	BpJpshg5iRWWdrMPA1tFGVg21NCF4H7VV5Lq/7TDU2Kus3Wf/NnydCHa77NrhmmwrirA
-	wrcBL7eyARzCtxkL3FhFzCc1LEg80QredTnd0XOqWnDod6YdAXDLXrd7+o3vYtk0KkS8
-	JS74/+x36JRRqdk+szxddNliyRew9xilC6evyl6QZpAGsGC340fYfGa5ZvkWL4erINm0
-	4spS4egt6ygcocVXWEQXf8cKo/5hbY8+77aMG67sCz80gWX6gz7imf7YS1cYK7ov/zDK
-	wu8w==
-X-Gm-Message-State: ALoCoQmipBmDQact8Qvjj8PEdG8NbC+kgKDaGgnOlNLsQfYR/BmrUAvURvAdsUIG/RbOBmGzpj9q
-X-Received: by 10.180.79.169 with SMTP id k9mr591731wix.34.1414800871295;
-	Fri, 31 Oct 2014 17:14:31 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id b6sm305511wiy.22.2014.10.31.17.14.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 Oct 2014 17:14:30 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Sat,  1 Nov 2014 04:15:58 +0000 (UTC)
+Received: from [192.168.65.10] ([75.72.225.8])
+	by p3plsmtpa08-04.prod.phx3.secureserver.net with 
+	id A4Fw1p0080BVjqb014FwlW; Fri, 31 Oct 2014 21:15:57 -0700
+Message-ID: <54545E7C.2060804@pabigot.com>
+Date: Fri, 31 Oct 2014 23:15:56 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Nov 2014 00:12:41 +0000
-Message-Id: <1414800761-14649-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] acl: add acl dependency to acl-ptest
+References: <1413157795-1346-1-git-send-email-pab@pabigot.com>	<20141013162851.58e820e6@e6410-2>	<543C5246.30703@pabigot.com>
+	<20141013173545.0d2c5de0@e6410-2>
+In-Reply-To: <20141013173545.0d2c5de0@e6410-2>
+Subject: Re: [PATCH 0/3] pseudo+image.bbclass: changes to avoid host contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,27 +31,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Nov 2014 00:14:32 -0000
+X-List-Received-Date: Sat, 01 Nov 2014 04:16:01 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The acl test suite doesn't work without the acl binaries, so add an explicit
-dependency.
+On 10/13/2014 05:35 PM, Peter Seebach wrote:
+> On Mon, 13 Oct 2014 17:29:26 -0500
+> "Peter A. Bigot" <pab@pabigot.com> wrote:
+>
+>> Basically, even if "root" is a special case, taking this path means
+>> making assumptions about what the application is doing based on what
+>> system/libc functions it invokes.  Too often when somebody assumes a
+>> general tool will only be used specific ways, somebody else will prove
+>> them wrong.
+> True.
+>
+> For the oe-core case, it seems like it might be reasonable for us to set
+> pseudo up to, by default, get configured with preloaded things which match
+> the expected configuration of base-passwd. If people then go overriding
+> base-passwd in strange ways, they could break that, but we at least know what
+> the default configuration would be, and could possibly even make base-passwd
+> check whether pseudo's configuration matches its answers, and blow up if
+> there's a mismatch there.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-support/attr/acl.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I've discovered a few more cases where OE packages get the wrong target 
+username/group for files, at least in RPM packages.
 
-diff --git a/meta/recipes-support/attr/acl.inc b/meta/recipes-support/attr/acl.inc
-index bc9fd6d..b2bc8ba 100644
---- a/meta/recipes-support/attr/acl.inc
-+++ b/meta/recipes-support/attr/acl.inc
-@@ -36,4 +36,4 @@ do_install_ptest() {
- 	cp ${S}/include/builddefs ${S}/include/buildmacros ${S}/include/buildrules ${D}${PTEST_PATH}/include/
- }
- 
--RDEPENDS_${PN}-ptest = "bash coreutils perl perl-module-filehandle perl-module-getopt-std perl-module-posix shadow"
-+RDEPENDS_${PN}-ptest = "acl bash coreutils perl perl-module-filehandle perl-module-getopt-std perl-module-posix shadow"
--- 
-1.7.10.4
+First, revisiting the discussion above I've played with using 
+--without-passwd-fallback and adding base-passwd as an explicit 
+dependency. This won't work: glibc-initial requires base-passwd for 
+group name lookups, and base-passwd includes update-passwd as an 
+executable which requires glibc.
+
+The options seem to be to split base-passwd into separate recipes for 
+the data files and the utility to break the circular dependency, or 
+having pseudo synthesize a fallback passwd/group.  Prior to gaining 
+experience I didn't like the second choice, but I like the first even 
+less.  As long as pseudo emits a note saying what it's doing so we can 
+add the DEPENDS=base-passwd where that's not circular (as with tzdata), 
+my vote goes toward pseudo synthesis. I'm hoping somebody disagrees and 
+comes up with a better, third alternative.
+
+However, I've also discovered another issue, possibly related to: 
+http://lists.openembedded.org/pipermail/openembedded-core/2011-December/053866.html
+
+On my development machine my uid:gid are both 1000 and correspond to 
+pab:pab.  Using poky master with MACHINE=beaglebone building 
+core-image-sato the corresponding user:group is xuser:xuser.
+
+Running the following script:
+
+find tmp/deploy/ -name '*.rpm' \
+   | while read f ; do \
+     rpm -qlvp ${f} 2>/dev/null \
+       | awk '$3~/pab|xuser/ || $4~/pab|xuser/ {print;}' \
+       > /tmp/c$$ ; \
+     if [ -s /tmp/c$$ ] ; then \
+       echo ; \
+       echo $f; \
+       cat /tmp/c$$ ; \
+     fi ; \
+   done
+
+I find the following packages include files that are given group or user 
+xuser, indicating that the files were installed with user:group set to 
+the host value 1000:1000 instead of being remapped to 0:0 by pseudo, but 
+when packaging pseudo does "correctly" interpret the uid:gid using the 
+target passwd/group files:
+
+tmp/deploy/rpm/cortexa8hf_vfp_neon/attr-ptest-2.4.47-r0.0.cortexa8hf_vfp_neon.rpm
+tmp/deploy/rpm/cortexa8hf_vfp_neon/acl-ptest-2.2.52-r0.0.cortexa8hf_vfp_neon.rpm
+tmp/deploy/rpm/cortexa8hf_vfp_neon/systemd-216+git0+5d0ae62c66-r0.0.cortexa8hf_vfp_neon.rpm
+tmp/deploy/rpm/cortexa8hf_vfp_neon/perl-ptest-5.20.0-r1.0.cortexa8hf_vfp_neon.rpm
+
+For example:
+
+llc[11]$ rpm -qlvp 
+tmp/deploy/rpm/cortexa8hf_vfp_neon/perl-ptest-5.20.0-r1.0.cortexa8hf_vfp_neon.rpm
+-r--r--r--    1 xuser   xuser                   45590 May 26 08:34 
+/usr/lib/perl/ptest/AUTHORS
+-r--r--r--    1 xuser   xuser                    6321 Jan 31  2014 
+/usr/lib/perl/ptest/Artistic
+-r--r--r--    1 xuser   xuser                    3168 Jan 31  2014 
+/usr/lib/perl/ptest/Changes
+-r-xr-xr-x    1 xuser   xuser                  552838 Oct 31 15:34 
+/usr/lib/perl/ptest/Configure
+
+Further, this one even manages to get the user:group names from the host:
+
+llc[12]$ rpm -qlvp 
+tmp/deploy/rpm/cortexa8hf_vfp_neon/libgcc-s-dev-4.9.1-r0.0.cortexa8hf_vfp_neon.rpm 
+| grep pab
+lrwxrwxrwx    1 pab     pab                        22 Oct 31 15:17 
+/usr/lib/arm-poky-linux -> arm-poky-linux-gnueabi
+
+My tentative conclusion is that these new behaviors aren't related to 
+the pseudo falling back to host /etc files, but probably instead by 
+files getting installed (and in one case somehow packaged) without using 
+pseudo.  I have no idea why that's happening, but it does appear 
+something's not working right.
+
+Peter
 
 
