@@ -1,20 +1,30 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa08-04.prod.phx3.secureserver.net
-	(p3plsmtpa08-04.prod.phx3.secureserver.net [173.201.193.105])
-	by mail.openembedded.org (Postfix) with ESMTP id A4CF370692
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0352F60557
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Nov 2014 10:48:44 +0000 (UTC)
-Received: from llc.pab ([75.72.225.8])
-	by p3plsmtpa08-04.prod.phx3.secureserver.net with 
-	id Aaoj1p0080BVjqb01aokWb; Sun, 02 Nov 2014 03:48:45 -0700
-From: "Peter A. Bigot" <pab@pabigot.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  2 Nov 2014 04:48:37 -0600
-Message-Id: <1414925318-15353-2-git-send-email-pab@pabigot.com>
-X-Mailer: git-send-email 1.8.5.5
-In-Reply-To: <1414925318-15353-1-git-send-email-pab@pabigot.com>
+	Sun,  2 Nov 2014 15:01:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA2F0YG1010378; Sun, 2 Nov 2014 15:00:34 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id UKpl6Jjzk91q; Sun,  2 Nov 2014 15:00:34 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA2F0V0p010375
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sun, 2 Nov 2014 15:00:33 GMT
+Message-ID: <1414940466.5111.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Date: Sun, 02 Nov 2014 15:01:06 +0000
+In-Reply-To: <1414925318-15353-3-git-send-email-pab@pabigot.com>
 References: <1414925318-15353-1-git-send-email-pab@pabigot.com>
-Subject: [PATCH 1/2] image_types.bbclass: whitespace and reorder
+	<1414925318-15353-3-git-send-email-pab@pabigot.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] image_types.bbclass: add tar --numeric-owner support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,45 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Nov 2014 10:48:48 -0000
+X-List-Received-Date: Sun, 02 Nov 2014 15:01:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Use a multi-line value to set IMAGE_TYPES and put all the compressed
-versions of a format on one line.  Other than moving ext2.lzma this is
-just whitespace.
+On Sun, 2014-11-02 at 04:48 -0600, Peter A. Bigot wrote:
+> tar format normally stores user and group as names, which is the right
+> thing to use when target passwd and group files are available.  When
+> unpacking a rootfs archive onto a mounted SD card partition on a build
+> host outside the pseudo environment the host passwd/group files will be
+> used for name-to-id mapping, which results in mis-assigned identifiers
+> (often for important ids like messagebus).
+> 
+> Using IMAGE_FSTYPES += "nug.tar" creates rootfs.nug.tar files where the
+> owner and group are specified numerically, using the target IDs obtained
+> when the archive is built under pseudo.
+> 
+> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+> ---
+>  meta/classes/image_types.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Signed-off-by: Peter A. Bigot <pab@pabigot.com>
----
- meta/classes/image_types.bbclass | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+Shouldn't we always do this?
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index d298897..42d7231 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -128,7 +128,21 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
- IMAGE_DEPENDS_ubifs = "mtd-utils-native"
- 
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
--IMAGE_TYPES = "jffs2 jffs2.sum cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs iso hddimg squashfs squashfs-xz squashfs-lzo ubi ubifs tar tar.gz tar.bz2 tar.xz tar.lz4 cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 vmdk elf"
-+IMAGE_TYPES = " \
-+    jffs2 jffs2.sum \
-+    cramfs \
-+    ext2 ext2.gz ext2.bz2 ext2.lzma \
-+    ext3 ext3.gz \
-+    btrfs \
-+    iso \
-+    hddimg \
-+    squashfs squashfs-xz squashfs-lzo \
-+    ubi ubifs \
-+    tar tar.gz tar.bz2 tar.xz tar.lz4 \
-+    cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
-+    vmdk \
-+    elf \
-+"
- 
- COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum"
- COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
--- 
-1.8.5.5
+I'm trying to figure out when this would be a bad idea...
+
+Cheers,
+
+Richard
 
 
