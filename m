@@ -1,35 +1,20 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id CA61D6AC4A
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa08-04.prod.phx3.secureserver.net
+	(p3plsmtpa08-04.prod.phx3.secureserver.net [173.201.193.105])
+	by mail.openembedded.org (Postfix) with ESMTP id A59D1706B0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Nov 2014 19:35:20 +0000 (UTC)
-Received: by mail-pa0-f52.google.com with SMTP id fa1so9747362pad.11
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Nov 2014 12:35:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=p17yhHjQdclIaO0gIP2ilyvNt2c1kPwANjjlkgh4aIA=;
-	b=0FIV5BZnJmem9c94GBY5UKbc9podtT4xuT2oOavN3hqvtZfUbtR5z6WCUCGjprug0K
-	xSNHG37udECu67btiYUGsfbMDsNRRFVeyF1om0CMEoAHX1VyMdeE8tax6Ak+uQRg7uV5
-	8S5uOKIqCzeCyVbpsxa0RSlTWFJT/hT0dc9IZQjdHZvU6sm9ywf6536PmcMqmorX2Ocl
-	kUJRohmO63QXdcWaVXk5VLfg56tE2GwJ9fCickzHmD0Phye9NIy2hD7Oxxq/dhNd5zIN
-	x+QuVbUZqSMXcU8MQnSSmEroWxlRqzzUtWALeQSVntk8lL+muNStZ7IUtR+fKQ7b2LrI
-	cbog==
-X-Received: by 10.70.51.42 with SMTP id h10mr32405419pdo.21.1414870520835;
-	Sat, 01 Nov 2014 12:35:20 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by mx.google.com with ESMTPSA id
-	uw6sm13204709pac.41.2014.11.01.12.35.18
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 01 Nov 2014 12:35:19 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
+	Sun,  2 Nov 2014 10:48:44 +0000 (UTC)
+Received: from llc.pab ([75.72.225.8])
+	by p3plsmtpa08-04.prod.phx3.secureserver.net with 
+	id Aaoj1p0080BVjqb01aolWj; Sun, 02 Nov 2014 03:48:45 -0700
+From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Nov 2014 12:35:16 -0700
-Message-Id: <1414870516-10814-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] pinentry: update 0.9
+Date: Sun,  2 Nov 2014 04:48:38 -0600
+Message-Id: <1414925318-15353-3-git-send-email-pab@pabigot.com>
+X-Mailer: git-send-email 1.8.5.5
+In-Reply-To: <1414925318-15353-1-git-send-email-pab@pabigot.com>
+References: <1414925318-15353-1-git-send-email-pab@pabigot.com>
+Subject: [PATCH 2/2] image_types.bbclass: add tar --numeric-owner support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,47 +27,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Nov 2014 19:35:32 -0000
+X-List-Received-Date: Sun, 02 Nov 2014 10:48:48 -0000
 
-removed  some EXTRA_OECONF to  fix:
-WARNING: QA Issue: pinentry: configure was passed unrecognised options: --disable-glibtest --disable-pinentry-gtk --disable-pinentry-qt [unknown-configure-option]
+tar format normally stores user and group as names, which is the right
+thing to use when target passwd and group files are available.  When
+unpacking a rootfs archive onto a mounted SD card partition on a build
+host outside the pseudo environment the host passwd/group files will be
+used for name-to-id mapping, which results in mis-assigned identifiers
+(often for important ids like messagebus).
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Using IMAGE_FSTYPES += "nug.tar" creates rootfs.nug.tar files where the
+owner and group are specified numerically, using the target IDs obtained
+when the archive is built under pseudo.
+
+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- .../pinentry/{pinentry_0.8.4.bb => pinentry_0.9.0.bb}        | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
- rename meta/recipes-support/pinentry/{pinentry_0.8.4.bb => pinentry_0.9.0.bb} (78%)
+ meta/classes/image_types.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/pinentry/pinentry_0.8.4.bb b/meta/recipes-support/pinentry/pinentry_0.9.0.bb
-similarity index 78%
-rename from meta/recipes-support/pinentry/pinentry_0.8.4.bb
-rename to meta/recipes-support/pinentry/pinentry_0.9.0.bb
-index acc6992..68d2478 100644
---- a/meta/recipes-support/pinentry/pinentry_0.8.4.bb
-+++ b/meta/recipes-support/pinentry/pinentry_0.9.0.bb
-@@ -10,17 +10,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=cbbd794e2a0a289b9dfcc9f513d1996e"
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 42d7231..50657ab 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -65,6 +65,7 @@ IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAM
+ IMAGE_CMD_squashfs-xz = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs-xz ${EXTRA_IMAGECMD} -noappend -comp xz"
+ IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lzo"
+ IMAGE_CMD_tar = "tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar -C ${IMAGE_ROOTFS} ."
++IMAGE_CMD_nug.tar = "tar --numeric-owner -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.nug.tar -C ${IMAGE_ROOTFS} ."
  
- inherit autotools-brokensep
- 
--SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
--	"
-+SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2"
- 
--SRC_URI[md5sum] = "e2b6f94471ba1e978f6e5bf6b275189b"
--SRC_URI[sha256sum] = "359db3bf46cb743ba0b3aeef259f6107271ca888ba3e22c1cba525c9aca35612"
-+SRC_URI[md5sum] = "40a05856cb3accf6679987b7899b0f5a"
-+SRC_URI[sha256sum] = "90045a07ab8e1a8e1ecf5d19b51691f195525e579fa5d71d7e92c120b05490ab"
- 
- EXTRA_OECONF = "--disable-rpath \
--		--disable-dependency-tracking \
--		--disable-glibtest \
--	        --disable-pinentry-gtk \
--	        --disable-pinentry-qt \
-+		        --disable-dependency-tracking \
-                "
- 
- PACKAGECONFIG ??= "ncurses libcap"
+ IMAGE_CMD_cpio () {
+ 	(cd ${IMAGE_ROOTFS} && find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
+@@ -139,6 +140,7 @@ IMAGE_TYPES = " \
+     squashfs squashfs-xz squashfs-lzo \
+     ubi ubifs \
+     tar tar.gz tar.bz2 tar.xz tar.lz4 \
++    nug.tar nug.tar.gz nug.tar.bz2 nug.tar.xz nug.tar.lz4 \
+     cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+     vmdk \
+     elf \
 -- 
-1.9.1
+1.8.5.5
 
 
