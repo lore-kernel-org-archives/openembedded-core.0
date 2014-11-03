@@ -1,31 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C0BB7068F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A6986E63E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 11:35:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA3BWLBS007768; Mon, 3 Nov 2014 11:34:52 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id D_qDdHuCfq_X; Mon,  3 Nov 2014 11:34:52 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA3BYkoG007795
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 3 Nov 2014 11:34:47 GMT
-Message-ID: <1415014521.5111.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Date: Mon, 03 Nov 2014 11:35:21 +0000
-In-Reply-To: <54575DC6.8040403@topic.nl>
-References: <5452486B.6070303@topic.nl> <1414691238.7649.70.camel@ted>
-	<545750AE.6080300@topic.nl> <1415009059.5111.5.camel@ted>
-	<54575DC6.8040403@topic.nl>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Weird ALTERNATIVES and staging conflict.
+	Mon,  3 Nov 2014 11:59:58 +0000 (UTC)
+Received: by mail-qg0-f42.google.com with SMTP id i50so7673254qgf.15
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Nov 2014 03:59:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=WCtJK5rT48hb03LQtptHOX1tLI8Wp+RcGWyrMTuOreE=;
+	b=jJoq07FvklbvsMmI6brn5fEuH9k8O4gbCTL/zD3Gs6cAqppfjX09OKMZlgEdomTSTu
+	vhRolPe6citPM7cy3oxKADATQAeDRb0PAmRaLxe0ZnYcfoq3zMMUnZxqskThgsGhl6/s
+	3n38oO2uPND1mxOUfyd2sNPsnqsnZ4Zkg7RxltxeA4jJH0BmyCCRPx3aP9bXsqZ33pwn
+	/Tel4aKUOY0aIilVrgOyzsgq9dU1ZHj6lsNMY4VA60RGZ2ypPZrw6LMlOeYMOrVduxzs
+	N86mUK7hC0SvrJaUZHi5MEK4Dz4KgMyKvB18CHdfAHATm88lGHy/luN4ygqxJO9q1MQp
+	zzQw==
+X-Gm-Message-State: ALoCoQk4+8ZX1pmt+UjUs6qyy8/hMbMofxyY433z+Zkrn76SVYoTASlK8h61H6wNpMUxQ6W016b+
+X-Received: by 10.229.252.196 with SMTP id mx4mr63701943qcb.4.1415015998274;
+	Mon, 03 Nov 2014 03:59:58 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.98.213 with HTTP; Mon, 3 Nov 2014 03:59:38 -0800 (PST)
+In-Reply-To: <1415007085-2342-1-git-send-email-Chong.Lu@windriver.com>
+References: <1415007085-2342-1-git-send-email-Chong.Lu@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 3 Nov 2014 11:59:38 +0000
+Message-ID: <CAJTo0LYbLmb9EVbPFf+xtQfn8OVT02j+HUX7JfSYPwZ-hSQ6zQ@mail.gmail.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] curl: Security Advisory - curl - CVE-2014-3620
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,67 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 11:35:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 03 Nov 2014 12:00:07 -0000
+Content-Type: multipart/alternative; boundary=001a11c2fbceedfa5c0506f3156e
 
-On Mon, 2014-11-03 at 11:49 +0100, Mike Looijmans wrote:
-> ﻿On 11/03/2014 11:04 AM, Richard Purdie wrote:
-> > On Mon, 2014-11-03 at 10:53 +0100, Mike Looijmans wrote:
-> >> ﻿On 10/30/2014 06:47 PM, Richard Purdie wrote:
-> >>> On Thu, 2014-10-30 at 15:17 +0100, Mike Looijmans wrote:
-> >>>> ﻿I have this base script that builds FPGA bitstreams:
-> >>>>
-> >>>> https://github.com/topic-embedded-products/meta-topic/blob/master/recipes-bsp/fpga/fpga-image.inc
-> >>>>
-> >>>> Now you can have multiple recipes using it, and as such, it seemed a good idea
-> >>>> to add these lines to that recipe:
-> >>>>
-> >>>> +ALTERNATIVE_${PN} = "fpga.bin bitstreams"
-> >>>> +ALTERNATIVE_LINK_NAME[fpga.bin] = "${datadir}/fpga.bin"
-> >>>> +ALTERNATIVE_TARGET[fpga.bin] = "${datadir}/fpga.bin"
-> >>>> +ALTERNATIVE_LINK_NAME[bitstreams] = "${datadir}/bitstreams"
-> >>>> +ALTERNATIVE_TARGET[bitstreams] = "${datadir}/bitstreams"
-> >>>>
-> >>>>
-> >>>> This still resulted in staging conflicts.
-> >>>
-> >>> This isn't surprising since update-alternatives only works for target
-> >>> systems. It is not designed for operating on the sysroot.
-> >>
-> >> I don't want these files in sysroot, I want them on target only.
-> >
-> > Ok, that makes things much easier.
-> >
-> >>>> But looking at the contents of the fake packages, the fpga.bin has been
-> >>>> renamed by alternatives (as expected), and the symlink will be created after
-> >>>> installing, so how come I still get this?
-> >>>
-> >>> The "staging" code uses the output of do_install directly and does
-> >>> different things to the packaging code path. We've never had someone
-> >>> with this problem before. Binaries in *bindir only get installed into
-> >>> the sysroot in the -native case.
-> >>>
-> >>> I appreciate that tells you why it doesn't work and not how to fix it
-> >>> but hopefully that helps a bit.
-> >>
-> >> If I understand you correctly, the problem is that the recipe is trying to
-> >> install things in sysroot?
-> >
-> > Correct, by default ${datadir} is staged. The easiest way to handle this
-> > may be to define your own sysroot_stage_all function (or
-> > sysroot_stage_dirs) which just stages what you need, if anything.
-> 
-> In other words, make  sysroot_stage_all into a no-op?
-> 
-> I've been looking at the staging.bbclass, but that's basically the best I can 
-> come up with.
+--001a11c2fbceedfa5c0506f3156e
+Content-Type: text/plain; charset=UTF-8
 
-I don't know what else your recipe may need. If you don't need to stage
-anything into the sysroots, make it a no-op, yes.
+On 3 November 2014 09:31, Chong Lu <Chong.Lu@windriver.com> wrote:
 
-Cheers,
+>  meta/recipes-support/curl/curl/CVE-2014-3620.patch |   69
+> ++++++++++++++++++++
+>
 
-Richard
+ERROR: Command Error: exit status: 1  Output:
+Applying patch CVE-2014-3620.patch
+patching file lib/cookie.c
+patching file tests/data/test61
+Hunk #1 FAILED at 21.
 
+Assuming that this is a line ending problem again, do you have this commit
+in a git repository somewhere?
 
+Ross
+
+--001a11c2fbceedfa5c0506f3156e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 November 2014 09:31, Chong Lu <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+Chong.Lu@windriver.com" target=3D"_blank">Chong.Lu@windriver.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-lef=
+t-style:solid;padding-left:1ex"><div id=3D":yu" class=3D"" style=3D"overflo=
+w:hidden">=C2=A0meta/recipes-support/<span class=3D"">curl</span>/<span cla=
+ss=3D"">curl</span>/CVE-2014-3620.patch |=C2=A0 =C2=A069 ++++++++++++++++++=
+++<br></div></blockquote></div><br><div class=3D"gmail_extra">ERROR: Comman=
+d Error: exit status: 1 =C2=A0Output:</div><div class=3D"gmail_extra">Apply=
+ing patch CVE-2014-3620.patch</div><div class=3D"gmail_extra">patching file=
+ lib/cookie.c</div><div class=3D"gmail_extra">patching file tests/data/test=
+61</div><div class=3D"gmail_extra">Hunk #1 FAILED at 21.</div><div class=3D=
+"gmail_extra"><br></div><div class=3D"gmail_extra">Assuming that this is a =
+line ending problem again, do you have this commit in a git repository some=
+where?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
+>Ross</div></div></div>
+
+--001a11c2fbceedfa5c0506f3156e--
