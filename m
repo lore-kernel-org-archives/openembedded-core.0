@@ -1,26 +1,21 @@
 Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 960AE65E94
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6901365D59
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 20:50:09 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Nov 2014 12:49:06 -0800
+	Mon,  3 Nov 2014 22:16:06 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 03 Nov 2014 14:13:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,308,1413270000"; d="scan'208";a="625763181"
-Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.154])
-	([10.219.4.154])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Nov 2014 12:48:58 -0800
-Message-ID: <5457EA5E.90902@linux.intel.com>
-Date: Mon, 03 Nov 2014 14:49:34 -0600
-From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="5.07,309,1413270000"; d="scan'208";a="601527937"
+Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.154])
+	by orsmga001.jf.intel.com with ESMTP; 03 Nov 2014 14:15:49 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1414861027-13914-1-git-send-email-ricardo.ribalda@gmail.com>
-	<5457BAE5.4070608@linux.intel.com>
-In-Reply-To: <5457BAE5.4070608@linux.intel.com>
-Subject: Re: [PATCH] package_manager: Fix populate_sdk for dpkg packages
+Date: Mon,  3 Nov 2014 16:16:25 -0600
+Message-Id: <1415052985-1980-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] package_manager: DpkgPM fix populate_sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,94 +28,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 20:50:10 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Mon, 03 Nov 2014 22:16:16 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Ricardo,
+DpkgPM change all_arch_list variable set from PACKAGE_ARCHS to passed
+archs variable because is different when is executed from rootfs.py
+and sdk.py.
 
-I figured out the reason for this problem when rootfs is creating then 
-uses PACKAGE_ARCHS but when is creating sdk for host SDK_PACKAGE_ARCHS is
-used, now i'm fixing DpkgPM set self.all_arch_list variable from 
-PACKAGE_ARCHS to passed archs var.
+Credits to: Ricardo Ribalda <ricardo.ribalda@gmail.com>
 
-I'll send new patch soon.
+Signed-off-by: An√≠bal Lim√≥n <anibal.limon@linux.intel.com>
+---
+ meta/lib/oe/package_manager.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks.
-
-On 03/11/14 11:27, AnÌbal LimÛn wrote:
-> Ricardo,
->
-> I think the problem isn't related to this, the all_arch_list is set to 
-> archs + multilib_archs see the __init__ func.
->
-> Best regards.
->
-> On 01/11/14 10:57, Ricardo Ribalda Delgado wrote:
->> Without this patch:
->>
->> ERROR: Unable to install packages. Command 
->> '/var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/sysroots/x86_64-linux/usr/bin/apt-get 
->> install --force-yes --allow-unauthenticated 
->> nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-qt5022' 
->> returned 100:
->> Reading package lists...
->> Building dependency tree...
->> Reading state information...
->> W: Unable to read 
->> /var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/work/bobcat_64-poky-linux/meta-toolchain/1.0-r7/apt-sdk/preferences.d/ 
->> - DirectoryExists (2: No such file or directory)
->> E: Unable to locate package nativesdk-packagegroup-sdk-host
->> E: Unable to locate package packagegroup-cross-canadian-qt5022
->>
->> ERROR: Function failed: do_populate_sdk
->> ERROR: Logfile of failure stored in: 
->> /var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/work/bobcat_64-poky-linux/meta-toolchain/1.0-r7/temp/log.do_populate_sdk.4926
->> NOTE: recipe meta-toolchain-1.0-r7: task do_populate_sdk: Failed
->> ERROR: Task 7 
->> (/var/lib/jenkins/jobs/qt5022-cesium/workspace/repo/yocto/meta/recipes-core/meta/meta-toolchain.bb, 
->> do_populate_sdk) failed with exit code '1'
->> Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
->> ---
->>
->> Tested on yocto 1.7
->>
->> Only build test, not tested on target.
->>
->>   meta/lib/oe/package_manager.py | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/lib/oe/package_manager.py 
->> b/meta/lib/oe/package_manager.py
->> index 27fdf26..8828bce 100644
->> --- a/meta/lib/oe/package_manager.py
->> +++ b/meta/lib/oe/package_manager.py
->> @@ -188,7 +188,7 @@ class DpkgIndexer(Indexer):
->>                   release.write("Label: %s\n" % arch)
->>                 cmd += "PSEUDO_UNLOAD=1 %s release . >> Release" % 
->> apt_ftparchive
->> -
->> +
->>               index_cmds.append(cmd)
->>                 deb_dirs_found = True
->> @@ -1467,6 +1467,7 @@ class DpkgPM(PackageManager):
->>       def __init__(self, d, target_rootfs, archs, base_archs, 
->> apt_conf_dir=None):
->>           super(DpkgPM, self).__init__(d)
->>           self.target_rootfs = target_rootfs
->> +        self.pkg_archs = archs
->>           self.deploy_dir = self.d.getVar('DEPLOY_DIR_DEB', True)
->>           if apt_conf_dir is None:
->>               self.apt_conf_dir = self.d.expand("${APTCONF_TARGET}/apt")
->> @@ -1662,7 +1663,7 @@ class DpkgPM(PackageManager):
->>           bb.utils.mkdirhier(self.apt_conf_dir + "/apt.conf.d/")
->>             arch_list = []
->> -        for arch in self.all_arch_list:
->> +        for arch in self.pkg_archs.split():
->>               if not os.path.exists(os.path.join(self.deploy_dir, 
->> arch)):
->>                   continue
->>               arch_list.append(arch)
->
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index ffb83b2..e44e28a 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -1478,7 +1478,7 @@ class DpkgPM(PackageManager):
+ 
+         self.apt_args = d.getVar("APT_ARGS", True)
+ 
+-        self.all_arch_list = self.d.getVar('PACKAGE_ARCHS', True).split()
++        self.all_arch_list = archs.split()
+         all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS', True) or "").replace('-', '_').split()
+         self.all_arch_list.extend(arch for arch in all_mlb_pkg_arch_list if arch not in self.all_arch_list)
+ 
+-- 
+1.9.1
 
 
