@@ -1,26 +1,26 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CF85C60E49
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 960AE65E94
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 18:55:35 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA3ItYrY025976
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 3 Nov 2014 10:55:35 -0800 (PST)
-Received: from e6410-2 (172.25.40.227) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 3 Nov 2014 10:55:33 -0800
-Date: Mon, 3 Nov 2014 12:55:22 -0600
-From: Peter Seebach <peter.seebach@windriver.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Message-ID: <20141103125522.623ba486@e6410-2>
-In-Reply-To: <1414861479-5493-1-git-send-email-pab@pabigot.com>
-References: <1414861479-5493-1-git-send-email-pab@pabigot.com>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+	Mon,  3 Nov 2014 20:50:09 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Nov 2014 12:49:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,308,1413270000"; d="scan'208";a="625763181"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.154])
+	([10.219.4.154])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Nov 2014 12:48:58 -0800
+Message-ID: <5457EA5E.90902@linux.intel.com>
+Date: Mon, 03 Nov 2014 14:49:34 -0600
+From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] prevent pseudo host passwd/group contamination
+To: openembedded-core@lists.openembedded.org
+References: <1414861027-13914-1-git-send-email-ricardo.ribalda@gmail.com>
+	<5457BAE5.4070608@linux.intel.com>
+In-Reply-To: <5457BAE5.4070608@linux.intel.com>
+Subject: Re: [PATCH] package_manager: Fix populate_sdk for dpkg packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,23 +33,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 18:55:39 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Nov 2014 20:50:10 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, 1 Nov 2014 12:04:36 -0500
-"Peter A. Bigot" <pab@pabigot.com> wrote:
+Ricardo,
 
-> The new patches use --without-passwd-fallback, preventing contamination
-> from the host files during the early build stages when the target
-> versions from base-passwd aren't yet available.
+I figured out the reason for this problem when rootfs is creating then 
+uses PACKAGE_ARCHS but when is creating sdk for host SDK_PACKAGE_ARCHS is
+used, now i'm fixing DpkgPM set self.all_arch_list variable from 
+PACKAGE_ARCHS to passed archs var.
 
-I like these, and will see whether I can free up time to work on this. If I
-can't, though, I have no objections to these (and the previous set) being
-added to oe-core as local patches until next time I have a free day or two to
-study the password code.
+I'll send new patch soon.
 
--s
--- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+Thanks.
+
+On 03/11/14 11:27, Aníbal Limón wrote:
+> Ricardo,
+>
+> I think the problem isn't related to this, the all_arch_list is set to 
+> archs + multilib_archs see the __init__ func.
+>
+> Best regards.
+>
+> On 01/11/14 10:57, Ricardo Ribalda Delgado wrote:
+>> Without this patch:
+>>
+>> ERROR: Unable to install packages. Command 
+>> '/var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/sysroots/x86_64-linux/usr/bin/apt-get 
+>> install --force-yes --allow-unauthenticated 
+>> nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-qt5022' 
+>> returned 100:
+>> Reading package lists...
+>> Building dependency tree...
+>> Reading state information...
+>> W: Unable to read 
+>> /var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/work/bobcat_64-poky-linux/meta-toolchain/1.0-r7/apt-sdk/preferences.d/ 
+>> - DirectoryExists (2: No such file or directory)
+>> E: Unable to locate package nativesdk-packagegroup-sdk-host
+>> E: Unable to locate package packagegroup-cross-canadian-qt5022
+>>
+>> ERROR: Function failed: do_populate_sdk
+>> ERROR: Logfile of failure stored in: 
+>> /var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/work/bobcat_64-poky-linux/meta-toolchain/1.0-r7/temp/log.do_populate_sdk.4926
+>> NOTE: recipe meta-toolchain-1.0-r7: task do_populate_sdk: Failed
+>> ERROR: Task 7 
+>> (/var/lib/jenkins/jobs/qt5022-cesium/workspace/repo/yocto/meta/recipes-core/meta/meta-toolchain.bb, 
+>> do_populate_sdk) failed with exit code '1'
+>> Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+>> ---
+>>
+>> Tested on yocto 1.7
+>>
+>> Only build test, not tested on target.
+>>
+>>   meta/lib/oe/package_manager.py | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/lib/oe/package_manager.py 
+>> b/meta/lib/oe/package_manager.py
+>> index 27fdf26..8828bce 100644
+>> --- a/meta/lib/oe/package_manager.py
+>> +++ b/meta/lib/oe/package_manager.py
+>> @@ -188,7 +188,7 @@ class DpkgIndexer(Indexer):
+>>                   release.write("Label: %s\n" % arch)
+>>                 cmd += "PSEUDO_UNLOAD=1 %s release . >> Release" % 
+>> apt_ftparchive
+>> -
+>> +
+>>               index_cmds.append(cmd)
+>>                 deb_dirs_found = True
+>> @@ -1467,6 +1467,7 @@ class DpkgPM(PackageManager):
+>>       def __init__(self, d, target_rootfs, archs, base_archs, 
+>> apt_conf_dir=None):
+>>           super(DpkgPM, self).__init__(d)
+>>           self.target_rootfs = target_rootfs
+>> +        self.pkg_archs = archs
+>>           self.deploy_dir = self.d.getVar('DEPLOY_DIR_DEB', True)
+>>           if apt_conf_dir is None:
+>>               self.apt_conf_dir = self.d.expand("${APTCONF_TARGET}/apt")
+>> @@ -1662,7 +1663,7 @@ class DpkgPM(PackageManager):
+>>           bb.utils.mkdirhier(self.apt_conf_dir + "/apt.conf.d/")
+>>             arch_list = []
+>> -        for arch in self.all_arch_list:
+>> +        for arch in self.pkg_archs.split():
+>>               if not os.path.exists(os.path.join(self.deploy_dir, 
+>> arch)):
+>>                   continue
+>>               arch_list.append(arch)
+>
+
 
