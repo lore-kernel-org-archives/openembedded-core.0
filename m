@@ -1,40 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 905CE70A8B
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
+	[217.149.192.139])
+	by mail.openembedded.org (Postfix) with ESMTP id 810667068F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 11:30:36 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id u7so7973893qaz.41
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Nov 2014 03:30:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=UPEWPL8hfR4dgOjtIjQHKk7+j3Y7dCEuUNQtae5VXBI=;
-	b=C1uiBPg4RzHvBFXwTB2s7qcS/6s1VO3nWvoqtCLV2ABjTMcnICK0iDzeWzP22Bz/75
-	XRhoT02ebnvpJCiuxGpk6oDM+eW3Vw2CQKAWYuJrahe8ADpV4gEFELXzHtb9zcxXmJSY
-	wP83zYMVYVvT3BFDzfLlQm4PbaRjN7ZY04Amgr88YeRL3h+dgpbAnUnNi6ynkoBhum7g
-	F46DtSqloiex3U3DzF2eQ9F38fRHF231YVbvkb5FVcElVmzboMggnP8K35Vzn1dzMCxp
-	cnh/ocdiLQPIWC4kzNmqElXHIfRlYcN+y6f7Wvp668epiB0PefyenvFNB/urwsipVD2R
-	PFkQ==
-X-Gm-Message-State: ALoCoQkkFkuZPHGHvckxUK6fBPAI7LzNGFHuqxg6fzRVaVne51dC4Q5NonF4HDKDUxzszkTE6ARV
-X-Received: by 10.140.94.246 with SMTP id g109mr30458947qge.77.1415014236932; 
-	Mon, 03 Nov 2014 03:30:36 -0800 (PST)
+	Mon,  3 Nov 2014 11:35:14 +0000 (UTC)
+Received: from amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.58])
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id 4E8E9402AD;
+	Mon,  3 Nov 2014 12:35:14 +0100 (CET)
+X-Spam-Flag: NO
+X-Spam-Score: -2.899
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.899 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
+	by amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP; Mon,  3 Nov 2014 12:35:13 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS;
+	Mon,  3 Nov 2014 12:35:01 +0100 (CET)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Mon, 3 Nov 2014 12:35:15 +0100
+Message-ID: <54576864.3060507@topic.nl>
+Date: Mon, 3 Nov 2014 12:35:00 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Mon, 3 Nov 2014 03:30:16 -0800 (PST)
-In-Reply-To: <A5FE6A94-E1CA-4E02-8B98-D018F14888F7@dominion.thruhere.net>
-References: <1411387952-22717-1-git-send-email-koen.kooi@linaro.org>
-	<1C408B9F-5383-488A-AE4C-E18D69800825@dominion.thruhere.net>
-	<CAJTo0LYOHMZCoGS342Wnh06LbJWUS1K_aDFfDWG4gxeFswm7EA@mail.gmail.com>
-	<A5FE6A94-E1CA-4E02-8B98-D018F14888F7@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Nov 2014 11:30:16 +0000
-Message-ID: <CAJTo0LYm6rqFtJ5jTq=cTGnJDHrYaj7f94RmWR_Lh-LkKqKaiA@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: Koen Kooi <koen.kooi@linaro.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libpng 1.6.13: fix build for aarch64
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <5452486B.6070303@topic.nl>
+	<1414691238.7649.70.camel@ted>		<545750AE.6080300@topic.nl>
+	<1415009059.5111.5.camel@ted> <54575DC6.8040403@topic.nl>
+In-Reply-To: <54575DC6.8040403@topic.nl>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Weird ALTERNATIVES and staging conflict.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,42 +53,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 11:30:40 -0000
-Content-Type: multipart/alternative; boundary=001a113a81d6f21fec0506f2acea
-
---001a113a81d6f21fec0506f2acea
-Content-Type: text/plain; charset=UTF-8
-
-On 3 November 2014 11:27, Koen Kooi <koen@dominion.thruhere.net> wrote:
-
-> > Last night I was looking at my "post-1.7" tag and the number of aarch64
-> patches there.   Kai, did you continue work on that staging branch for all
-> of the aarch64 patches that were being posted?
->
-> What does that have to do with this patch?
-
-
-Kai was collecting patches that were sent to oe-core, and this may have
-been one of them.
-
-Ross
-
---001a113a81d6f21fec0506f2acea
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Mon, 03 Nov 2014 11:35:17 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 November 2014 11:27, Koen Kooi <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:koen@dominion.thruhere.net" target=3D"_blank">koen@dominion.thruhere.net</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt=
-; Last night I was looking at my &quot;post-1.7&quot; tag and the number of=
- aarch64 patches there.=C2=A0 =C2=A0Kai, did you continue work on that stag=
-ing branch for all of the aarch64 patches that were being posted?<br>
-<br>
-</span>What does that have to do with this patch?</blockquote></div><br>Kai=
- was collecting patches that were sent to oe-core, and this may have been o=
-ne of them.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra">Ross</div></div>
+=EF=BB=BFOn 11/03/2014 11:49 AM, Mike Looijmans wrote:
+> On 11/03/2014 11:04 AM, Richard Purdie wrote:
+>> On Mon, 2014-11-03 at 10:53 +0100, Mike Looijmans wrote:
+>>> =EF=BB=BFOn 10/30/2014 06:47 PM, Richard Purdie wrote:
+>>>> On Thu, 2014-10-30 at 15:17 +0100, Mike Looijmans wrote:
+>>>>> =EF=BB=BFI have this base script that builds FPGA bitstreams:
+>>>>>
+>>>>> https://github.com/topic-embedded-products/meta-topic/blob/master/rec=
+ipes-bsp/fpga/fpga-image.inc
+>>>>>
+>>>>>
+>>>>> Now you can have multiple recipes using it, and as such, it seemed a =
+good
+>>>>> idea
+>>>>> to add these lines to that recipe:
+>>>>>
+>>>>> +ALTERNATIVE_${PN} =3D "fpga.bin bitstreams"
+>>>>> +ALTERNATIVE_LINK_NAME[fpga.bin] =3D "${datadir}/fpga.bin"
+>>>>> +ALTERNATIVE_TARGET[fpga.bin] =3D "${datadir}/fpga.bin"
+>>>>> +ALTERNATIVE_LINK_NAME[bitstreams] =3D "${datadir}/bitstreams"
+>>>>> +ALTERNATIVE_TARGET[bitstreams] =3D "${datadir}/bitstreams"
+>>>>>
+>>>>>
+>>>>> This still resulted in staging conflicts.
+>>>>
+>>>> This isn't surprising since update-alternatives only works for target
+>>>> systems. It is not designed for operating on the sysroot.
+>>>
+>>> I don't want these files in sysroot, I want them on target only.
+>>
+>> Ok, that makes things much easier.
+>>
+>>>>> But looking at the contents of the fake packages, the fpga.bin has be=
+en
+>>>>> renamed by alternatives (as expected), and the symlink will be create=
+d after
+>>>>> installing, so how come I still get this?
+>>>>
+>>>> The "staging" code uses the output of do_install directly and does
+>>>> different things to the packaging code path. We've never had someone
+>>>> with this problem before. Binaries in *bindir only get installed into
+>>>> the sysroot in the -native case.
+>>>>
+>>>> I appreciate that tells you why it doesn't work and not how to fix it
+>>>> but hopefully that helps a bit.
+>>>
+>>> If I understand you correctly, the problem is that the recipe is trying=
+ to
+>>> install things in sysroot?
+>>
+>> Correct, by default ${datadir} is staged. The easiest way to handle this
+>> may be to define your own sysroot_stage_all function (or
+>> sysroot_stage_dirs) which just stages what you need, if anything.
+>
+> In other words, make  sysroot_stage_all into a no-op?
+>
+> I've been looking at the staging.bbclass, but that's basically the best I=
+ can
+> come up with.
 
---001a113a81d6f21fec0506f2acea--
+Ah, slightly better:
+
+# Prevent bitstreams ending up in sysroot.
+sysroot_stage_dirs_append() {
+	rm -rf $to${datadir}/fpga.bin $to${datadir}/bitstreams
+}
+
+This wastes a bit (installing multimegabyte bitstreams only to remove them)=
+=20
+but it won't interfere with recipes that do wish to install things in sysro=
+ot.
+
+I've tested with this now, and this appears to do exactly as I wanted.
+
+
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+System Expert
+
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
+
+
