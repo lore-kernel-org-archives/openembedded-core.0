@@ -1,38 +1,45 @@
-Return-Path: <alexandru.damian@intel.com>
-Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AFF471F3A
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id ED86560169
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 10:27:27 +0000 (UTC)
-Received: by mail-wg0-f46.google.com with SMTP id x13so10682812wgg.19
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Nov 2014 02:27:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=oztiNRv7iaP/fhw1IYGBNwLgzCcJUCY2ru1szJAj0KY=;
-	b=I7OW4LVbg5vHcnHmNpkQjUV8NSwwWJtROaFzKiwMjcXBYpLybglmC5YWTPiEz+Jcjh
-	S8xUN4iIYtgPR8rX6UCtxUcRowDfZWPylEAjcoHKJs4cZ7H9weqhnNvkg8L2EO5apYxe
-	e/xa01txpTJ+R8uHUzg9rHP8Ijnc+ZCySRbEkuHfl969rmt2jmTEB9LyfUe2hvszGtEF
-	TkobqcylgWh74ZOc4Vyvhh9+KovU5VCLuCrlv22yQihm3DVR2S9ph2wzeph90EPN8ADf
-	QalZCC/FcgKEwezE79NPWUGhoW/D/w15PJP/dtH7jTWes5agE3FYbGFcSfiOb1ecIVXO
-	HhvA==
-X-Gm-Message-State: ALoCoQk7md6Ovx7fB88lPpeWtCV9ECQScjjg5Jx8qh8GyoDI/37FL1TbNi1zKm4lEKasMfflrC+E
-X-Received: by 10.180.95.201 with SMTP id dm9mr14871180wib.27.1415010447791;
-	Mon, 03 Nov 2014 02:27:27 -0800 (PST)
-Received: from adamian-desk.corp.intel.com ([83.217.123.106])
-	by mx.google.com with ESMTPSA id
-	q10sm21665081wjq.35.2014.11.03.02.27.26 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Nov 2014 02:27:26 -0800 (PST)
-Received: by adamian-desk.corp.intel.com (Postfix, from userid 1000)
-	id 21A03560632; Fri, 31 Oct 2014 19:15:50 +0000 (GMT)
-From: Alex DAMIAN <alexandru.damian@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Oct 2014 19:15:48 +0000
-Message-Id: <1414782948-13922-1-git-send-email-alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH 1/1] toaster.bbclass: read elapsed time from the stats file
+	Mon,  3 Nov 2014 10:49:44 +0000 (UTC)
+Received: from amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.96])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 91C963F744;
+	Mon,  3 Nov 2014 11:49:44 +0100 (CET)
+X-Spam-Flag: NO
+X-Spam-Score: -0.001
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.001 tagged_above=-999 required=4.5
+	tests=[BAYES_20=-0.001] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP; Mon,  3 Nov 2014 11:49:44 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS;
+	Mon,  3 Nov 2014 11:49:43 +0100 (CET)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Mon, 3 Nov 2014 11:49:58 +0100
+Message-ID: <54575DC6.8040403@topic.nl>
+Date: Mon, 3 Nov 2014 11:49:42 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <5452486B.6070303@topic.nl> <1414691238.7649.70.camel@ted>	
+	<545750AE.6080300@topic.nl> <1415009059.5111.5.camel@ted>
+In-Reply-To: <1415009059.5111.5.camel@ted>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Weird ALTERNATIVES and staging conflict.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,79 +52,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 10:27:31 -0000
+X-List-Received-Date: Mon, 03 Nov 2014 10:49:52 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+=EF=BB=BFOn 11/03/2014 11:04 AM, Richard Purdie wrote:
+> On Mon, 2014-11-03 at 10:53 +0100, Mike Looijmans wrote:
+>> =EF=BB=BFOn 10/30/2014 06:47 PM, Richard Purdie wrote:
+>>> On Thu, 2014-10-30 at 15:17 +0100, Mike Looijmans wrote:
+>>>> =EF=BB=BFI have this base script that builds FPGA bitstreams:
+>>>>
+>>>> https://github.com/topic-embedded-products/meta-topic/blob/master/reci=
+pes-bsp/fpga/fpga-image.inc
+>>>>
+>>>> Now you can have multiple recipes using it, and as such, it seemed a g=
+ood idea
+>>>> to add these lines to that recipe:
+>>>>
+>>>> +ALTERNATIVE_${PN} =3D "fpga.bin bitstreams"
+>>>> +ALTERNATIVE_LINK_NAME[fpga.bin] =3D "${datadir}/fpga.bin"
+>>>> +ALTERNATIVE_TARGET[fpga.bin] =3D "${datadir}/fpga.bin"
+>>>> +ALTERNATIVE_LINK_NAME[bitstreams] =3D "${datadir}/bitstreams"
+>>>> +ALTERNATIVE_TARGET[bitstreams] =3D "${datadir}/bitstreams"
+>>>>
+>>>>
+>>>> This still resulted in staging conflicts.
+>>>
+>>> This isn't surprising since update-alternatives only works for target
+>>> systems. It is not designed for operating on the sysroot.
+>>
+>> I don't want these files in sysroot, I want them on target only.
+>
+> Ok, that makes things much easier.
+>
+>>>> But looking at the contents of the fake packages, the fpga.bin has bee=
+n
+>>>> renamed by alternatives (as expected), and the symlink will be created=
+ after
+>>>> installing, so how come I still get this?
+>>>
+>>> The "staging" code uses the output of do_install directly and does
+>>> different things to the packaging code path. We've never had someone
+>>> with this problem before. Binaries in *bindir only get installed into
+>>> the sysroot in the -native case.
+>>>
+>>> I appreciate that tells you why it doesn't work and not how to fix it
+>>> but hopefully that helps a bit.
+>>
+>> If I understand you correctly, the problem is that the recipe is trying =
+to
+>> install things in sysroot?
+>
+> Correct, by default ${datadir} is staged. The easiest way to handle this
+> may be to define your own sysroot_stage_all function (or
+> sysroot_stage_dirs) which just stages what you need, if anything.
 
-We read the elapsed time fromt the build stats file, instead
-of computing it independently.
+In other words, make  sysroot_stage_all into a no-op?
 
-[YOCTO #6833]
-[YOCTO #6685]
+I've been looking at the staging.bbclass, but that's basically the best I c=
+an=20
+come up with.
 
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
----
- meta/classes/toaster.bbclass | 36 +++++++++++++++++++++++-------------
- 1 file changed, 23 insertions(+), 13 deletions(-)
+M.
 
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index 95499a5..1525317 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -187,8 +187,10 @@ python toaster_collect_task_stats() {
-     def _read_stats(filename):
-         cpu_usage = 0
-         disk_io = 0
--        startio = ''
--        endio = ''
-+        startio = '0'
-+        endio = '0'
-+        started = '0'
-+        ended = '0'
-         pn = ''
-         taskname = ''
-         statinfo = {}
-@@ -198,20 +200,28 @@ python toaster_collect_task_stats() {
-                 k,v = line.strip().split(": ", 1)
-                 statinfo[k] = v
- 
--        try:
--            cpu_usage = statinfo["CPU usage"]
--            endio = statinfo["EndTimeIO"]
--            startio = statinfo["StartTimeIO"]
--        except KeyError:
--            pass    # we may have incomplete data here
-+        if "CPU usage" in statinfo:
-+            cpu_usage = str(statinfo["CPU usage"]).strip('% \n\r')
- 
--        if startio and endio:
--            disk_io = int(endio.strip('\n ')) - int(startio.strip('\n '))
-+        if "EndTimeIO" in statinfo:
-+            endio = str(statinfo["EndTimeIO"]).strip('% \n\r')
- 
--        if cpu_usage:
--            cpu_usage = float(cpu_usage.strip('% \n'))
-+        if "StartTimeIO" in statinfo:
-+            startio = str(statinfo["StartTimeIO"]).strip('% \n\r')
- 
--        return {'cpu_usage': cpu_usage, 'disk_io': disk_io}
-+        if "Started" in statinfo:
-+            started = str(statinfo["Started"]).strip('% \n\r')
-+
-+        if "Ended" in statinfo:
-+            ended = str(statinfo["Ended"]).strip('% \n\r')
-+
-+        disk_io = int(endio) - int(startio)
-+
-+        elapsed_time = float(ended) - float(started)
-+
-+        cpu_usage = float(cpu_usage)
-+
-+        return {'cpu_usage': cpu_usage, 'disk_io': disk_io, 'elapsed_time': elapsed_time}
- 
- 
-     if isinstance(e, (bb.build.TaskSucceeded, bb.build.TaskFailed)):
--- 
-1.9.1
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+System Expert
+
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
 
 
