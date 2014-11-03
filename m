@@ -1,53 +1,50 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id D816B65D59
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 6241860809
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 16:45:29 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	sA3GjOKC010373
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	Mon,  3 Nov 2014 17:13:43 +0000 (UTC)
+Received: by mail-wi0-f175.google.com with SMTP id ex7so7132356wid.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Nov 2014 17:45:28 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1415033128;
-	bh=WkAUn1qiVpQv4vil7ffadH0KDTL+8I53PSiR/mAWNyw=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=duZ32hdCmQEIRQPZcW18zWY0Vz4RcudXE6Rz+tzfs03QaMcdHypNyTZ4MgtIthZEh
-	RWFyokmWg5m9vUYbMdoqzFBPygNOPEElN3MfQ5XRgWFVH67YgYtdqKiHzV5MqOfduU
-	zdIaCmmIyui4zcOvufhMhoN7zmetydZTLk57sPtk=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id sA3GjJYp024904
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Nov 2014 17:45:20 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1XlKkn-0007IV-G9
-	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Nov 2014 17:45:18 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1415000039.git.hongxu.jia@windriver.com>
-	<afef7088ee50cfc2be2d08f16ddd8fe087a1c490.1415000039.git.hongxu.jia@windriver.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Mon, 03 Nov 2014 17:45:16 +0100
-In-Reply-To: <afef7088ee50cfc2be2d08f16ddd8fe087a1c490.1415000039.git.hongxu.jia@windriver.com>
-	(Hongxu Jia's message of "Mon, 3 Nov 2014 15:37:55 +0800")
-Message-ID: <lyh9ygxmg3.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.2
-X-Spam-Level: -----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.75
-Subject: Re: [PATCH 1/1] systemd: add network config while networkd supported
+	Mon, 03 Nov 2014 09:13:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=3GVjOfsHUf7/10HpBj/cIxL8RP2Soi83BLuc5XFwoAY=;
+	b=CSLsFuTNlH9TUbe5DgC9aetIUidxN1EkiB/O4jFqe/MRyP/2FhSxrX166Ptm4l0ANr
+	NeKXE/9Azy3YScgz4BnTvBHCg+C57lWPrrY8qv1I37eM6y84+KwNpZVdEtwPB0hCd6G+
+	uGBBaml5Y/OCBjzlfoJLZSQXfxqeNfNEXfGalXqyLXaD2X6nr/0THqIFjMMK4IboGZq8
+	+4MCJ1DZDvs2c2V2Wmts0+tv2RGVgBKyDqpm0dfSBfsHiURqakJO2OSoZba6cNqC/Rs+
+	K0PHr4YFwqyU7xEGe/peLYp3qavP8SaATdbd4+6ECq57ba5zcrGSWMRbUkUROyud8SX5
+	gE3g==
+X-Gm-Message-State: ALoCoQkdUjJ9L9cG6Dbwilzydv0pdUKCsFHpbmPAeQEd5Q0ztPtGHTt9suW9hPlTxp5KMujpDHut
+X-Received: by 10.194.186.207 with SMTP id fm15mr50901029wjc.1.1415034823520; 
+	Mon, 03 Nov 2014 09:13:43 -0800 (PST)
+Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id n4sm9371240wiz.17.2014.11.03.09.13.42
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 03 Nov 2014 09:13:42 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LaeFG5ceKK1a1ugPEHyQ5z1dz6YVqY7Y0gPyD6vyWY=BA@mail.gmail.com>
+Date: Mon, 3 Nov 2014 18:13:41 +0100
+Message-Id: <363A0B14-2FE4-4F63-BA2C-C9581F1D86CA@dominion.thruhere.net>
+References: <1411387952-22717-1-git-send-email-koen.kooi@linaro.org>
+	<1C408B9F-5383-488A-AE4C-E18D69800825@dominion.thruhere.net>
+	<CAJTo0LYOHMZCoGS342Wnh06LbJWUS1K_aDFfDWG4gxeFswm7EA@mail.gmail.com>
+	<A5FE6A94-E1CA-4E02-8B98-D018F14888F7@dominion.thruhere.net>
+	<CAJTo0LYm6rqFtJ5jTq=cTGnJDHrYaj7f94RmWR_Lh-LkKqKaiA@mail.gmail.com>
+	<07F08083-4EDE-4CC7-AAA7-53019C7978C0@dominion.thruhere.net>
+	<1415016627.5111.9.camel@ted>
+	<9D7813D1-1BDC-4B46-BE6D-CF05049314E5@linaro.org>
+	<CAJTo0LaeFG5ceKK1a1ugPEHyQ5z1dz6YVqY7Y0gPyD6vyWY=BA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1990.1)
+Cc: Koen Kooi <koen.kooi@linaro.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libpng 1.6.13: fix build for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,38 +57,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 16:45:35 -0000
-Content-Type: text/plain
-
-Hongxu Jia <hongxu.jia-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
-
-> While networkd supported, we add network config which starts
-> dhcp by default.
-> ...
-> +++ b/meta/recipes-core/systemd/systemd/oe-core.network
-> @@ -0,0 +1,8 @@
-> +[Match]
-> +Name=eth*
-> +
-> +[Network]
-> +DHCP=v4
-> +
-> +[DHCPv4]
-> +UseHostname=false
-
-IMO, this is too much a target specific customization.  DHCP is not
-used everywhere; it might conflict with NFS rootfs, there are different
-preferences for the DHCP options (UseDomains, VendorClassIdentifier,
-CriticalConnection, ...).
-
-It would be better to place this confguration into a separate recipe.
+X-List-Received-Date: Mon, 03 Nov 2014 17:13:47 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-> +		install -m 0755 ${WORKDIR}/oe-core.network ${D}${sysconfdir}/systemd/network
+> Op 3 nov. 2014, om 17:08 heeft Burton, Ross <ross.burton@intel.com> =
+het volgende geschreven:
+>=20
+>=20
+> On 3 November 2014 15:24, Koen Kooi <koen.kooi@linaro.org> wrote:
+> It's been over a month and libpng is still broken, so I refuse to =
+classify this new process as 'helpful' or as 'appreciated' at this =
+point.
+>=20
+> Remember that 1.7 was frozen solid for several weeks of that month, so =
+no it wouldn't have been merged in that time period.  It's only just =
+re-opened: master is currently 80 patches ahead of dizzy, 35 in the =
+C-Pull I sent last night, and another 33 in my staging branch right now =
+so it's not like we're taking it easy right now.
+>=20
+> Some context: during September it was obvious that various parties had =
+an interest in aarch64 (Linaro and Wind River).  Patches to fix build =
+failures were being sent sporadically, a qemuarm64 machine was =
+submitted, but there was no kernel for said machine to actually build.   =
+At the time there was no qemuarm64 machine that actually worked, so even =
+merging the "simple" fixes on just faith that they're correct would be =
+reckless considering we were freezing.  This is why I suggested[1] that =
+someone with a vested interest in aarch64 collate all the patches into a =
+single branch and keep it rebased to master so that when master opens, =
+it can be tested on *all* qemu architectures and merged.  It appears =
+that this hasn't happened.  Will Linaro be able to create a branch that =
+incorporates all of the patches and new machine that's been tested as a =
+whole?
 
-You should name this file like '50-oe-core.network' to make it easier to
-override it.
+Most likely not because we already have meta-aarch64 for the toolchain =
+and kernel support. But aside from that, the past few *years* it wasn't =
+a problem to get aarch64 related patches merged into OE-core, so why is =
+there suddenly such a problem now?
 
-
-Enrico
+Furthermore, this libpng patch isn't strictly an aarch64 patch, it fixes =
+a previous commit that should have been flagged in review as being wrong =
+for using double qualifiers in a bogus way. So why did the culprit go in =
+and the fix submitted 3 days later not?=
 
