@@ -1,28 +1,43 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F5AB6017E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D83106017E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 17:38:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA3Hc3LL012240
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon,  3 Nov 2014 17:44:37 +0000 (UTC)
+Received: by mail-qg0-f53.google.com with SMTP id z107so8993108qgd.26
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Nov 2014 09:38:03 -0800 (PST)
-Received: from msp-dhcp41.wrs.com (172.25.34.41) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 3 Nov 2014 09:38:02 -0800
-Message-ID: <5457BD7A.9020806@windriver.com>
-Date: Mon, 3 Nov 2014 11:38:02 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Mon, 03 Nov 2014 09:44:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=MWBhxgdgI2p6tOay76NmstcpLvvROnIAG8Gx4EQ1asw=;
+	b=AJ5+YPsaLteJV6UW4gFQA+SFy2R4YDtL9U3v5ME/BcbLA8YY1Vr7dExw8B7TRzQBBZ
+	HL+Hv9TJcB/1TtURC3UrZLbJFrh881KyyQwD8utdZX6H0XHNR7EPzRclK7S1vOn0mCtJ
+	b0gCcx4V31U06ATbzc/HIh/ABeRnZTynjPhSx8yN2fw/5GMGRHLn78wzb4Jm1cI/b+0e
+	Mxp0uq/M1CK06heUrBh6f38f1QUgdxOcSGPEr5N+PsZeMwgZ8boLenerdHkUduRjuVdl
+	mkH+nycpBpz8fAZ6i8UzcODPBIcKxoodiyKdp8wn7FQIuX6z+VQ17HkzVQ3DN0dNZfHl
+	TrKQ==
+X-Gm-Message-State: ALoCoQkLllq5SGUWH/5oK/soDtfbrMkZ70caCq+Vs/ThE/r2y641SME3MBcG/7NKbh/OEmRHR3pi
+X-Received: by 10.140.28.70 with SMTP id 64mr13604267qgy.15.1415036677786;
+	Mon, 03 Nov 2014 09:44:37 -0800 (PST)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1411387952-22717-1-git-send-email-koen.kooi@linaro.org>	<1C408B9F-5383-488A-AE4C-E18D69800825@dominion.thruhere.net>	<CAJTo0LYOHMZCoGS342Wnh06LbJWUS1K_aDFfDWG4gxeFswm7EA@mail.gmail.com>	<A5FE6A94-E1CA-4E02-8B98-D018F14888F7@dominion.thruhere.net>	<CAJTo0LYm6rqFtJ5jTq=cTGnJDHrYaj7f94RmWR_Lh-LkKqKaiA@mail.gmail.com>	<07F08083-4EDE-4CC7-AAA7-53019C7978C0@dominion.thruhere.net>	<1415016627.5111.9.camel@ted>
+Received: by 10.140.98.213 with HTTP; Mon, 3 Nov 2014 09:44:17 -0800 (PST)
+In-Reply-To: <5457BD7A.9020806@windriver.com>
+References: <1411387952-22717-1-git-send-email-koen.kooi@linaro.org>
+	<1C408B9F-5383-488A-AE4C-E18D69800825@dominion.thruhere.net>
+	<CAJTo0LYOHMZCoGS342Wnh06LbJWUS1K_aDFfDWG4gxeFswm7EA@mail.gmail.com>
+	<A5FE6A94-E1CA-4E02-8B98-D018F14888F7@dominion.thruhere.net>
+	<CAJTo0LYm6rqFtJ5jTq=cTGnJDHrYaj7f94RmWR_Lh-LkKqKaiA@mail.gmail.com>
+	<07F08083-4EDE-4CC7-AAA7-53019C7978C0@dominion.thruhere.net>
+	<1415016627.5111.9.camel@ted>
 	<9D7813D1-1BDC-4B46-BE6D-CF05049314E5@linaro.org>
-In-Reply-To: <9D7813D1-1BDC-4B46-BE6D-CF05049314E5@linaro.org>
+	<5457BD7A.9020806@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 3 Nov 2014 17:44:17 +0000
+Message-ID: <CAJTo0LbukP+OZvLXK4R0nZtMbykY10Wr2PNW23+37_JfHeh8Lg@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libpng 1.6.13: fix build for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,56 +51,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 17:38:11 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Nov 2014 17:44:47 -0000
+Content-Type: multipart/alternative; boundary=001a113a970a861b360506f7e6b2
 
-On 11/3/14, 9:24 AM, Koen Kooi wrote:
+--001a113a970a861b360506f7e6b2
+Content-Type: text/plain; charset=UTF-8
+
+On 3 November 2014 17:38, Mark Hatle <mark.hatle@windriver.com> wrote:
+
+> We've been attempting to aggregate what we (WR) can in:
 >
-> Op 3 nov. 2014, om 13:10 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
+>  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/
+> log/?h=kangkai/qemuarm64
 >
->> On Mon, 2014-11-03 at 13:06 +0100, Koen Kooi wrote:
->>>> Op 3 nov. 2014, om 12:30 heeft Burton, Ross <ross.burton@intel.com> het volgende geschreven:
->>>>
->>>>
->>>> On 3 November 2014 11:27, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>>>> Last night I was looking at my "post-1.7" tag and the number of aarch64 patches there.   Kai, did you continue work on that staging branch for all of the aarch64 patches that were being posted?
->>>>
->>>> What does that have to do with this patch?
->>>>
->>>> Kai was collecting patches that were sent to oe-core, and this may have been one of them.
->>>
->>> Is this some new requirement for OE-core patches?
->>
->> Its someone being helpful and trying to consolidate a topic branch and
->> test things before it gets merged.
->>
->> So its not a new requirement but it is helpful and appreciated.
->
-> It's been over a month and libpng is still broken, so I refuse to classify this new process as 'helpful' or as 'appreciated' at this point.
->
-> If this continues can the person doing such a branch reply to patches intended for it saying they will or won't be queued? And please run the patches without such a reply through the regular process. That would be both helpful and appreciated.
-
-We've been attempting to aggregate what we (WR) can in:
-
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=kangkai/qemuarm64
-
-But as it's unofficial and we're simply trying to keep the patches we know of 
-together..  you'll have to be patient.  The first order of business is getting a 
-functional qemuarm64.. it's MOSTLY there, but we're having toolchain issues and 
-other things that are simply higher priority for us.
-
-As for libpng, we have a different version of the patch in that branch...  it 
-was enough to get around the problem in question, but may not be the correct fix.
-
---Mark
-
-> --
-> Koen Kooi
-> Builds and Baselines | Release Manager
-> Linaro.org | Open source software for ARM SoCs
->
->
+> But as it's unofficial and we're simply trying to keep the patches we know
+> of together..  you'll have to be patient.  The first order of business is
+> getting a functional qemuarm64.. it's MOSTLY there, but we're having
+> toolchain issues and other things that are simply higher priority for us.
 >
 
+Great, thanks Mark.  A functional qemuarm64 that boots core-image-minimal
+is a good step in the right direction, then we can experiment with it on
+the autobuilder. :)
 
+Patiently awaiting patches,
+Ross
+
+--001a113a970a861b360506f7e6b2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 November 2014 17:38, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":14n" class=
+=3D"a3s" style=3D"overflow:hidden">We&#39;ve been attempting to aggregate w=
+hat we (WR) can in:<br>
+<br>
+=C2=A0<a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log=
+/?h=3Dkangkai/qemuarm64" target=3D"_blank">http://git.yoctoproject.org/<u><=
+/u>cgit/cgit.cgi/poky-contrib/<u></u>log/?h=3Dkangkai/qemuarm64</a><br>
+<br>
+But as it&#39;s unofficial and we&#39;re simply trying to keep the patches =
+we know of together..=C2=A0 you&#39;ll have to be patient.=C2=A0 The first =
+order of business is getting a functional qemuarm64.. it&#39;s MOSTLY there=
+, but we&#39;re having toolchain issues and other things that are simply hi=
+gher priority for us.<br></div></blockquote></div><br>Great, thanks Mark.=
+=C2=A0 A functional qemuarm64 that boots core-image-minimal is a good step =
+in the right direction, then we can experiment with it on the autobuilder. =
+:)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Pat=
+iently awaiting patches,</div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113a970a861b360506f7e6b2--
