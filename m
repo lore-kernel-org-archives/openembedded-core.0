@@ -1,38 +1,37 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
-	[209.85.217.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 02ECB71F41
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
+	[209.85.216.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 98B6765D59
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 10:13:56 +0000 (UTC)
-Received: by mail-lb0-f177.google.com with SMTP id z12so550320lbi.22
+	Mon,  3 Nov 2014 10:26:11 +0000 (UTC)
+Received: by mail-qa0-f51.google.com with SMTP id f12so7877272qad.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Nov 2014 02:13:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=mYaGgHU+BezWzJoaisiMk0iwx+xXZxC5mXkDxXFw9To=;
-	b=gZy2Hnu2HKR7WgDdAzaEl15bJSkiMggx4qGoVDfkGD6ZNP2wyU7w1uEllXV1fAM2Kw
-	I1pJJVyv4KV1g1KECwBCeSMKQ2N78JKQ3HwKTBUylDM4ra3yZ/eCwi9gy43NWBhIRCBc
-	uTvGio5KXE0QJn00Z6SjG1CzoHoECNsPG8sMFIm2b+YIZg9DHyqKfwA/QTBRS10Qmb8c
-	xKD3fSi/X26QGSPTeBGUQ82/CIh8qXg3EigWw+rEg1KKcq01Mqb4Xy9Zwsz8kTvlxMKk
-	iuEzAFJkGDXAYyNP8d+bBEcHG3ATC8PF455iz6HwAbvgMUZPfY6nHuwzP/BIgNT5BqkH
-	tktQ==
-X-Received: by 10.112.168.97 with SMTP id zv1mr23684415lbb.6.1415009635879;
-	Mon, 03 Nov 2014 02:13:55 -0800 (PST)
-Received: from neopili.fritz.box
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by mx.google.com with ESMTPSA id l1sm2239300lbd.32.2014.11.03.02.13.54
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 03 Nov 2014 02:13:55 -0800 (PST)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	poky@yoctoproject.org
-Date: Mon,  3 Nov 2014 11:13:50 +0100
-Message-Id: <1415009631-13851-2-git-send-email-ricardo.ribalda@gmail.com>
-X-Mailer: git-send-email 2.1.1
-In-Reply-To: <1415009631-13851-1-git-send-email-ricardo.ribalda@gmail.com>
-References: <1415009631-13851-1-git-send-email-ricardo.ribalda@gmail.com>
-Subject: [PATCH 1/2] debianutils: Add recipe from meta-oe
+	Mon, 03 Nov 2014 02:26:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=5FOLMrqWc1p4ca8zfpfhM61fzuh2A5efvyYKhzvOWtA=;
+	b=a1cB/Tjp8QheyGNET3Xq82puIVXMnE3qWvXvDzGReI4AA01ci4J0S4ERaUpwFMo4MQ
+	JsEeb6c52UvBn43O3y8nHkSXfeq3dBMta+2BCeVAhB9sw2gxR9+sUOpDecgnjJaMgCWH
+	W44dpQ6DRmcDgyWTBS78BcPGx1yV1PO0TPxeei24JKkbuZv8Irw7kNOYBXnh6bSBBsqY
+	ykRgx+0Sb9yDHL35Kq/76F/K849AFfHqcWf7XlvaOCc+niXeG/9lwbtxFRY23ymqZzwW
+	x6UWYv4fTQ+rjBsqIA0fsfMx/WWGgFyRCmwLbn+6pVipJTQK/AYwlnh9zgBYsxZ6iJeJ
+	X94w==
+X-Gm-Message-State: ALoCoQmwEikBFkShldHY5e+5DBeFdkKSpCqC/WB+iz17rJ/+Kr2MMViwYzEbEHlM61u04JajPVxI
+X-Received: by 10.140.17.67 with SMTP id 61mr59055717qgc.59.1415010371717;
+	Mon, 03 Nov 2014 02:26:11 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.98.213 with HTTP; Mon, 3 Nov 2014 02:25:51 -0800 (PST)
+In-Reply-To: <1C408B9F-5383-488A-AE4C-E18D69800825@dominion.thruhere.net>
+References: <1411387952-22717-1-git-send-email-koen.kooi@linaro.org>
+	<1C408B9F-5383-488A-AE4C-E18D69800825@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 3 Nov 2014 10:25:51 +0000
+Message-ID: <CAJTo0LYOHMZCoGS342Wnh06LbJWUS1K_aDFfDWG4gxeFswm7EA@mail.gmail.com>
+To: Koen Kooi <koen.kooi@linaro.org>, Kang Kai <Kai.Kang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libpng 1.6.13: fix build for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,58 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 10:14:00 -0000
+X-List-Received-Date: Mon, 03 Nov 2014 10:26:18 -0000
+Content-Type: multipart/alternative; boundary=001a11c0fa288f7fb70506f1c6d4
 
-This recipe is a running dependency of recipe apt
+--001a11c0fa288f7fb70506f1c6d4
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
----
- .../recipes-support/debianutils/debianutils_4.4.bb | 35 ++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
- create mode 100644 meta/recipes-support/debianutils/debianutils_4.4.bb
+On 3 November 2014 09:57, Koen Kooi <koen@dominion.thruhere.net> wrote:
 
-diff --git a/meta/recipes-support/debianutils/debianutils_4.4.bb b/meta/recipes-support/debianutils/debianutils_4.4.bb
-new file mode 100644
-index 0000000..346eaf1
---- /dev/null
-+++ b/meta/recipes-support/debianutils/debianutils_4.4.bb
-@@ -0,0 +1,35 @@
-+SUMMARY = "Miscellaneous utilities specific to Debian"
-+SECTION = "base"
-+LICENSE = "GPLv2 & SMAIL_GPL"
-+LIC_FILES_CHKSUM = "file://debian/copyright;md5=f01a5203d50512fc4830b4332b696a9f"
-+
-+SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.gz"
-+SRC_URI[md5sum] = "c0cb076754d7f4eb1e3397d00916647f"
-+SRC_URI[sha256sum] = "190850cdd6b5302e0a1ba1aaed1bc7074d67d3bd8d04c613f242f7145afa53a6"
-+
-+inherit autotools update-alternatives
-+
-+do_configure_prepend() {
-+    sed -i -e 's:tempfile.1 which.1:which.1:g' ${S}/Makefile.am
-+}
-+
-+do_install_append() {
-+    if [ "${base_bindir}" != "${bindir}" ]; then
-+        # Debian places some utils into ${base_bindir} as does busybox
-+        install -d ${D}${base_bindir}
-+        for app in run-parts tempfile; do
-+            mv ${D}${bindir}/$app ${D}${base_bindir}/$app
-+        done
-+    fi
-+}
-+
-+ALTERNATIVE_PRIORITY="100"
-+ALTERNATIVE_${PN} = "add-shell installkernel remove-shell run-parts savelog tempfile which"
-+
-+ALTERNATIVE_LINK_NAME[add-shell]="${sbindir}/add-shell"
-+ALTERNATIVE_LINK_NAME[installkernel]="${sbindir}/installkernel"
-+ALTERNATIVE_LINK_NAME[remove-shell]="${sbindir}/remove-shell"
-+ALTERNATIVE_LINK_NAME[run-parts]="${base_bindir}/run-parts"
-+ALTERNATIVE_LINK_NAME[savelog]="${bindir}/savelog"
-+ALTERNATIVE_LINK_NAME[tempfile]="${base_bindir}/tempfile"
-+ALTERNATIVE_LINK_NAME[which]="${bindir}/which"
--- 
-2.1.1
+> ping
+>
 
+Last night I was looking at my "post-1.7" tag and the number of aarch64
+patches there.   Kai, did you continue work on that staging branch for all
+of the aarch64 patches that were being posted?
 
+Ross
+
+--001a11c0fa288f7fb70506f1c6d4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 3=
+ November 2014 09:57, Koen Kooi <span dir=3D"ltr">&lt;<a href=3D"mailto:koe=
+n@dominion.thruhere.net" target=3D"_blank">koen@dominion.thruhere.net</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">ping<br></blockquote><di=
+v><br></div><div>Last night I was looking at my &quot;post-1.7&quot; tag an=
+d the number of aarch64 patches there. =C2=A0 Kai, did you continue work on=
+ that staging branch for all of the aarch64 patches that were being posted?=
+</div><div><br></div><div>Ross</div></div></div></div>
+
+--001a11c0fa288f7fb70506f1c6d4--
