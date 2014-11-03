@@ -1,45 +1,45 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
-	[217.149.192.138])
-	by mail.openembedded.org (Postfix) with ESMTP id ED86560169
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 46D8560557
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 10:49:44 +0000 (UTC)
-Received: from amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.96])
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 91C963F744;
-	Mon,  3 Nov 2014 11:49:44 +0100 (CET)
-X-Spam-Flag: NO
-X-Spam-Score: -0.001
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.001 tagged_above=-999 required=4.5
-	tests=[BAYES_20=-0.001] autolearn=disabled
-X-Spam-Languages: en
-Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
-	by amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP; Mon,  3 Nov 2014 11:49:44 +0100 (CET)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS;
-	Mon,  3 Nov 2014 11:49:43 +0100 (CET)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Mon, 3 Nov 2014 11:49:58 +0100
-Message-ID: <54575DC6.8040403@topic.nl>
-Date: Mon, 3 Nov 2014 11:49:42 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <5452486B.6070303@topic.nl> <1414691238.7649.70.camel@ted>	
-	<545750AE.6080300@topic.nl> <1415009059.5111.5.camel@ted>
-In-Reply-To: <1415009059.5111.5.camel@ted>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Weird ALTERNATIVES and staging conflict.
+	Mon,  3 Nov 2014 11:27:07 +0000 (UTC)
+Received: by mail-wi0-f174.google.com with SMTP id d1so6155200wiv.13
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Nov 2014 03:27:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=ptkbYUXCtkbUuOBRQBhjHb5SDmohlSgmWayBC5YoVzw=;
+	b=ki7P8+9t5GVrOhRUXcuZsrzG8SL/a22PcBqtSz/aB0ZQeO9nFC5ezQ6+f7YYuZhF20
+	I4+nt80m2XtFgi5RoTmp0a6RQCHfuo0R1axxq6eF7oNe/Ak3WJZCBU6n2C2rpMMwJex6
+	3X9I/sOlY37Pa3blRqAyW4su75J25QLYaI2333KRgUiD62bEf2PNP9HGN7mA8BgEjoOR
+	JG2ha+ImPU9KSwdeu7xhXlvrB/zIjLK9ik9l5nZQA3yIpXA1+Ofc9Lt5UUWaSJBn8RaZ
+	JsAkyw1X1I+NZHQQAMbbDXbg4VvBDPaGNafAFJzBI78Ym1pDMe0/SYF0VogDuRExD6/Y
+	HZmw==
+X-Gm-Message-State: ALoCoQmwjMGma2LNcIfbvPZWI5Hd8NBdBG5VAzBaXqB1MZWFEHYa52706HvfJ76P7KEtrT4J/2m2
+X-Received: by 10.180.80.39 with SMTP id o7mr15058972wix.37.1415014027972;
+	Mon, 03 Nov 2014 03:27:07 -0800 (PST)
+Received: from ?IPv6:2001:610:612::c425:582d:3e89:67a7?
+	([2001:610:612:0:c425:582d:3e89:67a7])
+	by mx.google.com with ESMTPSA id n4sm8393180wiz.17.2014.11.03.03.27.06
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 03 Nov 2014 03:27:07 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LYOHMZCoGS342Wnh06LbJWUS1K_aDFfDWG4gxeFswm7EA@mail.gmail.com>
+Date: Mon, 3 Nov 2014 12:27:05 +0100
+Message-Id: <A5FE6A94-E1CA-4E02-8B98-D018F14888F7@dominion.thruhere.net>
+References: <1411387952-22717-1-git-send-email-koen.kooi@linaro.org>
+	<1C408B9F-5383-488A-AE4C-E18D69800825@dominion.thruhere.net>
+	<CAJTo0LYOHMZCoGS342Wnh06LbJWUS1K_aDFfDWG4gxeFswm7EA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1990.1)
+Cc: Koen Kooi <koen.kooi@linaro.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libpng 1.6.13: fix build for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,87 +52,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 10:49:52 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Mon, 03 Nov 2014 11:27:10 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-=EF=BB=BFOn 11/03/2014 11:04 AM, Richard Purdie wrote:
-> On Mon, 2014-11-03 at 10:53 +0100, Mike Looijmans wrote:
->> =EF=BB=BFOn 10/30/2014 06:47 PM, Richard Purdie wrote:
->>> On Thu, 2014-10-30 at 15:17 +0100, Mike Looijmans wrote:
->>>> =EF=BB=BFI have this base script that builds FPGA bitstreams:
->>>>
->>>> https://github.com/topic-embedded-products/meta-topic/blob/master/reci=
-pes-bsp/fpga/fpga-image.inc
->>>>
->>>> Now you can have multiple recipes using it, and as such, it seemed a g=
-ood idea
->>>> to add these lines to that recipe:
->>>>
->>>> +ALTERNATIVE_${PN} =3D "fpga.bin bitstreams"
->>>> +ALTERNATIVE_LINK_NAME[fpga.bin] =3D "${datadir}/fpga.bin"
->>>> +ALTERNATIVE_TARGET[fpga.bin] =3D "${datadir}/fpga.bin"
->>>> +ALTERNATIVE_LINK_NAME[bitstreams] =3D "${datadir}/bitstreams"
->>>> +ALTERNATIVE_TARGET[bitstreams] =3D "${datadir}/bitstreams"
->>>>
->>>>
->>>> This still resulted in staging conflicts.
->>>
->>> This isn't surprising since update-alternatives only works for target
->>> systems. It is not designed for operating on the sysroot.
->>
->> I don't want these files in sysroot, I want them on target only.
->
-> Ok, that makes things much easier.
->
->>>> But looking at the contents of the fake packages, the fpga.bin has bee=
-n
->>>> renamed by alternatives (as expected), and the symlink will be created=
- after
->>>> installing, so how come I still get this?
->>>
->>> The "staging" code uses the output of do_install directly and does
->>> different things to the packaging code path. We've never had someone
->>> with this problem before. Binaries in *bindir only get installed into
->>> the sysroot in the -native case.
->>>
->>> I appreciate that tells you why it doesn't work and not how to fix it
->>> but hopefully that helps a bit.
->>
->> If I understand you correctly, the problem is that the recipe is trying =
-to
->> install things in sysroot?
->
-> Correct, by default ${datadir} is staged. The easiest way to handle this
-> may be to define your own sysroot_stage_all function (or
-> sysroot_stage_dirs) which just stages what you need, if anything.
 
-In other words, make  sysroot_stage_all into a no-op?
+> Op 3 nov. 2014, om 11:25 heeft Burton, Ross <ross.burton@intel.com> =
+het volgende geschreven:
+>=20
+> On 3 November 2014 09:57, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+> ping
+>=20
+> Last night I was looking at my "post-1.7" tag and the number of =
+aarch64 patches there.   Kai, did you continue work on that staging =
+branch for all of the aarch64 patches that were being posted?
 
-I've been looking at the staging.bbclass, but that's basically the best I c=
-an=20
-come up with.
-
-M.
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-System Expert
-
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Topic zoekt gedreven (embedded) software specialisten!
-http://topic.nl/vacatures/topic-zoekt-software-engineers/
-
+What does that have to do with this patch?=
 
