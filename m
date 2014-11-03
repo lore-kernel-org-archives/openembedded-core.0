@@ -1,43 +1,30 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 2480A60E49
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DA7C60E49
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 10:00:40 +0000 (UTC)
-Received: by mail-wi0-f174.google.com with SMTP id d1so5933634wiv.7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Nov 2014 02:00:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=5u2w59k86hMltQ0v0TSDygwDGbcMq3o8Wjr5sqVFbQ8=;
-	b=T+fAx8gIsisS61++i5nossW4VeYSPFBradek/4G3qwQbjTNVkO2JkJP8+iOEJ2Uskp
-	RR5umzlvYnXN1XFoDHmRTwa87Xc26d8oyemHrz8cyvW2K+iw1k0COSFzcLEf0PB0IE2w
-	YuZI9SW5+Yl5PqjgCYDjHmYEgDcnw5GH+zFHgyNwuqDI6h9TY8JnpGsvvGXBoogn7zdz
-	g3GslAgO/xjyRHPlH7bObTbbOPqEWda5KfWxp+a/eJMdjvrZrFvVj/OmyWm2AImB4Edz
-	qAk2LY6ojfLZGcbC5MasWtIKk/CIkGxanDKJfQBSnMM8qacT2h9CT1SNrKv29pdEucg/
-	dhZQ==
-X-Gm-Message-State: ALoCoQlNJGLncMPQJgUmlRQaXk35xg/ilpF9NC6KzqUZMfxFAxIKXNZxUafiqvTHmC8FuNNGduFU
-X-Received: by 10.194.133.229 with SMTP id pf5mr47526172wjb.73.1415008841417; 
-	Mon, 03 Nov 2014 02:00:41 -0800 (PST)
-Received: from ?IPv6:2001:610:612::c425:582d:3e89:67a7?
-	([2001:610:612:0:c425:582d:3e89:67a7])
-	by mx.google.com with ESMTPSA id dw9sm8167760wib.0.2014.11.03.02.00.40
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 03 Nov 2014 02:00:40 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <afef7088ee50cfc2be2d08f16ddd8fe087a1c490.1415000039.git.hongxu.jia@windriver.com>
-Date: Mon, 3 Nov 2014 11:00:39 +0100
-Message-Id: <8179B6FE-56F3-4DDA-B1A6-D190E576AEC6@dominion.thruhere.net>
-References: <cover.1415000039.git.hongxu.jia@windriver.com>
-	<afef7088ee50cfc2be2d08f16ddd8fe087a1c490.1415000039.git.hongxu.jia@windriver.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-X-Mailer: Apple Mail (2.1990.1)
+	Mon,  3 Nov 2014 10:04:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA3A3kQ6003682; Mon, 3 Nov 2014 10:03:46 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 26y44zW-cTFq; Mon,  3 Nov 2014 10:03:46 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA3A3imL003669
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 3 Nov 2014 10:03:45 GMT
+Message-ID: <1415009059.5111.5.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Date: Mon, 03 Nov 2014 10:04:19 +0000
+In-Reply-To: <545750AE.6080300@topic.nl>
+References: <5452486B.6070303@topic.nl> <1414691238.7649.70.camel@ted>
+	<545750AE.6080300@topic.nl>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: add network config while networkd supported
+Subject: Re: Weird ALTERNATIVES and staging conflict.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,55 +37,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 10:00:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 03 Nov 2014 10:04:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+On Mon, 2014-11-03 at 10:53 +0100, Mike Looijmans wrote:
+> ﻿On 10/30/2014 06:47 PM, Richard Purdie wrote:
+> > On Thu, 2014-10-30 at 15:17 +0100, Mike Looijmans wrote:
+> >> ﻿I have this base script that builds FPGA bitstreams:
+> >>
+> >> https://github.com/topic-embedded-products/meta-topic/blob/master/recipes-bsp/fpga/fpga-image.inc
+> >>
+> >> Now you can have multiple recipes using it, and as such, it seemed a good idea
+> >> to add these lines to that recipe:
+> >>
+> >> +ALTERNATIVE_${PN} = "fpga.bin bitstreams"
+> >> +ALTERNATIVE_LINK_NAME[fpga.bin] = "${datadir}/fpga.bin"
+> >> +ALTERNATIVE_TARGET[fpga.bin] = "${datadir}/fpga.bin"
+> >> +ALTERNATIVE_LINK_NAME[bitstreams] = "${datadir}/bitstreams"
+> >> +ALTERNATIVE_TARGET[bitstreams] = "${datadir}/bitstreams"
+> >>
+> >>
+> >> This still resulted in staging conflicts.
+> >
+> > This isn't surprising since update-alternatives only works for target
+> > systems. It is not designed for operating on the sysroot.
+> 
+> I don't want these files in sysroot, I want them on target only.
+
+Ok, that makes things much easier.
+
+> >> But looking at the contents of the fake packages, the fpga.bin has been
+> >> renamed by alternatives (as expected), and the symlink will be created after
+> >> installing, so how come I still get this?
+> >
+> > The "staging" code uses the output of do_install directly and does
+> > different things to the packaging code path. We've never had someone
+> > with this problem before. Binaries in *bindir only get installed into
+> > the sysroot in the -native case.
+> >
+> > I appreciate that tells you why it doesn't work and not how to fix it
+> > but hopefully that helps a bit.
+> 
+> If I understand you correctly, the problem is that the recipe is trying to 
+> install things in sysroot?
+
+Correct, by default ${datadir} is staged. The easiest way to handle this
+may be to define your own sysroot_stage_all function (or
+sysroot_stage_dirs) which just stages what you need, if anything.
+
+Cheers,
+
+Richard
 
 
-> Op 3 nov. 2014, om 08:37 heeft Hongxu Jia <hongxu.jia@windriver.com> =
-het volgende geschreven:
->=20
-> While networkd supported, we add network config which starts
-> dhcp by default.
->=20
-> And the customers could edit it according their own requirements.
-> (dhcp or static ip...)
->=20
-> It refers:
-> https://wiki.archlinux.org/index.php/systemd-networkd
->=20
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
-> meta/recipes-core/systemd/systemd/oe-core.network | 8 ++++++++
-> meta/recipes-core/systemd/systemd_216.bb          | 6 ++++++
-> 2 files changed, 14 insertions(+)
-> create mode 100644 meta/recipes-core/systemd/systemd/oe-core.network
->=20
-> diff --git a/meta/recipes-core/systemd/systemd/oe-core.network =
-b/meta/recipes-core/systemd/systemd/oe-core.network
-> new file mode 100644
-> index 0000000..fcaefc2
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/oe-core.network
 
-First: config files on the target shouldn't be named after the =
-buildsystem, a better name would be 'ethernet.network' or something =
-similar
-
-> @@ -0,0 +1,8 @@
-> +[Match]
-> +Name=3Deth*
-
-Add 'en*' as well for pci devices that get renamed by udev
-
-> +[Network]
-> +DHCP=3Dv4
-
-DHCP=3Dboth or DHCP=3Dyes would be better since that would include =
-dhcpv6 as well
-
-> +[DHCPv4]
-> +UseHostname=3Dfalse
-
-Why? Using the hostname makes DHCP logs a lot easier to debug.=
 
