@@ -1,31 +1,35 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BC0265D59
+	by mail.openembedded.org (Postfix) with ESMTP id 9977E65D59
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 12:09:27 +0000 (UTC)
+	Mon,  3 Nov 2014 12:10:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA3C8JmR009674; Mon, 3 Nov 2014 12:08:52 GMT
+	sA3C9uuO009813; Mon, 3 Nov 2014 12:09:56 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id AFnkK34UXBpO; Mon,  3 Nov 2014 12:08:52 +0000 (GMT)
+	with LMTP id sx-88Uc7Y_yN; Mon,  3 Nov 2014 12:09:56 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA3C8mc5009702
+	sA3C9qhC009810
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 3 Nov 2014 12:08:49 GMT
-Message-ID: <1415016563.5111.8.camel@ted>
+	verify=NOT); Mon, 3 Nov 2014 12:09:54 GMT
+Message-ID: <1415016627.5111.9.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Date: Mon, 03 Nov 2014 12:09:23 +0000
-In-Reply-To: <54576864.3060507@topic.nl>
-References: <5452486B.6070303@topic.nl> <1414691238.7649.70.camel@ted>
-	<545750AE.6080300@topic.nl> <1415009059.5111.5.camel@ted>
-	<54575DC6.8040403@topic.nl> <54576864.3060507@topic.nl>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Mon, 03 Nov 2014 12:10:27 +0000
+In-Reply-To: <07F08083-4EDE-4CC7-AAA7-53019C7978C0@dominion.thruhere.net>
+References: <1411387952-22717-1-git-send-email-koen.kooi@linaro.org>
+	<1C408B9F-5383-488A-AE4C-E18D69800825@dominion.thruhere.net>
+	<CAJTo0LYOHMZCoGS342Wnh06LbJWUS1K_aDFfDWG4gxeFswm7EA@mail.gmail.com>
+	<A5FE6A94-E1CA-4E02-8B98-D018F14888F7@dominion.thruhere.net>
+	<CAJTo0LYm6rqFtJ5jTq=cTGnJDHrYaj7f94RmWR_Lh-LkKqKaiA@mail.gmail.com>
+	<07F08083-4EDE-4CC7-AAA7-53019C7978C0@dominion.thruhere.net>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Weird ALTERNATIVES and staging conflict.
+Cc: Koen Kooi <koen.kooi@linaro.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libpng 1.6.13: fix build for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,85 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 12:09:28 -0000
+X-List-Received-Date: Mon, 03 Nov 2014 12:10:41 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2014-11-03 at 12:35 +0100, Mike Looijmans wrote:
-> ﻿On 11/03/2014 11:49 AM, Mike Looijmans wrote:
-> > On 11/03/2014 11:04 AM, Richard Purdie wrote:
-> >> On Mon, 2014-11-03 at 10:53 +0100, Mike Looijmans wrote:
-> >>> ﻿On 10/30/2014 06:47 PM, Richard Purdie wrote:
-> >>>> On Thu, 2014-10-30 at 15:17 +0100, Mike Looijmans wrote:
-> >>>>> ﻿I have this base script that builds FPGA bitstreams:
-> >>>>>
-> >>>>> https://github.com/topic-embedded-products/meta-topic/blob/master/recipes-bsp/fpga/fpga-image.inc
-> >>>>>
-> >>>>>
-> >>>>> Now you can have multiple recipes using it, and as such, it seemed a good
-> >>>>> idea
-> >>>>> to add these lines to that recipe:
-> >>>>>
-> >>>>> +ALTERNATIVE_${PN} = "fpga.bin bitstreams"
-> >>>>> +ALTERNATIVE_LINK_NAME[fpga.bin] = "${datadir}/fpga.bin"
-> >>>>> +ALTERNATIVE_TARGET[fpga.bin] = "${datadir}/fpga.bin"
-> >>>>> +ALTERNATIVE_LINK_NAME[bitstreams] = "${datadir}/bitstreams"
-> >>>>> +ALTERNATIVE_TARGET[bitstreams] = "${datadir}/bitstreams"
-> >>>>>
-> >>>>>
-> >>>>> This still resulted in staging conflicts.
-> >>>>
-> >>>> This isn't surprising since update-alternatives only works for target
-> >>>> systems. It is not designed for operating on the sysroot.
-> >>>
-> >>> I don't want these files in sysroot, I want them on target only.
-> >>
-> >> Ok, that makes things much easier.
-> >>
-> >>>>> But looking at the contents of the fake packages, the fpga.bin has been
-> >>>>> renamed by alternatives (as expected), and the symlink will be created after
-> >>>>> installing, so how come I still get this?
-> >>>>
-> >>>> The "staging" code uses the output of do_install directly and does
-> >>>> different things to the packaging code path. We've never had someone
-> >>>> with this problem before. Binaries in *bindir only get installed into
-> >>>> the sysroot in the -native case.
-> >>>>
-> >>>> I appreciate that tells you why it doesn't work and not how to fix it
-> >>>> but hopefully that helps a bit.
-> >>>
-> >>> If I understand you correctly, the problem is that the recipe is trying to
-> >>> install things in sysroot?
-> >>
-> >> Correct, by default ${datadir} is staged. The easiest way to handle this
-> >> may be to define your own sysroot_stage_all function (or
-> >> sysroot_stage_dirs) which just stages what you need, if anything.
-> >
-> > In other words, make  sysroot_stage_all into a no-op?
-> >
-> > I've been looking at the staging.bbclass, but that's basically the best I can
-> > come up with.
+On Mon, 2014-11-03 at 13:06 +0100, Koen Kooi wrote:
+> > Op 3 nov. 2014, om 12:30 heeft Burton, Ross <ross.burton@intel.com> het volgende geschreven:
+> > 
+> > 
+> > On 3 November 2014 11:27, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> > > Last night I was looking at my "post-1.7" tag and the number of aarch64 patches there.   Kai, did you continue work on that staging branch for all of the aarch64 patches that were being posted?
+> > 
+> > What does that have to do with this patch?
+> > 
+> > Kai was collecting patches that were sent to oe-core, and this may have been one of them.
 > 
-> Ah, slightly better:
-> 
-> # Prevent bitstreams ending up in sysroot.
-> sysroot_stage_dirs_append() {
-> 	rm -rf $to${datadir}/fpga.bin $to${datadir}/bitstreams
-> }
-> 
-> This wastes a bit (installing multimegabyte bitstreams only to remove them) 
-> but it won't interfere with recipes that do wish to install things in sysroot.
-> 
-> I've tested with this now, and this appears to do exactly as I wanted.
+> Is this some new requirement for OE-core patches?
 
-That is fine and perfectly acceptable. Just to be clear, you can also
-do:
+Its someone being helpful and trying to consolidate a topic branch and
+test things before it gets merged.
 
-sysroot_stage_all() {
-	:
-}
-
-in your recipe and it will only affect that recipe, not all recipes.
+So its not a new requirement but it is helpful and appreciated.
 
 Cheers,
 
