@@ -1,45 +1,47 @@
-Return-Path: <bogdan.purcareata@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bon0148.outbound.protection.outlook.com [157.56.111.148])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F95160557
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
+	[217.149.192.139])
+	by mail.openembedded.org (Postfix) with ESMTP id 39AD560169
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 13:24:08 +0000 (UTC)
-Received: from BY2PR03MB190.namprd03.prod.outlook.com (10.242.36.141) by
-	BY2PR03MB556.namprd03.prod.outlook.com (10.141.142.145) with Microsoft
-	SMTP Server (TLS) id 15.1.11.14; Mon, 3 Nov 2014 13:09:31 +0000
-Received: from BY2PR03MB189.namprd03.prod.outlook.com (10.242.36.140) by
-	BY2PR03MB190.namprd03.prod.outlook.com (10.242.36.141) with Microsoft
-	SMTP Server (TLS) id 15.1.11.14; Mon, 3 Nov 2014 13:09:29 +0000
-Received: from BY2PR03MB189.namprd03.prod.outlook.com ([169.254.6.172]) by
-	BY2PR03MB189.namprd03.prod.outlook.com ([169.254.6.172]) with mapi id
-	15.01.0011.000; Mon, 3 Nov 2014 13:09:29 +0000
-From: "bogdan.purcareata@freescale.com" <bogdan.purcareata@freescale.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2] shadow: enable support for subordinate IDs
-Thread-Index: AQHP8cOR4SZcHgWCAk2fur8nuReixpxO6sQw
-Date: Mon, 3 Nov 2014 13:09:29 +0000
-Message-ID: <3b87b5236d394a58a73fbc0068d593e5@BY2PR03MB189.namprd03.prod.outlook.com>
-References: <1414088763-15256-1-git-send-email-bogdan.purcareata@freescale.com>
-	<1414425094-12256-1-git-send-email-bogdan.purcareata@freescale.com>
-In-Reply-To: <1414425094-12256-1-git-send-email-bogdan.purcareata@freescale.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.88.166.1]
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB190;UriScan:;
-x-exchange-antispam-report-test: UriScan:;
-x-forefront-prvs: 0384275935
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(11905935001)(189002)(51704005)(377454003)(13464003)(199003)(92566001)(575784001)(15202345003)(76576001)(19580405001)(40100003)(19580395003)(2656002)(87936001)(122556002)(54356999)(15395725005)(76176999)(77096003)(77156002)(50986999)(86362001)(101416001)(15975445006)(120916001)(31966008)(107046002)(99286002)(95666004)(107886001)(2351001)(450100001)(106356001)(106116001)(105586002)(108616004)(99396003)(33646002)(110136001)(64706001)(21056001)(46102003)(62966003)(74316001)(20776003)(66066001)(24736002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BY2PR03MB190;
-	H:BY2PR03MB189.namprd03.prod.outlook.com; FPR:; MLV:sfv;
-	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+	Mon,  3 Nov 2014 14:11:45 +0000 (UTC)
+Received: from amavisd-new (mailscanner02.wrt-nm.internl.net [217.149.192.114])
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id 0A51A3F4BB;
+	Mon,  3 Nov 2014 15:11:45 +0100 (CET)
+X-Spam-Flag: NO
+X-Spam-Score: -0.5
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.5 tagged_above=-999 required=4.5
+	tests=[BAYES_05=-0.5] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
+	by amavisd-new (mailscanner02.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP; Mon,  3 Nov 2014 15:11:44 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS;
+	Mon,  3 Nov 2014 15:11:43 +0100 (CET)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Mon, 3 Nov 2014 15:11:58 +0100
+Message-ID: <54578D1E.2060206@topic.nl>
+Date: Mon, 3 Nov 2014 15:11:42 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB556;
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH v2] shadow: enable support for subordinate IDs
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <5452486B.6070303@topic.nl>
+	<1414691238.7649.70.camel@ted>			<545750AE.6080300@topic.nl>
+	<1415009059.5111.5.camel@ted>	 <54575DC6.8040403@topic.nl>
+	<54576864.3060507@topic.nl> <1415016563.5111.8.camel@ted>
+In-Reply-To: <1415016563.5111.8.camel@ted>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Weird ALTERNATIVES and staging conflict.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,151 +54,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 13:24:11 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 03 Nov 2014 14:11:53 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
+=EF=BB=BFOn 11/03/2014 01:09 PM, Richard Purdie wrote:
+> On Mon, 2014-11-03 at 12:35 +0100, Mike Looijmans wrote:
+>> =EF=BB=BFOn 11/03/2014 11:49 AM, Mike Looijmans wrote:
+>>> On 11/03/2014 11:04 AM, Richard Purdie wrote:
+>>>> On Mon, 2014-11-03 at 10:53 +0100, Mike Looijmans wrote:
+>>>>> =EF=BB=BFOn 10/30/2014 06:47 PM, Richard Purdie wrote:
+>>>>>> On Thu, 2014-10-30 at 15:17 +0100, Mike Looijmans wrote:
+>>>>>>> =EF=BB=BFI have this base script that builds FPGA bitstreams:
+>>>>>>>
+>>>>>>> https://github.com/topic-embedded-products/meta-topic/blob/master/r=
+ecipes-bsp/fpga/fpga-image.inc
+>>>>>>>
+>>>>>>>
+>>>>>>> Now you can have multiple recipes using it, and as such, it seemed =
+a good
+>>>>>>> idea
+>>>>>>> to add these lines to that recipe:
+>>>>>>>
+>>>>>>> +ALTERNATIVE_${PN} =3D "fpga.bin bitstreams"
+>>>>>>> +ALTERNATIVE_LINK_NAME[fpga.bin] =3D "${datadir}/fpga.bin"
+>>>>>>> +ALTERNATIVE_TARGET[fpga.bin] =3D "${datadir}/fpga.bin"
+>>>>>>> +ALTERNATIVE_LINK_NAME[bitstreams] =3D "${datadir}/bitstreams"
+>>>>>>> +ALTERNATIVE_TARGET[bitstreams] =3D "${datadir}/bitstreams"
+>>>>>>>
+>>>>>>>
+>>>>>>> This still resulted in staging conflicts.
+>>>>>>
+>>>>>> This isn't surprising since update-alternatives only works for targe=
+t
+>>>>>> systems. It is not designed for operating on the sysroot.
+>>>>>
+>>>>> I don't want these files in sysroot, I want them on target only.
+>>>>
+>>>> Ok, that makes things much easier.
+>>>>
+>>>>>>> But looking at the contents of the fake packages, the fpga.bin has =
+been
+>>>>>>> renamed by alternatives (as expected), and the symlink will be crea=
+ted after
+>>>>>>> installing, so how come I still get this?
+>>>>>>
+>>>>>> The "staging" code uses the output of do_install directly and does
+>>>>>> different things to the packaging code path. We've never had someone
+>>>>>> with this problem before. Binaries in *bindir only get installed int=
+o
+>>>>>> the sysroot in the -native case.
+>>>>>>
+>>>>>> I appreciate that tells you why it doesn't work and not how to fix i=
+t
+>>>>>> but hopefully that helps a bit.
+>>>>>
+>>>>> If I understand you correctly, the problem is that the recipe is tryi=
+ng to
+>>>>> install things in sysroot?
+>>>>
+>>>> Correct, by default ${datadir} is staged. The easiest way to handle th=
+is
+>>>> may be to define your own sysroot_stage_all function (or
+>>>> sysroot_stage_dirs) which just stages what you need, if anything.
+>>>
+>>> In other words, make  sysroot_stage_all into a no-op?
+>>>
+>>> I've been looking at the staging.bbclass, but that's basically the best=
+ I can
+>>> come up with.
+>>
+>> Ah, slightly better:
+>>
+>> # Prevent bitstreams ending up in sysroot.
+>> sysroot_stage_dirs_append() {
+>> 	rm -rf $to${datadir}/fpga.bin $to${datadir}/bitstreams
+>> }
+>>
+>> This wastes a bit (installing multimegabyte bitstreams only to remove th=
+em)
+>> but it won't interfere with recipes that do wish to install things in sy=
+sroot.
+>>
+>> I've tested with this now, and this appears to do exactly as I wanted.
+>
+> That is fine and perfectly acceptable. Just to be clear, you can also
+> do:
+>
+> sysroot_stage_all() {
+> 	:
+> }
+>
+> in your recipe and it will only affect that recipe, not all recipes.
 
-Can someone kindly review my patch? I haven't sent patches to this list yet=
- and I don't know who the maintainer is.
+It's slowly growing into a more of a class. This particular file gets inclu=
+ded=20
+by all FPGA image recipes (which is why I needed the alternatives mechanism=
+),=20
+so in my particular case, any change here affects a dozen actual packages.
 
-Please let me know if there's anything else I can do in order to have this =
-fix merged.
 
-Thank you,
-Bogdan P.
 
-> -----Original Message-----
-> From: Bogdan Purcareata [mailto:bogdan.purcareata@freescale.com]
-> Sent: Monday, October 27, 2014 5:52 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Purcareata Bogdan-B43198
-> Subject: [PATCH v2] shadow: enable support for subordinate IDs
->=20
-> The subordinate IDs support in pkg-shadow allows unprivileged users to ma=
-nage
-> a
-> set of UIDs and GIDs. These subordinate IDs are specified by root, and ca=
-n be
-> further used by the unprivileged user they have been assigned to. This us=
-er
-> can
-> then create an e.g. user namespace, where he is allowed to manage his own=
- set
-> of
-> users and group from the pool of subordinate IDs. More details can be fou=
-nd at
-> http://lwn.net/Articles/533617/.
->=20
-> Pull a required change from upstream in order to make shadow cross-compil=
-e
-> with
-> subordinate IDs support. Enable flag in recipe.
->=20
-> Changes since v1:
-> - update changelog
->=20
-> Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> ---
->  ..._of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF.patch |   41
-> ++++++++++++++++++++
->  meta/recipes-extended/shadow/shadow.inc            |    3 +-
->  2 files changed, 43 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-
-> extended/shadow/files/check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF=
-.patc
-> h
->=20
-> diff --git a/meta/recipes-
-> extended/shadow/files/check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF=
-.patc
-> h b/meta/recipes-
-> extended/shadow/files/check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF=
-.patc
-> h
-> new file mode 100644
-> index 0000000..185590c
-> --- /dev/null
-> +++ b/meta/recipes-
-> extended/shadow/files/check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF=
-.patc
-> h
-> @@ -0,0 +1,41 @@
-> +From 2cb54158b80cdbd97ca3b36df83f9255e923ae3f Mon Sep 17 00:00:00 2001
-> +From: James Le Cuirot <chewi@aura-online.co.uk>
-> +Date: Sat, 23 Aug 2014 09:46:39 +0100
-> +Subject: [PATCH] Check size of uid_t and gid_t using AC_CHECK_SIZEOF
-> +
-> +This built-in check is simpler than the previous method and, most
-> +importantly, works when cross-compiling.
-> +
-> +Upstream-Status: Accepted
-> +[https://github.com/shadow-
-> maint/shadow/commit/2cb54158b80cdbd97ca3b36df83f9255e923ae3f]
-> +
-> +Signed-off-by: Serge Hallyn <serge.hallyn@ubuntu.com>
-> +---
-> + configure.in | 14 ++++----------
-> + 1 file changed, 4 insertions(+), 10 deletions(-)
-> +
-> +diff --git a/configure.in b/configure.in
-> +index 1a3f841..4a4d6d0 100644
-> +--- a/configure.in
-> ++++ b/configure.in
-> +@@ -335,16 +335,10 @@ if test "$enable_subids" !=3D "no"; then
-> + 	dnl
-> + 	dnl FIXME: check if 32 bit UIDs/GIDs are supported by libc
-> + 	dnl
-> +-	AC_RUN_IFELSE([AC_LANG_SOURCE([
-> +-#include <sys/types.h>
-> +-int main(void) {
-> +-	uid_t u;
-> +-	gid_t g;
-> +-	return (sizeof u < 4) || (sizeof g < 4);
-> +-}
-> +-	])], [id32bit=3D"yes"], [id32bit=3D"no"])
-> +-
-> +-	if test "x$id32bit" =3D "xyes"; then
-> ++	AC_CHECK_SIZEOF([uid_t],, [#include "sys/types.h"])
-> ++	AC_CHECK_SIZEOF([gid_t],, [#include "sys/types.h"])
-> ++
-> ++	if test "$ac_cv_sizeof_uid_t" -ge 4 && test "$ac_cv_sizeof_gid_t" -ge =
-4;
-> then
-> + 		AC_DEFINE(ENABLE_SUBIDS, 1, [Define to support the subordinate
-> IDs.])
-> + 		enable_subids=3D"yes"
-> + 	else
-> diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-
-> extended/shadow/shadow.inc
-> index b2a5f0e..9fada0d 100644
-> --- a/meta/recipes-extended/shadow/shadow.inc
-> +++ b/meta/recipes-extended/shadow/shadow.inc
-> @@ -16,6 +16,7 @@ SRC_URI =3D "http://pkg-
-> shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.xz \
->             file://fix-installation-failure-with-subids-disabled.patch \
->             file://0001-su.c-fix-to-exec-command-correctly.patch \
->             file://0001-Do-not-read-login.defs-before-doing-chroot.patch =
-\
-> +           file://check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF.pa=
-tch \
->             ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}'=
-, '',
-> d)} \
->             "
->=20
-> @@ -52,7 +53,7 @@ EXTRA_OECONF +=3D "--without-audit \
->                   --without-libcrack \
->                   --without-selinux \
->                   --with-group-name-max-length=3D24 \
-> -                 --enable-subordinate-ids=3Dno \
-> +                 --enable-subordinate-ids=3Dyes \
->                   ${NSCDOPT}"
->=20
->  NSCDOPT =3D ""
-> --
-> 1.7.10.4
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+System Expert
+
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
 
 
