@@ -1,25 +1,37 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DE246FCA3
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-vc0-f170.google.com (mail-vc0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 501E965DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 17:31:14 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Nov 2014 09:31:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,308,1413270000"; d="scan'208";a="625610189"
-Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.154])
-	([10.219.4.154])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Nov 2014 09:26:27 -0800
-Message-ID: <5457BAE5.4070608@linux.intel.com>
-Date: Mon, 03 Nov 2014 11:27:01 -0600
-From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Mon,  3 Nov 2014 17:32:16 +0000 (UTC)
+Received: by mail-vc0-f170.google.com with SMTP id la4so5026106vcb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Nov 2014 09:32:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:content-type;
+	bh=TpQjurKjs43C7xXEVe1E4pWWcLlabrO7e4WqC5UwbNQ=;
+	b=CqWIC5LWJhcNLzpjGBfQelLpNFhrJ722ApZr/yFVMk1ETut/BCVrzch8E/8vSyrCCb
+	DU5VQv+Am4O0gU85jHLhI3SLXBZJNrpcUI16SezhPV06NOJpq/OA+l2L7G7u3BXVCxnL
+	tBrEWGyOg5ZJhqxXzbkFTGHcUb/II0BhM1xxEWhSuw/PlpqgjixXOJSKdFMdDNUTSsaj
+	Wj84fJJgxE/h/M6+LINdRGqRKLQiWA4r0elnB0jW/wYqomVGLi9Zy3VkXxk2cNUAwr5j
+	qmFNp5QA2vWuE2exiHne5GuAZ/Y/P9WrJCmBhi5N2s7tHkySi7jYRWTN5LvKiqpGKdsP
+	jXlg==
+X-Gm-Message-State: ALoCoQmjWxjzSgy6NpQr4XXxU9CkRzTzLz1Mk/uNnPAUefOcazmpE3SE2w652My0rvt23aULtIbI
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1414861027-13914-1-git-send-email-ricardo.ribalda@gmail.com>
-In-Reply-To: <1414861027-13914-1-git-send-email-ricardo.ribalda@gmail.com>
-Subject: Re: [PATCH] package_manager: Fix populate_sdk for dpkg packages
+X-Received: by 10.220.127.5 with SMTP id e5mr3012088vcs.40.1415035936849; Mon,
+	03 Nov 2014 09:32:16 -0800 (PST)
+Sender: lpapp@archlinux.us
+Received: by 10.31.188.132 with HTTP; Mon, 3 Nov 2014 09:32:16 -0800 (PST)
+In-Reply-To: <CAOMwXhPbXCQ7ui+J0a8ryekeq5Yy5EXdgt-Qr26Z9w74=vyD5w@mail.gmail.com>
+References: <CAOMwXhPbXCQ7ui+J0a8ryekeq5Yy5EXdgt-Qr26Z9w74=vyD5w@mail.gmail.com>
+Date: Mon, 3 Nov 2014 17:32:16 +0000
+X-Google-Sender-Auth: Wi4lHYnciO2uD7g0SZ5Bv366rjY
+Message-ID: <CAOMwXhP7gaoBAHnN3sG4007WAe5cybW5qbzNZLWR-ovk7Z46=Q@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Specifying 32 bit dependency for 64 bit software
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,71 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 17:31:20 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Nov 2014 17:32:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Ricardo,
+Forgot to mention, but any nice workarounds are appreciated. I have a
+few ideas, but they are all a bit ugly and non-robust.
 
-I think the problem isn't related to this, the all_arch_list is set to 
-archs + multilib_archs see the __init__ func.
-
-Best regards.
-
-On 01/11/14 10:57, Ricardo Ribalda Delgado wrote:
-> Without this patch:
+On Mon, Nov 3, 2014 at 5:29 PM, Laszlo Papp <lpapp@kde.org> wrote:
+> Hi,
 >
-> ERROR: Unable to install packages. Command '/var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/sysroots/x86_64-linux/usr/bin/apt-get  install --force-yes --allow-unauthenticated nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-qt5022' returned 100:
-> Reading package lists...
-> Building dependency tree...
-> Reading state information...
-> W: Unable to read /var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/work/bobcat_64-poky-linux/meta-toolchain/1.0-r7/apt-sdk/preferences.d/ - DirectoryExists (2: No such file or directory)
-> E: Unable to locate package nativesdk-packagegroup-sdk-host
-> E: Unable to locate package packagegroup-cross-canadian-qt5022
+> we have a tool that we run during our make run, but this tool is
+> hard-coded for 32 bit. It depends on software like ncurses. I could
+> add ncurses-native in an ideal world; no problem.
 >
-> ERROR: Function failed: do_populate_sdk
-> ERROR: Logfile of failure stored in: /var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/work/bobcat_64-poky-linux/meta-toolchain/1.0-r7/temp/log.do_populate_sdk.4926
-> NOTE: recipe meta-toolchain-1.0-r7: task do_populate_sdk: Failed
-> ERROR: Task 7 (/var/lib/jenkins/jobs/qt5022-cesium/workspace/repo/yocto/meta/recipes-core/meta/meta-toolchain.bb, do_populate_sdk) failed with exit code '1'
-> Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-> ---
+> The problem is that my host environment is 64 bit currently and it is
+> not possible to migrate the whole environment to 32 bit. I am happy to
+> explain the details if needed, but I would love you to trust me about
+> that. =)
 >
-> Tested on yocto 1.7
+> So, is it possible to say more than just DEPENDS = ncurses-native,
+> something like DEPENDS = ncurses-native:x86 or something?
 >
-> Only build test, not tested on target.
->
->   meta/lib/oe/package_manager.py | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> index 27fdf26..8828bce 100644
-> --- a/meta/lib/oe/package_manager.py
-> +++ b/meta/lib/oe/package_manager.py
-> @@ -188,7 +188,7 @@ class DpkgIndexer(Indexer):
->                   release.write("Label: %s\n" % arch)
->   
->               cmd += "PSEUDO_UNLOAD=1 %s release . >> Release" % apt_ftparchive
-> -
-> +
->               index_cmds.append(cmd)
->   
->               deb_dirs_found = True
-> @@ -1467,6 +1467,7 @@ class DpkgPM(PackageManager):
->       def __init__(self, d, target_rootfs, archs, base_archs, apt_conf_dir=None):
->           super(DpkgPM, self).__init__(d)
->           self.target_rootfs = target_rootfs
-> +        self.pkg_archs = archs
->           self.deploy_dir = self.d.getVar('DEPLOY_DIR_DEB', True)
->           if apt_conf_dir is None:
->               self.apt_conf_dir = self.d.expand("${APTCONF_TARGET}/apt")
-> @@ -1662,7 +1663,7 @@ class DpkgPM(PackageManager):
->           bb.utils.mkdirhier(self.apt_conf_dir + "/apt.conf.d/")
->   
->           arch_list = []
-> -        for arch in self.all_arch_list:
-> +        for arch in self.pkg_archs.split():
->               if not os.path.exists(os.path.join(self.deploy_dir, arch)):
->                   continue
->               arch_list.append(arch)
-
+> Cheers, L.
 
