@@ -1,49 +1,45 @@
-Return-Path: <Chris.Carr@ge.com>
-Received: from mx0a-00176a03.pphosted.com (mx0a-00176a03.pphosted.com
-	[67.231.149.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 0289160E49
+Return-Path: <bogdan.purcareata@freescale.com>
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bon0148.outbound.protection.outlook.com [157.56.111.148])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F95160557
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 13:18:50 +0000 (UTC)
-Received: from pps.filterd (m0047961.ppops.net [127.0.0.1])
-	by m0047961.ppops.net-00176a03. (8.14.7/8.14.7) with SMTP id
-	sA3DBjcc028782 for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Nov 2014 08:18:51 -0500
-Received: from alpmlip14.e2k.ad.ge.com ([12.43.191.1])
-	by m0047961.ppops.net-00176a03. with ESMTP id 1qea7800j7-17
-	(version=TLSv1/SSLv3 cipher=RC4-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Nov 2014 08:18:50 -0500
-Received: from unknown (HELO ALPMBHT04.e2k.ad.ge.com) ([3.159.19.197])
-	by alpmlip14.e2k.ad.ge.com with ESMTP/TLS/AES128-SHA;
-	03 Nov 2014 08:14:00 -0500
-Received: from CINMBAPD01.e2k.ad.ge.com (3.159.212.67) by
-	ALPMBHT04.e2k.ad.ge.com (3.159.19.197) with Microsoft SMTP Server (TLS)
-	id 14.3.195.1; Mon, 3 Nov 2014 08:18:39 -0500
-Received: from [3.26.68.158] (3.159.212.191) by CINMBAPD01.e2k.ad.ge.com
-	(3.159.212.67) with Microsoft SMTP Server id 14.3.195.1; Mon, 3 Nov 2014
-	08:18:38 -0500
-Message-ID: <545780AD.30106@ge.com>
-Date: Mon, 3 Nov 2014 13:18:37 +0000
-From: "Carr, Chris (GE Intelligent Platforms)" <chris.carr@ge.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Mon,  3 Nov 2014 13:24:08 +0000 (UTC)
+Received: from BY2PR03MB190.namprd03.prod.outlook.com (10.242.36.141) by
+	BY2PR03MB556.namprd03.prod.outlook.com (10.141.142.145) with Microsoft
+	SMTP Server (TLS) id 15.1.11.14; Mon, 3 Nov 2014 13:09:31 +0000
+Received: from BY2PR03MB189.namprd03.prod.outlook.com (10.242.36.140) by
+	BY2PR03MB190.namprd03.prod.outlook.com (10.242.36.141) with Microsoft
+	SMTP Server (TLS) id 15.1.11.14; Mon, 3 Nov 2014 13:09:29 +0000
+Received: from BY2PR03MB189.namprd03.prod.outlook.com ([169.254.6.172]) by
+	BY2PR03MB189.namprd03.prod.outlook.com ([169.254.6.172]) with mapi id
+	15.01.0011.000; Mon, 3 Nov 2014 13:09:29 +0000
+From: "bogdan.purcareata@freescale.com" <bogdan.purcareata@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH v2] shadow: enable support for subordinate IDs
+Thread-Index: AQHP8cOR4SZcHgWCAk2fur8nuReixpxO6sQw
+Date: Mon, 3 Nov 2014 13:09:29 +0000
+Message-ID: <3b87b5236d394a58a73fbc0068d593e5@BY2PR03MB189.namprd03.prod.outlook.com>
+References: <1414088763-15256-1-git-send-email-bogdan.purcareata@freescale.com>
+	<1414425094-12256-1-git-send-email-bogdan.purcareata@freescale.com>
+In-Reply-To: <1414425094-12256-1-git-send-email-bogdan.purcareata@freescale.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.88.166.1]
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB190;UriScan:;
+x-exchange-antispam-report-test: UriScan:;
+x-forefront-prvs: 0384275935
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(11905935001)(189002)(51704005)(377454003)(13464003)(199003)(92566001)(575784001)(15202345003)(76576001)(19580405001)(40100003)(19580395003)(2656002)(87936001)(122556002)(54356999)(15395725005)(76176999)(77096003)(77156002)(50986999)(86362001)(101416001)(15975445006)(120916001)(31966008)(107046002)(99286002)(95666004)(107886001)(2351001)(450100001)(106356001)(106116001)(105586002)(108616004)(99396003)(33646002)(110136001)(64706001)(21056001)(46102003)(62966003)(74316001)(20776003)(66066001)(24736002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BY2PR03MB190;
+	H:BY2PR03MB189.namprd03.prod.outlook.com; FPR:; MLV:sfv;
+	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-To: Paul Barker <paul@paulbarker.me.uk>
-References: <1414352182-30029-1-git-send-email-paul@paulbarker.me.uk>
-	<CANyK_8cVn-EuWaFT3KsAOKP_QoKwcGxE7QSqFNHoe6mQERRcdA@mail.gmail.com>
-In-Reply-To: <CANyK_8cVn-EuWaFT3KsAOKP_QoKwcGxE7QSqFNHoe6mQERRcdA@mail.gmail.com>
-X-Originating-IP: [3.159.212.191]
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.28,
-	0.0.0000
-	definitions=2014-11-03_02:2014-11-03, 2014-11-03,
-	1970-01-01 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
-	suspectscore=0 phishscore=0
-	adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1
-	engine=7.0.1-1402240000 definitions=main-1411030120
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package_manager: Fix BAD_RECOMMENDATIONS for opkg
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB556;
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH v2] shadow: enable support for subordinate IDs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,73 +52,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 13:19:00 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Nov 2014 13:24:11 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 26/10/2014 19:37, Paul Barker wrote:
-> On 26 October 2014 19:36, Paul Barker <paul@paulbarker.me.uk> wrote:
->> In package_manager.py, when using opkg as the packager, the command 'opkg <args>
->> info <pkg>' is called to get information about each pkg in BAD_RECOMMENDATIONS
->> in a format that can be written to the status file. The 'Status: ...' line is
->> modified and all other lines are passed through. Changing the verbosity level
->> argument for this command will change what it written into the status file.
->> Crucially, with the default verbosity level, no blank lines are being printed by
->> the opkg command and so no blank lines are being written to the status file to
->> separate each package entry.
->>
->> The package parsing code in opkg expects package entries in the status file to
->> be separated by at least one blank line. If no blank line is seen, the next
->> package entry is interpreted as a continuation of the last package entry, but
->> the new values overwrite the old values.
->>
->> So with the default verbosity level, a blank line follows some package entries
->> and these are parsed. The others are dropped due to the lack of blank lines. As
->> the verbosity increases, more debugging messages add blank lines and more
->> packages are parsed.
->>
->> The solution to ensure that this works correctly regardless of the verbosity
->> level is simply add a blank line after the output of 'opkg info' is written to
->> the status file, ensuring that the next package is separated from the current
->> package.
->>
->> [YOCTO #6816]
->>
->> Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
->> Cc: Chris Carr <chris.carr@ge.com>
->> ---
->>  meta/lib/oe/package_manager.py | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
->> index ffb83b2..85d7fd4 100644
->> --- a/meta/lib/oe/package_manager.py
->> +++ b/meta/lib/oe/package_manager.py
->> @@ -1408,6 +1408,10 @@ class OpkgPM(PackageManager):
->>                      else:
->>                          status.write(line + "\n")
->>
->> +                # Append a blank line after each package entry to ensure that it
->> +                # is separated from the following entry
->> +                status.write("\n")
->> +
->>      '''
->>      The following function dummy installs pkgs and returns the log of output.
->>      '''
->> --
->> 2.1.2
->>
-> 
-> Chris, could you give this a test and let us know if it fixes the issue.
-> 
-> Thanks,
-> 
+Hello,
 
-Paul,
+Can someone kindly review my patch? I haven't sent patches to this list yet=
+ and I don't know who the maintainer is.
 
-I've tried the patch with my build and all the packages in BAD_RECOMMENDATIONS are now being processed correctly and do not appear in the target rootfs.
+Please let me know if there's anything else I can do in order to have this =
+fix merged.
 
-[My subscription to the OE Core mailing list had quietly expired, so I've re-subscribed to ensure that this reply goes to the list as well]
+Thank you,
+Bogdan P.
 
-Chris Carr
+> -----Original Message-----
+> From: Bogdan Purcareata [mailto:bogdan.purcareata@freescale.com]
+> Sent: Monday, October 27, 2014 5:52 PM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Purcareata Bogdan-B43198
+> Subject: [PATCH v2] shadow: enable support for subordinate IDs
+>=20
+> The subordinate IDs support in pkg-shadow allows unprivileged users to ma=
+nage
+> a
+> set of UIDs and GIDs. These subordinate IDs are specified by root, and ca=
+n be
+> further used by the unprivileged user they have been assigned to. This us=
+er
+> can
+> then create an e.g. user namespace, where he is allowed to manage his own=
+ set
+> of
+> users and group from the pool of subordinate IDs. More details can be fou=
+nd at
+> http://lwn.net/Articles/533617/.
+>=20
+> Pull a required change from upstream in order to make shadow cross-compil=
+e
+> with
+> subordinate IDs support. Enable flag in recipe.
+>=20
+> Changes since v1:
+> - update changelog
+>=20
+> Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+> ---
+>  ..._of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF.patch |   41
+> ++++++++++++++++++++
+>  meta/recipes-extended/shadow/shadow.inc            |    3 +-
+>  2 files changed, 43 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-
+> extended/shadow/files/check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF=
+.patc
+> h
+>=20
+> diff --git a/meta/recipes-
+> extended/shadow/files/check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF=
+.patc
+> h b/meta/recipes-
+> extended/shadow/files/check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF=
+.patc
+> h
+> new file mode 100644
+> index 0000000..185590c
+> --- /dev/null
+> +++ b/meta/recipes-
+> extended/shadow/files/check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF=
+.patc
+> h
+> @@ -0,0 +1,41 @@
+> +From 2cb54158b80cdbd97ca3b36df83f9255e923ae3f Mon Sep 17 00:00:00 2001
+> +From: James Le Cuirot <chewi@aura-online.co.uk>
+> +Date: Sat, 23 Aug 2014 09:46:39 +0100
+> +Subject: [PATCH] Check size of uid_t and gid_t using AC_CHECK_SIZEOF
+> +
+> +This built-in check is simpler than the previous method and, most
+> +importantly, works when cross-compiling.
+> +
+> +Upstream-Status: Accepted
+> +[https://github.com/shadow-
+> maint/shadow/commit/2cb54158b80cdbd97ca3b36df83f9255e923ae3f]
+> +
+> +Signed-off-by: Serge Hallyn <serge.hallyn@ubuntu.com>
+> +---
+> + configure.in | 14 ++++----------
+> + 1 file changed, 4 insertions(+), 10 deletions(-)
+> +
+> +diff --git a/configure.in b/configure.in
+> +index 1a3f841..4a4d6d0 100644
+> +--- a/configure.in
+> ++++ b/configure.in
+> +@@ -335,16 +335,10 @@ if test "$enable_subids" !=3D "no"; then
+> + 	dnl
+> + 	dnl FIXME: check if 32 bit UIDs/GIDs are supported by libc
+> + 	dnl
+> +-	AC_RUN_IFELSE([AC_LANG_SOURCE([
+> +-#include <sys/types.h>
+> +-int main(void) {
+> +-	uid_t u;
+> +-	gid_t g;
+> +-	return (sizeof u < 4) || (sizeof g < 4);
+> +-}
+> +-	])], [id32bit=3D"yes"], [id32bit=3D"no"])
+> +-
+> +-	if test "x$id32bit" =3D "xyes"; then
+> ++	AC_CHECK_SIZEOF([uid_t],, [#include "sys/types.h"])
+> ++	AC_CHECK_SIZEOF([gid_t],, [#include "sys/types.h"])
+> ++
+> ++	if test "$ac_cv_sizeof_uid_t" -ge 4 && test "$ac_cv_sizeof_gid_t" -ge =
+4;
+> then
+> + 		AC_DEFINE(ENABLE_SUBIDS, 1, [Define to support the subordinate
+> IDs.])
+> + 		enable_subids=3D"yes"
+> + 	else
+> diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-
+> extended/shadow/shadow.inc
+> index b2a5f0e..9fada0d 100644
+> --- a/meta/recipes-extended/shadow/shadow.inc
+> +++ b/meta/recipes-extended/shadow/shadow.inc
+> @@ -16,6 +16,7 @@ SRC_URI =3D "http://pkg-
+> shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.xz \
+>             file://fix-installation-failure-with-subids-disabled.patch \
+>             file://0001-su.c-fix-to-exec-command-correctly.patch \
+>             file://0001-Do-not-read-login.defs-before-doing-chroot.patch =
+\
+> +           file://check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF.pa=
+tch \
+>             ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}'=
+, '',
+> d)} \
+>             "
+>=20
+> @@ -52,7 +53,7 @@ EXTRA_OECONF +=3D "--without-audit \
+>                   --without-libcrack \
+>                   --without-selinux \
+>                   --with-group-name-max-length=3D24 \
+> -                 --enable-subordinate-ids=3Dno \
+> +                 --enable-subordinate-ids=3Dyes \
+>                   ${NSCDOPT}"
+>=20
+>  NSCDOPT =3D ""
+> --
+> 1.7.10.4
+
 
