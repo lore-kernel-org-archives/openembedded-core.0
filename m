@@ -1,44 +1,29 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
-	[217.149.192.139])
-	by mail.openembedded.org (Postfix) with ESMTP id 810667068F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C0BB7068F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 11:35:14 +0000 (UTC)
-Received: from amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.58])
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id 4E8E9402AD;
-	Mon,  3 Nov 2014 12:35:14 +0100 (CET)
-X-Spam-Flag: NO
-X-Spam-Score: -2.899
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.899 tagged_above=-999 required=4.5
-	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
-X-Spam-Languages: en
-Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
-	by amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP; Mon,  3 Nov 2014 12:35:13 +0100 (CET)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS;
-	Mon,  3 Nov 2014 12:35:01 +0100 (CET)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Mon, 3 Nov 2014 12:35:15 +0100
-Message-ID: <54576864.3060507@topic.nl>
-Date: Mon, 3 Nov 2014 12:35:00 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <5452486B.6070303@topic.nl>
-	<1414691238.7649.70.camel@ted>		<545750AE.6080300@topic.nl>
-	<1415009059.5111.5.camel@ted> <54575DC6.8040403@topic.nl>
+	Mon,  3 Nov 2014 11:35:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA3BWLBS007768; Mon, 3 Nov 2014 11:34:52 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id D_qDdHuCfq_X; Mon,  3 Nov 2014 11:34:52 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA3BYkoG007795
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 3 Nov 2014 11:34:47 GMT
+Message-ID: <1415014521.5111.6.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Date: Mon, 03 Nov 2014 11:35:21 +0000
 In-Reply-To: <54575DC6.8040403@topic.nl>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+References: <5452486B.6070303@topic.nl> <1414691238.7649.70.camel@ted>
+	<545750AE.6080300@topic.nl> <1415009059.5111.5.camel@ted>
+	<54575DC6.8040403@topic.nl>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Weird ALTERNATIVES and staging conflict.
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,104 +38,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 11:35:17 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 03 Nov 2014 11:35:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-=EF=BB=BFOn 11/03/2014 11:49 AM, Mike Looijmans wrote:
-> On 11/03/2014 11:04 AM, Richard Purdie wrote:
->> On Mon, 2014-11-03 at 10:53 +0100, Mike Looijmans wrote:
->>> =EF=BB=BFOn 10/30/2014 06:47 PM, Richard Purdie wrote:
->>>> On Thu, 2014-10-30 at 15:17 +0100, Mike Looijmans wrote:
->>>>> =EF=BB=BFI have this base script that builds FPGA bitstreams:
->>>>>
->>>>> https://github.com/topic-embedded-products/meta-topic/blob/master/rec=
-ipes-bsp/fpga/fpga-image.inc
->>>>>
->>>>>
->>>>> Now you can have multiple recipes using it, and as such, it seemed a =
-good
->>>>> idea
->>>>> to add these lines to that recipe:
->>>>>
->>>>> +ALTERNATIVE_${PN} =3D "fpga.bin bitstreams"
->>>>> +ALTERNATIVE_LINK_NAME[fpga.bin] =3D "${datadir}/fpga.bin"
->>>>> +ALTERNATIVE_TARGET[fpga.bin] =3D "${datadir}/fpga.bin"
->>>>> +ALTERNATIVE_LINK_NAME[bitstreams] =3D "${datadir}/bitstreams"
->>>>> +ALTERNATIVE_TARGET[bitstreams] =3D "${datadir}/bitstreams"
->>>>>
->>>>>
->>>>> This still resulted in staging conflicts.
->>>>
->>>> This isn't surprising since update-alternatives only works for target
->>>> systems. It is not designed for operating on the sysroot.
->>>
->>> I don't want these files in sysroot, I want them on target only.
->>
->> Ok, that makes things much easier.
->>
->>>>> But looking at the contents of the fake packages, the fpga.bin has be=
-en
->>>>> renamed by alternatives (as expected), and the symlink will be create=
-d after
->>>>> installing, so how come I still get this?
->>>>
->>>> The "staging" code uses the output of do_install directly and does
->>>> different things to the packaging code path. We've never had someone
->>>> with this problem before. Binaries in *bindir only get installed into
->>>> the sysroot in the -native case.
->>>>
->>>> I appreciate that tells you why it doesn't work and not how to fix it
->>>> but hopefully that helps a bit.
->>>
->>> If I understand you correctly, the problem is that the recipe is trying=
- to
->>> install things in sysroot?
->>
->> Correct, by default ${datadir} is staged. The easiest way to handle this
->> may be to define your own sysroot_stage_all function (or
->> sysroot_stage_dirs) which just stages what you need, if anything.
->
+On Mon, 2014-11-03 at 11:49 +0100, Mike Looijmans wrote:
+> ﻿On 11/03/2014 11:04 AM, Richard Purdie wrote:
+> > On Mon, 2014-11-03 at 10:53 +0100, Mike Looijmans wrote:
+> >> ﻿On 10/30/2014 06:47 PM, Richard Purdie wrote:
+> >>> On Thu, 2014-10-30 at 15:17 +0100, Mike Looijmans wrote:
+> >>>> ﻿I have this base script that builds FPGA bitstreams:
+> >>>>
+> >>>> https://github.com/topic-embedded-products/meta-topic/blob/master/recipes-bsp/fpga/fpga-image.inc
+> >>>>
+> >>>> Now you can have multiple recipes using it, and as such, it seemed a good idea
+> >>>> to add these lines to that recipe:
+> >>>>
+> >>>> +ALTERNATIVE_${PN} = "fpga.bin bitstreams"
+> >>>> +ALTERNATIVE_LINK_NAME[fpga.bin] = "${datadir}/fpga.bin"
+> >>>> +ALTERNATIVE_TARGET[fpga.bin] = "${datadir}/fpga.bin"
+> >>>> +ALTERNATIVE_LINK_NAME[bitstreams] = "${datadir}/bitstreams"
+> >>>> +ALTERNATIVE_TARGET[bitstreams] = "${datadir}/bitstreams"
+> >>>>
+> >>>>
+> >>>> This still resulted in staging conflicts.
+> >>>
+> >>> This isn't surprising since update-alternatives only works for target
+> >>> systems. It is not designed for operating on the sysroot.
+> >>
+> >> I don't want these files in sysroot, I want them on target only.
+> >
+> > Ok, that makes things much easier.
+> >
+> >>>> But looking at the contents of the fake packages, the fpga.bin has been
+> >>>> renamed by alternatives (as expected), and the symlink will be created after
+> >>>> installing, so how come I still get this?
+> >>>
+> >>> The "staging" code uses the output of do_install directly and does
+> >>> different things to the packaging code path. We've never had someone
+> >>> with this problem before. Binaries in *bindir only get installed into
+> >>> the sysroot in the -native case.
+> >>>
+> >>> I appreciate that tells you why it doesn't work and not how to fix it
+> >>> but hopefully that helps a bit.
+> >>
+> >> If I understand you correctly, the problem is that the recipe is trying to
+> >> install things in sysroot?
+> >
+> > Correct, by default ${datadir} is staged. The easiest way to handle this
+> > may be to define your own sysroot_stage_all function (or
+> > sysroot_stage_dirs) which just stages what you need, if anything.
+> 
 > In other words, make  sysroot_stage_all into a no-op?
->
-> I've been looking at the staging.bbclass, but that's basically the best I=
- can
+> 
+> I've been looking at the staging.bbclass, but that's basically the best I can 
 > come up with.
 
-Ah, slightly better:
+I don't know what else your recipe may need. If you don't need to stage
+anything into the sysroots, make it a no-op, yes.
 
-# Prevent bitstreams ending up in sysroot.
-sysroot_stage_dirs_append() {
-	rm -rf $to${datadir}/fpga.bin $to${datadir}/bitstreams
-}
+Cheers,
 
-This wastes a bit (installing multimegabyte bitstreams only to remove them)=
-=20
-but it won't interfere with recipes that do wish to install things in sysro=
-ot.
-
-I've tested with this now, and this appears to do exactly as I wanted.
-
-
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-System Expert
-
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Topic zoekt gedreven (embedded) software specialisten!
-http://topic.nl/vacatures/topic-zoekt-software-engineers/
+Richard
 
 
