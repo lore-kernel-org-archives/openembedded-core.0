@@ -1,26 +1,19 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <Shiqun.Lin@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BF9E65C87
+	by mail.openembedded.org (Postfix) with ESMTP id 2F99B65D3C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 07:38:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA37c0ji023814
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 2 Nov 2014 23:38:00 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 2 Nov 2014 23:38:00 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
-	<qi.chen@windriver.com>
-Date: Mon, 3 Nov 2014 15:37:55 +0800
-Message-ID: <afef7088ee50cfc2be2d08f16ddd8fe087a1c490.1415000039.git.hongxu.jia@windriver.com>
+	Mon,  3 Nov 2014 09:08:45 +0000 (UTC)
+Received: from PEK-SLIN-D1.wrs.com (pek-slin-d1.corp.ad.wrs.com
+	[128.224.162.144])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA398iDo007635
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 3 Nov 2014 01:08:45 -0800 (PST)
+From: Shiqun Lin <Shiqun.Lin@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Nov 2014 17:08:42 +0800
+Message-Id: <1415005722-11692-1-git-send-email-Shiqun.Lin@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1415000039.git.hongxu.jia@windriver.com>
-References: <cover.1415000039.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: add network config while networkd supported
+Subject: [PATCH 1/1] libtool: remove some paths form the build host are encountered on the target rootfs in /usr/bin/libtool.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,64 +26,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 07:38:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Nov 2014 09:08:45 -0000
 
-While networkd supported, we add network config which starts
-dhcp by default.
+Resulted libtool contains references about paths from the build host
 
-And the customers could edit it according their own requirements.
-(dhcp or static ip...)
+Below variables contains hard coded build paths from the host:
+LTCC=
+lt_sysroot=
+sys_lib_search_path_spec=
+LD=
+CC=
+compiler_lib_search_dirs=
+predep_objects=
+postdep_objects=
+compiler_lib_search_path=
 
-It refers:
-https://wiki.archlinux.org/index.php/systemd-networkd
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Shiqun Lin <Shiqun.Lin@windriver.com>
 ---
- meta/recipes-core/systemd/systemd/oe-core.network | 8 ++++++++
- meta/recipes-core/systemd/systemd_216.bb          | 6 ++++++
- 2 files changed, 14 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/oe-core.network
+ meta/recipes-devtools/libtool/libtool_2.4.2.bb | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd/oe-core.network b/meta/recipes-core/systemd/systemd/oe-core.network
-new file mode 100644
-index 0000000..fcaefc2
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/oe-core.network
-@@ -0,0 +1,8 @@
-+[Match]
-+Name=eth*
-+
-+[Network]
-+DHCP=v4
-+
-+[DHCPv4]
-+UseHostname=false
-diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
-index 6d3e47f..dae1cb8 100644
---- a/meta/recipes-core/systemd/systemd_216.bb
-+++ b/meta/recipes-core/systemd/systemd_216.bb
-@@ -37,6 +37,7 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
-            file://00-create-volatile.conf \
-            file://init \
-            file://run-ptest \
-+           file://oe-core.network \
-            ${@bb.utils.contains('PACKAGECONFIG', 'resolved', '', 'file://0001-tmpfiles.d-etc.conf-disable-resolv.conf-symlink.patch', d)} \
-           "
+diff --git a/meta/recipes-devtools/libtool/libtool_2.4.2.bb b/meta/recipes-devtools/libtool/libtool_2.4.2.bb
+index a2eb4ea..268bbe1 100644
+--- a/meta/recipes-devtools/libtool/libtool_2.4.2.bb
++++ b/meta/recipes-devtools/libtool/libtool_2.4.2.bb
+@@ -7,6 +7,17 @@ PR = "${INC_PR}.0"
+ #
+ SYSROOT_PREPROCESS_FUNCS += "libtool_sysroot_preprocess"
  
-@@ -137,6 +138,11 @@ do_install() {
-         # Delete journal README, as log can be symlinked inside volatile.
-         rm -f ${D}/${localstatedir}/log/README
- 
-+	# While networkd enabled, it start dhcp by default
-+	if ${@bb.utils.contains('PACKAGECONFIG','networkd','true','false',d)}; then
-+		install -m 0755 ${WORKDIR}/oe-core.network ${D}${sysconfdir}/systemd/network
-+	fi
++do_install_append () {
++        sed -e 's@--sysroot=${STAGING_DIR_HOST}@@g' \
++            -e 's@${STAGING_DIR_HOST}@@g' \
++            -e 's@^\(sys_lib_search_path_spec="\).*@\1${libdir} ${base_libdir}"@' \
++            -e 's@^\(compiler_lib_search_dirs="\).*@\1${libdir} ${base_libdir}"@' \
++            -e 's@^\(compiler_lib_search_path="\).*@\1${libdir} ${base_libdir}"@' \
++            -e 's@^\(predep_objects="\).*@\1"@' \
++            -e 's@^\(postdep_objects="\).*@\1"@' \
++            -i ${D}${bindir}/libtool
++}
 +
- 	# Create symlinks for systemd-update-utmp-runlevel.service
- 	install -d ${D}${systemd_unitdir}/system/graphical.target.wants
- 	install -d ${D}${systemd_unitdir}/system/multi-user.target.wants
+ libtool_sysroot_preprocess () {
+ 	rm -rf ${SYSROOT_DESTDIR}${bindir}/*
+ 	rm -rf ${SYSROOT_DESTDIR}${datadir}/aclocal/*
 -- 
-1.9.1
+1.8.5.2.233.g932f7e4
 
 
