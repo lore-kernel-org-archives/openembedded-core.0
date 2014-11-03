@@ -1,37 +1,24 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 52C0565D59
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 49BE86E63E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 15:24:39 +0000 (UTC)
-Received: by mail-wi0-f169.google.com with SMTP id n3so6343193wiv.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Nov 2014 07:24:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=PQqUhJ4ee50oP2Od1q9ORTJpziJhCdwtM2aFNSIai8U=;
-	b=Fm2ZMp1xdEbiWToPXkjL/nEnwxMuR5j2UXBb7CqwFKNIMq7XW4PAj2ygdTrJkOAnkl
-	SMNPXOVx7Er+KoqkZ3YcjrUE2na6kuZ4ETICQFqqzVZhYGhZERzuV7QV/sadzylh5qz5
-	Hn6EqlGrssDL36NxtvwyudO7PfQca1svnAFHTvtgPA9dZyH5xyZonhY5N+dgBdT2CwDE
-	+8xfrD2LA6gc9chW7AOcKpOSXu2uLnCjpYe5gHQ4Ozwp4A3HJiTkpp7nx+NCTc7HDNLo
-	OI2fhIPmiSBf2mxeaeJA7d7Sa8bXwa5R2o9YbfuRyWNzx7JuPbjx0ayIeylanVTm0q9S
-	2uxg==
-X-Gm-Message-State: ALoCoQnU1tzxH9q3mHbCinZrGhPgeuoEUKQpTznaJuvAuSMMiTaJYkJ3c1XNPMsihRaDK+MJyruV
-X-Received: by 10.194.60.198 with SMTP id j6mr49217141wjr.30.1415028279953;
-	Mon, 03 Nov 2014 07:24:39 -0800 (PST)
-Received: from ?IPv6:2001:610:612::6984:550e:6577:8ac9?
-	([2001:610:612:0:6984:550e:6577:8ac9])
-	by mx.google.com with ESMTPSA id
-	q10sm22509828wjq.35.2014.11.03.07.24.38 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 03 Nov 2014 07:24:39 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
-From: Koen Kooi <koen.kooi@linaro.org>
-In-Reply-To: <1415016627.5111.9.camel@ted>
-Date: Mon, 3 Nov 2014 16:24:38 +0100
-Message-Id: <9D7813D1-1BDC-4B46-BE6D-CF05049314E5@linaro.org>
+	Mon,  3 Nov 2014 16:08:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA3G7rKh022310; Mon, 3 Nov 2014 16:07:59 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id UzZ95x9x2d42; Mon,  3 Nov 2014 16:07:59 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA3G7vvu022318
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 3 Nov 2014 16:07:58 GMT
+Message-ID: <1415030912.5111.31.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen.kooi@linaro.org>
+Date: Mon, 03 Nov 2014 16:08:32 +0000
+In-Reply-To: <9D7813D1-1BDC-4B46-BE6D-CF05049314E5@linaro.org>
 References: <1411387952-22717-1-git-send-email-koen.kooi@linaro.org>
 	<1C408B9F-5383-488A-AE4C-E18D69800825@dominion.thruhere.net>
 	<CAJTo0LYOHMZCoGS342Wnh06LbJWUS1K_aDFfDWG4gxeFswm7EA@mail.gmail.com>
@@ -39,8 +26,9 @@ References: <1411387952-22717-1-git-send-email-koen.kooi@linaro.org>
 	<CAJTo0LYm6rqFtJ5jTq=cTGnJDHrYaj7f94RmWR_Lh-LkKqKaiA@mail.gmail.com>
 	<07F08083-4EDE-4CC7-AAA7-53019C7978C0@dominion.thruhere.net>
 	<1415016627.5111.9.camel@ted>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1878.6)
+	<9D7813D1-1BDC-4B46-BE6D-CF05049314E5@linaro.org>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libpng 1.6.13: fix build for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,51 +43,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 15:24:47 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 03 Nov 2014 16:08:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Mon, 2014-11-03 at 16:24 +0100, Koen Kooi wrote:
+> Op 3 nov. 2014, om 13:10 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
+> 
+> > On Mon, 2014-11-03 at 13:06 +0100, Koen Kooi wrote:
+> >>> Op 3 nov. 2014, om 12:30 heeft Burton, Ross <ross.burton@intel.com> het volgende geschreven:
+> >>> 
+> >>> 
+> >>> On 3 November 2014 11:27, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> >>>> Last night I was looking at my "post-1.7" tag and the number of aarch64 patches there.   Kai, did you continue work on that staging branch for all of the aarch64 patches that were being posted?
+> >>> 
+> >>> What does that have to do with this patch?
+> >>> 
+> >>> Kai was collecting patches that were sent to oe-core, and this may have been one of them.
+> >> 
+> >> Is this some new requirement for OE-core patches?
+> > 
+> > Its someone being helpful and trying to consolidate a topic branch and
+> > test things before it gets merged.
+> > 
+> > So its not a new requirement but it is helpful and appreciated.
+> 
+> It's been over a month and libpng is still broken, so I refuse to
+> classify this new process as 'helpful' or as 'appreciated' at this
+> point. 
 
-Op 3 nov. 2014, om 13:10 heeft Richard Purdie =
-<richard.purdie@linuxfoundation.org> het volgende geschreven:
+Well, for the past month we've been freezing for and working toward the
+release and it was agreed this batch of patches were being queued for
+post release. I think that was quite clear.
 
-> On Mon, 2014-11-03 at 13:06 +0100, Koen Kooi wrote:
->>> Op 3 nov. 2014, om 12:30 heeft Burton, Ross <ross.burton@intel.com> =
-het volgende geschreven:
->>>=20
->>>=20
->>> On 3 November 2014 11:27, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
->>>> Last night I was looking at my "post-1.7" tag and the number of =
-aarch64 patches there.   Kai, did you continue work on that staging =
-branch for all of the aarch64 patches that were being posted?
->>>=20
->>> What does that have to do with this patch?
->>>=20
->>> Kai was collecting patches that were sent to oe-core, and this may =
-have been one of them.
->>=20
->> Is this some new requirement for OE-core patches?
->=20
-> Its someone being helpful and trying to consolidate a topic branch and
-> test things before it gets merged.
->=20
-> So its not a new requirement but it is helpful and appreciated.
+As you well know, partly this is because we don't have a way to test any
+of it, nor is it an officially supported target. If we get a consistent
+set of code and a qemu machine that can test it, we'll be in a better
+position and I believe that is something people are working towards (but
+was way too late for the 1.7 cycle).
 
-It's been over a month and libpng is still broken, so I refuse to =
-classify this new process as 'helpful' or as 'appreciated' at this =
-point.=20
+We're now in a position where we've started merging patches again, there
+is a backlog being worked through and I'm sure this batch will be
+presented soon. We are sticking with the stated plan which was to have a
+queued branch of those patches, until such times as there is a better
+plan or offer.
 
-If this continues can the person doing such a branch reply to patches =
-intended for it saying they will or won't be queued? And please run the =
-patches without such a reply through the regular process. That would be =
-both helpful and appreciated.
+> If this continues can the person doing such a branch reply to patches
+> intended for it saying they will or won't be queued? And please run
+> the patches without such a reply through the regular process. That
+> would be both helpful and appreciated.
 
---
-Koen Kooi
-Builds and Baselines | Release Manager
-Linaro.org | Open source software for ARM SoCs
+It would be nice if the folks at Linaro would actually present things
+like a branch containing theire changes and help with this work. As it
+is, it seems others need to do this for them and instead they just want
+to complain why we don't take patches (which often don't even seem to
+build). I can understand not everyone at Linaro is going to test patches
+on a couple of other arches but having someone there aggregating patches
+and doing some acid tests might massively improve both their reputation
+and increase the chances of patches merging in a timely fashion.
 
+Cheers,
+
+Richard
 
 
 
