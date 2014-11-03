@@ -1,42 +1,38 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A6856017E
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 57BFA6E63E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 10:07:29 +0000 (UTC)
-Received: by mail-wi0-f175.google.com with SMTP id ex7so5957612wid.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Nov 2014 02:07:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=MluWSZhc0DgZ1VX3OX2ttxnFlggl85eka4paclJu0k8=;
-	b=nK3E1vRHZIeiTlmofaMxcSUCzTl6yWeLbpKS+8fw3QjC9Q1AtRaZUmDCiy+PXnyBmw
-	B/LaP5KRecfsn/jK5TOlDePnPQsVSJhMe087gK8MYdKnNsdqpbSvflND/PCSFvcWxyAE
-	vXuj98M9GIoZyGfYPQCu5Knd+Ia5SNSqd8llNeu9KwLur53M/w9jOB7UlCrCLOx5daeq
-	i9Og94QoOHxxgMuz7n54odNMvXSVdUsfF68u/x1DSG7wMBzeua6qdlpWdkfZ3x7h5KKb
-	kXtHMypi21mKzrUSYvsC/HqvFddWOSIwFvNXzv74iB1o3qOOc7+q578O0YVuER5DkRtV
-	FRmQ==
-X-Gm-Message-State: ALoCoQnGMvXZb2qg6cku9JzQtuSiwWu8qMf9Hmv3xSi/jiVEEg5D1BL+66lbTg+sginv6AEF+Amu
-X-Received: by 10.195.11.6 with SMTP id ee6mr9077029wjd.95.1415009249788;
-	Mon, 03 Nov 2014 02:07:29 -0800 (PST)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id fr6sm8186484wic.1.2014.11.03.02.07.28
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 03 Nov 2014 02:07:29 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <afef7088ee50cfc2be2d08f16ddd8fe087a1c490.1415000039.git.hongxu.jia@windriver.com>
-Date: Mon, 3 Nov 2014 11:07:27 +0100
-Message-Id: <B1172F6D-7C60-4AA2-BB10-98B3D283E503@dominion.thruhere.net>
+	Mon,  3 Nov 2014 10:13:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Nov 2014 02:13:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,307,1413270000"; d="scan'208";a="625372416"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Nov 2014 02:13:44 -0800
+Received: from irsmsx110.ger.corp.intel.com (163.33.3.25) by
+	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
+	(TLS) id 14.3.195.1; Mon, 3 Nov 2014 10:13:29 +0000
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.56]) by
+	IRSMSX110.ger.corp.intel.com ([169.254.15.3]) with mapi id
+	14.03.0195.001; Mon, 3 Nov 2014 10:13:28 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Jia, Hongxu (Wind River)" <hongxu.jia@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Burton, Ross"
+	<ross.burton@intel.com>, "Chen, Qi (Wind River)" <qi.chen@windriver.com>
+Thread-Topic: [OE-core] [PATCH 0/1] systemd: add network config while
+	networkd	supported
+Thread-Index: AQHP9zmAwqAJtcNzy0KY6W7aCRkbvJxOrOOA
+Date: Mon, 3 Nov 2014 10:13:29 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F385461@IRSMSX105.ger.corp.intel.com>
 References: <cover.1415000039.git.hongxu.jia@windriver.com>
-	<afef7088ee50cfc2be2d08f16ddd8fe087a1c490.1415000039.git.hongxu.jia@windriver.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-X-Mailer: Apple Mail (2.1990.1)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: add network config while networkd supported
+In-Reply-To: <cover.1415000039.git.hongxu.jia@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/1] systemd: add network config while networkd	supported
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,24 +45,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 10:07:34 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Mon, 03 Nov 2014 10:13:56 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-> Op 3 nov. 2014, om 08:37 heeft Hongxu Jia <hongxu.jia@windriver.com> =
-het volgende geschreven:
->=20
-> While networkd supported, we add network config which starts
-> dhcp by default.
->=20
-> And the customers could edit it according their own requirements.
-> (dhcp or static ip...)
+In my opinion, in the actual form, this patch cannot be taken in.
+Reasons/questions:
+1. How exactly this has been tested? I don't see any details. Testing netwo=
+rk configs and doing modifications of this kind are sensible matters.
+2. Different images have different ways of setting up network; for example,=
+ core-image-sato will manage network setup using conmman; has this configur=
+ation been tested?
+3. How exactly is decided if networkd is active or not in a systemd-based L=
+inux image?
+4. Please go into details why exactly this patch has been submitted (what i=
+t tries to solve in the first place).
 
-Another thing: don't put this in the main systemd recipe, forcing layers =
-to bbappend systemd_git.bb for only a networking config file is =
-hazardous and too invasive due to sstate invalidation. I don't want to =
-be forced to rebuild Xorg and flood people with updated packages in the =
-feeds because I, or worse, some random layer wants to change the default =
-network settings.=
+Regards,
+Cristian
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Hongxu Jia
+Sent: Monday, November 3, 2014 9:38 AM
+To: openembedded-core@lists.openembedded.org; Burton, Ross; Chen, Qi (Wind =
+River)
+Subject: [OE-core] [PATCH 0/1] systemd: add network config while networkd s=
+upported
+
+The following changes since commit f19b4e995ea47f9243f152b39337330307453c9f=
+:
+
+  bitbake: bitbake: clarify startup message (2014-10-30 13:39:52 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-systemd-network
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dhongxu/fix-system=
+d-network
+
+Hongxu Jia (1):
+  systemd: add network config while networkd supported
+
+ meta/recipes-core/systemd/systemd/oe-core.network | 8 ++++++++
+ meta/recipes-core/systemd/systemd_216.bb          | 6 ++++++
+ 2 files changed, 14 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/oe-core.network
+
+--=20
+1.9.1
+
+--=20
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
