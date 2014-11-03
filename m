@@ -1,24 +1,37 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CCDCC65C87
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 6627060557
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Nov 2014 09:31:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA39VRdx011959
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon,  3 Nov 2014 09:46:33 +0000 (UTC)
+Received: by mail-qc0-f177.google.com with SMTP id l6so8658209qcy.22
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Nov 2014 01:31:27 -0800 (PST)
-Received: from PKE-CLU1-D1.corp.ad.wrs.com (128.224.162.204) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 3 Nov 2014 01:31:26 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Nov 2014 17:31:25 +0800
-Message-ID: <1415007085-2342-1-git-send-email-Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Mon, 03 Nov 2014 01:46:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=qhM0Z9rwpnt4cuHn07Qm7mp5htZhW3EKoayVPskK0yk=;
+	b=UE4x8a4w3iek6KkgKMHQBodKGd0PtwhFl8wSygVu2m1CmmyEOsigSyYemIkr41JU8O
+	7au9dxVKppHriNuqajleBflOSIsIKacofvs9WXjPi5AQVpzNwjiSCfs3K7jsONxwVCm1
+	1dGVxg5aQmxsSHX7c+vgMz3K8XUez0gPDLZPt0D4GGvr4YvRGyRakL5F7bBtHiMcFmt9
+	kv7nFA/CBs6SS9WLCSbRB/+HvKv7UzV8Z3L+OoVhfwU1DLcd+Zdc7iOq7u55TJKrXt6G
+	7eeWLjfgjtUGpArO66J8h4UqwwzHMXn9/vdj2c4v9H4IvOekTOFxePZhbNUNW/NUkh4B
+	eEcQ==
+X-Gm-Message-State: ALoCoQkScSftBPMpZXBT/fz+FCXeocc6M3xsh83iXA6zqcQmqZ6vw1z/Fyi9UQphCbBRF/z2WA9u
+X-Received: by 10.140.96.101 with SMTP id j92mr59117560qge.87.1415007994339;
+	Mon, 03 Nov 2014 01:46:34 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] curl: Security Advisory - curl - CVE-2014-3620
+Received: by 10.140.98.213 with HTTP; Mon, 3 Nov 2014 01:46:13 -0800 (PST)
+In-Reply-To: <CADwFkYfm-TG4WH1ONn0LzH87YqP7yyc6BkyHC_Sb-M23D7wx1w@mail.gmail.com>
+References: <CADwFkYdjkNrBGCJRMfc4JVg5j31461djp2sc9q9crSezHHzSUA@mail.gmail.com>
+	<CADwFkYfm-TG4WH1ONn0LzH87YqP7yyc6BkyHC_Sb-M23D7wx1w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 3 Nov 2014 09:46:13 +0000
+Message-ID: <CAJTo0LakKz2UHX9qwiBzD-WD23koXFO1QUhFrAcz+oGTN=u+1A@mail.gmail.com>
+To: Yi Qingliang <niqingliang2003@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: where is the 'libGL.so.*"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,109 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Nov 2014 09:31:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Nov 2014 09:46:37 -0000
+Content-Type: multipart/alternative; boundary=001a113a9d8adb7c8b0506f138c4
 
-libcurl wrongly allows cookies to be set for Top Level Domains (TLDs), thus
-making them apply broader than cookies are allowed. This can allow arbitrary
-sites to set cookies that then would get sent to a different and unrelated site
-or domain.
+--001a113a9d8adb7c8b0506f138c4
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-support/curl/curl/CVE-2014-3620.patch |   69 ++++++++++++++++++++
- meta/recipes-support/curl/curl_7.37.1.bb           |    1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2014-3620.patch
+On 3 November 2014 09:17, Yi Qingliang <niqingliang2003@gmail.com> wrote:
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2014-3620.patch b/meta/recipes-support/curl/curl/CVE-2014-3620.patch
-new file mode 100644
-index 0000000..d11f190
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2014-3620.patch
-@@ -0,0 +1,69 @@
-+From fd7ae600adf23a9a1ed619165c5058bdec216e9c Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Tue, 19 Aug 2014 21:11:20 +0200
-+Subject: [PATCH] cookies: reject incoming cookies set for TLDs
-+
-+Test 61 was modified to verify this.
-+
-+CVE-2014-3620
-+
-+Reported-by: Tim Ruehsen
-+URL: http://curl.haxx.se/docs/adv_20140910B.html
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-+---
-+ lib/cookie.c      | 6 ++++++
-+ tests/data/test61 | 1 +
-+ 2 files changed, 7 insertions(+)
-+
-+diff --git a/lib/cookie.c b/lib/cookie.c
-+index 46904ac..375485f 100644
-+--- a/lib/cookie.c
-++++ b/lib/cookie.c
-+@@ -461,19 +461,25 @@ Curl_cookie_add(struct SessionHandle *data,
-+             break;
-+           }
-+         }
-+         else if(Curl_raw_equal("domain", name)) {
-+           bool is_ip;
-++          const char *dotp;
-+ 
-+           /* Now, we make sure that our host is within the given domain,
-+              or the given domain is not valid and thus cannot be set. */
-+ 
-+           if('.' == whatptr[0])
-+             whatptr++; /* ignore preceding dot */
-+ 
-+           is_ip = isip(domain ? domain : whatptr);
-+ 
-++          /* check for more dots */
-++          dotp = strchr(whatptr, '.');
-++          if(!dotp)
-++            domain=":";
-++
-+           if(!domain
-+              || (is_ip && !strcmp(whatptr, domain))
-+              || (!is_ip && tailmatch(whatptr, domain))) {
-+             strstore(&co->domain, whatptr);
-+             if(!co->domain) {
-+diff --git a/tests/data/test61 b/tests/data/test61
-+index d2de279..e6dbbb9 100644
-+--- a/tests/data/test61
-++++ b/tests/data/test61
-+@@ -21,10 +21,11 @@ Set-Cookie: test=yes; httponly; domain=foo.com; expires=Fri Feb 2 11:56:27 GMT 2
-+ SET-COOKIE: test2=yes; domain=host.foo.com; expires=Fri Feb 2 11:56:27 GMT 2035
-+ Set-Cookie: test3=maybe; domain=foo.com; path=/moo; secure
-+ Set-Cookie: test4=no; domain=nope.foo.com; path=/moo; secure
-+ Set-Cookie: test5=name; domain=anything.com; path=/ ; secure
-+ Set-Cookie: fake=fooledyou; domain=..com; path=/;
-++Set-Cookie: supercookie=fooledyou; domain=.com; path=/;^M
-+ Content-Length: 4
-+ 
-+ boo
-+ </data>
-+ </reply>
-+-- 
-+2.1.0
-+
-diff --git a/meta/recipes-support/curl/curl_7.37.1.bb b/meta/recipes-support/curl/curl_7.37.1.bb
-index 1147675..8b854d7 100644
---- a/meta/recipes-support/curl/curl_7.37.1.bb
-+++ b/meta/recipes-support/curl/curl_7.37.1.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e66
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://pkgconfig_fix.patch \
-            file://CVE-2014-3613.patch \
-+           file://CVE-2014-3620.patch \
- "
- 
- # curl likes to set -g0 in CFLAGS, so we stop it
--- 
-1.7.9.5
+> I have removed 'x11' in 'DISTRO_FEATURE', I don't know if it is the reason.
+>
 
+That's the reason.  libGL.so is GLX, and the X in GLX means X11.
 
+If you're building something that wants to use OpenGL without X11, then you
+need to use EGL.
+
+Ross
+
+--001a113a9d8adb7c8b0506f138c4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 3=
+ November 2014 09:17, Yi Qingliang <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+niqingliang2003@gmail.com" target=3D"_blank">niqingliang2003@gmail.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">I have=
+ removed &#39;x11&#39; in &#39;DISTRO_FEATURE&#39;, I don&#39;t know if it =
+is the reason.</div><div class=3D"HOEnZb"><div class=3D"h5"><div class=3D"g=
+mail_extra"></div></div></div></blockquote></div><br></div><div class=3D"gm=
+ail_extra">That&#39;s the reason. =C2=A0libGL.so is GLX, and the X in GLX m=
+eans X11.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">If you&#39;re building something that wants to use OpenGL without X11, =
+then you need to use EGL.</div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra">Ross</div></div>
+
+--001a113a9d8adb7c8b0506f138c4--
