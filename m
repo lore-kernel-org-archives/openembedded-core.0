@@ -1,31 +1,29 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E2EC665D4F
+	by mail.openembedded.org (Postfix) with ESMTP id 3772365DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Nov 2014 11:39:39 +0000 (UTC)
+	Tue,  4 Nov 2014 11:39:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA4Bd1mc009455; Tue, 4 Nov 2014 11:39:02 GMT
+	sA4Bd1cg009452; Tue, 4 Nov 2014 11:39:01 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id MDCLiKk9C8P4; Tue,  4 Nov 2014 11:39:02 +0000 (GMT)
+	with LMTP id ZGprymWdvtxZ; Tue,  4 Nov 2014 11:39:01 +0000 (GMT)
 Received: from ted (5751f4a1.skybroadband.com [87.81.244.161])
 	(authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA4BcecN009424
+	sA4BcdgK009419
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
 	Tue, 4 Nov 2014 11:38:41 GMT
 Received: from richard by ted with local (Exim 4.82)
 	(envelope-from <richard@dan.rpsys.net>)
-	id 1XlcS6-0000JN-0p; Tue, 04 Nov 2014 11:39:10 +0000
+	id 1XlcS5-0000J3-Ao; Tue, 04 Nov 2014 11:39:09 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Nov 2014 11:39:05 +0000
-Message-Id: <1415101148-1142-5-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Tue,  4 Nov 2014 11:39:01 +0000
+Message-Id: <1415101148-1142-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.0.2
-In-Reply-To: <1415101148-1142-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1415101148-1142-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 5/8] mdadm: 3.3.1 -> 3.3.2
+Subject: [PATCH 1/8] nasm: 2.11.05 -> 2.11.06
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,114 +40,82 @@ X-List-Received-Date: Tue, 04 Nov 2014 11:39:40 -0000
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/mdadm/mdadm_3.3.1.bb | 45 ------------------------------
- meta/recipes-extended/mdadm/mdadm_3.3.2.bb | 45 ++++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+), 45 deletions(-)
- delete mode 100644 meta/recipes-extended/mdadm/mdadm_3.3.1.bb
- create mode 100644 meta/recipes-extended/mdadm/mdadm_3.3.2.bb
+ meta/recipes-devtools/nasm/nasm_2.11.05.bb | 29 -----------------------------
+ meta/recipes-devtools/nasm/nasm_2.11.06.bb | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+), 29 deletions(-)
+ delete mode 100644 meta/recipes-devtools/nasm/nasm_2.11.05.bb
+ create mode 100644 meta/recipes-devtools/nasm/nasm_2.11.06.bb
 
-diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.1.bb b/meta/recipes-extended/mdadm/mdadm_3.3.1.bb
+diff --git a/meta/recipes-devtools/nasm/nasm_2.11.05.bb b/meta/recipes-devtools/nasm/nasm_2.11.05.bb
 deleted file mode 100644
-index 59bc587..0000000
---- a/meta/recipes-extended/mdadm/mdadm_3.3.1.bb
+index fbfd585..0000000
+--- a/meta/recipes-devtools/nasm/nasm_2.11.05.bb
 +++ /dev/null
-@@ -1,45 +0,0 @@
--SUMMARY = "Tool for managing software RAID under Linux"
--HOMEPAGE = "http://www.kernel.org/pub/linux/utils/raid/mdadm/"
--
--# Some files are GPLv2+ while others are GPLv2.
--LICENSE = "GPLv2 & GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://mdmon.c;beginline=4;endline=18;md5=af7d8444d9c4d3e5c7caac0d9d34039d \
--                    file://mdadm.h;beglinlne=4;endline=22;md5=462bc9936ac0d3da110191a3f9994161"
+@@ -1,29 +0,0 @@
+-SUMMARY = "General-purpose x86 assembler"
+-SECTION = "devel"
+-LICENSE = "BSD-2-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
+-COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
 -
 -
--SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
--           file://mdadm-3.2.2_fix_for_x32.patch \
--           file://gcc-4.9.patch \
--	  "
--
--SRC_URI[md5sum] = "4227d48de62dfb217c92fa0c54171bbe"
--SRC_URI[sha256sum] = "d8c74112cfd77bdc1dbc1291fe8d9243c76d91bfa276fcb95f2a75ca7717ab02"
--
--CFLAGS += "-fno-strict-aliasing"
+-SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
+-SRC_URI[md5sum] = "f6b1db2858cad82bbb0c8c6f3e2b0fb2"
+-SRC_URI[sha256sum] = "4a417bcf5cde5d203e228feea3f428a6ff4d700d558e4d79d50a30a695bdfae9"
 -
 -inherit autotools-brokensep
 -
--# We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header
 -do_configure_prepend () {
--	sed -i -e '/.*ansidecl.h.*/d' ${S}/sha1.h
--}
--
--EXTRA_OEMAKE = "CHECK_RUN_DIR=0"
--# PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm/types.h
--# prevents 64-bit userland from seeing this definition, instead defaulting
--# to u64 == long in userspace. Define __SANE_USERSPACE_TYPES__ to get
--# int-ll64.h included
--EXTRA_OEMAKE_append_powerpc64 = ' CFLAGS=-D__SANE_USERSPACE_TYPES__'
--EXTRA_OEMAKE_append_mips64 = ' CFLAGS=-D__SANE_USERSPACE_TYPES__'
--
--do_compile() {
--	oe_runmake
+-	if [ -f ${S}/aclocal.m4 ] && [ ! -f ${S}/acinclude.m4 ]; then
+-		mv ${S}/aclocal.m4 ${S}/acinclude.m4
+-	fi
 -}
 -
 -do_install() {
--	export STRIP=""
--	autotools_do_install
+-	install -d ${D}${bindir}
+-	install -d ${D}${mandir}/man1
+-
+-	oe_runmake 'INSTALLROOT=${D}' install
 -}
 -
--FILES_${PN} += "${base_libdir}/udev/rules.d/*.rules"
-diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
+-BBCLASSEXTEND = "native"
+-
+-DEPENDS = "groff-native"
+diff --git a/meta/recipes-devtools/nasm/nasm_2.11.06.bb b/meta/recipes-devtools/nasm/nasm_2.11.06.bb
 new file mode 100644
-index 0000000..c9392b4
+index 0000000..4a69a6a
 --- /dev/null
-+++ b/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
-@@ -0,0 +1,45 @@
-+SUMMARY = "Tool for managing software RAID under Linux"
-+HOMEPAGE = "http://www.kernel.org/pub/linux/utils/raid/mdadm/"
-+
-+# Some files are GPLv2+ while others are GPLv2.
-+LICENSE = "GPLv2 & GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://mdmon.c;beginline=4;endline=18;md5=af7d8444d9c4d3e5c7caac0d9d34039d \
-+                    file://mdadm.h;beglinlne=4;endline=22;md5=462bc9936ac0d3da110191a3f9994161"
++++ b/meta/recipes-devtools/nasm/nasm_2.11.06.bb
+@@ -0,0 +1,29 @@
++SUMMARY = "General-purpose x86 assembler"
++SECTION = "devel"
++LICENSE = "BSD-2-Clause"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
++COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
 +
 +
-+SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-+           file://mdadm-3.2.2_fix_for_x32.patch \
-+           file://gcc-4.9.patch \
-+	  "
-+
-+SRC_URI[md5sum] = "44698d351501cac6a89072dc877eb220"
-+SRC_URI[sha256sum] = "0f3a7e1a76b13892b79f9fceaf99ecb23513260389a768ac644ffa3ae06e5b8c"
-+
-+CFLAGS += "-fno-strict-aliasing"
++SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
++SRC_URI[md5sum] = "9d93e8df5f5c005567f47ed6ca3a93d4"
++SRC_URI[sha256sum] = "87b6d97d6981ca468f9dafda44cf1bb1ba122cec329d4d389af5db04fa0c3e6c"
 +
 +inherit autotools-brokensep
 +
-+# We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header
 +do_configure_prepend () {
-+	sed -i -e '/.*ansidecl.h.*/d' ${S}/sha1.h
-+}
-+
-+EXTRA_OEMAKE = "CHECK_RUN_DIR=0"
-+# PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm/types.h
-+# prevents 64-bit userland from seeing this definition, instead defaulting
-+# to u64 == long in userspace. Define __SANE_USERSPACE_TYPES__ to get
-+# int-ll64.h included
-+EXTRA_OEMAKE_append_powerpc64 = ' CFLAGS=-D__SANE_USERSPACE_TYPES__'
-+EXTRA_OEMAKE_append_mips64 = ' CFLAGS=-D__SANE_USERSPACE_TYPES__'
-+
-+do_compile() {
-+	oe_runmake
++	if [ -f ${S}/aclocal.m4 ] && [ ! -f ${S}/acinclude.m4 ]; then
++		mv ${S}/aclocal.m4 ${S}/acinclude.m4
++	fi
 +}
 +
 +do_install() {
-+	export STRIP=""
-+	autotools_do_install
++	install -d ${D}${bindir}
++	install -d ${D}${mandir}/man1
++
++	oe_runmake 'INSTALLROOT=${D}' install
 +}
 +
-+FILES_${PN} += "${base_libdir}/udev/rules.d/*.rules"
++BBCLASSEXTEND = "native"
++
++DEPENDS = "groff-native"
 -- 
 2.0.2
 
