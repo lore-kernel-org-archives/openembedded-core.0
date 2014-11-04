@@ -1,21 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 756F771F50
+	by mail.openembedded.org (Postfix) with ESMTP id 73B6A65C91
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Nov 2014 17:14:34 +0000 (UTC)
+	Tue,  4 Nov 2014 17:14:36 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 04 Nov 2014 09:12:27 -0800
+	by orsmga103.jf.intel.com with ESMTP; 04 Nov 2014 09:12:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,313,1413270000"; d="scan'208";a="631275678"
+X-IronPort-AV: E=Sophos;i="5.07,313,1413270000"; d="scan'208";a="631275745"
 Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.154])
-	by orsmga002.jf.intel.com with ESMTP; 04 Nov 2014 09:14:27 -0800
+	by orsmga002.jf.intel.com with ESMTP; 04 Nov 2014 09:14:29 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Nov 2014 11:14:52 -0600
-Message-Id: <1415121300-16524-1-git-send-email-anibal.limon@linux.intel.com>
+Date: Tue,  4 Nov 2014 11:14:54 -0600
+Message-Id: <1415121300-16524-3-git-send-email-anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1415121300-16524-1-git-send-email-anibal.limon@linux.intel.com>
+References: <1415121300-16524-1-git-send-email-anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv2 0/8] license_class: Added support for LICENSE_PRIORITY in manifest creation
+Subject: [PATCHv2 2/8] license_class: Added support for INCOMPATIBLE_LICENSE into license_create_manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,68 +34,135 @@ X-List-Received-Date: Tue, 04 Nov 2014 17:14:42 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The major change is when you have OR'ed LICENSE only one is choose according
-LICENSE_PRIORITY preferences if LICENSE_PRIORITY isn't specified the left one
-is choosen.
+Now license_create_manifest handle INCOMPATIBLE_LICENSE to avoid
+put them into license.manifest and copy them into target image.
 
-Some minor changes was done in the core/packagegroups and glibc-locale recipes
-adding LIC_FILES_CHECKSUM to avoid warnings in manifest creation.
+Generalized license_ok(license) to license_ok(bad_licenses, license)
+to avoid duplicate code.
 
-The test was done building qemux86/core-image-sato with and without these set of
-patches and then run diff recursive under common-licenses created directory.
+[YOCTO #6765]
 
-You can find a tarball with common-license directories, resulted diff and 
-local.conf at:
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/classes/license.bbclass | 60 ++++++++++++++++++++++++++++++--------------
+ 1 file changed, 41 insertions(+), 19 deletions(-)
 
-https://bugzilla.yoctoproject.org/attachment.cgi?id=2223
-
-Aníbal Limón (8):
-  license_class: Reimplemented manifest creation in python
-  license_class: Added support for INCOMPATIBLE_LICENSE into
-    license_create_manifest
-  license_class: Added LICENSE_PRIORITY support
-  license_class: Fix remove + trim in license_create_manifest.
-  license_class: license_manifest_creation improvment copying licenses
-    to target
-  license_class: license_create_manifest improve package file read
-  packagegropups: Added LIC_FILES_CHKSUM with MIT license to avoid    
-    warning when create license manifest.
-  glibc-locale: Added LIC_FILES_CHKSUM for avoid warnings in license    
-    manifest creation.
-
- meta/classes/license.bbclass                       | 236 +++++++++++++--------
- meta/conf/documentation.conf                       |   1 +
- meta/recipes-core/glibc/glibc-collateral.inc       |   2 +
- .../nativesdk-packagegroup-sdk-host.bb             |   1 +
- .../packagegroups/packagegroup-base.bb             |   1 +
- .../packagegroups/packagegroup-core-boot.bb        |   1 +
- .../packagegroup-core-buildessential.bb            |   1 +
- .../packagegroup-core-eclipse-debug.bb             |   1 +
- .../packagegroups/packagegroup-core-nfs.bb         |   1 +
- .../packagegroups/packagegroup-core-sdk.bb         |   1 +
- .../packagegroup-core-ssh-dropbear.bb              |   1 +
- .../packagegroups/packagegroup-core-ssh-openssh.bb |   1 +
- .../packagegroup-core-standalone-sdk-target.bb     |   1 +
- .../packagegroups/packagegroup-core-tools-debug.bb |   1 +
- .../packagegroup-core-tools-profile.bb             |   1 +
- .../packagegroup-core-tools-testapps.bb            |   1 +
- .../packagegroups/packagegroup-cross-canadian.bb   |   1 +
- .../packagegroups/packagegroup-self-hosted.bb      |   1 +
- .../packagegroup-core-device-devel.bb              |   1 +
- .../packagegroup-core-full-cmdline.bb              |   1 +
- .../packagegroups/packagegroup-core-lsb.bb         |   1 +
- .../packagegroups/packagegroup-core-clutter.bb     |   1 +
- .../packagegroups/packagegroup-core-directfb.bb    |   1 +
- .../packagegroups/packagegroup-core-x11-base.bb    |   1 +
- .../packagegroups/packagegroup-core-x11-xserver.bb |   1 +
- .../packagegroups/packagegroup-core-x11.bb         |   1 +
- .../nativesdk-packagegroup-qt-toolchain-host.inc   |   1 +
- .../packagegroups/packagegroup-core-qt.bb          |   1 +
- .../packagegroups/packagegroup-core-qt4e.bb        |   1 +
- .../packagegroup-qt-toolchain-target.inc           |   1 +
- .../packagegroups/packagegroup-core-x11-sato.bb    |   1 +
- 31 files changed, 180 insertions(+), 87 deletions(-)
-
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index c8a86ce..c11ef1c 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -28,6 +28,15 @@ python write_package_manifest() {
+ python license_create_manifest() {
+     import shutil
+     import re
++    import oe.license
++
++    bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE", True) or "").split()
++    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
++
++    # Handles an "or" or two license sets provided by
++    # flattened_licenses(), pick one that works if possible.
++    def choose_lic_set(a, b):
++        return a if all(license_ok(bad_licenses, lic) for lic in a) else b
+ 
+     build_images_from_feeds = d.getVar('BUILD_IMAGES_FROM_FEEDS', True)
+     if build_images_from_feeds == "1":
+@@ -70,9 +79,13 @@ python license_create_manifest() {
+             license_file.write("RECIPE NAME: %s\n" % pkg_dic[pkg]["PN"])
+             license_file.write("LICENSE:")
+ 
+-            licenses = re.sub('[|&()*]', '', pkg_dic[pkg]["LICENSE"])
+-            licenses = re.sub('  *', ' ', licenses)
+-            for lic in licenses.split():
++            try:
++                licenses = oe.license.flattened_licenses(pkg_dic[pkg]["LICENSE"]
++                            , choose_lic_set)
++            except oe.license.LicenseError as exc:
++                bb.fatal('%s: %s' % (d.getVar('P', True), exc))
++
++            for lic in licenses:
+                 lic = re.sub('\+', '', lic)
+                 lic_file = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
+                                         pkg_dic[pkg]["PN"], "generic_%s" % lic)
+@@ -110,11 +123,18 @@ python license_create_manifest() {
+                     pkg_rootfs_license = os.path.join(pkg_rootfs_license_dir, lic)
+ 
+                     if re.match("^generic_.*$", lic):
++                        generic_lic = re.search("^generic_(.*)$", lic).group(1)
++                        if not license_ok(bad_licenses, generic_lic):
++                            continue
++
+                         if not os.path.exists(pkg_rootfs_license):
+                             shutil.copyfile(pkg_license, rootfs_license)
+ 
+                         os.symlink(os.path.join('..', lic), pkg_rootfs_license)
+                     else:
++                        if not license_ok(bad_licenses, lic):
++                            continue
++
+                         shutil.copyfile(pkg_license, pkg_rootfs_license)
+ }
+ 
+@@ -297,6 +317,21 @@ def canonical_license(d, license):
+     """
+     return d.getVarFlag('SPDXLICENSEMAP', license, True) or license
+ 
++def license_ok(dont_want_licenses, license):
++    import re
++    from fnmatch import fnmatchcase as fnmatch
++    for dwl in dont_want_licenses:
++        # If you want to exclude license named generically 'X', we
++        # surely want to exclude 'X+' as well.  In consequence, we
++        # will exclude a trailing '+' character from LICENSE in
++        # case INCOMPATIBLE_LICENSE is not a 'X+' license.
++        lic = license
++        if not re.search('\+$', dwl):
++            lic = re.sub('\+', '', license)
++        if fnmatch(lic, dwl):
++            return False
++    return True
++
+ def incompatible_license(d, dont_want_licenses, package=None):
+     """
+     This function checks if a recipe has only incompatible licenses. It also
+@@ -305,34 +340,21 @@ def incompatible_license(d, dont_want_licenses, package=None):
+     """
+     import re
+     import oe.license
+-    from fnmatch import fnmatchcase as fnmatch
+     license = d.getVar("LICENSE_%s" % package, True) if package else None
+     if not license:
+         license = d.getVar('LICENSE', True)
+ 
+-    def license_ok(license):
+-        for dwl in dont_want_licenses:
+-            # If you want to exclude license named generically 'X', we
+-            # surely want to exclude 'X+' as well.  In consequence, we
+-            # will exclude a trailing '+' character from LICENSE in
+-            # case INCOMPATIBLE_LICENSE is not a 'X+' license.
+-            lic = license
+-            if not re.search('\+$', dwl):
+-                lic = re.sub('\+', '', license)
+-            if fnmatch(lic, dwl):
+-                return False
+-        return True
+-
+     # Handles an "or" or two license sets provided by
+     # flattened_licenses(), pick one that works if possible.
+     def choose_lic_set(a, b):
+-        return a if all(license_ok(lic) for lic in a) else b
++        return a if all(license_ok(dont_want_licenses, lic) for lic in a) else b
+ 
+     try:
+         licenses = oe.license.flattened_licenses(license, choose_lic_set)
+     except oe.license.LicenseError as exc:
+         bb.fatal('%s: %s' % (d.getVar('P', True), exc))
+-    return any(not license_ok(canonical_license(d, l)) for l in licenses)
++    return any(not license_ok(dont_want_licenses,canonical_license(d, l))
++                for l in licenses)
+ 
+ def check_license_flags(d):
+     """
 -- 
 1.9.1
 
