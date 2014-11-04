@@ -1,40 +1,34 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f45.google.com (mail-yh0-f45.google.com
-	[209.85.213.45])
-	by mail.openembedded.org (Postfix) with ESMTP id F17DE60557
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D2FBD65D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Nov 2014 15:32:00 +0000 (UTC)
-Received: by mail-yh0-f45.google.com with SMTP id f10so3478573yha.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Nov 2014 07:32:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=nxMakegzqlfPNzLW0aWp0hIKx3T035K6P6mcLdtmXuQ=;
-	b=qbTI4pDazcrhasAr4g8D+e+92ptRI2yeZ7M89T7DcxyQ3UoT6gOLiV/uZOaTz/MB7q
-	25c3PXIXODLWCbaKnswDrcU0/xIgrbvjZoc7ZqUG6DVKlYw874pgyg31OOOkgdxt2Cnz
-	BTACntd0jyio6QMyvSNlRaTeD8XCDDtwZ4J4ZBiRXGf/fez+nSCfbYt7AdrJnoAF+qeR
-	OxjDn58koPnxTZ/L4w0sHhxx8QE0bgLvUNlA6rvb8kxu1iYxqVkk4X5skSpkbR1iWT4m
-	9s+A/6lqA727GvvyipFSXwMV+CMxsKM5klL2gqh86ENN+hdttHVQWzD6zi0GVFdVA7fR
-	zGSQ==
-MIME-Version: 1.0
-X-Received: by 10.170.160.9 with SMTP id b9mr48310595ykd.50.1415115121093;
-	Tue, 04 Nov 2014 07:32:01 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.172.8 with HTTP; Tue, 4 Nov 2014 07:32:01 -0800 (PST)
-In-Reply-To: <1415107447.23396.27.camel@ted>
-References: <1415100396.23396.17.camel@ted> <5458C1A5.7060800@mlbassoc.com>
-	<CAP9ODKpQmRo-yXMMURRDU8QpSo1fA4vx+wcXFXuBaT=hOgTC_A@mail.gmail.com>
-	<1415107447.23396.27.camel@ted>
-Date: Tue, 4 Nov 2014 13:32:01 -0200
-X-Google-Sender-Auth: YxYGlsMxATlOG4pag2yFTafRu3s
-Message-ID: <CAP9ODKpUtRSddg8_x1zpnP1ndEKuz_hxV8w+HiTVK6krU_z-EA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Gary Thomas <gary@mlbassoc.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf/base.bbclass: Drop PRINC support
+	Tue,  4 Nov 2014 15:55:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA4FsTcE027294; Tue, 4 Nov 2014 15:54:29 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ofAq87Ba4WKq; Tue,  4 Nov 2014 15:54:29 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA4FsNpa027291
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 4 Nov 2014 15:54:24 GMT
+Message-ID: <1415116498.23396.33.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Fathi Boudra <fathi.boudra@linaro.org>
+Date: Tue, 04 Nov 2014 15:54:58 +0000
+In-Reply-To: <CAGNsrLAPfA4=UH0GXkPeAmOx-GbJ7pnNF3gDaRixwNhNKw41og@mail.gmail.com>
+References: <1414571901-17418-1-git-send-email-fathi.boudra@linaro.org>
+	<CAJTo0LY+r2qFgFmOmEXda1brymM8wpAfYFywsDAfWNtuedC+Ng@mail.gmail.com>
+	<1414753109.7649.91.camel@ted>
+	<CAGNsrLDxfpu=X1k7CLREuQCe64z7UDhzQbt1S9rLvm4W5WogTg@mail.gmail.com>
+	<CAJTo0LaWb6ck-KYn8N-AG47xAHNEB2QP-AjXiB+nuWYqjFewgg@mail.gmail.com>
+	<CAGNsrLAPfA4=UH0GXkPeAmOx-GbJ7pnNF3gDaRixwNhNKw41og@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ltp: update to 20140828 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,38 +41,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Nov 2014 15:32:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 04 Nov 2014 15:55:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 4, 2014 at 11:24 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2014-11-04 at 10:12 -0200, Otavio Salvador wrote:
->> On Tue, Nov 4, 2014 at 10:08 AM, Gary Thomas <gary@mlbassoc.com> wrote:
->> > Won't this just silently make use of PRINC a no-op?  What about
->> > the users that had their head in the sand for the last few months
->> > but still expect PRINC to have some effect (and maybe don't use
->> > PR server)?  I would think escalating this to an error would make
->> > more sense (and follow other warnings that are now errors).
->>
->> I agree with Gary, move this to ERROR now and drop in 1.9.
+On Tue, 2014-11-04 at 17:10 +0200, Fathi Boudra wrote:
+> after a lot of finger-pointing and implying we don't test our changes
+> or do our homework or do clean builds:
+> * I've built ltp for armv7a and armv8 on our builders and it works
+> fine
+> * I've built poky for x86 and it built fine
 >
-> Its been printing warnings since May 2013. I tried to merge this 6
-> months ago, I was told to wait another release, by you:
+> here's my steps:
+> $ git clone git://git.yoctoproject.org/poky
+> $ cd poky
+> $ source oe-init-build-env
+> $ patch -p1 < 0001-ltp-update-to-20140828-release.patch
+> $ bitbake ltp
 >
-> http://lists.openembedded.org/pipermail/openembedded-core/2014-March/090169.html
+> $ ls -l tmp/deploy/rpm/i586/ltp-*
+> -rw-r--r-- 2 user user 55929600 Nov  4 16:28
+> tmp/deploy/rpm/i586/ltp-20140828-r0.i586.rpm
+> -rw-r--r-- 2 user user     3080 Nov  4 16:28
+> tmp/deploy/rpm/i586/ltp-dbg-20140828-r0.i586.rpm
+> -rw-r--r-- 2 user user     3264 Nov  4 16:28
+> tmp/deploy/rpm/i586/ltp-dev-20140828-r0.i586.rpm
+> -rw-r--r-- 2 user user    31884 Nov  4 16:28
+> tmp/deploy/rpm/i586/ltp-doc-20140828-r0.i586.rpm
 >
-> Now I need to keep the patch for another 6 months. This really is taking
-> too long IMO. I may well get bored and just drop the patch (and forget
-> any other ideas about trying to cleanup things).
+> afaict, the failure isn't related to the changes submitted. Could you
+> be kind enough to try to reproduce the build failure outside of the
+> yocto autobuilders? or give me the exact steps to reproduce the
+> failure?
 
-I understand your frustration but I think we ought to be conservative
-here. People tend to have old layers around and we risk to those never
-get PRINC removed if we don't 'explicit' the error for those users.
+bitbake libtirpc; bitbake ltp
 
-I think we ought ERROR now and remove it in 1.9.
+seems to reliably reproduce for me.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Cheers,
+
+Richard
+
+
 
