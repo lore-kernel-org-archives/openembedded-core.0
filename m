@@ -1,38 +1,38 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ie0-f182.google.com (mail-ie0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 20D5C65CA0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f41.google.com (mail-qa0-f41.google.com
+	[209.85.216.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FD487068F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Nov 2014 08:09:12 +0000 (UTC)
-Received: by mail-ie0-f182.google.com with SMTP id rd18so7124889iec.13
+	Tue,  4 Nov 2014 10:22:58 +0000 (UTC)
+Received: by mail-qa0-f41.google.com with SMTP id s7so1314526qap.28
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Nov 2014 00:09:12 -0800 (PST)
+	Tue, 04 Nov 2014 02:22:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:content-type
-	:mime-version;
-	bh=SmUpcNr00M616fDmikoLQLD4nV0dxhs6lW+2rw3vpqU=;
-	b=gwpyoC0KMuddC4eLAbxgiBw3Tl6HpCI4eWCQMn9vIsuDrUj+3Wgrk2DruTlnSCbZ2e
-	Uy96w6F9ZzuGez0CeyjztXex4V1ErAth6GqT3PABdKDj8wmpfPLswyLmfoybU35U43rl
-	EtC9GoIJCKApQDk+kt6W+r7SpHtMeFewcHUHMfESNYnTiRf9JjenfaXEVPxpj7hSOi94
-	8o0EzHgwSFsGG+C0KVs6fxm76sXHzSNRqeGQJD9DYdFYkQ4BrdilsU/wvs/oxVFP+88m
-	iiox+6XJTlNt1RobouDSKBoXyPtH+HSXSXgSuKAmuJLerTt5pTqj4mbpdwkwOwHPb/Lq
-	r/XA==
-X-Gm-Message-State: ALoCoQl5emQpl70HvAFne0l5n/LirdkCZ6wxbnr7KalPfzykzOwHYVVPSfNmxTN2GXa9K9+Rztoq
-X-Received: by 10.107.34.65 with SMTP id i62mr14656403ioi.4.1415088552478;
-	Tue, 04 Nov 2014 00:09:12 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8DE4A.dip0.t-ipconnect.de. [93.232.222.74])
-	by mx.google.com with ESMTPSA id h199sm1688779ioh.0.2014.11.04.00.09.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Nov 2014 00:09:10 -0800 (PST)
-Message-ID: <1415088547.4530.142.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 04 Nov 2014 09:09:07 +0100
-X-Mailer: Evolution 3.12.6-1 
-Mime-Version: 1.0
-Subject: runqemu + dhcp server
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=4gmIrO0EpnB/3Hk6x7LOVVklmd5gvFy4EjYA24rhYfY=;
+	b=arHQtOqg0JJt9UGiy3GMRGFMC93V+5klGcucFm+QIu5bjrrdu9eZJ4FkOP8ANVBqSJ
+	1t1t9x4b19fjOKnxd/oi+jMs+T/H6C34jj/ghPmiFdWIO5GbOgUQh2lVM6m+XPiCw6J4
+	DsQC9igj314EtiTahS0hEHb4pr8hRtlH3uUz70Fo7zMwl9HUR8QjYV0jQkUpefle3L3z
+	RNCgu89pWQS2Is1R8QXt8tGy8apGofXAXK8mc/GM/ErEigTRTUAS0Y/nVccWj4lH4TZw
+	7G6oqXevRbMIXaSZ3q60BlfxlwXmjW5nfxzNsBbTsj22eSYAIEiFjzZi4i43evI6gHZY
+	vgaQ==
+X-Gm-Message-State: ALoCoQkePbjKVS5OswUyTFeni1bSo+ggkZFrE+zo0woZ3aAr3jJF9kXgihYPvvOCXwFcj/mTRRh3
+X-Received: by 10.224.160.83 with SMTP id m19mr75077942qax.17.1415096579404;
+	Tue, 04 Nov 2014 02:22:59 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.98.213 with HTTP; Tue, 4 Nov 2014 02:22:39 -0800 (PST)
+In-Reply-To: <5458472F.5080203@windriver.com>
+References: <cover.1409069458.git.roxana.ciobanu@intel.com>
+	<8ece0cf761b780c9d192d172b0bb7ae5ce987980.1409069458.git.roxana.ciobanu@intel.com>
+	<5458472F.5080203@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 4 Nov 2014 10:22:39 +0000
+Message-ID: <CAJTo0LavebVn=pws3Bn6eAmTY-BUnFWRcekAjZUU=bFu3x1uRQ@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] gdb: Upgrade gdb 7.7.1 -> 7.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,159 +45,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Nov 2014 08:09:16 -0000
-X-Groupsio-MsgNum: 59186
-Content-Type: multipart/mixed; boundary="=-Y1wILmp0OTYWp/6tz6sQ"
+X-List-Received-Date: Tue, 04 Nov 2014 10:22:59 -0000
+Content-Type: multipart/alternative; boundary=047d7bacb2aaf04630050705d876
 
---=-Y1wILmp0OTYWp/6tz6sQ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+--047d7bacb2aaf04630050705d876
+Content-Type: text/plain; charset=UTF-8
 
-Hello!
+On 4 November 2014 03:25, ChenQi <Qi.Chen@windriver.com> wrote:
 
-Recently I built a custom image which depended on a DHCP server to
-configure Ethernet. runqemu with tap for networking doesn't provide one
-at the moment, so ssh logins did not work.
+> There are failures on autobuilder that might be related to this patch.
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/
+> 88/steps/BuildImages/logs/stdio
+>
+> ERROR: Command Error: exit status: 1  Output:
+> Applying patch include_asm_ptrace.patch
+> patching file gdb/aarch64-linux-nat.c
+> Hunk #1 succeeded at 32 with fuzz 2.
+> patching file gdb/gdbserver/linux-aarch64-low.c
+> Hunk #1 FAILED at 26.
+> 1 out of 1 hunk FAILED -- rejects in file gdb/gdbserver/linux-aarch64-
+> low.c
+> Patch include_asm_ptrace.patch does not apply (enforce with -f)
+> ERROR: Function failed: patch_do_patch
+>
 
-Instead of customizing images for runqemu, I think it would be better to
-adapt runqemu and uses images as on the target device. Attached two
-patches which work for me. Is that of interest for inclusion upstream?
+Yes, I pulled that upgrade from mut because of this.
 
-I suppose more work is needed, in particular around how to enable or
-disable this feature. Patching the .bb files also leads to a (to me)
-strange QA error. See the comments in the patches for details.
+Ross
 
--- 
-Best Regards, Patrick Ohly
+--047d7bacb2aaf04630050705d876
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 November 2014 03:25, ChenQi <span dir=3D"ltr">&lt;<a href=3D"mailto:Qi=
+.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div id=3D":3vp" class=3D"a3s" st=
+yle=3D"overflow:hidden">There are failures on autobuilder that might be rel=
+ated to this patch.<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/b=
+uilds/88/steps/BuildImages/logs/stdio" target=3D"_blank">https://autobuilde=
+r.<u></u>yoctoproject.org/main/<u></u>builders/nightly-ppc/builds/<u></u>88=
+/steps/BuildImages/logs/<u></u>stdio</a><br>
+<br>
+ERROR: Command Error: exit status: 1=C2=A0 Output:<br>
+Applying patch include_asm_ptrace.patch<br>
+patching file gdb/aarch64-linux-nat.c<br>
+Hunk #1 succeeded at 32 with fuzz 2.<br>
+patching file gdb/gdbserver/linux-aarch64-<u></u>low.c<br>
+Hunk #1 FAILED at 26.<br>
+1 out of 1 hunk FAILED -- rejects in file gdb/gdbserver/linux-aarch64-<u></=
+u>low.c<br>
+Patch include_asm_ptrace.patch does not apply (enforce with -f)<br>
+ERROR: Function failed: patch_do_patch</div></blockquote></div><br>Yes, I p=
+ulled that upgrade from mut because of this.</div><div class=3D"gmail_extra=
+"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-
-
---=-Y1wILmp0OTYWp/6tz6sQ
-Content-Disposition: attachment; filename="0001-recipes-connectivity-enable-dhcp-native.patch"
-Content-Transfer-Encoding: base64
-Content-Type: text/x-patch; name="0001-recipes-connectivity-enable-dhcp-native.patch";
-	charset="UTF-8"
-
-RnJvbSA3MDAzMDQwNzE0MDRlZDIyYzgxZTU3YzE2OWVmNTBlZjQyNGI2NmJjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBQYXRyaWNrIE9obHkgPHBhdHJpY2sub2hseUBpbnRlbC5jb20+
-CkRhdGU6IE1vbiwgMyBOb3YgMjAxNCAxNzozNzoyMCArMDEwMApTdWJqZWN0OiBbUEFUQ0ggMS8z
-XSByZWNpcGVzLWNvbm5lY3Rpdml0eTogZW5hYmxlIGRoY3AtbmF0aXZlCgpUaGlzIGRlcGVuZHMg
-b24gYmluZC1uYXRpdmUuIEl0IGlzIG5lZWRlZCBmb3IgcnVubmluZyBhIHVzZXItc3BhY2UKZGhj
-cGQgZm9yIHFlbXUgZ3Vlc3RzLgoKVE9ETzogbW9kaWZ5aW5nIGJpbmRfOS45LjUuYmIgbGlrZSB0
-aGlzIHRyaWdnZXJzIGFuIGVycm9yOgoKRVJST1I6IFFBIElzc3VlOiAvd29yay90aXplbi95b2N0
-by9wb2t5L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kXzkuOS41LmJiOiBWYXJp
-YWJsZSBSUFJPVklERVMgaXMgc2V0IGFzIG5vdCBiZWluZyBwYWNrYWdlIHNwZWNpZmljLCBwbGVh
-c2UgZml4IHRoaXMuIFtwa2d2YXJjaGVja10KCk5lZWQgdG8gZml4IHRoaXMsIGJ1dCBJIGRvbid0
-IGtub3cgaG93LiBJIGRvbid0IHNlZSB3aGF0IHRyaWdnZXJzIHRoZQplcnJvci4KClNpZ25lZC1v
-ZmYtYnk6IFBhdHJpY2sgT2hseSA8cGF0cmljay5vaGx5QGludGVsLmNvbT4KLS0tCiBtZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZF85LjkuNS5iYiB8IDEgKwogbWV0YS9yZWNpcGVz
-LWNvbm5lY3Rpdml0eS9kaGNwL2RoY3AuaW5jICAgICAgfCAyICsrCiAyIGZpbGVzIGNoYW5nZWQs
-IDMgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
-YmluZC9iaW5kXzkuOS41LmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmRf
-OS45LjUuYmIKaW5kZXggZWJkMzhlZmYuLmJjYzE2MDEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1jb25uZWN0aXZpdHkvYmluZC9iaW5kXzkuOS41LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25u
-ZWN0aXZpdHkvYmluZC9iaW5kXzkuOS41LmJiCkBAIC04OCwzICs4OCw0IEBAIENPTkZGSUxFU18k
-e1BOfSA9ICIgXAogCSR7c3lzY29uZmRpcn0vYmluZC9kYi5yb290IFwKIAkiCiAKK0JCQ0xBU1NF
-WFRFTkQgPSAibmF0aXZlIgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9k
-aGNwL2RoY3AuaW5jIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwL2RoY3AuaW5jCmlu
-ZGV4IDQ5NDllMDIuLmE4ZGRmZjggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
-dHkvZGhjcC9kaGNwLmluYworKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3AvZGhj
-cC5pbmMKQEAgLTExMywzICsxMTMsNSBAQCBwa2dfcG9zdHJtX2RoY3AtY2xpZW50KCkgewogICAg
-ICAgICBlY2hvICJOb3QgcmVtb3ZpbmcgJHtsb2NhbHN0YXRlZGlyfS9saWIvZGhjcCBhcyBpdCBp
-cyBub24tZW1wdHkuIgogICAgIGZpCiB9CisKK0JCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIgotLSAK
-Mi4xLjEKCg==
-
---=-Y1wILmp0OTYWp/6tz6sQ
-Content-Disposition: attachment; filename="0002-runqemu-automatically-run-DHCP-server.patch"
-Content-Transfer-Encoding: base64
-Content-Type: text/x-patch; name="0002-runqemu-automatically-run-DHCP-server.patch";
-	charset="UTF-8"
-
-RnJvbSBlY2NhNTY2NWU4MWIxYTNlNGRlMTEzYjdhMWFmNzZkOTRkMWY2MWVmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBQYXRyaWNrIE9obHkgPHBhdHJpY2sub2hseUBpbnRlbC5jb20+
-CkRhdGU6IE1vbiwgMyBOb3YgMjAxNCAxNzo0MjoxOSArMDEwMApTdWJqZWN0OiBbUEFUQ0ggMi8z
-XSBydW5xZW11OiBhdXRvbWF0aWNhbGx5IHJ1biBESENQIHNlcnZlcgoKU29tZSBpbWFnZXMgYXJl
-IG5vdCBhYmxlIHRvIGNvbmZpZ3VyZSB0aGVpciBFdGhlcm5ldCBiYXNlZCBvbiB0aGUKImlwIiBr
-ZXJuZWwgcGFyYW1ldGVyLCBmb3IgZXhhbXBsZSBUaXplbi4gSW5zdGVhZCBvZiBoYXZpbmcgdG8K
-bW9kaWZ5IGltYWdlcywgaXQgaXMgZWFzaWVyIHRvIHByb3ZpZGUgd2hhdCB0aGVzZSBpbWFnZXMg
-ZXhwZWN0CmFuZCBoYXZlIGEgREhDUCBzZXJ2ZXIgcnVubmluZyBvbiB0aGUgaG9zdC4KCkF0IHRo
-ZSBtb21lbnQsIHRoZSBtb2RpZmllZCBzY3JpcHRzIGV4cGVjdCB0aGF0ICJkaGNwLW5hdGl2ZSIg
-d2FzCmJ1aWx0IGZvciB0aGUgaG9zdC4gcnVucWVtdS1pZnVwIHNldHMgY2FwYWJpbGl0aWVzIHN1
-Y2ggdGhhdCB0aGUgZGhjcGQKY2FuIGJlIHJ1biBhcyBub3JtYWwgdXNlciB3aXRoIGp1c3QgbWlu
-aW1hbCBwcml2aWxlZ2VzIGFuZCB0aGVuCnJ1bnFlbXUtaW50ZXJuYWwgdGFrZXMgY2FyZSBvZiBi
-cmluZ2luZyB0aGUgZGFlbW9uIHVwIGFuZCB0YWtpbmcgaXQKZG93biBhZ2Fpbi4gQWxsIGRoY3Bk
-IGZpbGVzIGFyZSBzdG9yZWQgdG9nZXRoZXIgd2l0aCB0aGUgdGFwIGxvY2sgZmlsZQp1bmRlciAv
-dG1wLiBkaGNwZCBvdXRwdXQgZ29lcyB0byBzdGRvdXQuCgpTaWduZWQtb2ZmLWJ5OiBQYXRyaWNr
-IE9obHkgPHBhdHJpY2sub2hseUBpbnRlbC5jb20+Ci0tLQogc2NyaXB0cy9ydW5xZW11LWlmdXAg
-ICAgIHwgMjAgKysrKysrKysrKysrKysrKysrKysKIHNjcmlwdHMvcnVucWVtdS1pbnRlcm5hbCB8
-IDQzICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKIDIgZmlsZXMg
-Y2hhbmdlZCwgNjMgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL3NjcmlwdHMvcnVucWVtdS1p
-ZnVwIGIvc2NyaXB0cy9ydW5xZW11LWlmdXAKaW5kZXggYjVhM2RiOS4uMDgwNmM0MCAxMDA3NTUK
-LS0tIGEvc2NyaXB0cy9ydW5xZW11LWlmdXAKKysrIGIvc2NyaXB0cy9ydW5xZW11LWlmdXAKQEAg
-LTU3LDYgKzU3LDE0IEBAIGlmIFsgISAteCAiJFRVTkNUTCIgXTsgdGhlbgogCWV4aXQgMQogZmkK
-IAorIyBUT0RPOiBtYWtlIGRoY3BkIG9wdGlvbmFsPworREhDUEQ9JE5BVElWRV9TWVNST09UX0RJ
-Ui91c3Ivc2Jpbi9kaGNwZAoraWYgWyAhIC14ICIkREhDUEQiIF07IHRoZW4KKwkjIFRPRE8gKD8p
-OiBpbnRlZ3JhdGUgaW50byBxZW11LWhlbHBlci1uYXRpdmUKKwllY2hvICJFcnJvcjogVW5hYmxl
-IHRvIGZpbmQgZGhjcGQgYmluYXJ5IGluICckTkFUSVZFX1NZU1JPT1RfRElSL3Vzci9zYmluJywg
-cGxlYXNlIGJpdGJha2UgZGhjcC1uYXRpdmUiCisJZXhpdCAxCitmaQorCiBUQVA9YCRUVU5DVEwg
-LWIgJEdST1VQIDI+JjFgCiBTVEFUVVM9JD8KIGlmIFsgJFNUQVRVUyAtbmUgMCBdOyB0aGVuCkBA
-IC04OSw2ICs5NywxNSBAQCBpZiBbICEgLXggIiRJUFRBQkxFUyIgXTsgdGhlbgogCWV4aXQgMQog
-ZmkKIAorU0VUQ0FQPWB3aGljaCBzZXRjYXAgMj4gL2Rldi9udWxsYAoraWYgWyAieCRTRVRDQVAi
-ID0gIngiIF07IHRoZW4KKwlTRVRDQVA9L3NiaW4vc2V0Y2FwCitmaQoraWYgWyAhIC14ICIkU0VU
-Q0FQIiBdOyB0aGVuCisJZWNobyAiJFNFVENBUCBjYW5ub3QgYmUgZXhlY3V0ZWQiCisJZXhpdCAx
-CitmaQorCiBuPSRbIChgZWNobyAkVEFQIHwgc2VkICdzL3RhcC8vJ2AgKiAyKSArIDEgXQogJElG
-Q09ORklHIGFkZHIgYWRkIDE5Mi4xNjguNy4kbi8zMiBicm9hZGNhc3QgMTkyLjE2OC43LjI1NSBk
-ZXYgJFRBUAogJElGQ09ORklHIGxpbmsgc2V0IGRldiAkVEFQIHVwCkBAIC0xMDMsNCArMTIwLDcg
-QEAgZWNobyAxID4gL3Byb2Mvc3lzL25ldC9pcHY0L2lwX2ZvcndhcmQKIGVjaG8gMSA+IC9wcm9j
-L3N5cy9uZXQvaXB2NC9jb25mLyRUQVAvcHJveHlfYXJwCiAkSVBUQUJMRVMgLVAgRk9SV0FSRCBB
-Q0NFUFQKIAorIyBhbGxvdyBydW5uaW5nIGRoY3BkIGFzIG5vcm1hbCB1c2VyCiskU0VUQ0FQIGNh
-cF9uZXRfcmF3LGNhcF9uZXRfYmluZF9zZXJ2aWNlK2VwICRESENQRAorCiBlY2hvICRUQVAKZGlm
-ZiAtLWdpdCBhL3NjcmlwdHMvcnVucWVtdS1pbnRlcm5hbCBiL3NjcmlwdHMvcnVucWVtdS1pbnRl
-cm5hbAppbmRleCAzODc0NWRkLi4zYTljMGI0IDEwMDc1NQotLS0gYS9zY3JpcHRzL3J1bnFlbXUt
-aW50ZXJuYWwKKysrIGIvc2NyaXB0cy9ydW5xZW11LWludGVybmFsCkBAIC0xNzIsNiArMTcyLDEz
-IEBAIGVsc2UKICAgICAgICAgICAgICAgIGV4aXQgMQogICAgICAgICBmaQogCisgICAgICAgIERI
-Q1BEPSRPRUNPUkVfTkFUSVZFX1NZU1JPT1QvdXNyL3NiaW4vZGhjcGQKKyAgICAgICAgaWYgWyAh
-IC14ICIkREhDUEQiIF07IHRoZW4KKwkgICAgIyBUT0RPICg/KTogaW50ZWdyYXRlIGludG8gcWVt
-dS1oZWxwZXItbmF0aXZlCisgICAgICAgICAgICBlY2hvICJFcnJvcjogVW5hYmxlIHRvIGZpbmQg
-ZGhjcGQgYmluYXJ5IGluICckTkFUSVZFX1NZU1JPT1RfRElSL3Vzci9zYmluJywgcGxlYXNlIGJp
-dGJha2UgZGhjcC1uYXRpdmUiCisgICAgICAgICAgICBleGl0IDEKKyAgICAgICAgZmkKKwogICAg
-ICAgICBQT1NTSUJMRT1gJElGQ09ORklHIGxpbmsgfCBncmVwICd0YXAnIHwgYXdrICd7cHJpbnQg
-JDJ9JyB8IHNlZCBzLzovL2AKICAgICAgICAgVEFQPSIiCiAgICAgICAgIExPQ0tGSUxFPSIiCkBA
-IC0yMjIsNiArMjI5LDEwIEBAIGVsc2UKICAgICAgICAgZmkKIAogICAgICAgICBjbGVhbnVwKCkg
-eworICAgICAgICAgICAgIyBFbnN1cmUgdGhhdCB3ZSBkb24ndCBraWxsIGFuIHVucmVsYXRlZCBw
-cm9jZXNzLgorICAgICAgICAgICAgaWYgWyAhIC1lICIkREhDUFBJRCIgXSAmJiBbIC1zICRESENQ
-UElEIF0gJiYgcHMgJChjYXQgJERIQ1BQSUQpIHwgZ3JlcCAtcSBkaGNwZDsgdGhlbgorICAgICAg
-ICAgICAgICAgIGtpbGwgJChjYXQgJERIQ1BQSUQpCisgICAgICAgICAgICBmaQogICAgICAgICAg
-ICAgaWYgWyAhIC1lICIkTk9TVURPX0ZMQUciIC1hICIkVVNFX1BSRUNPTkZfVEFQIiA9ICJubyIg
-XTsgdGhlbgogICAgICAgICAgICAgICAgICMgUmVkaXJlY3Qgc3RkZXJyIHNpbmNlIHdlIGNvdWxk
-IHNlZSBhIExEX1BSRUxPQUQgd2FybmluZyBoZXJlIGlmIHBzZXVkbyBpcyBsb2FkZWQKICAgICAg
-ICAgICAgICAgICAjIGJ1dCBpbmFjdGl2ZS4gVGhpcyBsb29rcyBzY2FyeSBidXQgaXMgaGFybWxl
-c3MKQEAgLTI0OSw2ICsyNjAsMzggQEAgZWxzZQogICAgICAgICBuMT0kKCgkbjAgKiAyICsgMSkp
-CiAgICAgICAgIG4yPSQoKCRuMSArIDEpKQogCisgICAgICAgIERIQ1BESVI9JExPQ0tGSUxFLmRo
-Y3AKKyAgICAgICAgcm0gLXJmICRESENQRElSCisgICAgICAgIG1rZGlyICRESENQRElSCisgICAg
-ICAgIERIQ1BDT05GPSRESENQRElSL2RoY3BkLmNvbmYKKyAgICAgICAgREhDUExFQVNFPSRESENQ
-RElSL2RoY3BkLmxlYXNlcworICAgICAgICBESENQUElEPSRESENQRElSL2RoY3BkLnBpZAorICAg
-ICAgICBjYXQgPiRESENQQ09ORiA8PEVPRgorb3B0aW9uIGRvbWFpbi1uYW1lICJsb2NhbGRvbWFp
-biI7CithdXRob3JpdGF0aXZlOworCisjIEJhc2ljYWxseSBmb3JldmVyLi4uCitkZWZhdWx0LWxl
-YXNlLXRpbWUgNjAwMDA7CittYXgtbGVhc2UtdGltZSA2MDAwMDsKKworc3VibmV0IDE5Mi4xNjgu
-Ny4wIG5ldG1hc2sgMjU1LjI1NS4yNTUuMCB7CisgIHJhbmdlIDE5Mi4xNjguNy4kbjIgMTkyLjE2
-OC43LiRuMjsKKyAgb3B0aW9uIHJvdXRlcnMgMTkyLjE2OC43LiRuMTsKK30KK0VPRgorICAgICAg
-ICB0b3VjaCAkREhDUExFQVNFCisgICAgICAgIGVjaG8gJERIQ1BEIC1kIC1jZiAkREhDUENPTkYg
-LWxmICRESENQTEVBU0UgLXBmICRESENQUElEICRUQVAKKyAgICAgICAgIyBUT0RPOiB3aGVyZSBz
-aG91bGQgb3V0cHV0IGdvPworICAgICAgICAkREhDUEQgLWQgLWNmICRESENQQ09ORiAtbGYgJERI
-Q1BMRUFTRSAtcGYgJERIQ1BQSUQgJFRBUCAmCisgICAgICAgIHBpZD0kIQorICAgICAgICB3aGls
-ZSBbICEgLXMgJERIQ1BQSUQgXTsgZG8KKyAgICAgICAgICAgIHNsZWVwIDEKKyAgICAgICAgICAg
-IGlmICEgcHMgJHBpZCB8IGdyZXAgLXEgZGhjcGQ7IHRoZW4KKyAgICAgICAgICAgICAgICBlY2hv
-ICIkREhDUEQgdGVybWluYXRlZCB1bmV4cGVjdGVkbHkuIgorICAgICAgICAgICAgICAgIHJldHVy
-biAxCisgICAgICAgICAgICBmaQorICAgICAgICBkb25lCisKICAgICAgICAgS0VSTkVMX05FVFdP
-UktfQ01EPSJpcD0xOTIuMTY4LjcuJG4yOjoxOTIuMTY4LjcuJG4xOjI1NS4yNTUuMjU1LjAiCiAg
-ICAgICAgIFFFTVVfVEFQX0NNRD0iLW5ldCB0YXAsdmxhbj0wLGlmbmFtZT0kVEFQLHNjcmlwdD1u
-byxkb3duc2NyaXB0PW5vIgogICAgICAgICBpZiBbICIkS1ZNX0FDVElWRSIgPSAieWVzIiBdOyB0
-aGVuCi0tIAoyLjEuMQoK
-
---=-Y1wILmp0OTYWp/6tz6sQ--
+--047d7bacb2aaf04630050705d876--
