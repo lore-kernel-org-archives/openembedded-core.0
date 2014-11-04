@@ -1,29 +1,34 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 11BA86017E
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AC246017E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Nov 2014 03:23:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA43NpYm011413
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Nov 2014 19:23:52 -0800 (PST)
-Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Mon, 3 Nov 2014 19:23:50 -0800
-Message-ID: <5458472F.5080203@windriver.com>
-Date: Tue, 4 Nov 2014 11:25:35 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
+	Tue,  4 Nov 2014 06:30:48 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 03 Nov 2014 22:30:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,312,1413270000"; d="scan'208";a="601769013"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by orsmga001.jf.intel.com with ESMTP; 03 Nov 2014 22:30:43 -0800
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.56]) by
+	IRSMSX102.ger.corp.intel.com ([169.254.2.25]) with mapi id
+	14.03.0195.001; Tue, 4 Nov 2014 06:30:43 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Li, Rongqing (Wind River)" <rongqing.li@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] iproute2: backport a patch to make adding
+	vxlan	link success
+Thread-Index: AQHP8z4AdndobrgrTkWBh5LzR4M7bJxQClAA
+Date: Tue, 4 Nov 2014 06:30:42 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F3868F6@IRSMSX105.ger.corp.intel.com>
+References: <1414562467-18994-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1414562467-18994-1-git-send-email-rongqing.li@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1409069458.git.roxana.ciobanu@intel.com>
-	<8ece0cf761b780c9d192d172b0bb7ae5ce987980.1409069458.git.roxana.ciobanu@intel.com>
-In-Reply-To: <8ece0cf761b780c9d192d172b0bb7ae5ce987980.1409069458.git.roxana.ciobanu@intel.com>
-X-Originating-IP: [128.224.162.187]
-Subject: Re: [PATCH 1/1] gdb: Upgrade gdb 7.7.1 -> 7.8
+Subject: Re: [PATCH] iproute2: backport a patch to make adding vxlan	link success
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,69 +41,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Nov 2014 03:23:55 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Nov 2014 06:30:59 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-There are failures on autobuilder that might be related to this patch.
+Hi,
+1. Patch has not been marked with Upstream-status indication.
+2. An upgrade to iproute2 3.17 is due in a short amount of time.
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/88/steps/BuildImages/logs/stdio
+If this is a burning issue, should be taken for inclusion; otherwise hold i=
+t to be included with the incoming upgrade.
 
-ERROR: Command Error: exit status: 1  Output:
-Applying patch include_asm_ptrace.patch
-patching file gdb/aarch64-linux-nat.c
-Hunk #1 succeeded at 32 with fuzz 2.
-patching file gdb/gdbserver/linux-aarch64-low.c
-Hunk #1 FAILED at 26.
-1 out of 1 hunk FAILED -- rejects in file gdb/gdbserver/linux-aarch64-low.c
-Patch include_asm_ptrace.patch does not apply (enforce with -f)
-ERROR: Function failed: patch_do_patch
+Regards,
+Cristian Iorga
+Yocto Project
+Intel Corporation
 
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of rongqing.li@windriver.co=
+m
+Sent: Wednesday, October 29, 2014 8:01 AM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH] iproute2: backport a patch to make adding vxlan =
+link success
 
-Best Regards,
-Chen Qi
+From: "Roy.Li" <rongqing.li@windriver.com>
 
-On 08/27/2014 12:11 AM, Ciobanu Roxana wrote:
-> From: Roxana Ciobanu <roxana.ciobanu@intel.com>
->
-> Signed-off-by: Roxana Ciobanu <roxana.ciobanu@intel.com>
-> ---
->   meta/recipes-devtools/gdb/{gdb-7.7.1.inc => gdb-7.8.inc}              | 4 ++--
->   .../gdb/{gdb-cross-canadian_7.7.1.bb => gdb-cross-canadian_7.8.bb}    | 0
->   meta/recipes-devtools/gdb/{gdb-cross_7.7.1.bb => gdb-cross_7.8.bb}    | 0
->   meta/recipes-devtools/gdb/{gdb_7.7.1.bb => gdb_7.8.bb}                | 0
->   4 files changed, 2 insertions(+), 2 deletions(-)
->   rename meta/recipes-devtools/gdb/{gdb-7.7.1.inc => gdb-7.8.inc} (70%)
->   rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.7.1.bb => gdb-cross-canadian_7.8.bb} (100%)
->   rename meta/recipes-devtools/gdb/{gdb-cross_7.7.1.bb => gdb-cross_7.8.bb} (100%)
->   rename meta/recipes-devtools/gdb/{gdb_7.7.1.bb => gdb_7.8.bb} (100%)
->
-> diff --git a/meta/recipes-devtools/gdb/gdb-7.7.1.inc b/meta/recipes-devtools/gdb/gdb-7.8.inc
-> similarity index 70%
-> rename from meta/recipes-devtools/gdb/gdb-7.7.1.inc
-> rename to meta/recipes-devtools/gdb/gdb-7.8.inc
-> index aa16d5a..f4e9a9e 100644
-> --- a/meta/recipes-devtools/gdb/gdb-7.7.1.inc
-> +++ b/meta/recipes-devtools/gdb/gdb-7.8.inc
-> @@ -6,5 +6,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
->   
->   S = "${WORKDIR}/${BPN}-${PV}"
->   
-> -SRC_URI[md5sum] = "45b07b53d81832d32ccd4829465d4886"
-> -SRC_URI[sha256sum] = "eefadb9831e3695d1eaef34e98b8f1fb441df6fe5071317ea49c6bd6ba213eff"
-> +SRC_URI[md5sum] = "38d816d641093db2e13ba284e26090b4"
-> +SRC_URI[sha256sum] = "46be505fc1bc157a01124333ef37ed195147fa6a405cbfd32dea63bacaaabbe4"
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.7.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.8.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb-cross-canadian_7.7.1.bb
-> rename to meta/recipes-devtools/gdb/gdb-cross-canadian_7.8.bb
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.7.1.bb b/meta/recipes-devtools/gdb/gdb-cross_7.8.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb-cross_7.7.1.bb
-> rename to meta/recipes-devtools/gdb/gdb-cross_7.8.bb
-> diff --git a/meta/recipes-devtools/gdb/gdb_7.7.1.bb b/meta/recipes-devtools/gdb/gdb_7.8.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb_7.7.1.bb
-> rename to meta/recipes-devtools/gdb/gdb_7.8.bb
+If without this patch:
+    $ ip link add vxlan0 type vxlan id 51 group 238.1.1.1 dev eth0
+    Error: argument "vxlan0" is wrong: Unknown device
+    $
 
+With this patch;
+    $ ip link add vxlan0 type vxlan id 51 group 238.1.1.1 dev eth0
+    $ ifconfig -a |grep vxlan0
+    vxlan0    Link encap:Ethernet  HWaddr da:61:56:2e:c2:20
+    $
+
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+---
+ ...p-link-Remove-unnecessary-device-checking.patch |   35 ++++++++++++++++=
+++++
+ .../iproute2/iproute2_3.16.0.bb                    |    1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-ip-lin=
+k-Remove-unnecessary-device-checking.patch
+
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-ip-link-Remov=
+e-unnecessary-device-checking.patch b/meta/recipes-connectivity/iproute2/ip=
+route2/0001-ip-link-Remove-unnecessary-device-checking.patch
+new file mode 100644
+index 0000000..0305a70
+--- /dev/null
++++ b/meta/recipes-connectivity/iproute2/iproute2/0001-ip-link-Remove-un
++++ necessary-device-checking.patch
+@@ -0,0 +1,35 @@
++From 38790ccf7bd0e6eab78024ec381fd98d7c6a2782 Mon Sep 17 00:00:00 2001
++From: vadimk <vadim4j@gmail.com>
++Date: Sat, 30 Aug 2014 15:06:00 +0300
++Subject: [PATCH] ip link: Remove unnecessary device checking
++
++The real checking is performed later in iplink_modify(..) func which=20
++checks device existence if NLM_F_CREATE flag is set.
++
++Also it fixes the case when impossible to add veth link which was=20
++caused by 9a02651a87 (ip: check for missing dev arg when doing VF rate)=20
++because these devices are not exist yet.
++
++Signed-off-by: Vadim Kochan <vadim4j@gmail.com>
++Acked-by: Oliver Hartkopp <socketcan@hartkopp.net>
++Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
++---
++ ip/iplink.c |    2 --
++ 1 file changed, 2 deletions(-)
++
++diff --git a/ip/iplink.c b/ip/iplink.c
++index 1a907d9..ea06871 100644
++--- a/ip/iplink.c
+++++ b/ip/iplink.c
++@@ -593,8 +593,6 @@ int iplink_parse(int argc, char **argv, struct iplink_=
+req *req,
++ 				duparg2("dev", *argv);
++ 			*dev =3D *argv;
++ 			dev_index =3D ll_name_to_index(*dev);
++-			if (dev_index =3D=3D 0)
++-				invarg("Unknown device", *argv);
++ 		}
++ 		argc--; argv++;
++ 	}
++--
++1.7.10.4
++
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.16.0.bb b/meta/r=
+ecipes-connectivity/iproute2/iproute2_3.16.0.bb
+index b1a68f2..39fe9c8 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_3.16.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_3.16.0.bb
+@@ -3,6 +3,7 @@ require iproute2.inc
+ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://configure-cross.patch \
+            file://0001-iproute2-de-bash-scripts.patch \
++           file://0001-ip-link-Remove-unnecessary-device-checking.patch=20
++ \
+           "
+ SRC_URI[md5sum] =3D "6c823b40fdcfa7b8120743349a52ac18"
+ SRC_URI[sha256sum] =3D "1f0a8a6c0e872166f75433f5cbf9766f3002b5c2f13501b3bb=
+8c51846a127b79"
+--
+1.7.10.4
+
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
