@@ -1,34 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D2FBD65D4F
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 43C8365D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Nov 2014 15:55:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA4FsTcE027294; Tue, 4 Nov 2014 15:54:29 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ofAq87Ba4WKq; Tue,  4 Nov 2014 15:54:29 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA4FsNpa027291
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 4 Nov 2014 15:54:24 GMT
-Message-ID: <1415116498.23396.33.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Fathi Boudra <fathi.boudra@linaro.org>
-Date: Tue, 04 Nov 2014 15:54:58 +0000
-In-Reply-To: <CAGNsrLAPfA4=UH0GXkPeAmOx-GbJ7pnNF3gDaRixwNhNKw41og@mail.gmail.com>
-References: <1414571901-17418-1-git-send-email-fathi.boudra@linaro.org>
-	<CAJTo0LY+r2qFgFmOmEXda1brymM8wpAfYFywsDAfWNtuedC+Ng@mail.gmail.com>
-	<1414753109.7649.91.camel@ted>
-	<CAGNsrLDxfpu=X1k7CLREuQCe64z7UDhzQbt1S9rLvm4W5WogTg@mail.gmail.com>
-	<CAJTo0LaWb6ck-KYn8N-AG47xAHNEB2QP-AjXiB+nuWYqjFewgg@mail.gmail.com>
-	<CAGNsrLAPfA4=UH0GXkPeAmOx-GbJ7pnNF3gDaRixwNhNKw41og@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ltp: update to 20140828 release
+	Tue,  4 Nov 2014 15:56:40 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 04 Nov 2014 07:50:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="411227407"
+Received: from unknown (HELO [10.255.13.89]) ([10.255.13.89])
+	by FMSMGA003.fm.intel.com with ESMTP; 04 Nov 2014 07:48:08 -0800
+Message-ID: <5458F733.2010600@linux.intel.com>
+Date: Tue, 04 Nov 2014 07:56:35 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.7.0
+MIME-Version: 1.0
+To: Artur Wroblewski <wrobell@pld-linux.org>, 
+	openembedded-core@lists.openembedded.org
+References: <20141103235157.GC19739@greymatter>
+In-Reply-To: <20141103235157.GC19739@greymatter>
+Subject: Re: python 3.4.2 patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,46 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Nov 2014 15:55:19 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 04 Nov 2014 15:56:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2014-11-04 at 17:10 +0200, Fathi Boudra wrote:
-> after a lot of finger-pointing and implying we don't test our changes
-> or do our homework or do clean builds:
-> * I've built ltp for armv7a and armv8 on our builders and it works
-> fine
-> * I've built poky for x86 and it built fine
+On 11/03/2014 03:51 PM, Artur Wroblewski wrote:
+> Hi,
 >
-> here's my steps:
-> $ git clone git://git.yoctoproject.org/poky
-> $ cd poky
-> $ source oe-init-build-env
-> $ patch -p1 < 0001-ltp-update-to-20140828-release.patch
-> $ bitbake ltp
+> As advised at
 >
-> $ ls -l tmp/deploy/rpm/i586/ltp-*
-> -rw-r--r-- 2 user user 55929600 Nov  4 16:28
-> tmp/deploy/rpm/i586/ltp-20140828-r0.i586.rpm
-> -rw-r--r-- 2 user user     3080 Nov  4 16:28
-> tmp/deploy/rpm/i586/ltp-dbg-20140828-r0.i586.rpm
-> -rw-r--r-- 2 user user     3264 Nov  4 16:28
-> tmp/deploy/rpm/i586/ltp-dev-20140828-r0.i586.rpm
-> -rw-r--r-- 2 user user    31884 Nov  4 16:28
-> tmp/deploy/rpm/i586/ltp-doc-20140828-r0.i586.rpm
+>      https://bugzilla.yoctoproject.org/show_bug.cgi?id=6857
 >
-> afaict, the failure isn't related to the changes submitted. Could you
-> be kind enough to try to reproduce the build failure outside of the
-> yocto autobuilders? or give me the exact steps to reproduce the
-> failure?
+> I am attaching a patch to replace Python 3.3.x with Python 3.4.2. This also
+> fixes issue with missing basic Python 3.x modules, see
+>
+>      https://bugzilla.yoctoproject.org/show_bug.cgi?id=6831
+>
+> Build tested with git master:
+>
+>      $ tar tvjf tmp/deploy/images/qemux86/core-image-minimal-qemux86.tar.bz2 | grep python3.4 | wc -l
+>      2028
+>
+> Regards,
+>
+> w
+>
+>
+>
+Thanks for working up the patch.
 
-bitbake libtirpc; bitbake ltp
+Your patch needs a Signed-off-by: tag and alittle more explaination in 
+the commit message as to what you did (removed patches, rebased patches, 
+...), It's also important to note why the LIC_FILES_CHKSUM changed, it 
+might be as simple as version or date changes, but we need to flag them 
+in case the actual License changed.
 
-seems to reliably reproduce for me.
+Would it make sense to use a PYTHON_MAJMIN in the manifest generator 
+instead of hardcoding the python version? This would allow for the 
+manifest.inc changeset to be much smaller.
 
-Cheers,
-
-Richard
+Sau!
 
 
 
