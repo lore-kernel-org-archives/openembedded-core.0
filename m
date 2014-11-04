@@ -1,37 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id E8CAB71F92
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f45.google.com (mail-yh0-f45.google.com
+	[209.85.213.45])
+	by mail.openembedded.org (Postfix) with ESMTP id F17DE60557
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Nov 2014 15:18:37 +0000 (UTC)
-Received: by mail-qc0-f173.google.com with SMTP id x3so10975818qcv.32
+	Tue,  4 Nov 2014 15:32:00 +0000 (UTC)
+Received: by mail-yh0-f45.google.com with SMTP id f10so3478573yha.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Nov 2014 07:18:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=dbIRGdFr1HfuM3lUH7h+4qhVXfKnevO30ZezuB6/nEY=;
-	b=LxXnP/cvup4PRgv8r1SVIsuXD7949Tn/B1ktAITdfbdHpUlwOcSAk1Uwk7J7Lyq+jn
-	fkcQ46x6VDR84uG9JGoyQfb4us7SP0l68bHgHhxVZH6ecC7AhEHmZhkZsr50WYetISfI
-	hpJRzAszGeNFQi/bN+9NhQMotN/ZERh+3kBfCntmjIy8QhZMl1fdtEzfO+yMcdt2x1fw
-	hkSZ3nqEZHhNvxUpIpdlVEAGtY/qh73sqqsBvs9cNIIsldtbx+xusjS5M6cIdcIDoKwU
-	AZBlX4ykoghZot/SE2h8mXDWo9lHWyLgDGzstEvjEXB6Zo1CKYgz34hPWkXfJAuoWjYq
-	uqAA==
-X-Gm-Message-State: ALoCoQlhFn/gYSx+YLT0bH6fO47Ag2tm7aRNIv0OQ/+ozB62fRPBXCZNQhtTC8gHb5vL73S+LDEY
-X-Received: by 10.140.28.70 with SMTP id 64mr23293567qgy.15.1415114317321;
-	Tue, 04 Nov 2014 07:18:37 -0800 (PST)
+	Tue, 04 Nov 2014 07:32:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=nxMakegzqlfPNzLW0aWp0hIKx3T035K6P6mcLdtmXuQ=;
+	b=qbTI4pDazcrhasAr4g8D+e+92ptRI2yeZ7M89T7DcxyQ3UoT6gOLiV/uZOaTz/MB7q
+	25c3PXIXODLWCbaKnswDrcU0/xIgrbvjZoc7ZqUG6DVKlYw874pgyg31OOOkgdxt2Cnz
+	BTACntd0jyio6QMyvSNlRaTeD8XCDDtwZ4J4ZBiRXGf/fez+nSCfbYt7AdrJnoAF+qeR
+	OxjDn58koPnxTZ/L4w0sHhxx8QE0bgLvUNlA6rvb8kxu1iYxqVkk4X5skSpkbR1iWT4m
+	9s+A/6lqA727GvvyipFSXwMV+CMxsKM5klL2gqh86ENN+hdttHVQWzD6zi0GVFdVA7fR
+	zGSQ==
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Tue, 4 Nov 2014 07:18:17 -0800 (PST)
-In-Reply-To: <2164a52936a6fc4b51ed8b8253c851c02a0f75c7.1409947480.git.sgw@linux.intel.com>
-References: <cover.1409947480.git.sgw@linux.intel.com>
-	<2164a52936a6fc4b51ed8b8253c851c02a0f75c7.1409947480.git.sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 4 Nov 2014 15:18:17 +0000
-Message-ID: <CAJTo0LZVWeGiKnqMGEjWKPfwagED3y=Vu-bKfDqm=h+kX5N7-g@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] libcap: Upgrade to 2.24
+X-Received: by 10.170.160.9 with SMTP id b9mr48310595ykd.50.1415115121093;
+	Tue, 04 Nov 2014 07:32:01 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.172.8 with HTTP; Tue, 4 Nov 2014 07:32:01 -0800 (PST)
+In-Reply-To: <1415107447.23396.27.camel@ted>
+References: <1415100396.23396.17.camel@ted> <5458C1A5.7060800@mlbassoc.com>
+	<CAP9ODKpQmRo-yXMMURRDU8QpSo1fA4vx+wcXFXuBaT=hOgTC_A@mail.gmail.com>
+	<1415107447.23396.27.camel@ted>
+Date: Tue, 4 Nov 2014 13:32:01 -0200
+X-Google-Sender-Auth: YxYGlsMxATlOG4pag2yFTafRu3s
+Message-ID: <CAP9ODKpUtRSddg8_x1zpnP1ndEKuz_hxV8w+HiTVK6krU_z-EA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Gary Thomas <gary@mlbassoc.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bitbake.conf/base.bbclass: Drop PRINC support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +47,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Nov 2014 15:18:42 -0000
-Content-Type: multipart/alternative; boundary=001a113a970a33a04a050709fac0
-
---001a113a970a33a04a050709fac0
+X-List-Received-Date: Tue, 04 Nov 2014 15:32:01 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 5 September 2014 21:06, Saul Wold <sgw@linux.intel.com> wrote:
-
-> +               mv ${D}${libdir}/security ${D}${base_libdir}
+On Tue, Nov 4, 2014 at 11:24 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2014-11-04 at 10:12 -0200, Otavio Salvador wrote:
+>> On Tue, Nov 4, 2014 at 10:08 AM, Gary Thomas <gary@mlbassoc.com> wrote:
+>> > Won't this just silently make use of PRINC a no-op?  What about
+>> > the users that had their head in the sand for the last few months
+>> > but still expect PRINC to have some effect (and maybe don't use
+>> > PR server)?  I would think escalating this to an error would make
+>> > more sense (and follow other warnings that are now errors).
+>>
+>> I agree with Gary, move this to ERROR now and drop in 1.9.
 >
+> Its been printing warnings since May 2013. I tried to merge this 6
+> months ago, I was told to wait another release, by you:
+>
+> http://lists.openembedded.org/pipermail/openembedded-core/2014-March/090169.html
+>
+> Now I need to keep the patch for another 6 months. This really is taking
+> too long IMO. I may well get bored and just drop the patch (and forget
+> any other ideas about trying to cleanup things).
 
-If 'pam' isn't in DISTRO_FEATURES, this directory doesn't exist so the mv
-fails.  Clearly we both have set this locally as it built for me too, but
-didn't work on every non-LSB autobuilder target.
+I understand your frustration but I think we ought to be conservative
+here. People tend to have old layers around and we risk to those never
+get PRINC removed if we don't 'explicit' the error for those users.
 
-I went to add a conditional but started ratholling on the libdir vs
-base_libdir hackery which now there's a pkgconfig file means the library is
-in /lib but libcap.pc claims its in /usr/lib... and SBINDIR in the makefile
-doesn't do anything as it isn't inherited to the submakes, and and argh why
-can't people just use autotools!
+I think we ought ERROR now and remove it in 1.9.
 
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---001a113a970a33a04a050709fac0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 5=
- September 2014 21:06, Saul Wold <span dir=3D"ltr">&lt;<a href=3D"mailto:sg=
-w@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><div id=3D":49o" class=3D"a3s" style=
-=3D"overflow:hidden">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0mv ${D}${libdir}/security ${D}${base_libdir}<br></div></blockquote></div=
-><br>If &#39;pam&#39; isn&#39;t in DISTRO_FEATURES, this directory doesn&#3=
-9;t exist so the mv fails.=C2=A0 Clearly we both have set this locally as i=
-t built for me too, but didn&#39;t work on every non-LSB autobuilder target=
-.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I we=
-nt to add a conditional but started ratholling on the libdir vs base_libdir=
- hackery which now there&#39;s a pkgconfig file means the library is in /li=
-b but libcap.pc claims its in /usr/lib... and SBINDIR in the makefile doesn=
-&#39;t do anything as it isn&#39;t inherited to the submakes, and and argh =
-why can&#39;t people just use autotools!</div><div class=3D"gmail_extra"><b=
-r></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113a970a33a04a050709fac0--
