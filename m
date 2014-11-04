@@ -1,23 +1,23 @@
 Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 11AFB71F94
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 434D971FA4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Nov 2014 17:14:41 +0000 (UTC)
+	Tue,  4 Nov 2014 17:14:38 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 04 Nov 2014 09:12:34 -0800
+	by orsmga101.jf.intel.com with ESMTP; 04 Nov 2014 09:14:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,313,1413270000"; d="scan'208";a="631275915"
+X-IronPort-AV: E=Sophos;i="5.07,313,1413270000"; d="scan'208";a="631275792"
 Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.154])
-	by orsmga002.jf.intel.com with ESMTP; 04 Nov 2014 09:14:33 -0800
+	by orsmga002.jf.intel.com with ESMTP; 04 Nov 2014 09:14:31 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Nov 2014 11:14:58 -0600
-Message-Id: <1415121300-16524-7-git-send-email-anibal.limon@linux.intel.com>
+Date: Tue,  4 Nov 2014 11:14:55 -0600
+Message-Id: <1415121300-16524-4-git-send-email-anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1415121300-16524-1-git-send-email-anibal.limon@linux.intel.com>
 References: <1415121300-16524-1-git-send-email-anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCHv2 6/8] license_class: license_create_manifest improve package file read
+Subject: [PATCHv2 3/8] license_class: Added LICENSE_PRIORITY support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,56 +34,100 @@ X-List-Received-Date: Tue, 04 Nov 2014 17:14:43 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Improved package file read using oe.packagedata.read_pkgdatafile
-instead of doing itself.
+Now you can specify LICENSE_PRIORITY for license manifest creation.
+
+This means that if you have LICENSE expression with OR's only one
+license is selected based on LICENSE_PRIORITY and INCOMPATIBLE_LICENSE.
+
+[YOCTO #6757]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/classes/license.bbclass | 23 +++++------------------
- 1 file changed, 5 insertions(+), 18 deletions(-)
+ meta/classes/license.bbclass | 47 ++++++++++++++++++++++++++++++++++++++------
+ meta/conf/documentation.conf |  1 +
+ 2 files changed, 42 insertions(+), 6 deletions(-)
 
 diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index f2dd0eb..d462b0a 100644
+index c11ef1c..a055660 100644
 --- a/meta/classes/license.bbclass
 +++ b/meta/classes/license.bbclass
-@@ -28,6 +28,7 @@ python write_package_manifest() {
- python license_create_manifest() {
-     import re
-     import oe.license
-+    import oe.packagedata
- 
+@@ -33,10 +33,45 @@ python license_create_manifest() {
      bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE", True) or "").split()
      bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
-@@ -84,25 +85,11 @@ python license_create_manifest() {
-         for pkg in pkg_list:
-             pkg_info = os.path.join(d.getVar('PKGDATA_DIR', True),
-                                     'runtime-reverse', pkg)
--            with open(pkg_info, "r") as pkg_info_file:
--                pkg_dic[pkg] = {}
-+            pkg_lic_name = "LICENSE_" + os.path.basename(os.readlink(pkg_info))
  
--                pkg_lic_name = os.path.basename(os.readlink(pkg_info))
--
--                for line in pkg_info_file.read().split("\n"):
--                    if re.match("^PN: .*$", line):
--                        pkg_dic[pkg]["PN"] = re.search("PN: (.*)$", line).group(1)
--
--                    if re.match("^PV: .*$", line):
--                        pkg_dic[pkg]["PV"] = re.search("PV: (.*)$", line).group(1)
--
--                    if re.match("^LICENSE_%s: (.*)$" % re.escape(pkg_lic_name)
--                                , line):
--                        pkg_dic[pkg]["LICENSE"] = re.search("^LICENSE_%s: (.*)$"
--                                    % pkg_lic_name, line).group(1)
--                    elif re.match("^LICENSE: (.*)$", line):
--                        pkg_dic[pkg]["LICENSE"] = re.search("^LICENSE: (.*)$",
--                                    line).group(1)
-+            pkg_dic[pkg] = oe.packagedata.read_pkgdatafile(pkg_info)
-+            if not "LICENSE" in pkg_dic[pkg].keys():
-+               pkg_dic[pkg]["LICENSE"] = pkg_dic[pkg][pkg_lic_name]
++    priority_licenses = (d.getVar("LICENSE_PRIORITY", True) or "").split()
++    priority_licenses = map(lambda l: canonical_license(d, l), priority_licenses)
++    priority_licenses.reverse()
++
++    # Get license priority based on index,
++    # INCOMPATIBLE_LICENSE entries have negative weight.
++    # Licenses not listed have a weight of 0.
++    # LICENSE_PRIORITY entries have a positive weight.
++    def get_license_priority(license):
++        # If you want to exclude license named generically 'X', we
++        # surely want to exclude 'X+' as well.  In consequence, we
++        # will exclude a trailing '+' character from LICENSE in
++        # case INCOMPATIBLE_LICENSE is not a 'X+' license.
++        for bl in bad_licenses:
++            lic = license
++            if not re.search('\+$', bl):
++                lic = re.sub('\+', '', license)
++
++            if lic == bl:
++                return -1 * (bad_licenses.index(lic) + 1)
++
++        if license in priority_licenses:
++            return priority_licenses.index(license) + 1
++        else:
++            return 0
++
+     # Handles an "or" or two license sets provided by
+-    # flattened_licenses(), pick one that works if possible.
+-    def choose_lic_set(a, b):
+-        return a if all(license_ok(bad_licenses, lic) for lic in a) else b
++    # flattened_licenses(), pick one that works based on
++    # LICENSE_PRIORITY and INCOMPATIBLE_LICENSE.
++    def choose_lic_set(alpha, beta):
++        alpha_canonical = [canonical_license(d, l) for l in alpha]
++        beta_canonical = [canonical_license(d, l) for l in beta]
++        alpha_weight = sum(get_license_priority(a) for a in alpha_canonical)
++        beta_weight = sum(get_license_priority(b) for b in beta_canonical)
++
++        if alpha_weight >= beta_weight:
++            return alpha
++        else:
++            return beta
  
-     license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
-                         d.getVar('IMAGE_NAME', True), 'license.manifest')
+     build_images_from_feeds = d.getVar('BUILD_IMAGES_FROM_FEEDS', True)
+     if build_images_from_feeds == "1":
+@@ -80,12 +115,12 @@ python license_create_manifest() {
+             license_file.write("LICENSE:")
+ 
+             try:
+-                licenses = oe.license.flattened_licenses(pkg_dic[pkg]["LICENSE"]
+-                            , choose_lic_set)
++                pkg_dic[pkg]["FLATTENED_LICENSE"] = oe.license.flattened_licenses(
++                            pkg_dic[pkg]["LICENSE"], choose_lic_set)
+             except oe.license.LicenseError as exc:
+                 bb.fatal('%s: %s' % (d.getVar('P', True), exc))
+ 
+-            for lic in licenses:
++            for lic in pkg_dic[pkg]["FLATTENED_LICENSE"]:
+                 lic = re.sub('\+', '', lic)
+                 lic_file = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
+                                         pkg_dic[pkg]["PN"], "generic_%s" % lic)
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 66ec093..d2b3057 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -220,6 +220,7 @@ IMAGE_ROOTFS_SIZE[doc] = "Defines the size in Kbytes for the generated image."
+ IMAGE_TYPES[doc] = "Specifies the complete list of supported image types by default."
+ INC_PR[doc] = "Helps define the recipe revision for recipes that share a common include file."
+ INCOMPATIBLE_LICENSE[doc] = "Specifies a space-separated list of license names (as they would appear in LICENSE) that should be excluded from the build."
++LICENSE_PRIORITY[doc] = "Space separated list of licenses in priority order, highest to lowest."
+ INHIBIT_DEFAULT_DEPS[doc] = "Prevents the default dependencies, namely the C compiler and standard C library (libc), from being added to DEPENDS."
+ INHIBIT_PACKAGE_STRIP[doc] = "If set to "1", causes the build to not strip binaries in resulting packages."
+ INHERIT[doc] = "Causes the named class to be inherited at this point during parsing. The variable is only valid in configuration files."
 -- 
 1.9.1
 
