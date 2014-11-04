@@ -1,28 +1,42 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id C4F6C65C87
+Return-Path: <qianl.fnst@cn.fujitsu.com>
+X-Greylist: delayed 735 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 07 Nov 2014 09:41:39 UTC
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 698F865C7C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 09:33:07 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 07 Nov 2014 01:26:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,330,1413270000"; d="scan'208";a="618753110"
-Received: from moyraecc-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.2])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Nov 2014 01:33:04 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 07 Nov 2014 09:33:03 +0000
-Message-ID: <5468684.VLqs9Mf4f5@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.2 (Linux/3.16.7-200.fc20.x86_64; KDE/4.14.2; x86_64; ; )
-In-Reply-To: <FDB6E297-1CE7-499E-ACF8-CDC20BF3AD86@dominion.thruhere.net>
-References: <1415259476-3411-1-git-send-email-koen@dominion.thruhere.net>
-	<2205188.KeVNzL1xBI@peggleto-mobl5.ger.corp.intel.com>
-	<FDB6E297-1CE7-499E-ACF8-CDC20BF3AD86@dominion.thruhere.net>
+	Fri,  7 Nov 2014 09:41:39 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="43016610"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 07 Nov 2014 17:26:07 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id sA79T7Fe003657
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Nov 2014 17:29:07 +0800
+Received: from Fedora (10.167.226.40) by G08CNEXCHPEKD03.g08.fujitsu.local
+	(10.167.33.89) with Microsoft SMTP Server id 14.3.181.6; Fri, 7 Nov 2014
+	17:29:23 +0800
+From: Qian Lei <qianl.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 4 Nov 2014 14:04:56 +0900
+Message-ID: <1415077496-11116-1-git-send-email-qianl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.4.2
+X-TM-AS-MML: disable
+X-TM-AS-Product-Ver: IMSS-7.1.0.1403-7.5.0.1018-21074.003
+X-TM-AS-Result: No--14.725-7.0-31-10
+X-imss-scan-details: No--14.725-7.0-31-10
+X-TM-AS-User-Approved-Sender: No
+X-TMASE-MatchedRID: ++xGSS8gmLa8eaYomTBk5LttJwl7IC+WwJjn8yqLU6JcKZwALwMGsz0J
+	SifQ1MZ53GkTKZpjphs4cmJUVpBxQhe/T4M8CnPQA9lly13c/gGpqkk/s2R6YSXuTGSWN4vnFIC
+	vJhXEzsdX5t7w06f3W33UwFifFlW7RUqOXUf3BH2zI1v7J4hECl7OZ6hrwwnzFAsTXoyZ8Mtah6
+	9TDPcjLgCjTld9C1ZIkY0mrOR3shuR9GF2J2xqMxRFJJyf5BJe3QfwsVk0UbtuRXh7bFKB7prSb
+	YsoSYrjkSuZUE6KE1O0rBV280EhU6+WYPpzZLQtxYVzI3UCCaY=
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gptfdisk: add 0.8.10+git version
+Resent-Date: Fri, 7 Nov 2014 17:28:56 +0800
+Resent-From: Qian Lei <qianl.fnst@cn.fujitsu.com>
+Resent-Message-ID: <20141107172858.2514c068@Fedora>
+Resent-To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] Bluez5: Add gatttool to new package bluez5-tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +49,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 09:33:13 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 07 Nov 2014 09:41:42 -0000
+Content-Type: text/plain
 
-On Thursday 06 November 2014 14:28:49 Koen Kooi wrote:
-> Op 6 nov. 2014, om 12:27 heeft Paul Eggleton <paul.eggleton@linux.intel.com> 
-het volgende geschreven:
-> > Hi Koen,
-> > 
-> > On Thursday 06 November 2014 08:37:56 Koen Kooi wrote:
-> >> Besides from being useful as fdisk replacement this gives us 'sgdisk'
-> >> which can be used to set the GUID for partitions, e.g.
-> >> 
-> >> 	sgdisk -t 1:C12A7328-F81F-11D2-BA4B-00A0C93EC93B /dev/mmcblk0p1
-> >> 
-> >> To mark it as ESP in scripts like mkefidisk.sh.
-> >> 
-> >> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> >> ---
-> >> meta/recipes-devtools/fdisk/gptfdisk_git.bb | 22 ++++++++++++++++++++++
-> >> 1 file changed, 22 insertions(+)
-> >> create mode 100644 meta/recipes-devtools/fdisk/gptfdisk_git.bb
-> >> 
-> >> diff --git a/meta/recipes-devtools/fdisk/gptfdisk_git.bb
-> >> b/meta/recipes-devtools/fdisk/gptfdisk_git.bb new file mode 100644
-> >> index 0000000..62c32c3
-> >> --- /dev/null
-> >> +++ b/meta/recipes-devtools/fdisk/gptfdisk_git.bb
-> >> @@ -0,0 +1,22 @@
-> >> ...
-> >> +S = "${WORKDIR}/git"
-> >> +
-> >> +do_install() {
-> >> +    install -d ${D}${bindir}
-> >> +    install -m 0755 cgdisk ${D}${bindir}
-> >> +    install -m 0755 gdisk ${D}${bindir}
-> >> +    install -m 0755 sgdisk ${D}${bindir}
-> >> +    install -m 0755 fixparts ${D}${bindir}
-> > 
-> > Technically shouldn't these be in ${sbindir} ?
-> 
-> Personally I think sbindir is a misguided idea, PATH is a very easy to get
-> around security measure. Having said that, I have no objection to
-> installing these things in $sbindir if it's requiered to get this into
-> OE-core.
+Gatttool in bluez5 is not installed into system any more. But in some cases
+we do need this tool to debug some thing. So I add a new package named bluez5-tools
+which includes some programs we may need but not installed.
 
-I wouldn't have thought it to be required, I was just wondering if this was 
-something we wanted to stick to.
+Signed-off-by: Qian Lei <qianl.fnst@cn.fujitsu.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index c3dd946..6c05f07 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -42,11 +42,12 @@ do_install_append() {
+ 	    install -m 0644 ${S}/profiles/input/input.conf ${D}/${sysconfdir}/bluetooth/
+ 	fi
+ 	# at_console doesn't really work with the current state of OE, so punch some more holes so people can actually use BT
++        install -m 0755 ${S}/attrib/gatttool ${D}/${bindir}/
+ 	install -m 0644 ${WORKDIR}/bluetooth.conf ${D}/${sysconfdir}/dbus-1/system.d/
+ }
+ 
+ ALLOW_EMPTY_libasound-module-bluez = "1"
+-PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex"
++PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex ${PN}-tools"
+ 
+ FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
+ FILES_${PN} += "${libdir}/bluetooth/plugins ${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${nonarch_base_libdir}/udev/ ${systemd_unitdir}/ ${datadir}/dbus-1"
+@@ -63,6 +64,8 @@ SYSTEMD_SERVICE_${PN}-obex = "obex.service"
+ 
+ FILES_${PN}-testtools = "${libdir}/bluez/test/*"
+ 
++FILES_${PN}-tools = "${bindir}/gatttool"
++
+ FILES_${PN}-dbg += "\
+   ${libdir}/${BPN}/bluetooth/.debug \
+   ${libdir}/bluetooth/plugins/.debug \
 -- 
+1.8.4.2
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
