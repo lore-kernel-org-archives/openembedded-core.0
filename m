@@ -1,34 +1,33 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AC246017E
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9766C65DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Nov 2014 06:30:48 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 03 Nov 2014 22:30:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,312,1413270000"; d="scan'208";a="601769013"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by orsmga001.jf.intel.com with ESMTP; 03 Nov 2014 22:30:43 -0800
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.56]) by
-	IRSMSX102.ger.corp.intel.com ([169.254.2.25]) with mapi id
-	14.03.0195.001; Tue, 4 Nov 2014 06:30:43 +0000
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Li, Rongqing (Wind River)" <rongqing.li@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] iproute2: backport a patch to make adding
-	vxlan	link success
-Thread-Index: AQHP8z4AdndobrgrTkWBh5LzR4M7bJxQClAA
-Date: Tue, 4 Nov 2014 06:30:42 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F3868F6@IRSMSX105.ger.corp.intel.com>
-References: <1414562467-18994-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1414562467-18994-1-git-send-email-rongqing.li@windriver.com>
-Accept-Language: en-US
+	Tue,  4 Nov 2014 06:59:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA46xBos016420
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 3 Nov 2014 22:59:12 -0800 (PST)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.16]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0174.001;
+	Mon, 3 Nov 2014 22:59:11 -0800
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Thread-Topic: [OE-core] [PATCH] linux-firmware: resolve linux-firmware and
+	microcode-ctl file conflicts
+Thread-Index: AQHP7fm5g/JD1yFTY02R9vyp4IqArZw9Ix8QgBL6UQA=
+Date: Tue, 4 Nov 2014 06:59:10 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AABD548ACB@ALA-MBA.corp.ad.wrs.com>
+References: <1413966997-3361-1-git-send-email-jackie.huang@windriver.com>
+	<CAP9ODKpSoNU5CgCYngdJ3=FJf-T11CX+F=0365k1zK53zw1F9g@mail.gmail.com> 
+Accept-Language: en-US, zh-CN
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+x-originating-ip: [128.224.162.133]
 MIME-Version: 1.0
-Subject: Re: [PATCH] iproute2: backport a patch to make adding vxlan	link success
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-firmware: resolve linux-firmware and microcode-ctl file conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,120 +40,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Nov 2014 06:30:59 -0000
+X-List-Received-Date: Tue, 04 Nov 2014 06:59:16 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi,
-1. Patch has not been marked with Upstream-status indication.
-2. An upgrade to iproute2 3.17 is due in a short amount of time.
-
-If this is a burning issue, should be taken for inclusion; otherwise hold i=
-t to be included with the incoming upgrade.
-
-Regards,
-Cristian Iorga
-Yocto Project
-Intel Corporation
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of rongqing.li@windriver.co=
-m
-Sent: Wednesday, October 29, 2014 8:01 AM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH] iproute2: backport a patch to make adding vxlan =
-link success
-
-From: "Roy.Li" <rongqing.li@windriver.com>
-
-If without this patch:
-    $ ip link add vxlan0 type vxlan id 51 group 238.1.1.1 dev eth0
-    Error: argument "vxlan0" is wrong: Unknown device
-    $
-
-With this patch;
-    $ ip link add vxlan0 type vxlan id 51 group 238.1.1.1 dev eth0
-    $ ifconfig -a |grep vxlan0
-    vxlan0    Link encap:Ethernet  HWaddr da:61:56:2e:c2:20
-    $
-
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- ...p-link-Remove-unnecessary-device-checking.patch |   35 ++++++++++++++++=
-++++
- .../iproute2/iproute2_3.16.0.bb                    |    1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-ip-lin=
-k-Remove-unnecessary-device-checking.patch
-
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-ip-link-Remov=
-e-unnecessary-device-checking.patch b/meta/recipes-connectivity/iproute2/ip=
-route2/0001-ip-link-Remove-unnecessary-device-checking.patch
-new file mode 100644
-index 0000000..0305a70
---- /dev/null
-+++ b/meta/recipes-connectivity/iproute2/iproute2/0001-ip-link-Remove-un
-+++ necessary-device-checking.patch
-@@ -0,0 +1,35 @@
-+From 38790ccf7bd0e6eab78024ec381fd98d7c6a2782 Mon Sep 17 00:00:00 2001
-+From: vadimk <vadim4j@gmail.com>
-+Date: Sat, 30 Aug 2014 15:06:00 +0300
-+Subject: [PATCH] ip link: Remove unnecessary device checking
-+
-+The real checking is performed later in iplink_modify(..) func which=20
-+checks device existence if NLM_F_CREATE flag is set.
-+
-+Also it fixes the case when impossible to add veth link which was=20
-+caused by 9a02651a87 (ip: check for missing dev arg when doing VF rate)=20
-+because these devices are not exist yet.
-+
-+Signed-off-by: Vadim Kochan <vadim4j@gmail.com>
-+Acked-by: Oliver Hartkopp <socketcan@hartkopp.net>
-+Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
-+---
-+ ip/iplink.c |    2 --
-+ 1 file changed, 2 deletions(-)
-+
-+diff --git a/ip/iplink.c b/ip/iplink.c
-+index 1a907d9..ea06871 100644
-+--- a/ip/iplink.c
-++++ b/ip/iplink.c
-+@@ -593,8 +593,6 @@ int iplink_parse(int argc, char **argv, struct iplink_=
-req *req,
-+ 				duparg2("dev", *argv);
-+ 			*dev =3D *argv;
-+ 			dev_index =3D ll_name_to_index(*dev);
-+-			if (dev_index =3D=3D 0)
-+-				invarg("Unknown device", *argv);
-+ 		}
-+ 		argc--; argv++;
-+ 	}
-+--
-+1.7.10.4
-+
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.16.0.bb b/meta/r=
-ecipes-connectivity/iproute2/iproute2_3.16.0.bb
-index b1a68f2..39fe9c8 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_3.16.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_3.16.0.bb
-@@ -3,6 +3,7 @@ require iproute2.inc
- SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://configure-cross.patch \
-            file://0001-iproute2-de-bash-scripts.patch \
-+           file://0001-ip-link-Remove-unnecessary-device-checking.patch=20
-+ \
-           "
- SRC_URI[md5sum] =3D "6c823b40fdcfa7b8120743349a52ac18"
- SRC_URI[sha256sum] =3D "1f0a8a6c0e872166f75433f5cbf9766f3002b5c2f13501b3bb=
-8c51846a127b79"
---
-1.7.10.4
-
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSHVhbmcsIEppZSAoSmFj
+a2llKQ0KPiBTZW50OiBUaHVyc2RheSwgT2N0b2JlciAyMywgMjAxNCAxOjE0IFBNDQo+IFRvOiAn
+T3RhdmlvIFNhbHZhZG9yJw0KPiBDYzogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhl
+IG9lLWNvcmUgbGF5ZXINCj4gU3ViamVjdDogUkU6IFtPRS1jb3JlXSBbUEFUQ0hdIGxpbnV4LWZp
+cm13YXJlOiByZXNvbHZlIGxpbnV4LWZpcm13YXJlIGFuZCBtaWNyb2NvZGUtY3RsIGZpbGUgY29u
+ZmxpY3RzDQo+IA0KPiANCj4gDQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiBG
+cm9tOiBvdGF2aW8uc2FsdmFkb3JAZ21haWwuY29tIFttYWlsdG86b3RhdmlvLnNhbHZhZG9yQGdt
+YWlsLmNvbV0gT24NCj4gPiBCZWhhbGYgT2YgT3RhdmlvIFNhbHZhZG9yDQo+ID4gU2VudDogV2Vk
+bmVzZGF5LCBPY3RvYmVyIDIyLCAyMDE0IDk6MTIgUE0NCj4gPiBUbzogSHVhbmcsIEppZSAoSmFj
+a2llKQ0KPiA+IENjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBs
+YXllcg0KPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBsaW51eC1maXJtd2FyZTog
+cmVzb2x2ZSBsaW51eC1maXJtd2FyZQ0KPiA+IGFuZCBtaWNyb2NvZGUtY3RsIGZpbGUgY29uZmxp
+Y3RzDQo+ID4NCj4gPiBPbiBXZWQsIE9jdCAyMiwgMjAxNCBhdCA2OjM2IEFNLCAgPGphY2tpZS5o
+dWFuZ0B3aW5kcml2ZXIuY29tPiB3cm90ZToNCj4gPiA+IEZyb206IFl1ZSBUYW8gPHl1ZS50YW9A
+d2luZHJpdmVyLmNvbT4NCj4gPiA+DQo+ID4gPiBVc2UgYWx0ZXJuYXRpdmVzIG1lY2hhbmlzbSB0
+byBwcmV2ZW50IGxpbnV4LWZpcm13YXJlIGFuZA0KPiA+ID4gbWljcm9jb2RlLWN0bCBiaW4gZmls
+ZXMgZnJvbSBjYXVzaW5nIGNvbmZsaWN0cy4NCj4gPiA+DQo+ID4gPiBUaGUgZXJyb3IgaXMgOg0K
+PiA+ID4NCj4gPiA+IGVycm9yOiBmaWxlIC9saWIvZmlybXdhcmUvYW1kLXVjb2RlL21pY3JvY29k
+ZV9hbWQuYmluIGZyb20gaW5zdGFsbA0KPiA+ID4gb2YgbGludXgtZmlybXdhcmUgY29uZmxpY3Rz
+IHdpdGggZmlsZSBmcm9tIHBhY2thZ2UNCj4gPiA+IG1pY3JvY29kZS1jdGwtZmlybXdhcmUNCj4g
+PiA+DQo+ID4gPiBlcnJvcjogZmlsZSAvbGliL2Zpcm13YXJlL2FtZC11Y29kZS9taWNyb2NvZGVf
+YW1kX2ZhbTE1aC5iaW4gZnJvbQ0KPiA+ID4gaW5zdGFsbCBvZiBsaW51eC1maXJtd2FyZSBjb25m
+bGljdHMgd2l0aCBmaWxlIGZyb20gcGFja2FnZQ0KPiA+ID4gbWljcm9jb2RlLWN0bC1maXJtd2Fy
+ZQ0KPiA+ID4NCj4gPiA+IFNpZ25lZC1vZmYtYnk6IFl1ZSBUYW8gPHl1ZS50YW9Ad2luZHJpdmVy
+LmNvbT4NCj4gPg0KPiA+ICogVGhlIGZpcm13YXJlIHNob3VsZCBiZSBzcGxpdCBpbiBhIHNwZWNp
+ZmljIHBhY2thZ2UsIGlmIHBvc3NpYmxlIChpbg0KPiA+IGEgc2VwYXJhdGVkIHBhdGNoKQ0KPiAN
+Cj4gVGhhbmtzIGZvciBwb2ludGluZyB0aGlzLCBJIHdpbGwgcmUtd29yayBvbiBpdC4NCj4gDQo+
+ID4gKiBtaWNyb2NvZGUtY3RsLWZpcm13YXJlIGRvZXMgbm90IGV4aXN0IGhlcmUNCj4gDQo+IFll
+cywgSSBrbm93LCBidXQgd2UgaGF2ZSBpdCBpbiBvdXIgb3duIGxheWVyLg0KPiANCj4gPiAqIG1p
+Y3JvY29kZS1jdGwtZmlybXdhcmUgc2VlbXMgdXNlbGVzcyBpZiB5b3UgY2FuIHJlbHkgb24gbGlu
+dXgtZmlybXdhcmUgdG8gcHJvdmlkZSB0aGUgZmlsZS4NCj4gDQo+IE1heWJlLCBidXQgc29tZW9u
+ZSBtYXkgY2hvb3NlIHRvIHVzZSB0aGUgb25lIHByb3ZpZGVkIGJ5IG1pY3JvY29kZS1jdGwtZmly
+bXdhcmUuDQoNCldlIGhhdmUgZml4ZWQgdGhpcyBpbiBtaWNyb2NvZGUtY3RsLWZpcm13YXJlLCBz
+byB0aGlzIHBhdGNoIGlzIG5vdCBuZWVkZWQuDQoNClRoYW5rcywNCkphY2tpZQ0KDQo+IA0KPiBU
+aGFua3MsDQo+IEphY2tpZQ0KPiANCj4gPg0KPiA+IC0tDQo+ID4gT3RhdmlvIFNhbHZhZG9yICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBPLlMuIFN5c3RlbXMNCj4gPiBodHRwOi8vd3d3Lm9z
+c3lzdGVtcy5jb20uYnIgICAgICAgIGh0dHA6Ly9jb2RlLm9zc3lzdGVtcy5jb20uYnINCj4gPiBN
+b2JpbGU6ICs1NSAoNTMpIDk5ODEtNzg1NCAgICAgICAgICAgIE1vYmlsZTogKzEgKDM0NykgOTAz
+LTk3NTANCg==
 
