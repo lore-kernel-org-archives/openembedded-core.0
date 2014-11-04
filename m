@@ -1,29 +1,31 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3772365DEB
+	by mail.openembedded.org (Postfix) with ESMTP id D84B165DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Nov 2014 11:39:38 +0000 (UTC)
+	Tue,  4 Nov 2014 11:39:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA4Bd1cg009452; Tue, 4 Nov 2014 11:39:01 GMT
+	sA4Bd1vs009475; Tue, 4 Nov 2014 11:39:02 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ZGprymWdvtxZ; Tue,  4 Nov 2014 11:39:01 +0000 (GMT)
+	with LMTP id V0Z8nr3Hdrdx; Tue,  4 Nov 2014 11:39:02 +0000 (GMT)
 Received: from ted (5751f4a1.skybroadband.com [87.81.244.161])
 	(authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA4BcdgK009419
+	sA4BcePq009425
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
 	Tue, 4 Nov 2014 11:38:41 GMT
 Received: from richard by ted with local (Exim 4.82)
 	(envelope-from <richard@dan.rpsys.net>)
-	id 1XlcS5-0000J3-Ao; Tue, 04 Nov 2014 11:39:09 +0000
+	id 1XlcS6-0000JS-7a; Tue, 04 Nov 2014 11:39:10 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Nov 2014 11:39:01 +0000
-Message-Id: <1415101148-1142-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Tue,  4 Nov 2014 11:39:06 +0000
+Message-Id: <1415101148-1142-6-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.0.2
-Subject: [PATCH 1/8] nasm: 2.11.05 -> 2.11.06
+In-Reply-To: <1415101148-1142-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1415101148-1142-1-git-send-email-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 6/8] kexec-tools: 2.0.7 -> 2.0.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,86 +38,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Nov 2014 11:39:40 -0000
+X-List-Received-Date: Tue, 04 Nov 2014 11:39:41 -0000
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/nasm/nasm_2.11.05.bb | 29 -----------------------------
- meta/recipes-devtools/nasm/nasm_2.11.06.bb | 29 +++++++++++++++++++++++++++++
- 2 files changed, 29 insertions(+), 29 deletions(-)
- delete mode 100644 meta/recipes-devtools/nasm/nasm_2.11.05.bb
- create mode 100644 meta/recipes-devtools/nasm/nasm_2.11.06.bb
+ meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb | 17 -----------------
+ meta/recipes-kernel/kexec/kexec-tools_2.0.8.bb | 17 +++++++++++++++++
+ 2 files changed, 17 insertions(+), 17 deletions(-)
+ delete mode 100644 meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools_2.0.8.bb
 
-diff --git a/meta/recipes-devtools/nasm/nasm_2.11.05.bb b/meta/recipes-devtools/nasm/nasm_2.11.05.bb
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb
 deleted file mode 100644
-index fbfd585..0000000
---- a/meta/recipes-devtools/nasm/nasm_2.11.05.bb
+index f0ece0d..0000000
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb
 +++ /dev/null
-@@ -1,29 +0,0 @@
--SUMMARY = "General-purpose x86 assembler"
--SECTION = "devel"
--LICENSE = "BSD-2-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
--COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
+@@ -1,17 +0,0 @@
+-require kexec-tools.inc
+-export LDFLAGS = "-L${STAGING_LIBDIR}"
+-EXTRA_OECONF = " --with-zlib=yes"
 -
+-SRC_URI += "file://kexec-tools-Refine-kdump-device_tree-sort.patch"
 -
--SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
--SRC_URI[md5sum] = "f6b1db2858cad82bbb0c8c6f3e2b0fb2"
--SRC_URI[sha256sum] = "4a417bcf5cde5d203e228feea3f428a6ff4d700d558e4d79d50a30a695bdfae9"
+-SRC_URI[md5sum] = "2309ba43981cb6d39d07ac3a9aac30ab"
+-SRC_URI[sha256sum] = "dde5c38be39882c6c91f0129647349c4e1943b077d3020af1970b481ee954eb0"
 -
--inherit autotools-brokensep
+-PACKAGES =+ "kexec kdump vmcore-dmesg"
 -
--do_configure_prepend () {
--	if [ -f ${S}/aclocal.m4 ] && [ ! -f ${S}/acinclude.m4 ]; then
--		mv ${S}/aclocal.m4 ${S}/acinclude.m4
--	fi
--}
+-ALLOW_EMPTY_${PN} = "1"
+-RRECOMMENDS_${PN} = "kexec kdump vmcore-dmesg"
 -
--do_install() {
--	install -d ${D}${bindir}
--	install -d ${D}${mandir}/man1
--
--	oe_runmake 'INSTALLROOT=${D}' install
--}
--
--BBCLASSEXTEND = "native"
--
--DEPENDS = "groff-native"
-diff --git a/meta/recipes-devtools/nasm/nasm_2.11.06.bb b/meta/recipes-devtools/nasm/nasm_2.11.06.bb
+-FILES_kexec = "${sbindir}/kexec"
+-FILES_kdump = "${sbindir}/kdump"
+-FILES_vmcore-dmesg = "${sbindir}/vmcore-dmesg"
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.8.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.8.bb
 new file mode 100644
-index 0000000..4a69a6a
+index 0000000..559bc6a
 --- /dev/null
-+++ b/meta/recipes-devtools/nasm/nasm_2.11.06.bb
-@@ -0,0 +1,29 @@
-+SUMMARY = "General-purpose x86 assembler"
-+SECTION = "devel"
-+LICENSE = "BSD-2-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
-+COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.8.bb
+@@ -0,0 +1,17 @@
++require kexec-tools.inc
++export LDFLAGS = "-L${STAGING_LIBDIR}"
++EXTRA_OECONF = " --with-zlib=yes"
 +
++SRC_URI += "file://kexec-tools-Refine-kdump-device_tree-sort.patch"
 +
-+SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
-+SRC_URI[md5sum] = "9d93e8df5f5c005567f47ed6ca3a93d4"
-+SRC_URI[sha256sum] = "87b6d97d6981ca468f9dafda44cf1bb1ba122cec329d4d389af5db04fa0c3e6c"
++SRC_URI[md5sum] = "45bd2bc676ae202579e4c185563126af"
++SRC_URI[sha256sum] = "95083c707577154a2241c5af0985f1eb3412d1ba208ef91813e9158b0a901179"
 +
-+inherit autotools-brokensep
++PACKAGES =+ "kexec kdump vmcore-dmesg"
 +
-+do_configure_prepend () {
-+	if [ -f ${S}/aclocal.m4 ] && [ ! -f ${S}/acinclude.m4 ]; then
-+		mv ${S}/aclocal.m4 ${S}/acinclude.m4
-+	fi
-+}
++ALLOW_EMPTY_${PN} = "1"
++RRECOMMENDS_${PN} = "kexec kdump vmcore-dmesg"
 +
-+do_install() {
-+	install -d ${D}${bindir}
-+	install -d ${D}${mandir}/man1
-+
-+	oe_runmake 'INSTALLROOT=${D}' install
-+}
-+
-+BBCLASSEXTEND = "native"
-+
-+DEPENDS = "groff-native"
++FILES_kexec = "${sbindir}/kexec"
++FILES_kdump = "${sbindir}/kdump"
++FILES_vmcore-dmesg = "${sbindir}/vmcore-dmesg"
 -- 
 2.0.2
 
