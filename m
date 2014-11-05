@@ -1,34 +1,32 @@
 Return-Path: <ben.shelton@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 210047200A
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id ECABF72000
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 21:26:39 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
-	sA5LQeAd013819 for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Nov 2014 15:26:40 -0600
+	Wed,  5 Nov 2014 21:37:55 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
+	sA5L83MX014301 for <openembedded-core@lists.openembedded.org>;
+	Wed, 5 Nov 2014 15:08:03 -0600
 Received: from bshelton-desktop.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014110515264015-711017 ;
-	Wed, 5 Nov 2014 15:26:40 -0600 
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014110515080344-712816 ;
+	Wed, 5 Nov 2014 15:08:03 -0600 
 From: Ben Shelton <ben.shelton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 5 Nov 2014 15:26:17 -0600
-Message-Id: <1415222777-6782-3-git-send-email-ben.shelton@ni.com>
+Date: Wed, 5 Nov 2014 15:06:16 -0600
+Message-Id: <1415221576-4852-1-git-send-email-ben.shelton@ni.com>
 X-Mailer: git-send-email 2.1.3
-In-Reply-To: <1415222777-6782-1-git-send-email-ben.shelton@ni.com>
-References: <1415222777-6782-1-git-send-email-ben.shelton@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 11/05/2014 03:26:40 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 11/05/2014 03:26:40 PM,
-	Serialize complete at 11/05/2014 03:26:40 PM
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 11/05/2014 03:08:03 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 11/05/2014 03:08:03 PM,
+	Serialize complete at 11/05/2014 03:08:03 PM
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.28,
 	0.0.0000
 	definitions=2014-11-05_08:2014-11-05, 2014-11-05,
 	1970-01-01 signatures=0
-Subject: [PATCH 3/3] lsb: update RDEPENDS for broken-out util-linux-getopt
+Subject: [PATCH] populate_sdk_base: improve POSIXLY_CORRECT compat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,34 +39,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Nov 2014 21:26:40 -0000
+X-List-Received-Date: Wed, 05 Nov 2014 21:38:02 -0000
 
 From: Richard Tollerton <rich.tollerton@ni.com>
 
-lsb currently depends on util-linux solely for getopt, but that has now
-been broken out into util-linux-getopt. Update RDEPENDS accordingly.
+The install script is sometimes called under POSIXLY_CORRECT. This
+requires two fixes be made:
+
+1. `find -perm /0000` is a gnuism; replace with an equivalent boolean
+expression using `-perm -0000`.
+
+2. POSIX grep requires that all options be passed on the command line
+before all files; otherwise, the options must be parsed as filenames.
 
 Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-Acked-by: Ken Sharp <ken.sharp@ni.com>
-Acked-by: Ben Shelton <ben.shelton@ni.com
-Acked-by: Brad Mouring <brad.mouring@ni.com>
 ---
- meta/recipes-extended/lsb/lsb_4.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/files/toolchain-shar-template.sh | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
-index d265731..d583399 100644
---- a/meta/recipes-extended/lsb/lsb_4.1.bb
-+++ b/meta/recipes-extended/lsb/lsb_4.1.bb
-@@ -5,7 +5,7 @@ LICENSE = "GPLv2+"
- PR = "r2"
+diff --git a/meta/files/toolchain-shar-template.sh b/meta/files/toolchain-shar-template.sh
+index 02035d4..2578a34 100644
+--- a/meta/files/toolchain-shar-template.sh
++++ b/meta/files/toolchain-shar-template.sh
+@@ -132,7 +132,8 @@ if [ "$dl_path" = "" ] ; then
+ 	echo "SDK could not be set up. Relocate script unable to find ld-linux.so. Abort!"
+ 	exit 1
+ fi
+-executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm /111 -printf "'%h/%f' ")
++executable_files=$($SUDO_EXEC find $native_sysroot -type f \
++	\( -perm -0100 -o -perm -0010 -o -perm -0001 \) -printf "'%h/%f' ")
  
- # lsb_release needs getopt
--RDEPENDS_${PN} += "util-linux"
-+RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_getopt}"
+ tdir=`mktemp -d`
+ if [ x$tdir = x ] ; then
+@@ -162,7 +163,7 @@ done
  
- LIC_FILES_CHKSUM = "file://README;md5=12da544b1a3a5a1795a21160b49471cf"
- 
+ # find out all perl scripts in $native_sysroot and modify them replacing the
+ # host perl with SDK perl.
+-for perl_script in $($SUDO_EXEC find $native_sysroot -type f -exec grep "^#!.*perl" -l '{}' \;); do
++for perl_script in $($SUDO_EXEC find $native_sysroot -type f -exec grep -l "^#!.*perl" '{}' \;); do
+ 	$SUDO_EXEC sed -i -e "s:^#! */usr/bin/perl.*:#! /usr/bin/env perl:g" -e \
+ 		"s: /usr/bin/perl: /usr/bin/env perl:g" $perl_script
+ done
 -- 
 2.1.3
 
