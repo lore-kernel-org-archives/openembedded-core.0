@@ -1,36 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f170.google.com (mail-qc0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id A9B7165CED
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 30CBC65E94
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 16:30:00 +0000 (UTC)
-Received: by mail-qc0-f170.google.com with SMTP id l6so843596qcy.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Nov 2014 08:30:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=I61m37pW7eQMIvgcYb3HYNgSu0nPhKsdrA/UtDVPOio=;
-	b=NMBySJC24gqLUEXdRtin2prlnac0+WrWTofkEICpXO6vFgY63e9/KSjO9xv97DKM+t
-	i/Q4SZYZhALvmltpnpfPsTjVwAR+meCvPaccPoPoVYatBbeQ7MYED8wur0HV7eBn9zfS
-	N8ychN/ES2vxjGvgommPQHKjl4bG+FirUppsAWkF88Pp+0dyfXTyNHTapYN3Bs3dpxjh
-	IkBypw5yLJX/iSzjzCsRCOcxm+n1c2IUVAvWdpYICxjH6ofrQo2XIRYqBTKfE28ogsLE
-	aK1BRJW9ECWCP9G7VCiPcjteOvsl2sU0WSPvmXbng4Vi2kb4578XUUlkXW6qPfXjJYuq
-	XCPA==
-X-Gm-Message-State: ALoCoQlqxyQntOB7w98/ZbdZOMK7mU/rwRRPZjXP5TLAkDAGbPws0CWtfDe7WcvPQuPRjmqkwKe9
-X-Received: by 10.140.109.244 with SMTP id l107mr82481045qgf.80.1415205000992; 
-	Wed, 05 Nov 2014 08:30:00 -0800 (PST)
+	Wed,  5 Nov 2014 18:00:23 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Nov 2014 10:00:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,321,1413270000"; d="scan'208";a="627130578"
+Received: from sergeypo-mobl1.ccr.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.106])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Nov 2014 10:00:14 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Date: Wed, 05 Nov 2014 18:00:13 +0000
+Message-ID: <3489220.ni93R9xSTH@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.2 (Linux/3.16.7-200.fc20.x86_64; KDE/4.14.2; x86_64; ; )
+In-Reply-To: <1415124553-9122-1-git-send-email-alejandro.hernandez@linux.intel.com>
+References: <1415124553-9122-1-git-send-email-alejandro.hernandez@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Wed, 5 Nov 2014 08:29:40 -0800 (PST)
-In-Reply-To: <1415088547.4530.142.camel@intel.com>
-References: <1415088547.4530.142.camel@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 5 Nov 2014 16:29:40 +0000
-Message-ID: <CAJTo0LZAza_cJY+UcoZxT_vP-uXubZR7534=Y4EWejRezjjB_A@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: runqemu + dhcp server
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v5] image-buildinfo.bbclass: New class, writes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,76 +33,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Nov 2014 16:30:06 -0000
-Content-Type: multipart/alternative; boundary=001a113b7e505e8e6805071f17b5
+X-List-Received-Date: Wed, 05 Nov 2014 18:00:24 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a113b7e505e8e6805071f17b5
-Content-Type: text/plain; charset=UTF-8
+Hi Alejandro,
 
-Hi Patrick,
+We're getting there, thanks for your patience - just a few more tweaks:
 
-On 4 November 2014 08:09, Patrick Ohly <patrick.ohly@intel.com> wrote:
+On Tuesday 04 November 2014 12:09:13 Alejandro Hernandez wrote:
+> build information to target filesystem on /etc/build
 
-> Recently I built a custom image which depended on a DHCP server to
-> configure Ethernet. runqemu with tap for networking doesn't provide one
-> at the moment, so ssh logins did not work.
->
-> Instead of customizing images for runqemu, I think it would be better to
-> adapt runqemu and uses images as on the target device. Attached two
-> patches which work for me. Is that of interest for inclusion upstream?
->
+Looks like the shortlog has been split over two lines here...
 
-I've long been of the opinion that runqemu needs the ability to setup a
-DHCP/DNS server for the guest, as whilst you can special-case qemu machines
-and hard-code the relevant network configuration it doesn't help with
-testing.  That said, I'm not convinced that dhcpd+bind is the right way
-forward, something like dnsmasq (currently in meta-networking) might be
-quicker to build and more flexible in this environment.
+> such as enabled layers, their current status and commit.
+> 
+> [YOCTO #6770]
+> 
+> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+> ---
+>  meta/classes/image-buildinfo.bbclass | 76
+> ++++++++++++++++++++++++++++++++++++ 1 file changed, 76 insertions(+)
+>  create mode 100644 meta/classes/image-buildinfo.bbclass
+> 
+> diff --git a/meta/classes/image-buildinfo.bbclass
+> b/meta/classes/image-buildinfo.bbclass new file mode 100644
+> index 0000000..d695d24
+> --- /dev/null
+> +++ b/meta/classes/image-buildinfo.bbclass
+> @@ -0,0 +1,76 @@
+> +#
+> +# Writes build information to target filesystem on /etc/build
+> +#
+> +# Copyright (C) 2014 Intel Corporation
+> +# Author: Alejandro Enedino Hernandez Samaniego
+> <alejandro.hernandez@intel.com> +#
+> +# Licensed under the MIT license, see COPYING.MIT for details
+> +#
+> +# Usage: add INHERIT += "image-buildinfo" to your conf file
+> +#
+> +# Desired variables to display
+> +# * If it is a list if values it must be present in both (e.g.
+> IMAGE_FEATURES) +
+> +IMAGE_BUILDINFO_VARS ?= "DISTRO DISTRO_VERSION IMAGE_FEATURES
+> +IMAGE_INSTALL" 
 
-I suppose more work is needed, in particular around how to enable or
-> disable this feature. Patching the .bb files also leads to a (to me)
-> strange QA error. See the comments in the patches for details.
->
+I'm not sure we really want IMAGE_FEATURES and IMAGE_INSTALL in the default 
+value; it seems to me at the moment the main usage for this is to help 
+determine the version of the build system & metadata that was used.
 
-This is likely due to bind using PACKAGES_prepend instead of PACKAGES =+
-(=+ is prepend), which messes up the native.bbclass magic.
+> +IMAGE_BUILDINFO_LVARS ?= "IMAGE_FEATURES IMAGE_INSTALL"
 
-Ross
+I didn't think to use it when I wrote the original implementation, but it 
+turns out that at least for both of these two variables, they have a set type 
+i.e. from meta/classes/image.bbclass:
 
---001a113b7e505e8e6805071f17b5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+IMAGE_INSTALL[type] = "list"
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Patrick,</div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On 4 November 2014 08:09, Patri=
-ck Ohly <span dir=3D"ltr">&lt;<a href=3D"mailto:patrick.ohly@intel.com" tar=
-get=3D"_blank">patrick.ohly@intel.com</a>&gt;</span> wrote:<br><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex"><div id=3D":we" class=3D"a3s" style=3D"overflow:hidden">=
-Recently I built a custom image which depended on a DHCP server to<br>
-configure Ethernet. runqemu with tap for networking doesn&#39;t provide one=
-<br>
-at the moment, so ssh logins did not work.<br>
-<br>
-Instead of customizing images for runqemu, I think it would be better to<br=
->
-adapt runqemu and uses images as on the target device. Attached two<br>
-patches which work for me. Is that of interest for inclusion upstream?<br><=
-/div></blockquote><div><br></div><div>I&#39;ve long been of the opinion tha=
-t runqemu needs the ability to setup a DHCP/DNS server for the guest, as wh=
-ilst you can special-case qemu machines and hard-code the relevant network =
-configuration it doesn&#39;t help with testing.=C2=A0 That said, I&#39;m no=
-t convinced that dhcpd+bind is the right way forward, something like dnsmas=
-q (currently in meta-networking) might be quicker to build and more flexibl=
-e in this environment.</div><div><br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
-div id=3D":we" class=3D"a3s" style=3D"overflow:hidden">
-I suppose more work is needed, in particular around how to enable or<br>
-disable this feature. Patching the .bb files also leads to a (to me)<br>
-strange QA error. See the comments in the patches for details.</div></block=
-quote></div><br>This is likely due to bind using PACKAGES_prepend instead o=
-f PACKAGES =3D+ (=3D+ is prepend), which messes up the native.bbclass magic=
-.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross=
-</div></div>
+So we could use d.getVarFlag(varname, 'type') to determine the type and then 
+we can avoid having to explicitly list them - could you please make this 
+change for this version of the function? (Let's leave fixing the buildhistory 
+version as a separate exercise for now.)
 
---001a113b7e505e8e6805071f17b5--
+> +# From buildhistory.bbclass
+> +def squashspaces(string):
+> +    import re
+> +    return re.sub("\s+", " ", string).strip()
+
+To be honest I had thought squashspaces() would still be moved to oe.utils 
+since this function is generic.
+
+> +# From buildhistory.bbclass
+> +def outputvars(vars, listvars, d):
+> +    vars = vars.split()
+> +    listvars = listvars.split()
+> +    ret = ""
+> +    for var in vars:
+> +        value = d.getVar(var, True) or ""
+> +        if var in listvars:
+> +            value = squashspaces(value)
+> +        ret += "%s = %s\n" % (var, value)
+> +    return ret.rstrip('\n')
+
+I've just realised, if we're inheriting both this class and buildhistory 
+globally and these have the same name, that might be a problem. Can we rename 
+this version to something lime image_buildinfo_outputvars?
+
+Thanks,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
