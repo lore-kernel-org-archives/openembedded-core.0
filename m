@@ -1,28 +1,37 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AB8165D3C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 7631D65C91
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 14:38:44 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id EFEC2F811DD; Wed,  5 Nov 2014 07:38:44 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 998B8F811E3;
-	Wed,  5 Nov 2014 07:38:40 -0700 (MST)
-Message-ID: <545A3674.7060902@mlbassoc.com>
-Date: Wed, 05 Nov 2014 07:38:44 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Wed,  5 Nov 2014 14:56:43 +0000 (UTC)
+Received: by mail-qg0-f50.google.com with SMTP id a108so12397121qge.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Nov 2014 06:56:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=GLhkIq6FahxEWZsv8zoZTm4kZefp30Zk8r5Y3NovMvg=;
+	b=f2dVx86t/j+FLf0/fQurFw0u/yRW4plHM1T/jrD9al4uSvCDwic4M9ga7lKXy/1lZ9
+	F22Q0SCWj8PVLYMvCewFIi1GZEPGDB2Wope1O2dmBtO3u4c23aTn/81ZGCWDMKyNvB0r
+	dwAwOzLBqoPfUGXo0u8pI3HiGfrQyw8wJjpGnLDAmbn+56yxi+EjXaMBMZjrOS+gggVv
+	TL1Q/J0ccvIeoR8p+d5SxJm4zN3CURiD4W1dv/UWDOFXLPkohxXq8QPHWRdPHheyMrMc
+	FrJJXna9fkzsg8XEZRBM3V3LNgCtni+6M6E0st7ygwWPTszumVmlqAMnVIi4B6AAOu9a
+	DJ0w==
+X-Gm-Message-State: ALoCoQl4/Fy2RrIslhhGk+6p9IYwTUCeVCmtz7Iseq5VPet0h6cviUHQDvF9fJhAxRAcLa4cxwRQ
+X-Received: by 10.140.94.246 with SMTP id g109mr54178650qge.77.1415199403475; 
+	Wed, 05 Nov 2014 06:56:43 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1415197718-25590-1-git-send-email-gary@mlbassoc.com>
-In-Reply-To: <1415197718-25590-1-git-send-email-gary@mlbassoc.com>
-Subject: Re: [PATCH v3] python-pygtk: Restore pkg-config support
+Received: by 10.140.98.213 with HTTP; Wed, 5 Nov 2014 06:56:23 -0800 (PST)
+In-Reply-To: <1410665660-25145-1-git-send-email-denis@denix.org>
+References: <1410665660-25145-1-git-send-email-denis@denix.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 5 Nov 2014 14:56:23 +0000
+Message-ID: <CAJTo0Law3iWz=+A1vA7QsikNozeVP7U49=+T9fkT7YgLzJ_hcA@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: update to version 2014.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,78 +44,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Nov 2014 14:38:45 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Nov 2014 14:56:50 -0000
+Content-Type: multipart/alternative; boundary=001a113a81d6bb40d705071dc9e7
 
-On 2014-11-05 07:28, Gary Thomas wrote:
-> This patch removes an old "fix" which is no longer required.
-> A side effect is that the pkg-config control file (pygtk-2.0.pc)
-> will be installed.  This makes it possible to use this library
-> with other tools.  Note: the pygtk-2.0.pc also had a missing 'libdir'
->
-> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+--001a113a81d6bb40d705071dc9e7
+Content-Type: text/plain; charset=UTF-8
 
-Sorry, I missed that part of this had already been merged.  I'll send a
-new one with the remaining changes (killing of the rest of "fix #1")
+On 14 September 2014 04:34, Denys Dmytriyenko <denis@denix.org> wrote:
 
-> ---
->   .../python/python-pygtk/fix-pygtk-2.0.pc.patch              | 13 +++++++++++++
->   meta/recipes-devtools/python/python-pygtk_2.24.0.bb         |  9 +--------
->   2 files changed, 14 insertions(+), 8 deletions(-)
->   create mode 100644 meta/recipes-devtools/python/python-pygtk/fix-pygtk-2.0.pc.patch
+> From: Denys Dmytriyenko <denys@ti.com>
 >
-> diff --git a/meta/recipes-devtools/python/python-pygtk/fix-pygtk-2.0.pc.patch b/meta/recipes-devtools/python/python-pygtk/fix-pygtk-2.0.pc.patch
-> new file mode 100644
-> index 0000000..b615654
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python-pygtk/fix-pygtk-2.0.pc.patch
-> @@ -0,0 +1,13 @@
-> +Upstream-Status: Inappropriate [configuration]
-> +
-> +Index: pygtk-2.24.0/pygtk-2.0.pc.in
-> +===================================================================
-> +--- pygtk-2.24.0.orig/pygtk-2.0.pc.in
-> ++++ pygtk-2.24.0/pygtk-2.0.pc.in
-> +@@ -1,5 +1,6 @@
-> + prefix=@prefix@
-> + exec_prefix=@exec_prefix@
-> ++libdir=@libdir@
-> + includedir=@includedir@
-> + datarootdir=@datarootdir@
-> + datadir=@datadir@
-> diff --git a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-> index 8fc194f..631acb7 100644
-> --- a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-> +++ b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-> @@ -15,6 +15,7 @@ SRC_URI = "ftp://ftp.gnome.org/pub/gnome/sources/pygtk/2.24/${SRCNAME}-${PV}.tar
->              file://fix-gtkunixprint.patch \
->              file://prevent_to_get_display_during_import.patch \
->              file://nodocs.patch \
-> +	   file://fix-pygtk-2.0.pc.patch \
->              file://acinclude.m4 \
->              file://update-dependences-of-defs.c.patch"
+> * Update U-boot and corresponding tools to version 2014.07
+> * Small cleanups with indentation and consolidation of u-boot.inc
 >
-> @@ -39,14 +40,6 @@ do_configure_prepend() {
->   	sed -i 's:tests docs:tests:' ${S}/Makefile.am
->   }
->
-> -# dirty fix #1: remove dependency on python-pygobject-dev
-> -do_install_append() {
-> -	find ${D} -name "*.la"|xargs rm -f
-> -	rm -f ${D}/${bindir}/pygtk-codegen-2.0
-> -	rm -rf ${D}/${libdir}/pkgconfig
-> -	sed -i -e '1s|^#!.*python|#!/usr/bin/env python|' ${D}${bindir}/pygtk-demo
-> -}
-> -
->   # dirty fix #2: fix build system paths leaking in
->   require fix-path.inc
->
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 >
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+So u-boot-mkimage is failing to build for the target case:
 
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 8 HOSTCC=arm-poky-linux-gnueabi-gcc  -march=armv5te -marm
+-mthumb-interwork --sysroot=/data/poky-master/tmp/sysroots/qemuarm
+HOSTLD=arm-poky-linux-gnueabi-ld
+--sysroot=/data/poky-master/tmp/sysroots/qemuarm  HOSTLDFLAGS=-Wl,-O1
+-Wl,--hash-style=gnu -Wl,--as-needed HOSTSTRIP=true tools-only
+|   CHK     include/config/uboot.release
+|   HOSTCC  scripts/basic/fixdep
+|   CHK     include/generated/timestamp_autogenerated.h
+|   UPD     include/generated/timestamp_autogenerated.h
+|   UPD     include/config/uboot.release
+|   CHK     include/generated/version_autogenerated.h
+|   UPD     include/generated/version_autogenerated.h
+| scripts/basic/fixdep: 1: scripts/basic/fixdep: Syntax error: word
+unexpected (expecting ")")
+
+I suspect the real problem is:
+
+$ file fixdep
+fixdep: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically
+linked (uses shared libs), for GNU/Linux 2.6.32,
+BuildID[sha1]=0xb4ea84a189f10b4f3e08fb10f8e490135e2b920c, not stripped
+
+It appears to have been built using the target compiler, not the host.
+
+Ross
+
+--001a113a81d6bb40d705071dc9e7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 September 2014 04:34, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-s=
+tyle:solid;padding-left:1ex"><div id=3D":5es" class=3D"" style=3D"overflow:=
+hidden">From: Denys Dmytriyenko &lt;<a href=3D"mailto:denys@ti.com">denys@t=
+i.com</a>&gt;<br>
+<br>
+* Update <span class=3D"">U</span>-<span class=3D"">boot</span> and corresp=
+onding tools to version 2014.07<br>
+* Small cleanups with indentation and consolidation of <span class=3D"">u</=
+span>-<span class=3D"">boot</span>.inc<br>
+<br>
+Signed-off-by: Denys Dmytriyenko &lt;<a href=3D"mailto:denys@ti.com">denys@=
+ti.com</a>&gt;</div></blockquote><div><br></div><div>So u-boot-mkimage is f=
+ailing to build for the target case:</div><div><br></div><div><div>| DEBUG:=
+ Executing shell function do_compile</div><div>| NOTE: make -j 8 HOSTCC=3Da=
+rm-poky-linux-gnueabi-gcc =C2=A0-march=3Darmv5te -marm -mthumb-interwork --=
+sysroot=3D/data/poky-master/tmp/sysroots/qemuarm HOSTLD=3Darm-poky-linux-gn=
+ueabi-ld --sysroot=3D/data/poky-master/tmp/sysroots/qemuarm =C2=A0HOSTLDFLA=
+GS=3D-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed HOSTSTRIP=3Dtrue tools-=
+only</div><div>| =C2=A0 CHK =C2=A0 =C2=A0 include/config/uboot.release</div=
+><div>| =C2=A0 HOSTCC =C2=A0scripts/basic/fixdep</div><div>| =C2=A0 CHK =C2=
+=A0 =C2=A0 include/generated/timestamp_autogenerated.h</div><div>| =C2=A0 U=
+PD =C2=A0 =C2=A0 include/generated/timestamp_autogenerated.h</div><div>| =
+=C2=A0 UPD =C2=A0 =C2=A0 include/config/uboot.release</div><div>| =C2=A0 CH=
+K =C2=A0 =C2=A0 include/generated/version_autogenerated.h</div><div>| =C2=
+=A0 UPD =C2=A0 =C2=A0 include/generated/version_autogenerated.h</div><div>|=
+ scripts/basic/fixdep: 1: scripts/basic/fixdep: Syntax error: word unexpect=
+ed (expecting &quot;)&quot;)</div></div><div><br></div><div>I suspect the r=
+eal problem is:</div><div><br></div><div><div>$ file fixdep</div><div>fixde=
+p: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically linked (us=
+es shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=3D0xb4ea84a189f10b4f3e=
+08fb10f8e490135e2b920c, not stripped</div></div><div><br></div><div>It appe=
+ars to have been built using the target compiler, not the host.</div><div><=
+br></div><div>Ross</div></div></div></div>
+
+--001a113a81d6bb40d705071dc9e7--
