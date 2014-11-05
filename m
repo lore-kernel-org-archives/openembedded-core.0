@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id EACDE713A5
+	by mail.openembedded.org (Postfix) with ESMTP id 70B54713A5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 18:46:40 +0000 (UTC)
+	Wed,  5 Nov 2014 18:49:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA5Ik5kG028433 for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Nov 2014 18:46:05 GMT
+	sA5ImVvZ028485 for <openembedded-core@lists.openembedded.org>;
+	Wed, 5 Nov 2014 18:48:31 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id R9dik-VoFg1K
+	with LMTP id F56_3wnjn8Qi
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 18:46:05 +0000 (GMT)
+	Wed,  5 Nov 2014 18:48:31 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA5Ik1d4028430
+	sA5ImS6X028482
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Nov 2014 18:46:02 GMT
-Message-ID: <1415213195.23396.60.camel@ted>
+	Wed, 5 Nov 2014 18:48:29 GMT
+Message-ID: <1415213343.23396.63.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 05 Nov 2014 18:46:35 +0000
+Date: Wed, 05 Nov 2014 18:49:03 +0000
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
-Subject: [PATCH] base: Improve makefile clean handling, introduce CLEANBROKEN variable
+Subject: [PATCH] perl: Enable rebuilds to account for configuration changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,135 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Nov 2014 18:46:42 -0000
+X-List-Received-Date: Wed, 05 Nov 2014 18:49:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-It turns out we have quite a number of Makefiles out there without a
-clean target. Rather than have all cases code an empty do_configure, add
-a CLEANBROKEN variable which when set to "1" will disable the attempt to
-"make clean".
+If configure/compile was rerun for perl, changes such as libdir changes
+were not being picked up. To fix this we we add "make clean"
+functionality, if the makefile is present.
 
-This patch also adjusts various recipes which either have this problem
-fixed, or have been reported to have make clean failures.
+We also in this case need to delete the .so file, else some perl modules
+try and load the target arch libraries leading to build failures. I'd
+love it if there were a better way to do this and am open to better
+proposals but this was the best I could find, not being a perl expert.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 52b835e..9989438 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -231,6 +231,7 @@ gdkpixbuf_complete() {
- }
+diff --git a/meta/recipes-devtools/perl/perl_5.20.0.bb b/meta/recipes-devtools/perl/perl_5.20.0.bb
+index ec01765..ec4d214 100644
+--- a/meta/recipes-devtools/perl/perl_5.20.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.20.0.bb
+@@ -117,6 +117,16 @@ do_configure() {
+         # Make hostperl in build directory be the native perl
+         ln -sf ${HOSTPERL} hostperl
  
- CONFIGURESTAMPFILE = "${WORKDIR}/configure.sstate"
-+CLEANBROKEN = "0"
- 
- addtask configure after do_patch
- do_configure[dirs] = "${S} ${B}"
-@@ -239,7 +240,7 @@ base_do_configure() {
- 	if [ -n "${CONFIGURESTAMPFILE}" -a -e "${CONFIGURESTAMPFILE}" ]; then
- 		if [ "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" ]; then
- 			cd ${B}
--			if [ -e Makefile -o -e makefile -o -e GNUmakefile ]; then
-+			if [ "${CLEANBROKEN}" != "1" -a -e Makefile -o -e makefile -o -e GNUmakefile ]; then
- 				${MAKE} clean
- 			fi
- 			find ${B} -name \*.la -delete
-diff --git a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
-index 21d24f0..f5fce6f 100644
---- a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
-+++ b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
-@@ -17,10 +17,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/gnu-config/gnu-config-${PV
- SRC_URI[md5sum] = "bcfca5a2bb39edad4aae5a65efc84094"
- SRC_URI[sha256sum] = "44f99a8e76f3e8e4fec0bb5ad4762f8e44366168554ce66cb85afbe2ed3efd8b"
- 
--# Disable default since make clean doesn't work
--do_configure () {
--	:
--}
-+CLEANBROKEN = "1"
- 
- do_compile() {
- 	:
-diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-index ef9e323..754a99a 100644
---- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-+++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-@@ -17,10 +17,7 @@ SRC_URI = "git://git.sv.gnu.org/config.git \
- 
- S = "${WORKDIR}/git"
- 
--# Disable default since make clean doesn't work
--do_configure () {
--	:
--}
-+CLEANBROKEN = "1"
- 
- do_compile() {
- 	:
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index fbdc48e..945f69a 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -15,6 +15,8 @@ SRC_URI = "http://www.cups.org/software/${PV}/${BP}-source.tar.bz2 \
- 
- LEAD_SONAME = "libcupsdriver.so"
- 
-+CLEANBROKEN = "1"
++	if [ -n "${CONFIGURESTAMPFILE}" -a -e "${CONFIGURESTAMPFILE}" ]; then
++		if [ "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" -a -e Makefile ]; then
++			${MAKE} clean
++		fi
++		find ${S} -name *.so -delete
++	fi
++	if [ -n "${CONFIGURESTAMPFILE}" ]; then
++		echo ${BB_TASKHASH} > ${CONFIGURESTAMPFILE}
++	fi
 +
- inherit autotools-brokensep binconfig useradd systemd
+         # Do our work in the cross subdir
+         cd Cross
  
- USERADD_PACKAGES = "${PN}"
-diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
-index d265731..e012497 100644
---- a/meta/recipes-extended/lsb/lsb_4.1.bb
-+++ b/meta/recipes-extended/lsb/lsb_4.1.bb
-@@ -21,6 +21,8 @@ SRC_URI[md5sum] = "30537ef5a01e0ca94b7b8eb6a36bb1e4"
- SRC_URI[sha256sum] = "99321288f8d62e7a1d485b7c6bdccf06766fb8ca603c6195806e4457fdf17172"
- S = "${WORKDIR}/lsb-release-1.4"
- 
-+CLEANBROKEN = "1"
-+
- do_install(){
- 	oe_runmake install prefix=${D}  mandir=${D}/${datadir}/man/ DESTDIR=${D}
- 
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev_1.6.inc b/meta/recipes-kernel/cryptodev/cryptodev_1.6.inc
-index 946faac..1d775f8 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev_1.6.inc
-+++ b/meta/recipes-kernel/cryptodev/cryptodev_1.6.inc
-@@ -9,3 +9,5 @@ SRC_URI[md5sum] = "eade38998313c25fd7934719cdf8a2ea"
- SRC_URI[sha256sum] = "75f1425c8ea1f8cae523905a5a046a35092327a6152800b0b86efc4e56fb3e2f"
- 
- S = "${WORKDIR}/cryptodev-linux-${PV}"
-+
-+CLEANBROKEN = "1"
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index a107f80..a2f16d1 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -34,6 +34,8 @@ S = "${WORKDIR}/git"
- 
- inherit allarch update-alternatives
- 
-+CLEANBROKEN = "1"
-+
- do_compile() {
- 	:
- }
-diff --git a/meta/recipes-multimedia/flac/flac_1.3.0.bb b/meta/recipes-multimedia/flac/flac_1.3.0.bb
-index fdf38e9..cf786a4 100644
---- a/meta/recipes-multimedia/flac/flac_1.3.0.bb
-+++ b/meta/recipes-multimedia/flac/flac_1.3.0.bb
-@@ -21,6 +21,8 @@ SRC_URI = "http://downloads.xiph.org/releases/flac/${BP}.tar.xz \
- SRC_URI[md5sum] = "13b5c214cee8373464d3d65dee362cdd"
- SRC_URI[sha256sum] = "fa2d64aac1f77e31dfbb270aeb08f5b32e27036a52ad15e69a77e309528010dc"
- 
-+CLEANBROKEN = "1"
-+
- inherit autotools-brokensep gettext
- 
- EXTRA_OECONF = "--disable-oggtest \
 
 
 
