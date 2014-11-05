@@ -1,41 +1,37 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
-	by mail.openembedded.org (Postfix) with ESMTP id DC6F865D4F
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
+	[209.85.217.179])
+	by mail.openembedded.org (Postfix) with ESMTP id CE7A865C91
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 08:52:31 +0000 (UTC)
-Received: from mail1.sbs.de (localhost [127.0.0.1])
-	by gecko.sbs.de (8.14.3/8.14.3) with ESMTP id sA58VNam020073;
-	Wed, 5 Nov 2014 09:31:23 +0100
-Received: from DEFTHW99ERJMSX.ww902.siemens.net
-	(defthw99erjmsx.ww902.siemens.net [139.22.70.135])
-	by mail1.sbs.de (8.14.3/8.14.3) with ESMTP id sA58VNTd030465
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 5 Nov 2014 09:31:23 +0100
-Received: from DENBGAT9ER2MSX.ww902.siemens.net (139.22.70.79) by
-	DEFTHW99ERJMSX.ww902.siemens.net (139.22.70.135) with Microsoft SMTP
-	Server (TLS) id 14.3.210.2; Wed, 5 Nov 2014 09:31:22 +0100
-Received: from DEFTHW99EH4MSX.ww902.siemens.net ([169.254.2.159]) by
-	DENBGAT9ER2MSX.ww902.siemens.net ([139.22.70.79]) with mapi id
-	14.03.0210.002; Wed, 5 Nov 2014 09:31:22 +0100
-From: "Bach, Pascal" <pascal.bach@siemens.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Thread-Topic: [OE-core] [PATCH] image_types.bbclass: Make ubi depend on ubifs
-Thread-Index: AQHP8bmaplvHw11RoUG3bEO0e33vfJxDwDOAgAAR3dCADe9HgIAAAKeQ
-Date: Wed, 5 Nov 2014 08:31:21 +0000
-Message-ID: <355BE46A91031048906B695426A8D8E616AF5FA2@DEFTHW99EH4MSX.ww902.siemens.net>
-References: <1414395756-29588-1-git-send-email-pascal.bach@siemens.com>
-	<8AB2212A-15FB-4CB1-B88B-8C7C8FF5C86D@dominion.thruhere.net>
-	<355BE46A91031048906B695426A8D8E616AF4942@DEFTHW99EH4MSX.ww902.siemens.net>
-	<355BE46A91031048906B695426A8D8E616AF5F85@DEFTHW99EH4MSX.ww902.siemens.net>
-In-Reply-To: <355BE46A91031048906B695426A8D8E616AF5F85@DEFTHW99EH4MSX.ww902.siemens.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [139.22.70.29]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types.bbclass: Make ubi depend on ubifs
+	Wed,  5 Nov 2014 10:03:38 +0000 (UTC)
+Received: by mail-lb0-f179.google.com with SMTP id l4so341279lbv.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Nov 2014 02:03:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=au/bDjwculwiSF9FpfZjEUC6VoY/UgmdnFmi8pPfTLY=;
+	b=Ch9rCz/waFTBd9ZbIN8lf4Wg6/tZB8/vY8aIywGUBwR79vNO4YohLAsx6fz3K5gZTx
+	LyJiWXwIzvhSwzGIZyNE/ZS4vJdo9barmumb11/Pi9k2yTt4DEoPvNFVQFvJvjckIoz8
+	8OcluCdv++pDhfLSrnpkP4amnbD6U+feNm2+hmguqaZ9plSYfB+gUwmoY6qbXl+G3LG0
+	KbV77BcWDg/zl2me4szJy68C7nLWOAgTiRsBtWwhJSfkmDR1gUu/VAkcCuWXoEMHkQYt
+	RYS5yi8H/y0fU/hzr4HVVrssZ90BpftiViGd+ZIL8HaJg1hTzNaAMBC264PUtLjeYDoR
+	TEvA==
+X-Gm-Message-State: ALoCoQl9GOnufoB5Q1L2t9ZZxIXSFFBPtLS28AGD0x2KboVbPHJPDWilulK5kmarbk35WD7wu22d
+X-Received: by 10.153.6.9 with SMTP id cq9mr44441043lad.79.1415181818531;
+	Wed, 05 Nov 2014 02:03:38 -0800 (PST)
+Received: from localhost.localdomain (a91-152-81-141.elisa-laajakaista.fi.
+	[91.152.81.141])
+	by mx.google.com with ESMTPSA id pr7sm1146723lbc.18.2014.11.05.02.03.37
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 05 Nov 2014 02:03:37 -0800 (PST)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Nov 2014 12:03:33 +0200
+Message-Id: <1415181813-23815-1-git-send-email-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.1.3
+Subject: [PATCH v2] ltp: update to 20140828 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,27 +44,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Nov 2014 08:52:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 05 Nov 2014 10:03:51 -0000
 
- > > > }
-> > > > +IMAGE_TYPEDEP_ubi =3D "ubifs"
-> > > > +
-> > >
-> > > 'ubifs' or 'ubifs-native'?
-> >
-> > IMAGE_TYPEDEP describes dependencies between image types. So in this
-> > case ubifs referred to IMAGE_CMD_ubifs
-> > I'm not aware that there is ubifs-native image type.
-> > --
->=20
-> Any chance this gets included?
->=20
+bump SRCREV to 20140828 tag
+drop automake-foreign patch - fixed upstream (commit 18594de and edbae29)
+add add-know-for-tirpc patch - workaround ftbfs with libtirpc found
+update realtime tests fixes upstream status from submitted to backported -
+merged upstream
 
-Sorry forget the above mail, should have updated my git tree first. I see i=
-t's already in. Thanks.
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+---
+ ...tests-Fix-bad-priority-inheritance-conditio.patch |  2 +-
+ ...ealtime-tests-Fix-robust-mutex-conditionals.patch |  2 +-
+ meta/recipes-extended/ltp/ltp/automake-foreign.patch | 20 --------------------
+ .../ltp/{ltp_20140422.bb => ltp_20140828.bb}         |  6 ++++--
+ 4 files changed, 6 insertions(+), 24 deletions(-)
+ delete mode 100644 meta/recipes-extended/ltp/ltp/automake-foreign.patch
+ rename meta/recipes-extended/ltp/{ltp_20140422.bb => ltp_20140828.bb} (97%)
 
-Pascal
+diff --git a/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-bad-priority-inheritance-conditio.patch b/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-bad-priority-inheritance-conditio.patch
+index fa20b08..631f926 100644
+--- a/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-bad-priority-inheritance-conditio.patch
++++ b/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-bad-priority-inheritance-conditio.patch
+@@ -9,7 +9,7 @@ both referenced a non-existent autoconf configuration setting variable.
+ Replaced the invalid variable name with the variable actually created
+ by autoconf.
+ 
+-Upstream-Status: Submitted
++Upstream-Status: Backported
+ 
+ Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
+ ---
+diff --git a/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-robust-mutex-conditionals.patch b/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-robust-mutex-conditionals.patch
+index ccdd4d0..1fdd281 100644
+--- a/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-robust-mutex-conditionals.patch
++++ b/meta/recipes-extended/ltp/ltp/0001-Realtime-tests-Fix-robust-mutex-conditionals.patch
+@@ -9,7 +9,7 @@ which were not generated by autoconf in order to configure tests
+ for robust mutexes.  Changed these conditionals to use the config
+ variables actually generated in the autoconf process.
+ 
+-Upstream-Status: Submitted
++Upstream-Status: Backported
+ 
+ Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
+ ---
+diff --git a/meta/recipes-extended/ltp/ltp/add-knob-for-tirpc.patch b/meta/recipes-extended/ltp/ltp/add-knob-for-tirpc.patch
+new file mode 100644
+index 0000000..36ff4c7
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/add-knob-for-tirpc.patch
+@@ -0,0 +1,37 @@
++[PATCH] add knob to control whether tirpc support should be checked
++
++Upstream-Status: Pending
++
++tirpc support is broken upstream. in the meantime, allow to disable tirpc.
++
++Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
++---
++ configure.ac |    9 +++++++++
++ 1 file changed, 9 insertions(+)
++
++--- a/configure.ac
+++++ b/configure.ac
++@@ -98,6 +98,13 @@ if test "x$with_python" = xyes; then
++ else
++     AC_SUBST([WITH_PYTHON],["no"])
++ fi
+++
+++# TI RPC
+++AC_ARG_WITH([tirpc],
+++  AC_HELP_STRING([--without-tirpc],
+++    [without libtirpc support]),
+++  [],[with_tirpc=yes],
+++)
++ # END tools knobs
++ 
++ # Testsuites knobs
++@@ -182,7 +189,9 @@ LTP_CHECK_RENAMEAT
++ LTP_CHECK_FALLOCATE
++ LTP_CHECK_SYSCALL_FCNTL
++ LTP_CHECK_SYSCALL_PERF_EVENT_OPEN
+++if test "x$with_tirpc" = xyes; then
++ LTP_CHECK_TIRPC
+++fi
++ LTP_CHECK_TEE
++ LTP_CHECK_SPLICE
++ LTP_CHECK_VMSPLICE
+diff --git a/meta/recipes-extended/ltp/ltp/automake-foreign.patch b/meta/recipes-extended/ltp/ltp/automake-foreign.patch
+deleted file mode 100644
+index c3dd891..0000000
+--- a/meta/recipes-extended/ltp/ltp/automake-foreign.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Use foreign strictness to avoid automake errors.
+-
+-Upstream-Status: Submitted (https://github.com/linux-test-project/ltp/issues/16)
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/configure.ac b/configure.ac
+-index 9f397e7..fc57957 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -4 +4 @@
+--AM_INIT_AUTOMAKE
+-+AM_INIT_AUTOMAKE([foreign])
+---- a/utils/ffsb-6.0-rc2/configure.in
+-+++ b/utils/ffsb-6.0-rc2/configure.in
+-@@ -2,2 +2,3 @@ dnl Process this file with autoconf to produce a configure script.
+--AC_INIT(main.c)
+--AM_INIT_AUTOMAKE(ffsb, 6.0-RC2)
+-+AC_INIT([ffsb], [6.0-RC2])
+-+AC_CONFIG_SRCDIR([main.c])
+-+AM_INIT_AUTOMAKE([foreign])
+diff --git a/meta/recipes-extended/ltp/ltp_20140422.bb b/meta/recipes-extended/ltp/ltp_20140828.bb
+similarity index 97%
+rename from meta/recipes-extended/ltp/ltp_20140422.bb
+rename to meta/recipes-extended/ltp/ltp_20140828.bb
+index 5deaabf..de19bb1 100644
+--- a/meta/recipes-extended/ltp/ltp_20140422.bb
++++ b/meta/recipes-extended/ltp/ltp_20140828.bb
+@@ -20,16 +20,16 @@ LIC_FILES_CHKSUM = "\
+ "
+ 
+ DEPENDS = "attr libaio libcap acl openssl zip-native"
+-SRCREV = "f4c3bfe1eab51eb72caeb0f3336d2790c9a8bd1b"
++SRCREV = "2c341ad9177f36d9b953e84dee8cf88498286fe5"
+ 
+ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+     file://0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch \
+     file://ltp-Do-not-link-against-libfl.patch \
+-    file://automake-foreign.patch \
+     file://make-setregid02-work.patch \
+     file://add-knob-for-numa.patch \
+     file://0001-Realtime-tests-Fix-bad-priority-inheritance-conditio.patch \
+     file://0001-Realtime-tests-Fix-robust-mutex-conditionals.patch \
++    file://add-knob-for-tirpc.patch \
+ "
+ 
+ S = "${WORKDIR}/git"
+@@ -44,6 +44,8 @@ export exec_prefix = "/opt/ltp"
+ PACKAGECONFIG[numa] = "--with-numa, --without-numa, numactl,"
+ EXTRA_AUTORECONF += "-I ${S}/testcases/realtime/m4"
+ EXTRA_OECONF = " --with-power-management-testsuite --with-realtime-testsuite "
++# ltp network/rpc test cases ftbfs when libtirpc is found
++EXTRA_OECONF += " --without-tirpc "
+ 
+ # ltp doesn't regenerate ffsb-6.0-rc2 configure and hardcode configure call.
+ # we explicitly force regeneration of that directory and pass configure options.
+-- 
+2.1.3
+
 
