@@ -1,30 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 70B54713A5
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EF54A71FD4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 18:49:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA5ImVvZ028485 for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Nov 2014 18:48:31 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id F56_3wnjn8Qi
+	Wed,  5 Nov 2014 19:18:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA5JIZAR002956
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 18:48:31 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sA5ImS6X028482
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Nov 2014 18:48:29 GMT
-Message-ID: <1415213343.23396.63.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 05 Nov 2014 18:49:03 +0000
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Subject: [PATCH] perl: Enable rebuilds to account for configuration changes
+	Wed, 5 Nov 2014 11:18:36 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.232) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 5 Nov 2014 11:18:35 -0800
+Message-ID: <545A780A.2070706@windriver.com>
+Date: Wed, 5 Nov 2014 13:18:34 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1415212983.23396.57.camel@ted>
+In-Reply-To: <1415212983.23396.57.camel@ted>
+Subject: Re: [PATCH] base: Make PRINC warning an error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Nov 2014 18:49:09 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 05 Nov 2014 19:18:40 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-If configure/compile was rerun for perl, changes such as libdir changes
-were not being picked up. To fix this we we add "make clean"
-functionality, if the makefile is present.
+On 11/5/14, 12:43 PM, Richard Purdie wrote:
+> Apparently 1.5 years of warnings isn't enough to get anyone to take any
+> notice. We therefore make this an error so people can ignore it for
+> another 6 months whereafter we can finally give up and remove the
+> obsolete code.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index e1b25ff..f5b216b 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -375,7 +375,7 @@ python () {
+>       # obsolete.  Return a warning to the user.
+>       princ = d.getVar('PRINC', True)
+>       if princ and princ != "0":
+> -        bb.warn("Use of PRINC %s was detected in the recipe %s (or one of its .bbappends)\nUse of PRINC is deprecated.  The PR server should be used to automatically increment the PR.  See: https://wiki.yoctoproject.org/wiki/PR_Service." % (princ, d.getVar("FILE", True)))
+> +        bb.error("Use of PRINC %s was detected in the recipe %s (or one of its .bbappends)\nUse of PRINC is deprecated.  The PR server should be used to automatically increment the PR.  See: https://wiki.yoctoproject.org/wiki/PR_Service." % (princ, d.getVar("FILE", True)))
+>           pr = d.getVar('PR', True)
+>           pr_prefix = re.search("\D+",pr)
+>           prval = re.search("\d+",pr)
+>
+>
 
-We also in this case need to delete the .so file, else some perl modules
-try and load the target arch libraries leading to build failures. I'd
-love it if there were a better way to do this and am open to better
-proposals but this was the best I could find, not being a perl expert.
+I'd suggest removing the code -after- the bb.error as well..
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Make it an error.. and remove the functionality so it's -clear- you can't just 
+make it a warning again.
 
-diff --git a/meta/recipes-devtools/perl/perl_5.20.0.bb b/meta/recipes-devtools/perl/perl_5.20.0.bb
-index ec01765..ec4d214 100644
---- a/meta/recipes-devtools/perl/perl_5.20.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.20.0.bb
-@@ -117,6 +117,16 @@ do_configure() {
-         # Make hostperl in build directory be the native perl
-         ln -sf ${HOSTPERL} hostperl
- 
-+	if [ -n "${CONFIGURESTAMPFILE}" -a -e "${CONFIGURESTAMPFILE}" ]; then
-+		if [ "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" -a -e Makefile ]; then
-+			${MAKE} clean
-+		fi
-+		find ${S} -name *.so -delete
-+	fi
-+	if [ -n "${CONFIGURESTAMPFILE}" ]; then
-+		echo ${BB_TASKHASH} > ${CONFIGURESTAMPFILE}
-+	fi
-+
-         # Do our work in the cross subdir
-         cd Cross
- 
-
-
+--Mark
 
