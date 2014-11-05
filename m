@@ -1,31 +1,25 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 6138165C91
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id AB0596017E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 13:58:02 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0158.001; Wed, 5 Nov 2014 14:58:01 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Thread-Topic: [OE-core] [PATCH] openssl: Fix for CVE-2014-3566
-Thread-Index: AQHP+PNdmhipDIN+CkCMMQMkQLK4PZxR5XmAgAAQ+RD///lEAIAAHw4A
-Date: Wed, 5 Nov 2014 13:58:01 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E482577C6A3@SESTOEX04.enea.se>
-References: <1415190193-40532-1-git-send-email-sona.sarmadi@enea.com>
-	<5425666.uucE3BEg2m@peggleto-mobl5.ger.corp.intel.com>
-	<3230301C09DEF9499B442BBE162C5E482577C41F@SESTOEX04.enea.se>
-	<20141105130536.GA2457@jama>
-In-Reply-To: <20141105130536.GA2457@jama>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
-MIME-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssl: Fix for CVE-2014-3566
+	Wed,  5 Nov 2014 14:28:39 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id D26F5F811DF; Wed,  5 Nov 2014 07:28:39 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from Zeus.chez-thomas.org (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 871DFF811DD;
+	Wed,  5 Nov 2014 07:28:37 -0700 (MST)
+From: Gary Thomas <gary@mlbassoc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Nov 2014 07:28:38 -0700
+Message-Id: <1415197718-25590-1-git-send-email-gary@mlbassoc.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Gary Thomas <gary@mlbassoc.com>
+Subject: [PATCH v3] python-pygtk: Restore pkg-config support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,22 +32,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Nov 2014 13:58:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 05 Nov 2014 14:28:41 -0000
 
-> > git send-email --to=3Dopenembedded-core@lists.openembedded.org
-> > --confirm=3Dalways  --subject-prefix=3D"dora][PATCH" 000*
->=20
-> Because you're sending already generated files (000*), it works only when
-> you specify git revisions (e.g. -1 my_branch).
->=20
-> Or you need to pass --subject-prefix when you're calling git format-patch=
- to
-> generate them.
->=20
-Ah, I see, thanks. I will send a new patch.
+This patch removes an old "fix" which is no longer required.
+A side effect is that the pkg-config control file (pygtk-2.0.pc)
+will be installed.  This makes it possible to use this library
+with other tools.  Note: the pygtk-2.0.pc also had a missing 'libdir'
 
---Sona
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+---
+ .../python/python-pygtk/fix-pygtk-2.0.pc.patch              | 13 +++++++++++++
+ meta/recipes-devtools/python/python-pygtk_2.24.0.bb         |  9 +--------
+ 2 files changed, 14 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-pygtk/fix-pygtk-2.0.pc.patch
+
+diff --git a/meta/recipes-devtools/python/python-pygtk/fix-pygtk-2.0.pc.patch b/meta/recipes-devtools/python/python-pygtk/fix-pygtk-2.0.pc.patch
+new file mode 100644
+index 0000000..b615654
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-pygtk/fix-pygtk-2.0.pc.patch
+@@ -0,0 +1,13 @@
++Upstream-Status: Inappropriate [configuration]
++
++Index: pygtk-2.24.0/pygtk-2.0.pc.in
++===================================================================
++--- pygtk-2.24.0.orig/pygtk-2.0.pc.in
+++++ pygtk-2.24.0/pygtk-2.0.pc.in
++@@ -1,5 +1,6 @@
++ prefix=@prefix@
++ exec_prefix=@exec_prefix@
+++libdir=@libdir@
++ includedir=@includedir@
++ datarootdir=@datarootdir@
++ datadir=@datadir@
+diff --git a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
+index 8fc194f..631acb7 100644
+--- a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
++++ b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
+@@ -15,6 +15,7 @@ SRC_URI = "ftp://ftp.gnome.org/pub/gnome/sources/pygtk/2.24/${SRCNAME}-${PV}.tar
+            file://fix-gtkunixprint.patch \
+            file://prevent_to_get_display_during_import.patch \
+            file://nodocs.patch \
++	   file://fix-pygtk-2.0.pc.patch \
+            file://acinclude.m4 \
+            file://update-dependences-of-defs.c.patch"
+ 
+@@ -39,14 +40,6 @@ do_configure_prepend() {
+ 	sed -i 's:tests docs:tests:' ${S}/Makefile.am
+ }
+ 
+-# dirty fix #1: remove dependency on python-pygobject-dev
+-do_install_append() {
+-	find ${D} -name "*.la"|xargs rm -f
+-	rm -f ${D}/${bindir}/pygtk-codegen-2.0
+-	rm -rf ${D}/${libdir}/pkgconfig
+-	sed -i -e '1s|^#!.*python|#!/usr/bin/env python|' ${D}${bindir}/pygtk-demo
+-}
+-
+ # dirty fix #2: fix build system paths leaking in
+ require fix-path.inc
+ 
+-- 
+1.9.1
+
 
