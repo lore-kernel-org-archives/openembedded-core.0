@@ -1,27 +1,30 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B719771F8F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A578171FC3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 18:12:38 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Nov 2014 10:10:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,321,1413270000"; d="scan'208";a="627137521"
-Received: from aehernan-devstation.zpn.intel.com (HELO [10.219.4.47])
-	([10.219.4.47])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Nov 2014 10:09:53 -0800
-Message-ID: <545A67FE.9000504@linux.intel.com>
-Date: Wed, 05 Nov 2014 12:10:06 -0600
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1415124553-9122-1-git-send-email-alejandro.hernandez@linux.intel.com>
-	<3489220.ni93R9xSTH@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <3489220.ni93R9xSTH@peggleto-mobl5.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v5] image-buildinfo.bbclass: New class, writes
+	Wed,  5 Nov 2014 18:43:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA5IgXjA028197 for <openembedded-core@lists.openembedded.org>;
+	Wed, 5 Nov 2014 18:42:33 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id pW-rsuvc3zRI
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  5 Nov 2014 18:42:33 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA5IgTlQ028193
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Wed, 5 Nov 2014 18:42:30 GMT
+Message-ID: <1415212983.23396.57.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 05 Nov 2014 18:43:03 +0000
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Subject: [PATCH] base: Make PRINC warning an error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,96 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Nov 2014 18:12:40 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Wed, 05 Nov 2014 18:43:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Ok, Paul , Imy main reason to list those two was to put an example of 
-"list" variables, but with that fix you mention, it won't be needed 
-anymore, I agree and I'll rename outputvars and I will move squashspaces 
-to oe.utils.
+Apparently 1.5 years of warnings isn't enough to get anyone to take any
+notice. We therefore make this an error so people can ignore it for
+another 6 months whereafter we can finally give up and remove the
+obsolete code.
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-On 05/11/14 12:00, Paul Eggleton wrote:
-> Hi Alejandro,
->
-> We're getting there, thanks for your patience - just a few more tweaks:
->
-> On Tuesday 04 November 2014 12:09:13 Alejandro Hernandez wrote:
->> build information to target filesystem on /etc/build
-> Looks like the shortlog has been split over two lines here...
->
->> such as enabled layers, their current status and commit.
->>
->> [YOCTO #6770]
->>
->> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
->> ---
->>   meta/classes/image-buildinfo.bbclass | 76
->> ++++++++++++++++++++++++++++++++++++ 1 file changed, 76 insertions(+)
->>   create mode 100644 meta/classes/image-buildinfo.bbclass
->>
->> diff --git a/meta/classes/image-buildinfo.bbclass
->> b/meta/classes/image-buildinfo.bbclass new file mode 100644
->> index 0000000..d695d24
->> --- /dev/null
->> +++ b/meta/classes/image-buildinfo.bbclass
->> @@ -0,0 +1,76 @@
->> +#
->> +# Writes build information to target filesystem on /etc/build
->> +#
->> +# Copyright (C) 2014 Intel Corporation
->> +# Author: Alejandro Enedino Hernandez Samaniego
->> <alejandro.hernandez@intel.com> +#
->> +# Licensed under the MIT license, see COPYING.MIT for details
->> +#
->> +# Usage: add INHERIT += "image-buildinfo" to your conf file
->> +#
->> +# Desired variables to display
->> +# * If it is a list if values it must be present in both (e.g.
->> IMAGE_FEATURES) +
->> +IMAGE_BUILDINFO_VARS ?= "DISTRO DISTRO_VERSION IMAGE_FEATURES
->> +IMAGE_INSTALL"
-> I'm not sure we really want IMAGE_FEATURES and IMAGE_INSTALL in the default
-> value; it seems to me at the moment the main usage for this is to help
-> determine the version of the build system & metadata that was used.
->
->> +IMAGE_BUILDINFO_LVARS ?= "IMAGE_FEATURES IMAGE_INSTALL"
-> I didn't think to use it when I wrote the original implementation, but it
-> turns out that at least for both of these two variables, they have a set type
-> i.e. from meta/classes/image.bbclass:
->
-> IMAGE_INSTALL[type] = "list"
->
-> So we could use d.getVarFlag(varname, 'type') to determine the type and then
-> we can avoid having to explicitly list them - could you please make this
-> change for this version of the function? (Let's leave fixing the buildhistory
-> version as a separate exercise for now.)
->
->> +# From buildhistory.bbclass
->> +def squashspaces(string):
->> +    import re
->> +    return re.sub("\s+", " ", string).strip()
-> To be honest I had thought squashspaces() would still be moved to oe.utils
-> since this function is generic.
->
->> +# From buildhistory.bbclass
->> +def outputvars(vars, listvars, d):
->> +    vars = vars.split()
->> +    listvars = listvars.split()
->> +    ret = ""
->> +    for var in vars:
->> +        value = d.getVar(var, True) or ""
->> +        if var in listvars:
->> +            value = squashspaces(value)
->> +        ret += "%s = %s\n" % (var, value)
->> +    return ret.rstrip('\n')
-> I've just realised, if we're inheriting both this class and buildhistory
-> globally and these have the same name, that might be a problem. Can we rename
-> this version to something lime image_buildinfo_outputvars?
->
-> Thanks,
-> Paul
->
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index e1b25ff..f5b216b 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -375,7 +375,7 @@ python () {
+     # obsolete.  Return a warning to the user.
+     princ = d.getVar('PRINC', True)
+     if princ and princ != "0":
+-        bb.warn("Use of PRINC %s was detected in the recipe %s (or one of its .bbappends)\nUse of PRINC is deprecated.  The PR server should be used to automatically increment the PR.  See: https://wiki.yoctoproject.org/wiki/PR_Service." % (princ, d.getVar("FILE", True)))
++        bb.error("Use of PRINC %s was detected in the recipe %s (or one of its .bbappends)\nUse of PRINC is deprecated.  The PR server should be used to automatically increment the PR.  See: https://wiki.yoctoproject.org/wiki/PR_Service." % (princ, d.getVar("FILE", True)))
+         pr = d.getVar('PR', True)
+         pr_prefix = re.search("\D+",pr)
+         prval = re.search("\d+",pr)
+
 
 
