@@ -1,37 +1,33 @@
-Return-Path: <nitin.a.kamble@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E9F246FCA3
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AA2860557
 	for <Openembedded-core@lists.openembedded.org>;
-	Tue,  4 Nov 2014 23:58:43 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 04 Nov 2014 15:56:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,316,1413270000"; d="scan'208";a="602368863"
-Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
-	by orsmga001.jf.intel.com with ESMTP; 04 Nov 2014 15:58:44 -0800
-Received: from orsmsx103.amr.corp.intel.com ([169.254.2.77]) by
-	ORSMSX107.amr.corp.intel.com ([169.254.1.71]) with mapi id
-	14.03.0195.001; Tue, 4 Nov 2014 15:58:43 -0800
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: "Zanussi, Tom" <tom.zanussi@intel.com>
-Thread-Topic: [OE-core] [Patch v2 1/1] kernel.bbclass: enable a link for
-	external module building
-Thread-Index: AQHP3PcPGflePghKRkGaUnYOAHlfl5xR2W8A//+ByaA=
-Date: Tue, 4 Nov 2014 23:58:43 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C7CF12726@ORSMSX103.amr.corp.intel.com>
-References: <cover.1412112668.git.nitin.a.kamble@intel.com>
+	Wed,  5 Nov 2014 03:11:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA53Bf9Q018634
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 4 Nov 2014 19:11:41 -0800 (PST)
+Received: from server.local (128.224.22.239) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 4 Nov 2014 19:11:40 -0800
+Message-ID: <5459956B.5090904@windriver.com>
+Date: Tue, 4 Nov 2014 22:11:39 -0500
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>, "ZANUSSI, TOM"
+	<tom.zanussi@intel.com>
+References: <cover.1412112668.git.nitin.a.kamble@intel.com>	
 	<9c2742ca226e51d4d369e9c761c270c8acbe7b2a.1412112668.git.nitin.a.kamble@intel.com>
 	<1415143532.24776.2.camel@empanada.home.network>
-In-Reply-To: <1415143532.24776.2.camel@empanada.home.network>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
-MIME-Version: 1.0
-Cc: "dvhart@linux.intel.com" <dvhart@linux.intel.com>,
-	"Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>, "Wold,
-	Saul" <saul.wold@intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C7CF12726@ORSMSX103.amr.corp.intel.com>
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C7CF12726@ORSMSX103.amr.corp.intel.com>
+Cc: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>,
+	"dvhart@linux.intel.com" <dvhart@linux.intel.com>, "WOLD,
+	SAUL" <saul.wold@intel.com>
 Subject: Re: [Patch v2 1/1] kernel.bbclass: enable a link for external module building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -45,113 +41,207 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Nov 2014 23:58:47 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 05 Nov 2014 03:11:52 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogWmFudXNzaSwgVG9tDQo+
-IFNlbnQ6IFR1ZXNkYXksIE5vdmVtYmVyIDA0LCAyMDE0IDM6MjYgUE0NCj4gVG86IEthbWJsZSwg
-Tml0aW4gQQ0KPiBDYzogcmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZzsgV29sZCwg
-U2F1bDsgQnVydG9uLCBSb3NzOyBBc2hmaWVsZCwNCj4gQnJ1Y2UgKFdpbmQgUml2ZXIpOyBkdmhh
-cnRAbGludXguaW50ZWwuY29tOyBPcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQYXRjaCB2MiAxLzFdIGtlcm5lbC5i
-YmNsYXNzOiBlbmFibGUgYSBsaW5rIGZvciBleHRlcm5hbA0KPiBtb2R1bGUgYnVpbGRpbmcNCj4g
-DQo+IE9uIFR1ZSwgMjAxNC0wOS0zMCBhdCAxNDo0MCAtMDcwMCwgbml0aW4uYS5rYW1ibGVAaW50
-ZWwuY29tIHdyb3RlOg0KPiA+IEZyb206IE5pdGluIEEgS2FtYmxlIDxuaXRpbi5hLmthbWJsZUBp
-bnRlbC5jb20+DQo+ID4NCj4gPiBFdmVuIHRob3VnaCB0aGUga2VybmVsLWRldiBwYWNrYWdlIHBy
-b3ZpZGVzIHRoZSByZXF1aXJlZCBzdXBwb3J0IGZvcg0KPiA+IGJ1aWxkaW5nIGV4dGVybmFsIGtl
-cm5lbCBtb2R1bGVzIG9uIHRoZSB0YXJnZXQsIHNvbWUgY29tbW9ubHkgdXNlZA0KPiA+IHNjcmlw
-dHMgYW5kIHV0aWxpdGllcyBmYWlsIGFzIHRoZXkgYXJlIG5vdCBmaW5kaW5nIHRoZSBrZXJuZWwg
-bW9kdWxlDQo+ID4gYnVpbGQgc3VwcG9ydCBmaWxlcyBhdCB0aGUgZGVzaXJlZCBsb2NhdGlvbi4N
-Cj4gPg0KPiA+IENyZWF0ZSB0aGUgL2xpYi9tb2R1bGVzLzxrZXJuZWwtdmVyc2lvbj4vYnVpbGQg
-bGluayBvbiB0YXJnZXQgcG9pbnRpbmcNCj4gPiB0byB0aGUgc291cmNlcyBwcm92aWRlZCBieSB0
-aGUga2VybmVsLWRldiBwYWNrYWdlLCB0byBmaXggdGhlIGlzc3VlLg0KPiA+DQo+ID4gRml4ZXMg
-QnVnOg0KPiA+IFtZT0NUTyAjMjk2OF0NCj4gPg0KPiANCj4gSSBqdXN0IHVwZGF0ZWQgbXkgZGl6
-enkgYnJhbmNoIGFuZCBhbSBnZXR0aW5nIHRoaXMgd2hlbiBidWlsZGluZyBhIGtlcm5lbA0KPiB3
-aXRoIG5vIG1vZHVsZXM6DQo+IA0KPiBCdWlsZCBDb25maWd1cmF0aW9uOg0KPiBCQl9WRVJTSU9O
-ICAgICAgICA9ICIxLjI0LjAiDQo+IEJVSUxEX1NZUyAgICAgICAgID0gIng4Nl82NC1saW51eCIN
-Cj4gTkFUSVZFTFNCU1RSSU5HICAgPSAiRmVkb3JhLTE5Ig0KPiBUQVJHRVRfU1lTICAgICAgICA9
-ICJpNTg2LXBva3ktbGludXgtdWNsaWJjIg0KPiBNQUNISU5FICAgICAgICAgICA9ICJnYWxpbGVv
-Ig0KPiBESVNUUk8gICAgICAgICAgICA9ICJwb2t5LW1pY3JvIg0KPiBESVNUUk9fVkVSU0lPTiAg
-ICA9ICIxLjciDQo+IFRVTkVfRkVBVFVSRVMgICAgID0gIm0zMiBpNTg2Ig0KPiBUQVJHRVRfRlBV
-ICAgICAgICA9ICIiDQo+IG1ldGENCj4gbWV0YS15b2N0bw0KPiBtZXRhLXlvY3RvLWJzcCAgICA9
-ICJkaXp6eTA6NjQ2NDM4MDRhZWEwMmUzMDYyYTdjZGU3YWYyMzY3NzFjNTYzMTFmZCINCj4gbWV0
-YS1pbnRlbCAgICAgICAgPSAiZGl6enkwOjAwMmJlZjRjMmE1OWU5NTUwM2EyYmI3NzI5ZTc3NDlj
-ZDVhOWY2NWIiDQo+IG1ldGEtbWljcm8tZ2FsaWxlbyA9ICJkaXp6eTA6ZjMwMzEwZGM4NGRjZDk2
-YjllOTNiYjZlNWI1MzE2MzFkNTdkMjZkNiINCj4gDQo+IE5PVEU6IFByZXBhcmluZyBydW5xdWV1
-ZQ0KPiBOT1RFOiBFeGVjdXRpbmcgU2V0U2NlbmUgVGFza3MNCj4gTk9URTogRXhlY3V0aW5nIFJ1
-blF1ZXVlIFRhc2tzDQo+IEVSUk9SOiBGdW5jdGlvbiBmYWlsZWQ6IGRvX2luc3RhbGwgKGxvZyBm
-aWxlIGlzIGxvY2F0ZWQgYXQNCj4gL2hvbWUvdHJ6L3lvY3RvL2dhbGlsZW8td29yay9idWlsZC90
-bXAvd29yay9nYWxpbGVvLXBva3ktbGludXgtDQo+IHVjbGliYy9saW51eC15b2N0by1taWNyby8z
-LjE3K2dpdEFVVE9JTkMrZmIyMWJkYzg5Nl81MjJhNjRmNDg5LQ0KPiByNC4xLjEvdGVtcC9sb2cu
-ZG9faW5zdGFsbC4yNTM2OSkNCj4gRVJST1I6IExvZ2ZpbGUgb2YgZmFpbHVyZSBzdG9yZWQgaW46
-IC9ob21lL3Ryei95b2N0by9nYWxpbGVvLQ0KPiB3b3JrL2J1aWxkL3RtcC93b3JrL2dhbGlsZW8t
-cG9reS1saW51eC11Y2xpYmMvbGludXgteW9jdG8tDQo+IG1pY3JvLzMuMTcrZ2l0QVVUT0lOQytm
-YjIxYmRjODk2XzUyMmE2NGY0ODktDQo+IHI0LjEuMS90ZW1wL2xvZy5kb19pbnN0YWxsLjI1MzY5
-DQo+IExvZyBkYXRhIGZvbGxvd3M6DQo+IHwgREVCVUc6IEV4ZWN1dGluZyBweXRob24gZnVuY3Rp
-b24gcGFja2FnZV9nZXRfYXV0b19wcg0KPiB8IERFQlVHOiBQeXRob24gZnVuY3Rpb24gcGFja2Fn
-ZV9nZXRfYXV0b19wciBmaW5pc2hlZA0KPiB8IERFQlVHOiBFeGVjdXRpbmcgc2hlbGwgZnVuY3Rp
-b24gZG9faW5zdGFsbA0KPiB8IE5PVEU6IG5vIG1vZHVsZXMgdG8gaW5zdGFsbA0KPiB8IGxuOiBm
-YWlsZWQgdG8gY3JlYXRlIHN5bWJvbGljIGxpbmsNCj4gfCAnL2hvbWUvdHJ6L3lvY3RvL2dhbGls
-ZW8td29yay9idWlsZC90bXAvd29yay9nYWxpbGVvLXBva3ktbGludXgtdWNsaWJjDQo+IHwgL2xp
-bnV4LXlvY3RvLW1pY3JvLzMuMTcrZ2l0QVVUT0lOQytmYjIxYmRjODk2XzUyMmE2NGY0ODktDQo+
-IHI0LjEuMS9pbWFnZS8NCj4gfCBsaWIvbW9kdWxlcy8zLjE3LjAtcmM3LXlvY3RvLW1pY3JvL2J1
-aWxkJzogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQ0KPiB8IFdBUk5JTkc6IC9ob21lL3Ryei95
-b2N0by9nYWxpbGVvLXdvcmsvYnVpbGQvdG1wL3dvcmsvZ2FsaWxlby1wb2t5LQ0KPiBsaW51eC11
-Y2xpYmMvbGludXgteW9jdG8tbWljcm8vMy4xNytnaXRBVVRPSU5DK2ZiMjFiZGM4OTZfNTIyYTY0
-ZjQ4OS0NCj4gcjQuMS4xL3RlbXAvcnVuLmRvX2luc3RhbGwuMjUzNjk6MSBleGl0IDEgZnJvbQ0K
-PiB8ICAgbG4gLXNmIC91c3Ivc3JjL2tlcm5lbCAiL2hvbWUvdHJ6L3lvY3RvL2dhbGlsZW8tDQo+
-IHdvcmsvYnVpbGQvdG1wL3dvcmsvZ2FsaWxlby1wb2t5LWxpbnV4LXVjbGliYy9saW51eC15b2N0
-by0NCj4gbWljcm8vMy4xNytnaXRBVVRPSU5DK2ZiMjFiZGM4OTZfNTIyYTY0ZjQ4OS0NCj4gcjQu
-MS4xL2ltYWdlL2xpYi9tb2R1bGVzLzMuMTcuMC1yYzcteW9jdG8tbWljcm8vYnVpbGQiDQo+IHwg
-RVJST1I6IEZ1bmN0aW9uIGZhaWxlZDogZG9faW5zdGFsbCAobG9nIGZpbGUgaXMgbG9jYXRlZCBh
-dA0KPiB8IC9ob21lL3Ryei95b2N0by9nYWxpbGVvLXdvcmsvYnVpbGQvdG1wL3dvcmsvZ2FsaWxl
-by1wb2t5LWxpbnV4LXVjbGliYy8NCj4gfCBsaW51eC15b2N0by1taWNyby8zLjE3K2dpdEFVVE9J
-TkMrZmIyMWJkYzg5Nl81MjJhNjRmNDg5LQ0KPiByNC4xLjEvdGVtcC9sbw0KPiB8IGcuZG9faW5z
-dGFsbC4yNTM2OSkNCj4gRVJST1I6IFRhc2sgNCAoL2hvbWUvdHJ6L3lvY3RvL2dhbGlsZW8td29y
-ay9tZXRhLWludGVsL21ldGEtbWljcm8tDQo+IGdhbGlsZW8vcmVjaXBlcy1rZXJuZWwvbGludXgv
-bGludXgteW9jdG8tbWljcm9fMy4xNy5iYiwgZG9faW5zdGFsbCkgZmFpbGVkDQo+IHdpdGggZXhp
-dCBjb2RlICcxJw0KPiBOT1RFOiBUYXNrcyBTdW1tYXJ5OiBBdHRlbXB0ZWQgMzg3IHRhc2tzIG9m
-IHdoaWNoIDM4NiBkaWRuJ3QgbmVlZCB0byBiZQ0KPiByZXJ1biBhbmQgMSBmYWlsZWQuDQo+IE5v
-IGN1cnJlbnRseSBydW5uaW5nIHRhc2tzICgzNTcgb2YgMzk1KQ0KPiANCj4gU3VtbWFyeTogMSB0
-YXNrIGZhaWxlZDoNCj4gICAvaG9tZS90cnoveW9jdG8vZ2FsaWxlby13b3JrL21ldGEtaW50ZWwv
-bWV0YS1taWNyby1nYWxpbGVvL3JlY2lwZXMtDQo+IGtlcm5lbC9saW51eC9saW51eC15b2N0by1t
-aWNyb18zLjE3LmJiLCBkb19pbnN0YWxsDQo+IFN1bW1hcnk6IFRoZXJlIHdhcyAxIEVSUk9SIG1l
-c3NhZ2Ugc2hvd24sIHJldHVybmluZyBhIG5vbi16ZXJvIGV4aXQNCj4gY29kZS4NCj4gDQo+IA0K
-PiBSZXZlcnRpbmcgdGhpcyBwYXRjaCBnZXRzIHBhc3QgaXQuDQpIaSBUb20sDQogIEJlY2F1c2Ug
-b2YgdGhlIG5vIG1vZHVsZXMga2VybmVsIGNvbmZpZ3VyYXRpb24sIHRoZSByZXF1aXJlZCBkaXJl
-Y3Rvcnkgc3RydWN0dXJlIGlzIG1pc3NpbmcuIFRoaXMgcGF0Y2ggd291bGQgZml4IHRoZSBpc3N1
-ZSBieSBlbnN1cmluZyB0aGUgcmVxdWlyZWQgZGlyZWN0b3J5IGlzIHByZXNlbnQuIENhbiB5b3Ug
-dmVyaWZ5IHRoZSBmaXg/DQoNCi0tLSBhL21ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzcw0KKysr
-IGIvbWV0YS9jbGFzc2VzL2tlcm5lbC5iYmNsYXNzDQpAQCAtMjEzLDYgKzIxMyw3IEBAIGtlcm5l
-bF9kb19pbnN0YWxsKCkgew0KICAgICAgICAjDQogICAgICAgIGtlcm5lbGRpcj0ke0R9JHtLRVJO
-RUxfU1JDX1BBVEh9DQogICAgICAgIGluc3RhbGwgLWQgJGtlcm5lbGRpcg0KKyAgICAgICBta2Rp
-ciAtcCAiJHtEfS9saWIvbW9kdWxlcy8ke0tFUk5FTF9WRVJTSU9OfSINCiAgICAgICAgbG4gLXNm
-ICR7S0VSTkVMX1NSQ19QQVRIfSAiJHtEfS9saWIvbW9kdWxlcy8ke0tFUk5FTF9WRVJTSU9OfS9i
-dWlsZCINCg0KVGhhbmtzLA0KTml0aW4NCg0KPiANCj4gVG9tDQo+IA0KPiA+IFNpZ25lZC1vZmYt
-Ynk6IE5pdGluIEEgS2FtYmxlIDxuaXRpbi5hLmthbWJsZUBpbnRlbC5jb20+DQo+ID4gLS0tDQo+
-ID4gIG1ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzcyB8IDMgKystDQo+ID4gIDEgZmlsZSBjaGFu
-Z2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQg
-YS9tZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMva2VybmVsLmJiY2xh
-c3MNCj4gPiBpbmRleCA3OGIzM2NlLi41YWM0ZmY0IDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvY2xh
-c3Nlcy9rZXJuZWwuYmJjbGFzcw0KPiA+ICsrKyBiL21ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFz
-cw0KPiA+IEBAIC0yMTMsNiArMjEzLDcgQEAga2VybmVsX2RvX2luc3RhbGwoKSB7DQo+ID4gIAkj
-DQo+ID4gIAlrZXJuZWxkaXI9JHtEfSR7S0VSTkVMX1NSQ19QQVRIfQ0KPiA+ICAJaW5zdGFsbCAt
-ZCAka2VybmVsZGlyDQo+ID4gKwlsbiAtc2YgJHtLRVJORUxfU1JDX1BBVEh9DQo+ICIke0R9L2xp
-Yi9tb2R1bGVzLyR7S0VSTkVMX1ZFUlNJT059L2J1aWxkIg0KPiA+DQo+ID4gIAkjDQo+ID4gIAkj
-IFN0b3JlIHRoZSBrZXJuZWwgdmVyc2lvbiBpbiBzeXNyb290cyBmb3IgbW9kdWxlLWJhc2UuYmJj
-bGFzcyBAQA0KPiA+IC0zNDYsNyArMzQ3LDcgQEAgUEFDS0FHRVMgPSAia2VybmVsIGtlcm5lbC1i
-YXNlIGtlcm5lbC12bWxpbnV4DQo+ID4ga2VybmVsLWltYWdlIGtlcm5lbC1kZXYga2VybmVsLW1v
-ZCAgRklMRVNfJHtQTn0gPSAiIg0KPiA+ICBGSUxFU19rZXJuZWwtYmFzZSA9ICIvbGliL21vZHVs
-ZXMvJHtLRVJORUxfVkVSU0lPTn0vbW9kdWxlcy5vcmRlcg0KPiAvbGliL21vZHVsZXMvJHtLRVJO
-RUxfVkVSU0lPTn0vbW9kdWxlcy5idWlsdGluIg0KPiA+ICBGSUxFU19rZXJuZWwtaW1hZ2UgPSAi
-L2Jvb3QvJHtLRVJORUxfSU1BR0VUWVBFfSoiDQo+ID4gLUZJTEVTX2tlcm5lbC1kZXYgPSAiL2Jv
-b3QvU3lzdGVtLm1hcCogL2Jvb3QvTW9kdWxlLnN5bXZlcnMqDQo+IC9ib290L2NvbmZpZyogJHtL
-RVJORUxfU1JDX1BBVEh9Ig0KPiA+ICtGSUxFU19rZXJuZWwtZGV2ID0gIi9ib290L1N5c3RlbS5t
-YXAqIC9ib290L01vZHVsZS5zeW12ZXJzKg0KPiAvYm9vdC9jb25maWcqICR7S0VSTkVMX1NSQ19Q
-QVRIfQ0KPiAvbGliL21vZHVsZXMvJHtLRVJORUxfVkVSU0lPTn0vYnVpbGQiDQo+ID4gIEZJTEVT
-X2tlcm5lbC12bWxpbnV4ID0gIi9ib290L3ZtbGludXgqIg0KPiA+ICBGSUxFU19rZXJuZWwtbW9k
-dWxlcyA9ICIiDQo+ID4gIFJERVBFTkRTX2tlcm5lbCA9ICJrZXJuZWwtYmFzZSINCj4gPiAtLQ0K
-PiA+IDEuOC4xLjQNCj4gPg0KPiANCg0K
+On 2014-11-04, 6:58 PM, Kamble, Nitin A wrote:
+>
+>
+>> -----Original Message-----
+>> From: Zanussi, Tom
+>> Sent: Tuesday, November 04, 2014 3:26 PM
+>> To: Kamble, Nitin A
+>> Cc: richard.purdie@linuxfoundation.org; Wold, Saul; Burton, Ross; Ashfield,
+>> Bruce (Wind River); dvhart@linux.intel.com; Openembedded-
+>> core@lists.openembedded.org
+>> Subject: Re: [OE-core] [Patch v2 1/1] kernel.bbclass: enable a link for external
+>> module building
+>>
+>> On Tue, 2014-09-30 at 14:40 -0700, nitin.a.kamble@intel.com wrote:
+>>> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+>>>
+>>> Even though the kernel-dev package provides the required support for
+>>> building external kernel modules on the target, some commonly used
+>>> scripts and utilities fail as they are not finding the kernel module
+>>> build support files at the desired location.
+>>>
+>>> Create the /lib/modules/<kernel-version>/build link on target pointing
+>>> to the sources provided by the kernel-dev package, to fix the issue.
+>>>
+>>> Fixes Bug:
+>>> [YOCTO #2968]
+>>>
+>>
+>> I just updated my dizzy branch and am getting this when building a kernel
+>> with no modules:
+>>
+>> Build Configuration:
+>> BB_VERSION        = "1.24.0"
+>> BUILD_SYS         = "x86_64-linux"
+>> NATIVELSBSTRING   = "Fedora-19"
+>> TARGET_SYS        = "i586-poky-linux-uclibc"
+>> MACHINE           = "galileo"
+>> DISTRO            = "poky-micro"
+>> DISTRO_VERSION    = "1.7"
+>> TUNE_FEATURES     = "m32 i586"
+>> TARGET_FPU        = ""
+>> meta
+>> meta-yocto
+>> meta-yocto-bsp    = "dizzy0:64643804aea02e3062a7cde7af236771c56311fd"
+>> meta-intel        = "dizzy0:002bef4c2a59e95503a2bb7729e7749cd5a9f65b"
+>> meta-micro-galileo = "dizzy0:f30310dc84dcd96b9e93bb6e5b531631d57d26d6"
+>>
+>> NOTE: Preparing runqueue
+>> NOTE: Executing SetScene Tasks
+>> NOTE: Executing RunQueue Tasks
+>> ERROR: Function failed: do_install (log file is located at
+>> /home/trz/yocto/galileo-work/build/tmp/work/galileo-poky-linux-
+>> uclibc/linux-yocto-micro/3.17+gitAUTOINC+fb21bdc896_522a64f489-
+>> r4.1.1/temp/log.do_install.25369)
+>> ERROR: Logfile of failure stored in: /home/trz/yocto/galileo-
+>> work/build/tmp/work/galileo-poky-linux-uclibc/linux-yocto-
+>> micro/3.17+gitAUTOINC+fb21bdc896_522a64f489-
+>> r4.1.1/temp/log.do_install.25369
+>> Log data follows:
+>> | DEBUG: Executing python function package_get_auto_pr
+>> | DEBUG: Python function package_get_auto_pr finished
+>> | DEBUG: Executing shell function do_install
+>> | NOTE: no modules to install
+>> | ln: failed to create symbolic link
+>> | '/home/trz/yocto/galileo-work/build/tmp/work/galileo-poky-linux-uclibc
+>> | /linux-yocto-micro/3.17+gitAUTOINC+fb21bdc896_522a64f489-
+>> r4.1.1/image/
+>> | lib/modules/3.17.0-rc7-yocto-micro/build': No such file or directory
+>> | WARNING: /home/trz/yocto/galileo-work/build/tmp/work/galileo-poky-
+>> linux-uclibc/linux-yocto-micro/3.17+gitAUTOINC+fb21bdc896_522a64f489-
+>> r4.1.1/temp/run.do_install.25369:1 exit 1 from
+>> |   ln -sf /usr/src/kernel "/home/trz/yocto/galileo-
+>> work/build/tmp/work/galileo-poky-linux-uclibc/linux-yocto-
+>> micro/3.17+gitAUTOINC+fb21bdc896_522a64f489-
+>> r4.1.1/image/lib/modules/3.17.0-rc7-yocto-micro/build"
+>> | ERROR: Function failed: do_install (log file is located at
+>> | /home/trz/yocto/galileo-work/build/tmp/work/galileo-poky-linux-uclibc/
+>> | linux-yocto-micro/3.17+gitAUTOINC+fb21bdc896_522a64f489-
+>> r4.1.1/temp/lo
+>> | g.do_install.25369)
+>> ERROR: Task 4 (/home/trz/yocto/galileo-work/meta-intel/meta-micro-
+>> galileo/recipes-kernel/linux/linux-yocto-micro_3.17.bb, do_install) failed
+>> with exit code '1'
+>> NOTE: Tasks Summary: Attempted 387 tasks of which 386 didn't need to be
+>> rerun and 1 failed.
+>> No currently running tasks (357 of 395)
+>>
+>> Summary: 1 task failed:
+>>    /home/trz/yocto/galileo-work/meta-intel/meta-micro-galileo/recipes-
+>> kernel/linux/linux-yocto-micro_3.17.bb, do_install
+>> Summary: There was 1 ERROR message shown, returning a non-zero exit
+>> code.
+>>
+>>
+>> Reverting this patch gets past it.
+
+
+Zhe He sent the same patch on the 21st, I guess it slipped through
+the cracks:
+
+-----------------------------------------
+
+[OE-core] [PATCH] kernel.bbclass: Create modules directory even if there 
+is no modules installed
+
+-----------------------------
+
+zhe.he@windriver.com
+Oct 21
+
+to openembedded-c.
+From: He Zhe <zhe.he@windriver.com>
+
+During kernel_do_install it needs to make symbol link at
+${D}/lib/modules/${KERNEL_VERSION}/build, but there will not be
+${D}/lib/modules/${KERNEL_VERSION} if there is no modules installed for 
+current
+image, which will result in a build failure.
+Add "mkdir -p ${D}/lib/modules/${KERNEL_VERSION}" here to avoid this failure
+and the need of similar changes in other scripts that also expect it to 
+exist.
+
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+  meta/classes/kernel.bbclass | 1 +
+  1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index e958f90..e342ed1 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -233,6 +233,7 @@ kernel_do_install() {
+         #
+         kerneldir=${D}${KERNEL_SRC_PATH}
+         install -d $kerneldir
++       mkdir -p ${D}/lib/modules/${KERNEL_VERSION}
+         ln -sf ${KERNEL_SRC_PATH} 
+"${D}/lib/modules/${KERNEL_VERSION}/build"
+
+--------------------------
+
+Bruce
+
+
+> Hi Tom,
+>    Because of the no modules kernel configuration, the required directory structure is missing. This patch would fix the issue by ensuring the required directory is present. Can you verify the fix?
+>
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -213,6 +213,7 @@ kernel_do_install() {
+>          #
+>          kerneldir=${D}${KERNEL_SRC_PATH}
+>          install -d $kerneldir
+> +       mkdir -p "${D}/lib/modules/${KERNEL_VERSION}"
+>          ln -sf ${KERNEL_SRC_PATH} "${D}/lib/modules/${KERNEL_VERSION}/build"
+>
+> Thanks,
+> Nitin
+>
+>>
+>> Tom
+>>
+>>> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+>>> ---
+>>>   meta/classes/kernel.bbclass | 3 ++-
+>>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>>> index 78b33ce..5ac4ff4 100644
+>>> --- a/meta/classes/kernel.bbclass
+>>> +++ b/meta/classes/kernel.bbclass
+>>> @@ -213,6 +213,7 @@ kernel_do_install() {
+>>>      #
+>>>      kerneldir=${D}${KERNEL_SRC_PATH}
+>>>      install -d $kerneldir
+>>> +   ln -sf ${KERNEL_SRC_PATH}
+>> "${D}/lib/modules/${KERNEL_VERSION}/build"
+>>>
+>>>      #
+>>>      # Store the kernel version in sysroots for module-base.bbclass @@
+>>> -346,7 +347,7 @@ PACKAGES = "kernel kernel-base kernel-vmlinux
+>>> kernel-image kernel-dev kernel-mod  FILES_${PN} = ""
+>>>   FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order
+>> /lib/modules/${KERNEL_VERSION}/modules.builtin"
+>>>   FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
+>>> -FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers*
+>> /boot/config* ${KERNEL_SRC_PATH}"
+>>> +FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers*
+>> /boot/config* ${KERNEL_SRC_PATH}
+>> /lib/modules/${KERNEL_VERSION}/build"
+>>>   FILES_kernel-vmlinux = "/boot/vmlinux*"
+>>>   FILES_kernel-modules = ""
+>>>   RDEPENDS_kernel = "kernel-base"
+>>> --
+>>> 1.8.1.4
+>>>
+>>
+>
+
 
