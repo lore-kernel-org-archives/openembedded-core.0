@@ -1,25 +1,38 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 2027A6FCA3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
+	[209.85.216.43])
+	by mail.openembedded.org (Postfix) with ESMTP id A3CDB70F3B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 14:57:37 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id A42FAF811E3; Wed,  5 Nov 2014 07:57:38 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from Zeus.chez-thomas.org (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id D5220F811DF;
-	Wed,  5 Nov 2014 07:57:37 -0700 (MST)
-From: Gary Thomas <gary@mlbassoc.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Nov 2014 07:57:38 -0700
-Message-Id: <1415199458-26876-1-git-send-email-gary@mlbassoc.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Gary Thomas <gary@mlbassoc.com>
-Subject: [PATCH] python-pygtk: Clean up incorrect "fix"
+	Wed,  5 Nov 2014 15:10:10 +0000 (UTC)
+Received: by mail-qa0-f43.google.com with SMTP id j7so603704qaq.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Nov 2014 07:10:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=LfQzqPgBKAnf006LRtDA/L8HTUESe9/QtOOnGnPO2po=;
+	b=S4IOugLPwrYTLlJe46MgOUMQU7R5IarZulRtnBit0gsi4DO1vpuuQ9F88DJtiiXufC
+	fSG4fZXwtB+qKuULr6bkOMieTTzAIzxK3HdARG1CazbZPawu/uUDV17QvBXSOch2pLC8
+	iV2JBqTGKQRfIFBVjxTev8fWpbqXRxrdpG5Rp4TfGa2pDczrON76FwCWFvB+BMUyUZdy
+	kpXFuIVw8wo8Vi4fq5sQRYdj4PJyZRmzqLSeSnozK3aa5HcmXmLI3XRfxMCSXBjTnbFs
+	I0erMipFYqDIkg4jVkWMlY+g0VWTaaoZ/rvqiuiGEmXyraV8UV+QdoSHtuQV/Rkp2lZA
+	ZU8A==
+X-Gm-Message-State: ALoCoQkXhlKoPLrFTqKz+xaKRAlIEv+Y7K2I30SPqg889ZBI+MR96bVLiNvYI4ra0Gbg/ibNcgK2
+X-Received: by 10.224.28.193 with SMTP id n1mr58831940qac.93.1415200211384;
+	Wed, 05 Nov 2014 07:10:11 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.98.213 with HTTP; Wed, 5 Nov 2014 07:09:51 -0800 (PST)
+In-Reply-To: <CAJTo0Law3iWz=+A1vA7QsikNozeVP7U49=+T9fkT7YgLzJ_hcA@mail.gmail.com>
+References: <1410665660-25145-1-git-send-email-denis@denix.org>
+	<CAJTo0Law3iWz=+A1vA7QsikNozeVP7U49=+T9fkT7YgLzJ_hcA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 5 Nov 2014 15:09:51 +0000
+Message-ID: <CAJTo0LZf2oHEnMj2j5mf=wENbuxcN+ya8oS3WZLSt3O=w_O07w@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: update to version 2014.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,93 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Nov 2014 14:57:44 -0000
+X-List-Received-Date: Wed, 05 Nov 2014 15:10:13 -0000
+Content-Type: multipart/alternative; boundary=001a11c2ca30e2ed3405071df9d1
 
-This patch removes most of "dirty fix #1" which is no longer needed
-(no dependency on python-pygobject-dev exists).  A side effect is
-that the pygtk code generator will also be installed.
+--001a11c2ca30e2ed3405071df9d1
+Content-Type: text/plain; charset=UTF-8
 
-Merge 'fix-path.inc' into this recipe as it is not used by any other
-recipe.
+On 5 November 2014 14:56, Burton, Ross <ross.burton@intel.com> wrote:
 
-Signed-off-by: Gary Thomas <gary@mlbassoc.com>
----
- meta/recipes-devtools/python/fix-path.inc          | 22 ------------------
- .../recipes-devtools/python/python-pygtk_2.24.0.bb | 27 +++++++++++++++++-----
- 2 files changed, 21 insertions(+), 28 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/fix-path.inc
+> | scripts/basic/fixdep: 1: scripts/basic/fixdep: Syntax error: word
+> unexpected (expecting ")")
+>
 
-diff --git a/meta/recipes-devtools/python/fix-path.inc b/meta/recipes-devtools/python/fix-path.inc
-deleted file mode 100644
-index 0738c59..0000000
---- a/meta/recipes-devtools/python/fix-path.inc
-+++ /dev/null
-@@ -1,22 +0,0 @@
--do_install_append() {
--        for i in `find ${D} -name "*.py"` ; do \
--            sed -i -e s:${D}::g $i
--        done
--
--        for i in `find ${D} -name "*.la"` ; do \
--            sed -i -e s:${STAGING_LIBDIR}:${libdir}:g $i
--        done
--        
--        if test -e ${D}${bindir} ; then
--            for i in ${D}${bindir}/* ; do \
--                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
--            done
--        fi
--
--        if test -e ${D}${sbindir} ; then
--            for i in ${D}${sbindir}/* ; do \
--                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
--            done
--        fi
--}
--
-diff --git a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-index bd26ebb..053f37f 100644
---- a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-+++ b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-@@ -40,16 +40,31 @@ do_configure_prepend() {
- 	sed -i 's:tests docs:tests:' ${S}/Makefile.am
- }
- 
--# dirty fix #1: remove dependency on python-pygobject-dev
-+# dirty fix #2: fix build system paths leaking in
- do_install_append() {
--	find ${D} -name "*.la"|xargs rm -f
--	rm -f ${D}/${bindir}/pygtk-codegen-2.0
-+        for i in `find ${D} -name "*.py"` ; do \
-+            sed -i -e s:${D}::g $i
-+        done
-+
-+        for i in `find ${D} -name "*.la"` ; do \
-+            sed -i -e s:${STAGING_LIBDIR}:${libdir}:g $i
-+        done
-+        
-+        if test -e ${D}${bindir} ; then
-+            for i in ${D}${bindir}/* ; do \
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-+            done
-+        fi
-+
-+        if test -e ${D}${sbindir} ; then
-+            for i in ${D}${sbindir}/* ; do \
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-+            done
-+        fi
-+
- 	sed -i -e '1s|^#!.*python|#!/usr/bin/env python|' ${D}${bindir}/pygtk-demo
- }
- 
--# dirty fix #2: fix build system paths leaking in
--require fix-path.inc
--
- PACKAGES =+ "${PN}-demo"
- FILES_${PN}-demo = " ${bindir}/pygtk-demo ${libdir}/pygtk "
- RDEPENDS_${PN}-demo = "python-pygtk python-stringold python-lang"
--- 
-1.9.1
+The autobuilder failed with a more obvious error (and also has more logs
+available if required):
 
+| /bin/sh: scripts/basic/fixdep:
+/opt/poky/1.7/sysroots/i686-pokysdk-linux/lib/ld-linux.so.2: bad ELF
+interpreter: No such file or directory
 
+https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/87/steps/BuildImages_3/logs/stdio
+
+Ross
+
+--001a11c2ca30e2ed3405071df9d1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 5 November 2014 14:56, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-l=
+eft-style:solid;padding-left:1ex"><div><div>| scripts/basic/fixdep: 1: scri=
+pts/basic/fixdep: Syntax error: word unexpected (expecting &quot;)&quot;)</=
+div></div><div></div></blockquote></div><br>The autobuilder failed with a m=
+ore obvious error (and also has more logs available if required):</div><div=
+ class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"g=
+mail_extra">| /bin/sh: scripts/basic/fixdep: /opt/poky/1.7/sysroots/i686-po=
+kysdk-linux/lib/ld-linux.so.2: bad ELF interpreter: No such file or directo=
+ry</div><div><br></div><div><a href=3D"https://autobuilder.yoctoproject.org=
+/main/builders/nightly-multilib/builds/87/steps/BuildImages_3/logs/stdio">h=
+ttps://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/8=
+7/steps/BuildImages_3/logs/stdio</a><br></div><div><br></div><div>Ross</div=
+></div></div>
+
+--001a11c2ca30e2ed3405071df9d1--
