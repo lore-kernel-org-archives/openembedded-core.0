@@ -1,33 +1,36 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f50.google.com (mail-yh0-f50.google.com
-	[209.85.213.50])
-	by mail.openembedded.org (Postfix) with ESMTP id B2BAF71FD4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id F117371FF6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 20:34:44 +0000 (UTC)
-Received: by mail-yh0-f50.google.com with SMTP id a41so726319yho.9
+	Wed,  5 Nov 2014 20:34:42 +0000 (UTC)
+Received: by mail-wi0-f169.google.com with SMTP id n3so12504235wiv.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Nov 2014 12:34:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:date:message-id:subject:from:to:cc:content-type; 
-	bh=3vZzjFFWsHhI5X8U88VZVonmeIrjvNans41ybKgLZIw=;
-	b=LRogTl31yH8wtZ+I28vo0hsEydmo7gQnpI1oKJaELCtyOy7H3X6ZRUvEv1vAuJX9HU
-	7pXUM6EreuN75wqeJG9I+vMFVSYPTahGdtc/Jmk95360hI+4THgPzv3y7qfcoxy2y0d4
-	iZDy3DlUO1VFolrSUF3GGEEF0lVNOhKzaUrVXMf2ynFQ7fFpJ9fOvuj1nxZ4ILmQzI5U
-	48IuZetbRv8Rg7hFQ4EeIsq7dxyxKVibFhQC9p3mMQx4+qG5njuAgFoAlYFsWkiUewsl
-	E7+xzZ5nEBodWuYJWe9D02MXzSgFWvqXu13KiTU4qrH6UdcyB8mAw6TW4YXKU83hsuct
-	i62A==
-MIME-Version: 1.0
-X-Received: by 10.170.223.84 with SMTP id p81mr7552253ykf.110.1415219684845;
-	Wed, 05 Nov 2014 12:34:44 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.172.8 with HTTP; Wed, 5 Nov 2014 12:34:44 -0800 (PST)
-Date: Wed, 5 Nov 2014 18:34:44 -0200
-X-Google-Sender-Auth: ARjpFJie8Gkikmsh1T2Czl9_5tI
-Message-ID: <CAP9ODKqZU0SpC_T_jYLExYKYLXQkLyv_7Vy7GW-9uA=_wBjLhQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [for-daisy] Pseudo backport breaks build in some hosts
+	Wed, 05 Nov 2014 12:34:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=eMa6UAqcyQWchFDPiC8wd5xrf+9N5okpY28AeRFIOsA=;
+	b=c8YAkka9TGzQ7s4wpTRssGOdmk1SLgq61W9sDweqE22CTP4hTF7WMyPaAq7AOwl9hG
+	npO1CE/krw1JXm7avgRiG2DIKpBspqPIyieF2dsfQlrUIgSUib7+LMeaE3EDsG+ju51h
+	bna5BwbCX6H7wBuo/rhLq2IpwrhuCTG2bpIT33Ozz7Us23zcnL35I76f3xhpUdnDRh6z
+	6EmETXglp3uF98Rm5W+mVSIyWrlrzJc/roZKP40p7/Yjn6RLf/FpU1aMqoyhTiLK/V8e
+	iHy2B9raO7E3KX3U9y+DCw47WXnXry3qZUnQMuFMdSwGZx5nyQVa0rvq4L5/eNVWgDjm
+	Zovg==
+X-Gm-Message-State: ALoCoQl2Xh/7LB3YdAVUGOtkPZAfgO9vIKJ7u7I5RcuweLUhc9kONlry/IcbKnKfi2wW2NU0jjLh
+X-Received: by 10.194.92.42 with SMTP id cj10mr57420102wjb.6.1415219682862;
+	Wed, 05 Nov 2014 12:34:42 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id he3sm5321370wjc.15.2014.11.05.12.34.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 05 Nov 2014 12:34:42 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Nov 2014 20:34:40 +0000
+Message-Id: <1415219680-24341-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] buildtools-tarball: package all of Python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,26 +44,55 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 05 Nov 2014 20:34:49 -0000
-Content-Type: text/plain; charset=UTF-8
 
-Hello,
+Instead of cherry-picking pieces of Python to put into the buildtools tarball,
+ship all of it.  We can't predict what bits of Python will be needed in the
+future.
 
-In clean hosts the pseudo build is broken. It seems to be lacking the
-attr dependency which has been added during the Dizzy development
-cycle but not included when doing the backport for Daisy; I suspect it
-has not been detected in Yocto Project AB because it should have attr
-headers available.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/meta/buildtools-tarball.bb |   25 +------------------------
+ 1 file changed, 1 insertion(+), 24 deletions(-)
 
-We seem to need a better way to test backports as this is the second
-time backports has included regressions. I think we ought to have a
-daisy-next (and likely dizzy-next) branches with intended fixes for
-easy testing outside of Yocto Project AB and get wider exposure for
-different host setups.
-
-Best Regards,
-
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 283312c..58e0ffa 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -9,32 +9,9 @@ TOOLCHAIN_TARGET_TASK ?= ""
+ 
+ TOOLCHAIN_HOST_TASK ?= "\
+     nativesdk-python-core \
+-    nativesdk-python-textutils \
+-    nativesdk-python-sqlite3 \
+-    nativesdk-python-pickle \
+-    nativesdk-python-logging \
+-    nativesdk-python-elementtree \
+-    nativesdk-python-curses \
+-    nativesdk-python-compile \
+-    nativesdk-python-compiler \
+-    nativesdk-python-fcntl \
+-    nativesdk-python-shell \
++    nativesdk-python-modules \
+     nativesdk-python-misc \
+-    nativesdk-python-multiprocessing \
+-    nativesdk-python-subprocess \
+-    nativesdk-python-xmlrpc \
+-    nativesdk-python-netclient \
+-    nativesdk-python-netserver \
+-    nativesdk-python-distutils \
+-    nativesdk-python-unixadmin \
+-    nativesdk-python-compression \
+-    nativesdk-python-json \
+-    nativesdk-python-unittest \
+-    nativesdk-python-mmap \
+-    nativesdk-python-difflib \
+-    nativesdk-python-pprint \
+     nativesdk-python-git \
+-    nativesdk-python-pkgutil \
+     nativesdk-ncurses-terminfo-base \
+     nativesdk-chrpath \
+     nativesdk-tar \
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.7.10.4
+
 
