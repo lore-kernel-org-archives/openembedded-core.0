@@ -1,36 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id F117371FF6
+Return-Path: <ben.shelton@ni.com>
+X-Greylist: delayed 1106 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 05 Nov 2014 21:26:29 UTC
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 585F271F5A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 20:34:42 +0000 (UTC)
-Received: by mail-wi0-f169.google.com with SMTP id n3so12504235wiv.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Nov 2014 12:34:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=eMa6UAqcyQWchFDPiC8wd5xrf+9N5okpY28AeRFIOsA=;
-	b=c8YAkka9TGzQ7s4wpTRssGOdmk1SLgq61W9sDweqE22CTP4hTF7WMyPaAq7AOwl9hG
-	npO1CE/krw1JXm7avgRiG2DIKpBspqPIyieF2dsfQlrUIgSUib7+LMeaE3EDsG+ju51h
-	bna5BwbCX6H7wBuo/rhLq2IpwrhuCTG2bpIT33Ozz7Us23zcnL35I76f3xhpUdnDRh6z
-	6EmETXglp3uF98Rm5W+mVSIyWrlrzJc/roZKP40p7/Yjn6RLf/FpU1aMqoyhTiLK/V8e
-	iHy2B9raO7E3KX3U9y+DCw47WXnXry3qZUnQMuFMdSwGZx5nyQVa0rvq4L5/eNVWgDjm
-	Zovg==
-X-Gm-Message-State: ALoCoQl2Xh/7LB3YdAVUGOtkPZAfgO9vIKJ7u7I5RcuweLUhc9kONlry/IcbKnKfi2wW2NU0jjLh
-X-Received: by 10.194.92.42 with SMTP id cj10mr57420102wjb.6.1415219682862;
-	Wed, 05 Nov 2014 12:34:42 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id he3sm5321370wjc.15.2014.11.05.12.34.41
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Nov 2014 12:34:42 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Wed,  5 Nov 2014 21:26:29 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
+	sA5LQT8k013757 for <openembedded-core@lists.openembedded.org>;
+	Wed, 5 Nov 2014 15:26:29 -0600
+Received: from bshelton-desktop.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014110515262892-711011 ;
+	Wed, 5 Nov 2014 15:26:28 -0600 
+From: Ben Shelton <ben.shelton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Nov 2014 20:34:40 +0000
-Message-Id: <1415219680-24341-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] buildtools-tarball: package all of Python
+Date: Wed, 5 Nov 2014 15:26:15 -0600
+Message-Id: <1415222777-6782-1-git-send-email-ben.shelton@ni.com>
+X-Mailer: git-send-email 2.1.3
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 11/05/2014 03:26:28 PM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 11/05/2014 03:26:29 PM,
+	Serialize complete at 11/05/2014 03:26:29 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.28,
+	0.0.0000
+	definitions=2014-11-05_08:2014-11-05, 2014-11-05,
+	1970-01-01 signatures=0
+Subject: [PATCH 1/3] util-linux: break out util-linux-getopt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,56 +41,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Nov 2014 20:34:49 -0000
+X-List-Received-Date: Wed, 05 Nov 2014 21:26:36 -0000
 
-Instead of cherry-picking pieces of Python to put into the buildtools tarball,
-ship all of it.  We can't predict what bits of Python will be needed in the
-future.
+From: Richard Tollerton <rich.tollerton@ni.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+The getopt binary itself is only a few kb, while the util-linux package
+is much larger. The lsb package is very small and depends only on
+getopt. Break it out into util-linux-getopt in order to reduce the disk
+requirements of lsb on systems that don't otherwise bring in util-linux.
+
+Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+Acked-by: Ken Sharp <ken.sharp@ni.com>
+Acked-by: Ben Shelton <ben.shelton@ni.com
+Acked-by: Brad Mouring <brad.mouring@ni.com>
 ---
- meta/recipes-core/meta/buildtools-tarball.bb |   25 +------------------------
- 1 file changed, 1 insertion(+), 24 deletions(-)
+ meta/recipes-core/util-linux/util-linux.inc | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 283312c..58e0ffa 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -9,32 +9,9 @@ TOOLCHAIN_TARGET_TASK ?= ""
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index ffb84c4..a37efe9 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -37,7 +37,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+              util-linux-mkfs util-linux-mcookie util-linux-reset \
+              util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
+              util-linux-partx ${PN}-bash-completion util-linux-hwclock \
+-             util-linux-findfs"
++             util-linux-findfs util-linux-getopt"
  
- TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-python-core \
--    nativesdk-python-textutils \
--    nativesdk-python-sqlite3 \
--    nativesdk-python-pickle \
--    nativesdk-python-logging \
--    nativesdk-python-elementtree \
--    nativesdk-python-curses \
--    nativesdk-python-compile \
--    nativesdk-python-compiler \
--    nativesdk-python-fcntl \
--    nativesdk-python-shell \
-+    nativesdk-python-modules \
-     nativesdk-python-misc \
--    nativesdk-python-multiprocessing \
--    nativesdk-python-subprocess \
--    nativesdk-python-xmlrpc \
--    nativesdk-python-netclient \
--    nativesdk-python-netserver \
--    nativesdk-python-distutils \
--    nativesdk-python-unixadmin \
--    nativesdk-python-compression \
--    nativesdk-python-json \
--    nativesdk-python-unittest \
--    nativesdk-python-mmap \
--    nativesdk-python-difflib \
--    nativesdk-python-pprint \
-     nativesdk-python-git \
--    nativesdk-python-pkgutil \
-     nativesdk-ncurses-terminfo-base \
-     nativesdk-chrpath \
-     nativesdk-tar \
+ SHARED_EXTRA_OECONF = "--disable-use-tty-group \
+                        --disable-makeinstall-chown \
+@@ -81,6 +81,7 @@ FILES_util-linux-reset = "${base_bindir}/reset"
+ FILES_util-linux-partx = "${sbindir}/partx"
+ FILES_util-linux-hwclock = "${base_sbindir}/hwclock.${BPN}"
+ FILES_util-linux-findfs = "${sbindir}/findfs"
++FILES_util-linux-getopt = "${bindir}/getopt.${BPN}"
+ 
+ FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
+ FILES_util-linux-libmount = "${base_libdir}/libmount.so.*"
+@@ -169,7 +170,7 @@ ALTERNATIVE_PRIORITY = "100"
+ 
+ ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root"
+ ALTERNATIVE_${PN} += "mkfs.minix hexdump last logger mesg renice wall"
+-ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject getopt sulogin"
++ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject sulogin"
+ 
+ ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+ ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
+@@ -179,9 +180,7 @@ ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
+ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
+ ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
+ ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+-ALTERNATIVE_LINK_NAME[getopt] = "${base_bindir}/getopt"
+ ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
+-ALTERNATIVE_TARGET[getopt] = "${bindir}/getopt"
+ 
+ ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utmpdump.1 reset.1"
+ 
+@@ -233,6 +232,8 @@ ALTERNATIVE_util-linux-reset = "reset"
+ ALTERNATIVE_LINK_NAME[reset] = "${bindir}/reset"
+ ALTERNATIVE_TARGET[reset] = "${base_bindir}/reset"
+ 
++ALTERNATIVE_util-linux-getopt = "getopt"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ python do_package_prepend () {
 -- 
-1.7.10.4
+2.1.3
 
 
