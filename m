@@ -1,37 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 7631D65C91
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 2027A6FCA3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Nov 2014 14:56:43 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id a108so12397121qge.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Nov 2014 06:56:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=GLhkIq6FahxEWZsv8zoZTm4kZefp30Zk8r5Y3NovMvg=;
-	b=f2dVx86t/j+FLf0/fQurFw0u/yRW4plHM1T/jrD9al4uSvCDwic4M9ga7lKXy/1lZ9
-	F22Q0SCWj8PVLYMvCewFIi1GZEPGDB2Wope1O2dmBtO3u4c23aTn/81ZGCWDMKyNvB0r
-	dwAwOzLBqoPfUGXo0u8pI3HiGfrQyw8wJjpGnLDAmbn+56yxi+EjXaMBMZjrOS+gggVv
-	TL1Q/J0ccvIeoR8p+d5SxJm4zN3CURiD4W1dv/UWDOFXLPkohxXq8QPHWRdPHheyMrMc
-	FrJJXna9fkzsg8XEZRBM3V3LNgCtni+6M6E0st7ygwWPTszumVmlqAMnVIi4B6AAOu9a
-	DJ0w==
-X-Gm-Message-State: ALoCoQl4/Fy2RrIslhhGk+6p9IYwTUCeVCmtz7Iseq5VPet0h6cviUHQDvF9fJhAxRAcLa4cxwRQ
-X-Received: by 10.140.94.246 with SMTP id g109mr54178650qge.77.1415199403475; 
-	Wed, 05 Nov 2014 06:56:43 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Wed, 5 Nov 2014 06:56:23 -0800 (PST)
-In-Reply-To: <1410665660-25145-1-git-send-email-denis@denix.org>
-References: <1410665660-25145-1-git-send-email-denis@denix.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 5 Nov 2014 14:56:23 +0000
-Message-ID: <CAJTo0Law3iWz=+A1vA7QsikNozeVP7U49=+T9fkT7YgLzJ_hcA@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: update to version 2014.07
+	Wed,  5 Nov 2014 14:57:37 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id A42FAF811E3; Wed,  5 Nov 2014 07:57:38 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from Zeus.chez-thomas.org (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id D5220F811DF;
+	Wed,  5 Nov 2014 07:57:37 -0700 (MST)
+From: Gary Thomas <gary@mlbassoc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Nov 2014 07:57:38 -0700
+Message-Id: <1415199458-26876-1-git-send-email-gary@mlbassoc.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Gary Thomas <gary@mlbassoc.com>
+Subject: [PATCH] python-pygtk: Clean up incorrect "fix"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,91 +32,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Nov 2014 14:56:50 -0000
-Content-Type: multipart/alternative; boundary=001a113a81d6bb40d705071dc9e7
+X-List-Received-Date: Wed, 05 Nov 2014 14:57:44 -0000
 
---001a113a81d6bb40d705071dc9e7
-Content-Type: text/plain; charset=UTF-8
+This patch removes most of "dirty fix #1" which is no longer needed
+(no dependency on python-pygobject-dev exists).  A side effect is
+that the pygtk code generator will also be installed.
 
-On 14 September 2014 04:34, Denys Dmytriyenko <denis@denix.org> wrote:
+Merge 'fix-path.inc' into this recipe as it is not used by any other
+recipe.
 
-> From: Denys Dmytriyenko <denys@ti.com>
->
-> * Update U-boot and corresponding tools to version 2014.07
-> * Small cleanups with indentation and consolidation of u-boot.inc
->
-> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
->
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+---
+ meta/recipes-devtools/python/fix-path.inc          | 22 ------------------
+ .../recipes-devtools/python/python-pygtk_2.24.0.bb | 27 +++++++++++++++++-----
+ 2 files changed, 21 insertions(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/fix-path.inc
 
-So u-boot-mkimage is failing to build for the target case:
+diff --git a/meta/recipes-devtools/python/fix-path.inc b/meta/recipes-devtools/python/fix-path.inc
+deleted file mode 100644
+index 0738c59..0000000
+--- a/meta/recipes-devtools/python/fix-path.inc
++++ /dev/null
+@@ -1,22 +0,0 @@
+-do_install_append() {
+-        for i in `find ${D} -name "*.py"` ; do \
+-            sed -i -e s:${D}::g $i
+-        done
+-
+-        for i in `find ${D} -name "*.la"` ; do \
+-            sed -i -e s:${STAGING_LIBDIR}:${libdir}:g $i
+-        done
+-        
+-        if test -e ${D}${bindir} ; then
+-            for i in ${D}${bindir}/* ; do \
+-                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+-            done
+-        fi
+-
+-        if test -e ${D}${sbindir} ; then
+-            for i in ${D}${sbindir}/* ; do \
+-                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+-            done
+-        fi
+-}
+-
+diff --git a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
+index bd26ebb..053f37f 100644
+--- a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
++++ b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
+@@ -40,16 +40,31 @@ do_configure_prepend() {
+ 	sed -i 's:tests docs:tests:' ${S}/Makefile.am
+ }
+ 
+-# dirty fix #1: remove dependency on python-pygobject-dev
++# dirty fix #2: fix build system paths leaking in
+ do_install_append() {
+-	find ${D} -name "*.la"|xargs rm -f
+-	rm -f ${D}/${bindir}/pygtk-codegen-2.0
++        for i in `find ${D} -name "*.py"` ; do \
++            sed -i -e s:${D}::g $i
++        done
++
++        for i in `find ${D} -name "*.la"` ; do \
++            sed -i -e s:${STAGING_LIBDIR}:${libdir}:g $i
++        done
++        
++        if test -e ${D}${bindir} ; then
++            for i in ${D}${bindir}/* ; do \
++                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
++            done
++        fi
++
++        if test -e ${D}${sbindir} ; then
++            for i in ${D}${sbindir}/* ; do \
++                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
++            done
++        fi
++
+ 	sed -i -e '1s|^#!.*python|#!/usr/bin/env python|' ${D}${bindir}/pygtk-demo
+ }
+ 
+-# dirty fix #2: fix build system paths leaking in
+-require fix-path.inc
+-
+ PACKAGES =+ "${PN}-demo"
+ FILES_${PN}-demo = " ${bindir}/pygtk-demo ${libdir}/pygtk "
+ RDEPENDS_${PN}-demo = "python-pygtk python-stringold python-lang"
+-- 
+1.9.1
 
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 8 HOSTCC=arm-poky-linux-gnueabi-gcc  -march=armv5te -marm
--mthumb-interwork --sysroot=/data/poky-master/tmp/sysroots/qemuarm
-HOSTLD=arm-poky-linux-gnueabi-ld
---sysroot=/data/poky-master/tmp/sysroots/qemuarm  HOSTLDFLAGS=-Wl,-O1
--Wl,--hash-style=gnu -Wl,--as-needed HOSTSTRIP=true tools-only
-|   CHK     include/config/uboot.release
-|   HOSTCC  scripts/basic/fixdep
-|   CHK     include/generated/timestamp_autogenerated.h
-|   UPD     include/generated/timestamp_autogenerated.h
-|   UPD     include/config/uboot.release
-|   CHK     include/generated/version_autogenerated.h
-|   UPD     include/generated/version_autogenerated.h
-| scripts/basic/fixdep: 1: scripts/basic/fixdep: Syntax error: word
-unexpected (expecting ")")
 
-I suspect the real problem is:
-
-$ file fixdep
-fixdep: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically
-linked (uses shared libs), for GNU/Linux 2.6.32,
-BuildID[sha1]=0xb4ea84a189f10b4f3e08fb10f8e490135e2b920c, not stripped
-
-It appears to have been built using the target compiler, not the host.
-
-Ross
-
---001a113a81d6bb40d705071dc9e7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 September 2014 04:34, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-s=
-tyle:solid;padding-left:1ex"><div id=3D":5es" class=3D"" style=3D"overflow:=
-hidden">From: Denys Dmytriyenko &lt;<a href=3D"mailto:denys@ti.com">denys@t=
-i.com</a>&gt;<br>
-<br>
-* Update <span class=3D"">U</span>-<span class=3D"">boot</span> and corresp=
-onding tools to version 2014.07<br>
-* Small cleanups with indentation and consolidation of <span class=3D"">u</=
-span>-<span class=3D"">boot</span>.inc<br>
-<br>
-Signed-off-by: Denys Dmytriyenko &lt;<a href=3D"mailto:denys@ti.com">denys@=
-ti.com</a>&gt;</div></blockquote><div><br></div><div>So u-boot-mkimage is f=
-ailing to build for the target case:</div><div><br></div><div><div>| DEBUG:=
- Executing shell function do_compile</div><div>| NOTE: make -j 8 HOSTCC=3Da=
-rm-poky-linux-gnueabi-gcc =C2=A0-march=3Darmv5te -marm -mthumb-interwork --=
-sysroot=3D/data/poky-master/tmp/sysroots/qemuarm HOSTLD=3Darm-poky-linux-gn=
-ueabi-ld --sysroot=3D/data/poky-master/tmp/sysroots/qemuarm =C2=A0HOSTLDFLA=
-GS=3D-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed HOSTSTRIP=3Dtrue tools-=
-only</div><div>| =C2=A0 CHK =C2=A0 =C2=A0 include/config/uboot.release</div=
-><div>| =C2=A0 HOSTCC =C2=A0scripts/basic/fixdep</div><div>| =C2=A0 CHK =C2=
-=A0 =C2=A0 include/generated/timestamp_autogenerated.h</div><div>| =C2=A0 U=
-PD =C2=A0 =C2=A0 include/generated/timestamp_autogenerated.h</div><div>| =
-=C2=A0 UPD =C2=A0 =C2=A0 include/config/uboot.release</div><div>| =C2=A0 CH=
-K =C2=A0 =C2=A0 include/generated/version_autogenerated.h</div><div>| =C2=
-=A0 UPD =C2=A0 =C2=A0 include/generated/version_autogenerated.h</div><div>|=
- scripts/basic/fixdep: 1: scripts/basic/fixdep: Syntax error: word unexpect=
-ed (expecting &quot;)&quot;)</div></div><div><br></div><div>I suspect the r=
-eal problem is:</div><div><br></div><div><div>$ file fixdep</div><div>fixde=
-p: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically linked (us=
-es shared libs), for GNU/Linux 2.6.32, BuildID[sha1]=3D0xb4ea84a189f10b4f3e=
-08fb10f8e490135e2b920c, not stripped</div></div><div><br></div><div>It appe=
-ars to have been built using the target compiler, not the host.</div><div><=
-br></div><div>Ross</div></div></div></div>
-
---001a113a81d6bb40d705071dc9e7--
