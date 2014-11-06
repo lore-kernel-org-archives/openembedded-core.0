@@ -1,24 +1,27 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C0EE772044
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D9CFC7204D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Nov 2014 05:33:40 +0000 (UTC)
+	Thu,  6 Nov 2014 05:34:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA65XeSO008431
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA65Y8aL009468
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Nov 2014 21:33:40 -0800 (PST)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 5 Nov 2014 21:33:39 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 6 Nov 2014 00:33:38 -0500
-Message-ID: <1415252018-19321-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
+	Wed, 5 Nov 2014 21:34:08 -0800 (PST)
+Received: from [128.224.163.178] (128.224.163.178) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 5 Nov 2014 21:34:07 -0800
+Message-ID: <545B084F.9010907@windriver.com>
+Date: Thu, 6 Nov 2014 13:34:07 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-Subject: [PATCH] perl: set the perl libraries search path
+To: <openembedded-core@lists.openembedded.org>
+References: <1415248440-28251-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1415248440-28251-1-git-send-email-rongqing.li@windriver.com>
+Subject: Re: [PATCH 1/1] busybox: add the dropped patches back
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,51 +34,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Nov 2014 05:33:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Nov 2014 05:34:09 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+please drop it, thanks
 
-The default value for this is ../../lib which ends up with
-something like:
-| ./sysroots/x86_64-linux/usr/bin/perl-native/perl5.20.0.real \
-| "-I../../lib" "-I../../lib" "-MExtUtils::Command::MM" -e pod2man \
-| "--" --section=0 --perm_rw=644 perldoc.pod blib/man1/perldoc.1
+-Roy
 
-in this case, nativeperl will find libraries from the target build,
-When using an x86-64 host to target Haswell, you can end up with
-../../lib including precompiled modules which use Haswell
-instructions, it fails with:
-| Running pm_to_blib for dist/if directly
-| Skip ../../lib/if.pm (unchanged)
-| Makefile:457: recipe for target 'manifypods' failed
-| make[1]: *** [manifypods] Illegal instruction
+On Thursday, November 06, 2014 12:34 PM, rongqing.li@windriver.com wrote:
+> From: "Roy.Li" <rongqing.li@windriver.com>
+>
+> busybox-cross-menuconfig.patch and busybox-install-ping6-to-usr-bin.patch
+> were dropped when uprev, add them back.
+>
+> no busybox-cross-menuconfig.patch, "bitbake -c menuconfig busybox" did not
+> work.
+>
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> ---
+>   .../{busybox-1.21.1 => busybox-1.22.1}/busybox-cross-menuconfig.patch   | 0
+>   .../busybox-install-ping6-to-usr-bin.patch                              | 0
+>   meta/recipes-core/busybox/busybox_1.22.1.bb                             | 2 ++
+>   3 files changed, 2 insertions(+)
+>   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox-1.22.1}/busybox-cross-menuconfig.patch (100%)
+>   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox-1.22.1}/busybox-install-ping6-to-usr-bin.patch (100%)
+>
+> diff --git a/meta/recipes-core/busybox/busybox-1.21.1/busybox-cross-menuconfig.patch b/meta/recipes-core/busybox/busybox-1.22.1/busybox-cross-menuconfig.patch
+> similarity index 100%
+> rename from meta/recipes-core/busybox/busybox-1.21.1/busybox-cross-menuconfig.patch
+> rename to meta/recipes-core/busybox/busybox-1.22.1/busybox-cross-menuconfig.patch
+> diff --git a/meta/recipes-core/busybox/busybox-1.21.1/busybox-install-ping6-to-usr-bin.patch b/meta/recipes-core/busybox/busybox-1.22.1/busybox-install-ping6-to-usr-bin.patch
+> similarity index 100%
+> rename from meta/recipes-core/busybox/busybox-1.21.1/busybox-install-ping6-to-usr-bin.patch
+> rename to meta/recipes-core/busybox/busybox-1.22.1/busybox-install-ping6-to-usr-bin.patch
+> diff --git a/meta/recipes-core/busybox/busybox_1.22.1.bb b/meta/recipes-core/busybox/busybox_1.22.1.bb
+> index 82f7f68..2a4e647 100644
+> --- a/meta/recipes-core/busybox/busybox_1.22.1.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.22.1.bb
+> @@ -6,6 +6,8 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+>              file://get_header_tar.patch \
+>              file://busybox-appletlib-dependency.patch \
+>              file://busybox-udhcpc-no_deconfig.patch \
+> +           file://busybox-cross-menuconfig.patch \
+> +           file://busybox-install-ping6-to-usr-bin.patch \
+>              file://find-touchscreen.sh \
+>              file://busybox-cron \
+>              file://busybox-httpd \
+>
 
-So set it to use the -native ones instead of those from the target
-build.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-devtools/perl/perl_5.20.0.bb | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/recipes-devtools/perl/perl_5.20.0.bb b/meta/recipes-devtools/perl/perl_5.20.0.bb
-index e594c5c..81caaa9 100644
---- a/meta/recipes-devtools/perl/perl_5.20.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.20.0.bb
-@@ -94,6 +94,11 @@ HOSTPERL = "${STAGING_BINDIR_NATIVE}/perl-native/perl${PV}"
- # Where to find .so files - use the -native versions not those from the target build
- export PERLHOSTLIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${PV}/"
- 
-+# Where to find perl @INC/#include files
-+# - use the -native versions not those from the target build
-+export PERL_LIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${PV}/"
-+export PERL_ARCHLIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${PV}/"
-+
- # LDFLAGS for shared libraries
- export LDDLFLAGS = "${LDFLAGS} -shared"
- 
 -- 
-2.0.0
-
+Best Reagrds,
+Roy | RongQing Li
 
