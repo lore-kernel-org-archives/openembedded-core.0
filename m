@@ -1,28 +1,28 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9465D717DB
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D8F93717DB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Nov 2014 15:39:05 +0000 (UTC)
+	Thu,  6 Nov 2014 15:39:07 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA6Fd5YO004751
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA6Fd7uo019040
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Nov 2014 07:39:05 -0800 (PST)
+	Thu, 6 Nov 2014 07:39:07 -0800 (PST)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Thu, 6 Nov 2014 07:39:04 -0800
+	(TLS) id 14.3.174.1; Thu, 6 Nov 2014 07:39:06 -0800
 From: Kai Kang <kai.kang@windriver.com>
 To: <fathi.boudra@linaro.org>, <joe.slater@windriver.com>,
 	<mark.hatle@windriver.com>
-Date: Thu, 6 Nov 2014 23:34:13 +0800
-Message-ID: <92fe5df42c209fbf0b7fbe35e1bc26b6449b70a6.1415264549.git.kai.kang@windriver.com>
+Date: Thu, 6 Nov 2014 23:34:14 +0800
+Message-ID: <7cfdd0ff3777bc2a9285170997a82e00a67a3767.1415264549.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1415264548.git.kai.kang@windriver.com>
 References: <cover.1415264548.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.152]
 Cc: koen.kooi@linaro.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/25] sysprof: disable build for aarch64
+Subject: [PATCH 11/25] lttng: recognize aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,32 +35,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Nov 2014 15:39:05 -0000
+X-List-Received-Date: Thu, 06 Nov 2014 15:39:08 -0000
 Content-Type: text/plain
 
 From: Joe Slater <jslater@windriver.com>
 
-Add COMPATIBLE_HOST to the recipe and prohibit
-building for aarch64 and aarch64_be.
+Add aarch64 architecture to liburcu and lttng-ust.
+Internally it is treated the same as "arm".
 
 Signed-off-by: Joe Slater <jslater@windriver.com>
 ---
- meta/recipes-kernel/sysprof/sysprof_git.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch | 19 +++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb          |  1 +
+ meta/recipes-support/liburcu/files/aarch64.patch      | 19 +++++++++++++++++++
+ meta/recipes-support/liburcu/liburcu_0.8.4.bb         |  1 +
+ 4 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch
+ create mode 100644 meta/recipes-support/liburcu/files/aarch64.patch
 
-diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_git.bb
-index ef1e270..cfc814f 100644
---- a/meta/recipes-kernel/sysprof/sysprof_git.bb
-+++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
-@@ -18,3 +18,8 @@ SRC_URI_append_mips64 = " file://rmb-mips.patch"
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch b/meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch
+new file mode 100644
+index 0000000..cec5410
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch
+@@ -0,0 +1,19 @@
++lttng-ust: add aarch64 recognition
++
++Treat the same as "arm".
++
++Upstream-Status: Pending
++
++Signed-off-by: joe.slater@windriver.com
++
++
++--- a/configure.ac
+++++ b/configure.ac
++@@ -230,6 +230,7 @@ changequote([,])dnl
++ 	s390) NO_UNALIGNED_ACCESS=1 ;;
++ 	s390x) NO_UNALIGNED_ACCESS=1 ;;
++         arm*) NO_UNALIGNED_ACCESS=1 ;;
+++        aarch64) NO_UNALIGNED_ACCESS=1 ;;
++ 	mips*) NO_UNALIGNED_ACCESS=1 ;;
++ 	tile*) NO_UNALIGNED_ACCESS=1 ;;
++ 	*) AC_MSG_ERROR([unable to detect alignment requirements (unsupported architecture ($host_cpu)?)]) ;;
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
+index 71ea5bc..e07d3c7 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
+@@ -24,6 +24,7 @@ PE = "2"
  
- inherit autotools pkgconfig
+ SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.5 \
+            file://lttng-ust-doc-examples-disable.patch \
++           file://add-aarch64.patch \
+ 	   "
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-support/liburcu/files/aarch64.patch b/meta/recipes-support/liburcu/files/aarch64.patch
+new file mode 100644
+index 0000000..c6cc8c2
+--- /dev/null
++++ b/meta/recipes-support/liburcu/files/aarch64.patch
+@@ -0,0 +1,19 @@
++libucru: recognize aarch64
 +
-+# We do not yet work for aarch64.
-+#
-+COMPATIBLE_HOST = "^(?!aarch64).*"
++Make the same as "arm" internally.
 +
++Upstream-Status: Pending
++
++Signed-off-by: joe.slater@windriver.com
++
++
++--- a/configure.ac
+++++ b/configure.ac
++@@ -77,6 +77,7 @@ AS_CASE([$host_cpu],
++ 	[alpha*], [ARCHTYPE="alpha"],
++ 	[ia64], [ARCHTYPE="gcc"],
++ 	[arm*], [ARCHTYPE="arm"],
+++	[aarch64], [ARCHTYPE="arm"],
++ 	[mips*], [ARCHTYPE="mips"],
++ 	[tile*], [ARCHTYPE="gcc"],
++ 	[ARCHTYPE="unknown"]
+diff --git a/meta/recipes-support/liburcu/liburcu_0.8.4.bb b/meta/recipes-support/liburcu/liburcu_0.8.4.bb
+index cd7af24..a79d4cf 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.8.4.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.8.4.bb
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0f060c30a27922ce9c0d557a639b4fa3 \
+                     file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"
+ 
+ SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2 \
++           file://aarch64.patch \
+           "
+ 
+ SRC_URI[md5sum] = "2ca6671b20a550aa0e8020a1a9a96fd4"
 -- 
 1.9.1
 
