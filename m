@@ -1,26 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DA4F372062
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E5F7272065
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Nov 2014 07:30:30 +0000 (UTC)
+	Thu,  6 Nov 2014 07:30:29 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA67UU8a011250
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA67UTSQ026508
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Nov 2014 23:30:30 -0800 (PST)
+	Wed, 5 Nov 2014 23:30:29 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 5 Nov 2014 23:30:30 -0800
+	14.3.174.1; Wed, 5 Nov 2014 23:30:28 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 6 Nov 2014 15:32:17 +0800
-Message-ID: <a66c9ed9fe8f4b1524803dd814e62fa606a1c34c.1415258952.git.Qi.Chen@windriver.com>
+Date: Thu, 6 Nov 2014 15:32:16 +0800
+Message-ID: <cover.1415258952.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1415258952.git.Qi.Chen@windriver.com>
-References: <cover.1415258952.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: make /etc/sysctl.conf have real effect
+Subject: [PATCH 0/1] systemd: make /etc/sysctl.conf have real effect
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,36 +34,21 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 06 Nov 2014 07:30:34 -0000
 Content-Type: text/plain
 
-In systemd, /etc/sysctl.conf is actually ignored by systemd-sysctl,
-because this command only examine *.conf files under a bunch of directories
-like /etc/sysctl.d or /usr/lib/sysctl.d.
+The following changes since commit d7a277b35bcc67050046c76fb70412101679a545:
 
-The problem is we are used to configuring kernel parameters in /etc/sysctl.conf,
-so it would be really strange if the configuration in that file doesn't have any
-effect.
+  docbook-xsl-stylesheets: add perl to RDEPENDS (2014-11-04 10:20:34 +0000)
 
-This patch reference Fedora's solution to this problem, creating a symlink to
-/etc/sysctl.conf under /etc/sysctl.d/.
+are available in the git repository at:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-sysctl
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-sysctl
+
+Chen Qi (1):
+  systemd: make /etc/sysctl.conf have real effect
+
  meta/recipes-core/systemd/systemd_216.bb | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
-index 27a5d92..b730b13 100644
---- a/meta/recipes-core/systemd/systemd_216.bb
-+++ b/meta/recipes-core/systemd/systemd_216.bb
-@@ -148,6 +148,9 @@ do_install() {
- 
- 	# Enable journal to forward message to syslog daemon
- 	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
-+
-+	# Make /etc/sysctl.conf have real effect on systemd based systems
-+	ln -sf ../sysctl.conf ${D}${sysconfdir}/sysctl.d/99-sysctl.conf
- }
- 
- do_install_ptest () {
 -- 
 1.9.1
 
