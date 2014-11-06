@@ -1,45 +1,26 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DAE47201C
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B3C1A7067B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Nov 2014 13:29:43 +0000 (UTC)
-Received: by mail-wg0-f44.google.com with SMTP id x12so1186399wgg.17
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Nov 2014 05:29:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=7ZQ8OfEPOti+jbD181PjnwclT65YKukq5o/Nv2sAJBw=;
-	b=MauA1LYU4B3L2Ex0e6AdEY64iOAx0a2itcugtSDiUfsD+OmJh8xpP6Q2FbkfkCLf0V
-	YD0NLujqklt4tq+yM+vJMlHMXZSuLxJyZ8vVzyIQKQq7QUZTh0hhkuJQmLnI3UPUtRQ2
-	3sL9+cxqtsHHIAswG+AYd+3t+5U6jpIsJOc7yKOHXLSau2cyOtj13AJ3c0XqkowlU0MS
-	Kngvc+v2VIcL5EKOn7CEY5hCy0bTr6KhBGwm2EWcKeHbLduOnJWQOocE42sxTAp29sMx
-	wr3F8ba91e3p8xJQMMYWBxwYSRwoMvtdFLgAsMn0KVOjM8fsTdsSNcwsHuxnzotTVoEL
-	zJ9w==
-X-Gm-Message-State: ALoCoQmBFqv9nQExk/oL2L3TjbLyuBw3NrqAGMTPqBlaXYaM2QiEvoKabzCRUzsRogrAsSpxGTnD
-X-Received: by 10.194.209.180 with SMTP id mn20mr5644972wjc.49.1415280583561; 
-	Thu, 06 Nov 2014 05:29:43 -0800 (PST)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id f7sm8308217wiz.13.2014.11.06.05.29.42
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 06 Nov 2014 05:29:42 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <545B629B.5000900@windriver.com>
-Date: Thu, 6 Nov 2014 14:29:42 +0100
-Message-Id: <648271BD-0C3E-4506-86C1-F416BC23EA22@dominion.thruhere.net>
-References: <cover.1415258952.git.Qi.Chen@windriver.com>
-	<a66c9ed9fe8f4b1524803dd814e62fa606a1c34c.1415258952.git.Qi.Chen@windriver.com>
-	<51B83ADF-EF5F-40FF-B4F5-BFDEF0305051@dominion.thruhere.net>
-	<545B2A5F.5040208@windriver.com>
-	<745681A3-F15C-4D06-93C6-3342E014B672@dominion.thruhere.net>
-	<545B629B.5000900@windriver.com>
-To: ChenQi <Qi.Chen@windriver.com>
-X-Mailer: Apple Mail (2.1878.6)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: make /etc/sysctl.conf have real effect
+	Thu,  6 Nov 2014 15:38:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA6FcfKV019013
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 6 Nov 2014 07:38:42 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.174.1; Thu, 6 Nov 2014 07:38:41 -0800
+From: Kai Kang <kai.kang@windriver.com>
+To: <fathi.boudra@linaro.org>, <joe.slater@windriver.com>,
+	<mark.hatle@windriver.com>
+Date: Thu, 6 Nov 2014 23:34:03 +0800
+Message-ID: <cover.1415264548.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [128.224.153.152]
+Cc: koen.kooi@linaro.org, openembedded-core@lists.openembedded.org
+Subject: [PATCH 00/25] Add machine qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,88 +33,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Nov 2014 13:29:43 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 06 Nov 2014 15:38:44 -0000
+Content-Type: text/plain
+
+The original configuration files and tune fils for arm arch64 are from linaro.
+And we rename it to qemuarm64 for consistency.
+
+It has been tested for core-image-minimal core-image-sato core-image-sato-sdk 
+meta-toolchain and world.
 
 
-Op 6 nov. 2014, om 12:59 heeft ChenQi <Qi.Chen@windriver.com> het =
-volgende geschreven:
+Know issue:
+It was also built for multilib. With setting:
 
->=20
->=20
-> On 11/06/2014 06:33 PM, Koen Kooi wrote:
->>> Op 6 nov. 2014, om 08:59 heeft ChenQi <Qi.Chen@windriver.com> het =
-volgende geschreven:
->>>=20
->>> On 11/06/2014 03:48 PM, Koen Kooi wrote:
->>>> Op 6 nov. 2014, om 08:32 heeft Chen Qi <Qi.Chen@windriver.com> het =
-volgende geschreven:
->>>>=20
->>>>> In systemd, /etc/sysctl.conf is actually ignored by =
-systemd-sysctl,
->>>>> because this command only examine *.conf files under a bunch of =
-directories
->>>>> like /etc/sysctl.d or /usr/lib/sysctl.d.
->>>>>=20
->>>>> The problem is we are used to configuring kernel parameters in =
-/etc/sysctl.conf,
->>>>> so it would be really strange if the configuration in that file =
-doesn't have any
->>>>> effect.
->>>>>=20
->>>>> This patch reference Fedora's solution to this problem, creating a =
-symlink to
->>>>> /etc/sysctl.conf under /etc/sysctl.d/.
->>>> Shouldn't this be done in procps instead?
->>>>=20
->>> Actually, the problem is not about `sysctl' command.
->>> procps provides `sysctl', but busybox also provides this command.
->>> It's very possible that on our generated image, procps is not =
-installed but `sysctl' command is available.
->>> Both busybox's and procps's `sysctl' command takes /etc/sysctl.conf =
-into consideration.
->> Right, but only procps installs that file.
->=20
-> As busybox provides `sysctl' utility, is it reasonable that it also =
-provides a corresponding configuration file (/etc/sysctl.conf)? Should =
-we make a patch for busybox?
->=20
->=20
->>> Now, systemd provides a similar utility called `systemd-sysctl' =
-which is executed at boot time via systemd-sysctl.service.
->>>=20
->>> So our actually problem is that systemd-sysctl ignores =
-/etc/sysctl.conf, which makes it somewhat strange, especially to users =
-who are used to configuring parameters in sysctl.conf.
->>> And this patch solves this problem by adding a symlink under =
-/etc/sysctl.d/.
->>>=20
->>> That's why I think we should put this in systemd.
->> You're adding a symlink to a file which only exists if you install =
-procps, which isn't in RDEPENDS.
->>=20
->=20
-> As I said before, procps is *not* necessary for the sysctl mechanism =
-to have effect.
-> (Think about systemd-based core-image-minimal image.)
->=20
-> Busybox provides `sysctl', systemd provides `systemd-sysctl'.
-> (It's an easy program, there might exist other packages that provide =
-it too.)
->=20
-> /etc/sysctl.conf is a configuration file which is very likely to be =
-modified or created by administrators to configure kernel parameters.
-> (You can't expect administrators to all start learning systemd, trying =
-to understand the gap and differences. In addition, they may have =
-scripts that edit /etc/sysctl.conf to automate their work.)
->=20
-> The point of the symlink is to ensure that when users edit =
-/etc/sysctl.conf (or create one), configurations in that file will have =
-effect at boot time.
->=20
-> Just think about this problem from a standpoint of user experience.
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "armv7a"
 
-You still haven't convinced me that shipping a broken symlink is a good =
-idea. I'm pretty sure it's not even allowed in out commit guidelines.=
+build lib32 image such as lib32-core-image-sato successfully. But it fails to boot
+that run init fails. It seems to be a kernel issue.
+
+
+The following changes since commit 924da20c6f2f183fa7e930e4c3c6b14c090acbe5:
+
+  build-appliance-image: Update to dizzy head revision (2014-10-18 16:16:38 +0200)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/qemuarm64
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/qemuarm64
+
+Fathi Boudra (1):
+  libunwind: add aarch64 support
+
+Joe Slater (4):
+  siteinfo: account for 32 and 64 bit arm
+  sysprof: disable build for aarch64
+  lttng: recognize aarch64
+  guile: allow compilation for aarch64
+
+Kai Kang (14):
+  linux-yocto: depend on libgcc for aarch64
+  Add machine qemuarm64
+  gcc-4.9: redefine default library install directory
+  libc-package.bbclass: add aarch64 target to locale_arch_options
+  glibc-locale.inc: add aarch64 to BINARY_LOCALE_ARCHES
+  libatomics-ops: add aarch64 target iniitial support
+  qt4: add aarch64 support
+  libpng: add neon option for aarch64
+  runqemu: add qemuarm64 support.
+  kexec-tools: add aarch64 support
+  packagegroup-core-tools-profile: remove sysprof for aarch64
+  qemu: update to version 2.1.2
+  qemu: add signle step support for aarch64
+  Revert "gcc-4.9: redefine default library install directory"
+
+Mark Hatle (6):
+  gcc: Disable aarch64 multilib options
+  glibc-package: aarch64 enable symlink for ABI compliance
+  aarch-arm64: Update tune files
+  linux-yocto: Fixup linux-yocto for aarch64
+  local.conf.sample: Add qemuarm64
+  poky.conf: Add support for aarch64 to QEMU
+
+ meta-yocto/conf/distro/poky.conf                   |    2 +-
+ meta-yocto/conf/local.conf.sample                  |    1 +
+ meta/classes/libc-package.bbclass                  |    1 +
+ meta/classes/siteinfo.bbclass                      |    8 +-
+ meta/conf/machine/include/arm/arch-arm64.inc       |   36 +
+ meta/conf/machine/include/arm/arch-armv8.inc       |    1 +
+ .../conf/machine/include/arm/feature-arm-thumb.inc |   10 +-
+ meta/conf/machine/qemuarm64.conf                   |   12 +
+ meta/recipes-core/glibc/glibc-locale.inc           |    2 +-
+ meta/recipes-core/glibc/glibc-package.inc          |   16 +
+ .../packagegroup-core-tools-profile.bb             |    2 +
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |    1 +
+ .../gcc/gcc-4.9/0057-aarch64-config.patch          |   32 +
+ .../recipes-devtools/guile/files/arm_aarch64.patch |   19 +
+ meta/recipes-devtools/guile/guile_2.0.11.bb        |    1 +
+ ...1-Back-porting-security-fix-CVE-2014-5388.patch |   30 -
+ ...Collect-up-the-debug-cp-register-definiti.patch |  177 ++
+ ...Allow-STATE_BOTH-reginfo-descriptions-for.patch |   57 +
+ ...Provide-both-32-and-64-bit-versions-of-de.patch |   89 +
+ ...get-arm-Adjust-debug-ID-registers-per-CPU.patch |  142 ++
+ ...Don-t-allow-AArch32-to-access-RES0-CPSR-b.patch |  118 +
+ ...Correctly-handle-PSTATE.SS-when-taking-ex.patch |   38 +
+ ...Set-PSTATE.SS-correctly-on-exception-retu.patch |  152 ++
+ ...A64-Avoid-duplicate-exit_tb-0-in-non-link.patch |   47 +
+ ...Implement-ARMv8-single-step-handling-for-.patch |  302 +++
+ ...Implement-ARMv8-single-stepping-for-AArch.patch |  212 ++
+ ...t-arm-Implement-MDSCR_EL1-as-having-state.patch |   36 +
+ meta/recipes-devtools/qemu/qemu_2.1.0.bb           |   28 -
+ meta/recipes-devtools/qemu/qemu_2.1.2.bb           |   32 +
+ meta/recipes-kernel/kexec/kexec-tools.inc          |    2 +-
+ .../kexec/kexec-tools/kexec-aarch64.patch          |  799 +++++++
+ meta/recipes-kernel/kexec/kexec-tools_2.0.7.bb     |    4 +-
+ meta/recipes-kernel/linux/linux-yocto.inc          |    3 +
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      |    4 +-
+ meta/recipes-kernel/linux/linux-yocto_3.17.bb      |    4 +-
+ .../lttng/lttng-ust/add-aarch64.patch              |   19 +
+ meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb       |    1 +
+ meta/recipes-kernel/sysprof/sysprof_git.bb         |    5 +
+ meta/recipes-multimedia/libpng/libpng_1.6.13.bb    |    1 +
+ .../0001-libatomic_ops-Aarch64-basic-port.patch    |  239 ++
+ .../pulseaudio/libatomics-ops_7.2.bb               |    1 +
+ meta/recipes-qt/qt4/qt4-4.8.6.inc                  |    7 +
+ .../0029-aarch64_arm64_fix_arch_detection.patch    |   53 +
+ .../0030-aarch64_arm64_qatomic_support.patch       |  491 ++++
+ .../qt4/qt4-4.8.6/0031-aarch64_arm64_mkspecs.patch |  124 +
+ .../qt4/qt4-4.8.6/0032-aarch64_add_header.patch    |   18 +
+ meta/recipes-qt/qt4/qt4-native.inc                 |    4 +
+ meta/recipes-qt/qt4/qt4_arch.inc                   |    1 +
+ .../libunwind/libunwind-1.1/AArch64-port.patch     | 2529 ++++++++++++++++++++
+ .../Support-building-with-older-compilers.patch    |   72 +
+ meta/recipes-support/libunwind/libunwind.inc       |    1 +
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |    5 +
+ meta/recipes-support/liburcu/files/aarch64.patch   |   19 +
+ meta/recipes-support/liburcu/liburcu_0.8.4.bb      |    1 +
+ meta/site/arm-32                                   |   47 +
+ meta/site/arm-64                                   |   46 +
+ meta/site/arm-common                               |   38 -
+ scripts/runqemu                                    |    5 +-
+ scripts/runqemu-internal                           |   26 +
+ 59 files changed, 6063 insertions(+), 110 deletions(-)
+ create mode 100644 meta/conf/machine/include/arm/arch-arm64.inc
+ create mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
+ create mode 100644 meta/conf/machine/qemuarm64.conf
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0057-aarch64-config.patch
+ create mode 100644 meta/recipes-devtools/guile/files/arm_aarch64.patch
+ delete mode 100644 meta/recipes-devtools/qemu/files/0001-Back-porting-security-fix-CVE-2014-5388.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-target-arm-Collect-up-the-debug-cp-register-definiti.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0002-target-arm-Allow-STATE_BOTH-reginfo-descriptions-for.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0003-target-arm-Provide-both-32-and-64-bit-versions-of-de.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0004-target-arm-Adjust-debug-ID-registers-per-CPU.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0005-target-arm-Don-t-allow-AArch32-to-access-RES0-CPSR-b.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0006-target-arm-Correctly-handle-PSTATE.SS-when-taking-ex.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0007-target-arm-Set-PSTATE.SS-correctly-on-exception-retu.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0008-target-arm-A64-Avoid-duplicate-exit_tb-0-in-non-link.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0009-target-arm-Implement-ARMv8-single-step-handling-for-.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0010-target-arm-Implement-ARMv8-single-stepping-for-AArch.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0011-target-arm-Implement-MDSCR_EL1-as-having-state.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu_2.1.0.bb
+ create mode 100644 meta/recipes-devtools/qemu/qemu_2.1.2.bb
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/kexec-aarch64.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch
+ create mode 100644 meta/recipes-multimedia/pulseaudio/files/0001-libatomic_ops-Aarch64-basic-port.patch
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0029-aarch64_arm64_fix_arch_detection.patch
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0030-aarch64_arm64_qatomic_support.patch
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0031-aarch64_arm64_mkspecs.patch
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/0032-aarch64_add_header.patch
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/AArch64-port.patch
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Support-building-with-older-compilers.patch
+ create mode 100644 meta/recipes-support/liburcu/files/aarch64.patch
+ create mode 100644 meta/site/arm-32
+ create mode 100644 meta/site/arm-64
+
+-- 
+1.9.1
+
 
