@@ -1,24 +1,36 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E5F7272065
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 8638572061
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Nov 2014 07:30:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA67UTSQ026508
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  6 Nov 2014 07:38:02 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id k14so485429wgh.15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Nov 2014 23:30:29 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 5 Nov 2014 23:30:28 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 6 Nov 2014 15:32:16 +0800
-Message-ID: <cover.1415258952.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH 0/1] systemd: make /etc/sysctl.conf have real effect
+	Wed, 05 Nov 2014 23:38:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=XEL5BBLeiPdIxs/q1sCEpXT8758ZC2azEL9+85BcQmw=;
+	b=FLPcgVFB2cwaela1qxQoeL35h0SbauoamDvtv2YOmj9zEbuZ5n8RekwbX45GkQB+Sc
+	J1HlaqYdowpY2VOFH/z58xVgKhMFpZD4jEWTuZqbPzapppKItLeWeibRJlc8LJSEr/Nh
+	ub7E275NpHMBF+mh0/5j25zDd3lrrGLPDZGXQH6v6DeHvd86ETdfzhNZOTt/8fClTG06
+	PybnH6QvQ3Y49iJ1rjigR2QrLGC6IhDdpLrULhG15p3GJyNiImFCCsb1HbdXXTpjwo+d
+	U43jThoBnk5x8lWumUT7szZHo7yNyXdsmhJgVc5FPjN7RrlTgNJ1iQtKdlmziP7iuAki
+	Qmtg==
+X-Gm-Message-State: ALoCoQkAZvF8qnzVlcGGQDgAypdWuzSFHLLkZUcDH11QTvzTDUh5d5aOgWjlSWOQ1tg68hR4Phso
+X-Received: by 10.180.91.49 with SMTP id cb17mr37788655wib.30.1415259482615;
+	Wed, 05 Nov 2014 23:38:02 -0800 (PST)
+Received: from localhost ([2001:610:612:0:beee:7bff:fe9e:ae56])
+	by mx.google.com with ESMTPSA id s8sm6760617wjx.9.2014.11.05.23.38.01
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 05 Nov 2014 23:38:01 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Nov 2014 08:37:56 +0100
+Message-Id: <1415259476-3411-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.9.0
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] gptfdisk: add 0.8.10+git version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Nov 2014 07:30:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Nov 2014 07:38:11 -0000
 
-The following changes since commit d7a277b35bcc67050046c76fb70412101679a545:
+Besides from being useful as fdisk replacement this gives us 'sgdisk'
+which can be used to set the GUID for partitions, e.g.
 
-  docbook-xsl-stylesheets: add perl to RDEPENDS (2014-11-04 10:20:34 +0000)
+	sgdisk -t 1:C12A7328-F81F-11D2-BA4B-00A0C93EC93B /dev/mmcblk0p1
 
-are available in the git repository at:
+To mark it as ESP in scripts like mkefidisk.sh.
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-sysctl
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-sysctl
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-devtools/fdisk/gptfdisk_git.bb | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta/recipes-devtools/fdisk/gptfdisk_git.bb
 
-Chen Qi (1):
-  systemd: make /etc/sysctl.conf have real effect
-
- meta/recipes-core/systemd/systemd_216.bb | 3 +++
- 1 file changed, 3 insertions(+)
-
+diff --git a/meta/recipes-devtools/fdisk/gptfdisk_git.bb b/meta/recipes-devtools/fdisk/gptfdisk_git.bb
+new file mode 100644
+index 0000000..62c32c3
+--- /dev/null
++++ b/meta/recipes-devtools/fdisk/gptfdisk_git.bb
+@@ -0,0 +1,22 @@
++DESCRIPTION = "GPT fdisk is a disk partitioning tool loosely modeled on Linux fdisk, but used for modifying GUID Partition Table (GPT) disks. The related FixParts utility fixes some common problems on Master Boot Record (MBR) disks."
++
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
++
++DEPENDS = "util-linux popt ncurses"
++
++PV = "0.8.10+git${SRCPV}"
++SRCREV = "a920398fa393f9d6301b32b191bc01e086ab8bc8"
++SRC_URI = "git://git.code.sf.net/p/gptfdisk/code"
++
++S = "${WORKDIR}/git"
++
++do_install() {
++    install -d ${D}${bindir}
++    install -m 0755 cgdisk ${D}${bindir}
++    install -m 0755 gdisk ${D}${bindir}
++    install -m 0755 sgdisk ${D}${bindir}
++    install -m 0755 fixparts ${D}${bindir}
++}
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
-1.9.1
+1.9.0
 
 
