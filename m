@@ -1,43 +1,26 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 198F372072
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BC9A872076
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Nov 2014 07:48:28 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id h11so641853wiw.0
+	Thu,  6 Nov 2014 07:54:24 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA67sOZU028960
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Nov 2014 23:48:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=OlbWDDKDip5hqJ1dVqbcODSSyUozzaRy8Jd/xKIo9us=;
-	b=Ag7V8yrm66b2Cbepnr9YCBdZZuYNYC133AnEP4JvTO54mVVMv+kbbSKtU98a2eklAJ
-	vgvr0W4sVbqc0UBpTX8i39RLC7OMvF4iAB5mcGj7+wxymlw2vBmsPGEm4vOBu8G/ESKa
-	CWNPrsJ1hG84/yOUyciNS5fNjJBUMRaneIc5plKGr0rK/pP77dTW9aEfM5yT3R8SsSq1
-	FybVSLT+X++0Tf/5CTzIW8BdLbKVhdKnkdwDL41HvSDyjyQaKlfbDgC3NjlApKaI+pkV
-	0Kt6gm5zhwrmaKihy3sUpN6pFa/ftLsLsSYdC3cfUqCXG6RNdFUTjsdpCu0xdAy6XBno
-	9XXg==
-X-Gm-Message-State: ALoCoQnMSdW+bxYkgtCaBu1/nG7mhj73mDXfPzOiN1+g/LGg0RwevtCyGDzSSGTzXs1m5ARhk4hN
-X-Received: by 10.180.36.205 with SMTP id s13mr37570062wij.11.1415260108851;
-	Wed, 05 Nov 2014 23:48:28 -0800 (PST)
-Received: from ?IPv6:2001:610:612::c8d2:e185:c3ca:99c7?
-	([2001:610:612:0:c8d2:e185:c3ca:99c7])
-	by mx.google.com with ESMTPSA id fx2sm6750631wjb.37.2014.11.05.23.48.27
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 05 Nov 2014 23:48:28 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.3 \(1878.6\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <a66c9ed9fe8f4b1524803dd814e62fa606a1c34c.1415258952.git.Qi.Chen@windriver.com>
-Date: Thu, 6 Nov 2014 08:48:26 +0100
-Message-Id: <51B83ADF-EF5F-40FF-B4F5-BFDEF0305051@dominion.thruhere.net>
-References: <cover.1415258952.git.Qi.Chen@windriver.com>
-	<a66c9ed9fe8f4b1524803dd814e62fa606a1c34c.1415258952.git.Qi.Chen@windriver.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-X-Mailer: Apple Mail (2.1878.6)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: make /etc/sysctl.conf have real effect
+	Wed, 5 Nov 2014 23:54:24 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 5 Nov 2014 23:54:23 -0800
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 6 Nov 2014 15:50:38 +0800
+Message-ID: <5c3ea78d496fbc8f50a9f800f5c0546b4b0ca5fc.1415260195.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1415260194.git.Chong.Lu@windriver.com>
+References: <cover.1415260194.git.Chong.Lu@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] nss: CVE-2014-1568
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,28 +33,731 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Nov 2014 07:48:32 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 06 Nov 2014 07:54:30 -0000
+Content-Type: text/plain
 
+the patch comes from:
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-1568
+https://bugzilla.mozilla.org/show_bug.cgi?id=1064636
+nss ng log:
+=====
+changeset:   11252:ad411fb64046
+user:        Kai Engert <kaie@kuix.de>
+date:        Tue Sep 23 19:28:34 2014 +0200
+summary:     Fix bug 1064636, patch part 2, r=rrelyea
+=====
+changeset:   11253:4e90910ad2f9
+user:        Kai Engert <kaie@kuix.de>
+date:        Tue Sep 23 19:28:45 2014 +0200
+summary:     Fix bug    1064636, patch part 3, r=rrelyea
+=====
+changeset:   11254:fb7208e91ae8
+user:        Kai Engert <kaie@kuix.de>
+date:        Tue Sep 23 19:28:52 2014 +0200
+summary:     Fix bug    1064636, patch part 1, r=rrelyea
+=====
+changeset:   11255:8dd6c6ac977d
+user:        Kai Engert <kaie@kuix.de>
+date:        Tue Sep 23 19:39:40 2014 +0200
+summary:     Bug 1064636, follow up commit to fix Windows build bustage
 
-Op 6 nov. 2014, om 08:32 heeft Chen Qi <Qi.Chen@windriver.com> het =
-volgende geschreven:
+Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ .../nss/files/nss-CVE-2014-1568.patch              | 670 +++++++++++++++++++++
+ meta/recipes-support/nss/nss.inc                   |   1 +
+ 2 files changed, 671 insertions(+)
+ create mode 100644 meta/recipes-support/nss/files/nss-CVE-2014-1568.patch
 
-> In systemd, /etc/sysctl.conf is actually ignored by systemd-sysctl,
-> because this command only examine *.conf files under a bunch of =
-directories
-> like /etc/sysctl.d or /usr/lib/sysctl.d.
->=20
-> The problem is we are used to configuring kernel parameters in =
-/etc/sysctl.conf,
-> so it would be really strange if the configuration in that file =
-doesn't have any
-> effect.
->=20
-> This patch reference Fedora's solution to this problem, creating a =
-symlink to
-> /etc/sysctl.conf under /etc/sysctl.d/.
+diff --git a/meta/recipes-support/nss/files/nss-CVE-2014-1568.patch b/meta/recipes-support/nss/files/nss-CVE-2014-1568.patch
+new file mode 100644
+index 0000000..dbdb00c
+--- /dev/null
++++ b/meta/recipes-support/nss/files/nss-CVE-2014-1568.patch
+@@ -0,0 +1,670 @@
++nss: CVE-2014-1568
++
++the patch comes from:
++http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-1568
++https://bugzilla.mozilla.org/show_bug.cgi?id=1064636
++nss ng log:
++=====
++changeset:   11252:ad411fb64046
++user:        Kai Engert <kaie@kuix.de>
++date:        Tue Sep 23 19:28:34 2014 +0200
++summary:     Fix bug 1064636, patch part 2, r=rrelyea
++=====
++changeset:   11253:4e90910ad2f9
++user:        Kai Engert <kaie@kuix.de>
++date:        Tue Sep 23 19:28:45 2014 +0200
++summary:     Fix bug    1064636, patch part 3, r=rrelyea
++=====
++changeset:   11254:fb7208e91ae8
++user:        Kai Engert <kaie@kuix.de>
++date:        Tue Sep 23 19:28:52 2014 +0200
++summary:     Fix bug    1064636, patch part 1, r=rrelyea
++=====
++changeset:   11255:8dd6c6ac977d
++user:        Kai Engert <kaie@kuix.de>
++date:        Tue Sep 23 19:39:40 2014 +0200
++summary:     Bug 1064636, follow up commit to fix Windows build bustage
++
++Upstream-Status: Backport
++Signed-off-by: Li Wang <li.wang@windriver.com>
++---
++ nss/lib/cryptohi/secvfy.c  |  202 +++++++++++++++++++++++++++-----------------
++ nss/lib/softoken/pkcs11c.c |   69 +++++++--------
++ nss/lib/util/manifest.mn   |    2 +
++ nss/lib/util/nssutil.def   |    6 ++
++ nss/lib/util/pkcs1sig.c    |  169 ++++++++++++++++++++++++++++++++++++
++ nss/lib/util/pkcs1sig.h    |   30 +++++++
++ 6 files changed, 360 insertions(+), 118 deletions(-)
++ create mode 100644 nss/lib/util/pkcs1sig.c
++ create mode 100644 nss/lib/util/pkcs1sig.h
++
++diff --git a/nss/lib/cryptohi/secvfy.c b/nss/lib/cryptohi/secvfy.c
++index c1ac39b..0a20672 100644
++--- a/nss/lib/cryptohi/secvfy.c
+++++ b/nss/lib/cryptohi/secvfy.c
++@@ -12,78 +12,111 @@
++ #include "secasn1.h"
++ #include "secoid.h"
++ #include "pk11func.h"
+++#include "pkcs1sig.h"
++ #include "secdig.h"
++ #include "secerr.h"
++ #include "keyi.h"
++ 
++ /*
++-** Decrypt signature block using public key
++-** Store the hash algorithm oid tag in *tagp
++-** Store the digest in the digest buffer
++-** Store the digest length in *digestlen
+++** Recover the DigestInfo from an RSA PKCS#1 signature.
+++**
+++** If givenDigestAlg != SEC_OID_UNKNOWN, copy givenDigestAlg to digestAlgOut.
+++** Otherwise, parse the DigestInfo structure and store the decoded digest
+++** algorithm into digestAlgOut.
+++**
+++** Store the encoded DigestInfo into digestInfo.
+++** Store the DigestInfo length into digestInfoLen.
+++**
+++** This function does *not* verify that the AlgorithmIdentifier in the
+++** DigestInfo identifies givenDigestAlg or that the DigestInfo is encoded
+++** correctly; verifyPKCS1DigestInfo does that.
+++**
++ ** XXX this is assuming that the signature algorithm has WITH_RSA_ENCRYPTION
++ */
++ static SECStatus
++-DecryptSigBlock(SECOidTag *tagp, unsigned char *digest,
++-		unsigned int *digestlen, unsigned int maxdigestlen,
++-		SECKEYPublicKey *key, const SECItem *sig, char *wincx)
+++recoverPKCS1DigestInfo(SECOidTag givenDigestAlg,
+++                       /*out*/ SECOidTag* digestAlgOut,
+++                       /*out*/ unsigned char** digestInfo,
+++                       /*out*/ unsigned int* digestInfoLen,
+++                       SECKEYPublicKey* key,
+++                       const SECItem* sig, void* wincx)
++ {
++-    SGNDigestInfo *di   = NULL;
++-    unsigned char *buf  = NULL;
++-    SECStatus      rv;
++-    SECOidTag      tag;
++-    SECItem        it;
++-
++-    if (key == NULL) goto loser;
++-
+++    SGNDigestInfo* di = NULL;
+++    SECItem it;
+++    PRBool rv = SECSuccess;
+++
+++    PORT_Assert(digestAlgOut);
+++    PORT_Assert(digestInfo);
+++    PORT_Assert(digestInfoLen);
+++    PORT_Assert(key);
+++    PORT_Assert(key->keyType == rsaKey);
+++    PORT_Assert(sig);
+++
+++    it.data = NULL;
++     it.len  = SECKEY_PublicKeyStrength(key);
++-    if (!it.len) goto loser;
++-    it.data = buf = (unsigned char *)PORT_Alloc(it.len);
++-    if (!buf) goto loser;
+++    if (it.len != 0) {
+++        it.data = (unsigned char *)PORT_Alloc(it.len);
+++    }
+++    if (it.len == 0 || it.data == NULL ) {
+++        rv = SECFailure;
+++    }
++ 
++-    /* decrypt the block */
++-    rv = PK11_VerifyRecover(key, (SECItem *)sig, &it, wincx);
++-    if (rv != SECSuccess) goto loser;
+++    if (rv == SECSuccess) {
+++        /* decrypt the block */
+++        rv = PK11_VerifyRecover(key, sig, &it, wincx);
+++    }
++ 
++-    di = SGN_DecodeDigestInfo(&it);
++-    if (di == NULL) goto sigloser;
+++    if (rv == SECSuccess) {
+++        if (givenDigestAlg != SEC_OID_UNKNOWN) {
+++            /* We don't need to parse the DigestInfo if the caller gave us the
+++             * digest algorithm to use. Later verifyPKCS1DigestInfo will verify
+++             * that the DigestInfo identifies the given digest algorithm and
+++             * that the DigestInfo is encoded absolutely correctly.
+++             */
+++            *digestInfoLen = it.len;
+++            *digestInfo = (unsigned char*)it.data;
+++            *digestAlgOut = givenDigestAlg;
+++            return SECSuccess;
+++        }
+++    }
++ 
++-    /*
++-    ** Finally we have the digest info; now we can extract the algorithm
++-    ** ID and the signature block
++-    */
++-    tag = SECOID_GetAlgorithmTag(&di->digestAlgorithm);
++-    /* Check that tag is an appropriate algorithm */
++-    if (tag == SEC_OID_UNKNOWN) {
++-	goto sigloser;
++-    }
++-    /* make sure the "parameters" are not too bogus. */
++-    if (di->digestAlgorithm.parameters.len > 2) {
++-	goto sigloser;
++-    }
++-    if (di->digest.len > maxdigestlen) {
++-	PORT_SetError(SEC_ERROR_OUTPUT_LEN);
++-	goto loser;
+++    if (rv == SECSuccess) {
+++        /* The caller didn't specify a digest algorithm to use, so choose the
+++         * digest algorithm by parsing the AlgorithmIdentifier within the
+++         * DigestInfo.
+++         */
+++        di = SGN_DecodeDigestInfo(&it);
+++        if (!di) {
+++            rv = SECFailure;
+++        }
++     }
++-    PORT_Memcpy(digest, di->digest.data, di->digest.len);
++-    *tagp = tag;
++-    *digestlen = di->digest.len;
++-    goto done;
++ 
++-  sigloser:
++-    PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
+++    if (rv == SECSuccess) {
+++        *digestAlgOut = SECOID_GetAlgorithmTag(&di->digestAlgorithm);
+++        if (*digestAlgOut == SEC_OID_UNKNOWN) {
+++            rv = SECFailure;
+++        }
+++    }
++ 
++-  loser:
++-    rv = SECFailure;
+++    if (di) {
+++        SGN_DestroyDigestInfo(di);
+++    }
+++
+++    if (rv == SECSuccess) {
+++        *digestInfoLen = it.len;
+++        *digestInfo = (unsigned char*)it.data;
+++    } else {
+++        if (it.data) {
+++            PORT_Free(it.data);
+++        }
+++        *digestInfo = NULL;
+++        *digestInfoLen = 0;
+++        PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
+++    }
++ 
++-  done:
++-    if (di   != NULL) SGN_DestroyDigestInfo(di);
++-    if (buf  != NULL) PORT_Free(buf);
++-    
++     return rv;
++ }
++ 
++-
++ struct VFYContextStr {
++     SECOidTag hashAlg;  /* the hash algorithm */
++     SECKEYPublicKey *key;
++@@ -99,14 +132,14 @@ struct VFYContextStr {
++     union {
++ 	unsigned char buffer[1];
++ 
++-	/* the digest in the decrypted RSA signature */
++-	unsigned char rsadigest[HASH_LENGTH_MAX];
++ 	/* the full DSA signature... 40 bytes */
++ 	unsigned char dsasig[DSA_MAX_SIGNATURE_LEN];
++ 	/* the full ECDSA signature */
++ 	unsigned char ecdsasig[2 * MAX_ECKEY_LEN];
++     } u;
++-    unsigned int rsadigestlen;
+++    unsigned int pkcs1RSADigestInfoLen;
+++    /* the encoded DigestInfo from a RSA PKCS#1 signature */
+++    unsigned char *pkcs1RSADigestInfo;
++     void * wincx;
++     void *hashcx;
++     const SECHashObject *hashobj;
++@@ -117,6 +150,17 @@ struct VFYContextStr {
++                            * VFY_EndWithSignature call. */
++ };
++ 
+++static SECStatus
+++verifyPKCS1DigestInfo(const VFYContext* cx, const SECItem* digest)
+++{
+++  SECItem pkcs1DigestInfo;
+++  pkcs1DigestInfo.data = cx->pkcs1RSADigestInfo;
+++  pkcs1DigestInfo.len = cx->pkcs1RSADigestInfoLen;
+++  return _SGN_VerifyPKCS1DigestInfo(
+++           cx->hashAlg, digest, &pkcs1DigestInfo,
+++           PR_TRUE /*XXX: unsafeAllowMissingParameters*/);
+++}
+++
++ /*
++  * decode the ECDSA or DSA signature from it's DER wrapping.
++  * The unwrapped/raw signature is placed in the buffer pointed
++@@ -376,16 +420,16 @@ vfy_CreateContext(const SECKEYPublicKey *key, const SECItem *sig,
++     cx->encAlg = encAlg;
++     cx->hashAlg = hashAlg;
++     cx->key = SECKEY_CopyPublicKey(key);
+++    cx->pkcs1RSADigestInfo = NULL;
++     rv = SECSuccess;
++     if (sig) {
++ 	switch (type) {
++ 	case rsaKey:
++-	    rv = DecryptSigBlock(&cx->hashAlg, cx->u.buffer, &cx->rsadigestlen,
++-			HASH_LENGTH_MAX, cx->key, sig, (char*)wincx);
++-	    if (cx->hashAlg != hashAlg && hashAlg != SEC_OID_UNKNOWN) {
++-		PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
++-		rv = SECFailure;	
++-	    }
+++            rv = recoverPKCS1DigestInfo(hashAlg, &cx->hashAlg,
+++                                        &cx->pkcs1RSADigestInfo,
+++                                        &cx->pkcs1RSADigestInfoLen,
+++                                        cx->key,
+++                                        sig, wincx);
++ 	    break;
++ 	case dsaKey:
++ 	case ecKey:
++@@ -469,6 +513,9 @@ VFY_DestroyContext(VFYContext *cx, PRBool freeit)
++ 	if (cx->key) {
++ 	    SECKEY_DestroyPublicKey(cx->key);
++ 	}
+++        if (cx->pkcs1RSADigestInfo) {
+++            PORT_Free(cx->pkcs1RSADigestInfo);
+++        }
++ 	if (freeit) {
++ 	    PORT_ZFree(cx, sizeof(VFYContext));
++ 	}
++@@ -548,21 +595,25 @@ VFY_EndWithSignature(VFYContext *cx, SECItem *sig)
++ 	}
++ 	break;
++       case rsaKey:
+++      {
+++        SECItem digest;
+++        digest.data = final;
+++        digest.len = part;
++ 	if (sig) {
++-	    SECOidTag hashid = SEC_OID_UNKNOWN;
++-	    rv = DecryptSigBlock(&hashid, cx->u.buffer, &cx->rsadigestlen,
++-		    HASH_LENGTH_MAX, cx->key, sig, (char*)cx->wincx);
++-	    if ((rv != SECSuccess) || (hashid != cx->hashAlg)) {
++-		PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
+++            SECOidTag hashid;
+++            PORT_Assert(cx->hashAlg != SEC_OID_UNKNOWN);
+++            rv = recoverPKCS1DigestInfo(cx->hashAlg, &hashid,
+++                                        &cx->pkcs1RSADigestInfo,
+++                                        &cx->pkcs1RSADigestInfoLen,
+++                                        cx->key,
+++                                        sig, cx->wincx);
+++            PORT_Assert(cx->hashAlg == hashid);
+++            if (rv != SECSuccess) {
++ 		return SECFailure;
++ 	    }
++ 	}
++-	if ((part != cx->rsadigestlen) ||
++-	    PORT_Memcmp(final, cx->u.buffer, part)) {
++-	    PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
++-	    return SECFailure;
++-	}
++-	break;
+++        return verifyPKCS1DigestInfo(cx, &digest);
+++      }
++       default:
++ 	PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
++ 	return SECFailure; /* shouldn't happen */
++@@ -595,12 +646,7 @@ vfy_VerifyDigest(const SECItem *digest, const SECKEYPublicKey *key,
++     if (cx != NULL) {
++ 	switch (key->keyType) {
++ 	case rsaKey:
++-	    if ((digest->len != cx->rsadigestlen) ||
++-		PORT_Memcmp(digest->data, cx->u.buffer, digest->len)) {
++-		PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
++-	    } else {
++-		rv = SECSuccess;
++-	    }
+++            rv = verifyPKCS1DigestInfo(cx, digest);
++ 	    break;
++ 	case dsaKey:
++ 	case ecKey:
++diff --git a/nss/lib/softoken/pkcs11c.c b/nss/lib/softoken/pkcs11c.c
++index 89b5bd8..ba6dcfa 100644
++--- a/nss/lib/softoken/pkcs11c.c
+++++ b/nss/lib/softoken/pkcs11c.c
++@@ -23,6 +23,7 @@
++ #include "blapi.h"
++ #include "pkcs11.h"
++ #include "pkcs11i.h"
+++#include "pkcs1sig.h"
++ #include "lowkeyi.h"
++ #include "secder.h"
++ #include "secdig.h"
++@@ -2580,54 +2581,42 @@ sftk_hashCheckSign(SFTKHashVerifyInfo *info, unsigned char *sig,
++ }
++ 
++ SECStatus
++-RSA_HashCheckSign(SECOidTag hashOid, NSSLOWKEYPublicKey *key,
+++RSA_HashCheckSign(SECOidTag digestOid, NSSLOWKEYPublicKey *key,
++ 	unsigned char *sig, unsigned int sigLen,
++-	unsigned char *digest, unsigned int digestLen)
+++        unsigned char *digestData, unsigned int digestLen)
++ {
+++    unsigned char *pkcs1DigestInfoData;
+++    SECItem pkcs1DigestInfo;
+++    SECItem digest;
+++    unsigned int bufferSize;
+++    SECStatus rv;
++ 
++-    SECItem it;
++-    SGNDigestInfo *di = NULL;
++-    SECStatus rv = SECSuccess;
++-    
++-    it.data = NULL;
++-
++-    if (key == NULL) goto loser;
++-
++-    it.len = nsslowkey_PublicModulusLen(key); 
++-    if (!it.len) goto loser;
+++    /* pkcs1DigestInfo.data must be less than key->u.rsa.modulus.len */
+++    bufferSize = key->u.rsa.modulus.len;
+++    pkcs1DigestInfoData = PORT_ZAlloc(bufferSize);
+++    if (!pkcs1DigestInfoData) {
+++        PORT_SetError(SEC_ERROR_NO_MEMORY);
+++        return SECFailure;
+++    }
++ 
++-    it.data = (unsigned char *) PORT_Alloc(it.len);
++-    if (it.data == NULL) goto loser;
+++    pkcs1DigestInfo.data = pkcs1DigestInfoData;
+++    pkcs1DigestInfo.len = bufferSize;
++ 
++     /* decrypt the block */
++-    rv = RSA_CheckSignRecover(key, it.data, &it.len, it.len, sig, sigLen);
++-    if (rv != SECSuccess) goto loser;
++-
++-    di = SGN_DecodeDigestInfo(&it);
++-    if (di == NULL) goto loser;
++-    if (di->digest.len != digestLen)  goto loser; 
++-
++-    /* make sure the tag is OK */
++-    if (SECOID_GetAlgorithmTag(&di->digestAlgorithm) != hashOid) {
++-	goto loser;
++-    }
++-    /* make sure the "parameters" are not too bogus. */
++-    if (di->digestAlgorithm.parameters.len > 2) {
++-	goto loser;
++-    }
++-    /* Now check the signature */
++-    if (PORT_Memcmp(digest, di->digest.data, di->digest.len) == 0) {
++-	goto done;
+++    rv = RSA_CheckSignRecover(key, pkcs1DigestInfo.data,
+++                              &pkcs1DigestInfo.len, pkcs1DigestInfo.len,
+++                              sig, sigLen);
+++    if (rv != SECSuccess) {
+++        PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
+++    } else {
+++        digest.data = (PRUint8*) digestData;
+++        digest.len = digestLen;
+++        rv = _SGN_VerifyPKCS1DigestInfo(
+++                digestOid, &digest, &pkcs1DigestInfo,
+++                PR_TRUE /*XXX: unsafeAllowMissingParameters*/);
++     }
++ 
++-  loser:
++-    PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
++-    rv = SECFailure;
++-
++-  done:
++-    if (it.data != NULL) PORT_Free(it.data);
++-    if (di != NULL) SGN_DestroyDigestInfo(di);
++-    
+++    PORT_Free(pkcs1DigestInfoData);
++     return rv;
++ }
++ 
++diff --git a/nss/lib/util/manifest.mn b/nss/lib/util/manifest.mn
++index ed54a16..9ff3758 100644
++--- a/nss/lib/util/manifest.mn
+++++ b/nss/lib/util/manifest.mn
++@@ -22,6 +22,7 @@ EXPORTS = \
++ 	pkcs11t.h \
++ 	pkcs11n.h \
++ 	pkcs11u.h \
+++	pkcs1sig.h \
++ 	portreg.h \
++ 	secasn1.h \
++ 	secasn1t.h \
++@@ -58,6 +59,7 @@ CSRCS = \
++ 	nssrwlk.c \
++ 	nssilock.c \
++ 	oidstring.c \
+++	pkcs1sig.c \
++ 	portreg.c \
++ 	secalgid.c \
++ 	secasn1d.c \
++diff --git a/nss/lib/util/nssutil.def b/nss/lib/util/nssutil.def
++index 86a0ad7..9d98df2 100644
++--- a/nss/lib/util/nssutil.def
+++++ b/nss/lib/util/nssutil.def
++@@ -271,3 +271,9 @@ SECITEM_ZfreeArray;
++ ;+    local:
++ ;+       *;
++ ;+};
+++;+NSSUTIL_3.17.1 {         # NSS Utilities 3.17.1 release
+++;+    global:
+++_SGN_VerifyPKCS1DigestInfo;
+++;+    local:
+++;+       *;
+++;+};
++diff --git a/nss/lib/util/pkcs1sig.c b/nss/lib/util/pkcs1sig.c
++new file mode 100644
++index 0000000..03b16f5
++--- /dev/null
+++++ b/nss/lib/util/pkcs1sig.c
++@@ -0,0 +1,169 @@
+++/* This Source Code Form is subject to the terms of the Mozilla Public
+++ * License, v. 2.0. If a copy of the MPL was not distributed with this
+++ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+++ */
+++
+++#include "pkcs1sig.h"
+++#include "hasht.h"
+++#include "secerr.h"
+++#include "secasn1t.h"
+++#include "secoid.h"
+++
+++typedef struct pkcs1PrefixStr pkcs1Prefix;
+++struct pkcs1PrefixStr {
+++    unsigned int len;
+++    PRUint8 *data;
+++};
+++
+++typedef struct pkcs1PrefixesStr pkcs1Prefixes;
+++struct pkcs1PrefixesStr {
+++    unsigned int digestLen;
+++    pkcs1Prefix prefixWithParams;
+++    pkcs1Prefix prefixWithoutParams;
+++};
+++
+++/* The value for SGN_PKCS1_DIGESTINFO_MAX_PREFIX_LEN_EXCLUDING_OID is based on
+++ * the possible prefix encodings as explained below.
+++ */
+++#define MAX_PREFIX_LEN_EXCLUDING_OID 10
+++
+++static SECStatus
+++encodePrefix(const SECOidData *hashOid, unsigned int digestLen,
+++             pkcs1Prefix *prefix, PRBool withParams)
+++{
+++    /* with params coding is:
+++     *  Sequence (2 bytes) {
+++     *      Sequence (2 bytes) {
+++     *               Oid (2 bytes)  {
+++     *                   Oid value (derOid->oid.len)
+++     *               }
+++     *               NULL (2 bytes)
+++     *      }
+++     *      OCTECT (2 bytes);
+++     *
+++     * without params coding is:
+++     *  Sequence (2 bytes) {
+++     *      Sequence (2 bytes) {
+++     *               Oid (2 bytes)  {
+++     *                   Oid value (derOid->oid.len)
+++     *               }
+++     *      }
+++     *      OCTECT (2 bytes);
+++     */
+++
+++    unsigned int innerSeqLen = 2 + hashOid->oid.len;
+++    unsigned int outerSeqLen = 2 + innerSeqLen + 2 + digestLen;
+++    unsigned int extra = 0;
+++
+++    if (withParams) {
+++        innerSeqLen += 2;
+++        outerSeqLen += 2;
+++        extra = 2;
+++    }
+++
+++    if (innerSeqLen >= 128 ||
+++        outerSeqLen >= 128 ||
+++        (outerSeqLen + 2 - digestLen) >
+++            (MAX_PREFIX_LEN_EXCLUDING_OID + hashOid->oid.len)) {
+++        /* this is actually a library failure, It shouldn't happen */
+++        PORT_SetError(SEC_ERROR_INVALID_ARGS);
+++        return SECFailure;
+++    }
+++
+++    prefix->len = 6 + hashOid->oid.len + extra + 2;
+++    prefix->data = PORT_Alloc(prefix->len);
+++    if (!prefix->data) {
+++        PORT_SetError(SEC_ERROR_NO_MEMORY);
+++        return SECFailure;
+++    }
+++
+++    prefix->data[0] = SEC_ASN1_SEQUENCE|SEC_ASN1_CONSTRUCTED;
+++    prefix->data[1] = outerSeqLen;
+++    prefix->data[2] = SEC_ASN1_SEQUENCE|SEC_ASN1_CONSTRUCTED;
+++    prefix->data[3] = innerSeqLen;
+++    prefix->data[4] = SEC_ASN1_OBJECT_ID;
+++    prefix->data[5] = hashOid->oid.len;
+++    PORT_Memcpy(&prefix->data[6], hashOid->oid.data, hashOid->oid.len);
+++    if (withParams) {
+++        prefix->data[6 + hashOid->oid.len] = SEC_ASN1_NULL;
+++        prefix->data[6 + hashOid->oid.len + 1] = 0;
+++    }
+++    prefix->data[6 + hashOid->oid.len + extra] = SEC_ASN1_OCTET_STRING;
+++    prefix->data[6 + hashOid->oid.len + extra + 1] = digestLen;
+++
+++    return SECSuccess;
+++}
+++
+++SECStatus
+++_SGN_VerifyPKCS1DigestInfo(SECOidTag digestAlg,
+++                           const SECItem* digest,
+++                           const SECItem* dataRecoveredFromSignature,
+++                           PRBool unsafeAllowMissingParameters)
+++{
+++    SECOidData *hashOid;
+++    pkcs1Prefixes pp;
+++    const pkcs1Prefix* expectedPrefix;
+++    SECStatus rv, rv2, rv3;
+++
+++    if (!digest || !digest->data ||
+++        !dataRecoveredFromSignature || !dataRecoveredFromSignature->data) {
+++        PORT_SetError(SEC_ERROR_INVALID_ARGS);
+++        return SECFailure;
+++    }
+++
+++    hashOid = SECOID_FindOIDByTag(digestAlg);
+++    if (hashOid == NULL) {
+++        PORT_SetError(SEC_ERROR_INVALID_ARGS);
+++        return SECFailure;
+++    }
+++
+++    pp.digestLen = digest->len;
+++    pp.prefixWithParams.data = NULL;
+++    pp.prefixWithoutParams.data = NULL;
+++
+++    rv2 = encodePrefix(hashOid, pp.digestLen, &pp.prefixWithParams, PR_TRUE);
+++    rv3 = encodePrefix(hashOid, pp.digestLen, &pp.prefixWithoutParams, PR_FALSE);
+++
+++    rv = SECSuccess;
+++    if (rv2 != SECSuccess || rv3 != SECSuccess) {
+++        rv = SECFailure;
+++    }
+++
+++    if (rv == SECSuccess) {
+++        /* We don't attempt to avoid timing attacks on these comparisons because
+++         * signature verification is a public key operation, not a private key
+++         * operation.
+++         */
+++
+++        if (dataRecoveredFromSignature->len ==
+++                pp.prefixWithParams.len + pp.digestLen) {
+++            expectedPrefix = &pp.prefixWithParams;
+++        } else if (unsafeAllowMissingParameters &&
+++                   dataRecoveredFromSignature->len ==
+++                      pp.prefixWithoutParams.len + pp.digestLen) {
+++            expectedPrefix = &pp.prefixWithoutParams;
+++        } else {
+++            PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
+++            rv = SECFailure;
+++        }
+++    }
+++
+++    if (rv == SECSuccess) {
+++        if (memcmp(dataRecoveredFromSignature->data, expectedPrefix->data,
+++                   expectedPrefix->len) ||
+++            memcmp(dataRecoveredFromSignature->data + expectedPrefix->len,
+++                   digest->data, digest->len)) {
+++            PORT_SetError(SEC_ERROR_BAD_SIGNATURE);
+++            rv = SECFailure;
+++        }
+++    }
+++
+++    if (pp.prefixWithParams.data) {
+++        PORT_Free(pp.prefixWithParams.data);
+++    }
+++    if (pp.prefixWithoutParams.data) {
+++        PORT_Free(pp.prefixWithoutParams.data);
+++    }
+++
+++    return rv;
+++}
++diff --git a/nss/lib/util/pkcs1sig.h b/nss/lib/util/pkcs1sig.h
++new file mode 100644
++index 0000000..7c52b15
++--- /dev/null
+++++ b/nss/lib/util/pkcs1sig.h
++@@ -0,0 +1,30 @@
+++/* This Source Code Form is subject to the terms of the Mozilla Public
+++ * License, v. 2.0. If a copy of the MPL was not distributed with this
+++ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+++ */
+++
+++#ifndef _PKCS1SIG_H_
+++#define _PKCS1SIG_H_
+++
+++#include "hasht.h"
+++#include "seccomon.h"
+++#include "secoidt.h"
+++
+++/* SGN_VerifyPKCS1DigestInfo verifies that the length of the digest is correct
+++ * for the given algorithm, then verifies that the recovered data from the
+++ * PKCS#1 signature is a properly-formatted DigestInfo that identifies the
+++ * given digest algorithm, then verifies that the digest in the DigestInfo
+++ * matches the given digest.
+++ *
+++ * dataRecoveredFromSignature must be the result of calling PK11_VerifyRecover
+++ * or equivalent.
+++ *
+++ * If unsafeAllowMissingParameters is true (not recommended), then a DigestInfo
+++ * without the mandatory ASN.1 NULL parameter will also be accepted.
+++ */
+++SECStatus _SGN_VerifyPKCS1DigestInfo(SECOidTag digestAlg,
+++                                     const SECItem* digest,
+++                                     const SECItem* dataRecoveredFromSignature,
+++                                     PRBool unsafeAllowMissingParameters);
+++
+++#endif /* _PKCS1SIG_H_ */
++-- 
++1.7.9.5
+diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
+index ce7bff4..008bdad 100644
+--- a/meta/recipes-support/nss/nss.inc
++++ b/meta/recipes-support/nss/nss.inc
+@@ -23,6 +23,7 @@ SRC_URI = "\
+     file://nss-3.15.1-fix-CVE-2013-1739.patch \
+     file://nss-CVE-2013-5606.patch \
+     file://nss-CVE-2014-1544.patch \
++    file://nss-CVE-2014-1568.patch \
+ "
+ SRC_URI_append = "\
+     file://nss.pc.in \
+-- 
+1.9.1
 
-Shouldn't this be done in procps instead?=
 
