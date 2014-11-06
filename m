@@ -1,28 +1,28 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C654371F44
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C654571F44
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Nov 2014 15:38:51 +0000 (UTC)
+	Thu,  6 Nov 2014 15:38:53 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA6FcpED004684
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA6FcrXT019028
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Nov 2014 07:38:51 -0800 (PST)
+	Thu, 6 Nov 2014 07:38:53 -0800 (PST)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Thu, 6 Nov 2014 07:38:50 -0800
+	(TLS) id 14.3.174.1; Thu, 6 Nov 2014 07:38:53 -0800
 From: Kai Kang <kai.kang@windriver.com>
 To: <fathi.boudra@linaro.org>, <joe.slater@windriver.com>,
 	<mark.hatle@windriver.com>
-Date: Thu, 6 Nov 2014 23:34:07 +0800
-Message-ID: <9515e5c8edd4b600ce886a440d1d4b3f484d810a.1415264549.git.kai.kang@windriver.com>
+Date: Thu, 6 Nov 2014 23:34:08 +0800
+Message-ID: <c9472934d620649fbf7ec8680ed3e44b6adb2ae8.1415264549.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1415264548.git.kai.kang@windriver.com>
 References: <cover.1415264548.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.152]
 Cc: koen.kooi@linaro.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH 04/25] gcc-4.9: redefine default library install directory
+Subject: [PATCH 05/25] libc-package.bbclass: add aarch64 target to locale_arch_options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,78 +35,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Nov 2014 15:38:52 -0000
+X-List-Received-Date: Thu, 06 Nov 2014 15:38:53 -0000
 Content-Type: text/plain
 
-Packages use 'aarch64-poky-linux-gcc -print-multi-os-directory' to get
-the value of install directory. The value is set by MULTILIB_OSDIRNAMES
-and default is '/lib64'. And the dynamic linker ld-linux-aarch64.so.1
-from package eglibc is installed to /lib64.
-
-But the default dynamic linker defined in gcc/config/aarch64/aarch64-linux.h
-is:
-
-MULTILIB_OSDIRNAMES = .=../lib64$(call if_multiarch,:aarch64$(AARCH_BE)-linux-gnu)
-
-Then cause all the ELF files fail to launch because fail to find the
-linker and libraries.
-
-Redefine default library install directory to /lib to fix this issue.
+Add aarch64 target to locale_arch_options in libc-package.bbclass to
+support Arm V8.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
- ...0099-gcc-redefine-library-dir-for-aarch64.patch | 29 ++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0099-gcc-redefine-library-dir-for-aarch64.patch
+ meta/classes/libc-package.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 9a66cd2..8ed2e8a 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -71,6 +71,7 @@ SRC_URI = "\
-     file://0054-gcc-Makefile.in-fix-parallel-building-failure.patch \
-     file://0055-PR-rtl-optimization-61801.patch \
-     file://0056-top-level-reorder_gcc-bug-61144.patch \
-+    file://0099-gcc-redefine-library-dir-for-aarch64.patch \
- "
- SRC_URI[md5sum] = "fddf71348546af523353bd43d34919c1"
- SRC_URI[sha256sum] = "d334781a124ada6f38e63b545e2a3b8c2183049515a1abab6d513f109f1d717e"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0099-gcc-redefine-library-dir-for-aarch64.patch b/meta/recipes-devtools/gcc/gcc-4.9/0099-gcc-redefine-library-dir-for-aarch64.patch
-new file mode 100644
-index 0000000..23cdb95
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.9/0099-gcc-redefine-library-dir-for-aarch64.patch
-@@ -0,0 +1,29 @@
-+Redefine default library directory for aarch64.
-+
-+Packages use 'aarch64-poky-linux-gcc -print-multi-os-directory' to get the
-+value of install directory. The value is set by MULTILIB_OSDIRNAMES and default
-+is '/lib64'. Add the dynamic linker ld-linux-aarch64.so.1 from package eglibc
-+is installed to /lib64.
-+
-+But the default dynamic linker defined in gcc/config/aarch64/aarch64-linux.h
-+is:
-+
-+#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-aarch64%{mbig-endian:_be}.so.1"
-+
-+Then cause all the ELF files fail to launch because fail to find the linker.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+--- gcc-4.9.1/gcc/config/aarch64/t-aarch64-linux.orig	2014-09-19 14:38:47.550669143 +0800
-++++ gcc-4.9.1/gcc/config/aarch64/t-aarch64-linux	2014-09-19 14:39:01.234669516 +0800
-+@@ -22,7 +22,7 @@
-+ LIB1ASMFUNCS = _aarch64_sync_cache_range
-+ 
-+ AARCH_BE = $(if $(findstring TARGET_BIG_ENDIAN_DEFAULT=1, $(tm_defines)),_be)
-+-MULTILIB_OSDIRNAMES = .=../lib64$(call if_multiarch,:aarch64$(AARCH_BE)-linux-gnu)
-++MULTILIB_OSDIRNAMES = .=../lib$(call if_multiarch,:aarch64$(AARCH_BE)-linux-gnu)
-+ MULTIARCH_DIRNAME = $(call if_multiarch,aarch64$(AARCH_BE)-linux-gnu)
-+ 
-+ # Disable the multilib for linux-gnu targets for the time being; focus
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index c1bc399..5701e20 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -268,6 +268,7 @@ python package_do_split_gconvs () {
+             locale_arch_options = { \
+                 "arm":     " --uint32-align=4 --little-endian ", \
+                 "armeb":   " --uint32-align=4 --big-endian ",    \
++                "aarch64": " --uint32-align=4 --little-endian ",    \
+                 "aarch64_be": " --uint32-align=4 --big-endian ",    \
+                 "sh4":     " --uint32-align=4 --big-endian ",    \
+                 "powerpc": " --uint32-align=4 --big-endian ",    \
 -- 
 1.9.1
 
