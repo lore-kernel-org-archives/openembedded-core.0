@@ -1,22 +1,22 @@
 Return-Path: <sona.sarmadi@enea.com>
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 8676272032
+	by mail.openembedded.org (Postfix) with SMTP id BE81772032
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Nov 2014 06:14:52 +0000 (UTC)
+	Thu,  6 Nov 2014 06:14:55 +0000 (UTC)
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Thu, 6 Nov 2014
-	07:14:51 +0100
+	07:14:55 +0100
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 6 Nov 2014 07:14:31 +0100
-Message-ID: <1415254473-43690-2-git-send-email-sona.sarmadi@enea.com>
+Date: Thu, 6 Nov 2014 07:14:32 +0100
+Message-ID: <1415254473-43690-3-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1415254473-43690-1-git-send-email-sona.sarmadi@enea.com>
 References: <1415254473-43690-1-git-send-email-sona.sarmadi@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
 	designate permitted sender hosts)
-Subject: [dora][PATCH 2/4] openssl: Fix for CVE-2014-3513
+Subject: [dora][PATCH 3/4] openssl: Fix for CVE-2014-3567
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,246 +29,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Nov 2014 06:14:53 -0000
+X-List-Received-Date: Thu, 06 Nov 2014 06:14:57 -0000
 Content-Type: text/plain
 
-Fix for SRTP Memory Leak
+Fix for session tickets memory leak.
 
 This patch is a backport from OpenSSL_1.0.1j.
 
 Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 ---
- .../openssl-1.0.1e/openssl-fix-CVE-2014-3513.patch | 211 +++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.1e.bb |   1 +
- 2 files changed, 212 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-CVE-2014-3513.patch
+ .../openssl-1.0.1e/openssl-fix-CVE-2014-3567.patch | 32 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.1e.bb |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-CVE-2014-3567.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-CVE-2014-3513.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-CVE-2014-3513.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-CVE-2014-3567.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-CVE-2014-3567.patch
 new file mode 100644
-index 0000000..a93bf23
+index 0000000..61f821b
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-CVE-2014-3513.patch
-@@ -0,0 +1,211 @@
-+From 2b0532f3984324ebe1236a63d15893792384328d Mon Sep 17 00:00:00 2001
-+From: Matt Caswell <matt@openssl.org>
-+Date: Wed, 15 Oct 2014 01:20:38 +0100
-+Subject: [PATCH] Fix for SRTP Memory Leak
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-CVE-2014-3567.patch
+@@ -0,0 +1,32 @@
++From 748270554824d2a51d1718f52a8d3ab34116bbfb Mon Sep 17 00:00:00 2001
++From: "Dr. Stephen Henson" <steve@openssl.org>
++Date: Wed, 15 Oct 2014 01:53:55 +0100
++Subject: [PATCH] Fix for session tickets memory leak.
 +
-+CVE-2014-3513
++CVE-2014-3567
 +
-+This issue was reported to OpenSSL on 26th September 2014, based on an origi
-+issue and patch developed by the LibreSSL project. Further analysis of the i
-+was performed by the OpenSSL team.
-+
-+The fix was developed by the OpenSSL team.
-+
-+Reviewed-by: Tim Hudson <tjh@openssl.org>
++Reviewed-by: Rich Salz <rsalz@openssl.org>
++Reviewed-by: Matt Caswell <matt@openssl.org>
 +Signed-off-by: Catalin Popeanga <catalin.popeanga@enea.com>
 +---
-+ ssl/d1_srtp.c |   93 +++++++++++++++++++--------------------------------------
-+ ssl/t1_lib.c  |    9 +++---
-+ 2 files changed, 36 insertions(+), 66 deletions(-)
++ ssl/t1_lib.c |    3 +++
++ 1 file changed, 3 insertions(+)
 +
-+diff --git a/ssl/d1_srtp.c b/ssl/d1_srtp.c
-+index ab9c419..535539b 100644
-+--- a/ssl/d1_srtp.c
-++++ b/ssl/d1_srtp.c
-+@@ -168,25 +168,6 @@ static int find_profile_by_name(char *profile_name,
-+ 	return 1;
-+ 	}
-+ 
-+-static int find_profile_by_num(unsigned profile_num,
-+-			       SRTP_PROTECTION_PROFILE **pptr)
-+-	{
-+-	SRTP_PROTECTION_PROFILE *p;
-+-
-+-	p=srtp_known_profiles;
-+-	while(p->name)
-+-		{
-+-		if(p->id == profile_num)
-+-			{
-+-			*pptr=p;
-+-			return 0;
-+-			}
-+-		p++;
-+-		}
-+-
-+-	return 1;
-+-	}
-+-
-+ static int ssl_ctx_make_profiles(const char *profiles_string,STACK_OF(SRTP_PROTECTION_PROFILE) **out)
-+ 	{
-+ 	STACK_OF(SRTP_PROTECTION_PROFILE) *profiles;
-+@@ -209,11 +190,19 @@ static int ssl_ctx_make_profiles(const char *profiles_string,STACK_OF(SRTP_PROTE
-+ 		if(!find_profile_by_name(ptr,&p,
-+ 					 col ? col-ptr : (int)strlen(ptr)))
-+ 			{
-++			if (sk_SRTP_PROTECTION_PROFILE_find(profiles,p) >= 0)
-++				{
-++				SSLerr(SSL_F_SSL_CTX_MAKE_PROFILES,SSL_R_BAD_SRTP_PROTECTION_PROFILE_LIST);
-++				sk_SRTP_PROTECTION_PROFILE_free(profiles);
-++				return 1;
-++				}
-++
-+ 			sk_SRTP_PROTECTION_PROFILE_push(profiles,p);
-+ 			}
-+ 		else
-+ 			{
-+ 			SSLerr(SSL_F_SSL_CTX_MAKE_PROFILES,SSL_R_SRTP_UNKNOWN_PROTECTION_PROFILE);
-++			sk_SRTP_PROTECTION_PROFILE_free(profiles);
-+ 			return 1;
-+ 			}
-+ 
-+@@ -305,13 +294,12 @@ int ssl_add_clienthello_use_srtp_ext(SSL *s, unsigned char *p, int *len, int max
-+ 
-+ int ssl_parse_clienthello_use_srtp_ext(SSL *s, unsigned char *d, int len,int *al)
-+ 	{
-+-	SRTP_PROTECTION_PROFILE *cprof,*sprof;
-+-	STACK_OF(SRTP_PROTECTION_PROFILE) *clnt=0,*srvr;
-++	SRTP_PROTECTION_PROFILE *sprof;
-++	STACK_OF(SRTP_PROTECTION_PROFILE) *srvr;
-+         int ct;
-+         int mki_len;
-+-	int i,j;
-+-	int id;
-+-	int ret;
-++	int i, srtp_pref;
-++	unsigned int id;
-+ 
-+          /* Length value + the MKI length */
-+         if(len < 3)
-+@@ -341,22 +329,32 @@ int ssl_parse_clienthello_use_srtp_ext(SSL *s, unsigned char *d, int len,int *al
-+ 		return 1;
-+ 		}
-+ 
-++	srvr=SSL_get_srtp_profiles(s);
-++	s->srtp_profile = NULL;
-++	/* Search all profiles for a match initially */
-++	srtp_pref = sk_SRTP_PROTECTION_PROFILE_num(srvr);
-+         
-+-	clnt=sk_SRTP_PROTECTION_PROFILE_new_null();
-+-
-+ 	while(ct)
-+ 		{
-+ 		n2s(d,id);
-+ 		ct-=2;
-+                 len-=2;
-+ 
-+-		if(!find_profile_by_num(id,&cprof))
-++		/*
-++		 * Only look for match in profiles of higher preference than
-++		 * current match.
-++		 * If no profiles have been have been configured then this
-++		 * does nothing.
-++		 */
-++		for (i = 0; i < srtp_pref; i++)
-+ 			{
-+-			sk_SRTP_PROTECTION_PROFILE_push(clnt,cprof);
-+-			}
-+-		else
-+-			{
-+-			; /* Ignore */
-++			sprof = sk_SRTP_PROTECTION_PROFILE_value(srvr, i);
-++			if (sprof->id == id)
-++				{
-++				s->srtp_profile = sprof;
-++				srtp_pref = i;
-++				break;
-++				}
-+ 			}
-+ 		}
-+ 
-+@@ -371,36 +369,7 @@ int ssl_parse_clienthello_use_srtp_ext(SSL *s, unsigned char *d, int len,int *al
-+ 		return 1;
-+ 		}
-+ 
-+-	srvr=SSL_get_srtp_profiles(s);
-+-
-+-	/* Pick our most preferred profile. If no profiles have been
-+-	 configured then the outer loop doesn't run 
-+-	 (sk_SRTP_PROTECTION_PROFILE_num() = -1)
-+-	 and so we just return without doing anything */
-+-	for(i=0;i<sk_SRTP_PROTECTION_PROFILE_num(srvr);i++)
-+-		{
-+-		sprof=sk_SRTP_PROTECTION_PROFILE_value(srvr,i);
-+-
-+-		for(j=0;j<sk_SRTP_PROTECTION_PROFILE_num(clnt);j++)
-+-			{
-+-			cprof=sk_SRTP_PROTECTION_PROFILE_value(clnt,j);
-+-            
-+-			if(cprof->id==sprof->id)
-+-				{
-+-				s->srtp_profile=sprof;
-+-				*al=0;
-+-				ret=0;
-+-				goto done;
-+-				}
-+-			}
-+-		}
-+-
-+-	ret=0;
-+-    
-+-done:
-+-	if(clnt) sk_SRTP_PROTECTION_PROFILE_free(clnt);
-+-
-+-	return ret;
-++	return 0;
-+ 	}
-+ 
-+ int ssl_add_serverhello_use_srtp_ext(SSL *s, unsigned char *p, int *len, int maxlen)
 +diff --git a/ssl/t1_lib.c b/ssl/t1_lib.c
-+index 022a4fb..12ee3c9 100644
++index 879467c..77fe232 100644
 +--- a/ssl/t1_lib.c
 ++++ b/ssl/t1_lib.c
-+@@ -643,7 +643,7 @@ unsigned char *ssl_add_clienthello_tlsext(SSL *s, unsigned char *buf, unsigned c
-+ #endif
-+ 
-+ #ifndef OPENSSL_NO_SRTP
-+-        if(SSL_get_srtp_profiles(s))
-++	if(SSL_IS_DTLS(s) && SSL_get_srtp_profiles(s))
-+                 {
-+                 int el;
-+ 
-+@@ -806,7 +806,7 @@ unsigned char *ssl_add_serverhello_tlsext(SSL *s, unsigned char *buf, unsigned c
-+ #endif
-+ 
-+ #ifndef OPENSSL_NO_SRTP
-+-        if(s->srtp_profile)
-++	if(SSL_IS_DTLS(s) && s->srtp_profile)
-+                 {
-+                 int el;
-+ 
-+@@ -1444,7 +1444,8 @@ int ssl_parse_clienthello_tlsext(SSL *s, unsigned char **p, unsigned char *d, in
-+ 
-+ 		/* session ticket processed earlier */
-+ #ifndef OPENSSL_NO_SRTP
-+-		else if (type == TLSEXT_TYPE_use_srtp)
-++		else if (SSL_IS_DTLS(s) && SSL_get_srtp_profiles(s)
-++			 && type == TLSEXT_TYPE_use_srtp)
-+ 			{
-+ 			if(ssl_parse_clienthello_use_srtp_ext(s, data, size,
-+ 							      al))
-+@@ -1698,7 +1699,7 @@ int ssl_parse_serverhello_tlsext(SSL *s, unsigned char **p, unsigned char *d, in
-+ 			}
-+ #endif
-+ #ifndef OPENSSL_NO_SRTP
-+-		else if (type == TLSEXT_TYPE_use_srtp)
-++		else if (SSL_IS_DTLS(s) && type == TLSEXT_TYPE_use_srtp)
-+ 			{
-+                         if(ssl_parse_serverhello_use_srtp_ext(s, data, size,
-+ 							      al))
++@@ -3380,7 +3380,10 @@ static int tls_decrypt_ticket(SSL *s, const unsigned char *etick, int eticklen,
++ 	HMAC_Final(&hctx, tick_hmac, NULL);
++ 	HMAC_CTX_cleanup(&hctx);
++ 	if (CRYPTO_memcmp(tick_hmac, etick + eticklen, mlen))
+++		{
+++		EVP_CIPHER_CTX_cleanup(&ctx);
++ 		return 2;
+++		}
++ 	/* Attempt to decrypt session data */
++ 	/* Move p after IV to start of encrypted ticket, update length */
++ 	p = etick + 16 + EVP_CIPHER_CTX_iv_length(&ctx);
 +-- 
 +1.7.9.5
 +
 diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-index 7623f0d..8282822 100644
+index 8282822..6af4ee9 100644
 --- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
 +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-@@ -45,6 +45,7 @@ SRC_URI += "file://configure-targets.patch \
-             file://openssl-1.0.1e-cve-2014-3470.patch \
+@@ -46,6 +46,7 @@ SRC_URI += "file://configure-targets.patch \
              file://openssl-CVE-2010-5298.patch \
  	    file://openssl-fix-CVE-2014-3566.patch \
-+	    file://openssl-fix-CVE-2014-3513.patch \
+ 	    file://openssl-fix-CVE-2014-3513.patch \
++	    file://openssl-fix-CVE-2014-3567.patch \
             "
  
  SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
