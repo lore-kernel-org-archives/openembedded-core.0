@@ -1,43 +1,37 @@
-Return-Path: <bevenson@melinkcorp.com>
-Received: from na01-by2-obe.outbound.protection.outlook.com
-	(mail-by2on0117.outbound.protection.outlook.com [207.46.100.117])
-	by mail.openembedded.org (Postfix) with ESMTP id 0021D71FE8
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu,  6 Nov 2014 16:50:34 +0000 (UTC)
-Received: from BLUPR05MB039.namprd05.prod.outlook.com (10.255.210.148) by
-	BLUPR05MB500.namprd05.prod.outlook.com (10.141.29.27) with Microsoft
-	SMTP Server (TLS) id 15.1.11.14; Thu, 6 Nov 2014 16:50:32 +0000
-Received: from BLUPR05MB037.namprd05.prod.outlook.com (10.255.210.145) by
-	BLUPR05MB039.namprd05.prod.outlook.com (10.255.210.148) with Microsoft
-	SMTP Server (TLS) id 15.1.11.14; Thu, 6 Nov 2014 16:50:31 +0000
-Received: from BLUPR05MB037.namprd05.prod.outlook.com ([169.254.7.45]) by
-	BLUPR05MB037.namprd05.prod.outlook.com ([169.254.7.45]) with mapi id
-	15.01.0011.000; Thu, 6 Nov 2014 16:50:31 +0000
-From: Bryan Evenson <bevenson@melinkcorp.com>
-To: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Thread-Topic: PR server import/export operation
-Thread-Index: Ac/53RpaLPLcfdrrTaqWNAcdPZkADQ==
-Date: Thu, 6 Nov 2014 16:50:30 +0000
-Message-ID: <efe4c40ae01c417689d5bfa5176544cc@BLUPR05MB037.namprd05.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-vipre-scanned: 00D8A1CE00870200D8A31B
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [98.100.91.242]
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:BLUPR05MB039;UriScan:;
-x-exchange-antispam-report-test: UriScan:;
-x-forefront-prvs: 0387D64A71
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(189002)(199003)(101416001)(4396001)(87936001)(2656002)(76576001)(108616004)(99396003)(120916001)(21056001)(229853001)(105586002)(31966008)(99286002)(2351001)(106356001)(95666004)(110136001)(33646002)(450100001)(46102003)(86362001)(92566001)(64706001)(74316001)(20776003)(77156002)(66066001)(107046002)(97736003)(107886001)(54356999)(40100003)(77096003)(62966003)(122556002)(50986999)(24736002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BLUPR05MB039;
-	H:BLUPR05MB037.namprd05.prod.outlook.com; FPR:; MLV:sfv;
-	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 63F6272010;
+	Thu,  6 Nov 2014 17:25:17 +0000 (UTC)
+Received: by mail-wg0-f52.google.com with SMTP id b13so1738792wgh.25
+	for <multiple recipients>; Thu, 06 Nov 2014 09:25:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=flfglRKPDawnZUM5h6ZTD9Q+NlEr5Ef7/q0YRBa+k1A=;
+	b=M9fdgv9VYgI78I3CFl6XCSf/rqVMVpHjCqZvTQRK9dc5CsmcXtLfBFj8X+591Ve49J
+	kglDiehShG4IbcAk+EE11JotDC/cRV8VU7nXGRSYUnhboxCTU78NpxrqFOdbYdhe1JhD
+	ffdqEd4QXJJDSh+X0w1ZF7LIATcz3++b0Q+v899lCb0ohsPOzwGp8IT3Bw/NtqVbQefY
+	7/0g61WeE5VhLMeU+JIVHQEGsj1HEGsNTUP9daG3V6ku5jJdQDL11/rJWeO1nqNscjSf
+	HoM15b4RWXsePmWGIrFdju47UqBZZJro3MQHhbOFrWZWUludj9U210+MSc5LADmCGRZ+
+	f+Ug==
+X-Received: by 10.194.81.38 with SMTP id w6mr7720568wjx.17.1415294716817;
+	Thu, 06 Nov 2014 09:25:16 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	r2sm9054037wif.23.2014.11.06.09.25.15 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 06 Nov 2014 09:25:15 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 6 Nov 2014 18:25:20 +0100
+To: openembedded-core@lists.openembedded.org, Saul Wold <sgw@linux.intel.com>
+Message-ID: <20141106172520.GB2455@jama>
+References: <20141105232840.B115C50244@opal.openembedded.org>
 MIME-Version: 1.0
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BLUPR05MB500;
-X-OriginatorOrg: melinkcorp.com
-Subject: PR server import/export operation
+In-Reply-To: <20141105232840.B115C50244@opal.openembedded.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Saul Wold : pseudo.inc: Clean up backport of version update to 1.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,37 +44,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Nov 2014 16:50:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 06 Nov 2014 17:25:25 -0000
+X-Groupsio-MsgNum: 59327
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="jho1yZJdad60DJr+"
+Content-Disposition: inline
 
-QWxsLA0KDQpJIGFtIG9uIHBva3kvZHlsYW4gYW5kIEkgaGF2ZSBub3QgeWV0IGNoYW5nZWQgdG8g
-dXNpbmcgdGhlIFBSIHNlcnZlci4gIFRoZXJlIGFyZSBzb21lIHBpZWNlcyBvZiB0aGUgUFIgc2Vy
-dmVyIG9wZXJhdGlvbiB0aGF0IEkgZG9uJ3QgdW5kZXJzdGFuZCwgYW5kIEkgd2FudCB0byBjb25m
-aXJtIGhvdyBjZXJ0YWluIGFzcGVjdHMgb2YgdGhlIFBSIHNlcnZlciB3b3JrIGJlZm9yZSBJIG1h
-a2UgdGhlIHN3aXRjaCB0byBtYWtlIHN1cmUgSSBkb24ndCBtYWtlIGEgbWVzcyBvZiBteSBidWls
-ZHMuIA0KDQpJIHNlZSB0aGF0IHRoZXJlIGlzIGltcG9ydC9leHBvcnQgZnVuY3Rpb25hbGl0eSBm
-b3IgdGhlIFBSIHNlcnZlciAoImJpdGJha2UtcHJzZXJ2LXRvb2wgZXhwb3J0IiBhbmQgImJpdGJh
-a2UtcHJzZXJ2LXRvb2wgaW1wb3J0IikgZm9yIHNhdmluZyB0aGUgUFIgc2VydmVyIHN0YXRlLiAg
-SG93ZXZlciwgSSdtIGNvbmZ1c2VkIG9uIGhvdyBpdCB3b3JrcyBmb3IgaW5kZXBlbmRlbnQgYnVp
-bGQgc3lzdGVtcy4NCg0KRXhhbXBsZSBzY2VuYXJpbzoNCjEuIEkgbWFrZSBzb21lIGNoYW5nZXMg
-Zm9yIGEgcHJvZHVjdCByZWxlYXNlIGFuZCBidWlsZCBhIG5ldyBpbWFnZS4gIEkgcHVzaCBhbGwg
-bGF5ZXIgY2hhbmdlcyB0byBvdXIgbG9jYWwgR2l0IHJlcG9zaXRvcmllcyBhbmQgc3RvcmUgdGhl
-IHJlc3VsdGluZyBpbWFnZSBhbmQgcGFja2FnZXMgb24gb3VyIHNlcnZlci4NCjIuIEkgY2FsbCAi
-Yml0YmFrZS1wcnNlcnYtdG9vbCBleHBvcnQiIGFuZCBwdXNoIHRoZSBleHBvcnRlZCB0YWJsZSB0
-byBvdXIgbG9jYWwgR2l0IHJlcG9zaXRvcnkuDQozLiBJIHRhZyBvdXIgbG9jYWwgR2l0IHJlcG9z
-aXRvcmllcyAidjEuMCIgdG8gbWFyayB0aGUgbGF0ZXN0IHByb2R1Y3QgcmVsZWFzZS4NCjQuIE15
-IGhhcmQgZHJpdmUgY3Jhc2hlcyBhbmQgSSBuZWVkIHRvIGdldCBhIG5ldyBvbmUuICBJIGdldCBt
-eSBjb21wdXRlciBiYWNrIHVwIGFuZCBydW5uaW5nIGFuZCBkbyBhIGZyZXNoIGNsb25lIG9mIG91
-ciBsb2NhbCBHaXQgcmVwb3NpdG9yaWVzIGFuZCBjaGVja291dCAidjEuMCIuDQo1LiBJIGNhbGwg
-ImJpdGJha2UtcHJzZXJ2LXRvb2wgaW1wb3J0IiB1c2luZyB0aGUgUFIgdGFibGUgZnJvbSBvdXIg
-bG9jYWwgR2l0IHJlcG9zaXRvcnkuDQo2LiBJIGRvIG15IGluaXRpYWwgaW1hZ2UgYnVpbGQsIHdo
-aWNoIHB1bGxzIGluIGFsbCB0aGUgc291cmNlIGNvZGUgYW5kIGJ1aWxkcyBhbGwgcGFja2FnZXMg
-Zm9yIHRoZSBmaXJzdCB0aW1lLg0KDQpNeSBxdWVzdGlvbiBpczogd2lsbCB0aGUgcGFja2FnZSB2
-ZXJzaW9ucyBmb3IgYWxsIHBhY2thZ2VzIGJlIHRoZSBzYW1lIGFmdGVyIHN0ZXAgNiBhcyB0aGV5
-IHdlcmUgYWZ0ZXIgc3RlcCAxPyAgT3Igd2lsbCBldmVyeSBQUiBnZXQgaW5jcmVtZW50ZWQgYnkg
-dGhlIFBSIHNlcnZlciBpbiBzdGVwIDY/ICBJZiBzbywgaXMgdGhlcmUgYW4gb3JkZXIgdG8gZG9p
-bmcgdGhpbmdzIHNvIHRoYXQgSSBjYW4gZ2V0IHRoZSBQUnMgdG8gbWF0Y2ggaW4gc3RlcCAxIGFu
-ZCBpbiBzdGVwIDY/DQoNClJlZ2FyZHMsDQpCcnlhbg0K
+--jho1yZJdad60DJr+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Nov 05, 2014 at 11:28:40PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: daisy
+> Commit: 606793e7b5c129654f317e5bec9ed7f083d3383d
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D606793e7b5c129654f317e5bec9ed7f083d3383d
+>=20
+> Author: Saul Wold <sgw@linux.intel.com>
+> Date:   Wed Nov  5 13:36:33 2014 -0800
+>=20
+> pseudo.inc: Clean up backport of version update to 1.6.2
+>=20
+>   This uprevs pseudo to 1.6. This merges in all of the existing
+>     fixes, and also adds partial support for extended attributes,
+>     including storing arbitrary extended attributes in the database,
+>     and also interpreting the posix permissions ACLs as chmod
+>     requests.
+>=20
+>     The extended attribute support means we need xattr.h, the simplest
+>     way to be sure of this is to build attr before pseudo, which doesn't
+>     take long.
+>=20
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+
+You can also remove
+=2E/meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.=
+patch
+which is no longer used by pseudo versions in daisy
+
+
+>=20
+> ---
+>=20
+>  meta/recipes-devtools/pseudo/pseudo.inc | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devto=
+ols/pseudo/pseudo.inc
+> index 42738ab..11a8514 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo.inc
+> +++ b/meta/recipes-devtools/pseudo/pseudo.inc
+> @@ -7,11 +7,7 @@ HOMEPAGE =3D "http://git.yoctoproject.org/cgit/cgit.cgi/=
+pseudo"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D243b725d71bb5df4a1e5920b344b8=
+6ad"
+>  SECTION =3D "base"
+>  LICENSE =3D "LGPL2.1"
+> -DEPENDS =3D "sqlite3"
+> -
+> -SRC_URI_append_class-nativesdk =3D " file://symver.patch"
+> -
+> -SRC_URI_append_class-native =3D " file://symver.patch"
+> +DEPENDS =3D "sqlite3 attr"
+> =20
+>  FILES_${PN} =3D "${prefix}/lib/pseudo/lib*/libpseudo.so ${bindir}/* ${lo=
+calstatedir}/pseudo ${prefix}/var/pseudo"
+>  FILES_${PN}-dbg +=3D "${prefix}/lib/pseudo/lib*/.debug"
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--jho1yZJdad60DJr+
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlRbrwAACgkQN1Ujt2V2gBwIQgCfTVKSknE0rC9k6UnXkRiXI4Z1
+U68AniBanrrPXU4ZFNEpJdposmRJCYAy
+=/ANo
+-----END PGP SIGNATURE-----
+
+--jho1yZJdad60DJr+--
