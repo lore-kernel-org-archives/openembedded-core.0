@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 12B4271FFB
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BD9271FF3
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  7 Nov 2014 00:19:52 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 06 Nov 2014 16:18:11 -0800
+	by orsmga103.jf.intel.com with ESMTP; 06 Nov 2014 16:17:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,329,1413270000"; d="scan'208";a="632989765"
+X-IronPort-AV: E=Sophos;i="5.07,329,1413270000"; d="scan'208";a="632989760"
 Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.13.21])
-	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2014 16:19:52 -0800
+	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2014 16:19:51 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Nov 2014 16:19:30 -0800
-Message-Id: <4765e77590197cc926c5ecbe9045159309fb2863.1415319473.git.sgw@linux.intel.com>
+Date: Thu,  6 Nov 2014 16:19:29 -0800
+Message-Id: <c90bd4b56d28e95fdbf5a23594304f96dc5fbfc4.1415319473.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1415319473.git.sgw@linux.intel.com>
 References: <cover.1415319473.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1415319473.git.sgw@linux.intel.com>
 References: <cover.1415319473.git.sgw@linux.intel.com>
-Subject: [PATCH 05/19] libgcrypt: Ugrade to 1.6.2
+Subject: [PATCH 04/19] liburcu: Ugrade to 0.8.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,215 +33,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 07 Nov 2014 00:19:55 -0000
 
-Remove backported patch
-
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- ...ibgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch | 169 ---------------------
- meta/recipes-support/libgcrypt/libgcrypt_1.6.1.bb  |   6 -
- meta/recipes-support/libgcrypt/libgcrypt_1.6.2.bb  |   4 +
- 3 files changed, 4 insertions(+), 175 deletions(-)
- delete mode 100644 meta/recipes-support/libgcrypt/files/libgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch
- delete mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.6.1.bb
- create mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.6.2.bb
+ meta/recipes-support/liburcu/{liburcu_0.8.4.bb => liburcu_0.8.5.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/liburcu/{liburcu_0.8.4.bb => liburcu_0.8.5.bb} (83%)
 
-diff --git a/meta/recipes-support/libgcrypt/files/libgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch b/meta/recipes-support/libgcrypt/files/libgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch
-deleted file mode 100644
-index 3400872..0000000
---- a/meta/recipes-support/libgcrypt/files/libgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch
-+++ /dev/null
-@@ -1,169 +0,0 @@
--Fix ARM assembly when building __PIC__
--
--* cipher/camellia-arm.S (GET_DATA_POINTER): New.
--(_gcry_camellia_arm_encrypt_block): Use GET_DATA_POINTER.
--(_gcry_camellia_arm_decrypt_block): Ditto.
--* cipher/cast5-arm.S (GET_DATA_POINTER): New.
--(_gcry_cast5_arm_encrypt_block, _gcry_cast5_arm_decrypt_block)
--(_gcry_cast5_arm_enc_blk2, _gcry_cast5_arm_dec_blk2): Use
--GET_DATA_POINTER.
--* cipher/rijndael-arm.S (GET_DATA_POINTER): New.
--(_gcry_aes_arm_encrypt_block, _gcry_aes_arm_decrypt_block): Use
--GET_DATA_POINTER.
----
--
--Signed-off-by: Jussi Kivilinna <jussi.kivilinna@iki.fi>
--
--Upstream-Status: Backport
--
--Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-----
-- cipher/camellia-arm.S |   17 +++++++++++++++--
-- cipher/cast5-arm.S    |   21 +++++++++++++++++----
-- cipher/rijndael-arm.S |   17 +++++++++++++++--
-- 3 files changed, 47 insertions(+), 8 deletions(-)
--
--diff --git a/cipher/camellia-arm.S b/cipher/camellia-arm.S
--index c30d194..cdeaf8b 100644
----- a/cipher/camellia-arm.S
--+++ b/cipher/camellia-arm.S
--@@ -28,6 +28,19 @@
-- .syntax unified
-- .arm
-- 
--+#ifdef __PIC__
--+#  define GET_DATA_POINTER(reg, name, rtmp) \
--+		ldr reg, 1f; \
--+		ldr rtmp, 2f; \
--+		b 3f; \
--+	1:	.word _GLOBAL_OFFSET_TABLE_-(3f+8); \
--+	2:	.word name(GOT); \
--+	3:	add reg, pc, reg; \
--+		ldr reg, [reg, rtmp];
--+#else
--+#  define GET_DATA_POINTER(reg, name, rtmp) ldr reg, =name
--+#endif
--+
-- /* struct camellia_ctx: */
-- #define key_table 0
-- 
--@@ -261,7 +274,7 @@ _gcry_camellia_arm_encrypt_block:
-- 	 */
-- 	push {%r1, %r4-%r11, %ip, %lr};
-- 
---	ldr RTAB1, =.Lcamellia_sp1110;
--+	GET_DATA_POINTER(RTAB1, .Lcamellia_sp1110, RTAB3);
-- 	mov RMASK, #0xff;
-- 	add RTAB3, RTAB1, #(2 * 4);
-- 	push {%r3};
--@@ -309,7 +322,7 @@ _gcry_camellia_arm_decrypt_block:
-- 	 */
-- 	push {%r1, %r4-%r11, %ip, %lr};
-- 
---	ldr RTAB1, =.Lcamellia_sp1110;
--+	GET_DATA_POINTER(RTAB1, .Lcamellia_sp1110, RTAB3);
-- 	mov RMASK, #0xff;
-- 	add RTAB3, RTAB1, #(2 * 4);
-- 	mov RMASK, RMASK, lsl#4 /* byte mask */
--diff --git a/cipher/cast5-arm.S b/cipher/cast5-arm.S
--index ce7fa93..db96db4 100644
----- a/cipher/cast5-arm.S
--+++ b/cipher/cast5-arm.S
--@@ -30,6 +30,19 @@
-- 
-- .extern _gcry_cast5_s1to4;
-- 
--+#ifdef __PIC__
--+#  define GET_DATA_POINTER(reg, name, rtmp) \
--+		ldr reg, 1f; \
--+		ldr rtmp, 2f; \
--+		b 3f; \
--+	1:	.word _GLOBAL_OFFSET_TABLE_-(3f+8); \
--+	2:	.word name(GOT); \
--+	3:	add reg, pc, reg; \
--+		ldr reg, [reg, rtmp];
--+#else
--+#  define GET_DATA_POINTER(reg, name, rtmp) ldr reg, =name
--+#endif
--+
-- /* structure of crypto context */
-- #define Km 0
-- #define Kr (Km + (16 * 4))
--@@ -260,7 +273,7 @@ _gcry_cast5_arm_encrypt_block:
-- 	 */
-- 	push {%r1, %r4-%r11, %ip, %lr};
-- 
---	ldr Rs1, =_gcry_cast5_s1to4;
--+	GET_DATA_POINTER(Rs1, _gcry_cast5_s1to4, Rs2);
-- 	mov RMASK, #(0xff << 2);
-- 	add Rs2, Rs1, #(0x100*4);
-- 	add Rs3, Rs1, #(0x100*4*2);
--@@ -306,7 +319,7 @@ _gcry_cast5_arm_decrypt_block:
-- 	 */
-- 	push {%r1, %r4-%r11, %ip, %lr};
-- 
---	ldr Rs1, =_gcry_cast5_s1to4;
--+	GET_DATA_POINTER(Rs1, _gcry_cast5_s1to4, Rs2);
-- 	mov RMASK, #(0xff << 2);
-- 	add Rs2, Rs1, #(0x100 * 4);
-- 	add Rs3, Rs1, #(0x100 * 4 * 2);
--@@ -500,7 +513,7 @@ _gcry_cast5_arm_enc_blk2:
-- 	 */
-- 	push {%lr};
-- 
---	ldr Rs1, =_gcry_cast5_s1to4;
--+	GET_DATA_POINTER(Rs1, _gcry_cast5_s1to4, Rs2);
-- 	mov RMASK, #(0xff << 2);
-- 	add Rs2, Rs1, #(0x100 * 4);
-- 
--@@ -631,7 +644,7 @@ _gcry_cast5_arm_dec_blk2:
-- 	 *	[RR0, RL0], [RR1, RL1]: dst
-- 	 */
-- 
---	ldr Rs1, =_gcry_cast5_s1to4;
--+	GET_DATA_POINTER(Rs1, _gcry_cast5_s1to4, Rs2);
-- 	mov RMASK, #(0xff << 2);
-- 	add Rs2, Rs1, #(0x100 * 4);
-- 
--diff --git a/cipher/rijndael-arm.S b/cipher/rijndael-arm.S
--index 22c350c..421c3b4 100644
----- a/cipher/rijndael-arm.S
--+++ b/cipher/rijndael-arm.S
--@@ -28,6 +28,19 @@
-- .syntax unified
-- .arm
-- 
--+#ifdef __PIC__
--+#  define GET_DATA_POINTER(reg, name, rtmp) \
--+		ldr reg, 1f; \
--+		ldr rtmp, 2f; \
--+		b 3f; \
--+	1:	.word _GLOBAL_OFFSET_TABLE_-(3f+8); \
--+	2:	.word name(GOT); \
--+	3:	add reg, pc, reg; \
--+		ldr reg, [reg, rtmp];
--+#else
--+#  define GET_DATA_POINTER(reg, name, rtmp) ldr reg, =name
--+#endif
--+
-- /* register macros */
-- #define CTX	%r0
-- #define RTAB	%lr
--@@ -249,7 +262,7 @@ _gcry_aes_arm_encrypt_block:
-- 2:
-- 	sub	%sp, #16;
-- 
---	ldr	RTAB, =.LtableE0;
--+	GET_DATA_POINTER(RTAB, .LtableE0, RMASK);
--
-- 	str	%r1, [%sp, #4];		/* dst */
-- 	mov	RMASK, #0xff;
--@@ -503,7 +516,7 @@ _gcry_aes_arm_decrypt_block:
-- 2:
-- 	sub	%sp, #16;
-- 
---	ldr	RTAB, =.LtableD0;
--+	GET_DATA_POINTER(RTAB, .LtableD0, RMASK);
-- 
-- 	mov	RMASK, #0xff;
-- 	str	%r1, [%sp, #4];		/* dst */
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.6.1.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.6.1.bb
-deleted file mode 100644
-index 903ed66..0000000
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.6.1.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require libgcrypt.inc
--
--SRC_URI += "file://libgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch"
--
--SRC_URI[md5sum] = "d155aa1b06fa879175922ba28f6a6509"
--SRC_URI[sha256sum] = "7c1007197bef49c3b8740cf6af8b4eb4eb74c7a69796ebcf555d928c287255de"
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.6.2.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.6.2.bb
-new file mode 100644
-index 0000000..c49c0e7
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.6.2.bb
-@@ -0,0 +1,4 @@
-+require libgcrypt.inc
-+
-+SRC_URI[md5sum] = "d19adc062edff0ebc7e887212733ef1f"
-+SRC_URI[sha256sum] = "936921644b9c81e2395e18a554a9a5f9252aae3976f8afc3e4229ee9d785e627"
+diff --git a/meta/recipes-support/liburcu/liburcu_0.8.4.bb b/meta/recipes-support/liburcu/liburcu_0.8.5.bb
+similarity index 83%
+rename from meta/recipes-support/liburcu/liburcu_0.8.4.bb
+rename to meta/recipes-support/liburcu/liburcu_0.8.5.bb
+index 963029e..04c990e 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.8.4.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.8.5.bb
+@@ -11,8 +11,8 @@ SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2 \
+            file://Revert-Blacklist-ARM-gcc-4.8.0-4.8.1-4.8.2.patch \
+           "
+ 
+-SRC_URI[md5sum] = "2ca6671b20a550aa0e8020a1a9a96fd4"
+-SRC_URI[sha256sum] = "96c0a157e94a15b1506efe9aedd98145e6eb41a3fbcf5b0d118b7a783b22fe12"
++SRC_URI[md5sum] = "24ba9e03542b747d3378434eb0041acf"
++SRC_URI[sha256sum] = "a2562eaca107ec6eca2856632b6035c6aaf38df79020195ed8955a7b4773312a"
+ 
+ S = "${WORKDIR}/userspace-rcu-${PV}"
+ CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
 -- 
 1.8.3.1
 
