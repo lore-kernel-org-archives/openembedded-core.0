@@ -1,37 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 536A865C7C
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 881E265CA0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 12:16:38 +0000 (UTC)
-Received: by mail-qg0-f41.google.com with SMTP id q107so2273147qgd.14
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Nov 2014 04:16:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=lbTYBaiXLa8Dt7rvCsnxS/gOg2TGkuyByoX15IIXAjw=;
-	b=SZ4vNajZKzWoNpCvmiQ22XR7mhxUd0ysGy7+7qqV+JrwZWmWpVnDWMfYXMrrAKFthI
-	3trPveoMr2gMF43PdX3bdUtYCm8MIZ3Efr0bYvuP32eC3+TVPnbiauSSuQdBRKCMDG3z
-	2Xpvxo4NSa8ky8TrukowpxVS3ubxLnebdsdQQjWJdubbOYJUd1u6/Cu94g8NLcj9nbUz
-	YEhOHVmARtzt0uTdaW1cf9A//JE732UKjlrws+3Z2yJb9XKSi3P4GRs2DvK7+MQ89Ql8
-	BP1jew56VyDw2xQ3nrNQ+t65Yl//qs130/RsisNSCo/zocuUSvUZ1zfHKHC4i3HRQqQp
-	2Ylg==
-X-Gm-Message-State: ALoCoQlp1fX3EduYf0T39WE+YEClAoX7z5N+sUSPX9N/N0iMy/PD2VXTVKe2dlGl4oiT2Q3TPchF
-X-Received: by 10.229.224.201 with SMTP id ip9mr16735656qcb.5.1415362599096;
-	Fri, 07 Nov 2014 04:16:39 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Fri, 7 Nov 2014 04:16:18 -0800 (PST)
-In-Reply-To: <1415346729-16760-3-git-send-email-schnitzeltony@googlemail.com>
-References: <1415346729-16760-1-git-send-email-schnitzeltony@googlemail.com>
-	<1415346729-16760-3-git-send-email-schnitzeltony@googlemail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 7 Nov 2014 12:16:18 +0000
-Message-ID: <CAJTo0Lbe3s-9T4CP4YGdpKfeCEbEnQF3SDWJt4CNie9B8mr_DA@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] xserver-xorg: update to 1.16.1
+	Fri,  7 Nov 2014 12:23:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA7CMvDb008305; Fri, 7 Nov 2014 12:22:57 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Dx3T3Lj6a4Fw; Fri,  7 Nov 2014 12:22:56 +0000 (GMT)
+Received: from ted (5751f4a1.skybroadband.com [87.81.244.161])
+	(authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA7CMskN008296
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 7 Nov 2014 12:22:55 GMT
+Received: from richard by ted with local (Exim 4.84_RC1)
+	(envelope-from <richard@dan.rpsys.net>)
+	id 1XmiZY-0007se-PA; Fri, 07 Nov 2014 12:23:24 +0000
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Nov 2014 12:23:14 +0000
+Message-Id: <1415362995-30255-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 1/2] gdb: 7.7.1 -> 7.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +36,256 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 12:16:41 -0000
-Content-Type: multipart/alternative; boundary=001a1135ef1ef2a1db050743c8e4
+X-List-Received-Date: Fri, 07 Nov 2014 12:23:43 -0000
 
---001a1135ef1ef2a1db050743c8e4
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Drop patch merged upstream.
 
-Hi Andreas,
+Also drop old arm/thumb patch which breaks the compile on arm. We've
+had this since 2010 (or longer) and the issue has likely been fixed
+upstream by now. If not someone with more knowledge will need to
+figure out the fix against the current codebase.
 
-On 7 November 2014 07:52, Andreas M=C3=BCller <schnitzeltony@googlemail.com=
->
-wrote:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/gdb/gdb-7.7.1.inc            | 10 --------
+ meta/recipes-devtools/gdb/gdb-7.8.1.inc            | 11 ++++++++
+ .../gdb/gdb-cross-canadian_7.7.1.bb                |  3 ---
+ .../gdb/gdb-cross-canadian_7.8.1.bb                |  3 +++
+ meta/recipes-devtools/gdb/gdb-cross_7.7.1.bb       |  4 ---
+ meta/recipes-devtools/gdb/gdb-cross_7.8.1.bb       |  4 +++
+ meta/recipes-devtools/gdb/gdb.inc                  |  4 +--
+ .../gdb/gdb/include_asm_ptrace.patch               | 30 ----------------------
+ .../gdb/gdb/kill_arm_map_symbols.patch             | 26 -------------------
+ meta/recipes-devtools/gdb/gdb_7.7.1.bb             | 24 -----------------
+ meta/recipes-devtools/gdb/gdb_7.8.1.bb             | 24 +++++++++++++++++
+ 11 files changed, 43 insertions(+), 100 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb-7.7.1.inc
+ create mode 100644 meta/recipes-devtools/gdb/gdb-7.8.1.inc
+ delete mode 100644 meta/recipes-devtools/gdb/gdb-cross-canadian_7.7.1.bb
+ create mode 100644 meta/recipes-devtools/gdb/gdb-cross-canadian_7.8.1.bb
+ delete mode 100644 meta/recipes-devtools/gdb/gdb-cross_7.7.1.bb
+ create mode 100644 meta/recipes-devtools/gdb/gdb-cross_7.8.1.bb
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/include_asm_ptrace.patch
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/kill_arm_map_symbols.patch
+ delete mode 100644 meta/recipes-devtools/gdb/gdb_7.7.1.bb
+ create mode 100644 meta/recipes-devtools/gdb/gdb_7.8.1.bb
 
-> * first version supporting rootless X (not tested yet)
-> * modesetting working for non PCI gpus (tested on gumstix overo)
->
-> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
->
+diff --git a/meta/recipes-devtools/gdb/gdb-7.7.1.inc b/meta/recipes-devtools/gdb/gdb-7.7.1.inc
+deleted file mode 100644
+index aa16d5a..0000000
+--- a/meta/recipes-devtools/gdb/gdb-7.7.1.inc
++++ /dev/null
+@@ -1,10 +0,0 @@
+-LICENSE = "GPLv2 & GPLv3 & LGPLv2 & LGPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+-		    file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
+-		    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+-		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
+-
+-S = "${WORKDIR}/${BPN}-${PV}"
+-
+-SRC_URI[md5sum] = "45b07b53d81832d32ccd4829465d4886"
+-SRC_URI[sha256sum] = "eefadb9831e3695d1eaef34e98b8f1fb441df6fe5071317ea49c6bd6ba213eff"
+diff --git a/meta/recipes-devtools/gdb/gdb-7.8.1.inc b/meta/recipes-devtools/gdb/gdb-7.8.1.inc
+new file mode 100644
+index 0000000..6fa13bc
+--- /dev/null
++++ b/meta/recipes-devtools/gdb/gdb-7.8.1.inc
+@@ -0,0 +1,11 @@
++LICENSE = "GPLv2 & GPLv3 & LGPLv2 & LGPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
++		    file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
++		    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
++		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
++
++S = "${WORKDIR}/${BPN}-${PV}"
++
++SRC_URI[md5sum] = "997492cc3475c96f35ecc8775248c9b1"
++SRC_URI[sha256sum] = "d7a923d876ecfa1cec4c1c79c014c9d8e58783a25855a95cf260275f61990647"
++
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.7.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.7.1.bb
+deleted file mode 100644
+index 3010359..0000000
+--- a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.7.1.bb
++++ /dev/null
+@@ -1,3 +0,0 @@
+-require gdb-common.inc
+-require gdb-cross-canadian.inc
+-require gdb-${PV}.inc
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.8.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.8.1.bb
+new file mode 100644
+index 0000000..3010359
+--- /dev/null
++++ b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.8.1.bb
+@@ -0,0 +1,3 @@
++require gdb-common.inc
++require gdb-cross-canadian.inc
++require gdb-${PV}.inc
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.7.1.bb b/meta/recipes-devtools/gdb/gdb-cross_7.7.1.bb
+deleted file mode 100644
+index f9da486..0000000
+--- a/meta/recipes-devtools/gdb/gdb-cross_7.7.1.bb
++++ /dev/null
+@@ -1,4 +0,0 @@
+-require gdb-cross.inc
+-require gdb-${PV}.inc
+-
+-SRC_URI += "file://sim-install-6.6.patch"
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.8.1.bb b/meta/recipes-devtools/gdb/gdb-cross_7.8.1.bb
+new file mode 100644
+index 0000000..f9da486
+--- /dev/null
++++ b/meta/recipes-devtools/gdb/gdb-cross_7.8.1.bb
+@@ -0,0 +1,4 @@
++require gdb-cross.inc
++require gdb-${PV}.inc
++
++SRC_URI += "file://sim-install-6.6.patch"
+diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
+index 7b3e59a..2c95e03 100644
+--- a/meta/recipes-devtools/gdb/gdb.inc
++++ b/meta/recipes-devtools/gdb/gdb.inc
+@@ -2,10 +2,8 @@ require gdb-common.inc
+ 
+ inherit gettext
+ 
+-SRC_URI += "file://kill_arm_map_symbols.patch \
+-            file://gdbserver-cflags-last.diff;striplevel=0 \
++SRC_URI += "file://gdbserver-cflags-last.diff;striplevel=0 \
+             file://renesas-sh-native-support.patch \
+-            file://include_asm_ptrace.patch \
+            "
+ #LDFLAGS_append = " -s"
+ #export CFLAGS_append=" -L${STAGING_LIBDIR}"
+diff --git a/meta/recipes-devtools/gdb/gdb/include_asm_ptrace.patch b/meta/recipes-devtools/gdb/gdb/include_asm_ptrace.patch
+deleted file mode 100644
+index 85e0147..0000000
+--- a/meta/recipes-devtools/gdb/gdb/include_asm_ptrace.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-gdb: include asm/ptrace.h in two aarch64 source files
+-
+-Both sys/ptrace.h and asm/ptrace.h need to be included.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: joe.slater@windriver.com
+-
+-
+---- a/gdb/aarch64-linux-nat.c
+-+++ b/gdb/aarch64-linux-nat.c
+-@@ -32,6 +32,8 @@
+- #include "elf/common.h"
+- 
+- #include <sys/ptrace.h>
+-+#include <asm/ptrace.h>
+-+
+- #include <sys/utsname.h>
+- 
+- #include "gregset.h"
+---- a/gdb/gdbserver/linux-aarch64-low.c
+-+++ b/gdb/gdbserver/linux-aarch64-low.c
+-@@ -26,6 +26,7 @@
+- #include <signal.h>
+- #include <sys/user.h>
+- #include <sys/ptrace.h>
+-+#include <asm/ptrace.h>
+- #include <sys/uio.h>
+- 
+- #include "gdb_proc_service.h"
+diff --git a/meta/recipes-devtools/gdb/gdb/kill_arm_map_symbols.patch b/meta/recipes-devtools/gdb/gdb/kill_arm_map_symbols.patch
+deleted file mode 100644
+index 9fc45b9..0000000
+--- a/meta/recipes-devtools/gdb/gdb/kill_arm_map_symbols.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-Index: gdb-7.3/gdb/arm-tdep.c
+-===================================================================
+---- gdb-7.3.orig/gdb/arm-tdep.c	2011-05-17 14:27:01.000000000 -0700
+-+++ gdb-7.3/gdb/arm-tdep.c	2011-08-05 22:29:58.784201850 -0700
+-@@ -7806,6 +7806,19 @@
+- static void
+- arm_elf_make_msymbol_special(asymbol *sym, struct minimal_symbol *msym)
+- {
+-+
+-+    /* FIXME: We want gdb to ignore the ARM ELF mapping symbols when
+-+	displaying disassembly so we use this horrible hack here to
+-+	artifically set their address to the highest possible value.
+-+	This is wrong of course, and it prevents the symbols from being
+-+	used for their intended purpose - to distinguish between ARM
+-+	and THUMB code.  So we ought to find a better way to do this.  */
+-+    if (bfd_asymbol_name (sym)
+-+	&& bfd_asymbol_name (sym)[0] == '$'
+-+	&& bfd_asymbol_name (sym)[1] != 0
+-+	&& bfd_asymbol_name (sym)[2] == 0)
+-+      SYMBOL_VALUE_ADDRESS(msym) = (CORE_ADDR) 0x7ffffffc;
+-+
+-   if (ARM_SYM_BRANCH_TYPE (&((elf_symbol_type *)sym)->internal_elf_sym)
+-       == ST_BRANCH_TO_THUMB)
+-     MSYMBOL_SET_SPECIAL (msym);
+diff --git a/meta/recipes-devtools/gdb/gdb_7.7.1.bb b/meta/recipes-devtools/gdb/gdb_7.7.1.bb
+deleted file mode 100644
+index 1abc9d8..0000000
+--- a/meta/recipes-devtools/gdb/gdb_7.7.1.bb
++++ /dev/null
+@@ -1,24 +0,0 @@
+-require gdb.inc
+-require gdb-${PV}.inc
+-
+-inherit python-dir
+-
+-PACKAGECONFIG ??= ""
+-PACKAGECONFIG[python] = "--with-python=${WORKDIR}/python,--without-python,python"
+-PACKAGECONFIG[babeltrace] = "--with-babeltrace,--without-babeltrace,babeltrace"
+-
+-do_configure_prepend() {
+-	if [ -n "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python', '', d)}" ]; then
+-		cat > ${WORKDIR}/python << EOF
+-#!/bin/sh
+-case "\$2" in
+-	--includes) echo "-I${STAGING_INCDIR}/${PYTHON_DIR}/" ;;
+-	--ldflags) echo "-Wl,-rpath-link,${STAGING_LIBDIR}/.. -Wl,-rpath,${libdir}/.. -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
+-	--exec-prefix) echo "${exec_prefix}" ;;
+-	*) exit 1 ;;
+-esac
+-exit 0
+-EOF
+-		chmod +x ${WORKDIR}/python
+-	fi
+-}
+diff --git a/meta/recipes-devtools/gdb/gdb_7.8.1.bb b/meta/recipes-devtools/gdb/gdb_7.8.1.bb
+new file mode 100644
+index 0000000..1abc9d8
+--- /dev/null
++++ b/meta/recipes-devtools/gdb/gdb_7.8.1.bb
+@@ -0,0 +1,24 @@
++require gdb.inc
++require gdb-${PV}.inc
++
++inherit python-dir
++
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[python] = "--with-python=${WORKDIR}/python,--without-python,python"
++PACKAGECONFIG[babeltrace] = "--with-babeltrace,--without-babeltrace,babeltrace"
++
++do_configure_prepend() {
++	if [ -n "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python', '', d)}" ]; then
++		cat > ${WORKDIR}/python << EOF
++#!/bin/sh
++case "\$2" in
++	--includes) echo "-I${STAGING_INCDIR}/${PYTHON_DIR}/" ;;
++	--ldflags) echo "-Wl,-rpath-link,${STAGING_LIBDIR}/.. -Wl,-rpath,${libdir}/.. -lpthread -ldl -lutil -lm -lpython${PYTHON_BASEVERSION}" ;;
++	--exec-prefix) echo "${exec_prefix}" ;;
++	*) exit 1 ;;
++esac
++exit 0
++EOF
++		chmod +x ${WORKDIR}/python
++	fi
++}
+-- 
+2.1.0
 
-When removing patches, please give a rationale.  I've looked and will
-update the log to reflect this, but please do this in the future.
 
-Ross
-
---001a1135ef1ef2a1db050743c8e4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Andreas,</div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On 7 November 2014 07:52, Andre=
-as M=C3=BCller <span dir=3D"ltr">&lt;<a href=3D"mailto:schnitzeltony@google=
-mail.com" target=3D"_blank">schnitzeltony@googlemail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><div id=3D":ue" class=3D"a3s" style=
-=3D"overflow:hidden">* first version supporting rootless X (not tested yet)=
-<br>
-* modesetting working for non PCI gpus (tested on gumstix overo)<br>
-<br>
-Signed-off-by: Andreas M=C3=BCller &lt;<a href=3D"mailto:schnitzeltony@goog=
-lemail.com">schnitzeltony@googlemail.com</a>&gt;</div></blockquote></div><b=
-r>When removing patches, please give a rationale.=C2=A0 I&#39;ve looked and=
- will update the log to reflect this, but please do this in the future.</di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
-></div>
-
---001a1135ef1ef2a1db050743c8e4--
