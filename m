@@ -1,40 +1,40 @@
 Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id BB13065D3C
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C896F60557
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 07:52:19 +0000 (UTC)
-Received: by mail-wi0-f180.google.com with SMTP id hi2so3727606wib.1
+	Fri,  7 Nov 2014 07:52:20 +0000 (UTC)
+Received: by mail-wi0-f174.google.com with SMTP id d1so3700969wiv.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Nov 2014 23:52:19 -0800 (PST)
+	Thu, 06 Nov 2014 23:52:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-type:content-transfer-encoding;
-	bh=He53LqNpUoPVR7fY1CmrSwgepNHZ8UamsTgoW0UP/Pg=;
-	b=vyqnmiVoNlz6rAgdT/nbgBAHsmlTYIlyQtGnQi9IjrK6m731HzZN0YjGN5nyCj6J8D
-	FOg41lTah+raNux5OB6/aG4nMyY52FjLHeIyya8fIJz/EurHj4j+ojyxcOHwE4CAYOdK
-	GAWRTkpe7SsrxCswRDn/mDsOkgd/6OvGh0uDbhInDFCq0JNIOyx5osZKRfDgyrVkBo9V
-	O+rSTfMDFHwkbtSDRWYvLArrrX4aX+s2MWu+eSC2vy9IgLykRmk6dNDooVutzsNMHXgY
-	gRDZUIVhwygSOJof/QW0DQ0yrBMOuthSnOpZqMjQgD3N7BSHCG0eOsNwjfGw2Dc4d+6j
-	JTzQ==
-X-Received: by 10.180.20.8 with SMTP id j8mr2518238wie.60.1415346739646;
-	Thu, 06 Nov 2014 23:52:19 -0800 (PST)
+	bh=nZa5tG5fCaRw0mGAYj7aIHLO5RAJx2XDDYVLJf+jjso=;
+	b=lHOP69r8AE+HaZ0zINnEJ56ciMjLcA+VbpseJno4tpvrOr2w/Y7YaLeKGtRxuUg0UE
+	bxSYvWZGOC1wJKLHVjyz80qIfXkrZL3FC3sevVKHmpViNpGw5fqkBJL/YA3hYZ9YP7p9
+	piC55gOV0xXboVgaq+4v7VDVNVYnK/pJGsAcS4Qp8xmfYdTWZV+TxQJvcWtb6zoIYlpk
+	2vh/GgzSI4fItc0qha8Xr/4/TD0TqjAfl1i4sn6yIaNCU+tvL8VUhdSdcMIoitIs2KV+
+	bkmhhEjQW/wHdHz/Log4nGQLnLUYIQGzpLUgU+8YjQgk9Q/I3T51VAJ7r+0OnfUkh/fo
+	rCVA==
+X-Received: by 10.180.93.195 with SMTP id cw3mr2414629wib.68.1415346740880;
+	Thu, 06 Nov 2014 23:52:20 -0800 (PST)
 Received: from localhost.localdomain
 	(ip-176-198-252-150.hsi05.unitymediagroup.de. [176.198.252.150])
-	by mx.google.com with ESMTPSA id md11sm982653wic.15.2014.11.06.23.52.18
+	by mx.google.com with ESMTPSA id md11sm982653wic.15.2014.11.06.23.52.19
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Nov 2014 23:52:19 -0800 (PST)
+	Thu, 06 Nov 2014 23:52:20 -0800 (PST)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Nov 2014 08:52:08 +0100
-Message-Id: <1415346729-16760-2-git-send-email-schnitzeltony@googlemail.com>
+Date: Fri,  7 Nov 2014 08:52:09 +0100
+Message-Id: <1415346729-16760-3-git-send-email-schnitzeltony@googlemail.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1415346729-16760-1-git-send-email-schnitzeltony@googlemail.com>
 References: <1415346729-16760-1-git-send-email-schnitzeltony@googlemail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] midori: update to 0.5.8
+Subject: [PATCH 2/2] xserver-xorg: update to 1.16.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,110 +47,187 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 07:52:23 -0000
+X-List-Received-Date: Fri, 07 Nov 2014 07:52:24 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-midori has moved to cmake for configuration
+* first version supporting rootless X (not tested yet)
+* modesetting working for non PCI gpus (tested on gumstix overo)
 
 Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- meta/recipes-sato/midori/midori_0.5.5.bb | 47 --------------------------------
- meta/recipes-sato/midori/midori_0.5.8.bb | 31 +++++++++++++++++++++
- 2 files changed, 31 insertions(+), 47 deletions(-)
- delete mode 100644 meta/recipes-sato/midori/midori_0.5.5.bb
- create mode 100644 meta/recipes-sato/midori/midori_0.5.8.bb
+ .../xorg-xserver/xserver-xorg/crosscompile.patch   | 22 --------
+ .../xserver-xorg/mips64-compiler.patch             | 29 ----------
+ .../xorg-xserver/xserver-xorg/present-module.patch | 66 ----------------------
+ ...erver-xorg_1.15.1.bb => xserver-xorg_1.16.1.bb} |  9 +--
+ 4 files changed, 3 insertions(+), 123 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/crosscompile.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/mips64-compiler.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/present-module.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.15.1.bb => xserver-xorg_1.16.1.bb} (75%)
 
-diff --git a/meta/recipes-sato/midori/midori_0.5.5.bb b/meta/recipes-sato/midori/midori_0.5.5.bb
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/crosscompile.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/crosscompile.patch
 deleted file mode 100644
-index a9379e7..0000000
---- a/meta/recipes-sato/midori/midori_0.5.5.bb
+index 2f98bb8..0000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/crosscompile.patch
 +++ /dev/null
-@@ -1,47 +0,0 @@
--SUMMARY = "A lightweight web browser"
--HOMEPAGE = "http://www.twotoasts.de/index.php?/pages/midori_summary.html"
--LICENSE = "LGPLv2.1"
--LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
--DEPENDS = "webkit-gtk libsoup-2.4 openssl python-native python-docutils-native librsvg-native libnotify libunique libxscrnsaver"
+@@ -1,22 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
 -
--SRC_URI = "http://www.midori-browser.org/downloads/${BPN}_${PV}_all_.tar.bz2 \
--"
+-diff --git a/configure.ac b/configure.ac
+-index b3b752c..600500b 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -523,13 +523,9 @@ dnl Uses --default-font-path if set, otherwise checks for /etc/X11/fontpath.d,
+- dnl otherwise uses standard subdirectories of FONTROOTDIR. When cross
+- dnl compiling, assume default font path uses standard FONTROOTDIR directories.
+- DEFAULT_FONT_PATH="${FONTMISCDIR}/,${FONTTTFDIR}/,${FONTOTFDIR}/,${FONTTYPE1DIR}/,${FONT100DPIDIR}/,${FONT75DPIDIR}/"
+--if test "$cross_compiling" != yes; then
+--	AC_CHECK_FILE([${sysconfdir}/X11/fontpath.d],
+--		[DEFAULT_FONT_PATH='catalogue:${sysconfdir}/X11/fontpath.d'],
+--		[case $host_os in
+-+		case $host_os in
+- 			darwin*) DEFAULT_FONT_PATH="${DEFAULT_FONT_PATH},/Library/Fonts,/System/Library/Fonts" ;;
+--		esac])
+--fi
+-+		esac
+- AC_ARG_WITH(default-font-path, AS_HELP_STRING([--with-default-font-path=PATH], [Comma separated list of font dirs]),
+- 				[ FONTPATH="$withval" ],
+- 				[ FONTPATH="${DEFAULT_FONT_PATH}" ])
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/mips64-compiler.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/mips64-compiler.patch
+deleted file mode 100644
+index 168368e..0000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/mips64-compiler.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-on mips64/n64 pointers are 64bit therefore the pointer conversions to int dont work well
+-so we end up with incompatible conversion errors
 -
--SRC_URI[md5sum] = "b99e87d4b73a4732ed1c1e591f0242ac"
--SRC_URI[sha256sum] = "ca69382a285222a86028abebd73fed1976735883027ff0adc094b627789bbd62"
+-This patch choses the right values for mips64
 -
--# midori depends on webkit-gtk, and webkit-gtk can NOT be built on
--# MIPS64 with n32 ABI. So remove it from mips64 n32 temporarily.
--COMPATIBLE_HOST_mips64 = "mips64.*-linux$"
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 -
--inherit gtk-icon-cache pkgconfig vala pythonnative
+-Upstream-Status: Pending
+-Index: xorg-server-1.13.0/hw/xfree86/common/compiler.h
+-===================================================================
+---- xorg-server-1.13.0-orig/hw/xfree86/common/compiler.h	2012-06-14 23:04:29.000000000 +0300
+-+++ xorg-server-1.13.0/hw/xfree86/common/compiler.h	2012-11-08 10:06:50.865831783 +0200
+-@@ -101,6 +101,7 @@
+- #if defined(NO_INLINE) || defined(DO_PROTOTYPES)
+- #if !defined(__arm__)
+- #if !defined(__sparc__) && !defined(__sparc) && !defined(__arm32__) && !defined(__nds32__) \
+-+      && !defined(__mips64) \
+-       && !(defined(__alpha__) && defined(linux)) \
+-       && !(defined(__ia64__) && defined(linux)) \
+- 
+-@@ -721,7 +722,7 @@
+- }
+- 
+- #elif defined(__mips__) || (defined(__arm32__) && !defined(__linux__))
+--#ifdef __arm32__
+-+#if defined (__arm32__) || defined (__mips64)
+- #define PORT_SIZE long
+- #else
+- #define PORT_SIZE short
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/present-module.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/present-module.patch
+deleted file mode 100644
+index 13f3caf..0000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/present-module.patch
++++ /dev/null
+@@ -1,66 +0,0 @@
+-[ YOCTO #6583 ]
 -
--do_configure() {
--    sed -i -e 's:, shell=False::g' -e s:/usr/X11R6/include::g -e s:/usr/X11R6/lib::g wscript
--    ./configure \
--            --prefix=${prefix} \
--            --bindir=${bindir} \
--            --sbindir=${sbindir} \
--            --libexecdir=${libexecdir} \
--            --datadir=${datadir} \
--            --sysconfdir=${sysconfdir} \
--            --sharedstatedir=${sharedstatedir} \
--            --localstatedir=${localstatedir} \
--            --libdir=${libdir} \
--            --includedir=${includedir} \
--            --infodir=${infodir} \
--            --mandir=${mandir} \
--            --disable-gtk3 \
--            --disable-zeitgeist \
--}
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
 -
--PARALLEL_MAKE = ""
--TARGET_CC_ARCH += "${LDFLAGS}"
+-From 746be5a03ebbda4ab411ca3efb2ed95f99e9ea46 Mon Sep 17 00:00:00 2001
+-From: Chris Wilson <chris@chris-wilson.co.uk>
+-Date: Wed, 28 May 2014 08:13:59 +0100
+-Subject: xfree86: Report DRI3 as a built-in module
 -
--do_install() {
--    oe_runmake DESTDIR=${D} install
--}
+-This is so that drivers can do a runtime check that DRI3 is available,
+-similar to existing runtime checks performed by the drivers for DRI and
+-DRI2.
 -
--RRECOMMENDS_${PN} += "glib-networking ca-certificates gnome-icon-theme"
+-v2: Only add DRI3 to the list if the module was actually built into the
+-server (Mark Kettenis).
 -
--FILES_${PN}-dev += "${datadir}/vala/vapi"
-diff --git a/meta/recipes-sato/midori/midori_0.5.8.bb b/meta/recipes-sato/midori/midori_0.5.8.bb
-new file mode 100644
-index 0000000..9c45975
---- /dev/null
-+++ b/meta/recipes-sato/midori/midori_0.5.8.bb
-@@ -0,0 +1,31 @@
-+SUMMARY = "A lightweight web browser"
-+HOMEPAGE = "http://midori-browser.org/"
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
-+DEPENDS = "webkit-gtk libsoup-2.4 openssl python-native python-docutils-native librsvg-native libnotify libunique libxscrnsaver"
-+
-+SRC_URI = "http://www.midori-browser.org/downloads/${BPN}_${PV}_all_.tar.bz2 \
-+"
-+
-+SRC_URI[md5sum] = "b89e25e74199d705e74767499a415976"
-+SRC_URI[sha256sum] = "af19135fd4c4b04345df4d3592e7939c20f9b40eaca24550e6cb619751aa9381"
-+
-+S = "${WORKDIR}"
-+
-+# midori depends on webkit-gtk, and webkit-gtk can NOT be built on
-+# MIPS64 with n32 ABI. So remove it from mips64 n32 temporarily.
-+COMPATIBLE_HOST_mips64 = "mips64.*-linux$"
-+
-+inherit gtk-icon-cache pkgconfig vala pythonnative cmake
-+
-+EXTRA_OECMAKE = " \
-+    -DCMAKE_INSTALL_PREFIX=${prefix} \
-+    -DUSE_ZEITGEIST=0 \
-+"
-+
-+TARGET_CC_ARCH += "${LDFLAGS}"
-+
-+RRECOMMENDS_${PN} += "glib-networking ca-certificates gnome-icon-theme"
-+
-+FILES_${PN} += "${datadir}/appdata"
-+
+-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+-Cc: Mark Kettenis <mark.kettenis@xs4all.nl>
+-Signed-off-by: Keith Packard <keithp@keithp.com>
+-
+-diff --git a/hw/xfree86/loader/loadmod.c b/hw/xfree86/loader/loadmod.c
+-index 092bf57..f92ad8d 100644
+---- a/hw/xfree86/loader/loadmod.c
+-+++ b/hw/xfree86/loader/loadmod.c
+-@@ -838,6 +838,9 @@ static const char *compiled_in_modules[] = {
+-     "extmod",
+-     "dri",
+-     "dri2",
+-+#if DRI3
+-+    "dri3",
+-+#endif
+-     NULL
+- };
+- 
+--- 
+-cgit v0.10.2
+-
+-
+-From 7ca458493aa2f0aa091c989ea0768611e0730bf5 Mon Sep 17 00:00:00 2001
+-From: Chris Wilson <chris@chris-wilson.co.uk>
+-Date: Wed, 28 May 2014 08:14:00 +0100
+-Subject: xfree86: Report Present as a built-in module
+-
+-This is so that drivers can do a runtime check that Present is available,
+-similar to existing runtime checks performed by the drivers for DRI.
+-
+-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+-Signed-off-by: Keith Packard <keithp@keithp.com>
+-
+-diff --git a/hw/xfree86/loader/loadmod.c b/hw/xfree86/loader/loadmod.c
+-index f92ad8d..e1f649a 100644
+---- a/hw/xfree86/loader/loadmod.c
+-+++ b/hw/xfree86/loader/loadmod.c
+-@@ -841,6 +841,9 @@ static const char *compiled_in_modules[] = {
+- #if DRI3
+-     "dri3",
+- #endif
+-+#if PRESENT
+-+    "present",
+-+#endif
+-     NULL
+- };
+- 
+--- 
+-cgit v0.10.2
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.1.bb
+similarity index 75%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.1.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.1.bb
+index 3bba3ce..567b916 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.1.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.16.1.bb
+@@ -1,16 +1,13 @@
+ require xserver-xorg.inc
+ 
+ # Misc build failure for master HEAD
+-SRC_URI += "file://crosscompile.patch \
+-            file://fix_open_max_preprocessor_error.patch \
+-            file://mips64-compiler.patch \
++SRC_URI += "file://fix_open_max_preprocessor_error.patch \
+             file://xorg-CVE-2013-6424.patch \
+             file://xshmfence-option.patch \
+-            file://present-module.patch \
+            "
+ 
+-SRC_URI[md5sum] = "e4c70262ed89764be8f8f5d699ed9227"
+-SRC_URI[sha256sum] = "626db6882602ebe1ff81f7a4231c7ccc6ceb5032f2b5b3954bf749e1567221e2"
++SRC_URI[md5sum] = "b1ff364222e921d32de40c4786e8bc47"
++SRC_URI[sha256sum] = "f4677c6ec9fb7b59648321737087aeb9963b60bcea50ee3773fe46be1a37e060"
+ 
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
 -- 
 1.8.3.1
 
