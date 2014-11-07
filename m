@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F7456AC6B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 190CA65D3C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 07:57:13 +0000 (UTC)
+	Fri,  7 Nov 2014 07:57:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA77vDfM020761
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA77vF4H006898
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Nov 2014 23:57:13 -0800 (PST)
+	Thu, 6 Nov 2014 23:57:15 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 6 Nov 2014 23:57:13 -0800
+	14.3.174.1; Thu, 6 Nov 2014 23:57:14 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Fri, 7 Nov 2014 15:57:03 +0800
-Message-ID: <cd8ac315e533592e4ca82994049bf3dd7c2bd6c4.1415346812.git.hongxu.jia@windriver.com>
+Date: Fri, 7 Nov 2014 15:57:04 +0800
+Message-ID: <ffb3182791179eda0edc491dcc3b4ce98e90695f.1415346812.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1415346812.git.hongxu.jia@windriver.com>
 References: <cover.1415346812.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] pointercal-xinput: add the missing ALLOW_EMPTY
+Subject: [PATCH 4/4] postinst-intercept: rename recipe for nativesdk only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,29 +35,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 07 Nov 2014 07:57:15 -0000
 Content-Type: text/plain
 
-Since the do_install conditionally install file if it has a contents,
-it should allow the package empty.
+The recipe postinst-intercept is only used for nativesdk, so we rename
+it from postinst-intercept to nativesdk-postinst-intercept.
 
-It avoids the do_rootfs failure while IMAGE_INSTALL += "pointercal-xinput"
+It avoids unnecessary build of postinst-intercept.
 
 [YOCTO #6937]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ ...ostinst-intercept_1.0.bb => nativesdk-postinst-intercept_1.0.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/postinst-intercept/{postinst-intercept_1.0.bb => nativesdk-postinst-intercept_1.0.bb} (83%)
 
-diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
-index 65348c3..ebc5155 100644
---- a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
-+++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
-@@ -16,5 +16,6 @@ do_install() {
-     fi
+diff --git a/meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb b/meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
+similarity index 83%
+rename from meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb
+rename to meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
+index 41b9a6e..7dc45c6 100644
+--- a/meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb
++++ b/meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
+@@ -2,12 +2,12 @@ SUMMARY = "Postinstall scriptlets"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+-FILES_${PN}_append_class-nativesdk = " ${datadir}/postinst-intercepts/*"
++FILES_${PN}_append = " ${datadir}/postinst-intercepts/*"
+ 
+ do_configure[noexec] = "1"
+ do_compile[noexec] = "1"
+ 
+-do_install_append_class-nativesdk() {
++do_install() {
+ 	install -d ${D}${datadir}/postinst-intercepts
+ 	install -m 755 ${COREBASE}/scripts/postinst-intercepts/postinst_intercept ${D}${datadir}/postinst-intercepts/
+ 	install -m 755 ${COREBASE}/scripts/postinst-intercepts/update_font_cache ${D}${datadir}/postinst-intercepts/
+@@ -15,5 +15,5 @@ do_install_append_class-nativesdk() {
+ 	install -m 755 ${COREBASE}/scripts/postinst-intercepts/update_pixbuf_cache ${D}${datadir}/postinst-intercepts/
  }
  
-+ALLOW_EMPTY_${PN} = "1"
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- CONFFILES_${PN} = "${sysconfdir}/pointercal.xinput"
+-BBCLASSEXTEND = "nativesdk"
++inherit nativesdk
+ INHIBIT_DEFAULT_DEPS = "1"
 -- 
 1.9.1
 
