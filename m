@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FA7E71FE8
+	by mail.openembedded.org (Postfix) with ESMTP id 93A1271FEC
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  7 Nov 2014 00:19:52 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga103.jf.intel.com with ESMTP; 06 Nov 2014 16:17:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,329,1413270000"; d="scan'208";a="632989746"
+X-IronPort-AV: E=Sophos;i="5.07,329,1413270000"; d="scan'208";a="632989754"
 Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.13.21])
 	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2014 16:19:51 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Nov 2014 16:19:27 -0800
-Message-Id: <a64dae89f6a5064e437efb2e79d8bde33294a07e.1415319473.git.sgw@linux.intel.com>
+Date: Thu,  6 Nov 2014 16:19:28 -0800
+Message-Id: <9df9015ca3589968b52f7d9c8fbabdf458fc9b62.1415319473.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1415319473.git.sgw@linux.intel.com>
 References: <cover.1415319473.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1415319473.git.sgw@linux.intel.com>
 References: <cover.1415319473.git.sgw@linux.intel.com>
-Subject: [PATCH 02/19] btrfs: Update to 3.17 version
+Subject: [PATCH 03/19] npth: Upgrade to 1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,30 +35,29 @@ X-List-Received-Date: Fri, 07 Nov 2014 00:19:55 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-support/npth/{npth_0.91.bb => npth_1.0.bb} | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/npth/{npth_0.91.bb => npth_1.0.bb} (78%)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-index 0eed13b..ef85057 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-@@ -12,13 +12,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
- SECTION = "base"
- DEPENDS = "util-linux attr e2fsprogs lzo acl"
+diff --git a/meta/recipes-support/npth/npth_0.91.bb b/meta/recipes-support/npth/npth_1.0.bb
+similarity index 78%
+rename from meta/recipes-support/npth/npth_0.91.bb
+rename to meta/recipes-support/npth/npth_1.0.bb
+index 7105b94..3356ba0 100644
+--- a/meta/recipes-support/npth/npth_0.91.bb
++++ b/meta/recipes-support/npth/npth_1.0.bb
+@@ -8,8 +8,9 @@ LIC_FILES_CHKSUM = "\
+     "
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/npth/npth-${PV}.tar.bz2 \
+           "
+-SRC_URI[md5sum] = "87712f0cee656c390b49773923e26e7f"
+-SRC_URI[sha256sum] = "caef86ced4a331e162897818a5b924860c8d6003e52da5bdf76da00e8e0dfae1"
++
++SRC_URI[md5sum] = "36869bf10378ea08c155cd5c3580a1dd"
++SRC_URI[sha256sum] = "9ad49de376310effab7fdad69581054b0fa9023d062032d06e73058146c8f76e"
  
--SRCREV = "24cf4d8c3ee924b474f68514e0167cc2e602a48d"
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git \
--           file://nodocs.patch"
-+SRCREV = "44cdb62d3478c834f41c87ea79d261b9c8982dce"
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git"
- S = "${WORKDIR}/git"
+ BINCONFIG = "${bindir}/npth-config"
  
- PV = "3.14.2+git${SRCPV}"
- 
-+EXTRA_OEMAKE += "DISABLE_DOCUMENTATION=1"
- 
- do_install () {
- 	oe_runmake 'DESTDIR=${D}' install
 -- 
 1.8.3.1
 
