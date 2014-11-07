@@ -1,27 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 398997202E
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BD10C72051
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 08:56:41 +0000 (UTC)
+	Fri,  7 Nov 2014 08:56:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA78ud26000755
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA78ugfY008744
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 7 Nov 2014 00:56:39 -0800 (PST)
+	Fri, 7 Nov 2014 00:56:42 -0800 (PST)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Fri, 7 Nov 2014 00:56:39 -0800
+	(TLS) id 14.3.174.1; Fri, 7 Nov 2014 00:56:41 -0800
 From: Kai Kang <kai.kang@windriver.com>
 To: <ross.burton@intel.com>
-Date: Fri, 7 Nov 2014 16:51:28 +0800
-Message-ID: <952a61e9f6c45bff2b0ea09d1924064922efc6da.1415350038.git.kai.kang@windriver.com>
+Date: Fri, 7 Nov 2014 16:51:29 +0800
+Message-ID: <e4eab8f80fd42f114c76c9b95931d7ca2ee50e6f.1415350038.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1415350038.git.kai.kang@windriver.com>
 References: <cover.1415350038.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.152]
 Cc: koen.kooi@linaro.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH 23/24] local.conf.sample: Add qemuarm64
+Subject: [PATCH 24/24] poky.conf: Add support for aarch64 to QEMU
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 08:56:41 -0000
+X-List-Received-Date: Fri, 07 Nov 2014 08:56:43 -0000
 Content-Type: text/plain
 
 From: Mark Hatle <mark.hatle@windriver.com>
 
-Add an example machine configuration for qemuarm64.
-
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta-yocto/conf/local.conf.sample | 1 +
- 1 file changed, 1 insertion(+)
+ meta-yocto/conf/distro/poky.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-yocto/conf/local.conf.sample b/meta-yocto/conf/local.conf.sample
-index 93c85c2..a1d99f9 100644
---- a/meta-yocto/conf/local.conf.sample
-+++ b/meta-yocto/conf/local.conf.sample
-@@ -18,6 +18,7 @@
- # of emulated machines available which can boot and run in the QEMU emulator:
- #
- #MACHINE ?= "qemuarm"
-+#MACHINE ?= "qemuarm64"
- #MACHINE ?= "qemumips"
- #MACHINE ?= "qemuppc"
- #MACHINE ?= "qemux86"
+diff --git a/meta-yocto/conf/distro/poky.conf b/meta-yocto/conf/distro/poky.conf
+index e1dfea4..9e22e54 100644
+--- a/meta-yocto/conf/distro/poky.conf
++++ b/meta-yocto/conf/distro/poky.conf
+@@ -44,7 +44,7 @@ DISTRO_EXTRA_RDEPENDS_append_qemux86-64 = " ${POKYQEMUDEPS}"
+ 
+ TCLIBCAPPEND = ""
+ 
+-QEMU_TARGETS ?= "arm i386 mips mipsel ppc x86_64"
++QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel ppc x86_64"
+ # Other QEMU_TARGETS "mips64 mips64el sh4"
+ 
+ PREMIRRORS ??= "\
 -- 
 1.9.1
 
