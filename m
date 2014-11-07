@@ -1,36 +1,21 @@
-Return-Path: <gchoc-openembedded-core@m.gmane.org>
-X-Greylist: delayed 910 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 07 Nov 2014 13:45:16 UTC
-Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
-	by mail.openembedded.org (Postfix) with ESMTP id C716665CA0
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D64265C7C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 13:45:16 +0000 (UTC)
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1Xmjc3-000694-P7 for openembedded-core@lists.openembedded.org;
-	Fri, 07 Nov 2014 14:30:03 +0100
-Received: from p57A56213.dip0.t-ipconnect.de ([87.165.98.19])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Nov 2014 14:30:03 +0100
-Received: from patrick.ohly by p57A56213.dip0.t-ipconnect.de with local
-	(Gmexim 0.1 (Debian)) id 1AlnuQ-0007hv-00
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Nov 2014 14:30:03 +0100
-X-Injected-Via-Gmane: http://gmane.org/
+	Fri,  7 Nov 2014 13:53:54 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 07 Nov 2014 05:47:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="413010237"
+Received: from moyraecc-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.isw.intel.com) ([10.252.122.2])
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Nov 2014 05:45:16 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-From: Patrick Ohly <patrick.ohly@intel.com>
-Date: Fri, 7 Nov 2014 10:12:02 +0000 (UTC)
-Message-ID: <loom.20141107T110211-131@post.gmane.org>
-References: <1415088547.4530.142.camel@intel.com>
-	<9989828.c0GAiu1EUm@chl500346>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: sea.gmane.org
-User-Agent: Loom/3.14 (http://gmane.org/)
-X-Loom-IP: 87.165.98.19 (Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Firefox/31.0 Iceweasel/31.1.0)
-Subject: Re: runqemu + dhcp server
+Date: Fri,  7 Nov 2014 13:52:30 +0000
+Message-Id: <cover.1415368311.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH 0/1] readline fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +28,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 13:45:23 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Nov 2014 13:54:03 -0000
 
-Adrian Freihofer <adrian.freihofer@...> writes:
-> Personally I would prefer a slightly different implementation.
-> I consider the 192.168.7.2 network interface as development, debugging
-> and testing interface which should just work.
+The following change since commit dd93b3a950d063f4e3020362c636006f51fb5782:
 
-Agreed, and it doesn't work at the moment when the image has an Ethernet
-configuration mechanism that wasn't adapted to use the ip kernel parameter. 
-What you are proposing goes beyond just fixing that. I don't have any strong
-opinion about the right way forward.
+  image_types.bbclass: whitespace and reorder (2014-11-06 16:41:38 +0000)
 
-> By the way, where does your solution make use of the DHCP server?
+is available in the git repository at:
 
-When Connman starts up, it finds eth0 and obtains an IP address for it via
-DHCP. Without the DHCP server, the guest ends up without an IP address. I
-have not checked if the ip parameter was ever used.
+  git://git.openembedded.org/openembedded-core-contrib paule/readline-fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/readline-fix
 
-Note that this is what the default Tizen Connman config does, not what Poky
-would do when building and installing Connman. The whole point was the
-ability to use production images without special tweaks. 
+Saul Wold (1):
+  readline: Patch for readline multikey dispatch issue
 
-> The 
-> eth0 IP configuration is assigned by kernel boot parameters in
-> runqemu-internal. If this configuration gets changed later on the NFS 
-> rootfs will break...
+ .../readline-6.3/readline-dispatch-multikey.patch  | 32 ++++++++++++++++++++++
+ meta/recipes-core/readline/readline_6.3.bb         |  3 +-
+ 2 files changed, 34 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/readline/readline-6.3/readline-dispatch-multikey.patch
 
-I haven't tried NFS rootfs. My hope is that it would still work because the
-ip parameter and the DHCP server assign the same IP address and thus nothing
-changes inside the guest when switching from one to the other.
-
-
+-- 
+1.9.3
 
 
