@@ -1,38 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 96FD071F9F
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 219546017E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 14:22:09 +0000 (UTC)
-Received: by mail-qg0-f53.google.com with SMTP id z107so2374555qgd.26
+	Fri,  7 Nov 2014 14:27:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA7ERkwp017149
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Nov 2014 06:22:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=UH9rjRzgKdYm42WX/bYyHgIj21LgxsFMO8T4OoUDbPI=;
-	b=OIisSw6xF+tHLOzC0Td8ICnQ95V804q++JTWU4PyLpTsis/AEzCg9CDaU/gniIg2zS
-	Qb/fELCEeBfq5odSIhl6d1BMs0pwZpYiutAgRsqaWecXvmpSk0or4Qp+4AKjiTFK/Lxd
-	uj7D/KswOzqTNa9jhRPaeqhiPUf2cVeIOlu0tNsqhUvq9ZNeKeurCoiZ5lbSmdgBTWoY
-	MhgdY2Dcy24woh65h5S2iD5yYTnWswaoxM62uMKme2xLMklEyU9xxdiXBrd3crXGuWm0
-	z2sPdnd1T+g5oumvddiSCpftOSQmpKWfl2/aPcE9aOEmtA82tk44uePHqxcsOZ9D6iOF
-	/vZA==
-X-Gm-Message-State: ALoCoQnTRiaZgEGGhhz+P90lAsGu11ZBlScB/q2vRCAoIM+ixpvnvPuMVZXWfK4C8HsEqK7Ttr6X
-X-Received: by 10.224.138.2 with SMTP id y2mr13663688qat.52.1415370129829;
-	Fri, 07 Nov 2014 06:22:09 -0800 (PST)
+	Fri, 7 Nov 2014 06:27:47 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.232) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Fri, 7 Nov 2014 06:27:46 -0800
+Message-ID: <545CD6E1.5080807@windriver.com>
+Date: Fri, 7 Nov 2014 08:27:45 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Fri, 7 Nov 2014 06:21:49 -0800 (PST)
-In-Reply-To: <CAP9ODKrDn-FjOh1nT9j5krPBYvK5G4xpEVBfumxHybW2tP5UMQ@mail.gmail.com>
-References: <CAJTo0LavfAPo3P4Mv9U-24KK7HhkBOgysg5ZAUZe1YOAL10pvw@mail.gmail.com>
-	<CAP9ODKrDn-FjOh1nT9j5krPBYvK5G4xpEVBfumxHybW2tP5UMQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 7 Nov 2014 14:21:49 +0000
-Message-ID: <CAJTo0LbmuNsdh-D+mzy67+zVJJDJPVT_Nkq3h8HkedqmzTDnJw@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OE-devel <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Moving llvm to oe-core?
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1415350038.git.kai.kang@windriver.com>
+	<4BAF41A0-2647-427A-9F10-B2DF8D721FF5@dominion.thruhere.net>
+In-Reply-To: <4BAF41A0-2647-427A-9F10-B2DF8D721FF5@dominion.thruhere.net>
+Subject: Re: [PATCH 00/24] V2: Add machine qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,48 +36,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 14:22:17 -0000
-Content-Type: multipart/alternative; boundary=047d7b6709c3d093a705074589ec
+X-List-Received-Date: Fri, 07 Nov 2014 14:27:51 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---047d7b6709c3d093a705074589ec
-Content-Type: text/plain; charset=UTF-8
-
-On 7 November 2014 11:47, Otavio Salvador <otavio@ossystems.com.br> wrote:
-
-> Besides, having it enabled in our autobuilders will also greatly
-> improve code quality as LLVM is sometimes more picky than GCC. In
-> Debian the exercise of rebuilding the whole archive using LLVM has
-> been very useful and has identified several code issues which has been
-> (or are in the process of being) fixed. Also to add on that, I think
-> the sooner it is done the better so we can solve issues early on the
-> release cycle.
+On 11/7/14, 3:18 AM, Koen Kooi wrote:
+>
+>> Op 7 nov. 2014, om 09:51 heeft Kai Kang <kai.kang@windriver.com> het volgende geschreven:
+>>
+>> V2:
+>> * rebase on master and drop qemu upgrade commit
+>> * built for lib32-core-image-sato core-image-sato-sdk meta-toolchain and world
+>>
+>> V1:
+>> The original configuration files and tune fils for arm arch64 are from linaro.
+>> And we rename it to qemuarm64 for consistency.
+>
+> Consistent to what? All current qemu machines are named after the qemu arch, so consistent would be 'qemuaarch64'. The 'arm64' moniker is *only* used in the kernel and that was caused by Linus being grumpy, everything else is 'aarch64' or 'armv8'
 >
 
-As a side project I ended up using clang as host gcc.  It was amazing how
-often that failed, so don't expect using clang as gcc-cross work straight
-away.
+The arm64 name -did- come from Linaro:
 
-Ross
+http://git.linaro.org/openembedded/meta-linaro.git/tree/HEAD:/meta-aarch64/conf/machine/include
 
---047d7b6709c3d093a705074589ec
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The arch-armv8.inc file (that arch-arm64.inc was based on) is located in the 
+directly "arm64".
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 November 2014 11:47, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1sf" cla=
-ss=3D"a3s" style=3D"overflow:hidden">Besides, having it enabled in our auto=
-builders will also greatly<br>
-improve code quality as LLVM is sometimes more picky than GCC. In<br>
-Debian the exercise of rebuilding the whole archive using LLVM has<br>
-been very useful and has identified several code issues which has been<br>
-(or are in the process of being) fixed. Also to add on that, I think<br>
-the sooner it is done the better so we can solve issues early on the<br>
-release cycle.</div></blockquote></div><br>As a side project I ended up usi=
-ng clang as host gcc.=C2=A0 It was amazing how often that failed, so don&#3=
-9;t expect using clang as gcc-cross work straight away.</div><div class=3D"=
-gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+In addition, the tune file that forms the basis of the ARM tunes is called 
+'arch-arm.inc'.  Not arch-aarch32.inc.  If you want to rename that, we can 
+discuss it.. but to match that naming I chose 'arch-arm64.inc'.
 
---047d7b6709c3d093a705074589ec--
+(arch-armv8.inc was kept, but only includes the arch-arm64.inc file since there 
+are no custom optimizations for 'v8' that I can find.)
+
+
+As far as the machine name goes the original Linaro version, genericarmv8.conf 
+and genericarmv8b.conf, don't match any of the naming conventions that are 
+currently used by QEMU BSPs.
+
+Looking at the existing machine names:
+
+qemuarm.conf  qemumips64.conf  qemumips.conf  qemuppc.conf  qemux86-64.conf 
+qemux86.conf
+
+Each of the suffix names used match the Linux kernel arch naming.
+
+So based on that reasoning the generic little endian machine was defined as 
+qemuarm64.conf.
+
+--Mark
+
