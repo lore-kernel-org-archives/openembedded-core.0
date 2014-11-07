@@ -1,27 +1,20 @@
-Return-Path: <randy.e.witt@linux.intel.com>
+Return-Path: <sgw@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AA1070F3B
+	by mail.openembedded.org (Postfix) with ESMTP id 7EBB865DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Nov 2014 22:38:23 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 06 Nov 2014 14:36:16 -0800
+	Fri,  7 Nov 2014 00:19:51 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 06 Nov 2014 16:17:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,328,1413270000"; d="scan'208";a="603772340"
-Received: from localhost.jf.intel.com (HELO [10.7.201.167]) ([10.7.201.167])
-	by orsmga001.jf.intel.com with ESMTP; 06 Nov 2014 14:38:14 -0800
-Message-ID: <545BF855.9030205@linux.intel.com>
-Date: Thu, 06 Nov 2014 14:38:13 -0800
-From: Randy Witt <randy.e.witt@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
-MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>, 
- ChenQi <Qi.Chen@windriver.com>
-References: <cover.1415258952.git.Qi.Chen@windriver.com>	<a66c9ed9fe8f4b1524803dd814e62fa606a1c34c.1415258952.git.Qi.Chen@windriver.com>	<51B83ADF-EF5F-40FF-B4F5-BFDEF0305051@dominion.thruhere.net>	<545B2A5F.5040208@windriver.com>	<745681A3-F15C-4D06-93C6-3342E014B672@dominion.thruhere.net>	<545B629B.5000900@windriver.com>
-	<648271BD-0C3E-4506-86C1-F416BC23EA22@dominion.thruhere.net>
-In-Reply-To: <648271BD-0C3E-4506-86C1-F416BC23EA22@dominion.thruhere.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: make /etc/sysctl.conf have real effect
+X-IronPort-AV: E=Sophos;i="5.07,329,1413270000"; d="scan'208";a="632989738"
+Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.13.21])
+	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2014 16:19:48 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Nov 2014 16:19:25 -0800
+Message-Id: <cover.1415319473.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH 00/19] Initial package upgrades for 1.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,67 +27,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Nov 2014 22:38:30 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Nov 2014 00:19:55 -0000
 
-On 11/06/2014 05:29 AM, Koen Kooi wrote:
->
-> Op 6 nov. 2014, om 12:59 heeft ChenQi <Qi.Chen@windriver.com> het volgende geschreven:
->
->>
->>
->> On 11/06/2014 06:33 PM, Koen Kooi wrote:
->>>> Op 6 nov. 2014, om 08:59 heeft ChenQi <Qi.Chen@windriver.com> het volgende geschreven:
->>>>
->>>> On 11/06/2014 03:48 PM, Koen Kooi wrote:
->>>>> Op 6 nov. 2014, om 08:32 heeft Chen Qi <Qi.Chen@windriver.com> het volgende geschreven:
->>>>>
->>>>>> In systemd, /etc/sysctl.conf is actually ignored by systemd-sysctl,
->>>>>> because this command only examine *.conf files under a bunch of directories
->>>>>> like /etc/sysctl.d or /usr/lib/sysctl.d.
->>>>>>
->>>>>> The problem is we are used to configuring kernel parameters in /etc/sysctl.conf,
->>>>>> so it would be really strange if the configuration in that file doesn't have any
->>>>>> effect.
->>>>>>
->>>>>> This patch reference Fedora's solution to this problem, creating a symlink to
->>>>>> /etc/sysctl.conf under /etc/sysctl.d/.
->>>>> Shouldn't this be done in procps instead?
->>>>>
->>>> Actually, the problem is not about `sysctl' command.
->>>> procps provides `sysctl', but busybox also provides this command.
->>>> It's very possible that on our generated image, procps is not installed but `sysctl' command is available.
->>>> Both busybox's and procps's `sysctl' command takes /etc/sysctl.conf into consideration.
->>> Right, but only procps installs that file.
->>
->> As busybox provides `sysctl' utility, is it reasonable that it also provides a corresponding configuration file (/etc/sysctl.conf)? Should we make a patch for busybox?
->>
->>
->>>> Now, systemd provides a similar utility called `systemd-sysctl' which is executed at boot time via systemd-sysctl.service.
->>>>
->>>> So our actually problem is that systemd-sysctl ignores /etc/sysctl.conf, which makes it somewhat strange, especially to users who are used to configuring parameters in sysctl.conf.
->>>> And this patch solves this problem by adding a symlink under /etc/sysctl.d/.
->>>>
->>>> That's why I think we should put this in systemd.
->>> You're adding a symlink to a file which only exists if you install procps, which isn't in RDEPENDS.
->>>
->>
->> As I said before, procps is *not* necessary for the sysctl mechanism to have effect.
->> (Think about systemd-based core-image-minimal image.)
->>
->> Busybox provides `sysctl', systemd provides `systemd-sysctl'.
->> (It's an easy program, there might exist other packages that provide it too.)
->>
->> /etc/sysctl.conf is a configuration file which is very likely to be modified or created by administrators to configure kernel parameters.
->> (You can't expect administrators to all start learning systemd, trying to understand the gap and differences. In addition, they may have scripts that edit /etc/sysctl.conf to automate their work.)
->>
->> The point of the symlink is to ensure that when users edit /etc/sysctl.conf (or create one), configurations in that file will have effect at boot time.
->>
->> Just think about this problem from a standpoint of user experience.
->
-> You still haven't convinced me that shipping a broken symlink is a good idea. I'm pretty sure it's not even allowed in out commit guidelines.
->
-I agree, even in Fedora's case, both /etc/sysctl.conf and 
-/etc/sysctl.d/99-sysctl.conf come from the same package, initscripts-9.51-2.
+Richard, Ross:
+
+Here is a set of updates that I have tested on the Autobuilder and 
+done local touch test with also.
+
+Thanks
+	Sau!
+
+The following changes since commit dd93b3a950d063f4e3020362c636006f51fb5782:
+
+  image_types.bbclass: whitespace and reorder (2014-11-06 16:41:38 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/updates
+
+Saul Wold (19):
+  libcap: Upgrade to 2.24
+  btrfs: Update to 3.17 version
+  npth: Upgrade to 1.0
+  liburcu: Ugrade to 0.8.5
+  libgcrypt: Ugrade to 1.6.2
+  libksba: Ugrade to 1.3.1
+  curl Ugrade to 7.38
+  systemtap: Upgrade to 2.6 Git Version
+  babeltrace: Upgrade to 1.2.3
+  libxkbcommon: Upgrade to 0.5.0
+  resolvconf: Upgrade to 1.76
+  at: Upgrade to 3.1.16
+  cups: Upgrade to 2.0.0
+  help2man: Upgrade to 1.46.4
+  hdparm: Upgrade to 9.45
+  less: Upgrade to 470
+  lsbinitscripts: Upgrade to 9.56.1
+  man-pages: Upgrade to 3.75
+  watchdog: Upgrade to 5.14
+
+ .../{resolvconf_1.75.bb => resolvconf_1.76.bb}     |   4 +-
+ .../btrfs-tools/btrfs-tools_git.bb                 |   6 +-
+ ...-native_1.46.1.bb => help2man-native_1.46.4.bb} |   4 +-
+ .../at/{at_3.1.15.bb => at_3.1.16.bb}              |   4 +-
+ meta/recipes-extended/cups/cups.inc                |   1 -
+ .../0001-don-t-try-to-run-generated-binaries.patch |  35 ++-
+ .../cups/cups/cups-no-gcrypt.patch                 |  49 ----
+ meta/recipes-extended/cups/cups_1.7.5.bb           |   6 -
+ meta/recipes-extended/cups/cups_2.0.0.bb           |   6 +
+ .../hdparm/{hdparm_9.43.bb => hdparm_9.45.bb}      |   4 +-
+ .../less/{less_466.bb => less_470.bb}              |   4 +-
+ ...nitscripts_9.55.bb => lsbinitscripts_9.56.1.bb} |   6 +-
+ .../{man-pages_3.71.bb => man-pages_3.75.bb}       |   4 +-
+ .../{files => watchdog}/fix-ping-failure.patch     |  56 +++--
+ .../watchdog/{files => watchdog}/fixsepbuild.patch |   0
+ .../{watchdog_5.13.bb => watchdog_5.14.bb}         |   5 +-
+ ...libxkbcommon_0.4.3.bb => libxkbcommon_0.5.0.bb} |   6 +-
+ ...-Support-out-of-tree-builds-in-babeltrace.patch |  17 --
+ ...uffers-from-objstack_alloc-on-sizeof-void.patch |  54 -----
+ .../{babeltrace_1.2.1.bb => babeltrace_1.2.3.bb}   |   9 +-
+ .../systemtap/tapset-linux-sendfile-syscall.patch  |  22 --
+ meta/recipes-kernel/systemtap/systemtap_git.inc    |   5 +-
+ meta/recipes-support/curl/curl/CVE-2014-3613.patch | 269 ---------------------
+ meta/recipes-support/curl/curl/CVE-2014-3620.patch |  69 ------
+ .../curl/{curl_7.37.1.bb => curl_7.38.0.bb}        |   8 +-
+ .../libcap/libcap/fix-CAP_LAST_CAP.patch           |  39 ---
+ meta/recipes-support/libcap/libcap_2.22.bb         |   6 -
+ .../libcap/{libcap.inc => libcap_2.24.bb}          |  12 +-
+ ...ibgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch | 169 -------------
+ meta/recipes-support/libgcrypt/libgcrypt_1.6.1.bb  |   6 -
+ meta/recipes-support/libgcrypt/libgcrypt_1.6.2.bb  |   4 +
+ .../libksba/{libksba_1.3.0.bb => libksba_1.3.1.bb} |   5 +-
+ .../liburcu/{liburcu_0.8.4.bb => liburcu_0.8.5.bb} |   4 +-
+ .../npth/{npth_0.91.bb => npth_1.0.bb}             |   5 +-
+ 34 files changed, 108 insertions(+), 795 deletions(-)
+ rename meta/recipes-connectivity/resolvconf/{resolvconf_1.75.bb => resolvconf_1.76.bb} (92%)
+ rename meta/recipes-devtools/help2man/{help2man-native_1.46.1.bb => help2man-native_1.46.4.bb} (79%)
+ rename meta/recipes-extended/at/{at_3.1.15.bb => at_3.1.16.bb} (93%)
+ delete mode 100644 meta/recipes-extended/cups/cups/cups-no-gcrypt.patch
+ delete mode 100644 meta/recipes-extended/cups/cups_1.7.5.bb
+ create mode 100644 meta/recipes-extended/cups/cups_2.0.0.bb
+ rename meta/recipes-extended/hdparm/{hdparm_9.43.bb => hdparm_9.45.bb} (88%)
+ rename meta/recipes-extended/less/{less_466.bb => less_470.bb} (88%)
+ rename meta/recipes-extended/lsb/{lsbinitscripts_9.55.bb => lsbinitscripts_9.56.1.bb} (78%)
+ rename meta/recipes-extended/man-pages/{man-pages_3.71.bb => man-pages_3.75.bb} (86%)
+ rename meta/recipes-extended/watchdog/{files => watchdog}/fix-ping-failure.patch (58%)
+ rename meta/recipes-extended/watchdog/{files => watchdog}/fixsepbuild.patch (100%)
+ rename meta/recipes-extended/watchdog/{watchdog_5.13.bb => watchdog_5.14.bb} (81%)
+ rename meta/recipes-graphics/xorg-lib/{libxkbcommon_0.4.3.bb => libxkbcommon_0.5.0.bb} (73%)
+ delete mode 100644 meta/recipes-kernel/lttng/babeltrace/0001-Fix-Support-out-of-tree-builds-in-babeltrace.patch
+ delete mode 100644 meta/recipes-kernel/lttng/babeltrace/Fix-Align-buffers-from-objstack_alloc-on-sizeof-void.patch
+ rename meta/recipes-kernel/lttng/{babeltrace_1.2.1.bb => babeltrace_1.2.3.bb} (73%)
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/tapset-linux-sendfile-syscall.patch
+ delete mode 100644 meta/recipes-support/curl/curl/CVE-2014-3613.patch
+ delete mode 100644 meta/recipes-support/curl/curl/CVE-2014-3620.patch
+ rename meta/recipes-support/curl/{curl_7.37.1.bb => curl_7.38.0.bb} (90%)
+ delete mode 100644 meta/recipes-support/libcap/libcap/fix-CAP_LAST_CAP.patch
+ delete mode 100644 meta/recipes-support/libcap/libcap_2.22.bb
+ rename meta/recipes-support/libcap/{libcap.inc => libcap_2.24.bb} (80%)
+ delete mode 100644 meta/recipes-support/libgcrypt/files/libgcrypt-1.6.1-make-arm-asm-fPIC-friendly.patch
+ delete mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.6.1.bb
+ create mode 100644 meta/recipes-support/libgcrypt/libgcrypt_1.6.2.bb
+ rename meta/recipes-support/libksba/{libksba_1.3.0.bb => libksba_1.3.1.bb} (85%)
+ rename meta/recipes-support/liburcu/{liburcu_0.8.4.bb => liburcu_0.8.5.bb} (83%)
+ rename meta/recipes-support/npth/{npth_0.91.bb => npth_1.0.bb} (78%)
+
+-- 
+1.8.3.1
+
 
