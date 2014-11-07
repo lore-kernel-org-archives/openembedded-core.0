@@ -1,38 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id B901372010
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E396A65CDB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 14:48:18 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id q108so2423332qgd.7
+	Fri,  7 Nov 2014 14:49:49 +0000 (UTC)
+Received: by mail-wg0-f44.google.com with SMTP id x12so3906837wgg.17
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Nov 2014 06:48:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=hR6N3YHghCxNfP6AHg31bPmrB39NGAWWpFywGAUgiPs=;
-	b=FQhdKnPBLPd5sRCeJk8qJou0XiRoZiROhjqClT1e35EkBJO6RumAO2Gey6PTuaojJy
-	PqmRYHPbfRPMb9wCNlSUWlKd4uuH5xxTglN6ZKoa7xG0cy0qm3hj3fegn371CV8fn472
-	tu7NKQDbWm+Cy6Y7itxH5CNnCvFBFuJPCMn/sx9O5WHnr0t82MRBlDXQYJSHM6+zhWG9
-	Z9xLaJncSc1C7rLkzeHZ5dCVMskM/cA8yMAPAv5dx7ixuWCs36iJdHXiTwxG0iDHxoS6
-	f5T5rLEU+x+X6qW3kCprmrbtICrBuCO0toV4yIeGIw3+vKCXnCZGmkwS8l8GpCvXVD2G
-	kw5g==
-X-Gm-Message-State: ALoCoQn++dDjmUR6LidY/6NC/5MgZ05DC+BmcArWqiz6tsjsPRLMf0Imi9idP125oGdhpaZhypnq
-X-Received: by 10.140.109.244 with SMTP id l107mr16739782qgf.80.1415371699488; 
-	Fri, 07 Nov 2014 06:48:19 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Fri, 7 Nov 2014 06:47:59 -0800 (PST)
-In-Reply-To: <CAJTo0LarBoyGukf_qbTJovfsHw9=TqdQ2LdnGXebAJ8ZyeZaNw@mail.gmail.com>
-References: <cover.1415346812.git.hongxu.jia@windriver.com>
-	<c9e08dddf533f34459fc1fbe15904a2293c98f81.1415346812.git.hongxu.jia@windriver.com>
-	<CAJTo0LarBoyGukf_qbTJovfsHw9=TqdQ2LdnGXebAJ8ZyeZaNw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 7 Nov 2014 14:47:59 +0000
-Message-ID: <CAJTo0LaF0p=w5frUjMPzY7wh5MfTWbM8drCy-bV3snqajMEDgw@mail.gmail.com>
+	Fri, 07 Nov 2014 06:49:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=wizWcKIL2jO2tKG7ySCLueYhyCxJicUxKZqUAVKvbPg=;
+	b=Zhcq7sL8g2wkXuleqZYJhF+AHV72xuUv5c1jPx8XvqMXAIjWldsDXkFkRMhghRvIFS
+	BFEi8psOp5LRUc5Of+f3h9RUgXacx1rZK8PgH3v4PxTccRTyqaIg3rT13ZGOz8LipQw8
+	u8jRQ/oXJS4e/POytw7wywD0WnwjHWHlOTCLX7+ZWjae5zi9Am/kFTKF9WEwF6EXnxXf
+	n56PCiMKPDB32sT6ZVutz04VfNWYSKRDrmdDdFGXgTDeRL8ARzHSwYASJRKg6ursmmX7
+	D094B9QKdneFOmTwErXNOX/Mjfrt+KMItKa0KdeI6UUmhOETFHKSVur1yjBeHfhM0IYN
+	yxCA==
+X-Received: by 10.194.81.70 with SMTP id y6mr16234091wjx.113.1415371413542;
+	Fri, 07 Nov 2014 06:43:33 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	pn4sm12022646wjc.38.2014.11.07.06.43.32 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 07 Nov 2014 06:43:32 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 7 Nov 2014 15:43:39 +0100
 To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] oprofileui: use oprofileui-viewer as oprofileui's provider
+Message-ID: <20141107144339.GG2444@jama>
+References: <cover.1415346812.git.hongxu.jia@windriver.com>
+	<cd8ac315e533592e4ca82994049bf3dd7c2bd6c4.1415346812.git.hongxu.jia@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <cd8ac315e533592e4ca82994049bf3dd7c2bd6c4.1415346812.git.hongxu.jia@windriver.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/4] pointercal-xinput: add the missing ALLOW_EMPTY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,55 +47,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 14:48:19 -0000
-Content-Type: multipart/alternative; boundary=001a113b7e505fcbcf050745e79f
+X-List-Received-Date: Fri, 07 Nov 2014 14:49:51 -0000
+X-Groupsio-MsgNum: 59417
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="sClP8c1IaQxyux9v"
+Content-Disposition: inline
 
---001a113b7e505fcbcf050745e79f
-Content-Type: text/plain; charset=UTF-8
-
-On 7 November 2014 12:06, Burton, Ross <ross.burton@intel.com> wrote:
-
-> On 7 November 2014 07:57, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->
->> The package oprofileui does not exist, so we use oprofileui-viewer as
->> the provider. It avoids the do_rootfs failure while IMAGE_INSTALL +=
->> "oprofileui"
->>
->
-> Erm, meta/recipes-kernel/oprofile/oprofileui_git.bb
->
-
-Sorry, my mistake at not reading properly.
-
-Looks like a better fix would be to fix the packaging and provide the old
-name for compatibility.
-
-Ross
-
---001a113b7e505fcbcf050745e79f
-Content-Type: text/html; charset=UTF-8
+--sClP8c1IaQxyux9v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 November 2014 12:06, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra">=
-<span class=3D""><div class=3D"gmail_quote">On 7 November 2014 07:57, Hongx=
-u Jia <span dir=3D"ltr">&lt;<a href=3D"mailto:hongxu.jia@windriver.com" tar=
-get=3D"_blank">hongxu.jia@windriver.com</a>&gt;</span> wrote:<br><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width=
-:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-lef=
-t:1ex"><div style=3D"overflow:hidden">The package oprofileui does not exist=
-, so we use oprofileui-viewer as<br>
-the provider. It avoids the do_rootfs failure while IMAGE_INSTALL +=3D<br>
-&quot;oprofileui&quot;<br></div></blockquote></div><br></span>Erm,=C2=A0met=
-a/recipes-kernel/<span class=3D"il">oprofile</span>/<a href=3D"http://oprof=
-ileui_git.bb" target=3D"_blank">oprofileui_git.bb</a></div></blockquote></d=
-iv><br>Sorry, my mistake at not reading properly.</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">Looks like a better fix would b=
-e to fix the packaging and provide the old name for compatibility.</div><di=
-v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
-v>
+On Fri, Nov 07, 2014 at 03:57:03PM +0800, Hongxu Jia wrote:
+> Since the do_install conditionally install file if it has a contents,
+> it should allow the package empty.
+>=20
+> It avoids the do_rootfs failure while IMAGE_INSTALL +=3D "pointercal-xinp=
+ut"
 
---001a113b7e505fcbcf050745e79f--
+It was removed intentionally
+
+http://git.openembedded.org/meta-openembedded/commit/?id=3D9477e53e8a8ffde1=
+7b558ac436550687db4b86a0
+
+> [YOCTO #6937]
+>=20
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.=
+0.bb b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+> index 65348c3..ebc5155 100644
+> --- a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+> +++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+> @@ -16,5 +16,6 @@ do_install() {
+>      fi
+>  }
+> =20
+> +ALLOW_EMPTY_${PN} =3D "1"
+>  PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+>  CONFFILES_${PN} =3D "${sysconfdir}/pointercal.xinput"
+> --=20
+> 1.9.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--sClP8c1IaQxyux9v
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlRc2psACgkQN1Ujt2V2gBwKPACeLpUpcsnHRGvoxfVkFzDT330E
+nyIAn3OlU9PvvJmIB/ssMSGbQFrbdX5N
+=C3tE
+-----END PGP SIGNATURE-----
+
+--sClP8c1IaQxyux9v--
