@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EE9C572054
+	by mail.openembedded.org (Postfix) with ESMTP id 71C5B65DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 00:19:57 +0000 (UTC)
+	Fri,  7 Nov 2014 00:19:58 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga103.jf.intel.com with ESMTP; 06 Nov 2014 16:17:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,329,1413270000"; d="scan'208";a="632989824"
+X-IronPort-AV: E=Sophos;i="5.07,329,1413270000"; d="scan'208";a="632989832"
 Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.13.21])
-	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2014 16:19:58 -0800
+	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2014 16:19:59 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Nov 2014 16:19:42 -0800
-Message-Id: <55ad9082f81095937fc45334c2a2553705c05b31.1415319473.git.sgw@linux.intel.com>
+Date: Thu,  6 Nov 2014 16:19:43 -0800
+Message-Id: <78c4b060c5f757addcb8566bb0cd19e8837829e8.1415319473.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1415319473.git.sgw@linux.intel.com>
 References: <cover.1415319473.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1415319473.git.sgw@linux.intel.com>
 References: <cover.1415319473.git.sgw@linux.intel.com>
-Subject: [PATCH 17/19] lsbinitscripts: Upgrade to 9.56.1
+Subject: [PATCH 18/19] man-pages: Upgrade to 3.75
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,32 +35,27 @@ X-List-Received-Date: Fri, 07 Nov 2014 00:19:58 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../lsb/{lsbinitscripts_9.55.bb => lsbinitscripts_9.56.1.bb}        | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/lsb/{lsbinitscripts_9.55.bb => lsbinitscripts_9.56.1.bb} (78%)
+ .../man-pages/{man-pages_3.71.bb => man-pages_3.75.bb}                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/man-pages/{man-pages_3.71.bb => man-pages_3.75.bb} (86%)
 
-diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.55.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.56.1.bb
-similarity index 78%
-rename from meta/recipes-extended/lsb/lsbinitscripts_9.55.bb
-rename to meta/recipes-extended/lsb/lsbinitscripts_9.56.1.bb
-index 6ab52e3..cf3a863 100644
---- a/meta/recipes-extended/lsb/lsbinitscripts_9.55.bb
-+++ b/meta/recipes-extended/lsb/lsbinitscripts_9.56.1.bb
-@@ -6,12 +6,12 @@ DEPENDS = "popt glib-2.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
+diff --git a/meta/recipes-extended/man-pages/man-pages_3.71.bb b/meta/recipes-extended/man-pages/man-pages_3.75.bb
+similarity index 86%
+rename from meta/recipes-extended/man-pages/man-pages_3.71.bb
+rename to meta/recipes-extended/man-pages/man-pages_3.75.bb
+index 225b256..18e2bca 100644
+--- a/meta/recipes-extended/man-pages/man-pages_3.71.bb
++++ b/meta/recipes-extended/man-pages/man-pages_3.75.bb
+@@ -7,8 +7,8 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://README;md5=8f2a3d43057d458e5066714980567a60"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
  
- S="${WORKDIR}/initscripts-${PV}"
--SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-9.55.tar.bz2/0672f648a9ee8607a2df65835c54f5e5/initscripts-9.55.tar.bz2 \
-+SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-9.56.1.tar.bz2/8ca2abb3877e8019a5e726c25501e8e3/initscripts-9.56.1.tar.bz2 \
-            file://functions.patch \
-           " 
+-SRC_URI[md5sum] = "a853ef29d835e8522c04f832919139f1"
+-SRC_URI[sha256sum] = "307c9ac65b98a3a3d377050f0dc62d40b7a5995e6e6e6049d63fd9cc4fc27059"
++SRC_URI[md5sum] = "74ad4aef657a046fe214bf981a9a2b30"
++SRC_URI[sha256sum] = "ba23f57a98d032a742ff506f32550dfa2c3076c8bf8d5f6b59305c6b015077d3"
  
--SRC_URI[md5sum] = "0672f648a9ee8607a2df65835c54f5e5"
--SRC_URI[sha256sum] = "546d4403a4efa3c4fa6de06a195013d4e64738799c2c779e56d900e7b232a9fa"
-+SRC_URI[md5sum] = "8ca2abb3877e8019a5e726c25501e8e3"
-+SRC_URI[sha256sum] = "e6fbe1daa5cbfc6fab12ccac2955bde0c16ec8d9fbdb9f7c6c33fadc81da6574"
- 
- inherit update-alternatives
+ RDEPENDS_${PN} = "man"
  
 -- 
 1.8.3.1
