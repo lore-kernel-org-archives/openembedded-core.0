@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 820B265DEB
+	by mail.openembedded.org (Postfix) with ESMTP id 28E0571FF3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 00:19:56 +0000 (UTC)
+	Fri,  7 Nov 2014 00:19:57 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 06 Nov 2014 16:17:50 -0800
+	by orsmga103.jf.intel.com with ESMTP; 06 Nov 2014 16:17:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,329,1413270000"; d="scan'208";a="632989805"
+X-IronPort-AV: E=Sophos;i="5.07,329,1413270000"; d="scan'208";a="632989808"
 Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.13.21])
 	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2014 16:19:57 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Nov 2014 16:19:39 -0800
-Message-Id: <2cf5514ae7132ae978dc1a318ed872f3257a6807.1415319473.git.sgw@linux.intel.com>
+Date: Thu,  6 Nov 2014 16:19:40 -0800
+Message-Id: <4d21866e9ea3edb4f8ccc4a0275e9c9d4885462d.1415319473.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1415319473.git.sgw@linux.intel.com>
 References: <cover.1415319473.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1415319473.git.sgw@linux.intel.com>
 References: <cover.1415319473.git.sgw@linux.intel.com>
-Subject: [PATCH 14/19] help2man: Upgrade to 1.46.4
+Subject: [PATCH 15/19] hdparm: Upgrade to 9.45
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 00:19:56 -0000
+X-List-Received-Date: Fri, 07 Nov 2014 00:19:57 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../help2man/{help2man-native_1.46.1.bb => help2man-native_1.46.4.bb} | 4 ++--
+ meta/recipes-extended/hdparm/{hdparm_9.43.bb => hdparm_9.45.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/help2man/{help2man-native_1.46.1.bb => help2man-native_1.46.4.bb} (79%)
+ rename meta/recipes-extended/hdparm/{hdparm_9.43.bb => hdparm_9.45.bb} (88%)
 
-diff --git a/meta/recipes-devtools/help2man/help2man-native_1.46.1.bb b/meta/recipes-devtools/help2man/help2man-native_1.46.4.bb
-similarity index 79%
-rename from meta/recipes-devtools/help2man/help2man-native_1.46.1.bb
-rename to meta/recipes-devtools/help2man/help2man-native_1.46.4.bb
-index a51c81f..5b90da9 100644
---- a/meta/recipes-devtools/help2man/help2man-native_1.46.1.bb
-+++ b/meta/recipes-devtools/help2man/help2man-native_1.46.4.bb
-@@ -6,8 +6,8 @@ DEPENDS = "autoconf-native automake-native"
+diff --git a/meta/recipes-extended/hdparm/hdparm_9.43.bb b/meta/recipes-extended/hdparm/hdparm_9.45.bb
+similarity index 88%
+rename from meta/recipes-extended/hdparm/hdparm_9.43.bb
+rename to meta/recipes-extended/hdparm/hdparm_9.45.bb
+index 805f76a..d11412d 100644
+--- a/meta/recipes-extended/hdparm/hdparm_9.43.bb
++++ b/meta/recipes-extended/hdparm/hdparm_9.45.bb
+@@ -18,8 +18,8 @@ RDEPENDS_wiper = "bash gawk stat"
  
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/hdparm-${PV}.tar.gz "
  
--SRC_URI[md5sum] = "63b8f14a81ce28ba119d588d00c63f43"
--SRC_URI[sha256sum] = "3dfd02a026149aad06887c1cb6062471779c100e00aecb79b8f9d01cf1581c47"
-+SRC_URI[md5sum] = "a1b7fe49eddae8a2537ed74ee9ef11cb"
-+SRC_URI[sha256sum] = "1ae7f15f53b0cc55b070ae49df2ee5caa942c71529054e157599427bba3c5633"
+-SRC_URI[md5sum] = "f73233be118d86c779a8463d8b6a3cdb"
+-SRC_URI[sha256sum] = "2bbe92274971182192901ab220e94bd2e4896f924fa6b225d0cffd7d8c16b52a"
++SRC_URI[md5sum] = "1c75d0751a44928b6c4bc81fb16d7fe8"
++SRC_URI[sha256sum] = "23b01caa56a995cf0897877b6aff98ea622a5df255bc2894b1a7693387f38669"
  
- inherit autotools native
+ EXTRA_OEMAKE += 'STRIP="echo"'
  
 -- 
 1.8.3.1
