@@ -1,23 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ED75560557
+	by mail.openembedded.org (Postfix) with ESMTP id 622416AC6B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 07:57:10 +0000 (UTC)
+	Fri,  7 Nov 2014 07:57:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA77v8KX006892
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA77vBgP006895
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Nov 2014 23:57:08 -0800 (PST)
+	Thu, 6 Nov 2014 23:57:11 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 6 Nov 2014 23:57:08 -0800
+	14.3.174.1; Thu, 6 Nov 2014 23:57:11 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Fri, 7 Nov 2014 15:57:00 +0800
-Message-ID: <cover.1415346812.git.hongxu.jia@windriver.com>
+Date: Fri, 7 Nov 2014 15:57:02 +0800
+Message-ID: <c9e08dddf533f34459fc1fbe15904a2293c98f81.1415346812.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1415346812.git.hongxu.jia@windriver.com>
+References: <cover.1415346812.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] fix install package "postinst-intercept pointercal-xinput oprofileui avahi" to image failed
+Subject: [PATCH 2/4] oprofileui: use oprofileui-viewer as oprofileui's provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,40 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 07:57:12 -0000
+X-List-Received-Date: Fri, 07 Nov 2014 07:57:13 -0000
 Content-Type: text/plain
 
-vim local.conf
-...
-IMAGE_INSTALL_append = " pointercal-xinput oprofileui avahi"
-...
+The package oprofileui does not exist, so we use oprofileui-viewer as
+the provider. It avoids the do_rootfs failure while IMAGE_INSTALL +=
+"oprofileui"
 
-bitbake core-image-minimal
+Use ${PN} to instead of the hardcoded oprofileui.
 
-//Hongxu
+[YOCTO #6937]
 
-The following changes since commit 9bfd0dee4f585825f27d314c4fd7cd26cf93da79:
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-kernel/oprofile/oprofileui_git.bb | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-  poky-tiny.conf: remove inherit of blacklist (2014-11-04 15:14:23 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-nonexist-pkg
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nonexist-pkg
-
-Hongxu Jia (4):
-  avahi.inc: use avahi-daemon as avahi's provider
-  oprofileui: use oprofileui-viewer as oprofileui's provider
-  pointercal-xinput: add the missing ALLOW_EMPTY
-  postinst-intercept: rename recipe for nativesdk only
-
- meta/recipes-connectivity/avahi/avahi.inc                          | 2 ++
- ...stinst-intercept_1.0.bb => nativesdk-postinst-intercept_1.0.bb} | 6 +++---
- meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb   | 1 +
- meta/recipes-kernel/oprofile/oprofileui_git.bb                     | 7 ++++---
- 4 files changed, 10 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/postinst-intercept/{postinst-intercept_1.0.bb => nativesdk-postinst-intercept_1.0.bb} (83%)
-
+diff --git a/meta/recipes-kernel/oprofile/oprofileui_git.bb b/meta/recipes-kernel/oprofile/oprofileui_git.bb
+index bb69d54..ed6ab93 100644
+--- a/meta/recipes-kernel/oprofile/oprofileui_git.bb
++++ b/meta/recipes-kernel/oprofile/oprofileui_git.bb
+@@ -11,7 +11,8 @@ SRC_URI = "git://git.yoctoproject.org/oprofileui"
+ 
+ EXTRA_OECONF += "--enable-client --disable-server"
+ 
+-PACKAGES =+ "oprofileui-viewer"
++PACKAGES =+ "${PN}-viewer"
++RPROVIDES_${PN}-viewer = "${PN}"
+ 
+-FILES_oprofileui-viewer = "${bindir}/oparchconv ${bindir}/oprofile-viewer ${datadir}/applications/ ${datadir}/oprofileui/ ${datadir}/icons"
+-RDEPENDS_oprofileui-viewer = "oprofile"
++FILES_${PN}-viewer = "${bindir}/oparchconv ${bindir}/oprofile-viewer ${datadir}/applications/ ${datadir}/oprofileui/ ${datadir}/icons"
++RDEPENDS_${PN}-viewer = "oprofile"
 -- 
 1.9.1
 
