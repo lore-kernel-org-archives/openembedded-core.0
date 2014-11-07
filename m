@@ -1,36 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
-	[209.85.216.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 1451365C87
+Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7227565C87
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 12:00:36 +0000 (UTC)
-Received: by mail-qa0-f42.google.com with SMTP id k15so2155582qaq.15
+	Fri,  7 Nov 2014 12:06:30 +0000 (UTC)
+Received: by mail-qc0-f178.google.com with SMTP id b13so2633200qcw.37
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Nov 2014 04:00:37 -0800 (PST)
+	Fri, 07 Nov 2014 04:06:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=4xNIEwqw9elRtHzQ7yv/RDMAgDLvA55QVUDFsY0M45g=;
-	b=KTUtzPo8Vkehg7yE1lfkQUeum3frPW/Us95y+B0nm2dgcnmxAGrvNIMmr90muxpzo5
-	xtiavOuEKKTbq0jGlHrf5kjfeac486qvnwMgO/w8EkTQt2nxFWoIlDFuQbs+bF9vAhID
-	IcgFbJhwvKfua6rsfN0oParjujhYs0vRE3NMu4Jt3UGHlzQxgHct1MwmS7LTyzerSxl/
-	N/kAS/KbX6HfsEO73qnhZgIXbZKyrkEji+5TWTNuMFnandXU0LTz9UzmHHAHXfnuNejB
-	heUdTzXpvSyt7SWIaI+GQy6tRujpK2AaepIose8LeXZ3fpgfuRCr9gbdY2tX1V7P0ogY
-	ozFg==
-X-Gm-Message-State: ALoCoQm+Gx8jR0ve77WR37VdyuTenwHyOOdDgD703JD4iBYayd+VDlXw7YsomyKOOS42psaRzXM+
-X-Received: by 10.224.112.66 with SMTP id v2mr16071846qap.22.1415361636937;
-	Fri, 07 Nov 2014 04:00:36 -0800 (PST)
+	bh=nNv29WichdYXpjCdJatLJ1/VQ942iyVzDbZEdgps1j0=;
+	b=FYeigeXG08eZc956/r/FWKrrZjNH5QHSuyHNVUC6PeNfdVNmHruDYryFbCW+9apNAU
+	mjITxomeXzHef8Breclo5QAtSUuv4skw4jK1KHcz1QZM6uEFQbn10Waq6N8+/B0zbEw/
+	52Oady9+W0S2vUk2APFH3F9mjpNfWSfjbnZZBleqzil34qWpzebNs2DbmGpof5TDCJ7n
+	3hnXpeYXMOdz5pgtq89g/yHbE7BVh8iDEu4KbLd3T0SLBCfrzCDvBZKHx+EDKRosDHLF
+	b3CujZBldXnyJFG74NZLpdLdtUkmaqS+EpJbk4FJaAkY8E1faNXThP/SvdWCZE+Oxosa
+	DlGA==
+X-Gm-Message-State: ALoCoQmO/0+oMMJRmGVl0Mx6NB3rM2iihyfkxkRpgOPSrc80U4PtNwlgE0GInIFNRi4NWENkO2mi
+X-Received: by 10.224.138.2 with SMTP id y2mr12554019qat.52.1415361991172;
+	Fri, 07 Nov 2014 04:06:31 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Fri, 7 Nov 2014 04:00:15 -0800 (PST)
-In-Reply-To: <1412173418-32141-1-git-send-email-akuster808@gmail.com>
-References: <1412173418-32141-1-git-send-email-akuster808@gmail.com>
+Received: by 10.140.98.213 with HTTP; Fri, 7 Nov 2014 04:06:10 -0800 (PST)
+In-Reply-To: <c9e08dddf533f34459fc1fbe15904a2293c98f81.1415346812.git.hongxu.jia@windriver.com>
+References: <cover.1415346812.git.hongxu.jia@windriver.com>
+	<c9e08dddf533f34459fc1fbe15904a2293c98f81.1415346812.git.hongxu.jia@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 7 Nov 2014 12:00:15 +0000
-Message-ID: <CAJTo0La7oYuqFVBm7S3ta1mHxroYA_tJSV+f-s+PR+f+bGoywA@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
+Date: Fri, 7 Nov 2014 12:06:10 +0000
+Message-ID: <CAJTo0LarBoyGukf_qbTJovfsHw9=TqdQ2LdnGXebAJ8ZyeZaNw@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lz4: update to version r123
+Subject: Re: [PATCH 2/4] oprofileui: use oprofileui-viewer as oprofileui's provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,40 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 12:00:45 -0000
-Content-Type: multipart/alternative; boundary=001a1130cb1299470b0507438f10
+X-List-Received-Date: Fri, 07 Nov 2014 12:06:40 -0000
+Content-Type: multipart/alternative; boundary=047d7b6709c3b682e3050743a498
 
---001a1130cb1299470b0507438f10
+--047d7b6709c3b682e3050743a498
 Content-Type: text/plain; charset=UTF-8
 
-On 1 October 2014 15:23, Armin Kuster <akuster808@gmail.com> wrote:
+On 7 November 2014 07:57, Hongxu Jia <hongxu.jia@windriver.com> wrote:
 
-> Makefile md5sum changed since version is hardcode in it.
+> The package oprofileui does not exist, so we use oprofileui-viewer as
+> the provider. It avoids the do_rootfs failure while IMAGE_INSTALL +=
+> "oprofileui"
 >
 
-In the future, changing the license checksum so that it only checksums the
-section of the Makefile that has the license instead of the entire file
-would mean it doesn't need to be updated.  Then again the makefile is a
-strange choice of file to checksum, I'd have expected it to be checksuming
-the source.
+Erm, meta/recipes-kernel/oprofile/oprofileui_git.bb?
 
 Ross
 
---001a1130cb1299470b0507438f10
+--047d7b6709c3b682e3050743a498
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 October 2014 15:23, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":11j" class=3D"a3s"=
- style=3D"overflow:hidden">Makefile md5sum changed since version is hardcod=
-e in it.<br></div></blockquote></div><br>In the future, changing the licens=
-e checksum so that it only checksums the section of the Makefile that has t=
-he license instead of the entire file would mean it doesn&#39;t need to be =
-updated.=C2=A0 Then again the makefile is a strange choice of file to check=
-sum, I&#39;d have expected it to be checksuming the source.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 7 November 2014 07:57, Hongxu Jia <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
+er-left-style:solid;padding-left:1ex"><div id=3D":tc" class=3D"" style=3D"o=
+verflow:hidden">The package oprofileui does not exist, so we use oprofileui=
+-viewer as<br>
+the provider. It avoids the do_rootfs failure while IMAGE_INSTALL +=3D<br>
+&quot;oprofileui&quot;<br></div></blockquote></div><br>Erm,=C2=A0meta/recip=
+es-kernel/oprofile/<a href=3D"http://oprofileui_git.bb">oprofileui_git.bb</=
+a>?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
+ss</div></div>
 
---001a1130cb1299470b0507438f10--
+--047d7b6709c3b682e3050743a498--
