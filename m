@@ -1,38 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 246C265CA0
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id B901372010
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 14:43:14 +0000 (UTC)
-Received: by mail-qg0-f47.google.com with SMTP id j107so2451736qga.34
+	Fri,  7 Nov 2014 14:48:18 +0000 (UTC)
+Received: by mail-qg0-f48.google.com with SMTP id q108so2423332qgd.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Nov 2014 06:43:15 -0800 (PST)
+	Fri, 07 Nov 2014 06:48:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=pgryI2fCk5nMdXKnz/S8UJCc4PeWTU7dPrM1IIhxAig=;
-	b=SG0eRsB1uo269Wwk90RCXJh24UVciX/Q2nXBmtebkYDS7pReSv3dNdGaewk6LBZSS7
-	d5sPgbHuN90iUwOfkBKvpSjS3FQvgLBUz1S6KpqtVC5WHywgsdoMtbppOefQFPKe1h+F
-	DT+obGwFU6W942KYO+4j5E4Gxw4m/o52hSJGSLNptW6SZMS/kxtImFf8Bj/Mt8bTDHd7
-	u3j3s4U3+wAsTLmj0PHwekPmSazJlIUYV+Ajd5XHJzB4UYWh/+s+6cO+86qoXgKSa0Ft
-	mclVqbSTWcCX+BAzxcl8M4WzoT7isi9kY9DsTbLrqCofK4OKWj4egvTS3XWSiVlmHJ1P
-	x4YQ==
-X-Gm-Message-State: ALoCoQnOmsIW0SatWZfC9tvddE3GfgYpiglWprMc7C9SnG7t3tO9AipAe1ya3qA9nHTd0c0hi9jf
-X-Received: by 10.224.28.193 with SMTP id n1mr17741462qac.93.1415371393785;
-	Fri, 07 Nov 2014 06:43:13 -0800 (PST)
+	bh=hR6N3YHghCxNfP6AHg31bPmrB39NGAWWpFywGAUgiPs=;
+	b=FQhdKnPBLPd5sRCeJk8qJou0XiRoZiROhjqClT1e35EkBJO6RumAO2Gey6PTuaojJy
+	PqmRYHPbfRPMb9wCNlSUWlKd4uuH5xxTglN6ZKoa7xG0cy0qm3hj3fegn371CV8fn472
+	tu7NKQDbWm+Cy6Y7itxH5CNnCvFBFuJPCMn/sx9O5WHnr0t82MRBlDXQYJSHM6+zhWG9
+	Z9xLaJncSc1C7rLkzeHZ5dCVMskM/cA8yMAPAv5dx7ixuWCs36iJdHXiTwxG0iDHxoS6
+	f5T5rLEU+x+X6qW3kCprmrbtICrBuCO0toV4yIeGIw3+vKCXnCZGmkwS8l8GpCvXVD2G
+	kw5g==
+X-Gm-Message-State: ALoCoQn++dDjmUR6LidY/6NC/5MgZ05DC+BmcArWqiz6tsjsPRLMf0Imi9idP125oGdhpaZhypnq
+X-Received: by 10.140.109.244 with SMTP id l107mr16739782qgf.80.1415371699488; 
+	Fri, 07 Nov 2014 06:48:19 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Fri, 7 Nov 2014 06:42:53 -0800 (PST)
-In-Reply-To: <20141107143813.GF2444@jama>
+Received: by 10.140.98.213 with HTTP; Fri, 7 Nov 2014 06:47:59 -0800 (PST)
+In-Reply-To: <CAJTo0LarBoyGukf_qbTJovfsHw9=TqdQ2LdnGXebAJ8ZyeZaNw@mail.gmail.com>
 References: <cover.1415346812.git.hongxu.jia@windriver.com>
-	<16384282a6c5f4878b1c377bbe38cfae1d311d0b.1415346812.git.hongxu.jia@windriver.com>
-	<20141107143813.GF2444@jama>
+	<c9e08dddf533f34459fc1fbe15904a2293c98f81.1415346812.git.hongxu.jia@windriver.com>
+	<CAJTo0LarBoyGukf_qbTJovfsHw9=TqdQ2LdnGXebAJ8ZyeZaNw@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 7 Nov 2014 14:42:53 +0000
-Message-ID: <CAJTo0LacPP-ZNLR-ZtTVSJZKJWR91LkUUqKvkSMifYvKkRw-Qw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 7 Nov 2014 14:47:59 +0000
+Message-ID: <CAJTo0LaF0p=w5frUjMPzY7wh5MfTWbM8drCy-bV3snqajMEDgw@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] avahi.inc: use avahi-daemon as avahi's provider
+Subject: Re: [PATCH 2/4] oprofileui: use oprofileui-viewer as oprofileui's provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,46 +45,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 14:43:25 -0000
-Content-Type: multipart/alternative; boundary=001a11c2ca3026f6fc050745d5b5
+X-List-Received-Date: Fri, 07 Nov 2014 14:48:19 -0000
+Content-Type: multipart/alternative; boundary=001a113b7e505fcbcf050745e79f
 
---001a11c2ca3026f6fc050745d5b5
+--001a113b7e505fcbcf050745e79f
 Content-Type: text/plain; charset=UTF-8
 
-On 7 November 2014 14:38, Martin Jansa <martin.jansa@gmail.com> wrote:
+On 7 November 2014 12:06, Burton, Ross <ross.burton@intel.com> wrote:
 
-> On Fri, Nov 07, 2014 at 03:57:01PM +0800, Hongxu Jia wrote:
-> > The package avahi does not exist, so we use avahi-daemon as the provider.
-> > It avoids the do_rootfs failure while IMAGE_INSTALL += "avahi"
+> On 7 November 2014 07:57, Hongxu Jia <hongxu.jia@windriver.com> wrote:
 >
-> Why don't you fix your IMAGE_INSTALL instead?
+>> The package oprofileui does not exist, so we use oprofileui-viewer as
+>> the provider. It avoids the do_rootfs failure while IMAGE_INSTALL +=
+>> "oprofileui"
+>>
+>
+> Erm, meta/recipes-kernel/oprofile/oprofileui_git.bb
+>
 
+Sorry, my mistake at not reading properly.
 
-Or propose the recipe is changed so that the daemon is in PN (which
-rprovides avahi-daemon for compatibility).  Providing PN seems like the
-worst solution.
+Looks like a better fix would be to fix the packaging and provide the old
+name for compatibility.
 
 Ross
 
---001a11c2ca3026f6fc050745d5b5
+--001a113b7e505fcbcf050745e79f
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 November 2014 14:38, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Fri, =
-Nov 07, 2014 at 03:57:01PM +0800, Hongxu Jia wrote:<br>
-&gt; The package avahi does not exist, so we use avahi-daemon as the provid=
-er.<br>
-&gt; It avoids the do_rootfs failure while IMAGE_INSTALL +=3D &quot;avahi&q=
-uot;<br>
-<br>
-</span>Why don&#39;t you fix your IMAGE_INSTALL instead?</blockquote></div>=
-<br>Or propose the recipe is changed so that the daemon is in PN (which rpr=
-ovides avahi-daemon for compatibility).=C2=A0 Providing PN seems like the w=
-orst solution.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
-l_extra">Ross</div></div>
+On 7 November 2014 12:06, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra">=
+<span class=3D""><div class=3D"gmail_quote">On 7 November 2014 07:57, Hongx=
+u Jia <span dir=3D"ltr">&lt;<a href=3D"mailto:hongxu.jia@windriver.com" tar=
+get=3D"_blank">hongxu.jia@windriver.com</a>&gt;</span> wrote:<br><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width=
+:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-lef=
+t:1ex"><div style=3D"overflow:hidden">The package oprofileui does not exist=
+, so we use oprofileui-viewer as<br>
+the provider. It avoids the do_rootfs failure while IMAGE_INSTALL +=3D<br>
+&quot;oprofileui&quot;<br></div></blockquote></div><br></span>Erm,=C2=A0met=
+a/recipes-kernel/<span class=3D"il">oprofile</span>/<a href=3D"http://oprof=
+ileui_git.bb" target=3D"_blank">oprofileui_git.bb</a></div></blockquote></d=
+iv><br>Sorry, my mistake at not reading properly.</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">Looks like a better fix would b=
+e to fix the packaging and provide the old name for compatibility.</div><di=
+v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
+v>
 
---001a11c2ca3026f6fc050745d5b5--
+--001a113b7e505fcbcf050745e79f--
