@@ -1,38 +1,35 @@
-Return-Path: <andrei@gherzan.ro>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A15471FC7
+Return-Path: <joshua.hernstrom@ni.com>
+X-Greylist: delayed 309 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 07 Nov 2014 18:15:51 UTC
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D1F6365C87
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 16:23:52 +0000 (UTC)
-Received: by mail-wi0-f173.google.com with SMTP id n3so5071402wiv.12
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Nov 2014 08:23:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=yekIL5vN/XVTyk9XvGdgfM8LghlKNXnAc+HQDem8Vew=;
-	b=YLXgvEldtqc08XAPXsaytcEqADa8oBJyLCv5iH1nf23yjuEovypKoxshF2X05AbroJ
-	ladJRflcWtvhOjbDQSPz3sH6XdPNQsvEC7Up3s16+GhjVsCUmNzBYo+qLcgGjap6pyvS
-	ncg48K9h8rlABziUZ/JXORCqI8G+XdtGCvE7xTtmZJV7zPCewMP/aBSFg0xViexx5DB+
-	2xd/Hq6LJeIxklMNAB/y/TwnRoJMZdLm9fctCiW62OeNOaeK1TwGHjoGfkdbL097wnHh
-	xlC3U1IT9XnXTYNyoX/QI4ZeU42tcYmKdNFJewbiJ50HQcz6KIRhehiSlyJ2/BGQYaRy
-	nIqw==
-X-Gm-Message-State: ALoCoQnCArUCIlg2fXBi14TH/5rnrMSw9vJrxHpB8gsr1sxeM9q9TDBi+HvTswBbj8EOeDPPehMd
-X-Received: by 10.194.87.168 with SMTP id az8mr18012229wjb.65.1415377432242;
-	Fri, 07 Nov 2014 08:23:52 -0800 (PST)
-Received: from otp-agherzan-l1.corp.ad.wrs.com (dhcp-189-34.gjk.dk.
-	[195.249.189.34]) by mx.google.com with ESMTPSA id
-	pn4sm12327582wjc.38.2014.11.07.08.23.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 07 Nov 2014 08:23:51 -0800 (PST)
-From: Andrei Gherzan <andrei@gherzan.ro>
-X-Google-Original-From: Andrei Gherzan <andrei.gherzan@windriver.com>
+	Fri,  7 Nov 2014 18:15:51 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
+	sA7IAhYE026125 for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Nov 2014 12:10:43 -0600
+Received: from tyr.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014110712104307-805488 ;
+	Fri, 7 Nov 2014 12:10:43 -0600 
+Date: Fri, 7 Nov 2014 12:10:40 -0600
+From: Joshua Hernstrom <joshua.hernstrom@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Nov 2014 17:23:44 +0100
-Message-Id: <1415377424-2639-1-git-send-email-andrei.gherzan@windriver.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [master][dizzy][PATCH] xkeyboard-config: Inherit gettext
+Message-ID: <20141107121040.3488494c@tyr.amer.corp.natinst.com>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 11/07/2014 12:10:43 PM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 11/07/2014 12:10:43 PM,
+	Serialize complete at 11/07/2014 12:10:43 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.12.52, 1.0.28,
+	0.0.0000
+	definitions=2014-11-07_08:2014-11-07, 2014-11-07,
+	1970-01-01 signatures=0
+Subject: Re: [PATCH] gptfdisk: add 0.8.10+git version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,35 +42,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 16:23:54 -0000
+X-List-Received-Date: Fri, 07 Nov 2014 18:15:55 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-In a GPLv3-free build we have two different versions of gettext in sysroot due
-to GPLv3 restrictions. In this case we need gettext-native too so we can have
-the needed macros and avoid errors like:
-"error: possibly undefined macro: AM_GNU_GETTEXT"
+Hi Koen,
 
-The needed dependency is added by gettext class which is prefered because it
-takes care of NLS flags too.
+> Besides from being useful as fdisk replacement this gives us 'sgdisk'
+> which can be used to set the GUID for partitions, e.g.
+> 
+> 	sgdisk -t 1:C12A7328-F81F-11D2-BA4B-00A0C93EC93B /dev/mmcblk0p1
+> 
+> To mark it as ESP in scripts like mkefidisk.sh.
+> 
+> Signed-off-by: Koen Kooi <koen@...>
+> ---
+>  meta/recipes-devtools/fdisk/gptfdisk_git.bb | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>  create mode 100644 meta/recipes-devtools/fdisk/gptfdisk_git.bb
+> 
+> diff --git a/meta/recipes-devtools/fdisk/gptfdisk_git.bb
+> b/meta/recipes-devtools/fdisk/gptfdisk_git.bb new file mode 100644
+> index 0000000..62c32c3
+> --- /dev/null
+> +++ b/meta/recipes-devtools/fdisk/gptfdisk_git.bb
+>  <at>  <at>  -0,0 +1,22  <at>  <at> 
+>...
+> +S = "${WORKDIR}/git"
+> +
+> +do_install() {
+> +    install -d ${D}${bindir}
+> +    install -m 0755 cgdisk ${D}${bindir}
+> +    install -m 0755 gdisk ${D}${bindir}
+> +    install -m 0755 sgdisk ${D}${bindir}
+> +    install -m 0755 fixparts ${D}${bindir}
 
-Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
----
- meta/recipes-graphics/xorg-lib/xkeyboard-config_2.12.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Have you considered splitting this package into separate sub-packages? The util-linux recipe does something similar for the fdisk family of utilities. I had a not-yet-submitted recipe along the same line as yours - the relevant snippets follow for reference:
 
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.12.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.12.bb
-index 61e3847..adac0ee 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.12.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.12.bb
-@@ -23,7 +23,7 @@ EXTRA_OECONF = "--with-xkb-rules-symlink=xorg --disable-runtime-deps"
- 
- FILES_${PN} += "${datadir}/X11/xkb"
- 
--inherit autotools pkgconfig
-+inherit autotools pkgconfig gettext
- 
- do_install_append () {
-     install -d ${D}${datadir}/X11/xkb/compiled
--- 
-1.9.3
+<snip>
+PACKAGES =+ "${PN}-gdisk ${PN}-cgdisk ${PN}-sgdisk ${PN}-fixparts"
+FILES_${PN}-gdisk = "${sbindir}/gdisk"
+FILES_${PN}-cgdisk = "${sbindir}/cgdisk"
+FILES_${PN}-sgdisk = "${sbindir}/sgdisk"
+FILES_${PN}-fixparts = "${sbindir}/fixparts"
 
+do_install() {
+	install -m 0755 -d ${D}${sbindir}
+	sbinprogs="gdisk cgdisk sgdisk fixparts"
+	for f in ${sbinprogs}; do
+		install -m 0755 ${S}/${f} ${D}${sbindir}
+	done
+}
+</snip>
+
+Cheers,
+Josh
+--
+Joshua Hernstrom
+National Instruments
 
