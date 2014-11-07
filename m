@@ -1,34 +1,36 @@
-Return-Path: <denis@denix.org>
-X-Greylist: delayed 3616 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 07 Nov 2014 20:43:58 UTC
-Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
-	[206.46.173.25])
-	by mail.openembedded.org (Postfix) with ESMTP id D81AC65C87
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id F3E7865D3C
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  7 Nov 2014 20:43:58 +0000 (UTC)
-Received: from gandalf.denix.org ([108.18.33.160]) by vms173025.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
-	16 2014))
-	with ESMTPSA id <0NEO00DIWPG9RW51@vms173025.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Fri, 07 Nov 2014 13:43:27 -0600 (CST)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=LdSLMYbn c=1 sm=1 tr=0	a=A8KAnipHuDHkz1LiHkTZyg==:117
-	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
-	a=-9mUelKeXuEA:10 a=QyXUC8HyAAAA:8	a=iGHA9ds3AAAA:8
-	a=hoV0y3zvQ0CMJJl9itcA:9 a=CjuIK1q_8ugA:10
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id C66312010D; Fri,
-	7 Nov 2014 14:43:20 -0500 (EST)
-Date: Fri, 07 Nov 2014 14:43:20 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-id: <20141107194320.GE9512@denix.org>
+Received: by mail-qc0-f171.google.com with SMTP id m20so3195670qcx.16
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Nov 2014 12:43:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=M/sf41PuqZi3I1Gd8PzGKqmmv4O/L7ME82Mn8J9Oka0=;
+	b=A5iQk7glxkJwsOBfCDU/i3Yo+6SPhMO6UcnSxjBl+rk1Gq8oyboFXZ2Y6DpvQod7U1
+	Z2uDWHXLztnAK+03uRc2ePQRu/JIKkWqMhMavRUhNnEoP8q11wVDhcEa2V1DISGcEWfk
+	CGhJqnLeHtFuweekwIhEdILRj0VAi9vVwKnaK0iqahXNiA96EL/a+YaEFuB1vM9jDpE0
+	fHs8vZZhzT/5flerxAWzx35BGjwRtUsLmTtxQ8ERiKF/tHxwN7vueA6dlX7x0rSDmO0G
+	ICtv7rLfuhPxTzMzAaO7ugaNZmr7QMzKWCQ5Mc9V/m6NrX38NNfxIBMk0FfqGPj2kHZe
+	2gIg==
+X-Gm-Message-State: ALoCoQm3h7+zpkr6v6/wTJpym2G5p3CwkSiMJYy2yjRTwpwV3Bml5qeYvBWs0dLzIett3++jnjQR
+X-Received: by 10.229.252.201 with SMTP id mx9mr16476214qcb.4.1415393039003;
+	Fri, 07 Nov 2014 12:43:59 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.98.213 with HTTP; Fri, 7 Nov 2014 12:43:38 -0800 (PST)
+In-Reply-To: <20141107194159.GD9512@denix.org>
 References: <1410665660-25145-1-git-send-email-denis@denix.org>
 	<CAJTo0Law3iWz=+A1vA7QsikNozeVP7U49=+T9fkT7YgLzJ_hcA@mail.gmail.com>
-	<CAJTo0LZf2oHEnMj2j5mf=wENbuxcN+ya8oS3WZLSt3O=w_O07w@mail.gmail.com>
-MIME-version: 1.0
-In-reply-to: <CAJTo0LZf2oHEnMj2j5mf=wENbuxcN+ya8oS3WZLSt3O=w_O07w@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+	<20141107194159.GD9512@denix.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 7 Nov 2014 20:43:38 +0000
+Message-ID: <CAJTo0LYLh9A8zYJDMtyCBw2r1pX8KxNjv=mq5MBX=B8BZvRObw@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: Denys Dmytriyenko <denys@ti.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] u-boot: update to version 2014.07
@@ -45,29 +47,75 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 07 Nov 2014 20:44:04 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+Content-Type: multipart/alternative; boundary=001a11c2ef944ecb4005074adf8f
 
-On Wed, Nov 05, 2014 at 03:09:51PM +0000, Burton, Ross wrote:
-> On 5 November 2014 14:56, Burton, Ross <ross.burton@intel.com> wrote:
-> 
+--001a11c2ef944ecb4005074adf8f
+Content-Type: text/plain; charset=UTF-8
+
+On 7 November 2014 19:41, Denys Dmytriyenko <denis@denix.org> wrote:
+
 > > | scripts/basic/fixdep: 1: scripts/basic/fixdep: Syntax error: word
 > > unexpected (expecting ")")
 > >
-> 
-> The autobuilder failed with a more obvious error (and also has more logs
-> available if required):
-> 
-> | /bin/sh: scripts/basic/fixdep:
-> /opt/poky/1.7/sysroots/i686-pokysdk-linux/lib/ld-linux.so.2: bad ELF
-> interpreter: No such file or directory
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/87/steps/BuildImages_3/logs/stdio
+> > I suspect the real problem is:
+> >
+> > $ file fixdep
+> > fixdep: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically
+> > linked (uses shared libs), for GNU/Linux 2.6.32,
+> > BuildID[sha1]=0xb4ea84a189f10b4f3e08fb10f8e490135e2b920c, not stripped
+> >
+> > It appears to have been built using the target compiler, not the host.
+>
+> Ross,
+>
+> I'm a bit lost here - as you said above, this is a target build and yet you
+> say it shouldn't use the target compiler. Can you please explain what you
+> mean?
 
-And I also tried looking at the above URL, but couldn't find any of the 
-mentionend error messages there. Not sure if the build number got re-used in 
-the last couple days... Any other pointers you have to look at the logs?
 
--- 
-Denys
+Yes, it's building a binary (fixdep) and then executing it.  That binary
+needs to be built with the host compiler (BUILD_CC).
 
+Easily replicated for me with "MACHINE=qemuarm bitbake u-boot-mkimage".
+
+Ross
+
+--001a11c2ef944ecb4005074adf8f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 November 2014 19:41, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb adM"><div c=
+lass=3D"">&gt; | scripts/basic/fixdep: 1: scripts/basic/fixdep: Syntax erro=
+r: word<br>
+&gt; unexpected (expecting &quot;)&quot;)<br>
+&gt;<br>
+&gt; I suspect the real problem is:<br>
+&gt;<br>
+&gt; $ file fixdep<br>
+&gt; fixdep: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically<=
+br>
+&gt; linked (uses shared libs), for GNU/Linux 2.6.32,<br>
+&gt; BuildID[sha1]=3D0xb4ea84a189f10b4f3e08fb10f8e490135e2b920c, not stripp=
+ed<br>
+&gt;<br>
+&gt; It appears to have been built using the target compiler, not the host.=
+<br>
+<br>
+</div></div>Ross,<br>
+<br>
+I&#39;m a bit lost here - as you said above, this is a target build and yet=
+ you<br>
+say it shouldn&#39;t use the target compiler. Can you please explain what y=
+ou<br>
+mean?</blockquote></div><br>Yes, it&#39;s building a binary (fixdep) and th=
+en executing it.=C2=A0 That binary needs to be built with the host compiler=
+ (BUILD_CC).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
+extra">Easily replicated for me with &quot;MACHINE=3Dqemuarm bitbake u-boot=
+-mkimage&quot;.</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra">Ross</div></div>
+
+--001a11c2ef944ecb4005074adf8f--
