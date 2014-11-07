@@ -1,40 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 634F265CDB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 246C265CA0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Nov 2014 14:38:07 +0000 (UTC)
-Received: by mail-wi0-f170.google.com with SMTP id r20so4572064wiv.3
+	Fri,  7 Nov 2014 14:43:14 +0000 (UTC)
+Received: by mail-qg0-f47.google.com with SMTP id j107so2451736qga.34
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Nov 2014 06:38:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=zLzwQ/pv5pzMVPgSGL3ayYyhigX7XwaSukOM5ooOf4E=;
-	b=g5ZvCJiV8sw/h/0dXh6esm6e/OuizLpOsFeUVweeLtZyXCcYqNF02RddriwHnNPh3g
-	iVwHXBwDGkHEHwmgLwy4mE9M8O0GhVizz1c8Fmme2ROiH/gjcMDKwh1vsjWuicPiXCGR
-	fQQLwL2y+D8mQQqriaifYtJ1Ie7RCiaT0q97YNSs1A9MHRGbSRVzUHoI6PmCR29+xpCr
-	KyvcFUxegP8D1ohVZn/S74ww0d86Faa9jafZ/DKyinYw7PZ+nx2IQ4cC1ySi1XZynVRr
-	Drs/QOyRo2EZspFYIPeDMzHIUOInNBuwIC/IJMyYQaGH46HAGDVF98F/PQ7XYkl9uWor
-	/4TA==
-X-Received: by 10.194.92.82 with SMTP id ck18mr16711922wjb.103.1415371087660; 
-	Fri, 07 Nov 2014 06:38:07 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	cx9sm12024764wjc.25.2014.11.07.06.38.06 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 07 Nov 2014 06:38:06 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 7 Nov 2014 15:38:13 +0100
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <20141107143813.GF2444@jama>
+	Fri, 07 Nov 2014 06:43:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=pgryI2fCk5nMdXKnz/S8UJCc4PeWTU7dPrM1IIhxAig=;
+	b=SG0eRsB1uo269Wwk90RCXJh24UVciX/Q2nXBmtebkYDS7pReSv3dNdGaewk6LBZSS7
+	d5sPgbHuN90iUwOfkBKvpSjS3FQvgLBUz1S6KpqtVC5WHywgsdoMtbppOefQFPKe1h+F
+	DT+obGwFU6W942KYO+4j5E4Gxw4m/o52hSJGSLNptW6SZMS/kxtImFf8Bj/Mt8bTDHd7
+	u3j3s4U3+wAsTLmj0PHwekPmSazJlIUYV+Ajd5XHJzB4UYWh/+s+6cO+86qoXgKSa0Ft
+	mclVqbSTWcCX+BAzxcl8M4WzoT7isi9kY9DsTbLrqCofK4OKWj4egvTS3XWSiVlmHJ1P
+	x4YQ==
+X-Gm-Message-State: ALoCoQnOmsIW0SatWZfC9tvddE3GfgYpiglWprMc7C9SnG7t3tO9AipAe1ya3qA9nHTd0c0hi9jf
+X-Received: by 10.224.28.193 with SMTP id n1mr17741462qac.93.1415371393785;
+	Fri, 07 Nov 2014 06:43:13 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.98.213 with HTTP; Fri, 7 Nov 2014 06:42:53 -0800 (PST)
+In-Reply-To: <20141107143813.GF2444@jama>
 References: <cover.1415346812.git.hongxu.jia@windriver.com>
 	<16384282a6c5f4878b1c377bbe38cfae1d311d0b.1415346812.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <16384282a6c5f4878b1c377bbe38cfae1d311d0b.1415346812.git.hongxu.jia@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
+	<20141107143813.GF2444@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 7 Nov 2014 14:42:53 +0000
+Message-ID: <CAJTo0LacPP-ZNLR-ZtTVSJZKJWR91LkUUqKvkSMifYvKkRw-Qw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/4] avahi.inc: use avahi-daemon as avahi's provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -48,69 +45,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 14:38:16 -0000
-X-Groupsio-MsgNum: 59414
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="s5/bjXLgkIwAv6Hi"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 07 Nov 2014 14:43:25 -0000
+Content-Type: multipart/alternative; boundary=001a11c2ca3026f6fc050745d5b5
 
---s5/bjXLgkIwAv6Hi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a11c2ca3026f6fc050745d5b5
+Content-Type: text/plain; charset=UTF-8
+
+On 7 November 2014 14:38, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> On Fri, Nov 07, 2014 at 03:57:01PM +0800, Hongxu Jia wrote:
+> > The package avahi does not exist, so we use avahi-daemon as the provider.
+> > It avoids the do_rootfs failure while IMAGE_INSTALL += "avahi"
+>
+> Why don't you fix your IMAGE_INSTALL instead?
+
+
+Or propose the recipe is changed so that the daemon is in PN (which
+rprovides avahi-daemon for compatibility).  Providing PN seems like the
+worst solution.
+
+Ross
+
+--001a11c2ca3026f6fc050745d5b5
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 07, 2014 at 03:57:01PM +0800, Hongxu Jia wrote:
-> The package avahi does not exist, so we use avahi-daemon as the provider.
-> It avoids the do_rootfs failure while IMAGE_INSTALL +=3D "avahi"
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 November 2014 14:38, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Fri, =
+Nov 07, 2014 at 03:57:01PM +0800, Hongxu Jia wrote:<br>
+&gt; The package avahi does not exist, so we use avahi-daemon as the provid=
+er.<br>
+&gt; It avoids the do_rootfs failure while IMAGE_INSTALL +=3D &quot;avahi&q=
+uot;<br>
+<br>
+</span>Why don&#39;t you fix your IMAGE_INSTALL instead?</blockquote></div>=
+<br>Or propose the recipe is changed so that the daemon is in PN (which rpr=
+ovides avahi-daemon for compatibility).=C2=A0 Providing PN seems like the w=
+orst solution.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
+l_extra">Ross</div></div>
 
-Why don't you fix your IMAGE_INSTALL instead?
-
->=20
-> [YOCTO #6937]
->=20
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/recipes-connectivity/avahi/avahi.inc | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-con=
-nectivity/avahi/avahi.inc
-> index b060437..5573372 100644
-> --- a/meta/recipes-connectivity/avahi/avahi.inc
-> +++ b/meta/recipes-connectivity/avahi/avahi.inc
-> @@ -76,6 +76,8 @@ PACKAGES =3D+ "avahi-daemon libavahi-common libavahi-co=
-re libavahi-client avahi-dn
->  # As avahi doesn't put any files into PN, clear the files list to avoid =
-problems
->  # if extra libraries appear.
->  FILES_avahi =3D ""
-> +# Let avahi-daemon to provide avahi
-> +RPROVIDES_avahi-daemon =3D "avahi"
->  FILES_avahi-autoipd =3D "${sbindir}/avahi-autoipd \
->                         ${sysconfdir}/avahi/avahi-autoipd.action \
->                         ${sysconfdir}/dhcp/*/avahi-autoipd \
-> --=20
-> 1.9.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---s5/bjXLgkIwAv6Hi
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlRc2VUACgkQN1Ujt2V2gByvmwCcCspReIUr9CrFAH+oqQt15M4K
-nxIAniNfbik5hcYUxz7MLwnphXg+ziwB
-=O+yw
------END PGP SIGNATURE-----
-
---s5/bjXLgkIwAv6Hi--
+--001a11c2ca3026f6fc050745d5b5--
