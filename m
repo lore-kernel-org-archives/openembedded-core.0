@@ -1,24 +1,30 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DA09F7206B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F30365D3C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Nov 2014 11:19:34 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA8BJXj5025551
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 8 Nov 2014 03:19:33 -0800 (PST)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sat, 8 Nov 2014 03:19:33 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 8 Nov 2014 06:19:32 -0500
-Message-ID: <1415445572-25489-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
-MIME-Version: 1.0
-Subject: [PATCH] classextend: Do not extend for that already have multilib prefix
+	Sat,  8 Nov 2014 14:43:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA8EgPKN022807; Sat, 8 Nov 2014 14:42:25 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id jgPDNwadgTaj; Sat,  8 Nov 2014 14:42:25 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sA8Eg91K022804
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 8 Nov 2014 14:42:21 GMT
+Message-ID: <1415457765.2820.21.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Seebach <peter.seebach@windriver.com>
+Date: Sat, 08 Nov 2014 14:42:45 +0000
+In-Reply-To: <d2ce73488a8afb7a8d10286da138810d30b4a4be.1415390286.git.peter.seebach@windriver.com>
+References: <cover.1415390286.git.peter.seebach@windriver.com>
+	<d2ce73488a8afb7a8d10286da138810d30b4a4be.1415390286.git.peter.seebach@windriver.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] eglibc-use-option-groups.patch: Several fixups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,61 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Nov 2014 11:19:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 08 Nov 2014 14:43:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On Fri, 2014-11-07 at 13:59 -0600, Peter Seebach wrote:
+> This incorporates suggested changes for issues 6797 and 6809 from
+> bugzilla, and a proposed change for 6796. For 6796, the issue is
+> that you can't just include <gnu/option-groups.h> in libc-symbols,
+> so we may not always have the option group defines available. The
+> workaround is to just leave the HAVE_MBSTATE_T definition visible;
+> the obvious relevant usage is already also conditionalized on
+> the option group locale define by this patch. This might not fix
+> all the cases if the locale group isn't enabled, but it eliminates a
+> pretty large raft of -Wundef warnings.
+> 
+> The reason HAVE_MBSTATE_T wasn't conditionalized in 2.19 is that
+> it didn't exist in 2.19.
+> 
+> Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
 
-If a BSP supports two or more multilibs, for example:
+Whilst I haven't 100% confirmed it,
+https://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/102/steps/BuildImages/logs/stdio
+looks like it may well be as a result of this change (which was included
+in the master-next build in question)...
 
-    MULTILIBS = "multilib:lib32 multilib:lib64"
+Cheers,
 
-and a variable is already extended to include multilib variants,
-for example in populate_sdk_base:
-
-    commit 396371588c7fd2d691ca9c39cd02287e43cb665b
-    Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-    Date: Thu Jul 24 22:09:09 2014 +0100
-
-    populate_sdk_base: Extend TOOLCHAIN_TARGET_TASK to include multilib variants
-
-    Most people expect the toolchain from a multilib build to contain multilib
-    components. This change makes that happen and is easy for users to override
-    should they want something different.
-
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-The mapping clsextend.map_depends_variable("TOOLCHAIN_TARGET_TASK")
-ends up with a wrong double extended package name like:
-
-    lib32-lib64-packagegroup-core-standalone-sdk-target
-
-This patch avoid such issues.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/lib/oe/classextend.py | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/meta/lib/oe/classextend.py b/meta/lib/oe/classextend.py
-index 68efca3..5c993de 100644
---- a/meta/lib/oe/classextend.py
-+++ b/meta/lib/oe/classextend.py
-@@ -57,6 +57,13 @@ class ClassExtender(object):
-         if dep.endswith(("-native", "-native-runtime")) or ('nativesdk-' in dep) or ('cross-canadian' in dep) or ('-crosssdk-' in dep):
-             return dep
-         else:
-+            # Do not extend for that already have multilib prefix
-+            var = self.d.getVar("MULTILIB_VARIANTS", True) or ""
-+            if var:
-+                var = var.split()
-+                for v in var:
-+                    if dep.startswith(v):
-+                        return dep
-             return self.extend_name(dep)
- 
-     def map_depends_variable(self, varname, suffix = ""):
--- 
-2.0.0
+Richard
 
 
