@@ -1,36 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id DC02B6017E;
-	Fri,  7 Nov 2014 23:55:41 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id hl2so6317891igb.10
-	for <multiple recipients>; Fri, 07 Nov 2014 15:55:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=fyaH2dO5l8BKqhIaYTWl+8MQoun/HqAWxx8YgisJx7U=;
-	b=jfvusEQz8No+AC/iOVHBmXAwoXZeEqndngz5H8d5DGsnWJaC+FgJ68+vC43/DQ769O
-	8u409gw9cx3ZwyFKv17/inn8JvYmsJ93Q4IaCMvFnphab55DhS9/sQDyZiK3TAXYoYfI
-	9DJIXMmz1WQBqFdgcn3DXAi4d1qXwFixcXpfVkQHTlPF7/PaVoVfKA8YsOfX/Iz6u0+5
-	A4A++s6MIG3//PuZiVFQkxq43GdVZjxu1ZTSEMTlqEtBKrQ9oeMc/mvOqeHglHLOsSK9
-	Y6KuK8bNkZkGoKbwYNUwnFBqiokud9D3bhf0VC6zwrQUABVy5Pm4f9Qf9U0U9SHpNupt
-	oDdw==
-X-Received: by 10.107.152.15 with SMTP id a15mr16880535ioe.39.1415404542257;
-	Fri, 07 Nov 2014 15:55:42 -0800 (PST)
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f48.google.com (mail-qa0-f48.google.com
+	[209.85.216.48])
+	by mail.openembedded.org (Postfix) with ESMTP id B08B86B7CA
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  8 Nov 2014 00:18:35 +0000 (UTC)
+Received: by mail-qa0-f48.google.com with SMTP id x12so3076006qac.21
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Nov 2014 16:18:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=aF3twkypTeJykQYsAmFiukkX0hqOlws2TuZOjcuP1VQ=;
+	b=Wpz4mppHM/aBKc5fXxDuA+lG2b0V4qykFWaQT1ATnCVsNTdSB1dbdPX8gT3+81yaAE
+	38h+ZnuTTlY8F10CqZ6glUOolIkpNy5ncNOi0duzitsGye8h+Zuvw2eRTngOxRjAQO02
+	GNjDQKWxK2x+ux7e21QtJSrqjsIID3XNEHLwckyTpVzqvDt2Y90urD7g/+2yIuCR8HlN
+	BGVWMdWsT1GRcCmFOQHfofANuFYtaohuaG+dAJ2DmKFxS1MZjpscli6BcNMxYyQt2EJ1
+	rSpd8ZCmrX47BZHjMvqAXna1Y7+D3ZUIyOzTjjif8BsCVV0rGy5zCGWY0Cqb4JF+bnR3
+	gXew==
+X-Gm-Message-State: ALoCoQkBercYocENHt0MPRv2Y41g19vtnUtJ4n/ZGbQ/PyvSyqZrXwpotgOiaQtFIWLX2Z8sHVZQ
+X-Received: by 10.140.96.101 with SMTP id j92mr21134532qge.87.1415405916130;
+	Fri, 07 Nov 2014 16:18:36 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.50.169.2 with HTTP; Fri, 7 Nov 2014 15:55:12 -0800 (PST)
-In-Reply-To: <CAJTo0LZeqimJ5CX7Fg_3qEDo=-ihyh2pZ+vMOftoYR0MMc2uAw@mail.gmail.com>
-References: <CAJTo0LavfAPo3P4Mv9U-24KK7HhkBOgysg5ZAUZe1YOAL10pvw@mail.gmail.com>
-	<CAMKF1sqUOM=FrvXkhoEkFpxMd0=GZ4deAoJnKDdCQkhesRuc0g@mail.gmail.com>
-	<CAMKF1so1Bv-1EuDHGhLOmQ_XBhm38i-vu=m3fERN4ztgw573pQ@mail.gmail.com>
-	<CAJTo0LZeqimJ5CX7Fg_3qEDo=-ihyh2pZ+vMOftoYR0MMc2uAw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 7 Nov 2014 15:55:12 -0800
-Message-ID: <CAMKF1spCz-6DoxV_QfqMaW7Uq5yAg3570EvM=vwxDSyNcq_RgQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-devel <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Moving llvm to oe-core?
+Received: by 10.140.98.213 with HTTP; Fri, 7 Nov 2014 16:18:15 -0800 (PST)
+In-Reply-To: <1415388117-227154-1-git-send-email-mark.hatle@windriver.com>
+References: <1415388117-227154-1-git-send-email-mark.hatle@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 8 Nov 2014 00:18:15 +0000
+Message-ID: <CAJTo0LapReh=rJ1t21B-0SqPHZ84r+a-inJFykxsb1Hmuo+y=g@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc: Fix intermittent failures during configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,32 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Nov 2014 23:55:46 -0000
+X-List-Received-Date: Sat, 08 Nov 2014 00:18:40 -0000
+Content-Type: multipart/alternative; boundary=001a113a9d8ad815e705074dde44
+
+--001a113a9d8ad815e705074dde44
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Nov 7, 2014 at 3:48 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> Hi Khem,
->
-> On 7 November 2014 15:58, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> I have been creating copies of it in meta-clang where I was trying to
->> get clang based
->> cross compiler working.
->
->
-> I've not looked into detail as to how llvm/clang/etc are built, would a
-> branch importing meta-clang into oe-core be a suitable starting point?  Or
-> is the llvm recipe in meta-oe more current/usable?
+Hi Mark,
 
-certainly bring from meta-oe.
+On 7 November 2014 19:21, Mark Hatle <mark.hatle@windriver.com> wrote:
 
+> If configure or any of the components it uses from the shared work
+> directory
+> change, do_configure may fail.
 >
-> (let's cut to the chase: would you be interested in and able to help merge
-> LLVM into oe-core?)
-
-heh :). I can
-
+> An existing do_preconfigure was created to handle these conditions, but
+> a 'sed' operation was missed, and a call to gnu-configize was also missed.
 >
-> Thanks,
-> Ross
 
+This doesn't apply to master, can you rebase?
+
+Cheers,
+Ross
+
+--001a113a9d8ad815e705074dde44
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Mark,</div><div class=3D"gma=
+il_extra"><br><div class=3D"gmail_quote">On 7 November 2014 19:21, Mark Hat=
+le <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.hatle@windriver.com" target=
+=3D"_blank">mark.hatle@windriver.com</a>&gt;</span> wrote:<br><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
+padding-left:1ex"><div id=3D":16s" class=3D"a3s" style=3D"overflow:hidden">=
+If configure or any of the components it uses from the shared work director=
+y<br>
+change, do_configure may fail.<br>
+<br>
+An existing do_preconfigure was created to handle these conditions, but<br>
+a &#39;sed&#39; operation was missed, and a call to gnu-configize was also =
+missed.</div></blockquote></div><br>This doesn&#39;t apply to master, can y=
+ou rebase?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
+tra">Cheers,</div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113a9d8ad815e705074dde44--
