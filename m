@@ -1,36 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
-	[209.85.216.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 660CC65CA0
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B865A65D58
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Nov 2014 00:34:47 +0000 (UTC)
-Received: by mail-qc0-f169.google.com with SMTP id i17so3491422qcy.14
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Nov 2014 16:34:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=fhdEplPjbFBiNGEkH6djQ/eXmKdfhJYTFa5fXWlMgAk=;
-	b=UdJ9O7xJHcqE0ahTGlENLPCZwKMCYhXFKTbbdKw8TqMrkH73BU1OMCVo6tTSjQC7DI
-	lIxGe+WBQ8yNVmvSCiqt5kA49hcAaiVDII0WwEQ+LEAcTLSY77MsIj2b1U/N47tC7b2C
-	DTQIjW2GUhHw/vV059HiSNOnYhvirGgp5f9VjK139e4Zzi7tSA73uD6kt+rp055sq9xD
-	0bQEO7+m/hA4QnQvGf+xNCn1gzvcBd8R9JN+z0WbW9Ba1OgzmQ1OSKKpDHkR3+5cLENU
-	ShxV4Xg3ZKk8fvDJ3zX/9sN1Rqa5+mKM8E4wn8mFv6ZcUQ1dFq3v7Mplsx/PfANzzABA
-	i/7g==
-X-Gm-Message-State: ALoCoQnPsEdhpoQRjFy9YHe31NICGCcUSbTax9qKzU8QAt5H+8ddzJsQJD47lNP1cCsQ0+NfJIsk
-X-Received: by 10.140.94.246 with SMTP id g109mr21222752qge.77.1415406887944; 
-	Fri, 07 Nov 2014 16:34:47 -0800 (PST)
+	Sat,  8 Nov 2014 02:09:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA829tmm028220
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 7 Nov 2014 18:09:55 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.232) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Fri, 7 Nov 2014 18:09:54 -0800
+Message-ID: <545D7B72.6090909@windriver.com>
+Date: Fri, 7 Nov 2014 20:09:54 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Fri, 7 Nov 2014 16:34:27 -0800 (PST)
-In-Reply-To: <cover.1415260194.git.Chong.Lu@windriver.com>
-References: <cover.1415260194.git.Chong.Lu@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 8 Nov 2014 00:34:27 +0000
-Message-ID: <CAJTo0LZKsp1UvRNVMiFobDo92okUwDdjUCMj84Sx2xTjHBvNsw@mail.gmail.com>
-To: Chong Lu <Chong.Lu@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1415388117-227154-1-git-send-email-mark.hatle@windriver.com>
+	<CAJTo0LapReh=rJ1t21B-0SqPHZ84r+a-inJFykxsb1Hmuo+y=g@mail.gmail.com>
+In-Reply-To: <CAJTo0LapReh=rJ1t21B-0SqPHZ84r+a-inJFykxsb1Hmuo+y=g@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] nss: CVE-2014-1568
+Subject: Re: [PATCH] gcc: Fix intermittent failures during configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,63 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Nov 2014 00:34:50 -0000
-Content-Type: multipart/alternative; boundary=001a113a81d6c5464105074e181c
+X-List-Received-Date: Sat, 08 Nov 2014 02:10:03 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a113a81d6c5464105074e181c
-Content-Type: text/plain; charset=UTF-8
-
-Hi Chong,
-
-On 6 November 2014 07:50, Chong Lu <Chong.Lu@windriver.com> wrote:
-
-> The following changes since commit
-> 0add8abc12b850e38a6ec7dcf2856fab2c0107b6:
+On 11/7/14, 6:18 PM, Burton, Ross wrote:
+> Hi Mark,
 >
->   buildtools-tarball: package all of Python (2014-11-05 23:30:49 +0000)
+> On 7 November 2014 19:21, Mark Hatle <mark.hatle@windriver.com
+> <mailto:mark.hatle@windriver.com>> wrote:
 >
-> are available in the git repository at:
+>     If configure or any of the components it uses from the shared work directory
+>     change, do_configure may fail.
 >
->   git://git.pokylinux.org/poky-contrib chonglu/nss
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/nss
+>     An existing do_preconfigure was created to handle these conditions, but
+>     a 'sed' operation was missed, and a call to gnu-configize was also missed.
 >
-> Chong Lu (1):
->   nss: CVE-2014-1568
 >
+> This doesn't apply to master, can you rebase?
 
-Sorry, but we've just merged Saul's upgrade of NSS to 3.17 so this doesn't
-apply, and as we're unfrozen now an upgrade to the fixed 3.17.1 seems like
-the sensible way forwards.  Could you do this upgrade?
+This was sent from oe-core master, previous commit:
 
-Ross
+dd93b3a950d063f4e3020362c636006f51fb5782
 
---001a113a81d6c5464105074e181c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+I have no idea why it wouldn't apply.
 
-<div dir=3D"ltr">Hi Chong,<br><div class=3D"gmail_extra"><br><div class=3D"=
-gmail_quote">On 6 November 2014 07:50, Chong Lu <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:Chong.Lu@windriver.com" target=3D"_blank">Chong.Lu@windriver.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">The following ch=
-anges since commit 0add8abc12b850e38a6ec7dcf2856fab2c0107b6:<br>
-<br>
-=C2=A0 buildtools-tarball: package all of Python (2014-11-05 23:30:49 +0000=
-)<br>
-<br>
-are available in the git repository at:<br>
-<br>
-=C2=A0 git://<a href=3D"http://git.pokylinux.org/poky-contrib" target=3D"_b=
-lank">git.pokylinux.org/poky-contrib</a> chonglu/nss<br>
-=C2=A0 <a href=3D"http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dc=
-honglu/nss" target=3D"_blank">http://git.pokylinux.org/cgit.cgi/poky-contri=
-b/log/?h=3Dchonglu/nss</a><br>
-<br>
-Chong Lu (1):<br>
-=C2=A0 nss: CVE-2014-1568<br></blockquote><div><br></div><div>Sorry, but we=
-&#39;ve just merged Saul&#39;s upgrade of NSS to 3.17 so this doesn&#39;t a=
-pply, and as we&#39;re unfrozen now an upgrade to the fixed 3.17.1 seems li=
-ke the sensible way forwards.=C2=A0 Could you do this upgrade?</div><div><b=
-r></div><div>Ross</div></div></div></div>
 
---001a113a81d6c5464105074e181c--
+On the off chance the mailer ate it:
+
+git.yoctoproject.org/poky-contrib  mhatle/oe-core
+
+--Mark
+
+> Cheers,
+> Ross
+
+
