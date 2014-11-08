@@ -1,30 +1,38 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 26D127200D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id EEA3C7029A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Nov 2014 09:20:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA89KHnk004687
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 8 Nov 2014 01:20:17 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Sat, 8 Nov 2014 01:20:17 -0800
-Message-ID: <545DE04C.1010201@windriver.com>
-Date: Sat, 8 Nov 2014 17:20:12 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Sat,  8 Nov 2014 09:55:47 +0000 (UTC)
+Received: by mail-qg0-f53.google.com with SMTP id z107so3564065qgd.12
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 08 Nov 2014 01:55:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=3ZDBH8qMHzMwtfDe3+lDKz3sOaP8TP0zN2+6Exq61Vc=;
+	b=c1cFOeOsZ2o1ii+NfueRJIGb1CFuI5H5++V8i0+kQuEfe/F/3PoG2FiupjWf6L+QYI
+	cBUgybs+XuvNPYHx5HRdMP3k6W9gc7N6OyKS0Dbiuf3qjhWRSzGo1uSEClb71od1VYO6
+	UshpqIzZikSYRddxvfkl6p51UzdK7B0xfN0NdKag9F9hf05Y8vNdu9U2wIjKyd7zgblM
+	m2thMLNUVS87XTRpHoDGHNK1ahhyvpxjfOVI26BR5dB6e7lEk3fYWTHs5YIWRyTADb9w
+	oUkDoD/pCmfOOOWhVYM9SZKZ8TbnQHAdY5KfdwJY5biTUz9yOrBminpFr5qfisMNlcz6
+	uC2w==
+X-Gm-Message-State: ALoCoQnQpuDFn/8f4t0f8JWQZ3Zpy/QUjERcgzk13v9RGyv8yw2YWkWu2QwtOGZi92eg7wbigryd
+X-Received: by 10.140.28.70 with SMTP id 64mr7070251qgy.15.1415440548113; Sat,
+	08 Nov 2014 01:55:48 -0800 (PST)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1415346812.git.hongxu.jia@windriver.com>
-	<c9e08dddf533f34459fc1fbe15904a2293c98f81.1415346812.git.hongxu.jia@windriver.com>
-	<CAJTo0LarBoyGukf_qbTJovfsHw9=TqdQ2LdnGXebAJ8ZyeZaNw@mail.gmail.com>
-	<CAJTo0LaF0p=w5frUjMPzY7wh5MfTWbM8drCy-bV3snqajMEDgw@mail.gmail.com>
-In-Reply-To: <CAJTo0LaF0p=w5frUjMPzY7wh5MfTWbM8drCy-bV3snqajMEDgw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] oprofileui: use oprofileui-viewer as oprofileui's provider
+Received: by 10.140.98.213 with HTTP; Sat, 8 Nov 2014 01:55:27 -0800 (PST)
+In-Reply-To: <CAJTo0LbUiPaj5aE0Eb0W9zGthfqx5ct4+6-obv0pJEwPMseuiw@mail.gmail.com>
+References: <cover.1415264548.git.kai.kang@windriver.com>
+	<CAJTo0LbUiPaj5aE0Eb0W9zGthfqx5ct4+6-obv0pJEwPMseuiw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 8 Nov 2014 09:55:27 +0000
+Message-ID: <CAJTo0LY+Mx8KnjsuCQ==ROG5V286_ZDViJ1xPVe0FxAY58mm9A@mail.gmail.com>
+To: Kai Kang <kai.kang@windriver.com>
+Cc: Koen Kooi <koen.kooi@linaro.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/25] Add machine qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,131 +45,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Nov 2014 09:20:21 -0000
-Content-Type: multipart/alternative;
-	boundary="------------050704040600040408090302"
+X-List-Received-Date: Sat, 08 Nov 2014 09:55:51 -0000
+Content-Type: multipart/alternative; boundary=001a113a970a124a63050755ef55
 
---------------050704040600040408090302
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+--001a113a970a124a63050755ef55
+Content-Type: text/plain; charset=UTF-8
 
-On 11/07/2014 10:47 PM, Burton, Ross wrote:
+On 8 November 2014 08:53, Burton, Ross <ross.burton@intel.com> wrote:
+
+> On 6 November 2014 15:34, Kai Kang <kai.kang@windriver.com> wrote:
 >
-> On 7 November 2014 12:06, Burton, Ross <ross.burton@intel.com 
-> <mailto:ross.burton@intel.com>> wrote:
+>> It has been tested for core-image-minimal core-image-sato
+>> core-image-sato-sdk
+>> meta-toolchain and world.
+>>
 >
->     On 7 November 2014 07:57, Hongxu Jia <hongxu.jia@windriver.com
->     <mailto:hongxu.jia@windriver.com>> wrote:
->
->         The package oprofileui does not exist, so we use
->         oprofileui-viewer as
->         the provider. It avoids the do_rootfs failure while
->         IMAGE_INSTALL +=
->         "oprofileui"
->
->
->     Erm, meta/recipes-kernel/oprofile/oprofileui_git.bb
->     <http://oprofileui_git.bb>
->
->
-> Sorry, my mistake at not reading properly.
->
-> Looks like a better fix would be to fix the packaging and provide the 
-> old name for compatibility.
+> When I boot core-image-sato, X can't start.  Does the virtual machine that
+> qemu runs not have video support at the moment?
 >
 
-You mean refer [PATCH 1/4] avahi, change the ${PN}-viewer to PN (which 
-rprovides
-${PN}-viewer for compatibility)?
+I also see that the gdk-pixbuf postinstall script that runs in a userspace
+qemu on the host is failing with the "FATAL: kernel too old".  Is this a
+known issue?
 
-Or I don't understand what  'fix the packaging' mean, modify 
-package.bbclass?
+Ross
 
-//Hongxu
+--001a113a970a124a63050755ef55
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 8=
+ November 2014 08:53, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
+style:solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><=
+div class=3D"gmail_quote"><span class=3D"">On 6 November 2014 15:34, Kai Ka=
+ng <span dir=3D"ltr">&lt;<a href=3D"mailto:kai.kang@windriver.com" target=
+=3D"_blank">kai.kang@windriver.com</a>&gt;</span> wrote:<br></span><span cl=
+ass=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-styl=
+e:solid;padding-left:1ex"><div style=3D"overflow:hidden">It has been tested=
+ for core-image-minimal core-image-sato core-image-sato-sdk<br>
+meta-toolchain and world.</div></blockquote><div><br></div></span><div>When=
+ I boot core-image-sato, X can&#39;t start.=C2=A0 Does the virtual machine =
+that qemu runs not have video support at the moment?</div><span class=3D"">=
+<font color=3D"#888888"><div></div></font></span></div></div></div></blockq=
+uote></div><br></div><div class=3D"gmail_extra">I also see that the gdk-pix=
+buf postinstall script that runs in a userspace qemu on the host is failing=
+ with the &quot;FATAL: kernel too old&quot;.=C2=A0 Is this a known issue?</=
+div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
+iv></div>
 
-> Ross
-
-
---------------050704040600040408090302
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 11/07/2014 10:47 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LaF0p=w5frUjMPzY7wh5MfTWbM8drCy-bV3snqajMEDgw@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 7 November 2014 12:06, Burton,
-            Ross <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:ross.burton@intel.com" target="_blank">ross.burton@intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div class="gmail_extra"><span class="">
-                  <div class="gmail_quote">On 7 November 2014 07:57,
-                    Hongxu Jia <span dir="ltr">&lt;<a
-                        moz-do-not-send="true"
-                        href="mailto:hongxu.jia@windriver.com"
-                        target="_blank">hongxu.jia@windriver.com</a>&gt;</span>
-                    wrote:<br>
-                    <blockquote class="gmail_quote" style="margin:0px
-                      0px 0px
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
-                      <div style="overflow:hidden">The package
-                        oprofileui does not exist, so we use
-                        oprofileui-viewer as<br>
-                        the provider. It avoids the do_rootfs failure
-                        while IMAGE_INSTALL +=<br>
-                        "oprofileui"<br>
-                      </div>
-                    </blockquote>
-                  </div>
-                  <br>
-                </span>Erm, meta/recipes-kernel/<span class="il">oprofile</span>/<a
-                  moz-do-not-send="true" href="http://oprofileui_git.bb"
-                  target="_blank">oprofileui_git.bb</a></div>
-            </blockquote>
-          </div>
-          <br>
-          Sorry, my mistake at not reading properly.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Looks like a better fix would be to fix
-          the packaging and provide the old name for compatibility.</div>
-        <div class="gmail_extra"><br>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    You mean refer [PATCH 1/4] avahi, change the ${PN}-viewer to PN
-    (which rprovides<br>
-    ${PN}-viewer for compatibility)?<br>
-    <br>
-    Or I don't understand what  'fix the packaging' mean, modify
-    package.bbclass?<br>
-    <br>
-    //Hongxu<br>
-    <br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0LaF0p=w5frUjMPzY7wh5MfTWbM8drCy-bV3snqajMEDgw@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------050704040600040408090302--
+--001a113a970a124a63050755ef55--
