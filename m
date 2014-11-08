@@ -1,42 +1,38 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F8AB60557
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
+	[209.85.160.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 9744A65CED
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Nov 2014 18:55:45 +0000 (UTC)
-Received: by mail-wi0-f176.google.com with SMTP id h11so7264491wiw.3
+	Sat,  8 Nov 2014 19:12:35 +0000 (UTC)
+Received: by mail-yk0-f170.google.com with SMTP id 19so3188586ykq.29
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Nov 2014 10:55:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=4OD1tpkmyfLV7majfYfJM6op9E+6UqWWNJpFGh6/8MY=;
-	b=AQStBfVAKVUNVZ3pTnMx5kQcac3rRvO9XBTSnaZ1fWYteZYt7Lzif3lgY4N0T67czQ
-	GoJInLeH2tAKbPYvtLhGBz3P5WRgzvVglM202auMK5Ou+KJpYWP1c+XVQnuH6KOhOcpF
-	JNkPxsFudK4SMx5G6SvRn958iZ97mc7v5NnwsUZhvNtjnNrkvliTRD2S2S4xlrPHX4o3
-	FzAvv1WF7uiLQvF7i6PBEPaWum4hteyNPhSoiKG03TSrTtwjSErDmiW4FP1yxJ55TmSx
-	43nGv7R+CVfLYZMNpjadoiAbZqVNsV8PKRT6wQjhBl5/DPzQiJ508MF1dQTaRaOcOwD/
-	HM/g==
-X-Gm-Message-State: ALoCoQmrqzZdVwOt/PKo7KqwqGUoDN1FaYzC+zxfASciDHOwGTEzyVXa5f+cAag6IoioqQYAJlyy
-X-Received: by 10.180.9.106 with SMTP id y10mr15991832wia.30.1415472946187;
-	Sat, 08 Nov 2014 10:55:46 -0800 (PST)
-Received: from ?IPv6:2001:610:612::8d0e:2098:2373:fc5e?
-	([2001:610:612:0:8d0e:2098:2373:fc5e])
-	by mx.google.com with ESMTPSA id
-	da3sm16400403wjb.12.2014.11.08.10.55.44 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 08 Nov 2014 10:55:45 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20141107121040.3488494c@tyr.amer.corp.natinst.com>
-Date: Sat, 8 Nov 2014 19:55:43 +0100
-Message-Id: <C5FE670A-7A85-44C1-8658-243252007B9A@dominion.thruhere.net>
-References: <20141107121040.3488494c@tyr.amer.corp.natinst.com>
-To: Joshua Hernstrom <joshua.hernstrom@ni.com>
-X-Mailer: Apple Mail (2.1990.1)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gptfdisk: add 0.8.10+git version
+	Sat, 08 Nov 2014 11:12:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=CaQl+O2+FWi1jyP6V3Xt4bYT2arzngaDqO2tZlbbVvA=;
+	b=DgL/9SZUpm/FIkByWDUb9aOUWYlYRZk833Z0EKen0z0jLVzPkytlSf3KWVDF/2ojwl
+	MLK82LaP87LF4Euperdz8GLBjtdou+T83IgHqBob08i1WTfsCUwdV8qFg91dVvaCFl+k
+	z+DAf/PL9M90+S3J0MWHncyGdVGDkFBWajhzROYfY8JGwJqWRbevB8bHmsJCkwNw0zNw
+	IlByQEVc5JyufDsf1CFJ7TpaaXBT9j8gIvsXdnzxuNnAerE4kgqtc9sNefvVhOmaaB/T
+	IOAJoAx39NwkjBOU3B2f3+E8T4yTf01Yu816d7Ag3uhmBn08Lyy1osEb3mrEhGCcR9su
+	Stpw==
+MIME-Version: 1.0
+X-Received: by 10.236.222.73 with SMTP id s69mr14546954yhp.102.1415473956429; 
+	Sat, 08 Nov 2014 11:12:36 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.172.8 with HTTP; Sat, 8 Nov 2014 11:12:36 -0800 (PST)
+In-Reply-To: <1415399089-27578-1-git-send-email-denis@denix.org>
+References: <1415399089-27578-1-git-send-email-denis@denix.org>
+Date: Sat, 8 Nov 2014 17:12:36 -0200
+X-Google-Sender-Auth: 11bZplJUK96ACnFhr40STLQnqA4
+Message-ID: <CAP9ODKoa60CMUEc1+w=4OqPZNQ7b9hFCBNzo8+fB=-kdK=VDZQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH] u-boot-mkimage: allow building target version of the tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,86 +45,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Nov 2014 18:55:55 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 08 Nov 2014 19:12:45 -0000
+Content-Type: text/plain; charset=UTF-8
+
+On Fri, Nov 7, 2014 at 8:24 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
+>
+> u-boot doesn't really support building its tools for the target, as they are
+> built with HOSTCC compiler, which is also used to compile fixdep utility
+> that gets executed during the build. Since it might be beneficial to have a
+> target version of mkimage, let's hack it to build fixdep in a separate step.
+>
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+...
+> +       make HOSTCC="${BUILD_CC}" HOSTLD="${BUILD_LD}" HOSTLDFLAGS="${BUILD_LDFLAGS}" HOSTSTRIP=true dot-config=0 scripts_basic
+...
+
+We do it in meta-fsl-arm as below:
+
+ESCRIPTION = "U-boot bootloader mxsboot tool"
+LICENSE = "GPLv2+"
+LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
+SECTION = "bootloader"
+DEPENDS = "openssl"
+PROVIDES = "u-boot-mxsboot"
+
+PV = "v2014.10+git${SRCPV}"
+
+SRCREV = "75ce95e627609c9b9e537e935e69c4ecef26c8f7"
+SRCBRANCH = "patches-2014.10"
+SRC_URI = "git://github.com/Freescale/u-boot-imx.git;branch=${SRCBRANCH}"
+
+S = "${WORKDIR}/git"
+
+inherit fsl-u-boot-localversion
+
+EXTRA_OEMAKE = 'HOSTCC="${CC} ${CPPFLAGS}" HOSTLDFLAGS="-L${libdir}
+-L${base_libdir}" HOSTSTRIP=true CONFIG_MX28=y'
+
+do_configure () {
+    oe_runmake sandbox_defconfig
+}
+
+do_compile () {
+    oe_runmake tools-only
+}
+
+do_install () {
+    install -d ${D}${bindir}
+    install -m 0755 tools/mxsboot ${D}${bindir}/uboot-mxsboot
+    ln -sf uboot-mxsboot ${D}${bindir}/mxsboot
+}
+
+BBCLASSEXTEND = "native nativesdk"
 
 
-> Op 7 nov. 2014, om 19:10 heeft Joshua Hernstrom =
-<joshua.hernstrom@ni.com> het volgende geschreven:
->=20
-> Hi Koen,
->=20
->> Besides from being useful as fdisk replacement this gives us 'sgdisk'
->> which can be used to set the GUID for partitions, e.g.
->>=20
->> 	sgdisk -t 1:C12A7328-F81F-11D2-BA4B-00A0C93EC93B /dev/mmcblk0p1
->>=20
->> To mark it as ESP in scripts like mkefidisk.sh.
->>=20
->> Signed-off-by: Koen Kooi <koen@...>
->> ---
->> meta/recipes-devtools/fdisk/gptfdisk_git.bb | 22 =
-++++++++++++++++++++++
->> 1 file changed, 22 insertions(+)
->> create mode 100644 meta/recipes-devtools/fdisk/gptfdisk_git.bb
->>=20
->> diff --git a/meta/recipes-devtools/fdisk/gptfdisk_git.bb
->> b/meta/recipes-devtools/fdisk/gptfdisk_git.bb new file mode 100644
->> index 0000000..62c32c3
->> --- /dev/null
->> +++ b/meta/recipes-devtools/fdisk/gptfdisk_git.bb
->> <at>  <at>  -0,0 +1,22  <at>  <at>=20
->> ...
->> +S =3D "${WORKDIR}/git"
->> +
->> +do_install() {
->> +    install -d ${D}${bindir}
->> +    install -m 0755 cgdisk ${D}${bindir}
->> +    install -m 0755 gdisk ${D}${bindir}
->> +    install -m 0755 sgdisk ${D}${bindir}
->> +    install -m 0755 fixparts ${D}${bindir}
->=20
-> Have you considered splitting this package into separate sub-packages? =
-The util-linux recipe does something similar for the fdisk family of =
-utilities.
-
-I can if you'd like that, the utils were few and small, so I put them =
-all in ${PN}, let me know if you still want them seperate.
-
-regards,
-
-Koen
-
-> I had a not-yet-submitted recipe along the same line as yours - the =
-relevant snippets follow for reference:
->=20
-> <snip>
-> PACKAGES =3D+ "${PN}-gdisk ${PN}-cgdisk ${PN}-sgdisk ${PN}-fixparts"
-> FILES_${PN}-gdisk =3D "${sbindir}/gdisk"
-> FILES_${PN}-cgdisk =3D "${sbindir}/cgdisk"
-> FILES_${PN}-sgdisk =3D "${sbindir}/sgdisk"
-> FILES_${PN}-fixparts =3D "${sbindir}/fixparts"
->=20
-> do_install() {
-> 	install -m 0755 -d ${D}${sbindir}
-> 	sbinprogs=3D"gdisk cgdisk sgdisk fixparts"
-> 	for f in ${sbinprogs}; do
-> 		install -m 0755 ${S}/${f} ${D}${sbindir}
-> 	done
-> }
-> </snip>
->=20
-> Cheers,
-> Josh
-> --
-> Joshua Hernstrom
-> National Instruments
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
