@@ -1,26 +1,30 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CE35C7169F
+	by mail.openembedded.org (Postfix) with ESMTP id 26D127200D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Nov 2014 09:04:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA894kfY004378
+	Sat,  8 Nov 2014 09:20:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sA89KHnk004687
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 8 Nov 2014 01:04:46 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sat, 8 Nov 2014 01:04:46 -0800
+	Sat, 8 Nov 2014 01:20:17 -0800 (PST)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Sat, 8 Nov 2014 01:20:17 -0800
+Message-ID: <545DE04C.1010201@windriver.com>
+Date: Sat, 8 Nov 2014 17:20:12 +0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
-	<mark.hatle@windriver.com>
-Date: Sat, 8 Nov 2014 17:04:38 +0800
-Message-ID: <ee8bc66aca0d15c6c835b8fbcb483579a33ab5fd.1415437328.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1415437328.git.hongxu.jia@windriver.com>
-References: <cover.1415437328.git.hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] compress_doc.bbclass: support update-alternatives
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1415346812.git.hongxu.jia@windriver.com>
+	<c9e08dddf533f34459fc1fbe15904a2293c98f81.1415346812.git.hongxu.jia@windriver.com>
+	<CAJTo0LarBoyGukf_qbTJovfsHw9=TqdQ2LdnGXebAJ8ZyeZaNw@mail.gmail.com>
+	<CAJTo0LaF0p=w5frUjMPzY7wh5MfTWbM8drCy-bV3snqajMEDgw@mail.gmail.com>
+In-Reply-To: <CAJTo0LaF0p=w5frUjMPzY7wh5MfTWbM8drCy-bV3snqajMEDgw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] oprofileui: use oprofileui-viewer as oprofileui's provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,90 +37,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Nov 2014 09:04:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 08 Nov 2014 09:20:21 -0000
+Content-Type: multipart/alternative;
+	boundary="------------050704040600040408090302"
 
-While doc file make use of update-alternatives to fix confliction,
-we should reconfigure update-alternatives for doc compression.
+--------------050704040600040408090302
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Such as util-linux-doc:
-...
-update-alternatives --install /usr/share/man/man1/last.1 last.1
-  /usr/share/man/man1/last.1.util-linux 100
-...
-was updated by doc_compress to
-...
-update-alternatives --install /usr/share/man/man1/last.1.bz2 last.1.bz2
-  /usr/share/man/man1/last.1.util-linux.bz2 100
-...
+On 11/07/2014 10:47 PM, Burton, Ross wrote:
+>
+> On 7 November 2014 12:06, Burton, Ross <ross.burton@intel.com 
+> <mailto:ross.burton@intel.com>> wrote:
+>
+>     On 7 November 2014 07:57, Hongxu Jia <hongxu.jia@windriver.com
+>     <mailto:hongxu.jia@windriver.com>> wrote:
+>
+>         The package oprofileui does not exist, so we use
+>         oprofileui-viewer as
+>         the provider. It avoids the do_rootfs failure while
+>         IMAGE_INSTALL +=
+>         "oprofileui"
+>
+>
+>     Erm, meta/recipes-kernel/oprofile/oprofileui_git.bb
+>     <http://oprofileui_git.bb>
+>
+>
+> Sorry, my mistake at not reading properly.
+>
+> Looks like a better fix would be to fix the packaging and provide the 
+> old name for compatibility.
+>
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/classes/compress_doc.bbclass | 46 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 45 insertions(+), 1 deletion(-)
+You mean refer [PATCH 1/4] avahi, change the ${PN}-viewer to PN (which 
+rprovides
+${PN}-viewer for compatibility)?
 
-diff --git a/meta/classes/compress_doc.bbclass b/meta/classes/compress_doc.bbclass
-index 6a4e635..b84fef6 100644
---- a/meta/classes/compress_doc.bbclass
-+++ b/meta/classes/compress_doc.bbclass
-@@ -29,7 +29,7 @@ DOC_DECOMPRESS_CMD[gz] ?= 'gunzip -v'
- DOC_DECOMPRESS_CMD[bz2] ?= "bunzip2 -v"
- DOC_DECOMPRESS_CMD[xz] ?= "unxz -v"
- 
--PACKAGE_PREPROCESS_FUNCS += "package_do_compress_doc"
-+PACKAGE_PREPROCESS_FUNCS += "package_do_compress_doc compress_doc_updatealternatives"
- python package_do_compress_doc() {
-     compress_mode = d.getVar('DOC_COMPRESS', True)
-     compress_list = (d.getVar('DOC_COMPRESS_LIST', True) or '').split()
-@@ -211,3 +211,47 @@ def decompress_doc(topdir, compress_mode, decompress_cmds):
- 
-     _process_hardlink(hardlink_dict, compress_mode, decompress_cmds, decompress)
- 
-+python compress_doc_updatealternatives () {
-+    if not bb.data.inherits_class('update-alternatives', d):
-+        return
-+
-+    mandir = d.getVar("mandir", True)
-+    infodir = d.getVar("infodir", True)
-+    compress_mode = d.getVar('DOC_COMPRESS', True)
-+    for pkg in (d.getVar('PACKAGES', True) or "").split():
-+        old_names = (d.getVar('ALTERNATIVE_%s' % pkg, True) or "").split()
-+        new_names = []
-+        for old_name in old_names:
-+            old_link     = d.getVarFlag('ALTERNATIVE_LINK_NAME', old_name, True)
-+            old_target   = d.getVarFlag('ALTERNATIVE_TARGET_%s' % pkg, old_name, True) or \
-+                d.getVarFlag('ALTERNATIVE_TARGET', old_name, True) or \
-+                d.getVar('ALTERNATIVE_TARGET_%s' % pkg, True) or \
-+                d.getVar('ALTERNATIVE_TARGET', True) or \
-+                old_link
-+            # Sometimes old_target is specified as relative to the link name.
-+            old_target   = os.path.join(os.path.dirname(old_link), old_target)
-+
-+            # The updatealternatives used for compress doc
-+            if mandir in old_target or infodir in old_target:
-+                new_name = old_name + '.' + compress_mode
-+                new_link = old_link + '.' + compress_mode
-+                new_target = old_target + '.' + compress_mode
-+                d.delVarFlag('ALTERNATIVE_LINK_NAME', old_name)
-+                d.setVarFlag('ALTERNATIVE_LINK_NAME', new_name, new_link)
-+                if d.getVarFlag('ALTERNATIVE_TARGET_%s' % pkg, old_name, True):
-+                    d.delVarFlag('ALTERNATIVE_TARGET_%s' % pkg, old_name)
-+                    d.setVarFlag('ALTERNATIVE_TARGET_%s' % pkg, new_name, new_target)
-+                elif d.getVarFlag('ALTERNATIVE_TARGET', old_name, True):
-+                    d.delVarFlag('ALTERNATIVE_TARGET', old_name)
-+                    d.setVarFlag('ALTERNATIVE_TARGET', new_name, new_target)
-+                elif d.getVar('ALTERNATIVE_TARGET_%s' % pkg, True):
-+                    d.setVar('ALTERNATIVE_TARGET_%s' % pkg, new_target)
-+                elif d.getVar('ALTERNATIVE_TARGET', old_name, True):
-+                    d.setVar('ALTERNATIVE_TARGET', new_target)
-+
-+                new_names.append(new_name)
-+
-+        if new_names:
-+            d.setVar('ALTERNATIVE_%s' % pkg, ' '.join(new_names))
-+}
-+
--- 
-1.9.1
+Or I don't understand what  'fix the packaging' mean, modify 
+package.bbclass?
+
+//Hongxu
 
 
+> Ross
+
+
+--------------050704040600040408090302
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 11/07/2014 10:47 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LaF0p=w5frUjMPzY7wh5MfTWbM8drCy-bV3snqajMEDgw@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 7 November 2014 12:06, Burton,
+            Ross <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:ross.burton@intel.com" target="_blank">ross.burton@intel.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div class="gmail_extra"><span class="">
+                  <div class="gmail_quote">On 7 November 2014 07:57,
+                    Hongxu Jia <span dir="ltr">&lt;<a
+                        moz-do-not-send="true"
+                        href="mailto:hongxu.jia@windriver.com"
+                        target="_blank">hongxu.jia@windriver.com</a>&gt;</span>
+                    wrote:<br>
+                    <blockquote class="gmail_quote" style="margin:0px
+                      0px 0px
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
+                      <div style="overflow:hidden">The package
+                        oprofileui does not exist, so we use
+                        oprofileui-viewer as<br>
+                        the provider. It avoids the do_rootfs failure
+                        while IMAGE_INSTALL +=<br>
+                        "oprofileui"<br>
+                      </div>
+                    </blockquote>
+                  </div>
+                  <br>
+                </span>Erm, meta/recipes-kernel/<span class="il">oprofile</span>/<a
+                  moz-do-not-send="true" href="http://oprofileui_git.bb"
+                  target="_blank">oprofileui_git.bb</a></div>
+            </blockquote>
+          </div>
+          <br>
+          Sorry, my mistake at not reading properly.</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Looks like a better fix would be to fix
+          the packaging and provide the old name for compatibility.</div>
+        <div class="gmail_extra"><br>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    You mean refer [PATCH 1/4] avahi, change the ${PN}-viewer to PN
+    (which rprovides<br>
+    ${PN}-viewer for compatibility)?<br>
+    <br>
+    Or I don't understand what  'fix the packaging' mean, modify
+    package.bbclass?<br>
+    <br>
+    //Hongxu<br>
+    <br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LaF0p=w5frUjMPzY7wh5MfTWbM8drCy-bV3snqajMEDgw@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------050704040600040408090302--
