@@ -1,25 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B40A971FE8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f41.google.com (mail-qa0-f41.google.com
+	[209.85.216.41])
+	by mail.openembedded.org (Postfix) with ESMTP id EC65165D3A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Nov 2014 05:56:27 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA85uQSg001605
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 7 Nov 2014 21:56:26 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 7 Nov 2014 21:56:26 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Sat, 8 Nov 2014 13:56:19 +0800
-Message-ID: <d354ae6a6eb49df114d02e0e80c464cb9af8f42f.1415426131.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1415426131.git.hongxu.jia@windriver.com>
-References: <cover.1415426131.git.hongxu.jia@windriver.com>
+	Sat,  8 Nov 2014 08:54:11 +0000 (UTC)
+Received: by mail-qa0-f41.google.com with SMTP id s7so3407581qap.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 08 Nov 2014 00:54:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=WjaxzGTti+tvewnOSGZSt74qxxdDLoao9uCKu8tp3eQ=;
+	b=Sqj/b3i2OuCcum4kP1L4F7ix13DQ5WS4ETts6Ri/LwfWdz46SevO8hcxZhPZ6Ar9q1
+	BTv6DlcG/K+6ZgLzbfWUvyZ/fGltY0sLSH2PltIW6c/A0O/SQY7iu8FyG8Fv3LEPGbAR
+	OFrrZFZ+ZWK4ZWbuf1C6PehwDK8eCb8D0J5H+0mH76zIyui6B7tTQtwTMLszRUPf2np2
+	oMHhb/GgtSECwManpABZQ2Nx7AqGJpQ92pox1554zdW3IWBj64vQaF5RRrhVTpEFGse9
+	cMmYEVC9tZGyzwT51BfyvEbXi4DYH8+wSgBp2mlTv2Hs2cEoN3c6diGIHnFPt1PkJ58w
+	KaAg==
+X-Gm-Message-State: ALoCoQmCkrhw8E6aMTGSvgevLLuUqc+8xOWVectEByDlqsXlUD4HWtQtZawzZXu8/5m7GtaI/PdI
+X-Received: by 10.224.112.66 with SMTP id v2mr24348728qap.22.1415436852177;
+	Sat, 08 Nov 2014 00:54:12 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] compress_doc.bbclass: improve manual file detection
+Received: by 10.140.98.213 with HTTP; Sat, 8 Nov 2014 00:53:51 -0800 (PST)
+In-Reply-To: <cover.1415264548.git.kai.kang@windriver.com>
+References: <cover.1415264548.git.kai.kang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 8 Nov 2014 08:53:51 +0000
+Message-ID: <CAJTo0LbUiPaj5aE0Eb0W9zGthfqx5ct4+6-obv0pJEwPMseuiw@mail.gmail.com>
+To: Kai Kang <kai.kang@windriver.com>
+Cc: Koen Kooi <koen.kooi@linaro.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/25] Add machine qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,46 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Nov 2014 05:56:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 08 Nov 2014 08:54:18 -0000
+Content-Type: multipart/alternative; boundary=001a1130cb12c6e5ea0507551208
 
-The previous detection missing the following manual file:
-...
-gawk-doc/usr/share/man/man3/readfile.3am
-libpcap-doc/usr/share/man/man3/pcap_dump_open.3pcap
-...
+--001a1130cb12c6e5ea0507551208
+Content-Type: text/plain; charset=UTF-8
 
-We use re to imporve it.
+On 6 November 2014 15:34, Kai Kang <kai.kang@windriver.com> wrote:
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/classes/compress_doc.bbclass | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+> It has been tested for core-image-minimal core-image-sato
+> core-image-sato-sdk
+> meta-toolchain and world.
+>
 
-diff --git a/meta/classes/compress_doc.bbclass b/meta/classes/compress_doc.bbclass
-index 6a4e635..afa9cd6 100644
---- a/meta/classes/compress_doc.bbclass
-+++ b/meta/classes/compress_doc.bbclass
-@@ -136,11 +136,14 @@ def _is_info(file):
-     return False
- 
- def _is_man(file):
-+    import re
-+
-     # It refers MANSECT-var in man(1.6g)'s man.config
--    flags = '.1:.1p:.8:.2:.3:.3p:.4:.5:.6:.7:.9:.0p:.tcl:.n:.l:.p:.o'.split(':')
--    for flag in flags:
--        if os.path.basename(file).endswith(flag):
--            return True
-+    # ".1:.1p:.8:.2:.3:.3p:.4:.5:.6:.7:.9:.0p:.tcl:.n:.l:.p:.o"
-+    # Not start with '.', and contain the above colon-seperate element
-+    p = re.compile(r'[^\.]+\.([1-9lnop]|0p|tcl)')
-+    if p.search(file):
-+        return True
- 
-     return False
- 
--- 
-1.9.1
+When I boot core-image-sato, X can't start.  Does the virtual machine that
+qemu runs not have video support at the moment?
 
+Ross
 
+--001a1130cb12c6e5ea0507551208
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 November 2014 15:34, Kai Kang <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+kai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":28k" class=3D"a3s=
+" style=3D"overflow:hidden">It has been tested for core-image-minimal core-=
+image-sato core-image-sato-sdk<br>
+meta-toolchain and world.</div></blockquote><div><br></div><div>When I boot=
+ core-image-sato, X can&#39;t start.=C2=A0 Does the virtual machine that qe=
+mu runs not have video support at the moment?</div><div><br></div><div>Ross=
+=C2=A0</div></div></div></div>
+
+--001a1130cb12c6e5ea0507551208--
