@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C3A865C85
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 4271765CED
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Nov 2014 22:24:54 +0000 (UTC)
-Received: by mail-qg0-f45.google.com with SMTP id z107so4687030qgd.32
+	Sun,  9 Nov 2014 22:50:10 +0000 (UTC)
+Received: by mail-qg0-f48.google.com with SMTP id q108so4756416qgd.35
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Nov 2014 14:24:54 -0800 (PST)
+	Sun, 09 Nov 2014 14:50:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=vJx6wHJ2UIPGQJWoNNBatRJKXW0HriREnss+27jCyaw=;
-	b=YHRBky8dWyWbO0Bb3vEVF7OIIhvaTuZ1B+H8R10gQ+EhU3SJzTqV0itQt51WdMC1wn
-	Wlgl2O56jMAGnJFurFrBGcm1f5ElhNbIyW/RRxfkTNzXlvxmH7e/BEFocaNdpLuusQo0
-	rGpxOE8OKwnR5Og7oqHo5kYfF559fSXbvoIiXCkluVMQUMMrp3YsDObVMcNoRkjgv7Mx
-	suN0sXmdWPMXrD7PDmt7nVL5h7BwlXmcP3lBGQjCQkFAIZM4s2LnDskxNz0pX1zYf3HC
-	5NxL0j1KqnZe2BqC538RTzZ2QyCQKFDWXu62REJL4v5CjU1U6tgNzGog3xvE0ETDU9eK
-	A89w==
-X-Gm-Message-State: ALoCoQmr8uV7kPc54CEBmg1bcgLxWKX7lUrnkWBsCgUvIy4cA273w2Mxc1Wfi7XrhW6wqrn3BLg0
-X-Received: by 10.224.28.193 with SMTP id n1mr38563492qac.93.1415571894408;
-	Sun, 09 Nov 2014 14:24:54 -0800 (PST)
+	bh=ImeyaBX3Y6AKL/U0OAw5DAAZIMHo8RhP2r30Vk6WEzg=;
+	b=GAFz7Kg/fSbMEX8HWDphuXUgZyjIxgEU+nUHBVMLGE/7JWGL9Qi6zG4/bQ1GtcHF8t
+	eCr7PL5MfJNYp5hinKFtz2+yZxGGjafhTurfyJEPUVf9WIHbsvrbk0CX51GO5aRhumpv
+	XIoudUnx+kk6fjDdIGzMzIEd3JrBYLFuv1nbcVyLpIFbGwbpxWhjloV551TZRBbz12Pf
+	K74cAYYtA/g4Gi7BY3IBvyp5Mgqsuar3WsmMRJ3B0MxMX/BZH21LlRfkHIUm5SwRZqNg
+	7wpcRgtI6In6OtnC6Gg8HfGMK5Ik5FMc3f7yVSK7lhzltgX/M+CKPHHt8p+IpeIcgcbZ
+	paSQ==
+X-Gm-Message-State: ALoCoQlvkCVzawpHIkjSLIJidibo2sW7a05cVl0xlrjM2a6SBFScKbXpg5TrG05NDzGQ5471+WS8
+X-Received: by 10.140.96.101 with SMTP id j92mr36651395qge.87.1415573409136;
+	Sun, 09 Nov 2014 14:50:09 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Sun, 9 Nov 2014 14:24:34 -0800 (PST)
-In-Reply-To: <C5FE670A-7A85-44C1-8658-243252007B9A@dominion.thruhere.net>
-References: <20141107121040.3488494c@tyr.amer.corp.natinst.com>
-	<C5FE670A-7A85-44C1-8658-243252007B9A@dominion.thruhere.net>
+Received: by 10.140.98.213 with HTTP; Sun, 9 Nov 2014 14:49:48 -0800 (PST)
+In-Reply-To: <545EF0DC.6030200@gmail.com>
+References: <545EF0DC.6030200@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sun, 9 Nov 2014 22:24:34 +0000
-Message-ID: <CAJTo0Lb4aqpfYWHZ20FruDJzQec7NvaUuH2E0rBi6CxwWSWJYA@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gptfdisk: add 0.8.10+git version
+Date: Sun, 9 Nov 2014 22:49:48 +0000
+Message-ID: <CAJTo0LYME7VYRnVP_v2te=jay1dFzk_P+y+P0TRyHxpu0uoQ5g@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: building world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Nov 2014 22:25:01 -0000
-Content-Type: multipart/alternative; boundary=001a11c2ca30ebb11b0507748366
+X-List-Received-Date: Sun, 09 Nov 2014 22:50:13 -0000
+Content-Type: multipart/alternative; boundary=001a113a9d8a349ffa050774def0
 
---001a11c2ca30ebb11b0507748366
+--001a113a9d8a349ffa050774def0
 Content-Type: text/plain; charset=UTF-8
 
-On 8 November 2014 18:55, Koen Kooi <koen@dominion.thruhere.net> wrote:
+On 9 November 2014 04:43, akuster808 <akuster808@gmail.com> wrote:
 
-> I can if you'd like that, the utils were few and small, so I put them all
-> in ${PN}, let me know if you still want them seperate.
+> "WARNING: Building libpam but 'pam' isn't in DISTRO_FEATURES, PAM won't
+> work correctly"
+>
+> It seems to me that if one is building 'world' then all "DISTRO_FEATURES"
+> should be defined, otherwise World isn't really world.
+>
 
-
-Personally I don't see a reason to split the tools up, but following
-tradition and shipping them in $sbindir is sensible.
+If world enabled all distro features then you won't be able to do a world
+build to verify that everything builds without specific distro features
+being enabled.   If I were building a system that did world builds and
+alerted on any warnings, I'd have a whitelist.
 
 Ross
 
---001a11c2ca30ebb11b0507748366
+--001a113a9d8a349ffa050774def0
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 November 2014 18:55, Koen Kooi <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:koen@dominion.thruhere.net" target=3D"_blank">koen@dominion.thruhere.net</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I can if you&#39;d l=
-ike that, the utils were few and small, so I put them all in ${PN}, let me =
-know if you still want them seperate.</blockquote></div><br>Personally I do=
-n&#39;t see a reason to split the tools up, but following tradition and shi=
-pping them in $sbindir is sensible.</div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra">Ross</div></div>
+On 9 November 2014 04:43, akuster808 <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":1r7" class=3D"a3s" =
+style=3D"overflow:hidden">&quot;WARNING: Building libpam but &#39;pam&#39; =
+isn&#39;t in DISTRO_FEATURES, PAM won&#39;t work correctly&quot;<br>
+<br>
+It seems to me that if one is building &#39;world&#39; then all &quot;DISTR=
+O_FEATURES&quot; should be defined, otherwise World isn&#39;t really world.=
+</div></blockquote></div><br>If world enabled all distro features then you =
+won&#39;t be able to do a world build to verify that everything builds with=
+out specific distro features being enabled. =C2=A0 If I were building a sys=
+tem that did world builds and alerted on any warnings, I&#39;d have a white=
+list.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+Ross</div></div>
 
---001a11c2ca30ebb11b0507748366--
+--001a113a9d8a349ffa050774def0--
