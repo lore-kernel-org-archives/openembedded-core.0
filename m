@@ -1,40 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B6C360809
+Received: from mail-qc0-f180.google.com (mail-qc0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id F165465CED
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Nov 2014 22:54:18 +0000 (UTC)
-Received: by mail-qa0-f47.google.com with SMTP id dc16so4629972qab.34
+	Sun,  9 Nov 2014 22:58:03 +0000 (UTC)
+Received: by mail-qc0-f180.google.com with SMTP id o8so4858419qcw.39
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Nov 2014 14:54:18 -0800 (PST)
+	Sun, 09 Nov 2014 14:58:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=6ssdStB210WboefULHz0dWvHguBZEq/FUAcmFpiYDe4=;
-	b=ObriLwWZXurCffT0Jj/KXR3niqxjB0W3bA6z7f4wT+k9FoEPiIPUQ289JYhQDKtBKS
-	JGlqLK4j19z4HE+mksQ70ZHhIxtiV554Ntl6XUCm7ZbOIMfn3W8xCLQkpoQjLgfzCxPd
-	7tfJKWKrxKvEBal+s8hjoVXkScFILxLseKwf2LFlAbY21GfYFYGpkgUY0vUb+yboJZU1
-	xJZJhLtNQmLAwm/n31ezHmQBJEhDoykStfSNo81e3bZf4MUsVnNoOaDaQHZxA6ftjuL+
-	Txh11lI8wcYyGcx8ZMxjrZVFusuJdDaWT/RquSAkNe52aKdYQ6M4RLSPvPFb1k45F7TM
-	FpLA==
-X-Gm-Message-State: ALoCoQnnq5L3Qr40nOin0RGoT968WpTe2e2QS1bPfJwqtk/4iVyWcE8qlabTvgjlxTnGwhXVz7CD
-X-Received: by 10.224.138.2 with SMTP id y2mr34974577qat.52.1415573658566;
-	Sun, 09 Nov 2014 14:54:18 -0800 (PST)
+	bh=HNzHu9G+5LweNCFPid8KCZiNJxm8nMGCYd+rRe620Mk=;
+	b=V6EJGC1A7BNKghQm0drjrP4WGzsf8BSxxi877mgNEIqveMbv8Kzx5v2QvwCglePz3s
+	O9L1faVRLPQfrVGZ+2rpN1dkEkArcmM95ZXexdDDTKGhK0V2QbjzYtyMOSAmr0ZmF4zi
+	IeUfW+Wa6G/w9JzlgaCckIny+RXB+kOZQtN4vOlGuDGVe0a7kw8Ot3YquI11j/K5JVP0
+	K84mksVnw3+JJIFxJR91lG2H+Ww21HLF1ZQhhd3WE2ML3dDLch+/xNrAM8FySK4tll4V
+	8xkd9Lgx+Wdm26uzUAMHbcdPEoXZjlA3XE0Hoy0Mmzes2JdXgus5ev1XFRXYR/5UNg4Q
+	qQjQ==
+X-Gm-Message-State: ALoCoQnd8xNqQMm9hUsqxjMkHr17StrAaD/Re//to6OTSeFnz1VGUsLsyTHgDjq2jaKwvVWoNMxX
+X-Received: by 10.224.156.136 with SMTP id x8mr10938592qaw.22.1415573884502;
+	Sun, 09 Nov 2014 14:58:04 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Sun, 9 Nov 2014 14:53:57 -0800 (PST)
-In-Reply-To: <545E4DBD.6060806@windriver.com>
-References: <cover.1415264548.git.kai.kang@windriver.com>
-	<CAJTo0LbUiPaj5aE0Eb0W9zGthfqx5ct4+6-obv0pJEwPMseuiw@mail.gmail.com>
-	<CAJTo0LY+Mx8KnjsuCQ==ROG5V286_ZDViJ1xPVe0FxAY58mm9A@mail.gmail.com>
-	<545E4DBD.6060806@windriver.com>
+Received: by 10.140.98.213 with HTTP; Sun, 9 Nov 2014 14:57:43 -0800 (PST)
+In-Reply-To: <20141107223001.GG9512@denix.org>
+References: <1410665660-25145-1-git-send-email-denis@denix.org>
+	<CAJTo0Law3iWz=+A1vA7QsikNozeVP7U49=+T9fkT7YgLzJ_hcA@mail.gmail.com>
+	<20141107194159.GD9512@denix.org>
+	<CAJTo0LYLh9A8zYJDMtyCBw2r1pX8KxNjv=mq5MBX=B8BZvRObw@mail.gmail.com>
+	<20141107205445.GF9512@denix.org> <20141107223001.GG9512@denix.org>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sun, 9 Nov 2014 22:53:57 +0000
-Message-ID: <CAJTo0LaDa5D1XXtZpaPrzagesdkQAaT84rg=x4NWLLngWxQS6w@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: Koen Kooi <koen.kooi@linaro.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/25] Add machine qemuarm64
+Date: Sun, 9 Nov 2014 22:57:43 +0000
+Message-ID: <CAJTo0LZp6R41rh8bHMu26HYGwEHa_cNyYmi5ZYsXEE8GfBaLSw@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] u-boot: update to version 2014.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,52 +48,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Nov 2014 22:54:23 -0000
-Content-Type: multipart/alternative; boundary=047d7b6709c31299a5050774edab
+X-List-Received-Date: Sun, 09 Nov 2014 22:58:15 -0000
+Content-Type: multipart/alternative; boundary=089e012947e08a426d050774fa0a
 
---047d7b6709c31299a5050774edab
+--089e012947e08a426d050774fa0a
 Content-Type: text/plain; charset=UTF-8
 
-On 8 November 2014 17:07, Mark Hatle <mark.hatle@windriver.com> wrote:
+On 7 November 2014 22:30, Denys Dmytriyenko <denis@denix.org> wrote:
 
-> This is why relying on userspace qemu to do postinstall actions isn't
-> good.  If the host kernel doesn't have a new enough kernel it'll break.  If
-> the qemu does emulate the exact SOC, it'll break.. etc.. etc.. etc..
+> I've just sent an RFC patch to allow building mkimage for the target. I'd
+> like
+> to collect feedback for it first, but feel free to squash it with the
+> previous
+> patch, if it's accepted (or commit separately - your choice). The update to
+> 2014.10 will follow shortly, I just want this version to get through
+> first, as
+> it has been in limbo for a few months...
 >
 
-Do you know how new is new enough for aarch64?  My build machine is running
-3.2.0 at the moment (Debian stable).
-
-
-> So I would expect failures like this on anything that is using QEMU
-> userspace emulation (any arch).
->
-
-Apart from userspace ppc aborting we've done pretty well so far...
+Thanks Denys, confirming that his works for me too.
 
 Ross
 
---047d7b6709c31299a5050774edab
+--089e012947e08a426d050774fa0a
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 November 2014 17:07, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":274" class=
-=3D"a3s" style=3D"overflow:hidden">This is why relying on userspace qemu to=
- do postinstall actions isn&#39;t good.=C2=A0 If the host kernel doesn&#39;=
-t have a new enough kernel it&#39;ll break.=C2=A0 If the qemu does emulate =
-the exact SOC, it&#39;ll break.. etc.. etc.. etc..<br></div></blockquote><d=
-iv><br></div><div>Do you know how new is new enough for aarch64?=C2=A0 My b=
-uild machine is running 3.2.0 at the moment (Debian stable).</div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div id=3D":274" class=3D"a3s" styl=
-e=3D"overflow:hidden">
-So I would expect failures like this on anything that is using QEMU userspa=
-ce emulation (any arch).</div></blockquote><div><br></div><div>Apart from u=
-serspace ppc aborting we&#39;ve done pretty well so far...</div><div><br></=
-div><div>Ross=C2=A0</div></div></div></div>
+On 7 November 2014 22:30, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":1vk" class=3D"a3s" s=
+tyle=3D"overflow:hidden">I&#39;ve just sent an RFC patch to allow building =
+mkimage for the target. I&#39;d like<br>
+to collect feedback for it first, but feel free to squash it with the previ=
+ous<br>
+patch, if it&#39;s accepted (or commit separately - your choice). The updat=
+e to<br>
+2014.10 will follow shortly, I just want this version to get through first,=
+ as<br>
+it has been in limbo for a few months...</div></blockquote></div><br>Thanks=
+ Denys, confirming that his works for me too.</div><div class=3D"gmail_extr=
+a"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---047d7b6709c31299a5050774edab--
+--089e012947e08a426d050774fa0a--
