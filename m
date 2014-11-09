@@ -1,37 +1,24 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id C76CE65CED;
-	Sun,  9 Nov 2014 04:43:12 +0000 (UTC)
-Received: by mail-pd0-f170.google.com with SMTP id z10so5746136pdj.15
-	for <multiple recipients>; Sat, 08 Nov 2014 20:43:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding;
-	bh=zbIyNZy/lSkvjPtLro53MpO1Yj7lR9uYiL8s6iQcdnQ=;
-	b=HY5PIj9eo9vPr+WNv7VYPLq+hp6S9q/5RZIS4CBHCaANbJTV4sQrNs6G8QQsHnkgc8
-	6wWKlR98tjSYBIoZHEQjbShJX3AvllSvsWnEEXeW0aQ8y4C0QnuwFK7ZpZbkFQrChqe/
-	jHDFcublm2MSMetu29QsfDLIbwNDhxKOH9twji2PJCChWT92WRxppN8S1SWQVcxUTz7J
-	JPHNt+UfxYsbhR3tcDABkjOa22phGr0RzmiT9VT8lWJXhPN4XzfY5jA8Lq6wFnln22QV
-	T/0eLgKZ6qiC3lH1m7vFdvKF8ch2GrzGShsarXf+lxrCebgOjR1yvEXUT6lg3F/Cbeoc
-	Hc3g==
-X-Received: by 10.66.227.103 with SMTP id rz7mr22676889pac.45.1415508192607;
-	Sat, 08 Nov 2014 20:43:12 -0800 (PST)
-Received: from ?IPv6:2601:c:9380:601:b578:697e:ba17:25f9?
-	([2601:c:9380:601:b578:697e:ba17:25f9])
-	by mx.google.com with ESMTPSA id h1sm12919810pat.6.2014.11.08.20.43.10
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 08 Nov 2014 20:43:11 -0800 (PST)
-Message-ID: <545EF0DC.6030200@gmail.com>
-Date: Sat, 08 Nov 2014 20:43:08 -0800
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 44EDE65C85
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  9 Nov 2014 07:01:49 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sA971mU0022712
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 8 Nov 2014 23:01:49 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Sat, 8 Nov 2014 23:01:48 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 9 Nov 2014 15:03:40 +0800
+Message-ID: <cover.1415516571.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	bitbake-devel@lists.openembedded.org
-Subject: building world
+Subject: [PATCH 0/1] procps: install symlink under /etc/sysctl.d in case of systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,23 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Nov 2014 04:43:21 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 09 Nov 2014 07:01:52 -0000
+Content-Type: text/plain
 
-Hello,
+The following changes since commit d7a277b35bcc67050046c76fb70412101679a545:
 
-I am seeing a warning while build world on oo-core Master and Dizzy.
+  docbook-xsl-stylesheets: add perl to RDEPENDS (2014-11-04 10:20:34 +0000)
 
-"WARNING: Building libpam but 'pam' isn't in DISTRO_FEATURES, PAM won't 
-work correctly"
+are available in the git repository at:
 
-It seems to me that if one is building 'world' then all 
-"DISTRO_FEATURES" should be defined, otherwise World isn't really world.
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/procps-sysctl.d
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/procps-sysctl.d
 
+Chen Qi (1):
+  procps: install symlink under /etc/sysctl.d in case of systemd
 
-Should we fix 'world' build or mask out packages?
+ meta/recipes-extended/procps/procps_3.2.8.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-regards,
-Armin
+-- 
+1.9.1
+
 
