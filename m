@@ -1,24 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A558D60809;
-	Sun,  9 Nov 2014 21:08:24 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2014 13:08:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,347,1413270000"; 
-	d="ics'?scan'208";a="629224644"
-Received: from csbandar-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.118])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Nov 2014 13:08:23 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Date: Sun, 09 Nov 2014 21:08:22 +0000
-Message-ID: <3882275.CLexp6ugAm@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.2 (Linux/3.16.7-200.fc20.x86_64; KDE/4.14.2; x86_64; ; )
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C3A865C85
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  9 Nov 2014 22:24:54 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id z107so4687030qgd.32
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 09 Nov 2014 14:24:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=vJx6wHJ2UIPGQJWoNNBatRJKXW0HriREnss+27jCyaw=;
+	b=YHRBky8dWyWbO0Bb3vEVF7OIIhvaTuZ1B+H8R10gQ+EhU3SJzTqV0itQt51WdMC1wn
+	Wlgl2O56jMAGnJFurFrBGcm1f5ElhNbIyW/RRxfkTNzXlvxmH7e/BEFocaNdpLuusQo0
+	rGpxOE8OKwnR5Og7oqHo5kYfF559fSXbvoIiXCkluVMQUMMrp3YsDObVMcNoRkjgv7Mx
+	suN0sXmdWPMXrD7PDmt7nVL5h7BwlXmcP3lBGQjCQkFAIZM4s2LnDskxNz0pX1zYf3HC
+	5NxL0j1KqnZe2BqC538RTzZ2QyCQKFDWXu62REJL4v5CjU1U6tgNzGog3xvE0ETDU9eK
+	A89w==
+X-Gm-Message-State: ALoCoQmr8uV7kPc54CEBmg1bcgLxWKX7lUrnkWBsCgUvIy4cA273w2Mxc1Wfi7XrhW6wqrn3BLg0
+X-Received: by 10.224.28.193 with SMTP id n1mr38563492qac.93.1415571894408;
+	Sun, 09 Nov 2014 14:24:54 -0800 (PST)
 MIME-Version: 1.0
-Subject: Public OE TSC meeting
+Received: by 10.140.98.213 with HTTP; Sun, 9 Nov 2014 14:24:34 -0800 (PST)
+In-Reply-To: <C5FE670A-7A85-44C1-8658-243252007B9A@dominion.thruhere.net>
+References: <20141107121040.3488494c@tyr.amer.corp.natinst.com>
+	<C5FE670A-7A85-44C1-8658-243252007B9A@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sun, 9 Nov 2014 22:24:34 +0000
+Message-ID: <CAJTo0Lb4aqpfYWHZ20FruDJzQec7NvaUuH2E0rBi6CxwWSWJYA@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gptfdisk: add 0.8.10+git version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,75 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Nov 2014 21:08:29 -0000
-X-Groupsio-MsgNum: 59461
-Content-Type: multipart/mixed; boundary="nextPart3108323.0CmVkexnoD"
-Content-Transfer-Encoding: 7Bit
+X-List-Received-Date: Sun, 09 Nov 2014 22:25:01 -0000
+Content-Type: multipart/alternative; boundary=001a11c2ca30ebb11b0507748366
 
---nextPart3108323.0CmVkexnoD
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+--001a11c2ca30ebb11b0507748366
+Content-Type: text/plain; charset=UTF-8
 
-Hi all,
+On 8 November 2014 18:55, Koen Kooi <koen@dominion.thruhere.net> wrote:
 
-There will be a public OpenEmbedded TSC/workgroup IRC meeting this coming 
-Tuesday (11th November). If you're interested in discussing long-term 
-technical efforts around the OpenEmbedded project please join us on 
-irc.freenode.net in channel #oe at 17:00 GMT (9am PST, 11am CST, 12 EST, 18:00 
-CET).
-
-Possible topics for discussion (based on the last meeting and recent mailing 
-list topics):
-- Upcoming development cycle
-- Website and other infrastructure issues
-
-New topics for discussion are welcome.
-
-Cheers,
-Paul
+> I can if you'd like that, the utils were few and small, so I put them all
+> in ${PN}, let me know if you still want them seperate.
 
 
--- 
+Personally I don't see a reason to split the tools up, but following
+tradition and shipping them in $sbindir is sensible.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
---nextPart3108323.0CmVkexnoD
-Content-Disposition: attachment; filename="event.ics"
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/calendar; charset="utf-8"; name="event.ics"
+--001a11c2ca30ebb11b0507748366
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-BEGIN:VCALENDAR
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 November 2014 18:55, Koen Kooi <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:koen@dominion.thruhere.net" target=3D"_blank">koen@dominion.thruhere.net</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I can if you&#39;d l=
+ike that, the utils were few and small, so I put them all in ${PN}, let me =
+know if you still want them seperate.</blockquote></div><br>Personally I do=
+n&#39;t see a reason to split the tools up, but following tradition and shi=
+pping them in $sbindir is sensible.</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
 
-VERSION:2.0
-
-METHOD:PUBLISH
-
-BEGIN:VEVENT
-
-DTSTART:20141111T170000Z
-
-DTEND:20141111T180000Z
-
-TRANSP:TRANSPARENT
-
-SUMMARY:Public OE TSC meeting
-
-LOCATION:#oe on Freenode IRC
-
-URL;VALUE=URI:http://www.timeanddate.com/worldclock/meetingdetails.html?is
-
- o=20141111T1700&p1=136&p2=64&p3=137&p4=195&p5=179
-
-UID:http://www.timeanddate.com/worldclock/meetingdetails.html?iso=20141111
-
- T1700&p1=136&p2=64&p3=137&p4=195&p5=179
-
-DTSTAMP:20141111T170000Z
-
-END:VEVENT
-
-END:VCALENDAR
-
-
---nextPart3108323.0CmVkexnoD--
+--001a11c2ca30ebb11b0507748366--
