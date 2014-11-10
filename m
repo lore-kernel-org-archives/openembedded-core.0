@@ -1,31 +1,33 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AD82C65C91
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5971671F9F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 02:02:57 +0000 (UTC)
+	Mon, 10 Nov 2014 02:04:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAA22scT013283
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAA241lh018930
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 9 Nov 2014 18:02:54 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 9 Nov 2014 18:02:54 -0800
-Message-ID: <54601CC7.1060000@windriver.com>
-Date: Mon, 10 Nov 2014 10:02:47 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Sun, 9 Nov 2014 18:04:01 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.232) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 9 Nov 2014 18:04:01 -0800
+Message-ID: <54601D0F.5020707@windriver.com>
+Date: Sun, 9 Nov 2014 20:03:59 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>, Martin Jansa
-	<martin.jansa@gmail.com>
-References: <cover.1415346812.git.hongxu.jia@windriver.com>
-	<16384282a6c5f4878b1c377bbe38cfae1d311d0b.1415346812.git.hongxu.jia@windriver.com>
-	<20141107143813.GF2444@jama>
-	<01AE3AA2-1B18-4047-A760-E137E0A245D3@dominion.thruhere.net>
-In-Reply-To: <01AE3AA2-1B18-4047-A760-E137E0A245D3@dominion.thruhere.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] avahi.inc: use avahi-daemon as avahi's provider
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1415264548.git.kai.kang@windriver.com>
+	<CAJTo0LbUiPaj5aE0Eb0W9zGthfqx5ct4+6-obv0pJEwPMseuiw@mail.gmail.com>
+	<CAJTo0LY+Mx8KnjsuCQ==ROG5V286_ZDViJ1xPVe0FxAY58mm9A@mail.gmail.com>
+	<545E4DBD.6060806@windriver.com>
+	<CAJTo0LaDa5D1XXtZpaPrzagesdkQAaT84rg=x4NWLLngWxQS6w@mail.gmail.com>
+In-Reply-To: <CAJTo0LaDa5D1XXtZpaPrzagesdkQAaT84rg=x4NWLLngWxQS6w@mail.gmail.com>
+Cc: Koen Kooi <koen.kooi@linaro.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/25] Add machine qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,50 +40,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Nov 2014 02:02:58 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Mon, 10 Nov 2014 02:04:03 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/09/2014 02:53 AM, Koen Kooi wrote:
->> Op 7 nov. 2014, om 15:38 heeft Martin Jansa <martin.jansa@gmail.com> het volgende geschreven:
->>
->> On Fri, Nov 07, 2014 at 03:57:01PM +0800, Hongxu Jia wrote:
->>> The package avahi does not exist, so we use avahi-daemon as the provider.
->>> It avoids the do_rootfs failure while IMAGE_INSTALL += "avahi"
->> Why don't you fix your IMAGE_INSTALL instead?
-> I agree with Martin, this is a non-problem, please fix your IMAGE_INSTALL.
+On 11/9/14, 4:53 PM, Burton, Ross wrote:
+>
+> On 8 November 2014 17:07, Mark Hatle <mark.hatle@windriver.com
+> <mailto:mark.hatle@windriver.com>> wrote:
+>
+>     This is why relying on userspace qemu to do postinstall actions isn't good.
+>     If the host kernel doesn't have a new enough kernel it'll break.  If the
+>     qemu does emulate the exact SOC, it'll break.. etc.. etc.. etc..
+>
+>
+> Do you know how new is new enough for aarch64?  My build machine is running
+> 3.2.0 at the moment (Debian stable).
 
-I am afraid it is not the issue of IMAGE_INSTALL
+ From what I found doing a google search 3.7.0 is minimum version for QEMU 
+userspace on aarch64.
 
-As doc said:
-http://www.yoctoproject.org/docs/1.5/ref-manual/ref-manual.html#var-IMAGE_INSTALL
-Variable IMAGE_INSTALL is used to specify the packages to install into 
-an image.
+--Mark
 
-While adding some packages to image ,the rpm based do_rootfs
-failed with '*** not found in the base feeds'
-
-The failure was caused by two kinds of situations:
-1. Package does not exist (such as python3), but provided
-    by other package (such as python-core), the rpm based
-    do_rootfs could not search its provider. And the deb/
-    ipk based do_rootfs worked well, it is a defect, and
-    I have fixed it (patch sent to community, YOCTO 6918);
-
-2. Package does not exist, and no other package provides it,
-    the package installation will fail in any type do_rootfs. We
-    met this issue when we set IMAGE_INSTALL = "recipe_name",
-    but we don't have the package with that name.
-
-I think what I do is to fix the situation 2.
-
-Further more, we should add checking at the package generating
-time, if the package *with recipe name* was empty and not created,
-trigger a warn and according the warn, we could fix the issue recipes.
-
-We already have that checking at the package generating time,
-but it a note, not warn. I suggest we should use warn instead.
-
-//Hongxu
+>     So I would expect failures like this on anything that is using QEMU
+>     userspace emulation (any arch).
+>
+>
+> Apart from userspace ppc aborting we've done pretty well so far...
+>
+> Ross
 
 
