@@ -1,39 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E83465D3A
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa07-09.prod.phx3.secureserver.net
+	(p3plsmtpa07-09.prod.phx3.secureserver.net [173.201.192.238])
+	by mail.openembedded.org (Postfix) with ESMTP id 3723965D3A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 11:26:51 +0000 (UTC)
-Received: by mail-qc0-f175.google.com with SMTP id b13so6234863qcw.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 03:26:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=YWnDmXvud3OOG2sC+3IatgQSn3lrnJ81DvdkT6z9e3k=;
-	b=Cqf74jGBZzDUxNrd6FJVjna7ZBnKxg6LuczWBPgJi0IUYTKPx0t+xvA+jtjy9fE7WN
-	0YNR/5wD7hKIEtjEjMb83/BvhJRE8kQG0/Qw/DB1aLI+WqTk093yvTSRabHiJ6GCYx/t
-	NEcHteWaWi57gAjvTv7CV/v/S+cK53ByE2n2jdOseaHTipHWgWNaIbJQjEc7+9dr33At
-	3oqumbcwwkpvcw/sAct8MRPD8+VKfDVKsoJOwqBF666Ym0lZn9aXqICUqxOdzkUPZV+F
-	KT59bnCQeyzK/NG2cswXZYtJkqgYH+vdzThRnu/md8mRhZ/W2DVHYNFfgDh9Y7SN6bA9
-	Ypjw==
-X-Gm-Message-State: ALoCoQlTvWPJ/5jC+deXt9AnHZr0e/Lwht3ERhBo9klGj5cgNnfoeGAaUo1xXkdsVQroLMqIddDl
-X-Received: by 10.224.138.2 with SMTP id y2mr39055481qat.52.1415618812534;
-	Mon, 10 Nov 2014 03:26:52 -0800 (PST)
+	Mon, 10 Nov 2014 12:16:48 +0000 (UTC)
+Received: from [192.168.65.10] ([75.72.225.8])
+	by p3plsmtpa07-09.prod.phx3.secureserver.net with 
+	id DoGm1p00G0BVjqb01oGnCi; Mon, 10 Nov 2014 05:16:48 -0700
+Message-ID: <5460ACAE.2080103@pabigot.com>
+Date: Mon, 10 Nov 2014 06:16:46 -0600
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Mon, 10 Nov 2014 03:26:32 -0800 (PST)
-In-Reply-To: <5460849B.9070403@windriver.com>
-References: <cover.1415350038.git.kai.kang@windriver.com>
-	<CANyK_8eJXjkRzPNsEnvbj6ve=DQ-8YkXUnG9uTE5RqmG-GEF+Q@mail.gmail.com>
-	<5460849B.9070403@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 10 Nov 2014 11:26:32 +0000
-Message-ID: <CAJTo0LbNiXyo3dND_1rJU7A5OcfxNM9wdr=7kUrs1DdficXS7Q@mail.gmail.com>
-To: Kang Kai <Kai.Kang@windriver.com>
-Cc: Koen Kooi <koen.kooi@linaro.org>,
-	OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/24] V2: Add machine qemuarm64
+To: openembedded-core@lists.openembedded.org
+References: <1415077496-11116-1-git-send-email-qianl.fnst@cn.fujitsu.com>
+	<CAJTo0LZ2FL--UchK7pVPUJFtsQJtH35_a0aJwYUSnWh34nCf-A@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ2FL--UchK7pVPUJFtsQJtH35_a0aJwYUSnWh34nCf-A@mail.gmail.com>
+Subject: Re: [PATCH] Bluez5: Add gatttool to new package bluez5-tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,56 +31,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Nov 2014 11:27:02 -0000
-Content-Type: multipart/alternative; boundary=047d7b6709c3757c0305077f704c
+X-List-Received-Date: Mon, 10 Nov 2014 12:16:56 -0000
+Content-Type: multipart/alternative;
+	boundary="------------010008090507070604090805"
 
---047d7b6709c3757c0305077f704c
-Content-Type: text/plain; charset=UTF-8
+--------------010008090507070604090805
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 10 November 2014 09:25, Kang Kai <Kai.Kang@windriver.com> wrote:
-
->    gcc-4.9: redefine default library install directory
->>>    Revert "gcc-4.9: redefine default library install directory"
->>>
->> Can the original commit just be removed from the series rather than
->> reverted?
->>
+On 11/07/2014 06:42 AM, Burton, Ross wrote:
 >
-> We just want to keep the history how we get here. If nobody cares it, I'll
-> remove them.
+> On 4 November 2014 05:04, Qian Lei <qianl.fnst@cn.fujitsu.com 
+> <mailto:qianl.fnst@cn.fujitsu.com>> wrote:
+>
+>     # at_console doesn't really work with the current state of OE, so
+>     punch some more holes so people can actually use BT
+>     +        install -m 0755 ${S}/attrib/gatttool ${D}/${bindir}/
+>             install -m 0644 ${WORKDIR}/bluetooth.conf
+>     ${D}/${sysconfdir}/dbus-1/system.d/
+>      }
+>
+>
+> Because of where you put the install, it looks like installing 
+> gatttool is related to the DBus configuration.
+>
+>      ALLOW_EMPTY_libasound-module-bluez = "1"
+>     -PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex"
+>     +PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex
+>     ${PN}-tools"
+>
+>
+> Two questions:
+> 1) If we're installing gatttool, why not the other tools that are 
+> noinst (obex-client-tool, obexctl, etc). Patching the makefile would 
+> install all the tools that upstream build.
+> 2) Do these deserve a separate package, or as they're for testing 
+> should they go into PN-testtools?
 >
 
-Nothing is gained by knowing that you tried something and it was wrong.  If
-nothing else is required to be done to this series then we'll remove that
-pair when merging.
+I do think the extra tools deserve an extra package, because they may or 
+may not be for testing, and in any case don't get installed in a 
+distinct test area as the current contents of ${PN}-testtools do.
 
-Ross
+In fact, they don't get installed at all.  If EXPERIMENTAL is enabled 
+via PACKAGECONFIG (as it is in one of my WIP virtual/bluez patches) 
+there are a lot of those tools, some of which have opaque names that 
+don't appear related to bluetooth.  However, as I use bluez5 more of 
+them are things I want available on the target.
 
---047d7b6709c3757c0305077f704c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+At this time I'm inclined to add a ${PN}-noinst-tools package for them.  
+I'm debating whether it's better to manually install them from the build 
+area, to highlight that upstream doesn't install them, or to modify the 
+Makefile to remove "noinst_" and then explicitly list each one in a 
+separate FILES_${PN}-noinst-tools variable.  The latter seems a higher 
+risk for unwittingly adding non-standard executables to ${PN}.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 November 2014 09:25, Kang Kai <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:Kai.Kang@windriver.com" target=3D"_blank">Kai.Kang@windriver.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""><blockquote=
- class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
-d;padding-left:1ex"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">=C2=A0 =C2=A0gcc-4.9: re=
-define default library install directory<br>
-=C2=A0 =C2=A0Revert &quot;gcc-4.9: redefine default library install directo=
-ry&quot;<br>
-</blockquote>
-Can the original commit just be removed from the series rather than reverte=
-d?<br>
-</blockquote>
-<br></span>
-We just want to keep the history how we get here. If nobody cares it, I&#39=
-;ll remove them.<br></blockquote></div><br>Nothing is gained by knowing tha=
-t you tried something and it was wrong.=C2=A0 If nothing else is required t=
-o be done to this series then we&#39;ll remove that pair when merging.</div=
-><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
-</div>
+Is there any precedent for a package to have its own subdirectory off 
+${bindir}?  It'd be easy enough to patch the Makefile to put them all in 
+${bindir}/bluez5.
 
---047d7b6709c3757c0305077f704c--
+I'm sympathetic with Qian Lei and also assumed that gattool, which used 
+to be installed in bluez4, might be an exception and just belongs as an 
+OE addition to bluez5 rather than being put in ${PN}-noinst-tools.  But 
+that's a slippery slope and new things like btgatt-client might be just 
+as important to the folks who want to use GATT with bluez5.  Now I'm 
+inclined to keep it separate too.
+
+Peter
+
+--------------010008090507070604090805
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 11/07/2014 06:42 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LZ2FL--UchK7pVPUJFtsQJtH35_a0aJwYUSnWh34nCf-A@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 4 November 2014 05:04, Qian Lei <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:qianl.fnst@cn.fujitsu.com" target="_blank">qianl.fnst@cn.fujitsu.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":zy" class="a3s" style="overflow:hidden">       
+                # at_console doesn't really work with the current state
+                of OE, so punch some more holes so people can actually
+                use BT<br>
+                +        install -m 0755 ${S}/attrib/gatttool
+                ${D}/${bindir}/<br>
+                        install -m 0644 ${WORKDIR}/bluetooth.conf
+                ${D}/${sysconfdir}/dbus-1/system.d/<br>
+                 }<br>
+              </div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>Because of where you put the install, it looks like
+              installing gatttool is related to the DBus configuration.</div>
+            <div> </div>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":zy" class="a3s" style="overflow:hidden">
+                 ALLOW_EMPTY_libasound-module-bluez = "1"<br>
+                -PACKAGES =+ "libasound-module-bluez ${PN}-testtools
+                ${PN}-obex"<br>
+                +PACKAGES =+ "libasound-module-bluez ${PN}-testtools
+                ${PN}-obex ${PN}-tools"<br>
+              </div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>Two questions:</div>
+            <div>1) If we're installing gatttool, why not the other
+              tools that are noinst (obex-client-tool, obexctl, etc). 
+              Patching the makefile would install all the tools that
+              upstream build.</div>
+            <div>2) Do these deserve a separate package, or as they're
+              for testing should they go into PN-testtools? <br>
+            </div>
+            <div><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    I do think the extra tools deserve an extra package, because they
+    may or may not be for testing, and in any case don't get installed
+    in a distinct test area as the current contents of ${PN}-testtools
+    do.<br>
+    <br>
+    In fact, they don't get installed at all.  If EXPERIMENTAL is
+    enabled via PACKAGECONFIG (as it is in one of my WIP virtual/bluez
+    patches) there are a lot of those tools, some of which have opaque
+    names that don't appear related to bluetooth.  However, as I use
+    bluez5 more of them are things I want available on the target.<br>
+    <br>
+    At this time I'm inclined to add a ${PN}-noinst-tools package for
+    them.  I'm debating whether it's better to manually install them
+    from the build area, to highlight that upstream doesn't install
+    them, or to modify the Makefile to remove "noinst_" and then
+    explicitly list each one in a separate FILES_${PN}-noinst-tools
+    variable.  The latter seems a higher risk for unwittingly adding
+    non-standard executables to ${PN}.<br>
+    <br>
+    Is there any precedent for a package to have its own subdirectory
+    off ${bindir}?  It'd be easy enough to patch the Makefile to put
+    them all in ${bindir}/bluez5.<br>
+    <br>
+    I'm sympathetic with Qian Lei and also assumed that gattool, which
+    used to be installed in bluez4, might be an exception and just
+    belongs as an OE addition to bluez5 rather than being put in
+    ${PN}-noinst-tools.  But that's a slippery slope and new things like
+    btgatt-client might be just as important to the folks who want to
+    use GATT with bluez5.  Now I'm inclined to keep it separate too.<br>
+    <br>
+    Peter<br>
+  </body>
+</html>
+
+--------------010008090507070604090805--
