@@ -1,26 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 52AEE65CED
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 542FB7029A
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 10 Nov 2014 08:56:50 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAA8up8s000272
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAA8unjf025344
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 00:56:51 -0800 (PST)
+	Mon, 10 Nov 2014 00:56:50 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 10 Nov 2014 00:56:50 -0800
+	14.3.174.1; Mon, 10 Nov 2014 00:56:49 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Nov 2014 16:58:44 +0800
-Message-ID: <39ef850dcb83f0a71fbc0dca6777fc62dc1bd532.1415609871.git.Qi.Chen@windriver.com>
+Date: Mon, 10 Nov 2014 16:58:43 +0800
+Message-ID: <cover.1415609871.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1415609871.git.Qi.Chen@windriver.com>
-References: <cover.1415609871.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: add PACKAGECONFIG for 'audit'
+Subject: [PATCH 0/1] systemd: add PACKAGECONFIG for 'audit'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +34,21 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 10 Nov 2014 08:56:54 -0000
 Content-Type: text/plain
 
-Add PACKAGECONFIG for 'audit', otherwise there would be warnings like
-below which would possibly lead to do_rootfs failure.
+The following changes since commit 33b7885ecdc8774e34ac3534ec49fed6ffdb3916:
 
-WARNING: QA Issue: systemd-analyze rdepends on audit, but it isn't a build dependency? [build-deps]
-WARNING: QA Issue: systemd rdepends on audit, but it isn't a build dependency? [build-deps]
+  oprofile: 0.9.9 -> 1.0.0 (2014-11-09 10:19:58 +0000)
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-audit
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-audit
+
+Chen Qi (1):
+  systemd: add PACKAGECONFIG for 'audit'
+
  meta/recipes-core/systemd/systemd_216.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
-index 27a5d92..eaf3a5d 100644
---- a/meta/recipes-core/systemd/systemd_216.bb
-+++ b/meta/recipes-core/systemd/systemd_216.bb
-@@ -64,6 +64,7 @@ PACKAGECONFIG[elfutils] = "--enable-elfutils,--disable-elfutils,elfutils"
- PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
- PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
- PACKAGECONFIG[libidn] = "--enable-libidn,--disable-libidn,libidn"
-+PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
- 
 -- 
 1.9.1
 
