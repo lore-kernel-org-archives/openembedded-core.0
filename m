@@ -1,24 +1,36 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa07-09.prod.phx3.secureserver.net
-	(p3plsmtpa07-09.prod.phx3.secureserver.net [173.201.192.238])
-	by mail.openembedded.org (Postfix) with ESMTP id 3723965D3A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
+	[209.85.216.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F81A65D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 12:16:48 +0000 (UTC)
-Received: from [192.168.65.10] ([75.72.225.8])
-	by p3plsmtpa07-09.prod.phx3.secureserver.net with 
-	id DoGm1p00G0BVjqb01oGnCi; Mon, 10 Nov 2014 05:16:48 -0700
-Message-ID: <5460ACAE.2080103@pabigot.com>
-Date: Mon, 10 Nov 2014 06:16:46 -0600
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Mon, 10 Nov 2014 15:27:52 +0000 (UTC)
+Received: by mail-qa0-f42.google.com with SMTP id k15so5522447qaq.29
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Nov 2014 07:27:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=3YwqPbnbWbwCBQ96N2YrImP7gKvqbhd7k5Nc48HKJD0=;
+	b=iEMHG6FsCBX6Pjg5XqqxQkYok9YMNc4X2/l7k9KY+Mc2KL3xFoOxCD20vKQPD10G1x
+	AaV4z7lA9AT5uMrM1n6ospcDTYQ8ig3b670Sau70/+8wxDJIgTcXj7WTzpQ+B2h0fbrY
+	TVX9F/QdL3tmX5BrvoEsbVdn5/af0JIG/7Ustl6z1k35IPat1luSZLUKiLHsR9Q24/y8
+	GRnYTlLWDoviIguS+OWUwQ6S/3OJnCcFcZywy7OWH8jmEGfXS608Pj3/G8fKRfJ/+TCv
+	qS9mGxQCrQZd+Tmj+u6SYncj+PcvToLRSLIy+1WuvGGkDQbq3L78s1S3k/LMw7crvEjN
+	ZbLQ==
+X-Gm-Message-State: ALoCoQnI9cNb1GG2041TKk8F8Y4VFRuqj6fiH6uGfybpKWv3tZSn/Behwb92V8EEWu0gk/vKyGxk
+X-Received: by 10.229.252.201 with SMTP id mx9mr40132271qcb.4.1415633270170;
+	Mon, 10 Nov 2014 07:27:50 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1415077496-11116-1-git-send-email-qianl.fnst@cn.fujitsu.com>
-	<CAJTo0LZ2FL--UchK7pVPUJFtsQJtH35_a0aJwYUSnWh34nCf-A@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ2FL--UchK7pVPUJFtsQJtH35_a0aJwYUSnWh34nCf-A@mail.gmail.com>
-Subject: Re: [PATCH] Bluez5: Add gatttool to new package bluez5-tools
+Received: by 10.140.98.213 with HTTP; Mon, 10 Nov 2014 07:27:29 -0800 (PST)
+In-Reply-To: <1414751666-21525-1-git-send-email-paul@paulbarker.me.uk>
+References: <1414751666-21525-1-git-send-email-paul@paulbarker.me.uk>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 10 Nov 2014 15:27:29 +0000
+Message-ID: <CAJTo0Lbf8q3z+dAZzpOu0Rgt4MVKjiCJ9fePOdZoTuK2Yf6ZyA@mail.gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] opkg: Upgrade to v0.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,173 +43,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Nov 2014 12:16:56 -0000
-Content-Type: multipart/alternative;
-	boundary="------------010008090507070604090805"
+X-List-Received-Date: Mon, 10 Nov 2014 15:27:56 -0000
+Content-Type: multipart/alternative; boundary=001a11c2ef94338235050782ce81
 
---------------010008090507070604090805
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+--001a11c2ef94338235050782ce81
+Content-Type: text/plain; charset=UTF-8
 
-On 11/07/2014 06:42 AM, Burton, Ross wrote:
->
-> On 4 November 2014 05:04, Qian Lei <qianl.fnst@cn.fujitsu.com 
-> <mailto:qianl.fnst@cn.fujitsu.com>> wrote:
->
->     # at_console doesn't really work with the current state of OE, so
->     punch some more holes so people can actually use BT
->     +        install -m 0755 ${S}/attrib/gatttool ${D}/${bindir}/
->             install -m 0644 ${WORKDIR}/bluetooth.conf
->     ${D}/${sysconfdir}/dbus-1/system.d/
->      }
->
->
-> Because of where you put the install, it looks like installing 
-> gatttool is related to the DBus configuration.
->
->      ALLOW_EMPTY_libasound-module-bluez = "1"
->     -PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex"
->     +PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex
->     ${PN}-tools"
->
->
-> Two questions:
-> 1) If we're installing gatttool, why not the other tools that are 
-> noinst (obex-client-tool, obexctl, etc). Patching the makefile would 
-> install all the tools that upstream build.
-> 2) Do these deserve a separate package, or as they're for testing 
-> should they go into PN-testtools?
+On 31 October 2014 10:34, Paul Barker <paul@paulbarker.me.uk> wrote:
+
+> The patches for opkg have been rebased using git so that they apply
+> cleanly onto
+> the new release.
 >
 
-I do think the extra tools deserve an extra package, because they may or 
-may not be for testing, and in any case don't get installed in a 
-distinct test area as the current contents of ${PN}-testtools do.
+Something appears to be broken with 0.2.3:
+ * satisfy_dependencies_for: Cannot satisfy the following dependencies for
+packagegroup-core-sdk:
+ * perl-module-config * perl-module-config * (repeat)
 
-In fact, they don't get installed at all.  If EXPERIMENTAL is enabled 
-via PACKAGECONFIG (as it is in one of my WIP virtual/bluez patches) 
-there are a lot of those tools, some of which have opaque names that 
-don't appear related to bluetooth.  However, as I use bluez5 more of 
-them are things I want available on the target.
+https://autobuilder.yoctoproject.org/main/builders/nightly-ipk/builds/97 is
+a build on the autobuilder using current master, and
+https://autobuilder.yoctoproject.org/main/builders/nightly-ipk/builds/96 is
+master plus your two opkg patches.
 
-At this time I'm inclined to add a ${PN}-noinst-tools package for them.  
-I'm debating whether it's better to manually install them from the build 
-area, to highlight that upstream doesn't install them, or to modify the 
-Makefile to remove "noinst_" and then explicitly list each one in a 
-separate FILES_${PN}-noinst-tools variable.  The latter seems a higher 
-risk for unwittingly adding non-standard executables to ${PN}.
+Ross
 
-Is there any precedent for a package to have its own subdirectory off 
-${bindir}?  It'd be easy enough to patch the Makefile to put them all in 
-${bindir}/bluez5.
+--001a11c2ef94338235050782ce81
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I'm sympathetic with Qian Lei and also assumed that gattool, which used 
-to be installed in bluez4, might be an exception and just belongs as an 
-OE addition to bluez5 rather than being put in ${PN}-noinst-tools.  But 
-that's a slippery slope and new things like btgatt-client might be just 
-as important to the folks who want to use GATT with bluez5.  Now I'm 
-inclined to keep it separate too.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 31 October 2014 10:34, Paul Barker <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:paul@paulbarker.me.uk" target=3D"_blank">paul@paulbarker.me.uk</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-le=
+ft-style:solid;padding-left:1ex"><div id=3D":19r" class=3D"" style=3D"overf=
+low:hidden">The patches for <span class=3D"">opkg</span> have been rebased =
+using git so that they apply cleanly onto<br>
+the new release.<br></div></blockquote><div>=C2=A0</div></div>Something app=
+ears to be broken with 0.2.3:</div><div class=3D"gmail_extra"><div class=3D=
+"gmail_extra">=C2=A0* satisfy_dependencies_for: Cannot satisfy the followin=
+g dependencies for packagegroup-core-sdk:</div><div class=3D"gmail_extra">=
+=C2=A0* <span class=3D"" style=3D"white-space:pre">	</span>perl-module-conf=
+ig * <span class=3D"" style=3D"white-space:pre">	</span>perl-module-config =
+* <span class=3D"" style=3D"white-space:pre">	(repeat)</span><span class=3D=
+""></span></div><div class=3D"gmail_extra"><span class=3D"" style=3D"white-=
+space:pre"><br></span></div><div class=3D"gmail_extra"><span class=3D""><sp=
+an style=3D"white-space:pre"><a href=3D"https://autobuilder.yoctoproject.or=
+g/main/builders/nightly-ipk/builds/97">https://autobuilder.yoctoproject.org=
+/main/builders/nightly-ipk/builds/97</a> is a build on the autobuilder usin=
+g current master, and </span><br></span><span style=3D"white-space:pre"><a =
+href=3D"https://autobuilder.yoctoproject.org/main/builders/nightly-ipk/buil=
+ds/96">https://autobuilder.yoctoproject.org/main/builders/nightly-ipk/build=
+s/96</a> is master plus your two opkg patches.</span></div><div class=3D"gm=
+ail_extra"><span style=3D"white-space:pre"><br></span></div><div class=3D"g=
+mail_extra"><span style=3D"white-space:pre">Ross</span></div></div></div>
 
-Peter
-
---------------010008090507070604090805
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 11/07/2014 06:42 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LZ2FL--UchK7pVPUJFtsQJtH35_a0aJwYUSnWh34nCf-A@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 4 November 2014 05:04, Qian Lei <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:qianl.fnst@cn.fujitsu.com" target="_blank">qianl.fnst@cn.fujitsu.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":zy" class="a3s" style="overflow:hidden">       
-                # at_console doesn't really work with the current state
-                of OE, so punch some more holes so people can actually
-                use BT<br>
-                +        install -m 0755 ${S}/attrib/gatttool
-                ${D}/${bindir}/<br>
-                        install -m 0644 ${WORKDIR}/bluetooth.conf
-                ${D}/${sysconfdir}/dbus-1/system.d/<br>
-                 }<br>
-              </div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>Because of where you put the install, it looks like
-              installing gatttool is related to the DBus configuration.</div>
-            <div> </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":zy" class="a3s" style="overflow:hidden">
-                 ALLOW_EMPTY_libasound-module-bluez = "1"<br>
-                -PACKAGES =+ "libasound-module-bluez ${PN}-testtools
-                ${PN}-obex"<br>
-                +PACKAGES =+ "libasound-module-bluez ${PN}-testtools
-                ${PN}-obex ${PN}-tools"<br>
-              </div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>Two questions:</div>
-            <div>1) If we're installing gatttool, why not the other
-              tools that are noinst (obex-client-tool, obexctl, etc). 
-              Patching the makefile would install all the tools that
-              upstream build.</div>
-            <div>2) Do these deserve a separate package, or as they're
-              for testing should they go into PN-testtools? <br>
-            </div>
-            <div><br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    I do think the extra tools deserve an extra package, because they
-    may or may not be for testing, and in any case don't get installed
-    in a distinct test area as the current contents of ${PN}-testtools
-    do.<br>
-    <br>
-    In fact, they don't get installed at all.  If EXPERIMENTAL is
-    enabled via PACKAGECONFIG (as it is in one of my WIP virtual/bluez
-    patches) there are a lot of those tools, some of which have opaque
-    names that don't appear related to bluetooth.  However, as I use
-    bluez5 more of them are things I want available on the target.<br>
-    <br>
-    At this time I'm inclined to add a ${PN}-noinst-tools package for
-    them.  I'm debating whether it's better to manually install them
-    from the build area, to highlight that upstream doesn't install
-    them, or to modify the Makefile to remove "noinst_" and then
-    explicitly list each one in a separate FILES_${PN}-noinst-tools
-    variable.  The latter seems a higher risk for unwittingly adding
-    non-standard executables to ${PN}.<br>
-    <br>
-    Is there any precedent for a package to have its own subdirectory
-    off ${bindir}?  It'd be easy enough to patch the Makefile to put
-    them all in ${bindir}/bluez5.<br>
-    <br>
-    I'm sympathetic with Qian Lei and also assumed that gattool, which
-    used to be installed in bluez4, might be an exception and just
-    belongs as an OE addition to bluez5 rather than being put in
-    ${PN}-noinst-tools.  But that's a slippery slope and new things like
-    btgatt-client might be just as important to the folks who want to
-    use GATT with bluez5.  Now I'm inclined to keep it separate too.<br>
-    <br>
-    Peter<br>
-  </body>
-</html>
-
---------------010008090507070604090805--
+--001a11c2ef94338235050782ce81--
