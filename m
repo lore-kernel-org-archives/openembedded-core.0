@@ -1,32 +1,39 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 68E2465CED
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
+	[209.85.218.42])
+	by mail.openembedded.org (Postfix) with ESMTP id E1AB565D3A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 07:35:53 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAA7Zpnb016188
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 9 Nov 2014 23:35:51 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 9 Nov 2014 23:35:50 -0800
-Message-ID: <54606AD5.1050905@windriver.com>
-Date: Mon, 10 Nov 2014 15:35:49 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Mon, 10 Nov 2014 08:32:39 +0000 (UTC)
+Received: by mail-oi0-f42.google.com with SMTP id a3so5041288oib.15
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Nov 2014 00:32:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=xU0fDkuNJWaHwkERrbkY59SwpHIJOpRoIRc5NJ/hBmE=;
+	b=AktTtAuiBoX0U6nRH5bay+HpiQr4UQBLiuRk3txHWrWt8csZyPvx3kIHAB5KQHkJY0
+	Lm2rhCHRCzi0IYqeHLDoYp2YESxza9StHxT/tlSy2wx7/qKfaFv3BSPXVR1e5Xkbuvi3
+	EwNbLYhfcITQFaB+PC4KsoG597PLz+asgbMNB0+1lMGW8Pgw6WUYX9oBdbj9yj358czF
+	1ta3+L2f/FH6yiW0H+kbtUDNICoAElRhZJx6k2vixiA4rkvAf3uU5VPQY4/KNSAvU262
+	81sKnup2uaOkW1KBVlTJQkKZMFq0uMLyj3bc7UwKRb4JAtw4smEaYDxoolMNwmja/3u+
+	+9gg==
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1415346812.git.hongxu.jia@windriver.com>
-	<16384282a6c5f4878b1c377bbe38cfae1d311d0b.1415346812.git.hongxu.jia@windriver.com>
-	<20141107143813.GF2444@jama>
-	<01AE3AA2-1B18-4047-A760-E137E0A245D3@dominion.thruhere.net>
-	<54601CC7.1060000@windriver.com> <20141110064247.GB2440@jama>
-In-Reply-To: <20141110064247.GB2440@jama>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] avahi.inc: use avahi-daemon as avahi's provider
+X-Received: by 10.60.134.20 with SMTP id pg20mr25411824oeb.36.1415608360485;
+	Mon, 10 Nov 2014 00:32:40 -0800 (PST)
+Received: by 10.202.67.84 with HTTP; Mon, 10 Nov 2014 00:32:40 -0800 (PST)
+In-Reply-To: <1415528861.2820.25.camel@linuxfoundation.org>
+References: <1415346729-16760-1-git-send-email-schnitzeltony@googlemail.com>
+	<1415346729-16760-3-git-send-email-schnitzeltony@googlemail.com>
+	<1415458061.2820.23.camel@linuxfoundation.org>
+	<1415528861.2820.25.camel@linuxfoundation.org>
+Date: Mon, 10 Nov 2014 09:32:40 +0100
+Message-ID: <CALbNGRQxMHoRLC0u2CbT90BfKVSWNRrovEwdr1ggSfzYkbgHAQ@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] xserver-xorg: update to 1.16.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,40 +46,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Nov 2014 07:35:59 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Nov 2014 08:32:49 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 11/10/2014 02:42 PM, Martin Jansa wrote:
-> The docs say that IMAGE_INSTALL is for "package_name". So I think it's
-> correct that it fails when you put "recipe_name" in it and sometimes
-> there isn't any package with the same name. It's the same as trying to
-> make RDEPENDS/DEPENDS entries to be interchangeable (putting
-> recipe_names to RDEPENDS and package_names to DEPENDS)."
+On Sun, Nov 9, 2014 at 11:27 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Sat, 2014-11-08 at 14:47 +0000, Richard Purdie wrote:
+>> On Fri, 2014-11-07 at 08:52 +0100, Andreas M=C3=BCller wrote:
+>> > * first version supporting rootless X (not tested yet)
+>> > * modesetting working for non PCI gpus (tested on gumstix overo)
+>> >
+>> > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+>> > ---
+>> >  .../xorg-xserver/xserver-xorg/crosscompile.patch   | 22 --------
+>> >  .../xserver-xorg/mips64-compiler.patch             | 29 ----------
+>> >  .../xorg-xserver/xserver-xorg/present-module.patch | 66 -------------=
+---------
+>> >  ...erver-xorg_1.15.1.bb =3D> xserver-xorg_1.16.1.bb} |  9 +--
+>> >  4 files changed, 3 insertions(+), 123 deletions(-)
+>> >  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/cr=
+osscompile.patch
+>> >  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/mi=
+ps64-compiler.patch
+>> >  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/pr=
+esent-module.patch
+>> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.15.1.bb =3D=
+> xserver-xorg_1.16.1.bb} (75%)
+>>
+>> Whilst I haven't 100% confirmed it:
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/builds=
+/96
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-logrotate/=
+builds/95
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-skeleton/b=
+uilds/95
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/bu=
+ilds/94
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-x32/builds/95
+>>
+>> all look like it may well be as a result of this change (which was
+>> included in the master-next build in question). This change will be
+>> delayed merging until we figure out if this patch is responsible and how
+>> to fix whatever the cause is. Obviously any help in doing that is much
+>> appreciated.
 >
-> Especially with that patch for xinput-pointercal, if user explicitly
-> asks for installing xinput-pointercal, what's the reason to create him
-> completely empty package? IMHO it's only hiding that issue from him and
-> instead of discovering the issue in do_rootfs task, he has to check
-> generated rootfs or even boot the device.
+> It is 100% confirmed now, with the patch reverted there was a green
+> build.
+>
+> Cheers,
+>
+> Richard
+>
+Will look into this this week
 
-For most recipes, they generate packages with recipe name, it is not
-convenience to figure out the different between package_name and
-recipe_name, especially for newbies, which I means we should reduce
-that convenience, build relationship between recipe and package,
-especially when the recipe doesn't generate the same name package.
-
-As you said, for specific recipes, we don't want to generate packages,
-it doesn't make sense to install it by setting IMAGE_INSTALL. But if the
-recipe generate packages, it is reasonable to take one with recipe
-name, take python3 for example, it choose python-core as the provider.
-
-That's why I sent patch for avahi and oprofileui. The avahi didn't generate
-package avahi, but it is reasonable to choose avahi-daemon, as the
-SUMMARY said it is a IPv4 configuration daemon.
-
-For oprofileui, it only generates package oprofileui-viewer, if we have
-oprofileui as its nick name, I think it is more convenience for the users.
-
-//Hongxu
+Andreas
 
