@@ -1,28 +1,22 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C5BE265D3A
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa07-10.prod.phx3.secureserver.net
+	(p3plsmtpa07-10.prod.phx3.secureserver.net [173.201.192.239])
+	by mail.openembedded.org (Postfix) with ESMTP id 456FC65D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 19:01:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAAJ1EEX007542
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 10 Nov 2014 11:01:15 -0800 (PST)
-Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 10 Nov 2014 11:01:14 -0800
-Date: Mon, 10 Nov 2014 13:00:53 -0600
-From: Peter Seebach <peter.seebach@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20141110130053.01f6bece@e6410-2>
-In-Reply-To: <1415457765.2820.21.camel@linuxfoundation.org>
-References: <cover.1415390286.git.peter.seebach@windriver.com>
-	<d2ce73488a8afb7a8d10286da138810d30b4a4be.1415390286.git.peter.seebach@windriver.com>
-	<1415457765.2820.21.camel@linuxfoundation.org>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] eglibc-use-option-groups.patch: Several fixups
+	Mon, 10 Nov 2014 21:13:23 +0000 (UTC)
+Received: from llc.pab ([75.72.225.8])
+	by p3plsmtpa07-10.prod.phx3.secureserver.net with 
+	id DxDM1p00G0BVjqb01xDPvP; Mon, 10 Nov 2014 14:13:24 -0700
+From: "Peter A. Bigot" <pab@pabigot.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Nov 2014 15:12:59 -0600
+Message-Id: <e24bdc70e9417e10001fe65529100ccd5bb63c6e.1415647839.git.pab@pabigot.com>
+X-Mailer: git-send-email 1.8.5.5
+In-Reply-To: <cover.1415647839.git.pab@pabigot.com>
+References: <cover.1415647839.git.pab@pabigot.com>
+In-Reply-To: <cover.1415647839.git.pab@pabigot.com>
+References: <cover.1415647839.git.pab@pabigot.com>
+Subject: [RFC 02/14] bluez5: fix QA error from configure option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,22 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Nov 2014 19:01:18 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Nov 2014 21:13:28 -0000
 
-On Sat, 8 Nov 2014 14:42:45 +0000
-Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+The systemdunitdir option was split into systemdsystemunitdir and
+systemduserunitdir before bluez5 was ever released, so this produced a
+QA error and was ignored.  There appears to be no reason to override the
+inferred default, so replace it with an explicit --enable-systemd.
 
-> Whilst I haven't 100% confirmed it,
-> https://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/102/steps/BuildImages/logs/stdio
-> looks like it may well be as a result of this change (which was included
-> in the master-next build in question)...
+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hmm. I am *pretty* sure I was successfully building things with this patch.
-But it does look suspiciously similar.
-
--s
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index c3dd946..28c014f 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -26,7 +26,7 @@ EXTRA_OECONF = "\
+   --disable-cups \
+   --enable-test \
+   --enable-datafiles \
+-  ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--disable-systemd', d)} \
++  ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--enable-systemd', '--disable-systemd', d)} \
+   --enable-library \
+ "
+ 
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+1.8.5.5
+
 
