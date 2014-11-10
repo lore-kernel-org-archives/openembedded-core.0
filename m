@@ -1,22 +1,22 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa07-10.prod.phx3.secureserver.net
 	(p3plsmtpa07-10.prod.phx3.secureserver.net [173.201.192.239])
-	by mail.openembedded.org (Postfix) with ESMTP id 456FC65D4F
+	by mail.openembedded.org (Postfix) with ESMTP id 4489665D3A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 21:13:23 +0000 (UTC)
+	Mon, 10 Nov 2014 21:13:24 +0000 (UTC)
 Received: from llc.pab ([75.72.225.8])
 	by p3plsmtpa07-10.prod.phx3.secureserver.net with 
-	id DxDM1p00G0BVjqb01xDPvP; Mon, 10 Nov 2014 14:13:24 -0700
+	id DxDM1p00G0BVjqb01xDRw2; Mon, 10 Nov 2014 14:13:25 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Nov 2014 15:12:59 -0600
-Message-Id: <e24bdc70e9417e10001fe65529100ccd5bb63c6e.1415647839.git.pab@pabigot.com>
+Date: Mon, 10 Nov 2014 15:13:02 -0600
+Message-Id: <d9545eb78552f94ab5dbf442e9bd826a490debe2.1415647839.git.pab@pabigot.com>
 X-Mailer: git-send-email 1.8.5.5
 In-Reply-To: <cover.1415647839.git.pab@pabigot.com>
 References: <cover.1415647839.git.pab@pabigot.com>
 In-Reply-To: <cover.1415647839.git.pab@pabigot.com>
 References: <cover.1415647839.git.pab@pabigot.com>
-Subject: [RFC 02/14] bluez5: fix QA error from configure option
+Subject: [RFC 05/14] packagegroup-base: switch to VIRTUAL-RUNTIME_bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +31,23 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 10 Nov 2014 21:13:28 -0000
 
-The systemdunitdir option was split into systemdsystemunitdir and
-systemduserunitdir before bluez5 was ever released, so this produced a
-QA error and was ignored.  There appears to be no reason to override the
-inferred default, so replace it with an explicit --enable-systemd.
-
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc | 2 +-
+ meta/recipes-core/packagegroups/packagegroup-base.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index c3dd946..28c014f 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -26,7 +26,7 @@ EXTRA_OECONF = "\
-   --disable-cups \
-   --enable-test \
-   --enable-datafiles \
--  ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--disable-systemd', d)} \
-+  ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--enable-systemd', '--disable-systemd', d)} \
-   --enable-library \
- "
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index f4b2cd5..7c24849 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -203,7 +203,7 @@ RRECOMMENDS_packagegroup-base-pcmcia = "\
+ 
+ SUMMARY_packagegroup-base-bluetooth = "Bluetooth support"
+ RDEPENDS_packagegroup-base-bluetooth = "\
+-    bluez4 \
++    ${VIRTUAL-RUNTIME_bluez} \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'alsa', 'libasound-module-bluez', '',d)} \
+     "
  
 -- 
 1.8.5.5
