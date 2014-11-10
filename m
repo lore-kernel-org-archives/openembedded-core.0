@@ -1,39 +1,26 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
-	[209.85.218.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E1AB565D3A
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 52AEE65CED
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 08:32:39 +0000 (UTC)
-Received: by mail-oi0-f42.google.com with SMTP id a3so5041288oib.15
+	Mon, 10 Nov 2014 08:56:50 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAA8up8s000272
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 00:32:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=xU0fDkuNJWaHwkERrbkY59SwpHIJOpRoIRc5NJ/hBmE=;
-	b=AktTtAuiBoX0U6nRH5bay+HpiQr4UQBLiuRk3txHWrWt8csZyPvx3kIHAB5KQHkJY0
-	Lm2rhCHRCzi0IYqeHLDoYp2YESxza9StHxT/tlSy2wx7/qKfaFv3BSPXVR1e5Xkbuvi3
-	EwNbLYhfcITQFaB+PC4KsoG597PLz+asgbMNB0+1lMGW8Pgw6WUYX9oBdbj9yj358czF
-	1ta3+L2f/FH6yiW0H+kbtUDNICoAElRhZJx6k2vixiA4rkvAf3uU5VPQY4/KNSAvU262
-	81sKnup2uaOkW1KBVlTJQkKZMFq0uMLyj3bc7UwKRb4JAtw4smEaYDxoolMNwmja/3u+
-	+9gg==
+	Mon, 10 Nov 2014 00:56:51 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 10 Nov 2014 00:56:50 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 10 Nov 2014 16:58:44 +0800
+Message-ID: <39ef850dcb83f0a71fbc0dca6777fc62dc1bd532.1415609871.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1415609871.git.Qi.Chen@windriver.com>
+References: <cover.1415609871.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.60.134.20 with SMTP id pg20mr25411824oeb.36.1415608360485;
-	Mon, 10 Nov 2014 00:32:40 -0800 (PST)
-Received: by 10.202.67.84 with HTTP; Mon, 10 Nov 2014 00:32:40 -0800 (PST)
-In-Reply-To: <1415528861.2820.25.camel@linuxfoundation.org>
-References: <1415346729-16760-1-git-send-email-schnitzeltony@googlemail.com>
-	<1415346729-16760-3-git-send-email-schnitzeltony@googlemail.com>
-	<1415458061.2820.23.camel@linuxfoundation.org>
-	<1415528861.2820.25.camel@linuxfoundation.org>
-Date: Mon, 10 Nov 2014 09:32:40 +0100
-Message-ID: <CALbNGRQxMHoRLC0u2CbT90BfKVSWNRrovEwdr1ggSfzYkbgHAQ@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] xserver-xorg: update to 1.16.1
+Subject: [PATCH 1/1] systemd: add PACKAGECONFIG for 'audit'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,60 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Nov 2014 08:32:49 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 10 Nov 2014 08:56:54 -0000
+Content-Type: text/plain
 
-On Sun, Nov 9, 2014 at 11:27 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Sat, 2014-11-08 at 14:47 +0000, Richard Purdie wrote:
->> On Fri, 2014-11-07 at 08:52 +0100, Andreas M=C3=BCller wrote:
->> > * first version supporting rootless X (not tested yet)
->> > * modesetting working for non PCI gpus (tested on gumstix overo)
->> >
->> > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
->> > ---
->> >  .../xorg-xserver/xserver-xorg/crosscompile.patch   | 22 --------
->> >  .../xserver-xorg/mips64-compiler.patch             | 29 ----------
->> >  .../xorg-xserver/xserver-xorg/present-module.patch | 66 -------------=
----------
->> >  ...erver-xorg_1.15.1.bb =3D> xserver-xorg_1.16.1.bb} |  9 +--
->> >  4 files changed, 3 insertions(+), 123 deletions(-)
->> >  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/cr=
-osscompile.patch
->> >  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/mi=
-ps64-compiler.patch
->> >  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/pr=
-esent-module.patch
->> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.15.1.bb =3D=
-> xserver-xorg_1.16.1.bb} (75%)
->>
->> Whilst I haven't 100% confirmed it:
->>
->> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/builds=
-/96
->> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-logrotate/=
-builds/95
->> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-skeleton/b=
-uilds/95
->> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/bu=
-ilds/94
->> https://autobuilder.yoctoproject.org/main/builders/nightly-x32/builds/95
->>
->> all look like it may well be as a result of this change (which was
->> included in the master-next build in question). This change will be
->> delayed merging until we figure out if this patch is responsible and how
->> to fix whatever the cause is. Obviously any help in doing that is much
->> appreciated.
->
-> It is 100% confirmed now, with the patch reverted there was a green
-> build.
->
-> Cheers,
->
-> Richard
->
-Will look into this this week
+Add PACKAGECONFIG for 'audit', otherwise there would be warnings like
+below which would possibly lead to do_rootfs failure.
 
-Andreas
+WARNING: QA Issue: systemd-analyze rdepends on audit, but it isn't a build dependency? [build-deps]
+WARNING: QA Issue: systemd rdepends on audit, but it isn't a build dependency? [build-deps]
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/systemd/systemd_216.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
+index 27a5d92..eaf3a5d 100644
+--- a/meta/recipes-core/systemd/systemd_216.bb
++++ b/meta/recipes-core/systemd/systemd_216.bb
+@@ -64,6 +64,7 @@ PACKAGECONFIG[elfutils] = "--enable-elfutils,--disable-elfutils,elfutils"
+ PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
+ PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
+ PACKAGECONFIG[libidn] = "--enable-libidn,--disable-libidn,libidn"
++PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit"
+ 
+ CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
+ 
+-- 
+1.9.1
+
 
