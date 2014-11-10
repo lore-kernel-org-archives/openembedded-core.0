@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 58F0165C91
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5748C6AC0D
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 10 Nov 2014 03:37:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAA3bg1a024154
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAA3bfcr020458
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 9 Nov 2014 19:37:43 -0800 (PST)
+	Sun, 9 Nov 2014 19:37:42 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 9 Nov 2014 19:37:42 -0800
+	Sun, 9 Nov 2014 19:37:41 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 9 Nov 2014 19:37:41 -0800
-Message-ID: <43a231dd40dea2c983adbdad32f3cfc4bf22a918.1415590624.git.liezhi.yang@windriver.com>
+Date: Sun, 9 Nov 2014 19:37:40 -0800
+Message-ID: <cover.1415590624.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1415590624.git.liezhi.yang@windriver.com>
-References: <cover.1415590624.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] apr-native: Set CONFIG_SHELL to /bin/bash
+Subject: [PATCH 0/1] apr-native: Set CONFIG_SHELL to /bin/bash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +34,21 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 10 Nov 2014 03:37:47 -0000
 Content-Type: text/plain
 
-The apr-native provides usr/share/build-1/libtool which is required by
-the recipe such as apache2-native. If we don't set the CONFIG_SHELL to
-/bin/bash, then:
+The following changes since commit 33b7885ecdc8774e34ac3534ec49fed6ffdb3916:
 
-1) If we build apr-native on a host which is "/bin/sh -> bash", the
-   interpreter in usr/share/build-1/libtool would be "#!/bin/sh".
-2) When we re-use apr-native's sstate on a host which is
-   "/bin/sh -> dash", there would be errors.
+  oprofile: 0.9.9 -> 1.0.0 (2014-11-09 10:19:58 +0000)
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/apr
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rtb/apr
+
+Robert Yang (1):
+  apr-native: Set CONFIG_SHELL to /bin/bash
+
  meta/recipes-support/apr/apr_1.5.1.bb |    2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/apr/apr_1.5.1.bb b/meta/recipes-support/apr/apr_1.5.1.bb
-index 17dddbc..49a08b0 100644
---- a/meta/recipes-support/apr/apr_1.5.1.bb
-+++ b/meta/recipes-support/apr/apr_1.5.1.bb
-@@ -86,3 +86,5 @@ do_install_ptest() {
- 	cp ${S}/test/testall $t/
- 	cp ${S}/test/tryread $t/
- }
-+
-+export CONFIG_SHELL="/bin/bash"
 -- 
 1.7.9.5
 
