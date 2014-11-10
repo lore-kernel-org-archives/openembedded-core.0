@@ -1,30 +1,45 @@
-Return-Path: <qianl.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id D00F165CED
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D08465CED
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 05:52:40 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="43117521"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 10 Nov 2014 13:49:29 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id sAA5qS6x002372;
-	Mon, 10 Nov 2014 13:52:28 +0800
-Received: from Fedora (10.167.226.40) by G08CNEXCHPEKD03.g08.fujitsu.local
-	(10.167.33.89) with Microsoft SMTP Server id 14.3.181.6;
-	Mon, 10 Nov 2014 13:52:41 +0800
-Date: Mon, 10 Nov 2014 13:52:37 +0800
-From: Qian Lei <qianl.fnst@cn.fujitsu.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20141110135237.1a9c3eca@Fedora>
-In-Reply-To: <CAJTo0LZ2FL--UchK7pVPUJFtsQJtH35_a0aJwYUSnWh34nCf-A@mail.gmail.com>
-References: <1415077496-11116-1-git-send-email-qianl.fnst@cn.fujitsu.com>
-	<CAJTo0LZ2FL--UchK7pVPUJFtsQJtH35_a0aJwYUSnWh34nCf-A@mail.gmail.com>
-Organization: FNST
-X-Mailer: Claws Mail 3.9.3 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
+	Mon, 10 Nov 2014 06:42:39 +0000 (UTC)
+Received: by mail-wi0-f172.google.com with SMTP id bs8so9273003wib.11
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 09 Nov 2014 22:42:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Hm0dNZqJxkgp5yyC0E7GUKVBJmCt6Nlh7gwSLF8CQqE=;
+	b=eplGQuNtcbh2AemjjPFRNwGXlyT8DpHO/GsmF2ndy8HjwmggYLv2DATwFDQMWwlaVu
+	FIwtMFCB+lY48vZhC5wybqaaUOo6RnspJM9157pss3v/CdwU6k0pcLU5EfPnU9EDWg0l
+	3QfwMp81Eq4i01EAECtSpSrdWpfFpMf6tGmRLzJbHOp0CzJgLf2S3LMz3PqZta1oGBl9
+	Qzx6If/Rslk/w/IJj5aSqxvZPIKH1CAlHOKeyb0XSBnGh+4bildIhNPeoLLq7XG7AD3H
+	dVNkyTHx6XlFCzGTvx+USfdOJ+pbkAG2wDnBNvryzc84PRx3JLc4h0J+nCgEk+G+6CRC
+	xblQ==
+X-Received: by 10.180.188.41 with SMTP id fx9mr26882907wic.59.1415601759456;
+	Sun, 09 Nov 2014 22:42:39 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	fi9sm12152089wib.6.2014.11.09.22.42.38 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 09 Nov 2014 22:42:38 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 10 Nov 2014 07:42:47 +0100
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <20141110064247.GB2440@jama>
+References: <cover.1415346812.git.hongxu.jia@windriver.com>
+	<16384282a6c5f4878b1c377bbe38cfae1d311d0b.1415346812.git.hongxu.jia@windriver.com>
+	<20141107143813.GF2444@jama>
+	<01AE3AA2-1B18-4047-A760-E137E0A245D3@dominion.thruhere.net>
+	<54601CC7.1060000@windriver.com>
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Bluez5: Add gatttool to new package bluez5-tools
+In-Reply-To: <54601CC7.1060000@windriver.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/4] avahi.inc: use avahi-daemon as avahi's provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +52,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Nov 2014 05:52:45 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Nov 2014 06:42:43 -0000
+X-Groupsio-MsgNum: 59472
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="LyciRD1jyfeSSjG0"
+Content-Disposition: inline
 
-On Fri, 7 Nov 2014 12:42:14 +0000
-"Burton, Ross" <ross.burton@intel.com> wrote:
+--LyciRD1jyfeSSjG0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On 4 November 2014 05:04, Qian Lei <qianl.fnst@cn.fujitsu.com> wrote:
-> 
-> >         # at_console doesn't really work with the current state of OE, so
-> > punch some more holes so people can actually use BT
-> > +        install -m 0755 ${S}/attrib/gatttool ${D}/${bindir}/
-> >         install -m 0644 ${WORKDIR}/bluetooth.conf
-> > ${D}/${sysconfdir}/dbus-1/system.d/
-> >  }
-> >
-> 
-> Because of where you put the install, it looks like installing gatttool is
-> related to the DBus configuration.
+On Mon, Nov 10, 2014 at 10:02:47AM +0800, Hongxu Jia wrote:
+> On 11/09/2014 02:53 AM, Koen Kooi wrote:
+> >> Op 7 nov. 2014, om 15:38 heeft Martin Jansa <martin.jansa@gmail.com> h=
+et volgende geschreven:
+> >>
+> >> On Fri, Nov 07, 2014 at 03:57:01PM +0800, Hongxu Jia wrote:
+> >>> The package avahi does not exist, so we use avahi-daemon as the provi=
+der.
+> >>> It avoids the do_rootfs failure while IMAGE_INSTALL +=3D "avahi"
+> >> Why don't you fix your IMAGE_INSTALL instead?
+> > I agree with Martin, this is a non-problem, please fix your IMAGE_INSTA=
+LL.
+>=20
+> I am afraid it is not the issue of IMAGE_INSTALL
+>=20
+> As doc said:
+> http://www.yoctoproject.org/docs/1.5/ref-manual/ref-manual.html#var-IMAGE=
+_INSTALL
+> Variable IMAGE_INSTALL is used to specify the packages to install into=20
+> an image.
+>=20
+> While adding some packages to image ,the rpm based do_rootfs
+> failed with '*** not found in the base feeds'
+>=20
+> The failure was caused by two kinds of situations:
+> 1. Package does not exist (such as python3), but provided
+>     by other package (such as python-core), the rpm based
+>     do_rootfs could not search its provider. And the deb/
+>     ipk based do_rootfs worked well, it is a defect, and
+>     I have fixed it (patch sent to community, YOCTO 6918);
+>=20
+> 2. Package does not exist, and no other package provides it,
+>     the package installation will fail in any type do_rootfs. We
+>     met this issue when we set IMAGE_INSTALL =3D "recipe_name",
+>     but we don't have the package with that name.
+>=20
+> I think what I do is to fix the situation 2.
+>=20
+> Further more, we should add checking at the package generating
+> time, if the package *with recipe name* was empty and not created,
+> trigger a warn and according the warn, we could fix the issue recipes.
 
-Hi Ross, thank you for your review.
+The docs say that IMAGE_INSTALL is for "package_name". So I think it's
+correct that it fails when you put "recipe_name" in it and sometimes
+there isn't any package with the same name. It's the same as trying to
+make RDEPENDS/DEPENDS entries to be interchangeable (putting
+recipe_names to RDEPENDS and package_names to DEPENDS)."
 
-Sorry for making you confused, the install should be put before the comment. I
-just want to install gatttool to bin directory and it is nothing related to
-dbus. I'll correct it in the next version.
+Especially with that patch for xinput-pointercal, if user explicitly
+asks for installing xinput-pointercal, what's the reason to create him
+completely empty package? IMHO it's only hiding that issue from him and
+instead of discovering the issue in do_rootfs task, he has to check
+generated rootfs or even boot the device.
 
-> >  ALLOW_EMPTY_libasound-module-bluez = "1"
-> > -PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex"
-> > +PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex
-> > ${PN}-tools"
-> >
-> 
-> Two questions:
-> 1) If we're installing gatttool, why not the other tools that are noinst
-> (obex-client-tool, obexctl, etc).  Patching the makefile would install all
-> the tools that upstream build.
+> We already have that checking at the package generating time,
+> but it a note, not warn. I suggest we should use warn instead.
+>=20
+> //Hongxu
+>=20
 
-Because in bluez4, gatttool was installed by default but obex-client-tool,
-obexctl were not. 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> 2) Do these deserve a separate package, or as they're for testing should
-> they go into PN-testtools?
+--LyciRD1jyfeSSjG0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-gatttool is not a test tool, but a develop tool. In bluez4 it is in package
-bluez4(not in bluez4-testtools). I don't think it's good to put it to any
-existed package.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iEYEARECAAYFAlRgXmcACgkQN1Ujt2V2gBwMXgCdHBguwyisTwqoa1PqfpTFCjHN
+QFwAoJppZiZv9irkUHwrkqcDcnm1ncp+
+=E+X7
+-----END PGP SIGNATURE-----
 
-Qian Lei.
-
+--LyciRD1jyfeSSjG0--
