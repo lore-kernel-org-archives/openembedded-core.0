@@ -1,22 +1,41 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa07-10.prod.phx3.secureserver.net
-	(p3plsmtpa07-10.prod.phx3.secureserver.net [173.201.192.239])
-	by mail.openembedded.org (Postfix) with ESMTP id DA4CA70621
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 4283665D3A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 21:13:28 +0000 (UTC)
-Received: from llc.pab ([75.72.225.8])
-	by p3plsmtpa07-10.prod.phx3.secureserver.net with 
-	id DxDM1p00G0BVjqb01xDVxp; Mon, 10 Nov 2014 14:13:29 -0700
-From: "Peter A. Bigot" <pab@pabigot.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Nov 2014 15:13:11 -0600
-Message-Id: <e5a7f5c82e278c1c74b67947b85e79820fd892e0.1415647839.git.pab@pabigot.com>
-X-Mailer: git-send-email 1.8.5.5
-In-Reply-To: <cover.1415647839.git.pab@pabigot.com>
+	Mon, 10 Nov 2014 23:20:18 +0000 (UTC)
+Received: by mail-wi0-f170.google.com with SMTP id r20so228104wiv.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Nov 2014 15:20:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=wgImVA7QczN0OH8m8Xwzfm96rHB4iilVTC/q9BjcjbE=;
+	b=qn9ui1nR9vA3RlXi1T+mhCw5jxXtWFwHo77kFexS00rNUrv+i1OePcwjbqfrBlhHD3
+	+GoCtP5sr71xINHh2N/qsm832IpMwLxEgTT/rq9u0r1jBHnosa9yZ/Om//TTIvM/7yAn
+	GKzk2DvQcPHICfCOSyDj7FFZDpX4MU3GzYwlN0JnDCnQpk/t0Ci/gyevZcq+0daYcR96
+	/9wJjlsTwlBXDVuh1a4Kdup70wKw6q40/THu0hS4scKTX9Tn4nQkxk5uOVxZBP/+Qy47
+	56lPwT3CARbQV1r50PV1022pXv367D/TZgLRICU9Q1SZm6QQc+29Tz2Q7Xss3M04rprM
+	9WpA==
+X-Received: by 10.180.104.2 with SMTP id ga2mr35370794wib.64.1415661619030;
+	Mon, 10 Nov 2014 15:20:19 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	hh14sm15176556wib.13.2014.11.10.15.20.18 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 10 Nov 2014 15:20:18 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 11 Nov 2014 00:20:28 +0100
+To: "Peter A. Bigot" <pab@pabigot.com>
+Message-ID: <20141110232028.GE2440@jama>
 References: <cover.1415647839.git.pab@pabigot.com>
-In-Reply-To: <cover.1415647839.git.pab@pabigot.com>
-References: <cover.1415647839.git.pab@pabigot.com>
-Subject: [RFC 14/14] bluez5: add a package for tools left in the build area
+	<18b73e0cfd55891ca28f46e17ce4af9ca1535245.1415647839.git.pab@pabigot.com>
+MIME-Version: 1.0
+In-Reply-To: <18b73e0cfd55891ca28f46e17ce4af9ca1535245.1415647839.git.pab@pabigot.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC 06/14] pulseaudio: switch to virtual/bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,134 +48,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Nov 2014 21:13:29 -0000
+X-List-Received-Date: Mon, 10 Nov 2014 23:20:19 -0000
+X-Groupsio-MsgNum: 59504
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="V4b9U9vrdWczvw78"
+Content-Disposition: inline
 
-In bluez4 gatttool was provided as a command-line interface to the
-Generic Attribute Profile.  In bluez5 this tool is still built but is no
-longer installed.  It is still necessary for those wishing to use GATT
-since the programmatic API is not yet mature.  A variety of other useful
-tools are treated similarly by bluez5.
+--V4b9U9vrdWczvw78
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Make these tools available in the bluez5-noinst-tools package, in a way
-that allows control over which tools are packaged, with the default
-being all that are provided in a particular release of bluez.
+On Mon, Nov 10, 2014 at 03:13:03PM -0600, Peter A. Bigot wrote:
+> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+> ---
+>  meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/rec=
+ipes-multimedia/pulseaudio/pulseaudio.inc
+> index db144a9..f06b15c 100644
+> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> @@ -31,7 +31,7 @@ EXTRA_OECONF =3D "\
+>                  ac_cv_header_valgrind_memcheck_h=3Dno \
+>  "
+> =20
+> -PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth'=
+, 'bluez4', '', d)} \
+> +PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth'=
+, 'virtual/bluez', '', d)} \
 
-Signed-off-by: Peter A. Bigot <pab@pabigot.com>
----
- meta/recipes-connectivity/bluez5/bluez5.inc     | 26 +++++++++++++-
- meta/recipes-connectivity/bluez5/bluez5_5.25.bb | 47 +++++++++++++++++++++++++
- 2 files changed, 72 insertions(+), 1 deletion(-)
+This has to be wrong.
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 97c8cf9..7022343 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -33,6 +33,15 @@ EXTRA_OECONF = "\
-   --enable-library \
- "
- 
-+# bluez5 builds a large number of useful utilities but does not
-+# install them.  Specify which ones we want put into ${PN}-noinst-tools.
-+NOINST_TOOLS_READLINE ??= ""
-+NOINST_TOOLS_EXPERIMENTAL ??= ""
-+NOINST_TOOLS = " \
-+    ${NOINST_TOOLS_READLINE} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'experimental', '${NOINST_TOOLS_EXPERIMENTAL}', '', d)} \
-+"
-+
- do_install_append() {
- 	install -d ${D}${sysconfdir}/bluetooth/
- 	if [ -f ${S}/profiles/audio/audio.conf ]; then
-@@ -46,10 +55,15 @@ do_install_append() {
- 	fi
- 	# at_console doesn't really work with the current state of OE, so punch some more holes so people can actually use BT
- 	install -m 0644 ${WORKDIR}/bluetooth.conf ${D}/${sysconfdir}/dbus-1/system.d/
-+
-+	# Install desired tools that upstream leaves in build area
-+        for f in ${NOINST_TOOLS} ; do
-+	    install -m 755 ${B}/$f ${D}/${bindir}
-+	done
- }
- 
- ALLOW_EMPTY_libasound-module-bluez = "1"
--PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex"
-+PACKAGES =+ "libasound-module-bluez ${PN}-testtools ${PN}-obex ${PN}-noinst-tools"
- 
- FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
- FILES_${PN} += "${libdir}/bluetooth/plugins ${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${nonarch_base_libdir}/udev/ ${systemd_unitdir}/ ${datadir}/dbus-1"
-@@ -66,6 +80,16 @@ SYSTEMD_SERVICE_${PN}-obex = "obex.service"
- 
- FILES_${PN}-testtools = "${libdir}/bluez/test/*"
- 
-+def get_noinst_tools_paths (d, bb, tools):
-+    s = list()
-+    bindir = d.getVar("bindir", True)
-+    for bdp in tools.split():
-+        f = os.path.basename(bdp)
-+        s.append("%s/%s" % (bindir, f))
-+    return "\n".join(s)
-+
-+FILES_${PN}-noinst-tools = "${@get_noinst_tools_paths(d, bb, d.getVar('NOINST_TOOLS', True))}"
-+
- FILES_${PN}-dbg += "\
-   ${libdir}/${BPN}/bluetooth/.debug \
-   ${libdir}/bluetooth/plugins/.debug \
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.25.bb b/meta/recipes-connectivity/bluez5/bluez5_5.25.bb
-index 8cb32ec..7d06b16 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.25.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.25.bb
-@@ -1,3 +1,50 @@
- require bluez5.inc
- SRC_URI[md5sum] = "41bd0c915abde255622150ce6dcae67b"
- SRC_URI[sha256sum] = "5ca62f3f45e2638a0f7a81658d6c8813ee01487436ae8e53e9fe395e23d1fd30"
-+
-+# noinst programs in Makefile.tools that are conditional on READLINE
-+# support
-+NOINST_TOOLS_READLINE ?= " \
-+    attrib/gatttool \
-+    tools/obex-client-tool \
-+    tools/obex-server-tool \
-+    tools/bluetooth-player \
-+    tools/obexctl \
-+"
-+
-+# noinst programs in Makefile.tools that are conditional on EXPERIMENTAL
-+# support
-+NOINST_TOOLS_EXPERIMENTAL ?= " \
-+    emulator/btvirt \
-+    emulator/b1ee \
-+    emulator/hfp \
-+    tools/3dsp \
-+    tools/mgmt-tester \
-+    tools/gap-tester \
-+    tools/l2cap-tester \
-+    tools/sco-tester \
-+    tools/smp-tester \
-+    tools/hci-tester \
-+    tools/rfcomm-tester \
-+    tools/bdaddr \
-+    tools/avinfo \
-+    tools/avtest \
-+    tools/scotest \
-+    tools/amptest \
-+    tools/hwdb \
-+    tools/hcieventmask \
-+    tools/hcisecfilter \
-+    tools/btmgmt \
-+    tools/btinfo \
-+    tools/btattach \
-+    tools/btsnoop \
-+    tools/btproxy \
-+    tools/btiotest \
-+    tools/cltest \
-+    tools/seq2bseq \
-+    tools/hex2hcd \
-+    tools/ibeacon \
-+    tools/btgatt-client \
-+    tools/gatt-service \
-+    profiles/iap/iapd \
-+"
--- 
-1.8.5.5
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 's=
+ystemd', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', '=
+avahi', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11',=
+ '', d)}"
+> --=20
+> 1.8.5.5
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--V4b9U9vrdWczvw78
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlRhSDwACgkQN1Ujt2V2gBy8xACfdXlPeM3EpPaTcL6gakAK9nwo
+ebAAniLKXVgZ1l0mhR1rkJd4m0kckBTf
+=a8tH
+-----END PGP SIGNATURE-----
+
+--V4b9U9vrdWczvw78--
