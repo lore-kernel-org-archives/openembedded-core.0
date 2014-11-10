@@ -1,32 +1,31 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A0AA65D3A
+Return-Path: <qianl.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id A42CF65D3A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 10:39:16 +0000 (UTC)
-Received: by mail-qg0-f44.google.com with SMTP id q107so5321923qgd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 02:39:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:from:date:message-id:subject:to:content-type;
-	bh=iOWVEB6TbgZAUw7C5jLxXlme++XTONeOpniBMGqDVYo=;
-	b=DXx+bueDKpDnDOBSHC340aO5XYbPNSxErk8mDo/NaTSa2L8BU539X4/LrkW1jyKmjO
-	liouDS3GPmsFoNGT5UbKlE6db+1QXOvA78P7lE0ZBC+d9iAW4yVB6xnxVCGRy6YK1izr
-	KDNNtqQdaD09okfu0Ux+PFl3LNk8IT4cWN/KrGw8aRRRJHIAjaF7mLS6Q2R9YjTw583d
-	rUVuoo8mnrTrOO4JWYnqtd2Z4HPkzXw5dZEimQPBn/KQSeVIzRGtUKaxXNfxm3L5/VRO
-	81iQ3QcT+3JZufT8S4II+h4p5bv1WwnTgdz2emnj7uqgDWJFfEA1dN9jyOO4kYsMvsTE
-	F7Kw==
-X-Received: by 10.140.23.198 with SMTP id 64mr40472913qgp.62.1415615957028;
-	Mon, 10 Nov 2014 02:39:17 -0800 (PST)
+	Mon, 10 Nov 2014 10:45:13 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="43133811"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 10 Nov 2014 18:42:02 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id sAAAj1DA022717;
+	Mon, 10 Nov 2014 18:45:01 +0800
+Received: from Fedora (10.167.226.40) by G08CNEXCHPEKD03.g08.fujitsu.local
+	(10.167.33.89) with Microsoft SMTP Server id 14.3.181.6;
+	Mon, 10 Nov 2014 18:45:13 +0800
+Date: Mon, 10 Nov 2014 18:45:11 +0800
+From: Qian Lei <qianl.fnst@cn.fujitsu.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20141110184511.23b8e2dd@Fedora>
+In-Reply-To: <20141110135237.1a9c3eca@Fedora>
+References: <1415077496-11116-1-git-send-email-qianl.fnst@cn.fujitsu.com>
+	<CAJTo0LZ2FL--UchK7pVPUJFtsQJtH35_a0aJwYUSnWh34nCf-A@mail.gmail.com>
+	<20141110135237.1a9c3eca@Fedora>
+Organization: FNST
+X-Mailer: Claws Mail 3.9.3 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.140.143.146 with HTTP; Mon, 10 Nov 2014 02:38:36 -0800 (PST)
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Mon, 10 Nov 2014 10:38:36 +0000
-X-Google-Sender-Auth: B54yM423zeqYvkbT3AG8-Y_oiu4
-Message-ID: <CANyK_8eJYijsMH2y4s6bGTMTOpmz=-zFeuDG5CkM4h=YvLGUQw@mail.gmail.com>
-To: OE Core <openembedded-core@lists.openembedded.org>
-Subject: [RFC] Replace procps with procps-ng
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Bluez5: Add gatttool to new package bluez5-tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,31 +38,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Nov 2014 10:39:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 10 Nov 2014 10:45:17 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-Hi all,
 
-I've tried upstreaming a patch against procps by sending it to the
-listed maintainer and the mailing list and I've had no reply from
-either. The last change to the CVS repository seems to be 3 years old
-and the mailing list archive is mostly just full of spam.
+> gatttool is not a test tool, but a develop tool. In bluez4 it is in package
+> bluez4(not in bluez4-testtools). I don't think it's good to put it to any
+> existed package.
 
-It looks like Arch Linux, Debian, Fedora and openSUSE have moved on to
-procps-ng. I suggest we do the same during the v1.8 development cycle
-if possible. procps-ng is actively developed and looks to be open to
-patches.
-
-I'm sadly pretty limited on development time at the minute but I may
-be able to give this a go in December. I'd rather focus the time I do
-have on opkg though so if anyone else wants to pick this up that'd be
-great.
-
-Cheers,
-
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+How about put it in bluez5, just the same as bluez4? It seems make sense to
+put it there.
 
