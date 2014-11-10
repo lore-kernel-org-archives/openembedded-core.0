@@ -1,30 +1,36 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AF34565CED
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id ADCF065D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 09:42:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAA9gmuF008395
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 10 Nov 2014 01:42:48 -0800 (PST)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Mon, 10 Nov 2014 01:42:47 -0800
-Message-ID: <54608894.2030909@windriver.com>
-Date: Mon, 10 Nov 2014 17:42:44 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1415264548.git.kai.kang@windriver.com>
-	<CAJTo0LbUiPaj5aE0Eb0W9zGthfqx5ct4+6-obv0pJEwPMseuiw@mail.gmail.com>
-In-Reply-To: <CAJTo0LbUiPaj5aE0Eb0W9zGthfqx5ct4+6-obv0pJEwPMseuiw@mail.gmail.com>
-X-Originating-IP: [128.224.162.231]
-Cc: Koen Kooi <koen.kooi@linaro.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/25] Add machine qemuarm64
+	Mon, 10 Nov 2014 10:11:37 +0000 (UTC)
+Received: by mail-wg0-f52.google.com with SMTP id b13so8291767wgh.39
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Nov 2014 02:11:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=cYDu+5zR1b0PglU36Iolxyy+Fc4FhE+P8l2k2/CeW6Q=;
+	b=a8xqJw7R32KbQ5ch3kU7zF1Zr/MqRJuO4qi7kmnzp1m9ndIYxnziVGUJsb/6kG6BGh
+	k4mjJpzatMslBLNNQKieUw8WlniEneN7b2DhRs7naviHyqRP9rcnPZL9+gzjtIpfVZ0R
+	Mjho7nHVNyCUp/LPvZQshKTQLnZdxALIuHdUA76AjWWC3rF18S+bWJKyzkNRynV9OHGp
+	0lkzyj1UqbJx7z2QfXplSaBHHydh4uNj4EzmSHOAxWdoqc2LzLYXdcYLe09PnZZY7ulB
+	F7LBiiWlXvwUGfMK0QIj6c55z0ElapdMLxv4IauIYqPQdnQ0SLPaiXs0HEbS9hoGDYYE
+	lTSQ==
+X-Gm-Message-State: ALoCoQnFi8IBLmBfcIWJDJTBx6LuemEwOmQbAF2fgDwx3qiDLtDzUEcLGmZEDZ9aKvcylthYYemp
+X-Received: by 10.180.186.175 with SMTP id fl15mr29519714wic.38.1415614297653; 
+	Mon, 10 Nov 2014 02:11:37 -0800 (PST)
+Received: from localhost ([2001:610:612:0:beee:7bff:fe9e:ae56])
+	by mx.google.com with ESMTPSA id mu4sm12806993wib.2.2014.11.10.02.11.35
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Mon, 10 Nov 2014 02:11:36 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Nov 2014 11:11:33 +0100
+Message-Id: <1415614293-25957-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.9.0
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCHv2] gptfdisk: add 0.8.10+git version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +43,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Nov 2014 09:42:53 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 10 Nov 2014 10:11:38 -0000
 
-On 2014年11月08日 16:53, Burton, Ross wrote:
-> On 6 November 2014 15:34, Kai Kang <kai.kang@windriver.com> wrote:
->
->> It has been tested for core-image-minimal core-image-sato
->> core-image-sato-sdk
->> meta-toolchain and world.
->>
-> When I boot core-image-sato, X can't start.  Does the virtual machine that
-> qemu runs not have video support at the moment?
+Besides from being useful as fdisk replacement this gives us 'sgdisk'
+which can be used to set the GUID for partitions, e.g.
 
-qemu  boots arm64 image with '-machine virt' and machine 'virt' doesn't 
-support any graphic driver for now.
-So I update the runqem-internal intended with "-nographic" for qemuarm64:
+	sgdisk -t 1:C12A7328-F81F-11D2-BA4B-00A0C93EC93B /dev/mmcblk0p1
 
-+        if [ $MACHINE = 'qemuarm64' ]; then
-+            QEMU_UI_OPTIONS="-nographic"
-+        fi
+To mark it as ESP in scripts like mkefidisk.sh.
 
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
 
---Kai
+Changes:
+	v2: bindir -> sbindir 
 
->
-> Ross
->
+ meta/recipes-devtools/fdisk/gptfdisk_git.bb | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta/recipes-devtools/fdisk/gptfdisk_git.bb
 
-
+diff --git a/meta/recipes-devtools/fdisk/gptfdisk_git.bb b/meta/recipes-devtools/fdisk/gptfdisk_git.bb
+new file mode 100644
+index 0000000..477c1d9
+--- /dev/null
++++ b/meta/recipes-devtools/fdisk/gptfdisk_git.bb
+@@ -0,0 +1,22 @@
++DESCRIPTION = "GPT fdisk is a disk partitioning tool loosely modeled on Linux fdisk, but used for modifying GUID Partition Table (GPT) disks. The related FixParts utility fixes some common problems on Master Boot Record (MBR) disks."
++
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
++
++DEPENDS = "util-linux popt ncurses"
++
++PV = "0.8.10+git${SRCPV}"
++SRCREV = "a920398fa393f9d6301b32b191bc01e086ab8bc8"
++SRC_URI = "git://git.code.sf.net/p/gptfdisk/code"
++
++S = "${WORKDIR}/git"
++
++do_install() {
++    install -d ${D}${sbindir}
++    install -m 0755 cgdisk ${D}${sbindir}
++    install -m 0755 gdisk ${D}${sbindir}
++    install -m 0755 sgdisk ${D}${sbindir}
++    install -m 0755 fixparts ${D}${sbindir}
++}
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
-Regards,
-Neil | Kai Kang
+1.9.0
 
 
