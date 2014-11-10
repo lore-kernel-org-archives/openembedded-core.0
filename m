@@ -1,35 +1,39 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 1631365D3A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E83465D3A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 10:48:16 +0000 (UTC)
-Received: by mail-pa0-f41.google.com with SMTP id rd3so8069546pab.0
+	Mon, 10 Nov 2014 11:26:51 +0000 (UTC)
+Received: by mail-qc0-f175.google.com with SMTP id b13so6234863qcw.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 02:48:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=pl53ab295Un1fz95Jd07XCX2P5kfzbBblsmZqeA6WG8=;
-	b=ydRrY5Gors6vJlDK5nY/UbgVNfJs2qhoM7QmMMnNrmv7creZXpmwuluqE2lF89AGIw
-	CObhr689CigQdrfd2ozzuIqXk5pSNlzHc3cmakOAfnanTeVsF+7jpr9DnFoyC5I7gPek
-	lrmpQly21PARqsK0rd4DwfzrpvL+Rjs94JPYo+IpzLPD8iFoAhmO1yApG/IF8XGh1Eze
-	TmUPjB9ozy42cj5/PDrb+vtsLLYtMylvHPjlzTadNjYY9wk1upyocRYKYHY4CgrSbU09
-	HYqe5x4pz8VrIwlSnU0ZaQkhqCG43AsdKKihUJBExGQHNZpTonRef2003/IS1H74Uo1V
-	ZYPQ==
-X-Received: by 10.68.233.67 with SMTP id tu3mr4044348pbc.77.1415616496829;
-	Mon, 10 Nov 2014 02:48:16 -0800 (PST)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id ae4sm9675602pad.16.2014.11.10.02.48.15
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 10 Nov 2014 02:48:16 -0800 (PST)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Nov 2014 22:02:01 +1100
-Message-Id: <1415617321-19302-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 2.1.2
-Subject: [PATCH v2] valgrind: Upgrade to 3.10.0
+	Mon, 10 Nov 2014 03:26:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=YWnDmXvud3OOG2sC+3IatgQSn3lrnJ81DvdkT6z9e3k=;
+	b=Cqf74jGBZzDUxNrd6FJVjna7ZBnKxg6LuczWBPgJi0IUYTKPx0t+xvA+jtjy9fE7WN
+	0YNR/5wD7hKIEtjEjMb83/BvhJRE8kQG0/Qw/DB1aLI+WqTk093yvTSRabHiJ6GCYx/t
+	NEcHteWaWi57gAjvTv7CV/v/S+cK53ByE2n2jdOseaHTipHWgWNaIbJQjEc7+9dr33At
+	3oqumbcwwkpvcw/sAct8MRPD8+VKfDVKsoJOwqBF666Ym0lZn9aXqICUqxOdzkUPZV+F
+	KT59bnCQeyzK/NG2cswXZYtJkqgYH+vdzThRnu/md8mRhZ/W2DVHYNFfgDh9Y7SN6bA9
+	Ypjw==
+X-Gm-Message-State: ALoCoQlTvWPJ/5jC+deXt9AnHZr0e/Lwht3ERhBo9klGj5cgNnfoeGAaUo1xXkdsVQroLMqIddDl
+X-Received: by 10.224.138.2 with SMTP id y2mr39055481qat.52.1415618812534;
+	Mon, 10 Nov 2014 03:26:52 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.98.213 with HTTP; Mon, 10 Nov 2014 03:26:32 -0800 (PST)
+In-Reply-To: <5460849B.9070403@windriver.com>
+References: <cover.1415350038.git.kai.kang@windriver.com>
+	<CANyK_8eJXjkRzPNsEnvbj6ve=DQ-8YkXUnG9uTE5RqmG-GEF+Q@mail.gmail.com>
+	<5460849B.9070403@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 10 Nov 2014 11:26:32 +0000
+Message-ID: <CAJTo0LbNiXyo3dND_1rJU7A5OcfxNM9wdr=7kUrs1DdficXS7Q@mail.gmail.com>
+To: Kang Kai <Kai.Kang@windriver.com>
+Cc: Koen Kooi <koen.kooi@linaro.org>,
+	OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/24] V2: Add machine qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,121 +46,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Nov 2014 10:48:22 -0000
+X-List-Received-Date: Mon, 10 Nov 2014 11:27:02 -0000
+Content-Type: multipart/alternative; boundary=047d7b6709c3757c0305077f704c
 
-Updated two patches to fit new version:
-- remove-arm-variant-specific.patch
-- remove-ppc-tests-failing-build.patch
+--047d7b6709c3757c0305077f704c
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- .../valgrind/valgrind/remove-arm-variant-specific.patch     | 13 ++++++++-----
- .../valgrind/valgrind/remove-ppc-tests-failing-build.patch  | 13 +++++++------
- .../valgrind/{valgrind_3.9.0.bb => valgrind_3.10.0.bb}      |  4 ++--
- 3 files changed, 17 insertions(+), 13 deletions(-)
- rename meta/recipes-devtools/valgrind/{valgrind_3.9.0.bb => valgrind_3.10.0.bb} (95%)
+On 10 November 2014 09:25, Kang Kai <Kai.Kang@windriver.com> wrote:
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
-index 46dea60..951ff0e 100644
---- a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
-+++ b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
-@@ -7,14 +7,15 @@ applications, so those two are removed from the ptest build.
- Upstream-Status: Pending
- 
- Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
-+Signed-off-by: Jonathan Liu <net147@gmail.com>
- 
- diff --git a/none/tests/arm/Makefile.am b/none/tests/arm/Makefile.am
- index 2a19f5b..ccdeb77 100644
- --- a/none/tests/arm/Makefile.am
- +++ b/none/tests/arm/Makefile.am
--@@ -16,15 +16,16 @@ EXTRA_DIST = \
-- 		vcvt_fixed_float_VFP.vgtest \
-- 	vfp.stdout.exp vfp.stderr.exp vfp.vgtest
-+@@ -17,15 +17,16 @@
-+ 	vfp.stdout.exp vfp.stderr.exp vfp.vgtest \
-+ 	vfpv4_fma.stdout.exp vfpv4_fma.stderr.exp vfpv4_fma.vgtest
-  
- +# For yocto:
- +#  Only include tests that don't require Thumb.
-@@ -31,8 +32,8 @@ index 2a19f5b..ccdeb77 100644
- -	v6intThumb \
-  	v6media \
-  	vcvt_fixed_float_VFP \
-- 	vfp
--@@ -34,32 +35,3 @@ AM_CXXFLAGS  += @FLAG_M32@
-+ 	vfp \
-+@@ -36,34 +37,3 @@
-  AM_CCASFLAGS += @FLAG_M32@
-  
-  allexec_CFLAGS		= $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
-@@ -65,3 +66,5 @@ index 2a19f5b..ccdeb77 100644
- -intdiv_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a15 -mthumb
- -ldrt_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mthumb
- -ldrt_arm_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -marm
-+-
-+-vfpv4_fma_CFLAGS  = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a15 -mfpu=vfpv4 -marm
-diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch b/meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
-index 2a14e18..fefd9f7 100644
---- a/meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
-+++ b/meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
-@@ -35,12 +35,13 @@ In none/tests/ppc32
- Upstream-Status: Pending
- 
- Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
-+Signed-off-by: Jonathan Liu <net147@gmail.com>
- 
- diff --git a/memcheck/tests/ppc32/Makefile.am b/memcheck/tests/ppc32/Makefile.am
- index bd70eea..1436e8e 100644
- --- a/memcheck/tests/ppc32/Makefile.am
- +++ b/memcheck/tests/ppc32/Makefile.am
--@@ -7,8 +7,7 @@ EXTRA_DIST = $(noinst_SCRIPTS) \
-+@@ -7,8 +7,7 @@
-  	power_ISA2_05.stderr.exp power_ISA2_05.stdout.exp power_ISA2_05.vgtest \
-  	power_ISA2_05.stdout.exp_Without_FPPO
-  
-@@ -54,7 +55,7 @@ diff --git a/none/tests/ppc32/Makefile.am b/none/tests/ppc32/Makefile.am
- index 4f581b6..91ce7e7 100644
- --- a/none/tests/ppc32/Makefile.am
- +++ b/none/tests/ppc32/Makefile.am
--@@ -50,16 +50,8 @@ check_PROGRAMS = \
-+@@ -52,16 +52,8 @@
-  	allexec \
-  	bug129390-ppc32 \
-  	bug139050-ppc32 \
-@@ -67,9 +68,9 @@ index 4f581b6..91ce7e7 100644
- -	test_isa_2_07_part1 \
- -	test_isa_2_07_part2 \
- -	test_tm \
---	test_touch_tm
-+-	test_touch_tm \
- +	ldstrev lsw mftocrf mcrfs test_fx test_gx \
--+	twi tw xlc_dbl_u32 power6_bcmp 
-++	twi tw xlc_dbl_u32 power6_bcmp \
-+ 	ldst_multiple \
-+ 	data-cache-instructions
-  
-- AM_CFLAGS    += @FLAG_M32@
-- AM_CXXFLAGS  += @FLAG_M32@
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.10.0.bb
-similarity index 95%
-rename from meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
-rename to meta/recipes-devtools/valgrind/valgrind_3.10.0.bb
-index c415e77..dbd70b7 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.10.0.bb
-@@ -23,8 +23,8 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
-            file://run-ptest \
-           "
- 
--SRC_URI[md5sum] = "0947de8112f946b9ce64764af7be6df2"
--SRC_URI[sha256sum] = "e6af71a06bc2534541b07743e1d58dc3caf744f38205ca3e5b5a0bdf372ed6f0"
-+SRC_URI[md5sum] = "7c311a72a20388aceced1aa5573ce970"
-+SRC_URI[sha256sum] = "03047f82dfc6985a4c7d9d2700e17bc05f5e1a0ca6ad902e5d6c81aeb720edc9"
- 
- COMPATIBLE_HOST = '(i.86|x86_64|powerpc|powerpc64).*-linux'
- COMPATIBLE_HOST_armv7a = 'arm.*-linux'
--- 
-2.1.2
+>    gcc-4.9: redefine default library install directory
+>>>    Revert "gcc-4.9: redefine default library install directory"
+>>>
+>> Can the original commit just be removed from the series rather than
+>> reverted?
+>>
+>
+> We just want to keep the history how we get here. If nobody cares it, I'll
+> remove them.
+>
 
+Nothing is gained by knowing that you tried something and it was wrong.  If
+nothing else is required to be done to this series then we'll remove that
+pair when merging.
 
+Ross
+
+--047d7b6709c3757c0305077f704c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 November 2014 09:25, Kang Kai <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:Kai.Kang@windriver.com" target=3D"_blank">Kai.Kang@windriver.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">=C2=A0 =C2=A0gcc-4.9: re=
+define default library install directory<br>
+=C2=A0 =C2=A0Revert &quot;gcc-4.9: redefine default library install directo=
+ry&quot;<br>
+</blockquote>
+Can the original commit just be removed from the series rather than reverte=
+d?<br>
+</blockquote>
+<br></span>
+We just want to keep the history how we get here. If nobody cares it, I&#39=
+;ll remove them.<br></blockquote></div><br>Nothing is gained by knowing tha=
+t you tried something and it was wrong.=C2=A0 If nothing else is required t=
+o be done to this series then we&#39;ll remove that pair when merging.</div=
+><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
+</div>
+
+--047d7b6709c3757c0305077f704c--
