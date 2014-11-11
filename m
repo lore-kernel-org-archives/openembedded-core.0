@@ -1,29 +1,24 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 02EF465DA3
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D0D8C65D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Nov 2014 01:50:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAB1osJu012894
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 10 Nov 2014 17:50:54 -0800 (PST)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Mon, 10 Nov 2014 17:50:54 -0800
-Message-ID: <54616B7A.7080009@windriver.com>
-Date: Tue, 11 Nov 2014 09:50:50 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Tue, 11 Nov 2014 01:54:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAB1sDZC020519
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Nov 2014 17:54:14 -0800 (PST)
+Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 10 Nov 2014 17:54:13 -0800
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 10 Nov 2014 20:54:11 -0500
+Message-ID: <1415670851-2084-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.0.0
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1415260194.git.Chong.Lu@windriver.com>
-	<CAJTo0LZKsp1UvRNVMiFobDo92okUwDdjUCMj84Sx2xTjHBvNsw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZKsp1UvRNVMiFobDo92okUwDdjUCMj84Sx2xTjHBvNsw@mail.gmail.com>
-X-Originating-IP: [128.224.162.204]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] nss: CVE-2014-1568
+Subject: [v2 PATCH] classextend: Do not extend for that already have multilib prefix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,43 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Nov 2014 01:50:56 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Nov 2014 01:54:14 -0000
+Content-Type: text/plain
 
+From: Jackie Huang <jackie.huang@windriver.com>
 
-On 11/08/2014 08:34 AM, Burton, Ross wrote:
-> Hi Chong,
->
-> On 6 November 2014 07:50, Chong Lu <Chong.Lu@windriver.com 
-> <mailto:Chong.Lu@windriver.com>> wrote:
->
->     The following changes since commit
->     0add8abc12b850e38a6ec7dcf2856fab2c0107b6:
->
->       buildtools-tarball: package all of Python (2014-11-05 23:30:49
->     +0000)
->
->     are available in the git repository at:
->
->       git://git.pokylinux.org/poky-contrib
->     <http://git.pokylinux.org/poky-contrib> chonglu/nss
->     http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/nss
->
->     Chong Lu (1):
->       nss: CVE-2014-1568
->
->
-> Sorry, but we've just merged Saul's upgrade of NSS to 3.17 so this 
-> doesn't apply, and as we're unfrozen now an upgrade to the fixed 
-> 3.17.1 seems like the sensible way forwards.  Could you do this upgrade?
->
-> Ross
+If a BSP supports two or more multilibs, for example:
 
-Hi Ross,
+    MULTILIBS = "multilib:lib32 multilib:lib64"
 
-I've sent a patch to upgrade nss.
+and a variable is already extended to include multilib variants,
+for example in populate_sdk_base:
 
-Best Regards
-Chong
+    commit 396371588c7fd2d691ca9c39cd02287e43cb665b
+    Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+    Date: Thu Jul 24 22:09:09 2014 +0100
+
+    populate_sdk_base: Extend TOOLCHAIN_TARGET_TASK to include multilib variants
+
+    Most people expect the toolchain from a multilib build to contain multilib
+    components. This change makes that happen and is easy for users to override
+    should they want something different.
+
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+The mapping clsextend.map_depends_variable("TOOLCHAIN_TARGET_TASK")
+ends up with a wrong double extended package name like:
+
+    lib32-lib64-packagegroup-core-standalone-sdk-target
+
+This patch avoid such issues.
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ meta/lib/oe/classextend.py |    7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/meta/lib/oe/classextend.py b/meta/lib/oe/classextend.py
+index 68efca3..8da87b7 100644
+--- a/meta/lib/oe/classextend.py
++++ b/meta/lib/oe/classextend.py
+@@ -57,6 +57,13 @@ class ClassExtender(object):
+         if dep.endswith(("-native", "-native-runtime")) or ('nativesdk-' in dep) or ('cross-canadian' in dep) or ('-crosssdk-' in dep):
+             return dep
+         else:
++            # Do not extend for that already have multilib prefix
++            var = self.d.getVar("MULTILIB_VARIANTS", True)
++            if var:
++                var = var.split()
++                for v in var:
++                    if dep.startswith(v):
++                        return dep
+             return self.extend_name(dep)
+ 
+     def map_depends_variable(self, varname, suffix = ""):
+-- 
+1.7.9.5
+
 
