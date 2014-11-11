@@ -1,25 +1,31 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CD93D713A5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CB9A65CC9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Nov 2014 10:52:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sABAqEo6017636
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 11 Nov 2014 02:52:15 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 11 Nov 2014 02:52:14 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Tue, 11 Nov 2014 18:52:05 +0800
-Message-ID: <c64f74580ae6c165ea9f989c05898c2b0127e2e5.1415699201.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1415699201.git.hongxu.jia@windriver.com>
-References: <cover.1415699201.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] postinst-intercept: rename recipe for nativesdk only
+	Tue, 11 Nov 2014 10:55:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sABAt4KA001657; Tue, 11 Nov 2014 10:55:04 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ka8ubtkiAJCJ; Tue, 11 Nov 2014 10:55:04 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sABAsmO2001653
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 11 Nov 2014 10:54:59 GMT
+Message-ID: <1415703324.2820.37.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Seebach <peter.seebach@windriver.com>
+Date: Tue, 11 Nov 2014 10:55:24 +0000
+In-Reply-To: <1415457765.2820.21.camel@linuxfoundation.org>
+References: <cover.1415390286.git.peter.seebach@windriver.com>
+	<d2ce73488a8afb7a8d10286da138810d30b4a4be.1415390286.git.peter.seebach@windriver.com>
+	<1415457765.2820.21.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] eglibc-use-option-groups.patch: Several fixups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,52 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Nov 2014 10:52:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Nov 2014 10:55:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The recipe postinst-intercept is only used for nativesdk, so we rename
-it from postinst-intercept to nativesdk-postinst-intercept.
+On Sat, 2014-11-08 at 14:42 +0000, Richard Purdie wrote:
+> On Fri, 2014-11-07 at 13:59 -0600, Peter Seebach wrote:
+> > This incorporates suggested changes for issues 6797 and 6809 from
+> > bugzilla, and a proposed change for 6796. For 6796, the issue is
+> > that you can't just include <gnu/option-groups.h> in libc-symbols,
+> > so we may not always have the option group defines available. The
+> > workaround is to just leave the HAVE_MBSTATE_T definition visible;
+> > the obvious relevant usage is already also conditionalized on
+> > the option group locale define by this patch. This might not fix
+> > all the cases if the locale group isn't enabled, but it eliminates a
+> > pretty large raft of -Wundef warnings.
+> > 
+> > The reason HAVE_MBSTATE_T wasn't conditionalized in 2.19 is that
+> > it didn't exist in 2.19.
+> > 
+> > Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+> 
+> Whilst I haven't 100% confirmed it,
+> https://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/102/steps/BuildImages/logs/stdio
+> looks like it may well be as a result of this change (which was included
+> in the master-next build in question)...
 
-It avoids unnecessary build of postinst-intercept.
+It is 100% confirmed now, with the patch reverted there was a green
+build.
 
-[YOCTO #6937]
+Cheers,
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...ostinst-intercept_1.0.bb => nativesdk-postinst-intercept_1.0.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/postinst-intercept/{postinst-intercept_1.0.bb => nativesdk-postinst-intercept_1.0.bb} (83%)
-
-diff --git a/meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb b/meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
-similarity index 83%
-rename from meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb
-rename to meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
-index 41b9a6e..7dc45c6 100644
---- a/meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb
-+++ b/meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
-@@ -2,12 +2,12 @@ SUMMARY = "Postinstall scriptlets"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
--FILES_${PN}_append_class-nativesdk = " ${datadir}/postinst-intercepts/*"
-+FILES_${PN}_append = " ${datadir}/postinst-intercepts/*"
- 
- do_configure[noexec] = "1"
- do_compile[noexec] = "1"
- 
--do_install_append_class-nativesdk() {
-+do_install() {
- 	install -d ${D}${datadir}/postinst-intercepts
- 	install -m 755 ${COREBASE}/scripts/postinst-intercepts/postinst_intercept ${D}${datadir}/postinst-intercepts/
- 	install -m 755 ${COREBASE}/scripts/postinst-intercepts/update_font_cache ${D}${datadir}/postinst-intercepts/
-@@ -15,5 +15,5 @@ do_install_append_class-nativesdk() {
- 	install -m 755 ${COREBASE}/scripts/postinst-intercepts/update_pixbuf_cache ${D}${datadir}/postinst-intercepts/
- }
- 
--BBCLASSEXTEND = "nativesdk"
-+inherit nativesdk
- INHIBIT_DEFAULT_DEPS = "1"
--- 
-1.9.1
+Richard
 
 
