@@ -1,33 +1,29 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AB97565D4F
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 02EF465DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Nov 2014 01:50:28 +0000 (UTC)
+	Tue, 11 Nov 2014 01:50:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAB1oSmv020213
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 17:50:29 -0800 (PST)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.16]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0174.001;
-	Mon, 10 Nov 2014 17:50:28 -0800
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] classextend: Do not extend for that already
-	have	multilib prefix
-Thread-Index: AQHP+0X/OsMpUkJG10OrbZM7uDT0h5xarEfQ
-Date: Tue, 11 Nov 2014 01:50:27 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AABD557B18@ALA-MBA.corp.ad.wrs.com>
-References: <1415445572-25489-1-git-send-email-jackie.huang@windriver.com>
-In-Reply-To: <1415445572-25489-1-git-send-email-jackie.huang@windriver.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.136]
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAB1osJu012894
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 10 Nov 2014 17:50:54 -0800 (PST)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Mon, 10 Nov 2014 17:50:54 -0800
+Message-ID: <54616B7A.7080009@windriver.com>
+Date: Tue, 11 Nov 2014 09:50:50 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] classextend: Do not extend for that already have	multilib prefix
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1415260194.git.Chong.Lu@windriver.com>
+	<CAJTo0LZKsp1UvRNVMiFobDo92okUwDdjUCMj84Sx2xTjHBvNsw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZKsp1UvRNVMiFobDo92okUwDdjUCMj84Sx2xTjHBvNsw@mail.gmail.com>
+X-Originating-IP: [128.224.162.204]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] nss: CVE-2014-1568
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,91 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Nov 2014 01:50:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 11 Nov 2014 01:50:56 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+On 11/08/2014 08:34 AM, Burton, Ross wrote:
+> Hi Chong,
+>
+> On 6 November 2014 07:50, Chong Lu <Chong.Lu@windriver.com 
+> <mailto:Chong.Lu@windriver.com>> wrote:
+>
+>     The following changes since commit
+>     0add8abc12b850e38a6ec7dcf2856fab2c0107b6:
+>
+>       buildtools-tarball: package all of Python (2014-11-05 23:30:49
+>     +0000)
+>
+>     are available in the git repository at:
+>
+>       git://git.pokylinux.org/poky-contrib
+>     <http://git.pokylinux.org/poky-contrib> chonglu/nss
+>     http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/nss
+>
+>     Chong Lu (1):
+>       nss: CVE-2014-1568
+>
+>
+> Sorry, but we've just merged Saul's upgrade of NSS to 3.17 so this 
+> doesn't apply, and as we're unfrozen now an upgrade to the fixed 
+> 3.17.1 seems like the sensible way forwards.  Could you do this upgrade?
+>
+> Ross
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
-ed-core-
-> bounces@lists.openembedded.org] On Behalf Of jackie.huang@windriver.com
-> Sent: Saturday, November 08, 2014 7:20 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH] classextend: Do not extend for that already ha=
-ve multilib prefix
->=20
-> From: Jackie Huang <jackie.huang@windriver.com>
->=20
-> If a BSP supports two or more multilibs, for example:
->=20
->     MULTILIBS =3D "multilib:lib32 multilib:lib64"
->=20
-> and a variable is already extended to include multilib variants, for exam=
-ple in populate_sdk_base:
->=20
->     commit 396371588c7fd2d691ca9c39cd02287e43cb665b
->     Author: Richard Purdie <richard.purdie@linuxfoundation.org>
->     Date: Thu Jul 24 22:09:09 2014 +0100
->=20
->     populate_sdk_base: Extend TOOLCHAIN_TARGET_TASK to include multilib v=
-ariants
->=20
->     Most people expect the toolchain from a multilib build to contain mul=
-tilib
->     components. This change makes that happen and is easy for users to ov=
-erride
->     should they want something different.
->=20
->     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> The mapping clsextend.map_depends_variable("TOOLCHAIN_TARGET_TASK")
-> ends up with a wrong double extended package name like:
->=20
->     lib32-lib64-packagegroup-core-standalone-sdk-target
->=20
-> This patch avoid such issues.
->=20
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
->  meta/lib/oe/classextend.py | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/meta/lib/oe/classextend.py b/meta/lib/oe/classextend.py inde=
-x 68efca3..5c993de 100644
-> --- a/meta/lib/oe/classextend.py
-> +++ b/meta/lib/oe/classextend.py
-> @@ -57,6 +57,13 @@ class ClassExtender(object):
->          if dep.endswith(("-native", "-native-runtime")) or ('nativesdk-'=
- in dep) or ('cross-canadian' in dep)
-> or ('-crosssdk-' in dep):
->              return dep
->          else:
-> +            # Do not extend for that already have multilib prefix
-> +            var =3D self.d.getVar("MULTILIB_VARIANTS", True) or ""
+Hi Ross,
 
-Robert suggests the 'or ""' is not needed, so please ignore this, I will se=
-nd v2 for the change.
+I've sent a patch to upgrade nss.
 
-Thanks,
-Jackie
-
-> +            if var:
-> +                var =3D var.split()
-> +                for v in var:
-> +                    if dep.startswith(v):
-> +                        return dep
->              return self.extend_name(dep)
->=20
->      def map_depends_variable(self, varname, suffix =3D ""):
-> --
-> 2.0.0
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Best Regards
+Chong
 
