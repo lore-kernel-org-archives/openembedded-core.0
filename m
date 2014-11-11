@@ -1,29 +1,32 @@
-Return-Path: <Chong.Lu@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DF8F71144
+	by mail.openembedded.org (Postfix) with ESMTP id 1234965D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Nov 2014 02:17:33 +0000 (UTC)
+	Tue, 11 Nov 2014 02:51:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAB2HYql013133
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 18:17:34 -0800 (PST)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAB2ptHh013429
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 10 Nov 2014 18:51:55 -0800 (PST)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Mon, 10 Nov 2014 18:17:33 -0800
-Message-ID: <546171BA.3030300@windriver.com>
-Date: Tue, 11 Nov 2014 10:17:30 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
+	Mon, 10 Nov 2014 18:51:54 -0800
+Message-ID: <546179C6.1000401@windriver.com>
+Date: Tue, 11 Nov 2014 10:51:50 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1414394124.git.Chong.Lu@windriver.com>
-	<1c4ed8e4a604bcd7c7fd2609024f8fbfca43d1a4.1414394124.git.Chong.Lu@windriver.com>
-In-Reply-To: <1c4ed8e4a604bcd7c7fd2609024f8fbfca43d1a4.1414394124.git.Chong.Lu@windriver.com>
-X-Originating-IP: [128.224.162.204]
-Subject: Re: [PATCH 1/1] systemd: add bash to RDEPENDS
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1415350038.git.kai.kang@windriver.com>
+	<CANyK_8eJXjkRzPNsEnvbj6ve=DQ-8YkXUnG9uTE5RqmG-GEF+Q@mail.gmail.com>
+	<5460849B.9070403@windriver.com>
+	<CAJTo0LbNiXyo3dND_1rJU7A5OcfxNM9wdr=7kUrs1DdficXS7Q@mail.gmail.com>
+In-Reply-To: <CAJTo0LbNiXyo3dND_1rJU7A5OcfxNM9wdr=7kUrs1DdficXS7Q@mail.gmail.com>
+X-Originating-IP: [128.224.162.231]
+Cc: Koen Kooi <koen.kooi@linaro.org>,
+	OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/24] V2: Add machine qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,36 +39,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Nov 2014 02:17:33 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Nov 2014 02:52:03 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-ping
+On 2014年11月10日 19:26, Burton, Ross wrote:
+> On 10 November 2014 09:25, Kang Kai <Kai.Kang@windriver.com> wrote:
+>
+>>     gcc-4.9: redefine default library install directory
+>>>>     Revert "gcc-4.9: redefine default library install directory"
+>>>>
+>>> Can the original commit just be removed from the series rather than
+>>> reverted?
+>>>
+>> We just want to keep the history how we get here. If nobody cares it, I'll
+>> remove them.
+>>
+> Nothing is gained by knowing that you tried something and it was wrong.  If
+> nothing else is required to be done to this series then we'll remove that
+> pair when merging.
 
-//Chong
+OK. I also dropped the 2 commit on branch poky-contrib/kangkai/qemuarm64.
 
-On 10/27/2014 03:16 PM, Chong Lu wrote:
-> This solves the following warning:
+--Kai
+
 >
-> systemd-216+gitAUTOINC+5d0ae62c66: systemd-kernel-install requires /bin/bash,
-> but no providers in its RDEPENDS [file-rdeps]
+> Ross
 >
-> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> ---
->   meta/recipes-core/systemd/systemd_216.bb | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
-> index 6d3e47f..8bc1cc8 100644
-> --- a/meta/recipes-core/systemd/systemd_216.bb
-> +++ b/meta/recipes-core/systemd/systemd_216.bb
-> @@ -202,6 +202,7 @@ FILES_${PN}-vconsole-setup = "${rootlibexecdir}/systemd/systemd-vconsole-setup \
->                                 ${systemd_unitdir}/system/systemd-vconsole-setup.service \
->                                 ${systemd_unitdir}/system/sysinit.target.wants/systemd-vconsole-setup.service"
->   
-> +RDEPENDS_${PN}-kernel-install += "bash"
->   FILES_${PN}-kernel-install = "${bindir}/kernel-install \
->                                 ${sysconfdir}/kernel/ \
->                                 ${exec_prefix}/lib/kernel \
+
+
+-- 
+Regards,
+Neil | Kai Kang
 
 
