@@ -1,29 +1,29 @@
 Return-Path: <Chong.Lu@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ACDED65DA3
+	by mail.openembedded.org (Postfix) with ESMTP id 3DF8F71144
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Nov 2014 02:15:52 +0000 (UTC)
+	Tue, 11 Nov 2014 02:17:33 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAB2Fqgn013124
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAB2HYql013133
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 18:15:52 -0800 (PST)
+	Mon, 10 Nov 2014 18:17:34 -0800 (PST)
 Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Mon, 10 Nov 2014 18:15:51 -0800
-Message-ID: <54617155.5060803@windriver.com>
-Date: Tue, 11 Nov 2014 10:15:49 +0800
+	Mon, 10 Nov 2014 18:17:33 -0800
+Message-ID: <546171BA.3030300@windriver.com>
+Date: Tue, 11 Nov 2014 10:17:30 +0800
 From: Chong Lu <Chong.Lu@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1414720498.git.Chong.Lu@windriver.com>
-	<b7733fcdfaea20fb9ad43aee02ebe0cdbedc3cc2.1414720498.git.Chong.Lu@windriver.com>
-In-Reply-To: <b7733fcdfaea20fb9ad43aee02ebe0cdbedc3cc2.1414720498.git.Chong.Lu@windriver.com>
+References: <cover.1414394124.git.Chong.Lu@windriver.com>
+	<1c4ed8e4a604bcd7c7fd2609024f8fbfca43d1a4.1414394124.git.Chong.Lu@windriver.com>
+In-Reply-To: <1c4ed8e4a604bcd7c7fd2609024f8fbfca43d1a4.1414394124.git.Chong.Lu@windriver.com>
 X-Originating-IP: [128.224.162.204]
-Subject: Re: [PATCH V2 1/1] libxml2: fix python path and add libxml2-python
+Subject: Re: [PATCH 1/1] systemd: add bash to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Nov 2014 02:15:54 -0000
+X-List-Received-Date: Tue, 11 Nov 2014 02:17:33 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -44,64 +44,28 @@ ping
 
 //Chong
 
-On 10/31/2014 09:56 AM, Chong Lu wrote:
-> From: Robert Yang <liezhi.yang@windriver.com>
+On 10/27/2014 03:16 PM, Chong Lu wrote:
+> This solves the following warning:
 >
-> We have libxml2-python for native and nativesdk, but don't have it for
-> target, and can't find the reason from the git log, libxml2-python is
-> widely used, after looked into it's configure.in, we can add it
-> by PACKAGECONFIG.
+> systemd-216+gitAUTOINC+5d0ae62c66: systemd-kernel-install requires /bin/bash,
+> but no providers in its RDEPENDS [file-rdeps]
 >
-> The previous --with-python=${STAGING_BINDIR}/python is incorrect, it
-> acted as work becase it's conigure can check automatically, python is in
-> ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}, as known as
-> ${PYTHON}.
->
-> Add python to PACKAGECONFIG, since createrepo rdepends on libxml2-python.
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
 > ---
->   meta/recipes-core/libxml/libxml2.inc | 19 +++++++++----------
->   1 file changed, 9 insertions(+), 10 deletions(-)
+>   meta/recipes-core/systemd/systemd_216.bb | 1 +
+>   1 file changed, 1 insertion(+)
 >
-> diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-> index c729c19..2bdfed0 100644
-> --- a/meta/recipes-core/libxml/libxml2.inc
-> +++ b/meta/recipes-core/libxml/libxml2.inc
-> @@ -9,8 +9,6 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
->                       file://list.c;beginline=4;endline=13;md5=cdbfa3dee51c099edb04e39f762ee907 \
->                       file://trio.c;beginline=5;endline=14;md5=6c025753c86d958722ec76e94cae932e"
+> diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
+> index 6d3e47f..8bc1cc8 100644
+> --- a/meta/recipes-core/systemd/systemd_216.bb
+> +++ b/meta/recipes-core/systemd/systemd_216.bb
+> @@ -202,6 +202,7 @@ FILES_${PN}-vconsole-setup = "${rootlibexecdir}/systemd/systemd-vconsole-setup \
+>                                 ${systemd_unitdir}/system/systemd-vconsole-setup.service \
+>                                 ${systemd_unitdir}/system/sysinit.target.wants/systemd-vconsole-setup.service"
 >   
-> -DEPENDS_class-nativesdk = "nativesdk-python"
-> -DEPENDS_class-native = "python-native"
->   DEPENDS =+ "zlib"
->   
->   SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-> @@ -37,16 +35,17 @@ do_configure_prepend () {
->   	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.in
->   }
->   
-> -do_configure_prepend_class-nativesdk () {
-> -	# Ensure we get the correct site-packages path
-> -	export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
-> -}
-> +export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
-> +
-> +PACKAGECONFIG ??= "python"
-> +PACKAGECONFIG_linuxstdbase ??= ""
->   
-> +PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python,python-core"
->   # WARNING: zlib is require for RPM use
-> -EXTRA_OECONF = "--without-python --without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
-> -EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-> -EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-> -EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
-> +EXTRA_OECONF = "--without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
-> +EXTRA_OECONF_class-native = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-> +EXTRA_OECONF_class-nativesdk = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-> +EXTRA_OECONF_linuxstdbase = "--with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
->   
->   # required for pythong binding
->   export HOST_SYS
+> +RDEPENDS_${PN}-kernel-install += "bash"
+>   FILES_${PN}-kernel-install = "${bindir}/kernel-install \
+>                                 ${sysconfdir}/kernel/ \
+>                                 ${exec_prefix}/lib/kernel \
 
 
