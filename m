@@ -1,23 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 385CE65CC9
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EEF5D713A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Nov 2014 10:52:10 +0000 (UTC)
+	Tue, 11 Nov 2014 10:52:12 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sABAq9XC020871
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sABAqBxg017633
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 11 Nov 2014 02:52:09 -0800 (PST)
+	Tue, 11 Nov 2014 02:52:11 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 11 Nov 2014 02:52:08 -0800
+	14.3.174.1; Tue, 11 Nov 2014 02:52:10 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Tue, 11 Nov 2014 18:52:02 +0800
-Message-ID: <cover.1415699201.git.hongxu.jia@windriver.com>
+Date: Tue, 11 Nov 2014 18:52:03 +0800
+Message-ID: <37d7153a864b4dee5748a3a30054c0c62e243f02.1415699201.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1415699201.git.hongxu.jia@windriver.com>
+References: <cover.1415699201.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/3] fix install package "postinst-intercept oprofileui avahi" to image failed
+Subject: [PATCH 1/3] avahi.inc: rename package to use avahi to instead of avahi-daemon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,45 +32,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Nov 2014 10:52:13 -0000
+X-List-Received-Date: Tue, 11 Nov 2014 10:52:15 -0000
 Content-Type: text/plain
 
-Changed in V2:
-- Drop the fix of pointercal-xinput, it didn't generate recipe_name
-  on purpose.
-- Rename package, from avahi-daemon to avahi, and oprofileui-viewer
-  to oprofileui, add RPROVIDES for compatibility
+The package avahi does not exist, as SUMMARY said, we should
+use avahi-daemon to instead. It avoids the do_rootfs failure
+while IMAGE_INSTALL += "avahi"
 
-vim local.conf
-...
-IMAGE_INSTALL_append = " oprofileui avahi"
-...
+For compatibility, let avahi to provide avahi-daemon.
 
-bitbake core-image-minimal
+[YOCTO #6937]
 
-//Hongxu
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-connectivity/avahi/avahi.inc | 29 ++++++++++++++---------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
-The following changes since commit 7bd03ac24114b2c6015144a37e0c3fb4037baea6:
-
-  bitbake: toastergui: fix invalid build url usage (2014-11-06 16:45:23 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-nonexist-pkg
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nonexist-pkg
-
-Hongxu Jia (3):
-  avahi.inc: rename package to use avahi to instead of avahi-daemon
-  oprofileui: rename package to use oprofileui to instead of
-    oprofileui-viewer
-  postinst-intercept: rename recipe for nativesdk only
-
- meta/recipes-connectivity/avahi/avahi.inc          | 29 +++++++++++-----------
- ..._1.0.bb => nativesdk-postinst-intercept_1.0.bb} |  6 ++---
- meta/recipes-kernel/oprofile/oprofileui_git.bb     |  8 +++---
- 3 files changed, 21 insertions(+), 22 deletions(-)
- rename meta/recipes-devtools/postinst-intercept/{postinst-intercept_1.0.bb => nativesdk-postinst-intercept_1.0.bb} (83%)
-
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index b060437..581d51b 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -29,8 +29,8 @@ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
+           file://reuseport-check.patch \
+           "
+ 
+-USERADD_PACKAGES = "avahi-daemon avahi-autoipd"
+-USERADD_PARAM_avahi-daemon = "--system --home /var/run/avahi-daemon \
++USERADD_PACKAGES = "avahi avahi-autoipd"
++USERADD_PARAM_avahi = "--system --home /var/run/avahi-daemon \
+                               --no-create-home --shell /bin/false \
+                               --user-group avahi"
+ 
+@@ -71,11 +71,10 @@ do_configure_prepend() {
+ }
+ 
+ 
+-PACKAGES =+ "avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
++PACKAGES =+ "libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
+ 
+-# As avahi doesn't put any files into PN, clear the files list to avoid problems
+-# if extra libraries appear.
+-FILES_avahi = ""
++# For compatibility, let avahi to provide avahi-daemon
++RPROVIDES_${PN} = "${PN}-daemon"
+ FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
+                        ${sysconfdir}/avahi/avahi-autoipd.action \
+                        ${sysconfdir}/dhcp/*/avahi-autoipd \
+@@ -83,7 +82,7 @@ FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
+                        ${sysconfdir}/udhcpc.d/99avahi-autoipd"
+ FILES_libavahi-common = "${libdir}/libavahi-common.so.*"
+ FILES_libavahi-core = "${libdir}/libavahi-core.so.*"
+-FILES_avahi-daemon = "${sbindir}/avahi-daemon \
++FILES_${PN} = "${sbindir}/avahi-daemon \
+                       ${sysconfdir}/avahi/avahi-daemon.conf \
+                       ${sysconfdir}/avahi/hosts \
+                       ${sysconfdir}/avahi/services \
+@@ -102,10 +101,10 @@ FILES_libavahi-glib = "${libdir}/libavahi-glib.so.*"
+ FILES_libavahi-gobject = "${libdir}/libavahi-gobject.so.*"
+ FILES_avahi-utils = "${bindir}/avahi-*"
+ 
+-RDEPENDS_${PN}-dev = "avahi-daemon (= ${EXTENDPKGV}) libavahi-core (= ${EXTENDPKGV}) libavahi-client (= ${EXTENDPKGV})"
++RDEPENDS_${PN}-dev = "avahi (= ${EXTENDPKGV}) libavahi-core (= ${EXTENDPKGV}) libavahi-client (= ${EXTENDPKGV})"
+ 
+ # uclibc has no nss
+-RRECOMMENDS_avahi-daemon_append_libc-glibc = " libnss-mdns"
++RRECOMMENDS_avahi_append_libc-glibc = " libnss-mdns"
+ RRECOMMENDS_${PN}_append_libc-glibc = " libnss-mdns"
+ 
+ RRECOMMENDS_avahi-dev = "expat-dev libcap-dev libdaemon-dev dbus-dev glib-2.0-dev update-rc.d-dev"
+@@ -113,11 +112,11 @@ RRECOMMENDS_avahi-dev_append_libc-glibc = " gettext-dev"
+ 
+ RRECOMMENDS_avahi-dev[nodeprrecs] = "1"
+ 
+-CONFFILES_avahi-daemon = "${sysconfdir}/avahi/avahi-daemon.conf"
++CONFFILES_avahi = "${sysconfdir}/avahi/avahi-daemon.conf"
+ 
+-INITSCRIPT_PACKAGES = "avahi-daemon avahi-dnsconfd"
+-INITSCRIPT_NAME_avahi-daemon = "avahi-daemon"
+-INITSCRIPT_PARAMS_avahi-daemon = "defaults 21 19"
++INITSCRIPT_PACKAGES = "avahi avahi-dnsconfd"
++INITSCRIPT_NAME_avahi = "avahi-daemon"
++INITSCRIPT_PARAMS_avahi = "defaults 21 19"
+ INITSCRIPT_NAME_avahi-dnsconfd = "avahi-dnsconfd"
+ INITSCRIPT_PARAMS_avahi-dnsconfd = "defaults 22 19"
+ 
+@@ -141,13 +140,13 @@ do_install() {
+ # At the time the postinst runs, dbus might not be setup so only restart if running 
+ # Don't exit early, because update-rc.d needs to run subsequently.
+ 
+-pkg_postinst_avahi-daemon () {
++pkg_postinst_avahi () {
+ if [ -z "$D" ]; then
+ 	killall -q -HUP dbus-daemon || true
+ fi
+ }
+ 
+-pkg_postrm_avahi-daemon () {
++pkg_postrm_avahi () {
+ 	deluser avahi || true
+ 	delgroup avahi || true
+ }
 -- 
 1.9.1
 
