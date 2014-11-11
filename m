@@ -1,24 +1,40 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 586CA7179F
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 19EBC65CC9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Nov 2014 08:46:42 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Nov 2014 00:46:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,359,1413270000"; d="scan'208";a="630016423"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Nov 2014 00:46:36 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Nov 2014 10:46:25 +0200
-Message-Id: <221b2718321eeb9224fd5bdf2d9ae44303fbbe0a.1415695544.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1415695544.git.cristian.iorga@intel.com>
-References: <cover.1415695544.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1415695544.git.cristian.iorga@intel.com>
-References: <cover.1415695544.git.cristian.iorga@intel.com>
-Subject: [PATCH 4/4] linux-firmware: upgrade to git rev 0e5f637
+	Tue, 11 Nov 2014 09:00:46 +0000 (UTC)
+Received: by mail-wg0-f49.google.com with SMTP id x13so10968887wgg.36
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Nov 2014 01:00:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=09ersbB/EKNx83pJLAkC9/P8jiCLv/3e3VhhTVzaLYY=;
+	b=Wcj79AxCqLXiTVmqdiyq9wiZQHizBXHCmVKo4azqyZ1htarsqitaoDYvOTSfpC8fE2
+	Ki83/XmfdY3Ct5vxN5pcft1u2rYaSzunqrFa2AxHiQgLmjqeunP21+8swOz3oLoyCm6D
+	Ixuk/zexgXdpgCwGvIrAbcpIFQSVMa31rTHMSW8DUll5TTrlsv/6G9117UfcYCZ0d9ag
+	VvZBCzOgdOn8557wpTJDASqUwhDRA369fSQvL8IGS7wcONbbqL95/8rYbpfVUJD3BEuP
+	Q1+BtyMT+Xa1rrl2Rj8MIjyBXzK+3dcnxI1UC6fL6E0rXHRv3l//8TSPvH6ozXa6Kdb7
+	vSmg==
+X-Gm-Message-State: ALoCoQlEcf/FGFug4VQ/NS/f2X7elNfBsegGp71Vr2NNp4IMt4Ezk3k6p1rNgfyJPQ9IBNkH95i5
+X-Received: by 10.194.243.106 with SMTP id wx10mr48420698wjc.97.1415696446174; 
+	Tue, 11 Nov 2014 01:00:46 -0800 (PST)
+Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id x3sm16610284wiy.4.2014.11.11.01.00.44
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 11 Nov 2014 01:00:45 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.0 \(1990.1\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CANyK_8eJYijsMH2y4s6bGTMTOpmz=-zFeuDG5CkM4h=YvLGUQw@mail.gmail.com>
+Date: Tue, 11 Nov 2014 10:00:43 +0100
+Message-Id: <ED3281C6-D24B-4406-B92E-065939B4EAAA@dominion.thruhere.net>
+References: <CANyK_8eJYijsMH2y4s6bGTMTOpmz=-zFeuDG5CkM4h=YvLGUQw@mail.gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+X-Mailer: Apple Mail (2.1990.1)
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] Replace procps with procps-ng
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,111 +47,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Nov 2014 08:46:45 -0000
+X-List-Received-Date: Tue, 11 Nov 2014 09:00:50 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-- Intel iwlwifi firmware copyright years changed.
-- Cleanup and updates for Intel wireless firmware.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../linux-firmware/linux-firmware_git.bb           | 48 +++++++++++++++++-----
- 1 file changed, 37 insertions(+), 11 deletions(-)
+> Op 10 nov. 2014, om 11:38 heeft Paul Barker <paul@paulbarker.me.uk> =
+het volgende geschreven:
+>=20
+> Hi all,
+>=20
+> I've tried upstreaming a patch against procps by sending it to the
+> listed maintainer and the mailing list and I've had no reply from
+> either. The last change to the CVS repository seems to be 3 years old
+> and the mailing list archive is mostly just full of spam.
+>=20
+> It looks like Arch Linux, Debian, Fedora and openSUSE have moved on to
+> procps-ng. I suggest we do the same during the v1.8 development cycle
+> if possible. procps-ng is actively developed and looks to be open to
+> patches.
+>=20
+> I'm sadly pretty limited on development time at the minute but I may
+> be able to give this a go in December. I'd rather focus the time I do
+> have on opkg though so if anyone else wants to pick this up that'd be
+> great.
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index a2f16d1..16ebf6a 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=07b0c31777bd686d8e1609c6940b5e74\
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
-                     file://LICENCE.qla2xxx;md5=f5ce8529ec5c17cb7f911d2721d90e91 \
--                    file://LICENCE.iwlwifi_firmware;md5=8b938534f77ffd453690eb34ed84ae8b \
-+                    file://LICENCE.iwlwifi_firmware;md5=5106226b2863d00d8ed553221ddf8cd2 \
-                     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
-                     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
-                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
-@@ -24,7 +24,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=07b0c31777bd686d8e1609c6940b5e74\
-                     file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a \
-                    "
- 
--SRCREV = "dec41bce44e0dff6a2c3358a958fadf22bf58858"
-+SRCREV = "0e5f63771d0df6d7859f7c4100a74d737c62ac88"
- PE = "1"
- PV = "0.0+git${SRCPV}"
- 
-@@ -44,7 +44,7 @@ do_install() {
- 	install -d  ${D}/lib/firmware/
- 	cp -r * ${D}/lib/firmware/
- 
--	# Avoid Makefile to be deplyed
-+	# Avoid Makefile to be deployed
- 	rm ${D}/lib/firmware/Makefile
- 
- 	# Remove unbuild firmware which needs cmake and bash
-@@ -69,9 +69,13 @@ PACKAGES =+ "${PN}-ralink \
-              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
-              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 \
-              ${PN}-atheros-license ${PN}-ar9170 ${PN}-ar3k ${PN}-ath6k ${PN}-ath9k \
--             ${PN}-iwlwifi-license ${PN}-iwlwifi-6000g2a-5 ${PN}-iwlwifi-6000g2b-6 ${PN}-iwlwifi-7260-7 \
--             ${PN}-iwlwifi-6000g2a-6 ${PN}-iwlwifi-135-6"
--
-+             ${PN}-iwlwifi-license ${PN}-iwlwifi-135-6 \
-+             ${PN}-iwlwifi-3160-7 ${PN}-iwlwifi-3160-8 ${PN}-iwlwifi-3160-9 \
-+             ${PN}-iwlwifi-6000-4 ${PN}-iwlwifi-6000g2a-5 ${PN}-iwlwifi-6000g2a-6 ${PN}-iwlwifi-6000g2b-5 ${PN}-iwlwifi-6000g2b-6 \
-+             ${PN}-iwlwifi-6050-4 ${PN}-iwlwifi-6050-5 \
-+             ${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9 \
-+             ${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9 \
-+             "
- 
- FILES_${PN}-atheros-license = "/lib/firmware/LICENCE.atheros_firmware"
- 
-@@ -210,18 +214,40 @@ RDEPENDS_${PN}-bcm4334 += "${PN}-broadcom-license"
- ALTERNATIVE_linux-firmware-bcm4334 = "brcmfmac-sdio.bin"
- ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334-sdio.bin"
- 
-+RDEPENDS_${PN}-iwlwifi-135-6     = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-3160-7    = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-3160-8    = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-3160-9    = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-6000-4    = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-6000g2a-5 = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-6000g2a-6 = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-6000g2a-5 = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-6000g2b-6 = "${PN}-iwlwifi-license"
--RDEPENDS_${PN}-iwlwifi-135-6 = "${PN}-iwlwifi-license"
--RDEPENDS_${PN}-iwlwifi-7260-7 = "${PN}-iwlwifi-license"
--
--FILES_${PN}-iwlwifi-license =   "/lib/firmware/LICENCE.iwlwifi_firmware"
-+RDEPENDS_${PN}-iwlwifi-6050-4    = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-6050-5    = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-7260-7    = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-7260-8    = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-7260-9    = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-7265-8    = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-7265-9    = "${PN}-iwlwifi-license"
-+
-+FILES_${PN}-iwlwifi-license = "/lib/firmware/LICENCE.iwlwifi_firmware"
-+FILES_${PN}-iwlwifi-135-6 = "/lib/firmware/iwlwifi-135-6.ucode"
-+FILES_${PN}-iwlwifi-3160-7 = "/lib/firmware/iwlwifi-3160-7.ucode"
-+FILES_${PN}-iwlwifi-3160-8 = "/lib/firmware/iwlwifi-3160-8.ucode"
-+FILES_${PN}-iwlwifi-3160-9 = "/lib/firmware/iwlwifi-3160-9.ucode"
-+FILES_${PN}-iwlwifi-6000-4 = "/lib/firmware/iwlwifi-6000-4.ucode"
- FILES_${PN}-iwlwifi-6000g2a-5 = "/lib/firmware/iwlwifi-6000g2a-5.ucode"
- FILES_${PN}-iwlwifi-6000g2a-6 = "/lib/firmware/iwlwifi-6000g2a-6.ucode"
-+FILES_${PN}-iwlwifi-6000g2b-5 = "/lib/firmware/iwlwifi-6000g2b-5.ucode"
- FILES_${PN}-iwlwifi-6000g2b-6 = "/lib/firmware/iwlwifi-6000g2b-6.ucode"
--FILES_${PN}-iwlwifi-135-6 =     "/lib/firmware/iwlwifi-135-6.ucode"
-+FILES_${PN}-iwlwifi-6050-4 = "/lib/firmware/iwlwifi-6050-4.ucode"
-+FILES_${PN}-iwlwifi-6050-5 = "/lib/firmware/iwlwifi-6050-5.ucode"
- FILES_${PN}-iwlwifi-7260-7 = "/lib/firmware/iwlwifi-7260-7.ucode"
-+FILES_${PN}-iwlwifi-7260-8 = "/lib/firmware/iwlwifi-7260-8.ucode"
-+FILES_${PN}-iwlwifi-7260-9 = "/lib/firmware/iwlwifi-7260-9.ucode"
-+FILES_${PN}-iwlwifi-7265-8 = "/lib/firmware/iwlwifi-7265-8.ucode"
-+FILES_${PN}-iwlwifi-7265-9 = "/lib/firmware/iwlwifi-7265-9.ucode"
- 
- FILES_${PN} += "/lib/firmware/*"
- 
--- 
-2.1.0
+With the util-linux -> util-linux-ng -> util-linux change in mind I =
+strongly encourage to keep using 'procps' are package name or ensure =
+that the appropriate (R)PROVIDES are in place.
 
+regards,
+
+Koen=
 
