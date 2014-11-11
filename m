@@ -1,24 +1,29 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AFE5865D4F
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id ACDED65DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Nov 2014 02:09:30 +0000 (UTC)
+	Tue, 11 Nov 2014 02:15:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAB29V8D022138
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAB2Fqgn013124
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Nov 2014 18:09:31 -0800 (PST)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 10 Nov 2014 18:09:30 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Nov 2014 20:09:29 -0600
-Message-ID: <1415671769-24658-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.9.3
+	Mon, 10 Nov 2014 18:15:52 -0800 (PST)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Mon, 10 Nov 2014 18:15:51 -0800
+Message-ID: <54617155.5060803@windriver.com>
+Date: Tue, 11 Nov 2014 10:15:49 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: [PATCH] meta-environment: Fix config-site with a multilib config
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1414720498.git.Chong.Lu@windriver.com>
+	<b7733fcdfaea20fb9ad43aee02ebe0cdbedc3cc2.1414720498.git.Chong.Lu@windriver.com>
+In-Reply-To: <b7733fcdfaea20fb9ad43aee02ebe0cdbedc3cc2.1414720498.git.Chong.Lu@windriver.com>
+X-Originating-IP: [128.224.162.204]
+Subject: Re: [PATCH V2 1/1] libxml2: fix python path and add libxml2-python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,84 +36,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Nov 2014 02:09:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Nov 2014 02:15:54 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-[YOCTO #6951]
+ping
 
-The TOOLCHAIN_CONFIGSITE_SYSROOTCACHE value was defaulting to the nativesdk
-path and not the associated target path.  Set the value in toolchain-scripts
-to the target path.
+//Chong
 
-Be sure to set the MLPREFIX within the meta-environment script as multilibs
-are processed.
-
-Update the config_site file name to use -BPN- not PN.  Otherwise the
-environment processing can't find the correct filename.
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/siteconfig.bbclass            | 8 ++++----
- meta/classes/toolchain-scripts.bbclass     | 4 +++-
- meta/recipes-core/meta/meta-environment.bb | 1 +
- 3 files changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/meta/classes/siteconfig.bbclass b/meta/classes/siteconfig.bbclass
-index 9a4d03b..45dce48 100644
---- a/meta/classes/siteconfig.bbclass
-+++ b/meta/classes/siteconfig.bbclass
-@@ -18,13 +18,13 @@ siteconfig_do_siteconfig_gencache () {
- 		>${WORKDIR}/site_config_${MACHINE}/configure.ac
- 	cd ${WORKDIR}/site_config_${MACHINE}
- 	autoconf
--	rm -f ${PN}_cache
--        CONFIG_SITE="" ${EXTRASITECONFIG} ./configure ${CONFIGUREOPTS} --cache-file ${PN}_cache
-+	rm -f ${BPN}_cache
-+	CONFIG_SITE="" ${EXTRASITECONFIG} ./configure ${CONFIGUREOPTS} --cache-file ${BPN}_cache
- 	sed -n -e "/ac_cv_c_bigendian/p" -e "/ac_cv_sizeof_/p" \
- 		-e "/ac_cv_type_/p" -e "/ac_cv_header_/p" -e "/ac_cv_func_/p" \
--		< ${PN}_cache > ${PN}_config
-+		< ${BPN}_cache > ${BPN}_config
- 	mkdir -p ${SYSROOT_DESTDIR}${datadir}/${TARGET_SYS}_config_site.d
--	cp ${PN}_config ${SYSROOT_DESTDIR}${datadir}/${TARGET_SYS}_config_site.d
-+	cp ${BPN}_config ${SYSROOT_DESTDIR}${datadir}/${TARGET_SYS}_config_site.d
- 
- }
- 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 2244cf7..96fd93d 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -91,7 +91,7 @@ EOF
- 
- #we get the cached site config in the runtime
- TOOLCHAIN_CONFIGSITE_NOCACHE = "${@siteinfo_get_files(d, True)}"
--TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${STAGING_DATADIR}/${TARGET_SYS}_config_site.d"
-+TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${STAGING_DIR}/${MLPREFIX}${MACHINE}/${target_datadir}/${TARGET_SYS}_config_site.d"
- TOOLCHAIN_NEED_CONFIGSITE_CACHE = "${TCLIBC} ncurses"
- 
- #This function create a site config file
-@@ -131,5 +131,7 @@ python __anonymous () {
-     deps = ""
-     for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE', True) or "").split():
-         deps += " %s:do_populate_sysroot" % dep
-+        for variant in (d.getVar('MULTILIB_VARIANTS', True) or "").split():
-+            deps += " %s-%s:do_populate_sysroot" % (variant, dep)
-     d.appendVarFlag('do_configure', 'depends', deps)
- }
-diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
-index 9d8bcb7..bb208a3 100644
---- a/meta/recipes-core/meta/meta-environment.bb
-+++ b/meta/recipes-core/meta/meta-environment.bb
-@@ -42,6 +42,7 @@ python do_generate_content() {
-         # Load overrides from 'd' to avoid having to reset the value...
-         overrides = d.getVar("OVERRIDES", False) + ":virtclass-multilib-" + item
-         localdata.setVar("OVERRIDES", overrides)
-+        localdata.setVar("MLPREFIX", item + "-")
-         bb.data.update_data(localdata)
-         bb.build.exec_func("create_sdk_files", localdata)
- }
--- 
-1.9.3
+On 10/31/2014 09:56 AM, Chong Lu wrote:
+> From: Robert Yang <liezhi.yang@windriver.com>
+>
+> We have libxml2-python for native and nativesdk, but don't have it for
+> target, and can't find the reason from the git log, libxml2-python is
+> widely used, after looked into it's configure.in, we can add it
+> by PACKAGECONFIG.
+>
+> The previous --with-python=${STAGING_BINDIR}/python is incorrect, it
+> acted as work becase it's conigure can check automatically, python is in
+> ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}, as known as
+> ${PYTHON}.
+>
+> Add python to PACKAGECONFIG, since createrepo rdepends on libxml2-python.
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>   meta/recipes-core/libxml/libxml2.inc | 19 +++++++++----------
+>   1 file changed, 9 insertions(+), 10 deletions(-)
+>
+> diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+> index c729c19..2bdfed0 100644
+> --- a/meta/recipes-core/libxml/libxml2.inc
+> +++ b/meta/recipes-core/libxml/libxml2.inc
+> @@ -9,8 +9,6 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
+>                       file://list.c;beginline=4;endline=13;md5=cdbfa3dee51c099edb04e39f762ee907 \
+>                       file://trio.c;beginline=5;endline=14;md5=6c025753c86d958722ec76e94cae932e"
+>   
+> -DEPENDS_class-nativesdk = "nativesdk-python"
+> -DEPENDS_class-native = "python-native"
+>   DEPENDS =+ "zlib"
+>   
+>   SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+> @@ -37,16 +35,17 @@ do_configure_prepend () {
+>   	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.in
+>   }
+>   
+> -do_configure_prepend_class-nativesdk () {
+> -	# Ensure we get the correct site-packages path
+> -	export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
+> -}
+> +export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
+> +
+> +PACKAGECONFIG ??= "python"
+> +PACKAGECONFIG_linuxstdbase ??= ""
+>   
+> +PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python,python-core"
+>   # WARNING: zlib is require for RPM use
+> -EXTRA_OECONF = "--without-python --without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
+> -EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
+> -EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
+> -EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
+> +EXTRA_OECONF = "--without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
+> +EXTRA_OECONF_class-native = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
+> +EXTRA_OECONF_class-nativesdk = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
+> +EXTRA_OECONF_linuxstdbase = "--with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
+>   
+>   # required for pythong binding
+>   export HOST_SYS
 
 
