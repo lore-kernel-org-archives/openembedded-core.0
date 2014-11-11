@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C804713A5
+	by mail.openembedded.org (Postfix) with ESMTP id 586CA7179F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Nov 2014 08:46:35 +0000 (UTC)
+	Tue, 11 Nov 2014 08:46:42 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Nov 2014 00:46:36 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 11 Nov 2014 00:46:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,359,1413270000"; d="scan'208";a="630016403"
+X-IronPort-AV: E=Sophos;i="5.07,359,1413270000"; d="scan'208";a="630016423"
 Received: from sentry.rb.intel.com ([10.237.105.37])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Nov 2014 00:46:33 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 11 Nov 2014 00:46:36 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Nov 2014 10:46:22 +0200
-Message-Id: <773f5ac6b817a0f4c8227b7e371fbc3f9b987c13.1415695544.git.cristian.iorga@intel.com>
+Date: Tue, 11 Nov 2014 10:46:25 +0200
+Message-Id: <221b2718321eeb9224fd5bdf2d9ae44303fbbe0a.1415695544.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1415695544.git.cristian.iorga@intel.com>
 References: <cover.1415695544.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1415695544.git.cristian.iorga@intel.com>
 References: <cover.1415695544.git.cristian.iorga@intel.com>
-Subject: [PATCH 1/4] wpa-supplicant: upgrade to 2.3
+Subject: [PATCH 4/4] linux-firmware: upgrade to git rev 0e5f637
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,73 +33,108 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 11 Nov 2014 08:46:45 -0000
 
-- P2P WiFi improvements;
-- Bug fixes.
+- Intel iwlwifi firmware copyright years changed.
+- Cleanup and updates for Intel wireless firmware.
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- .../recipes-connectivity/wpa-supplicant/wpa-supplicant.inc |  4 ++--
- .../wpa-supplicant/fix-libnl3-host-contamination.patch     | 14 +++++++-------
- .../{wpa-supplicant_2.2.bb => wpa-supplicant_2.3.bb}       |  0
- 3 files changed, 9 insertions(+), 9 deletions(-)
- rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant_2.2.bb => wpa-supplicant_2.3.bb} (100%)
+ .../linux-firmware/linux-firmware_git.bb           | 48 +++++++++++++++++-----
+ 1 file changed, 37 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
-index 3abcf86..2bc9339 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
-@@ -26,8 +26,8 @@ SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
-            file://99_wpa_supplicant \
-            file://fix-libnl3-host-contamination.patch \
-           "
--SRC_URI[md5sum] = "238e8e888bbd558e1a57e3eb28d1dd07"
--SRC_URI[sha256sum] = "e0d8b8fd68a659636eaba246bb2caacbf53d22d53b2b6b90eb4b4fef0993c8ed"
-+SRC_URI[md5sum] = "f2ed8fef72cf63d8d446a2d0a6da630a"
-+SRC_URI[sha256sum] = "eaaa5bf3055270e521b2dff64f2d203ec8040f71958b8588269a82c00c9d7b6a"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index a2f16d1..16ebf6a 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=07b0c31777bd686d8e1609c6940b5e74\
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
+                     file://LICENCE.qla2xxx;md5=f5ce8529ec5c17cb7f911d2721d90e91 \
+-                    file://LICENCE.iwlwifi_firmware;md5=8b938534f77ffd453690eb34ed84ae8b \
++                    file://LICENCE.iwlwifi_firmware;md5=5106226b2863d00d8ed553221ddf8cd2 \
+                     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
+                     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
+                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
+@@ -24,7 +24,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=07b0c31777bd686d8e1609c6940b5e74\
+                     file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a \
+                    "
  
- S = "${WORKDIR}/wpa_supplicant-${PV}"
+-SRCREV = "dec41bce44e0dff6a2c3358a958fadf22bf58858"
++SRCREV = "0e5f63771d0df6d7859f7c4100a74d737c62ac88"
+ PE = "1"
+ PV = "0.0+git${SRCPV}"
  
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/fix-libnl3-host-contamination.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/fix-libnl3-host-contamination.patch
-index eb8036f..e899c16 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/fix-libnl3-host-contamination.patch
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/fix-libnl3-host-contamination.patch
-@@ -15,15 +15,15 @@ diff --git a/src/drivers/drivers.mak b/src/drivers/drivers.mak
- index 68ff910..1f38f57 100644
- --- a/src/drivers/drivers.mak
- +++ b/src/drivers/drivers.mak
--@@ -30,7 +30,7 @@ NEED_RFKILL=y
-+@@ -35,7 +35,7 @@ NEED_RFKILL=y
-  ifdef CONFIG_LIBNL32
-    DRV_LIBS += -lnl-3
-    DRV_LIBS += -lnl-genl-3
- -  DRV_CFLAGS += -DCONFIG_LIBNL20 -I/usr/include/libnl3
- +  DRV_CFLAGS += -DCONFIG_LIBNL20
-- else
--   ifdef CONFIG_LIBNL_TINY
--     DRV_LIBS += -lnl-tiny
-+ ifdef CONFIG_LIBNL3_ROUTE
-+   DRV_LIBS += -lnl-route-3
-+   DRV_CFLAGS += -DCONFIG_LIBNL3_ROUTE
- diff --git a/src/drivers/drivers.mk b/src/drivers/drivers.mk
- index db8561a..c93e88d 100644
- --- a/src/drivers/drivers.mk
-@@ -34,9 +34,9 @@ index db8561a..c93e88d 100644
-    DRV_LIBS += -lnl-genl-3
- -  DRV_CFLAGS += -DCONFIG_LIBNL20 -I/usr/include/libnl3
- +  DRV_CFLAGS += -DCONFIG_LIBNL20
-- else
--   ifdef CONFIG_LIBNL_TINY
--     DRV_LIBS += -lnl-tiny
-+ ifdef CONFIG_LIBNL3_ROUTE
-+   DRV_LIBS += -lnl-route-3
-+   DRV_CFLAGS += -DCONFIG_LIBNL3_ROUTE
- -- 
- 1.7.10.4
+@@ -44,7 +44,7 @@ do_install() {
+ 	install -d  ${D}/lib/firmware/
+ 	cp -r * ${D}/lib/firmware/
  
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.2.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.3.bb
-similarity index 100%
-rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.2.bb
-rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.3.bb
+-	# Avoid Makefile to be deplyed
++	# Avoid Makefile to be deployed
+ 	rm ${D}/lib/firmware/Makefile
+ 
+ 	# Remove unbuild firmware which needs cmake and bash
+@@ -69,9 +69,13 @@ PACKAGES =+ "${PN}-ralink \
+              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
+              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 \
+              ${PN}-atheros-license ${PN}-ar9170 ${PN}-ar3k ${PN}-ath6k ${PN}-ath9k \
+-             ${PN}-iwlwifi-license ${PN}-iwlwifi-6000g2a-5 ${PN}-iwlwifi-6000g2b-6 ${PN}-iwlwifi-7260-7 \
+-             ${PN}-iwlwifi-6000g2a-6 ${PN}-iwlwifi-135-6"
+-
++             ${PN}-iwlwifi-license ${PN}-iwlwifi-135-6 \
++             ${PN}-iwlwifi-3160-7 ${PN}-iwlwifi-3160-8 ${PN}-iwlwifi-3160-9 \
++             ${PN}-iwlwifi-6000-4 ${PN}-iwlwifi-6000g2a-5 ${PN}-iwlwifi-6000g2a-6 ${PN}-iwlwifi-6000g2b-5 ${PN}-iwlwifi-6000g2b-6 \
++             ${PN}-iwlwifi-6050-4 ${PN}-iwlwifi-6050-5 \
++             ${PN}-iwlwifi-7260-7 ${PN}-iwlwifi-7260-8 ${PN}-iwlwifi-7260-9 \
++             ${PN}-iwlwifi-7265-8 ${PN}-iwlwifi-7265-9 \
++             "
+ 
+ FILES_${PN}-atheros-license = "/lib/firmware/LICENCE.atheros_firmware"
+ 
+@@ -210,18 +214,40 @@ RDEPENDS_${PN}-bcm4334 += "${PN}-broadcom-license"
+ ALTERNATIVE_linux-firmware-bcm4334 = "brcmfmac-sdio.bin"
+ ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334-sdio.bin"
+ 
++RDEPENDS_${PN}-iwlwifi-135-6     = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-3160-7    = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-3160-8    = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-3160-9    = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-6000-4    = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-6000g2a-5 = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-6000g2a-6 = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-6000g2a-5 = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-6000g2b-6 = "${PN}-iwlwifi-license"
+-RDEPENDS_${PN}-iwlwifi-135-6 = "${PN}-iwlwifi-license"
+-RDEPENDS_${PN}-iwlwifi-7260-7 = "${PN}-iwlwifi-license"
+-
+-FILES_${PN}-iwlwifi-license =   "/lib/firmware/LICENCE.iwlwifi_firmware"
++RDEPENDS_${PN}-iwlwifi-6050-4    = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-6050-5    = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-7260-7    = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-7260-8    = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-7260-9    = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-7265-8    = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-7265-9    = "${PN}-iwlwifi-license"
++
++FILES_${PN}-iwlwifi-license = "/lib/firmware/LICENCE.iwlwifi_firmware"
++FILES_${PN}-iwlwifi-135-6 = "/lib/firmware/iwlwifi-135-6.ucode"
++FILES_${PN}-iwlwifi-3160-7 = "/lib/firmware/iwlwifi-3160-7.ucode"
++FILES_${PN}-iwlwifi-3160-8 = "/lib/firmware/iwlwifi-3160-8.ucode"
++FILES_${PN}-iwlwifi-3160-9 = "/lib/firmware/iwlwifi-3160-9.ucode"
++FILES_${PN}-iwlwifi-6000-4 = "/lib/firmware/iwlwifi-6000-4.ucode"
+ FILES_${PN}-iwlwifi-6000g2a-5 = "/lib/firmware/iwlwifi-6000g2a-5.ucode"
+ FILES_${PN}-iwlwifi-6000g2a-6 = "/lib/firmware/iwlwifi-6000g2a-6.ucode"
++FILES_${PN}-iwlwifi-6000g2b-5 = "/lib/firmware/iwlwifi-6000g2b-5.ucode"
+ FILES_${PN}-iwlwifi-6000g2b-6 = "/lib/firmware/iwlwifi-6000g2b-6.ucode"
+-FILES_${PN}-iwlwifi-135-6 =     "/lib/firmware/iwlwifi-135-6.ucode"
++FILES_${PN}-iwlwifi-6050-4 = "/lib/firmware/iwlwifi-6050-4.ucode"
++FILES_${PN}-iwlwifi-6050-5 = "/lib/firmware/iwlwifi-6050-5.ucode"
+ FILES_${PN}-iwlwifi-7260-7 = "/lib/firmware/iwlwifi-7260-7.ucode"
++FILES_${PN}-iwlwifi-7260-8 = "/lib/firmware/iwlwifi-7260-8.ucode"
++FILES_${PN}-iwlwifi-7260-9 = "/lib/firmware/iwlwifi-7260-9.ucode"
++FILES_${PN}-iwlwifi-7265-8 = "/lib/firmware/iwlwifi-7265-8.ucode"
++FILES_${PN}-iwlwifi-7265-9 = "/lib/firmware/iwlwifi-7265-9.ucode"
+ 
+ FILES_${PN} += "/lib/firmware/*"
+ 
 -- 
 2.1.0
 
