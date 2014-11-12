@@ -1,41 +1,24 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id D0011720B3
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 06B157204C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 10:33:34 +0000 (UTC)
-Received: by mail-qc0-f174.google.com with SMTP id r5so8928209qcx.5
+	Wed, 12 Nov 2014 10:43:49 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sACAhmg1006434
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 02:33:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=eW7BuOe6zzRfRYvjETPSSgOh5gFm0/YXwzkuLD8BTnE=;
-	b=wAekhCMgrlWr0WFbHO/AmH1Kvcm00n2Ytl9yjgEJrPNmYPqxeTPawzkBDYunAFAgM2
-	I313/GyIunlOqUU+E5VzxfUCB0MgEX8seLgRK+5j/n1pq3Bbl3zhqoIY8uSel9O3ULJD
-	umg3sp8QwF7rFvpdnaRcqb97sApNzZzbh+JWNMqPpdcrsqEpaYLX2mPUPX/IfvpZG/Eh
-	2vc4w1TOCi0DvqMYKVCG+vC4cYR4X6oJ4HYnxGVM6D4ZT3oa5X+5BTUrlFYZH8ZzSgg8
-	FxBFpKsigimiCRSGXPsczdv66ke5VD/4xjuFjxkKcFNp4D2/Jgw5OAu69jhO9sWVaTYi
-	cV8Q==
-X-Received: by 10.140.49.107 with SMTP id p98mr57503568qga.20.1415788414785;
-	Wed, 12 Nov 2014 02:33:34 -0800 (PST)
-Received: from nano.lab.ossystems.com.br ([177.194.193.50])
-	by mx.google.com with ESMTPSA id 78sm20647412qgp.2.2014.11.12.02.33.33
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Nov 2014 02:33:33 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id 1719A1C86BEB8; Wed, 12 Nov 2014 08:33:31 -0200 (BRST)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Nov 2014 08:33:25 -0200
-Message-Id: <1415788406-23120-3-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.1.1
-In-Reply-To: <1415788406-23120-1-git-send-email-otavio@ossystems.com.br>
-References: <1415788406-23120-1-git-send-email-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 3/4] sysvinit-inittab: Disable the carrier detect requirement for serial consoles
+	Wed, 12 Nov 2014 02:43:48 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 12 Nov 2014 02:43:47 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Nov 2014 18:45:45 +0800
+Message-ID: <cover.1415789100.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] systemd: add option for valgrind header checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,41 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Nov 2014 10:33:40 -0000
+X-List-Received-Date: Wed, 12 Nov 2014 10:43:52 -0000
+Content-Type: text/plain
 
-This aligns the params of getty with the ones used in Debian. From the
-getty(8) manpage:
+The following changes since commit 33b7885ecdc8774e34ac3534ec49fed6ffdb3916:
 
-,----[ getty(8) manpage ]
-|  -L, --local-line
-|
-|    Force the line to be a local line with no need for carrier
-| 	 detect. This can be useful when you have a locally attached
-| 	 terminal where the serial line does not set the carrier detect
-| 	 signal.
-`----
+  oprofile: 0.9.9 -> 1.0.0 (2014-11-09 10:19:58 +0000)
 
-Reported-by: Craig McQueen <craig.mcqueen@beamcommunications.com>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-Tested-by: Craig McQueen <craig.mcqueen@beamcommunications.com>
----
- meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index c3244b4..657ef02 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -23,7 +23,7 @@ do_install() {
-     do
- 	j=`echo ${i} | sed s/\;/\ /g`
- 	label=`echo ${i} | sed -e 's/^.*;tty//' -e 's/;.*//'`
--	echo "$label:12345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
-+	echo "$label:12345:respawn:${base_sbindir}/getty -L ${j}" >> ${D}${sysconfdir}/inittab
-     done
- 
-     if [ "${USE_VT}" = "1" ]; then
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-valgrindheader
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-valgrindheader
+
+Chen Qi (1):
+  systemd: add option for valgrind header checking
+
+ ...re.ac-add-valgrind-header-checking-option.patch | 28 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_216.bb           |  2 ++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-configure.ac-add-valgrind-header-checking-option.patch
+
 -- 
-2.1.1
+1.9.1
 
 
