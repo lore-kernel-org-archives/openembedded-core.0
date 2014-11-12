@@ -1,42 +1,24 @@
-Return-Path: <dev@codyps.com>
-Received: from mail-qa0-f51.google.com (mail-qa0-f51.google.com
-	[209.85.216.51])
-	by mail.openembedded.org (Postfix) with ESMTP id DAE8665C7B
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 585B365C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 01:30:53 +0000 (UTC)
-Received: by mail-qa0-f51.google.com with SMTP id f12so7634544qad.38
+	Wed, 12 Nov 2014 01:54:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAC1sw9P001583
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Nov 2014 17:30:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codyps.com; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=jaEpprn3RTIYATnn452wF7jCGBnpPwKohG/m5yrC/dg=;
-	b=GtxW6tM9iSG/Q7lamvkY9y/rQLMraJ5QTsYVw0FHB0ryCZUFy/4y/c/XrzVBKxr/Rr
-	TTI5q6P9NIh9irFP5IMCibxd98hZA+Q5P/Yz001R7TBhRMWMg55VHlavNpEwMSWdenjj
-	BniAUquaoa40MRWIwKVcqdFbeCJucTsphk6IU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=jaEpprn3RTIYATnn452wF7jCGBnpPwKohG/m5yrC/dg=;
-	b=ksTTiWTPdbzg1FrntzmlE7qW2i0REWvHr7i780BGgphDXdQccPB2sM+x1Ae2S2/KAd
-	mPLd7gMNb7rQ+luKoBJMn2TkXxbaPdZLSW3HoY9JA0tAZGd/ofrDbQcenblRsbZSJl+N
-	VY2gFW+JCcPAc8a4QlisCPTJ5gFZALYBeo7EQtaZeCZh6DqwU0eio4SQOvFILLPn4DTQ
-	CO4/S9JF3CS8i92N3lDCiXJlYb4wBaEaw9tk8gChS8OmHAnfmSOpO9ZMd3yW4ViJRXzi
-	M5oLuB4RdQ3zFcLAQp00HmmHKg4/iqHOJsmJniqNNvGz8NE3V33VjjAlm8IG5NNKmlaS
-	WVxg==
-X-Gm-Message-State: ALoCoQnhCjfHgQ7dG0RXwQyzYfB1hOekTmpCcDX515eIJpU1foLmTAYcxTUD6LFaCjNaHNLaz6cL
-X-Received: by 10.224.165.77 with SMTP id h13mr6656135qay.0.1415755853781;
-	Tue, 11 Nov 2014 17:30:53 -0800 (PST)
-Received: from localhost (c-73-38-182-46.hsd1.ma.comcast.net. [73.38.182.46])
-	by mx.google.com with ESMTPSA id
-	v15sm9615403qae.40.2014.11.11.17.30.52 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Nov 2014 17:30:52 -0800 (PST)
-From: Cody P Schafer <dev@codyps.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Nov 2014 20:30:40 -0500
-Message-Id: <1415755840-4750-1-git-send-email-dev@codyps.com>
-X-Mailer: git-send-email 2.1.3
-Subject: [PATCH] cmake: supply CMAKE_AR in toolchain file
+	Tue, 11 Nov 2014 17:54:59 -0800 (PST)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.163.178) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 11 Nov 2014 17:54:58 -0800
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Nov 2014 09:54:56 +0800
+Message-ID: <1415757296-25524-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 2.1.0
+MIME-Version: 1.0
+Subject: [PATCH][v2] rpm: fix the rpm addsign function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,33 +31,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Nov 2014 01:30:57 -0000
+X-List-Received-Date: Wed, 12 Nov 2014 01:55:06 -0000
+Content-Type: text/plain
 
+From: "Roy.Li" <rongqing.li@windriver.com>
+
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
 ---
- meta/classes/cmake.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ ...arseArgvString-to-parse-the-_gpg_check_pa.patch | 49 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.14.bb            |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 10f8f98..3549c38 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -13,6 +13,7 @@ inherit autotools
- # C/C++ Compiler (without cpu arch/tune arguments)
- OECMAKE_C_COMPILER ?= "`echo ${CC} | sed 's/^\([^ ]*\).*/\1/'`"
- OECMAKE_CXX_COMPILER ?= "`echo ${CXX} | sed 's/^\([^ ]*\).*/\1/'`"
-+OECMAKE_AR ?= "${AR}"
+diff --git a/meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch b/meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch
+new file mode 100644
+index 0000000..23bc336
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch
+@@ -0,0 +1,49 @@
++From 64851c6622aff64787a9fcea26cccde183b7c743 Mon Sep 17 00:00:00 2001
++From: "Roy.Li" <rongqing.li@windriver.com>
++Date: Tue, 11 Nov 2014 16:28:22 +0800
++Subject: [PATCH] using poptParseArgvString to parse the
++ _gpg_check_password_cmd
++
++Upstream-Status: Pending
++
++Both __gpg_check_password_cmd and __gpg_sign_cmd include "%{_gpg_name}", but
++strace shows that gpg_name has a quote when run _gpg_check_password,
++but not when run __gpg_sign_cmd; for example, if gpg_name is "tester"
++
++    execve("/usr/bin/gpg", ["gpg", "--batch", "--no-verbose",
++    "--passphrase-fd", "3", "-u", "\"tester\"", "-so", "-"], [/* 20 vars */]) = 0
++
++    execve("/usr/bin/gpg", ["gpg", "--batch", "--no-verbose", "--no-armor",
++    "--passphrase-fd", "3", "--no-secmem-warning", "-u", "tester", "-sbo"..,) = 0
++
++it can be fixed by removing the quote around %{gpg_name} when define
++__gpg_check_password_cmd in macros/macros, like below, but if gpg_name includes
++space, it will not work.
++
++     %__gpg_check_password_cmd       %{__gpg} \
++        gpg --batch --no-verbose --passphrase-fd 3 -u %{_gpg_name} -so -
++
++The poptParseArgvString function is used to parse _gpg_sign_cmd, so using
++poptParseArgvString to parse __gpg_check_password_cmd to fix this issue.
++
++Signed-off-by: Roy.Li <rongqing.li@windriver.com>
++---
++ rpmdb/signature.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/rpmdb/signature.c b/rpmdb/signature.c
++index c35e0ab..016e8d1 100644
++--- a/rpmdb/signature.c
+++++ b/rpmdb/signature.c
++@@ -529,7 +529,7 @@ int rpmCheckPassPhrase(const char * passPhrase)
++   		(void) setenv("GNUPGHOME", gpg_path, 1);
++ 
++ 	    cmd = rpmExpand("%{?__gpg_check_password_cmd}", NULL);
++-	    rc = argvSplit(&av, cmd, NULL);
+++	    rc = poptParseArgvString(cmd, NULL, (const char ***)&av);
++ 	    if (!rc)
++ 		rc = execve(av[0], (char *const *)av+1, environ);
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+index 6cd932d..d99a300 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+@@ -94,6 +94,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
+ 	   file://rpm-disable-Wno-override-init.patch \
+ 	   file://rpmqv_cc_b_gone.patch \
+ 	   file://rpm-realpath.patch \
++	   file://0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch \
+ 	  "
  
- # Compiler flags
- OECMAKE_C_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CFLAGS}"
-@@ -35,6 +36,7 @@ set( CMAKE_SYSTEM_PROCESSOR ${TARGET_ARCH} )
- set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
- set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
- set( CMAKE_ASM_COMPILER ${OECMAKE_C_COMPILER} )
-+set( CMAKE_AR ${OECMAKE_AR} CACHE FILEPATH "Archiver" )
- set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
- set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
- set( CMAKE_ASM_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "ASM FLAGS" )
+ # Uncomment the following line to enable platform score debugging
 -- 
-2.1.3
+2.1.0
 
 
