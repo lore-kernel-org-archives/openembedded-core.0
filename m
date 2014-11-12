@@ -1,30 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 46A9762252
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa07-01.prod.phx3.secureserver.net
+	(p3plsmtpa07-01.prod.phx3.secureserver.net [173.201.192.230])
+	by mail.openembedded.org (Postfix) with ESMTP id 6339F65CED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 11:06:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sACB5lqO030341; Wed, 12 Nov 2014 11:05:47 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KIdMaPbBlZyb; Wed, 12 Nov 2014 11:05:47 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sACB5YNe030335
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 12 Nov 2014 11:05:46 GMT
-Message-ID: <1415790370.2820.45.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Date: Wed, 12 Nov 2014 11:06:10 +0000
-In-Reply-To: <4df30acac92f854aa92f221c7663c952da8d9f1f.1415647839.git.pab@pabigot.com>
-References: <cover.1415647839.git.pab@pabigot.com>
-	<4df30acac92f854aa92f221c7663c952da8d9f1f.1415647839.git.pab@pabigot.com>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
+	Wed, 12 Nov 2014 11:15:13 +0000 (UTC)
+Received: from [192.168.65.10] ([75.72.225.8])
+	by p3plsmtpa07-01.prod.phx3.secureserver.net with 
+	id EbF71p00L0BVjqb01bF8JQ; Wed, 12 Nov 2014 04:15:12 -0700
+Message-ID: <5463413B.3050902@pabigot.com>
+Date: Wed, 12 Nov 2014 05:15:07 -0600
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+MIME-Version: 1.0
+To: zhangxiao <xiao.zhang@windriver.com>
+References: <1414861479-5493-1-git-send-email-pab@pabigot.com>
+	<1414861479-5493-3-git-send-email-pab@pabigot.com>
+	<54630E02.3070500@windriver.com>
+In-Reply-To: <54630E02.3070500@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC 07/14] qt-mobility: switch to virtual/bluez
+Subject: Re: [PATCH 2/3] pseudo: provide fallback passwd and group files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,61 +33,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Nov 2014 11:06:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Nov 2014 11:15:17 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2014-11-10 at 15:13 -0600, Peter A. Bigot wrote:
-> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
-> ---
->  meta/recipes-qt/qt4/qt-mobility_1.2.0.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-> index ae1769d..61b5281 100644
-> --- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-> +++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-> @@ -3,7 +3,7 @@ DEPENDS = "gstreamer util-linux"
->  
->  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)}"
-> -PACKAGECONFIG[bluetooth] = ",,bluez4"
-> +PACKAGECONFIG[bluetooth] = ",,virtual/bluez"
->  PACKAGECONFIG[pulseaudio] = ",,pulseaudio"
->  
->  LICENSE = "LGPLv2.1"
+On 11/12/2014 01:36 AM, zhangxiao wrote:
+> On 2014年11月02日 01:04, Peter A. Bigot wrote:
+>> Normally pseudo is built with --without-passwd-fallback, which requires
+>> that somebody provide target passwd and group files.  Those come from
+>> base-passwd in OE, but base-passwd cannot be built without first
+>> invoking operations under pseudo that require getpw*/getgr*.
+>>
+>> Provide the absolute minimum stub files, matching in content what will
+>> eventually be on the target, that can be used in the cases where the
+>> target files are not yet available.  The requirements for minimum stub
+>> are the usernames and groups identified in meta/files/fs-perms.txt.
+>>
+>> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+>> ---
+>>   meta/recipes-devtools/pseudo/files/fallback-group  | 2 ++
+>>   meta/recipes-devtools/pseudo/files/fallback-passwd | 1 +
+>>   meta/recipes-devtools/pseudo/pseudo_1.6.2.bb       | 8 ++++++++
+>>   3 files changed, 11 insertions(+)
+>>   create mode 100644 meta/recipes-devtools/pseudo/files/fallback-group
+>>   create mode 100644 meta/recipes-devtools/pseudo/files/fallback-passwd
+>>
+>> diff --git a/meta/recipes-devtools/pseudo/files/fallback-group 
+>> b/meta/recipes-devtools/pseudo/files/fallback-group
+>> new file mode 100644
+>> index 0000000..81bf732
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/pseudo/files/fallback-group
+>> @@ -0,0 +1,2 @@
+>> +root:*:0:
+>
+> How about adding those two lines below?
+>
+> daemon:*:1:
+> bin:*:2:
 
-I think its examples like this where I start to get concerned. I don't
-think the problem we're trying to solve here (bluez4 verses bluez5) maps
-well to the way virtual/* is meant to work.
+What's the rationale for adding these?
 
-virtual/* things are meant to be equivalent, it doesn't matter which
-ones the recipe builds against, it works. A compiler or a kernel are
-good examples. That isn't the case for v4 verses v5 since some software
-works with 4, some with 5 and some with both.
+My intent is for pseudo to provide the absolute minimum required for the 
+default fs-perms.txt, not to attempt to provide everything that's in 
+base-passwd.  If you override fs-perms.txt somehow and need those extra 
+groups in early build stages, I think the right approach is to also 
+provide your own fallback-group and fallback-passwd at the same time.
 
-So what do we need to do?
+If too much gets added to these fallback specifications, we're back in 
+the same position of getting target files that don't match the 
+configuration used during build/packaging.  In most cases, adding 
+DEPENDS += "base-passwd" is going to be the right approach to things not 
+being in the fallback files.
 
-I think this needs a:
+Peter
 
-PACKAGECONFIG[bluetooth5] = ",,bluez5"
-
-and then we add a bluetooth5 DiSTRO_FEATURE and a:
-
-                    ${@bb.utils.contains('DISTRO_FEATURES',
-'bluetooth5', 'bluetooth5', '', d)}"
-
-We could probably use a mechanism to flag two options as conflicting,
-e.g. both bluetooth and bluetooth5 in DISTRO_FEATURES or in
-PACKAGECONFIG however that is a separate issue.
-
-We'll of course still need VIRTUAL-RUNTIME_bluez but that isn't a new
-problem.
-
-Does that approach work for people?
-
-Cheers,
-
-Richard
+>
+> Thanks
+> Xiao
+>
+>> +mail:*:8:
+>> diff --git a/meta/recipes-devtools/pseudo/files/fallback-passwd 
+>> b/meta/recipes-devtools/pseudo/files/fallback-passwd
+>> new file mode 100644
+>> index 0000000..c1458dc
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/pseudo/files/fallback-passwd
+>> @@ -0,0 +1 @@
+>> +root::0:0:root:/home/root:/bin/sh
+>> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb 
+>> b/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
+>> index fb85f89..95fd2b8 100644
+>> --- a/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
+>> +++ b/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
+>> @@ -5,9 +5,17 @@ SRC_URI = " \
+>> file://0001-pseudo_client.c-protect-pwd_lck-against-magic.patch \
+>> file://0002-pseudo_util-modify-interface-to-pseudo_etc_file.patch \
+>> file://0003-pseudo_client.c-support-multiple-directories-in-PSEU.patch \
+>> +    file://fallback-passwd \
+>> +    file://fallback-group \
+>>   "
+>>
+>>   SRC_URI[md5sum] = "4d7b4f9d1b4aafa680ce94a5a9a52f1f"
+>>   SRC_URI[sha256sum] = 
+>> "c72be92689511ced7c419149c6aaa1b1a9e4dfc6409d1f16ab72cc35bc1e376a"
+>>
+>>   PSEUDO_EXTRA_OPTS ?= "--enable-force-async --without-passwd-fallback"
+>> +
+>> +do_install_append_class-native () {
+>> +    install -d ${D}${sysconfdir}
+>> +    install -m 644 ${WORKDIR}/fallback-passwd ${D}${sysconfdir}/passwd
+>> +    install -m 644 ${WORKDIR}/fallback-group ${D}${sysconfdir}/group
+>> +}
+>>
 
 
