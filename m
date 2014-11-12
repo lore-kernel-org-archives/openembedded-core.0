@@ -1,26 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F24DB71FC7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 46A9762252
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 10:43:50 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sACAhoDE008115
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 02:43:50 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 12 Nov 2014 02:43:49 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Nov 2014 18:45:46 +0800
-Message-ID: <a44b261f0031a4d82f8fae0e968522139f607f90.1415789100.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1415789100.git.Qi.Chen@windriver.com>
-References: <cover.1415789100.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: add option for valgrind header checking
+	Wed, 12 Nov 2014 11:06:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sACB5lqO030341; Wed, 12 Nov 2014 11:05:47 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id KIdMaPbBlZyb; Wed, 12 Nov 2014 11:05:47 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sACB5YNe030335
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 12 Nov 2014 11:05:46 GMT
+Message-ID: <1415790370.2820.45.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Date: Wed, 12 Nov 2014 11:06:10 +0000
+In-Reply-To: <4df30acac92f854aa92f221c7663c952da8d9f1f.1415647839.git.pab@pabigot.com>
+References: <cover.1415647839.git.pab@pabigot.com>
+	<4df30acac92f854aa92f221c7663c952da8d9f1f.1415647839.git.pab@pabigot.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC 07/14] qt-mobility: switch to virtual/bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,81 +37,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Nov 2014 10:43:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Nov 2014 11:06:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Add option so that valgrind header checking is controlled. Otherwise,
-we would get the following error.
+On Mon, 2014-11-10 at 15:13 -0600, Peter A. Bigot wrote:
+> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+> ---
+>  meta/recipes-qt/qt4/qt-mobility_1.2.0.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+> index ae1769d..61b5281 100644
+> --- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+> +++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+> @@ -3,7 +3,7 @@ DEPENDS = "gstreamer util-linux"
+>  
+>  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)}"
+> -PACKAGECONFIG[bluetooth] = ",,bluez4"
+> +PACKAGECONFIG[bluetooth] = ",,virtual/bluez"
+>  PACKAGECONFIG[pulseaudio] = ",,pulseaudio"
+>  
+>  LICENSE = "LGPLv2.1"
 
-   src/libsystemd/sd-bus/bus-control.c: fatal error: valgrind/mencheck.h: No such file or directory
+I think its examples like this where I start to get concerned. I don't
+think the problem we're trying to solve here (bluez4 verses bluez5) maps
+well to the way virtual/* is meant to work.
 
-The above error could be reproduced by the following command.
+virtual/* things are meant to be equivalent, it doesn't matter which
+ones the recipe builds against, it works. A compiler or a kernel are
+good examples. That isn't the case for v4 verses v5 since some software
+works with 4, some with 5 and some with both.
 
-bitbake valgrind && bitbake systemd -ccleansstate && bitbake systemd -cconfigure
-&& bitbake valgrind -ccleansstate && bitbake systemd -ccompile
+So what do we need to do?
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- ...re.ac-add-valgrind-header-checking-option.patch | 28 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_216.bb           |  2 ++
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-configure.ac-add-valgrind-header-checking-option.patch
+I think this needs a:
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-configure.ac-add-valgrind-header-checking-option.patch b/meta/recipes-core/systemd/systemd/0001-configure.ac-add-valgrind-header-checking-option.patch
-new file mode 100644
-index 0000000..89f3348
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-configure.ac-add-valgrind-header-checking-option.patch
-@@ -0,0 +1,28 @@
-+Upstream-Status: Pending
-+
-+Subject: configure.ac: add valgrind header checking option
-+
-+Signed-off-by: Chen qi <Qi.Chen@windriver.com>
-+---
-+ configure.ac | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 945adfc..dd4d7b2 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1141,7 +1141,10 @@ AC_DEFINE_UNQUOTED(TELINIT, ["$TELINIT"], [Path to telinit])
-+ 
-+ AC_SUBST(TELINIT)
-+ 
-+-AC_CHECK_HEADERS_ONCE([valgrind/memcheck.h valgrind/valgrind.h])
-++AC_ARG_ENABLE(valgrindheader, AS_HELP_STRING([--disable-valgrindheader], [disable valgrind header checking]))
-++if test "x$enable_valgrindheader" != "xno"; then
-++        AC_CHECK_HEADERS_ONCE([valgrind/memcheck.h valgrind/valgrind.h])
-++fi
-+ 
-+ # ------------------------------------------------------------------------------
-+ have_myhostname=no
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
-index 27a5d92..abef45d 100644
---- a/meta/recipes-core/systemd/systemd_216.bb
-+++ b/meta/recipes-core/systemd/systemd_216.bb
-@@ -38,6 +38,7 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
-            file://init \
-            file://run-ptest \
-            ${@bb.utils.contains('PACKAGECONFIG', 'resolved', '', 'file://0001-tmpfiles.d-etc.conf-disable-resolv.conf-symlink.patch', d)} \
-+           file://0001-configure.ac-add-valgrind-header-checking-option.patch \
-           "
- 
- S = "${WORKDIR}/git"
-@@ -64,6 +65,7 @@ PACKAGECONFIG[elfutils] = "--enable-elfutils,--disable-elfutils,elfutils"
- PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
- PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
- PACKAGECONFIG[libidn] = "--enable-libidn,--disable-libidn,libidn"
-+PACKAGECONFIG[valgrindheader] = "--enable-valgrindheader,--disable-valgrindheader"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
- 
--- 
-1.9.1
+PACKAGECONFIG[bluetooth5] = ",,bluez5"
+
+and then we add a bluetooth5 DiSTRO_FEATURE and a:
+
+                    ${@bb.utils.contains('DISTRO_FEATURES',
+'bluetooth5', 'bluetooth5', '', d)}"
+
+We could probably use a mechanism to flag two options as conflicting,
+e.g. both bluetooth and bluetooth5 in DISTRO_FEATURES or in
+PACKAGECONFIG however that is a separate issue.
+
+We'll of course still need VIRTUAL-RUNTIME_bluez but that isn't a new
+problem.
+
+Does that approach work for people?
+
+Cheers,
+
+Richard
 
 
