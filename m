@@ -1,41 +1,41 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C4BF720C3
+Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id D0011720B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 10:33:35 +0000 (UTC)
-Received: by mail-qg0-f49.google.com with SMTP id z60so8608905qgd.36
+	Wed, 12 Nov 2014 10:33:34 +0000 (UTC)
+Received: by mail-qc0-f174.google.com with SMTP id r5so8928209qcx.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 02:33:36 -0800 (PST)
+	Wed, 12 Nov 2014 02:33:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=IJFqQnEPCpD/ER+JWJYxLhDJoBsSH9xavTqiZkOqMT8=;
-	b=FV09FOCxkoIpoiEDO3bqi6FbDfZhAkGTr7+OsEj/7M97/VJqF3xfyqplOCg8RAIXbV
-	QwAKewWkG/i7Gt19dG3Uvxxdh216bFaH+LTph31zNumoWvcf7s3RvCIZd6cExWqMiA0P
-	qLL2EVVp1lGnsqr/lXlw+7I9anHqDUFwgWd6HrjCLRU+8IH6SnlLbTuinBMinZej9M0V
-	PB4ahNj2xvt0PkujySOV2Hm78w1TZAV5WDtjCd9KjAX84yASMi9yNIMHAIxV75J92Yx1
-	F0Y5vaUxO8PC1atoK7yEa8aVB/es2zwxRxl7DiPNSbmQKef+0nTxcGHdlGzwjae2CNGn
-	YZhg==
-X-Received: by 10.140.48.233 with SMTP id o96mr57978230qga.47.1415788416398;
-	Wed, 12 Nov 2014 02:33:36 -0800 (PST)
+	:organization; bh=eW7BuOe6zzRfRYvjETPSSgOh5gFm0/YXwzkuLD8BTnE=;
+	b=wAekhCMgrlWr0WFbHO/AmH1Kvcm00n2Ytl9yjgEJrPNmYPqxeTPawzkBDYunAFAgM2
+	I313/GyIunlOqUU+E5VzxfUCB0MgEX8seLgRK+5j/n1pq3Bbl3zhqoIY8uSel9O3ULJD
+	umg3sp8QwF7rFvpdnaRcqb97sApNzZzbh+JWNMqPpdcrsqEpaYLX2mPUPX/IfvpZG/Eh
+	2vc4w1TOCi0DvqMYKVCG+vC4cYR4X6oJ4HYnxGVM6D4ZT3oa5X+5BTUrlFYZH8ZzSgg8
+	FxBFpKsigimiCRSGXPsczdv66ke5VD/4xjuFjxkKcFNp4D2/Jgw5OAu69jhO9sWVaTYi
+	cV8Q==
+X-Received: by 10.140.49.107 with SMTP id p98mr57503568qga.20.1415788414785;
+	Wed, 12 Nov 2014 02:33:34 -0800 (PST)
 Received: from nano.lab.ossystems.com.br ([177.194.193.50])
-	by mx.google.com with ESMTPSA id d2sm20698383qab.24.2014.11.12.02.33.33
+	by mx.google.com with ESMTPSA id 78sm20647412qgp.2.2014.11.12.02.33.33
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Nov 2014 02:33:34 -0800 (PST)
+	Wed, 12 Nov 2014 02:33:33 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id EF59A1C86BEB6; Wed, 12 Nov 2014 08:33:30 -0200 (BRST)
+	id 1719A1C86BEB8; Wed, 12 Nov 2014 08:33:31 -0200 (BRST)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Nov 2014 08:33:24 -0200
-Message-Id: <1415788406-23120-2-git-send-email-otavio@ossystems.com.br>
+Date: Wed, 12 Nov 2014 08:33:25 -0200
+Message-Id: <1415788406-23120-3-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.1.1
 In-Reply-To: <1415788406-23120-1-git-send-email-otavio@ossystems.com.br>
 References: <1415788406-23120-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/4] toolchain-scripts.bbclass: Export KCFLAGS to ensure sysroot is provided
+Subject: [PATCH 3/4] sysvinit-inittab: Disable the carrier detect requirement for serial consoles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,42 +50,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 12 Nov 2014 10:33:40 -0000
 
-When building the U-Boot the lack of a proper sysroot can trigger
-following error:
+This aligns the params of getty with the ones used in Debian. From the
+getty(8) manpage:
 
-,----
-| arm-poky-linux-gnueabi-ld.bfd: cannot find -lgcc
-| make[2]: *** [examples/standalone/hello_world] Error 1
-| make[1]: *** [examples/standalone] Error 2
-| make: *** [examples] Error 2
+,----[ getty(8) manpage ]
+|  -L, --local-line
+|
+|    Force the line to be a local line with no need for carrier
+| 	 detect. This can be useful when you have a locally attached
+| 	 terminal where the serial line does not set the carrier detect
+| 	 signal.
 `----
 
-Guillaume Fournier has posted a very complete analysis of the
-problem[1].
-
-1. https://lists.yoctoproject.org/pipermail/meta-freescale/2014-November/011270.html
-
-The use of KCFLAGS makes the build of U-Boot work out of box, now that
-it uses the Linux kernel build system.
-
-Reported-by: Guillaume Fournier <gfournier@brioconcept.com>
+Reported-by: Craig McQueen <craig.mcqueen@beamcommunications.com>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Tested-by: Craig McQueen <craig.mcqueen@beamcommunications.com>
 ---
- meta/classes/toolchain-scripts.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 2244cf7..cf99c73 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -68,6 +68,7 @@ toolchain_shared_env_script () {
- 	echo 'export CXXFLAGS="${TARGET_CXXFLAGS}"' >> $script
- 	echo 'export LDFLAGS="${TARGET_LDFLAGS}"' >> $script
- 	echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
-+	echo 'export KCFLAGS="--sysroot=$SDKTARGETSYSROOT"' >> $script
- 	echo 'export OECORE_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
- 	echo 'export OECORE_SDK_VERSION="${SDK_VERSION}"' >> $script
- 	echo 'export ARCH=${ARCH}' >> $script
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+index c3244b4..657ef02 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+@@ -23,7 +23,7 @@ do_install() {
+     do
+ 	j=`echo ${i} | sed s/\;/\ /g`
+ 	label=`echo ${i} | sed -e 's/^.*;tty//' -e 's/;.*//'`
+-	echo "$label:12345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
++	echo "$label:12345:respawn:${base_sbindir}/getty -L ${j}" >> ${D}${sysconfdir}/inittab
+     done
+ 
+     if [ "${USE_VT}" = "1" ]; then
 -- 
 2.1.1
 
