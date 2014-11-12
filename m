@@ -1,30 +1,24 @@
 Return-Path: <Chong.Lu@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C4DF71FC7
+	by mail.openembedded.org (Postfix) with ESMTP id 292A965C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 02:05:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAC25LoQ001735
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 11 Nov 2014 18:05:22 -0800 (PST)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Tue, 11 Nov 2014 18:05:21 -0800
-Message-ID: <5462C05E.7000003@windriver.com>
-Date: Wed, 12 Nov 2014 10:05:18 +0800
+	Wed, 12 Nov 2014 02:14:02 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAC2E2Jq001819
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Nov 2014 18:14:02 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 11 Nov 2014 18:14:02 -0800
 From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Nov 2014 10:09:51 +0800
+Message-ID: <cover.1415758071.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1412068156.git.Chong.Lu@windriver.com>
-	<e5de510ded9ca2d3d09f9c1e4f8ab46fb4603ab0.1412068157.git.Chong.Lu@windriver.com>
-	<CAJTo0LYgKr+dRTuHNh19vo8-V4vRDRzZhaGRBmJFMMi0ZrqFrA@mail.gmail.com>
-In-Reply-To: <CAJTo0LYgKr+dRTuHNh19vo8-V4vRDRzZhaGRBmJFMMi0ZrqFrA@mail.gmail.com>
-X-Originating-IP: [128.224.162.204]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] strace: Upgrade to 4.9
+Subject: [PATCH 0/1] strace: add libunwind dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Nov 2014 02:05:24 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Nov 2014 02:14:02 -0000
+Content-Type: text/plain
 
+The following changes since commit 3c741a8d33acbf4b3d5eecc04533bc76e2f37253:
 
-On 11/12/2014 07:57 AM, Burton, Ross wrote:
->
-> On 30 September 2014 10:33, Chong Lu <Chong.Lu@windriver.com 
-> <mailto:Chong.Lu@windriver.com>> wrote:
->
->     Remove two backported patches:
->     0001-Work-around-conflict-between-sys-ptrace.h-and-linux-.patch
->     strace-fix-64-bit-process-detection.patch
->
->     Update two patches to fit new version:
->     Makefile-ptest.patch
->     strace-add-configure-options.patch
->
->     Add coreutils, grep and gawk to RDEPENDS_${PN}-ptest for making
->     ptest pass.
->
->
-> This is failing on the minnow autobuilder:
->
-> | 
-> /home/pokybuild/yocto-autobuilder/yocto-worker/minnow/build/build/tmp/work/core2-32-poky-linux/strace/4.9-r0/strace-4.9/unwind.c:29:30: 
-> fatal error: libunwind-ptrace.h: No such file or directory
->
-> Maybe there's an optional dependency on unwind which was being rebuilt 
-> as strace was being built?
->
-> Ross
+  oprofile: 0.9.9 -> 1.0.0 (2014-11-09 10:21:24 +0000)
 
-OK, I will fix it.
+are available in the git repository at:
 
-Best Regards
-Chong
+  git://git.pokylinux.org/poky-contrib chonglu/strace
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/strace
+
+Chong Lu (1):
+  strace: add libunwind dependency
+
+ meta/recipes-devtools/strace/strace_4.9.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+-- 
+1.9.1
+
 
