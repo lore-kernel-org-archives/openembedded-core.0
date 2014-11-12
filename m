@@ -1,37 +1,39 @@
 Return-Path: <joaohf@gmail.com>
-Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 5977362252
+Received: from mail-qc0-f170.google.com (mail-qc0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id A134865CED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 23:09:02 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id u7so9095701qaz.41
+	Wed, 12 Nov 2014 23:09:05 +0000 (UTC)
+Received: by mail-qc0-f170.google.com with SMTP id l6so10369318qcy.29
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 15:09:02 -0800 (PST)
+	Wed, 12 Nov 2014 15:09:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=th2zFKnr5SgDbSY3BiF70qBREhzN+H3eLB9+pFhzxBo=;
-	b=CsGU8SKL/0gA3h+FHQaRMY+8FDN4OU8ewVhPueZ1g16fCSJ+PyRVSusIHojwDYADj3
-	ZNp+t+LdIe5felJNQZeF2sfRKu7R/wLgy07CHrplqgFQ+qXSQhpwE647+5qhOHMFhzKd
-	j22VgESavjRfA9ttG/SQPUJwJliMPzijE/IIQzHgkdf2i0AEtBFWAonMba0pyHFlv9F6
-	A8oymdRaXzxEHyVDTj9WiNpJXEvKkJ/nT+guMarYHC9bO/ROUaTeESVNsBIgUSn9oSG8
-	k7lTFO3zmxc7Y/wP4AYZa7IcWyYA1lNn7q+bQVzvSbMS15PG0pgGGdPNRxrL/EZmbSjM
-	Ew9w==
-X-Received: by 10.229.79.132 with SMTP id p4mr64721294qck.14.1415833742734;
-	Wed, 12 Nov 2014 15:09:02 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=Y8cIPR+M0AJ4RtAoRxwUH1TanqeokVcvyunPiA+Hv64=;
+	b=FN5T7prKrH7WNv5Lw8G8/5VSLvwGEe0zBnDpzk/40x4Wu7gTtimax1/3xM/VlWz5a6
+	oMnnveLHUo6zTA3lfwTEr4uUATkg7zoXuuJ9MjdlgkS3jfZCm17IVMghdURGKnaqST/V
+	+1FqfO1/Y72zxxVrOJviX0Vr+RcOCpndOWiH30ygFVPaX+9NTZI8YxTxcNAOyIJG3IMM
+	vdV/429tb0QSq6IHN8z2O1bTCf3erLEmFH67VQxfCjegmC8Bi6dkgG9ofitRZCNt38u1
+	Z8xUvk8q1WaT761rxshaI7SFFYutu9qpcJfUSX6Xvbf1HOZn1GR0UJA0jUWjfJPneDro
+	PEWw==
+X-Received: by 10.140.16.46 with SMTP id 43mr61769545qga.53.1415833746094;
+	Wed, 12 Nov 2014 15:09:06 -0800 (PST)
 Received: from localhost.localdomain ([201.53.206.66])
 	by mx.google.com with ESMTPSA id
-	v37sm22251506qge.29.2014.11.12.15.09.00 for <multiple recipients>
+	v37sm22251506qge.29.2014.11.12.15.09.04 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 12 Nov 2014 15:09:02 -0800 (PST)
+	Wed, 12 Nov 2014 15:09:05 -0800 (PST)
 From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
 	<joaohf@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Nov 2014 21:08:37 -0200
-Message-Id: <1415833719-6255-1-git-send-email-joaohf@gmail.com>
+Date: Wed, 12 Nov 2014 21:08:38 -0200
+Message-Id: <1415833719-6255-2-git-send-email-joaohf@gmail.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1415833719-6255-1-git-send-email-joaohf@gmail.com>
+References: <1415833719-6255-1-git-send-email-joaohf@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] reporter-error sending report
+Subject: [PATCH 1/2] report-error: sending error report to server without user intervention
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,34 +50,44 @@ X-List-Received-Date: Wed, 12 Nov 2014 23:09:06 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When the Error Reporting Tool is enabled and the build fails, then the report-error 
-prints an url that the user needs to get and use the send-error-report tool which
-will sends the reporter to a public or private reporting server error.
+If ERR_REPORT_SERVER is set to a server which has a running instance of
+Error Reporting Tool, then that server will be used to send error
+reports.
 
-This works very well if the user is sitting in front of the building machine.
-There are some cases, like jobs running on Jenkins server, that need to send
-reports automatically when a build fails.
+Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
+---
+ meta/classes/report-error.bbclass | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-This patch set introduces a glue between reporter-error.bbclass and send-error-reporter tool.
-So, report erros will be send as soon as an error happens.
-
-Two new variables were added and the user takes the responsible to fill them (conf/site.conf),
-for example:
-
-INHERIT += "report-error"
-ERR_REPORT_SERVER = "127.0.0.1:8000"
-ERR_REPORT_USER = "joaohf"
-ERR_REPORT_EMAIL = "joaohf@gmail.com"
-
-
-João Henrique Ferreira de Freitas (2):
-  report-error: sending error report to server without user intervention
-  report-error: send report error with username and email
-
- meta/classes/report-error.bbclass | 15 +++++++++++++
- scripts/send-error-report         | 45 ++++++++++++++++++++++++---------------
- 2 files changed, 43 insertions(+), 17 deletions(-)
-
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+index 5fe2355..f9e821f 100644
+--- a/meta/classes/report-error.bbclass
++++ b/meta/classes/report-error.bbclass
+@@ -7,6 +7,7 @@
+ # Licensed under the MIT license, see COPYING.MIT for details
+ 
+ ERR_REPORT_DIR ?= "${LOG_DIR}/error-report"
++ERR_REPORT_SERVER ?= ""
+ 
+ def errorreport_getdata(e):
+     logpath = e.data.getVar('ERR_REPORT_DIR', True)
+@@ -24,6 +25,16 @@ def errorreport_savedata(e, newdata, file):
+         json.dump(newdata, f, indent=4, sort_keys=True)
+     return datafile
+ 
++def errorreport_senddata(e, datafile):
++    import subprocess
++    server = e.data.getVar('ERR_REPORT_SERVER', True)
++    if server:
++        cmd = 'send-error-report %s %s' % (datafile, server)
++        subprocess.call(cmd, shell=True)
++    else:
++        bb.note("The errors for this build are stored in %s\nYou can send the errors to an upstream server by running:\n  send-error-report %s [server]" % (datafile, datafile))
++        bb.note("The contents of these logs will be posted in public if you use the above command with the default server. If you need to do so, please ensure you remove any identifying or proprietary information before sending.")
++    
+ python errorreport_handler () {
+         import json
+ 
 -- 
 1.9.1
 
