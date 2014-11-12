@@ -1,22 +1,26 @@
-Return-Path: <Adrian.Calianu@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id E1805720C1
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa11-09.prod.phx3.secureserver.net
+	(p3plsmtpa11-09.prod.phx3.secureserver.net [68.178.252.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E9AB65CED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 12:00:38 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Wed, 12 Nov 2014 13:00:34 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4191)	id 2191028FE8B;
-	Wed, 12 Nov 2014 13:00:34 +0100 (CET)
-From: Adrian Calianu <adrian.calianu@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Nov 2014 13:00:12 +0100
-Message-ID: <1415793612-12055-1-git-send-email-adrian.calianu@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Wed, 12 Nov 2014 13:48:25 +0000 (UTC)
+Received: from [192.168.65.10] ([75.72.225.8])
+	by p3plsmtpa11-09.prod.phx3.secureserver.net with 
+	id EdoQ1p0060BVjqb01doQMo; Wed, 12 Nov 2014 06:48:26 -0700
+Message-ID: <54636528.6060403@pabigot.com>
+Date: Wed, 12 Nov 2014 07:48:24 -0600
+From: "Peter A. Bigot" <pab@pabigot.com>
+Organization: Peter Bigot Consulting, LLC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: adrian.calianu@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH] automake: set test-driver path relative to top_builddir
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1415647839.git.pab@pabigot.com>	
+	<4df30acac92f854aa92f221c7663c952da8d9f1f.1415647839.git.pab@pabigot.com>
+	<1415790370.2820.45.camel@linuxfoundation.org>
+In-Reply-To: <1415790370.2820.45.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC 07/14] qt-mobility: switch to virtual/bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,84 +33,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Nov 2014 12:00:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Nov 2014 13:48:29 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-automake offers auxiliary tools and is capable to install and prepare the setup for those.
-test-driver, a log driver used by parallel testsuite harness in ptests, is one of those tools.
-By default it looks that automake prepare environment for testing relative $top_srcdir.
-But in Yocto following changed:
- - build folder was separated
- - $top_srcdir is not anymore defined as relative path, now can be relative or absolute
+On 11/12/2014 05:06 AM, Richard Purdie wrote:
+> On Mon, 2014-11-10 at 15:13 -0600, Peter A. Bigot wrote:
+>> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+>> ---
+>>   meta/recipes-qt/qt4/qt-mobility_1.2.0.inc | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+>> index ae1769d..61b5281 100644
+>> --- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+>> +++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+>> @@ -3,7 +3,7 @@ DEPENDS = "gstreamer util-linux"
+>>   
+>>   PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
+>>                      ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)}"
+>> -PACKAGECONFIG[bluetooth] = ",,bluez4"
+>> +PACKAGECONFIG[bluetooth] = ",,virtual/bluez"
+>>   PACKAGECONFIG[pulseaudio] = ",,pulseaudio"
+>>   
+>>   LICENSE = "LGPLv2.1"
+> I think its examples like this where I start to get concerned. I don't
+> think the problem we're trying to solve here (bluez4 verses bluez5) maps
+> well to the way virtual/* is meant to work.
+>
+> virtual/* things are meant to be equivalent, it doesn't matter which
+> ones the recipe builds against, it works. A compiler or a kernel are
+> good examples. That isn't the case for v4 verses v5 since some software
+> works with 4, some with 5 and some with both.
 
-So now in Yocto the Makefile from src/tests contains absolute path of $top_srcdir for test-driver
-which is an unexisting path at runtime.
+You raise some good questions.  I'll come back to whether the name for 
+"whatever provides build-time support for bluetooth" should be spelled 
+"virtual/bluez" or something else.
 
-We need to have relative path for test-driver in Makefile to work on target. $top_builddir
-can guarantee this path.
+I think using bluez5 (bluetooth5) and bluez4 (bluetooth) as distinct 
+PACKAGECONFIG options would be a mistake, because it propagates the 
+assumption that "bluetooth" in Linux is a multivalent concept. Bluetooth 
+in Linux is bluez.  Bluez is bluez5.  Work stopped on bluez4 over two 
+years ago, and nobody's come up with third alternative.  IMO, the 
+packageconfig option should be "bluetooth", not "bluez*".  I did see 
+what Chris Larson wrote in 
+http://lists.openembedded.org/pipermail/openembedded-core/2014-March/091008.html 
+but I just don't see the value in adding extra infrastructure for a 
+bunch of options that either don't exist now or won't exist in the near 
+future.
 
-Signed-off-by: Adrian Calianu <adrian.calianu@enea.com>
----
- .../automake/new_rt_path_for_test-driver.patch     | 34 ++++++++++++++++++++++
- meta/recipes-devtools/automake/automake_1.14.1.bb  |  3 +-
- 2 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
+Of the roughly 16 recipes I had to touch, only one (pulseaudio) clearly 
+distinguishes between bluez4 and bluez5 when being configured, and I 
+suspect that's just to simplify transition.  The others either figure 
+out which version they were given and use it, or will only work with one 
+or the other.  They all at least build with virtual/bluez, though they 
+might internally disable bluetooth support or fail at runtime if bluez5 
+is what's available.  (Qt 5.4 will support bluez5; it's unclear to me 
+whether it still supports bluez4.)
 
-diff --git a/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch b/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
-new file mode 100644
-index 0000000..c277619
---- /dev/null
-+++ b/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
-@@ -0,0 +1,34 @@
-+Set the path relative to $top_build for test-driver to be accesible at runtime
-+
-+Signed-off-by: Adrian Calianu <adrian.calianu@enea.com>
-+
-+--- a/bin/automake.in
-++++ b/bin/automake.in
-+@@ -272,6 +272,9 @@
-+ # $AM_CONFIG_AUX_DIR is prefixed with $(top_srcdir), so it can be used
-+ # in Makefiles.
-+ my $am_config_aux_dir = '';
-++# Directory used at runtime like running test-driver that should not
-++# depend on $(top_srcdir)
-++my $am_config_rt_aux_dir = '';
-+
-+ # Directory to search for AC_LIBSOURCE files, as set by AC_CONFIG_LIBOBJ_DIR
-+ # in configure.ac.
-+@@ -4700,7 +4703,7 @@
-+     {
-+       require_conf_file ("parallel-tests", FOREIGN, 'test-driver');
-+       define_variable ("${pfx}LOG_DRIVER",
-+-                       "\$(SHELL) $am_config_aux_dir/test-driver",
-++                       "\$(SHELL) $am_config_rt_aux_dir/test-driver",
-+                        INTERNAL);
-+     }
-+   my $driver = '$(' . $pfx . 'LOG_DRIVER)';
-+@@ -7284,6 +7287,10 @@
-+   $am_config_aux_dir =
-+     '$(top_srcdir)' . ($config_aux_dir eq '.' ? "" : "/$config_aux_dir");
-+   $am_config_aux_dir =~ s,/*$,,;
-++
-++  $am_config_rt_aux_dir =
-++    '$(top_builddir)' . ($config_aux_dir eq '.' ? "" : "/$config_aux_dir");
-++  $am_config_rt_aux_dir =~ s,/*$,,;
-+ }
-diff --git a/meta/recipes-devtools/automake/automake_1.14.1.bb b/meta/recipes-devtools/automake/automake_1.14.1.bb
-index be73d19..3a13a34 100644
---- a/meta/recipes-devtools/automake/automake_1.14.1.bb
-+++ b/meta/recipes-devtools/automake/automake_1.14.1.bb
-@@ -20,7 +20,8 @@ RDEPENDS_${PN}_class-native = "autoconf-native perl-native-runtime"
- 
- SRC_URI += " file://python-libdir.patch \
-             file://py-compile-compile-only-optimized-byte-code.patch \
--            file://buildtest.patch"
-+            file://buildtest.patch \
-+            file://new_rt_path_for_test-driver.patch"
- 
- SRC_URI[md5sum] = "d052a3e884631b9c7892f2efce542d75"
- SRC_URI[sha256sum] = "814c2333f350ce00034a1fe718e0e4239998ceea7b0aff67e9fd273ed6dfc23b"
--- 
-1.9.1
+There are and will continue to be certain recipes that will never move 
+beyond bluez4, because they're no longer maintained or nobody has found 
+it worthwhile (obex stuff) or a priority (headset stuff) to re-implement 
+the functionality they depend on under the new API. So we do need to 
+support using bluez4 and bluez5 as alternatives. But most recipes don't 
+seem to care who provides "bluetooth", and if it's currently bluez4 and 
+the package is maintained it'll eventually become bluez5.  Thus 
+"virtual/bluez".  AFAIK the libbluetooth API is unchanged; it's the dbus 
+API that's different.  If consensus is to substitute something like 
+"distro/bluez" instead of "virtual/bluez" to remove the implication it's 
+completely API-equivalent that'd be fine, but I think we do need some 
+name to serve that role without putting the conditional in every recipe 
+that might reference the selected bluetooth solution.
+
+> So what do we need to do?
+>
+> I think this needs a:
+>
+> PACKAGECONFIG[bluetooth5] = ",,bluez5"
+>
+> and then we add a bluetooth5 DiSTRO_FEATURE and a:
+>
+>                      ${@bb.utils.contains('DISTRO_FEATURES',
+> 'bluetooth5', 'bluetooth5', '', d)}"
+>
+> We could probably use a mechanism to flag two options as conflicting,
+> e.g. both bluetooth and bluetooth5 in DISTRO_FEATURES or in
+> PACKAGECONFIG however that is a separate issue.
+
+Using bluez4 and bluez5 in DISTRO_FEATURES makes some sense, as a 
+parallel to systemd vs sysvinit.  (I don't like "bluetooth5" because 
+there's no such thing; since we already have "bluetooth" I'd suggest 
+making "bluez4" the canonical spelling and interpreting "bluetooth" in 
+the absence of "bluez5" as being an alias for "bluez4".)  This provides 
+a way to set the PREFERRED_PROVIDER for "distro/bluez" and possibly to 
+set the PNBLACKLISTs to exclude the recipes that are not appropriate 
+under bluez4.
+
+Then we just use "distro/bluez" instead of "virtual/bluez" in all the 
+recipes.
+
+Is that any closer to acceptable?
+
+Peter
+
+>
+> We'll of course still need VIRTUAL-RUNTIME_bluez but that isn't a new
+> problem.
+>
+> Does that approach work for people?
+>
+> Cheers,
+>
+> Richard
+>
 
 
