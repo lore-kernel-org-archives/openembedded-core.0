@@ -1,40 +1,37 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 23F6F7210F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E106165C91
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 16:21:47 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id lf10so13290159pab.32
+	Wed, 12 Nov 2014 16:40:08 +0000 (UTC)
+Received: by mail-qg0-f50.google.com with SMTP id a108so8928003qge.23
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 08:21:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=D+PnRB6SgnSNogheKB8PtEllMxap6uv7vYarEsaGY6A=;
-	b=hqnCmXzfM6n5iMWzrIhL3jKwDbYQRWW5CozGU/OKGYIYuIbkFJtlyo/K2BX9KtcNz2
-	MNrEnnSl2BkuX4/CXKmp0VlEiJlCnCdzy/DoD2/1UAo/XT+1YLsk4+ipC+8pf7yGAN12
-	BTB5fgniENQXiRwacpkEk8L1R0pzWlOqC1ECQFJuqTCWFseDAER7H6JnM/cOaD2JRoGp
-	1esqCtDicj2ra0pnMCVW4dig/kW6GU9qTzR+bB9FmnCBRh0sw3fnRZwemplmcjKB1Nhv
-	rvKWiegH5GVyRaX1TM8kRqDT0bHng1nZx9kq3HSQ6jXkrS+0D/1ZukUYOQwoy+k+npUA
-	UT6g==
-X-Received: by 10.66.255.41 with SMTP id an9mr48908764pad.54.1415809308226;
-	Wed, 12 Nov 2014 08:21:48 -0800 (PST)
-Received: from ?IPv6:2601:c:9380:601:5d34:bd2e:5ccb:3cce?
-	([2601:c:9380:601:5d34:bd2e:5ccb:3cce])
-	by mx.google.com with ESMTPSA id
-	ub7sm22586861pbc.30.2014.11.12.08.21.46 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Nov 2014 08:21:47 -0800 (PST)
-Message-ID: <54638918.2040500@gmail.com>
-Date: Wed, 12 Nov 2014 08:21:44 -0800
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Wed, 12 Nov 2014 08:40:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=0aNNVKZOTGDEz3qG14kwlz69jztMcWVNwy1+xuYd9+I=;
+	b=cB/pYwPjHQN88Zz3FhnAr1kBwkgR3nJCo7jU/fVoxDL0nqpp8l7e9iSITM4i+L0THG
+	lFZ1LOXAqwIdwlCMb8sYooJPAWXCx44buL6m9AISTYvoGV+px7AmPlJuVu5fBzsIOrFL
+	uwf1TRF0K4lex2MroyIkJhW8l2HI38FCorrC68HwP4NnzcQ0M+MKjG7WR+2HM6SVlci0
+	kyH/Y5gJwKXWCgBz5XaGbwFPjmRL6mdbqc18w89FEFzAMgzXMLClN6o5Go/4EH1CgJ0l
+	gq6W78vXqDpqg5oAkkChUftQ1EymC0HYzUT0ZkAXuNzvS/b+smCgDtgMyY8MzKkvITb2
+	bhlg==
+X-Gm-Message-State: ALoCoQmakq69WEfpZjA1r+VTC2fWyp7MjR0x4Gh4JCIYWa29OJJ6be5Ycn/sL/xMzXW8unoVKDVb
+X-Received: by 10.229.176.198 with SMTP id bf6mr26430668qcb.12.1415810407225; 
+	Wed, 12 Nov 2014 08:40:07 -0800 (PST)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, Andrei Gherzan <andrei@gherzan.ro>
-References: <1415377424-2639-1-git-send-email-andrei.gherzan@windriver.com>	<CAK18fxE0CzhZjcNM7Jf=yEZW6a9YE5J=4H-rJBV7-RACyJjokA@mail.gmail.com>
+Received: by 10.140.98.213 with HTTP; Wed, 12 Nov 2014 08:39:47 -0800 (PST)
+In-Reply-To: <54638918.2040500@gmail.com>
+References: <1415377424-2639-1-git-send-email-andrei.gherzan@windriver.com>
+	<CAK18fxE0CzhZjcNM7Jf=yEZW6a9YE5J=4H-rJBV7-RACyJjokA@mail.gmail.com>
 	<CAJTo0LZpqUUOG6vum-t6nWbkte_WqNDBj+vi7kyXeNVZbX4FXQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LZpqUUOG6vum-t6nWbkte_WqNDBj+vi7kyXeNVZbX4FXQ@mail.gmail.com>
+	<54638918.2040500@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 12 Nov 2014 16:39:47 +0000
+Message-ID: <CAJTo0LZb4fRLx1O2Cc+-9CpP2A03fiBWZX4oY6ryLH9rLfQF6A@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
 Cc: openembedded <openembedded-core@lists.openembedded.org>
 Subject: Re: [master][dizzy][PATCH] xkeyboard-config: Inherit gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -49,29 +46,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Nov 2014 16:21:53 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Nov 2014 16:40:09 -0000
+Content-Type: multipart/alternative; boundary=001a11c3057e64704c0507ac0ccf
 
+--001a11c3057e64704c0507ac0ccf
+Content-Type: text/plain; charset=UTF-8
 
+On 12 November 2014 16:21, akuster808 <akuster808@gmail.com> wrote:
 
-On 11/12/2014 08:01 AM, Burton, Ross wrote:
->
-> On 12 November 2014 10:28, Andrei Gherzan <andrei@gherzan.ro
-> <mailto:andrei@gherzan.ro>> wrote:
->
->     Ping?
->
->
-> Managed to totally miss this due to the dizzy tag, sorry for that.
 > Thanks for the ping, merged to mut.
-
-What part did you take care of? Master or Dizzy?
-
-Armin
-
+>>
 >
-> Ross
->
+> What part did you take care of? Master or Dizzy?
 >
 
+MUT feeds into master when Richard merges it.  You can backport from master
+when it's there.
+
+Ross
+
+--001a11c3057e64704c0507ac0ccf
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 November 2014 16:21, akuster808 <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+><span class=3D"">Thanks for the ping, merged to mut.<br>
+</span></blockquote>
+<br>
+What part did you take care of? Master or Dizzy?<br></blockquote><div><br><=
+/div><div>MUT feeds into master when Richard merges it.=C2=A0 You can backp=
+ort from master when it&#39;s there.</div><div><br></div><div>Ross=C2=A0</d=
+iv></div></div></div>
+
+--001a11c3057e64704c0507ac0ccf--
