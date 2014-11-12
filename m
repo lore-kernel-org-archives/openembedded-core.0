@@ -1,35 +1,22 @@
-Return-Path: <anders@chargestorm.se>
-Received: from STOEXHUB02.domain01.net (STOEXHUB02.domain01.net
-	[83.145.59.143])
-	by mail.openembedded.org (Postfix) with ESMTP id BB25C713A5
+Return-Path: <Adrian.Calianu@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id E1805720C1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 12:00:06 +0000 (UTC)
-Received: from ad.chargestorm.se (2.68.123.242) by stoexhub02.domain01.net
-	(10.12.10.2) with Microsoft SMTP Server (TLS) id 8.3.279.1;
-	Wed, 12 Nov 2014 13:00:04 +0100
-Date: Wed, 12 Nov 2014 12:59:29 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: Chong Lu <Chong.Lu@windriver.com>
-Message-ID: <20141112115929.GA13790@ad.chargestorm.se>
-Mail-Followup-To: Chong Lu <Chong.Lu@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1414394124.git.Chong.Lu@windriver.com>
-	<1c4ed8e4a604bcd7c7fd2609024f8fbfca43d1a4.1414394124.git.Chong.Lu@windriver.com>
-	<20141027085931.GA27393@ad.chargestorm.se>
-	<544E0F53.3010600@windriver.com>
+	Wed, 12 Nov 2014 12:00:38 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
+	Wed, 12 Nov 2014 13:00:34 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4191)	id 2191028FE8B;
+	Wed, 12 Nov 2014 13:00:34 +0100 (CET)
+From: Adrian Calianu <adrian.calianu@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Nov 2014 13:00:12 +0100
+Message-ID: <1415793612-12055-1-git-send-email-adrian.calianu@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <544E0F53.3010600@windriver.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-GFI-SMTP-Submission: 1
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] systemd: add bash to RDEPENDS
+Received-SPF: None (SESTOEX08.enea.se: adrian.calianu@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] automake: set test-driver path relative to top_builddir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,63 +29,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Nov 2014 12:00:12 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 12 Nov 2014 12:00:44 -0000
+Content-Type: text/plain
 
-* Chong Lu <Chong.Lu@windriver.com> [141027 10:24]:
-> On 10/27/2014 04:59 PM, Anders Darander wrote:
-> > * Chong Lu <Chong.Lu@windriver.com> [141027 08:19]:
-> >> systemd-216+gitAUTOINC+5d0ae62c66: systemd-kernel-install requires /bin/bash,
-> >> but no providers in its RDEPENDS [file-rdeps]
-> > How much bashisms are it in the files in systemd-kernel-install?
-> > Would it be possible to to patch the scripts to use standard posixh sh
-> > instead of bash?
+automake offers auxiliary tools and is capable to install and prepare the setup for those.
+test-driver, a log driver used by parallel testsuite harness in ptests, is one of those tools.
+By default it looks that automake prepare environment for testing relative $top_srcdir.
+But in Yocto following changed:
+ - build folder was separated
+ - $top_srcdir is not anymore defined as relative path, now can be relative or absolute
 
-> It has lots of bashisms:
+So now in Yocto the Makefile from src/tests contains absolute path of $top_srcdir for test-driver
+which is an unexisting path at runtime.
 
-> $ checkbashisms ./usr/bin/kernel-install
-> possible bashism in ./usr/bin/kernel-install line 32 (local -opt):
->      local -a files
-> possible bashism in ./usr/bin/kernel-install line 35 (readarray):
->      readarray -t files < <(
+We need to have relative path for test-driver in Makefile to work on target. $top_builddir
+can guarantee this path.
 
-This one, readarray, might require some thought on how to make it
-standard posix sh compatible...
+Signed-off-by: Adrian Calianu <adrian.calianu@enea.com>
+---
+ .../automake/new_rt_path_for_test-driver.patch     | 34 ++++++++++++++++++++++
+ meta/recipes-devtools/automake/automake_1.14.1.bb  |  3 +-
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
 
-> possible bashism in ./usr/bin/kernel-install line 38 (alternative test 
-> command ([[ foo ]] should be [ foo ])):
->                  if [[ -e "$i" ]]; then
-
-There's quite a few of these, that are easy to patch and upstream.
-
-> possible bashism in ./usr/bin/kernel-install line 58 (should be 'b = a'):
->      if [ "$i" == "--help" -o "$i" == "-h" ]; then
-
-Dito for these.
-
-> possible bashism in ./usr/bin/kernel-install line 113 ('((' should be 
-> '$(('):
->                  ((ret+=$?))
-
-Likely dito.
-
-So in summary, a large number of bashisms in kernel-install are easy to
-fix.
-
-Then there's a few that's a lot harder, all of these are using arrays
-and readarray.
-
-It would have been nice to see such a summary instead of only the rather
-long report. If we can find another way to implement the code using
-arrays, the complete patch should be upstreamable.
-
-I'm currently not using kernel-install in any system, thus, due to
-workload, I'm not going to be able to look into this at the moment.
-
-Cheers,
-Anders
+diff --git a/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch b/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
+new file mode 100644
+index 0000000..c277619
+--- /dev/null
++++ b/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
+@@ -0,0 +1,34 @@
++Set the path relative to $top_build for test-driver to be accesible at runtime
++
++Signed-off-by: Adrian Calianu <adrian.calianu@enea.com>
++
++--- a/bin/automake.in
+++++ b/bin/automake.in
++@@ -272,6 +272,9 @@
++ # $AM_CONFIG_AUX_DIR is prefixed with $(top_srcdir), so it can be used
++ # in Makefiles.
++ my $am_config_aux_dir = '';
+++# Directory used at runtime like running test-driver that should not
+++# depend on $(top_srcdir)
+++my $am_config_rt_aux_dir = '';
++
++ # Directory to search for AC_LIBSOURCE files, as set by AC_CONFIG_LIBOBJ_DIR
++ # in configure.ac.
++@@ -4700,7 +4703,7 @@
++     {
++       require_conf_file ("parallel-tests", FOREIGN, 'test-driver');
++       define_variable ("${pfx}LOG_DRIVER",
++-                       "\$(SHELL) $am_config_aux_dir/test-driver",
+++                       "\$(SHELL) $am_config_rt_aux_dir/test-driver",
++                        INTERNAL);
++     }
++   my $driver = '$(' . $pfx . 'LOG_DRIVER)';
++@@ -7284,6 +7287,10 @@
++   $am_config_aux_dir =
++     '$(top_srcdir)' . ($config_aux_dir eq '.' ? "" : "/$config_aux_dir");
++   $am_config_aux_dir =~ s,/*$,,;
+++
+++  $am_config_rt_aux_dir =
+++    '$(top_builddir)' . ($config_aux_dir eq '.' ? "" : "/$config_aux_dir");
+++  $am_config_rt_aux_dir =~ s,/*$,,;
++ }
+diff --git a/meta/recipes-devtools/automake/automake_1.14.1.bb b/meta/recipes-devtools/automake/automake_1.14.1.bb
+index be73d19..3a13a34 100644
+--- a/meta/recipes-devtools/automake/automake_1.14.1.bb
++++ b/meta/recipes-devtools/automake/automake_1.14.1.bb
+@@ -20,7 +20,8 @@ RDEPENDS_${PN}_class-native = "autoconf-native perl-native-runtime"
+ 
+ SRC_URI += " file://python-libdir.patch \
+             file://py-compile-compile-only-optimized-byte-code.patch \
+-            file://buildtest.patch"
++            file://buildtest.patch \
++            file://new_rt_path_for_test-driver.patch"
+ 
+ SRC_URI[md5sum] = "d052a3e884631b9c7892f2efce542d75"
+ SRC_URI[sha256sum] = "814c2333f350ce00034a1fe718e0e4239998ceea7b0aff67e9fd273ed6dfc23b"
 -- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+1.9.1
+
 
