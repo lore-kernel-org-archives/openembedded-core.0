@@ -1,24 +1,30 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <Chong.Lu@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 585B365C7B
+	by mail.openembedded.org (Postfix) with ESMTP id 9C4DF71FC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 01:54:58 +0000 (UTC)
+	Wed, 12 Nov 2014 02:05:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAC1sw9P001583
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Nov 2014 17:54:59 -0800 (PST)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.163.178) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 11 Nov 2014 17:54:58 -0800
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Nov 2014 09:54:56 +0800
-Message-ID: <1415757296-25524-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 2.1.0
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAC25LoQ001735
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 11 Nov 2014 18:05:22 -0800 (PST)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Tue, 11 Nov 2014 18:05:21 -0800
+Message-ID: <5462C05E.7000003@windriver.com>
+Date: Wed, 12 Nov 2014 10:05:18 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: [PATCH][v2] rpm: fix the rpm addsign function
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1412068156.git.Chong.Lu@windriver.com>
+	<e5de510ded9ca2d3d09f9c1e4f8ab46fb4603ab0.1412068157.git.Chong.Lu@windriver.com>
+	<CAJTo0LYgKr+dRTuHNh19vo8-V4vRDRzZhaGRBmJFMMi0ZrqFrA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYgKr+dRTuHNh19vo8-V4vRDRzZhaGRBmJFMMi0ZrqFrA@mail.gmail.com>
+X-Originating-IP: [128.224.162.204]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] strace: Upgrade to 4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,86 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Nov 2014 01:55:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Nov 2014 02:05:24 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: "Roy.Li" <rongqing.li@windriver.com>
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- ...arseArgvString-to-parse-the-_gpg_check_pa.patch | 49 ++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.14.bb            |  1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch
+On 11/12/2014 07:57 AM, Burton, Ross wrote:
+>
+> On 30 September 2014 10:33, Chong Lu <Chong.Lu@windriver.com 
+> <mailto:Chong.Lu@windriver.com>> wrote:
+>
+>     Remove two backported patches:
+>     0001-Work-around-conflict-between-sys-ptrace.h-and-linux-.patch
+>     strace-fix-64-bit-process-detection.patch
+>
+>     Update two patches to fit new version:
+>     Makefile-ptest.patch
+>     strace-add-configure-options.patch
+>
+>     Add coreutils, grep and gawk to RDEPENDS_${PN}-ptest for making
+>     ptest pass.
+>
+>
+> This is failing on the minnow autobuilder:
+>
+> | 
+> /home/pokybuild/yocto-autobuilder/yocto-worker/minnow/build/build/tmp/work/core2-32-poky-linux/strace/4.9-r0/strace-4.9/unwind.c:29:30: 
+> fatal error: libunwind-ptrace.h: No such file or directory
+>
+> Maybe there's an optional dependency on unwind which was being rebuilt 
+> as strace was being built?
+>
+> Ross
 
-diff --git a/meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch b/meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch
-new file mode 100644
-index 0000000..23bc336
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch
-@@ -0,0 +1,49 @@
-+From 64851c6622aff64787a9fcea26cccde183b7c743 Mon Sep 17 00:00:00 2001
-+From: "Roy.Li" <rongqing.li@windriver.com>
-+Date: Tue, 11 Nov 2014 16:28:22 +0800
-+Subject: [PATCH] using poptParseArgvString to parse the
-+ _gpg_check_password_cmd
-+
-+Upstream-Status: Pending
-+
-+Both __gpg_check_password_cmd and __gpg_sign_cmd include "%{_gpg_name}", but
-+strace shows that gpg_name has a quote when run _gpg_check_password,
-+but not when run __gpg_sign_cmd; for example, if gpg_name is "tester"
-+
-+    execve("/usr/bin/gpg", ["gpg", "--batch", "--no-verbose",
-+    "--passphrase-fd", "3", "-u", "\"tester\"", "-so", "-"], [/* 20 vars */]) = 0
-+
-+    execve("/usr/bin/gpg", ["gpg", "--batch", "--no-verbose", "--no-armor",
-+    "--passphrase-fd", "3", "--no-secmem-warning", "-u", "tester", "-sbo"..,) = 0
-+
-+it can be fixed by removing the quote around %{gpg_name} when define
-+__gpg_check_password_cmd in macros/macros, like below, but if gpg_name includes
-+space, it will not work.
-+
-+     %__gpg_check_password_cmd       %{__gpg} \
-+        gpg --batch --no-verbose --passphrase-fd 3 -u %{_gpg_name} -so -
-+
-+The poptParseArgvString function is used to parse _gpg_sign_cmd, so using
-+poptParseArgvString to parse __gpg_check_password_cmd to fix this issue.
-+
-+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-+---
-+ rpmdb/signature.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/rpmdb/signature.c b/rpmdb/signature.c
-+index c35e0ab..016e8d1 100644
-+--- a/rpmdb/signature.c
-++++ b/rpmdb/signature.c
-+@@ -529,7 +529,7 @@ int rpmCheckPassPhrase(const char * passPhrase)
-+   		(void) setenv("GNUPGHOME", gpg_path, 1);
-+ 
-+ 	    cmd = rpmExpand("%{?__gpg_check_password_cmd}", NULL);
-+-	    rc = argvSplit(&av, cmd, NULL);
-++	    rc = poptParseArgvString(cmd, NULL, (const char ***)&av);
-+ 	    if (!rc)
-+ 		rc = execve(av[0], (char *const *)av+1, environ);
-+ 
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-index 6cd932d..d99a300 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-@@ -94,6 +94,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
- 	   file://rpm-disable-Wno-override-init.patch \
- 	   file://rpmqv_cc_b_gone.patch \
- 	   file://rpm-realpath.patch \
-+	   file://0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch \
- 	  "
- 
- # Uncomment the following line to enable platform score debugging
--- 
-2.1.0
+OK, I will fix it.
 
+Best Regards
+Chong
 
