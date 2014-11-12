@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f180.google.com (mail-qc0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 51D2F7210A
+Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 029BC713A5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 15:55:48 +0000 (UTC)
-Received: by mail-qc0-f180.google.com with SMTP id r5so1419143qcx.11
+	Wed, 12 Nov 2014 16:01:25 +0000 (UTC)
+Received: by mail-qc0-f171.google.com with SMTP id m20so9512178qcx.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 07:55:49 -0800 (PST)
+	Wed, 12 Nov 2014 08:01:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=7J2Bm1n51ctoUmSoTBbCxaZB6znNAndhRo01m88nGSI=;
-	b=JrROvjoUmE1GuTKZCNQxoCRSCPBDDyzvpg7HQ5s6hQi34jOnbikg78dgk3bnjssbDN
-	3WgwmDhQoaDHfPbquBrDyBu8+DrpJuPEa499s+tO0/6VuzDtLBtPhhOIXXrEVE3y92s3
-	uO7PFKU0s3EBPqGhbBhVvh0cQ8NRwGQPJi3SRkFvAP8NkpSVh0PiUZ0DBkFig5qDMc7d
-	NjW1tV80MAJm3XfTqiz07iDA4Nj50PdQ2rykZK+D/qRTvCJgIyBP6D0FIF6mF/vFlQ5h
-	/zJ6WODREzNWpirJg++EbqYau40nSli/wvNB5FmXAZ+soD1QSCLUzlInVqBcpD7o5sx4
-	86VQ==
-X-Gm-Message-State: ALoCoQmuhLQiILpqLILzaLpUf07ZrEdRZ1SRtzJugxVeGqt3P9YrW+Ro5NBIfzSRRbHOGKrSLPDo
-X-Received: by 10.140.94.246 with SMTP id g109mr59622046qge.77.1415807748913; 
-	Wed, 12 Nov 2014 07:55:48 -0800 (PST)
+	bh=/JIGnv3dkGx9X+xxBzYaU3Ghgynnbal5AF0xAOv47uQ=;
+	b=aIe6eG4mz2eaRFbLVJBGWBhNSrU3SyYVgXjeQBguQCZ5bzKYqAFsyo1es2R286rihx
+	s2Jhd393cUlPU78H06jvxFNqnHESLpGvWS2jje826IzEXsyK51w4b0HSY1uyd8u++55a
+	1VgQfCpiiC1wR4zHBdaUNg+3yEmDp9sBouXy49wXLuSKLfQuriuispHi8dPCV0L2LnAW
+	2KZ2j13ILug/ojfP0Xgm1BEQfiR4gPvy8I5miBgSy4V22J9z3vvYlRUt6H0Ob9zYBHdl
+	ljMI3dX15S2eZ2uKJmbiJZ/1Dt6WXsF0NMxIdi+ZSQCPetEjBTTFwzBZto3Ov/OVsrKt
+	HkUg==
+X-Gm-Message-State: ALoCoQkes46sWnSVuy0Du36doEZENO1Exisf05Pu42L9XDbdai5Yp+fpRXJ11I5cghkDAkHTFmT9
+X-Received: by 10.224.2.135 with SMTP id 7mr63597241qaj.64.1415808085441; Wed,
+	12 Nov 2014 08:01:25 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Wed, 12 Nov 2014 07:55:28 -0800 (PST)
-In-Reply-To: <a44b261f0031a4d82f8fae0e968522139f607f90.1415789100.git.Qi.Chen@windriver.com>
-References: <cover.1415789100.git.Qi.Chen@windriver.com>
-	<a44b261f0031a4d82f8fae0e968522139f607f90.1415789100.git.Qi.Chen@windriver.com>
+Received: by 10.140.98.213 with HTTP; Wed, 12 Nov 2014 08:01:05 -0800 (PST)
+In-Reply-To: <CAK18fxE0CzhZjcNM7Jf=yEZW6a9YE5J=4H-rJBV7-RACyJjokA@mail.gmail.com>
+References: <1415377424-2639-1-git-send-email-andrei.gherzan@windriver.com>
+	<CAK18fxE0CzhZjcNM7Jf=yEZW6a9YE5J=4H-rJBV7-RACyJjokA@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 12 Nov 2014 15:55:28 +0000
-Message-ID: <CAJTo0LbDXrc=RK5zbE2z24K86Ti5eEcS1LRYCOHC7jfFeUOpFA@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] systemd: add option for valgrind header checking
+Date: Wed, 12 Nov 2014 16:01:05 +0000
+Message-ID: <CAJTo0LZpqUUOG6vum-t6nWbkte_WqNDBj+vi7kyXeNVZbX4FXQ@mail.gmail.com>
+To: Andrei Gherzan <andrei@gherzan.ro>
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: [master][dizzy][PATCH] xkeyboard-config: Inherit gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,68 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Nov 2014 15:55:56 -0000
-Content-Type: multipart/alternative; boundary=001a113a81d6f1d3f20507ab6d89
+X-List-Received-Date: Wed, 12 Nov 2014 16:01:32 -0000
+Content-Type: multipart/alternative; boundary=001a11c3defa00d6e90507ab820b
 
---001a113a81d6f1d3f20507ab6d89
+--001a11c3defa00d6e90507ab820b
 Content-Type: text/plain; charset=UTF-8
 
-On 12 November 2014 10:45, Chen Qi <Qi.Chen@windriver.com> wrote:
+On 12 November 2014 10:28, Andrei Gherzan <andrei@gherzan.ro> wrote:
 
-> +-AC_CHECK_HEADERS_ONCE([valgrind/memcheck.h valgrind/valgrind.h])
-> ++AC_ARG_ENABLE(valgrindheader, AS_HELP_STRING([--disable-valgrindheader],
-> [disable valgrind header checking]))
-> ++if test "x$enable_valgrindheader" != "xno"; then
-> ++        AC_CHECK_HEADERS_ONCE([valgrind/memcheck.h valgrind/valgrind.h])
-> ++fi
+> Ping?
 >
 
-If the user passes --enable-valgrindheader and valgrind isn't present, it
-doesn't fail.  Combined with the lack of a valgrind build dependency in the
-PACKAGECONFIG statement this isn't a very useful PACKAGECONFIG option as it
-only works when not specified, and if it's specified is non-deterministic.
-
-It appears that this valgrind support is for running the test suite under
-valgrind for leak detection, which is something we're unlikely to do.  A
-quick fix would be to comment out the check.
-
-A proper fix would be to use AC_ARG_WITH(valgrind), default to "auto", use
-the pkg-config macros and respect yes/no/auto as appropriate.  The mantra
-here being to spend ten minutes fixing it properly upstream instead of
-having to rewrite the patch often as upstream changes their configure
-script.
+Managed to totally miss this due to the dizzy tag, sorry for that.  Thanks
+for the ping, merged to mut.
 
 Ross
 
---001a113a81d6f1d3f20507ab6d89
+--001a11c3defa00d6e90507ab820b
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
-2 November 2014 10:45, Chen Qi <span dir=3D"ltr">&lt;<a href=3D"mailto:Qi.C=
-hen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">+-AC_CHECK_HEADERS_ONCE([valgrind/m=
-emcheck.h valgrind/valgrind.h])<br>
-++AC_ARG_ENABLE(valgrindheader, AS_HELP_STRING([--disable-valgrindheader], =
-[disable valgrind header checking]))<br>
-++if test &quot;x$enable_valgrindheader&quot; !=3D &quot;xno&quot;; then<br=
->
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_CHECK_HEADERS_ONCE([valgrind/memcheck.h va=
-lgrind/valgrind.h])<br>
-++fi<br>
-</blockquote><div><br></div><div>If the user passes --enable-valgrindheader=
- and valgrind isn&#39;t present, it doesn&#39;t fail.=C2=A0 Combined with t=
-he lack of a valgrind build dependency in the PACKAGECONFIG statement this =
-isn&#39;t a very useful PACKAGECONFIG option as it only works when not spec=
-ified, and if it&#39;s specified is non-deterministic.</div><div><br></div>=
-<div>It appears that this valgrind support is for running the test suite un=
-der valgrind for leak detection, which is something we&#39;re unlikely to d=
-o.=C2=A0 A quick fix would be to comment out the check.</div><div><br></div=
-><div>A proper fix would be to use AC_ARG_WITH(valgrind), default to &quot;=
-auto&quot;, use the pkg-config macros and respect yes/no/auto as appropriat=
-e.=C2=A0 The mantra here being to spend ten minutes fixing it properly upst=
-ream instead of having to rewrite the patch often as upstream changes their=
- configure script.</div><div><br></div><div>Ross</div></div></div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 November 2014 10:28, Andrei Gherzan <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:andrei@gherzan.ro" target=3D"_blank">andrei@gherzan.ro</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Ping?</div><div=
+ class=3D"gmail_extra"></div></blockquote></div><br>Managed to totally miss=
+ this due to the dizzy tag, sorry for that.=C2=A0 Thanks for the ping, merg=
+ed to mut.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
+tra">Ross</div></div>
 
---001a113a81d6f1d3f20507ab6d89--
+--001a11c3defa00d6e90507ab820b--
