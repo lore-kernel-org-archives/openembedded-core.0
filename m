@@ -1,36 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id B64DC62252
+Return-Path: <fenixk19@mail.ru>
+X-Greylist: delayed 3394 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 12 Nov 2014 14:58:16 UTC
+Received: from fallback4.mail.ru (fallback4.mail.ru [94.100.181.169])
+	by mail.openembedded.org (Postfix) with ESMTP id CFF8362252
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 14:09:57 +0000 (UTC)
-Received: by mail-wg0-f49.google.com with SMTP id x13so14247290wgg.36
+	Wed, 12 Nov 2014 14:58:16 +0000 (UTC)
+Received: from smtp48.i.mail.ru (smtp48.i.mail.ru [94.100.177.108])
+	by fallback4.mail.ru (mPOP.Fallback_MX) with ESMTP id 6CE2A109A39
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 06:09:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=j2RpfSxTvh7mshv8+lyxcKD/nJj/DG86uI+kiCs59HE=;
-	b=FCjd21RnnEUueOV71WKSdE4Dbw5NzYFO64C1oJIXtCBXdI98+maZHWMviCiHje+2nz
-	lQRiL5ZWQIEpzTgq754Ob1gM5mmZb/xeyi6cjZBhMtN6wJWw8Ot3cRhMPaIYHDRzwV8X
-	oH72emnzGl1gaQx9Q65pIBD5q1iuHKMDH4x9lInisx0QPGs9sAupBq3fWf3/4M1xxCiL
-	o/8RsMTzLROASMZzkVp9wTgQ1iGfrDi0++Xsq9CHTGPJUvHg5Tdgf/fSAcdwrPurl3Z6
-	C3TtH2b56yTJApBbias3uwzrKhy9Tz1o8Ax8yxSMRyqAA2kjDAA3xlNK5blqXZICjgmo
-	rA8Q==
-X-Gm-Message-State: ALoCoQmbZe29exETUMd9FpPzCIWhXAcHsEno6h/IpDDWQoYSK+2HEVQZIE1IOH+Jxdkw+UWiS7mq
-X-Received: by 10.181.29.74 with SMTP id ju10mr6338878wid.10.1415801396707;
-	Wed, 12 Nov 2014 06:09:56 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	s10sm25856266wjw.29.2014.11.12.06.09.53
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Nov 2014 06:09:55 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 12 Nov 2014 16:21:31 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+	s=mail2; 
+	h=Content-Transfer-Encoding:Content-Type:Subject:To:MIME-Version:From:Date:Message-ID;
+	bh=wo6nfgQhMAgreXDBfleM8uGQdecjAyMhv2avB4EhMMk=; 
+	b=dBYQK5mAzEMQv+Ba5pR5/mIYTjBp6vlGYCM1J3dtiLNPrVvFp5yq+vw9hs1FP+Vdb4dA5cYIP32YDdaDlMFDAkfMW4XzDgqWdVGc2GrTiMCDQHnTnmEwUTFs8R9tYFxYEz3m6aJ96B5SLET4AlMonzLD/dH5/pY/sEGzKid+rwA=;
+Received: from [190.123.47.116] (port=37771 helo=[0.0.0.0])
+	by smtp48.i.mail.ru with esmtpa (envelope-from <fenixk19@mail.ru>)
+	id 1XoXrN-0000Oh-Uz for openembedded-core@lists.openembedded.org;
+	Wed, 12 Nov 2014 16:21:22 +0300
+Message-ID: <54635D01.4060200@mail.ru>
+Date: Wed, 12 Nov 2014 16:13:37 +0300
+From: Alexander Varnin <fenixk19@mail.ru>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Nov 2014 14:09:45 +0000
-Message-Id: <1415801385-10076-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] docbook-xsl-stylesheets: fix do_configure typo
+X-Spam: Not detected
+X-Mras: Ok
+Subject: need help in qt environment setup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +40,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Nov 2014 14:10:00 -0000
+X-List-Received-Date: Wed, 12 Nov 2014 14:58:18 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-do_configure was incorrectly spelt do_configre, which with recent changes to
-base.bbclass mean make clean was invoked, which doesn't exist.
+Hello!
+I am using yocto to build images and develop software for my freescale
+imx53 board.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I need some help setting up environment for QT based software development.
 
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb
-index 95498da..2a1bdc4 100644
---- a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.78.1.bb
-@@ -19,7 +19,7 @@ BBCLASSEXTEND = "native"
- SSTATEPOSTINSTFUNCS_append_class-native = " docbook_xsl_stylesheets_sstate_postinst"
- SYSROOT_PREPROCESS_FUNCS_append_class-native = " docbook_xsl_stylesheets_sysroot_preprocess"
- 
--do_configre (){
-+do_configure (){
- 	:
- }
- 
--- 
-1.7.10.4
+My software requires qt4 (embedded) support.
 
+There is several ways to use toolchain.
+
+First, I can use toolchain from build directory where I've compiled
+qt4-embedded recipe. There I create environment-setup script using command:
+
+bitbake meta-ide-support
+
+Second, I can build SDK for my image:
+
+bitbake image-name -c populate_sdk
+
+Third, I can use meta-toolchain-qt recipe to build QT containing SDK:
+
+bitbake meta-toolchain-qte
+
+The first two methods is most convenient for me, because I need some
+additional libraries that is not included in meta-toolchain-qte. The
+first method is better, because I develop software on the same host,
+where yocto is located, so I don't need separate SDK installation.
+
+However, only the last method produces environment settings for QT
+placed in
+/opt/poky/1.6.1/sysroots/i686-pokysdk-linux/environment-setup.d folder.
+
+Other two methods produce environment-setup scripts, but they don't
+create sysroots/i686-linux/environment-setup.d folder. So QT environment
+settings lacks from this installations.
+
+The best way I would like to solve it, is to somehow make 'bitbake
+meta-ide-support' generate environment settings for QT in my build dir,
+so I can use my local (non-SDK) cross toolchain to build QT software.
+How can I achieve it?
+
+It is ok for me to use SDK as well, however, I want it to be my image
+based SDK.
+
+Thanks for any help.
+Alexander.
 
