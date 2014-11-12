@@ -1,36 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E54C165C7B
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B4E7565C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Nov 2014 23:59:46 +0000 (UTC)
-Received: by mail-qc0-f179.google.com with SMTP id i8so396032qcq.24
+	Wed, 12 Nov 2014 00:59:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAC0xccZ001070
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Nov 2014 15:59:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=en5iQWuQD9cxtREhd2o7klrtiPO4bDtEUzCxVvxwHPo=;
-	b=hb6F50c1ib1OwI/j/5fAPdFmoqaOHLsUGwwZNSkuaUTCl1mTubp2GlqYWcByYWVpAI
-	5uiOF+ZX+qGSWVrRwQhWdOTa7Dheo1rbpRbvUmuq8ND/hizZiqjMSuXjzxbqVpBP5/sV
-	8kkquvHDsaQu7FsLtuPrFLOOMJywhfFd3x0bXdSaTK7r5lkaAnGY6HrNkZBYMg+zNDjU
-	7TN6vOMxvFqtCEEauUGfWaaK81sUvSkyNQ/tQRz1ybDgtd/RB5xRldr+u/kYRUfw1EzQ
-	HfNp/6Zzf/6EO1GTT8hcJibhxRc3rBjKp0X4+ntv/9aeV6DcwQ+rSasbtd0q6ZBzzznr
-	vwdA==
-X-Gm-Message-State: ALoCoQnEqp/ohM18H9FhQBxWeykbpD4sFswOcUObsh7NcsIV63c3QCegT4dGfrKkyjP1eShpDcnl
-X-Received: by 10.224.138.2 with SMTP id y2mr52851703qat.52.1415750387081;
-	Tue, 11 Nov 2014 15:59:47 -0800 (PST)
+	Tue, 11 Nov 2014 16:59:38 -0800 (PST)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.163.178) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 11 Nov 2014 16:59:37 -0800
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Nov 2014 08:59:36 +0800
+Message-ID: <1415753976-2033-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 2.1.0
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Tue, 11 Nov 2014 15:59:26 -0800 (PST)
-In-Reply-To: <1415617321-19302-1-git-send-email-net147@gmail.com>
-References: <1415617321-19302-1-git-send-email-net147@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Nov 2014 23:59:26 +0000
-Message-ID: <CAJTo0LYpPaNdMUWpVu5YR8EMZ1REyVJYCTpLvGXkj3CTL1JW6Q@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] valgrind: Upgrade to 3.10.0
+Subject: [PATCH] rpm: fix the rpm addsign function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,67 +31,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Nov 2014 23:59:52 -0000
-Content-Type: multipart/alternative; boundary=047d7b6709c3e9d44905079e12c5
+X-List-Received-Date: Wed, 12 Nov 2014 00:59:44 -0000
+Content-Type: text/plain
 
---047d7b6709c3e9d44905079e12c5
-Content-Type: text/plain; charset=UTF-8
+From: "Roy.Li" <rongqing.li@windriver.com>
 
-On 10 November 2014 11:02, Jonathan Liu <net147@gmail.com> wrote:
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+---
+ ...arseArgvString-to-parse-the-_gpg_check_pa.patch | 49 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.14.bb            |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch
 
-> Updated two patches to fit new version:
-> - remove-arm-variant-specific.patch
-> - remove-ppc-tests-failing-build.patch
->
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
->
+diff --git a/meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch b/meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch
+new file mode 100644
+index 0000000..23bc336
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch
+@@ -0,0 +1,49 @@
++From 64851c6622aff64787a9fcea26cccde183b7c743 Mon Sep 17 00:00:00 2001
++From: "Roy.Li" <rongqing.li@windriver.com>
++Date: Tue, 11 Nov 2014 16:28:22 +0800
++Subject: [PATCH] using poptParseArgvString to parse the
++ _gpg_check_password_cmd
++
++Upstream-Status: Pending
++
++Both __gpg_check_password_cmd and __gpg_sign_cmd include "%{_gpg_name}", but
++strace shows that gpg_name has a quote when run _gpg_check_password,
++but not when run __gpg_sign_cmd; for example, if gpg_name is "tester"
++
++    execve("/usr/bin/gpg", ["gpg", "--batch", "--no-verbose",
++    "--passphrase-fd", "3", "-u", "\"tester\"", "-so", "-"], [/* 20 vars */]) = 0
++
++    execve("/usr/bin/gpg", ["gpg", "--batch", "--no-verbose", "--no-armor",
++    "--passphrase-fd", "3", "--no-secmem-warning", "-u", "tester", "-sbo"..,) = 0
++
++it can be fixed by removing the quote around %{gpg_name} when define
++__gpg_check_password_cmd in macros/macros, like below, but if gpg_name includes
++space, it will not work.
++
++     %__gpg_check_password_cmd       %{__gpg} \
++        gpg --batch --no-verbose --passphrase-fd 3 -u %{_gpg_name} -so -
++
++The poptParseArgvString function is used to parse _gpg_sign_cmd, so using
++poptParseArgvString to parse __gpg_check_password_cmd to fix this issue.
++
++Signed-off-by: Roy.Li <rongqing.li@windriver.com>
++---
++ rpmdb/signature.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/rpmdb/signature.c b/rpmdb/signature.c
++index c35e0ab..016e8d1 100644
++--- a/rpmdb/signature.c
+++++ b/rpmdb/signature.c
++@@ -529,7 +529,7 @@ int rpmCheckPassPhrase(const char * passPhrase)
++   		(void) setenv("GNUPGHOME", gpg_path, 1);
++ 
++ 	    cmd = rpmExpand("%{?__gpg_check_password_cmd}", NULL);
++-	    rc = argvSplit(&av, cmd, NULL);
+++	    rc = poptParseArgvString(cmd, NULL, (const char ***)&av);
++ 	    if (!rc)
++ 		rc = execve(av[0], (char *const *)av+1, environ);
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+index fb8a507..c882251 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+@@ -93,6 +93,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
+ 	   file://rpm-db5-or-db6.patch \
+ 	   file://rpm-disable-Wno-override-init.patch \
+ 	   file://rpmqv_cc_b_gone.patch \
++	   file://0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch \
+ 	  "
+ 
+ # Uncomment the following line to enable platform score debugging
+-- 
+2.1.0
 
-Two (so far) machines in the autobuilder are reporting QA errors with this:
 
-ERROR: QA Issue: package valgrind-ptest contains bad RPATH
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/work/ppce500v2-poky-linux-gnuspe/valgrind/3.10.0-r8/build/none/tests
-in file
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/work/ppce500v2-poky-linux-gnuspe/valgrind/3.10.0-r8/packages-split/valgrind-ptest/usr/lib/valgrind/ptest/none/tests/tls.so
-[rpaths]
-
-ERROR: QA Issue: package valgrind-ptest contains bad RPATH
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ipk/build/build/tmp/work/i586-poky-linux/valgrind/3.10.0-r8/build/none/tests
-in file
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ipk/build/build/tmp/work/i586-poky-linux/valgrind/3.10.0-r8/packages-split/valgrind-ptest/usr/lib/valgrind/ptest/none/tests/tls.so
-[rpaths]
-
-Ross
-
---047d7b6709c3e9d44905079e12c5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 November 2014 11:02, Jonathan Liu <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:net147@gmail.com" target=3D"_blank">net147@gmail.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style=
-:solid;padding-left:1ex"><div id=3D":1l6" class=3D"" style=3D"overflow:hidd=
-en">Updated two patches to fit new version:<br>
-- remove-arm-variant-specific.patch<br>
-- remove-ppc-tests-failing-build.patch<br>
-<br>
-Signed-off-by: Jonathan Liu &lt;<a href=3D"mailto:net147@gmail.com">net147@=
-gmail.com</a>&gt;</div></blockquote></div><br>Two (so far) machines in the =
-autobuilder are reporting QA errors with this:</div><div class=3D"gmail_ext=
-ra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">ERROR: =
-QA Issue: package valgrind-ptest contains bad RPATH /home/pokybuild/yocto-a=
-utobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/work/ppce500v2-=
-poky-linux-gnuspe/valgrind/3.10.0-r8/build/none/tests in file /home/pokybui=
-ld/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/work/=
-ppce500v2-poky-linux-gnuspe/valgrind/3.10.0-r8/packages-split/valgrind-ptes=
-t/usr/lib/valgrind/ptest/none/tests/tls.so [rpaths]</div><div><div><br></di=
-v><div>ERROR: QA Issue: package valgrind-ptest contains bad RPATH /home/pok=
-ybuild/yocto-autobuilder/yocto-worker/nightly-ipk/build/build/tmp/work/i586=
--poky-linux/valgrind/3.10.0-r8/build/none/tests in file /home/pokybuild/yoc=
-to-autobuilder/yocto-worker/nightly-ipk/build/build/tmp/work/i586-poky-linu=
-x/valgrind/3.10.0-r8/packages-split/valgrind-ptest/usr/lib/valgrind/ptest/n=
-one/tests/tls.so [rpaths]</div></div><div><br></div><div>Ross</div></div></=
-div>
-
---047d7b6709c3e9d44905079e12c5--
