@@ -1,36 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id D7C8562252
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 23F6F7210F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 16:08:40 +0000 (UTC)
-Received: by mail-qg0-f47.google.com with SMTP id j107so9012410qga.6
+	Wed, 12 Nov 2014 16:21:47 +0000 (UTC)
+Received: by mail-pa0-f45.google.com with SMTP id lf10so13290159pab.32
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 08:08:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=q3D87FQHNHtP/BvFuxL298XHfX5E7/eP+/r7bGu29PY=;
-	b=iook9ufMUqPNwBacCWtrkx3zMwrmQ4H9XbDNu+zRO20C1C1fkmMcTGINOu/b8GK20G
-	N4pwEcsi08QBhHZWoZBlN+4iebzWATd3/M66XmUR1tEu2sNxb4oxsfBwTqZaBzm9TXNz
-	dppBu4pTf8LrOSRhgJJJNm0UhAA9/g1sM4j0eF91H8jv2UL72ZW1MIF4JKXighUmQdGF
-	Z+v465hUuU+D5SvP4ylzHlpyaUShoNEckOpuKmAO7HCR9MFKNlf6GCTzdp3D8VAsrHTi
-	Oka6PqwIjO3quW7/AvyupHl92Nc0og/zg2F6+x20rhQ2qNtHZGNjj7bkIIp7Da83+ICb
-	nXRQ==
-X-Gm-Message-State: ALoCoQnMEKg2LlD6CS4IR/J6Ttj4n75Dah4mcA3irP9TTs9IOlS627cfTOcsfg3+oclRWyfTCvCM
-X-Received: by 10.224.138.2 with SMTP id y2mr58640094qat.52.1415808520464;
-	Wed, 12 Nov 2014 08:08:40 -0800 (PST)
+	Wed, 12 Nov 2014 08:21:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=D+PnRB6SgnSNogheKB8PtEllMxap6uv7vYarEsaGY6A=;
+	b=hqnCmXzfM6n5iMWzrIhL3jKwDbYQRWW5CozGU/OKGYIYuIbkFJtlyo/K2BX9KtcNz2
+	MNrEnnSl2BkuX4/CXKmp0VlEiJlCnCdzy/DoD2/1UAo/XT+1YLsk4+ipC+8pf7yGAN12
+	BTB5fgniENQXiRwacpkEk8L1R0pzWlOqC1ECQFJuqTCWFseDAER7H6JnM/cOaD2JRoGp
+	1esqCtDicj2ra0pnMCVW4dig/kW6GU9qTzR+bB9FmnCBRh0sw3fnRZwemplmcjKB1Nhv
+	rvKWiegH5GVyRaX1TM8kRqDT0bHng1nZx9kq3HSQ6jXkrS+0D/1ZukUYOQwoy+k+npUA
+	UT6g==
+X-Received: by 10.66.255.41 with SMTP id an9mr48908764pad.54.1415809308226;
+	Wed, 12 Nov 2014 08:21:48 -0800 (PST)
+Received: from ?IPv6:2601:c:9380:601:5d34:bd2e:5ccb:3cce?
+	([2601:c:9380:601:5d34:bd2e:5ccb:3cce])
+	by mx.google.com with ESMTPSA id
+	ub7sm22586861pbc.30.2014.11.12.08.21.46 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 12 Nov 2014 08:21:47 -0800 (PST)
+Message-ID: <54638918.2040500@gmail.com>
+Date: Wed, 12 Nov 2014 08:21:44 -0800
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Wed, 12 Nov 2014 08:08:20 -0800 (PST)
-In-Reply-To: <1415755840-4750-1-git-send-email-dev@codyps.com>
-References: <1415755840-4750-1-git-send-email-dev@codyps.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 12 Nov 2014 16:08:20 +0000
-Message-ID: <CAJTo0LaP0B2G7zFYqpaqyQOHVfoX2FWGxzSRLuG4zmuDZWjtTg@mail.gmail.com>
-To: Cody P Schafer <dev@codyps.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake: supply CMAKE_AR in toolchain file
+To: "Burton, Ross" <ross.burton@intel.com>, Andrei Gherzan <andrei@gherzan.ro>
+References: <1415377424-2639-1-git-send-email-andrei.gherzan@windriver.com>	<CAK18fxE0CzhZjcNM7Jf=yEZW6a9YE5J=4H-rJBV7-RACyJjokA@mail.gmail.com>
+	<CAJTo0LZpqUUOG6vum-t6nWbkte_WqNDBj+vi7kyXeNVZbX4FXQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZpqUUOG6vum-t6nWbkte_WqNDBj+vi7kyXeNVZbX4FXQ@mail.gmail.com>
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: [master][dizzy][PATCH] xkeyboard-config: Inherit gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,35 +49,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Nov 2014 16:08:45 -0000
-Content-Type: multipart/alternative; boundary=047d7b6709c3eec0110507ab9b4d
+X-List-Received-Date: Wed, 12 Nov 2014 16:21:53 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---047d7b6709c3eec0110507ab9b4d
-Content-Type: text/plain; charset=UTF-8
 
-On 12 November 2014 01:30, Cody P Schafer <dev@codyps.com> wrote:
 
-> +set( CMAKE_AR ${OECMAKE_AR} CACHE FILEPATH "Archiver" )
+On 11/12/2014 08:01 AM, Burton, Ross wrote:
+>
+> On 12 November 2014 10:28, Andrei Gherzan <andrei@gherzan.ro
+> <mailto:andrei@gherzan.ro>> wrote:
+>
+>     Ping?
+>
+>
+> Managed to totally miss this due to the dizzy tag, sorry for that.
+> Thanks for the ping, merged to mut.
+
+What part did you take care of? Master or Dizzy?
+
+Armin
+
+>
+> Ross
+>
 >
 
-Curious - why does this line have CACHE FILEPATH "Archiver" when e.g.
-CMAKE_C_COMPILER doesn't?  Should one or other other be fixed?
-
-Ross
-
---047d7b6709c3eec0110507ab9b4d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 November 2014 01:30, Cody P Schafer <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:dev@codyps.com" target=3D"_blank">dev@codyps.com</a>&gt;</span> wrot=
-e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><div id=3D":3lv" class=3D"a3s" style=
-=3D"overflow:hidden">+set( CMAKE_AR ${OECMAKE_AR} CACHE FILEPATH &quot;Arch=
-iver&quot; )<br></div></blockquote></div><br>Curious - why does this line h=
-ave CACHE FILEPATH &quot;Archiver&quot; when e.g. CMAKE_C_COMPILER doesn&#3=
-9;t?=C2=A0 Should one or other other be fixed?</div><div class=3D"gmail_ext=
-ra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---047d7b6709c3eec0110507ab9b4d--
