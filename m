@@ -1,42 +1,38 @@
-Return-Path: <eric@eukrea.com>
-X-Greylist: delayed 71156 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 13 Nov 2014 20:25:36 UTC
-Received: from mo4.mail-out.ovh.net (mo4.mail-out.ovh.net [178.32.228.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 0768465C91
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 299AB60167
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 20:25:36 +0000 (UTC)
-Received: from mail615.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo4.mail-out.ovh.net (Postfix) with SMTP id 3684D1000C67
+	Thu, 13 Nov 2014 22:52:32 +0000 (UTC)
+Received: by mail-qg0-f46.google.com with SMTP id i50so11104500qgf.19
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 21:18:56 +0100 (CET)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 13 Nov 2014 22:18:56 +0200
-Received: from tal33-3-82-233-81-124.fbx.proxad.net (HELO e6520eb.localdomain)
-	(eric%eukrea.com@82.233.81.124)
-	by ns0.ovh.net with SMTP; 13 Nov 2014 22:18:54 +0200
-Date: Thu, 13 Nov 2014 21:18:53 +0100
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-Message-ID: <20141113211853.6c8a6f6f@e6520eb.localdomain>
-In-Reply-To: <OF69DC7AA2.57980DB5-ON86257D8F.006E27D9-86257D8F.006ECC75@ni.com>
-References: <OF81A9A14C.EC58A864-ON86257D8E.00636115-86257D8E.0064525F@ni.com>
-	<20141113013933.6820d2d9@e6520eb.localdomain>
-	<OF69DC7AA2.57980DB5-ON86257D8F.006E27D9-86257D8F.006ECC75@ni.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.24; x86_64-redhat-linux-gnu)
+	Thu, 13 Nov 2014 14:52:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ooLGVdnX3LDZRULbczXtaipxT4wNxM3OWIE+NLAULyI=;
+	b=Rx9grEWuVGWN58xZVs5PaeBcSo21fEbVeJZHQEaliJ4CM5V/RodgWgkJqnvNzdtr4K
+	X+nPXEsW85m9dTDr94NRsyUIMTmS07lCTmWmqUg71u2+v48GAiIC4998UYj2aEceqeGh
+	3ZwONQK7luVTxF2wQGXdJvQChqSvWlsP7esHFklRrJxcF0QseA4xbSXu+ECzYaeQ62vK
+	+Uhaojx8qXwB3NHqxnjkL95Au/khJwNdHQzZ67g7Lb7vWWaWuPx9xjTxhoEcemtbxbuW
+	IZ9zBbsPQBiNDnriafzOb6+EQmPfX2TW6hq0fEqn1qfUXgyHew4lIcwup3QjX8VYGT5h
+	dxOw==
+X-Gm-Message-State: ALoCoQnCAWf9i/Ii+AkjcUKzBo6O3g6wnDXdv5ITJ8Wpgc8MKDBbDhjIxsZ6KPRTq1WZd0vQg9A8
+X-Received: by 10.229.224.201 with SMTP id ip9mr6628726qcb.5.1415919153227;
+	Thu, 13 Nov 2014 14:52:33 -0800 (PST)
 MIME-Version: 1.0
-X-Ovh-Tracer-Id: 1309984542690291155
-X-Ovh-Remote: 82.233.81.124 (tal33-3-82-233-81-124.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: -100
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeejhedrjedvucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeejhedrjedvucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Opkg files at /var/lib/opkg/lists
+Received: by 10.140.98.213 with HTTP; Thu, 13 Nov 2014 14:52:12 -0800 (PST)
+In-Reply-To: <CA+92fu_s_2_MzGSEuJKCEvKqE+GG61QANvb_Nb4jgavspT_KDg@mail.gmail.com>
+References: <1415832933-372-1-git-send-email-wrobell@pld-linux.org>
+	<CAJTo0LbHecBh1J3MqhpXzsrXmUv_963LS+VDD0Vrg_rzFukynQ@mail.gmail.com>
+	<CA+92fu_s_2_MzGSEuJKCEvKqE+GG61QANvb_Nb4jgavspT_KDg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 13 Nov 2014 22:52:12 +0000
+Message-ID: <CAJTo0LZgHYJbttvB86MOf1_idnz-B+PQBDsDFNX8Quv44XTyog@mail.gmail.com>
+To: Artur Wroblewski <wrobell@pld-linux.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Replace Python 3.3.x with Python 3.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,27 +45,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Nov 2014 20:25:42 -0000
+X-List-Received-Date: Thu, 13 Nov 2014 22:52:41 -0000
+Content-Type: multipart/alternative; boundary=001a1135ef1e28c3290507c55ecf
+
+--001a1135ef1e28c3290507c55ecf
 Content-Type: text/plain; charset=UTF-8
+
+On 13 November 2014 20:23, Artur Wroblewski <wrobell@pld-linux.org> wrote:
+
+> > Personally I'd prefer to see a working Python 3.4 integrated in one go
+> > instead of having a broken 3.4 integrated for an unknown about of time.
+> > Hopefully anyone else who is interested in 3.4 can step up and work on
+> the
+> > outstanding issues now that this patch is public (which is another good
+> > reason to have a public repo with this in).
+>
+> If you specify some exit criteria for this, then I can try to improve
+> the patch. But
+> please keep in mind that Python 3.3 in Yocto is broken to such extent that
+> it
+> crashes due to missing essential modules.
+
+
+ The exit criteria would be a patch to upgrade to 3.4 that doesn't come
+with the caveat that seven of the patches need to be updated.  3.3 being
+broken is a separate issue to upgrading to 3.4 and we should probably fix
+3.3 first, backport that fix to dizzy, and then upgrade to 3.4.
+
+I've filed a bug about the startup problem with just python3 installed
+(#6967). Note that whilst this is a bug it's not fundamentally broken as
+installing just python3-core (which python3 is an alias for - more on that
+in a minute) won't pull in the bulk of the runtime library.  Installing
+python3-core and python3-modules brings in the entire runtime, and the
+interpreter starts up fine.
+
+You could argue that whilst splitting out the core library is reasonable so
+that minimal installs are possible, having "python3" not be the full Python
+experience isn't reasonable.  I'd be inclined to agree here, and think that
+python3 should be a meta-package that depends on all of Python.
+
+Ross
+
+--001a1135ef1e28c3290507c55ecf
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Alejandro,
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+3 November 2014 20:23, Artur Wroblewski <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:wrobell@pld-linux.org" target=3D"_blank">wrobell@pld-linux.org</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><span>&gt; Personally I&#3=
+9;d prefer to see a working Python 3.4 integrated in one go<br>
+&gt; instead of having a broken 3.4 integrated for an unknown about of time=
+.<br>
+&gt; Hopefully anyone else who is interested in 3.4 can step up and work on=
+ the<br>
+&gt; outstanding issues now that this patch is public (which is another goo=
+d<br>
+&gt; reason to have a public repo with this in).<br>
+<br>
+</span>If you specify some exit criteria for this, then I can try to improv=
+e<br>
+the patch. But<br>
+please keep in mind that Python 3.3 in Yocto is broken to such extent that =
+it<br>
+crashes due to missing essential modules.</blockquote><div><br></div><div>=
+=C2=A0The exit criteria would be a patch to upgrade to 3.4 that doesn&#39;t=
+ come with the caveat that seven of the patches need to be updated. =C2=A03=
+.3 being broken is a separate issue to upgrading to 3.4 and we should proba=
+bly fix 3.3 first, backport that fix to dizzy, and then upgrade to 3.4.</di=
+v><div><br></div><div>I&#39;ve filed a bug about the startup problem with j=
+ust python3 installed (#6967). Note that whilst this is a bug it&#39;s not =
+fundamentally broken as installing just python3-core (which python3 is an a=
+lias for - more on that in a minute) won&#39;t pull in the bulk of the runt=
+ime library.=C2=A0 Installing python3-core and python3-modules brings in th=
+e entire runtime, and the interpreter starts up fine.</div><div><br></div><=
+div>You could argue that whilst splitting out the core library is reasonabl=
+e so that minimal installs are possible, having &quot;python3&quot; not be =
+the full Python experience isn&#39;t reasonable.=C2=A0 I&#39;d be inclined =
+to agree here, and think that python3 should be a meta-package that depends=
+ on all of Python.</div><div><br></div><div>Ross</div></div></div></div>
 
-Le Thu, 13 Nov 2014 14:10:12 -0600,
-Alejandro del Castillo <alejandro.delcastillo@ni.com> a =C3=A9crit :
-
-> I think you got it, the commit d950ef40a3eae4b54cc62828e66d84a62d78c447=20
-> removed:
->=20
->         rm -f ${IMAGE_ROOTFS}${OPKGLIBDIR}/opkg/lists/*
->=20
-> step that I didn't see implemented on rootfs.py. I'll file a bug report=20
-> (not too familiar with rootfs.py to try to fix it myself).
->=20
-please add me in cc. I expect to investigate more on
-FEED_DEPLOYDIR_BASE_URI problems I met next week and will try to also
-look at this
-
-Thanks,
-Eric
-
+--001a1135ef1e28c3290507c55ecf--
