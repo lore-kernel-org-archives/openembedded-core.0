@@ -1,23 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AF4CE65CED
+	by mail.openembedded.org (Postfix) with ESMTP id B196E65D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 01:54:18 +0000 (UTC)
+	Thu, 13 Nov 2014 01:54:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAD1sHDk019501
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAD1sJrT019504
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 12 Nov 2014 17:54:17 -0800 (PST)
+	Wed, 12 Nov 2014 17:54:20 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 12 Nov 2014 17:54:17 -0800
+	14.3.174.1; Wed, 12 Nov 2014 17:54:19 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Thu, 13 Nov 2014 09:54:13 +0800
-Message-ID: <cover.1415843582.git.hongxu.jia@windriver.com>
+Date: Thu, 13 Nov 2014 09:54:14 +0800
+Message-ID: <7ce274f0fce82ddd6c1655aacf89198f371cb0c8.1415843582.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1415843582.git.hongxu.jia@windriver.com>
+References: <cover.1415843582.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] postinst-intercept: rename recipe for nativesdk only
+Subject: [PATCH 1/1] postinst-intercept: rename recipe for nativesdk only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,22 +35,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 13 Nov 2014 01:54:25 -0000
 Content-Type: text/plain
 
-The following changes since commit 3c741a8d33acbf4b3d5eecc04533bc76e2f37253:
+The recipe postinst-intercept is only used for nativesdk, so we rename
+it from postinst-intercept to nativesdk-postinst-intercept.
 
-  oprofile: 0.9.9 -> 1.0.0 (2014-11-09 10:21:24 +0000)
+It avoids unnecessary build of postinst-intercept.
 
-are available in the git repository at:
+[YOCTO #6937]
 
-  git://git.pokylinux.org/poky-contrib hongxu/fix-nonexist-pkg
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nonexist-pkg
-
-Hongxu Jia (1):
-  postinst-intercept: rename recipe for nativesdk only
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  ...ostinst-intercept_1.0.bb => nativesdk-postinst-intercept_1.0.bb} | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
  rename meta/recipes-devtools/postinst-intercept/{postinst-intercept_1.0.bb => nativesdk-postinst-intercept_1.0.bb} (83%)
 
+diff --git a/meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb b/meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
+similarity index 83%
+rename from meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb
+rename to meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
+index 41b9a6e..7dc45c6 100644
+--- a/meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb
++++ b/meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
+@@ -2,12 +2,12 @@ SUMMARY = "Postinstall scriptlets"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+-FILES_${PN}_append_class-nativesdk = " ${datadir}/postinst-intercepts/*"
++FILES_${PN}_append = " ${datadir}/postinst-intercepts/*"
+ 
+ do_configure[noexec] = "1"
+ do_compile[noexec] = "1"
+ 
+-do_install_append_class-nativesdk() {
++do_install() {
+ 	install -d ${D}${datadir}/postinst-intercepts
+ 	install -m 755 ${COREBASE}/scripts/postinst-intercepts/postinst_intercept ${D}${datadir}/postinst-intercepts/
+ 	install -m 755 ${COREBASE}/scripts/postinst-intercepts/update_font_cache ${D}${datadir}/postinst-intercepts/
+@@ -15,5 +15,5 @@ do_install_append_class-nativesdk() {
+ 	install -m 755 ${COREBASE}/scripts/postinst-intercepts/update_pixbuf_cache ${D}${datadir}/postinst-intercepts/
+ }
+ 
+-BBCLASSEXTEND = "nativesdk"
++inherit nativesdk
+ INHIBIT_DEFAULT_DEPS = "1"
 -- 
 1.9.1
 
