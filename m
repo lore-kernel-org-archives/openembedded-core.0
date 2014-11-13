@@ -1,26 +1,32 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F3806FC68
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1970160167
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 10:05:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sADA5aQc010510
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 13 Nov 2014 02:05:36 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 13 Nov 2014 02:05:35 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
-	<raj.khem@gmail.com>
-Date: Thu, 13 Nov 2014 18:05:30 +0800
-Message-ID: <5683325131db04dcad5dd931ab537ca3d8c54751.1415872776.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1415872776.git.hongxu.jia@windriver.com>
-References: <cover.1415872776.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] gcc-4.9: fix the compile failure of 'defaults.h' not found
+	Thu, 13 Nov 2014 10:06:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sADA6B6r012565; Thu, 13 Nov 2014 10:06:11 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id juf_ZeOgaWFX; Thu, 13 Nov 2014 10:06:11 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sADA5xvw012561
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 13 Nov 2014 10:06:10 GMT
+Message-ID: <1415873194.2820.60.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Date: Thu, 13 Nov 2014 10:06:34 +0000
+In-Reply-To: <54636528.6060403@pabigot.com>
+References: <cover.1415647839.git.pab@pabigot.com>
+	<4df30acac92f854aa92f221c7663c952da8d9f1f.1415647839.git.pab@pabigot.com>
+	<1415790370.2820.45.camel@linuxfoundation.org>
+	<54636528.6060403@pabigot.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC 07/14] qt-mobility: switch to virtual/bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,122 +39,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Nov 2014 10:05:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 13 Nov 2014 10:06:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-While compiling gcc-crosssdk-initial-x86_64 on some host, there is
-occasionally failure that test the existance of default.h doesn't
-work.
-...
-| tmp/work-shared/gcc-4.9.1-r0/gcc-4.9.1/gcc/calls.c:1240:
-error: 'STACK_CHECK_MAX_VAR_SIZE' was not declared in this scope
-...
+On Wed, 2014-11-12 at 07:48 -0600, Peter A. Bigot wrote:
+> You raise some good questions.  I'll come back to whether the name for 
+> "whatever provides build-time support for bluetooth" should be spelled 
+> "virtual/bluez" or something else.
 
-The reason is tm_include_list='** defaults.h' rather than
-tm_include_list='** ./defaults.h'
+Naming is probably the least of the worries here. I will say that
+virtual/* has a very specific meaning in DEPENDS space though.
 
-So we add the test condition for this situation.
+> I think using bluez5 (bluetooth5) and bluez4 (bluetooth) as distinct 
+> PACKAGECONFIG options would be a mistake, because it propagates the 
+> assumption that "bluetooth" in Linux is a multivalent concept. Bluetooth 
+> in Linux is bluez.  Bluez is bluez5.  Work stopped on bluez4 over two 
+> years ago, and nobody's come up with third alternative.  IMO, the 
+> packageconfig option should be "bluetooth", not "bluez*".  I did see 
+> what Chris Larson wrote in 
+> http://lists.openembedded.org/pipermail/openembedded-core/2014-March/091008.html 
+> but I just don't see the value in adding extra infrastructure for a 
+> bunch of options that either don't exist now or won't exist in the near 
+> future.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...efaults.h-in-B-instead-of-S-and-t-oe-in-B.patch | 30 ++++++++++++++--------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+This kind of misses the problem though. Personally, I'd love to just
+switch to bluez5 and be done with it. Our userbase expects something
+with a little more thought though, there are people who will be
+transitioning at different times and we can't really force them into a
+flag day.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0023-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch b/meta/recipes-devtools/gcc/gcc-4.9/0023-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
-index 9e4435c..fddfe9e 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9/0023-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
-+++ b/meta/recipes-devtools/gcc/gcc-4.9/0023-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
-@@ -1,4 +1,4 @@
--From 46d52439052f0876a92dcf8a0ab9c60d75c8030b Mon Sep 17 00:00:00 2001
-+From f7d49ca445e60faa1b5256c6b4f96c1ee5c0e353 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Fri, 29 Mar 2013 09:17:25 +0400
- Subject: [PATCH 23/35] Use the defaults.h in ${B} instead of ${S}, and t-oe
-@@ -11,6 +11,14 @@ gcc-cross-intermediate, gcc-cross, gcc-runtime, and also the sdk build.
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- 
- Upstream-Status: Pending
-+
-+While compiling gcc-crosssdk-initial-x86_64 on some host, there is
-+occasionally failure that test the existance of default.h doesn't
-+work, the reason is tm_include_list='** defaults.h' rather than
-+tm_include_list='** ./defaults.h'
-+
-+So we add the test condition for this situation.
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-  gcc/Makefile.in  |    2 +-
-  gcc/configure    |    4 ++--
-@@ -19,10 +27,10 @@ Upstream-Status: Pending
-  4 files changed, 7 insertions(+), 7 deletions(-)
- 
- diff --git a/gcc/Makefile.in b/gcc/Makefile.in
--index 90a2bba..2320497 100644
-+index d1ab22f..15fe4b6 100644
- --- a/gcc/Makefile.in
- +++ b/gcc/Makefile.in
--@@ -469,7 +469,7 @@ TARGET_SYSTEM_ROOT = @TARGET_SYSTEM_ROOT@
-+@@ -483,7 +483,7 @@ TARGET_SYSTEM_ROOT = @TARGET_SYSTEM_ROOT@
-  TARGET_SYSTEM_ROOT_DEFINE = @TARGET_SYSTEM_ROOT_DEFINE@
-  
-  xmake_file=@xmake_file@
-@@ -32,10 +40,10 @@ index 90a2bba..2320497 100644
-  TM_MULTILIB_CONFIG=@TM_MULTILIB_CONFIG@
-  TM_MULTILIB_EXCEPTIONS_CONFIG=@TM_MULTILIB_EXCEPTIONS_CONFIG@
- diff --git a/gcc/configure b/gcc/configure
--index bdab45a..d587993 100755
-+index 5399b2b..60a04bd 100755
- --- a/gcc/configure
- +++ b/gcc/configure
--@@ -11539,8 +11539,8 @@ for f in $tm_file; do
-+@@ -11631,8 +11631,8 @@ for f in $tm_file; do
-         tm_include_list="${tm_include_list} $f"
-         ;;
-      defaults.h )
-@@ -47,10 +55,10 @@ index bdab45a..d587993 100755
-      * )
-         tm_file_list="${tm_file_list} \$(srcdir)/config/$f"
- diff --git a/gcc/configure.ac b/gcc/configure.ac
--index 5f5c909..5e5e84f 100644
-+index f87c3b6..460e0d9 100644
- --- a/gcc/configure.ac
- +++ b/gcc/configure.ac
--@@ -1720,8 +1720,8 @@ for f in $tm_file; do
-+@@ -1740,8 +1740,8 @@ for f in $tm_file; do
-         tm_include_list="${tm_include_list} $f"
-         ;;
-      defaults.h )
-@@ -62,7 +70,7 @@ index 5f5c909..5e5e84f 100644
-      * )
-         tm_file_list="${tm_file_list} \$(srcdir)/config/$f"
- diff --git a/gcc/mkconfig.sh b/gcc/mkconfig.sh
--index 29fdfc7..e048dce 100644
-+index c7146ed..b153f45 100644
- --- a/gcc/mkconfig.sh
- +++ b/gcc/mkconfig.sh
- @@ -77,7 +77,7 @@ if [ -n "$HEADERS" ]; then
-@@ -70,11 +78,11 @@ index 29fdfc7..e048dce 100644
-  	echo '#ifdef IN_GCC' >> ${output}T
-  	for file in "$@"; do
- -	    if test x"$file" = x"defaults.h"; then
--+	    if test x"$file" = x"./defaults.h"; then
-++	    if test x"$file" = x"./defaults.h" -o x"$file" = x"defaults.h"; then
-  		postpone_defaults_h="yes"
-  	    else
-  		echo "# include \"$file\"" >> ${output}T
--@@ -103,7 +103,7 @@ esac
-+@@ -106,7 +106,7 @@ esac
-  
-  # If we postponed including defaults.h, add the #include now.
-  if test x"$postpone_defaults_h" = x"yes"; then
-@@ -84,5 +92,5 @@ index 29fdfc7..e048dce 100644
-  
-  # Add multiple inclusion protection guard, part two.
- -- 
--1.7.10.4
-+1.9.1
- 
--- 
-1.9.1
+The issue is that if we just have a single "blue*" option, you basically
+have no idea what you're going to get out of the build, it fails on the
+determinism tests. You say qt5 may or may not work with 4, I suspect
+there are several packages with this issue. My concern is that as we
+update software, we basically have no idea what we're enabling or
+disabling. This is exactly the kind of thing PACKAGECONFIG is meant to
+spell out though.
+
+This is why I suggested a 4 and 5 PACKAGECONFIG option since it then
+clearly states what its building.
+
+FWIW I do agree bluez4 is a dead end so calling the options "bluez4" and
+"bluez" (for v5) would be ideal. We have some issues with legacy
+namespace though and I'm not sure how we handle that.
+
+> Of the roughly 16 recipes I had to touch, only one (pulseaudio) clearly 
+> distinguishes between bluez4 and bluez5 when being configured, and I 
+> suspect that's just to simplify transition.  The others either figure 
+> out which version they were given and use it, or will only work with one 
+> or the other.  They all at least build with virtual/bluez, though they 
+> might internally disable bluetooth support or fail at runtime if bluez5 
+> is what's available.  (Qt 5.4 will support bluez5; it's unclear to me 
+> whether it still supports bluez4.)
+> 
+> There are and will continue to be certain recipes that will never move 
+> beyond bluez4, because they're no longer maintained or nobody has found 
+> it worthwhile (obex stuff) or a priority (headset stuff) to re-implement 
+> the functionality they depend on under the new API. So we do need to 
+> support using bluez4 and bluez5 as alternatives. But most recipes don't 
+> seem to care who provides "bluetooth", and if it's currently bluez4 and 
+> the package is maintained it'll eventually become bluez5.  Thus 
+> "virtual/bluez".  AFAIK the libbluetooth API is unchanged; it's the dbus 
+> API that's different.  If consensus is to substitute something like 
+> "distro/bluez" instead of "virtual/bluez" to remove the implication it's 
+> completely API-equivalent that'd be fine, but I think we do need some 
+> name to serve that role without putting the conditional in every recipe 
+> that might reference the selected bluetooth solution.
+
+My reasoning is that if we need to provide specific PACKAGECONFIG for
+determinism, we may as well then depend specifically on the recipe
+namespaces.
+
+"virtual/*" does not map to this usage as Chris mentions. I've been
+around long enough to see what misuse of the provider namespace does and
+I don't want to go there again. Introducing a "distro/bluez" would
+probably just confuse things since its a new convention without well
+defined meaning and we don't have a common case of this to deal with in
+general.
+
+> Using bluez4 and bluez5 in DISTRO_FEATURES makes some sense, as a 
+> parallel to systemd vs sysvinit.  (I don't like "bluetooth5" because 
+> there's no such thing; since we already have "bluetooth" I'd suggest 
+> making "bluez4" the canonical spelling and interpreting "bluetooth" in 
+> the absence of "bluez5" as being an alias for "bluez4".)
+
+That alias support means more anonymous code we can likely never get rid
+of so it makes me nervous. The DISTRO_FEATURES part is actually the part
+I like least about my proposal as it happens, but I'm failing to see a
+good way of presenting this to users in a way which lets them choose the
+time of their upgrade clearly and ensures that builds are deterministic.
+
+>   This provides 
+> a way to set the PREFERRED_PROVIDER for "distro/bluez" and possibly to 
+> set the PNBLACKLISTs to exclude the recipes that are not appropriate 
+> under bluez4.
+> 
+> Then we just use "distro/bluez" instead of "virtual/bluez" in all the 
+> recipes.
+> 
+> Is that any closer to acceptable?
+
+I remain sceptical I'm afraid, I certainly don't see distro/ as having
+any value over virtual/ :(.
+
+Cheers,
+
+Richard
 
 
