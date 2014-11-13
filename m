@@ -1,39 +1,41 @@
-Return-Path: <joaohf@gmail.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D98ED62252
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C19465C91
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 23:09:08 +0000 (UTC)
-Received: by mail-qg0-f43.google.com with SMTP id f51so9601258qge.2
+	Thu, 13 Nov 2014 00:18:50 +0000 (UTC)
+Received: by mail-wg0-f47.google.com with SMTP id a1so15358532wgh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 15:09:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding;
-	bh=r1ffkky7d9CBZO+BsekWcja8s4XYQA9/Dx/xa6U/y/M=;
-	b=AARGewp92RrrHIPbGt3Uv1LgjBc8XvuuWIF6Ghe6H7mv/jISjF3N3HT/o9uHFETrM2
-	QXuqBhKiNnn779j/LkL9OpCnXuH06aVubE2JOYSNSUmOrnszcJGTGe74ZyeoSyxCc24Q
-	8hfx0LjeSSC4mnqwtIvmvh6bNG4QkROAqPQRW/ZH5b483fTjxWB6DElWT9wq0+bYw+Kp
-	wjckV+yu+iMBMvutH+kFe7Yk48OJQPgw6rI8hT9+3u3aHrS8RGnp4m1NC/ilQCcDQBnU
-	KaCvYPNkRROJnRU5XnF+1QeGudNNppgIkHebC3nDy4QS22NZ4VWKruaH+LsmXIluWYaB
-	jLyA==
-X-Received: by 10.140.23.112 with SMTP id 103mr58494811qgo.73.1415833749322;
-	Wed, 12 Nov 2014 15:09:09 -0800 (PST)
-Received: from localhost.localdomain ([201.53.206.66])
-	by mx.google.com with ESMTPSA id
-	v37sm22251506qge.29.2014.11.12.15.09.07 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 12 Nov 2014 15:09:08 -0800 (PST)
-From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
-	<joaohf@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Nov 2014 21:08:39 -0200
-Message-Id: <1415833719-6255-3-git-send-email-joaohf@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1415833719-6255-1-git-send-email-joaohf@gmail.com>
-References: <1415833719-6255-1-git-send-email-joaohf@gmail.com>
+	Wed, 12 Nov 2014 16:18:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=ix7Dm0LHVg2s3O3o5L1bmGjutl3wvgq0BTZPUa4dEgA=;
+	b=DRJxu4gbA8UtHy0eHuwPfBzsQvOXNraECrJnqLJ03i2MxDbao/iy9ul2cf9HCw03Ic
+	wMqTb3UgbZv0kQIsxNp8a7MroS6IlSxNz8avkPn/atTfcZIKysv8T2kKidAvHI17MH3k
+	/hXjcubDocyAMO4fCFh5a5Km8SdEudgWtNTODDXMZpU//pZVcXRJESqMAcpsE8sCkfqH
+	ax9MEikRMU+dkKJDfNEjjkG9b/jqNQZGr9rhx/jKq71x5NcrVcQ4cszqIbCZsz3sYViR
+	hGxCkOswu//mp1y7KP8wyV3p3KFigZdt55IKFsSc2soYsgi055eNUkiB9641u9r5Bivy
+	ETGA==
+X-Gm-Message-State: ALoCoQlyS+eloWEue2UhSlUu+quTffSTAA944I+KrOPm3SwMdZzjwT8hVurgSJiAGwOFiLNJTk7u
 MIME-Version: 1.0
-Subject: [PATCH 2/2] report-error: send report error with username and email
+X-Received: by 10.194.235.135 with SMTP id um7mr26347643wjc.1.1415837930652;
+	Wed, 12 Nov 2014 16:18:50 -0800 (PST)
+Received: by 10.216.75.70 with HTTP; Wed, 12 Nov 2014 16:18:50 -0800 (PST)
+X-Originating-IP: [94.144.63.229]
+Received: by 10.216.75.70 with HTTP; Wed, 12 Nov 2014 16:18:50 -0800 (PST)
+In-Reply-To: <CAJTo0LZb4fRLx1O2Cc+-9CpP2A03fiBWZX4oY6ryLH9rLfQF6A@mail.gmail.com>
+References: <1415377424-2639-1-git-send-email-andrei.gherzan@windriver.com>
+	<CAK18fxE0CzhZjcNM7Jf=yEZW6a9YE5J=4H-rJBV7-RACyJjokA@mail.gmail.com>
+	<CAJTo0LZpqUUOG6vum-t6nWbkte_WqNDBj+vi7kyXeNVZbX4FXQ@mail.gmail.com>
+	<54638918.2040500@gmail.com>
+	<CAJTo0LZb4fRLx1O2Cc+-9CpP2A03fiBWZX4oY6ryLH9rLfQF6A@mail.gmail.com>
+Date: Thu, 13 Nov 2014 01:18:50 +0100
+Message-ID: <CAK18fxFo3MUVqh4bEUObuoEtSjm7Db6kHptg3DJpY1-j=4m2Xw@mail.gmail.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: Ross Burton <ross.burton@intel.com>
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: [master][dizzy][PATCH] xkeyboard-config: Inherit gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,119 +48,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Nov 2014 23:09:09 -0000
+X-List-Received-Date: Thu, 13 Nov 2014 00:18:58 -0000
+Content-Type: multipart/alternative; boundary=089e01419f9aeaa0e90507b27497
+
+--089e01419f9aeaa0e90507b27497
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Two variables ERR_REPORT_USER and ERR_REPORT_EMAIL were created
-to instruct send-report-error to use 'user' and 'email' from command
-line parameters instead of checking '~/.oe-send-error' file.
+On Nov 12, 2014 5:40 PM, "Burton, Ross" <ross.burton@intel.com> wrote:
+>
+>
+> On 12 November 2014 16:21, akuster808 <akuster808@gmail.com> wrote:
+>>>
+>>> Thanks for the ping, merged to mut.
+>>
 
-Two new positional arguments were added to send-report-error.
-If 'username' (third argument) is passed, then send-error-report will
-not check userfile. As 'email' (forth argument) is an optional,
-it will used only if passed.
+No problem. Hope to have it soon in dizzy
 
-Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
----
- meta/classes/report-error.bbclass |  6 +++++-
- scripts/send-error-report         | 45 ++++++++++++++++++++++++---------------
- 2 files changed, 33 insertions(+), 18 deletions(-)
+>>
+>> What part did you take care of? Master or Dizzy?
+>
+>
+> MUT feeds into master when Richard merges it.  You can backport from
+master when it's there.
+>
+> Ross
 
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-index f9e821f..253a659 100644
---- a/meta/classes/report-error.bbclass
-+++ b/meta/classes/report-error.bbclass
-@@ -8,6 +8,8 @@
- 
- ERR_REPORT_DIR ?= "${LOG_DIR}/error-report"
- ERR_REPORT_SERVER ?= ""
-+ERR_REPORT_USER ?= ""
-+ERR_REPORT_EMAIL ?= ""
- 
- def errorreport_getdata(e):
-     logpath = e.data.getVar('ERR_REPORT_DIR', True)
-@@ -29,7 +31,9 @@ def errorreport_senddata(e, datafile):
-     import subprocess
-     server = e.data.getVar('ERR_REPORT_SERVER', True)
-     if server:
--        cmd = 'send-error-report %s %s' % (datafile, server)
-+        user = e.data.getVar('ERR_REPORT_USER', True)
-+        email = e.data.getVar('ERR_REPORT_EMAIL', True)
-+        cmd = 'send-error-report %s %s %s %s' % (datafile, server, user, email)
-         subprocess.call(cmd, shell=True)
-     else:
-         bb.note("The errors for this build are stored in %s\nYou can send the errors to an upstream server by running:\n  send-error-report %s [server]" % (datafile, datafile))
-diff --git a/scripts/send-error-report b/scripts/send-error-report
-index c99d387..b5c4972 100755
---- a/scripts/send-error-report
-+++ b/scripts/send-error-report
-@@ -42,27 +42,35 @@ def handle_connection(server, data):
-     return conn
- 
- 
--def sendData(json_file, server):
-+def sendData(json_file, server, username = '', email = ''):
- 
-     if os.path.isfile(json_file):
- 
--        home = os.path.expanduser("~")
--        userfile = os.path.join(home, ".oe-send-error")
--        if os.path.isfile(userfile):
--            with open(userfile) as g:
--                username = g.readline()
--                email = g.readline()
-+        if username:
-+            if len(username) > 0 and len(username) > 50:
-+                print("Invalid username input, try again.")
-+                return
-+            if len(email) > 0 and len(email) > 50:
-+                print("Invalid username input, try again.")
-+                return
-         else:
--            print("Please enter your name and your email (optionally), they'll be saved in the file you send.")
--            username = raw_input("Name: ")
--            email = raw_input("E-mail (not required): ")
--            if len(username) > 0 and len(username) < 50:
--                with open(userfile, "w") as g:
--                    g.write(username + "\n")
--                    g.write(email + "\n")
-+            home = os.path.expanduser("~")
-+            userfile = os.path.join(home, ".oe-send-error")
-+            if os.path.isfile(userfile):
-+                with open(userfile) as g:
-+                    username = g.readline()
-+                    email = g.readline()
-             else:
--                print("Invalid inputs, try again.")
--                return
-+                print("Please enter your name and your email (optionally), they'll be saved in the file you send.")
-+                username = raw_input("Name: ")
-+                email = raw_input("E-mail (not required): ")
-+                if len(username) > 0 and len(username) < 50:
-+                    with open(userfile, "w") as g:
-+                        g.write(username + "\n")
-+                        g.write(email + "\n")
-+                else:
-+                    print("Invalid inputs, try again.")
-+                    return
- 
-         with open(json_file) as f:
-             data = f.read()
-@@ -103,8 +111,11 @@ if __name__ == '__main__':
-         print("\nUsage: send-error-report <error_fileName> [server]")
-         print("\nIf this is the first when sending a report you'll be asked for your name and optionally your email address.")
-         print("They will be associated with your report.\n")
--
-     elif len(sys.argv) == 3:
-         sendData(sys.argv[1], sys.argv[2])
-+    elif len(sys.argv) == 4:
-+        sendData(sys.argv[1], sys.argv[2], sys.argv[3])
-+    elif len(sys.argv) == 5:
-+        sendData(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
-     else:
-         sendData(sys.argv[1], "errors.yoctoproject.org")
--- 
-1.9.1
+--089e01419f9aeaa0e90507b27497
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<p dir=3D"ltr">On Nov 12, 2014 5:40 PM, &quot;Burton, Ross&quot; &lt;<a hre=
+f=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt; On 12 November 2014 16:21, akuster808 &lt;<a href=3D"mailto:akuster808=
+@gmail.com">akuster808@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Thanks for the ping, merged to mut.<br>
+&gt;&gt;</p>
+<p dir=3D"ltr">No problem. Hope to have it soon in dizzy </p>
+<p dir=3D"ltr">&gt;&gt;<br>
+&gt;&gt; What part did you take care of? Master or Dizzy?<br>
+&gt;<br>
+&gt;<br>
+&gt; MUT feeds into master when Richard merges it.=C2=A0 You can backport f=
+rom master when it&#39;s there.<br>
+&gt;<br>
+&gt; Ross=C2=A0</p>
 
+--089e01419f9aeaa0e90507b27497--
