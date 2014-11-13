@@ -1,41 +1,40 @@
-Return-Path: <andrei@gherzan.ro>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C19465C91
+Return-Path: <eric@eukrea.com>
+X-Greylist: delayed 597 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 13 Nov 2014 00:58:09 UTC
+Received: from mo69.mail-out.ovh.net (2.mo69.mail-out.ovh.net [178.33.251.80])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EEB660167
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 00:18:50 +0000 (UTC)
-Received: by mail-wg0-f47.google.com with SMTP id a1so15358532wgh.6
+	Thu, 13 Nov 2014 00:58:09 +0000 (UTC)
+Received: from mail409.ha.ovh.net (b9.ovh.net [213.186.33.59])
+	by mo69.mail-out.ovh.net (Postfix) with SMTP id 4AA34FFC279
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Nov 2014 16:18:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=ix7Dm0LHVg2s3O3o5L1bmGjutl3wvgq0BTZPUa4dEgA=;
-	b=DRJxu4gbA8UtHy0eHuwPfBzsQvOXNraECrJnqLJ03i2MxDbao/iy9ul2cf9HCw03Ic
-	wMqTb3UgbZv0kQIsxNp8a7MroS6IlSxNz8avkPn/atTfcZIKysv8T2kKidAvHI17MH3k
-	/hXjcubDocyAMO4fCFh5a5Km8SdEudgWtNTODDXMZpU//pZVcXRJESqMAcpsE8sCkfqH
-	ax9MEikRMU+dkKJDfNEjjkG9b/jqNQZGr9rhx/jKq71x5NcrVcQ4cszqIbCZsz3sYViR
-	hGxCkOswu//mp1y7KP8wyV3p3KFigZdt55IKFsSc2soYsgi055eNUkiB9641u9r5Bivy
-	ETGA==
-X-Gm-Message-State: ALoCoQlyS+eloWEue2UhSlUu+quTffSTAA944I+KrOPm3SwMdZzjwT8hVurgSJiAGwOFiLNJTk7u
+	Thu, 13 Nov 2014 01:39:39 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 13 Nov 2014 02:39:38 +0200
+Received: from tal33-3-82-233-81-124.fbx.proxad.net (HELO e6520eb.localdomain)
+	(eric%eukrea.com@82.233.81.124)
+	by ns0.ovh.net with SMTP; 13 Nov 2014 02:39:36 +0200
+Date: Thu, 13 Nov 2014 01:39:33 +0100
+From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+To: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+Message-ID: <20141113013933.6820d2d9@e6520eb.localdomain>
+In-Reply-To: <OF81A9A14C.EC58A864-ON86257D8E.00636115-86257D8E.0064525F@ni.com>
+References: <OF81A9A14C.EC58A864-ON86257D8E.00636115-86257D8E.0064525F@ni.com>
+Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.24; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Received: by 10.194.235.135 with SMTP id um7mr26347643wjc.1.1415837930652;
-	Wed, 12 Nov 2014 16:18:50 -0800 (PST)
-Received: by 10.216.75.70 with HTTP; Wed, 12 Nov 2014 16:18:50 -0800 (PST)
-X-Originating-IP: [94.144.63.229]
-Received: by 10.216.75.70 with HTTP; Wed, 12 Nov 2014 16:18:50 -0800 (PST)
-In-Reply-To: <CAJTo0LZb4fRLx1O2Cc+-9CpP2A03fiBWZX4oY6ryLH9rLfQF6A@mail.gmail.com>
-References: <1415377424-2639-1-git-send-email-andrei.gherzan@windriver.com>
-	<CAK18fxE0CzhZjcNM7Jf=yEZW6a9YE5J=4H-rJBV7-RACyJjokA@mail.gmail.com>
-	<CAJTo0LZpqUUOG6vum-t6nWbkte_WqNDBj+vi7kyXeNVZbX4FXQ@mail.gmail.com>
-	<54638918.2040500@gmail.com>
-	<CAJTo0LZb4fRLx1O2Cc+-9CpP2A03fiBWZX4oY6ryLH9rLfQF6A@mail.gmail.com>
-Date: Thu, 13 Nov 2014 01:18:50 +0100
-Message-ID: <CAK18fxFo3MUVqh4bEUObuoEtSjm7Db6kHptg3DJpY1-j=4m2Xw@mail.gmail.com>
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: Ross Burton <ross.burton@intel.com>
-Cc: openembedded <openembedded-core@lists.openembedded.org>
-Subject: Re: [master][dizzy][PATCH] xkeyboard-config: Inherit gettext
+X-Ovh-Tracer-Id: 18286866288414993875
+X-Ovh-Remote: 82.233.81.124 (tal33-3-82-233-81-124.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: -100
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeejhedrieelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeejhedrieelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe] Opkg files at /var/lib/opkg/lists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,52 +47,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Nov 2014 00:18:58 -0000
-Content-Type: multipart/alternative; boundary=089e01419f9aeaa0e90507b27497
-
---089e01419f9aeaa0e90507b27497
+X-List-Received-Date: Thu, 13 Nov 2014 00:58:13 -0000
 Content-Type: text/plain; charset=UTF-8
-
-On Nov 12, 2014 5:40 PM, "Burton, Ross" <ross.burton@intel.com> wrote:
->
->
-> On 12 November 2014 16:21, akuster808 <akuster808@gmail.com> wrote:
->>>
->>> Thanks for the ping, merged to mut.
->>
-
-No problem. Hope to have it soon in dizzy
-
->>
->> What part did you take care of? Master or Dizzy?
->
->
-> MUT feeds into master when Richard merges it.  You can backport from
-master when it's there.
->
-> Ross
-
---089e01419f9aeaa0e90507b27497
-Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr">On Nov 12, 2014 5:40 PM, &quot;Burton, Ross&quot; &lt;<a hre=
-f=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; On 12 November 2014 16:21, akuster808 &lt;<a href=3D"mailto:akuster808=
-@gmail.com">akuster808@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Thanks for the ping, merged to mut.<br>
-&gt;&gt;</p>
-<p dir=3D"ltr">No problem. Hope to have it soon in dizzy </p>
-<p dir=3D"ltr">&gt;&gt;<br>
-&gt;&gt; What part did you take care of? Master or Dizzy?<br>
-&gt;<br>
-&gt;<br>
-&gt; MUT feeds into master when Richard merges it.=C2=A0 You can backport f=
-rom master when it&#39;s there.<br>
-&gt;<br>
-&gt; Ross=C2=A0</p>
+Hi Aljandro,
 
---089e01419f9aeaa0e90507b27497--
+copying oe-core's ML as the problem seems related to oe-core and
+not to meta-oe.
+
+Le Wed, 12 Nov 2014 12:15:46 -0600,
+Alejandro del Castillo <alejandro.delcastillo@ni.com> a =C3=A9crit :
+
+> Hello,
+>=20
+> I noticed that the OE build process is leaving files at=20
+> /var/lib/opkg/lists (~1.5 MB on my system), which I believe are the feed=
+=20
+> content used to build the image. The target opkg.conf file configure=20
+> lists_dir to be at /var/lib/opkg (instead of the default=20
+> /var/lib/opkg/lists), so the feed content under /var/lib/opkg/lists is no=
+t=20
+> used at all.=20
+>=20
+> Does anyone know if there Is a reason why the files are left over or is=20
+> this a bug? Shouldn't the image creation process remove the whole=20
+> directory if it's not going to be used?=20
+>=20
+> BTW, Dylan doesn't have this problem, but Daisy and Dizzy do (not sure=20
+> about Dora).
+>=20
+I was on a similar subject today and this seems broken since :
+d950ef40a3eae4b54cc62828e66d84a62d78c447
+
+BTW it seems that FEED_DEPLOYDIR_BASE_URI was replaced by
+PACKAGE_FEED_URIS in 9b8811045546ad67b4695d980f09636d5506e50c but the
+document is still pointing to the previous one :
+http://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#runti=
+me-package-management-target-ipk
+If the replacement was not intended then there is a problem as
+FEED_DEPLOYDIR_BASE_URI doesn't seems to work anymore (tested with
+dizzy and package_ipk).
+
+Best regards
+Eric
+
