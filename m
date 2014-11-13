@@ -1,37 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C55960167
+Return-Path: <wrob311@gmail.com>
+Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id C05D560167
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 18:14:38 +0000 (UTC)
-Received: by mail-qc0-f176.google.com with SMTP id x3so11361086qcv.7
+	Thu, 13 Nov 2014 20:23:34 +0000 (UTC)
+Received: by mail-la0-f42.google.com with SMTP id s18so39002lam.15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 10:14:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=EMSWD/Z+yLu1Sg6PmZu1jCag6IOarlvN/zZ28WlUaSs=;
-	b=Qd1uiHZ+p2I9X27YIL53/+DTyG1lEQJS1WVBqLMiul35sguqAwAUWV4BfsE4E6qveo
-	1eCRCoq0DFuSY0gx/R4vpKQxkZOlSCm8n9w2N8B/TyGZh3j/U9xjG+LkfLaYyIdY0/Q8
-	h10jQNbP67Lzyi0KPf++WoXkky/+PH19p0xp1vG0PKZF0tbMUfwrAtY7O1jq7RMywYcR
-	OCXxqLgukdVwNafPMYxQsadx/w3AeNzg9soTVmmAk9N35goM2Bas6WGopNoS2UcvvPms
-	S+hWYHaURwQRM5FPSvc25yDbiuw+x1M/sGujQMo7hfjyM7Tsx6MYJ8LqVDKFUiiKKgar
-	tdSw==
-X-Gm-Message-State: ALoCoQkUf/zN7HmocC4hWThuZLPoAh/vh84p9BZx/yatLg1ejoZtaA/tObsWkVWsto8cT1wTT1zT
-X-Received: by 10.229.176.198 with SMTP id bf6mr4984878qcb.12.1415902477676;
-	Thu, 13 Nov 2014 10:14:37 -0800 (PST)
+	Thu, 13 Nov 2014 12:23:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:content-type;
+	bh=tpbOxwCjMSoQ+DP2p8hhd0f4DAMT3BnZF210OsCT1LY=;
+	b=wHcCx0NR1A01ZjFHf+SqYs8F/PscIn74FX+dp0TzdflJXM0cow2fQAYB0Wrkpkp5d5
+	JPtXs+pB+cG+z39KSg9wqkUzzwjZ7SpwLlbkAo7tT0EzUj/PG4JnSQExgV8uwIWCgJ08
+	gOr4FJSmVKqxecU8YQysey6cEsVI1G+v15nLROB4kKPCbyUDdqGmkLt6FN8gNvixr18v
+	tNB3zqrHeiUNBKIIm7OzS6SGVYnXj7CQ3yoXAIIjVnBN8AmWz8Hcq5U2jsbNmF+01+rj
+	31vYK/6bWjCHkVt6WORQxZ2wRWHaAQ3ZTUS0bo4Z4BMDYnYrBhUbQ4h/8wrEu/e0wesv
+	R9bg==
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Thu, 13 Nov 2014 10:14:17 -0800 (PST)
-In-Reply-To: <1415346729-16760-2-git-send-email-schnitzeltony@googlemail.com>
-References: <1415346729-16760-1-git-send-email-schnitzeltony@googlemail.com>
-	<1415346729-16760-2-git-send-email-schnitzeltony@googlemail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Nov 2014 18:14:17 +0000
-Message-ID: <CAJTo0Lbs=jzjEvpw64X5iJ9DqG5BV8Sgc9-A80Nf2mM8q=CF_w@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] midori: update to 0.5.8
+X-Received: by 10.112.141.104 with SMTP id rn8mr4330642lbb.87.1415910214259;
+	Thu, 13 Nov 2014 12:23:34 -0800 (PST)
+Sender: wrob311@gmail.com
+Received: by 10.112.163.168 with HTTP; Thu, 13 Nov 2014 12:23:34 -0800 (PST)
+In-Reply-To: <CAJTo0LbHecBh1J3MqhpXzsrXmUv_963LS+VDD0Vrg_rzFukynQ@mail.gmail.com>
+References: <1415832933-372-1-git-send-email-wrobell@pld-linux.org>
+	<CAJTo0LbHecBh1J3MqhpXzsrXmUv_963LS+VDD0Vrg_rzFukynQ@mail.gmail.com>
+Date: Thu, 13 Nov 2014 20:23:34 +0000
+X-Google-Sender-Auth: d3ZWMKhpxLocvvv4cMvvnYoquW0
+Message-ID: <CA+92fu_s_2_MzGSEuJKCEvKqE+GG61QANvb_Nb4jgavspT_KDg@mail.gmail.com>
+From: Artur Wroblewski <wrobell@pld-linux.org>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Replace Python 3.3.x with Python 3.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,60 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Nov 2014 18:14:39 -0000
-Content-Type: multipart/alternative; boundary=001a11c3057e3816570507c17cde
-
---001a11c3057e3816570507c17cde
+X-List-Received-Date: Thu, 13 Nov 2014 20:23:41 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi Andreas,
-
-On 7 November 2014 07:52, Andreas M=C3=BCller <schnitzeltony@googlemail.com=
+On Thu, Nov 13, 2014 at 5:24 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> Hi Artur,
 >
-wrote:
-
-> +SRC_URI =3D "
-> http://www.midori-browser.org/downloads/${BPN}_${PV}_all_.tar.bz2 \
+> On 12 November 2014 22:55, wrobell <wrobell@pld-linux.org> wrote:
+>>
+>> Replace Python 3.3.x with Python 3.4.2 (bug #6857)
 >
-
-ERROR: Fetcher failure: Fetch command failed with exit code 8, output:
-http://www.midori-browser.org/downloads/midori_0.5.8_all_.tar.bz2:
-2014-11-13 18:07:07 ERROR 404: Not Found.
-
-+S =3D "${WORKDIR}"
 >
+> This patch has long lines so didn't survive SMTP, can you push it to a git
+> repository somewhere?
 
-This is... worrying.  If the tarball doesn't extract into a folder, please
-use the subdir parameter in SRC_URI to put it into one.
+I have attached it to bug #6857. Actually, some improvements to the
+python manifest generation script was next step in my plan. This would
+tackle the above problem in the future.
 
-Ross
+>>
+>> Despite further work needed, I hope this patch can be merged, so further
+>>
+>> work on Python 3 support can be continued in smaller steps.
+>
+>
+> Personally I'd prefer to see a working Python 3.4 integrated in one go
+> instead of having a broken 3.4 integrated for an unknown about of time.
+> Hopefully anyone else who is interested in 3.4 can step up and work on the
+> outstanding issues now that this patch is public (which is another good
+> reason to have a public repo with this in).
 
---001a11c3057e3816570507c17cde
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+If you specify some exit criteria for this, then I can try to improve
+the patch. But
+please keep in mind that Python 3.3 in Yocto is broken to such extent that it
+crashes due to missing essential modules.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Andreas,</div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On 7 November 2014 07:52, Andre=
-as M=C3=BCller <span dir=3D"ltr">&lt;<a href=3D"mailto:schnitzeltony@google=
-mail.com" target=3D"_blank">schnitzeltony@googlemail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:=
-solid;padding-left:1ex"><div id=3D":11m" class=3D"" style=3D"overflow:hidde=
-n">+SRC_URI =3D &quot;<a href=3D"http://www.midori-browser.org/downloads/${=
-BPN}_${PV}_all_.tar.bz2" target=3D"_blank">http://www.midori-browser.org/do=
-wnloads/${BPN}_${PV}_all_.tar.bz2</a> \<br>
-</div></blockquote><div><br></div><div>ERROR: Fetcher failure: Fetch comman=
-d failed with exit code 8, output:</div><div><a href=3D"http://www.midori-b=
-rowser.org/downloads/midori_0.5.8_all_.tar.bz2">http://www.midori-browser.o=
-rg/downloads/midori_0.5.8_all_.tar.bz2</a>:</div><div>2014-11-13 18:07:07 E=
-RROR 404: Not Found.=C2=A0</div><div><br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-c=
-olor:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D"=
-:11m" class=3D"" style=3D"overflow:hidden">
-+S =3D &quot;${WORKDIR}&quot;</div></blockquote></div><br>This is... worryi=
-ng.=C2=A0 If the tarball doesn&#39;t extract into a folder, please use the =
-subdir parameter in SRC_URI to put it into one.</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+Regards,
 
---001a11c3057e3816570507c17cde--
+w
+
