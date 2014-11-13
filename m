@@ -1,37 +1,28 @@
-Return-Path: <anders@chargestorm.se>
-Received: from stoexhub03.domain01.net (STOEXHUB03.domain01.net
-	[83.145.59.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E3A560167
+Return-Path: <Adrian.Calianu@enea.com>
+Received: from mx-3.enea.com (unknown [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 86DB960167
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 08:27:42 +0000 (UTC)
-Received: from ad.chargestorm.se (83.233.19.145) by stoexhub03.domain01.net
-	(10.12.10.3) with Microsoft SMTP Server (TLS) id 8.3.279.1;
-	Thu, 13 Nov 2014 09:27:41 +0100
-Date: Thu, 13 Nov 2014 09:27:04 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <20141113082704.GA19230@ad.chargestorm.se>
-Mail-Followup-To: Hongxu Jia <hongxu.jia@windriver.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1415699201.git.hongxu.jia@windriver.com>
-	<37d7153a864b4dee5748a3a30054c0c62e243f02.1415699201.git.hongxu.jia@windriver.com>
-	<FB878F6E-62D1-49FB-A373-EF554D0A274D@dominion.thruhere.net>
-	<54640951.3040005@windriver.com> <54640CC9.1080509@windriver.com>
+	Thu, 13 Nov 2014 08:33:45 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.03.0158.001; Thu, 13 Nov 2014 09:33:39 +0100
+From: Adrian Calianu <Adrian.Calianu@enea.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] automake: set test-driver path relative to
+	top_builddir
+Thread-Index: AQHP/nBDUwKa/TzzP0q55PiIcoY1f5xdNxqAgAEEBZA=
+Date: Thu, 13 Nov 2014 08:33:38 +0000
+Message-ID: <A1661D2DDD942248A02617DE63569A0125D6244F@SESTOEX04.enea.se>
+References: <1415793612-12055-1-git-send-email-adrian.calianu@enea.com>
+	<CAJTo0LZzVmxMcTNhtKpJrmROKxRj9-vtdFNdCwyZkG_ycgEzRQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZzVmxMcTNhtKpJrmROKxRj9-vtdFNdCwyZkG_ycgEzRQ@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.14.114]
 MIME-Version: 1.0
-In-Reply-To: <54640CC9.1080509@windriver.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-GFI-SMTP-Submission: 1
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] avahi.inc: rename package to use avahi to instead of avahi-daemon
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] automake: set test-driver path relative to top_builddir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,54 +35,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Nov 2014 08:27:44 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 13 Nov 2014 08:33:49 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_A1661D2DDD942248A02617DE63569A0125D6244FSESTOEX04enease_"
 
-* Hongxu Jia <hongxu.jia@windriver.com> [141113 02:44]:
+--_000_A1661D2DDD942248A02617DE63569A0125D6244FSESTOEX04enease_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> On 11/13/2014 09:28 AM, Hongxu Jia wrote:
-> > On 11/12/2014 06:27 PM, Koen Kooi wrote:
-> >>> Op 11 nov. 2014, om 11:52 heeft Hongxu Jia 
-> >>> <hongxu.jia@windriver.com> het volgende geschreven:
+SGkgUm9zcywNCg0KICAgICAgICAgICAgICAgIFRoaXMgcGF0Y2ggd2FzIHJlcXVpcmVkIGJ5IHR3
+byBjaGFuZ2VzIGRvbmUgaW4gWW9jdG8gYnV0IEkgdGhpbmsgaXMgYSB2ZXJ5IGdvb2QgcG9pbnQg
+dG8gZGlzY3VzcyBmaXJzdCB3aXRoIGF1dG9tYWtlIG1haW50YWluZXJzLiBTbyB3ZSBjYW4gYXZv
+aWQgY2FycnlpbmcgdGhpcyBwYXRoLg0KDQpUaGFua3MsDQpBZHJpYW4NCg0KRnJvbTogQnVydG9u
+LCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KU2VudDogV2VkbmVzZGF5LCBO
+b3ZlbWJlciAxMiwgMjAxNCA3OjU5IFBNDQpUbzogQWRyaWFuIENhbGlhbnUNCkNjOiBPRS1jb3Jl
+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYXV0b21ha2U6IHNldCB0ZXN0LWRyaXZl
+ciBwYXRoIHJlbGF0aXZlIHRvIHRvcF9idWlsZGRpcg0KDQoNCk9uIDEyIE5vdmVtYmVyIDIwMTQg
+MTI6MDAsIEFkcmlhbiBDYWxpYW51IDxhZHJpYW4uY2FsaWFudUBlbmVhLmNvbTxtYWlsdG86YWRy
+aWFuLmNhbGlhbnVAZW5lYS5jb20+PiB3cm90ZToNCitTZXQgdGhlIHBhdGggcmVsYXRpdmUgdG8g
+JHRvcF9idWlsZCBmb3IgdGVzdC1kcml2ZXIgdG8gYmUgYWNjZXNpYmxlIGF0IHJ1bnRpbWUNCisN
+CitTaWduZWQtb2ZmLWJ5OiBBZHJpYW4gQ2FsaWFudSA8YWRyaWFuLmNhbGlhbnVAZW5lYS5jb208
+bWFpbHRvOmFkcmlhbi5jYWxpYW51QGVuZWEuY29tPj4NCg0KVGhpcyBwYXRjaCBuZWVkcyBhbiB1
+cHN0cmVhbS1zdGF0dXMgLSBpbiBwYXJ0aWN1bGFyIGlzIHRoaXMgc29tZXRoaW5nIHVwc3RyZWFt
+IGNhbiBoYW5kbGUgc28gd2UgZG9uJ3QgaGF2ZSB0byBjYXJyeSB0aGlzIHBhdGNoIGZvcmV2ZXI/
+DQoNClJvc3MNCg==
 
-> >>> The package avahi does not exist, as SUMMARY said, we should
-> >>> use avahi-daemon to instead. It avoids the do_rootfs failure
-> >>> while IMAGE_INSTALL += "avahi"
+--_000_A1661D2DDD942248A02617DE63569A0125D6244FSESTOEX04enease_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> >>> For compatibility, let avahi to provide avahi-daemon.
-> >> As stated before:
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ291cnJpZXIgTmV3Ijt9DQovKiBTdHls
+ZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1h
+bA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIu
+MHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTpsaW5rLCBz
+cGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6Ymx1ZTsN
+Cgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29IeXBlcmxp
+bmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxlOw0KCXRl
+eHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KcC5Tb3VyY2VDb2RlLCBsaS5Tb3VyY2VDb2RlLCBk
+aXYuU291cmNlQ29kZQ0KCXttc28tc3R5bGUtbmFtZTpTb3VyY2VDb2RlOw0KCW1zby1zdHlsZS1s
+aW5rOiJTb3VyY2VDb2RlIENoYXIiOw0KCW1hcmdpbjowY207DQoJbWFyZ2luLWJvdHRvbTouMDAw
+MXB0Ow0KCXRleHQtYXV0b3NwYWNlOm5vbmU7DQoJbXNvLWVsZW1lbnQ6ZnJhbWU7DQoJbXNvLWVs
+ZW1lbnQtd3JhcDphcm91bmQ7DQoJbXNvLWVsZW1lbnQtYW5jaG9yLXZlcnRpY2FsOnBhcmFncmFw
+aDsNCgltc28tZWxlbWVudC1hbmNob3ItaG9yaXpvbnRhbDpjb2x1bW47DQoJbXNvLWVsZW1lbnQt
+dG9wOi4wNXB0Ow0KCW1zby1oZWlnaHQtcnVsZTpleGFjdGx5Ow0KCWZvbnQtc2l6ZToxMi4wcHQ7
+DQoJZm9udC1mYW1pbHk6IkNvdXJyaWVyIE5ldyI7fQ0Kc3Bhbi5Tb3VyY2VDb2RlQ2hhcg0KCXtt
+c28tc3R5bGUtbmFtZToiU291cmNlQ29kZSBDaGFyIjsNCgltc28tc3R5bGUtbGluazpTb3VyY2VD
+b2RlOw0KCWZvbnQtZmFtaWx5OiJDb3VycmllciBOZXciO30NCnNwYW4uRW1haWxTdHlsZTE5DQoJ
+e21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwi
+c2Fucy1zZXJpZiI7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5
+bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYi
+O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46
+NzAuODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVwdDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3Bh
+Z2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8
+bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFb
+ZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0i
+ZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91
+dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJi
+bHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
+cXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+
+SGkgUm9zcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
+LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48
+L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
+MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1
+b3Q7O2NvbG9yOiMxRjQ5N0QiPiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBUaGlz
+IHBhdGNoIHdhcyByZXF1aXJlZCBieSB0d28gY2hhbmdlcyBkb25lIGluIFlvY3RvIGJ1dCBJIHRo
+aW5rIGlzIGEgdmVyeSBnb29kIHBvaW50IHRvIGRpc2N1c3MgZmlyc3Qgd2l0aCBhdXRvbWFrZSBt
+YWludGFpbmVycy4gU28gd2UgY2FuDQogYXZvaWQgY2FycnlpbmcgdGhpcyBwYXRoLjxvOnA+PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
+emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
+ZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3
+RCI+VGhhbmtzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
+dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5BZHJpYW48bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
+OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYm
+cXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdiBz
+dHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBj
+bSAwY20gMGNtIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXIt
+dG9wOnNvbGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSI+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9z
+cGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
+YWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJvc3MgW21haWx0
+bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gV2VkbmVzZGF5LCBO
+b3ZlbWJlciAxMiwgMjAxNCA3OjU5IFBNPGJyPg0KPGI+VG86PC9iPiBBZHJpYW4gQ2FsaWFudTxi
+cj4NCjxiPkNjOjwvYj4gT0UtY29yZTxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVd
+IFtQQVRDSF0gYXV0b21ha2U6IHNldCB0ZXN0LWRyaXZlciBwYXRoIHJlbGF0aXZlIHRvIHRvcF9i
+dWlsZGRpcjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+T24gMTIgTm92ZW1iZXIgMjAxNCAxMjowMCwgQWRyaWFuIENhbGlhbnUgJmx0OzxhIGhy
+ZWY9Im1haWx0bzphZHJpYW4uY2FsaWFudUBlbmVhLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmFkcmlh
+bi5jYWxpYW51QGVuZWEuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2tx
+dW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtw
+YWRkaW5nOjBjbSAwY20gMGNtIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDow
+Y20iPg0KPGRpdiBpZD0iOjF4YiI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mIzQzO1NldCB0aGUg
+cGF0aCByZWxhdGl2ZSB0byAkdG9wX2J1aWxkIGZvciB0ZXN0LWRyaXZlciB0byBiZSBhY2Nlc2li
+bGUgYXQgcnVudGltZTxicj4NCiYjNDM7PGJyPg0KJiM0MztTaWduZWQtb2ZmLWJ5OiBBZHJpYW4g
+Q2FsaWFudSAmbHQ7PGEgaHJlZj0ibWFpbHRvOmFkcmlhbi5jYWxpYW51QGVuZWEuY29tIj5hZHJp
+YW4uY2FsaWFudUBlbmVhLmNvbTwvYT4mZ3Q7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvYmxv
+Y2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KVGhpcyBwYXRjaCBu
+ZWVkcyBhbiB1cHN0cmVhbS1zdGF0dXMgLSBpbiBwYXJ0aWN1bGFyIGlzIHRoaXMgc29tZXRoaW5n
+IHVwc3RyZWFtIGNhbiBoYW5kbGUgc28gd2UgZG9uJ3QgaGF2ZSB0byBjYXJyeSB0aGlzIHBhdGNo
+IGZvcmV2ZXI/PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2
+Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-> >> 1) Fix your IMAGE_INSTALL
-
-> > Could you describe what's wrong with IMAGE_INSTALL?
-> > I have no idea about it.
-
-Koen means that you should use
-IMAGE_INSTALL_append += "avahi-daemon"
-and not avahi... (I.e. package name, not recipe name).
-
-If you still insist on creating a package named avahi, you might as well
-create avahi as an empty package, RDEPEND'ing on all sub-packages.
-
-> >> 2) This breaks upgrade paths
-
-> >> Do you *really* want to break existing installs just so you can 
-> >> pretend that your recipename==package name assumption isn't wrong?
-
-> > What does *upgrade paths* means?
-
-
-> Do you mean use package management to upgrade the
-> package, such as "smart upgrade". If yes, I think you are right,
-> we could drop patch 1/3 and 2/3.
-
-Yes, that's exactly what Koen talks about when it comes to ugrade paths.
-
-Cheers,
-Anders
-
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
-
+--_000_A1661D2DDD942248A02617DE63569A0125D6244FSESTOEX04enease_--
