@@ -1,36 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B1C860167
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AE15560167
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 14:09:14 +0000 (UTC)
-Received: by mail-wi0-f182.google.com with SMTP id h11so332971wiw.15
+	Thu, 13 Nov 2014 14:34:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sADEYKjr029822
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 06:09:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Cgwqw0UBq1iPEaU7vz8aH5+pNBdZBrJ24Yn7GBgtI+g=;
-	b=ObriEK1IypQPX4vWE+ZzZ5LF14zfukyNOhc8yNBzQw0QUIVzv6s1AHQkqpU3GVGpBy
-	hRi4RycpUtvfkKKuQ/bH4TxWIQ7GIsjr+5+S2HwiIbBeryQvKaSl4mP7ywC1rQn3NiDC
-	me5oX9rKZb9x9wUfcuyYZNZGsFoiVyRvmYz12k4ZazDaiyyP8WxpP/n+oZQ5Y2+0MPPr
-	/ZCw27itjBq2bglzKK23nJbxAbWswMTn3NLlRNUACf4sXZLLzldR5qB+cDIsyVya+jfW
-	XcLr0gqyvxheBj3ec/yy8z0jdgT6vn04sCYBZov9kaVPiuT30+gS8SvDrXtcD4kFGQp3
-	ZyIA==
-X-Gm-Message-State: ALoCoQmSSYDG6B89TlB3Mgw8fMi84SlXvR6R2X7siMGsOWDhWUlD1kg+8vPVOi6b2x03lkeas8nJ
-X-Received: by 10.180.84.5 with SMTP id u5mr4374702wiy.12.1415887754829;
-	Thu, 13 Nov 2014 06:09:14 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id s2sm25887844wia.3.2014.11.13.06.09.13
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 13 Nov 2014 06:09:14 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Nov 2014 14:09:11 +0000
-Message-Id: <1415887752-993-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] bind: use PACKAGE_BEFORE_PN instead of PACKAGES_prepend
+	Thu, 13 Nov 2014 06:34:20 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 13 Nov 2014 06:34:19 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 13 Nov 2014 06:34:18 -0800
+Message-ID: <cdcd78298215cd8f7a99e354bcf4ed1c1a740b8e.1415889088.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1415889088.git.liezhi.yang@windriver.com>
+References: <cover.1415889088.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] toolchain-shar-template.sh: fix the text files in the top dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Nov 2014 14:09:22 -0000
+X-List-Received-Date: Thu, 13 Nov 2014 14:34:24 -0000
+Content-Type: text/plain
 
-Appending or prepending to PACKAGES breaks when the package is built natively,
-so use PACKAGE_BEFORE_PN instead.
+It only fixed the text files in native_sysroot, but there might be some
+files in the top installed dir (whose var name is target_sdk_dir in the
+code) which are also needed to be fixed.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+It used "find $native_sysroot", now also "find $target_sdk_dir -maxdepth 1",
+and split the long line into small ones.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-connectivity/bind/bind_9.9.5.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/files/toolchain-shar-template.sh |    7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.9.5.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-index ebd38ef..73f386e 100644
---- a/meta/recipes-connectivity/bind/bind_9.9.5.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-@@ -46,7 +46,7 @@ PARALLEL_MAKE = ""
+diff --git a/meta/files/toolchain-shar-template.sh b/meta/files/toolchain-shar-template.sh
+index 2578a34..0d679a6 100644
+--- a/meta/files/toolchain-shar-template.sh
++++ b/meta/files/toolchain-shar-template.sh
+@@ -154,7 +154,12 @@ if [ $relocate = 1 ] ; then
+ fi
  
- RDEPENDS_${PN} = "python-core"
+ # replace @SDKPATH@ with the new prefix in all text files: configs/scripts/etc
+-$SUDO_EXEC find $native_sysroot -type f -exec file '{}' \;|grep ":.*\(ASCII\|script\|source\).*text"|awk -F':' '{printf "\"%s\"\n", $1}'|$SUDO_EXEC xargs -n32 sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
++for replace in "$target_sdk_dir -maxdepth 1" "$native_sysroot"; do
++	$SUDO_EXEC find $replace -type f -exec file '{}' \; | \
++		grep ":.*\(ASCII\|script\|source\).*text" | \
++		awk -F':' '{printf "\"%s\"\n", $1}' | \
++		$SUDO_EXEC xargs -n32 sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
++done
  
--PACKAGES_prepend = " ${PN}-utils "
-+PACKAGE_BEFORE_PN += "${PN}-utils"
- FILES_${PN}-utils = "${bindir}/host ${bindir}/dig"
- FILES_${PN}-dev += "${bindir}/isc-config.h"
- FILES_${PN} += "${sbindir}/generate-rndc-key.sh"
+ # change all symlinks pointing to @SDKPATH@
+ for l in $($SUDO_EXEC find $native_sysroot -type l); do
 -- 
-1.7.10.4
+1.7.9.5
 
 
