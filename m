@@ -1,36 +1,42 @@
-Return-Path: <wrob311@gmail.com>
-Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id C05D560167
+Return-Path: <eric@eukrea.com>
+X-Greylist: delayed 71156 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 13 Nov 2014 20:25:36 UTC
+Received: from mo4.mail-out.ovh.net (mo4.mail-out.ovh.net [178.32.228.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 0768465C91
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 20:23:34 +0000 (UTC)
-Received: by mail-la0-f42.google.com with SMTP id s18so39002lam.15
+	Thu, 13 Nov 2014 20:25:36 +0000 (UTC)
+Received: from mail615.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo4.mail-out.ovh.net (Postfix) with SMTP id 3684D1000C67
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 12:23:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:content-type;
-	bh=tpbOxwCjMSoQ+DP2p8hhd0f4DAMT3BnZF210OsCT1LY=;
-	b=wHcCx0NR1A01ZjFHf+SqYs8F/PscIn74FX+dp0TzdflJXM0cow2fQAYB0Wrkpkp5d5
-	JPtXs+pB+cG+z39KSg9wqkUzzwjZ7SpwLlbkAo7tT0EzUj/PG4JnSQExgV8uwIWCgJ08
-	gOr4FJSmVKqxecU8YQysey6cEsVI1G+v15nLROB4kKPCbyUDdqGmkLt6FN8gNvixr18v
-	tNB3zqrHeiUNBKIIm7OzS6SGVYnXj7CQ3yoXAIIjVnBN8AmWz8Hcq5U2jsbNmF+01+rj
-	31vYK/6bWjCHkVt6WORQxZ2wRWHaAQ3ZTUS0bo4Z4BMDYnYrBhUbQ4h/8wrEu/e0wesv
-	R9bg==
+	Thu, 13 Nov 2014 21:18:56 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 13 Nov 2014 22:18:56 +0200
+Received: from tal33-3-82-233-81-124.fbx.proxad.net (HELO e6520eb.localdomain)
+	(eric%eukrea.com@82.233.81.124)
+	by ns0.ovh.net with SMTP; 13 Nov 2014 22:18:54 +0200
+Date: Thu, 13 Nov 2014 21:18:53 +0100
+From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+To: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+Message-ID: <20141113211853.6c8a6f6f@e6520eb.localdomain>
+In-Reply-To: <OF69DC7AA2.57980DB5-ON86257D8F.006E27D9-86257D8F.006ECC75@ni.com>
+References: <OF81A9A14C.EC58A864-ON86257D8E.00636115-86257D8E.0064525F@ni.com>
+	<20141113013933.6820d2d9@e6520eb.localdomain>
+	<OF69DC7AA2.57980DB5-ON86257D8F.006E27D9-86257D8F.006ECC75@ni.com>
+Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.24; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Received: by 10.112.141.104 with SMTP id rn8mr4330642lbb.87.1415910214259;
-	Thu, 13 Nov 2014 12:23:34 -0800 (PST)
-Sender: wrob311@gmail.com
-Received: by 10.112.163.168 with HTTP; Thu, 13 Nov 2014 12:23:34 -0800 (PST)
-In-Reply-To: <CAJTo0LbHecBh1J3MqhpXzsrXmUv_963LS+VDD0Vrg_rzFukynQ@mail.gmail.com>
-References: <1415832933-372-1-git-send-email-wrobell@pld-linux.org>
-	<CAJTo0LbHecBh1J3MqhpXzsrXmUv_963LS+VDD0Vrg_rzFukynQ@mail.gmail.com>
-Date: Thu, 13 Nov 2014 20:23:34 +0000
-X-Google-Sender-Auth: d3ZWMKhpxLocvvv4cMvvnYoquW0
-Message-ID: <CA+92fu_s_2_MzGSEuJKCEvKqE+GG61QANvb_Nb4jgavspT_KDg@mail.gmail.com>
-From: Artur Wroblewski <wrobell@pld-linux.org>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Replace Python 3.3.x with Python 3.4.2
+X-Ovh-Tracer-Id: 1309984542690291155
+X-Ovh-Remote: 82.233.81.124 (tal33-3-82-233-81-124.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: -100
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeejhedrjedvucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeejhedrjedvucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe] Opkg files at /var/lib/opkg/lists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,42 +49,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Nov 2014 20:23:41 -0000
+X-List-Received-Date: Thu, 13 Nov 2014 20:25:42 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 13, 2014 at 5:24 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> Hi Artur,
->
-> On 12 November 2014 22:55, wrobell <wrobell@pld-linux.org> wrote:
->>
->> Replace Python 3.3.x with Python 3.4.2 (bug #6857)
->
->
-> This patch has long lines so didn't survive SMTP, can you push it to a git
-> repository somewhere?
+Hi Alejandro,
 
-I have attached it to bug #6857. Actually, some improvements to the
-python manifest generation script was next step in my plan. This would
-tackle the above problem in the future.
+Le Thu, 13 Nov 2014 14:10:12 -0600,
+Alejandro del Castillo <alejandro.delcastillo@ni.com> a =C3=A9crit :
 
->>
->> Despite further work needed, I hope this patch can be merged, so further
->>
->> work on Python 3 support can be continued in smaller steps.
->
->
-> Personally I'd prefer to see a working Python 3.4 integrated in one go
-> instead of having a broken 3.4 integrated for an unknown about of time.
-> Hopefully anyone else who is interested in 3.4 can step up and work on the
-> outstanding issues now that this patch is public (which is another good
-> reason to have a public repo with this in).
+> I think you got it, the commit d950ef40a3eae4b54cc62828e66d84a62d78c447=20
+> removed:
+>=20
+>         rm -f ${IMAGE_ROOTFS}${OPKGLIBDIR}/opkg/lists/*
+>=20
+> step that I didn't see implemented on rootfs.py. I'll file a bug report=20
+> (not too familiar with rootfs.py to try to fix it myself).
+>=20
+please add me in cc. I expect to investigate more on
+FEED_DEPLOYDIR_BASE_URI problems I met next week and will try to also
+look at this
 
-If you specify some exit criteria for this, then I can try to improve
-the patch. But
-please keep in mind that Python 3.3 in Yocto is broken to such extent that it
-crashes due to missing essential modules.
-
-Regards,
-
-w
+Thanks,
+Eric
 
