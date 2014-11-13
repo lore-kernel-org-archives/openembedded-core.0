@@ -1,26 +1,30 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E12565D4F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E369F713A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 08:02:21 +0000 (UTC)
+	Thu, 13 Nov 2014 08:04:14 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAD82LGE023621
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 00:02:21 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 13 Nov 2014 00:02:21 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Nov 2014 16:04:19 +0800
-Message-ID: <9ad835b1a386b20dcad037c4e78e81a9fcd32181.1415865680.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1415865680.git.Qi.Chen@windriver.com>
-References: <cover.1415865680.git.Qi.Chen@windriver.com>
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAD84EkY023239
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 13 Nov 2014 00:04:14 -0800 (PST)
+Received: from [128.224.162.187] (128.224.162.187) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Thu, 13 Nov 2014 00:04:14 -0800
+Message-ID: <54646673.3020702@windriver.com>
+Date: Thu, 13 Nov 2014 16:06:11 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] systemd: add option for valgrind header checking
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1415789100.git.Qi.Chen@windriver.com>
+	<a44b261f0031a4d82f8fae0e968522139f607f90.1415789100.git.Qi.Chen@windriver.com>
+	<CAJTo0LbDXrc=RK5zbE2z24K86Ti5eEcS1LRYCOHC7jfFeUOpFA@mail.gmail.com>
+In-Reply-To: <CAJTo0LbDXrc=RK5zbE2z24K86Ti5eEcS1LRYCOHC7jfFeUOpFA@mail.gmail.com>
+X-Originating-IP: [128.224.162.187]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] systemd: add option for valgrind header checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,81 +37,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Nov 2014 08:02:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 13 Nov 2014 08:04:15 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060104020207060108010009"
 
-Add option so that valgrind header checking is controlled. Otherwise,
-we would get the following error.
+--------------060104020207060108010009
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-   src/libsystemd/sd-bus/bus-control.c: fatal error: valgrind/mencheck.h: No such file or directory
+On 11/12/2014 11:55 PM, Burton, Ross wrote:
+> On 12 November 2014 10:45, Chen Qi <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>> wrote:
+>
+>     +-AC_CHECK_HEADERS_ONCE([valgrind/memcheck.h valgrind/valgrind.h])
+>     ++AC_ARG_ENABLE(valgrindheader,
+>     AS_HELP_STRING([--disable-valgrindheader], [disable valgrind
+>     header checking]))
+>     ++if test "x$enable_valgrindheader" != "xno"; then
+>     ++        AC_CHECK_HEADERS_ONCE([valgrind/memcheck.h
+>     valgrind/valgrind.h])
+>     ++fi
+>
+>
+> If the user passes --enable-valgrindheader and valgrind isn't present, 
+> it doesn't fail.  Combined with the lack of a valgrind build 
+> dependency in the PACKAGECONFIG statement this isn't a very useful 
+> PACKAGECONFIG option as it only works when not specified, and if it's 
+> specified is non-deterministic.
+>
 
-The above error could be reproduced by the following command.
+Hi Ross,
 
-bitbake valgrind && bitbake systemd -ccleansstate && bitbake systemd -cconfigure
-&& bitbake valgrind -ccleansstate && bitbake systemd -ccompile
+I've sent to V2 with modification in PACKAGECONFIG. With this 
+modification, the build result would not be non-deterministic.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- ...re.ac-add-valgrind-header-checking-option.patch | 28 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_216.bb           |  2 ++
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-configure.ac-add-valgrind-header-checking-option.patch
+Best Regards,
+Chen Qi
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-configure.ac-add-valgrind-header-checking-option.patch b/meta/recipes-core/systemd/systemd/0001-configure.ac-add-valgrind-header-checking-option.patch
-new file mode 100644
-index 0000000..89f3348
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-configure.ac-add-valgrind-header-checking-option.patch
-@@ -0,0 +1,28 @@
-+Upstream-Status: Pending
-+
-+Subject: configure.ac: add valgrind header checking option
-+
-+Signed-off-by: Chen qi <Qi.Chen@windriver.com>
-+---
-+ configure.ac | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 945adfc..dd4d7b2 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1141,7 +1141,10 @@ AC_DEFINE_UNQUOTED(TELINIT, ["$TELINIT"], [Path to telinit])
-+ 
-+ AC_SUBST(TELINIT)
-+ 
-+-AC_CHECK_HEADERS_ONCE([valgrind/memcheck.h valgrind/valgrind.h])
-++AC_ARG_ENABLE(valgrindheader, AS_HELP_STRING([--disable-valgrindheader], [disable valgrind header checking]))
-++if test "x$enable_valgrindheader" != "xno"; then
-++        AC_CHECK_HEADERS_ONCE([valgrind/memcheck.h valgrind/valgrind.h])
-++fi
-+ 
-+ # ------------------------------------------------------------------------------
-+ have_myhostname=no
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
-index 27a5d92..b48bc3a 100644
---- a/meta/recipes-core/systemd/systemd_216.bb
-+++ b/meta/recipes-core/systemd/systemd_216.bb
-@@ -38,6 +38,7 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd;branch=master;protocol=
-            file://init \
-            file://run-ptest \
-            ${@bb.utils.contains('PACKAGECONFIG', 'resolved', '', 'file://0001-tmpfiles.d-etc.conf-disable-resolv.conf-symlink.patch', d)} \
-+           file://0001-configure.ac-add-valgrind-header-checking-option.patch \
-           "
- 
- S = "${WORKDIR}/git"
-@@ -64,6 +65,7 @@ PACKAGECONFIG[elfutils] = "--enable-elfutils,--disable-elfutils,elfutils"
- PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
- PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
- PACKAGECONFIG[libidn] = "--enable-libidn,--disable-libidn,libidn"
-+PACKAGECONFIG[valgrindheader] = "--enable-valgrindheader,--disable-valgrindheader,valgrind"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
- 
--- 
-1.9.1
+> It appears that this valgrind support is for running the test suite 
+> under valgrind for leak detection, which is something we're unlikely 
+> to do.  A quick fix would be to comment out the check.
+>
+> A proper fix would be to use AC_ARG_WITH(valgrind), default to "auto", 
+> use the pkg-config macros and respect yes/no/auto as appropriate.  The 
+> mantra here being to spend ten minutes fixing it properly upstream 
+> instead of having to rewrite the patch often as upstream changes their 
+> configure script.
+>
+> Ross
 
 
+--------------060104020207060108010009
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 11/12/2014 11:55 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LbDXrc=RK5zbE2z24K86Ti5eEcS1LRYCOHC7jfFeUOpFA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">On 12 November 2014 10:45, Chen Qi <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">+-AC_CHECK_HEADERS_ONCE([valgrind/memcheck.h
+              valgrind/valgrind.h])<br>
+              ++AC_ARG_ENABLE(valgrindheader,
+              AS_HELP_STRING([--disable-valgrindheader], [disable
+              valgrind header checking]))<br>
+              ++if test "x$enable_valgrindheader" != "xno"; then<br>
+              ++        AC_CHECK_HEADERS_ONCE([valgrind/memcheck.h
+              valgrind/valgrind.h])<br>
+              ++fi<br>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>If the user passes --enable-valgrindheader and valgrind
+              isn't present, it doesn't fail.  Combined with the lack of
+              a valgrind build dependency in the PACKAGECONFIG statement
+              this isn't a very useful PACKAGECONFIG option as it only
+              works when not specified, and if it's specified is
+              non-deterministic.</div>
+            <div><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    Hi Ross,<br>
+    <br>
+    I've sent to V2 with modification in PACKAGECONFIG. With this
+    modification, the build result would not be non-deterministic.<br>
+    <br>
+    Best Regards,<br>
+    Chen Qi<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LbDXrc=RK5zbE2z24K86Ti5eEcS1LRYCOHC7jfFeUOpFA@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div>It appears that this valgrind support is for running
+              the test suite under valgrind for leak detection, which is
+              something we're unlikely to do.  A quick fix would be to
+              comment out the check.</div>
+            <div><br>
+            </div>
+            <div>A proper fix would be to use AC_ARG_WITH(valgrind),
+              default to "auto", use the pkg-config macros and respect
+              yes/no/auto as appropriate.  The mantra here being to
+              spend ten minutes fixing it properly upstream instead of
+              having to rewrite the patch often as upstream changes
+              their configure script.</div>
+            <div><br>
+            </div>
+            <div>Ross</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------060104020207060108010009--
