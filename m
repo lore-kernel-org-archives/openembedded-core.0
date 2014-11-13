@@ -1,24 +1,22 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 40D4E60167
+	by mail.openembedded.org (Postfix) with ESMTP id 1ED13720D6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 23:40:22 +0000 (UTC)
+	Thu, 13 Nov 2014 23:41:03 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 13 Nov 2014 15:40:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,381,1413270000"; d="scan'208";a="631674012"
+X-IronPort-AV: E=Sophos;i="5.07,381,1413270000"; d="scan'208";a="631674001"
 Received: from aehernan-devstation.zpn.intel.com ([10.219.4.47])
-	by fmsmga002.fm.intel.com with ESMTP; 13 Nov 2014 15:39:53 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 13 Nov 2014 15:39:51 -0800
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Nov 2014 17:39:51 -0600
-Message-Id: <65a349f8274ea9ccdc68b2af7aa37886e5b46183.1415920471.git.alejandro.hernandez@linux.intel.com>
+Date: Thu, 13 Nov 2014 17:39:50 -0600
+Message-Id: <5eb96c248683354baf29db133c72e6c3a98cf16c.1415920471.git.alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <5eb96c248683354baf29db133c72e6c3a98cf16c.1415920471.git.alejandro.hernandez@linux.intel.com>
-References: <5eb96c248683354baf29db133c72e6c3a98cf16c.1415920471.git.alejandro.hernandez@linux.intel.com>
 In-Reply-To: <cover.1415920471.git.alejandro.hernandez@linux.intel.com>
 References: <cover.1415920471.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 2/2 v2] cronie: Upgrade to 1.4.12
+Subject: [PATCH 1/2 v2] nfs-utils: Upgrade to 1.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,111 +29,221 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Nov 2014 23:41:03 -0000
+X-List-Received-Date: Thu, 13 Nov 2014 23:41:05 -0000
 
-Fixed license BSD, it should've been BSD-3 & BSD-2
+Removed: fix-a-Gcc-undefined-behavior.patch - Upstream
 
-Added license GPLv2+ according to upstream
+Removed: 0001-statd-fixed-the-with-statdpath-flag.patch - Upstream
 
-Patch fix-out-of-tree-build removed; already on upstream.
+Removed: fix-the-start-statd.patch - Different solution on upstream
+
+Removed: nfs-utils-1.0.6-uclibc.patch - Different solution on upstream
 
 Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- .../cronie/cronie/fix-out-of-tree-build.patch      | 31 ----------------------
- .../cronie/{cronie_1.4.11.bb => cronie_1.4.12.bb}  | 13 +++------
- 2 files changed, 4 insertions(+), 40 deletions(-)
- delete mode 100644 meta/recipes-extended/cronie/cronie/fix-out-of-tree-build.patch
- rename meta/recipes-extended/cronie/{cronie_1.4.11.bb => cronie_1.4.12.bb} (90%)
+ .../files/fix-a-Gcc-undefined-behavior.patch       | 38 --------------------
+ .../0001-statd-fixed-the-with-statdpath-flag.patch | 41 ----------------------
+ .../nfs-utils/nfs-utils/fix-the-start-statd.patch  | 30 ----------------
+ .../nfs-utils/nfs-utils-1.0.6-uclibc.patch         | 27 --------------
+ .../{nfs-utils_1.3.0.bb => nfs-utils_1.3.1.bb}     |  8 ++---
+ 5 files changed, 2 insertions(+), 142 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-fixed-the-with-statdpath-flag.patch
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/fix-the-start-statd.patch
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_1.3.0.bb => nfs-utils_1.3.1.bb} (91%)
 
-diff --git a/meta/recipes-extended/cronie/cronie/fix-out-of-tree-build.patch b/meta/recipes-extended/cronie/cronie/fix-out-of-tree-build.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch b/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
 deleted file mode 100644
-index 7384a0b..0000000
---- a/meta/recipes-extended/cronie/cronie/fix-out-of-tree-build.patch
+index 5843ba0..0000000
+--- a/meta/recipes-connectivity/nfs-utils/files/fix-a-Gcc-undefined-behavior.patch
 +++ /dev/null
-@@ -1,31 +0,0 @@
--For an out of tree build, the cronie-common.h file was not being
--found correctly, so point it to the top_srcdir
+@@ -1,38 +0,0 @@
+-[PATCH] fix a Gcc undefined behavior
 -
--Upstream-Status: Submitted
+-Upstream-Status: Pending
 -
--Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-Calling strncpy with NULL second argument, even when the size is 0,
+-is undefined behavior, which leads to GCC to drop the check old
+-variable with NULL in following code.
 -
--Index: cronie-1.4.11/anacron/Makefile.am
+-https://bugzilla.yoctoproject.org/show_bug.cgi?id=6743
+-
+-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+----
+- support/export/client.c |    9 +++++++--
+- 1 file changed, 7 insertions(+), 2 deletions(-)
+-
+-diff --git a/support/export/client.c b/support/export/client.c
+-index dbf47b9..a37ef69 100644
+---- a/support/export/client.c
+-+++ b/support/export/client.c
+-@@ -482,8 +482,13 @@ add_name(char *old, const char *add)
+- 		else
+- 			cp = cp + strlen(cp);
+- 	}
+--	strncpy(new, old, cp-old);
+--	new[cp-old] = 0;
+-+
+-+	if (old) {
+-+		strncpy(new, old, cp-old);
+-+		new[cp-old] = 0;
+-+	} else
+-+		new[0] = 0;
+-+	
+- 	if (cp != old && !*cp)
+- 		strcat(new, ",");
+- 	strcat(new, add);
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-fixed-the-with-statdpath-flag.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-fixed-the-with-statdpath-flag.patch
+deleted file mode 100644
+index 2ce824c..0000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-statd-fixed-the-with-statdpath-flag.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From 3b1457d219ceb1058d44bacc657581f13437ae40 Mon Sep 17 00:00:00 2001
+-From: Steve Dickson <steved@redhat.com>
+-Date: Tue, 17 Jun 2014 13:28:53 -0400
+-Subject: [PATCH] statd: fixed the --with-statdpath= flag
+-
+-Create the given path set with --with-statdpath
+-
+-Signed-off-by: chendt.fnst@cn.fujitsu.com
+-Reported-by: yaoxp@cn.fujitsu.com
+-Signed-off-by: Steve Dickson <steved@redhat.com>
+-Upstream-Status: Backport
+----
+- Makefile.am | 10 +++++-----
+- 1 file changed, 5 insertions(+), 5 deletions(-)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index ae7cd16..5824adc 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -54,13 +54,13 @@ install-data-hook:
+- 	touch $(DESTDIR)$(statedir)/xtab; chmod 644 $(DESTDIR)$(statedir)/xtab
+- 	touch $(DESTDIR)$(statedir)/etab; chmod 644 $(DESTDIR)$(statedir)/etab
+- 	touch $(DESTDIR)$(statedir)/rmtab; chmod 644 $(DESTDIR)$(statedir)/rmtab
+--	mkdir -p $(DESTDIR)$(statedir)/sm $(DESTDIR)$(statedir)/sm.bak
+--	touch $(DESTDIR)$(statedir)/state
+--	chmod go-rwx $(DESTDIR)$(statedir)/sm $(DESTDIR)$(statedir)/sm.bak $(DESTDIR)$(statedir)/state
+--	-chown $(statduser) $(DESTDIR)$(statedir)/sm $(DESTDIR)$(statedir)/sm.bak $(DESTDIR)$(statedir)/state
+-+	mkdir -p $(DESTDIR)$(statdpath)/sm $(DESTDIR)$(statdpath)/sm.bak
+-+	touch $(DESTDIR)$(statdpath)/state
+-+	chmod go-rwx $(DESTDIR)$(statdpath)/sm $(DESTDIR)$(statdpath)/sm.bak $(DESTDIR)$(statdpath)/state
+-+	-chown $(statduser) $(DESTDIR)$(statdpath)/sm $(DESTDIR)$(statdpath)/sm.bak $(DESTDIR)$(statdpath)/state
+- 
+- uninstall-hook:
+- 	rm $(DESTDIR)$(statedir)/xtab
+- 	rm $(DESTDIR)$(statedir)/etab
+- 	rm $(DESTDIR)$(statedir)/rmtab
+--	rm $(DESTDIR)$(statedir)/state
+-+	rm $(DESTDIR)$(statdpath)/state
+--- 
+-1.8.4.2
+-
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/fix-the-start-statd.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/fix-the-start-statd.patch
+deleted file mode 100644
+index b7e835e..0000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/fix-the-start-statd.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-[PATCH] fix the start-statd
+-
+-Upstream-Status: Pending
+-
+-1. add /bin/ to PATH, since systemctl is installed under /bin/
+-2. redirect error to /dev/null
+-
+-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+----
+- utils/statd/start-statd |    4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/utils/statd/start-statd b/utils/statd/start-statd
+-index cde3583..098ce70 100644
+---- a/utils/statd/start-statd
+-+++ b/utils/statd/start-statd
+-@@ -4,8 +4,8 @@
+- # /var/run/rpc.statd.pid).
+- # It should run statd with whatever flags are apropriate for this
+- # site.
+--PATH=/sbin:/usr/sbin
+--if systemctl start statd.service
+-+PATH=/sbin:/usr/sbin:/bin
+-+if systemctl start statd.service 2>/dev/null
+- then :
+- else
+-     exec rpc.statd --no-notify
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch
+deleted file mode 100644
+index c344238..0000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-Index: nfs-utils-1.2.6/support/nfs/svc_socket.c
 -===================================================================
----- cronie-1.4.11.orig/anacron/Makefile.am
--+++ cronie-1.4.11/anacron/Makefile.am
--@@ -9,6 +9,7 @@ common_nodist = anacron-paths.h
-- nodist_anacron_SOURCES = $(common_nodist)
-- BUILT_SOURCES = $(common_nodist)
+---- nfs-utils-1.2.6.orig/support/nfs/svc_socket.c	2012-05-14 07:40:52.000000000 -0700
+-+++ nfs-utils-1.2.6/support/nfs/svc_socket.c	2012-10-28 02:42:50.179222457 -0700
+-@@ -40,8 +40,9 @@
+- 	char rpcdata[1024], servdata[1024];
+- 	struct rpcent rpcbuf, *rpcp;
+- 	struct servent servbuf, *servp = NULL;
+--	int ret;
+-+	int ret = 0;
 - 
--+AM_CFLAGS = -I$(top_srcdir)
+-+#ifndef __UCLIBC__     /* neither getrpcbynumber() nor getrpcbynumber_r() is SuSv3 */
+- 	ret = getrpcbynumber_r(number, &rpcbuf, rpcdata, sizeof rpcdata,
+- 				&rpcp);
+- 	if (ret == 0 && rpcp != NULL) {
+-@@ -60,6 +61,7 @@
+- 			}
+- 		}
+- 	}
+-+#endif /* __UCLIBC__ */
 - 
-- LDADD = $(LIBSELINUX) $(LIBPAM) $(LIBAUDIT)
-- 
--Index: cronie-1.4.11/src/Makefile.am
--===================================================================
----- cronie-1.4.11.orig/src/Makefile.am
--+++ cronie-1.4.11/src/Makefile.am
--@@ -15,6 +15,7 @@ nodist_crond_SOURCES = $(common_nodist)
-- nodist_crontab_SOURCES = $(common_nodist)
-- BUILT_SOURCES = $(common_nodist)
-- 
--+AM_CFLAGS = -I$(top_srcdir)
-- 
-- LDADD = $(LIBSELINUX) $(LIBPAM) $(LIBAUDIT)
-- 
-diff --git a/meta/recipes-extended/cronie/cronie_1.4.11.bb b/meta/recipes-extended/cronie/cronie_1.4.12.bb
-similarity index 90%
-rename from meta/recipes-extended/cronie/cronie_1.4.11.bb
-rename to meta/recipes-extended/cronie/cronie_1.4.12.bb
-index 02234f6..e404756 100644
---- a/meta/recipes-extended/cronie/cronie_1.4.11.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.4.12.bb
-@@ -7,16 +7,14 @@ HOMEPAGE = "https://fedorahosted.org/cronie/"
- BUGTRACKER = "mmaslano@redhat.com"
+- 	if (ret == 0 && servp != NULL)
+- 		return ntohs(servp->s_port);
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
+similarity index 91%
+rename from meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
+rename to meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
+index 4933e10..5383c91 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.0.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
+@@ -21,7 +21,6 @@ USERADD_PARAM_${PN}-client = "--system  --home-dir /var/lib/nfs \
  
- # Internet Systems Consortium License
--LICENSE = "ISC & BSD"
--LIC_FILES_CHKSUM = "file://COPYING;md5=963ea0772a2adbdcd607a9b2ec320c11 \
-+LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=dd2a592170760e1386c769e1043b3722 \
-                     file://src/cron.c;endline=20;md5=b425c334265026177128353a142633b4 \
-                     file://src/popen.c;beginline=3;endline=31;md5=edd50742d8def712e9472dba353668a9"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.xz \
+            file://0001-configure-Allow-to-explicitly-disable-nfsidmap.patch \
+-           file://nfs-utils-1.0.6-uclibc.patch \
+            file://nfs-utils-1.2.3-sm-notify-res_init.patch \
+            file://nfsserver \
+            file://nfscommon \
+@@ -30,13 +29,10 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://nfs-mountd.service \
+            file://nfs-statd.service \
+            file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
+-           file://0001-statd-fixed-the-with-statdpath-flag.patch \
+-           file://fix-a-Gcc-undefined-behavior.patch \
+-           file://fix-the-start-statd.patch \
+ "
  
- SECTION = "utils"
+-SRC_URI[md5sum] = "6e93a7997ca3a1eac56bf219adab72a8"
+-SRC_URI[sha256sum] = "ab8384d0e487ed6a18c5380d5df28015f7dd98680bf08f3247c97d9f7d99e56f"
++SRC_URI[md5sum] = "8de676b9ff34b8f9addc1d0800fabdf8"
++SRC_URI[sha256sum] = "ff79d70b7b58b2c8f9b798c58721127e82bb96022adc04a5c4cb251630e696b8"
  
--
- SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
--           file://fix-out-of-tree-build.patch \
-            file://crond.init \
-            file://crontab \
-            file://crond.service \
-@@ -25,18 +23,16 @@ SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
- PAM_SRC_URI = "file://crond_pam_config.patch"
- PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
+ PARALLEL_MAKE = ""
  
--SRC_URI[md5sum] = "2ba645cf54de17f138ef70312843862f"
--SRC_URI[sha256sum] = "fd08084cedddbb42499f80ddb7f2158195c3555c2ff40ee11d4ece2f9864d7be"
-+SRC_URI[md5sum] = "199db91e514a4d75e3222d69874b132f"
-+SRC_URI[sha256sum] = "0f5c9bf32f352599451c4ca0d6bc076d19e73ecfa5a90b34ecfe47c918c8bafd"
- 
- inherit autotools update-rc.d useradd systemd
- 
--
- PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
- 
- PACKAGECONFIG[audit] = "--with-audit,--without-audit,audit,"
- PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam,${PAM_DEPS}"
- 
--
- INITSCRIPT_NAME = "crond"
- INITSCRIPT_PARAMS = "start 90 2 3 4 5 . stop 60 0 1 6 ."
- 
-@@ -82,4 +78,3 @@ do_install_append () {
- }
- 
- FILES_${PN} += "${sysconfdir}/cron*"
--
 -- 
 1.9.1
 
