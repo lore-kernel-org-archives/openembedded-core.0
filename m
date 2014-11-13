@@ -1,40 +1,29 @@
-Return-Path: <eric@eukrea.com>
-X-Greylist: delayed 597 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 13 Nov 2014 00:58:09 UTC
-Received: from mo69.mail-out.ovh.net (2.mo69.mail-out.ovh.net [178.33.251.80])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EEB660167
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E521360167
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 00:58:09 +0000 (UTC)
-Received: from mail409.ha.ovh.net (b9.ovh.net [213.186.33.59])
-	by mo69.mail-out.ovh.net (Postfix) with SMTP id 4AA34FFC279
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Nov 2014 01:39:39 +0100 (CET)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 13 Nov 2014 02:39:38 +0200
-Received: from tal33-3-82-233-81-124.fbx.proxad.net (HELO e6520eb.localdomain)
-	(eric%eukrea.com@82.233.81.124)
-	by ns0.ovh.net with SMTP; 13 Nov 2014 02:39:36 +0200
-Date: Thu, 13 Nov 2014 01:39:33 +0100
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-Message-ID: <20141113013933.6820d2d9@e6520eb.localdomain>
-In-Reply-To: <OF81A9A14C.EC58A864-ON86257D8E.00636115-86257D8E.0064525F@ni.com>
-References: <OF81A9A14C.EC58A864-ON86257D8E.00636115-86257D8E.0064525F@ni.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.24; x86_64-redhat-linux-gnu)
+	Thu, 13 Nov 2014 01:28:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAD1SqBn019257
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 12 Nov 2014 17:28:53 -0800 (PST)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 12 Nov 2014 17:28:52 -0800
+Message-ID: <54640951.3040005@windriver.com>
+Date: Thu, 13 Nov 2014 09:28:49 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-X-Ovh-Tracer-Id: 18286866288414993875
-X-Ovh-Remote: 82.233.81.124 (tal33-3-82-233-81-124.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: -100
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeejhedrieelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeejhedrieelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Opkg files at /var/lib/opkg/lists
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <cover.1415699201.git.hongxu.jia@windriver.com>
+	<37d7153a864b4dee5748a3a30054c0c62e243f02.1415699201.git.hongxu.jia@windriver.com>
+	<FB878F6E-62D1-49FB-A373-EF554D0A274D@dominion.thruhere.net>
+In-Reply-To: <FB878F6E-62D1-49FB-A373-EF554D0A274D@dominion.thruhere.net>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] avahi.inc: rename package to use avahi to instead of avahi-daemon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,48 +36,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Nov 2014 00:58:13 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 13 Nov 2014 01:28:58 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Aljandro,
+On 11/12/2014 06:27 PM, Koen Kooi wrote:
+>> Op 11 nov. 2014, om 11:52 heeft Hongxu Jia <hongxu.jia@windriver.com> het volgende geschreven:
+>>
+>> The package avahi does not exist, as SUMMARY said, we should
+>> use avahi-daemon to instead. It avoids the do_rootfs failure
+>> while IMAGE_INSTALL += "avahi"
+>>
+>> For compatibility, let avahi to provide avahi-daemon.
+> As stated before:
+>
+> 1) Fix your IMAGE_INSTALL
 
-copying oe-core's ML as the problem seems related to oe-core and
-not to meta-oe.
+Could you describe what's wrong with IMAGE_INSTALL?
+I have no idea about it.
 
-Le Wed, 12 Nov 2014 12:15:46 -0600,
-Alejandro del Castillo <alejandro.delcastillo@ni.com> a =C3=A9crit :
+> 2) This breaks upgrade paths
+>
+> Do you *really* want to break existing installs just so you can pretend that your recipename==package name assumption isn't wrong?
 
-> Hello,
->=20
-> I noticed that the OE build process is leaving files at=20
-> /var/lib/opkg/lists (~1.5 MB on my system), which I believe are the feed=
-=20
-> content used to build the image. The target opkg.conf file configure=20
-> lists_dir to be at /var/lib/opkg (instead of the default=20
-> /var/lib/opkg/lists), so the feed content under /var/lib/opkg/lists is no=
-t=20
-> used at all.=20
->=20
-> Does anyone know if there Is a reason why the files are left over or is=20
-> this a bug? Shouldn't the image creation process remove the whole=20
-> directory if it's not going to be used?=20
->=20
-> BTW, Dylan doesn't have this problem, but Daisy and Dizzy do (not sure=20
-> about Dora).
->=20
-I was on a similar subject today and this seems broken since :
-d950ef40a3eae4b54cc62828e66d84a62d78c447
+What does *upgrade paths* means?
 
-BTW it seems that FEED_DEPLOYDIR_BASE_URI was replaced by
-PACKAGE_FEED_URIS in 9b8811045546ad67b4695d980f09636d5506e50c but the
-document is still pointing to the previous one :
-http://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#runti=
-me-package-management-target-ipk
-If the replacement was not intended then there is a problem as
-FEED_DEPLOYDIR_BASE_URI doesn't seems to work anymore (tested with
-dizzy and package_ipk).
+//Hongxu
 
-Best regards
-Eric
+>
+>> [YOCTO #6937]
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>> meta/recipes-connectivity/avahi/avahi.inc | 29 ++++++++++++++---------------
+>> 1 file changed, 14 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+>> index b060437..581d51b 100644
+>> --- a/meta/recipes-connectivity/avahi/avahi.inc
+>> +++ b/meta/recipes-connectivity/avahi/avahi.inc
+>> @@ -29,8 +29,8 @@ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
+>>            file://reuseport-check.patch \
+>>            "
+>>
+>> -USERADD_PACKAGES = "avahi-daemon avahi-autoipd"
+>> -USERADD_PARAM_avahi-daemon = "--system --home /var/run/avahi-daemon \
+>> +USERADD_PACKAGES = "avahi avahi-autoipd"
+>> +USERADD_PARAM_avahi = "--system --home /var/run/avahi-daemon \
+>>                                --no-create-home --shell /bin/false \
+>>                                --user-group avahi"
+>>
+>> @@ -71,11 +71,10 @@ do_configure_prepend() {
+>> }
+>>
+>>
+>> -PACKAGES =+ "avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
+>> +PACKAGES =+ "libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-ui avahi-autoipd avahi-utils"
+>>
+>> -# As avahi doesn't put any files into PN, clear the files list to avoid problems
+>> -# if extra libraries appear.
+>> -FILES_avahi = ""
+>> +# For compatibility, let avahi to provide avahi-daemon
+>> +RPROVIDES_${PN} = "${PN}-daemon"
+>> FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
+>>                         ${sysconfdir}/avahi/avahi-autoipd.action \
+>>                         ${sysconfdir}/dhcp/*/avahi-autoipd \
+>> @@ -83,7 +82,7 @@ FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
+>>                         ${sysconfdir}/udhcpc.d/99avahi-autoipd"
+>> FILES_libavahi-common = "${libdir}/libavahi-common.so.*"
+>> FILES_libavahi-core = "${libdir}/libavahi-core.so.*"
+>> -FILES_avahi-daemon = "${sbindir}/avahi-daemon \
+>> +FILES_${PN} = "${sbindir}/avahi-daemon \
+>>                        ${sysconfdir}/avahi/avahi-daemon.conf \
+>>                        ${sysconfdir}/avahi/hosts \
+>>                        ${sysconfdir}/avahi/services \
+>> @@ -102,10 +101,10 @@ FILES_libavahi-glib = "${libdir}/libavahi-glib.so.*"
+>> FILES_libavahi-gobject = "${libdir}/libavahi-gobject.so.*"
+>> FILES_avahi-utils = "${bindir}/avahi-*"
+>>
+>> -RDEPENDS_${PN}-dev = "avahi-daemon (= ${EXTENDPKGV}) libavahi-core (= ${EXTENDPKGV}) libavahi-client (= ${EXTENDPKGV})"
+>> +RDEPENDS_${PN}-dev = "avahi (= ${EXTENDPKGV}) libavahi-core (= ${EXTENDPKGV}) libavahi-client (= ${EXTENDPKGV})"
+>>
+>> # uclibc has no nss
+>> -RRECOMMENDS_avahi-daemon_append_libc-glibc = " libnss-mdns"
+>> +RRECOMMENDS_avahi_append_libc-glibc = " libnss-mdns"
+>> RRECOMMENDS_${PN}_append_libc-glibc = " libnss-mdns"
+>>
+>> RRECOMMENDS_avahi-dev = "expat-dev libcap-dev libdaemon-dev dbus-dev glib-2.0-dev update-rc.d-dev"
+>> @@ -113,11 +112,11 @@ RRECOMMENDS_avahi-dev_append_libc-glibc = " gettext-dev"
+>>
+>> RRECOMMENDS_avahi-dev[nodeprrecs] = "1"
+>>
+>> -CONFFILES_avahi-daemon = "${sysconfdir}/avahi/avahi-daemon.conf"
+>> +CONFFILES_avahi = "${sysconfdir}/avahi/avahi-daemon.conf"
+>>
+>> -INITSCRIPT_PACKAGES = "avahi-daemon avahi-dnsconfd"
+>> -INITSCRIPT_NAME_avahi-daemon = "avahi-daemon"
+>> -INITSCRIPT_PARAMS_avahi-daemon = "defaults 21 19"
+>> +INITSCRIPT_PACKAGES = "avahi avahi-dnsconfd"
+>> +INITSCRIPT_NAME_avahi = "avahi-daemon"
+>> +INITSCRIPT_PARAMS_avahi = "defaults 21 19"
+>> INITSCRIPT_NAME_avahi-dnsconfd = "avahi-dnsconfd"
+>> INITSCRIPT_PARAMS_avahi-dnsconfd = "defaults 22 19"
+>>
+>> @@ -141,13 +140,13 @@ do_install() {
+>> # At the time the postinst runs, dbus might not be setup so only restart if running
+>> # Don't exit early, because update-rc.d needs to run subsequently.
+>>
+>> -pkg_postinst_avahi-daemon () {
+>> +pkg_postinst_avahi () {
+>> if [ -z "$D" ]; then
+>> 	killall -q -HUP dbus-daemon || true
+>> fi
+>> }
+>>
+>> -pkg_postrm_avahi-daemon () {
+>> +pkg_postrm_avahi () {
+>> 	deluser avahi || true
+>> 	delgroup avahi || true
+>> }
+>> -- 
+>> 1.9.1
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+
 
