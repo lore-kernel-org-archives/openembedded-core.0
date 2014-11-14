@@ -1,38 +1,37 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
-	[209.85.160.176])
-	by mail.openembedded.org (Postfix) with ESMTP id A6BB46A9D4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f170.google.com (mail-qc0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 05A7B6A9D4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 12:54:30 +0000 (UTC)
-Received: by mail-yk0-f176.google.com with SMTP id q200so2450748ykb.7
+	Fri, 14 Nov 2014 16:16:36 +0000 (UTC)
+Received: by mail-qc0-f170.google.com with SMTP id l6so13095521qcy.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 04:54:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=Vps/hkaJr10SokpDODwBShHYaOVaCDUS3vN9D9yfAJI=;
-	b=LdUgt0c1RDRn3eoyPyGljkpeuQh4nVjhscl00WWh/kh6vwCg6TANZMlXOcg8VEZbFf
-	At5UtDrJuNfdh67RVMbA0fuauogYre3KHoLwxvMFt4hqjrQKJ06EABodPA4CnEk3E3++
-	dJDvyNgAnYjqUA4kbiWZ7Pojb/xnlbp3Lb1q1AFrAlqRgmNtIDDFE3V7jhjTC9HkWWXA
-	ZOoAvZLqOAxhvwmTuIIVQXYZElgGMyTlNcaLFJ0N0j8GSe3Qx9HPvOi6cRSEohe+gyga
-	6zowwnBNcxGAHboPvkWF5aUWyOn3XQLgdM/Foviu2IBj16cch/CTfqo1TZcDDV2dO6ka
-	DElw==
+	Fri, 14 Nov 2014 08:16:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=WdW3UbnjtXZ7DFzqENtWbQADm5Bh37pGd4YCBTqg/eM=;
+	b=JAuJM+twyn+IF0fj49cbOsLOAJOvUWg8tSxIwj6bO5UGIV2Mfr/cnUajBps9wZcH4n
+	5uMcd88+NuWUFwUpabaw95BHPO9W3koOC+uIbg4KcvGGFFZ1DeX6XLHmDw+lQgmrm38i
+	42N30aV/O8+29m/MnOlwXL2sN5ppBD15iwhPHERmQz6le4HQkRO9RJJyEyoAf1g8eF90
+	1EARqRWnVziB71FKLOiHjfKiD6u0ZE58/5ef6dmJ+f5DB/8WZf9IdFreNUlvrl+mXuXo
+	tRj5097CDDyI0yS4oXcFt7JFbQuzBubSUtXf0j/2KvlMm+f2xbfuKhVeA5Tq21Rt4VyJ
+	JHNw==
+X-Gm-Message-State: ALoCoQmcsaeOaAeD45RIG0jEp06T44ZUaW/AWlBgF1YNwSpjqvjUihiG+drGNDpOvnuV4xeVf5ao
+X-Received: by 10.224.23.71 with SMTP id q7mr11266052qab.22.1415981797195;
+	Fri, 14 Nov 2014 08:16:37 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.236.44.8 with SMTP id m8mr9874198yhb.136.1415969671302; Fri,
-	14 Nov 2014 04:54:31 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.172.8 with HTTP; Fri, 14 Nov 2014 04:54:31 -0800 (PST)
-In-Reply-To: <20141114121322.GG2458@jama>
-References: <1415959113-8920-1-git-send-email-diego.sueiro@gmail.com>
-	<20141114121322.GG2458@jama>
-Date: Fri, 14 Nov 2014 10:54:31 -0200
-X-Google-Sender-Auth: TNbMkv-j6JoUsOD3weodRrfT5r0
-Message-ID: <CAP9ODKqzx3ceVhtewPEsemP40mAchQ-cGoSsk=Q74_DY1mzeaA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-qt5][PATCH] qtsystems: Change branch from stable to 5.3
+Received: by 10.140.98.213 with HTTP; Fri, 14 Nov 2014 08:16:16 -0800 (PST)
+In-Reply-To: <1414861479-5493-2-git-send-email-pab@pabigot.com>
+References: <1414861479-5493-1-git-send-email-pab@pabigot.com>
+	<1414861479-5493-2-git-send-email-pab@pabigot.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Nov 2014 16:16:16 +0000
+Message-ID: <CAJTo0LZMvL-7bTvf_ou6PHmMpZXa81GWb3murA6t5EfceQXOow@mail.gmail.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] pseudo: default --without-passwd-fallback
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,20 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Nov 2014 12:54:32 -0000
+X-List-Received-Date: Fri, 14 Nov 2014 16:16:44 -0000
+Content-Type: multipart/alternative; boundary=001a11c2315607ddb20507d3f444
+
+--001a11c2315607ddb20507d3f444
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Nov 14, 2014 at 10:13 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Fri, Nov 14, 2014 at 07:58:33AM -0200, Diego Sueiro wrote:
->> Stable branch was removed on mainline and now 5.3
->> is used.
->
-> Please resend to openembedded-devel@lists.openembedded.org
+Hi Peter,
 
-I took care of this patch already Martin; no need.
+Something in this series isn't working nicely with multilib enabled.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ross/pseudo is the
+branch I was testing it in, hopefully I pulled in all the right pieces.
 
+https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/102
+is current master building for multilib and succeeding.
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/105
+is ross/pseudo which fails at rootfs time.
+
+Will you be able to investigate this? (or tell me I merged the wrong
+patches).
+
+Ross
+
+--001a11c2315607ddb20507d3f444
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Peter,<div><br></div><div>Something in this series isn&=
+#39;t working nicely with multilib enabled.</div><div><br></div><div><a hre=
+f=3D"http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dross/pseudo=
+">http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dross/pseudo</a=
+> is the branch I was testing it in, hopefully I pulled in all the right pi=
+eces.<br></div><div><br></div><div><a href=3D"https://autobuilder.yoctoproj=
+ect.org/main/builders/nightly-multilib/builds/102">https://autobuilder.yoct=
+oproject.org/main/builders/nightly-multilib/builds/102</a> is current maste=
+r building for multilib and succeeding.<br></div><div><br></div><div><a hre=
+f=3D"https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/bu=
+ilds/105">https://autobuilder.yoctoproject.org/main/builders/nightly-multil=
+ib/builds/105</a> is ross/pseudo which fails at rootfs time.<br></div><div>=
+<br></div><div>Will you be able to investigate this? (or tell me I merged t=
+he wrong patches).</div><div><br></div><div>Ross</div></div>
+
+--001a11c2315607ddb20507d3f444--
