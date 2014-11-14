@@ -1,26 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6019165C7B
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
+	[209.85.218.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DEB465C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 08:33:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAE8XHov010591
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 14 Nov 2014 08:53:28 +0000 (UTC)
+Received: by mail-oi0-f51.google.com with SMTP id g201so11625817oib.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 00:33:18 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.187) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 14 Nov 2014 00:33:17 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Nov 2014 16:35:16 +0800
-Message-ID: <d3cbb9c8c3bbd91fceb64ce2b645d3d0b342eb7d.1415953970.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1415953970.git.Qi.Chen@windriver.com>
-References: <cover.1415953970.git.Qi.Chen@windriver.com>
+	Fri, 14 Nov 2014 00:53:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=1/uz+f5pD58ovp5YXAaSHpdv61iXR7vjxCzaU9VUe/c=;
+	b=MiL0nkjsc+L+aQZS2SRC3Pyc+8laS/+ysQbN78qqzc2Htcd3spC7yfpnl61HCzsjRx
+	i9nrDa0IpbfjU7IxbqD7ZDix8vhs8rDklOy1yEnSPY4+lBIBQ+GNLimW8zSgk11cSD2d
+	rXRuhXEEAo31mkpbLBAUGwgrSoeVYy17aTjoaILKgmCZIqGvXmYxL69xlPh43ewiFNWV
+	39qdCXQZ7OtcsE2IB8sTWmAvUN7++pmihNNSILN86Xs1BItZ9ODmJFUQUxRfrT85xec+
+	tQSFVKU114roA24f20Wu24guPzlPIXVGQiAC0J5HmGFc/jrNFsLD8hGkvKdRtk3NCW60
+	YJzA==
 MIME-Version: 1.0
-Subject: [PATCH 2/2] shadow: use ALTERNATIVE to manage 'nologin'
+X-Received: by 10.202.16.17 with SMTP id 17mr490459oiq.74.1415955208647; Fri,
+	14 Nov 2014 00:53:28 -0800 (PST)
+Received: by 10.202.67.84 with HTTP; Fri, 14 Nov 2014 00:53:28 -0800 (PST)
+In-Reply-To: <CAJTo0Lbs=jzjEvpw64X5iJ9DqG5BV8Sgc9-A80Nf2mM8q=CF_w@mail.gmail.com>
+References: <1415346729-16760-1-git-send-email-schnitzeltony@googlemail.com>
+	<1415346729-16760-2-git-send-email-schnitzeltony@googlemail.com>
+	<CAJTo0Lbs=jzjEvpw64X5iJ9DqG5BV8Sgc9-A80Nf2mM8q=CF_w@mail.gmail.com>
+Date: Fri, 14 Nov 2014 09:53:28 +0100
+Message-ID: <CALbNGRQA6wnsseWxKxkN_QgB9btuVpe5rCTx-1D6t-ehnr1EPg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] midori: update to 0.5.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Nov 2014 08:33:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Nov 2014 08:53:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Both util-linux and shadow provide 'nologin', so use the ALTERNATIVE
-mechanism in OE to manage it.
+Hi Ross,
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/shadow/shadow.inc | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+The xserever & midori series I has not the most promising start :)
 
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 14c7281..81924e2 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -146,18 +146,23 @@ do_install_append() {
- 	# Handle link properly after rename, otherwise missing files would
- 	# lead rpm failed dependencies.
- 	ln -sf newgrp.${BPN} ${D}${bindir}/sg
-+
-+	# mv nologin to nologin.${BPN}
-+	mv ${D}${base_sbindir}/nologin ${D}${base_sbindir}/nologin.${BPN}
- }
- 
- inherit update-alternatives
- 
- ALTERNATIVE_PRIORITY = "200"
- 
--ALTERNATIVE_${PN} = "passwd chfn newgrp chsh groups chpasswd login vipw vigr su"
-+ALTERNATIVE_${PN} = "passwd chfn newgrp chsh groups chpasswd login vipw vigr su nologin"
- ALTERNATIVE_LINK_NAME[chpasswd] = "${sbindir}/chpasswd"
- ALTERNATIVE_LINK_NAME[login] = "${base_bindir}/login"
- ALTERNATIVE_LINK_NAME[vipw] = "${base_sbindir}/vipw"
- ALTERNATIVE_LINK_NAME[vigr] = "${base_sbindir}/vigr"
- ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
-+ALTERNATIVE_LINK_NAME[nologin] = "${sbindir}/nologin"
-+ALTERNATIVE_TARGET[nologin] = "${base_sbindir}/nologin.${BPN}"
- 
- ALTERNATIVE_${PN}-doc = "passwd.5 getspnam.3"
- ALTERNATIVE_LINK_NAME[passwd.5] = "${mandir}/man5/passwd.5"
--- 
-1.9.1
+On Thu, Nov 13, 2014 at 7:14 PM, Burton, Ross <ross.burton@intel.com> wrote=
+:
+> Hi Andreas,
+>
+> On 7 November 2014 07:52, Andreas M=C3=BCller <schnitzeltony@googlemail.c=
+om>
+> wrote:
+>>
+>> +SRC_URI =3D
+>> "http://www.midori-browser.org/downloads/${BPN}_${PV}_all_.tar.bz2 \
+>
+>
+> ERROR: Fetcher failure: Fetch command failed with exit code 8, output:
+> http://www.midori-browser.org/downloads/midori_0.5.8_all_.tar.bz2:
+> 2014-11-13 18:07:07 ERROR 404: Not Found.
+>
+>> +S =3D "${WORKDIR}"
+I checked: Now 0.5.9 is out and 0.5.8 location is gone. I will ask for
+some permanent archive.
+>
+>
+> This is... worrying.  If the tarball doesn't extract into a folder, pleas=
+e
+> use the subdir parameter in SRC_URI to put it into one.
+Right - will fix that in V2
 
+Andreas
 
