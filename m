@@ -1,26 +1,26 @@
 Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7254E71503
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6529071503
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 09:44:10 +0000 (UTC)
+	Fri, 14 Nov 2014 09:44:11 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAE9iApV020338
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAE9iCtH013820
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 01:44:11 -0800 (PST)
+	Fri, 14 Nov 2014 01:44:12 -0800 (PST)
 Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 14 Nov 2014 01:44:10 -0800
+	14.3.174.1; Fri, 14 Nov 2014 01:44:11 -0800
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Nov 2014 04:44:04 -0500
-Message-ID: <b042b26c0b227bcac4766d3446f5a9333216bda6.1415957951.git.wenzong.fan@windriver.com>
+Date: Fri, 14 Nov 2014 04:44:05 -0500
+Message-ID: <63bffeb4dc55fce8dab651484248c13879340ac0.1415957951.git.wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1415957951.git.wenzong.fan@windriver.com>
 References: <cover.1415957951.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 2/4] e2fsprogs: clean host path in compile_et, mk_cmds
+Subject: [PATCH v2 3/4] bind: clean host path in isc-config.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Nov 2014 09:44:10 -0000
+X-List-Received-Date: Fri, 14 Nov 2014 09:44:11 -0000
 Content-Type: text/plain
 
 From: Shiqun Lin <Shiqun.Lin@windriver.com>
 
-* /usr/bin/compile_et
-* /usr/bin/mk_cmds
+* /usr/bin/isc-config.sh
+* /usr/bin/bind9-config - hardlink to isc-config.sh
 
 Signed-off-by: Shiqun Lin <Shiqun.Lin@windriver.com>
 Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |    6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/recipes-connectivity/bind/bind_9.9.5.bb |    7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-index f89e5ac..1fb4a6cd 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-@@ -54,6 +54,12 @@ do_install () {
- 	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
- }
+diff --git a/meta/recipes-connectivity/bind/bind_9.9.5.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+index ebd38ef..dd171c1 100644
+--- a/meta/recipes-connectivity/bind/bind_9.9.5.bb
++++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+@@ -51,6 +51,13 @@ FILES_${PN}-utils = "${bindir}/host ${bindir}/dig"
+ FILES_${PN}-dev += "${bindir}/isc-config.h"
+ FILES_${PN} += "${sbindir}/generate-rndc-key.sh"
  
-+do_install_append_class-target() {
-+	# Clean host path in compile_et, mk_cmds
-+	sed -i -e "s,ET_DIR=\"${S}/lib/et\",ET_DIR=\"${datadir}/et\",g" ${D}${bindir}/compile_et
-+	sed -i -e "s,SS_DIR=\"${S}/lib/ss\",SS_DIR=\"${datadir}/ss\",g" ${D}${bindir}/mk_cmds
++do_install_prepend() {
++	# clean host path in isc-config.sh before the hardlink created
++	# by "make install":
++	#   bind9-config -> isc-config.sh
++	sed -i -e "s,${STAGING_LIBDIR},${libdir}," ${S}/isc-config.sh
 +}
 +
- RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
- RRECOMMENDS_e2fsprogs = "e2fsprogs-mke2fs e2fsprogs-e2fsck"
- 
+ do_install_append() {
+ 	rm "${D}${bindir}/nslookup"
+ 	rm "${D}${mandir}/man1/nslookup.1"
 -- 
 1.7.9.5
 
