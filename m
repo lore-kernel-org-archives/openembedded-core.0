@@ -1,39 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 4605765C7B
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CCB9565CD4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 17:35:01 +0000 (UTC)
-Received: by mail-qa0-f47.google.com with SMTP id dc16so11927947qab.6
+	Fri, 14 Nov 2014 23:53:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAENrsqu028400
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 09:35:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=XlnlCcNhcjJ3PBS23ViK0kPbW1U27CvEV7zQP961nJE=;
-	b=Or9XkyCeJ260Iyom1BcTokaLtzFhwW1jcmJzPu+EsyQQJuhbzfP6UsvAUvw4e+SDQ6
-	DW1c5ZRfNuV8nQIIOs1n8nDu13UVXgd3Ibmffud/CsgzNbDnHSq9eXef49UTD5Z79Dub
-	2OvD4iMnSldPzLvozypJTBqcWgnyCaWE4lLcr5G0J1YTCfpFwhOkvRdpffo2CBzWqJpX
-	/4j+2dRMo0YHAZiYpQxgUDqyGvViiHsKJiaGgwBaBK2HaHy2uzMfrVJKLo7eFWO87Dkb
-	oO6EEvnFLJGxa8gfSJa6TbizNIph/XdbEh1f4Q+k61ELDWtbROcfg0DkbkPKGa6t2i3J
-	MgIA==
-X-Gm-Message-State: ALoCoQmBzq2IodNDSws2NMRVMN3S9IgzoHBPLZgwblXUqU5FSE9KpKfA0OqNgDiH0N2Tk5q7FC+C
-X-Received: by 10.140.94.246 with SMTP id g109mr12763489qge.77.1415986502306; 
-	Fri, 14 Nov 2014 09:35:02 -0800 (PST)
+	Fri, 14 Nov 2014 15:53:55 -0800 (PST)
+Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Fri, 14 Nov 2014 15:53:54 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 14 Nov 2014 17:53:53 -0600
+Message-ID: <1416009233-188121-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.9.3
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Fri, 14 Nov 2014 09:34:42 -0800 (PST)
-In-Reply-To: <54663213.9030709@pabigot.com>
-References: <1414861479-5493-1-git-send-email-pab@pabigot.com>
-	<1414861479-5493-2-git-send-email-pab@pabigot.com>
-	<CAJTo0LZMvL-7bTvf_ou6PHmMpZXa81GWb3murA6t5EfceQXOow@mail.gmail.com>
-	<54663213.9030709@pabigot.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Nov 2014 17:34:42 +0000
-Message-ID: <CAJTo0LanDSZdnmxx9hBJsdrug2JHr_Ln2VeDQGXvPzb3JUp0RA@mail.gmail.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] pseudo: default --without-passwd-fallback
+Subject: [PATCH][dizzy] toolchain-shar-template.sh: Do not offer sudo as an option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,43 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Nov 2014 17:35:07 -0000
-Content-Type: multipart/alternative; boundary=001a113a81d67a26d70507d50cfa
+X-List-Received-Date: Fri, 14 Nov 2014 23:54:02 -0000
+Content-Type: text/plain
 
---001a113a81d67a26d70507d50cfa
-Content-Type: text/plain; charset=UTF-8
+From: Jeffrey C Honig <jeffrey.honig@windriver.com>
 
-On 14 November 2014 16:47, Peter A. Bigot <pab@pabigot.com> wrote:
 
-> Interesting.  I have several theories.
->
-> Can you tell me where to find the exact configurations and scripts
-> necessary to replicate what the autobuilder is doing?
->
+NOTE: This is being set to the list for Yocto Project compliance,
+we don't expect this patch to be merged!
 
-The yocto-autobuilder git repository has the autobuilder configurations (in
-buildset.controller, iirc), which should be enough to tell you want the key
-variables were.
 
-Thanks,
-Ross
+We do not want to offer our users the ability to automatically run
+sudo.
 
---001a113a81d67a26d70507d50cfa
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Using sudo from within a script can be considered a potential
+security issue by some customers.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 November 2014 16:47, Peter A. Bigot <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:pab@pabigot.com" target=3D"_blank">pab@pabigot.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex"><div id=3D":5qy" class=3D"a3s" style=
-=3D"overflow:hidden">Interesting.=C2=A0 I have several theories.<br>
-<br>
-Can you tell me where to find the exact configurations and scripts necessar=
-y to replicate what the autobuilder is doing?</div></blockquote></div><br>T=
-he yocto-autobuilder git repository has the autobuilder configurations (in =
-buildset.controller, iirc), which should be enough to tell you want the key=
- variables were.</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Thanks,</div><div class=3D"gmail_extra">Ross</div></div>
+This also ensures that the person doing the installation understands
+the ramifications of where they are installing the code.
 
---001a113a81d67a26d70507d50cfa--
+WR SDK extensions may not work properly if owned by root as well.
+
+Signed-off-by: Jeffrey C Honig <jeffrey.honig@windriver.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/files/toolchain-shar-template.sh | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/files/toolchain-shar-template.sh b/meta/files/toolchain-shar-template.sh
+index d79797d..6334e14 100644
+--- a/meta/files/toolchain-shar-template.sh
++++ b/meta/files/toolchain-shar-template.sh
+@@ -99,6 +99,7 @@ mkdir -p $target_sdk_dir >/dev/null 2>&1
+ 
+ # if don't have the right to access dir, gain by sudo 
+ if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; then 
++	echo "Sorry, you do not have permission to install the SDK to \"$target_sdk_dir\"." && exit 1
+ 	SUDO_EXEC=$(which "sudo")
+ 	if [ -z $SUDO_EXEC ]; then
+ 		echo "No command 'sudo' found, please install sudo first. Abort!"
+-- 
+1.9.3
+
+
