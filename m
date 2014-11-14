@@ -1,26 +1,34 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CD0272127
+Return-Path: <diego.sueiro@gmail.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C39671503
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 09:44:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAE9iDhF020350
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 14 Nov 2014 09:58:58 +0000 (UTC)
+Received: by mail-qc0-f182.google.com with SMTP id r5so1015954qcx.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 01:44:13 -0800 (PST)
-Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 14 Nov 2014 01:44:12 -0800
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Nov 2014 04:44:06 -0500
-Message-ID: <50ca2bbefd3b432d2ced6e5fdf8fb396636d55c4.1415957951.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1415957951.git.wenzong.fan@windriver.com>
-References: <cover.1415957951.git.wenzong.fan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH v2 4/4] tcl: clean host path in tclConfig.sh
+	Fri, 14 Nov 2014 01:58:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=XNVgujT56c4VADxr7zSVN9ZFSytyo52iBeNccbaH0aQ=;
+	b=vNV0apanp/wzBM+WflWIIMBak1wlwwnMp7sUetQLlzzklJkxyFKMm1vchchBO5EGU2
+	PNT+6A7jER5+9/pebMObl2NCfgLm5ZRZI2DtoEJ7CYmIU9Hn4nmummGjkkXzBTr8QjZp
+	E0idj7PkKloUv2uao5v0t8jNLH7ha6408xZ5AbioRes2Vn3ytDroBrlgxopWzszasZMX
+	jQ1yiZ5frNgAgaADRH7oG3FgfmSkxcADAwbFEnfCsP+1xUZH4c4k2jbRT3bRemCDrdWa
+	gWZopWio9esLWM58S1hhjmljyJrkYeCk9VEWUEGIAuRmwJsUf0d85VXqi1hjH0lG3xki
+	pFFA==
+X-Received: by 10.224.53.132 with SMTP id m4mr9966659qag.85.1415959138691;
+	Fri, 14 Nov 2014 01:58:58 -0800 (PST)
+Received: from localhost.localdomain ([189.61.222.176])
+	by mx.google.com with ESMTPSA id 6sm2224822qal.20.2014.11.14.01.58.55
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 14 Nov 2014 01:58:58 -0800 (PST)
+From: Diego Sueiro <diego.sueiro@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Nov 2014 07:58:33 -0200
+Message-Id: <1415959113-8920-1-git-send-email-diego.sueiro@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [meta-qt5][PATCH] qtsystems: Change branch from stable to 5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Nov 2014 09:44:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Nov 2014 09:59:07 -0000
 
-From: Shiqun Lin <Shiqun.Lin@windriver.com>
+Stable branch was removed on mainline and now 5.3
+is used.
 
-* /usr/bin/crossscripts/tclConfig.sh
-
-Signed-off-by: Shiqun Lin <Shiqun.Lin@windriver.com>
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+Signed-off-by: Diego Sueiro <diego.sueiro@gmail.com>
 ---
- meta/recipes-devtools/tcltk/tcl_8.6.2.bb |    5 +++++
- 1 file changed, 5 insertions(+)
+ recipes-qt/qt5/qtsystems_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.2.bb b/meta/recipes-devtools/tcltk/tcl_8.6.2.bb
-index 75fef01..34f3e87 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.2.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.2.bb
-@@ -58,6 +58,11 @@ do_install() {
- 	sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
- 	sed -i "s,-L${libdir},-L=${libdir},g" tclConfig.sh
- 	sed -i "s,-I${includedir},-I=${includedir},g" tclConfig.sh
-+	sed -i "/TCL_CC/s,\(--sysroot=\).*,--sysroot= '," tclConfig.sh
-+	sed -i "/TCL_BUILD_LIB_SPEC/s,-L${STAGING_LIBDIR},-L${libdir}," tclConfig.sh
-+	sed -i "/TCL_SRC_DIR/s,${STAGING_INCDIR},${includedir}," tclConfig.sh
-+	sed -i "/TCL_BUILD_STUB_LIB_SPEC/s,-L${STAGING_LIBDIR},-L${libdir}," tclConfig.sh
-+	sed -i "/TCL_BUILD_STUB_LIB_PATH/s,${STAGING_INCDIR},${includedir}," tclConfig.sh
- 	install -d ${D}${bindir_crossscripts}
- 	install -m 0755 tclConfig.sh ${D}${bindir_crossscripts}
- 	install -m 0755 tclConfig.sh ${D}${libdir}
+diff --git a/recipes-qt/qt5/qtsystems_git.bb b/recipes-qt/qt5/qtsystems_git.bb
+index 45f6b0e..ac2fc86 100644
+--- a/recipes-qt/qt5/qtsystems_git.bb
++++ b/recipes-qt/qt5/qtsystems_git.bb
+@@ -1,7 +1,7 @@
+ require qt5-git.inc
+ require ${PN}.inc
+ 
+-QT_MODULE_BRANCH = "stable"
++QT_MODULE_BRANCH = "5.3"
+ 
+ # qtsystems wasn't released yet, last tag before this SRCREV is 5.0.0-beta1
+ # qt5-git PV is only to indicate that this recipe is compatible with qt5 5.2.1
 -- 
-1.7.9.5
+1.9.1
 
 
