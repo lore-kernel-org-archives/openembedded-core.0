@@ -1,39 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 6041E65C7B
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 205F77190D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 11:05:48 +0000 (UTC)
-Received: by mail-qc0-f175.google.com with SMTP id b13so14134092qcw.34
+	Fri, 14 Nov 2014 12:13:16 +0000 (UTC)
+Received: by mail-wi0-f172.google.com with SMTP id bs8so2445277wib.17
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 03:05:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=k44/OzZRhzMuiRJV8Mggm3jzLzRq+FWDEfTUU3UHqF4=;
-	b=aFx1R+Tu9VKYDS+QumMDPLczc2sWkqmBtF/7slv7Y72kQQUOoyj440/hZ+PzeZNU5U
-	VHnvL3aCbWdQFwu8+tfGJViSph4mMqOGL85eey+yG4WXyW9UNOKXUWtD/uE6xwkVDnVM
-	nuJdipImdSWdVxGJ4uu/gROOqC2gOPta6uF4AkgBbFkv9+A+6Zd4xSt0sOhddFIX8C4A
-	rKIOvPFkcoq7BRMkmUfh/0+MCOSOuMq3I8Ce5ExAo/xtXwYqqyholbNQMrf8NXV8yin/
-	Op6Z5yUXMUO1tQR8zj0k1aG7IyHYOt6DxyKcjYj1hJgY14QYTjCA4XE5ZPVDqZFC7K3F
-	+9nA==
-X-Gm-Message-State: ALoCoQn8oB9tNV/65eiMCB3DCW9tb/o5fDazBi3ijh85C8M7d1R+ci+SXvt1wVQs1VPip32LAlia
-X-Received: by 10.224.28.193 with SMTP id n1mr10457500qac.93.1415963149132;
-	Fri, 14 Nov 2014 03:05:49 -0800 (PST)
+	Fri, 14 Nov 2014 04:13:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=7jzuyEsiREjSLCnJupytToIwKbHQH0tXP6c9m+tvbXw=;
+	b=rxuiFFdeoszrPpsx5gE+VEXWWsw5OiyCOHyL4iXHZZA6BAY49bC2wy06Ij46YZl8r7
+	SALIP30SQKrKsSoW/abKKxDFgrF6iRJ9l80gCwNnaThTJJ6Pcoki1A1L32LSfc+/UMWu
+	/rdHpbUu6xwlnJo7O2cCZR85usOKfL6sWryOqcPWPf5eojIG1sPwSJGcK0kGxvkJZPWR
+	n04Lu/xSqerZ+LJ/SGPBOZklzmeG0gYru+ZilEiCRJpEdxguj5ayuRYKb9S2pMz6l8XS
+	+WPytwcD55md4NWtTLhiXMgC0IicB3zqv+0KFI5E9t2xJW4VSmiYYcF8PwRUqHT4YVrQ
+	IK7Q==
+X-Received: by 10.194.143.7 with SMTP id sa7mr13494263wjb.110.1415967196589;
+	Fri, 14 Nov 2014 04:13:16 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	vm8sm24460069wjc.6.2014.11.14.04.13.15 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 14 Nov 2014 04:13:15 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 14 Nov 2014 13:13:22 +0100
+To: Diego Sueiro <diego.sueiro@gmail.com>
+Message-ID: <20141114121322.GG2458@jama>
+References: <1415959113-8920-1-git-send-email-diego.sueiro@gmail.com>
 MIME-Version: 1.0
-Received: by 10.140.98.213 with HTTP; Fri, 14 Nov 2014 03:05:27 -0800 (PST)
-In-Reply-To: <CALbNGRQA6wnsseWxKxkN_QgB9btuVpe5rCTx-1D6t-ehnr1EPg@mail.gmail.com>
-References: <1415346729-16760-1-git-send-email-schnitzeltony@googlemail.com>
-	<1415346729-16760-2-git-send-email-schnitzeltony@googlemail.com>
-	<CAJTo0Lbs=jzjEvpw64X5iJ9DqG5BV8Sgc9-A80Nf2mM8q=CF_w@mail.gmail.com>
-	<CALbNGRQA6wnsseWxKxkN_QgB9btuVpe5rCTx-1D6t-ehnr1EPg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Nov 2014 11:05:27 +0000
-Message-ID: <CAJTo0LZ3Qc_wH3_DahzPJW49k9u+WBtjS99pGVurMWJWeDhZ3g@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] midori: update to 0.5.8
+In-Reply-To: <1415959113-8920-1-git-send-email-diego.sueiro@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [meta-qt5][PATCH] qtsystems: Change branch from stable to 5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,39 +47,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Nov 2014 11:05:57 -0000
-Content-Type: multipart/alternative; boundary=001a11c2ca3084fdcb0507cf9cd5
+X-List-Received-Date: Fri, 14 Nov 2014 12:13:18 -0000
+X-Groupsio-MsgNum: 59675
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Z0mFw3+mXTC5ycVe"
+Content-Disposition: inline
 
---001a11c2ca3084fdcb0507cf9cd5
-Content-Type: text/plain; charset=UTF-8
+--Z0mFw3+mXTC5ycVe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 14 November 2014 08:53, Andreas M=C3=BCller <schnitzeltony@googlemail.co=
-m>
-wrote:
+On Fri, Nov 14, 2014 at 07:58:33AM -0200, Diego Sueiro wrote:
+> Stable branch was removed on mainline and now 5.3
+> is used.
 
-> The xserever & midori series I has not the most promising start :)
->
+Please resend to openembedded-devel@lists.openembedded.org
 
-It's amazing how often something works when tested on your own machine, but
-when thrown at the autobuilder a week later all hell can break loose! ;)
+>=20
+> Signed-off-by: Diego Sueiro <diego.sueiro@gmail.com>
+> ---
+>  recipes-qt/qt5/qtsystems_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/recipes-qt/qt5/qtsystems_git.bb b/recipes-qt/qt5/qtsystems_g=
+it.bb
+> index 45f6b0e..ac2fc86 100644
+> --- a/recipes-qt/qt5/qtsystems_git.bb
+> +++ b/recipes-qt/qt5/qtsystems_git.bb
+> @@ -1,7 +1,7 @@
+>  require qt5-git.inc
+>  require ${PN}.inc
+> =20
+> -QT_MODULE_BRANCH =3D "stable"
+> +QT_MODULE_BRANCH =3D "5.3"
+> =20
+>  # qtsystems wasn't released yet, last tag before this SRCREV is 5.0.0-be=
+ta1
+>  # qt5-git PV is only to indicate that this recipe is compatible with qt5=
+ 5.2.1
+> --=20
+> 1.9.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Ross
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---001a11c2ca3084fdcb0507cf9cd5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--Z0mFw3+mXTC5ycVe
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 November 2014 08:53, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony@g=
-ooglemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
-id=3D":21b" class=3D"a3s" style=3D"overflow:hidden">The xserever &amp; mido=
-ri series I has not the most promising start :)<br></div></blockquote></div=
-><br>It&#39;s amazing how often something works when tested on your own mac=
-hine, but when thrown at the autobuilder a week later all hell can break lo=
-ose! ;)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Ross</div></div>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
---001a11c2ca3084fdcb0507cf9cd5--
+iEYEARECAAYFAlRl8eIACgkQN1Ujt2V2gBw3+ACeIuPuZo7vMN9Np6X/Ebhc44UU
+zVwAn1r+MqIrPnyiAn7JJermez8SY1Ee
+=VEz5
+-----END PGP SIGNATURE-----
+
+--Z0mFw3+mXTC5ycVe--
