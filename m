@@ -1,21 +1,29 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa12-08.prod.phx3.secureserver.net
-	(p3plsmtpa12-08.prod.phx3.secureserver.net [68.178.252.237])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F9AA65CED
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D420720C6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Nov 2014 16:21:11 +0000 (UTC)
-Received: from [192.168.65.10] ([75.72.225.8])
-	by p3plsmtpa12-08.prod.phx3.secureserver.net with 
-	id FsMB1p0080BVjqb01sMBoZ; Sat, 15 Nov 2014 09:21:12 -0700
-Message-ID: <54677D77.2090104@pabigot.com>
-Date: Sat, 15 Nov 2014 10:21:11 -0600
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
-MIME-Version: 1.0
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: opkg/rpm inconsistencies in multilib image installations
+	Sat, 15 Nov 2014 16:22:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sAFGLsSs020249; Sat, 15 Nov 2014 16:21:54 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id RMI39F6n4EaQ; Sat, 15 Nov 2014 16:21:54 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sAFGLd6S020245
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 15 Nov 2014 16:21:50 GMT
+Message-ID: <1416068535.28563.0.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Date: Sat, 15 Nov 2014 16:22:15 +0000
+In-Reply-To: <5466E6B7.2050609@pabigot.com>
+References: <5466E6B7.2050609@pabigot.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: why does useradd.bbclass loop retrying its commands?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,87 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Nov 2014 16:21:12 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Sat, 15 Nov 2014 16:22:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-tl;dr: multilib apparently defines its own root directory underneath 
-${IMAGE_ROOT} which includes copies of /etc files like passwd that are 
-not known to pseudo.  opkg and rpm differ in whether useradd scripts are 
-run when a multilib package is installed, resulting in failures to add 
-users/groups during multilib install when using opkg because a sanity 
-check thinks they already exist because pseudo is looking somewhere else.
+On Fri, 2014-11-14 at 23:37 -0600, Peter A. Bigot wrote:
+> The useradd, groupadd, and groupmems commands in useradd.bbclass are 
+> executed in a loop with up to 10 failed attempts before they give up.  
+> This appears to have always been the case, as long as that file has been 
+> present.
+> 
+> Is there any reason why an initial failed attempt to execute one of 
+> these commands would be expected to succeed on retry, other than because 
+> delaying failure gives a chance for concurrently executing task to 
+> complete and so satisfy a dependency?
 
-Details:
+Another recipe can be altering the files and holding the lock so in
+theory, yes, the retries can help.
 
-Ross pointed out in 
-http://lists.openembedded.org/pipermail/openembedded-core/2014-November/099032.html 
-that the patches to prevent using host /etc files in pseudo failed under 
-multilib and asked me to look into it.
+Cheers,
 
-Recall that with these patches PSEUDO_PASSWD (where pseudo looks up 
-users and groups for getpwnam(3) etc) is set in bitbake.conf to:
+Richard
 
-PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${STAGING_DIR_NATIVE}"
-
-where STAGING_DIR_NATIVE holds the fallback files that provide only 
-enough entries to get fs-perms.txt to work before the target staging 
-/etc exists.
-
-Because images are different and with some packagers base-passwd can't 
-be installed unless user root can be resolved, in an (updated) 
-image.bbclass we use this:
-
-# Prefer image, but use the fallback files for lookups if the image ones
-# aren't yet available.
-PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
-
-Adding this line to perform_groupadd in useradd_base.bbclass
-        bbnote "rootdir $rootdir 
-PSEUDO_PASSWD=${PSEUDO_PASSWD}=$PSEUDO_PASSWD"
-
-and adding linebreaks for readability, I'm finding that when 
-lib32-dbus-1 is installed with PACKAGE_CLASSES = "package_ipk" we have:
-
-rootdir
-  /prj/oe/omap/build-ab-multilib/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0-r0/multilib/lib32
-PSEUDO_PASSWD
-=/prj/oe/omap/build-ab-multilib/tmp/sysroots/lib32-qemux86-64
-:/prj/oe/omap/build-ab-multilib/tmp/sysroots/x86_64-linux
-=/prj/oe/omap/build-ab-multilib/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0-r0/rootfs
-:/prj/oe/omap/build-ab-multilib/tmp/sysroots/x86_64-linux
-
-In other words, useradd.bbclass (1) thinks the etc directory is in $D, 
-the bitbake variable PSEUDO_PASSWD during build (2) thinks it's in the 
-multilib 32-bit target staging directory, and the PSEUDO_PASSWD actually 
-running (3) thinks it's in IMAGE_ROOT.
-
-Because of this, useradd.bbclass can't find netdev in $D/etc/group so 
-invokes groupadd which does a sanity check and complains that netdev 
-already exists in ${IMAGE_ROOT}/etc/group and things crumble to a stop.
-
-Interestingly the build+install works with PACKAGE_CLASSES = 
-"package_rpm" which shows this for the install of 
-dbus-1-1.8.2-r0.3.core2_64.rpm:
-
-rootdir
-  /prj/oe/omap/build-ab-multilib/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0-r0/rootfs
-PSEUDO_PASSWD
-=/prj/oe/omap/build-ab-multilib/tmp/sysroots/qemux86-64
-:/prj/oe/omap/build-ab-multilib/tmp/sysroots/x86_64-linux
-=/prj/oe/omap/build-ab-multilib/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0-r0/rootfs
-:/prj/oe/omap/build-ab-multilib/tmp/sysroots/x86_64-linux
-
-and either does not install dbus-1-1.8.2-r0.3.lib32_x86.rpm or somehow 
-prevents the groupadd scripts from being run.
-
-Whatever's going on here, RPM and OPKG appear to differ in the 
-environment and selected packages for multilib images, which surely 
-isn't right. I didn't check deb.
-
-Once somebody reconciles the packager behaviors, I'll return to deal 
-with any remaining changes to pseudo.  If we have to allow multilib to 
-create users/groups in a non-standard root directory it's gonna get messy.
-
-Peter
 
