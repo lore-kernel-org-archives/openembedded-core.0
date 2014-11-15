@@ -1,24 +1,35 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CCB9565CD4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D8D1865D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 23:53:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAENrsqu028400
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 15 Nov 2014 03:02:47 +0000 (UTC)
+Received: by mail-ig0-f170.google.com with SMTP id a13so787759igq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Nov 2014 15:53:55 -0800 (PST)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Fri, 14 Nov 2014 15:53:54 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Nov 2014 17:53:53 -0600
-Message-ID: <1416009233-188121-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.9.3
+	Fri, 14 Nov 2014 19:02:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=VnXb7wH/EJ+7pnhEnhCzKxmh5ktHKrOX9Nlgp6vift8=;
+	b=XWEIhVQ7eClto3GzpWj8u+XXje4FqbvVr4sTS+V5zoI1tCNDtS1nvoX9gBfN7rqssn
+	I6i3QMT75u3Ci1cr3jVFynU52scROklCUOut2h0fu9+YT7y+b7TSwt7c1vHjjLtuR+oj
+	odba5UQBKra1F3jiVvnBceSWeQ6E0kxj0JP/HK9LrqTYdTxozfnY/T7qc8hTkVdSp++4
+	ESbFScWH+j2sfCN60pATuX3sNRl1PzBbaXKxKYWDQ/2hKSIIU+u/FtU7tUxJSDWZkD9b
+	eogRZZoVSwumvLdSVLbR58ub4eaSLjBWKEOIukxBA5QSq/GK4jNxeaToTZNTUSxZknP6
+	s8GA==
+X-Received: by 10.50.164.133 with SMTP id yq5mr10686361igb.4.1416020568014;
+	Fri, 14 Nov 2014 19:02:48 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH][dizzy] toolchain-shar-template.sh: Do not offer sudo as an option
+Received: by 10.50.169.2 with HTTP; Fri, 14 Nov 2014 19:02:17 -0800 (PST)
+In-Reply-To: <20141114162131.GG15651@jupiter.iwi.intel.com>
+References: <20141114162131.GG15651@jupiter.iwi.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 14 Nov 2014 19:02:17 -0800
+Message-ID: <CAMKF1sp_GjrCpo8A5iXHc7S7iiwn7KRE4sk+3UT1x15vVWc2fw@mail.gmail.com>
+To: Brendan Le Foll <brendan.le.foll@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: uclibc recipes in oe-core versioning & using upstream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Nov 2014 23:54:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 15 Nov 2014 03:02:58 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Jeffrey C Honig <jeffrey.honig@windriver.com>
+On Fri, Nov 14, 2014 at 8:21 AM, Brendan Le Foll
+<brendan.le.foll@intel.com> wrote:
+> I'm trying to understand the logic behind the uclibc recipes, it seems
+> it is using fairly random points in history of git master and not the
+> 0.9.33 point releases that have been made.
+>
+> What is the logic behind that and why not use the upstream release
+> builds as a starting point?
 
+last uclibc release has been long time ago. We need newer features
+especially for systemd to work.
+are you seeing some issues with what we have ? and its always top of
+master. We pick a master version
+and then stabilize it to whatever we can. btw. uclibc master does not
+move at a faster pace where it breaks often
+so its ok to use it.
 
-NOTE: This is being set to the list for Yocto Project compliance,
-we don't expect this patch to be merged!
-
-
-We do not want to offer our users the ability to automatically run
-sudo.
-
-Using sudo from within a script can be considered a potential
-security issue by some customers.
-
-This also ensures that the person doing the installation understands
-the ramifications of where they are installing the code.
-
-WR SDK extensions may not work properly if owned by root as well.
-
-Signed-off-by: Jeffrey C Honig <jeffrey.honig@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/files/toolchain-shar-template.sh | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/files/toolchain-shar-template.sh b/meta/files/toolchain-shar-template.sh
-index d79797d..6334e14 100644
---- a/meta/files/toolchain-shar-template.sh
-+++ b/meta/files/toolchain-shar-template.sh
-@@ -99,6 +99,7 @@ mkdir -p $target_sdk_dir >/dev/null 2>&1
- 
- # if don't have the right to access dir, gain by sudo 
- if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; then 
-+	echo "Sorry, you do not have permission to install the SDK to \"$target_sdk_dir\"." && exit 1
- 	SUDO_EXEC=$(which "sudo")
- 	if [ -z $SUDO_EXEC ]; then
- 		echo "No command 'sudo' found, please install sudo first. Abort!"
--- 
-1.9.3
-
+>
+> Thanks,
+> Brendan
 
