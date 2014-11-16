@@ -1,22 +1,22 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa09-04.prod.phx3.secureserver.net
 	(p3plsmtpa09-04.prod.phx3.secureserver.net [173.201.193.233])
-	by mail.openembedded.org (Postfix) with ESMTP id E03E172131
+	by mail.openembedded.org (Postfix) with ESMTP id AB5417213E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Nov 2014 00:06:04 +0000 (UTC)
+	Sun, 16 Nov 2014 00:06:03 +0000 (UTC)
 Received: from llc.pab ([75.72.225.8])
 	by p3plsmtpa09-04.prod.phx3.secureserver.net with 
-	id G0611p00N0BVjqb01065zK; Sat, 15 Nov 2014 17:06:05 -0700
+	id G0611p00N0BVjqb01063zD; Sat, 15 Nov 2014 17:06:04 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Nov 2014 18:05:51 -0600
-Message-Id: <19633f557fd99aaf48f1402ffa0d32fb4d8e6510.1416081855.git.pab@pabigot.com>
+Date: Sat, 15 Nov 2014 18:05:47 -0600
+Message-Id: <489320bd2e3d79efcab7f0b0c21dddd94c68bbb8.1416081855.git.pab@pabigot.com>
 X-Mailer: git-send-email 1.8.5.5
 In-Reply-To: <cover.1416081855.git.pab@pabigot.com>
 References: <cover.1416081855.git.pab@pabigot.com>
 In-Reply-To: <cover.1416081855.git.pab@pabigot.com>
 References: <cover.1416081855.git.pab@pabigot.com>
-Subject: [PATCH V2 7/7] useradd.bbclass: set PSEUDO_PASSWD consistent with root directory
+Subject: [PATCH V2 3/7] image.bbclass: search both rootfs and native staging for passwd files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +31,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 16 Nov 2014 00:06:05 -0000
 
-When installing into a sysroot this class examines $D/etc/passwd for
-content, then invokes useradd to make changes.  Under pseudo useradd
-attempts to look up user information in directories specified by
-$PSEUDO_PASSWD.  For opkg multilib installs $D is not always the same as
-$IMAGE_ROOT, and the user might already be in the IMAGE_ROOT files,
-causing a failure during rootfs population.
-
-Fix this by ensuring the files pseudo looks at when doing useradd stuff
-are the same ones that useradd.bbclass will be manipulating.
+When pseudo is configured to disallow fallback to the build host
+/etc/hosts and /etc/group, the selection of ${IMAGE_ROOT} for
+PSEUDO_PASSWD is insufficient as the necessary files will not be
+available until base-passwd has been installed and its pkg_postinst
+script run.  Fall back to the ${STAGING_DIR_NATIVE} version of those
+files until the rootfs versions are available.  (The native copies are
+never modified by the build; the ones in ${STAGING_DIR_TARGET} are
+updated and may contain settings not consistent with what would be
+created by post-install useradd/groupadd commands invoked in the image
+rootfs.
 
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- meta/classes/useradd.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+v2 change: fallback to ${STAGING_DIR_NATIVE} instead of ${STAGING_DIR_TARGET}.
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 3b70e80..0b9a843 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -24,6 +24,8 @@ if test "x$D" != "x"; then
- 	# Installing into a sysroot
- 	SYSROOT="$D"
- 	OPT="--root $D"
-+	# user/group lookups should match useradd/groupadd --root
-+	export PSEUDO_PASSWD="$SYSROOT:${STAGING_DIR_NATIVE}"
- fi
+ meta/classes/image.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index fc08653..6bbfaf8 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -175,7 +175,9 @@ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
  
- # If we're not doing a special SSTATE/SYSROOT install
+ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IMAGE_LINGUAS', True).split()))}"
+ 
+-PSEUDO_PASSWD = "${IMAGE_ROOTFS}"
++# Prefer image, but use the fallback files for lookups if the image ones
++# aren't yet available.
++PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
+ 
+ do_rootfs[dirs] = "${TOPDIR}"
+ do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
 -- 
 1.8.5.5
 
