@@ -1,22 +1,29 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa09-04.prod.phx3.secureserver.net
-	(p3plsmtpa09-04.prod.phx3.secureserver.net [173.201.193.233])
-	by mail.openembedded.org (Postfix) with ESMTP id AB5417213E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 013D7712A7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Nov 2014 00:06:03 +0000 (UTC)
-Received: from llc.pab ([75.72.225.8])
-	by p3plsmtpa09-04.prod.phx3.secureserver.net with 
-	id G0611p00N0BVjqb01063zD; Sat, 15 Nov 2014 17:06:04 -0700
-From: "Peter A. Bigot" <pab@pabigot.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Nov 2014 18:05:47 -0600
-Message-Id: <489320bd2e3d79efcab7f0b0c21dddd94c68bbb8.1416081855.git.pab@pabigot.com>
-X-Mailer: git-send-email 1.8.5.5
-In-Reply-To: <cover.1416081855.git.pab@pabigot.com>
-References: <cover.1416081855.git.pab@pabigot.com>
-In-Reply-To: <cover.1416081855.git.pab@pabigot.com>
-References: <cover.1416081855.git.pab@pabigot.com>
-Subject: [PATCH V2 3/7] image.bbclass: search both rootfs and native staging for passwd files
+	Sun, 16 Nov 2014 12:59:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sAGCwhYR009982; Sun, 16 Nov 2014 12:58:43 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 0HKYKrgbWelM; Sun, 16 Nov 2014 12:58:43 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sAGCwTsN009969
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 16 Nov 2014 12:58:40 GMT
+Message-ID: <1416142745.28563.2.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Date: Sun, 16 Nov 2014 12:59:05 +0000
+In-Reply-To: <5467EA52.6020008@pabigot.com>
+References: <54677D77.2090104@pabigot.com> <5467EA52.6020008@pabigot.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: opkg/rpm inconsistencies in multilib image installations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,42 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Nov 2014 00:06:05 -0000
+X-List-Received-Date: Sun, 16 Nov 2014 12:59:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When pseudo is configured to disallow fallback to the build host
-/etc/hosts and /etc/group, the selection of ${IMAGE_ROOT} for
-PSEUDO_PASSWD is insufficient as the necessary files will not be
-available until base-passwd has been installed and its pkg_postinst
-script run.  Fall back to the ${STAGING_DIR_NATIVE} version of those
-files until the rootfs versions are available.  (The native copies are
-never modified by the build; the ones in ${STAGING_DIR_TARGET} are
-updated and may contain settings not consistent with what would be
-created by post-install useradd/groupadd commands invoked in the image
-rootfs.
+On Sat, 2014-11-15 at 18:05 -0600, Peter A. Bigot wrote:
+> On 11/15/2014 10:21 AM, Peter A. Bigot wrote:
+> > tl;dr: multilib apparently defines its own root directory underneath 
+> > ${IMAGE_ROOT} which includes copies of /etc files like passwd that are 
+> > not known to pseudo.  opkg and rpm differ in whether useradd scripts 
+> > are run when a multilib package is installed, resulting in failures to 
+> > add users/groups during multilib install when using opkg because a 
+> > sanity check thinks they already exist because pseudo is looking 
+> > somewhere else.
+> 
+> Actually, I'm going to retract this whole thing, since I'm now unable to 
+> reproduce any of the problems described here.  Possibly because of 
+> changes to the pseudo patches that fixed problems I thought were 
+> unrelated to this behavior.
+> 
+> Sorry for the noise.
 
-Signed-off-by: Peter A. Bigot <pab@pabigot.com>
----
-v2 change: fallback to ${STAGING_DIR_NATIVE} instead of ${STAGING_DIR_TARGET}.
+FWIW you are right in that the way multilib works with rpm is different
+to ipk/deb, you can end up with two different rootfs directories which
+are then reconciled. I do have some concerns about what would happen to
+the passwd/group files in this scenario since they could easily become
+out of sync. I suspect we'd have to create a pathological configuration
+to manage that but its probably possible. I *think* the system would at
+least error out if that pathological case occured.
 
- meta/classes/image.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+That said, I suspect this problem exists before your patchset so isn't a
+new issue.
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index fc08653..6bbfaf8 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -175,7 +175,9 @@ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
- 
- LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IMAGE_LINGUAS', True).split()))}"
- 
--PSEUDO_PASSWD = "${IMAGE_ROOTFS}"
-+# Prefer image, but use the fallback files for lookups if the image ones
-+# aren't yet available.
-+PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
- 
- do_rootfs[dirs] = "${TOPDIR}"
- do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
--- 
-1.8.5.5
+Cheers,
+
+Richard
 
 
