@@ -1,22 +1,18 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa09-04.prod.phx3.secureserver.net
 	(p3plsmtpa09-04.prod.phx3.secureserver.net [173.201.193.233])
-	by mail.openembedded.org (Postfix) with ESMTP id 1305B7204D
+	by mail.openembedded.org (Postfix) with ESMTP id 147147210A
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 16 Nov 2014 00:06:02 +0000 (UTC)
 Received: from llc.pab ([75.72.225.8])
 	by p3plsmtpa09-04.prod.phx3.secureserver.net with 
-	id G0611p00N0BVjqb01062zA; Sat, 15 Nov 2014 17:06:03 -0700
+	id G0611p00N0BVjqb01062z9; Sat, 15 Nov 2014 17:06:02 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Nov 2014 18:05:45 -0600
-Message-Id: <1f629d467c28e9c3f884578a9504f4e20ebb10da.1416081855.git.pab@pabigot.com>
+Date: Sat, 15 Nov 2014 18:05:44 -0600
+Message-Id: <cover.1416081855.git.pab@pabigot.com>
 X-Mailer: git-send-email 1.8.5.5
-In-Reply-To: <cover.1416081855.git.pab@pabigot.com>
-References: <cover.1416081855.git.pab@pabigot.com>
-In-Reply-To: <cover.1416081855.git.pab@pabigot.com>
-References: <cover.1416081855.git.pab@pabigot.com>
-Subject: [PATCH V2 1/7] pseudo: support --without-passwd-fallback configuration option
+Subject: [PATCH V2 0/7] prevent pseudo host passwd/group contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,90 +27,59 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 16 Nov 2014 00:06:04 -0000
 
-A bug in pseudo 1.6.2 results in lock failures if this option is
-present.
+For background see:
 
-Signed-off-by: Peter A. Bigot <pab@pabigot.com>
----
- ...do_client.c-protect-pwd_lck-against-magic.patch | 56 ++++++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_1.6.2.bb       |  1 +
- 2 files changed, 57 insertions(+)
+ http://lists.openembedded.org/pipermail/openembedded-core/2014-November/098465.html
+ http://lists.openembedded.org/pipermail/openembedded-core/2014-November/098467.html
+
+Changes in V2:
+
+* Correct faulty assumption that ${STAGING_DIR_TARGET} was ever a valid
+  fallback source
+
+* Correct pseudo patch header to remove reference to faulty assumption
+
+* Install fallback files read-only and note that in no circumstance
+  should they ever be modified
+
+* Add a new patch that ensures useradd.bbclass informs pseudo of the
+  directory in which it expects to find the files that it wants to
+  modify
+
+The following changes since commit edaeb8940813b620090a0797ad3b6a076897512d:
+
+  bitbake: cooker.py: fix loginfo op being set to an invalid value (2014-11-12 17:04:50 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pabigot/pseudo
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pabigot/pseudo
+
+Peter A. Bigot (7):
+  pseudo: support --without-passwd-fallback configuration option
+  pseudo: support multiple search directories in PSEUDO_PASSWD
+  image.bbclass: search both rootfs and native staging for passwd files
+  pseudo: default --without-passwd-fallback
+  pseudo: provide fallback passwd and group files
+  bitbake.conf: pseudo fall back to last-resort passwd files
+  useradd.bbclass: set PSEUDO_PASSWD consistent with root directory
+
+ meta/classes/image.bbclass                         |   4 +-
+ meta/classes/useradd.bbclass                       |   2 +
+ meta/conf/bitbake.conf                             |   2 +-
+ meta/recipes-devtools/pseudo/files/fallback-group  |   2 +
+ meta/recipes-devtools/pseudo/files/fallback-passwd |   1 +
+ ...do_client.c-protect-pwd_lck-against-magic.patch |  56 ++++++++++
+ ..._util-modify-interface-to-pseudo_etc_file.patch |  70 +++++++++++++
+ ...nt.c-support-multiple-directories-in-PSEU.patch | 116 +++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.6.2.bb       |  14 ++-
+ 9 files changed, 264 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/files/fallback-group
+ create mode 100644 meta/recipes-devtools/pseudo/files/fallback-passwd
  create mode 100644 meta/recipes-devtools/pseudo/pseudo-1.6.2/0001-pseudo_client.c-protect-pwd_lck-against-magic.patch
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo-1.6.2/0002-pseudo_util-modify-interface-to-pseudo_etc_file.patch
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo-1.6.2/0003-pseudo_client.c-support-multiple-directories-in-PSEU.patch
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo-1.6.2/0001-pseudo_client.c-protect-pwd_lck-against-magic.patch b/meta/recipes-devtools/pseudo/pseudo-1.6.2/0001-pseudo_client.c-protect-pwd_lck-against-magic.patch
-new file mode 100644
-index 0000000..d0c0a27
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/pseudo-1.6.2/0001-pseudo_client.c-protect-pwd_lck-against-magic.patch
-@@ -0,0 +1,56 @@
-+From e11468a47369596f57c5e99bd0a3dd58b2c6d5e0 Mon Sep 17 00:00:00 2001
-+From: "Peter A. Bigot" <pab@pabigot.com>
-+Date: Sun, 12 Oct 2014 08:27:14 -0500
-+Subject: [PATCH 1/3] pseudo_client.c: protect pwd_lck against magic
-+
-+While attempting to diagnose unexpected uid/gid assignment I added
-+--without-passwd-fallback to the pseudo build.  This caused build
-+failures due to inability to lock /etc/passwd.
-+
-+Instrumentation revealed that attempts to create the lock file ended up
-+with pseudo_etc_file() creating the correct lock name, but the
-+subsequent open had an extra PSEUDO_PASSWD directory prefix causing
-+it to fail.
-+
-+Inspection of pseudo_client shows the only other use of PSEUDO_ETC_FILE
-+to be protected against magic.  Applying the same shield to the
-+unprotected calls in pseudo_pwd_lck_{open,close} fixes the issue.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
-+---
-+ pseudo_client.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/pseudo_client.c b/pseudo_client.c
-+index 8deaa1b..442dd19 100644
-+--- a/pseudo_client.c
-++++ b/pseudo_client.c
-+@@ -416,20 +416,24 @@ pseudo_pwd_lck_open(void) {
-+ 		}
-+ 	}
-+ 	pseudo_pwd_lck_close();
-++	pseudo_antimagic();
-+ 	pseudo_pwd_lck_fd = PSEUDO_ETC_FILE(".pwd.lock",
-+ 					pseudo_pwd_lck_name, O_RDWR | O_CREAT);
-++	pseudo_magic();
-+ 	return pseudo_pwd_lck_fd;
-+ }
-+ 
-+ int
-+ pseudo_pwd_lck_close(void) {
-+ 	if (pseudo_pwd_lck_fd != -1) {
-++		pseudo_antimagic();
-+ 		close(pseudo_pwd_lck_fd);
-+ 		if (pseudo_pwd_lck_name) {
-+ 			unlink(pseudo_pwd_lck_name);
-+ 			free(pseudo_pwd_lck_name);
-+ 			pseudo_pwd_lck_name = 0;
-+ 		}
-++		pseudo_magic();
-+ 		pseudo_pwd_lck_fd = -1;
-+ 		return 0;
-+ 	} else {
-+-- 
-+1.8.5.5
-+
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb b/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
-index ece50bf..df8ce83 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.6.2.bb
-@@ -2,6 +2,7 @@ require pseudo.inc
- 
- SRC_URI = " \
-     http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
-+    file://0001-pseudo_client.c-protect-pwd_lck-against-magic.patch \
- "
- 
- SRC_URI[md5sum] = "4d7b4f9d1b4aafa680ce94a5a9a52f1f"
 -- 
 1.8.5.5
 
