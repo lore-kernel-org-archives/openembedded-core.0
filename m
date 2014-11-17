@@ -1,26 +1,35 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E604718EE
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id B68A3714D7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Nov 2014 08:38:12 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAH8cCfB002343
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Mon, 17 Nov 2014 15:32:32 +0000 (UTC)
+Received: by mail-pd0-f171.google.com with SMTP id r10so21372327pdi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Nov 2014 00:38:12 -0800 (PST)
-Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 17 Nov 2014 00:38:12 -0800
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 17 Nov 2014 03:38:09 -0500
-Message-ID: <e6e4ba1fd6f31ecd724e7ca035f4cdc45576e0a3.1416213365.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1416213365.git.wenzong.fan@windriver.com>
-References: <cover.1416213365.git.wenzong.fan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] serf: 1.3.6 -> 1.3.8
+	Mon, 17 Nov 2014 07:32:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=TOs+JbVeNzQzY8795Z+jgmc4bk5eoeF9Ju8caVwpF+w=;
+	b=owusOkHb2v1Mg5NPWjNxORLcqyHT6PJ7j4OTmFUecc4AwzlDaXbS5qHZVr51LZYCO0
+	uRZd1hccNvhsvounYTQsTTe7thm6v561VPt31j0BFq7Yfp7Mp7dbcdFNHNgb/CK4xsp/
+	v6BrtHXhYBBJjP1kzddU0MNjRKMvF86O016CBMYLWiycBKetXod4jDV9s2ncL8hpDM6u
+	vN/DwHV1E0KwvjaeBQutfVljhbOXt5jiDYdC82rfFuxRafm5LuEyY0V7+ppvvf2nDAXb
+	TShk76IfHRCFxi91ZKhW2D27HiBApyw9GzIBtTzh3S7v8oWd7FD5wXqK/4bBHRjyJRyt
+	B3rw==
+X-Received: by 10.66.90.201 with SMTP id by9mr3475474pab.148.1416238352500;
+	Mon, 17 Nov 2014 07:32:32 -0800 (PST)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207])
+	by mx.google.com with ESMTPSA id tm3sm6364638pac.12.2014.11.17.07.32.30
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 17 Nov 2014 07:32:31 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Nov 2014 07:32:28 -0800
+Message-Id: <1416238348-13496-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [meta-oe][PATCH] serf: update to 1.3.8 including CVE-2014-3504
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,24 +42,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Nov 2014 08:38:21 -0000
-Content-Type: text/plain
-
-From: Wenzong Fan <wenzong.fan@windriver.com>
-
-Release changes:
+X-List-Received-Date: Mon, 17 Nov 2014 15:32:33 -0000
 
 Serf 1.3.8 [2014-10-20, from /tags/1.3.8, rxxxx]
-  Fix issue #152: CRC calculation error for gzipped http reponses > 4GB.
-  Fix issue #153: SSPI CredHandle not freed when APR pool is destroyed.
-  Fix issue #154: Disable SSLv2 and SSLv3 as both or broken.
+Fix issue #152: CRC calculation error for gzipped http reponses > 4GB.
+Fix issue #153: SSPI CredHandle not freed when APR pool is destroyed.
+Fix issue #154: Disable SSLv2 and SSLv3 as both or broken.
 
 Serf 1.3.7 [2014-08-11, from /tags/1.3.7, r2411]
-  Handle NUL bytes in fields of an X.509 certificate. (r2393, r2399)
+Includes security fix:
+Handle NUL bytes in fields of an X.509 certificate. (r2393, r2399)
+- CVE-2014-3504: (Closes: #757965)
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../serf/{serf_1.3.6.bb => serf_1.3.8.bb}          |    6 +++---
+ meta/recipes-support/serf/{serf_1.3.6.bb => serf_1.3.8.bb} | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
  rename meta/recipes-support/serf/{serf_1.3.6.bb => serf_1.3.8.bb} (74%)
 
@@ -74,6 +80,6 @@ index 08b04d3..10db122 100644
  LICENSE = "Apache-2.0"
  LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
 -- 
-1.7.9.5
+1.9.1
 
 
