@@ -1,24 +1,36 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 00A01718FB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C73670A84
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Nov 2014 20:10:02 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 17 Nov 2014 12:07:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,404,1413270000"; d="scan'208";a="609301527"
-Received: from sentry.rb.intel.com ([10.237.105.37])
-	by orsmga001.jf.intel.com with ESMTP; 17 Nov 2014 12:09:38 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
+	Mon, 17 Nov 2014 21:39:37 +0000 (UTC)
+Received: by mail-wg0-f52.google.com with SMTP id a1so2396670wgh.39
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Nov 2014 13:39:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Ae7jVn/gcIezF8WWQIUO5lEzgwdVYo6Z/5b3prBD18I=;
+	b=CY2wy3Q4QFZSJf0z4f1dBHxeLamwV3AO1L4mtiz+PIxaqakJJ3a+iv9CM5Ki9UHsM/
+	Ymrn3iDXEMIc2z4+9EJjTjuZD3pqIeeXwnlOEhHi1G6rfQBDlQdQgx+AR4p2D8Jq0tmr
+	SOCI0ldX8PvkDm+ThwR86PTxxLDKssArEVg9jKbdDLiEX+ylbkkJ4I32PqAWZ2beZpow
+	JZZUMlBxiYEjHJKmpRwG9KSN7K4QHWWPMZ2oMtlGuW2Yy9k535qw6sDwtFIayjB6S5d8
+	0fjKAIrL2QOOWM9URDPPuq0alIheuEi9tEXIFt8EeRjqfN9JiMNQ7+NvJF7pdH3lKt6o
+	8M8Q==
+X-Gm-Message-State: ALoCoQnRK4KdNB+Ow7T+ceyKBKSB5CINbwa1DGH8BgmuMmwLGud85BWgTw4tEgQW5KTWSmcWjIej
+X-Received: by 10.180.86.38 with SMTP id m6mr34022625wiz.65.1416260377436;
+	Mon, 17 Nov 2014 13:39:37 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by mx.google.com with ESMTPSA id
+	kn5sm45639740wjb.48.2014.11.17.13.39.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 17 Nov 2014 13:39:36 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Nov 2014 22:09:30 +0200
-Message-Id: <ff06cf04a70427e8720736f71ad0ed4328da9715.1416254938.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1416254938.git.cristian.iorga@intel.com>
-References: <cover.1416254938.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1416254938.git.cristian.iorga@intel.com>
-References: <cover.1416254938.git.cristian.iorga@intel.com>
-Subject: [PATCH 2/3] libpcap: upgrade to 1.6.2
+Date: Mon, 17 Nov 2014 21:39:32 +0000
+Message-Id: <1416260372-19557-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] cups: remove unrecognised option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Nov 2014 20:10:03 -0000
+X-List-Received-Date: Mon, 17 Nov 2014 21:39:38 -0000
 
-- Bug fixes.
+--disable-openssl was removed in 2.0, so don't pass it to configure.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../libpcap/{libpcap_1.6.1.bb => libpcap_1.6.2.bb}                    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/libpcap/{libpcap_1.6.1.bb => libpcap_1.6.2.bb} (77%)
+ meta/recipes-extended/cups/cups.inc |    1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.6.1.bb b/meta/recipes-connectivity/libpcap/libpcap_1.6.2.bb
-similarity index 77%
-rename from meta/recipes-connectivity/libpcap/libpcap_1.6.1.bb
-rename to meta/recipes-connectivity/libpcap/libpcap_1.6.2.bb
-index f570ebb..a2d5ef4 100644
---- a/meta/recipes-connectivity/libpcap/libpcap_1.6.1.bb
-+++ b/meta/recipes-connectivity/libpcap/libpcap_1.6.2.bb
-@@ -1,8 +1,8 @@
- require libpcap.inc
- 
- SRC_URI += "file://aclocal.patch"
--SRC_URI[md5sum] = "5eb05edf6b6c6e63d536d1c9fbfb2f7c"
--SRC_URI[sha256sum] = "116cbb3ac9e96d5dd7b39638a2f894a67fa3dcf06d794e6dae2b9a942ad13476"
-+SRC_URI[md5sum] = "5f14191c1a684a75532c739c2c4059fa"
-+SRC_URI[sha256sum] = "5db3e2998f1eeba2c76da55da5d474248fe19c44f49e15cac8a796a2c7e19690"
- 
- #
- # make install doesn't cover the shared lib
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 6720c3d..16fdd4f 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -33,7 +33,6 @@ EXTRA_OECONF = " \
+                --enable-gnutls \
+                --enable-dbus \
+                --enable-browsing \
+-               --disable-openssl \
+                --disable-gssapi \
+                --enable-debug \
+                --disable-relro \
 -- 
-2.1.0
+1.7.10.4
 
 
