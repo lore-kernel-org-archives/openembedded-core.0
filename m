@@ -1,24 +1,26 @@
 Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C89ED6A9D4
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E604718EE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Nov 2014 08:38:14 +0000 (UTC)
+	Mon, 17 Nov 2014 08:38:12 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAH8cBTo023990
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAH8cCfB002343
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Nov 2014 00:38:11 -0800 (PST)
+	Mon, 17 Nov 2014 00:38:12 -0800 (PST)
 Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 17 Nov 2014 00:38:10 -0800
+	14.3.174.1; Mon, 17 Nov 2014 00:38:12 -0800
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 17 Nov 2014 03:38:08 -0500
-Message-ID: <cover.1416213365.git.wenzong.fan@windriver.com>
+Date: Mon, 17 Nov 2014 03:38:09 -0500
+Message-ID: <e6e4ba1fd6f31ecd724e7ca035f4cdc45576e0a3.1416213365.git.wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1416213365.git.wenzong.fan@windriver.com>
+References: <cover.1416213365.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] uprev serf: 1.3.6 -> 1.3.8
+Subject: [PATCH 1/1] serf: 1.3.6 -> 1.3.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,22 +48,31 @@ Serf 1.3.8 [2014-10-20, from /tags/1.3.8, rxxxx]
 Serf 1.3.7 [2014-08-11, from /tags/1.3.7, r2411]
   Handle NUL bytes in fields of an X.509 certificate. (r2393, r2399)
 
-The following changes since commit edaeb8940813b620090a0797ad3b6a076897512d:
-
-  bitbake: cooker.py: fix loginfo op being set to an invalid value (2014-11-12 17:04:50 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib wenzong/serf
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/serf
-
-Wenzong Fan (1):
-  serf: 1.3.6 -> 1.3.8
-
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
  .../serf/{serf_1.3.6.bb => serf_1.3.8.bb}          |    6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
  rename meta/recipes-support/serf/{serf_1.3.6.bb => serf_1.3.8.bb} (74%)
 
+diff --git a/meta/recipes-support/serf/serf_1.3.6.bb b/meta/recipes-support/serf/serf_1.3.8.bb
+similarity index 74%
+rename from meta/recipes-support/serf/serf_1.3.6.bb
+rename to meta/recipes-support/serf/serf_1.3.8.bb
+index 08b04d3..10db122 100644
+--- a/meta/recipes-support/serf/serf_1.3.6.bb
++++ b/meta/recipes-support/serf/serf_1.3.8.bb
+@@ -1,8 +1,8 @@
+ 
+-SRC_URI = "http://serf.googlecode.com/svn/src_releases/serf-1.3.6.tar.bz2 \
++SRC_URI = "http://serf.googlecode.com/svn/src_releases/serf-${PV}.tar.bz2 \
+            file://norpath.patch"
+-SRC_URI[md5sum] = "7fe38fa6eab078e0beabf291d8e4995d"
+-SRC_URI[sha256sum] = "ca637beb0399797d4fc7ffa85e801733cd9c876997fac4a4fd12e9afe86563f2"
++SRC_URI[md5sum] = "2e4efe57ff28cb3202a112e90f0c2889"
++SRC_URI[sha256sum] = "e0500be065dbbce490449837bb2ab624e46d64fc0b090474d9acaa87c82b2590"
+ 
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
 -- 
 1.7.9.5
 
