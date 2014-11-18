@@ -1,39 +1,37 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 32AA17210C
+Return-Path: <gchoc-openembedded-core@m.gmane.org>
+Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F4AC7214E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Nov 2014 16:19:12 +0000 (UTC)
-Received: by mail-pd0-f170.google.com with SMTP id fp1so7415704pdb.15
+	Tue, 18 Nov 2014 18:46:34 +0000 (UTC)
+Received: from list by plane.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1XqnnM-0001OR-VU for openembedded-core@lists.openembedded.org;
+	Tue, 18 Nov 2014 19:46:33 +0100
+Received: from S0106001c10b78396.vc.shawcable.net ([96.49.26.10])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Nov 2014 19:46:32 +0100
+Received: from jurobystricky by S0106001c10b78396.vc.shawcable.net with local
+	(Gmexim 0.1 (Debian)) id 1AlnuQ-0007hv-00
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Nov 2014 08:19:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=Vb5erGxHsE0VkNCdwoixWk4Mg79yY1AZhCtmamzukxQ=;
-	b=IMoQzvGPVtVJnNLJvHeskk+MwRGh+EvvRRBi3YAgXw/uLYNyjNv6pzefsN/UrPw4oF
-	J+2R5kkItqoATzlvgDOO9/K5k0qu/xDMYemH8f9ON67w13M+V1XSgmSdUG6Qnqw+JNt2
-	cWEqtAl6M5vcQQUYpCEwdfat26HH+qyKebETpOGkrXumAd7O+zdcYeNNCjITmhvrf6mR
-	w5kdpo0dJgdRcXHojYS9Z9cI3R4UHncCk3C/ygiixxfmko8ab2klOGOPUMb1t85rLIoh
-	xZIAqT5b4yPVtVqL+fLcBiT3x/80OHW9wLSv53IVhRjFUyrV8pxromMR9P6FxXlECbv4
-	u2Ig==
-X-Received: by 10.67.14.129 with SMTP id fg1mr18227413pad.114.1416327553447;
-	Tue, 18 Nov 2014 08:19:13 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by mx.google.com with ESMTPSA id
-	ex4sm38470695pdb.17.2014.11.18.08.19.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 18 Nov 2014 08:19:12 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
+	Tue, 18 Nov 2014 19:46:32 +0100
+X-Injected-Via-Gmane: http://gmane.org/
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Nov 2014 08:18:31 -0800
-Message-Id: <e69653b01dd8ad9fda2355b8112a65c813ce7fd5.1416241492.git.akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1416241492.git.akuster808@gmail.com>
-References: <cover.1416241492.git.akuster808@gmail.com>
-In-Reply-To: <cover.1416241492.git.akuster808@gmail.com>
-References: <cover.1416241492.git.akuster808@gmail.com>
-Subject: [PATCH 6/6] tzdata: update to 2014j
+From: Juro Bystricky <jurobystricky@hotmail.com>
+Date: Tue, 18 Nov 2014 18:46:23 +0000 (UTC)
+Message-ID: <loom.20141118T190824-215@post.gmane.org>
+References: <cover.1415390286.git.peter.seebach@windriver.com>
+	<d2ce73488a8afb7a8d10286da138810d30b4a4be.1415390286.git.peter.seebach@windriver.com>
+	<1415457765.2820.21.camel@linuxfoundation.org>
+	<1415703324.2820.37.camel@linuxfoundation.org>
+	<20141111122956.3e842de1@e6410-2>
+Mime-Version: 1.0
+X-Complaints-To: usenet@ger.gmane.org
+X-Gmane-NNTP-Posting-Host: sea.gmane.org
+User-Agent: Loom/3.14 (http://gmane.org/)
+X-Loom-IP: 96.49.26.10 (Mozilla/5.0 (X11; Ubuntu; Linux x86_64;
+	rv:33.0) Gecko/20100101 Firefox/33.0)
+Subject: Re: [PATCH 1/1] eglibc-use-option-groups.patch: Several fixups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,32 +44,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Nov 2014 16:19:13 -0000
+X-List-Received-Date: Tue, 18 Nov 2014 18:46:36 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-(From OE-Core rev: 3ab9dfb703835fee21fd73c4e5cbad1c34c6a163)
+Peter Seebach <peter.seebach@...> writes:
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-extended/tzdata/tzdata_2014j.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
- create mode 100644 meta/recipes-extended/tzdata/tzdata_2014j.bb
+> 
+> On Tue, 11 Nov 2014 10:55:24 +0000
+> Richard Purdie <richard.purdie@...> wrote:
+> 
+> > > Whilst I haven't 100% confirmed it,
+> > >
+https://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/102/steps/...
+> > > looks like it may well be as a result of this change (which was included
+> > > in the master-next build in question)...  
+> > 
+> > It is 100% confirmed now, with the patch reverted there was a green
+> > build.
+> 
+> Drat. I'll study this more and try to figure out what I missed.
+> 
+> -s
 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2014j.bb b/meta/recipes-extended/tzdata/tzdata_2014j.bb
-new file mode 100644
-index 0000000..f0388c2
---- /dev/null
-+++ b/meta/recipes-extended/tzdata/tzdata_2014j.bb
-@@ -0,0 +1,6 @@
-+SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
+
+Peter, I noticed you have another patch that fixes this issue:
+
+@@ -16469,7 +16452,7 @@ Index: git/include/libc-symbols.h
+-#define HAVE_MBSTATE_T 1
+-#define HAVE_MBSRTOWCS 1
 +
-+SRC_URI[tzdata.md5sum] = "2d7ea9c309f0d4e162e426e568290ca3"
-+SRC_URI[tzdata.sha256sum] = "a2d870320694d40535df822ac8074dc629a90e92abafa5d3373314f78ddc0e0d"
-+
-+require tzdata.inc
--- 
-1.9.1
+-+#if __OPTION_EGLIBC_LOCALE_CODE
+++#if defined(__OPTION_EGLIBC_LOCALE_CODE) && __OPTION_EGLIBC_LOCALE_CODE
++# define HAVE_MBSTATE_T 1
++# define HAVE_MBSRTOWCS 1
++#endif
+
+This will fix the the issue, but (please correct me if I'm wrong) 
+the way I see it, since__OPTION_EGLIBC_LOCALE_CODE is defined in 
+gnu/option-groups.h, which is NOT included libc-symbols.h and hence
+ 
+	#if defined(__OPTION_EGLIBC_LOCALE_CODE) 
+ 
+will always evaluate as false and HAVE_MBSTATE_T will be never defined.
+
+I am not sure why the HAVE_MBSTATE_T needs to be conditioned at all, my
+understanding is
+it is defined if the file <wchar.h> contains type definition "mbstate_t".
+This typedef either exists or not and saying it not exists when in fact 
+it does might be confusing (as it already is for me) and I don't see any 
+relation with __OPTION_EGLIBC_LOCALE_CODE.
+
+
+The only place in glibc I could find that uses HAVE_MBSTATE_T is in fnmatch.c:
+
+#if defined _LIBC
+# include <gnu/option-groups.h>
+#endif
+
+#  if (HAVE_MBSTATE_T && HAVE_MBSRTOWCS) || (_LIBC &&
+__OPTION_EGLIBC_LOCALE_CODE)
+#   define HANDLE_MULTIBYTE    1
+#  endif
+
+To me it seems it is actually HANDLE_MULTIBYTE that we want conditioned 
+with a new patch, resulting in something like:
+
+#if defined _LIBC
+# include <gnu/option-groups.h>
+#endif
+
+#  if (HAVE_MBSTATE_T && HAVE_MBSRTOWCS && _LIBC && __OPTION_EGLIBC_LOCALE_CODE)
+#   define HANDLE_MULTIBYTE    1
+#  endif
+
+Incidentally, I tried a core-image-minimal build with unconditioned
+HAVE_MBSTATE_T and encountered no problems, just like you did originally.
+This would imply poky-tiny problem is a probably a different problem.
+
+One last unrelated thing: I believe in the patch you missed one ".out"
+extension, 
+I think it should be:
+
+...
+++ $(objpfx)tst-pcre-mem.out $(objpfx)tst-boost-mem.out
+...
+
+instead of 
+
+...
+++ $(objpfx)tst-pcre-mem $(objpfx)tst-boost-mem.out
+...
+
+
+
+
 
 
