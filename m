@@ -1,39 +1,39 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 81EBA72144
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 23CA07210C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Nov 2014 16:18:59 +0000 (UTC)
-Received: by mail-pd0-f169.google.com with SMTP id fp1so6275931pdb.14
+	Tue, 18 Nov 2014 16:19:06 +0000 (UTC)
+Received: by mail-pd0-f180.google.com with SMTP id p10so4317985pdj.39
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Nov 2014 08:19:00 -0800 (PST)
+	Tue, 18 Nov 2014 08:19:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=S7y345h26k7nOSpJKqzHHwdCinXsBhTfARqoJoQ1s+E=;
-	b=ZtUJwiWdu0+WQSkjxHk3LkKmvAHwlKhFR3+3MaMzzcMOvXhFo/DcKSPozVvOu9jahk
-	w5kIw3ig4gM9B8gzlWZQt/0EZeI1IuONWzpPGBVO2SbPmZ/IetOC8urqzP7MYDjWFMu8
-	xWzmnI3tH48UHqnr4h/y1SdVQojz2GkST4s75ddVYtQJbvu3RFaCYvQMLbMiLvTtV3ze
-	4hMYCrqzUfftfiDylLpZpgrhEvvgMp/X/9aTkFCA46uAUJ+ouVxU2Hmk5LeHi7TXi+6/
-	oQgRQC66n/j8pAc0Gy+uaFZV94dkQBftLnaY+mF+D5VBbw+ZGvAuraeTs7G3kZrgj+sg
-	GcpQ==
-X-Received: by 10.70.43.78 with SMTP id u14mr2896183pdl.166.1416327539893;
-	Tue, 18 Nov 2014 08:18:59 -0800 (PST)
+	:references; bh=mCHinLwhob64rHaYi9aHplEky9M2xtlA236xmEJmcDE=;
+	b=Q/pZ/Xj9yqfPVuSNyRgJBfdSLmdiu11ZGVGMNgZdzD0pXHqluadQqG8EE8NNMTRDxz
+	Qf4zbc1zPSvdO7TKwiq7DVo8rhywfVNPqD1E9w1zV3jMD3z3I2zBeZsTqYP2qI+bAa+t
+	Linqmu7yI7WQOP5TQtk6rVznoYfdfhGgAPTlIe9gbNdYDjg7PQJGyT2jRMwTY2z0CLc2
+	ZAWonEs4zCR46uDsEO8EiYbvYWzcIC3Gva/7r1Hj+J8XrlOt1m3Qm/kER1HZnegUXZSX
+	OQ85zhESYB+ZvnAFf/rsHSjNk0YB7S018NJxSdF+R+Jscp077GEUbB6geSrpg56TWGIG
+	8wMQ==
+X-Received: by 10.69.31.138 with SMTP id km10mr38650118pbd.6.1416327546846;
+	Tue, 18 Nov 2014 08:19:06 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by mx.google.com with ESMTPSA id
-	ex4sm38470695pdb.17.2014.11.18.08.18.57
+	ex4sm38470695pdb.17.2014.11.18.08.19.04
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 18 Nov 2014 08:18:58 -0800 (PST)
+	Tue, 18 Nov 2014 08:19:05 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Nov 2014 08:18:26 -0800
-Message-Id: <e8e39d81a3e28f45867afccd48963a0289a346b6.1416241492.git.akuster808@gmail.com>
+Date: Tue, 18 Nov 2014 08:18:28 -0800
+Message-Id: <126a4734b767f0a73b764c0759f2964e5652c63e.1416241492.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1416241492.git.akuster808@gmail.com>
 References: <cover.1416241492.git.akuster808@gmail.com>
 In-Reply-To: <cover.1416241492.git.akuster808@gmail.com>
 References: <cover.1416241492.git.akuster808@gmail.com>
-Subject: [PATCH 1/6] subversion: Security Advisory - subversion - CVE-2014-3528
+Subject: [PATCH 3/6] curl: Security Advisory - curl - CVE-2014-3620
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,90 +46,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Nov 2014 16:18:59 -0000
+X-List-Received-Date: Tue, 18 Nov 2014 16:19:07 -0000
 
-From: Yue Tao <Yue.Tao@windriver.com>
+From: Chong Lu <Chong.Lu@windriver.com>
 
-Apache Subversion 1.0.0 through 1.7.x before 1.7.17 and 1.8.x before
-1.8.10 uses an MD5 hash of the URL and authentication realm to store
-cached credentials, which makes it easier for remote servers to obtain
-the credentials via a crafted authentication realm.
+libcurl wrongly allows cookies to be set for Top Level Domains (TLDs), thus
+making them apply broader than cookies are allowed. This can allow arbitrary
+sites to set cookies that then would get sent to a different and unrelated site
+or domain.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3528
+(From OE-Core rev: ddbaade8afbc9767583728bfdc220639203d6853)
 
-(From OE-Core rev: e0dc0432b13f38d16f642bdadf8ebc78b7a74806)
-
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../subversion/subversion-CVE-2014-3528.patch      | 29 ++++++++++++++++++++++
- .../subversion/subversion_1.6.15.bb                |  1 +
- .../subversion/subversion_1.8.9.bb                 |  1 +
- 3 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
+ meta/recipes-support/curl/curl/CVE-2014-3620.patch | 69 ++++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.37.1.bb           |  1 +
+ 2 files changed, 70 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2014-3620.patch
 
-diff --git a/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2014-3620.patch b/meta/recipes-support/curl/curl/CVE-2014-3620.patch
 new file mode 100644
-index 0000000..23e738e
+index 0000000..d11f190
 --- /dev/null
-+++ b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
-@@ -0,0 +1,29 @@
++++ b/meta/recipes-support/curl/curl/CVE-2014-3620.patch
+@@ -0,0 +1,69 @@
++From fd7ae600adf23a9a1ed619165c5058bdec216e9c Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Tue, 19 Aug 2014 21:11:20 +0200
++Subject: [PATCH] cookies: reject incoming cookies set for TLDs
++
++Test 61 was modified to verify this.
++
++CVE-2014-3620
++
++Reported-by: Tim Ruehsen
++URL: http://curl.haxx.se/docs/adv_20140910B.html
++
 +Upstream-Status: Backport
 +
-+Signed-off-by: Yue Tao <yue.tao@windriver.com>
++Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
++---
++ lib/cookie.c      | 6 ++++++
++ tests/data/test61 | 1 +
++ 2 files changed, 7 insertions(+)
 +
-+diff --git a/subversion/libsvn_subr/config_auth.c.old b/subversion/libsvn_subr/config_auth.c
-+index ff50270..c511d04 100644
-+--- a/subversion/libsvn_subr/config_auth.c.old
-++++ b/subversion/libsvn_subr/config_auth.c
-+@@ -85,6 +85,7 @@ svn_config_read_auth_data(apr_hash_t **hash,
-+   if (kind == svn_node_file)
-+     {
-+       svn_stream_t *stream;
-++      svn_string_t *stored_realm;
++diff --git a/lib/cookie.c b/lib/cookie.c
++index 46904ac..375485f 100644
++--- a/lib/cookie.c
+++++ b/lib/cookie.c
++@@ -461,19 +461,25 @@ Curl_cookie_add(struct SessionHandle *data,
++             break;
++           }
++         }
++         else if(Curl_raw_equal("domain", name)) {
++           bool is_ip;
+++          const char *dotp;
 + 
-+       SVN_ERR_W(svn_stream_open_readonly(&stream, auth_path, pool, pool),
-+                 _("Unable to open auth file for reading"));
-+@@ -95,6 +96,12 @@ svn_config_read_auth_data(apr_hash_t **hash,
-+                 apr_psprintf(pool, _("Error parsing '%s'"),
-+                              svn_path_local_style(auth_path, pool)));
++           /* Now, we make sure that our host is within the given domain,
++              or the given domain is not valid and thus cannot be set. */
 + 
-++      stored_realm = apr_hash_get(*hash, SVN_CONFIG_REALMSTRING_KEY,
-++                                  APR_HASH_KEY_STRING);
++           if('.' == whatptr[0])
++             whatptr++; /* ignore preceding dot */
++ 
++           is_ip = isip(domain ? domain : whatptr);
++ 
+++          /* check for more dots */
+++          dotp = strchr(whatptr, '.');
+++          if(!dotp)
+++            domain=":";
 ++
-++      if (!stored_realm || strcmp(stored_realm->data, realmstring) != 0)
-++        *hash = NULL; /* Hash collision, or somebody tampering with storage */
-++
-+       SVN_ERR(svn_stream_close(stream));
-+     }
++           if(!domain
++              || (is_ip && !strcmp(whatptr, domain))
++              || (!is_ip && tailmatch(whatptr, domain))) {
++             strstore(&co->domain, whatptr);
++             if(!co->domain) {
++diff --git a/tests/data/test61 b/tests/data/test61
++index d2de279..e6dbbb9 100644
++--- a/tests/data/test61
+++++ b/tests/data/test61
++@@ -21,10 +21,11 @@ Set-Cookie: test=yes; httponly; domain=foo.com; expires=Fri Feb 2 11:56:27 GMT 2
++ SET-COOKIE: test2=yes; domain=host.foo.com; expires=Fri Feb 2 11:56:27 GMT 2035
++ Set-Cookie: test3=maybe; domain=foo.com; path=/moo; secure
++ Set-Cookie: test4=no; domain=nope.foo.com; path=/moo; secure
++ Set-Cookie: test5=name; domain=anything.com; path=/ ; secure
++ Set-Cookie: fake=fooledyou; domain=..com; path=/;
+++Set-Cookie: supercookie=fooledyou; domain=.com; path=/;^M
++ Content-Length: 4
 + 
-diff --git a/meta/recipes-devtools/subversion/subversion_1.6.15.bb b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
-index 6680ab6..b135bb7 100644
---- a/meta/recipes-devtools/subversion/subversion_1.6.15.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
-@@ -19,6 +19,7 @@ SRC_URI = "http://subversion.tigris.org/downloads/${BPN}-${PV}.tar.bz2 \
-            file://subversion-CVE-2013-1847-CVE-2013-1846.patch \
-            file://subversion-CVE-2013-4277.patch \
-            file://subversion-CVE-2014-3522.patch \
-+           file://subversion-CVE-2014-3528.patch \
++ boo
++ </data>
++ </reply>
++-- 
++2.1.0
++
+diff --git a/meta/recipes-support/curl/curl_7.37.1.bb b/meta/recipes-support/curl/curl_7.37.1.bb
+index 1147675..8b854d7 100644
+--- a/meta/recipes-support/curl/curl_7.37.1.bb
++++ b/meta/recipes-support/curl/curl_7.37.1.bb
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e66
+ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://pkgconfig_fix.patch \
+            file://CVE-2014-3613.patch \
++           file://CVE-2014-3620.patch \
  "
  
- SRC_URI[md5sum] = "113fca1d9e4aa389d7dc2b210010fa69"
-diff --git a/meta/recipes-devtools/subversion/subversion_1.8.9.bb b/meta/recipes-devtools/subversion/subversion_1.8.9.bb
-index e1ab945..1ef59a0 100644
---- a/meta/recipes-devtools/subversion/subversion_1.8.9.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.8.9.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://libtool2.patch \
-            file://disable_macos.patch \
-            file://subversion-CVE-2014-3522.patch;striplevel=0 \
-+           file://subversion-CVE-2014-3528.patch \
- "
- SRC_URI[md5sum] = "bd495517a760ddd764ce449a891971db"
- SRC_URI[sha256sum] = "45d708a5c3ffbef4b2a1044c4716a053e680763743d1f7ba99d0369f6da49e33"
+ # curl likes to set -g0 in CFLAGS, so we stop it
 -- 
 1.9.1
 
