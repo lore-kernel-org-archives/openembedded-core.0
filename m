@@ -1,28 +1,27 @@
 Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 49A467190D
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C77177190D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Nov 2014 01:29:20 +0000 (UTC)
+	Wed, 19 Nov 2014 01:46:50 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAJ1THtm027204
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAJ1knkZ029000
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 18 Nov 2014 17:29:18 -0800 (PST)
+	Tue, 18 Nov 2014 17:46:50 -0800 (PST)
 Received: from [128.224.162.168] (128.224.162.168) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 18 Nov 2014 17:29:17 -0800
-Message-ID: <546BF26B.10206@windriver.com>
-Date: Wed, 19 Nov 2014 09:29:15 +0800
+	Tue, 18 Nov 2014 17:46:49 -0800
+Message-ID: <546BF687.2040007@windriver.com>
+Date: Wed, 19 Nov 2014 09:46:47 +0800
 From: wenzong fan <wenzong.fan@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: Armin Kuster <akuster808@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1416241492.git.akuster808@gmail.com>
-	<e8e39d81a3e28f45867afccd48963a0289a346b6.1416241492.git.akuster808@gmail.com>
-In-Reply-To: <e8e39d81a3e28f45867afccd48963a0289a346b6.1416241492.git.akuster808@gmail.com>
-Subject: Re: [PATCH 1/6] subversion: Security Advisory - subversion - CVE-2014-3528
+To: akuster <akuster@mvista.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1416213365.git.wenzong.fan@windriver.com>
+	<546A15B5.9030205@mvista.com>
+In-Reply-To: <546A15B5.9030205@mvista.com>
+Subject: Re: [PATCH 0/1] uprev serf: 1.3.6 -> 1.3.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,100 +34,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Nov 2014 01:29:26 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 19 Nov 2014 01:47:00 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-There's subversion 1.8.10 in master branch that has included the CVE fixes.
+As https://subversion.apache.org/security/CVE-2014-3522-advisory.txt 
+mentioned:
 
-Would you like to backport 1.8.10 from master? Or just patch 1.8.9 to 
-fix this CVE?
+   We recommend all users to upgrade to Subversion 1.8.10.  Users of
+   Subversion 1.7.x or 1.8.x who are unable to upgrade may apply the
+   included patch.  We also recommend that all users upgrade to Serf 1.3.7
+   or newer to resolve CVE-2014-3504.
+
+The subversion has been 1.8.10 on master and we only need to uprev serf now.
+
+Akuster,
+
+I wonder how would you like to process this on Dizzy?
+
+Uprev subversion or just apply related CVE fixes, I did think the serf 
+should be uprev-ed.
 
 Thanks
 Wenzong
 
-On 11/19/2014 12:18 AM, Armin Kuster wrote:
-> From: Yue Tao <Yue.Tao@windriver.com>
+On 11/17/2014 11:35 PM, akuster wrote:
+> Please add to the 1.3.7 the security fix
 >
-> Apache Subversion 1.0.0 through 1.7.x before 1.7.17 and 1.8.x before
-> 1.8.10 uses an MD5 hash of the URL and authentication realm to store
-> cached credentials, which makes it easier for remote servers to obtain
-> the credentials via a crafted authentication realm.
+> - CVE-2014-3504: (Closes: #757965)
 >
-> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3528
->
-> (From OE-Core rev: e0dc0432b13f38d16f642bdadf8ebc78b7a74806)
->
-> Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
->   .../subversion/subversion-CVE-2014-3528.patch      | 29 ++++++++++++++++++++++
->   .../subversion/subversion_1.6.15.bb                |  1 +
->   .../subversion/subversion_1.8.9.bb                 |  1 +
->   3 files changed, 31 insertions(+)
->   create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
->
-> diff --git a/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
-> new file mode 100644
-> index 0000000..23e738e
-> --- /dev/null
-> +++ b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
-> @@ -0,0 +1,29 @@
-> +Upstream-Status: Backport
-> +
-> +Signed-off-by: Yue Tao <yue.tao@windriver.com>
-> +
-> +diff --git a/subversion/libsvn_subr/config_auth.c.old b/subversion/libsvn_subr/config_auth.c
-> +index ff50270..c511d04 100644
-> +--- a/subversion/libsvn_subr/config_auth.c.old
-> ++++ b/subversion/libsvn_subr/config_auth.c
-> +@@ -85,6 +85,7 @@ svn_config_read_auth_data(apr_hash_t **hash,
-> +   if (kind == svn_node_file)
-> +     {
-> +       svn_stream_t *stream;
-> ++      svn_string_t *stored_realm;
-> +
-> +       SVN_ERR_W(svn_stream_open_readonly(&stream, auth_path, pool, pool),
-> +                 _("Unable to open auth file for reading"));
-> +@@ -95,6 +96,12 @@ svn_config_read_auth_data(apr_hash_t **hash,
-> +                 apr_psprintf(pool, _("Error parsing '%s'"),
-> +                              svn_path_local_style(auth_path, pool)));
-> +
-> ++      stored_realm = apr_hash_get(*hash, SVN_CONFIG_REALMSTRING_KEY,
-> ++                                  APR_HASH_KEY_STRING);
-> ++
-> ++      if (!stored_realm || strcmp(stored_realm->data, realmstring) != 0)
-> ++        *hash = NULL; /* Hash collision, or somebody tampering with storage */
-> ++
-> +       SVN_ERR(svn_stream_close(stream));
-> +     }
-> +
-> diff --git a/meta/recipes-devtools/subversion/subversion_1.6.15.bb b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
-> index 6680ab6..b135bb7 100644
-> --- a/meta/recipes-devtools/subversion/subversion_1.6.15.bb
-> +++ b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
-> @@ -19,6 +19,7 @@ SRC_URI = "http://subversion.tigris.org/downloads/${BPN}-${PV}.tar.bz2 \
->              file://subversion-CVE-2013-1847-CVE-2013-1846.patch \
->              file://subversion-CVE-2013-4277.patch \
->              file://subversion-CVE-2014-3522.patch \
-> +           file://subversion-CVE-2014-3528.patch \
->   "
->
->   SRC_URI[md5sum] = "113fca1d9e4aa389d7dc2b210010fa69"
-> diff --git a/meta/recipes-devtools/subversion/subversion_1.8.9.bb b/meta/recipes-devtools/subversion/subversion_1.8.9.bb
-> index e1ab945..1ef59a0 100644
-> --- a/meta/recipes-devtools/subversion/subversion_1.8.9.bb
-> +++ b/meta/recipes-devtools/subversion/subversion_1.8.9.bb
-> @@ -13,6 +13,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
->              file://libtool2.patch \
->              file://disable_macos.patch \
->              file://subversion-CVE-2014-3522.patch;striplevel=0 \
-> +           file://subversion-CVE-2014-3528.patch \
->   "
->   SRC_URI[md5sum] = "bd495517a760ddd764ce449a891971db"
->   SRC_URI[sha256sum] = "45d708a5c3ffbef4b2a1044c4716a053e680763743d1f7ba99d0369f6da49e33"
+> On 11/17/2014 12:38 AM, wenzong.fan@windriver.com wrote:
+>> From: Wenzong Fan <wenzong.fan@windriver.com>
+>>
+>> Release changes:
+>>
+>> Serf 1.3.8 [2014-10-20, from /tags/1.3.8, rxxxx]
+>>    Fix issue #152: CRC calculation error for gzipped http reponses > 4GB.
+>>    Fix issue #153: SSPI CredHandle not freed when APR pool is destroyed.
+>>    Fix issue #154: Disable SSLv2 and SSLv3 as both or broken.
+>>
+>> Serf 1.3.7 [2014-08-11, from /tags/1.3.7, r2411]
+>>    Handle NUL bytes in fields of an X.509 certificate. (r2393, r2399)
+>>
+>> The following changes since commit
+>> edaeb8940813b620090a0797ad3b6a076897512d:
+>>
+>>    bitbake: cooker.py: fix loginfo op being set to an invalid value
+>> (2014-11-12 17:04:50 +0000)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.pokylinux.org/poky-contrib wenzong/serf
+>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/serf
+>>
+>> Wenzong Fan (1):
+>>    serf: 1.3.6 -> 1.3.8
+>>
+>>   .../serf/{serf_1.3.6.bb => serf_1.3.8.bb}          |    6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>   rename meta/recipes-support/serf/{serf_1.3.6.bb => serf_1.3.8.bb} (74%)
+>>
 >
 
