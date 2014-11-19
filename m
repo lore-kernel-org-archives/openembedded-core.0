@@ -1,36 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id EC0E66AC82;
-	Wed, 19 Nov 2014 14:01:43 +0000 (UTC)
-Received: by mail-wi0-f170.google.com with SMTP id bs8so9554309wib.3
-	for <multiple recipients>; Wed, 19 Nov 2014 06:01:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=kucYBtM0Mr1YyywhvMpUZS9LO3yMA1vMyZ4Mj2F5Dfw=;
-	b=vLtGhtDRGxN330w1OtsivqxjBhuXsN0kfCzEW51Nhzr4gxnfdnN6yrfxjiQoaDOfuP
-	RHPprbyiybpYQGM9r1zI1Zf8dnTZK3HmMJJ2/Q/mIoVwhTMNnuzp6BR36EmZzsGHFPcE
-	xgDgjGJbLxu0UhDpRxPdW06H7N0Cr7iagpY90daPq/VBnBLe89K6lHucKwUfPC77bg9u
-	mcoGKa+ztprgUhjzFgiUPqOJG4ps0X74dnf8E5oI90QLyiVamgzbHk5iykA+NFJlAUpw
-	V2ZgMc8ciPxfqQxSWKGyeeHAGMX9NXrVd1N0m+Jkd4rX3cgWTErdj5RjGx1pwW0wR4HZ
-	R7hQ==
-X-Received: by 10.194.57.81 with SMTP id g17mr59823708wjq.12.1416405703118;
-	Wed, 19 Nov 2014 06:01:43 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id y5sm2349995wix.9.2014.11.19.06.01.42
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Nov 2014 06:01:42 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 19 Nov 2014 15:01:43 +0100
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20141119140143.GB3315@jama>
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CDC56AC82
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Nov 2014 14:27:40 +0000 (UTC)
+Received: by mail-qg0-f54.google.com with SMTP id q107so468680qgd.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Nov 2014 06:27:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=cJTWcH7CWBrgOA5kEuCLWyKeHBQFGim3ikSNJGMQ5Yg=;
+	b=lxXgvjxlfd3yfH0J+jsmdsn5bxZqbhXVG0NMylFO6EmWz6mmW7HRryp/+KWHEIUc1+
+	BZsq+Y33gVcK30xcJFuAAAZqo8HIdBL+40VF0US4RZD4kVr93gAYM91shQq8Hjzn5nlP
+	f6nvtcN06swzB9WJACKvrI8yCEx6uUO8rGFgVolamR/RPPza/A/YCvZJUGnnwDE7P+Yw
+	rwUdmRnAfN2Jvb+A3yCGrB1sPbrxRqPLzTNe5hXi5G5V0rwJi4xyXvDkYO/xuQujL+Ps
+	1CE/vNOCUIOVqySH5gEX79YhTQHjidAnTSTudKjADzLLwa3aAGjY79V6lMrsonKe5iXm
+	dmew==
+X-Gm-Message-State: ALoCoQnXECvkmAyOxD24jktMnKjg4zdp0TnnC0VE1Q0g3XA4A5Msd0B7lORZvqPRhHnUmX3cf6bz
+X-Received: by 10.140.109.130 with SMTP id l2mr27737050qgf.80.1416407261199;
+	Wed, 19 Nov 2014 06:27:41 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: State of bitbake world, Failed tasks 2014-11-19
+Received: by 10.140.48.231 with HTTP; Wed, 19 Nov 2014 06:27:20 -0800 (PST)
+In-Reply-To: <1416387750-10669-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1416387750-10669-1-git-send-email-schnitzeltony@googlemail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 19 Nov 2014 14:27:20 +0000
+Message-ID: <CAJTo0LY_p2Ee04GRxJz0W7D0iZks07JYBwsCfbME00U8cR2Q2A@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] midori: update to 0.5.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,87 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Nov 2014 14:01:49 -0000
-X-Groupsio-MsgNum: 59758
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="3lcZGd9BuhuYXNfi"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 19 Nov 2014 14:27:41 -0000
+Content-Type: multipart/alternative; boundary=001a113ba01aa969f0050837033f
 
---3lcZGd9BuhuYXNfi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a113ba01aa969f0050837033f
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-http://www.openembedded.org/wiki/Bitbake_World_Status
+On 19 November 2014 09:02, Andreas M=C3=BCller <schnitzeltony@googlemail.co=
+m>
+wrote:
 
-=3D=3D Failed tasks 2014-11-19 =3D=3D
+> +DEPENDS =3D "webkit-gtk libsoup-2.4 openssl python-native
+> python-docutils-native librsvg-native libnotify libunique libxscrnsaver"
+>
 
-=3D=3D=3D common (12) =3D=3D=3D
-    * meta-openembedded/meta-initramfs/recipes-devtools/klibc/klibc-static-=
-utils_2.0.4.bb, do_compile
-    * meta-openembedded/meta-initramfs/recipes-devtools/klibc/klibc_2.0.4.b=
-b, do_compile
-    * meta-openembedded/meta-oe/recipes-connectivity/umip/umip_1.0.bb, do_c=
-ompile
-    * meta-openembedded/meta-oe/recipes-devtools/php/php_5.4.33.bb, do_comp=
-ile
-    * meta-openembedded/meta-oe/recipes-extended/acpica/acpitests_20140828.=
-bb, do_compile
-    * meta-openembedded/meta-oe/recipes-extended/ddrescue/ddrescue_1.19.bb,=
- do_unpack
-    * meta-openembedded/meta-oe/recipes-support/mongodb/mongodb_git.bb, do_=
-compile
-    * meta-openembedded/meta-oe/recipes-support/mysql/mysql-python_1.2.4.bb=
-, do_compile
-    * meta-openembedded/meta-xfce/recipes-bindings/vala/xfce4-vala_4.10.3.b=
-b, do_configure
-    * meta-smartphone/meta-shr/recipes-shr/3rdparty/iliwi_git.bb, do_compile
-    * meta-smartphone/meta-shr/recipes-shr/3rdparty/sensmon_git.bb, do_comp=
-ile
-    * meta-smartphone/meta-shr/recipes-shr/3rdparty/valacompass_git.bb, do_=
-compile
+Buildhistory-diff reports that libunique isn't a runtime dependency anymore
+so it looks like libunique isn't used anymore so you can drop that depends.
 
-=3D=3D=3D common-x86 (0) =3D=3D=3D
+Does Midori still support GTK+ 2 and 3, and how does it pick? I note that
+you don't have a build dependency on either so presumably rely on webkitgtk
+pulling in GTK+ 2, but what if GTK+3 is also installed?
 
-=3D=3D=3D qemuarm (2) =3D=3D=3D
-    * meta-openembedded/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs=
-_git.bb, do_fetch
-    * meta-smartphone/meta-android/recipes-multimedia/android-audiosystem/a=
-ndroid-audiosystem_bzr.bb, do_compile
+Ross
 
-=3D=3D=3D qemux86 (0) =3D=3D=3D
+--001a113ba01aa969f0050837033f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-=3D=3D=3D qemux86_64 (0) =3D=3D=3D
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 November 2014 09:02, Andreas M=C3=BCller <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony@g=
+ooglemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
+id=3D":2wv" class=3D"a3s" style=3D"overflow:hidden">+DEPENDS =3D &quot;webk=
+it-gtk libsoup-2.4 openssl python-native python-docutils-native librsvg-nat=
+ive libnotify libunique libxscrnsaver&quot;<br></div></blockquote></div><br=
+>Buildhistory-diff reports that libunique isn&#39;t a runtime dependency an=
+ymore so it looks like libunique isn&#39;t used anymore so you can drop tha=
+t depends.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
+tra">Does Midori still support GTK+ 2 and 3, and how does it pick? I note t=
+hat you don&#39;t have a build dependency on either so presumably rely on w=
+ebkitgtk pulling in GTK+ 2, but what if GTK+3 is also installed?</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-=3D=3D=3D Number of failed tasks =3D=3D=3D
-{| class=3Dwikitable
-|-
-||qemuarm       ||14    ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
-og.world.20141110_065307.log/||http://errors.yoctoproject.org:80/Errors/Sea=
-rch/1/3219/
-|-
-||qemux86       ||12    ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
-og.world.20141110_221551.log/||http://errors.yoctoproject.org:80/Errors/Sea=
-rch/1/3220/
-|-
-||qemux86_64    ||13    ||http://logs.nslu2-linux.org/buildlogs/oe/world//l=
-og.world.20141111_143018.log/||http://errors.yoctoproject.org:80/Errors/Sea=
-rch/1/3241/
-|}
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---3lcZGd9BuhuYXNfi
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlRsoscACgkQN1Ujt2V2gByvdgCfbEppz9hi1F0hWsRBrOm3kuxX
-2oEAoLpMJxlGVzO0e24MoiXR+wp69CNk
-=istu
------END PGP SIGNATURE-----
-
---3lcZGd9BuhuYXNfi--
+--001a113ba01aa969f0050837033f--
