@@ -1,37 +1,28 @@
-Return-Path: <gchoc-openembedded-core@m.gmane.org>
-Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F4AC7214E
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 49A467190D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Nov 2014 18:46:34 +0000 (UTC)
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1XqnnM-0001OR-VU for openembedded-core@lists.openembedded.org;
-	Tue, 18 Nov 2014 19:46:33 +0100
-Received: from S0106001c10b78396.vc.shawcable.net ([96.49.26.10])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Nov 2014 19:46:32 +0100
-Received: from jurobystricky by S0106001c10b78396.vc.shawcable.net with local
-	(Gmexim 0.1 (Debian)) id 1AlnuQ-0007hv-00
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Nov 2014 19:46:32 +0100
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Juro Bystricky <jurobystricky@hotmail.com>
-Date: Tue, 18 Nov 2014 18:46:23 +0000 (UTC)
-Message-ID: <loom.20141118T190824-215@post.gmane.org>
-References: <cover.1415390286.git.peter.seebach@windriver.com>
-	<d2ce73488a8afb7a8d10286da138810d30b4a4be.1415390286.git.peter.seebach@windriver.com>
-	<1415457765.2820.21.camel@linuxfoundation.org>
-	<1415703324.2820.37.camel@linuxfoundation.org>
-	<20141111122956.3e842de1@e6410-2>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: sea.gmane.org
-User-Agent: Loom/3.14 (http://gmane.org/)
-X-Loom-IP: 96.49.26.10 (Mozilla/5.0 (X11; Ubuntu; Linux x86_64;
-	rv:33.0) Gecko/20100101 Firefox/33.0)
-Subject: Re: [PATCH 1/1] eglibc-use-option-groups.patch: Several fixups
+	Wed, 19 Nov 2014 01:29:20 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAJ1THtm027204
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Tue, 18 Nov 2014 17:29:18 -0800 (PST)
+Received: from [128.224.162.168] (128.224.162.168) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 18 Nov 2014 17:29:17 -0800
+Message-ID: <546BF26B.10206@windriver.com>
+Date: Wed, 19 Nov 2014 09:29:15 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Armin Kuster <akuster808@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1416241492.git.akuster808@gmail.com>
+	<e8e39d81a3e28f45867afccd48963a0289a346b6.1416241492.git.akuster808@gmail.com>
+In-Reply-To: <e8e39d81a3e28f45867afccd48963a0289a346b6.1416241492.git.akuster808@gmail.com>
+Subject: Re: [PATCH 1/6] subversion: Security Advisory - subversion - CVE-2014-3528
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,100 +35,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Nov 2014 18:46:36 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 19 Nov 2014 01:29:26 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Peter Seebach <peter.seebach@...> writes:
+There's subversion 1.8.10 in master branch that has included the CVE fixes.
 
-> 
-> On Tue, 11 Nov 2014 10:55:24 +0000
-> Richard Purdie <richard.purdie@...> wrote:
-> 
-> > > Whilst I haven't 100% confirmed it,
-> > >
-https://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/102/steps/...
-> > > looks like it may well be as a result of this change (which was included
-> > > in the master-next build in question)...  
-> > 
-> > It is 100% confirmed now, with the patch reverted there was a green
-> > build.
-> 
-> Drat. I'll study this more and try to figure out what I missed.
-> 
-> -s
+Would you like to backport 1.8.10 from master? Or just patch 1.8.9 to 
+fix this CVE?
 
+Thanks
+Wenzong
 
-Peter, I noticed you have another patch that fixes this issue:
-
-@@ -16469,7 +16452,7 @@ Index: git/include/libc-symbols.h
--#define HAVE_MBSTATE_T 1
--#define HAVE_MBSRTOWCS 1
-+
--+#if __OPTION_EGLIBC_LOCALE_CODE
-++#if defined(__OPTION_EGLIBC_LOCALE_CODE) && __OPTION_EGLIBC_LOCALE_CODE
-+# define HAVE_MBSTATE_T 1
-+# define HAVE_MBSRTOWCS 1
-+#endif
-
-This will fix the the issue, but (please correct me if I'm wrong) 
-the way I see it, since__OPTION_EGLIBC_LOCALE_CODE is defined in 
-gnu/option-groups.h, which is NOT included libc-symbols.h and hence
- 
-	#if defined(__OPTION_EGLIBC_LOCALE_CODE) 
- 
-will always evaluate as false and HAVE_MBSTATE_T will be never defined.
-
-I am not sure why the HAVE_MBSTATE_T needs to be conditioned at all, my
-understanding is
-it is defined if the file <wchar.h> contains type definition "mbstate_t".
-This typedef either exists or not and saying it not exists when in fact 
-it does might be confusing (as it already is for me) and I don't see any 
-relation with __OPTION_EGLIBC_LOCALE_CODE.
-
-
-The only place in glibc I could find that uses HAVE_MBSTATE_T is in fnmatch.c:
-
-#if defined _LIBC
-# include <gnu/option-groups.h>
-#endif
-
-#  if (HAVE_MBSTATE_T && HAVE_MBSRTOWCS) || (_LIBC &&
-__OPTION_EGLIBC_LOCALE_CODE)
-#   define HANDLE_MULTIBYTE    1
-#  endif
-
-To me it seems it is actually HANDLE_MULTIBYTE that we want conditioned 
-with a new patch, resulting in something like:
-
-#if defined _LIBC
-# include <gnu/option-groups.h>
-#endif
-
-#  if (HAVE_MBSTATE_T && HAVE_MBSRTOWCS && _LIBC && __OPTION_EGLIBC_LOCALE_CODE)
-#   define HANDLE_MULTIBYTE    1
-#  endif
-
-Incidentally, I tried a core-image-minimal build with unconditioned
-HAVE_MBSTATE_T and encountered no problems, just like you did originally.
-This would imply poky-tiny problem is a probably a different problem.
-
-One last unrelated thing: I believe in the patch you missed one ".out"
-extension, 
-I think it should be:
-
-...
-++ $(objpfx)tst-pcre-mem.out $(objpfx)tst-boost-mem.out
-...
-
-instead of 
-
-...
-++ $(objpfx)tst-pcre-mem $(objpfx)tst-boost-mem.out
-...
-
-
-
-
-
+On 11/19/2014 12:18 AM, Armin Kuster wrote:
+> From: Yue Tao <Yue.Tao@windriver.com>
+>
+> Apache Subversion 1.0.0 through 1.7.x before 1.7.17 and 1.8.x before
+> 1.8.10 uses an MD5 hash of the URL and authentication realm to store
+> cached credentials, which makes it easier for remote servers to obtain
+> the credentials via a crafted authentication realm.
+>
+> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3528
+>
+> (From OE-Core rev: e0dc0432b13f38d16f642bdadf8ebc78b7a74806)
+>
+> Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>   .../subversion/subversion-CVE-2014-3528.patch      | 29 ++++++++++++++++++++++
+>   .../subversion/subversion_1.6.15.bb                |  1 +
+>   .../subversion/subversion_1.8.9.bb                 |  1 +
+>   3 files changed, 31 insertions(+)
+>   create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
+>
+> diff --git a/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
+> new file mode 100644
+> index 0000000..23e738e
+> --- /dev/null
+> +++ b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
+> @@ -0,0 +1,29 @@
+> +Upstream-Status: Backport
+> +
+> +Signed-off-by: Yue Tao <yue.tao@windriver.com>
+> +
+> +diff --git a/subversion/libsvn_subr/config_auth.c.old b/subversion/libsvn_subr/config_auth.c
+> +index ff50270..c511d04 100644
+> +--- a/subversion/libsvn_subr/config_auth.c.old
+> ++++ b/subversion/libsvn_subr/config_auth.c
+> +@@ -85,6 +85,7 @@ svn_config_read_auth_data(apr_hash_t **hash,
+> +   if (kind == svn_node_file)
+> +     {
+> +       svn_stream_t *stream;
+> ++      svn_string_t *stored_realm;
+> +
+> +       SVN_ERR_W(svn_stream_open_readonly(&stream, auth_path, pool, pool),
+> +                 _("Unable to open auth file for reading"));
+> +@@ -95,6 +96,12 @@ svn_config_read_auth_data(apr_hash_t **hash,
+> +                 apr_psprintf(pool, _("Error parsing '%s'"),
+> +                              svn_path_local_style(auth_path, pool)));
+> +
+> ++      stored_realm = apr_hash_get(*hash, SVN_CONFIG_REALMSTRING_KEY,
+> ++                                  APR_HASH_KEY_STRING);
+> ++
+> ++      if (!stored_realm || strcmp(stored_realm->data, realmstring) != 0)
+> ++        *hash = NULL; /* Hash collision, or somebody tampering with storage */
+> ++
+> +       SVN_ERR(svn_stream_close(stream));
+> +     }
+> +
+> diff --git a/meta/recipes-devtools/subversion/subversion_1.6.15.bb b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
+> index 6680ab6..b135bb7 100644
+> --- a/meta/recipes-devtools/subversion/subversion_1.6.15.bb
+> +++ b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
+> @@ -19,6 +19,7 @@ SRC_URI = "http://subversion.tigris.org/downloads/${BPN}-${PV}.tar.bz2 \
+>              file://subversion-CVE-2013-1847-CVE-2013-1846.patch \
+>              file://subversion-CVE-2013-4277.patch \
+>              file://subversion-CVE-2014-3522.patch \
+> +           file://subversion-CVE-2014-3528.patch \
+>   "
+>
+>   SRC_URI[md5sum] = "113fca1d9e4aa389d7dc2b210010fa69"
+> diff --git a/meta/recipes-devtools/subversion/subversion_1.8.9.bb b/meta/recipes-devtools/subversion/subversion_1.8.9.bb
+> index e1ab945..1ef59a0 100644
+> --- a/meta/recipes-devtools/subversion/subversion_1.8.9.bb
+> +++ b/meta/recipes-devtools/subversion/subversion_1.8.9.bb
+> @@ -13,6 +13,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+>              file://libtool2.patch \
+>              file://disable_macos.patch \
+>              file://subversion-CVE-2014-3522.patch;striplevel=0 \
+> +           file://subversion-CVE-2014-3528.patch \
+>   "
+>   SRC_URI[md5sum] = "bd495517a760ddd764ce449a891971db"
+>   SRC_URI[sha256sum] = "45d708a5c3ffbef4b2a1044c4716a053e680763743d1f7ba99d0369f6da49e33"
+>
 
