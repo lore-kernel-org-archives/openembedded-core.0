@@ -1,24 +1,24 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E9EDE7190D
+	by mail.openembedded.org (Postfix) with ESMTP id 0CE9D72156
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Nov 2014 02:41:34 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAJ2fYQU004229
+	Wed, 19 Nov 2014 02:41:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAJ2ficP004241
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Nov 2014 18:41:34 -0800 (PST)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 18 Nov 2014 18:41:34 -0800
+	Tue, 18 Nov 2014 18:41:44 -0800 (PST)
+Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 18 Nov 2014 18:41:44 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Nov 2014 20:41:33 -0600
-Message-ID: <1416364893-213981-1-git-send-email-mark.hatle@windriver.com>
+Date: Tue, 18 Nov 2014 20:41:43 -0600
+Message-ID: <1416364903-214029-1-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.9.3
 MIME-Version: 1.0
-Subject: [PATCH][dizzy] nss: define MP_USE_UINT_DIGIT when compile mpi_x86.s
+Subject: [PATCH][dizzy] util-linux-native: workaround the build on CentOS 5.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,81 +31,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Nov 2014 02:41:35 -0000
+X-List-Received-Date: Wed, 19 Nov 2014 02:41:44 -0000
 Content-Type: text/plain
 
-From: Roy Li <rongqing.li@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Backport patch to fix the segfault when do multiple.
+[ Sent for Yocto Project compliance, unlikely to be generally applicable ]
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+There are no MS_* macros are added after glibc 2.7.0, but it is 2.5 on
+CentOS 5.10, so workaround atm, I think that we can try to use the
+macros from libmount.h as a fix.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- .../nss/files/Using-correct-macro-for-x86.patch    | 42 ++++++++++++++++++++++
- meta/recipes-support/nss/nss.inc                   |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-support/nss/files/Using-correct-macro-for-x86.patch
+ .../util-linux/util-linux-native-MS.patch          | 48 ++++++++++++++++++++++
+ meta/recipes-core/util-linux/util-linux_2.24.2.bb  |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/util-linux-native-MS.patch
 
-diff --git a/meta/recipes-support/nss/files/Using-correct-macro-for-x86.patch b/meta/recipes-support/nss/files/Using-correct-macro-for-x86.patch
+diff --git a/meta/recipes-core/util-linux/util-linux/util-linux-native-MS.patch b/meta/recipes-core/util-linux/util-linux/util-linux-native-MS.patch
 new file mode 100644
-index 0000000..21d2ef7
+index 0000000..971050c
 --- /dev/null
-+++ b/meta/recipes-support/nss/files/Using-correct-macro-for-x86.patch
-@@ -0,0 +1,42 @@
-+Using correct macro for x86
++++ b/meta/recipes-core/util-linux/util-linux/util-linux-native-MS.patch
+@@ -0,0 +1,48 @@
++From 3664b148e8f72be2d70dc66265edd9f52940ac00 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Thu, 27 Mar 2014 13:56:40 +0000
++Subject: [PATCH] sys-utils/unshare.c: fix build on CentOS 10
 +
-+Upstream-Status: Backport
++There are no MS_* macros are added after glibc 2.7.0, but it is 2.5 on
++CentOS 5.10, so workaround atm, I think that we can try to use the
++macros from libmount.h as a fix.
 +
-+squash 11040 and 11043 as one patch
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ sys-utils/unshare.c | 20 ++++++++++++++++++++
++ 1 file changed, 20 insertions(+)
 +
-+changeset:   11040:60412aa39b8d
-+user:        Stephan Bergmann <sbergman@redhat.com>
-+date:        Fri Feb 14 17:45:40 2014 -0800
-+files:       lib/freebl/Makefile
-+description:
-+Bug 972450: Define -DMP_USE_UINT_DIGIT for Linux x86 because mpi_x86.s
-+requires mp_digit to be an unsigned int. The MP_USE_UINT_DIGIT macro
-+ensures that. We were previously relying on ULLONG_MAX being undefined
-+in the compilation environment, which isn't true in C99 mode. Also
-+define -DMP_NO_MP_WORD to match Windows x86. r=wtc.
++diff --git a/sys-utils/unshare.c b/sys-utils/unshare.c
++index 114f17d..f293c03 100644
++--- a/sys-utils/unshare.c
+++++ b/sys-utils/unshare.c
++@@ -33,6 +33,26 @@
++ #include "namespace.h"
++ #include "exec_shell.h"
++ 
+++#ifndef MS_PRIVATE
+++#define MS_PRIVATE      (1<<18) /* 262144 Private*/
+++#endif
+++
+++#ifndef MS_REC
+++#define MS_REC          0x4000  /* 16384: Recursive loopback */
+++#endif
+++
+++#ifndef MS_NOSUID
+++#define MS_NOSUID        2      /* Ignore suid and sgid bits */
+++#endif
+++
+++#ifndef MS_NOEXEC
+++#define MS_NOEXEC        8      /* Disallow program execution */
+++#endif
+++
+++#ifndef MS_NODEV
+++#define MS_NODEV         4      /* Disallow access to device special files */
+++#endif
+++
++ static void usage(int status)
++ {
++ 	FILE *out = status == EXIT_SUCCESS ? stdout : stderr;
++-- 
++1.8.3.4
 +
-+
-+changeset:   11043:fa9a3a970910
-+parent:      11040:60412aa39b8d
-+user:        Wan-Teh Chang <wtc@google.com>
-+date:        Tue Feb 18 14:26:25 2014 -0800
-+files:       lib/freebl/Makefile
-+description:
-+Bug 972450: Don't define -DMP_NO_MP_WORD for Linux x86 (unless one
-+can show it improves performance).
-+
-+Signed-off-by: Roy Li <rongqing.li@windriver.com>
-+
-+diff -r f451ea1a2b12 -r 60412aa39b8d nss/lib/freebl/Makefile
-+--- a/nss/lib/freebl/Makefile	Thu Feb 13 18:55:13 2014 -0800
-++++ b/nss/lib/freebl/Makefile	Fri Feb 14 17:45:40 2014 -0800
-+@@ -195,7 +195,7 @@
-+ ifeq ($(CPU_ARCH),x86)
-+     ASFILES  = mpi_x86.s
-+     DEFINES += -DMP_ASSEMBLY_MULTIPLY -DMP_ASSEMBLY_SQUARE 
-+-    DEFINES += -DMP_ASSEMBLY_DIV_2DX1D
-++    DEFINES += -DMP_ASSEMBLY_DIV_2DX1D -DMP_USE_UINT_DIGIT
-+     DEFINES += -DMP_CHAR_STORE_SLOW -DMP_IS_LITTLE_ENDIAN
-+     # The floating point ECC code doesn't work on Linux x86 (bug 311432).
-+     #ECL_USE_FP = 1
-+
-diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
-index 7919ddd..c284e63 100644
---- a/meta/recipes-support/nss/nss.inc
-+++ b/meta/recipes-support/nss/nss.inc
-@@ -24,6 +24,7 @@ SRC_URI = "\
-     file://nss-CVE-2013-5606.patch \
-     file://nss-CVE-2014-1544.patch \
-     file://nss-CVE-2014-1568.patch \
-+    file://Using-correct-macro-for-x86.patch \
- "
- SRC_URI_append = "\
-     file://nss.pc.in \
+diff --git a/meta/recipes-core/util-linux/util-linux_2.24.2.bb b/meta/recipes-core/util-linux/util-linux_2.24.2.bb
+index ed753e4..d0fc3de 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.24.2.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.24.2.bb
+@@ -7,6 +7,7 @@ PR = "r1"
+ OLDHOST = ""
+ OLDHOST_class-native = "file://util-linux-native.patch \
+                         file://util-linux-native-qsort.patch \
++                        file://util-linux-native-MS.patch \
+ 			"
+ 
+ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
 -- 
 1.9.3
 
