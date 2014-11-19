@@ -1,31 +1,32 @@
 Return-Path: <george.l.musat@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 25E6D72150
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 175F372150
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Nov 2014 07:43:35 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 18 Nov 2014 23:40:52 -0800
+	Wed, 19 Nov 2014 07:49:39 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 18 Nov 2014 23:49:10 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.07,415,1413270000"; 
-	d="scan'208,217";a="639524621"
+	d="scan'208,217";a="610277774"
 Received: from irsmsx151.ger.corp.intel.com ([163.33.192.59])
-	by orsmga002.jf.intel.com with ESMTP; 18 Nov 2014 23:43:34 -0800
+	by orsmga001.jf.intel.com with ESMTP; 18 Nov 2014 23:49:10 -0800
 Received: from irsmsx102.ger.corp.intel.com ([169.254.2.93]) by
 	IRSMSX151.ger.corp.intel.com ([163.33.192.59]) with mapi id
-	14.03.0195.001; Wed, 19 Nov 2014 07:43:33 +0000
+	14.03.0195.001; Wed, 19 Nov 2014 07:49:08 +0000
 From: "Musat, George L" <george.l.musat@intel.com>
-To: "'openembedded-core@lists.openembedded.org'"
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] meta-yocto/distro: Updated SANITY_TESTED_DISTROS.
-Thread-Index: AdADzGUpFwCg2LaKRRye7fbIBD9x8w==
-Date: Wed, 19 Nov 2014 07:43:32 +0000
-Message-ID: <042E875E1B5D414CA9BB78B7D4FA691C13CE6FEE@IRSMSX102.ger.corp.intel.com>
+Thread-Topic: [PATCH] oequa/runtime: Added check for ptest-runner to see if
+	it ran correctly
+Thread-Index: AdADzUBxLuE5RaUdSDes7ijpeMFLog==
+Date: Wed, 19 Nov 2014 07:49:07 +0000
+Message-ID: <042E875E1B5D414CA9BB78B7D4FA691C13CE7004@IRSMSX102.ger.corp.intel.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [163.33.239.182]
 MIME-Version: 1.0
-Subject: [PATCH] meta-yocto/distro: Updated SANITY_TESTED_DISTROS.
+Subject: [PATCH] oequa/runtime: Added check for ptest-runner to see if it ran correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,17 +39,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Nov 2014 07:43:36 -0000
+X-List-Received-Date: Wed, 19 Nov 2014 07:49:42 -0000
 Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="_000_042E875E1B5D414CA9BB78B7D4FA691C13CE6FEEIRSMSX102gercor_"
+	boundary="_000_042E875E1B5D414CA9BB78B7D4FA691C13CE7004IRSMSX102gercor_"
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C13CE6FEEIRSMSX102gercor_
+--_000_042E875E1B5D414CA9BB78B7D4FA691C13CE7004IRSMSX102gercor_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Removed Poky-1.4, Poky-1.5, Ubuntu-13.10, Fedora-19, CentOs-6.4,Suse-LINUX-=
-12.2. Replaced the list of Debian-7.x with wildcard.
+And modified condition to install complementary packages.
 
 
 
@@ -57,81 +57,66 @@ Signed-off-by: Lucian Musat <george.l.musat@intel.com<mailto:george.l.musat=
 
 ---
 
-meta-yocto/conf/distro/poky.conf | 14 +-------------
+meta/lib/oeqa/runtime/_ptest.py | 10 +++++++---
 
-1 file changed, 1 insertion(+), 13 deletions(-)
-
-
-
-diff --git a/meta-yocto/conf/distro/poky.conf b/meta-yocto/conf/distro/poky=
-.conf
-
-index eaf06d3..295895f 100644
-
---- a/meta-yocto/conf/distro/poky.conf
-
-+++ b/meta-yocto/conf/distro/poky.conf
-
-@@ -73,25 +73,13 @@ CONNECTIVITY_CHECK_URIS ?=3D " \
-
-              http://bugzilla.yoctoproject.org/report.cgi"
+1 file changed, 7 insertions(+), 3 deletions(-)
 
 
 
- SANITY_TESTED_DISTROS ?=3D " \
+diff --git a/meta/lib/oeqa/runtime/_ptest.py b/meta/lib/oeqa/runtime/_ptest=
+.py index 4c58dc1..76b6e2b 100644
 
--            Poky-1.4 \n \
+--- a/meta/lib/oeqa/runtime/_ptest.py
 
--            Poky-1.5 \n \
++++ b/meta/lib/oeqa/runtime/_ptest.py
 
-             Poky-1.6 \n \
+@@ -106,12 +106,16 @@ class PtestRunnerTest(oeRuntimeTest):
 
-             Poky-1.7 \n \
+     @skipUnlessPassed('test_ssh')
 
-             Ubuntu-12.04 \n \
+     def test_ptestrunner(self):
 
--            Ubuntu-13.10 \n \
+         self.add_smart_channel()
 
-             Ubuntu-14.04 \n \
+-        cond =3D oeRuntimeTest.hasPackage("ptest-runner") and oeRuntimeTes=
+t.hasFeature("ptest") and oeRuntimeTest.hasPackage("-ptest")
 
--            Fedora-19 \n \
+-        if not cond:
 
-             Fedora-20 \n \
++        #cond =3D oeRuntimeTest.hasPackage("ptest-runner") and oeRuntimeTe=
+st.hasFeature("ptest") and oeRuntimeTest.hasPackage("-ptest")
 
--            CentOS-6.4 \n \
++        #if not cond:
 
-             CentOS-6.5 \n \
++        (status, result) =3D self.target.run('smart query ptest-runner', 0=
+)
 
--            Debian-7.0 \n \
++        if (status !=3D 0):
 
--            Debian-7.1 \n \
+             self.install_packages(self.install_complementary("*-ptest"))
 
--            Debian-7.2 \n \
+             self.install_packages(['ptest-runner'])
 
--            Debian-7.3 \n \
+-        self.target.run('/usr/bin/ptest-runner > /tmp/ptest.log 2>&1', 0)
 
--            Debian-7.4 \n \
++        (status, result) =3D self.target.run('/usr/bin/ptest-runner > /tmp=
+/ptest.log 2>&1', 0)
 
--            Debian-7.5 \n \
++        self.assertEqual(status, 0 , msg=3D"Ptest-Runner failed to run!")
 
--            Debian-7.6 \n \
++
 
--            SUSE-LINUX-12.2 \n \
+         self.target.copy_from('/tmp/ptest.log', self.ptest_log)
 
-+            Debian-7.* \n \
-
-             openSUSE-project-12.3 \n \
-
-             openSUSE-project-13.1 \n \
-
-             "
+         shutil.copyfile(self.ptest_log, os.path.join(self.buildhist_dir, "=
+ptest.log"))
 
 --
 
 1.9.1
 
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C13CE6FEEIRSMSX102gercor_
+--_000_042E875E1B5D414CA9BB78B7D4FA691C13CE7004IRSMSX102gercor_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -195,85 +180,76 @@ div.WordSection1
 </head>
 <body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
 <div class=3D"WordSection1">
-<p class=3D"MsoPlainText">Removed Poky-1.4, Poky-1.5, Ubuntu-13.10, Fedora-=
-19, CentOs-6.4,Suse-LINUX-12.2. Replaced the list of Debian-7.x with wildca=
-rd.<o:p></o:p></p>
+<p class=3D"MsoPlainText">And modified condition to install complementary p=
+ackages.<o:p></o:p></p>
 <p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
 <p class=3D"MsoPlainText">Signed-off-by: Lucian Musat &lt;<a href=3D"mailto=
 :george.l.musat@intel.com">george.l.musat@intel.com</a>&gt;<o:p></o:p></p>
 <p class=3D"MsoPlainText">---<o:p></o:p></p>
-<p class=3D"MsoPlainText">meta-yocto/conf/distro/poky.conf | 14 &#43;------=
--------<o:p></o:p></p>
-<p class=3D"MsoPlainText">1 file changed, 1 insertion(&#43;), 13 deletions(=
+<p class=3D"MsoPlainText">meta/lib/oeqa/runtime/_ptest.py | 10 &#43;&#43;&#=
+43;&#43;&#43;&#43;&#43;---<o:p></o:p></p>
+<p class=3D"MsoPlainText">1 file changed, 7 insertions(&#43;), 3 deletions(=
 -)<o:p></o:p></p>
 <p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">diff --git a/meta-yocto/conf/distro/poky.conf b/m=
-eta-yocto/conf/distro/poky.conf<o:p></o:p></p>
-<p class=3D"MsoPlainText">index eaf06d3..295895f 100644<o:p></o:p></p>
-<p class=3D"MsoPlainText">--- a/meta-yocto/conf/distro/poky.conf<o:p></o:p>=
-</p>
-<p class=3D"MsoPlainText">&#43;&#43;&#43; b/meta-yocto/conf/distro/poky.con=
-f<o:p></o:p></p>
-<p class=3D"MsoPlainText">@@ -73,25 &#43;73,13 @@ CONNECTIVITY_CHECK_URIS ?=
-=3D &quot; \<o:p></o:p></p>
+<p class=3D"MsoPlainText">diff --git a/meta/lib/oeqa/runtime/_ptest.py b/me=
+ta/lib/oeqa/runtime/_ptest.py index 4c58dc1..76b6e2b 100644<o:p></o:p></p>
+<p class=3D"MsoPlainText">--- a/meta/lib/oeqa/runtime/_ptest.py<o:p></o:p><=
+/p>
+<p class=3D"MsoPlainText">&#43;&#43;&#43; b/meta/lib/oeqa/runtime/_ptest.py=
+<o:p></o:p></p>
+<p class=3D"MsoPlainText">@@ -106,12 &#43;106,16 @@ class PtestRunnerTest(o=
+eRuntimeTest):<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp; @skipUnlessPassed('test_=
+ssh')<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp; def test_ptestrunner(sel=
+f):<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+self.add_smart_channel()<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cond =
+=3D oeRuntimeTest.hasPackage(&quot;ptest-runner&quot;) and oeRuntimeTest.ha=
+sFeature(&quot;ptest&quot;) and oeRuntimeTest.hasPackage(&quot;-ptest&quot;=
+)<o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if no=
+t cond:<o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #=
+cond =3D oeRuntimeTest.hasPackage(&quot;ptest-runner&quot;) and oeRuntimeTe=
+st.hasFeature(&quot;ptest&quot;) and oeRuntimeTest.hasPackage(&quot;-ptest&=
+quot;)<o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #=
+if not cond:<o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;(=
+status, result) =3D self.target.run('smart query ptest-runner', 0)<o:p></o:=
+p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i=
+f (status !=3D 0):<o:p></o:p></p>
 <p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"http://bugzilla.yoctoproject.org/r=
-eport.cgi">
-http://bugzilla.yoctoproject.org/report.cgi</a>&quot;<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">&nbsp;SANITY_TESTED_DISTROS ?=3D &quot; \<o:p></o=
-:p></p>
-<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; Poky-1.4 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; Poky-1.5 \n \<o:p></o:p></p>
+nbsp;&nbsp;&nbsp;&nbsp; self.install_packages(self.install_complementary(&q=
+uot;*-ptest&quot;))<o:p></o:p></p>
 <p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; Poky-1.6 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; Poky-1.7 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; Ubuntu-12.04 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; Ubuntu-13.10 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; Ubuntu-14.04 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; Fedora-19 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; Fedora-20 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; CentOS-6.4 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; CentOS-6.5 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; Debian-7.0 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; Debian-7.1 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; Debian-7.2 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; Debian-7.3 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; Debian-7.4 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; Debian-7.5 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; Debian-7.6 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; SUSE-LINUX-12.2 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; Debian-7.* \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; openSUSE-project-12.3 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; openSUSE-project-13.1 \n \<o:p></o:p></p>
-<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp; &quot;<o:p></o:p></p>
-<p class=3D"MsoPlainText">-- <o:p></o:p></p>
+nbsp;&nbsp;&nbsp;&nbsp; self.install_packages(['ptest-runner'])<o:p></o:p><=
+/p>
+<p class=3D"MsoPlainText"><o:p></o:p></p>
+<p class=3D"MsoPlainText">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; self.=
+target.run('/usr/bin/ptest-runner &gt; /tmp/ptest.log 2&gt;&amp;1', 0)<o:p>=
+</o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (=
+status, result) =3D self.target.run('/usr/bin/ptest-runner &gt; /tmp/ptest.=
+log 2&gt;&amp;1', 0)<o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s=
+elf.assertEqual(status, 0 , msg=3D&quot;Ptest-Runner failed to run!&quot;)<=
+o:p></o:p></p>
+<p class=3D"MsoPlainText">&#43;<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+self.target.copy_from('/tmp/ptest.log', self.ptest_log)<o:p></o:p></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+shutil.copyfile(self.ptest_log, os.path.join(self.buildhist_dir, &quot;ptes=
+t.log&quot;))<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p></o:p></p>
+<p class=3D"MsoPlainText">--<o:p></o:p></p>
 <p class=3D"MsoPlainText">1.9.1<o:p></o:p></p>
 <p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
 </div>
 </body>
 </html>
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C13CE6FEEIRSMSX102gercor_--
+--_000_042E875E1B5D414CA9BB78B7D4FA691C13CE7004IRSMSX102gercor_--
