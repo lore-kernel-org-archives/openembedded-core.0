@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D3397712A7
+	by mail.openembedded.org (Postfix) with ESMTP id 0048A72053
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Nov 2014 10:02:46 +0000 (UTC)
+	Wed, 19 Nov 2014 10:02:53 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Nov 2014 00:53:42 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 19 Nov 2014 00:53:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="418556644"
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="418556654"
 Received: from gcwannia-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.103])
-	by FMSMGA003.fm.intel.com with ESMTP; 19 Nov 2014 00:44:18 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 19 Nov 2014 00:44:20 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Nov 2014 08:53:19 +0000
-Message-Id: <cover.1416386960.git.paul.eggleton@linux.intel.com>
+Date: Wed, 19 Nov 2014 08:53:20 +0000
+Message-Id: <b146057c438266de036a1dc81519a6a4b21b9362.1416386960.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
-Subject: [PATCH 0/4] Patch cleanup
+In-Reply-To: <cover.1416386960.git.paul.eggleton@linux.intel.com>
+References: <cover.1416386960.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1416386960.git.paul.eggleton@linux.intel.com>
+References: <cover.1416386960.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/4] openssh: drop already applied patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,42 +34,55 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 19 Nov 2014 10:02:55 -0000
 
-I've been doing some work with patch mangling lately, and it turns out
-that quilt ignores some things in patches that git/patch won't - in
-particular, certain types of already applied patches as well as patches
-that add .orig files. This series cleans up those patches which failed
-to apply with git am / git apply / patch for those reasons.
+This patch was part of the 6.6p1 release.
 
-
-The following changes since commit e7b731a1a358e0007dba1038ad504888bec5916e:
-
-  docbook-xsl-stylesheets: fix do_configure typo (2014-11-12 15:36:14 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/patch-cleanup
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/patch-cleanup
-
-Paul Eggleton (4):
-  openssh: drop already applied patch
-  cmake: drop already applied patches
-  xmodmap: drop already applied patch
-  gtk+: drop part of patch adding useless file
-
- .../openssh/openssh/openssh-CVE-2014-2532.patch    |   22 -
- meta/recipes-connectivity/openssh/openssh_6.6p1.bb |    1 -
- meta/recipes-devtools/cmake/cmake.inc              |    2 -
- .../cmake/cmake/aarch64-cmake.patch                |   37 -
- .../cmake/cmake/aarch64-kwsys.patch                |   40 -
- .../gtk+/gtk+-2.24.24/hardcoded_libtool.patch      | 1779 --------------------
- .../xorg-app/xmodmap/gnu-source.patch              |   60 -
- meta/recipes-graphics/xorg-app/xmodmap_1.0.8.bb    |    2 -
- 8 files changed, 1943 deletions(-)
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ .../openssh/openssh/openssh-CVE-2014-2532.patch    | 22 ----------------------
+ meta/recipes-connectivity/openssh/openssh_6.6p1.bb |  1 -
+ 2 files changed, 23 deletions(-)
  delete mode 100644 meta/recipes-connectivity/openssh/openssh/openssh-CVE-2014-2532.patch
- delete mode 100644 meta/recipes-devtools/cmake/cmake/aarch64-cmake.patch
- delete mode 100644 meta/recipes-devtools/cmake/cmake/aarch64-kwsys.patch
- delete mode 100644 meta/recipes-graphics/xorg-app/xmodmap/gnu-source.patch
 
+diff --git a/meta/recipes-connectivity/openssh/openssh/openssh-CVE-2014-2532.patch b/meta/recipes-connectivity/openssh/openssh/openssh-CVE-2014-2532.patch
+deleted file mode 100644
+index 3deaf3f..0000000
+--- a/meta/recipes-connectivity/openssh/openssh/openssh-CVE-2014-2532.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-Upstream-Status: Backport
+-
+-Fix for CVE-2014-2532
+-
+-Backported from openssh-6.6p1.tar.gz
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+---- a/session.c
+-+++ b/session.c
+-@@ -955,6 +955,11 @@
+- 	u_int envsize;
+- 	u_int i, namelen;
+- 
+-+	if (strchr(name, '=') != NULL) {
+-+		error("Invalid environment variable \"%.100s\"", name);
+-+		return;
+-+	}
+-+
+- 	/*
+- 	 * If we're passed an uninitialized list, allocate a single null
+- 	 * entry before continuing.
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.6p1.bb b/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
+index 047a895..edae036 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
+@@ -23,7 +23,6 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+            file://volatiles.99_sshd \
+            file://add-test-support-for-busybox.patch \
+            file://run-ptest \
+-           file://openssh-CVE-2014-2532.patch \
+            file://openssh-CVE-2014-2653.patch \
+            file://auth2-none.c-avoid-authenticate-empty-passwords-to-m.patch"
+ 
 -- 
 1.9.3
 
