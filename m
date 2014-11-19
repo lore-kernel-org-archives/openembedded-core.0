@@ -1,38 +1,29 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id A2C3C714D7
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 18E21712A7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Nov 2014 09:02:37 +0000 (UTC)
-Received: by mail-wi0-f176.google.com with SMTP id ex7so4566300wid.15
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Nov 2014 01:02:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=DSPyZ74FzhJxD8H+QVMzyClIYkESUhXI5jdtyEJ8OFQ=;
-	b=xT+jdZhEZhPJ760u56kfqUwgBuPCVhmC5z5DqvDtDEIIFPSkGHiTs+sWGnnb8TnAR1
-	BIW9tNboWjKQIwuZgGv2bhIeTb9VtxajNi3yEwT6Jzx0qg1Begc/7DeoaAXbT6ZL68ZH
-	ysp3e/aMFL0gl9SEAw/LtijLAbWl7G97a5Vco1f+QRXeJIYPgk10SMRcw14QzJAKhUOS
-	RbSn+iHFps+BN8fsHNpdaXD11/aIpd2TyVmP1KcWOgNk8A6N02+6qwokTSt5LAY3qM6k
-	Baeo6vn3tQmZR7WQVR+VdJF6JNGBOz06BICbmt1DU2HwWUl9ioVxWFwwuAC180tRUZCz
-	pcCA==
-X-Received: by 10.180.212.52 with SMTP id nh20mr3579815wic.2.1416387758234;
-	Wed, 19 Nov 2014 01:02:38 -0800 (PST)
-Received: from localhost.localdomain
-	(ip-176-198-252-150.hsi05.unitymediagroup.de. [176.198.252.150])
-	by mx.google.com with ESMTPSA id kn5sm1338638wjb.48.2014.11.19.01.02.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Nov 2014 01:02:37 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Nov 2014 10:02:30 +0100
-Message-Id: <1416387750-10669-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.8.3.1
+	Wed, 19 Nov 2014 09:18:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAJ9IABj023267
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Wed, 19 Nov 2014 01:18:10 -0800 (PST)
+Received: from [128.224.162.168] (128.224.162.168) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 19 Nov 2014 01:18:09 -0800
+Message-ID: <546C6050.9070209@windriver.com>
+Date: Wed, 19 Nov 2014 17:18:08 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: [PATCH V2] midori: update to 0.5.8
+To: akuster808 <akuster808@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1416241492.git.akuster808@gmail.com>
+	<e8e39d81a3e28f45867afccd48963a0289a346b6.1416241492.git.akuster808@gmail.com>
+	<546BF26B.10206@windriver.com> <546C3390.7060803@gmail.com>
+In-Reply-To: <546C3390.7060803@gmail.com>
+Subject: Re: [PATCH 1/6] subversion: Security Advisory - subversion - CVE-2014-3528
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,112 +36,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Nov 2014 09:02:41 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 19 Nov 2014 09:18:14 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-midori has moved to cmake for configuration
+On 11/19/2014 02:07 PM, akuster808 wrote:
+> Wenzong,
+>
+> I wanted to just patch 1.8.9 for dizzy since 1.8.10 included more than
+> just security fixes.   Looks like my subject should have included
+> [dizzy] even though the cover letter did.  I will have to be more
+> careful next time.
+>
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
-V1->V2:
+You have clear cover page 'Dizzy next':)
 
-* move SRC_URI to permanent download location
-* add subdir to SRC_URI
+Since I updated serf on master, so I wonder how the subversion related 
+CVEes will be processed on Dizzy.
 
- meta/recipes-sato/midori/midori_0.5.5.bb | 47 --------------------------------
- meta/recipes-sato/midori/midori_0.5.8.bb | 27 ++++++++++++++++++
- 2 files changed, 27 insertions(+), 47 deletions(-)
- delete mode 100644 meta/recipes-sato/midori/midori_0.5.5.bb
- create mode 100644 meta/recipes-sato/midori/midori_0.5.8.bb
+Thanks for the clarification.
 
-diff --git a/meta/recipes-sato/midori/midori_0.5.5.bb b/meta/recipes-sato/midori/midori_0.5.5.bb
-deleted file mode 100644
-index a9379e7..0000000
---- a/meta/recipes-sato/midori/midori_0.5.5.bb
-+++ /dev/null
-@@ -1,47 +0,0 @@
--SUMMARY = "A lightweight web browser"
--HOMEPAGE = "http://www.twotoasts.de/index.php?/pages/midori_summary.html"
--LICENSE = "LGPLv2.1"
--LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
--DEPENDS = "webkit-gtk libsoup-2.4 openssl python-native python-docutils-native librsvg-native libnotify libunique libxscrnsaver"
--
--SRC_URI = "http://www.midori-browser.org/downloads/${BPN}_${PV}_all_.tar.bz2 \
--"
--
--SRC_URI[md5sum] = "b99e87d4b73a4732ed1c1e591f0242ac"
--SRC_URI[sha256sum] = "ca69382a285222a86028abebd73fed1976735883027ff0adc094b627789bbd62"
--
--# midori depends on webkit-gtk, and webkit-gtk can NOT be built on
--# MIPS64 with n32 ABI. So remove it from mips64 n32 temporarily.
--COMPATIBLE_HOST_mips64 = "mips64.*-linux$"
--
--inherit gtk-icon-cache pkgconfig vala pythonnative
--
--do_configure() {
--    sed -i -e 's:, shell=False::g' -e s:/usr/X11R6/include::g -e s:/usr/X11R6/lib::g wscript
--    ./configure \
--            --prefix=${prefix} \
--            --bindir=${bindir} \
--            --sbindir=${sbindir} \
--            --libexecdir=${libexecdir} \
--            --datadir=${datadir} \
--            --sysconfdir=${sysconfdir} \
--            --sharedstatedir=${sharedstatedir} \
--            --localstatedir=${localstatedir} \
--            --libdir=${libdir} \
--            --includedir=${includedir} \
--            --infodir=${infodir} \
--            --mandir=${mandir} \
--            --disable-gtk3 \
--            --disable-zeitgeist \
--}
--
--PARALLEL_MAKE = ""
--TARGET_CC_ARCH += "${LDFLAGS}"
--
--do_install() {
--    oe_runmake DESTDIR=${D} install
--}
--
--RRECOMMENDS_${PN} += "glib-networking ca-certificates gnome-icon-theme"
--
--FILES_${PN}-dev += "${datadir}/vala/vapi"
-diff --git a/meta/recipes-sato/midori/midori_0.5.8.bb b/meta/recipes-sato/midori/midori_0.5.8.bb
-new file mode 100644
-index 0000000..bafbe62
---- /dev/null
-+++ b/meta/recipes-sato/midori/midori_0.5.8.bb
-@@ -0,0 +1,27 @@
-+SUMMARY = "A lightweight web browser"
-+HOMEPAGE = "http://midori-browser.org/"
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
-+DEPENDS = "webkit-gtk libsoup-2.4 openssl python-native python-docutils-native librsvg-native libnotify libunique libxscrnsaver"
-+
-+SRC_URI = "https://launchpad.net/midori/trunk/0.5.8/+download/${BPN}-${PV}.tar.bz2;subdir=${BPN}-${PV}"
-+SRC_URI[md5sum] = "b89e25e74199d705e74767499a415976"
-+SRC_URI[sha256sum] = "af19135fd4c4b04345df4d3592e7939c20f9b40eaca24550e6cb619751aa9381"
-+
-+# midori depends on webkit-gtk, and webkit-gtk can NOT be built on
-+# MIPS64 with n32 ABI. So remove it from mips64 n32 temporarily.
-+COMPATIBLE_HOST_mips64 = "mips64.*-linux$"
-+
-+inherit gtk-icon-cache pkgconfig vala pythonnative cmake
-+
-+EXTRA_OECMAKE = " \
-+    -DCMAKE_INSTALL_PREFIX=${prefix} \
-+    -DUSE_ZEITGEIST=0 \
-+"
-+
-+TARGET_CC_ARCH += "${LDFLAGS}"
-+
-+RRECOMMENDS_${PN} += "glib-networking ca-certificates gnome-icon-theme"
-+
-+FILES_${PN} += "${datadir}/appdata"
-+
--- 
-1.8.3.1
+Wenzong
 
+
+> thanks,
+> Armin
+>
+> On 11/18/2014 05:29 PM, wenzong fan wrote:
+>> There's subversion 1.8.10 in master branch that has included the CVE
+>> fixes.
+>>
+>> Would you like to backport 1.8.10 from master? Or just patch 1.8.9 to
+>> fix this CVE?
+>>
+>> Thanks
+>> Wenzong
+>>
+>> On 11/19/2014 12:18 AM, Armin Kuster wrote:
+>>> From: Yue Tao <Yue.Tao@windriver.com>
+>>>
+>>> Apache Subversion 1.0.0 through 1.7.x before 1.7.17 and 1.8.x before
+>>> 1.8.10 uses an MD5 hash of the URL and authentication realm to store
+>>> cached credentials, which makes it easier for remote servers to obtain
+>>> the credentials via a crafted authentication realm.
+>>>
+>>> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3528
+>>>
+>>> (From OE-Core rev: e0dc0432b13f38d16f642bdadf8ebc78b7a74806)
+>>>
+>>> Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+>>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+>>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>>> ---
+>>>   .../subversion/subversion-CVE-2014-3528.patch      | 29
+>>> ++++++++++++++++++++++
+>>>   .../subversion/subversion_1.6.15.bb                |  1 +
+>>>   .../subversion/subversion_1.8.9.bb                 |  1 +
+>>>   3 files changed, 31 insertions(+)
+>>>   create mode 100644
+>>> meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
+>>>
+>>>
+>>>
+>>> diff --git
+>>> a/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
+>>>
+>>> b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
+>>>
+>>>
+>>> new file mode 100644
+>>> index 0000000..23e738e
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
+>>>
+>>>
+>>> @@ -0,0 +1,29 @@
+>>> +Upstream-Status: Backport
+>>> +
+>>> +Signed-off-by: Yue Tao <yue.tao@windriver.com>
+>>> +
+>>> +diff --git a/subversion/libsvn_subr/config_auth.c.old
+>>> b/subversion/libsvn_subr/config_auth.c
+>>> +index ff50270..c511d04 100644
+>>> +--- a/subversion/libsvn_subr/config_auth.c.old
+>>> ++++ b/subversion/libsvn_subr/config_auth.c
+>>> +@@ -85,6 +85,7 @@ svn_config_read_auth_data(apr_hash_t **hash,
+>>> +   if (kind == svn_node_file)
+>>> +     {
+>>> +       svn_stream_t *stream;
+>>> ++      svn_string_t *stored_realm;
+>>> +
+>>> +       SVN_ERR_W(svn_stream_open_readonly(&stream, auth_path, pool,
+>>> pool),
+>>> +                 _("Unable to open auth file for reading"));
+>>> +@@ -95,6 +96,12 @@ svn_config_read_auth_data(apr_hash_t **hash,
+>>> +                 apr_psprintf(pool, _("Error parsing '%s'"),
+>>> +                              svn_path_local_style(auth_path, pool)));
+>>> +
+>>> ++      stored_realm = apr_hash_get(*hash, SVN_CONFIG_REALMSTRING_KEY,
+>>> ++                                  APR_HASH_KEY_STRING);
+>>> ++
+>>> ++      if (!stored_realm || strcmp(stored_realm->data, realmstring)
+>>> != 0)
+>>> ++        *hash = NULL; /* Hash collision, or somebody tampering with
+>>> storage */
+>>> ++
+>>> +       SVN_ERR(svn_stream_close(stream));
+>>> +     }
+>>> +
+>>> diff --git a/meta/recipes-devtools/subversion/subversion_1.6.15.bb
+>>> b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
+>>> index 6680ab6..b135bb7 100644
+>>> --- a/meta/recipes-devtools/subversion/subversion_1.6.15.bb
+>>> +++ b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
+>>> @@ -19,6 +19,7 @@ SRC_URI =
+>>> "http://subversion.tigris.org/downloads/${BPN}-${PV}.tar.bz2 \
+>>>              file://subversion-CVE-2013-1847-CVE-2013-1846.patch \
+>>>              file://subversion-CVE-2013-4277.patch \
+>>>              file://subversion-CVE-2014-3522.patch \
+>>> +           file://subversion-CVE-2014-3528.patch \
+>>>   "
+>>>
+>>>   SRC_URI[md5sum] = "113fca1d9e4aa389d7dc2b210010fa69"
+>>> diff --git a/meta/recipes-devtools/subversion/subversion_1.8.9.bb
+>>> b/meta/recipes-devtools/subversion/subversion_1.8.9.bb
+>>> index e1ab945..1ef59a0 100644
+>>> --- a/meta/recipes-devtools/subversion/subversion_1.8.9.bb
+>>> +++ b/meta/recipes-devtools/subversion/subversion_1.8.9.bb
+>>> @@ -13,6 +13,7 @@ SRC_URI =
+>>> "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+>>>              file://libtool2.patch \
+>>>              file://disable_macos.patch \
+>>>              file://subversion-CVE-2014-3522.patch;striplevel=0 \
+>>> +           file://subversion-CVE-2014-3528.patch \
+>>>   "
+>>>   SRC_URI[md5sum] = "bd495517a760ddd764ce449a891971db"
+>>>   SRC_URI[sha256sum] =
+>>> "45d708a5c3ffbef4b2a1044c4716a053e680763743d1f7ba99d0369f6da49e33"
+>>>
+>
+>
 
