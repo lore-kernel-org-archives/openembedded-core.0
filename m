@@ -1,24 +1,24 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B81D65DA3
+	by mail.openembedded.org (Postfix) with ESMTP id 6EE5772156
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Nov 2014 02:41:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAJ2f35O027860
+	Wed, 19 Nov 2014 02:41:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAJ2fERF027863
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Nov 2014 18:41:03 -0800 (PST)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 18 Nov 2014 18:41:03 -0800
+	Tue, 18 Nov 2014 18:41:14 -0800 (PST)
+Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 18 Nov 2014 18:41:13 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Nov 2014 20:41:02 -0600
-Message-ID: <1416364862-213839-1-git-send-email-mark.hatle@windriver.com>
+Date: Tue, 18 Nov 2014 20:41:12 -0600
+Message-ID: <1416364872-213890-1-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.9.3
 MIME-Version: 1.0
-Subject: [PATCH] Add the output of depmod into kernel module .tgz file
+Subject: [PATCH] libpam: Stop a QA WARNING when building multlib version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,48 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Nov 2014 02:41:08 -0000
+X-List-Received-Date: Wed, 19 Nov 2014 02:41:16 -0000
 Content-Type: text/plain
 
 From: Yue Tao <Yue.Tao@windriver.com>
 
+WARNING: QA Issue: lib64-libpam: Files/directories were installed but
+not shipped
+  /usr/sbin/pam_console_apply
 
-[ Sent for Yocto Project compliance, not believed to be generally applicable ]
-
-
-do_rootfs() runs depmod on the final rootfs, so the depmod files are
-in the rootfs image. But the kernel module .tgz doesn't have the files.
-If you un-tar the new version of the kernel module .tgz on the board,
-it will need to re-run depmod. The avoid this we are running depmod in
-kernel_do_deploy() before generating the kernel .tgz.
+Because the package name is changed to mlprefix-pam-plugin-console. The file
+must be appended to that item.
 
 Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/classes/kernel.bbclass | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/recipes-extended/pam/libpam_1.1.6.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index e0c3a2e..f0e2a28 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -489,9 +489,15 @@ addtask uboot_mkimage before do_install after do_compile
- kernel_do_deploy() {
- 	install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
- 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-+		# Generate modules.* files in order to adding the modules.* into kernel module tar ball
-+		# after making the tar ball, remove the modules.* files to avoid unnecessary QA warnings.
- 		mkdir -p ${D}/lib
--		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
-+		cp -r ${D}/lib ${DEPLOYDIR}
-+		(cd ${D}; cp --parent boot/System.map-${KERNEL_VERSION} ${DEPLOYDIR})
-+		depmodwrapper -a -b ${DEPLOYDIR} ${KERNEL_VERSION}
-+		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${DEPLOYDIR} lib boot/System.map-${KERNEL_VERSION}
- 		ln -sf ${MODULE_TARBALL_BASE_NAME} ${DEPLOYDIR}/${MODULE_TARBALL_SYMLINK_NAME}
-+		rm -rf ${DEPLOYDIR}/lib ${DEPLOYDIR}/boot
- 	fi
+diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
+index a84e51e..3b6d514 100644
+--- a/meta/recipes-extended/pam/libpam_1.1.6.bb
++++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
+@@ -133,6 +133,7 @@ python populate_packages_prepend () {
+     pam_plugin_append_file('%spam-plugin-tally2' % mlprefix, pam_sbindir, 'pam_tally2')
+     pam_plugin_append_file('%spam-plugin-timestamp' % mlprefix, pam_sbindir, 'pam_timestamp_check')
+     pam_plugin_append_file('%spam-plugin-mkhomedir' % mlprefix, pam_sbindir, 'mkhomedir_helper')
++    pam_plugin_append_file('%spam-plugin-console' % mlprefix, pam_sbindir, 'pam_console_apply')
+     do_split_packages(d, pam_filterdir, '^(.*)$', 'pam-filter-%s', 'PAM filter for %s', extra_depends='')
+ }
  
- 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGE_SYMLINK_NAME}.bin
 -- 
 1.9.3
 
