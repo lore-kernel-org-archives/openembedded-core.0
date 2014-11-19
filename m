@@ -1,24 +1,43 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E9F86AC93
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AE6B65C78
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Nov 2014 03:02:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAJ32Dcl006084
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Wed, 19 Nov 2014 06:07:14 +0000 (UTC)
+Received: by mail-pd0-f172.google.com with SMTP id v10so1784427pde.31
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Nov 2014 19:02:13 -0800 (PST)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Tue, 18 Nov 2014 19:02:13 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Nov 2014 21:02:11 -0600
-Message-ID: <1416366131-226029-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.9.3
+	Tue, 18 Nov 2014 22:07:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=OrghJ9t4YCuTJx5BgOHh3BqL1NzMnD3oCwGZpbDuGU4=;
+	b=HkHLFcyVZ4JDhehSq2F6bYeqK+yoskN0MwTTnWE3qWzZw6V/Dbca9U5CjnsoG4pCMO
+	qd4LaY1fZSuUbT+0goBnDfy6Ot7Ayv4vao+ulJYkF0w43Eh62a2B+HVLLJzX+jOGi/TM
+	vfdHhZv2VJKlxbZgIk6cMMmUU4d0tu0txMKud5dfP6obY8mr9QtjutsKRzd8EIZGHp6s
+	Sxv+VPeMl7/C7ntUJjN7yoTs2fT07o7hNL0LL3rD4632mu7ilR3wuYfRNAKopxGTZ9pP
+	udiiLZ2V0vCZhvW7/dlV7HN+DKs+tqeYl3v7Dg7xlw3Qbk0fY3tSjKy9APVIMdc8EGnX
+	50TQ==
+X-Received: by 10.66.156.168 with SMTP id wf8mr42878099pab.43.1416377235435;
+	Tue, 18 Nov 2014 22:07:15 -0800 (PST)
+Received: from ?IPv6:2601:c:9380:601:5d01:217d:7a14:bc70?
+	([2601:c:9380:601:5d01:217d:7a14:bc70])
+	by mx.google.com with ESMTPSA id ip1sm768265pbc.0.2014.11.18.22.07.13
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 18 Nov 2014 22:07:14 -0800 (PST)
+Message-ID: <546C3390.7060803@gmail.com>
+Date: Tue, 18 Nov 2014 22:07:12 -0800
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-Subject: [PATCH] gst-ffmpeg: fixes for CVE-2014-8548 and CVE-2014-8541
+To: wenzong fan <wenzong.fan@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1416241492.git.akuster808@gmail.com>
+	<e8e39d81a3e28f45867afccd48963a0289a346b6.1416241492.git.akuster808@gmail.com>
+	<546BF26B.10206@windriver.com>
+In-Reply-To: <546BF26B.10206@windriver.com>
+Subject: Re: [PATCH 1/6] subversion: Security Advisory - subversion - CVE-2014-3528
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,165 +50,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Nov 2014 03:02:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 19 Nov 2014 06:07:15 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Roy Li <rongqing.li@windriver.com>
+Wenzong,
 
-Issue: LIN7-1755
-Issue: LIN7-1739
+I wanted to just patch 1.8.9 for dizzy since 1.8.10 included more than 
+just security fixes.   Looks like my subject should have included 
+[dizzy] even though the cover letter did.  I will have to be more 
+careful next time.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8541
+thanks,
+Armin
 
-libavcodec/mjpegdec.c in FFmpeg before 2.4.2 considers only dimension
-differences, and not bits-per-pixel differences, when determining whether an
-image size has changed, which allows remote attackers to cause a denial of
-service (out-of-bounds access) or possibly have unspecified other impact via
-crafted MJPEG data.
-
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8548
-
-Off-by-one error in libavcodec/smc.c in FFmpeg before 2.4.2 allows remote
-attackers to cause a denial of service (out-of-bounds access) or possibly
-have unspecified other impact via crafted Quicktime Graphics (aka SMC) video
-data.
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- .../0001-avcodec-smc-fix-off-by-1-error.patch      | 32 ++++++++++
- ...egdec-check-bits-per-pixel-for-changes-si.patch | 68 ++++++++++++++++++++++
- .../gstreamer/gst-ffmpeg_0.10.13.bb                |  2 +
- 3 files changed, 102 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-smc-fix-off-by-1-error.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0002-avcodec-mjpegdec-check-bits-per-pixel-for-changes-si.patch
-
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-smc-fix-off-by-1-error.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-smc-fix-off-by-1-error.patch
-new file mode 100644
-index 0000000..3ca6fc4
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0001-avcodec-smc-fix-off-by-1-error.patch
-@@ -0,0 +1,32 @@
-+From c17a0ad1df15a94d0b1239adc2afb593bdf0a153 Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michaelni@gmx.at>
-+Date: Fri, 3 Oct 2014 22:50:45 +0200
-+Subject: [PATCH 1/2] avcodec/smc: fix off by 1 error
-+
-+Upstream-Status: Backport
-+
-+Fixes out of array access
-+Fixes: asan_heap-oob_1685bf0_5_asan_heap-oob_1f35116_430_smc.mov
-+
-+Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
-+Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+---
-+ libavcodec/smc.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gst-libs/ext/libav/libavcodec/smc.c b/gst-libs/ext/libav/libavcodec/smc.c
-+index 3cd5e53..dec9f71 100644
-+--- a/gst-libs/ext/libav/libavcodec/smc.c
-++++ b/gst-libs/ext/libav/libavcodec/smc.c
-+@@ -69,7 +69,7 @@ typedef struct SmcContext {
-+         row_ptr += stride * 4; \
-+     } \
-+     total_blocks--; \
-+-    if (total_blocks < 0) \
-++    if (total_blocks < 0 + !!n_blocks) \
-+     { \
-+         av_log(s->avctx, AV_LOG_INFO, "warning: block counter just went negative (this should not happen)\n"); \
-+         return; \
-+-- 
-+2.1.0
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0002-avcodec-mjpegdec-check-bits-per-pixel-for-changes-si.patch b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0002-avcodec-mjpegdec-check-bits-per-pixel-for-changes-si.patch
-new file mode 100644
-index 0000000..c8bafd5
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/0002-avcodec-mjpegdec-check-bits-per-pixel-for-changes-si.patch
-@@ -0,0 +1,68 @@
-+From 6043c431c97d55173f339fafbd033d3c0642e2e9 Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michaelni@gmx.at>
-+Date: Fri, 3 Oct 2014 01:50:27 +0200
-+Subject: [PATCH 2/2] avcodec/mjpegdec: check bits per pixel for changes
-+ similar to dimensions
-+
-+Upstream-Status: Backport
-+
-+Fixes out of array accesses
-+Fixes: asan_heap-oob_16668e9_2_asan_heap-oob_16668e9_346_miss_congeniality_pegasus_mjpg.avi
-+
-+Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
-+Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
-+
-+Conflicts:
-+	libavcodec/mjpegdec.c
-+---
-+ libavcodec/mjpegdec.c | 15 ++++++++-------
-+ 1 file changed, 8 insertions(+), 7 deletions(-)
-+
-+diff --git a/gst-libs/ext/libav/libavcodec/mjpegdec.c b/gst-libs/ext/libav/libavcodec/mjpegdec.c
-+index 84343c0..c0137d8 100644
-+--- a/gst-libs/ext/libav/libavcodec/mjpegdec.c
-++++ b/gst-libs/ext/libav/libavcodec/mjpegdec.c
-+@@ -210,16 +210,16 @@ int ff_mjpeg_decode_dht(MJpegDecodeContext *s)
-+ 
-+ int ff_mjpeg_decode_sof(MJpegDecodeContext *s)
-+ {
-+-    int len, nb_components, i, width, height, pix_fmt_id;
-++    int len, nb_components, i, bits, width, height, pix_fmt_id;
-+ 
-+     /* XXX: verify len field validity */
-+     len = get_bits(&s->gb, 16);
-+-    s->bits= get_bits(&s->gb, 8);
-++    bits= get_bits(&s->gb, 8);
-+ 
-+-    if(s->pegasus_rct) s->bits=9;
-+-    if(s->bits==9 && !s->pegasus_rct) s->rct=1;    //FIXME ugly
-++    if(s->pegasus_rct) bits=9;
-++    if(bits==9 && !s->pegasus_rct) s->rct=1;    //FIXME ugly
-+ 
-+-    if (s->bits != 8 && !s->lossless){
-++    if (bits != 8 && !s->lossless){
-+         av_log(s->avctx, AV_LOG_ERROR, "only 8 bits/component accepted\n");
-+         return -1;
-+     }
-+@@ -239,7 +239,7 @@ int ff_mjpeg_decode_sof(MJpegDecodeContext *s)
-+     if (nb_components <= 0 ||
-+         nb_components > MAX_COMPONENTS)
-+         return -1;
-+-    if (s->ls && !(s->bits <= 8 || nb_components == 1)){
-++    if (s->ls && !(bits <= 8 || nb_components == 1)){
-+         av_log(s->avctx, AV_LOG_ERROR, "only <= 8 bits/component or 16-bit gray accepted for JPEG-LS\n");
-+         return -1;
-+     }
-+@@ -272,10 +272,11 @@ int ff_mjpeg_decode_sof(MJpegDecodeContext *s)
-+ 
-+     /* if different size, realloc/alloc picture */
-+     /* XXX: also check h_count and v_count */
-+-    if (width != s->width || height != s->height) {
-++    if (width != s->width || height != s->height || bits != s->bits) {
-+         av_freep(&s->qscale_table);
-+ 
-+         s->width = width;
-++        s->bits= bits;
-+         s->height = height;
-+         s->interlaced = 0;
-+ 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-index 395054d..30e5deb 100644
---- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
-@@ -55,6 +55,8 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0001-ffserver-set-oformat.patch \
-            file://0001-h264-set-parameters-from-SPS-whenever-it-changes.patch \
-            file://0001-h264-skip-error-concealment-when-SPS-and-slices-are-.patch \
-+           file://0001-avcodec-smc-fix-off-by-1-error.patch \
-+           file://0002-avcodec-mjpegdec-check-bits-per-pixel-for-changes-si.patch \
-            ${@bb.utils.contains('PACKAGECONFIG', 'libav9', 'file://libav-9.patch', '', d)} \ 
- "
- 
--- 
-1.9.3
-
+On 11/18/2014 05:29 PM, wenzong fan wrote:
+> There's subversion 1.8.10 in master branch that has included the CVE fixes.
+>
+> Would you like to backport 1.8.10 from master? Or just patch 1.8.9 to
+> fix this CVE?
+>
+> Thanks
+> Wenzong
+>
+> On 11/19/2014 12:18 AM, Armin Kuster wrote:
+>> From: Yue Tao <Yue.Tao@windriver.com>
+>>
+>> Apache Subversion 1.0.0 through 1.7.x before 1.7.17 and 1.8.x before
+>> 1.8.10 uses an MD5 hash of the URL and authentication realm to store
+>> cached credentials, which makes it easier for remote servers to obtain
+>> the credentials via a crafted authentication realm.
+>>
+>> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3528
+>>
+>> (From OE-Core rev: e0dc0432b13f38d16f642bdadf8ebc78b7a74806)
+>>
+>> Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>> ---
+>>   .../subversion/subversion-CVE-2014-3528.patch      | 29
+>> ++++++++++++++++++++++
+>>   .../subversion/subversion_1.6.15.bb                |  1 +
+>>   .../subversion/subversion_1.8.9.bb                 |  1 +
+>>   3 files changed, 31 insertions(+)
+>>   create mode 100644
+>> meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
+>>
+>>
+>> diff --git
+>> a/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
+>> b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
+>>
+>> new file mode 100644
+>> index 0000000..23e738e
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-devtools/subversion/subversion/subversion-CVE-2014-3528.patch
+>>
+>> @@ -0,0 +1,29 @@
+>> +Upstream-Status: Backport
+>> +
+>> +Signed-off-by: Yue Tao <yue.tao@windriver.com>
+>> +
+>> +diff --git a/subversion/libsvn_subr/config_auth.c.old
+>> b/subversion/libsvn_subr/config_auth.c
+>> +index ff50270..c511d04 100644
+>> +--- a/subversion/libsvn_subr/config_auth.c.old
+>> ++++ b/subversion/libsvn_subr/config_auth.c
+>> +@@ -85,6 +85,7 @@ svn_config_read_auth_data(apr_hash_t **hash,
+>> +   if (kind == svn_node_file)
+>> +     {
+>> +       svn_stream_t *stream;
+>> ++      svn_string_t *stored_realm;
+>> +
+>> +       SVN_ERR_W(svn_stream_open_readonly(&stream, auth_path, pool,
+>> pool),
+>> +                 _("Unable to open auth file for reading"));
+>> +@@ -95,6 +96,12 @@ svn_config_read_auth_data(apr_hash_t **hash,
+>> +                 apr_psprintf(pool, _("Error parsing '%s'"),
+>> +                              svn_path_local_style(auth_path, pool)));
+>> +
+>> ++      stored_realm = apr_hash_get(*hash, SVN_CONFIG_REALMSTRING_KEY,
+>> ++                                  APR_HASH_KEY_STRING);
+>> ++
+>> ++      if (!stored_realm || strcmp(stored_realm->data, realmstring)
+>> != 0)
+>> ++        *hash = NULL; /* Hash collision, or somebody tampering with
+>> storage */
+>> ++
+>> +       SVN_ERR(svn_stream_close(stream));
+>> +     }
+>> +
+>> diff --git a/meta/recipes-devtools/subversion/subversion_1.6.15.bb
+>> b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
+>> index 6680ab6..b135bb7 100644
+>> --- a/meta/recipes-devtools/subversion/subversion_1.6.15.bb
+>> +++ b/meta/recipes-devtools/subversion/subversion_1.6.15.bb
+>> @@ -19,6 +19,7 @@ SRC_URI =
+>> "http://subversion.tigris.org/downloads/${BPN}-${PV}.tar.bz2 \
+>>              file://subversion-CVE-2013-1847-CVE-2013-1846.patch \
+>>              file://subversion-CVE-2013-4277.patch \
+>>              file://subversion-CVE-2014-3522.patch \
+>> +           file://subversion-CVE-2014-3528.patch \
+>>   "
+>>
+>>   SRC_URI[md5sum] = "113fca1d9e4aa389d7dc2b210010fa69"
+>> diff --git a/meta/recipes-devtools/subversion/subversion_1.8.9.bb
+>> b/meta/recipes-devtools/subversion/subversion_1.8.9.bb
+>> index e1ab945..1ef59a0 100644
+>> --- a/meta/recipes-devtools/subversion/subversion_1.8.9.bb
+>> +++ b/meta/recipes-devtools/subversion/subversion_1.8.9.bb
+>> @@ -13,6 +13,7 @@ SRC_URI =
+>> "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+>>              file://libtool2.patch \
+>>              file://disable_macos.patch \
+>>              file://subversion-CVE-2014-3522.patch;striplevel=0 \
+>> +           file://subversion-CVE-2014-3528.patch \
+>>   "
+>>   SRC_URI[md5sum] = "bd495517a760ddd764ce449a891971db"
+>>   SRC_URI[sha256sum] =
+>> "45d708a5c3ffbef4b2a1044c4716a053e680763743d1f7ba99d0369f6da49e33"
+>>
 
