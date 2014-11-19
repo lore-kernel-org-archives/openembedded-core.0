@@ -1,40 +1,38 @@
 Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id BF4046AC93
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id A2C3C714D7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Nov 2014 09:00:52 +0000 (UTC)
-Received: by mail-vc0-f175.google.com with SMTP id hy10so62476vcb.34
+	Wed, 19 Nov 2014 09:02:37 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id ex7so4566300wid.15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Nov 2014 01:00:52 -0800 (PST)
+	Wed, 19 Nov 2014 01:02:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=CyRwlr7iiKQYXLZu3txew049ziKq1T/WyHgsIa4GL9M=;
-	b=ggUQiC3OejN1eOlFMfwTG4waAv9A6fwoa5qj2NMEYNeMPZtmMHAK1Jz01o8wAMYhBA
-	SNH67L02WoHyXM8urEZl2d8hb26w+wFyvdUHhmXcZajrMAYVFE6atwd4ZFB7A5ulQOPF
-	rCATlsL3tdsxRKVuMJV1cIgZgui5rflasRT5GbvVIvZ+KXugGfem6sNUXKhCci2HE6O4
-	n+m9zfteHgNLu5fdGRx5afltggjdMyb5nFSnidwuaZxfaAW/Cq+GYJKX3fj/xenx4zv2
-	JUSeXKoWEcJUSyykFmZKVftMN752x0Gn3rlmnNivFFNwu841d13EO3oIio1v1VFY9Vt7
-	K5Hg==
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=DSPyZ74FzhJxD8H+QVMzyClIYkESUhXI5jdtyEJ8OFQ=;
+	b=xT+jdZhEZhPJ760u56kfqUwgBuPCVhmC5z5DqvDtDEIIFPSkGHiTs+sWGnnb8TnAR1
+	BIW9tNboWjKQIwuZgGv2bhIeTb9VtxajNi3yEwT6Jzx0qg1Begc/7DeoaAXbT6ZL68ZH
+	ysp3e/aMFL0gl9SEAw/LtijLAbWl7G97a5Vco1f+QRXeJIYPgk10SMRcw14QzJAKhUOS
+	RbSn+iHFps+BN8fsHNpdaXD11/aIpd2TyVmP1KcWOgNk8A6N02+6qwokTSt5LAY3qM6k
+	Baeo6vn3tQmZR7WQVR+VdJF6JNGBOz06BICbmt1DU2HwWUl9ioVxWFwwuAC180tRUZCz
+	pcCA==
+X-Received: by 10.180.212.52 with SMTP id nh20mr3579815wic.2.1416387758234;
+	Wed, 19 Nov 2014 01:02:38 -0800 (PST)
+Received: from localhost.localdomain
+	(ip-176-198-252-150.hsi05.unitymediagroup.de. [176.198.252.150])
+	by mx.google.com with ESMTPSA id kn5sm1338638wjb.48.2014.11.19.01.02.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 19 Nov 2014 01:02:37 -0800 (PST)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Nov 2014 10:02:30 +0100
+Message-Id: <1416387750-10669-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Received: by 10.53.6.6 with SMTP id cq6mr30143998vdd.16.1416387652728; Wed,
-	19 Nov 2014 01:00:52 -0800 (PST)
-Received: by 10.52.178.6 with HTTP; Wed, 19 Nov 2014 01:00:52 -0800 (PST)
-In-Reply-To: <CALbNGRQxMHoRLC0u2CbT90BfKVSWNRrovEwdr1ggSfzYkbgHAQ@mail.gmail.com>
-References: <1415346729-16760-1-git-send-email-schnitzeltony@googlemail.com>
-	<1415346729-16760-3-git-send-email-schnitzeltony@googlemail.com>
-	<1415458061.2820.23.camel@linuxfoundation.org>
-	<1415528861.2820.25.camel@linuxfoundation.org>
-	<CALbNGRQxMHoRLC0u2CbT90BfKVSWNRrovEwdr1ggSfzYkbgHAQ@mail.gmail.com>
-Date: Wed, 19 Nov 2014 10:00:52 +0100
-Message-ID: <CALbNGRQ_CjEnK_UAjrjAQtbEHYSGoK9gdTevF+m091stjZgn1Q@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] xserver-xorg: update to 1.16.1
+Subject: [PATCH V2] midori: update to 0.5.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,68 +45,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Nov 2014 09:01:00 -0000
+X-List-Received-Date: Wed, 19 Nov 2014 09:02:41 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 10, 2014 at 9:32 AM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> On Sun, Nov 9, 2014 at 11:27 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Sat, 2014-11-08 at 14:47 +0000, Richard Purdie wrote:
->>> On Fri, 2014-11-07 at 08:52 +0100, Andreas M=C3=BCller wrote:
->>> > * first version supporting rootless X (not tested yet)
->>> > * modesetting working for non PCI gpus (tested on gumstix overo)
->>> >
->>> > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
->>> > ---
->>> >  .../xorg-xserver/xserver-xorg/crosscompile.patch   | 22 --------
->>> >  .../xserver-xorg/mips64-compiler.patch             | 29 ----------
->>> >  .../xorg-xserver/xserver-xorg/present-module.patch | 66 ------------=
-----------
->>> >  ...erver-xorg_1.15.1.bb =3D> xserver-xorg_1.16.1.bb} |  9 +--
->>> >  4 files changed, 3 insertions(+), 123 deletions(-)
->>> >  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/c=
-rosscompile.patch
->>> >  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/m=
-ips64-compiler.patch
->>> >  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/p=
-resent-module.patch
->>> >  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.15.1.bb =
-=3D> xserver-xorg_1.16.1.bb} (75%)
->>>
->>> Whilst I haven't 100% confirmed it:
->>>
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/build=
-s/96
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-logrotate=
-/builds/95
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-skeleton/=
-builds/95
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/b=
-uilds/94
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-x32/builds/9=
-5
->>>
->>> all look like it may well be as a result of this change (which was
->>> included in the master-next build in question). This change will be
->>> delayed merging until we figure out if this patch is responsible and ho=
-w
->>> to fix whatever the cause is. Obviously any help in doing that is much
->>> appreciated.
->>
->> It is 100% confirmed now, with the patch reverted there was a green
->> build.
->>
->> Cheers,
->>
->> Richard
->>
-> Will look into this this week
->
-'This week' is over and I don't find the time to look into this (and
-my boss would kill me if I do) - sorry. So if somebody else wants to
-take care - feel free.
+midori has moved to cmake for configuration
 
-Andreas
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+V1->V2:
+
+* move SRC_URI to permanent download location
+* add subdir to SRC_URI
+
+ meta/recipes-sato/midori/midori_0.5.5.bb | 47 --------------------------------
+ meta/recipes-sato/midori/midori_0.5.8.bb | 27 ++++++++++++++++++
+ 2 files changed, 27 insertions(+), 47 deletions(-)
+ delete mode 100644 meta/recipes-sato/midori/midori_0.5.5.bb
+ create mode 100644 meta/recipes-sato/midori/midori_0.5.8.bb
+
+diff --git a/meta/recipes-sato/midori/midori_0.5.5.bb b/meta/recipes-sato/midori/midori_0.5.5.bb
+deleted file mode 100644
+index a9379e7..0000000
+--- a/meta/recipes-sato/midori/midori_0.5.5.bb
++++ /dev/null
+@@ -1,47 +0,0 @@
+-SUMMARY = "A lightweight web browser"
+-HOMEPAGE = "http://www.twotoasts.de/index.php?/pages/midori_summary.html"
+-LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+-DEPENDS = "webkit-gtk libsoup-2.4 openssl python-native python-docutils-native librsvg-native libnotify libunique libxscrnsaver"
+-
+-SRC_URI = "http://www.midori-browser.org/downloads/${BPN}_${PV}_all_.tar.bz2 \
+-"
+-
+-SRC_URI[md5sum] = "b99e87d4b73a4732ed1c1e591f0242ac"
+-SRC_URI[sha256sum] = "ca69382a285222a86028abebd73fed1976735883027ff0adc094b627789bbd62"
+-
+-# midori depends on webkit-gtk, and webkit-gtk can NOT be built on
+-# MIPS64 with n32 ABI. So remove it from mips64 n32 temporarily.
+-COMPATIBLE_HOST_mips64 = "mips64.*-linux$"
+-
+-inherit gtk-icon-cache pkgconfig vala pythonnative
+-
+-do_configure() {
+-    sed -i -e 's:, shell=False::g' -e s:/usr/X11R6/include::g -e s:/usr/X11R6/lib::g wscript
+-    ./configure \
+-            --prefix=${prefix} \
+-            --bindir=${bindir} \
+-            --sbindir=${sbindir} \
+-            --libexecdir=${libexecdir} \
+-            --datadir=${datadir} \
+-            --sysconfdir=${sysconfdir} \
+-            --sharedstatedir=${sharedstatedir} \
+-            --localstatedir=${localstatedir} \
+-            --libdir=${libdir} \
+-            --includedir=${includedir} \
+-            --infodir=${infodir} \
+-            --mandir=${mandir} \
+-            --disable-gtk3 \
+-            --disable-zeitgeist \
+-}
+-
+-PARALLEL_MAKE = ""
+-TARGET_CC_ARCH += "${LDFLAGS}"
+-
+-do_install() {
+-    oe_runmake DESTDIR=${D} install
+-}
+-
+-RRECOMMENDS_${PN} += "glib-networking ca-certificates gnome-icon-theme"
+-
+-FILES_${PN}-dev += "${datadir}/vala/vapi"
+diff --git a/meta/recipes-sato/midori/midori_0.5.8.bb b/meta/recipes-sato/midori/midori_0.5.8.bb
+new file mode 100644
+index 0000000..bafbe62
+--- /dev/null
++++ b/meta/recipes-sato/midori/midori_0.5.8.bb
+@@ -0,0 +1,27 @@
++SUMMARY = "A lightweight web browser"
++HOMEPAGE = "http://midori-browser.org/"
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
++DEPENDS = "webkit-gtk libsoup-2.4 openssl python-native python-docutils-native librsvg-native libnotify libunique libxscrnsaver"
++
++SRC_URI = "https://launchpad.net/midori/trunk/0.5.8/+download/${BPN}-${PV}.tar.bz2;subdir=${BPN}-${PV}"
++SRC_URI[md5sum] = "b89e25e74199d705e74767499a415976"
++SRC_URI[sha256sum] = "af19135fd4c4b04345df4d3592e7939c20f9b40eaca24550e6cb619751aa9381"
++
++# midori depends on webkit-gtk, and webkit-gtk can NOT be built on
++# MIPS64 with n32 ABI. So remove it from mips64 n32 temporarily.
++COMPATIBLE_HOST_mips64 = "mips64.*-linux$"
++
++inherit gtk-icon-cache pkgconfig vala pythonnative cmake
++
++EXTRA_OECMAKE = " \
++    -DCMAKE_INSTALL_PREFIX=${prefix} \
++    -DUSE_ZEITGEIST=0 \
++"
++
++TARGET_CC_ARCH += "${LDFLAGS}"
++
++RRECOMMENDS_${PN} += "glib-networking ca-certificates gnome-icon-theme"
++
++FILES_${PN} += "${datadir}/appdata"
++
+-- 
+1.8.3.1
+
 
