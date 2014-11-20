@@ -1,35 +1,35 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id AF63370620
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 8112265D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 11:56:59 +0000 (UTC)
-Received: by mail-qc0-f181.google.com with SMTP id m20so1934932qcx.40
+	Thu, 20 Nov 2014 12:17:38 +0000 (UTC)
+Received: by mail-qg0-f48.google.com with SMTP id q107so1921843qgd.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 03:56:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=R+lUP01pkdYw4fDxHj5tZu3OLO6cZPNWABEFoSRQgFM=;
-	b=dP9BAVxAjLeIUubO/KqCmuodhfPvCwGTdcrlFfQqOxhfs1lZdtfcidOMn1yhJXiz/4
-	2wFZ9P/+EhycDxvx9WlIvVl17/YbSXzENjQ3Pag1zApQUB+lCpPA6qMMv4duIhMmsn94
-	hgSd98NoVOq7eKKfHga11aNDHZVwEm+ritQFnDqEtWIN2Q/m2bO1HEMfeyD5aeC45ZuM
-	H7ERe4nq2jZ3n/tG6D8+Rru1cl62YsD0qvpsnXCsxGG8uDht1U0uKj/RwAt8xPnmw0dr
-	JsbRncuS5WIBuYfMnfoePNp/3UuExxtlAAj56zm6v3iqRhxwnwHW+qNySIHZpve5htfK
-	F/iA==
-X-Received: by 10.224.120.3 with SMTP id b3mr60791723qar.9.1416484619607; Thu,
-	20 Nov 2014 03:56:59 -0800 (PST)
+	Thu, 20 Nov 2014 04:17:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=DzJZRpiy0PoYnIsnReNINmb1VYta10oGHxVJHUAJY/o=;
+	b=L3DVVWa772pDE6EJubmRiBgS61fvv/hgX7r4vDBGHsf5EprTQIyDw6JJuXg/CWn305
+	nrewUKfCKa027RMaHWVyVT6EmK8RSCzz8Lju2OaihgAKBxenLcJDBkutoUTL3y6Ublrq
+	zb9HQcpLRMqnunzIqrhM1JKMmn/HR53aJQYZ3gIisQlH6s8LdHMVdv/QVRKxbjtO74jI
+	LHM0fa4bWcaQUetlDGwT+/2bxCpq3Qn95Uq/jjPLswa3ywVSfybWiHT3Evv6BrfPWeI7
+	DQ49NF0ZPOjbmAc2XWuEa5Y+523NdPUhmv5gj55Se3Udt1nFFBBmAzYhKk1C3aq681qE
+	NOqA==
+X-Gm-Message-State: ALoCoQmZuMq/Ml30JYdb38VprgSZ3XDXBdD7FH93eyLTXlpdd4e4wfvWEtyojM0/BIBuAuQVPeAn
+X-Received: by 10.224.2.135 with SMTP id 7mr61151404qaj.64.1416485859152; Thu,
+	20 Nov 2014 04:17:39 -0800 (PST)
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.140.143.146 with HTTP; Thu, 20 Nov 2014 03:56:19 -0800 (PST)
+Received: by 10.140.48.231 with HTTP; Thu, 20 Nov 2014 04:17:18 -0800 (PST)
 In-Reply-To: <1416452807-22721-1-git-send-email-jian.liu@windriver.com>
 References: <1416452807-22721-1-git-send-email-jian.liu@windriver.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Thu, 20 Nov 2014 11:56:19 +0000
-X-Google-Sender-Auth: Xbjn3Uy_pzk3p2IQ951vIq2llL4
-Message-ID: <CANyK_8eo2MypK6Niq=Fzfc7z-wKvH8W26WKGqx2zG+AaFC8pNA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Nov 2014 12:17:18 +0000
+Message-ID: <CAJTo0LYe=+ACx9FqPUQcVLB-YWQGtuiUYY_aG7RZ-y18E3O5SQ@mail.gmail.com>
 To: Jian Liu <jian.liu@windriver.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] lsof: the compiler version fault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,76 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Nov 2014 11:56:59 -0000
+X-List-Received-Date: Thu, 20 Nov 2014 12:17:46 -0000
+Content-Type: multipart/alternative; boundary=001a11c3defa76ef2b0508495079
+
+--001a11c3defa76ef2b0508495079
 Content-Type: text/plain; charset=UTF-8
 
 On 20 November 2014 03:06, Jian Liu <jian.liu@windriver.com> wrote:
+
 > When using cross compiler to build the package "lsof" on a host,
 > the value of LSOF_CCV in version.h genegrated by the Makefile
 > is the version of the compiler on the host while it should be
 > the version of cross compiler.
 >
-> Signed-off-by: Jian Liu <jian.liu@windriver.com>
-> ---
->  .../lsof/files/compiler-version-fault.patch                 | 13 +++++++++++++
->  meta/recipes-extended/lsof/lsof_4.87.bb                     |  4 +++-
->  2 files changed, 16 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-extended/lsof/files/compiler-version-fault.patch
->
-> diff --git a/meta/recipes-extended/lsof/files/compiler-version-fault.patch b/meta/recipes-extended/lsof/files/compiler-version-fault.patch
-> new file mode 100644
-> index 0000000..bf22f4b
-> --- /dev/null
-> +++ b/meta/recipes-extended/lsof/files/compiler-version-fault.patch
-> @@ -0,0 +1,13 @@
-> +diff -Nur lsof_4.87_src.orig/dialects/linux/Makefile lsof_4.87_src/dialects/linux/Makefile
-> +--- lsof_4.87_src.orig/dialects/linux/Makefile 2008-04-15 21:30:04.000000000 +0800
-> ++++ lsof_4.87_src/dialects/linux/Makefile      2014-09-09 14:15:27.208165334 +0800
-> +@@ -77,7 +77,8 @@
-> +       @rm -f version.h
-> +       @echo '#define  LSOF_BLDCMT     "${LSOF_BLDCMT}"' > version.h;
-> +       @echo '#define  LSOF_CC         "${CC}"' >> version.h
-> +-      @echo '#define  LSOF_CCV        "${CCV}"' >> version.h
-> ++      @LSOF_CCV=`${CC} -v 2>&1 | sed -n 's/.*version \(.*\)/\1/p'` &&\
-> ++      echo "#define   LSOF_CCV        \"$${LSOF_CCV}\"" >> version.h
-> +       @echo '#define  LSOF_CCDATE     "'`date`'"' >> version.h
-> +       @echo '#define  LSOF_CCFLAGS    "'`echo ${CFLAGS} | sed 's/\\\\(/\\(/g' | sed 's/\\\\)/\\)/g' | sed 's/"/\\\\"/g'`'"' >> version.h
-> +       @echo '#define  LSOF_CINFO      "${CINFO}"' >> version.h
 
-This patch needs 'Upstream-status' and 'Signed-off-by' tags as
-described in http://openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations.
-Giving a short description of the patch within the patch file itself
-is also encouraged.
+There's a better version of this patch on the list already - it's not yet
+been merged which is mostly my fault.
 
-> diff --git a/meta/recipes-extended/lsof/lsof_4.87.bb b/meta/recipes-extended/lsof/lsof_4.87.bb
-> index 03fee16..9de3f33 100644
-> --- a/meta/recipes-extended/lsof/lsof_4.87.bb
-> +++ b/meta/recipes-extended/lsof/lsof_4.87.bb
-> @@ -5,7 +5,9 @@ SECTION = "devel"
->  LICENSE = "BSD"
->  PR = "r0"
->
-> -SRC_URI = "ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2"
-> +SRC_URI = "ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2 \
-> +       file://compiler-version-fault.patch \
-> +       "
->
->  SRC_URI[md5sum] = "80e2a76d0e05826db910ec88e631296c"
->  SRC_URI[sha256sum] = "dfdd3709d82bc79ccdf3e404b84aafa9aede5948642a824ecaefd0aac589da2c"
-> --
-> 1.8.5.2.233.g932f7e4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
-Cheers,
+--001a11c3defa76ef2b0508495079
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Paul Barker
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 November 2014 03:06, Jian Liu <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:jian.liu@windriver.com" target=3D"_blank">jian.liu@windriver.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3v8" class=3D"a3=
+s" style=3D"overflow:hidden">When using cross compiler to build the package=
+ &quot;<span class=3D"il">lsof</span>&quot; on a host,<br>
+the value of LSOF_CCV in version.h genegrated by the Makefile<br>
+is the version of the compiler on the host while it should be<br>
+the version of cross compiler.</div></blockquote></div><br>There&#39;s a be=
+tter version of this patch on the list already - it&#39;s not yet been merg=
+ed which is mostly my fault.</div><div class=3D"gmail_extra"><br></div><div=
+ class=3D"gmail_extra">Ross</div></div>
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
-
+--001a11c3defa76ef2b0508495079--
