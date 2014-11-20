@@ -1,39 +1,30 @@
-Return-Path: <bevenson@melinkcorp.com>
-Received: from na01-by2-obe.outbound.protection.outlook.com
-	(mail-by2on0125.outbound.protection.outlook.com [207.46.100.125])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D43365C78
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B6EF465C78
 	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 19:43:35 +0000 (UTC)
-Received: from BLUPR05MB037.namprd05.prod.outlook.com (10.255.210.145) by
-	BLUPR05MB040.namprd05.prod.outlook.com (10.255.210.156) with Microsoft
-	SMTP Server (TLS) id 15.1.16.15; Thu, 20 Nov 2014 19:43:33 +0000
-Received: from BLUPR05MB037.namprd05.prod.outlook.com ([169.254.7.224]) by
-	BLUPR05MB037.namprd05.prod.outlook.com ([169.254.7.224]) with mapi id
-	15.01.0026.003; Thu, 20 Nov 2014 19:43:34 +0000
-From: Bryan Evenson <bevenson@melinkcorp.com>
-To: "Openembedded-core@lists.openembedded.org"
+	Thu, 20 Nov 2014 20:05:08 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sAKK4UPv008087; Thu, 20 Nov 2014 20:04:30 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id DhWBguzpK8dA; Thu, 20 Nov 2014 20:04:30 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sAKK4HsP008083
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 20 Nov 2014 20:04:29 GMT
+Message-ID: <1416513894.2068.13.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bryan Evenson <bevenson@melinkcorp.com>
+Date: Thu, 20 Nov 2014 20:04:54 +0000
+In-Reply-To: <1273c0d32efd40dda18770de4d5e90b4@BLUPR05MB037.namprd05.prod.outlook.com>
+References: <1273c0d32efd40dda18770de4d5e90b4@BLUPR05MB037.namprd05.prod.outlook.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: "Openembedded-core@lists.openembedded.org"
 	<Openembedded-core@lists.openembedded.org>
-Thread-Topic: Resetting PR for PR service
-Thread-Index: AdAE93K3zIhl51tUQwmy17JexpScUw==
-Date: Thu, 20 Nov 2014 19:43:33 +0000
-Message-ID: <1273c0d32efd40dda18770de4d5e90b4@BLUPR05MB037.namprd05.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-vipre-scanned: 017877F400889601787941
-x-originating-ip: [98.100.91.242]
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:BLUPR05MB040;
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:;SRVR:BLUPR05MB040;
-x-forefront-prvs: 0401647B7F
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(199003)(189002)(107046002)(107886001)(101416001)(92566001)(62966003)(77096003)(77156002)(2351001)(19580395003)(2656002)(86362001)(106356001)(87936001)(76576001)(95666004)(108616004)(99286002)(54356999)(97736003)(105586002)(21056001)(74316001)(4396001)(64706001)(66066001)(122556002)(33646002)(31966008)(110136001)(50986999)(450100001)(46102003)(99396003)(120916001)(229853001)(40100003)(20776003)(24736002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BLUPR05MB040;
-	H:BLUPR05MB037.namprd05.prod.outlook.com; FPR:; MLV:sfv;
-	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
-MIME-Version: 1.0
-X-OriginatorOrg: melinkcorp.com
-Subject: Resetting PR for PR service
+Subject: Re: Resetting PR for PR service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,41 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Nov 2014 19:43:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 20 Nov 2014 20:05:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-SSBhbSBvbiBwb2t5L2R5bGFuIGFuZCBJIGFtIHVzaW5nIHRoZSBQUiBzZXJ2aWNlIGZvciB0aGUg
-Zmlyc3QgdGltZS4gIEF0IHRoaXMgdGltZSBJIGFtIG1ha2luZyBzb21lIGNvc21ldGljIC5iYmFw
-cGVuZCByZWNpcGUgY2hhbmdlcyAocmVvcmRlcmluZyBhbmQgc3BhY2luZyB3aXRoIG5vIGFmZmVj
-dCBvbiB0aGUgZmluYWwgYnVpbHQgcGFja2FnZSkuICBPZiBjb3Vyc2UsIGFmdGVyIHJlYnVpbGRp
-bmcgdGhlIHJlY2lwZSB0aGUgUFIgc2VydmljZSBidW1wZWQgdGhlIFBSIHNpbmNlIGl0IHNhdyBh
-IGNoYW5nZSBpbiB0aGUgbWV0YWRhdGEuICBJIGRvbid0IHdhbnQgdGhpcyBwYWNrYWdlIFBSIHRv
-IGNoYW5nZSBhdCB0aGlzIHRpbWU7IHRoZSBwYWNrYWdlIHdvdWxkICJ1cGdyYWRlIiBvbiB0aGUg
-bmV4dCByZWxlYXNlIGV2ZW4gdGhvdWdoIHRoZSBjb250ZW50cyBhcmUgaWRlbnRpY2FsLiAgSSB3
-b3VsZCBsaWtlIHRvIHJldmVydCB0aGUgUFIgZm9yIHRoaXMgcGFja2FnZSBidXQgSSBhbSBoYXZp
-bmcgZGlmZmljdWx0eS4NCg0KSSBoYWQgbm90IHByZXZpb3VzbHkgdXNlZCB0aGUgUFIgc2Vydmlj
-ZSwgc28gdGhlIG9sZCBwYWNrYWdlIG5hbWUgd2FzIGZvb18xLjAuMC1yMF9hcm05MjZlanN0ZS5p
-cGsuICBBZnRlciBiZWluZyByZWJ1aWx0LCB0aGUgbmV3IHBhY2thZ2UgbmFtZSB3YXMgZm9vXzEu
-MC4wLXIwLjBfYXJtOTI2ZWpzdGUuaXBrIChhZGRlZCB0aGUgLjApLiAgSSB0cmllZCB0byByZXZl
-cnQgdGhlIFBSIGZvciB0aGlzIHBhY2thZ2UgYXMgZm9sbG93czoNCjEuIEV4cG9ydCB0aGUgY3Vy
-cmVudCBQUiBzZXJ2aWNlIGRhdGEgYnkgY2FsbGluZyAiYml0YmFrZS1wcnNlcnYtdG9vbCBleHBv
-cnQgcHJzZXJ2X2V4cG9ydC5pbmMiDQoyLiBNb3ZlZCB0aGUgZmlsZSBjYWNoZS9wcnNlcnYuc3Fs
-aXRlMyB0byBlZmZlY3RpdmVseSBkZWxldGUgdGhlIFBSIFNlcnZpY2UgZGF0YWJhc2UuDQozLiBP
-cGVuZWQgcHJzZXJ2X2V4cG9ydC5pbmMgYW5kIHJlbW92ZWQgdGhlIHR3byBsaW5lcyByZWxhdGVk
-IHRvIHBhY2thZ2UgZm9vLg0KNC4gQ2xlYW5lZCBwYWNrYWdlIGZvbyBieSBjYWxsaW5nICJiaXRi
-YWtlIC1jIGNsZWFuIGZvbyINCjUuIEltcG9ydGVkIHRoZSBQUiBzZXJ2aWNlIGRhdGEgYnkgY2Fs
-bGluZyAiYml0YmFrZS1wcnNlcnYtdG9vbCBpbXBvcnQgcHJzZXJ2X2V4cG9ydC5pbmMiDQo2LiBS
-ZWJ1aWx0IHBhY2thZ2UgZm9vIGJ5IGNhbGxpbmcgImJpdGJha2UgZm9vIg0KDQpBZnRlciBzdGVw
-IDYsIHRoZSByZXN1bHRpbmcgcGFja2FnZSBuYW1lIHdhcyBzdGlsbCBmb29fMS4wLjAtcjAuMF9h
-cm05MjZlanN0ZS5pcGsuICBJcyB0aGVyZSBhIHN0ZXAgSSdtIG1pc3NpbmcgaW4gcmV2ZXJ0aW5n
-IHRoZSBQUiB2YWx1ZT8NCg0KT24gYW5vdGhlciBub3RlLCBJIGRpc2NvdmVyZWQgdGhhdCB0byBp
-bXBvcnQgdGhlIHByc2VydiBkYXRhIHRoZSBmaWxlbmFtZSBuZWVkcyB0byBlbmQgd2l0aCAuaW5j
-LCBvdGhlcndpc2UgeW91IGdldCBhbiBlcnJvciBzdGF0aW5nIHRoYXQgQml0YmFrZSBkb2VzIG5v
-dCBrbm93IHdoYXQgdG8gZG8gd2l0aCB0aGUgZmlsZS4gIE9yIG1vcmUgc3BlY2lmaWNhbGx5LCB0
-aGUgZmlsZSB0byBiZSBpbXBvcnRlZCBhdCBsZWFzdCBjYW4ndCBiZSBhIC50eHQgZXh0ZW5zaW9u
-LiAgSWYgdGhlcmUgaXMgYSBzcGVjaWZpYyBmaWxlIGV4dGVuc2lvbiBuZWVkZWQgZm9yIGltcG9y
-dCwgSSdkIHN1Z2dlc3QgdGhlIGluZm8gYmUgaW5jbHVkZWQgb24gdGhlIFBSIFNlcnZpY2Ugd2lr
-aS4NCg0KUmVnYXJkcywNCkJyeWFuDQoNCg0K
+On Thu, 2014-11-20 at 19:43 +0000, Bryan Evenson wrote:
+> I am on poky/dylan and I am using the PR service for the first time.  At this time I am making some cosmetic .bbappend recipe changes (reordering and spacing with no affect on the final built package).  Of course, after rebuilding the recipe the PR service bumped the PR since it saw a change in the metadata.  I don't want this package PR to change at this time; the package would "upgrade" on the next release even though the contents are identical.  I would like to revert the PR for this package but I am having difficulty.
+> 
+> I had not previously used the PR service, so the old package name was foo_1.0.0-r0_arm926ejste.ipk.  After being rebuilt, the new package name was foo_1.0.0-r0.0_arm926ejste.ipk (added the .0).  I tried to revert the PR for this package as follows:
+> 1. Export the current PR service data by calling "bitbake-prserv-tool export prserv_export.inc"
+> 2. Moved the file cache/prserv.sqlite3 to effectively delete the PR Service database.
+> 3. Opened prserv_export.inc and removed the two lines related to package foo.
+> 4. Cleaned package foo by calling "bitbake -c clean foo"
+
+This is just off the top of my head but have you tried a -c cleansstate
+here?
+
+> 5. Imported the PR service data by calling "bitbake-prserv-tool import prserv_export.inc"
+> 6. Rebuilt package foo by calling "bitbake foo"
+> 
+> After step 6, the resulting package name was still foo_1.0.0-r0.0_arm926ejste.ipk.  Is there a step I'm missing in reverting the PR value?
+> 
+> On another note, I discovered that to import the prserv data the
+> filename needs to end with .inc, otherwise you get an error stating
+> that Bitbake does not know what to do with the file.  Or more
+> specifically, the file to be imported at least can't be a .txt
+> extension.  If there is a specific file extension needed for import,
+> I'd suggest the info be included on the PR Service wiki.
+
+That sounds like a good idea. You should be able to update the wiki?
+
+Cheers,
+
+Richard
+
 
