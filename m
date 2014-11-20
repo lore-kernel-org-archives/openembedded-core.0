@@ -1,30 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B6EF465C78
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 20:05:08 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sAKK4UPv008087; Thu, 20 Nov 2014 20:04:30 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id DhWBguzpK8dA; Thu, 20 Nov 2014 20:04:30 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sAKK4HsP008083
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 20 Nov 2014 20:04:29 GMT
-Message-ID: <1416513894.2068.13.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bryan Evenson <bevenson@melinkcorp.com>
-Date: Thu, 20 Nov 2014 20:04:54 +0000
-In-Reply-To: <1273c0d32efd40dda18770de4d5e90b4@BLUPR05MB037.namprd05.prod.outlook.com>
-References: <1273c0d32efd40dda18770de4d5e90b4@BLUPR05MB037.namprd05.prod.outlook.com>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: Resetting PR for PR service
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 24DA265C78
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Nov 2014 20:32:51 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id f51so2663680qge.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Nov 2014 12:32:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=58YBiAkiTv5Nw0h7AIzaEfUs0d6YMq86FqyTT1selnc=;
+	b=OPxorpYva355cg2u0Z6iN+8EhR+QIeXB6tpgD9D+Equ8B1njSXeg2IOxhysA0Sxeu6
+	1pPyDeQPY2zkrUzaY/MdKiLGkHJKQxdJJFzXUnHpkD4vsJ+78TfBiFKNiLnqzK3xqXIA
+	KnOAhefef/fA+6h1g7mMrAzM8jREXrv40+4nquVClIMQAzvfiKw045u8rqCBGZen2cTK
+	p3joE9Lu+uD1b5lkZL6hz6v6lVLFTio0p9cLJSNnn7U+a28slaUKWuAowyOmdTnIS651
+	fcB8Hbk61RkZ/xeDjtDo9Sh9b8yoML30r3bp0VRwWVerr+4Rkjn46bFLDds96a6vfo/y
+	aQog==
+X-Gm-Message-State: ALoCoQnhhQBvySMhBNKs9VdHx1tYVbAfdcylDMHzOLlUrm/R7tdA5u1L4G903imOEabJUhJ5hdkH
+X-Received: by 10.140.17.67 with SMTP id 61mr327434qgc.59.1416515572236; Thu,
+	20 Nov 2014 12:32:52 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.48.231 with HTTP; Thu, 20 Nov 2014 12:32:31 -0800 (PST)
+In-Reply-To: <1416479292-27377-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+References: <1416479292-27377-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Nov 2014 20:32:31 +0000
+Message-ID: <CAJTo0LYbV0T3fQC+gnnwns3Gmx3rdMtEvxt0pbDz3d2hVe8ybw@mail.gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] serf: fix 'ccache' builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Nov 2014 20:05:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Nov 2014 20:33:01 -0000
+Content-Type: multipart/alternative; boundary=001a11c0fa28809d2a0508503b27
 
-On Thu, 2014-11-20 at 19:43 +0000, Bryan Evenson wrote:
-> I am on poky/dylan and I am using the PR service for the first time.  At this time I am making some cosmetic .bbappend recipe changes (reordering and spacing with no affect on the final built package).  Of course, after rebuilding the recipe the PR service bumped the PR since it saw a change in the metadata.  I don't want this package PR to change at this time; the package would "upgrade" on the next release even though the contents are identical.  I would like to revert the PR for this package but I am having difficulty.
-> 
-> I had not previously used the PR service, so the old package name was foo_1.0.0-r0_arm926ejste.ipk.  After being rebuilt, the new package name was foo_1.0.0-r0.0_arm926ejste.ipk (added the .0).  I tried to revert the PR for this package as follows:
-> 1. Export the current PR service data by calling "bitbake-prserv-tool export prserv_export.inc"
-> 2. Moved the file cache/prserv.sqlite3 to effectively delete the PR Service database.
-> 3. Opened prserv_export.inc and removed the two lines related to package foo.
-> 4. Cleaned package foo by calling "bitbake -c clean foo"
+--001a11c0fa28809d2a0508503b27
+Content-Type: text/plain; charset=UTF-8
 
-This is just off the top of my head but have you tried a -c cleansstate
-here?
+On 20 November 2014 10:28, Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+wrote:
 
-> 5. Imported the PR service data by calling "bitbake-prserv-tool import prserv_export.inc"
-> 6. Rebuilt package foo by calling "bitbake foo"
-> 
-> After step 6, the resulting package name was still foo_1.0.0-r0.0_arm926ejste.ipk.  Is there a step I'm missing in reverting the PR value?
-> 
-> On another note, I discovered that to import the prserv data the
-> filename needs to end with .inc, otherwise you get an error stating
-> that Bitbake does not know what to do with the file.  Or more
-> specifically, the file to be imported at least can't be a .txt
-> extension.  If there is a specific file extension needed for import,
-> I'd suggest the info be included on the PR Service wiki.
+>  meta/recipes-support/serf/serf_1.3.6.bb  |  8 +++-----
+>
 
-That sounds like a good idea. You should be able to update the wiki?
+I've just pulled the 1.3.8 upgrade on this list into my master-under-test
+branch, would you be able to replicate with that version and update the
+patch?
 
-Cheers,
+Ross
 
-Richard
+--001a11c0fa28809d2a0508503b27
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 November 2014 10:28, Enrico Scholz <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:enrico.scholz@sigma-chemnitz.de" target=3D"_blank">enrico.scholz@sigm=
+a-chemnitz.de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
+id=3D":4zs" class=3D"a3s" style=3D"overflow:hidden">=C2=A0meta/recipes-supp=
+ort/serf/<a href=3D"http://serf_1.3.6.bb" target=3D"_blank">serf_1.3.6.bb</=
+a>=C2=A0 |=C2=A0 8 +++-----<br></div></blockquote></div><br>I&#39;ve just p=
+ulled the 1.3.8 upgrade on this list into my master-under-test branch, woul=
+d you be able to replicate with that version and update the patch?</div><di=
+v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
+v>
 
+--001a11c0fa28809d2a0508503b27--
