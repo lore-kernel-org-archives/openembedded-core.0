@@ -1,42 +1,39 @@
-Return-Path: <alexandru.damian@intel.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C3D872062
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CBA765C78
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 16:00:19 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id lj1so2808771pab.32
+	Thu, 20 Nov 2014 18:17:07 +0000 (UTC)
+Received: by mail-vc0-f180.google.com with SMTP id im6so1642012vcb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 08:00:19 -0800 (PST)
+	Thu, 20 Nov 2014 10:17:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=unDKjllI4w64HSKSyX2TI9HKcSWqzXf7eFfUX6fJQ70=;
-	b=m03DD8ISThvEB/dzDXco3N1LhLlCwdjMqLI8eJHtZiyZWtv5rd9u1yWpGdhqx/N/ie
-	prRiduLJDNjWc6SsxJ5uJ0VFrt8CRpsRbk4lOCKXMKS9st4llLDjtcr8RkIxqXrlyrr9
-	dxpPHVlgtsfNe/BoM/wEBYTBwsROY4JDIj1GzYPQ0fMdWOyoZaIxTz6yMzfDZJtCdyYW
-	gy3zRoUrVyDwS8FZ9/iso8MWkqWG5sdSxyZBtlIqBgzfa3xsMjBXGy4lVyFwEaMfgWZi
-	aqAiHvrsJVJnfMCF5D+7PEq4IbuWWP6JwErFQ/O5mmGzBnsVvu1akcmbdbNgvolY8EWZ
-	oK3g==
-X-Gm-Message-State: ALoCoQnU3T8tGXvk4+bBmB9GGmEjCmFdaW6jtCfm/4q5HSCZyWL6/j3Dm+jJ1xNVb1Mvz4vrTYTP
-X-Received: by 10.68.68.197 with SMTP id y5mr40373297pbt.82.1416499218657;
-	Thu, 20 Nov 2014 08:00:18 -0800 (PST)
-Received: from adamian-desk.local ([83.217.123.106])
-	by mx.google.com with ESMTPSA id c1sm2411987pdl.75.2014.11.20.08.00.17
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 20 Nov 2014 08:00:17 -0800 (PST)
-Received: by adamian-desk.local (Postfix, from userid 1000)
-	id 515D8563F4C; Thu, 20 Nov 2014 16:00:14 +0000 (GMT)
-From: Alex DAMIAN <alexandru.damian@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Nov 2014 16:00:10 +0000
-Message-Id: <1416499210-28856-1-git-send-email-alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <CAP9ODKpgZdmNxKP9t=hG_LpN5suJYFwrNCye_EsQU-CxuOYKeg@mail.gmail.com>
-References: <CAP9ODKpgZdmNxKP9t=hG_LpN5suJYFwrNCye_EsQU-CxuOYKeg@mail.gmail.com>
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH 1/1 v2] toaster: add toaster layer configuration files
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=oq/X/DRCP6dKs9fTZRSS7PHS67M8tMKiJ5U1DFbBM1s=;
+	b=dBvyl3CC2xt+RP4akNhipzyINn+DTtA+s9q6GRPdx2NMkET4z/hEprOdhNtUkAXXCd
+	ojidPv+o30ZVLZK+MDKeAuRcBu+wHo9JzZUt4vbvPld0hNiw8lbXMV3c9HKSF0sjCBqg
+	lf4UROP8/rzQ/Oj0bZoYvR966H+bwsGE1CTqmhyFxQvSfhEYg8JOTbi/pJRTOCN6Cml0
+	AUhdmStPw8SQGO5N2dPO6Zd8MIP+0CASmavW7Gv1eL3OJdIEkEjQke/sZbdAZWRVg8cT
+	lKNI9zVCmvPZuT9gfETRz2ssUQ1sca6vXAM+GbAB8htys1qsAA9B3TtHR4tB2TlcV4wc
+	G0Dg==
+X-Gm-Message-State: ALoCoQm/E0z7apd9xQoHnoiruk9+f26YWS0B9xZnohfPy7xZEOHKbhbCPQEO0eG9yZYErS37smvr
+MIME-Version: 1.0
+X-Received: by 10.220.177.138 with SMTP id bi10mr9350493vcb.1.1416507425881;
+	Thu, 20 Nov 2014 10:17:05 -0800 (PST)
+Sender: lpapp@archlinux.us
+Received: by 10.31.188.129 with HTTP; Thu, 20 Nov 2014 10:17:05 -0800 (PST)
+In-Reply-To: <1415101721.23396.20.camel@ted>
+References: <CAOMwXhPbXCQ7ui+J0a8ryekeq5Yy5EXdgt-Qr26Z9w74=vyD5w@mail.gmail.com>
+	<1415101721.23396.20.camel@ted>
+Date: Thu, 20 Nov 2014 18:17:05 +0000
+X-Google-Sender-Auth: FsheYUwDcud2EL9N0Ub5IZ3Sl64
+Message-ID: <CAOMwXhP9GfyYB+_4qjZbcGO86dwWKW3hP3py1k1_Kon0wBiX-w@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Specifying 32 bit dependency for 64 bit software
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,121 +46,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Nov 2014 16:00:22 -0000
+X-List-Received-Date: Thu, 20 Nov 2014 18:17:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+On Tue, Nov 4, 2014 at 11:48 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2014-11-03 at 17:29 +0000, Laszlo Papp wrote:
+>> we have a tool that we run during our make run, but this tool is
+>> hard-coded for 32 bit. It depends on software like ncurses. I could
+>> add ncurses-native in an ideal world; no problem.
+>>
+>> The problem is that my host environment is 64 bit currently and it is
+>> not possible to migrate the whole environment to 32 bit. I am happy to
+>> explain the details if needed, but I would love you to trust me about
+>> that. =)
+>>
+>> So, is it possible to say more than just DEPENDS = ncurses-native,
+>> something like DEPENDS = ncurses-native:x86 or something?
+>
+> How much of a 32 bit system do you have? Do you at least have a 32 bit
+> capable compiler and C libraries?
+>
+> If so, you could use our general class extension mechanism
+> (BBCLASSEXTEND) to allow 32 bit variants of the native recipes, e.g. a
+> "native32" form.
+>
+> Alternatively, a more easier approach would be to build a target like
+> buildtools-tarball with SDKMACHINE="i686" and then install that onto the
+> system you're building on.
 
-In managed mode, Toaster creates project configurations
-based on the layers that are being checked-out on disk.
+I am just back from my long vacation. I am sorry about not replying
+earlier. OK, thank you so much; I will give the buildtools-tarball a
+go.
 
-The defaults are set through a JSON configuration
-file that contains layer-specific specific information.
+Cheers, L.
 
-This patch adds toasterconf.json files for the oe core layer,
-that make Toaster work with a standalone OpenEmbedded-Core checkout.
-
-The toasterconf.json files describe basic configuration for Toaster
-projects, including default layers, default configuration variable values,
-toaster-compatible branches, and the layerindex URL
-where the base layer and compatible layers.
-
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
----
- meta/conf/toasterconf.json | 84 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 84 insertions(+)
- create mode 100644 meta/conf/toasterconf.json
-
-diff --git a/meta/conf/toasterconf.json b/meta/conf/toasterconf.json
-new file mode 100644
-index 0000000..9cadb70
---- /dev/null
-+++ b/meta/conf/toasterconf.json
-@@ -0,0 +1,84 @@
-+{
-+    "config": {"MACHINE": "qemux86", "DISTRO": "poky"},
-+    "layersources": [
-+        {
-+            "name": "Local OE-Core",
-+            "sourcetype": "local",
-+            "apiurl": "../../",
-+            "branches": ["HEAD", "master", "dizzy"],
-+            "layers": [
-+                {
-+                    "name": "openembedded-core",
-+                    "local_path": "meta",
-+                    "vcs_url": "remote:origin",
-+                    "dirpath": "meta"
-+                }
-+            ]
-+        },
-+        {
-+            "name": "OpenEmbedded",
-+            "sourcetype": "layerindex",
-+            "apiurl": "http://layers.openembedded.org/layerindex/api/",
-+            "branches": ["master", "dizzy"]
-+        },
-+        {
-+            "name": "User Imported Layers",
-+            "sourcetype": "imported",
-+            "apiurl": "",
-+            "branches": ["master", "dizzy", "HEAD"]
-+
-+        }
-+    ],
-+    "bitbake" : [
-+        {
-+            "name": "master",
-+            "giturl": "git://git.openembedded.org/bitbake",
-+            "branch": "master",
-+            "dirpath": ""
-+        },
-+        {
-+            "name": "dizzy",
-+            "giturl": "git://git.openembedded.org/bitbake",
-+            "branch": "1.24",
-+            "dirpath": ""
-+        },
-+        {
-+            "name": "HEAD",
-+            "giturl": "git://git.openembedded.org/bitbake",
-+            "branch": "HEAD",
-+            "dirpath": ""
-+        }
-+    ],
-+
-+    "defaultrelease": "master",
-+
-+    "releases": [
-+        {
-+            "name": "master",
-+            "description": "OE-Core master",
-+            "bitbake": "master",
-+            "branch": "master",
-+            "defaultlayers": [ "openembedded-core" ],
-+            "layersourcepriority": { "User Imported Layers": 99, "Local OE-Core" : 10, "OpenEmbedded" :  0 },
-+            "helptext": "Toaster will run your builds using the OpenEmbedded master branch, where active development takes place. This is not a stable branch, so your builds might not work as expected."
-+        },
-+        {
-+            "name": "dizzy",
-+            "description": "OE-Core dizzy",
-+            "bitbake": "dizzy",
-+            "branch": "dizzy",
-+            "defaultlayers": [ "openembedded-core" ],
-+            "layersourcepriority": { "User Imported Layers": 99, "Local OE-Core" : 10, "OpenEmbedded" :  0 },
-+            "helptext": "Toaster will run your builds with the latest OpenEmbedded release, the dizzy branch."
-+        },
-+        {
-+            "name": "local",
-+            "description": "Local Yocto Project",
-+            "bitbake": "HEAD",
-+            "branch": "HEAD",
-+            "defaultlayers": [ "openembedded-core" ],
-+            "layersourcepriority": { "User Imported Layers": 99, "Local OE-Core" : 10, "OpenEmbedded" :  0 },
-+            "helptext": "Toaster will run your builds with the version of the OpenEmbedded that you have cloned or downloaded to your computer."
-+        }
-+    ]
-+}
--- 
-1.9.1
-
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+>
 
