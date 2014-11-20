@@ -1,39 +1,35 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CBA765C78
+Return-Path: <jurobystricky@hotmail.com>
+X-Greylist: delayed 301 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 20 Nov 2014 19:04:15 UTC
+Received: from BAY004-OMC2S14.hotmail.com (bay004-omc2s14.hotmail.com
+	[65.54.190.89])
+	by mail.openembedded.org (Postfix) with ESMTP id 59DE565C78
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 18:17:07 +0000 (UTC)
-Received: by mail-vc0-f180.google.com with SMTP id im6so1642012vcb.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 10:17:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=oq/X/DRCP6dKs9fTZRSS7PHS67M8tMKiJ5U1DFbBM1s=;
-	b=dBvyl3CC2xt+RP4akNhipzyINn+DTtA+s9q6GRPdx2NMkET4z/hEprOdhNtUkAXXCd
-	ojidPv+o30ZVLZK+MDKeAuRcBu+wHo9JzZUt4vbvPld0hNiw8lbXMV3c9HKSF0sjCBqg
-	lf4UROP8/rzQ/Oj0bZoYvR966H+bwsGE1CTqmhyFxQvSfhEYg8JOTbi/pJRTOCN6Cml0
-	AUhdmStPw8SQGO5N2dPO6Zd8MIP+0CASmavW7Gv1eL3OJdIEkEjQke/sZbdAZWRVg8cT
-	lKNI9zVCmvPZuT9gfETRz2ssUQ1sca6vXAM+GbAB8htys1qsAA9B3TtHR4tB2TlcV4wc
-	G0Dg==
-X-Gm-Message-State: ALoCoQm/E0z7apd9xQoHnoiruk9+f26YWS0B9xZnohfPy7xZEOHKbhbCPQEO0eG9yZYErS37smvr
+	Thu, 20 Nov 2014 19:04:15 +0000 (UTC)
+Received: from BAY179-W16 ([65.54.190.125]) by BAY004-OMC2S14.hotmail.com over
+	TLS secured channel with Microsoft SMTPSVC(7.5.7601.22751); 
+	Thu, 20 Nov 2014 10:59:14 -0800
+X-TMN: [dtFTbiAwQpEknk7MqniyesCjd3tp7490]
+X-Originating-Email: [jurobystricky@hotmail.com]
+Message-ID: <BAY179-W1605EEB99827E586C23690BB760@phx.gbl>
+From: Juro Bystricky <jurobystricky@hotmail.com>
+To: Peter Seebach <peter.seebach@windriver.com>
+Date: Thu, 20 Nov 2014 10:59:14 -0800
+Importance: Normal
+In-Reply-To: <20141119140933.4bef2a73@e6410-2>
+References: <cover.1415390286.git.peter.seebach@windriver.com>,
+	<d2ce73488a8afb7a8d10286da138810d30b4a4be.1415390286.git.peter.seebach@windriver.com>,
+	<1415457765.2820.21.camel@linuxfoundation.org>,
+	<1415703324.2820.37.camel@linuxfoundation.org>,
+	<20141111122956.3e842de1@e6410-2>,
+	<loom.20141119T185456-477@post.gmane.org>,
+	<20141119140933.4bef2a73@e6410-2>
 MIME-Version: 1.0
-X-Received: by 10.220.177.138 with SMTP id bi10mr9350493vcb.1.1416507425881;
-	Thu, 20 Nov 2014 10:17:05 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.31.188.129 with HTTP; Thu, 20 Nov 2014 10:17:05 -0800 (PST)
-In-Reply-To: <1415101721.23396.20.camel@ted>
-References: <CAOMwXhPbXCQ7ui+J0a8ryekeq5Yy5EXdgt-Qr26Z9w74=vyD5w@mail.gmail.com>
-	<1415101721.23396.20.camel@ted>
-Date: Thu, 20 Nov 2014 18:17:05 +0000
-X-Google-Sender-Auth: FsheYUwDcud2EL9N0Ub5IZ3Sl64
-Message-ID: <CAOMwXhP9GfyYB+_4qjZbcGO86dwWKW3hP3py1k1_Kon0wBiX-w@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Specifying 32 bit dependency for 64 bit software
+X-OriginalArrivalTime: 20 Nov 2014 18:59:14.0981 (UTC)
+	FILETIME=[141E5D50:01D004F4]
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] eglibc-use-option-groups.patch: Several fixups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,48 +42,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Nov 2014 18:17:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 20 Nov 2014 19:04:24 -0000
+Content-Type: multipart/alternative;
+	boundary="_548fde16-7faa-4bf8-98b0-86c997a1be28_"
 
-On Tue, Nov 4, 2014 at 11:48 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2014-11-03 at 17:29 +0000, Laszlo Papp wrote:
->> we have a tool that we run during our make run, but this tool is
->> hard-coded for 32 bit. It depends on software like ncurses. I could
->> add ncurses-native in an ideal world; no problem.
->>
->> The problem is that my host environment is 64 bit currently and it is
->> not possible to migrate the whole environment to 32 bit. I am happy to
->> explain the details if needed, but I would love you to trust me about
->> that. =)
->>
->> So, is it possible to say more than just DEPENDS = ncurses-native,
->> something like DEPENDS = ncurses-native:x86 or something?
->
-> How much of a 32 bit system do you have? Do you at least have a 32 bit
-> capable compiler and C libraries?
->
-> If so, you could use our general class extension mechanism
-> (BBCLASSEXTEND) to allow 32 bit variants of the native recipes, e.g. a
-> "native32" form.
->
-> Alternatively, a more easier approach would be to build a target like
-> buildtools-tarball with SDKMACHINE="i686" and then install that onto the
-> system you're building on.
+--_548fde16-7faa-4bf8-98b0-86c997a1be28_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-I am just back from my long vacation. I am sorry about not replying
-earlier. OK, thank you so much; I will give the buildtools-tarball a
-go.
+Hello Peter=2C=20
+my concern is that if the file libc-symbols.h is patched like this:
 
-Cheers, L.
+#if defined(__OPTION_EGLIBC_LOCALE_CODE) && __OPTION_EGLIBC_LOCALE_CODE
+# define HAVE_MBSTATE_T    1
+# define HAVE_MBSRTOWCS    1
+#endif
 
->
-> Cheers,
->
-> Richard
->
->
->
->
->
+then it will be ALWAYS evaluated as: =20
 
+#if 0
+# define HAVE_MBSTATE_T    1
+# define HAVE_MBSRTOWCS    1
+#endif
+
+because
+
+#if defined __OPTION_EGLIBC_LOCALE_CODE
+
+will always evaluate as 0.
+
+To test this hypothesis=2C I actually build core-image-minimal with
+an  explicit #error:
+
+#if defined(__OPTION_EGLIBC_LOCALE_CODE) && __OPTION_EGLIBC_LOCALE_CODE
+# error "I was wrong in my assumptions!!!"
+# define HAVE_MBSTATE_T    1
+# define HAVE_MBSRTOWCS    1
+#endif
+
+The image built fine=2C (Though I did not build/ran the glibc testsuite yet=
+=2C nor did I try=20
+to build tiny-poky).=20
+
+I believe the purpose of this patching is simply to unconditionally prevent=
+=20
+suppport for mutibyte character handling if __OPTION_EGLIBC_LOCALE_CODE=3D0=
+=20
+If this is indeed the case=2C then the files posix/fnmatch.c and (possibly =
+posix/fnmatch_loop.c
+may need revised patching. ).
+
+Juro
+
+
+> Date: Wed=2C 19 Nov 2014 14:09:33 -0600
+> From: peter.seebach@windriver.com
+> To: jurobystricky@hotmail.com
+> CC: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 1/1] eglibc-use-option-groups.patch: Severa=
+l fixups
+>=20
+> On Wed=2C 19 Nov 2014 17:59:49 +0000
+> Juro Bystricky <jurobystricky@hotmail.com> wrote:
+>=20
+> > I am not sure why the HAVE_MBSTATE_T needs to be conditioned at all=2C =
+my
+> > understanding is
+> > it is defined if the file <wchar.h> contains type definition "mbstate_t=
+".
+> > This typedef either exists or not and saying it not exists when in fact=
+=20
+> > it does might be confusing (as it already is for me) and I don't see an=
+y=20
+> > relation with __OPTION_EGLIBC_LOCALE_CODE.
+>=20
+> If it's not conditional=2C the build fails when the feature's not include=
+d=2C
+> because one of the test programs attempts to use it. It may be that somet=
+hing
+> else ought to be conditional to make that work. So it might be that your
+> suggested change to fnmatch would fix poky-tiny as well.
+>=20
+> And you're right about the .out.
+>=20
+> -s
+> --=20
+> Listen=2C get this.  Nobody with a good compiler needs to be justified.
+ 		 	   		  =
+
+--_548fde16-7faa-4bf8-98b0-86c997a1be28_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<style><!--
+.hmmessage P
+{
+margin:0px=3B
+padding:0px
+}
+body.hmmessage
+{
+font-size: 12pt=3B
+font-family:Calibri
+}
+--></style></head>
+<body class=3D'hmmessage'><div dir=3D'ltr'>Hello Peter=2C <br>my concern is=
+ that if the file libc-symbols.h is patched like this:<br><br>#if defined(_=
+_OPTION_EGLIBC_LOCALE_CODE) &amp=3B&amp=3B __OPTION_EGLIBC_LOCALE_CODE<br>#=
+ define HAVE_MBSTATE_T&nbsp=3B&nbsp=3B&nbsp=3B 1<br># define HAVE_MBSRTOWCS=
+&nbsp=3B&nbsp=3B&nbsp=3B 1<br>#endif<br><br>then it will be ALWAYS evaluate=
+d as:&nbsp=3B <br><br>#if 0<br># define HAVE_MBSTATE_T&nbsp=3B&nbsp=3B&nbsp=
+=3B 1<br># define HAVE_MBSRTOWCS&nbsp=3B&nbsp=3B&nbsp=3B 1<br>#endif<br><br=
+>because<br><br>#if defined __OPTION_EGLIBC_LOCALE_CODE<br><br>will always =
+evaluate as 0.<br><br>To test this hypothesis=2C I actually build core-imag=
+e-minimal with<br>an&nbsp=3B explicit #error:<br><br>#if defined(__OPTION_E=
+GLIBC_LOCALE_CODE) &amp=3B&amp=3B __OPTION_EGLIBC_LOCALE_CODE<br># error "I=
+ was wrong in my assumptions!!!"<br># define HAVE_MBSTATE_T&nbsp=3B&nbsp=3B=
+&nbsp=3B 1<br># define HAVE_MBSRTOWCS&nbsp=3B&nbsp=3B&nbsp=3B 1<br>#endif<b=
+r><br>The image built fine=2C (Though I did not build/ran the glibc testsui=
+te yet=2C nor did I try <br>to build tiny-poky). <br><br>I believe the purp=
+ose of this patching is simply to unconditionally prevent <br>suppport for =
+mutibyte character handling if __OPTION_EGLIBC_LOCALE_CODE=3D0 <br>If this =
+is indeed the case=2C then the files posix/fnmatch.c and (possibly posix/fn=
+match_loop.c<br>may need revised patching. ).<br><br>Juro<br><br><br><div>&=
+gt=3B Date: Wed=2C 19 Nov 2014 14:09:33 -0600<br>&gt=3B From: peter.seebach=
+@windriver.com<br>&gt=3B To: jurobystricky@hotmail.com<br>&gt=3B CC: openem=
+bedded-core@lists.openembedded.org<br>&gt=3B Subject: Re: [OE-core] [PATCH =
+1/1] eglibc-use-option-groups.patch: Several fixups<br>&gt=3B <br>&gt=3B On=
+ Wed=2C 19 Nov 2014 17:59:49 +0000<br>&gt=3B Juro Bystricky &lt=3Bjurobystr=
+icky@hotmail.com&gt=3B wrote:<br>&gt=3B <br>&gt=3B &gt=3B I am not sure why=
+ the HAVE_MBSTATE_T needs to be conditioned at all=2C my<br>&gt=3B &gt=3B u=
+nderstanding is<br>&gt=3B &gt=3B it is defined if the file &lt=3Bwchar.h&gt=
+=3B contains type definition "mbstate_t".<br>&gt=3B &gt=3B This typedef eit=
+her exists or not and saying it not exists when in fact <br>&gt=3B &gt=3B i=
+t does might be confusing (as it already is for me) and I don't see any <br=
+>&gt=3B &gt=3B relation with __OPTION_EGLIBC_LOCALE_CODE.<br>&gt=3B <br>&gt=
+=3B If it's not conditional=2C the build fails when the feature's not inclu=
+ded=2C<br>&gt=3B because one of the test programs attempts to use it. It ma=
+y be that something<br>&gt=3B else ought to be conditional to make that wor=
+k. So it might be that your<br>&gt=3B suggested change to fnmatch would fix=
+ poky-tiny as well.<br>&gt=3B <br>&gt=3B And you're right about the .out.<b=
+r>&gt=3B <br>&gt=3B -s<br>&gt=3B -- <br>&gt=3B Listen=2C get this.  Nobody =
+with a good compiler needs to be justified.<br></div> 		 	   		  </div></bo=
+dy>
+</html>=
+
+--_548fde16-7faa-4bf8-98b0-86c997a1be28_--
