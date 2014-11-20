@@ -1,22 +1,29 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C33D6AC93
+Return-Path: <Jian.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 389906AC95
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Nov 2014 21:29:56 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Nov 2014 13:29:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,419,1413270000"; d="scan'208";a="610707316"
-Received: from aehernan-devstation.zpn.intel.com ([10.219.4.47])
-	by orsmga001.jf.intel.com with ESMTP; 19 Nov 2014 13:29:56 -0800
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Nov 2014 15:29:53 -0600
-Message-Id: <e9cea26e44e20f5ac9e45cd27056a9302c2e1439.1416432211.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1416432211.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1416432211.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 1/1] cronie: Added default crontab
+	Thu, 20 Nov 2014 02:13:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAK2DMcY016176
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Wed, 19 Nov 2014 18:13:22 -0800 (PST)
+Received: from [128.224.163.134] (128.224.163.134) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Wed, 19 Nov 2014 18:13:22 -0800
+Message-ID: <546D4DC1.7040900@windriver.com>
+Date: Thu, 20 Nov 2014 10:11:13 +0800
+From: Liu Jian <jian.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+To: Dan McGregor <danismostlikely@gmail.com>
+References: <1415958217-16545-1-git-send-email-jian.liu@windriver.com>	<1415958217-16545-4-git-send-email-jian.liu@windriver.com>
+	<CACS+7ZTbE9Tggdpu2g3CyvtpZmyeGw2p5rzha67xZxyMpP2=Jw@mail.gmail.com>
+In-Reply-To: <CACS+7ZTbE9Tggdpu2g3CyvtpZmyeGw2p5rzha67xZxyMpP2=Jw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] logrotate: files will be over written when updating using rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,53 +36,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Nov 2014 21:30:00 -0000
+X-List-Received-Date: Thu, 20 Nov 2014 02:13:33 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060906010205060105070809"
 
-Added default configuration to crontab, for instructive pruposes
+--------------060906010205060105070809
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Added /etc/crontab to CONFFILES to avoid overwriting if updating via PMS
 
-[YOCTO 6644]
+于 2014年11月20日 01:54, Dan McGregor 写道:
+> On 14 November 2014 03:43, Jian Liu <jian.liu@windriver.com> wrote:
+>> If there is no %config micro before the file in the spec file,
+>> this file will be over-written after updating this package
+>> using rpm.
+>> This will make our settings lost.
+>>
+>> Signed-off-by: Jian Liu <jian.liu@windriver.com>
+>> ---
+>>   meta/recipes-extended/logrotate/logrotate_3.8.7.bb | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb b/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
+>> index faa8e02..8b39602 100644
+>> --- a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
+>> +++ b/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
+>> @@ -54,3 +54,5 @@ do_install(){
+>>       install -p -m 755 examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
+>>       touch ${D}${localstatedir}/lib/logrotate.status
+>>   }
+>> +
+>> +CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status"
+> Part of me thinks this shouldn't be an installed file at all; instead
+> it should be created by a post install script if it doesn't already
+> exist. Thoughts?
+It does be contained in rpm package and generated during installation 
+though it is empty.
+It is not created when logrotate is running.
+I test it on our WRL6.0 and WRL7.0
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- meta/recipes-extended/cronie/cronie/crontab   | 6 +++++-
- meta/recipes-extended/cronie/cronie_1.4.12.bb | 3 ++-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+So if you update logrotate, logrotate.status will be overwritten during 
+installation.
+All previous status may be lost.
 
-diff --git a/meta/recipes-extended/cronie/cronie/crontab b/meta/recipes-extended/cronie/cronie/crontab
-index cc9169e..22c4feb 100644
---- a/meta/recipes-extended/cronie/cronie/crontab
-+++ b/meta/recipes-extended/cronie/cronie/crontab
-@@ -7,4 +7,8 @@
- SHELL=/bin/sh
- PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
- 
--# m h dom mon dow user	command
-+#  m  h  dom mon dow user	command
-+#  1  *     * * *    root        cd / && run-parts /etc/cron.hourly
-+# 30  7     * * *    root        cd / && run-parts /etc/cron.daily
-+# 42  7     * * 7    root        cd / && run-parts /etc/cron.weekly
-+# 55  7     1 * *    root        cd / && run-parts /etc/cron.monthly
-diff --git a/meta/recipes-extended/cronie/cronie_1.4.12.bb b/meta/recipes-extended/cronie/cronie_1.4.12.bb
-index e404756..977332b 100644
---- a/meta/recipes-extended/cronie/cronie_1.4.12.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.4.12.bb
-@@ -63,7 +63,7 @@ do_install_append () {
- 	mkdir -p ${D}${sysconfdir}/cron.weekly
- 	mkdir -p ${D}${sysconfdir}/cron.monthly
- 	touch ${D}${sysconfdir}/cron.deny
--	
-+
- 	# below setting is necessary to allow normal user using crontab
- 
- 	# setgid for crontab binary
-@@ -78,3 +78,4 @@ do_install_append () {
- }
- 
- FILES_${PN} += "${sysconfdir}/cron*"
-+CONFFILES_${PN} += "${sysconfdir}/crontab"
+//Liu Jian
+>
+>> --
+>> 1.8.5.2.233.g932f7e4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
 -- 
-1.9.1
+Jian Liu
+Email: jian.liu@windriver.com
+Office Phone: 86-10-84778539
 
 
+--------------060906010205060105070809
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <br>
+    <div class="moz-cite-prefix">于 2014年11月20日 01:54, Dan McGregor 写道:<br>
+    </div>
+    <blockquote
+cite="mid:CACS+7ZTbE9Tggdpu2g3CyvtpZmyeGw2p5rzha67xZxyMpP2=Jw@mail.gmail.com"
+      type="cite">
+      <pre wrap="">On 14 November 2014 03:43, Jian Liu <a class="moz-txt-link-rfc2396E" href="mailto:jian.liu@windriver.com">&lt;jian.liu@windriver.com&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">If there is no %config micro before the file in the spec file,
+this file will be over-written after updating this package
+using rpm.
+This will make our settings lost.
+
+Signed-off-by: Jian Liu <a class="moz-txt-link-rfc2396E" href="mailto:jian.liu@windriver.com">&lt;jian.liu@windriver.com&gt;</a>
+---
+ meta/recipes-extended/logrotate/logrotate_3.8.7.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb b/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
+index faa8e02..8b39602 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
+@@ -54,3 +54,5 @@ do_install(){
+     install -p -m 755 examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
+     touch ${D}${localstatedir}/lib/logrotate.status
+ }
++
++CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status"
+</pre>
+      </blockquote>
+      <pre wrap="">
+Part of me thinks this shouldn't be an installed file at all; instead
+it should be created by a post install script if it doesn't already
+exist. Thoughts?</pre>
+    </blockquote>
+    It does be contained in rpm package and generated during
+    installation though it is 
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    empty. <br>
+    It is not created when logrotate is running. <br>
+    I test it on our WRL6.0 and WRL7.0<br>
+    <br>
+    So if you update logrotate, logrotate.status will be overwritten
+    during installation. <br>
+    All previous status may be lost.<br>
+    <br>
+    //Liu Jian<br>
+    <blockquote
+cite="mid:CACS+7ZTbE9Tggdpu2g3CyvtpZmyeGw2p5rzha67xZxyMpP2=Jw@mail.gmail.com"
+      type="cite">
+      <pre wrap="">
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">--
+1.8.5.2.233.g932f7e4
+
+--
+_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>
+</pre>
+      </blockquote>
+      <pre wrap="">
+
+</pre>
+    </blockquote>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Jian Liu
+Email: <a class="moz-txt-link-abbreviated" href="mailto:jian.liu@windriver.com">jian.liu@windriver.com</a>
+Office Phone: 86-10-84778539</pre>
+  </body>
+</html>
+
+--------------060906010205060105070809--
