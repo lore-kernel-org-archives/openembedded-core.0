@@ -1,21 +1,39 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B9E2765C78
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FA8865C78
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 20:36:49 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 20 Nov 2014 12:34:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="489262737"
-Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.154])
-	by orsmga003.jf.intel.com with ESMTP; 20 Nov 2014 12:34:12 -0800
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Nov 2014 14:37:38 -0600
-Message-Id: <1416515858-7836-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 20 Nov 2014 20:37:20 +0000 (UTC)
+Received: by mail-qc0-f176.google.com with SMTP id i17so2797828qcy.35
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Nov 2014 12:37:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Be5nIn6DZF68QEq7mNsB2ErZR0i/TyS3l6lR6tnI6js=;
+	b=lbTx7dDIRWKEu4oZszuOVB/Y2xOekfLeIQGKMJ4FGIWrJ/VQK/gvqKe3Fn5+OM1XqA
+	xFHvhxDiF+fgbUk0x+c7YyiZmcSYnaAm8fwJHRxP1IUqrbhhwFBevrWLb7fPLZkVKmOv
+	uKl2xkABf5pBpv9wI6Llwb7Jpah8gEs9wP9KVAke/iO98H4XE4ZPkInj8CydU15270Cn
+	vZS/UdFuWdUTMTMxupkpLbdo42qw9t6HitPUWQGFrdLSSVqSRVELQWmriUNgQz3+G7kQ
+	ekvOH0i9wZ8HyWMbk9JRXpkxDtblLL5eeNlCKfQcjLxqteHyRx2Kfg4PCMNNikIDdzbm
+	RTtA==
+X-Gm-Message-State: ALoCoQlTWpG6y869S+NAwfmQCEBd/PcrXy2d0Js6N+sDoaTS4A4tGWjsOB1u32He4TbxycF0prBZ
+X-Received: by 10.140.17.67 with SMTP id 61mr354791qgc.59.1416515841236; Thu,
+	20 Nov 2014 12:37:21 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH][dizzy] package_manager: DpkgPM fix populate_sdk
+Received: by 10.140.48.231 with HTTP; Thu, 20 Nov 2014 12:37:00 -0800 (PST)
+In-Reply-To: <CACS+7ZTbE9Tggdpu2g3CyvtpZmyeGw2p5rzha67xZxyMpP2=Jw@mail.gmail.com>
+References: <1415958217-16545-1-git-send-email-jian.liu@windriver.com>
+	<1415958217-16545-4-git-send-email-jian.liu@windriver.com>
+	<CACS+7ZTbE9Tggdpu2g3CyvtpZmyeGw2p5rzha67xZxyMpP2=Jw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Nov 2014 20:37:00 +0000
+Message-ID: <CAJTo0LZnk9_mhigga3oU0yn8+U3j7GcOBdGCCdpCG0S+w+r0pw@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] logrotate: files will be over written when updating using rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,41 +46,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Nov 2014 20:36:53 -0000
+X-List-Received-Date: Thu, 20 Nov 2014 20:37:25 -0000
+Content-Type: multipart/alternative; boundary=001a11c0fa2889693b0508504ba2
+
+--001a11c0fa2889693b0508504ba2
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-DpkgPM change all_arch_list variable set from PACKAGE_ARCHS to passed
-archs variable because is different when is executed from rootfs.py
-and sdk.py.
+On 19 November 2014 17:54, Dan McGregor <danismostlikely@gmail.com> wrote:
 
-Credits to: Ricardo Ribalda <ricardo.ribalda@gmail.com>
-
-(From OE-Core rev: f6fb8c16f49fd9a2b124ad55f5c4fed82d7e6dca)
-
-[YOCTO #6976]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oe/package_manager.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 27fdf26..19895e5 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1477,7 +1477,7 @@ class DpkgPM(PackageManager):
- 
-         self.apt_args = d.getVar("APT_ARGS", True)
- 
--        self.all_arch_list = self.d.getVar('PACKAGE_ARCHS', True).split()
-+        self.all_arch_list = archs.split()
-         all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS', True) or "").replace('-', '_').split()
-         self.all_arch_list.extend(arch for arch in all_mlb_pkg_arch_list if arch not in self.all_arch_list)
- 
--- 
-1.9.1
+> > +CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status"
+>
+> Part of me thinks this shouldn't be an installed file at all; instead
+> it should be created by a post install script if it doesn't already
+> exist. Thoughts?
 
 
+Agreed - a file in /var/lib doesn't sound sensible considering it's often
+on a tmpfs.
+
+Ross
+
+--001a11c0fa2889693b0508504ba2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 November 2014 17:54, Dan McGregor <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:danismostlikely@gmail.com" target=3D"_blank">danismostlikely@gmail.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">&=
+gt; +CONFFILES_${PN} +=3D &quot;${localstatedir}/lib/logrotate.status&quot;=
+<br>
+<br>
+</span>Part of me thinks this shouldn&#39;t be an installed file at all; in=
+stead<br>
+it should be created by a post install script if it doesn&#39;t already<br>
+exist. Thoughts?</blockquote></div><br>Agreed - a file in /var/lib doesn&#3=
+9;t sound sensible considering it&#39;s often on a tmpfs.</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11c0fa2889693b0508504ba2--
