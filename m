@@ -1,36 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 8112265D4F
+Return-Path: <george.l.musat@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 2742465D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 12:17:38 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id q107so1921843qgd.7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 04:17:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=DzJZRpiy0PoYnIsnReNINmb1VYta10oGHxVJHUAJY/o=;
-	b=L3DVVWa772pDE6EJubmRiBgS61fvv/hgX7r4vDBGHsf5EprTQIyDw6JJuXg/CWn305
-	nrewUKfCKa027RMaHWVyVT6EmK8RSCzz8Lju2OaihgAKBxenLcJDBkutoUTL3y6Ublrq
-	zb9HQcpLRMqnunzIqrhM1JKMmn/HR53aJQYZ3gIisQlH6s8LdHMVdv/QVRKxbjtO74jI
-	LHM0fa4bWcaQUetlDGwT+/2bxCpq3Qn95Uq/jjPLswa3ywVSfybWiHT3Evv6BrfPWeI7
-	DQ49NF0ZPOjbmAc2XWuEa5Y+523NdPUhmv5gj55Se3Udt1nFFBBmAzYhKk1C3aq681qE
-	NOqA==
-X-Gm-Message-State: ALoCoQmZuMq/Ml30JYdb38VprgSZ3XDXBdD7FH93eyLTXlpdd4e4wfvWEtyojM0/BIBuAuQVPeAn
-X-Received: by 10.224.2.135 with SMTP id 7mr61151404qaj.64.1416485859152; Thu,
-	20 Nov 2014 04:17:39 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Thu, 20 Nov 2014 04:17:18 -0800 (PST)
-In-Reply-To: <1416452807-22721-1-git-send-email-jian.liu@windriver.com>
-References: <1416452807-22721-1-git-send-email-jian.liu@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Nov 2014 12:17:18 +0000
-Message-ID: <CAJTo0LYe=+ACx9FqPUQcVLB-YWQGtuiUYY_aG7RZ-y18E3O5SQ@mail.gmail.com>
-To: Jian Liu <jian.liu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lsof: the compiler version fault
+	Thu, 20 Nov 2014 12:29:17 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 20 Nov 2014 04:22:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,423,1413270000"; d="scan'208";a="625483877"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 20 Nov 2014 04:29:17 -0800
+Received: from localhost.localdomain (unknown [10.237.112.174])
+	by linux.intel.com (Postfix) with ESMTP id 6DFDA6A4083;
+	Thu, 20 Nov 2014 04:28:21 -0800 (PST)
+From: Lucian Musat <george.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Nov 2014 14:21:18 +0200
+Message-Id: <1416486078-30122-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] oeqa/runtime: Added some new filters for the log parser Including custom filters for edgerouter, minnow and jasperforest.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,41 +30,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Nov 2014 12:17:46 -0000
-Content-Type: multipart/alternative; boundary=001a11c3defa76ef2b0508495079
+X-List-Received-Date: Thu, 20 Nov 2014 12:29:22 -0000
 
---001a11c3defa76ef2b0508495079
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+---
+ meta/lib/oeqa/runtime/parselogs.py | 36 +++++++++++++++++++++++++++++-------
+ 1 file changed, 29 insertions(+), 7 deletions(-)
 
-On 20 November 2014 03:06, Jian Liu <jian.liu@windriver.com> wrote:
+diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
+index 42cb1b5..19a4f1b 100644
+--- a/meta/lib/oeqa/runtime/parselogs.py
++++ b/meta/lib/oeqa/runtime/parselogs.py
+@@ -7,10 +7,22 @@ from oeqa.utils.decorators import *
+ errors = ["error", "cannot", "can\'t", "failed"]
+ 
+ common_errors = [
+-    '(WW) warning, (EE) error, (NI) not implemented, (??) unknown.',
+-    'dma timeout',
+-    'can\'t add hid device:',
+-    'usbhid: probe of ',
++    "(WW) warning, (EE) error, (NI) not implemented, (??) unknown.",
++    "dma timeout",
++    "can\'t add hid device:",
++    "usbhid: probe of ",
++    "_OSC failed (AE_ERROR)",
++    "_OSC failed (AE_SUPPORT)",
++    "AE_ALREADY_EXISTS"
++    "ACPI _OSC request failed (AE_SUPPORT)"
++    "can\'t disable ASPM",
++    "Failed to load module \"vesa\"",
++    "Failed to load module vesa",
++    "Failed to load module \"modesetting\"",
++    "Failed to load module modesetting",
++    "Failed to load module \"glx\"",
++    "Failed to load module glx",
++    "[drm] Cannot find any crtc or sizes - going 1024x768"
+     ]
+ 
+ x86_common = [
+@@ -24,9 +36,6 @@ qemux86_common = [
+     'Fast TSC calibration', 
+     '_OSC failed (AE_NOT_FOUND); disabling ASPM',
+     'Open ACPI failed (/var/run/acpid.socket) (No such file or directory)',
+-    'Failed to load module "vesa"',
+-    'Failed to load module "modesetting"',
+-    'Failed to load module "glx"',
+     'wrong ELF class',
+ ] + common_errors
+ 
+@@ -54,6 +63,19 @@ ignore_errors = {
+     'crownbay' : x86_common,
+     'genericx86' : x86_common,
+     'genericx86-64' : x86_common,
++    'edgerouter' : [
++        'Fatal server error:',
++        ] + common_errors,
++    'minnow' : [
++        'netlink init failed',
++        'NETLINK INITIALIZATION FAILED',
++        ] + common_errors,
++    'jasperforest' : [
++        'Activated service \'org.bluez\' failed:',
++        'Unable to find NFC netlink family',
++        'netlink init failed',
++        'NETLINK INITIALIZATION FAILED',
++        ] + common_errors,
+ }
+ 
+ log_locations = ["/var/log/","/var/log/dmesg", "/tmp/dmesg_output.log"]
+-- 
+2.1.0
 
-> When using cross compiler to build the package "lsof" on a host,
-> the value of LSOF_CCV in version.h genegrated by the Makefile
-> is the version of the compiler on the host while it should be
-> the version of cross compiler.
->
 
-There's a better version of this patch on the list already - it's not yet
-been merged which is mostly my fault.
-
-Ross
-
---001a11c3defa76ef2b0508495079
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 November 2014 03:06, Jian Liu <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:jian.liu@windriver.com" target=3D"_blank">jian.liu@windriver.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3v8" class=3D"a3=
-s" style=3D"overflow:hidden">When using cross compiler to build the package=
- &quot;<span class=3D"il">lsof</span>&quot; on a host,<br>
-the value of LSOF_CCV in version.h genegrated by the Makefile<br>
-is the version of the compiler on the host while it should be<br>
-the version of cross compiler.</div></blockquote></div><br>There&#39;s a be=
-tter version of this patch on the list already - it&#39;s not yet been merg=
-ed which is mostly my fault.</div><div class=3D"gmail_extra"><br></div><div=
- class=3D"gmail_extra">Ross</div></div>
-
---001a11c3defa76ef2b0508495079--
