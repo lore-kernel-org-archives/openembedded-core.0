@@ -1,36 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 24DA265C78
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 80A9665C78
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 20:32:51 +0000 (UTC)
-Received: by mail-qg0-f45.google.com with SMTP id f51so2663680qge.4
+	Thu, 20 Nov 2014 20:34:51 +0000 (UTC)
+Received: by mail-qg0-f49.google.com with SMTP id a108so2632972qge.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 12:32:52 -0800 (PST)
+	Thu, 20 Nov 2014 12:34:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=58YBiAkiTv5Nw0h7AIzaEfUs0d6YMq86FqyTT1selnc=;
-	b=OPxorpYva355cg2u0Z6iN+8EhR+QIeXB6tpgD9D+Equ8B1njSXeg2IOxhysA0Sxeu6
-	1pPyDeQPY2zkrUzaY/MdKiLGkHJKQxdJJFzXUnHpkD4vsJ+78TfBiFKNiLnqzK3xqXIA
-	KnOAhefef/fA+6h1g7mMrAzM8jREXrv40+4nquVClIMQAzvfiKw045u8rqCBGZen2cTK
-	p3joE9Lu+uD1b5lkZL6hz6v6lVLFTio0p9cLJSNnn7U+a28slaUKWuAowyOmdTnIS651
-	fcB8Hbk61RkZ/xeDjtDo9Sh9b8yoML30r3bp0VRwWVerr+4Rkjn46bFLDds96a6vfo/y
-	aQog==
-X-Gm-Message-State: ALoCoQnhhQBvySMhBNKs9VdHx1tYVbAfdcylDMHzOLlUrm/R7tdA5u1L4G903imOEabJUhJ5hdkH
-X-Received: by 10.140.17.67 with SMTP id 61mr327434qgc.59.1416515572236; Thu,
-	20 Nov 2014 12:32:52 -0800 (PST)
+	bh=eCEsOjmzX08IAKwkE12cVvaaE2Hno+o/zjwbGIDpFJU=;
+	b=PHMzoqo/ma3ntTBIvWOrViOHY+BaMyK5MurgUHQ8sLKBhzt+O+Q3D5nBD2CHUVZzuc
+	RTI+ve3+kN4PwoQCa4W0/CvZeX3tL5j7qi10uhGVVxosQyhHdcAGWdtU+gV9JxyNHyL4
+	5kxUCfr0xhS3QOBDLLxKlm5gTSbM/bwhe7sw9fRdfDev9u06uxT3KxZiO4o+TLuGkCL2
+	j8LFGGGFWbkmeA2EZ/Hr3gl9O/F18CsAuGEbvpsgJluPnc4RIbq1GREkgSYTWkPkro2+
+	LN5UJEZMbNYRXYko4EdBVaNhaI3Nke9ICtfjoR/RBv+PpmL+r5dSOXXWfNn4DiJP4n1j
+	0qrw==
+X-Gm-Message-State: ALoCoQnKDbAhDs+PvtXu069el06HBP0R7rPcSRPYgz5d5q9HH3IjNeqIJO2FyKoW8A7Zi1JBHWry
+X-Received: by 10.224.23.71 with SMTP id q7mr548790qab.22.1416515690402; Thu,
+	20 Nov 2014 12:34:50 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Thu, 20 Nov 2014 12:32:31 -0800 (PST)
-In-Reply-To: <1416479292-27377-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-References: <1416479292-27377-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+Received: by 10.140.48.231 with HTTP; Thu, 20 Nov 2014 12:34:30 -0800 (PST)
+In-Reply-To: <042E875E1B5D414CA9BB78B7D4FA691C13CE7004@IRSMSX102.ger.corp.intel.com>
+References: <042E875E1B5D414CA9BB78B7D4FA691C13CE7004@IRSMSX102.ger.corp.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Nov 2014 20:32:31 +0000
-Message-ID: <CAJTo0LYbV0T3fQC+gnnwns3Gmx3rdMtEvxt0pbDz3d2hVe8ybw@mail.gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] serf: fix 'ccache' builds
+Date: Thu, 20 Nov 2014 20:34:30 +0000
+Message-ID: <CAJTo0Lb9U_xg_sKRBWSigpFXYsBrU8k-DOp3qYxzrZtDYCRboQ@mail.gmail.com>
+To: "Musat, George L" <george.l.musat@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oequa/runtime: Added check for ptest-runner to see if it ran correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Nov 2014 20:33:01 -0000
-Content-Type: multipart/alternative; boundary=001a11c0fa28809d2a0508503b27
+X-List-Received-Date: Thu, 20 Nov 2014 20:34:53 -0000
+Content-Type: multipart/alternative; boundary=001a11c231568bacce0508504213
 
---001a11c0fa28809d2a0508503b27
+--001a11c231568bacce0508504213
 Content-Type: text/plain; charset=UTF-8
 
-On 20 November 2014 10:28, Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-wrote:
+On 19 November 2014 07:49, Musat, George L <george.l.musat@intel.com> wrote:
 
->  meta/recipes-support/serf/serf_1.3.6.bb  |  8 +++-----
+> -        cond = oeRuntimeTest.hasPackage("ptest-runner") and
+> oeRuntimeTest.hasFeature("ptest") and oeRuntimeTest.hasPackage("-ptest")
+>
+> -        if not cond:
+>
+> +        #cond = oeRuntimeTest.hasPackage("ptest-runner") and
+> oeRuntimeTest.hasFeature("ptest") and oeRuntimeTest.hasPackage("-ptest")
+>
+> +        #if not cond:
 >
 
-I've just pulled the 1.3.8 upgrade on this list into my master-under-test
-branch, would you be able to replicate with that version and update the
-patch?
+Git is a perfectly good method of recovering previous code, please don't
+comment out source like this.  Also the commit log should be something like
+"always attempt to install complementary packages" instead of the vague
+"modify condition".
 
 Ross
 
---001a11c0fa28809d2a0508503b27
+--001a11c231568bacce0508504213
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 November 2014 10:28, Enrico Scholz <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:enrico.scholz@sigma-chemnitz.de" target=3D"_blank">enrico.scholz@sigm=
-a-chemnitz.de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
-id=3D":4zs" class=3D"a3s" style=3D"overflow:hidden">=C2=A0meta/recipes-supp=
-ort/serf/<a href=3D"http://serf_1.3.6.bb" target=3D"_blank">serf_1.3.6.bb</=
-a>=C2=A0 |=C2=A0 8 +++-----<br></div></blockquote></div><br>I&#39;ve just p=
-ulled the 1.3.8 upgrade on this list into my master-under-test branch, woul=
-d you be able to replicate with that version and update the patch?</div><di=
-v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
-v>
+On 19 November 2014 07:49, Musat, George L <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:george.l.musat@intel.com" target=3D"_blank">george.l.musat@intel.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p>-=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cond =3D oeRuntimeTest.hasPackage(&quot;ptes=
+t-runner&quot;) and oeRuntimeTest.hasFeature(&quot;ptest&quot;) and oeRunti=
+meTest.hasPackage(&quot;-ptest&quot;)<u></u><u></u></p>
+<p>-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if not cond:<u></u><u></u></=
+p>
+<p>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #cond =3D oeRuntimeTest.hasP=
+ackage(&quot;ptest-runner&quot;) and oeRuntimeTest.hasFeature(&quot;ptest&q=
+uot;) and oeRuntimeTest.hasPackage(&quot;-ptest&quot;)<u></u><u></u></p>
+<p>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #if not cond:</p></blockquot=
+e></div><br>Git is a perfectly good method of recovering previous code, ple=
+ase don&#39;t comment out source like this.=C2=A0 Also the commit log shoul=
+d be something like &quot;always attempt to install complementary packages&=
+quot; instead of the vague &quot;modify condition&quot;.</div><div class=3D=
+"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a11c0fa28809d2a0508503b27--
+--001a11c231568bacce0508504213--
