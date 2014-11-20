@@ -1,37 +1,39 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f52.google.com (mail-yh0-f52.google.com
-	[209.85.213.52])
-	by mail.openembedded.org (Postfix) with ESMTP id A46D865D4F
+Return-Path: <alexandru.damian@intel.com>
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A83F721B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 13:39:18 +0000 (UTC)
-Received: by mail-yh0-f52.google.com with SMTP id z6so1327616yhz.11
+	Thu, 20 Nov 2014 14:33:33 +0000 (UTC)
+Received: by mail-pd0-f170.google.com with SMTP id fp1so3189749pdb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 05:39:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=Iv7A9ZNixyLVmSLwVXgVu39zDs6U6zWxH8VFX9FkB3k=;
-	b=kSozTvCIUBbX7vIb2T0/W5VC6eWfLKRM8FNjZngd06jYV6fJTnYHlT3Y+p6w55ht1G
-	+F8i6BVLelX7AC3M/D7QFlQquUg/D9u20hPB1QfbfLJmFOlAHGWc9yFq+8+Gloi22dYP
-	SqLsblg5bnM55dFUzRPfkGzJgbko+NIMDFmwrKJaqqUS1FoxSrGiaJD5DHNH1WpO9PZE
-	lkIoXEwlLSTgkRFSltruBRUzKeWq07yZvX2vNqRZQgKdVzmqbyG2p2bPAO3ljGhdxTdq
-	4U/4h7e1aB7gsY7FUOS/N6+6K4ayJ/fff3P0S4CHIADBH72Sxs+iCKVBMGZEyi99N7/6
-	sgIw==
-MIME-Version: 1.0
-X-Received: by 10.236.164.232 with SMTP id c68mr618760yhl.102.1416490759102;
-	Thu, 20 Nov 2014 05:39:19 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.172.8 with HTTP; Thu, 20 Nov 2014 05:39:19 -0800 (PST)
-In-Reply-To: <1416477996-13841-1-git-send-email-B40290@freescale.com>
-References: <1416477996-13841-1-git-send-email-B40290@freescale.com>
-Date: Thu, 20 Nov 2014 11:39:19 -0200
-X-Google-Sender-Auth: Eyt50-SkHkKVSsQr4KxPBxtNwLw
-Message-ID: <CAP9ODKrqNDd4eWZDTwuH=4XvC=+wfq2gCE1enRTWKD6ge48Rpg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Chunrong Guo <B40290@freescale.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] u-boot.inc : add compile multiple u-boot feature
+	Thu, 20 Nov 2014 06:33:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=AJ/sjT54KUaQOq2j483/0OBOvWWR+McxEUD6e1NC8ag=;
+	b=SmA3k2SiXSMiZ0J3LaZ9BgjVUhj5n1CWsjD5QothVoPNk0oRmHumOsJco19ghj09zh
+	lnt+14LfpB3jZHbwDhIqT8OeOtqTOpu5V6E6YtnDdaOf1uKn4+NqrsSi3b1yOBNg83m7
+	0S7np0q5Z6fmMWUStPDXN42gT9rcG8c87hznpJBdwmRxdOWBJ/0LIm+713KbdGFQ9puq
+	2cV4zjFazuq/t7rkTy1zFlqm+FWsWnDf6rwY4GxOBD9C/oLlpmXu8erL7U3yFdGWbHGL
+	qHrz86cAeCdrs5xBnZyQNXqQ+CwXpxUN+ng1KE85KradvVcXOGdxvWvwANR+xjpLwTqz
+	nM8w==
+X-Gm-Message-State: ALoCoQlusSEUV9kImOF8q4F/1hV/EePcLfEAzKzIL8N2aAJBa4yT18d3DJ93IM0eyTA0q6fH/vMY
+X-Received: by 10.66.140.102 with SMTP id rf6mr56469346pab.1.1416494014237;
+	Thu, 20 Nov 2014 06:33:34 -0800 (PST)
+Received: from adamian-desk.local ([83.217.123.106])
+	by mx.google.com with ESMTPSA id x10sm2286834pdr.11.2014.11.20.06.33.33
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 20 Nov 2014 06:33:33 -0800 (PST)
+Received: by adamian-desk.local (Postfix, from userid 1000)
+	id D18F3563E83; Thu, 20 Nov 2014 14:33:30 +0000 (GMT)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Nov 2014 14:33:28 +0000
+Message-Id: <1416494008-13794-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: [PATCH] toaster: add toaster layer configuration files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,117 +46,227 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Nov 2014 13:39:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 20 Nov 2014 14:33:42 -0000
 
-On Thu, Nov 20, 2014 at 8:06 AM, Chunrong Guo <B40290@freescale.com> wrote:
-> Signed-off-by: Chunrong Guo <B40290@freescale.com>
-> ---
->  meta/recipes-bsp/u-boot/u-boot.inc | 42 ++++++++++++++------------------------
->  1 file changed, 15 insertions(+), 27 deletions(-)
->
-> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-> index c695b73..f420061 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -24,6 +24,7 @@ UBOOT_LOCALVERSION ?= ""
->  # Some versions of u-boot use .bin and others use .img.  By default use .bin
->  # but enable individual recipes to change this value.
->  UBOOT_SUFFIX ??= "bin"
-> +UBOOT_DEF_IMAGE ?= ""
->  UBOOT_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
->  UBOOT_BINARY ?= "u-boot.${UBOOT_SUFFIX}"
->  UBOOT_SYMLINK ?= "u-boot-${MACHINE}.${UBOOT_SUFFIX}"
-> @@ -33,9 +34,6 @@ UBOOT_MAKE_TARGET ?= "all"
->  # should be packaged along with the u-boot binary as well as placed in the
->  # deploy directory.  For those versions they can set the following variables
->  # to allow packaging the SPL.
-> -SPL_BINARY ?= ""
-> -SPL_IMAGE ?= "${SPL_BINARY}-${MACHINE}-${PV}-${PR}"
-> -SPL_SYMLINK ?= "${SPL_BINARY}-${MACHINE}"
->
->  # Additional environment variables or a script can be installed alongside
->  # u-boot to be used automatically on boot.  This file, typically 'uEnv.txt'
-> @@ -63,25 +61,25 @@ do_compile () {
->                 echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
->         fi
->
-> -       oe_runmake ${UBOOT_MACHINE}
-> -       oe_runmake ${UBOOT_MAKE_TARGET}
-> +
-> +    for type in ${UBOOT_MACHINE}; do
-> +           oe_runmake O=${type} ${type}
-> +           oe_runmake O=${type} ${UBOOT_MAKE_TARGET}
-> +        cp  ${S}/${type}/${UBOOT_BINARY}  ${S}/${type}/u-boot-${type}.bin
-> +    done
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-You are mixing indenting levels here; please fix.
+In managed mode, Toaster tries to create project configuration
+based on the layers that are being checked-out on disk.
 
->  }
->
->  do_install () {
-> -    install -d ${D}/boot
-> -    install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
-> -    ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
->
-> +    for type in ${UBOOT_MACHINE}; do
-> +        install -d ${D}/boot
-> +        install ${S}/${type}/u-boot-${type}.bin ${D}/boot/u-boot-${type}.bin
-> +    done
->      if [ -e ${WORKDIR}/fw_env.config ] ; then
->          install -d ${D}${sysconfdir}
->          install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
->      fi
->
-> -    if [ "x${SPL_BINARY}" != "x" ]
-> -    then
-> -        install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-> -        ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
-> -    fi
+This is done by using a JSON configuration file that is layer-specific.
 
-You seem to have broken the SPL support here.
+This patch adds toasterconf.json files to the oe core layer, for usage
+with a standalone OpenEmbedded-Core checkout, and to the meta-yocto
+layer for usage with Poky checkouts.
 
->      if [ "x${UBOOT_ENV}" != "x" ]
->      then
-> @@ -93,21 +91,11 @@ do_install () {
->  FILES_${PN} = "/boot ${sysconfdir}"
->
->  do_deploy () {
-> -    install -d ${DEPLOYDIR}
-> -    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
->
-> -    cd ${DEPLOYDIR}
-> -    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
-> -    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-> -    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
-> -
-> -    if [ "x${SPL_BINARY}" != "x" ]
-> -    then
-> -        install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
-> -        rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
-> -        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
-> -        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
-> -    fi
-> +    for type in ${UBOOT_MACHINE}; do
-> +        install -d ${DEPLOYDIR}
-> +        install ${S}/${type}/u-boot-${type}.bin ${DEPLOYDIR}/u-boot-${type}.bin
-> +    done
->
->      if [ "x${UBOOT_ENV}" != "x" ]
->      then
-> --
-> 1.9.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The toasterconf.json files describe basic configuration
+for Toaster projects, including default layers,
+default configuration variable values,
+toaster-compatible branches, and the layerindex URL
+where the base layer and compatible layers.
 
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+---
+ meta-yocto/conf/toasterconf.json | 97 ++++++++++++++++++++++++++++++++++++++++
+ meta/conf/toasterconf.json       | 84 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 181 insertions(+)
+ create mode 100644 meta-yocto/conf/toasterconf.json
+ create mode 100644 meta/conf/toasterconf.json
 
-
+diff --git a/meta-yocto/conf/toasterconf.json b/meta-yocto/conf/toasterconf.json
+new file mode 100644
+index 0000000..fa333de
+--- /dev/null
++++ b/meta-yocto/conf/toasterconf.json
+@@ -0,0 +1,97 @@
++{
++    "config": {"MACHINE": "qemux86", "DISTRO": "poky"},
++    "layersources": [
++        {
++            "name": "Local Poky",
++            "sourcetype": "local",
++            "apiurl": "../../",
++            "branches": ["HEAD", "master", "dizzy"],
++            "layers": [
++                {
++                    "name": "openembedded-core",
++                    "local_path": "meta",
++                    "vcs_url": "remote:origin",
++                    "dirpath": "meta"
++                },
++                {
++                    "name": "meta-yocto",
++                    "local_path": "meta",
++                    "vcs_url": "remote:origin",
++                    "dirpath": "meta-yocto"
++                },
++                {
++                    "name": "meta-yocto-bsp",
++                    "local_path": "meta",
++                    "vcs_url": "remote:origin",
++                    "dirpath": "meta-yocto-bsp"
++                }
++
++            ]
++        },
++        {
++            "name": "OpenEmbedded",
++            "sourcetype": "layerindex",
++            "apiurl": "http://layers.openembedded.org/layerindex/api/",
++            "branches": ["master", "dizzy"]
++        },
++        {
++            "name": "User Imported Layers",
++            "sourcetype": "imported",
++            "apiurl": "",
++            "branches": ["master", "dizzy", "HEAD"]
++
++        }
++    ],
++    "bitbake" : [
++        {
++            "name": "master",
++            "giturl": "remote:origin",
++            "branch": "master",
++            "dirpath": "bitbake"
++        },
++        {
++            "name": "dizzy",
++            "giturl": "remote:origin",
++            "branch": "dizzy",
++            "dirpath": "bitbake"
++        },
++        {
++            "name": "HEAD",
++            "giturl": "remote:origin",
++            "branch": "HEAD",
++            "dirpath": "bitbake"
++        }
++    ],
++
++    "defaultrelease": "master",
++
++    "releases": [
++        {
++            "name": "master",
++            "description": "Yocto Project master",
++            "bitbake": "master",
++            "branch": "master",
++            "defaultlayers": [ "openembedded-core", "meta-yocto", "meta-yocto-bsp"],
++	    "layersourcepriority": { "User Imported Layers": 99, "Local Poky" : 10, "OpenEmbedded" :  0 },
++            "helptext": "Toaster will run your builds using the <a href=\"http://git.yoctoproject.org/cgit/cgit.cgi/poky/log/\">Yocto Project master branch</a>, where active development takes place. This is not a stable branch, so your builds might not work as expected."
++        },
++        {
++            "name": "dizzy",
++            "description": "Yocto Project 1.7 Dizzy",
++            "bitbake": "dizzy",
++            "branch": "dizzy",
++            "defaultlayers": [ "openembedded-core", "meta-yocto", "meta-yocto-bsp"],
++	    "layersourcepriority": { "User Imported Layers": 99, "Local Poky" : 10, "OpenEmbedded" :  0 },
++            "helptext": "Toaster will run your builds with the latest Yocto Project release, <a href=\"https://www.yoctoproject.org/downloads/core/dizzy17\">1.7 \"Dizzy\"</a>"
++        },
++        {
++            "name": "local",
++            "description": "Local Yocto Project",
++            "bitbake": "HEAD",
++            "branch": "HEAD",
++            "defaultlayers": [ "openembedded-core", "meta-yocto", "meta-yocto-bsp"],
++	    "layersourcepriority": { "User Imported Layers": 99, "Local Poky" : 10, "OpenEmbedded" :  0 },
++            "helptext": "Toaster will run your builds with the version of the Yocto Project you have cloned or downloaded to your computer."
++        }
++    ]
++}
+diff --git a/meta/conf/toasterconf.json b/meta/conf/toasterconf.json
+new file mode 100644
+index 0000000..9cadb70
+--- /dev/null
++++ b/meta/conf/toasterconf.json
+@@ -0,0 +1,84 @@
++{
++    "config": {"MACHINE": "qemux86", "DISTRO": "poky"},
++    "layersources": [
++        {
++            "name": "Local OE-Core",
++            "sourcetype": "local",
++            "apiurl": "../../",
++            "branches": ["HEAD", "master", "dizzy"],
++            "layers": [
++                {
++                    "name": "openembedded-core",
++                    "local_path": "meta",
++                    "vcs_url": "remote:origin",
++                    "dirpath": "meta"
++                }
++            ]
++        },
++        {
++            "name": "OpenEmbedded",
++            "sourcetype": "layerindex",
++            "apiurl": "http://layers.openembedded.org/layerindex/api/",
++            "branches": ["master", "dizzy"]
++        },
++        {
++            "name": "User Imported Layers",
++            "sourcetype": "imported",
++            "apiurl": "",
++            "branches": ["master", "dizzy", "HEAD"]
++
++        }
++    ],
++    "bitbake" : [
++        {
++            "name": "master",
++            "giturl": "git://git.openembedded.org/bitbake",
++            "branch": "master",
++            "dirpath": ""
++        },
++        {
++            "name": "dizzy",
++            "giturl": "git://git.openembedded.org/bitbake",
++            "branch": "1.24",
++            "dirpath": ""
++        },
++        {
++            "name": "HEAD",
++            "giturl": "git://git.openembedded.org/bitbake",
++            "branch": "HEAD",
++            "dirpath": ""
++        }
++    ],
++
++    "defaultrelease": "master",
++
++    "releases": [
++        {
++            "name": "master",
++            "description": "OE-Core master",
++            "bitbake": "master",
++            "branch": "master",
++            "defaultlayers": [ "openembedded-core" ],
++	    "layersourcepriority": { "User Imported Layers": 99, "Local OE-Core" : 10, "OpenEmbedded" :  0 },
++            "helptext": "Toaster will run your builds using the OpenEmbedded master branch, where active development takes place. This is not a stable branch, so your builds might not work as expected."
++        },
++        {
++            "name": "dizzy",
++            "description": "OE-Core dizzy",
++            "bitbake": "dizzy",
++            "branch": "dizzy",
++            "defaultlayers": [ "openembedded-core" ],
++	    "layersourcepriority": { "User Imported Layers": 99, "Local OE-Core" : 10, "OpenEmbedded" :  0 },
++            "helptext": "Toaster will run your builds with the latest OpenEmbedded release, the dizzy branch."
++        },
++        {
++            "name": "local",
++            "description": "Local Yocto Project",
++            "bitbake": "HEAD",
++            "branch": "HEAD",
++            "defaultlayers": [ "openembedded-core" ],
++	    "layersourcepriority": { "User Imported Layers": 99, "Local OE-Core" : 10, "OpenEmbedded" :  0 },
++            "helptext": "Toaster will run your builds with the version of the OpenEmbedded that you have cloned or downloaded to your computer."
++        }
++    ]
++}
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.9.1
+
 
