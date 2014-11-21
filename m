@@ -1,26 +1,26 @@
 Return-Path: <Jian.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5944A72165
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C3EE572146
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Nov 2014 09:17:21 +0000 (UTC)
+	Fri, 21 Nov 2014 09:17:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAL9HM5i007123
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAL9HNHI011167
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Nov 2014 01:17:22 -0800 (PST)
+	Fri, 21 Nov 2014 01:17:23 -0800 (PST)
 Received: from localhost.localdomain (128.224.153.42) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 21 Nov 2014 01:17:21 -0800
+	14.3.174.1; Fri, 21 Nov 2014 01:17:22 -0800
 From: Jian Liu <jian.liu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 21 Nov 2014 17:17:12 +0800
-Message-ID: <1416561434-17862-4-git-send-email-jian.liu@windriver.com>
+Date: Fri, 21 Nov 2014 17:17:13 +0800
+Message-ID: <1416561434-17862-5-git-send-email-jian.liu@windriver.com>
 X-Mailer: git-send-email 1.7.0.5
 In-Reply-To: <1416561434-17862-1-git-send-email-jian.liu@windriver.com>
 References: <1416561434-17862-1-git-send-email-jian.liu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 3/5] logrotate: avoid overwritting editable files during package updating
+Subject: [PATCH V2 4/5] libpam: avoid overwritting editable files during package updating
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,7 +37,11 @@ X-List-Received-Date: Fri, 21 Nov 2014 09:17:22 -0000
 Content-Type: text/plain
 
 Use CONFFILES to mark editable files as such,
-  /var/lib/logrotate.status
+  /etc/pam.d/common-session 
+  /etc/pam.d/common-auth
+  /etc/pam.d/common-password
+  /etc/pam.d/common-session-noninteractive
+  /etc/pam.d/common-account
 
 If there is no %config micro before the file name in the spec file,
 this file will be overwritten after updating package. 
@@ -45,19 +49,23 @@ This will make our settings lost.
 
 Signed-off-by: Jian Liu <jian.liu@windriver.com>
 ---
- meta/recipes-extended/logrotate/logrotate_3.8.7.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-extended/pam/libpam_1.1.6.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb b/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
-index faa8e02..8b39602 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
-@@ -54,3 +54,5 @@ do_install(){
-     install -p -m 755 examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
-     touch ${D}${localstatedir}/lib/logrotate.status
- }
+diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
+index 3b6d514..b3b39da 100644
+--- a/meta/recipes-extended/pam/libpam_1.1.6.bb
++++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
+@@ -163,3 +163,9 @@ python do_pam_sanity () {
+ addtask pam_sanity before do_configure
+ 
+ BBCLASSEXTEND = "nativesdk native"
 +
-+CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status"
++CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-session"
++CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-auth"
++CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-password"
++CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-session-noninteractive"
++CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-account"
 -- 
 1.8.5.2.233.g932f7e4
 
