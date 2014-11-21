@@ -1,24 +1,37 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 05A0E6B7CA
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 23F8D6AC82
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Nov 2014 09:50:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAL9ox88007444
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Fri, 21 Nov 2014 10:00:02 +0000 (UTC)
+Received: by mail-qg0-f54.google.com with SMTP id q107so3437747qgd.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Nov 2014 01:50:59 -0800 (PST)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 21 Nov 2014 01:50:58 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 21 Nov 2014 04:50:57 -0500
-Message-ID: <1416563457-2367-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
+	Fri, 21 Nov 2014 02:00:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=7Tgznzs3CKCp+yvkxhoqt8iSr1J+3GUVUxKsEHD/CgQ=;
+	b=al7/Xh8oa3wMderM2kMiKbnZb/ZhEAcuZYRNlYlIogYXVIW3lK7k9ZH9tLpWGa2oYt
+	RsPG1SmA++8CVOelsH64l0ikksoSzYaUl1No2FWSUB+ihRQS1bGjcPwG/6i0Atc8eOHt
+	lnm91sLM9ke3CzH9zRwLXjS1ovNVXiOUejSJTIt5VpNrUgZFSFbC/mvP0OCh4BIwmoze
+	pPLMcmUDZYs4l8v40oDUQcULkKvopEVv/4qeFzgS5Kf1Oa08cku4Y8ECikJQolhUM/RZ
+	/aqmv7snzcXferzmJ8MHFcKJgWSja2MzstyvCZF5gT59G2G/+TAyt/RWKKpQzz4Kd7jo
+	x2sw==
+X-Received: by 10.229.7.138 with SMTP id d10mr5284153qcd.18.1416564003224;
+	Fri, 21 Nov 2014 02:00:03 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] gzip: fix MakeMaker issues with using wrong SHELL/GREP
+Sender: paul.betafive@gmail.com
+Received: by 10.140.143.146 with HTTP; Fri, 21 Nov 2014 01:59:23 -0800 (PST)
+In-Reply-To: <9961c270f19bef3da7ca624737d7526bebbc7f0d.1416559751.git.Qi.Chen@windriver.com>
+References: <cover.1416559751.git.Qi.Chen@windriver.com>
+	<9961c270f19bef3da7ca624737d7526bebbc7f0d.1416559751.git.Qi.Chen@windriver.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Fri, 21 Nov 2014 09:59:23 +0000
+X-Google-Sender-Auth: KLPSYFk5HFbgOlCQMG_OskhCOp8
+Message-ID: <CANyK_8c8Wo3iaKtKe0tFMcQsA-+gz2M96eMbcyBw==FVo80nzw@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] opkg-utils: fix double slash problem in update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,79 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Nov 2014 09:51:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 21 Nov 2014 10:00:10 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On 21 November 2014 08:50, Chen Qi <Qi.Chen@windriver.com> wrote:
+> When using update-alternatives, we would get output like the following:
+> update-alternatives: Linking //usr/bin/sh to /usr/bin/bash
+>
+> What we really want is:
+> update-alternatives: Linking /usr/bin/sh to /usr/bin/bash
+>
+> This patch fixes the above problem.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 
-A set of substitution is being processed to all target scripts with sed by
-replacing some key words with the detected values at configure time, this
-is exactly not compliant with cross compling, and will cause missing path
-errors at run time like:
-"/usr/bin/zgrep: line 230: /usr/bin/grep: No such file or directory"
+opkg-utils is part of Yocto Project. Could you submit this as a change
+to opkg-utils itself and then send a SRCREV update for oe-core?
+Submission guidelines are under "Submitting patches for review" in
+the CONTRIBUTING file in opkg-utils
+(http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/tree/CONTRIBUTING).
 
-Fixed by removing unneeded substitution and using real runtime paths
-instead.
+The patch looks pretty straightforward so I should be able to give it
+a quick test and merge it to opkg-utils early next week.
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../gzip/gzip-1.6/wrong-path-fix.patch             | 31 ++++++++++++++++++++++
- meta/recipes-extended/gzip/gzip.inc                |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-extended/gzip/gzip-1.6/wrong-path-fix.patch
+Cheers,
 
-diff --git a/meta/recipes-extended/gzip/gzip-1.6/wrong-path-fix.patch b/meta/recipes-extended/gzip/gzip-1.6/wrong-path-fix.patch
-new file mode 100644
-index 0000000..92863d6
---- /dev/null
-+++ b/meta/recipes-extended/gzip/gzip-1.6/wrong-path-fix.patch
-@@ -0,0 +1,31 @@
-+fix MakeMaker issues with using wrong SHELL/GREP
-+
-+A set of substitution is being processed to all target scripts with sed by
-+replacing some key words with the detected values at configure time, this
-+is exactly not compliant with cross compling, and will cause missing path
-+errors at run time like:
-+"/usr/bin/zgrep: line 230: /usr/bin/grep: No such file or directory"
-+
-+Fixed by removing unneeded substitution and using real runtime paths
-+instead.
-+
-+Signed-off-by: Ming Liu <ming.liu@windriver.com>
-+
-+Upstream-Status: Pending
-+
-+Index: gzip-1.3.12/Makefile.am
-+===================================================================
-+diff -urpN a/Makefile.am b/Makefile.am
-+--- a/Makefile.am	2013-11-30 10:06:09.402234871 +0800
-++++ b/Makefile.am	2013-11-30 10:13:42.952236025 +0800
-+@@ -81,9 +81,8 @@ gzip.doc.gz: gzip.doc $(bin_PROGRAMS)
-+ SUFFIXES = .in
-+ .in:
-+ 	$(AM_V_GEN)sed \
-+-		-e 's|/bin/sh|$(SHELL)|g' \
-+ 		-e 's|[@]bindir@|'\''$(bindir)'\''|g' \
-+-		-e 's|[@]GREP@|$(GREP)|g' \
-++		-e 's|[@]GREP@|$(base_bindir)/grep|g' \
-+ 		-e 's|[@]VERSION@|$(VERSION)|g' \
-+ 		$(srcdir)/$@.in >$@-t \
-+ 	  && chmod a+x $@-t \
-diff --git a/meta/recipes-extended/gzip/gzip.inc b/meta/recipes-extended/gzip/gzip.inc
-index 671b1eb..b90856e 100644
---- a/meta/recipes-extended/gzip/gzip.inc
-+++ b/meta/recipes-extended/gzip/gzip.inc
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://gzip.h;beginline=8;endline=20;md5=6e47caaa630e0c8bf9f1bc8d94a8ed0e"
- 
- SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz"
-+SRC_URI_append_class-target = " file://wrong-path-fix.patch"
- 
- inherit autotools texinfo
- 
 -- 
-2.0.0
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
