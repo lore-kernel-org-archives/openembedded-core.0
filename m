@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A2EB172123
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E7735721D9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Nov 2014 07:27:44 +0000 (UTC)
+	Fri, 21 Nov 2014 07:27:43 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAL7RjcX005946
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAL7RhFI021259
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Nov 2014 23:27:45 -0800 (PST)
+	Thu, 20 Nov 2014 23:27:43 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 20 Nov 2014 23:27:44 -0800
+	14.3.174.1; Thu, 20 Nov 2014 23:27:43 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 21 Nov 2014 15:27:47 +0800
-Message-ID: <9c7d48d4e2c931c5cd5873f6fa1dcb0fedfeb790.1416554582.git.Qi.Chen@windriver.com>
+Date: Fri, 21 Nov 2014 15:27:46 +0800
+Message-ID: <eec4166509e494d1e0e6e36798eb4f5ebeec312f.1416554582.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1416554582.git.Qi.Chen@windriver.com>
 References: <cover.1416554582.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 2/2] shadow: use ALTERNATIVE to manage 'nologin'
+Subject: [PATCH V2 1/2] util-linux: use ALTERNATIVE mechanism to manage 'nologin'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,43 +36,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 21 Nov 2014 07:27:45 -0000
 Content-Type: text/plain
 
-Both util-linux and shadow provide 'nologin', so use the ALTERNATIVE
-mechanism in OE to manage it.
+Both shadow and util-linux provide 'nologin' command, so use the
+ALTERNATIVE mechanism in OE to manage it.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-extended/shadow/shadow.inc | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/recipes-core/util-linux/util-linux.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 14c7281..81924e2 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -146,18 +146,23 @@ do_install_append() {
- 	# Handle link properly after rename, otherwise missing files would
- 	# lead rpm failed dependencies.
- 	ln -sf newgrp.${BPN} ${D}${bindir}/sg
-+
-+	# mv nologin to nologin.${BPN}
-+	mv ${D}${base_sbindir}/nologin ${D}${base_sbindir}/nologin.${BPN}
- }
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index a37efe9..1c45485 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -170,7 +170,7 @@ ALTERNATIVE_PRIORITY = "100"
  
- inherit update-alternatives
+ ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root"
+ ALTERNATIVE_${PN} += "mkfs.minix hexdump last logger mesg renice wall"
+-ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject sulogin"
++ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject sulogin nologin"
  
- ALTERNATIVE_PRIORITY = "200"
- 
--ALTERNATIVE_${PN} = "passwd chfn newgrp chsh groups chpasswd login vipw vigr su"
-+ALTERNATIVE_${PN} = "passwd chfn newgrp chsh groups chpasswd login vipw vigr su nologin"
- ALTERNATIVE_LINK_NAME[chpasswd] = "${sbindir}/chpasswd"
- ALTERNATIVE_LINK_NAME[login] = "${base_bindir}/login"
- ALTERNATIVE_LINK_NAME[vipw] = "${base_sbindir}/vipw"
- ALTERNATIVE_LINK_NAME[vigr] = "${base_sbindir}/vigr"
- ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
+ ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+ ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
+@@ -181,6 +181,7 @@ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
+ ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
+ ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+ ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
 +ALTERNATIVE_LINK_NAME[nologin] = "${sbindir}/nologin"
-+ALTERNATIVE_TARGET[nologin] = "${base_sbindir}/nologin.${BPN}"
  
- ALTERNATIVE_${PN}-doc = "passwd.5 getspnam.3"
- ALTERNATIVE_LINK_NAME[passwd.5] = "${mandir}/man5/passwd.5"
+ ALTERNATIVE_${PN}-doc = "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utmpdump.1 reset.1"
+ 
 -- 
 1.9.1
 
