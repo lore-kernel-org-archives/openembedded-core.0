@@ -1,41 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 14701721E5;
-	Fri, 21 Nov 2014 14:38:36 +0000 (UTC)
-Received: by mail-wg0-f47.google.com with SMTP id n12so6782116wgh.34
-	for <multiple recipients>; Fri, 21 Nov 2014 06:38:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=eC460eSotBKZt9ddLg37Oj4fRR69tHYPdAtrfTwjgQ8=;
-	b=KqHT8KoLbBzutK8cO0U0myK8TzEWgXhNj5rMOuzU4GNBqf1j4iT/oYFGYWa7065rMv
-	7Yj1m0EOakNoi//xO/IaT4GHV2QX5r59/N5XN3Mg4RkXmzvWDo8R2DvkGv6qqF1D2hPS
-	8+qUlhxZE8HDq7lCgEQaTn2hHS21e3UnrkYhpz4OGzZMUcHzsr1dERU6QXwaRuGfUHek
-	W0DVvkpny/BLezXbiinkN3N/LXFKLYotrj8pXVYgWFulanBKw1legljp2qqueAR4O5DB
-	gt1MLq5rvQ/8B2ts81Vm2nGrCkE/sPa/MadLP5Qz7eazTxIy5tGV2qTU1ZEr8agOrVnO
-	0BSA==
-X-Received: by 10.194.81.6 with SMTP id v6mr7915269wjx.39.1416580289484;
-	Fri, 21 Nov 2014 06:31:29 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	r10sm8977219wiy.19.2014.11.21.06.31.28 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 21 Nov 2014 06:31:28 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 21 Nov 2014 15:31:31 +0100
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20141121143131.GL2163@jama>
-References: <20141112153903.E7E7F50273@opal.openembedded.org>
-	<20141121140133.GE2163@jama>
-	<CAJTo0LYjQqu-VWVrmTU=6BWm8b6g+9yOiv=xcMZLquJ3jEbLaA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYjQqu-VWVrmTU=6BWm8b6g+9yOiv=xcMZLquJ3jEbLaA@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: "openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Ross Burton : vala: upgrade to 0.26.1
+Return-Path: <tom.zanussi@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 034C072160
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Nov 2014 16:07:53 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Nov 2014 08:07:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,432,1413270000"; 
+	d="scan'208,223";a="635966523"
+Received: from smoffitt-mobl.ger.corp.intel.com (HELO localhost)
+	([10.255.13.176])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Nov 2014 08:07:53 -0800
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: akuster808@gmail.com,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 21 Nov 2014 10:07:49 -0600
+Message-Id: <cover.1416585198.git.tom.zanussi@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 0/6][dizzy] some wic bugfixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,59 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Nov 2014 14:38:41 -0000
-X-Groupsio-MsgNum: 59824
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="WkHPBKJ2pKcVUM5H"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 21 Nov 2014 16:07:57 -0000
 
---WkHPBKJ2pKcVUM5H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From the original posting:
 
-On Fri, Nov 21, 2014 at 02:04:17PM +0000, Burton, Ross wrote:
-> On 21 November 2014 14:01, Martin Jansa <martin.jansa@gmail.com> wrote:
->=20
-> > > vala: upgrade to 0.26.1
-> > >
-> > > vapigen can't be disabled anymore, so remove --disable-vapigen.
-> > >
-> > > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> >
-> > Was this needed and tested with some real world applications?
-> >
-> > Or was it tested only because package index was showing possible
-> > upgrade?
-> >
-> > Causes couple failures in world builds:
-> >
->=20
-> Yes and yes (the new rygel that I'm about to submit to meta-multimedia).
->=20
-> I don't have those layers checked out - are they failing because they want
-> a specific version of vala, or some other reason?
+This patchset fixes a couple serious wic bugs:
 
-xfce4-vala fails to detect libvala version, other apps are failing in
-valac so they need to be updated to be compatible with new vala
+[YOCTO #6863] - Wic fails to create a working image for a large file system
+[YOCTO #6290] - Update WIC for gummiboot
 
-See logs in:
-http://lists.openembedded.org/pipermail/openembedded-core/2014-November/099=
-113.html
+I generated core-image-sdk images for each of the wic image types and
+was able to fsck/mount the resulting filesystems.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+These should be applied to the next dizzy point release.
 
---WkHPBKJ2pKcVUM5H
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+The following changes since commit e69653b01dd8ad9fda2355b8112a65c813ce7fd5:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+  tzdata: update to 2014j (2014-11-17 08:01:21 -0800)
 
-iEYEARECAAYFAlRvTMMACgkQN1Ujt2V2gBxZVwCeJnshls7ACMrGSZDkY1+ZLrs+
-RigAnjewzc+BwwjLFr//fYNtbpRO9QTP
-=a6wO
------END PGP SIGNATURE-----
+are available in the git repository at:
 
---WkHPBKJ2pKcVUM5H--
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/dizzy-next
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/dizzy-next
+
+Tom Zanussi (6):
+  wic: Don't allow mkfs to fail silently in partition command
+  wic: Use overhead factor when creating partitions from rootfs
+    directories
+  wic: Update the help text to include -D (--debug)
+  Revert "wic: set bootimg_dir when using image-name artifacts"
+  wic: Remove special-case bootimg_dir
+  wic: Update bootimg-partition to use bootimg_dir
+
+ scripts/lib/image/engine.py                        | 42 +++++-----------------
+ scripts/lib/image/help.py                          | 23 ++++++++----
+ scripts/lib/wic/imager/direct.py                   |  5 +--
+ .../lib/wic/kickstart/custom_commands/partition.py | 24 +++++++++----
+ scripts/lib/wic/plugins/imager/direct_plugin.py    | 20 +++++------
+ scripts/lib/wic/plugins/source/bootimg-efi.py      |  5 ++-
+ .../lib/wic/plugins/source/bootimg-partition.py    |  9 +++--
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py   |  3 +-
+ scripts/lib/wic/utils/oe/misc.py                   |  1 +
+ scripts/wic                                        | 13 +++----
+ 10 files changed, 68 insertions(+), 77 deletions(-)
+
+-- 
+1.9.3
+
+
