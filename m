@@ -1,45 +1,55 @@
 Return-Path: <B40290@freescale.com>
-X-Greylist: delayed 60488 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 21 Nov 2014 03:28:41 UTC
 Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2on0134.outbound.protection.outlook.com [65.55.169.134])
-	by mail.openembedded.org (Postfix) with ESMTP id 477236A9FE
+	(mail-bl2on0112.outbound.protection.outlook.com [65.55.169.112])
+	by mail.openembedded.org (Postfix) with ESMTP id 61B516A9FE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Nov 2014 03:28:41 +0000 (UTC)
-Received: from BY2PR03MB441.namprd03.prod.outlook.com (10.141.141.142) by
-	BY2PR03MB442.namprd03.prod.outlook.com (10.141.141.145) with Microsoft
-	SMTP Server (TLS) id 15.1.16.15; Fri, 21 Nov 2014 03:28:40 +0000
-Received: from BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) by
-	BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) with mapi id
-	15.01.0016.006; Fri, 21 Nov 2014 03:28:40 +0000
-From: "B40290@freescale.com" <B40290@freescale.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Thread-Topic: [OE-core] [PATCH 2/2] u-boot.inc : add compile multiple u-boot
-	feature
-Thread-Index: AQHQBMdkDZiKS+f+cUuRQKv4LBxQU5xqX+JA
-Date: Fri, 21 Nov 2014 03:28:40 +0000
-Message-ID: <b922d73bb68345b5989401a77426c885@BY2PR03MB441.namprd03.prod.outlook.com>
-References: <1416477996-13841-1-git-send-email-B40290@freescale.com>
-	<CAP9ODKrqNDd4eWZDTwuH=4XvC=+wfq2gCE1enRTWKD6ge48Rpg@mail.gmail.com>
-In-Reply-To: <CAP9ODKrqNDd4eWZDTwuH=4XvC=+wfq2gCE1enRTWKD6ge48Rpg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [123.151.195.52]
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB442;
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB442;
-x-forefront-prvs: 0402872DA1
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(13464003)(199003)(164054003)(24454002)(189002)(51704005)(377454003)(110136001)(33646002)(20776003)(62966003)(77156002)(64706001)(74316001)(66066001)(76576001)(16601075003)(108616004)(122556002)(120916001)(40100003)(50986999)(54356999)(76176999)(106356001)(106116001)(86362001)(105586002)(19580405001)(19580395003)(92566001)(107046002)(15202345003)(21056001)(15975445006)(31966008)(101416001)(2656002)(87936001)(99396003)(99286002)(97736003)(4396001)(46102003)(95666004)(24736002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BY2PR03MB442;
-	H:BY2PR03MB441.namprd03.prod.outlook.com; FPR:; MLV:sfv;
-	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
+	Fri, 21 Nov 2014 05:34:21 +0000 (UTC)
+Received: from CO2PR03CA0019.namprd03.prod.outlook.com (10.141.194.146) by
+	CY1PR0301MB1193.namprd03.prod.outlook.com (25.160.165.24) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.16.15; Fri, 21 Nov 2014 05:34:20 +0000
+Received: from BL2FFO11FD058.protection.gbl (2a01:111:f400:7c09::174) by
+	CO2PR03CA0019.outlook.office365.com (2a01:111:e400:1414::18) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.26.15 via Frontend Transport; Fri, 21 Nov 2014
+	05:34:20 +0000
+Received: from tx30smr01.am.freescale.net (192.88.168.50) by
+	BL2FFO11FD058.mail.protection.outlook.com (10.173.161.186) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.6.13 via Frontend Transport; Fri, 21 Nov 2014
+	05:34:19 +0000
+Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.75])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	sAL5YGuA026734; Thu, 20 Nov 2014 22:34:17 -0700
+From: Chunrong Guo <B40290@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 21 Nov 2014 13:34:10 +0800
+Message-ID: <1416548050-18829-1-git-send-email-B40290@freescale.com>
+X-Mailer: git-send-email 1.9.2
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10019020)(6009001)(189002)(199003)(86362001)(50226001)(36756003)(93916002)(95666004)(50466002)(4396001)(92566001)(92726001)(105606002)(31966008)(48376002)(21056001)(229853001)(64706001)(20776003)(47776003)(104016003)(102836001)(87936001)(84676001)(87286001)(104166001)(450100001)(62966003)(77156002)(89996001)(88136002)(19580395003)(106466001)(107046002)(97736003)(44976005)(110136001)(2351001)(6806004)(46102003)(50986999)(68736004)(19580405001)(120916001)(99396003);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB1193;
+	H:tx30smr01.am.freescale.net; FPR:; MLV:sfv;
+	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
+X-Microsoft-Antispam: UriScan:;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:CY1PR0301MB1193;
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
+	SRVR:CY1PR0301MB1193; 
+X-Forefront-PRVS: 0402872DA1
+Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
+	designate 192.88.168.50 as permitted sender)
+	receiver=protection.outlook.com; 
+	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
+Authentication-Results: spf=fail (sender IP is 192.88.168.50)
+	smtp.mailfrom=B40290@freescale.com; 
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
+	SRVR:CY1PR0301MB1193; 
 X-OriginatorOrg: freescale.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] u-boot.inc : add compile multiple u-boot feature
+Subject: [PATCH v1 2/2] u-boot.inc : add compile multiple u-boot feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,90 +62,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Nov 2014 03:28:50 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 21 Nov 2014 05:34:24 -0000
+Content-Type: text/plain
 
-SGVsbG8gLCBTYWx2YWRvcg0KDQpUaGFuayB5b3UgZm9yIHlvdXIgY29tbWVudHMuDQoNClVib290
-IGNvbmZpZyBpbmNsdWRlcyBTUEwgdHlwZS4NClNvIEkgdGhpbmsgc3BsIHR5cGUgc2hvdWxkIGJl
-IHRoZSBzYW1lIGJ1aWx0IHdpdGggb3RoZXIgdWJvb3QgY29uZmlnIHR5cGUuDQoNClRoYW5rcywN
-CmNodW5yb25nICANCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IG90YXZpby5z
-YWx2YWRvckBnbWFpbC5jb20gW21haWx0bzpvdGF2aW8uc2FsdmFkb3JAZ21haWwuY29tXSBPbiBC
-ZWhhbGYgT2YgT3RhdmlvIFNhbHZhZG9yDQpTZW50OiBUaHVyc2RheSwgTm92ZW1iZXIgMjAsIDIw
-MTQgOTozOSBQTQ0KVG86IEd1byBDaHVucm9uZy1CNDAyOTANCkNjOiBQYXRjaGVzIGFuZCBkaXNj
-dXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
-UEFUQ0ggMi8yXSB1LWJvb3QuaW5jIDogYWRkIGNvbXBpbGUgbXVsdGlwbGUgdS1ib290IGZlYXR1
-cmUNCg0KT24gVGh1LCBOb3YgMjAsIDIwMTQgYXQgODowNiBBTSwgQ2h1bnJvbmcgR3VvIDxCNDAy
-OTBAZnJlZXNjYWxlLmNvbT4gd3JvdGU6DQo+IFNpZ25lZC1vZmYtYnk6IENodW5yb25nIEd1byA8
-QjQwMjkwQGZyZWVzY2FsZS5jb20+DQo+IC0tLQ0KPiAgbWV0YS9yZWNpcGVzLWJzcC91LWJvb3Qv
-dS1ib290LmluYyB8IDQyIA0KPiArKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKyksIDI3IGRlbGV0aW9ucygtKQ0K
-Pg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LmluYyANCj4g
-Yi9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3QuaW5jDQo+IGluZGV4IGM2OTViNzMuLmY0
-MjAwNjEgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdC5pbmMN
-Cj4gKysrIGIvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LmluYw0KPiBAQCAtMjQsNiAr
-MjQsNyBAQCBVQk9PVF9MT0NBTFZFUlNJT04gPz0gIiINCj4gICMgU29tZSB2ZXJzaW9ucyBvZiB1
-LWJvb3QgdXNlIC5iaW4gYW5kIG90aGVycyB1c2UgLmltZy4gIEJ5IGRlZmF1bHQgDQo+IHVzZSAu
-YmluICAjIGJ1dCBlbmFibGUgaW5kaXZpZHVhbCByZWNpcGVzIHRvIGNoYW5nZSB0aGlzIHZhbHVl
-Lg0KPiAgVUJPT1RfU1VGRklYID8/PSAiYmluIg0KPiArVUJPT1RfREVGX0lNQUdFID89ICIiDQo+
-ICBVQk9PVF9JTUFHRSA/PSAidS1ib290LSR7TUFDSElORX0tJHtQVn0tJHtQUn0uJHtVQk9PVF9T
-VUZGSVh9Ig0KPiAgVUJPT1RfQklOQVJZID89ICJ1LWJvb3QuJHtVQk9PVF9TVUZGSVh9Ig0KPiAg
-VUJPT1RfU1lNTElOSyA/PSAidS1ib290LSR7TUFDSElORX0uJHtVQk9PVF9TVUZGSVh9Ig0KPiBA
-QCAtMzMsOSArMzQsNiBAQCBVQk9PVF9NQUtFX1RBUkdFVCA/PSAiYWxsIg0KPiAgIyBzaG91bGQg
-YmUgcGFja2FnZWQgYWxvbmcgd2l0aCB0aGUgdS1ib290IGJpbmFyeSBhcyB3ZWxsIGFzIHBsYWNl
-ZCANCj4gaW4gdGhlICAjIGRlcGxveSBkaXJlY3RvcnkuICBGb3IgdGhvc2UgdmVyc2lvbnMgdGhl
-eSBjYW4gc2V0IHRoZSANCj4gZm9sbG93aW5nIHZhcmlhYmxlcyAgIyB0byBhbGxvdyBwYWNrYWdp
-bmcgdGhlIFNQTC4NCj4gLVNQTF9CSU5BUlkgPz0gIiINCj4gLVNQTF9JTUFHRSA/PSAiJHtTUExf
-QklOQVJZfS0ke01BQ0hJTkV9LSR7UFZ9LSR7UFJ9Ig0KPiAtU1BMX1NZTUxJTksgPz0gIiR7U1BM
-X0JJTkFSWX0tJHtNQUNISU5FfSINCj4NCj4gICMgQWRkaXRpb25hbCBlbnZpcm9ubWVudCB2YXJp
-YWJsZXMgb3IgYSBzY3JpcHQgY2FuIGJlIGluc3RhbGxlZCANCj4gYWxvbmdzaWRlICAjIHUtYm9v
-dCB0byBiZSB1c2VkIGF1dG9tYXRpY2FsbHkgb24gYm9vdC4gIFRoaXMgZmlsZSwgdHlwaWNhbGx5
-ICd1RW52LnR4dCcNCj4gQEAgLTYzLDI1ICs2MSwyNSBAQCBkb19jb21waWxlICgpIHsNCj4gICAg
-ICAgICAgICAgICAgIGVjaG8gJHtVQk9PVF9MT0NBTFZFUlNJT059ID4gJHtTfS8uc2NtdmVyc2lv
-bg0KPiAgICAgICAgIGZpDQo+DQo+IC0gICAgICAgb2VfcnVubWFrZSAke1VCT09UX01BQ0hJTkV9
-DQo+IC0gICAgICAgb2VfcnVubWFrZSAke1VCT09UX01BS0VfVEFSR0VUfQ0KPiArDQo+ICsgICAg
-Zm9yIHR5cGUgaW4gJHtVQk9PVF9NQUNISU5FfTsgZG8NCj4gKyAgICAgICAgICAgb2VfcnVubWFr
-ZSBPPSR7dHlwZX0gJHt0eXBlfQ0KPiArICAgICAgICAgICBvZV9ydW5tYWtlIE89JHt0eXBlfSAk
-e1VCT09UX01BS0VfVEFSR0VUfQ0KPiArICAgICAgICBjcCAgJHtTfS8ke3R5cGV9LyR7VUJPT1Rf
-QklOQVJZfSAgJHtTfS8ke3R5cGV9L3UtYm9vdC0ke3R5cGV9LmJpbg0KPiArICAgIGRvbmUNCg0K
-WW91IGFyZSBtaXhpbmcgaW5kZW50aW5nIGxldmVscyBoZXJlOyBwbGVhc2UgZml4Lg0KDQo+ICB9
-DQo+DQo+ICBkb19pbnN0YWxsICgpIHsNCj4gLSAgICBpbnN0YWxsIC1kICR7RH0vYm9vdA0KPiAt
-ICAgIGluc3RhbGwgJHtTfS8ke1VCT09UX0JJTkFSWX0gJHtEfS9ib290LyR7VUJPT1RfSU1BR0V9
-DQo+IC0gICAgbG4gLXNmICR7VUJPT1RfSU1BR0V9ICR7RH0vYm9vdC8ke1VCT09UX0JJTkFSWX0N
-Cj4NCj4gKyAgICBmb3IgdHlwZSBpbiAke1VCT09UX01BQ0hJTkV9OyBkbw0KPiArICAgICAgICBp
-bnN0YWxsIC1kICR7RH0vYm9vdA0KPiArICAgICAgICBpbnN0YWxsICR7U30vJHt0eXBlfS91LWJv
-b3QtJHt0eXBlfS5iaW4gJHtEfS9ib290L3UtYm9vdC0ke3R5cGV9LmJpbg0KPiArICAgIGRvbmUN
-Cj4gICAgICBpZiBbIC1lICR7V09SS0RJUn0vZndfZW52LmNvbmZpZyBdIDsgdGhlbg0KPiAgICAg
-ICAgICBpbnN0YWxsIC1kICR7RH0ke3N5c2NvbmZkaXJ9DQo+ICAgICAgICAgIGluc3RhbGwgLW0g
-NjQ0ICR7V09SS0RJUn0vZndfZW52LmNvbmZpZyAke0R9JHtzeXNjb25mZGlyfS9md19lbnYuY29u
-ZmlnDQo+ICAgICAgZmkNCj4NCj4gLSAgICBpZiBbICJ4JHtTUExfQklOQVJZfSIgIT0gIngiIF0N
-Cj4gLSAgICB0aGVuDQo+IC0gICAgICAgIGluc3RhbGwgJHtTfS8ke1NQTF9CSU5BUll9ICR7RH0v
-Ym9vdC8ke1NQTF9JTUFHRX0NCj4gLSAgICAgICAgbG4gLXNmICR7U1BMX0lNQUdFfSAke0R9L2Jv
-b3QvJHtTUExfQklOQVJZfQ0KPiAtICAgIGZpDQoNCllvdSBzZWVtIHRvIGhhdmUgYnJva2VuIHRo
-ZSBTUEwgc3VwcG9ydCBoZXJlLg0KDQo+ICAgICAgaWYgWyAieCR7VUJPT1RfRU5WfSIgIT0gIngi
-IF0NCj4gICAgICB0aGVuDQo+IEBAIC05MywyMSArOTEsMTEgQEAgZG9faW5zdGFsbCAoKSB7DQo+
-ICBGSUxFU18ke1BOfSA9ICIvYm9vdCAke3N5c2NvbmZkaXJ9Ig0KPg0KPiAgZG9fZGVwbG95ICgp
-IHsNCj4gLSAgICBpbnN0YWxsIC1kICR7REVQTE9ZRElSfQ0KPiAtICAgIGluc3RhbGwgJHtTfS8k
-e1VCT09UX0JJTkFSWX0gJHtERVBMT1lESVJ9LyR7VUJPT1RfSU1BR0V9DQo+DQo+IC0gICAgY2Qg
-JHtERVBMT1lESVJ9DQo+IC0gICAgcm0gLWYgJHtVQk9PVF9CSU5BUll9ICR7VUJPT1RfU1lNTElO
-S30NCj4gLSAgICBsbiAtc2YgJHtVQk9PVF9JTUFHRX0gJHtVQk9PVF9TWU1MSU5LfQ0KPiAtICAg
-IGxuIC1zZiAke1VCT09UX0lNQUdFfSAke1VCT09UX0JJTkFSWX0NCj4gLQ0KPiAtICAgIGlmIFsg
-Ingke1NQTF9CSU5BUll9IiAhPSAieCIgXQ0KPiAtICAgIHRoZW4NCj4gLSAgICAgICAgaW5zdGFs
-bCAke1N9LyR7U1BMX0JJTkFSWX0gJHtERVBMT1lESVJ9LyR7U1BMX0lNQUdFfQ0KPiAtICAgICAg
-ICBybSAtZiAke0RFUExPWURJUn0vJHtTUExfQklOQVJZfSAke0RFUExPWURJUn0vJHtTUExfU1lN
-TElOS30NCj4gLSAgICAgICAgbG4gLXNmICR7U1BMX0lNQUdFfSAke0RFUExPWURJUn0vJHtTUExf
-QklOQVJZfQ0KPiAtICAgICAgICBsbiAtc2YgJHtTUExfSU1BR0V9ICR7REVQTE9ZRElSfS8ke1NQ
-TF9TWU1MSU5LfQ0KPiAtICAgIGZpDQo+ICsgICAgZm9yIHR5cGUgaW4gJHtVQk9PVF9NQUNISU5F
-fTsgZG8NCj4gKyAgICAgICAgaW5zdGFsbCAtZCAke0RFUExPWURJUn0NCj4gKyAgICAgICAgaW5z
-dGFsbCAke1N9LyR7dHlwZX0vdS1ib290LSR7dHlwZX0uYmluICR7REVQTE9ZRElSfS91LWJvb3Qt
-JHt0eXBlfS5iaW4NCj4gKyAgICBkb25lDQo+DQo+ICAgICAgaWYgWyAieCR7VUJPT1RfRU5WfSIg
-IT0gIngiIF0NCj4gICAgICB0aGVuDQo+IC0tDQo+IDEuOS4yDQo+DQo+IC0tDQo+IF9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+IE9wZW5lbWJlZGRlZC1j
-b3JlIG1haWxpbmcgbGlzdA0KPiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnDQo+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3Bl
-bmVtYmVkZGVkLWNvcmUNCg0KDQoNCi0tIA0KT3RhdmlvIFNhbHZhZG9yICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBPLlMuIFN5c3RlbXMNCmh0dHA6Ly93d3cub3NzeXN0ZW1zLmNvbS5iciAg
-ICAgICAgaHR0cDovL2NvZGUub3NzeXN0ZW1zLmNvbS5icg0KTW9iaWxlOiArNTUgKDUzKSA5OTgx
-LTc4NTQgICAgICAgICAgICBNb2JpbGU6ICsxICgzNDcpIDkwMy05NzUwDQo=
+Signed-off-by: Chunrong Guo <B40290@freescale.com>
+---
+ meta/recipes-bsp/u-boot/u-boot.inc | 42 ++++++++++++++------------------------
+ 1 file changed, 15 insertions(+), 27 deletions(-)
+
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index c695b73..d107a10 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -24,6 +24,7 @@ UBOOT_LOCALVERSION ?= ""
+ # Some versions of u-boot use .bin and others use .img.  By default use .bin
+ # but enable individual recipes to change this value.
+ UBOOT_SUFFIX ??= "bin"
++UBOOT_DEF_IMAGE ?= ""
+ UBOOT_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.${UBOOT_SUFFIX}"
+ UBOOT_BINARY ?= "u-boot.${UBOOT_SUFFIX}"
+ UBOOT_SYMLINK ?= "u-boot-${MACHINE}.${UBOOT_SUFFIX}"
+@@ -33,9 +34,6 @@ UBOOT_MAKE_TARGET ?= "all"
+ # should be packaged along with the u-boot binary as well as placed in the
+ # deploy directory.  For those versions they can set the following variables
+ # to allow packaging the SPL.
+-SPL_BINARY ?= ""
+-SPL_IMAGE ?= "${SPL_BINARY}-${MACHINE}-${PV}-${PR}"
+-SPL_SYMLINK ?= "${SPL_BINARY}-${MACHINE}"
+ 
+ # Additional environment variables or a script can be installed alongside
+ # u-boot to be used automatically on boot.  This file, typically 'uEnv.txt'
+@@ -63,25 +61,25 @@ do_compile () {
+ 		echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
+ 	fi
+ 
+-	oe_runmake ${UBOOT_MACHINE}
+-	oe_runmake ${UBOOT_MAKE_TARGET}
++
++        for type in ${UBOOT_MACHINE}; do
++	    oe_runmake O=${type} ${type}
++	    oe_runmake O=${type} ${UBOOT_MAKE_TARGET}
++            cp  ${S}/${type}/${UBOOT_BINARY}  ${S}/${type}/u-boot-${type}.bin
++        done
+ }
+ 
+ do_install () {
+-    install -d ${D}/boot
+-    install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
+-    ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
+ 
++    for type in ${UBOOT_MACHINE}; do
++        install -d ${D}/boot
++        install ${S}/${type}/u-boot-${type}.bin ${D}/boot/u-boot-${type}.bin
++    done
+     if [ -e ${WORKDIR}/fw_env.config ] ; then
+         install -d ${D}${sysconfdir}
+         install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
+     fi
+ 
+-    if [ "x${SPL_BINARY}" != "x" ]
+-    then
+-        install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
+-        ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
+-    fi
+ 
+     if [ "x${UBOOT_ENV}" != "x" ]
+     then
+@@ -93,21 +91,11 @@ do_install () {
+ FILES_${PN} = "/boot ${sysconfdir}"
+ 
+ do_deploy () {
+-    install -d ${DEPLOYDIR}
+-    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+ 
+-    cd ${DEPLOYDIR}
+-    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
+-    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
+-    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
+-
+-    if [ "x${SPL_BINARY}" != "x" ]
+-    then
+-        install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
+-        rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
+-        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
+-        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
+-    fi
++    for type in ${UBOOT_MACHINE}; do
++        install -d ${DEPLOYDIR}
++        install ${S}/${type}/u-boot-${type}.bin ${DEPLOYDIR}/u-boot-${type}.bin
++    done
+ 
+     if [ "x${UBOOT_ENV}" != "x" ]
+     then
+-- 
+1.9.2
+
 
