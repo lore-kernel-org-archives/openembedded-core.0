@@ -1,25 +1,41 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 533F160DD7
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 9436960DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Nov 2014 19:14:42 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Nov 2014 11:13:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="419930762"
-Received: from unknown (HELO [10.255.13.72]) ([10.255.13.72])
-	by FMSMGA003.fm.intel.com with ESMTP; 21 Nov 2014 11:04:14 -0800
-Message-ID: <546F8EE9.3050809@linux.intel.com>
-Date: Fri, 21 Nov 2014 11:13:45 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Fri, 21 Nov 2014 21:48:09 +0000 (UTC)
+Received: by mail-pd0-f170.google.com with SMTP id fp1so6089784pdb.29
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Nov 2014 13:48:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=J2SFfFjWQYPvnmC8pMsYLroD83Kh0TeSjuXABaKYyhM=;
+	b=dcOtZEmZ/gDyYzu2AUavAY0hmp38zr59/PRR3rf2vPYWyNRMeWCoDjT+0SXl3sXh9C
+	TO2dTJ2/rw+TP63TeqySsWnYFDSsPiSJwi74ObkvSEcTEs/k8eQt+pXfYxybxo0A1A13
+	68P+RVzfi9B1RCyvJAh/qDKR+3a01K3ljI+eOvQydIwgu34Yn+l+8am+vQ4Oogj55+ws
+	xkyxbprsPXlposXRIiIIjUymUzdPhgqiBegFFBE5tdrRHfz66eDaAyCd9neRYYyLF1UD
+	vrVSWI6uDv3Xk5qDekk+3SIDiNc2vLqjULV8pt9dtlwAv5Ika/MKtxBOzSW5PM7Xnk9c
+	ZyKA==
+X-Received: by 10.70.43.176 with SMTP id x16mr11122869pdl.31.1416606490396;
+	Fri, 21 Nov 2014 13:48:10 -0800 (PST)
+Received: from ?IPv6:2601:c:9380:601:7983:e327:d220:f13e?
+	([2601:c:9380:601:7983:e327:d220:f13e])
+	by mx.google.com with ESMTPSA id kj9sm5670343pbc.37.2014.11.21.13.48.08
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 21 Nov 2014 13:48:09 -0800 (PST)
+Message-ID: <546FB317.6090903@gmail.com>
+Date: Fri, 21 Nov 2014 13:48:07 -0800
+From: akuster808 <akuster808@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.7.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1416590209.git.sgw@linux.intel.com>
-	<868dbb6d9d7b3548930ad89143f1895908fe91f3.1416590209.git.sgw@linux.intel.com>
-In-Reply-To: <868dbb6d9d7b3548930ad89143f1895908fe91f3.1416590209.git.sgw@linux.intel.com>
-Subject: Re: [PATCH 7/7] resolvconf: add fixes for busybox and make it work
+To: Tom Zanussi <tom.zanussi@linux.intel.com>, akuster808@gmail.com, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1416585198.git.tom.zanussi@linux.intel.com>
+In-Reply-To: <cover.1416585198.git.tom.zanussi@linux.intel.com>
+Subject: Re: [PATCH 0/6][dizzy] some wic bugfixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,116 +48,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Nov 2014 19:14:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 21 Nov 2014 21:48:14 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/21/2014 09:20 AM, Saul Wold wrote:
-> resolvconf was missing a script and needed readlink which was in
-> /usr/bin.  Also the /etc/resolv.conf was not being correctly linked
-> to /etc/resolvconf/run/resolv.conf, which is fixed by the volaties
-> change which is now a file as opposed to created in do_install.
->
-> Since we are installing and using resolvconf, make sure it's enabled.
->
-Well I found another issue with static (no dhcp), I will send a v2 of 
-this patch the other stuff should be fine.
+Thanks Tom,
 
-Sau!
+I will stage these along with a security fix.
 
-> [YOCTO #5361]
+- Armin
+
+On 11/21/2014 08:07 AM, Tom Zanussi wrote:
+>  From the original posting:
 >
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->   .../resolvconf/resolvconf/99_resolvconf              |  4 ++++
->   .../resolvconf/resolvconf/fix-path-for-busybox.patch | 20 ++++++++++++++++++++
->   .../resolvconf/resolvconf_1.76.bb                    | 13 ++++++++++---
->   3 files changed, 34 insertions(+), 3 deletions(-)
->   create mode 100644 meta/recipes-connectivity/resolvconf/resolvconf/99_resolvconf
->   create mode 100644 meta/recipes-connectivity/resolvconf/resolvconf/fix-path-for-busybox.patch
+> This patchset fixes a couple serious wic bugs:
 >
-> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf/99_resolvconf b/meta/recipes-connectivity/resolvconf/resolvconf/99_resolvconf
-> new file mode 100644
-> index 0000000..3790d77
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/resolvconf/resolvconf/99_resolvconf
-> @@ -0,0 +1,4 @@
-> +d root root 0755 /var/run/resolvconf/interface none
-> +f root root 0644 /etc/resolvconf/run/resolv.conf none
-> +f root root 0644 /etc/resolvconf/run/enable-updates none
-> +l root root 0644 /etc/resolv.conf /etc/resolvconf/run/resolv.conf
-> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf/fix-path-for-busybox.patch b/meta/recipes-connectivity/resolvconf/resolvconf/fix-path-for-busybox.patch
-> new file mode 100644
-> index 0000000..1aead07
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/resolvconf/resolvconf/fix-path-for-busybox.patch
-> @@ -0,0 +1,20 @@
-> +
-> +busybox installs readlink into /usr/bin, so ensure /usr/bin
-> +is in the path.
-> +
-> +Upstream-Status: Submitted
-> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> +
-> +Index: resolvconf-1.76/etc/resolvconf/update.d/libc
-> +===================================================================
-> +--- resolvconf-1.76.orig/etc/resolvconf/update.d/libc
-> ++++ resolvconf-1.76/etc/resolvconf/update.d/libc
-> +@@ -16,7 +16,7 @@
-> + #
-> +
-> + set -e
-> +-PATH=/sbin:/bin
-> ++PATH=/sbin:/bin:/usr/bin
-> +
-> + [ -x /lib/resolvconf/list-records ] || exit 1
-> +
-> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb
-> index eb29a2a..4dd4a30 100644
-> --- a/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb
-> +++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb
-> @@ -11,7 +11,11 @@ AUTHOR = "Thomas Hood"
->   HOMEPAGE = "http://packages.debian.org/resolvconf"
->   RDEPENDS_${PN} = "bash"
+> [YOCTO #6863] - Wic fails to create a working image for a large file system
+> [YOCTO #6290] - Update WIC for gummiboot
 >
-> -SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.xz"
-> +SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.xz \
-> +           file://fix-path-for-busybox.patch \
-> +           file://99_resolvconf \
-> +          "
-> +
+> I generated core-image-sdk images for each of the wic image types and
+> was able to fsck/mount the resulting filesystems.
 >
->   SRC_URI[md5sum] = "d78ce30ea068999cd3e0523300b27255"
->   SRC_URI[sha256sum] = "c9f40f7405b37399ddbf29ca4205b4911ee35cb9ffd9be7671faa2385b1fa573"
-> @@ -24,13 +28,13 @@ do_compile () {
+> These should be applied to the next dizzy point release.
 >
->   do_install () {
->   	install -d ${D}${sysconfdir}/default/volatiles
-> -	echo "d root root 0755 ${localstatedir}/run/${BPN}/interface none" \
-> -	     > ${D}${sysconfdir}/default/volatiles/99_resolvconf
-> +	install -m 0644 ${WORKDIR}/99_resolvconf ${D}${sysconfdir}/default/volatiles
->   	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
->   		install -d ${D}${sysconfdir}/tmpfiles.d
->   		echo "d /run/${BPN}/interface - - - -" \
->   		     > ${D}${sysconfdir}/tmpfiles.d/resolvconf.conf
->   	fi
-> +	install -d ${D}${base_libdir}/${BPN}
->   	install -d ${D}${sysconfdir}/${BPN}
->   	ln -snf ${localstatedir}/run/${BPN} ${D}${sysconfdir}/${BPN}/run
->   	install -d ${D}${sysconfdir} ${D}${base_sbindir}
-> @@ -38,6 +42,7 @@ do_install () {
->   	cp -pPR etc/* ${D}${sysconfdir}/
->   	chown -R root:root ${D}${sysconfdir}/
->   	install -m 0755 bin/resolvconf ${D}${base_sbindir}/
-> +	install -m 0755 bin/list-records ${D}${base_libdir}/${BPN}
->   	install -m 0644 README ${D}${docdir}/${P}/
->   	install -m 0644 man/resolvconf.8 ${D}${mandir}/man8/
->   }
-> @@ -51,3 +56,5 @@ pkg_postinst_${PN} () {
->   		fi
->   	fi
->   }
-> +
-> +FILES_${PN} += "${base_libdir}/${BPN}"
+> The following changes since commit e69653b01dd8ad9fda2355b8112a65c813ce7fd5:
+>
+>    tzdata: update to 2014j (2014-11-17 08:01:21 -0800)
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib.git tzanussi/dizzy-next
+>    http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/dizzy-next
+>
+> Tom Zanussi (6):
+>    wic: Don't allow mkfs to fail silently in partition command
+>    wic: Use overhead factor when creating partitions from rootfs
+>      directories
+>    wic: Update the help text to include -D (--debug)
+>    Revert "wic: set bootimg_dir when using image-name artifacts"
+>    wic: Remove special-case bootimg_dir
+>    wic: Update bootimg-partition to use bootimg_dir
+>
+>   scripts/lib/image/engine.py                        | 42 +++++-----------------
+>   scripts/lib/image/help.py                          | 23 ++++++++----
+>   scripts/lib/wic/imager/direct.py                   |  5 +--
+>   .../lib/wic/kickstart/custom_commands/partition.py | 24 +++++++++----
+>   scripts/lib/wic/plugins/imager/direct_plugin.py    | 20 +++++------
+>   scripts/lib/wic/plugins/source/bootimg-efi.py      |  5 ++-
+>   .../lib/wic/plugins/source/bootimg-partition.py    |  9 +++--
+>   scripts/lib/wic/plugins/source/bootimg-pcbios.py   |  3 +-
+>   scripts/lib/wic/utils/oe/misc.py                   |  1 +
+>   scripts/wic                                        | 13 +++----
+>   10 files changed, 68 insertions(+), 77 deletions(-)
 >
 
