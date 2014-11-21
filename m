@@ -1,35 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A22860030
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id D15AF65C91
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Nov 2014 18:00:40 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id lj1so5354698pab.32
+	Fri, 21 Nov 2014 18:26:41 +0000 (UTC)
+Received: by mail-ob0-f180.google.com with SMTP id wp4so4365737obc.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Nov 2014 10:00:41 -0800 (PST)
+	Fri, 21 Nov 2014 10:26:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=+96Kkq7g1J/DPCMddZVWfrSnSzJB00El1BCmC5afj8E=;
-	b=WhVfLwGsjvMxRbxSRrzts+rw5yISw4VltgpCags8+tmvPb5JKPKbIS5aTIoRA8BAs3
-	hHp6rlCj3Hmh+q+QvvvN9PdulxB28WL3g/fCJqYFD1AA8nXYcsX5dfM3eVpS/fLYyiid
-	Y7KBxyYIXzoKxv5g+n47qmyK5l9yTjbGXHTmhwidqdOCOnQ0ZyTpEu2JO4T9UiUQPP82
-	oOF8NlbEcre1JHhc/t1mENJSbH2vBLn/j+0TZRbCWloSQZ7yZBXskuDjCIB4ZHbusobs
-	MKCcjwzbOfgIWraKFIJsNnce3SQde+euqcpF3EzV535L9qnrN7XpcIlneLNJajgVQlk/
-	KM0A==
-X-Received: by 10.66.163.71 with SMTP id yg7mr9527345pab.110.1416592841226;
-	Fri, 21 Nov 2014 10:00:41 -0800 (PST)
-Received: from haswell.localdomain (c-76-103-142-85.hsd1.ca.comcast.net.
-	[76.103.142.85])
-	by mx.google.com with ESMTPSA id ov2sm5380069pdb.91.2014.11.21.10.00.40
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 21 Nov 2014 10:00:40 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Nov 2014 10:05:03 -0800
-Message-Id: <1416593103-15033-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.1.3
-Subject: [PATCH] package.bbclass: Create empty key/value if not there for shlib_provider
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=j+Z4vmBe2r8PPk92vMhQnY2JtmwG0aVgpJF5T5Btjds=;
+	b=cxy/UeBhtWkmuutheh0pAfEmNRT8ANJLO+H7KL2NLZWIIdT+L7G46KhPoKBlVwCM9J
+	pvlYFwnPFFJNTy0b7TgZSD1WV98CvgYrPp4RhpFm2+BXiRfnAsrDGEw9Vl4Aw8A+x/aO
+	9Tyvwhd1+3IkQnb4LMX/sw1pGThXxIJnruLrmy5gnLxgR7pv+LXY4wAm9lslOhqcMUd0
+	X4lkuIIu2Erc3ioffihadW4GhB7qb7C11GRzgydkGD6wlOoF1V02SyH/NIWLXwPXGGK7
+	Z9gLUKMBj1JuPrRbkc2GY3rLBPqae1nGGSK3I7Rn0a/CHcNNJRYQwNb2MOyogk3NjhGP
+	T0SQ==
+X-Received: by 10.182.133.104 with SMTP id pb8mr2990671obb.81.1416594401571;
+	Fri, 21 Nov 2014 10:26:41 -0800 (PST)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.76.82.35 with HTTP; Fri, 21 Nov 2014 10:26:21 -0800 (PST)
+In-Reply-To: <1416364933-214069-1-git-send-email-mark.hatle@windriver.com>
+References: <1416364933-214069-1-git-send-email-mark.hatle@windriver.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Fri, 21 Nov 2014 11:26:21 -0700
+X-Google-Sender-Auth: -baW6bzLcAjXifR3YcNrBKSjoqg
+Message-ID: <CABcZANm790dekEqEh5nyGoyo_L9K6Qj3Yugx=jCuVSkEqcW0pA@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image.bbclass: Add a method for creating a companion debug filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,50 +44,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Nov 2014 18:00:45 -0000
+X-List-Received-Date: Fri, 21 Nov 2014 18:26:42 -0000
+Content-Type: multipart/alternative; boundary=e89a8ff1ce2218bb9c05086296df
 
-When we use ASSUME_SHLIBS,e.g.
+--e89a8ff1ce2218bb9c05086296df
+Content-Type: text/plain; charset=UTF-8
 
-ASSUME_SHLIBS = "libEGL.so.1:libegl-implementation"
+On Tue, Nov 18, 2014 at 7:42 PM, Mark Hatle <mark.hatle@windriver.com>
+wrote:
 
-then we end up with errors like below when using shlibs2 (dizzy+)
+> The companion debug filesystem contains only the package database and the
+> complementary *-dbg packages for the main filesystem component.  This is
+> useful in a production environment to produce a companion filesystem
+> capable
+> of remote system debugging, without requiring corresponding debug symbols
+> or
+> source code on the device.
+>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>
+> If dbg pkgs have already been installed to the rootfs image,
+> the installation to companion debug filesystem will fail,
+> because both of image creation make use of the same pm
+> database.
+>
+> In this situation, try to copy installed dbg files from rootfs
+> image to companion debug filesystem.
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>
 
-File: 'package_do_shlibs', lineno: 216, function: package_do_shlibs
-     0212:            dep_pkg = dep_pkg.rsplit("_", 1)
-     0213:            if len(dep_pkg) == 2:
-     0214:                lib_ver = dep_pkg[1]
-     0215:            dep_pkg = dep_pkg[0]
- *** 0216:            shlib_provider[l][libdir] = (dep_pkg, lib_ver)
-     0217:
-     0218:    libsearchpath = [d.getVar('libdir', True),
-d.getVar('base_libdir', True)]
-     0219:
-     0220:    for pkg in packages.split():
-Exception: KeyError: 'libEGL.so.1'
+This looks pretty good to me, nicely done.
 
-This is because the entry which is being populated does not exist
-so lets create it if its not already there.
-
-Change-Id: I9e292c5439e5d1e01ea48341334507aacc3784ae
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/package.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 2aec3e6..696d173 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1554,6 +1554,8 @@ python package_do_shlibs() {
-             if len(dep_pkg) == 2:
-                 lib_ver = dep_pkg[1]
-             dep_pkg = dep_pkg[0]
-+            if l not in shlib_provider:
-+                shlib_provider[l] = {}
-             shlib_provider[l][libdir] = (dep_pkg, lib_ver)
- 
-     libsearchpath = [d.getVar('libdir', True), d.getVar('base_libdir', True)]
+Acked-by: Christopher Larson <chris_larson@mentor.com>
 -- 
-2.1.1
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--e89a8ff1ce2218bb9c05086296df
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Nov 18, 2014 at 7:42 PM, Mark Hatle <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":i1=
+" class=3D"a3s" style=3D"overflow:hidden">The companion debug filesystem co=
+ntains only the package database and the<br>
+complementary *-dbg packages for the main filesystem component.=C2=A0 This =
+is<br>
+useful in a production environment to produce a companion filesystem capabl=
+e<br>
+of remote system debugging, without requiring corresponding debug symbols o=
+r<br>
+source code on the device.<br>
+<br>
+Signed-off-by: Mark Hatle &lt;<a href=3D"mailto:mark.hatle@windriver.com">m=
+ark.hatle@windriver.com</a>&gt;<br>
+Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
+>liezhi.yang@windriver.com</a>&gt;<br>
+<br>
+If dbg pkgs have already been installed to the rootfs image,<br>
+the installation to companion debug filesystem will fail,<br>
+because both of image creation make use of the same pm<br>
+database.<br>
+<br>
+In this situation, try to copy installed dbg files from rootfs<br>
+image to companion debug filesystem.<br>
+<br>
+Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com">h=
+ongxu.jia@windriver.com</a>&gt;<br>
+Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
+>liezhi.yang@windriver.com</a>&gt;<br>
+Signed-off-by: Mark Hatle &lt;<a href=3D"mailto:mark.hatle@windriver.com">m=
+ark.hatle@windriver.com</a>&gt;</div></blockquote></div><br>This looks pret=
+ty good to me, nicely done.<br><div><br></div><div>Acked-by: Christopher La=
+rson &lt;<a href=3D"mailto:chris_larson@mentor.com">chris_larson@mentor.com=
+</a>&gt;</div>-- <br><div class=3D"gmail_signature">Christopher Larson<br>c=
+larson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br=
+>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--e89a8ff1ce2218bb9c05086296df--
