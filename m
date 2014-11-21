@@ -1,27 +1,27 @@
 Return-Path: <tom.zanussi@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id F373272160
+	by mail.openembedded.org (Postfix) with ESMTP id A394B721D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Nov 2014 16:08:35 +0000 (UTC)
+	Fri, 21 Nov 2014 16:09:18 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 21 Nov 2014 08:07:58 -0800
+	by orsmga101.jf.intel.com with ESMTP; 21 Nov 2014 08:08:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,432,1413270000"; d="scan'208";a="611866806"
+X-IronPort-AV: E=Sophos;i="5.07,432,1413270000"; d="scan'208";a="611866863"
 Received: from smoffitt-mobl.ger.corp.intel.com (HELO localhost)
 	([10.255.13.176])
-	by orsmga001.jf.intel.com with ESMTP; 21 Nov 2014 08:07:57 -0800
+	by orsmga001.jf.intel.com with ESMTP; 21 Nov 2014 08:08:01 -0800
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: akuster808@gmail.com,
 	openembedded-core@lists.openembedded.org
-Date: Fri, 21 Nov 2014 10:07:48 -0600
-Message-Id: <b2e35996375ed33804f46bdc6f89f4e8c52d4421.1416585198.git.tom.zanussi@linux.intel.com>
+Date: Fri, 21 Nov 2014 10:07:50 -0600
+Message-Id: <2b108b6b79a2d55602074f000795697fedf85ed9.1416585198.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <db14e81d99065b4381af1878a856f4933a0aa9c5.1416585198.git.tom.zanussi@linux.intel.com>
 References: <db14e81d99065b4381af1878a856f4933a0aa9c5.1416585198.git.tom.zanussi@linux.intel.com>
 In-Reply-To: <cover.1416585198.git.tom.zanussi@linux.intel.com>
 References: <cover.1416585198.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 2/6][dizzy] wic: Use overhead factor when creating partitions from rootfs directories
+Subject: [PATCH 4/6][dizzy] Revert "wic: set bootimg_dir when using image-name artifacts"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,67 +34,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Nov 2014 16:08:40 -0000
+X-List-Received-Date: Fri, 21 Nov 2014 16:09:19 -0000
 
-When creating partitions sized to given rootfs directories, filesystem
-creation could fail in cases where the calculated target partition
-size was too small to contain the filesystem created using mkfs.  This
-occurred in particular when creating partitions to contain very large
-filesystems such as those containing sdk image artifacts.
+This reverts commit 7ce1dc13f91df70e8a2f420e7c3eba51cbc4bd48.
 
-This same limition is present in the oe-core image creation classes,
-which can be readily see by changing IMAGE_OVERHEAD_FACTOR from the
-default 1.3 to 1.0 and building a sato-sdk image.
+This patch broke the assumption that a non-null boot_dir means a
+user-assigned (-b command-line param) value.
 
-It should be possible to calculate required sizes exactly given the
-source rootfs and target filesystem types, but for now, to address the
-specific problem users are hitting in such situations, we'll just do
-exactly what oe-core does and define and use an IMAGE_OVERHEAD_FACTOR
-or 1.3 in those cases.
+Reverting doesn't break anything, since the case it was added for
+doesn't use the boot_dir for anything except debugging anyhow.
 
-Fixes [YOCTO #6863].
+Fixes [YOCTO #6290]
 
-(From OE-Core rev: bbaef3ff5833fc1d97b7b028d7770834f62789da)
+(From OE-Core rev: db90f10bf31dec8d7d7bb2d3680d50e133662850)
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/lib/wic/kickstart/custom_commands/partition.py | 2 ++
- scripts/lib/wic/utils/oe/misc.py                       | 1 +
- 2 files changed, 3 insertions(+)
+ scripts/lib/image/engine.py | 9 ++-------
+ scripts/wic                 | 7 +++----
+ 2 files changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
-index 3950b43..54a494e 100644
---- a/scripts/lib/wic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
-@@ -229,6 +229,7 @@ class Wic_PartData(Mic_PartData):
-             extra_blocks = IMAGE_EXTRA_SPACE
+diff --git a/scripts/lib/image/engine.py b/scripts/lib/image/engine.py
+index 3813fec..f1df8b4 100644
+--- a/scripts/lib/image/engine.py
++++ b/scripts/lib/image/engine.py
+@@ -67,8 +67,7 @@ def find_artifacts(image_name):
+     """
+     bitbake_env_lines = get_bitbake_env_lines()
  
-         rootfs_size = actual_rootfs_size + extra_blocks
-+        rootfs_size *= IMAGE_OVERHEAD_FACTOR
+-    rootfs_dir = kernel_dir = bootimg_dir = ""
+-    hdddir = staging_data_dir = native_sysroot = ""
++    rootfs_dir = kernel_dir = hdddir = staging_data_dir = native_sysroot = ""
  
-         msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
-                     (extra_blocks, self.mountpoint, rootfs_size))
-@@ -276,6 +277,7 @@ class Wic_PartData(Mic_PartData):
-             extra_blocks = IMAGE_EXTRA_SPACE
+     for line in bitbake_env_lines.split('\n'):
+         if (get_line_val(line, "IMAGE_ROOTFS")):
+@@ -86,12 +85,8 @@ def find_artifacts(image_name):
+         if (get_line_val(line, "STAGING_DIR_NATIVE")):
+             native_sysroot = get_line_val(line, "STAGING_DIR_NATIVE")
+             continue
+-        if (get_line_val(line, "DEPLOY_DIR_IMAGE")):
+-            bootimg_dir = get_line_val(line, "DEPLOY_DIR_IMAGE")
+-            continue
  
-         rootfs_size = actual_rootfs_size + extra_blocks
-+        rootfs_size *= IMAGE_OVERHEAD_FACTOR
+-    return (rootfs_dir, kernel_dir, bootimg_dir, hdddir, staging_data_dir, \
+-            native_sysroot)
++    return (rootfs_dir, kernel_dir, hdddir, staging_data_dir, native_sysroot)
  
-         msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
-                     (extra_blocks, self.mountpoint, rootfs_size))
-diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
-index aa9b235..b0b5baa 100644
---- a/scripts/lib/wic/utils/oe/misc.py
-+++ b/scripts/lib/wic/utils/oe/misc.py
-@@ -123,6 +123,7 @@ def add_wks_var(key, val):
  
- BOOTDD_EXTRA_SPACE = 16384
- IMAGE_EXTRA_SPACE = 10240
-+IMAGE_OVERHEAD_FACTOR = 1.3
+ CANNED_IMAGE_DIR = "lib/image/canned-wks" # relative to scripts
+diff --git a/scripts/wic b/scripts/wic
+index 7314810..15cc9b3 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -134,8 +134,8 @@ def wic_create_subcommand(args, usage_str):
+     bootimg_dir = staging_data_dir = hdddir = ""
  
- __bitbake_env_lines = ""
+     if options.image_name:
+-        (rootfs_dir, kernel_dir, bootimg_dir, hdddir, \
+-         staging_data_dir, native_sysroot) = find_artifacts(options.image_name)
++        (rootfs_dir, kernel_dir, hdddir, staging_data_dir, native_sysroot) = \
++            find_artifacts(options.image_name)
  
+     wks_file = args[0]
+ 
+@@ -172,8 +172,7 @@ def wic_create_subcommand(args, usage_str):
+         not_found = not_found_dir = ""
+         if not os.path.isdir(rootfs_dir):
+             (not_found, not_found_dir) = ("rootfs-dir", rootfs_dir)
+-        elif not os.path.isdir(bootimg_dir) and not os.path.isdir(hdddir) \
+-             and not os.path.isdir(staging_data_dir):
++        elif not os.path.isdir(hdddir) and not os.path.isdir(staging_data_dir):
+             (not_found, not_found_dir) = ("bootimg-dir", bootimg_dir)
+         elif not os.path.isdir(kernel_dir):
+             (not_found, not_found_dir) = ("kernel-dir", kernel_dir)
 -- 
 1.9.3
 
