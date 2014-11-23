@@ -1,24 +1,25 @@
-Return-Path: <msach@mailbox.tu-berlin.de>
-X-Greylist: delayed 979 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 22 Nov 2014 22:11:22 UTC
-Received: from wp101.webpack.hosteurope.de (wp101.webpack.hosteurope.de
-	[80.237.132.108])
-	by mail.openembedded.org (Postfix) with ESMTP id 78B6F718EC
+Return-Path: <jurobystricky@hotmail.com>
+X-Greylist: delayed 306 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 23 Nov 2014 17:49:34 UTC
+Received: from BLU004-OMC4S14.hotmail.com (blu004-omc4s14.hotmail.com
+	[65.55.111.153])
+	by mail.openembedded.org (Postfix) with ESMTP id 6053A6A9D4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Nov 2014 22:11:22 +0000 (UTC)
-Received: from dhcp-213-120.vpn.tu-berlin.de ([130.149.213.120]
-	helo=merten-desktop.vpn.tu-berlin.de); authenticated
-	by wp101.webpack.hosteurope.de running ExIM with esmtpsa
-	(TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	id 1XsIdz-0002RM-KX; Sat, 22 Nov 2014 22:55:03 +0100
-From: Merten Sach <msach@mailbox.tu-berlin.de>
+	Sun, 23 Nov 2014 17:49:34 +0000 (UTC)
+Received: from BLU437-SMTP65 ([65.55.111.136]) by BLU004-OMC4S14.hotmail.com
+	over TLS secured channel with Microsoft SMTPSVC(7.5.7601.22751);
+	Sun, 23 Nov 2014 09:44:28 -0800
+X-TMN: [vC0R89l3ITWzRl9fY54ZV6gljnsch+1f]
+X-Originating-Email: [jurobystricky@hotmail.com]
+Message-ID: <BLU437-SMTP65FA876B595D639FFD2DD6BB750@phx.gbl>
+From: Juro Bystricky <jurobystricky@hotmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 22 Nov 2014 22:54:55 +0100
-Message-Id: <1416693295-21521-1-git-send-email-msach@mailbox.tu-berlin.de>
-X-Mailer: git-send-email 1.9.3
-X-bounce-key: webpack.hosteurope.de; msach@mailbox.tu-berlin.de; 1416694286;
-	ceb6a512; 
-Subject: [PATCH] metadata_scm: Fix crash due to uncaught python exception
+Date: Sun, 23 Nov 2014 09:44:17 -0800
+X-Mailer: git-send-email 1.9.1
+X-OriginalArrivalTime: 23 Nov 2014 17:44:27.0368 (UTC)
+	FILETIME=[20883680:01D00745]
+MIME-Version: 1.0
+Subject: [PATCH] eglibc-use-option-groups.patch: Various fixups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +32,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Nov 2014 22:11:25 -0000
+X-List-Received-Date: Sun, 23 Nov 2014 17:49:36 -0000
+Content-Type: text/plain
 
-Function base_get_metadata_svn_revision was crashing due to an uncaught
-IndexError exception.
+Build suppport for mutibyte character handling only when
+__OPTION_EGLIBC_LOCALE_CODE evaluates to 1.
+Fixes missing .out suffix for several tests to be built.
+Fixes building of locales needed for several tests. Do not use
+cross-localedef to build locales. Use localedef built with the
+newly built libgc instead.
 
-The except notation without parentheses is legacy syntax. It is the equivalent
-to 'except IOError as IndexError' which is not what we want here.
+Fixes:
+[YOCTO #6809] [YOCTO #6796] [YOCTO #6797]
 
-The change catches both exceptions.
-
-Signed-off-by: Merten Sach <msach@mailbox.tu-berlin.de>
+Signed-off-by: Juro Bystricky <jurobystricky@hotmail.com>
 ---
- meta/classes/metadata_scm.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../glibc/glibc/eglibc-use-option-groups.patch     | 43 ++--------------------
+ 1 file changed, 4 insertions(+), 39 deletions(-)
 
-diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
-index ba0edf9..237e618 100644
---- a/meta/classes/metadata_scm.bbclass
-+++ b/meta/classes/metadata_scm.bbclass
-@@ -60,7 +60,7 @@ def base_get_metadata_svn_revision(path, d):
-     try:
-         with open("%s/.svn/entries" % path) as f:
-             revision = f.readlines()[3].strip()
--    except IOError, IndexError:
-+    except (IOError, IndexError):
-         pass
-     return revision
- 
+diff --git a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
+index 40c7832..0e2f0c6 100644
+--- a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
++++ b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
+@@ -2434,24 +2434,7 @@ Index: git/localedata/Makefile
+  
+  ifeq ($(run-built-tests),yes)
+  # We have to generate locales
+-@@ -143,9 +161,13 @@
+- $(addprefix $(objpfx),$(CTYPE_FILES)): %: \
+-   gen-locale.sh $(common-objpfx)locale/localedef Makefile \
+-   $(addprefix charmaps/,$(CHARMAPS)) $(addprefix locales/,$(LOCALE_SRCS))
+--	@$(SHELL) gen-locale.sh $(common-objpfx) \
+--		  '$(built-program-cmd-before-env)' '$(run-program-env)' \
+--		  '$(built-program-cmd-after-env)' $@; \
+-+	@$(SHELL) gen-locale.sh $(common-objpfx)	\
+-+		 '$(if $(cross-localedef), 		\
+-+		       $(cross-localedef),		\
+-+		       $(built-program-cmd-before-env)  \
+-+		       $(run-program-env)		\
+-+		       $(built-program-cmd-after-env))' \
+-+		       $@; \
+- 	$(evaluate-test)
+- 
+- $(addsuffix .out,$(addprefix $(objpfx),$(tests))): %: \
+-@@ -213,6 +235,11 @@
++@@ -213,6 +231,11 @@
+  
+  include SUPPORTED
+  
+@@ -4783,7 +4766,7 @@ Index: git/posix/fnmatch.c
+  #  endif
+  
+ -#  if (HAVE_MBSTATE_T && HAVE_MBSRTOWCS) || _LIBC
+-+#  if (HAVE_MBSTATE_T && HAVE_MBSRTOWCS) || (_LIBC && __OPTION_EGLIBC_LOCALE_CODE)
+++#  if (HAVE_MBSTATE_T && HAVE_MBSRTOWCS && _LIBC && __OPTION_EGLIBC_LOCALE_CODE)
+  /* In this case we are implementing the multibyte character handling.  */
+  #   define HANDLE_MULTIBYTE	1
+  #  endif
+@@ -5065,8 +5048,8 @@ Index: git/posix/Makefile
+  		 $(objpfx)bug-glob2-mem.out $(objpfx)tst-vfork3-mem.out \
+  		 $(objpfx)tst-fnmatch-mem.out $(objpfx)bug-regex36-mem.out
+ +ifeq (y,$(OPTION_POSIX_REGEXP_GLIBC))
+-+tests-special += $(objpfx)bug-regex14-mem $(objpfx)tst-rxspencer-no-utf8-mem \
+-+  		 $(objpfx)tst-pcre-mem $(objpfx)tst-boost-mem
+++tests-special += $(objpfx)bug-regex14-mem.out $(objpfx)tst-rxspencer-no-utf8-mem.out \
+++  		 $(objpfx)tst-pcre-mem.out $(objpfx)tst-boost-mem.out
+ +endif
+ +
+  xtests-special += $(objpfx)bug-ga2-mem.out
+@@ -16458,24 +16441,6 @@ Index: git/sysdeps/nptl/small-macros-fns.c
+ +libc_hidden_def (__libc_lock_unlock_recursive_fn);
+ +
+ +#endif /*defined _LIBC && (!defined NOT_IN_libc || defined IS_IN_libpthread)*/
+-Index: git/include/libc-symbols.h
+-===================================================================
+---- git.orig/include/libc-symbols.h	2014-08-29 20:00:47.144070587 -0700
+-+++ git/include/libc-symbols.h	2014-08-29 20:01:15.248070587 -0700
+-@@ -60,8 +60,11 @@
+- /* Define these macros for the benefit of portable GNU code that wants to check
+-    them.  Of course, STDC_HEADERS is never false when building libc!  */
+- #define STDC_HEADERS	1
+--#define HAVE_MBSTATE_T	1
+--#define HAVE_MBSRTOWCS	1
+-+
+-+#if __OPTION_EGLIBC_LOCALE_CODE
+-+# define HAVE_MBSTATE_T	1
+-+# define HAVE_MBSRTOWCS	1
+-+#endif
+- #define HAVE_LIBINTL_H	1
+- #define HAVE_WCTYPE_H	1
+- #define HAVE_ISWCTYPE	1
+ Index: git/crypt/crypt_common.c
+ ===================================================================
+ --- /dev/null	1970-01-01 00:00:00.000000000 +0000
 -- 
-1.9.3
+1.9.1
 
 
