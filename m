@@ -1,21 +1,40 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 104416AC82
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CB73721D7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Nov 2014 21:15:19 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 24 Nov 2014 13:15:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,451,1413270000"; d="scan'208";a="637401114"
-Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.154])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Nov 2014 13:15:18 -0800
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Nov 2014 15:16:31 -0600
-Message-Id: <1416863791-24345-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 24 Nov 2014 23:48:18 +0000 (UTC)
+Received: by mail-pd0-f169.google.com with SMTP id fp1so10632835pdb.28
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Nov 2014 15:48:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=CpIBcf09przy1G5RMK4l/63A5pdzeXqaptXQcGFJ01o=;
+	b=Kou3lxC5jCrMHxOhIRnfqgtq8OLVURlR+/sTZmvc4LMnlMnj3qqwlccLcQxsoHm6ig
+	2ik4eK2Ibe/YMgQPhsd7k+j3q2hzAuC8ICLr2FWrhT/3VARbr+Edd1v5Jp+B1ATqAcbo
+	Wnm/qZVyPCgrD0S6FOYDihDyJU9Df6DflZIuoWAIQztSPk2RDoULY+mb8CMzWoKUBi33
+	ArqZQQ1JZzPCICMcZg/WknH1/qHXzXCwcWKGMB5+pTEOjGhL7kpiQWSY7mghRxVblL3a
+	s1eIYXPw011Da3MwOObwHTZYc6oh1TwzDE7k5zYyw+kzzWI7nxJhR60Dr3V744Kjn7SB
+	MCMw==
+X-Received: by 10.70.45.132 with SMTP id n4mr3176941pdm.120.1416872899489;
+	Mon, 24 Nov 2014 15:48:19 -0800 (PST)
+Received: from ?IPv6:2601:c:9380:601:e95a:607d:d083:a0f9?
+	([2601:c:9380:601:e95a:607d:d083:a0f9])
+	by mx.google.com with ESMTPSA id n2sm13445503pdg.2.2014.11.24.15.48.17
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 24 Nov 2014 15:48:18 -0800 (PST)
+Message-ID: <5473C3BF.10108@gmail.com>
+Date: Mon, 24 Nov 2014 15:48:15 -0800
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-Subject: [PATCH] dpkg: Upgrade to 1.17.21
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+References: <1416843472-16839-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1416843472-16839-1-git-send-email-sgw@linux.intel.com>
+Subject: Re: [PATCH v2] resolvconf: add fixes for busybox and make it work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,341 +47,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Nov 2014 21:15:24 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 24 Nov 2014 23:48:20 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove dpkg-1.17.4-CVE-2014-0471, dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127 and
-ignore_extra_fields patches that are already in upstream.
+is this needed for dizzy?
 
-Rebase no-vla-warning patch.
+- armin
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/recipes-devtools/dpkg/dpkg.inc                |  3 +-
- .../dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch  | 68 ---------------
- .../dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471.patch      | 97 ----------------------
- .../dpkg/dpkg/ignore_extra_fields.patch            | 21 -----
- .../dpkg/dpkg/no-vla-warning.patch                 | 24 +++---
- meta/recipes-devtools/dpkg/dpkg_1.17.21.bb         | 19 +++++
- meta/recipes-devtools/dpkg/dpkg_1.17.4.bb          | 21 -----
- 7 files changed, 32 insertions(+), 221 deletions(-)
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471.patch
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/ignore_extra_fields.patch
- create mode 100644 meta/recipes-devtools/dpkg/dpkg_1.17.21.bb
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 929906d..c3c51eb 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -2,8 +2,7 @@ SUMMARY = "Package maintenance system from Debian"
- LICENSE = "GPLv2.0+"
- SECTION = "base"
- 
--SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.xz \
--           file://ignore_extra_fields.patch"
-+SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.xz"
- 
- DEPENDS = "zlib bzip2 perl ncurses"
- DEPENDS_class-native = "bzip2-replacement-native zlib-native virtual/update-alternatives-native gettext-native perl-native"
-diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch b/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch
-deleted file mode 100644
-index e59c666..0000000
---- a/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--dpkg: Security Advisory - CVE-2014-3127
--
--commit a12eb58959d0a10584a428f4a3103a49204c410f upstream
--
--dpkg 1.15.9 on Debian squeeze introduces support for the "C-style
--encoded filenames" feature without recognizing that the squeeze patch
--program lacks this feature, which triggers an interaction error that
--allows remote attackers to conduct directory traversal attacks and
--modify files outside of the intended directories via a crafted source
--package.
--
--NOTE: this can be considered a release engineering problem in the
--effort to fix CVE-2014-0471.
--
--Upstream-Status: Backport
--
--Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
--Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
--=====================================================
--diff -uarN dpkg-1.17.1-org/scripts/Dpkg/Source/Patch.pm dpkg-1.17.1/scripts/Dpkg/Source/Patch.pm
----- dpkg-1.17.1-org/scripts/Dpkg/Source/Patch.pm	2014-06-05 16:32:41.765446564 +0800
--+++ dpkg-1.17.1/scripts/Dpkg/Source/Patch.pm	2014-06-05 16:37:21.461446359 +0800
--@@ -324,31 +324,6 @@
--     return $line;
-- }
-- 
---my %ESCAPE = ((
---    'a' => "\a",
---    'b' => "\b",
---    'f' => "\f",
---    'n' => "\n",
---    'r' => "\r",
---    't' => "\t",
---    'v' => "\cK",
---    '\\' => '\\',
---    '"' => '"',
---), (
---    map { sprintf('%03o', $_) => chr($_) } (0..255)
---));
---
---sub _unescape {
---    my ($diff, $str) = @_;
---
---    if (exists $ESCAPE{$str}) {
---        return $ESCAPE{$str};
---    } else {
---        error(_g('diff %s patches file with unknown escape sequence \\%s'),
---              $diff, $str);
---    }
---}
---
-- # Fetch the header filename ignoring the optional timestamp
-- sub _fetch_filename {
--     my ($diff, $header) = @_;
--@@ -358,12 +333,7 @@
-- 
--     # Is it a C-style string?
--     if ($header =~ m/^"/) {
---        $header =~ m/^"((?:[^\\"]|\\.)*)"/;
---        error(_g('diff %s patches file with unbalanced quote'), $diff)
---            unless defined $1;
---
---        $header = $1;
---        $header =~ s/\\([0-3][0-7]{2}|.)/_unescape($diff, $1)/eg;
--+	error(_g('diff %s patches file with C-style encoded filename'), $diff);
--     } else {
--         # Tab is the official separator, it's always used when
--         # filename contain spaces. Try it first, otherwise strip on space
-diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471.patch b/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471.patch
-deleted file mode 100644
-index 195d309..0000000
---- a/meta/recipes-devtools/dpkg/dpkg/dpkg-1.17.4-CVE-2014-0471.patch
-+++ /dev/null
-@@ -1,97 +0,0 @@
--dpkg: Security Advisory - CVE-2014-0471
--
--commit a82651188476841d190c58693f95827d61959b51 upstream
--
--Directory traversal vulnerability in the unpacking functionality in
--dpkg before 1.15.9, 1.16.x before 1.16.13, and 1.17.x before 1.17.8
--allows remote attackers to write arbitrary files via a crafted source
--package, related to "C-style filename quoting."
--
--Upstream-Status: Backport
--
--Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
--Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
--===================================================
--diff -uarN dpkg-1.17.1-org/scripts/Dpkg/Source/Patch.pm dpkg-1.17.1/scripts/Dpkg/Source/Patch.pm
----- dpkg-1.17.1-org/scripts/Dpkg/Source/Patch.pm	2014-06-05 15:24:07.422446284 +0800
--+++ dpkg-1.17.1/scripts/Dpkg/Source/Patch.pm	2014-06-05 15:41:37.746446314 +0800
--@@ -324,14 +324,53 @@
--     return $line;
-- }
-- 
---# Strip timestamp
---sub _strip_ts {
---    my $header = shift;
---
---    # Tab is the official separator, it's always used when
---    # filename contain spaces. Try it first, otherwise strip on space
---    # if there's no tab
---    $header =~ s/\s.*// unless ($header =~ s/\t.*//);
--+my %ESCAPE = ((
--+    'a' => "\a",
--+    'b' => "\b",
--+    'f' => "\f",
--+    'n' => "\n",
--+    'r' => "\r",
--+    't' => "\t",
--+    'v' => "\cK",
--+    '\\' => '\\',
--+    '"' => '"',
--+), (
--+    map { sprintf('%03o', $_) => chr($_) } (0..255)
--+));
--+
--+sub _unescape {
--+    my ($diff, $str) = @_;
--+
--+    if (exists $ESCAPE{$str}) {
--+        return $ESCAPE{$str};
--+    } else {
--+        error(_g('diff %s patches file with unknown escape sequence \\%s'),
--+              $diff, $str);
--+    }
--+}
--+
--+# Fetch the header filename ignoring the optional timestamp
--+sub _fetch_filename {
--+    my ($diff, $header) = @_;
--+
--+    # Strip any leading spaces.
--+    $header =~ s/^\s+//;
--+
--+    # Is it a C-style string?
--+    if ($header =~ m/^"/) {
--+        $header =~ m/^"((?:[^\\"]|\\.)*)"/;
--+        error(_g('diff %s patches file with unbalanced quote'), $diff)
--+            unless defined $1;
--+
--+        $header = $1;
--+        $header =~ s/\\([0-3][0-7]{2}|.)/_unescape($diff, $1)/eg;
--+    } else {
--+        # Tab is the official separator, it's always used when
--+        # filename contain spaces. Try it first, otherwise strip on space
--+        # if there's no tab
--+        $header =~ s/\s.*// unless $header =~ s/\t.*//;
--+    }
--+
--     return $header;
-- }
-- 
--@@ -400,7 +439,7 @@
-- 	unless(s/^--- //) {
-- 	    error(_g("expected ^--- in line %d of diff `%s'"), $., $diff);
-- 	}
---        $path{old} = $_ = _strip_ts($_);
--+	$path{old} = $_ = _fetch_filename($diff, $_);
-- 	$fn{old} = $_ if $_ ne '/dev/null' and s{^[^/]*/+}{$destdir/};
-- 	if (/\.dpkg-orig$/) {
-- 	    error(_g("diff `%s' patches file with name ending .dpkg-orig"), $diff);
--@@ -412,7 +451,7 @@
-- 	unless (s/^\+\+\+ //) {
-- 	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.);
-- 	}
---        $path{new} = $_ = _strip_ts($_);
--+	$path{new} = $_ = _fetch_filename($diff, $_);
-- 	$fn{new} = $_ if $_ ne '/dev/null' and s{^[^/]*/+}{$destdir/};
-- 
-- 	unless (defined $fn{old} or defined $fn{new}) {
-diff --git a/meta/recipes-devtools/dpkg/dpkg/ignore_extra_fields.patch b/meta/recipes-devtools/dpkg/dpkg/ignore_extra_fields.patch
-deleted file mode 100644
-index 4e3eb97..0000000
---- a/meta/recipes-devtools/dpkg/dpkg/ignore_extra_fields.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--Upstream-Status: Inappropriate [workaround]
--
--Index: dpkg-1.16.8/dpkg-deb/build.c
--===================================================================
----- dpkg-1.16.8.orig/dpkg-deb/build.c
--+++ dpkg-1.16.8/dpkg-deb/build.c
--@@ -340,13 +340,13 @@ check_new_pkg(const char *dir)
--   if (pkg->priority == pri_other)
--     warning(_("'%s' contains user-defined Priority value '%s'"),
--             controlfile, pkg->otherpriority);
---  for (field = pkg->available.arbs; field; field = field->next) {
--+  /*for (field = pkg->available.arbs; field; field = field->next) {
--     if (known_arbitrary_field(field))
--       continue;
-- 
--     warning(_("'%s' contains user-defined field '%s'"), controlfile,
--             field->name);
---  }
--+  }*/
-- 
--   free(controlfile);
-diff --git a/meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch b/meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch
-index 0e57dbc..f660b18 100644
---- a/meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch
-@@ -11,22 +11,22 @@ Upstream-Status: Pending
- 
- Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
- ---
-  m4/dpkg-compiler.m4 |    1 -
-  1 file changed, 1 deletion(-)
- 
- diff --git a/m4/dpkg-compiler.m4 b/m4/dpkg-compiler.m4
--index f1c760b..500b5ad 100644
-+index 53f67c6..6e66a43 100644
- --- a/m4/dpkg-compiler.m4
- +++ b/m4/dpkg-compiler.m4
--@@ -72,7 +72,6 @@ if test "x$enable_compiler_warnings" = "xyes"; then
--   DPKG_WARNING_ALL([-Wformat-security])
--   DPKG_WARNING_ALL([-Wpointer-arith])
--   DPKG_WARNING_ALL([-Wlogical-op])
---  DPKG_WARNING_ALL([-Wvla])
--   DPKG_WARNING_ALL([-Winit-self])
--   DPKG_WARNING_ALL([-Wwrite-strings])
--   DPKG_WARNING_ALL([-Wcast-align])
---- 
--1.7.10.4
--
-+@@ -49,7 +49,6 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
-+   DPKG_CHECK_COMPILER_FLAG([-Wformat-security])
-+   DPKG_CHECK_COMPILER_FLAG([-Wpointer-arith])
-+   DPKG_CHECK_COMPILER_FLAG([-Wlogical-op])
-+-  DPKG_CHECK_COMPILER_FLAG([-Wvla])
-+   DPKG_CHECK_COMPILER_FLAG([-Winit-self])
-+   DPKG_CHECK_COMPILER_FLAG([-Wwrite-strings])
-+   DPKG_CHECK_COMPILER_FLAG([-Wcast-align])
-+---
-+1.17.21
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb
-new file mode 100644
-index 0000000..15c0277
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.17.21.bb
-@@ -0,0 +1,19 @@
-+require dpkg.inc
-+LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-+
-+SRC_URI += "file://noman.patch \
-+            file://check_snprintf.patch \
-+            file://check_version.patch \
-+            file://preinst.patch \
-+            file://fix-timestamps.patch \
-+            file://remove-tar-no-timestamp.patch \
-+            file://fix-abs-redefine.patch \
-+            file://arch_pm.patch \
-+            file://dpkg-configure.service \
-+            file://glibc2.5-sync_file_range.patch \
-+            file://no-vla-warning.patch \
-+           "
-+
-+SRC_URI[md5sum] = "765a96fd0180196613bbfa3c4aef0775"
-+SRC_URI[sha256sum] = "3ed776627181cb9c1c9ba33f94a6319084be2e9ec9c23dd61ce784c4f602cf05"
-+
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-deleted file mode 100644
-index 83526f3..0000000
---- a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-+++ /dev/null
-@@ -1,21 +0,0 @@
--require dpkg.inc
--LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--
--SRC_URI += "file://noman.patch \
--            file://check_snprintf.patch \
--            file://check_version.patch \
--            file://preinst.patch \
--            file://fix-timestamps.patch \
--            file://remove-tar-no-timestamp.patch \
--            file://fix-abs-redefine.patch \
--            file://arch_pm.patch \
--            file://dpkg-configure.service \
--            file://glibc2.5-sync_file_range.patch \
--            file://no-vla-warning.patch \
--            file://dpkg-1.17.4-CVE-2014-0471.patch \
--            file://dpkg-1.17.4-CVE-2014-0471-CVE-2014-3127.patch \
--           "
--
--SRC_URI[md5sum] = "cc25086e1e3bd9512a95f14cfe9002e1"
--SRC_URI[sha256sum] = "01cdc81c33e77c3d7c40df17e19171794542be7cf12e411381ffcaa8f87b1854"
--
--- 
-1.9.1
-
+On 11/24/2014 07:37 AM, Saul Wold wrote:
+> resolvconf was missing a script and needed readlink which was in
+> /usr/bin.  Also the /etc/resolv.conf was not being correctly linked
+> to /etc/resolvconf/run/resolv.conf, which is fixed by the volaties
+> change which is now a file as opposed to created in do_install.
+>
+> Ensure that the correct scripts for ifup/ifdown get installed and that
+> resolvconf is correctly enabled at startup
+>
+> [YOCTO #5361]
+>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>   .../resolvconf/resolvconf/99_resolvconf              |  4 ++++
+>   .../resolvconf/resolvconf/fix-path-for-busybox.patch | 20 ++++++++++++++++++++
+>   .../resolvconf/resolvconf_1.76.bb                    | 17 ++++++++++++++---
+>   3 files changed, 38 insertions(+), 3 deletions(-)
+>   create mode 100644 meta/recipes-connectivity/resolvconf/resolvconf/99_resolvconf
+>   create mode 100644 meta/recipes-connectivity/resolvconf/resolvconf/fix-path-for-busybox.patch
+>
+> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf/99_resolvconf b/meta/recipes-connectivity/resolvconf/resolvconf/99_resolvconf
+> new file mode 100644
+> index 0000000..3790d77
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/resolvconf/resolvconf/99_resolvconf
+> @@ -0,0 +1,4 @@
+> +d root root 0755 /var/run/resolvconf/interface none
+> +f root root 0644 /etc/resolvconf/run/resolv.conf none
+> +f root root 0644 /etc/resolvconf/run/enable-updates none
+> +l root root 0644 /etc/resolv.conf /etc/resolvconf/run/resolv.conf
+> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf/fix-path-for-busybox.patch b/meta/recipes-connectivity/resolvconf/resolvconf/fix-path-for-busybox.patch
+> new file mode 100644
+> index 0000000..1aead07
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/resolvconf/resolvconf/fix-path-for-busybox.patch
+> @@ -0,0 +1,20 @@
+> +
+> +busybox installs readlink into /usr/bin, so ensure /usr/bin
+> +is in the path.
+> +
+> +Upstream-Status: Submitted
+> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> +
+> +Index: resolvconf-1.76/etc/resolvconf/update.d/libc
+> +===================================================================
+> +--- resolvconf-1.76.orig/etc/resolvconf/update.d/libc
+> ++++ resolvconf-1.76/etc/resolvconf/update.d/libc
+> +@@ -16,7 +16,7 @@
+> + #
+> +
+> + set -e
+> +-PATH=/sbin:/bin
+> ++PATH=/sbin:/bin:/usr/bin
+> +
+> + [ -x /lib/resolvconf/list-records ] || exit 1
+> +
+> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb
+> index eb29a2a..20a2c19 100644
+> --- a/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb
+> +++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb
+> @@ -11,7 +11,11 @@ AUTHOR = "Thomas Hood"
+>   HOMEPAGE = "http://packages.debian.org/resolvconf"
+>   RDEPENDS_${PN} = "bash"
+>
+> -SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.xz"
+> +SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.xz \
+> +           file://fix-path-for-busybox.patch \
+> +           file://99_resolvconf \
+> +          "
+> +
+>
+>   SRC_URI[md5sum] = "d78ce30ea068999cd3e0523300b27255"
+>   SRC_URI[sha256sum] = "c9f40f7405b37399ddbf29ca4205b4911ee35cb9ffd9be7671faa2385b1fa573"
+> @@ -24,13 +28,13 @@ do_compile () {
+>
+>   do_install () {
+>   	install -d ${D}${sysconfdir}/default/volatiles
+> -	echo "d root root 0755 ${localstatedir}/run/${BPN}/interface none" \
+> -	     > ${D}${sysconfdir}/default/volatiles/99_resolvconf
+> +	install -m 0644 ${WORKDIR}/99_resolvconf ${D}${sysconfdir}/default/volatiles
+>   	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+>   		install -d ${D}${sysconfdir}/tmpfiles.d
+>   		echo "d /run/${BPN}/interface - - - -" \
+>   		     > ${D}${sysconfdir}/tmpfiles.d/resolvconf.conf
+>   	fi
+> +	install -d ${D}${base_libdir}/${BPN}
+>   	install -d ${D}${sysconfdir}/${BPN}
+>   	ln -snf ${localstatedir}/run/${BPN} ${D}${sysconfdir}/${BPN}/run
+>   	install -d ${D}${sysconfdir} ${D}${base_sbindir}
+> @@ -38,6 +42,11 @@ do_install () {
+>   	cp -pPR etc/* ${D}${sysconfdir}/
+>   	chown -R root:root ${D}${sysconfdir}/
+>   	install -m 0755 bin/resolvconf ${D}${base_sbindir}/
+> +	install -m 0755 bin/list-records ${D}${base_libdir}/${BPN}
+> +	install -d ${D}/${sysconfdir}/network/if-up.d
+> +	install -m 0755 debian/resolvconf.000resolvconf.if-up ${D}/${sysconfdir}/network/if-up.d/000resolvconf
+> +	install -d ${D}/${sysconfdir}/network/if-down.d
+> +	install -m 0755 debian/resolvconf.resolvconf.if-down ${D}/${sysconfdir}/network/if-down.d/resolvconf
+>   	install -m 0644 README ${D}${docdir}/${P}/
+>   	install -m 0644 man/resolvconf.8 ${D}${mandir}/man8/
+>   }
+> @@ -51,3 +60,5 @@ pkg_postinst_${PN} () {
+>   		fi
+>   	fi
+>   }
+> +
+> +FILES_${PN} += "${base_libdir}/${BPN}"
+>
 
