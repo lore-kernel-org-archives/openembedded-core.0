@@ -1,53 +1,51 @@
 Return-Path: <B40290@freescale.com>
-Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2on0133.outbound.protection.outlook.com [65.55.169.133])
-	by mail.openembedded.org (Postfix) with ESMTP id 2467665DAC
+X-Greylist: delayed 430 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 24 Nov 2014 05:31:38 UTC
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2on0109.outbound.protection.outlook.com [207.46.100.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 55D946AC95
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Nov 2014 05:24:42 +0000 (UTC)
-Received: from CH1PR03CA002.namprd03.prod.outlook.com (10.255.156.147) by
-	CY1PR0301MB1196.namprd03.prod.outlook.com (25.160.165.27) with
-	Microsoft SMTP
-	Server (TLS) id 15.1.26.15; Mon, 24 Nov 2014 05:24:40 +0000
-Received: from BN1BFFO11FD057.protection.gbl (10.255.156.132) by
-	CH1PR03CA002.outlook.office365.com (10.255.156.147) with Microsoft SMTP
-	Server (TLS) id 15.1.26.15 via Frontend Transport;
-	Mon, 24 Nov 2014 05:24:40 +0000
-Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BN1BFFO11FD057.mail.protection.outlook.com (10.58.145.12) with
-	Microsoft SMTP Server (TLS) id 15.1.6.13 via Frontend Transport;
-	Mon, 24 Nov 2014 05:24:40 +0000
-Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.75])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	sAO5Oa1O026402; Sun, 23 Nov 2014 22:24:37 -0700
-From: Chunrong Guo <B40290@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Nov 2014 13:24:34 +0800
-Message-ID: <1416806674-15725-1-git-send-email-B40290@freescale.com>
-X-Mailer: git-send-email 1.9.2
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10019020)(6009001)(199003)(189002)(64706001)(44976005)(21056001)(105606002)(104016003)(19580405001)(19580395003)(229853001)(47776003)(20776003)(95666004)(89996001)(87936001)(106466001)(92726001)(2351001)(107046002)(50466002)(50226001)(87286001)(92566001)(104166001)(97736003)(46102003)(450100001)(4396001)(120916001)(110136001)(86362001)(88136002)(6806004)(68736004)(93916002)(31966008)(102836001)(50986999)(84676001)(36756003)(99396003)(77156002)(62966003);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB1196;
-	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv;
-	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:; 
+	Mon, 24 Nov 2014 05:31:38 +0000 (UTC)
+Received: from BY2PR03MB441.namprd03.prod.outlook.com (10.141.141.142) by
+	BY2PR03MB329.namprd03.prod.outlook.com (10.141.139.12) with Microsoft
+	SMTP Server (TLS) id 15.1.26.9; Mon, 24 Nov 2014 05:31:38 +0000
+Received: from BY2PR03MB441.namprd03.prod.outlook.com (10.141.141.142) by
+	BY2PR03MB441.namprd03.prod.outlook.com (10.141.141.142) with Microsoft
+	SMTP Server (TLS) id 15.1.26.15; Mon, 24 Nov 2014 05:31:37 +0000
+Received: from BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) by
+	BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) with mapi id
+	15.01.0026.003; Mon, 24 Nov 2014 05:31:37 +0000
+From: "B40290@freescale.com" <B40290@freescale.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Thread-Topic: [OE-core] [PATCH 2/2] u-boot.inc : add compile multiple u-boot
+	feature
+Thread-Index: AQHQBMdkDZiKS+f+cUuRQKv4LBxQU5xqX+JAgADx3oCAA/PdUA==
+Date: Mon, 24 Nov 2014 05:31:36 +0000
+Message-ID: <BY2PR03MB4413EEDE56020D61009227584720@BY2PR03MB441.namprd03.prod.outlook.com>
+References: <1416477996-13841-1-git-send-email-B40290@freescale.com>
+	<CAP9ODKrqNDd4eWZDTwuH=4XvC=+wfq2gCE1enRTWKD6ge48Rpg@mail.gmail.com>
+	<b922d73bb68345b5989401a77426c885@BY2PR03MB441.namprd03.prod.outlook.com>
+	<CAP9ODKqg6p0q59ci_1CQAOSBwY=kS963W0Yud-oZptKK7ewFEA@mail.gmail.com>
+In-Reply-To: <CAP9ODKqg6p0q59ci_1CQAOSBwY=kS963W0Yud-oZptKK7ewFEA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [123.151.195.51]
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB441;UriScan:;
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB441;
+x-forefront-prvs: 040513D301
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(199003)(189002)(24454002)(377454003)(13464003)(105586002)(106356001)(99286002)(16601075003)(106116001)(97736003)(15975445006)(101416001)(107046002)(15202345003)(93886004)(95666004)(19580395003)(40100003)(19580405001)(33656002)(76576001)(64706001)(87936001)(2656002)(122556002)(110136001)(74316001)(20776003)(92726001)(77156002)(46102003)(92566001)(86362001)(31966008)(66066001)(62966003)(21056001)(99396003)(54356999)(54606007)(76176999)(120916001)(54206007)(50986999)(4396001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BY2PR03MB441;
+	H:BY2PR03MB441.namprd03.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
 MIME-Version: 1.0
-X-Microsoft-Antispam: UriScan:;
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:CY1PR0301MB1196;
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
-	SRVR:CY1PR0301MB1196; 
-X-Forefront-PRVS: 040513D301
-Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
-	designate 192.88.168.50 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.168.50)
-	smtp.mailfrom=B40290@freescale.com; 
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
-	SRVR:CY1PR0301MB1196; 
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB329;
 X-OriginatorOrg: freescale.com
-Subject: [PATCH v2 2/2] u-boot.inc : add compile multiple u-boot feature
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] u-boot.inc : add compile multiple u-boot feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,98 +58,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Nov 2014 05:24:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 24 Nov 2014 05:31:39 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Chunrong Guo <B40290@freescale.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc | 56 +++++++++++++++++++++-----------------
- 1 file changed, 31 insertions(+), 25 deletions(-)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index c695b73..bd76241 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -63,25 +63,32 @@ do_compile () {
- 		echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
- 	fi
- 
--	oe_runmake ${UBOOT_MACHINE}
--	oe_runmake ${UBOOT_MAKE_TARGET}
-+    for type in ${UBOOT_MACHINE}; do
-+        oe_runmake O=${type} ${type}
-+        oe_runmake O=${type} ${UBOOT_MAKE_TARGET}
-+        cp  ${S}/${type}/${UBOOT_BINARY}  ${S}/${type}/u-boot-${type}.bin
-+    done
-+
- }
- 
- do_install () {
--    install -d ${D}/boot
--    install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
--    ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
-+    for type in ${UBOOT_MACHINE}; do
-+        install -d ${D}/boot
-+        install ${S}/${type}/u-boot-${type}.bin ${D}/boot/u-boot-${type}.bin
-+    done
- 
-     if [ -e ${WORKDIR}/fw_env.config ] ; then
-         install -d ${D}${sysconfdir}
-         install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
-     fi
- 
--    if [ "x${SPL_BINARY}" != "x" ]
--    then
--        install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
--        ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
--    fi
-+    for type in ${UBOOT_MACHINE}; do
-+        if [ "x${SPL_BINARY}" != "x" ] && [ -d "${S}/${type}/${SPL_BINARY}"]
-+        then
-+            install ${S}/${type}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-+            ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
-+        fi
-+    done
- 
-     if [ "x${UBOOT_ENV}" != "x" ]
-     then
-@@ -93,21 +100,20 @@ do_install () {
- FILES_${PN} = "/boot ${sysconfdir}"
- 
- do_deploy () {
--    install -d ${DEPLOYDIR}
--    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
--
--    cd ${DEPLOYDIR}
--    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
--    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
--    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
--
--    if [ "x${SPL_BINARY}" != "x" ]
--    then
--        install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
--        rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
--        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
--        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
--    fi
-+    for type in ${UBOOT_MACHINE}; do
-+        install -d ${DEPLOYDIR}
-+        install ${S}/${type}/u-boot-${type}.bin ${DEPLOYDIR}/u-boot-${type}.bin
-+    done
-+    
-+    for type in ${UBOOT_MACHINE}; do
-+        if [ "x${SPL_BINARY}" != "x" ] && [ -d "${S}/${type}/${SPL_BINARY}"]
-+        then
-+            install ${S}/${type}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
-+            rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
-+            ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
-+            ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
-+        fi
-+    done
- 
-     if [ "x${UBOOT_ENV}" != "x" ]
-     then
--- 
-1.9.2
-
+DQpUaGFuayB5b3UgZm9yIHlvdXIgY29tbWVudHMuDQoNCkkgaGF2ZSBzdWJtaXR0ZWQgbmV3IHYy
+IHBhdGNoZXMgLg0KDQpUaGFua3MNCkNodW5yb25nDQoNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdl
+LS0tLS0NCkZyb206IG90YXZpby5zYWx2YWRvckBnbWFpbC5jb20gW21haWx0bzpvdGF2aW8uc2Fs
+dmFkb3JAZ21haWwuY29tXSBPbiBCZWhhbGYgT2YgT3RhdmlvIFNhbHZhZG9yDQpTZW50OiBTYXR1
+cmRheSwgTm92ZW1iZXIgMjIsIDIwMTQgMTowOCBBTQ0KVG86IEd1byBDaHVucm9uZy1CNDAyOTAN
+CkNjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KU3Vi
+amVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi8yXSB1LWJvb3QuaW5jIDogYWRkIGNvbXBpbGUg
+bXVsdGlwbGUgdS1ib290IGZlYXR1cmUNCg0KT24gRnJpLCBOb3YgMjEsIDIwMTQgYXQgMToyOCBB
+TSwgQjQwMjkwQGZyZWVzY2FsZS5jb20gPEI0MDI5MEBmcmVlc2NhbGUuY29tPiB3cm90ZToNCj4g
+VWJvb3QgY29uZmlnIGluY2x1ZGVzIFNQTCB0eXBlLg0KPiBTbyBJIHRoaW5rIHNwbCB0eXBlIHNo
+b3VsZCBiZSB0aGUgc2FtZSBidWlsdCB3aXRoIG90aGVyIHVib290IGNvbmZpZyB0eXBlLg0KDQpZ
+b3UgcmVtb3ZlZCB0aGUgaW5zdGFsbCBibG9jayBvZiBTUEwgYmluYXJ5OyBJIHRoaW5rIGl0IHdp
+bGwgYnJlYWsgU1BMIGJhc2VkIG9uZXMuDQoNCi0tIA0KT3RhdmlvIFNhbHZhZG9yICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBPLlMuIFN5c3RlbXMNCmh0dHA6Ly93d3cub3NzeXN0ZW1zLmNv
+bS5iciAgICAgICAgaHR0cDovL2NvZGUub3NzeXN0ZW1zLmNvbS5icg0KTW9iaWxlOiArNTUgKDUz
+KSA5OTgxLTc4NTQgICAgICAgICAgICBNb2JpbGU6ICsxICgzNDcpIDkwMy05NzUwDQo=
 
