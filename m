@@ -1,32 +1,36 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 5ED857210C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f180.google.com (mail-qc0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 20CD8721BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Nov 2014 20:27:57 +0000 (UTC)
-Received: by mail-qc0-f178.google.com with SMTP id b13so1160390qcw.37
+	Tue, 25 Nov 2014 20:47:18 +0000 (UTC)
+Received: by mail-qc0-f180.google.com with SMTP id i8so1058411qcq.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Nov 2014 12:27:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:from:date:message-id:subject:to:content-type;
-	bh=m4vkPa1z4Y4Vi053nLYJ5z36ks+1oTRQBb+XWju1nxQ=;
-	b=bS7rwP/0UxM6FI/4fMsDuYmKTzRxSNida6E54T68koX0FLEHaCtAXe/mSNQtCff6pE
-	cpoDPaHluwS3jhUvhOB1aktRba7FEyavblsDrFloGgkGxCHJA60oJPev7YfBgsHHqxyJ
-	wpUkbF35x8pZinIwyy9HjtISNbvfbEAeVu7L3x7/IQxfE839w/TAnwlaomcbku22W47V
-	CbK1tht4QBi+006tymMjLs8a+RydXH7beZRJvGePuTcHklHFXMClfiy8i0+cXVZ3/2X5
-	6lSBkJMg+K+vhCRJF1aJiRkiii2f/YFSGFkJZ+g4BRWgtqsZHMq2czY2DGA1lveEhOPf
-	B1qw==
-X-Received: by 10.140.30.33 with SMTP id c30mr39767199qgc.32.1416947278459;
-	Tue, 25 Nov 2014 12:27:58 -0800 (PST)
+	Tue, 25 Nov 2014 12:47:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=fB/PcrDxNJRSDuIa5drt1zm4ZN50REKVg8z7vlEl8jg=;
+	b=Jp6WPsPeLzki1+DOCWo5BPTWiufu1LorDWB+0L6LxJxHzdjTvVlNTQcMSqX0rAXIig
+	5j3KwqF4cdTur6g3zo3nkZPQpEFTL8ACx5pO5A0+oeHKZtlTWAxQiPsUBNKR5Lv/HOzG
+	J+whhd6DLB2F5c78y5uoZHSiwePWvsdlx4mrV4zoYRS0u/Eznx9qRBSHzG+p/X8utMne
+	/kjZf0srAjwrQ+MHnTXCRWrkA2mUKfixljzFrcfKiaMxHiPLiqD1gpE+sDMkfQYGoNJO
+	Gq3piKz6ul4XElBhhT+6mlNGwq5LlraSP2+JnYCFW3CgycfNllWGzvvnrDpKIOncxcVZ
+	HFhA==
+X-Gm-Message-State: ALoCoQnDi0nw9IHN/nLt+frZSNoUU1jfWX0MiNKjyVKZ+D+PQ3keK3Ji4zIWT+55XX4ki9AGd67C
+X-Received: by 10.224.2.135 with SMTP id 7mr41109852qaj.64.1416948438640; Tue,
+	25 Nov 2014 12:47:18 -0800 (PST)
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.140.143.146 with HTTP; Tue, 25 Nov 2014 12:27:18 -0800 (PST)
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Tue, 25 Nov 2014 20:27:18 +0000
-X-Google-Sender-Auth: cYa7O8kz-hv1znmpSobysAPGrWc
-Message-ID: <CANyK_8eZHwtww6AL7L5f34R5Nc7mhSQALaez1NCnHvmUpHWcXw@mail.gmail.com>
-To: OE Core <openembedded-core@lists.openembedded.org>
-Subject: opkg, opkg-config-base and opkg-collateral
+Received: by 10.140.48.231 with HTTP; Tue, 25 Nov 2014 12:46:58 -0800 (PST)
+In-Reply-To: <54183e481450413484c1441603cf77cc@BN1AFFO11FD033.protection.gbl>
+References: <54183e481450413484c1441603cf77cc@BN1AFFO11FD033.protection.gbl>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 25 Nov 2014 20:46:58 +0000
+Message-ID: <CAJTo0LZhPES_4mZx7zvuEGH3PLTeOR5a9GdRKJpM7JYuGyYUQA@mail.gmail.com>
+To: Ezra Savard <ezra.savard@xilinx.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] powertop: update version number from 2.6.1 to 2.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,26 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Nov 2014 20:28:02 -0000
+X-List-Received-Date: Tue, 25 Nov 2014 20:47:26 -0000
+Content-Type: multipart/alternative; boundary=001a11c3defa59b1f00508b50464
+
+--001a11c3defa59b1f00508b50464
 Content-Type: text/plain; charset=UTF-8
 
-Hi all,
+On 25 November 2014 at 17:52, Ezra Savard <ezra.savard@xilinx.com> wrote:
 
-Does anyone know why the configuration files for opkg are split into
-opkg-config-base (containing just '/etc/opkg/arch.conf') and
-opkg-collateral (containing just '/etc/opkg/opkg.conf')? It looks like
-the split dates back to openembedded classic.
+>  meta/recipes-kernel/powertop/powertop_2.7.bb | 31
+> ++++++++++++++++++++++++++++
+>
 
-If there isn't a good reason for this perhaps now would be a good time
-to merge all this back into the 'opkg' recipe and package. I'm happy
-to put the patch together, just checking if it sounds like a good idea
-before I do the work.
+Please also delete 2.6.1.
 
-Cheers,
+Ross
 
--- 
-Paul Barker
+--001a11c3defa59b1f00508b50464
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 November 2014 at 17:52, Ezra Savard <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:ezra.savard@xilinx.com" target=3D"_blank">ezra.savard@xilinx.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":30" class=
+=3D"a3s" style=3D"overflow:hidden">=C2=A0meta/recipes-kernel/powertop/<a hr=
+ef=3D"http://powertop_2.7.bb" target=3D"_blank">powertop_2.7.bb</a> | 31 ++=
+++++++++++++++++++++++++++<br></div></blockquote></div><br>Please also dele=
+te 2.6.1.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">Ross</div></div>
 
+--001a11c3defa59b1f00508b50464--
