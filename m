@@ -1,27 +1,32 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <Chong.Lu@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DAB165E1A
+	by mail.openembedded.org (Postfix) with ESMTP id A12A97228D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Nov 2014 06:46:39 +0000 (UTC)
+	Tue, 25 Nov 2014 09:27:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAP6kcoL013543
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAP9RDC8015326
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Mon, 24 Nov 2014 22:46:38 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 24 Nov 2014 22:46:38 -0800
-Message-ID: <547425CC.5030209@windriver.com>
-Date: Tue, 25 Nov 2014 14:46:36 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
+	Tue, 25 Nov 2014 01:27:14 -0800 (PST)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Tue, 25 Nov 2014 01:27:13 -0800
+Message-ID: <54744B6E.5040607@windriver.com>
+Date: Tue, 25 Nov 2014 17:27:10 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
-	<mark.hatle@windriver.com>
-References: <cover.1415437328.git.hongxu.jia@windriver.com>
-In-Reply-To: <cover.1415437328.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 0/1] compress_doc.bbclass: support update-alternatives
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1416295260.git.Chong.Lu@windriver.com>
+	<6d00e71e0db5fd70243f69bbd6894a296620a41c.1416295260.git.Chong.Lu@windriver.com>
+	<CAJTo0Lb48t-x82qYKAmOY5TmvbWmNvSHV2tSkT+JqyLXcDjxtw@mail.gmail.com>
+	<5472BFFE.4090600@windriver.com>
+	<CAJTo0LYaXhKUPNm8U6o9LJ+kP863M9Q548sjoyQTkMoz0hSyYg@mail.gmail.com>
+In-Reply-To: <CAJTo0LYaXhKUPNm8U6o9LJ+kP863M9Q548sjoyQTkMoz0hSyYg@mail.gmail.com>
+X-Originating-IP: [128.224.162.204]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] bison: update to 3.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,29 +39,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Nov 2014 06:46:41 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Tue, 25 Nov 2014 09:27:44 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/08/2014 05:04 PM, Hongxu Jia wrote:
-> The following changes since commit 7bd03ac24114b2c6015144a37e0c3fb4037baea6:
->
->    bitbake: toastergui: fix invalid build url usage (2014-11-06 16:45:23 +0000)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib hongxu/fix-doc-2
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-doc-2
 
-Ping
-
-//Hongxu
-
-> Hongxu Jia (1):
->    compress_doc.bbclass: support update-alternatives
+On 11/24/2014 07:26 PM, Burton, Ross wrote:
 >
->   meta/classes/compress_doc.bbclass | 46 ++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 45 insertions(+), 1 deletion(-)
+> On 24 November 2014 at 05:19, Chong Lu <Chong.Lu@windriver.com 
+> <mailto:Chong.Lu@windriver.com>> wrote:
 >
+>     After I upgrade bison, I test world on qemuppc and qemux86, that's ok.
+>     Can you tell me, which arch will build failure or how to reproduce
+>     this failure?
+>     I will try to fix it.
+>
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/builds/104/steps/BuildImages/logs/stdio
+>
+> That's PPC with poky-lsb.  It may be unrelated but the failures 
+> involve bison.  I see that glibc doesn't depend on bison-native so if 
+> it is running the tool at build time there could be problems with 
+> bison being replaced during a build.
+>
+> Ross
 
+Hi Ross,
+
+I try to reproduce this issue in my environment. But I can't get build 
+failure about glibc.
+glibc depends on bison-native:
+"glibc" -> "kconfig-frontends-native" -> "bison-native"
+I checked glibc source code. In intl/plural.c file, The bison version is 
+defined:
+#define YYBISON_VERSION "2.7"
+Does this issue related with sstate?
+I build world on some arch, no build failure appear.:-)
+
+Best Regards
+Chong
 
