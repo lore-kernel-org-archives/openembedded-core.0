@@ -1,30 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CBC77722C3
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FDF0722C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Nov 2014 17:58:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sAPHvnhU012953 for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Nov 2014 17:57:49 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id R3isKWxi4zxM
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Nov 2014 17:57:49 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sAPHvXia012950
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Nov 2014 17:57:45 GMT
-Message-ID: <1416938290.12520.5.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Nov 2014 17:58:10 +0000
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] gcc: Rework shared work
+	Tue, 25 Nov 2014 17:58:33 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 25 Nov 2014 09:58:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="421371586"
+Received: from justinda-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.255.13.149])
+	by FMSMGA003.fm.intel.com with ESMTP; 25 Nov 2014 09:48:47 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Date: Tue, 25 Nov 2014 17:58:32 +0000
+Message-ID: <354237917.MY19O5VeQW@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.3 (Linux/3.17.3-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <CANyK_8eHmuktc=tzdJOkWqzeUm2XLWxSToj51yC=5xhew5yYgQ@mail.gmail.com>
+References: <cover.1416934753.git.paul.eggleton@linux.intel.com>
+	<34bc6edfa0a43ee42f91fab28d009a8c3814b44a.1416934753.git.paul.eggleton@linux.intel.com>
+	<CANyK_8eHmuktc=tzdJOkWqzeUm2XLWxSToj51yC=5xhew5yYgQ@mail.gmail.com>
+MIME-Version: 1.0
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 1/7] lib/oe/patch: fall back to patch if git apply fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,191 +35,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Nov 2014 17:58:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Nov 2014 17:58:33 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The current implementation of shared work for gcc is at best confusing. It relies
-on the fetch/unpack/patch tasks having exactly the same stamps and if this gets
-broken for some reason, its hard to figure out what the problem is. It also
-leads to complex code in bitbake.
+Hi Paul,
 
-The benefits of shared work for gcc are clear but a better approach is needed. This
-patch adjusts things so that a single new recipe (gcc-source) provides the
-fetch/unpack/patch/preconfigure tasks, the rest of gcc simply depends on these tasks
-and have no fetch/unpack/patch tasks of their own.
+On Tuesday 25 November 2014 17:40:24 Paul Barker wrote:
+> On 25 November 2014 at 17:28, Paul Eggleton
+> 
+> <paul.eggleton@linux.intel.com> wrote:
+> > When PATCHTOOL = "git", git apply doesn't support fuzzy application, so
+> > if a patch requires that it's better to be able to apply it rather than
+> > just failing.
+> > 
+> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > ---
+> > 
+> >  meta/lib/oe/patch.py | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+> > index b085c9d..788f465 100644
+> > --- a/meta/lib/oe/patch.py
+> > +++ b/meta/lib/oe/patch.py
+> > 
+> > @@ -219,7 +219,11 @@ class GitApplyTree(PatchTree):
+> >              return _applypatchhelper(shellcmd, patch, force, reverse,
+> >              run)
+> >          
+> >          except CmdError:
+> >              shellcmd = ["git", "--git-dir=.", "apply", "-p%s" %
+> >              patch['strippath']]
+> > 
+> > -            return _applypatchhelper(shellcmd, patch, force, reverse,
+> > run)
+> > +            try:
+> > +                output = _applypatchhelper(shellcmd, patch, force,
+> > reverse, run) +            except CmdError:
+> > +                output = PatchTree._applypatch(self, patch, force,
+> > reverse, run) +            return output
+> 
+> Would this give a warning or other notification if the fallback to
+> 'patch' is used? When developing patches it'd probably be good to know
+> whether they're exactly correct or not.
 
-This means we should get the significant benefits (disk usage/performance) of the
-single source tree but in a way which has less potential for problems and is
-easier for people to understand. The cost is an extra recipe/some inc files
-which is probably a good tradeoff.
+In the context I'm attempting to use it I'd want it not to warn in this case, 
+but I can see that in normal usage if you've explicitly elected to use 
+PATCHTOOL = "git" it could be that you do expect all patches for the recipe to 
+apply that way and want to see a warning if they don't.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cheers,
+Paul
 
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index 9d41f65..04c701a 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -79,19 +79,6 @@ ${GNU_MIRROR}/gcc	http://mirrors.rcn.net/pub/sourceware/gcc/releases/ \n \
- ${GNU_MIRROR}/gcc   http://gcc.get-software.com/releases/ \n \
- ${GNU_MIRROR}/gcc	http://gcc.get-software.com/releases/ \n \
- "
--
--python do_preconfigure () {
--    import subprocess
--    cmd = d.expand('PATH=${PATH} cd ${S} && gnu-configize')
--    subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
--    # See 0044-gengtypes.patch, we need to regenerate this file
--    bb.utils.remove(d.expand("${S}/gcc/gengtype-lex.c"))
--    cmd = d.expand("sed -i 's/BUILD_INFO=info/BUILD_INFO=/' ${S}/gcc/configure")
--    subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
--}
--addtask do_preconfigure after do_patch before do_configure
--do_preconfigure[depends] += "gnu-config-native:do_populate_sysroot autoconf-native:do_populate_sysroot"
--
- #
- # Set some default values
- #
-@@ -101,48 +88,12 @@ BINV = "${PV}"
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
- B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
- 
--# SS means Shared Stamps directory
--SS = "${TMPDIR}/stamps/work-shared/gcc-${PV}-${PR}"
--do_fetch[stamp-base] = "${SS}"
--do_unpack[stamp-base] = "${SS}"
--do_patch[stamp-base] = "${SS}"
--do_preconfigure[stamp-base] = "${SS}"
--SSCLEAN = "${TMPDIR}/stamps/work-shared/gcc-[0-9]*-*"
--do_fetch[stamp-base-clean] = "${SSCLEAN}"
--do_unpack[stamp-base-clean] = "${SSCLEAN}"
--do_unpack[umask] = "022"
--do_patch[stamp-base-clean] = "${SSCLEAN}"
--do_preconfigure[stamp-base-clean] = "${SSCLEAN}"
--
--# SW means Shared Work directory
--SW = "${TMPDIR}/work-shared/gcc-${PV}-${PR}"
--SSTATE_SWSPEC = "sstate:gcc::${PV}:${PR}::${SSTATE_VERSION}:"
--WORKDIR_task-unpack = "${SW}"
--WORKDIR_task-patch = "${SW}"
--WORKDIR_task-preconfigure = "${SW}"
--
- target_includedir ?= "${includedir}"
- target_libdir ?= "${libdir}"
- target_base_libdir ?= "${base_libdir}"
- target_prefix ?= "${prefix}"
- 
--CLEANFUNCS += "workshared_clean"
--# The do_clean should be exclusive since share ${S}
--do_clean[lockfiles] = "${SW}.clean.lock"
--
--python workshared_clean () {
--	"""clear the source directory"""
--	dir = d.expand("${SW}")
--	bb.note("Removing " + dir)
--	oe.path.remove(dir)
--
--	"""clear the the stamps in work-shared"""
--	dir = "%s.*" % bb.data.expand(d.getVarFlag('do_fetch', 'stamp-base', True), d)
--	bb.note("Removing " + dir)
--	oe.path.remove(dir)
--}
--
--# We need to ensure that for the shared work directory, the do_patch singatures match
-+# We need to ensure that for the shared work directory, the do_patch signatures match
- # The real WORKDIR location isn't a dependency for the shared workdir.
- src_patches[vardepsexclude] = "WORKDIR"
- should_apply[vardepsexclude] += "PN"
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index f33678c..0693118 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -1,4 +1,5 @@
- require gcc-multilib-config.inc
-+require gcc-shared-source.inc
- #
- # Build the list of lanaguages to build.
- #
-diff --git a/meta/recipes-devtools/gcc/gcc-shared-source.inc b/meta/recipes-devtools/gcc/gcc-shared-source.inc
-new file mode 100644
-index 0000000..a2aed6b
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-shared-source.inc
-@@ -0,0 +1,6 @@
-+deltask do_fetch
-+deltask do_unpack
-+deltask do_patch
-+
-+do_configure[depends] += "gcc-source:do_preconfigure"
-+do_populate_lic[depends] += "gcc-source:do_unpack"
-diff --git a/meta/recipes-devtools/gcc/gcc-source.inc b/meta/recipes-devtools/gcc/gcc-source.inc
-new file mode 100644
-index 0000000..fd0b91a
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-source.inc
-@@ -0,0 +1,34 @@
-+deltask do_configure 
-+deltask do_compile 
-+deltask do_package 
-+deltask do_package_write_rpm 
-+deltask do_package_write_ipk 
-+deltask do_package_write_deb
-+deltask do_install 
-+deltask do_populate_sysroot
-+deltask do_populate_lic 
-+deltask do_package_qa
-+deltask do_packagedata
-+deltask do_rm_work
-+
-+WORKDIR = "${TMPDIR}/work-shared/gcc-${PV}-${PR}"
-+SSTATE_SWSPEC = "sstate:gcc::${PV}:${PR}::${SSTATE_VERSION}:"
-+
-+STAMP = "${STAMPS_DIR}/work-shared/gcc-${PV}-${PR}"
-+STAMPCLEAN = "${STAMPS_DIR}/work-shared/gcc-[0-9]*-*"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+DEPENDS = ""
-+
-+python do_preconfigure () {
-+    import subprocess
-+    cmd = d.expand('PATH=${PATH} cd ${S} && gnu-configize')
-+    subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-+    # See 0044-gengtypes.patch, we need to regenerate this file
-+    bb.utils.remove(d.expand("${S}/gcc/gengtype-lex.c"))
-+    cmd = d.expand("sed -i 's/BUILD_INFO=info/BUILD_INFO=/' ${S}/gcc/configure")
-+    subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
-+}
-+addtask do_preconfigure after do_patch
-+do_preconfigure[depends] += "gnu-config-native:do_populate_sysroot autoconf-native:do_populate_sysroot"
-+
-diff --git a/meta/recipes-devtools/gcc/gcc-source_4.8.bb b/meta/recipes-devtools/gcc/gcc-source_4.8.bb
-new file mode 100644
-index 0000000..234b82e
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-source_4.8.bb
-@@ -0,0 +1,2 @@
-+require recipes-devtools/gcc/gcc-${PV}.inc
-+require recipes-devtools/gcc/gcc-source.inc
-diff --git a/meta/recipes-devtools/gcc/gcc-source_4.9.bb b/meta/recipes-devtools/gcc/gcc-source_4.9.bb
-new file mode 100644
-index 0000000..234b82e
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-source_4.9.bb
-@@ -0,0 +1,2 @@
-+require recipes-devtools/gcc/gcc-${PV}.inc
-+require recipes-devtools/gcc/gcc-source.inc
-diff --git a/meta/recipes-devtools/gcc/libgcc-common.inc b/meta/recipes-devtools/gcc/libgcc-common.inc
-index c81a80c..1e1e1c1 100644
---- a/meta/recipes-devtools/gcc/libgcc-common.inc
-+++ b/meta/recipes-devtools/gcc/libgcc-common.inc
-@@ -1,5 +1,7 @@
- BPN = "libgcc"
- 
-+require gcc-shared-source.inc
-+
- INHIBIT_DEFAULT_DEPS = "1"
- 
- do_configure () {
+-- 
 
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
