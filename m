@@ -1,32 +1,44 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 436C77215B
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 25 Nov 2014 19:17:23 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 25 Nov 2014 11:17:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="421408779"
-Received: from unknown (HELO [10.255.13.44]) ([10.255.13.44])
-	by FMSMGA003.fm.intel.com with ESMTP; 25 Nov 2014 11:07:13 -0800
-Message-ID: <1416943019.2548.6.camel@picadillo>
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: Armin Kuster <akuster808@gmail.com>, Bruce Ashfield
-	<bruce.ashfield@windriver.com>
-Date: Tue, 25 Nov 2014 13:16:59 -0600
-In-Reply-To: <5459956B.5090904@windriver.com>
-References: <cover.1412112668.git.nitin.a.kamble@intel.com>
-	<9c2742ca226e51d4d369e9c761c270c8acbe7b2a.1412112668.git.nitin.a.kamble@intel.com>
-	<1415143532.24776.2.camel@empanada.home.network>
-	<ADD6A3980E8C39419A432FF422031B4C7CF12726@ORSMSX103.amr.corp.intel.com>
-	<5459956B.5090904@windriver.com>
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
-Cc: "dvhart@linux.intel.com" <dvhart@linux.intel.com>,
-	"Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>, "WOLD,
-	SAUL" <saul.wold@intel.com>
-Subject: Re: [Patch v2 1/1] kernel.bbclass: enable a link for external module building
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id DC46D722EA
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Nov 2014 19:56:05 +0000 (UTC)
+Received: by mail-ig0-f172.google.com with SMTP id hl2so5635856igb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Nov 2014 11:56:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=RaO35BBo81VLLkdC58rFciS7UYTEzQDMe3HBFGd74eM=;
+	b=J2ovdz3fUi7IUW5C+FiQqqlrekHDjxuNoYJHPSwY9nNUOkcRAVXOCFumO+cEMYcR1w
+	7MA/9LN4PtaL9Ud30Y6jltqkVqVxowAOiIPiYqXRVYMGf+TYIrsVxeMgv63TpyCot3jw
+	jg4K4WIRfu9OjDliQvcs9+DDDWyTj3queAL8zjXEpHX2kPUNVyeghqPn8qgOtms8m+0T
+	jVtRb46Sy/ypmdbQpWmcuFjVNdG7AgLtoZeDJwp9NQ5XbtXX0gpVXEZaph942IkEnPIA
+	TBAKbOyFaysETFO0IFx7zYgZJI7/5s5VV/uJEZBu9DAWdw2PB+fL027/X0KNWOuCiWKT
+	kGXQ==
+X-Gm-Message-State: ALoCoQmxLXCfI7DzxOfBQoxMyAlYPIWXaOblJFRDgCY/MiHPKoNd89KaMyPmBVC1eKxnHNBny1A2
+X-Received: by 10.43.76.67 with SMTP id zd3mr31940107icb.42.1416945365239;
+	Tue, 25 Nov 2014 11:56:05 -0800 (PST)
+Received: from [192.168.141.122] (dsl-69-172-74-189.acanac.net.
+	[69.172.74.189])
+	by mx.google.com with ESMTPSA id zy11sm1494592igc.4.2014.11.25.11.55.58
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 25 Nov 2014 11:56:04 -0800 (PST)
+Message-ID: <5474DEDE.4000005@linaro.org>
+Date: Tue, 25 Nov 2014 14:56:14 -0500
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1416934753.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1416934753.git.paul.eggleton@linux.intel.com>
+Subject: Re: [RFC PATCH 0/7] Developer workflow improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,230 +51,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Nov 2014 19:17:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 25 Nov 2014 19:56:07 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-Adding Armin (for dizzy).
+Wow, this is exciting!
 
-On Tue, 2014-11-04 at 22:11 -0500, Bruce Ashfield wrote:
-> On 2014-11-04, 6:58 PM, Kamble, Nitin A wrote:
-> >
-> >
-> >> -----Original Message-----
-> >> From: Zanussi, Tom
-> >> Sent: Tuesday, November 04, 2014 3:26 PM
-> >> To: Kamble, Nitin A
-> >> Cc: richard.purdie@linuxfoundation.org; Wold, Saul; Burton, Ross; Ashfield,
-> >> Bruce (Wind River); dvhart@linux.intel.com; Openembedded-
-> >> core@lists.openembedded.org
-> >> Subject: Re: [OE-core] [Patch v2 1/1] kernel.bbclass: enable a link for external
-> >> module building
-> >>
-> >> On Tue, 2014-09-30 at 14:40 -0700, nitin.a.kamble@intel.com wrote:
-> >>> From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> >>>
-> >>> Even though the kernel-dev package provides the required support for
-> >>> building external kernel modules on the target, some commonly used
-> >>> scripts and utilities fail as they are not finding the kernel module
-> >>> build support files at the desired location.
-> >>>
-> >>> Create the /lib/modules/<kernel-version>/build link on target pointing
-> >>> to the sources provided by the kernel-dev package, to fix the issue.
-> >>>
-> >>> Fixes Bug:
-> >>> [YOCTO #2968]
-> >>>
-> >>
-> >> I just updated my dizzy branch and am getting this when building a kernel
-> >> with no modules:
-> >>
-> >> Build Configuration:
-> >> BB_VERSION        = "1.24.0"
-> >> BUILD_SYS         = "x86_64-linux"
-> >> NATIVELSBSTRING   = "Fedora-19"
-> >> TARGET_SYS        = "i586-poky-linux-uclibc"
-> >> MACHINE           = "galileo"
-> >> DISTRO            = "poky-micro"
-> >> DISTRO_VERSION    = "1.7"
-> >> TUNE_FEATURES     = "m32 i586"
-> >> TARGET_FPU        = ""
-> >> meta
-> >> meta-yocto
-> >> meta-yocto-bsp    = "dizzy0:64643804aea02e3062a7cde7af236771c56311fd"
-> >> meta-intel        = "dizzy0:002bef4c2a59e95503a2bb7729e7749cd5a9f65b"
-> >> meta-micro-galileo = "dizzy0:f30310dc84dcd96b9e93bb6e5b531631d57d26d6"
-> >>
-> >> NOTE: Preparing runqueue
-> >> NOTE: Executing SetScene Tasks
-> >> NOTE: Executing RunQueue Tasks
-> >> ERROR: Function failed: do_install (log file is located at
-> >> /home/trz/yocto/galileo-work/build/tmp/work/galileo-poky-linux-
-> >> uclibc/linux-yocto-micro/3.17+gitAUTOINC+fb21bdc896_522a64f489-
-> >> r4.1.1/temp/log.do_install.25369)
-> >> ERROR: Logfile of failure stored in: /home/trz/yocto/galileo-
-> >> work/build/tmp/work/galileo-poky-linux-uclibc/linux-yocto-
-> >> micro/3.17+gitAUTOINC+fb21bdc896_522a64f489-
-> >> r4.1.1/temp/log.do_install.25369
-> >> Log data follows:
-> >> | DEBUG: Executing python function package_get_auto_pr
-> >> | DEBUG: Python function package_get_auto_pr finished
-> >> | DEBUG: Executing shell function do_install
-> >> | NOTE: no modules to install
-> >> | ln: failed to create symbolic link
-> >> | '/home/trz/yocto/galileo-work/build/tmp/work/galileo-poky-linux-uclibc
-> >> | /linux-yocto-micro/3.17+gitAUTOINC+fb21bdc896_522a64f489-
-> >> r4.1.1/image/
-> >> | lib/modules/3.17.0-rc7-yocto-micro/build': No such file or directory
-> >> | WARNING: /home/trz/yocto/galileo-work/build/tmp/work/galileo-poky-
-> >> linux-uclibc/linux-yocto-micro/3.17+gitAUTOINC+fb21bdc896_522a64f489-
-> >> r4.1.1/temp/run.do_install.25369:1 exit 1 from
-> >> |   ln -sf /usr/src/kernel "/home/trz/yocto/galileo-
-> >> work/build/tmp/work/galileo-poky-linux-uclibc/linux-yocto-
-> >> micro/3.17+gitAUTOINC+fb21bdc896_522a64f489-
-> >> r4.1.1/image/lib/modules/3.17.0-rc7-yocto-micro/build"
-> >> | ERROR: Function failed: do_install (log file is located at
-> >> | /home/trz/yocto/galileo-work/build/tmp/work/galileo-poky-linux-uclibc/
-> >> | linux-yocto-micro/3.17+gitAUTOINC+fb21bdc896_522a64f489-
-> >> r4.1.1/temp/lo
-> >> | g.do_install.25369)
-> >> ERROR: Task 4 (/home/trz/yocto/galileo-work/meta-intel/meta-micro-
-> >> galileo/recipes-kernel/linux/linux-yocto-micro_3.17.bb, do_install) failed
-> >> with exit code '1'
-> >> NOTE: Tasks Summary: Attempted 387 tasks of which 386 didn't need to be
-> >> rerun and 1 failed.
-> >> No currently running tasks (357 of 395)
-> >>
-> >> Summary: 1 task failed:
-> >>    /home/trz/yocto/galileo-work/meta-intel/meta-micro-galileo/recipes-
-> >> kernel/linux/linux-yocto-micro_3.17.bb, do_install
-> >> Summary: There was 1 ERROR message shown, returning a non-zero exit
-> >> code.
-> >>
-> >>
-> >> Reverting this patch gets past it.
-> 
-> 
-> Zhe He sent the same patch on the 21st, I guess it slipped through
-> the cracks:
-> 
-> -----------------------------------------
-> 
-> [OE-core] [PATCH] kernel.bbclass: Create modules directory even if there 
-> is no modules installed
-> 
+Just thinking out loud here... is there a way to way to have the
+devshell come up without having applied any patches but with the patches
+already queued in, say, a quilt series?
 
-Hi Armin,
-
-It doesn't look like this fix ever made it to dizzy.  Could you please
-pull this commit into your dizzy-next branch?:
-
-commit 4c222d3a67bae265ff42b448ef4a643b0131e578
-Author: He Zhe <zhe.he@windriver.com>
-Date:   Tue Oct 21 17:47:44 2014 +0800
-
-    kernel.bbclass: Create modules directory even if there is no modules
-install
- 
-
-Thanks,
-
-Tom
-
-> -----------------------------
-> 
-> zhe.he@windriver.com
-> Oct 21
-> 
-> to openembedded-c.
-> From: He Zhe <zhe.he@windriver.com>
-> 
-> During kernel_do_install it needs to make symbol link at
-> ${D}/lib/modules/${KERNEL_VERSION}/build, but there will not be
-> ${D}/lib/modules/${KERNEL_VERSION} if there is no modules installed for 
-> current
-> image, which will result in a build failure.
-> Add "mkdir -p ${D}/lib/modules/${KERNEL_VERSION}" here to avoid this failure
-> and the need of similar changes in other scripts that also expect it to 
-> exist.
-> 
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
-> ---
->   meta/classes/kernel.bbclass | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index e958f90..e342ed1 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -233,6 +233,7 @@ kernel_do_install() {
->          #
->          kerneldir=${D}${KERNEL_SRC_PATH}
->          install -d $kerneldir
-> +       mkdir -p ${D}/lib/modules/${KERNEL_VERSION}
->          ln -sf ${KERNEL_SRC_PATH} 
-> "${D}/lib/modules/${KERNEL_VERSION}/build"
-> 
-> --------------------------
-> 
-> Bruce
-> 
-> 
-> > Hi Tom,
-> >    Because of the no modules kernel configuration, the required directory structure is missing. This patch would fix the issue by ensuring the required directory is present. Can you verify the fix?
-> >
-> > --- a/meta/classes/kernel.bbclass
-> > +++ b/meta/classes/kernel.bbclass
-> > @@ -213,6 +213,7 @@ kernel_do_install() {
-> >          #
-> >          kerneldir=${D}${KERNEL_SRC_PATH}
-> >          install -d $kerneldir
-> > +       mkdir -p "${D}/lib/modules/${KERNEL_VERSION}"
-> >          ln -sf ${KERNEL_SRC_PATH} "${D}/lib/modules/${KERNEL_VERSION}/build"
-> >
-> > Thanks,
-> > Nitin
-> >
-> >>
-> >> Tom
-> >>
-> >>> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> >>> ---
-> >>>   meta/classes/kernel.bbclass | 3 ++-
-> >>>   1 file changed, 2 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> >>> index 78b33ce..5ac4ff4 100644
-> >>> --- a/meta/classes/kernel.bbclass
-> >>> +++ b/meta/classes/kernel.bbclass
-> >>> @@ -213,6 +213,7 @@ kernel_do_install() {
-> >>>      #
-> >>>      kerneldir=${D}${KERNEL_SRC_PATH}
-> >>>      install -d $kerneldir
-> >>> +   ln -sf ${KERNEL_SRC_PATH}
-> >> "${D}/lib/modules/${KERNEL_VERSION}/build"
-> >>>
-> >>>      #
-> >>>      # Store the kernel version in sysroots for module-base.bbclass @@
-> >>> -346,7 +347,7 @@ PACKAGES = "kernel kernel-base kernel-vmlinux
-> >>> kernel-image kernel-dev kernel-mod  FILES_${PN} = ""
-> >>>   FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order
-> >> /lib/modules/${KERNEL_VERSION}/modules.builtin"
-> >>>   FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
-> >>> -FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers*
-> >> /boot/config* ${KERNEL_SRC_PATH}"
-> >>> +FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers*
-> >> /boot/config* ${KERNEL_SRC_PATH}
-> >> /lib/modules/${KERNEL_VERSION}/build"
-> >>>   FILES_kernel-vmlinux = "/boot/vmlinux*"
-> >>>   FILES_kernel-modules = ""
-> >>>   RDEPENDS_kernel = "kernel-base"
-> >>> --
-> >>> 1.8.1.4
-> >>>
-> >>
-> >
-> 
-
-
+It seems to happen often enough to me that: a recipe has 10 local
+patches which applied fine yesterday but now patch 7 is failing because
+the upstream developers changed something. I would be nice to be able to
+devshell to the point where patch 6 has been applied and patch 7 is
+waiting to go on. Then I could apply the patch myself to figure out why
+it's failing. Or just having all the patches ready to apply (in a quilt
+series, as mentioned above) would be great too.
 
