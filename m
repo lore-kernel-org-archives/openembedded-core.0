@@ -1,28 +1,56 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FDF0722C3
+Return-Path: <ezra.savard@xilinx.com>
+X-Greylist: delayed 1978 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 25 Nov 2014 18:26:17 UTC
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1on0070.outbound.protection.outlook.com [157.56.110.70])
+	by mail.openembedded.org (Postfix) with ESMTP id C847D70A7E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Nov 2014 17:58:33 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 25 Nov 2014 09:58:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="421371586"
-Received: from justinda-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.255.13.149])
-	by FMSMGA003.fm.intel.com with ESMTP; 25 Nov 2014 09:48:47 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Paul Barker <paul@paulbarker.me.uk>
-Date: Tue, 25 Nov 2014 17:58:32 +0000
-Message-ID: <354237917.MY19O5VeQW@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.3-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <CANyK_8eHmuktc=tzdJOkWqzeUm2XLWxSToj51yC=5xhew5yYgQ@mail.gmail.com>
-References: <cover.1416934753.git.paul.eggleton@linux.intel.com>
-	<34bc6edfa0a43ee42f91fab28d009a8c3814b44a.1416934753.git.paul.eggleton@linux.intel.com>
-	<CANyK_8eHmuktc=tzdJOkWqzeUm2XLWxSToj51yC=5xhew5yYgQ@mail.gmail.com>
+	Tue, 25 Nov 2014 18:26:17 +0000 (UTC)
+Received: from BN1AFFO11FD033.protection.gbl (10.58.52.32) by
+	BN1AFFO11HUB038.protection.gbl (10.58.52.149) with Microsoft SMTP
+	Server (TLS) id 15.1.6.13; Tue, 25 Nov 2014 17:53:19 +0000
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	BN1AFFO11FD033.mail.protection.outlook.com (10.58.52.246) with
+	Microsoft SMTP Server (TLS) id 15.1.6.13 via Frontend Transport;
+	Tue, 25 Nov 2014 17:53:19 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <ezra.savard@xilinx.com>) id 1XtKGH-0002u7-Ll
+	for openembedded-core@lists.openembedded.org;
+	Tue, 25 Nov 2014 09:50:49 -0800
+From: Ezra Savard <ezra.savard@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 25 Nov 2014 09:52:43 -0800
+X-Mailer: git-send-email 2.1.0
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-7.5.0.1018-21130.000
+X-TM-AS-Result: No--11.073-7.0-31-1
+X-imss-scan-details: No--11.073-7.0-31-1;No--11.073-5.0-31-1
+X-TM-AS-User-Approved-Sender: No;No
+Message-ID: <54183e481450413484c1441603cf77cc@BN1AFFO11FD033.protection.gbl>
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; IPV:NLI; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(6009001)(438002)(189002)(199003)(64706001)(44976005)(47776003)(110136001)(575784001)(50986999)(88136002)(53416004)(229853001)(120916001)(104016003)(107046002)(33646002)(31966008)(20776003)(19580395003)(106466001)(108616004)(74316001)(87936001)(77156002)(21056001)(46102003)(6806004)(2351001)(77096003)(87286001)(104166001)(95666004)(89996001)(19580405001)(15975445006)(50226001)(86362001)(62966003)(48376002)(102836001)(450100001)(50466002)(15395725005)(93916002)(4396001)(15202345003)(92566001)(2420400002)(99396003)(107986001)(24736002)(23106004);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BN1AFFO11HUB038;
+	H:xsj-pvapsmtpgw01; FPR:; MLV:sfv; PTR:unknown-60-83.xilinx.com;
+	MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 1/7] lib/oe/patch: fall back to patch if git apply fails
+X-Microsoft-Antispam: UriScan:;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BN1AFFO11HUB038;
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
+	SRVR:BN1AFFO11HUB038; 
+X-Forefront-PRVS: 040655413E
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	smtp.mailfrom=ezra.savard@xilinx.com; 
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
+	SRVR:BN1AFFO11HUB038; 
+X-OriginatorOrg: xilinx.com
+Subject: [PATCH] powertop: update version number from 2.6.1 to 2.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,61 +63,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Nov 2014 17:58:33 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 25 Nov 2014 18:26:26 -0000
+Content-Type: text/plain
 
-Hi Paul,
+The v2.7 release of powertop fixes devfreq support for ARM, along with
+other bug fixes.
 
-On Tuesday 25 November 2014 17:40:24 Paul Barker wrote:
-> On 25 November 2014 at 17:28, Paul Eggleton
-> 
-> <paul.eggleton@linux.intel.com> wrote:
-> > When PATCHTOOL = "git", git apply doesn't support fuzzy application, so
-> > if a patch requires that it's better to be able to apply it rather than
-> > just failing.
-> > 
-> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> > ---
-> > 
-> >  meta/lib/oe/patch.py | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-> > index b085c9d..788f465 100644
-> > --- a/meta/lib/oe/patch.py
-> > +++ b/meta/lib/oe/patch.py
-> > 
-> > @@ -219,7 +219,11 @@ class GitApplyTree(PatchTree):
-> >              return _applypatchhelper(shellcmd, patch, force, reverse,
-> >              run)
-> >          
-> >          except CmdError:
-> >              shellcmd = ["git", "--git-dir=.", "apply", "-p%s" %
-> >              patch['strippath']]
-> > 
-> > -            return _applypatchhelper(shellcmd, patch, force, reverse,
-> > run)
-> > +            try:
-> > +                output = _applypatchhelper(shellcmd, patch, force,
-> > reverse, run) +            except CmdError:
-> > +                output = PatchTree._applypatch(self, patch, force,
-> > reverse, run) +            return output
-> 
-> Would this give a warning or other notification if the fallback to
-> 'patch' is used? When developing patches it'd probably be good to know
-> whether they're exactly correct or not.
+Signed-off-by: Ezra Savard <ezra.savard@xilinx.com>
+---
+ meta/recipes-kernel/powertop/powertop_2.7.bb | 31 ++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+ create mode 100644 meta/recipes-kernel/powertop/powertop_2.7.bb
 
-In the context I'm attempting to use it I'd want it not to warn in this case, 
-but I can see that in normal usage if you've explicitly elected to use 
-PATCHTOOL = "git" it could be that you do expect all patches for the recipe to 
-apply that way and want to see a warning if they don't.
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-kernel/powertop/powertop_2.7.bb b/meta/recipes-kernel/powertop/powertop_2.7.bb
+new file mode 100644
+index 000000000000..58216c2d1516
+--- /dev/null
++++ b/meta/recipes-kernel/powertop/powertop_2.7.bb
+@@ -0,0 +1,31 @@
++SUMMARY = "Power usage tool"
++DESCRIPTION = "Linux tool to diagnose issues with power consumption and power management."
++HOMEPAGE = "http://01.org/powertop/"
++BUGTRACKER = "http://bugzilla.lesswatts.org/"
++DEPENDS = "ncurses libnl pciutils"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
++
++SRC_URI = "http://01.org/powertop/sites/default/files/downloads/powertop-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "4391e7b0af854ecf722cdf712f24b631"
++SRC_URI[sha256sum] = "034cde6d5bb433fe0d29251d5cde5d4c2948abf05fe29ef10966b659331b20e4"
++
++inherit autotools gettext pkgconfig
++
++# we need to explicitly link with libintl in uClibc systems
++LDFLAGS += "${EXTRA_LDFLAGS}"
++EXTRA_LDFLAGS_libc-uclibc = "-lintl"
++
++# we do not want libncursesw if we can
++do_configure_prepend() {
++    # configure.ac checks for delwin() in "ncursesw ncurses" so let's drop first one
++    sed -i -e "s/ncursesw//g" ${S}/configure.ac
++    mkdir -p ${B}/src/tuning/
++}
++
++inherit update-alternatives
++ALTERNATIVE_${PN} = "powertop"
++ALTERNATIVE_TARGET[powertop] = "${sbindir}/powertop"
++ALTERNATIVE_LINK_NAME[powertop] = "${sbindir}/powertop"
++ALTERNATIVE_PRIORITY = "100"
 -- 
+2.1.0
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
