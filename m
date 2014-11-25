@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AF577721BB
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 006A165E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Nov 2014 05:58:49 +0000 (UTC)
+	Tue, 25 Nov 2014 06:46:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAP5wmV8017860
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAP6kK7U013540
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Mon, 24 Nov 2014 21:58:48 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 24 Nov 2014 21:58:47 -0800
+	Mon, 24 Nov 2014 22:46:20 -0800 (PST)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 24 Nov 2014 22:46:19 -0800
+Message-ID: <547425BA.5010608@windriver.com>
+Date: Tue, 25 Nov 2014 14:46:18 +0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <saul.wold@intel.com>,
-	<liezhi.yang@windriver.com>
-Date: Tue, 25 Nov 2014 13:58:43 +0800
-Message-ID: <f88b26d3dae098e6c16d7a216228932c3260ac04.1416894918.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1416894918.git.hongxu.jia@windriver.com>
-References: <cover.1416894918.git.hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] systemtap: fix do_compile failed on fedora21
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+References: <cover.1415426131.git.hongxu.jia@windriver.com>
+In-Reply-To: <cover.1415426131.git.hongxu.jia@windriver.com>
+Subject: Re: [PATCH 0/1] compress_doc.bbclass: improve manual file detection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,77 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Nov 2014 05:58:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 25 Nov 2014 06:46:25 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-For dora, the systemtap-native do_compile failed on fedora21
-...
-| In file included from /usr/include/stdio.h:27:0,
-|                  from tmp/work/x86_64-linux/systemtap-native/
-2.3+gitAUTOINC+e58138572e-r0/git/staprun/staprun.h:18,
-|                  from tmp/work/x86_64-linux/systemtap-native/
-2.3+gitAUTOINC+e58138572e-r0/git/staprun/staprun.c:24:
-| /usr/include/features.h:148:3: error: #warning "_BSD_SOURCE and
-_SVID_SOURCE are deprecated, use _DEFAULT_SOURCE" [-Werror=cpp]
-|  # warning "_BSD_SOURCE and _SVID_SOURCE are deprecated, use
-_DEFAULT_SOURCE"
-...
+On 11/08/2014 01:56 PM, Hongxu Jia wrote:
+> The following changes since commit 7bd03ac24114b2c6015144a37e0c3fb4037baea6:
+>
+>    bitbake: toastergui: fix invalid build url usage (2014-11-06 16:45:23 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib hongxu/fix-doc
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-doc
 
-We backport a patch from 2.6 to fix this issue
+Ping
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...pt-to-glibc-deprecation-of-_BSD_SOURCE-ad.patch | 27 ++++++++++++++++++++++
- meta/recipes-kernel/systemtap/systemtap_git.inc    |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-PR16632-Adapt-to-glibc-deprecation-of-_BSD_SOURCE-ad.patch
+//Hongxu
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-PR16632-Adapt-to-glibc-deprecation-of-_BSD_SOURCE-ad.patch b/meta/recipes-kernel/systemtap/systemtap/0001-PR16632-Adapt-to-glibc-deprecation-of-_BSD_SOURCE-ad.patch
-new file mode 100644
-index 0000000..df9b7c9
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-PR16632-Adapt-to-glibc-deprecation-of-_BSD_SOURCE-ad.patch
-@@ -0,0 +1,27 @@
-+From 62379eedc739605f04d02e76eb50c4d2f129ae08 Mon Sep 17 00:00:00 2001
-+From: "Frank Ch. Eigler" <fche@redhat.com>
-+Date: Tue, 25 Nov 2014 13:45:14 +0800
-+Subject: [PATCH] PR16632: Adapt to glibc deprecation of _BSD_SOURCE: add _DEFAULT_SOURCE
-+
-+Upstream-Status: Backport from commit c6278d012a483d97f5ee4756406d9c88735d2838
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ staprun/staprun.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/staprun/staprun.c b/staprun/staprun.c
-+index b85e2b0..1e1b5c3 100644
-+--- a/staprun/staprun.c
-++++ b/staprun/staprun.c
-+@@ -21,6 +21,7 @@
-+ 
-+ #define _XOPEN_SOURCE
-+ #define _BSD_SOURCE
-++#define _DEFAULT_SOURCE
-+ #include "staprun.h"
-+ #include "../privilege.h"
-+ #include "../runtime/k_syms.h"
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index d8c6408..2724c0e 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -7,6 +7,7 @@ PV = "2.3+git${SRCPV}"
- SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://docproc-build-fix.patch \
-            file://obsolete_automake_macros.patch \
-+           file://0001-PR16632-Adapt-to-glibc-deprecation-of-_BSD_SOURCE-ad.patch \
-           "
- 
- FILESPATH = "${FILE_DIRNAME}/systemtap"
--- 
-1.9.1
+> Hongxu Jia (1):
+>    compress_doc.bbclass: improve manual file detection
+>
+>   meta/classes/compress_doc.bbclass | 11 +++++++----
+>   1 file changed, 7 insertions(+), 4 deletions(-)
+>
 
 
