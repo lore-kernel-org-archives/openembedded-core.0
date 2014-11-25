@@ -1,32 +1,29 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A12A97228D
+Return-Path: <diego.ml@zoho.com>
+X-Greylist: delayed 1294 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 25 Nov 2014 10:12:37 UTC
+Received: from sender1.zohomail.com (sender1.zohomail.com [72.5.230.103])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C05D65DAC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Nov 2014 09:27:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAP9RDC8015326
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 25 Nov 2014 01:27:14 -0800 (PST)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Tue, 25 Nov 2014 01:27:13 -0800
-Message-ID: <54744B6E.5040607@windriver.com>
-Date: Tue, 25 Nov 2014 17:27:10 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Tue, 25 Nov 2014 10:12:37 +0000 (UTC)
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zapps768; d=zoho.com; 
+	h=from:to:subject:date:message-id:user-agent:in-reply-to:mime-version:content-type;
+	b=FjkZ9dZjVmgH5Ka8Y9dDPFB1kou63QwrNsPbeBcr8fKxElzPO/l2FU5QcdjWb2Rm5dW9V4F0xFe+
+	roIkAgKnYjblXH7AmE5qHQRieFjrlQtGCfGbxE82t/p/UkWtziYM  
+Received: from localhost.localdomain
+	(host65-246-static.10-188-b.business.telecomitalia.it
+	[188.10.246.65]) by mx.zohomail.com
+	with SMTPS id 1416908617796376.8938983627352;
+	Tue, 25 Nov 2014 01:43:37 -0800 (PST)
+From: Diego <diego.ml@zoho.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Nov 2014 10:43:34 +0100
+Message-ID: <15075639.N11tDChWWz@localhost.localdomain>
+User-Agent: KMail/4.14.3 (Linux/3.17.3-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <1416843472-16839-1-git-send-email-sgw@linux.intel.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1416295260.git.Chong.Lu@windriver.com>
-	<6d00e71e0db5fd70243f69bbd6894a296620a41c.1416295260.git.Chong.Lu@windriver.com>
-	<CAJTo0Lb48t-x82qYKAmOY5TmvbWmNvSHV2tSkT+JqyLXcDjxtw@mail.gmail.com>
-	<5472BFFE.4090600@windriver.com>
-	<CAJTo0LYaXhKUPNm8U6o9LJ+kP863M9Q548sjoyQTkMoz0hSyYg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYaXhKUPNm8U6o9LJ+kP863M9Q548sjoyQTkMoz0hSyYg@mail.gmail.com>
-X-Originating-IP: [128.224.162.204]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] bison: update to 3.0.2
+X-ZohoMailClient: External
+X-Zoho-Virus-Status: 2
+Subject: Re: [PATCH v2] resolvconf: add fixes for busybox and make it work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,43 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Nov 2014 09:27:44 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Nov 2014 10:12:42 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+> resolvconf was missing a script and needed readlink which was in
+> /usr/bin.  Also the /etc/resolv.conf was not being correctly linked
+> to /etc/resolvconf/run/resolv.conf, which is fixed by the volaties
+> change which is now a file as opposed to created in do_install.
+> 
+> Ensure that the correct scripts for ifup/ifdown get installed and that
+> resolvconf is correctly enabled at startup
 
-On 11/24/2014 07:26 PM, Burton, Ross wrote:
->
-> On 24 November 2014 at 05:19, Chong Lu <Chong.Lu@windriver.com 
-> <mailto:Chong.Lu@windriver.com>> wrote:
->
->     After I upgrade bison, I test world on qemuppc and qemux86, that's ok.
->     Can you tell me, which arch will build failure or how to reproduce
->     this failure?
->     I will try to fix it.
->
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/builds/104/steps/BuildImages/logs/stdio
->
-> That's PPC with poky-lsb.  It may be unrelated but the failures 
-> involve bison.  I see that glibc doesn't depend on bison-native so if 
-> it is running the tool at build time there could be problems with 
-> bison being replaced during a build.
->
-> Ross
+Hi Saul,
 
-Hi Ross,
+Works for me both with udhcp and static configuration, you can add:
+Tested-by: Diego Rondini <diego.ml@zoho.com>
 
-I try to reproduce this issue in my environment. But I can't get build 
-failure about glibc.
-glibc depends on bison-native:
-"glibc" -> "kconfig-frontends-native" -> "bison-native"
-I checked glibc source code. In intl/plural.c file, The bison version is 
-defined:
-#define YYBISON_VERSION "2.7"
-Does this issue related with sstate?
-I build world on some arch, no build failure appear.:-)
+Will you be able to backport it to dizzy?
 
-Best Regards
-Chong
+Bests,
+Diego
+
 
