@@ -1,44 +1,32 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id DC46D722EA
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 5ED857210C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Nov 2014 19:56:05 +0000 (UTC)
-Received: by mail-ig0-f172.google.com with SMTP id hl2so5635856igb.5
+	Tue, 25 Nov 2014 20:27:57 +0000 (UTC)
+Received: by mail-qc0-f178.google.com with SMTP id b13so1160390qcw.37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Nov 2014 11:56:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=RaO35BBo81VLLkdC58rFciS7UYTEzQDMe3HBFGd74eM=;
-	b=J2ovdz3fUi7IUW5C+FiQqqlrekHDjxuNoYJHPSwY9nNUOkcRAVXOCFumO+cEMYcR1w
-	7MA/9LN4PtaL9Ud30Y6jltqkVqVxowAOiIPiYqXRVYMGf+TYIrsVxeMgv63TpyCot3jw
-	jg4K4WIRfu9OjDliQvcs9+DDDWyTj3queAL8zjXEpHX2kPUNVyeghqPn8qgOtms8m+0T
-	jVtRb46Sy/ypmdbQpWmcuFjVNdG7AgLtoZeDJwp9NQ5XbtXX0gpVXEZaph942IkEnPIA
-	TBAKbOyFaysETFO0IFx7zYgZJI7/5s5VV/uJEZBu9DAWdw2PB+fL027/X0KNWOuCiWKT
-	kGXQ==
-X-Gm-Message-State: ALoCoQmxLXCfI7DzxOfBQoxMyAlYPIWXaOblJFRDgCY/MiHPKoNd89KaMyPmBVC1eKxnHNBny1A2
-X-Received: by 10.43.76.67 with SMTP id zd3mr31940107icb.42.1416945365239;
-	Tue, 25 Nov 2014 11:56:05 -0800 (PST)
-Received: from [192.168.141.122] (dsl-69-172-74-189.acanac.net.
-	[69.172.74.189])
-	by mx.google.com with ESMTPSA id zy11sm1494592igc.4.2014.11.25.11.55.58
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 25 Nov 2014 11:56:04 -0800 (PST)
-Message-ID: <5474DEDE.4000005@linaro.org>
-Date: Tue, 25 Nov 2014 14:56:14 -0500
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Tue, 25 Nov 2014 12:27:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:from:date:message-id:subject:to:content-type;
+	bh=m4vkPa1z4Y4Vi053nLYJ5z36ks+1oTRQBb+XWju1nxQ=;
+	b=bS7rwP/0UxM6FI/4fMsDuYmKTzRxSNida6E54T68koX0FLEHaCtAXe/mSNQtCff6pE
+	cpoDPaHluwS3jhUvhOB1aktRba7FEyavblsDrFloGgkGxCHJA60oJPev7YfBgsHHqxyJ
+	wpUkbF35x8pZinIwyy9HjtISNbvfbEAeVu7L3x7/IQxfE839w/TAnwlaomcbku22W47V
+	CbK1tht4QBi+006tymMjLs8a+RydXH7beZRJvGePuTcHklHFXMClfiy8i0+cXVZ3/2X5
+	6lSBkJMg+K+vhCRJF1aJiRkiii2f/YFSGFkJZ+g4BRWgtqsZHMq2czY2DGA1lveEhOPf
+	B1qw==
+X-Received: by 10.140.30.33 with SMTP id c30mr39767199qgc.32.1416947278459;
+	Tue, 25 Nov 2014 12:27:58 -0800 (PST)
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1416934753.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1416934753.git.paul.eggleton@linux.intel.com>
-Subject: Re: [RFC PATCH 0/7] Developer workflow improvements
+Sender: paul.betafive@gmail.com
+Received: by 10.140.143.146 with HTTP; Tue, 25 Nov 2014 12:27:18 -0800 (PST)
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Tue, 25 Nov 2014 20:27:18 +0000
+X-Google-Sender-Auth: cYa7O8kz-hv1znmpSobysAPGrWc
+Message-ID: <CANyK_8eZHwtww6AL7L5f34R5Nc7mhSQALaez1NCnHvmUpHWcXw@mail.gmail.com>
+To: OE Core <openembedded-core@lists.openembedded.org>
+Subject: opkg, opkg-config-base and opkg-collateral
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,21 +39,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Nov 2014 19:56:07 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Nov 2014 20:28:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Wow, this is exciting!
+Hi all,
 
-Just thinking out loud here... is there a way to way to have the
-devshell come up without having applied any patches but with the patches
-already queued in, say, a quilt series?
+Does anyone know why the configuration files for opkg are split into
+opkg-config-base (containing just '/etc/opkg/arch.conf') and
+opkg-collateral (containing just '/etc/opkg/opkg.conf')? It looks like
+the split dates back to openembedded classic.
 
-It seems to happen often enough to me that: a recipe has 10 local
-patches which applied fine yesterday but now patch 7 is failing because
-the upstream developers changed something. I would be nice to be able to
-devshell to the point where patch 6 has been applied and patch 7 is
-waiting to go on. Then I could apply the patch myself to figure out why
-it's failing. Or just having all the patches ready to apply (in a quilt
-series, as mentioned above) would be great too.
+If there isn't a good reason for this perhaps now would be a good time
+to merge all this back into the 'opkg' recipe and package. I'm happy
+to put the patch together, just checking if it sounds like a good idea
+before I do the work.
+
+Cheers,
+
+-- 
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
