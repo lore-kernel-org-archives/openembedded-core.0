@@ -1,22 +1,22 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa07-04.prod.phx3.secureserver.net
 	(p3plsmtpa07-04.prod.phx3.secureserver.net [173.201.192.233])
-	by mail.openembedded.org (Postfix) with ESMTP id 889B072348
+	by mail.openembedded.org (Postfix) with ESMTP id 8A5B772357
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 19:46:53 +0000 (UTC)
+	Wed, 26 Nov 2014 19:46:52 +0000 (UTC)
 Received: from llc.pab ([75.72.225.8])
 	by p3plsmtpa07-04.prod.phx3.secureserver.net with 
-	id LKmr1p00Z0BVjqb01KmuTC; Wed, 26 Nov 2014 12:46:54 -0700
+	id LKmr1p00Z0BVjqb01KmsSh; Wed, 26 Nov 2014 12:46:53 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Nov 2014 13:46:41 -0600
-Message-Id: <560f4a7c64ecb55eafcd3584f22fc256e0e8377e.1417030958.git.pab@pabigot.com>
+Date: Wed, 26 Nov 2014 13:46:37 -0600
+Message-Id: <ce2094c93a08d619c70f621571c5825fe5e0e5f1.1417030958.git.pab@pabigot.com>
 X-Mailer: git-send-email 1.8.5.5
 In-Reply-To: <cover.1417030958.git.pab@pabigot.com>
 References: <cover.1417030958.git.pab@pabigot.com>
 In-Reply-To: <cover.1417030958.git.pab@pabigot.com>
 References: <cover.1417030958.git.pab@pabigot.com>
-Subject: [RFC v2 6/9] ofono: select distro preference for bluez provider
+Subject: [RFC v2 2/9] packagegroup-base: select distro preference for bluez provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,25 +33,30 @@ X-List-Received-Date: Wed, 26 Nov 2014 19:47:02 -0000
 
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- meta/recipes-connectivity/ofono/ofono.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/packagegroups/packagegroup-base.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
-index 9f65f4f..5017a61 100644
---- a/meta/recipes-connectivity/ofono/ofono.inc
-+++ b/meta/recipes-connectivity/ofono/ofono.inc
-@@ -5,9 +5,9 @@ LICENSE  = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
-                     file://src/ofono.h;beginline=1;endline=20;md5=3ce17d5978ef3445def265b98899c2ee"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index f4b2cd5..369b63e 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -8,6 +8,7 @@ PR = "r83"
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
  
--inherit autotools pkgconfig update-rc.d systemd
-+inherit autotools pkgconfig update-rc.d systemd bluetooth
+ inherit packagegroup
++inherit bluetooth
  
--DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)}"
-+DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}"
+ PROVIDES = "${PACKAGES}"
+ PACKAGES = ' \
+@@ -203,7 +204,7 @@ RRECOMMENDS_packagegroup-base-pcmcia = "\
  
- INITSCRIPT_NAME = "ofono"
- INITSCRIPT_PARAMS = "defaults 22"
+ SUMMARY_packagegroup-base-bluetooth = "Bluetooth support"
+ RDEPENDS_packagegroup-base-bluetooth = "\
+-    bluez4 \
++    ${BLUEZ} \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'alsa', 'libasound-module-bluez', '',d)} \
+     "
+ 
 -- 
 1.8.5.5
 
