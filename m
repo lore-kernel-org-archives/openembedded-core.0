@@ -1,26 +1,32 @@
-Return-Path: <tom.zanussi@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CBEC70A61
+Return-Path: <mike.looijmans@topic.nl>
+X-Greylist: delayed 550 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 26 Nov 2014 18:53:43 UTC
+Received: from smtp06.online.nl (smtp06.online.nl [194.134.42.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 570AA7230B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 17:02:25 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Nov 2014 09:02:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,463,1413270000"; d="scan'208";a="628666617"
-Received: from unknown (HELO [10.255.13.44]) ([10.255.13.44])
-	by fmsmga001.fm.intel.com with ESMTP; 26 Nov 2014 09:01:42 -0800
-Message-ID: <1417021302.11024.5.camel@picadillo>
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: Armin Kuster <akuster808@gmail.com>
-Date: Wed, 26 Nov 2014 11:01:42 -0600
-In-Reply-To: <cover.1417018567.git.akuster808@gmail.com>
-References: <cover.1417018567.git.akuster808@gmail.com>
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
-Cc: Javier Viguera <javier.viguera@digi.com>,
-	Andrei Gherzan <andrei.gherzan@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/11] Dizzy next #2
+	Wed, 26 Nov 2014 18:53:43 +0000 (UTC)
+Received: from smtp06.online.nl (localhost [127.0.0.1])
+	by smtp06.online.nl (Postfix) with ESMTP id 6878F96413;
+	Wed, 26 Nov 2014 19:44:31 +0100 (CET)
+Received: from [192.168.1.7] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp06.online.nl (Postfix) with ESMTP;
+	Wed, 26 Nov 2014 19:44:31 +0100 (CET)
+Message-ID: <54761F8F.9000400@topic.nl>
+Date: Wed, 26 Nov 2014 19:44:31 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <54758D01.3070601@topic.nl>
+	<12654718.RPpo1aQ4TE@peggleto-mobl5.ger.corp.intel.com>
+	<5475D3AE.1040803@topic.nl>
+	<1920393.GFIm8gtWQZ@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <1920393.GFIm8gtWQZ@peggleto-mobl5.ger.corp.intel.com>
+X-Online-Scanned: by Cloudmark authority (on smtp06.online.nl)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Why does building an image for machine X delete the bootloader for machine Y?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,98 +39,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Nov 2014 17:02:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 26 Nov 2014 18:53:47 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 11/26/2014 03:57 PM, Paul Eggleton wrote:
+> On Wednesday 26 November 2014 14:20:46 Mike Looijmans wrote:
+>> On 11/26/2014 12:31 PM, Paul Eggleton wrote:
+>>> Hi Mike,
+>>>
+>>> On Wednesday 26 November 2014 09:19:13 Mike Looijmans wrote:
+>>>> I do a:
+>>>>
+>>>> MACHINE=X bitbake my-image
+>>>>
+>>>> This DEPENDS on a virtual bootloader, which will produce a BOOT.BIN file
+>>>> in
+>>>> the deploy directory, which is tmp-glibc/deploy.images/X/
+>>>>
+>>>> If I then do a:
+>>>>
+>>>> MACHINE=Y bitbake my-image
+>>>>
+>>>> the BOOT.BIN in tmp-glibc/deploy.images/X/ is suddenly gone!
+>>>>
+>>>> If i do a
+>>>>
+>>>> MACHINE=X bitbake my-image
+>>>>
+>>>> then the the BOOT.BIN in tmp-glibc/deploy.images/Y/ is suddenly gone, and
+>>>> the one for the X machine appears again. The bootloader recipe is not
+>>>> being
+>>>> rebuilt at all.
+>>>>
+>>>> The machines have the same MACHINE_ARCH, they differ on only minor points
+>>>> (the FPGA).
+>>>>
+>>>> What is going on here?
+>>>
+>>> I can't be sure, but my guess is the recipe is not marked as being
+>>> machine-
+>>> specific (i.e. PACKAGE_ARCH is not set to "${MACHINE_ARCH}" - is that the
+>>> case?) but there is still some variable dependency on a variable that has
+>>> a machine-specific value. If it's not obvious from the recipe, check if
+>>> there are two sets of tasks for the bootloader recipe in the sstate
+>>> cache, and then use bitbake-diffsigs to compare the sigdata/siginfo
+>>> files.
+>>
+>> MACHINE is actually "topic-miami-florida-med-xc7z015" or
+>> "topic-miami-florida-med-xc7z030"
+>>
+>> Both machines have MACHINE_ARCH = "topic_miami_florida_med" since they only
+>> differ in the FPGA subsystem, but share all the rest (kernel, bootloader,
+>> etc).
+>>
+>> Is it forbidden to share $MACHINE_ARCH between $MACHINEs? (And if so, why
+>> does MACHINE_ARCH even exist?)
+>
+> I don't know for sure, but I don't think that is forbidden. I'm not sure
+> that's the issue here though.
+>
+>> The BSP layer for the topic-miami machines is here (yes, you can build OE or
+>> Yocto images with it, but I have yet some more work to do to make it a
+>> proper BSP...):
+>> https://github.com/topic-embedded-products/meta-topic
+>
+> Is it u-boot that's the actual bootloader we are talking about here?
 
-Looks fine to me, but it's still missing this (or were you planning on
-adding it to your next round?):
+Yep.
 
-  commit 4c222d3a67bae265ff42b448ef4a643b0131e578 
-  Author: He Zhe <zhe.he@windriver.com>
-  Date:   Tue Oct 21 17:47:44 2014 +0800
-
-      kernel.bbclass: Create modules directory even if there is no modules
-install
-
-Which fixes a problem introduced by:
-
-  commit 3224472c68865714716305dfbc8efaa59f73958e
-  Author: Nitin A Kamble <nitin.a.kamble@intel.com>
-  Date:   Tue Sep 30 14:40:05 2014 -0700
-
-      kernel.bbclass: enable a link for external module building
-
-Which I'm now also seeing cause problems with the kernel labs.
-
-Thanks,
-
-Tom 
-
-On Wed, 2014-11-26 at 08:22 -0800, Armin Kuster wrote:
-> Please consider these changes for the next Dizzy.
-> 
-> The following changes since commit 85b8abe50482deaa1af62f265e82f53a54bbcd77:
-> 
->   nss: define MP_USE_UINT_DIGIT when compile mpi_x86.s (2014-11-24 16:38:18 -0800)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib akuster/dizzy-next
->   http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/dizzy-next
-> 
-> Andrei Gherzan (1):
->   xkeyboard-config: Inherit gettext
-> 
-> Aníbal Limón (1):
->   package_manager: DpkgPM fix populate_sdk
-> 
-> Javier Viguera (1):
->   shadow-securetty: add ttyAM[0-3] serial ports
-> 
-> Robert Yang (1):
->   qemu: disable the build for mips
-> 
-> Saul Wold (1):
->   babeltrace: Backport fix for unaligned integer
-> 
-> Tom Zanussi (5):
->   wic: Don't allow mkfs to fail silently in partition command
->   wic: Update the help text to include -D (--debug)
->   Revert "wic: set bootimg_dir when using image-name artifacts"
->   wic: Remove special-case bootimg_dir
->   wic: Update bootimg-partition to use bootimg_dir
-> 
-> Wenzong Fan (1):
->   python: Fix CVE-2014-7185
-> 
->  meta/lib/oe/package_manager.py                     |   2 +-
->  .../python/python/python-2.7.3-CVE-2014-7185.patch |  75 ++++++
->  meta/recipes-devtools/python/python_2.7.3.bb       |   1 +
->  meta/recipes-devtools/qemu/qemu_2.1.0.bb           |   1 +
->  meta/recipes-devtools/qemu/qemu_git.bb             |   1 +
->  meta/recipes-extended/shadow/files/securetty       |   4 +
->  .../xorg-lib/xkeyboard-config_2.12.bb              |   2 +-
->  ...n-t-perform-unaligned-integer-read-writes.patch | 252 +++++++++++++++++++++
->  meta/recipes-kernel/lttng/babeltrace_1.2.1.bb      |   1 +
->  scripts/lib/image/engine.py                        |  42 +---
->  scripts/lib/image/help.py                          |  23 +-
->  scripts/lib/wic/imager/direct.py                   |   5 +-
->  .../lib/wic/kickstart/custom_commands/partition.py |  22 +-
->  scripts/lib/wic/plugins/imager/direct_plugin.py    |  20 +-
->  scripts/lib/wic/plugins/source/bootimg-efi.py      |   5 +-
->  .../lib/wic/plugins/source/bootimg-partition.py    |   9 +-
->  scripts/lib/wic/plugins/source/bootimg-pcbios.py   |   3 +-
->  scripts/wic                                        |  13 +-
->  18 files changed, 402 insertions(+), 79 deletions(-)
->  create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-CVE-2014-7185.patch
->  create mode 100644 meta/recipes-kernel/lttng/babeltrace/0001-Fix-don-t-perform-unaligned-integer-read-writes.patch
-> 
-> -- 
-> 1.9.1
-> 
+u-boot-spl to be exact. The BOOT.bin is just one of the files that 
+disappears, it's the firststage loader built by u-boot.
 
 
+-- 
+Mike Looijmans
 
