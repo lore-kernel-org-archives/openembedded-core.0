@@ -1,25 +1,26 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (unknown [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id A03C672307
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id AB50370A7E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 09:54:48 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Wed, 26 Nov 2014 10:54:46 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 0298B2800C8;
-	Wed, 26 Nov 2014 10:54:46 +0100 (CET)
-From: "Maxin B. John" <maxin.john@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Nov 2014 10:54:27 +0100
-Message-ID: <1416995667-1286-3-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1416995667-1286-1-git-send-email-maxin.john@enea.com>
-References: <1416995667-1286-1-git-send-email-maxin.john@enea.com>
+	Wed, 26 Nov 2014 11:31:50 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Nov 2014 03:31:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="421712205"
+Received: from ambyrne1-mobl2.amr.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.19.108])
+	by FMSMGA003.fm.intel.com with ESMTP; 26 Nov 2014 03:22:01 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Date: Wed, 26 Nov 2014 11:31:49 +0000
+Message-ID: <12654718.RPpo1aQ4TE@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.3 (Linux/3.17.3-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <54758D01.3070601@topic.nl>
+References: <54758D01.3070601@topic.nl>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: thomas.lundstrom@enea.com, "Maxin B. John" <maxin.john@enea.com>
-Subject: [PATCH 2/2] stress: Add new package
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Why does building an image for machine X delete the bootloader for machine Y?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,126 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Nov 2014 09:54:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 26 Nov 2014 11:31:57 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Deliberately simple workload generator for POSIX systems. It imposes
-a configurable amount of CPU, memory, I/O, and disk stress on the system.
+Hi Mike,
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
----
- meta/recipes-extended/stress/files/texinfo.patch | 79 ++++++++++++++++++++++++
- meta/recipes-extended/stress/stress_1.0.4.bb     | 14 +++++
- 2 files changed, 93 insertions(+)
- create mode 100644 meta/recipes-extended/stress/files/texinfo.patch
- create mode 100644 meta/recipes-extended/stress/stress_1.0.4.bb
+On Wednesday 26 November 2014 09:19:13 Mike Looijmans wrote:
+> I do a:
+> 
+> MACHINE=X bitbake my-image
+> 
+> This DEPENDS on a virtual bootloader, which will produce a BOOT.BIN file in
+> the deploy directory, which is tmp-glibc/deploy.images/X/
+> 
+> If I then do a:
+> 
+> MACHINE=Y bitbake my-image
+> 
+> the BOOT.BIN in tmp-glibc/deploy.images/X/ is suddenly gone!
+> 
+> If i do a
+> 
+> MACHINE=X bitbake my-image
+> 
+> then the the BOOT.BIN in tmp-glibc/deploy.images/Y/ is suddenly gone, and
+> the one for the X machine appears again. The bootloader recipe is not being
+> rebuilt at all.
+> 
+> The machines have the same MACHINE_ARCH, they differ on only minor points
+> (the FPGA).
+> 
+> What is going on here?
 
-diff --git a/meta/recipes-extended/stress/files/texinfo.patch b/meta/recipes-extended/stress/files/texinfo.patch
-new file mode 100644
-index 0000000..5ac5951
---- /dev/null
-+++ b/meta/recipes-extended/stress/files/texinfo.patch
-@@ -0,0 +1,79 @@
-+--- a/doc/stress.texi
-++++ b/doc/stress.texi
-+@@ -62,47 +62,47 @@
-+ 
-+ @table @samp
-+ @item -?
-+-@itemx --help
-++@item --help
-+ Show help information.
-+ 
-+-@itemx --version
-++@item --version
-+ Show version information.
-+ 
-+ @item -v
-+-@itemx --verbose
-++@item --verbose
-+ Turn up verbosity.
-+ 
-+ @item -q
-+-@itemx --quiet
-++@item --quiet
-+ Turn down verbosity.
-+ 
-+ @item -n
-+-@itemx --dry-run
-++@item --dry-run
-+ Show what would have been done.
-+ 
-+ @item -t @var{secs}
-+-@itemx --timeout @var{secs}
-++@item --timeout @var{secs}
-+ Time out after @var{secs} seconds.
-+ 
-+-@itemx --backoff @var{usecs}
-++@item --backoff @var{usecs}
-+ Wait for factor of @var{usecs} microseconds before starting work.
-+ 
-+ @item -c @var{forks}
-+-@itemx --cpu @var{forks}
-++@item --cpu @var{forks}
-+ Spawn @var{forks} processes each spinning on @samp{sqrt()}.
-+ 
-+ @item -i @var{forks}
-+-@itemx --io @var{forks}
-++@item --io @var{forks}
-+ Spawn @var{forks} processes each spinning on @samp{sync()}.
-+ 
-+ @item -m @var{forks}
-+-@itemx --vm @var{forks}
-++@item --vm @var{forks}
-+ Spawn @var{forks} processes each spinning on @samp{malloc()}.
-+ 
-+-@itemx --vm-bytes @var{bytes}
-++@item --vm-bytes @var{bytes}
-+ Allocate @var{bytes} number of bytes.  The default is 1.
-+ 
-+-@itemx --vm-hang
-++@item --vm-hang
-+ Instruct each vm hog process to go to sleep after allocating memory.  This
-+ contrasts with their normal behavior, which is to free the memory and
-+ reallocate @emph{ad infinitum}.  This is useful for simulating low memory
-+@@ -114,13 +114,13 @@
-+ @end example
-+ 
-+ @item -d @var{forks}
-+-@itemx --hdd @var{forks}
-++@item --hdd @var{forks}
-+ Spawn @var{forks} processes each spinning on @samp{write()}.
-+ 
-+-@itemx --hdd-bytes @var{bytes}
-++@item --hdd-bytes @var{bytes}
-+ Write @var{bytes} number of bytes.  The default is 1GB.
-+ 
-+-@itemx --hdd-noclean
-++@item --hdd-noclean
-+ Do not unlink file(s) to which random ASCII data is written.
-+ 
-+ @end table
-diff --git a/meta/recipes-extended/stress/stress_1.0.4.bb b/meta/recipes-extended/stress/stress_1.0.4.bb
-new file mode 100644
-index 0000000..44f2fc6
---- /dev/null
-+++ b/meta/recipes-extended/stress/stress_1.0.4.bb
-@@ -0,0 +1,14 @@
-+DESCRIPTION = "Deliberately simple workload generator for POSIX systems. It \
-+imposes a configurable amount of CPU, memory, I/O, and disk stress on the system."
-+HOMEPAGE = "http://people.seas.harvard.edu/~apw/stress/"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-+
-+SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/stress/stress-${PV}.tar.gz/a607afa695a511765b40993a64c6e2f4/stress-${PV}.tar.gz \
-+           file://texinfo.patch \
-+           "
-+
-+SRC_URI[md5sum] = "a607afa695a511765b40993a64c6e2f4"
-+SRC_URI[sha256sum] = "369c997f65e8426ae8b318d4fdc8e6f07a311cfa77cc4b25dace465c582163c0"
-+
-+inherit autotools
+I can't be sure, but my guess is the recipe is not marked as being machine-
+specific (i.e. PACKAGE_ARCH is not set to "${MACHINE_ARCH}" - is that the 
+case?) but there is still some variable dependency on a variable that has a 
+machine-specific value. If it's not obvious from the recipe, check if there are 
+two sets of tasks for the bootloader recipe in the sstate cache, and then use 
+bitbake-diffsigs to compare the sigdata/siginfo files.
+
+Cheers,
+Paul
+
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
