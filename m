@@ -1,26 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id AB50370A7E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 948726AFB5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 11:31:50 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Nov 2014 03:31:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="421712205"
-Received: from ambyrne1-mobl2.amr.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.19.108])
-	by FMSMGA003.fm.intel.com with ESMTP; 26 Nov 2014 03:22:01 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Date: Wed, 26 Nov 2014 11:31:49 +0000
-Message-ID: <12654718.RPpo1aQ4TE@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.3-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <54758D01.3070601@topic.nl>
-References: <54758D01.3070601@topic.nl>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Why does building an image for machine X delete the bootloader for machine Y?
+	Wed, 26 Nov 2014 12:14:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sAQCDgKb015339; Wed, 26 Nov 2014 12:13:43 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id AUs_Rr7x1KVB; Wed, 26 Nov 2014 12:13:42 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sAQCDUI6015336
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 26 Nov 2014 12:13:41 GMT
+Message-ID: <1417004047.12520.10.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Barker <paul@paulbarker.me.uk>
+Date: Wed, 26 Nov 2014 12:14:07 +0000
+In-Reply-To: <CANyK_8eZHwtww6AL7L5f34R5Nc7mhSQALaez1NCnHvmUpHWcXw@mail.gmail.com>
+References: <CANyK_8eZHwtww6AL7L5f34R5Nc7mhSQALaez1NCnHvmUpHWcXw@mail.gmail.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: opkg, opkg-config-base and opkg-collateral
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Nov 2014 11:31:57 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 26 Nov 2014 12:14:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Mike,
+On Tue, 2014-11-25 at 20:27 +0000, Paul Barker wrote:
+> Hi all,
+> 
+> Does anyone know why the configuration files for opkg are split into
+> opkg-config-base (containing just '/etc/opkg/arch.conf') and
+> opkg-collateral (containing just '/etc/opkg/opkg.conf')? It looks like
+> the split dates back to openembedded classic.
+> 
+> If there isn't a good reason for this perhaps now would be a good time
+> to merge all this back into the 'opkg' recipe and package. I'm happy
+> to put the patch together, just checking if it sounds like a good idea
+> before I do the work.
 
-On Wednesday 26 November 2014 09:19:13 Mike Looijmans wrote:
-> I do a:
-> 
-> MACHINE=X bitbake my-image
-> 
-> This DEPENDS on a virtual bootloader, which will produce a BOOT.BIN file in
-> the deploy directory, which is tmp-glibc/deploy.images/X/
-> 
-> If I then do a:
-> 
-> MACHINE=Y bitbake my-image
-> 
-> the BOOT.BIN in tmp-glibc/deploy.images/X/ is suddenly gone!
-> 
-> If i do a
-> 
-> MACHINE=X bitbake my-image
-> 
-> then the the BOOT.BIN in tmp-glibc/deploy.images/Y/ is suddenly gone, and
-> the one for the X machine appears again. The bootloader recipe is not being
-> rebuilt at all.
-> 
-> The machines have the same MACHINE_ARCH, they differ on only minor points
-> (the FPGA).
-> 
-> What is going on here?
+I think at least one of the above was intended to allow distro specific
+package feeds to be preconfigured as as such belonged as a standalone
+config file.
 
-I can't be sure, but my guess is the recipe is not marked as being machine-
-specific (i.e. PACKAGE_ARCH is not set to "${MACHINE_ARCH}" - is that the 
-case?) but there is still some variable dependency on a variable that has a 
-machine-specific value. If it's not obvious from the recipe, check if there are 
-two sets of tasks for the bootloader recipe in the sstate cache, and then use 
-bitbake-diffsigs to compare the sigdata/siginfo files.
+The architecture file is also machine specific, we wouldn't want opkg
+itself rebuilding for every machine so that is probably why its
+separate.
+
+Three different things on the other hand seems excessive. We probably
+could survive with some merhing with opkg and the remainder being
+machine specific.
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
