@@ -1,41 +1,40 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A38272333
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id B2D1972337
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 16:22:43 +0000 (UTC)
-Received: by mail-pd0-f178.google.com with SMTP id g10so3066581pdj.23
+	Wed, 26 Nov 2014 16:22:45 +0000 (UTC)
+Received: by mail-pa0-f46.google.com with SMTP id lj1so3128599pab.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 08:22:44 -0800 (PST)
+	Wed, 26 Nov 2014 08:22:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=DlO1lm+GVHevht601DMfOaawo0N7bJM376mYQb9jskE=;
-	b=BHIy7QOjEtJ60hH0772CrPa6vwJ9w4LVggcOvZSPCOAFTWQpU5kHGb8wa9Y1JT+iUC
-	ha7l/3XDPs5m90GmKmb3aaEiQ3aNh7HlhXTmJrnBxCKBPD4UaC5aO+Huy4U8Y+tjDfKK
-	E7N3RMQxZ5YXt1RHT+GumWxCPl76R3bmIOzfIIgJEGJikbJDbdpljP8QjV4GogDXQvId
-	81Rj5olAEx/IiITqEqOWcBsk6qb2LaEP+NUM6WaSR6x1XAbzuK2fHtaySrJRxILlkxuQ
-	GVKcyqP4gXbLpcgLqi1AqyVc3q9s/+bcH64rKmr67je4SJ/32uo1DCpF/70akbZduzZi
-	/vRg==
-X-Received: by 10.70.96.145 with SMTP id ds17mr31196538pdb.88.1417018964406;
-	Wed, 26 Nov 2014 08:22:44 -0800 (PST)
+	bh=84Kb+aM6BydqYpdoMTvUfC68ESbi466K7kGECkmBY7E=;
+	b=GvnjiI1Y2I1+CSp1RgwaeuEc/xyNcVhYHwQjHeyjucu1xEr+OUCvRhm5j5oU0R2DGJ
+	1vT8VQ5ZITwIgea6XHsXD9Sc/SmHESPUO5pJL0VwW7uE8paAKWwbjHVABbcOZqLm511B
+	yDc0w2lF/cWTCaIs66T39U33J0Q/nOlYPrb2DbhZyhfHqJqxY4QPkJ77gwY1PVMy8pcy
+	oNy68FQjxh+fVkhVyLuJgObLv1E3JeKQ1fkVMSSICA/vuO3Mxzf34wzaBZakOjdGEkmP
+	BYhp7v8jZkHillhOfXVlX8Jj8XHjM7rQi1aMm36U1geQZhMJ021TuadGsyF7nMXEGtTj
+	9M1g==
+X-Received: by 10.68.203.161 with SMTP id kr1mr8138206pbc.78.1417018966379;
+	Wed, 26 Nov 2014 08:22:46 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by mx.google.com with ESMTPSA id qn1sm4736673pdb.42.2014.11.26.08.22.42
+	by mx.google.com with ESMTPSA id qn1sm4736673pdb.42.2014.11.26.08.22.44
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 26 Nov 2014 08:22:43 -0800 (PST)
+	Wed, 26 Nov 2014 08:22:45 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Nov 2014 08:22:14 -0800
-Message-Id: <ae8fbbe4bd999ce8d2391fe2872ff4bc9574f8c8.1417018567.git.akuster808@gmail.com>
+Date: Wed, 26 Nov 2014 08:22:15 -0800
+Message-Id: <eabf000a94035c5d67b77e256f5f684044221b63.1417018567.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <2446d3e01b365793ce2886985212bf800d14846e.1417018567.git.akuster808@gmail.com>
 References: <2446d3e01b365793ce2886985212bf800d14846e.1417018567.git.akuster808@gmail.com>
 In-Reply-To: <cover.1417018567.git.akuster808@gmail.com>
 References: <cover.1417018567.git.akuster808@gmail.com>
-Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
-Subject: [PATCH 10/11] xkeyboard-config: Inherit gettext
+Subject: [PATCH 11/11] qemu: disable the build for mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,41 +47,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Nov 2014 16:22:44 -0000
+X-List-Received-Date: Wed, 26 Nov 2014 16:22:47 -0000
 
-From: Andrei Gherzan <andrei@gherzan.ro>
+From: Robert Yang <liezhi.yang@windriver.com>
 
-In a GPLv3-free build we have two different versions of gettext in sysroot due
-to GPLv3 restrictions. In this case we need gettext-native too so we can have
-the needed macros and avoid errors like:
-"error: possibly undefined macro: AM_GNU_GETTEXT"
+Disable it since ICE on mips with wr toolchain only:
+  translate.c:7838:1: internal compiler error: Segmentation fault
 
-The needed dependency is added by gettext class which is prefered because it
-takes care of NLS flags too.
-
-(From OE-Core rev: 23d8a4d64e9ff126d6460a69e6d086b1c86e87a9)
-
-Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-graphics/xorg-lib/xkeyboard-config_2.12.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/qemu/qemu_2.1.0.bb | 1 +
+ meta/recipes-devtools/qemu/qemu_git.bb   | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.12.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.12.bb
-index 61e3847..adac0ee 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.12.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.12.bb
-@@ -23,7 +23,7 @@ EXTRA_OECONF = "--with-xkb-rules-symlink=xorg --disable-runtime-deps"
+diff --git a/meta/recipes-devtools/qemu/qemu_2.1.0.bb b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
+index a82d052..e58829e 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.1.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
+@@ -13,6 +13,7 @@ SRC_URI[md5sum] = "6726977292b448cbc7f89998fac6983b"
+ SRC_URI[sha256sum] = "397e23184f4bf613589a8fe0c6542461dc2afdf17ed337e97e6fd2f31e8f8802"
  
- FILES_${PN} += "${datadir}/X11/xkb"
+ COMPATIBLE_HOST_class-target_mips64 = "null"
++COMPATIBLE_HOST_class-target_mips = "null"
  
--inherit autotools pkgconfig
-+inherit autotools pkgconfig gettext
+ do_sanitize_sources() {
+     # These .git files point to a nonexistent path "../.git/modules" and will confuse git
+diff --git a/meta/recipes-devtools/qemu/qemu_git.bb b/meta/recipes-devtools/qemu/qemu_git.bb
+index a30932a..cefed90 100644
+--- a/meta/recipes-devtools/qemu/qemu_git.bb
++++ b/meta/recipes-devtools/qemu/qemu_git.bb
+@@ -13,3 +13,4 @@ S = "${WORKDIR}/git"
+ DEFAULT_PREFERENCE = "-1"
  
- do_install_append () {
-     install -d ${D}${datadir}/X11/xkb/compiled
+ COMPATIBLE_HOST_class-target_mips64 = "null"
++COMPATIBLE_HOST_class-target_mips = "null"
 -- 
 1.9.1
 
