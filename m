@@ -1,27 +1,23 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D0F372300
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (unknown [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id D990372300
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 09:05:28 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 26 Nov 2014 00:58:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="421667015"
-Received: from ambyrne1-mobl2.amr.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.19.108])
-	by FMSMGA003.fm.intel.com with ESMTP; 26 Nov 2014 00:55:39 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Musat, George L" <george.l.musat@intel.com>
-Date: Wed, 26 Nov 2014 09:05:27 +0000
-Message-ID: <1930800.kntbnFqfR0@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.3-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <CAJTo0LbQ2VO-J2tmJ0GVpWjKSqCpHqp8Kg47m1a9wX0JMK3b6w@mail.gmail.com>
-References: <042E875E1B5D414CA9BB78B7D4FA691C13CE6FEE@IRSMSX102.ger.corp.intel.com>
-	<CAJTo0LbQ2VO-J2tmJ0GVpWjKSqCpHqp8Kg47m1a9wX0JMK3b6w@mail.gmail.com>
+	Wed, 26 Nov 2014 09:54:44 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
+	Wed, 26 Nov 2014 10:54:38 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 1B71B2800C6;
+	Wed, 26 Nov 2014 10:54:38 +0100 (CET)
+From: "Maxin B. John" <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Nov 2014 10:54:25 +0100
+Message-ID: <1416995667-1286-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] meta-yocto/distro: Updated SANITY_TESTED_DISTROS.
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: thomas.lundstrom@enea.com, "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH 0/2] Enable ptest support for rt-tests package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,22 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Nov 2014 09:05:29 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 26 Nov 2014 09:54:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tuesday 25 November 2014 21:00:52 Burton, Ross wrote:
-> This patch got totally mangled - can you resend it (or push to a repo)?
+The tests are implemented using rt_bmark.py which uses the "stress" applica=
+tion
+to check the real-time performance under various conditions.=20
 
-Also, patches to meta-yocto/ need to be sent to the poky mailing list rather 
-than here. (FYI, if in doubt, the poky README file does have some brief notes 
-on where patches to the various parts should be sent.)
+We need to add the stress package as a dependency for this ptest. At presen=
+t,
+this recipe is duplicated in meta-linaro and meta-arago-extras.
 
-Cheers,
-Paul
+[YOCTO #1569]
 
--- 
+Maxin B. John (2):
+  rt-tests: enable ptest support
+  stress: Add new package
 
-Paul Eggleton
-Intel Open Source Technology Centre
+ meta/recipes-extended/stress/files/texinfo.patch |  79 +++++
+ meta/recipes-extended/stress/stress_1.0.4.bb     |  14 +
+ meta/recipes-rt/rt-tests/files/rt_bmark.py       | 411 +++++++++++++++++++=
+++++
+ meta/recipes-rt/rt-tests/files/run-ptest         |   3 +
+ meta/recipes-rt/rt-tests/rt-tests_0.89.bb        |  10 +
+ 5 files changed, 517 insertions(+)
+ create mode 100644 meta/recipes-extended/stress/files/texinfo.patch
+ create mode 100644 meta/recipes-extended/stress/stress_1.0.4.bb
+ create mode 100644 meta/recipes-rt/rt-tests/files/rt_bmark.py
+ create mode 100644 meta/recipes-rt/rt-tests/files/run-ptest
+
+--=20
+1.9.1
+
 
