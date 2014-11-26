@@ -1,22 +1,22 @@
 Return-Path: <pab@pabigot.com>
 Received: from p3plsmtpa07-04.prod.phx3.secureserver.net
 	(p3plsmtpa07-04.prod.phx3.secureserver.net [173.201.192.233])
-	by mail.openembedded.org (Postfix) with ESMTP id 887A97233D
+	by mail.openembedded.org (Postfix) with ESMTP id 889B072348
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 19:46:54 +0000 (UTC)
+	Wed, 26 Nov 2014 19:46:53 +0000 (UTC)
 Received: from llc.pab ([75.72.225.8])
 	by p3plsmtpa07-04.prod.phx3.secureserver.net with 
-	id LKmr1p00Z0BVjqb01KmuTQ; Wed, 26 Nov 2014 12:46:55 -0700
+	id LKmr1p00Z0BVjqb01KmuTC; Wed, 26 Nov 2014 12:46:54 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Nov 2014 13:46:42 -0600
-Message-Id: <e4ed5838dba13716c86b78f5e61923104d91fa7e.1417030958.git.pab@pabigot.com>
+Date: Wed, 26 Nov 2014 13:46:41 -0600
+Message-Id: <560f4a7c64ecb55eafcd3584f22fc256e0e8377e.1417030958.git.pab@pabigot.com>
 X-Mailer: git-send-email 1.8.5.5
 In-Reply-To: <cover.1417030958.git.pab@pabigot.com>
 References: <cover.1417030958.git.pab@pabigot.com>
 In-Reply-To: <cover.1417030958.git.pab@pabigot.com>
 References: <cover.1417030958.git.pab@pabigot.com>
-Subject: [RFC v2 7/9] neard: select distro preference for bluez provider
+Subject: [RFC v2 6/9] ofono: select distro preference for bluez provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +33,25 @@ X-List-Received-Date: Wed, 26 Nov 2014 19:47:02 -0000
 
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
- meta/recipes-connectivity/neard/neard.inc | 4 ++--
+ meta/recipes-connectivity/ofono/ofono.inc | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/neard/neard.inc b/meta/recipes-connectivity/neard/neard.inc
-index e714cad..1a7ac8d 100644
---- a/meta/recipes-connectivity/neard/neard.inc
-+++ b/meta/recipes-connectivity/neard/neard.inc
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
-  "
+diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+index 9f65f4f..5017a61 100644
+--- a/meta/recipes-connectivity/ofono/ofono.inc
++++ b/meta/recipes-connectivity/ofono/ofono.inc
+@@ -5,9 +5,9 @@ LICENSE  = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+                     file://src/ofono.h;beginline=1;endline=20;md5=3ce17d5978ef3445def265b98899c2ee"
  
--inherit autotools-brokensep pkgconfig systemd update-rc.d
-+inherit autotools-brokensep pkgconfig systemd update-rc.d bluetooth
+-inherit autotools pkgconfig update-rc.d systemd
++inherit autotools pkgconfig update-rc.d systemd bluetooth
  
- EXTRA_OECONF += "--enable-tools"
+-DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)}"
++DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}"
  
-@@ -47,7 +47,7 @@ RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
- 
- # Bluez & Wifi are not mandatory except for handover
- RRECOMMENDS_${PN} = "\
--                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
-+                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
-                      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
-                     "
- 
+ INITSCRIPT_NAME = "ofono"
+ INITSCRIPT_PARAMS = "defaults 22"
 -- 
 1.8.5.5
 
