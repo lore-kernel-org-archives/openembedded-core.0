@@ -1,40 +1,26 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id B2D1972337
+Return-Path: <tom.zanussi@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CBEC70A61
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 16:22:45 +0000 (UTC)
-Received: by mail-pa0-f46.google.com with SMTP id lj1so3128599pab.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 08:22:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=84Kb+aM6BydqYpdoMTvUfC68ESbi466K7kGECkmBY7E=;
-	b=GvnjiI1Y2I1+CSp1RgwaeuEc/xyNcVhYHwQjHeyjucu1xEr+OUCvRhm5j5oU0R2DGJ
-	1vT8VQ5ZITwIgea6XHsXD9Sc/SmHESPUO5pJL0VwW7uE8paAKWwbjHVABbcOZqLm511B
-	yDc0w2lF/cWTCaIs66T39U33J0Q/nOlYPrb2DbhZyhfHqJqxY4QPkJ77gwY1PVMy8pcy
-	oNy68FQjxh+fVkhVyLuJgObLv1E3JeKQ1fkVMSSICA/vuO3Mxzf34wzaBZakOjdGEkmP
-	BYhp7v8jZkHillhOfXVlX8Jj8XHjM7rQi1aMm36U1geQZhMJ021TuadGsyF7nMXEGtTj
-	9M1g==
-X-Received: by 10.68.203.161 with SMTP id kr1mr8138206pbc.78.1417018966379;
-	Wed, 26 Nov 2014 08:22:46 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by mx.google.com with ESMTPSA id qn1sm4736673pdb.42.2014.11.26.08.22.44
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 26 Nov 2014 08:22:45 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Nov 2014 08:22:15 -0800
-Message-Id: <eabf000a94035c5d67b77e256f5f684044221b63.1417018567.git.akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <2446d3e01b365793ce2886985212bf800d14846e.1417018567.git.akuster808@gmail.com>
-References: <2446d3e01b365793ce2886985212bf800d14846e.1417018567.git.akuster808@gmail.com>
+	Wed, 26 Nov 2014 17:02:25 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Nov 2014 09:02:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,463,1413270000"; d="scan'208";a="628666617"
+Received: from unknown (HELO [10.255.13.44]) ([10.255.13.44])
+	by fmsmga001.fm.intel.com with ESMTP; 26 Nov 2014 09:01:42 -0800
+Message-ID: <1417021302.11024.5.camel@picadillo>
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: Armin Kuster <akuster808@gmail.com>
+Date: Wed, 26 Nov 2014 11:01:42 -0600
 In-Reply-To: <cover.1417018567.git.akuster808@gmail.com>
 References: <cover.1417018567.git.akuster808@gmail.com>
-Subject: [PATCH 11/11] qemu: disable the build for mips
+X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
+Mime-Version: 1.0
+Cc: Javier Viguera <javier.viguera@digi.com>,
+	Andrei Gherzan <andrei.gherzan@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/11] Dizzy next #2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,43 +33,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Nov 2014 16:22:47 -0000
+X-List-Received-Date: Wed, 26 Nov 2014 17:02:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Robert Yang <liezhi.yang@windriver.com>
+Hi,
 
-Disable it since ICE on mips with wr toolchain only:
-  translate.c:7838:1: internal compiler error: Segmentation fault
+Looks fine to me, but it's still missing this (or were you planning on
+adding it to your next round?):
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-devtools/qemu/qemu_2.1.0.bb | 1 +
- meta/recipes-devtools/qemu/qemu_git.bb   | 1 +
- 2 files changed, 2 insertions(+)
+  commit 4c222d3a67bae265ff42b448ef4a643b0131e578 
+  Author: He Zhe <zhe.he@windriver.com>
+  Date:   Tue Oct 21 17:47:44 2014 +0800
 
-diff --git a/meta/recipes-devtools/qemu/qemu_2.1.0.bb b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-index a82d052..e58829e 100644
---- a/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-@@ -13,6 +13,7 @@ SRC_URI[md5sum] = "6726977292b448cbc7f89998fac6983b"
- SRC_URI[sha256sum] = "397e23184f4bf613589a8fe0c6542461dc2afdf17ed337e97e6fd2f31e8f8802"
- 
- COMPATIBLE_HOST_class-target_mips64 = "null"
-+COMPATIBLE_HOST_class-target_mips = "null"
- 
- do_sanitize_sources() {
-     # These .git files point to a nonexistent path "../.git/modules" and will confuse git
-diff --git a/meta/recipes-devtools/qemu/qemu_git.bb b/meta/recipes-devtools/qemu/qemu_git.bb
-index a30932a..cefed90 100644
---- a/meta/recipes-devtools/qemu/qemu_git.bb
-+++ b/meta/recipes-devtools/qemu/qemu_git.bb
-@@ -13,3 +13,4 @@ S = "${WORKDIR}/git"
- DEFAULT_PREFERENCE = "-1"
- 
- COMPATIBLE_HOST_class-target_mips64 = "null"
-+COMPATIBLE_HOST_class-target_mips = "null"
--- 
-1.9.1
+      kernel.bbclass: Create modules directory even if there is no modules
+install
+
+Which fixes a problem introduced by:
+
+  commit 3224472c68865714716305dfbc8efaa59f73958e
+  Author: Nitin A Kamble <nitin.a.kamble@intel.com>
+  Date:   Tue Sep 30 14:40:05 2014 -0700
+
+      kernel.bbclass: enable a link for external module building
+
+Which I'm now also seeing cause problems with the kernel labs.
+
+Thanks,
+
+Tom 
+
+On Wed, 2014-11-26 at 08:22 -0800, Armin Kuster wrote:
+> Please consider these changes for the next Dizzy.
+> 
+> The following changes since commit 85b8abe50482deaa1af62f265e82f53a54bbcd77:
+> 
+>   nss: define MP_USE_UINT_DIGIT when compile mpi_x86.s (2014-11-24 16:38:18 -0800)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib akuster/dizzy-next
+>   http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/dizzy-next
+> 
+> Andrei Gherzan (1):
+>   xkeyboard-config: Inherit gettext
+> 
+> Aníbal Limón (1):
+>   package_manager: DpkgPM fix populate_sdk
+> 
+> Javier Viguera (1):
+>   shadow-securetty: add ttyAM[0-3] serial ports
+> 
+> Robert Yang (1):
+>   qemu: disable the build for mips
+> 
+> Saul Wold (1):
+>   babeltrace: Backport fix for unaligned integer
+> 
+> Tom Zanussi (5):
+>   wic: Don't allow mkfs to fail silently in partition command
+>   wic: Update the help text to include -D (--debug)
+>   Revert "wic: set bootimg_dir when using image-name artifacts"
+>   wic: Remove special-case bootimg_dir
+>   wic: Update bootimg-partition to use bootimg_dir
+> 
+> Wenzong Fan (1):
+>   python: Fix CVE-2014-7185
+> 
+>  meta/lib/oe/package_manager.py                     |   2 +-
+>  .../python/python/python-2.7.3-CVE-2014-7185.patch |  75 ++++++
+>  meta/recipes-devtools/python/python_2.7.3.bb       |   1 +
+>  meta/recipes-devtools/qemu/qemu_2.1.0.bb           |   1 +
+>  meta/recipes-devtools/qemu/qemu_git.bb             |   1 +
+>  meta/recipes-extended/shadow/files/securetty       |   4 +
+>  .../xorg-lib/xkeyboard-config_2.12.bb              |   2 +-
+>  ...n-t-perform-unaligned-integer-read-writes.patch | 252 +++++++++++++++++++++
+>  meta/recipes-kernel/lttng/babeltrace_1.2.1.bb      |   1 +
+>  scripts/lib/image/engine.py                        |  42 +---
+>  scripts/lib/image/help.py                          |  23 +-
+>  scripts/lib/wic/imager/direct.py                   |   5 +-
+>  .../lib/wic/kickstart/custom_commands/partition.py |  22 +-
+>  scripts/lib/wic/plugins/imager/direct_plugin.py    |  20 +-
+>  scripts/lib/wic/plugins/source/bootimg-efi.py      |   5 +-
+>  .../lib/wic/plugins/source/bootimg-partition.py    |   9 +-
+>  scripts/lib/wic/plugins/source/bootimg-pcbios.py   |   3 +-
+>  scripts/wic                                        |  13 +-
+>  18 files changed, 402 insertions(+), 79 deletions(-)
+>  create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-CVE-2014-7185.patch
+>  create mode 100644 meta/recipes-kernel/lttng/babeltrace/0001-Fix-don-t-perform-unaligned-integer-read-writes.patch
+> 
+> -- 
+> 1.9.1
+> 
+
 
 
