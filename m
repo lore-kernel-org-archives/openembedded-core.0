@@ -1,41 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 9654E7210C
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id EC1027210C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 16:22:26 +0000 (UTC)
-Received: by mail-pd0-f176.google.com with SMTP id y10so3065475pdj.35
+	Wed, 26 Nov 2014 16:22:28 +0000 (UTC)
+Received: by mail-pd0-f170.google.com with SMTP id fp1so3077230pdb.15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 08:22:27 -0800 (PST)
+	Wed, 26 Nov 2014 08:22:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=C/73SDuQgNFbmoO64T9uDwsNFPMZmiPjzumeDNRdMrM=;
-	b=ZoyjuKSkD5AA4AhrbbPMQJObAFHKMpTfUADIaN9kXf9JYWa2pYALdJvDljdwnReJ3q
-	t+it3KKNrOKjyFb2UzmUzIMsFpvQJZr3BYvHqYqyCHspGvl0Uj+5G3YrcfkbObHVKIGO
-	ojb+m4xnfL5KwB2H98420tqQLc/2HsUfud+CPCpj7Uo8fEZYOso5Vyuaa9L2/h8Ka50/
-	1L7OrHvmkE5Uk7xeseQ9VjstYXyf+DWl1wBJAnU1mPlaxPbxE/eTZx4sKzS0sySNR6we
-	n7PMliW2vm/ih7NzEYq/AglRv/QoOFh9ZoIkM0h5xBuSG/R5gLj2ljQZuvROOVKyAQEW
-	hRsA==
-X-Received: by 10.66.118.201 with SMTP id ko9mr55508060pab.46.1417018947254;
-	Wed, 26 Nov 2014 08:22:27 -0800 (PST)
+	bh=51QS2n3dqLm3SKjN2Ysr97vNnbxglwqKRTrmCpt4daI=;
+	b=GC/YVG0sWTZtDaXe1m1F8ov02kOanVgspjCCTdxYhZRKShkjNjFm6glNaOmG59r09R
+	toz3DW4hfOlcPfA8B3rmbc0CEImy/i/liwNRBSHYXx9ftKVlWdEl5e1nWLYQI6wOYyYg
+	uUn31yZwEP04DDsa8xohtGrPSOLgVVrQv7OmChLAIiFUg8mHricsrCcKKoY5ZzJGOo0h
+	sGJF0+2Jeim7N+NMXVNoxX8Nj3rRtCg96sR67DRCTtTQoz2DKilHBvk6N2dW/hqzVbYc
+	Fb71IrdXCy9JAW6GdKJ7Kmi22yGU2WuK1Neef9NP6Hx8C7zYrKs5wb/xU+f/qvQyo3Q9
+	84tQ==
+X-Received: by 10.70.98.141 with SMTP id ei13mr55058370pdb.65.1417018949594;
+	Wed, 26 Nov 2014 08:22:29 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by mx.google.com with ESMTPSA id qn1sm4736673pdb.42.2014.11.26.08.22.25
+	by mx.google.com with ESMTPSA id qn1sm4736673pdb.42.2014.11.26.08.22.27
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 26 Nov 2014 08:22:26 -0800 (PST)
+	Wed, 26 Nov 2014 08:22:28 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Nov 2014 08:22:06 -0800
-Message-Id: <70913bed20a9a69e2f27a261bcf7d0779e2702ee.1417018567.git.akuster808@gmail.com>
+Date: Wed, 26 Nov 2014 08:22:07 -0800
+Message-Id: <e7a9547c3aee307a3188f6a17fff4620e285f9bd.1417018567.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <2446d3e01b365793ce2886985212bf800d14846e.1417018567.git.akuster808@gmail.com>
 References: <2446d3e01b365793ce2886985212bf800d14846e.1417018567.git.akuster808@gmail.com>
 In-Reply-To: <cover.1417018567.git.akuster808@gmail.com>
 References: <cover.1417018567.git.akuster808@gmail.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 02/11] wic: Update the help text to include -D (--debug)
+Subject: [PATCH 03/11] Revert "wic: set bootimg_dir when using image-name artifacts"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,75 +48,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Nov 2014 16:22:26 -0000
+X-List-Received-Date: Wed, 26 Nov 2014 16:22:29 -0000
 
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 
-The --debug option is missing from the wic help text; this adds it and
-at the same time rearranges the usage into a more logical arrangement.
+This reverts commit 7ce1dc13f91df70e8a2f420e7c3eba51cbc4bd48.
 
-(From OE-Core rev: cf5144ef241d8f4ccaa3461ae5c9f89c2cf2f8d1)
+This patch broke the assumption that a non-null boot_dir means a
+user-assigned (-b command-line param) value.
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+Reverting doesn't break anything, since the case it was added for
+doesn't use the boot_dir for anything except debugging anyhow.
+
+Fixes [YOCTO #6290]
+
+(From OE-Core rev: db90f10bf31dec8d7d7bb2d3680d50e133662850)
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- scripts/lib/image/help.py | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ scripts/lib/image/engine.py | 9 ++-------
+ scripts/wic                 | 7 +++----
+ 2 files changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
-index 080795e..0963532 100644
---- a/scripts/lib/image/help.py
-+++ b/scripts/lib/image/help.py
-@@ -109,8 +109,9 @@ wic_create_usage = """
+diff --git a/scripts/lib/image/engine.py b/scripts/lib/image/engine.py
+index 3813fec..f1df8b4 100644
+--- a/scripts/lib/image/engine.py
++++ b/scripts/lib/image/engine.py
+@@ -67,8 +67,7 @@ def find_artifacts(image_name):
+     """
+     bitbake_env_lines = get_bitbake_env_lines()
  
-  usage: wic create <wks file or image name> [-o <DIRNAME> | --outdir <DIRNAME>]
-             [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
--            [-e | --image-name] [-r, --rootfs-dir] [-b, --bootimg-dir]
--            [-k, --kernel-dir] [-n, --native-sysroot] [-s, --skip-build-check]
-+            [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
-+            [-r, --rootfs-dir] [-b, --bootimg-dir]
-+            [-k, --kernel-dir] [-n, --native-sysroot]
+-    rootfs_dir = kernel_dir = bootimg_dir = ""
+-    hdddir = staging_data_dir = native_sysroot = ""
++    rootfs_dir = kernel_dir = hdddir = staging_data_dir = native_sysroot = ""
  
-  This command creates an OpenEmbedded image based on the 'OE kickstart
-  commands' found in the <wks file>.
-@@ -129,8 +130,9 @@ NAME
- SYNOPSIS
-     wic create <wks file or image name> [-o <DIRNAME> | --outdir <DIRNAME>]
-         [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
--        [-e | --image-name] [-r, --rootfs-dir] [-b, --bootimg-dir]
--        [-k, --kernel-dir] [-n, --native-sysroot] [-s, --skip-build-check]
-+        [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
-+        [-r, --rootfs-dir] [-b, --bootimg-dir]
-+        [-k, --kernel-dir] [-n, --native-sysroot]
+     for line in bitbake_env_lines.split('\n'):
+         if (get_line_val(line, "IMAGE_ROOTFS")):
+@@ -86,12 +85,8 @@ def find_artifacts(image_name):
+         if (get_line_val(line, "STAGING_DIR_NATIVE")):
+             native_sysroot = get_line_val(line, "STAGING_DIR_NATIVE")
+             continue
+-        if (get_line_val(line, "DEPLOY_DIR_IMAGE")):
+-            bootimg_dir = get_line_val(line, "DEPLOY_DIR_IMAGE")
+-            continue
  
- DESCRIPTION
-     This command creates an OpenEmbedded image based on the 'OE
-@@ -172,6 +174,12 @@ DESCRIPTION
-     explicitly, 'wic' assumes the user knows what he or she is doing
-     and skips the build check.
+-    return (rootfs_dir, kernel_dir, bootimg_dir, hdddir, staging_data_dir, \
+-            native_sysroot)
++    return (rootfs_dir, kernel_dir, hdddir, staging_data_dir, native_sysroot)
  
-+    The -D option is used to display debug information detailing
-+    exactly what happens behind the scenes when a create request is
-+    fulfilled (or not, as the case may be).  It enumerates and
-+    displays the command sequence used, and should be included in any
-+    bug report describing unexpected results.
-+
-     When 'wic -e' is used, the locations for the build artifacts
-     values are determined by 'wic -e' from the output of the 'bitbake
-     -e' command given an image name e.g. 'core-image-minimal' and a
-@@ -519,8 +527,9 @@ DESCRIPTION
  
-        usage: wic create <wks file or image name> [-o <DIRNAME> | ...]
-             [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
--            [-e | --image-name] [-r, --rootfs-dir] [-b, --bootimg-dir]
--            [-k, --kernel-dir] [-n, --native-sysroot] [-s, --skip-build-check]
-+            [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
-+            [-r, --rootfs-dir] [-b, --bootimg-dir]
-+            [-k, --kernel-dir] [-n, --native-sysroot]
+ CANNED_IMAGE_DIR = "lib/image/canned-wks" # relative to scripts
+diff --git a/scripts/wic b/scripts/wic
+index 7314810..15cc9b3 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -134,8 +134,8 @@ def wic_create_subcommand(args, usage_str):
+     bootimg_dir = staging_data_dir = hdddir = ""
  
-        This command creates an OpenEmbedded image based on the 'OE
-        kickstart commands' found in the <wks file>.
+     if options.image_name:
+-        (rootfs_dir, kernel_dir, bootimg_dir, hdddir, \
+-         staging_data_dir, native_sysroot) = find_artifacts(options.image_name)
++        (rootfs_dir, kernel_dir, hdddir, staging_data_dir, native_sysroot) = \
++            find_artifacts(options.image_name)
+ 
+     wks_file = args[0]
+ 
+@@ -172,8 +172,7 @@ def wic_create_subcommand(args, usage_str):
+         not_found = not_found_dir = ""
+         if not os.path.isdir(rootfs_dir):
+             (not_found, not_found_dir) = ("rootfs-dir", rootfs_dir)
+-        elif not os.path.isdir(bootimg_dir) and not os.path.isdir(hdddir) \
+-             and not os.path.isdir(staging_data_dir):
++        elif not os.path.isdir(hdddir) and not os.path.isdir(staging_data_dir):
+             (not_found, not_found_dir) = ("bootimg-dir", bootimg_dir)
+         elif not os.path.isdir(kernel_dir):
+             (not_found, not_found_dir) = ("kernel-dir", kernel_dir)
 -- 
 1.9.1
 
