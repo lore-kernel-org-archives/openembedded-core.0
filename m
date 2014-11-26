@@ -1,46 +1,36 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
-	[217.149.192.139])
-	by mail.openembedded.org (Postfix) with ESMTP id BD3DB60601
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
+	[209.85.216.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 98FC770A61
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 13:43:04 +0000 (UTC)
-Received: from amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.96])
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id A6D3B3F8A5
+	Wed, 26 Nov 2014 13:51:17 +0000 (UTC)
+Received: by mail-qa0-f43.google.com with SMTP id bm13so1932535qab.30
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 14:43:04 +0100 (CET)
-X-Spam-Flag: NO
-X-Spam-Score: -2.9
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 tagged_above=-999 required=4.5
-	tests=[BAYES_00=-2.9] autolearn=disabled
-X-Spam-Languages: en
-Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
-	by amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 14:43:04 +0100 (CET)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Nov 2014 14:43:04 +0100 (CET)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Wed, 26 Nov 2014 14:43:18 +0100
-Message-ID: <5475D8E7.3030507@topic.nl>
-Date: Wed, 26 Nov 2014 14:43:03 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Wed, 26 Nov 2014 05:51:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=ky8PhxGNAOa+AsnHlhUfxQmIGP8VXPPcCVU5OhL9Pvw=;
+	b=uZkST65igBak4J8lF1iesCv7ALZ9J9BAl6h/g2pjpN1oV9lqgPAY0TCKz2YIB2Ye/P
+	2jTBDxRXJP3TrmqgK5Mml4ULSfzqC/xKgnkPPxAXuNpMK+8A7l1adeuuB1fs76zaVQvk
+	9MHjO1YJod7EumGQDOqu+SM9rG8GW9tpgmexlcwaiEAe+ZIFB083OoQke1usdH/GQAY4
+	V/cp07CC7vnPDPhiAFPizcBlFmGuhoBS/UwO6wgzOzAdDlP8goKVUcDggE8v6grhoFKL
+	ltARwHd9uR8du7jAlETPN+rvVM/OpOnIf3m5wlmjqQd8linE68Vt4mYky69ZZBo1nY1n
+	FCeQ==
+X-Received: by 10.229.104.3 with SMTP id m3mr45690209qco.0.1417009878555; Wed,
+	26 Nov 2014 05:51:18 -0800 (PST)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+Sender: paul.betafive@gmail.com
+Received: by 10.140.143.146 with HTTP; Wed, 26 Nov 2014 05:50:38 -0800 (PST)
+In-Reply-To: <1417004047.12520.10.camel@linuxfoundation.org>
 References: <CANyK_8eZHwtww6AL7L5f34R5Nc7mhSQALaez1NCnHvmUpHWcXw@mail.gmail.com>
 	<1417004047.12520.10.camel@linuxfoundation.org>
-In-Reply-To: <1417004047.12520.10.camel@linuxfoundation.org>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Wed, 26 Nov 2014 13:50:38 +0000
+X-Google-Sender-Auth: 7FTKK0kSd_k-6MZOOqsBSH6ppqQ
+Message-ID: <CANyK_8dxvZU8wnqFQGWL=DgFxOdgdq-yaaOkOJrR60w7_M6pfg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
 Subject: Re: opkg, opkg-config-base and opkg-collateral
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -54,68 +44,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Nov 2014 13:43:12 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 26 Nov 2014 13:51:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-=EF=BB=BFOn 11/26/2014 01:14 PM, Richard Purdie wrote:
+On 26 November 2014 at 12:14, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
 > On Tue, 2014-11-25 at 20:27 +0000, Paul Barker wrote:
->> Hi all,
->>
->> Does anyone know why the configuration files for opkg are split into
->> opkg-config-base (containing just '/etc/opkg/arch.conf') and
->> opkg-collateral (containing just '/etc/opkg/opkg.conf')? It looks like
->> the split dates back to openembedded classic.
->>
->> If there isn't a good reason for this perhaps now would be a good time
->> to merge all this back into the 'opkg' recipe and package. I'm happy
->> to put the patch together, just checking if it sounds like a good idea
->> before I do the work.
+> > Hi all,
+> >
+> > Does anyone know why the configuration files for opkg are split into
+> > opkg-config-base (containing just '/etc/opkg/arch.conf') and
+> > opkg-collateral (containing just '/etc/opkg/opkg.conf')? It looks like
+> > the split dates back to openembedded classic.
+> >
+> > If there isn't a good reason for this perhaps now would be a good time
+> > to merge all this back into the 'opkg' recipe and package. I'm happy
+> > to put the patch together, just checking if it sounds like a good idea
+> > before I do the work.
 >
 > I think at least one of the above was intended to allow distro specific
 > package feeds to be preconfigured as as such belonged as a standalone
 > config file.
+
+That would probably be opkg-collateral as it pulls in a 'src' file
+which is empty in oe-core.
+
+However there's also the poky-feed-config-opkg recipe which provides
+feed configurations in /etc/opkg/base-feeds.conf. It also fills in
+/etc/opkg/arch.conf which means it would not be installable alongside
+opkg-config-base.
+
+I suggest the config settings are merged back into the opkg recipe,
+removing opkg-collateral completely. We can then improve
+poky-feed-config-opkg and rename it to something like opkg-feed-config
+so that it's clear it's usable by distros other than poky. This
+improved recipe would just contain /etc/opkg/feeds.conf (the 'base-'
+filename prefix is unnecessary).
+
+In terms of improving the feed config for opkg, by default I suggest
+we just setup feeds for 'all', ${ALL_MULTILIB_PACKAGE_ARCHS} and
+${MACHINE_ARCH}. This should avoid creating feed entries for
+architectures which the target system supports but for which we never
+create packages (for example, qemux86 lists 'all', 'any', 'noarch',
+'x85', 'i586' and 'qemux86' as supported architectures but we only
+ever create packages for 'all', 'i586' and 'qemux86'). By using a
+bbappend a layer should be able to add to these defaults. The URI for
+each package feed would be prefixed with ${OPKG_FEED_PREFIX} which
+must be set in the distro config or local.conf. If OPKG_FEED_PREFIX is
+not set, the recipe would create an empty base-feeds.conf file.
+
+It would be possible with a bit of scripting to set the hold flag on
+the opkg-feed-config package when it is installed so that even if a
+new version of the package is compiled, the feeds for a target board
+will not be automatically upgraded with 'opkg upgrade'. We could then
+create a dist-upgrade script which removes the hold flag, upgrades
+opkg-feed-config, and re-sets the hold flag. So to provide a new
+version of a distro which users could upgrade to but are not
+automatically upgraded to, you'd build a new version of
+opkg-feed-config (probably by changing OPKG_FEED_PREFIX) and run the
+dist-upgrade script on the target.
+
+I'll put together RFC patches to show what I mean, I think that's a
+pretty good explanation for now though.
+
 >
 > The architecture file is also machine specific, we wouldn't want opkg
 > itself rebuilding for every machine so that is probably why its
 > separate.
 >
+
+I didn't spot this but it does make sense. Perhaps opkg-config-base
+should be renamed to opkg-arch-config to avoid future confusion.
+
 > Three different things on the other hand seems excessive. We probably
 > could survive with some merhing with opkg and the remainder being
 > machine specific.
+>
 
-It's only excessive in its default state. Once you have a proper distributi=
-on=20
-with an online feed, it makes perfect sense to have separate packages:
-- the opkg "core" files which are the same for everyone.
-- the machine-specific list of supported architectures (maybe extended with=
-=20
-distro-specific extras)
-- the distro specific config files containing the location of the various=20
-feeds. These may also be machine specific, for example due to a package lik=
-e=20
-Opera being only allowed to run on machines from a particular vendor.
+I'd keep three, but refactor them as I've described above:
+- opkg: Includes '/etc/opkg/opkg.conf'
+- opkg-arch-config: Includes '/etc/opkg/arch.conf', machine specific
+- opkg-feed-config: Includes '/etc/opkg/feeds.conf', distro and
+possibly machine specific
 
-I for one would not want to see any of these three merged.
+> Cheers,
+>
+> Richard
+>
 
+Thanks,
 
-Met vriendelijke groet / kind regards,
+-- 
+Paul Barker
 
-Mike Looijmans
-System Expert
-
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Topic zoekt gedreven (embedded) software specialisten!
-http://topic.nl/vacatures/topic-zoekt-software-engineers/
-
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
