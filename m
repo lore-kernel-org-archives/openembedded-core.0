@@ -1,38 +1,26 @@
-Return-Path: <alexandru.damian@intel.com>
-Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id A4C48601F5
+Return-Path: <diego.ml@zoho.com>
+Received: from sender1.zohomail.com (sender1.zohomail.com [72.5.230.103])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A44772318
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 17:02:31 +0000 (UTC)
-Received: by mail-wg0-f52.google.com with SMTP id a1so6967160wgh.39
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 09:02:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=0Is6pAHF+Byz5DsTsesA+2wBt8ckT8te1kEKvJp5v+I=;
-	b=ctfPFnKyqL26eO0eLKgYlPHj/I8a+PRLiLfrNbMx4FA3FBxH8Pn/H+9PTUk3waovTL
-	2TInF9gb9vi/8ZW+w7a67u4MQaHK7FDF5b3Vn/wrfHLkmEEZTByOj6NExOX9P2jQs1bp
-	zHbcRsQQT5Th3RcApF5e+RT1Lml8zep6Swxzy4cAl3rp9yIKRdABIMroCoDDEJSBS9f8
-	gcJmbcTvUmQAMd9GIVZmg3wnCUjuQUf5usBGZ0JQ5iLjRK7fMZPP4XV5AeblmKNUln3E
-	1iu+O/a5UGVgfYVR/2/G3z1LjYwnwZ4JcrehBvLna/a3AdM5pbQz2iwQJxZZUWQcogWR
-	GaGw==
-X-Gm-Message-State: ALoCoQlJsSA9op2qDHeq2vHlpBPez7QEbPfsClDP3DTpOi0LSGBAoZSg5khXO2uycI0/VIfFvd5m
-X-Received: by 10.180.90.241 with SMTP id bz17mr53663197wib.41.1417107751205; 
-	Thu, 27 Nov 2014 09:02:31 -0800 (PST)
-Received: from adamian-desk.local ([83.217.123.106])
-	by mx.google.com with ESMTPSA id h14sm12401824wic.8.2014.11.27.09.02.29
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 27 Nov 2014 09:02:29 -0800 (PST)
-Received: by adamian-desk.local (Postfix, from userid 1000)
-	id 46A6C563B9C; Thu, 27 Nov 2014 17:02:29 +0000 (GMT)
-From: Alex DAMIAN <alexandru.damian@intel.com>
+	Thu, 27 Nov 2014 17:16:54 +0000 (UTC)
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zapps768; d=zoho.com; 
+	h=from:to:subject:date:message-id:user-agent:mime-version:content-type; 
+	b=Bg/tuH1cIuY7ufzH/Xr9sD/TQiKnHjjNK6y5XHHKsOpE+PIe4Bot1J6hVti0rCGkwiXZmWksmxjQ
+	guOJ1j3quAfT8k+EFa5cgWVtGeRGKcLLGLhaWUrEKwQqsBKW5DfY  
+Received: from localhost.localdomain
+	(host65-246-static.10-188-b.business.telecomitalia.it
+	[188.10.246.65]) by mx.zohomail.com
+	with SMTPS id 1417107990287544.5395628193888;
+	Thu, 27 Nov 2014 09:06:30 -0800 (PST)
+From: Diego <diego.ml@zoho.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Nov 2014 17:02:27 +0000
-Message-Id: <1417107747-31792-1-git-send-email-alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH 1/1] toaster.bbclass: use the openembedded-core name
+Date: Thu, 27 Nov 2014 18:06:08 +0100
+Message-ID: <2727351.QZhbar3BFX@localhost.localdomain>
+User-Agent: KMail/4.14.3 (Linux/3.17.3-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+MIME-Version: 1.0
+X-ZohoMailClient: External
+X-Zoho-Virus-Status: 2
+Subject: [BUG] Openssh not closing connections on service stop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,34 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Nov 2014 17:02:37 -0000
+X-List-Received-Date: Thu, 27 Nov 2014 17:17:07 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+Hi all,
 
-Fixing the bug where the openembedded-core name was registered
-as "meta" in toaster.
+I'd like to share with you what I consider a bug.
 
-[YOCTO #6962]
+I've generally noticed in my Linux experience that I get automatically 
+disconnected from an ssh session if the ssh host gets shutdown or rebooted 
+with the message:
+Connection to x.y.w.z closed by remote host.
+Connection to x.y.w.z closed.
 
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
----
- meta/classes/toaster.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This doesn't seem to happen on my OSes built on core-image-minimal with 
+openssh support.
 
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index 1525317..a7dd0aa 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -71,7 +71,7 @@ python toaster_layerinfo_dumpdata() {
-         layer_url = 'http://layers.openembedded.org/layerindex/layer/{layer}/'
-         layer_url_name = _get_url_map_name(layer_name)
- 
--        layer_info['name'] = layer_name
-+        layer_info['name'] = layer_url_name
-         layer_info['local_path'] = layer_path
-         layer_info['layer_index_url'] = layer_url.format(layer=layer_url_name)
-         layer_info['version'] = _get_layer_version_information(layer_path)
--- 
-1.9.1
+Moreover I noticed that if I stop the ssh service:
+# /etc/init.d/sshd stop
+my ssh connections don't get dropped, I can continue using ssh session like 
+nothing happened. I can even see the connection process still up and running:
+# ps | grep ssh
+ 1790 root      4568 S    /usr/sbin/sshd
+ 1848 root      4852 S    sshd: root@pts/0
+ 1886 root      2896 S    grep ssh
+# /etc/init.d/sshd stop
+Stopping OpenBSD Secure Shell server: sshdstopped /usr/sbin/sshd (pid 1790)
+.
+# ps | grep ssh
+ 1848 root      4852 S    sshd: root@pts/0
+ 1894 root      2892 S    grep ssh
+
+Isn't service termination supposed to stop all related connections at the same 
+time? Can anybody else reproduce (or not) this issue?
+
+Bests,
+Diego
 
 
