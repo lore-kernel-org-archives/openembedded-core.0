@@ -1,25 +1,47 @@
-Return-Path: <drew_moseley@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id C52C865CAC
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 32BE47233E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 00:49:57 +0000 (UTC)
-Received: from svr-orw-fem-06.mgc.mentorg.com ([147.34.97.120])
-	by relay1.mentorg.com with esmtp 
-	id 1XtnHS-0006wQ-5l from drew_moseley@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Nov 2014 16:49:58 -0800
-Received: from key-largo.mgc.mentorg.com (147.34.91.1) by
-	SVR-ORW-FEM-06.mgc.mentorg.com (147.34.97.120) with Microsoft SMTP
-	Server id 14.3.181.6; Wed, 26 Nov 2014 16:49:57 -0800
-From: Drew Moseley <drew_moseley@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Nov 2014 19:49:55 -0500
-Message-ID: <1417049395-15437-2-git-send-email-drew_moseley@mentor.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1417049395-15437-1-git-send-email-drew_moseley@mentor.com>
-References: <1417049395-15437-1-git-send-email-drew_moseley@mentor.com>
+	Thu, 27 Nov 2014 07:46:59 +0000 (UTC)
+Received: from amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.58])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id EFC423F5F4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Nov 2014 08:46:58 +0100 (CET)
+X-Spam-Flag: NO
+X-Spam-Score: -2.899
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.899 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
+X-Spam-Languages: sco en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Nov 2014 08:46:58 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Nov 2014 08:46:58 +0100 (CET)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Thu, 27 Nov 2014 08:47:12 +0100
+Message-ID: <5476D6F1.3010405@topic.nl>
+Date: Thu, 27 Nov 2014 08:46:57 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2] mesa-demos: Move util to the front of the SUBDIRS variable.
+To: <openembedded-core@lists.openembedded.org>
+References: <54758D01.3070601@topic.nl>	<12654718.RPpo1aQ4TE@peggleto-mobl5.ger.corp.intel.com>	<5475D3AE.1040803@topic.nl>	<1920393.GFIm8gtWQZ@peggleto-mobl5.ger.corp.intel.com>
+	<54761F8F.9000400@topic.nl>
+In-Reply-To: <54761F8F.9000400@topic.nl>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: Re: Why does building an image for machine X delete the bootloader (and kernel) for machine Y?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,61 +54,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Nov 2014 00:49:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 27 Nov 2014 07:47:02 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-This forces it to be built first since many of the demos
-require it.  Resolves build failures such as the following
-when certain demos are enabled (notably when PACKAGECONFIG
-contains glut):
+=EF=BB=BFOn 11/26/2014 07:44 PM, Mike Looijmans wrote:
+> On 11/26/2014 03:57 PM, Paul Eggleton wrote:
+>> On Wednesday 26 November 2014 14:20:46 Mike Looijmans wrote:
+>>> On 11/26/2014 12:31 PM, Paul Eggleton wrote:
+>>>> Hi Mike,
+>>>>
+>>>> On Wednesday 26 November 2014 09:19:13 Mike Looijmans wrote:
+>>>>> I do a:
+>>>>>
+>>>>> MACHINE=3DX bitbake my-image
+>>>>>
+>>>>> This DEPENDS on a virtual bootloader, which will produce a BOOT.BIN f=
+ile
+>>>>> in
+>>>>> the deploy directory, which is tmp-glibc/deploy.images/X/
+>>>>>
+>>>>> If I then do a:
+>>>>>
+>>>>> MACHINE=3DY bitbake my-image
+>>>>>
+>>>>> the BOOT.BIN in tmp-glibc/deploy.images/X/ is suddenly gone!
+>>>>>
+>>>>> If i do a
+>>>>>
+>>>>> MACHINE=3DX bitbake my-image
+>>>>>
+>>>>> then the the BOOT.BIN in tmp-glibc/deploy.images/Y/ is suddenly gone,=
+ and
+>>>>> the one for the X machine appears again. The bootloader recipe is not
+>>>>> being
+>>>>> rebuilt at all.
+>>>>>
+>>>>> The machines have the same MACHINE_ARCH, they differ on only minor po=
+ints
+>>>>> (the FPGA).
+>>>>>
+>>>>> What is going on here?
+>>>>
+>>>> I can't be sure, but my guess is the recipe is not marked as being
+>>>> machine-
+>>>> specific (i.e. PACKAGE_ARCH is not set to "${MACHINE_ARCH}" - is that =
+the
+>>>> case?) but there is still some variable dependency on a variable that =
+has
+>>>> a machine-specific value. If it's not obvious from the recipe, check i=
+f
+>>>> there are two sets of tasks for the bootloader recipe in the sstate
+>>>> cache, and then use bitbake-diffsigs to compare the sigdata/siginfo
+>>>> files.
+>>>
+>>> MACHINE is actually "topic-miami-florida-med-xc7z015" or
+>>> "topic-miami-florida-med-xc7z030"
+>>>
+>>> Both machines have MACHINE_ARCH =3D "topic_miami_florida_med" since the=
+y only
+>>> differ in the FPGA subsystem, but share all the rest (kernel, bootloade=
+r,
+>>> etc).
+>>>
+>>> Is it forbidden to share $MACHINE_ARCH between $MACHINEs? (And if so, w=
+hy
+>>> does MACHINE_ARCH even exist?)
+>>
+>> I don't know for sure, but I don't think that is forbidden. I'm not sure
+>> that's the issue here though.
+>>
+>>> The BSP layer for the topic-miami machines is here (yes, you can build =
+OE or
+>>> Yocto images with it, but I have yet some more work to do to make it a
+>>> proper BSP...):
+>>> https://github.com/topic-embedded-products/meta-topic
+>>
+>> Is it u-boot that's the actual bootloader we are talking about here?
+>
+> Yep.
+>
+> u-boot-spl to be exact. The BOOT.bin is just one of the files that disapp=
+ears,
+> it's the firststage loader built by u-boot.
 
-    make[2]: *** No rule to make target `../util/libutil.la', needed by `copypix'.  Stop.
+It happens anytime I switch between machines. Building for one will delete =
+the=20
+files for the other. It will delete all bootloader and kernel files.
 
-Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
----
- ...-configure-Allow-to-disable-demos-which-require-GLEW-.patch | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+Running
+MACHINE=3Dtopic-miami-florida-med-xc7z030 bitbake virtual/kernel -c deploy
+deletes the kernel for the xc7z015, and places it in the xz7z030 deploy dir=
+, and
+MACHINE=3Dtopic-miami-florida-med-xc7z015 bitbake virtual/kernel -c deploy
+does the opposite.
 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos/0003-configure-Allow-to-disable-demos-which-require-GLEW-.patch b/meta/recipes-graphics/mesa/mesa-demos/0003-configure-Allow-to-disable-demos-which-require-GLEW-.patch
-index e02f1ab..4b07193 100644
---- a/meta/recipes-graphics/mesa/mesa-demos/0003-configure-Allow-to-disable-demos-which-require-GLEW-.patch
-+++ b/meta/recipes-graphics/mesa/mesa-demos/0003-configure-Allow-to-disable-demos-which-require-GLEW-.patch
-@@ -95,11 +95,16 @@ diff --git a/src/Makefile.am b/src/Makefile.am
- index 1647d64..754c47c 100644
- --- a/src/Makefile.am
- +++ b/src/Makefile.am
--@@ -23,14 +23,13 @@
-+@@ -23,14 +23,18 @@
-  #    Eric Anholt <eric@anholt.net>
-  
-++if HAVE_GLEW
-++UTIL = util
-++endif
-++
-  SUBDIRS = \
- -	util \
-++	$(UTIL) \
-  	data \
-  	demos \
-  	egl \
-@@ -111,7 +116,7 @@ index 1647d64..754c47c 100644
-  	objviewer \
-  	osdemos \
-  	perf \
--@@ -40,8 +39,13 @@ SUBDIRS = \
-+@@ -40,8 +39,12 @@ SUBDIRS = \
-  	slang \
-  	tests \
-  	tools \
-@@ -125,7 +130,6 @@ index 1647d64..754c47c 100644
- +SUBDIRS += \
- +	vp \
- +	vpglsl \
--+	util \
- +	trivial
- +endif
- diff --git a/src/demos/Makefile.am b/src/demos/Makefile.am
--- 
-1.9.1
+Probably some unforeseen effect of deploy when machines share the same arch=
+?
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+System Expert
+
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
 
 
