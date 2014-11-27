@@ -1,41 +1,23 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 308287238C
+Return-Path: <jurobystricky@hotmail.com>
+Received: from BLU004-OMC4S10.hotmail.com (blu004-omc4s10.hotmail.com
+	[65.55.111.149])
+	by mail.openembedded.org (Postfix) with ESMTP id B92F57229B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 18:07:48 +0000 (UTC)
-Received: by mail-vc0-f173.google.com with SMTP id im17so2350415vcb.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 10:07:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=5AwIIpmxGkH/Pi+B2frVBQOOFVns+oeCz8EyNwroGAM=;
-	b=Svza/j6LiVwnX1s9kbQWDd17dAenh81BhRLWsRmSxEN5P9jDdKAAqWLg7Mjb39a/x6
-	4s1vVNAuUXEOvPNJa+3Inb+zbcFu+HlYgt3LXxpQOHSsGMizk4XiFZGrMmigipYOcx0M
-	uni/Q/Idn6cacUD5Xo6g/X9VJj5HSR0/qKQpfl4XlSbaNUvobK0eGPYNyltGAV0GRVGZ
-	ZkzVqBf3FTHiP/xOWOXw0w69kkjbcwH/FzANl86URln14ku3FiyInlBPffCqtwxPdqTt
-	LTLqNCKfi4bUBefZ4CbloqhPEDfoHXAuLs3KG7pi1TvXSkDFUoWLatYS62vlVKvmAdL0
-	FSAQ==
-X-Gm-Message-State: ALoCoQnOIMIHmsaMRtjVjResFSaRZFBJP3sYQq3BjKXu0xVl27kvk0GLdQkp66cJF/6GClbJYmvv
+	Thu, 27 Nov 2014 18:33:10 +0000 (UTC)
+Received: from BLU436-SMTP204 ([65.55.111.137]) by BLU004-OMC4S10.hotmail.com
+	over TLS secured channel with Microsoft SMTPSVC(7.5.7601.22751);
+	Thu, 27 Nov 2014 10:33:10 -0800
+X-TMN: [Xfd4xzEuvrE1vQuathyjL3eBZOlKVD5A]
+X-Originating-Email: [jurobystricky@hotmail.com]
+Message-ID: <BLU436-SMTP2049F5D4A9FB2DB21C94FCABB710@phx.gbl>
+From: Juro Bystricky <jurobystricky@hotmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Nov 2014 10:32:59 -0800
+X-Mailer: git-send-email 1.9.1
+X-OriginalArrivalTime: 27 Nov 2014 18:33:08.0510 (UTC)
+	FILETIME=[97521BE0:01D00A70]
 MIME-Version: 1.0
-X-Received: by 10.221.38.8 with SMTP id tg8mr21101483vcb.76.1417111669392;
-	Thu, 27 Nov 2014 10:07:49 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.31.188.129 with HTTP; Thu, 27 Nov 2014 10:07:49 -0800 (PST)
-In-Reply-To: <201409211802.17872.marex@denx.de>
-References: <1407438629-13369-1-git-send-email-marex@denx.de>
-	<201409190914.03281.marex@denx.de> <1411111512.4736.11.camel@ted>
-	<201409211802.17872.marex@denx.de>
-Date: Thu, 27 Nov 2014 18:07:49 +0000
-X-Google-Sender-Auth: HFOa-7UGuToz77hsKLGg-vzAX4Y
-Message-ID: <CAOMwXhMOr2SxHfz_JX2QaW_j1GAQiR0BR4KpCGCPMVx7yyGztw@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Marek Vasut <marex@denx.de>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Yocto: Install full set of python modules in Qt SDK toolchain
+Subject: [PATCH] eglibc: modified option-groups.h generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,82 +30,209 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Nov 2014 18:07:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 27 Nov 2014 18:33:13 -0000
+Content-Type: text/plain
 
-What is the situation on this front?
+option-groups.h only explicitely #defines options that are enabled.
+EGLIBC options are typically pre-processed under the assumption that if
+an option is not explicitely defined then it evaluates as 0.
+This assumption is correct, but it generates a compiler warning
+message each time an undefined symbol is being evaluated.
+In order to remove the warnings, each EGLIBC option is now defined
+as 1 if the option is enabled or as 0 otherwise.
+The consequence is we cannot use #ifdef OPTION_XXX when evaluating
+the option, we must always use #if OPTION_XXX.
 
-On Sun, Sep 21, 2014 at 5:02 PM, Marek Vasut <marex@denx.de> wrote:
-> On Friday, September 19, 2014 at 09:25:12 AM, Richard Purdie wrote:
-> [...]
->> > git grep nativesdk-python-modules doesn't show any matches in
->> > git://git.yoctoproject.org/poky master . Do you mean the
->> > nativesdk-packagegroup- python I crafted or do you refer to something
->> > else please ?
->> >
->> > Also, shouldn't full python be installed into all the SDK toolchains ? I
->> > am for example unable to compile U-Boot 2014.10rc with the Yocto SDK
->> > toolchain anymore. The SDK is missing python modules and I cannot easily
->> > override the usage of python from the SDK . So I agree with Laszlo here,
->> > the SDK toolchain is somewhat unusable as it is.
->>
->> I refer to the package I mentioned:
->>
->> $ ls -la tmp/deploy/ipk/x86_64-nativesdk/nativesdk-python-modules*
->> -rw-r--r-- 2 richard richard 1512 Sep 18 17:09
->> tmp/deploy/ipk/x86_64-nativesdk/nativesdk-python-modules_2.7.3-r0.3.24_x86
->> _64-nativesdk.ipk
->>
->> See ${PN}-modules defined in python-2.7-manifest.inc.
->
-> Oh I see, sorry. Is there any way to look up packages with bitbake or Yocto
-> please ?
->
->> I agreed there is a problem, I disagree somewhat about how it should be
->> fixed since you're just installing a set of modules which is defined as
->> those needed to run bitbake and I don't think this is what you actually
->> want. There is also the question of whether nativesdk-python should even
->> be in there...
->
-> So would this patch (paste below) work please ? If so, I would submit proper.
->
-> diff --git a/meta/classes/populate_sdk_base.bbclass
-> b/meta/classes/populate_sdk_base.bbclass
-> index 10d04ed..7245d53 100644
-> --- a/meta/classes/populate_sdk_base.bbclass
-> +++ b/meta/classes/populate_sdk_base.bbclass
-> @@ -30,7 +30,11 @@ B_task-populate-sdk = "${SDK_DIR}"
->
->  SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}"
->
-> -TOOLCHAIN_HOST_TASK ?= "nativesdk-packagegroup-sdk-host packagegroup-cross-
-> canadian-${MACHINE}"
-> +TOOLCHAIN_HOST_TASK ?= "                               \
-> +       nativesdk-packagegroup-sdk-host                 \
-> +       packagegroup-cross-canadian-${MACHINE}          \
-> +       nativesdk-python-modules                        \
-> +       "
->  TOOLCHAIN_HOST_TASK_ATTEMPTONLY ?= ""
->  TOOLCHAIN_TARGET_TASK ?= "packagegroup-core-standalone-sdk-target packagegroup-
-> core-standalone-sdk-target-dbg"
->  TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
-> diff --git a/meta/recipes-qt/meta/meta-toolchain-qt.inc b/meta/recipes-
-> qt/meta/meta-toolchain-qt.inc
-> index 6b162bd..473a123 100644
-> --- a/meta/recipes-qt/meta/meta-toolchain-qt.inc
-> +++ b/meta/recipes-qt/meta/meta-toolchain-qt.inc
-> @@ -1,4 +1,8 @@
-> -TOOLCHAIN_HOST_TASK = "nativesdk-packagegroup-${QTNAME}-toolchain-host
-> packagegroup-cross-canadian-${MACHINE}"
-> +TOOLCHAIN_HOST_TASK = "                                                \
-> +       nativesdk-packagegroup-${QTNAME}-toolchain-host         \
-> +       packagegroup-cross-canadian-${MACHINE}                  \
-> +       nativesdk-python-modules                                \
-> +       "
->  TOOLCHAIN_TARGET_TASK = "packagegroup-${QTNAME}-toolchain-target"
->  TOOLCHAIN_OUTPUTNAME = "${SDK_NAME}-toolchain-${QTNAME}-${DISTRO_VERSION}"
->
->
-> Best regards,
-> Marek Vasut
+[YOCTO #7001]
+
+Signed-off-by: Juro Bystricky <jurobystricky@hotmail.com>
+---
+ .../glibc/glibc/eglibc-use-option-groups.patch     | 34 +++++++++++-----------
+ meta/recipes-core/glibc/glibc/option-groups.patch  |  6 ++--
+ 2 files changed, 20 insertions(+), 20 deletions(-)
+
+diff --git a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
+index 40c7832..7136253 100644
+--- a/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
++++ b/meta/recipes-core/glibc/glibc/eglibc-use-option-groups.patch
+@@ -5724,7 +5724,7 @@ Index: git/posix/regex.h
+  # define RE_INVALID_INTERVAL_ORD (RE_DEBUG << 1)
+  
+ +/* EGLIBC: Old regex implementation does not support these.  */
+-+# ifdef __OPTION_POSIX_REGEXP_GLIBC
+++# if __OPTION_POSIX_REGEXP_GLIBC
+  /* If this bit is set, then ignore case when matching.
+     If not set, then case is significant.  */
+  # define RE_ICASE (RE_INVALID_INTERVAL_ORD << 1)
+@@ -5740,7 +5740,7 @@ Index: git/posix/regex.h
+    (RE_CHAR_CLASSES | RE_DOT_NEWLINE      | RE_DOT_NOT_NULL		\
+     | RE_INTERVALS  | RE_NO_EMPTY_RANGES)
+  
+-+#ifdef __OPTION_POSIX_REGEXP_GLIBC
+++#if __OPTION_POSIX_REGEXP_GLIBC
+  #define RE_SYNTAX_POSIX_BASIC						\
+    (_RE_SYNTAX_POSIX_COMMON | RE_BK_PLUS_QM | RE_CONTEXT_INVALID_DUP)
+ +#else
+@@ -5754,7 +5754,7 @@ Index: git/posix/regex.h
+  /* Like REG_NOTBOL, except for the end-of-line.  */
+  #define REG_NOTEOL (1 << 1)
+  
+-+#ifdef __OPTION_POSIX_REGEXP_GLIBC
+++#if __OPTION_POSIX_REGEXP_GLIBC
+  /* Use PMATCH[0] to delimit the start and end of the search in the
+     buffer.  */
+  #define REG_STARTEND (1 << 2)
+@@ -15542,7 +15542,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.c
+  libc_hidden_proto (__nldbl___isoc99_vsscanf)
+  libc_hidden_proto (__nldbl___isoc99_vfscanf)
+ +
+-+#ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++#if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+ +libc_hidden_proto (__nldbl_vfwscanf)
+ +libc_hidden_proto (__nldbl_vswscanf)
+ +libc_hidden_proto (__nldbl_vfwprintf)
+@@ -15559,7 +15559,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.c
+  }
+  weak_alias (__nldbl_fprintf, __nldbl__IO_fprintf)
+  
+-+#ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++#if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+  int
+  attribute_compat_text_section weak_function
+  __nldbl_fwprintf (FILE *stream, const wchar_t *fmt, ...)
+@@ -15575,7 +15575,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.c
+    return done;
+  }
+  
+-+#ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++#if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+  int
+  attribute_compat_text_section
+  __nldbl_swprintf (wchar_t *s, size_t n, const wchar_t *fmt, ...)
+@@ -15591,7 +15591,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.c
+  }
+  libc_hidden_def (__nldbl_vdprintf)
+  
+-+#ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++#if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+  int
+  attribute_compat_text_section weak_function
+  __nldbl_vfwprintf (FILE *s, const wchar_t *fmt, va_list ap)
+@@ -15607,7 +15607,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.c
+  libc_hidden_def (__nldbl_vsnprintf)
+  weak_alias (__nldbl_vsnprintf, __nldbl___vsnprintf)
+  
+-+#ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++#if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+  int
+  attribute_compat_text_section weak_function
+  __nldbl_vswprintf (wchar_t *string, size_t maxlen, const wchar_t *fmt,
+@@ -15623,7 +15623,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.c
+    return done;
+  }
+  
+-+#ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++#if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+  int
+  attribute_compat_text_section
+  __nldbl_vfwscanf (FILE *s, const wchar_t *fmt, va_list ap)
+@@ -15639,7 +15639,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.c
+    return done;
+  }
+  
+-+#ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++#if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+  int
+  attribute_compat_text_section
+  __nldbl___fwprintf_chk (FILE *stream, int flag, const wchar_t *fmt, ...)
+@@ -15655,7 +15655,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.c
+    return done;
+  }
+  
+-+#ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++#if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+  int
+  attribute_compat_text_section
+  __nldbl___swprintf_chk (wchar_t *s, size_t n, int flag, size_t slen,
+@@ -15671,7 +15671,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.c
+  }
+  libc_hidden_def (__nldbl___vfprintf_chk)
+  
+-+#ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++#if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+  int
+  attribute_compat_text_section
+  __nldbl___vfwprintf_chk (FILE *s, int flag, const wchar_t *fmt, va_list ap)
+@@ -15687,7 +15687,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.c
+  }
+  libc_hidden_def (__nldbl___vsprintf_chk)
+  
+-+#ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++#if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+  int
+  attribute_compat_text_section
+  __nldbl___vswprintf_chk (wchar_t *string, size_t maxlen, int flag, size_t slen,
+@@ -15719,7 +15719,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.c
+    return done;
+  }
+  
+-+#ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++#if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+  int
+  attribute_compat_text_section
+  __nldbl___isoc99_vfwscanf (FILE *s, const wchar_t *fmt, va_list ap)
+@@ -15735,7 +15735,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.c
+  compat_symbol (libc, __nldbl___strfmon_l, __strfmon_l, GLIBC_2_1);
+  #endif
+  #if LONG_DOUBLE_COMPAT(libc, GLIBC_2_2)
+-+# ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++# if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+  compat_symbol (libc, __nldbl_swprintf, swprintf, GLIBC_2_2);
+  compat_symbol (libc, __nldbl_vwprintf, vwprintf, GLIBC_2_2);
+  compat_symbol (libc, __nldbl_wprintf, wprintf, GLIBC_2_2);
+@@ -15783,7 +15783,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.h
+  NLDBL_DECL (__isoc99_vscanf);
+  NLDBL_DECL (__isoc99_vfscanf);
+  NLDBL_DECL (__isoc99_vsscanf);
+-+#ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++#if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+ +NLDBL_DECL (vfwscanf);
+ +NLDBL_DECL (vfwprintf);
+ +NLDBL_DECL (vswprintf);
+@@ -15819,7 +15819,7 @@ Index: git/sysdeps/ieee754/ldbl-opt/nldbl-compat.h
+  					  _G_va_list) __THROW;
+  extern void __nldbl___vsyslog_chk (int, int, const char *, va_list);
+ -
+-+#ifdef __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+++#if __OPTION_POSIX_WIDE_CHAR_DEVICE_IO
+ +extern int __nldbl___vfwprintf_chk (FILE *__restrict, int,
+ +				    const wchar_t *__restrict, __gnuc_va_list);
+ +extern int __nldbl___vswprintf_chk (wchar_t *__restrict, size_t, int, size_t,
+diff --git a/meta/recipes-core/glibc/glibc/option-groups.patch b/meta/recipes-core/glibc/glibc/option-groups.patch
+index 693bd2f..198be73 100644
+--- a/meta/recipes-core/glibc/glibc/option-groups.patch
++++ b/meta/recipes-core/glibc/glibc/option-groups.patch
+@@ -1358,8 +1358,8 @@ Index: git/scripts/option-groups.awk
+ +    print "   It defines macros that indicate which EGLIBC option groups were"
+ +    print "   configured in 'option-groups.config' when this C library was"
+ +    print "   built.  For each option group named OPTION_foo, it #defines"
+-+    print "   __OPTION_foo to be 1 if the group is enabled, or leaves that"
+-+    print "   symbol undefined if the group is disabled.  */"
+++    print "   __OPTION_foo to be 1 if the group is enabled, or #defines that"
+++    print "   symbol to be 0 if the group is disabled.  */"
+ +    print ""
+ +    print "#ifndef __GNU_OPTION_GROUPS_H"
+ +    print "#define __GNU_OPTION_GROUPS_H"
+@@ -1379,7 +1379,7 @@ Index: git/scripts/option-groups.awk
+ +            if (vars[var] == "y")
+ +                print "#define __" var " 1"
+ +            else if (vars[var] == "n")
+-+                print "/* #undef __" var " */"
+++                print "#define __" var " 0"
+ +	    else if (vars[var] ~ /^[0-9]+/ ||
+ +		     vars[var] ~ /^0x[0-9aAbBcCdDeEfF]+/ ||
+ +		     vars[var] ~ /^\"/)
+-- 
+1.9.1
+
 
