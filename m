@@ -1,21 +1,31 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id DAD797238C
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp08.online.nl (smtp08.online.nl [194.134.42.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 47DFA7233E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 14:58:57 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Nov 2014 06:58:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="422309879"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 27 Nov 2014 06:49:03 -0800
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Nov 2014 16:58:56 +0200
-Message-Id: <1417100336-16766-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
+	Thu, 27 Nov 2014 15:18:02 +0000 (UTC)
+Received: from smtp08.online.nl (localhost [127.0.0.1])
+	by smtp08.online.nl (Postfix) with ESMTP id C775F66523;
+	Thu, 27 Nov 2014 16:17:59 +0100 (CET)
+Received: from [192.168.1.7] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp08.online.nl (Postfix) with ESMTP;
+	Thu, 27 Nov 2014 16:17:59 +0100 (CET)
+Message-ID: <547740A7.7000005@topic.nl>
+Date: Thu, 27 Nov 2014 16:17:59 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Subject: [PATCH] combo-layer: support updating up to arbitrary commit
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <5476E26B.80003@topic.nl> <547712F1.9090209@mlbassoc.com>	
+	<1417094262.15614.6.camel@linuxfoundation.org>
+	<547733B2.2010501@topic.nl>
+	<1417099280.15614.11.camel@linuxfoundation.org>
+In-Reply-To: <1417099280.15614.11.camel@linuxfoundation.org>
+X-Online-Scanned: by Cloudmark authority (on smtp08.online.nl)
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Deployment for machine X will remove its results from machine Y's deploy dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,127 +38,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Nov 2014 14:58:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 27 Nov 2014 15:18:06 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Support defining the top commit up to which to update. In other words,
-this makes it possible to update up to certain point other than the
-branch head. The update point (git commitish) is given on the command
-line by appending the component name(s) with a colon and the commitish,
-e.g.
- $ combo-layer update my_component:sha1
+On 27-11-2014 15:41, Richard Purdie wrote:
+> On Thu, 2014-11-27 at 15:22 +0100, Mike Looijmans wrote:
+>> ﻿On 11/27/2014 02:17 PM, Richard Purdie wrote:
+>>> On Thu, 2014-11-27 at 05:02 -0700, Gary Thomas wrote:
+>>>> On 2014-11-27 01:35, Mike Looijmans wrote:
+>>>>> Here's an example recipe to demonstrate the issue. Save it as "deployme.bb" into a recipe dir. Then build it for two machines. Building it for one machine will remove it from the
+>>>>> deployment directory of the other. This problem has been bugging me for months, I had files just "disappear" mysteriously from the deploy directory and seemingly random times, and
+>>>>> now I finally figured out what causes it.
+>>>>>
+>>>>> (cut here)
+>>>>>
+>>>>> SUMMARY = "Demonstrate a bug in OE deployment"
+>>>>> DESCRIPTION = "Build this package for a machine X, then look at the image's \
+>>>>>     deploy directory. You'll see a deployme.txt there. Now build it for another \
+>>>>>     machine, e.g. "Y". The deployme.txt for machine X will have disappeared \
+>>>>>     from the image dir. This appears to be a bug in OE's deployment."
+>>>>> LICENSE = "GPLv2"
+>>>>> LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690"
+>>>>>
+>>>>> inherit allarch deploy
+>>>>>
+>>>>> do_compile () {
+>>>>>        echo "Hello world!" > deployme.txt
+>>>>> }
+>>>>>
+>>>>> do_deploy () {
+>>>>>        install -d ${DEPLOYDIR}
+>>>>>        install -m 644 ${B}/deployme.txt ${DEPLOYDIR}/
+>>>>> }
+>>>>>
+>>>>> addtask deploy before do_build after do_compile
+>>>>>
+>>>>> (cut here)
+>>>>
+>>>> Very interesting & verified with the latest master.
+>>>>
+>>>> Have you filed a bug?  https://bugzilla.yoctoproject.org/
+>>>
+>>> Well, I'm not convinced this is a bug as such. You've created an
+>>> "allarch" deploy task, how would you expect this to behave?
+>>>
+>>> "allarch" means that the output from this task is universal and can be
+>>> used on all targets. It will therefore get run once.
+>>>
+>>> A "deploy" task is machine specific.
+>>>
+>>> What ends up happening is therefore the task has a stamp is
+>>> "universally" created. When you change machine, the checksum of the task
+>>> changes, the previous version is removed, the new version is installed.
+>>>
+>>> So in many ways the system is doing exactly what I would expect it to do
+>>> and it isn't a bug in that sense.
+>>
+>> It's not a bug in the sense that it doesn't do as it was programmed to do.
+>
+> Its doing *exactly* what the was designed to do. That doesn't match what
+> you want/expect though.
+>
+>>   I understand what's happening here.
+>>
+>> I just think that the logic here is wrong. If "deploy" is machine specific,
+>> then the implicit "undeploy" should be machine specific too, right?
+>
+> Well, its more complex than that.
+>
+> deploy.bbclass defaults to DEPLOY_DIR_IMAGE.
+>
+> DEPLOY_DIR_IMAGE defaults to ${DEPLOY_DIR}/images/${MACHINE}
+>
+> I actually put off merging the latter since I knew it would cause
+> issues, I just couldn't articulate all of them at the time :(.
+>
+>>> The real question is how should an "allarch" + "deploy" task behave when
+>>> you've specified machine specific paths? Perhaps erroring would be
+>>> better?
+>>
+>> That would mean that roughly all deploy tasks will fail.
+>
+> I'm not sure we have many deploy+allarch tasks so I think "roughly none"
+> would be a better description.
+>
+> deploy is usually used for bootloaders and kernels, both of which are
+> not allarch.
+>
+>> At best they're tied
+>> to MACHINE_ARCH, but never to MACHINE itself.
+>
+> No, they're tried to MACHINE itself, see above.
+>
+>> Would be strange to put PACKAGE_ARCH="${MACHINE}" in a recipe that clearly has
+>> no dependency on machine specific things. And I wrote "${MACHINE}" here on
+>> purpose.
+>
+> Dropping the "allarch" would be better than that.
+>
+>> I was thinking along the lines of "DEPLOY_DIR_IMAGE must have the same prefix"
+>> or so.
+>>
+>> If I knew the solution, I'd have posted a patch instead of a question or report.
+>
+> Well, allarch.bbclass could override DEPLOY_DIR_IMAGE to remove
+> the /${MACHINE} suffix. That would appear to fix the issues you're
+> seeing, at the risk of having a different group of people upset that you
+> don't get a complete directory per machine.
+>
+> It comes down to which behaviour we want. Changing MACHINE in the
+> definition of DEPLOY_DIR_IMAGE to PACKAGE_ARCH might be the better
+> solution, then it will deploy based on how specific or not specific the
+> resulting code it. That will likely upset certain people even more
+> though. The other option is to accept that its machine specific and do
+> PACKAGE_ARCH="${MACHINE_ARCH}" in the class. That is suboptimal for the
+> reasons you describe but would get the behaviour some people want.
+>
+> I suspect there isn't a right answer here :(
+>
+> An opinion from Martin/Koen might be useful at this point since it could
+> affect them more than others (as well as things like the yocto project
+> autobuilder output and output processing/testing/releasing).
 
-Only the "update" action supports this.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- scripts/combo-layer | 45 +++++++++++++++++++++++++++------------------
- 1 file changed, 27 insertions(+), 18 deletions(-)
+If I understand correctly, having two "MACHINE" share the same 
+MACHINE_ARCH (which is the case for several intel boards too), is not 
+actually allowed?
 
-diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 19d64e6..2f618bf 100755
---- a/scripts/combo-layer
-+++ b/scripts/combo-layer
-@@ -26,6 +26,7 @@ import logging
- import subprocess
- import ConfigParser
- import re
-+from collections import OrderedDict
- 
- __version__ = "0.2.1"
- 
-@@ -305,18 +306,17 @@ def check_rev_branch(component, repodir, rev, branch):
-         return False
-     return True
- 
--def get_repos(conf, args):
-+def get_repos(conf, repo_names):
-     repos = []
--    if len(args) > 1:
--        for arg in args[1:]:
--            if arg.startswith('-'):
--                break
--            else:
--                repos.append(arg)
--        for repo in repos:
--            if not repo in conf.repos:
--                logger.error("Specified component '%s' not found in configuration" % repo)
--                sys.exit(0)
-+    for name in repo_names:
-+        if name.startswith('-'):
-+            break
-+        else:
-+            repos.append(name)
-+    for repo in repos:
-+        if not repo in conf.repos:
-+            logger.error("Specified component '%s' not found in configuration" % repo)
-+            sys.exit(0)
- 
-     if not repos:
-         repos = conf.repos
-@@ -327,7 +327,7 @@ def action_pull(conf, args):
-     """
-         update the component repos only
-     """
--    repos = get_repos(conf, args)
-+    repos = get_repos(conf, args[1:])
- 
-     # make sure all repos are clean
-     for name in repos:
-@@ -348,7 +348,13 @@ def action_update(conf, args):
-         generate the patch list
-         apply the generated patches
-     """
--    repos = get_repos(conf, args)
-+    components = [arg.split(':')[0] for arg in args[1:]]
-+    revisions = []
-+    for arg in args[1:]:
-+        revision= arg.split(':', 1)[1] if ':' in arg else None
-+        revisions.append(revision)
-+    # Map commitishes to repos
-+    repos = OrderedDict(zip(get_repos(conf, components), revisions))
- 
-     # make sure combo repo is clean
-     check_repo_clean(os.getcwd())
-@@ -362,9 +368,9 @@ def action_update(conf, args):
-     if conf.nopull:
-         logger.info("Skipping pull (-n)")
-     else:
--        action_pull(conf, args)
-+        action_pull(conf, components)
- 
--    for name in repos:
-+    for name, revision in repos.iteritems():
-         repo = conf.repos[name]
-         ldir = repo['local_repo_dir']
-         dest_dir = repo['dest_dir']
-@@ -373,18 +379,21 @@ def action_update(conf, args):
- 
-         # Step 2: generate the patch list and store to patch dir
-         logger.info("Generating patches from %s..." % name)
-+        top_revision = revision or branch
-+        if not check_rev_branch(name, ldir, top_revision, branch):
-+            sys.exit(1)
-         if dest_dir != ".":
-             prefix = "--src-prefix=a/%s/ --dst-prefix=b/%s/" % (dest_dir, dest_dir)
-         else:
-             prefix = ""
-         if repo['last_revision'] == "":
-             logger.info("Warning: last_revision of component %s is not set, starting from the first commit" % name)
--            patch_cmd_range = "--root %s" % branch
--            rev_cmd_range = branch
-+            patch_cmd_range = "--root %s" % top_revision
-+            rev_cmd_range = top_revision
-         else:
-             if not check_rev_branch(name, ldir, repo['last_revision'], branch):
-                 sys.exit(1)
--            patch_cmd_range = "%s..%s" % (repo['last_revision'], branch)
-+            patch_cmd_range = "%s..%s" % (repo['last_revision'], top_revision)
-             rev_cmd_range = patch_cmd_range
- 
-         file_filter = repo.get('file_filter',"")
+Because you get the same kernel/bootloader for different machines then. 
+That's what I wanted, and that triggered me finding this issue.
+
+Please realize that the example is just an example. The actual problem 
+I'm experiencing is with the kernel and bootloader!
+
+
 -- 
-1.8.4.5
-
+Mike Looijmans
 
