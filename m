@@ -1,32 +1,30 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 765E77236B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 73E6072380
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 13:58:11 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-03.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1XtzaG-0004rF-67 from Noor_Ahsan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Nov 2014 05:58:12 -0800
-Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.9]) by
-	SVR-IES-FEM-03.mgc.mentorg.com ([137.202.0.108]) with mapi id
-	14.03.0181.006; Thu, 27 Nov 2014 13:58:11 +0000
-From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: "MacDonald, Joe" <Joe_MacDonald@mentor.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] libxml2: fix CVE-2014-3660
-Thread-Index: AQHP7I6CTHz+T5EQD0m8e28UZcp/hJx0t02AgAADvVA=
-Date: Thu, 27 Nov 2014 13:58:10 +0000
-Message-ID: <365E1805BC95084CBE82381A0B869994E75615E9@EU-MBX-01.mgc.mentorg.com>
-References: <1413827481-11123-1-git-send-email-joe_macdonald@mentor.com> 
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
-MIME-Version: 1.0
-Subject: Re: [PATCH] libxml2: fix CVE-2014-3660
+	Thu, 27 Nov 2014 14:04:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sARE45en011155 for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Nov 2014 14:04:05 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Th6xhgWM0q-j
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Nov 2014 14:04:05 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sARE3r1D011152
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Nov 2014 14:04:04 GMT
+Message-ID: <1417097069.15614.9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Nov 2014 14:04:29 +0000
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] qemu: Add missing wacom HID descriptor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,243 +37,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Nov 2014 13:58:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 27 Nov 2014 14:04:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+The wacom driver we use is missing a HID descriptor causing it not to work
+with 3.17 kernels and later. This patch adds in a descriptor to make the
+driver work again.
 
-Sorry for the false alarm. It was included in master but not in dizzy branc=
-h. Kindly include in that branch as well. Thanks.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Noor
-
------Original Message-----
-From: Ahsan, Noor=20
-Sent: Thursday, November 27, 2014 6:45 PM
-To: 'Joe MacDonald'; openembedded-core@lists.openembedded.org
-Subject: RE: [OE-core] [PATCH] libxml2: fix CVE-2014-3660
-
-Hello,
-
-We sent out this patch but we haven't received any feedback not it was incl=
-uded. Kindly include this in dizzy branch.
-
-Thanks.
-
-Noor
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Joe MacDonald
-Sent: Monday, October 20, 2014 10:51 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH] libxml2: fix CVE-2014-3660
-
-It was discovered that the patch for CVE-2014-0191 for libxml2 is incomplet=
-e.  It is still possible to have libxml2 incorrectly perform entity substit=
-uton even when the application using libxml2 explicitly disables the featur=
-e.  This can allow a remote denial-of-service attack on systems with libxml=
-2 prior to 2.9.2.
-
-References:
-    http://www.openwall.com/lists/oss-security/2014/10/17/7
-    https://www.ncsc.nl/actueel/nieuwsberichten/kwetsbaarheid-ontdekt-in-li=
-bxml2.html
-
-Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
----
- meta/recipes-core/libxml/libxml2.inc               |   1 +
- .../libxml/libxml2/libxml2-CVE-2014-3660.patch     | 147 +++++++++++++++++=
-++++
- 2 files changed, 148 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.=
-patch
-
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxm=
-l/libxml2.inc
-index bcf9a62..c729c19 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -21,6 +21,7 @@ SRC_URI =3D "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.=
-gz;name=3Dlibtar \
-            file://libxml2-CVE-2014-0191-fix.patch \
-            file://python-sitepackages-dir.patch \
-            file://libxml-m4-use-pkgconfig.patch \
-+           file://libxml2-CVE-2014-3660.patch \
-           "
-=20
- BINCONFIG =3D "${bindir}/xml2-config"
-diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch b=
-/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index c8b400a..3f68a56 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -16,6 +16,7 @@ SRC_URI = "\
+     file://larger_default_ram_size.patch \
+     file://disable-grabs.patch \
+     file://exclude-some-arm-EABI-obsolete-syscalls.patch \
++    file://wacom.patch \
+     "
+ 
+ SRC_URI_append_class-native = "\
+diff --git a/meta/recipes-devtools/qemu/qemu/wacom.patch b/meta/recipes-devtools/qemu/qemu/wacom.patch
 new file mode 100644
-index 0000000..b9621c9
+index 0000000..cd06aa4
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2014-3660.patch
-@@ -0,0 +1,147 @@
-+From be2a7edaf289c5da74a4f9ed3a0b6c733e775230 Mon Sep 17 00:00:00 2001
-+From: Daniel Veillard <veillard@redhat.com>
-+Date: Thu, 16 Oct 2014 13:59:47 +0800
-+Subject: Fix for CVE-2014-3660
++++ b/meta/recipes-devtools/qemu/qemu/wacom.patch
+@@ -0,0 +1,130 @@
++The USB wacom device is missing a HID descriptor which causes it
++to fail to operate with recent kernels (e.g. 3.17).
 +
-+Issues related to the billion laugh entity expansion which happened to=20
-+escape the initial set of fixes
++This patch adds a HID desriptor to the device, based upon one from 
++real wcom device.
 +
-+Upstream-status: Backport
-+Reference:=20
-+https://git.gnome.org/browse/libxml2/commit/?id=3Dbe2a7edaf289c5da74a4f9e
-+d3a0b6c733e775230&context=3D3&ignorews=3D0&ss=3D0
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 +
-+Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
++Upstream-Status: Submitted
++2014/11/27
 +
-+diff --git a/parser.c b/parser.c
-+index f51e8d2..1d93967 100644
-+--- a/parser.c
-++++ b/parser.c
-+@@ -130,6 +130,29 @@ xmlParserEntityCheck(xmlParserCtxtPtr ctxt, size_t si=
-ze,
-+         return (0);
-+     if (ctxt->lastError.code =3D=3D XML_ERR_ENTITY_LOOP)
-+         return (1);
++Index: qemu-2.1.0/hw/usb/dev-wacom.c
++===================================================================
++--- qemu-2.1.0.orig/hw/usb/dev-wacom.c	2014-08-01 15:12:17.000000000 +0100
+++++ qemu-2.1.0/hw/usb/dev-wacom.c	2014-10-12 12:13:30.540306042 +0100
++@@ -68,6 +68,89 @@
++     [STR_SERIALNUMBER]     = "1",
++ };
++ 
+++static const uint8_t qemu_tablet_hid_report_descriptor[] = {
+++    0x05, 0x01,		/* Usage Page (Generic Desktop) */
+++    0x09, 0x02,		/* Usage (Mouse) */
+++    0xa1, 0x01,		/* Collection (Application) */
+++    0x85, 0x01,		/*   Report ID (1) */ 
+++    0x09, 0x01,		/*   Usage (Pointer) */
+++    0xa1, 0x00,		/*   Collection (Physical) */
+++    0x05, 0x09,		/*     Usage Page (Button) */
+++    0x19, 0x01,		/*     Usage Minimum (1) */
+++    0x29, 0x05,		/*     Usage Maximum (5) */
+++    0x15, 0x00,		/*     Logical Minimum (0) */
+++    0x25, 0x01,		/*     Logical Maximum (1) */
+++    0x95, 0x05,		/*     Report Count (5) */
+++    0x75, 0x01,		/*     Report Size (1) */
+++    0x81, 0x02,		/*     Input (Data, Variable, Absolute) */
+++    0x95, 0x01,		/*     Report Count (1) */
+++    0x75, 0x03,		/*     Report Size (3) */
+++    0x81, 0x01,		/*     Input (Constant) */
+++    0x05, 0x01,		/*     Usage Page (Generic Desktop) */
+++    0x09, 0x30,		/*     Usage (X) */
+++    0x09, 0x31,		/*     Usage (Y) */
+++    0x15, 0x81,		/*     Logical Minimum (-127) */
+++    0x25, 0x7f,		/*     Logical Maximum (127) */
+++    0x75, 0x08,		/*     Report Size (8) */
+++    0x95, 0x02,		/*     Report Count (2) */
+++    0x81, 0x06,		/*     Input (Data, Variable, Relative) */
+++    0xc0,		/*   End Collection */
+++    0xc0,		/* End Collection */
+++    0x05, 0x0d,		/* Usage Page (Digitizer) */
+++    0x09, 0x01,		/* Usage (Digitizer) */
+++    0xa1, 0x01,		/* Collection (Application) */
+++    0x85, 0x02,		/*   Report ID (2) */ 
+++    0xa1, 0x00,		/*   Collection (Physical) */
+++    0x06, 0x00, 0xff,   /*   Usage Page (Vendor 0xff00) */
+++    0x09, 0x01, 	/*   Usage (Digitizer) */
+++    0x15, 0x00, 	/*     Logical Minimum (0) */
+++    0x26, 0xff, 0x00,	/*     Logical Maximum (255) */
+++    0x75, 0x08,		/*     Report Size (8) */
+++    0x95, 0x08,		/*     Report Count (8) */
+++    0x81, 0x02,		/*     Input (Data, Variable, Absolute) */
+++    0xc0, 		/*   End Collection */
+++    0x09, 0x01,		/*   Usage (Digitizer) */
+++    0x85, 0x02, 	/*   Report ID (2) */ 
+++    0x95, 0x01,		/*   Report Count (1) */
+++    0xb1, 0x02,		/*   FEATURE (2) */
+++    0xc0,		/* End Collection */
+++    0x06, 0x00, 0xff,	/* Usage Page (Vendor 0xff00) */
+++    0x09, 0x01,		/* Usage (Digitizer) */
+++    0xa1, 0x01,		/* Collection (Application) */
+++    0x85, 0x02,   	/*   Report ID (2) */ 
+++    0x05, 0x0d,		/*   Usage Page (Digitizer)  */
+++    0x09, 0x22, 	/*   Usage (Finger) */
+++    0xa1, 0x00,  	/*   Collection (Physical) */
+++    0x06, 0x00, 0xff,	/*   Usage Page (Vendor 0xff00) */
+++    0x09, 0x01,		/*     Usage (Digitizer) */
+++    0x15, 0x00, 	/*     Logical Minimum (0) */
+++    0x26, 0xff, 0x00,  	/*     Logical Maximum */
+++    0x75, 0x08,		/*     Report Size (8) */
+++    0x95, 0x02,		/*     Report Count (2) */
+++    0x81, 0x02, 	/*     Input (Data, Variable, Absolute) */
+++    0x05, 0x01,		/*     Usage Page (Generic Desktop) */
+++    0x09, 0x30,		/*     Usage (X) */
+++    0x35, 0x00, 	/*     Physical Minimum */
+++    0x46, 0xe0, 0x2e,	/*     Physical Maximum */
+++    0x26, 0xe0, 0x01,   /*     Logical Maximum */
+++    0x75, 0x10,		/*     Report Size (16) */
+++    0x95, 0x01,		/*     Report Count (1) */
+++    0x81, 0x02,		/*     Input (Data, Variable, Absolute) */
+++    0x09, 0x31,		/*     Usage (Y) */
+++    0x46, 0x40, 0x1f, 	/*     Physical Maximum */
+++    0x26, 0x40, 0x01, 	/*     Logical Maximum */
+++    0x81, 0x02, 	/*     Input (Data, Variable, Absolute) */
+++    0x06, 0x00, 0xff,	/*     Usage Page (Vendor 0xff00) */
+++    0x09, 0x01, 	/*     Usage (Digitizer) */
+++    0x26, 0xff, 0x00,  	/*     Logical Maximum */
+++    0x75, 0x08,		/*     Report Size (8) */
+++    0x95, 0x0d,		/*     Report Count (13) */
+++    0x81, 0x02,		/*     Input (Data, Variable, Absolute) */
+++    0xc0,		/*   End Collection */ 
+++    0xc0,		/* End Collection */
+++};
 ++
-++    /*
-++     * This may look absurd but is needed to detect
-++     * entities problems
-++     */
-++    if ((ent !=3D NULL) && (ent->etype !=3D XML_INTERNAL_PREDEFINED_ENTIT=
-Y) &&
-++	(ent->content !=3D NULL) && (ent->checked =3D=3D 0)) {
-++	unsigned long oldnbent =3D ctxt->nbentities;
-++	xmlChar *rep;
 ++
-++	ent->checked =3D 1;
-++
-++	rep =3D xmlStringDecodeEntities(ctxt, ent->content,
-++				  XML_SUBSTITUTE_REF, 0, 0, 0);
-++
-++	ent->checked =3D (ctxt->nbentities - oldnbent + 1) * 2;
-++	if (rep !=3D NULL) {
-++	    if (xmlStrchr(rep, '<'))
-++		ent->checked |=3D 1;
-++	    xmlFree(rep);
-++	    rep =3D NULL;
-++	}
-++    }
-+     if (replacement !=3D 0) {
-+ 	if (replacement < XML_MAX_TEXT_LENGTH)
-+ 	    return(0);
-+@@ -189,9 +212,12 @@ xmlParserEntityCheck(xmlParserCtxtPtr ctxt, size_t si=
-ze,
-+             return (0);
-+     } else {
-+         /*
-+-         * strange we got no data for checking just return
-++         * strange we got no data for checking
-+          */
-+-        return (0);
-++	if (((ctxt->lastError.code !=3D XML_ERR_UNDECLARED_ENTITY) &&
-++	     (ctxt->lastError.code !=3D XML_WAR_UNDECLARED_ENTITY)) ||
-++	    (ctxt->nbentities <=3D 10000))
-++	    return (0);
++ static const USBDescIface desc_iface_wacom = {
++     .bInterfaceNumber              = 0,
++     .bNumEndpoints                 = 1,
++@@ -85,7 +168,7 @@
++                 0x00,          /*  u8  country_code */
++                 0x01,          /*  u8  num_descriptors */
++                 0x22,          /*  u8  type: Report */
++-                0x6e, 0,       /*  u16 len */
+++                sizeof(qemu_tablet_hid_report_descriptor), 0, /*  u16 len */
++             },
++         },
++     },
++@@ -265,6 +350,15 @@
 +     }
-+     xmlFatalErr(ctxt, XML_ERR_ENTITY_LOOP, NULL);
-+     return (1);
-+@@ -2589,6 +2615,7 @@ xmlParserHandlePEReference(xmlParserCtxtPtr ctxt) {
-+ 				      name, NULL);
-+ 		    ctxt->valid =3D 0;
-+ 		}
-++		xmlParserEntityCheck(ctxt, 0, NULL, 0);
-+ 	    } else if (ctxt->input->free !=3D deallocblankswrapper) {
-+ 		    input =3D xmlNewBlanksWrapperInputStream(ctxt, entity);
-+ 		    if (xmlPushInput(ctxt, input) < 0) @@ -2759,6 +2786,7 @@=20
-+xmlStringLenDecodeEntities(xmlParserCtxtPtr ctxt, const xmlChar *str, int =
-len,
-+ 	    if ((ctxt->lastError.code =3D=3D XML_ERR_ENTITY_LOOP) ||
-+ 	        (ctxt->lastError.code =3D=3D XML_ERR_INTERNAL_ERROR))
-+ 	        goto int_error;
-++	    xmlParserEntityCheck(ctxt, 0, ent, 0);
-+ 	    if (ent !=3D NULL)
-+ 	        ctxt->nbentities +=3D ent->checked / 2;
-+ 	    if ((ent !=3D NULL) &&
-+@@ -2810,6 +2838,7 @@ xmlStringLenDecodeEntities(xmlParserCtxtPtr ctxt, co=
-nst xmlChar *str, int len,
-+ 	    ent =3D xmlParseStringPEReference(ctxt, &str);
-+ 	    if (ctxt->lastError.code =3D=3D XML_ERR_ENTITY_LOOP)
-+ 	        goto int_error;
-++	    xmlParserEntityCheck(ctxt, 0, ent, 0);
-+ 	    if (ent !=3D NULL)
-+ 	        ctxt->nbentities +=3D ent->checked / 2;
-+ 	    if (ent !=3D NULL) {
-+@@ -7312,6 +7341,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
-+ 		   (ret !=3D XML_WAR_UNDECLARED_ENTITY)) {
-+ 	    xmlFatalErrMsgStr(ctxt, XML_ERR_UNDECLARED_ENTITY,
-+ 		     "Entity '%s' failed to parse\n", ent->name);
-++	    xmlParserEntityCheck(ctxt, 0, ent, 0);
-+ 	} else if (list !=3D NULL) {
-+ 	    xmlFreeNodeList(list);
-+ 	    list =3D NULL;
-+@@ -7418,7 +7448,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
-+ 		/*
-+ 		 * We are copying here, make sure there is no abuse
-+ 		 */
-+-		ctxt->sizeentcopy +=3D ent->length;
-++		ctxt->sizeentcopy +=3D ent->length + 5;
-+ 		if (xmlParserEntityCheck(ctxt, 0, ent, ctxt->sizeentcopy))
-+ 		    return;
-+=20
-+@@ -7466,7 +7496,7 @@ xmlParseReference(xmlParserCtxtPtr ctxt) {
-+ 		/*
-+ 		 * We are copying here, make sure there is no abuse
-+ 		 */
-+-		ctxt->sizeentcopy +=3D ent->length;
-++		ctxt->sizeentcopy +=3D ent->length + 5;
-+ 		if (xmlParserEntityCheck(ctxt, 0, ent, ctxt->sizeentcopy))
-+ 		    return;
-+=20
-+@@ -7652,6 +7682,7 @@ xmlParseEntityRef(xmlParserCtxtPtr ctxt) {
-+ 		ctxt->sax->reference(ctxt->userData, name);
-+ 	    }
-+ 	}
-++	xmlParserEntityCheck(ctxt, 0, ent, 0);
-+ 	ctxt->valid =3D 0;
-+     }
-+=20
-+@@ -7845,6 +7876,7 @@ xmlParseStringEntityRef(xmlParserCtxtPtr ctxt, const=
- xmlChar ** str) {
-+ 			  "Entity '%s' not defined\n",
-+ 			  name);
-+ 	}
-++	xmlParserEntityCheck(ctxt, 0, ent, 0);
-+ 	/* TODO ? check regressions ctxt->valid =3D 0; */
-+     }
-+=20
-+@@ -8004,6 +8036,7 @@ xmlParsePEReference(xmlParserCtxtPtr ctxt)
-+ 			  name, NULL);
-+ 	    ctxt->valid =3D 0;
-+ 	}
-++	xmlParserEntityCheck(ctxt, 0, NULL, 0);
-+     } else {
-+ 	/*
-+ 	 * Internal checking in case the entity quest barfed @@ -8243,6
-++8276,7 @@ xmlParseStringPEReference(xmlParserCtxtPtr ctxt, const=20
-++xmlChar **str) {
-+ 			  name, NULL);
-+ 	    ctxt->valid =3D 0;
-+ 	}
-++	xmlParserEntityCheck(ctxt, 0, NULL, 0);
-+     } else {
-+ 	/*
-+ 	 * Internal checking in case the entity quest barfed
-+--
-+cgit v0.10.1
-+
---
-1.9.1
++ 
++     switch (request) {
+++    case InterfaceRequest | USB_REQ_GET_DESCRIPTOR:
+++        switch (value >> 8) {
+++        case 0x22:
+++                memcpy(data, qemu_tablet_hid_report_descriptor,
+++                       sizeof(qemu_tablet_hid_report_descriptor));
+++                p->actual_length = sizeof(qemu_tablet_hid_report_descriptor);
+++            break;
+++        }
+++        break;
++     case WACOM_SET_REPORT:
++         if (s->mouse_grabbed) {
++             qemu_remove_mouse_event_handler(s->eh_entry);
 
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
