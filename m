@@ -1,30 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 73E6072380
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DAB470660
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 14:04:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sARE45en011155 for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 14:04:05 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Th6xhgWM0q-j
+	Thu, 27 Nov 2014 14:22:44 +0000 (UTC)
+Received: from amavisd-new (mailscanner05.wrt-nm.internl.net [217.149.192.128])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 691C53F679
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 14:04:05 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sARE3r1D011152
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	Thu, 27 Nov 2014 15:22:44 +0100 (CET)
+X-Spam-Flag: NO
+X-Spam-Score: -2.899
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.899 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner05.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Nov 2014 15:22:43 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 14:04:04 GMT
-Message-ID: <1417097069.15614.9.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Nov 2014 14:04:29 +0000
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] qemu: Add missing wacom HID descriptor
+	Thu, 27 Nov 2014 15:22:43 +0100 (CET)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Thu, 27 Nov 2014 15:22:57 +0100
+Message-ID: <547733B2.2010501@topic.nl>
+Date: Thu, 27 Nov 2014 15:22:42 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <5476E26B.80003@topic.nl> <547712F1.9090209@mlbassoc.com>
+	<1417094262.15614.6.camel@linuxfoundation.org>
+In-Reply-To: <1417094262.15614.6.camel@linuxfoundation.org>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: Re: Deployment for machine X will remove its results from machine Y's deploy dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,164 +54,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Nov 2014 14:04:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Nov 2014 14:22:45 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-The wacom driver we use is missing a HID descriptor causing it not to work
-with 3.17 kernels and later. This patch adds in a descriptor to make the
-driver work again.
+=EF=BB=BFOn 11/27/2014 02:17 PM, Richard Purdie wrote:
+> On Thu, 2014-11-27 at 05:02 -0700, Gary Thomas wrote:
+>> On 2014-11-27 01:35, Mike Looijmans wrote:
+>>> Here's an example recipe to demonstrate the issue. Save it as "deployme=
+.bb" into a recipe dir. Then build it for two machines. Building it for one=
+ machine will remove it from the
+>>> deployment directory of the other. This problem has been bugging me for=
+ months, I had files just "disappear" mysteriously from the deploy director=
+y and seemingly random times, and
+>>> now I finally figured out what causes it.
+>>>
+>>> (cut here)
+>>>
+>>> SUMMARY =3D "Demonstrate a bug in OE deployment"
+>>> DESCRIPTION =3D "Build this package for a machine X, then look at the i=
+mage's \
+>>>    deploy directory. You'll see a deployme.txt there. Now build it for =
+another \
+>>>    machine, e.g. "Y". The deployme.txt for machine X will have disappea=
+red \
+>>>    from the image dir. This appears to be a bug in OE's deployment."
+>>> LICENSE =3D "GPLv2"
+>>> LIC_FILES_CHKSUM =3D "file://${COREBASE}/LICENSE;md5=3D4d92cd373abda393=
+7c2bc47fbc49d690"
+>>>
+>>> inherit allarch deploy
+>>>
+>>> do_compile () {
+>>>       echo "Hello world!" > deployme.txt
+>>> }
+>>>
+>>> do_deploy () {
+>>>       install -d ${DEPLOYDIR}
+>>>       install -m 644 ${B}/deployme.txt ${DEPLOYDIR}/
+>>> }
+>>>
+>>> addtask deploy before do_build after do_compile
+>>>
+>>> (cut here)
+>>
+>> Very interesting & verified with the latest master.
+>>
+>> Have you filed a bug?  https://bugzilla.yoctoproject.org/
+>
+> Well, I'm not convinced this is a bug as such. You've created an
+> "allarch" deploy task, how would you expect this to behave?
+>
+> "allarch" means that the output from this task is universal and can be
+> used on all targets. It will therefore get run once.
+>
+> A "deploy" task is machine specific.
+>
+> What ends up happening is therefore the task has a stamp is
+> "universally" created. When you change machine, the checksum of the task
+> changes, the previous version is removed, the new version is installed.
+>
+> So in many ways the system is doing exactly what I would expect it to do
+> and it isn't a bug in that sense.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+It's not a bug in the sense that it doesn't do as it was programmed to do. =
+I=20
+understand what's happening here.
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index c8b400a..3f68a56 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -16,6 +16,7 @@ SRC_URI = "\
-     file://larger_default_ram_size.patch \
-     file://disable-grabs.patch \
-     file://exclude-some-arm-EABI-obsolete-syscalls.patch \
-+    file://wacom.patch \
-     "
- 
- SRC_URI_append_class-native = "\
-diff --git a/meta/recipes-devtools/qemu/qemu/wacom.patch b/meta/recipes-devtools/qemu/qemu/wacom.patch
-new file mode 100644
-index 0000000..cd06aa4
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/wacom.patch
-@@ -0,0 +1,130 @@
-+The USB wacom device is missing a HID descriptor which causes it
-+to fail to operate with recent kernels (e.g. 3.17).
-+
-+This patch adds a HID desriptor to the device, based upon one from 
-+real wcom device.
-+
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Upstream-Status: Submitted
-+2014/11/27
-+
-+Index: qemu-2.1.0/hw/usb/dev-wacom.c
-+===================================================================
-+--- qemu-2.1.0.orig/hw/usb/dev-wacom.c	2014-08-01 15:12:17.000000000 +0100
-++++ qemu-2.1.0/hw/usb/dev-wacom.c	2014-10-12 12:13:30.540306042 +0100
-+@@ -68,6 +68,89 @@
-+     [STR_SERIALNUMBER]     = "1",
-+ };
-+ 
-++static const uint8_t qemu_tablet_hid_report_descriptor[] = {
-++    0x05, 0x01,		/* Usage Page (Generic Desktop) */
-++    0x09, 0x02,		/* Usage (Mouse) */
-++    0xa1, 0x01,		/* Collection (Application) */
-++    0x85, 0x01,		/*   Report ID (1) */ 
-++    0x09, 0x01,		/*   Usage (Pointer) */
-++    0xa1, 0x00,		/*   Collection (Physical) */
-++    0x05, 0x09,		/*     Usage Page (Button) */
-++    0x19, 0x01,		/*     Usage Minimum (1) */
-++    0x29, 0x05,		/*     Usage Maximum (5) */
-++    0x15, 0x00,		/*     Logical Minimum (0) */
-++    0x25, 0x01,		/*     Logical Maximum (1) */
-++    0x95, 0x05,		/*     Report Count (5) */
-++    0x75, 0x01,		/*     Report Size (1) */
-++    0x81, 0x02,		/*     Input (Data, Variable, Absolute) */
-++    0x95, 0x01,		/*     Report Count (1) */
-++    0x75, 0x03,		/*     Report Size (3) */
-++    0x81, 0x01,		/*     Input (Constant) */
-++    0x05, 0x01,		/*     Usage Page (Generic Desktop) */
-++    0x09, 0x30,		/*     Usage (X) */
-++    0x09, 0x31,		/*     Usage (Y) */
-++    0x15, 0x81,		/*     Logical Minimum (-127) */
-++    0x25, 0x7f,		/*     Logical Maximum (127) */
-++    0x75, 0x08,		/*     Report Size (8) */
-++    0x95, 0x02,		/*     Report Count (2) */
-++    0x81, 0x06,		/*     Input (Data, Variable, Relative) */
-++    0xc0,		/*   End Collection */
-++    0xc0,		/* End Collection */
-++    0x05, 0x0d,		/* Usage Page (Digitizer) */
-++    0x09, 0x01,		/* Usage (Digitizer) */
-++    0xa1, 0x01,		/* Collection (Application) */
-++    0x85, 0x02,		/*   Report ID (2) */ 
-++    0xa1, 0x00,		/*   Collection (Physical) */
-++    0x06, 0x00, 0xff,   /*   Usage Page (Vendor 0xff00) */
-++    0x09, 0x01, 	/*   Usage (Digitizer) */
-++    0x15, 0x00, 	/*     Logical Minimum (0) */
-++    0x26, 0xff, 0x00,	/*     Logical Maximum (255) */
-++    0x75, 0x08,		/*     Report Size (8) */
-++    0x95, 0x08,		/*     Report Count (8) */
-++    0x81, 0x02,		/*     Input (Data, Variable, Absolute) */
-++    0xc0, 		/*   End Collection */
-++    0x09, 0x01,		/*   Usage (Digitizer) */
-++    0x85, 0x02, 	/*   Report ID (2) */ 
-++    0x95, 0x01,		/*   Report Count (1) */
-++    0xb1, 0x02,		/*   FEATURE (2) */
-++    0xc0,		/* End Collection */
-++    0x06, 0x00, 0xff,	/* Usage Page (Vendor 0xff00) */
-++    0x09, 0x01,		/* Usage (Digitizer) */
-++    0xa1, 0x01,		/* Collection (Application) */
-++    0x85, 0x02,   	/*   Report ID (2) */ 
-++    0x05, 0x0d,		/*   Usage Page (Digitizer)  */
-++    0x09, 0x22, 	/*   Usage (Finger) */
-++    0xa1, 0x00,  	/*   Collection (Physical) */
-++    0x06, 0x00, 0xff,	/*   Usage Page (Vendor 0xff00) */
-++    0x09, 0x01,		/*     Usage (Digitizer) */
-++    0x15, 0x00, 	/*     Logical Minimum (0) */
-++    0x26, 0xff, 0x00,  	/*     Logical Maximum */
-++    0x75, 0x08,		/*     Report Size (8) */
-++    0x95, 0x02,		/*     Report Count (2) */
-++    0x81, 0x02, 	/*     Input (Data, Variable, Absolute) */
-++    0x05, 0x01,		/*     Usage Page (Generic Desktop) */
-++    0x09, 0x30,		/*     Usage (X) */
-++    0x35, 0x00, 	/*     Physical Minimum */
-++    0x46, 0xe0, 0x2e,	/*     Physical Maximum */
-++    0x26, 0xe0, 0x01,   /*     Logical Maximum */
-++    0x75, 0x10,		/*     Report Size (16) */
-++    0x95, 0x01,		/*     Report Count (1) */
-++    0x81, 0x02,		/*     Input (Data, Variable, Absolute) */
-++    0x09, 0x31,		/*     Usage (Y) */
-++    0x46, 0x40, 0x1f, 	/*     Physical Maximum */
-++    0x26, 0x40, 0x01, 	/*     Logical Maximum */
-++    0x81, 0x02, 	/*     Input (Data, Variable, Absolute) */
-++    0x06, 0x00, 0xff,	/*     Usage Page (Vendor 0xff00) */
-++    0x09, 0x01, 	/*     Usage (Digitizer) */
-++    0x26, 0xff, 0x00,  	/*     Logical Maximum */
-++    0x75, 0x08,		/*     Report Size (8) */
-++    0x95, 0x0d,		/*     Report Count (13) */
-++    0x81, 0x02,		/*     Input (Data, Variable, Absolute) */
-++    0xc0,		/*   End Collection */ 
-++    0xc0,		/* End Collection */
-++};
-++
-++
-+ static const USBDescIface desc_iface_wacom = {
-+     .bInterfaceNumber              = 0,
-+     .bNumEndpoints                 = 1,
-+@@ -85,7 +168,7 @@
-+                 0x00,          /*  u8  country_code */
-+                 0x01,          /*  u8  num_descriptors */
-+                 0x22,          /*  u8  type: Report */
-+-                0x6e, 0,       /*  u16 len */
-++                sizeof(qemu_tablet_hid_report_descriptor), 0, /*  u16 len */
-+             },
-+         },
-+     },
-+@@ -265,6 +350,15 @@
-+     }
-+ 
-+     switch (request) {
-++    case InterfaceRequest | USB_REQ_GET_DESCRIPTOR:
-++        switch (value >> 8) {
-++        case 0x22:
-++                memcpy(data, qemu_tablet_hid_report_descriptor,
-++                       sizeof(qemu_tablet_hid_report_descriptor));
-++                p->actual_length = sizeof(qemu_tablet_hid_report_descriptor);
-++            break;
-++        }
-++        break;
-+     case WACOM_SET_REPORT:
-+         if (s->mouse_grabbed) {
-+             qemu_remove_mouse_event_handler(s->eh_entry);
+I just think that the logic here is wrong. If "deploy" is machine specific,=
+=20
+then the implicit "undeploy" should be machine specific too, right?
 
+> The real question is how should an "allarch" + "deploy" task behave when
+> you've specified machine specific paths? Perhaps erroring would be
+> better?
+
+That would mean that roughly all deploy tasks will fail. At best they're ti=
+ed=20
+to MACHINE_ARCH, but never to MACHINE itself.
+
+Would be strange to put PACKAGE_ARCH=3D"${MACHINE}" in a recipe that clearl=
+y has=20
+no dependency on machine specific things. And I wrote "${MACHINE}" here on=
+=20
+purpose.
+
+I was thinking along the lines of "DEPLOY_DIR_IMAGE must have the same pref=
+ix"=20
+or so.
+
+If I knew the solution, I'd have posted a patch instead of a question or re=
+port.
+
+M.
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+System Expert
+
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
 
 
