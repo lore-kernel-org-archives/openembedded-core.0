@@ -1,41 +1,38 @@
 Return-Path: <lpapp@archlinux.us>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id B112E72318
+Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A01272318
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 17:41:12 +0000 (UTC)
-Received: by mail-wi0-f180.google.com with SMTP id n3so9018395wiv.13
+	Thu, 27 Nov 2014 17:42:52 +0000 (UTC)
+Received: by mail-wg0-f41.google.com with SMTP id y19so7015723wgg.28
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 09:41:13 -0800 (PST)
+	Thu, 27 Nov 2014 09:42:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=SO5GZWcM8RCfM+t+fapQiX8cBpiH19SNKeqziWgI7Zo=;
-	b=kwPaaoS20A+Bybis9I1g5FFpi0yfD/n5LubYkX/KWSrxgSzxUVn+6Cioi/sHqx9A1u
-	Zgm7sjqdrpRabXdhUr6OhGk9Jz430LCHD6scr23sfQO3+4n4TGcPZxnTo3ipgxfidWex
-	339Hvw4ar3bNK776jfakBVzC1RQkJe6RI3Qfw+vYsJp2zXEtfgBSWyviKUahTmiqkkNu
-	26pEcivfjC/M+7TZ8UYqlvoUWDdIp8MDqwoIF/X8Vmv+86a593sepklGmGqOd1RCkdc2
-	1juyx3ELAudSBuyHsPcwKyCRxYM3P/4kRdHIG496g6vBvt+qagAUdj6U0pu24d967TRk
-	EGGA==
-X-Gm-Message-State: ALoCoQkj+Ew0lE0kU1NMJsNwPFklUDkxJYSBbVsmoZH71kITx1YIgnGhT7BdJAu/3BjMYrZa/A2q
-X-Received: by 10.194.177.225 with SMTP id ct1mr26157809wjc.75.1417110073123; 
-	Thu, 27 Nov 2014 09:41:13 -0800 (PST)
+	bh=xX1aC9AasSDzJRJlJ1JwvuIs9bftYlFubyLpzOXhsf4=;
+	b=m2CalCHczJxkk1xeON/tbvl2byfGCYRwMBdI/TS03yhPbSmMtnLMXV38E3h4G7cbK+
+	84nwWzr1ZPf+fmXJGO4VpHZb7WgiUGvkIv6Bz6KA/J1rODs+q5tV1ArRWgsIGOAwboNX
+	ci6yvv6g1hn6K62xCnCDqcnWWUIoAz9XsSZtryYnLLLraJYsRaV7kMlnUM1eBb5NKR12
+	jAKEk1ADkuhVgGXDJyZAyLpzb0AibvW106rvG667LbobtwkQSvKG3HHNaup6IV4UPlKQ
+	MMSD1HY2TnTH3wUV05JpLFPnp5lKUL/+8KP/fS2zYi26pWj2lnKX3RzRbz/55hTSAAAr
+	6rUw==
+X-Gm-Message-State: ALoCoQlIOLjbtgR6kkGLpfj10WsA/qnq7r1kfNh8sLnkUsQGmTXy73YlBPmRlofcdkLPTRDtCo2c
+X-Received: by 10.194.241.194 with SMTP id wk2mr60753571wjc.132.1417110172559; 
+	Thu, 27 Nov 2014 09:42:52 -0800 (PST)
 Received: from lpapp@archlinux.us (mail.polatis.com. [212.44.19.228])
 	by mx.google.com with ESMTPSA id
-	fk16sm12519006wic.16.2014.11.27.09.41.10 for <multiple recipients>
+	ec2sm12512000wib.23.2014.11.27.09.42.50 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 27 Nov 2014 09:41:12 -0800 (PST)
+	Thu, 27 Nov 2014 09:42:51 -0800 (PST)
 Sender: Laszlo Papp <lpapp@archlinux.us>
-From: Laszlo Papp <lpapp@kde.org>
-X-Google-Original-From: Laszlo Papp <laszlo.papp@polatis.com>
 Received: by lpapp@archlinux.us (sSMTP sendmail emulation);
-	Thu, 27 Nov 2014 17:39:12 +0000
+	Thu, 27 Nov 2014 17:40:52 +0000
+From: Laszlo Papp <lpapp@kde.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Nov 2014 17:38:53 +0000
-Message-Id: <1417109933-19852-1-git-send-email-laszlo.papp@polatis.com>
+Date: Thu, 27 Nov 2014 17:40:51 +0000
+Message-Id: <1417110051-20003-1-git-send-email-lpapp@kde.org>
 X-Mailer: git-send-email 2.1.3
-Cc: Laszlo Papp <laszlo.papp@kde.org>
-Subject: [PATCHv2] toolchain-script: Add support for ccache builds with the SDK
+Subject: [PATCHv3] toolchain-script: Add support for ccache builds with the SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,15 +45,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Nov 2014 17:41:16 -0000
-
-From: Laszlo Papp <lpapp@kde.org>
+X-List-Received-Date: Thu, 27 Nov 2014 17:42:59 -0000
 
 It is necessary to have an SDK for developers who build their software with
 ccache to speed up the compilation. Without resolving this, unfortunately the
 compilation will fail for them.
 
-Signed-off-by: Laszlo Papp <laszlo.papp@kde.org>
+Signed-off-by: Laszlo Papp <lpapp@kde.org>
 ---
  meta/classes/toolchain-scripts.bbclass | 2 ++
  1 file changed, 2 insertions(+)
