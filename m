@@ -1,43 +1,41 @@
 Return-Path: <lpapp@archlinux.us>
-Received: from mail-vc0-f171.google.com (mail-vc0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id D10D8723A0
+Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 308287238C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 18:05:08 +0000 (UTC)
-Received: by mail-vc0-f171.google.com with SMTP id hy4so2354639vcb.30
+	Thu, 27 Nov 2014 18:07:48 +0000 (UTC)
+Received: by mail-vc0-f173.google.com with SMTP id im17so2350415vcb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 10:05:08 -0800 (PST)
+	Thu, 27 Nov 2014 10:07:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
 	:message-id:subject:from:to:cc:content-type;
-	bh=4lsEtC1NrQTmc8kjjDMUxUZKFngfgoelzL0CM2jOMuw=;
-	b=MqGRTnrSXF07mIwY/QItuLD+VMrJYZH78Yu4N1Tqw594G/cadOCTMJ95ufaEVJ2SgJ
-	FQKArH4r+o/d2110RWzZWPZe2S19ytfDk6588caXWJRtTwaB5p9ixkQ5EoMqvqJYH8le
-	w9KEqiIIg0qmFdGlMPl9ErNRXTS+hOQFhDrH/sAlJA9sdIvMv1yWbgsoWg/uvv8+o8MR
-	GDudcNq5X02R1JGX1HG2Rtel22oZaBLImFFa1TkBrTh39tb3VmETsjULQKtaQbpAekHZ
-	x59ZudzUFpc4pIDXyokiyrDUGpoMx7KRyZ6rzecX8Y75BTxrbHrK2C9FEyJr01+Dfptq
-	AjiA==
-X-Gm-Message-State: ALoCoQlc2tsdUgbiUo62FsHPfSTNFkpUxJ7Y0ea4IYPJ8A5yxU4SQUtcdmrU2BbX0lLpELdVSRmP
+	bh=5AwIIpmxGkH/Pi+B2frVBQOOFVns+oeCz8EyNwroGAM=;
+	b=Svza/j6LiVwnX1s9kbQWDd17dAenh81BhRLWsRmSxEN5P9jDdKAAqWLg7Mjb39a/x6
+	4s1vVNAuUXEOvPNJa+3Inb+zbcFu+HlYgt3LXxpQOHSsGMizk4XiFZGrMmigipYOcx0M
+	uni/Q/Idn6cacUD5Xo6g/X9VJj5HSR0/qKQpfl4XlSbaNUvobK0eGPYNyltGAV0GRVGZ
+	ZkzVqBf3FTHiP/xOWOXw0w69kkjbcwH/FzANl86URln14ku3FiyInlBPffCqtwxPdqTt
+	LTLqNCKfi4bUBefZ4CbloqhPEDfoHXAuLs3KG7pi1TvXSkDFUoWLatYS62vlVKvmAdL0
+	FSAQ==
+X-Gm-Message-State: ALoCoQnOIMIHmsaMRtjVjResFSaRZFBJP3sYQq3BjKXu0xVl27kvk0GLdQkp66cJF/6GClbJYmvv
 MIME-Version: 1.0
-X-Received: by 10.52.243.41 with SMTP id wv9mr17746428vdc.20.1417111508807;
-	Thu, 27 Nov 2014 10:05:08 -0800 (PST)
+X-Received: by 10.221.38.8 with SMTP id tg8mr21101483vcb.76.1417111669392;
+	Thu, 27 Nov 2014 10:07:49 -0800 (PST)
 Sender: lpapp@archlinux.us
-Received: by 10.31.188.129 with HTTP; Thu, 27 Nov 2014 10:05:08 -0800 (PST)
-In-Reply-To: <CAJTo0LYBYim=5XjssHcN7MZRbNUMoMUA5R8-hz__szPWV0pJcQ@mail.gmail.com>
-References: <1408716303-32264-1-git-send-email-root@pol-lx-007.polatis.com>
-	<33115ABC4887814E8A92A08FBC93416B23C470D7@IRSMSX103.ger.corp.intel.com>
-	<CAOMwXhNCtMkkpSvCtd4c7r26FVEtxsr4-605acjRMgicTm-rAA@mail.gmail.com>
-	<CAOMwXhMvUBY-SWX=2DdhEbkUJ9V=BEgYPf0TmX06b+F-odOVQQ@mail.gmail.com>
-	<CAJTo0LYBYim=5XjssHcN7MZRbNUMoMUA5R8-hz__szPWV0pJcQ@mail.gmail.com>
-Date: Thu, 27 Nov 2014 18:05:08 +0000
-X-Google-Sender-Auth: dCR0wcehgknEgzHMdF7A7ZAIavI
-Message-ID: <CAOMwXhO122osQmjsPk5z92pD0psSzvs8rSz68EnMOu2ZTqpH-Q@mail.gmail.com>
+Received: by 10.31.188.129 with HTTP; Thu, 27 Nov 2014 10:07:49 -0800 (PST)
+In-Reply-To: <201409211802.17872.marex@denx.de>
+References: <1407438629-13369-1-git-send-email-marex@denx.de>
+	<201409190914.03281.marex@denx.de> <1411111512.4736.11.camel@ted>
+	<201409211802.17872.marex@denx.de>
+Date: Thu, 27 Nov 2014 18:07:49 +0000
+X-Google-Sender-Auth: HFOa-7UGuToz77hsKLGg-vzAX4Y
+Message-ID: <CAOMwXhMOr2SxHfz_JX2QaW_j1GAQiR0BR4KpCGCPMVx7yyGztw@mail.gmail.com>
 From: Laszlo Papp <lpapp@kde.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ptest-runner: return 1 instead of zero if any test fails
+To: Marek Vasut <marex@denx.de>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Yocto: Install full set of python modules in Qt SDK toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,20 +48,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Nov 2014 18:05:09 -0000
+X-List-Received-Date: Thu, 27 Nov 2014 18:07:55 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Nov 27, 2014 at 6:02 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 27 November 2014 at 17:53, Laszlo Papp <lpapp@kde.org> wrote:
+What is the situation on this front?
+
+On Sun, Sep 21, 2014 at 5:02 PM, Marek Vasut <marex@denx.de> wrote:
+> On Friday, September 19, 2014 at 09:25:12 AM, Richard Purdie wrote:
+> [...]
+>> > git grep nativesdk-python-modules doesn't show any matches in
+>> > git://git.yoctoproject.org/poky master . Do you mean the
+>> > nativesdk-packagegroup- python I crafted or do you refer to something
+>> > else please ?
+>> >
+>> > Also, shouldn't full python be installed into all the SDK toolchains ? I
+>> > am for example unable to compile U-Boot 2014.10rc with the Yocto SDK
+>> > toolchain anymore. The SDK is missing python modules and I cannot easily
+>> > override the usage of python from the SDK . So I agree with Laszlo here,
+>> > the SDK toolchain is somewhat unusable as it is.
 >>
->> Ping. I have not received a reply for about three months now? What is
->> the problem?
+>> I refer to the package I mentioned:
+>>
+>> $ ls -la tmp/deploy/ipk/x86_64-nativesdk/nativesdk-python-modules*
+>> -rw-r--r-- 2 richard richard 1512 Sep 18 17:09
+>> tmp/deploy/ipk/x86_64-nativesdk/nativesdk-python-modules_2.7.3-r0.3.24_x86
+>> _64-nativesdk.ipk
+>>
+>> See ${PN}-modules defined in python-2.7-manifest.inc.
+>
+> Oh I see, sorry. Is there any way to look up packages with bitbake or Yocto
+> please ?
+>
+>> I agreed there is a problem, I disagree somewhat about how it should be
+>> fixed since you're just installing a set of modules which is defined as
+>> those needed to run bitbake and I don't think this is what you actually
+>> want. There is also the question of whether nativesdk-python should even
+>> be in there...
+>
+> So would this patch (paste below) work please ? If so, I would submit proper.
+>
+> diff --git a/meta/classes/populate_sdk_base.bbclass
+> b/meta/classes/populate_sdk_base.bbclass
+> index 10d04ed..7245d53 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -30,7 +30,11 @@ B_task-populate-sdk = "${SDK_DIR}"
+>
+>  SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}"
+>
+> -TOOLCHAIN_HOST_TASK ?= "nativesdk-packagegroup-sdk-host packagegroup-cross-
+> canadian-${MACHINE}"
+> +TOOLCHAIN_HOST_TASK ?= "                               \
+> +       nativesdk-packagegroup-sdk-host                 \
+> +       packagegroup-cross-canadian-${MACHINE}          \
+> +       nativesdk-python-modules                        \
+> +       "
+>  TOOLCHAIN_HOST_TASK_ATTEMPTONLY ?= ""
+>  TOOLCHAIN_TARGET_TASK ?= "packagegroup-core-standalone-sdk-target packagegroup-
+> core-standalone-sdk-target-dbg"
+>  TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
+> diff --git a/meta/recipes-qt/meta/meta-toolchain-qt.inc b/meta/recipes-
+> qt/meta/meta-toolchain-qt.inc
+> index 6b162bd..473a123 100644
+> --- a/meta/recipes-qt/meta/meta-toolchain-qt.inc
+> +++ b/meta/recipes-qt/meta/meta-toolchain-qt.inc
+> @@ -1,4 +1,8 @@
+> -TOOLCHAIN_HOST_TASK = "nativesdk-packagegroup-${QTNAME}-toolchain-host
+> packagegroup-cross-canadian-${MACHINE}"
+> +TOOLCHAIN_HOST_TASK = "                                                \
+> +       nativesdk-packagegroup-${QTNAME}-toolchain-host         \
+> +       packagegroup-cross-canadian-${MACHINE}                  \
+> +       nativesdk-python-modules                                \
+> +       "
+>  TOOLCHAIN_TARGET_TASK = "packagegroup-${QTNAME}-toolchain-target"
+>  TOOLCHAIN_OUTPUTNAME = "${SDK_NAME}-toolchain-${QTNAME}-${DISTRO_VERSION}"
 >
 >
-> http://git.openembedded.org/openembedded-core/commit/?id=d6b1c9e7e29aaa8d71ccb485b7a88863a117a8b1
-
-Thanks.
-
-> Ross
+> Best regards,
+> Marek Vasut
 
