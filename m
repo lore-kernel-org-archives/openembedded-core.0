@@ -1,38 +1,37 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-vc0-f170.google.com (mail-vc0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 833DE72318
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id EB450723A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 17:53:58 +0000 (UTC)
-Received: by mail-vc0-f170.google.com with SMTP id hy4so2398794vcb.1
+	Thu, 27 Nov 2014 18:03:03 +0000 (UTC)
+Received: by mail-qc0-f182.google.com with SMTP id r5so3808785qcx.41
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 09:53:58 -0800 (PST)
+	Thu, 27 Nov 2014 10:03:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=u2U1Gnv+cFOrtx4jsGAWXIslTqatcGz2wJJx1CgDovw=;
-	b=VsLOBdGAmnXI9B9K/DINdDwD70YlDAwQBgYTwTBN8TfR2jG0aVXJyir0jnhv74qzlv
-	QnOTJfD8ZX897MkX9quC59wKEMihy3v4cHN1qrI8RSoJTjZplq6XkOz1e94tCHmPMKs6
-	O0GDNVHjBsQ264ZdUx7hXRe4nz8J9j/mtCi8JiybXSgnxzYu8Ho8wWP2u1ywn4CONeAp
-	epkywkPXncM/+GzBtqloN5LPbUjPtshcUkBEHZP1fJj9pJAdVP9SaBF/nIJ62b1yCtmQ
-	6aehHfTqZsTbd26dVCUTVLZMQ98fr7YcSKamc+9CA4jUxeKHCTDOo6rE3sq5q24TK0au
-	yXjQ==
-X-Gm-Message-State: ALoCoQlPBFCDzJ+PVDO1prRn4tyM6QNEaQbsD7wNjrneQfNXN22fUFnrWsZDbU1CpOcIZBDSn3m1
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=w2YKIQhdZlc0cqW8XiPqG6GjtAwrGYXQeOAQ1dk1kfc=;
+	b=dRWrC1sYZISKlhIEt6nFlMFPH3nAB2xN7T/huzSDNJxSq1PIPP2VvHCtjoLzZP7SRS
+	Pe4DKO+yekqBiHCT/rJKJpJLAO9FGuSdG8WFFWnz8isVaCrj5WCLy+08PBYnoLzzIoGD
+	yOP8Gl8lhK7vfLocMroon75YdsnTjPwM1y892198wQw9E+8PxI1CCeAq8E3RgrGSY3wZ
+	kLBHqDf/2Rz33cSXw3tXZmjt1I9xEu/Fu9no7dBcszCc2dg/rzWlGJXbXaVtZX5n5w9W
+	iJtNhdHzR4JtgRWKhlvXIHHVk632YgJF20RqEZ6YbRaMLrrqRVL67cS+zgCuhLFAErzL
+	R7mA==
+X-Gm-Message-State: ALoCoQluIO6+87H7Jg9439JItmEcwHd7dqd9zRvv0J3sqGwpqTGZOFg2tYfnW6q2eAOIvDhQsRDz
+X-Received: by 10.140.109.135 with SMTP id l7mr27275770qgf.80.1417111383613;
+	Thu, 27 Nov 2014 10:03:03 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.52.18.98 with SMTP id v2mr17198174vdd.86.1417110838696; Thu,
-	27 Nov 2014 09:53:58 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.31.188.129 with HTTP; Thu, 27 Nov 2014 09:53:58 -0800 (PST)
-In-Reply-To: <CAOMwXhNCtMkkpSvCtd4c7r26FVEtxsr4-605acjRMgicTm-rAA@mail.gmail.com>
+Received: by 10.140.48.231 with HTTP; Thu, 27 Nov 2014 10:02:43 -0800 (PST)
+In-Reply-To: <CAOMwXhMvUBY-SWX=2DdhEbkUJ9V=BEgYPf0TmX06b+F-odOVQQ@mail.gmail.com>
 References: <1408716303-32264-1-git-send-email-root@pol-lx-007.polatis.com>
 	<33115ABC4887814E8A92A08FBC93416B23C470D7@IRSMSX103.ger.corp.intel.com>
 	<CAOMwXhNCtMkkpSvCtd4c7r26FVEtxsr4-605acjRMgicTm-rAA@mail.gmail.com>
-Date: Thu, 27 Nov 2014 17:53:58 +0000
-X-Google-Sender-Auth: jS_7VbJTrj4vqHs0TGPgDub12EQ
-Message-ID: <CAOMwXhMvUBY-SWX=2DdhEbkUJ9V=BEgYPf0TmX06b+F-odOVQQ@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
+	<CAOMwXhMvUBY-SWX=2DdhEbkUJ9V=BEgYPf0TmX06b+F-odOVQQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 27 Nov 2014 18:02:43 +0000
+Message-ID: <CAJTo0LYBYim=5XjssHcN7MZRbNUMoMUA5R8-hz__szPWV0pJcQ@mail.gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] ptest-runner: return 1 instead of zero if any test fails
@@ -48,27 +47,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Nov 2014 17:53:59 -0000
+X-List-Received-Date: Thu, 27 Nov 2014 18:03:04 -0000
+Content-Type: multipart/alternative; boundary=001a113a4eb2a0bec60508daf4ee
+
+--001a113a4eb2a0bec60508daf4ee
 Content-Type: text/plain; charset=UTF-8
 
-Ping. I have not received a reply for about three months now? What is
-the problem?
+On 27 November 2014 at 17:53, Laszlo Papp <lpapp@kde.org> wrote:
 
-On Fri, Aug 29, 2014 at 11:54 AM, Laszlo Papp <lpapp@kde.org> wrote:
-> On Mon, Aug 25, 2014 at 7:42 AM, Stoicescu, CorneliuX
-> <corneliux.stoicescu@intel.com> wrote:
->> Hello,
->>
->> From my experience with ptest, there will always be a few tests failing, so we will always get exit code 1.
+> Ping. I have not received a reply for about three months now? What is
+> the problem?
 >
-> Ptest is not only about meta-core, you need to remember that. My use
-> case is actually quite different: running ptest only on my binaries,
-> and I will trust the rest of the system. For me, it is critical to see
-> if there is any issues in my system. This patch resolves that use
-> case, but even for Yocto, you really oughta aim for fixing your tests,
-> either with "known failure" or correct means.
->
->> Should this better return exit code 0 if the individual tests performed correctly(weather they passed or failed) and 1 if there were any errors during the running of the tests?
->
-> I do not understand this question. This is what the current change tries to do.
 
+http://git.openembedded.org/openembedded-core/commit/?id=d6b1c9e7e29aaa8d71ccb485b7a88863a117a8b1
+
+Ross
+
+--001a113a4eb2a0bec60508daf4ee
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 November 2014 at 17:53, Laszlo Papp <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:lpapp@kde.org" target=3D"_blank">lpapp@kde.org</a>&gt;</span> wrote:=
+<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:sol=
+id;padding-left:1ex"><div id=3D":535" class=3D"" style=3D"overflow:hidden">=
+Ping. I have not received a reply for about three months now? What is<br>
+the problem?<br></div></blockquote></div><br><a href=3D"http://git.openembe=
+dded.org/openembedded-core/commit/?id=3Dd6b1c9e7e29aaa8d71ccb485b7a88863a11=
+7a8b1">http://git.openembedded.org/openembedded-core/commit/?id=3Dd6b1c9e7e=
+29aaa8d71ccb485b7a88863a117a8b1</a><br></div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113a4eb2a0bec60508daf4ee--
