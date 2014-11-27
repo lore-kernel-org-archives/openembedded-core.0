@@ -1,38 +1,38 @@
 Return-Path: <alexandru.damian@intel.com>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 35DFE72379
+Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id A4C48601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 16:53:38 +0000 (UTC)
-Received: by mail-wg0-f47.google.com with SMTP id n12so6960125wgh.20
+	Thu, 27 Nov 2014 17:02:31 +0000 (UTC)
+Received: by mail-wg0-f52.google.com with SMTP id a1so6967160wgh.39
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 08:53:38 -0800 (PST)
+	Thu, 27 Nov 2014 09:02:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=y8VhuFtyEBgUPrk5T5Yq3tqzOluK0fcFX3X3hrunkT0=;
-	b=GahdXv83Vk6ISqjONvvFVi3Kf+dAORlwI0lOoybmMnbfFiV/UlGrCM4F5fdGsoW4fV
-	OuiFuu8NP7L0klBuGzE8UzE8MIhXrYOoLyjsrBCcrdPkxeuoevj3BJY3k19h+2oUcdHH
-	4is+wkL5QB6Y5pkVkUPJ88tDdpr3akbkUsmwRqWhen32wMHps4tfigFuvM8COWhtXKGd
-	3x6xQdA+9wbeXbrUZeyR2EUy8sTdCi0V2ymPCKHI2V3f4NScWqEk7GEGp5u4x4Xs2lCp
-	wuuDh2y+Be7xNuoIlFJ1XTsJHF92DPyO4jvvh14XLp9IEKEIMOF6QSD1JD/r2f2SSShB
-	BDkg==
-X-Gm-Message-State: ALoCoQmTZPPXOXk3HY8KQtr+QcCfSKUgluH5Pg3nMx69MQDFAp5BRycjA6QlHLEdJLCVID18x8qE
-X-Received: by 10.180.182.199 with SMTP id eg7mr52297463wic.17.1417107218781; 
-	Thu, 27 Nov 2014 08:53:38 -0800 (PST)
+	bh=0Is6pAHF+Byz5DsTsesA+2wBt8ckT8te1kEKvJp5v+I=;
+	b=ctfPFnKyqL26eO0eLKgYlPHj/I8a+PRLiLfrNbMx4FA3FBxH8Pn/H+9PTUk3waovTL
+	2TInF9gb9vi/8ZW+w7a67u4MQaHK7FDF5b3Vn/wrfHLkmEEZTByOj6NExOX9P2jQs1bp
+	zHbcRsQQT5Th3RcApF5e+RT1Lml8zep6Swxzy4cAl3rp9yIKRdABIMroCoDDEJSBS9f8
+	gcJmbcTvUmQAMd9GIVZmg3wnCUjuQUf5usBGZ0JQ5iLjRK7fMZPP4XV5AeblmKNUln3E
+	1iu+O/a5UGVgfYVR/2/G3z1LjYwnwZ4JcrehBvLna/a3AdM5pbQz2iwQJxZZUWQcogWR
+	GaGw==
+X-Gm-Message-State: ALoCoQlJsSA9op2qDHeq2vHlpBPez7QEbPfsClDP3DTpOi0LSGBAoZSg5khXO2uycI0/VIfFvd5m
+X-Received: by 10.180.90.241 with SMTP id bz17mr53663197wib.41.1417107751205; 
+	Thu, 27 Nov 2014 09:02:31 -0800 (PST)
 Received: from adamian-desk.local ([83.217.123.106])
-	by mx.google.com with ESMTPSA id
-	mc10sm25991266wic.24.2014.11.27.08.53.37 for <multiple recipients>
+	by mx.google.com with ESMTPSA id h14sm12401824wic.8.2014.11.27.09.02.29
+	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 27 Nov 2014 08:53:37 -0800 (PST)
+	Thu, 27 Nov 2014 09:02:29 -0800 (PST)
 Received: by adamian-desk.local (Postfix, from userid 1000)
-	id 41B6A563B9C; Thu, 27 Nov 2014 16:53:37 +0000 (GMT)
+	id 46A6C563B9C; Thu, 27 Nov 2014 17:02:29 +0000 (GMT)
 From: Alex DAMIAN <alexandru.damian@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Nov 2014 16:53:35 +0000
-Message-Id: <1417107215-28956-1-git-send-email-alexandru.damian@intel.com>
+Date: Thu, 27 Nov 2014 17:02:27 +0000
+Message-Id: <1417107747-31792-1-git-send-email-alexandru.damian@intel.com>
 X-Mailer: git-send-email 1.9.1
-Cc: Belen Barros Pena <belen.barros.pena@linux.intel.com>
-Subject: [PATCH 1/1] toaster: naming and description changes
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: [PATCH 1/1] toaster.bbclass: use the openembedded-core name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,94 +45,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Nov 2014 16:53:39 -0000
+X-List-Received-Date: Thu, 27 Nov 2014 17:02:37 -0000
 
-From: Belen Barros Pena <belen.barros.pena@linux.intel.com>
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-Some minor changes to the names and descriptions
-used in the Toaster configuration file:
+Fixing the bug where the openembedded-core name was registered
+as "meta" in toaster.
 
-* Change the name of the local layer source from Local OE-Core
-to Local OpenEmbedded
+[YOCTO #6962]
 
-* Change the imported layer source name from User Imported Layers
-to just Imported layers. It is shorter, which helps table display
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+---
+ meta/classes/toaster.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-* Change the description of the master release from OE-Core
-master to OpenEmbedded master
-
-* Change the description of the dizzy release from OE-Core dizzy
-to OpenEmbedded Dizzy
-
-* Change the helptext of the dizzy release to remove the
-"latest" reference, which can make maintenance hard
-
-* Change the name of the Local Yocto Project release to Local
-OpenEmbedded
-
-Signed-off-by: Belen Barros Pena <belen.barros.pena@linux.intel.com>
-
-diff --git a/meta/conf/toasterconf.json b/meta/conf/toasterconf.json
-index c9835d0..fe1564e 100644
---- a/meta/conf/toasterconf.json
-+++ b/meta/conf/toasterconf.json
-@@ -2,7 +2,7 @@
-     "config": {"MACHINE": "qemux86", "DISTRO": "poky"},
-     "layersources": [
-         {
--            "name": "Local OE-Core",
-+            "name": "Local OpenEmbedded",
-             "sourcetype": "local",
-             "apiurl": "../../",
-             "branches": ["HEAD", "master", "dizzy"],
-@@ -22,7 +22,7 @@
-             "branches": ["master", "dizzy"]
-         },
-         {
--            "name": "User Imported Layers",
-+            "name": "Imported layers",
-             "sourcetype": "imported",
-             "apiurl": "",
-             "branches": ["master", "dizzy", "HEAD"]
-@@ -55,30 +55,30 @@
-     "releases": [
-         {
-             "name": "master",
--            "description": "OE-Core master",
-+            "description": "OpenEmbedded master",
-             "bitbake": "master",
-             "branch": "master",
-             "defaultlayers": [ "openembedded-core" ],
--            "layersourcepriority": { "User Imported Layers": 99, "Local OE-Core" : 10, "OpenEmbedded" :  0 },
-+            "layersourcepriority": { "Imported layers": 99, "Local OpenEmbedded" : 10, "OpenEmbedded" :  0 },
-             "helptext": "Toaster will run your builds using the OpenEmbedded master branch, where active development takes place. This is not a stable branch, so your builds might not work as expected."
-         },
-         {
-             "name": "dizzy",
--            "description": "OE-Core dizzy",
-+            "description": "OpenEmbedded Dizzy",
-             "bitbake": "dizzy",
-             "branch": "dizzy",
-             "defaultlayers": [ "openembedded-core" ],
--            "layersourcepriority": { "User Imported Layers": 99, "Local OE-Core" : 10, "OpenEmbedded" :  0 },
--            "helptext": "Toaster will run your builds with the latest OpenEmbedded release, the dizzy branch."
-+            "layersourcepriority": { "Imported layers": 99, "Local OpenEmbedded" : 10, "OpenEmbedded" :  0 },
-+            "helptext": "Toaster will run your builds with the OpenEmbedded Dizzy release"
-         },
-         {
-             "name": "local",
--            "description": "Local Yocto Project",
-+            "description": "Local OpenEmbedded",
-             "bitbake": "HEAD",
-             "branch": "HEAD",
-             "defaultlayers": [ "openembedded-core" ],
--            "layersourcepriority": { "User Imported Layers": 99, "Local OE-Core" : 10, "OpenEmbedded" :  0 },
--            "helptext": "Toaster will run your builds with the version of the OpenEmbedded that you have cloned or downloaded to your computer."
-+            "layersourcepriority": { "Imported layers": 99, "Local OpenEmbedded" : 10, "OpenEmbedded" :  0 },
-+            "helptext": "Toaster will run your builds with the version of OpenEmbedded that you have cloned or downloaded to your computer."
-         }
-     ]
- }
+diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
+index 1525317..a7dd0aa 100644
+--- a/meta/classes/toaster.bbclass
++++ b/meta/classes/toaster.bbclass
+@@ -71,7 +71,7 @@ python toaster_layerinfo_dumpdata() {
+         layer_url = 'http://layers.openembedded.org/layerindex/layer/{layer}/'
+         layer_url_name = _get_url_map_name(layer_name)
+ 
+-        layer_info['name'] = layer_name
++        layer_info['name'] = layer_url_name
+         layer_info['local_path'] = layer_path
+         layer_info['layer_index_url'] = layer_url.format(layer=layer_url_name)
+         layer_info['version'] = _get_layer_version_information(layer_path)
 -- 
 1.9.1
 
