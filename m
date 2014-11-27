@@ -1,35 +1,60 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C95F272379
+Return-Path: <michael.jones@matrix-vision.de>
+X-Greylist: delayed 535 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 27 Nov 2014 16:32:59 UTC
+Received: from mail1.matrix-vision.com (mail1.matrix-vision.com [78.46.91.79])
+	by mail.openembedded.org (Postfix) with ESMTP id CDE8A7190D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 16:22:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sARGLJ1x018286; Thu, 27 Nov 2014 16:21:19 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id icD_MdZqEeDS; Thu, 27 Nov 2014 16:21:19 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sARGL7vp018212
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 27 Nov 2014 16:21:18 GMT
-Message-ID: <1417105303.15614.16.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Date: Thu, 27 Nov 2014 16:21:43 +0000
-In-Reply-To: <547740A7.7000005@topic.nl>
-References: <5476E26B.80003@topic.nl> <547712F1.9090209@mlbassoc.com>
-	<1417094262.15614.6.camel@linuxfoundation.org>
-	<547733B2.2010501@topic.nl>
-	<1417099280.15614.11.camel@linuxfoundation.org>
-	<547740A7.7000005@topic.nl>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org, "Hart,
-	Darren" <darren.hart@intel.com>
-Subject: Re: Deployment for machine X will remove its results from machine Y's deploy dir
+	Thu, 27 Nov 2014 16:32:59 +0000 (UTC)
+Received: from polydeuces (g1-2.matrix-vision.com [80.152.153.235])
+	(using TLSv1.1 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail1.matrix-vision.com (Postfix) with ESMTPSA id A47FE761A8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Nov 2014 17:24:04 +0100 (CET)
+Received: from drogo (drogo.intern.matrix-vision.de [192.168.10.20])
+	by polydeuces (Postfix) with ESMTP id 4460732153
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Nov 2014 17:24:04 +0100 (CET)
+Received: from polydeuces (polydeuces.intern.matrix-vision.de [192.168.5.51])
+	by thyone.g1.matrix-vision.de (AvMailGate-3.2.1.26) id 1497-ihilxH; 
+	Thu, 27 Nov 2014 16:24:03 -0000
+Received: by polydeuces (Postfix, from userid 108)
+	id B7A513215D; Thu, 27 Nov 2014 17:24:03 +0100 (CET)
+Received: from michael-HP.intern.matrix-vision.de
+	(host65-101.intern.matrix-vision.de [192.168.65.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by polydeuces (Postfix) with ESMTPSA id A24D932153;
+	Thu, 27 Nov 2014 17:24:03 +0100 (CET)
+From: Michael Jones <michael.jones@matrix-vision.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Nov 2014 17:21:53 +0100
+Message-Id: <1417105314-29318-2-git-send-email-michael.jones@matrix-vision.de>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1417105314-29318-1-git-send-email-michael.jones@matrix-vision.de>
+References: <1417105314-29318-1-git-send-email-michael.jones@matrix-vision.de>
+X-MV-Disclaimer: true (polydeuces)
+X-AntiVirus: checked by Avira MailGate (version: 3.2.1.26; AVE: 8.3.26.26;
+	VDF: 7.11.189.40; host: thyone); id=1497-ihilxH
+X-AV-Checked: ClamAV using ClamSMTP (sao)
+X-KLMS-Rule-ID: 1
+X-KLMS-Message-Action: clean
+X-KLMS-AntiSpam-Lua-Profiles: 69870 [Nov 27 2014]
+X-KLMS-AntiSpam-Version: 5.5.3
+X-KLMS-AntiSpam-Envelope-From: michael.jones@matrix-vision.de
+X-KLMS-AntiSpam-Rate: 0
+X-KLMS-AntiSpam-Status: not_detected
+X-KLMS-AntiSpam-Method: none
+X-KLMS-AntiSpam-Moebius-Timestamps: 3238071, 3238111, 0
+X-KLMS-AntiSpam-Info: LuaCore: 88 2014-11-27_18-23-14
+	e9e3345370e5acf1d8dc237095fbb5e25828eab3
+X-KLMS-AntiSpam-Interceptor-Info: scan successful
+X-KLMS-AntiPhishing: Clean, 2014/11/27 11:02:47
+X-KLMS-AntiVirus: Kaspersky Security 8.0 for Linux Mail Server, version
+	8.0.1.705, bases: 2014/11/27 11:08:00 #9998603;
+	khse: 2014-03-12 13:55:01
+X-KLMS-AntiVirus-Status: Clean, skipped
+Subject: [PATCH 2/3] image.bbclass: whitespace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,41 +67,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Nov 2014 16:22:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Nov 2014 16:33:02 -0000
 
-On Thu, 2014-11-27 at 16:17 +0100, Mike Looijmans wrote:
-> If I understand correctly, having two "MACHINE" share the same 
-> MACHINE_ARCH (which is the case for several intel boards too), is not 
-> actually allowed?
-> 
-> Because you get the same kernel/bootloader for different machines then. 
-> That's what I wanted, and that triggered me finding this issue.
+Don't mix tabs and spaces
+---
+ meta/classes/image.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Its a very good question. As things stand today, there is a one to one
-mapping between MACHINE_ARCH and MACHINE, the difference being the
-removal of invalid characters for the package namespace. That implies
-that no, its not allowed.
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index d27abc9..82e977c 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -193,12 +193,12 @@ read_only_rootfs_hook () {
+ 	sed -i -e '/^[#[:space:]]*\/dev\/root/{s/defaults/ro/;s/\([[:space:]]*[[:digit:]]\)\([[:space:]]*\)[[:digit:]]$/\1\20/}' ${IMAGE_ROOTFS}/etc/fstab
+ 
+ 	if ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "true", "false", d)}; then
+-	        # Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
++		# Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
+ 		if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
+ 			sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
+ 		fi
+-	        # Run populate-volatile.sh at rootfs time to set up basic files
+-	        # and directories to support read-only rootfs.
++		# Run populate-volatile.sh at rootfs time to set up basic files
++		# and directories to support read-only rootfs.
+ 		if [ -x ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
+ 			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
+ 		fi
+-- 
+1.9.1
 
-The intel boards you mention do something a little different, they
-inject a new "arch" into the hierarchy and then several machines share
-that common "arch".
 
-I suspect the intel boards you mention do suffer from the issue you
-mention in a related way and the fix may be to s/MACHINE/PACKAGE_ARCH/
-in DEPLOY_DIR_IMAGE as previously mentioned. The difference is I suspect
-they deploy for the first machine built and then not for any other.
-Nitin/Darren may be interested in checking into that.
-
-> Please realize that the example is just an example. The actual problem 
-> I'm experiencing is with the kernel and bootloader!
-
-Right, the allarch behaviour is an illustration but not the underlying
-problem you need to resolve (although its related).
-
-Cheers,
-
-Richard
-
+MATRIX VISION GmbH, Talstrasse 16, DE-71570 Oppenweiler
+Registergericht: Amtsgericht Stuttgart, HRB 271090
+Geschaeftsfuehrer: Uwe Furtner, Erhard Meier
 
