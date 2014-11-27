@@ -1,27 +1,26 @@
 Return-Path: <Noor_Ahsan@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id E198C60232
+	by mail.openembedded.org (Postfix) with ESMTP id 765E77236B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 13:45:05 +0000 (UTC)
+	Thu, 27 Nov 2014 13:58:11 +0000 (UTC)
 Received: from nat-ies.mentorg.com ([192.94.31.2]
 	helo=SVR-IES-FEM-03.mgc.mentorg.com)
 	by relay1.mentorg.com with esmtp 
-	id 1XtzNZ-0001OS-Vz from Noor_Ahsan@mentor.com 
+	id 1XtzaG-0004rF-67 from Noor_Ahsan@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Nov 2014 05:45:06 -0800
+	Thu, 27 Nov 2014 05:58:12 -0800
 Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.9]) by
 	SVR-IES-FEM-03.mgc.mentorg.com ([137.202.0.108]) with mapi id
-	14.03.0181.006; Thu, 27 Nov 2014 13:45:05 +0000
+	14.03.0181.006; Thu, 27 Nov 2014 13:58:11 +0000
 From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
 To: "MacDonald, Joe" <Joe_MacDonald@mentor.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Thread-Topic: [OE-core] [PATCH] libxml2: fix CVE-2014-3660
-Thread-Index: AQHP7I6CTHz+T5EQD0m8e28UZcp/hJx0t02A
-Date: Thu, 27 Nov 2014 13:45:04 +0000
-Message-ID: <365E1805BC95084CBE82381A0B869994E75615B5@EU-MBX-01.mgc.mentorg.com>
-References: <1413827481-11123-1-git-send-email-joe_macdonald@mentor.com>
-In-Reply-To: <1413827481-11123-1-git-send-email-joe_macdonald@mentor.com>
+Thread-Index: AQHP7I6CTHz+T5EQD0m8e28UZcp/hJx0t02AgAADvVA=
+Date: Thu, 27 Nov 2014 13:58:10 +0000
+Message-ID: <365E1805BC95084CBE82381A0B869994E75615E9@EU-MBX-01.mgc.mentorg.com>
+References: <1413827481-11123-1-git-send-email-joe_macdonald@mentor.com> 
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -40,10 +39,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Nov 2014 13:45:08 -0000
+X-List-Received-Date: Thu, 27 Nov 2014 13:58:12 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+Sorry for the false alarm. It was included in master but not in dizzy branc=
+h. Kindly include in that branch as well. Thanks.
+
+Noor
+
+-----Original Message-----
+From: Ahsan, Noor=20
+Sent: Thursday, November 27, 2014 6:45 PM
+To: 'Joe MacDonald'; openembedded-core@lists.openembedded.org
+Subject: RE: [OE-core] [PATCH] libxml2: fix CVE-2014-3660
 
 Hello,
 
@@ -245,9 +257,9 @@ nst xmlChar *str, int len,
 ++	xmlParserEntityCheck(ctxt, 0, NULL, 0);
 +     } else {
 + 	/*
-+ 	 * Internal checking in case the entity quest barfed @@ -8243,6=20
-++8276,7 @@ xmlParseStringPEReference(xmlParserCtxtPtr ctxt, const xmlChar =
-**str) {
++ 	 * Internal checking in case the entity quest barfed @@ -8243,6
+++8276,7 @@ xmlParseStringPEReference(xmlParserCtxtPtr ctxt, const=20
+++xmlChar **str) {
 + 			  name, NULL);
 + 	    ctxt->valid =3D 0;
 + 	}
