@@ -1,36 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 09C6472051
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B5CF1722B7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Nov 2014 15:36:51 +0000 (UTC)
-Received: by mail-wg0-f53.google.com with SMTP id l18so9164985wgh.12
+	Fri, 28 Nov 2014 16:10:04 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id f51so4855086qge.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Nov 2014 07:36:51 -0800 (PST)
+	Fri, 28 Nov 2014 08:10:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=zx4DDi1wN6TfD3X+BSjlD3cVZ24fc/DChFd8sXhckKk=;
-	b=fQNF3jG8DZb9N+DreIZ9U6aUlnEJZjSNevhilTOANT2IDOKKFCBcn4g76hygDDcdO1
-	soSqy9AV3xV5ygHyFOvMtKuY3bG6CWVV/xKy1Fv8iN35al5eLhgW05pEfUuHDeRvZyp+
-	ocM4NfsEjJoNMZoq9HG10TLpc/AuNdpz0T3sBrchg0yv4G7JZ/0HV7To+oZKP1QnLNt4
-	CPUCn9jq2fZTKYmyRyJu//JSyroiBPWDSrIj8PB2uSBOc+pT6CEx2N6o2eBOphT67Csv
-	49vKcelNCrhbEnKkY4OwAnuO1ShUwqv6u1+JGCVAGlRJP9Cho50IyfYShNo4Koj1nTPf
-	cBaw==
-X-Gm-Message-State: ALoCoQn4IrT51RHL1oTnVt7sR1E1qEWltJAmox/uTDg9oA3snsN4Q+WKE+eNzxeeJ32eGaX8fDxK
-X-Received: by 10.180.73.206 with SMTP id n14mr38797872wiv.60.1417189011551;
-	Fri, 28 Nov 2014 07:36:51 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id k5sm8124094wjn.1.2014.11.28.07.36.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 28 Nov 2014 07:36:50 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Nov 2014 15:36:29 +0000
-Message-Id: <1417188989-30734-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] bash: use EXTRA_AUTORECONF to disable autoheader
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type;
+	bh=CfWqveanpHziQV1S/DYG5HvSe50diHMQ52ocWPpZTSQ=;
+	b=SPAVpgACp64FVKefAxKOqdWjbZES1sCob06nQN7LM/vOkFgRbOhUEZU6zcGk/BqdFz
+	fIoWpl6VGWunnA6O4x9T7FXxUCAEqVM4IpihfpNFdxJDrwCgpFyzsUs5UTrF5f0oJj58
+	g9dY+6xfLYP0RGFpSRtxqEenkZjgoQFK6m64HCxSvitSfSmcbdBTFhxRpkAW27Nhpz7R
+	63F20zj4DXl1bN2phTEdJxYiq2iWnhbaHAk6nXlpxwIuIcm8XjM6RWZaFUt7ic2KQHA8
+	EXnPtL0Qj9LALl4IR0VYoM0i4XZGTBkFjeXkbcdlPM6EG6FxBGMEnbx4aF5AvGflTm6y
+	QtDQ==
+X-Gm-Message-State: ALoCoQlU3plsit145bjVV/JDBJXdwgzgztgppncmnqNGULtvjq3cN7OxXS228yy9DeStxf0aeZ2/
+X-Received: by 10.140.109.135 with SMTP id l7mr34942571qgf.80.1417191004293;
+	Fri, 28 Nov 2014 08:10:04 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.48.231 with HTTP; Fri, 28 Nov 2014 08:09:44 -0800 (PST)
+In-Reply-To: <1417188989-30734-1-git-send-email-ross.burton@intel.com>
+References: <1417188989-30734-1-git-send-email-ross.burton@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 28 Nov 2014 16:09:44 +0000
+Message-ID: <CAJTo0LZaWzqryXhfvkrpEAA_xXc0AcXp-4XBgpC4nctGs=679g@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bash: use EXTRA_AUTORECONF to disable autoheader
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,38 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Nov 2014 15:36:56 -0000
+X-List-Received-Date: Fri, 28 Nov 2014 16:10:07 -0000
+Content-Type: multipart/alternative; boundary=001a113a4eb263e29f0508ed7e42
 
-Disable autoheader by setting EXTRA_AUTORECONF to --exclude=autoheader instead
-of setting AUTOHEADER to true.
+--001a113a4eb263e29f0508ed7e42
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-extended/bash/bash.inc |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On 28 November 2014 at 15:36, Ross Burton <ross.burton@intel.com> wrote:
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index d35d25c..89ec07a 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -8,6 +8,7 @@ inherit autotools-brokensep gettext texinfo update-alternatives ptest
- 
- PARALLEL_MAKE = ""
- 
-+EXTRA_AUTORECONF = "--exclude=autoheader"
- EXTRA_OECONF = "--enable-job-control"
- 
- ALTERNATIVE_${PN} = "sh"
-@@ -15,8 +16,6 @@ ALTERNATIVE_LINK_NAME[sh] = "${base_bindir}/sh"
- ALTERNATIVE_TARGET[sh] = "${base_bindir}/bash"
- ALTERNATIVE_PRIORITY = "100"
- 
--export AUTOHEADER = "true"
--
- RDEPENDS_${PN} += "base-files"
- RDEPENDS_${PN}_class-nativesdk = ""
- RDEPENDS_${PN}-ptest += "make"
--- 
-1.7.10.4
+> +EXTRA_AUTORECONF = "--exclude=autoheader"
+>
 
+That should have been += for consistency, fixed in my local branch.
 
+Ross
+
+--001a113a4eb263e29f0508ed7e42
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 28 November 2014 at 15:36, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1pa" class=
+=3D"a3s" style=3D"overflow:hidden">+EXTRA_AUTORECONF =3D &quot;--exclude=3D=
+autoheader&quot;<br></div></blockquote></div><br>That should have been +=3D=
+ for consistency, fixed in my local branch.</div><div class=3D"gmail_extra"=
+><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113a4eb263e29f0508ed7e42--
