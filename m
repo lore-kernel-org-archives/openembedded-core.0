@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AFBDF722AD
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 359F4722AD
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 28 Nov 2014 06:48:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAS6mftv024101
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sAS6mh35029298
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Nov 2014 22:48:42 -0800 (PST)
+	Thu, 27 Nov 2014 22:48:43 -0800 (PST)
 Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 27 Nov 2014 22:48:41 -0800
+	14.3.174.1; Thu, 27 Nov 2014 22:48:43 -0800
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Nov 2014 01:48:37 -0500
-Message-ID: <4e0e64527a030fda96c7ef062e45dc0de2ea1194.1417157206.git.jackie.huang@windriver.com>
+Date: Fri, 28 Nov 2014 01:48:38 -0500
+Message-ID: <dc8c1fc1bb8076ef8da0af7ce2f2496cd9dc8fd0.1417157206.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.0.0
 In-Reply-To: <cover.1417157206.git.jackie.huang@windriver.com>
 References: <cover.1417157206.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] Revert "qt4*.bbclass: disable build qt on mips64 with 64 bits userspace"
+Subject: [PATCH 2/2] qt4: disable webkit for mips64 n32 temporarily
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,41 +38,35 @@ Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-This reverts commit 17890ebd637da0b3bf78804002d8b4f0ace078d2.
+Disable webkit for mips64 n32 temporarily that fails to compile.
 
-qt4 is upgraded to 4.8.6 and this is fixed by:
-c889b40 qt webkit: add support for MIPS64 platforms
+The webkit package also disable the build for n32:
+f5c4d18 webkit/midori: block to build webkit on mips64 with libn32 ABI
 
-so revert the commit.
+The opened defect in qt upstream is:
+https://bugreports.qt-project.org/browse/QTBUG-39224
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/classes/qt4e.bbclass   |    3 ---
- meta/classes/qt4x11.bbclass |    3 ---
- 2 files changed, 6 deletions(-)
+ meta/recipes-qt/qt4/qt4-4.8.6.inc |    5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/classes/qt4e.bbclass b/meta/classes/qt4e.bbclass
-index 850bb6a..13b1050 100644
---- a/meta/classes/qt4e.bbclass
-+++ b/meta/classes/qt4e.bbclass
-@@ -19,6 +19,3 @@ EXTRA_QMAKEVARS_PRE += " QT_LIBINFIX=${QT_LIBINFIX} "
+diff --git a/meta/recipes-qt/qt4/qt4-4.8.6.inc b/meta/recipes-qt/qt4/qt4-4.8.6.inc
+index ae6692b..924a6ad 100644
+--- a/meta/recipes-qt/qt4/qt4-4.8.6.inc
++++ b/meta/recipes-qt/qt4/qt4-4.8.6.inc
+@@ -31,6 +31,11 @@ SRC_URI[sha256sum] = "8b14dd91b52862e09b8e6a963507b74bc2580787d171feda197badfa70
  
- # Qt4 uses atomic instructions not supported in thumb mode
- ARM_INSTRUCTION_SET = "arm"
--
--# Qt4 could NOT be built on MIPS64 with 64 bits userspace
--COMPATIBLE_HOST_mips64 = "mips64.*-linux-gnun32"
-diff --git a/meta/classes/qt4x11.bbclass b/meta/classes/qt4x11.bbclass
-index 65d196a..b06e15d 100644
---- a/meta/classes/qt4x11.bbclass
-+++ b/meta/classes/qt4x11.bbclass
-@@ -9,6 +9,3 @@ QT_LIBINFIX = ""
+ S = "${WORKDIR}/qt-everywhere-opensource-src-${PV}"
  
- # Qt4 uses atomic instructions not supported in thumb mode
- ARM_INSTRUCTION_SET = "arm"
--
--# Qt4 could NOT be built on MIPS64 with 64 bits userspace
--COMPATIBLE_HOST_mips64 = "mips64.*-linux-gnun32"
++# disable webkit for mips64 n32 temporarily that fails to compile,
++# qt upstream defect:
++# https://bugreports.qt-project.org/browse/QTBUG-39224
++QT_CONFIG_FLAGS_append_mips64 = "${@bb.utils.contains("TUNE_FEATURES", "n32", " -no-webkit", "" ,d)}"
++
+ FILES_${QT_BASE_NAME}-tools_append     = " ${bindir}/qml ${bindir}/qmlplugindump"
+ FILES_${QT_BASE_NAME}-tools-dbg_append = " ${bindir}/.debug/qml ${bindir}/.debug/qmlplugindump"
+ 
 -- 
 1.7.9.5
 
