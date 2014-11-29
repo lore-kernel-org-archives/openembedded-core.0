@@ -1,36 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id C4EF3722F6
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-vc0-f182.google.com (mail-vc0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E8617025A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Nov 2014 21:31:14 +0000 (UTC)
-Received: by mail-wg0-f49.google.com with SMTP id n12so1461414wgh.8
+	Sat, 29 Nov 2014 08:46:01 +0000 (UTC)
+Received: by mail-vc0-f182.google.com with SMTP id hq12so3474559vcb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Nov 2014 13:31:14 -0800 (PST)
+	Sat, 29 Nov 2014 00:46:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Mfd5u8A6bm54w8HR8h4agKZ92vNGSV7z0UUEhUrCaWs=;
-	b=E3kKvQHxnSHob0kVm294zPZihvwHlq7cUSSCwOmk7oovsoFq8rxEzzcSrQiUGTid+a
-	nNM3UH1tEoU76kDLX4zwi39evmeLOb5VjRS1CNlWvtnee0ynjlHZcioin6JXzghus/ld
-	HNuBRriPCwHGnYRXR39FlLEIAYBQcB8hdyF7bruE9aNIZzVcHxQOE2eJYT7LTVqi7PIV
-	cXKVdnEObSHRclQnRKTAJ/bjyISmqRG6y/Iiw1CCjJVHuz2NvyFzGxU3o0yPHCkpUb8z
-	IBp+/DchcVZ+x0jywALOxEPL0fvbuK1eYYR7Cl8Sq1fEewi/Jv1UJm0I0vP6InfQUKS4
-	Kd1w==
-X-Gm-Message-State: ALoCoQkY8Z4SwXvShSu3mlF2N1jyZdNHFAHoo/mWuBfhAeB6IdIZQ55rNV4E0LSqdByhelmRR6gb
-X-Received: by 10.194.185.68 with SMTP id fa4mr70849140wjc.83.1417210274731;
-	Fri, 28 Nov 2014 13:31:14 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by mx.google.com with ESMTPSA id
-	mw7sm17475245wib.14.2014.11.28.13.31.13
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 28 Nov 2014 13:31:14 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Nov 2014 21:30:52 +0000
-Message-Id: <1417210252-17618-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] attr: use EXTRA_AUTORECONF to disable autoheader
+	h=x-gm-message-state:mime-version:sender:date:message-id:subject:from
+	:to:cc:content-type;
+	bh=pPj+LQaMi4OA6QNN+TtPkEciW0aUCzbPDBFN8b9pkK0=;
+	b=lELVZOmVCHxzIodTbs94Zmz/jb0hCec7vJ1ljSq+HUzkhEZIoTbeK/sfBZKRVO//OP
+	Edlf7FlQTdXFqrPeNugBGVOg3rF5FMx95LgvBsflYOk/Il03sWagLnYvLl4ddunUEmEU
+	kwQbSGbH2R48JDbdXqX7yR21dkpP/QhwxxLaB8frrBxrQ0uo+fovqI6/grrlAql4STow
+	PY4rJNNJELLcVsLiwy7CoRmWrgnbdWfy+NlyA7NyoPAZ3zbW1deNld7FwQSWqs9m+ISB
+	PF7jeV+eAM8ndMbhNbYst23ulggZrPWdQVw7j/n1f8ZOV3PgiZX06WJp7o6k0xs82sEr
+	HGVA==
+X-Gm-Message-State: ALoCoQlvJm17Fq+KGyaJY/PGCa5VMRAD43NgKJDuF2Gvgv7J+a9JVR037qb0UsrcoEVv7lzH1HWc
+MIME-Version: 1.0
+X-Received: by 10.52.243.41 with SMTP id wv9mr20651692vdc.20.1417250762385;
+	Sat, 29 Nov 2014 00:46:02 -0800 (PST)
+Sender: lpapp@archlinux.us
+Received: by 10.31.188.129 with HTTP; Sat, 29 Nov 2014 00:46:02 -0800 (PST)
+Date: Sat, 29 Nov 2014 08:46:02 +0000
+X-Google-Sender-Auth: H3Xne-t9pfVhO-EVjHs4l9QEs2Y
+Message-ID: <CAOMwXhPV+N=m+VBZhk70DzZBAXt_QDjMhxm=sy+R9aO1zNpWNA@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: Saul Wold <saul.wold@intel.com>
+Subject: Re: [PATCHv3] toolchain-script: Add support for ccache builds with the SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Nov 2014 21:31:20 -0000
+X-List-Received-Date: Sat, 29 Nov 2014 08:46:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Disable autoheader by setting EXTRA_AUTORECONF to --exclude=autoheader instead
-of setting AUTOHEADER to true.
+Including both Richard Purdie and Saul Wold as they were the main
+criticizers last time in the beginning of September when I submitted
+the first version of this patch.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-support/attr/ea-acl.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
-index 72f623e..b17e9b1 100644
---- a/meta/recipes-support/attr/ea-acl.inc
-+++ b/meta/recipes-support/attr/ea-acl.inc
-@@ -7,7 +7,7 @@ inherit autotools-brokensep gettext
- 
- # the package comes with a custom config.h.in, it cannot be
- # overwritten by autoheader
--export AUTOHEADER = "true"
-+EXTRA_AUTORECONF += "--exclude=autoheader"
- EXTRA_OECONF = "INSTALL_USER=root INSTALL_GROUP=root"
- EXTRA_OECONF_append_class-native = " --enable-gettext=no"
- 
--- 
-1.7.10.4
-
+On Thu, Nov 27, 2014 at 5:40 PM, Laszlo Papp <lpapp@kde.org> wrote:
+> It is necessary to have an SDK for developers who build their software with
+> ccache to speed up the compilation. Without resolving this, unfortunately the
+> compilation will fail for them.
+>
+> Signed-off-by: Laszlo Papp <lpapp@kde.org>
+> ---
+>  meta/classes/toolchain-scripts.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+> index d5b9675..9836db4 100644
+> --- a/meta/classes/toolchain-scripts.bbclass
+> +++ b/meta/classes/toolchain-scripts.bbclass
+> @@ -19,6 +19,7 @@ toolchain_create_sdk_env_script () {
+>                 EXTRAPATH="$EXTRAPATH:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_ARCH}${TARGET_VENDOR}-$i"
+>         done
+>         echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}'$EXTRAPATH':$PATH' >> $script
+> +       echo 'export CCACHE_PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}'$EXTRAPATH':$CCACHE_PATH' >> $script
+>         echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
+>         echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig' >> $script
+>         echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
+> @@ -37,6 +38,7 @@ toolchain_create_tree_env_script () {
+>         rm -f $script
+>         touch $script
+>         echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${PATH}' >> $script
+> +       echo 'export CCACHE_PATH=${STAGING_DIR_NATIVE}/usr/bin:${CCACHE_PATH}' >> $script
+>         echo 'export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_SYSROOT_DIR}' >> $script
+>         echo 'export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}' >> $script
+>         echo 'export CONFIG_SITE="${@siteinfo_get_files(d)}"' >> $script
+> --
+> 2.1.3
+>
 
