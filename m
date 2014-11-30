@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 05EEE721CD
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BD3BF722D4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Nov 2014 20:13:15 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id q107so5888718qgd.7
+	Sun, 30 Nov 2014 08:46:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sAU8kJUZ017515
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Nov 2014 12:13:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=y6lJs44asWngL9MNURwcCAevVhpJSJ9LaOEhDUdcpVQ=;
-	b=ZN1e3dfEYw6uER52kfrLMDD9Pk6gQ/Rke29jit0t2FYDwE1obqKBXMXYhIVPP+RVW9
-	ZBCo+dxxM4aoxW7TWOgbrasmhEU/nnwsF0dKxoBnUydNPBSuQya4U9qOAP3+lj3NXtUo
-	bEzEBkBHPGWCsYV7j0hCJt8XSrVsi98bjbrTH8inwnbRVLUIfGonXzjzlpfWBk8E7hpr
-	XpCZAszdyOlQ3KvaL5IKBq1GZsJ5k9tj3/QLF28Gfw9bHjVr30Wbx3Z2F7GfQxH+8kMN
-	TA1AZIBJ1y2OX2PZWAbKQ3HHht9ujRFkSBcugTZwmspTJRiy2jzRJ2HCxz97dVpvlDsj
-	kwNA==
-X-Gm-Message-State: ALoCoQnpKpc6Y8f9ywq0cnCkM6zPPo6GWM0TlZ89t1ilXMRJwzeysyBKeZyz8LO9jr6pfEloa6/7
-X-Received: by 10.224.93.6 with SMTP id t6mr14404093qam.93.1417291996333; Sat,
-	29 Nov 2014 12:13:16 -0800 (PST)
+	Sun, 30 Nov 2014 00:46:20 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Sun, 30 Nov 2014 00:46:18 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 30 Nov 2014 16:46:36 +0800
+Message-ID: <cover.1417337125.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Sat, 29 Nov 2014 12:12:56 -0800 (PST)
-In-Reply-To: <CAOMwXhPV+N=m+VBZhk70DzZBAXt_QDjMhxm=sy+R9aO1zNpWNA@mail.gmail.com>
-References: <CAOMwXhPV+N=m+VBZhk70DzZBAXt_QDjMhxm=sy+R9aO1zNpWNA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 29 Nov 2014 20:12:56 +0000
-Message-ID: <CAJTo0LYAOW8YC4bOU9068DFRy0wu67CcF8ztt-1_XPAV9XmC6w@mail.gmail.com>
-To: Laszlo Papp <lpapp@kde.org>
-Cc: Saul Wold <saul.wold@intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3] toolchain-script: Add support for ccache builds with the SDK
+Subject: [PATCH 0/2] Make systemd recipe able to build out manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Nov 2014 20:13:21 -0000
-Content-Type: multipart/alternative; boundary=089e01495028fc23ca050905013e
+X-List-Received-Date: Sun, 30 Nov 2014 08:46:26 -0000
+Content-Type: text/plain
 
---089e01495028fc23ca050905013e
-Content-Type: text/plain; charset=UTF-8
+The following changes since commit 68ddb28a68ceb59cd1ed322c16143827ce1ac712:
 
-On 29 November 2014 at 08:46, Laszlo Papp <lpapp@kde.org> wrote:
+  distrodata_class: checkpkg make usage of latest_versionstring methods in bitbake fetcher (2014-11-28 13:59:52 +0000)
 
-> Including both Richard Purdie and Saul Wold as they were the main
-> criticizers last time in the beginning of September when I submitted
-> the first version of this patch.
->
+are available in the git repository at:
 
-I've merged this into my staging branch now that the point of the patch is
-clear.
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-manpages
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-manpages
 
-Ross
+Chen Qi (2):
+  libxslt: create wrapper to avoid host system referencing
+  systemd: add PACKAGECONFIG for 'manpages'
 
---089e01495028fc23ca050905013e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+ meta/recipes-core/systemd/systemd_216.bb       | 2 +-
+ meta/recipes-support/libxslt/libxslt_1.1.28.bb | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 29 November 2014 at 08:46, Laszlo Papp <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:lpapp@kde.org" target=3D"_blank">lpapp@kde.org</a>&gt;</span> wrote:=
-<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex"><div id=3D":1n2" class=3D"a3s" style=3D"=
-overflow:hidden">Including both Richard Purdie and Saul Wold as they were t=
-he main<br>
-criticizers last time in the beginning of September when I submitted<br>
-the first version of this patch.</div></blockquote><div><br></div><div>I&#3=
-9;ve merged this into my staging branch now that the point of the patch is =
-clear.</div><div><br></div><div>Ross</div></div></div></div>
+-- 
+1.9.1
 
---089e01495028fc23ca050905013e--
+
