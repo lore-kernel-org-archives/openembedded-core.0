@@ -1,28 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 80164723FA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D65D072405
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Dec 2014 15:21:18 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 01 Dec 2014 07:21:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,494,1413270000"; d="scan'208";a="616694997"
-Received: from fodonogx-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.21.108])
-	by orsmga001.jf.intel.com with ESMTP; 01 Dec 2014 07:21:17 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Mon,  1 Dec 2014 16:37:03 +0000 (UTC)
+Received: by mail-wg0-f53.google.com with SMTP id l18so14648602wgh.40
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Dec 2014 08:37:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=FJJ/zITxHukQyZzrHarWmh2IX2DGwkVAH6D4lhDVbK0=;
+	b=CIctPUQqF+922hmYItiZz/4ClXtgYUtjjULeHbqpvL0YpGNYjgzXxWQXeQAshgIPvn
+	7+XEcUXVlNT1RsyKWwwIPOLh9VEJ5pWWtOIWY1G46DJvmL1Hs1Fc2ZUl6amsIC81/yuI
+	hrutuLEbwrhFD6MAw8yA0GBE7kWI9/+DwCeBGNXdEM3MyRuprxc+uLfVw0CPcvFq4dBs
+	BrijevedgLnb6HJWfHvYGQBoT6Xnrqw77CTP4jCo6t+vNoD/UDhGQ+gWsVCyjddFluPo
+	YWN11QP2es+5BgCX9BmpI76Osy2QYQ6P984QG4oRXSagNAILwhF8O6dCDrW+nyiMiSPz
+	Oldw==
+X-Gm-Message-State: ALoCoQmkWaoI1SJqMkOKgLAqg9wiLGzDfSUp8T6PLFIW3X7iSMcwKTTd7oc+O5ogsZeoIFc5NPMj
+X-Received: by 10.180.74.68 with SMTP id r4mr83691311wiv.33.1417451823634;
+	Mon, 01 Dec 2014 08:37:03 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id l9sm1638863wic.21.2014.12.01.08.37.01
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 01 Dec 2014 08:37:02 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 01 Dec 2014 15:21:16 +0000
-Message-ID: <3316034.dGek4aGvY6@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.3-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <1417446810.15614.28.camel@linuxfoundation.org>
-References: <1407438629-13369-1-git-send-email-marex@denx.de>
-	<CAJTo0Lbk2eOtBbOFj5d8oEpW6N9p3wmuw5kUMEqzsRKPyakt6w@mail.gmail.com>
-	<1417446810.15614.28.camel@linuxfoundation.org>
-MIME-Version: 1.0
-Cc: Marek Vasut <marex@denx.de>, Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] Yocto: Install full set of python modules in Qt SDK toolchain
+Date: Mon,  1 Dec 2014 16:36:37 +0000
+Message-Id: <1417451798-28112-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/2] python: ensure all of Python is installed in nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,63 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Dec 2014 15:21:19 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 01 Dec 2014 16:37:06 -0000
 
-On Monday 01 December 2014 15:13:30 Richard Purdie wrote:
-> On Mon, 2014-12-01 at 15:05 +0000, Burton, Ross wrote:
-> > On 21 September 2014 at 17:02, Marek Vasut <marex@denx.de> wrote:
-> >         -TOOLCHAIN_HOST_TASK ?= "nativesdk-packagegroup-sdk-host
-> >         packagegroup-cross-
-> >         canadian-${MACHINE}"
-> >         +TOOLCHAIN_HOST_TASK ?= "                               \
-> >         +       nativesdk-packagegroup-sdk-host                 \
-> >         +       packagegroup-cross-canadian-${MACHINE}          \
-> >         +       nativesdk-python-modules
-> > 
-> > Thanks to Laszlo for pinging this.  We fixed a similar problem in the
-> > buildtools tarball by pulling in python-modules but the situation was
-> > different there - the buildtools tarball always contained some of
-> > Python so it's logical to make it pull in all of python.
-> > 
-> > It's nativesdk-packagegroup-sdk-host that's pulling in parts of Python
-> > via it's dependency on smartpm.  This makes me think we need two
-> > changes here:
-> > 
-> > 1) The toolchain should contain the packaging tools for the selected
-> > packaging format of the images, not just smartpm.  So a SDK for a
-> > opkg-based image should be shipping opkg, not smartpm.
-> 
-> Agreed on smartpm, rpm is a bit of a different story due to where it
-> gets used in the packaging process. As the SDK and build systems
-> converge this gets a bit fuzzy :/.
+If any part of Python gets installed in a SDK, we need to ensure that all of
+Python gets installed to avoid replacing python in the environment with a
+minimal package set.
 
-I'm not entirely sure python-smartpm should have been added by default in the 
-first place. I'd say having it there ought to be the choice of the person 
-creating the SDK, just as with a lot of other tools one might want in the SDK. 
-For most people I suspect it's superfluous.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/python/python_2.7.3.bb |    1 +
+ 1 file changed, 1 insertion(+)
 
-> > 2) Toolchains should either ship no Python or all Python, because
-> > dropping a partial Python into $PATH breaks user's expectations (the
-> > same argument that was used for the buildtools).  Not sure how to do
-> > this though, maybe the construction should inspect the installed
-> > package list and if anything Python was installed, ensure
-> > python-modules is also installed.
-> > 
-> > Comments?
-> 
-> Make nativesdk-python-core RRECOMMEND python-modules?
-
-This sounds like a reasonable option to me. The split as it is at the moment 
-exists mainly for trimming the target; the SDK is perhaps less sensitive to 
-size constraints.
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index 50c751e..7f13e22 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -161,6 +161,7 @@ require python-${PYTHON_MAJMIN}-manifest.inc
+ # manual dependency additions
+ RPROVIDES_${PN}-core = "${PN}"
+ RRECOMMENDS_${PN}-core = "${PN}-readline"
++RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python-modules"
+ RRECOMMENDS_${PN}-crypt = "openssl"
+ RRECOMMENDS_${PN}-crypt_class-nativesdk = "nativesdk-openssl"
+ 
 -- 
+1.7.10.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
