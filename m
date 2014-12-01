@@ -1,44 +1,38 @@
 Return-Path: <lpapp@archlinux.us>
-Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id E758160144
+Received: from mail-vc0-f177.google.com (mail-vc0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4202565C9F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Dec 2014 18:04:19 +0000 (UTC)
-Received: by mail-vc0-f175.google.com with SMTP id hy10so4901912vcb.20
+	Mon,  1 Dec 2014 18:08:58 +0000 (UTC)
+Received: by mail-vc0-f177.google.com with SMTP id ij19so4769975vcb.22
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Dec 2014 10:04:19 -0800 (PST)
+	Mon, 01 Dec 2014 10:08:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
 	:message-id:subject:from:to:cc:content-type;
-	bh=uQnWwJznQ0scBumfbQGlwvA6MxAg4I5VvkXlLxh38v8=;
-	b=QqtGybSU0kxyIs2kTbysC4oVgoaFxYZp4Md4fasXMgXx4TGU3S/XKeZvBn5qAuFpaX
-	gCzrZiGtNoTGCS3jn/dumuWe9uPqgHiPgcCszPqhb+CNf6XJBOqVWSAm790nGJlXlXme
-	YKcrYWN5bHjldC3WjkfuupI5CU/EV8EpXvCMu2yxzNtvoMzM4p+oaFKzF3doiFU2Nw4I
-	jfHMiJF0DYS6nEltU817Z/EP9cGrxTj8HJ1bdqTzueZAca9AuCac/8wcklt1owILbYYB
-	GsxkfjVyOiMSfNjwlCpDVaeg0SfYUIcXwzKAFLFb862udeGLSNJ7Cnsgxe3zCAgXy4hd
-	+8XA==
-X-Gm-Message-State: ALoCoQk3wat//3Yrx2kqxprmP4Slz1k6efhB0gRki6/3tQAt/gbD3D5KR/drCX+Ml3D+p0HpQYcG
+	bh=kJDzmbHItr/CTPVRarAGCvyolrCDT9wgKqPnl2YYnFk=;
+	b=P4q2H8c7gmGARtsbNJ8BytBrvMY0a8gO0T2QW90UlkH5KtMhggZCdSKDVYgkCFiS5n
+	DeK+LBq3Niy95MwZ9r5gThjeTNfzeDvsETROLigCYq0r71kcVQypE3iMGH0FZ3nJdQ9U
+	JrB+PypgzMaL8SCUC0GS8d8BueCY1TuOZDOPABW7WUzxwRjZw9cSzbVtji3xbu6GV77G
+	3ND19USPu8uayG/KU6oGTfrfCuWh//tcRKi53+jB93CC7f6vkJGiUf1TZZr8vPoPmfmc
+	LJLrk30IK9UJ8IekeF17ulIBghH9Yt0CysXLSGgowof2ELpGtn/Rd3XUJxc4xwEuP4FE
+	4a3g==
+X-Gm-Message-State: ALoCoQmUcCtyQWCBw7oHCMbWpp4CMpryEOIHj4d0pE1o6bcx+8l+jeTzOwiVAEHHFglcofKby/Nq
 MIME-Version: 1.0
-X-Received: by 10.220.139.135 with SMTP id e7mr3346585vcu.75.1417457059755;
-	Mon, 01 Dec 2014 10:04:19 -0800 (PST)
+X-Received: by 10.52.37.201 with SMTP id a9mr24845602vdk.56.1417457339047;
+	Mon, 01 Dec 2014 10:08:59 -0800 (PST)
 Sender: lpapp@archlinux.us
-Received: by 10.31.188.129 with HTTP; Mon, 1 Dec 2014 10:04:19 -0800 (PST)
-In-Reply-To: <CAJTo0LayXWcmDG623USQP5Z081CooTM0JAzpW2bMaWV=cE6LxA@mail.gmail.com>
-References: <1407438629-13369-1-git-send-email-marex@denx.de>
-	<CAJTo0Lbk2eOtBbOFj5d8oEpW6N9p3wmuw5kUMEqzsRKPyakt6w@mail.gmail.com>
-	<1417446810.15614.28.camel@linuxfoundation.org>
-	<3316034.dGek4aGvY6@peggleto-mobl5.ger.corp.intel.com>
-	<CAJTo0LayXWcmDG623USQP5Z081CooTM0JAzpW2bMaWV=cE6LxA@mail.gmail.com>
-Date: Mon, 1 Dec 2014 18:04:19 +0000
-X-Google-Sender-Auth: LUgFT90H_fIXXPvjNj_ZKKOmc9U
-Message-ID: <CAOMwXhPTqhHZQ_jxDydTywThH_Kt=EkV=kiUCni+x+XM56FBAA@mail.gmail.com>
+Received: by 10.31.188.129 with HTTP; Mon, 1 Dec 2014 10:08:59 -0800 (PST)
+In-Reply-To: <1417451798-28112-1-git-send-email-ross.burton@intel.com>
+References: <1417451798-28112-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 1 Dec 2014 18:08:59 +0000
+X-Google-Sender-Auth: BuePEGfplNfm_HHoRIobN5OpJPc
+Message-ID: <CAOMwXhNv7vXjdgE0p6WQ1=H0TadbyEuFQ8ZLU0D=k-k+o_dcbw@mail.gmail.com>
 From: Laszlo Papp <lpapp@kde.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Marek Vasut <marex@denx.de>, Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Yocto: Install full set of python modules in Qt SDK toolchain
+To: Ross Burton <ross.burton@intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] python: ensure all of Python is installed in nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,34 +45,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Dec 2014 18:04:20 -0000
+X-List-Received-Date: Mon, 01 Dec 2014 18:09:00 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Dec 1, 2014 at 4:44 PM, Burton, Ross <ross.burton@intel.com> wrote:
+On Mon, Dec 1, 2014 at 4:36 PM, Ross Burton <ross.burton@intel.com> wrote:
+> If any part of Python gets installed in a SDK, we need to ensure that all of
+> Python gets installed to avoid replacing python in the environment with a
+> minimal package set.
 >
-> On 1 December 2014 at 15:21, Paul Eggleton <paul.eggleton@linux.intel.com>
-> wrote:
->>
->> > Make nativesdk-python-core RRECOMMEND python-modules?
->>
->> This sounds like a reasonable option to me. The split as it is at the
->> moment
->> exists mainly for trimming the target; the SDK is perhaps less sensitive
->> to
->> size constraints.
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-devtools/python/python_2.7.3.bb |    1 +
+>  1 file changed, 1 insertion(+)
 >
->
-> Patch sent.
-
-Thanks!
-
->
-> Ross
+> diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+> index 50c751e..7f13e22 100644
+> --- a/meta/recipes-devtools/python/python_2.7.3.bb
+> +++ b/meta/recipes-devtools/python/python_2.7.3.bb
+> @@ -161,6 +161,7 @@ require python-${PYTHON_MAJMIN}-manifest.inc
+>  # manual dependency additions
+>  RPROVIDES_${PN}-core = "${PN}"
+>  RRECOMMENDS_${PN}-core = "${PN}-readline"
+> +RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python-modules"
+>  RRECOMMENDS_${PN}-crypt = "openssl"
+>  RRECOMMENDS_${PN}-crypt_class-nativesdk = "nativesdk-openssl"
 >
 > --
-> _______________________________________________
+> 1.7.10.4
+>
+> --
+
+Is it worth referring to bug number 6735?
+____________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
