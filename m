@@ -1,30 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AAF4718FB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 8877865E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Dec 2014 15:14:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sB1FDAHp005785; Mon, 1 Dec 2014 15:13:10 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id EraEDfeeD-nQ; Mon,  1 Dec 2014 15:13:10 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sB1FCrWB005778
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 1 Dec 2014 15:13:05 GMT
-Message-ID: <1417446810.15614.28.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 01 Dec 2014 15:13:30 +0000
-In-Reply-To: <CAJTo0Lbk2eOtBbOFj5d8oEpW6N9p3wmuw5kUMEqzsRKPyakt6w@mail.gmail.com>
+	Mon,  1 Dec 2014 15:21:06 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id bm13so7230390qab.26
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Dec 2014 07:21:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=LwbVVNObRxubHWmRZiJCZPlW4wJj01eCJreirMVLbtM=;
+	b=RZG4h23JMtUrIqxijBfV2azVBeNWZJ+DXTiPRRdXn8jTYT8FfykEB9YRRewDNdgMJn
+	Ps5QGKNHVVm46NBtWhMgczWYFEIcu1K//xDanbTJOsSEjZVPxAkLvrBIeIfVvFMz0pW/
+	ie+tpR7yvzYlfo8e8/pBrGgdY5DI4O2T5Gsjht3PfcgB59kECwc0e3KD5XAz6rie9Thv
+	+sBa/UsimB1fU0lLpoOpS3bBUvjIl8l2T2OY7KuFAhxYz+E9hEgrkVLOMdkmbtAj4Tfu
+	QKq1/3OsdYfCVXVZHVGDpid/+pCpV69gYAIWhRYxwQDVujCoffPGlR0GO7/cIal1cmBI
+	8+kg==
+X-Gm-Message-State: ALoCoQkDC2BLP1dqcJHWv570YhibSDLWHIJYXwsLJd1aoOngY7eFBWVxHTNjh61zJNHT28ZNpVFD
+X-Received: by 10.140.96.101 with SMTP id j92mr85729415qge.87.1417447266445;
+	Mon, 01 Dec 2014 07:21:06 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.48.231 with HTTP; Mon, 1 Dec 2014 07:20:46 -0800 (PST)
+In-Reply-To: <1417446810.15614.28.camel@linuxfoundation.org>
 References: <1407438629-13369-1-git-send-email-marex@denx.de>
 	<201409190914.03281.marex@denx.de> <1411111512.4736.11.camel@ted>
 	<201409211802.17872.marex@denx.de>
 	<CAJTo0Lbk2eOtBbOFj5d8oEpW6N9p3wmuw5kUMEqzsRKPyakt6w@mail.gmail.com>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
+	<1417446810.15614.28.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 1 Dec 2014 15:20:46 +0000
+Message-ID: <CAJTo0LYV6poNs3YNvNsthcPa2VYuqYDb-e_BkEDyDVRvSuOtXQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Marek Vasut <marex@denx.de>, Koen Kooi <koen@dominion.thruhere.net>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] Yocto: Install full set of python modules in Qt SDK toolchain
@@ -40,51 +48,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Dec 2014 15:14:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Dec 2014 15:21:10 -0000
+Content-Type: multipart/alternative; boundary=001a113a9d8ace211f05092928f4
 
-On Mon, 2014-12-01 at 15:05 +0000, Burton, Ross wrote:
-> On 21 September 2014 at 17:02, Marek Vasut <marex@denx.de> wrote:
->         -TOOLCHAIN_HOST_TASK ?= "nativesdk-packagegroup-sdk-host
->         packagegroup-cross-
->         canadian-${MACHINE}"
->         +TOOLCHAIN_HOST_TASK ?= "                               \
->         +       nativesdk-packagegroup-sdk-host                 \
->         +       packagegroup-cross-canadian-${MACHINE}          \
->         +       nativesdk-python-modules       
-> 
-> Thanks to Laszlo for pinging this.  We fixed a similar problem in the
-> buildtools tarball by pulling in python-modules but the situation was
-> different there - the buildtools tarball always contained some of
-> Python so it's logical to make it pull in all of python.
+--001a113a9d8ace211f05092928f4
+Content-Type: text/plain; charset=UTF-8
+
+On 1 December 2014 at 15:13, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> Make nativesdk-python-core RRECOMMEND python-modules?
 >
-> It's nativesdk-packagegroup-sdk-host that's pulling in parts of Python
-> via it's dependency on smartpm.  This makes me think we need two
-> changes here:
->
-> 1) The toolchain should contain the packaging tools for the selected
-> packaging format of the images, not just smartpm.  So a SDK for a
-> opkg-based image should be shipping opkg, not smartpm.
 
-Agreed on smartpm, rpm is a bit of a different story due to where it
-gets used in the packaging process. As the SDK and build systems
-converge this gets a bit fuzzy :/.
-> 
-> 2) Toolchains should either ship no Python or all Python, because
-> dropping a partial Python into $PATH breaks user's expectations (the
-> same argument that was used for the buildtools).  Not sure how to do
-> this though, maybe the construction should inspect the installed
-> package list and if anything Python was installed, ensure
-> python-modules is also installed.
->
-> Comments?
-> 
-Make nativesdk-python-core RRECOMMEND python-modules?
+Makes sense, and is clean.  Patch incoming.
 
-Cheers,
+Ross
 
-Richard
+--001a113a9d8ace211f05092928f4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 1 December 2014 at 15:13, Richard Purdie <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.pu=
+rdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex"><div id=3D":o2" class=3D"a3s" style=3D"overflow:hidden">Make nativesd=
+k-python-core RRECOMMEND python-modules?<br></div></blockquote></div><br>Ma=
+kes sense, and is clean.=C2=A0 Patch incoming.</div><div class=3D"gmail_ext=
+ra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-
+--001a113a9d8ace211f05092928f4--
