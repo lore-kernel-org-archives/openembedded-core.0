@@ -1,36 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D40BC7226F
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id EA367605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Dec 2014 20:04:28 +0000 (UTC)
-Received: by mail-qc0-f181.google.com with SMTP id m20so8362280qcx.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Dec 2014 12:04:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=RQEZ8+pYytbvqKD/PWPW9UcDb1BRdkJyBdaAETBkYMc=;
-	b=IZ1F5n+FuojxJ4rugn7R/DSh26Z9uVtE1DihyW6to5eTez0S5sGKlOLiJUJL07035T
-	MTxq4RADWcTzbDBQaX9/l6zVooCWyGoNULx1FRKLsmyqkgMlKpzAoRURJdE1Z/mULnOW
-	LzOs0i38VnM02tz5YMxQBNXv+a70SQX5aITGJPq748qsUd8DmZCIj4RoXBe3iRk0lngZ
-	I/CDFaRb1B9V2Ns077Z+QFsbhV88Ty3PBK7tJPjxUR9r3ppNJuVKLdC5vqc2mJAJNTkl
-	pZOR8+VtPwVAueijvj9c38gpuA/omqGvVcUJ3RBO8l0W1wWyOz4YN6ZqfGw54vuwkw4n
-	lllg==
-X-Gm-Message-State: ALoCoQma+2HeucCrEGRPNk6qa+CZns1cGGpQunOQpi3XdxMgz9vXrfpIdRyUhW0h4Cq81PEh7bcX
-X-Received: by 10.224.25.146 with SMTP id z18mr81500336qab.17.1417464269053;
-	Mon, 01 Dec 2014 12:04:29 -0800 (PST)
+	Mon,  1 Dec 2014 22:37:02 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 01 Dec 2014 14:33:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,496,1413270000"; d="scan'208";a="646489167"
+Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.148])
+	by orsmga002.jf.intel.com with ESMTP; 01 Dec 2014 14:37:01 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Dec 2014 16:36:44 -0600
+Message-Id: <cover.1417466732.git.anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Mon, 1 Dec 2014 12:04:08 -0800 (PST)
-In-Reply-To: <f939838557a84721bbcf7fe509ef4c8c@BL2FFO11FD013.protection.gbl>
-References: <f939838557a84721bbcf7fe509ef4c8c@BL2FFO11FD013.protection.gbl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Dec 2014 20:04:08 +0000
-Message-ID: <CAJTo0LYYYsYW=896OVap=vkUz=26LRyawXo_q6pbE+Gfvi+H+A@mail.gmail.com>
-To: Ezra Savard <ezra.savard@xilinx.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [recipes-kernel][PATCH v2] powertop: update version number from 2.6.1 to 2.7
+Subject: [PATCH 0/3] Upgrades for comply Intel Graphics Stack Release 2014Q3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,41 +28,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Dec 2014 20:04:32 -0000
-Content-Type: multipart/alternative; boundary=047d7bdc8ac03d3b7f05092d1e5d
-
---047d7bdc8ac03d3b7f05092d1e5d
+X-List-Received-Date: Mon, 01 Dec 2014 22:37:13 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Testing was made building and running core-image-sato in qemux86, qemumips,
+and qemuarm also core-image-sato/core-image-weston in Intel NUC.
 
-On 1 December 2014 at 18:16, Ezra Savard <ezra.savard@xilinx.com> wrote:
+Tests freedesktop piglit was run in Intel NUC with 95% of tests passes
+(9251/9694), you can found full results at [1].
 
-> diff --git a/meta/recipes-kernel/powertop/powertop_2.6.1.bb
-> b/meta/recipes-kernel/powertop/powertop_2.7.bb
-> similarity index 100%
->
+[YOCTO #6805]
 
-The SRC_URI checksums haven't changed, so this will fail when fetching.
+[1] https://bugzilla.yoctoproject.org/attachment.cgi?id=2267
 
-Ross
+The following changes since commit b8631416f12b8a904ce3deb036f9d5ce632937b0:
 
---047d7bdc8ac03d3b7f05092d1e5d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+  package_regex.inc: Update REGEX'es in order to find upstream versions correctly (2014-11-28 14:03:02 +0000)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi,</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1 D=
-ecember 2014 at 18:16, Ezra Savard <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-ezra.savard@xilinx.com" target=3D"_blank">ezra.savard@xilinx.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4xh" class=3D"a3s=
-" style=3D"overflow:hidden">diff --git a/meta/recipes-kernel/powertop/<a hr=
-ef=3D"http://powertop_2.6.1.bb" target=3D"_blank">powertop_2.6.1.bb</a> b/m=
-eta/recipes-kernel/powertop/<a href=3D"http://powertop_2.7.bb" target=3D"_b=
-lank">powertop_2.7.bb</a><br>
-similarity index 100%<br></div></blockquote></div><br>The SRC_URI checksums=
- haven&#39;t changed, so this will fail when fetching.</div><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+are available in the git repository at:
 
---047d7bdc8ac03d3b7f05092d1e5d--
+  git://git.yoctoproject.org/poky-contrib alimon/linux_intel_graphics_2014q3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/linux_intel_graphics_2014q3
+
+Aníbal Limón (3):
+  libdrm: Upgrade to 2.4.58.
+  mesa: Upgrade to 10.3.3
+  xorg-xserver: Upgrade to 1.16.2
+
+ .../drm/libdrm/GNU_SOURCE_definition.patch         |  30 --
+ meta/recipes-graphics/drm/libdrm_2.4.54.bb         |   8 -
+ meta/recipes-graphics/drm/libdrm_2.4.58.bb         |   7 +
+ .../mesa/{mesa-gl_10.1.3.bb => mesa-gl_10.3.3.bb}  |   0
+ ..._sw-include-xlib_sw_winsys.h-only-when-HA.patch |  52 ---
+ ...ate-NativeDisplayType-depending-on-config.patch | 362 ---------------------
+ .../mesa/mesa/0006-fix-out-of-tree-egl.patch       |  48 ---
+ .../mesa/{mesa_10.1.3.bb => mesa_10.3.3.bb}        |   9 +-
+ meta/recipes-graphics/mesa/mesa_git.bb             |   9 +-
+ .../xorg-xserver/xserver-xorg/crosscompile.patch   |  22 --
+ .../xserver-xorg/mips64-compiler.patch             |  29 --
+ .../xorg-xserver/xserver-xorg/present-module.patch |  66 ----
+ ...erver-xorg_1.15.1.bb => xserver-xorg_1.16.2.bb} |   9 +-
+ 13 files changed, 16 insertions(+), 635 deletions(-)
+ delete mode 100644 meta/recipes-graphics/drm/libdrm/GNU_SOURCE_definition.patch
+ delete mode 100644 meta/recipes-graphics/drm/libdrm_2.4.54.bb
+ create mode 100644 meta/recipes-graphics/drm/libdrm_2.4.58.bb
+ rename meta/recipes-graphics/mesa/{mesa-gl_10.1.3.bb => mesa-gl_10.3.3.bb} (100%)
+ delete mode 100644 meta/recipes-graphics/mesa/mesa/0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch
+ delete mode 100644 meta/recipes-graphics/mesa/mesa/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+ delete mode 100644 meta/recipes-graphics/mesa/mesa/0006-fix-out-of-tree-egl.patch
+ rename meta/recipes-graphics/mesa/{mesa_10.1.3.bb => mesa_10.3.3.bb} (62%)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/crosscompile.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/mips64-compiler.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/present-module.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.15.1.bb => xserver-xorg_1.16.2.bb} (75%)
+
+-- 
+1.9.1
+
+
