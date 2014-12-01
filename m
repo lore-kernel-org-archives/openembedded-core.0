@@ -1,39 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ABF17240E
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 77C06718ED
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Dec 2014 16:37:32 +0000 (UTC)
-Received: by mail-wg0-f53.google.com with SMTP id l18so14650137wgh.40
+	Mon,  1 Dec 2014 16:45:02 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id f51so7727564qge.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Dec 2014 08:37:32 -0800 (PST)
+	Mon, 01 Dec 2014 08:45:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=Kyu8twtqoTvBcK8I1NeMB0ITq0qaL5okr9GgoWRo7+c=;
-	b=LhaSHWTe8jQxVAepqU2X7w6Z8y8iQtNb4PVXfe6gco3HhDyVLa6/NSpE9bt8MFcOa5
-	LVmcQgJY1GPazB/t7XYg8hC4lMHSNI0N66chwxeuPsX2xX2VFftPfm0m4GBrQLri3Kgb
-	ezbuLGmnyjwcNYAacW+jyHX0+OU/pUi6eTlCCqf49044UQ/qN7n9Pet+SoA6fDOJUpuj
-	la8m66mGtSisWwrMrR7qg6zeVNhYAwKPY+EoRKcC/TRYv/HZFA9Nq33W4Brpl6joIqRE
-	83H0zl6HRRU1tya9QuXjmXHUzAykVcA/2vi9YhY2mQ9R3CUafvJfC9Rc5p7dtKwxIb/t
-	CMhg==
-X-Gm-Message-State: ALoCoQnB3KUg+JG3wt4zytdv/de165TXeXyeoBhnnrJMsdaFehraGTmErh1KzLIQhUUAl7EQVHfc
-X-Received: by 10.194.81.6 with SMTP id v6mr93506954wjx.39.1417451852797;
-	Mon, 01 Dec 2014 08:37:32 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id l9sm1638863wic.21.2014.12.01.08.37.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Dec 2014 08:37:31 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Dec 2014 16:36:38 +0000
-Message-Id: <1417451798-28112-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1417451798-28112-1-git-send-email-ross.burton@intel.com>
-References: <1417451798-28112-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] python: remove spurious nativesdk dependency
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=HEnoDUjnurjn9xWtIXkFbKYWZLBr0gBdCPp+1arrluM=;
+	b=Cbv7cLv2HBHBv+XHJiCLx7dBguXVuwNLrng1Clab+yIxzeFW1gSOUe2APMDQmhEScP
+	pg3PLSoad5ercffNmBq6UlnLMXb2JwH1ngumDH/ZHuEpf6cWg3AYClTcfWdt6GQQgOGo
+	5NTa263nsnFZ4EjNEcDPwRYq5UgDoZLC90lnCZ+Y4pbEbxepxeMNgjxx7tnuzqzlp5kq
+	/+x8H6q/2mKuJjva5mANdwtsphimzfe1ZEwmaR58YVuGUcoC5UqA223P0vLp2bu2hZQB
+	g9avjNqcIbWwZgeJl6frtRB6IQluIDQunjV86Sf/4KWjs+zXQKQkWa8ZyJXeCAhZy3oL
+	4L9g==
+X-Gm-Message-State: ALoCoQlStgGWSzpi57OUFiKswlwFJwRC/hx5XVczz1U5WDoNIqZ1zQonVo/mHXMWWk31KhFzFfhD
+X-Received: by 10.140.96.101 with SMTP id j92mr86265201qge.87.1417452302920;
+	Mon, 01 Dec 2014 08:45:02 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.48.231 with HTTP; Mon, 1 Dec 2014 08:44:42 -0800 (PST)
+In-Reply-To: <3316034.dGek4aGvY6@peggleto-mobl5.ger.corp.intel.com>
+References: <1407438629-13369-1-git-send-email-marex@denx.de>
+	<CAJTo0Lbk2eOtBbOFj5d8oEpW6N9p3wmuw5kUMEqzsRKPyakt6w@mail.gmail.com>
+	<1417446810.15614.28.camel@linuxfoundation.org>
+	<3316034.dGek4aGvY6@peggleto-mobl5.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 1 Dec 2014 16:44:42 +0000
+Message-ID: <CAJTo0LayXWcmDG623USQP5Z081CooTM0JAzpW2bMaWV=cE6LxA@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Marek Vasut <marex@denx.de>, Koen Kooi <koen@dominion.thruhere.net>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Yocto: Install full set of python modules in Qt SDK toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,32 +47,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Dec 2014 16:37:32 -0000
+X-List-Received-Date: Mon, 01 Dec 2014 16:45:10 -0000
+Content-Type: multipart/alternative; boundary=001a113a9d8a00cd6e05092a55a4
 
-There's no need to add a dependency on python-crypt_class-native to
-nativesdk-openssl as the general dependency there is transformed appropriately.
+--001a113a9d8a00cd6e05092a55a4
+Content-Type: text/plain; charset=UTF-8
 
-Presumably this is cruft from back when SDK packages were suffixed instead of
-prefixed, and there were mapping problems.
+On 1 December 2014 at 15:21, Paul Eggleton <paul.eggleton@linux.intel.com>
+wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/python/python_2.7.3.bb |    1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
-index 7f13e22..9ded75b 100644
---- a/meta/recipes-devtools/python/python_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python_2.7.3.bb
-@@ -163,7 +163,6 @@ RPROVIDES_${PN}-core = "${PN}"
- RRECOMMENDS_${PN}-core = "${PN}-readline"
- RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python-modules"
- RRECOMMENDS_${PN}-crypt = "openssl"
--RRECOMMENDS_${PN}-crypt_class-nativesdk = "nativesdk-openssl"
- 
- # package libpython2
- PACKAGES =+ "lib${BPN}2"
--- 
-1.7.10.4
+> > Make nativesdk-python-core RRECOMMEND python-modules?
+>
+> This sounds like a reasonable option to me. The split as it is at the
+> moment
+> exists mainly for trimming the target; the SDK is perhaps less sensitive to
+> size constraints.
 
 
+Patch sent.
+
+Ross
+
+--001a113a9d8a00cd6e05092a55a4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 1 December 2014 at 15:21, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@linu=
+x.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span c=
+lass=3D"">&gt; Make nativesdk-python-core RRECOMMEND python-modules?<br>
+<br>
+</span>This sounds like a reasonable option to me. The split as it is at th=
+e moment<br>
+exists mainly for trimming the target; the SDK is perhaps less sensitive to=
+<br>
+size constraints.</blockquote></div><br>Patch sent.</div><div class=3D"gmai=
+l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113a9d8a00cd6e05092a55a4--
