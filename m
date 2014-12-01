@@ -1,37 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 02F41723EB
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-vc0-f174.google.com (mail-vc0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C87AC72312
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Dec 2014 13:26:07 +0000 (UTC)
-Received: by mail-wi0-f175.google.com with SMTP id l15so24573113wiw.14
+	Mon,  1 Dec 2014 14:20:33 +0000 (UTC)
+Received: by mail-vc0-f174.google.com with SMTP id id10so4694464vcb.33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Dec 2014 05:26:08 -0800 (PST)
+	Mon, 01 Dec 2014 06:20:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=cP0R4ej2e1q9ut++UJLAlP7R3m62Beqc8GjrNxHpuBs=;
-	b=IZQYoxaf5I8ErXXugOuLN9lm0FP1+fbTzFrMCnxxF6UbXXKuysSeNwcS1kKlFiNl5A
-	s5dxztmUSdJ0jqFCAN+1sXTWAlEqDjh/3E4/64NhU8pX2wSvIe7QcOxagAT50AHpHH0m
-	E8IHwyAE8Z/00r2PNuYISGAKGvU5KxvDwns/5odmP6kAReU0bZnxr/i43YiuS0JNko/D
-	vCFuuIA2fc/M6j0qeHdW/WP+V38u+0w7WuTeHjR35RtihhNmF9ix38olfF3UUAxSjPxU
-	GeYYCsdVAq6fr9mXMLknr7tR6TFO2Cvd6gG/h89bCgj1XNuuwsgsEPCh8rWQUEkFX6tg
-	Uwzg==
-X-Gm-Message-State: ALoCoQkzAbhENrKFw3EPuIQlcPeRKvSbNx1vYq6GcH13ivb+eVTy5SBLE1O7TKWEbwUWgnk2BIq5
-X-Received: by 10.180.85.34 with SMTP id e2mr80656907wiz.0.1417440368139;
-	Mon, 01 Dec 2014 05:26:08 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id n8sm27603462wjx.0.2014.12.01.05.26.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Dec 2014 05:26:06 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Dec 2014 13:25:44 +0000
-Message-Id: <1417440344-9557-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] gdb: disable Guile
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=0m5xHnH3zUMy6wKl6cKLP3HfnIF5DigIIYtIjbfU2Oc=;
+	b=MVHD3Wboy9s8FjfQ46Nw2HgAnfhW40n70FVJHi2hKUrFX1S+GtIEIV6JHfcqjlRo0W
+	BzaCINUcfR7Qq/4JeoMv9FZZ5Hbe/OA751nB9zocYH5s4lkAtV/SWw+/e9s9qDHTRtbG
+	PulemvS+PUNPcxBgRXV9CwkVQyu32DnOwSXWTHfdo8532VT0KfqIcgiN1XJ7ebxh4jQm
+	wB1TSTlBOFK7G77tBl7TiITezUwuvlwLlZrvZPtcRACdp/O0ERW4dhF9NTtuRZjX7Kbo
+	jdmaYliNdAexe/KRMM7nG3MQOei+8AutovPajGwNzBfRfGlVzYCMPCUS6w/0nAyi9p6Q
+	2ScA==
+X-Gm-Message-State: ALoCoQlLV/4E2/7xlEQw/mlJO5dvL5as9F2UedRfa7JSM3Exgtuciru+GBJVKqqhJeYiV7cspKwh
+MIME-Version: 1.0
+X-Received: by 10.52.18.98 with SMTP id v2mr23515595vdd.86.1417443634488; Mon,
+	01 Dec 2014 06:20:34 -0800 (PST)
+Sender: lpapp@archlinux.us
+Received: by 10.31.188.129 with HTTP; Mon, 1 Dec 2014 06:20:34 -0800 (PST)
+In-Reply-To: <CAJTo0LYAOW8YC4bOU9068DFRy0wu67CcF8ztt-1_XPAV9XmC6w@mail.gmail.com>
+References: <CAOMwXhPV+N=m+VBZhk70DzZBAXt_QDjMhxm=sy+R9aO1zNpWNA@mail.gmail.com>
+	<CAJTo0LYAOW8YC4bOU9068DFRy0wu67CcF8ztt-1_XPAV9XmC6w@mail.gmail.com>
+Date: Mon, 1 Dec 2014 14:20:34 +0000
+X-Google-Sender-Auth: O7D5wbj4EXXX-0rf40DTIuETNVI
+Message-ID: <CAOMwXhM8bBvA0V=HuYYbm8Di_p7KQNTDh9PEftgOVTEp_-8dzQ@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Saul Wold <saul.wold@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv3] toolchain-script: Add support for ccache builds with the SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,34 +47,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Dec 2014 13:26:14 -0000
+X-List-Received-Date: Mon, 01 Dec 2014 14:20:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-GDB 7.8 added Guile support, and it will auto-detect if Guile is present (which
-is non-deterministic, so bad), and if it's present will fail to find the guild
-binary as it doesn't consider the sysroot.
+On Sat, Nov 29, 2014 at 8:12 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 29 November 2014 at 08:46, Laszlo Papp <lpapp@kde.org> wrote:
+>>
+>> Including both Richard Purdie and Saul Wold as they were the main
+>> criticizers last time in the beginning of September when I submitted
+>> the first version of this patch.
+>
+>
+> I've merged this into my staging branch now that the point of the patch is
+> clear.
 
-For now disable Guile support in GDB, if there is a need to have it enabled in
-the future then GDB/Guile can be fixed.
+Thanks!
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/gdb/gdb-common.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
-index 599b405..a902f9a 100644
---- a/meta/recipes-devtools/gdb/gdb-common.inc
-+++ b/meta/recipes-devtools/gdb/gdb-common.inc
-@@ -38,7 +38,7 @@ EXPAT = "--with-expat --with-libexpat-prefix=${STAGING_DIR_HOST}"
- 
- EXTRA_OECONF = "--disable-gdbtk --disable-tui --disable-x --disable-werror \
-                 --with-curses --disable-multilib --with-system-readline --disable-sim \
--                --without-lzma \
-+                --without-lzma --without-guile \
-                 ${GDBPROPREFIX} ${EXPAT} \
-                 ${@bb.utils.contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)} \
-                 --disable-rpath \
--- 
-1.7.10.4
-
+>
+> Ross
 
