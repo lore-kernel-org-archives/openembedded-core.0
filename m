@@ -1,24 +1,38 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D7BA360030
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 93C2660232
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Dec 2014 09:40:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sB29eet5017120
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Tue,  2 Dec 2014 10:07:47 +0000 (UTC)
+Received: by mail-ob0-f182.google.com with SMTP id wo20so2264482obc.41
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Dec 2014 01:40:41 -0800 (PST)
-Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 2 Dec 2014 01:40:40 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 2 Dec 2014 04:40:38 -0500
-Message-ID: <1417513238-29773-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.0.0
+	Tue, 02 Dec 2014 02:07:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=drhcOVUyxsSmsP20g217rtiDWIHha7POeX3eXC4Wgbs=;
+	b=TjmANmsb/vdBGkyuKZUi21yfmBaeHPX0CFbD2cdSwxSYXXdLiA/Z/pZECv23wBywKe
+	JOJ8W25Dx2pd2DKsP+w+VjjD1aW4Hx+zVWLNZx2Ybqih2JX0BjEV6umCbA8Y2KS+REuv
+	2dYvVEvkOMqaC29WiBSzO47EvlPgoLG01qAlo0HQemnkeBlr07xHH7Wr/83kfVSwgAUD
+	dYNFBBQvzlDPHvJLoPY4xmmISLdXtSMMPJE90uEuwev4eOBbejoupxzB6mSErjV4W+0M
+	KjftHOmi6nneUxQveHaoEC3+sYEQZwtCZiTGL/XFqJ5rVLEwXqEr4VM0Z7z20iRR+T3w
+	FoZQ==
+X-Gm-Message-State: ALoCoQljIy3MPPlq4qkfLlq/E3/CGw/mMM8+KPbn54SxMfymo2hgvwoKDfetOHJpr709MkQDrGdz
+X-Received: by 10.60.145.167 with SMTP id sv7mr38830261oeb.38.1417514868062;
+	Tue, 02 Dec 2014 02:07:48 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] util-linux: add switch_root to alternatives list
+Received: by 10.76.159.138 with HTTP; Tue, 2 Dec 2014 02:07:27 -0800 (PST)
+In-Reply-To: <77c054ff36774c9013ea046024489cabca8102e7.1417466738.git.anibal.limon@linux.intel.com>
+References: <cover.1417466732.git.anibal.limon@linux.intel.com>
+	<77c054ff36774c9013ea046024489cabca8102e7.1417466738.git.anibal.limon@linux.intel.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Tue, 2 Dec 2014 11:07:27 +0100
+Message-ID: <CAP71WjxaCpKBUOadPKxJCwZb6qAUrs_3icwqxOQDNkb9VN_9WQ@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] mesa: Upgrade to 10.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,50 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Dec 2014 09:40:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 02 Dec 2014 10:07:51 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On Mon, Dec 1, 2014 at 11:36 PM, An=C3=ADbal Lim=C3=B3n
+<anibal.limon@linux.intel.com> wrote:
+> -SRCREV =3D "0028eb1083e6adc110a23a5f02c993cda217067a"
+> -PV =3D "10.1.3+git${SRCPV}"
+> +SRCREV =3D "9cc26056ee13f25c5785fef81b31487f1429baa4"
+> +PV =3D "10.3.3+git${SRCPV}"
 
-switch_root is provided by both busybox in /sbin/switch_root and util-linux provides one
-in /usr/sbin/switch_root, so move util-linux's to sbin and setup ALTERNATIVE_LINK.
+10.3.4 has been ~2 weeks ago, can't we use this one instead?
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+in the mean time, I am going to test this series on a non Intel
+platform (ARM based Snapdragon using Mesa/gallium freedreno driver)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index a37efe9..e6c00e4 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -136,7 +136,7 @@ do_install () {
- 	mkdir -p ${D}${base_bindir}
- 
-         sbinprogs="agetty ctrlaltdel cfdisk vipw vigr"
--        sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk readprofile fsck blkid blockdev fstrim sulogin"
-+        sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk readprofile fsck blkid blockdev fstrim sulogin switch_root"
-         usrbinprogs_a="chfn chsh hexdump last logger mesg newgrp renice utmpdump wall setsid chrt flock getopt"
-         binprogs_a="dmesg kill more umount mount login reset su"
- 
-@@ -168,7 +168,7 @@ inherit update-alternatives
- 
- ALTERNATIVE_PRIORITY = "100"
- 
--ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root"
-+ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root switch_root"
- ALTERNATIVE_${PN} += "mkfs.minix hexdump last logger mesg renice wall"
- ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject sulogin"
- 
-@@ -178,6 +178,7 @@ ALTERNATIVE_LINK_NAME[more] = "${base_bindir}/more"
- ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
- ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
- ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
-+ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
- ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
- ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
- ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
--- 
-2.0.0
+>
+> -SRC_URI =3D "git://anongit.freedesktop.org/git/mesa/mesa;branch=3D10.1 \
+> -           file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when=
+-HA.patch \
+> -           file://0006-fix-out-of-tree-egl.patch \
+> -           "
 
+awesome to get rid of those , and finally use a vanilla upstream..
+
+> +SRC_URI =3D "git://anongit.freedesktop.org/git/mesa/mesa;branch=3D10.3"
+>
+>  S =3D "${WORKDIR}/git"
 
