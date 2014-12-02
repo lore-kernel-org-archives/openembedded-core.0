@@ -1,54 +1,51 @@
-Return-Path: <ezra.savard@xilinx.com>
-X-Greylist: delayed 87366 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 02 Dec 2014 18:32:17 UTC
-Received: from na01-by2-obe.outbound.protection.outlook.com
-	(mail-by2on0081.outbound.protection.outlook.com [207.46.100.81])
-	by mail.openembedded.org (Postfix) with ESMTP id 08659601A0
+Return-Path: <peter.kjellerstedt@axis.com>
+X-Greylist: delayed 567 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 02 Dec 2014 18:37:22 UTC
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 4037D601A0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Dec 2014 18:32:17 +0000 (UTC)
-Received: from BY2FFO11FD057.protection.gbl (10.1.14.33) by
-	BY2FFO11HUB009.protection.gbl (10.1.14.165) with Microsoft SMTP Server
-	(TLS) id 15.1.6.13; Tue, 2 Dec 2014 18:32:15 +0000
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
-	BY2FFO11FD057.mail.protection.outlook.com (10.1.15.185) with Microsoft
-	SMTP Server (TLS) id 15.1.6.13 via Frontend Transport;
-	Tue, 2 Dec 2014 18:32:16 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-	(envelope-from <ezra.savard@xilinx.com>) id 1XvsCi-0006OM-FI
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Dec 2014 10:29:40 -0800
-From: Ezra Savard <ezra.savard@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 2 Dec 2014 10:31:57 -0800
-X-Mailer: git-send-email 2.1.0
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-7.5.0.1018-21146.001
-X-TM-AS-Result: No--4.543-7.0-31-1
-X-imss-scan-details: No--4.543-7.0-31-1;No--4.543-5.0-31-1
-X-TM-AS-User-Approved-Sender: No;No
-Message-ID: <c8cce9c951214be48689c2a40c2d6203@BY2FFO11FD057.protection.gbl>
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; IPV:NLI; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(6009001)(438002)(189002)(199003)(46102003)(450100001)(50986999)(74316001)(15395725005)(53416004)(575784001)(4396001)(77156002)(120916001)(110136001)(106466001)(48376002)(88136002)(15202345003)(62966003)(50226001)(20776003)(64706001)(86362001)(92566001)(93916002)(104016003)(19580405001)(50466002)(19580395003)(108616004)(89996001)(47776003)(21056001)(15975445006)(6806004)(99396003)(87286001)(31966008)(44976005)(107046002)(102836001)(229853001)(2351001)(95666004)(87936001)(104166001)(107986001)(24736002)(23106004);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BY2FFO11HUB009;
-	H:xsj-pvapsmtpgw01; FPR:; MLV:sfv; PTR:unknown-60-83.xilinx.com;
-	MX:1; A:1; LANG:en; 
+	Tue,  2 Dec 2014 18:37:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 209912E322;
+	Tue,  2 Dec 2014 19:27:54 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id Lo4lEd0oqIfc; Tue,  2 Dec 2014 19:27:48 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id A0B0C2E07C;
+	Tue,  2 Dec 2014 19:27:48 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 7CE15F8C;
+	Tue,  2 Dec 2014 19:27:48 +0100 (CET)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 701F7F42;
+	Tue,  2 Dec 2014 19:27:48 +0100 (CET)
+Received: from xmail4.se.axis.com (xmail4.se.axis.com [10.0.5.46])
+	by thoth.se.axis.com (Postfix) with ESMTP id 6C712342A8;
+	Tue,  2 Dec 2014 19:27:48 +0100 (CET)
+Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail4.se.axis.com
+	([fe80::2dfa:6a3a:302a:d4e8%14]) with mapi;
+	Tue, 2 Dec 2014 19:27:48 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Fabrice Coulon <fabrice@axis.com>,
+	"OE Core (openembedded-core@lists.openembedded.org)"
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 2 Dec 2014 19:27:46 +0100
+Thread-Topic: Why is systemd installed to / (was: [yocto] Export bitbake
+	variables between recipes)
+Thread-Index: AdAOXapqwVhRF1POQG+rIjr6/rDPMw==
+Message-ID: <A612847CFE53224C91B23E3A5B48BAC7ACF18D3E7B@xmail3.se.axis.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
 MIME-Version: 1.0
-X-Microsoft-Antispam: UriScan:;
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2FFO11HUB009;
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:;SRVR:BY2FFO11HUB009;
-X-Forefront-PRVS: 0413C9F1ED
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
-	smtp.mailfrom=ezra.savard@xilinx.com; 
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:;SRVR:BY2FFO11HUB009;
-X-OriginatorOrg: xilinx.com
-Subject: [recipes-kernel][PATCH v3] powertop: update version number from 2.6.1 to 2.7
+Cc: Henning Heinold <heinold@inf.fu-berlin.de>,
+	"Koen Kooi \(koen@dominion.thruhere.net\)" <koen@dominion.thruhere.net>
+Subject: Why is systemd installed to / (was: [yocto] Export bitbake variables between recipes)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,43 +58,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Dec 2014 18:32:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 02 Dec 2014 18:37:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The v2.7 release of powertop fixes devfreq support for ARM, along with
-other bug fixes.
+[ I am moving this discussion to the OE-core list as I believe=20
+  that is where it belongs. ]
 
-v2: deletes old file
-v3: fixed SRC_URI and checksums
+> -----Original Message-----
+> From: yocto-bounces@yoctoproject.org [mailto:yocto-
+> bounces@yoctoproject.org] On Behalf Of Paul Eggleton
+> Sent: den 2 december 2014 15:07
+> To: Fabrice Coulon
+> Cc: yocto@yoctoproject.org
+> Subject: Re: [yocto] Export bitbake variables between recipes
+>=20
+> Hi Fabrice,
+>=20
+> On Tuesday 02 December 2014 14:07:40 Fabrice Coulon wrote:
+> > Is it possible to export one bitbake variable from one recipe=20
+> > and make it available from inside another recipe? For example:=20
+> > we want to export from our systemd_%.bbappend where the=20
+> > systemctl command has been installed, in order to, from another=20
+> > recipe depending on systemd, refer to the absolute path where=20
+> > systemctl was installed. Any ideas or suggestions on how to do
+> > that?
+>=20
+> There's no mechanism to do this, no. The only way for this kind of
+> thing to work is for it to be specified at the configuration level=20
+> (e.g. ${bindir} points to the subdirectory /usr/bin and this variable=20
+> would be used both when choosing where the executable should be=20
+> installed and finding it later - this would typically be how this=20
+> kind of problem would be solved since it would be unusual to have=20
+> systemctl installed somewhere other than ${bindir}).
 
-Signed-off-by: Ezra Savard <ezra.savard@xilinx.com>
----
- meta/recipes-kernel/powertop/{powertop_2.6.1.bb => powertop_2.7.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-kernel/powertop/{powertop_2.6.1.bb => powertop_2.7.bb} (82%)
+Actually, since the systemd recipe in Poky is configured in an=20
+extremely weird way (using --with-rootprefix=3D${base_prefix} and=20
+--with-rootlib=3D${base_libdir}), systemctl actually ends up in=20
+${base_bindir} rather than ${bindir}. And this is the whole reason=20
+for our troubles since everything else we had prior to switching=20
+to Poky expected systemd to be installed in /usr...
 
-diff --git a/meta/recipes-kernel/powertop/powertop_2.6.1.bb b/meta/recipes-kernel/powertop/powertop_2.7.bb
-similarity index 82%
-rename from meta/recipes-kernel/powertop/powertop_2.6.1.bb
-rename to meta/recipes-kernel/powertop/powertop_2.7.bb
-index 58216c2d1516..dce5d715fdd2 100644
---- a/meta/recipes-kernel/powertop/powertop_2.6.1.bb
-+++ b/meta/recipes-kernel/powertop/powertop_2.7.bb
-@@ -6,10 +6,10 @@ DEPENDS = "ncurses libnl pciutils"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
- 
--SRC_URI = "http://01.org/powertop/sites/default/files/downloads/powertop-${PV}.tar.gz"
-+SRC_URI = "http://01.org/sites/default/files/downloads/powertop/powertop-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "4391e7b0af854ecf722cdf712f24b631"
--SRC_URI[sha256sum] = "034cde6d5bb433fe0d29251d5cde5d4c2948abf05fe29ef10966b659331b20e4"
-+SRC_URI[md5sum] = "e0d686e47daaf7e9d89031f7763432ef"
-+SRC_URI[sha256sum] = "8d4b1490e2baad4467c0ded3c423db4472dcbf7b2dd8f8f2a928f54047c678ca"
- 
- inherit autotools gettext pkgconfig
- 
--- 
-2.1.0
+Can anyone please explain why OE-core installs systemd to / rather=20
+than /usr? Because I have traced the recipe all the way back to its=20
+introduction in OE classic, and I cannot find any rationale for=20
+this odd decision. And it is extra weird given the systemd authors'=20
+agenda that everything should be in /usr (and /etc)...
+
+> (Another alternative is pkg-config, but I don't think that really
+> applies in this situation.)
+
+Nope.
+
+> Cheers,
+> Paul
+>=20
+> --
+>=20
+> Paul Eggleton
+> Intel Open Source Technology Centre
+
+//Peter
+
 
 
