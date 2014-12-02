@@ -1,37 +1,40 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id D5A7F60144
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id F2314601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Dec 2014 15:30:48 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id x69so9331067oia.12
+	Tue,  2 Dec 2014 15:36:53 +0000 (UTC)
+Received: by mail-qc0-f176.google.com with SMTP id i17so9545591qcy.21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Dec 2014 07:30:49 -0800 (PST)
+	Tue, 02 Dec 2014 07:36:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=VgWEX56JDXR6omNlATPIOw71YGHTt91J6DMFdtLnUBU=;
-	b=BHXMj260xIq7mUZk19nnEEOzr4YzIL5wmcIvSlYIjllrIvgTw5LtFX23zeN9L32+fT
-	sQZiafS6PM3dBA6i5NqCJgfTsXFEz/AiYVXn1wMsv9C47aDBMKsurh9dsuYepKsnYWOs
-	nbz+XXrfEb1cUF434Z4UMxeHbYP+W+Q+nA/ZOoRtPzsNnfKqDOqZPbX6OjsctPZKxXLv
-	KRw1qF5B2fOZyu8PjnLrWFXSqllPa9+C34iL6ojWcw5d495iRB6S5oeszlAUmPIpEmc/
-	Nw8hNVKQA+SWlJeSdoGb65eElgdKzTB2VU5E911A39vQ6yAD/QjZ89BLJwEPuc4XIOq5
-	krDA==
-X-Gm-Message-State: ALoCoQn5ePb9jJRA/z+zcXVLK4wbWdMcLgxqOLb0ZI4YS4Gk81kztu5AzZhJieCt28IPg61g9OPt
-X-Received: by 10.60.145.167 with SMTP id sv7mr39766102oeb.38.1417534248923;
-	Tue, 02 Dec 2014 07:30:48 -0800 (PST)
+	:message-id:subject:to:cc:content-type;
+	bh=GGyUPcRt3MaNfMrinhqR6aT2Vm5KTdqv1D455h68P0M=;
+	b=ki6oRoDQgKWr9PLelbrtOx/wjqDPct8+haWfEx50hMfcDjYHcn6zeB38oyYI+hlqBU
+	qc/e0cMegXZUMJHoxSM2DdnvpGwvJOIr4jK5sp7tfywSoGP9VFIeEK0DU8LYEAYTR7zw
+	PhsTBu7kR1wPhFEu/fwGZO0TeR6q2VkxBMHRtTGTUetkgy01D6to20fF9JbLUWSNWPto
+	oboU2mRkD3PeB+gU+drjZvV7RZOTJcvoeDviRJmYK8soBXN4vKdWL3U1O7FIyq/GYnea
+	JNiPXRhVqfPJVmwYDMJ0q9sHTV1cr1MjFqySPZcvWGM92U7pFF5aVHn0IqL+otuS+kdo
+	+TIg==
+X-Gm-Message-State: ALoCoQlHSZjFgg+FttVQv3Ja2tLVOLbG4WR1tzCcnOqzFMNve0jiPAdKGXJ3VbhB3NOdv8fUFPDU
+X-Received: by 10.140.96.101 with SMTP id j92mr94633241qge.87.1417534613807;
+	Tue, 02 Dec 2014 07:36:53 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.76.159.138 with HTTP; Tue, 2 Dec 2014 07:30:28 -0800 (PST)
-In-Reply-To: <cover.1417466732.git.anibal.limon@linux.intel.com>
+Received: by 10.140.48.231 with HTTP; Tue, 2 Dec 2014 07:36:33 -0800 (PST)
+In-Reply-To: <547DD1A8.6040006@linux.intel.com>
 References: <cover.1417466732.git.anibal.limon@linux.intel.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Tue, 2 Dec 2014 16:30:28 +0100
-Message-ID: <CAP71WjzP8mBdp3TC=+CTw2Sv_iNB2MudqV=SpuAjuvSZ8mSv2A@mail.gmail.com>
+	<434556f7b955c934a5eabbd8125d46aab0ffbde2.1417466738.git.anibal.limon@linux.intel.com>
+	<CAP71WjzO2sg-RbY=51Nu89=hcahNqP0NhVYUCCJX3=eTYz87Hg@mail.gmail.com>
+	<547DD1A8.6040006@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 2 Dec 2014 15:36:33 +0000
+Message-ID: <CAJTo0Lad9KVH6MKcC3kFuGjSm7420hGo_=uaw0u7xnfhviafNg@mail.gmail.com>
 To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Upgrades for comply Intel Graphics Stack Release 2014Q3
+Subject: Re: [PATCH 3/3] xorg-xserver: Upgrade to 1.16.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,55 +47,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Dec 2014 15:30:50 -0000
+X-List-Received-Date: Tue, 02 Dec 2014 15:36:58 -0000
+Content-Type: multipart/alternative; boundary=001a113a9d8a1d032205093d7f32
+
+--001a113a9d8a1d032205093d7f32
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-hi,
+On 2 December 2014 at 14:50, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.int=
+el.com>
+wrote:
 
-On Mon, Dec 1, 2014 at 11:36 PM, An=C3=ADbal Lim=C3=B3n
-<anibal.limon@linux.intel.com> wrote:
-> Testing was made building and running core-image-sato in qemux86, qemumip=
-s,
-> and qemuarm also core-image-sato/core-image-weston in Intel NUC.
+> I don't see this warning, i ran with (log attached),
 >
-> Tests freedesktop piglit was run in Intel NUC with 95% of tests passes
-> (9251/9694), you can found full results at [1].
+> $ bitbake xserver-xorg -v -D
 >
-> [YOCTO #6805]
->
-> [1] https://bugzilla.yoctoproject.org/attachment.cgi?id=3D2267
->
-> The following changes since commit b8631416f12b8a904ce3deb036f9d5ce632937=
-b0:
->
->   package_regex.inc: Update REGEX'es in order to find upstream versions c=
-orrectly (2014-11-28 14:03:02 +0000)
->
-> are available in the git repository at:
->
->   git://git.yoctoproject.org/poky-contrib alimon/linux_intel_graphics_201=
-4q3
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dalimon/linux=
-_intel_graphics_2014q3
->
-> An=C3=ADbal Lim=C3=B3n (3):
->   libdrm: Upgrade to 2.4.58.
->   mesa: Upgrade to 10.3.3
->   xorg-xserver: Upgrade to 1.16.2
 
-I have tested this series on IFC6410 board (Snapdragon 600, with
-Adreno 320 GPU) using freedreno Mesa/Gallium driver, using [1].
+So the warning means that xserver linked against dbus but it isn't in the
+build dependencies.  To replicate, you'll need to bitbake dbus and then
+cleansstate and rebuild xserver-xorg.
 
-tested GLX and EGL with Xorg 1.16. Also tested the OutputClass feature
-available in 1.16.
+The point here is that xserver-xorg is auto-detecting optional dependencies
+which results in non-deterministic builds.  Can you look at what DBus is
+used for in xserver-xorg, and determine if we should always require dbus,
+never require dbus, or have an option and if we have an option, what do we
+default it to.
 
-it all looks good to me, so fwiw, all patches can have:
+Ross
 
-Tested-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+--001a113a9d8a1d032205093d7f32
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-cheers.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 December 2014 at 14:50, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.lim=
+on@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<div id=3D":57b" class=3D"a3s" style=3D"overflow:hidden">I don&#39;t see th=
+is warning, i ran with (log attached),<br>
+<br>
+$ bitbake xserver-xorg -v -D</div></blockquote><div><br></div><div>So the w=
+arning means that xserver linked against dbus but it isn&#39;t in the build=
+ dependencies.=C2=A0 To replicate, you&#39;ll need to bitbake dbus and then=
+ cleansstate and rebuild xserver-xorg.</div><div><br></div><div>The point h=
+ere is that xserver-xorg is auto-detecting optional dependencies which resu=
+lts in non-deterministic builds.=C2=A0 Can you look at what DBus is used fo=
+r in xserver-xorg, and determine if we should always require dbus, never re=
+quire dbus, or have an option and if we have an option, what do we default =
+it to.</div><div><br></div><div>Ross</div></div></div></div>
 
-[1] https://git.linaro.org/people/nicolas.dechesne/meta-qualcomm.git/shortl=
-og/refs/heads/xorg-1.16
-
+--001a113a9d8a1d032205093d7f32--
