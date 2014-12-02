@@ -1,28 +1,44 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A3E3B72278
+Return-Path: <B40290@freescale.com>
+X-Greylist: delayed 907 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 02 Dec 2014 04:05:17 UTC
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bon0132.outbound.protection.outlook.com [157.56.111.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DB6F72200
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Dec 2014 01:35:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sB21ZhcF012674
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Dec 2014 17:35:44 -0800 (PST)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Mon, 1 Dec 2014 17:35:43 -0800
-Message-ID: <547D176C.3010107@windriver.com>
-Date: Tue, 2 Dec 2014 09:35:40 +0800
-From: Chong Lu <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Tue,  2 Dec 2014 04:05:17 +0000 (UTC)
+Received: from BY2PR03MB441.namprd03.prod.outlook.com (10.141.141.142) by
+	BY2PR03MB444.namprd03.prod.outlook.com (10.141.141.154) with Microsoft
+	SMTP Server (TLS) id 15.1.26.15; Tue, 2 Dec 2014 03:50:26 +0000
+Received: from BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) by
+	BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) with mapi id
+	15.01.0026.003; Tue, 2 Dec 2014 03:50:26 +0000
+From: "B40290@freescale.com" <B40290@freescale.com>
+To: "B40290@freescale.com" <B40290@freescale.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core][PATCH v2 1/2] uboot-config.bbclass: Allow multiple
+	U-Boot config for machine
+Thread-Index: AQHQB6bq08DqnO8hA0C9AEVaE2KgsZx7tt/Q
+Date: Tue, 2 Dec 2014 03:50:26 +0000
+Message-ID: <BY2PR03MB441E1542D0395E6BAFE4571847A0@BY2PR03MB441.namprd03.prod.outlook.com>
+References: <1416806658-15685-1-git-send-email-B40290@freescale.com>
+In-Reply-To: <1416806658-15685-1-git-send-email-B40290@freescale.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [123.151.195.52]
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB444;
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB444;
+x-forefront-prvs: 0413C9F1ED
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(377454003)(199003)(13464003)(189002)(92566001)(46102003)(106356001)(74316001)(105586002)(106116001)(107046002)(95666004)(99286002)(31966008)(92726001)(99396003)(4396001)(120916001)(101416001)(97736003)(21056001)(87936001)(19580405001)(2656002)(33656002)(86362001)(54606007)(76176999)(50986999)(54356999)(40100003)(19580395003)(54206007)(122556002)(20776003)(64706001)(450100001)(76576001)(68736005)(66066001)(62966003)(77156002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BY2PR03MB444;
+	H:BY2PR03MB441.namprd03.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1416815305.git.Chong.Lu@windriver.com>
-In-Reply-To: <cover.1416815305.git.Chong.Lu@windriver.com>
-X-Originating-IP: [128.224.162.204]
-Subject: Re: [PATCH 0/5] Upgrade dbus and dbus-glib
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH v2 1/2] uboot-config.bbclass: Allow multiple U-Boot config for machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +51,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Dec 2014 01:35:50 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Dec 2014 04:05:21 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-ping
+Ping.
 
-//Chong
+-----Original Message-----
+From: Chunrong Guo [mailto:B40290@freescale.com]=20
+Sent: Monday, November 24, 2014 1:24 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Liu Ting-B28495; Luo Zhenhua-B19537; Guo Chunrong-B40290; Guo Chunrong-=
+B40290
+Subject: [OE-core][PATCH v2 1/2] uboot-config.bbclass: Allow multiple U-Boo=
+t config for machine
 
-On 11/24/2014 03:49 PM, Chong Lu wrote:
-> The following changes since commit edaeb8940813b620090a0797ad3b6a076897512d:
->
->    bitbake: cooker.py: fix loginfo op being set to an invalid value (2014-11-12 17:04:50 +0000)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib chonglu/dbus
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/dbus
->
-> Chong Lu (5):
->    dbus: Upgrade to 1.8.10
->    dbus-test: Upgrade to 1.8.10
->    dbus-glib: Upgrade to 0.102
->    connman-gnome: fix dbus interface name
->    upstream_tracking.inc: update entries for dbus
->
->   .../conf/distro/include/upstream_tracking.inc      |   2 +-
->   .../connman-gnome-fix-dbus-interface-name.patch    | 187 +++++++++++++++++++++
->   .../connman/connman-gnome_0.7.bb                   |   7 +-
->   .../obsolete_automake_macros.patch                 |  15 --
->   meta/recipes-core/dbus/dbus-glib.inc               |   1 -
->   .../no-examples.patch                              |   0
->   .../test-install-makefile.patch                    |  57 ++++---
->   meta/recipes-core/dbus/dbus-glib_0.100.2.bb        |   5 -
->   meta/recipes-core/dbus/dbus-glib_0.102.bb          |   5 +
->   .../{dbus-test_1.8.2.bb => dbus-test_1.8.10.bb}    |   0
->   meta/recipes-core/dbus/dbus_1.8.10.bb              |   4 +
->   meta/recipes-core/dbus/dbus_1.8.2.bb               |   4 -
->   12 files changed, 234 insertions(+), 53 deletions(-)
->   create mode 100644 meta/recipes-connectivity/connman/connman-gnome/connman-gnome-fix-dbus-interface-name.patch
->   delete mode 100644 meta/recipes-core/dbus/dbus-glib-0.100.2/obsolete_automake_macros.patch
->   rename meta/recipes-core/dbus/{dbus-glib-0.100.2 => dbus-glib}/no-examples.patch (100%)
->   rename meta/recipes-core/dbus/{dbus-glib-0.100.2 => dbus-glib}/test-install-makefile.patch (66%)
->   delete mode 100644 meta/recipes-core/dbus/dbus-glib_0.100.2.bb
->   create mode 100644 meta/recipes-core/dbus/dbus-glib_0.102.bb
->   rename meta/recipes-core/dbus/{dbus-test_1.8.2.bb => dbus-test_1.8.10.bb} (100%)
->   create mode 100644 meta/recipes-core/dbus/dbus_1.8.10.bb
->   delete mode 100644 meta/recipes-core/dbus/dbus_1.8.2.bb
->
+   This adds support to build multiple U-Boot configs for a machine; this
+   is useful when we have support for different media boots which require
+   different U-Boot configuration (e.g: eMMC and NAND).
+
+Signed-off-by: Chunrong Guo <B40290@freescale.com>
+---
+ meta/classes/uboot-config.bbclass | 42 +++++++++++++++--------------------=
+----
+ 1 file changed, 16 insertions(+), 26 deletions(-)
+
+diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.=
+bbclass
+index 8ac1b71..f70ca88 100644
+--- a/meta/classes/uboot-config.bbclass
++++ b/meta/classes/uboot-config.bbclass
+@@ -31,31 +31,21 @@ python () {
+         return
+=20
+     ubootconfig =3D (d.getVar('UBOOT_CONFIG', True) or "").split()
+-    if len(ubootconfig) > 1:
+-        raise bb.parse.SkipPackage('You can only have a single default for=
+ UBOOT_CONFIG.')
++    if len(ubootconfig) > 0:
++        for config in ubootconfig:
++            for f, v in ubootconfigflags.items():
++                if f =3D=3D 'defaultval':
++                    continue
++                if config =3D=3D f:=20
++                    items =3D v.split(',')
++                    if items[0] and len(items) > 2:
++                        raise bb.parse.SkipPackage('Only config,images can=
+ be specified!')
++                    d.appendVar('UBOOT_MACHINE', ' ' + items[0])
++                    # IMAGE_FSTYPES appending
++                    if len(items) > 1 and items[1]:
++                        bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % i=
+tems[1])
++                        d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
++                    break
+     elif len(ubootconfig) =3D=3D 0:
+-        raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG=
+.')
+-    ubootconfig =3D ubootconfig[0]
+-
+-    for f, v in ubootconfigflags.items():
+-        if f =3D=3D 'defaultval':
+-            continue
+-
+-        items =3D v.split(',')
+-        if items[0] and len(items) > 2:
+-            raise bb.parse.SkipPackage('Only config,images can be specifie=
+d!')
+-
+-        if ubootconfig =3D=3D f:
+-            bb.debug(1, "Setting UBOOT_MACHINE to %s." % items[0])
+-            d.setVar('UBOOT_MACHINE', items[0])
+-
+-            # IMAGE_FSTYPES appending
+-            if len(items) > 1 and items[1]:
+-                bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
+-                d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
+-
+-            # Go out as we found a match!
+-            break
+-    else:
+-        raise bb.parse.SkipPackage("UBOOT_CONFIG %s is not supported" % ub=
+ootconfig)
++       raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.=
+')
+ }
+--=20
+1.9.2
 
 
