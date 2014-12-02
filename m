@@ -1,24 +1,24 @@
-Return-Path: <Chong.Lu@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9100860670
+	by mail.openembedded.org (Postfix) with ESMTP id 8A5A07232E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Dec 2014 05:54:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sB25seGu016664
+	Tue,  2 Dec 2014 06:00:16 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sB260HLc017080
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Dec 2014 21:54:41 -0800 (PST)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 1 Dec 2014 21:54:40 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
+	Mon, 1 Dec 2014 22:00:17 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 1 Dec 2014 22:00:16 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 2 Dec 2014 13:53:33 +0800
-Message-ID: <cover.1417499570.git.Chong.Lu@windriver.com>
+Date: Tue, 2 Dec 2014 14:00:37 +0800
+Message-ID: <cover.1417499998.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH 0/1] gnutls: disable tpm
+Subject: [PATCH 0/1] bind: fix conf.patch to remove configuration that causes failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,23 +31,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Dec 2014 05:54:47 -0000
+X-List-Received-Date: Tue, 02 Dec 2014 06:00:21 -0000
 Content-Type: text/plain
 
-The following changes since commit b8631416f12b8a904ce3deb036f9d5ce632937b0:
+The following changes since commit 68ddb28a68ceb59cd1ed322c16143827ce1ac712:
 
-  package_regex.inc: Update REGEX'es in order to find upstream versions correctly (2014-11-28 14:03:02 +0000)
+  distrodata_class: checkpkg make usage of latest_versionstring methods in bitbake fetcher (2014-11-28 13:59:52 +0000)
 
 are available in the git repository at:
 
-  git://git.pokylinux.org/poky-contrib chonglu/gnutls
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/gnutls
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/bind-configuration
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/bind-configuration
 
-Chong Lu (1):
-  gnutls: disable tpm
+Chen Qi (1):
+  bind: fix conf.patch to remove configuration that causes failure
 
- meta/recipes-support/gnutls/gnutls.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-connectivity/bind/bind/conf.patch | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 -- 
 1.9.1
