@@ -1,27 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BA6D60144
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 132A7601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Dec 2014 14:05:27 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Dec 2014 06:02:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,501,1413270000"; d="scan'208";a="631383188"
-Received: from fodonogx-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.21.108])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Dec 2014 06:01:11 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Trevor Woerner <trevor.woerner@linaro.org>
-Date: Tue, 02 Dec 2014 14:01:10 +0000
-Message-ID: <4967625.9osgGDJBx1@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.3-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <547D45EB.6060508@linaro.org>
-References: <cover.1416934753.git.paul.eggleton@linux.intel.com>
-	<547D45EB.6060508@linaro.org>
+	Tue,  2 Dec 2014 14:28:55 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id x69so9152987oia.40
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Dec 2014 06:28:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=14GKOZDsFCmWIiE1U5k6L/Hi9lLOVuWx756gp8F+glw=;
+	b=P4MhjEh8hNpMkLQ+9HTomEeYx7AmEhGUIi6zn1uuTcX6KVrjTowsPpG9W0GAfMivs4
+	Y4Lh8O4yjD2Qjt69oiSSMNJPYA/XEKgdcEtxMg5WgKRLo32WVSpus7dT8SYm5XYjTDuj
+	QgoraujjjE8TpGsPI73BuTrlNyuDoO7vOBhEBEZvHyRUTxyQzsRV+hLXZRJ8bh6cnrIJ
+	StNCZ8yuIvAT+DVOUN1EGnVWhiWgt++00W2s6DEtNFfRZWvDDv3ujfKts/BUB+VtXrvj
+	SZrblPo6XeoQoKM3Ja/QG4LTkag6IZCleJjLtrcAotHHDrfEAvfwzQqCjGuEuejQY3XF
+	rjdQ==
+X-Gm-Message-State: ALoCoQmdMeFFI1cEhzMO9NzUv/sz0NKN+LhjEuIvnffjwJHqzUzMAWMfDavTvBS+8y2uPNY08bgO
+X-Received: by 10.202.182.138 with SMTP id g132mr5435651oif.119.1417530536193; 
+	Tue, 02 Dec 2014 06:28:56 -0800 (PST)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 0/7] Developer workflow improvements
+Received: by 10.76.159.138 with HTTP; Tue, 2 Dec 2014 06:28:35 -0800 (PST)
+In-Reply-To: <434556f7b955c934a5eabbd8125d46aab0ffbde2.1417466738.git.anibal.limon@linux.intel.com>
+References: <cover.1417466732.git.anibal.limon@linux.intel.com>
+	<434556f7b955c934a5eabbd8125d46aab0ffbde2.1417466738.git.anibal.limon@linux.intel.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Tue, 2 Dec 2014 15:28:35 +0100
+Message-ID: <CAP71WjzO2sg-RbY=51Nu89=hcahNqP0NhVYUCCJX3=eTYz87Hg@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] xorg-xserver: Upgrade to 1.16.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,37 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Dec 2014 14:05:31 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 02 Dec 2014 14:28:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Monday 01 December 2014 23:54:03 Trevor Woerner wrote:
-> On 11/25/14 12:28, Paul Eggleton wrote:
-> > I've then added a new recipe auto-creation script, recipetool, which can
-> > take a source tree or URL and create a skeleton recipe to build it.
-> 
-> ...
-> 
-> >  * "recipetool create" ideally needs to become smarter and fill in
-> >  
-> >    more details of the recipe. At some point we'll probably have to
-> >    make the process interactive and possibly have it automate parts of
-> >    the build process and examine the output; some things just can't be
-> >    practically detected from the source tree without building.
-> 
-> There is a tool "autoscan" which might be of some use here. If nothing
-> else, the resulting configure.scan file could be parsed for DEPENDS
-> information and perhaps PACKAGECONFIG items too.
+On Mon, Dec 1, 2014 at 11:36 PM, An=C3=ADbal Lim=C3=B3n
+<anibal.limon@linux.intel.com> wrote:
+> Remove crosscompile, mips64-compile and present-module because are alread=
+y in
+> upstream.
+>
+> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
+> ---
+>  .../xorg-xserver/xserver-xorg/crosscompile.patch   | 22 --------
+>  .../xserver-xorg/mips64-compiler.patch             | 29 ----------
+>  .../xorg-xserver/xserver-xorg/present-module.patch | 66 ----------------=
+------
+>  ...erver-xorg_1.15.1.bb =3D> xserver-xorg_1.16.2.bb} |  9 +--
+>  4 files changed, 3 insertions(+), 123 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/cross=
+compile.patch
+>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/mips6=
+4-compiler.patch
+>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/prese=
+nt-module.patch
+>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.15.1.bb =3D> x=
+server-xorg_1.16.2.bb} (75%)
 
-Interesting - I was not aware of this tool. I've added support for running it 
-as well as picking converting AC_CHECK_LIB lines over to DEPENDS (with a note 
-about some of them possibly being optional). Thanks!
 
-Cheers,
-Paul
+I am seeing the following warning when building this patch:
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+WARNING: QA Issue: xserver-xorg rdepends on dbus-lib, but it isn't a
+build dependency? [build-deps]
 
