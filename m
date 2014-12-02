@@ -1,37 +1,26 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 91FC860030
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 05D8B601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Dec 2014 21:06:44 +0000 (UTC)
-Received: by mail-wi0-f181.google.com with SMTP id r20so22325448wiv.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Dec 2014 13:06:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=TyNXeSalvy/+10gJ9KwG5rcX7Zfn3w5ZU6DOIt3Mrww=;
-	b=Am0Tbrd+AHOaOshxFmUNhyakJoIpprjM0FdjftgqaUUljvwozabhGka79jmh5Di6lC
-	AZT7Y9OJr27pEVwdOE1TIU6wwRnVciqF73spW5aiuUA0XGlYaHu3ZhFHm+OYdt92TPXj
-	xFm195PX5PUAlrDOicqfzEpoBhP05oUXlfC+9R/2bmvYszDOyNOAj/WYUORkMTZhMb+i
-	UTb9b8CyaTimms7aE94w4rCYqWK3KrQ8QyCe3A7pxtRLXsNIKKGYpWgeu4cMEIsswBvu
-	UF9G/V4kfqXRZyw3zsetXLSitbHwMXpeaHpkuEwFfiKLtdsesAdAZE/4pVnkYUXXV/N6
-	AjCg==
-X-Gm-Message-State: ALoCoQneMe2p2mZxBi4rRfvjD7ByspL2M/E3Lz1e+INiTmxC0OnG28m+PyFw6Yjpf75mmheoPKRo
-X-Received: by 10.181.13.42 with SMTP id ev10mr8112847wid.78.1417554404191;
-	Tue, 02 Dec 2014 13:06:44 -0800 (PST)
-Received: from nikaia.localdomain (gau06-1-78-243-126-63.fbx.proxad.net.
-	[78.243.126.63]) by mx.google.com with ESMTPSA id
-	bm1sm33460626wjb.45.2014.12.02.13.06.42 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 02 Dec 2014 13:06:43 -0800 (PST)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Dec 2014 22:06:33 +0100
-Message-Id: <1417554393-29368-1-git-send-email-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.1.3
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [RFC PATCH] mesa: add PACKAGECONFIG support for gallium XA state tracker
+	Tue,  2 Dec 2014 22:52:43 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 02 Dec 2014 14:50:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,503,1413270000"; d="scan'208";a="617584251"
+Received: from smoffitt-mobl.ger.corp.intel.com (HELO [10.255.13.114])
+	([10.255.13.114])
+	by orsmga001.jf.intel.com with ESMTP; 02 Dec 2014 14:52:43 -0800
+Message-ID: <547E42BB.6010604@linux.intel.com>
+Date: Tue, 02 Dec 2014 14:52:43 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.7.0
+MIME-Version: 1.0
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1417134564.git.anibal.limon@linux.intel.com>
+In-Reply-To: <cover.1417134564.git.anibal.limon@linux.intel.com>
+Subject: Re: [PATCH 00/12] Usage bitbake fetcher latest_versionstring in distrodata_class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,62 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Dec 2014 21:06:47 -0000
+X-List-Received-Date: Tue, 02 Dec 2014 22:52:51 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- meta/recipes-graphics/mesa/mesa.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
----
-I have tested:
-- on IFC6410 with Snapdragon 600 and Adreno 320 running the freedreno
-  Gallium driver from mesa
-- with Mesa 10.3 so i would recommend we wait for 10.3 to be merged first
-- with branch xorg-1.16 from this BSP layer [1]
+On 11/27/2014 05:09 PM, Aníbal Limón wrote:
+> Since Bitbake fetcher has latest_versionstring method that support search last version
+> of package in upstream sites, distrodata class should use it instead of do itself,
+>
+> Summary of changes,
+>
+> distrodata_class: Re-implement upstream version detection using Bitbake fetcher methods.
+> package_regex.inc: Update regex because Bitbake fetcher already provides support for search
+> in HTML href's tags instead of RAW lines.
+> bitbake: Improvements in fetcher wget latest_versionstring method based on [1] and clean code.
+>
+> Compatibility testing was made running distrodata class and the result files can be found at [1].
+>
+> The code has DEPENDENCIES the Bitbake changes should be MERGE first then package_regex.inc
+> and finally distrodata_class.
+>
+> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=1813
+>
+> The following changes since commit 0bc03af7ee6112fa0af0608b02f715ec8495e4ff:
+>
+>    maintainers.inc: update maintainers (2014-11-26 17:06:10 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib alimon/fetcher-distrodata
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/fetcher-distrodata
+>
+> Aníbal Limón (12):
+>    distrodata_class: checkpkg make usage of latest_versionstring methods
+>      in bitbake fetcher
+>    package_regex.inc: Update REGEX'es in order to find upstream versions
+>      correctly
+>    fetch2/wget.py: latest_versionstring create _init_regex method for
+>      have one place when regex'es are defined
+>    fetch2/wget.py: _init_regexes rename variables to be more consistent
+>      and move dirver_regex into it
+>    fetch/wget.php: latest version string only try to find latest
+>      directory when REGEX_URI isn't specified to avoid unnecessary
+>      processing and makes code easier
+>    fetch2/wget.py: latest_versionstring add package_custom_regex_comp
+>    fetch2/wget.py: latest_versionstring improvments in searching
+>    fetch/wget.py: latest_versionstring remove unnecessary usage for name
+>      in version comparision
+>    fetch2/wget: latest_versionstring add support for search in RAW html
+>      lines
+>    fetch/wget.py: latest_versionstring remove newuri set because is
+>      previous set
+>    tests/fetch.py: Update wget latest_versionstring cups case
+>    fetch2/wget.py: latest_versionstring clean improvments minor
+>
+>   bitbake/lib/bb/fetch2/wget.py                    | 146 ++++---
+>   bitbake/lib/bb/tests/fetch.py                    |   2 +-
+>   meta-yocto/conf/distro/include/package_regex.inc | 400 +++++++++---------
+>   meta/classes/distrodata.bbclass                  | 492 ++---------------------
+>   4 files changed, 337 insertions(+), 703 deletions(-)
+>
+I know you are using the create-pull-request script, but you should to 
+it once per repo that you are doing it with, for example here in bitbake 
+repo and a second one in the oe-core repo, so that does not people 
+looking for the other 11 patches in oe-core vs bitbake.
 
-Sending as RFC to see if this is the right way to enable this
-feature...
-
-[1] https://git.linaro.org/people/nicolas.dechesne/meta-qualcomm.git/
-
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 1857f3c..cb1837a 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -65,6 +65,7 @@ MESA_LLVM_RELEASE ?= "3.3"
- PACKAGECONFIG[gallium-llvm] = "--enable-gallium-llvm --with-llvm-shared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
-                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
- export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
-+PACKAGECONFIG[xa]  = "--enable-xa, --disable-xa"
- 
- # llvmpipe is slow if compiled with -fomit-frame-pointer (e.g. -O2)
- FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
-@@ -87,6 +88,7 @@ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
-              libegl-gallium libgbm-gallium \
-              libopenvg libopenvg-dev \
-              libxvmcsoftpipe libxvmcsoftpipe-dev \
-+             libxatracker libxatracker-dev \
-              mesa-megadriver \
-             "
- 
-@@ -171,6 +173,7 @@ FILES_libegl-gallium = "${libdir}/egl/egl_gallium.so*"
- FILES_libgbm-gallium = "${libdir}/gbm/gbm_gallium_drm.so*"
- FILES_libopenvg = "${libdir}/libOpenVG.so.*"
- FILES_libxvmcsoftpipe = "${libdir}/libXvMCsoftpipe.so.*"
-+FILES_libxatracker = "${libdir}/libxatracker.so.*"
- 
- FILES_${PN}-dev = "${libdir}/pkgconfig/dri.pc"
- FILES_libegl-mesa-dev = "${libdir}/libEGL.* ${includedir}/EGL ${includedir}/KHR ${libdir}/pkgconfig/egl.pc"
-@@ -185,5 +188,8 @@ FILES_libwayland-egl-dev = "${libdir}/pkgconfig/wayland-egl.pc ${libdir}/libwayl
- FILES_libopenvg-dev = "${libdir}/libOpenVG.so ${libdir}/libOpenVG.la* \
-                        ${includedir}/VG ${libdir}/pkgconfig/vg.pc"
- FILES_libxvmcsoftpipe-dev = "${libdir}/libXvMCsoftpipe.so ${libdir}/libXvMCsoftpipe.la"
-+FILES_libxatracker-dev = "${libdir}/libxatracker.so ${libdir}/libxatracker.la \
-+                          ${includedir}/xa_tracker.h ${includedir}/xa_composite.h ${includedir}/xa_context.h \
-+                          ${libdir}/pkgconfig/xatracker.pc"
- 
- FILES_${PN}-dbg += "${libdir}/dri/.debug/* ${libdir}/egl/.debug/* ${libdir}/gbm/.debug/* ${libdir}/gallium-pipe/.debug"
--- 
-2.1.3
+Sau!
 
 
