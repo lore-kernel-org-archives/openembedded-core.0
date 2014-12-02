@@ -1,51 +1,28 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-X-Greylist: delayed 567 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 02 Dec 2014 18:37:22 UTC
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 4037D601A0
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E0BB460030
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Dec 2014 18:37:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 209912E322;
-	Tue,  2 Dec 2014 19:27:54 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id Lo4lEd0oqIfc; Tue,  2 Dec 2014 19:27:48 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id A0B0C2E07C;
-	Tue,  2 Dec 2014 19:27:48 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 7CE15F8C;
-	Tue,  2 Dec 2014 19:27:48 +0100 (CET)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 701F7F42;
-	Tue,  2 Dec 2014 19:27:48 +0100 (CET)
-Received: from xmail4.se.axis.com (xmail4.se.axis.com [10.0.5.46])
-	by thoth.se.axis.com (Postfix) with ESMTP id 6C712342A8;
-	Tue,  2 Dec 2014 19:27:48 +0100 (CET)
-Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail4.se.axis.com
-	([fe80::2dfa:6a3a:302a:d4e8%14]) with mapi;
-	Tue, 2 Dec 2014 19:27:48 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Fabrice Coulon <fabrice@axis.com>,
-	"OE Core (openembedded-core@lists.openembedded.org)"
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 2 Dec 2014 19:27:46 +0100
-Thread-Topic: Why is systemd installed to / (was: [yocto] Export bitbake
-	variables between recipes)
-Thread-Index: AdAOXapqwVhRF1POQG+rIjr6/rDPMw==
-Message-ID: <A612847CFE53224C91B23E3A5B48BAC7ACF18D3E7B@xmail3.se.axis.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US, sv-SE
+	Tue,  2 Dec 2014 18:44:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sB2Iiomv024580
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 2 Dec 2014 10:44:50 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 2 Dec 2014 10:44:50 -0800
+Message-ID: <547E08A9.2090500@windriver.com>
+Date: Tue, 2 Dec 2014 12:44:57 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-Cc: Henning Heinold <heinold@inf.fu-berlin.de>,
-	"Koen Kooi \(koen@dominion.thruhere.net\)" <koen@dominion.thruhere.net>
-Subject: Why is systemd installed to / (was: [yocto] Export bitbake variables between recipes)
+To: <openembedded-core@lists.openembedded.org>
+References: <A612847CFE53224C91B23E3A5B48BAC7ACF18D3E7B@xmail3.se.axis.com>
+In-Reply-To: <A612847CFE53224C91B23E3A5B48BAC7ACF18D3E7B@xmail3.se.axis.com>
+Subject: Re: Why is systemd installed to / (was: [yocto] Export bitbake variables between recipes)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,68 +35,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Dec 2014 18:37:25 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 02 Dec 2014 18:44:59 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-[ I am moving this discussion to the OE-core list as I believe=20
-  that is where it belongs. ]
+On 12/2/14, 12:27 PM, Peter Kjellerstedt wrote:
+> [ I am moving this discussion to the OE-core list as I believe
+>    that is where it belongs. ]
+>
+>> -----Original Message-----
+>> From: yocto-bounces@yoctoproject.org [mailto:yocto-
+>> bounces@yoctoproject.org] On Behalf Of Paul Eggleton
+>> Sent: den 2 december 2014 15:07
+>> To: Fabrice Coulon
+>> Cc: yocto@yoctoproject.org
+>> Subject: Re: [yocto] Export bitbake variables between recipes
+>>
+>> Hi Fabrice,
+>>
+>> On Tuesday 02 December 2014 14:07:40 Fabrice Coulon wrote:
+>>> Is it possible to export one bitbake variable from one recipe
+>>> and make it available from inside another recipe? For example:
+>>> we want to export from our systemd_%.bbappend where the
+>>> systemctl command has been installed, in order to, from another
+>>> recipe depending on systemd, refer to the absolute path where
+>>> systemctl was installed. Any ideas or suggestions on how to do
+>>> that?
+>>
+>> There's no mechanism to do this, no. The only way for this kind of
+>> thing to work is for it to be specified at the configuration level
+>> (e.g. ${bindir} points to the subdirectory /usr/bin and this variable
+>> would be used both when choosing where the executable should be
+>> installed and finding it later - this would typically be how this
+>> kind of problem would be solved since it would be unusual to have
+>> systemctl installed somewhere other than ${bindir}).
+>
+> Actually, since the systemd recipe in Poky is configured in an
+> extremely weird way (using --with-rootprefix=${base_prefix} and
+> --with-rootlib=${base_libdir}), systemctl actually ends up in
+> ${base_bindir} rather than ${bindir}. And this is the whole reason
+> for our troubles since everything else we had prior to switching
+> to Poky expected systemd to be installed in /usr...
 
-> -----Original Message-----
-> From: yocto-bounces@yoctoproject.org [mailto:yocto-
-> bounces@yoctoproject.org] On Behalf Of Paul Eggleton
-> Sent: den 2 december 2014 15:07
-> To: Fabrice Coulon
-> Cc: yocto@yoctoproject.org
-> Subject: Re: [yocto] Export bitbake variables between recipes
->=20
-> Hi Fabrice,
->=20
-> On Tuesday 02 December 2014 14:07:40 Fabrice Coulon wrote:
-> > Is it possible to export one bitbake variable from one recipe=20
-> > and make it available from inside another recipe? For example:=20
-> > we want to export from our systemd_%.bbappend where the=20
-> > systemctl command has been installed, in order to, from another=20
-> > recipe depending on systemd, refer to the absolute path where=20
-> > systemctl was installed. Any ideas or suggestions on how to do
-> > that?
->=20
-> There's no mechanism to do this, no. The only way for this kind of
-> thing to work is for it to be specified at the configuration level=20
-> (e.g. ${bindir} points to the subdirectory /usr/bin and this variable=20
-> would be used both when choosing where the executable should be=20
-> installed and finding it later - this would typically be how this=20
-> kind of problem would be solved since it would be unusual to have=20
-> systemctl installed somewhere other than ${bindir}).
+Because we support the split between / and /usr for embedded systems with 
+multiple partitions/disks.
 
-Actually, since the systemd recipe in Poky is configured in an=20
-extremely weird way (using --with-rootprefix=3D${base_prefix} and=20
---with-rootlib=3D${base_libdir}), systemctl actually ends up in=20
-${base_bindir} rather than ${bindir}. And this is the whole reason=20
-for our troubles since everything else we had prior to switching=20
-to Poky expected systemd to be installed in /usr...
+If you set it to /usr, then technically you are violating the FHS, as you now 
+require /usr in order to boot the system.
 
-Can anyone please explain why OE-core installs systemd to / rather=20
-than /usr? Because I have traced the recipe all the way back to its=20
-introduction in OE classic, and I cannot find any rationale for=20
-this odd decision. And it is extra weird given the systemd authors'=20
-agenda that everything should be in /usr (and /etc)...
+What programs are expecting these things in a specific path?  Why aren't they 
+either using the PATH, or using a similar configuration mechanism via the recipes?
 
-> (Another alternative is pkg-config, but I don't think that really
-> applies in this situation.)
+> Can anyone please explain why OE-core installs systemd to / rather
+> than /usr? Because I have traced the recipe all the way back to its
+> introduction in OE classic, and I cannot find any rationale for
+> this odd decision. And it is extra weird given the systemd authors'
+> agenda that everything should be in /usr (and /etc)...
 
-Nope.
+It's only strange compared to Fedora.  We're not Fedora.. and I've got systems 
+that need to boot from a small '/' before mounting '/usr'.
 
-> Cheers,
-> Paul
->=20
-> --
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
+(In prior discussions we've made the decision to not fix every library or 
+application, but there is a warning you can enable that will show you what 
+libraries and applications live in '/' but have obvious linkage to '/usr'.)
 
-//Peter
-
+>> (Another alternative is pkg-config, but I don't think that really
+>> applies in this situation.)
+>
+> Nope.
+>
+>> Cheers,
+>> Paul
+>>
+>> --
+>>
+>> Paul Eggleton
+>> Intel Open Source Technology Centre
+>
+> //Peter
+>
+>
 
 
