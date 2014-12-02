@@ -1,41 +1,24 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E5526AC19
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D7BA360030
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Dec 2014 08:16:47 +0000 (UTC)
-Received: by mail-wi0-f174.google.com with SMTP id h11so27163585wiw.13
+	Tue,  2 Dec 2014 09:40:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sB29eet5017120
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Dec 2014 00:16:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-type:content-transfer-encoding;
-	bh=yZZcmKMitsona1coGgdKlSXaKYNMho/Qse/FhD7o+RM=;
-	b=nFdAzPJ19bfmLUfsri9hsFzxlvOjj1ygy1HTq+l9h1WbXqXrQLtp+xt3H+AG7IWV/d
-	2bQs5HgDmB2HQDgEeveC2Uk6V2U0q3CqlvgE4nbtSnVMLPy7qVuFy47nTJ1FNLO6sUVx
-	3HrKHdDBV8YjMGFQXeVO/0MhR1kC+sIvorQbU4RCuEOArTHG7OxK37eh+R9txv73Zy3G
-	Lwl1YMjKxz2aosRu8LWLIDx4yMfAdO2+pcaHFvxB+DRcJui/sb8cDx1j1KZT7WwqRFwF
-	ATE7WTI+KNbdbwoXV26DPqSyIWb559pwd8M5beJEWLM/k85MlhkyytljIO0zU7ncu00t
-	QT+w==
-X-Received: by 10.180.9.229 with SMTP id d5mr2725409wib.22.1417508207190;
-	Tue, 02 Dec 2014 00:16:47 -0800 (PST)
-Received: from localhost.localdomain
-	(ip-176-198-252-150.hsi05.unitymediagroup.de. [176.198.252.150])
-	by mx.google.com with ESMTPSA id
-	wv8sm30692585wjc.44.2014.12.02.00.16.45
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 02 Dec 2014 00:16:46 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Dec 2014 09:16:38 +0100
-Message-Id: <1417508198-30563-2-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1417508198-30563-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1417508198-30563-1-git-send-email-schnitzeltony@googlemail.com>
+	Tue, 2 Dec 2014 01:40:41 -0800 (PST)
+Received: from pek-hostel-vm11.wrs.com (128.224.153.181) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 2 Dec 2014 01:40:40 -0800
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 2 Dec 2014 04:40:38 -0500
+Message-ID: <1417513238-29773-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.0.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2] gettext-native: build libintl so that other native recipes can use them
+Subject: [PATCH] util-linux: add switch_root to alternatives list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,35 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Dec 2014 08:16:53 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 02 Dec 2014 09:40:42 -0000
+Content-Type: text/plain
 
-I have a native recipe around which directly compiles/links against libintl.
-Gettext contains this code (usually supplied by glibc) as fallback. In native
-case this code is used by default because we don't have glibc there. This patch
-changes static linking into dynamic linking making libintl code shareable.
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+switch_root is provided by both busybox in /sbin/switch_root and util-linux provides one
+in /usr/sbin/switch_root, so move util-linux's to sbin and setup ALTERNATIVE_LINK.
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-core/gettext/gettext_0.18.3.2.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-core/util-linux/util-linux.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/gettext/gettext_0.18.3.2.bb b/meta/recipes-core/gettext/gettext_0.18.3.2.bb
-index 65d4103..98838d7 100644
---- a/meta/recipes-core/gettext/gettext_0.18.3.2.bb
-+++ b/meta/recipes-core/gettext/gettext_0.18.3.2.bb
-@@ -39,6 +39,9 @@ EXTRA_OECONF += "--without-lispdir \
-                  --with-included-libunistring \
-                 "
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index a37efe9..e6c00e4 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -136,7 +136,7 @@ do_install () {
+ 	mkdir -p ${D}${base_bindir}
  
-+# we have no glib intl
-+EXTRA_OECONF_append_class-native = "--with-included-gettext --enable-shared"
-+
- acpaths = '-I ${S}/gettext-runtime/m4 \
-            -I ${S}/gettext-tools/m4'
+         sbinprogs="agetty ctrlaltdel cfdisk vipw vigr"
+-        sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk readprofile fsck blkid blockdev fstrim sulogin"
++        sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk readprofile fsck blkid blockdev fstrim sulogin switch_root"
+         usrbinprogs_a="chfn chsh hexdump last logger mesg newgrp renice utmpdump wall setsid chrt flock getopt"
+         binprogs_a="dmesg kill more umount mount login reset su"
  
+@@ -168,7 +168,7 @@ inherit update-alternatives
+ 
+ ALTERNATIVE_PRIORITY = "100"
+ 
+-ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root"
++ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root switch_root"
+ ALTERNATIVE_${PN} += "mkfs.minix hexdump last logger mesg renice wall"
+ ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject sulogin"
+ 
+@@ -178,6 +178,7 @@ ALTERNATIVE_LINK_NAME[more] = "${base_bindir}/more"
+ ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
+ ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
+ ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
++ALTERNATIVE_LINK_NAME[switch_root] = "${base_sbindir}/switch_root"
+ ALTERNATIVE_LINK_NAME[mkfs.minix] = "${base_sbindir}/mkfs.minix"
+ ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+ ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
 -- 
-1.8.3.1
+2.0.0
 
 
