@@ -1,40 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id F2314601F5
+Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8140660144
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Dec 2014 15:36:53 +0000 (UTC)
-Received: by mail-qc0-f176.google.com with SMTP id i17so9545591qcy.21
+	Tue,  2 Dec 2014 15:42:39 +0000 (UTC)
+Received: by mail-ee0-f51.google.com with SMTP id b15so13634eek.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Dec 2014 07:36:53 -0800 (PST)
+	Tue, 02 Dec 2014 07:42:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=GGyUPcRt3MaNfMrinhqR6aT2Vm5KTdqv1D455h68P0M=;
-	b=ki6oRoDQgKWr9PLelbrtOx/wjqDPct8+haWfEx50hMfcDjYHcn6zeB38oyYI+hlqBU
-	qc/e0cMegXZUMJHoxSM2DdnvpGwvJOIr4jK5sp7tfywSoGP9VFIeEK0DU8LYEAYTR7zw
-	PhsTBu7kR1wPhFEu/fwGZO0TeR6q2VkxBMHRtTGTUetkgy01D6to20fF9JbLUWSNWPto
-	oboU2mRkD3PeB+gU+drjZvV7RZOTJcvoeDviRJmYK8soBXN4vKdWL3U1O7FIyq/GYnea
-	JNiPXRhVqfPJVmwYDMJ0q9sHTV1cr1MjFqySPZcvWGM92U7pFF5aVHn0IqL+otuS+kdo
-	+TIg==
-X-Gm-Message-State: ALoCoQlHSZjFgg+FttVQv3Ja2tLVOLbG4WR1tzCcnOqzFMNve0jiPAdKGXJ3VbhB3NOdv8fUFPDU
-X-Received: by 10.140.96.101 with SMTP id j92mr94633241qge.87.1417534613807;
-	Tue, 02 Dec 2014 07:36:53 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Tue, 2 Dec 2014 07:36:33 -0800 (PST)
-In-Reply-To: <547DD1A8.6040006@linux.intel.com>
-References: <cover.1417466732.git.anibal.limon@linux.intel.com>
-	<434556f7b955c934a5eabbd8125d46aab0ffbde2.1417466738.git.anibal.limon@linux.intel.com>
-	<CAP71WjzO2sg-RbY=51Nu89=hcahNqP0NhVYUCCJX3=eTYz87Hg@mail.gmail.com>
-	<547DD1A8.6040006@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Dec 2014 15:36:33 +0000
-Message-ID: <CAJTo0Lad9KVH6MKcC3kFuGjSm7420hGo_=uaw0u7xnfhviafNg@mail.gmail.com>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] xorg-xserver: Upgrade to 1.16.2
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=cqVZuj+0mkqtZcIfgw+PQ+uMvHJlRgS24Mj9bhyBNp4=;
+	b=epuTaj6D0ttl2djAKlQ3sn3lnFTVBYkhV84bbHy0FWvGVY91mxVLN8aF89mUQjmTQS
+	SpX9+6rdsaA7gy43vpDanNQVuW5d5gVWL8gfwGxIKjIplkQ4zPF1CeLbAsWEWa/hMbHW
+	qa3t+AwpbOi8YUSFXzlxyibtnljyB3p62XosJWDAtwQfSK2UBGr8HNjDdgdygQerw/hk
+	tIGXJkybKjSWoPRI1m9KrFbxuPZxp0c4Bo/4WuTxQLcQ9TdLTnkhhcBem7lMqT7GnvDs
+	Waa2FFXs+Ec/KuKONzuGRCLAKdje0ZZUCprY5v49+bwmBR6rLjB9TAwR/21bZH6OnAR+
+	Z0Vw==
+X-Gm-Message-State: ALoCoQkUqZICMqWLq5nM0eYXI05XSjJCB9z9yGfAECHQicQqIwf/2PLGkq64jWCcr4uoiAPL5Wv/
+X-Received: by 10.194.175.202 with SMTP id cc10mr102638375wjc.27.1417534959751;
+	Tue, 02 Dec 2014 07:42:39 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id ud1sm32403169wjc.7.2014.12.02.07.42.38
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 02 Dec 2014 07:42:39 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Dec 2014 15:42:14 +0000
+Message-Id: <1417534934-21746-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] dbus: don't use PTEST_ENABLED as recipe doesn't inherit ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,54 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Dec 2014 15:36:58 -0000
-Content-Type: multipart/alternative; boundary=001a113a9d8a1d032205093d7f32
+X-List-Received-Date: Tue, 02 Dec 2014 15:42:46 -0000
 
---001a113a9d8a1d032205093d7f32
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+As this recipe's ptest support is merely a shim to pull in dbus-test-ptest it
+doesn't inherit ptest.  This means that PTEST_ENABLED isn't ever set, so check
+DISTRO_FEATURES directly.
 
-On 2 December 2014 at 14:50, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.int=
-el.com>
-wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/dbus/dbus.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> I don't see this warning, i ran with (log attached),
->
-> $ bitbake xserver-xorg -v -D
->
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index d38ba7e..fb5d017 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
+ DEPENDS = "expat virtual/libintl"
+ RDEPENDS_dbus_class-native = ""
+ RDEPENDS_dbus_class-nativesdk = ""
+-PACKAGES += "${@bb.utils.contains('PTEST_ENABLED', '1', 'dbus-ptest', '', d)}"
++PACKAGES += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${PN}-ptest', '', d)}"
+ ALLOW_EMPTY_dbus-ptest = "1"
+ RDEPENDS_dbus-ptest_class-target = "dbus-test-ptest"
+ 
+-- 
+1.7.10.4
 
-So the warning means that xserver linked against dbus but it isn't in the
-build dependencies.  To replicate, you'll need to bitbake dbus and then
-cleansstate and rebuild xserver-xorg.
 
-The point here is that xserver-xorg is auto-detecting optional dependencies
-which results in non-deterministic builds.  Can you look at what DBus is
-used for in xserver-xorg, and determine if we should always require dbus,
-never require dbus, or have an option and if we have an option, what do we
-default it to.
-
-Ross
-
---001a113a9d8a1d032205093d7f32
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 December 2014 at 14:50, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.lim=
-on@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<div id=3D":57b" class=3D"a3s" style=3D"overflow:hidden">I don&#39;t see th=
-is warning, i ran with (log attached),<br>
-<br>
-$ bitbake xserver-xorg -v -D</div></blockquote><div><br></div><div>So the w=
-arning means that xserver linked against dbus but it isn&#39;t in the build=
- dependencies.=C2=A0 To replicate, you&#39;ll need to bitbake dbus and then=
- cleansstate and rebuild xserver-xorg.</div><div><br></div><div>The point h=
-ere is that xserver-xorg is auto-detecting optional dependencies which resu=
-lts in non-deterministic builds.=C2=A0 Can you look at what DBus is used fo=
-r in xserver-xorg, and determine if we should always require dbus, never re=
-quire dbus, or have an option and if we have an option, what do we default =
-it to.</div><div><br></div><div>Ross</div></div></div></div>
-
---001a113a9d8a1d032205093d7f32--
