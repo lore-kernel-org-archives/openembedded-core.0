@@ -1,21 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 77DF060169
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FFAF60169
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 22:53:05 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Dec 2014 14:51:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,510,1413270000"; d="scan'208";a="632300844"
-Received: from smoffitt-mobl.ger.corp.intel.com (HELO
-	swold-linux.amr.corp.intel.com) ([10.255.13.114])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Dec 2014 14:51:59 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Dec 2014 14:51:58 -0800
-Message-Id: <1417647118-19527-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH v2] lzo: add debian patch for alignment issue
+	Wed,  3 Dec 2014 23:31:13 +0000 (UTC)
+Received: by mail-qg0-f41.google.com with SMTP id j5so11974444qga.28
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Dec 2014 15:31:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=VbBvkKDPgAKeHuZ3sVx4apeUU41jm0gZtO0OYie33PI=;
+	b=eLoH6xn6LY/Pm3FLfQuISZufXrznJTKVG3oW5CNJg8eZCzzPNaBBZkiFtnhtY70J+Z
+	dSGCsHUtoGl1NCDzdh2elkaf4M4VHldeH6064ge8QsgrQN7drP4MmooEUt6UYiVhFqql
+	bj4rhkcdRS5/mWgrJ641m+uEJNuvfWFlUS3JO816xAM+Z1DWgMbyWeNjGnRf/++CHdPc
+	UJnqIVJ8AyxRLKe0plWkW3dxSTekQNvpEIWaiwpCjW6VW7627RT8Krnfkcu19Q2neMcv
+	KvQ9ua7yCcBNr8dpSL69tDAZ3PuFb0roYG/cuG9yXUJc1PnKPolTCmdnybAji7kPRp0Y
+	Cong==
+X-Gm-Message-State: ALoCoQmP5SJG8oMhSyj160YDkbGG2oESo4/xOLpNHcPUef10YJ/BwZl9lE5lqwkfZEFlMZ/MIc6L
+X-Received: by 10.224.92.205 with SMTP id s13mr12040564qam.52.1417649474344;
+	Wed, 03 Dec 2014 15:31:14 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.48.231 with HTTP; Wed, 3 Dec 2014 15:30:54 -0800 (PST)
+In-Reply-To: <fef682ae2a0028af5d14a4cc82e83208c6a440aa.1417466734.git.anibal.limon@linux.intel.com>
+References: <cover.1417466732.git.anibal.limon@linux.intel.com>
+	<fef682ae2a0028af5d14a4cc82e83208c6a440aa.1417466734.git.anibal.limon@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Dec 2014 23:30:54 +0000
+Message-ID: <CAJTo0LZ6b0SYW7GY5KZ+zC-UGx8+afDif9y5iGTumj7Yycjr_A@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] libdrm: Upgrade to 2.4.58.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,108 +44,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 22:53:15 -0000
+X-List-Received-Date: Wed, 03 Dec 2014 23:31:23 -0000
+Content-Type: multipart/alternative; boundary=089e015375e455df770509583d0d
 
-[YOCTO #6994]
+--089e015375e455df770509583d0d
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
-v2 Fixed Patched Tag info
+On 1 December 2014 at 22:36, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.int=
+el.com>
+wrote:
 
- ...0001-Use-memcpy-instead-of-reinventing-it.patch | 70 ++++++++++++++++++++++
- meta/recipes-support/lzo/lzo_2.08.bb               |  1 +
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.patch
+> Remove GNU_SOURCE_definition patch because is already integrated in
+> upstream.
+>
+> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
+>
 
-diff --git a/meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.patch b/meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.patch
-new file mode 100644
-index 0000000..db3a70e
---- /dev/null
-+++ b/meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.patch
-@@ -0,0 +1,70 @@
-+From: Simon McVittie <smcv@debian.org>
-+Date: Sun, 23 Nov 2014 22:50:33 +0000
-+Subject: Use memcpy() instead of reinventing it
-+
-+gcc inlines memcpy() with results as fast as handwritten code (at
-+least in my brief testing with lzop), and knows the alignment
-+constraints for our architectures.
-+
-+Change suggested by Julian Taylor.
-+
-+Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=757037
-+
-+Upstream-Status: Pending
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+---
-+ minilzo/minilzo.c | 14 ++++++++++++++
-+ src/lzo_func.h    | 14 ++++++++++++++
-+ 2 files changed, 28 insertions(+)
-+
-+
-+diff --git a/minilzo/minilzo.c b/minilzo/minilzo.c
-+index ab2be5f..6913c2f 100644
-+--- a/minilzo/minilzo.c
-++++ b/minilzo/minilzo.c
-+@@ -3523,6 +3523,20 @@ LZO_COMPILE_TIME_ASSERT_HEADER(sizeof(*(lzo_memops_TU8p)0)==8)
-+     if ((void)0, n__n > 0) do { *d__n++ = *s__n++; } while (--n__n > 0); \
-+     LZO_BLOCK_END
-+ 
-++/* Debian-specific change: we know that our compiler inlines memcpy() with
-++ * constant n to be as fast as handwritten code, and knows which architectures
-++ * need things correctly aligned. */
-++#undef LZO_MEMOPS_COPY1
-++#undef LZO_MEMOPS_COPY2
-++#undef LZO_MEMOPS_COPY4
-++#undef LZO_MEMOPS_COPY8
-++#undef LZO_MEMOPS_COPYN
-++#define LZO_MEMOPS_COPY1(dd,ss) memcpy(dd, ss, 1)
-++#define LZO_MEMOPS_COPY2(dd,ss) memcpy(dd, ss, 2)
-++#define LZO_MEMOPS_COPY4(dd,ss) memcpy(dd, ss, 4)
-++#define LZO_MEMOPS_COPY8(dd,ss) memcpy(dd, ss, 8)
-++#define LZO_MEMOPS_COPYN(dd,ss,nn) memcpy(dd, ss, nn)
-++
-+ __lzo_static_forceinline lzo_uint16_t lzo_memops_get_le16(const lzo_voidp ss)
-+ {
-+     lzo_uint16_t v;
-+diff --git a/src/lzo_func.h b/src/lzo_func.h
-+index dfaa676..1cc1b53 100644
-+--- a/src/lzo_func.h
-++++ b/src/lzo_func.h
-+@@ -333,6 +333,20 @@ LZO_COMPILE_TIME_ASSERT_HEADER(sizeof(*(lzo_memops_TU8p)0)==8)
-+     if ((void)0, n__n > 0) do { *d__n++ = *s__n++; } while (--n__n > 0); \
-+     LZO_BLOCK_END
-+ 
-++/* Debian-specific change: we know that our compiler inlines memcpy() with
-++ * constant n to be as fast as handwritten code, and knows which architectures
-++ * need things correctly aligned. */
-++#undef LZO_MEMOPS_COPY1
-++#undef LZO_MEMOPS_COPY2
-++#undef LZO_MEMOPS_COPY4
-++#undef LZO_MEMOPS_COPY8
-++#undef LZO_MEMOPS_COPYN
-++#define LZO_MEMOPS_COPY1(dd,ss) memcpy(dd, ss, 1)
-++#define LZO_MEMOPS_COPY2(dd,ss) memcpy(dd, ss, 2)
-++#define LZO_MEMOPS_COPY4(dd,ss) memcpy(dd, ss, 4)
-++#define LZO_MEMOPS_COPY8(dd,ss) memcpy(dd, ss, 8)
-++#define LZO_MEMOPS_COPYN(dd,ss,nn) memcpy(dd, ss, nn)
-++
-+ __lzo_static_forceinline lzo_uint16_t lzo_memops_get_le16(const lzo_voidp ss)
-+ {
-+     lzo_uint16_t v;
-diff --git a/meta/recipes-support/lzo/lzo_2.08.bb b/meta/recipes-support/lzo/lzo_2.08.bb
-index 7d7d1f3..af06e29 100644
---- a/meta/recipes-support/lzo/lzo_2.08.bb
-+++ b/meta/recipes-support/lzo/lzo_2.08.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://src/lzo_init.c;beginline=5;endline=25;md5=a6e25df9a83b24629e847846ccdd8054"
- 
- SRC_URI = "http://www.oberhumer.com/opensource/lzo/download/lzo-${PV}.tar.gz \
-+           file://0001-Use-memcpy-instead-of-reinventing-it.patch \
-            file://acinclude.m4 \
-            "
- 
--- 
-1.8.3.1
+There must have been some documentation changes as this is failing on the
+autobuilder:
 
+ | I/O error : Attempt to load network entity
+http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
+| warning: failed to load external entity "
+http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"
+| cannot parse
+http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
+| Makefile:612: recipe for target 'drmAvailable.3' failed
 
+https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/1=
+14/steps/BuildImages_1/logs/stdio
+
+I guess it found some documentation tools at configure time and is
+attempting to build the docs, but not enough was present.  An easy solution
+for now would be to disable the documentation with either a configure
+option or patch.
+
+Ross
+
+--089e015375e455df770509583d0d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 1 December 2014 at 22:36, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.lim=
+on@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-colo=
+r:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":7v=
+0" class=3D"" style=3D"overflow:hidden">Remove GNU_SOURCE_definition patch =
+because is already integrated in upstream.<br>
+<br>
+Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@li=
+nux.intel.com">anibal.limon@linux.intel.com</a>&gt;</div></blockquote><div>=
+<br></div><div>There must have been some documentation changes as this is f=
+ailing on the autobuilder:</div><div><br></div><div>=C2=A0| I/O error : Att=
+empt to load network entity <a href=3D"http://docbook.sourceforge.net/relea=
+se/xsl/current/manpages/docbook.xsl">http://docbook.sourceforge.net/release=
+/xsl/current/manpages/docbook.xsl</a></div><div>| warning: failed to load e=
+xternal entity &quot;<a href=3D"http://docbook.sourceforge.net/release/xsl/=
+current/manpages/docbook.xsl">http://docbook.sourceforge.net/release/xsl/cu=
+rrent/manpages/docbook.xsl</a>&quot;</div><div>| cannot parse <a href=3D"ht=
+tp://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl">http=
+://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl</a></di=
+v><div>| Makefile:612: recipe for target &#39;drmAvailable.3&#39; failed</d=
+iv><div><br></div><div><a href=3D"https://autobuilder.yoctoproject.org/main=
+/builders/build-appliance/builds/114/steps/BuildImages_1/logs/stdio">https:=
+//autobuilder.yoctoproject.org/main/builders/build-appliance/builds/114/ste=
+ps/BuildImages_1/logs/stdio</a><br></div><div><br></div><div>I guess it fou=
+nd some documentation tools at configure time and is attempting to build th=
+e docs, but not enough was present.=C2=A0 An easy solution for now would be=
+ to disable the documentation with either a configure option or patch.</div=
+><div><br></div><div>Ross</div></div></div></div>
+
+--089e015375e455df770509583d0d--
