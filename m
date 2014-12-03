@@ -1,40 +1,23 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B0DA60E24
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 782E960030
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 13:14:44 +0000 (UTC)
-Received: by mail-lb0-f174.google.com with SMTP id w7so12198617lbi.19
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Dec 2014 05:14:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=ATZRntbC+3NZqMvPpSfSDnGdzW2+148aGWf5kn2WlQo=;
-	b=FR4Tt19hRKHym35fuY4wPnumr+8G7fuHFd7VF2Mrj3Cawx29B+ae+5fZK+xux+Zxo0
-	H5oluMAUVDX+Rm6nA6xH4e05xtE00eoW6PjcS1Ac7cjwoT7ijXNmJYTBVzrRU8ZeSfBc
-	x7Paw4Z/S+WjMvNdHn6d5e7OjQ2P66yyDGls6pas9UF/iHK1sm2c28cKmxPCJ5mcjF/+
-	p9AjD93GvqAKPih7V9pH0Xwqy687G4GslAFcLI+G7PvrHyylYjsnGae4736xiyJC9CWu
-	H11wgpt4YeAJetGTjVH4tjnTPFTHll+bBhLfzGi4cOQj0YTE9IxIdmbLds0wHl8NUKIv
-	rvPg==
+	Wed,  3 Dec 2014 13:40:19 +0000 (UTC)
+Received: (qmail 25859 invoked by uid 1003); 3 Dec 2014 13:40:19 -0000
+Received: from unknown (HELO ?192.168.1.109?) (philip@opensdr.com@71.171.45.99)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	3 Dec 2014 13:40:19 -0000
+Message-ID: <547F12C2.5070700@balister.org>
+Date: Wed, 03 Dec 2014 08:40:18 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-X-Received: by 10.152.203.199 with SMTP id ks7mr4209200lac.31.1417612484951;
-	Wed, 03 Dec 2014 05:14:44 -0800 (PST)
-Received: by 10.112.48.41 with HTTP; Wed, 3 Dec 2014 05:14:44 -0800 (PST)
-In-Reply-To: <20141203122307.GB15731@lpalcu-linux>
-References: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
-	<CAMKF1srheZyVe5ATST-ToxZQJkXTTNvoh8j+PzrytSVbjVV9wA@mail.gmail.com>
-	<542056AF.8080009@windriver.com>
-	<2558455.kgL2mNBB1h@peggleto-mobl5.ger.corp.intel.com>
-	<20141203122307.GB15731@lpalcu-linux>
-Date: Wed, 3 Dec 2014 08:14:44 -0500
-Message-ID: <CADkTA4Ogy=K9sh80UqpH=AL9Bqas9W3S80-TF=T4TtiaTGcqMA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] kernel: Enable externalsrc on kernels which instantiate kernel.bbclass
+To: Tom Zanussi <tom.zanussi@linux.intel.com>, akuster808@gmail.com, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1416585198.git.tom.zanussi@linux.intel.com>
+In-Reply-To: <cover.1416585198.git.tom.zanussi@linux.intel.com>
+Subject: Re: [PATCH 0/6][dizzy] some wic bugfixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,69 +30,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 13:14:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 03 Dec 2014 13:40:25 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On Wed, Dec 3, 2014 at 7:23 AM, Laurentiu Palcu
-<laurentiu.palcu@intel.com> wrote:
-> Hi Paul,
->
-> On Wed, Dec 03, 2014 at 12:00:31PM +0000, Paul Eggleton wrote:
->> On Monday 22 September 2014 13:04:47 Bruce Ashfield wrote:
->> > On 14-09-22 01:03 PM, Khem Raj wrote:
->> > > On Mon, Sep 22, 2014 at 8:27 AM, Bruce Ashfield
->> > >
->> > > <bruce.ashfield@windriver.com> wrote:
->> > >> But the reports we've been getting have been that externalsrc
->> > >> builds are working for kernels, and linux-yocto without the change
->> > >> in place, so I'm looking to reduce the patch footprint and re-submit.
->> > >
->> > > no, it cant work if folks were trying the usecase I have mentioned.
->> > > The fix is infact for
->> > > non linux-yocto kernels.
->> >
->> > I'll send out my updated patch shortly, it should fix both cases.
->>
->> Bruce, did you get around to doing this?
->>
->> At the moment I am trying to make my workflow tool ("devtool modify") work with
->> linux-yocto. I've at least got to the point where I can extract the
->> appropriate source from the recipe, but when I use externalsrc to point to it
->> and then try to build it, it doesn't even get past do_configure, so something
->> must be missing (make complains about missing targets, presumably because it's
->> running in ${B} and there's nothing in that directory).
->>
->> Do you expect linux-yocto + externalsrc to work at the moment in master? If
->> so, are there any special steps I need to do with respect to preparing the
->> external source tree that my tool might not be performing?
-> FWIW, I'm using externalsrc to build non linux-yocto kernels but, to make it
-> work, I had to overwrite the KERNEL_CONFIG_COMMAND:
->
-> KERNEL_CONFIG_COMMAND = "oe_runmake_call -C ${S} O=${B} oldnoconfig || yes '' | oe_runmake -C ${S} O=${B} oldconfig"
->
+On 11/21/2014 11:07 AM, Tom Zanussi wrote:
+>>From the original posting:
+> 
+> This patchset fixes a couple serious wic bugs:
+> 
+> [YOCTO #6863] - Wic fails to create a working image for a large file system
+> [YOCTO #6290] - Update WIC for gummiboot
+> 
+> I generated core-image-sdk images for each of the wic image types and
+> was able to fsck/mount the resulting filesystems.
+> 
+> These should be applied to the next dizzy point release.
+> 
+> The following changes since commit e69653b01dd8ad9fda2355b8112a65c813ce7fd5:
+> 
+>   tzdata: update to 2014j (2014-11-17 08:01:21 -0800)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib.git tzanussi/dizzy-next
+>   http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/dizzy-next
+> 
+> Tom Zanussi (6):
+>   wic: Don't allow mkfs to fail silently in partition command
+>   wic: Use overhead factor when creating partitions from rootfs
+>     directories
 
-For an externalsrc kernel, we've always skipped configure* completely.
-If the user is
-providing the kernel, it should also be configured. We don't want the
-build system
-changing anything at all,  including the config that is in place.
+It looks like all the patches in this request made it into dizzy, except
+the overhead factor one. Is there a reason for this? Can we get the
+overhead one into dizzy also?
 
-Bruce
-
-> This might be the reason of your do_configure failure...
->
-> I hope it helps,
-> laurentiu
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Philip
 
 
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+
+>   wic: Update the help text to include -D (--debug)
+>   Revert "wic: set bootimg_dir when using image-name artifacts"
+>   wic: Remove special-case bootimg_dir
+>   wic: Update bootimg-partition to use bootimg_dir
+> 
+>  scripts/lib/image/engine.py                        | 42 +++++-----------------
+>  scripts/lib/image/help.py                          | 23 ++++++++----
+>  scripts/lib/wic/imager/direct.py                   |  5 +--
+>  .../lib/wic/kickstart/custom_commands/partition.py | 24 +++++++++----
+>  scripts/lib/wic/plugins/imager/direct_plugin.py    | 20 +++++------
+>  scripts/lib/wic/plugins/source/bootimg-efi.py      |  5 ++-
+>  .../lib/wic/plugins/source/bootimg-partition.py    |  9 +++--
+>  scripts/lib/wic/plugins/source/bootimg-pcbios.py   |  3 +-
+>  scripts/lib/wic/utils/oe/misc.py                   |  1 +
+>  scripts/wic                                        | 13 +++----
+>  10 files changed, 68 insertions(+), 77 deletions(-)
+> 
 
