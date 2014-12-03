@@ -1,25 +1,25 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 11CEE60169
+	by mail.openembedded.org (Postfix) with ESMTP id A51DF60673
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 01:18:12 +0000 (UTC)
+	Wed,  3 Dec 2014 01:18:09 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 02 Dec 2014 17:15:29 -0800
+	by orsmga102.jf.intel.com with ESMTP; 02 Dec 2014 17:15:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="492641394"
+X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="492641390"
 Received: from smoffitt-mobl.ger.corp.intel.com (HELO
 	swold-linux.amr.corp.intel.com) ([10.255.13.114])
-	by orsmga003.jf.intel.com with ESMTP; 02 Dec 2014 17:14:55 -0800
+	by orsmga003.jf.intel.com with ESMTP; 02 Dec 2014 17:14:54 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Dec 2014 17:18:08 -0800
-Message-Id: <bdf8a128a4e72bae07ca9da7226c16c84ea65c3f.1417552133.git.sgw@linux.intel.com>
+Date: Tue,  2 Dec 2014 17:18:05 -0800
+Message-Id: <8740d1ee8174975ad7b14b888d6358e9340e49f4.1417552133.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1417552133.git.sgw@linux.intel.com>
 References: <cover.1417552133.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1417552133.git.sgw@linux.intel.com>
 References: <cover.1417552133.git.sgw@linux.intel.com>
-Subject: [PATCH 4/4] valgrind: Upgrade to 3.10.0
+Subject: [PATCH 1/4] libaio: Upgrade to 3.110
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,173 +34,464 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 03 Dec 2014 01:18:12 -0000
 
-Rebase existing patches
-Add patch to fix rpath issue with ptest
+Rebase and delete patches for new release
+
+libaio does not build with PIE flags enabled
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../valgrind/remove-arm-variant-specific.patch     | 20 +++++++++--------
- .../valgrind/remove-ppc-tests-failing-build.patch  | 26 +++++++++++-----------
- .../valgrind/valgrind/valgrind-remove-rpath.patch  | 25 +++++++++++++++++++++
- .../{valgrind_3.9.0.bb => valgrind_3.10.0.bb}      |  6 ++---
- 4 files changed, 52 insertions(+), 25 deletions(-)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/valgrind-remove-rpath.patch
- rename meta/recipes-devtools/valgrind/{valgrind_3.9.0.bb => valgrind_3.10.0.bb} (94%)
+ meta/conf/distro/include/security_flags.inc        |   1 +
+ .../recipes-extended/libaio/libaio/00_arches.patch | 208 ++-------------------
+ .../libaio/libaio/libaio-aarch64.patch             |  28 ---
+ .../libaio/libaio/libaio_fix_for_mips64.patch      |  68 ++++---
+ .../recipes-extended/libaio/libaio/toolchain.patch |  27 ---
+ .../{libaio_0.3.109.bb => libaio_0.3.110.bb}       |   9 +-
+ 6 files changed, 63 insertions(+), 278 deletions(-)
+ delete mode 100644 meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
+ delete mode 100644 meta/recipes-extended/libaio/libaio/toolchain.patch
+ rename meta/recipes-extended/libaio/{libaio_0.3.109.bb => libaio_0.3.110.bb} (74%)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
-index 46dea60..f84bf9a 100644
---- a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
-+++ b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
-@@ -8,13 +8,13 @@ Upstream-Status: Pending
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 60156c0..bc8a577 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -43,6 +43,7 @@ SECURITY_CFLAGS_pn-gst-plugins-gl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-gstreamer1.0-plugins-good = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-harfbuzz = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-kexec-tools = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-libaio = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libcap = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libid3tag = "${SECURITY_NO_PIE_CFLAGS}"
+diff --git a/meta/recipes-extended/libaio/libaio/00_arches.patch b/meta/recipes-extended/libaio/libaio/00_arches.patch
+index 91f4588..9d6447d 100644
+--- a/meta/recipes-extended/libaio/libaio/00_arches.patch
++++ b/meta/recipes-extended/libaio/libaio/00_arches.patch
+@@ -2,10 +2,10 @@ Upstream-Status: Inappropriate [embedded specific]
  
- Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
+ from openembedded, added by Qing He <qing.he@intel.com>
  
--diff --git a/none/tests/arm/Makefile.am b/none/tests/arm/Makefile.am
--index 2a19f5b..ccdeb77 100644
----- a/none/tests/arm/Makefile.am
--+++ b/none/tests/arm/Makefile.am
--@@ -16,15 +16,16 @@ EXTRA_DIST = \
-- 		vcvt_fixed_float_VFP.vgtest \
-- 	vfp.stdout.exp vfp.stderr.exp vfp.vgtest
-+Index: valgrind-3.10.0/none/tests/arm/Makefile.am
+-Index: libaio-0.3.109/src/syscall-m68k.h
++Index: libaio-0.3.110/src/syscall-m68k.h
+ ===================================================================
+ --- /dev/null
+-+++ libaio-0.3.109/src/syscall-m68k.h
+++++ libaio-0.3.110/src/syscall-m68k.h
+ @@ -0,0 +1,78 @@
+ +#define __NR_io_setup		241
+ +#define __NR_io_destroy		242
+@@ -85,164 +85,27 @@ Index: libaio-0.3.109/src/syscall-m68k.h
+ +return (type) __res; \
+ +}
+ +
+-Index: libaio-0.3.109/src/syscall-sparc.h
++Index: libaio-0.3.110/src/syscall.h
+ ===================================================================
+---- /dev/null
+-+++ libaio-0.3.109/src/syscall-sparc.h
+-@@ -0,0 +1,130 @@
+-+/* $Id: unistd.h,v 1.74 2002/02/08 03:57:18 davem Exp $ */
+-+
+-+/*
+-+ * System calls under the Sparc.
+-+ *
+-+ * Don't be scared by the ugly clobbers, it is the only way I can
+-+ * think of right now to force the arguments into fixed registers
+-+ * before the trap into the system call with gcc 'asm' statements.
+-+ *
+-+ * Copyright (C) 1995 David S. Miller (davem@caip.rutgers.edu)
+-+ *
+-+ * SunOS compatibility based upon preliminary work which is:
+-+ *
+-+ * Copyright (C) 1995 Adrian M. Rodriguez (adrian@remus.rutgers.edu)
+-+ */
+-+
+-+
+-+#define __NR_io_setup		268
+-+#define __NR_io_destroy		269
+-+#define __NR_io_submit		270
+-+#define __NR_io_cancel		271
+-+#define __NR_io_getevents	272
+-+
+-+
+-+#define io_syscall1(type,fname,sname,type1,arg1) \
+-+type fname(type1 arg1) \
+-+{ \
+-+long __res; \
+-+register long __g1 __asm__ ("g1") = __NR_##sname; \
+-+register long __o0 __asm__ ("o0") = (long)(arg1); \
+-+__asm__ __volatile__ ("t 0x10\n\t" \
+-+		      "bcc 1f\n\t" \
+-+		      "mov %%o0, %0\n\t" \
+-+		      "sub %%g0, %%o0, %0\n\t" \
+-+		      "1:\n\t" \
+-+		      : "=r" (__res), "=&r" (__o0) \
+-+		      : "1" (__o0), "r" (__g1) \
+-+		      : "cc"); \
+-+if (__res < -255 || __res >= 0) \
+-+	return (type) __res; \
+-+return -1; \
+-+}
+-+
+-+#define io_syscall2(type,fname,sname,type1,arg1,type2,arg2) \
+-+type fname(type1 arg1,type2 arg2) \
+-+{ \
+-+long __res; \
+-+register long __g1 __asm__ ("g1") = __NR_##sname; \
+-+register long __o0 __asm__ ("o0") = (long)(arg1); \
+-+register long __o1 __asm__ ("o1") = (long)(arg2); \
+-+__asm__ __volatile__ ("t 0x10\n\t" \
+-+		      "bcc 1f\n\t" \
+-+		      "mov %%o0, %0\n\t" \
+-+		      "sub %%g0, %%o0, %0\n\t" \
+-+		      "1:\n\t" \
+-+		      : "=r" (__res), "=&r" (__o0) \
+-+		      : "1" (__o0), "r" (__o1), "r" (__g1) \
+-+		      : "cc"); \
+-+if (__res < -255 || __res >= 0) \
+-+	return (type) __res; \
+-+return -1; \
+-+}
+-+
+-+#define io_syscall3(type,fname,sname,type1,arg1,type2,arg2,type3,arg3) \
+-+type fname(type1 arg1,type2 arg2,type3 arg3) \
+-+{ \
+-+long __res; \
+-+register long __g1 __asm__ ("g1") = __NR_##sname; \
+-+register long __o0 __asm__ ("o0") = (long)(arg1); \
+-+register long __o1 __asm__ ("o1") = (long)(arg2); \
+-+register long __o2 __asm__ ("o2") = (long)(arg3); \
+-+__asm__ __volatile__ ("t 0x10\n\t" \
+-+		      "bcc 1f\n\t" \
+-+		      "mov %%o0, %0\n\t" \
+-+		      "sub %%g0, %%o0, %0\n\t" \
+-+		      "1:\n\t" \
+-+		      : "=r" (__res), "=&r" (__o0) \
+-+		      : "1" (__o0), "r" (__o1), "r" (__o2), "r" (__g1) \
+-+		      : "cc"); \
+-+if (__res < -255 || __res>=0) \
+-+	return (type) __res; \
+-+return -1; \
+-+}
+-+
+-+#define io_syscall4(type,fname,sname,type1,arg1,type2,arg2,type3,arg3,type4,arg4) \
+-+type fname(type1 arg1, type2 arg2, type3 arg3, type4 arg4) \
+-+{ \
+-+long __res; \
+-+register long __g1 __asm__ ("g1") = __NR_##sname; \
+-+register long __o0 __asm__ ("o0") = (long)(arg1); \
+-+register long __o1 __asm__ ("o1") = (long)(arg2); \
+-+register long __o2 __asm__ ("o2") = (long)(arg3); \
+-+register long __o3 __asm__ ("o3") = (long)(arg4); \
+-+__asm__ __volatile__ ("t 0x10\n\t" \
+-+		      "bcc 1f\n\t" \
+-+		      "mov %%o0, %0\n\t" \
+-+		      "sub %%g0, %%o0, %0\n\t" \
+-+		      "1:\n\t" \
+-+		      : "=r" (__res), "=&r" (__o0) \
+-+		      : "1" (__o0), "r" (__o1), "r" (__o2), "r" (__o3), "r" (__g1) \
+-+		      : "cc"); \
+-+if (__res < -255 || __res>=0) \
+-+	return (type) __res; \
+-+return -1; \
+-+}
+-+
+-+#define io_syscall5(type,fname,sname,type1,arg1,type2,arg2,type3,arg3,type4,arg4, \
+-+	  type5,arg5) \
+-+type fname(type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5) \
+-+{ \
+-+long __res; \
+-+register long __g1 __asm__ ("g1") = __NR_##sname; \
+-+register long __o0 __asm__ ("o0") = (long)(arg1); \
+-+register long __o1 __asm__ ("o1") = (long)(arg2); \
+-+register long __o2 __asm__ ("o2") = (long)(arg3); \
+-+register long __o3 __asm__ ("o3") = (long)(arg4); \
+-+register long __o4 __asm__ ("o4") = (long)(arg5); \
+-+__asm__ __volatile__ ("t 0x10\n\t" \
+-+		      "bcc 1f\n\t" \
+-+		      "mov %%o0, %0\n\t" \
+-+		      "sub %%g0, %%o0, %0\n\t" \
+-+		      "1:\n\t" \
+-+		      : "=r" (__res), "=&r" (__o0) \
+-+		      : "1" (__o0), "r" (__o1), "r" (__o2), "r" (__o3), "r" (__o4), "r" (__g1) \
+-+		      : "cc"); \
+-+if (__res < -255 || __res>=0) \
+-+	return (type) __res; \
+-+return -1; \
+-+}
+-+
+-Index: libaio-0.3.109/src/syscall.h
+-===================================================================
+---- libaio-0.3.109.orig/src/syscall.h
+-+++ libaio-0.3.109/src/syscall.h
+-@@ -24,6 +24,14 @@
+- #include "syscall-alpha.h"
+- #elif defined(__arm__)
+- #include "syscall-arm.h"
++--- libaio-0.3.110.orig/src/syscall.h
+++++ libaio-0.3.110/src/syscall.h
++@@ -28,6 +28,12 @@
++ #include "syscall-sparc.h"
++ #elif defined(__aarch64__)
++ #include "syscall-arm64.h"
+ +#elif defined(__m68k__)
+ +#include "syscall-m68k.h"
+-+#elif defined(__sparc__)
+-+#include "syscall-sparc.h"
+ +#elif defined(__hppa__)
+ +#include "syscall-parisc.h"
+ +#elif defined(__mips__)
+ +#include "syscall-mips.h"
+  #else
+- #error "add syscall-arch.h"
+- #endif
+-Index: libaio-0.3.109/src/syscall-mips.h
++ #warning "using generic syscall method"
++ #include "syscall-generic.h"
++Index: libaio-0.3.110/src/syscall-mips.h
+ ===================================================================
+ --- /dev/null
+-+++ libaio-0.3.109/src/syscall-mips.h
+++++ libaio-0.3.110/src/syscall-mips.h
+ @@ -0,0 +1,223 @@
+ +/*
+ + * This file is subject to the terms and conditions of the GNU General Public
+@@ -467,45 +330,10 @@ Index: libaio-0.3.109/src/syscall-mips.h
+ +
+ +#endif /* (_MIPS_SIM == _MIPS_SIM_NABI32) || (_MIPS_SIM == _MIPS_SIM_ABI64) */
+ +
+-Index: libaio-0.3.109/src/libaio.h
+-===================================================================
+---- libaio-0.3.109.orig/src/libaio.h
+-+++ libaio-0.3.109/src/libaio.h
+-@@ -83,6 +83,30 @@ typedef enum io_iocb_cmd {
+- #define PADDEDptr(x, y)	x; unsigned y
+- #define PADDEDul(x, y)	unsigned long x; unsigned y
+- #  endif
+-+#elif defined(__m68k__) /* big endian, 32 bits */
+-+#define PADDED(x, y)   unsigned y; x
+-+#define PADDEDptr(x, y)        unsigned y; x
+-+#define PADDEDul(x, y) unsigned y; unsigned long x
+-+#elif defined(__sparc__) /* big endian, 32 bits */
+-+#define PADDED(x, y)   unsigned y; x
+-+#define PADDEDptr(x, y)        unsigned y; x
+-+#define PADDEDul(x, y) unsigned y; unsigned long x
+-+#elif defined(__hppa__) /* big endian, 32 bits */
+-+#define PADDED(x, y)   unsigned y; x
+-+#define PADDEDptr(x, y)        unsigned y; x
+-+#define PADDEDul(x, y) unsigned y; unsigned long x
+-+#elif defined(__mips__)
+-+#  if defined (__MIPSEB__) /* big endian, 32 bits */
+-+#define PADDED(x, y)   unsigned y; x
+-+#define PADDEDptr(x, y)        unsigned y; x
+-+#define PADDEDul(x, y) unsigned y; unsigned long x
+-+#  elif defined(__MIPSEL__) /* little endian, 32 bits */
+-+#define PADDED(x, y)   x; unsigned y
+-+#define PADDEDptr(x, y)        x; unsigned y
+-+#define PADDEDul(x, y) unsigned long x; unsigned y
+-+#  else
+-+#    error "neither mipseb nor mipsel?"
+-+#  endif
+- #else
+- #error	endian?
+- #endif
+-Index: libaio-0.3.109/src/syscall-parisc.h
++Index: libaio-0.3.110/src/syscall-parisc.h
+ ===================================================================
+ --- /dev/null
+-+++ libaio-0.3.109/src/syscall-parisc.h
+++++ libaio-0.3.110/src/syscall-parisc.h
+ @@ -0,0 +1,146 @@
+ +/*
+ + * Linux system call numbers.
+@@ -653,10 +481,10 @@ Index: libaio-0.3.109/src/syscall-parisc.h
+ +    return K_INLINE_SYSCALL(sname, 5, arg1, arg2, arg3, arg4, arg5);	\
+ +}
+ +
+-Index: libaio-0.3.109/src/syscall-arm.h
++Index: libaio-0.3.110/src/syscall-arm.h
+ ===================================================================
+---- libaio-0.3.109.orig/src/syscall-arm.h
+-+++ libaio-0.3.109/src/syscall-arm.h
++--- libaio-0.3.110.orig/src/syscall-arm.h
+++++ libaio-0.3.110/src/syscall-arm.h
+ @@ -114,3 +114,119 @@ type fname(type1 arg1, type2 arg2, type3
+    return (type) __res_r0;						\
+  }
+diff --git a/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch b/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
+deleted file mode 100644
+index e3d1058..0000000
+--- a/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-Upstream-Status: Submitted
+-
+-Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
+-
+----
+- harness/cases/16.t |    2 ++
+- src/libaio.h       |   10 ++++++++++
+- 2 files changed, 12 insertions(+)
+-
+---- a/src/libaio.h
+-+++ b/src/libaio.h
+-@@ -107,6 +107,16 @@
+- #  else
+- #    error "neither mipseb nor mipsel?"
+- #  endif
+-+#elif defined(__aarch64__)
+-+#  if defined (__AARCH64EB__) /* big endian, 64 bits */
+-+#define PADDED(x, y)    unsigned y; x
+-+#define PADDEDptr(x,y)  x
+-+#define PADDEDul(x, y)  unsigned long x
+-+#  elif defined(__AARCH64EL__) /* little endian, 64 bits */
+-+#define PADDED(x, y)    x, y
+-+#define PADDEDptr(x, y) x
+-+#define PADDEDul(x, y)  unsigned long x
+-+#  endif
+- #else
+- #error	endian?
+- #endif
+diff --git a/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips64.patch b/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips64.patch
+index 0ef9f14..9d4bb46 100644
+--- a/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips64.patch
++++ b/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips64.patch
+@@ -14,29 +14,45 @@ Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
+  src/libaio.h | 12 ++++++++++++
+  1 file changed, 12 insertions(+)
+ 
+-diff --git a/src/libaio.h b/src/libaio.h
+-index ff99188..64ea8f3 100644
+---- a/src/libaio.h
+-+++ b/src/libaio.h
+-@@ -95,6 +95,18 @@ typedef enum io_iocb_cmd {
+- #define PADDED(x, y)   unsigned y; x
+- #define PADDEDptr(x, y)        unsigned y; x
+- #define PADDEDul(x, y) unsigned y; unsigned long x
+-+#elif defined(__mips64)
+-+#  if defined (__MIPSEB__) /* big endian, 64 bits */
+-+#define PADDED(x, y)	unsigned y; x
+-+#define PADDEDptr(x,y)	x
+-+#define PADDEDul(x, y)	unsigned long x
+-+#  elif defined(__MIPSEL__) /* little endian, 64 bits */
+-+#define PADDED(x, y)	x, y
+-+#define PADDEDptr(x, y)	x
+-+#define PADDEDul(x, y)	unsigned long x
+-+#  else
+-+#    error "mips64: neither mipseb nor mipsel?"
+-+#  endif
+- #elif defined(__mips__)
+- #  if defined (__MIPSEB__) /* big endian, 32 bits */
+- #define PADDED(x, y)   unsigned y; x
+--- 
+-1.8.2.1
+-
++Index: libaio-0.3.110/src/libaio.h
 +===================================================================
-+--- valgrind-3.10.0.orig/none/tests/arm/Makefile.am
-++++ valgrind-3.10.0/none/tests/arm/Makefile.am
-+@@ -17,15 +17,16 @@ EXTRA_DIST = \
-+ 	vfp.stdout.exp vfp.stderr.exp vfp.vgtest \
-+ 	vfpv4_fma.stdout.exp vfpv4_fma.stderr.exp vfpv4_fma.vgtest
-  
- +# For yocto:
- +#  Only include tests that don't require Thumb.
-@@ -31,8 +31,8 @@ index 2a19f5b..ccdeb77 100644
- -	v6intThumb \
-  	v6media \
-  	vcvt_fixed_float_VFP \
-- 	vfp
--@@ -34,32 +35,3 @@ AM_CXXFLAGS  += @FLAG_M32@
-+ 	vfp \
-+@@ -36,34 +37,3 @@ AM_CXXFLAGS  += @FLAG_M32@
-  AM_CCASFLAGS += @FLAG_M32@
-  
-  allexec_CFLAGS		= $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
-@@ -65,3 +65,5 @@ index 2a19f5b..ccdeb77 100644
- -intdiv_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a15 -mthumb
- -ldrt_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mthumb
- -ldrt_arm_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -marm
-+-
-+-vfpv4_fma_CFLAGS  = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a15 -mfpu=vfpv4 -marm
-diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch b/meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
-index 2a14e18..1c640ff 100644
---- a/meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
-+++ b/meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
-@@ -36,10 +36,10 @@ Upstream-Status: Pending
++--- libaio-0.3.110.orig/src/libaio.h
+++++ libaio-0.3.110/src/libaio.h
++@@ -51,7 +51,7 @@ typedef enum io_iocb_cmd {
++ 
++ /* little endian, 32 bits */
++ #if defined(__i386__) || (defined(__arm__) && !defined(__ARMEB__)) || \
++-    defined(__sh__) || defined(__bfin__) || defined(__MIPSEL__) || \
+++    defined(__sh__) || defined(__bfin__) || (defined(__mips__) && defined(__MIPSEL__)) || \
++     defined(__cris__)
++ #define PADDED(x, y)	x; unsigned y
++ #define PADDEDptr(x, y)	x; unsigned y
++@@ -59,7 +59,8 @@ typedef enum io_iocb_cmd {
++ 
++ /* little endian, 64 bits */
++ #elif defined(__ia64__) || defined(__x86_64__) || defined(__alpha__) || \
++-      (defined(__aarch64__) && defined(__AARCH64EL__))
+++      (defined(__aarch64__) && defined(__AARCH64EL__)) || \
+++      (defined(__mips64) && defined(__MIPSEL__))
++ #define PADDED(x, y)	x, y
++ #define PADDEDptr(x, y)	x
++ #define PADDEDul(x, y)	unsigned long x
++@@ -67,7 +68,8 @@ typedef enum io_iocb_cmd {
++ /* big endian, 64 bits */
++ #elif defined(__powerpc64__) || defined(__s390x__) || \
++       (defined(__sparc__) && defined(__arch64__)) || \
++-      (defined(__aarch64__) && defined(__AARCH64EB__))
+++      (defined(__aarch64__) && defined(__AARCH64EB__)) || \
+++      (defined(__mips64) && defined(__MIPSEL__))
++ #define PADDED(x, y)	unsigned y; x
++ #define PADDEDptr(x,y)	x
++ #define PADDEDul(x, y)	unsigned long x
++@@ -75,7 +77,7 @@ typedef enum io_iocb_cmd {
++ /* big endian, 32 bits */
++ #elif defined(__PPC__) || defined(__s390__) || \
++       (defined(__arm__) && defined(__ARMEB__)) || \
++-      defined(__sparc__) || defined(__MIPSEB__) || defined(__m68k__) || \
+++      defined(__sparc__) || (defined(__mips__) && defined(__MIPSEB__)) || defined(__m68k__) || \
++       defined(__hppa__) || defined(__frv__) || defined(__avr32__)
++ #define PADDED(x, y)	unsigned y; x
++ #define PADDEDptr(x, y)	unsigned y; x
+diff --git a/meta/recipes-extended/libaio/libaio/toolchain.patch b/meta/recipes-extended/libaio/libaio/toolchain.patch
+deleted file mode 100644
+index 4d88ec1..0000000
+--- a/meta/recipes-extended/libaio/libaio/toolchain.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-8/27/2010 - created by Qing He <qing.he@intel.com>
+-
+-diff --git a/src/Makefile b/src/Makefile
+-index 8d134cc..df8e5b6 100644
+---- a/src/Makefile
+-+++ b/src/Makefile
+-@@ -2,7 +2,6 @@ prefix=/usr
+- includedir=$(prefix)/include
+- libdir=$(prefix)/lib
+- 
+--ARCH := $(shell uname -m | sed -e s/i.86/i386/)
+- CFLAGS := -nostdlib -nostartfiles -Wall -I. -g -fomit-frame-pointer -O2 -fPIC
+- SO_CFLAGS=-shared $(CFLAGS)
+- L_CFLAGS=$(CFLAGS)
+-@@ -44,8 +43,8 @@ $(libaio_objs) $(libaio_sobjs): libaio.h vsys_def.h
+- 
+- libaio.a: $(libaio_objs)
+- 	rm -f libaio.a
+--	ar r libaio.a $^
+--	ranlib libaio.a
+-+	$(AR) r libaio.a $^
+-+	$(RANLIB) libaio.a
+- 
+- $(libname): $(libaio_sobjs) libaio.map
+- 	$(CC) $(SO_CFLAGS) -Wl,--version-script=libaio.map -Wl,-soname=$(soname) -o $@ $(libaio_sobjs) $(LINK_FLAGS)
+diff --git a/meta/recipes-extended/libaio/libaio_0.3.109.bb b/meta/recipes-extended/libaio/libaio_0.3.110.bb
+similarity index 74%
+rename from meta/recipes-extended/libaio/libaio_0.3.109.bb
+rename to meta/recipes-extended/libaio/libaio_0.3.110.bb
+index 0483c71..5d69282 100644
+--- a/meta/recipes-extended/libaio/libaio_0.3.109.bb
++++ b/meta/recipes-extended/libaio/libaio_0.3.110.bb
+@@ -5,21 +5,16 @@ HOMEPAGE = "http://lse.sourceforge.net/io/aio.html"
+ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d8045f3b8f929c1cb29a1e3fd737b499"
  
- Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
+-PR = "r2"
+-
+ SRC_URI = "${DEBIAN_MIRROR}/main/liba/libaio/libaio_${PV}.orig.tar.gz \
+            file://00_arches.patch \
+-           file://toolchain.patch \
+            file://destdir.patch \
+            file://libaio_fix_for_x32.patch \
+-           file://libaio-generic.patch \
+-           file://libaio-aarch64.patch \
+            file://libaio_fix_for_mips_syscalls.patch \
+            file://libaio_fix_for_mips64.patch \
+ "
  
--diff --git a/memcheck/tests/ppc32/Makefile.am b/memcheck/tests/ppc32/Makefile.am
--index bd70eea..1436e8e 100644
----- a/memcheck/tests/ppc32/Makefile.am
--+++ b/memcheck/tests/ppc32/Makefile.am
-+Index: valgrind-3.10.0/memcheck/tests/ppc32/Makefile.am
-+===================================================================
-+--- valgrind-3.10.0.orig/memcheck/tests/ppc32/Makefile.am
-++++ valgrind-3.10.0/memcheck/tests/ppc32/Makefile.am
- @@ -7,8 +7,7 @@ EXTRA_DIST = $(noinst_SCRIPTS) \
-  	power_ISA2_05.stderr.exp power_ISA2_05.stdout.exp power_ISA2_05.vgtest \
-  	power_ISA2_05.stdout.exp_Without_FPPO
-@@ -50,11 +50,11 @@ index bd70eea..1436e8e 100644
-  
-  power_ISA2_05_CFLAGS = $(AM_CFLAGS) $(WERROR) -Winline -Wall -Wshadow -g \
-  		-I$(top_srcdir)/include @FLAG_M32@
--diff --git a/none/tests/ppc32/Makefile.am b/none/tests/ppc32/Makefile.am
--index 4f581b6..91ce7e7 100644
----- a/none/tests/ppc32/Makefile.am
--+++ b/none/tests/ppc32/Makefile.am
--@@ -50,16 +50,8 @@ check_PROGRAMS = \
-+Index: valgrind-3.10.0/none/tests/ppc32/Makefile.am
-+===================================================================
-+--- valgrind-3.10.0.orig/none/tests/ppc32/Makefile.am
-++++ valgrind-3.10.0/none/tests/ppc32/Makefile.am
-+@@ -52,16 +52,8 @@ check_PROGRAMS = \
-  	allexec \
-  	bug129390-ppc32 \
-  	bug139050-ppc32 \
-@@ -67,9 +67,9 @@ index 4f581b6..91ce7e7 100644
- -	test_isa_2_07_part1 \
- -	test_isa_2_07_part2 \
- -	test_tm \
---	test_touch_tm
-+-	test_touch_tm \
- +	ldstrev lsw mftocrf mcrfs test_fx test_gx \
--+	twi tw xlc_dbl_u32 power6_bcmp 
-++	twi tw xlc_dbl_u32 power6_bcmp \
-+ 	ldst_multiple \
-+ 	data-cache-instructions
-  
-- AM_CFLAGS    += @FLAG_M32@
-- AM_CXXFLAGS  += @FLAG_M32@
-diff --git a/meta/recipes-devtools/valgrind/valgrind/valgrind-remove-rpath.patch b/meta/recipes-devtools/valgrind/valgrind/valgrind-remove-rpath.patch
-new file mode 100644
-index 0000000..07a2726
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/valgrind-remove-rpath.patch
-@@ -0,0 +1,25 @@
-+
-+Upstream-Status: Inapporpiate [embedded config]
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+
-+Index: valgrind-3.10.0/none/tests/Makefile.am
-+===================================================================
-+--- valgrind-3.10.0.orig/none/tests/Makefile.am
-++++ valgrind-3.10.0/none/tests/Makefile.am
-+@@ -280,7 +280,6 @@ threaded_fork_LDADD	= -lpthread
-+ threadederrno_LDADD	= -lpthread
-+ tls_SOURCES		= tls.c tls2.c
-+ tls_DEPENDENCIES	= tls.so tls2.so
-+-tls_LDFLAGS		= -Wl,-rpath,$(abs_top_builddir)/none/tests
-+ tls_LDADD		= tls.so tls2.so -lpthread
-+ tls_so_SOURCES		= tls_so.c
-+ tls_so_DEPENDENCIES	= tls2.so
-+@@ -288,7 +287,7 @@ if VGCONF_OS_IS_DARWIN
-+  tls_so_LDFLAGS		= -dynamic -dynamiclib -all_load -fpic
-+  tls_so_LDADD		= `pwd`/tls2.so
-+ else
-+- tls_so_LDFLAGS		= -Wl,-rpath,$(abs_top_builddir)/none/tests -shared -fPIC
-++ tls_so_LDFLAGS		= -shared -fPIC
-+  tls_so_LDADD		= tls2.so
-+ endif
-+ tls_so_CFLAGS		= $(AM_CFLAGS) -fPIC
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.10.0.bb
-similarity index 94%
-rename from meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
-rename to meta/recipes-devtools/valgrind/valgrind_3.10.0.bb
-index c415e77..4c6e1a7 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.10.0.bb
-@@ -9,7 +9,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c46082167a314d785d012a244748d803 \
+-SRC_URI[md5sum] = "435a5b16ca6198eaf01155263d855756"
+-SRC_URI[sha256sum] = "bf4a457253cbaab215aea75cb6e18dc8d95bbd507e9920661ff9bdd288c8778d"
++SRC_URI[md5sum] = "2a35602e43778383e2f4907a4ca39ab8"
++SRC_URI[sha256sum] = "e019028e631725729376250e32b473012f7cb68e1f7275bfc1bbcdd0f8745f7e"
  
- X11DEPENDS = "virtual/libx11"
- DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
--PR = "r8"
+ EXTRA_OEMAKE =+ "prefix=${prefix} includedir=${includedir} libdir=${libdir}"
  
- SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
-            file://fixed-perl-path.patch \
-@@ -19,12 +18,13 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
-            file://force-nostabs.patch \
-            file://remove-arm-variant-specific.patch \
-            file://remove-ppc-tests-failing-build.patch \
-+           file://valgrind-remove-rpath.patch \
-            file://add-ptest.patch \
-            file://run-ptest \
-           "
- 
--SRC_URI[md5sum] = "0947de8112f946b9ce64764af7be6df2"
--SRC_URI[sha256sum] = "e6af71a06bc2534541b07743e1d58dc3caf744f38205ca3e5b5a0bdf372ed6f0"
-+SRC_URI[md5sum] = "7c311a72a20388aceced1aa5573ce970"
-+SRC_URI[sha256sum] = "03047f82dfc6985a4c7d9d2700e17bc05f5e1a0ca6ad902e5d6c81aeb720edc9"
- 
- COMPATIBLE_HOST = '(i.86|x86_64|powerpc|powerpc64).*-linux'
- COMPATIBLE_HOST_armv7a = 'arm.*-linux'
 -- 
 1.8.3.1
 
