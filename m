@@ -1,28 +1,29 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id CD4A660030
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id DEAC460169
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 18:02:57 +0000 (UTC)
-Received: from SESTOEX09.enea.se ([fe80::94d8:372f:210c:b4da]) by
-	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
-	14.03.0158.001; Wed, 3 Dec 2014 19:02:52 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [daisy][PATCH] python: Building without SSLv3 support
-Thread-Index: AQHQDtCGHMHlJ+hOHk6/zocS2IGhbpx+Fp6AgAAR3ZA=
-Date: Wed, 3 Dec 2014 18:02:51 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48257C260D@sestoex09.enea.se>
-References: <1417594165-25317-1-git-send-email-sona.sarmadi@enea.com>
-	<CAJTo0LY4Y6eWLUMvBLjwnKNy=KLoxh3Knien+HgOB5ZqXrmkRg@mail.gmail.com>
-In-Reply-To: <CAJTo0LY4Y6eWLUMvBLjwnKNy=KLoxh3Knien+HgOB5ZqXrmkRg@mail.gmail.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
+	Wed,  3 Dec 2014 18:50:11 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Dec 2014 08:34:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,508,1413270000"; d="scan'208";a="647574402"
+Received: from jwosulli-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.30.129])
+	by orsmga002.jf.intel.com with ESMTP; 03 Dec 2014 06:36:44 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 03 Dec 2014 14:36:43 +0000
+Message-ID: <3308676.S190v0nn32@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.3 (Linux/3.17.3-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <CADkTA4Ogy=K9sh80UqpH=AL9Bqas9W3S80-TF=T4TtiaTGcqMA@mail.gmail.com>
+References: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
+	<20141203122307.GB15731@lpalcu-linux>
+	<CADkTA4Ogy=K9sh80UqpH=AL9Bqas9W3S80-TF=T4TtiaTGcqMA@mail.gmail.com>
 MIME-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [daisy][PATCH] python: Building without SSLv3 support
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] kernel: Enable externalsrc on kernels which instantiate kernel.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,108 +36,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 18:02:58 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_3230301C09DEF9499B442BBE162C5E48257C260Dsestoex09enease_"
+X-List-Received-Date: Wed, 03 Dec 2014 18:50:19 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---_000_3230301C09DEF9499B442BBE162C5E48257C260Dsestoex09enease_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Wednesday 03 December 2014 08:14:44 Bruce Ashfield wrote:
+> On Wed, Dec 3, 2014 at 7:23 AM, Laurentiu Palcu
+> 
+> <laurentiu.palcu@intel.com> wrote:
+> > Hi Paul,
+> > 
+> > On Wed, Dec 03, 2014 at 12:00:31PM +0000, Paul Eggleton wrote:
+> >> On Monday 22 September 2014 13:04:47 Bruce Ashfield wrote:
+> >> > On 14-09-22 01:03 PM, Khem Raj wrote:
+> >> > > On Mon, Sep 22, 2014 at 8:27 AM, Bruce Ashfield
+> >> > > 
+> >> > > <bruce.ashfield@windriver.com> wrote:
+> >> > >> But the reports we've been getting have been that externalsrc
+> >> > >> builds are working for kernels, and linux-yocto without the change
+> >> > >> in place, so I'm looking to reduce the patch footprint and
+> >> > >> re-submit.
+> >> > > 
+> >> > > no, it cant work if folks were trying the usecase I have mentioned.
+> >> > > The fix is infact for
+> >> > > non linux-yocto kernels.
+> >> > 
+> >> > I'll send out my updated patch shortly, it should fix both cases.
+> >> 
+> >> Bruce, did you get around to doing this?
+> >> 
+> >> At the moment I am trying to make my workflow tool ("devtool modify")
+> >> work with linux-yocto. I've at least got to the point where I can
+> >> extract the appropriate source from the recipe, but when I use
+> >> externalsrc to point to it and then try to build it, it doesn't even get
+> >> past do_configure, so something must be missing (make complains about
+> >> missing targets, presumably because it's running in ${B} and there's
+> >> nothing in that directory).
+> >> 
+> >> Do you expect linux-yocto + externalsrc to work at the moment in master?
+> >> If
+> >> so, are there any special steps I need to do with respect to preparing
+> >> the
+> >> external source tree that my tool might not be performing?
+> > 
+> > FWIW, I'm using externalsrc to build non linux-yocto kernels but, to make
+> > it work, I had to overwrite the KERNEL_CONFIG_COMMAND:
+> > 
+> > KERNEL_CONFIG_COMMAND = "oe_runmake_call -C ${S} O=${B} oldnoconfig || yes
+> > '' | oe_runmake -C ${S} O=${B} oldconfig"
+>
+> For an externalsrc kernel, we've always skipped configure* completely.
+> If the user is providing the kernel, it should also be configured. We don't
+> want the build system changing anything at all,  including the config that is
+> in place.
 
-SGkgUm9zcywNCg0KDQoNClN1cmUuDQoNCkkgZm9yZ290IHRvIG1ha2Ugc3VyZSB0aGF0ICBweXRo
-b24gY2FuIGJlIGJ1aWx0IHdoZW4gIk9QRU5TU0xfTk9fU1NMMyIgaXMgZGVmaW5lZCBpbiB0aGUg
-b3BlbnNzbC4gSSB3aWxsIGNoZWNrIHRoaXMgYXMgd2VsbCBhbmQgcmUtc2VuZCB0aGUgcGF0Y2gu
-DQoNCg0KDQotLSBTb25hDQoNCg0KDQpPbiAzIERlY2VtYmVyIDIwMTQgYXQgMDg6MDksIFNvbmEg
-U2FybWFkaSA8c29uYS5zYXJtYWRpQGVuZWEuY29tPG1haWx0bzpzb25hLnNhcm1hZGlAZW5lYS5j
-b20+PiB3cm90ZToNCkJ1aWxkaW5nIHB5dGhvbiB3aXRob3V0IFNTTHYzIHN1cHBvcnQgd2hlbiBv
-cGVuc3NsIGlzIGJ1aWx0IHdpdGhvdXQNCmFueSBzdXBwb3J0IGZvciBTU0x2My4gIk9QRU5TU0xf
-Tk9fU1NMMyIgaXMgZGVmaW5lZCBpbiB0aGUgb3BlbnNzbA0KaGVhZGVycyAob3BlbnNzbGNvbmYu
-aCkgd2hpY2ggaXMgbG9jYXRlZCBpbiAvdXNyL2luY2x1ZGUvJGFyY2gvb3BlbnNzbC8NCg0KQmFj
-a3BvcnRlZCBmcm9tOg0KaHR0cHM6Ly9idWdzLmRlYmlhbi5vcmcvY2dpLWJpbi9idWdyZXBvcnQu
-Y2dpP2J1Zz03Njg2MTEjMjINCg0KVGhpcyBzaG91bGQgYmUgYXBwbGllZCB0byBtYXN0ZXIgZmly
-c3QsIGFuZCB0aGVuIGJhY2twb3J0ZWQgdG8gYW55IHN0YWJsZSBicmFuY2hlcy4gIENhbiB5b3Ug
-cmUtc2VuZCBpbiBhIGZvcm0gdGhhdCBhcHBsaWVzIHRvIG1hc3Rlcj8NCg0KUm9zcw0KDQoNCg==
+OK, that makes sense - but all I'm doing is enabling externalsrc for the 
+kernel, and do_configure is still being executed. Perhaps that's something that 
+shouldn't be happening (needs to be added to SRCTREECOVEREDTASKS? We don't 
+normally cover do_configure for other recipes.)
 
---_000_3230301C09DEF9499B442BBE162C5E48257C260Dsestoex09enease_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cheers,
+Paul
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLk1zb1BsYWluVGV4dCwgbGku
-TXNvUGxhaW5UZXh0LCBkaXYuTXNvUGxhaW5UZXh0DQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsN
-Cgltc28tc3R5bGUtbGluazoiUGxhaW4gVGV4dCBDaGFyIjsNCgltYXJnaW46MGNtOw0KCW1hcmdp
-bi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQtZmFtaWx5OiJDYWxp
-YnJpIixzYW5zLXNlcmlmOw0KCW1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTO30NCnNwYW4uRW1h
-aWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5
-OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0Kc3Bhbi5QbGFpblRleHRD
-aGFyDQoJe21zby1zdHlsZS1uYW1lOiJQbGFpbiBUZXh0IENoYXIiOw0KCW1zby1zdHlsZS1wcmlv
-cml0eTo5OTsNCgltc28tc3R5bGUtbGluazoiUGxhaW4gVGV4dCI7DQoJZm9udC1mYW1pbHk6IkNh
-bGlicmkiLHNhbnMtc2VyaWY7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhw
-b3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJbXNvLWZhcmVh
-c3QtbGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3
-OTIuMHB0Ow0KCW1hcmdpbjo3MC44NXB0IDcwLjg1cHQgNzAuODVwdCA3MC44NXB0O30NCmRpdi5X
-b3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0
-ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEw
-MjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNo
-YXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAv
-Pg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFu
-Zz0iU1YiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rp
-b24xIj4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj5IaSBSb3Nz
-LCA8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBs
-YW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1Bs
-YWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPlN1cmUuPG86cD48L286cD48L3NwYW4+PC9wPg0K
-PHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPkkgZm9yZ290IHRvIG1h
-a2Ugc3VyZSB0aGF0Jm5ic3A7IHB5dGhvbiBjYW4gYmUgYnVpbHQgd2hlbiAmcXVvdDtPUEVOU1NM
-X05PX1NTTDMmcXVvdDsgaXMgZGVmaW5lZCBpbiB0aGUgb3BlbnNzbC4gSSB3aWxsIGNoZWNrIHRo
-aXMgYXMgd2VsbCBhbmQgcmUtc2VuZCB0aGUgcGF0Y2guPG86cD48L286cD48L3NwYW4+PC9wPg0K
-PHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVT
-Ij4tLSBTb25hPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+
-PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
-PSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj5PbiAzIERlY2VtYmVyIDIwMTQgYXQg
-MDg6MDksIFNvbmEgU2FybWFkaSAmbHQ7PC9zcGFuPjxhIGhyZWY9Im1haWx0bzpzb25hLnNhcm1h
-ZGlAZW5lYS5jb20iIHRhcmdldD0iX2JsYW5rIj48c3BhbiBsYW5nPSJFTi1VUyI+c29uYS5zYXJt
-YWRpQGVuZWEuY29tPC9zcGFuPjwvYT48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyB3cm90ZTo8bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpz
-b2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4wcHQiPg0KPGRpdj4NCjxkaXY+
-DQo8ZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlk
-ICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0Ljhw
-dDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxkaXYgaWQ9Ijo4eWYiPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+QnVpbGRpbmcgcHl0aG9uIHdpdGhvdXQgU1NMdjMgc3VwcG9ydCB3aGVuIG9wZW5zc2wgaXMg
-YnVpbHQgd2l0aG91dDxicj4NCmFueSBzdXBwb3J0IGZvciBTU0x2My4gJnF1b3Q7T1BFTlNTTF9O
-T19TU0wzJnF1b3Q7IGlzIGRlZmluZWQgaW4gdGhlIG9wZW5zc2w8YnI+DQpoZWFkZXJzIChvcGVu
-c3NsY29uZi5oKSB3aGljaCBpcyBsb2NhdGVkIGluIC91c3IvaW5jbHVkZS8kYXJjaC9vcGVuc3Ns
-Lzxicj4NCjxicj4NCkJhY2twb3J0ZWQgZnJvbTo8YnI+DQo8YSBocmVmPSJodHRwczovL2J1Z3Mu
-ZGViaWFuLm9yZy9jZ2ktYmluL2J1Z3JlcG9ydC5jZ2k/YnVnPTc2ODYxMSMyMiIgdGFyZ2V0PSJf
-YmxhbmsiPmh0dHBzOi8vYnVncy5kZWJpYW4ub3JnL2NnaS1iaW4vYnVncmVwb3J0LmNnaT9idWc9
-NzY4NjExIzIyPC9hPjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NClRoaXMgc2hvdWxkIGJlIGFwcGxpZWQgdG8g
-bWFzdGVyIGZpcnN0LCBhbmQgdGhlbiBiYWNrcG9ydGVkIHRvIGFueSBzdGFibGUgYnJhbmNoZXMu
-Jm5ic3A7IENhbiB5b3UgcmUtc2VuZCBpbiBhIGZvcm0gdGhhdCBhcHBsaWVzIHRvIG1hc3Rlcj88
-bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+
-Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9z
-czxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQt
-c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2Nv
-bG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwv
-c3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRt
-bD4NCg==
+-- 
 
---_000_3230301C09DEF9499B442BBE162C5E48257C260Dsestoex09enease_--
+Paul Eggleton
+Intel Open Source Technology Centre
+
