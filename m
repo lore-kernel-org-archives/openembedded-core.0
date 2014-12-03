@@ -1,25 +1,25 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B2D6060CFC
+	by mail.openembedded.org (Postfix) with ESMTP id 11CEE60169
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 01:18:11 +0000 (UTC)
+	Wed,  3 Dec 2014 01:18:12 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 02 Dec 2014 17:15:28 -0800
+	by orsmga102.jf.intel.com with ESMTP; 02 Dec 2014 17:15:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="492641392"
+X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="492641394"
 Received: from smoffitt-mobl.ger.corp.intel.com (HELO
 	swold-linux.amr.corp.intel.com) ([10.255.13.114])
-	by orsmga003.jf.intel.com with ESMTP; 02 Dec 2014 17:14:54 -0800
+	by orsmga003.jf.intel.com with ESMTP; 02 Dec 2014 17:14:55 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Dec 2014 17:18:06 -0800
-Message-Id: <4ad594f0f15f07635962aacf07b749beaaba7e1e.1417552133.git.sgw@linux.intel.com>
+Date: Tue,  2 Dec 2014 17:18:08 -0800
+Message-Id: <bdf8a128a4e72bae07ca9da7226c16c84ea65c3f.1417552133.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1417552133.git.sgw@linux.intel.com>
 References: <cover.1417552133.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1417552133.git.sgw@linux.intel.com>
 References: <cover.1417552133.git.sgw@linux.intel.com>
-Subject: [PATCH 2/4] libgpg-error: Update to 1.17
+Subject: [PATCH 4/4] valgrind: Upgrade to 3.10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,224 +34,173 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 03 Dec 2014 01:18:12 -0000
 
-Rebased the pkgconfig.patch
-
-Added do_compile_prepend() copy an architecture specific header file.
+Rebase existing patches
+Add patch to fix rpath issue with ptest
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../pkgconfig.patch                                | 67 ++++++++++++++--------
- .../{libgpg-error_1.12.bb => libgpg-error_1.17.bb} | 30 ++++++++--
- 2 files changed, 67 insertions(+), 30 deletions(-)
- rename meta/recipes-support/libgpg-error/{libgpg-error-1.12 => libgpg-error}/pkgconfig.patch (70%)
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.12.bb => libgpg-error_1.17.bb} (40%)
+ .../valgrind/remove-arm-variant-specific.patch     | 20 +++++++++--------
+ .../valgrind/remove-ppc-tests-failing-build.patch  | 26 +++++++++++-----------
+ .../valgrind/valgrind/valgrind-remove-rpath.patch  | 25 +++++++++++++++++++++
+ .../{valgrind_3.9.0.bb => valgrind_3.10.0.bb}      |  6 ++---
+ 4 files changed, 52 insertions(+), 25 deletions(-)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/valgrind-remove-rpath.patch
+ rename meta/recipes-devtools/valgrind/{valgrind_3.9.0.bb => valgrind_3.10.0.bb} (94%)
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error-1.12/pkgconfig.patch b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-similarity index 70%
-rename from meta/recipes-support/libgpg-error/libgpg-error-1.12/pkgconfig.patch
-rename to meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-index 89c9d22..96476ba 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error-1.12/pkgconfig.patch
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-@@ -5,11 +5,11 @@
+diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+index 46dea60..f84bf9a 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+@@ -8,13 +8,13 @@ Upstream-Status: Pending
  
- Upstream-Status: Pending
+ Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
  
--Index: libgpg-error-1.12/configure.ac
-+Index: libgpg-error-1.17/configure.ac
- ===================================================================
----- libgpg-error-1.12.orig/configure.ac	2014-05-13 21:14:26.846393236 +0000
--+++ libgpg-error-1.12/configure.ac	2014-05-13 21:14:26.926393236 +0000
--@@ -217,6 +217,7 @@
-+--- libgpg-error-1.17.orig/configure.ac
-++++ libgpg-error-1.17/configure.ac
-+@@ -521,6 +521,7 @@ AC_CONFIG_FILES([src/Makefile tests/Make
-  AC_CONFIG_FILES([lang/Makefile lang/cl/Makefile lang/cl/gpg-error.asd])
-  AC_CONFIG_FILES([src/versioninfo.rc])
-  AC_CONFIG_FILES([src/gpg-error-config], [chmod +x src/gpg-error-config])
-@@ -17,11 +17,11 @@ Index: libgpg-error-1.12/configure.ac
+-diff --git a/none/tests/arm/Makefile.am b/none/tests/arm/Makefile.am
+-index 2a19f5b..ccdeb77 100644
+---- a/none/tests/arm/Makefile.am
+-+++ b/none/tests/arm/Makefile.am
+-@@ -16,15 +16,16 @@ EXTRA_DIST = \
+- 		vcvt_fixed_float_VFP.vgtest \
+- 	vfp.stdout.exp vfp.stderr.exp vfp.vgtest
++Index: valgrind-3.10.0/none/tests/arm/Makefile.am
++===================================================================
++--- valgrind-3.10.0.orig/none/tests/arm/Makefile.am
+++++ valgrind-3.10.0/none/tests/arm/Makefile.am
++@@ -17,15 +17,16 @@ EXTRA_DIST = \
++ 	vfp.stdout.exp vfp.stderr.exp vfp.vgtest \
++ 	vfpv4_fma.stdout.exp vfpv4_fma.stderr.exp vfpv4_fma.vgtest
   
-  AC_OUTPUT
+ +# For yocto:
+ +#  Only include tests that don't require Thumb.
+@@ -31,8 +31,8 @@ index 2a19f5b..ccdeb77 100644
+ -	v6intThumb \
+  	v6media \
+  	vcvt_fixed_float_VFP \
+- 	vfp
+-@@ -34,32 +35,3 @@ AM_CXXFLAGS  += @FLAG_M32@
++ 	vfp \
++@@ -36,34 +37,3 @@ AM_CXXFLAGS  += @FLAG_M32@
+  AM_CCASFLAGS += @FLAG_M32@
   
--Index: libgpg-error-1.12/src/Makefile.am
-+Index: libgpg-error-1.17/src/Makefile.am
- ===================================================================
----- libgpg-error-1.12.orig/src/Makefile.am	2014-05-13 21:14:26.846393236 +0000
--+++ libgpg-error-1.12/src/Makefile.am	2014-05-13 21:14:26.934393236 +0000
--@@ -37,13 +37,15 @@
-+--- libgpg-error-1.17.orig/src/Makefile.am
-++++ libgpg-error-1.17/src/Makefile.am
-+@@ -74,13 +74,15 @@ nodist_include_HEADERS = gpg-error.h
-  bin_SCRIPTS = gpg-error-config
-  m4datadir = $(datadir)/aclocal
-  m4data_DATA = gpg-error.m4
-@@ -31,17 +31,17 @@ Index: libgpg-error-1.12/src/Makefile.am
-  EXTRA_DIST = mkstrtable.awk err-sources.h.in err-codes.h.in \
-  	mkerrnos.awk errnos.in README \
-  	mkerrcodes.awk mkerrcodes1.awk mkerrcodes2.awk mkerrcodes.c \
-- 	mkheader.awk gpg-error.h.in mkw32errmap.c w32-add.h w32ce-add.h \
-+ 	mkheader.c gpg-error.h.in mkw32errmap.c w32-add.h w32ce-add.h \
-  	err-sources.h err-codes.h gpg-error-config.in gpg-error.m4 \
---	gpg-error.def.in versioninfo.rc.in
--+	gpg-error.def.in versioninfo.rc.in gpg-error.pc.in
-+-	gpg-error.vers gpg-error.def.in versioninfo.rc.in \
-++	gpg-error.vers gpg-error.def.in versioninfo.rc.in gpg-error.pc \
-+ 	$(lock_obj_pub)
-  
-  BUILT_SOURCES = err-sources.h err-codes.h code-to-errno.h code-from-errno.h \
-- 	err-sources-sym.h err-codes-sym.h errnos-sym.h gpg-error.h \
--Index: libgpg-error-1.12/src/gpg-error.pc.in
-+Index: libgpg-error-1.17/src/gpg-error.pc.in
- ===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ libgpg-error-1.12/src/gpg-error.pc.in	2014-05-13 21:48:20.266382916 +0000
-+--- /dev/null
-++++ libgpg-error-1.17/src/gpg-error.pc.in
- @@ -0,0 +1,11 @@
- +prefix=@prefix@
- +exec_prefix=@exec_prefix@
-@@ -54,11 +54,11 @@ Index: libgpg-error-1.12/src/gpg-error.pc.in
- +Version: @VERSION@
- +Libs: -L${libdir} -lgpg-error
- +Cflags: -I${includedir}
--Index: libgpg-error-1.12/src/gpg-error.m4
-+Index: libgpg-error-1.17/src/gpg-error.m4
- ===================================================================
----- libgpg-error-1.12.orig/src/gpg-error.m4	2014-05-13 21:45:02.038383922 +0000
--+++ libgpg-error-1.12/src/gpg-error.m4	2014-05-13 21:47:08.362383281 +0000
--@@ -15,58 +15,14 @@
-+--- libgpg-error-1.17.orig/src/gpg-error.m4
-++++ libgpg-error-1.17/src/gpg-error.m4
-+@@ -26,73 +26,13 @@ dnl is added to the gpg_config_script_wa
-  dnl
-  AC_DEFUN([AM_PATH_GPG_ERROR],
-  [ AC_REQUIRE([AC_CANONICAL_HOST])
-@@ -70,7 +70,7 @@ Index: libgpg-error-1.12/src/gpg-error.m4
- -              AC_HELP_STRING([--with-libgpg-error-prefix=PFX],
- -                             [prefix where GPG Error is installed (optional)]),
- -              [gpg_error_config_prefix="$withval"])
-- 
+  allexec_CFLAGS		= $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
+@@ -65,3 +65,5 @@ index 2a19f5b..ccdeb77 100644
+ -intdiv_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a15 -mthumb
+ -ldrt_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mthumb
+ -ldrt_arm_CFLAGS	  = $(AM_CFLAGS) -g -mcpu=cortex-a8 -marm
 +-
- -  dnl Accept --with-gpg-error-prefix and make it work the same as
- -  dnl --with-libgpg-error-prefix above, for backwards compatibility,
- -  dnl but do not document this old, inconsistently-named option.
-@@ -78,14 +78,27 @@ Index: libgpg-error-1.12/src/gpg-error.m4
- -              [gpg_error_config_prefix="$withval"])
- +  min_gpg_error_version=ifelse([$1], ,0.0,$1)
++-vfpv4_fma_CFLAGS  = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a15 -mfpu=vfpv4 -marm
+diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch b/meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
+index 2a14e18..1c640ff 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
+@@ -36,10 +36,10 @@ Upstream-Status: Pending
+ 
+ Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
+ 
+-diff --git a/memcheck/tests/ppc32/Makefile.am b/memcheck/tests/ppc32/Makefile.am
+-index bd70eea..1436e8e 100644
+---- a/memcheck/tests/ppc32/Makefile.am
+-+++ b/memcheck/tests/ppc32/Makefile.am
++Index: valgrind-3.10.0/memcheck/tests/ppc32/Makefile.am
++===================================================================
++--- valgrind-3.10.0.orig/memcheck/tests/ppc32/Makefile.am
+++++ valgrind-3.10.0/memcheck/tests/ppc32/Makefile.am
+ @@ -7,8 +7,7 @@ EXTRA_DIST = $(noinst_SCRIPTS) \
+  	power_ISA2_05.stderr.exp power_ISA2_05.stdout.exp power_ISA2_05.vgtest \
+  	power_ISA2_05.stdout.exp_Without_FPPO
+@@ -50,11 +50,11 @@ index bd70eea..1436e8e 100644
   
---  if test x$gpg_error_config_prefix != x ; then
---     if test x${GPG_ERROR_CONFIG+set} != xset ; then
---        GPG_ERROR_CONFIG=$gpg_error_config_prefix/bin/gpg-error-config
-+-  if test x"${GPG_ERROR_CONFIG}" = x ; then
-+-     if test x"${gpg_error_config_prefix}" != x ; then
-+-        GPG_ERROR_CONFIG="${gpg_error_config_prefix}/bin/gpg-error-config"
-+-     else
-+-       case "${SYSROOT}" in
-+-         /*)
-+-           if test -x "${SYSROOT}/bin/gpg-error-config" ; then
-+-             GPG_ERROR_CONFIG="${SYSROOT}/bin/gpg-error-config"
-+-           fi
-+-           ;;
-+-         '')
-+-           ;;
-+-          *)
-+-           AC_MSG_WARN([Ignoring \$SYSROOT as it is not an absolute path.])
-+-           ;;
-+-       esac
- -     fi
- -  fi
- +  PKG_CHECK_MODULES(GPG_ERROR, [gpg-error >= $min_gpg_error_version], [ok=yes], [ok=no])
+  power_ISA2_05_CFLAGS = $(AM_CFLAGS) $(WERROR) -Winline -Wall -Wshadow -g \
+  		-I$(top_srcdir)/include @FLAG_M32@
+-diff --git a/none/tests/ppc32/Makefile.am b/none/tests/ppc32/Makefile.am
+-index 4f581b6..91ce7e7 100644
+---- a/none/tests/ppc32/Makefile.am
+-+++ b/none/tests/ppc32/Makefile.am
+-@@ -50,16 +50,8 @@ check_PROGRAMS = \
++Index: valgrind-3.10.0/none/tests/ppc32/Makefile.am
++===================================================================
++--- valgrind-3.10.0.orig/none/tests/ppc32/Makefile.am
+++++ valgrind-3.10.0/none/tests/ppc32/Makefile.am
++@@ -52,16 +52,8 @@ check_PROGRAMS = \
+  	allexec \
+  	bug129390-ppc32 \
+  	bug139050-ppc32 \
+@@ -67,9 +67,9 @@ index 4f581b6..91ce7e7 100644
+ -	test_isa_2_07_part1 \
+ -	test_isa_2_07_part2 \
+ -	test_tm \
+--	test_touch_tm
++-	test_touch_tm \
+ +	ldstrev lsw mftocrf mcrfs test_fx test_gx \
+-+	twi tw xlc_dbl_u32 power6_bcmp 
+++	twi tw xlc_dbl_u32 power6_bcmp \
++ 	ldst_multiple \
++ 	data-cache-instructions
   
---  AC_PATH_TOOL(GPG_ERROR_CONFIG, gpg-error-config, no)
-+-  AC_PATH_PROG(GPG_ERROR_CONFIG, gpg-error-config, no)
- -  min_gpg_error_version=ifelse([$1], ,0.0,$1)
- -  AC_MSG_CHECKING(for GPG Error - version >= $min_gpg_error_version)
- -  ok=no
-@@ -113,6 +126,8 @@ Index: libgpg-error-1.12/src/gpg-error.m4
-    if test $ok = yes; then
- -    GPG_ERROR_CFLAGS=`$GPG_ERROR_CONFIG $gpg_error_config_args --cflags`
- -    GPG_ERROR_LIBS=`$GPG_ERROR_CONFIG $gpg_error_config_args --libs`
-+-    GPG_ERROR_MT_CFLAGS=`$GPG_ERROR_CONFIG $gpg_error_config_args --mt --cflags 2>/dev/null`
-+-    GPG_ERROR_MT_LIBS=`$GPG_ERROR_CONFIG $gpg_error_config_args --mt --libs 2>/dev/null`
- -    AC_MSG_RESULT([yes ($gpg_error_config_version)])
-      ifelse([$2], , :, [$2])
- -    gpg_error_config_host=`$GPG_ERROR_CONFIG $gpg_error_config_args --host 2>/dev/null || echo none`
-@@ -120,12 +135,14 @@ Index: libgpg-error-1.12/src/gpg-error.m4
-      if test x"$gpg_error_config_host" != xnone ; then
-        if test x"$gpg_error_config_host" != x"$host" ; then
-    AC_MSG_WARN([[
--@@ -80,9 +36,6 @@
-+@@ -107,11 +47,6 @@ AC_DEFUN([AM_PATH_GPG_ERROR],
-        fi
-      fi
-    else
- -    GPG_ERROR_CFLAGS=""
- -    GPG_ERROR_LIBS=""
-+-    GPG_ERROR_MT_CFLAGS=""
-+-    GPG_ERROR_MT_LIBS=""
- -    AC_MSG_RESULT(no)
-      ifelse([$3], , :, [$3])
-    fi
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.12.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.17.bb
-similarity index 40%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.12.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.17.bb
-index af9574d..3b7bb5b 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.12.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.17.bb
-@@ -5,8 +5,8 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
- LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--                    file://src/gpg-error.h.in;endline=23;md5=6ac0378874589a44d53512b3786b4bc0 \
--                    file://src/init.c;endline=20;md5=b69742f2a8827d494c6f6a4b1768416c"
-+                    file://src/gpg-error.h.in;endline=23;md5=5dfe776dc8b62af093ddc859de6f494c \
-+                    file://src/init.c;endline=20;md5=8f5a9b59634f4aebcd0ec9d3ebd53bfe"
- 
- 
- SECTION = "libs"
-@@ -14,18 +14,38 @@ SECTION = "libs"
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch"
- 
--SRC_URI[md5sum] = "8f0eb41a344d19ac2aa9bd101dfb9ce6"
--SRC_URI[sha256sum] = "cafc9ed6a87c53a35175d5a1220a96ca386696eef2fa059cc0306211f246e55f"
-+SRC_URI[md5sum] = "b4f8d8b9ff14aed41f279aa844563539"
-+SRC_URI[sha256sum] = "3ff4e5a71116eb862cd14185fcd282850927b8608e3b4186834fd940fbef57b5"
- 
- BINCONFIG = "${bindir}/gpg-error-config"
- 
- inherit autotools binconfig-disabled pkgconfig gettext
- 
--FILES_${PN}-dev += "${bindir}/gpg-error"
-+do_compile_prepend() {
-+       case ${TARGET_ARCH} in
-+           aarch64)    TUPLE=aarch64-unknown-linux-gnu ;;
-+           arm)        TUPLE=arm-unknown-linux-gnueabi ;;
-+           armeb)      TUPLE=arm-unknown-linux-gnueabi ;;
-+           i586)       TUPLE=i486-pc-linux-gnu ;;
-+           mipsel)     TUPLE=mipsel-unknown-linux-gnu ;;
-+           mips64el)   TUPLE=mipsel-unknown-linux-gnu ;;
-+           mips64)     TUPLE=mips-unknown-linux-gnu ;;
-+           mips)       TUPLE=mips-unknown-linux-gnu ;;
-+           powerpc64)  TUPLE=powerpc64-unknown-linux-gnu ;;
-+           powerpc)    TUPLE=powerpc-unknown-linux-gnu ;;
-+           sh4)        TUPLE=sh4-unknown-linux-gnu ;;
-+           x86_64)     TUPLE=x86_64-pc-linux-gnu ;;
-+       esac
+- AM_CFLAGS    += @FLAG_M32@
+- AM_CXXFLAGS  += @FLAG_M32@
+diff --git a/meta/recipes-devtools/valgrind/valgrind/valgrind-remove-rpath.patch b/meta/recipes-devtools/valgrind/valgrind/valgrind-remove-rpath.patch
+new file mode 100644
+index 0000000..07a2726
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/valgrind-remove-rpath.patch
+@@ -0,0 +1,25 @@
 +
-+       cp  ${S}/src/syscfg/lock-obj-pub.$TUPLE.h \
-+           ${S}/src/syscfg/lock-obj-pub.linux-gnu.h
-+}
- 
- do_install_append() {
- 	# we don't have common lisp in OE
- 	rm -rf "${D}${datadir}/common-lisp/"
- }
- 
-+FILES_${PN}-dev += "${bindir}/gpg-error"
++Upstream-Status: Inapporpiate [embedded config]
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
 +
- BBCLASSEXTEND = "native"
++Index: valgrind-3.10.0/none/tests/Makefile.am
++===================================================================
++--- valgrind-3.10.0.orig/none/tests/Makefile.am
+++++ valgrind-3.10.0/none/tests/Makefile.am
++@@ -280,7 +280,6 @@ threaded_fork_LDADD	= -lpthread
++ threadederrno_LDADD	= -lpthread
++ tls_SOURCES		= tls.c tls2.c
++ tls_DEPENDENCIES	= tls.so tls2.so
++-tls_LDFLAGS		= -Wl,-rpath,$(abs_top_builddir)/none/tests
++ tls_LDADD		= tls.so tls2.so -lpthread
++ tls_so_SOURCES		= tls_so.c
++ tls_so_DEPENDENCIES	= tls2.so
++@@ -288,7 +287,7 @@ if VGCONF_OS_IS_DARWIN
++  tls_so_LDFLAGS		= -dynamic -dynamiclib -all_load -fpic
++  tls_so_LDADD		= `pwd`/tls2.so
++ else
++- tls_so_LDFLAGS		= -Wl,-rpath,$(abs_top_builddir)/none/tests -shared -fPIC
+++ tls_so_LDFLAGS		= -shared -fPIC
++  tls_so_LDADD		= tls2.so
++ endif
++ tls_so_CFLAGS		= $(AM_CFLAGS) -fPIC
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.10.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
+rename to meta/recipes-devtools/valgrind/valgrind_3.10.0.bb
+index c415e77..4c6e1a7 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.9.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.10.0.bb
+@@ -9,7 +9,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c46082167a314d785d012a244748d803 \
+ 
+ X11DEPENDS = "virtual/libx11"
+ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+-PR = "r8"
+ 
+ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            file://fixed-perl-path.patch \
+@@ -19,12 +18,13 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            file://force-nostabs.patch \
+            file://remove-arm-variant-specific.patch \
+            file://remove-ppc-tests-failing-build.patch \
++           file://valgrind-remove-rpath.patch \
+            file://add-ptest.patch \
+            file://run-ptest \
+           "
+ 
+-SRC_URI[md5sum] = "0947de8112f946b9ce64764af7be6df2"
+-SRC_URI[sha256sum] = "e6af71a06bc2534541b07743e1d58dc3caf744f38205ca3e5b5a0bdf372ed6f0"
++SRC_URI[md5sum] = "7c311a72a20388aceced1aa5573ce970"
++SRC_URI[sha256sum] = "03047f82dfc6985a4c7d9d2700e17bc05f5e1a0ca6ad902e5d6c81aeb720edc9"
+ 
+ COMPATIBLE_HOST = '(i.86|x86_64|powerpc|powerpc64).*-linux'
+ COMPATIBLE_HOST_armv7a = 'arm.*-linux'
 -- 
 1.8.3.1
 
