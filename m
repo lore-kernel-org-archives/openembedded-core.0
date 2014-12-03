@@ -1,37 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f52.google.com (mail-qa0-f52.google.com
-	[209.85.216.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 641D960030
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id CD4A660030
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 18:01:32 +0000 (UTC)
-Received: by mail-qa0-f52.google.com with SMTP id dc16so10480164qab.25
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Dec 2014 10:01:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=edQFaarYlnhDM31SBXu7c0DJ/EZjx4eBhc6mmu/R3No=;
-	b=VrvWjeeCjO9WMoOt1stpdg0U2dXRG6GZAxIoZvS318clgFOEEbETtsfb5wmdbllmPU
-	yZE33VGnFPfcARMNycLz5yV6O8kGFyQAe7Q35yBphxYyLmqpWBeGDPTNHpylQdgZ68zP
-	QfoaDc5T5VhZIKHrzwR7VvGsaz6RPuekd3vGvswGfhQEFizzoa0WXDSpgXIrWuepLi+A
-	xepRGyPCMim1/GgOnSOHQLfzSdINS0fVLdT5+RSQGkZ1BOADayLbIGCl0so1jGVqy2tC
-	tF6RRquvsoLM0lI6AxMffmbRoU81M4QEFrRC19jWj6uXWXuENVdvj8zqtvd1vcTpNe9a
-	ZExQ==
-X-Gm-Message-State: ALoCoQkM1r9/JOswiF+TRlbWdc2/cNr6dapu+KrmvVzOb3NytQ4QQDGWyMFkbxH5maE4qVuCr1Jb
-X-Received: by 10.140.38.170 with SMTP id t39mr9508138qgt.15.1417629213870;
-	Wed, 03 Dec 2014 09:53:33 -0800 (PST)
+	Wed,  3 Dec 2014 18:02:57 +0000 (UTC)
+Received: from SESTOEX09.enea.se ([fe80::94d8:372f:210c:b4da]) by
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.03.0158.001; Wed, 3 Dec 2014 19:02:52 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [daisy][PATCH] python: Building without SSLv3 support
+Thread-Index: AQHQDtCGHMHlJ+hOHk6/zocS2IGhbpx+Fp6AgAAR3ZA=
+Date: Wed, 3 Dec 2014 18:02:51 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E48257C260D@sestoex09.enea.se>
+References: <1417594165-25317-1-git-send-email-sona.sarmadi@enea.com>
+	<CAJTo0LY4Y6eWLUMvBLjwnKNy=KLoxh3Knien+HgOB5ZqXrmkRg@mail.gmail.com>
+In-Reply-To: <CAJTo0LY4Y6eWLUMvBLjwnKNy=KLoxh3Knien+HgOB5ZqXrmkRg@mail.gmail.com>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.142.231]
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Wed, 3 Dec 2014 09:53:13 -0800 (PST)
-In-Reply-To: <eb3ae98cd6b06ffc14d00686460aaf2072a12b96.1417413565.git.Qi.Chen@windriver.com>
-References: <cover.1417413565.git.Qi.Chen@windriver.com>
-	<eb3ae98cd6b06ffc14d00686460aaf2072a12b96.1417413565.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 3 Dec 2014 17:53:13 +0000
-Message-ID: <CAJTo0LZ3qUxLn=3=GygyXFSB0vW6_jpNz+7X_FwzmmkGhTevTA@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] packaging: allow globs in CONFFILES
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [daisy][PATCH] python: Building without SSLv3 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,37 +35,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 18:01:39 -0000
-Content-Type: multipart/alternative; boundary=001a11c12196b7665d05095385e6
+X-List-Received-Date: Wed, 03 Dec 2014 18:02:58 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_3230301C09DEF9499B442BBE162C5E48257C260Dsestoex09enease_"
 
---001a11c12196b7665d05095385e6
-Content-Type: text/plain; charset=UTF-8
+--_000_3230301C09DEF9499B442BBE162C5E48257C260Dsestoex09enease_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 1 December 2014 at 06:01, Chen Qi <Qi.Chen@windriver.com> wrote:
+SGkgUm9zcywNCg0KDQoNClN1cmUuDQoNCkkgZm9yZ290IHRvIG1ha2Ugc3VyZSB0aGF0ICBweXRo
+b24gY2FuIGJlIGJ1aWx0IHdoZW4gIk9QRU5TU0xfTk9fU1NMMyIgaXMgZGVmaW5lZCBpbiB0aGUg
+b3BlbnNzbC4gSSB3aWxsIGNoZWNrIHRoaXMgYXMgd2VsbCBhbmQgcmUtc2VuZCB0aGUgcGF0Y2gu
+DQoNCg0KDQotLSBTb25hDQoNCg0KDQpPbiAzIERlY2VtYmVyIDIwMTQgYXQgMDg6MDksIFNvbmEg
+U2FybWFkaSA8c29uYS5zYXJtYWRpQGVuZWEuY29tPG1haWx0bzpzb25hLnNhcm1hZGlAZW5lYS5j
+b20+PiB3cm90ZToNCkJ1aWxkaW5nIHB5dGhvbiB3aXRob3V0IFNTTHYzIHN1cHBvcnQgd2hlbiBv
+cGVuc3NsIGlzIGJ1aWx0IHdpdGhvdXQNCmFueSBzdXBwb3J0IGZvciBTU0x2My4gIk9QRU5TU0xf
+Tk9fU1NMMyIgaXMgZGVmaW5lZCBpbiB0aGUgb3BlbnNzbA0KaGVhZGVycyAob3BlbnNzbGNvbmYu
+aCkgd2hpY2ggaXMgbG9jYXRlZCBpbiAvdXNyL2luY2x1ZGUvJGFyY2gvb3BlbnNzbC8NCg0KQmFj
+a3BvcnRlZCBmcm9tOg0KaHR0cHM6Ly9idWdzLmRlYmlhbi5vcmcvY2dpLWJpbi9idWdyZXBvcnQu
+Y2dpP2J1Zz03Njg2MTEjMjINCg0KVGhpcyBzaG91bGQgYmUgYXBwbGllZCB0byBtYXN0ZXIgZmly
+c3QsIGFuZCB0aGVuIGJhY2twb3J0ZWQgdG8gYW55IHN0YWJsZSBicmFuY2hlcy4gIENhbiB5b3Ug
+cmUtc2VuZCBpbiBhIGZvcm0gdGhhdCBhcHBsaWVzIHRvIG1hc3Rlcj8NCg0KUm9zcw0KDQoNCg==
 
-> +def get_conffiles(pkg, d):
->
+--_000_3230301C09DEF9499B442BBE162C5E48257C260Dsestoex09enease_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Presumably this function is mostly a copy-and-paste of the FILES_* globbing
-code also in package.bbclass.  Can the common code be extracted into a
-shared function so that the two copies don't diverge?
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLk1zb1BsYWluVGV4dCwgbGku
+TXNvUGxhaW5UZXh0LCBkaXYuTXNvUGxhaW5UZXh0DQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsN
+Cgltc28tc3R5bGUtbGluazoiUGxhaW4gVGV4dCBDaGFyIjsNCgltYXJnaW46MGNtOw0KCW1hcmdp
+bi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQtZmFtaWx5OiJDYWxp
+YnJpIixzYW5zLXNlcmlmOw0KCW1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTO30NCnNwYW4uRW1h
+aWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5
+OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0Kc3Bhbi5QbGFpblRleHRD
+aGFyDQoJe21zby1zdHlsZS1uYW1lOiJQbGFpbiBUZXh0IENoYXIiOw0KCW1zby1zdHlsZS1wcmlv
+cml0eTo5OTsNCgltc28tc3R5bGUtbGluazoiUGxhaW4gVGV4dCI7DQoJZm9udC1mYW1pbHk6IkNh
+bGlicmkiLHNhbnMtc2VyaWY7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhw
+b3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJbXNvLWZhcmVh
+c3QtbGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3
+OTIuMHB0Ow0KCW1hcmdpbjo3MC44NXB0IDcwLjg1cHQgNzAuODVwdCA3MC44NXB0O30NCmRpdi5X
+b3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0
+ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEw
+MjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNo
+YXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAv
+Pg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFu
+Zz0iU1YiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rp
+b24xIj4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj5IaSBSb3Nz
+LCA8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBs
+YW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1Bs
+YWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPlN1cmUuPG86cD48L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPkkgZm9yZ290IHRvIG1h
+a2Ugc3VyZSB0aGF0Jm5ic3A7IHB5dGhvbiBjYW4gYmUgYnVpbHQgd2hlbiAmcXVvdDtPUEVOU1NM
+X05PX1NTTDMmcXVvdDsgaXMgZGVmaW5lZCBpbiB0aGUgb3BlbnNzbC4gSSB3aWxsIGNoZWNrIHRo
+aXMgYXMgd2VsbCBhbmQgcmUtc2VuZCB0aGUgcGF0Y2guPG86cD48L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVT
+Ij4tLSBTb25hPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+
+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
+PSJNc29QbGFpblRleHQiPjxzcGFuIGxhbmc9IkVOLVVTIj5PbiAzIERlY2VtYmVyIDIwMTQgYXQg
+MDg6MDksIFNvbmEgU2FybWFkaSAmbHQ7PC9zcGFuPjxhIGhyZWY9Im1haWx0bzpzb25hLnNhcm1h
+ZGlAZW5lYS5jb20iIHRhcmdldD0iX2JsYW5rIj48c3BhbiBsYW5nPSJFTi1VUyI+c29uYS5zYXJt
+YWRpQGVuZWEuY29tPC9zcGFuPjwvYT48c3BhbiBsYW5nPSJFTi1VUyI+Jmd0OyB3cm90ZTo8bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpz
+b2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4wcHQiPg0KPGRpdj4NCjxkaXY+
+DQo8ZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlk
+ICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0Ljhw
+dDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxkaXYgaWQ9Ijo4eWYiPg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+QnVpbGRpbmcgcHl0aG9uIHdpdGhvdXQgU1NMdjMgc3VwcG9ydCB3aGVuIG9wZW5zc2wgaXMg
+YnVpbHQgd2l0aG91dDxicj4NCmFueSBzdXBwb3J0IGZvciBTU0x2My4gJnF1b3Q7T1BFTlNTTF9O
+T19TU0wzJnF1b3Q7IGlzIGRlZmluZWQgaW4gdGhlIG9wZW5zc2w8YnI+DQpoZWFkZXJzIChvcGVu
+c3NsY29uZi5oKSB3aGljaCBpcyBsb2NhdGVkIGluIC91c3IvaW5jbHVkZS8kYXJjaC9vcGVuc3Ns
+Lzxicj4NCjxicj4NCkJhY2twb3J0ZWQgZnJvbTo8YnI+DQo8YSBocmVmPSJodHRwczovL2J1Z3Mu
+ZGViaWFuLm9yZy9jZ2ktYmluL2J1Z3JlcG9ydC5jZ2k/YnVnPTc2ODYxMSMyMiIgdGFyZ2V0PSJf
+YmxhbmsiPmh0dHBzOi8vYnVncy5kZWJpYW4ub3JnL2NnaS1iaW4vYnVncmVwb3J0LmNnaT9idWc9
+NzY4NjExIzIyPC9hPjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NClRoaXMgc2hvdWxkIGJlIGFwcGxpZWQgdG8g
+bWFzdGVyIGZpcnN0LCBhbmQgdGhlbiBiYWNrcG9ydGVkIHRvIGFueSBzdGFibGUgYnJhbmNoZXMu
+Jm5ic3A7IENhbiB5b3UgcmUtc2VuZCBpbiBhIGZvcm0gdGhhdCBhcHBsaWVzIHRvIG1hc3Rlcj88
+bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+
+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9z
+czxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQt
+c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2Nv
+bG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
+bGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwv
+c3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRt
+bD4NCg==
 
-Ross
-
---001a11c12196b7665d05095385e6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 December 2014 at 06:01, Chen Qi <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":90v" class=3D"a3s=
-" style=3D"overflow:hidden">+def get_conffiles(pkg, d):<br></div></blockquo=
-te></div><br>Presumably this function is mostly a copy-and-paste of the FIL=
-ES_* globbing code also in package.bbclass.=C2=A0 Can the common code be ex=
-tracted into a shared function so that the two copies don&#39;t diverge?</d=
-iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
-v></div>
-
---001a11c12196b7665d05095385e6--
+--_000_3230301C09DEF9499B442BBE162C5E48257C260Dsestoex09enease_--
