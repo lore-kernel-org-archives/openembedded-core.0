@@ -1,29 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DB16960030
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 31F9460030
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 17:25:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sB3HP8ep017226
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Wed,  3 Dec 2014 17:49:12 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id bm13so10601422qab.40
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Dec 2014 09:25:08 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 3 Dec 2014 09:25:07 -0800
-Message-ID: <547F4773.9020006@windriver.com>
-Date: Wed, 3 Dec 2014 11:25:07 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Wed, 03 Dec 2014 09:49:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=obu4wsotv8KiK+P22BQ3sfs4g+gK01rBOs8jXRlDsF8=;
+	b=eQ7KSnan/Q6KRxYYlVJCCdlgOviNDOV/8l8k2KlifRDeApEtIfsUEbVsyqzpEV81fW
+	7qwgK8Rw2EfND72SE4KP8WXVCCb/MLMmTc47M4iEMvBFZxJpeLajI1/4OOAqcQHLq82N
+	zfzIgWCoBjgfFcxoiy9dafpn372SqdBCOSzuLeiCOvMbTmr2QVO9SOKu7vsIdZgpVHTn
+	08uMAPusDE+HKS8ExLASjeLfc6KR8xWc1nNwgiwBy8lJ9mGi+o9l98/LtwyMgwEL0Muu
+	oHHUs3Xn5ymsfUNHjQz4V8ROKLrUqSN/EzsnjTGipr7IzoWqL/FT9XeHN4R9lipiTbOR
+	WwIA==
+X-Gm-Message-State: ALoCoQluOhj7q0BaFgKngUnU0whhRN2i97dxFR7NLu2OnWVJYn9JMEvS6DbcIKmFGpaHiQgQMjny
+X-Received: by 10.229.190.71 with SMTP id dh7mr9591156qcb.5.1417628953227;
+	Wed, 03 Dec 2014 09:49:13 -0800 (PST)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1417623235.git.alejandro.hernandez@linux.intel.com>
-	<8d53e3e985f526e6c845328dc6bfa9c27cc63413.1417623235.git.alejandro.hernandez@linux.intel.com>
-In-Reply-To: <8d53e3e985f526e6c845328dc6bfa9c27cc63413.1417623235.git.alejandro.hernandez@linux.intel.com>
-Subject: Re: [PATCH 1/1] insane.bbclass: Added QA test for unexpanded ${D}
+Received: by 10.140.48.231 with HTTP; Wed, 3 Dec 2014 09:48:53 -0800 (PST)
+In-Reply-To: <cover.1417593851.git.hongxu.jia@windriver.com>
+References: <cover.1417593851.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Dec 2014 17:48:53 +0000
+Message-ID: <CAJTo0LYuAKvz6GqJ6V=xf0FwwM2KfCTNxYm8rtyfg7hEK6dvxA@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Revert "busybox : fix do_compile failed on qemumips when DEBUG_BUILD (ICE)"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,82 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 17:25:10 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Dec 2014 17:49:15 -0000
+Content-Type: multipart/alternative; boundary=001a11336ab62e54aa0509537696
 
-On 12/3/14, 11:00 AM, Alejandro Hernandez wrote:
-> Checks in FILES and pkg_* variables ,solves common mistake
-> of using ${D} instead of $D and warns the user accordingly.
->
-> [YOCTO #6642]
->
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-> ---
->   meta/classes/insane.bbclass | 34 +++++++++++++++++++++++++++++++++-
->   1 file changed, 33 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index 0b45374..419c89b 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -906,6 +906,39 @@ def package_qa_check_deps(pkg, pkgdest, skip, d):
->
->       return sane
->
-> +def package_qa_check_unexpanded_d(d):
-> +    """
-> +    Check for unexpanded D variable in pkg_* and FILES
-> +    variables, warn the user to use it correctly.
-> +    """
-> +
-> +    sane = True
-> +
-> +    # Get variables for current package
-> +    pkg = d.getVar('PN', True)
-> +    localdata = bb.data.createCopy(d)
-> +    localdata.setVar('OVERRIDES', pkg)
-> +    bb.data.update_data(localdata)
-> +
-> +    # Go through all variables and check if unexpanded D is found, warn the user accordingly
-> +    for var in 'FILES','pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm':
-> +        bbvar = localdata.getVar(var, False)
-> +        if bbvar:
-> +            if "${D}" in bbvar:
-> +                if var == 'FILES':
-> +                    bb.error("FILES should not contain the ${D} variable as it references the local build directory not the target filesystem, best solution is to remove the ${D} reference")
-> +                    sane = False
-> +                else:
-> +                    bb.error("%s in %s recipe contains ${D}, it should be replaced by $D instead" % (var, pkg))
-> +                    sane = False
-> +    return sane
-> +
-> +# Actual task to check for ${D
-> +python do_qa_check_unexpanded_d(){
-> +    package_qa_check_unexpanded_d(d)
-> +}
-> +addtask qa_check_unexpanded_d before do_compile
-> +
+--001a11336ab62e54aa0509537696
+Content-Type: text/plain; charset=UTF-8
 
-would it make more sense to have a qa check -before- compile, then add this to 
-that task.. and then have one (current place) after install?
+On 3 December 2014 at 08:07, Hongxu Jia <hongxu.jia@windriver.com> wrote:
 
-That way we could add additional checks (as needed) for things that are 
-setup/confgiured incorrectly.. and checks for the build/install stuff..
-
---Mark
-
->   # The PACKAGE FUNC to scan each package
->   python do_package_qa () {
->       import subprocess
-> @@ -1000,7 +1033,6 @@ python do_package_qa () {
->           if not package_qa_check_deps(package, pkgdest, skip, d):
->               deps_sane = False
->
-> -
->       if 'libdir' in d.getVar("ALL_QA", True).split():
->           package_qa_check_libdir(d)
->
+> Hongxu Jia (2):
+>   Revert "busybox : fix do_compile failed on qemumips when DEBUG_BUILD
+>     (ICE)"
+>   Revert "fixup"
 >
 
+I think you meant to squash that :)  (I'll do this).
 
+Ross
+
+--001a11336ab62e54aa0509537696
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 December 2014 at 08:07, Hongxu Jia <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":79l" cla=
+ss=3D"a3s" style=3D"overflow:hidden">Hongxu Jia (2):<br>
+=C2=A0 Revert &quot;busybox : fix do_compile failed on qemumips when DEBUG_=
+BUILD<br>
+=C2=A0 =C2=A0 (ICE)&quot;<br>
+=C2=A0 Revert &quot;fixup&quot;<br></div></blockquote></div><br>I think you=
+ meant to squash that :) =C2=A0(I&#39;ll do this).</div><div class=3D"gmail=
+_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11336ab62e54aa0509537696--
