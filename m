@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f50.google.com (mail-qa0-f50.google.com
-	[209.85.216.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AE9560030
+Received: from mail-qa0-f52.google.com (mail-qa0-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 641D960030
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 17:57:07 +0000 (UTC)
-Received: by mail-qa0-f50.google.com with SMTP id w8so10591085qac.37
+	Wed,  3 Dec 2014 18:01:32 +0000 (UTC)
+Received: by mail-qa0-f52.google.com with SMTP id dc16so10480164qab.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Dec 2014 09:57:07 -0800 (PST)
+	Wed, 03 Dec 2014 10:01:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=EzEWIGLm7gg149JHhQtGrJvIM+8Y65u2jzrcdkEUNxA=;
-	b=AxM04qhInRWR3SJN2C9fxTSmMS2Q0J7RFWGgwEDf5Z1DajkD6YvcDQBIP5eVPXsfO9
-	D0qxs21YOI0q4ZkElKoG1OtRh6wqnX8nQSEyLytgoKkJs1E9apBuAtQq+VtTP02l3AEc
-	J3NeUDWsV0LWVYiwXjpZ3IV4rfOfnuDlMU+oY5E/RYwVxtrwBp4qp3MkxC7FORi83+GT
-	uVtj7mXF2ZqPQM1d/7XNhqoVsEdekIuJJkCOZrhRkF/4Z4xYH0O0dBC8uiOj61uEhWZ9
-	9LBmLqRGimqB4ut/xpNhEth0o2/8n4LcNvky1wSry0ggUfpZhx64iF1/GBZrduSABlsw
-	0B0A==
-X-Gm-Message-State: ALoCoQkiAeTuni7nxyqgBzVutKbtIKMqq0JTwhpGPMsEudMRiigC3xTTuGm14UMVQ1TopKnQIMb6
-X-Received: by 10.224.92.205 with SMTP id s13mr9880442qam.52.1417629427414;
-	Wed, 03 Dec 2014 09:57:07 -0800 (PST)
+	bh=edQFaarYlnhDM31SBXu7c0DJ/EZjx4eBhc6mmu/R3No=;
+	b=VrvWjeeCjO9WMoOt1stpdg0U2dXRG6GZAxIoZvS318clgFOEEbETtsfb5wmdbllmPU
+	yZE33VGnFPfcARMNycLz5yV6O8kGFyQAe7Q35yBphxYyLmqpWBeGDPTNHpylQdgZ68zP
+	QfoaDc5T5VhZIKHrzwR7VvGsaz6RPuekd3vGvswGfhQEFizzoa0WXDSpgXIrWuepLi+A
+	xepRGyPCMim1/GgOnSOHQLfzSdINS0fVLdT5+RSQGkZ1BOADayLbIGCl0so1jGVqy2tC
+	tF6RRquvsoLM0lI6AxMffmbRoU81M4QEFrRC19jWj6uXWXuENVdvj8zqtvd1vcTpNe9a
+	ZExQ==
+X-Gm-Message-State: ALoCoQkM1r9/JOswiF+TRlbWdc2/cNr6dapu+KrmvVzOb3NytQ4QQDGWyMFkbxH5maE4qVuCr1Jb
+X-Received: by 10.140.38.170 with SMTP id t39mr9508138qgt.15.1417629213870;
+	Wed, 03 Dec 2014 09:53:33 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Wed, 3 Dec 2014 09:56:47 -0800 (PST)
-In-Reply-To: <1417594165-25317-1-git-send-email-sona.sarmadi@enea.com>
-References: <1417594165-25317-1-git-send-email-sona.sarmadi@enea.com>
+Received: by 10.140.48.231 with HTTP; Wed, 3 Dec 2014 09:53:13 -0800 (PST)
+In-Reply-To: <eb3ae98cd6b06ffc14d00686460aaf2072a12b96.1417413565.git.Qi.Chen@windriver.com>
+References: <cover.1417413565.git.Qi.Chen@windriver.com>
+	<eb3ae98cd6b06ffc14d00686460aaf2072a12b96.1417413565.git.Qi.Chen@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 3 Dec 2014 17:56:47 +0000
-Message-ID: <CAJTo0LY4Y6eWLUMvBLjwnKNy=KLoxh3Knien+HgOB5ZqXrmkRg@mail.gmail.com>
-To: Sona Sarmadi <sona.sarmadi@enea.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [daisy][PATCH] python: Building without SSLv3 support
+Date: Wed, 3 Dec 2014 17:53:13 +0000
+Message-ID: <CAJTo0LZ3qUxLn=3=GygyXFSB0vW6_jpNz+7X_FwzmmkGhTevTA@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] packaging: allow globs in CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,48 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 17:57:07 -0000
-Content-Type: multipart/alternative; boundary=089e015375e4726c34050953927f
+X-List-Received-Date: Wed, 03 Dec 2014 18:01:39 -0000
+Content-Type: multipart/alternative; boundary=001a11c12196b7665d05095385e6
 
---089e015375e4726c34050953927f
+--001a11c12196b7665d05095385e6
 Content-Type: text/plain; charset=UTF-8
 
-On 3 December 2014 at 08:09, Sona Sarmadi <sona.sarmadi@enea.com> wrote:
+On 1 December 2014 at 06:01, Chen Qi <Qi.Chen@windriver.com> wrote:
 
-> Building python without SSLv3 support when openssl is built without
-> any support for SSLv3. "OPENSSL_NO_SSL3" is defined in the openssl
-> headers (opensslconf.h) which is located in /usr/include/$arch/openssl/
->
-> Backported from:
-> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=768611#22
+> +def get_conffiles(pkg, d):
 >
 
-This should be applied to master first, and then backported to any stable
-branches.  Can you re-send in a form that applies to master?
+Presumably this function is mostly a copy-and-paste of the FILES_* globbing
+code also in package.bbclass.  Can the common code be extracted into a
+shared function so that the two copies don't diverge?
 
 Ross
 
---089e015375e4726c34050953927f
+--001a11c12196b7665d05095385e6
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 December 2014 at 08:09, Sona Sarmadi <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:sona.sarmadi@enea.com" target=3D"_blank">sona.sarmadi@enea.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":8yf" class=
-=3D"a3s" style=3D"overflow:hidden">Building python without SSLv3 support wh=
-en openssl is built without<br>
-any support for SSLv3. &quot;OPENSSL_NO_SSL3&quot; is defined in the openss=
-l<br>
-headers (opensslconf.h) which is located in /usr/include/$arch/openssl/<br>
-<br>
-Backported from:<br>
-<a href=3D"https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D768611#22" t=
-arget=3D"_blank">https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D768611=
-#22</a><br></div></blockquote></div><br>This should be applied to master fi=
-rst, and then backported to any stable branches.=C2=A0 Can you re-send in a=
- form that applies to master?</div><div class=3D"gmail_extra"><br></div><di=
-v class=3D"gmail_extra">Ross</div></div>
+On 1 December 2014 at 06:01, Chen Qi <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":90v" class=3D"a3s=
+" style=3D"overflow:hidden">+def get_conffiles(pkg, d):<br></div></blockquo=
+te></div><br>Presumably this function is mostly a copy-and-paste of the FIL=
+ES_* globbing code also in package.bbclass.=C2=A0 Can the common code be ex=
+tracted into a shared function so that the two copies don&#39;t diverge?</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
+v></div>
 
---089e015375e4726c34050953927f--
+--001a11c12196b7665d05095385e6--
