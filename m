@@ -1,37 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F40360673
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
+	[209.85.215.51])
+	by mail.openembedded.org (Postfix) with ESMTP id B318265C9F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 13:10:50 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id q107so10974728qgd.35
+	Wed,  3 Dec 2014 13:12:53 +0000 (UTC)
+Received: by mail-la0-f51.google.com with SMTP id ms9so12311817lab.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Dec 2014 05:10:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=NUmPEY/SZdn8tJmzL2yu+Jm6zVgUC/s/BsZmMcijEPk=;
-	b=CQdlyZc/cnqhYrB5s36IZLanZdMRcBea/o4D9NWSneu4nPIja1vIrBqzfVz9YEOk3s
-	t4fUXLBpBc/s06AOzAwsvRzBN8pAAaojlJImVThU95ERF0dVVzuxWK87JPeAw4f/dB4j
-	mjZPvSp8yXWG1bTqtbC054xVeLacqVJOJxfAQRzn1dul3pm4FS5khYtNjLZRBh2K2f3W
-	XTfTuoCVlEw99uNeATVyL4YqgGqmECtJ74IMT3WDxjjKy7rdcByTT4bhaUOqMynhWVCI
-	UEb0k3G+IrUC726qNgyDGi70K37v3gSDOwcw9Nojn93/beQ5Tir6HyJhS5koAnsJo0cI
-	2y8A==
-X-Gm-Message-State: ALoCoQk4UrD0Oo5NbNQ8wOOdDdtfoeXP7TFfvZ9u8qby7CiydX/OaMtL+/aqQTGPQDjxMcpXMjdD
-X-Received: by 10.140.38.170 with SMTP id t39mr7733745qgt.15.1417612251055;
-	Wed, 03 Dec 2014 05:10:51 -0800 (PST)
+	Wed, 03 Dec 2014 05:12:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=A2vcPPGtOmAmsFkql4sCBOG2RcMah7KU75PK8RBw6gA=;
+	b=YRgUQDGdLODKqgqgE8/0eU+Cd/q/f0CnWvXiMvFIhq0qFpzJJX7LflwPcmlQ0G8fW8
+	KrRTDba85ap40qHf8E2G6Kw3m4GVwJQnp27x+YtAet/iCo41M5C6Q0vTarzTPWUTjHM0
+	NFSyMRE4PsMLHHTikdq+AmiotvJnG2+sB/lfZbvQabCONIt2tXduVjeZ40VGUqjsDJ+K
+	tvvmPoY2Xc9OqFAH2amHTgGbwWfZE7PTFgxVZRjKS0R6OCE9gvuQPdG3IzdJ5Eu7CtYG
+	BQLg1C2CYuP4vF1DevxRhyefJgsHhso6OknFH9hk/RXj+qLTYihlQGyUR8t4FsJBM8rF
+	9h5A==
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Wed, 3 Dec 2014 05:10:30 -0800 (PST)
-In-Reply-To: <8740d1ee8174975ad7b14b888d6358e9340e49f4.1417552133.git.sgw@linux.intel.com>
-References: <cover.1417552133.git.sgw@linux.intel.com>
-	<8740d1ee8174975ad7b14b888d6358e9340e49f4.1417552133.git.sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 3 Dec 2014 13:10:30 +0000
-Message-ID: <CAJTo0LYxQ28CM4pPi7aCkVnU5BHHyawZK0=jmswBTDmdwGRMAQ@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] libaio: Upgrade to 3.110
+X-Received: by 10.152.238.1 with SMTP id vg1mr4216739lac.83.1417612373114;
+	Wed, 03 Dec 2014 05:12:53 -0800 (PST)
+Received: by 10.112.48.41 with HTTP; Wed, 3 Dec 2014 05:12:53 -0800 (PST)
+In-Reply-To: <2558455.kgL2mNBB1h@peggleto-mobl5.ger.corp.intel.com>
+References: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
+	<CAMKF1srheZyVe5ATST-ToxZQJkXTTNvoh8j+PzrytSVbjVV9wA@mail.gmail.com>
+	<542056AF.8080009@windriver.com>
+	<2558455.kgL2mNBB1h@peggleto-mobl5.ger.corp.intel.com>
+Date: Wed, 3 Dec 2014 08:12:53 -0500
+Message-ID: <CADkTA4N1rmZuWrto7vgun-W5oiJiS4hEFs1tpZBNSRdNAPd2xw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] kernel: Enable externalsrc on kernels which instantiate kernel.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,93 +45,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 13:10:54 -0000
-Content-Type: multipart/alternative; boundary=001a11c12196a7892805094f9295
-
---001a11c12196a7892805094f9295
+X-List-Received-Date: Wed, 03 Dec 2014 13:12:59 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Hi Saul,
-
-On 3 December 2014 at 01:18, Saul Wold <sgw@linux.intel.com> wrote:
-
-> libaio does not build with PIE flags enabled
+On Wed, Dec 3, 2014 at 7:00 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Monday 22 September 2014 13:04:47 Bruce Ashfield wrote:
+>> On 14-09-22 01:03 PM, Khem Raj wrote:
+>> > On Mon, Sep 22, 2014 at 8:27 AM, Bruce Ashfield
+>> >
+>> > <bruce.ashfield@windriver.com> wrote:
+>> >> But the reports we've been getting have been that externalsrc
+>> >> builds are working for kernels, and linux-yocto without the change
+>> >> in place, so I'm looking to reduce the patch footprint and re-submit.
+>> >
+>> > no, it cant work if folks were trying the usecase I have mentioned.
+>> > The fix is infact for
+>> > non linux-yocto kernels.
+>>
+>> I'll send out my updated patch shortly, it should fix both cases.
 >
+> Bruce, did you get around to doing this?
+>
+> At the moment I am trying to make my workflow tool ("devtool modify") work with
+> linux-yocto. I've at least got to the point where I can extract the
+> appropriate source from the recipe, but when I use externalsrc to point to it
+> and then try to build it, it doesn't even get past do_configure, so something
+> must be missing (make complains about missing targets, presumably because it's
+> running in ${B} and there's nothing in that directory).
 
-This failed in *some* (but not all) of the autobuilder jobs:
+I do have an updated patch that I've been carrying in my tree, but it
+still is too
+large, with too  many touches to be ready. Finishing it was in my 1.8 tasks, and
+I've been working with it as part of my kernel developer changes. I can probably
+fire something out by end of week (I haven't tested it in over a week, so it is
+likely broken again).
 
-| io_queue_init.os: In function `io_queue_init':
-|
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/i586-poky-linux/libaio/0.3.110-r0/libaio-0.3.110/src/io_queue_init.c:33:
-undefined reference to `__stack_chk_fail_local'
-| io_queue_release.os: In function `io_queue_release':
-|
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/i586-poky-linux/libaio/0.3.110-r0/libaio-0.3.110/src/io_queue_release.c:27:
-undefined reference to `__stack_chk_fail_local'
-| io_queue_wait.os: In function `io_queue_wait_0_4':
-|
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/i586-poky-linux/libaio/0.3.110-r0/libaio-0.3.110/src/io_queue_wait.c:30:
-undefined reference to `__stack_chk_fail_local'
-| io_queue_run.os: In function `io_queue_run':
-|
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/i586-poky-linux/libaio/0.3.110-r0/libaio-0.3.110/src/io_queue_run.c:39:
-undefined reference to `__stack_chk_fail_local'
-| io_getevents.os: In function `__io_getevents_0_4':
-|
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/i586-poky-linux/libaio/0.3.110-r0/libaio-0.3.110/src/io_getevents.c:25:
-undefined reference to `__stack_chk_fail_local'
-|
-io_getevents.os:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/i586-poky-linux/libaio/0.3.110-r0/libaio-0.3.110/src/io_getevents.c:55:
-more undefined references to `__stack_chk_fail_local' follow
+>
+> Do you expect linux-yocto + externalsrc to work at the moment in master? If
+> so, are there any special steps I need to do with respect to preparing the
+> external source tree that my tool might not be performing?
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/builds/113/steps/BuildImages/logs/stdio
+Let me check, and get back to you on that.
 
-Ross
+Bruce
 
---001a11c12196a7892805094f9295
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Saul,</div><div class=3D"gma=
-il_extra"><br><div class=3D"gmail_quote">On 3 December 2014 at 01:18, Saul =
-Wold <span dir=3D"ltr">&lt;<a href=3D"mailto:sgw@linux.intel.com" target=3D=
-"_blank">sgw@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border=
--left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div=
- id=3D":892" class=3D"" style=3D"overflow:hidden">libaio does not build wit=
-h PIE flags enabled<br></div></blockquote></div><div class=3D"gmail_extra">=
-<br></div>This failed in *some* (but not all) of the autobuilder jobs:</div=
-><div class=3D"gmail_extra"><br><div class=3D"gmail_extra">| io_queue_init.=
-os: In function `io_queue_init&#39;:</div><div class=3D"gmail_extra">| /hom=
-e/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/=
-work/i586-poky-linux/libaio/0.3.110-r0/libaio-0.3.110/src/io_queue_init.c:3=
-3: undefined reference to `__stack_chk_fail_local&#39;</div><div class=3D"g=
-mail_extra">| io_queue_release.os: In function `io_queue_release&#39;:</div=
-><div class=3D"gmail_extra">| /home/pokybuild/yocto-autobuilder/yocto-worke=
-r/nightly-x86-lsb/build/build/tmp/work/i586-poky-linux/libaio/0.3.110-r0/li=
-baio-0.3.110/src/io_queue_release.c:27: undefined reference to `__stack_chk=
-_fail_local&#39;</div><div class=3D"gmail_extra">| io_queue_wait.os: In fun=
-ction `io_queue_wait_0_4&#39;:</div><div class=3D"gmail_extra">| /home/poky=
-build/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/i=
-586-poky-linux/libaio/0.3.110-r0/libaio-0.3.110/src/io_queue_wait.c:30: und=
-efined reference to `__stack_chk_fail_local&#39;</div><div class=3D"gmail_e=
-xtra">| io_queue_run.os: In function `io_queue_run&#39;:</div><div class=3D=
-"gmail_extra">| /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-=
-lsb/build/build/tmp/work/i586-poky-linux/libaio/0.3.110-r0/libaio-0.3.110/s=
-rc/io_queue_run.c:39: undefined reference to `__stack_chk_fail_local&#39;</=
-div><div class=3D"gmail_extra">| io_getevents.os: In function `__io_geteven=
-ts_0_4&#39;:</div><div class=3D"gmail_extra">| /home/pokybuild/yocto-autobu=
-ilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/i586-poky-linux/lib=
-aio/0.3.110-r0/libaio-0.3.110/src/io_getevents.c:25: undefined reference to=
- `__stack_chk_fail_local&#39;</div><div class=3D"gmail_extra">| io_getevent=
-s.os:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/b=
-uild/tmp/work/i586-poky-linux/libaio/0.3.110-r0/libaio-0.3.110/src/io_getev=
-ents.c:55: more undefined references to `__stack_chk_fail_local&#39; follow=
-</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><a hr=
-ef=3D"https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/bu=
-ilds/113/steps/BuildImages/logs/stdio">https://autobuilder.yoctoproject.org=
-/main/builders/nightly-x86-lsb/builds/113/steps/BuildImages/logs/stdio</a><=
-br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
-ss</div></div></div>
 
---001a11c12196a7892805094f9295--
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
+
