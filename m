@@ -1,40 +1,25 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F1D0601F5
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 747D6601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 07:57:13 +0000 (UTC)
-Received: by mail-wg0-f42.google.com with SMTP id z12so19236346wgg.29
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Dec 2014 23:57:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=3CFZm87zBpdt4Pql5K0zn6+PBkXbLE97ZVpsRQ7LiPU=;
-	b=bQjdN/QAAhSrh2oBLAiyr1eyPtiglGXHOkYZD3mWFTow+T8sP83iafi482wRqn+c74
-	eW1CO5Z4lcOsjWFfOd9Zjb5bAsZcTvyETLYgc43WuV3CxNgQYsRlSD1DecPb57XfP0P/
-	+1+bgifZsFPDh75wCY2haxUatVJeYBo/9i9NEH+yWp8015yOF2Y3CEjL/KQ+4/c1k4xC
-	DP1vsSXbT/DxFj5DzuSGJpZgyZSiS1CY8xXiJ1ifSTLj8xUSWp/vX7Kkchj1nYB7dm15
-	eRPS9V+7Z+b2uZXUq5b9r36+x5+QDQnQBAbnitu9DCwNya4z1vCLVvnD+fNFXkOU8f1B
-	JJfg==
-X-Gm-Message-State: ALoCoQk/mo0/INIaG8CXPh/5Exp1OW4nQlX+TYjKiL2ozcpqYukCw/UfpJuJGNlfMgIoqk4Xz8kk
-X-Received: by 10.180.72.199 with SMTP id f7mr100463148wiv.53.1417593433621;
-	Tue, 02 Dec 2014 23:57:13 -0800 (PST)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id jp3sm49641434wid.9.2014.12.02.23.57.11
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 02 Dec 2014 23:57:12 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 8.1 \(1993\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <cover.1417535164.git.ross.burton@intel.com>
-Date: Wed, 3 Dec 2014 08:57:10 +0100
-Message-Id: <29CAEA25-9585-4F74-A429-27818EDC8B55@dominion.thruhere.net>
-References: <cover.1417535164.git.ross.burton@intel.com>
-To: Ross Burton <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1993)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4][RFC] Change libexecdir to ${prefix}/libexec
+	Wed,  3 Dec 2014 08:07:43 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sB387fY7004366
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Wed, 3 Dec 2014 00:07:42 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 3 Dec 2014 00:07:41 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Wed, 3 Dec 2014 16:07:35 +0800
+Message-ID: <14a00df7bc4193c9207629a11bb1b40d936f16b2.1417593851.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1417593851.git.hongxu.jia@windriver.com>
+References: <cover.1417593851.git.hongxu.jia@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/2] Revert "busybox : fix do_compile failed on qemumips when DEBUG_BUILD (ICE)"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,42 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 07:57:17 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 03 Dec 2014 08:07:46 -0000
+Content-Type: text/plain
 
+Since the gcc has resolved this, so we revert the workaround patch.
 
-> Op 2 dec. 2014, om 16:53 heeft Ross Burton <ross.burton@intel.com> het =
-volgende geschreven:
->=20
-> Hi,
->=20
-> First, this is VERY MUCH A RFC!
->=20
-> There's numerous problems with setting ${libexecdir} to =
-${libdir}/${BPN}, but
-> the a easy argument in my opinion is that nobody else does this.
->=20
-> The Debian world sets libexecdir to ${exec_prefix}/lib, and the Red =
-Hat world
-> uses ${exec_prefix}/libexec.  The FHS says either are fine.  Nobody =
-puts the
-> package name into the definition of libexecdir, as automake provides
-> pkglibexecdir ($libexec/$package) for package-specific binaries.
->=20
-> This branch changes bitbake.conf to use ${exec_prefix}/libexec and a =
-few patches
-> to fix (or hack around) any problems this has revealed so far.
->=20
-> Comments and testing (especially with other layers, and multilib =
-configurations)
-> much appreciated.
+This reverts commit f026b7a211a44acdb7fadb50b1a84aa3e369450a.
+---
+ meta/recipes-core/busybox/busybox_1.22.1.bb | 4 ----
+ 1 file changed, 4 deletions(-)
 
-In the past I've patched things like gdm to look in ${libdir}/${BPN} for =
-helper binaries (which are from a different recipe), so not only recipes =
-need to be inspected, but patches as well.
+diff --git a/meta/recipes-core/busybox/busybox_1.22.1.bb b/meta/recipes-core/busybox/busybox_1.22.1.bb
+index 7a50a30..8879e52 100644
+--- a/meta/recipes-core/busybox/busybox_1.22.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.22.1.bb
+@@ -34,10 +34,6 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://busybox-cross-menuconfig.patch \
+ "
+ 
+-SRC_URI_append_mips = " \
+-    ${@base_conditional( "DEBUG_BUILD", "1", "file://fix-ice-on-mips-while-compiling-with-g-O.patch", "", d )} \
+-"
+-
+ SRC_URI[tarball.md5sum] = "337d1a15ab1cb1d4ed423168b1eb7d7e"
+ SRC_URI[tarball.sha256sum] = "ae0b029d0a9e4dd71a077a790840e496dd838998e4571b87b60fed7462b6678b"
+ 
+-- 
+1.9.1
 
-regards,
-
-Koen=
 
