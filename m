@@ -1,25 +1,25 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A51DF60673
+	by mail.openembedded.org (Postfix) with ESMTP id 29AE465D53
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 01:18:09 +0000 (UTC)
+	Wed,  3 Dec 2014 01:18:11 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga102.jf.intel.com with ESMTP; 02 Dec 2014 17:15:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="492641390"
+X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="492641393"
 Received: from smoffitt-mobl.ger.corp.intel.com (HELO
 	swold-linux.amr.corp.intel.com) ([10.255.13.114])
-	by orsmga003.jf.intel.com with ESMTP; 02 Dec 2014 17:14:54 -0800
+	by orsmga003.jf.intel.com with ESMTP; 02 Dec 2014 17:14:55 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Dec 2014 17:18:05 -0800
-Message-Id: <8740d1ee8174975ad7b14b888d6358e9340e49f4.1417552133.git.sgw@linux.intel.com>
+Date: Tue,  2 Dec 2014 17:18:07 -0800
+Message-Id: <a2191d9a3fd6dae80094288cafe95c1ef2ded30f.1417552133.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1417552133.git.sgw@linux.intel.com>
 References: <cover.1417552133.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1417552133.git.sgw@linux.intel.com>
 References: <cover.1417552133.git.sgw@linux.intel.com>
-Subject: [PATCH 1/4] libaio: Upgrade to 3.110
+Subject: [PATCH 3/4] gnupg: Upgrade to 2.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,466 +32,239 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 01:18:12 -0000
+X-List-Received-Date: Wed, 03 Dec 2014 01:18:15 -0000
 
-Rebase and delete patches for new release
+Add patch to use pkg-config instead of npth-config and remove
+--without-curl as it's not used anymore.
 
-libaio does not build with PIE flags enabled
+Also needed a patch to add libgpg-error to correctly build dirmngr
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+
+meta/recipes-support/gnupg
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/conf/distro/include/security_flags.inc        |   1 +
- .../recipes-extended/libaio/libaio/00_arches.patch | 208 ++-------------------
- .../libaio/libaio/libaio-aarch64.patch             |  28 ---
- .../libaio/libaio/libaio_fix_for_mips64.patch      |  68 ++++---
- .../recipes-extended/libaio/libaio/toolchain.patch |  27 ---
- .../{libaio_0.3.109.bb => libaio_0.3.110.bb}       |   9 +-
- 6 files changed, 63 insertions(+), 278 deletions(-)
- delete mode 100644 meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
- delete mode 100644 meta/recipes-extended/libaio/libaio/toolchain.patch
- rename meta/recipes-extended/libaio/{libaio_0.3.109.bb => libaio_0.3.110.bb} (74%)
+ .../gnupg/gnupg/dirmngr-uses-libgpg-error.patch    | 16 +++++
+ meta/recipes-support/gnupg/gnupg/pkgconfig.patch   | 24 +++++---
+ .../use-pkgconfig-instead-of-npth-config.patch     | 72 ++++++++++++++++++++++
+ .../gnupg/{gnupg_2.0.26.bb => gnupg_2.1.0.bb}      | 16 ++---
+ 4 files changed, 111 insertions(+), 17 deletions(-)
+ create mode 100644 meta/recipes-support/gnupg/gnupg/dirmngr-uses-libgpg-error.patch
+ create mode 100644 meta/recipes-support/gnupg/gnupg/use-pkgconfig-instead-of-npth-config.patch
+ rename meta/recipes-support/gnupg/{gnupg_2.0.26.bb => gnupg_2.1.0.bb} (70%)
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 60156c0..bc8a577 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -43,6 +43,7 @@ SECURITY_CFLAGS_pn-gst-plugins-gl = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gstreamer1.0-plugins-good = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-harfbuzz = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-kexec-tools = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-libaio = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libcap = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libid3tag = "${SECURITY_NO_PIE_CFLAGS}"
-diff --git a/meta/recipes-extended/libaio/libaio/00_arches.patch b/meta/recipes-extended/libaio/libaio/00_arches.patch
-index 91f4588..9d6447d 100644
---- a/meta/recipes-extended/libaio/libaio/00_arches.patch
-+++ b/meta/recipes-extended/libaio/libaio/00_arches.patch
-@@ -2,10 +2,10 @@ Upstream-Status: Inappropriate [embedded specific]
- 
- from openembedded, added by Qing He <qing.he@intel.com>
- 
--Index: libaio-0.3.109/src/syscall-m68k.h
-+Index: libaio-0.3.110/src/syscall-m68k.h
- ===================================================================
- --- /dev/null
--+++ libaio-0.3.109/src/syscall-m68k.h
-++++ libaio-0.3.110/src/syscall-m68k.h
- @@ -0,0 +1,78 @@
- +#define __NR_io_setup		241
- +#define __NR_io_destroy		242
-@@ -85,164 +85,27 @@ Index: libaio-0.3.109/src/syscall-m68k.h
- +return (type) __res; \
- +}
- +
--Index: libaio-0.3.109/src/syscall-sparc.h
-+Index: libaio-0.3.110/src/syscall.h
- ===================================================================
----- /dev/null
--+++ libaio-0.3.109/src/syscall-sparc.h
--@@ -0,0 +1,130 @@
--+/* $Id: unistd.h,v 1.74 2002/02/08 03:57:18 davem Exp $ */
--+
--+/*
--+ * System calls under the Sparc.
--+ *
--+ * Don't be scared by the ugly clobbers, it is the only way I can
--+ * think of right now to force the arguments into fixed registers
--+ * before the trap into the system call with gcc 'asm' statements.
--+ *
--+ * Copyright (C) 1995 David S. Miller (davem@caip.rutgers.edu)
--+ *
--+ * SunOS compatibility based upon preliminary work which is:
--+ *
--+ * Copyright (C) 1995 Adrian M. Rodriguez (adrian@remus.rutgers.edu)
--+ */
--+
--+
--+#define __NR_io_setup		268
--+#define __NR_io_destroy		269
--+#define __NR_io_submit		270
--+#define __NR_io_cancel		271
--+#define __NR_io_getevents	272
--+
--+
--+#define io_syscall1(type,fname,sname,type1,arg1) \
--+type fname(type1 arg1) \
--+{ \
--+long __res; \
--+register long __g1 __asm__ ("g1") = __NR_##sname; \
--+register long __o0 __asm__ ("o0") = (long)(arg1); \
--+__asm__ __volatile__ ("t 0x10\n\t" \
--+		      "bcc 1f\n\t" \
--+		      "mov %%o0, %0\n\t" \
--+		      "sub %%g0, %%o0, %0\n\t" \
--+		      "1:\n\t" \
--+		      : "=r" (__res), "=&r" (__o0) \
--+		      : "1" (__o0), "r" (__g1) \
--+		      : "cc"); \
--+if (__res < -255 || __res >= 0) \
--+	return (type) __res; \
--+return -1; \
--+}
--+
--+#define io_syscall2(type,fname,sname,type1,arg1,type2,arg2) \
--+type fname(type1 arg1,type2 arg2) \
--+{ \
--+long __res; \
--+register long __g1 __asm__ ("g1") = __NR_##sname; \
--+register long __o0 __asm__ ("o0") = (long)(arg1); \
--+register long __o1 __asm__ ("o1") = (long)(arg2); \
--+__asm__ __volatile__ ("t 0x10\n\t" \
--+		      "bcc 1f\n\t" \
--+		      "mov %%o0, %0\n\t" \
--+		      "sub %%g0, %%o0, %0\n\t" \
--+		      "1:\n\t" \
--+		      : "=r" (__res), "=&r" (__o0) \
--+		      : "1" (__o0), "r" (__o1), "r" (__g1) \
--+		      : "cc"); \
--+if (__res < -255 || __res >= 0) \
--+	return (type) __res; \
--+return -1; \
--+}
--+
--+#define io_syscall3(type,fname,sname,type1,arg1,type2,arg2,type3,arg3) \
--+type fname(type1 arg1,type2 arg2,type3 arg3) \
--+{ \
--+long __res; \
--+register long __g1 __asm__ ("g1") = __NR_##sname; \
--+register long __o0 __asm__ ("o0") = (long)(arg1); \
--+register long __o1 __asm__ ("o1") = (long)(arg2); \
--+register long __o2 __asm__ ("o2") = (long)(arg3); \
--+__asm__ __volatile__ ("t 0x10\n\t" \
--+		      "bcc 1f\n\t" \
--+		      "mov %%o0, %0\n\t" \
--+		      "sub %%g0, %%o0, %0\n\t" \
--+		      "1:\n\t" \
--+		      : "=r" (__res), "=&r" (__o0) \
--+		      : "1" (__o0), "r" (__o1), "r" (__o2), "r" (__g1) \
--+		      : "cc"); \
--+if (__res < -255 || __res>=0) \
--+	return (type) __res; \
--+return -1; \
--+}
--+
--+#define io_syscall4(type,fname,sname,type1,arg1,type2,arg2,type3,arg3,type4,arg4) \
--+type fname(type1 arg1, type2 arg2, type3 arg3, type4 arg4) \
--+{ \
--+long __res; \
--+register long __g1 __asm__ ("g1") = __NR_##sname; \
--+register long __o0 __asm__ ("o0") = (long)(arg1); \
--+register long __o1 __asm__ ("o1") = (long)(arg2); \
--+register long __o2 __asm__ ("o2") = (long)(arg3); \
--+register long __o3 __asm__ ("o3") = (long)(arg4); \
--+__asm__ __volatile__ ("t 0x10\n\t" \
--+		      "bcc 1f\n\t" \
--+		      "mov %%o0, %0\n\t" \
--+		      "sub %%g0, %%o0, %0\n\t" \
--+		      "1:\n\t" \
--+		      : "=r" (__res), "=&r" (__o0) \
--+		      : "1" (__o0), "r" (__o1), "r" (__o2), "r" (__o3), "r" (__g1) \
--+		      : "cc"); \
--+if (__res < -255 || __res>=0) \
--+	return (type) __res; \
--+return -1; \
--+}
--+
--+#define io_syscall5(type,fname,sname,type1,arg1,type2,arg2,type3,arg3,type4,arg4, \
--+	  type5,arg5) \
--+type fname(type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5) \
--+{ \
--+long __res; \
--+register long __g1 __asm__ ("g1") = __NR_##sname; \
--+register long __o0 __asm__ ("o0") = (long)(arg1); \
--+register long __o1 __asm__ ("o1") = (long)(arg2); \
--+register long __o2 __asm__ ("o2") = (long)(arg3); \
--+register long __o3 __asm__ ("o3") = (long)(arg4); \
--+register long __o4 __asm__ ("o4") = (long)(arg5); \
--+__asm__ __volatile__ ("t 0x10\n\t" \
--+		      "bcc 1f\n\t" \
--+		      "mov %%o0, %0\n\t" \
--+		      "sub %%g0, %%o0, %0\n\t" \
--+		      "1:\n\t" \
--+		      : "=r" (__res), "=&r" (__o0) \
--+		      : "1" (__o0), "r" (__o1), "r" (__o2), "r" (__o3), "r" (__o4), "r" (__g1) \
--+		      : "cc"); \
--+if (__res < -255 || __res>=0) \
--+	return (type) __res; \
--+return -1; \
--+}
--+
--Index: libaio-0.3.109/src/syscall.h
--===================================================================
----- libaio-0.3.109.orig/src/syscall.h
--+++ libaio-0.3.109/src/syscall.h
--@@ -24,6 +24,14 @@
-- #include "syscall-alpha.h"
-- #elif defined(__arm__)
-- #include "syscall-arm.h"
-+--- libaio-0.3.110.orig/src/syscall.h
-++++ libaio-0.3.110/src/syscall.h
-+@@ -28,6 +28,12 @@
-+ #include "syscall-sparc.h"
-+ #elif defined(__aarch64__)
-+ #include "syscall-arm64.h"
- +#elif defined(__m68k__)
- +#include "syscall-m68k.h"
--+#elif defined(__sparc__)
--+#include "syscall-sparc.h"
- +#elif defined(__hppa__)
- +#include "syscall-parisc.h"
- +#elif defined(__mips__)
- +#include "syscall-mips.h"
-  #else
-- #error "add syscall-arch.h"
-- #endif
--Index: libaio-0.3.109/src/syscall-mips.h
-+ #warning "using generic syscall method"
-+ #include "syscall-generic.h"
-+Index: libaio-0.3.110/src/syscall-mips.h
- ===================================================================
- --- /dev/null
--+++ libaio-0.3.109/src/syscall-mips.h
-++++ libaio-0.3.110/src/syscall-mips.h
- @@ -0,0 +1,223 @@
- +/*
- + * This file is subject to the terms and conditions of the GNU General Public
-@@ -467,45 +330,10 @@ Index: libaio-0.3.109/src/syscall-mips.h
- +
- +#endif /* (_MIPS_SIM == _MIPS_SIM_NABI32) || (_MIPS_SIM == _MIPS_SIM_ABI64) */
- +
--Index: libaio-0.3.109/src/libaio.h
--===================================================================
----- libaio-0.3.109.orig/src/libaio.h
--+++ libaio-0.3.109/src/libaio.h
--@@ -83,6 +83,30 @@ typedef enum io_iocb_cmd {
-- #define PADDEDptr(x, y)	x; unsigned y
-- #define PADDEDul(x, y)	unsigned long x; unsigned y
-- #  endif
--+#elif defined(__m68k__) /* big endian, 32 bits */
--+#define PADDED(x, y)   unsigned y; x
--+#define PADDEDptr(x, y)        unsigned y; x
--+#define PADDEDul(x, y) unsigned y; unsigned long x
--+#elif defined(__sparc__) /* big endian, 32 bits */
--+#define PADDED(x, y)   unsigned y; x
--+#define PADDEDptr(x, y)        unsigned y; x
--+#define PADDEDul(x, y) unsigned y; unsigned long x
--+#elif defined(__hppa__) /* big endian, 32 bits */
--+#define PADDED(x, y)   unsigned y; x
--+#define PADDEDptr(x, y)        unsigned y; x
--+#define PADDEDul(x, y) unsigned y; unsigned long x
--+#elif defined(__mips__)
--+#  if defined (__MIPSEB__) /* big endian, 32 bits */
--+#define PADDED(x, y)   unsigned y; x
--+#define PADDEDptr(x, y)        unsigned y; x
--+#define PADDEDul(x, y) unsigned y; unsigned long x
--+#  elif defined(__MIPSEL__) /* little endian, 32 bits */
--+#define PADDED(x, y)   x; unsigned y
--+#define PADDEDptr(x, y)        x; unsigned y
--+#define PADDEDul(x, y) unsigned long x; unsigned y
--+#  else
--+#    error "neither mipseb nor mipsel?"
--+#  endif
-- #else
-- #error	endian?
-- #endif
--Index: libaio-0.3.109/src/syscall-parisc.h
-+Index: libaio-0.3.110/src/syscall-parisc.h
- ===================================================================
- --- /dev/null
--+++ libaio-0.3.109/src/syscall-parisc.h
-++++ libaio-0.3.110/src/syscall-parisc.h
- @@ -0,0 +1,146 @@
- +/*
- + * Linux system call numbers.
-@@ -653,10 +481,10 @@ Index: libaio-0.3.109/src/syscall-parisc.h
- +    return K_INLINE_SYSCALL(sname, 5, arg1, arg2, arg3, arg4, arg5);	\
- +}
- +
--Index: libaio-0.3.109/src/syscall-arm.h
-+Index: libaio-0.3.110/src/syscall-arm.h
- ===================================================================
----- libaio-0.3.109.orig/src/syscall-arm.h
--+++ libaio-0.3.109/src/syscall-arm.h
-+--- libaio-0.3.110.orig/src/syscall-arm.h
-++++ libaio-0.3.110/src/syscall-arm.h
- @@ -114,3 +114,119 @@ type fname(type1 arg1, type2 arg2, type3
-    return (type) __res_r0;						\
-  }
-diff --git a/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch b/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
-deleted file mode 100644
-index e3d1058..0000000
---- a/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--Upstream-Status: Submitted
--
--Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
--
-----
-- harness/cases/16.t |    2 ++
-- src/libaio.h       |   10 ++++++++++
-- 2 files changed, 12 insertions(+)
--
----- a/src/libaio.h
--+++ b/src/libaio.h
--@@ -107,6 +107,16 @@
-- #  else
-- #    error "neither mipseb nor mipsel?"
-- #  endif
--+#elif defined(__aarch64__)
--+#  if defined (__AARCH64EB__) /* big endian, 64 bits */
--+#define PADDED(x, y)    unsigned y; x
--+#define PADDEDptr(x,y)  x
--+#define PADDEDul(x, y)  unsigned long x
--+#  elif defined(__AARCH64EL__) /* little endian, 64 bits */
--+#define PADDED(x, y)    x, y
--+#define PADDEDptr(x, y) x
--+#define PADDEDul(x, y)  unsigned long x
--+#  endif
-- #else
-- #error	endian?
-- #endif
-diff --git a/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips64.patch b/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips64.patch
-index 0ef9f14..9d4bb46 100644
---- a/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips64.patch
-+++ b/meta/recipes-extended/libaio/libaio/libaio_fix_for_mips64.patch
-@@ -14,29 +14,45 @@ Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
-  src/libaio.h | 12 ++++++++++++
-  1 file changed, 12 insertions(+)
- 
--diff --git a/src/libaio.h b/src/libaio.h
--index ff99188..64ea8f3 100644
----- a/src/libaio.h
--+++ b/src/libaio.h
--@@ -95,6 +95,18 @@ typedef enum io_iocb_cmd {
-- #define PADDED(x, y)   unsigned y; x
-- #define PADDEDptr(x, y)        unsigned y; x
-- #define PADDEDul(x, y) unsigned y; unsigned long x
--+#elif defined(__mips64)
--+#  if defined (__MIPSEB__) /* big endian, 64 bits */
--+#define PADDED(x, y)	unsigned y; x
--+#define PADDEDptr(x,y)	x
--+#define PADDEDul(x, y)	unsigned long x
--+#  elif defined(__MIPSEL__) /* little endian, 64 bits */
--+#define PADDED(x, y)	x, y
--+#define PADDEDptr(x, y)	x
--+#define PADDEDul(x, y)	unsigned long x
--+#  else
--+#    error "mips64: neither mipseb nor mipsel?"
--+#  endif
-- #elif defined(__mips__)
-- #  if defined (__MIPSEB__) /* big endian, 32 bits */
-- #define PADDED(x, y)   unsigned y; x
---- 
--1.8.2.1
--
-+Index: libaio-0.3.110/src/libaio.h
+diff --git a/meta/recipes-support/gnupg/gnupg/dirmngr-uses-libgpg-error.patch b/meta/recipes-support/gnupg/gnupg/dirmngr-uses-libgpg-error.patch
+new file mode 100644
+index 0000000..3dc506c
+--- /dev/null
++++ b/meta/recipes-support/gnupg/gnupg/dirmngr-uses-libgpg-error.patch
+@@ -0,0 +1,16 @@
++Upstream-Status: Pending
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++Index: gnupg-2.1.0/dirmngr/Makefile.am
 +===================================================================
-+--- libaio-0.3.110.orig/src/libaio.h
-++++ libaio-0.3.110/src/libaio.h
-+@@ -51,7 +51,7 @@ typedef enum io_iocb_cmd {
++--- gnupg-2.1.0.orig/dirmngr/Makefile.am
+++++ gnupg-2.1.0/dirmngr/Makefile.am
++@@ -71,7 +71,8 @@ endif
++ dirmngr_LDADD = $(libcommontlsnpth) $(libcommonpth) \
++         ../gl/libgnu.a $(DNSLIBS) $(LIBASSUAN_LIBS) \
++ 	$(LIBGCRYPT_LIBS) $(KSBA_LIBS) $(NPTH_LIBS) \
++-	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV)
+++	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) \
+++        $(GPG_ERROR_LIBS)
++ if !USE_LDAPWRAPPER
++ dirmngr_LDADD += $(ldaplibs)
++ endif
+diff --git a/meta/recipes-support/gnupg/gnupg/pkgconfig.patch b/meta/recipes-support/gnupg/gnupg/pkgconfig.patch
+index ae92392..5e036ba 100644
+--- a/meta/recipes-support/gnupg/gnupg/pkgconfig.patch
++++ b/meta/recipes-support/gnupg/gnupg/pkgconfig.patch
+@@ -5,11 +5,11 @@ Upstream-Status: Rejected
+ 
+ RP 2014/5/22
+ 
+-Index: gnupg-2.0.22/m4/gnupg-pth.m4
++Index: gnupg-2.1.0/m4/gnupg-pth.m4
+ ===================================================================
+---- gnupg-2.0.22.orig/m4/gnupg-pth.m4	2013-10-04 12:32:53.000000000 +0000
+-+++ gnupg-2.0.22/m4/gnupg-pth.m4	2014-05-13 21:33:21.000000000 +0000
+-@@ -17,33 +17,9 @@
++--- gnupg-2.1.0.orig/m4/gnupg-pth.m4
+++++ gnupg-2.1.0/m4/gnupg-pth.m4
++@@ -17,33 +17,9 @@ dnl implied warranty of MERCHANTABILITY
+  # Taken and modified from the m4 macros which come with Pth.
+  AC_DEFUN([GNUPG_PTH_VERSION_CHECK],
+    [
+@@ -44,7 +44,7 @@ Index: gnupg-2.0.22/m4/gnupg-pth.m4
+      if test $have_pth = yes; then
+         AC_MSG_RESULT(yes)
+         AC_MSG_CHECKING([whether PTH installation is sane])
+-@@ -51,9 +29,9 @@
++@@ -51,9 +27,9 @@ AC_DEFUN([GNUPG_PTH_VERSION_CHECK],
+           _gnupg_pth_save_cflags=$CFLAGS
+           _gnupg_pth_save_ldflags=$LDFLAGS
+           _gnupg_pth_save_libs=$LIBS
+@@ -57,30 +57,34 @@ Index: gnupg-2.0.22/m4/gnupg-pth.m4
+           AC_LINK_IFELSE([AC_LANG_PROGRAM([#include <pth.h>
+                                           ],
+                                           [[ pth_init ();]])],
+-@@ -81,23 +59,11 @@
++@@ -80,26 +56,13 @@ AC_DEFUN([GNUPG_PTH_VERSION_CHECK],
++ # PTH_CLFAGS and PTH_LIBS are AS_SUBST.
+  #
+  AC_DEFUN([GNUPG_PATH_PTH],
+-+[
+ -[ AC_ARG_WITH(pth-prefix,
+ -             AC_HELP_STRING([--with-pth-prefix=PFX],
+--                           [prefix where GNU Pth is installed]),
++-                           [prefix where GNU Pth is installed (optional)]),
+ -     pth_config_prefix="$withval", pth_config_prefix="")
+ -  if test x$pth_config_prefix != x ; then
+ -     PTH_CONFIG="$pth_config_prefix/bin/pth-config"
+ -  fi
+ -  AC_PATH_PROG(PTH_CONFIG, pth-config, no)
+++[
+    tmp=ifelse([$1], ,1.3.7,$1)
+ -  if test "$PTH_CONFIG" != "no"; then
+ -    GNUPG_PTH_VERSION_CHECK($tmp)
+--    if test $have_pth = yes; then
++-    if test $have_pth = yes; then      
+ -       PTH_CFLAGS=`$PTH_CONFIG --cflags`
+ -       PTH_LIBS=`$PTH_CONFIG --ldflags`
+ -       PTH_LIBS="$PTH_LIBS `$PTH_CONFIG --libs --all`"
++-       AC_DEFINE(HAVE_PTH, 1,
+ +  GNUPG_PTH_VERSION_CHECK($tmp)
+ +  if test $have_pth = yes; then
+-        AC_DEFINE(HAVE_PTH, 1,
+++      AC_DEFINE(HAVE_PTH, 1,
+                  [Defined if the GNU Pth is available])
+ -    fi
+    fi
+    AC_SUBST(PTH_CFLAGS)
+    AC_SUBST(PTH_LIBS)
++ ])
++-
+diff --git a/meta/recipes-support/gnupg/gnupg/use-pkgconfig-instead-of-npth-config.patch b/meta/recipes-support/gnupg/gnupg/use-pkgconfig-instead-of-npth-config.patch
+new file mode 100644
+index 0000000..c6dbf1b
+--- /dev/null
++++ b/meta/recipes-support/gnupg/gnupg/use-pkgconfig-instead-of-npth-config.patch
+@@ -0,0 +1,72 @@
++Upstream-Status: Inappropriate [openembedded specific]
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++
++Index: gnupg-2.1.0/m4/npth.m4
++===================================================================
++--- gnupg-2.1.0.orig/m4/npth.m4
+++++ gnupg-2.1.0/m4/npth.m4
++@@ -17,10 +17,10 @@ AC_DEFUN([_AM_PATH_NPTH_CONFIG],
++   if test "x$npth_config_prefix" != x ; then
++       NPTH_CONFIG="$npth_config_prefix/bin/npth-config"
++   fi
++-  AC_PATH_PROG(NPTH_CONFIG, npth-config, no)
+++  AC_PATH_PROG(PKGCONFIG, pkg-config, no)
 + 
-+ /* little endian, 32 bits */
-+ #if defined(__i386__) || (defined(__arm__) && !defined(__ARMEB__)) || \
-+-    defined(__sh__) || defined(__bfin__) || defined(__MIPSEL__) || \
-++    defined(__sh__) || defined(__bfin__) || (defined(__mips__) && defined(__MIPSEL__)) || \
-+     defined(__cris__)
-+ #define PADDED(x, y)	x; unsigned y
-+ #define PADDEDptr(x, y)	x; unsigned y
-+@@ -59,7 +59,8 @@ typedef enum io_iocb_cmd {
++-  if test "$NPTH_CONFIG" != "no" ; then
++-    npth_version=`$NPTH_CONFIG --version`
+++  if test "$PKGCONFIG" != "no" ; then
+++    npth_version=`$PKGCONFIG --modversion npth`
++   fi
++   npth_version_major=`echo $npth_version | \
++                sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\1/'`
++@@ -45,7 +45,7 @@ AC_DEFUN([AM_PATH_NPTH],
 + 
-+ /* little endian, 64 bits */
-+ #elif defined(__ia64__) || defined(__x86_64__) || defined(__alpha__) || \
-+-      (defined(__aarch64__) && defined(__AARCH64EL__))
-++      (defined(__aarch64__) && defined(__AARCH64EL__)) || \
-++      (defined(__mips64) && defined(__MIPSEL__))
-+ #define PADDED(x, y)	x, y
-+ #define PADDEDptr(x, y)	x
-+ #define PADDEDul(x, y)	unsigned long x
-+@@ -67,7 +68,8 @@ typedef enum io_iocb_cmd {
-+ /* big endian, 64 bits */
-+ #elif defined(__powerpc64__) || defined(__s390x__) || \
-+       (defined(__sparc__) && defined(__arch64__)) || \
-+-      (defined(__aarch64__) && defined(__AARCH64EB__))
-++      (defined(__aarch64__) && defined(__AARCH64EB__)) || \
-++      (defined(__mips64) && defined(__MIPSEL__))
-+ #define PADDED(x, y)	unsigned y; x
-+ #define PADDEDptr(x,y)	x
-+ #define PADDEDul(x, y)	unsigned long x
-+@@ -75,7 +77,7 @@ typedef enum io_iocb_cmd {
-+ /* big endian, 32 bits */
-+ #elif defined(__PPC__) || defined(__s390__) || \
-+       (defined(__arm__) && defined(__ARMEB__)) || \
-+-      defined(__sparc__) || defined(__MIPSEB__) || defined(__m68k__) || \
-++      defined(__sparc__) || (defined(__mips__) && defined(__MIPSEB__)) || defined(__m68k__) || \
-+       defined(__hppa__) || defined(__frv__) || defined(__avr32__)
-+ #define PADDED(x, y)	unsigned y; x
-+ #define PADDEDptr(x, y)	unsigned y; x
-diff --git a/meta/recipes-extended/libaio/libaio/toolchain.patch b/meta/recipes-extended/libaio/libaio/toolchain.patch
-deleted file mode 100644
-index 4d88ec1..0000000
---- a/meta/recipes-extended/libaio/libaio/toolchain.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--Upstream-Status: Inappropriate [embedded specific]
--
--8/27/2010 - created by Qing He <qing.he@intel.com>
--
--diff --git a/src/Makefile b/src/Makefile
--index 8d134cc..df8e5b6 100644
----- a/src/Makefile
--+++ b/src/Makefile
--@@ -2,7 +2,6 @@ prefix=/usr
-- includedir=$(prefix)/include
-- libdir=$(prefix)/lib
-- 
---ARCH := $(shell uname -m | sed -e s/i.86/i386/)
-- CFLAGS := -nostdlib -nostartfiles -Wall -I. -g -fomit-frame-pointer -O2 -fPIC
-- SO_CFLAGS=-shared $(CFLAGS)
-- L_CFLAGS=$(CFLAGS)
--@@ -44,8 +43,8 @@ $(libaio_objs) $(libaio_sobjs): libaio.h vsys_def.h
-- 
-- libaio.a: $(libaio_objs)
-- 	rm -f libaio.a
---	ar r libaio.a $^
---	ranlib libaio.a
--+	$(AR) r libaio.a $^
--+	$(RANLIB) libaio.a
-- 
-- $(libname): $(libaio_sobjs) libaio.map
-- 	$(CC) $(SO_CFLAGS) -Wl,--version-script=libaio.map -Wl,-soname=$(soname) -o $@ $(libaio_sobjs) $(LINK_FLAGS)
-diff --git a/meta/recipes-extended/libaio/libaio_0.3.109.bb b/meta/recipes-extended/libaio/libaio_0.3.110.bb
-similarity index 74%
-rename from meta/recipes-extended/libaio/libaio_0.3.109.bb
-rename to meta/recipes-extended/libaio/libaio_0.3.110.bb
-index 0483c71..5d69282 100644
---- a/meta/recipes-extended/libaio/libaio_0.3.109.bb
-+++ b/meta/recipes-extended/libaio/libaio_0.3.110.bb
-@@ -5,21 +5,16 @@ HOMEPAGE = "http://lse.sourceforge.net/io/aio.html"
- LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d8045f3b8f929c1cb29a1e3fd737b499"
++   AC_MSG_CHECKING(for NPTH - version >= $min_npth_version)
++   ok=no
++-  if test "$NPTH_CONFIG" != "no" ; then
+++  if test "$PKGCONFIG" != "no" ; then
++     req_major=`echo $min_npth_version | \
++                sed 's/\([[0-9]]*\)\.\([[0-9]]*\)/\1/'`
++     req_minor=`echo $min_npth_version | \
++@@ -66,28 +66,9 @@ AC_DEFUN([AM_PATH_NPTH],
++   fi
++   if test $ok = yes; then
++     AC_MSG_RESULT([yes ($npth_version)])
++-  else
++-    AC_MSG_RESULT(no)
++-  fi
++-  if test $ok = yes; then
++-     # If we have a recent NPTH, we should also check that the
++-     # API is compatible.
++-     if test "$req_npth_api" -gt 0 ; then
++-        tmp=`$NPTH_CONFIG --api-version 2>/dev/null || echo 0`
++-        if test "$tmp" -gt 0 ; then
++-           AC_MSG_CHECKING([NPTH API version])
++-           if test "$req_npth_api" -eq "$tmp" ; then
++-             AC_MSG_RESULT([okay])
++-           else
++-             ok=no
++-             AC_MSG_RESULT([does not match. want=$req_npth_api got=$tmp])
++-           fi
++-        fi
++-     fi
++-  fi
++-  if test $ok = yes; then
++-    NPTH_CFLAGS=`$NPTH_CONFIG --cflags`
++-    NPTH_LIBS=`$NPTH_CONFIG --libs`
+++    NPTH_CFLAGS=`$PKGCONFIG --cflags npth`
+++    NPTH_LIBS=`$PKGCONFIG --libs npth`
+++    AC_MSG_WARN([[GOT HERE - $NPTH_LIBS ]])
++     ifelse([$2], , :, [$2])
++     npth_config_host=`$NPTH_CONFIG --host 2>/dev/null || echo none`
++     if test x"$npth_config_host" != xnone ; then
++@@ -103,6 +84,7 @@ AC_DEFUN([AM_PATH_NPTH],
++       fi
++     fi
++   else
+++    AC_MSG_RESULT(no)
++     NPTH_CFLAGS=""
++     NPTH_LIBS=""
++     ifelse([$3], , :, [$3])
+diff --git a/meta/recipes-support/gnupg/gnupg_2.0.26.bb b/meta/recipes-support/gnupg/gnupg_2.1.0.bb
+similarity index 70%
+rename from meta/recipes-support/gnupg/gnupg_2.0.26.bb
+rename to meta/recipes-support/gnupg/gnupg_2.1.0.bb
+index 92dd3bd..e9ade3b 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.0.26.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.1.0.bb
+@@ -4,21 +4,21 @@ LICENSE = "GPLv3 & LGPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
+                     file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6"
  
--PR = "r2"
--
- SRC_URI = "${DEBIAN_MIRROR}/main/liba/libaio/libaio_${PV}.orig.tar.gz \
-            file://00_arches.patch \
--           file://toolchain.patch \
-            file://destdir.patch \
-            file://libaio_fix_for_x32.patch \
--           file://libaio-generic.patch \
--           file://libaio-aarch64.patch \
-            file://libaio_fix_for_mips_syscalls.patch \
-            file://libaio_fix_for_mips64.patch \
- "
+-DEPENDS = "${PTH} libassuan libksba zlib bzip2 readline libgcrypt"
+-PTH = "pth"
+-PTH_libc-uclibc = "npth"
++DEPENDS = "npth libassuan libksba zlib bzip2 readline libgcrypt"
  
--SRC_URI[md5sum] = "435a5b16ca6198eaf01155263d855756"
--SRC_URI[sha256sum] = "bf4a457253cbaab215aea75cb6e18dc8d95bbd507e9920661ff9bdd288c8778d"
-+SRC_URI[md5sum] = "2a35602e43778383e2f4907a4ca39ab8"
-+SRC_URI[sha256sum] = "e019028e631725729376250e32b473012f7cb68e1f7275bfc1bbcdd0f8745f7e"
+ inherit autotools gettext texinfo pkgconfig
  
- EXTRA_OEMAKE =+ "prefix=${prefix} includedir=${includedir} libdir=${libdir}"
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
+-           file://pkgconfig.patch"
++           file://pkgconfig.patch \
++           file://use-pkgconfig-instead-of-npth-config.patch \
++           file://dirmngr-uses-libgpg-error.patch \
++          "
  
+-SRC_URI[md5sum] = "fa7e704aad33eb114d1840164455aec1"
+-SRC_URI[sha256sum] = "7758e30dc382ae7a7167ed41b7f936aa50af5ea2d6fccdef663b5b750b65b8e0"
++SRC_URI[md5sum] = "43a809789a1d897f4386680be0b09d02"
++SRC_URI[sha256sum] = "16a8c3f50a15bf37d2dfb1c5e4bb3ec533e1d0b6a4043ff3680a376a3ad4058b"
+ 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
+-                --without-libcurl \
+ 		--with-zlib=${STAGING_LIBDIR}/.. \
+ 		--with-bzip2=${STAGING_LIBDIR}/.. \
+                 --with-readline=${STAGING_LIBDIR}/.. \
+@@ -37,3 +37,5 @@ do_install_append() {
+ 	ln -sf gpg2 ${D}${bindir}/gpg
+ 	ln -sf gpgv2 ${D}${bindir}/gpgv
+ }
++
++RDEPENDS_${PN} = "gnutls"
 -- 
 1.8.3.1
 
