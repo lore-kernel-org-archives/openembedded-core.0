@@ -1,36 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
-	[209.85.216.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 31F9460030
+Received: from mail-qa0-f50.google.com (mail-qa0-f50.google.com
+	[209.85.216.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AE9560030
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 17:49:12 +0000 (UTC)
-Received: by mail-qa0-f53.google.com with SMTP id bm13so10601422qab.40
+	Wed,  3 Dec 2014 17:57:07 +0000 (UTC)
+Received: by mail-qa0-f50.google.com with SMTP id w8so10591085qac.37
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Dec 2014 09:49:13 -0800 (PST)
+	Wed, 03 Dec 2014 09:57:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=obu4wsotv8KiK+P22BQ3sfs4g+gK01rBOs8jXRlDsF8=;
-	b=eQ7KSnan/Q6KRxYYlVJCCdlgOviNDOV/8l8k2KlifRDeApEtIfsUEbVsyqzpEV81fW
-	7qwgK8Rw2EfND72SE4KP8WXVCCb/MLMmTc47M4iEMvBFZxJpeLajI1/4OOAqcQHLq82N
-	zfzIgWCoBjgfFcxoiy9dafpn372SqdBCOSzuLeiCOvMbTmr2QVO9SOKu7vsIdZgpVHTn
-	08uMAPusDE+HKS8ExLASjeLfc6KR8xWc1nNwgiwBy8lJ9mGi+o9l98/LtwyMgwEL0Muu
-	oHHUs3Xn5ymsfUNHjQz4V8ROKLrUqSN/EzsnjTGipr7IzoWqL/FT9XeHN4R9lipiTbOR
-	WwIA==
-X-Gm-Message-State: ALoCoQluOhj7q0BaFgKngUnU0whhRN2i97dxFR7NLu2OnWVJYn9JMEvS6DbcIKmFGpaHiQgQMjny
-X-Received: by 10.229.190.71 with SMTP id dh7mr9591156qcb.5.1417628953227;
-	Wed, 03 Dec 2014 09:49:13 -0800 (PST)
+	bh=EzEWIGLm7gg149JHhQtGrJvIM+8Y65u2jzrcdkEUNxA=;
+	b=AxM04qhInRWR3SJN2C9fxTSmMS2Q0J7RFWGgwEDf5Z1DajkD6YvcDQBIP5eVPXsfO9
+	D0qxs21YOI0q4ZkElKoG1OtRh6wqnX8nQSEyLytgoKkJs1E9apBuAtQq+VtTP02l3AEc
+	J3NeUDWsV0LWVYiwXjpZ3IV4rfOfnuDlMU+oY5E/RYwVxtrwBp4qp3MkxC7FORi83+GT
+	uVtj7mXF2ZqPQM1d/7XNhqoVsEdekIuJJkCOZrhRkF/4Z4xYH0O0dBC8uiOj61uEhWZ9
+	9LBmLqRGimqB4ut/xpNhEth0o2/8n4LcNvky1wSry0ggUfpZhx64iF1/GBZrduSABlsw
+	0B0A==
+X-Gm-Message-State: ALoCoQkiAeTuni7nxyqgBzVutKbtIKMqq0JTwhpGPMsEudMRiigC3xTTuGm14UMVQ1TopKnQIMb6
+X-Received: by 10.224.92.205 with SMTP id s13mr9880442qam.52.1417629427414;
+	Wed, 03 Dec 2014 09:57:07 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Wed, 3 Dec 2014 09:48:53 -0800 (PST)
-In-Reply-To: <cover.1417593851.git.hongxu.jia@windriver.com>
-References: <cover.1417593851.git.hongxu.jia@windriver.com>
+Received: by 10.140.48.231 with HTTP; Wed, 3 Dec 2014 09:56:47 -0800 (PST)
+In-Reply-To: <1417594165-25317-1-git-send-email-sona.sarmadi@enea.com>
+References: <1417594165-25317-1-git-send-email-sona.sarmadi@enea.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 3 Dec 2014 17:48:53 +0000
-Message-ID: <CAJTo0LYuAKvz6GqJ6V=xf0FwwM2KfCTNxYm8rtyfg7hEK6dvxA@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Revert "busybox : fix do_compile failed on qemumips when DEBUG_BUILD (ICE)"
+Date: Wed, 3 Dec 2014 17:56:47 +0000
+Message-ID: <CAJTo0LY4Y6eWLUMvBLjwnKNy=KLoxh3Knien+HgOB5ZqXrmkRg@mail.gmail.com>
+To: Sona Sarmadi <sona.sarmadi@enea.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [daisy][PATCH] python: Building without SSLv3 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 17:49:15 -0000
-Content-Type: multipart/alternative; boundary=001a11336ab62e54aa0509537696
+X-List-Received-Date: Wed, 03 Dec 2014 17:57:07 -0000
+Content-Type: multipart/alternative; boundary=089e015375e4726c34050953927f
 
---001a11336ab62e54aa0509537696
+--089e015375e4726c34050953927f
 Content-Type: text/plain; charset=UTF-8
 
-On 3 December 2014 at 08:07, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+On 3 December 2014 at 08:09, Sona Sarmadi <sona.sarmadi@enea.com> wrote:
 
-> Hongxu Jia (2):
->   Revert "busybox : fix do_compile failed on qemumips when DEBUG_BUILD
->     (ICE)"
->   Revert "fixup"
+> Building python without SSLv3 support when openssl is built without
+> any support for SSLv3. "OPENSSL_NO_SSL3" is defined in the openssl
+> headers (opensslconf.h) which is located in /usr/include/$arch/openssl/
+>
+> Backported from:
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=768611#22
 >
 
-I think you meant to squash that :)  (I'll do this).
+This should be applied to master first, and then backported to any stable
+branches.  Can you re-send in a form that applies to master?
 
 Ross
 
---001a11336ab62e54aa0509537696
+--089e015375e4726c34050953927f
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 December 2014 at 08:07, Hongxu Jia <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":79l" cla=
-ss=3D"a3s" style=3D"overflow:hidden">Hongxu Jia (2):<br>
-=C2=A0 Revert &quot;busybox : fix do_compile failed on qemumips when DEBUG_=
-BUILD<br>
-=C2=A0 =C2=A0 (ICE)&quot;<br>
-=C2=A0 Revert &quot;fixup&quot;<br></div></blockquote></div><br>I think you=
- meant to squash that :) =C2=A0(I&#39;ll do this).</div><div class=3D"gmail=
-_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 3 December 2014 at 08:09, Sona Sarmadi <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:sona.sarmadi@enea.com" target=3D"_blank">sona.sarmadi@enea.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":8yf" class=
+=3D"a3s" style=3D"overflow:hidden">Building python without SSLv3 support wh=
+en openssl is built without<br>
+any support for SSLv3. &quot;OPENSSL_NO_SSL3&quot; is defined in the openss=
+l<br>
+headers (opensslconf.h) which is located in /usr/include/$arch/openssl/<br>
+<br>
+Backported from:<br>
+<a href=3D"https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D768611#22" t=
+arget=3D"_blank">https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D768611=
+#22</a><br></div></blockquote></div><br>This should be applied to master fi=
+rst, and then backported to any stable branches.=C2=A0 Can you re-send in a=
+ form that applies to master?</div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">Ross</div></div>
 
---001a11336ab62e54aa0509537696--
+--089e015375e4726c34050953927f--
