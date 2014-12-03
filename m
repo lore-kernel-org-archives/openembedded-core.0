@@ -1,37 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f45.google.com (mail-qa0-f45.google.com
-	[209.85.216.45])
-	by mail.openembedded.org (Postfix) with ESMTP id E49A3601F5
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E6A7760169
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 12:21:59 +0000 (UTC)
-Received: by mail-qa0-f45.google.com with SMTP id x12so10272911qac.18
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Dec 2014 04:21:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=y5QgoLpLGNaHd5ygLX95TVIIsb+NGFGjSYbeUV9OSSk=;
-	b=XJQle3mqxctQpLPtzpWf6v1NZyCVn3Z7dIbahiDLfK+sA2rqonfQoyLEIavGFIPQeL
-	A2SG8yWH1MxstJ5NUggz8PtLxB19TTtjFR1BlI0VILwJtFf2+dBu2OhtfK7LOcIVGHmv
-	F/o8aE+WW4fvP6MWm3UFl2PVJPD0UIpqQ5hwJyo6y/O3U1HDzgjnnkHsFH37tIBNnvlH
-	3SuW8eCWQadnVH6eOABXJebHrJrV5A/FCAR/nW+gfA0vPQ/PqOi8/B5C+ZPk9SWY7DjM
-	dleg+HC7i6A3cgFksFVjDfA1Z6HozxFTIMv+Uv/97k/5MFYIC9ZC6GCcOh2zcyutJYPS
-	SdUQ==
-X-Gm-Message-State: ALoCoQkxAvI0/J91xeiMYTer52BbeqtmipiOTP2qMZGEvTsSh4HuKK/dQ/ZRF5XqZzahEelUXmkc
-X-Received: by 10.140.38.170 with SMTP id t39mr7426697qgt.15.1417609319814;
-	Wed, 03 Dec 2014 04:21:59 -0800 (PST)
+	Wed,  3 Dec 2014 12:23:35 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Dec 2014 04:23:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,507,1413270000"; d="scan'208";a="641811811"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.104.113])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Dec 2014 04:23:08 -0800
+Date: Wed, 3 Dec 2014 14:23:07 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20141203122307.GB15731@lpalcu-linux>
+References: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
+	<CAMKF1srheZyVe5ATST-ToxZQJkXTTNvoh8j+PzrytSVbjVV9wA@mail.gmail.com>
+	<542056AF.8080009@windriver.com>
+	<2558455.kgL2mNBB1h@peggleto-mobl5.ger.corp.intel.com>
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Wed, 3 Dec 2014 04:21:39 -0800 (PST)
-In-Reply-To: <547D176C.3010107@windriver.com>
-References: <cover.1416815305.git.Chong.Lu@windriver.com>
-	<547D176C.3010107@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 3 Dec 2014 12:21:39 +0000
-Message-ID: <CAJTo0Laum02QKw-aV5an5UeCVLSmu9E7qFmNQmUdmuF51LyU-g@mail.gmail.com>
-To: Chong Lu <Chong.Lu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] Upgrade dbus and dbus-glib
+In-Reply-To: <2558455.kgL2mNBB1h@peggleto-mobl5.ger.corp.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC] kernel: Enable externalsrc on kernels which instantiate kernel.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,32 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 12:22:03 -0000
-Content-Type: multipart/alternative; boundary=001a11c12196f02c9605094ee377
+X-List-Received-Date: Wed, 03 Dec 2014 12:23:38 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a11c12196f02c9605094ee377
-Content-Type: text/plain; charset=UTF-8
+Hi Paul,
 
-On 2 December 2014 at 01:35, Chong Lu <Chong.Lu@windriver.com> wrote:
+On Wed, Dec 03, 2014 at 12:00:31PM +0000, Paul Eggleton wrote:
+> On Monday 22 September 2014 13:04:47 Bruce Ashfield wrote:
+> > On 14-09-22 01:03 PM, Khem Raj wrote:
+> > > On Mon, Sep 22, 2014 at 8:27 AM, Bruce Ashfield
+> > > 
+> > > <bruce.ashfield@windriver.com> wrote:
+> > >> But the reports we've been getting have been that externalsrc
+> > >> builds are working for kernels, and linux-yocto without the change
+> > >> in place, so I'm looking to reduce the patch footprint and re-submit.
+> > > 
+> > > no, it cant work if folks were trying the usecase I have mentioned.
+> > > The fix is infact for
+> > > non linux-yocto kernels.
+> > 
+> > I'll send out my updated patch shortly, it should fix both cases.
+> 
+> Bruce, did you get around to doing this?
+> 
+> At the moment I am trying to make my workflow tool ("devtool modify") work with 
+> linux-yocto. I've at least got to the point where I can extract the 
+> appropriate source from the recipe, but when I use externalsrc to point to it 
+> and then try to build it, it doesn't even get past do_configure, so something 
+> must be missing (make complains about missing targets, presumably because it's 
+> running in ${B} and there's nothing in that directory).
+> 
+> Do you expect linux-yocto + externalsrc to work at the moment in master? If 
+> so, are there any special steps I need to do with respect to preparing the 
+> external source tree that my tool might not be performing?
+FWIW, I'm using externalsrc to build non linux-yocto kernels but, to make it
+work, I had to overwrite the KERNEL_CONFIG_COMMAND:
 
-> ping
->
+KERNEL_CONFIG_COMMAND = "oe_runmake_call -C ${S} O=${B} oldnoconfig || yes '' | oe_runmake -C ${S} O=${B} oldconfig"
 
-This series is queued in MUT and should be merged today.
+This might be the reason of your do_configure failure...
 
-Ross
+I hope it helps,
+laurentiu
 
---001a11c12196f02c9605094ee377
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 December 2014 at 01:35, Chong Lu <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:Chong.Lu@windriver.com" target=3D"_blank">Chong.Lu@windriver.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":nl" class=3D"a=
-3s" style=3D"overflow:hidden">ping</div></blockquote><div><br></div><div>Th=
-is series is queued in MUT and should be merged today.</div><div><br></div>=
-<div>Ross=C2=A0</div></div></div></div>
-
---001a11c12196f02c9605094ee377--
