@@ -1,41 +1,40 @@
 Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A31E60E24
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F1D0601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 07:54:09 +0000 (UTC)
-Received: by mail-wi0-f177.google.com with SMTP id l15so23446735wiw.10
+	Wed,  3 Dec 2014 07:57:13 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id z12so19236346wgg.29
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Dec 2014 23:54:10 -0800 (PST)
+	Tue, 02 Dec 2014 23:57:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:content-type:mime-version:subject:from
 	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=f2vrEedqVwRCv/3mm5CxUfkmj153VOOcktO0Kp9ULvo=;
-	b=SwNdarfJTwA2S/vmg5fK4h8GaVUK3Im6DRAFFMeFJ6DBRfbspav2jurVA/weVthMjK
-	OZlaVPsb5l2DRktuuzIM0UKX+H76rbTvzOs4EsIbDXOXYwys3PtlEmXKAceGHw6EmQwI
-	asqekdiqGksE7VeUASbTvL9FpurTitgFNUtdLMIBpGrI9qrSTPH6KKImkBrpoLM6fnLX
-	innBpvxRFS1vj5YEN1exuGkRP8paeB65wZzmNWw5jBepOPu7osWPPiYVZVy8DaHOSKFt
-	f+V1i68tK9AHSibBaOW0zIq0TowpIAbcoix1cNvY3RCw8Wv7CWC3DK/yEJs45ihYBwpU
-	+PRA==
-X-Gm-Message-State: ALoCoQkdBIBXbIpjhQXIP2OpkprZJBQ8ZF2lN4j/y6nhHHh6vugxwPTMeDJpl7EoVa1Pa7fL3gmV
-X-Received: by 10.194.234.40 with SMTP id ub8mr5330706wjc.100.1417593249978;
-	Tue, 02 Dec 2014 23:54:09 -0800 (PST)
+	:to; bh=3CFZm87zBpdt4Pql5K0zn6+PBkXbLE97ZVpsRQ7LiPU=;
+	b=bQjdN/QAAhSrh2oBLAiyr1eyPtiglGXHOkYZD3mWFTow+T8sP83iafi482wRqn+c74
+	eW1CO5Z4lcOsjWFfOd9Zjb5bAsZcTvyETLYgc43WuV3CxNgQYsRlSD1DecPb57XfP0P/
+	+1+bgifZsFPDh75wCY2haxUatVJeYBo/9i9NEH+yWp8015yOF2Y3CEjL/KQ+4/c1k4xC
+	DP1vsSXbT/DxFj5DzuSGJpZgyZSiS1CY8xXiJ1ifSTLj8xUSWp/vX7Kkchj1nYB7dm15
+	eRPS9V+7Z+b2uZXUq5b9r36+x5+QDQnQBAbnitu9DCwNya4z1vCLVvnD+fNFXkOU8f1B
+	JJfg==
+X-Gm-Message-State: ALoCoQk/mo0/INIaG8CXPh/5Exp1OW4nQlX+TYjKiL2ozcpqYukCw/UfpJuJGNlfMgIoqk4Xz8kk
+X-Received: by 10.180.72.199 with SMTP id f7mr100463148wiv.53.1417593433621;
+	Tue, 02 Dec 2014 23:57:13 -0800 (PST)
 Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id
-	fk12sm15432131wic.6.2014.12.02.23.54.08 for <multiple recipients>
+	by mx.google.com with ESMTPSA id jp3sm49641434wid.9.2014.12.02.23.57.11
+	for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 02 Dec 2014 23:54:09 -0800 (PST)
+	Tue, 02 Dec 2014 23:57:12 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 8.1 \(1993\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1417569841-24545-1-git-send-email-sgw@linux.intel.com>
-Date: Wed, 3 Dec 2014 08:54:08 +0100
-Message-Id: <967A3102-C8A6-48C6-A99F-AB15D2C4B85B@dominion.thruhere.net>
-References: <1417569841-24545-1-git-send-email-sgw@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
+In-Reply-To: <cover.1417535164.git.ross.burton@intel.com>
+Date: Wed, 3 Dec 2014 08:57:10 +0100
+Message-Id: <29CAEA25-9585-4F74-A429-27818EDC8B55@dominion.thruhere.net>
+References: <cover.1417535164.git.ross.burton@intel.com>
+To: Ross Burton <ross.burton@intel.com>
 X-Mailer: Apple Mail (2.1993)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lzo: add debian patch for alignment issue
+Subject: Re: [PATCH 0/4][RFC] Change libexecdir to ${prefix}/libexec
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,147 +47,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 07:54:10 -0000
+X-List-Received-Date: Wed, 03 Dec 2014 07:57:17 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-> Op 3 dec. 2014, om 02:24 heeft Saul Wold <sgw@linux.intel.com> het =
+> Op 2 dec. 2014, om 16:53 heeft Ross Burton <ross.burton@intel.com> het =
 volgende geschreven:
 >=20
-> [YOCTO #6994]
+> Hi,
 >=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> ...0001-Use-memcpy-instead-of-reinventing-it.patch | 69 =
-++++++++++++++++++++++
-> meta/recipes-support/lzo/lzo_2.08.bb               |  1 +
-> 2 files changed, 70 insertions(+)
-> create mode 100644 =
-meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.pat=
-ch
+> First, this is VERY MUCH A RFC!
 >=20
-> diff --git =
-a/meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.p=
-atch =
-b/meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.p=
-atch
-> new file mode 100644
-> index 0000000..f978f1b
-> --- /dev/null
-> +++ =
-b/meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.p=
-atch
-> @@ -0,0 +1,69 @@
-> +From: Simon McVittie <smcv@debian.org>
-> +Date: Sun, 23 Nov 2014 22:50:33 +0000
-> +Subject: Use memcpy() instead of reinventing it
-> +
-> +gcc inlines memcpy() with results as fast as handwritten code (at
-> +least in my brief testing with lzop), and knows the alignment
-> +constraints for our architectures.
-> +
-> +Change suggested by Julian Taylor.
-> +
-> +Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D757037
-> +---
-> + minilzo/minilzo.c | 14 ++++++++++++++
-> + src/lzo_func.h    | 14 ++++++++++++++
-> + 2 files changed, 28 insertions(+)
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> There's numerous problems with setting ${libexecdir} to =
+${libdir}/${BPN}, but
+> the a easy argument in my opinion is that nobody else does this.
+>=20
+> The Debian world sets libexecdir to ${exec_prefix}/lib, and the Red =
+Hat world
+> uses ${exec_prefix}/libexec.  The FHS says either are fine.  Nobody =
+puts the
+> package name into the definition of libexecdir, as automake provides
+> pkglibexecdir ($libexec/$package) for package-specific binaries.
+>=20
+> This branch changes bitbake.conf to use ${exec_prefix}/libexec and a =
+few patches
+> to fix (or hack around) any problems this has revealed so far.
+>=20
+> Comments and testing (especially with other layers, and multilib =
+configurations)
+> much appreciated.
 
-Please move those above the '---' so they get preserved when rediffing =
-the patches
+In the past I've patched things like gdm to look in ${libdir}/${BPN} for =
+helper binaries (which are from a different recipe), so not only recipes =
+need to be inspected, but patches as well.
 
+regards,
 
-> +
-> +diff --git a/minilzo/minilzo.c b/minilzo/minilzo.c
-> +index ab2be5f..6913c2f 100644
-> +--- a/minilzo/minilzo.c
-> ++++ b/minilzo/minilzo.c
-> +@@ -3523,6 +3523,20 @@ =
-LZO_COMPILE_TIME_ASSERT_HEADER(sizeof(*(lzo_memops_TU8p)0)=3D=3D8)
-> +     if ((void)0, n__n > 0) do { *d__n++ =3D *s__n++; } while (--n__n =
-> 0); \
-> +     LZO_BLOCK_END
-> +=20
-> ++/* Debian-specific change: we know that our compiler inlines =
-memcpy() with
-> ++ * constant n to be as fast as handwritten code, and knows which =
-architectures
-> ++ * need things correctly aligned. */
-> ++#undef LZO_MEMOPS_COPY1
-> ++#undef LZO_MEMOPS_COPY2
-> ++#undef LZO_MEMOPS_COPY4
-> ++#undef LZO_MEMOPS_COPY8
-> ++#undef LZO_MEMOPS_COPYN
-> ++#define LZO_MEMOPS_COPY1(dd,ss) memcpy(dd, ss, 1)
-> ++#define LZO_MEMOPS_COPY2(dd,ss) memcpy(dd, ss, 2)
-> ++#define LZO_MEMOPS_COPY4(dd,ss) memcpy(dd, ss, 4)
-> ++#define LZO_MEMOPS_COPY8(dd,ss) memcpy(dd, ss, 8)
-> ++#define LZO_MEMOPS_COPYN(dd,ss,nn) memcpy(dd, ss, nn)
-> ++
-> + __lzo_static_forceinline lzo_uint16_t lzo_memops_get_le16(const =
-lzo_voidp ss)
-> + {
-> +     lzo_uint16_t v;
-> +diff --git a/src/lzo_func.h b/src/lzo_func.h
-> +index dfaa676..1cc1b53 100644
-> +--- a/src/lzo_func.h
-> ++++ b/src/lzo_func.h
-> +@@ -333,6 +333,20 @@ =
-LZO_COMPILE_TIME_ASSERT_HEADER(sizeof(*(lzo_memops_TU8p)0)=3D=3D8)
-> +     if ((void)0, n__n > 0) do { *d__n++ =3D *s__n++; } while (--n__n =
-> 0); \
-> +     LZO_BLOCK_END
-> +=20
-> ++/* Debian-specific change: we know that our compiler inlines =
-memcpy() with
-> ++ * constant n to be as fast as handwritten code, and knows which =
-architectures
-> ++ * need things correctly aligned. */
-> ++#undef LZO_MEMOPS_COPY1
-> ++#undef LZO_MEMOPS_COPY2
-> ++#undef LZO_MEMOPS_COPY4
-> ++#undef LZO_MEMOPS_COPY8
-> ++#undef LZO_MEMOPS_COPYN
-> ++#define LZO_MEMOPS_COPY1(dd,ss) memcpy(dd, ss, 1)
-> ++#define LZO_MEMOPS_COPY2(dd,ss) memcpy(dd, ss, 2)
-> ++#define LZO_MEMOPS_COPY4(dd,ss) memcpy(dd, ss, 4)
-> ++#define LZO_MEMOPS_COPY8(dd,ss) memcpy(dd, ss, 8)
-> ++#define LZO_MEMOPS_COPYN(dd,ss,nn) memcpy(dd, ss, nn)
-> ++
-> + __lzo_static_forceinline lzo_uint16_t lzo_memops_get_le16(const =
-lzo_voidp ss)
-> + {
-> +     lzo_uint16_t v;
-> diff --git a/meta/recipes-support/lzo/lzo_2.08.bb =
-b/meta/recipes-support/lzo/lzo_2.08.bb
-> index 7d7d1f3..af06e29 100644
-> --- a/meta/recipes-support/lzo/lzo_2.08.bb
-> +++ b/meta/recipes-support/lzo/lzo_2.08.bb
-> @@ -6,6 +6,7 @@ LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
->                     =
-file://src/lzo_init.c;beginline=3D5;endline=3D25;md5=3Da6e25df9a83b24629e8=
-47846ccdd8054"
->=20
-> SRC_URI =3D =
-"http://www.oberhumer.com/opensource/lzo/download/lzo-${PV}.tar.gz \
-> +           file://0001-Use-memcpy-instead-of-reinventing-it.patch \
->            file://acinclude.m4 \
->            "
->=20
-> --=20
-> 1.8.3.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
-
+Koen=
 
