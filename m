@@ -1,25 +1,29 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7068860CFC
+Return-Path: <diego.ml@zoho.com>
+Received: from sender1.zohomail.com (sender1.zohomail.com [72.5.230.103])
+	by mail.openembedded.org (Postfix) with ESMTP id 5331D60169
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Dec 2014 08:16:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sB38GBab005723
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 3 Dec 2014 00:16:11 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 3 Dec 2014 00:16:10 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Wed, 3 Dec 2014 16:16:04 +0800
-Message-ID: <0f0404871231fee1f0f3d6448e843fa2089d7d90.1417594233.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1417594233.git.hongxu.jia@windriver.com>
-References: <cover.1417594233.git.hongxu.jia@windriver.com>
+	Wed,  3 Dec 2014 10:21:39 +0000 (UTC)
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=zapps768; d=zoho.com; 
+	h=from:to:cc:subject:date:message-id:user-agent:in-reply-to:references:mime-version:content-type;
+	b=HBccxdjJtJ0WN43/DedifTCkudzrdfDwyIW4O+/Ercf/XMev1nKyI75PqFQUBImzCZQxbHgWMhpF
+	RDUpmfhK3VzVBOXVK7p3AzrP7lGqSq+OpFhN+SiBBjuQcNp7s8nH  
+Received: from localhost.localdomain
+	(dynamic-adsl-78-13-166-113.clienti.tiscali.it [78.13.166.113])
+	by mx.zohomail.com with SMTPS id 1417602091772705.0174761453197;
+	Wed, 3 Dec 2014 02:21:31 -0800 (PST)
+From: Diego <diego.ml@zoho.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Wed, 03 Dec 2014 11:21:27 +0100
+Message-ID: <13901061.gWxNn8kp3O@localhost.localdomain>
+User-Agent: KMail/4.14.3 (Linux/3.17.4-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <547E5595.20807@linux.intel.com>
+References: <2727351.QZhbar3BFX@localhost.localdomain>
+	<547E5595.20807@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] archiver: execute the probable tasks between do_unpack and do_patch
+X-ZohoMailClient: External
+X-Zoho-Virus-Status: 2
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [BUG] Openssh not closing connections on service stop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,137 +36,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 08:16:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 03 Dec 2014 10:21:44 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-While archiver inherited, we edit a recipe (such
-as gzip) to insert four tasks between do_patch and
-do_unpack:
-...
-addtask test1 after do_unpack before do_patch
-addtask test2 after do_unpack before do_test1
-addtask test3 after do_test2 before do_test1
-addtask test4 after do_test2 before do_test1
-...
+In data marted=EC 2 dicembre 2014 16:13:09, Saul Wold ha scritto:
+> <snip>
+>
+> > Isn't service termination supposed to stop all related connections =
+at the
+> > same time? Can anybody else reproduce (or not) this issue?
+>=20
+> It may actually be designed to work this way, since the daemon spawns=
+ a
+> process for each login the daemon can be restarted on a headless or
+> server type machine and not loose the connection, based on googling, =
+I
+> could not find this outright on the Openssh.com site.
+>=20
+> It appears that the dropbear sshd also has the behavior.
+>=20
+> So I would not call this a bug.
+>=20
+> Sau!
+>=20
 
-While building the recipe, the archiver will
-missing these four task in do_unpack_and_patch.
-Because it is hardcoded to execute do_unpach and
-do_patch, did not consider the probable tasks
-between them.
+Hi Saul,
 
-We make use of the value of _task_deps which
-provided by metadata to compute the probable
-tasks between do_unpack and do_patch and execute
-them.
+I had a bit of a discussion with bluelightning and peteru in #oe. We ca=
+me to=20
+the conclusion that having ssh connections still up after service stop =
+is=20
+considered to be the correct behaviour.
 
-[Yocto #7018]
+On the other hand, not closing ssh connections on shutdown is generally=
+=20
+considered a bug by distros, although it is considered a minor one. Thi=
+s=20
+generally requires connections being killed before network is brought d=
+own,=20
+which might be complicated with sysvinit. These are the links from othe=
+r=20
+distros:
+https://bugzilla.redhat.com/show_bug.cgi?id=3D626477
+https://bugs.gentoo.org/show_bug.cgi?id=3D259183
+https://bugs.archlinux.org/task/31250
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/classes/archiver.bbclass | 81 +++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 74 insertions(+), 7 deletions(-)
+Long story short: it would be nice to gracefully close ssh connections =
+on=20
+shutdown before terminating network connections, but it's a minor issue=
+, and=20
+probably not worth the effort of fixing.
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index b598aa3..6672204 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -269,6 +269,75 @@ def create_diff_gz(d, src_orig, src, ar_outdir):
-     subprocess.call(diff_cmd, shell=True)
-     bb.utils.remove(src_patched, recurse=True)
- 
-+# It helps to compute task dependencies between begin and end.
-+# Here is an example, in a recipe we insert four tasks between do_patch
-+# and do_unpack:
-+# addtask test1 after do_unpack before do_patch
-+# addtask test2 after do_unpack before do_test1
-+# addtask test3 after do_test2 before do_test1
-+# addtask test4 after do_test2 before do_test1
-+# which equals in metadata:
-+# _task_deps = {
-+#   'parents': {
-+#     'do_patch': ['do_test1', 'do_unpack'],
-+#     'do_test1': ['do_test4', 'do_test3', 'do_test2', 'do_unpack']
-+#     'do_test2': ['do_unpack'],
-+#     'do_test3': ['do_test2'],
-+#     'do_test4': ['do_test2']
-+#   }
-+# }
-+#
-+# We want to list the order of task dependencies:
-+# ['do_unpack', 'do_test2', 'do_test3', 'do_test4', 'do_test1', 'do_patch']
-+def list_sorted_tasks(begin, end, d):
-+    task_deps = d.getVar('_task_deps', True)
-+    parent_graph = construct_parent_graph(begin, end, d)
-+
-+    # Sort tasks according to the number of parent tasks incrementally
-+    return [x[0] for x in sorted(parent_graph.iteritems(), key = lambda d:len(d[1]))]
-+
-+# List all parents for each tasks, such as:
-+# From
-+# _task_deps = {
-+#   'parents': {
-+#     'do_patch': ['do_test1', 'do_unpack'],
-+#     'do_test1': ['do_test4', 'do_test3', 'do_test2', 'do_unpack']
-+#     'do_test2': ['do_unpack'],
-+#     'do_test3': ['do_test2'],
-+#     'do_test4': ['do_test2']
-+#   }
-+# }
-+# to the parent graph we counstruct:
-+# parent_graph = {
-+#   'do_patch': ['do_test1', 'do_test2', 'do_test3', 'do_test4', 'do_unpack'],
-+#   'do_test1': ['do_test4', 'do_test3', 'do_test2', 'do_unpack'],
-+#   'do_test2': ['do_unpack'],
-+#   'do_test3': ['do_test2', 'do_unpack'],
-+#   'do_test4': ['do_test2', 'do_unpack'],
-+#   'do_unpack': []
-+# }
-+#
-+# We are not care about circualar dependency, the bitbake parser will do the
-+# checking.
-+def construct_parent_graph(begin, end, d):
-+    task_deps = d.getVar('_task_deps', True)
-+    def list_parents(task):
-+        if task == begin:
-+            return []
-+        parents = task_deps['parents'][task]
-+        for ptask in task_deps['parents'][task]:
-+            parents += [x for x in list_parents(ptask) if x not in parents]
-+        return parents
-+
-+    parent_graph = dict()
-+    # All the tasks we need listed in the end's parent
-+    end_parent = list_parents(end)
-+    parent_graph[end] = end_parent
-+    for task in end_parent:
-+        parent_graph[task] = list_parents(task)
-+
-+    return parent_graph
-+
- # Run do_unpack and do_patch
- python do_unpack_and_patch() {
-     if d.getVarFlag('ARCHIVER_MODE', 'src', True) not in \
-@@ -286,13 +355,11 @@ python do_unpack_and_patch() {
-     # do_patch required 'B' existed).
-     bb.utils.mkdirhier(d.getVar('B', True))
- 
--    # The kernel source is ready after do_validate_branches
--    if bb.data.inherits_class('kernel-yocto', d):
--        bb.build.exec_func('do_unpack', d)
--        bb.build.exec_func('do_kernel_checkout', d)
--        bb.build.exec_func('do_validate_branches', d)
--    else:
--        bb.build.exec_func('do_unpack', d)
-+    tasks = list_sorted_tasks('do_unpack', 'do_patch', d)
-+    bb.note('execute %s in do_unpack_and_patch' % tasks)
-+    # Do not execute 'do_patch' here
-+    for task in tasks[0:-1]:
-+        bb.build.exec_func(task, d)
- 
-     # Save the original source for creating the patches
-     if d.getVarFlag('ARCHIVER_MODE', 'diff', True) == '1':
--- 
-1.9.1
+Bests,
+Diego
 
 
