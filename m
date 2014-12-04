@@ -1,39 +1,36 @@
-Return-Path: <ashcharles@gmail.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 821C5601F5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id D2071601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 16:57:23 +0000 (UTC)
-Received: by mail-ig0-f175.google.com with SMTP id h15so19033516igd.14
+	Thu,  4 Dec 2014 17:28:36 +0000 (UTC)
+Received: by mail-qc0-f181.google.com with SMTP id m20so13254791qcx.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Dec 2014 08:57:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=5wQ77872w06+tkDU6CbOVtyY8fQuMuLxTFCjVkRe7Kk=;
-	b=NJzvu8WUj/Tf9H+9jm18p8b9cQkXKz9A+OhKCJdkGe6skZelWvnpaH2fWea5w+uMiH
-	4483gyL64z6HFEFRoDHKrVAbP7uJINsnRCQVulr0TJ3g+rDBp60gOuYbvROzKwcumZk5
-	PupRnwPB6N8t2pXkVCFqMfN8l6JVKiMEH/8Lq/b+DCht9rekVRzykA2ZD6MZomdjRtwl
-	ubVqvD2Vgc2kwm+EP7A7PhxIntz2m05Br/D2Z0c9FKe7t/xq0LgYK1nVNhOLhSPGkHEl
-	GZZt+rg3GBNSN9Jh/Law/StbgLqb2ii6d7H5CODUJZxru5t4Xbk4uxS/bdf4mEdCy6Xn
-	Wqhg==
-X-Received: by 10.50.147.74 with SMTP id ti10mr62101336igb.21.1417712243554;
-	Thu, 04 Dec 2014 08:57:23 -0800 (PST)
+	Thu, 04 Dec 2014 09:28:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=tXG+lUF5MwRbi8ms32/T3/KFlsMn+GMOinN5xxEdBmQ=;
+	b=XCBcPKEDxygbjTvnVEyjRdNjURhUBArY/tEO80l7VQCoLG4VOOYoG9RynVy8KM+VJ1
+	BwqifaEZdUU7/BZGLp2O2BUHlKk7kQnPjlHN19OjuSTjDwNmcYc2NA9PSisKKlD1ytcf
+	+PXP8IOBm4F5CCLQaUKln9WkNjeQAKJVGM9ZCRHoJSHrYGxMF0EwcYlmxVZw25dv+P/Q
+	G8+56SchiU4b9pFHUM0GrGahDm8FVnOb2tb5fNqv4ybQkgdQEa1+Mgs5iIdZKvhQUFAE
+	dV5B/g/xG0yGkD0B2O78wEEGLwWwEXU4J2TTgf4fSnQAq/yofVyyMqqP6OgeumeL2SnJ
+	SMrA==
+X-Gm-Message-State: ALoCoQmU+sL+nMYnkFSRNAFSvx3BXTBMINfiWJxK1cO4DiPCGO/H6BUXXUQUvBBG2X1FOAnak6N6
+X-Received: by 10.224.3.137 with SMTP id 9mr18914391qan.64.1417714116633; Thu,
+	04 Dec 2014 09:28:36 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.7.143 with HTTP; Thu, 4 Dec 2014 08:56:53 -0800 (PST)
-In-Reply-To: <CAJTo0Lb7TcAKd6rkAUMPtgMVSW6pxZ6brFtNCBAVGGbj-Vuvog@mail.gmail.com>
-References: <1412389675-13389-1-git-send-email-Martin.Jansa@gmail.com>
-	<20141004023040.GO25706@jama> <20141024090416.GB2430@jama>
-	<CAJTo0LauN8+Qc14WNkuOmQmhrF=2nXzfrM_O560E0gfqMgfLtQ@mail.gmail.com>
-	<CALbNGRTJxpctu143L8myaN1yzDdMVUVJhFoH3iznyr8webpgRA@mail.gmail.com>
-	<CAK8F28knQaCCX0uctfEKDg=9eGgw20nZ0j27C-BBkfhdZH=iAw@mail.gmail.com>
-	<CAJTo0Lb7TcAKd6rkAUMPtgMVSW6pxZ6brFtNCBAVGGbj-Vuvog@mail.gmail.com>
-From: Ash Charles <ashcharles@gmail.com>
-Date: Thu, 4 Dec 2014 08:56:53 -0800
-Message-ID: <CAK8F28k=1GQBVnG8buNGiuiVOs=5zN8eQhLYAG0PVqU2OjQ=MA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+Received: by 10.140.48.231 with HTTP; Thu, 4 Dec 2014 09:28:16 -0800 (PST)
+In-Reply-To: <547FC6F9.3050609@windriver.com>
+References: <547FC6F9.3050609@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 4 Dec 2014 17:28:16 +0000
+Message-ID: <CAJTo0LY-Ne=J0NAUFO5E+mp6rVj=Zptq7aXnqPeJJ9x-2Ef3Ng@mail.gmail.com>
+To: "Shiqun.Lin" <Shiqun.Lin@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [WIP][PATCH] systemd: don't move libgudev around, it breaks libgudev-1.0.la
+Subject: Re: [PATCH 1/1] improve the sanity check for PATH and BBPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,54 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 16:57:26 -0000
+X-List-Received-Date: Thu, 04 Dec 2014 17:28:38 -0000
+Content-Type: multipart/alternative; boundary=001a11c2480a50bb110509674a25
+
+--001a11c2480a50bb110509674a25
 Content-Type: text/plain; charset=UTF-8
+
+This doesn't apply to master, can you rebase?
+
+Ross
+
+On 4 December 2014 at 02:29, Shiqun.Lin <Shiqun.Lin@windriver.com> wrote:
+
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+
+--001a11c2480a50bb110509674a25
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Armin,
+<div dir=3D"ltr">This doesn&#39;t apply to master, can you rebase?<div><br>=
+</div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gma=
+il_quote">On 4 December 2014 at 02:29, Shiqun.Lin <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:Shiqun.Lin@windriver.com" target=3D"_blank">Shiqun.Lin@windr=
+iver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+<br>--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core</a><br>
+<br></blockquote></div><br></div>
 
-Would it be possible to cherry-pick this commit "systemd: don't move
-libgudev around, it breaks libgudev-1.0.la"
-(7807d1d8b9535a87ba3e5ab7df21a2954708333f on oe-core,
-41ae2056e6b6f17a1d9fe7408596a448f3e605ad on poky) to the dizzy branch?
-
-Thanks,
-
-Ash
-
-On Fri, Nov 28, 2014 at 9:23 AM, Burton, Ross <ross.burton@intel.com> wrote=
-:
-> I can't see why not.  CC'ing Armin, the dizzy maintainer.
->
-> On 27 November 2014 at 21:29, Ash Charles <ashcharles@gmail.com> wrote:
->>
->> I cherry-picked this patch onto dizzy and it unbroke my build.  Is it
->> possible/reasonable for it to be included in dizzy?
->> --Ash
->>
->> On Fri, Oct 31, 2014 at 1:21 AM, Andreas M=C3=BCller
->> <schnitzeltony@googlemail.com> wrote:
->> > On Fri, Oct 24, 2014 at 12:29 PM, Burton, Ross <ross.burton@intel.com>
->> > wrote:
->> >>
->> >> On 24 October 2014 10:04, Martin Jansa <martin.jansa@gmail.com> wrote=
-:
->> >>>
->> >>> Should I resend without WIP tag now when ChenQi confirmed that movin=
-g
->> >>> libgudev isn't needed?
->> >>
->> >>
->> >> No need, I've merged it into my staging branch already.
->> >>
->> > This should go into dizzy - right?
->> >
->> > Andreas
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
-
+--001a11c2480a50bb110509674a25--
