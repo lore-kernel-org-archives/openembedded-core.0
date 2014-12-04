@@ -1,34 +1,31 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A58DB65D59
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 40BA065D40
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 19:29:01 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 04 Dec 2014 11:11:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,517,1413270000"; d="scan'208";a="632806962"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Dec 2014 11:11:04 -0800
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.144]) by
-	IRSMSX104.ger.corp.intel.com ([169.254.5.209]) with mapi id
-	14.03.0195.001; Thu, 4 Dec 2014 19:11:03 +0000
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Gaurang Shastri <gshastri@juniper.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] When building with systemd based image,
-	udev-hwdb postinstall script will fail because of not passing	correct
-	CPU option. So fix it by passing correct QEMU_OPTIONS.
-Thread-Index: AQHQCkDII0+lBNYbMEap6LyFPzzahZx/1NcwgAACYBA=
-Date: Thu, 4 Dec 2014 19:11:02 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F3C5556@IRSMSX105.ger.corp.intel.com>
-References: <1417087023-29423-1-git-send-email-gshastri@juniper.net> 
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
-MIME-Version: 1.0
-Cc: "gmshastri@gmail.com" <gmshastri@gmail.com>
+	Thu,  4 Dec 2014 19:54:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sB4Jmusc013891; Thu, 4 Dec 2014 19:48:56 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hBX_KJTECzhk; Thu,  4 Dec 2014 19:48:56 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sB4JmhM9013878
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 4 Dec 2014 19:48:54 GMT
+Message-ID: <1417722559.15614.58.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Iorga, Cristian" <cristian.iorga@intel.com>
+Date: Thu, 04 Dec 2014 19:49:19 +0000
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB2F3C5556@IRSMSX105.ger.corp.intel.com>
+References: <1417087023-29423-1-git-send-email-gshastri@juniper.net>
+	<969F26A8BAB325438E7EB80D3C3134FB2F3C5556@IRSMSX105.ger.corp.intel.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"gmshastri@gmail.com" <gmshastri@gmail.com>
 Subject: Re: [PATCH] When building with systemd based image, udev-hwdb postinstall script will fail because of not passing	correct CPU option. So fix it by passing correct QEMU_OPTIONS.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -42,80 +39,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 19:29:05 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 04 Dec 2014 19:54:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Also, issue https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D6687 (that =
-I am trying to handle) seems quite similar to the issue that you have repor=
-ted.
-Regards,
-Cristian Iorga
-Yocto Project
-Intel Corporation
+I have a suspicion the whole QEMU_OPTIONS thing got totally broken by Martin's commit:
 
------Original Message-----
-From: Iorga, Cristian=20
-Sent: Thursday, December 4, 2014 9:04 PM
-To: 'Gaurang Shastri'; openembedded-core@lists.openembedded.org
-Cc: gmshastri@gmail.com
-Subject: RE: [OE-core] [PATCH] When building with systemd based image, udev=
--hwdb postinstall script will fail because of not passing correct CPU optio=
-n. So fix it by passing correct QEMU_OPTIONS.
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=7efad8a1b56df6ee07c12ad360c0493d7b1d6d23
 
-Hi Gaurang,
+since the things being appended are not overrides, they're PACKAGE_ARCH
+values. My change below may give us a way out of the current set of
+problems.
 
-Are you sure that the patch solves the described issue?
-Because I have tested with:
-MACHINE=3Dqemuppc bitbake core-image-sato
-and I am still seeing the issue in rootfs log.
+From 8a8b35a02244cf04b6fb368bf1cb4c1edda8d7a6 Mon Sep 17 00:00:00 2001
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Thu, 4 Dec 2014 19:41:27 +0000
+Subject: qemu/libc-package: Fix qemu option handling
 
-Can you please clarify how you tested this?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Regards,
-Cristian Iorga
-Yocto Project
-Intel Corporation
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Gaurang Shastri
-Sent: Thursday, November 27, 2014 1:17 PM
-To: openembedded-core@lists.openembedded.org
-Cc: gmshastri@gmail.com
-Subject: [OE-core] [PATCH] When building with systemd based image, udev-hwd=
-b postinstall script will fail because of not passing correct CPU option. S=
-o fix it by passing correct QEMU_OPTIONS.
-
-Signed-off-by: Gaurang Shastri <gshastri@juniper.net>
----
- meta/classes/qemu.bbclass |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass index b2=
-cf85d..c373855 100644
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index c1bc399..eb76ff9 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -298,9 +298,7 @@ python package_do_split_gconvs () {
+                 --inputfile=%s/i18n/locales/%s --charmap=%s %s" \
+                 % (treedir, datadir, locale, encoding, name)
+ 
+-            qemu_options = d.getVar("QEMU_OPTIONS_%s" % d.getVar('PACKAGE_ARCH', True), True)
+-            if not qemu_options:
+-                qemu_options = d.getVar('QEMU_OPTIONS', True)
++            qemu_options = d.getVar('QEMU_OPTIONS', True)
+ 
+             cmd = "PSEUDO_RELOADED=YES PATH=\"%s\" I18NPATH=\"%s\" %s -L %s \
+                 -E LD_LIBRARY_PATH=%s %s %s/bin/localedef %s" % \
+diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+index b2cf85d..1c5736f 100644
 --- a/meta/classes/qemu.bbclass
 +++ b/meta/classes/qemu.bbclass
-@@ -30,8 +30,9 @@ def qemu_run_binary(data, rootfs_path, binary):
-     libdir =3D rootfs_path + data.getVar("libdir", False)
-     base_libdir =3D rootfs_path + data.getVar("base_libdir", False)
-     oldest_kernel =3D data.getVar("OLDEST_KERNEL", True)
-+    qemu_option =3D data.getVar("QEMU_OPTIONS",True)
-=20
--    return "PSEUDO_UNLOAD=3D1 " + qemu_binary + " -r " + oldest_kernel + "=
- -L " + rootfs_path\
-+    return "PSEUDO_UNLOAD=3D1 " + qemu_binary + " " + qemu_option + " -r=20
-+ " + oldest_kernel + " -L " + rootfs_path\
-             + " -E LD_LIBRARY_PATH=3D" + libdir + ":" + base_libdir + " "\
+@@ -29,20 +29,20 @@ def qemu_run_binary(data, rootfs_path, binary):
+ 
+     libdir = rootfs_path + data.getVar("libdir", False)
+     base_libdir = rootfs_path + data.getVar("base_libdir", False)
+-    oldest_kernel = data.getVar("OLDEST_KERNEL", True)
++    qemu_options = data.getVar("QEMU_OPTIONS", True)
+ 
+-    return "PSEUDO_UNLOAD=1 " + qemu_binary + " -r " + oldest_kernel + " -L " + rootfs_path\
++    return "PSEUDO_UNLOAD=1 " + qemu_binary + " " + qemu_options + " -L " + rootfs_path\
+             + " -E LD_LIBRARY_PATH=" + libdir + ":" + base_libdir + " "\
              + rootfs_path + binary
-=20
---
-1.7.9.5
+ 
+-QEMU_OPTIONS = "-r ${OLDEST_KERNEL}"
+-QEMU_OPTIONS_append_iwmmxt    = " -cpu pxa270-c5"
+-QEMU_OPTIONS_append_armv6     = " -cpu arm1136"
+-QEMU_OPTIONS_append_armv7a    = " -cpu cortex-a8"
+-QEMU_OPTIONS_append_e500v2    = " -cpu e500v2"
+-QEMU_OPTIONS_append_e500mc    = " -cpu e500mc"
+-QEMU_OPTIONS_append_e5500     = " -cpu e5500"
+-QEMU_OPTIONS_append_e5500-64b = " -cpu e5500"
+-QEMU_OPTIONS_append_e6500     = " -cpu e6500"
+-QEMU_OPTIONS_append_e6500-64b = " -cpu e6500"
+-QEMU_OPTIONS_append_ppc7400   = " -cpu 7400"
++QEMU_OPTIONS = "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH', True), True) or ""}"
++QEMU_EXTRAOPTIONS_iwmmxt    = " -cpu pxa270-c5"
++QEMU_EXTRAOPTIONS_armv6     = " -cpu arm1136"
++QEMU_EXTRAOPTIONS_armv7a    = " -cpu cortex-a8"
++QEMU_EXTRAOPTIONS_e500v2    = " -cpu e500v2"
++QEMU_EXTRAOPTIONS_e500mc    = " -cpu e500mc"
++QEMU_EXTRAOPTIONS_e5500     = " -cpu e5500"
++QEMU_EXTRAOPTIONS_e5500-64b = " -cpu e5500"
++QEMU_EXTRAOPTIONS_e6500     = " -cpu e6500"
++QEMU_EXTRAOPTIONS_e6500-64b = " -cpu e6500"
++QEMU_EXTRAOPTIONS_ppc7400   = " -cpu 7400"
 
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
