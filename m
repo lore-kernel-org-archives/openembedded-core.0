@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3588F60670
+	by mail.openembedded.org (Postfix) with ESMTP id 6414D65D59
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 09:48:33 +0000 (UTC)
+	Thu,  4 Dec 2014 09:56:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sB49lrOp009470; Thu, 4 Dec 2014 09:47:53 GMT
+	sB49tpM5009994; Thu, 4 Dec 2014 09:55:51 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 8EztS8VMbMRP; Thu,  4 Dec 2014 09:47:53 +0000 (GMT)
+	with LMTP id BqDiV9D_8cX8; Thu,  4 Dec 2014 09:55:51 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sB49lck7009451
+	sB49tZFU009986
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 4 Dec 2014 09:47:50 GMT
-Message-ID: <1417686494.15614.49.camel@linuxfoundation.org>
+	Thu, 4 Dec 2014 09:55:47 GMT
+Message-ID: <1417686972.15614.51.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Date: Thu, 04 Dec 2014 09:48:14 +0000
-In-Reply-To: <8d53e3e985f526e6c845328dc6bfa9c27cc63413.1417623235.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1417623235.git.alejandro.hernandez@linux.intel.com>
-	<8d53e3e985f526e6c845328dc6bfa9c27cc63413.1417623235.git.alejandro.hernandez@linux.intel.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Thu, 04 Dec 2014 09:56:12 +0000
+In-Reply-To: <0f0404871231fee1f0f3d6448e843fa2089d7d90.1417594233.git.hongxu.jia@windriver.com>
+References: <cover.1417594233.git.hongxu.jia@windriver.com>
+	<0f0404871231fee1f0f3d6448e843fa2089d7d90.1417594233.git.hongxu.jia@windriver.com>
 X-Mailer: Evolution 3.12.7-0ubuntu1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] insane.bbclass: Added QA test for unexpanded ${D}
+Subject: Re: [PATCH 1/1] archiver: execute the probable tasks between do_unpack and do_patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,78 +37,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 09:48:40 -0000
+X-List-Received-Date: Thu, 04 Dec 2014 09:56:31 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2014-12-03 at 11:00 -0600, Alejandro Hernandez wrote:
-> Checks in FILES and pkg_* variables ,solves common mistake
-> of using ${D} instead of $D and warns the user accordingly.
+On Wed, 2014-12-03 at 16:16 +0800, Hongxu Jia wrote:
+> While archiver inherited, we edit a recipe (such
+> as gzip) to insert four tasks between do_patch and
+> do_unpack:
+> ...
+> addtask test1 after do_unpack before do_patch
+> addtask test2 after do_unpack before do_test1
+> addtask test3 after do_test2 before do_test1
+> addtask test4 after do_test2 before do_test1
+> ...
 > 
-> [YOCTO #6642]
+> While building the recipe, the archiver will
+> missing these four task in do_unpack_and_patch.
+> Because it is hardcoded to execute do_unpach and
+> do_patch, did not consider the probable tasks
+> between them.
 > 
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-> ---
->  meta/classes/insane.bbclass | 34 +++++++++++++++++++++++++++++++++-
->  1 file changed, 33 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index 0b45374..419c89b 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -906,6 +906,39 @@ def package_qa_check_deps(pkg, pkgdest, skip, d):
->  
->      return sane
->  
-> +def package_qa_check_unexpanded_d(d):
-> +    """
-> +    Check for unexpanded D variable in pkg_* and FILES
-> +    variables, warn the user to use it correctly.
-> +    """
-> +
-> +    sane = True
-> +
-> +    # Get variables for current package
-> +    pkg = d.getVar('PN', True)
+> We make use of the value of _task_deps which
+> provided by metadata to compute the probable
+> tasks between do_unpack and do_patch and execute
+> them.
 
-Rather than just PN here (which may or may not be a package), you need
-to iterate over the list of packages in PACKAGES.
+_task_deps is not provided by the metadata, its a bitbake internal
+variable and it should not be being used in public API like this. The
+bitbake maintainers reserve the right to change structure and existence
+of _task_deps freely. So this patch *cannot* merge in this form.
 
+I do appreciate the problem you're trying to solve and that its a hard
+one to deal with.
 
-> +    localdata = bb.data.createCopy(d)
-> +    localdata.setVar('OVERRIDES', pkg)
-> +    bb.data.update_data(localdata)
-> +
-> +    # Go through all variables and check if unexpanded D is found, warn the user accordingly
-> +    for var in 'FILES','pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm':
-> +        bbvar = localdata.getVar(var, False)
-> +        if bbvar:
-> +            if "${D}" in bbvar:
-> +                if var == 'FILES':
-> +                    bb.error("FILES should not contain the ${D} variable as it references the local build directory not the target filesystem, best solution is to remove the ${D} reference")
-> +                    sane = False
-> +                else:
-> +                    bb.error("%s in %s recipe contains ${D}, it should be replaced by $D instead" % (var, pkg))
-> +                    sane = False
-> +    return sane
-> +
-> +# Actual task to check for ${D
-> +python do_qa_check_unexpanded_d(){
-> +    package_qa_check_unexpanded_d(d)
-> +}
-> +addtask qa_check_unexpanded_d before do_compile
-> +
+We should probably add some API to bb.build which allows the code to
+query information about tasks. I would prefer to only expose the
+information we need (the parents) rather than the whole contents of
+_task_deps since that may change over time. The main reason that
+structure exists at all is a performance optimisation inside the core of
+bitbake.
 
-Why are we doing this before compile, rather than using the existing
-package variable handling infrastructure in the class?
-
-The other benefit of using that is we can benefit from the QA_WARN and
-QA_ERR variables to determine if this issue is a warning or a fatal
-error.
+Thinking about this further, have you looked at BB_TASKDEPDATA? You may
+well be able to extract the information you need from that and that *is*
+public API.
 
 Cheers,
 
 Richard
+
 
 
 
