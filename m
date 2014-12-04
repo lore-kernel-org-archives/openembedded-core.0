@@ -1,50 +1,35 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id E42B565D59
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 773F260670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 13:35:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 490F92E39B;
-	Thu,  4 Dec 2014 14:35:03 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id KpucwtNqyl05; Thu,  4 Dec 2014 14:34:59 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 7DDD82E386;
-	Thu,  4 Dec 2014 14:34:59 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 5AA5111C0;
-	Thu,  4 Dec 2014 14:34:59 +0100 (CET)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 49CFA462;
-	Thu,  4 Dec 2014 14:34:59 +0100 (CET)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by seth.se.axis.com (Postfix) with ESMTP id 47A7B3E2BA;
-	Thu,  4 Dec 2014 14:34:59 +0100 (CET)
-Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail2.se.axis.com
-	([10.0.5.74]) with mapi; Thu, 4 Dec 2014 14:34:59 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Mark Hatle <mark.hatle@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 4 Dec 2014 14:34:58 +0100
-Thread-Topic: [OE-core] Why is systemd installed to / (was: [yocto] Export
-	bitbake variables between recipes)
-Thread-Index: AdAPEGe2mQu11IfzT+OlupF3a117HgAsgHYQ
-Message-ID: <A612847CFE53224C91B23E3A5B48BAC7ACF18D45D8@xmail3.se.axis.com>
-References: <A612847CFE53224C91B23E3A5B48BAC7ACF18D3E7B@xmail3.se.axis.com>
-	<547E08A9.2090500@windriver.com>
-	<A612847CFE53224C91B23E3A5B48BAC7ACF18D42B6@xmail3.se.axis.com>
-	<547F305A.5060305@windriver.com>
-In-Reply-To: <547F305A.5060305@windriver.com>
-Accept-Language: en-US, sv-SE
+	Thu,  4 Dec 2014 13:47:18 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 04 Dec 2014 05:46:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,515,1413270000"; 
+	d="scan'208,217";a="642345552"
+Received: from irsmsx154.ger.corp.intel.com ([163.33.192.96])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Dec 2014 05:46:54 -0800
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.144]) by
+	IRSMSX154.ger.corp.intel.com ([169.254.12.18]) with mapi id
+	14.03.0195.001; Thu, 4 Dec 2014 13:46:53 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>, =?utf-8?B?QW5kcmVhcyBNw7xsbGVy?=
+	<schnitzeltony@googlemail.com>
+Thread-Topic: [OE-core] [PATCH V2] midori: update to 0.5.8
+Thread-Index: AQHQA9fqtJUYf9+hS0aFrfXYnoHl8JxoAioAgBeHaaA=
+Date: Thu, 4 Dec 2014 13:46:52 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F3C51F7@IRSMSX105.ger.corp.intel.com>
+References: <1416387750-10669-1-git-send-email-schnitzeltony@googlemail.com>
+	<CAJTo0LY_p2Ee04GRxJz0W7D0iZks07JYBwsCfbME00U8cR2Q2A@mail.gmail.com>
+In-Reply-To: <CAJTo0LY_p2Ee04GRxJz0W7D0iZks07JYBwsCfbME00U8cR2Q2A@mail.gmail.com>
+Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-acceptlanguage: en-US, sv-SE
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-Subject: Re: Why is systemd installed to / (was: [yocto] Export bitbake variables between recipes)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] midori: update to 0.5.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,75 +42,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 13:35:13 -0000
+X-List-Received-Date: Thu, 04 Dec 2014 13:47:24 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/alternative;
+	boundary="_000_969F26A8BAB325438E7EB80D3C3134FB2F3C51F7IRSMSX105gercor_"
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Mark Hatle
-> Sent: den 3 december 2014 16:47
-> To: Peter Kjellerstedt; openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] Why is systemd installed to / (was: [yocto]
-> Export bitbake variables between recipes)
->=20
-> On 12/3/14, 9:36 AM, Peter Kjellerstedt wrote:
-> >>> Can anyone please explain why OE-core installs systemd to /=20
-> >>> rather than /usr? Because I have traced the recipe all the=20
-> >>> way back to its introduction in OE classic, and I cannot=20
-> >>> find any rationale for this odd decision. And it is extra=20
-> >>> weird given the systemd authors' agenda that everything=20
-> >>> should be in /usr (and /etc)...
-> >>
-> >> It's only strange compared to Fedora.  We're not Fedora.. and=20
-> >> I've got systems that need to boot from a small '/' before=20
-> >> mounting '/usr'.
-> >
-> > Speaking of Fedora, would an official image feature, e.g.,=20
-> > "unified-fs", be acceptable for OE-Core that sets up the file=20
-> > system with /bin, /sbin and /lib* as links to their /usr=20
-> > counterparts? That would alleviate our problems with the=20
-> > differences in how systemd is installed.
->=20
-> The system permits developers to set the paths for the various pieces.
-> To get a Fedora like unified filesystem, you could do something like:
->=20
-> * provide your own fs-perms.txt:
+--_000_969F26A8BAB325438E7EB80D3C3134FB2F3C51F7IRSMSX105gercor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-I had not noticed fs-perms.txt before. And it seems easy enough=20
-to extend via the FILESYSTEMS_PERMS_TABLES variable. :)
+SGksDQoNCldoYXQgaGFwcGVkIHRvIHRoaXMgdXBncmFkZT8NClNlZW1zIHRoYXQgaXQgc3RhbGxl
+ZC4NCg0KUmVnYXJkcywNCkNyaXN0aWFuIElvcmdhDQpZb2N0byBQcm9qZWN0DQpJbnRlbCBDb3Jw
+b3JhdGlvbg0KDQpGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcgW21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmddIE9uIEJlaGFsZiBPZiBCdXJ0b24sIFJvc3MNClNlbnQ6IFdlZG5lc2RheSwgTm92
+ZW1iZXIgMTksIDIwMTQgNDoyNyBQTQ0KVG86IEFuZHJlYXMgTcO8bGxlcg0KQ2M6IE9FLWNvcmUN
+ClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIFYyXSBtaWRvcmk6IHVwZGF0ZSB0byAwLjUu
+OA0KDQoNCk9uIDE5IE5vdmVtYmVyIDIwMTQgMDk6MDIsIEFuZHJlYXMgTcO8bGxlciA8c2Nobml0
+emVsdG9ueUBnb29nbGVtYWlsLmNvbTxtYWlsdG86c2Nobml0emVsdG9ueUBnb29nbGVtYWlsLmNv
+bT4+IHdyb3RlOg0KK0RFUEVORFMgPSAid2Via2l0LWd0ayBsaWJzb3VwLTIuNCBvcGVuc3NsIHB5
+dGhvbi1uYXRpdmUgcHl0aG9uLWRvY3V0aWxzLW5hdGl2ZSBsaWJyc3ZnLW5hdGl2ZSBsaWJub3Rp
+ZnkgbGlidW5pcXVlIGxpYnhzY3Juc2F2ZXIiDQoNCkJ1aWxkaGlzdG9yeS1kaWZmIHJlcG9ydHMg
+dGhhdCBsaWJ1bmlxdWUgaXNuJ3QgYSBydW50aW1lIGRlcGVuZGVuY3kgYW55bW9yZSBzbyBpdCBs
+b29rcyBsaWtlIGxpYnVuaXF1ZSBpc24ndCB1c2VkIGFueW1vcmUgc28geW91IGNhbiBkcm9wIHRo
+YXQgZGVwZW5kcy4NCg0KRG9lcyBNaWRvcmkgc3RpbGwgc3VwcG9ydCBHVEsrIDIgYW5kIDMsIGFu
+ZCBob3cgZG9lcyBpdCBwaWNrPyBJIG5vdGUgdGhhdCB5b3UgZG9uJ3QgaGF2ZSBhIGJ1aWxkIGRl
+cGVuZGVuY3kgb24gZWl0aGVyIHNvIHByZXN1bWFibHkgcmVseSBvbiB3ZWJraXRndGsgcHVsbGlu
+ZyBpbiBHVEsrIDIsIGJ1dCB3aGF0IGlmIEdUSyszIGlzIGFsc28gaW5zdGFsbGVkPw0KDQpSb3Nz
+DQo=
 
-> /usr/bin	link	${base_bindir}
-> /usr/sbin	link	${base_sbindir}
-> /usr/lib	link	${base_libdir}
->=20
-> Then in your local.conf:
->=20
-> bindir =3D "${base_bindir}"
-> sbindir =3D "${base_sbindir}"
-> libdir =3D "${base_libdir}"
+--_000_969F26A8BAB325438E7EB80D3C3134FB2F3C51F7IRSMSX105gercor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-I think you mean the opposite, i.e., that /bin should be a=20
-link to ${bindir} and ${base_bindir} should be set to ${bindir},=20
-but I get your point.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYi
+O30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0K
+CWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNw
+YW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9y
+OnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3
+DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
+Iiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28t
+c3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2Vy
+aWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46
+MS4waW4gMS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRT
+ZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVk
+ZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0t
+PjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0K
+PG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+
+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxp
+bms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2Fs
+aWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkhpLDxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
+LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1z
+ZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFG
+NDk3RCI+V2hhdCBoYXBwZWQgdG8gdGhpcyB1cGdyYWRlPzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjoj
+MUY0OTdEIj5TZWVtcyB0aGF0IGl0IHN0YWxsZWQuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
+N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
+dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5SZWdhcmRzLDxvOnA+PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
+emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
+ZiZxdW90Oztjb2xvcjojMUY0OTdEIj5DcmlzdGlhbiBJb3JnYTxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
+bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xv
+cjojMUY0OTdEIj5Zb2N0byBQcm9qZWN0PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
+b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPklu
+dGVsIENvcnBvcmF0aW9uPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PGEgbmFtZT0iX01haWxFbmRDb21wb3NlIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
+dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7
+Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9hPjwvcD4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj48Yj48c3BhbiBzdHlsZT0iZm9u
+dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMt
+c2VyaWYmcXVvdDsiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
+dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsi
+PiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgW21haWx0
+bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddDQo8Yj5P
+biBCZWhhbGYgT2YgPC9iPkJ1cnRvbiwgUm9zczxicj4NCjxiPlNlbnQ6PC9iPiBXZWRuZXNkYXks
+IE5vdmVtYmVyIDE5LCAyMDE0IDQ6MjcgUE08YnI+DQo8Yj5Ubzo8L2I+IEFuZHJlYXMgTcO8bGxl
+cjxicj4NCjxiPkNjOjwvYj4gT0UtY29yZTxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNv
+cmVdIFtQQVRDSCBWMl0gbWlkb3JpOiB1cGRhdGUgdG8gMC41Ljg8bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+PG86cD4m
+bmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxl
+PSJtYXJnaW4tbGVmdDouNWluIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+T24gMTkgTm92ZW1iZXIgMjAx
+NCAwOTowMiwgQW5kcmVhcyBNw7xsbGVyICZsdDs8YSBocmVmPSJtYWlsdG86c2Nobml0emVsdG9u
+eUBnb29nbGVtYWlsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnNjaG5pdHplbHRvbnlAZ29vZ2xlbWFp
+bC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJi
+b3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBp
+biAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8ZGl2IGlk
+PSI6Mnd2Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj4m
+IzQzO0RFUEVORFMgPSAmcXVvdDt3ZWJraXQtZ3RrIGxpYnNvdXAtMi40IG9wZW5zc2wgcHl0aG9u
+LW5hdGl2ZSBweXRob24tZG9jdXRpbHMtbmF0aXZlIGxpYnJzdmctbmF0aXZlIGxpYm5vdGlmeSBs
+aWJ1bmlxdWUgbGlieHNjcm5zYXZlciZxdW90OzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Js
+b2NrcXVvdGU+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVm
+dDouNWluIj48YnI+DQpCdWlsZGhpc3RvcnktZGlmZiByZXBvcnRzIHRoYXQgbGlidW5pcXVlIGlz
+bid0IGEgcnVudGltZSBkZXBlbmRlbmN5IGFueW1vcmUgc28gaXQgbG9va3MgbGlrZSBsaWJ1bmlx
+dWUgaXNuJ3QgdXNlZCBhbnltb3JlIHNvIHlvdSBjYW4gZHJvcCB0aGF0IGRlcGVuZHMuPG86cD48
+L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFy
+Z2luLWxlZnQ6LjVpbiI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+RG9lcyBNaWRvcmkgc3Rp
+bGwgc3VwcG9ydCBHVEsmIzQzOyAyIGFuZCAzLCBhbmQgaG93IGRvZXMgaXQgcGljaz8gSSBub3Rl
+IHRoYXQgeW91IGRvbid0IGhhdmUgYSBidWlsZCBkZXBlbmRlbmN5IG9uIGVpdGhlciBzbyBwcmVz
+dW1hYmx5IHJlbHkgb24gd2Via2l0Z3RrIHB1bGxpbmcgaW4gR1RLJiM0MzsgMiwgYnV0IHdoYXQg
+aWYgR1RLJiM0MzszIGlzIGFsc28gaW5zdGFsbGVkPzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
+ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPjxvOnA+
+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5
+bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+
+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-> This will result in /usr/bin, sbin and lib being linked to /bin,=20
-> /sbin, /lib -- and all of the package produced for your=20
-> configuration will only reference '/'.
->=20
-> This isn't that unusual of a configuration from what I've been told.
-
-Which is why I think it warrants an official distro feature (an=20
-image feature, as I originally suggested, will of course not do=20
-if it is done the way you suggest since the packages' contents=20
-are modified). That way people would not have to invent the wheel=20
-over and over again (and somehow find out that there is such a=20
-thing as fs-perms.txt which up until now had eluded me).
-
-> --Mark
-
-//Peter
-
-
+--_000_969F26A8BAB325438E7EB80D3C3134FB2F3C51F7IRSMSX105gercor_--
