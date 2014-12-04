@@ -1,19 +1,19 @@
 Return-Path: <mike.looijmans@topic.nl>
 Received: from atl4mhfb03.myregisteredsite.com
 	(atl4mhfb03.myregisteredsite.com [209.17.115.61])
-	by mail.openembedded.org (Postfix) with ESMTP id 6204772300
+	by mail.openembedded.org (Postfix) with ESMTP id 62E6C72304
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  4 Dec 2014 10:34:13 +0000 (UTC)
-Received: from atl4mhob02.myregisteredsite.com
-	(atl4mhob02.myregisteredsite.com [209.17.115.40])
+Received: from atl4mhob05.myregisteredsite.com
+	(atl4mhob05.myregisteredsite.com [209.17.115.43])
 	by atl4mhfb03.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	sB4ARvgW009924 for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Dec 2014 05:27:57 -0500
+	sB4ARuKj009916 for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Dec 2014 05:27:56 -0500
 Received: from mailpod.hostingplatform.com ([10.30.71.203])
-	by atl4mhob02.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	sB4ARpcu007038 for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Dec 2014 05:27:51 -0500
-Received: (qmail 15172 invoked by uid 0); 4 Dec 2014 10:27:51 -0000
+	by atl4mhob05.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	sB4ARq3K017329 for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Dec 2014 05:27:52 -0500
+Received: (qmail 15222 invoked by uid 0); 4 Dec 2014 10:27:52 -0000
 X-TCPREMOTEIP: 88.159.208.100
 X-Authenticated-UID: mike@milosoftware.com
 Received: from unknown (HELO paradigit.TOPIC.LOCAL)
@@ -21,10 +21,13 @@ Received: from unknown (HELO paradigit.TOPIC.LOCAL)
 	by 0 with ESMTPA; 4 Dec 2014 10:27:51 -0000
 From: Mike Looijmans <mike.looijmans@topic.nl>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Dec 2014 11:27:44 +0100
-Message-Id: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
+Date: Thu,  4 Dec 2014 11:27:45 +0100
+Message-Id: <1417688866-8329-2-git-send-email-mike.looijmans@topic.nl>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/2] Busybox mdev improvements
+In-Reply-To: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
+References: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>
+Subject: [PATCH 1/2] busybox-mdev: Install missing find-touchscreen.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,13 +42,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 04 Dec 2014 10:34:13 -0000
 
-I've been using busybox mdev instead of udev in many projects, which so
-far has worked excellently.
+mdev.conf references the find-touchscreen.sh script, but this file
+was not being installed. Add the script to the busybox-mdev package.
 
-Each of these projects needed similar patches to busybox to make it work,
-so I think its time these changes move into the core for everyone to use.
+Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+---
+ meta/recipes-core/busybox/busybox.inc |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-This first series fixes the touchscreen support. A patch to automatically
-have mdev mount storage devices will follow soon, I'm still testing it.
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index bd66e4f..deb2ee4 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -23,7 +23,7 @@ PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}
+ 
+ FILES_${PN}-httpd = "${sysconfdir}/init.d/busybox-httpd /srv/www"
+ FILES_${PN}-syslog = "${sysconfdir}/init.d/syslog* ${sysconfdir}/syslog-startup.conf* ${sysconfdir}/syslog.conf* ${systemd_unitdir}/system/syslog.service ${sysconfdir}/default/busybox-syslog"
+-FILES_${PN}-mdev = "${sysconfdir}/init.d/mdev ${sysconfdir}/mdev.conf"
++FILES_${PN}-mdev = "${sysconfdir}/init.d/mdev ${sysconfdir}/mdev.conf ${sysconfdir}/mdev/*"
+ FILES_${PN}-udhcpd = "${sysconfdir}/init.d/busybox-udhcpd"
+ FILES_${PN}-udhcpc = "${sysconfdir}/udhcpc.d ${datadir}/udhcpc"
+ FILES_${PN}-hwclock = "${sysconfdir}/init.d/hwclock.sh"
+@@ -268,6 +268,8 @@ do_install () {
+                install -m 0755 ${WORKDIR}/mdev ${D}${sysconfdir}/init.d/mdev
+                if grep "CONFIG_FEATURE_MDEV_CONF=y" ${B}/.config; then
+                        install -m 644 ${WORKDIR}/mdev.conf ${D}${sysconfdir}/mdev.conf
++                       install -d ${D}${sysconfdir}/mdev
++                       install -m 0755 ${WORKDIR}/find-touchscreen.sh ${D}${sysconfdir}/mdev
+                fi
+ 	fi
+ 
+-- 
+1.7.9.5
 
 
