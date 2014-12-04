@@ -1,39 +1,52 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CB2F601F5
+Return-Path: <B40290@freescale.com>
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bon0139.outbound.protection.outlook.com [157.56.111.139])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B9E760670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 05:28:24 +0000 (UTC)
-Received: by mail-la0-f50.google.com with SMTP id pn19so12981535lab.37
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Dec 2014 21:28:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=RKbuSyMI0uOBj1eLeiShwgGBdHsHdz81fjFocHxaP94=;
-	b=vU4KjcH3TrIqLaI9zZbxa+CPY43LExQTnpYjhVmc+KfuGzAspTZQXplRZCwxdVmsph
-	5hju7kwQlmi6YlcfERepCH60p8vAe44uwpqVPWvSUAYedDmqk3lo6HnH+YvPxjtrxKVh
-	jZ4yFl0CYhaaWUQYsTJrNTmLyxQAo5VLwpQDSbdcm/pCl1emtO6b7JnAIRfZYEKjuCIE
-	EWnNKEw80oJP/4gu1HiMQIkh1+YlL2k4tCWizFc4w1loY60It9J11j0r6BqhFwd+60JV
-	Z+/ep2Kzk9BzdaZ5NLBsCqsfrujSPpRF4PnvDlmPGygtqLguPiljEgzEiIdlsBGMa85A
-	10fg==
+	Thu,  4 Dec 2014 05:49:28 +0000 (UTC)
+Received: from CO2PR03CA0037.namprd03.prod.outlook.com (10.141.194.164) by
+	DM2PR03MB445.namprd03.prod.outlook.com (10.141.85.15) with Microsoft
+	SMTP Server (TLS) id 15.1.26.15; Thu, 4 Dec 2014 05:49:26 +0000
+Received: from BY2FFO11FD021.protection.gbl (2a01:111:f400:7c0c::143) by
+	CO2PR03CA0037.outlook.office365.com (2a01:111:e400:1414::36) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.16.15 via Frontend Transport; Thu, 4 Dec 2014
+	05:49:26 +0000
+Received: from tx30smr01.am.freescale.net (192.88.168.50) by
+	BY2FFO11FD021.mail.protection.outlook.com (10.1.15.210) with Microsoft
+	SMTP Server (TLS) id 15.1.6.13 via Frontend Transport;
+	Thu, 4 Dec 2014 05:49:26 +0000
+Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.75])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	sB45nMYX027275; Wed, 3 Dec 2014 22:49:23 -0700
+From: Chunrong Guo <B40290@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 4 Dec 2014 13:49:16 +0800
+Message-ID: <1417672156-6102-1-git-send-email-B40290@freescale.com>
+X-Mailer: git-send-email 1.9.2
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10019020)(6009001)(189002)(199003)(48376002)(102836001)(104016003)(110136001)(50986999)(450100001)(68736005)(104166001)(64706001)(86362001)(47776003)(93916002)(20776003)(77096005)(62966003)(229853001)(36756003)(2351001)(107046002)(31966008)(77156002)(95666004)(106466001)(105606002)(84676001)(88136002)(46102003)(89996001)(92726001)(50226001)(97736003)(92566001)(4396001)(50466002)(21056001)(87286001)(120916001)(87936001)(44976005)(19580395003)(19580405001)(6806004)(99396003);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR03MB445;
+	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv;
+	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-X-Received: by 10.152.238.1 with SMTP id vg1mr7531295lac.83.1417670904398;
-	Wed, 03 Dec 2014 21:28:24 -0800 (PST)
-Received: by 10.112.48.41 with HTTP; Wed, 3 Dec 2014 21:28:24 -0800 (PST)
-In-Reply-To: <CADkTA4NobmfAEbYR+2bbSWsKBcJ=Cw3Qf0=+w9V5C26ATT=p+Q@mail.gmail.com>
-References: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
-	<20141203122307.GB15731@lpalcu-linux>
-	<CADkTA4Ogy=K9sh80UqpH=AL9Bqas9W3S80-TF=T4TtiaTGcqMA@mail.gmail.com>
-	<3308676.S190v0nn32@peggleto-mobl5.ger.corp.intel.com>
-	<CADkTA4NobmfAEbYR+2bbSWsKBcJ=Cw3Qf0=+w9V5C26ATT=p+Q@mail.gmail.com>
-Date: Thu, 4 Dec 2014 00:28:24 -0500
-Message-ID: <CADkTA4OdPvV4+6wENW1G-9HMnnNgH_oH_Mz-WrMga0W7o_SWOw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] kernel: Enable externalsrc on kernels which instantiate kernel.bbclass
+X-Microsoft-Antispam: UriScan:;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:DM2PR03MB445;
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(602001);
+	SRVR:DM2PR03MB445; 
+X-Forefront-PRVS: 041517DFAB
+Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
+	designate 192.88.168.50 as permitted sender)
+	receiver=protection.outlook.com; 
+	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
+Authentication-Results: spf=fail (sender IP is 192.88.168.50)
+	smtp.mailfrom=B40290@freescale.com; 
+X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:;SRVR:DM2PR03MB445;
+X-OriginatorOrg: freescale.com
+Subject: [PATCH v3 1/2] uboot-config.bbclass: Allow multiple U-Boot config for machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,123 +59,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 05:28:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 04 Dec 2014 05:49:31 -0000
+Content-Type: text/plain
 
-On Wed, Dec 3, 2014 at 11:50 AM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> On Wed, Dec 3, 2014 at 9:36 AM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
->> On Wednesday 03 December 2014 08:14:44 Bruce Ashfield wrote:
->>> On Wed, Dec 3, 2014 at 7:23 AM, Laurentiu Palcu
->>>
->>> <laurentiu.palcu@intel.com> wrote:
->>> > Hi Paul,
->>> >
->>> > On Wed, Dec 03, 2014 at 12:00:31PM +0000, Paul Eggleton wrote:
->>> >> On Monday 22 September 2014 13:04:47 Bruce Ashfield wrote:
->>> >> > On 14-09-22 01:03 PM, Khem Raj wrote:
->>> >> > > On Mon, Sep 22, 2014 at 8:27 AM, Bruce Ashfield
->>> >> > >
->>> >> > > <bruce.ashfield@windriver.com> wrote:
->>> >> > >> But the reports we've been getting have been that externalsrc
->>> >> > >> builds are working for kernels, and linux-yocto without the change
->>> >> > >> in place, so I'm looking to reduce the patch footprint and
->>> >> > >> re-submit.
->>> >> > >
->>> >> > > no, it cant work if folks were trying the usecase I have mentioned.
->>> >> > > The fix is infact for
->>> >> > > non linux-yocto kernels.
->>> >> >
->>> >> > I'll send out my updated patch shortly, it should fix both cases.
->>> >>
->>> >> Bruce, did you get around to doing this?
->>> >>
->>> >> At the moment I am trying to make my workflow tool ("devtool modify")
->>> >> work with linux-yocto. I've at least got to the point where I can
->>> >> extract the appropriate source from the recipe, but when I use
->>> >> externalsrc to point to it and then try to build it, it doesn't even get
->>> >> past do_configure, so something must be missing (make complains about
->>> >> missing targets, presumably because it's running in ${B} and there's
->>> >> nothing in that directory).
->>> >>
->>> >> Do you expect linux-yocto + externalsrc to work at the moment in master?
->>> >> If
->>> >> so, are there any special steps I need to do with respect to preparing
->>> >> the
->>> >> external source tree that my tool might not be performing?
->>> >
->>> > FWIW, I'm using externalsrc to build non linux-yocto kernels but, to make
->>> > it work, I had to overwrite the KERNEL_CONFIG_COMMAND:
->>> >
->>> > KERNEL_CONFIG_COMMAND = "oe_runmake_call -C ${S} O=${B} oldnoconfig || yes
->>> > '' | oe_runmake -C ${S} O=${B} oldconfig"
->>>
->>> For an externalsrc kernel, we've always skipped configure* completely.
->>> If the user is providing the kernel, it should also be configured. We don't
->>> want the build system changing anything at all,  including the config that is
->>> in place.
->>
->> OK, that makes sense - but all I'm doing is enabling externalsrc for the
->> kernel, and do_configure is still being executed. Perhaps that's something that
->> shouldn't be happening (needs to be added to SRCTREECOVEREDTASKS? We don't
->> normally cover do_configure for other recipes.)
->
-> IMHO it should be, I have it inhibited here.
->
-> Still trying to get my 1.8 work cleaned up for a RFC, and I'll send
-> you what I have for
-> this shortly as well.
+  This adds support to build multiple U-Boot configs for a machine; this
+  is useful when we have support for different media boots which require
+  different U-Boot configuration (e.g: eMMC and NAND).
 
-I did manage to launch and build a 3.14 kernel externalsrc against master using
-the WIP progress patches.
+Signed-off-by: Chunrong Guo <B40290@freescale.com>
+---
+ meta/classes/uboot-config.bbclass | 37 ++++++++++++++-----------------------
+ 1 file changed, 14 insertions(+), 23 deletions(-)
 
-.. and it worked :)
-
-I've just finished my other developer experience patches (initial
-version), so this is
-the next thing on my list to finish on for 1.8.
-
-The patch that I currently have is broken as part of a rebase to
-account for other
-changes, but I did have the original patch, that has too large a
-footprint (i.e. lots
-of extra ${S} and ${B} manipulations that aren't all required. So I
-tested using it.
-
-That being said,  I pushed the working patch to poky-contrib
-zedd/kernel-externalsrc,
-so you can see what the baseline is.
-
-I'm interested to hear if this hobbles along for you, and if not, what
-breaks. I'm
-building an externalsrc recipe that I put together some time ago .. so
-if yours isn't
-working, that could be the difference.
-
-Bruce
-
->
-> Bruce
->
->>
->> Cheers,
->> Paul
->>
->> --
->>
->> Paul Eggleton
->> Intel Open Source Technology Centre
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
-
-
-
+diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
+index b467659..cb061af 100644
+--- a/meta/classes/uboot-config.bbclass
++++ b/meta/classes/uboot-config.bbclass
+@@ -31,28 +31,19 @@ python () {
+         return
+ 
+     ubootconfig = (d.getVar('UBOOT_CONFIG', True) or "").split()
+-    if len(ubootconfig) > 1:
+-        raise bb.parse.SkipPackage('You can only have a single default for UBOOT_CONFIG.')
++    if len(ubootconfig) > 0:
++        for config in ubootconfig:
++            for f, v in ubootconfigflags.items():
++                if config == f: 
++                    items = v.split(',')
++                    if items[0] and len(items) > 2:
++                        raise bb.parse.SkipPackage('Only config,images can be specified!')
++                    d.appendVar('UBOOT_MACHINE', ' ' + items[0])
++                    # IMAGE_FSTYPES appending
++                    if len(items) > 1 and items[1]:
++                        bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
++                        d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
++                    break
+     elif len(ubootconfig) == 0:
+-        raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.')
+-    ubootconfig = ubootconfig[0]
+-
+-    for f, v in ubootconfigflags.items():
+-        items = v.split(',')
+-        if items[0] and len(items) > 2:
+-            raise bb.parse.SkipPackage('Only config,images can be specified!')
+-
+-        if ubootconfig == f:
+-            bb.debug(1, "Setting UBOOT_MACHINE to %s." % items[0])
+-            d.setVar('UBOOT_MACHINE', items[0])
+-
+-            # IMAGE_FSTYPES appending
+-            if len(items) > 1 and items[1]:
+-                bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
+-                d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
+-
+-            # Go out as we found a match!
+-            break
+-    else:
+-        raise bb.parse.SkipPackage("UBOOT_CONFIG %s is not supported" % ubootconfig)
++       raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.')
+ }
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.9.2
+
 
