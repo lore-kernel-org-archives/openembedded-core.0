@@ -1,38 +1,36 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
-	[209.85.214.180])
-	by mail.openembedded.org (Postfix) with ESMTP id A9E5A6DA74
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id C4FDF65E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 07:14:53 +0000 (UTC)
-Received: by mail-ob0-f180.google.com with SMTP id wp4so2390139obc.11
+	Thu,  4 Dec 2014 07:30:20 +0000 (UTC)
+Received: by mail-wg0-f52.google.com with SMTP id a1so21772922wgh.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Dec 2014 23:14:54 -0800 (PST)
+	Wed, 03 Dec 2014 23:30:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=KMrBBVyKEouU04oEvDUJjfzUG7RNuadnxnUPOM27PTA=;
-	b=NoknGClIVa6gewrCkX4YV3hbxzfLCzMw2W4kGSqtQyH05/TfT3Cc+Tw9JZhmRBpcw8
-	/ecXDz/fw1hNBaco7FlxSE6xpeXg5HW1xru9KXr4zFgeGGu5d7ubVXXuhXFxWT+iQOrZ
-	C/HOWaARdRUzJxIiV4c+2Wy3beQn0hUm96sZCQTFOz/j2HDf+mwTEo45O8jj8uJOf+Zt
-	xPZu+abvZ8btb+NUe6M/okoZLkNYNIg+V1u6wMhc7mnAe8wuSR79qssGqtKcsuW2zxuT
-	9BJim2UA+yN+yU8Dgf3rTVIUYTzSkh6x7K3y/sHCR36pzPmsDVy0K3Kbd82xm0RU+u/9
-	Rd9w==
-X-Gm-Message-State: ALoCoQkEXQe1nHYz8bNV3DHF2FFt9qLihfZrKPmRsWqP19p1n6CFthVjWOBU38BZAjhcG4jNXQFz
-X-Received: by 10.60.124.69 with SMTP id mg5mr5812009oeb.73.1417677293870;
-	Wed, 03 Dec 2014 23:14:53 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.76.159.138 with HTTP; Wed, 3 Dec 2014 23:14:33 -0800 (PST)
-In-Reply-To: <CAJTo0LZ6b0SYW7GY5KZ+zC-UGx8+afDif9y5iGTumj7Yycjr_A@mail.gmail.com>
-References: <cover.1417466732.git.anibal.limon@linux.intel.com>
-	<fef682ae2a0028af5d14a4cc82e83208c6a440aa.1417466734.git.anibal.limon@linux.intel.com>
-	<CAJTo0LZ6b0SYW7GY5KZ+zC-UGx8+afDif9y5iGTumj7Yycjr_A@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 4 Dec 2014 08:14:33 +0100
-Message-ID: <CAP71WjzrWaBs-q8i=4UwbMpzsMzOxePXOFAyCCxa0xckwX2pbw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] libdrm: Upgrade to 2.4.58.
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=1oNoKm4EPYTfZmp+bAGZ5vbUnFBe4zG3MiVEibHsPc8=;
+	b=D83j28TXU1IHEccWozmM9/4zfG08etn/j4c5F6wb/QZItNG+purUCQxWkiFOan8cm7
+	D6wEfDr6a22J22MU05p9loqQbSJ7a4CQ9juOoYgw7kLmdHGtwEV2TRhG0WXhTr7tFV9N
+	k9khpDmpfzJvAC99lXvwqjAms0Eg1A1cgkOpCZMWrEWShJIWpQbSo27YxpdveiMYVhv2
+	IgvivfibCFEu8USu8gZ3YgBh75C5JFoD2rPkgQBKnBK+D0xcy6fCIjluzxp11nb85jYX
+	C+oRoKJ19DjdtWnuALYdlBS5WzoCzAn5gOIJ22k3zLcbqp2QurR0uGiIlwb1wV8p1vDY
+	3kdQ==
+X-Gm-Message-State: ALoCoQlR+8gCVSJ+NAClBLWhTC8SZT/yA/CKWA4eleW6bW16tJQbxLfFVvWJrFjvoVGv0g2lJ9PC
+X-Received: by 10.180.82.226 with SMTP id l2mr8547130wiy.61.1417678221255;
+	Wed, 03 Dec 2014 23:30:21 -0800 (PST)
+Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
+	by mx.google.com with ESMTPSA id c10sm19178680wjy.4.2014.12.03.23.30.20
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 03 Dec 2014 23:30:20 -0800 (PST)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Dec 2014 08:30:18 +0100
+Message-Id: <1417678218-1503-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.9.3
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH] tcmode-default.inc: use GCCVERSION for gcc-source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,48 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 07:14:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 04 Dec 2014 07:30:25 -0000
 
-On Thu, Dec 4, 2014 at 12:30 AM, Burton, Ross <ross.burton@intel.com> wrote:
->  | I/O error : Attempt to load network entity
-> http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
-> | warning: failed to load external entity
-> "http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"
-> | cannot parse
-> http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
-> | Makefile:612: recipe for target 'drmAvailable.3' failed
->
-> https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/114/steps/BuildImages_1/logs/stdio
->
-> I guess it found some documentation tools at configure time and is
-> attempting to build the docs, but not enough was present.  An easy solution
-> for now would be to disable the documentation with either a configure option
-> or patch.
+This was missing leading to gcc-source-<foo> being built when using gcc-cross-<bar> with GCCVERSION=bar.
 
-hmm. it worked for me, libdrm-doc was generated fine, and nothing
-really has changed upstream in this area. my buildhistory shows that
-libdrm-doc has:
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+ meta/conf/distro/include/tcmode-default.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-==
-PV = 2.4.58
-PR = r0
-RPROVIDES =
-RDEPENDS =
-RRECOMMENDS =
-PKGSIZE = 40390
-FILES = /usr/share/doc /usr/share/man /usr/share/info
-/usr/share/gtk-doc /usr/share/gnome/help
-FILELIST = /usr/share/man/man3/drmAvailable.3
-/usr/share/man/man3/drmHandleEvent.3 /usr/share/man/man3/drmModeG\
-etResources.3 /usr/share/man/man7/drm-gem.7
-/usr/share/man/man7/drm-kms.7 /usr/share/man/man7/drm-memory.7 /usr\
-/share/man/man7/drm-mm.7 /usr/share/man/man7/drm-ttm.7 /usr/share/man/man7/drm.7
-==
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 26785e3..99d6df9 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -36,6 +36,7 @@ PREFERRED_VERSION_gcc-crosssdk-${SDK_ARCH} ?= "${SDKGCCVERSION}"
+ PREFERRED_VERSION_gcc-crosssdk-initial-${SDK_ARCH} ?= "${SDKGCCVERSION}"
+ PREFERRED_VERSION_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-runtime ?= "${GCCVERSION}"
++PREFERRED_VERSION_gcc-source ?= "${GCCVERSION}"
+ PREFERRED_VERSION_nativesdk-gcc-runtime ?= "${SDKGCCVERSION}"
+ PREFERRED_VERSION_libgcc ?= "${GCCVERSION}"
+ PREFERRED_VERSION_libgcc-initial ?= "${GCCVERSION}"
+-- 
+1.9.3
 
-could it be a temporary network issue that prevented access to
-http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
-when the package was built?
-
-nico
 
