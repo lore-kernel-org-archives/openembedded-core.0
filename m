@@ -1,28 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id BCE1260601
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id C9CAC601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 15:37:04 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 04 Dec 2014 07:33:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,516,1413270000"; d="scan'208";a="632692730"
-Received: from pcanders-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.18.170])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Dec 2014 07:33:45 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Trevor Woerner <trevor.woerner@linaro.org>
-Date: Thu, 04 Dec 2014 15:33:44 +0000
-Message-ID: <4613205.zoYD8VGxVC@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.4-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <548069B9.6020303@linaro.org>
-References: <cover.1416934753.git.paul.eggleton@linux.intel.com>
-	<2036260.XzzDUvKe82@peggleto-mobl5.ger.corp.intel.com>
-	<548069B9.6020303@linaro.org>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 0/7] Developer workflow improvements
+	Thu,  4 Dec 2014 16:31:17 +0000 (UTC)
+Received: by mail-wg0-f44.google.com with SMTP id b13so23115687wgh.17
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Dec 2014 08:31:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=FLQMaedyenWMjRLfSFW+JinFeXsdF0pfaOfbqIq3zBI=;
+	b=druVgj625Kx0PCWddS24w4QIS5EaUR1pJ24d7k3ZpLPXVNOpF2hueXUVzb+vxjNPzM
+	hApf/lVraK7rwtUKwwC7ttTNXYhbLLaxfpVqkqS57Xj0B8TgkTUQEhqY9KSWnKGtqU5U
+	C+3+k8CGr9/S7gH/CshTgjrM2F95csQZEJJIYKnlBeIcJXyN4Q4MJS7pU5tUjhNcHSpq
+	LY8sF9Tc2V/qvjGmh1o7FxezdLnCemGV+BsHuM6c678+0Yuf8jYQg9fwuLoc2MKHM8Ao
+	wqpcSnB+VGpfqMP1wxssrjjhVn22McdRxdr7lG/w5aVUhYdtHvtg6tU04sP5mKX8rZQ/
+	XY1w==
+X-Gm-Message-State: ALoCoQl6CTO7ldTKbgDdnxlph691oZ/7kjOrHZF/B8/pBprBK0VbVoAfHMtsSvL3OHzF8XatE06x
+X-Received: by 10.180.95.68 with SMTP id di4mr22324226wib.49.1417710677772;
+	Thu, 04 Dec 2014 08:31:17 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by mx.google.com with ESMTPSA id
+	dg7sm41970297wib.24.2014.12.04.08.31.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 04 Dec 2014 08:31:17 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Dec 2014 16:30:47 +0000
+Message-Id: <1417710647-15954-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] bzip2: use subdir SRC_URI param instead of adding tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,36 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 15:37:10 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 04 Dec 2014 16:31:26 -0000
 
-Hi Trevor,
+Instead of adding new tasks to move files around, just use the subdir SRC_URI
+parameter.
 
-On Thursday 04 December 2014 09:03:37 Trevor Woerner wrote:
-> Are you making these changes on the existing contrib/paule/devtool or
-> somewhere else?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/bzip2/bzip2_1.0.6.bb |   14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-Actually I hadn't pushed them anywhere; I have just done that on the 
-paule/devtool branch in both contrib repos. I'm collecting commits on top of 
-the original ones, these will be squashed in when I send the first non-RFC 
-series.
-
-> A small nit I stumbled on recently... many layers contain a
-> "recipes-devtools" directory, and I'm thinking that using the same word
-> for this feature might get confusing (?). Maybe it would be best to
-> replace "devtool(s)" with "workflow(s)"?
-
-Well, naming is always tricky. I don't think "workflow" really describes what 
-the tool is supposed to do however; the tool certainly doesn't force a 
-particular workflow, just provides tools to enable various different developer 
-workflows. I'm happy to take other suggestions on naming though.
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+index 9dd9e6a..ed12277 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+@@ -8,10 +8,10 @@ LICENSE = "bzip2"
+ LIC_FILES_CHKSUM = "file://LICENSE;beginline=8;endline=37;md5=40d9d1eb05736d1bfc86cfdd9106e6b2"
+ PR = "r5"
+ 
+-SRC_URI = "http://www.bzip.org/${PV}/${BPN}-${PV}.tar.gz \
+-           file://configure.ac \
+-           file://run-ptest \
+-           file://Makefile.am"
++SRC_URI = "http://www.bzip.org/${PV}/${BP}.tar.gz \
++           file://configure.ac;subdir=${BP} \
++           file://Makefile.am;subdir=${BP} \
++           file://run-ptest"
+ 
+ SRC_URI[md5sum] = "00b516f4704d4a7cb50a1d97e6e8e15b"
+ SRC_URI[sha256sum] = "a2848f34fcd5d6cf47def00461fcb528a0484d8edef8208d6d2e2909dc61d9cd"
+@@ -27,12 +27,6 @@ ALTERNATIVE_${PN} = "bunzip2 bzcat"
+ 
+ #install binaries to bzip2-native under sysroot for replacement-native
+ EXTRA_OECONF_append_class-native = " --bindir=${STAGING_BINDIR_NATIVE}/${PN}"
+-do_extraunpack () {
+-	cp ${WORKDIR}/configure.ac ${S}/
+-	cp ${WORKDIR}/Makefile.am ${S}/
+-}
+-
+-addtask extraunpack after do_unpack before do_patch
+ 
+ do_install_ptest () {
+ 	cp -f ${B}/Makefile ${D}${PTEST_PATH}/Makefile
 -- 
+1.7.10.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
