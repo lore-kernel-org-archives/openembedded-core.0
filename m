@@ -1,47 +1,38 @@
-Return-Path: <B40290@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bn0102.outbound.protection.outlook.com [157.56.110.102])
-	by mail.openembedded.org (Postfix) with ESMTP id 936A4601F5
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A9E5A6DA74
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 05:54:05 +0000 (UTC)
-Received: from BY2PR03MB441.namprd03.prod.outlook.com (10.141.141.142) by
-	BY2PR03MB222.namprd03.prod.outlook.com (10.242.36.146) with Microsoft
-	SMTP Server (TLS) id 15.1.26.15; Thu, 4 Dec 2014 05:54:04 +0000
-Received: from BY2PR03MB441.namprd03.prod.outlook.com (10.141.141.142) by
-	BY2PR03MB441.namprd03.prod.outlook.com (10.141.141.142) with Microsoft
-	SMTP Server (TLS) id 15.1.26.15; Thu, 4 Dec 2014 05:54:01 +0000
-Received: from BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) by
-	BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) with mapi id
-	15.01.0026.003; Thu, 4 Dec 2014 05:54:01 +0000
-From: "B40290@freescale.com" <B40290@freescale.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Thread-Topic: [OE-core] [PATCH v2 2/2] u-boot.inc : add compile multiple
-	u-boot feature
-Thread-Index: AQHQDi12BooiIzFRiUmmnkhIHFa10Zx+8EaA
-Date: Thu, 4 Dec 2014 05:54:00 +0000
-Message-ID: <BY2PR03MB441142EAFF01BCE33C8218D84780@BY2PR03MB441.namprd03.prod.outlook.com>
-References: <1416806674-15725-1-git-send-email-B40290@freescale.com>
-	<CAP9ODKpC_enxcMuq6GHQ-AaH+JTj4BOcJFyaPFkKW1xWUGeDsg@mail.gmail.com>
-In-Reply-To: <CAP9ODKpC_enxcMuq6GHQ-AaH+JTj4BOcJFyaPFkKW1xWUGeDsg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [123.151.195.52]
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB441;UriScan:;
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB441;
-x-forefront-prvs: 041517DFAB
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(13464003)(377454003)(24454002)(189002)(199003)(51704005)(54356999)(76176999)(54206007)(54606007)(110136001)(50986999)(62966003)(74316001)(68736005)(66066001)(64706001)(86362001)(20776003)(77096005)(33656002)(101416001)(15975445006)(107046002)(31966008)(95666004)(106356001)(99286002)(77156002)(105586002)(106116001)(15202345003)(122556002)(40100003)(16601075003)(76576001)(46102003)(92726001)(92566001)(4396001)(97736003)(21056001)(120916001)(87936001)(19580395003)(19580405001)(2656002)(99396003);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BY2PR03MB441;
-	H:BY2PR03MB441.namprd03.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
+	Thu,  4 Dec 2014 07:14:53 +0000 (UTC)
+Received: by mail-ob0-f180.google.com with SMTP id wp4so2390139obc.11
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Dec 2014 23:14:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=KMrBBVyKEouU04oEvDUJjfzUG7RNuadnxnUPOM27PTA=;
+	b=NoknGClIVa6gewrCkX4YV3hbxzfLCzMw2W4kGSqtQyH05/TfT3Cc+Tw9JZhmRBpcw8
+	/ecXDz/fw1hNBaco7FlxSE6xpeXg5HW1xru9KXr4zFgeGGu5d7ubVXXuhXFxWT+iQOrZ
+	C/HOWaARdRUzJxIiV4c+2Wy3beQn0hUm96sZCQTFOz/j2HDf+mwTEo45O8jj8uJOf+Zt
+	xPZu+abvZ8btb+NUe6M/okoZLkNYNIg+V1u6wMhc7mnAe8wuSR79qssGqtKcsuW2zxuT
+	9BJim2UA+yN+yU8Dgf3rTVIUYTzSkh6x7K3y/sHCR36pzPmsDVy0K3Kbd82xm0RU+u/9
+	Rd9w==
+X-Gm-Message-State: ALoCoQkEXQe1nHYz8bNV3DHF2FFt9qLihfZrKPmRsWqP19p1n6CFthVjWOBU38BZAjhcG4jNXQFz
+X-Received: by 10.60.124.69 with SMTP id mg5mr5812009oeb.73.1417677293870;
+	Wed, 03 Dec 2014 23:14:53 -0800 (PST)
 MIME-Version: 1.0
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB222;
-X-OriginatorOrg: freescale.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/2] u-boot.inc : add compile multiple u-boot feature
+Received: by 10.76.159.138 with HTTP; Wed, 3 Dec 2014 23:14:33 -0800 (PST)
+In-Reply-To: <CAJTo0LZ6b0SYW7GY5KZ+zC-UGx8+afDif9y5iGTumj7Yycjr_A@mail.gmail.com>
+References: <cover.1417466732.git.anibal.limon@linux.intel.com>
+	<fef682ae2a0028af5d14a4cc82e83208c6a440aa.1417466734.git.anibal.limon@linux.intel.com>
+	<CAJTo0LZ6b0SYW7GY5KZ+zC-UGx8+afDif9y5iGTumj7Yycjr_A@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 4 Dec 2014 08:14:33 +0100
+Message-ID: <CAP71WjzrWaBs-q8i=4UwbMpzsMzOxePXOFAyCCxa0xckwX2pbw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] libdrm: Upgrade to 2.4.58.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,73 +45,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 05:54:08 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 04 Dec 2014 07:14:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-SGVsbG8gT3RhdmlvIFNhbHZhZG9yLCAgICAgICAgICAgICAgICAgICAgICAgICAgDQoNClRoYW5r
-IHlvdSBmb3IgeW91ciBjb21tZW50cy4NCkkgaGFkIHN1Ym1pdHRlZCAgcGF0Y2ggdjMgLg0KUGxl
-YXNlICByZXZpZXcgIHRoZW0gLg0KDQpUaGFua3MNCkNodW5yb25nDQoNCg0KDQotLS0tLU9yaWdp
-bmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogb3RhdmlvLnNhbHZhZG9yQGdtYWlsLmNvbSBbbWFpbHRv
-Om90YXZpby5zYWx2YWRvckBnbWFpbC5jb21dIE9uIEJlaGFsZiBPZiBPdGF2aW8gU2FsdmFkb3IN
-ClNlbnQ6IFR1ZXNkYXksIERlY2VtYmVyIDAyLCAyMDE0IDg6NDMgUE0NClRvOiBHdW8gQ2h1bnJv
-bmctQjQwMjkwDQpDYzogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUg
-bGF5ZXINClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIHYyIDIvMl0gdS1ib290LmluYyA6
-IGFkZCBjb21waWxlIG11bHRpcGxlIHUtYm9vdCBmZWF0dXJlDQoNCkhlbGxvIENodW5yb25nLA0K
-DQpPbiBNb24sIE5vdiAyNCwgMjAxNCBhdCAzOjI0IEFNLCBDaHVucm9uZyBHdW8gPEI0MDI5MEBm
-cmVlc2NhbGUuY29tPiB3cm90ZToNCj4gU2lnbmVkLW9mZi1ieTogQ2h1bnJvbmcgR3VvIDxCNDAy
-OTBAZnJlZXNjYWxlLmNvbT4NCj4gLS0tDQo+ICBtZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJv
-b3QuaW5jIHwgNTYgDQo+ICsrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tDQo+
-ICAxIGZpbGUgY2hhbmdlZCwgMzEgaW5zZXJ0aW9ucygrKSwgMjUgZGVsZXRpb25zKC0pDQo+DQo+
-IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3QuaW5jIA0KPiBiL21l
-dGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdC5pbmMNCj4gaW5kZXggYzY5NWI3My4uYmQ3NjI0
-MSAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LmluYw0KPiAr
-KysgYi9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3QuaW5jDQo+IEBAIC02MywyNSArNjMs
-MzIgQEAgZG9fY29tcGlsZSAoKSB7DQo+ICAgICAgICAgICAgICAgICBlY2hvICR7VUJPT1RfTE9D
-QUxWRVJTSU9OfSA+ICR7U30vLnNjbXZlcnNpb24NCj4gICAgICAgICBmaQ0KPg0KPiAtICAgICAg
-IG9lX3J1bm1ha2UgJHtVQk9PVF9NQUNISU5FfQ0KPiAtICAgICAgIG9lX3J1bm1ha2UgJHtVQk9P
-VF9NQUtFX1RBUkdFVH0NCj4gKyAgICBmb3IgdHlwZSBpbiAke1VCT09UX01BQ0hJTkV9OyBkbw0K
-PiArICAgICAgICBvZV9ydW5tYWtlIE89JHt0eXBlfSAke3R5cGV9DQo+ICsgICAgICAgIG9lX3J1
-bm1ha2UgTz0ke3R5cGV9ICR7VUJPT1RfTUFLRV9UQVJHRVR9DQo+ICsgICAgICAgIGNwICAke1N9
-LyR7dHlwZX0vJHtVQk9PVF9CSU5BUll9ICAke1N9LyR7dHlwZX0vdS1ib290LSR7dHlwZX0uYmlu
-DQo+ICsgICAgZG9uZQ0KPiArDQo+ICB9DQoNClRoZSBvdXQgb2YgdHJlZSBidWlsZCBoYXMgY2F1
-c2VkIHNvbWUgaGVhZGFjaGUgaW4gb25lIG9mIG91ciBpbnRlcm5hbCBjdXN0b21lciBsYXllcnM7
-IGl0IHdhcyBpbmRlZWQgY2F1c2VkIGJ5IGEgImJ1ZyIgaW4gdGhlIHJlc3BlY3RpdmUgcmVjaXBl
-IGJ1dCBJIHRoaW5rIGl0IGlzIHdvcnRoIG1lbnRpb24gdGhhdCBpdCBub3cgYnVpbGRzIHVzaW5n
-IG91dCBvZiB0cmVlIGluIHRoZSBjb21taXQgbG9nIHNvIHBlb3BsZSBhcmUgYXdhcmUuDQoNClRo
-ZXJlIGFyZSB0d28gdGhpbmdzIHdoaWNoIGhhcyBjYXRjaCBteSBhdHRlbnRpb24gaGVyZToNCg0K
-ICogZmlsZW5hbWUgdWdseW5lc3M6IHRoZSBmaWxlbmFtZSBpbiBkZXBsb3kgZGlyIGlzIHVzaW5n
-IHRoZSBVQk9PVF9NQUNISU5FIGhvd2V2ZXIgdGhlIFVCT09UX0NPTkZJRyAnbmFtZScgd291bGQg
-YmUgYmV0dGVyIGFzIGl0IGlzIG1vcmUgbWVhbmluZ2Z1bC4NCg0KICogZGlmZmljdWx0eSB0byBm
-aWd1cmUgdGhlIGJpbmFyeSB3aGVuIGdlbmVyYXRpbmcgdGhlIHJvb3RmczogaW4gbWV0YS1mc2wt
-YXJtLCBmb3IgZXhhbXBsZSwgd2UgZ2VuZXJhdGUgdGhlIC5zZGNhcmQgcm9vdGZzIGFuZCB1c2lu
-ZyB0aGUgcGF0Y2ggd2Ugbm93IGhhdmUuLi4NCg0KRVJST1I6IEVycm9yOiBUaGUgaW1hZ2UgY3Jl
-YXRpb24gc2NyaXB0DQonLi4uL3RtcC93b3JrL2lteDZxc2FicmVzZC1vZWwtbGludXgtZ251ZWFi
-aS9jb3JlLWltYWdlLW1pbmltYWwvMS4wLXIwL3RlbXAvY3JlYXRlX2ltYWdlLnNkY2FyZCcNCnJl
-dHVybmVkIDE6DQowKzAgcmVjb3JkcyBpbg0KMCswIHJlY29yZHMgb3V0DQowIGJ5dGVzICgwIEIp
-IGNvcGllZCwgMS4zMzk1ZS0wNSBzLCAwLjAga0Ivcw0KTW9kZWw6ICAoZmlsZSkNCkRpc2sgLi4u
-L3RtcC9kZXBsb3kvaW1hZ2VzL2lteDZxc2FicmVzZC9jb3JlLWltYWdlLW1pbmltYWwtaW14NnFz
-YWJyZXNkLTIwMTQxMjAyMTIzNDM3LnJvb3Rmcy5zZGNhcmQ6DQo2Ny4xTUINClNlY3RvciBzaXpl
-IChsb2dpY2FsL3BoeXNpY2FsKTogNTEyQi81MTJCIFBhcnRpdGlvbiBUYWJsZTogbXNkb3MgRGlz
-ayBGbGFnczoNCg0KTnVtYmVyICBTdGFydCAgIEVuZCAgICAgU2l6ZSAgICBUeXBlICAgICBGaWxl
-IHN5c3RlbSAgRmxhZ3MNCiAxICAgICAgNDE5NGtCICAxMi42TUIgIDgzODlrQiAgcHJpbWFyeSAg
-ICAgICAgICAgICAgIGxiYQ0KIDIgICAgICAxMi42TUIgIDYyLjlNQiAgNTAuM01CICBwcmltYXJ5
-DQoNCmRkOiBvcGVuaW5nIGAuLi4vdG1wL2RlcGxveS9pbWFnZXMvaW14NnFzYWJyZXNkL3UtYm9v
-dC1pbXg2cXNhYnJlc2QuaW14JzoNCk5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkNCldBUk5JTkc6
-IC4uLi90bXAvd29yay9pbXg2cXNhYnJlc2Qtb2VsLWxpbnV4LWdudWVhYmkvY29yZS1pbWFnZS1t
-aW5pbWFsLzEuMC1yMC90ZW1wL2NyZWF0ZV9pbWFnZS5zZGNhcmQ6MQ0KZXhpdCAxIGZyb20NCiAg
-ZGQgaWY9Li4uL3RtcC9kZXBsb3kvaW1hZ2VzL2lteDZxc2FicmVzZC91LWJvb3QtaW14NnFzYWJy
-ZXNkLmlteA0Kb2Y9Li4uL3RtcC9kZXBsb3kvaW1hZ2VzL2lteDZxc2FicmVzZC9jb3JlLWltYWdl
-LW1pbmltYWwtaW14NnFzYWJyZXNkLTIwMTQxMjAyMTIzNDM3LnJvb3Rmcy5zZGNhcmQNCmNvbnY9
-bm90cnVuYyBzZWVrPTIgc2tpcD0wIGJzPTUxMg0KDQpFUlJPUjogRnVuY3Rpb24gZmFpbGVkOiBk
-b19yb290ZnMNCkVSUk9SOiBMb2dmaWxlIG9mIGZhaWx1cmUgc3RvcmVkIGluOg0KLi4uL3RtcC93
-b3JrL2lteDZxc2FicmVzZC1vZWwtbGludXgtZ251ZWFiaS9jb3JlLWltYWdlLW1pbmltYWwvMS4w
-LXIwL3RlbXAvbG9nLmRvX3Jvb3Rmcy4zMTQxNQ0KRVJST1I6IFRhc2sgNyAoLi4uL3Bva3kvbWV0
-YS9yZWNpcGVzLWNvcmUvaW1hZ2VzL2NvcmUtaW1hZ2UtbWluaW1hbC5iYiwNCmRvX3Jvb3Rmcykg
-ZmFpbGVkIHdpdGggZXhpdCBjb2RlICcxJw0KDQpEbyB5b3UgaGF2ZSBhbnkgaWRlYSBob3cgd2Ug
-Y291bGQgYWRkcmVzcyB0aG9zZSBpc3N1ZXM/DQoNCi0tIA0KT3RhdmlvIFNhbHZhZG9yICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBPLlMuIFN5c3RlbXMNCmh0dHA6Ly93d3cub3NzeXN0ZW1z
-LmNvbS5iciAgICAgICAgaHR0cDovL2NvZGUub3NzeXN0ZW1zLmNvbS5icg0KTW9iaWxlOiArNTUg
-KDUzKSA5OTgxLTc4NTQgICAgICAgICAgICBNb2JpbGU6ICsxICgzNDcpIDkwMy05NzUwDQo=
+On Thu, Dec 4, 2014 at 12:30 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>  | I/O error : Attempt to load network entity
+> http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
+> | warning: failed to load external entity
+> "http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"
+> | cannot parse
+> http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
+> | Makefile:612: recipe for target 'drmAvailable.3' failed
+>
+> https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/114/steps/BuildImages_1/logs/stdio
+>
+> I guess it found some documentation tools at configure time and is
+> attempting to build the docs, but not enough was present.  An easy solution
+> for now would be to disable the documentation with either a configure option
+> or patch.
+
+hmm. it worked for me, libdrm-doc was generated fine, and nothing
+really has changed upstream in this area. my buildhistory shows that
+libdrm-doc has:
+
+==
+PV = 2.4.58
+PR = r0
+RPROVIDES =
+RDEPENDS =
+RRECOMMENDS =
+PKGSIZE = 40390
+FILES = /usr/share/doc /usr/share/man /usr/share/info
+/usr/share/gtk-doc /usr/share/gnome/help
+FILELIST = /usr/share/man/man3/drmAvailable.3
+/usr/share/man/man3/drmHandleEvent.3 /usr/share/man/man3/drmModeG\
+etResources.3 /usr/share/man/man7/drm-gem.7
+/usr/share/man/man7/drm-kms.7 /usr/share/man/man7/drm-memory.7 /usr\
+/share/man/man7/drm-mm.7 /usr/share/man/man7/drm-ttm.7 /usr/share/man/man7/drm.7
+==
+
+could it be a temporary network issue that prevented access to
+http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
+when the package was built?
+
+nico
 
