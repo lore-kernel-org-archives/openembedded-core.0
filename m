@@ -1,36 +1,41 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id C4FDF65E1A
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 51DFB601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 07:30:20 +0000 (UTC)
-Received: by mail-wg0-f52.google.com with SMTP id a1so21772922wgh.11
+	Thu,  4 Dec 2014 07:51:11 +0000 (UTC)
+Received: by mail-wg0-f53.google.com with SMTP id l18so21896977wgh.40
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Dec 2014 23:30:21 -0800 (PST)
+	Wed, 03 Dec 2014 23:51:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1oNoKm4EPYTfZmp+bAGZ5vbUnFBe4zG3MiVEibHsPc8=;
-	b=D83j28TXU1IHEccWozmM9/4zfG08etn/j4c5F6wb/QZItNG+purUCQxWkiFOan8cm7
-	D6wEfDr6a22J22MU05p9loqQbSJ7a4CQ9juOoYgw7kLmdHGtwEV2TRhG0WXhTr7tFV9N
-	k9khpDmpfzJvAC99lXvwqjAms0Eg1A1cgkOpCZMWrEWShJIWpQbSo27YxpdveiMYVhv2
-	IgvivfibCFEu8USu8gZ3YgBh75C5JFoD2rPkgQBKnBK+D0xcy6fCIjluzxp11nb85jYX
-	C+oRoKJ19DjdtWnuALYdlBS5WzoCzAn5gOIJ22k3zLcbqp2QurR0uGiIlwb1wV8p1vDY
-	3kdQ==
-X-Gm-Message-State: ALoCoQlR+8gCVSJ+NAClBLWhTC8SZT/yA/CKWA4eleW6bW16tJQbxLfFVvWJrFjvoVGv0g2lJ9PC
-X-Received: by 10.180.82.226 with SMTP id l2mr8547130wiy.61.1417678221255;
-	Wed, 03 Dec 2014 23:30:21 -0800 (PST)
-Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
-	by mx.google.com with ESMTPSA id c10sm19178680wjy.4.2014.12.03.23.30.20
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=6mScGb6sBYihf1xG0szDsD0pQbmbPQaHHsdiZlpXFQg=;
+	b=RTPDSfqaOg+8NOZCHAkhyNhDqdk2WNdCPaV2OL6XJ4PMMjBvjSl+yK2VcCnz/SyZXp
+	Zli/atyCX3AsvikKu+/mIinxW1Ye9S5RJ50zztIwm6YO7PvxAlqvi2lQmLmiBVM8YjFR
+	WpVr5wU02pfHzINDmYZ3rk785+UFWQUPQWj3uHkmEMLJVoARu1h3o5X8PC0d846gGqYZ
+	l2+1DK8CNqKlUrZo+R9sR5K7DJniDomsp0NZlLt+GoqWP4Roni2gRVyOcNvWpqWxp+A6
+	aCAdWuTfySp9c/FvgArjHc56YJ8ni09ABI+AkR7rvomZAmt1AlbZEbIMp/2j0yERP9br
+	HgRQ==
+X-Gm-Message-State: ALoCoQnjQ2OoMdjRFhn38V8TRwdhCwYLf320jywWQimowz8/UjZbYnlTsZQwEqaaqsC1xp+Jl7Yl
+X-Received: by 10.194.193.2 with SMTP id hk2mr13168958wjc.40.1417679471417;
+	Wed, 03 Dec 2014 23:51:11 -0800 (PST)
+Received: from ?IPv6:2001:610:612::8d41:3f1a:353f:4ea4?
+	([2001:610:612:0:8d41:3f1a:353f:4ea4])
+	by mx.google.com with ESMTPSA id p1sm39367596wjy.22.2014.12.03.23.51.10
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 03 Dec 2014 23:30:20 -0800 (PST)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Dec 2014 08:30:18 +0100
-Message-Id: <1417678218-1503-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.3
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH] tcmode-default.inc: use GCCVERSION for gcc-source
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 03 Dec 2014 23:51:10 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.1 \(1993\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1417661007-32636-1-git-send-email-sgw@linux.intel.com>
+Date: Thu, 4 Dec 2014 08:51:08 +0100
+Message-Id: <04DA94C3-B069-48B6-B14B-CD8658FD29EE@dominion.thruhere.net>
+References: <1417661007-32636-1-git-send-email-sgw@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1993)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] procps: Upgrade to 3.3.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,28 +48,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 07:30:25 -0000
+X-List-Received-Date: Thu, 04 Dec 2014 07:51:15 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-This was missing leading to gcc-source-<foo> being built when using gcc-cross-<bar> with GCCVERSION=bar.
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- meta/conf/distro/include/tcmode-default.inc | 1 +
- 1 file changed, 1 insertion(+)
+> Op 4 dec. 2014, om 03:43 heeft Saul Wold <sgw@linux.intel.com> het =
+volgende geschreven:
+>=20
+> This is now the procps-ng version
+>=20
+> cleaned up patches
+> added to fix up usrbin_execprefix in OE-Core
+>=20
+> Add CPPFLAGS to allow seperate build directory works
+>=20
+> [YOCTO #6952]
+>=20
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+> Git was not able to detect a rename unfortunatly in this case.
+>=20
+> .../procps/{procps-3.2.8 =3D> procps}/sysctl.conf    |   0
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 26785e3..99d6df9 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -36,6 +36,7 @@ PREFERRED_VERSION_gcc-crosssdk-${SDK_ARCH} ?= "${SDKGCCVERSION}"
- PREFERRED_VERSION_gcc-crosssdk-initial-${SDK_ARCH} ?= "${SDKGCCVERSION}"
- PREFERRED_VERSION_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-runtime ?= "${GCCVERSION}"
-+PREFERRED_VERSION_gcc-source ?= "${GCCVERSION}"
- PREFERRED_VERSION_nativesdk-gcc-runtime ?= "${SDKGCCVERSION}"
- PREFERRED_VERSION_libgcc ?= "${GCCVERSION}"
- PREFERRED_VERSION_libgcc-initial ?= "${GCCVERSION}"
--- 
-1.9.3
+So a rename instead of a deletion, good, but...
 
+>=20
+> +++ b/meta/recipes-extended/procps/procps_3.3.10.bb
+
+[..]
+
+> +
+> +SRC_URI =3D =
+"http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-$=
+{PV}.tar.xz \
+> +           file://fix-configure.patch \
+> +          "
+
+... sysctl.conf not in SRC_URI, nor is it being installed in =
+do_install(_append).=
 
