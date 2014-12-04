@@ -1,36 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D2071601F5
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D31BC601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 17:28:36 +0000 (UTC)
-Received: by mail-qc0-f181.google.com with SMTP id m20so13254791qcx.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Dec 2014 09:28:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=tXG+lUF5MwRbi8ms32/T3/KFlsMn+GMOinN5xxEdBmQ=;
-	b=XCBcPKEDxygbjTvnVEyjRdNjURhUBArY/tEO80l7VQCoLG4VOOYoG9RynVy8KM+VJ1
-	BwqifaEZdUU7/BZGLp2O2BUHlKk7kQnPjlHN19OjuSTjDwNmcYc2NA9PSisKKlD1ytcf
-	+PXP8IOBm4F5CCLQaUKln9WkNjeQAKJVGM9ZCRHoJSHrYGxMF0EwcYlmxVZw25dv+P/Q
-	G8+56SchiU4b9pFHUM0GrGahDm8FVnOb2tb5fNqv4ybQkgdQEa1+Mgs5iIdZKvhQUFAE
-	dV5B/g/xG0yGkD0B2O78wEEGLwWwEXU4J2TTgf4fSnQAq/yofVyyMqqP6OgeumeL2SnJ
-	SMrA==
-X-Gm-Message-State: ALoCoQmU+sL+nMYnkFSRNAFSvx3BXTBMINfiWJxK1cO4DiPCGO/H6BUXXUQUvBBG2X1FOAnak6N6
-X-Received: by 10.224.3.137 with SMTP id 9mr18914391qan.64.1417714116633; Thu,
-	04 Dec 2014 09:28:36 -0800 (PST)
+	Thu,  4 Dec 2014 18:21:19 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Dec 2014 10:00:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,517,1413270000"; 
+	d="scan'208,217";a="632771823"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.148])
+	([10.219.4.148])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Dec 2014 10:00:07 -0800
+Message-ID: <5480A12D.1050701@linux.intel.com>
+Date: Thu, 04 Dec 2014 12:00:13 -0600
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Thu, 4 Dec 2014 09:28:16 -0800 (PST)
-In-Reply-To: <547FC6F9.3050609@windriver.com>
-References: <547FC6F9.3050609@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 4 Dec 2014 17:28:16 +0000
-Message-ID: <CAJTo0LY-Ne=J0NAUFO5E+mp6rVj=Zptq7aXnqPeJJ9x-2Ef3Ng@mail.gmail.com>
-To: "Shiqun.Lin" <Shiqun.Lin@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>, 
+	Nicolas Dechesne <nicolas.dechesne@linaro.org>
+References: <cover.1417466732.git.anibal.limon@linux.intel.com>
+	<fef682ae2a0028af5d14a4cc82e83208c6a440aa.1417466734.git.anibal.limon@linux.intel.com>
+	<CAJTo0LZ6b0SYW7GY5KZ+zC-UGx8+afDif9y5iGTumj7Yycjr_A@mail.gmail.com>
+	<CAP71WjzrWaBs-q8i=4UwbMpzsMzOxePXOFAyCCxa0xckwX2pbw@mail.gmail.com>
+	<CAJTo0LYXOobX8Nnjy1KrQizBpUTZDdHLjDV0uLzrUGED1iKjoQ@mail.gmail.com>
+	<CAP71Wjyjw9xSbwDjzjdYUqTmNcb+W4yGUHtNmk924c1fYOKzmw@mail.gmail.com>
+	<CAJTo0LY8s3e_Sdg47pOxktFGEemZpJANxGa=_Jx1x7FrP7Q8DQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LY8s3e_Sdg47pOxktFGEemZpJANxGa=_Jx1x7FrP7Q8DQ@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] improve the sanity check for PATH and BBPATH
+Subject: Re: [PATCH 1/3] libdrm: Upgrade to 2.4.58.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,46 +41,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 17:28:38 -0000
-Content-Type: multipart/alternative; boundary=001a11c2480a50bb110509674a25
+X-List-Received-Date: Thu, 04 Dec 2014 18:21:21 -0000
+Content-Type: multipart/alternative;
+	boundary="------------000600060303090309070103"
 
---001a11c2480a50bb110509674a25
-Content-Type: text/plain; charset=UTF-8
+--------------000600060303090309070103
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This doesn't apply to master, can you rebase?
+I made a patch v2 for this set,
 
-Ross
+https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=alimon/linux_intel_graphics_2014q3_v2
 
-On 4 December 2014 at 02:29, Shiqun.Lin <Shiqun.Lin@windriver.com> wrote:
+I'm testing it to send again.
 
+Kind regards.
+
+alimon
+
+On 04/12/14 09:31, Burton, Ross wrote:
+>
+> On 4 December 2014 at 15:23, Nicolas Dechesne 
+> <nicolas.dechesne@linaro.org <mailto:nicolas.dechesne@linaro.org>> wrote:
+>
+>     i didn't find any other package in -core where we really used a
+>     PACKAGECONFIG for doc. so i would vote to simply do like we do in
+>     every other packages, e.g.
 >
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> There is an effort by some to improve documentation generation, and 
+> this is a fairly easy one to fix, but I'm easy either way.
+>
+>     By the way, this is not a new problem (sorry I know i reported it on
+>     that thread ;-). This change for manpages was done in 2.4.42. So we
+>     should not really block the update to 2.4.58, and if you agree on the
+>     patch above, i can send it separately.
 >
 >
+> As you've kindly tested it I'll merge a version with --disable unless 
+> Anibal is going to go the extra mile.  :)
+>
+> Ross
 
---001a11c2480a50bb110509674a25
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">This doesn&#39;t apply to master, can you rebase?<div><br>=
-</div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gma=
-il_quote">On 4 December 2014 at 02:29, Shiqun.Lin <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:Shiqun.Lin@windriver.com" target=3D"_blank">Shiqun.Lin@windr=
-iver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-<br>--<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a><br>
-<br></blockquote></div><br></div>
+--------------000600060303090309070103
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
---001a11c2480a50bb110509674a25--
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    I made a patch v2 for this set,<br>
+    <br>
+<a class="moz-txt-link-freetext" href="https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=alimon/linux_intel_graphics_2014q3_v2">https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=alimon/linux_intel_graphics_2014q3_v2</a><br>
+    <br>
+    I'm testing it to send again.<br>
+    <br>
+    Kind regards.<br>
+    <br>
+    alimon<br>
+    <br>
+    <div class="moz-cite-prefix">On 04/12/14 09:31, Burton, Ross wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LY8s3e_Sdg47pOxktFGEemZpJANxGa=_Jx1x7FrP7Q8DQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 4 December 2014 at 15:23, Nicolas
+            Dechesne <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:nicolas.dechesne@linaro.org"
+                target="_blank">nicolas.dechesne@linaro.org</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":9rt" class="a3s" style="overflow:hidden">i
+                didn't find any other package in -core where we really
+                used a<br>
+                PACKAGECONFIG for doc. so i would vote to simply do like
+                we do in<br>
+                every other packages, e.g.<br>
+              </div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>There is an effort by some to improve documentation
+              generation, and this is a fairly easy one to fix, but I'm
+              easy either way.</div>
+            <div> </div>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":9rt" class="a3s" style="overflow:hidden">
+                By the way, this is not a new problem (sorry I know i
+                reported it on<br>
+                that thread ;-). This change for manpages was done in
+                2.4.42. So we<br>
+                should not really block the update to 2.4.58, and if you
+                agree on the<br>
+                patch above, i can send it separately.</div>
+            </blockquote>
+          </div>
+          <br>
+          As you've kindly tested it I'll merge a version with --disable
+          unless Anibal is going to go the extra mile.  :)</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------000600060303090309070103--
