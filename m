@@ -1,42 +1,43 @@
 Return-Path: <B40290@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bon0139.outbound.protection.outlook.com [157.56.111.139])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B9E760670
+Received: from na01-bl2-obe.outbound.protection.outlook.com
+	(mail-bl2on0143.outbound.protection.outlook.com [65.55.169.143])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A63D722D4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 05:49:28 +0000 (UTC)
-Received: from CO2PR03CA0037.namprd03.prod.outlook.com (10.141.194.164) by
-	DM2PR03MB445.namprd03.prod.outlook.com (10.141.85.15) with Microsoft
-	SMTP Server (TLS) id 15.1.26.15; Thu, 4 Dec 2014 05:49:26 +0000
-Received: from BY2FFO11FD021.protection.gbl (2a01:111:f400:7c0c::143) by
-	CO2PR03CA0037.outlook.office365.com (2a01:111:e400:1414::36) with
+	Thu,  4 Dec 2014 05:49:33 +0000 (UTC)
+Received: from BN3PR0301CA0002.namprd03.prod.outlook.com (25.160.180.140) by
+	DM2PR0301MB1200.namprd03.prod.outlook.com (25.160.217.15) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.31.17; Thu, 4 Dec 2014 05:49:32 +0000
+Received: from BL2FFO11FD045.protection.gbl (2a01:111:f400:7c09::157) by
+	BN3PR0301CA0002.outlook.office365.com (2a01:111:e400:4000::12) with
 	Microsoft
-	SMTP Server (TLS) id 15.1.16.15 via Frontend Transport; Thu, 4 Dec 2014
-	05:49:26 +0000
+	SMTP Server (TLS) id 15.1.31.17 via Frontend Transport; Thu, 4 Dec 2014
+	05:49:31 +0000
 Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BY2FFO11FD021.mail.protection.outlook.com (10.1.15.210) with Microsoft
-	SMTP Server (TLS) id 15.1.6.13 via Frontend Transport;
-	Thu, 4 Dec 2014 05:49:26 +0000
+	BL2FFO11FD045.mail.protection.outlook.com (10.173.161.207) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.6.13 via Frontend Transport; Thu, 4 Dec 2014
+	05:49:32 +0000
 Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.75])
 	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	sB45nMYX027275; Wed, 3 Dec 2014 22:49:23 -0700
+	sB45nSXi027278; Wed, 3 Dec 2014 22:49:29 -0700
 From: Chunrong Guo <B40290@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 4 Dec 2014 13:49:16 +0800
-Message-ID: <1417672156-6102-1-git-send-email-B40290@freescale.com>
+Date: Thu, 4 Dec 2014 13:49:25 +0800
+Message-ID: <1417672165-6155-1-git-send-email-B40290@freescale.com>
 X-Mailer: git-send-email 1.9.2
 X-EOPAttributedMessage: 0
 X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10019020)(6009001)(189002)(199003)(48376002)(102836001)(104016003)(110136001)(50986999)(450100001)(68736005)(104166001)(64706001)(86362001)(47776003)(93916002)(20776003)(77096005)(62966003)(229853001)(36756003)(2351001)(107046002)(31966008)(77156002)(95666004)(106466001)(105606002)(84676001)(88136002)(46102003)(89996001)(92726001)(50226001)(97736003)(92566001)(4396001)(50466002)(21056001)(87286001)(120916001)(87936001)(44976005)(19580395003)(19580405001)(6806004)(99396003);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR03MB445;
+	SFS:(10019020)(6009001)(199003)(189002)(46102003)(89996001)(88136002)(44976005)(19580405001)(19580395003)(6806004)(120916001)(87936001)(87286001)(99396003)(4396001)(50226001)(92566001)(92726001)(97736003)(21056001)(50466002)(47776003)(64706001)(86362001)(93916002)(20776003)(77096005)(102836001)(104016003)(48376002)(68736005)(104166001)(50986999)(110136001)(450100001)(62966003)(95666004)(77156002)(106466001)(105606002)(84676001)(229853001)(36756003)(31966008)(2351001)(107046002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0301MB1200;
 	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv;
-	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
+	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:en; 
 MIME-Version: 1.0
 X-Microsoft-Antispam: UriScan:;
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:DM2PR03MB445;
-X-Exchange-Antispam-Report-Test: UriScan:;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:DM2PR0301MB1200;
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(602001);
-	SRVR:DM2PR03MB445; 
+	SRVR:DM2PR0301MB1200; 
 X-Forefront-PRVS: 041517DFAB
 Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
 	designate 192.88.168.50 as permitted sender)
@@ -44,9 +45,10 @@ Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
 	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
 Authentication-Results: spf=fail (sender IP is 192.88.168.50)
 	smtp.mailfrom=B40290@freescale.com; 
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:;SRVR:DM2PR03MB445;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
+	SRVR:DM2PR0301MB1200; 
 X-OriginatorOrg: freescale.com
-Subject: [PATCH v3 1/2] uboot-config.bbclass: Allow multiple U-Boot config for machine
+Subject: [PATCH v3 2/2] u-boot.inc : add compile multiple u-boot feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,65 +61,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 05:49:31 -0000
+X-List-Received-Date: Thu, 04 Dec 2014 05:49:37 -0000
 Content-Type: text/plain
-
-  This adds support to build multiple U-Boot configs for a machine; this
-  is useful when we have support for different media boots which require
-  different U-Boot configuration (e.g: eMMC and NAND).
 
 Signed-off-by: Chunrong Guo <B40290@freescale.com>
 ---
- meta/classes/uboot-config.bbclass | 37 ++++++++++++++-----------------------
- 1 file changed, 14 insertions(+), 23 deletions(-)
+ meta/recipes-bsp/u-boot/u-boot.inc | 72 +++++++++++++++++++++++++-------------
+ 1 file changed, 47 insertions(+), 25 deletions(-)
 
-diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-index b467659..cb061af 100644
---- a/meta/classes/uboot-config.bbclass
-+++ b/meta/classes/uboot-config.bbclass
-@@ -31,28 +31,19 @@ python () {
-         return
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index c695b73..9b93946 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -63,25 +63,32 @@ do_compile () {
+ 		echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
+ 	fi
  
-     ubootconfig = (d.getVar('UBOOT_CONFIG', True) or "").split()
--    if len(ubootconfig) > 1:
--        raise bb.parse.SkipPackage('You can only have a single default for UBOOT_CONFIG.')
-+    if len(ubootconfig) > 0:
-+        for config in ubootconfig:
-+            for f, v in ubootconfigflags.items():
-+                if config == f: 
-+                    items = v.split(',')
-+                    if items[0] and len(items) > 2:
-+                        raise bb.parse.SkipPackage('Only config,images can be specified!')
-+                    d.appendVar('UBOOT_MACHINE', ' ' + items[0])
-+                    # IMAGE_FSTYPES appending
-+                    if len(items) > 1 and items[1]:
-+                        bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
-+                        d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
-+                    break
-     elif len(ubootconfig) == 0:
--        raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.')
--    ubootconfig = ubootconfig[0]
--
--    for f, v in ubootconfigflags.items():
--        items = v.split(',')
--        if items[0] and len(items) > 2:
--            raise bb.parse.SkipPackage('Only config,images can be specified!')
--
--        if ubootconfig == f:
--            bb.debug(1, "Setting UBOOT_MACHINE to %s." % items[0])
--            d.setVar('UBOOT_MACHINE', items[0])
--
--            # IMAGE_FSTYPES appending
--            if len(items) > 1 and items[1]:
--                bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
--                d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
--
--            # Go out as we found a match!
--            break
--    else:
--        raise bb.parse.SkipPackage("UBOOT_CONFIG %s is not supported" % ubootconfig)
-+       raise bb.parse.SkipPackage('You must set a default in UBOOT_CONFIG.')
+-	oe_runmake ${UBOOT_MACHINE}
+-	oe_runmake ${UBOOT_MAKE_TARGET}
++    for type in ${UBOOT_MACHINE}; do
++        oe_runmake O=${type} ${type}
++        oe_runmake O=${type} ${UBOOT_MAKE_TARGET}
++        cp  ${S}/${type}/${UBOOT_BINARY}  ${S}/${type}/u-boot-${type}.${UBOOT_SUFFIX}
++    done
++
  }
+ 
+ do_install () {
+-    install -d ${D}/boot
+-    install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
+-    ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
++    for type in ${UBOOT_MACHINE}; do
++        install -d ${D}/boot
++        install ${S}/${type}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}.${UBOOT_SUFFIX}
++    done
+ 
+     if [ -e ${WORKDIR}/fw_env.config ] ; then
+         install -d ${D}${sysconfdir}
+         install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
+     fi
+ 
+-    if [ "x${SPL_BINARY}" != "x" ]
+-    then
+-        install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
+-        ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
+-    fi
++    for type in ${UBOOT_MACHINE}; do
++        if [ "x${SPL_BINARY}" != "x" ] && [ -d "${S}/${type}/${SPL_BINARY}"]
++        then
++            install ${S}/${type}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
++            ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
++        fi
++    done
+ 
+     if [ "x${UBOOT_ENV}" != "x" ]
+     then
+@@ -93,21 +100,36 @@ do_install () {
+ FILES_${PN} = "/boot ${sysconfdir}"
+ 
+ do_deploy () {
+-    install -d ${DEPLOYDIR}
+-    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+-
+-    cd ${DEPLOYDIR}
+-    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
+-    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
+-    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
+-
+-    if [ "x${SPL_BINARY}" != "x" ]
+-    then
+-        install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
+-        rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
+-        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
+-        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
+-    fi
++    for type in ${UBOOT_MACHINE}; do
++        for imagetype in in ${UBOOT_CONFIG}; do
++            if [ "${imagetype}"x = "in"x ]  
++            then
++                continue
++            fi
++            if [ -d "${DEPLOYDIR}/u-boot-${imagetype}.${UBOOT_SUFFIX}"]
++            then 
++                break
++            else
++                install -d ${DEPLOYDIR}
++                install ${S}/${type}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${imagetype}.${UBOOT_SUFFIX}
++                if [ "${imagetype}"x = "sd"x ] || [ "${imagetype}"x = "mfgtool"x ]
++                then
++                    cp  ${DEPLOYDIR}/u-boot-${imagetype}.${UBOOT_SUFFIX}  ${DEPLOYDIR}/u-boot-${MACHINE}.${UBOOT_SUFFIX}
++                fi
++            fi 
++        done 
++    done
++   
++    
++    for type in ${UBOOT_MACHINE}; do
++        if [ "x${SPL_BINARY}" != "x" ] && [ -d "${S}/${type}/${SPL_BINARY}"]
++        then
++            install ${S}/${type}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
++            rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
++            ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
++            ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
++        fi
++    done
+ 
+     if [ "x${UBOOT_ENV}" != "x" ]
+     then
 -- 
 1.9.2
 
