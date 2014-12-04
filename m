@@ -1,35 +1,47 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 773F260670
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id BA71160670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 13:47:18 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Dec 2014 05:46:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,515,1413270000"; 
-	d="scan'208,217";a="642345552"
-Received: from irsmsx154.ger.corp.intel.com ([163.33.192.96])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Dec 2014 05:46:54 -0800
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.144]) by
-	IRSMSX154.ger.corp.intel.com ([169.254.12.18]) with mapi id
-	14.03.0195.001; Thu, 4 Dec 2014 13:46:53 +0000
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>, =?utf-8?B?QW5kcmVhcyBNw7xsbGVy?=
-	<schnitzeltony@googlemail.com>
-Thread-Topic: [OE-core] [PATCH V2] midori: update to 0.5.8
-Thread-Index: AQHQA9fqtJUYf9+hS0aFrfXYnoHl8JxoAioAgBeHaaA=
-Date: Thu, 4 Dec 2014 13:46:52 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB2F3C51F7@IRSMSX105.ger.corp.intel.com>
-References: <1416387750-10669-1-git-send-email-schnitzeltony@googlemail.com>
-	<CAJTo0LY_p2Ee04GRxJz0W7D0iZks07JYBwsCfbME00U8cR2Q2A@mail.gmail.com>
-In-Reply-To: <CAJTo0LY_p2Ee04GRxJz0W7D0iZks07JYBwsCfbME00U8cR2Q2A@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
+	Thu,  4 Dec 2014 14:03:51 +0000 (UTC)
+Received: by mail-ig0-f172.google.com with SMTP id hl2so18675411igb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Dec 2014 06:03:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=0lCp51UCqjL5ny46YoUsCg55c139vkegf7mhWxKqcJE=;
+	b=mXlu00Vnx3tYbZag+HE5aMCLFeQzOkspX0Y3rX9AHVn7q0OK1wKiAcNHEBcHVCneqt
+	cGCJsYXf+KHyNhQTGuZfw1Jeo54TJjCuItdosSk+Z3EfM9be8dz2R8NjliU5pFUMpbcX
+	nE6RApTFcvctzXR/MK+XUxxBQHOchLpP2RCtuGuscmOmYdLqCg0uZrDagXf5hwMpkn5n
+	vXL1X0M3I1aT40h8eBpCJjkBKXoClfahJFx2M8zrtkE9Q5T03hylAYJ9y3Xt+Hv6rzUn
+	aNQ8pSfBypLvTdCatpQNFOOH3OiH02QlCTdAdTuDs/+osSu1pCC0Fm3tL2Bpf3Ogqo3t
+	C2CA==
+X-Gm-Message-State: ALoCoQnGQ6pGCD/lW5ZnHl6oCEpge8Q+URpvd9tCc89lBnu6fJ1BL7V8IbA0nXqj0vnlVFt72OHw
+X-Received: by 10.107.164.75 with SMTP id n72mr10022392ioe.17.1417701831923;
+	Thu, 04 Dec 2014 06:03:51 -0800 (PST)
+Received: from [208.114.172.198]
+	(xplr-ts-w10-208-114-172-198.barrettxplore.com. [208.114.172.198])
+	by mx.google.com with ESMTPSA id 39sm11258347ioi.7.2014.12.04.06.03.43
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 04 Dec 2014 06:03:51 -0800 (PST)
+Message-ID: <548069B9.6020303@linaro.org>
+Date: Thu, 04 Dec 2014 09:03:37 -0500
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] midori: update to 0.5.8
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1416934753.git.paul.eggleton@linux.intel.com>
+	<11435118.DSGP9nSeOe@peggleto-mobl5.ger.corp.intel.com>
+	<547D41C7.5020303@linaro.org>
+	<2036260.XzzDUvKe82@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <2036260.XzzDUvKe82@peggleto-mobl5.ger.corp.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 0/7] Developer workflow improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,132 +54,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 13:47:24 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_969F26A8BAB325438E7EB80D3C3134FB2F3C51F7IRSMSX105gercor_"
+X-List-Received-Date: Thu, 04 Dec 2014 14:03:55 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
---_000_969F26A8BAB325438E7EB80D3C3134FB2F3C51F7IRSMSX105gercor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi Paul,
 
-SGksDQoNCldoYXQgaGFwcGVkIHRvIHRoaXMgdXBncmFkZT8NClNlZW1zIHRoYXQgaXQgc3RhbGxl
-ZC4NCg0KUmVnYXJkcywNCkNyaXN0aWFuIElvcmdhDQpZb2N0byBQcm9qZWN0DQpJbnRlbCBDb3Jw
-b3JhdGlvbg0KDQpGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcgW21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmddIE9uIEJlaGFsZiBPZiBCdXJ0b24sIFJvc3MNClNlbnQ6IFdlZG5lc2RheSwgTm92
-ZW1iZXIgMTksIDIwMTQgNDoyNyBQTQ0KVG86IEFuZHJlYXMgTcO8bGxlcg0KQ2M6IE9FLWNvcmUN
-ClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIFYyXSBtaWRvcmk6IHVwZGF0ZSB0byAwLjUu
-OA0KDQoNCk9uIDE5IE5vdmVtYmVyIDIwMTQgMDk6MDIsIEFuZHJlYXMgTcO8bGxlciA8c2Nobml0
-emVsdG9ueUBnb29nbGVtYWlsLmNvbTxtYWlsdG86c2Nobml0emVsdG9ueUBnb29nbGVtYWlsLmNv
-bT4+IHdyb3RlOg0KK0RFUEVORFMgPSAid2Via2l0LWd0ayBsaWJzb3VwLTIuNCBvcGVuc3NsIHB5
-dGhvbi1uYXRpdmUgcHl0aG9uLWRvY3V0aWxzLW5hdGl2ZSBsaWJyc3ZnLW5hdGl2ZSBsaWJub3Rp
-ZnkgbGlidW5pcXVlIGxpYnhzY3Juc2F2ZXIiDQoNCkJ1aWxkaGlzdG9yeS1kaWZmIHJlcG9ydHMg
-dGhhdCBsaWJ1bmlxdWUgaXNuJ3QgYSBydW50aW1lIGRlcGVuZGVuY3kgYW55bW9yZSBzbyBpdCBs
-b29rcyBsaWtlIGxpYnVuaXF1ZSBpc24ndCB1c2VkIGFueW1vcmUgc28geW91IGNhbiBkcm9wIHRo
-YXQgZGVwZW5kcy4NCg0KRG9lcyBNaWRvcmkgc3RpbGwgc3VwcG9ydCBHVEsrIDIgYW5kIDMsIGFu
-ZCBob3cgZG9lcyBpdCBwaWNrPyBJIG5vdGUgdGhhdCB5b3UgZG9uJ3QgaGF2ZSBhIGJ1aWxkIGRl
-cGVuZGVuY3kgb24gZWl0aGVyIHNvIHByZXN1bWFibHkgcmVseSBvbiB3ZWJraXRndGsgcHVsbGlu
-ZyBpbiBHVEsrIDIsIGJ1dCB3aGF0IGlmIEdUSyszIGlzIGFsc28gaW5zdGFsbGVkPw0KDQpSb3Nz
-DQo=
+Are you making these changes on the existing contrib/paule/devtool or
+somewhere else?
 
---_000_969F26A8BAB325438E7EB80D3C3134FB2F3C51F7IRSMSX105gercor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+A small nit I stumbled on recently... many layers contain a
+"recipes-devtools" directory, and I'm thinking that using the same word
+for this feature might get confusing (?). Maybe it would be best to
+replace "devtool(s)" with "workflow(s)"?
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYi
-O30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0K
-CWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNw
-YW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9y
-OnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3
-DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
-Iiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28t
-c3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2Vy
-aWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46
-MS4waW4gMS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRT
-ZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVk
-ZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0t
-PjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0K
-PG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+
-PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxp
-bms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2Fs
-aWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkhpLDxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1z
-ZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFG
-NDk3RCI+V2hhdCBoYXBwZWQgdG8gdGhpcyB1cGdyYWRlPzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjoj
-MUY0OTdEIj5TZWVtcyB0aGF0IGl0IHN0YWxsZWQuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
-N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
-cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
-dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5SZWdhcmRzLDxvOnA+PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
-ZiZxdW90Oztjb2xvcjojMUY0OTdEIj5DcmlzdGlhbiBJb3JnYTxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xv
-cjojMUY0OTdEIj5Zb2N0byBQcm9qZWN0PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPklu
-dGVsIENvcnBvcmF0aW9uPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PGEgbmFtZT0iX01haWxFbmRDb21wb3NlIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7
-Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9hPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj48Yj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMt
-c2VyaWYmcXVvdDsiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsi
-PiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgW21haWx0
-bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddDQo8Yj5P
-biBCZWhhbGYgT2YgPC9iPkJ1cnRvbiwgUm9zczxicj4NCjxiPlNlbnQ6PC9iPiBXZWRuZXNkYXks
-IE5vdmVtYmVyIDE5LCAyMDE0IDQ6MjcgUE08YnI+DQo8Yj5Ubzo8L2I+IEFuZHJlYXMgTcO8bGxl
-cjxicj4NCjxiPkNjOjwvYj4gT0UtY29yZTxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNv
-cmVdIFtQQVRDSCBWMl0gbWlkb3JpOiB1cGRhdGUgdG8gMC41Ljg8bzpwPjwvbzpwPjwvc3Bhbj48
-L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+PG86cD4m
-bmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxl
-PSJtYXJnaW4tbGVmdDouNWluIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+T24gMTkgTm92ZW1iZXIgMjAx
-NCAwOTowMiwgQW5kcmVhcyBNw7xsbGVyICZsdDs8YSBocmVmPSJtYWlsdG86c2Nobml0emVsdG9u
-eUBnb29nbGVtYWlsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnNjaG5pdHplbHRvbnlAZ29vZ2xlbWFp
-bC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJi
-b3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBp
-biAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8ZGl2IGlk
-PSI6Mnd2Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj4m
-IzQzO0RFUEVORFMgPSAmcXVvdDt3ZWJraXQtZ3RrIGxpYnNvdXAtMi40IG9wZW5zc2wgcHl0aG9u
-LW5hdGl2ZSBweXRob24tZG9jdXRpbHMtbmF0aXZlIGxpYnJzdmctbmF0aXZlIGxpYm5vdGlmeSBs
-aWJ1bmlxdWUgbGlieHNjcm5zYXZlciZxdW90OzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Js
-b2NrcXVvdGU+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVm
-dDouNWluIj48YnI+DQpCdWlsZGhpc3RvcnktZGlmZiByZXBvcnRzIHRoYXQgbGlidW5pcXVlIGlz
-bid0IGEgcnVudGltZSBkZXBlbmRlbmN5IGFueW1vcmUgc28gaXQgbG9va3MgbGlrZSBsaWJ1bmlx
-dWUgaXNuJ3QgdXNlZCBhbnltb3JlIHNvIHlvdSBjYW4gZHJvcCB0aGF0IGRlcGVuZHMuPG86cD48
-L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFy
-Z2luLWxlZnQ6LjVpbiI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+RG9lcyBNaWRvcmkgc3Rp
-bGwgc3VwcG9ydCBHVEsmIzQzOyAyIGFuZCAzLCBhbmQgaG93IGRvZXMgaXQgcGljaz8gSSBub3Rl
-IHRoYXQgeW91IGRvbid0IGhhdmUgYSBidWlsZCBkZXBlbmRlbmN5IG9uIGVpdGhlciBzbyBwcmVz
-dW1hYmx5IHJlbHkgb24gd2Via2l0Z3RrIHB1bGxpbmcgaW4gR1RLJiM0MzsgMiwgYnV0IHdoYXQg
-aWYgR1RLJiM0MzszIGlzIGFsc28gaW5zdGFsbGVkPzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPjxvOnA+
-Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5
-bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+
-DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+Best regards,
+    Trevor
 
---_000_969F26A8BAB325438E7EB80D3C3134FB2F3C51F7IRSMSX105gercor_--
