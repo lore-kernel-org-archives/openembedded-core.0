@@ -1,47 +1,36 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id BA71160670
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 638CE60670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 14:03:51 +0000 (UTC)
-Received: by mail-ig0-f172.google.com with SMTP id hl2so18675411igb.5
+	Thu,  4 Dec 2014 14:21:42 +0000 (UTC)
+Received: by mail-wg0-f43.google.com with SMTP id l18so22639740wgh.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Dec 2014 06:03:52 -0800 (PST)
+	Thu, 04 Dec 2014 06:21:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=0lCp51UCqjL5ny46YoUsCg55c139vkegf7mhWxKqcJE=;
-	b=mXlu00Vnx3tYbZag+HE5aMCLFeQzOkspX0Y3rX9AHVn7q0OK1wKiAcNHEBcHVCneqt
-	cGCJsYXf+KHyNhQTGuZfw1Jeo54TJjCuItdosSk+Z3EfM9be8dz2R8NjliU5pFUMpbcX
-	nE6RApTFcvctzXR/MK+XUxxBQHOchLpP2RCtuGuscmOmYdLqCg0uZrDagXf5hwMpkn5n
-	vXL1X0M3I1aT40h8eBpCJjkBKXoClfahJFx2M8zrtkE9Q5T03hylAYJ9y3Xt+Hv6rzUn
-	aNQ8pSfBypLvTdCatpQNFOOH3OiH02QlCTdAdTuDs/+osSu1pCC0Fm3tL2Bpf3Ogqo3t
-	C2CA==
-X-Gm-Message-State: ALoCoQnGQ6pGCD/lW5ZnHl6oCEpge8Q+URpvd9tCc89lBnu6fJ1BL7V8IbA0nXqj0vnlVFt72OHw
-X-Received: by 10.107.164.75 with SMTP id n72mr10022392ioe.17.1417701831923;
-	Thu, 04 Dec 2014 06:03:51 -0800 (PST)
-Received: from [208.114.172.198]
-	(xplr-ts-w10-208-114-172-198.barrettxplore.com. [208.114.172.198])
-	by mx.google.com with ESMTPSA id 39sm11258347ioi.7.2014.12.04.06.03.43
-	for <multiple recipients>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Gr/upk8wnXSdud4mszETm4H6kYEMwgkCfHXrXSXn2vk=;
+	b=DnlKVO/K/y6o+ANHhEwJfr2a3QAViOH9bvfGnamahmdOxIe+eVT/ht83TIj7nuP1tZ
+	gJJYWfUyxykTnHdhlP61ZIBuBbOT1IMS3uuY5fdLcRiF/3mT6CbGg/+1TyuM709I9UhA
+	btOPxRzYqZLU3ubAzpyH9oX+MnfJHSk+Ww4NyOgrl00sydG+SMI97H0WC5J7gFc7Zb7n
+	kAtzN4PLTWiMcMhu7u8gkb4gFoX2UiSOLWn2msH0m82RLw2X/1o4rUiVpqy2eDFj1I7k
+	heG9IhVVO2xxWFd+RcOhJPSn9w/O0TFyMwt7U5bncequjVqpOZ6GeTE6B8+3x6wF4+nK
+	19YA==
+X-Gm-Message-State: ALoCoQmGkstcMczLVMNnQ+Gj4VzC/XkckaIL9zHrFT6/mt3kDMWBQP9aFo0PTJzNSmzxNz9VdFM0
+X-Received: by 10.180.198.211 with SMTP id je19mr21452233wic.27.1417702902464; 
+	Thu, 04 Dec 2014 06:21:42 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by mx.google.com with ESMTPSA id
+	pl1sm25499820wic.16.2014.12.04.06.21.41
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Dec 2014 06:03:51 -0800 (PST)
-Message-ID: <548069B9.6020303@linaro.org>
-Date: Thu, 04 Dec 2014 09:03:37 -0500
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1416934753.git.paul.eggleton@linux.intel.com>
-	<11435118.DSGP9nSeOe@peggleto-mobl5.ger.corp.intel.com>
-	<547D41C7.5020303@linaro.org>
-	<2036260.XzzDUvKe82@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <2036260.XzzDUvKe82@peggleto-mobl5.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 0/7] Developer workflow improvements
+	Thu, 04 Dec 2014 06:21:41 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Dec 2014 14:21:07 +0000
+Message-Id: <1417702870-27012-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/4] base.bbclass: fix CLEANBROKEN logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,20 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 14:03:55 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Dec 2014 14:21:50 -0000
 
-Hi Paul,
+The evalation order was incorrect in some situations (CLEANBROKEN=1 and
+GNUmakefile exists) the clean would be executed incorrectly.
 
-Are you making these changes on the existing contrib/paule/devtool or
-somewhere else?
+Add brackets to correct the logic.
 
-A small nit I stumbled on recently... many layers contain a
-"recipes-devtools" directory, and I'm thinking that using the same word
-for this feature might get confusing (?). Maybe it would be best to
-replace "devtool(s)" with "workflow(s)"?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/base.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
-    Trevor
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index f3185b4..de81a7d 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -226,7 +226,7 @@ base_do_configure() {
+ 	if [ -n "${CONFIGURESTAMPFILE}" -a -e "${CONFIGURESTAMPFILE}" ]; then
+ 		if [ "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" ]; then
+ 			cd ${B}
+-			if [ "${CLEANBROKEN}" != "1" -a -e Makefile -o -e makefile -o -e GNUmakefile ]; then
++			if [ "${CLEANBROKEN}" != "1" -a \( -e Makefile -o -e makefile -o -e GNUmakefile \) ]; then
+ 				${MAKE} clean
+ 			fi
+ 			find ${B} -name \*.la -delete
+-- 
+1.7.10.4
+
 
