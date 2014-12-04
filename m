@@ -1,41 +1,23 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 51DFB601F5
+Return-Path: <george.l.musat@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D8C9665D59
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Dec 2014 07:51:11 +0000 (UTC)
-Received: by mail-wg0-f53.google.com with SMTP id l18so21896977wgh.40
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Dec 2014 23:51:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=6mScGb6sBYihf1xG0szDsD0pQbmbPQaHHsdiZlpXFQg=;
-	b=RTPDSfqaOg+8NOZCHAkhyNhDqdk2WNdCPaV2OL6XJ4PMMjBvjSl+yK2VcCnz/SyZXp
-	Zli/atyCX3AsvikKu+/mIinxW1Ye9S5RJ50zztIwm6YO7PvxAlqvi2lQmLmiBVM8YjFR
-	WpVr5wU02pfHzINDmYZ3rk785+UFWQUPQWj3uHkmEMLJVoARu1h3o5X8PC0d846gGqYZ
-	l2+1DK8CNqKlUrZo+R9sR5K7DJniDomsp0NZlLt+GoqWP4Roni2gRVyOcNvWpqWxp+A6
-	aCAdWuTfySp9c/FvgArjHc56YJ8ni09ABI+AkR7rvomZAmt1AlbZEbIMp/2j0yERP9br
-	HgRQ==
-X-Gm-Message-State: ALoCoQnjQ2OoMdjRFhn38V8TRwdhCwYLf320jywWQimowz8/UjZbYnlTsZQwEqaaqsC1xp+Jl7Yl
-X-Received: by 10.194.193.2 with SMTP id hk2mr13168958wjc.40.1417679471417;
-	Wed, 03 Dec 2014 23:51:11 -0800 (PST)
-Received: from ?IPv6:2001:610:612::8d41:3f1a:353f:4ea4?
-	([2001:610:612:0:8d41:3f1a:353f:4ea4])
-	by mx.google.com with ESMTPSA id p1sm39367596wjy.22.2014.12.03.23.51.10
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 03 Dec 2014 23:51:10 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 8.1 \(1993\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1417661007-32636-1-git-send-email-sgw@linux.intel.com>
-Date: Thu, 4 Dec 2014 08:51:08 +0100
-Message-Id: <04DA94C3-B069-48B6-B14B-CD8658FD29EE@dominion.thruhere.net>
-References: <1417661007-32636-1-git-send-email-sgw@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Mailer: Apple Mail (2.1993)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] procps: Upgrade to 3.3.10
+	Thu,  4 Dec 2014 09:09:15 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 04 Dec 2014 01:07:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,514,1413270000"; d="scan'208";a="618451576"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 04 Dec 2014 01:09:15 -0800
+Received: from localhost.localdomain (unknown [10.237.112.173])
+	by linux.intel.com (Postfix) with ESMTP id 6B55B6A408D;
+	Thu,  4 Dec 2014 01:08:16 -0800 (PST)
+From: Lucian Musat <george.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Dec 2014 11:07:45 +0200
+Message-Id: <1417684065-8461-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] oeqa/ptest: Removed buildhistory perequisite. Modified ptest runner detection and finished conditions.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,43 +30,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Dec 2014 07:51:15 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 04 Dec 2014 09:09:16 -0000
 
+Often ptest-runner will have exit code 1 even if it worked, probably because some of the tests failed. Modified
+the condition to ptest-runner existing and having no output.
 
-> Op 4 dec. 2014, om 03:43 heeft Saul Wold <sgw@linux.intel.com> het =
-volgende geschreven:
->=20
-> This is now the procps-ng version
->=20
-> cleaned up patches
-> added to fix up usrbin_execprefix in OE-Core
->=20
-> Add CPPFLAGS to allow seperate build directory works
->=20
-> [YOCTO #6952]
->=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> Git was not able to detect a rename unfortunatly in this case.
->=20
-> .../procps/{procps-3.2.8 =3D> procps}/sysctl.conf    |   0
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+---
+ meta/lib/oeqa/runtime/_ptest.py | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-So a rename instead of a deletion, good, but...
+diff --git a/meta/lib/oeqa/runtime/_ptest.py b/meta/lib/oeqa/runtime/_ptest.py
+index 4c58dc1..5f9a141 100644
+--- a/meta/lib/oeqa/runtime/_ptest.py
++++ b/meta/lib/oeqa/runtime/_ptest.py
+@@ -99,26 +99,26 @@ class PtestRunnerTest(oeRuntimeTest):
+         return complementary_pkgs.split()
+ 
+     def setUp(self):
+-        self.buildhist_dir = oeRuntimeTest.tc.d.getVar("BUILDHISTORY_DIR_IMAGE", True)
+-        self.assertTrue(os.path.exists(self.buildhist_dir))
+         self.ptest_log = os.path.join(oeRuntimeTest.tc.d.getVar("TEST_LOG_DIR",True), "ptest-%s.log" % oeRuntimeTest.tc.d.getVar('DATETIME', True))
+ 
+     @skipUnlessPassed('test_ssh')
+     def test_ptestrunner(self):
+         self.add_smart_channel()
+-        cond = oeRuntimeTest.hasPackage("ptest-runner") and oeRuntimeTest.hasFeature("ptest") and oeRuntimeTest.hasPackage("-ptest")
+-        if not cond:
+-            self.install_packages(self.install_complementary("*-ptest"))
+-            self.install_packages(['ptest-runner'])
++        (status, result) = self.target.run('which ptest-runner', 0)
++        if (status != 0):
++             self.install_packages(self.install_complementary("*-ptest"))
++             self.install_packages(['ptest-runner'])
++
++        (status, result) = self.target.run('/usr/bin/ptest-runner > /tmp/ptest.log 2>&1', 0)
++        self.assertTrue(result == "", msg=str(result))
++        self.assertTrue(status != 127, msg="Ptest-runner not found!")
+ 
+-        self.target.run('/usr/bin/ptest-runner > /tmp/ptest.log 2>&1', 0)
+         self.target.copy_from('/tmp/ptest.log', self.ptest_log)
+-        shutil.copyfile(self.ptest_log, os.path.join(self.buildhist_dir, "ptest.log"))
+ 
+-        result = self.parse_ptest(os.path.join(self.buildhist_dir, "ptest.log"))
++        result = self.parse_ptest(self.ptest_log)
+         log_results_to_location = "./results"
+         if os.path.exists(log_results_to_location):
+             shutil.rmtree(log_results_to_location)
+         os.makedirs(log_results_to_location)
+ 
+-        result.log_as_files(log_results_to_location, test_status = ['fail'])
++        result.log_as_files(log_results_to_location, test_status = ['pass','fail'])
+-- 
+1.9.1
 
->=20
-> +++ b/meta/recipes-extended/procps/procps_3.3.10.bb
-
-[..]
-
-> +
-> +SRC_URI =3D =
-"http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-$=
-{PV}.tar.xz \
-> +           file://fix-configure.patch \
-> +          "
-
-... sysctl.conf not in SRC_URI, nor is it being installed in =
-do_install(_append).=
 
