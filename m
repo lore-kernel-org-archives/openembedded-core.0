@@ -1,29 +1,20 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from atl4mhob07.myregisteredsite.com
-	(atl4mhob07.myregisteredsite.com [209.17.115.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B790572304
+Return-Path: <magnus@minimum.se>
+X-Greylist: delayed 575 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 05 Dec 2014 10:13:36 UTC
+Received: from mail.glesys.se (mail.glesys.se [195.238.77.166])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CA8A7233B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 09:59:05 +0000 (UTC)
-Received: from mailpod.hostingplatform.com ([10.30.71.211])
-	by atl4mhob07.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	sB59x5Md024527 for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Dec 2014 04:59:05 -0500
-Received: (qmail 29216 invoked by uid 0); 5 Dec 2014 09:59:05 -0000
-X-TCPREMOTEIP: 88.159.208.100
-X-Authenticated-UID: mike@milosoftware.com
-Received: from unknown (HELO paradigit.TOPIC.LOCAL)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 5 Dec 2014 09:59:05 -0000
-From: Mike Looijmans <mike.looijmans@topic.nl>
+	Fri,  5 Dec 2014 10:13:36 +0000 (UTC)
+Received: from DEV095.hms.se (smtp.hms.se [88.131.56.171])
+	(Authenticated sender: magnus@minimum.se)
+	by mail.glesys.se (Postfix) with ESMTPSA id 50EEA600A74;
+	Fri,  5 Dec 2014 11:01:44 +0100 (CET)
+From: Magnus Olsson <magnus@minimum.se>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Dec 2014 10:58:59 +0100
-Message-Id: <1417773539-19172-2-git-send-email-mike.looijmans@topic.nl>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1417773539-19172-1-git-send-email-mike.looijmans@topic.nl>
-References: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
-	<1417773539-19172-1-git-send-email-mike.looijmans@topic.nl>
-Cc: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: [PATCH 2/2] busybox-mdev: Add hotplug kernel module support to mdev.conf
+Date: Fri,  5 Dec 2014 11:03:46 +0100
+Message-Id: <1417773826-28197-1-git-send-email-magnus@minimum.se>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] Add python-codecs runtime dependency for python-json
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,31 +27,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 09:59:13 -0000
+X-List-Received-Date: Fri, 05 Dec 2014 10:13:44 -0000
 
-Add a line to mdev.conf that tells mdev to load kernel modules when
-required.
+A piece of JSON initialization code that runs when you "import json"
+tries to use the hex-decoder, thus breaks if you do not have
+python-codecs installed. Example:
 
-For example, if you built wifi support as an external module, inserting
-a wifi stick into a USB port will now automatically load that module
-into the kernel and the wlan device will be ready for configuration.
-Without this patch, you have to load required modules manually or force
-them to load at system startup.
+    >>> import json
+    Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+    File "/usr/lib/python2.7/json/__init__.py", line 108, in <module>
+        from .decoder import JSONDecoder
+      File "/usr/lib/python2.7/json/decoder.py", line 24, in <module>
+        NaN, PosInf, NegInf = _floatconstants()
+      File "/usr/lib/python2.7/json/decoder.py", line 18, in _floatconstants
+        _BYTES = '7FF80000000000007FF0000000000000'.decode('hex')
+    LookupError: no codec search functions registered: can't find encoding
+
+This patch adds a runtime dependency on python-codecs for python-json and
+re-generates the python manifests for Python v2.7. Solves [YOCTO #7020].
+
+Signed-off-by: Magnus Olsson <magnus@minimum.se>
 ---
- meta/recipes-core/busybox/files/mdev.conf |    2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
+ meta/recipes-devtools/python/python.inc              | 2 +-
+ scripts/contrib/python/generate-manifest-2.7.py      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/files/mdev.conf b/meta/recipes-core/busybox/files/mdev.conf
-index c83bb4c..17e93da 100644
---- a/meta/recipes-core/busybox/files/mdev.conf
-+++ b/meta/recipes-core/busybox/files/mdev.conf
-@@ -1,3 +1,5 @@
-+$MODALIAS=.* 0:0 660 @modprobe "$MODALIAS"
-+
- console 0:0 0600 
- cpu_dma_latency 0:0 0660 
- fb0:0 44 0660 
+diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
+index a8afe13..cb0f2b5 100644
+--- a/meta/recipes-devtools/python/python-2.7-manifest.inc
++++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+@@ -126,7 +126,7 @@ RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils"
+ FILES_${PN}-io="${libdir}/python2.7/lib-dynload/_socket.so ${libdir}/python2.7/lib-dynload/_io.so ${libdir}/python2.7/lib-dynload/_ssl.so ${libdir}/python2.7/lib-dynload/select.so ${libdir}/python2.7/lib-dynload/termios.so ${libdir}/python2.7/lib-dynload/cStringIO.so ${libdir}/python2.7/pipes.* ${libdir}/python2.7/socket.* ${libdir}/python2.7/ssl.* ${libdir}/python2.7/tempfile.* ${libdir}/python2.7/StringIO.* ${libdir}/python2.7/io.* ${libdir}/python2.7/_pyio.* "
+ 
+ SUMMARY_${PN}-json="Python JSON support"
+-RDEPENDS_${PN}-json="${PN}-core ${PN}-math ${PN}-re"
++RDEPENDS_${PN}-json="${PN}-core ${PN}-math ${PN}-re ${PN}-codecs"
+ FILES_${PN}-json="${libdir}/python2.7/json ${libdir}/python2.7/lib-dynload/_json.so "
+ 
+ SUMMARY_${PN}-lang="Python low-level language support"
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index 19942ba..e9d8e2d 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.python.org"
+ LICENSE = "PSFv2"
+ SECTION = "devel/python"
+ # bump this on every change in contrib/python/generate-manifest-2.7.py
+-INC_PR = "r0"
++INC_PR = "r1"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=ed3abfd1059e2d3a36a8cff3986f9bb6"
+ 
+diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
+index 65486d8..2139094 100755
+--- a/scripts/contrib/python/generate-manifest-2.7.py
++++ b/scripts/contrib/python/generate-manifest-2.7.py
+@@ -279,7 +279,7 @@ if __name__ == "__main__":
+     "lib-dynload/_socket.so lib-dynload/_io.so lib-dynload/_ssl.so lib-dynload/select.so lib-dynload/termios.so lib-dynload/cStringIO.so " +
+     "pipes.* socket.* ssl.* tempfile.* StringIO.* io.* _pyio.*" )
+ 
+-    m.addPackage( "${PN}-json", "Python JSON support", "${PN}-core ${PN}-math ${PN}-re",
++    m.addPackage( "${PN}-json", "Python JSON support", "${PN}-core ${PN}-math ${PN}-re ${PN}-codecs",
+     "json lib-dynload/_json.so" ) # package
+ 
+     m.addPackage( "${PN}-lang", "Python low-level language support", "${PN}-core",
 -- 
-1.7.9.5
+1.9.1
 
 
