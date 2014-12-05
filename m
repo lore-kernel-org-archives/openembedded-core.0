@@ -1,26 +1,23 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 04E7F72304
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id C7FC372391
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 16:40:01 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Dec 2014 08:39:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,522,1413270000"; d="scan'208";a="643063654"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.18.22])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2014 08:39:52 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 05 Dec 2014 16:39:51 +0000
-Message-ID: <4637432.pLcK1YbDyK@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.4-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <c3538b9cc6a1e53955164e4f22482b7ac609bc75.1417793506.git.paul.eggleton@linux.intel.com>
-References: <cover.1417793506.git.paul.eggleton@linux.intel.com>
-	<c3538b9cc6a1e53955164e4f22482b7ac609bc75.1417793506.git.paul.eggleton@linux.intel.com>
+	Fri,  5 Dec 2014 17:08:55 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1; Fri, 5 Dec 2014
+	18:08:54 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 662652800CB;
+	Fri,  5 Dec 2014 18:08:54 +0100 (CET)
+From: "Maxin B. John" <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 5 Dec 2014 18:08:49 +0100
+Message-ID: <1417799329-31577-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] buildtools-tarball: restore missing git tools
+Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] python: fix ssl import error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +30,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 16:40:09 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 05 Dec 2014 17:08:59 -0000
+Content-Type: text/plain
 
-On Friday 05 December 2014 15:32:42 Paul Eggleton wrote:
-> Since the split out of git-perltools, some git tools (such as "git am",
-> "git send-email" and "git-submodule") have no longer been part of the
-> buildtools. We need these, so add them back in.
-> 
-> Fixes [YOCTO #7033].
-> 
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
->  meta/recipes-core/meta/buildtools-tarball.bb | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/recipes-core/meta/buildtools-tarball.bb
-> b/meta/recipes-core/meta/buildtools-tarball.bb index 58e0ffa..822f4dc
-> 100644
-> --- a/meta/recipes-core/meta/buildtools-tarball.bb
-> +++ b/meta/recipes-core/meta/buildtools-tarball.bb
-> @@ -16,6 +16,7 @@ TOOLCHAIN_HOST_TASK ?= "\
->      nativesdk-chrpath \
->      nativesdk-tar \
->      nativesdk-git \
-> +    nativesdk-git-perltools \
->      nativesdk-pigz \
->      nativesdk-make \
->      nativesdk-wget \
+Fix this ssl import error:
+Python 2.7.3 (default, Dec  5 2014, 16:24:17)
+[GCC 4.9.1] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import ssl
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib/python2.7/ssl.py", line 92, in <module>
+    import base64        # for DER-to-PEM translation
+ImportError: No module named base64
 
-Oh, if only it were that simple. This drags perl into buildtools, which we do 
-not want. I'd probably better fix that first, so ignore this for now... :/
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
+ scripts/contrib/python/generate-manifest-2.7.py      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
+index a8afe13..9a514b1 100644
+--- a/meta/recipes-devtools/python/python-2.7-manifest.inc
++++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+@@ -122,7 +122,7 @@ RDEPENDS_${PN}-importlib="${PN}-core"
+ FILES_${PN}-importlib="${libdir}/python2.7/importlib "
+ 
+ SUMMARY_${PN}-io="Python low-level I/O"
+-RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils"
++RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient"
+ FILES_${PN}-io="${libdir}/python2.7/lib-dynload/_socket.so ${libdir}/python2.7/lib-dynload/_io.so ${libdir}/python2.7/lib-dynload/_ssl.so ${libdir}/python2.7/lib-dynload/select.so ${libdir}/python2.7/lib-dynload/termios.so ${libdir}/python2.7/lib-dynload/cStringIO.so ${libdir}/python2.7/pipes.* ${libdir}/python2.7/socket.* ${libdir}/python2.7/ssl.* ${libdir}/python2.7/tempfile.* ${libdir}/python2.7/StringIO.* ${libdir}/python2.7/io.* ${libdir}/python2.7/_pyio.* "
+ 
+ SUMMARY_${PN}-json="Python JSON support"
+diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
+index 65486d8..21b874f 100755
+--- a/scripts/contrib/python/generate-manifest-2.7.py
++++ b/scripts/contrib/python/generate-manifest-2.7.py
+@@ -275,7 +275,7 @@ if __name__ == "__main__":
+     m.addPackage( "${PN}-image", "Python graphical image handling", "${PN}-core",
+     "colorsys.* imghdr.* lib-dynload/imageop.so lib-dynload/rgbimg.so" )
+ 
+-    m.addPackage( "${PN}-io", "Python low-level I/O", "${PN}-core ${PN}-math ${PN}-textutils",
++    m.addPackage( "${PN}-io", "Python low-level I/O", "${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient",
+     "lib-dynload/_socket.so lib-dynload/_io.so lib-dynload/_ssl.so lib-dynload/select.so lib-dynload/termios.so lib-dynload/cStringIO.so " +
+     "pipes.* socket.* ssl.* tempfile.* StringIO.* io.* _pyio.*" )
+ 
 -- 
+1.9.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
