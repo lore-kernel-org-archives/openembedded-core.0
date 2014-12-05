@@ -1,38 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id A617C72391
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 7E9017238F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 14:58:34 +0000 (UTC)
-Received: by mail-qg0-f54.google.com with SMTP id q107so530811qgd.41
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Dec 2014 06:58:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=veVSN7axiz5p2FHVfY6h9GHwuo6AeVOaLI5uw9RZjdg=;
-	b=U2iQOx9OPikKHL/tAZ+jwvkBKswnvK5ql4oYuQRjOd1DYrmmZZ/+h28K4wwzU9rkuo
-	pJbrC8ExIS3kFKOwXvctsWwK4D1bnbZDyifGsFj/Ffla/am6AcJo4ZbH+Q8BrCXZfISL
-	MfUoO8T6/FkQpR9/QktKf7zmCUqLt4wiw/O155Lue2B2dohjS0ClVxfwVeDwXd2pSPyJ
-	fMqEpYzs6b8b6NEywgl3Qv5uOqvLtfOWLCHWORgZu0J6EpJ9IQKagYYyIE3mb5bDPR1X
-	ZZGVHzxYeYVjMvwxKCB3NcL9yQSkDClldyAvRYI/Os+Ir6vIKufa+JPSknG+/DMUGBrE
-	78Gg==
-X-Gm-Message-State: ALoCoQnxQ9EdUgvSraP+20hFsD1/ZcUmUamqPtgB4o1IF13wicwtj5G83T6F2m7dQpP44CuuNJNs
-X-Received: by 10.140.94.229 with SMTP id g92mr26185976qge.77.1417791514839;
-	Fri, 05 Dec 2014 06:58:34 -0800 (PST)
+	Fri,  5 Dec 2014 15:32:06 +0000 (UTC)
+Received: from SESTOEX09.enea.se ([fe80::94d8:372f:210c:b4da]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0158.001; Fri, 5 Dec 2014 16:32:05 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: "'Burton, Ross'" <ross.burton@intel.com>, 'Saul Wold'
+	<sgw@linux.intel.com>, 'Paul Eggleton' <paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] [daisy][PATCH] python: Building without SSLv3 support
+Thread-Index: AQHQDtCGHMHlJ+hOHk6/zocS2IGhbpx+Fp6AgAGinhCAAOjDQIAAgFeQ
+Date: Fri, 5 Dec 2014 15:32:05 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E48257C79C4@sestoex09.enea.se>
+References: <1417594165-25317-1-git-send-email-sona.sarmadi@enea.com>
+	<CAJTo0LY4Y6eWLUMvBLjwnKNy=KLoxh3Knien+HgOB5ZqXrmkRg@mail.gmail.com>
+	<3230301C09DEF9499B442BBE162C5E48257C4F6E@sestoex09.enea.se>
+	<3230301C09DEF9499B442BBE162C5E48257C774E@sestoex09.enea.se>
+In-Reply-To: <3230301C09DEF9499B442BBE162C5E48257C774E@sestoex09.enea.se>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.1.188]
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Fri, 5 Dec 2014 06:58:14 -0800 (PST)
-In-Reply-To: <2021B186DC632746BD5A3CE32F12BD28E9FDF811@EU-MBX-03.mgc.mentorg.com>
-References: <1417779643-18350-1-git-send-email-awais_belal@mentor.com>
-	<CAJTo0LZ1=H4Gz90Ni0sFjL29LMgqMXR18ZTv0uOjLCtsziboEg@mail.gmail.com>
-	<2021B186DC632746BD5A3CE32F12BD28E9FDF811@EU-MBX-03.mgc.mentorg.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 5 Dec 2014 14:58:14 +0000
-Message-ID: <CAJTo0LY0-X-w2uarbL7bKKCjirw6JUi-w6GXO2Qm3f0zPmcJTA@mail.gmail.com>
-To: "Belal, Awais" <Awais_Belal@mentor.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxcb: fix socket writes
+Cc: Maxin John <Maxin.John@enea.com>,
+	'OE-core' <openembedded-core@lists.openembedded.org>
+Subject: Re: [daisy][PATCH] python: Building without SSLv3 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,34 +38,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 14:58:45 -0000
-Content-Type: multipart/alternative; boundary=001a113a0e8e9ba7410509794ffe
+X-List-Received-Date: Fri, 05 Dec 2014 15:32:09 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---001a113a0e8e9ba7410509794ffe
-Content-Type: text/plain; charset=UTF-8
+PiBQeXRob24gaGFzIGZpeGVkIHRoaXMgaXNzdWUgaW4gdmVyc2lvbiAzLjUuICBhbmQgYmFja3Bv
+cnRlZCB0byAgMi43Og0KPiBTZWUgdGhlIHBhdGNoIGhlcmU6DQo+ICBodHRwczovL2hnLnB5dGhv
+bi5vcmcvY3B5dGhvbi9yZXYvZjc2MmNiYjcxMmRlDQo+IA0KPiBCdXQgdGhpcyBwYXRjaCBkb2Vz
+buKAmXQgYXBwbHksIEkgaGF2ZSBkb3dubG9hZGVkIHRoZSBsYXRlc3QgMi43LjgsIGl0IGlzIHRo
+ZQ0KPiBTYW1lIHByb2JsZW0gdGhlcmUuIEkgaGF2ZSBzZW50IGVtYWlsIHRvIHRoZSBndXkgcmVz
+cG9uc2libGUgdG8gdGhpcyBwYXRjaA0KPiBidXQgaGF2ZW4ndCBoZWFyZCBmcm9tIGhpbSB5ZXQu
+ICANCg0KSSBnb3QgZm9sbG93aW5nIGFuc3dlciBmcm9tIHRoZSBndXkgd2hvIGhhcyBwcm92aWRl
+ZCBweXRob24gcGF0Y2ggYWJvdmU6DQoiTm8sIGl0J3MgZm9yIDIuNy45LiBUaGUgc3NsIG1vZHVs
+ZSBpbiAyLjcuOSB3YXMgYmFja3BvcnRlZCBmcm9tIFB5dGhvbiAzLCBpdHMgY29kZSBpcyB2YXN0
+bHkgZGlmZmVyZW50Lg0KMi43Ljkgc2hvdWxkIGJlIHJlbGVhc2VkIHNvb24gaW4gRGVjZW1iZXIg
+b3IgSmFudWFyeS4iDQoNClNvIHdlIGVpdGhlciB1cGdyYWRlIG1hc3RlciB0byAyLjcuOSB3aGVu
+IHB5dGhvbiAyLjcuOSBpcyByZWxlYXNlZCAoaWYgdGhpcyBpcyBvaykgb3RoZXJ3aXNlIHVzZSAN
+CnRoZSBEZWJpYW4ncyBwYXRjaC4NCg0KQW55IGNvbW1lbnQ/DQoNCi9TICANCg==
 
-On 5 December 2014 at 14:26, Belal, Awais <Awais_Belal@mentor.com> wrote:
-
-> I will look into the version upgrade. Can this be merged to dizzy?
->
-
-Dizzy would have to be a backported patch as you originally submitted.
-
-Ross
-
---001a113a0e8e9ba7410509794ffe
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 December 2014 at 14:26, Belal, Awais <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:Awais_Belal@mentor.com" target=3D"_blank">Awais_Belal@mentor.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"directio=
-n:ltr;font-family:Tahoma;color:#000000;font-size:10pt">I will look into the=
- version upgrade. Can this be merged to dizzy?<br>
-<div></div></div></blockquote></div><br>Dizzy would have to be a backported=
- patch as you originally submitted.</div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra">Ross</div></div>
-
---001a113a0e8e9ba7410509794ffe--
