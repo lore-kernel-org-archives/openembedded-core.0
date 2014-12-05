@@ -1,46 +1,38 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
-	[217.149.192.138])
-	by mail.openembedded.org (Postfix) with ESMTP id B908C65D59
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id B66677232E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 06:18:46 +0000 (UTC)
-Received: from amavisd-new (mailscanner07.wrt-nm.internl.net [217.149.192.117])
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 8F1E93F570;
-	Fri,  5 Dec 2014 07:18:45 +0100 (CET)
-X-Spam-Flag: NO
-X-Spam-Score: -2.899
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.899 tagged_above=-999 required=4.5
-	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
-X-Spam-Languages: en
-Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
-	by amavisd-new (mailscanner07.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP; Fri,  5 Dec 2014 07:18:45 +0100 (CET)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS;
-	Fri,  5 Dec 2014 07:18:44 +0100 (CET)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Fri, 5 Dec 2014 07:18:58 +0100
-Message-ID: <54814E43.3080602@topic.nl>
-Date: Fri, 5 Dec 2014 07:18:43 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Fri,  5 Dec 2014 08:12:02 +0000 (UTC)
+Received: by mail-wi0-f179.google.com with SMTP id ex7so533264wid.12
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Dec 2014 00:12:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=UtCcgIBIrcJ/Dt4lxJ+WnLctw+jiRXOP/+/IJg3uMZk=;
+	b=DdKjZfNgG/0zl85MYWHH8WnAdQEGM2foc5Q+DEeu5uAMcnUNBxeVbKfsssUhlqtUZ/
+	5pumT8jPsjqNkUuLyPziHJ+ns1RpLeSID9n4NMWgoC4eXU/hf2rza7h/eISkZH3XivLx
+	7xU1CkIhjraNu4RcAOTkIQNWeHVw6SK9QX+lPhzTgpsj0dmLCurMw92pnbNdsK2hxMGG
+	QInP3qB43vWIG57MpOZ4qlkuvC0uRtgyirUVg7sieJuisiIkjbyHxuXPueIHAo32W2DD
+	EtKmMqq4vZOOixc5s9f9gKg+On43x/I+kfOGpK5AWGUq8SqSl28BEwPzXUcFScEyHsFT
+	3dLw==
+X-Received: by 10.180.80.194 with SMTP id t2mr2293222wix.6.1417767122386;
+	Fri, 05 Dec 2014 00:12:02 -0800 (PST)
+Received: from localhost.localdomain
+	(ip-176-198-252-150.hsi05.unitymediagroup.de. [176.198.252.150])
+	by mx.google.com with ESMTPSA id iz19sm1239728wic.8.2014.12.05.00.12.01
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 05 Dec 2014 00:12:01 -0800 (PST)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Dec 2014 09:11:55 +0100
+Message-Id: <1417767115-29623-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
-	<CAP9ODKrh_p=yv7x2hWg7QcV_4vG2xvF+7WgcckMqf=FU457ovg@mail.gmail.com>
-In-Reply-To: <CAP9ODKrh_p=yv7x2hWg7QcV_4vG2xvF+7WgcckMqf=FU457ovg@mail.gmail.com>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Busybox mdev improvements
+Subject: [PATCH][V3] midori: update to 0.5.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,51 +45,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 06:18:51 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 05 Dec 2014 08:12:12 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-=EF=BB=BFOn 12/04/2014 09:47 PM, Otavio Salvador wrote:
-> On Thu, Dec 4, 2014 at 8:27 AM, Mike Looijmans <mike.looijmans@topic.nl> =
-wrote:
->> This first series fixes the touchscreen support. A patch to automaticall=
-y
->> have mdev mount storage devices will follow soon, I'm still testing it.
->
-> I enjoy this idea but please put this one in a specific sub-package or
-> with a setting in /etc/default/mdev to enable/disable it.
+midori has moved to cmake for configuration
 
-By "this" you refer to the automatic mounting? No problem, and a good=20
-suggestion too.
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ meta/recipes-sato/midori/midori_0.5.5.bb | 47 --------------------------------
+ meta/recipes-sato/midori/midori_0.5.8.bb | 26 ++++++++++++++++++
+ 2 files changed, 26 insertions(+), 47 deletions(-)
+ delete mode 100644 meta/recipes-sato/midori/midori_0.5.5.bb
+ create mode 100644 meta/recipes-sato/midori/midori_0.5.8.bb
+V2->V3:
+  * remove libunique from DEPENDS
+  * checked: DEPENDS gtk+ is in webkit-gtk
+  * checked: midori ignores gtk3+ if not set explitly by -DUSE_GTK3 or -DUSE_GRANITE or -DHALF_BRO_INCOM_WEBKIT2 in EXTRA_OECMAKE
 
-Another problem I solved in various projects is the automatic loading of=20
-kernel drivers. It makes mdev automatically load modules and firmware, e.g.=
-=20
-when plugging in a USB device, and adds a script to scan for hotpluggable=20
-devices at boot. It's only a few lines, but these make mdeve provide most o=
-f=20
-udev's functionality.
-
-
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-System Expert
-
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Topic zoekt gedreven (embedded) software specialisten!
-http://topic.nl/vacatures/topic-zoekt-software-engineers/
+diff --git a/meta/recipes-sato/midori/midori_0.5.5.bb b/meta/recipes-sato/midori/midori_0.5.5.bb
+deleted file mode 100644
+index a9379e7..0000000
+--- a/meta/recipes-sato/midori/midori_0.5.5.bb
++++ /dev/null
+@@ -1,47 +0,0 @@
+-SUMMARY = "A lightweight web browser"
+-HOMEPAGE = "http://www.twotoasts.de/index.php?/pages/midori_summary.html"
+-LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+-DEPENDS = "webkit-gtk libsoup-2.4 openssl python-native python-docutils-native librsvg-native libnotify libunique libxscrnsaver"
+-
+-SRC_URI = "http://www.midori-browser.org/downloads/${BPN}_${PV}_all_.tar.bz2 \
+-"
+-
+-SRC_URI[md5sum] = "b99e87d4b73a4732ed1c1e591f0242ac"
+-SRC_URI[sha256sum] = "ca69382a285222a86028abebd73fed1976735883027ff0adc094b627789bbd62"
+-
+-# midori depends on webkit-gtk, and webkit-gtk can NOT be built on
+-# MIPS64 with n32 ABI. So remove it from mips64 n32 temporarily.
+-COMPATIBLE_HOST_mips64 = "mips64.*-linux$"
+-
+-inherit gtk-icon-cache pkgconfig vala pythonnative
+-
+-do_configure() {
+-    sed -i -e 's:, shell=False::g' -e s:/usr/X11R6/include::g -e s:/usr/X11R6/lib::g wscript
+-    ./configure \
+-            --prefix=${prefix} \
+-            --bindir=${bindir} \
+-            --sbindir=${sbindir} \
+-            --libexecdir=${libexecdir} \
+-            --datadir=${datadir} \
+-            --sysconfdir=${sysconfdir} \
+-            --sharedstatedir=${sharedstatedir} \
+-            --localstatedir=${localstatedir} \
+-            --libdir=${libdir} \
+-            --includedir=${includedir} \
+-            --infodir=${infodir} \
+-            --mandir=${mandir} \
+-            --disable-gtk3 \
+-            --disable-zeitgeist \
+-}
+-
+-PARALLEL_MAKE = ""
+-TARGET_CC_ARCH += "${LDFLAGS}"
+-
+-do_install() {
+-    oe_runmake DESTDIR=${D} install
+-}
+-
+-RRECOMMENDS_${PN} += "glib-networking ca-certificates gnome-icon-theme"
+-
+-FILES_${PN}-dev += "${datadir}/vala/vapi"
+diff --git a/meta/recipes-sato/midori/midori_0.5.8.bb b/meta/recipes-sato/midori/midori_0.5.8.bb
+new file mode 100644
+index 0000000..299ecb3
+--- /dev/null
++++ b/meta/recipes-sato/midori/midori_0.5.8.bb
+@@ -0,0 +1,26 @@
++SUMMARY = "A lightweight web browser"
++HOMEPAGE = "http://midori-browser.org/"
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
++DEPENDS = "webkit-gtk libsoup-2.4 openssl python-native python-docutils-native librsvg-native libnotify libxscrnsaver"
++
++SRC_URI = "https://launchpad.net/midori/trunk/0.5.8/+download/${BPN}-${PV}.tar.bz2;subdir=${BPN}-${PV}"
++SRC_URI[md5sum] = "b89e25e74199d705e74767499a415976"
++SRC_URI[sha256sum] = "af19135fd4c4b04345df4d3592e7939c20f9b40eaca24550e6cb619751aa9381"
++
++# midori depends on webkit-gtk, and webkit-gtk can NOT be built on
++# MIPS64 with n32 ABI. So remove it from mips64 n32 temporarily.
++COMPATIBLE_HOST_mips64 = "mips64.*-linux$"
++
++inherit gtk-icon-cache pkgconfig vala pythonnative cmake
++
++EXTRA_OECMAKE = " \
++    -DCMAKE_INSTALL_PREFIX=${prefix} \
++    -DUSE_ZEITGEIST=0 \
++"
++
++TARGET_CC_ARCH += "${LDFLAGS}"
++
++RRECOMMENDS_${PN} += "glib-networking ca-certificates gnome-icon-theme"
++
++FILES_${PN} += "${datadir}/appdata"
+-- 
+1.8.3.1
 
 
