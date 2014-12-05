@@ -1,34 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 17DEE723B3
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C5506724EE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 18:04:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sB5I2dlj009016; Fri, 5 Dec 2014 18:03:32 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Zgkr8FK6wWBa; Fri,  5 Dec 2014 18:03:32 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sB5I3Jub009040
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 5 Dec 2014 18:03:31 GMT
-Message-ID: <1417802636.5102.9.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 05 Dec 2014 18:03:56 +0000
-In-Reply-To: <20141204214800.GF2453@jama>
-References: <1417087023-29423-1-git-send-email-gshastri@juniper.net>
-	<969F26A8BAB325438E7EB80D3C3134FB2F3C5556@IRSMSX105.ger.corp.intel.com>
-	<1417722559.15614.58.camel@linuxfoundation.org>
-	<20141204214800.GF2453@jama>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"gmshastri@gmail.com" <gmshastri@gmail.com>
-Subject: Re: [PATCH] When building with systemd based image, udev-hwdb postinstall script will fail because of not passing	correct CPU option. So fix it by passing correct QEMU_OPTIONS.
+	Fri,  5 Dec 2014 18:14:29 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Dec 2014 10:09:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,523,1413270000"; d="scan'208";a="643123765"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.18.22])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2014 10:09:33 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Dec 2014 18:09:27 +0000
+Message-Id: <cover.1417802944.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH v2 0/1] Fix buildtools after git-perltools split
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,21 +28,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 18:04:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Dec 2014 18:14:38 -0000
 
-On Thu, 2014-12-04 at 22:48 +0100, Martin Jansa wrote:
-> Thanks for fixing that. Would it make sense to add comment saying that
-> nobody is expected to use "QEMU_EXTRAOPTIONS" directly and that they
-> aren't overrides (so that nobody makes the same mistake as I did).
+The following change since commit f7b342a73661cfff4043fab77ab8e9ef0e48dec4:
 
-Yes, I've done that, and fixed up another reference in the
-qemuwrapper-cross so things are more consistent...
+  gdb: disable Guile (2014-12-03 12:22:42 +0000)
 
-Cheers,
+is available in the git repository at:
 
-Richard
+  git://git.openembedded.org/openembedded-core-contrib paule/git-perltools
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/git-perltools
 
+Paul Eggleton (1):
+  buildtools-tarball: restore missing git tools
+
+ meta/recipes-core/meta/buildtools-tarball.bb          |  4 ++++
+ .../meta/nativesdk-buildtools-perl-dummy.bb           | 19 +++++++++++++++++++
+ 2 files changed, 23 insertions(+)
+ create mode 100644 meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+
+-- 
+1.9.3
 
 
