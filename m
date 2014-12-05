@@ -1,30 +1,42 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B7267232E
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 070807232F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 08:14:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sB58EqSg009860
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Fri, 5 Dec 2014 00:14:52 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Fri, 5 Dec 2014 00:14:51 -0800
-Message-ID: <54816995.7010203@windriver.com>
-Date: Fri, 5 Dec 2014 16:15:17 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1417413565.git.Qi.Chen@windriver.com>
-	<eb3ae98cd6b06ffc14d00686460aaf2072a12b96.1417413565.git.Qi.Chen@windriver.com>
-	<CAJTo0Lag8Oh1_qFar3D5Ac70A_pDNHsF7bv3caRS9-tbKnGG4A@mail.gmail.com>
-In-Reply-To: <CAJTo0Lag8Oh1_qFar3D5Ac70A_pDNHsF7bv3caRS9-tbKnGG4A@mail.gmail.com>
-X-Originating-IP: [128.224.162.226]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] packaging: allow globs in CONFFILES
+	Fri,  5 Dec 2014 08:38:31 +0000 (UTC)
+Received: by mail-wi0-f180.google.com with SMTP id n3so594431wiv.13
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Dec 2014 00:38:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=C0DdQahjadR9NrOvQBbzADV4VoPLgI+3uXfOTArrlF4=;
+	b=k7ioSM2Wz8v8LiJCD5g+lW3iDTv7ashOHNeLEANjAupG5byeQTOhOGlYwCGmYO4dPb
+	zSTLL3tUrk5NH2vmrDzmfoKLVjfZh+BX1UX62lq+b4njCV0ij4AOz70l/61riD6MjJOE
+	XCUIF2AsrRyC2TvjiS9cYjOtR5izU+ogFDeWcKniWlHAt6nJujc4orBsvaEvRgj7/oZr
+	aWN3YgERWkIFv4Vy3Nw6ArDkeUEtYBafrTWIb/eAzAXW9mQenEf9WTg5vCJsQGUWkugV
+	Scy8iOtY4kjPs4RAjv18uZFFbIcv/M4Ssg/Lz5jpM8a5T0naVm/UCFko0Koo8Ghl/wTO
+	pg5A==
+X-Gm-Message-State: ALoCoQmEl4XjyLyA1f9VNn5BdI8AWM4vdTDvlz30HUjeKMJbGOSc2al4OcauPMuf+Us2EHmj0b7O
+X-Received: by 10.180.7.201 with SMTP id l9mr2280572wia.80.1417768711443;
+	Fri, 05 Dec 2014 00:38:31 -0800 (PST)
+Received: from ?IPv6:2001:610:612::b805:a3c3:97e2:e849?
+	([2001:610:612:0:b805:a3c3:97e2:e849])
+	by mx.google.com with ESMTPSA id js5sm1320456wid.11.2014.12.05.00.38.30
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 05 Dec 2014 00:38:30 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.1 \(1993\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1417722907-1196-1-git-send-email-sgw@linux.intel.com>
+Date: Fri, 5 Dec 2014 09:38:29 +0100
+Message-Id: <642F9E05-91D2-4767-A786-3390265C9C3F@dominion.thruhere.net>
+References: <1417722907-1196-1-git-send-email-sgw@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1993)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] procps: Upgrade to 3.3.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,117 +49,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 08:14:54 -0000
-Content-Type: multipart/alternative;
-	boundary="------------080001060702010203060608"
+X-List-Received-Date: Fri, 05 Dec 2014 08:38:40 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
---------------080001060702010203060608
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 12/04/2014 04:48 AM, Burton, Ross wrote:
->
-> On 1 December 2014 at 06:01, Chen Qi <Qi.Chen@windriver.com 
-> <mailto:Qi.Chen@windriver.com>> wrote:
->
->     Allow globs in CONFFILES and default CONFFILES to '${sysconfdir}'.
->
->
-> If I apply this patch and build core-image-sato with package_ipk:
->
-> | *** Error: CONTROL/conffiles mentions conffile /etc/depmod.d which 
-> does not exist
-> | *** Error: CONTROL/conffiles mentions conffile /etc/modprobe.d which 
-> does not existERROR: Task 1120 
-> (/home/ross/Yocto/poky/meta/recipes-kernel/kmod/kmod_git.bb 
-> <http://kmod_git.bb>, do_package_write_ipk) failed with exit code '1'
->
-> | *** Error: CONTROL/conffiles mentions conffile /etc/udev/hwdb.d 
-> which does not exist
-> ERROR: Task 558 
-> (/home/ross/Yocto/poky/meta/recipes-core/systemd/systemd_216.bb 
-> <http://systemd_216.bb>, do_package_write_ipk) failed with exit code '1'
->
-> Ross
+> Op 4 dec. 2014, om 20:55 heeft Saul Wold <sgw@linux.intel.com> het =
+volgende geschreven:
+>=20
+> This is now the procps-ng version
+>=20
+> cleaned up patches
+> added to fix up usrbin_execprefix in OE-Core
+>=20
+> Added --enable-skill to ensure snice and skill where built to match
+> the buildhistory from the older version
+>=20
+> Add CPPFLAGS to allow seperate build directory works
+>=20
+> [YOCTO #6952]
+>=20
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>=20
+> Double checked with buildhistory this time!
 
-Hi Ross,
+Awesome, two small nitpicks left:
 
-Thanks for pointing these problems out.
-I'll send out a V2 with common code extracted and the above problem fixed.
+> +#inherit autotools-brokensep gettext pkgconfig update-alternatives
+> +inherit autotools gettext pkgconfig update-alternatives
 
-Best Regards,
-Chen Qi
+[..]
 
---------------080001060702010203060608
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+> +inherit update-alternatives
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 12/04/2014 04:48 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0Lag8Oh1_qFar3D5Ac70A_pDNHsF7bv3caRS9-tbKnGG4A@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 1 December 2014 at 06:01, Chen Qi
-            <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
-              <div id=":4ng" class="" style="overflow:hidden">Allow
-                globs in CONFFILES and default CONFFILES to
-                '${sysconfdir}'.<br>
-              </div>
-            </blockquote>
-          </div>
-          <div class="gmail_extra"><br>
-          </div>
-          If I apply this patch and build core-image-sato with
-          package_ipk:</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">
-          <div class="gmail_extra">| *** Error: CONTROL/conffiles
-            mentions conffile /etc/depmod.d which does not exist</div>
-          <div class="gmail_extra">| *** Error: CONTROL/conffiles
-            mentions conffile /etc/modprobe.d which does not existERROR:
-            Task 1120 (/home/ross/Yocto/poky/meta/recipes-kernel/kmod/<a
-              moz-do-not-send="true" href="http://kmod_git.bb">kmod_git.bb</a>,
-            do_package_write_ipk) failed with exit code '1'</div>
-          <div class="gmail_extra"><br>
-          </div>
-          <div class="gmail_extra">| *** Error: CONTROL/conffiles
-            mentions conffile /etc/udev/hwdb.d which does not exist<br>
-          </div>
-          <div class="gmail_extra">ERROR: Task 558
-            (/home/ross/Yocto/poky/meta/recipes-core/systemd/<a
-              moz-do-not-send="true" href="http://systemd_216.bb">systemd_216.bb</a>,
-            do_package_write_ipk) failed with exit code '1'<br>
-          </div>
-          <div class="gmail_extra"><br>
-          </div>
-          <div class="gmail_extra">Ross</div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    Hi Ross,<br>
-    <br>
-    Thanks for pointing these problems out.<br>
-    I'll send out a V2 with common code extracted and the above problem
-    fixed.<br>
-    <br>
-    Best Regards,<br>
-    Chen Qi<br>
-  </body>
-</html>
+Drop the commented line and the duplicate inherit below do_install=
 
---------------080001060702010203060608--
