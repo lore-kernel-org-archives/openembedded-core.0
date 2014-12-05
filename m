@@ -1,38 +1,30 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id B66677232E
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C1D987232E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 08:12:02 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id ex7so533264wid.12
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Dec 2014 00:12:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=UtCcgIBIrcJ/Dt4lxJ+WnLctw+jiRXOP/+/IJg3uMZk=;
-	b=DdKjZfNgG/0zl85MYWHH8WnAdQEGM2foc5Q+DEeu5uAMcnUNBxeVbKfsssUhlqtUZ/
-	5pumT8jPsjqNkUuLyPziHJ+ns1RpLeSID9n4NMWgoC4eXU/hf2rza7h/eISkZH3XivLx
-	7xU1CkIhjraNu4RcAOTkIQNWeHVw6SK9QX+lPhzTgpsj0dmLCurMw92pnbNdsK2hxMGG
-	QInP3qB43vWIG57MpOZ4qlkuvC0uRtgyirUVg7sieJuisiIkjbyHxuXPueIHAo32W2DD
-	EtKmMqq4vZOOixc5s9f9gKg+On43x/I+kfOGpK5AWGUq8SqSl28BEwPzXUcFScEyHsFT
-	3dLw==
-X-Received: by 10.180.80.194 with SMTP id t2mr2293222wix.6.1417767122386;
-	Fri, 05 Dec 2014 00:12:02 -0800 (PST)
-Received: from localhost.localdomain
-	(ip-176-198-252-150.hsi05.unitymediagroup.de. [176.198.252.150])
-	by mx.google.com with ESMTPSA id iz19sm1239728wic.8.2014.12.05.00.12.01
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 05 Dec 2014 00:12:01 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Dec 2014 09:11:55 +0100
-Message-Id: <1417767115-29623-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.8.3.1
+	Fri,  5 Dec 2014 08:13:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sB58DJAA009487
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Fri, 5 Dec 2014 00:13:19 -0800 (PST)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Fri, 5 Dec 2014 00:13:19 -0800
+Message-ID: <54816939.4060707@windriver.com>
+Date: Fri, 5 Dec 2014 16:13:45 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-Subject: [PATCH][V3] midori: update to 0.5.8
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1417499998.git.Qi.Chen@windriver.com>
+	<2d5ed9ff99319e5eb332b5008b39ee8d6e381dd1.1417499998.git.Qi.Chen@windriver.com>
+	<CAJTo0LbG0hoAN5HnWMjU8n+7AWEoHN3j6fATHsMaXMwBaGNOTg@mail.gmail.com>
+In-Reply-To: <CAJTo0LbG0hoAN5HnWMjU8n+7AWEoHN3j6fATHsMaXMwBaGNOTg@mail.gmail.com>
+X-Originating-IP: [128.224.162.226]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] bind: fix conf.patch to remove configuration that causes failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,110 +37,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 08:12:12 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 05 Dec 2014 08:13:25 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060401010105080501040705"
 
-midori has moved to cmake for configuration
+--------------060401010105080501040705
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- meta/recipes-sato/midori/midori_0.5.5.bb | 47 --------------------------------
- meta/recipes-sato/midori/midori_0.5.8.bb | 26 ++++++++++++++++++
- 2 files changed, 26 insertions(+), 47 deletions(-)
- delete mode 100644 meta/recipes-sato/midori/midori_0.5.5.bb
- create mode 100644 meta/recipes-sato/midori/midori_0.5.8.bb
-V2->V3:
-  * remove libunique from DEPENDS
-  * checked: DEPENDS gtk+ is in webkit-gtk
-  * checked: midori ignores gtk3+ if not set explitly by -DUSE_GTK3 or -DUSE_GRANITE or -DHALF_BRO_INCOM_WEBKIT2 in EXTRA_OECMAKE
+On 12/03/2014 08:23 PM, Burton, Ross wrote:
+>
+> On 2 December 2014 at 06:00, Chen Qi <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>> wrote:
+>
+>     conf.patch added db.255 confgiuration entry to named.conf. However,
+>     We don't have db.255 configuration file, so remove this entry to avoid
+>     the following failure.
+>
+>
+> Can you explain why the correct fix is to remove the reference to 
+> db.255, and not add a db.255 configuration file?
+>
+> Ross
 
-diff --git a/meta/recipes-sato/midori/midori_0.5.5.bb b/meta/recipes-sato/midori/midori_0.5.5.bb
-deleted file mode 100644
-index a9379e7..0000000
---- a/meta/recipes-sato/midori/midori_0.5.5.bb
-+++ /dev/null
-@@ -1,47 +0,0 @@
--SUMMARY = "A lightweight web browser"
--HOMEPAGE = "http://www.twotoasts.de/index.php?/pages/midori_summary.html"
--LICENSE = "LGPLv2.1"
--LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
--DEPENDS = "webkit-gtk libsoup-2.4 openssl python-native python-docutils-native librsvg-native libnotify libunique libxscrnsaver"
--
--SRC_URI = "http://www.midori-browser.org/downloads/${BPN}_${PV}_all_.tar.bz2 \
--"
--
--SRC_URI[md5sum] = "b99e87d4b73a4732ed1c1e591f0242ac"
--SRC_URI[sha256sum] = "ca69382a285222a86028abebd73fed1976735883027ff0adc094b627789bbd62"
--
--# midori depends on webkit-gtk, and webkit-gtk can NOT be built on
--# MIPS64 with n32 ABI. So remove it from mips64 n32 temporarily.
--COMPATIBLE_HOST_mips64 = "mips64.*-linux$"
--
--inherit gtk-icon-cache pkgconfig vala pythonnative
--
--do_configure() {
--    sed -i -e 's:, shell=False::g' -e s:/usr/X11R6/include::g -e s:/usr/X11R6/lib::g wscript
--    ./configure \
--            --prefix=${prefix} \
--            --bindir=${bindir} \
--            --sbindir=${sbindir} \
--            --libexecdir=${libexecdir} \
--            --datadir=${datadir} \
--            --sysconfdir=${sysconfdir} \
--            --sharedstatedir=${sharedstatedir} \
--            --localstatedir=${localstatedir} \
--            --libdir=${libdir} \
--            --includedir=${includedir} \
--            --infodir=${infodir} \
--            --mandir=${mandir} \
--            --disable-gtk3 \
--            --disable-zeitgeist \
--}
--
--PARALLEL_MAKE = ""
--TARGET_CC_ARCH += "${LDFLAGS}"
--
--do_install() {
--    oe_runmake DESTDIR=${D} install
--}
--
--RRECOMMENDS_${PN} += "glib-networking ca-certificates gnome-icon-theme"
--
--FILES_${PN}-dev += "${datadir}/vala/vapi"
-diff --git a/meta/recipes-sato/midori/midori_0.5.8.bb b/meta/recipes-sato/midori/midori_0.5.8.bb
-new file mode 100644
-index 0000000..299ecb3
---- /dev/null
-+++ b/meta/recipes-sato/midori/midori_0.5.8.bb
-@@ -0,0 +1,26 @@
-+SUMMARY = "A lightweight web browser"
-+HOMEPAGE = "http://midori-browser.org/"
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
-+DEPENDS = "webkit-gtk libsoup-2.4 openssl python-native python-docutils-native librsvg-native libnotify libxscrnsaver"
-+
-+SRC_URI = "https://launchpad.net/midori/trunk/0.5.8/+download/${BPN}-${PV}.tar.bz2;subdir=${BPN}-${PV}"
-+SRC_URI[md5sum] = "b89e25e74199d705e74767499a415976"
-+SRC_URI[sha256sum] = "af19135fd4c4b04345df4d3592e7939c20f9b40eaca24550e6cb619751aa9381"
-+
-+# midori depends on webkit-gtk, and webkit-gtk can NOT be built on
-+# MIPS64 with n32 ABI. So remove it from mips64 n32 temporarily.
-+COMPATIBLE_HOST_mips64 = "mips64.*-linux$"
-+
-+inherit gtk-icon-cache pkgconfig vala pythonnative cmake
-+
-+EXTRA_OECMAKE = " \
-+    -DCMAKE_INSTALL_PREFIX=${prefix} \
-+    -DUSE_ZEITGEIST=0 \
-+"
-+
-+TARGET_CC_ARCH += "${LDFLAGS}"
-+
-+RRECOMMENDS_${PN} += "glib-networking ca-certificates gnome-icon-theme"
-+
-+FILES_${PN} += "${datadir}/appdata"
--- 
-1.8.3.1
+Hi Ross,
+
+Sorry for the late reply. I just noticed this email.
+
+I chose to remove reference to db.255 because I saw there was no db.255.
+I didn't take a second thinking about this problem.
+
+I will send out V2 by adding db.255 configuration file.
+
+Best Regards,
+Chen Qi
 
 
+--------------060401010105080501040705
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 12/03/2014 08:23 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LbG0hoAN5HnWMjU8n+7AWEoHN3j6fATHsMaXMwBaGNOTg@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 2 December 2014 at 06:00, Chen Qi
+            <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":6nu" class="a3s" style="overflow:hidden">conf.patch
+                added db.255 confgiuration entry to named.conf. However,<br>
+                We don't have db.255 configuration file, so remove this
+                entry to avoid<br>
+                the following failure.<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          Can you explain why the correct fix is to remove the reference
+          to db.255, and not add a db.255 configuration file?</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+    Hi Ross,<br>
+    <br>
+    Sorry for the late reply. I just noticed this email.<br>
+    <br>
+    I chose to remove reference to db.255 because I saw there was no
+    db.255.<br>
+    I didn't take a second thinking about this problem.<br>
+    <br>
+    I will send out V2 by adding db.255 configuration file.<br>
+    <br>
+    Best Regards,<br>
+    Chen Qi<br>
+    <br>
+  </body>
+</html>
+
+--------------060401010105080501040705--
