@@ -1,23 +1,29 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa09-08.prod.phx3.secureserver.net
-	(p3plsmtpa09-08.prod.phx3.secureserver.net [173.201.193.237])
-	by mail.openembedded.org (Postfix) with ESMTP id 1854E72341
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 103F965E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 00:31:31 +0000 (UTC)
-Received: from [192.168.65.10] ([75.72.225.8])
-	by p3plsmtpa09-08.prod.phx3.secureserver.net with 
-	id PcXX1p00N0BVjqb01cXYib; Thu, 04 Dec 2014 17:31:32 -0700
-Message-ID: <5480FCE3.7060601@pabigot.com>
-Date: Thu, 04 Dec 2014 18:31:31 -0600
-From: "Peter A. Bigot" <pab@pabigot.com>
-Organization: Peter Bigot Consulting, LLC
+	Fri,  5 Dec 2014 03:00:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sB530KZ2008198
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Dec 2014 19:00:22 -0800 (PST)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Thu, 4 Dec 2014 19:00:20 -0800
+Message-ID: <54811FDE.7050605@windriver.com>
+Date: Fri, 5 Dec 2014 11:00:46 +0800
+From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.2
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1417030958.git.pab@pabigot.com>
-In-Reply-To: <cover.1417030958.git.pab@pabigot.com>
-Subject: Re: [RFC v2 0/9] Proposed solution to bluez4/bluez5 selection
+To: <openembedded-core@lists.openembedded.org>
+References: <A612847CFE53224C91B23E3A5B48BAC7ACF18D3E7B@xmail3.se.axis.com>	<547E08A9.2090500@windriver.com>	<A612847CFE53224C91B23E3A5B48BAC7ACF18D42B6@xmail3.se.axis.com>	<547F305A.5060305@windriver.com>
+	<A612847CFE53224C91B23E3A5B48BAC7ACF18D45D8@xmail3.se.axis.com>
+In-Reply-To: <A612847CFE53224C91B23E3A5B48BAC7ACF18D45D8@xmail3.se.axis.com>
+X-Originating-IP: [128.224.162.226]
+Subject: Re: Why is systemd installed to / (was: [yocto] Export bitbake variables between recipes)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,88 +36,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 00:31:36 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Fri, 05 Dec 2014 03:00:30 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Any feedback on this approach?
+On 12/04/2014 09:34 PM, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>> Mark Hatle
+>> Sent: den 3 december 2014 16:47
+>> To: Peter Kjellerstedt; openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] Why is systemd installed to / (was: [yocto]
+>> Export bitbake variables between recipes)
+>>
+>> On 12/3/14, 9:36 AM, Peter Kjellerstedt wrote:
+>>>>> Can anyone please explain why OE-core installs systemd to /
+>>>>> rather than /usr? Because I have traced the recipe all the
+>>>>> way back to its introduction in OE classic, and I cannot
+>>>>> find any rationale for this odd decision. And it is extra
+>>>>> weird given the systemd authors' agenda that everything
+>>>>> should be in /usr (and /etc)...
+>>>> It's only strange compared to Fedora.  We're not Fedora.. and
+>>>> I've got systems that need to boot from a small '/' before
+>>>> mounting '/usr'.
+>>> Speaking of Fedora, would an official image feature, e.g.,
+>>> "unified-fs", be acceptable for OE-Core that sets up the file
+>>> system with /bin, /sbin and /lib* as links to their /usr
+>>> counterparts? That would alleviate our problems with the
+>>> differences in how systemd is installed.
+>> The system permits developers to set the paths for the various pieces.
+>> To get a Fedora like unified filesystem, you could do something like:
+>>
+>> * provide your own fs-perms.txt:
+> I had not noticed fs-perms.txt before. And it seems easy enough
+> to extend via the FILESYSTEMS_PERMS_TABLES variable. :)
+>
+>> /usr/bin	link	${base_bindir}
+>> /usr/sbin	link	${base_sbindir}
+>> /usr/lib	link	${base_libdir}
+>>
+>> Then in your local.conf:
+>>
+>> bindir = "${base_bindir}"
+>> sbindir = "${base_sbindir}"
+>> libdir = "${base_libdir}"
+> I think you mean the opposite, i.e., that /bin should be a
+> link to ${bindir} and ${base_bindir} should be set to ${bindir},
+> but I get your point.
+>
+>> This will result in /usr/bin, sbin and lib being linked to /bin,
+>> /sbin, /lib -- and all of the package produced for your
+>> configuration will only reference '/'.
+>>
+>> This isn't that unusual of a configuration from what I've been told.
+> Which is why I think it warrants an official distro feature (an
+> image feature, as I originally suggested, will of course not do
+> if it is done the way you suggest since the packages' contents
+> are modified). That way people would not have to invent the wheel
+> over and over again (and somehow find out that there is such a
+> thing as fs-perms.txt which up until now had eluded me).
+>
+>> --Mark
+> //Peter
+>
 
-Thanks.
+Hi Peter,
 
-Peter
+It's easy to link /usr/bin to /bin, /usr/sbin to /sbin and make things 
+work in OE.
+But if we want the opposite to work, we might need several additional 
+patches to OE.
 
-On 11/26/2014 01:46 PM, Peter A. Bigot wrote:
-> Here's a new approach to bluez5 integration for YOCTO #5031 based on
-> RP's feedback from the last attempt.
->
-> Though the lib interface is supposedly compatible between bluez4 and
-> bluez5 the dbus interface is not.  The functionality differences are
-> currently significant and likely to remain so. Therefore there will be
-> no virtual/bluez as originally proposed in the defect report.
->
-> Selection of the provider of bluetooth services is mediated by
-> DISTRO_FEATURES.  As has been the case, "bluetooth" signifies support
-> for bluetooth.  Two new identifiers "bluez4" and "bluez5" distinguish
-> the provider of bluetooth services, just as "systemd" and "sysvinit"
-> distinguish the provider of init services.
->
-> Recipes that reference bluetooth now inherit from bluetooth.bbclass,
-> which inspects the DISTRO_FEATURES and provides the variable BLUEZ as a
-> default-defined variable with the value:
->   "" if "bluetooth" is not in DISTRO_FEATURES, else
->   "bluez5" if "bluez5" is in DISTRO_FEATURES, else
->   "bluez4"
->
-> The presence of "bluez4" or "bluez5" in PACKAGECONFIG is normally used
-> to control configuration.  (In some cases this is an "interface change"
-> with respect to PACKAGECONFIG values for specific recipes but I don't
-> see an alternative where existing keys are insufficiently precise.)
->
-> The assumption is most packages will support either bluez4 or bluez5.
-> Existing packages that used "bluetooth" or "bluez" as the key to select
-> an explicit dependence on bluez4 have mostly been changed to use
-> "bluez4" as the key.
->
-> Where a package (e.g. pulseaudio) supports both variants with distinct
-> configuration options PACKAGECONFIG settings for both "bluez4" and
-> "bluez5" should be provided.
->
-> Where a package (e.g. connman) supports both variants without distinct
-> configuration options the PACKAGECONFIG setting should be "bluez" and
-> the dependence will be on "${BLUEZ}".
->
-> The following changes since commit ab63640fad50954b0440ab107c96dbd3f919ea4d:
->
->    gdk-pixbuf: use ptest-gnome (2014-11-25 13:03:30 +0000)
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib pabigot/rfc-v2/bluez5
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pabigot/rfc-v2/bluez5
->
-> Peter A. Bigot (9):
->    bluetooth.bbclass: simplify recipe inference of bluetooth provider
->    packagegroup-base: select distro preference for bluez provider
->    pulseaudio: select distro preference for bluez provider
->    qt-mobility: select distro preference for bluez provider
->    gstreamer1.0-plugins-bad: select distro preference for bluez provider
->    ofono: select distro preference for bluez provider
->    neard: select distro preference for bluez provider
->    libpcap: select distro preference for bluez provider
->    connman: depend on distro provider of bluez
->
->   meta/classes/bluetooth.bbclass                             | 14 ++++++++++++++
->   meta/recipes-connectivity/connman/connman.inc              |  6 ++++--
->   meta/recipes-connectivity/libpcap/libpcap.inc              |  6 ++++--
->   meta/recipes-connectivity/neard/neard.inc                  |  4 ++--
->   meta/recipes-connectivity/ofono/ofono.inc                  |  4 ++--
->   meta/recipes-core/packagegroups/packagegroup-base.bb       |  3 ++-
->   .../gstreamer/gstreamer1.0-plugins-bad.inc                 |  6 +++---
->   .../gstreamer/gstreamer1.0-plugins-bad_git.bb              |  1 -
->   meta/recipes-multimedia/pulseaudio/pulseaudio.inc          |  4 ++--
->   meta/recipes-qt/qt4/qt-mobility_1.2.0.inc                  |  6 ++++--
->   10 files changed, 37 insertions(+), 17 deletions(-)
->   create mode 100644 meta/classes/bluetooth.bbclass
->
+Several days ago, I tried to do /usr merge in OE (like what Fedora and 
+Arch does). It turned out that we need to patch several packages to make 
+things work.
+
+(I haven't sent out the patches because it's just some initial 
+investigation and I'm not sure if people want this feature or not.)
+
+If you want this feature in OE, please open a bug/enhancement in 
+bugzilla https://bugzilla.yoctoproject.org/ to see if the community 
+wants it or not.
+
+Regards,
+Chen Qi
+
 
 
