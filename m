@@ -1,20 +1,39 @@
-Return-Path: <magnus@minimum.se>
-X-Greylist: delayed 575 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 05 Dec 2014 10:13:36 UTC
-Received: from mail.glesys.se (mail.glesys.se [195.238.77.166])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CA8A7233B
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f47.google.com (mail-yh0-f47.google.com
+	[209.85.213.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A2DA72304
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 10:13:36 +0000 (UTC)
-Received: from DEV095.hms.se (smtp.hms.se [88.131.56.171])
-	(Authenticated sender: magnus@minimum.se)
-	by mail.glesys.se (Postfix) with ESMTPSA id 50EEA600A74;
-	Fri,  5 Dec 2014 11:01:44 +0100 (CET)
-From: Magnus Olsson <magnus@minimum.se>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Dec 2014 11:03:46 +0100
-Message-Id: <1417773826-28197-1-git-send-email-magnus@minimum.se>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] Add python-codecs runtime dependency for python-json
+	Fri,  5 Dec 2014 11:27:46 +0000 (UTC)
+Received: by mail-yh0-f47.google.com with SMTP id f73so201919yha.34
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Dec 2014 03:27:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=9FsFPjA85YR0LeSZ7ZslCrjNy7kLvtYFcFvBZ9lWRII=;
+	b=uWlrGE4cexl3QNFakB7Rm5kQhgbb6QNsyCg5Vo55UzR9KhfcJUja5H5P+5UDR7mBW3
+	wI8cEMwLP9cXx33TVvlZPyRTvMPHkHuYQiU3/rCn9UQBl86Rx13DyHXXT20AbA0HP3mv
+	46IY4ygxL5yfknb1683dV82mH1FFRmxXnwOB5VT5ocXML77O4fTpQBM1jhUbCy9VSTtM
+	tiihTNztOnzCOsjKMo4Fqmb1Nq8uWCKFDemM+4P2kRCNhrvz+N0iTwyLhxsfdkDBcrWm
+	OAu/38U1eH3vKHPExE2X7PE4iAe9l6+GzZIDT8AMKLN4oxf21o78AhEPsz69krd135lH
+	VPgA==
+MIME-Version: 1.0
+X-Received: by 10.170.47.210 with SMTP id 201mr22380159ykp.30.1417778867344;
+	Fri, 05 Dec 2014 03:27:47 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.142.132 with HTTP; Fri, 5 Dec 2014 03:27:47 -0800 (PST)
+In-Reply-To: <54814E43.3080602@topic.nl>
+References: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
+	<CAP9ODKrh_p=yv7x2hWg7QcV_4vG2xvF+7WgcckMqf=FU457ovg@mail.gmail.com>
+	<54814E43.3080602@topic.nl>
+Date: Fri, 5 Dec 2014 09:27:47 -0200
+X-Google-Sender-Auth: GI6AtucdUmZroeJ2w30T2VglOs4
+Message-ID: <CAP9ODKq1LXe0PPsgcYepf5uRmbVkHdHHDQfL32eFgUZNUUKW2w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Busybox mdev improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,73 +46,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 10:13:44 -0000
+X-List-Received-Date: Fri, 05 Dec 2014 11:27:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-A piece of JSON initialization code that runs when you "import json"
-tries to use the hex-decoder, thus breaks if you do not have
-python-codecs installed. Example:
+On Fri, Dec 5, 2014 at 4:18 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+> On 12/04/2014 09:47 PM, Otavio Salvador wrote:
+>>
+>> On Thu, Dec 4, 2014 at 8:27 AM, Mike Looijmans <mike.looijmans@topic.nl>
+>> wrote:
+>>>
+>>> This first series fixes the touchscreen support. A patch to automatically
+>>> have mdev mount storage devices will follow soon, I'm still testing it.
+>>
+>>
+>> I enjoy this idea but please put this one in a specific sub-package or
+>> with a setting in /etc/default/mdev to enable/disable it.
+>
+>
+> By "this" you refer to the automatic mounting? No problem, and a good
+> suggestion too.
 
-    >>> import json
-    Traceback (most recent call last):
-    File "<stdin>", line 1, in <module>
-    File "/usr/lib/python2.7/json/__init__.py", line 108, in <module>
-        from .decoder import JSONDecoder
-      File "/usr/lib/python2.7/json/decoder.py", line 24, in <module>
-        NaN, PosInf, NegInf = _floatconstants()
-      File "/usr/lib/python2.7/json/decoder.py", line 18, in _floatconstants
-        _BYTES = '7FF80000000000007FF0000000000000'.decode('hex')
-    LookupError: no codec search functions registered: can't find encoding
+Yes.
 
-This patch adds a runtime dependency on python-codecs for python-json and
-re-generates the python manifests for Python v2.7. Solves [YOCTO #7020].
+> Another problem I solved in various projects is the automatic loading of
+> kernel drivers. It makes mdev automatically load modules and firmware, e.g.
+> when plugging in a USB device, and adds a script to scan for hotpluggable
+> devices at boot. It's only a few lines, but these make mdeve provide most of
+> udev's functionality.
 
-Signed-off-by: Magnus Olsson <magnus@minimum.se>
----
- meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
- meta/recipes-devtools/python/python.inc              | 2 +-
- scripts/contrib/python/generate-manifest-2.7.py      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Agreed and I think this is also a good addition; however we should
+have it in a subpackage as well.
 
-diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
-index a8afe13..cb0f2b5 100644
---- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-+++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
-@@ -126,7 +126,7 @@ RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils"
- FILES_${PN}-io="${libdir}/python2.7/lib-dynload/_socket.so ${libdir}/python2.7/lib-dynload/_io.so ${libdir}/python2.7/lib-dynload/_ssl.so ${libdir}/python2.7/lib-dynload/select.so ${libdir}/python2.7/lib-dynload/termios.so ${libdir}/python2.7/lib-dynload/cStringIO.so ${libdir}/python2.7/pipes.* ${libdir}/python2.7/socket.* ${libdir}/python2.7/ssl.* ${libdir}/python2.7/tempfile.* ${libdir}/python2.7/StringIO.* ${libdir}/python2.7/io.* ${libdir}/python2.7/_pyio.* "
- 
- SUMMARY_${PN}-json="Python JSON support"
--RDEPENDS_${PN}-json="${PN}-core ${PN}-math ${PN}-re"
-+RDEPENDS_${PN}-json="${PN}-core ${PN}-math ${PN}-re ${PN}-codecs"
- FILES_${PN}-json="${libdir}/python2.7/json ${libdir}/python2.7/lib-dynload/_json.so "
- 
- SUMMARY_${PN}-lang="Python low-level language support"
-diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index 19942ba..e9d8e2d 100644
---- a/meta/recipes-devtools/python/python.inc
-+++ b/meta/recipes-devtools/python/python.inc
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.python.org"
- LICENSE = "PSFv2"
- SECTION = "devel/python"
- # bump this on every change in contrib/python/generate-manifest-2.7.py
--INC_PR = "r0"
-+INC_PR = "r1"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=ed3abfd1059e2d3a36a8cff3986f9bb6"
- 
-diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
-index 65486d8..2139094 100755
---- a/scripts/contrib/python/generate-manifest-2.7.py
-+++ b/scripts/contrib/python/generate-manifest-2.7.py
-@@ -279,7 +279,7 @@ if __name__ == "__main__":
-     "lib-dynload/_socket.so lib-dynload/_io.so lib-dynload/_ssl.so lib-dynload/select.so lib-dynload/termios.so lib-dynload/cStringIO.so " +
-     "pipes.* socket.* ssl.* tempfile.* StringIO.* io.* _pyio.*" )
- 
--    m.addPackage( "${PN}-json", "Python JSON support", "${PN}-core ${PN}-math ${PN}-re",
-+    m.addPackage( "${PN}-json", "Python JSON support", "${PN}-core ${PN}-math ${PN}-re ${PN}-codecs",
-     "json lib-dynload/_json.so" ) # package
- 
-     m.addPackage( "${PN}-lang", "Python low-level language support", "${PN}-core",
 -- 
-1.9.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
