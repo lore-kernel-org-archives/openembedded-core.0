@@ -1,41 +1,32 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f50.google.com (mail-yh0-f50.google.com
-	[209.85.213.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D6DC372383
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id F08FD65DAC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 14:13:59 +0000 (UTC)
-Received: by mail-yh0-f50.google.com with SMTP id 29so371056yhl.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Dec 2014 06:14:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=513OKcVzvQ+bKpBUZ/AriH4fDB5IKDxMMcBrH0Lkyow=;
-	b=Zw/rPF1sh/k4zrTVpkV/hpONB+4l59EAp4H2SqV+k6uHFf6309X4GBD0w5WyXWm10F
-	8K0uJm3f+m+jAdjDWtfu6GhTgaYL2hnx8VtL8Ddn2zx/Idp8fmZoPzcBXe1XhAL3lPrZ
-	cMiqaoLlrusyps1rkZ0Yr2cqzthnDbClUaKwRSAXzeJms1+d1NMxmRA5StYYPj2W4GEK
-	coonL7C3CQhrlTr9UjOIOrR3o5X5AmVJXVZ6m2aEUUR7ti3kTIYfc0HFwsZaTajJb4l9
-	mLvTycrtR93H+LGUhJ1/LdarktQY+JmN5BVxx+Ryq0LQDFUjS8zmjGHSoKKIOhLsLwRI
-	RA4w==
+	Fri,  5 Dec 2014 14:26:23 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-04.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1Xwtpv-0000gJ-D4 from Awais_Belal@mentor.com ;
+	Fri, 05 Dec 2014 06:26:23 -0800
+Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.55]) by
+	SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) with mapi id
+	14.03.0181.006; Fri, 5 Dec 2014 14:26:22 +0000
+From: "Belal, Awais" <Awais_Belal@mentor.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] libxcb: fix socket writes
+Thread-Index: AQHQEIBUJq9RPrqydEKzD8wqNSn5EJyA+kGAgAATSNM=
+Date: Fri, 5 Dec 2014 14:26:21 +0000
+Message-ID: <2021B186DC632746BD5A3CE32F12BD28E9FDF811@EU-MBX-03.mgc.mentorg.com>
+References: <1417779643-18350-1-git-send-email-awais_belal@mentor.com>,
+	<CAJTo0LZ1=H4Gz90Ni0sFjL29LMgqMXR18ZTv0uOjLCtsziboEg@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ1=H4Gz90Ni0sFjL29LMgqMXR18ZTv0uOjLCtsziboEg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.69]
 MIME-Version: 1.0
-X-Received: by 10.170.70.193 with SMTP id m184mr22527675ykm.50.1417788839939; 
-	Fri, 05 Dec 2014 06:13:59 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.142.132 with HTTP; Fri, 5 Dec 2014 06:13:59 -0800 (PST)
-In-Reply-To: <5481ABC1.7060208@topic.nl>
-References: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
-	<CAP9ODKrh_p=yv7x2hWg7QcV_4vG2xvF+7WgcckMqf=FU457ovg@mail.gmail.com>
-	<54814E43.3080602@topic.nl>
-	<CAP9ODKq1LXe0PPsgcYepf5uRmbVkHdHHDQfL32eFgUZNUUKW2w@mail.gmail.com>
-	<5481ABC1.7060208@topic.nl>
-Date: Fri, 5 Dec 2014 12:13:59 -0200
-X-Google-Sender-Auth: 4L6odBM_49fJKHH2zXZpMLoEOEI
-Message-ID: <CAP9ODKqomC1dDRBFbY-YkSwOSJ3LmDFaFwr8440JEi5si4=b4g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Busybox mdev improvements
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxcb: fix socket writes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,23 +39,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 14:14:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 05 Dec 2014 14:26:29 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_2021B186DC632746BD5A3CE32F12BD28E9FDF811EUMBX03mgcmento_"
 
-On Fri, Dec 5, 2014 at 10:57 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> On 12/05/2014 12:27 PM, Otavio Salvador wrote:
->>
->> On Fri, Dec 5, 2014 at 4:18 AM, Mike Looijmans <mike.looijmans@topic.nl>
->> wrote:
-> (PS:)
-> From the current state of busybox-mdev in OE-core, my perception is that
-> there are only a handful of projects in the world that use it, and I'm a
-> member of two of those...
+--_000_2021B186DC632746BD5A3CE32F12BD28E9FDF811EUMBX03mgcmento_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-I also use it :)
+I will look into the version upgrade. Can this be merged to dizzy?
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+BR,
+Awais
+________________________________
+From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
+ounces@lists.openembedded.org] on behalf of Burton, Ross [ross.burton@intel=
+.com]
+Sent: Friday, December 05, 2014 6:16 PM
+To: Awais Belal
+Cc: OE-core
+Subject: Re: [OE-core] [PATCH] libxcb: fix socket writes
 
+
+On 5 December 2014 at 11:40, Awais Belal <awais.belal@gmail.com<mailto:awai=
+s.belal@gmail.com>> wrote:
+The patch has been picked up from libxcb git and is only
+applicable to v1.10 while it gets fixed in mainstream v1.11.
+
+If it's fixed in 1.11 then an upgrade to 1.11 is preferred.
+
+Ross
+
+--_000_2021B186DC632746BD5A3CE32F12BD28E9FDF811EUMBX03mgcmento_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style id=3D"owaParaStyle" type=3D"text/css">P {margin-top:0;margin-bottom:=
+0;}</style>
+</head>
+<body ocsi=3D"0" fpstyle=3D"1">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;">I will look into the version upgrade. Can this be merged to dizzy?<b=
+r>
+<div><br>
+<div style=3D"font-family:Tahoma; font-size:13px"><font face=3D"Tahoma"></f=
+ont>
+<div style=3D"font-size:13px">
+<div><font size=3D"2" face=3D"Tahoma"><span lang=3D"en-US">
+<div style=3D"margin:0">BR,</div>
+<div style=3D"margin:0"><i>Awais</i></div>
+</span></font></div>
+</div>
+<font face=3D"Tahoma"></font></div>
+</div>
+<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
+">
+<hr tabindex=3D"-1">
+<div style=3D"direction: ltr;" id=3D"divRpF507926"><font size=3D"2" color=
+=3D"#000000" face=3D"Tahoma"><b>From:</b> openembedded-core-bounces@lists.o=
+penembedded.org [openembedded-core-bounces@lists.openembedded.org] on behal=
+f of Burton, Ross [ross.burton@intel.com]<br>
+<b>Sent:</b> Friday, December 05, 2014 6:16 PM<br>
+<b>To:</b> Awais Belal<br>
+<b>Cc:</b> OE-core<br>
+<b>Subject:</b> Re: [OE-core] [PATCH] libxcb: fix socket writes<br>
+</font><br>
+</div>
+<div></div>
+<div>
+<div dir=3D"ltr">
+<div class=3D"gmail_extra"><br>
+<div class=3D"gmail_quote">On 5 December 2014 at 11:40, Awais Belal <span d=
+ir=3D"ltr">
+&lt;<a href=3D"mailto:awais.belal@gmail.com" target=3D"_blank">awais.belal@=
+gmail.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
+px #ccc solid; padding-left:1ex">
+<div id=3D":3zy" class=3D"a3s" style=3D"overflow:hidden">The patch has been=
+ picked up from libxcb git and is only<br>
+applicable to v1.10 while it gets fixed in mainstream v1.11.</div>
+</blockquote>
+</div>
+<br>
+If it's fixed in 1.11 then an upgrade to 1.11 is preferred.</div>
+<div class=3D"gmail_extra"><br>
+</div>
+<div class=3D"gmail_extra">Ross</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_2021B186DC632746BD5A3CE32F12BD28E9FDF811EUMBX03mgcmento_--
