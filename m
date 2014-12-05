@@ -1,39 +1,35 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f47.google.com (mail-yh0-f47.google.com
-	[209.85.213.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A2DA72304
+Return-Path: <awais.belal@gmail.com>
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id D9E8970A8B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 11:27:46 +0000 (UTC)
-Received: by mail-yh0-f47.google.com with SMTP id f73so201919yha.34
+	Fri,  5 Dec 2014 11:40:21 +0000 (UTC)
+Received: by mail-pd0-f179.google.com with SMTP id fp1so240779pdb.38
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Dec 2014 03:27:47 -0800 (PST)
+	Fri, 05 Dec 2014 03:40:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=9FsFPjA85YR0LeSZ7ZslCrjNy7kLvtYFcFvBZ9lWRII=;
-	b=uWlrGE4cexl3QNFakB7Rm5kQhgbb6QNsyCg5Vo55UzR9KhfcJUja5H5P+5UDR7mBW3
-	wI8cEMwLP9cXx33TVvlZPyRTvMPHkHuYQiU3/rCn9UQBl86Rx13DyHXXT20AbA0HP3mv
-	46IY4ygxL5yfknb1683dV82mH1FFRmxXnwOB5VT5ocXML77O4fTpQBM1jhUbCy9VSTtM
-	tiihTNztOnzCOsjKMo4Fqmb1Nq8uWCKFDemM+4P2kRCNhrvz+N0iTwyLhxsfdkDBcrWm
-	OAu/38U1eH3vKHPExE2X7PE4iAe9l6+GzZIDT8AMKLN4oxf21o78AhEPsz69krd135lH
-	VPgA==
-MIME-Version: 1.0
-X-Received: by 10.170.47.210 with SMTP id 201mr22380159ykp.30.1417778867344;
-	Fri, 05 Dec 2014 03:27:47 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.142.132 with HTTP; Fri, 5 Dec 2014 03:27:47 -0800 (PST)
-In-Reply-To: <54814E43.3080602@topic.nl>
-References: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
-	<CAP9ODKrh_p=yv7x2hWg7QcV_4vG2xvF+7WgcckMqf=FU457ovg@mail.gmail.com>
-	<54814E43.3080602@topic.nl>
-Date: Fri, 5 Dec 2014 09:27:47 -0200
-X-Google-Sender-Auth: GI6AtucdUmZroeJ2w30T2VglOs4
-Message-ID: <CAP9ODKq1LXe0PPsgcYepf5uRmbVkHdHHDQfL32eFgUZNUUKW2w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Busybox mdev improvements
+	h=from:to:cc:subject:date:message-id;
+	bh=OwkpBUcp6SEo5eGnnZzosxMK5Dwt4cT0Tl6xk0WpOxg=;
+	b=YW8lLYDVlxqRgTGVT3IddWKtoUyKKuEh37MHbXor1/xyiIqcCPS7isRDq6X8yWJrn6
+	mKw+NYsCD1J/9CnOmDYh02PL9MjCR5Ydeb6oFzgI3btYPT+9yQxiX9geuvSLYipDH4YC
+	e++y9Z3DQT0rhWNhpF5rtlWOwbhyqy97k1YJqJZ3zrdj4Z+7CA16vmqMuKX+cSoYevDp
+	mvgsY9W7pDgAS0XEpdfDVpGIlzAnMSB/zKIUAo5fOzZ5Qn5cY8a198ifgqmnXT79ZNVs
+	ZDllqW8kQUfmXAc0PpdBmjZmJctoSuIql4HBQSeDKPYEfUVm6Vei3vAZ4Q51LlYUsXnH
+	2DzA==
+X-Received: by 10.68.57.225 with SMTP id l1mr34212352pbq.87.1417779621774;
+	Fri, 05 Dec 2014 03:40:21 -0800 (PST)
+Received: from awais-Precision-M4700.mgc.mentorg.com ([110.93.212.98])
+	by mx.google.com with ESMTPSA id c5sm10579192pda.16.2014.12.05.03.40.19
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 05 Dec 2014 03:40:21 -0800 (PST)
+From: Awais Belal <awais.belal@gmail.com>
+X-Google-Original-From: Awais Belal <awais_belal@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Dec 2014 16:40:10 +0500
+Message-Id: <1417779610-18291-1-git-send-email-awais_belal@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] gstreamer1.0-libav: specify proper cross-prefix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,39 +42,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 11:27:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 05 Dec 2014 11:40:34 -0000
 
-On Fri, Dec 5, 2014 at 4:18 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> On 12/04/2014 09:47 PM, Otavio Salvador wrote:
->>
->> On Thu, Dec 4, 2014 at 8:27 AM, Mike Looijmans <mike.looijmans@topic.nl>
->> wrote:
->>>
->>> This first series fixes the touchscreen support. A patch to automatically
->>> have mdev mount storage devices will follow soon, I'm still testing it.
->>
->>
->> I enjoy this idea but please put this one in a specific sub-package or
->> with a setting in /etc/default/mdev to enable/disable it.
->
->
-> By "this" you refer to the automatic mounting? No problem, and a good
-> suggestion too.
+This avoids a compile failure locating ranlib by providing
+the correct cross-prefix for build.
 
-Yes.
+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+---
+ .../gstreamer/gstreamer1.0-libav_1.4.1.bb          |    3 ++-
+ .../gstreamer/gstreamer1.0-libav_git.bb            |    3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-> Another problem I solved in various projects is the automatic loading of
-> kernel drivers. It makes mdev automatically load modules and firmware, e.g.
-> when plugging in a USB device, and adds a script to scan for hotpluggable
-> devices at boot. It's only a few lines, but these make mdeve provide most of
-> udev's functionality.
-
-Agreed and I think this is also a good addition; however we should
-have it in a subpackage as well.
-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.1.bb
+index 8bba831..f962ff0 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.1.bb
+@@ -18,7 +18,8 @@ SRC_URI[sha256sum] = "fc125521187fa84f3210269a0eecc51f8a856802f1ca4bb251f118dab9
+ LIBAV_EXTRA_CONFIGURE_COMMON_ARG = "--target-os=linux \
+   --cc='${CC}' --as='${CC}' --ld='${CC}' --nm='${NM}' --ar='${AR}' \
+   --ranlib='${RANLIB}' \
+-  ${GSTREAMER_1_0_DEBUG}"
++  ${GSTREAMER_1_0_DEBUG} \
++  --cross-prefix='${HOST_PREFIX}'"
+ 
+ S = "${WORKDIR}/gst-libav-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb
+index 5ce28cc..aa2de69 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb
+@@ -18,7 +18,8 @@ SRCREV = "127202d6f65584891dabf92be031f0d170b0e7f1"
+ 
+ LIBAV_EXTRA_CONFIGURE_COMMON_ARG = "--target-os=linux \
+   --cc='${CC}' --as='${CC}' --ld='${CC}' --nm='${NM}' --ar='${AR}' \
+-  ${GSTREAMER_1_0_DEBUG}"
++  ${GSTREAMER_1_0_DEBUG} \
++  --cross-prefix='${HOST_PREFIX}'"
+ 
+ do_configure() {
+ 	./autogen.sh --noconfigure
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.7.9.5
+
 
