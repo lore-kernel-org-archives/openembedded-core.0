@@ -1,30 +1,46 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 83CB172341
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
+	[217.149.192.139])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B04F72381
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 12:06:10 +0000 (UTC)
-Received: from SESTOEX09.enea.se ([fe80::94d8:372f:210c:b4da]) by
-	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
-	14.03.0158.001; Fri, 5 Dec 2014 13:06:04 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: "'Burton, Ross'" <ross.burton@intel.com>, Saul Wold <sgw@linux.intel.com>, 
-	Paul Eggleton <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] [daisy][PATCH] python: Building without SSLv3 support
-Thread-Index: AQHQDtCGHMHlJ+hOHk6/zocS2IGhbpx+Fp6AgAGinhCAAOjDQA==
-Date: Fri, 5 Dec 2014 12:06:03 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48257C774E@sestoex09.enea.se>
-References: <1417594165-25317-1-git-send-email-sona.sarmadi@enea.com>
-	<CAJTo0LY4Y6eWLUMvBLjwnKNy=KLoxh3Knien+HgOB5ZqXrmkRg@mail.gmail.com>
-	<3230301C09DEF9499B442BBE162C5E48257C4F6E@sestoex09.enea.se>
-In-Reply-To: <3230301C09DEF9499B442BBE162C5E48257C4F6E@sestoex09.enea.se>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
+	Fri,  5 Dec 2014 12:57:40 +0000 (UTC)
+Received: from amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.58])
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id BAE803F4A4;
+	Fri,  5 Dec 2014 13:57:39 +0100 (CET)
+X-Spam-Flag: NO
+X-Spam-Score: -2.899
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.899 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
+	by amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP; Fri,  5 Dec 2014 13:57:39 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS;
+	Fri,  5 Dec 2014 13:57:37 +0100 (CET)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Fri, 5 Dec 2014 13:57:51 +0100
+Message-ID: <5481ABC1.7060208@topic.nl>
+Date: Fri, 5 Dec 2014 13:57:37 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Cc: Maxin John <Maxin.John@enea.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: FW: [daisy][PATCH] python: Building without SSLv3 support
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>	<CAP9ODKrh_p=yv7x2hWg7QcV_4vG2xvF+7WgcckMqf=FU457ovg@mail.gmail.com>	<54814E43.3080602@topic.nl>
+	<CAP9ODKq1LXe0PPsgcYepf5uRmbVkHdHHDQfL32eFgUZNUUKW2w@mail.gmail.com>
+In-Reply-To: <CAP9ODKq1LXe0PPsgcYepf5uRmbVkHdHHDQfL32eFgUZNUUKW2w@mail.gmail.com>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Busybox mdev improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +53,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 12:06:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 05 Dec 2014 12:57:42 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-IEhpIGd1eXMsDQoNCj4gVGhpcyBzaG91bGQgYmUgYXBwbGllZCB0byBtYXN0ZXIgZmlyc3QsIGFu
-ZCB0aGVuIGJhY2twb3J0ZWQgdG8gYW55IHN0YWJsZQ0KPiBicmFuY2hlcy7CoCBDYW4geW91IHJl
-LXNlbmQgaW4gYSBmb3JtIHRoYXQgYXBwbGllcyB0byBtYXN0ZXI/DQo+IA0KPiBSb3NzDQoNClB5
-dGhvbiBoYXMgZml4ZWQgdGhpcyBpc3N1ZSBpbiB2ZXJzaW9uIDMuNS4gIGFuZCBiYWNrcG9ydGVk
-IHRvICAyLjc6DQpTZWUgdGhlIHBhdGNoIGhlcmU6DQogaHR0cHM6Ly9oZy5weXRob24ub3JnL2Nw
-eXRob24vcmV2L2Y3NjJjYmI3MTJkZQ0KDQpCdXQgdGhpcyBwYXRjaCBkb2VzbuKAmXQgYXBwbHks
-IEkgaGF2ZSBkb3dubG9hZGVkIHRoZSBsYXRlc3QgMi43LjgsIGl0IGlzIHRoZSANClNhbWUgcHJv
-YmxlbSB0aGVyZS4gSSBoYXZlIHNlbnQgZW1haWwgdG8gdGhlIGd1eSByZXNwb25zaWJsZSB0byB0
-aGlzIHBhdGNoIA0KYnV0IGhhdmVuJ3QgaGVhcmQgZnJvbSBoaW0geWV0LiAgVGhlIGNvbW1pdCBt
-ZXNzYWdlIGFsc28gc2F5IHRoYXQgIiBUaGUgDQpiYWNrcG9ydCBjdXJyZW50bHkgZG9lc24ndCBh
-Y2hpZXZlIGFueXRoaW5nIHNpbmNlIHRoZSBmdW5jdGlvbiBpc24ndCB1c2VkICh5ZXQpIjogDQoN
-Cj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0N
-CmNoYW5nZXNldCA5MzU0OTpmNzYyY2JiNzEyZGUgMi43DQoNCkJhY2twb3J0IGRpc2FibGluZyBv
-ZiBTU0x2MyBpbiBzc2wuX2NyZWF0ZV9zdGRsaWJfY29udGV4dCgpIChpc3N1ZSAjMjI2MzgpLiAN
-ClRoZSBiYWNrcG9ydCBjdXJyZW50bHkgZG9lc24ndCBhY2hpZXZlIGFueXRoaW5nIHNpbmNlIHRo
-ZSBmdW5jdGlvbiBpc24ndCB1c2VkDQogKHlldCkuIFsjMjI2MzhdDQo9PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQoNClNvIHRoaXMgaXMgdGhl
-IHJlYXNvbiB3aHkgSSBoYXZlIGFwcGxpZWQgdGhlIERlYmlhbiBwYXRjaC4gIFRoZXkgZGlzYWJs
-ZSBTU0x2MyANCmluIHB5dGhvbiAgdGhpcyB3YXkgYmVjYXVzZSB0aGV5IGhhdmUgZGlzYWJsZWQg
-U1NMdjMgaW4gT3BlblNTTCBpbiB0aGVpciBKZXNzaWUuIA0KU28gaWYgd2UgdGFrZSBEZWJpYW4n
-cyBwYXRjaCB3ZSBuZWVkIHRvIGRlZmluZSAiT1BFTlNTTF9OT19TU0wz4oCdIGluIHRoZSANCk9w
-ZW5TU0wgYXMgd2VsbC4gQXJlIHlvdSBvayB3aXRoIHRoaXM/ICh0aGUgc2FtZSB3YXkgdGhhdCAi
-T1BFTlNTTF9OT19TU0wyIg0KaXMgZGVmaW5lZCBpbiBPcGVuU1NMKS4NCg0Kc3NsL3NzbC5oDQoj
-aWYgKGRlZmluZWQoT1BFTlNTTF9OT19SU0EpIHx8IGRlZmluZWQoT1BFTlNTTF9OT19NRDUpKSAm
-JiAhZGVmaW5lZChPUEVOU1NMX05PX1NTTDIpDQojZGVmaW5lIE9QRU5TU0xfTk9fU1NMMg0KI2Vu
-ZGlmDQoNCkNoZWVycw0KU29uYQ0K
+=EF=BB=BFOn 12/05/2014 12:27 PM, Otavio Salvador wrote:
+> On Fri, Dec 5, 2014 at 4:18 AM, Mike Looijmans <mike.looijmans@topic.nl> =
+wrote:
+>> On 12/04/2014 09:47 PM, Otavio Salvador wrote:
+>>>
+>>> On Thu, Dec 4, 2014 at 8:27 AM, Mike Looijmans <mike.looijmans@topic.nl=
+>
+>>> wrote:
+>>>>
+>>>> This first series fixes the touchscreen support. A patch to automatica=
+lly
+>>>> have mdev mount storage devices will follow soon, I'm still testing it=
+.
+>>>
+>>>
+>>> I enjoy this idea but please put this one in a specific sub-package or
+>>> with a setting in /etc/default/mdev to enable/disable it.
+>>
+>>
+>> By "this" you refer to the automatic mounting? No problem, and a good
+>> suggestion too.
+>
+> Yes.
+>
+>> Another problem I solved in various projects is the automatic loading of
+>> kernel drivers. It makes mdev automatically load modules and firmware, e=
+.g.
+>> when plugging in a USB device, and adds a script to scan for hotpluggabl=
+e
+>> devices at boot. It's only a few lines, but these make mdeve provide mos=
+t of
+>> udev's functionality.
+>
+> Agreed and I think this is also a good addition; however we should
+> have it in a subpackage as well.
+
+"busybox-mdev" is already a separate package. Both automounter and module=20
+loader need an entry in mdev.conf to work. (The module loader is nothing bu=
+t=20
+an entry).
+
+If projects or users don't want these, they can provide their own mdev.conf=
+=20
+(it's a CONFFILE anyway). This just makes for a better default.
+
+The "load modules at boot" script is yet on its way, it contains about 3 li=
+nes=20
+of shell script which only make sense for mdev, so putting that in a separa=
+te=20
+package seems overkill to me.
+
+
+(PS:)
+ From the current state of busybox-mdev in OE-core, my perception is that=20
+there are only a handful of projects in the world that use it, and I'm a=20
+member of two of those...
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+System Expert
+
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
+
 
