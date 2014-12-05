@@ -1,36 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id E56E472468
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 439837242F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 20:46:38 +0000 (UTC)
-Received: by mail-wg0-f51.google.com with SMTP id k14so1875448wgh.10
+	Fri,  5 Dec 2014 23:13:47 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id bm13so1134014qab.26
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Dec 2014 12:46:38 -0800 (PST)
+	Fri, 05 Dec 2014 15:13:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=cNvV+fpqPUoCs/p+90KIj1Am9hQ7N8ECCUupzflJhds=;
-	b=d7P56W8ALEtXne5DGt+IIWDYl3HOc6/T/bKEd15Mhah4h/PDxH9sXPUotwFq6efxpq
-	cj4jk9zi7qX8YTh9QYREB/jfUSdt+M3rlpE0li2oBi1CYRAetqjgmVX81JE7w8u8PZ8x
-	0lfmMB2/nlnKJMnBBCao8c0IJjdxlhtyIVoeRCV98Y5nizLe7jz0yBWFseAp+vR4984v
-	bDX5bYaJNID8mY8yi/30UQG8ajfo3YN7Uk9yKh56a0S6i/d3w43oh7TWCpP0F5QMLdCk
-	N8qKFy4ytOtxCmbw+5pKf+TrSO6bq4GQUDVo8DNOtZjxT7YPTgtLw9+ghpoR0s+DqPwW
-	WugA==
-X-Gm-Message-State: ALoCoQmsE4n9X3UU5EBipw4HsthIAK0eIku/4ScBksgS6p/7RbYCC8WO/jd3xdx93Ns7xr3JSmRZ
-X-Received: by 10.194.188.39 with SMTP id fx7mr25848370wjc.113.1417812398322; 
-	Fri, 05 Dec 2014 12:46:38 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id gy8sm3596540wib.23.2014.12.05.12.46.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 05 Dec 2014 12:46:37 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Dec 2014 20:46:04 +0000
-Message-Id: <1417812364-14923-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] dtc: don't use autotools as this doesn't use autotools
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=PCySOdPkz+SOmaywNGdSjlX1lWcJQ3a+pnSKyZ7dan4=;
+	b=kKrbqU521eC20nbSIqGt4/BFaU1CKAIRVSFLh7hSniaeJNImoSKDYSID15qEYHS/MZ
+	eWH6Ll+53UP+fXJng6Pd1mhpgZw71SLpxE5KThV6wQd8v1eSLNjC/vmODs7HZIzfUlPE
+	PKymQelQRkl/Sf31AC8K//Yvzp6RSyd8akQc8PpM1qZtT0hWHH+k9rAhd8CGh4Jo3mbk
+	+NIA602TYqptF2KPMiEtLtkm+nxHlGk8oPGLCGPbpzmiZP7jxufcOXJT1y13liZ8filz
+	kFkQRXMpgupi6fFGuMcagES1Uxyswk1gKTeKSCcivlAreaRtn+LUGPySNPDzdF2dnIWM
+	8j4w==
+X-Gm-Message-State: ALoCoQn3pJtWG9AOVqasjmpXRx9nPW5Cr/EX8aSG7JvzEoTKqPkFEiwDOFEgQXwPXIaTtN1HvVeX
+X-Received: by 10.140.38.170 with SMTP id t39mr29819107qgt.15.1417821228383;
+	Fri, 05 Dec 2014 15:13:48 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.48.231 with HTTP; Fri, 5 Dec 2014 15:13:28 -0800 (PST)
+In-Reply-To: <5480FCC1.6050106@pabigot.com>
+References: <cover.1417029596.git.pab@pabigot.com>
+	<5480FCC1.6050106@pabigot.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 5 Dec 2014 23:13:28 +0000
+Message-ID: <CAJTo0LaUK4P1wUg0oGmCJDA-xi=UC5cH5CJ5K8Mw4Brqio00Fg@mail.gmail.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Miscellaneous bluez patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,40 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 20:46:41 -0000
+X-List-Received-Date: Fri, 05 Dec 2014 23:13:51 -0000
+Content-Type: multipart/alternative; boundary=001a11c12196ac560b0509803a60
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-kernel/dtc/dtc.inc |    8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+--001a11c12196ac560b0509803a60
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
-index 95023b6..0c409b0 100644
---- a/meta/recipes-kernel/dtc/dtc.inc
-+++ b/meta/recipes-kernel/dtc/dtc.inc
-@@ -4,16 +4,18 @@ SECTION = "bootloader"
- LICENSE = "GPLv2 | BSD"
- DEPENDS = "flex-native bison-native"
- 
--inherit autotools-brokensep
--
- SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git \
-            file://make_install.patch \
- 	  "
- 
--EXTRA_OEMAKE='PREFIX="${prefix}" LIBDIR="${libdir}"'
-+EXTRA_OEMAKE='PREFIX="${prefix}" LIBDIR="${libdir}" DESTDIR="${D}"'
- 
- S = "${WORKDIR}/git"
- 
-+do_install () {
-+	oe_runmake install
-+}
-+
- PACKAGES =+ "${PN}-misc"
- FILES_${PN}-misc = "${bindir}/convert-dtsv0 ${bindir}/ftdump ${bindir}/dtdiff"
- 
--- 
-1.7.10.4
+On 5 December 2014 at 00:30, Peter A. Bigot <pab@pabigot.com> wrote:
 
+> Ping.  These are independent of the RFC patches.
+>
 
+Merged into mut, thanks.
+
+Ross
+
+--001a11c12196ac560b0509803a60
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 5 December 2014 at 00:30, Peter A. Bigot <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:pab@pabigot.com" target=3D"_blank">pab@pabigot.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":12k" class=3D"a3s" s=
+tyle=3D"overflow:hidden">Ping.=C2=A0 These are independent of the RFC patch=
+es.</div></blockquote><div><br></div><div>Merged into mut, thanks.</div><di=
+v><br></div><div>Ross=C2=A0</div></div></div></div>
+
+--001a11c12196ac560b0509803a60--
