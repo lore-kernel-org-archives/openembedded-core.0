@@ -1,36 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f48.google.com (mail-qa0-f48.google.com
-	[209.85.216.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B32072361
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f50.google.com (mail-yh0-f50.google.com
+	[209.85.213.50])
+	by mail.openembedded.org (Postfix) with ESMTP id D6DC372383
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 13:16:27 +0000 (UTC)
-Received: by mail-qa0-f48.google.com with SMTP id v10so383794qac.7
+	Fri,  5 Dec 2014 14:13:59 +0000 (UTC)
+Received: by mail-yh0-f50.google.com with SMTP id 29so371056yhl.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Dec 2014 05:16:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=d7VHQn8xz/9OrKp4bmZ/68CV8IsE5H5pmlnVi49nnG0=;
-	b=mcxByMJoQmLahFq+IVZgRw6ILoiLnTkxKDSPwW79K7Ne0b8NdzGKz/e4dT6Gor3ORJ
-	/AemJ3A8t26qOcp1FaYWBLFAHS4JvyoYtzzOw3RXlakSxeEFET6c0tN+gDQibbC7Jlib
-	53CgHxC8h7WzB/7sxaM1MDse4NfP6YBrp32t26PSxUJkcUzc0B9b6qmlUQVTHVO8L7F4
-	OI/Pxbo9vNKhaxxwBVZdb8EMe9QPqEFj6M1xucbNYOtdJJw4NxobiC1vWqa6mi6INT/2
-	NUPDfiSx38nCzgBVkmkyK9ROmgigM4IJaUJYJl31jXbgh34G30dhK2GMT8qfAS9Dqca+
-	DDdQ==
-X-Gm-Message-State: ALoCoQmCv9Xave8A+RH9SENlHyKzAPBoLXPiRPDVxXyDN58omHnEoIloWI/A2D7448Jl+U9p4SnL
-X-Received: by 10.140.102.144 with SMTP id w16mr21181723qge.59.1417785387547; 
-	Fri, 05 Dec 2014 05:16:27 -0800 (PST)
+	Fri, 05 Dec 2014 06:14:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=513OKcVzvQ+bKpBUZ/AriH4fDB5IKDxMMcBrH0Lkyow=;
+	b=Zw/rPF1sh/k4zrTVpkV/hpONB+4l59EAp4H2SqV+k6uHFf6309X4GBD0w5WyXWm10F
+	8K0uJm3f+m+jAdjDWtfu6GhTgaYL2hnx8VtL8Ddn2zx/Idp8fmZoPzcBXe1XhAL3lPrZ
+	cMiqaoLlrusyps1rkZ0Yr2cqzthnDbClUaKwRSAXzeJms1+d1NMxmRA5StYYPj2W4GEK
+	coonL7C3CQhrlTr9UjOIOrR3o5X5AmVJXVZ6m2aEUUR7ti3kTIYfc0HFwsZaTajJb4l9
+	mLvTycrtR93H+LGUhJ1/LdarktQY+JmN5BVxx+Ryq0LQDFUjS8zmjGHSoKKIOhLsLwRI
+	RA4w==
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Fri, 5 Dec 2014 05:16:07 -0800 (PST)
-In-Reply-To: <1417779643-18350-1-git-send-email-awais_belal@mentor.com>
-References: <1417779643-18350-1-git-send-email-awais_belal@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 5 Dec 2014 13:16:07 +0000
-Message-ID: <CAJTo0LZ1=H4Gz90Ni0sFjL29LMgqMXR18ZTv0uOjLCtsziboEg@mail.gmail.com>
-To: Awais Belal <awais.belal@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxcb: fix socket writes
+X-Received: by 10.170.70.193 with SMTP id m184mr22527675ykm.50.1417788839939; 
+	Fri, 05 Dec 2014 06:13:59 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.142.132 with HTTP; Fri, 5 Dec 2014 06:13:59 -0800 (PST)
+In-Reply-To: <5481ABC1.7060208@topic.nl>
+References: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
+	<CAP9ODKrh_p=yv7x2hWg7QcV_4vG2xvF+7WgcckMqf=FU457ovg@mail.gmail.com>
+	<54814E43.3080602@topic.nl>
+	<CAP9ODKq1LXe0PPsgcYepf5uRmbVkHdHHDQfL32eFgUZNUUKW2w@mail.gmail.com>
+	<5481ABC1.7060208@topic.nl>
+Date: Fri, 5 Dec 2014 12:13:59 -0200
+X-Google-Sender-Auth: 4L6odBM_49fJKHH2zXZpMLoEOEI
+Message-ID: <CAP9ODKqomC1dDRBFbY-YkSwOSJ3LmDFaFwr8440JEi5si4=b4g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Busybox mdev improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,36 +48,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 13:16:29 -0000
-Content-Type: multipart/alternative; boundary=001a11c16bc2649a1d050977e2f6
-
---001a11c16bc2649a1d050977e2f6
+X-List-Received-Date: Fri, 05 Dec 2014 14:14:05 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 5 December 2014 at 11:40, Awais Belal <awais.belal@gmail.com> wrote:
+On Fri, Dec 5, 2014 at 10:57 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+> On 12/05/2014 12:27 PM, Otavio Salvador wrote:
+>>
+>> On Fri, Dec 5, 2014 at 4:18 AM, Mike Looijmans <mike.looijmans@topic.nl>
+>> wrote:
+> (PS:)
+> From the current state of busybox-mdev in OE-core, my perception is that
+> there are only a handful of projects in the world that use it, and I'm a
+> member of two of those...
 
-> The patch has been picked up from libxcb git and is only
-> applicable to v1.10 while it gets fixed in mainstream v1.11.
->
+I also use it :)
 
-If it's fixed in 1.11 then an upgrade to 1.11 is preferred.
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-Ross
-
---001a11c16bc2649a1d050977e2f6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 December 2014 at 11:40, Awais Belal <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:awais.belal@gmail.com" target=3D"_blank">awais.belal@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3zy" class=3D=
-"a3s" style=3D"overflow:hidden">The patch has been picked up from libxcb gi=
-t and is only<br>
-applicable to v1.10 while it gets fixed in mainstream v1.11.</div></blockqu=
-ote></div><br>If it&#39;s fixed in 1.11 then an upgrade to 1.11 is preferre=
-d.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
-s</div></div>
-
---001a11c16bc2649a1d050977e2f6--
