@@ -1,28 +1,26 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id F065072381
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 04E7F72304
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 15:58:29 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Dec 2014 07:58:30 -0800
+	Fri,  5 Dec 2014 16:40:01 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Dec 2014 08:39:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="425571238"
-Received: from aehernan-devstation.zpn.intel.com (HELO [10.219.4.54])
-	([10.219.4.54])
-	by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2014 07:48:06 -0800
-Message-ID: <5481D62B.7090805@linux.intel.com>
-Date: Fri, 05 Dec 2014 09:58:35 -0600
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+X-IronPort-AV: E=Sophos;i="5.07,522,1413270000"; d="scan'208";a="643063654"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.18.22])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2014 08:39:52 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 05 Dec 2014 16:39:51 +0000
+Message-ID: <4637432.pLcK1YbDyK@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.3 (Linux/3.17.4-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <c3538b9cc6a1e53955164e4f22482b7ac609bc75.1417793506.git.paul.eggleton@linux.intel.com>
+References: <cover.1417793506.git.paul.eggleton@linux.intel.com>
+	<c3538b9cc6a1e53955164e4f22482b7ac609bc75.1417793506.git.paul.eggleton@linux.intel.com>
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1417623235.git.alejandro.hernandez@linux.intel.com>	
-	<8d53e3e985f526e6c845328dc6bfa9c27cc63413.1417623235.git.alejandro.hernandez@linux.intel.com>
-	<1417686494.15614.49.camel@linuxfoundation.org>
-In-Reply-To: <1417686494.15614.49.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] insane.bbclass: Added QA test for unexpanded ${D}
+Subject: Re: [PATCH 1/1] buildtools-tarball: restore missing git tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,84 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 15:59:01 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Dec 2014 16:40:09 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Yes, I agree the function should iterate over all the PACKAGES, but for 
-the second matter, using the existing package variable handling 
-infrastructure within the class, ends up expanding the variables before 
-being able to check them , using getVar('FOO', False) is useless in this 
-case, any suggestions?
+On Friday 05 December 2014 15:32:42 Paul Eggleton wrote:
+> Since the split out of git-perltools, some git tools (such as "git am",
+> "git send-email" and "git-submodule") have no longer been part of the
+> buildtools. We need these, so add them back in.
+> 
+> Fixes [YOCTO #7033].
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-core/meta/buildtools-tarball.bb
+> b/meta/recipes-core/meta/buildtools-tarball.bb index 58e0ffa..822f4dc
+> 100644
+> --- a/meta/recipes-core/meta/buildtools-tarball.bb
+> +++ b/meta/recipes-core/meta/buildtools-tarball.bb
+> @@ -16,6 +16,7 @@ TOOLCHAIN_HOST_TASK ?= "\
+>      nativesdk-chrpath \
+>      nativesdk-tar \
+>      nativesdk-git \
+> +    nativesdk-git-perltools \
+>      nativesdk-pigz \
+>      nativesdk-make \
+>      nativesdk-wget \
 
-On 04/12/14 03:48, Richard Purdie wrote:
-> On Wed, 2014-12-03 at 11:00 -0600, Alejandro Hernandez wrote:
->> Checks in FILES and pkg_* variables ,solves common mistake
->> of using ${D} instead of $D and warns the user accordingly.
->>
->> [YOCTO #6642]
->>
->> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
->> ---
->>   meta/classes/insane.bbclass | 34 +++++++++++++++++++++++++++++++++-
->>   1 file changed, 33 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
->> index 0b45374..419c89b 100644
->> --- a/meta/classes/insane.bbclass
->> +++ b/meta/classes/insane.bbclass
->> @@ -906,6 +906,39 @@ def package_qa_check_deps(pkg, pkgdest, skip, d):
->>   
->>       return sane
->>   
->> +def package_qa_check_unexpanded_d(d):
->> +    """
->> +    Check for unexpanded D variable in pkg_* and FILES
->> +    variables, warn the user to use it correctly.
->> +    """
->> +
->> +    sane = True
->> +
->> +    # Get variables for current package
->> +    pkg = d.getVar('PN', True)
-> Rather than just PN here (which may or may not be a package), you need
-> to iterate over the list of packages in PACKAGES.
->
->
->> +    localdata = bb.data.createCopy(d)
->> +    localdata.setVar('OVERRIDES', pkg)
->> +    bb.data.update_data(localdata)
->> +
->> +    # Go through all variables and check if unexpanded D is found, warn the user accordingly
->> +    for var in 'FILES','pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm':
->> +        bbvar = localdata.getVar(var, False)
->> +        if bbvar:
->> +            if "${D}" in bbvar:
->> +                if var == 'FILES':
->> +                    bb.error("FILES should not contain the ${D} variable as it references the local build directory not the target filesystem, best solution is to remove the ${D} reference")
->> +                    sane = False
->> +                else:
->> +                    bb.error("%s in %s recipe contains ${D}, it should be replaced by $D instead" % (var, pkg))
->> +                    sane = False
->> +    return sane
->> +
->> +# Actual task to check for ${D
->> +python do_qa_check_unexpanded_d(){
->> +    package_qa_check_unexpanded_d(d)
->> +}
->> +addtask qa_check_unexpanded_d before do_compile
->> +
-> Why are we doing this before compile, rather than using the existing
-> package variable handling infrastructure in the class?
->
-> The other benefit of using that is we can benefit from the QA_WARN and
-> QA_ERR variables to determine if this issue is a warning or a fatal
-> error.
->
-> Cheers,
->
-> Richard
->
->
+Oh, if only it were that simple. This drags perl into buildtools, which we do 
+not want. I'd probably better fix that first, so ignore this for now... :/
 
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
