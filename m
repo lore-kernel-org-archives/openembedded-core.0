@@ -1,23 +1,34 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id C7FC372391
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 17DEE723B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 17:08:55 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1; Fri, 5 Dec 2014
-	18:08:54 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 662652800CB;
-	Fri,  5 Dec 2014 18:08:54 +0100 (CET)
-From: "Maxin B. John" <maxin.john@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 5 Dec 2014 18:08:49 +0100
-Message-ID: <1417799329-31577-1-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [PATCH] python: fix ssl import error
+	Fri,  5 Dec 2014 18:04:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sB5I2dlj009016; Fri, 5 Dec 2014 18:03:32 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Zgkr8FK6wWBa; Fri,  5 Dec 2014 18:03:32 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sB5I3Jub009040
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 5 Dec 2014 18:03:31 GMT
+Message-ID: <1417802636.5102.9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 05 Dec 2014 18:03:56 +0000
+In-Reply-To: <20141204214800.GF2453@jama>
+References: <1417087023-29423-1-git-send-email-gshastri@juniper.net>
+	<969F26A8BAB325438E7EB80D3C3134FB2F3C5556@IRSMSX105.ger.corp.intel.com>
+	<1417722559.15614.58.camel@linuxfoundation.org>
+	<20141204214800.GF2453@jama>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"gmshastri@gmail.com" <gmshastri@gmail.com>
+Subject: Re: [PATCH] When building with systemd based image, udev-hwdb postinstall script will fail because of not passing	correct CPU option. So fix it by passing correct QEMU_OPTIONS.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,53 +41,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 17:08:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 05 Dec 2014 18:04:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Fix this ssl import error:
-Python 2.7.3 (default, Dec  5 2014, 16:24:17)
-[GCC 4.9.1] on linux2
-Type "help", "copyright", "credits" or "license" for more information.
->>> import ssl
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/usr/lib/python2.7/ssl.py", line 92, in <module>
-    import base64        # for DER-to-PEM translation
-ImportError: No module named base64
+On Thu, 2014-12-04 at 22:48 +0100, Martin Jansa wrote:
+> Thanks for fixing that. Would it make sense to add comment saying that
+> nobody is expected to use "QEMU_EXTRAOPTIONS" directly and that they
+> aren't overrides (so that nobody makes the same mistake as I did).
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
----
- meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
- scripts/contrib/python/generate-manifest-2.7.py      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Yes, I've done that, and fixed up another reference in the
+qemuwrapper-cross so things are more consistent...
 
-diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
-index a8afe13..9a514b1 100644
---- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-+++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
-@@ -122,7 +122,7 @@ RDEPENDS_${PN}-importlib="${PN}-core"
- FILES_${PN}-importlib="${libdir}/python2.7/importlib "
- 
- SUMMARY_${PN}-io="Python low-level I/O"
--RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils"
-+RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient"
- FILES_${PN}-io="${libdir}/python2.7/lib-dynload/_socket.so ${libdir}/python2.7/lib-dynload/_io.so ${libdir}/python2.7/lib-dynload/_ssl.so ${libdir}/python2.7/lib-dynload/select.so ${libdir}/python2.7/lib-dynload/termios.so ${libdir}/python2.7/lib-dynload/cStringIO.so ${libdir}/python2.7/pipes.* ${libdir}/python2.7/socket.* ${libdir}/python2.7/ssl.* ${libdir}/python2.7/tempfile.* ${libdir}/python2.7/StringIO.* ${libdir}/python2.7/io.* ${libdir}/python2.7/_pyio.* "
- 
- SUMMARY_${PN}-json="Python JSON support"
-diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
-index 65486d8..21b874f 100755
---- a/scripts/contrib/python/generate-manifest-2.7.py
-+++ b/scripts/contrib/python/generate-manifest-2.7.py
-@@ -275,7 +275,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-image", "Python graphical image handling", "${PN}-core",
-     "colorsys.* imghdr.* lib-dynload/imageop.so lib-dynload/rgbimg.so" )
- 
--    m.addPackage( "${PN}-io", "Python low-level I/O", "${PN}-core ${PN}-math ${PN}-textutils",
-+    m.addPackage( "${PN}-io", "Python low-level I/O", "${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient",
-     "lib-dynload/_socket.so lib-dynload/_io.so lib-dynload/_ssl.so lib-dynload/select.so lib-dynload/termios.so lib-dynload/cStringIO.so " +
-     "pipes.* socket.* ssl.* tempfile.* StringIO.* io.* _pyio.*" )
- 
--- 
-1.9.1
+Cheers,
+
+Richard
+
 
 
