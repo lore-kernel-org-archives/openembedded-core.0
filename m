@@ -1,25 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B76C724EE
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D2B0724A3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 18:15:34 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Dec 2014 10:09:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,523,1413270000"; d="scan'208";a="643123770"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.18.22])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2014 10:09:34 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Dec 2014 18:09:28 +0000
-Message-Id: <b16b90e4646b1eb5ae59f98fca123f2f55f7ad3c.1417802944.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1417802944.git.paul.eggleton@linux.intel.com>
+	Fri,  5 Dec 2014 18:30:44 +0000 (UTC)
+Received: by mail-yk0-f177.google.com with SMTP id 9so557992ykp.36
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Dec 2014 10:30:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=ui3vQchxzwNSNjbSMUVC3PFr8X+JO9YGxthphZXagIQ=;
+	b=Une4CvSoNpkVQl/8/5U9eMxG5QJevOd6tw9VSUOUpG0dbzIM2PsDuZqWqj+xaiLjW6
+	lcUy0FaKtsxM56BcT+ZrM/N+ceDg0VIJ359vD/+it/1e2/fS9GaL3r7gZPmAmA8249hT
+	8uK8f28SCDkKv9RVWSZjzxA8LBZ+mU5bSoqLG3trklrQHmZo257FJZrRoeNYegeJ9l5c
+	1z0ka06qq5n8IdUlyk9pVT8lrCAGOWn/Nd7wdHVFreeq0e6f0TMksk5u54ty+wBrr3Zv
+	8cDRMuqUIEtC37evnEpvUtrXRlWaIf+ppSU3ete5i1xAJO/MrUY2vAIvpYHeStgySHAZ
+	+dqw==
+MIME-Version: 1.0
+X-Received: by 10.236.15.9 with SMTP id e9mr21092680yhe.37.1417804244895; Fri,
+	05 Dec 2014 10:30:44 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.142.132 with HTTP; Fri, 5 Dec 2014 10:30:44 -0800 (PST)
+In-Reply-To: <b16b90e4646b1eb5ae59f98fca123f2f55f7ad3c.1417802944.git.paul.eggleton@linux.intel.com>
 References: <cover.1417802944.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1417802944.git.paul.eggleton@linux.intel.com>
-References: <cover.1417802944.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 1/1] buildtools-tarball: restore missing git tools
+	<b16b90e4646b1eb5ae59f98fca123f2f55f7ad3c.1417802944.git.paul.eggleton@linux.intel.com>
+Date: Fri, 5 Dec 2014 16:30:44 -0200
+X-Google-Sender-Auth: oO-A85EU_UvTnOxW_4WY3GnObpw
+Message-ID: <CAP9ODKqGkqK7rMKudFGcjcEyXc+VquhtRPZpioXbXhTOc-kt2Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/1] buildtools-tarball: restore missing git tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,77 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 18:15:35 -0000
+X-List-Received-Date: Fri, 05 Dec 2014 18:30:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Since the split out of git-perltools, some git tools (such as "git am",
-"git send-email" and "git-submodule") have no longer been part of the
-buildtools. We need these, so add them back in.
+On Fri, Dec 5, 2014 at 4:09 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> Since the split out of git-perltools, some git tools (such as "git am",
+> "git send-email" and "git-submodule") have no longer been part of the
+> buildtools. We need these, so add them back in.
+>
+> However, adding git-perltools to buildtools triggers perl itself being
+> brought into buildtools as well, and we don't want that; but we also
+> don't want to have to hack the git recipe or indeed anything else that
+> starts depending on perl. Thus, add a dummy package which gets installed
+> in its place, in a separate package architecture that is only enabled
+> for buildtools to ensure it doesn't start appearing in place of
+> nativesdk-perl anywhere else.
+>
+> Fixes [YOCTO #7033].
+>
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-However, adding git-perltools to buildtools triggers perl itself being
-brought into buildtools as well, and we don't want that; but we also
-don't want to have to hack the git recipe or indeed anything else that
-starts depending on perl. Thus, add a dummy package which gets installed
-in its place, in a separate package architecture that is only enabled
-for buildtools to ensure it doesn't start appearing in place of
-nativesdk-perl anywhere else.
+This dummy thing looks like a hack to me :-(
 
-Fixes [YOCTO #7033].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-core/meta/buildtools-tarball.bb          |  4 ++++
- .../meta/nativesdk-buildtools-perl-dummy.bb           | 19 +++++++++++++++++++
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 58e0ffa..302510c 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -15,13 +15,17 @@ TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-ncurses-terminfo-base \
-     nativesdk-chrpath \
-     nativesdk-tar \
-+    nativesdk-buildtools-perl-dummy \
-     nativesdk-git \
-+    nativesdk-git-perltools \
-     nativesdk-pigz \
-     nativesdk-make \
-     nativesdk-wget \
-     nativesdk-ca-certificates \
-     "
- 
-+SDK_PACKAGE_ARCHS =+ "buildtools-dummy-${SDKPKGSUFFIX}"
-+
- TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
- 
- RDEPENDS = "${TOOLCHAIN_HOST_TASK}"
-diff --git a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-new file mode 100644
-index 0000000..d971c3c
---- /dev/null
-+++ b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-@@ -0,0 +1,19 @@
-+SUMMARY = "Dummy package which ensures perl is excluded from buildtools"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+
-+inherit nativesdk
-+
-+# Put it somewhere separate to ensure it's never used except when we want it
-+PACKAGE_ARCH = "buildtools-dummy-${SDKPKGSUFFIX}"
-+
-+PERLPACKAGES = "nativesdk-perl \
-+                nativesdk-perl-module-file-path"
-+
-+ALLOW_EMPTY_${PN} = "1"
-+
-+python populate_packages_prepend() {
-+    d.appendVar('RPROVIDES_${PN}', '${PERLPACKAGES}')
-+    d.appendVar('RCONFLICTS_${PN}', '${PERLPACKAGES}')
-+}
-+
 -- 
-1.9.3
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
