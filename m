@@ -1,26 +1,46 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D127A7232F
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id B908C65D59
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Dec 2014 06:16:54 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sB56Glb6009614
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 4 Dec 2014 22:16:47 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 4 Dec 2014 22:16:47 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
-	<richard.purdie@linuxfoundation.org>
-Date: Fri, 5 Dec 2014 14:16:40 +0800
-Message-ID: <e9073e57c09185d894ad3a13f6d373582e054dc0.1417759913.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1417759913.git.hongxu.jia@windriver.com>
-References: <cover.1417759913.git.hongxu.jia@windriver.com>
+	Fri,  5 Dec 2014 06:18:46 +0000 (UTC)
+Received: from amavisd-new (mailscanner07.wrt-nm.internl.net [217.149.192.117])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 8F1E93F570;
+	Fri,  5 Dec 2014 07:18:45 +0100 (CET)
+X-Spam-Flag: NO
+X-Spam-Score: -2.899
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.899 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner07.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP; Fri,  5 Dec 2014 07:18:45 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS;
+	Fri,  5 Dec 2014 07:18:44 +0100 (CET)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Fri, 5 Dec 2014 07:18:58 +0100
+Message-ID: <54814E43.3080602@topic.nl>
+Date: Fri, 5 Dec 2014 07:18:43 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] archiver: execute the probable tasks between do_unpack and do_patch
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
+	<CAP9ODKrh_p=yv7x2hWg7QcV_4vG2xvF+7WgcckMqf=FU457ovg@mail.gmail.com>
+In-Reply-To: <CAP9ODKrh_p=yv7x2hWg7QcV_4vG2xvF+7WgcckMqf=FU457ovg@mail.gmail.com>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Busybox mdev improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,175 +53,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Dec 2014 06:16:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 05 Dec 2014 06:18:51 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-While archiver inherited, we edit a recipe (such
-as gzip) to insert four tasks between do_patch and
-do_unpack:
-...
-addtask test1 after do_unpack before do_patch
-addtask test2 after do_unpack before do_test1
-addtask test3 after do_test2 before do_test1
-addtask test4 after do_test2 before do_test1
-...
+=EF=BB=BFOn 12/04/2014 09:47 PM, Otavio Salvador wrote:
+> On Thu, Dec 4, 2014 at 8:27 AM, Mike Looijmans <mike.looijmans@topic.nl> =
+wrote:
+>> This first series fixes the touchscreen support. A patch to automaticall=
+y
+>> have mdev mount storage devices will follow soon, I'm still testing it.
+>
+> I enjoy this idea but please put this one in a specific sub-package or
+> with a setting in /etc/default/mdev to enable/disable it.
 
-While building the recipe, the archiver will
-missing these four task in do_unpack_and_patch.
-Because it is hardcoded to execute do_unpach and
-do_patch, did not consider the probable tasks
-between them.
+By "this" you refer to the automatic mounting? No problem, and a good=20
+suggestion too.
 
-We make use of the value of BB_TASKDEPDATA which
-provided by metadata to compute the probable
-tasks between do_unpack and do_patch and execute
-them.
+Another problem I solved in various projects is the automatic loading of=20
+kernel drivers. It makes mdev automatically load modules and firmware, e.g.=
+=20
+when plugging in a USB device, and adds a script to scan for hotpluggable=20
+devices at boot. It's only a few lines, but these make mdeve provide most o=
+f=20
+udev's functionality.
 
-[Yocto #7018]
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/classes/archiver.bbclass | 119 +++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 112 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index b598aa3..d52fe99 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -269,6 +269,113 @@ def create_diff_gz(d, src_orig, src, ar_outdir):
-     subprocess.call(diff_cmd, shell=True)
-     bb.utils.remove(src_patched, recurse=True)
- 
-+# It helps to compute task dependencies between begin and end.
-+# Here is an example, in a recipe we insert four tasks between do_patch
-+# and do_unpack:
-+# addtask test1 after do_unpack before do_patch
-+# addtask test2 after do_unpack before do_test1
-+# addtask test3 after do_test2 before do_test1
-+# addtask test4 after do_test2 before do_test1
-+#
-+# We want to list the order of task dependencies:
-+# ['do_unpack', 'do_test2', 'do_test3', 'do_test4', 'do_test1', 'do_patch']
-+def list_sorted_tasks(begin, end, d):
-+    parent_graph = construct_parent_graph(begin, end, d)
-+
-+    # Sort tasks according to the number of parent tasks incrementally
-+    return [x[0] for x in sorted(parent_graph.iteritems(), key = lambda d:len(d[1]))]
-+
-+# List all parents for each tasks, such as:
-+# From
-+# task_deps = {
-+#   'do_patch': ['do_test1', 'do_unpack'],
-+#   'do_test1': ['do_test4', 'do_test3', 'do_test2', 'do_unpack']
-+#   'do_test2': ['do_unpack'],
-+#   'do_test3': ['do_test2'],
-+#   'do_test4': ['do_test2']
-+# }
-+# to the parent graph we counstruct:
-+# parent_graph = {
-+#   'do_patch': ['do_test1', 'do_test2', 'do_test3', 'do_test4', 'do_unpack'],
-+#   'do_test1': ['do_test4', 'do_test3', 'do_test2', 'do_unpack'],
-+#   'do_test2': ['do_unpack'],
-+#   'do_test3': ['do_test2', 'do_unpack'],
-+#   'do_test4': ['do_test2', 'do_unpack'],
-+#   'do_unpack': []
-+# }
-+#
-+# We are not care about circualar dependency, the bitbake parser will do the
-+# checking.
-+def construct_parent_graph(begin, end, d):
-+    task_deps = construct_task_deps(d)
-+    def list_parents(task):
-+        if task == begin:
-+            return []
-+        parents = task_deps[task]
-+        for ptask in task_deps[task]:
-+            parents += [x for x in list_parents(ptask) if x not in parents]
-+        return parents
-+
-+    parent_graph = dict()
-+    # All the tasks we need listed in the end's parent
-+    end_parent = list_parents(end)
-+    parent_graph[end] = end_parent
-+    for task in end_parent:
-+        parent_graph[task] = list_parents(task)
-+
-+    return parent_graph
-+
-+# Construct task_deps from BB_TASKDEPDATA, it lists parents for each
-+# task within the current recipe, such as:
-+# From
-+# BB_TASKDEPDATA = {
-+#   0: ['gzip', 'do_test1', '**/gzip_1.6.bb', set([1, 18, 19, 20])],
-+#   1: ['gzip', 'do_unpack', '**/gzip_1.6.bb', set([5, 6])],
-+#   2: ['gzip', 'do_patch', '**/gzip_1.6.bb', set([0, 1, 24])],
-+#   ...
-+#   5: ['gzip', 'do_fetch', '**/gzip_1.6.bb', set([])],
-+#   6: ['gzip', 'do_wrlbuildlink', '**/gzip_1.6.bb', set([])],
-+#   ...
-+#   14: ['gzip', 'do_unpack_and_patch', '**/gzip_1.6.bb', set([2, 14])]
-+#   ...
-+#   18: ['gzip', 'do_test4', '**/gzip_1.6.bb', set([20])],
-+#   19: ['gzip', 'do_test3', '**/gzip_1.6.bb', set([20])],
-+#   20: ['gzip', 'do_test2', '**/gzip_1.6.bb', set([1])],
-+#   ...
-+#   24: ['quilt-native', 'do_populate_sysroot', '**/quilt-native_0.63.bb', set([23])],
-+# }
-+# to the task deps we counstruct:
-+# task_deps = {
-+#   'do_test2': ['do_unpack'],
-+#   'do_test3': ['do_test2'],
-+#   'do_fetch': [],
-+#   'do_test1': ['do_unpack', 'do_test4', 'do_test3', 'do_test2'],
-+#   'do_test4': ['do_test2'],
-+#   'do_patch': ['do_test1', 'do_unpack'],
-+#   'do_unpack_and_patch': ['do_patch'],
-+#   'do_unpack': ['do_fetch', 'do_wrlbuildlink'],
-+#   'do_wrlbuildlink': []
-+# }
-+def construct_task_deps(d):
-+    taskdepdata = d.getVar('BB_TASKDEPDATA', True)
-+    pn = d.getVar('PN', True)
-+    task_deps = dict()
-+    for task_id in taskdepdata:
-+        # Filter out dep task which is not in the current recipe
-+        if pn != taskdepdata[task_id][0]:
-+            continue
-+
-+        task =  taskdepdata[task_id][1]
-+        dep_ids = taskdepdata[task_id][3]
-+        task_deps[task] = list()
-+        for dep_id in dep_ids:
-+            if pn != taskdepdata[dep_id][0] or dep_id == task_id:
-+                continue
-+            dep_task = taskdepdata[dep_id][1]
-+            task_deps[task].append(dep_task)
-+
-+    return task_deps
-+
- # Run do_unpack and do_patch
- python do_unpack_and_patch() {
-     if d.getVarFlag('ARCHIVER_MODE', 'src', True) not in \
-@@ -286,13 +393,11 @@ python do_unpack_and_patch() {
-     # do_patch required 'B' existed).
-     bb.utils.mkdirhier(d.getVar('B', True))
- 
--    # The kernel source is ready after do_validate_branches
--    if bb.data.inherits_class('kernel-yocto', d):
--        bb.build.exec_func('do_unpack', d)
--        bb.build.exec_func('do_kernel_checkout', d)
--        bb.build.exec_func('do_validate_branches', d)
--    else:
--        bb.build.exec_func('do_unpack', d)
-+    tasks = list_sorted_tasks('do_unpack', 'do_patch', d)
-+    bb.note('execute %s in do_unpack_and_patch' % tasks)
-+    # Do not execute 'do_patch' here
-+    for task in tasks[0:-1]:
-+        bb.build.exec_func(task, d)
- 
-     # Save the original source for creating the patches
-     if d.getVarFlag('ARCHIVER_MODE', 'diff', True) == '1':
--- 
-1.9.1
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+System Expert
+
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
 
 
