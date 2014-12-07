@@ -1,28 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 576EA72440
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
+	[209.85.218.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 85F1160232
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Dec 2014 17:14:47 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 06 Dec 2014 09:13:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,529,1413270000"; d="scan'208";a="649509649"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.18.22])
-	by orsmga002.jf.intel.com with ESMTP; 06 Dec 2014 09:14:47 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Date: Sat, 06 Dec 2014 17:14:18 +0000
-Message-ID: <11168201.psZy8F9ArL@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.4-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <54830760.7020708@pabigot.com>
-References: <cover.1417802944.git.paul.eggleton@linux.intel.com>
-	<CAP9ODKrLxhKNi+TS4T+e86zBJ1Rnu-Q443AoztfudrwpvGAUrg@mail.gmail.com>
-	<54830760.7020708@pabigot.com>
+	Sun,  7 Dec 2014 01:38:53 +0000 (UTC)
+Received: by mail-oi0-f42.google.com with SMTP id v63so2051312oia.29
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 06 Dec 2014 17:38:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=EmkmzNZNmnIadTRQbEjxROy743mTorAU9lnPJ8eRAxw=;
+	b=xEKO4s5RUIpb3yY0rFeXf1YdqMX8jegDKU7MSr0q1S0tsLfCt/MxUEM/kyDisjWyZs
+	qwZWA8FfEvBQnmxm1zFSAvwwTQGv5HOivP8n553o4S6sAHHELETHP9c8zzBL+GHkYuJw
+	d+5KTCKtj3NNmJzUi0yM3KWSSRr3hiE6oygjwGjalpLDRXDUUo4Eh4k2Q78jzHp9G5yl
+	nQ42T9pMxUhAINd32Z1+GljsUrU0QmxmEs24Ms0CrBOxJTX1iq1o5+yUp4/bNniWEzEX
+	OkBdYJwmtrB+84ouctw/BGca8ctR7XkXudwBVLUYNyBvfbFG/fa0ElVu8vuHzpDwlpbt
+	SlXg==
+X-Received: by 10.182.92.167 with SMTP id cn7mr15402594obb.53.1417916333354;
+	Sat, 06 Dec 2014 17:38:53 -0800 (PST)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/1] buildtools-tarball: restore missing git tools
+Sender: kergoth@gmail.com
+Received: by 10.76.102.14 with HTTP; Sat, 6 Dec 2014 17:38:32 -0800 (PST)
+In-Reply-To: <C1929A84-C95C-4584-B64F-D09C7F71D656@dominion.thruhere.net>
+References: <1417812364-14923-1-git-send-email-ross.burton@intel.com>
+	<C1929A84-C95C-4584-B64F-D09C7F71D656@dominion.thruhere.net>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Sat, 6 Dec 2014 18:38:32 -0700
+X-Google-Sender-Auth: Jy0m0IeCXHPjmOrr4tQg4aMcPmc
+Message-ID: <CABcZAN=y7exSY-8x=iXo_-g9nL5zzRL3yYSa+7NR0m11fwmGOA@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dtc: don't use autotools as this doesn't use autotools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,72 +45,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Dec 2014 17:14:55 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sun, 07 Dec 2014 01:38:57 -0000
+Content-Type: multipart/alternative; boundary=001a11c325625ef5690509965fca
 
-Hi Peter,
+--001a11c325625ef5690509965fca
+Content-Type: text/plain; charset=UTF-8
 
-On Saturday 06 December 2014 07:40:48 Peter A. Bigot wrote:
-> On 12/06/2014 07:01 AM, Otavio Salvador wrote:
-> > On Fri, Dec 5, 2014 at 11:39 PM, Paul Eggleton
-> > 
-> > <paul.eggleton@linux.intel.com> wrote:
-> >> On Friday 05 December 2014 16:30:44 Otavio Salvador wrote:
-> >>> On Fri, Dec 5, 2014 at 4:09 PM, Paul Eggleton
-> >>> 
-> >>> <paul.eggleton@linux.intel.com> wrote:
-> >>>> Since the split out of git-perltools, some git tools (such as "git am",
-> >>>> "git send-email" and "git-submodule") have no longer been part of the
-> >>>> buildtools. We need these, so add them back in.
-> >>>> 
-> >>>> However, adding git-perltools to buildtools triggers perl itself being
-> >>>> brought into buildtools as well, and we don't want that; but we also
-> >>>> don't want to have to hack the git recipe or indeed anything else that
-> >>>> starts depending on perl. Thus, add a dummy package which gets
-> >>>> installed
-> >>>> in its place, in a separate package architecture that is only enabled
-> >>>> for buildtools to ensure it doesn't start appearing in place of
-> >>>> nativesdk-perl anywhere else.
-> >>>> 
-> >>>> Fixes [YOCTO #7033].
-> >>>> 
-> >>>> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> >>> 
-> >>> This dummy thing looks like a hack to me :-(
-> >> 
-> >> Perhaps - I'm all ears for an alternative solution, but it absolutely has
-> >> to be fixed, and soon. Shipping an incomplete git (or incomplete perl)
-> >> in buildtools basically defeats a major part of having the thing in the
-> >> first place.
-> > 
-> > We should split out the tools we really want (so we skip the perl
-> > runtime dependency) or include perl. Use a dummy package for it is
-> > wrong in my opinion. You cannot guarantee host perl will work as
-> > expected for our git release.
-> 
-> I vote for "include perl".
+On Sat, Dec 6, 2014 at 4:00 AM, Koen Kooi <koen@dominion.thruhere.net>
+wrote:
 
-We'd rather not do that for buildtools unless there are actual problems with 
-the host perl. I've heard of no such issues up to this point.
+> > Op 5 dec. 2014, om 21:46 heeft Ross Burton <ross.burton@intel.com> het
+> volgende geschreven:
+> >
+> > Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > ---
+> > meta/recipes-kernel/dtc/dtc.inc |    8 +++++---
+> > 1 file changed, 5 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/recipes-kernel/dtc/dtc.inc
+> b/meta/recipes-kernel/dtc/dtc.inc
+> > index 95023b6..0c409b0 100644
+> > --- a/meta/recipes-kernel/dtc/dtc.inc
+> > +++ b/meta/recipes-kernel/dtc/dtc.inc
+>
+> [..]
+>
+> > +do_install () {
+> > +     oe_runmake install
+> > +}
+>
+> I'm wondering if it makes sense to have base.bbclass do this the default
+> do_install. Having a virtually empty recipe with only a do_install always
+> makes me a bit uneasy.
+>
 
-> I was surprised that I had to submit a patch to get git-perltools to
-> include the git Perl module which is required by git add --interactive.
-
-Right, we have that dependency now though.
-
-> Why are there things in git-perltools that don't have a true dependency
-> on perl?  And if they do, then is the issue that some of them are usable
-> in restricted ways that don't invoke that dependency?
-
-There aren't. These require perl, but the host perl should be perfectly 
-adequate. Buildtools isn't quite the same as the target.
-
-Cheers,
-Paul
-
+The problem with that is DESTDIR is an automake convention.
 -- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
-Paul Eggleton
-Intel Open Source Technology Centre
+--001a11c325625ef5690509965fca
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Sat, Dec 6, 2014 at 4:00 AM, Koen Kooi <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:koen@dominion.thruhere.net" target=3D"_blank">koen@dominion.thruhere=
+.net</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1i=
+w" class=3D"a3s" style=3D"overflow:hidden">&gt; Op 5 dec. 2014, om 21:46 he=
+eft Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@in=
+tel.com</a>&gt; het volgende geschreven:<br>
+<span class=3D"">&gt;<br>
+&gt; Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com=
+">ross.burton@intel.com</a>&gt;<br>
+&gt; ---<br>
+&gt; meta/recipes-kernel/dtc/dtc.inc |=C2=A0 =C2=A0 8 +++++---<br>
+&gt; 1 file changed, 5 insertions(+), 3 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc=
+/dtc.inc<br>
+&gt; index 95023b6..0c409b0 100644<br>
+&gt; --- a/meta/recipes-kernel/dtc/dtc.inc<br>
+&gt; +++ b/meta/recipes-kernel/dtc/dtc.inc<br>
+<br>
+</span>[..]<br>
+<span class=3D""><br>
+&gt; +do_install () {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0oe_runmake install<br>
+&gt; +}<br>
+<br>
+</span>I&#39;m wondering if it makes sense to have base.bbclass do this the=
+ default do_install. Having a virtually empty recipe with only a do_install=
+ always makes me a bit uneasy.</div></blockquote></div><br>The problem with=
+ that is DESTDIR is an automake convention.<br>-- <br><div class=3D"gmail_s=
+ignature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - Bit=
+Bake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Eng=
+ineer, Mentor Graphics</div>
+</div></div>
+
+--001a11c325625ef5690509965fca--
