@@ -1,34 +1,30 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id E729D723FA
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 762A3723EE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Dec 2014 07:03:16 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-03.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1XxVs9-0005LA-0v from Awais_Belal@mentor.com ;
-	Sat, 06 Dec 2014 23:03:13 -0800
-Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.55]) by
-	SVR-IES-FEM-03.mgc.mentorg.com ([137.202.0.108]) with mapi id
-	14.03.0181.006; Sun, 7 Dec 2014 07:03:11 +0000
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] libxcb: fix socket writes
-Thread-Index: AQHQEIBUJq9RPrqydEKzD8wqNSn5EJyA+kGAgAATSNOAAAlAAIACn8DV
-Date: Sun, 7 Dec 2014 07:03:10 +0000
-Message-ID: <2021B186DC632746BD5A3CE32F12BD28E9FDFB15@EU-MBX-03.mgc.mentorg.com>
-References: <1417779643-18350-1-git-send-email-awais_belal@mentor.com>
-	<CAJTo0LZ1=H4Gz90Ni0sFjL29LMgqMXR18ZTv0uOjLCtsziboEg@mail.gmail.com>
-	<2021B186DC632746BD5A3CE32F12BD28E9FDF811@EU-MBX-03.mgc.mentorg.com>,
-	<CAJTo0LY0-X-w2uarbL7bKKCjirw6JUi-w6GXO2Qm3f0zPmcJTA@mail.gmail.com>
-In-Reply-To: <CAJTo0LY0-X-w2uarbL7bKKCjirw6JUi-w6GXO2Qm3f0zPmcJTA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
+	Sun,  7 Dec 2014 15:07:44 +0000 (UTC)
+Received: by mail-la0-f50.google.com with SMTP id pn19so2791012lab.23
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 07 Dec 2014 07:07:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=c8fUovyu9NlmA/4Ue1VzVO4YG+ZaF+hoam1RupdZKyg=;
+	b=m9iBG4FuUk8oqsns6a2Rn2V9L1ViWVe+Y5zztMotE5A9qo2xNU72q9CudKijtoL/oK
+	u3XRdMH8pNOyUPkOOwm6kOs5TLR8FYCDi9MiYPXmml1Gb45G1kj4nO3eQBMY4pFb9GFI
+	vIunA+5gcHIp5an3+R9iI4TOCODeO7yH1KZ5Q0o336K9u4pGgA4I83JOvMK4E7T9YDox
+	ISboluIcIHT46oEF78FYzoIBcEBlrecXNmYkt2Wtixx5+rygIu85Ksh+0+F1STWb9hDH
+	GPxslP6LNwL/0DugxwnUjPFrR9zQBfktQ/Wjym0j19Ssm50errfPavJ/NjsO0gmVtOAL
+	t13A==
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxcb: fix socket writes
+X-Received: by 10.152.20.193 with SMTP id p1mr12116083lae.35.1417964864211;
+	Sun, 07 Dec 2014 07:07:44 -0800 (PST)
+Received: by 10.25.155.18 with HTTP; Sun, 7 Dec 2014 07:07:44 -0800 (PST)
+Date: Sun, 7 Dec 2014 16:07:44 +0100
+Message-ID: <CAPbeDCmcdS36_2anNvZpT2aO2Vft6so3MmTqsjtFo65itxyOXw@mail.gmail.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: perl installation in the SDK references $OECORE_NATIVE_SYSROOT ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,103 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Dec 2014 07:03:23 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_2021B186DC632746BD5A3CE32F12BD28E9FDFB15EUMBX03mgcmento_"
+X-List-Received-Date: Sun, 07 Dec 2014 15:07:46 -0000
+Content-Type: multipart/alternative; boundary=089e0141a9a409114e0509a1ac41
 
---_000_2021B186DC632746BD5A3CE32F12BD28E9FDFB15EUMBX03mgcmento_
-Content-Type: text/plain; charset="iso-8859-1"
+--089e0141a9a409114e0509a1ac41
+Content-Type: text/plain; charset=UTF-8
+
+Hi,
+
+Like the topic says, I grepped for "OECORE" in the native sysroot of my SDK
+installation, and the only hit I got was this:
+
+usr/bin/perl:export
+PERL5LIB=$PERL5LIB:$OECORE_NATIVE_SYSROOT//usr/lib/perl:$OECORE_NATIVE_SYSROOT//usr/lib/perl/5.20.0
+
+I'm wondering if this reference is intentional, or if its something that
+should have been sed:ed out during sdk installation ?
+
+Jacob
+
+--089e0141a9a409114e0509a1ac41
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ross,
+<div dir=3D"ltr"><div><div><div>Hi,<br><br></div>Like the topic says, I gre=
+pped for &quot;OECORE&quot; in the native sysroot of my SDK installation, a=
+nd the only hit I got was this:<br><br>usr/bin/perl:export PERL5LIB=3D$PERL=
+5LIB:$OECORE_NATIVE_SYSROOT//usr/lib/perl:$OECORE_NATIVE_SYSROOT//usr/lib/p=
+erl/5.20.0<br><br></div>I&#39;m wondering if this reference is intentional,=
+ or if its something that should have been sed:ed out during sdk installati=
+on ?<br><br></div>Jacob<br><br></div>
 
-Do I need to resubmit this with [dizzy] tag or will this work?
-
-BR,
-Awais
-________________________________
-From: Burton, Ross [ross.burton@intel.com]
-Sent: Friday, December 05, 2014 7:58 PM
-To: Belal, Awais
-Cc: OE-core
-Subject: Re: [OE-core] [PATCH] libxcb: fix socket writes
-
-
-On 5 December 2014 at 14:26, Belal, Awais <Awais_Belal@mentor.com<mailto:Aw=
-ais_Belal@mentor.com>> wrote:
-I will look into the version upgrade. Can this be merged to dizzy?
-
-Dizzy would have to be a backported patch as you originally submitted.
-
-Ross
-
---_000_2021B186DC632746BD5A3CE32F12BD28E9FDFB15EUMBX03mgcmento_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html dir=3D"ltr">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style id=3D"owaParaStyle" type=3D"text/css">P {margin-top:0;margin-bottom:=
-0;}</style>
-</head>
-<body ocsi=3D"0" fpstyle=3D"1">
-<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
-10pt;">Hi Ross,<br>
-<br>
-Do I need to resubmit this with [dizzy] tag or will this work?<br>
-<div><br>
-<div style=3D"font-family:Tahoma; font-size:13px"><font face=3D"Tahoma"></f=
-ont>
-<div style=3D"font-size:13px">
-<div><font size=3D"2" face=3D"Tahoma"><span lang=3D"en-US">
-<div style=3D"margin:0">BR,</div>
-<div style=3D"margin:0"><i>Awais</i></div>
-</span></font></div>
-</div>
-<font face=3D"Tahoma"></font></div>
-</div>
-<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
-">
-<hr tabindex=3D"-1">
-<div style=3D"direction: ltr;" id=3D"divRpF68939"><font size=3D"2" color=3D=
-"#000000" face=3D"Tahoma"><b>From:</b> Burton, Ross [ross.burton@intel.com]=
-<br>
-<b>Sent:</b> Friday, December 05, 2014 7:58 PM<br>
-<b>To:</b> Belal, Awais<br>
-<b>Cc:</b> OE-core<br>
-<b>Subject:</b> Re: [OE-core] [PATCH] libxcb: fix socket writes<br>
-</font><br>
-</div>
-<div></div>
-<div>
-<div dir=3D"ltr">
-<div class=3D"gmail_extra"><br>
-<div class=3D"gmail_quote">On 5 December 2014 at 14:26, Belal, Awais <span =
-dir=3D"ltr">
-&lt;<a href=3D"mailto:Awais_Belal@mentor.com" target=3D"_blank">Awais_Belal=
-@mentor.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
-px #ccc solid; padding-left:1ex">
-<div style=3D"direction:ltr; font-family:Tahoma; color:#000000; font-size:1=
-0pt">I will look into the version upgrade. Can this be merged to dizzy?<br>
-<div></div>
-</div>
-</blockquote>
-</div>
-<br>
-Dizzy would have to be a backported patch as you originally submitted.</div=
->
-<div class=3D"gmail_extra"><br>
-</div>
-<div class=3D"gmail_extra">Ross</div>
-</div>
-</div>
-</div>
-</div>
-</body>
-</html>
-
---_000_2021B186DC632746BD5A3CE32F12BD28E9FDFB15EUMBX03mgcmento_--
+--089e0141a9a409114e0509a1ac41--
