@@ -1,40 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FC2F7226C
+Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 22BEE60232
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Dec 2014 11:24:55 +0000 (UTC)
-Received: by mail-qc0-f179.google.com with SMTP id c9so3262340qcz.38
+	Mon,  8 Dec 2014 11:39:57 +0000 (UTC)
+Received: by mail-qa0-f54.google.com with SMTP id i13so3146381qae.41
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Dec 2014 03:24:55 -0800 (PST)
+	Mon, 08 Dec 2014 03:39:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=qbkjoqGAAz5UTt2dCivZRa0ObCejJRBYxwaLvjnpzN4=;
-	b=LbRmXIfcbNl77L9zpg6PflEt4RD5G35KUdje4ftkRXYvFErweeuveFZ+9a2Gz4LzpG
-	Zfi/ie3q+9ezIieaShWquRXJMHbHLh2tdohYlqglWs+bzPVcXpN52jOspEDXdOb4TeLq
-	Ebas1XO1ib/p1g0Qi5i3GytQOEfzunIOVgoA8gFWo94Dgy7dgqKS5JWeeTS0vX/OwVhY
-	ADrIMFw4FLKr4pk7EtWVBnXAh9cP+AxxQ7isyLGR43eMGnyEmkPT1HZlboCXiHo8Qbv5
-	Xx5vtp/uJVLJW0bDa3UxF9bJ/WZR6atPc81MTl8ambkkcb3PKAFDjsEqKrWQlHCYGztG
-	F4bw==
-X-Gm-Message-State: ALoCoQl2oRMsrJLFf3kKmJ3UBRZuRpCp3YLMCmsoMpDeg/kkH3YMVJjUyNA6Z/lRucuTLXR51N/1
-X-Received: by 10.140.96.101 with SMTP id j92mr49836481qge.87.1418037895631;
-	Mon, 08 Dec 2014 03:24:55 -0800 (PST)
+	bh=kOW2xf27TYp97J1rv32oULuOF54dVObf57/fIff8Tnk=;
+	b=iSiAjJZf7s4xgNsRyrrTifoQdEBmqlaHNRus+npv7qZqUMv7FYvRQwNMpeyuhUu2O8
+	UOaCLIZbZJ7lGqnWtsUFjNyozQZ21FbTyY5P5Km83fuEcK1v/uTpVNz0ZD4tPNHADidr
+	xnnMfgBNYhNJ/P0n2fr78q8uQDQj94TJySHwzn1DQGWY5yhzAN3QLtz9LQBpikqhxLBx
+	7UbVtNHMGYJYle3yrGGu2VUfNMbbEGitFNWQNtzUNvDCPouqWHYKCcNz+kGcuDlRBdsX
+	c1006izaHu02kI1aDhSWZvOFPd0CwwI3NqYXHKp21ki3X9p0IE/zWwUtvNTQ76s79QOI
+	vfxQ==
+X-Gm-Message-State: ALoCoQmC95XRzU4ZK6vayymF7rPy5QWfQQMa/WTpXBfiYZZCxh3PO6HmoXxugDpCVKZ0XBDHlceV
+X-Received: by 10.224.92.205 with SMTP id s13mr52224714qam.52.1418038797464;
+	Mon, 08 Dec 2014 03:39:57 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Mon, 8 Dec 2014 03:24:35 -0800 (PST)
-In-Reply-To: <CABcZAN=y7exSY-8x=iXo_-g9nL5zzRL3yYSa+7NR0m11fwmGOA@mail.gmail.com>
-References: <1417812364-14923-1-git-send-email-ross.burton@intel.com>
-	<C1929A84-C95C-4584-B64F-D09C7F71D656@dominion.thruhere.net>
-	<CABcZAN=y7exSY-8x=iXo_-g9nL5zzRL3yYSa+7NR0m11fwmGOA@mail.gmail.com>
+Received: by 10.140.48.231 with HTTP; Mon, 8 Dec 2014 03:39:37 -0800 (PST)
+In-Reply-To: <2021B186DC632746BD5A3CE32F12BD28E9FDFB15@EU-MBX-03.mgc.mentorg.com>
+References: <1417779643-18350-1-git-send-email-awais_belal@mentor.com>
+	<CAJTo0LZ1=H4Gz90Ni0sFjL29LMgqMXR18ZTv0uOjLCtsziboEg@mail.gmail.com>
+	<2021B186DC632746BD5A3CE32F12BD28E9FDF811@EU-MBX-03.mgc.mentorg.com>
+	<CAJTo0LY0-X-w2uarbL7bKKCjirw6JUi-w6GXO2Qm3f0zPmcJTA@mail.gmail.com>
+	<2021B186DC632746BD5A3CE32F12BD28E9FDFB15@EU-MBX-03.mgc.mentorg.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 Dec 2014 11:24:35 +0000
-Message-ID: <CAJTo0La3X+mjz-6SJ+-g=n2eukQUM8KEuVQzxeHpYrpLHHjoGA@mail.gmail.com>
-To: Christopher Larson <clarson@kergoth.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dtc: don't use autotools as this doesn't use autotools
+Date: Mon, 8 Dec 2014 11:39:37 +0000
+Message-ID: <CAJTo0LbO4oz9vE5JWUKcaSyKycY2JnaCb3ZmZjmU8Q_cXqUAVA@mail.gmail.com>
+To: "Belal, Awais" <Awais_Belal@mentor.com>,
+	Armin Kuster <akuster808@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxcb: fix socket writes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,34 +48,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Dec 2014 11:25:00 -0000
-Content-Type: multipart/alternative; boundary=001a113a9d8a0c462d0509b2ad21
+X-List-Received-Date: Mon, 08 Dec 2014 11:40:06 -0000
+Content-Type: multipart/alternative; boundary=089e015375e4cd10080509b2e26f
 
---001a113a9d8a0c462d0509b2ad21
+--089e015375e4cd10080509b2e26f
 Content-Type: text/plain; charset=UTF-8
 
-On 7 December 2014 at 01:38, Christopher Larson <clarson@kergoth.com> wrote:
+On 7 December 2014 at 07:03, Belal, Awais <Awais_Belal@mentor.com> wrote:
 
-> The problem with that is DESTDIR is an automake convention.
+> Do I need to resubmit this with [dizzy] tag or will this work?
 >
 
-Yes, outside of automake there's just too much variety to make providing
-defaults useful.
+If you don't include the [dizzy] tag then you'll need to ping Armin Kuster,
+who is the dizzy maintainer (I've CC'd him to this mail).
 
 Ross
 
---001a113a9d8a0c462d0509b2ad21
+--089e015375e4cd10080509b2e26f
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 December 2014 at 01:38, Christopher Larson <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a>=
+On 7 December 2014 at 07:03, Belal, Awais <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:Awais_Belal@mentor.com" target=3D"_blank">Awais_Belal@mentor.com</a>=
 &gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_ex=
-tra">The problem with that is DESTDIR is an automake convention.</div></blo=
-ckquote><div><br></div><div>Yes, outside of automake there&#39;s just too m=
-uch variety to make providing defaults useful.<br></div><div><br></div><div=
->Ross</div></div></div></div>
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"directio=
+n:ltr;font-family:Tahoma;color:#000000;font-size:10pt">Do I need to resubmi=
+t this with [dizzy] tag or will this work?<br>
+<div></div></div></blockquote></div><br>If you don&#39;t include the [dizzy=
+] tag then you&#39;ll need to ping Armin Kuster, who is the dizzy maintaine=
+r (I&#39;ve CC&#39;d him to this mail).</div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a113a9d8a0c462d0509b2ad21--
+--089e015375e4cd10080509b2e26f--
