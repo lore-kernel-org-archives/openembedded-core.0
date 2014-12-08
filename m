@@ -1,29 +1,29 @@
 Return-Path: <biannm@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id B80877242F
+	by mail.openembedded.org (Postfix) with ESMTP id 4C41272425
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Dec 2014 05:48:20 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="44649584"
+	Mon,  8 Dec 2014 05:48:19 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="44649583"
 Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 08 Dec 2014 13:45:02 +0800
+	by heian.cn.fujitsu.com with ESMTP; 08 Dec 2014 13:45:01 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
 	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id sB85lw3t013986
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id sB85lvnd013983
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Dec 2014 13:47:58 +0800
+	Mon, 8 Dec 2014 13:47:57 +0800
 Received: from localhost.localdomain (10.167.226.31) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Mon, 8 Dec 2014 13:48:20 +0800
+	Server (TLS) id 14.3.181.6; Mon, 8 Dec 2014 13:48:19 +0800
 From: Bian Naimeng <biannm@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 8 Dec 2014 13:45:07 +0800
-Message-ID: <1418017507-64551-3-git-send-email-biannm@cn.fujitsu.com>
+Date: Mon, 8 Dec 2014 13:45:06 +0800
+Message-ID: <1418017507-64551-2-git-send-email-biannm@cn.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1418017507-64551-1-git-send-email-biannm@cn.fujitsu.com>
 References: <1418017507-64551-1-git-send-email-biannm@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.31]
-Subject: [PATCH 2/2] cpio: fix bug CVE-2014-9112 for cpio-2.11
+Subject: [PATCH 1/2] cpio: fix bug CVE-2014-9112 for cpio-2.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,26 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Dec 2014 05:48:21 -0000
+X-List-Received-Date: Mon, 08 Dec 2014 05:48:23 -0000
 Content-Type: text/plain
 
 Obtain detain from following URL.
-  http://lists.gnu.org/archive/html/bug-cpio/2014-12/msg00000.html
-  http://git.savannah.gnu.org/cgit/cpio.git/commit/?id=746f3ff670dcfcdd28fcc990e79cd6fccc7ae48d
+http://lists.gnu.org/archive/html/bug-cpio/2014-12/msg00000.html
+http://git.savannah.gnu.org/cgit/cpio.git/commit/?id=746f3ff670dcfcdd28fcc990e79cd6fccc7ae48d
 
 Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
 ---
- .../cpio/cpio-2.11/fix-memory-overrun.patch        | 220 +++++++++++++++++++++
- meta/recipes-extended/cpio/cpio_2.11.bb            |   3 +-
- 2 files changed, 222 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/cpio/cpio-2.11/fix-memory-overrun.patch
+ .../cpio/cpio-2.8/fix-memory-overrun.patch         | 217 +++++++++++++++++++++
+ meta/recipes-extended/cpio/cpio_2.8.bb             |   7 +-
+ 2 files changed, 221 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/cpio/cpio-2.8/fix-memory-overrun.patch
 
-diff --git a/meta/recipes-extended/cpio/cpio-2.11/fix-memory-overrun.patch b/meta/recipes-extended/cpio/cpio-2.11/fix-memory-overrun.patch
+diff --git a/meta/recipes-extended/cpio/cpio-2.8/fix-memory-overrun.patch b/meta/recipes-extended/cpio/cpio-2.8/fix-memory-overrun.patch
 new file mode 100644
-index 0000000..89cd3cf
+index 0000000..0148e70
 --- /dev/null
-+++ b/meta/recipes-extended/cpio/cpio-2.11/fix-memory-overrun.patch
-@@ -0,0 +1,220 @@
++++ b/meta/recipes-extended/cpio/cpio-2.8/fix-memory-overrun.patch
+@@ -0,0 +1,217 @@
 +cpio: Fix memory overrun on reading improperly created link records
 +
 +Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
@@ -76,10 +76,10 @@ index 0000000..89cd3cf
 +
 +Signed-off-by: Sergey Poznyakoff <gray@gnu.org.ua>
 +
-+diff -Nurp cpio-2.11.orig/src/copyin.c cpio-2.11/src/copyin.c
-+--- cpio-2.11.orig/src/copyin.c	2010-02-15 18:02:23.000000000 +0800
-++++ cpio-2.11/src/copyin.c	2014-12-08 13:14:04.355547508 +0800
-+@@ -126,6 +126,28 @@ tape_skip_padding (int in_file_des, off_
++diff -Nurp cpio-2.8.orig/src/copyin.c cpio-2.8/src/copyin.c
++--- cpio-2.8.orig/src/copyin.c	2007-06-07 19:58:03.000000000 +0800
+++++ cpio-2.8/src/copyin.c	2014-12-08 11:30:01.159791484 +0800
++@@ -126,6 +126,28 @@ tape_skip_padding (int in_file_des, int
 + }
 + 
 + 
@@ -137,7 +137,7 @@ index 0000000..89cd3cf
 + 	}
 +       else
 + #endif
-+@@ -650,10 +667,7 @@ copyin_link(struct cpio_file_stat *file_
++@@ -732,10 +749,7 @@ copyin_link(struct cpio_file_stat *file_
 + 
 +   if (archive_format != arf_tar && archive_format != arf_ustar)
 +     {
@@ -149,21 +149,21 @@ index 0000000..89cd3cf
 +     }
 +   else
 +     {
-+diff -Nurp cpio-2.11.orig/tests/Makefile.am cpio-2.11/tests/Makefile.am
-+--- cpio-2.11.orig/tests/Makefile.am	2010-02-15 18:02:23.000000000 +0800
-++++ cpio-2.11/tests/Makefile.am	2014-12-08 13:14:49.931545727 +0800
-+@@ -52,6 +52,8 @@ TESTSUITE_AT = \
-+  setstat04.at\
-+  setstat05.at\
++diff -Nurp cpio-2.8.orig/tests/Makefile.am cpio-2.8/tests/Makefile.am
++--- cpio-2.8.orig/tests/Makefile.am	2006-10-24 18:32:13.000000000 +0800
+++++ cpio-2.8/tests/Makefile.am	2014-12-08 11:30:52.387789482 +0800
++@@ -45,6 +45,8 @@ TESTSUITE_AT = \
++  testsuite.at\
++  inout.at\
 +  symlink.at\
 ++ symlink-bad-length.at\
 ++ symlink-long.at\
 +  version.at
 + 
 + TESTSUITE = $(srcdir)/testsuite
-+diff -Nurp cpio-2.11.orig/tests/symlink-bad-length.at cpio-2.11/tests/symlink-bad-length.at
-+--- cpio-2.11.orig/tests/symlink-bad-length.at	1970-01-01 08:00:00.000000000 +0800
-++++ cpio-2.11/tests/symlink-bad-length.at	2014-12-08 13:17:45.979538847 +0800
++diff -Nurp cpio-2.8.orig/tests/symlink-bad-length.at cpio-2.8/tests/symlink-bad-length.at
++--- cpio-2.8.orig/tests/symlink-bad-length.at	1970-01-01 08:00:00.000000000 +0800
+++++ cpio-2.8/tests/symlink-bad-length.at	2014-12-08 11:33:25.283783507 +0800
 +@@ -0,0 +1,49 @@
 ++# Process this file with autom4te to create testsuite.  -*- Autotest -*-
 ++# Copyright (C) 2014 Free Software Foundation, Inc.
@@ -214,9 +214,9 @@ index 0000000..89cd3cf
 ++])
 ++
 ++AT_CLEANUP
-+diff -Nurp cpio-2.11.orig/tests/symlink-long.at cpio-2.11/tests/symlink-long.at
-+--- cpio-2.11.orig/tests/symlink-long.at	1970-01-01 08:00:00.000000000 +0800
-++++ cpio-2.11/tests/symlink-long.at	2014-12-08 13:17:57.219538408 +0800
++diff -Nurp cpio-2.8.orig/tests/symlink-long.at cpio-2.8/tests/symlink-long.at
++--- cpio-2.8.orig/tests/symlink-long.at	1970-01-01 08:00:00.000000000 +0800
+++++ cpio-2.8/tests/symlink-long.at	2014-12-08 11:34:28.807781024 +0800
 +@@ -0,0 +1,46 @@
 ++# Process this file with autom4te to create testsuite.  -*- Autotest -*-
 ++# Copyright (C) 2014 Free Software Foundation, Inc.
@@ -264,34 +264,35 @@ index 0000000..89cd3cf
 ++])
 ++
 ++AT_CLEANUP
-+diff -Nurp cpio-2.11.orig/tests/testsuite.at cpio-2.11/tests/testsuite.at
-+--- cpio-2.11.orig/tests/testsuite.at	2010-02-15 18:02:23.000000000 +0800
-++++ cpio-2.11/tests/testsuite.at	2014-12-08 13:15:13.515544805 +0800
-+@@ -31,6 +31,8 @@ m4_include([version.at])
++diff -Nurp cpio-2.8.orig/tests/testsuite.at cpio-2.8/tests/testsuite.at
++--- cpio-2.8.orig/tests/testsuite.at	2006-10-24 18:32:13.000000000 +0800
+++++ cpio-2.8/tests/testsuite.at	2014-12-08 11:34:56.515779942 +0800
++@@ -31,3 +31,5 @@ m4_include([version.at])
 + 
 + m4_include([inout.at])
 + m4_include([symlink.at])
 ++m4_include([symlink-bad-length.at])
 ++m4_include([symlink-long.at])
-+ m4_include([interdir.at])
-+ 
-+ m4_include([setstat01.at])
-diff --git a/meta/recipes-extended/cpio/cpio_2.11.bb b/meta/recipes-extended/cpio/cpio_2.11.bb
-index 5f88b30..c42db6f 100644
---- a/meta/recipes-extended/cpio/cpio_2.11.bb
-+++ b/meta/recipes-extended/cpio/cpio_2.11.bb
-@@ -3,9 +3,10 @@ include cpio_v2.inc
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
+diff --git a/meta/recipes-extended/cpio/cpio_2.8.bb b/meta/recipes-extended/cpio/cpio_2.8.bb
+index b6da207..3f97dbe 100644
+--- a/meta/recipes-extended/cpio/cpio_2.8.bb
++++ b/meta/recipes-extended/cpio/cpio_2.8.bb
+@@ -3,11 +3,12 @@ require cpio_v2.inc
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b7f772ea3a2489231cb4872656cac34b"
  
--PR = "r4"
-+PR = "r5"
+-PR = "r3"
++PR = "r4"
  
- SRC_URI += "file://remove-gets.patch \
+ SRC_URI += "file://m4extensions.patch \
+-    file://avoid_heap_overflow.patch \
+-    "
++	    file://avoid_heap_overflow.patch \
 +	    file://fix-memory-overrun.patch \
-            "
++	   "
  
- SRC_URI[md5sum] = "1112bb6c45863468b5496ba128792f6c"
+ SRC_URI[md5sum] = "0caa356e69e149fb49b76bacc64615a1"
+ SRC_URI[sha256sum] = "1b203248874c3b5a728b351f06513e5282f73e0170b7f207fbf8c39f28f6b4ad"
 -- 
 1.9.1
 
