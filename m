@@ -1,29 +1,51 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DD2165D53
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7289C7249B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Dec 2014 12:10:48 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Dec 2014 04:10:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,538,1413270000"; d="scan'208";a="634390924"
-Received: from apwitke-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.30.33])
-	by fmsmga001.fm.intel.com with ESMTP; 08 Dec 2014 04:10:16 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Patches and discussions about the oe-core layer
+	Mon,  8 Dec 2014 13:37:53 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 6DD8F1806E;
+	Mon,  8 Dec 2014 14:37:52 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id sn5DgwUL1sqv; Mon,  8 Dec 2014 14:37:46 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 95A3218084;
+	Mon,  8 Dec 2014 14:37:46 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 781C6AC5;
+	Mon,  8 Dec 2014 14:37:46 +0100 (CET)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 6CBFCA0D;
+	Mon,  8 Dec 2014 14:37:46 +0100 (CET)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by thoth.se.axis.com (Postfix) with ESMTP id 6A5FE343CE;
+	Mon,  8 Dec 2014 14:37:46 +0100 (CET)
+Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail2.se.axis.com
+	([10.0.5.74]) with mapi; Mon, 8 Dec 2014 14:37:46 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: ChenQi <Qi.Chen@windriver.com>, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 08 Dec 2014 12:10:15 +0000
-Message-ID: <1506700.RfibPUDy3g@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.4-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <CADkTA4OdPvV4+6wENW1G-9HMnnNgH_oH_Mz-WrMga0W7o_SWOw@mail.gmail.com>
-References: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
-	<CADkTA4NobmfAEbYR+2bbSWsKBcJ=Cw3Qf0=+w9V5C26ATT=p+Q@mail.gmail.com>
-	<CADkTA4OdPvV4+6wENW1G-9HMnnNgH_oH_Mz-WrMga0W7o_SWOw@mail.gmail.com>
+Date: Mon, 8 Dec 2014 14:37:44 +0100
+Thread-Topic: [OE-core] Why is systemd installed to / (was: [yocto] Export
+	bitbake variables between recipes)
+Thread-Index: AdAQN8APnkfbJR1rTKmVoNmmr5QO0wCtD04Q
+Message-ID: <A612847CFE53224C91B23E3A5B48BAC7AD123BB5CA@xmail3.se.axis.com>
+References: <A612847CFE53224C91B23E3A5B48BAC7ACF18D3E7B@xmail3.se.axis.com>
+	<547E08A9.2090500@windriver.com>
+	<A612847CFE53224C91B23E3A5B48BAC7ACF18D42B6@xmail3.se.axis.com>
+	<547F305A.5060305@windriver.com>
+	<A612847CFE53224C91B23E3A5B48BAC7ACF18D45D8@xmail3.se.axis.com>
+	<54811FDE.7050605@windriver.com>
+In-Reply-To: <54811FDE.7050605@windriver.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
 MIME-Version: 1.0
-Subject: Re: [RFC] kernel: Enable externalsrc on kernels which instantiate kernel.bbclass
+Subject: Re: Why is systemd installed to / (was: [yocto] Export bitbake variables between recipes)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,151 +58,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Dec 2014 12:10:50 -0000
-Content-Transfer-Encoding: 7Bit
+X-List-Received-Date: Mon, 08 Dec 2014 13:37:56 -0000
+Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Thursday 04 December 2014 00:28:24 Bruce Ashfield wrote:
-> On Wed, Dec 3, 2014 at 11:50 AM, Bruce Ashfield
-> 
-> <bruce.ashfield@gmail.com> wrote:
-> > On Wed, Dec 3, 2014 at 9:36 AM, Paul Eggleton
-> > 
-> > <paul.eggleton@linux.intel.com> wrote:
-> >> On Wednesday 03 December 2014 08:14:44 Bruce Ashfield wrote:
-> >>> On Wed, Dec 3, 2014 at 7:23 AM, Laurentiu Palcu
-> >>> 
-> >>> <laurentiu.palcu@intel.com> wrote:
-> >>> > Hi Paul,
-> >>> > 
-> >>> > On Wed, Dec 03, 2014 at 12:00:31PM +0000, Paul Eggleton wrote:
-> >>> >> On Monday 22 September 2014 13:04:47 Bruce Ashfield wrote:
-> >>> >> > On 14-09-22 01:03 PM, Khem Raj wrote:
-> >>> >> > > On Mon, Sep 22, 2014 at 8:27 AM, Bruce Ashfield
-> >>> >> > > 
-> >>> >> > > <bruce.ashfield@windriver.com> wrote:
-> >>> >> > >> But the reports we've been getting have been that externalsrc
-> >>> >> > >> builds are working for kernels, and linux-yocto without the
-> >>> >> > >> change
-> >>> >> > >> in place, so I'm looking to reduce the patch footprint and
-> >>> >> > >> re-submit.
-> >>> >> > > 
-> >>> >> > > no, it cant work if folks were trying the usecase I have
-> >>> >> > > mentioned.
-> >>> >> > > The fix is infact for
-> >>> >> > > non linux-yocto kernels.
-> >>> >> > 
-> >>> >> > I'll send out my updated patch shortly, it should fix both cases.
-> >>> >> 
-> >>> >> Bruce, did you get around to doing this?
-> >>> >> 
-> >>> >> At the moment I am trying to make my workflow tool ("devtool modify")
-> >>> >> work with linux-yocto. I've at least got to the point where I can
-> >>> >> extract the appropriate source from the recipe, but when I use
-> >>> >> externalsrc to point to it and then try to build it, it doesn't even
-> >>> >> get
-> >>> >> past do_configure, so something must be missing (make complains about
-> >>> >> missing targets, presumably because it's running in ${B} and there's
-> >>> >> nothing in that directory).
-> >>> >> 
-> >>> >> Do you expect linux-yocto + externalsrc to work at the moment in
-> >>> >> master?
-> >>> >> If
-> >>> >> so, are there any special steps I need to do with respect to
-> >>> >> preparing
-> >>> >> the
-> >>> >> external source tree that my tool might not be performing?
-> >>> > 
-> >>> > FWIW, I'm using externalsrc to build non linux-yocto kernels but, to
-> >>> > make
-> >>> > it work, I had to overwrite the KERNEL_CONFIG_COMMAND:
-> >>> > 
-> >>> > KERNEL_CONFIG_COMMAND = "oe_runmake_call -C ${S} O=${B} oldnoconfig ||
-> >>> > yes
-> >>> > '' | oe_runmake -C ${S} O=${B} oldconfig"
-> >>> 
-> >>> For an externalsrc kernel, we've always skipped configure* completely.
-> >>> If the user is providing the kernel, it should also be configured. We
-> >>> don't
-> >>> want the build system changing anything at all,  including the config
-> >>> that is in place.
-> >> 
-> >> OK, that makes sense - but all I'm doing is enabling externalsrc for the
-> >> kernel, and do_configure is still being executed. Perhaps that's
-> >> something that shouldn't be happening (needs to be added to
-> >> SRCTREECOVEREDTASKS? We don't normally cover do_configure for other
-> >> recipes.)
-> > 
-> > IMHO it should be, I have it inhibited here.
-> > 
-> > Still trying to get my 1.8 work cleaned up for a RFC, and I'll send
-> > you what I have for
-> > this shortly as well.
-> 
-> I did manage to launch and build a 3.14 kernel externalsrc against master
-> using the WIP progress patches.
-> 
-> .. and it worked :)
-> 
-> I've just finished my other developer experience patches (initial
-> version), so this is
-> the next thing on my list to finish on for 1.8.
-> 
-> The patch that I currently have is broken as part of a rebase to
-> account for other
-> changes, but I did have the original patch, that has too large a
-> footprint (i.e. lots
-> of extra ${S} and ${B} manipulations that aren't all required. So I
-> tested using it.
-> 
-> That being said,  I pushed the working patch to poky-contrib
-> zedd/kernel-externalsrc,
-> so you can see what the baseline is.
-> 
-> I'm interested to hear if this hobbles along for you, and if not, what
-> breaks. I'm building an externalsrc recipe that I put together some time ago
-> .. so if yours isn't working, that could be the difference.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> ChenQi
+> Sent: den 5 december 2014 04:01
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] Why is systemd installed to / (was: [yocto]
+> Export bitbake variables between recipes)
+>=20
+> On 12/04/2014 09:34 PM, Peter Kjellerstedt wrote:
+> >> -----Original Message-----
+> >> From: openembedded-core-bounces@lists.openembedded.org
+> >> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of
+> >> Mark Hatle
+> >> Sent: den 3 december 2014 16:47
+> >> To: Peter Kjellerstedt; openembedded-core@lists.openembedded.org
+> >> Subject: Re: [OE-core] Why is systemd installed to / (was: [yocto]
+> >> Export bitbake variables between recipes)
+> >>
+> >> On 12/3/14, 9:36 AM, Peter Kjellerstedt wrote:
+> >>>>> Can anyone please explain why OE-core installs systemd to /
+> >>>>> rather than /usr? Because I have traced the recipe all the
+> >>>>> way back to its introduction in OE classic, and I cannot
+> >>>>> find any rationale for this odd decision. And it is extra
+> >>>>> weird given the systemd authors' agenda that everything
+> >>>>> should be in /usr (and /etc)...
+> >>>> It's only strange compared to Fedora.  We're not Fedora.. and
+> >>>> I've got systems that need to boot from a small '/' before
+> >>>> mounting '/usr'.
+> >>> Speaking of Fedora, would an official image feature, e.g.,
+> >>> "unified-fs", be acceptable for OE-Core that sets up the file
+> >>> system with /bin, /sbin and /lib* as links to their /usr
+> >>> counterparts? That would alleviate our problems with the
+> >>> differences in how systemd is installed.
+> >> The system permits developers to set the paths for the various
+> pieces.
+> >> To get a Fedora like unified filesystem, you could do something like:
+> >>
+> >> * provide your own fs-perms.txt:
+> > I had not noticed fs-perms.txt before. And it seems easy enough
+> > to extend via the FILESYSTEMS_PERMS_TABLES variable. :)
+> >
+> >> /usr/bin	link	${base_bindir}
+> >> /usr/sbin	link	${base_sbindir}
+> >> /usr/lib	link	${base_libdir}
+> >>
+> >> Then in your local.conf:
+> >>
+> >> bindir =3D "${base_bindir}"
+> >> sbindir =3D "${base_sbindir}"
+> >> libdir =3D "${base_libdir}"
+> > I think you mean the opposite, i.e., that /bin should be a
+> > link to ${bindir} and ${base_bindir} should be set to ${bindir},
+> > but I get your point.
+> >
+> >> This will result in /usr/bin, sbin and lib being linked to /bin,
+> >> /sbin, /lib -- and all of the package produced for your
+> >> configuration will only reference '/'.
+> >>
+> >> This isn't that unusual of a configuration from what I've been told.
+> > Which is why I think it warrants an official distro feature (an
+> > image feature, as I originally suggested, will of course not do
+> > if it is done the way you suggest since the packages' contents
+> > are modified). That way people would not have to invent the wheel
+> > over and over again (and somehow find out that there is such a
+> > thing as fs-perms.txt which up until now had eluded me).
+> >
+> >> --Mark
+> > //Peter
+> >
+>=20
+> Hi Peter,
+>=20
+> It's easy to link /usr/bin to /bin, /usr/sbin to /sbin and make things
+> work in OE.
+> But if we want the opposite to work, we might need several additional
+> patches to OE.
+>=20
+> Several days ago, I tried to do /usr merge in OE (like what Fedora and
+> Arch does). It turned out that we need to patch several packages to
+> make things work.
+>=20
+> (I haven't sent out the patches because it's just some initial
+> investigation and I'm not sure if people want this feature or not.)
+>=20
+> If you want this feature in OE, please open a bug/enhancement in
+> bugzilla https://bugzilla.yoctoproject.org/ to see if the community
+> wants it or not.
+>=20
+> Regards,
+> Chen Qi
 
-I can't get this to work; at least what I was going to attempt was a build of
-just the kernel first and then extract the source to try externalsrc. I can't
-even do that however:
+I have created a ticket for this now:=20
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7040
 
-------------- snip -------------
-$ bitbake virtual/kernel
-Parsing recipes: 100%
-Parsing of 897 .bb files complete (0 cached, 897 parsed). 1296 targets, 41 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+//Peter
 
-Build Configuration:
-BB_VERSION        = "1.25.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "Fedora-20"
-TARGET_SYS        = "x86_64-poky-linux"
-MACHINE           = "qemux86-64"
-DISTRO            = "poky"
-DISTRO_VERSION    = "1.7"
-TUNE_FEATURES     = "m64 core2"
-TARGET_FPU        = ""
-meta              
-meta-yocto        
-meta-yocto-bsp    
-workspace         = "paule/devtool-kerneltest:24b6a5242546ad5e6b6c9413d1eeb2465f79a91b"
-
-NOTE: Preparing RunQueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-WARNING: Failed to fetch URL git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=standard/common-pc-64/base,meta;name=machine,meta, attempting MIRRORS if available
-ERROR: Fetcher failure: Unable to find revision c100e8665052051487a17169748c457829d3f88c in branch standard/common-pc-64/base even from upstream
-ERROR: Function failed: Fetcher failure for URL: 'git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=standard/common-pc-64/base,meta;name=machine,meta'. Unable to fetch URL from any source.
-ERROR: Logfile of failure stored in: /home/paul/poky/poky/build/tmp/work/qemux86_64-poky-linux/linux-yocto/3.14.24+gitAUTOINC+fba2d0cdb7_c100e86650-r0/temp/log.do_fetch.26831
-ERROR: Task 6 (/home/paul/poky/poky/meta/recipes-kernel/linux/linux-yocto_3.14.bb, do_fetch) failed with exit code '1'
-------------- snip -------------
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
