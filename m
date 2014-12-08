@@ -1,38 +1,38 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
 	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 976AC65E1A
+	by mail.openembedded.org (Postfix) with ESMTP id C599865CAF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Dec 2014 20:52:28 +0000 (UTC)
-Received: by mail-qc0-f174.google.com with SMTP id c9so4126529qcz.33
+	Mon,  8 Dec 2014 20:53:30 +0000 (UTC)
+Received: by mail-qc0-f174.google.com with SMTP id c9so4106340qcz.19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Dec 2014 12:52:28 -0800 (PST)
+	Mon, 08 Dec 2014 12:53:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=IF95437WtFd6aSYyI8M/NtHPRRnMAA8Wu3D1if5OxD8=;
-	b=d1OZks6NfvRdBWPsif2xlWn0HZ1MEcK6ga3DpfeuEoj4sM4eyqbIEp3tFjgo3N16Zm
-	Js/QWGyoI95MyDQqVEZI8+QmhThvkmam5WmOGG1ju9l0n0dgSZVS5rD25Rjj3JTN0hSh
-	T+4RrqdfcE8TiJDHHtAtOfaYyfjYZEhkZCHKVCGUMvcNNphhX6H6YKFyeyW32zT1tLhM
-	xMOoGjjzsZFYoAfa1k0cZ8BlrZRFU6i2wDBdUv1O0qgT9uGJ/Y/aMhJW/u8ydXTYKQvN
-	uNQQRUlnKbCkwn7yU92qMITAlbbKm5UgAmzcV2/KUJPavqX2BflDRFoifxgODNNqv5EM
-	/6wQ==
-X-Gm-Message-State: ALoCoQnCjDq9B1hR80VD3r0ZJ/ZhJJxaw71FkaD5jxu+FRNWoJvJW/MYX3TPK9sYUa/WNARx1hZj
-X-Received: by 10.229.53.133 with SMTP id m5mr56398530qcg.28.1418071948682;
-	Mon, 08 Dec 2014 12:52:28 -0800 (PST)
+	bh=YMO+7LDkeOGFSTVpX7J9do5lKNGBQWaLbXZGg2eKAy4=;
+	b=it1CjvzcenLqD47zFl+nzfrgxYlFmW3UjMQ/RtLawxUNGSeQYtNDE+g4DligHV+6Sj
+	yFqxwfglBVGGAMFwkf8qO+otxFr36tSgVpKMX9YkOjJNzR2y1pAdf/Sd0pUXXwhgRLgB
+	RGIFt+KfauN2iaEcZmD40MZE0bIdameUFtzEAeLMDjcAzuPzVsJgjOUzJtT4zhQOu72S
+	ju70obeuXaKvzGbqG2buNgE8j30FiJ5PyjukrqXhrgPQ9as3CAs73fWYm4PfD7cKfuyI
+	y3iJYDxWVKQIY1BUbekDgkSAh74wxWy8yy6V9KKSR6LO6zA/F25YsMyHDP452XMvnT8k
+	l+oA==
+X-Gm-Message-State: ALoCoQn2y2O3xDm5xxkL4++q7j30B2laSTfZS4zD2/oZiT6p9eJHgeWtPs9i4R0F9aVZQBeN0ezN
+X-Received: by 10.140.94.229 with SMTP id g92mr55404158qge.77.1418072011261;
+	Mon, 08 Dec 2014 12:53:31 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Mon, 8 Dec 2014 12:52:08 -0800 (PST)
-In-Reply-To: <da79c0d110feb7a11e082722c44a0f034afe5aa2.1415350038.git.kai.kang@windriver.com>
+Received: by 10.140.48.231 with HTTP; Mon, 8 Dec 2014 12:53:09 -0800 (PST)
+In-Reply-To: <c11bc2b236f552a463398b4732c8b94e552faae7.1415350038.git.kai.kang@windriver.com>
 References: <cover.1415350038.git.kai.kang@windriver.com>
-	<da79c0d110feb7a11e082722c44a0f034afe5aa2.1415350038.git.kai.kang@windriver.com>
+	<c11bc2b236f552a463398b4732c8b94e552faae7.1415350038.git.kai.kang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 Dec 2014 20:52:08 +0000
-Message-ID: <CAJTo0LbaEMd3jn8W37awE1B5QjWZZ34ZoGnKM9xfmbWd_J0SXQ@mail.gmail.com>
+Date: Mon, 8 Dec 2014 20:53:09 +0000
+Message-ID: <CAJTo0LZ4VvpEE_xAMBzyox5bEnVBoquzDEAQr+Bek19uz-Tsrg@mail.gmail.com>
 To: Kai Kang <kai.kang@windriver.com>
 Cc: Koen Kooi <koen.kooi@linaro.org>,
 	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 19/24] gcc: Disable aarch64 multilib options
+Subject: Re: [PATCH 17/24] qemu: add single step support for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,57 +45,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Dec 2014 20:52:30 -0000
-Content-Type: multipart/alternative; boundary=001a1133da32c48b330509ba9ae9
+X-List-Received-Date: Mon, 08 Dec 2014 20:53:33 -0000
+Content-Type: multipart/alternative; boundary=001a113a0e8e7f5b6f0509ba9e0c
 
---001a1133da32c48b330509ba9ae9
+--001a113a0e8e7f5b6f0509ba9e0c
 Content-Type: text/plain; charset=UTF-8
 
 On 7 November 2014 at 08:51, Kai Kang <kai.kang@windriver.com> wrote:
 
-> +Disable the MULTILIB_OSDIRNAMES and other multilib options.
-> +
-> +Hard coding the MULTILIB_OSDIRNAMES with ../lib64 is causing problems on
-> +systems where the libdir is NOT set to /lib64.  This is allowed by the
-> ABI, as
-> +long as the dynamic loader is present in /lib.
-> +
-> +We simply want to use the default rules in gcc to find and configure the
-> +normal libdir.
-> +
-> +Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> Backport patches to enable signle-step support for aarch64.
 >
 
-This patch is missing an Upstream-Status header.
+As these are all related, can they be concatenated into a single patch?
 
 Ross
 
---001a1133da32c48b330509ba9ae9
+--001a113a0e8e7f5b6f0509ba9e0c
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 November 2014 at 08:51, Kai Kang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:kai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1yf" class=3D"=
-a3s" style=3D"overflow:hidden">+Disable the MULTILIB_OSDIRNAMES and other <=
-span class=3D"il">multilib</span> options.<br>
-+<br>
-+Hard coding the MULTILIB_OSDIRNAMES with ../lib64 is causing problems on<b=
-r>
-+systems where the libdir is NOT set to /lib64.=C2=A0 This is allowed by th=
-e ABI, as<br>
-+long as the dynamic loader is present in /<span class=3D"il">lib</span>.<b=
-r>
-+<br>
-+We simply want to use the default rules in <span class=3D"il">gcc</span> t=
-o find and configure the<br>
-+normal libdir.<br>
-+<br>
-+Signed-off-by: Mark Hatle &lt;<a href=3D"mailto:mark.hatle@windriver.com">=
-mark.hatle@windriver.com</a>&gt;</div></blockquote></div><br>This patch is =
-missing an Upstream-Status header.</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 7=
+ November 2014 at 08:51, Kai Kang <span dir=3D"ltr">&lt;<a href=3D"mailto:k=
+ai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D":xv" class=3D"a3s" =
+style=3D"overflow:hidden">Backport patches to enable signle-<span class=3D"=
+il">step</span> support for aarch64.<br></div></blockquote><div><br></div><=
+div>As these are all related, can they be concatenated into a single patch?=
+</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
 
---001a1133da32c48b330509ba9ae9--
+--001a113a0e8e7f5b6f0509ba9e0c--
