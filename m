@@ -1,38 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id C599865CAF
+Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id DD734724B9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Dec 2014 20:53:30 +0000 (UTC)
-Received: by mail-qc0-f174.google.com with SMTP id c9so4106340qcz.19
+	Mon,  8 Dec 2014 20:56:48 +0000 (UTC)
+Received: by mail-qc0-f173.google.com with SMTP id i17so4157390qcy.18
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Dec 2014 12:53:31 -0800 (PST)
+	Mon, 08 Dec 2014 12:56:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=YMO+7LDkeOGFSTVpX7J9do5lKNGBQWaLbXZGg2eKAy4=;
-	b=it1CjvzcenLqD47zFl+nzfrgxYlFmW3UjMQ/RtLawxUNGSeQYtNDE+g4DligHV+6Sj
-	yFqxwfglBVGGAMFwkf8qO+otxFr36tSgVpKMX9YkOjJNzR2y1pAdf/Sd0pUXXwhgRLgB
-	RGIFt+KfauN2iaEcZmD40MZE0bIdameUFtzEAeLMDjcAzuPzVsJgjOUzJtT4zhQOu72S
-	ju70obeuXaKvzGbqG2buNgE8j30FiJ5PyjukrqXhrgPQ9as3CAs73fWYm4PfD7cKfuyI
-	y3iJYDxWVKQIY1BUbekDgkSAh74wxWy8yy6V9KKSR6LO6zA/F25YsMyHDP452XMvnT8k
-	l+oA==
-X-Gm-Message-State: ALoCoQn2y2O3xDm5xxkL4++q7j30B2laSTfZS4zD2/oZiT6p9eJHgeWtPs9i4R0F9aVZQBeN0ezN
-X-Received: by 10.140.94.229 with SMTP id g92mr55404158qge.77.1418072011261;
-	Mon, 08 Dec 2014 12:53:31 -0800 (PST)
+	bh=6nTLOiO6Ibshv+b6gtKnuTVrglYd3CaX1lunmhZ2Xzw=;
+	b=CGu+6BqBzUXimR91fvYZmSNUCF6XoDYny1M5xa6pyNFWi4hWV2At65dPChQQTUIfD8
+	5XiHwnkTevtd9zbpn3v8vO3fVabYenoQGXmsfnNCtMsgOK4DubooAzqbEXXr6imMqy5J
+	30wszJvMnYtf+xpItE3p+lBjz648hR7EA3O/Zoj7nbhpzDGI+3NYs4r4KyqPjrrSgbWZ
+	hXs7z/wd1eydCg3f42a2sKxJ+8YN2KCtf52qw9AWX5PzKYI8wNSfHreDGC1B411O6GLj
+	hOd/zhqF+PVEg1NFhCBqyUleNIJv/wVyQgLilsJF8vnMVDpCwg7+ph2kKzyyJUoK8yEp
+	WaBg==
+X-Gm-Message-State: ALoCoQkfWYOl/Me6HO33ueRovAdamfdLWZfWwA1prtz/21Ug1AISP8030m5lx/Jqq4h1o9jW+TNC
+X-Received: by 10.140.40.209 with SMTP id x75mr25828850qgx.80.1418072209075;
+	Mon, 08 Dec 2014 12:56:49 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Mon, 8 Dec 2014 12:53:09 -0800 (PST)
-In-Reply-To: <c11bc2b236f552a463398b4732c8b94e552faae7.1415350038.git.kai.kang@windriver.com>
+Received: by 10.140.48.231 with HTTP; Mon, 8 Dec 2014 12:56:28 -0800 (PST)
+In-Reply-To: <1a6294d4421862267755ac8cd71ffd91cce16902.1415350038.git.kai.kang@windriver.com>
 References: <cover.1415350038.git.kai.kang@windriver.com>
-	<c11bc2b236f552a463398b4732c8b94e552faae7.1415350038.git.kai.kang@windriver.com>
+	<1a6294d4421862267755ac8cd71ffd91cce16902.1415350038.git.kai.kang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 Dec 2014 20:53:09 +0000
-Message-ID: <CAJTo0LZ4VvpEE_xAMBzyox5bEnVBoquzDEAQr+Bek19uz-Tsrg@mail.gmail.com>
+Date: Mon, 8 Dec 2014 20:56:28 +0000
+Message-ID: <CAJTo0LZqEAbtSdPfpb13VcC+JM99G_Rmv4wbcj=50aT83JRKgg@mail.gmail.com>
 To: Kai Kang <kai.kang@windriver.com>
 Cc: Koen Kooi <koen.kooi@linaro.org>,
 	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 17/24] qemu: add single step support for aarch64
+Subject: Re: [PATCH 13/24] libunwind: add aarch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,33 +45,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Dec 2014 20:53:33 -0000
-Content-Type: multipart/alternative; boundary=001a113a0e8e7f5b6f0509ba9e0c
+X-List-Received-Date: Mon, 08 Dec 2014 20:56:55 -0000
+Content-Type: multipart/alternative; boundary=001a11c1283649c2fe0509baaa9e
 
---001a113a0e8e7f5b6f0509ba9e0c
+--001a11c1283649c2fe0509baaa9e
 Content-Type: text/plain; charset=UTF-8
 
 On 7 November 2014 at 08:51, Kai Kang <kai.kang@windriver.com> wrote:
 
-> Backport patches to enable signle-step support for aarch64.
+>   - Support-building-with-older-compilers (fix undefined reference to
+>     `unreachable' on older compilers)
 >
 
-As these are all related, can they be concatenated into a single patch?
+This patch is missing a signed-off-by header, and considering that oe-core
+has gcc 4.9 do we still need this, or is it specific to a commercial
+product that is using an older toolchain?
 
 Ross
 
---001a113a0e8e7f5b6f0509ba9e0c
+--001a11c1283649c2fe0509baaa9e
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 7=
- November 2014 at 08:51, Kai Kang <span dir=3D"ltr">&lt;<a href=3D"mailto:k=
-ai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":xv" class=3D"a3s" =
-style=3D"overflow:hidden">Backport patches to enable signle-<span class=3D"=
-il">step</span> support for aarch64.<br></div></blockquote><div><br></div><=
-div>As these are all related, can they be concatenated into a single patch?=
-</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 November 2014 at 08:51, Kai Kang <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:kai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":ef" class=3D"a=
+3s" style=3D"overflow:hidden">=C2=A0 - Support-building-with-older-compiler=
+s (fix undefined reference to<br>
+=C2=A0 =C2=A0 `unreachable&#39; on older compilers)</div></blockquote><div>=
+<br></div><div>This patch is missing a signed-off-by header, and considerin=
+g that oe-core has gcc 4.9 do we still need this, or is it specific to a co=
+mmercial product that is using an older toolchain?</div><div><br></div><div=
+>Ross=C2=A0</div></div></div></div>
 
---001a113a0e8e7f5b6f0509ba9e0c--
+--001a11c1283649c2fe0509baaa9e--
