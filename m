@@ -1,41 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 22BEE60232
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E37865E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Dec 2014 11:39:57 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id i13so3146381qae.41
+	Mon,  8 Dec 2014 11:52:09 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	sB8Bq6IZ013728
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Dec 2014 03:39:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=kOW2xf27TYp97J1rv32oULuOF54dVObf57/fIff8Tnk=;
-	b=iSiAjJZf7s4xgNsRyrrTifoQdEBmqlaHNRus+npv7qZqUMv7FYvRQwNMpeyuhUu2O8
-	UOaCLIZbZJ7lGqnWtsUFjNyozQZ21FbTyY5P5Km83fuEcK1v/uTpVNz0ZD4tPNHADidr
-	xnnMfgBNYhNJ/P0n2fr78q8uQDQj94TJySHwzn1DQGWY5yhzAN3QLtz9LQBpikqhxLBx
-	7UbVtNHMGYJYle3yrGGu2VUfNMbbEGitFNWQNtzUNvDCPouqWHYKCcNz+kGcuDlRBdsX
-	c1006izaHu02kI1aDhSWZvOFPd0CwwI3NqYXHKp21ki3X9p0IE/zWwUtvNTQ76s79QOI
-	vfxQ==
-X-Gm-Message-State: ALoCoQmC95XRzU4ZK6vayymF7rPy5QWfQQMa/WTpXBfiYZZCxh3PO6HmoXxugDpCVKZ0XBDHlceV
-X-Received: by 10.224.92.205 with SMTP id s13mr52224714qam.52.1418038797464;
-	Mon, 08 Dec 2014 03:39:57 -0800 (PST)
+	Mon, 8 Dec 2014 12:52:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1418039528;
+	bh=73QKr/rPvsvLN3DiehiAS2J11GU8c9DkDi9jEMrg40k=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=NE5A+wIKa+G/y2CPQ1C1JVA9A5WtojDG5IGDlitBZ3qDJXEodHGewy1iQ0ptzlZBA
+	wwykj6mfzKq+avgyuptrwayEJdAFoHRZLXVR63bC22tNWvPxewKREyPIeE+Q5xc3+o
+	pPCgQMB6D4euKEN3ziMbJ2sS4Fte2huRxKdLvtHw=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id sB8Bq2fs026359
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Dec 2014 12:52:03 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1XxwrA-0005LG-Ru
+	for openembedded-core@lists.openembedded.org;
+	Mon, 08 Dec 2014 12:52:01 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1417812364-14923-1-git-send-email-ross.burton@intel.com>
+	<C1929A84-C95C-4584-B64F-D09C7F71D656@dominion.thruhere.net>
+	<CABcZAN=y7exSY-8x=iXo_-g9nL5zzRL3yYSa+7NR0m11fwmGOA@mail.gmail.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Mon, 08 Dec 2014 12:51:59 +0100
+In-Reply-To: <CABcZAN=y7exSY-8x=iXo_-g9nL5zzRL3yYSa+7NR0m11fwmGOA@mail.gmail.com>
+	(Christopher Larson's message of "Sat, 6 Dec 2014 18:38:32 -0700")
+Message-ID: <ly388q5pgg.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Mon, 8 Dec 2014 03:39:37 -0800 (PST)
-In-Reply-To: <2021B186DC632746BD5A3CE32F12BD28E9FDFB15@EU-MBX-03.mgc.mentorg.com>
-References: <1417779643-18350-1-git-send-email-awais_belal@mentor.com>
-	<CAJTo0LZ1=H4Gz90Ni0sFjL29LMgqMXR18ZTv0uOjLCtsziboEg@mail.gmail.com>
-	<2021B186DC632746BD5A3CE32F12BD28E9FDF811@EU-MBX-03.mgc.mentorg.com>
-	<CAJTo0LY0-X-w2uarbL7bKKCjirw6JUi-w6GXO2Qm3f0zPmcJTA@mail.gmail.com>
-	<2021B186DC632746BD5A3CE32F12BD28E9FDFB15@EU-MBX-03.mgc.mentorg.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 Dec 2014 11:39:37 +0000
-Message-ID: <CAJTo0LbO4oz9vE5JWUKcaSyKycY2JnaCb3ZmZjmU8Q_cXqUAVA@mail.gmail.com>
-To: "Belal, Awais" <Awais_Belal@mentor.com>,
-	Armin Kuster <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxcb: fix socket writes
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -4.9
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
+Subject: Re: [PATCH] dtc: don't use autotools as this doesn't use autotools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,36 +61,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Dec 2014 11:40:06 -0000
-Content-Type: multipart/alternative; boundary=089e015375e4cd10080509b2e26f
+X-List-Received-Date: Mon, 08 Dec 2014 11:52:20 -0000
+Content-Type: text/plain
 
---089e015375e4cd10080509b2e26f
-Content-Type: text/plain; charset=UTF-8
+Christopher Larson <clarson-ZYzTKstmaoRBDgjK7y7TUQ@public.gmane.org>
+writes:
 
-On 7 December 2014 at 07:03, Belal, Awais <Awais_Belal@mentor.com> wrote:
+> The problem with that is DESTDIR is an automake convention.
 
-> Do I need to resubmit this with [dizzy] tag or will this work?
->
+Not only automake, it is part of the "GNU coding standards" (--> info
+standards).
 
-If you don't include the [dizzy] tag then you'll need to ping Armin Kuster,
-who is the dizzy maintainer (I've CC'd him to this mail).
 
-Ross
+Enrico
 
---089e015375e4cd10080509b2e26f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 December 2014 at 07:03, Belal, Awais <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:Awais_Belal@mentor.com" target=3D"_blank">Awais_Belal@mentor.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"directio=
-n:ltr;font-family:Tahoma;color:#000000;font-size:10pt">Do I need to resubmi=
-t this with [dizzy] tag or will this work?<br>
-<div></div></div></blockquote></div><br>If you don&#39;t include the [dizzy=
-] tag then you&#39;ll need to ping Armin Kuster, who is the dizzy maintaine=
-r (I&#39;ve CC&#39;d him to this mail).</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">Ross</div></div>
-
---089e015375e4cd10080509b2e26f--
