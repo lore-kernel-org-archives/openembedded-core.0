@@ -1,38 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id DD734724B9
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AF67560557
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Dec 2014 20:56:48 +0000 (UTC)
-Received: by mail-qc0-f173.google.com with SMTP id i17so4157390qcy.18
+	Mon,  8 Dec 2014 23:54:01 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sB8Ns1Sp000739
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Dec 2014 12:56:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=6nTLOiO6Ibshv+b6gtKnuTVrglYd3CaX1lunmhZ2Xzw=;
-	b=CGu+6BqBzUXimR91fvYZmSNUCF6XoDYny1M5xa6pyNFWi4hWV2At65dPChQQTUIfD8
-	5XiHwnkTevtd9zbpn3v8vO3fVabYenoQGXmsfnNCtMsgOK4DubooAzqbEXXr6imMqy5J
-	30wszJvMnYtf+xpItE3p+lBjz648hR7EA3O/Zoj7nbhpzDGI+3NYs4r4KyqPjrrSgbWZ
-	hXs7z/wd1eydCg3f42a2sKxJ+8YN2KCtf52qw9AWX5PzKYI8wNSfHreDGC1B411O6GLj
-	hOd/zhqF+PVEg1NFhCBqyUleNIJv/wVyQgLilsJF8vnMVDpCwg7+ph2kKzyyJUoK8yEp
-	WaBg==
-X-Gm-Message-State: ALoCoQkfWYOl/Me6HO33ueRovAdamfdLWZfWwA1prtz/21Ug1AISP8030m5lx/Jqq4h1o9jW+TNC
-X-Received: by 10.140.40.209 with SMTP id x75mr25828850qgx.80.1418072209075;
-	Mon, 08 Dec 2014 12:56:49 -0800 (PST)
+	Mon, 8 Dec 2014 15:54:01 -0800 (PST)
+Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 8 Dec 2014 15:54:00 -0800
+From: Peter Seebach <peter.seebach@windriver.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 8 Dec 2014 17:53:58 -0600
+Message-ID: <cover.1418082021.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Mon, 8 Dec 2014 12:56:28 -0800 (PST)
-In-Reply-To: <1a6294d4421862267755ac8cd71ffd91cce16902.1415350038.git.kai.kang@windriver.com>
-References: <cover.1415350038.git.kai.kang@windriver.com>
-	<1a6294d4421862267755ac8cd71ffd91cce16902.1415350038.git.kai.kang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 Dec 2014 20:56:28 +0000
-Message-ID: <CAJTo0LZqEAbtSdPfpb13VcC+JM99G_Rmv4wbcj=50aT83JRKgg@mail.gmail.com>
-To: Kai Kang <kai.kang@windriver.com>
-Cc: Koen Kooi <koen.kooi@linaro.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/24] libunwind: add aarch64 support
+Subject: [PATCH 0/1] package.bbclass: Do fixups even when FILES_foo is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,39 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Dec 2014 20:56:55 -0000
-Content-Type: multipart/alternative; boundary=001a11c1283649c2fe0509baaa9e
+X-List-Received-Date: Mon, 08 Dec 2014 23:54:04 -0000
+Content-Type: text/plain
 
---001a11c1283649c2fe0509baaa9e
-Content-Type: text/plain; charset=UTF-8
+There's some fixups for things like adding extra_depends to RDEPENDS
+which ended up in the "if not oldfiles" clause of a test against
+a setting for FILES_foo, but which I think should probably be done
+either way. The one that specifically affected us is that in some
+code for using a prebuilt toolchain, we set FILES_packagename from
+a manifest, which resulted in FILES_glibc-gconv-localename being
+set, which meant that RDEPENDS wasn't getting "glibc-gconv" appended
+for any of the glibc-gconv-localename packages, because the processing
+of extra_depends was conditional.
 
-On 7 November 2014 at 08:51, Kai Kang <kai.kang@windriver.com> wrote:
+Two of these variables (summary and description) looked like things
+where the assumption might have been that you'd define SUMMARY_foo
+and DESCRIPTION_foo if you were defining FILES_foo, so I've also
+made those settings conditional on there not being an existing setting.
 
->   - Support-building-with-older-compilers (fix undefined reference to
->     `unreachable' on older compilers)
->
+I ran builds of core-image-sato with and without this change, and looked
+at build history. 26 packages changed, but 23 were changes to PKGSIZE
+and nothing else.
 
-This patch is missing a signed-off-by header, and considering that oe-core
-has gcc 4.9 do we still need this, or is it specific to a commercial
-product that is using an older toolchain?
+The other three changes:
 
-Ross
+gst-plugins-good-gconfelements-dev has changes to RRECCOMMENDS, adding
+gst-plugins-good-dev, and gst-plugins-good-gconfelements has changes to
+RDEPENDS, adding gst-plugins-good. Both of these look reasonable to me.
 
---001a11c1283649c2fe0509baaa9e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+perl-module-cpan has a change to RDEPENDS, adding perl. I think that's
+also reasonable.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 November 2014 at 08:51, Kai Kang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:kai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":ef" class=3D"a=
-3s" style=3D"overflow:hidden">=C2=A0 - Support-building-with-older-compiler=
-s (fix undefined reference to<br>
-=C2=A0 =C2=A0 `unreachable&#39; on older compilers)</div></blockquote><div>=
-<br></div><div>This patch is missing a signed-off-by header, and considerin=
-g that oe-core has gcc 4.9 do we still need this, or is it specific to a co=
-mmercial product that is using an older toolchain?</div><div><br></div><div=
->Ross=C2=A0</div></div></div></div>
+So I don't think this breaks anything.
 
---001a11c1283649c2fe0509baaa9e--
+The following changes since commit 219e793907406eabf632e784e3a11ab9acb77cfb:
+
+  qemu/libc-package: Fix qemu option handling (2014-12-05 17:59:42 +0000)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib seebs/package_files
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/package_files
+
+Peter Seebach (1):
+  package.bbclass: do variable fixups even when FILES was set
+
+ meta/classes/package.bbclass |   18 ++++++++++--------
+ 1 files changed, 10 insertions(+), 8 deletions(-)
+
+
