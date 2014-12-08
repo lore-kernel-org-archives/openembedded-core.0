@@ -1,36 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id DD8BB72492
+Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
+	[209.85.216.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B2BD4724AF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Dec 2014 13:44:44 +0000 (UTC)
-Received: by mail-qc0-f178.google.com with SMTP id b13so3846561qcw.23
+	Mon,  8 Dec 2014 13:47:04 +0000 (UTC)
+Received: by mail-qa0-f43.google.com with SMTP id bm13so3384379qab.30
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Dec 2014 05:44:44 -0800 (PST)
+	Mon, 08 Dec 2014 05:47:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=qPRBsyhPufCWSZy1kl2uJcyrkz+sudkeQMKx+VDp3OQ=;
-	b=R5RryQMZb5tRJBUyRs5z0EgNk8NwpnPnZKH5fxRki0lCseKxFRZTEWdJuSkWqsUXN5
-	6IzBXCmhe2q//1c/8qRIuDaVY9E+NqnwlBO9JRwySnzH2pzBlIAm60Gx/428FyqnisOd
-	h1mP2YXNrinLCOg6g0kEKZCTEfTqwLo9eoYNeH8AqkeG9WRj7nWLsOkZ8SOMTGRc3eA0
-	LAZBUCbDyJByNGjwLfKDJ7gsew1JazPV/NKo710XCo9Qd8ZGZlh9kH+tCINnpmOXgJV6
-	msYhpFWc1I2z9kqj8AlFtAAVpD2Xnd3tvUAufgsaQesz0YG9ozgRf6T2SuTWVvyQx+G2
-	Ob0A==
-X-Gm-Message-State: ALoCoQnRijwesbbtRy0fVFC6uEswjJiTkl7fVxDrYyjFf4y0TKHp1mPI0eSbUjgFrecBam9xqt0d
-X-Received: by 10.140.40.209 with SMTP id x75mr22076758qgx.80.1418046284628;
-	Mon, 08 Dec 2014 05:44:44 -0800 (PST)
+	bh=xjZFIHZJAhTsInAfAHwnNJp0vpxhID6wNCDWV49Rb1o=;
+	b=J8FBRMUw2VjBgR1Yu9lymbvks84aKcI2pTLCOQ1i8EqsVFs68U6k3wdxJ2/fpekfx5
+	IgOD2/1s9FBGRiWP7biUx/fSKiC26Bibjrp+5//sPbOkIOc9vSpIyGXxcmvEblj01sbK
+	OjfQoZa8lAXEscIsvYuyAFqFGs8qX8zOz92hZynWp8O1ZhvtDfR8RjAIq5/LuGCAUnCo
+	UPeJnkIsLdijkmEhCnumzxKiQUX8T2Y11JepBYaUPtjwQ6hi3k6M3d0lO1l40RjX6Wug
+	AsCBt8kLJiXM5OM5qL4JIaIhpJmta4Rk26q0+H/3yyq3TO/NjShqXk7nG5ua79ny3la5
+	r0Fw==
+X-Gm-Message-State: ALoCoQlw+PSX4eY4CCShsvvhtTW3Z27wA5NKI3h7/XB2cEDRJRR/ffQsIZ7fAbfS6/hJkt4u6Q50
+X-Received: by 10.224.60.74 with SMTP id o10mr45425238qah.22.1418046424654;
+	Mon, 08 Dec 2014 05:47:04 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Mon, 8 Dec 2014 05:44:24 -0800 (PST)
-In-Reply-To: <cover.1418017596.git.Chong.Lu@windriver.com>
-References: <cover.1418017596.git.Chong.Lu@windriver.com>
+Received: by 10.140.48.231 with HTTP; Mon, 8 Dec 2014 05:46:44 -0800 (PST)
+In-Reply-To: <FB5AD677-B717-4E86-A600-524D77A13F09@dominion.thruhere.net>
+References: <1417851531-3540-1-git-send-email-sgw@linux.intel.com>
+	<FB5AD677-B717-4E86-A600-524D77A13F09@dominion.thruhere.net>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 Dec 2014 13:44:24 +0000
-Message-ID: <CAJTo0LZHK+Wa3-EhpFK0Ajr8Cv9a6uQ3mDDmhqSjU8xSSg25CQ@mail.gmail.com>
-To: Chong Lu <Chong.Lu@windriver.com>
+Date: Mon, 8 Dec 2014 13:46:44 +0000
+Message-ID: <CAJTo0LbKLrmVNiMs4oBvq1rbVhjCCdzR0CHgy2sJjRrb5uRj8A@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] use single variable to set baud rate
+Subject: Re: [PATCHi v3] procps: Upgrade to 3.3.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,54 +44,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Dec 2014 13:44:53 -0000
-Content-Type: multipart/alternative; boundary=001a11c128361220070509b4a18b
+X-List-Received-Date: Mon, 08 Dec 2014 13:47:05 -0000
+Content-Type: multipart/alternative; boundary=001a11c3f53e6aca5c0509b4a96c
 
---001a11c128361220070509b4a18b
+--001a11c3f53e6aca5c0509b4a96c
 Content-Type: text/plain; charset=UTF-8
 
-On 8 December 2014 at 05:47, Chong Lu <Chong.Lu@windriver.com> wrote:
+On 6 December 2014 at 14:37, Koen Kooi <koen@dominion.thruhere.net> wrote:
 
-> Chong Lu (2):
->   syslinux.bbclass: use single variable to set baud rate
->   grub-efi.bbclass: use single variable to set baud rate
->
+> If you feel bored, there's a stray backslash in DESCRIPTION and the '+='
+> for EXTRA_OECONF can be a regular '='. Next time I'll try to catch
+> everything in one go :)
 
-ERROR: ExpansionError during parsing
-/home/ross/Yocto/poky/meta/recipes-core/images/
-core-image-minimal-mtdutils.bb: Failure expanding variable GRUB_OPTS:
-ExpansionError: Failure expanding variable GRUB_OPTS, expression was serial
---unit=${@filter(str.isdigit, d.getVar('SERIAL_CONSOLE', True).split()[1])}
---speed=${@d.getVar('SERIAL_CONSOLE', True).split()[0]} --word=8
---parity=no --stop=1 which triggered exception IndexError: list index out
-of range
 
-SERIAL_CONSOLE doesn't have to be set.
+I thought a v4 was getting silly so fixed these as I merged it... but:
+
+ERROR: Function failed: Fetcher failure for URL:
+'file://fix-configure.patch'. Unable to fetch URL from any source.
+
+Sorry Saul!
 
 Ross
 
---001a11c128361220070509b4a18b
+--001a11c3f53e6aca5c0509b4a96c
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 8=
- December 2014 at 05:47, Chong Lu <span dir=3D"ltr">&lt;<a href=3D"mailto:C=
-hong.Lu@windriver.com" target=3D"_blank">Chong.Lu@windriver.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
--style:solid;padding-left:1ex"><div id=3D":24m" class=3D"" style=3D"overflo=
-w:hidden">Chong Lu (2):<br>
-=C2=A0 syslinux.bbclass: use single variable to set baud rate<br>
-=C2=A0 grub-efi.bbclass: use single variable to set baud rate</div></blockq=
-uote></div><br>ERROR: ExpansionError during parsing /home/ross/Yocto/poky/m=
-eta/recipes-core/images/<a href=3D"http://core-image-minimal-mtdutils.bb">c=
-ore-image-minimal-mtdutils.bb</a>: Failure expanding variable GRUB_OPTS: Ex=
-pansionError: Failure expanding variable GRUB_OPTS, expression was serial -=
--unit=3D${@filter(str.isdigit, d.getVar(&#39;SERIAL_CONSOLE&#39;, True).spl=
-it()[1])} --speed=3D${@d.getVar(&#39;SERIAL_CONSOLE&#39;, True).split()[0]}=
- --word=3D8 --parity=3Dno --stop=3D1 which triggered exception IndexError: =
-list index out of range<br></div><div class=3D"gmail_extra"><br></div><div =
-class=3D"gmail_extra">SERIAL_CONSOLE doesn&#39;t have to be set.</div><div =
-class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 December 2014 at 14:37, Koen Kooi <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:koen@dominion.thruhere.net" target=3D"_blank">koen@dominion.thruhere.ne=
+t</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204=
+);border-left-style:solid;padding-left:1ex">If you feel bored, there&#39;s =
+a stray backslash in DESCRIPTION and the &#39;+=3D&#39; for EXTRA_OECONF ca=
+n be a regular &#39;=3D&#39;. Next time I&#39;ll try to catch everything in=
+ one go :)</blockquote></div><div class=3D"gmail_extra"><br></div>I thought=
+ a v4 was getting silly so fixed these as I merged it... but:</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">ERROR: Function fai=
+led: Fetcher failure for URL: &#39;file://fix-configure.patch&#39;. Unable =
+to fetch URL from any source.<br></div><div class=3D"gmail_extra"><br></div=
+><div class=3D"gmail_extra">Sorry Saul!</div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a11c128361220070509b4a18b--
+--001a11c3f53e6aca5c0509b4a96c--
