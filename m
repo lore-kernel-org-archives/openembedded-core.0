@@ -1,28 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C8EB723A8
+Return-Path: <jurobystricky@hotmail.com>
+Received: from BAY004-OMC3S18.hotmail.com (bay004-omc3s18.hotmail.com
+	[65.54.190.156])
+	by mail.openembedded.org (Postfix) with ESMTP id 90F4E724F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Dec 2014 16:23:51 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Dec 2014 08:08:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,545,1413270000"; d="scan'208";a="644902119"
-Received: from cleane-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.31.30])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2014 08:08:46 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Trevor Woerner <trevor.woerner@linaro.org>
-Date: Tue, 09 Dec 2014 16:08:45 +0000
-Message-ID: <3650068.9i3ehsGpzV@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.4-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <54871799.9000707@linaro.org>
-References: <cover.1416934753.git.paul.eggleton@linux.intel.com>
-	<6421374.i7zskq6Uby@peggleto-mobl5.ger.corp.intel.com>
-	<54871799.9000707@linaro.org>
+	Tue,  9 Dec 2014 17:08:38 +0000 (UTC)
+Received: from BAY179-W94 ([65.54.190.189]) by BAY004-OMC3S18.hotmail.com over
+	TLS secured channel with Microsoft SMTPSVC(7.5.7601.22751); 
+	Tue, 9 Dec 2014 09:08:38 -0800
+X-TMN: [RbcCu18RUlzvYoUP9HJa81mGkrkvNY/8]
+X-Originating-Email: [jurobystricky@hotmail.com]
+Message-ID: <BAY179-W94EE5F805A59DEBDCC4035BB650@phx.gbl>
+From: Juro Bystricky <jurobystricky@hotmail.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Dec 2014 09:08:38 -0800
+Importance: Normal
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 0/7] Developer workflow improvements
+X-OriginalArrivalTime: 09 Dec 2014 17:08:38.0397 (UTC)
+	FILETIME=[C64142D0:01D013D2]
+Subject: Problems running glibc test suite...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,107 +31,185 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Dec 2014 16:23:59 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 09 Dec 2014 17:08:41 -0000
+Content-Type: multipart/alternative;
+	boundary="_e7c80e84-495e-45e8-bb69-40099351b68d_"
 
-On Tuesday 09 December 2014 10:39:05 Trevor Woerner wrote:
-> On 12/09/14 10:10, Paul Eggleton wrote:
-> > On Tuesday 09 December 2014 10:00:51 Trevor Woerner wrote:
-> >> Would it be possible to make the output of devtool be nice and colourful
-> >> like the output of bitbake?
-> >> 
-> >>> Good idea, this is now done on the branch as well. "devtool build"
-> >>> doesn't support colour in the bitbake output, but that's because colour
-> >>> support in bitbake is switched by whether the output is going to a TTY
-> >>> and stdout is being redirected in this case. (I guess we could add a
-> >>> command line option for that as I have with devtool/recipetool.)
-> >> 
-> >> If it's not too much trouble I would like to ask that colour/curses be
-> >> possible/enabled by default. Trying to find the error in all that output
-> >> is a "needle in a haystack"-like operation :-)
-> > 
-> > I don't think this is straightforward unfortunately. I'll have to look
-> > into it.
-> 
-> Okay. Maybe it'd be best to just revert to bitbake? IOW, does the
-> devtool tool need its own "build,deploy,..."?
+--_e7c80e84-495e-45e8-bb69-40099351b68d_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-We did talk about this in a previous email, but just to clarify:
+=0A=
+=0A=
+=0A=
+I tried to run the glibc test suite and encountered various problems.
+I build glibc as a part of core-image-minimal with libgcc and libstdc++=2C=
+=20
+both additional libraries are needed by the glibc test suite.
 
-"devtool build" isn't strictly required in this phase, I added it primarily to 
-support future usage in the SDK where the intention is to do everything 
-through the devtool command, although that is a usage model that isn't enabled 
-yet. However, it is a convenient shortcut for "bitbake -c install 
-<recipename>" (which is all you need to do for "devtool deploy" to be able to 
-work.)
+By far most tests run just fine=2C but there are several tests that fail
+to build at all. The offenders are:
 
-"devtool deploy" is not related to do_deploy - it places files for the recipe 
-on a nominated target machine without having to worry about packaging; we have 
-no other equivalent for this at the moment. Perhaps it could have a different 
-name in case the naming overlap is confusing.
+/elf/tst-unique3cc
+/elf/tst-unique4cc=20
+/elf/tst-unique3lib.cc=20
+/elf/tst-unique3lib2.cc.=20
 
-> >> I wonder if all the
-> >> 
-> >>     NOTE: Running setscene task 31 of 33
-> >> 
-> >> (/home/trevor/devel/yocto/build/poky/meta-poky/meta/recipes-devtools/gcc/
-> >> gc
-> >> c-runtime_4.9.bb, do_populate_sysroot_setscene)
-> >> 
-> >>     NOTE: recipe gcc-runtime-4.9.1-r0: task
-> >>     do_populate_sysroot_setscene: Started
-> >>     NOTE: recipe gcc-runtime-4.9.1-r0: task
-> >>     do_populate_sysroot_setscene: Succeeded
-> >>     NOTE: Running setscene task 33 of 33
-> >> 
-> >> (/home/trevor/devel/yocto/build/poky/meta-poky/meta/recipes-devtools/gcc/
-> >> gc
-> >> c-cross_4.9.bb, do_populate_sysroot_setscene)
-> >> 
-> >>     NOTE: recipe gcc-cross-i586-4.9.1-r0: task
-> >>     do_populate_sysroot_setscene: Started
-> >>     NOTE: recipe gcc-cross-i586-4.9.1-r0: task
-> >>     do_populate_sysroot_setscene: Succeeded
-> >> 
-> >> Could be (should be) done as part of the "devtool
-> >> create-workspace"/"devtool add" operation?
-> > 
-> > If running devtool along side someone's existing build environment,
-> > wouldn't that be expected to be set up already? (All it does effectively
-> > is "bitbake recipename")
-> 
-> Here are my steps:
-> $ source meta-poky/oe-init-build-env build
-> $ bitbake core-image-x11
-> $ devtool add <myx11app>
-> $ devtool build <myx11app>
-> 
-> at this point it does a bunch of these gcc-runtime tasks. So my first
-> thought is: "why is my build going off into left field and doing all
-> these other things when all I asked it to do is to build <myx11app>?".
-> I'm guessing these gcc-runtime tasks are required for something related
-> to devtool, and they only need to be run once. So maybe it would be best
-> if they were run as part of creating the workspace (either explicitly
-> with "devtool create-workspace" or implicitly with "devtool add")?
+They all fail with an error:
 
-Trying to make "devtool add" or "devtool modify" do this just doesn't feel 
-right to me. These operations are supposed to be quick, and if they end up 
-running actual build tasks, they won't be.
+ fatal error: cstdio: No such file or directory
+ #include <cstdio>
 
-My guess (with no other context) is that the reason you are seeing this is 
-that you're building from sstate, and when it builds core-image-x11 it doesn't 
-need some of the tasks that it then does need when it goes to build the 
-individual recipe. I'm not sure, but I would expect that most people would be 
-doing this from an existing build directory rather than starting with a new 
-one. Is there a reason you're creating a new build directory as part of the 
-steps above?
+The obvious reason is that the c++ header files were not found by the g++.
+g++ was invoked with -nostdinc flag=2C and in that case the path to system =
+include
+files must be specified explicitly.
 
-Cheers,
-Paul
+The failed build is a consequence of a series of unfortunate events.
 
--- 
+First=2C when building the glibc for the first time=2C configure cannot fin=
+d g++=20
+compiler at all.  config.log states:
 
-Paul Eggleton
-Intel Open Source Technology Centre
+line 1594: arm-poky-linux-gnueabi-g++: command not found
+configure:3165: $? =3D 127
 
+Secondly=2C the g++ (which is not found) is then used to determine the loca=
+tion of the
+include headers=2C resulting in
+CXX_SYSINCLUDES=3D''
+
+Thirdly=2C even if g++ is found (it is found when re-building glibc=2C see =
+below)=2C
+the algorithm used to detect the CXX_SYSINCLUDES does not seem to work and=
+=20
+the headers are not detected. I "fixed" this  by adding the following to gi=
+t/configure:
+
+@@ -5184=2C6 +5197=2C14 @@
+       test "x$cxxheaders" !=3D x &&
+       CXX_SYSINCLUDES=3D"$CXX_SYSINCLUDES -isystem $cxxheaders"
+     done
++    if test -z "$CXX_SYSINCLUDES"=3B then
++      cxxversion=3D`$CXX -dumpversion`=20
++      cxxmachine=3D`$CXX -dumpmachine`=20
++      CXX_SYSINCLUDES=3D" -isystem $sysheaders/c++/$cxxversion \
++-isystem $sysheaders/c++/$cxxversion/$cxxmachine"
++    { $as_echo "$as_me:${as_lineno-$LINENO}: guessing CXX_SYSINCLUDES: $CX=
+X_SYSINCLUDES" >&5
++$as_echo_n "guessing CXX_SYSINCLUDE: $CXX_SYSINCLUDES... " >&6=3B }
++    fi
+   fi
+ fi
+
+After the core-image-minimal is built=2C by the time the test suite is run=
+=2C g++ is present=2C=20
+but CXX_SYSINCLUDES  is still not correct (unless the "fix" above is applie=
+d). However=2C=20
+not all c++ tests require c++ headers=2C  so some will build correctly. I t=
+ested the "fix"=20
+successfully with qemux86-64=2C qemumips and qemuarm.=20
+(qemuarm exposed some additional problems though).
+
+The "fix" is just a proof of concept: with correct CXX system header paths =
+all=20
+the offending programs build correctly. But this "fix" only works when re-b=
+uilding=20
+glibc after the core-image-minimal is built.
+
+The g++ compiler is not needed for glibc at all=2C it is only needed to bui=
+ld=20
+some of the tests in the testsuite.  Probably worth noting is that glibc ca=
+nnot DEPEND on=20
+g++  due to circular dependencies.
+
+The proper way to fix this would be to initialize CXX_SYSINCLUDES before bu=
+ilding/running the test suite=20
+and not before building the glibc.
+A suitable place for this seems to be recipes-core/glibc/glibc-testing.inc
+
+Any thoughts?
+
+Thanks
+
+Juro
+
+
+=0A=
+ 		 	   		  =
+
+--_e7c80e84-495e-45e8-bb69-40099351b68d_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+</head>
+<body class=3D'hmmessage'><div dir=3D'ltr'>=0A=
+=0A=
+<style><!--=0A=
+.hmmessage P=0A=
+{=0A=
+margin:0px=3B=0A=
+padding:0px=0A=
+}=0A=
+body.hmmessage=0A=
+{=0A=
+font-size: 12pt=3B=0A=
+font-family:Calibri=0A=
+}=0A=
+--></style>=0A=
+<div dir=3D"ltr">I tried to run the glibc test suite and encountered variou=
+s problems.<br>I build glibc as a part of core-image-minimal with libgcc an=
+d libstdc++=2C <br>both additional libraries are needed by the glibc test s=
+uite.<br><br>By far most tests run just fine=2C but there are several tests=
+ that fail<br>to build at all. The offenders are:<br><br>/elf/tst-unique3cc=
+<br>/elf/tst-unique4cc <br>/elf/tst-unique3lib.cc <br>/elf/tst-unique3lib2.=
+cc. <br><br>They all fail with an error:<br><br>&nbsp=3Bfatal error: cstdio=
+: No such file or directory<br>&nbsp=3B#include &lt=3Bcstdio&gt=3B<br><br>T=
+he obvious reason is that the c++ header files were not found by the g++.<b=
+r>g++ was invoked with -nostdinc flag=2C and in that case the path to syste=
+m include<br>files must be specified explicitly.<br><br>The failed build is=
+ a consequence of a series of unfortunate events.<br><br>First=2C when buil=
+ding the glibc for the first time=2C configure cannot find g++ <br>compiler=
+ at all.&nbsp=3B config.log states:<br><br>line 1594: arm-poky-linux-gnueab=
+i-g++: command not found<br>configure:3165: $? =3D 127<br><br>Secondly=2C t=
+he g++ (which is not found) is then used to determine the location of the<b=
+r>include headers=2C resulting in<br>CXX_SYSINCLUDES=3D''<br><br>Thirdly=2C=
+ even if g++ is found (it is found when re-building glibc=2C see below)=2C<=
+br>the algorithm used to detect the CXX_SYSINCLUDES does not seem to work a=
+nd <br>the headers are not detected. I "fixed" this&nbsp=3B by adding the f=
+ollowing to git/configure:<br><br>@@ -5184=2C6 +5197=2C14 @@<br>&nbsp=3B&nb=
+sp=3B&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B test "x$cxxheaders" !=3D x &amp=3B&am=
+p=3B<br>&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B CXX_SYSINCLUDES=3D=
+"$CXX_SYSINCLUDES -isystem $cxxheaders"<br>&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B=
+ done<br>+&nbsp=3B&nbsp=3B&nbsp=3B if test -z "$CXX_SYSINCLUDES"=3B then<br=
+>+&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B cxxversion=3D`$CXX -dumpversion`=
+ <br>+&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B cxxmachine=3D`$CXX -dumpmach=
+ine` <br>+&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B&nbsp=3B CXX_SYSINCLUDES=3D" -isy=
+stem $sysheaders/c++/$cxxversion \<br>+-isystem $sysheaders/c++/$cxxversion=
+/$cxxmachine"<br>+&nbsp=3B&nbsp=3B&nbsp=3B { $as_echo "$as_me:${as_lineno-$=
+LINENO}: guessing CXX_SYSINCLUDES: $CXX_SYSINCLUDES" &gt=3B&amp=3B5<br>+$as=
+_echo_n "guessing CXX_SYSINCLUDE: $CXX_SYSINCLUDES... " &gt=3B&amp=3B6=3B }=
+<br>+&nbsp=3B&nbsp=3B&nbsp=3B fi<br>&nbsp=3B&nbsp=3B fi<br>&nbsp=3Bfi<br><b=
+r>After the core-image-minimal is built=2C by the time the test suite is ru=
+n=2C g++ is present=2C <br>but CXX_SYSINCLUDES&nbsp=3B is still not correct=
+ (unless the "fix" above is applied). However=2C <br>not all c++ tests requ=
+ire c++ headers=2C&nbsp=3B so some will build correctly. I tested the "fix"=
+ <br>successfully with qemux86-64=2C qemumips and qemuarm. <br>(qemuarm exp=
+osed some additional problems though).<br><br>The "fix" is just a proof of =
+concept: with correct CXX system header paths all <br>the offending program=
+s build correctly. But this "fix" only works when re-building <br>glibc aft=
+er the core-image-minimal is built.<br><br>The g++ compiler is not needed f=
+or glibc at all=2C it is only needed to build <br>some of the tests in the =
+testsuite.&nbsp=3B <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cg=
+i?id=3D7003%29" target=3D"_blank"></a>Probably worth noting is that glibc c=
+annot DEPEND on <br>g++&nbsp=3B due to circular dependencies.<br><br>The pr=
+oper way to fix this would be to initialize CXX_SYSINCLUDES before building=
+/running the test suite <br>and not before building the glibc.<br>A suitabl=
+e place for this seems to be recipes-core/glibc/glibc-testing.inc<br><br>An=
+y thoughts?<br><br>Thanks<br><br>Juro<br><br><br></div>=0A=
+ 		 	   		  </div></body>
+</html>=
+
+--_e7c80e84-495e-45e8-bb69-40099351b68d_--
