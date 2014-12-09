@@ -1,24 +1,26 @@
 Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 60B1F724CE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 626C4724D2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Dec 2014 08:27:25 +0000 (UTC)
+	Tue,  9 Dec 2014 08:27:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sB98RPvK005205
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sB98RQL9017298
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Dec 2014 00:27:25 -0800 (PST)
+	Tue, 9 Dec 2014 00:27:27 -0800 (PST)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 9 Dec 2014 00:27:24 -0800
+	14.3.174.1; Tue, 9 Dec 2014 00:27:26 -0800
 From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Dec 2014 16:25:46 +0800
-Message-ID: <cover.1418113325.git.Chong.Lu@windriver.com>
+Date: Tue, 9 Dec 2014 16:25:47 +0800
+Message-ID: <6152fe99accf1a836c3bc9b3d2c7b9dc886b16f2.1418113325.git.Chong.Lu@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1418113325.git.Chong.Lu@windriver.com>
+References: <cover.1418113325.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/3] use single variable to set baud rate
+Subject: [PATCH V2 1/3] bitbake.conf: Set default value for SERIAL_CONSOLE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,28 +36,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 09 Dec 2014 08:27:31 -0000
 Content-Type: text/plain
 
-Change since V1:
-Set default value for SERIAL_CONSOLE.
+Define a default value for SERIAL_CONSOLE, we can use it if machine doesn't
+configure.
 
-The following changes since commit b813bdebb36501500e86fea5f7e15b4b15ea0902:
+[YOCTO #6331]
 
-  qemu/libc-package: Fix qemu option handling (2014-12-05 18:01:08 +0000)
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib chonglu/baudrate
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/baudrate
-
-Chong Lu (3):
-  bitbake.conf: Set default value for SERIAL_CONSOLE
-  syslinux.bbclass: use single variable to set baud rate
-  grub-efi.bbclass: use single variable to set baud rate
-
- meta/classes/grub-efi.bbclass | 5 +++--
- meta/classes/syslinux.bbclass | 4 ++--
- meta/conf/bitbake.conf        | 2 +-
- 3 files changed, 6 insertions(+), 5 deletions(-)
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 7902bd7..7a659a7 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -739,7 +739,7 @@ COMBINED_FEATURES = "\
+     ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "wifi", d)}"
+ COMBINED_FEATURES[vardeps] += "DISTRO_FEATURES MACHINE_FEATURES"
+ 
+-SERIAL_CONSOLE ??= ""
++SERIAL_CONSOLE ??= "115200 ttyS0"
+ SERIAL_CONSOLES ??= "${@d.getVar('SERIAL_CONSOLE', True).replace(' ', ';')}"
+ 
+ NO_RECOMMENDATIONS ?= ""
 -- 
 1.9.1
 
