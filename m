@@ -1,36 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id B707471014
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f52.google.com (mail-yh0-f52.google.com
+	[209.85.213.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 277C17252F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Dec 2014 12:43:38 +0000 (UTC)
-Received: by mail-qg0-f54.google.com with SMTP id l89so306175qgf.27
+	Tue,  9 Dec 2014 12:55:10 +0000 (UTC)
+Received: by mail-yh0-f52.google.com with SMTP id z6so203246yhz.39
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Dec 2014 04:43:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=awoEecD1prYmmvYAuq8t0JsQNu66i+Hae9taGm4Yy34=;
-	b=EwQvoVt1uRzRDn1K49PqFIkNuQL5dgXefb9fCb7twh3Y6iM0A44cMmJG6pQKFA9+SI
-	CGg4aIo5IF+KvLfBG1kVIyF29QiqcXMhAB3tr77F9bkjzoYJNEus1WI8sB3133eeKxFh
-	XECWrIzHClv9rdFYDE81dCwjQSNhUdcJIHVhBZtxKx30P9pQFtHO+4dThw2WpFnZ+Z4E
-	ddUA4MOJ7ggjuUwIYTiFKak7DzwnChJHZXeg89PDDkyaB5QZwOY14zfKZFv6dZeeDfTo
-	SikZqIbb+BCxI5L9J6NKnYTWyhw1q8dAaOyrumTYY2EgnwsEziYDkvoUZwSMV4ny35Ia
-	Ibbw==
-X-Gm-Message-State: ALoCoQmXaP/tph4fas+6DNwHuk3N6BZWt0elEa6V68iIADqVGy9uznYjkSqzmV2rggthnsPRHBR0
-X-Received: by 10.140.102.144 with SMTP id w16mr4552395qge.59.1418129019128;
-	Tue, 09 Dec 2014 04:43:39 -0800 (PST)
+	Tue, 09 Dec 2014 04:55:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=z6dr1CRGgc+8XdUcH1a8cHLZw7j5jqqXjZq9GfN2c/I=;
+	b=ZnP+tykTyjm+c/LIv/nDYjjnug9cHqUxbMR0wxKKY/kb0TYiBd2zd4R2VJYvNsfF5Q
+	ZhnsNHxJoPITD2CixPk5RQHw1Ww4IcnEwzOCO10nM/tNJy4Gnv6eFFgD28PqIsbvv1ZV
+	rVAyCntUYqsUOENwD0qjndEm+tSCnzKFlDr7u/ciL5SNOuiurjETzpIj1vGyWz9xL12l
+	nXCgvckqN+YQcKx2TbWqVPwOMRqrTmFcBuLr3JvVempalaUHNlg+uyU93m9bRkuEh7qh
+	KjVycxllUygplVQcSkp3vVMi2D/JO631yfsid0n4m4H/hkssi5xQ6LQ3ZJf8rx3AWj9+
+	hDpg==
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Tue, 9 Dec 2014 04:43:18 -0800 (PST)
-In-Reply-To: <1418117801-9614-1-git-send-email-kai.kang@windriver.com>
-References: <1418117801-9614-1-git-send-email-kai.kang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Dec 2014 12:43:18 +0000
-Message-ID: <CAJTo0Lbd2jieDY-4zGauqxQpvZnvMPsXcr=PP=Qy1YYAvmR7pg@mail.gmail.com>
-To: Kai Kang <kai.kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] valgrind: update to 3.10.1
+X-Received: by 10.236.109.166 with SMTP id s26mr2447637yhg.67.1418129711589;
+	Tue, 09 Dec 2014 04:55:11 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.171.132 with HTTP; Tue, 9 Dec 2014 04:55:11 -0800 (PST)
+In-Reply-To: <6a97dbf65a4e47199083ee52b86bff27@BN1AFFO11FD036.protection.gbl>
+References: <6a97dbf65a4e47199083ee52b86bff27@BN1AFFO11FD036.protection.gbl>
+Date: Tue, 9 Dec 2014 10:55:11 -0200
+X-Google-Sender-Auth: Di0Au8Cw1KUFWKBUvdO6V3YYSBI
+Message-ID: <CAP9ODKp66_Be-w8W8YW++Xay4uvQU1M3GFt+5XicUa3eWTamPw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Nathan Rossi <nathan.rossi@xilinx.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Improve devtmpfs and cpio support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,43 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Dec 2014 12:43:43 -0000
-Content-Type: multipart/alternative; boundary=001a11c16bc26e6c120509c7e4c2
-
---001a11c16bc26e6c120509c7e4c2
+X-List-Received-Date: Tue, 09 Dec 2014 12:55:18 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 9 December 2014 at 09:36, Kai Kang <kai.kang@windriver.com> wrote:
+Hello Nathan,
 
-> Add dependency perl-module-file-glob for ptest subpackage.
+On Tue, Dec 9, 2014 at 3:50 AM, Nathan Rossi <nathan.rossi@xilinx.com> wrote:
+> The following patches improve cpio support as well as improving the
+> handling of devtmpfs and consolidating the setup of /dev mounts.
 >
+> Currently udev and mdev handle mounting /dev seperately in their own
+> init scripts, as well as handling of /dev/pts and /dev/shm. Both however
+> implement a similar method of mounting and creating directories.
+> Additionally there is overlap between the udev/mdev init scripts and the
+> devpts script. This patch attempts to clean up the mounting and setup
+> so that it is done at a seperate level to the dev manager itself. So
+> that machines/bsps can override the fstab and have custom /dev mount
+> setups. This setup also allows for a system which does not use a dev
+> manager and relies on devtmpfs for /dev nodes, which is useful for very
+> constrained setups.
+>
+> Additionally this patch set resolves the need for the devpts init
+> scripts, and on top of that prepares the /dev/pts interface early enough
+> for other rc scripts like bootlogd so that there is no need for the
+> CONFIG_LEGACY_PTYS to be enabled in the kernel.
 
-A build here results in:
+Wonderful; this is a good improvement and I fully agree with the
+changes here included.
 
-WARNING: QA Issue: valgrind-ptest rdepends on boost-system, but it isn't a
-build dependency? [build-deps]
-WARNING: QA Issue: valgrind-ptest rdepends on boost-thread, but it isn't a
-build dependency? [build-deps]
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Ross
+As a matter of completeness, please take a look on the
+initramfs-framework which might be helpful for your cpio based images
+as well.
 
---001a11c16bc26e6c120509c7e4c2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 December 2014 at 09:36, Kai Kang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:kai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-=
-left-style:solid;padding-left:1ex"><div id=3D":14g" class=3D"" style=3D"ove=
-rflow:hidden">Add dependency perl-module-file-glob for ptest subpackage.<br=
-></div></blockquote></div><div class=3D"gmail_extra"><br></div>A build here=
- results in:</div><div class=3D"gmail_extra"><br><div class=3D"gmail_extra"=
->WARNING: QA Issue: valgrind-ptest rdepends on boost-system, but it isn&#39=
-;t a build dependency? [build-deps]</div><div class=3D"gmail_extra">WARNING=
-: QA Issue: valgrind-ptest rdepends on boost-thread, but it isn&#39;t a bui=
-ld dependency? [build-deps]</div><div class=3D"gmail_extra"><br></div><div =
-class=3D"gmail_extra">Ross</div></div></div>
-
---001a11c16bc26e6c120509c7e4c2--
