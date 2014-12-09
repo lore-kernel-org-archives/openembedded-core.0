@@ -1,26 +1,24 @@
 Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 61950724CF
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 60B1F724CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Dec 2014 08:27:28 +0000 (UTC)
+	Tue,  9 Dec 2014 08:27:25 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sB98RT2X017302
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sB98RPvK005205
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Dec 2014 00:27:29 -0800 (PST)
+	Tue, 9 Dec 2014 00:27:25 -0800 (PST)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 9 Dec 2014 00:27:29 -0800
+	14.3.174.1; Tue, 9 Dec 2014 00:27:24 -0800
 From: Chong Lu <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Dec 2014 16:25:49 +0800
-Message-ID: <69337b84d2e3b4ba92bab73163ca44ed2717e858.1418113325.git.Chong.Lu@windriver.com>
+Date: Tue, 9 Dec 2014 16:25:46 +0800
+Message-ID: <cover.1418113325.git.Chong.Lu@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1418113325.git.Chong.Lu@windriver.com>
-References: <cover.1418113325.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 3/3] grub-efi.bbclass: use single variable to set baud rate
+Subject: [PATCH V2 0/3] use single variable to set baud rate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +34,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 09 Dec 2014 08:27:31 -0000
 Content-Type: text/plain
 
-Use SERIAL_CONSOLE to set baud rate in grub.cfg file.
+Change since V1:
+Set default value for SERIAL_CONSOLE.
 
-[YOCTO #6331]
+The following changes since commit b813bdebb36501500e86fea5f7e15b4b15ea0902:
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
+  qemu/libc-package: Fix qemu option handling (2014-12-05 18:01:08 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib chonglu/baudrate
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/baudrate
+
+Chong Lu (3):
+  bitbake.conf: Set default value for SERIAL_CONSOLE
+  syslinux.bbclass: use single variable to set baud rate
+  grub-efi.bbclass: use single variable to set baud rate
+
  meta/classes/grub-efi.bbclass | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/classes/syslinux.bbclass | 4 ++--
+ meta/conf/bitbake.conf        | 2 +-
+ 3 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index 47bd35e..37c21f9 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -18,11 +18,12 @@
- do_bootimg[depends] += "${MLPREFIX}grub-efi:do_deploy"
- do_bootdirectdisk[depends] += "${MLPREFIX}grub-efi:do_deploy"
- 
--GRUB_SERIAL ?= "console=ttyS0,115200"
-+GRUB_SERIAL ?= "console=${@d.getVar('SERIAL_CONSOLE', True).split()[1]},${@d.getVar('SERIAL_CONSOLE', True).split()[0]}"
- GRUBCFG = "${S}/grub.cfg"
- GRUB_TIMEOUT ?= "10"
- #FIXME: build this from the machine config
--GRUB_OPTS ?= "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1"
-+GRUB_OPTS ?= "serial --unit=${@filter(str.isdigit, d.getVar('SERIAL_CONSOLE', True).split()[1])} \
-+--speed=${@d.getVar('SERIAL_CONSOLE', True).split()[0]} --word=8 --parity=no --stop=1"
- 
- EFIDIR = "/EFI/BOOT"
- 
 -- 
 1.9.1
 
