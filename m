@@ -1,45 +1,44 @@
 Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
-	[209.85.213.176])
-	by mail.openembedded.org (Postfix) with ESMTP id CFFE372425
+Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id B9F5072392
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Dec 2014 15:39:14 +0000 (UTC)
-Received: by mail-ig0-f176.google.com with SMTP id l13so5028325iga.3
+	Tue,  9 Dec 2014 15:47:25 +0000 (UTC)
+Received: by mail-ie0-f171.google.com with SMTP id rl12so736030iec.30
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Dec 2014 07:39:14 -0800 (PST)
+	Tue, 09 Dec 2014 07:47:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
 	:cc:subject:references:in-reply-to:content-type
 	:content-transfer-encoding;
-	bh=7nJa2HmfKI/I6OH+RpmrYYRbrTQlfjd7TFxs6Ejym6w=;
-	b=cp4oCBfpqg/sauW6KBkspmr3c1Nqhp5t5I9jktEpVgTwkKb7LR7mDLhce6meTBkV1N
-	WkvqNSrpQ9FbRWC/AIIr69an/KgMEZ4CwhlNWTMWZjniQE9WqZAm1s7AJvNh8L72tnd6
-	Hycb0xzuBEBHvy3y4SSgdiMShxy8RLVQbKZYI7JcBKDGxAcz4aB3rWXLbGZ7a4xP6R7E
-	qLI4qMkiKusHQT+63bNk/DoCEixRVHA9USywpidOkfKVf1wCS+0Zvf5VwT3iACC4u5P9
-	u/Rvuo+chvm1j9tTMTCdWlkmIupmHKlgMGael32iW2WcoLL9r8+c+Vx6t4g73Ig/nNsW
-	RddA==
-X-Gm-Message-State: ALoCoQnWOuOfqCJovcwDZTUDbuG4LumrTXnooBe5wHCrH4441HzmvSZKqGt9sbjjiqSLcqBieNZC
-X-Received: by 10.51.17.2 with SMTP id ga2mr2921143igd.39.1418139554634;
-	Tue, 09 Dec 2014 07:39:14 -0800 (PST)
+	bh=EP9zdpdyTJrh1wuVu7urfD4GjMJdCetvNNnFZPRM2hw=;
+	b=inKG6CJv8tkObtgRWKo50gSxhi591DI1goiy6saZylv/aDrOvj408bzLgNBKa4oJ9t
+	HikZ2y45Oj1c1sF+KlfPdfYn0urUG9JiCCITTsrxPk3Eme65CGPqu8tpT1SvzMBdIRO3
+	piGnHrsqy7LVkwB3+ROSS2eYhO55OL+4oP4AunqFgPZGy2W1ws1bdDWDGj9mnM3J9oKA
+	yp3VM3p05AFuxZIRm+WMF/CmrPfp8hVwEWxcpp2Ox1OYLq1oGSdxoiSjETBD2ZHiDPFq
+	WS0zLCxxYcwj0zMsPZTof3LnGGSgMiqqjIs94sKLX0z4MHVWtSzWbxfGfbek4dvfsYV3
+	y8yA==
+X-Gm-Message-State: ALoCoQmZFLNg7UsRC7ZgrEmAq08EgExdqTDPhKgRdJV4C3Tubq7zPX+2bs886RYsjMjX6Twcrdzx
+X-Received: by 10.50.154.72 with SMTP id vm8mr2897824igb.47.1418140045536;
+	Tue, 09 Dec 2014 07:47:25 -0800 (PST)
 Received: from [208.114.172.198]
 	(xplr-ts-w10-208-114-172-198.barrettxplore.com. [208.114.172.198])
-	by mx.google.com with ESMTPSA id z71sm694452iod.23.2014.12.09.07.39.10
+	by mx.google.com with ESMTPSA id g139sm694385iog.41.2014.12.09.07.47.20
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 09 Dec 2014 07:39:13 -0800 (PST)
-Message-ID: <54871799.9000707@linaro.org>
-Date: Tue, 09 Dec 2014 10:39:05 -0500
+	Tue, 09 Dec 2014 07:47:24 -0800 (PST)
+Message-ID: <54871983.1060106@linaro.org>
+Date: Tue, 09 Dec 2014 10:47:15 -0500
 From: Trevor Woerner <trevor.woerner@linaro.org>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
 To: Paul Eggleton <paul.eggleton@linux.intel.com>
 References: <cover.1416934753.git.paul.eggleton@linux.intel.com>
-	<7839390.odV1UMkpj8@peggleto-mobl5.ger.corp.intel.com>
-	<54870EA3.20802@linaro.org>
-	<6421374.i7zskq6Uby@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <6421374.i7zskq6Uby@peggleto-mobl5.ger.corp.intel.com>
+	<547D45EB.6060508@linaro.org>
+	<4967625.9osgGDJBx1@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <4967625.9osgGDJBx1@peggleto-mobl5.ger.corp.intel.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [RFC PATCH 0/7] Developer workflow improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,69 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Dec 2014 15:39:20 -0000
+X-List-Received-Date: Tue, 09 Dec 2014 15:47:26 -0000
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
 
-On 12/09/14 10:10, Paul Eggleton wrote:
-> On Tuesday 09 December 2014 10:00:51 Trevor Woerner wrote:
->> Would it be possible to make the output of devtool be nice and colourful
->> like the output of bitbake?
->>> Good idea, this is now done on the branch as well. "devtool build" doesn't
->>> support colour in the bitbake output, but that's because colour support in
->>> bitbake is switched by whether the output is going to a TTY and stdout is
->>> being redirected in this case. (I guess we could add a command line option
->>> for that as I have with devtool/recipetool.)
->> If it's not too much trouble I would like to ask that colour/curses be
->> possible/enabled by default. Trying to find the error in all that output
->> is a "needle in a haystack"-like operation :-)
-> I don't think this is straightforward unfortunately. I'll have to look into 
-> it.
-
-Okay. Maybe it'd be best to just revert to bitbake? IOW, does the
-devtool tool need its own "build,deploy,..."?
-
-
->
->> I wonder if all the
+On 12/02/14 09:01, Paul Eggleton wrote:
+> On Monday 01 December 2014 23:54:03 Trevor Woerner wrote:
+>> On 11/25/14 12:28, Paul Eggleton wrote:
+>>> I've then added a new recipe auto-creation script, recipetool, which can
+>>> take a source tree or URL and create a skeleton recipe to build it.
+>> ...
 >>
->>     NOTE: Running setscene task 31 of 33
->>    
->> (/home/trevor/devel/yocto/build/poky/meta-poky/meta/recipes-devtools/gcc/gc
->> c-runtime_4.9.bb, do_populate_sysroot_setscene)
->>     NOTE: recipe gcc-runtime-4.9.1-r0: task
->>     do_populate_sysroot_setscene: Started
->>     NOTE: recipe gcc-runtime-4.9.1-r0: task
->>     do_populate_sysroot_setscene: Succeeded
->>     NOTE: Running setscene task 33 of 33
->>    
->> (/home/trevor/devel/yocto/build/poky/meta-poky/meta/recipes-devtools/gcc/gc
->> c-cross_4.9.bb, do_populate_sysroot_setscene)
->>     NOTE: recipe gcc-cross-i586-4.9.1-r0: task
->>     do_populate_sysroot_setscene: Started
->>     NOTE: recipe gcc-cross-i586-4.9.1-r0: task
->>     do_populate_sysroot_setscene: Succeeded
->>
->>
->> Could be (should be) done as part of the "devtool
->> create-workspace"/"devtool add" operation?
-> If running devtool along side someone's existing build environment, wouldn't 
-> that be expected to be set up already? (All it does effectively is "bitbake 
-> recipename")
+>>>  * "recipetool create" ideally needs to become smarter and fill in
+>>>  
+>>>    more details of the recipe. At some point we'll probably have to
+>>>    make the process interactive and possibly have it automate parts of
+>>>    the build process and examine the output; some things just can't be
+>>>    practically detected from the source tree without building.
+>> There is a tool "autoscan" which might be of some use here. If nothing
+>> else, the resulting configure.scan file could be parsed for DEPENDS
+>> information and perhaps PACKAGECONFIG items too.
+> Interesting - I was not aware of this tool. I've added support for running it 
+> as well as picking converting AC_CHECK_LIB lines over to DEPENDS (with a note 
+> about some of them possibly being optional). Thanks!
 >
 
-Here are my steps:
-$ source meta-poky/oe-init-build-env build
-$ bitbake core-image-x11
-$ devtool add <myx11app>
-$ devtool build <myx11app>
-
-at this point it does a bunch of these gcc-runtime tasks. So my first
-thought is: "why is my build going off into left field and doing all
-these other things when all I asked it to do is to build <myx11app>?".
-I'm guessing these gcc-runtime tasks are required for something related
-to devtool, and they only need to be run once. So maybe it would be best
-if they were run as part of creating the workspace (either explicitly
-with "devtool create-workspace" or implicitly with "devtool add")?
+Finding "AC_PATH_X" in "configure.scan" is probably a good indication
+there's an RDEPENDS on "libx11". Maybe "recipetool" could check for that?
 
