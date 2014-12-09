@@ -1,29 +1,31 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 07A4072485
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 58A0571014
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Dec 2014 01:45:54 +0000 (UTC)
+	Tue,  9 Dec 2014 01:48:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sB91jqNd001803
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sB91mINL004871
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Mon, 8 Dec 2014 17:45:53 -0800 (PST)
+	Mon, 8 Dec 2014 17:48:18 -0800 (PST)
 Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Mon, 8 Dec 2014 17:45:52 -0800
-Message-ID: <5486544E.7000303@windriver.com>
-Date: Tue, 9 Dec 2014 09:45:50 +0800
+	Mon, 8 Dec 2014 17:48:18 -0800
+Message-ID: <548654DF.1010301@windriver.com>
+Date: Tue, 9 Dec 2014 09:48:15 +0800
 From: Kang Kai <Kai.Kang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	<openembedded-core@lists.openembedded.org>
-References: <1416479292-27377-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-	<1416588912-3046-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-In-Reply-To: <1416588912-3046-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1415350038.git.kai.kang@windriver.com>
+	<32c8d18dbaf01579b0804bb19f81eb08ecb01bfa.1415350038.git.kai.kang@windriver.com>
+	<CAJTo0LZUZLN5BoMcPGhdE4+bzOmcW5U6HEfJC0iM9i=kq4vUOQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZUZLN5BoMcPGhdE4+bzOmcW5U6HEfJC0iM9i=kq4vUOQ@mail.gmail.com>
 X-Originating-IP: [128.224.162.231]
-Subject: Re: [PATCH v2] serf: fix 'ccache' builds
+Cc: Koen Kooi <koen.kooi@linaro.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 16/24] packagegroup-core-tools-profile: remove sysprof for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,110 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Dec 2014 01:45:59 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Tue, 09 Dec 2014 01:48:25 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 2014年11月22日 00:55, Enrico Scholz wrote:
-> 'scons' cleans the environment which breaks ccache builds because
-> CCACHEDIR can point to an unexpected location:
+On 2014年12月09日 04:51, Burton, Ross wrote:
+> On 7 November 2014 at 08:51, Kai Kang <kai.kang@windriver.com> wrote:
 >
-> | ccache arm-linux-gnueabi-gcc ... context.c
-> | ccache: failed to create .../serf/1.3.8-r0/.home/.ccache (No such file or directory)
->
-> Issue is described in
->
->    http://www.scons.org/wiki/ImportingEnvironmentSettings
->
-> and because 'bitbake' cleans environment we can pass it completely
-> instead of trying to enumerate needed env.
->
-> With the 'env.patch' the FULLCC variable is not needed anymore (which
-> would break when CC is 'ccache arm-...-gcc' and host ccache is used)
-> because the correct $PATH is available during scons build:
->
-> | sh: .../sysroots/x86_64-oe-linux/usr/bin/arm-linux-gnueabi/ccache: No such file or directory
-> | scons: *** [context.o] Error 127
->
-> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-> ---
->   meta/recipes-support/serf/serf/env.patch | 28 ++++++++++++++++++++++++++++
->   meta/recipes-support/serf/serf_1.3.8.bb  |  9 +++------
->   2 files changed, 31 insertions(+), 6 deletions(-)
->   create mode 100644 meta/recipes-support/serf/serf/env.patch
->
-> diff --git a/meta/recipes-support/serf/serf/env.patch b/meta/recipes-support/serf/serf/env.patch
-> new file mode 100644
-> index 0000000..9d073e9
-> --- /dev/null
-> +++ b/meta/recipes-support/serf/serf/env.patch
-> @@ -0,0 +1,28 @@
-> +'scons' cleans the environment which breaks ccache builds because
-> +CCACHEDIR can point to an unexpected location:
-> +
-> +| ccache arm-linux-gnueabi-gcc ... context.c
-> +| ccache: failed to create .../serf/1.3.6-r0/.home/.ccache (No such file or directory)
-> +
-> +Issue is described in
-> +
-> +  http://www.scons.org/wiki/ImportingEnvironmentSettings
-> +
-> +and because 'bitbake' cleans environment we can pass it completely
-> +instead of trying to enumerate needed env.
-> +
-> +Upstream-Status: Inappropriate
-> +
-> +
-> +Index: serf-1.3.6/SConstruct
-> +===================================================================
-> +--- serf-1.3.6.orig/SConstruct
-> ++++ serf-1.3.6/SConstruct
-> +@@ -149,6 +149,7 @@ if sys.platform == 'win32':
-> + env = Environment(variables=opts,
-> +                   tools=('default', 'textfile',),
-> +                   CPPPATH=['.', ],
-> ++                  ENV = os.environ,
-> +                   )
-> +
-> + env.Append(BUILDERS = {
-> diff --git a/meta/recipes-support/serf/serf_1.3.8.bb b/meta/recipes-support/serf/serf_1.3.8.bb
-> index 10db122..e818889 100644
-> --- a/meta/recipes-support/serf/serf_1.3.8.bb
-> +++ b/meta/recipes-support/serf/serf_1.3.8.bb
-> @@ -1,7 +1,7 @@
->   
->   SRC_URI = "http://serf.googlecode.com/svn/src_releases/serf-${PV}.tar.bz2 \
-> -           file://norpath.patch"
-> -SRC_URI[md5sum] = "2e4efe57ff28cb3202a112e90f0c2889"
+>> +# sysprof doesn't support aarch64
+>> +PROFILE_TOOLS_X_aarch64 = ""
+>>
+> The rest of the file uses for example SYSPROF and SYSPROF_aarch64, please
+> match the existing pattern.
 
-Why remove md5sum? I think it is typo, and warning shows:
+In the following var definition, it uses PROFILE_TOOLS_X:
 
-WARNING: Missing md5 SRC_URI checksum for 
-/.../build/downloads/serf-1.3.8.tar.bz2, consider adding to the recipe:
-SRC_URI[md5sum] = "2e4efe57ff28cb3202a112e90f0c2889"
+RRECOMMENDS_${PN} = "\
+     perf \
+     trace-cmd \
+     kernel-module-oprofile \
+     blktrace \
+     ${PROFILE_TOOLS_X} \
+     ${PROFILE_TOOLS_SYSTEMD} \
+     "
 
+I suppose that use SYSPROF_aarch64 doesn't work here.
 
 --Kai
 
-> +           file://norpath.patch \
-> +           file://env.patch"
->   SRC_URI[sha256sum] = "e0500be065dbbce490449837bb2ab624e46d64fc0b090474d9acaa87c82b2590"
->   
->   LICENSE = "Apache-2.0"
-> @@ -9,12 +9,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
->   
->   DEPENDS = "python-scons-native openssl apr apr-util util-linux expat"
->   
-> -FULLCC = "${STAGING_BINDIR_TOOLCHAIN}/${CC}"
-> -FULLCC_class-native = "${CC}"
-> -
->   do_compile() {
->   	${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=${prefix} \
-> -		CC="${FULLCC}" \
-> +		CC="${CC}" \
->   		APR=`which apr-1-config` APU=`which apu-1-config` \
->   		CFLAGS="${CFLAGS}" LINKFLAGS="${LDFLAGS}" \
->   		OPENSSL="${STAGING_EXECPREFIXDIR}"
+
+>
+> Ross
+>
 
 
 -- 
