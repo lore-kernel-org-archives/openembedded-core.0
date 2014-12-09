@@ -1,40 +1,37 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f45.google.com (mail-yh0-f45.google.com
-	[209.85.213.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A3286017E
+Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
+	[209.85.216.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A96972499
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Dec 2014 20:19:24 +0000 (UTC)
-Received: by mail-yh0-f45.google.com with SMTP id f10so632546yha.32
+	Tue,  9 Dec 2014 20:25:07 +0000 (UTC)
+Received: by mail-qa0-f42.google.com with SMTP id j7so991318qaq.15
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Dec 2014 12:19:25 -0800 (PST)
+	Tue, 09 Dec 2014 12:25:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type:content-transfer-encoding;
-	bh=G/GsGClLNDrprCy2qYYL6KzOJa7KnilxPXIe7ytevIQ=;
-	b=JCEk/tipEY1vx3gvRiGMenajPB9TwuJXi8o9B09hhHaZ3wWfOSiELUUzJyoMGqWOoQ
-	oAUyAN14YyUJLXPvdVjRm/qgM4R+AfG7O2pO4c7MZxUDwyCcf8gjZXQIuy1qhIX5X5hX
-	2yVBp95V4iSqD/CUaLtl8Vpv4aJUrfgt/AFm5C1gIG3waIip3rudCPhfNHFM42bEerrV
-	l64fsjjXewjpmgSGd4hzLHtYuXa1dYGdinZl3XhDAlJWDWaT3mW7dUlmBMfkgcsUYdaY
-	JQGq9jk942IGSsHZFb9IZ+nNqeQNbwNeELqr2t06CBixRqKRMMl5cE8dSc28ySdX6ey/
-	WW+w==
-MIME-Version: 1.0
-X-Received: by 10.236.109.166 with SMTP id s26mr30624yhg.67.1418156365266;
-	Tue, 09 Dec 2014 12:19:25 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.171.132 with HTTP; Tue, 9 Dec 2014 12:19:25 -0800 (PST)
-In-Reply-To: <CAJTo0LbVEYT9=fo_gKAk0wRSg1H9_-vE5dd5N-SMrMXM38Lbvw@mail.gmail.com>
-References: <cover.1417734782.git.anibal.limon@linux.intel.com>
-	<ADD6A3980E8C39419A432FF422031B4C7CF45250@ORSMSX103.amr.corp.intel.com>
-	<54873BE9.9030905@linux.intel.com>
-	<CAJTo0LbVEYT9=fo_gKAk0wRSg1H9_-vE5dd5N-SMrMXM38Lbvw@mail.gmail.com>
-Date: Tue, 9 Dec 2014 18:19:25 -0200
-X-Google-Sender-Auth: RwC2QjNzA1Pj1DwOGmPVYBxFnOo
-Message-ID: <CAP9ODKp2nSb5qMVPW6tfG9Wm3zwuopPDt4Hm4+EY+eBjYyS4Jw@mail.gmail.com>
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=LkkBaOo1pCKo+hfs8RK5Tn16geAOOFq0WXOmIKGydEw=;
+	b=rXfjN+Z1VPoAKFWxSYJ6MeIyIQlLeM2KW3fVZHWSpgqJ20TGT3CgKjqYbGm7V21kHa
+	Z+3WbQTz1eYAD8G6P9nPC2wOPJUqtLpaTIc/35ms6d/WhWJLZ1x3t9kzPjrJdphS8q0j
+	MfkrUGQj30ZJ02ll51nWOEFbklp14Q3kn5W0PLLeH5p2FwopgpNxoNItTgBrUZ+S3fHv
+	ztOhy4Ejzw+Aq3B5WMt2d+GSQS7b03hISfuFtvFf7Nd2FKEzIMtkdwt0shOqf0OGjGcv
+	7m2cgrP6hpW7J7B2rz3NDDUscCE8eAci7mD2dcJQaIs9kpSrAU0+luAvw6DRkOz5LEgx
+	JqIQ==
+X-Received: by 10.229.37.136 with SMTP id x8mr791888qcd.30.1418156707556;
+	Tue, 09 Dec 2014 12:25:07 -0800 (PST)
+Received: from centrium.lab.ossystems.com.br ([177.194.193.50])
+	by mx.google.com with ESMTPSA id
+	a103sm1628956qge.29.2014.12.09.12.25.05 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 09 Dec 2014 12:25:06 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 0/3] Upgrades for comply Intel Graphics Stack Release 2014Q3
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue,  9 Dec 2014 18:24:47 -0200
+Message-Id: <1418156688-1564-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.1.3
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 1/2] image_types.bbclass: Respect IMAGE_TYPEDEP dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,30 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Dec 2014 20:19:32 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 09 Dec 2014 20:25:12 -0000
 
-On Tue, Dec 9, 2014 at 6:06 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 9 December 2014 at 18:14, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.i=
-ntel.com>
-> wrote:
->>
->> I don't know, maybe Ross knows?.
->
->
-> I ask for Piglit results to verify that approx 95% passes as that's the
-> expected pass rate.  I don't bother tracking the exact count as how it
-> changes as there's almost ten thousand tests and at some point you have t=
-o
-> let upstream deal with this.
+The IMAGE_TYPEDEP dependencies also need to be taken into account when
+building an IMAGE_FSTYPE.
 
-What is the point in having a tool for regression test if it is not tracked=
-?
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/classes/image_types.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 9aee745..24e4bbb 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -21,6 +21,8 @@ def imagetypes_getdepends(d):
+                 basetype = type[:-len("." + ctype)]
+                 adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype, True), deps)
+                 break
++        for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype, True) or "").split():
++            adddep(d.getVar('IMAGE_DEPENDS_%s' % typedepends, True) , deps)
+         adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype, True) , deps)
+ 
+     depstr = ""
+-- 
+2.1.3
+
 
