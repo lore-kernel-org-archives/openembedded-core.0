@@ -1,26 +1,29 @@
 Return-Path: <Chong.Lu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 626C4724D2
+	by mail.openembedded.org (Postfix) with ESMTP id 81EB9724B2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Dec 2014 08:27:26 +0000 (UTC)
+	Tue,  9 Dec 2014 08:28:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sB98RQL9017298
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Dec 2014 00:27:27 -0800 (PST)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 9 Dec 2014 00:27:26 -0800
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sB98SUlj017405
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Tue, 9 Dec 2014 00:28:30 -0800 (PST)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Tue, 9 Dec 2014 00:28:29 -0800
+Message-ID: <5486B2AA.50603@windriver.com>
+Date: Tue, 9 Dec 2014 16:28:26 +0800
 From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Dec 2014 16:25:47 +0800
-Message-ID: <6152fe99accf1a836c3bc9b3d2c7b9dc886b16f2.1418113325.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1418113325.git.Chong.Lu@windriver.com>
-References: <cover.1418113325.git.Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: [PATCH V2 1/3] bitbake.conf: Set default value for SERIAL_CONSOLE
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1418017596.git.Chong.Lu@windriver.com>
+	<CAJTo0LZHK+Wa3-EhpFK0Ajr8Cv9a6uQ3mDDmhqSjU8xSSg25CQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZHK+Wa3-EhpFK0Ajr8Cv9a6uQ3mDDmhqSjU8xSSg25CQ@mail.gmail.com>
+X-Originating-IP: [128.224.162.204]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] use single variable to set baud rate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Dec 2014 08:27:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Dec 2014 08:28:41 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Define a default value for SERIAL_CONSOLE, we can use it if machine doesn't
-configure.
 
-[YOCTO #6331]
+On 12/08/2014 09:44 PM, Burton, Ross wrote:
+> On 8 December 2014 at 05:47, Chong Lu <Chong.Lu@windriver.com 
+> <mailto:Chong.Lu@windriver.com>> wrote:
+>
+>     Chong Lu (2):
+>       syslinux.bbclass: use single variable to set baud rate
+>       grub-efi.bbclass: use single variable to set baud rate
+>
+>
+> ERROR: ExpansionError during parsing 
+> /home/ross/Yocto/poky/meta/recipes-core/images/core-image-minimal-mtdutils.bb 
+> <http://core-image-minimal-mtdutils.bb>: Failure expanding variable 
+> GRUB_OPTS: ExpansionError: Failure expanding variable GRUB_OPTS, 
+> expression was serial --unit=${@filter(str.isdigit, 
+> d.getVar('SERIAL_CONSOLE', True).split()[1])} 
+> --speed=${@d.getVar('SERIAL_CONSOLE', True).split()[0]} --word=8 
+> --parity=no --stop=1 which triggered exception IndexError: list index 
+> out of range
+>
+> SERIAL_CONSOLE doesn't have to be set.
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Ross,
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 7902bd7..7a659a7 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -739,7 +739,7 @@ COMBINED_FEATURES = "\
-     ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "wifi", d)}"
- COMBINED_FEATURES[vardeps] += "DISTRO_FEATURES MACHINE_FEATURES"
- 
--SERIAL_CONSOLE ??= ""
-+SERIAL_CONSOLE ??= "115200 ttyS0"
- SERIAL_CONSOLES ??= "${@d.getVar('SERIAL_CONSOLE', True).replace(' ', ';')}"
- 
- NO_RECOMMENDATIONS ?= ""
--- 
-1.9.1
+Thanks for your reply. V2 incoming.
+
+Best Regards
+Chong
+
+>
+> Ross
 
 
