@@ -1,40 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 91A6272392
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id D356772425
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Dec 2014 17:39:57 +0000 (UTC)
-Received: by mail-pd0-f171.google.com with SMTP id y13so966749pdi.30
+	Tue,  9 Dec 2014 17:46:00 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id et14so976080pad.31
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Dec 2014 09:39:57 -0800 (PST)
+	Tue, 09 Dec 2014 09:46:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=Jb20mLPKFjEy2RmtC0t26zNAjSIkTQIHMkKbxF6TSso=;
-	b=fSWXwvC9I2zVgec088JYqncE3w6Y5XKXeqJDV02PXqeneI0D37MhZm1eY/xkA3kJjD
-	xeujM2CwleUUtZ8gPeGn74E7BYM2WCFpysVSd1ofskeePb4sfi8BQM+4BcujBejHpLmB
-	rV4iq5HUZSBED3HQGNWEpPAD10fJ6A4G5WpP771a51N0JXumnVcCA72x3fTTPs9zBfTb
-	BLxTUpl/Tcy01/9dC8CjCf9kUIi6a/glNtwiaI2cQSpKCb/YG6nCpRJ++AWckjfW5/sp
-	ucpTphJjOKUIO4KWy3+ueXJnX8Hw/lqSvwmSH4jUfSZgve5uSYwj8LI+XqnjewVgF2MK
-	vUGA==
-X-Received: by 10.70.55.8 with SMTP id n8mr32747255pdp.95.1418146797693;
-	Tue, 09 Dec 2014 09:39:57 -0800 (PST)
+	bh=Po8PiD0IhoHF+6PZ9TOLKkbpJiz2EwwEVud5Q8iDRcc=;
+	b=xXq1Jo+L24rXUp3sx1jQMho1iK14WAB4CYmHubsuMA7VlTmA8aW2BRorBgE1MSo/mR
+	ghVhv6zlhPLLkLJ03187U7t8ixGX/1Fgr60+1xFd33uVVHcTYFQ6Wkz1zbD0GwTHvhiv
+	HjW05cQ28Y8leNSww3VplJ7q5InYjtDFaki6BkV+zyVzCvksXJm6NaBDpUrDr2YohGmN
+	QsU5dpVD1+VacGNRBHzVcolFzRn5OIxEZ/XgJD0kvmyq/IQkXR0gF4Qel4DGDSlU3hJL
+	2NHS1gH1cKANKUCnacq23oms4rlQAwwSa4Pr8b9pqpvt9LRZA5oQKCPJTpRufsOcA0zZ
+	3K1g==
+X-Received: by 10.68.227.104 with SMTP id rz8mr7787200pbc.4.1418147160360;
+	Tue, 09 Dec 2014 09:46:00 -0800 (PST)
 Received: from [192.168.0.27] (c-76-103-142-85.hsd1.ca.comcast.net.
-	[76.103.142.85]) by mx.google.com with ESMTPSA id
-	jp15sm2052244pbb.17.2014.12.09.09.39.56 for <multiple recipients>
+	[76.103.142.85])
+	by mx.google.com with ESMTPSA id y7sm2071150pdm.12.2014.12.09.09.45.59
+	for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 09 Dec 2014 09:39:56 -0800 (PST)
+	Tue, 09 Dec 2014 09:45:59 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 8.1 \(1993\))
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <BAY179-W94EE5F805A59DEBDCC4035BB650@phx.gbl>
-Date: Tue, 9 Dec 2014 09:39:55 -0800
-Message-Id: <387ED5C5-E7F1-47EF-8BC9-0D90656BB085@gmail.com>
-References: <BAY179-W94EE5F805A59DEBDCC4035BB650@phx.gbl>
-To: Juro Bystricky <jurobystricky@hotmail.com>
+In-Reply-To: <CAJTo0LYU0nsiL1dhNYfreEXhAkedL_wCHAH3uaWOMwmtfmpUkw@mail.gmail.com>
+Date: Tue, 9 Dec 2014 09:45:58 -0800
+Message-Id: <DCCDBEA5-76C4-4E70-883B-A55AACD43ADA@gmail.com>
+References: <cover.1415350038.git.kai.kang@windriver.com>
+	<32c8d18dbaf01579b0804bb19f81eb08ecb01bfa.1415350038.git.kai.kang@windriver.com>
+	<CAJTo0LZUZLN5BoMcPGhdE4+bzOmcW5U6HEfJC0iM9i=kq4vUOQ@mail.gmail.com>
+	<548654DF.1010301@windriver.com>
+	<CAJTo0LYU0nsiL1dhNYfreEXhAkedL_wCHAH3uaWOMwmtfmpUkw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 X-Mailer: Apple Mail (2.1993)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Problems running glibc test suite...
+Cc: Koen Kooi <koen.kooi@linaro.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 16/24] packagegroup-core-tools-profile: remove sysprof for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,310 +52,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Dec 2014 17:40:05 -0000
+X-List-Received-Date: Tue, 09 Dec 2014 17:46:07 -0000
 Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_436B3444-EABD-44E5-A543-6C5DA3E31AD6"
+	boundary="Apple-Mail=_A028C9FC-BD24-4113-80CE-D328DCBE5834"
 
---Apple-Mail=_436B3444-EABD-44E5-A543-6C5DA3E31AD6
+--Apple-Mail=_A028C9FC-BD24-4113-80CE-D328DCBE5834
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=iso-8859-1
+	charset=utf-8
 
 
-> On Dec 9, 2014, at 9:08 AM, Juro Bystricky <jurobystricky@hotmail.com> =
+> On Dec 9, 2014, at 3:56 AM, Burton, Ross <ross.burton@intel.com> =
 wrote:
 >=20
-> I tried to run the glibc test suite and encountered various problems.
-> I build glibc as a part of core-image-minimal with libgcc and =
-libstdc++,=20
-> both additional libraries are needed by the glibc test suite.
 >=20
-> By far most tests run just fine, but there are several tests that fail
-> to build at all. The offenders are:
+> On 9 December 2014 at 01:48, Kang Kai <Kai.Kang@windriver.com =
+<mailto:Kai.Kang@windriver.com>> wrote:
+> In the following var definition, it uses PROFILE_TOOLS_X:
 >=20
-> /elf/tst-unique3cc
-> /elf/tst-unique4cc=20
-> /elf/tst-unique3lib.cc <http://tst-unique3lib.cc/>=20
-> /elf/tst-unique3lib2.cc <http://tst-unique3lib2.cc/>.=20
+> RRECOMMENDS_${PN} =3D "\
+>     perf \
+>     trace-cmd \
+>     kernel-module-oprofile \
+>     blktrace \
+>     ${PROFILE_TOOLS_X} \
+>     ${PROFILE_TOOLS_SYSTEMD} \
+>     "
 >=20
-> They all fail with an error:
+> I suppose that use SYSPROF_aarch64 doesn't work here.
 >=20
->  fatal error: cstdio: No such file or directory
->  #include <cstdio>
+> But this is exactly what lttng does:
 >=20
-> The obvious reason is that the c++ header files were not found by the =
-g++.
-> g++ was invoked with -nostdinc flag, and in that case the path to =
-system include
-> files must be specified explicitly.
->=20
-> The failed build is a consequence of a series of unfortunate events.
->=20
-> First, when building the glibc for the first time, configure cannot =
-find g++=20
-> compiler at all.  config.log states:
->=20
-> line 1594: arm-poky-linux-gnueabi-g++: command not found
-> configure:3165: $? =3D 127
->=20
-> Secondly, the g++ (which is not found) is then used to determine the =
-location of the
-> include headers, resulting in
-> CXX_SYSINCLUDES=3D''
->=20
-> Thirdly, even if g++ is found (it is found when re-building glibc, see =
-below),
-> the algorithm used to detect the CXX_SYSINCLUDES does not seem to work =
-and=20
-> the headers are not detected. I "fixed" this  by adding the following =
-to git/configure:
->=20
-> @@ -5184,6 +5197,14 @@
->        test "x$cxxheaders" !=3D x &&
->        CXX_SYSINCLUDES=3D"$CXX_SYSINCLUDES -isystem $cxxheaders"
->      done
-> +    if test -z "$CXX_SYSINCLUDES"; then
-> +      cxxversion=3D`$CXX -dumpversion`=20
-> +      cxxmachine=3D`$CXX -dumpmachine`=20
-> +      CXX_SYSINCLUDES=3D" -isystem $sysheaders/c++/$cxxversion \
-> +-isystem $sysheaders/c++/$cxxversion/$cxxmachine"
-> +    { $as_echo "$as_me:${as_lineno-$LINENO}: guessing =
-CXX_SYSINCLUDES: $CXX_SYSINCLUDES" >&5
-> +$as_echo_n "guessing CXX_SYSINCLUDE: $CXX_SYSINCLUDES... " >&6; }
-> +    fi
->    fi
->  fi
->=20
-> After the core-image-minimal is built, by the time the test suite is =
-run, g++ is present,=20
-> but CXX_SYSINCLUDES  is still not correct (unless the "fix" above is =
-applied). However,=20
-> not all c++ tests require c++ headers,  so some will build correctly. =
-I tested the "fix"=20
-> successfully with qemux86-64, qemumips and qemuarm.=20
-> (qemuarm exposed some additional problems though).
->=20
-> The "fix" is just a proof of concept: with correct CXX system header =
-paths all=20
-> the offending programs build correctly. But this "fix" only works when =
-re-building=20
-> glibc after the core-image-minimal is built.
->=20
-> The g++ compiler is not needed for glibc at all, it is only needed to =
-build=20
-> some of the tests in the testsuite.   =
-<https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7003%29>Probably =
-worth noting is that glibc cannot DEPEND on=20
-> g++  due to circular dependencies.
+> SYSPROF=3D=E2=80=9Csysprof"
 
-thats right. glibc is built using a bootstapped cross compiler where we =
-disable c++ support. This is to solve the catch-22 that glibc and gcc =
-have. hence the reason why you miss most of c++ probes.
+shouldn=E2=80=99t this be ?=3D for better understasnding
 
+> SYSPROF_aarch64=3D=E2=80=9C"
+> RRECOMMENDS_${PN} =3D "${SYSPROF}"
 >=20
-> The proper way to fix this would be to initialize CXX_SYSINCLUDES =
-before building/running the test suite=20
-> and not before building the glibc.
-> A suitable place for this seems to be =
-recipes-core/glibc/glibc-testing.inc
-
-yes. Running the test suites should be done after gcc-cross is built and =
-staged. I would not prefer to doubly build glibc
-thats just waste of build time.=20
-
->=20
-> Any thoughts?
->=20
-> Thanks
->=20
-> Juro
->=20
->=20
+> Ross
 > --=20
 > _______________________________________________
 > Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org =
-<mailto:Openembedded-core@lists.openembedded.org>
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core =
-<http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---Apple-Mail=_436B3444-EABD-44E5-A543-6C5DA3E31AD6
+
+--Apple-Mail=_A028C9FC-BD24-4113-80CE-D328DCBE5834
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/html;
-	charset=iso-8859-1
+	charset=utf-8
 
 <html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Diso-8859-1"></head><body style=3D"word-wrap: break-word; =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
 -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
 class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Dec 9, 2014, at 9:08 AM, Juro Bystricky &lt;<a =
-href=3D"mailto:jurobystricky@hotmail.com" =
-class=3D"">jurobystricky@hotmail.com</a>&gt; wrote:</div><br =
+class=3D"">On Dec 9, 2014, at 3:56 AM, Burton, Ross &lt;<a =
+href=3D"mailto:ross.burton@intel.com" =
+class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
 class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" class=3D""><div dir=3D"ltr" =
-class=3D"">I tried to run the glibc test suite and encountered various =
-problems.<br class=3D"">I build glibc as a part of core-image-minimal =
-with libgcc and libstdc++,<span =
-class=3D"Apple-converted-space">&nbsp;</span><br class=3D"">both =
-additional libraries are needed by the glibc test suite.<br class=3D""><br=
- class=3D"">By far most tests run just fine, but there are several tests =
-that fail<br class=3D"">to build at all. The offenders are:<br =
-class=3D""><br class=3D"">/elf/tst-unique3cc<br =
-class=3D"">/elf/tst-unique4cc<span =
-class=3D"Apple-converted-space">&nbsp;</span><br class=3D"">/elf/<a =
-href=3D"http://tst-unique3lib.cc/" class=3D"">tst-unique3lib.cc</a><span =
-class=3D"Apple-converted-space">&nbsp;</span><br class=3D"">/elf/<a =
-href=3D"http://tst-unique3lib2.cc/" =
-class=3D"">tst-unique3lib2.cc</a>.<span =
-class=3D"Apple-converted-space">&nbsp;</span><br class=3D""><br =
-class=3D"">They all fail with an error:<br class=3D""><br =
-class=3D"">&nbsp;fatal error: cstdio: No such file or directory<br =
-class=3D"">&nbsp;#include &lt;cstdio&gt;<br class=3D""><br class=3D"">The =
-obvious reason is that the c++ header files were not found by the =
-g++.<br class=3D"">g++ was invoked with -nostdinc flag, and in that case =
-the path to system include<br class=3D"">files must be specified =
-explicitly.<br class=3D""><br class=3D"">The failed build is a =
-consequence of a series of unfortunate events.<br class=3D""><br =
-class=3D"">First, when building the glibc for the first time, configure =
-cannot find g++<span class=3D"Apple-converted-space">&nbsp;</span><br =
-class=3D"">compiler at all.&nbsp; config.log states:<br class=3D""><br =
-class=3D"">line 1594: arm-poky-linux-gnueabi-g++: command not found<br =
-class=3D"">configure:3165: $? =3D 127<br class=3D""><br =
-class=3D"">Secondly, the g++ (which is not found) is then used to =
-determine the location of the<br class=3D"">include headers, resulting =
-in<br class=3D"">CXX_SYSINCLUDES=3D''<br class=3D""><br =
-class=3D"">Thirdly, even if g++ is found (it is found when re-building =
-glibc, see below),<br class=3D"">the algorithm used to detect the =
-CXX_SYSINCLUDES does not seem to work and<span =
-class=3D"Apple-converted-space">&nbsp;</span><br class=3D"">the headers =
-are not detected. I "fixed" this&nbsp; by adding the following to =
-git/configure:<br class=3D""><br class=3D"">@@ -5184,6 +5197,14 @@<br =
-class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; test "x$cxxheaders" !=3D =
-x &amp;&amp;<br class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-CXX_SYSINCLUDES=3D"$CXX_SYSINCLUDES -isystem $cxxheaders"<br =
-class=3D"">&nbsp;&nbsp;&nbsp;&nbsp; done<br class=3D"">+&nbsp;&nbsp;&nbsp;=
- if test -z "$CXX_SYSINCLUDES"; then<br =
-class=3D"">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cxxversion=3D`$CXX =
--dumpversion`<span class=3D"Apple-converted-space">&nbsp;</span><br =
-class=3D"">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cxxmachine=3D`$CXX =
--dumpmachine`<span class=3D"Apple-converted-space">&nbsp;</span><br =
-class=3D"">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CXX_SYSINCLUDES=3D" -isystem =
-$sysheaders/c++/$cxxversion \<br class=3D"">+-isystem =
-$sysheaders/c++/$cxxversion/$cxxmachine"<br class=3D"">+&nbsp;&nbsp;&nbsp;=
- { $as_echo "$as_me:${as_lineno-$LINENO}: guessing CXX_SYSINCLUDES: =
-$CXX_SYSINCLUDES" &gt;&amp;5<br class=3D"">+$as_echo_n "guessing =
-CXX_SYSINCLUDE: $CXX_SYSINCLUDES... " &gt;&amp;6; }<br =
-class=3D"">+&nbsp;&nbsp;&nbsp; fi<br class=3D"">&nbsp;&nbsp; fi<br =
-class=3D"">&nbsp;fi<br class=3D""><br class=3D"">After the =
-core-image-minimal is built, by the time the test suite is run, g++ is =
-present,<span class=3D"Apple-converted-space">&nbsp;</span><br =
-class=3D"">but CXX_SYSINCLUDES&nbsp; is still not correct (unless the =
-"fix" above is applied). However,<span =
-class=3D"Apple-converted-space">&nbsp;</span><br class=3D"">not all c++ =
-tests require c++ headers,&nbsp; so some will build correctly. I tested =
-the "fix"<span class=3D"Apple-converted-space">&nbsp;</span><br =
-class=3D"">successfully with qemux86-64, qemumips and qemuarm.<span =
-class=3D"Apple-converted-space">&nbsp;</span><br class=3D"">(qemuarm =
-exposed some additional problems though).<br class=3D""><br class=3D"">The=
- "fix" is just a proof of concept: with correct CXX system header paths =
-all<span class=3D"Apple-converted-space">&nbsp;</span><br class=3D"">the =
-offending programs build correctly. But this "fix" only works when =
-re-building<span class=3D"Apple-converted-space">&nbsp;</span><br =
-class=3D"">glibc after the core-image-minimal is built.<br class=3D""><br =
-class=3D"">The g++ compiler is not needed for glibc at all, it is only =
-needed to build<span class=3D"Apple-converted-space">&nbsp;</span><br =
-class=3D"">some of the tests in the testsuite.&nbsp;<span =
-class=3D"Apple-converted-space">&nbsp;</span><a =
-href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7003%29" =
-target=3D"_blank" class=3D""></a>Probably worth noting is that glibc =
-cannot DEPEND on<span class=3D"Apple-converted-space">&nbsp;</span><br =
-class=3D"">g++&nbsp; due to circular dependencies.<br =
-class=3D""></div></div></div></blockquote><div><br =
-class=3D""></div><div>thats right. glibc is built using a bootstapped =
-cross compiler where we disable c++ support. This is to solve the =
-catch-22 that glibc and gcc have. hence the reason why you miss most of =
-c++ probes.</div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
-class=3D""><div dir=3D"ltr" style=3D"font-family: Calibri; font-size: =
-16px; font-style: normal; font-variant: normal; font-weight: normal; =
-letter-spacing: normal; line-height: normal; orphans: auto; text-align: =
-start; text-indent: 0px; text-transform: none; white-space: normal; =
-widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;" =
-class=3D""><div dir=3D"ltr" class=3D""><br class=3D"">The proper way to =
-fix this would be to initialize CXX_SYSINCLUDES before building/running =
-the test suite<span class=3D"Apple-converted-space">&nbsp;</span><br =
-class=3D"">and not before building the glibc.<br class=3D"">A suitable =
-place for this seems to be recipes-core/glibc/glibc-testing.inc<br =
-class=3D""></div></div></div></blockquote><div><br =
-class=3D""></div><div>yes. Running the test suites should be done after =
-gcc-cross is built and staged. I would not prefer to doubly build =
-glibc</div><div>thats just waste of build time.&nbsp;</div><br =
-class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><div =
-dir=3D"ltr" style=3D"font-family: Calibri; font-size: 16px; font-style: =
-normal; font-variant: normal; font-weight: normal; letter-spacing: =
-normal; line-height: normal; orphans: auto; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; widows: =
-auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;" class=3D""><div =
-dir=3D"ltr" class=3D""><br class=3D"">Any thoughts?<br class=3D""><br =
-class=3D"">Thanks<br class=3D""><br class=3D"">Juro<br class=3D""><br =
-class=3D""><br class=3D""></div></div><span style=3D"font-family: =
-Calibri; font-size: 16px; font-style: normal; font-variant: normal; =
-font-weight: normal; letter-spacing: normal; line-height: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; float: none; display: inline =
-!important;" class=3D"">--<span =
-class=3D"Apple-converted-space">&nbsp;</span></span><br =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" class=3D""><span =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px; float: none; display: inline =
-!important;" =
-class=3D"">_______________________________________________</span><br =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" class=3D""><span =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px; float: none; display: inline =
-!important;" class=3D"">Openembedded-core mailing list</span><br =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" class=3D""><a =
+class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
+class=3D"gmail_quote">On 9 December 2014 at 01:48, Kang Kai <span =
+dir=3D"ltr" class=3D"">&lt;<a href=3D"mailto:Kai.Kang@windriver.com" =
+target=3D"_blank" class=3D"">Kai.Kang@windriver.com</a>&gt;</span> =
+wrote:<br class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1cq" =
+class=3D"a3s" style=3D"overflow:hidden">In the following var definition, =
+it uses PROFILE_TOOLS_X:<br class=3D"">
+<br class=3D"">
+RRECOMMENDS_${PN} =3D "\<br class=3D"">
+&nbsp; &nbsp; perf \<br class=3D"">
+&nbsp; &nbsp; trace-cmd \<br class=3D"">
+&nbsp; &nbsp; kernel-module-oprofile \<br class=3D"">
+&nbsp; &nbsp; blktrace \<br class=3D"">
+&nbsp; &nbsp; ${PROFILE_TOOLS_X} \<br class=3D"">
+&nbsp; &nbsp; ${PROFILE_TOOLS_SYSTEMD} \<br class=3D"">
+&nbsp; &nbsp; "<br class=3D"">
+<br class=3D"">
+I suppose that use SYSPROF_aarch64 doesn't work =
+here.</div></blockquote></div><div class=3D"gmail_extra"><br =
+class=3D""></div>But this is exactly what lttng does:</div><div =
+class=3D"gmail_extra"><br =
+class=3D"">SYSPROF=3D=E2=80=9Csysprof"</div></div></div></blockquote><div>=
+<br class=3D""></div><div>shouldn=E2=80=99t this be ?=3D for better =
+understasnding</div><br class=3D""><blockquote type=3D"cite" =
+class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
+class=3D"gmail_extra">SYSPROF_aarch64=3D=E2=80=9C"</div></div></div></bloc=
+kquote><blockquote type=3D"cite" class=3D""><div class=3D""><div =
+dir=3D"ltr" class=3D""><div class=3D"gmail_extra">RRECOMMENDS_${PN} =3D =
+"${SYSPROF}"</div><div class=3D"gmail_extra"><br class=3D""></div><div =
+class=3D"gmail_extra">Ross</div></div>
+-- <br class=3D"">_______________________________________________<br =
+class=3D"">Openembedded-core mailing list<br class=3D""><a =
 href=3D"mailto:Openembedded-core@lists.openembedded.org" =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" =
 class=3D"">Openembedded-core@lists.openembedded.org</a><br =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" class=3D""><a =
-href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core" =
-style=3D"font-family: Calibri; font-size: 16px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" =
 class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
-e</a></div></blockquote></div><br class=3D""></body></html>=
+e<br class=3D""></div></blockquote></div><br class=3D""></body></html>=
 
---Apple-Mail=_436B3444-EABD-44E5-A543-6C5DA3E31AD6--
+--Apple-Mail=_A028C9FC-BD24-4113-80CE-D328DCBE5834--
