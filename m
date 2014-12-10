@@ -1,36 +1,26 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C4FC27163F
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FAA272341
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 13:22:45 +0000 (UTC)
-Received: by mail-lb0-f182.google.com with SMTP id f15so2493213lbj.27
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 05:22:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=2EMItovDkFOaaCmUHQfjrVVx2/1l2tw8tRW7luPJsuY=;
-	b=fK5UMLYgGxpil8M9G22tW9y8zjQTdQDu9JfmSA+wDimSBta0aRg74dQYzgOfybvkjv
-	WAhyYQD5mdbnfIP+/e/ffsJ4rlFlw1LW27hhGWA/bGTMSS4R5C/79nsfmAfKzCXx+xOh
-	0MGy9IDHgi/uInGkgJDbFyxNHDPRARHraNbG37HCdPUDC3UXq6ta1gga+Nh3qj7HOKqM
-	JzCWKD3bhgLhlTuzhwXEZbgBkZQ9mpJv2p06GV94sFYfT4mREtmitA819WaFXw3PYytB
-	ndZwMQyv9RtEM//G8kAH+p5WEjFLsRY237BRDMv9iYBWGkk7E09OdmFt0fFcGUtBHBv0
-	C2Hw==
+	Wed, 10 Dec 2014 14:16:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBAEGMdS014097
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Wed, 10 Dec 2014 06:16:22 -0800 (PST)
+Received: from yow-bashfiel-d4.corp.ad.wrs.com (128.224.92.225) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 10 Dec 2014 06:16:21 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 10 Dec 2014 09:16:10 -0500
+Message-ID: <a51eac8c29bffe0afbd9e184cbce34c4d196a3ef.1418220684.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1418220684.git.bruce.ashfield@windriver.com>
+References: <cover.1418220684.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.112.128.197 with SMTP id nq5mr4177899lbb.0.1418217765288;
-	Wed, 10 Dec 2014 05:22:45 -0800 (PST)
-Received: by 10.112.48.41 with HTTP; Wed, 10 Dec 2014 05:22:45 -0800 (PST)
-In-Reply-To: <CADkTA4OD2-sWThuMisuNZjR07mis1RF44wvGHqjoMJSm6mvXUg@mail.gmail.com>
-References: <cover.1418207729.git.bruce.ashfield@windriver.com>
-	<CADkTA4OD2-sWThuMisuNZjR07mis1RF44wvGHqjoMJSm6mvXUg@mail.gmail.com>
-Date: Wed, 10 Dec 2014 08:22:45 -0500
-Message-ID: <CADkTA4NWz882CCDZG-U=DhPHqEgjAMmS9UOtxYUev4NrFa7w5Q@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/9] kernel: version updates
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 3/9] linux-yocto/3.17: update to v3.17.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,100 +33,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Dec 2014 13:22:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 10 Dec 2014 14:16:29 -0000
+Content-Type: text/plain
 
-On Wed, Dec 10, 2014 at 8:12 AM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> On Wed, Dec 10, 2014 at 5:38 AM, Bruce Ashfield
-> <bruce.ashfield@windriver.com> wrote:
->> Richard,
->>
->> Here are the pending series of kernel updates. I've kep the commits to the
->> granulatary that I did the version bumps, since they represent known good
->> working points in time.
->>
->> Nothing too exciting, these are standard kernel -stable updates (and the
->> typical lttng build fix for a tracepoint changing).
->>
->> The only item of note is that the 3.14 tree now has LTSI content merged into
->> a dedicated branch and also into all BSPs.
->>
->> I've built this everywhere that I can, and I still have more builds running,
->> but there's no sense sitting on this longer .. so I'm sending it out now, and
->> will monitor for any issues that pop up.
->
-> When fixing my other series on my contrib  branch .. I now notices that the pull
-> request script isn't including the branches in the 0000 email on my laptop, but
-> is putting it in a pull-msg, which isn't going with the series.
->
-> These changes are on poky-contrib zedd/kernel-updates
->
-> I can resend the series if required.
+Updating to the korg 3.17.2 -stable release.
 
-Drop the series. I'll update and re-send. I have one more fix to roll
-in, and it'll
-give me a chance to fix my pull request flow to have the branch included.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.17.bb      | 18 +++++++++---------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-Cheers,
-
-Bruce
-
->
-> Bruce
->
->>
->> Cheers,
->>
->> Bruce
->>
->> Bruce Ashfield (9):
->>   linux-yocto/3.17: update to v3.17.1
->>   linux-libc-headers: update to 3.17
->>   linux-yocto/3.17: update to v3.17.2
->>   linux-yocto/3.10: update to v3.10.59
->>   linux-yocto/3.14: update to v3.14.24
->>   lttng-modules: fix mm_compaction_isolate_template build
->>   linux-yocto/3.17: update to v3.17.6
->>   linux-yocto/3.10: update to v3.10.62
->>   linux-yocto/3.14: update to 3.14.26, integrate ltsi and -rt updates
->>
->>  meta/conf/distro/include/tcmode-default.inc        |  2 +-
->>  .../linux-libc-headers/linux-libc-headers_3.16.bb  |  7 ----
->>  .../linux-libc-headers/linux-libc-headers_3.17.bb  |  7 ++++
->>  meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  8 ++---
->>  meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  8 ++---
->>  meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  6 ++--
->>  meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  6 ++--
->>  meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb |  6 ++--
->>  meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 18 +++++-----
->>  meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 18 +++++-----
->>  meta/recipes-kernel/linux/linux-yocto_3.17.bb      | 18 +++++-----
->>  ...-fix-mm_compaction_isolate_template-build.patch | 41 ++++++++++++++++++++++
->>  meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb   |  1 +
->>  13 files changed, 94 insertions(+), 52 deletions(-)
->>  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.16.bb
->>  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.17.bb
->>  create mode 100644 meta/recipes-kernel/lttng/lttng-modules/compaction-fix-mm_compaction_isolate_template-build.patch
->>
->> --
->> 2.1.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
-
-
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
+index 357e050a2407..f5aa05d89a5d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
+@@ -4,12 +4,12 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "3.17.1"
++LINUX_VERSION ?= "3.17.2"
+ 
+ KMETA = "meta"
+ 
+-SRCREV_machine ?= "0caf16d38536e3dec8a02ea657e1960f1216f174"
+-SRCREV_meta ?= "229ce533868773f201f9ab36e2b4248b381309ec"
++SRCREV_machine ?= "cad8f6f70717e54604315db0c9b8889199871e50"
++SRCREV_meta ?= "3283372105ee2f22c1d93ea63fa754179c203e98"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.17.bb b/meta/recipes-kernel/linux/linux-yocto_3.17.bb
+index 872441389dde..dfaf6f48a8c4 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.17.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.17.bb
+@@ -10,18 +10,18 @@ KBRANCH_qemux86  ?= "standard/common-pc"
+ KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "6b57ab98e37cda3b4a4cd50483a43e053ae73d1b"
+-SRCREV_machine_qemumips ?= "80b24085b50144088cdfca737b5925a15ae9e312"
+-SRCREV_machine_qemuppc ?= "12a5e6b10d6d34878f26592160ff64668b021ab4"
+-SRCREV_machine_qemux86 ?= "0caf16d38536e3dec8a02ea657e1960f1216f174"
+-SRCREV_machine_qemux86-64 ?= "0caf16d38536e3dec8a02ea657e1960f1216f174"
+-SRCREV_machine_qemumips64 ?= "3b77b2d556103b86f787913385a7655b92adcc03"
+-SRCREV_machine ?= "0caf16d38536e3dec8a02ea657e1960f1216f174"
+-SRCREV_meta ?= "229ce533868773f201f9ab36e2b4248b381309ec"
++SRCREV_machine_qemuarm ?= "6d85563640cf2377d702637150ea8314ae915350"
++SRCREV_machine_qemumips ?= "bfc1ee46ed29b1bac18deef51620536c66fa83c5"
++SRCREV_machine_qemuppc ?= "f4c541bbad8b2a119f86fdc86d3a9d4b8546218b"
++SRCREV_machine_qemux86 ?= "cad8f6f70717e54604315db0c9b8889199871e50"
++SRCREV_machine_qemux86-64 ?= "cad8f6f70717e54604315db0c9b8889199871e50"
++SRCREV_machine_qemumips64 ?= "d6f80d8d30197a278cd386f987998a85e9754a40"
++SRCREV_machine ?= "cad8f6f70717e54604315db0c9b8889199871e50"
++SRCREV_meta ?= "3283372105ee2f22c1d93ea63fa754179c203e98"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.17.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ 
+-LINUX_VERSION ?= "3.17.1"
++LINUX_VERSION ?= "3.17.2"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.1.0
+
 
