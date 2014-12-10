@@ -1,36 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 558377101A
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 6477472332
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 15:03:18 +0000 (UTC)
-Received: by mail-qg0-f45.google.com with SMTP id f51so2169318qge.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 07:03:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=03xwqIJlzFLQAd51quxinWWXK3Zl+CDSyil6Cd99hck=;
-	b=e90nFBB5zdqJC4aLKCVluywnvaYzdYadtsDPoc4ieSUHI82r58sAb+RmGkEdiZNi+B
-	MUKzmfqYQb0+15hpOHwCNtIYhfAifNXAQNMn2Ovwmr7/pJ0DIh36Yyt830HmB05vmjC4
-	3e4wPm1Xd4P+ib7u2qYwCBrBH47gbSjqQECfqki+AYGXPUB6VrjSxJ96q3cUcflMV1rZ
-	8XDdaEgKU0Sx/IsfVRvmsdzOngOHdsxtHAi9M+IPx30Pr/xNrR5U+6ka4k6DxRQBazVm
-	fpWAqFLmwee4yAP89LXrB52h7BybamPPy/Wz8WZ7bEi59hTMGZ5V0OSjE0XraDRqEsFB
-	miVw==
-X-Gm-Message-State: ALoCoQke+FXvVxfGYZTtq6dgfDD01P+o60Lr0sDsfJc1vGcuLmLlIBPyzDNC+Qu8vLQIqLF4JULi
-X-Received: by 10.140.102.144 with SMTP id w16mr8510177qge.59.1418223797812;
-	Wed, 10 Dec 2014 07:03:17 -0800 (PST)
+	Wed, 10 Dec 2014 15:46:34 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 10 Dec 2014 07:46:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="496699077"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.60])
+	([10.219.4.60])
+	by orsmga003.jf.intel.com with ESMTP; 10 Dec 2014 07:42:46 -0800
+Message-ID: <54886AE6.1030006@linux.intel.com>
+Date: Wed, 10 Dec 2014 09:46:46 -0600
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Wed, 10 Dec 2014 07:02:57 -0800 (PST)
-In-Reply-To: <cover.1418220684.git.bruce.ashfield@windriver.com>
-References: <cover.1418220684.git.bruce.ashfield@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 10 Dec 2014 15:02:57 +0000
-Message-ID: <CAJTo0LaGa3ACsL+vLjzUDgEQDDxJ2L2m1WQgj1LHdbzpsJPLUg@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [v2 PATCH 0/9] kernel: version updates
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+References: <cover.1417734782.git.anibal.limon@linux.intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C7CF45250@ORSMSX103.amr.corp.intel.com>
+	<54873BE9.9030905@linux.intel.com>
+	<CAJTo0LbVEYT9=fo_gKAk0wRSg1H9_-vE5dd5N-SMrMXM38Lbvw@mail.gmail.com>
+	<CAP71Wjx+daT278dn2-JF-Epn+WJ8FcE55NMLRXV2dJNSP9wawA@mail.gmail.com>
+In-Reply-To: <CAP71Wjx+daT278dn2-JF-Epn+WJ8FcE55NMLRXV2dJNSP9wawA@mail.gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 0/3] Upgrades for comply Intel Graphics Stack Release 2014Q3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,68 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Dec 2014 15:03:21 -0000
-Content-Type: multipart/alternative; boundary=001a11c16bc2aeadcd0509ddf5dd
-
---001a11c16bc2aeadcd0509ddf5dd
-Content-Type: text/plain; charset=UTF-8
-
-On 10 December 2014 at 14:16, Bruce Ashfield <bruce.ashfield@windriver.com>
-wrote:
-
-> The following changes since commit
-> 88dfcbf149dda89277e58ae4ec3a87500624cfff:
->
->   kernel-yocto: make sure git tags get dereferenced properly in do_patch()
-> (2014-12-10 08:12:56 -0500)
->
-> are available in the git repository at:
->
->   git://git.pokylinux.org/poky-contrib HEAD
->
-
-I wonder what happened here!
+X-List-Received-Date: Wed, 10 Dec 2014 15:46:45 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-> for you to fetch changes up to 4be985be419f06f18c735d72ac4a4d00fea71dd8:
->
->   linux-yocto/3.14: update to 3.14.26, integrate ltsi and -rt updates
-> (2014-12-10 08:38:49 -0500)
->
+On 10/12/14 02:08, Nicolas Dechesne wrote:
+> On Tue, Dec 9, 2014 at 9:06 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>> On 9 December 2014 at 18:14, Aníbal Limón <anibal.limon@linux.intel.com>
+>> wrote:
+>>> I don't know, maybe Ross knows?.
+>>
+>> I ask for Piglit results to verify that approx 95% passes as that's the
+>> expected pass rate.  I don't bother tracking the exact count as how it
+>> changes as there's almost ten thousand tests and at some point you have to
+>> let upstream deal with this.
+> are you using the oe-core piglit recipe for testing? i didn't realize
+> we had such recipe.. just want to make sure that the one we have is
+> ok, then I can run it on my hw as well.
 
-That's zedd/kernel-updates, right?
+Yes, i added to image with,
 
-Ross
+CORE_IMAGE_EXTRA_INSTALL += " piglit"
 
---001a11c16bc2aeadcd0509ddf5dd
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+alimon
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 December 2014 at 14:16, Bruce Ashfield <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:bruce.ashfield@windriver.com" target=3D"_blank">bruce.ashfield@w=
-indriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
-d=3D":1sm" class=3D"a3s" style=3D"overflow:hidden">The following changes si=
-nce commit 88dfcbf149dda89277e58ae4ec3a87500624cfff:<br>
-<br>
-=C2=A0 kernel-yocto: make sure git tags get dereferenced properly in do_pat=
-ch() (2014-12-10 08:12:56 -0500)<br>
-<br>
-are available in the git repository at:<br>
-<br>
-=C2=A0 git://<a href=3D"http://git.pokylinux.org/poky-contrib" target=3D"_b=
-lank">git.pokylinux.org/poky-contrib</a> HEAD<br></div></blockquote><div><b=
-r></div><div>I wonder what happened here!</div><div>=C2=A0</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
-d;padding-left:1ex"><div id=3D":1sm" class=3D"a3s" style=3D"overflow:hidden=
-">
-for you to fetch changes up to 4be985be419f06f18c735d72ac4a4d00fea71dd8:<br=
->
-<br>
-=C2=A0 linux-yocto/3.14: update to 3.14.26, integrate ltsi and -rt updates =
-(2014-12-10 08:38:49 -0500)</div></blockquote><div><br></div><div>That&#39;=
-s zedd/kernel-updates, right?</div><div><br></div><div>Ross=C2=A0</div></di=
-v></div></div>
+> thanks
 
---001a11c16bc2aeadcd0509ddf5dd--
+
