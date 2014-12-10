@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3027772550
+	by mail.openembedded.org (Postfix) with ESMTP id 305CF7259C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 14:16:24 +0000 (UTC)
+	Wed, 10 Dec 2014 14:16:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBAEGNEm028951
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBAEGQrQ028954
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 10 Dec 2014 06:16:23 -0800 (PST)
+	Wed, 10 Dec 2014 06:16:26 -0800 (PST)
 Received: from yow-bashfiel-d4.corp.ad.wrs.com (128.224.92.225) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 10 Dec 2014 06:16:23 -0800
+	14.3.174.1; Wed, 10 Dec 2014 06:16:25 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 10 Dec 2014 09:16:11 -0500
-Message-ID: <6edfca2f0b3e049418ecf43500dbc71ffa769424.1418220684.git.bruce.ashfield@windriver.com>
+Date: Wed, 10 Dec 2014 09:16:13 -0500
+Message-ID: <0a877fe681e264400886cb9f5391ecd731afe515.1418220684.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1418220684.git.bruce.ashfield@windriver.com>
 References: <cover.1418220684.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/9] linux-yocto/3.10: update to v3.10.59
+Subject: [PATCH 6/9] lttng-modules: fix mm_compaction_isolate_template build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,90 +36,78 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 10 Dec 2014 14:16:30 -0000
 Content-Type: text/plain
 
-Updating to the latest 3.10 -korg stable update. We also bring in a meta
-change for the valley island IO configuration.
+linux-stable integrated the 3.16 commit f8c9301fa5a2a [mm/compaction: do
+not count migratepages when unnecessary] with the 3.14.25 update.
+
+So we have to update the lttng-module linux version codes to use the
+new definition in builds greater than 3.14.24 or 3.16.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  8 ++++----
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 18 +++++++++---------
- 3 files changed, 16 insertions(+), 16 deletions(-)
+ ...-fix-mm_compaction_isolate_template-build.patch | 41 ++++++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb   |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/compaction-fix-mm_compaction_isolate_template-build.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-index ad55a2ed8082..91b37d3c19ea 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-@@ -3,13 +3,13 @@ KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/compaction-fix-mm_compaction_isolate_template-build.patch b/meta/recipes-kernel/lttng/lttng-modules/compaction-fix-mm_compaction_isolate_template-build.patch
+new file mode 100644
+index 000000000000..a99871a62e5c
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/compaction-fix-mm_compaction_isolate_template-build.patch
+@@ -0,0 +1,41 @@
++From af48c7b08de4b811d3d974e65e362b86ce8c4a34 Mon Sep 17 00:00:00 2001
++From: Bruce Ashfield <bruce.ashfield@windriver.com>
++Date: Wed, 10 Dec 2014 03:19:28 -0500
++Subject: [PATCH] compaction: fix mm_compaction_isolate_template build
++
++linux-stable integrated the 3.16 commit f8c9301fa5a2a [mm/compaction: do
++not count migratepages when unnecessary] with the 3.14.25 update.
++
++So we have to update the lttng-module linux version codes to use the
++new definition in builds greater than 3.14.24 or 3.16.
++
++Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
++---
++ instrumentation/events/lttng-module/compaction.h | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/instrumentation/events/lttng-module/compaction.h b/instrumentation/events/lttng-module/compaction.h
++index 22024e9ee582..07afbe06f1a6 100644
++--- a/instrumentation/events/lttng-module/compaction.h
+++++ b/instrumentation/events/lttng-module/compaction.h
++@@ -46,7 +46,7 @@ DEFINE_EVENT(mm_compaction_isolate_template, mm_compaction_isolate_freepages,
++ 	TP_ARGS(nr_scanned, nr_taken)
++ )
++ 
++-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,16,0))
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,16,0) || LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,25))
++ TRACE_EVENT(mm_compaction_migratepages,
++ 
++ 	TP_PROTO(unsigned long nr_all,
++@@ -87,7 +87,7 @@ TRACE_EVENT(mm_compaction_migratepages,
++ 		__entry->nr_migrated,
++ 		__entry->nr_failed)
++ )
++-#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,16,0)) */
+++#else /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,16,0) || LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,25)) */
++ TRACE_EVENT(mm_compaction_migratepages,
++ 
++ 	TP_PROTO(unsigned long nr_migrated,
++-- 
++2.1.0
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
+index f66118011afe..f9475e9d8596 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.5.0.bb
+@@ -23,6 +23,7 @@ SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.5 \
+            file://Update-statedump-to-3.17-nsproxy-locking.patch \
+            file://Update-kvm-instrumentation-compile-on-3.17-rc1.patch \
+            file://fix_build_with_v3.17_kernel.patch \
++           file://compaction-fix-mm_compaction_isolate_template-build.patch \
+            "
  
- require recipes-kernel/linux/linux-yocto.inc
- 
--SRCREV_machine ?= "cbaa8c8b83a7da70b94cc6cc1a25090071af4c3f"
--SRCREV_machine_qemuppc ?= "41338ab2a1c19435e24bbd162ff6b3f8b90d7afa"
--SRCREV_meta ?= "f79a00265eefbe2fffc2cdb03f67235497a9a87e"
-+SRCREV_machine ?= "38885f87b7240587194597c3658ba2c0ac5960e7"
-+SRCREV_machine_qemuppc ?= "535a7403beabe9c4aa394a1f9efa755eb33966c8"
-+SRCREV_meta ?= "8f05306a8e6f5ee422d50c3317acce0cf9e6aada"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
- 
--LINUX_VERSION ?= "3.10.55"
-+LINUX_VERSION ?= "3.10.59"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-index 9e33aa692b63..cc70388302fd 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-@@ -5,12 +5,12 @@ require recipes-kernel/linux/linux-yocto.inc
- LINUX_KERNEL_TYPE = "tiny"
- KCONFIG_MODE = "--allnoconfig"
- 
--LINUX_VERSION ?= "3.10.55"
-+LINUX_VERSION ?= "3.10.59"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "3677ea7f9476458aa6dec440243de3a6fb1343a9"
--SRCREV_meta ?= "f79a00265eefbe2fffc2cdb03f67235497a9a87e"
-+SRCREV_machine ?= "747e1cbd12b15db8bc2ae86e2359c1b113f120d6"
-+SRCREV_meta ?= "8f05306a8e6f5ee422d50c3317acce0cf9e6aada"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-index e612d36e28d0..043f2e0b23a8 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-@@ -10,18 +10,18 @@ KBRANCH_qemux86  ?= "standard/common-pc/base"
- KBRANCH_qemux86-64  ?= "standard/common-pc-64/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "9c8da40f662806406940decf972841c1b86895a5"
--SRCREV_machine_qemumips ?= "96adff9ce54c009ba90c3ddcaa6d16beb7a9c2b3"
--SRCREV_machine_qemuppc ?= "cf3a9a021e2abb3b19807b2ba3c29c1d0918730b"
--SRCREV_machine_qemux86 ?= "3677ea7f9476458aa6dec440243de3a6fb1343a9"
--SRCREV_machine_qemux86-64 ?= "3677ea7f9476458aa6dec440243de3a6fb1343a9"
--SRCREV_machine_qemumips64 ?= "89ab3082e01c4d98f9d14630aa904dba641c5373"
--SRCREV_machine ?= "3677ea7f9476458aa6dec440243de3a6fb1343a9"
--SRCREV_meta ?= "f79a00265eefbe2fffc2cdb03f67235497a9a87e"
-+SRCREV_machine_qemuarm ?= "896f87d1003331d7a307c9f855cdbb78c9a2a033"
-+SRCREV_machine_qemumips ?= "9e616945464ab97a050da96a025d88c809d05144"
-+SRCREV_machine_qemuppc ?= "692b2de590668de2e15461879cf9301a0e6fedf6"
-+SRCREV_machine_qemux86 ?= "747e1cbd12b15db8bc2ae86e2359c1b113f120d6"
-+SRCREV_machine_qemux86-64 ?= "747e1cbd12b15db8bc2ae86e2359c1b113f120d6"
-+SRCREV_machine_qemumips64 ?= "d237cab9f483ea512ded4ea311902763c1a3ae68"
-+SRCREV_machine ?= "747e1cbd12b15db8bc2ae86e2359c1b113f120d6"
-+SRCREV_meta ?= "8f05306a8e6f5ee422d50c3317acce0cf9e6aada"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
- 
--LINUX_VERSION ?= "3.10.55"
-+LINUX_VERSION ?= "3.10.59"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
+ export INSTALL_MOD_DIR="kernel/lttng-modules"
 -- 
 2.1.0
 
