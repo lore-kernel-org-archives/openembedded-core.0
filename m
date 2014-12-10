@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A9E972550
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C4F9172369
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 10:38:54 +0000 (UTC)
+	Wed, 10 Dec 2014 10:39:01 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBAAcr09005879
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBAAd1lV024303
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 10 Dec 2014 02:38:53 -0800 (PST)
+	Wed, 10 Dec 2014 02:39:01 -0800 (PST)
 Received: from yow-bashfiel-d4.corp.ad.wrs.com (128.224.20.249) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 10 Dec 2014 02:38:53 -0800
+	14.3.174.1; Wed, 10 Dec 2014 02:39:00 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 10 Dec 2014 05:38:41 -0500
-Message-ID: <8aacb4d37302b0e100c2ced031124ee0e93ac09b.1418207729.git.bruce.ashfield@windriver.com>
+Date: Wed, 10 Dec 2014 05:38:46 -0500
+Message-ID: <5db78716882f3f9c66870b418a86b03e7d6c35ad.1418207729.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1418207729.git.bruce.ashfield@windriver.com>
 References: <cover.1418207729.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/9] linux-libc-headers: update to 3.17
+Subject: [PATCH 7/9] linux-yocto/3.17: update to v3.17.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +33,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Dec 2014 10:39:01 -0000
+X-List-Received-Date: Wed, 10 Dec 2014 10:39:02 -0000
 Content-Type: text/plain
+
+Integrating the latest korg -stable update for v3.17
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/conf/distro/include/tcmode-default.inc                       | 2 +-
- meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.16.bb | 7 -------
- meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.17.bb | 7 +++++++
- 3 files changed, 8 insertions(+), 8 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.16.bb
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.17.bb
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.17.bb      | 18 +++++++++---------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 99d6df9c182a..1ee3c6a768cd 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -27,7 +27,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.24"
- GLIBCVERSION ?= "2.20"
- UCLIBCVERSION ?= "0.9.33+git%"
--LINUXLIBCVERSION ?= "3.16"
-+LINUXLIBCVERSION ?= "3.17"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
+index f5aa05d89a5d..1a4f9a81454f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
+@@ -4,12 +4,12 @@ KCONFIG_MODE = "--allnoconfig"
  
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.16.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.16.bb
-deleted file mode 100644
-index cedaced2da50..000000000000
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.16.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--KORG_ARCHIVE_COMPRESSION = "xz"
--
--require linux-libc-headers.inc
--
--SRC_URI[md5sum] = "5c569ed649a0c9711879f333e90c5386"
--SRC_URI[sha256sum] = "4813ad7927a7d92e5339a873ab16201b242b2748934f12cb5df9ba2cfe1d77a0"
--
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.17.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.17.bb
-new file mode 100644
-index 000000000000..3417697ed3de
---- /dev/null
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.17.bb
-@@ -0,0 +1,7 @@
-+KORG_ARCHIVE_COMPRESSION = "xz"
-+
-+require linux-libc-headers.inc
-+
-+SRC_URI[md5sum] = "fb30d0f29214d75cddd2faa94f73d5cf"
-+SRC_URI[sha256sum] = "f5153ec93c5fcd41b247950e6a9bcbc63fa87beafd112c133a622439a0f76251"
-+
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "3.17.2"
++LINUX_VERSION ?= "3.17.6"
+ 
+ KMETA = "meta"
+ 
+-SRCREV_machine ?= "cad8f6f70717e54604315db0c9b8889199871e50"
+-SRCREV_meta ?= "3283372105ee2f22c1d93ea63fa754179c203e98"
++SRCREV_machine ?= "5ff54d8fbf74278e9e5074cbba516a14f0915ff7"
++SRCREV_meta ?= "b81030f9ec2de3dc6c048e142dcbff62e305cc40"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.17.bb b/meta/recipes-kernel/linux/linux-yocto_3.17.bb
+index dfaf6f48a8c4..71a82a722305 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.17.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.17.bb
+@@ -10,18 +10,18 @@ KBRANCH_qemux86  ?= "standard/common-pc"
+ KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "6d85563640cf2377d702637150ea8314ae915350"
+-SRCREV_machine_qemumips ?= "bfc1ee46ed29b1bac18deef51620536c66fa83c5"
+-SRCREV_machine_qemuppc ?= "f4c541bbad8b2a119f86fdc86d3a9d4b8546218b"
+-SRCREV_machine_qemux86 ?= "cad8f6f70717e54604315db0c9b8889199871e50"
+-SRCREV_machine_qemux86-64 ?= "cad8f6f70717e54604315db0c9b8889199871e50"
+-SRCREV_machine_qemumips64 ?= "d6f80d8d30197a278cd386f987998a85e9754a40"
+-SRCREV_machine ?= "cad8f6f70717e54604315db0c9b8889199871e50"
+-SRCREV_meta ?= "3283372105ee2f22c1d93ea63fa754179c203e98"
++SRCREV_machine_qemuarm ?= "a1183153c56ace9f9140c73ce730ec181f78dc0f"
++SRCREV_machine_qemumips ?= "18c8db2009f25524a29a5258d041e0442c10817d"
++SRCREV_machine_qemuppc ?= "6d2bbdac0e6560542fa2252d91eee9ae0f17f9c7"
++SRCREV_machine_qemux86 ?= "5ff54d8fbf74278e9e5074cbba516a14f0915ff7"
++SRCREV_machine_qemux86-64 ?= "5ff54d8fbf74278e9e5074cbba516a14f0915ff7"
++SRCREV_machine_qemumips64 ?= "2306cb2dd019c8b731879331ba314035a7271e7b"
++SRCREV_machine ?= "5ff54d8fbf74278e9e5074cbba516a14f0915ff7"
++SRCREV_meta ?= "b81030f9ec2de3dc6c048e142dcbff62e305cc40"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.17.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ 
+-LINUX_VERSION ?= "3.17.2"
++LINUX_VERSION ?= "3.17.6"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 -- 
 2.1.0
 
