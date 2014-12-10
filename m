@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 8293F724FF
+	by mail.openembedded.org (Postfix) with ESMTP id 99CC17250F
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 10 Dec 2014 05:55:29 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2014 21:55:23 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2014 21:55:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,550,1413270000"; d="scan'208";a="635378092"
+X-IronPort-AV: E=Sophos;i="5.07,550,1413270000"; d="scan'208";a="635378102"
 Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.13.161])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Dec 2014 21:55:22 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 09 Dec 2014 21:55:23 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Dec 2014 21:55:15 -0800
-Message-Id: <d09337b71154632d8c79f5afcf5cae0b6824fe09.1418190513.git.sgw@linux.intel.com>
+Date: Tue,  9 Dec 2014 21:55:17 -0800
+Message-Id: <3f8f5fc33b06f2b8d388d2ca33fa695cd19c8908.1418190513.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1418190513.git.sgw@linux.intel.com>
 References: <cover.1418190513.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1418190513.git.sgw@linux.intel.com>
 References: <cover.1418190513.git.sgw@linux.intel.com>
-Subject: [PATCH 3/6] npth: npth needs pthread in some cases
+Subject: [PATCH 5/6] libnss-mdns: Convert to git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +31,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Dec 2014 05:55:30 -0000
+X-List-Received-Date: Wed, 10 Dec 2014 05:55:31 -0000
+
+The upstream tarball is no longer available, but the git repo still is, so use it instead
+Add patch to prevent docs generation and README fixup
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/npth/npth/pkgconfig.patch | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../libnss-mdns/libnss-mdns-disable-docs.patch     | 23 ++++++++++++++++++++++
+ .../libnss-mdns/libnss-mdns_0.10.bb                | 10 ++++++----
+ 2 files changed, 29 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-connectivity/libnss-mdns/libnss-mdns/libnss-mdns-disable-docs.patch
 
-diff --git a/meta/recipes-support/npth/npth/pkgconfig.patch b/meta/recipes-support/npth/npth/pkgconfig.patch
-index 55d12c2..178ed54 100644
---- a/meta/recipes-support/npth/npth/pkgconfig.patch
-+++ b/meta/recipes-support/npth/npth/pkgconfig.patch
-@@ -3,6 +3,7 @@ Added npth pkgconfig file
- Upstream-Status: Incompatible [oe-core specific]
+diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns/libnss-mdns-disable-docs.patch b/meta/recipes-connectivity/libnss-mdns/libnss-mdns/libnss-mdns-disable-docs.patch
+new file mode 100644
+index 0000000..aeb2823
+--- /dev/null
++++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns/libnss-mdns-disable-docs.patch
+@@ -0,0 +1,23 @@
++Index: git/Makefile.am
++===================================================================
++--- git.orig/Makefile.am
+++++ git/Makefile.am
++@@ -18,15 +18,14 @@
++ # USA.
++ 
++ EXTRA_DIST=bootstrap.sh README LICENSE
++-SUBDIRS=src doc
+++SUBDIRS=src
++ 
++ MAINTAINERCLEANFILES=README
++ noinst_DATA = README
++ 
++ README:
++-	rm -f README
++-	$(MAKE) -C doc README
++-	cd $(srcdir) && ln -s doc/README README
+++	ln -s $(abs_top_builddir)/doc/README.html README
+++
++ 
++ homepage: all dist
++ 	test -d $$HOME/homepage/private
+diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+index 0b936ef..a199e6f 100644
+--- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
++++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+@@ -8,12 +8,14 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ DEPENDS = "avahi"
+ PR = "r7"
  
- Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+
- Index: npth-1.1/src/npth.pc.in
- ===================================================================
- --- /dev/null
-@@ -16,7 +17,7 @@ Index: npth-1.1/src/npth.pc.in
- +Name: npth
- +Description: a new portable posix threading library
- +Version: @VERSION@
--+Libs: -L${libdir} -lnpth
-++Libs: -L${libdir} -lnpth -lpthread
- +Cflags: -I${includedir}
- Index: npth-1.1/src/Makefile.am
- ===================================================================
+-SRC_URI = "http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-${PV}.tar.gz"
++SRCREV = "644e03cff7a587934bf62bce9b59bedcf06ddb26"
++PV = "0.10+git${SRCPV}"
+ 
+-SRC_URI[md5sum] = "03938f17646efbb50aa70ba5f99f51d7"
+-SRC_URI[sha256sum] = "1e683c2e7c3921814706d62fbbd3e9cbf493a75fa00255e0e715508d8134fa6d"
++SRC_URI = "git://git.0pointer.net/nss-mdns.git \
++           file://libnss-mdns-disable-docs.patch \
++          "
+ 
+-S = "${WORKDIR}/nss-mdns-${PV}"
++S = "${WORKDIR}/git"
+ 
+ inherit autotools
+ 
 -- 
 1.8.3.1
 
