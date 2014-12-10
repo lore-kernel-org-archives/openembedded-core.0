@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 692B87253A
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F4FF72544
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 10:34:14 +0000 (UTC)
+	Wed, 10 Dec 2014 10:34:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBAAYEcM024240
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBAAYFGk005444
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 10 Dec 2014 02:34:14 -0800 (PST)
+	Wed, 10 Dec 2014 02:34:15 -0800 (PST)
 Received: from yow-bashfiel-d4.corp.ad.wrs.com (128.224.20.249) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 10 Dec 2014 02:34:13 -0800
+	14.3.174.1; Wed, 10 Dec 2014 02:34:15 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 10 Dec 2014 05:34:03 -0500
-Message-ID: <0247524f2f7ae076fdac8773c3baa0794e5697dd.1418207154.git.bruce.ashfield@windriver.com>
+Date: Wed, 10 Dec 2014 05:34:04 -0500
+Message-ID: <770919cf36256c60ea96fe9f270de655997dc678.1418207154.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1418207154.git.bruce.ashfield@windriver.com>
 References: <cover.1418207154.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/7] kernel: fix out of tree module builds
+Subject: [PATCH 3/7] kerneldev: create kernel-devsrc packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,51 +36,84 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 10 Dec 2014 10:34:16 -0000
 Content-Type: text/plain
 
-With the kernel build optimizations, we no longer copy the source from
-the built kernel into the staging dir, since the kernel is unpacked and built
-directly from the staging dir.
+kernel-devsrc is responsible for creating and a packaging an environment
+appropriate for kernel development (on or off target).
 
-This means that a few build artifacts need to be restored to allow out of
-tree modules to once again build.
+To create this support, we only need to copy/install the results of the
+virtual/kernel providers build in the staging dir ... with some minor
+manipulations to the source tree (.git removal and a clean up). This
+produces a source tree that is capable of rebuilding the kernel on the
+target.
+
+Installing the kernel-devsrc package on a target (along with a
+toolchain) is all that remains to be done.
+
+ $ cd /usr/src/kernel
+ $ make oldconfig
+ $ make -j2 bzImage
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/kernel.bbclass | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 50 ++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux/kernel-devsrc.bb
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 0d335a589121..348041449cb0 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -223,6 +223,28 @@ kernel_do_install() {
- 	#
- 
- 	echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
-+	
-+	# Copy files required for module builds
-+	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
-+	cp Module.symvers $kerneldir/
-+	cp .config $kerneldir/
-+	mkdir -p $kerneldir/include/config
-+	cp include/config/kernel.release $kerneldir/include/config/kernel.release
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+new file mode 100644
+index 000000000000..facc235e2d0e
+--- /dev/null
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -0,0 +1,50 @@
++SUMMARY = "Linux kernel Development Source"
++DESCRIPTION = "Development source linux kernel. When built, this recipe packages the \
++source of the preferred virtual/kernel provider and makes it available for full kernel \
++development or external module builds"
 +
-+	# As of Linux kernel version 3.0.1, the clean target removes
-+	# arch/powerpc/lib/crtsavres.o which is present in
-+	# KBUILD_LDFLAGS_MODULE, making it required to build external modules.
-+	if [ ${ARCH} = "powerpc" ]; then
-+		cp arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
-+	fi
++SECTION = "kernel"
 +
-+	mkdir -p $kerneldir/include/generated/
-+	cp -fR include/generated/* $kerneldir/include/generated/
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
 +
-+	if [ -d arch/${ARCH}/include/generated ]; then
-+		mkdir -p $kerneldir/arch/${ARCH}/include/generated/
-+		cp -fR arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
-+	fi
- }
- do_install[prefuncs] += "package_get_auto_pr"
- 
++inherit linux-kernel-base
++
++# We need the kernel to be staged (unpacked, patched and configured) before
++# we can grab the source and make the kernel-devsrc package
++do_install[depends] += "virtual/kernel:do_populate_sysroot"
++
++# There's nothing to do here, except install the source where we can package it
++do_fetch[noexec] = "1"
++do_unpack[noexec] = "1"
++do_patch[noexec] = "1"
++do_configure[noexec] = "1"
++do_compile[noexec] = "1"
++do_populate_sysroot[noexec] = "1"
++
++# Define where the kernel headers are installed on the target as well as where
++# they are staged.
++KERNEL_SRC_PATH = "/usr/src/kernel"
++S = "${STAGING_DIR_TARGET}/${KERNEL_SRC_PATH}"
++
++KERNEL_VERSION = "${@get_kernelversion_headers('${S}')}"
++
++PACKAGE_ARCH = "${MACHINE_ARCH}"
++
++do_install() {
++        kerneldir=${D}${KERNEL_SRC_PATH}
++        install -d $kerneldir
++
++        #
++        # Copy the staging dir source (and module build support) into the devsrc structure.
++        # We can keep this copy simple and take everything, since a we'll clean up any build
++        # artifacts afterwards, and the extra i/o is not significant
++        #
++        cd ${S}
++        find . -type d -name '.git*' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
++        oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts
++}
++
++PACKAGES = "kernel-devsrc"
++FILES_${PN} = "${KERNEL_SRC_PATH}"
++RDEPENDS_${PN} = "bc"
 -- 
 2.1.0
 
