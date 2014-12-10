@@ -1,26 +1,24 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CC6BB724F1
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 68140724B1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 05:45:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBA5jfTr021345
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Dec 2014 21:45:41 -0800 (PST)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 9 Dec 2014 21:45:41 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Dec 2014 13:43:57 +0800
-Message-ID: <6c89bc8005ce4d16fb4cf0faaf9eee40aca6b293.1418190010.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1418190010.git.Chong.Lu@windriver.com>
-References: <cover.1418190010.git.Chong.Lu@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V3 3/3] grub-efi.bbclass: use single variable to set baud rate
+	Wed, 10 Dec 2014 05:55:23 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2014 21:55:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,550,1413270000"; d="scan'208";a="635378089"
+Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.13.161])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Dec 2014 21:55:22 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Dec 2014 21:55:14 -0800
+Message-Id: <91a65d248a346c316cbd9346d0705d17e6350c49.1418190513.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1418190513.git.sgw@linux.intel.com>
+References: <cover.1418190513.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1418190513.git.sgw@linux.intel.com>
+References: <cover.1418190513.git.sgw@linux.intel.com>
+Subject: [PATCH 2/6] babeltrace: Update to 1.2.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Dec 2014 05:45:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Dec 2014 05:55:30 -0000
 
-Use SERIAL_CONSOLE to set baud rate in grub.cfg file.
-
-[YOCTO #6331]
-
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/grub-efi.bbclass | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .../recipes-kernel/lttng/{babeltrace_1.2.3.bb => babeltrace_1.2.4.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/lttng/{babeltrace_1.2.3.bb => babeltrace_1.2.4.bb} (89%)
 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index 47bd35e..18ae261 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -18,11 +18,12 @@
- do_bootimg[depends] += "${MLPREFIX}grub-efi:do_deploy"
- do_bootdirectdisk[depends] += "${MLPREFIX}grub-efi:do_deploy"
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.2.3.bb b/meta/recipes-kernel/lttng/babeltrace_1.2.4.bb
+similarity index 89%
+rename from meta/recipes-kernel/lttng/babeltrace_1.2.3.bb
+rename to meta/recipes-kernel/lttng/babeltrace_1.2.4.bb
+index c62589c..f616146 100644
+--- a/meta/recipes-kernel/lttng/babeltrace_1.2.3.bb
++++ b/meta/recipes-kernel/lttng/babeltrace_1.2.4.bb
+@@ -10,8 +10,8 @@ inherit autotools pkgconfig
  
--GRUB_SERIAL ?= "console=ttyS0,115200"
-+inherit console
-+GRUB_SERIAL ?= "console=${@console_tty(d)},${@console_baudrate(d)}"
- GRUBCFG = "${S}/grub.cfg"
- GRUB_TIMEOUT ?= "10"
- #FIXME: build this from the machine config
--GRUB_OPTS ?= "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1"
-+GRUB_OPTS ?= "serial --unit=${@console_port(d)} --speed=${@console_baudrate(d)} --word=8 --parity=no --stop=1"
+ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
  
- EFIDIR = "/EFI/BOOT"
+-SRCREV = "753a40ead9fa4f6bd5e29d5765e2021122df9c1c"
+-PV = "1.2.3+git${SRCPV}"
++SRCREV = "90395824efc007de88787a6b8e400a07c980be1c"
++PV = "1.2.4+git${SRCPV}"
+ 
+ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-1.2"
  
 -- 
-1.9.1
+1.8.3.1
 
 
