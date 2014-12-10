@@ -1,48 +1,37 @@
-Return-Path: <lh_post@yahoo.com>
-Received: from nm28-vm1.bullet.mail.ne1.yahoo.com
-	(nm28-vm1.bullet.mail.ne1.yahoo.com [98.138.91.35])
-	by mail.openembedded.org (Postfix) with ESMTP id 82C6472456
+Return-Path: <alexandru.damian@intel.com>
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
+	[209.85.218.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 03A3A70A8B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 14:45:43 +0000 (UTC)
-Received: from [98.138.226.179] by nm28.bullet.mail.ne1.yahoo.com with NNFMP;
-	10 Dec 2014 14:45:43 -0000
-Received: from [98.138.226.165] by tm14.bullet.mail.ne1.yahoo.com with NNFMP;
-	10 Dec 2014 14:45:43 -0000
-Received: from [127.0.0.1] by omp1066.mail.ne1.yahoo.com with NNFMP;
-	10 Dec 2014 14:45:43 -0000
-X-Yahoo-Newman-Property: ymail-3
-X-Yahoo-Newman-Id: 282880.24643.bm@omp1066.mail.ne1.yahoo.com
-Received: (qmail 91524 invoked by uid 60001); 10 Dec 2014 14:45:43 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s1024;
-	t=1418222743; bh=f02ITZMsZ/TY5HKtM9HuEPHhwr8s7GKE9B815+zxUTs=;
-	h=Message-ID:Date:From:Subject:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	b=vE0K0nDeG4GYi9nnCAFyXYaspp2ZYSbQF4W8s7/wfXXZYXWLlCFVGJmk4FdZqH/hxrjSqfwHFwjDpnt5W//jX9hQmVaBqtyx484+HvWyYCpluI7qnA/M74VFnj2/IJ3WDVAkMzPNVtUesUZMvU0KFD9aOI65Jy1Q2VRL6AEG0dw=
-X-YMail-OSG: hH2DvpYVM1lo6O4mM6Uqup3PIEmH_skPJW.bkC3Qu3GDoxO
-	vSI.zEZAeStovrvCgULUzTsXrp4ao.Y0aPSx8vE_u.2Z0IYRNx7UB1Si8XUo
-	.UfK0TYFMILiPb1sz4nqr3sq1tlfb056lLzPdlIME_MGj0WjpHStPyqzwpAg
-	9ON6hsX8kQTUwsdcm5T.fb6oWKCqNbrXz.3UMLxqCppFzdIXJHzjMdbr.rMm
-	5Rk4MuDc4nZzMG3J50bhpuV7_aSXZxcaFfuJk.P2T86WrQsFD97qVfvEqSTx
-	WSMZJ7icRnJ2ipJocjpNRXDopv8m5DGUAiiTVtd4Hrkldj52sYQ0Y.7eDZqG
-	eYYvw9.yq1mkstlkK3PGtEsaW.ZRdxIVEhNYkELluNNRLqaLm2c7p4BgYr0Q
-	VT6JmmqP0aeXojpWimcYlJA6nu.szwutYjUUUwjDJXsuuBBZcKRDREFQVo5c
-	GJp4bHa.yuSou5bvQNRyhm3xrxiC_FGi4UswvEs2YFNq6oYNga71xckEKj84
-	I5FZ6hWEVOWvrBaD6Donq1xY1OaiUTjbNuIdXbQ0hBF8GhodJx5Vfxm3sIj5
-	D99EfCm1VTQG5jJk1ewQMgzMBOP2rgYrWlMsl1WgZJsniVUN6ZOvzLCwojRF
-	CASNcs92SGCECo2tYVdscHAE32tX4Y53_T87aTzRs5UnQeF8chMRehr1Q1G.
-	feLuj7nkIrhgaFeeCNRbBmmjfI4LNRkZkPBB0Rn4OFzKamtnDN3YbgItYexP
-	txtojojqYIAPyMKF_jCxKOFeX4w6F_UVU1h1u
-Received: from [87.48.158.178] by web125605.mail.ne1.yahoo.com via HTTP;
-	Wed, 10 Dec 2014 06:45:43 PST
-X-Rocket-MIMEInfo: 002.001,
-	LS0tIE9uIFdlZCwgMTAvMTIvMTQsIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPiB3cm90ZToNCg0KPiA.IFRvIHN1cHBvcnQgc2lnbmVkIHBhY2thZ2VzIEkgaGF2ZSBhZGRlZA0KPiBncGcgdG8gdGhlIFBBQ0tBR0VDT05GSUcgZm9yDQo.ID4gb3BrZy4gSQ0KPiBoYXZlIGRvbmUgdGhpcyBieSBjcmVhdGluZyBhbiBvcGtnXzAuMi4xLmJiYXBwZW5kIGZpbGUNCj4gd2l0aA0KPiA.IHRoZSBsaW5lOiANCj4gPg0KPiBQQUNLQUdFQ09ORklHICs9ICJncGciDQo.ID4BMAEBAQE-
-X-Mailer: YahooMailClassic/881 YahooMailWebService/0.8.203.740
-Message-ID: <1418222743.73229.YahooMailBasic@web125605.mail.ne1.yahoo.com>
-Date: Wed, 10 Dec 2014 06:45:43 -0800
-From: Lars Michael <lh_post@yahoo.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+	Wed, 10 Dec 2014 14:58:21 +0000 (UTC)
+Received: by mail-oi0-f51.google.com with SMTP id e131so2094865oig.38
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Dec 2014 06:58:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=xs87kUsWoJ+gTCFaMz2jWjHJv3YnFPexAvP+RqqoVNc=;
+	b=XZvEzr60T+b9PrcVnIkMU3G1y7/6Xv3sjxEZrsq83vCC/6uh0Oyb6l88U9MHax0NW3
+	eDj7FvBPFvNv7ll2dCnFHVIzAew7/8LyB9wY62kuAuLk4KxpED+LaP70owPcZ7YlwDeK
+	zZ2qgwqL2SbibzvidxmCB3p9861lmXceFenQaCVbdc73noPvFQ9FfQqSdMkJ6ax9/nhp
+	w3qUTSpyhi5qYKaSfLQJuLq2tmucZfaz2WZkKtldfyzm0e3qsiH9cMp/+P6LdK4fmiUH
+	XUfzsLpgcTSyp3LdYnLkfq5iuo2xaQWYmqJMW74HmNAR/Ew+3iKhcn9qBUskjXwpDd55
+	hkaw==
+X-Gm-Message-State: ALoCoQk8de03s6wPmxCPDpSdErlbjklLLnQjc8TS9Fs2t/LZEa+S3uXf+npuIg6zmJVmKHWD5Ff6
+X-Received: by 10.202.228.136 with SMTP id b130mr2772641oih.128.1418223502201; 
+	Wed, 10 Dec 2014 06:58:22 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: Problem building image with opkg and gpg support
+Received: by 10.76.134.71 with HTTP; Wed, 10 Dec 2014 06:58:01 -0800 (PST)
+In-Reply-To: <1418222699-17402-1-git-send-email-alexandru.damian@intel.com>
+References: <1418222699-17402-1-git-send-email-alexandru.damian@intel.com>
+From: "Damian, Alexandru" <alexandru.damian@intel.com>
+Date: Wed, 10 Dec 2014 14:58:01 +0000
+Message-ID: <CAJ2CSBtKKNd3SvARDy7boRk_jLE_zAgJa3V28MdxKh1rJtyH+A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: Re: [PATCH 01/13] toaster.bbclass: trigger event for other image files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,99 +44,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Dec 2014 14:45:48 -0000
-Content-Type: text/plain; charset=iso-8859-1
+X-List-Received-Date: Wed, 10 Dec 2014 14:58:29 -0000
+Content-Type: multipart/alternative; boundary=001a114038b80fa9540509dde46c
+
+--001a114038b80fa9540509dde46c
+Content-Type: text/plain; charset=UTF-8
+
+Despite the header, this is the single patch in this submission.
+
+Thank you,
+Alex
+
+On Wed, Dec 10, 2014 at 2:44 PM, Alex DAMIAN <alexandru.damian@intel.com>
+wrote:
+
+> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+>
+> Toaster will log all the files that it can find in the
+> deploy images directory, and list them, considering that
+> they may be artifacts of the current build not logged
+> anywhere else.
+>
+> [YOCTO #6836]
+>
+> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+> ---
+>  meta/classes/toaster.bbclass | 18 +++++++++++++++---
+>  1 file changed, 15 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
+> index a7dd0aa..55d0d28 100644
+> --- a/meta/classes/toaster.bbclass
+> +++ b/meta/classes/toaster.bbclass
+> @@ -149,14 +149,26 @@ python toaster_image_dumpdata() {
+>      image_name = d.getVar('IMAGE_NAME', True);
+>
+>      image_info_data = {}
+> +    artifact_info_data = {}
+>
+> +    # collect all artifacts
+>      for dirpath, dirnames, filenames in os.walk(deploy_dir_image):
+>          for fn in filenames:
+> -            if fn.startswith(image_name):
+> -                image_output = os.path.join(dirpath, fn)
+> -                image_info_data[image_output] =
+> os.stat(image_output).st_size
+> +            try:
+> +                if fn.startswith(image_name):
+> +                    image_output = os.path.join(dirpath, fn)
+> +                    image_info_data[image_output] =
+> os.stat(image_output).st_size
+> +                else:
+> +                    import stat
+> +                    artifact_path = os.path.join(dirpath, fn)
+> +                    filestat = os.stat(artifact_path)
+> +                    if stat.S_ISREG(filestat.st_mode):
+> +                        artifact_info_data[artifact_path] =
+> filestat.st_size
+> +            except OSError as e:
+> +                bb.event.fire(bb.event.MetadataEvent("OSErrorException",
+> e), d)
+>
+>
+>  bb.event.fire(bb.event.MetadataEvent("ImageFileSize",image_info_data), d)
+> +
+> bb.event.fire(bb.event.MetadataEvent("ArtifactFileSize",artifact_info_data),
+> d)
+>  }
+>
+>
+> --
+> 1.9.1
+>
+>
+
+
+-- 
+Alex Damian
+Yocto Project
+SSG / OTC
+
+--001a114038b80fa9540509dde46c
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
---- On Wed, 10/12/14, Richard Purdie <richard.purdie@linuxfoundation.org> w=
-rote:
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:tahoma,s=
+ans-serif">Despite the header, this is the single patch in this submission.=
+<br><br></div><div class=3D"gmail_default" style=3D"font-family:tahoma,sans=
+-serif">Thank you,<br>Alex<br></div></div><div class=3D"gmail_extra"><br><d=
+iv class=3D"gmail_quote">On Wed, Dec 10, 2014 at 2:44 PM, Alex DAMIAN <span=
+ dir=3D"ltr">&lt;<a href=3D"mailto:alexandru.damian@intel.com" target=3D"_b=
+lank">alexandru.damian@intel.com</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">From: Alexandru DAMIAN &lt;<a href=3D"mailto:alexandru.damian=
+@intel.com">alexandru.damian@intel.com</a>&gt;<br>
+<br>
+Toaster will log all the files that it can find in the<br>
+deploy images directory, and list them, considering that<br>
+they may be artifacts of the current build not logged<br>
+anywhere else.<br>
+<br>
+[YOCTO #6836]<br>
+<br>
+Signed-off-by: Alexandru DAMIAN &lt;<a href=3D"mailto:alexandru.damian@inte=
+l.com">alexandru.damian@intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/toaster.bbclass | 18 +++++++++++++++---<br>
+=C2=A01 file changed, 15 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass<br=
+>
+index a7dd0aa..55d0d28 100644<br>
+--- a/meta/classes/toaster.bbclass<br>
++++ b/meta/classes/toaster.bbclass<br>
+@@ -149,14 +149,26 @@ python toaster_image_dumpdata() {<br>
+=C2=A0 =C2=A0 =C2=A0image_name =3D d.getVar(&#39;IMAGE_NAME&#39;, True);<br=
+>
+<br>
+=C2=A0 =C2=A0 =C2=A0image_info_data =3D {}<br>
++=C2=A0 =C2=A0 artifact_info_data =3D {}<br>
+<br>
++=C2=A0 =C2=A0 # collect all artifacts<br>
+=C2=A0 =C2=A0 =C2=A0for dirpath, dirnames, filenames in os.walk(deploy_dir_=
+image):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for fn in filenames:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if fn.startswith(image_name):<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 image_output =3D o=
+s.path.join(dirpath, fn)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 image_info_data[im=
+age_output] =3D os.stat(image_output).st_size<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if fn.startswith(i=
+mage_name):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 imag=
+e_output =3D os.path.join(dirpath, fn)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 imag=
+e_info_data[image_output] =3D os.stat(image_output).st_size<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 impo=
+rt stat<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 arti=
+fact_path =3D os.path.join(dirpath, fn)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+stat =3D os.stat(artifact_path)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if s=
+tat.S_ISREG(filestat.st_mode):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 artifact_info_data[artifact_path] =3D filestat.st_size<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except OSError as e:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.event.fire(bb.e=
+vent.MetadataEvent(&quot;OSErrorException&quot;, e), d)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0bb.event.fire(bb.event.MetadataEvent(&quot;ImageFileSiz=
+e&quot;,image_info_data), d)<br>
++=C2=A0 =C2=A0 bb.event.fire(bb.event.MetadataEvent(&quot;ArtifactFileSize&=
+quot;,artifact_info_data), d)<br>
+=C2=A0}<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+<br>
+--<br>
+1.9.1<br>
+<br>
+</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
+s=3D"gmail_signature"><div dir=3D"ltr">Alex Damian<div>Yocto Project<br></d=
+iv><div>SSG / OTC=C2=A0</div></div></div>
+</div>
 
-> > To support signed packages I have added
-> gpg to the PACKAGECONFIG for
-> > opkg. I
-> have done this by creating an opkg_0.2.1.bbappend file
-> with
-> > the line:=20
-> >
-> PACKAGECONFIG +=3D "gpg"
-> >
-> > In my image recipe I added:
-> > IMAGE_INSTALL_append =3D "
-> opkg"
-> > IMAGE_INSTALL_append =3D
-> " gpgme"
-> >
-> >
-> 'bitbake opkg' seems to run ok and builds libgpgme
-> and opkg ipk's. But
-> > when I run
-> 'bitbake myimage' I get:
-> >
-> > ERROR: Nothing PROVIDES
-> 'gpgme-native' (but
-> >
-> virtual:native:/media/datadisk/arm/fsl-community-bsp-daisy/sources/poky/m=
-eta/recipes-devtools/opkg/opkg_0.2.1.bb
-> DEPENDS on or otherwise requires it). Close matches:
-> >=A0=A0=A0gperf-native
-> >=A0=A0=A0rpm-native
-> >=A0=A0=A0gmp-native
-> > ERROR: Required build target
-> 'myimage' has no buildable providers.
-> > Missing or unbuildable dependency chain
-> was: ['myimage',
-> >
-> 'opkg-native', 'gpgme-native']
-> >
-=20
-> You've enabled gpg for both the target and
-> native opkg recipes and there
-> is no
-> gpg-native for opkg-native to work. If you only the
-> target
-> verison, you could try:
->=20
-> PACKAGECONFIG_append_class-target =3D "
-> gpg"
->=20
-> otherwise you
-> need to enable a native version of gpgme, probably adding
-> BBCLASSEXTEND =3D "native" to the
-> recipe for starters, there may then be
-> other
-> tweaks needed.
-
-Richard,
-
-I tried to use the PACKAGECONFIG_append_class-target but in that case opkg =
-is build
-without pgpme and signing enabled. Note: I wish to be able sign packages on=
- the build machine and verify
-the signatures on the board. Both using PGP.
-
-Then I also tried to add 'native' to the gpme_1.4.3.bb recipe, but the buil=
-d failed. Obviously other
-changes are required for that to work.
-
-Finally I tried to apply the patches described here:
-https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg55=
-204.html
-
-But the build fails:
-
-ERROR: Nothing RPROVIDES 'gnupg-native' (but virtual:native:/media/datadisk=
-/arm/fsl-
-community-bsp-daisy/sources/poky/meta/recipes-devtools/opkg/opkg_0.2.1.bb R=
-DEPENDS on or otherwise requires it)
-NOTE: Runtime target 'gnupg-native' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['gnupg-native']
-ERROR: Required build target 'my-image' has no buildable providers.
-Missing or unbuildable dependency chain was: ['my-image', 'opkg-native', 'g=
-nupg-native']
-
-Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
-
-Thanks and regards,
-Lars
-
-
+--001a114038b80fa9540509dde46c--
