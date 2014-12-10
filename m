@@ -1,24 +1,40 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CB9172519
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
+	[209.85.214.177])
+	by mail.openembedded.org (Postfix) with ESMTP id B4851722AD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 05:55:29 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2014 21:55:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,550,1413270000"; d="scan'208";a="635378104"
-Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.13.161])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Dec 2014 21:55:24 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Dec 2014 21:55:18 -0800
-Message-Id: <c1472f545458227b5b1066ede5170e55db42972a.1418190513.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1418190513.git.sgw@linux.intel.com>
-References: <cover.1418190513.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1418190513.git.sgw@linux.intel.com>
-References: <cover.1418190513.git.sgw@linux.intel.com>
-Subject: [PATCH 6/6] nss-myhostname: Convert to git
+	Wed, 10 Dec 2014 08:08:36 +0000 (UTC)
+Received: by mail-ob0-f177.google.com with SMTP id va2so1768438obc.36
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Dec 2014 00:08:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=+tqsbvvk/tfBhSCDIKM+XHDvLxuC0K2M2jBCIpHI/5A=;
+	b=AZPuVPz8VhlcgIou5YqrmJEwn5ytZvuvQqFP5md/uvobuLCfyAnwuRAfEJpVDhoGP4
+	A4+uL3CtZUoVg0dd6+w1cbrS7QXy1+3K6vgJG4re41zGz1b+60GBYQI2DvdaJmuEBavM
+	m4zq5IYT1wFWg8uTgSw+oXNUuy1/EUS+mXZ6ueKd1G2HD2nhCdcODDeakjTqba/qX5PI
+	N8wuZ2plFebIqT1HHPMcb/yRrwh361Em4haSm6LR6uaXPrbJWqF1tyYCs057b2KMN4YF
+	V4D7lRPA57DvDvSI1hzNZjDgHVmhh9M8dTPCrfxBEkLBBfPUq/f6u5Z1iXKygE61oTJo
+	pewA==
+X-Gm-Message-State: ALoCoQmscdx5pX905Zy2eKoCsJhkCGlaqYht67aKpSGu6uGX4Ryave3NPxyNg2Qstg0dqZmZeISO
+X-Received: by 10.202.210.72 with SMTP id j69mr1509616oig.87.1418198917464;
+	Wed, 10 Dec 2014 00:08:37 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.76.159.138 with HTTP; Wed, 10 Dec 2014 00:08:17 -0800 (PST)
+In-Reply-To: <CAJTo0LbVEYT9=fo_gKAk0wRSg1H9_-vE5dd5N-SMrMXM38Lbvw@mail.gmail.com>
+References: <cover.1417734782.git.anibal.limon@linux.intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C7CF45250@ORSMSX103.amr.corp.intel.com>
+	<54873BE9.9030905@linux.intel.com>
+	<CAJTo0LbVEYT9=fo_gKAk0wRSg1H9_-vE5dd5N-SMrMXM38Lbvw@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Wed, 10 Dec 2014 09:08:17 +0100
+Message-ID: <CAP71Wjx+daT278dn2-JF-Epn+WJ8FcE55NMLRXV2dJNSP9wawA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 0/3] Upgrades for comply Intel Graphics Stack Release 2014Q3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,76 +47,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Dec 2014 05:55:31 -0000
+X-List-Received-Date: Wed, 10 Dec 2014 08:08:46 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The upstream tarball is no longer available, but the git repo still is, so use it instead
-Additionally fix up the Makefile.am to not build the README since it's not a deliverable file
+On Tue, Dec 9, 2014 at 9:06 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 9 December 2014 at 18:14, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.i=
+ntel.com>
+> wrote:
+>>
+>> I don't know, maybe Ross knows?.
+>
+>
+> I ask for Piglit results to verify that approx 95% passes as that's the
+> expected pass rate.  I don't bother tracking the exact count as how it
+> changes as there's almost ten thousand tests and at some point you have t=
+o
+> let upstream deal with this.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../nss-myhostname-disable-docs.patch              | 25 ++++++++++++++++++++++
- .../nss-myhostname/nss-myhostname_0.3.bb           | 12 ++++++-----
- 2 files changed, 32 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-support/nss-myhostname/nss-myhostname/nss-myhostname-disable-docs.patch
+are you using the oe-core piglit recipe for testing? i didn't realize
+we had such recipe.. just want to make sure that the one we have is
+ok, then I can run it on my hw as well.
 
-diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname/nss-myhostname-disable-docs.patch b/meta/recipes-support/nss-myhostname/nss-myhostname/nss-myhostname-disable-docs.patch
-new file mode 100644
-index 0000000..0af1903
---- /dev/null
-+++ b/meta/recipes-support/nss-myhostname/nss-myhostname/nss-myhostname-disable-docs.patch
-@@ -0,0 +1,25 @@
-+Index: git/Makefile.am
-+===================================================================
-+--- git.orig/Makefile.am
-++++ git/Makefile.am
-+@@ -20,19 +20,10 @@ ACLOCAL_AMFLAGS = -I m4
-+ 
-+ lib_LTLIBRARIES = libnss_myhostname.la
-+ 
-+-EXTRA_DIST=bootstrap.sh README LICENSE
-+-SUBDIRS=doc
-++EXTRA_DIST=bootstrap.sh LICENSE
-+ 
-+ AM_CPPFLAGS = -include $(top_builddir)/config.h
-+ 
-+-MAINTAINERCLEANFILES=README
-+-noinst_DATA = README
-+-
-+-README:
-+-	rm -f README
-+-	$(MAKE) -C doc README
-+-	cd $(srcdir) && ln -s doc/README README
-+-
-+ homepage: all dist
-+ 	test -d $$HOME/homepage/private
-+ 	mkdir -p $$HOME/homepage/private/projects/nss-myhostname
-diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-index bbce9e9..31d3c73 100644
---- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-+++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-@@ -3,14 +3,16 @@ DESCRIPTION = "plugin for the GNU Name Service Switch (NSS) functionality of \
- the GNU C Library (glibc) providing host name resolution for the locally \
- configured system hostname as returned by gethostname(2)."
- HOMEPAGE = "http://0pointer.de/lennart/projects/nss-myhostname/"
--LICENSE = "LGPLv2.1"
-+LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
- 
--SRC_URI = "http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "d4ab9ac36c053ab8fb836db1cbd4a48f"
--SRC_URI[sha256sum] = "2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d3a7f6c4d67e7caf2"
-+SRCREV = "1df2a0fce427fab7754f6ac572cf68cef2e95696"
-+PV = "0.3+git${SRCPV}"
-+SRC_URI = "git://git.0pointer.net/nss-myhostname.git \
-+           file://nss-myhostname-disable-docs.patch \
-+          "
- 
-+S = "${WORKDIR}/git"
- inherit autotools distro_features_check
- 
- # The systemd has its own copy of nss-myhostname
--- 
-1.8.3.1
-
+thanks
 
