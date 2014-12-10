@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id EC4F672391
+	by mail.openembedded.org (Postfix) with ESMTP id 9FBDA7241D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 05:44:54 +0000 (UTC)
+	Wed, 10 Dec 2014 05:44:55 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2014 21:44:53 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2014 21:44:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,550,1413270000"; d="scan'208";a="645258204"
+X-IronPort-AV: E=Sophos;i="5.07,550,1413270000"; d="scan'208";a="645258215"
 Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.13.161])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2014 21:44:53 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2014 21:44:54 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Dec 2014 21:44:47 -0800
-Message-Id: <478f6a14868d0b3f1e79228255a098f944b9ae14.1418190099.git.sgw@linux.intel.com>
+Date: Tue,  9 Dec 2014 21:44:49 -0800
+Message-Id: <08d2bfd915857673ec4de94bcc3ed1d87177ded1.1418190099.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1418190099.git.sgw@linux.intel.com>
 References: <cover.1418190099.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1418190099.git.sgw@linux.intel.com>
 References: <cover.1418190099.git.sgw@linux.intel.com>
-Subject: [PATCH 2/4] python-wsgiref: Add new Version 0.1.2
+Subject: [PATCH 4/4] python-django: Add new version 1.7.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +37,37 @@ Imported from meta-openstack
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../python/python-wsgiref_0.1.2.bb                 | 25 ++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-wsgiref_0.1.2.bb
+ meta/recipes-devtools/python/python-django_1.7.1.bb | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python-django_1.7.1.bb
 
-diff --git a/meta/recipes-devtools/python/python-wsgiref_0.1.2.bb b/meta/recipes-devtools/python/python-wsgiref_0.1.2.bb
+diff --git a/meta/recipes-devtools/python/python-django_1.7.1.bb b/meta/recipes-devtools/python/python-django_1.7.1.bb
 new file mode 100644
-index 0000000..6e0a448
+index 0000000..d7998a0
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python-wsgiref_0.1.2.bb
-@@ -0,0 +1,25 @@
-+DESCRIPTION = "WSGI (PEP 333) Reference Library"
-+HOMEPAGE = "http://cheeseshop.python.org/pypi/wsgiref"
++++ b/meta/recipes-devtools/python/python-django_1.7.1.bb
+@@ -0,0 +1,21 @@
++DESCRIPTION = "A high-level Python Web framework"
++HOMEPAGE = "http://www.djangoproject.com/"
 +SECTION = "devel/python"
-+LICENSE = "PSF"
-+LIC_FILES_CHKSUM = "file://PKG-INFO;md5=fe761dfec1d54629c6b9a3bbc7b1baf5"
++LICENSE = "BSD"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=f09eb47206614a4954c51db8a94840fa"
 +
-+SRCNAME = "wsgiref"
-+SRC_URI = "http://pypi.python.org/packages/source/w/${SRCNAME}/${SRCNAME}-${PV}.zip"
++PR = "r1"
++SRCNAME = "Django"
 +
-+SRC_URI[md5sum] = "29b146e6ebd0f9fb119fe321f7bcf6cb"
-+SRC_URI[sha256sum] = "c7e610c800957046c04c8014aab8cce8f0b9f0495c8cd349e57c1f7cabf40e79"
++SRC_URI = "https://pypi.python.org/packages/source/D/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
++"
++
++SRC_URI[md5sum] = "81dae89f21647b9aa5c46c6b7dbfa349"
++SRC_URI[sha256sum] = "3de62e71ce2cfbcdecb6e344cad04948506c8410ea5c6eab15c8f3b31b8ac1c0"
 +
 +S = "${WORKDIR}/${SRCNAME}-${PV}"
 +
-+inherit setuptools
++inherit distutils
 +
-+# DEPENDS_default: python-pip
++FILES_${PN} += "${datadir}/django/*"
 +
-+DEPENDS += " \
-+        python-pip \
-+        "
-+
-+# RDEPENDS_default: 
-+RDEPENDS_${PN} += " \
-+        "
 -- 
 1.8.3.1
 
