@@ -1,24 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FBDA7241D
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 08950723D9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 05:44:55 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2014 21:44:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,550,1413270000"; d="scan'208";a="645258215"
-Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.13.161])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2014 21:44:54 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Dec 2014 21:44:49 -0800
-Message-Id: <08d2bfd915857673ec4de94bcc3ed1d87177ded1.1418190099.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1418190099.git.sgw@linux.intel.com>
-References: <cover.1418190099.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1418190099.git.sgw@linux.intel.com>
-References: <cover.1418190099.git.sgw@linux.intel.com>
-Subject: [PATCH 4/4] python-django: Add new version 1.7.1
+	Wed, 10 Dec 2014 05:45:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBA5jb5k002955
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 9 Dec 2014 21:45:38 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 9 Dec 2014 21:45:37 -0800
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 10 Dec 2014 13:43:54 +0800
+Message-ID: <cover.1418190010.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH V3 0/3] use single variable to set baud rate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,44 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Dec 2014 05:44:57 -0000
+X-List-Received-Date: Wed, 10 Dec 2014 05:45:39 -0000
+Content-Type: text/plain
 
-Imported from meta-openstack
+Change since V2:
+don't change SERIAL_CONSOLE default value and add console.bbclass to get
+port, tty and baud rate from SERIAL_CONSOLE.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-devtools/python/python-django_1.7.1.bb | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-django_1.7.1.bb
+The following changes since commit ec6377bcf52d105cd23ac6bbbeddd38fee9337e4:
 
-diff --git a/meta/recipes-devtools/python/python-django_1.7.1.bb b/meta/recipes-devtools/python/python-django_1.7.1.bb
-new file mode 100644
-index 0000000..d7998a0
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-django_1.7.1.bb
-@@ -0,0 +1,21 @@
-+DESCRIPTION = "A high-level Python Web framework"
-+HOMEPAGE = "http://www.djangoproject.com/"
-+SECTION = "devel/python"
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=f09eb47206614a4954c51db8a94840fa"
-+
-+PR = "r1"
-+SRCNAME = "Django"
-+
-+SRC_URI = "https://pypi.python.org/packages/source/D/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
-+"
-+
-+SRC_URI[md5sum] = "81dae89f21647b9aa5c46c6b7dbfa349"
-+SRC_URI[sha256sum] = "3de62e71ce2cfbcdecb6e344cad04948506c8410ea5c6eab15c8f3b31b8ac1c0"
-+
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+inherit distutils
-+
-+FILES_${PN} += "${datadir}/django/*"
-+
+  bitbake: bitbake-user-manual-metadata.xml: Updated do_package_write example (2014-12-09 22:25:36 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib chonglu/baudrate
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/baudrate
+
+Chong Lu (3):
+  console.bbclass: add class which can be used to set serial console and
+    baud rate
+  syslinux.bbclass: use single variable to set baud rate
+  grub-efi.bbclass: use single variable to set baud rate
+
+ meta/classes/console.bbclass  | 23 +++++++++++++++++++++++
+ meta/classes/grub-efi.bbclass |  5 +++--
+ meta/classes/syslinux.bbclass |  5 +++--
+ 3 files changed, 29 insertions(+), 4 deletions(-)
+ create mode 100644 meta/classes/console.bbclass
+
 -- 
-1.8.3.1
+1.9.1
 
 
