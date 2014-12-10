@@ -1,26 +1,41 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CB97572369
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E9DC72579
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 10:49:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBAAnrPT008077
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 10 Dec 2014 02:49:53 -0800 (PST)
-Received: from yow-bashfiel-d4.corp.ad.wrs.com (128.224.20.249) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 10 Dec 2014 02:49:52 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <saul.wold@intel.com>
-Date: Wed, 10 Dec 2014 05:49:44 -0500
-Message-ID: <782bac7e5f7d81d2fa683ed6712d972d7ed9c62c.1418208337.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1418208337.git.bruce.ashfield@windriver.com>
-References: <cover.1418208337.git.bruce.ashfield@windriver.com>
+	Wed, 10 Dec 2014 11:34:09 +0000 (UTC)
+Received: by mail-qc0-f181.google.com with SMTP id m20so1944437qcx.26
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Dec 2014 03:34:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=0XeieIk+2dKb/VLyeuE0YN/uoUbzKn/MmA82nKzz9Iw=;
+	b=QR26ERIMt220NVI4gPORHnYjvWiq+CUOHlUWtqTsBLWuVTNSmXiIgaLRF3N81KEWn9
+	O+CNZ1lU9M85Ef+0ctirqE1cPYZ+UwzAmYDDkqLaYwBWTRnBbBlhBe6/0axel4JZiSOl
+	0IkM33TtWa3+4tBAvpQ1gyhBj2nToEWCN/rmtsM3HE9FpjKgLxDu2B7yFt85HZb2JCd8
+	GyfvrCcYa34/6nF+tvV28xnbB9RPr+V47Af80liglx8yhTHCGyCxmnkVnY/v243iB+mj
+	et83wUgg6Sy+gNWdU8y8737yEn50GJ74pAirSYO9c1MUNOG8JEmtbR2MWnvPuNblc1me
+	rMXQ==
+X-Gm-Message-State: ALoCoQlQrqTBFZdsk5bIuwcTA24hR2S7lfbLoiKCTA8K0M8Ys6bnKeqgBQb/Bo29HDmvm65ioxwX
+X-Received: by 10.140.40.209 with SMTP id x75mr6731482qgx.80.1418211250137;
+	Wed, 10 Dec 2014 03:34:10 -0800 (PST)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4][daisy] beaglebone: enable the nowayout option for the watchdog
+Received: by 10.140.48.231 with HTTP; Wed, 10 Dec 2014 03:33:48 -0800 (PST)
+In-Reply-To: <CAP71Wjx+daT278dn2-JF-Epn+WJ8FcE55NMLRXV2dJNSP9wawA@mail.gmail.com>
+References: <cover.1417734782.git.anibal.limon@linux.intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C7CF45250@ORSMSX103.amr.corp.intel.com>
+	<54873BE9.9030905@linux.intel.com>
+	<CAJTo0LbVEYT9=fo_gKAk0wRSg1H9_-vE5dd5N-SMrMXM38Lbvw@mail.gmail.com>
+	<CAP71Wjx+daT278dn2-JF-Epn+WJ8FcE55NMLRXV2dJNSP9wawA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 10 Dec 2014 11:33:48 +0000
+Message-ID: <CAJTo0LZ8jovfFTrJr0MNO5UBaOPFaX-KqMWyBCNi=X3PXX9-iQ@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 0/3] Upgrades for comply Intel Graphics Stack Release 2014Q3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +48,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Dec 2014 10:49:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Dec 2014 11:34:17 -0000
+Content-Type: multipart/alternative; boundary=001a11c12836c806460509db0960
 
-Bumping the meta SRCREV for the following fix:
+--001a11c12836c806460509db0960
+Content-Type: text/plain; charset=UTF-8
 
-[
-  The default watchdog behaviour is to stop the timer if the process
-  managing it closes the file /dev/watchdog. The system would not reboot
-  if watchdog daemon crashes due to a bug in it or get killed by other
-  malicious code. So we prefer to enable nowayout option for the
-  watchdong. With this enabled, there is no way of disabling the watchdog
-  once it has been started. This option is also enabled in the predecessor
-  of this BSP (beagleboard)
-]
+On 10 December 2014 at 08:08, Nicolas Dechesne <nicolas.dechesne@linaro.org>
+wrote:
 
-[YOCTO: 3937]
+> are you using the oe-core piglit recipe for testing? i didn't realize
+> we had such recipe.. just want to make sure that the one we have is
+> ok, then I can run it on my hw as well.
+>
 
-(From OE-Core rev: 7006412c285a4a6c75d5349f60dc71b0b735ff90)
+Yes, the piglit in oe-core.  It needs updating to a newer release at some
+point, but as upstream believes you run it from a source tree upgrading
+isn't trivial.
 
-Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Ross
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-index 2e224307544d..995df3e0ea50 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-@@ -5,7 +5,7 @@ KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
- 
- SRCREV_machine ?= "08229402523bdb153dceed0a7260180837396e7f"
- SRCREV_machine_qemuppc ?= "08229402523bdb153dceed0a7260180837396e7f"
--SRCREV_meta ?= "62f236c734996f240d91daee2cb6a05669c7326c"
-+SRCREV_meta ?= "183622e8095545999a64bd72adedea2dffb6ec4b"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-index 626add9dc303..b26ae250166d 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "3.14.4"
- KMETA = "meta"
- 
- SRCREV_machine ?= "cb22733185cd9db3e8945dadb899d9eb3831b9ad"
--SRCREV_meta ?= "6fe191e807c9f6f3df57a72c5fc2ffb147f3129a"
-+SRCREV_meta ?= "183622e8095545999a64bd72adedea2dffb6ec4b"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-index 1179640b005a..14647e9c45a5 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-@@ -17,7 +17,7 @@ SRCREV_machine_qemux86 ?= "4aa41764bf8dba2044ff9fae806d61cac7cdd9de"
- SRCREV_machine_qemux86-64 ?= "cb22733185cd9db3e8945dadb899d9eb3831b9ad"
- SRCREV_machine_qemumips64 ?= "342ccacd4e28d1cc7e30277ee4ac6caa3086ff2f"
- SRCREV_machine ?= "cb22733185cd9db3e8945dadb899d9eb3831b9ad"
--SRCREV_meta ?= "6fe191e807c9f6f3df57a72c5fc2ffb147f3129a"
-+SRCREV_meta ?= "183622e8095545999a64bd72adedea2dffb6ec4b"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
- 
--- 
-2.1.0
+--001a11c12836c806460509db0960
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 December 2014 at 08:08, Nicolas Dechesne <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:nicolas.dechesne@linaro.org" target=3D"_blank">nicolas.dechesne=
+@linaro.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":1fi" class=3D"a3s" style=3D"overflow:hidden">are you using the oe-core=
+ piglit recipe for testing? i didn&#39;t realize<br>
+we had such recipe.. just want to make sure that the one we have is<br>
+ok, then I can run it on my hw as well.<br></div></blockquote></div><br>Yes=
+, the piglit in oe-core.=C2=A0 It needs updating to a newer release at some=
+ point, but as upstream believes you run it from a source tree upgrading is=
+n&#39;t trivial.</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
+ail_extra">Ross</div></div>
 
+--001a11c12836c806460509db0960--
