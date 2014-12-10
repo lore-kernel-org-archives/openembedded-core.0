@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A6807254F
+	by mail.openembedded.org (Postfix) with ESMTP id 398AF724DF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 10:38:58 +0000 (UTC)
+	Wed, 10 Dec 2014 10:38:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBAAcwTl024300
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBAAcqZQ024294
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 10 Dec 2014 02:38:58 -0800 (PST)
+	Wed, 10 Dec 2014 02:38:52 -0800 (PST)
 Received: from yow-bashfiel-d4.corp.ad.wrs.com (128.224.20.249) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 10 Dec 2014 02:38:57 -0800
+	14.3.174.1; Wed, 10 Dec 2014 02:38:51 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 10 Dec 2014 05:38:44 -0500
-Message-ID: <ea2604ed9b69605fd615e9eada812af6a0df29e5.1418207729.git.bruce.ashfield@windriver.com>
+Date: Wed, 10 Dec 2014 05:38:40 -0500
+Message-ID: <18aab176b628e46d6da37ada4a52adf7817d8a48.1418207729.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1418207729.git.bruce.ashfield@windriver.com>
 References: <cover.1418207729.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/9] linux-yocto/3.14: update to v3.14.24
+Subject: [PATCH 1/9] linux-yocto/3.17: update to v3.17.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,84 +36,65 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 10 Dec 2014 10:39:01 -0000
 Content-Type: text/plain
 
+Updating to the kver to the latest korg stable update. This fixes some
+important bugs (as well as the usual mix of more minor ones), in particular
+libata bugs and SSD corruption issues are fixed.
+
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  8 ++++----
- meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 18 +++++++++---------
- 3 files changed, 16 insertions(+), 16 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.17.bb      | 18 +++++++++---------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-index b2ad078bcad4..fc86725806e5 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-@@ -3,13 +3,13 @@ KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--SRCREV_machine ?= "0a875ce52aa7a42ddabdb87038074381bb268e77"
--SRCREV_machine_qemuppc ?= "b993661d41f08846daa28b14f89c8ae3e94225bd"
--SRCREV_meta ?= "fb6271a942b57bdc40c6e49f0203be153699f81c"
-+SRCREV_machine ?= "baad552ea168dc31db31f0be188edefaa28a4aec"
-+SRCREV_machine_qemuppc ?= "db4221ed2e1c6c617ad07d3374f630bbb59cf8b5"
-+SRCREV_meta ?= "fba2d0cdb745e0f807ce134fd9d1524b7bed9742"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
- 
--LINUX_VERSION ?= "3.14.19"
-+LINUX_VERSION ?= "3.14.24"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-index 79bd6935a22c..d168a2acbbb1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
+index 77855d956e9d..357e050a2407 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.17.bb
 @@ -4,12 +4,12 @@ KCONFIG_MODE = "--allnoconfig"
  
  require recipes-kernel/linux/linux-yocto.inc
  
--LINUX_VERSION ?= "3.14.19"
-+LINUX_VERSION ?= "3.14.24"
+-LINUX_VERSION ?= "3.17"
++LINUX_VERSION ?= "3.17.1"
  
  KMETA = "meta"
  
--SRCREV_machine ?= "902f34d36102a4b2008b776ecae686f80d307e12"
--SRCREV_meta ?= "fb6271a942b57bdc40c6e49f0203be153699f81c"
-+SRCREV_machine ?= "c100e8665052051487a17169748c457829d3f88c"
-+SRCREV_meta ?= "fba2d0cdb745e0f807ce134fd9d1524b7bed9742"
+-SRCREV_machine ?= "1a6dd1205de5b7c6135a42fec00550738ff777b5"
+-SRCREV_meta ?= "9ba007f8d0abf3cc5499e8eee13065b7f0713e81"
++SRCREV_machine ?= "0caf16d38536e3dec8a02ea657e1960f1216f174"
++SRCREV_meta ?= "229ce533868773f201f9ab36e2b4248b381309ec"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-index a2f4b4dccf0b..c30227e16021 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-@@ -10,18 +10,18 @@ KBRANCH_qemux86  ?= "standard/common-pc/base"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.17.bb b/meta/recipes-kernel/linux/linux-yocto_3.17.bb
+index 3838dbfa57a5..872441389dde 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.17.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.17.bb
+@@ -10,18 +10,18 @@ KBRANCH_qemux86  ?= "standard/common-pc"
  KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
  KBRANCH_qemumips64 ?= "standard/mti-malta64"
  
--SRCREV_machine_qemuarm ?= "127b621f2a4d3b1111e24423c12fac001e047c1c"
--SRCREV_machine_qemumips ?= "c3b9f1b2397f0847ab4844d1cdb8e02574434d78"
--SRCREV_machine_qemuppc ?= "73e2411cdd91764d0601c0869857f53381c2a177"
--SRCREV_machine_qemux86 ?= "e19a1b40de44e756defdfb40349342d8037609bd"
--SRCREV_machine_qemux86-64 ?= "902f34d36102a4b2008b776ecae686f80d307e12"
--SRCREV_machine_qemumips64 ?= "1c4d70272dde4b695697dd8705a031420480f712"
--SRCREV_machine ?= "902f34d36102a4b2008b776ecae686f80d307e12"
--SRCREV_meta ?= "fb6271a942b57bdc40c6e49f0203be153699f81c"
-+SRCREV_machine_qemuarm ?= "b768ebfe28a20b65aba734b9f6646a3fa0adc89b"
-+SRCREV_machine_qemumips ?= "c76146e6c8a015c1225141fc55d867a3e47453c6"
-+SRCREV_machine_qemuppc ?= "e54ab8451c482b695ff7a0c580ef2fb1be605299"
-+SRCREV_machine_qemux86 ?= "146fcb1dd7b3c5547d67f04d50b082f0723741e9"
-+SRCREV_machine_qemux86-64 ?= "c100e8665052051487a17169748c457829d3f88c"
-+SRCREV_machine_qemumips64 ?= "71621ee758600abd3cf7187d7a8e7d51f4052c53"
-+SRCREV_machine ?= "c100e8665052051487a17169748c457829d3f88c"
-+SRCREV_meta ?= "fba2d0cdb745e0f807ce134fd9d1524b7bed9742"
+-SRCREV_machine_qemuarm ?= "e86f70699655d1f5bf2518c8dcdb949a39161c86"
+-SRCREV_machine_qemumips ?= "0acaa5991a61fbab0d897157049ac2e638e9c7bf"
+-SRCREV_machine_qemuppc ?= "50e33fec112527de12c2833cd8a283dd4a75ae33"
+-SRCREV_machine_qemux86 ?= "1a6dd1205de5b7c6135a42fec00550738ff777b5"
+-SRCREV_machine_qemux86-64 ?= "1a6dd1205de5b7c6135a42fec00550738ff777b5"
+-SRCREV_machine_qemumips64 ?= "c0558aaa8251a022447a4ac782d4e707401c52d3"
+-SRCREV_machine ?= "1a6dd1205de5b7c6135a42fec00550738ff777b5"
+-SRCREV_meta ?= "9ba007f8d0abf3cc5499e8eee13065b7f0713e81"
++SRCREV_machine_qemuarm ?= "6b57ab98e37cda3b4a4cd50483a43e053ae73d1b"
++SRCREV_machine_qemumips ?= "80b24085b50144088cdfca737b5925a15ae9e312"
++SRCREV_machine_qemuppc ?= "12a5e6b10d6d34878f26592160ff64668b021ab4"
++SRCREV_machine_qemux86 ?= "0caf16d38536e3dec8a02ea657e1960f1216f174"
++SRCREV_machine_qemux86-64 ?= "0caf16d38536e3dec8a02ea657e1960f1216f174"
++SRCREV_machine_qemumips64 ?= "3b77b2d556103b86f787913385a7655b92adcc03"
++SRCREV_machine ?= "0caf16d38536e3dec8a02ea657e1960f1216f174"
++SRCREV_meta ?= "229ce533868773f201f9ab36e2b4248b381309ec"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.17.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
  
--LINUX_VERSION ?= "3.14.19"
-+LINUX_VERSION ?= "3.14.24"
+-LINUX_VERSION ?= "3.17"
++LINUX_VERSION ?= "3.17.1"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
