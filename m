@@ -1,38 +1,38 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 96B90725F7
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id DE7C1725FF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 14:17:14 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id ex7so5303980wid.12
+	Wed, 10 Dec 2014 14:17:17 +0000 (UTC)
+Received: by mail-wi0-f170.google.com with SMTP id bs8so13445309wib.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 06:17:15 -0800 (PST)
+	Wed, 10 Dec 2014 06:17:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Mn1TSAb5ChC0J+WhbSQb3mTVP+0cOTiuK/xJnHSvbQI=;
-	b=hKEfPEBpsM0dQ76bu9wPUg5AdhpUQ2V5Prw8N0wRmcs49Fp91juuMrExTqN7pJ+fF4
-	HCMAOoyfpWN98uTyjMkevTM45nZOvsmRTj5hM88f5KNBXZ9AIZzpctrFPY1NBZnWU7Zr
-	dm4gWXkWoqACblxzIWYmE/vmtJyxVI5n/B3E/eAbP/oUaUepKYxsdxOB961swep6+Jcg
-	0ohrrhKZqdRpVF980ad9pqQmKB6mOq61U33P5li08BBERILes4sCNPaYM/GQEn5tCRZN
-	5Hl1Ad9Ug8/TsaWAwRAfERw+kV7YRc5NO76YstDJUVmNJK/T3CVHPCAtqoaJIhCn6yql
-	nA4A==
-X-Received: by 10.194.7.97 with SMTP id i1mr6868463wja.31.1418221035255;
-	Wed, 10 Dec 2014 06:17:15 -0800 (PST)
+	bh=fcrmtkqmk/Ab9AzFmNIExizAGUVWaL4MOEEcyF0Txh0=;
+	b=u8DD5WQAWZuBCPMAa7Eoryf9KWN7MWR1Kz7xEhPSyTeFAMgbCqb858/eDtIU2c22x8
+	KqYVep1uKBYxm9vSlwmn4x2iRDDvnv/yJcVIbHzYuAddJCVHBfhLdM/mfgX+qMBXfsbD
+	HD1ycuCLPC1RroWjQQtPQOqrlndq8BZ7rWMj1WVP++jnWoReLkmJSu2dhaPTksbKZKnG
+	hoqFCXcAm11i0mx3GEQhxC1fpW7OtNrL07ktR1Dm4PekG8VphoGTCEec+dsHEIoJX7dx
+	VtPKy6fBmMGIGx0H9DyTVu7+Yt5bxQk8rC2PuknqOeqqZPkgNSqJ7ig1YLomOzcu0cY1
+	HZ5w==
+X-Received: by 10.180.90.206 with SMTP id by14mr13726525wib.67.1418221037818; 
+	Wed, 10 Dec 2014 06:17:17 -0800 (PST)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	gl5sm18088697wib.0.2014.12.10.06.17.14 for <multiple recipients>
+	jr4sm6039137wjc.20.2014.12.10.06.17.17 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 10 Dec 2014 06:17:14 -0800 (PST)
+	Wed, 10 Dec 2014 06:17:17 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Dec 2014 15:17:05 +0100
-Message-Id: <1418221027-12371-2-git-send-email-Martin.Jansa@gmail.com>
+Date: Wed, 10 Dec 2014 15:17:07 +0100
+Message-Id: <1418221027-12371-4-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.1.3
 In-Reply-To: <1418221027-12371-1-git-send-email-Martin.Jansa@gmail.com>
 References: <20141030082101.GE15148@jama>
 	<1418221027-12371-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCHv2 2/4] libav: drop unused FFMPEG_LIBS and move libpostproc only to 0.8.11
+Subject: [PATCHv2 4/4] libpostproc: import from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,59 +45,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Dec 2014 14:17:16 -0000
-
-* standalone libpostproc recipe depends on libav, but current PACKAGES_DYNAMIC indicated
-  that libav-9.13 also provides libpostproc
+X-List-Received-Date: Wed, 10 Dec 2014 14:17:18 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-multimedia/libav/libav.inc       | 5 -----
- meta/recipes-multimedia/libav/libav_0.8.15.bb | 2 ++
- meta/recipes-multimedia/libav/libav_9.16.bb   | 3 +++
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-multimedia/libav/libpostproc_git.bb | 43 ++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libav/libpostproc_git.bb
 
-diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
-index 5c327df..8b470c1 100644
---- a/meta/recipes-multimedia/libav/libav.inc
-+++ b/meta/recipes-multimedia/libav/libav.inc
-@@ -85,9 +85,6 @@ do_install_append() {
-     install -m 0644 ${S}/libavfilter/*.h ${D}${includedir}/libavfilter/
- }
- 
--FFMPEG_LIBS = "libavcodec libavdevice libavformat \
--               libavutil libpostproc libswscale libavfilter"
--
- PACKAGES += "${PN}-vhook-dbg ${PN}-vhook ffmpeg-x264-presets"
- 
- RSUGGESTS_${PN} = "mplayer"
-@@ -140,5 +137,3 @@ python populate_packages_prepend() {
-         for pkg in pkgs:
-             d.appendVar('INSANE_SKIP_%s' % pkg, ' textrel')
- }
--
--PACKAGES_DYNAMIC += "^lib(av(codec|device|filter|format|util)|postproc|swscale).*"
-diff --git a/meta/recipes-multimedia/libav/libav_0.8.15.bb b/meta/recipes-multimedia/libav/libav_0.8.15.bb
-index 18dc49a..127a088 100644
---- a/meta/recipes-multimedia/libav/libav_0.8.15.bb
-+++ b/meta/recipes-multimedia/libav/libav_0.8.15.bb
-@@ -16,3 +16,5 @@ PROVIDES += "libpostproc"
- EXTRA_OECONF += " \
-     --enable-postproc \
- "
+diff --git a/meta/recipes-multimedia/libav/libpostproc_git.bb b/meta/recipes-multimedia/libav/libpostproc_git.bb
+new file mode 100644
+index 0000000..811175c
+--- /dev/null
++++ b/meta/recipes-multimedia/libav/libpostproc_git.bb
+@@ -0,0 +1,43 @@
++SUMMARY = "FFmpeg derived postprocessing library"
++HOMEPAGE = "http://git.videolan.org/?p=libpostproc.git;a=summary"
++SECTION = "libs"
++DEPENDS = "libav"
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 +
-+PACKAGES_DYNAMIC += "^lib(av(codec|device|filter|format|util)|postproc|swscale).*"
-diff --git a/meta/recipes-multimedia/libav/libav_9.16.bb b/meta/recipes-multimedia/libav/libav_9.16.bb
-index d046885..8ced2dc 100644
---- a/meta/recipes-multimedia/libav/libav_9.16.bb
-+++ b/meta/recipes-multimedia/libav/libav_9.16.bb
-@@ -11,3 +11,6 @@ SRC_URI[md5sum] = "7b44b75cec24b8e7545e5029e76917e0"
- SRC_URI[sha256sum] = "ca846473b0b8ed8e3404c52e5e92df6d35cb5fa487eec498525de3ffda4367a0"
- 
- DEFAULT_PREFERENCE = "-1"
++PV = "52.3.0+git${SRCPV}"
 +
-+# unlike 0.8.11 we don't provide libpostproc
-+PACKAGES_DYNAMIC += "^lib(av(codec|device|filter|format|util)|swscale).*"
++SRCREV = "811db3b957dfde24aef2d0f82e297e5bf552d873"
++SRC_URI = "git://github.com/lu-zero/postproc;protocol=https"
++
++S = "${WORKDIR}/git"
++
++inherit autotools lib_package pkgconfig
++
++FULL_OPTIMIZATION_armv7a = "-fexpensive-optimizations -fomit-frame-pointer -O4 -ffast-math"
++BUILD_OPTIMIZATION = "${FULL_OPTIMIZATION}"
++
++EXTRA_FFCONF_armv7a = "--cpu=cortex-a8"
++EXTRA_FFCONF ?= ""
++
++EXTRA_OECONF = " \
++    --enable-shared \
++    --enable-pthreads \
++    --enable-gpl \
++    --enable-postproc \
++    \
++    --cross-prefix=${TARGET_PREFIX} \
++    --prefix=${prefix} \
++    \
++    --arch=${TARGET_ARCH} \
++    --target-os="linux" \
++    --enable-cross-compile \
++    --extra-cflags="${TARGET_CFLAGS} ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}" \
++    --extra-ldflags="${TARGET_LDFLAGS}" \
++    --sysroot="${STAGING_DIR_TARGET}" \
++    ${EXTRA_FFCONF} \
++"
++
++do_configure() {
++    ${S}/configure ${EXTRA_OECONF}
++}
 -- 
 2.1.3
 
