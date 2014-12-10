@@ -1,26 +1,37 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A71B72341
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id B3146725DD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Dec 2014 14:16:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBAEGUfn014106
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 10 Dec 2014 06:16:30 -0800 (PST)
-Received: from yow-bashfiel-d4.corp.ad.wrs.com (128.224.92.225) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 10 Dec 2014 06:16:29 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 10 Dec 2014 09:16:16 -0500
-Message-ID: <4be985be419f06f18c735d72ac4a4d00fea71dd8.1418220684.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1418220684.git.bruce.ashfield@windriver.com>
-References: <cover.1418220684.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 9/9] linux-yocto/3.14: update to 3.14.26, integrate ltsi and -rt updates
+	Wed, 10 Dec 2014 14:17:13 +0000 (UTC)
+Received: by mail-wi0-f175.google.com with SMTP id l15so11388845wiw.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Dec 2014 06:17:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=shPcuoZ2Qv7II0iOk2u9TZgjURkv7SSoEPzpKQUPbrk=;
+	b=GG2GvYezLmhWxPFkHc2hTGLPBRJRU7O1wRQaWa4GyltPoF4y8NrweVT8VMtCDQFUOM
+	iakTE5He7G9X2b/izYfKnV1zZmjFAc5gyVL3L55DoatTc7UUhpMa9nhyzu0YXa+jNK0a
+	cbbH1ISlbQihSA/7gXk/RTGtKuI/pdh1AjF9egzalVfM4quRELHYHkzRf3CbWYNFNsh/
+	ciaJAX8ew+N9DVtS/6twcDYgffgtIIG9fcSGYStLuPtZFvDQLAyHfADnwqirkLo0Yy9S
+	ENgYL96zGGGkUbARN+6fTaCr/c/UntlmpS6Yzl7USxa6xz8ToeUqIpEUtTTOIFZ/Evmv
+	1M+A==
+X-Received: by 10.180.80.194 with SMTP id t2mr7049069wix.6.1418221033826;
+	Wed, 10 Dec 2014 06:17:13 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id n5sm6518761wic.6.2014.12.10.06.17.12
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 10 Dec 2014 06:17:12 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Dec 2014 15:17:04 +0100
+Message-Id: <1418221027-12371-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.1.3
+In-Reply-To: <20141030082101.GE15148@jama>
+References: <20141030082101.GE15148@jama>
+Subject: [PATCHv2 1/4] gst-ffmpeg: add dependency on libpostproc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,80 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Dec 2014 14:16:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Dec 2014 14:17:16 -0000
 
-Updating the 3.14 tree to the latest korg 3.14.26, as well as
-integrating 3.14 LTSI content, and refreshing preempt-rt. Minor
-conflict resolutions were performed between ltsi, stable and -rt
+* building with libav-9 fails with:
+  | checking for POSTPROC... configure: error: Package requirements (libpostproc libavcodec libavutil) were not met:
+  |
+  | No package 'libpostproc' found
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 16 ++++++++--------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+ meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-index fc86725806e5..7dbf82c3e691 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-@@ -3,9 +3,9 @@ KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
+index 30e5deb..7304fff 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-ffmpeg_0.10.13.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://gst-libs/ext/libav/COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ LICENSE_FLAGS = "commercial"
+ HOMEPAGE = "http://www.gstreamer.net/"
+-DEPENDS = "gstreamer gst-plugins-base zlib bzip2 yasm-native"
++DEPENDS = "gstreamer gst-plugins-base zlib bzip2 yasm-native libpostproc"
  
- require recipes-kernel/linux/linux-yocto.inc
- 
--SRCREV_machine ?= "baad552ea168dc31db31f0be188edefaa28a4aec"
--SRCREV_machine_qemuppc ?= "db4221ed2e1c6c617ad07d3374f630bbb59cf8b5"
--SRCREV_meta ?= "fba2d0cdb745e0f807ce134fd9d1524b7bed9742"
-+SRCREV_machine ?= "7f0712d10247ffca8e48e944f49707bcf9117ead"
-+SRCREV_machine_qemuppc ?= "8bed2a975d491c963cff56496f7e35f5bcff926f"
-+SRCREV_meta ?= "a227f20eff056e511d504b2e490f3774ab260d6f"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-index d168a2acbbb1..67bf4624f833 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-@@ -8,8 +8,8 @@ LINUX_VERSION ?= "3.14.24"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "c100e8665052051487a17169748c457829d3f88c"
--SRCREV_meta ?= "fba2d0cdb745e0f807ce134fd9d1524b7bed9742"
-+SRCREV_machine ?= "02120556b0ebc20c30374ccf211e8e4ceac2bb1c"
-+SRCREV_meta ?= "a227f20eff056e511d504b2e490f3774ab260d6f"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-index c30227e16021..706cb7ce9c1f 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-@@ -10,14 +10,14 @@ KBRANCH_qemux86  ?= "standard/common-pc/base"
- KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "b768ebfe28a20b65aba734b9f6646a3fa0adc89b"
--SRCREV_machine_qemumips ?= "c76146e6c8a015c1225141fc55d867a3e47453c6"
--SRCREV_machine_qemuppc ?= "e54ab8451c482b695ff7a0c580ef2fb1be605299"
--SRCREV_machine_qemux86 ?= "146fcb1dd7b3c5547d67f04d50b082f0723741e9"
--SRCREV_machine_qemux86-64 ?= "c100e8665052051487a17169748c457829d3f88c"
--SRCREV_machine_qemumips64 ?= "71621ee758600abd3cf7187d7a8e7d51f4052c53"
--SRCREV_machine ?= "c100e8665052051487a17169748c457829d3f88c"
--SRCREV_meta ?= "fba2d0cdb745e0f807ce134fd9d1524b7bed9742"
-+SRCREV_machine_qemuarm ?= "6166316d47b859aa38bfecc61f4808828af03937"
-+SRCREV_machine_qemumips ?= "4ececcc09c6550a0896728163907e729d817c2fd"
-+SRCREV_machine_qemuppc ?= "1cc5b09f8bb7f40b289d149d370c62dcc8109501"
-+SRCREV_machine_qemux86 ?= "38cd560d5022ed2dbd1ab0dca9642e47c98a0aa1"
-+SRCREV_machine_qemux86-64 ?= "02120556b0ebc20c30374ccf211e8e4ceac2bb1c"
-+SRCREV_machine_qemumips64 ?= "737272b1dfd361d9ea19812a9717e2798e3c4576"
-+SRCREV_machine ?= "02120556b0ebc20c30374ccf211e8e4ceac2bb1c"
-+SRCREV_meta ?= "a227f20eff056e511d504b2e490f3774ab260d6f"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ inherit autotools pkgconfig
  
 -- 
-2.1.0
+2.1.3
 
 
