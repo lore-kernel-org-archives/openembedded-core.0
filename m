@@ -1,40 +1,27 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 770C9723A4
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B70572425
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Dec 2014 21:21:22 +0000 (UTC)
-Received: by mail-la0-f46.google.com with SMTP id q1so5040439lam.19
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Dec 2014 13:21:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=+kwgM1C3+L4+dnmBPfIStD5EGh/rKjPDOrW/FHFVD2s=;
-	b=VZBo6uNG9T6ZTmsxP8Dlpyia5jd/dflsFGOCCBhK4y8JVXf47/rkJzwlkzmI1r/TXz
-	G3I+k6IuLih7+Awvp6zAB8RPESyskeIHZSUVHIfoukF/Rp9hvreyjVoDXXmHhadfJUZR
-	shw80zfAYDpDoWiXieHrcxcD+zbJ9TGVLBahbTKPMPThe100OmC9dxodd8yaaKf/gYY3
-	JySSfWurzBBSKeWPJn6tgvyuQneAw8bImRcvq0IxOHkKNfDy8W/8up6mQG9hcCODFKCB
-	VQA8kUVoO07la7uRAtQGGqOo/xHkILzXhUpevNnn3t/hd2htREv6bNlCKd8LCuTqVvw6
-	csDw==
+	Thu, 11 Dec 2014 21:35:28 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 11 Dec 2014 13:35:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,559,1413270000"; d="scan'208";a="636355807"
+Received: from rginat-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.17.183])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Dec 2014 13:35:14 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Trevor Woerner <trevor.woerner@linaro.org>
+Date: Thu, 11 Dec 2014 21:35:13 +0000
+Message-ID: <1836192.Oio3XIGmkc@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.3 (Linux/3.17.4-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <5489F3EC.1090206@linaro.org>
+References: <cover.1416934753.git.paul.eggleton@linux.intel.com>
+	<5489EDA6.1000709@linaro.org> <5489F3EC.1090206@linaro.org>
 MIME-Version: 1.0
-X-Received: by 10.152.238.1 with SMTP id vg1mr12112929lac.83.1418332882254;
-	Thu, 11 Dec 2014 13:21:22 -0800 (PST)
-Received: by 10.112.48.41 with HTTP; Thu, 11 Dec 2014 13:21:22 -0800 (PST)
-In-Reply-To: <CAJTo0LY8B-GOaMbhv4iLZw8XvYLXqRX6ycYjRXv7qP3tc8foaA@mail.gmail.com>
-References: <cover.1418220684.git.bruce.ashfield@windriver.com>
-	<CAJTo0LaGa3ACsL+vLjzUDgEQDDxJ2L2m1WQgj1LHdbzpsJPLUg@mail.gmail.com>
-	<CADkTA4P0XMtSxKop9vqr6SbS8KBmaGuZfKFs7Ej0CsDcqLt4DQ@mail.gmail.com>
-	<1418306324.22903.72.camel@linuxfoundation.org>
-	<1418309772.22903.74.camel@linuxfoundation.org>
-	<CADkTA4MHJm2RpHxSLy3cfVQEKfhMp6WBpJMWL28NByt0qnY4NA@mail.gmail.com>
-	<CAJTo0LY8B-GOaMbhv4iLZw8XvYLXqRX6ycYjRXv7qP3tc8foaA@mail.gmail.com>
-Date: Thu, 11 Dec 2014 16:21:22 -0500
-Message-ID: <CADkTA4OFRgwi8uN4cTFZT9P81bXewhv031ZW4HNom9DOKr1fzg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [v2 PATCH 0/9] kernel: version updates
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 0/7] Developer workflow improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,32 +34,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Dec 2014 21:21:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 11 Dec 2014 21:35:37 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Dec 11, 2014 at 10:35 AM, Burton, Ross <ross.burton@intel.com> wrote:
+On Thursday 11 December 2014 14:43:40 Trevor Woerner wrote:
+> On 12/11/14 14:16, Trevor Woerner wrote:
+> > Oops! (this worked before the "git pull")
+> > 
+> >     $ devtool add xannounce ~/devel/yocto/build/workflow/xannounce/
+> >     NOTE: Creating workspace layer in
+> >     /home/trevor/devel/yocto/build/workflow/build/workspace
+> >     NOTE: Recipe
+> >     /home/trevor/devel/yocto/build/workflow/build/workspace/recipes/xannou
+> >     nce/xannounce.bb has been automatically created; further editing may
+> >     be required to make it fully functional
+> >     
+> >     Traceback (most recent call last):
+> >       File
+> >     
+> >     "/home/trevor/devel/yocto/build/workflow/meta-poky/scripts/devtool",
+> >     line 274, in <module>
+> >     
+> >         ret = main()
+> >       
+> >       File
+> >     
+> >     "/home/trevor/devel/yocto/build/workflow/meta-poky/scripts/devtool",
+> >     line 267, in main
+> >     
+> >         ret = args.func(args, config, basepath, workspace)
+> >       
+> >       File
+> >     
+> >     "/home/trevor/devel/yocto/build/workflow/meta-poky/scripts/lib/devtool
+> >     /standard.py", line 68, in add
+> >     
+> >         _add_md5(config, args.recipename, recipefile)
+> >       
+> >       File
+> >     
+> >     "/home/trevor/devel/yocto/build/workflow/meta-poky/scripts/lib/devtool
+> >     /standard.py", line 218, in _add_md5
+> >     
+> >         md5 = bb.utils.md5_file(filename)
+> >       
+> >       File
+> >     
+> >     "/home/trevor/devel/yocto/build/workflow/meta-poky/bitbake/lib/bb/util
+> >     s.py", line 463, in md5_file
+> >     
+> >         with open(filename, "rb") as f:
+> >     IOError: [Errno 2] No such file or directory:
+> >     '/home/trevor/devel/yocto/build/workflow/build/workspace/recipes/xanno
+> >     unce/xannounce.bb'> 
+> > Sure enough...
+> > 
+> >     $ devtool-workflow> tree workspace/
+> >     workspace/
+> >     
+> >     |-- appends
+> >     |-- conf
+> >     |
+> >     |   `-- layer.conf
+> >     
+> >     `-- recipes
+> >     
+> >         `-- xannounce
+> >     
+> >     4 directories, 1 file
+> > 
+> > whereas before it was:
+> >     $ tree workspace/
+> >     workspace/
+> >     
+> >     |-- appends
+> >     |
+> >     |   `-- xannounce.bbappend
+> >     |
+> >     |-- conf
+> >     |
+> >     |   `-- layer.conf
+> >     
+> >     `-- recipes
+> >     
+> >         `-- xannounce
+> >         
+> >             `-- xannounce.bb
+> >     
+> >     4 directories, 3 files
+> > 
+> > For some reason my recipe and bbappends are not getting created :-(
 >
-> On 11 December 2014 at 15:26, Bruce Ashfield <bruce.ashfield@gmail.com>
-> wrote:
->>
->> Do we want to leave the series as is, and I can send it as an incremental
->> patch, or would you rather it squashed and the branches updated ?
->
->
-> Squash and re-push would be best.
+> bisecting (manually) leads to this commit being safe:
+> 
+> ea50ec527483eb3a094588858baebd5fb23f71c6 devtool: rename deploy/undeploy
+> to deploy-target/undeploy-target
+> 
+> and this one introducing the problem:
+> 
+> 770f203f73f358ce3c6c5ac12fe2775b812bdc6b devtool: fool bitbake into
+> thinking it's outputting to a terminal
 
-Done. Both the zedd/kernel and zedd/kernel-updates are repushed with the patches
-merged.
+Thanks for the quick bisect - I've fixed it so that wrapper is only used when 
+running bitbake through "devtool build", and now "devtool add" works properly 
+again. This is why I should probably write some proper tests before trying to 
+do anything further...
 
-Bruce
-
->
-> Cheers,
-> Ross
-
-
+Cheers,
+Paul
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
