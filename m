@@ -1,27 +1,22 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B70572425
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 59789601A0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Dec 2014 21:35:28 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Dec 2014 13:35:15 -0800
+	Thu, 11 Dec 2014 22:42:01 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 11 Dec 2014 14:42:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,559,1413270000"; d="scan'208";a="636355807"
-Received: from rginat-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.17.183])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Dec 2014 13:35:14 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Trevor Woerner <trevor.woerner@linaro.org>
-Date: Thu, 11 Dec 2014 21:35:13 +0000
-Message-ID: <1836192.Oio3XIGmkc@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.4-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <5489F3EC.1090206@linaro.org>
-References: <cover.1416934753.git.paul.eggleton@linux.intel.com>
-	<5489EDA6.1000709@linaro.org> <5489F3EC.1090206@linaro.org>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 0/7] Developer workflow improvements
+X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="497510248"
+Received: from aehernan-devstation.zpn.intel.com ([10.219.4.147])
+	by orsmga003.jf.intel.com with ESMTP; 11 Dec 2014 14:38:09 -0800
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Dec 2014 16:40:43 -0600
+Message-Id: <4bedbe90e0589179b7c6010818a63596a9502671.1418337489.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1418337489.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1418337489.git.alejandro.hernandez@linux.intel.com>
+Subject: [PATCH 1/1] insane.bbclass: Added QA test for expanded ${D}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,118 +29,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Dec 2014 21:35:37 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 11 Dec 2014 22:42:11 -0000
 
-On Thursday 11 December 2014 14:43:40 Trevor Woerner wrote:
-> On 12/11/14 14:16, Trevor Woerner wrote:
-> > Oops! (this worked before the "git pull")
-> > 
-> >     $ devtool add xannounce ~/devel/yocto/build/workflow/xannounce/
-> >     NOTE: Creating workspace layer in
-> >     /home/trevor/devel/yocto/build/workflow/build/workspace
-> >     NOTE: Recipe
-> >     /home/trevor/devel/yocto/build/workflow/build/workspace/recipes/xannou
-> >     nce/xannounce.bb has been automatically created; further editing may
-> >     be required to make it fully functional
-> >     
-> >     Traceback (most recent call last):
-> >       File
-> >     
-> >     "/home/trevor/devel/yocto/build/workflow/meta-poky/scripts/devtool",
-> >     line 274, in <module>
-> >     
-> >         ret = main()
-> >       
-> >       File
-> >     
-> >     "/home/trevor/devel/yocto/build/workflow/meta-poky/scripts/devtool",
-> >     line 267, in main
-> >     
-> >         ret = args.func(args, config, basepath, workspace)
-> >       
-> >       File
-> >     
-> >     "/home/trevor/devel/yocto/build/workflow/meta-poky/scripts/lib/devtool
-> >     /standard.py", line 68, in add
-> >     
-> >         _add_md5(config, args.recipename, recipefile)
-> >       
-> >       File
-> >     
-> >     "/home/trevor/devel/yocto/build/workflow/meta-poky/scripts/lib/devtool
-> >     /standard.py", line 218, in _add_md5
-> >     
-> >         md5 = bb.utils.md5_file(filename)
-> >       
-> >       File
-> >     
-> >     "/home/trevor/devel/yocto/build/workflow/meta-poky/bitbake/lib/bb/util
-> >     s.py", line 463, in md5_file
-> >     
-> >         with open(filename, "rb") as f:
-> >     IOError: [Errno 2] No such file or directory:
-> >     '/home/trevor/devel/yocto/build/workflow/build/workspace/recipes/xanno
-> >     unce/xannounce.bb'> 
-> > Sure enough...
-> > 
-> >     $ devtool-workflow> tree workspace/
-> >     workspace/
-> >     
-> >     |-- appends
-> >     |-- conf
-> >     |
-> >     |   `-- layer.conf
-> >     
-> >     `-- recipes
-> >     
-> >         `-- xannounce
-> >     
-> >     4 directories, 1 file
-> > 
-> > whereas before it was:
-> >     $ tree workspace/
-> >     workspace/
-> >     
-> >     |-- appends
-> >     |
-> >     |   `-- xannounce.bbappend
-> >     |
-> >     |-- conf
-> >     |
-> >     |   `-- layer.conf
-> >     
-> >     `-- recipes
-> >     
-> >         `-- xannounce
-> >         
-> >             `-- xannounce.bb
-> >     
-> >     4 directories, 3 files
-> > 
-> > For some reason my recipe and bbappends are not getting created :-(
->
-> bisecting (manually) leads to this commit being safe:
-> 
-> ea50ec527483eb3a094588858baebd5fb23f71c6 devtool: rename deploy/undeploy
-> to deploy-target/undeploy-target
-> 
-> and this one introducing the problem:
-> 
-> 770f203f73f358ce3c6c5ac12fe2775b812bdc6b devtool: fool bitbake into
-> thinking it's outputting to a terminal
+Checks in FILES and pkg_* variables, solves common mistake of
 
-Thanks for the quick bisect - I've fixed it so that wrapper is only used when 
-running bitbake through "devtool build", and now "devtool add" works properly 
-again. This is why I should probably write some proper tests before trying to 
-do anything further...
+using ${D} instead of $D and warns the user accordingly.
 
-Cheers,
-Paul
+[YOCTO #6642]
 
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ meta/classes/insane.bbclass | 30 +++++++++++++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 0b45374..8224124 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -34,7 +34,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+             split-strip packages-list pkgv-undefined var-undefined \
+-            version-going-backwards \
++            version-going-backwards expanded_d \
+             "
+ 
+ ALL_QA = "${WARN_QA} ${ERROR_QA}"
+@@ -906,6 +906,34 @@ def package_qa_check_deps(pkg, pkgdest, skip, d):
+ 
+     return sane
+ 
++QAPATHTEST[expanded_d] = "package_qa_check_expanded_d"
++def package_qa_check_expanded_d(path,name,d,elf,messages):
++    """
++    Check for the expanded D (${D}) value in pkg_* and FILES
++    variables, warn the user to use it correctly.
++    """
++
++    sane = True
++    expanded_d = d.getVar('D',True)
++
++    # Get packages for current recipe and iterate
++    packages = d.getVar('PACKAGES', True).split(" ")
++    for pak in packages:
++    # Go through all variables and check if expanded D is found, warn the user accordingly
++        for var in 'FILES','pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm':
++            # Variables are actually var_${PN}
++            bbvar = d.getVar(var + "_" + pak)
++            if bbvar:
++                # Bitbake expands ${D} within bbvar during the previous step, so we check for its expanded value
++                if expanded_d in bbvar:
++                    if var == 'FILES':
++                        messages["expanded_d"] = "FILES should not contain the ${D} variable as it references the local build directory not the target filesystem, best solution is to remove the ${D} reference"
++                        sane = False
++                    else:
++                        messages["expanded_d"] = "%s in %s recipe contains ${D}, it should be replaced by $D instead" % (var, pak)
++                        sane = False
++    return sane
++
+ # The PACKAGE FUNC to scan each package
+ python do_package_qa () {
+     import subprocess
 -- 
+1.9.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
