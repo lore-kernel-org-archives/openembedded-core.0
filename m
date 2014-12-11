@@ -1,29 +1,28 @@
-Return-Path: <tom.zanussi@intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E0FC65CA0
+	by mail.openembedded.org (Postfix) with ESMTP id E5D1265D34
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Dec 2014 16:53:31 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Dec 2014 08:45:21 -0800
+	Thu, 11 Dec 2014 17:22:50 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Dec 2014 09:14:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="427840577"
-Received: from acox1-desk.ger.corp.intel.com (HELO [10.255.13.133])
-	([10.255.13.133])
-	by FMSMGA003.fm.intel.com with ESMTP; 11 Dec 2014 08:34:34 -0800
-Message-ID: <1418316320.4600.4.camel@picadillo>
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Thu, 11 Dec 2014 10:45:20 -0600
-In-Reply-To: <1418309772.22903.74.camel@linuxfoundation.org>
-References: <cover.1418220684.git.bruce.ashfield@windriver.com>
-	<CAJTo0LaGa3ACsL+vLjzUDgEQDDxJ2L2m1WQgj1LHdbzpsJPLUg@mail.gmail.com>
-	<CADkTA4P0XMtSxKop9vqr6SbS8KBmaGuZfKFs7Ej0CsDcqLt4DQ@mail.gmail.com>
-	<1418306324.22903.72.camel@linuxfoundation.org>
-	<1418309772.22903.74.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [v2 PATCH 0/9] kernel: version updates
+X-IronPort-AV: E=Sophos;i="5.07,558,1413270000"; d="scan'208";a="636229145"
+Received: from amoested-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.16.105])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Dec 2014 09:14:14 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Trevor Woerner <trevor.woerner@linaro.org>
+Date: Thu, 11 Dec 2014 17:14:12 +0000
+Message-ID: <4747988.F41N2UaoOI@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.3 (Linux/3.17.4-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <1504553.gLyqLqD1E0@peggleto-mobl5.ger.corp.intel.com>
+References: <cover.1416934753.git.paul.eggleton@linux.intel.com>
+	<5487463A.3030103@linaro.org>
+	<1504553.gLyqLqD1E0@peggleto-mobl5.ger.corp.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 0/7] Developer workflow improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,144 +35,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Dec 2014 16:53:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Dec 2014 17:22:59 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, 2014-12-11 at 14:56 +0000, Richard Purdie wrote:
-> On Thu, 2014-12-11 at 13:58 +0000, Richard Purdie wrote:
-> > On Thu, 2014-12-11 at 03:31 -0500, Bruce Ashfield wrote:
-> > > On Wed, Dec 10, 2014 at 10:02 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> > > >
-> > > > On 10 December 2014 at 14:16, Bruce Ashfield <bruce.ashfield@windriver.com>
-> > > > wrote:
-> > > >>
-> > > >> The following changes since commit
-> > > >> 88dfcbf149dda89277e58ae4ec3a87500624cfff:
-> > > >>
-> > > >>   kernel-yocto: make sure git tags get dereferenced properly in do_patch()
-> > > >> (2014-12-10 08:12:56 -0500)
-> > > >>
-> > > >> are available in the git repository at:
-> > > >>
-> > > >>   git://git.pokylinux.org/poky-contrib HEAD
-> > > >
-> > > >
-> > > > I wonder what happened here!
-> > > 
-> > > @#!$#@$ the script is insane.
-> > > 
-> > > >
-> > > >>
-> > > >> for you to fetch changes up to 4be985be419f06f18c735d72ac4a4d00fea71dd8:
-> > > >>
-> > > >>   linux-yocto/3.14: update to 3.14.26, integrate ltsi and -rt updates
-> > > >> (2014-12-10 08:38:49 -0500)
-> > > >
-> > > >
-> > > > That's zedd/kernel-updates, right?
-> > > >
-> > > 
-> > > Yah. Sorry about the confusion,
+On Wednesday 10 December 2014 17:51:16 Paul Eggleton wrote:
+> On Tuesday 09 December 2014 13:58:02 Trevor Woerner wrote:
+> > On 12/09/14 11:08, Paul Eggleton wrote:
+> > > "devtool build" isn't strictly required in this phase, I added it
+> > > primarily to support future usage in the SDK where the intention is to
+> > > do everything through the devtool command, although that is a usage 
+> > > model that isn't enabled yet. However, it is a convenient shortcut for
+> > > "bitbake -c install <recipename>" (which is all you need to do for
+> > > "devtool deploy" to be able to work.)
 > > 
-> > I've been experimenting, the upgrades look good but we have a problem
-> > with the new kernel class changes.
+> > True, we did talk about this before. All I'm saying is that the colour
+> > feature of bitbake is really nice, useful, and helpful (to visually
+> > parse output) and if we've lost colour because we've wrapped bitbake
+> > with "devtool build" then we're taking a step backwards.
 > > 
-> > The issue is that if you have an existing TMPDIR, the build will do "bad
-> > things".
+> > But I'll concede the point if the future usage in the SDK turns out to
+> > be really helpful. All I'm saying at this point is I have no idea what
+> > this future usage might be or what your ideas are for this step, and for
+> > the time-being (i.e. without knowing or working with this SDK usage)
+> > "devtool build" is a step backwards from "bitbake".
+> 
+> OK, understood. I'll have a think about it.
+
+I've fixed this on the branch; turns out there is an easy way to fool processes 
+into thinking they are connected to a real terminal and thus have bitbake use 
+the normal colour and terminal handling.
+
+> > > "devtool deploy" is not related to do_deploy - it places files for the
+> > > recipe on a nominated target machine without having to worry about
+> > > packaging; we have no other equivalent for this at the moment. Perhaps
+> > > it
+> > > could have a different name in case the naming overlap is confusing.
 > > 
-> > Basically, there is usually an existing sstate manifest file which
-> > covers the kernel source in the sysroot. do_configure will trigger
-> > cleaning of that manifest, a large chunk of the source disappears and
-> > then the build understandably fails.
+> > Ah yes, sorry I forgot... maybe something more explicit like
+> > "deploy_to_target"? ;-)
+> > push_to_target?
+> > upload_to_target?
+> 
+> Hmm, perhaps deploy-target would be more in line with the git-style command
+> naming I've been using.
+
+Fixed on the branch.
+
+> > LICENSE
+> > If the tool that creates the recipe can't find any explicit licensing
+> > information, it leaves LICENCE blank. Would it be better, if there's no
+> > explicit license, to set it to "CLOSED"? Otherwise the first build will
+> > fail and the user will have to figure out what to do in order to get the
+> > recipe to build.
+> 
+> Possibly yes. Ideally people would take an interest in setting this
+> properly, but I do recognise that it's not a high priority when you are
+> just getting started. What might be missing is some kind of modal operation
+> where during initial development you aren't bothered by all of these recipe
+> quality checks, but then when it comes to production the checks are
+> re-enabled.
+
+I've made this change on the branch (with an appropriate warning comment 
+preceding it).
+ 
+> > code updates
+> > Maybe my inexperience with externalsrc is showing through here (I've
+> > never used it before), but as I play with this new feature, I'm testing
+> > it by trying to include a very old project I wrote years ago. As luck
+> > would have it, that project needs updates (it doesn't quite work as-is
+> > in qemux86/core-image-x11). So here I am going through the cycle of
+> > working on its source, and building new images. What I've noticed is
+> > when I create the image I keep getting the same old sources used over
+> > and over from when I first added this project "devtool add" (and it
+> > doesn't matter whether I use bitbake or devtool to build it, it even
+> > keeps using the old sources even when I perform commits in the sources
+> > and even when I perform a "bitbake -c cleansstate <recipe>"!). The only
+> > way I can move forward is to "devtool reset" and then "devtool add".
 > > 
-> > Whilst I can say what is happening, I can't say how we fix it at this
-> > point :/.
-> > 
-> > I would like people to test these patches, we'd better hold off merging
-> > until we can get this issue figured out. Its part of a wider problem
-> > with "stale" data in the sysroot which we really need to figure out but
-> > its not been solved yet as its a  very hard problem for which we don't
-> > have a solution :(.
+> > In my scenario I have a base image I have already built
+> > (core-image-x11). Now I want to add one package to that image from
+> > sources found on my local machine. I also want to go through the cycle
+> > of editing those sources, building a new image, and runqemu'ing the new
+> > image to test my changes. I can't seem to do that without knowing
+> > devtool and/or bitbake magic. I either have to "devtool reset" or I have
+> > to "bitbake -c clean core-image-x11" because just modifying the sources
+> > doesn't cause the image to be regenerated.
 > 
-> After quite some thinking, I've come up with the patch below which
-> should at least allow us to get this patch series merged. Obviously I
-> need to split this up and send it out properly with a decent commit log
-> but I thought I'd share it sooner than later.
-> 
+> It's not supposed to behave this way, although I have reproduced it here - I
+> think I hadn't actually tested rebuilding an image with a recipe in the
+> workspace added to the image. The problem is that the do_compile task is
+> being marked as nostamp, but the way bitbake behaves now, that doesn't
+> cause any dependent task signatures to be changed and thus no dependent
+> tasks get run afterwards. Either I'll have to change that or work out a
+> different way of ensuring do_compile and dependent tasks get run  - either
+> way, you should only have to run a build that calls for the recipe (be it
+> the recipe itself or something that depends upon it), no cleaning/resetting
+> should be needed. I'll try to fix this tomorrow.
 
-I tried this on an old romley build and got this:
+OK, I've fixed this on the branch as well. You should now find that rebuilding 
+the image always triggers a compile -> install -> package etc. of the 
+recipe(s) in the workspace first. (It'll end up triggering other recipes to 
+rebuild as well if they are in the chain; we may have to address that 
+differently later for cases where that's annoying).
 
-http://pastebin.com/WetCnesw
+Cheers,
+Paul
 
-I then switched to nuc using the same tmpdir and that kernel built fine.
+-- 
 
-Note that the romley build uses the 3.10 kernel and the nuc build uses
-the 3.17 kernel - I don't know if that could account for the difference,
-or if it was more due to the fact that I did the romley build first and
-then the nuc, and if I'd done it in the reverse order it would have been
-the nuc failing instead.  Or something else...
-
-Tom
-
-> Cheers,
-> 
-> Richard
-> 
-> 
-> From 2495650e76bdee971645b3049b6e65307e506e09 Mon Sep 17 00:00:00 2001
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Date: Thu, 11 Dec 2014 14:36:05 +0000
-> Subject: sanity: TMPDIR ABI change for kernel process
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> 
-> diff --git a/meta-yocto/conf/distro/poky.conf b/meta-yocto/conf/distro/poky.conf
-> index 72db36d..bea8e04 100644
-> --- a/meta-yocto/conf/distro/poky.conf
-> +++ b/meta-yocto/conf/distro/poky.conf
-> @@ -94,7 +94,7 @@ BB_SIGNATURE_HANDLER ?= 'OEBasicHash'
->  # that breaks the format and have been previously discussed on the mailing list 
->  # with general agreement from the core team.
->  #
-> -OELAYOUT_ABI = "8"
-> +OELAYOUT_ABI = "10"
->  
->  # add poky sanity bbclass
->  INHERIT += "poky-sanity"
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 5be5efb..71fd2e9 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -519,6 +519,16 @@ def sanity_handle_abichanges(status, d):
->              status.addresult("Your configuration is using stamp files including the sstate hash but your build directory was built with stamp files that do not include this.\nTo continue, either rebuild or switch back to the OEBasic signature handler with BB_SIGNATURE_HANDLER = 'OEBasic'.\n")
->          elif (abi != current_abi and current_abi == "9"):
->              status.addresult("The layout of the TMPDIR STAMPS directory has changed. Please clean out TMPDIR and rebuild (sstate will be still be valid and reused)\n")
-> +        elif (abi != current_abi and current_abi == "10" and (abi == "8" or abi == "9")):
-> +            bb.note("Converting staging layout from version 8/9 to layout version 10")
-> +            cmd = d.expand("grep -l sysroot-providers/virtual_kernel ${SSTATE_MANIFESTS}/*")
-> +            ret, result = oe.utils.getstatusoutput(cmd)
-> +            result = result.split()
-> +            for f in result:
-> +                bb.note("Uninstalling manifest file %s" % f)
-> +                sstate_clean_manifest(f, d)
-> +            with open(abifile, "w") as f:
-> +                f.write(current_abi)
->          elif (abi != current_abi):
->              # Code to convert from one ABI to another could go here if possible.
->              status.addresult("Error, TMPDIR has changed its layout version number (%s to %s) and you need to either rebuild, revert or adjust it at your own risk.\n" % (abi, current_abi))
-> diff --git a/meta/conf/abi_version.conf b/meta/conf/abi_version.conf
-> index e8cf9a3..2867850 100644
-> --- a/meta/conf/abi_version.conf
-> +++ b/meta/conf/abi_version.conf
-> @@ -4,4 +4,4 @@
->  # that breaks the format and have been previously discussed on the mailing list 
->  # with general agreement from the core team.
->  #
-> -OELAYOUT_ABI = "9"
-> +OELAYOUT_ABI = "10"
-> 
-> 
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
