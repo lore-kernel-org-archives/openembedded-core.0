@@ -1,26 +1,39 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 474417226C
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A4C365D59
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Dec 2014 10:27:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBBAReST011515
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 11 Dec 2014 02:27:40 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 11 Dec 2014 02:27:39 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
-	<paul.eggleton@linux.intel.com>
-Date: Thu, 11 Dec 2014 18:27:25 +0800
-Message-ID: <0745844a642f89d50f01a28d5f1fbeb5b71de547.1418293391.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1418293391.git.hongxu.jia@windriver.com>
-References: <cover.1418293391.git.hongxu.jia@windriver.com>
+	Thu, 11 Dec 2014 10:45:58 +0000 (UTC)
+Received: by mail-yk0-f177.google.com with SMTP id 9so2040547ykp.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Dec 2014 02:45:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=XEkJoom8QMhuZPtBMDxQYc+kF9I3+cEKL/UOjE0D/YE=;
+	b=lNpvydpqVuJyqNLd8N6L0ip4buY182IXkJM77mwI2jJOQ4BkiDQp5EKo6vCznkP01q
+	Qr6iIlpcHCrU68vnZlHi29uN1eNeY2kKaadknZti4hKTJbCQivXHihHDMK1B38LqGkJj
+	5hdJqZfpfrf2bigHKHOFxj7QWiUIrpr0GftF/NF+ld/yJjQX335mO0k+mFzdSjUmaI28
+	r2zRf4r9iTJs/G53RktROAtldBuUr5Ingi2yvvCWUyGhJ5pWb7hwoiClEKPiQG1NcTnx
+	ceOnKgJ+BPLP3emSL8lOPZbURphWHHAX+NrahKpo7t3fBS0Ff4a4w2C5RUEf/DGHcMR0
+	F2vQ==
 MIME-Version: 1.0
-Subject: [PATCH 4/4] busybox.inc: fix QA package-missing warnings
+X-Received: by 10.236.39.139 with SMTP id d11mr6715452yhb.90.1418294759188;
+	Thu, 11 Dec 2014 02:45:59 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.171.132 with HTTP; Thu, 11 Dec 2014 02:45:59 -0800 (PST)
+In-Reply-To: <BY2PR03MB44187D33B5EB91410C3C74C84630@BY2PR03MB441.namprd03.prod.outlook.com>
+References: <1417672165-6155-1-git-send-email-B40290@freescale.com>
+	<CAP9ODKpHKqsGyss0VaHzr9sAV-LqELrVBDW-o49Lv5EO0rPuHQ@mail.gmail.com>
+	<BY2PR03MB44187D33B5EB91410C3C74C84630@BY2PR03MB441.namprd03.prod.outlook.com>
+Date: Thu, 11 Dec 2014 08:45:59 -0200
+X-Google-Sender-Auth: s34cibKSyozX27_JiuNxW6tqmvs
+Message-ID: <CAP9ODKqnvTR+OPA27Fsir1bj7C3yiw-kvhxRTS_i39K3qyeGwQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "B40290@freescale.com" <B40290@freescale.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 2/2] u-boot.inc : add compile multiple u-boot feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +46,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Dec 2014 10:27:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Dec 2014 10:45:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-While building busybox with QA package-missing checking enabled,
-there was warning:
+On Thu, Dec 11, 2014 at 1:34 AM, B40290@freescale.com
+<B40290@freescale.com> wrote:
+> Hello Otavio,
+> Sorry for my late reply.
+> Thanks  for  your review .
+> I have submitted  v4  of  the  patchest.
+>
 ...
-WARNING: QA Issue: package busybox-mdev not generated, but listed in PACKAGES
-WARNING: QA Issue: package busybox-httpd not generated, but listed in PACKAGES
-...
 
-The config in ${B}/.config decides to generate busybox-mdev,
-busybox-httpd or not. Files are copied if the packages generated.
-So set PACKAGES in do_package according to the existance of files.
+Comments below...
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-core/busybox/busybox.inc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+>>      if [ "x${UBOOT_ENV}" != "x" ]
+>>      then
+>> @@ -93,21 +100,36 @@ do_install () {
+>>  FILES_${PN} = "/boot ${sysconfdir}"
+>>
+>>  do_deploy () {
+>> -    install -d ${DEPLOYDIR}
+>> -    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+>> -
+>> -    cd ${DEPLOYDIR}
+>> -    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
+>> -    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
+>> -    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
+>> -
+>> -    if [ "x${SPL_BINARY}" != "x" ]
+>> -    then
+>> -        install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
+>> -        rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
+>> -        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
+>> -        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
+>> -    fi
+>> +    for type in ${UBOOT_MACHINE}; do
+>> +        for imagetype in in ${UBOOT_CONFIG}; do
+>> +            if [ "${imagetype}"x = "in"x ]
+>> +            then
+>> +                continue
+>> +            fi
+>> +            if [ -d "${DEPLOYDIR}/u-boot-${imagetype}.${UBOOT_SUFFIX}"]
+>> +            then
+>> +                break
+>> +            else
+>> +                install -d ${DEPLOYDIR}
+>> +                install ${S}/${type}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${imagetype}.${UBOOT_SUFFIX}
+>> +                if [ "${imagetype}"x = "sd"x ] || [ "${imagetype}"x = "mfgtool"x ]
+>> +                then
+>> +                    cp  ${DEPLOYDIR}/u-boot-${imagetype}.${UBOOT_SUFFIX}  ${DEPLOYDIR}/u-boot-${MACHINE}.${UBOOT_SUFFIX}
+>> +                fi
+>> +            fi
+>
+> Way nicer (and should have some similar code on the install and compile tasks) however I didn't get why you're adding the 'sd' or 'mfgtool' specific case here. This is a FSL specific thing and shouldn't be part of OE-Core.
+>
+> [ I use default link of last type uboot  of "UBOOT_CONFIG"   to fix the following error:
+>
+> * difficulty to figure the binary when generating the rootfs: in meta-fsl-arm, for example, we generate the .sdcard rootfs and using the patch we now have...
+>
+> ERROR: Error: The image creation script
+> '.../tmp/work/imx6qsabresd-oel-linux-gnueabi/core-image-minimal/1.0-r0/temp/create_image.sdcard'
+>
+> ]
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index bd66e4f..23115ae 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -314,6 +314,16 @@ python () {
- }
- 
- python do_package_prepend () {
-+    if not os.path.exists(d.expand("${D}${sysconfdir}/init.d/busybox-httpd")):
-+        packages = (d.getVar('PACKAGES', True) or '').split()
-+        packages.remove(d.expand('${PN}-httpd'))
-+        d.setVar('PACKAGES', ' '.join(packages))
-+
-+    if not os.path.exists(d.expand("${D}${sysconfdir}/init.d/mdev")):
-+        packages = (d.getVar('PACKAGES', True) or '').split()
-+        packages.remove(d.expand('${PN}-mdev'))
-+        d.setVar('PACKAGES', ' '.join(packages))
-+
-     # We need to load the full set of busybox provides from the /etc/busybox.links
-     # Use this to see the update-alternatives with the right information
- 
+Right I am wondering if we ought to do this or not. This is a FSL
+specific code and I will try to think in a way to improve it at
+meta-fsl-arm side ...
+
 -- 
-1.9.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
