@@ -1,36 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id D177B65C9F;
-	Thu, 11 Dec 2014 09:23:28 +0000 (UTC)
-Received: by mail-wi0-f169.google.com with SMTP id r20so802137wiv.0;
-	Thu, 11 Dec 2014 01:23:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=rtWX5moOjfODPEOSrdwOUI5JBGuGQCQSyS1ml5jqTJE=;
-	b=Nzg0GQSjJkzzhteAA+1I5+WI5DhxF4OR6NFBaxoGIS21tav7lbL70rMS54Uc4l9YbD
-	v9BHWbAVBozd+WpkHWumwPq6tF7uqyZjfY/Y52IUKJ7oa8EwfQYAWy3QtLL4dMddkqmP
-	YWYFbq/ddIh3SkCnXXZmGhgfPkX0bzxgcblsLeYFsjvNYbuNK2KNPVAJwpfOidSKc7rT
-	/6LFq/dUherwPghWz7wjSao9syjPozTZEJL/v+AJM9Jknqv0EvKrQBFgN9GqpMFFUxfs
-	yunK/Fx2MmQsx36IjVKuLAi3fAvKC+BShS2nzv15eo9ysGvgZ/61Zr5EsYRjxxCSX9ew
-	P2qw==
-X-Received: by 10.180.109.46 with SMTP id hp14mr14232132wib.54.1418289809157; 
-	Thu, 11 Dec 2014 01:23:29 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	mw7sm1534290wib.14.2014.12.11.01.23.28 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 11 Dec 2014 01:23:28 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 11 Dec 2014 10:23:32 +0100
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20141211092332.GA2467@jama>
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F22B65D3B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Dec 2014 10:27:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBBARVwY005804
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 11 Dec 2014 02:27:31 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 11 Dec 2014 02:27:31 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
+	<paul.eggleton@linux.intel.com>
+Date: Thu, 11 Dec 2014 18:27:21 +0800
+Message-ID: <cover.1418293391.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: State of bitbake world, test-dependencies 2014-12-11
+Subject: [PATCH 0/4] insane.bbclass: add QA check: package-missing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,75 +31,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Dec 2014 09:23:30 -0000
-X-Groupsio-MsgNum: 60429
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="sm4nu43k4a2Rpi4c"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 11 Dec 2014 10:27:38 -0000
+Content-Type: text/plain
 
---sm4nu43k4a2Rpi4c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We also tried to fix perl, linux-libc-headers and busybox according to
+the result of QA checking.
 
-On Sat, Aug 09, 2014 at 11:01:10AM +0200, Martin Jansa wrote:
-> Complete logs:
-> http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20140808_=
-063907.log/
->=20
-> ERROR: 483 issues were found in these recipes: directfb engrave epiphany =
-expedite gd gmtk gnome-disk-utility gst-ffmpeg guile leptonica libarchive l=
-ibmicrohttpd libmikmod libungif libwebp libwmf mariadb midori mpd mpeg2dec =
-mpg123 openal-soft opendataplane oscam piglit protobuf snort sox stunnel sy=
-nergy tesseract tracker
+Here is a test to explain what the QA check showing, we could figure out 
+package missing issue at package generation time rather than do_rootfs
+time.
 
-Complete logs;
-http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20141210_16=
-2427.log/
+Test Steps:
 
-This was only partial build, so the results don't look so bad.
-ERROR: 27 issues were found in these recipes: android-audiosystem
-collectd fbida gnome-bluetooth gst-plugins-bad mongodb opencv
-polkit-gnome qtbase tcpdump udisks xbmc xfce4-vala
+1. Edit xz and gzip recipe, to simulate a package missing situation (the manually added
+rdepends is not real but):
+..............
+diff --git a/meta/recipes-extended/gzip/gzip.inc b/meta/recipes-extended/gzip/gzip.inc
+index 671b1eb..7e643e5 100644
+--- a/meta/recipes-extended/gzip/gzip.inc
++++ b/meta/recipes-extended/gzip/gzip.inc
+@@ -32,3 +32,8 @@ ALTERNATIVE_LINK_NAME[gzip] = "${base_bindir}/gzip"
+ ALTERNATIVE_LINK_NAME[zcat] = "${base_bindir}/zcat"
+ 
+ export CONFIG_SHELL="/bin/sh"
++
++PACKAGES =+ "${PN}-missing1 ${PN}-missing2"
++FILES_${PN}-missing1 = ""
++FILES_${PN}-missing2 = ""
++RPROVIDES_${PN}-missing1 = "${PN}-missing"
+diff --git a/meta/recipes-extended/xz/xz_5.1.3alpha.bb b/meta/recipes-extended/xz/xz_5.1.3alpha.bb
+index 168e383..c5d8b57 100644
+--- a/meta/recipes-extended/xz/xz_5.1.3alpha.bb
++++ b/meta/recipes-extended/xz/xz_5.1.3alpha.bb
+@@ -37,6 +37,9 @@ FILES_liblzma-dev = "${includedir}/lzma* ${libdir}/liblzma*${SOLIBSDEV} ${libdir
+ FILES_liblzma-staticdev = "${libdir}/liblzma.a"
+ FILES_liblzma-dbg = "${libdir}/.debug/liblzma*"
+ 
++
++RDEPENDS_${PN}_class-target += "gzip-missing gzip-missing2"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ export CONFIG_SHELL="/bin/sh"
+..............
 
-Found differences:=20
-WARN: collectd: collectd rdepends on libcrypto, but it isn't a build depend=
-ency?
-WARN: collectd: collectd rdepends on libesmtp, but it isn't a build depende=
-ncy?
-WARN: collectd: collectd rdepends on libssl, but it isn't a build dependenc=
-y?
-WARN: fbida: fbida rdepends on libwebp, but it isn't a build dependency?
-WARN: gst-plugins-bad: gst-plugins-bad-meta rdepends on gst-plugins-bad-rtm=
-p, but it isn't a build dependency?
-WARN: opencv: libopencv-highgui rdepends on jasper, but it isn't a build de=
-pendency?
-WARN: opencv: libopencv-highgui rdepends on libdc1394, but it isn't a build=
- dependency?
-WARN: qtbase: qtbase-plugins rdepends on cups-lib, but it isn't a build dep=
-endency?
-WARN: tcpdump: tcpdump rdepends on libsmi, but it isn't a build dependency?
-WARN: udisks: udisks rdepends on lvm2, but it isn't a build dependency?
+2. Vim local.conf
+...
+IMAGE_INSTALL_append = " xz"
+WARN_QA_append = " package-missing"
+...
 
-Found errors:=20
-ERROR: gst-plugins-bad: gst-plugins-bad-rtmp package isn't created when bui=
-lding with minimal dependencies?
-ERROR: gst-plugins-bad: gst-plugins-bad-rtmp-dev package isn't created when=
- building with minimal dependencies?
+3. bitbake core-image-minimal
+..............
+|WARNING: QA Issue: package gzip-missing1 not generated, but listed in PACKAGES
+|Compute rdepends chains, '-->' means 'runtime depends'
+|("gzip-missing1" rprovides "gzip-missing")
+|"xz" -> "gzip-missing"
+| [package-missing]
+|WARNING: QA Issue: package gzip-missing2 not generated, but listed in PACKAGES
+|Compute rdepends chains, '-->' means 'runtime depends'
+|"xz" -> "gzip-missing2"
+| [package-missing]
+|ERROR: Unable to install packages. Command '/home/jiahongxu/yocto/build-2014120
+2-mips/tmp/sysroots/x86_64-linux/usr/bin/smart --quiet --data-dir=/home/jiahongx
+u/yocto/build-20141202-mips/tmp/work/qemumips-poky-linux/core-image-minimal/1.0
+-r0/rootfs/var/lib/smart install -y xz@mips32r2 run-postinsts@all packagegroup-
+core-boot@qemumips' returned 1:
+error: Can't install xz-5.1.3alpha-r0@mips32r2: no package provides gzip-missing
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---sm4nu43k4a2Rpi4c
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+|ERROR: Function failed: do_rootfs
+|ERROR: Logfile of failure stored in: /home/jiahongxu/yocto/build-20141202-mips/
+tmp/work/qemumips-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.24338
+|ERROR: Task 7 (/home/jiahongxu/yocto/poky/meta/recipes-core/images/core-image-
+minimal.bb, do_rootfs) failed with exit code '1'
+..............
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+//Hongxu
 
-iEYEARECAAYFAlSJYpQACgkQN1Ujt2V2gBy8vACguv8gJU7R9VXp18A1LR4WJwt3
-tdIAnAk6OosQQhWUOIeRd350563Ict0v
-=Zo46
------END PGP SIGNATURE-----
+The following changes since commit ec6377bcf52d105cd23ac6bbbeddd38fee9337e4:
 
---sm4nu43k4a2Rpi4c--
+  bitbake: bitbake-user-manual-metadata.xml: Updated do_package_write example (2014-12-09 22:25:36 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/package-missing
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/package-missing
+
+Hongxu Jia (4):
+  insane.bbclass: add QA check: package-missing
+  perl_5.20.0: fix QA package-missing warnings
+  linux-libc-headers.inc: fix QA package-missing warnings
+  busybox.inc: fix QA package-missing warnings
+
+ meta/classes/insane.bbclass                        | 93 +++++++++++++++++++++-
+ meta/recipes-core/busybox/busybox.inc              | 10 +++
+ meta/recipes-devtools/perl/perl_5.20.0.bb          | 11 +--
+ .../linux-libc-headers/linux-libc-headers.inc      |  2 +
+ 4 files changed, 110 insertions(+), 6 deletions(-)
+
+-- 
+1.9.1
+
+
