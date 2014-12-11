@@ -1,27 +1,39 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 77E8972425
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Dec 2014 11:42:06 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Dec 2014 03:42:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,557,1413270000"; d="scan'208";a="646002775"
-Received: from amoested-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.16.105])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Dec 2014 03:42:06 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Sona Sarmadi <sona.sarmadi@enea.com>
-Date: Thu, 11 Dec 2014 11:42:05 +0000
-Message-ID: <2124477.a3meRqLHOW@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.4-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <3230301C09DEF9499B442BBE162C5E48257CB01F@sestoex09.enea.se>
-References: <3230301C09DEF9499B442BBE162C5E48257CB01F@sestoex09.enea.se>
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id BC94E65D3B;
+	Thu, 11 Dec 2014 12:14:14 +0000 (UTC)
+Received: by mail-wg0-f48.google.com with SMTP id y19so6215264wgg.7
+	for <multiple recipients>; Thu, 11 Dec 2014 04:14:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=qEnEpS4t6PX6S3jXEnMA8QSKBKi1PN7lXbRcplUgA/M=;
+	b=rMo8vQWDpcXJFKSYjncEfglH2ijtwJ7YrH3UK5OdcEXuyEQ0heAOElUUlpd1LC4QTi
+	iw6l2KVaArRlMh0tZgLpC50WHLQfd0hdCqAvnalNBWoLysWZwm76+mVtA2xF4ghCrpPo
+	5wivY2mrhFtQvj0zx1H4wa3fxYmG77SdfkT5RMKK1/L2Zpz4s6JOntxEcnv4R8OW2O4U
+	WsxDIpC8AgB5OCAWMgb+3hv/iFP9wK2p37rSLqNKTdCydjZ7p09zFUDHpBaNRpWDVFyz
+	fCc4F4ZYmowtYF8/P7jzTSONYZXAn4TLL+xkABeEWmgblaJ973pX2bZFxZ3+twN9B6xd
+	Sb7g==
+X-Received: by 10.180.228.37 with SMTP id sf5mr22549511wic.35.1418300054694;
+	Thu, 11 Dec 2014 04:14:14 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	jp3sm2729979wid.9.2014.12.11.04.14.13 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 11 Dec 2014 04:14:13 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 11 Dec 2014 13:14:17 +0100
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20141211121417.GB2467@jama>
+References: <20141211092332.GA2467@jama>
+	<CAJTo0LYwYW40XvxNN=rY4z6fK+4NJ2ZFxa2xsUvuspERa_MT+A@mail.gmail.com>
 MIME-Version: 1.0
-Cc: Maxin John <Maxin.John@enea.com>,
-	'OE-core' <openembedded-core@lists.openembedded.org>
-Subject: Re: [daisy][PATCH] python: Building without SSLv3 support , The POODLE Bites Again
+In-Reply-To: <CAJTo0LYwYW40XvxNN=rY4z6fK+4NJ2ZFxa2xsUvuspERa_MT+A@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE-devel <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] State of bitbake world, test-dependencies 2014-12-11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,61 +46,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Dec 2014 11:42:11 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 11 Dec 2014 12:14:17 -0000
+X-Groupsio-MsgNum: 60440
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Bn2rw/3z4jIqBvZU"
+Content-Disposition: inline
 
-On Tuesday 09 December 2014 14:38:53 Sona Sarmadi wrote:
-> > I think we should apply the patch now anyway; we'll want to know that it
-> > works for backports to the stable branch(es), and in any case the upgrade
-> > to 2.7.9 is not going to be a straightforward task based upon my earlier
-> > attempt to upgrade to 2.7.6 (the current state of which is still in
-> > paule/python276-wip in poky-contrib).
-> 
-> I have applied this patch in master and have run some tests to verify that 
-> Sslv3 is really disabled.  It seems that SSLv3 still is enabled. I am
-> running more tests to find out why SSLv3 is not disabled and what more
-> needs to be done. 
-> SSLv2 is disabled already, if we manage to disable SSLV3 then I guess we
-> need to disable SSLv23 as well ??!
+--Bn2rw/3z4jIqBvZU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm not sure of that. It seems that SSLv23 is the default even in 2.7.9. I'm 
-unclear on whether that is an issue or not based on what I can find.
+On Thu, Dec 11, 2014 at 11:13:51AM +0000, Burton, Ross wrote:
+> On 11 December 2014 at 09:23, Martin Jansa <martin.jansa@gmail.com> wrote:
+>=20
+> > WARN: gst-plugins-bad: gst-plugins-bad-meta rdepends on
+> > gst-plugins-bad-rtmp, but it isn't a build dependency?
+> > ERROR: gst-plugins-bad: gst-plugins-bad-rtmp package isn't created when
+> > building with minimal dependencies?
+> > ERROR: gst-plugins-bad: gst-plugins-bad-rtmp-dev package isn't created
+> > when building with minimal dependencies?
+> >
+>=20
+> Coincidently last night my world run gave me warnings that
+> gst-plugins-bad-rtmp was depending on rtmpdump without a build depends, so
+> I've copied the PACKAGECONFIG[rtmp] from gstreamer1.0-plugins-bad to
+> gst-plugins-bad.  Presumably this will fix these errors, although that
+> warning seems odd.
 
-> I think we should consider (start looking at upgrading to python 2.7.9 in
-> master), to address this issue. I feel uncomfortable with this Debian
-> patch. It seems that  we need to do more manual changes in order to make
-> this work. I will soon update the bug 7015 with my test results. 
+Why odd? It just means that gst-plugins-bad-rtmp* packages aren't
+created at all when rtmp isn't autodetected.
 
-We definitely do need to do this upgrade, yes; but we'd also like to have a fix 
-for older versions too. FWIW I've just entered an enhancement bug to cover 
-this for master; at the moment I'm not sure who will end up doing it but I 
-thought we should have something to track it since it's not a trivial piece of 
-work:
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=7059
+--Bn2rw/3z4jIqBvZU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-(Richard is nominally the maintainer of the recipe, but I suspect he has his 
-hands pretty much full with everything else that's going on.)
- 
-> While testing this issue a new vulnerability was released yesterday :
-> Incorrect TLS padding may be accepted when terminating TLS 1.x CBC cipher
-> connections. (CVE-2014-8730)
-> 
-> https://support.f5.com/kb/en-us/solutions/public/15000/800/sol15882.html 
-> https://community.qualys.com/blogs/securitylabs/2014/12/08/poodle-bites-tls
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-Yes, they never stop coming :(
+iEYEARECAAYFAlSJipkACgkQN1Ujt2V2gByFHgCfR89MNJWBJxTehvS4BMK6+NrM
+RAAAoJVW7tUsJRIB8SN5XRbiPhuY/wEw
+=1HKl
+-----END PGP SIGNATURE-----
 
-From my digging though I can't seem to find anything specifying any versions of 
-open source software that need fixing for this new vulnerability, only 
-proprietary software. Did you find anything?
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+--Bn2rw/3z4jIqBvZU--
