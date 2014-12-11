@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9567071F1F
+	by mail.openembedded.org (Postfix) with ESMTP id 474417226C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Dec 2014 10:27:36 +0000 (UTC)
+	Thu, 11 Dec 2014 10:27:41 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBBARYpo011509
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBBAReST011515
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 11 Dec 2014 02:27:34 -0800 (PST)
+	Thu, 11 Dec 2014 02:27:40 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 11 Dec 2014 02:27:33 -0800
+	14.3.174.1; Thu, 11 Dec 2014 02:27:39 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
 	<paul.eggleton@linux.intel.com>
-Date: Thu, 11 Dec 2014 18:27:22 +0800
-Message-ID: <cf0fb5e156cda7ef2fc1a6149432ae441efff2f7.1418293391.git.hongxu.jia@windriver.com>
+Date: Thu, 11 Dec 2014 18:27:25 +0800
+Message-ID: <0745844a642f89d50f01a28d5f1fbeb5b71de547.1418293391.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1418293391.git.hongxu.jia@windriver.com>
 References: <cover.1418293391.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] insane.bbclass: add QA check: package-missing
+Subject: [PATCH 4/4] busybox.inc: fix QA package-missing warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,143 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Dec 2014 10:27:38 -0000
+X-List-Received-Date: Thu, 11 Dec 2014 10:27:42 -0000
 Content-Type: text/plain
 
-During packaging, check if there are any dependencies (RDEPENDS)
-on packages that have ended up empty and not produced; and if so
-produce an warn/error as soon as possible, instead of allowing
-the build to proceed up to do_rootfs and then the package manager
-reporting the package as missing.
+While building busybox with QA package-missing checking enabled,
+there was warning:
+...
+WARNING: QA Issue: package busybox-mdev not generated, but listed in PACKAGES
+WARNING: QA Issue: package busybox-httpd not generated, but listed in PACKAGES
+...
 
-At the moment, we use bb.persist_data as a global database to
-collect all available packages rdepends and rprovides. So in the
-do_package_qa task, while package not produced, we could compute
-rdepends chain, and report warn/error immediately.
-
-[YOCTO #5531]
-[YOCTO #6420]
+The config in ${B}/.config decides to generate busybox-mdev,
+busybox-httpd or not. Files are copied if the packages generated.
+So set PACKAGES in do_package according to the existance of files.
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes/insane.bbclass | 93 ++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 92 insertions(+), 1 deletion(-)
+ meta/recipes-core/busybox/busybox.inc | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 0b45374..a0eff37 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -29,7 +29,7 @@ QA_SANE = "True"
- WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
-             textrel already-stripped incompatible-license files-invalid \
-             installed-vs-shipped compile-host-path install-host-path \
--            pn-overrides infodir build-deps file-rdeps \
-+            pn-overrides infodir build-deps file-rdeps package-missing \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -868,6 +868,15 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                             (pkg, ', '.join(str(e) for e in filerdepends))
-                 sane = package_qa_handle_error("file-rdeps", error_msg, d)
- 
-+        if "package-missing" not in skip and \
-+               not pkg.endswith("-dev") and not pkg.endswith("-staticdev") and \
-+               not pkg.endswith("-locale") and not pkg.endswith("-dbg") and \
-+               not pkg.endswith("-doc"):
-+            if not oe.packagedata.packaged(pkg, d):
-+                error_msg = "package %s not generated, but listed in PACKAGES\n" % pkg
-+                error_msg += compute_rdepends_chain(pkg, d)
-+                sane = package_qa_handle_error("package-missing", error_msg, d)
-+
-     return sane
- 
- def package_qa_check_deps(pkg, pkgdest, skip, d):
-@@ -1152,3 +1161,85 @@ python () {
-     for i in issues:
-         package_qa_handle_error("pkgvarcheck", "%s: Variable %s is set as not being package specific, please fix this." % (d.getVar("FILE", True), i), d)
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index bd66e4f..23115ae 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -314,6 +314,16 @@ python () {
  }
+ 
+ python do_package_prepend () {
++    if not os.path.exists(d.expand("${D}${sysconfdir}/init.d/busybox-httpd")):
++        packages = (d.getVar('PACKAGES', True) or '').split()
++        packages.remove(d.expand('${PN}-httpd'))
++        d.setVar('PACKAGES', ' '.join(packages))
 +
-+# Add a handler to collect all available packages rdepends and rprovides
-+# to a global database (bb.persist_data). So the recipe could find out
-+# which others rdepends on it. We filter out "-dev, -staticdev, -locale,
-+# -dbg, -doc" packages.
-+# Such as:
-+# RDEPENDS_pkg1 = "pkg2 pkg3"
-+# RDEPENDS_pkg4 = "pkg3 pkg5"
-+# equals:
-+# rdeps_dict = {'pkg2': 'pkg1', 'pkg3': 'pkg1 pkg4', 'pkg5':'pkg4'}
-+#
-+# RPROVIDES_pkg6 = "pkg2 pkg7"
-+# RPROVIDES_pkg7 = "pkg5"
-+# equals:
-+# rprovides_dict = {'pkg6': 'pkg2 pkg7', 'pkg7': 'pkg5'}
-+python collect_package_rdepends_handler () {
-+    d = e.data
-+    pkgs = []
-+    for pkg in (d.getVar('PACKAGES', True) or '').split():
-+        if pkg.endswith("-dev") or pkg.endswith("-staticdev") or \
-+           pkg.endswith("-locale") or pkg.endswith("-dbg") or \
-+           pkg.endswith("-doc"):
-+            continue
-+        pkgs.append(pkg)
++    if not os.path.exists(d.expand("${D}${sysconfdir}/init.d/mdev")):
++        packages = (d.getVar('PACKAGES', True) or '').split()
++        packages.remove(d.expand('${PN}-mdev'))
++        d.setVar('PACKAGES', ' '.join(packages))
 +
-+    if not pkgs:
-+        return
-+
-+    rdeps_dict = bb.persist_data.persist('BB_RDEPENDED_CHAIN', d)
-+    for pkg in pkgs:
-+        rdeps = (d.getVar('RDEPENDS_%s' % pkg, True) or "").split()
-+        for rdep in rdeps:
-+            # Filter out pkg which rdepends itself
-+            if pkg == rdep:
-+                continue
-+
-+            if rdep in rdeps_dict and pkg not in rdeps_dict[rdep].split():
-+                rdeps_dict[rdep] += ' %s' % pkg
-+            elif rdep not in rdeps_dict:
-+                rdeps_dict[rdep] = '%s' % pkg
-+
-+    rprovides_dict = bb.persist_data.persist('BB_RPROVIDES_CHAIN', d)
-+    for pkg in pkgs:
-+        rprovides = (d.getVar('RPROVIDES_%s' % pkg, True) or "").split()
-+        if rprovides:
-+            rprovides_dict[pkg] = ' '.join(set(rprovides))
-+}
-+addhandler collect_package_rdepends_handler
-+collect_package_rdepends_handler[eventmask] = "bb.event.RecipeParsed"
-+
-+def compute_rdepends_chain(pkg, d):
-+    rdeps_dict = bb.persist_data.persist('BB_RDEPENDED_CHAIN', d)
-+    rprovides_dict = bb.persist_data.persist('BB_RPROVIDES_CHAIN', d)
-+
-+    def get_parents(pkg):
-+        parents = []
-+        message = ""
-+
-+        if pkg not in rdeps_dict and pkg in rprovides_dict:
-+            for rprovide in rprovides_dict[pkg].split():
-+                # Use rprovide to instead of pkg
-+                if rprovide in rdeps_dict:
-+                    message = '("%s" rprovides "%s")\n' % (pkg, rprovide)
-+                    pkg = rprovide
-+                    break
-+
-+        if pkg in rdeps_dict:
-+            parents = rdeps_dict[pkg].split()
-+            for parent in parents:
-+                message += '"%s" -> "%s"\n' % (parent, pkg)
-+
-+            for parent in parents:
-+                message += get_parents(parent)
-+
-+        return message
-+
-+    message = get_parents(pkg)
-+    if message:
-+        message = "Compute rdepends chains, '-->' means 'runtime depends'\n" \
-+                  + message
-+    return message
-+
+     # We need to load the full set of busybox provides from the /etc/busybox.links
+     # Use this to see the update-alternatives with the right information
+ 
 -- 
 1.9.1
 
