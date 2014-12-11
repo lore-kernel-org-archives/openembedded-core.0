@@ -1,35 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BA8D60673
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Dec 2014 08:31:22 +0000 (UTC)
-Received: by mail-lb0-f179.google.com with SMTP id z11so3656550lbi.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Dec 2014 00:31:21 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id D177B65C9F;
+	Thu, 11 Dec 2014 09:23:28 +0000 (UTC)
+Received: by mail-wi0-f169.google.com with SMTP id r20so802137wiv.0;
+	Thu, 11 Dec 2014 01:23:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=xSdNwWpI+9ykQ4RKKtyIeSawBK25kUVJ4iauz6z7feI=;
-	b=jOXoqnzSfycjIjnxA2Y/Z8mkjXM+BQpkd3eSj1vBHKu4XDmzhHo3PWUBS7lfWmYA0K
-	3MS5W8zh4WyGwbG9Y29Kd/SIMlPQZqWLlnllEvI8UT0tE1MJZeyge/j5DjP6qLtRFo+w
-	Zn+9231ardt40IBXRVznyL2YDFPJUxWKOhV6BHUfG3V/Jf/FvUaPImxVgCICt+OEzKY5
-	fLp3SXwZexv1QsV/qXi7KpG1h2kc4mWzu7xxqULfJggOPv3ZY7jV3fYX/sz7c/R0qvlP
-	5iYL5MFqnJnWiwBEtNz+y9E9BXw3zd9UduLERtDZUFMwtWwcCNZEhUAf5YSQ79PnlozW
-	pznQ==
+	h=from:date:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=rtWX5moOjfODPEOSrdwOUI5JBGuGQCQSyS1ml5jqTJE=;
+	b=Nzg0GQSjJkzzhteAA+1I5+WI5DhxF4OR6NFBaxoGIS21tav7lbL70rMS54Uc4l9YbD
+	v9BHWbAVBozd+WpkHWumwPq6tF7uqyZjfY/Y52IUKJ7oa8EwfQYAWy3QtLL4dMddkqmP
+	YWYFbq/ddIh3SkCnXXZmGhgfPkX0bzxgcblsLeYFsjvNYbuNK2KNPVAJwpfOidSKc7rT
+	/6LFq/dUherwPghWz7wjSao9syjPozTZEJL/v+AJM9Jknqv0EvKrQBFgN9GqpMFFUxfs
+	yunK/Fx2MmQsx36IjVKuLAi3fAvKC+BShS2nzv15eo9ysGvgZ/61Zr5EsYRjxxCSX9ew
+	P2qw==
+X-Received: by 10.180.109.46 with SMTP id hp14mr14232132wib.54.1418289809157; 
+	Thu, 11 Dec 2014 01:23:29 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	mw7sm1534290wib.14.2014.12.11.01.23.28 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 11 Dec 2014 01:23:28 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 11 Dec 2014 10:23:32 +0100
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20141211092332.GA2467@jama>
 MIME-Version: 1.0
-X-Received: by 10.152.36.165 with SMTP id r5mr8262448laj.93.1418286681558;
-	Thu, 11 Dec 2014 00:31:21 -0800 (PST)
-Received: by 10.112.48.41 with HTTP; Thu, 11 Dec 2014 00:31:21 -0800 (PST)
-In-Reply-To: <CAJTo0LaGa3ACsL+vLjzUDgEQDDxJ2L2m1WQgj1LHdbzpsJPLUg@mail.gmail.com>
-References: <cover.1418220684.git.bruce.ashfield@windriver.com>
-	<CAJTo0LaGa3ACsL+vLjzUDgEQDDxJ2L2m1WQgj1LHdbzpsJPLUg@mail.gmail.com>
-Date: Thu, 11 Dec 2014 03:31:21 -0500
-Message-ID: <CADkTA4P0XMtSxKop9vqr6SbS8KBmaGuZfKFs7Ej0CsDcqLt4DQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [v2 PATCH 0/9] kernel: version updates
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: State of bitbake world, test-dependencies 2014-12-11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,56 +43,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Dec 2014 08:31:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 11 Dec 2014 09:23:30 -0000
+X-Groupsio-MsgNum: 60429
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="sm4nu43k4a2Rpi4c"
+Content-Disposition: inline
 
-On Wed, Dec 10, 2014 at 10:02 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 10 December 2014 at 14:16, Bruce Ashfield <bruce.ashfield@windriver.com>
-> wrote:
->>
->> The following changes since commit
->> 88dfcbf149dda89277e58ae4ec3a87500624cfff:
->>
->>   kernel-yocto: make sure git tags get dereferenced properly in do_patch()
->> (2014-12-10 08:12:56 -0500)
->>
->> are available in the git repository at:
->>
->>   git://git.pokylinux.org/poky-contrib HEAD
->
->
-> I wonder what happened here!
+--sm4nu43k4a2Rpi4c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-@#!$#@$ the script is insane.
+On Sat, Aug 09, 2014 at 11:01:10AM +0200, Martin Jansa wrote:
+> Complete logs:
+> http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20140808_=
+063907.log/
+>=20
+> ERROR: 483 issues were found in these recipes: directfb engrave epiphany =
+expedite gd gmtk gnome-disk-utility gst-ffmpeg guile leptonica libarchive l=
+ibmicrohttpd libmikmod libungif libwebp libwmf mariadb midori mpd mpeg2dec =
+mpg123 openal-soft opendataplane oscam piglit protobuf snort sox stunnel sy=
+nergy tesseract tracker
 
->
->>
->> for you to fetch changes up to 4be985be419f06f18c735d72ac4a4d00fea71dd8:
->>
->>   linux-yocto/3.14: update to 3.14.26, integrate ltsi and -rt updates
->> (2014-12-10 08:38:49 -0500)
->
->
-> That's zedd/kernel-updates, right?
->
+Complete logs;
+http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20141210_16=
+2427.log/
 
-Yah. Sorry about the confusion,
+This was only partial build, so the results don't look so bad.
+ERROR: 27 issues were found in these recipes: android-audiosystem
+collectd fbida gnome-bluetooth gst-plugins-bad mongodb opencv
+polkit-gnome qtbase tcpdump udisks xbmc xfce4-vala
 
-Bruce
+Found differences:=20
+WARN: collectd: collectd rdepends on libcrypto, but it isn't a build depend=
+ency?
+WARN: collectd: collectd rdepends on libesmtp, but it isn't a build depende=
+ncy?
+WARN: collectd: collectd rdepends on libssl, but it isn't a build dependenc=
+y?
+WARN: fbida: fbida rdepends on libwebp, but it isn't a build dependency?
+WARN: gst-plugins-bad: gst-plugins-bad-meta rdepends on gst-plugins-bad-rtm=
+p, but it isn't a build dependency?
+WARN: opencv: libopencv-highgui rdepends on jasper, but it isn't a build de=
+pendency?
+WARN: opencv: libopencv-highgui rdepends on libdc1394, but it isn't a build=
+ dependency?
+WARN: qtbase: qtbase-plugins rdepends on cups-lib, but it isn't a build dep=
+endency?
+WARN: tcpdump: tcpdump rdepends on libsmi, but it isn't a build dependency?
+WARN: udisks: udisks rdepends on lvm2, but it isn't a build dependency?
 
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Found errors:=20
+ERROR: gst-plugins-bad: gst-plugins-bad-rtmp package isn't created when bui=
+lding with minimal dependencies?
+ERROR: gst-plugins-bad: gst-plugins-bad-rtmp-dev package isn't created when=
+ building with minimal dependencies?
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--sm4nu43k4a2Rpi4c
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iEYEARECAAYFAlSJYpQACgkQN1Ujt2V2gBy8vACguv8gJU7R9VXp18A1LR4WJwt3
+tdIAnAk6OosQQhWUOIeRd350563Ict0v
+=Zo46
+-----END PGP SIGNATURE-----
+
+--sm4nu43k4a2Rpi4c--
