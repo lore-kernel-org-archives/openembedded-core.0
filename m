@@ -1,43 +1,35 @@
-Return-Path: <B40290@freescale.com>
-Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2on0137.outbound.protection.outlook.com [65.55.169.137])
-	by mail.openembedded.org (Postfix) with ESMTP id F3DFD724A5
+Return-Path: <rich.tollerton@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id EDAB17233E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Dec 2014 03:34:10 +0000 (UTC)
-Received: from BY2PR03MB441.namprd03.prod.outlook.com (10.141.141.142) by
-	BY2PR03MB443.namprd03.prod.outlook.com (10.141.141.152) with Microsoft
-	SMTP Server (TLS) id 15.1.31.17; Thu, 11 Dec 2014 03:34:09 +0000
-Received: from BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) by
-	BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) with mapi id
-	15.01.0031.000; Thu, 11 Dec 2014 03:34:09 +0000
-From: "B40290@freescale.com" <B40290@freescale.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Thread-Topic: [OE-core] [PATCH v3 2/2] u-boot.inc : add compile multiple
-	u-boot feature
-Thread-Index: AQHQElRykzDTa2GqYECPTWOMZQFOdJyJuhAQ
-Date: Thu, 11 Dec 2014 03:34:08 +0000
-Message-ID: <BY2PR03MB44187D33B5EB91410C3C74C84630@BY2PR03MB441.namprd03.prod.outlook.com>
-References: <1417672165-6155-1-git-send-email-B40290@freescale.com>
-	<CAP9ODKpHKqsGyss0VaHzr9sAV-LqELrVBDW-o49Lv5EO0rPuHQ@mail.gmail.com>
-In-Reply-To: <CAP9ODKpHKqsGyss0VaHzr9sAV-LqELrVBDW-o49Lv5EO0rPuHQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [123.151.195.52]
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB443;
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB443;
-x-forefront-prvs: 0422860ED4
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(13464003)(189002)(164054003)(24454002)(51704005)(377454003)(199003)(19580395003)(19580405001)(21056001)(66066001)(2656002)(105586002)(106356001)(106116001)(31966008)(92566001)(102836002)(107046002)(86362001)(97736003)(68736005)(40100003)(15975445007)(62966003)(99396003)(77096005)(77156002)(122556002)(110136001)(120916001)(46102003)(101416001)(33656002)(4396001)(54206007)(76176999)(99286002)(54356999)(64706001)(54606007)(20776003)(50986999)(87936001)(16601075003)(76576001)(74316001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BY2PR03MB443;
-	H:BY2PR03MB441.namprd03.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 2/2] u-boot.inc : add compile multiple u-boot feature
+	Thu, 11 Dec 2014 05:08:44 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
+	sBB58j1Z026629 for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Dec 2014 23:08:45 -0600
+Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014121023084535-1004400 ;
+	Wed, 10 Dec 2014 23:08:45 -0600 
+From: Richard Tollerton <rich.tollerton@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Dec 2014 23:08:08 -0600
+Message-Id: <954abcfcdfb2b2768a030d9bc6973a719d627714.1418274272.git.rich.tollerton@ni.com>
+X-Mailer: git-send-email 2.1.3
+In-Reply-To: <cover.1418274272.git.rich.tollerton@ni.com>
+References: <cover.1418274272.git.rich.tollerton@ni.com>
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 12/10/2014 11:08:45 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 12/10/2014 11:08:45 PM,
+	Serialize complete at 12/10/2014 11:08:45 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.13.68, 1.0.33,
+	0.0.0000
+	definitions=2014-12-10_09:2014-12-10, 2014-12-10,
+	1970-01-01 signatures=0
+Cc: ken.sharp@ni.com
+Subject: [PATCH v3 7/9] udev-cache: invalidate on rules.d changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,115 +42,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Dec 2014 03:34:20 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 11 Dec 2014 05:08:48 -0000
 
-SGVsbG8gT3RhdmlvLA0KU29ycnkgZm9yIG15IGxhdGUgcmVwbHkuDQpUaGFua3MgIGZvciAgeW91
-ciByZXZpZXcgLg0KSSBoYXZlIHN1Ym1pdHRlZCAgdjQgIG9mICB0aGUgIHBhdGNoZXN0Lg0KDQoN
-ClRoYW5rcywNCkNodW5yb25nDQoNCg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJv
-bTogb3RhdmlvLnNhbHZhZG9yQGdtYWlsLmNvbSBbbWFpbHRvOm90YXZpby5zYWx2YWRvckBnbWFp
-bC5jb21dIE9uIEJlaGFsZiBPZiBPdGF2aW8gU2FsdmFkb3INClNlbnQ6IE1vbmRheSwgRGVjZW1i
-ZXIgMDgsIDIwMTQgMzozMiBBTQ0KVG86IEd1byBDaHVucm9uZy1CNDAyOTANCkNjOiBQYXRjaGVz
-IGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KU3ViamVjdDogUmU6IFtP
-RS1jb3JlXSBbUEFUQ0ggdjMgMi8yXSB1LWJvb3QuaW5jIDogYWRkIGNvbXBpbGUgbXVsdGlwbGUg
-dS1ib290IGZlYXR1cmUNCg0KSGVsbG8gQ2h1bnJvbmcsDQoNCk9uIFRodSwgRGVjIDQsIDIwMTQg
-YXQgMzo0OSBBTSwgQ2h1bnJvbmcgR3VvIDxCNDAyOTBAZnJlZXNjYWxlLmNvbT4gd3JvdGU6DQo+
-IFNpZ25lZC1vZmYtYnk6IENodW5yb25nIEd1byA8QjQwMjkwQGZyZWVzY2FsZS5jb20+DQo+IC0t
-LQ0KPiAgbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LmluYyB8IDcyIA0KPiArKysrKysr
-KysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDQ3IGlu
-c2VydGlvbnMoKyksIDI1IGRlbGV0aW9ucygtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWJzcC91LWJvb3QvdS1ib290LmluYyANCj4gYi9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91
-LWJvb3QuaW5jDQo+IGluZGV4IGM2OTViNzMuLjliOTM5NDYgMTAwNjQ0DQo+IC0tLSBhL21ldGEv
-cmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdC5pbmMNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWJzcC91
-LWJvb3QvdS1ib290LmluYw0KPiBAQCAtNjMsMjUgKzYzLDMyIEBAIGRvX2NvbXBpbGUgKCkgew0K
-PiAgICAgICAgICAgICAgICAgZWNobyAke1VCT09UX0xPQ0FMVkVSU0lPTn0gPiAke1N9Ly5zY212
-ZXJzaW9uDQo+ICAgICAgICAgZmkNCj4NCj4gLSAgICAgICBvZV9ydW5tYWtlICR7VUJPT1RfTUFD
-SElORX0NCj4gLSAgICAgICBvZV9ydW5tYWtlICR7VUJPT1RfTUFLRV9UQVJHRVR9DQo+ICsgICAg
-Zm9yIHR5cGUgaW4gJHtVQk9PVF9NQUNISU5FfTsgZG8NCj4gKyAgICAgICAgb2VfcnVubWFrZSBP
-PSR7dHlwZX0gJHt0eXBlfQ0KPiArICAgICAgICBvZV9ydW5tYWtlIE89JHt0eXBlfSAke1VCT09U
-X01BS0VfVEFSR0VUfQ0KPiArICAgICAgICBjcCAgJHtTfS8ke3R5cGV9LyR7VUJPT1RfQklOQVJZ
-fSAgJHtTfS8ke3R5cGV9L3UtYm9vdC0ke3R5cGV9LiR7VUJPT1RfU1VGRklYfQ0KPiArICAgIGRv
-bmUNCj4gKw0KPiAgfQ0KDQpJIGRvbid0IHNlZSBob3cgeW91IG1hcCB0aGUgdHlwZSB0byB0aGUg
-VUJPT1RfTUFDSElORSBoZXJlLiBJZiBJIGFtIHJlYWRpbmcgdGhlIGNvZGUgY29ycmVjdGx5IHRo
-ZSBmb3Igd291bGQgYmU6DQoNCmZvciBjb25maWcgaW4gJHtVQk9PVF9NQUNISU5FKTsgZG8gLi4u
-DQoNCmFuZCBpdCBpcyB0ZWNobmljYWxseSBjb3JyZWN0LiBUaGUgcHJvYmxlbSBJIHNlZSBoZXJl
-IGlzIHRoYXQgd2UgbG9zZSB0aGUgJ3R5cGUnIGNvbmNlcHRpb24uIFNvIHRoZSAnc2QnLCAnZmxh
-c2gnLCAuLi4gY29uZmlndXJhdGlvbiB0eXBlIGlzIGxvc3QgYW5kIG5vdCBwcm9wYWdhdGVkIHRv
-IHRoZSBiaW5hcnkgZmlsZW5hbWUgd2hpY2ggSSB0aGluayB3ZSBzaG91bGQgdHJ5IHRvIGltcHJv
-dmUuDQoNClthY2NlcHRdIA0KDQo+ICBkb19pbnN0YWxsICgpIHsNCj4gLSAgICBpbnN0YWxsIC1k
-ICR7RH0vYm9vdA0KPiAtICAgIGluc3RhbGwgJHtTfS8ke1VCT09UX0JJTkFSWX0gJHtEfS9ib290
-LyR7VUJPT1RfSU1BR0V9DQo+IC0gICAgbG4gLXNmICR7VUJPT1RfSU1BR0V9ICR7RH0vYm9vdC8k
-e1VCT09UX0JJTkFSWX0NCj4gKyAgICBmb3IgdHlwZSBpbiAke1VCT09UX01BQ0hJTkV9OyBkbw0K
-PiArICAgICAgICBpbnN0YWxsIC1kICR7RH0vYm9vdA0KPiArICAgICAgICBpbnN0YWxsICR7U30v
-JHt0eXBlfS91LWJvb3QtJHt0eXBlfS4ke1VCT09UX1NVRkZJWH0gJHtEfS9ib290L3UtYm9vdC0k
-e3R5cGV9LiR7VUJPT1RfU1VGRklYfQ0KPiArICAgIGRvbmUNCg0KU2FtZSBoZXJlLg0KDQo+ICAg
-ICAgaWYgWyAtZSAke1dPUktESVJ9L2Z3X2Vudi5jb25maWcgXSA7IHRoZW4NCj4gICAgICAgICAg
-aW5zdGFsbCAtZCAke0R9JHtzeXNjb25mZGlyfQ0KPiAgICAgICAgICBpbnN0YWxsIC1tIDY0NCAk
-e1dPUktESVJ9L2Z3X2Vudi5jb25maWcgJHtEfSR7c3lzY29uZmRpcn0vZndfZW52LmNvbmZpZw0K
-PiAgICAgIGZpDQo+DQo+IC0gICAgaWYgWyAieCR7U1BMX0JJTkFSWX0iICE9ICJ4IiBdDQo+IC0g
-ICAgdGhlbg0KPiAtICAgICAgICBpbnN0YWxsICR7U30vJHtTUExfQklOQVJZfSAke0R9L2Jvb3Qv
-JHtTUExfSU1BR0V9DQo+IC0gICAgICAgIGxuIC1zZiAke1NQTF9JTUFHRX0gJHtEfS9ib290LyR7
-U1BMX0JJTkFSWX0NCj4gLSAgICBmaQ0KPiArICAgIGZvciB0eXBlIGluICR7VUJPT1RfTUFDSElO
-RX07IGRvDQo+ICsgICAgICAgIGlmIFsgIngke1NQTF9CSU5BUll9IiAhPSAieCIgXSAmJiBbIC1k
-ICIke1N9LyR7dHlwZX0vJHtTUExfQklOQVJZfSJdDQo+ICsgICAgICAgIHRoZW4NCj4gKyAgICAg
-ICAgICAgIGluc3RhbGwgJHtTfS8ke3R5cGV9LyR7U1BMX0JJTkFSWX0gJHtEfS9ib290LyR7U1BM
-X0lNQUdFfQ0KPiArICAgICAgICAgICAgbG4gLXNmICR7U1BMX0lNQUdFfSAke0R9L2Jvb3QvJHtT
-UExfQklOQVJZfQ0KPiArICAgICAgICBmaQ0KPiArICAgIGRvbmUNCg0KV2Ugb3VnaHQgdG8gaGF2
-ZSBvbmUgU1BMIGJpbmFyeSB3aXRoIGVhY2ggJ3R5cGUnIGFzc2lnbmVkOyBoZXJlIHlvdSBhcmUg
-b3ZlcnJpZGluZyBpdCB3aXRoIHRoZSBsYXN0IFNQTCBiaW5hcnkgYnVpbHQuDQoNClsgIGFjY2Vw
-dCBdIA0KPiAgICAgIGlmIFsgIngke1VCT09UX0VOVn0iICE9ICJ4IiBdDQo+ICAgICAgdGhlbg0K
-PiBAQCAtOTMsMjEgKzEwMCwzNiBAQCBkb19pbnN0YWxsICgpIHsNCj4gIEZJTEVTXyR7UE59ID0g
-Ii9ib290ICR7c3lzY29uZmRpcn0iDQo+DQo+ICBkb19kZXBsb3kgKCkgew0KPiAtICAgIGluc3Rh
-bGwgLWQgJHtERVBMT1lESVJ9DQo+IC0gICAgaW5zdGFsbCAke1N9LyR7VUJPT1RfQklOQVJZfSAk
-e0RFUExPWURJUn0vJHtVQk9PVF9JTUFHRX0NCj4gLQ0KPiAtICAgIGNkICR7REVQTE9ZRElSfQ0K
-PiAtICAgIHJtIC1mICR7VUJPT1RfQklOQVJZfSAke1VCT09UX1NZTUxJTkt9DQo+IC0gICAgbG4g
-LXNmICR7VUJPT1RfSU1BR0V9ICR7VUJPT1RfU1lNTElOS30NCj4gLSAgICBsbiAtc2YgJHtVQk9P
-VF9JTUFHRX0gJHtVQk9PVF9CSU5BUll9DQo+IC0NCj4gLSAgICBpZiBbICJ4JHtTUExfQklOQVJZ
-fSIgIT0gIngiIF0NCj4gLSAgICB0aGVuDQo+IC0gICAgICAgIGluc3RhbGwgJHtTfS8ke1NQTF9C
-SU5BUll9ICR7REVQTE9ZRElSfS8ke1NQTF9JTUFHRX0NCj4gLSAgICAgICAgcm0gLWYgJHtERVBM
-T1lESVJ9LyR7U1BMX0JJTkFSWX0gJHtERVBMT1lESVJ9LyR7U1BMX1NZTUxJTkt9DQo+IC0gICAg
-ICAgIGxuIC1zZiAke1NQTF9JTUFHRX0gJHtERVBMT1lESVJ9LyR7U1BMX0JJTkFSWX0NCj4gLSAg
-ICAgICAgbG4gLXNmICR7U1BMX0lNQUdFfSAke0RFUExPWURJUn0vJHtTUExfU1lNTElOS30NCj4g
-LSAgICBmaQ0KPiArICAgIGZvciB0eXBlIGluICR7VUJPT1RfTUFDSElORX07IGRvDQo+ICsgICAg
-ICAgIGZvciBpbWFnZXR5cGUgaW4gaW4gJHtVQk9PVF9DT05GSUd9OyBkbw0KPiArICAgICAgICAg
-ICAgaWYgWyAiJHtpbWFnZXR5cGV9InggPSAiaW4ieCBdDQo+ICsgICAgICAgICAgICB0aGVuDQo+
-ICsgICAgICAgICAgICAgICAgY29udGludWUNCj4gKyAgICAgICAgICAgIGZpDQo+ICsgICAgICAg
-ICAgICBpZiBbIC1kICIke0RFUExPWURJUn0vdS1ib290LSR7aW1hZ2V0eXBlfS4ke1VCT09UX1NV
-RkZJWH0iXQ0KPiArICAgICAgICAgICAgdGhlbg0KPiArICAgICAgICAgICAgICAgIGJyZWFrDQo+
-ICsgICAgICAgICAgICBlbHNlDQo+ICsgICAgICAgICAgICAgICAgaW5zdGFsbCAtZCAke0RFUExP
-WURJUn0NCj4gKyAgICAgICAgICAgICAgICBpbnN0YWxsICR7U30vJHt0eXBlfS91LWJvb3QtJHt0
-eXBlfS4ke1VCT09UX1NVRkZJWH0gJHtERVBMT1lESVJ9L3UtYm9vdC0ke2ltYWdldHlwZX0uJHtV
-Qk9PVF9TVUZGSVh9DQo+ICsgICAgICAgICAgICAgICAgaWYgWyAiJHtpbWFnZXR5cGV9InggPSAi
-c2QieCBdIHx8IFsgIiR7aW1hZ2V0eXBlfSJ4ID0gIm1mZ3Rvb2wieCBdDQo+ICsgICAgICAgICAg
-ICAgICAgdGhlbg0KPiArICAgICAgICAgICAgICAgICAgICBjcCAgJHtERVBMT1lESVJ9L3UtYm9v
-dC0ke2ltYWdldHlwZX0uJHtVQk9PVF9TVUZGSVh9ICAke0RFUExPWURJUn0vdS1ib290LSR7TUFD
-SElORX0uJHtVQk9PVF9TVUZGSVh9DQo+ICsgICAgICAgICAgICAgICAgZmkNCj4gKyAgICAgICAg
-ICAgIGZpDQoNCldheSBuaWNlciAoYW5kIHNob3VsZCBoYXZlIHNvbWUgc2ltaWxhciBjb2RlIG9u
-IHRoZSBpbnN0YWxsIGFuZCBjb21waWxlIHRhc2tzKSBob3dldmVyIEkgZGlkbid0IGdldCB3aHkg
-eW91J3JlIGFkZGluZyB0aGUgJ3NkJyBvciAnbWZndG9vbCcgc3BlY2lmaWMgY2FzZSBoZXJlLiBU
-aGlzIGlzIGEgRlNMIHNwZWNpZmljIHRoaW5nIGFuZCBzaG91bGRuJ3QgYmUgcGFydCBvZiBPRS1D
-b3JlLg0KDQpbIEkgdXNlIGRlZmF1bHQgbGluayBvZiBsYXN0IHR5cGUgdWJvb3QgIG9mICJVQk9P
-VF9DT05GSUciICAgdG8gZml4IHRoZSBmb2xsb3dpbmcgZXJyb3I6DQoNCiogZGlmZmljdWx0eSB0
-byBmaWd1cmUgdGhlIGJpbmFyeSB3aGVuIGdlbmVyYXRpbmcgdGhlIHJvb3RmczogaW4gbWV0YS1m
-c2wtYXJtLCBmb3IgZXhhbXBsZSwgd2UgZ2VuZXJhdGUgdGhlIC5zZGNhcmQgcm9vdGZzIGFuZCB1
-c2luZyB0aGUgcGF0Y2ggd2Ugbm93IGhhdmUuLi4NCg0KRVJST1I6IEVycm9yOiBUaGUgaW1hZ2Ug
-Y3JlYXRpb24gc2NyaXB0DQonLi4uL3RtcC93b3JrL2lteDZxc2FicmVzZC1vZWwtbGludXgtZ251
-ZWFiaS9jb3JlLWltYWdlLW1pbmltYWwvMS4wLXIwL3RlbXAvY3JlYXRlX2ltYWdlLnNkY2FyZCcN
-Cg0KXQ0KDQoNCg0KDQo+ICsgICAgICAgIGRvbmUNCj4gKyAgICBkb25lDQo+ICsNCj4gKw0KPiAr
-ICAgIGZvciB0eXBlIGluICR7VUJPT1RfTUFDSElORX07IGRvDQo+ICsgICAgICAgIGlmIFsgIngk
-e1NQTF9CSU5BUll9IiAhPSAieCIgXSAmJiBbIC1kICIke1N9LyR7dHlwZX0vJHtTUExfQklOQVJZ
-fSJdDQo+ICsgICAgICAgIHRoZW4NCj4gKyAgICAgICAgICAgIGluc3RhbGwgJHtTfS8ke3R5cGV9
-LyR7U1BMX0JJTkFSWX0gJHtERVBMT1lESVJ9LyR7U1BMX0lNQUdFfQ0KPiArICAgICAgICAgICAg
-cm0gLWYgJHtERVBMT1lESVJ9LyR7U1BMX0JJTkFSWX0gJHtERVBMT1lESVJ9LyR7U1BMX1NZTUxJ
-Tkt9DQo+ICsgICAgICAgICAgICBsbiAtc2YgJHtTUExfSU1BR0V9ICR7REVQTE9ZRElSfS8ke1NQ
-TF9CSU5BUll9DQo+ICsgICAgICAgICAgICBsbiAtc2YgJHtTUExfSU1BR0V9ICR7REVQTE9ZRElS
-fS8ke1NQTF9TWU1MSU5LfQ0KPiArICAgICAgICBmaQ0KPiArICAgIGRvbmUNCg0KU2FtZSBjb21t
-ZW50IGFzIHRoZSBTUEwgYmluYXJ5IGFib3ZlLg0KDQpbYWNjZXB0XSANCj4gICAgICBpZiBbICJ4
-JHtVQk9PVF9FTlZ9IiAhPSAieCIgXQ0KPiAgICAgIHRoZW4NCg0KLS0gDQpPdGF2aW8gU2FsdmFk
-b3IgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE8uUy4gU3lzdGVtcw0KaHR0cDovL3d3dy5v
-c3N5c3RlbXMuY29tLmJyICAgICAgICBodHRwOi8vY29kZS5vc3N5c3RlbXMuY29tLmJyDQpNb2Jp
-bGU6ICs1NSAoNTMpIDk5ODEtNzg1NCAgICAgICAgICAgIE1vYmlsZTogKzEgKDM0NykgOTAzLTk3
-NTANCg==
+Presently, the cache is not regenerated if udev rules are modified,
+which may cause the cache to preserve an old configuration. To fix,
+include the size, mtime, and filename of all udev rules in the system
+configuration.
+
+This change requires `stat`. If busybox supplies stat,
+CONFIG_FEATURE_STAT_FORMAT must be enabled.
+
+Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+---
+ meta/recipes-core/udev/udev/init       | 6 ++++++
+ meta/recipes-core/udev/udev/udev-cache | 5 +++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+index 32c677a..94dbba3 100644
+--- a/meta/recipes-core/udev/udev/init
++++ b/meta/recipes-core/udev/udev/init
+@@ -22,9 +22,14 @@ DEVCACHE_REGEN="/dev/shm/udev-regen" # create to request cache regen
+ CMP_FILE_LIST="/proc/version /proc/cmdline /proc/devices"
+ [ -f /proc/atags ] && CMP_FILE_LIST="$CMP_FILE_LIST /proc/atags"
+ 
++# List of files whose metadata (size/mtime/name) will be included in cached
++# system state.
++META_FILE_LIST="lib/udev/rules.d/* etc/udev/rules.d/*"
++
+ # Command to compute system configuration.
+ sysconf_cmd () {
+ 	cat -- $CMP_FILE_LIST
++	stat -L -c '%s %Y %n' -- $META_FILE_LIST | awk -F/ '{print $1 " " $NF;}'
+ }
+ 
+ [ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
+@@ -76,6 +81,7 @@ case "$1" in
+ 			    cat <<EOF
+ udev: Not using udev cache because of changes detected in the following files:
+ udev:     $CMP_FILE_LIST
++udev:     $META_FILE_LIST
+ udev: The udev cache will be regenerated. To identify the detected changes,
+ udev: compare the cached sysconf at   $SYSCONF_CACHED
+ udev: against the current sysconf at  $SYSCONF_TMP
+diff --git a/meta/recipes-core/udev/udev/udev-cache b/meta/recipes-core/udev/udev/udev-cache
+index 4d50876..571463f 100644
+--- a/meta/recipes-core/udev/udev/udev-cache
++++ b/meta/recipes-core/udev/udev/udev-cache
+@@ -25,9 +25,14 @@ DEVCACHE_REGEN="/dev/shm/udev-regen" # create to request cache regen
+ CMP_FILE_LIST="/proc/version /proc/cmdline /proc/devices"
+ [ -f /proc/atags ] && CMP_FILE_LIST="$CMP_FILE_LIST /proc/atags"
+ 
++# List of files whose metadata (size/mtime/name) will be included in cached
++# system state.
++META_FILE_LIST="lib/udev/rules.d/* etc/udev/rules.d/*"
++
+ # Command to compute system configuration.
+ sysconf_cmd () {
+ 	cat -- $CMP_FILE_LIST
++	stat -L -c '%s %Y %n' -- $META_FILE_LIST | awk -F/ '{print $1 " " $NF;}'
+ }
+ 
+ [ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
+-- 
+2.1.3
+
 
