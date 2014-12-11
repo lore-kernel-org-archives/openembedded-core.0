@@ -1,53 +1,43 @@
 Return-Path: <B40290@freescale.com>
 Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2on0132.outbound.protection.outlook.com [65.55.169.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 02DFB72518
+	(mail-bl2on0137.outbound.protection.outlook.com [65.55.169.137])
+	by mail.openembedded.org (Postfix) with ESMTP id F3DFD724A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Dec 2014 03:33:04 +0000 (UTC)
-Received: from CH1PR03CA007.namprd03.prod.outlook.com (10.255.156.152) by
-	BY1PR0301MB1189.namprd03.prod.outlook.com (25.160.195.148) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.31.17; Thu, 11 Dec 2014 03:33:03 +0000
-Received: from BL2FFO11FD005.protection.gbl (10.255.156.132) by
-	CH1PR03CA007.outlook.office365.com (10.255.156.152) with Microsoft SMTP
-	Server (TLS) id 15.1.31.17 via Frontend Transport;
-	Thu, 11 Dec 2014 03:33:02 +0000
-Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BL2FFO11FD005.mail.protection.outlook.com (10.173.161.1) with Microsoft
-	SMTP Server (TLS) id 15.1.26.17 via Frontend Transport;
-	Thu, 11 Dec 2014 03:33:02 +0000
-Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.75])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	sBB3Ww64006034; Wed, 10 Dec 2014 20:32:59 -0700
-From: Chunrong Guo <B40290@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Dec 2014 11:32:55 +0800
-Message-ID: <1418268775-20010-1-git-send-email-B40290@freescale.com>
-X-Mailer: git-send-email 1.9.2
-X-EOPAttributedMessage: 0
-Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
-	designate 192.88.168.50 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.168.50)
-	smtp.mailfrom=B40290@freescale.com; 
-X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10019020)(6009001)(189002)(199003)(4396001)(50226001)(450100001)(97736003)(36756003)(21056001)(86362001)(62966003)(77156002)(68736005)(77096005)(19580405001)(19580395003)(106466001)(87936001)(229853001)(104016003)(48376002)(92566001)(50466002)(85426001)(110136001)(31966008)(50986999)(6806004)(46102003)(84676001)(99396003)(120916001)(2351001)(47776003)(64706001)(107046002)(20776003)(105606002)(89996001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BY1PR0301MB1189;
-	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv;
-	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
+	Thu, 11 Dec 2014 03:34:10 +0000 (UTC)
+Received: from BY2PR03MB441.namprd03.prod.outlook.com (10.141.141.142) by
+	BY2PR03MB443.namprd03.prod.outlook.com (10.141.141.152) with Microsoft
+	SMTP Server (TLS) id 15.1.31.17; Thu, 11 Dec 2014 03:34:09 +0000
+Received: from BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) by
+	BY2PR03MB441.namprd03.prod.outlook.com ([10.141.141.142]) with mapi id
+	15.01.0031.000; Thu, 11 Dec 2014 03:34:09 +0000
+From: "B40290@freescale.com" <B40290@freescale.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Thread-Topic: [OE-core] [PATCH v3 2/2] u-boot.inc : add compile multiple
+	u-boot feature
+Thread-Index: AQHQElRykzDTa2GqYECPTWOMZQFOdJyJuhAQ
+Date: Thu, 11 Dec 2014 03:34:08 +0000
+Message-ID: <BY2PR03MB44187D33B5EB91410C3C74C84630@BY2PR03MB441.namprd03.prod.outlook.com>
+References: <1417672165-6155-1-git-send-email-B40290@freescale.com>
+	<CAP9ODKpHKqsGyss0VaHzr9sAV-LqELrVBDW-o49Lv5EO0rPuHQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKpHKqsGyss0VaHzr9sAV-LqELrVBDW-o49Lv5EO0rPuHQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [123.151.195.52]
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB443;
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:;SRVR:BY2PR03MB443;
+x-forefront-prvs: 0422860ED4
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(13464003)(189002)(164054003)(24454002)(51704005)(377454003)(199003)(19580395003)(19580405001)(21056001)(66066001)(2656002)(105586002)(106356001)(106116001)(31966008)(92566001)(102836002)(107046002)(86362001)(97736003)(68736005)(40100003)(15975445007)(62966003)(99396003)(77096005)(77156002)(122556002)(110136001)(120916001)(46102003)(101416001)(33656002)(4396001)(54206007)(76176999)(99286002)(54356999)(64706001)(54606007)(20776003)(50986999)(87936001)(16601075003)(76576001)(74316001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BY2PR03MB443;
+	H:BY2PR03MB441.namprd03.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-X-Microsoft-Antispam: UriScan:;
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BY1PR0301MB1189;
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601003);
-	SRVR:BY1PR0301MB1189; 
-X-Forefront-PRVS: 0422860ED4
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
-	SRVR:BY1PR0301MB1189; 
 X-OriginatorOrg: freescale.com
-Subject: [PATCH v4 2/2] u-boot.inc : add compile multiple u-boot feature
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 2/2] u-boot.inc : add compile multiple u-boot feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,195 +50,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Dec 2014 03:33:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Dec 2014 03:34:20 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Chunrong Guo <B40290@freescale.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc | 150 +++++++++++++++++++++++++++++++------
- 1 file changed, 129 insertions(+), 21 deletions(-)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index c695b73..58725fa 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -62,15 +62,56 @@ do_compile () {
- 		echo ${UBOOT_LOCALVERSION} > ${B}/.scmversion
- 		echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
- 	fi
-+    
-+    if [ "x${UBOOT_CONFIG}" != "x" ]
-+    then
-+        for config in ${UBOOT_MACHINE}; do
-+            for type in in ${UBOOT_CONFIG}; do
-+                if [ "${type}"x = "in"x ]
-+                then
-+                    continue
-+                fi
-+                if [ -d "${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX}"]
-+                then
-+                    break
-+                else
-+                    oe_runmake O=${config} ${config}
-+                    oe_runmake O=${config} ${UBOOT_MAKE_TARGET}
-+                    cp  ${S}/${config}/${UBOOT_BINARY}  ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX}
-+                fi
-+            done
-+        done
-+    else
-+        oe_runmake ${UBOOT_MACHINE}
-+        oe_runmake ${UBOOT_MAKE_TARGET}
-+    fi
- 
--	oe_runmake ${UBOOT_MACHINE}
--	oe_runmake ${UBOOT_MAKE_TARGET}
- }
- 
- do_install () {
--    install -d ${D}/boot
--    install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
--    ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
-+    if [ "x${UBOOT_CONFIG}" != "x" ]
-+    then
-+        for config in ${UBOOT_MACHINE}; do
-+            for type in in ${UBOOT_CONFIG}; do
-+                if [ "${type}"x = "in"x ]
-+                then
-+                    continue
-+                fi
-+                if [ -d "${D}/boot/u-boot-${type}.${UBOOT_SUFFIX}"]
-+                then
-+                    break
-+                else
-+                    install -d ${D}/boot
-+                    install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}.${UBOOT_SUFFIX}
-+                    ln -sf u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-+                fi
-+            done
-+        done
-+    else
-+        install -d ${D}/boot
-+        install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
-+        ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
-+    fi
- 
-     if [ -e ${WORKDIR}/fw_env.config ] ; then
-         install -d ${D}${sysconfdir}
-@@ -79,8 +120,28 @@ do_install () {
- 
-     if [ "x${SPL_BINARY}" != "x" ]
-     then
--        install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
--        ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
-+        if [ "x${UBOOT_CONFIG}" != "x" ]   
-+        then
-+            for config in ${UBOOT_MACHINE}; do
-+                for type in in ${UBOOT_CONFIG}; do
-+                     if [ "${type}"x = "in"x ]
-+                     then
-+                         continue
-+                     fi
-+                     if [ -d "${D}/boot/${SPL_IMAGE}-${type}"]
-+                     then
-+                         break
-+                     else
-+                         install ${S}/${config}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}-${type}
-+                         ln -sf ${SPL_IMAGE}-${type} ${D}/boot/${SPL_BINARY}-${type}
-+                         ln -sf ${SPL_IMAGE}-${type} ${D}/boot/${SPL_BINARY}
-+                     fi
-+                done
-+            done
-+        else
-+            install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-+            ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
-+        fi
-     fi
- 
-     if [ "x${UBOOT_ENV}" != "x" ]
-@@ -93,21 +154,68 @@ do_install () {
- FILES_${PN} = "/boot ${sysconfdir}"
- 
- do_deploy () {
--    install -d ${DEPLOYDIR}
--    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
--
--    cd ${DEPLOYDIR}
--    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
--    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
--    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
--
--    if [ "x${SPL_BINARY}" != "x" ]
-+    if [ "x${UBOOT_CONFIG}" != "x" ]
-     then
--        install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
--        rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
--        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
--        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
--    fi
-+        for config in ${UBOOT_MACHINE}; do
-+            for type in in ${UBOOT_CONFIG}; do
-+                if [ "${type}"x = "in"x ]  
-+                then
-+                    continue
-+                fi
-+                if [ -d "${DEPLOYDIR}/u-boot-${type}.${UBOOT_SUFFIX}"]
-+                then 
-+                    break
-+                else
-+                    install -d ${DEPLOYDIR}
-+                    install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}.${UBOOT_SUFFIX}
-+                    cd ${DEPLOYDIR}
-+                    ln -sf u-boot-${type}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}
-+                    ln -sf u-boot-${type}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
-+                fi 
-+            done 
-+        done
-+    else
-+        install -d ${DEPLOYDIR}
-+        install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-+        cd ${DEPLOYDIR}
-+        rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
-+        ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-+        ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
-+   fi
-+    
-+
-+
-+     if [ "x${SPL_BINARY}" != "x" ]
-+     then
-+         if [ "x${UBOOT_CONFIG}" != "x" ]   
-+         then
-+             for config in ${UBOOT_MACHINE}; do
-+                 for type in in ${UBOOT_CONFIG}; do
-+                      if [ "${type}"x = "in"x ]
-+                      then
-+                          continue
-+                      fi
-+                      if [ -d "${DEPLOYDIR}/${SPL_IMAGE}-${type}"]
-+                      then
-+                          break
-+                      else
-+                          install ${S}/${config}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}-${type}
-+                          rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}-${type}
-+                          ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_BINARY}-${type}
-+                          ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_BINARY}
-+                          ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_SYMLINK}-${type}
-+                          ln -sf ${SPL_IMAGE}-${type} ${DEPLOYDIR}/${SPL_SYMLINK}
-+                      fi
-+                 done
-+             done
-+         else
-+             install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
-+             rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
-+             ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
-+             ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
-+         fi
-+     fi
-+
- 
-     if [ "x${UBOOT_ENV}" != "x" ]
-     then
--- 
-1.9.2
-
+SGVsbG8gT3RhdmlvLA0KU29ycnkgZm9yIG15IGxhdGUgcmVwbHkuDQpUaGFua3MgIGZvciAgeW91
+ciByZXZpZXcgLg0KSSBoYXZlIHN1Ym1pdHRlZCAgdjQgIG9mICB0aGUgIHBhdGNoZXN0Lg0KDQoN
+ClRoYW5rcywNCkNodW5yb25nDQoNCg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJv
+bTogb3RhdmlvLnNhbHZhZG9yQGdtYWlsLmNvbSBbbWFpbHRvOm90YXZpby5zYWx2YWRvckBnbWFp
+bC5jb21dIE9uIEJlaGFsZiBPZiBPdGF2aW8gU2FsdmFkb3INClNlbnQ6IE1vbmRheSwgRGVjZW1i
+ZXIgMDgsIDIwMTQgMzozMiBBTQ0KVG86IEd1byBDaHVucm9uZy1CNDAyOTANCkNjOiBQYXRjaGVz
+IGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KU3ViamVjdDogUmU6IFtP
+RS1jb3JlXSBbUEFUQ0ggdjMgMi8yXSB1LWJvb3QuaW5jIDogYWRkIGNvbXBpbGUgbXVsdGlwbGUg
+dS1ib290IGZlYXR1cmUNCg0KSGVsbG8gQ2h1bnJvbmcsDQoNCk9uIFRodSwgRGVjIDQsIDIwMTQg
+YXQgMzo0OSBBTSwgQ2h1bnJvbmcgR3VvIDxCNDAyOTBAZnJlZXNjYWxlLmNvbT4gd3JvdGU6DQo+
+IFNpZ25lZC1vZmYtYnk6IENodW5yb25nIEd1byA8QjQwMjkwQGZyZWVzY2FsZS5jb20+DQo+IC0t
+LQ0KPiAgbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LmluYyB8IDcyIA0KPiArKysrKysr
+KysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDQ3IGlu
+c2VydGlvbnMoKyksIDI1IGRlbGV0aW9ucygtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWJzcC91LWJvb3QvdS1ib290LmluYyANCj4gYi9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91
+LWJvb3QuaW5jDQo+IGluZGV4IGM2OTViNzMuLjliOTM5NDYgMTAwNjQ0DQo+IC0tLSBhL21ldGEv
+cmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdC5pbmMNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWJzcC91
+LWJvb3QvdS1ib290LmluYw0KPiBAQCAtNjMsMjUgKzYzLDMyIEBAIGRvX2NvbXBpbGUgKCkgew0K
+PiAgICAgICAgICAgICAgICAgZWNobyAke1VCT09UX0xPQ0FMVkVSU0lPTn0gPiAke1N9Ly5zY212
+ZXJzaW9uDQo+ICAgICAgICAgZmkNCj4NCj4gLSAgICAgICBvZV9ydW5tYWtlICR7VUJPT1RfTUFD
+SElORX0NCj4gLSAgICAgICBvZV9ydW5tYWtlICR7VUJPT1RfTUFLRV9UQVJHRVR9DQo+ICsgICAg
+Zm9yIHR5cGUgaW4gJHtVQk9PVF9NQUNISU5FfTsgZG8NCj4gKyAgICAgICAgb2VfcnVubWFrZSBP
+PSR7dHlwZX0gJHt0eXBlfQ0KPiArICAgICAgICBvZV9ydW5tYWtlIE89JHt0eXBlfSAke1VCT09U
+X01BS0VfVEFSR0VUfQ0KPiArICAgICAgICBjcCAgJHtTfS8ke3R5cGV9LyR7VUJPT1RfQklOQVJZ
+fSAgJHtTfS8ke3R5cGV9L3UtYm9vdC0ke3R5cGV9LiR7VUJPT1RfU1VGRklYfQ0KPiArICAgIGRv
+bmUNCj4gKw0KPiAgfQ0KDQpJIGRvbid0IHNlZSBob3cgeW91IG1hcCB0aGUgdHlwZSB0byB0aGUg
+VUJPT1RfTUFDSElORSBoZXJlLiBJZiBJIGFtIHJlYWRpbmcgdGhlIGNvZGUgY29ycmVjdGx5IHRo
+ZSBmb3Igd291bGQgYmU6DQoNCmZvciBjb25maWcgaW4gJHtVQk9PVF9NQUNISU5FKTsgZG8gLi4u
+DQoNCmFuZCBpdCBpcyB0ZWNobmljYWxseSBjb3JyZWN0LiBUaGUgcHJvYmxlbSBJIHNlZSBoZXJl
+IGlzIHRoYXQgd2UgbG9zZSB0aGUgJ3R5cGUnIGNvbmNlcHRpb24uIFNvIHRoZSAnc2QnLCAnZmxh
+c2gnLCAuLi4gY29uZmlndXJhdGlvbiB0eXBlIGlzIGxvc3QgYW5kIG5vdCBwcm9wYWdhdGVkIHRv
+IHRoZSBiaW5hcnkgZmlsZW5hbWUgd2hpY2ggSSB0aGluayB3ZSBzaG91bGQgdHJ5IHRvIGltcHJv
+dmUuDQoNClthY2NlcHRdIA0KDQo+ICBkb19pbnN0YWxsICgpIHsNCj4gLSAgICBpbnN0YWxsIC1k
+ICR7RH0vYm9vdA0KPiAtICAgIGluc3RhbGwgJHtTfS8ke1VCT09UX0JJTkFSWX0gJHtEfS9ib290
+LyR7VUJPT1RfSU1BR0V9DQo+IC0gICAgbG4gLXNmICR7VUJPT1RfSU1BR0V9ICR7RH0vYm9vdC8k
+e1VCT09UX0JJTkFSWX0NCj4gKyAgICBmb3IgdHlwZSBpbiAke1VCT09UX01BQ0hJTkV9OyBkbw0K
+PiArICAgICAgICBpbnN0YWxsIC1kICR7RH0vYm9vdA0KPiArICAgICAgICBpbnN0YWxsICR7U30v
+JHt0eXBlfS91LWJvb3QtJHt0eXBlfS4ke1VCT09UX1NVRkZJWH0gJHtEfS9ib290L3UtYm9vdC0k
+e3R5cGV9LiR7VUJPT1RfU1VGRklYfQ0KPiArICAgIGRvbmUNCg0KU2FtZSBoZXJlLg0KDQo+ICAg
+ICAgaWYgWyAtZSAke1dPUktESVJ9L2Z3X2Vudi5jb25maWcgXSA7IHRoZW4NCj4gICAgICAgICAg
+aW5zdGFsbCAtZCAke0R9JHtzeXNjb25mZGlyfQ0KPiAgICAgICAgICBpbnN0YWxsIC1tIDY0NCAk
+e1dPUktESVJ9L2Z3X2Vudi5jb25maWcgJHtEfSR7c3lzY29uZmRpcn0vZndfZW52LmNvbmZpZw0K
+PiAgICAgIGZpDQo+DQo+IC0gICAgaWYgWyAieCR7U1BMX0JJTkFSWX0iICE9ICJ4IiBdDQo+IC0g
+ICAgdGhlbg0KPiAtICAgICAgICBpbnN0YWxsICR7U30vJHtTUExfQklOQVJZfSAke0R9L2Jvb3Qv
+JHtTUExfSU1BR0V9DQo+IC0gICAgICAgIGxuIC1zZiAke1NQTF9JTUFHRX0gJHtEfS9ib290LyR7
+U1BMX0JJTkFSWX0NCj4gLSAgICBmaQ0KPiArICAgIGZvciB0eXBlIGluICR7VUJPT1RfTUFDSElO
+RX07IGRvDQo+ICsgICAgICAgIGlmIFsgIngke1NQTF9CSU5BUll9IiAhPSAieCIgXSAmJiBbIC1k
+ICIke1N9LyR7dHlwZX0vJHtTUExfQklOQVJZfSJdDQo+ICsgICAgICAgIHRoZW4NCj4gKyAgICAg
+ICAgICAgIGluc3RhbGwgJHtTfS8ke3R5cGV9LyR7U1BMX0JJTkFSWX0gJHtEfS9ib290LyR7U1BM
+X0lNQUdFfQ0KPiArICAgICAgICAgICAgbG4gLXNmICR7U1BMX0lNQUdFfSAke0R9L2Jvb3QvJHtT
+UExfQklOQVJZfQ0KPiArICAgICAgICBmaQ0KPiArICAgIGRvbmUNCg0KV2Ugb3VnaHQgdG8gaGF2
+ZSBvbmUgU1BMIGJpbmFyeSB3aXRoIGVhY2ggJ3R5cGUnIGFzc2lnbmVkOyBoZXJlIHlvdSBhcmUg
+b3ZlcnJpZGluZyBpdCB3aXRoIHRoZSBsYXN0IFNQTCBiaW5hcnkgYnVpbHQuDQoNClsgIGFjY2Vw
+dCBdIA0KPiAgICAgIGlmIFsgIngke1VCT09UX0VOVn0iICE9ICJ4IiBdDQo+ICAgICAgdGhlbg0K
+PiBAQCAtOTMsMjEgKzEwMCwzNiBAQCBkb19pbnN0YWxsICgpIHsNCj4gIEZJTEVTXyR7UE59ID0g
+Ii9ib290ICR7c3lzY29uZmRpcn0iDQo+DQo+ICBkb19kZXBsb3kgKCkgew0KPiAtICAgIGluc3Rh
+bGwgLWQgJHtERVBMT1lESVJ9DQo+IC0gICAgaW5zdGFsbCAke1N9LyR7VUJPT1RfQklOQVJZfSAk
+e0RFUExPWURJUn0vJHtVQk9PVF9JTUFHRX0NCj4gLQ0KPiAtICAgIGNkICR7REVQTE9ZRElSfQ0K
+PiAtICAgIHJtIC1mICR7VUJPT1RfQklOQVJZfSAke1VCT09UX1NZTUxJTkt9DQo+IC0gICAgbG4g
+LXNmICR7VUJPT1RfSU1BR0V9ICR7VUJPT1RfU1lNTElOS30NCj4gLSAgICBsbiAtc2YgJHtVQk9P
+VF9JTUFHRX0gJHtVQk9PVF9CSU5BUll9DQo+IC0NCj4gLSAgICBpZiBbICJ4JHtTUExfQklOQVJZ
+fSIgIT0gIngiIF0NCj4gLSAgICB0aGVuDQo+IC0gICAgICAgIGluc3RhbGwgJHtTfS8ke1NQTF9C
+SU5BUll9ICR7REVQTE9ZRElSfS8ke1NQTF9JTUFHRX0NCj4gLSAgICAgICAgcm0gLWYgJHtERVBM
+T1lESVJ9LyR7U1BMX0JJTkFSWX0gJHtERVBMT1lESVJ9LyR7U1BMX1NZTUxJTkt9DQo+IC0gICAg
+ICAgIGxuIC1zZiAke1NQTF9JTUFHRX0gJHtERVBMT1lESVJ9LyR7U1BMX0JJTkFSWX0NCj4gLSAg
+ICAgICAgbG4gLXNmICR7U1BMX0lNQUdFfSAke0RFUExPWURJUn0vJHtTUExfU1lNTElOS30NCj4g
+LSAgICBmaQ0KPiArICAgIGZvciB0eXBlIGluICR7VUJPT1RfTUFDSElORX07IGRvDQo+ICsgICAg
+ICAgIGZvciBpbWFnZXR5cGUgaW4gaW4gJHtVQk9PVF9DT05GSUd9OyBkbw0KPiArICAgICAgICAg
+ICAgaWYgWyAiJHtpbWFnZXR5cGV9InggPSAiaW4ieCBdDQo+ICsgICAgICAgICAgICB0aGVuDQo+
+ICsgICAgICAgICAgICAgICAgY29udGludWUNCj4gKyAgICAgICAgICAgIGZpDQo+ICsgICAgICAg
+ICAgICBpZiBbIC1kICIke0RFUExPWURJUn0vdS1ib290LSR7aW1hZ2V0eXBlfS4ke1VCT09UX1NV
+RkZJWH0iXQ0KPiArICAgICAgICAgICAgdGhlbg0KPiArICAgICAgICAgICAgICAgIGJyZWFrDQo+
+ICsgICAgICAgICAgICBlbHNlDQo+ICsgICAgICAgICAgICAgICAgaW5zdGFsbCAtZCAke0RFUExP
+WURJUn0NCj4gKyAgICAgICAgICAgICAgICBpbnN0YWxsICR7U30vJHt0eXBlfS91LWJvb3QtJHt0
+eXBlfS4ke1VCT09UX1NVRkZJWH0gJHtERVBMT1lESVJ9L3UtYm9vdC0ke2ltYWdldHlwZX0uJHtV
+Qk9PVF9TVUZGSVh9DQo+ICsgICAgICAgICAgICAgICAgaWYgWyAiJHtpbWFnZXR5cGV9InggPSAi
+c2QieCBdIHx8IFsgIiR7aW1hZ2V0eXBlfSJ4ID0gIm1mZ3Rvb2wieCBdDQo+ICsgICAgICAgICAg
+ICAgICAgdGhlbg0KPiArICAgICAgICAgICAgICAgICAgICBjcCAgJHtERVBMT1lESVJ9L3UtYm9v
+dC0ke2ltYWdldHlwZX0uJHtVQk9PVF9TVUZGSVh9ICAke0RFUExPWURJUn0vdS1ib290LSR7TUFD
+SElORX0uJHtVQk9PVF9TVUZGSVh9DQo+ICsgICAgICAgICAgICAgICAgZmkNCj4gKyAgICAgICAg
+ICAgIGZpDQoNCldheSBuaWNlciAoYW5kIHNob3VsZCBoYXZlIHNvbWUgc2ltaWxhciBjb2RlIG9u
+IHRoZSBpbnN0YWxsIGFuZCBjb21waWxlIHRhc2tzKSBob3dldmVyIEkgZGlkbid0IGdldCB3aHkg
+eW91J3JlIGFkZGluZyB0aGUgJ3NkJyBvciAnbWZndG9vbCcgc3BlY2lmaWMgY2FzZSBoZXJlLiBU
+aGlzIGlzIGEgRlNMIHNwZWNpZmljIHRoaW5nIGFuZCBzaG91bGRuJ3QgYmUgcGFydCBvZiBPRS1D
+b3JlLg0KDQpbIEkgdXNlIGRlZmF1bHQgbGluayBvZiBsYXN0IHR5cGUgdWJvb3QgIG9mICJVQk9P
+VF9DT05GSUciICAgdG8gZml4IHRoZSBmb2xsb3dpbmcgZXJyb3I6DQoNCiogZGlmZmljdWx0eSB0
+byBmaWd1cmUgdGhlIGJpbmFyeSB3aGVuIGdlbmVyYXRpbmcgdGhlIHJvb3RmczogaW4gbWV0YS1m
+c2wtYXJtLCBmb3IgZXhhbXBsZSwgd2UgZ2VuZXJhdGUgdGhlIC5zZGNhcmQgcm9vdGZzIGFuZCB1
+c2luZyB0aGUgcGF0Y2ggd2Ugbm93IGhhdmUuLi4NCg0KRVJST1I6IEVycm9yOiBUaGUgaW1hZ2Ug
+Y3JlYXRpb24gc2NyaXB0DQonLi4uL3RtcC93b3JrL2lteDZxc2FicmVzZC1vZWwtbGludXgtZ251
+ZWFiaS9jb3JlLWltYWdlLW1pbmltYWwvMS4wLXIwL3RlbXAvY3JlYXRlX2ltYWdlLnNkY2FyZCcN
+Cg0KXQ0KDQoNCg0KDQo+ICsgICAgICAgIGRvbmUNCj4gKyAgICBkb25lDQo+ICsNCj4gKw0KPiAr
+ICAgIGZvciB0eXBlIGluICR7VUJPT1RfTUFDSElORX07IGRvDQo+ICsgICAgICAgIGlmIFsgIngk
+e1NQTF9CSU5BUll9IiAhPSAieCIgXSAmJiBbIC1kICIke1N9LyR7dHlwZX0vJHtTUExfQklOQVJZ
+fSJdDQo+ICsgICAgICAgIHRoZW4NCj4gKyAgICAgICAgICAgIGluc3RhbGwgJHtTfS8ke3R5cGV9
+LyR7U1BMX0JJTkFSWX0gJHtERVBMT1lESVJ9LyR7U1BMX0lNQUdFfQ0KPiArICAgICAgICAgICAg
+cm0gLWYgJHtERVBMT1lESVJ9LyR7U1BMX0JJTkFSWX0gJHtERVBMT1lESVJ9LyR7U1BMX1NZTUxJ
+Tkt9DQo+ICsgICAgICAgICAgICBsbiAtc2YgJHtTUExfSU1BR0V9ICR7REVQTE9ZRElSfS8ke1NQ
+TF9CSU5BUll9DQo+ICsgICAgICAgICAgICBsbiAtc2YgJHtTUExfSU1BR0V9ICR7REVQTE9ZRElS
+fS8ke1NQTF9TWU1MSU5LfQ0KPiArICAgICAgICBmaQ0KPiArICAgIGRvbmUNCg0KU2FtZSBjb21t
+ZW50IGFzIHRoZSBTUEwgYmluYXJ5IGFib3ZlLg0KDQpbYWNjZXB0XSANCj4gICAgICBpZiBbICJ4
+JHtVQk9PVF9FTlZ9IiAhPSAieCIgXQ0KPiAgICAgIHRoZW4NCg0KLS0gDQpPdGF2aW8gU2FsdmFk
+b3IgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE8uUy4gU3lzdGVtcw0KaHR0cDovL3d3dy5v
+c3N5c3RlbXMuY29tLmJyICAgICAgICBodHRwOi8vY29kZS5vc3N5c3RlbXMuY29tLmJyDQpNb2Jp
+bGU6ICs1NSAoNTMpIDk5ODEtNzg1NCAgICAgICAgICAgIE1vYmlsZTogKzEgKDM0NykgOTAzLTk3
+NTANCg==
 
