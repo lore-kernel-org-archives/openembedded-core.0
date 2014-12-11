@@ -1,36 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
-	[209.85.216.53])
-	by mail.openembedded.org (Postfix) with ESMTP id E116865D3B
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CBE565CAF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Dec 2014 11:14:12 +0000 (UTC)
-Received: by mail-qa0-f53.google.com with SMTP id bm13so3330277qab.26
+	Thu, 11 Dec 2014 11:27:19 +0000 (UTC)
+Received: by mail-wi0-f182.google.com with SMTP id h11so8268161wiw.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Dec 2014 03:14:13 -0800 (PST)
+	Thu, 11 Dec 2014 03:27:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=vDkMWWuEiOYyLbcSfXR01qbzpY4kHk0GZafOCj7uyH0=;
-	b=AORxY+DRN5rfHoQ7CIFZ+oWc/WpZVLc2us3ZHTYzvk242IgtqDxiNVN0+R9M2ucqTg
-	8Q2tTfzCW3TrynsSLh8jyJUzO9TjVEHeSOeG7fTly9IIoqtCnZlwWcHdlKhdI5+T6z7O
-	eFLrd0Dz78B78rZJJrH4Vc9yG+itCu/xx9vnBL+AOAKMFGMLoN9iUUK7Kwpz45fO2Iad
-	0WynbM0gZHlQmYGFCGpzpJ3Ye30eWaRPP7Y71AMhjOUGSffcwKAL3bZo9e2mpG5Jp+Ed
-	XGxgR4cYlKIHWlpAg1Hwo/kcr+TzjSYEyn3PO3terli4h96OkNt15YZoUinNeyVrypz5
-	C10A==
-X-Gm-Message-State: ALoCoQmb7OlWr8Zqeeoo39XB1UBfXfugFTTSvbtzbo11NP0lPJ2h0D4QEX80f2WNbGdAHMQuO6I0
-X-Received: by 10.224.92.205 with SMTP id s13mr18848946qam.52.1418296453018;
-	Thu, 11 Dec 2014 03:14:13 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.48.231 with HTTP; Thu, 11 Dec 2014 03:13:51 -0800 (PST)
-In-Reply-To: <20141211092332.GA2467@jama>
-References: <20141211092332.GA2467@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Dec 2014 11:13:51 +0000
-Message-ID: <CAJTo0LYwYW40XvxNN=rY4z6fK+4NJ2ZFxa2xsUvuspERa_MT+A@mail.gmail.com>
-To: OE-devel <openembedded-devel@lists.openembedded.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] State of bitbake world, test-dependencies 2014-12-11
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=0mG1hxW1BFksIP5vRybrBpWF8eyJV+3bDCtDuroKQD8=;
+	b=ZI3ve3j9g0xgMK7d+IMF6Hu666bkFY3QlXVNbMwX6prjjia9HvjsE5tgU/wET+i8yX
+	krbFnFM6QBBWbEn8vBwRJqB+241VJIvdfn9bdIwzl5tpjrgg0+wKoIj+bkTp+5clm81x
+	Yq7qu1xv7FmnMsghExjJ4TXvCAYPw4PUuT4SFuvBB9c+2r2YBRwPi4GhLn0tRtv9FNfs
+	+B2I6e6/YZNeZOLffdkFFgyZOp/OpCX7iEJZYD1/iNTyPJva2pMpY0FowxX8w0eO3V3b
+	lM9Ibf+o38iytBl/jNXaHbKiSH+Mau4QxiwYag51J0TCAyEGwyCtpTF9M3GxwBdsMNYx
+	jQ3w==
+X-Gm-Message-State: ALoCoQlV5/zqurgGoGhuioU2Ou0+A/Q41UeaQKXRR0NFLMtYH83RQxRdX/OSbUAN9GRe44gSY1Pc
+X-Received: by 10.180.85.198 with SMTP id j6mr14637013wiz.23.1418297239873;
+	Thu, 11 Dec 2014 03:27:19 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id jr4sm1308557wjc.20.2014.12.11.03.27.18
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 11 Dec 2014 03:27:19 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Dec 2014 11:26:37 +0000
+Message-Id: <1418297198-12636-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/2] gst-plugins: remove spurious whitespace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,50 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Dec 2014 11:14:23 -0000
-Content-Type: multipart/alternative; boundary=089e015375e444ce150509eee04b
+X-List-Received-Date: Thu, 11 Dec 2014 11:27:20 -0000
 
---089e015375e444ce150509eee04b
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-multimedia/gstreamer/gst-plugins.inc |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On 11 December 2014 at 09:23, Martin Jansa <martin.jansa@gmail.com> wrote:
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins.inc b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
+index 2697609..c852c53 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins.inc
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
+@@ -19,10 +19,10 @@ require gst-plugins-package.inc
+ PACKAGES_DYNAMIC += "^${PN}-.*"
+ 
+ # apply gstreamer hack after Makefile.in.in in source is replaced by our version from
+-# ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in, but before configure is executed 
++# ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in, but before configure is executed
+ # http://lists.linuxtogo.org/pipermail/openembedded-core/2012-November/032233.html
+-oe_runconf_prepend() {                                                                                                                                      
++oe_runconf_prepend() {
+ 	if [ -e ${S}/po/Makefile.in.in ]; then
+ 		sed -i -e "1a\\" -e 'GETTEXT_PACKAGE = @GETTEXT_PACKAGE@' ${S}/po/Makefile.in.in
+ 	fi
+-}                                                                                                                                                           
++}
+-- 
+1.7.10.4
 
-> WARN: gst-plugins-bad: gst-plugins-bad-meta rdepends on
-> gst-plugins-bad-rtmp, but it isn't a build dependency?
-> ERROR: gst-plugins-bad: gst-plugins-bad-rtmp package isn't created when
-> building with minimal dependencies?
-> ERROR: gst-plugins-bad: gst-plugins-bad-rtmp-dev package isn't created
-> when building with minimal dependencies?
->
 
-Coincidently last night my world run gave me warnings that
-gst-plugins-bad-rtmp was depending on rtmpdump without a build depends, so
-I've copied the PACKAGECONFIG[rtmp] from gstreamer1.0-plugins-bad to
-gst-plugins-bad.  Presumably this will fix these errors, although that
-warning seems odd.
-
-Ross
-
---089e015375e444ce150509eee04b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
-1 December 2014 at 09:23, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":32d" class=3D=
-"a3s" style=3D"overflow:hidden">WARN: gst-plugins-bad: gst-plugins-bad-meta=
- rdepends on gst-plugins-bad-rtmp, but it isn&#39;t a build dependency?<br>=
-ERROR: gst-plugins-bad: gst-plugins-bad-rtmp package isn&#39;t created when=
- building with minimal dependencies?<br>
-ERROR: gst-plugins-bad: gst-plugins-bad-rtmp-dev package isn&#39;t created =
-when building with minimal dependencies?</div></blockquote></div><br>Coinci=
-dently last night my world run gave me warnings that gst-plugins-bad-rtmp w=
-as depending on rtmpdump without a build depends, so I&#39;ve copied the PA=
-CKAGECONFIG[rtmp] from gstreamer1.0-plugins-bad to gst-plugins-bad.=C2=A0 P=
-resumably this will fix these errors, although that warning seems odd.</div=
-><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
-</div>
-
---089e015375e444ce150509eee04b--
