@@ -1,32 +1,35 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B8F971F23
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id D4530601F5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Dec 2014 19:34:19 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	sBCJYKoh026734 for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Dec 2014 13:34:20 -0600
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014121213342042-1077391 ;
-	Fri, 12 Dec 2014 13:34:20 -0600 
-From: Richard Tollerton <rich.tollerton@ni.com>
+	Fri, 12 Dec 2014 20:42:36 +0000 (UTC)
+Received: by mail-pd0-f180.google.com with SMTP id w10so7831019pde.11
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Dec 2014 12:42:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=HyfqAyzbl7+4ffUYBYsPksyrLeJPL8+Cp+AcmSbFr80=;
+	b=cN05cNdvHorDsyHTFZM9kZLpQM8wc4Ac4GGrB1KmAZjy5NPhyuXh9D582XEexQuuBl
+	w+E5MazWKkv+eG64rctKH/l0KMkBvHTZ2figq6mbylFOs8wTMMYJiNw+PECbHmThBB5w
+	S6iWSsuO2rioSmiQZq8CdIyiYfW/tp1l2COtqGUZ9ZcWKA65jSbTX0r7nfoQBFzCwUNp
+	KuFHBXVoesANl2eHyjxIydBvdlalgdeWsx+Kp4Ddx1etZXeUrcvBiRpbUFFJRSxp0Xv9
+	hiN3htj6lJZsCOQks/4Bz++8TlxQ7KJKmn2Xxq0Bi9SY0xjQxcHXF1ThNKUmZKhg0l9I
+	Xo2Q==
+X-Received: by 10.68.91.4 with SMTP id ca4mr29933080pbb.97.1418416957345;
+	Fri, 12 Dec 2014 12:42:37 -0800 (PST)
+Received: from haswell.localdomain (c-76-103-142-85.hsd1.ca.comcast.net.
+	[76.103.142.85])
+	by mx.google.com with ESMTPSA id di3sm2299842pbc.46.2014.12.12.12.42.36
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 12 Dec 2014 12:42:36 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Dec 2014 13:34:00 -0600
-Message-Id: <1418412840-12796-1-git-send-email-rich.tollerton@ni.com>
+Date: Fri, 12 Dec 2014 12:47:43 -0800
+Message-Id: <1418417263-10579-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.3
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 12/12/2014 01:34:20 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 12/12/2014 01:34:20 PM,
-	Serialize complete at 12/12/2014 01:34:20 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.13.68, 1.0.33,
-	0.0.0000
-	definitions=2014-12-12_07:2014-12-12, 2014-12-12,
-	1970-01-01 signatures=0
-Subject: [PATCH] font-util: Fix incorrect PKG_CONFIG_PATH
+Subject: [PATCH] kernel.bbclass: Remove bashism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,35 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Dec 2014 19:34:25 -0000
+X-List-Received-Date: Fri, 12 Dec 2014 20:42:41 -0000
 
-PKG_CONFIG_PATH always defaults to /usr/lib/pkgconfig, and the host
-/usr/lib/pkgconfig is always checked as a fallback; however,
-PKG_CONFIG_PATH is currently (incorrectly) set to /usr/lib/pkg-config in
-the sysroot, which doesn't exist. On host distros where the font
-encoding maps are stored under a different path than OE, this will break
-font builds, because ucs2any will attempt to read the sysroot's encoding
-maps with the host paths.
+Fixes build on systems using dash for default shell e.g.
 
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+errors like
+
+run.do_strip.25842: [[: not found
+| readelf: Error: Unable to read in 0x37 bytes of section headers
+| readelf: Error: Not an ELF file - it has the wrong magic bytes at the start
+
+Change-Id: I29cac15be44a02d75a3d6889b6ae9b2e19bf46af
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-graphics/xorg-font/font-util_1.3.0.bb | 2 +-
+ meta/classes/kernel.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-font/font-util_1.3.0.bb b/meta/recipes-graphics/xorg-font/font-util_1.3.0.bb
-index 8b42991..cc4258a 100644
---- a/meta/recipes-graphics/xorg-font/font-util_1.3.0.bb
-+++ b/meta/recipes-graphics/xorg-font/font-util_1.3.0.bb
-@@ -17,7 +17,7 @@ RDEPENDS_${PN}_class-native = "mkfontdir-native mkfontscale-native"
- PR = "${INC_PR}.0"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index f300fa3..4af9d15 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -390,7 +390,7 @@ python split_kernel_packages () {
  
- do_configure_prepend() {
--        sed -i "s#MAPFILES_PATH=\`pkg-config#MAPFILES_PATH=\`PKG_CONFIG_PATH=\"${STAGING_LIBDIR_NATIVE}/pkg-config\" pkg-config#g" ${S}/fontutil.m4.in
-+        sed -i "s#MAPFILES_PATH=\`pkg-config#MAPFILES_PATH=\`PKG_CONFIG_PATH=\"${STAGING_LIBDIR_NATIVE}/pkgconfig\" pkg-config#g" ${S}/fontutil.m4.in
- }
- 
- BBCLASSEXTEND = "native"
+ do_strip() {
+ 	if [ -n "${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}" ]; then
+-		if [[ "${KERNEL_IMAGETYPE}" != "vmlinux" ]]; then
++		if [ "${KERNEL_IMAGETYPE}" != "vmlinux" ]; then
+ 			bbwarn "image type will not be stripped (not supported): ${KERNEL_IMAGETYPE}"
+ 			return
+ 		fi
 -- 
-2.1.3
+2.1.1
 
 
