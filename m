@@ -1,38 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 396BE72333
+Return-Path: <pbarker@betafive.co.uk>
+X-Greylist: delayed 477 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 13 Dec 2014 13:01:33 UTC
+Received: from crash.betafive.co.uk (crash.betafive.co.uk [37.187.124.48])
+	by mail.openembedded.org (Postfix) with ESMTP id E95A471F23
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Dec 2014 20:43:11 +0000 (UTC)
-Received: by mail-ie0-f172.google.com with SMTP id tr6so7630194ieb.31
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Dec 2014 12:43:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=3H0fD4ESpMAViFbDGRoziNwhG7QsLOxSRDM0u6pgOok=;
-	b=KBHRePmBvjSu1/p/VXzRwMTDuNWmcH5E0yfoaJDSrzP84y0wEXV2Z070ypJ4AZ3aPy
-	fLb1/V2jSRM0vmf4aSZsW5PwcJaTFhaeb5a0L+u4vD32EYVH5dSK7IFed/Ge+Il5+BVF
-	8lu4aXkWW913z/mKTQ+oz7S5Ea2ivbpLaq8z3Yr2QbHpW/oxjfrdCzahoz0+bMyy2hX1
-	+o2ohimu6rOIR1fCzQuCk0bS/HiVAkWw29YN/9dotk3P606PZX2S67RZx9bdGu6lUy8s
-	cOou89MUw8xXvOLXcnSXgG1UpC3thQNDNmkfaf6a3wOliV3jVLLhvI02KWLajC1qxlRR
-	4Bbg==
-X-Received: by 10.50.43.133 with SMTP id w5mr6691631igl.12.1418416992242;
-	Fri, 12 Dec 2014 12:43:12 -0800 (PST)
-Received: from 10.168.191.178-ra01.englewood.co.denver.comcast.net
-	(fw01.aurora.co.denver.comcast.net. [198.178.8.81])
-	by mx.google.com with ESMTPSA id ii3sm1264740igb.1.2014.12.12.12.43.11
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 12 Dec 2014 12:43:11 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 8.1 \(1993\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1418417263-10579-1-git-send-email-raj.khem@gmail.com>
-Date: Fri, 12 Dec 2014 12:43:10 -0800
-Message-Id: <6EF6AD35-74BC-4B3E-AE31-82F3571F0E2D@gmail.com>
-References: <1418417263-10579-1-git-send-email-raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-X-Mailer: Apple Mail (2.1993)
-Subject: Re: [PATCH] kernel.bbclass: Remove bashism
+	Sat, 13 Dec 2014 13:01:33 +0000 (UTC)
+Received: by crash.betafive.co.uk (Postfix, from userid 1000)
+	id B00E13E110E; Sat, 13 Dec 2014 12:54:15 +0000 (GMT)
+Date: Sat, 13 Dec 2014 12:54:15 +0000
+From: Paul Barker <paul@paulbarker.me.uk>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20141213125415.GB4969@crash.betafive.co.uk>
+References: <CANyK_8eZHwtww6AL7L5f34R5Nc7mhSQALaez1NCnHvmUpHWcXw@mail.gmail.com>
+	<1417004047.12520.10.camel@linuxfoundation.org>
+	<CANyK_8dxvZU8wnqFQGWL=DgFxOdgdq-yaaOkOJrR60w7_M6pfg@mail.gmail.com>
+	<20141126151708.GA2460@jama>
+MIME-Version: 1.0
+In-Reply-To: <20141126151708.GA2460@jama>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: opkg, opkg-config-base and opkg-collateral
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,45 +32,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Dec 2014 20:43:13 -0000
+X-List-Received-Date: Sat, 13 Dec 2014 13:01:41 -0000
+X-Groupsio-MsgNum: 60473
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="UHN/qo2QbUvPLonB"
+Content-Disposition: inline
+
+--UHN/qo2QbUvPLonB
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-this needs back porting to dizzy as well
-
-> On Dec 12, 2014, at 12:47 PM, Khem Raj <raj.khem@gmail.com> wrote:
+On Wed, Nov 26, 2014 at 04:17:08PM +0100, Martin Jansa wrote:
+> On Wed, Nov 26, 2014 at 01:50:38PM +0000, Paul Barker wrote:
+> >=20
+> > I'd keep three, but refactor them as I've described above:
+> > - opkg: Includes '/etc/opkg/opkg.conf'
+> > - opkg-arch-config: Includes '/etc/opkg/arch.conf', machine specific
+> > - opkg-feed-config: Includes '/etc/opkg/feeds.conf', distro and
+> > possibly machine specific
 >=20
-> Fixes build on systems using dash for default shell e.g.
+> Please also check
+> http://git.openembedded.org/meta-openembedded/tree/meta-oe/recipes-core/m=
+eta/distro-feed-configs.bb
 >=20
-> errors like
+> + filtering the architectures
 >=20
-> run.do_strip.25842: [[: not found
-> | readelf: Error: Unable to read in 0x37 bytes of section headers
-> | readelf: Error: Not an ELF file - it has the wrong magic bytes at =
-the start
+> https://github.com/shr-distribution/meta-smartphone/blob/master/meta-shr-=
+distro/recipes-core/meta/distro-feed-configs.bbappend
 >=20
-> Change-Id: I29cac15be44a02d75a3d6889b6ae9b2e19bf46af
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> meta/classes/kernel.bbclass | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
+> + stricter filter for individual MACHINEs based on selected DEFAULTTUNE
 >=20
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index f300fa3..4af9d15 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -390,7 +390,7 @@ python split_kernel_packages () {
->=20
-> do_strip() {
-> 	if [ -n "${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}" ]; then
-> -		if [[ "${KERNEL_IMAGETYPE}" !=3D "vmlinux" ]]; then
-> +		if [ "${KERNEL_IMAGETYPE}" !=3D "vmlinux" ]; then
-> 			bbwarn "image type will not be stripped (not =
-supported): ${KERNEL_IMAGETYPE}"
-> 			return
-> 		fi
-> --=20
-> 2.1.1
+> https://github.com/shr-distribution/meta-smartphone/blob/master/meta-shr-=
+distro/conf/distro/include/defaulttunes.inc
 >=20
 
+Thanks for the pointer Martin, I forgot to check outside oe-core. Also, sor=
+ry
+for the late reply, been rather busy recently!
 
+I suggest we drop poky-feed-config-opkg from oe-core as it isn't really usa=
+ble
+as-is and the Yocto Project manual recommends using distro-feed-config anyw=
+ay
+(http://www.yoctoproject.org/docs/1.7/mega-manual/mega-manual.html#runtime-=
+package-management-build).
+
+I still think the opkg and opkg-collateral recipes should be refactored as I
+proposed in my previous email. I'll try to throw together some RFC patches =
+this
+week.
+
+We could also consider moving distro-feed-config to oe-core if it is the
+recommended way to setup opkg feeds. I do think that a unified way of
+configuring ipk/deb/rpm feeds would be good to have in the long term, but w=
+e can
+at least tidy up the opkg configuration for now.
+
+Thanks,
+
+--=20
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
+
+--UHN/qo2QbUvPLonB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJUjDb3AAoJEBwoJlo7UPQDpCkH/0cwE1SxtboLjtlrjDhq79wH
+2K1lJxWhufbVMf+Wny4qFIIFgOy+bOIrGq8+N3MV1M9YJhOgbQI/jxlioP47qnDz
+doemtkX7KMtlpbXmiEhAPOMSMWpQ6CxkcA9ihrdYzXYBJwJc9UvOfwd9F+/djaSw
+ytO5gKh2tyPGjr64YLaMldjIjLwhL7bnWWYvADt8t2+1nPdzpiqChogI0d6Et0io
+dzuR0qZOatYuKZmIb50nuOGkHqNWooIFJge/gFc9cMtsVy+9C+deKbdcP3bhPndK
+85r9vkrgfbCXVGiHHaA3TUqdrfERq6J/wwB2crzKrpv/pI4iX70KlGjg+Y8b81U=
+=oWq2
+-----END PGP SIGNATURE-----
+
+--UHN/qo2QbUvPLonB--
