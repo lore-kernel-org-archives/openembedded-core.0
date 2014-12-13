@@ -1,25 +1,35 @@
-Return-Path: <pbarker@betafive.co.uk>
-X-Greylist: delayed 477 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 13 Dec 2014 13:01:33 UTC
-Received: from crash.betafive.co.uk (crash.betafive.co.uk [37.187.124.48])
-	by mail.openembedded.org (Postfix) with ESMTP id E95A471F23
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 277B171F2C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Dec 2014 13:01:33 +0000 (UTC)
-Received: by crash.betafive.co.uk (Postfix, from userid 1000)
-	id B00E13E110E; Sat, 13 Dec 2014 12:54:15 +0000 (GMT)
-Date: Sat, 13 Dec 2014 12:54:15 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20141213125415.GB4969@crash.betafive.co.uk>
-References: <CANyK_8eZHwtww6AL7L5f34R5Nc7mhSQALaez1NCnHvmUpHWcXw@mail.gmail.com>
-	<1417004047.12520.10.camel@linuxfoundation.org>
-	<CANyK_8dxvZU8wnqFQGWL=DgFxOdgdq-yaaOkOJrR60w7_M6pfg@mail.gmail.com>
-	<20141126151708.GA2460@jama>
-MIME-Version: 1.0
-In-Reply-To: <20141126151708.GA2460@jama>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: opkg, opkg-config-base and opkg-collateral
+	Sat, 13 Dec 2014 16:26:16 +0000 (UTC)
+Received: by mail-pa0-f49.google.com with SMTP id eu11so9079895pac.36
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 13 Dec 2014 08:26:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=ubHT8Jnelo+z3SqSYI84bZQKQjjmuaMzzW6iqaln9+M=;
+	b=LUWNKhBgAcsNXBH740RqBlZFTSe29rkCRtcNWPMe87dYSoh0QmFMJ1hnq4h7nYW33v
+	gJ9cYw3cxhPDgYtjt8oAMTeLgn1VYFrhPcunGOGT5k6LoibJ2SAvwHj+tUKac+0xHc+h
+	82E8sf0TxxLUYCDi1b/pvn8UB4OK7oovHkyLTaT/oAfX+hI7+cK5ToihqmVcJLOZ7+Gg
+	Qx4FLEpq8R8+iNT72NKkD8hqgR6xPz44BLWZ6DlA2rX2RM7buqpK3Dam2ufrOG7TTEuV
+	Ob8Q1njRO1uXjG11KYkw2g/rLI++k6/TFL+lW8Br/MLLWtjwjs3dD5MqPUxrcx03kCdA
+	xoOw==
+X-Received: by 10.66.66.68 with SMTP id d4mr33916195pat.79.1418487977197;
+	Sat, 13 Dec 2014 08:26:17 -0800 (PST)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207])
+	by mx.google.com with ESMTPSA id m5sm4640821pdi.24.2014.12.13.08.26.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 13 Dec 2014 08:26:15 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 13 Dec 2014 08:26:11 -0800
+Message-Id: <1418487971-12276-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [[PATCH] gnutls: upgrade to 3.3.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,85 +42,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Dec 2014 13:01:41 -0000
-X-Groupsio-MsgNum: 60473
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="UHN/qo2QbUvPLonB"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 13 Dec 2014 16:26:20 -0000
 
---UHN/qo2QbUvPLonB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+this also includes a fix for CVE-2014-8564.
 
-On Wed, Nov 26, 2014 at 04:17:08PM +0100, Martin Jansa wrote:
-> On Wed, Nov 26, 2014 at 01:50:38PM +0000, Paul Barker wrote:
-> >=20
-> > I'd keep three, but refactor them as I've described above:
-> > - opkg: Includes '/etc/opkg/opkg.conf'
-> > - opkg-arch-config: Includes '/etc/opkg/arch.conf', machine specific
-> > - opkg-feed-config: Includes '/etc/opkg/feeds.conf', distro and
-> > possibly machine specific
->=20
-> Please also check
-> http://git.openembedded.org/meta-openembedded/tree/meta-oe/recipes-core/m=
-eta/distro-feed-configs.bb
->=20
-> + filtering the architectures
->=20
-> https://github.com/shr-distribution/meta-smartphone/blob/master/meta-shr-=
-distro/recipes-core/meta/distro-feed-configs.bbappend
->=20
-> + stricter filter for individual MACHINEs based on selected DEFAULTTUNE
->=20
-> https://github.com/shr-distribution/meta-smartphone/blob/master/meta-shr-=
-distro/conf/distro/include/defaulttunes.inc
->=20
+see http://www.gnutls.org/security.html for CVE-2014-3566 "POODLE" statement.
 
-Thanks for the pointer Martin, I forgot to check outside oe-core. Also, sor=
-ry
-for the late reply, been rather busy recently!
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-support/gnutls/gnutls_3.3.11.bb | 6 ++++++
+ meta/recipes-support/gnutls/gnutls_3.3.5.bb  | 7 -------
+ 2 files changed, 6 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-support/gnutls/gnutls_3.3.11.bb
+ delete mode 100644 meta/recipes-support/gnutls/gnutls_3.3.5.bb
 
-I suggest we drop poky-feed-config-opkg from oe-core as it isn't really usa=
-ble
-as-is and the Yocto Project manual recommends using distro-feed-config anyw=
-ay
-(http://www.yoctoproject.org/docs/1.7/mega-manual/mega-manual.html#runtime-=
-package-management-build).
+diff --git a/meta/recipes-support/gnutls/gnutls_3.3.11.bb b/meta/recipes-support/gnutls/gnutls_3.3.11.bb
+new file mode 100644
+index 0000000..320c510
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls_3.3.11.bb
+@@ -0,0 +1,6 @@
++require gnutls.inc
++
++SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
++           "
++SRC_URI[md5sum] = "b657e3010c10cae2244e7ce79ee3d446"
++SRC_URI[sha256sum] = "aef28d629b6ba824bd435f9b23506525e657e3746d4aa021296b13cbaaa6ae71"
+diff --git a/meta/recipes-support/gnutls/gnutls_3.3.5.bb b/meta/recipes-support/gnutls/gnutls_3.3.5.bb
+deleted file mode 100644
+index b3daa49..0000000
+--- a/meta/recipes-support/gnutls/gnutls_3.3.5.bb
++++ /dev/null
+@@ -1,7 +0,0 @@
+-require gnutls.inc
+-
+-SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
+-           "
+-
+-SRC_URI[md5sum] = "1f396dcf3c14ea67de7243821006d1a2"
+-SRC_URI[sha256sum] = "48f34ae032692c498e782e9f1369506572be40ecf7f3f3604b0b00bad1b10477"
+-- 
+1.9.1
 
-I still think the opkg and opkg-collateral recipes should be refactored as I
-proposed in my previous email. I'll try to throw together some RFC patches =
-this
-week.
 
-We could also consider moving distro-feed-config to oe-core if it is the
-recommended way to setup opkg feeds. I do think that a unified way of
-configuring ipk/deb/rpm feeds would be good to have in the long term, but w=
-e can
-at least tidy up the opkg configuration for now.
-
-Thanks,
-
---=20
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
-
---UHN/qo2QbUvPLonB
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-iQEcBAEBAgAGBQJUjDb3AAoJEBwoJlo7UPQDpCkH/0cwE1SxtboLjtlrjDhq79wH
-2K1lJxWhufbVMf+Wny4qFIIFgOy+bOIrGq8+N3MV1M9YJhOgbQI/jxlioP47qnDz
-doemtkX7KMtlpbXmiEhAPOMSMWpQ6CxkcA9ihrdYzXYBJwJc9UvOfwd9F+/djaSw
-ytO5gKh2tyPGjr64YLaMldjIjLwhL7bnWWYvADt8t2+1nPdzpiqChogI0d6Et0io
-dzuR0qZOatYuKZmIb50nuOGkHqNWooIFJge/gFc9cMtsVy+9C+deKbdcP3bhPndK
-85r9vkrgfbCXVGiHHaA3TUqdrfERq6J/wwB2crzKrpv/pI4iX70KlGjg+Y8b81U=
-=oWq2
------END PGP SIGNATURE-----
-
---UHN/qo2QbUvPLonB--
