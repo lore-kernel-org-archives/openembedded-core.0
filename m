@@ -1,32 +1,32 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id ED42465E38
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 610397113B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Dec 2014 16:57:28 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id eu11so10256850pac.36
+	Sun, 14 Dec 2014 17:57:56 +0000 (UTC)
+Received: by mail-pd0-f171.google.com with SMTP id y13so10249222pdi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Dec 2014 08:57:29 -0800 (PST)
+	Sun, 14 Dec 2014 09:57:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=message-id:date:from:user-agent:mime-version:to:cc:subject
 	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=nuae0gVNo2BeiMndz8ImoosyZrZdABCfSLUhQORPRAw=;
-	b=K+5AEDuI9i/IjXZiYhgtx52AqJG2MH0mnSBAZwrn9iJ4af+fqEtZiMbUDiCWUgbapZ
-	ldcr6KWm+Yc3aZFiLrRI6wFXaEoTSg4P4eFwfJ1pgHZqzyc1LRaxl3Svlkkg+tAkNhtn
-	SSGvfYeU5c1diAc8v3PjtJrJtkfrsQX/Guw5Nlku/e+YIpX912mgNauPheFoe2W9r22N
-	KEBK29GiiJoSKEz0RxLJT/oNFwhpLRJea6KYsz0tYfBQcgI/PWOR1fT4bBmetkY4lHMQ
-	y8Wcqj16h2tOfSBRU4M7my1LoWP8O0czMJYW+3OnR2cohV9lq/s8gw+bUIrhkB1/oGwz
-	N7QA==
-X-Received: by 10.68.241.10 with SMTP id we10mr43334466pbc.101.1418576249000; 
-	Sun, 14 Dec 2014 08:57:29 -0800 (PST)
+	bh=a8AnaLB/0LjwPnaLNxpqm7f1tkwZ9yiimWg0+b2/M5Q=;
+	b=O0YcDPL5GhSROAOaU+jlyAJzDkZdO+1uk7NTf6zRdEOAHtoK0zuXOHZa4iTwbp6Kts
+	+/sYjS+Kw4FMHNzFttXIGejQilxaQ4fDPvIrt3RfeTiq74u0z8Cy7JCrbSZiCA9X6vZm
+	C37SGfMZc8fUPLLgEkiImyvffAhyg7grwq5SX+/MCMs2wO98+2fhcKG1EHhIOE2phf1m
+	3yxQMZ28xvd3I/sxtwiorbUaZmEFBYTQ/k4OIsswTaJWXlkHIG4IZndWE1RHx3bsFeb4
+	LtSh0eI5ujzzkcPUpywPIMr2LrQLwgGcoCtSwIEH60VRc9/r3Sc1Mitp4fY+u5WVPlZ6
+	Px4A==
+X-Received: by 10.68.164.34 with SMTP id yn2mr44788431pbb.158.1418579877597;
+	Sun, 14 Dec 2014 09:57:57 -0800 (PST)
 Received: from ?IPv6:2601:c:9380:601:514e:15d4:f5e2:d462?
 	([2601:c:9380:601:514e:15d4:f5e2:d462])
-	by mx.google.com with ESMTPSA id bf1sm6914671pbc.31.2014.12.14.08.57.27
+	by mx.google.com with ESMTPSA id do3sm7046500pac.48.2014.12.14.09.57.55
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 14 Dec 2014 08:57:27 -0800 (PST)
-Message-ID: <548DC16B.6050507@gmail.com>
-Date: Sun, 14 Dec 2014 08:57:15 -0800
+	Sun, 14 Dec 2014 09:57:56 -0800 (PST)
+Message-ID: <548DCF99.3060308@gmail.com>
+Date: Sun, 14 Dec 2014 09:57:45 -0800
 From: akuster808 <akuster808@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
@@ -49,10 +49,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Dec 2014 16:57:30 -0000
+X-List-Received-Date: Sun, 14 Dec 2014 17:57:59 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
+
+Khem,
+
+I redid the patch several times and I end up with the same resulting 
+changes as below. "-M" used every time. I am not sure what is going on.
+
+- Armin
 
 
 On 12/13/2014 01:05 PM, Khem Raj wrote:
@@ -102,11 +109,6 @@ On 12/13/2014 01:05 PM, Khem Raj wrote:
 >
 > This is a simple patch but it will be good if you used -M option for git format-patch so git tries
 > a bit harder to detect renames.
-
-Hmm, that is odd. I thought I used "-M"... will resend.
-
-thanks,
-Armin
 >
 >>
 >> --
