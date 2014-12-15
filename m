@@ -1,23 +1,43 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 06D9F710EF
+Return-Path: <akuster@mvista.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C2F972544
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 18:05:35 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 15 Dec 2014 10:01:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,581,1413270000"; d="scan'208";a="654282111"
-Received: from unknown (HELO [10.255.14.5]) ([10.255.14.5])
-	by orsmga002.jf.intel.com with ESMTP; 15 Dec 2014 10:03:15 -0800
-Message-ID: <548F2263.60807@linux.intel.com>
-Date: Mon, 15 Dec 2014 10:03:15 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Mon, 15 Dec 2014 18:08:23 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id kx10so12285517pab.16
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Dec 2014 10:08:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=Be0xi8vMlHzHd0TqHHidH/xDiJ5Hhf8wy2awAZdGlZw=;
+	b=Ls0OioIRcOB6sixvw0r9HBHJA4OAj4YGoVcLuGh3Ar0rg1h1s5CKoRqLz14tLHqZ11
+	LYN86WN804zSu7+hXd56IozAwzTFuLc02bw2c5xBTSLoPCrO5cvNmsJmld8L+dl2Elul
+	uEThKoy5U4Y4/SGvCY9KqY/o47uFOpsB6R2lildx3sMY7itPR0w+YJeZGnVN7z54QAKT
+	w3V4RLZwffBIv43MgPP+ZsBiSJRV/7Zm9BidbE7uP3Q5I/85kumE7KuR+B+G/xKbfBrd
+	QV3n8nbA4we6RoAHLe9zAQpLPJkcPmTi7eLU29Mcynhj8QDFD7Z5AwokhowQ6TQZTfl9
+	wbnw==
+X-Gm-Message-State: ALoCoQnVgmjSU1qUeJRAH5xVAQlntO2EKwZ1hnJ7LVCErlL/82uQVww4FgiQBKyCdVAmyFv5qEi6
+X-Received: by 10.66.139.234 with SMTP id rb10mr53125306pab.146.1418666904734; 
+	Mon, 15 Dec 2014 10:08:24 -0800 (PST)
+Received: from ?IPv6:2601:c:9380:601:1d1a:5082:6eef:d127?
+	([2601:c:9380:601:1d1a:5082:6eef:d127])
+	by mx.google.com with ESMTPSA id qq6sm7871954pbb.20.2014.12.15.10.08.22
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 15 Dec 2014 10:08:23 -0800 (PST)
+Message-ID: <548F2393.4000800@mvista.com>
+Date: Mon, 15 Dec 2014 10:08:19 -0800
+From: akuster <akuster@mvista.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-To: Armin Kuster <akuster@mvista.com>
+To: Saul Wold <sgw@linux.intel.com>
 References: <1417647118-19527-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1417647118-19527-1-git-send-email-sgw@linux.intel.com>
+	<548F2263.60807@linux.intel.com>
+In-Reply-To: <548F2263.60807@linux.intel.com>
 Cc: 'Patches and discussions about the oe-core layer'
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2][dizzy] lzo: add debian patch for alignment issue
@@ -33,117 +53,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Dec 2014 18:05:42 -0000
+X-List-Received-Date: Mon, 15 Dec 2014 18:08:24 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-Armin,
+ok.
 
-Please backport this patch to dizzy
+- armin
 
-Thanks
-	Sau!
-
-On 12/03/2014 02:51 PM, Saul Wold wrote:
+On 12/15/2014 10:03 AM, Saul Wold wrote:
 > [YOCTO #6994]
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> v2 Fixed Patched Tag info
->
->   ...0001-Use-memcpy-instead-of-reinventing-it.patch | 70 ++++++++++++++++++++++
->   meta/recipes-support/lzo/lzo_2.08.bb               |  1 +
->   2 files changed, 71 insertions(+)
->   create mode 100644 meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.patch
->
-> diff --git a/meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.patch b/meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.patch
-> new file mode 100644
-> index 0000000..db3a70e
-> --- /dev/null
-> +++ b/meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.patch
-> @@ -0,0 +1,70 @@
-> +From: Simon McVittie <smcv@debian.org>
-> +Date: Sun, 23 Nov 2014 22:50:33 +0000
-> +Subject: Use memcpy() instead of reinventing it
-> +
-> +gcc inlines memcpy() with results as fast as handwritten code (at
-> +least in my brief testing with lzop), and knows the alignment
-> +constraints for our architectures.
-> +
-> +Change suggested by Julian Taylor.
-> +
-> +Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=757037
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> +---
-> + minilzo/minilzo.c | 14 ++++++++++++++
-> + src/lzo_func.h    | 14 ++++++++++++++
-> + 2 files changed, 28 insertions(+)
-> +
-> +
-> +diff --git a/minilzo/minilzo.c b/minilzo/minilzo.c
-> +index ab2be5f..6913c2f 100644
-> +--- a/minilzo/minilzo.c
-> ++++ b/minilzo/minilzo.c
-> +@@ -3523,6 +3523,20 @@ LZO_COMPILE_TIME_ASSERT_HEADER(sizeof(*(lzo_memops_TU8p)0)==8)
-> +     if ((void)0, n__n > 0) do { *d__n++ = *s__n++; } while (--n__n > 0); \
-> +     LZO_BLOCK_END
-> +
-> ++/* Debian-specific change: we know that our compiler inlines memcpy() with
-> ++ * constant n to be as fast as handwritten code, and knows which architectures
-> ++ * need things correctly aligned. */
-> ++#undef LZO_MEMOPS_COPY1
-> ++#undef LZO_MEMOPS_COPY2
-> ++#undef LZO_MEMOPS_COPY4
-> ++#undef LZO_MEMOPS_COPY8
-> ++#undef LZO_MEMOPS_COPYN
-> ++#define LZO_MEMOPS_COPY1(dd,ss) memcpy(dd, ss, 1)
-> ++#define LZO_MEMOPS_COPY2(dd,ss) memcpy(dd, ss, 2)
-> ++#define LZO_MEMOPS_COPY4(dd,ss) memcpy(dd, ss, 4)
-> ++#define LZO_MEMOPS_COPY8(dd,ss) memcpy(dd, ss, 8)
-> ++#define LZO_MEMOPS_COPYN(dd,ss,nn) memcpy(dd, ss, nn)
-> ++
-> + __lzo_static_forceinline lzo_uint16_t lzo_memops_get_le16(const lzo_voidp ss)
-> + {
-> +     lzo_uint16_t v;
-> +diff --git a/src/lzo_func.h b/src/lzo_func.h
-> +index dfaa676..1cc1b53 100644
-> +--- a/src/lzo_func.h
-> ++++ b/src/lzo_func.h
-> +@@ -333,6 +333,20 @@ LZO_COMPILE_TIME_ASSERT_HEADER(sizeof(*(lzo_memops_TU8p)0)==8)
-> +     if ((void)0, n__n > 0) do { *d__n++ = *s__n++; } while (--n__n > 0); \
-> +     LZO_BLOCK_END
-> +
-> ++/* Debian-specific change: we know that our compiler inlines memcpy() with
-> ++ * constant n to be as fast as handwritten code, and knows which architectures
-> ++ * need things correctly aligned. */
-> ++#undef LZO_MEMOPS_COPY1
-> ++#undef LZO_MEMOPS_COPY2
-> ++#undef LZO_MEMOPS_COPY4
-> ++#undef LZO_MEMOPS_COPY8
-> ++#undef LZO_MEMOPS_COPYN
-> ++#define LZO_MEMOPS_COPY1(dd,ss) memcpy(dd, ss, 1)
-> ++#define LZO_MEMOPS_COPY2(dd,ss) memcpy(dd, ss, 2)
-> ++#define LZO_MEMOPS_COPY4(dd,ss) memcpy(dd, ss, 4)
-> ++#define LZO_MEMOPS_COPY8(dd,ss) memcpy(dd, ss, 8)
-> ++#define LZO_MEMOPS_COPYN(dd,ss,nn) memcpy(dd, ss, nn)
-> ++
-> + __lzo_static_forceinline lzo_uint16_t lzo_memops_get_le16(const lzo_voidp ss)
-> + {
-> +     lzo_uint16_t v;
-> diff --git a/meta/recipes-support/lzo/lzo_2.08.bb b/meta/recipes-support/lzo/lzo_2.08.bb
-> index 7d7d1f3..af06e29 100644
-> --- a/meta/recipes-support/lzo/lzo_2.08.bb
-> +++ b/meta/recipes-support/lzo/lzo_2.08.bb
-> @@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
->                       file://src/lzo_init.c;beginline=5;endline=25;md5=a6e25df9a83b24629e847846ccdd8054"
->
->   SRC_URI = "http://www.oberhumer.com/opensource/lzo/download/lzo-${PV}.tar.gz \
-> +           file://0001-Use-memcpy-instead-of-reinventing-it.patch \
->              file://acinclude.m4 \
->              "
->
->
 
