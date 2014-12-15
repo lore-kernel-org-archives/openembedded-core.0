@@ -1,23 +1,23 @@
-Return-Path: <Nathan_Lynch@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F484710EF
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 18:17:33 +0000 (UTC)
-Received: from svr-orw-fem-03.mgc.mentorg.com ([147.34.97.39])
-	by relay1.mentorg.com with esmtp 
-	id 1Y0aD7-0002Jr-MG from Nathan_Lynch@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Dec 2014 10:17:33 -0800
-Received: from localhost (147.34.91.1) by SVR-ORW-FEM-03.mgc.mentorg.com
-	(147.34.97.39) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Mon, 15 Dec 2014 10:17:33 -0800
-From: Nathan Lynch <nathan_lynch@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Dec 2014 12:17:32 -0600
-Message-ID: <1418667452-3430-1-git-send-email-nathan_lynch@mentor.com>
-X-Mailer: git-send-email 1.9.3
-MIME-Version: 1.0
-Subject: [PATCH] packagegroup-core-tools-profile: allow lttng-modules for ARM
+Return-Path: <nitin.a.kamble@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 468DB7249B
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 15 Dec 2014 18:43:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Dec 2014 10:43:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,581,1413270000"; d="scan'208";a="647959814"
+Received: from yocto-hm1.jf.intel.com ([10.23.232.34])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Dec 2014 10:43:47 -0800
+From: nitin.a.kamble@intel.com
+To: Openembedded-core@lists.openembedded.org, meta-intel@yoctoproject.org,
+	richard.purdie@linuxfoundation.org, saul.wold@intel.com,
+	ross.burton@intel.com, paul.eggleton@linux.intel.com,
+	tom.zanussi@intel.com, dvhart@linux.intel.com
+Date: Mon, 15 Dec 2014 10:47:04 -0800
+Message-Id: <cover.1418667266.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH 0/2] commits for machine setup tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,32 +30,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Dec 2014 18:17:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Dec 2014 18:43:51 -0000
 
-Per commit f6587be6cd3dc864143b1c0be0bb8179a61dc835 (lttng-modules:
-re-enable ARM builds) lttng-modules is fine for ARM now.  Without this
-additional change, tools-profile won't bring in lttng-modules when
-targeting ARM.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
----
- meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 1 -
- 1 file changed, 1 deletion(-)
+This pull request introduces a new feature called machine-setup-tool, which
+can be used by the BSP. With the use of the tool, BSPs for different boards
+which mainly differ in the text configuration for the target board, can be
+consolidated to use a common BSP.
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 41d2548b70ee..39a88134a316 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -53,7 +53,6 @@ LTTNGTOOLS_aarch64 = ""
- 
- LTTNGMODULES = "lttng-modules"
- LTTNGMODULES_aarch64 = ""
--LTTNGMODULES_arm = ""
- 
- BABELTRACE = "babeltrace"
- BABELTRACE_aarch64 = ""
+The tool provides ability to configure the target image at runtime. It also
+provides ability to detect the target boards for automatic configuration of
+the image. The tool can handle any text configuration for the target image.
+All the configuration manipulation needed for the meta-intel BSP boards is
+already supported in the tool.
+
+The tool's configuration is BSP specific and need to be specified separately
+in the BSP layer.  For example, for the meta-intel layer, the complementary
+commits can be seen here:
+
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-contrib/log/?h=nitin/machinesetuptool
+
+These commits are enabling the meta-intel layer to support 6 boards with 2
+common BSPs.
+
+Thanks,
+Nitin
+
+
+
+The following changes since commit 8657c2fd57600e0b0eaf2a14692de7453c78e1bb:
+
+  serf: readded md5sum (2014-12-11 11:34:57 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib nitin/machinesetuptool
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=nitin/machinesetuptool
+
+Nitin A Kamble (2):
+  alsa-plugins: a new recipe
+  machinesetuptool: a new recipe for setup of a machine
+
+ .../machinesetuptool/machinesetuptool_git.bb       | 55 ++++++++++++++++++++++
+ .../recipes-multimedia/alsa/alsa-plugins_1.0.28.bb | 49 +++++++++++++++++++
+ 2 files changed, 104 insertions(+)
+ create mode 100644 meta/recipes-bsp/machinesetuptool/machinesetuptool_git.bb
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-plugins_1.0.28.bb
+
 -- 
-1.9.3
+1.8.1.4
 
 
