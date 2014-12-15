@@ -1,27 +1,36 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B070265E38
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vc0-f182.google.com (mail-vc0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AA9370FC8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 09:25:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBF9PIRk026122
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Mon, 15 Dec 2014 01:25:18 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Mon, 15 Dec 2014 01:25:17 -0800
-Message-ID: <548EA8F4.2040104@windriver.com>
-Date: Mon, 15 Dec 2014 17:25:08 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+	Mon, 15 Dec 2014 10:30:45 +0000 (UTC)
+Received: by mail-vc0-f182.google.com with SMTP id hq12so5204533vcb.41
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Dec 2014 02:30:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=LB8ERHaBz5IqgVsDGs8sZfBiK832ZLj6EbFNDBVoXiw=;
+	b=skR87BeqVyYNTHiN83BjZsMgvMuHQQIFzYioZlEdS8fazanO3bHAhjXp4+EeJakMWI
+	0cG/fqDwd/w+M4dXVNcayAFZLKbrEnsVsoZrgltxm/prp6fu8g8HTaBlntJWvq/UMAFh
+	wRtvoGQP13wu5zw3jPGNSzmmM24EED9CilOElZ9EbK9NgnaI3pla+LewHiCoMuB/4ksN
+	+F1MCTqnGyh+lE1ddCt4obSUKMuE2DqbMkNkfzGUAUzsrrLjIA0Us9gDm4N4D3quQOtS
+	3jKVycticoJzWqW5QGVZL2PCmSOL6F7dtJELuZJsNl+ASwqz5V+HY64VILBItooloJ+u
+	4mrw==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-References: <cover.1418634986.git.hongxu.jia@windriver.com>
-In-Reply-To: <cover.1418634986.git.hongxu.jia@windriver.com>
-Cc: jeffrey.honig@windriver.com
-Subject: Re: [PATCH 0/3] fix whitelist processing does not play well with wildcards in INCOMPATIBLE_LICENSES
+X-Received: by 10.52.231.165 with SMTP id th5mr15907600vdc.48.1418639446221;
+	Mon, 15 Dec 2014 02:30:46 -0800 (PST)
+Received: by 10.52.237.165 with HTTP; Mon, 15 Dec 2014 02:30:46 -0800 (PST)
+In-Reply-To: <1417610456-788-2-git-send-email-schnitzeltony@googlemail.com>
+References: <1417610456-788-1-git-send-email-schnitzeltony@googlemail.com>
+	<1417610456-788-2-git-send-email-schnitzeltony@googlemail.com>
+Date: Mon, 15 Dec 2014 11:30:46 +0100
+Message-ID: <CALbNGRSohh=7AeS23W1tYZhDD4Qy5B0U8GF9NtOr3te=SKPsNA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
+Subject: Re: [PATCH][V2 2/3] gettext-native: build libintl so that other native recipes can use them
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,54 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Dec 2014 09:25:21 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Dec 2014 10:30:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 12/15/2014 05:23 PM, Hongxu Jia wrote:
-> Test Steps:
+On Wed, Dec 3, 2014 at 1:40 PM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+> I have a native recipe around which directly compiles/links against libin=
+tl.
+> Gettext contains this code (usually supplied by glibc) as fallback. In na=
+tive
+> case this code is used by default because we don't have glibc there. This=
+ patch
+> changes static linking into dynamic linking making libintl code shareable=
+.
 >
-> mpfr is "GPLv3 & LGPLv3", less is "GPLv3+ | BSD-2-Clause" but listed in WHITELIST_GPL-3.0
-> So while INCOMPATIBLE_LICENSE = "*GPL-3", we could build less, but skip mpfr.
+> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+> ---
+>  meta/recipes-core/gettext/gettext_0.18.3.2.bb | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> $ bitbake less
-> ...
-> NOTE: Tasks Summary: Attempted 587 tasks of which 440 didn't need to be rerun and all succeeded.
-> ...
+> diff --git a/meta/recipes-core/gettext/gettext_0.18.3.2.bb b/meta/recipes=
+-core/gettext/gettext_0.18.3.2.bb
+> index 65d4103..98838d7 100644
+> --- a/meta/recipes-core/gettext/gettext_0.18.3.2.bb
+> +++ b/meta/recipes-core/gettext/gettext_0.18.3.2.bb
+> @@ -39,6 +39,9 @@ EXTRA_OECONF +=3D "--without-lispdir \
+>                   --with-included-libunistring \
+>                  "
 >
-> $ bitbake libiconv
-
-s/libiconv/mpfr/
-
-//Hongxu
-
-> ...
-> ERROR: Nothing PROVIDES 'mpfr'
-> ERROR: mpfr was skipped: incompatible with license GPLv3 & LGPLv3
-> ...
+> +# we have no glib intl
+> +EXTRA_OECONF_append_class-native =3D "--with-included-gettext --enable-s=
+hared"
+> +
+>  acpaths =3D '-I ${S}/gettext-runtime/m4 \
+>             -I ${S}/gettext-tools/m4'
 >
-> //Hongxu
+> --
+> 1.8.3.1
 >
-> The following changes since commit ec6377bcf52d105cd23ac6bbbeddd38fee9337e4:
->
->    bitbake: bitbake-user-manual-metadata.xml: Updated do_package_write example (2014-12-09 22:25:36 +0000)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib hongxu/fix-incompatible_license
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-incompatible_license
->
-> Hongxu Jia (3):
->    base/license.bbclass: expand wildcards in INCOMPATIBLE_LICENSE
->    default-versions.inc: let INCOMPATIBLE_LICENSE supports wildcard
->    libproxy: let INCOMPATIBLE_LICENSE supports wildcard
->
->   meta/classes/base.bbclass                        |  2 +-
->   meta/classes/license.bbclass                     | 25 ++++++++++++++++++++++++
->   meta/conf/distro/include/default-versions.inc    |  2 +-
->   meta/conf/documentation.conf                     |  2 +-
->   meta/recipes-support/libproxy/libproxy_0.4.11.bb |  2 +-
->   5 files changed, 29 insertions(+), 4 deletions(-)
->
-
+ping
 
