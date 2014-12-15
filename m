@@ -1,46 +1,23 @@
-Return-Path: <akuster@mvista.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C2F972544
+Return-Path: <Nathan_Lynch@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F484710EF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 18:08:23 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id kx10so12285517pab.16
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 10:08:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=Be0xi8vMlHzHd0TqHHidH/xDiJ5Hhf8wy2awAZdGlZw=;
-	b=Ls0OioIRcOB6sixvw0r9HBHJA4OAj4YGoVcLuGh3Ar0rg1h1s5CKoRqLz14tLHqZ11
-	LYN86WN804zSu7+hXd56IozAwzTFuLc02bw2c5xBTSLoPCrO5cvNmsJmld8L+dl2Elul
-	uEThKoy5U4Y4/SGvCY9KqY/o47uFOpsB6R2lildx3sMY7itPR0w+YJeZGnVN7z54QAKT
-	w3V4RLZwffBIv43MgPP+ZsBiSJRV/7Zm9BidbE7uP3Q5I/85kumE7KuR+B+G/xKbfBrd
-	QV3n8nbA4we6RoAHLe9zAQpLPJkcPmTi7eLU29Mcynhj8QDFD7Z5AwokhowQ6TQZTfl9
-	wbnw==
-X-Gm-Message-State: ALoCoQnVgmjSU1qUeJRAH5xVAQlntO2EKwZ1hnJ7LVCErlL/82uQVww4FgiQBKyCdVAmyFv5qEi6
-X-Received: by 10.66.139.234 with SMTP id rb10mr53125306pab.146.1418666904734; 
-	Mon, 15 Dec 2014 10:08:24 -0800 (PST)
-Received: from ?IPv6:2601:c:9380:601:1d1a:5082:6eef:d127?
-	([2601:c:9380:601:1d1a:5082:6eef:d127])
-	by mx.google.com with ESMTPSA id qq6sm7871954pbb.20.2014.12.15.10.08.22
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 15 Dec 2014 10:08:23 -0800 (PST)
-Message-ID: <548F2393.4000800@mvista.com>
-Date: Mon, 15 Dec 2014 10:08:19 -0800
-From: akuster <akuster@mvista.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Mon, 15 Dec 2014 18:17:33 +0000 (UTC)
+Received: from svr-orw-fem-03.mgc.mentorg.com ([147.34.97.39])
+	by relay1.mentorg.com with esmtp 
+	id 1Y0aD7-0002Jr-MG from Nathan_Lynch@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 15 Dec 2014 10:17:33 -0800
+Received: from localhost (147.34.91.1) by SVR-ORW-FEM-03.mgc.mentorg.com
+	(147.34.97.39) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Mon, 15 Dec 2014 10:17:33 -0800
+From: Nathan Lynch <nathan_lynch@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Dec 2014 12:17:32 -0600
+Message-ID: <1418667452-3430-1-git-send-email-nathan_lynch@mentor.com>
+X-Mailer: git-send-email 1.9.3
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1417647118-19527-1-git-send-email-sgw@linux.intel.com>
-	<548F2263.60807@linux.intel.com>
-In-Reply-To: <548F2263.60807@linux.intel.com>
-Cc: 'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2][dizzy] lzo: add debian patch for alignment issue
+Subject: [PATCH] packagegroup-core-tools-profile: allow lttng-modules for ARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,15 +30,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Dec 2014 18:08:24 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Dec 2014 18:17:35 -0000
+Content-Type: text/plain
 
+Per commit f6587be6cd3dc864143b1c0be0bb8179a61dc835 (lttng-modules:
+re-enable ARM builds) lttng-modules is fine for ARM now.  Without this
+additional change, tools-profile won't bring in lttng-modules when
+targeting ARM.
 
-ok.
+Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-- armin
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+index 41d2548b70ee..39a88134a316 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+@@ -53,7 +53,6 @@ LTTNGTOOLS_aarch64 = ""
+ 
+ LTTNGMODULES = "lttng-modules"
+ LTTNGMODULES_aarch64 = ""
+-LTTNGMODULES_arm = ""
+ 
+ BABELTRACE = "babeltrace"
+ BABELTRACE_aarch64 = ""
+-- 
+1.9.3
 
-On 12/15/2014 10:03 AM, Saul Wold wrote:
-> [YOCTO #6994]
 
