@@ -1,26 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DF21710B5
+	by mail.openembedded.org (Postfix) with ESMTP id 9ECFD723FE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 09:23:22 +0000 (UTC)
+	Mon, 15 Dec 2014 09:23:17 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBF9NLcG025784
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBF9NG9W025772
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Mon, 15 Dec 2014 01:23:21 -0800 (PST)
+	Mon, 15 Dec 2014 01:23:16 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 15 Dec 2014 01:23:20 -0800
+	14.3.174.1; Mon, 15 Dec 2014 01:23:14 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Mon, 15 Dec 2014 17:23:04 +0800
-Message-ID: <6f2e9499b04c23a56e1ed9c71f1a6f3dc059b86a.1418634986.git.hongxu.jia@windriver.com>
+Date: Mon, 15 Dec 2014 17:23:02 +0800
+Message-ID: <cover.1418634986.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1418634986.git.hongxu.jia@windriver.com>
-References: <cover.1418634986.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: jeffrey.honig@windriver.com
-Subject: [PATCH 2/3] default-versions.inc: let INCOMPATIBLE_LICENSE supports wildcard
+Subject: [PATCH 0/3] fix whitelist processing does not play well with wildcards in INCOMPATIBLE_LICENSES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,26 +34,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 15 Dec 2014 09:23:26 -0000
 Content-Type: text/plain
 
-While wildcard in INCOMPATIBLE_LICENSE, such as INCOMPATIBLE_LICENSE =
-"*GPL-3", PREFERRED_VERSION_db-native could have the correct value "5.%"
+Test Steps:
 
-[YOCTO #5592]
+mpfr is "GPLv3 & LGPLv3", less is "GPLv3+ | BSD-2-Clause" but listed in WHITELIST_GPL-3.0
+So while INCOMPATIBLE_LICENSE = "*GPL-3", we could build less, but skip mpfr.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/conf/distro/include/default-versions.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+$ bitbake less
+...
+NOTE: Tasks Summary: Attempted 587 tasks of which 440 didn't need to be rerun and all succeeded.
+...
 
-diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
-index 20e258b..6e92aa5 100644
---- a/meta/conf/distro/include/default-versions.inc
-+++ b/meta/conf/distro/include/default-versions.inc
-@@ -12,4 +12,4 @@ PREFERRED_VERSION_liberation-fonts ?= "1.04"
- 
- # Force db-native's version to keep sync with db while
- # 'AGPL-3.0' in ${INCOMPATIBLE_LICENSE} blacklist
--PREFERRED_VERSION_db-native = "${@base_contains('INCOMPATIBLE_LICENSE', 'AGPL-3.0', '5.%', '6.%', d)}"
-+PREFERRED_VERSION_db-native = "${@incompatible_license_contains('AGPL-3.0', '5.%', '6.%', d)}"
+$ bitbake libiconv
+...
+ERROR: Nothing PROVIDES 'mpfr'
+ERROR: mpfr was skipped: incompatible with license GPLv3 & LGPLv3
+...
+
+//Hongxu
+
+The following changes since commit ec6377bcf52d105cd23ac6bbbeddd38fee9337e4:
+
+  bitbake: bitbake-user-manual-metadata.xml: Updated do_package_write example (2014-12-09 22:25:36 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-incompatible_license
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-incompatible_license
+
+Hongxu Jia (3):
+  base/license.bbclass: expand wildcards in INCOMPATIBLE_LICENSE
+  default-versions.inc: let INCOMPATIBLE_LICENSE supports wildcard
+  libproxy: let INCOMPATIBLE_LICENSE supports wildcard
+
+ meta/classes/base.bbclass                        |  2 +-
+ meta/classes/license.bbclass                     | 25 ++++++++++++++++++++++++
+ meta/conf/distro/include/default-versions.inc    |  2 +-
+ meta/conf/documentation.conf                     |  2 +-
+ meta/recipes-support/libproxy/libproxy_0.4.11.bb |  2 +-
+ 5 files changed, 29 insertions(+), 4 deletions(-)
+
 -- 
 1.9.1
 
