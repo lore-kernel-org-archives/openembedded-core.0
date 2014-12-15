@@ -1,26 +1,26 @@
-Return-Path: <sgw@linux.intel.com>
+Return-Path: <tom.zanussi@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id ABB0D7254B
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 21:59:44 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Dec 2014 13:59:32 -0800
+	by mail.openembedded.org (Postfix) with ESMTP id 5B8727113B
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 15 Dec 2014 23:04:19 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Dec 2014 15:04:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,581,1413270000"; d="scan'208";a="637980505"
-Received: from unknown (HELO [10.255.14.5]) ([10.255.14.5])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Dec 2014 13:59:31 -0800
-Message-ID: <548F59C3.6010500@linux.intel.com>
-Date: Mon, 15 Dec 2014 13:59:31 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
-MIME-Version: 1.0
-To: akuster808 <akuster808@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1418671309-23451-1-git-send-email-sgw@linux.intel.com>
-	<548F4684.9000401@gmail.com>
-In-Reply-To: <548F4684.9000401@gmail.com>
-Subject: Re: [PATCH] openssh: move setting LD to allow for correct override
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="429341445"
+Received: from unknown (HELO [10.255.13.117]) ([10.255.13.117])
+	by FMSMGA003.fm.intel.com with ESMTP; 15 Dec 2014 14:53:16 -0800
+Message-ID: <1418684653.25212.39.camel@picadillo>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: nitin.a.kamble@intel.com
+Date: Mon, 15 Dec 2014 17:04:13 -0600
+In-Reply-To: <cover.1418667266.git.nitin.a.kamble@intel.com>
+References: <cover.1418667266.git.nitin.a.kamble@intel.com>
+X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
+Mime-Version: 1.0
+Cc: paul.eggleton@linux.intel.com, dvhart@linux.intel.com,
+	Openembedded-core@lists.openembedded.org,
+	meta-intel@yoctoproject.org, saul.wold@intel.com
+Subject: Re: [PATCH 0/2] commits for machine setup tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,58 +33,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Dec 2014 21:59:50 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Mon, 15 Dec 2014 23:04:26 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 12/15/2014 12:37 PM, akuster808 wrote:
-> Saul,
->
-> is this needed for dizzy too?
->
-Yes and daisy, which I will do when this gets merged, I was going to 
-wait until it was in head before asking for the backport.
+On Mon, 2014-12-15 at 10:47 -0800, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> 
+> This pull request introduces a new feature called machine-setup-tool, which
+> can be used by the BSP. With the use of the tool, BSPs for different boards
+> which mainly differ in the text configuration for the target board, can be
+> consolidated to use a common BSP.
+> 
+> The tool provides ability to configure the target image at runtime. It also
 
-Sau!
+There doesn't seem to be any documentation for this tool that I can see
+here.  How does a user set things up to configure the target image at
+runtime, or does it just happen?
 
-> - Armin
->
-> On 12/15/2014 11:21 AM, Saul Wold wrote:
->> Using the export LD in the recipe does not allow for secodnary toolchain
->> overriding LD later, by setting it in the do_configure_append the export
->> is used by autotools setting LD based on the env, but would allow for
->> override later.
->>
->> [YOCTO #6997]
->>
->> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->> ---
->>   meta/recipes-connectivity/openssh/openssh_6.6p1.bb | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
->> b/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
->> index dbcf414..abc302b 100644
->> --- a/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
->> +++ b/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
->> @@ -49,7 +49,6 @@ inherit autotools-brokensep ptest
->>
->>   # LFS support:
->>   CFLAGS += "-D__FILE_OFFSET_BITS=64"
->> -export LD = "${CC}"
->>
->>   # login path is hardcoded in sshd
->>   EXTRA_OECONF = "'LOGIN_PROGRAM=${base_bindir}/login' \
->> @@ -74,6 +73,7 @@ CACHED_CONFIGUREVARS +=
->> "ac_cv_path_PATH_PASSWD_PROG=${bindir}/passwd"
->>   EXTRA_OECONF_append_libc-uclibc=" --without-pam"
->>
->>   do_configure_prepend () {
->> +    export LD="${CC}"
->>       install -m 0644 ${WORKDIR}/sshd_config ${B}/
->>       install -m 0644 ${WORKDIR}/ssh_config ${B}/
->>       if [ ! -e acinclude.m4 -a -e aclocal.m4 ]; then
->>
->
->
+How do you know it's working or not - there doesn't seem to be any
+instructions on how to use or test it.
+
+> provides ability to detect the target boards for automatic configuration of
+> the image. The tool can handle any text configuration for the target image.
+
+Great, but how?  Are there some files or variables that need tweaking?
+
+> All the configuration manipulation needed for the meta-intel BSP boards is
+> already supported in the tool.
+> 
+
+That's great for meta-intel, but this is oe-core, not sure why that's
+mentioned here.
+
+> The tool's configuration is BSP specific and need to be specified separately
+> in the BSP layer.  For example, for the meta-intel layer, the complementary
+> commits can be seen here:
+> 
+> http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-contrib/log/?h=nitin/machinesetuptool
+> 
+> These commits are enabling the meta-intel layer to support 6 boards with 2
+> common BSPs.
+> 
+
+It's good to have working examples, but I don't think that should
+replace documentation.
+
+Tom
+
+> Thanks,
+> Nitin
+> 
+> 
+> 
+> The following changes since commit 8657c2fd57600e0b0eaf2a14692de7453c78e1bb:
+> 
+>   serf: readded md5sum (2014-12-11 11:34:57 +0000)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib nitin/machinesetuptool
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=nitin/machinesetuptool
+> 
+> Nitin A Kamble (2):
+>   alsa-plugins: a new recipe
+>   machinesetuptool: a new recipe for setup of a machine
+> 
+>  .../machinesetuptool/machinesetuptool_git.bb       | 55 ++++++++++++++++++++++
+>  .../recipes-multimedia/alsa/alsa-plugins_1.0.28.bb | 49 +++++++++++++++++++
+>  2 files changed, 104 insertions(+)
+>  create mode 100644 meta/recipes-bsp/machinesetuptool/machinesetuptool_git.bb
+>  create mode 100644 meta/recipes-multimedia/alsa/alsa-plugins_1.0.28.bb
+> 
+
+
 
