@@ -1,37 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id EE99F65CD4
+Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 7700B72544
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 16:47:22 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id eu11so12098252pac.22
+	Mon, 15 Dec 2014 16:47:25 +0000 (UTC)
+Received: by mail-pd0-f176.google.com with SMTP id r10so10020986pdi.21
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 08:47:23 -0800 (PST)
+	Mon, 15 Dec 2014 08:47:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=wqAPnxqYkdxuBmy94HX2dxVjgLm8uA6bgqz++B6gKiM=;
-	b=kCcy/Ag/L8jeLbNCJ0gwICy9fCgUME5JZlW+fdG8kSSJQ9fHU0+Fdx8DS6S3KpWEuS
-	hfxgPhHsyjJJjWIzhhYwHf1kfQVeI6PMTuj15qenflqG1/El6DKOqIaO71D7fBBBcq16
-	kC9bdUQ4jmIgdnUS+nmRyC7GTT/cBXkFCGvGrtwSoRpgehfx55YxZ7V1MokSmoTgRLYc
-	AOaXjIpJXKX9g6BmDMbGr4/SMM6F1v27HSLRjuhRg3SmMUnBewoA8Q9lZRNGbmYaTEh2
-	am2Syjn2COp8Ab108ieL7kY+X75rOTyKo+GyNMuJzIYdR/jyQ1YVXlQuPfzVUMToTuzc
-	V9uA==
-X-Received: by 10.66.235.200 with SMTP id uo8mr52249572pac.108.1418662043465; 
-	Mon, 15 Dec 2014 08:47:23 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=Be/PxhyWUoc7muYW3P0ex06znWI2D9Br5XfmFSvHrQ8=;
+	b=gH99xiJBmwiJMf+Lwr3Piq7kOUf6FMQywqy79OhyQEbnzLBuhdE+aD11TtClDq/iIR
+	LYunvj33aSsK3aeOu1a4k4KttXKfovoV+wQ47Y1CAIf4KWD8cIxYAQ8rxDLbb8VSky+j
+	ElN6PSMF5vqFtOzc6aFarnGxyxu0Ebdr/K08yJQ2GPnpyaSD0TDkZ0LpsdqugM4byuJO
+	ulTji6l0qD/frtpk+OjLJO+QZGjCtxDHUODjorN3iOG4Ij+3IEgvsWqUpk0GxOxIBZHf
+	YXKnAy9DrHn71wnJRdiWnxMPnA3oby1oFxsfyI7wRhNyZ+xfwA6n1gYllP705jHJQuxV
+	0k6A==
+X-Received: by 10.68.57.225 with SMTP id l1mr51951055pbq.87.1418662045635;
+	Mon, 15 Dec 2014 08:47:25 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by mx.google.com with ESMTPSA id co1sm9734660pbc.22.2014.12.15.08.47.20
+	by mx.google.com with ESMTPSA id co1sm9734660pbc.22.2014.12.15.08.47.23
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 15 Dec 2014 08:47:22 -0800 (PST)
+	Mon, 15 Dec 2014 08:47:24 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Dec 2014 08:47:11 -0800
-Message-Id: <22af9154ebaf84f17b9356f593b8f5f5ada7ef81.1418661484.git.akuster808@gmail.com>
+Date: Mon, 15 Dec 2014 08:47:12 -0800
+Message-Id: <a2ec3bb12f3b91e6812e9d87b80a1ed5a6b99e38.1418661484.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <22af9154ebaf84f17b9356f593b8f5f5ada7ef81.1418661484.git.akuster808@gmail.com>
+References: <22af9154ebaf84f17b9356f593b8f5f5ada7ef81.1418661484.git.akuster808@gmail.com>
 In-Reply-To: <cover.1418661484.git.akuster808@gmail.com>
 References: <cover.1418661484.git.akuster808@gmail.com>
-Subject: [PATCH 1/2] cpio: fix bug CVE-2014-9112 for cpio-2.11
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH 2/2] python: fix ssl import error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,268 +48,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Dec 2014 16:47:24 -0000
+X-List-Received-Date: Mon, 15 Dec 2014 16:47:25 -0000
 
-From: Bian Naimeng <biannm@cn.fujitsu.com>
+From: "Maxin B. John" <maxin.john@enea.com>
 
-Obtain detain from following URL.
-  http://lists.gnu.org/archive/html/bug-cpio/2014-12/msg00000.html
-  http://git.savannah.gnu.org/cgit/cpio.git/commit/?id=746f3ff670dcfcdd28fcc990e79cd6fccc7ae48d
+Fix this ssl import error:
+Python 2.7.3 (default, Dec  5 2014, 16:24:17)
+[GCC 4.9.1] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import ssl
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib/python2.7/ssl.py", line 92, in <module>
+    import base64        # for DER-to-PEM translation
+ImportError: No module named base64
 
-(From OE-Core rev: 9a32da05f5a9bc62c592fd2d6057dc052e363261)
+(From OE-Core rev: dfa34e70a4c7543dc67835c2e9a270ccd011ac72)
 
-Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../cpio/cpio-2.11/fix-memory-overrun.patch        | 220 +++++++++++++++++++++
- meta/recipes-extended/cpio/cpio_2.11.bb            |   3 +-
- 2 files changed, 222 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/cpio/cpio-2.11/fix-memory-overrun.patch
+ meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
+ scripts/contrib/python/generate-manifest-2.7.py      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/cpio/cpio-2.11/fix-memory-overrun.patch b/meta/recipes-extended/cpio/cpio-2.11/fix-memory-overrun.patch
-new file mode 100644
-index 0000000..89cd3cf
---- /dev/null
-+++ b/meta/recipes-extended/cpio/cpio-2.11/fix-memory-overrun.patch
-@@ -0,0 +1,220 @@
-+cpio: Fix memory overrun on reading improperly created link records
-+
-+Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
-+
-+http://git.savannah.gnu.org/cgit/cpio.git/commit/?id=746f3ff670dcfcdd28fcc990e79cd6fccc7ae48d
-+
-+  * src/copyin.c (get_link_name): New function.
-+  (list_file, copyin_link): use get_link_name
-+
-+  * tests/symlink-bad-length.at: New file.
-+  * tests/symlink-long.at: New file.
-+  * tests/Makefile.am: Add new files.
-+  * tests/testsuite.at: Likewise.
-+
-+  See http://lists.gnu.org/archive/html/bug-cpio/2014-11/msg00007.html
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Sergey Poznyakoff <gray@gnu.org.ua>
-+
-+diff -Nurp cpio-2.11.orig/src/copyin.c cpio-2.11/src/copyin.c
-+--- cpio-2.11.orig/src/copyin.c	2010-02-15 18:02:23.000000000 +0800
-++++ cpio-2.11/src/copyin.c	2014-12-08 13:14:04.355547508 +0800
-+@@ -126,6 +126,28 @@ tape_skip_padding (int in_file_des, off_
-+ }
-+ 
-+ 
-++static char *
-++get_link_name (struct cpio_file_stat *file_hdr, int in_file_des)
-++{
-++  off_t n = file_hdr->c_filesize + 1;
-++  char *link_name;
-++
-++  if (n == 0 || n > SIZE_MAX)
-++    {
-++      error (0, 0, _("%s: stored filename length too big"), file_hdr->c_name);
-++      link_name = NULL;
-++    }
-++  else
-++    {
-++      link_name = xmalloc (n);
-++      tape_buffered_read (link_name, in_file_des, file_hdr->c_filesize);
-++      link_name[file_hdr->c_filesize] = '\0';
-++      tape_skip_padding (in_file_des, file_hdr->c_filesize);
-++    }
-++  return link_name;
-++}
-++
-++
-+ static void
-+ list_file(struct cpio_file_stat* file_hdr, int in_file_des)
-+ {
-+@@ -136,21 +158,16 @@ list_file(struct cpio_file_stat* file_hd
-+ 	{
-+ 	  if (archive_format != arf_tar && archive_format != arf_ustar)
-+ 	    {
-+-	      char *link_name = NULL;	/* Name of hard and symbolic links.  */
-+-
-+-	      link_name = (char *) xmalloc ((unsigned int) file_hdr->c_filesize + 1);
-+-	      link_name[file_hdr->c_filesize] = '\0';
-+-	      tape_buffered_read (link_name, in_file_des, file_hdr->c_filesize);
-+-	      long_format (file_hdr, link_name);
-+-	      free (link_name);
-+-	      tape_skip_padding (in_file_des, file_hdr->c_filesize);
-+-	      return;
-++	      char *link_name = get_link_name (file_hdr, in_file_des);
-++	      if (link_name)
-++		{
-++		  long_format (file_hdr, link_name);
-++		  free (link_name);
-++		}
-+ 	    }
-+ 	  else
-+-	    {
-+ 	      long_format (file_hdr, file_hdr->c_tar_linkname);
-+-	      return;
-+-	    }
-++	  return;
-+ 	}
-+       else
-+ #endif
-+@@ -650,10 +667,7 @@ copyin_link(struct cpio_file_stat *file_
-+ 
-+   if (archive_format != arf_tar && archive_format != arf_ustar)
-+     {
-+-      link_name = (char *) xmalloc ((unsigned int) file_hdr->c_filesize + 1);
-+-      link_name[file_hdr->c_filesize] = '\0';
-+-      tape_buffered_read (link_name, in_file_des, file_hdr->c_filesize);
-+-      tape_skip_padding (in_file_des, file_hdr->c_filesize);
-++      link_name = get_link_name (file_hdr, in_file_des);
-+     }
-+   else
-+     {
-+diff -Nurp cpio-2.11.orig/tests/Makefile.am cpio-2.11/tests/Makefile.am
-+--- cpio-2.11.orig/tests/Makefile.am	2010-02-15 18:02:23.000000000 +0800
-++++ cpio-2.11/tests/Makefile.am	2014-12-08 13:14:49.931545727 +0800
-+@@ -52,6 +52,8 @@ TESTSUITE_AT = \
-+  setstat04.at\
-+  setstat05.at\
-+  symlink.at\
-++ symlink-bad-length.at\
-++ symlink-long.at\
-+  version.at
-+ 
-+ TESTSUITE = $(srcdir)/testsuite
-+diff -Nurp cpio-2.11.orig/tests/symlink-bad-length.at cpio-2.11/tests/symlink-bad-length.at
-+--- cpio-2.11.orig/tests/symlink-bad-length.at	1970-01-01 08:00:00.000000000 +0800
-++++ cpio-2.11/tests/symlink-bad-length.at	2014-12-08 13:17:45.979538847 +0800
-+@@ -0,0 +1,49 @@
-++# Process this file with autom4te to create testsuite.  -*- Autotest -*-
-++# Copyright (C) 2014 Free Software Foundation, Inc.
-++
-++# This program is free software; you can redistribute it and/or modify
-++# it under the terms of the GNU General Public License as published by
-++# the Free Software Foundation; either version 3, or (at your option)
-++# any later version.
-++
-++# This program is distributed in the hope that it will be useful,
-++# but WITHOUT ANY WARRANTY; without even the implied warranty of
-++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++# GNU General Public License for more details.
-++
-++# You should have received a copy of the GNU General Public License
-++# along with this program; if not, write to the Free Software
-++# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-++# 02110-1301 USA.
-++
-++# Cpio v2.11 did segfault with badly set symlink length.
-++# References:
-++# http://lists.gnu.org/archive/html/bug-cpio/2014-11/msg00007.html
-++
-++AT_SETUP([symlink-bad-length])
-++AT_KEYWORDS([symlink-long copyout])
-++
-++AT_DATA([ARCHIVE.base64],
-++[x3EjAIBAtIEtJy8nAQAAAHRUYW0FAAAADQBGSUxFAABzb21lIGNvbnRlbnQKAMdxIwBgQ/+hLScv
-++JwEAAAB0VEhuBQD/////TElOSwAARklMRcdxAAAAAAAAAAAAAAEAAAAAAAAACwAAAAAAVFJBSUxF
-++UiEhIQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-++AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-++AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-++AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-++AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-++AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-++AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
-++])
-++
-++AT_CHECK([
-++base64 -d ARCHIVE.base64 > ARCHIVE || AT_SKIP_TEST
-++cpio -ntv < ARCHIVE
-++test $? -eq 2
-++],
-++[0],
-++[-rw-rw-r--   1 10029    10031          13 Nov 25 13:52 FILE
-++],[cpio: LINK: stored filename length too big
-++cpio: premature end of file
-++])
-++
-++AT_CLEANUP
-+diff -Nurp cpio-2.11.orig/tests/symlink-long.at cpio-2.11/tests/symlink-long.at
-+--- cpio-2.11.orig/tests/symlink-long.at	1970-01-01 08:00:00.000000000 +0800
-++++ cpio-2.11/tests/symlink-long.at	2014-12-08 13:17:57.219538408 +0800
-+@@ -0,0 +1,46 @@
-++# Process this file with autom4te to create testsuite.  -*- Autotest -*-
-++# Copyright (C) 2014 Free Software Foundation, Inc.
-++
-++# This program is free software; you can redistribute it and/or modify
-++# it under the terms of the GNU General Public License as published by
-++# the Free Software Foundation; either version 3, or (at your option)
-++# any later version.
-++
-++# This program is distributed in the hope that it will be useful,
-++# but WITHOUT ANY WARRANTY; without even the implied warranty of
-++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++# GNU General Public License for more details.
-++
-++# You should have received a copy of the GNU General Public License
-++# along with this program; if not, write to the Free Software
-++# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-++# 02110-1301 USA.
-++
-++# Cpio v2.11.90 changed the way symlink name is read from archive.
-++# References:
-++# http://lists.gnu.org/archive/html/bug-cpio/2014-11/msg00007.html
-++
-++AT_SETUP([symlink-long])
-++AT_KEYWORDS([symlink-long copyout])
-++
-++AT_CHECK([
-++
-++# len(dirname) > READBUFSIZE
-++dirname=
-++for i in {1..52}; do
-++    dirname="xxxxxxxxx/$dirname"
-++    mkdir "$dirname"
-++done
-++ln -s "$dirname" x || AT_SKIP_TEST
-++
-++echo x | cpio -o > ar
-++list=`cpio -tv < ar | sed 's|.*-> ||'`
-++test "$list" = "$dirname" && echo success || echo fail
-++],
-++[0],
-++[success
-++],[2 blocks
-++2 blocks
-++])
-++
-++AT_CLEANUP
-+diff -Nurp cpio-2.11.orig/tests/testsuite.at cpio-2.11/tests/testsuite.at
-+--- cpio-2.11.orig/tests/testsuite.at	2010-02-15 18:02:23.000000000 +0800
-++++ cpio-2.11/tests/testsuite.at	2014-12-08 13:15:13.515544805 +0800
-+@@ -31,6 +31,8 @@ m4_include([version.at])
-+ 
-+ m4_include([inout.at])
-+ m4_include([symlink.at])
-++m4_include([symlink-bad-length.at])
-++m4_include([symlink-long.at])
-+ m4_include([interdir.at])
-+ 
-+ m4_include([setstat01.at])
-diff --git a/meta/recipes-extended/cpio/cpio_2.11.bb b/meta/recipes-extended/cpio/cpio_2.11.bb
-index 5f88b30..c42db6f 100644
---- a/meta/recipes-extended/cpio/cpio_2.11.bb
-+++ b/meta/recipes-extended/cpio/cpio_2.11.bb
-@@ -3,9 +3,10 @@ include cpio_v2.inc
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
+diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
+index a8afe13..9a514b1 100644
+--- a/meta/recipes-devtools/python/python-2.7-manifest.inc
++++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+@@ -122,7 +122,7 @@ RDEPENDS_${PN}-importlib="${PN}-core"
+ FILES_${PN}-importlib="${libdir}/python2.7/importlib "
  
--PR = "r4"
-+PR = "r5"
+ SUMMARY_${PN}-io="Python low-level I/O"
+-RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils"
++RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient"
+ FILES_${PN}-io="${libdir}/python2.7/lib-dynload/_socket.so ${libdir}/python2.7/lib-dynload/_io.so ${libdir}/python2.7/lib-dynload/_ssl.so ${libdir}/python2.7/lib-dynload/select.so ${libdir}/python2.7/lib-dynload/termios.so ${libdir}/python2.7/lib-dynload/cStringIO.so ${libdir}/python2.7/pipes.* ${libdir}/python2.7/socket.* ${libdir}/python2.7/ssl.* ${libdir}/python2.7/tempfile.* ${libdir}/python2.7/StringIO.* ${libdir}/python2.7/io.* ${libdir}/python2.7/_pyio.* "
  
- SRC_URI += "file://remove-gets.patch \
-+	    file://fix-memory-overrun.patch \
-            "
+ SUMMARY_${PN}-json="Python JSON support"
+diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
+index 65486d8..21b874f 100755
+--- a/scripts/contrib/python/generate-manifest-2.7.py
++++ b/scripts/contrib/python/generate-manifest-2.7.py
+@@ -275,7 +275,7 @@ if __name__ == "__main__":
+     m.addPackage( "${PN}-image", "Python graphical image handling", "${PN}-core",
+     "colorsys.* imghdr.* lib-dynload/imageop.so lib-dynload/rgbimg.so" )
  
- SRC_URI[md5sum] = "1112bb6c45863468b5496ba128792f6c"
+-    m.addPackage( "${PN}-io", "Python low-level I/O", "${PN}-core ${PN}-math ${PN}-textutils",
++    m.addPackage( "${PN}-io", "Python low-level I/O", "${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient",
+     "lib-dynload/_socket.so lib-dynload/_io.so lib-dynload/_ssl.so lib-dynload/select.so lib-dynload/termios.so lib-dynload/cStringIO.so " +
+     "pipes.* socket.* ssl.* tempfile.* StringIO.* io.* _pyio.*" )
+ 
 -- 
 1.9.1
 
