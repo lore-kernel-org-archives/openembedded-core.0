@@ -1,36 +1,52 @@
-Return-Path: <jean-michel.hautbois@vodalys.com>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id A35C272479
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 88DD665CD4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 15:17:39 +0000 (UTC)
-Received: by mail-wg0-f45.google.com with SMTP id b13so14995054wgh.18
+	Mon, 15 Dec 2014 16:19:55 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	sBFGJoFa028106
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 07:17:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=WGS2EtycAmOqHn+yT9hXBbYTYeA40H/BkXRZnYRAbBY=;
-	b=mqGnz1+EnoQwvv/dpySr+HRG85hIgMfvKc7Mv1DD6hp1+mWF0dJMV80a8JeR/SaFPP
-	Nh6XBJV0G7og/vpKDWjx8rjv1jp91O6YR/FEFXWnv7jl3G58W2ZuRczoDiCj0QKx2UAW
-	RHcjNuBlk0s7KfUxXoBwnK5ooAfTkam5NIIGVMZOzz6BSBCUP+L2Xnxq7Aacxy0JcoMX
-	JP0p+6O7wJrrW3IRU0zARk6kACHzifQADxTgr3+LiYrA3AwR3Bz6cg5bJr+x95LnzYz6
-	jAH6NvRu0+jIjvRq9Y5CqqWHj09mfua1MRAHPVkVfeA5wVuK9UV89tpgKIjQi/XZXBIZ
-	UPIQ==
-X-Gm-Message-State: ALoCoQkx5zyLaUu1a9m3fCUpK1xkVR6zHA8EL9P8okpeONMzVq9s1TMIDM70wY4Mu4MhA+mNe05s
-X-Received: by 10.180.82.98 with SMTP id h2mr32545117wiy.7.1418656660161;
-	Mon, 15 Dec 2014 07:17:40 -0800 (PST)
-Received: from tatooine.vodalys.lan
-	(LDijon-156-64-30-180.w80-15.abo.wanadoo.fr. [80.15.95.180])
-	by mx.google.com with ESMTPSA id u18sm7258971wjq.42.2014.12.15.07.17.38
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 15 Dec 2014 07:17:39 -0800 (PST)
-From: Jean-Michel Hautbois <jean-michel.hautbois@vodalys.com>
+	Mon, 15 Dec 2014 17:19:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1418660394;
+	bh=kymQ8Y3l55kxhPe8a+XcJwVsJc1WRrwJWvAcCdCG+FA=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=FyPboUoCj8XCvSJIAz53mT1OviP2ef1syhkZDYUP+ypoELpOenA+MgB1fKc0sCi3B
+	zGqJas3jhi42ep6tm2MuhMllpjhAMoO7AWMRlMnaaCe7W6dHsUoCqnhsdOHNaal6yk
+	A9Ok1m0khMG3znZ8vmSSCgDSjiR69lU1FaxEs4AQ=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id sBFGJji5014982
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Dec 2014 17:19:46 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1Y0YN6-0003wL-VZ
+	for openembedded-core@lists.openembedded.org;
+	Mon, 15 Dec 2014 17:19:45 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Dec 2014 16:17:27 +0100
-Message-Id: <1418656647-26273-1-git-send-email-jean-michel.hautbois@vodalys.com>
-X-Mailer: git-send-email 2.1.2
-Subject: [meta-oe][PATCH] hostapd: Remove include from drivers makefiles
+References: <548EBDE0.3080704@dresearch-fe.de>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Mon, 15 Dec 2014 17:19:44 +0100
+In-Reply-To: <548EBDE0.3080704@dresearch-fe.de> (Steffen Sledz's message of
+	"Mon, 15 Dec 2014 11:54:24 +0100")
+Message-ID: <lyiohcubq7.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -4.9
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
+Subject: Re: "qemu-arm udevadm hwdb --update" eats swap space after build host update to openSUSE 13.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,80 +59,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Dec 2014 15:17:48 -0000
+X-List-Received-Date: Mon, 15 Dec 2014 16:19:59 -0000
+Content-Type: text/plain
 
-When compiling (tested on Arch) QA fails saying that it uses host
-include files.
+Steffen Sledz <sledz-mQBY8sqGERgRVMum7q6B+Q@public.gmane.org> writes:
 
-Signed-off-by: Jean-Michel Hautbois <jean-michel.hautbois@vodalys.com>
----
- ...apd-Don-t-include-libnl-include-directory.patch | 43 ++++++++++++++++++++++
- .../recipes-connectivity/hostapd/hostapd_2.2.bb    |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta-oe/recipes-connectivity/hostapd/hostapd-2.2/0001-hostapd-Don-t-include-libnl-include-directory.patch
+> The first thing we observed was that the do_rootfs stage made a very
+> big load (more than 500) on the machine but the cpu's aren't working
+> for 100%. I could track down the problem to the call
+> ...
+> which eats swap space without end till the system crashes (more than 100GB swap space ist available).
+>
+> I've no idea how to inspect this problem further. Any ideas?
 
-diff --git a/meta-oe/recipes-connectivity/hostapd/hostapd-2.2/0001-hostapd-Don-t-include-libnl-include-directory.patch b/meta-oe/recipes-connectivity/hostapd/hostapd-2.2/0001-hostapd-Don-t-include-libnl-include-directory.patch
-new file mode 100644
-index 0000000..f28429e
---- /dev/null
-+++ b/meta-oe/recipes-connectivity/hostapd/hostapd-2.2/0001-hostapd-Don-t-include-libnl-include-directory.patch
-@@ -0,0 +1,43 @@
-+From f4a132167c62f607f248a28ef292252ba6b42a59 Mon Sep 17 00:00:00 2001
-+From: Jean-Michel Hautbois <jean-michel.hautbois@vodalys.com>
-+Date: Mon, 15 Dec 2014 15:46:53 +0100
-+Subject: [PATCH] hostapd: Don't include libnl include directory
-+
-+Remove hostapd include directories for libnl, as these can be in conflict
-+with the host includes.
-+
-+Signed-off-by: Jean-Michel Hautbois <jean-michel.hautbois@vodalys.com>
-+---
-+ src/drivers/drivers.mak | 2 +-
-+ src/drivers/drivers.mk  | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/drivers/drivers.mak b/src/drivers/drivers.mak
-+index 7e175f4..950701f 100644
-+--- a/src/drivers/drivers.mak
-++++ b/src/drivers/drivers.mak
-+@@ -35,7 +35,7 @@ NEED_RFKILL=y
-+ ifdef CONFIG_LIBNL32
-+   DRV_LIBS += -lnl-3
-+   DRV_LIBS += -lnl-genl-3
-+-  DRV_CFLAGS += -DCONFIG_LIBNL20 -I/usr/include/libnl3
-++  DRV_CFLAGS += -DCONFIG_LIBNL20
-+ else
-+   ifdef CONFIG_LIBNL_TINY
-+     DRV_LIBS += -lnl-tiny
-+diff --git a/src/drivers/drivers.mk b/src/drivers/drivers.mk
-+index db8561a..c93e88d 100644
-+--- a/src/drivers/drivers.mk
-++++ b/src/drivers/drivers.mk
-+@@ -30,7 +30,7 @@ NEED_RFKILL=y
-+ ifdef CONFIG_LIBNL32
-+   DRV_LIBS += -lnl-3
-+   DRV_LIBS += -lnl-genl-3
-+-  DRV_CFLAGS += -DCONFIG_LIBNL20 -I/usr/include/libnl3
-++  DRV_CFLAGS += -DCONFIG_LIBNL20
-+ else
-+   ifdef CONFIG_LIBNL_TINY
-+     DRV_LIBS += -lnl-tiny
-+-- 
-+2.1.2
-+
-diff --git a/meta-oe/recipes-connectivity/hostapd/hostapd_2.2.bb b/meta-oe/recipes-connectivity/hostapd/hostapd_2.2.bb
-index b75f2b9..9ef8f7e 100644
---- a/meta-oe/recipes-connectivity/hostapd/hostapd_2.2.bb
-+++ b/meta-oe/recipes-connectivity/hostapd/hostapd_2.2.bb
-@@ -18,6 +18,7 @@ SRC_URI = " \
-     file://defconfig \
-     file://init \
-     file://hostapd.service \
-+    file://0001-hostapd-Don-t-include-libnl-include-directory.patch;patchdir=.. \
- "
- 
- S = "${WORKDIR}/hostapd-${PV}/hostapd"
--- 
-2.1.2
+I had a similar issue when /var/tmp in the rootfs was an absolute symlink
+pointing to toplevel /var/tmp which contained some millions of files.
 
+Can you look (lsof) which files are open by qemu?
+
+
+Enrico
 
