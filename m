@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9896C70FC8
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DF21710B5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 09:23:24 +0000 (UTC)
+	Mon, 15 Dec 2014 09:23:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBF9NNZG005265
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBF9NLcG025784
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Mon, 15 Dec 2014 01:23:23 -0800 (PST)
+	Mon, 15 Dec 2014 01:23:21 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 15 Dec 2014 01:23:23 -0800
+	14.3.174.1; Mon, 15 Dec 2014 01:23:20 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Mon, 15 Dec 2014 17:23:05 +0800
-Message-ID: <d8a5eaba5d307714e4c79644ae30301001511936.1418634986.git.hongxu.jia@windriver.com>
+Date: Mon, 15 Dec 2014 17:23:04 +0800
+Message-ID: <6f2e9499b04c23a56e1ed9c71f1a6f3dc059b86a.1418634986.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1418634986.git.hongxu.jia@windriver.com>
 References: <cover.1418634986.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: jeffrey.honig@windriver.com
-Subject: [PATCH 3/3] libproxy: let INCOMPATIBLE_LICENSE supports wildcard
+Subject: [PATCH 2/3] default-versions.inc: let INCOMPATIBLE_LICENSE supports wildcard
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +37,25 @@ X-List-Received-Date: Mon, 15 Dec 2014 09:23:26 -0000
 Content-Type: text/plain
 
 While wildcard in INCOMPATIBLE_LICENSE, such as INCOMPATIBLE_LICENSE =
-"*GPL-3", libproxy could correct work.
+"*GPL-3", PREFERRED_VERSION_db-native could have the correct value "5.%"
 
 [YOCTO #5592]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-support/libproxy/libproxy_0.4.11.bb | 2 +-
+ meta/conf/distro/include/default-versions.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.11.bb b/meta/recipes-support/libproxy/libproxy_0.4.11.bb
-index a53a197..3367c85 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.11.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.11.bb
-@@ -29,7 +29,7 @@ do_configure_prepend() {
- }
+diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
+index 20e258b..6e92aa5 100644
+--- a/meta/conf/distro/include/default-versions.inc
++++ b/meta/conf/distro/include/default-versions.inc
+@@ -12,4 +12,4 @@ PREFERRED_VERSION_liberation-fonts ?= "1.04"
  
- python() {
--    if bb.utils.contains("INCOMPATIBLE_LICENSE", "GPLv3", "x", "", d) == "x" or bb.utils.contains("DISTRO_FEATURES", "x11", "x", "", d) == "":
-+    if incompatible_license_contains("GPLv3", "x", "", d) == "x" or bb.utils.contains("DISTRO_FEATURES", "x11", "x", "", d) == "":
-         d.setVar("EXTRA_OECMAKE", d.getVar("EXTRA_OECMAKE").replace("-DWITH_GNOME=yes", "-DWITH_GNOME=no"))
-         d.setVar("DEPENDS", " ".join(i for i in d.getVar("DEPENDS").split() if i != "gconf"))
- }
+ # Force db-native's version to keep sync with db while
+ # 'AGPL-3.0' in ${INCOMPATIBLE_LICENSE} blacklist
+-PREFERRED_VERSION_db-native = "${@base_contains('INCOMPATIBLE_LICENSE', 'AGPL-3.0', '5.%', '6.%', d)}"
++PREFERRED_VERSION_db-native = "${@incompatible_license_contains('AGPL-3.0', '5.%', '6.%', d)}"
 -- 
 1.9.1
 
