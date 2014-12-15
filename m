@@ -1,27 +1,20 @@
-Return-Path: <nitin.a.kamble@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 112947255D
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 18:45:47 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Dec 2014 10:43:53 -0800
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D78227250B
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Dec 2014 19:21:49 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Dec 2014 11:21:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,581,1413270000"; d="scan'208";a="637892714"
-Received: from yocto-hm1.jf.intel.com ([10.23.232.34])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Dec 2014 10:43:51 -0800
-From: nitin.a.kamble@intel.com
-To: Openembedded-core@lists.openembedded.org, meta-intel@yoctoproject.org,
-	richard.purdie@linuxfoundation.org, saul.wold@intel.com,
-	ross.burton@intel.com, paul.eggleton@linux.intel.com,
-	tom.zanussi@intel.com, dvhart@linux.intel.com
-Date: Mon, 15 Dec 2014 10:47:18 -0800
-Message-Id: <c19c4fa44f4a0bfb2f97632680d8f2a161ab357e.1418667266.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.8.1.4
-In-Reply-To: <7cced157a79e0c7ca2a86eec64bc84a62ccbdf11.1418667266.git.nitin.a.kamble@intel.com>
-References: <7cced157a79e0c7ca2a86eec64bc84a62ccbdf11.1418667266.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1418667266.git.nitin.a.kamble@intel.com>
-References: <cover.1418667266.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 2/2] machinesetuptool: a new recipe for setup of a machine
+X-IronPort-AV: E=Sophos;i="5.07,581,1413270000"; d="scan'208";a="647980728"
+Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.14.5])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Dec 2014 11:21:49 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Dec 2014 11:21:49 -0800
+Message-Id: <1418671309-23451-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] openssh: move setting LD to allow for correct override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,83 +27,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Dec 2014 18:45:50 -0000
+X-List-Received-Date: Mon, 15 Dec 2014 19:21:52 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+Using the export LD in the recipe does not allow for secodnary toolchain
+overriding LD later, by setting it in the do_configure_append the export
+is used by autotools setting LD based on the env, but would allow for
+override later.
 
-a new recipe which recipe provides the ability to setup a BSP image for a
-specific machine or platform at the boot time. The base recipe does not
-provide any machine configuration files, those are provided by individual
-BSP layer.
+[YOCTO #6997]
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../machinesetuptool/machinesetuptool_git.bb       | 55 ++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
- create mode 100644 meta/recipes-bsp/machinesetuptool/machinesetuptool_git.bb
+ meta/recipes-connectivity/openssh/openssh_6.6p1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/machinesetuptool/machinesetuptool_git.bb b/meta/recipes-bsp/machinesetuptool/machinesetuptool_git.bb
-new file mode 100644
-index 0000000..e901d12
---- /dev/null
-+++ b/meta/recipes-bsp/machinesetuptool/machinesetuptool_git.bb
-@@ -0,0 +1,55 @@
-+SUMMARY = "Daemon to setup an image for a specific machine at boot time."
-+SECTION = "base"
-+LICENSE = "GPLv3"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-+RDEPENDS_${PN} = "sysvinit sed"
-+
-+PV = "1.0+git${SRCPV}"
-+
-+SRCREV = "b1a1f62f2f8748080131afa588dd7208bcf35635"
-+
-+SRC_URI = "git://git.yoctoproject.org/machinesetuptool.git"
-+
-+S = "${WORKDIR}/git"
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+inherit autotools pkgconfig update-rc.d
-+
-+INITSCRIPT_NAME = "machinesetuptool"
-+INITSCRIPT_PARAMS = "start 00 S . stop 20 0 1 6 ."
-+
-+# This variable is initialized to empty value now.
-+# It needs to be populated with the desired machine configuration files
-+# for each BSP in it's own layer.
-+MACHINE_CONFIG_FILES ?= ""
-+
-+python __anonymous () {
-+    src_uri = d.getVar('SRC_URI', True)
-+    machine_config_files = (d.getVar('MACHINE_CONFIG_FILES', True) or "")
-+    for file in machine_config_files.split():
-+         src_uri += " file://" + file
-+    d.setVar('SRC_URI', src_uri)
-+}
-+
-+do_install_append() {
-+
-+	if [ -r ${WORKDIR}/defaults ]
-+	then
-+		install -m 0755 ${WORKDIR}/defaults ${D}/${sysconfdir}/${BPN}/
-+	fi
-+
-+	if [ -r ${WORKDIR}/detect-machine ]
-+	then
-+		install -m 0755 ${WORKDIR}/detect-machine ${D}/${sysconfdir}/${BPN}/scripts/
-+	fi
-+
-+
-+	for file in ${MACHINE_CONFIG_FILES}
-+	do
-+		if ( [ "$file" != "defaults" ] && [ "$file" != "detect-machine" ] ); then
-+			mkdir -p ${D}/${sysconfdir}/${BPN}/config/`dirname ${file}`
-+			install -m 0644 ${S}/../${file} ${D}/${sysconfdir}/${BPN}/config/${file}
-+		fi
-+	done
-+}
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.6p1.bb b/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
+index dbcf414..abc302b 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
+@@ -49,7 +49,6 @@ inherit autotools-brokensep ptest
+ 
+ # LFS support:
+ CFLAGS += "-D__FILE_OFFSET_BITS=64"
+-export LD = "${CC}"
+ 
+ # login path is hardcoded in sshd
+ EXTRA_OECONF = "'LOGIN_PROGRAM=${base_bindir}/login' \
+@@ -74,6 +73,7 @@ CACHED_CONFIGUREVARS += "ac_cv_path_PATH_PASSWD_PROG=${bindir}/passwd"
+ EXTRA_OECONF_append_libc-uclibc=" --without-pam"
+ 
+ do_configure_prepend () {
++	export LD="${CC}"
+ 	install -m 0644 ${WORKDIR}/sshd_config ${B}/
+ 	install -m 0644 ${WORKDIR}/ssh_config ${B}/
+ 	if [ ! -e acinclude.m4 -a -e aclocal.m4 ]; then
 -- 
-1.8.1.4
+1.8.3.1
 
 
