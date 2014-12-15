@@ -1,39 +1,26 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 26D687253A
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 06D9F710EF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 17:10:52 +0000 (UTC)
-Received: by mail-pd0-f175.google.com with SMTP id g10so10017723pdj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 09:10:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=Be/PxhyWUoc7muYW3P0ex06znWI2D9Br5XfmFSvHrQ8=;
-	b=zKQcplgYqNPxgCl8qXp+TFI1XlqOQrLIwsjfMStRmbWf5HDPoM2tBYWf7xRXO51xME
-	mRW/drHy3++FYZii/pY6mA1QdPiJi7QHw2+fCbR0JRoLa2Eme3uMeBMrAwmqF7I8+8a8
-	UB5K6LVQn/JsbfmPbV2UBSygkd9LXqwnudzVNZWxZBL9rgtRO7iHYV4XqRlOJXjcSJH+
-	ViV6K0UyNBzs6CEI2R3qvpqc/rc+bV7QKNTUijJ+sGkNd94GSx/CNNQI3DklwsT3ScV9
-	5bF2GeM2hcl6PpLYj6rCcBUaW8VLy3ujePv18ntfzXBbgz9In6c8LqpvKQWmRsaZFEfc
-	VH2g==
-X-Received: by 10.68.57.144 with SMTP id i16mr52860207pbq.86.1418663452896;
-	Mon, 15 Dec 2014 09:10:52 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by mx.google.com with ESMTPSA id a13sm9805551pdm.44.2014.12.15.09.10.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 15 Dec 2014 09:10:51 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Dec 2014 09:10:37 -0800
-Message-Id: <a2ec3bb12f3b91e6812e9d87b80a1ed5a6b99e38.1418663308.git.akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1418663308.git.akuster808@gmail.com>
-References: <cover.1418663308.git.akuster808@gmail.com>
-In-Reply-To: <cover.1418663308.git.akuster808@gmail.com>
-References: <cover.1418663308.git.akuster808@gmail.com>
-Subject: [PATCH 3/3] python: fix ssl import error
+	Mon, 15 Dec 2014 18:05:35 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 15 Dec 2014 10:01:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,581,1413270000"; d="scan'208";a="654282111"
+Received: from unknown (HELO [10.255.14.5]) ([10.255.14.5])
+	by orsmga002.jf.intel.com with ESMTP; 15 Dec 2014 10:03:15 -0800
+Message-ID: <548F2263.60807@linux.intel.com>
+Date: Mon, 15 Dec 2014 10:03:15 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+MIME-Version: 1.0
+To: Armin Kuster <akuster@mvista.com>
+References: <1417647118-19527-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1417647118-19527-1-git-send-email-sgw@linux.intel.com>
+Cc: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2][dizzy] lzo: add debian patch for alignment issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,59 +33,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Dec 2014 17:10:56 -0000
+X-List-Received-Date: Mon, 15 Dec 2014 18:05:42 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: "Maxin B. John" <maxin.john@enea.com>
 
-Fix this ssl import error:
-Python 2.7.3 (default, Dec  5 2014, 16:24:17)
-[GCC 4.9.1] on linux2
-Type "help", "copyright", "credits" or "license" for more information.
->>> import ssl
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/usr/lib/python2.7/ssl.py", line 92, in <module>
-    import base64        # for DER-to-PEM translation
-ImportError: No module named base64
+Armin,
 
-(From OE-Core rev: dfa34e70a4c7543dc67835c2e9a270ccd011ac72)
+Please backport this patch to dizzy
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
- scripts/contrib/python/generate-manifest-2.7.py      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Thanks
+	Sau!
 
-diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
-index a8afe13..9a514b1 100644
---- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-+++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
-@@ -122,7 +122,7 @@ RDEPENDS_${PN}-importlib="${PN}-core"
- FILES_${PN}-importlib="${libdir}/python2.7/importlib "
- 
- SUMMARY_${PN}-io="Python low-level I/O"
--RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils"
-+RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient"
- FILES_${PN}-io="${libdir}/python2.7/lib-dynload/_socket.so ${libdir}/python2.7/lib-dynload/_io.so ${libdir}/python2.7/lib-dynload/_ssl.so ${libdir}/python2.7/lib-dynload/select.so ${libdir}/python2.7/lib-dynload/termios.so ${libdir}/python2.7/lib-dynload/cStringIO.so ${libdir}/python2.7/pipes.* ${libdir}/python2.7/socket.* ${libdir}/python2.7/ssl.* ${libdir}/python2.7/tempfile.* ${libdir}/python2.7/StringIO.* ${libdir}/python2.7/io.* ${libdir}/python2.7/_pyio.* "
- 
- SUMMARY_${PN}-json="Python JSON support"
-diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
-index 65486d8..21b874f 100755
---- a/scripts/contrib/python/generate-manifest-2.7.py
-+++ b/scripts/contrib/python/generate-manifest-2.7.py
-@@ -275,7 +275,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-image", "Python graphical image handling", "${PN}-core",
-     "colorsys.* imghdr.* lib-dynload/imageop.so lib-dynload/rgbimg.so" )
- 
--    m.addPackage( "${PN}-io", "Python low-level I/O", "${PN}-core ${PN}-math ${PN}-textutils",
-+    m.addPackage( "${PN}-io", "Python low-level I/O", "${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient",
-     "lib-dynload/_socket.so lib-dynload/_io.so lib-dynload/_ssl.so lib-dynload/select.so lib-dynload/termios.so lib-dynload/cStringIO.so " +
-     "pipes.* socket.* ssl.* tempfile.* StringIO.* io.* _pyio.*" )
- 
--- 
-1.9.1
-
+On 12/03/2014 02:51 PM, Saul Wold wrote:
+> [YOCTO #6994]
+>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+> v2 Fixed Patched Tag info
+>
+>   ...0001-Use-memcpy-instead-of-reinventing-it.patch | 70 ++++++++++++++++++++++
+>   meta/recipes-support/lzo/lzo_2.08.bb               |  1 +
+>   2 files changed, 71 insertions(+)
+>   create mode 100644 meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.patch
+>
+> diff --git a/meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.patch b/meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.patch
+> new file mode 100644
+> index 0000000..db3a70e
+> --- /dev/null
+> +++ b/meta/recipes-support/lzo/lzo/0001-Use-memcpy-instead-of-reinventing-it.patch
+> @@ -0,0 +1,70 @@
+> +From: Simon McVittie <smcv@debian.org>
+> +Date: Sun, 23 Nov 2014 22:50:33 +0000
+> +Subject: Use memcpy() instead of reinventing it
+> +
+> +gcc inlines memcpy() with results as fast as handwritten code (at
+> +least in my brief testing with lzop), and knows the alignment
+> +constraints for our architectures.
+> +
+> +Change suggested by Julian Taylor.
+> +
+> +Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=757037
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> +---
+> + minilzo/minilzo.c | 14 ++++++++++++++
+> + src/lzo_func.h    | 14 ++++++++++++++
+> + 2 files changed, 28 insertions(+)
+> +
+> +
+> +diff --git a/minilzo/minilzo.c b/minilzo/minilzo.c
+> +index ab2be5f..6913c2f 100644
+> +--- a/minilzo/minilzo.c
+> ++++ b/minilzo/minilzo.c
+> +@@ -3523,6 +3523,20 @@ LZO_COMPILE_TIME_ASSERT_HEADER(sizeof(*(lzo_memops_TU8p)0)==8)
+> +     if ((void)0, n__n > 0) do { *d__n++ = *s__n++; } while (--n__n > 0); \
+> +     LZO_BLOCK_END
+> +
+> ++/* Debian-specific change: we know that our compiler inlines memcpy() with
+> ++ * constant n to be as fast as handwritten code, and knows which architectures
+> ++ * need things correctly aligned. */
+> ++#undef LZO_MEMOPS_COPY1
+> ++#undef LZO_MEMOPS_COPY2
+> ++#undef LZO_MEMOPS_COPY4
+> ++#undef LZO_MEMOPS_COPY8
+> ++#undef LZO_MEMOPS_COPYN
+> ++#define LZO_MEMOPS_COPY1(dd,ss) memcpy(dd, ss, 1)
+> ++#define LZO_MEMOPS_COPY2(dd,ss) memcpy(dd, ss, 2)
+> ++#define LZO_MEMOPS_COPY4(dd,ss) memcpy(dd, ss, 4)
+> ++#define LZO_MEMOPS_COPY8(dd,ss) memcpy(dd, ss, 8)
+> ++#define LZO_MEMOPS_COPYN(dd,ss,nn) memcpy(dd, ss, nn)
+> ++
+> + __lzo_static_forceinline lzo_uint16_t lzo_memops_get_le16(const lzo_voidp ss)
+> + {
+> +     lzo_uint16_t v;
+> +diff --git a/src/lzo_func.h b/src/lzo_func.h
+> +index dfaa676..1cc1b53 100644
+> +--- a/src/lzo_func.h
+> ++++ b/src/lzo_func.h
+> +@@ -333,6 +333,20 @@ LZO_COMPILE_TIME_ASSERT_HEADER(sizeof(*(lzo_memops_TU8p)0)==8)
+> +     if ((void)0, n__n > 0) do { *d__n++ = *s__n++; } while (--n__n > 0); \
+> +     LZO_BLOCK_END
+> +
+> ++/* Debian-specific change: we know that our compiler inlines memcpy() with
+> ++ * constant n to be as fast as handwritten code, and knows which architectures
+> ++ * need things correctly aligned. */
+> ++#undef LZO_MEMOPS_COPY1
+> ++#undef LZO_MEMOPS_COPY2
+> ++#undef LZO_MEMOPS_COPY4
+> ++#undef LZO_MEMOPS_COPY8
+> ++#undef LZO_MEMOPS_COPYN
+> ++#define LZO_MEMOPS_COPY1(dd,ss) memcpy(dd, ss, 1)
+> ++#define LZO_MEMOPS_COPY2(dd,ss) memcpy(dd, ss, 2)
+> ++#define LZO_MEMOPS_COPY4(dd,ss) memcpy(dd, ss, 4)
+> ++#define LZO_MEMOPS_COPY8(dd,ss) memcpy(dd, ss, 8)
+> ++#define LZO_MEMOPS_COPYN(dd,ss,nn) memcpy(dd, ss, nn)
+> ++
+> + __lzo_static_forceinline lzo_uint16_t lzo_memops_get_le16(const lzo_voidp ss)
+> + {
+> +     lzo_uint16_t v;
+> diff --git a/meta/recipes-support/lzo/lzo_2.08.bb b/meta/recipes-support/lzo/lzo_2.08.bb
+> index 7d7d1f3..af06e29 100644
+> --- a/meta/recipes-support/lzo/lzo_2.08.bb
+> +++ b/meta/recipes-support/lzo/lzo_2.08.bb
+> @@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>                       file://src/lzo_init.c;beginline=5;endline=25;md5=a6e25df9a83b24629e847846ccdd8054"
+>
+>   SRC_URI = "http://www.oberhumer.com/opensource/lzo/download/lzo-${PV}.tar.gz \
+> +           file://0001-Use-memcpy-instead-of-reinventing-it.patch \
+>              file://acinclude.m4 \
+>              "
+>
+>
 
