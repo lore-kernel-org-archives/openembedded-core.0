@@ -1,28 +1,40 @@
-Return-Path: <tom.zanussi@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id F1B4972548
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B9607253E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 19:43:35 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 15 Dec 2014 11:41:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,581,1413270000"; d="scan'208";a="654343679"
-Received: from unknown (HELO [10.255.13.117]) ([10.255.13.117])
-	by orsmga002.jf.intel.com with ESMTP; 15 Dec 2014 11:43:35 -0800
-Message-ID: <1418672609.25212.27.camel@picadillo>
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
-Date: Mon, 15 Dec 2014 13:43:29 -0600
-In-Reply-To: <20141215193712.GA3659@localhost.localdomain>
-References: <1418211958-27738-1-git-send-email-maciej.borzecki@open-rnd.pl>
-	<1418663085.25212.13.camel@picadillo>
-	<20141215193712.GA3659@localhost.localdomain>
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
-Cc: Maciek Borzecki <maciek.borzecki@gmail.com>,
-	Rifenbark Scott <scott.m.rifenbark@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] wic: glob support & minor fixes
+	Mon, 15 Dec 2014 20:37:30 +0000 (UTC)
+Received: by mail-pd0-f172.google.com with SMTP id y13so12362223pdi.17
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Dec 2014 12:37:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=NijK0YcqnreiZVZc3IfAs57tcUP/GQf1RW0fagMNWoE=;
+	b=sxonX9I2FB+C/efNXvb68B4qQimnCVWILWIJjnLoUsIZbyxUBTzOlSExb/ehYRQjVl
+	SmW0wqzK3z50TKptWLg8ONAwtBLEdnRjAL/s5H6ycjvHQfObZorCJhRMfjBKMMyhSGu1
+	8UjPfkNWpNeo1H+8PVzZNWhVNa3mYhpN2EFVx9DeDUW9jkYlxzI2WZdg2F6mmuToEWWd
+	YImWNYChPwB5h3ayUsaX98QKop391HgxlFQ3ABOQ58T1dJkHZRkdpFy711XAdqCMpz/A
+	qtGC8WsmvhbDxijQ6G/Hi+SFJAWrBjzNxEYn4yaGivQArQfX9gGrr7ewOVf8KMjzQhWT
+	bluQ==
+X-Received: by 10.70.128.132 with SMTP id no4mr54300197pdb.125.1418675851345; 
+	Mon, 15 Dec 2014 12:37:31 -0800 (PST)
+Received: from ?IPv6:2601:c:9380:601:24f9:2e5e:eee1:ad88?
+	([2601:c:9380:601:24f9:2e5e:eee1:ad88])
+	by mx.google.com with ESMTPSA id
+	gx5sm10030613pbb.96.2014.12.15.12.37.29 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 15 Dec 2014 12:37:30 -0800 (PST)
+Message-ID: <548F4684.9000401@gmail.com>
+Date: Mon, 15 Dec 2014 12:37:24 -0800
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+References: <1418671309-23451-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1418671309-23451-1-git-send-email-sgw@linux.intel.com>
+Subject: Re: [PATCH] openssh: move setting LD to allow for correct override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,99 +47,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Dec 2014 19:43:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 15 Dec 2014 20:37:38 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2014-12-15 at 20:37 +0100, Maciej Borzecki wrote:
-> On 12/15 11:04, Tom Zanussi wrote:
-> > On Wed, 2014-12-10 at 12:45 +0100, Maciej Borzecki wrote:
-> > > This patch series adds changes that enable globbing in IMAGE_BOOT_FILES.
-> > > Effectivey this makes use of with with Raspberry Pi a tad easier, when a
-> > > lengthy list of boot files can be replaced with just one entry. A related
-> > > change to meta-raspberrypi will be sent to the Yocto mailing list.
-> > >
-> >
-> > Looks ok to me, and I tried it out with your raspberrypi layer changes
-> > which generated the image (I didn't try any other image types to check
-> > against regressions there, though nothing in here looks like it would
-> > touch anything related to the other source plugins, so I'm not worried -
-> > in the next milestone I hope to have some automated wic testing going to
-> > make checking easy).
-> >
-> > I do think, though, that we need to have the documentation for this in
-> > the tool itself.  As it stands, the IMAGE_BOOT_FILES variable is
-> > documented in the manual, but even then, there's no context that ties it
-> > to the bootimg-partition plugin.  I think we need to add a mechanism so
-> > that help text can be added to each plugin, which would be automatically
-> > picked up and merged probably into a plugin-specific 'help plugins'
-> > section in the tool.
-> >
-> > The other thing I noticed, which has nothing to do with this patchset,
-> > but along the same lines, is that the plugin machinery does find the
-> > sdimage-raspberrypi.wks file to generate the image, as expected, but it
-> > doesn't show up in 'wic list source-plugins', as you'd expect.
-> 
-> That's expected, there is no separate source plugin for
-> sdimage-raspberrypi.wks. The kickstart file makes use of
-> bootimage-partition, so it's effectively almost identical to
-> sdimage-bootpart.wks but the boot partition size and start offset.
-> 
+Saul,
 
-You're right, I was confusing it with 'list images', which does find the
-sdimage-raspberrypi.wks file as expected.
+is this needed for dizzy too?
 
-Tom
+- Armin
 
-> So far the only development boards that will not directly work with
-> wic's current plugins are Freescale ones (ex. popular iMX6 boards like
-> Wandboard, Nitrogen6x, Sable Lite etc.). These boards expect u-boot to
-> be located just after MBR, hence the use case is somewhat similar to
-> what pcibios source plugin covers.
-> 
-> 
-> >
-> > Acked-by: Tom Zanussi <tom.zanussi@linux.intel.com>
-> >
-> > > Maciej Borzecki (3):
-> > >   wic: IMAGE_BOOT_FILES format checks in bootimg-partition source
-> > >   wic: add globbing support in IMAGE_BOOT_FILES entries
-> > >   ref-manual: update IMAGE_BOOT_FILES entry
-> > >
-> > >  documentation/ref-manual/ref-variables.xml         | 37 +++++++++++++++----
-> > >  .../lib/wic/plugins/source/bootimg-partition.py    | 43 +++++++++++++++++-----
-> > >  2 files changed, 64 insertions(+), 16 deletions(-)
-> > >
-> > > --
-> > > 1.9.3
-> > >
-> >
-> >
-> 
-> --
-> Maciej Borzęcki
-> Senior Software Developer at Open-RnD Sp. z o.o., Poland
-> www.open-rnd.pl
-> mobile: +48 889 117 365, fax: +48 42 657 9079
-> 
-> 
-> Niniejsza wiadomość wraz z załącznikami może
-> zawierać chronione prawem lub poufne informacje i została
-> wysłana wyłącznie do wiadomości i użytku osób, do których
-> została zaadresowana. Jeśli wiadomość została otrzymana
-> przypadkowo zabrania się jej kopiowania lub rozsyłania do osób
-> trzecich. W takim przypadku uprasza się o natychmiastowe
-> zniszczenie wiadomości oraz poinformowanie nadawcy o
-> zaistniałej sytuacji za pomocą wiadomości zwrotnej.
-> Dziękujemy.
-> 
-> This message, including any attachments hereto,
-> may contain privileged or confidential information and is sent
-> solely for the attention and use of the intended addressee(s).
-> If you are not an intended addressee, you may neither use this
-> message nor copy or deliver it to anyone. In such case, you
-> should immediately destroy this message and kindly notify the
-> sender by reply email. Thank you.
-
-
+On 12/15/2014 11:21 AM, Saul Wold wrote:
+> Using the export LD in the recipe does not allow for secodnary toolchain
+> overriding LD later, by setting it in the do_configure_append the export
+> is used by autotools setting LD based on the env, but would allow for
+> override later.
+>
+> [YOCTO #6997]
+>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>   meta/recipes-connectivity/openssh/openssh_6.6p1.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh_6.6p1.bb b/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
+> index dbcf414..abc302b 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
+> @@ -49,7 +49,6 @@ inherit autotools-brokensep ptest
+>
+>   # LFS support:
+>   CFLAGS += "-D__FILE_OFFSET_BITS=64"
+> -export LD = "${CC}"
+>
+>   # login path is hardcoded in sshd
+>   EXTRA_OECONF = "'LOGIN_PROGRAM=${base_bindir}/login' \
+> @@ -74,6 +73,7 @@ CACHED_CONFIGUREVARS += "ac_cv_path_PATH_PASSWD_PROG=${bindir}/passwd"
+>   EXTRA_OECONF_append_libc-uclibc=" --without-pam"
+>
+>   do_configure_prepend () {
+> +	export LD="${CC}"
+>   	install -m 0644 ${WORKDIR}/sshd_config ${B}/
+>   	install -m 0644 ${WORKDIR}/ssh_config ${B}/
+>   	if [ ! -e acinclude.m4 -a -e aclocal.m4 ]; then
+>
 
