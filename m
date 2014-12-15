@@ -1,35 +1,26 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 613AC710EF
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 97B5265E38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 09:12:12 +0000 (UTC)
-Received: by mail-vc0-f176.google.com with SMTP id hq12so5175728vcb.21
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 01:12:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=i1TmPo8KpqZeumOf6pTu2eaCWLv3iZu2vxoOSyb5MOg=;
-	b=azISPGW9JlfuQCJiB/yCTYmeTxtr78tvrs9tHJYC6aprY56ygv28YiBd4dhruT04mc
-	MQ0cTPNQPpiq8me4zMeCP+7NreQ/fjuHUlRLhbx5g8+Zu55gf7Rbgg0Ff3y3pw/29FdU
-	SJqS0gYBLGlg9wyY0yAoQlC1LA2x3GkQj3xT+e0DcHb93UIHurIDFmNLt7QfugHKS9s1
-	2wHatvSUpRkXZzIJiMwcK9Wdx07Tvk/RnuGFIe3xOGxjd8Vg4YG/41vzEeEcWRU1Aj7m
-	z82Qhh4kENlesHUmpeD29WrK4h+VeEWEZMhSZsE4E8476zT/K/pBk6nHMPECN8bmAu3H
-	lrpg==
+	Mon, 15 Dec 2014 09:23:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBF9NI90005262
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Mon, 15 Dec 2014 01:23:18 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 15 Dec 2014 01:23:17 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Mon, 15 Dec 2014 17:23:03 +0800
+Message-ID: <536e3e63a536745f3f15354277373d2d83740e63.1418634986.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1418634986.git.hongxu.jia@windriver.com>
+References: <cover.1418634986.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.220.205.2 with SMTP id fo2mr18946059vcb.8.1418634733091;
-	Mon, 15 Dec 2014 01:12:13 -0800 (PST)
-Received: by 10.52.237.165 with HTTP; Mon, 15 Dec 2014 01:12:13 -0800 (PST)
-In-Reply-To: <1417610456-788-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1417610456-788-1-git-send-email-schnitzeltony@googlemail.com>
-Date: Mon, 15 Dec 2014 10:12:13 +0100
-Message-ID: <CALbNGRTv-=z03aXhJBcQp3iUi3py+GfwVY+cTQ6+8RW+St56ZQ@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][V2 1/3] pythonnative: set PYTHON_EXECUTABLE so that cmake can find it
+Cc: jeffrey.honig@windriver.com
+Subject: [PATCH 1/3] base/license.bbclass: expand wildcards in INCOMPATIBLE_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,36 +33,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Dec 2014 09:12:16 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 15 Dec 2014 09:23:26 -0000
+Content-Type: text/plain
 
-On Wed, Dec 3, 2014 at 1:40 PM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> | CMake Error at /home/a.mueller/tmp/oe-core-glibc/sysroots/x86_64-linux/=
-usr/share/cmake-2.8/Modules/FindPackageHandleStandardArgs.cmake:108 (messag=
-e):
-> |   Could NOT find PythonInterp (missing: PYTHON_EXECUTABLE)
->
-> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
-> ---
->  meta/classes/pythonnative.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes/pythonnative.bbclass b/meta/classes/pythonnativ=
-e.bbclass
-> index fdd22bb..9fccee9 100644
-> --- a/meta/classes/pythonnative.bbclass
-> +++ b/meta/classes/pythonnative.bbclass
-> @@ -2,5 +2,6 @@
->  inherit python-dir
->
->  PYTHON=3D"${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}"
-> +PYTHON_EXECUTABLE=3D"${PYTHON}"
->  EXTRANATIVEPATH +=3D "${PYTHON_PN}-native"
->  DEPENDS +=3D " ${PYTHON_PN}-native "
-> --
-> 1.8.3.1
->
-ping
+The whitelist processing in code in base.bbclass does not play well with
+wildcards in INCOMPATIBLE_LICENSES. The code expects bad_licenses to
+contain actual license names, not wildcards.
+
+Add incompatible_license_contains to replace bb.utils.contains(
+"INCOMPATIBLE_LICENSE", **, **, **, d)
+
+[YOCTO #5592]
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/classes/base.bbclass    |  2 +-
+ meta/classes/license.bbclass | 25 +++++++++++++++++++++++++
+ meta/conf/documentation.conf |  2 +-
+ 3 files changed, 27 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index de81a7d..06cfe26 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -443,7 +443,7 @@ python () {
+                 check_license = False
+ 
+         if check_license and bad_licenses:
+-            bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
++            bad_licenses = expand_wildcard_licenses(d, bad_licenses)
+ 
+             whitelist = []
+             for lic in bad_licenses:
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 14d3107..ea4c880 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -285,6 +285,31 @@ def canonical_license(d, license):
+             lic += '+'
+     return lic or license
+ 
++def expand_wildcard_licenses(d, wildcard_licenses):
++    """
++    Return actual spdx format license names if wildcard used. We expand
++    wildcards from SPDXLICENSEMAP flags and SRC_DISTRIBUTE_LICENSES values.
++    """
++    import fnmatch
++    licenses = []
++    spdxmapkeys = d.getVarFlags('SPDXLICENSEMAP').keys()
++    for wld_lic in wildcard_licenses:
++        spdxflags = fnmatch.filter(spdxmapkeys, wld_lic)
++        licenses += [d.getVarFlag('SPDXLICENSEMAP', flag) for flag in spdxflags]
++
++    spdx_lics = (d.getVar('SRC_DISTRIBUTE_LICENSES') or '').split()
++    for wld_lic in wildcard_licenses:
++        licenses += fnmatch.filter(spdx_lics, wld_lic)
++
++    licenses = list(set(licenses))
++    return licenses
++
++def incompatible_license_contains(license, truevalue, falsevalue, d):
++    license = canonical_license(d, license)
++    bad_licenses = (d.getVar('INCOMPATIBLE_LICENSE', True) or "").split()
++    bad_licenses = expand_wildcard_licenses(d, bad_licenses)
++    return truevalue if license in bad_licenses else falsevalue
++
+ def incompatible_license(d, dont_want_licenses, package=None):
+     """
+     This function checks if a recipe has only incompatible licenses. It also
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 5564316..2ab86e1 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -223,7 +223,7 @@ IMAGE_ROOTFS_EXTRA_SPACE[doc] = "Defines additional free disk space created in t
+ IMAGE_ROOTFS_SIZE[doc] = "Defines the size in Kbytes for the generated image."
+ IMAGE_TYPES[doc] = "Specifies the complete list of supported image types by default."
+ INC_PR[doc] = "Helps define the recipe revision for recipes that share a common include file."
+-INCOMPATIBLE_LICENSE[doc] = "Specifies a space-separated list of license names (as they would appear in LICENSE) that should be excluded from the build."
++INCOMPATIBLE_LICENSE[doc] = "Specifies a space-separated list of license names (as they would appear in LICENSE) that should be excluded from the build. Wildcard is supported, such as '*GPLv3'"
+ INHIBIT_DEFAULT_DEPS[doc] = "Prevents the default dependencies, namely the C compiler and standard C library (libc), from being added to DEPENDS."
+ INHIBIT_PACKAGE_STRIP[doc] = "If set to "1", causes the build to not strip binaries in resulting packages."
+ INHERIT[doc] = "Causes the named class to be inherited at this point during parsing. The variable is only valid in configuration files."
+-- 
+1.9.1
+
 
