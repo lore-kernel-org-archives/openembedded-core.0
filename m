@@ -1,26 +1,42 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 14285725CD
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 72982725F7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Dec 2014 17:18:10 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 16 Dec 2014 09:04:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="499636843"
-Received: from unknown (HELO [10.255.13.137]) ([10.255.13.137])
-	by orsmga003.jf.intel.com with ESMTP; 16 Dec 2014 09:02:40 -0800
-Message-ID: <549066AB.30909@linux.intel.com>
-Date: Tue, 16 Dec 2014 09:06:51 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
-MIME-Version: 1.0
-To: Philip Balister <philip@balister.org>, Khem Raj <raj.khem@gmail.com>
-References: <54904BDA.1080005@balister.org>	<7CC1BDD4-170B-422B-BC51-33EC0B07E64A@gmail.com>
-	<549063E9.4070403@balister.org>
-In-Reply-To: <549063E9.4070403@balister.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Setting a a fixed resolv.conf file in OE built image
+	Tue, 16 Dec 2014 19:30:21 +0000 (UTC)
+Received: by mail-wi0-f174.google.com with SMTP id h11so13394300wiw.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Dec 2014 11:30:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=6gqBcVlptPMnV4Yq5GJ4wrcChONKIBmvFj6k7QE6tMA=;
+	b=cJ88qjX0Hiu7ZVxKl5+fePpxRpYZCTh3L6eX9YwrfTsF/QZPBmJkJEDpLfZJEYrKEE
+	cuAK+Kut6Cflm4N7BRmz73x7g8UUi/o3XCBVyqIWibrLvpUWTc2Js+YDgBTlnuPC7N3O
+	yozwJ184e22tz75b2i3w2t+FCu8+ChV2kDHHkENssR1JxUTXLa1mW4D8i5UI/vP578ZO
+	8mlL0yx59PhsICnGRoSs1utPMtKnLh8ed3S9xUwOqSJDk7W79OnAzpYg92zRVVbJyu65
+	5jdYy/rG5KNT2Or4lL1tzR2wuVpTbYJ+9kvD8At7yAosoBFAD+7evSL/bnhix7ygT6su
+	RUyQ==
+X-Gm-Message-State: ALoCoQm6xHtikwJ6oagmVRV0ckPir0M0eweb2wcys1vu6uzPI3pooAlPxjtN7Z3U2Fz7b9ofoC0N
+X-Received: by 10.194.83.98 with SMTP id p2mr20580520wjy.125.1418758221886;
+	Tue, 16 Dec 2014 11:30:21 -0800 (PST)
+Received: from ?IPv6:2001:610:612::9a9:92aa:cd3f:5533?
+	([2001:610:612:0:9a9:92aa:cd3f:5533])
+	by mx.google.com with ESMTPSA id nb8sm3276819wic.7.2014.12.16.11.30.19
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 16 Dec 2014 11:30:20 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.1 \(1993\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <835687296e529e505a948421804d16259eb51d2b.1415350038.git.kai.kang@windriver.com>
+Date: Tue, 16 Dec 2014 20:30:18 +0100
+Message-Id: <D9FD4A25-6B2D-4868-B536-9593EFF79254@dominion.thruhere.net>
+References: <cover.1415350038.git.kai.kang@windriver.com>
+	<835687296e529e505a948421804d16259eb51d2b.1415350038.git.kai.kang@windriver.com>
+To: Kai Kang <kai.kang@windriver.com>
+X-Mailer: Apple Mail (2.1993)
+Cc: openembedded-core@lists.openembedded.org, Koen Kooi <koen.kooi@linaro.org>
+Subject: Re: [PATCH 09/24] libpng: add neon option for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +49,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Dec 2014 17:18:19 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Dec 2014 19:30:26 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 12/16/2014 08:55 AM, Philip Balister wrote:
-> On 12/16/2014 11:40 AM, Khem Raj wrote:
->>
->>> On Dec 16, 2014, at 7:12 AM, Philip Balister <philip@balister.org> wrote:
->>>
->>> Any tips on how to do this the right way? It seems like fixed
->>> resolv.conf's are no longer fashionable and the volatile.cache script
->>> goes to great lengths to reset it.
->>>
->>> Adding a dns-nameserver entry in the interfaces file never makes it to
->>> resolv.conf. I tried installing the resolvconf package and played with
->>> it, but no joy. This package also appears to have some issues with
->>> missing pieces.
->>
->> depends a lot on what package combination you are using. If its systemd and you
->> are using systemd-resolved then it generates resolve.conf in /run/ and symlink
->> in /etc/ gets the job done. if its udhcpc then it will populate the one in /etc
->> and it will take interfaces file in /etc into consideration
->
-> Yeah, but this is an image built by adding packages to core-image. No
-> systemd or other network managers. It feels like just adding the
-> dns-nameserver line to interfaces should work, but something appears to
-> not re-populate resolv.conf after it is wiped at boot.
->
-I recently sent some patches to this area, dealing with all the dhcp 
-clients and resolvconf package.
 
-Can you enumerate which networking tools you have installed, if you are 
-not using any network manager or dhcp client and relying on a static 
-dns-nameserver entry, you might need resolvconf if you are not using it.
+> Op 7 nov. 2014, om 09:51 heeft Kai Kang <kai.kang@windriver.com> het =
+volgende geschreven:
+>=20
+> Add neon option for aarch64 just as for arm. It fails with:
+>=20
+> | ./.libs/libpng16.so: undefined reference to =
+`png_init_filter_functions_neon'
+> | collect2: error: ld returned 1 exit status
+>=20
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+> meta/recipes-multimedia/libpng/libpng_1.6.13.bb | 1 +
+> 1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.13.bb =
+b/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
+> index 0c6fd1f..3d32bfe 100644
+> --- a/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
+> +++ b/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
+> @@ -20,6 +20,7 @@ inherit autotools binconfig-disabled pkgconfig
+>=20
+> # Work around missing symbols
+> EXTRA_OECONF_append_arm =3D " ${@bb.utils.contains("TUNE_FEATURES", =
+"neon", "--enable-arm-neon=3Don", "--enable-arm-neon=3Doff" ,d)}"
+> +EXTRA_OECONF_append_aarch64 =3D " =
+${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=3Don", =
+"--enable-arm-neon=3Doff" ,d)}"
 
-Also which version of oe-core meta-data are you using?
-
-Sau!
-
-> Philip
->
->>
->>>
->>> I'll file bugs, but until I can figure out how it is suposed to work,
->>> any bug I file is going to be pretty vague.
->>>
->>> This really should be easier.
->>>
->>> Philip
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->>
+You're introducing the same bug in a different way: overeager use of =
+qualifiers. Just drop the _arm bit and it works.=
 
