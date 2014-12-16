@@ -1,36 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id CEFF172596
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id BF27B72598
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Dec 2014 14:13:51 +0000 (UTC)
-Received: by mail-wg0-f45.google.com with SMTP id b13so17449227wgh.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Dec 2014 06:13:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=epsd18PKDPbpRw2XOZ0vGQVBGa6+wlK3n0NEuyKniCQ=;
-	b=DjT6dLZhLSsYOJ8nZ0xi8gYsWmhH1qyx5FRehLEwvZKEHnJirGn92uvWZk1TjCreR7
-	OwCcDlXEz4FIGf3yc4sauD2e0QNfzgM0mOUZMViGYF2UtkhKboeqtUSKAN04MenN8wcR
-	1XuxsrxVXaFUFzR5NIMEDE1vwqsJJSxygA0INMEPp2Mk9C531WkzvjLMBtd2lNlyfdxB
-	yjSbGpYs6nKJXvaFN7avbtmE0UCHgJQy3k9XZxzWd+6/KKv0ohmrUMJ/FmikrxzWfhcu
-	ODTDulsThXUqRF6Ugt7TD6JAZDcVdlTTJGtR4ZVApS2tNkMjvDwu60XTqr8dj4JQCvQ+
-	RMgA==
-X-Gm-Message-State: ALoCoQn9ScsTaPXIabcPTxnxx9yLzztgRtz9meVBseZ+mLWWQvGvhgLeunSTtmGm/W1JEdQJXwuS
-X-Received: by 10.195.13.114 with SMTP id ex18mr60692277wjd.111.1418739231674; 
-	Tue, 16 Dec 2014 06:13:51 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id wb9sm2278978wic.20.2014.12.16.06.13.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 16 Dec 2014 06:13:50 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Dec 2014 14:13:04 +0000
-Message-Id: <1418739184-5734-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] ofono: use PACKAGECONFIG for systemd and bluetooth
+	Tue, 16 Dec 2014 15:12:27 +0000 (UTC)
+Received: (qmail 18833 invoked by uid 1003); 16 Dec 2014 15:12:27 -0000
+Received: from unknown (HELO ?192.168.1.109?) (philip@opensdr.com@71.171.45.99)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	16 Dec 2014 15:12:27 -0000
+Message-ID: <54904BDA.1080005@balister.org>
+Date: Tue, 16 Dec 2014 10:12:26 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Setting a a fixed resolv.conf file in OE built image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +27,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Dec 2014 14:13:59 -0000
+X-List-Received-Date: Tue, 16 Dec 2014 15:12:36 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-For clarity use PACKAGECONFIG for the systemd and bluetooth optional features.
+Any tips on how to do this the right way? It seems like fixed
+resolv.conf's are no longer fashionable and the volatile.cache script
+goes to great lengths to reset it.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-connectivity/ofono/ofono.inc |   16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+Adding a dns-nameserver entry in the interfaces file never makes it to
+resolv.conf. I tried installing the resolvconf package and played with
+it, but no joy. This package also appears to have some issues with
+missing pieces.
 
-diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
-index 9f65f4f..bf44fca 100644
---- a/meta/recipes-connectivity/ofono/ofono.inc
-+++ b/meta/recipes-connectivity/ofono/ofono.inc
-@@ -7,16 +7,20 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
- 
- inherit autotools pkgconfig update-rc.d systemd
- 
--DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)}"
-+DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info"
- 
- INITSCRIPT_NAME = "ofono"
- INITSCRIPT_PARAMS = "defaults 22"
- 
--EXTRA_OECONF += "\
--    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
--    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
--    --enable-test \
--"
-+PACKAGECONFIG ??= "\
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth','bluetooth', '', d)} \
-+    "
-+PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/,--with-systemdunitdir="
-+PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez4"
-+
-+EXTRA_OECONF += "--enable-test"
-+
- SYSTEMD_SERVICE_${PN} = "ofono.service"
- 
- do_install_append() {
--- 
-1.7.10.4
+I'll file bugs, but until I can figure out how it is suposed to work,
+any bug I file is going to be pretty vague.
 
+This really should be easier.
+
+Philip
 
