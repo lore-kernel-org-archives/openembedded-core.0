@@ -1,44 +1,26 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id E4A7A72564
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 757377255D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Dec 2014 08:36:26 +0000 (UTC)
-Received: by mail-wi0-f176.google.com with SMTP id ex7so11405286wid.15
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Dec 2014 00:36:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=vOr7ValLt2bhxlC9m854sSyKgofNDLmCE+y+1fgQWLo=;
-	b=LGYS5zPNEaRC+VF0kEMgFTBrmJtR144xpDZ3hJIzl6YFJQAzIUVTKDrU8fsXajBvxE
-	Ig/cmzw1QmxcJI/iLSbvH0IiAbh/jxWQiJS5/UzqXOl9WtYA+5MF0ut7L5Zg6OyfuyWF
-	N5eGDWz8SFC/NZlkq0vNQcQz7kDvzrmbggqUDwCcs/JOeSQXwTYxyUaHMrP5agRHD9Ik
-	s2N3s2gbpShG43Nircc3q5bOBvrKug7mDq7wKjtCIa/eQJC4vs+cXI+mj3HNexM1U1NE
-	RaDboXofLbZBIdS0mWQVXKxUMd7A7DHB2oKOykSQVVKCu7ruBOZyZkrBXqabIPEf24lU
-	5iog==
-X-Gm-Message-State: ALoCoQkaGsrUYLsBwhpbYwqziGrEzCgl6D5QT9VHO+hOgaq1QMdvEr/i7PZcs4LqsRKnwqm74zE4
-X-Received: by 10.194.216.170 with SMTP id or10mr59798160wjc.96.1418718986813; 
-	Tue, 16 Dec 2014 00:36:26 -0800 (PST)
-Received: from mobil-400-586.internal.dresearch-fe.de (zk223.dresearch-fe.de.
-	[217.92.177.116])
-	by mx.google.com with ESMTPSA id bj3sm16077512wib.3.2014.12.16.00.36.25
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 16 Dec 2014 00:36:26 -0800 (PST)
-Message-ID: <548FEF09.80304@dresearch-fe.de>
-Date: Tue, 16 Dec 2014 09:36:25 +0100
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Tue, 16 Dec 2014 13:06:24 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0158.001; Tue, 16 Dec 2014 14:06:24 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, 'Saul Wold'
+	<sgw@linux.intel.com>
+Thread-Topic: python: Building without SSLv3 support ,
+Thread-Index: AdAZLqtY0jR0amPSSFi0VN0VguRhfg==
+Date: Tue, 16 Dec 2014 13:06:23 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E48257EA829@SESTOEX04.enea.se>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.142.231]
 MIME-Version: 1.0
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-References: <548EBDE0.3080704@dresearch-fe.de>
-	<lyiohcubq7.fsf@ensc-virt.intern.sigma-chemnitz.de>
-In-Reply-To: <lyiohcubq7.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Subject: Re: "qemu-arm udevadm hwdb --update" eats swap space after build host update to openSUSE 13.2
+Cc: Maxin John <Maxin.John@enea.com>,
+	'OE-core' <openembedded-core@lists.openembedded.org>
+Subject: python: Building without SSLv3 support ,
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,38 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Dec 2014 08:36:36 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 16 Dec 2014 13:06:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 15.12.2014 17:19, Enrico Scholz wrote:
-> Steffen Sledz <sledz-mQBY8sqGERgRVMum7q6B+Q@public.gmane.org> writes:
-> 
->> The first thing we observed was that the do_rootfs stage made a very
->> big load (more than 500) on the machine but the cpu's aren't working
->> for 100%. I could track down the problem to the call
->> ...
->> which eats swap space without end till the system crashes (more than 100GB swap space ist available).
->>
->> I've no idea how to inspect this problem further. Any ideas?
-> 
-> I had a similar issue when /var/tmp in the rootfs was an absolute symlink
-> pointing to toplevel /var/tmp which contained some millions of files.
-> 
-> Can you look (lsof) which files are open by qemu?
+Hi all,
 
-Crazy! This really seems to be the problem.
+> > I think we should consider (start looking at upgrading to python 2.7.9
+> > in master), to address this issue. I feel uncomfortable with this
+> > Debian patch. It seems that  we need to do more manual changes in
+> > order to make this work. I will soon update the bug 7015 with my test
+> results.
+>=20
+> We definitely do need to do this upgrade, yes; but we'd also like to have=
+ a fix
+> for older versions too. FWIW I've just entered an enhancement bug to cove=
+r
+> this for master; at the moment I'm not sure who will end up doing it but =
+I
+> thought we should have something to track it since it's not a trivial pie=
+ce of
+> work:
+>=20
 
-I had a big subtree from earlier local openSUSE Build Service runs below toplevel /var/run. After deleting this the build succeeds.
+I did some more investigation, run some tests and updated bug 7015.
 
-But manually deleting such files before running OE builds cannot really be a reasonable solution. :(
+I created bug 7085 - openssl: compile openSSL with OPENSSL_NO_SSL3 flag, th=
+is was needed for bug 7015. I am not sure if this should only be documented=
+ or should we add this flag to the default config. Disabling SSLv3 in pytho=
+n relies on defining this flag in OpenSSL.
 
--- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+If we upgrade Python to 2.7.9 (bug 7059) this issue will be solved in maste=
+r, but we still need to handle this in dizzy & daisy.=20
+
+Python.org has bakported the entirety of Python 3.4's ssl module to Python =
+2.7.9. I will download the source code of 2.7.9 and see if we can backport =
+the changes to our version (python 2.7.3). This will however take time for =
+me. If this is urgent, please assign this to someone else. (I will soon go =
+for a long vacation :))
+
+Cheers
+Sona
+
 
