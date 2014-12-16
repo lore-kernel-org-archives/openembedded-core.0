@@ -1,26 +1,36 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 757377255D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id CEFF172596
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Dec 2014 13:06:24 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0158.001; Tue, 16 Dec 2014 14:06:24 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, 'Saul Wold'
-	<sgw@linux.intel.com>
-Thread-Topic: python: Building without SSLv3 support ,
-Thread-Index: AdAZLqtY0jR0amPSSFi0VN0VguRhfg==
-Date: Tue, 16 Dec 2014 13:06:23 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48257EA829@SESTOEX04.enea.se>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
-MIME-Version: 1.0
-Cc: Maxin John <Maxin.John@enea.com>,
-	'OE-core' <openembedded-core@lists.openembedded.org>
-Subject: python: Building without SSLv3 support ,
+	Tue, 16 Dec 2014 14:13:51 +0000 (UTC)
+Received: by mail-wg0-f45.google.com with SMTP id b13so17449227wgh.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Dec 2014 06:13:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=epsd18PKDPbpRw2XOZ0vGQVBGa6+wlK3n0NEuyKniCQ=;
+	b=DjT6dLZhLSsYOJ8nZ0xi8gYsWmhH1qyx5FRehLEwvZKEHnJirGn92uvWZk1TjCreR7
+	OwCcDlXEz4FIGf3yc4sauD2e0QNfzgM0mOUZMViGYF2UtkhKboeqtUSKAN04MenN8wcR
+	1XuxsrxVXaFUFzR5NIMEDE1vwqsJJSxygA0INMEPp2Mk9C531WkzvjLMBtd2lNlyfdxB
+	yjSbGpYs6nKJXvaFN7avbtmE0UCHgJQy3k9XZxzWd+6/KKv0ohmrUMJ/FmikrxzWfhcu
+	ODTDulsThXUqRF6Ugt7TD6JAZDcVdlTTJGtR4ZVApS2tNkMjvDwu60XTqr8dj4JQCvQ+
+	RMgA==
+X-Gm-Message-State: ALoCoQn9ScsTaPXIabcPTxnxx9yLzztgRtz9meVBseZ+mLWWQvGvhgLeunSTtmGm/W1JEdQJXwuS
+X-Received: by 10.195.13.114 with SMTP id ex18mr60692277wjd.111.1418739231674; 
+	Tue, 16 Dec 2014 06:13:51 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id wb9sm2278978wic.20.2014.12.16.06.13.50
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 16 Dec 2014 06:13:50 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Dec 2014 14:13:04 +0000
+Message-Id: <1418739184-5734-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] ofono: use PACKAGECONFIG for systemd and bluetooth
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Dec 2014 13:06:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 16 Dec 2014 14:13:59 -0000
 
-Hi all,
+For clarity use PACKAGECONFIG for the systemd and bluetooth optional features.
 
-> > I think we should consider (start looking at upgrading to python 2.7.9
-> > in master), to address this issue. I feel uncomfortable with this
-> > Debian patch. It seems that  we need to do more manual changes in
-> > order to make this work. I will soon update the bug 7015 with my test
-> results.
->=20
-> We definitely do need to do this upgrade, yes; but we'd also like to have=
- a fix
-> for older versions too. FWIW I've just entered an enhancement bug to cove=
-r
-> this for master; at the moment I'm not sure who will end up doing it but =
-I
-> thought we should have something to track it since it's not a trivial pie=
-ce of
-> work:
->=20
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-connectivity/ofono/ofono.inc |   16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-I did some more investigation, run some tests and updated bug 7015.
-
-I created bug 7085 - openssl: compile openSSL with OPENSSL_NO_SSL3 flag, th=
-is was needed for bug 7015. I am not sure if this should only be documented=
- or should we add this flag to the default config. Disabling SSLv3 in pytho=
-n relies on defining this flag in OpenSSL.
-
-If we upgrade Python to 2.7.9 (bug 7059) this issue will be solved in maste=
-r, but we still need to handle this in dizzy & daisy.=20
-
-Python.org has bakported the entirety of Python 3.4's ssl module to Python =
-2.7.9. I will download the source code of 2.7.9 and see if we can backport =
-the changes to our version (python 2.7.3). This will however take time for =
-me. If this is urgent, please assign this to someone else. (I will soon go =
-for a long vacation :))
-
-Cheers
-Sona
+diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+index 9f65f4f..bf44fca 100644
+--- a/meta/recipes-connectivity/ofono/ofono.inc
++++ b/meta/recipes-connectivity/ofono/ofono.inc
+@@ -7,16 +7,20 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+ 
+ inherit autotools pkgconfig update-rc.d systemd
+ 
+-DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)}"
++DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info"
+ 
+ INITSCRIPT_NAME = "ofono"
+ INITSCRIPT_PARAMS = "defaults 22"
+ 
+-EXTRA_OECONF += "\
+-    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
+-    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
+-    --enable-test \
+-"
++PACKAGECONFIG ??= "\
++    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth','bluetooth', '', d)} \
++    "
++PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/,--with-systemdunitdir="
++PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez4"
++
++EXTRA_OECONF += "--enable-test"
++
+ SYSTEMD_SERVICE_${PN} = "ofono.service"
+ 
+ do_install_append() {
+-- 
+1.7.10.4
 
 
