@@ -1,44 +1,37 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 217A872533
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 76B6172588
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Dec 2014 06:30:42 +0000 (UTC)
-Received: by mail-wi0-f170.google.com with SMTP id bs8so12631322wib.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Dec 2014 22:30:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=HqgDl3SHiglDSRIVlagYVQrokz0/LAhVthRiRqwQjso=;
-	b=cy969xOed1yjmRaefg2kzo2HEh9VU0p89LUJepCJj7r4rutL1V4y6x/ktlgvWbHWnN
-	aR7RwQ/IfiRUntPaK1danMosIW4A1bLkmCiuM17nQ9OglNQZJKrTDNB/9s7EY7HWh78o
-	V67UGmZ1jeP6NG6pD+lEtIAZjPDWR7QDY2tRsCqKIs+qqaFRDC1ZyJ5R4jl2mw6pfwWd
-	unnerrHDolVf1QyDa8FXI5kb0gVC6FaBJfHb2uA9/Iwm1Cw3XcuZhCw2AyoaKs6zt5LG
-	Z6UEiP8stIQ40kdZzp/J68oRPIJFtO+wW1hxFqy5Htqpjh0jocwbAgvT4NCfsrA40UeW
-	/Iig==
-X-Gm-Message-State: ALoCoQk1qcAiLUSlAqaJ6TsXRDFHyBRaqm7elrqCmDTb98k9kUyu/m2I5ETbrvEMjmxAQ/jjbUBe
-X-Received: by 10.194.238.3 with SMTP id vg3mr57570976wjc.69.1418711442954;
-	Mon, 15 Dec 2014 22:30:42 -0800 (PST)
-Received: from [172.29.23.6] (zk223.dresearch-fe.de. [217.92.177.116])
-	by mx.google.com with ESMTPSA id n8sm15636187wjx.0.2014.12.15.22.30.41
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 15 Dec 2014 22:30:42 -0800 (PST)
-Message-ID: <548FD191.5010907@dresearch-fe.de>
-Date: Tue, 16 Dec 2014 07:30:41 +0100
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Tue, 16 Dec 2014 07:22:32 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-03.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1Y0mSl-0003Rs-V9 from Awais_Belal@mentor.com ;
+	Mon, 15 Dec 2014 23:22:32 -0800
+Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.55]) by
+	SVR-IES-FEM-03.mgc.mentorg.com ([137.202.0.108]) with mapi id
+	14.03.0181.006; Tue, 16 Dec 2014 07:22:31 +0000
+From: "Belal, Awais" <Awais_Belal@mentor.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Armin Kuster <akuster808@gmail.com>
+Thread-Topic: [OE-core] [PATCH] libxcb: fix socket writes
+Thread-Index: AQHQEIBUJq9RPrqydEKzD8wqNSn5EJyA+kGAgAATSNOAAAlAAIACn8DVgAHfwICAAZBHLIAKunzz
+Date: Tue, 16 Dec 2014 07:22:30 +0000
+Message-ID: <2021B186DC632746BD5A3CE32F12BD28E9FE2BA1@EU-MBX-03.mgc.mentorg.com>
+References: <1417779643-18350-1-git-send-email-awais_belal@mentor.com>
+	<CAJTo0LZ1=H4Gz90Ni0sFjL29LMgqMXR18ZTv0uOjLCtsziboEg@mail.gmail.com>
+	<2021B186DC632746BD5A3CE32F12BD28E9FDF811@EU-MBX-03.mgc.mentorg.com>
+	<CAJTo0LY0-X-w2uarbL7bKKCjirw6JUi-w6GXO2Qm3f0zPmcJTA@mail.gmail.com>
+	<2021B186DC632746BD5A3CE32F12BD28E9FDFB15@EU-MBX-03.mgc.mentorg.com>,
+	<CAJTo0LbO4oz9vE5JWUKcaSyKycY2JnaCb3ZmZjmU8Q_cXqUAVA@mail.gmail.com>,
+	<2021B186DC632746BD5A3CE32F12BD28E9FE0F71@EU-MBX-03.mgc.mentorg.com>
+In-Reply-To: <2021B186DC632746BD5A3CE32F12BD28E9FE0F71@EU-MBX-03.mgc.mentorg.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.69]
 MIME-Version: 1.0
-To: Gaurang Shastri <gshastri@juniper.net>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-References: <548EBDE0.3080704@dresearch-fe.de>
-	<BLUPR05MB691C5C534377936999FE84AD56F0@BLUPR05MB691.namprd05.prod.outlook.com>
-In-Reply-To: <BLUPR05MB691C5C534377936999FE84AD56F0@BLUPR05MB691.namprd05.prod.outlook.com>
-Subject: Re: "qemu-arm udevadm hwdb --update" eats swap space after build host update to openSUSE 13.2
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxcb: fix socket writes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,59 +44,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Dec 2014 06:30:45 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 16 Dec 2014 07:22:43 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_2021B186DC632746BD5A3CE32F12BD28E9FE2BA1EUMBX03mgcmento_"
 
-On 15.12.2014 12:00, Gaurang Shastri wrote:
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Steffen Sledz
->> After updating our build host from openSUSE 13.1 to 13.2 we're no longer able to build our images with OE (with 13.1 on the same host everything worked well). :(
->>
->> The first thing we observed was that the do_rootfs stage made a very big load (more than 500) on the machine but the cpu's aren't working for 100%. I could track down the problem to the call
->>
->> qemu-arm -r 2.6.32 -L /pm/sledz/hipos-dfe.dizzy/build-closed/tmp-glibc/work/hikirk-angstrom-linux-gnueabi/hydraip-prodimage/1.0-r0+r16+r17.5/rootfs -E LD_LIBRARY_PATH=/pm/sledz/hipos-dfe.dizzy/build-closed/tmp-glibc/work/hikirk-angstrom-linux-gnueabi/hydraip-prodimage/1.0-r0+r16+r17.5/rootfs/usr/lib:/pm/sledz/hipos-dfe.dizzy/build-closed/tmp-glibc/work/hikirk-angstrom-linux-gnueabi/hydraip-prodimage/1.0-r0+r16+r17.5/rootfs/lib /pm/sledz/hipos-dfe.dizzy/build-closed/tmp-glibc/work/hikirk-angstrom-linux-gnueabi/hydraip-prodimage/1.0-r0+r16+r17.5/rootfs/bin/udevadm hwdb --update --root /pm/sledz/hipos-dfe.dizzy/build-closed/tmp-glibc/work/hikirk-angstrom-linux-gnueabi/hydraip-prodimage/1.0-r0+r16+r17.5/rootfs
->>
->> which eats swap space without end till the system crashes (more than 100GB swap space ist available).
->>
->> I've no idea how to inspect this problem further. Any ideas?
->
-> I have already raised some similar issue where because of un-appropriate use of "QEMU_OPTIONS" led the post process of udev-hwdb failed.
-> 
-> Anyhow, Richard has created a patch and you can go through the same here at:
-> http://lists.openembedded.org/pipermail/openembedded-core/2014-December/099544.html
-> 
-> Let's see if that solves your issue.
+--_000_2021B186DC632746BD5A3CE32F12BD28E9FE2BA1EUMBX03mgcmento_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Unfortunately not.
+ping!
 
-I've used the latest dizzy-Branch and applied this patch, but the behaviour did not change.
+BR,
+Awais
+________________________________
+From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
+ounces@lists.openembedded.org] on behalf of Belal, Awais
+Sent: Tuesday, December 09, 2014 4:33 PM
+To: Burton, Ross; Armin Kuster
+Cc: OE-core
+Subject: Re: [OE-core] [PATCH] libxcb: fix socket writes
 
-commit 219e793907406eabf632e784e3a11ab9acb77cfb
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date:   Thu Dec 4 19:49:19 2014 +0000
+Hi Armin,
 
-    qemu/libc-package: Fix qemu option handling
+Is this acceptable for the dizzy branch or do I need to resubmit with the t=
+ag?
 
-    The 'overrides' here are PACKAGE_ARCH based and hence not overrides
-    as such and the _append wasn't working in many cases. This adjusts the
-    code to use PACKAGE_ARCH as the accessor and ensures the variables
-    work as expected. This fixes various segfaults and ensures postinsts
-    run at build time rather than on the target system.
+BR,
+Awais
+________________________________
+From: Burton, Ross [ross.burton@intel.com]
+Sent: Monday, December 08, 2014 4:39 PM
+To: Belal, Awais; Armin Kuster
+Cc: OE-core
+Subject: Re: [OE-core] [PATCH] libxcb: fix socket writes
 
-    The bug was introduced in http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=7efad8a1b56df6ee07c12ad360c0493d7b1d6d23.
 
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-    Signed-off-by: Ross Burton <ross.burton@intel.com>
+On 7 December 2014 at 07:03, Belal, Awais <Awais_Belal@mentor.com<mailto:Aw=
+ais_Belal@mentor.com>> wrote:
+Do I need to resubmit this with [dizzy] tag or will this work?
 
-Regards,
-Steffen
+If you don't include the [dizzy] tag then you'll need to ping Armin Kuster,=
+ who is the dizzy maintainer (I've CC'd him to this mail).
 
--- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+Ross
 
+--_000_2021B186DC632746BD5A3CE32F12BD28E9FE2BA1EUMBX03mgcmento_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style id=3D"owaParaStyle" type=3D"text/css">=0A=
+<!--=0A=
+p=0A=
+	{margin-top:0;=0A=
+	margin-bottom:0}=0A=
+-->=0A=
+P {margin-top:0;margin-bottom:0;}</style>
+</head>
+<body ocsi=3D"0" fpstyle=3D"1">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;">ping!<br>
+<div><br>
+<div style=3D"font-family:Tahoma; font-size:13px"><font face=3D"Tahoma"></f=
+ont>
+<div style=3D"font-size:13px">
+<div><font size=3D"2" face=3D"Tahoma"><span lang=3D"en-US">
+<div style=3D"margin:0">BR,</div>
+<div style=3D"margin:0"><i>Awais</i></div>
+</span></font></div>
+</div>
+<font face=3D"Tahoma"></font></div>
+</div>
+<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
+">
+<hr tabindex=3D"-1">
+<div style=3D"direction: ltr;" id=3D"divRpF226393"><font size=3D"2" color=
+=3D"#000000" face=3D"Tahoma"><b>From:</b> openembedded-core-bounces@lists.o=
+penembedded.org [openembedded-core-bounces@lists.openembedded.org] on behal=
+f of Belal, Awais<br>
+<b>Sent:</b> Tuesday, December 09, 2014 4:33 PM<br>
+<b>To:</b> Burton, Ross; Armin Kuster<br>
+<b>Cc:</b> OE-core<br>
+<b>Subject:</b> Re: [OE-core] [PATCH] libxcb: fix socket writes<br>
+</font><br>
+</div>
+<div></div>
+<div>
+<div style=3D"direction:ltr; font-family:Tahoma; color:#000000; font-size:1=
+0pt">Hi Armin,<br>
+<br>
+Is this acceptable for the dizzy branch or do I need to resubmit with the t=
+ag?<br>
+<div><br>
+<div style=3D"font-family:Tahoma; font-size:13px"><font face=3D"Tahoma"></f=
+ont>
+<div style=3D"font-size:13px">
+<div><font size=3D"2" face=3D"Tahoma"><span lang=3D"en-US">
+<div style=3D"margin:0">BR,</div>
+<div style=3D"margin:0"><i>Awais</i></div>
+</span></font></div>
+</div>
+<font face=3D"Tahoma"></font></div>
+</div>
+<div style=3D"font-family:Times New Roman; color:#000000; font-size:16px">
+<hr tabindex=3D"-1">
+<div id=3D"divRpF734022" style=3D"direction:ltr"><font size=3D"2" color=3D"=
+#000000" face=3D"Tahoma"><b>From:</b> Burton, Ross [ross.burton@intel.com]<=
+br>
+<b>Sent:</b> Monday, December 08, 2014 4:39 PM<br>
+<b>To:</b> Belal, Awais; Armin Kuster<br>
+<b>Cc:</b> OE-core<br>
+<b>Subject:</b> Re: [OE-core] [PATCH] libxcb: fix socket writes<br>
+</font><br>
+</div>
+<div></div>
+<div>
+<div dir=3D"ltr">
+<div class=3D"gmail_extra"><br>
+<div class=3D"gmail_quote">On 7 December 2014 at 07:03, Belal, Awais <span =
+dir=3D"ltr">
+&lt;<a href=3D"mailto:Awais_Belal@mentor.com" target=3D"_blank">Awais_Belal=
+@mentor.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
+px #ccc solid; padding-left:1ex">
+<div style=3D"direction:ltr; font-family:Tahoma; color:#000000; font-size:1=
+0pt">Do I need to resubmit this with [dizzy] tag or will this work?<br>
+<div></div>
+</div>
+</blockquote>
+</div>
+<br>
+If you don't include the [dizzy] tag then you'll need to ping Armin Kuster,=
+ who is the dizzy maintainer (I've CC'd him to this mail).</div>
+<div class=3D"gmail_extra"><br>
+</div>
+<div class=3D"gmail_extra">Ross</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_2021B186DC632746BD5A3CE32F12BD28E9FE2BA1EUMBX03mgcmento_--
