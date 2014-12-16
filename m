@@ -1,39 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 51EAA725C6
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 623C1725E6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Dec 2014 16:40:11 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id kx10so14474903pab.30
+	Tue, 16 Dec 2014 16:41:35 +0000 (UTC)
+Received: by mail-pd0-f178.google.com with SMTP id r10so14203250pdi.37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Dec 2014 08:40:12 -0800 (PST)
+	Tue, 16 Dec 2014 08:41:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=JJsXXVzH4pZ/r59UvR2wPyP4nwXj4YysL3qLSvYXKvQ=;
-	b=d/XsbrvckE61W73cVoptVupEFsu0rOVqXn/pxaOIbO+qh95vVJCbwq2A29HK5vUfOr
-	Xiwc/+afzd/qX0gA4CeOFSJYjh4Ol+GidxEISVvedJl5GtTTDvQSAz4EPQuNzTufUedB
-	i/CKZgyJinXtjL12NlPzP/F+Sdo1O0H8WD66mdXy+FpyO8T0T+udkzFne4agllaHwR9C
-	3VFHx6nvVgFq1x03UtyumEQHFg+TVCINm+Khp4ZmxvAV45PgC9z3Cy6C2erRnJcO/hlI
-	nEBtdg1zJ01XUNdT9Py/K6lISpeJ6v5/d+zmMvMbwC68eMtp7ZDBvEmjju+IPQmCc4vA
-	r7Tg==
-X-Received: by 10.70.19.101 with SMTP id d5mr62548386pde.10.1418748011627;
-	Tue, 16 Dec 2014 08:40:11 -0800 (PST)
-Received: from ?IPv6:2601:9:3580:84c:447d:2ae8:83db:988?
-	([2601:9:3580:84c:447d:2ae8:83db:988])
-	by mx.google.com with ESMTPSA id e9sm1415207pdp.59.2014.12.16.08.40.10
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 16 Dec 2014 08:40:11 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 8.1 \(1993\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <54904BDA.1080005@balister.org>
-Date: Tue, 16 Dec 2014 08:40:10 -0800
-Message-Id: <7CC1BDD4-170B-422B-BC51-33EC0B07E64A@gmail.com>
-References: <54904BDA.1080005@balister.org>
-To: Philip Balister <philip@balister.org>
-X-Mailer: Apple Mail (2.1993)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Setting a a fixed resolv.conf file in OE built image
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	bh=gJPOubXqYIvPJZB0iwgpex36vllFwEeeunsSKhZeUAI=;
+	b=PqnxDRteSN5Y14vfFI7oKXG2tN7GCAKP023qLJXa8UeKEMr1hoymaFj9oawJGyDcSR
+	hzy7jWkXtRswVmE8Y0962evQZJ4qBbJajZMHOugu8lL0jlg0tMFAZLngb2GigJ2bPV+X
+	FARijz+SXCohhmlpiOQOHKI5qm0GaLIkcwkbazPDnr5HQLyAAKNq8m+EuZb4DgVP/oB9
+	fZrilS8s6TJVOLFHfNDwuqFCpraWdzDHGKont0QCnGfKzVK/BnW1lGclrTdp1AA9ogc+
+	Ha8N1Dlfjja9MIVQlPKbk2haYvdlSXxPjM+UpJx/U7flOoVqhy+QsWYgBpXJ6w/ju+D/
+	nmZA==
+X-Received: by 10.66.66.231 with SMTP id i7mr17049719pat.143.1418748096535;
+	Tue, 16 Dec 2014 08:41:36 -0800 (PST)
+Received: from ?IPv6:2601:c:9380:601:9dc7:efd2:dfe8:df95?
+	([2601:c:9380:601:9dc7:efd2:dfe8:df95])
+	by mx.google.com with ESMTPSA id z3sm1484904pdp.17.2014.12.16.08.41.34
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 16 Dec 2014 08:41:35 -0800 (PST)
+Message-ID: <549060BC.7040209@gmail.com>
+Date: Tue, 16 Dec 2014 08:41:32 -0800
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
+Subject: Request for Dizzy patches for 1.7.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,42 +45,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Dec 2014 16:40:16 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 16 Dec 2014 16:41:36 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+Hello all,
 
-> On Dec 16, 2014, at 7:12 AM, Philip Balister <philip@balister.org> =
-wrote:
->=20
-> Any tips on how to do this the right way? It seems like fixed
-> resolv.conf's are no longer fashionable and the volatile.cache script
-> goes to great lengths to reset it.
->=20
-> Adding a dns-nameserver entry in the interfaces file never makes it to
-> resolv.conf. I tried installing the resolvconf package and played with
-> it, but no joy. This package also appears to have some issues with
-> missing pieces.
+I am collection patches for the up coming 1.7.1 release. Please let me 
+know which patches should be in 1.7.1 by including "[Dizzy]" in the 
+subject line.
 
-depends a lot on what package combination you are using. If its systemd =
-and you
-are using systemd-resolved then it generates resolve.conf in /run/ and =
-symlink
-in /etc/ gets the job done. if its udhcpc then it will populate the one =
-in /etc
-and it will take interfaces file in /etc into consideration
-
->=20
-> I'll file bugs, but until I can figure out how it is suposed to work,
-> any bug I file is going to be pretty vague.
->=20
-> This really should be easier.
->=20
-> Philip
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+kind regards,
+Armin
 
