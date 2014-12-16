@@ -1,40 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 859E37259F
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 3BEA9725F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Dec 2014 16:43:42 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id lf10so13804697pab.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Dec 2014 08:43:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=2ckzicgwcFV06+ni8tcGgmRpT9qYMGT4wtlO9bX/CQg=;
-	b=dla2ekHnjERC1K3angehjrsIfoD5N5/wMnl6R+XH/sXswxfigxMomY6yksI27+hIDe
-	c9joXrZTqSTY9XhbM408FeBLfq2bNmRhOBd+HsW5850TuveymDZfejciomhgpv+witPQ
-	Nh1lMPVB3n0Vsl+qL40ygmYDUK7ZEgy1KDESqi80BEvnRGZIOokRJDe0DEL/9nRUHc6r
-	kbvX5dL12EzKr6NDgv1GSuCDWu9jpqx2qV1ITa6d6p5wNT5Zrm3kX7X3xRqJOp16HOtN
-	n6w12KkZfzCyp+XnrwAaPS1XIth+U6Skel0k1yanJ2mwQSHXezVhUKjahRuBfQK5V290
-	xfpQ==
-X-Received: by 10.68.220.39 with SMTP id pt7mr61175381pbc.37.1418748222168;
-	Tue, 16 Dec 2014 08:43:42 -0800 (PST)
-Received: from ?IPv6:2601:9:3580:84c:447d:2ae8:83db:988?
-	([2601:9:3580:84c:447d:2ae8:83db:988])
-	by mx.google.com with ESMTPSA id w14sm1492799pas.14.2014.12.16.08.43.41
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 16 Dec 2014 08:43:41 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 8.1 \(1993\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <549060BC.7040209@gmail.com>
-Date: Tue, 16 Dec 2014 08:43:40 -0800
-Message-Id: <6C5CEC9C-1355-4DD9-AA23-D188D420A275@gmail.com>
-References: <549060BC.7040209@gmail.com>
-To: akuster808 <akuster808@gmail.com>
-X-Mailer: Apple Mail (2.1993)
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Request for Dizzy patches for 1.7.1
+	Tue, 16 Dec 2014 16:55:05 +0000 (UTC)
+Received: (qmail 14586 invoked by uid 1003); 16 Dec 2014 16:55:06 -0000
+Received: from unknown (HELO ?192.168.1.109?) (philip@opensdr.com@71.171.45.99)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	16 Dec 2014 16:55:05 -0000
+Message-ID: <549063E9.4070403@balister.org>
+Date: Tue, 16 Dec 2014 11:55:05 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <54904BDA.1080005@balister.org>
+	<7CC1BDD4-170B-422B-BC51-33EC0B07E64A@gmail.com>
+In-Reply-To: <7CC1BDD4-170B-422B-BC51-33EC0B07E64A@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Setting a a fixed resolv.conf file in OE built image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,33 +31,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Dec 2014 16:43:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 16 Dec 2014 16:55:15 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
+On 12/16/2014 11:40 AM, Khem Raj wrote:
+> 
+>> On Dec 16, 2014, at 7:12 AM, Philip Balister <philip@balister.org> wrote:
+>>
+>> Any tips on how to do this the right way? It seems like fixed
+>> resolv.conf's are no longer fashionable and the volatile.cache script
+>> goes to great lengths to reset it.
+>>
+>> Adding a dns-nameserver entry in the interfaces file never makes it to
+>> resolv.conf. I tried installing the resolvconf package and played with
+>> it, but no joy. This package also appears to have some issues with
+>> missing pieces.
+> 
+> depends a lot on what package combination you are using. If its systemd and you
+> are using systemd-resolved then it generates resolve.conf in /run/ and symlink
+> in /etc/ gets the job done. if its udhcpc then it will populate the one in /etc
+> and it will take interfaces file in /etc into consideration
 
-> On Dec 16, 2014, at 8:41 AM, akuster808 <akuster808@gmail.com> wrote:
->=20
-> Hello all,
->=20
-> I am collection patches for the up coming 1.7.1 release. Please let me =
-know which patches should be in 1.7.1 by including "[Dizzy]" in the =
-subject line.
+Yeah, but this is an image built by adding packages to core-image. No
+systemd or other network managers. It feels like just adding the
+dns-nameserver line to interfaces should work, but something appears to
+not re-populate resolv.conf after it is wiped at boot.
 
+Philip
 
-Please consider,
-
-http://patchwork.openembedded.org/patch/84905/
-
-It is needed both in master and dizzy
-
->=20
-> kind regards,
-> Armin
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+> 
+>>
+>> I'll file bugs, but until I can figure out how it is suposed to work,
+>> any bug I file is going to be pretty vague.
+>>
+>> This really should be easier.
+>>
+>> Philip
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
+> 
 
