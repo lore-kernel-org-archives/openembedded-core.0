@@ -1,29 +1,30 @@
 Return-Path: <Awais_Belal@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id B01797262E
+	by mail.openembedded.org (Postfix) with ESMTP id 69ED87263E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Dec 2014 06:55:08 +0000 (UTC)
+	Wed, 17 Dec 2014 06:57:27 +0000 (UTC)
 Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-05.mgc.mentorg.com)
+	helo=SVR-IES-FEM-04.mgc.mentorg.com)
 	by relay1.mentorg.com with esmtp 
-	id 1Y18Vo-0003vV-4a from Awais_Belal@mentor.com ;
-	Tue, 16 Dec 2014 22:55:08 -0800
+	id 1Y18Y4-0004Sj-1L from Awais_Belal@mentor.com ;
+	Tue, 16 Dec 2014 22:57:28 -0800
 Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.55]) by
-	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
-	14.03.0181.006; Wed, 17 Dec 2014 06:55:06 +0000
+	SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) with mapi id
+	14.03.0181.006; Wed, 17 Dec 2014 06:57:26 +0000
 From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: "Burton, Ross" <ross.burton@intel.com>, Armin Kuster <akuster808@gmail.com>
-Thread-Topic: [OE-core] [PATCH][Dizzy] libxcb: fix socket writes
-Thread-Index: AQHQGcZkG4YtpRw4EEu+WLEl6WNnXg==
-Date: Wed, 17 Dec 2014 06:55:06 +0000
-Message-ID: <2021B186DC632746BD5A3CE32F12BD28E9FE2F9A@EU-MBX-03.mgc.mentorg.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] [Dizzy] [master] gstreamer1.0-* fix
+	configure for out of	tree	build on git recipes
+Thread-Index: AQHQGca2kJHmYE7AbUCg2dv8925nlg==
+Date: Wed, 17 Dec 2014 06:57:25 +0000
+Message-ID: <2021B186DC632746BD5A3CE32F12BD28E9FE2FAA@EU-MBX-03.mgc.mentorg.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [137.202.0.69]
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][Dizzy] libxcb: fix socket writes
+Subject: Re: [PATCH] [Dizzy] [master] gstreamer1.0-* fix configure for out of	tree	build on git recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,202 +37,191 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Dec 2014 06:55:11 -0000
+X-List-Received-Date: Wed, 17 Dec 2014 06:57:28 -0000
 Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_2021B186DC632746BD5A3CE32F12BD28E9FE2F9AEUMBX03mgcmento_"
-
---_000_2021B186DC632746BD5A3CE32F12BD28E9FE2F9AEUMBX03mgcmento_
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Armin,
-
-Added [Dizzy] in the subject as per your email.
-
-BR,
-Awais
-________________________________
+This patch is applicable to Dizzy as well as master.=0A=
+=0A=
+BR,=0A=
+Awais=0A=
+=0A=
+________________________________________=0A=
 From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of Belal, Awais
-Sent: Tuesday, December 16, 2014 12:22 PM
-To: Burton, Ross; Armin Kuster
-Cc: OE-core
-Subject: Re: [OE-core] [PATCH] libxcb: fix socket writes
-
-ping!
-
-BR,
-Awais
-________________________________
+ounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
+Sent: Tuesday, December 16, 2014 12:23 PM=0A=
+To: openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [PATCH] gstreamer1.0-* fix configure for out of  tre=
+e    build on git recipes=0A=
+=0A=
+ping!=0A=
+=0A=
+BR,=0A=
+Awais=0A=
+=0A=
+________________________________________=0A=
 From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of Belal, Awais
-Sent: Tuesday, December 09, 2014 4:33 PM
-To: Burton, Ross; Armin Kuster
-Cc: OE-core
-Subject: Re: [OE-core] [PATCH] libxcb: fix socket writes
+ounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
+Sent: Tuesday, December 09, 2014 12:45 PM=0A=
+To: openembedded-core@lists.openembedded.org=0A=
+Subject: [OE-core] [PATCH] gstreamer1.0-* fix configure for out of tree bui=
+ld on git recipes=0A=
+=0A=
+The autogen.sh script lies in the srcdir ($S) and is required to=0A=
+be run on git based checkouts of gstreamer packages in order to=0A=
+generate initial makefiles. So, we fix this by cd'ing to the=0A=
+specific dir, run the required script and then come back to our=0A=
+initial dir which is builddir ($B).=0A=
+Additionally rather than overriding the whole do_configure step=0A=
+we only _prepend to make it clear what we are doing here.=0A=
+=0A=
+Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
+---=0A=
+ .../gstreamer/gstreamer1.0-libav_git.bb            |    5 +++--=0A=
+ .../gstreamer/gstreamer1.0-omx_git.bb              |    5 +++--=0A=
+ .../gstreamer/gstreamer1.0-plugins-bad_git.bb      |    5 +++--=0A=
+ .../gstreamer/gstreamer1.0-plugins-base_git.bb     |    5 +++--=0A=
+ .../gstreamer/gstreamer1.0-plugins-good_git.bb     |    5 +++--=0A=
+ .../gstreamer/gstreamer1.0-plugins-ugly_git.bb     |    5 +++--=0A=
+ .../gstreamer/gstreamer1.0_git.bb                  |    5 +++--=0A=
+ 7 files changed, 21 insertions(+), 14 deletions(-)=0A=
+=0A=
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb b/=
+meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb=0A=
+index 5ce28cc..b0e6b2e 100644=0A=
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb=0A=
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb=0A=
+@@ -20,8 +20,9 @@ LIBAV_EXTRA_CONFIGURE_COMMON_ARG =3D "--target-os=3Dlinux=
+ \=0A=
+   --cc=3D'${CC}' --as=3D'${CC}' --ld=3D'${CC}' --nm=3D'${NM}' --ar=3D'${AR=
+}' \=0A=
+   ${GSTREAMER_1_0_DEBUG}"=0A=
+=0A=
+-do_configure() {=0A=
++do_configure_prepend() {=0A=
++       cd ${S}=0A=
+        ./autogen.sh --noconfigure=0A=
+-       oe_runconf=0A=
++       cd ${B}=0A=
+ }=0A=
+=0A=
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb b/me=
+ta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb=0A=
+index a390205..931a7fc 100644=0A=
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb=0A=
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb=0A=
+@@ -13,8 +13,9 @@ S =3D "${WORKDIR}/git"=0A=
+=0A=
+ SRCREV =3D "a2db76b048db278ef0aa798e106b7594264e06c0"=0A=
+=0A=
+-do_configure() {=0A=
++do_configure_prepend() {=0A=
++       cd ${S}=0A=
+        ./autogen.sh --noconfigure=0A=
+-       oe_runconf=0A=
++       cd ${B}=0A=
+ }=0A=
+=0A=
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git=
+.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb=0A=
+index e1a5904..75859f9 100644=0A=
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb=0A=
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb=0A=
+@@ -19,8 +19,9 @@ EXTRA_OECONF +=3D " \=0A=
+     -disable-openjpeg \=0A=
+     "=0A=
+=0A=
+-do_configure() {=0A=
++do_configure_prepend() {=0A=
++       cd ${S}=0A=
+        ./autogen.sh --noconfigure=0A=
+-       oe_runconf=0A=
++       cd ${B}=0A=
+ }=0A=
+=0A=
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_gi=
+t.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb=
+=0A=
+index a894abe..fbe3a42 100644=0A=
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb=0A=
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_git.bb=0A=
+@@ -11,8 +11,9 @@ S =3D "${WORKDIR}/git"=0A=
+=0A=
+ SRCREV =3D "8d4cb64a4b9d84b10076bf350f80a0d6ea68ec2d"=0A=
+=0A=
+-do_configure() {=0A=
++do_configure_prepend() {=0A=
++       cd ${S}=0A=
+        ./autogen.sh --noconfigure=0A=
+-       oe_runconf=0A=
++       cd ${B}=0A=
+ }=0A=
+=0A=
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_gi=
+t.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_git.bb=
+=0A=
+index 8b11b20..2c0e0ef 100644=0A=
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_git.bb=0A=
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_git.bb=0A=
+@@ -10,8 +10,9 @@ S =3D "${WORKDIR}/git"=0A=
+=0A=
+ SRCREV =3D "fd0123800c8c1cf1468c0fa5d592ad0d0d8b4140"=0A=
+=0A=
+-do_configure() {=0A=
++do_configure_prepend() {=0A=
++       cd ${S}=0A=
+        ./autogen.sh --noconfigure=0A=
+-       oe_runconf=0A=
++       cd ${B}=0A=
+ }=0A=
+=0A=
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_gi=
+t.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb=
+=0A=
+index 2f72497..dcf5ffc 100644=0A=
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb=0A=
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_git.bb=0A=
+@@ -9,8 +9,9 @@ S =3D "${WORKDIR}/git"=0A=
+=0A=
+ SRCREV =3D "06b8ac10cee85c5c304ca320997aa8f44295a66f"=0A=
+=0A=
+-do_configure() {=0A=
++do_configure_prepend() {=0A=
++       cd ${S}=0A=
+        ./autogen.sh --noconfigure=0A=
+-       oe_runconf=0A=
++       cd ${B}=0A=
+ }=0A=
+=0A=
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb b/meta/r=
+ecipes-multimedia/gstreamer/gstreamer1.0_git.bb=0A=
+index 424c90a..cb00d31 100644=0A=
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb=0A=
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb=0A=
+@@ -10,8 +10,9 @@ S =3D "${WORKDIR}/git"=0A=
+=0A=
+ SRCREV =3D "3b8181a8c550e74acaba4e8c55bdc649fa551dc9"=0A=
+=0A=
+-do_configure() {=0A=
++do_configure_prepend() {=0A=
++       cd ${S}=0A=
+        ./autogen.sh --noconfigure=0A=
+-       oe_runconf=0A=
++       cd ${B}=0A=
+ }=0A=
+=0A=
+--=0A=
+1.7.9.5=0A=
+=0A=
+--=0A=
+_______________________________________________=0A=
+Openembedded-core mailing list=0A=
+Openembedded-core@lists.openembedded.org=0A=
+http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+--=0A=
+_______________________________________________=0A=
+Openembedded-core mailing list=0A=
+Openembedded-core@lists.openembedded.org=0A=
+http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
 
-Hi Armin,
-
-Is this acceptable for the dizzy branch or do I need to resubmit with the t=
-ag?
-
-BR,
-Awais
-________________________________
-From: Burton, Ross [ross.burton@intel.com]
-Sent: Monday, December 08, 2014 4:39 PM
-To: Belal, Awais; Armin Kuster
-Cc: OE-core
-Subject: Re: [OE-core] [PATCH] libxcb: fix socket writes
-
-
-On 7 December 2014 at 07:03, Belal, Awais <Awais_Belal@mentor.com<mailto:Aw=
-ais_Belal@mentor.com>> wrote:
-Do I need to resubmit this with [dizzy] tag or will this work?
-
-If you don't include the [dizzy] tag then you'll need to ping Armin Kuster,=
- who is the dizzy maintainer (I've CC'd him to this mail).
-
-Ross
-
---_000_2021B186DC632746BD5A3CE32F12BD28E9FE2F9AEUMBX03mgcmento_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html dir=3D"ltr">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style id=3D"owaParaStyle" type=3D"text/css">=0A=
-<!--=0A=
-p=0A=
-	{margin-top:0;=0A=
-	margin-bottom:0}=0A=
-p=0A=
-	{margin-top:0;=0A=
-	margin-bottom:0}=0A=
--->=0A=
-P {margin-top:0;margin-bottom:0;}</style>
-</head>
-<body ocsi=3D"0" fpstyle=3D"1">
-<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
-10pt;">Hi Armin,<br>
-<br>
-Added [Dizzy] in the subject as per your email.<br>
-<div><br>
-<div style=3D"font-family:Tahoma; font-size:13px"><font face=3D"Tahoma"></f=
-ont>
-<div style=3D"font-size:13px">
-<div><font face=3D"Tahoma" size=3D"2"><span lang=3D"en-US">
-<div style=3D"margin:0">BR,</div>
-<div style=3D"margin:0"><i>Awais</i></div>
-</span></font></div>
-</div>
-<font face=3D"Tahoma"></font></div>
-</div>
-<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
-">
-<hr tabindex=3D"-1">
-<div style=3D"direction: ltr;" id=3D"divRpF81729"><font color=3D"#000000" f=
-ace=3D"Tahoma" size=3D"2"><b>From:</b> openembedded-core-bounces@lists.open=
-embedded.org [openembedded-core-bounces@lists.openembedded.org] on behalf o=
-f Belal, Awais<br>
-<b>Sent:</b> Tuesday, December 16, 2014 12:22 PM<br>
-<b>To:</b> Burton, Ross; Armin Kuster<br>
-<b>Cc:</b> OE-core<br>
-<b>Subject:</b> Re: [OE-core] [PATCH] libxcb: fix socket writes<br>
-</font><br>
-</div>
-<div></div>
-<div>
-<div style=3D"direction:ltr; font-family:Tahoma; color:#000000; font-size:1=
-0pt">ping!<br>
-<div><br>
-<div style=3D"font-family:Tahoma; font-size:13px"><font face=3D"Tahoma"></f=
-ont>
-<div style=3D"font-size:13px">
-<div><font face=3D"Tahoma" size=3D"2"><span lang=3D"en-US">
-<div style=3D"margin:0">BR,</div>
-<div style=3D"margin:0"><i>Awais</i></div>
-</span></font></div>
-</div>
-<font face=3D"Tahoma"></font></div>
-</div>
-<div style=3D"font-family:Times New Roman; color:#000000; font-size:16px">
-<hr tabindex=3D"-1">
-<div id=3D"divRpF226393" style=3D"direction:ltr"><font color=3D"#000000" fa=
-ce=3D"Tahoma" size=3D"2"><b>From:</b> openembedded-core-bounces@lists.opene=
-mbedded.org [openembedded-core-bounces@lists.openembedded.org] on behalf of=
- Belal, Awais<br>
-<b>Sent:</b> Tuesday, December 09, 2014 4:33 PM<br>
-<b>To:</b> Burton, Ross; Armin Kuster<br>
-<b>Cc:</b> OE-core<br>
-<b>Subject:</b> Re: [OE-core] [PATCH] libxcb: fix socket writes<br>
-</font><br>
-</div>
-<div></div>
-<div>
-<div style=3D"direction:ltr; font-family:Tahoma; color:#000000; font-size:1=
-0pt">Hi Armin,<br>
-<br>
-Is this acceptable for the dizzy branch or do I need to resubmit with the t=
-ag?<br>
-<div><br>
-<div style=3D"font-family:Tahoma; font-size:13px"><font face=3D"Tahoma"></f=
-ont>
-<div style=3D"font-size:13px">
-<div><font face=3D"Tahoma" size=3D"2"><span lang=3D"en-US">
-<div style=3D"margin:0">BR,</div>
-<div style=3D"margin:0"><i>Awais</i></div>
-</span></font></div>
-</div>
-<font face=3D"Tahoma"></font></div>
-</div>
-<div style=3D"font-family:Times New Roman; color:#000000; font-size:16px">
-<hr tabindex=3D"-1">
-<div id=3D"divRpF734022" style=3D"direction:ltr"><font color=3D"#000000" fa=
-ce=3D"Tahoma" size=3D"2"><b>From:</b> Burton, Ross [ross.burton@intel.com]<=
-br>
-<b>Sent:</b> Monday, December 08, 2014 4:39 PM<br>
-<b>To:</b> Belal, Awais; Armin Kuster<br>
-<b>Cc:</b> OE-core<br>
-<b>Subject:</b> Re: [OE-core] [PATCH] libxcb: fix socket writes<br>
-</font><br>
-</div>
-<div></div>
-<div>
-<div dir=3D"ltr">
-<div class=3D"gmail_extra"><br>
-<div class=3D"gmail_quote">On 7 December 2014 at 07:03, Belal, Awais <span =
-dir=3D"ltr">
-&lt;<a href=3D"mailto:Awais_Belal@mentor.com" target=3D"_blank">Awais_Belal=
-@mentor.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
-px #ccc solid; padding-left:1ex">
-<div style=3D"direction:ltr; font-family:Tahoma; color:#000000; font-size:1=
-0pt">Do I need to resubmit this with [dizzy] tag or will this work?<br>
-<div></div>
-</div>
-</blockquote>
-</div>
-<br>
-If you don't include the [dizzy] tag then you'll need to ping Armin Kuster,=
- who is the dizzy maintainer (I've CC'd him to this mail).</div>
-<div class=3D"gmail_extra"><br>
-</div>
-<div class=3D"gmail_extra">Ross</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</body>
-</html>
-
---_000_2021B186DC632746BD5A3CE32F12BD28E9FE2F9AEUMBX03mgcmento_--
