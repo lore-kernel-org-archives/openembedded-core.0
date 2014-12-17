@@ -1,34 +1,34 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
-	[209.85.216.44])
-	by mail.openembedded.org (Postfix) with ESMTP id F2201726C0
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 80C3C7270A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Dec 2014 22:02:12 +0000 (UTC)
-Received: by mail-qa0-f44.google.com with SMTP id bm13so260206qab.3
+	Wed, 17 Dec 2014 22:04:13 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id j7so1122017qaq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Dec 2014 14:02:13 -0800 (PST)
+	Wed, 17 Dec 2014 14:04:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=1487TU/+fz8uMnHva9PsuDoB4KF7G9we1LWCJ5+NJzM=;
-	b=hu86noHotL4CHR/ncaq4zAGnhw94ivDXFImeiIKirtU32+0QDaTr7rNBJ9gpBamCoZ
-	31rypb5EmggKrNIN+mjmTLYV8qLus3b6R6/7CJuwq2Z06u1u2pnUOb8p/w0xLeeU9x7B
-	tysFDUDwxSfLn21lUDIGs2dnP9RLwJdH3dTvxgB+Yqs7ccIhCKEGLjeVqOgoPm8pINJP
-	y+Olm3E7HtqtwHQ7VGMYVciA3spDtPG4SAClrLHZajkTG71l8gV0ZkJROSo5SPjWUGDw
-	wRk+6+2scvHm8faojEa0lUInCFv5hp0bAp99ifJVqEBAAu+QfhLvVmfZOI8i+SFne8DH
-	RcYQ==
-X-Gm-Message-State: ALoCoQlVuZr2RA0meY3s1rzB/s/EqZjJYYW8ohfdf0Ez8u3j8eb5ZSlUnj9JFVU6PMV26TUJ1CzP
-X-Received: by 10.229.249.68 with SMTP id mj4mr80143605qcb.23.1418853732936;
-	Wed, 17 Dec 2014 14:02:12 -0800 (PST)
+	bh=mMnIzus6a9DHnJKr+/+axA4/elo1eyem8OT9YH2ovns=;
+	b=Q5pm7xhOuQttE1LhfT55L/9AXaFN09Qdjt3/Rvgwtnye8ZVkFuN2M4bDDirhsMiFLy
+	XDeuJlsznnSB/te2VAH3KzmpXPerjFScOMi7z1e2zhhd9tT6aL0gzXBToxm3U6ZFZAZ0
+	uFW7mkhQbBIcLvItFuKBFZHk9bLbAXrEFdn5qB1PyWF5UjozDOP9Zwndrt3NnF3V6qHy
+	nJT5TM1DsfqTwKd34LATkbiCcLZZgqE7yKsrzFjnUxv1ydT5NkmkaPBX0dQhe1uYO59O
+	PBwOyf7qZHiiZcL5QRuf19pViCEJ4uOIP288qfIdaKfEvfWqTAZ+ROBhC9KqOZR/Ljp+
+	+LdA==
+X-Gm-Message-State: ALoCoQmY5nx68fgZ3vY2gz7mqZkef1szKfcnsLzGYomlw1vPWjJeEVXzrMdFzX+JXnCyF1L5makS
+X-Received: by 10.224.25.146 with SMTP id z18mr18032956qab.17.1418853854132;
+	Wed, 17 Dec 2014 14:04:14 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Wed, 17 Dec 2014 14:01:52 -0800 (PST)
+Received: by 10.140.96.166 with HTTP; Wed, 17 Dec 2014 14:03:53 -0800 (PST)
 In-Reply-To: <1417773539-19172-1-git-send-email-mike.looijmans@topic.nl>
 References: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
 	<1417773539-19172-1-git-send-email-mike.looijmans@topic.nl>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 17 Dec 2014 22:01:52 +0000
-Message-ID: <CAJTo0LbDA3djoa8CSsLb+RK3mmrHfe2AqhKz22g0gJprsfNChg@mail.gmail.com>
+Date: Wed, 17 Dec 2014 22:03:53 +0000
+Message-ID: <CAJTo0Las47QCiUb-sjfgUOd9ZQK0=bOVWd5fHr618+0DLGsDjg@mail.gmail.com>
 To: Mike Looijmans <mike.looijmans@topic.nl>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] busybox-mdev: Support automatic mounting of block devices
@@ -44,37 +44,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Dec 2014 22:02:22 -0000
-Content-Type: multipart/alternative; boundary=001a1133525cbd84d1050a70a067
+X-List-Received-Date: Wed, 17 Dec 2014 22:04:14 -0000
+Content-Type: multipart/alternative; boundary=047d7bdc8ac0f6d251050a70a756
 
---001a1133525cbd84d1050a70a067
+--047d7bdc8ac0f6d251050a70a756
 Content-Type: text/plain; charset=UTF-8
+
+Hi Mike,
 
 On 5 December 2014 at 09:58, Mike Looijmans <mike.looijmans@topic.nl> wrote:
 >
-> The automatic mounting can be disabled by adding a line
-> MDEV_AUTOMOUNT=y
-> into /etc/default/mdev
+> Upon inserting a USB stick or similar device, mdev will run
+> an automounter script that mounts valid partitions on
+> /media/<device>. The script first checks /etc/fstab entries
+> so that mounting on UUID or LABEL or using custom mount options
+> is still possible. If /etc/fstab does not contain particular
+> mount options, the script will create (and remove) the mountpoint
+> automatically.
+> The script also supports full disk partitions (devices without
+> partition table).
 >
 
-Presumably you meant =n there, right?
+Thanks for this, but can this script be put into a separate recipe to make
+it even easier for people who don't want it, or want their own version?
+The prior art here is the udev automounting script which is in
+udev-extraconf.
 
+Cheers,
 Ross
 
---001a1133525cbd84d1050a70a067
+--047d7bdc8ac0f6d251050a70a756
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 December 2014 at 09:58, Mike Looijmans <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic.=
-nl</a>&gt;</span> wrote:<blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":nt" clas=
-s=3D"a3s" style=3D"overflow:hidden">The automatic mounting can be disabled =
-by adding a line<br>
-MDEV_AUTOMOUNT=3Dy<br>
-into /etc/default/mdev</div></blockquote></div><br>Presumably you meant =3D=
-n there, right?</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Ross</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Mike,</div><div class=3D"gma=
+il_extra"><br><div class=3D"gmail_quote">On 5 December 2014 at 09:58, Mike =
+Looijmans <span dir=3D"ltr">&lt;<a href=3D"mailto:mike.looijmans@topic.nl" =
+target=3D"_blank">mike.looijmans@topic.nl</a>&gt;</span> wrote:<blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex"><div id=3D":ex" class=3D"a3s" style=3D"overflow:hidden">=
+Upon inserting a USB stick or similar device, mdev will run<br>
+an automounter script that mounts valid partitions on<br>
+/media/&lt;device&gt;. The script first checks /etc/fstab entries<br>
+so that mounting on UUID or LABEL or using custom mount options<br>
+is still possible. If /etc/fstab does not contain particular<br>
+mount options, the script will create (and remove) the mountpoint<br>
+automatically.<br>
+The script also supports full disk partitions (devices without<br>
+partition table).</div></blockquote></div><br>Thanks for this, but can this=
+ script be put into a separate recipe to make it even easier for people who=
+ don&#39;t want it, or want their own version?=C2=A0 The prior art here is =
+the udev automounting script which is in udev-extraconf.</div><div class=3D=
+"gmail_extra"><br></div><div class=3D"gmail_extra">Cheers,</div><div class=
+=3D"gmail_extra">Ross</div></div>
 
---001a1133525cbd84d1050a70a067--
+--047d7bdc8ac0f6d251050a70a756--
