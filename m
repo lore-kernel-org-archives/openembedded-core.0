@@ -1,30 +1,22 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ED4572677
+Return-Path: <Liviu.Gheorghisan@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 37EF872669
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Dec 2014 12:06:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBH9fMTS011554
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 17 Dec 2014 01:41:22 -0800 (PST)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Wed, 17 Dec 2014 01:41:21 -0800
-Message-ID: <54914FC0.9060202@windriver.com>
-Date: Wed, 17 Dec 2014 17:41:20 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Wed, 17 Dec 2014 14:13:55 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
+	Wed, 17 Dec 2014 15:13:54 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4496)	id E89972800CB;
+	Wed, 17 Dec 2014 15:13:54 +0100 (CET)
+From: Liviu Gheorghisan <liviu.gheorghisan@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Dec 2014 15:13:54 +0100
+Message-ID: <1418825634-45461-1-git-send-email-liviu.gheorghisan@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: Fathi Boudra <fathi.boudra@linaro.org>
-References: <cover.1415350038.git.kai.kang@windriver.com>	<1a6294d4421862267755ac8cd71ffd91cce16902.1415350038.git.kai.kang@windriver.com>	<CAJTo0LZqEAbtSdPfpb13VcC+JM99G_Rmv4wbcj=50aT83JRKgg@mail.gmail.com>	<54914493.2030600@windriver.com>
-	<CAGNsrLBAhNGxjm8iLkx05PggsNjVo2dzzNo9kqbLRzu=-4Z2eA@mail.gmail.com>
-In-Reply-To: <CAGNsrLBAhNGxjm8iLkx05PggsNjVo2dzzNo9kqbLRzu=-4Z2eA@mail.gmail.com>
-X-Originating-IP: [128.224.162.231]
-Cc: Koen Kooi <koen.kooi@linaro.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/24] libunwind: add aarch64 support
+Received-SPF: None (SESTOEX08.enea.se: liviu.gheorghisan@enea.com does not
+	designate permitted sender hosts)
+Subject: [dizzy][PATCH] Fixed openssh ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +29,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Dec 2014 12:06:42 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 17 Dec 2014 14:13:59 -0000
+Content-Type: text/plain
 
-On 2014年12月17日 17:23, Fathi Boudra wrote:
-> On 17 December 2014 at 10:53, Kang Kai <Kai.Kang@windriver.com> wrote:
->> On 2014年12月09日 04:56, Burton, Ross wrote:
->>> On 7 November 2014 at 08:51, Kai Kang <kai.kang@windriver.com> wrote:
->>>
->>>>     - Support-building-with-older-compilers (fix undefined reference to
->>>>       `unreachable' on older compilers)
->>>>
->>> This patch is missing a signed-off-by header, and considering that oe-core
->>> has gcc 4.9 do we still need this, or is it specific to a commercial
->>> product that is using an older toolchain?
-> we still need this.
->
->> It is ok to drop this patch for gcc 4.9. I'll do it.
-> no, it isn't ok to drop this patch. aarch64 support is still needed in
-> libunwind.
+ptests for openssh, apart from a lot of .sh scripts, also
+require 2 executables to be cross-compiled for the target
+and deployed there, that will be called from the test
+scripts.
 
-I mean Support-building-with-older-compilers.patch. Do we still need it?
+Those 2 files were not built when cross-compiling
+(Makefile target all:), so I added them to the build,
+under the target all_test.
 
---Kai
+This new make target is intended to be run from
+do_compile_ptest(), that builds everything needed for
+performing the ptests.
 
->
->> --Kai
->>
->>> Ross
->>>
->>
->> --
->> Regards,
->> Neil | Kai Kang
->
+Because both these 2 executables required for ptest
+are linked with libssh (LDFLAGS += -lssh), I also
+added it as dependency for each of them.
 
+Now we have 2 separate make targets:
+all: builds all openssh, except for the ptest related files,
+    that is invoked from do_compile().
 
+all_test: builds only the files required for ptests, that is
+    invoked from do_compile_ptest().
+
+All this stuff fixes the following openssh ptest error:
+
+/bin/sh: /usr/lib/openssh/ptest/regress/modpipe: No such file or directory
+unexpected error mac chacha20-poly1305@openssh.com at 2909
+test integrity: 10 errors: mac 0 padding 0 length 0
+chacha20-poly1305@openssh.com: no mac errors
+chacha20-poly1305@openssh.com: expected 10 mac errors, got 0
+FAIL:  integrity
+make: *** [t-exec] Error 1
+Makefile:168: recipe for target 't-exec' failed
+make: Target 'tests' not remade because of errors.
+
+Signed-off-by: Liviu Gheorghisan <liviu.gheorghisan@enea.com>
+---
+ .../openssh/openssh-ptest-fix-sshconnect.patch     | 57 ++++++++++++++++++++++
+ meta/recipes-connectivity/openssh/openssh_6.6p1.bb |  7 ++-
+ 2 files changed, 63 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/openssh-ptest-fix-sshconnect.patch
+
+diff --git a/meta/recipes-connectivity/openssh/openssh/openssh-ptest-fix-sshconnect.patch b/meta/recipes-connectivity/openssh/openssh/openssh-ptest-fix-sshconnect.patch
+new file mode 100644
+index 0000000..0913701
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/openssh-ptest-fix-sshconnect.patch
+@@ -0,0 +1,57 @@
++Fixed openssh ptest
++
++ptests for openssh, apart from a lot of .sh scripts, also
++require 2 executables to be cross-compiled for the target
++and deployed there, that will be called from the test
++scripts.
++
++Those 2 files were not built when cross-compiling
++(Makefile target all:), so I added them to the build,
++under the target all_test.
++
++This new make target is intended to be run from
++do_compile_ptest(), that builds everything needed for
++performing the ptests.
++
++Because both these 2 executables required for ptest
++are linked with libssh (LDFLAGS += -lssh), I also
++added it as dependency for each of them.
++
++Upstream-status: Inappropriate
++
++Signed-off-by: Liviu Gheorghisan <liviu.gheorghisan@enea.com>
++---
++--- a/Makefile.in	2014-12-10 16:19:37.513373454 +0100
+++++ b/Makefile.in	2014-12-10 16:25:23.262764227 +0100
++@@ -130,6 +130,8 @@ FIXALGORITHMSCMD= $(SHELL) $(srcdir)/fix
++ 
++ all: $(CONFIGFILES) $(MANPAGES) $(TARGETS)
++ 
+++all_test: regress/modpipe$(EXEEXT) regress/setuid-allowed$(EXEEXT)
+++
++ $(LIBSSH_OBJS): Makefile.in config.h
++ $(SSHOBJS): Makefile.in config.h
++ $(SSHDOBJS): Makefile.in config.h
++@@ -394,18 +396,18 @@ uninstall:
++ 	-rm -f $(DESTDIR)$(mandir)/$(mansubdir)8/ssh-pkcs11-helper.8
++ 	-rm -f $(DESTDIR)$(mandir)/$(mansubdir)1/slogin.1
++ 
++-regress/modpipe$(EXEEXT): $(srcdir)/regress/modpipe.c
+++regress/modpipe$(EXEEXT): libssh.a
++ 	[ -d `pwd`/regress ]  ||  mkdir -p `pwd`/regress
++ 	[ -f `pwd`/regress/Makefile ]  || \
++ 	    ln -s `cd $(srcdir) && pwd`/regress/Makefile `pwd`/regress/Makefile
++-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $? \
+++	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $(srcdir)/regress/modpipe.c \
++ 	$(LDFLAGS) -lssh -lopenbsd-compat -lssh -lopenbsd-compat $(LIBS)
++ 
++-regress/setuid-allowed$(EXEEXT): $(srcdir)/regress/setuid-allowed.c
+++regress/setuid-allowed$(EXEEXT): libssh.a
++ 	[ -d `pwd`/regress ]  ||  mkdir -p `pwd`/regress
++ 	[ -f `pwd`/regress/Makefile ]  || \
++ 	    ln -s `cd $(srcdir) && pwd`/regress/Makefile `pwd`/regress/Makefile
++-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $? \
+++	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $(srcdir)/regress/setuid-allowed.c \
++ 	$(LDFLAGS) -lssh -lopenbsd-compat -lssh -lopenbsd-compat $(LIBS)
++ 
++ tests interop-tests:	$(TARGETS) regress/modpipe$(EXEEXT) regress/setuid-allowed$(EXEEXT)
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.6p1.bb b/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
+index 047a895..fe9ee02 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.6p1.bb
+@@ -25,7 +25,8 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+            file://run-ptest \
+            file://openssh-CVE-2014-2532.patch \
+            file://openssh-CVE-2014-2653.patch \
+-           file://auth2-none.c-avoid-authenticate-empty-passwords-to-m.patch"
++           file://auth2-none.c-avoid-authenticate-empty-passwords-to-m.patch \
++           file://openssh-ptest-fix-sshconnect.patch"
+ 
+ PAM_SRC_URI = "file://sshd"
+ 
+@@ -85,6 +86,10 @@ do_compile_append () {
+ 	install -m 0644 ${WORKDIR}/ssh_config ${S}/
+ }
+ 
++do_compile_ptest() {
++    oe_runmake all_test
++}
++
+ do_install_append () {
+ 	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
+ 		install -D -m 0755 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
 -- 
-Regards,
-Neil | Kai Kang
+1.9.1
 
 
