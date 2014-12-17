@@ -1,24 +1,24 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id 5E2C472612
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B931B72612
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Dec 2014 00:54:43 +0000 (UTC)
-Received: (qmail 19097 invoked by uid 1003); 17 Dec 2014 00:54:44 -0000
-Received: from unknown (HELO ?192.168.1.109?) (philip@opensdr.com@71.171.45.99)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	17 Dec 2014 00:54:44 -0000
-Message-ID: <5490D453.1010805@balister.org>
-Date: Tue, 16 Dec 2014 19:54:43 -0500
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Wed, 17 Dec 2014 03:03:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBH33Jpa000642
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Dec 2014 19:03:20 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Tue, 16 Dec 2014 19:03:19 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Dec 2014 11:03:18 +0800
+Message-ID: <cover.1418785337.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>, Khem Raj <raj.khem@gmail.com>
-References: <54904BDA.1080005@balister.org>	<7CC1BDD4-170B-422B-BC51-33EC0B07E64A@gmail.com>
-	<549063E9.4070403@balister.org> <549066AB.30909@linux.intel.com>
-In-Reply-To: <549066AB.30909@linux.intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Setting a a fixed resolv.conf file in OE built image
+Subject: [PATCH 0/1] dhcp: add dhclient.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,79 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Dec 2014 00:54:46 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Dec 2014 03:03:28 -0000
+Content-Type: text/plain
 
-On 12/16/2014 12:06 PM, Saul Wold wrote:
-> On 12/16/2014 08:55 AM, Philip Balister wrote:
->> On 12/16/2014 11:40 AM, Khem Raj wrote:
->>>
->>>> On Dec 16, 2014, at 7:12 AM, Philip Balister <philip@balister.org>
->>>> wrote:
->>>>
->>>> Any tips on how to do this the right way? It seems like fixed
->>>> resolv.conf's are no longer fashionable and the volatile.cache script
->>>> goes to great lengths to reset it.
->>>>
->>>> Adding a dns-nameserver entry in the interfaces file never makes it to
->>>> resolv.conf. I tried installing the resolvconf package and played with
->>>> it, but no joy. This package also appears to have some issues with
->>>> missing pieces.
->>>
->>> depends a lot on what package combination you are using. If its
->>> systemd and you
->>> are using systemd-resolved then it generates resolve.conf in /run/
->>> and symlink
->>> in /etc/ gets the job done. if its udhcpc then it will populate the
->>> one in /etc
->>> and it will take interfaces file in /etc into consideration
->>
->> Yeah, but this is an image built by adding packages to core-image. No
->> systemd or other network managers. It feels like just adding the
->> dns-nameserver line to interfaces should work, but something appears to
->> not re-populate resolv.conf after it is wiped at boot.
->>
-> I recently sent some patches to this area, dealing with all the dhcp
-> clients and resolvconf package.
+The following changes since commit 68ddb28a68ceb59cd1ed322c16143827ce1ac712:
 
-I did a test with core-image-minimal built for the zedboard and can
-confirm that I know see the expected behavior. Setting dns-nameserver in
-the interfaces file leads to a populated resolv.conf file.
+  distrodata_class: checkpkg make usage of latest_versionstring methods in bitbake fetcher (2014-11-28 13:59:52 +0000)
 
-Thanks Saul!
+are available in the git repository at:
 
-Philip
+  git://git.pokylinux.org/poky-contrib ChenQi/systemd-dhclient
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-dhclient
 
+Chen Qi (1):
+  dhcp: add dhclient.service
 
+ meta/recipes-connectivity/dhcp/dhcp.inc               | 11 ++++++++---
+ meta/recipes-connectivity/dhcp/files/dhclient.service | 15 +++++++++++++++
+ 2 files changed, 23 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-connectivity/dhcp/files/dhclient.service
 
-> 
-> Can you enumerate which networking tools you have installed, if you are
-> not using any network manager or dhcp client and relying on a static
-> dns-nameserver entry, you might need resolvconf if you are not using it.
-> 
-> Also which version of oe-core meta-data are you using?
-> 
-> Sau!
-> 
->> Philip
->>
->>>
->>>>
->>>> I'll file bugs, but until I can figure out how it is suposed to work,
->>>> any bug I file is going to be pretty vague.
->>>>
->>>> This really should be easier.
->>>>
->>>> Philip
->>>> -- 
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>>
->>>
-> 
-> 
+-- 
+1.9.1
+
 
