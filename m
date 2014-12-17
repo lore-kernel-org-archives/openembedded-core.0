@@ -1,24 +1,24 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7879C72615
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 5E2C472612
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Dec 2014 22:55:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBGMtKUT000720
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Dec 2014 14:55:20 -0800 (PST)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Tue, 16 Dec 2014 14:55:20 -0800
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 16 Dec 2014 14:55:20 -0800
-Message-ID: <1418770520-14710-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Wed, 17 Dec 2014 00:54:43 +0000 (UTC)
+Received: (qmail 19097 invoked by uid 1003); 17 Dec 2014 00:54:44 -0000
+Received: from unknown (HELO ?192.168.1.109?) (philip@opensdr.com@71.171.45.99)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	17 Dec 2014 00:54:44 -0000
+Message-ID: <5490D453.1010805@balister.org>
+Date: Tue, 16 Dec 2014 19:54:43 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] gcc runtime: specify license on a per package basis
+To: Saul Wold <sgw@linux.intel.com>, Khem Raj <raj.khem@gmail.com>
+References: <54904BDA.1080005@balister.org>	<7CC1BDD4-170B-422B-BC51-33EC0B07E64A@gmail.com>
+	<549063E9.4070403@balister.org> <549066AB.30909@linux.intel.com>
+In-Reply-To: <549066AB.30909@linux.intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Setting a a fixed resolv.conf file in OE built image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,81 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Dec 2014 22:55:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 17 Dec 2014 00:54:46 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-It can be alarming to attempt to exclude GPLv3 from an
-image but find that libstdc++ and libgcc still show it.
-We indicate the license for each package to show libraries
-that really are just GCC-3.0-with-GCC-exception.
+On 12/16/2014 12:06 PM, Saul Wold wrote:
+> On 12/16/2014 08:55 AM, Philip Balister wrote:
+>> On 12/16/2014 11:40 AM, Khem Raj wrote:
+>>>
+>>>> On Dec 16, 2014, at 7:12 AM, Philip Balister <philip@balister.org>
+>>>> wrote:
+>>>>
+>>>> Any tips on how to do this the right way? It seems like fixed
+>>>> resolv.conf's are no longer fashionable and the volatile.cache script
+>>>> goes to great lengths to reset it.
+>>>>
+>>>> Adding a dns-nameserver entry in the interfaces file never makes it to
+>>>> resolv.conf. I tried installing the resolvconf package and played with
+>>>> it, but no joy. This package also appears to have some issues with
+>>>> missing pieces.
+>>>
+>>> depends a lot on what package combination you are using. If its
+>>> systemd and you
+>>> are using systemd-resolved then it generates resolve.conf in /run/
+>>> and symlink
+>>> in /etc/ gets the job done. if its udhcpc then it will populate the
+>>> one in /etc
+>>> and it will take interfaces file in /etc into consideration
+>>
+>> Yeah, but this is an image built by adding packages to core-image. No
+>> systemd or other network managers. It feels like just adding the
+>> dns-nameserver line to interfaces should work, but something appears to
+>> not re-populate resolv.conf after it is wiped at boot.
+>>
+> I recently sent some patches to this area, dealing with all the dhcp
+> clients and resolvconf package.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-runtime.inc |   31 +++++++++++++++++++++++++++++
- meta/recipes-devtools/gcc/libgcc.inc      |    7 +++++++
- 2 files changed, 38 insertions(+)
+I did a test with core-image-minimal built for the zedboard and can
+confirm that I know see the expected behavior. Setting dns-nameserver in
+the interfaces file leads to a populated resolv.conf file.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 0348bc4..bc36b18 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -92,6 +92,37 @@ PACKAGES = "\
-     libatomic-dev \
-     libatomic-staticdev \
- "
-+
-+# Most libraries are licensed with the exception, but
-+# one library is really GPLv3.
-+#
-+LICENSE_${PN}-dbg = "GPL-3.0-with-GCC-exception & GPLv3"
-+LICENSE_libstdc++ = "GPL-3.0-with-GCC-exception"
-+LICENSE_libstdc++-precompile-dev = "GPL-3.0-with-GCC-exception"
-+LICENSE_libstdc++-dev = "GPL-3.0-with-GCC-exception"
-+LICENSE_libstdc++-staticdev = "GPL-3.0-with-GCC-exception"
-+LICENSE_libg2c = "GPL-3.0-with-GCC-exception"
-+LICENSE_libg2c-dev = "GPL-3.0-with-GCC-exception"
-+LICENSE_libssp = "GPL-3.0-with-GCC-exception"
-+LICENSE_libssp-dev = "GPL-3.0-with-GCC-exception"
-+LICENSE_libssp-staticdev = "GPL-3.0-with-GCC-exception"
-+LICENSE_libgfortran = "GPL-3.0-with-GCC-exception"
-+LICENSE_libgfortran-dev = "GPL-3.0-with-GCC-exception"
-+LICENSE_libgfortran-staticdev = "GPL-3.0-with-GCC-exception"
-+LICENSE_libmudflap = "GPL-3.0-with-GCC-exception"
-+LICENSE_libmudflap-dev = "GPL-3.0-with-GCC-exception"
-+LICENSE_libmudflap-staticdev = "GPL-3.0-with-GCC-exception"
-+LICENSE_libquadmath = "GPL-3.0-with-GCC-exception"
-+LICENSE_libquadmath-dev = "GPL-3.0-with-GCC-exception"
-+LICENSE_libquadmath-staticdev = "GPL-3.0-with-GCC-exception"
-+LICENSE_libatomic = "GPL-3.0-with-GCC-exception"
-+LICENSE_libatomic-dev = "GPL-3.0-with-GCC-exception"
-+LICENSE_libatomic-staticdev = "GPL-3.0-with-GCC-exception"
-+
-+LICENSE_libgomp = "GPLv3"
-+LICENSE_libgomp-dev = "GPLv3"
-+LICENSE_libgomp-staticdev = "GPLv3"
-+
- # The base package doesn't exist, so we clear the recommends.
- RRECOMMENDS_${PN}-dbg = ""
- 
-diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
-index 22c42d5..21cb8c1 100644
---- a/meta/recipes-devtools/gcc/libgcc.inc
-+++ b/meta/recipes-devtools/gcc/libgcc.inc
-@@ -9,6 +9,13 @@ PACKAGES = "\
-     libgcov-dev \
- "
- 
-+# All libgcc source is marked with the exception.
-+#
-+LICENSE_${PN} = "GPL-3.0-with-GCC-exception"
-+LICENSE_${PN}-dev = "GPL-3.0-with-GCC-exception"
-+LICENSE_${PN}-dbg = "GPL-3.0-with-GCC-exception"
-+
-+
- FILES_${PN} = "${base_libdir}/libgcc*.so.*"
- FILES_${PN}-dev = "\
-     ${base_libdir}/libgcc*.so \
--- 
-1.7.9.5
+Thanks Saul!
 
+Philip
+
+
+
+> 
+> Can you enumerate which networking tools you have installed, if you are
+> not using any network manager or dhcp client and relying on a static
+> dns-nameserver entry, you might need resolvconf if you are not using it.
+> 
+> Also which version of oe-core meta-data are you using?
+> 
+> Sau!
+> 
+>> Philip
+>>
+>>>
+>>>>
+>>>> I'll file bugs, but until I can figure out how it is suposed to work,
+>>>> any bug I file is going to be pretty vague.
+>>>>
+>>>> This really should be easier.
+>>>>
+>>>> Philip
+>>>> -- 
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>>
+>>>
+> 
+> 
 
