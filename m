@@ -1,24 +1,39 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F059C728B3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id F27D6728A0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 19:02:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBIJ2GHF008066
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 18 Dec 2014 11:02:17 -0800 (PST)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 18 Dec 2014 11:02:16 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
-Date: Thu, 18 Dec 2014 14:02:15 -0500
-Message-ID: <1418929335-4796-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.1.0
+	Thu, 18 Dec 2014 20:46:40 +0000 (UTC)
+Received: by mail-qc0-f182.google.com with SMTP id r5so1482743qcx.41
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Dec 2014 12:46:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Pbp5i4MAg6QkphtapIF2XKyrexNklbwh2pJShePk++k=;
+	b=XSorRJU8jWlHsF45gf2m2pKTmbmZo9Jmg7dhFwTgFiBRTyG0GVg1Ls4rlT0Dx6rkQA
+	hkSdyfQDTPWN2P/WqgjL8BZiu0H2+r9ev+pcBKY5ppDOJilHWqTvndnoHQxPI95ZKXW8
+	lbHVd1cmgNl1gT8GIvCNCZwNtIyJ+iRTBTItNZaYb1aCq7MmLe2nQB4JZLPB5Ex+cKNd
+	0haywen1Vx39b5+Po9enwbEusBeNU1ciQJsaLpXEN1U+P6D+hdJFYy73/isFLez/ecfI
+	FfTtKC0CBrOlL98F4R4+4LBZGVMC/yByJdhMBQB0pivCwnJsgEBviOxs3XjrSI4xsyuJ
+	Uh1Q==
+X-Gm-Message-State: ALoCoQnXkQPl/LG6OeqrhOlksx9uP/Gto9XVEITGTpLs3LnYW5ZXxwLCvSTXF2RjdURhXCLrnnr9
+X-Received: by 10.229.249.68 with SMTP id mj4mr7539666qcb.23.1418935600249;
+	Thu, 18 Dec 2014 12:46:40 -0800 (PST)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] socat: fix compile erorr against 3.17+ kernel headers
+Received: by 10.140.96.166 with HTTP; Thu, 18 Dec 2014 12:46:20 -0800 (PST)
+In-Reply-To: <54931166.2050006@windriver.com>
+References: <cover.1418220684.git.bruce.ashfield@windriver.com>
+	<b18c4c9970004784d031a0776245fad792fc6a28.1418220684.git.bruce.ashfield@windriver.com>
+	<CAJTo0Lb3-sYAyMreFv2AFhEo4Ejzmg3eDYOs6avJMjVO5SVjOQ@mail.gmail.com>
+	<54931166.2050006@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 18 Dec 2014 20:46:20 +0000
+Message-ID: <CAJTo0La1Dqzu7cDqkVknM7WxqnnF6fGrrHLLHgoy83ZmM5mO9g@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/9] linux-libc-headers: update to 3.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,73 +46,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Dec 2014 19:02:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Dec 2014 20:46:41 -0000
+Content-Type: multipart/alternative; boundary=001a1133525c69918c050a83b081
 
-With the linux 3.17 kernel socat's configure detects the wrong include
-for errqueue.h which results in a compilation error.
+--001a1133525c69918c050a83b081
+Content-Type: text/plain; charset=UTF-8
 
-By backporting the gentoo patch from:
+On 18 December 2014 at 17:39, Bruce Ashfield <bruce.ashfield@windriver.com>
+wrote:
+>
+> This is unlikely to be fixed in the kernel header, but in the
+> applications themselves.
+>
+> In this case, I see no changes to errqueue.h itself since 2012,
+> but the uapi did go through some changes in 3.17 .. but then no
+> more changes for 3.18.
+>
 
-  http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/net-misc/socat/files/socat-1.7.2.4-linux-3.17.patch
+It seems odd that kernel headers can't be included without the caller
+having to include other headers.
 
-Fixes the build issue
+I worry that this is just a workaround in one recipe for a test that is
+failing in other recipes with the 3.17 headers...  doing a clean build to
+see if I'm being over-cautious or not. :)
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- .../socat/socat/socat-1.7.2.4-linux-3.17.patch     | 29 ++++++++++++++++++++++
- meta/recipes-connectivity/socat/socat_1.7.2.4.bb   |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-connectivity/socat/socat/socat-1.7.2.4-linux-3.17.patch
+Ross
 
-diff --git a/meta/recipes-connectivity/socat/socat/socat-1.7.2.4-linux-3.17.patch b/meta/recipes-connectivity/socat/socat/socat-1.7.2.4-linux-3.17.patch
-new file mode 100644
-index 000000000000..9152df533f45
---- /dev/null
-+++ b/meta/recipes-connectivity/socat/socat/socat-1.7.2.4-linux-3.17.patch
-@@ -0,0 +1,29 @@
-+socat: fix compile erorr against 3.17+ kernel headers
-+
-+With the linux 3.17 kernel socat's configure detects the wrong include for errqueue.h
-+which results in a compilation error.
-+
-+By backporting the gentoo patch from:
-+
-+  http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/net-misc/socat/files/socat-1.7.2.4-linux-3.17.patch
-+
-+Fixes the build issue
-+
-+Upstream-status: backport
-+
-+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-+
-+--- a/configure.in
-++++ b/configure.in
-+@@ -80,7 +80,10 @@
-+ AC_CHECK_HEADERS(termios.h linux/if_tun.h)
-+ AC_CHECK_HEADERS(net/if_dl.h)
-+ AC_CHECK_HEADERS(linux/types.h)
-+-AC_CHECK_HEADER(linux/errqueue.h, AC_DEFINE(HAVE_LINUX_ERRQUEUE_H), [], [#include <linux/types.h>])
-++AC_CHECK_HEADER(linux/errqueue.h, AC_DEFINE(HAVE_LINUX_ERRQUEUE_H), [], [AC_INCLUDES_DEFAULT
-++	#if HAVE_LINUX_TYPES_H
-++	#include <linux/types.h>
-++	#endif])
-+ AC_CHECK_HEADERS(sys/utsname.h sys/select.h sys/file.h)
-+ AC_CHECK_HEADERS(util.h bsd/libutil.h libutil.h sys/stropts.h regex.h)
-+ AC_CHECK_HEADERS(linux/fs.h linux/ext2_fs.h)
-diff --git a/meta/recipes-connectivity/socat/socat_1.7.2.4.bb b/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
-index efa3b91c16a3..f4461de49e26 100644
---- a/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
-@@ -14,6 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- 
- SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
-            file://fix-cross-compiling-failed.patch \
-+           file://socat-1.7.2.4-linux-3.17.patch \
- "
- 
- SRC_URI[md5sum] = "69b8155dd442a6f24e28ef5407d868eb"
--- 
-2.1.0
+--001a1133525c69918c050a83b081
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 18 December 2014 at 17:39, Bruce Ashfield <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:bruce.ashfield@windriver.com" target=3D"_blank">bruce.ashfield@w=
+indriver.com</a>&gt;</span> wrote:<blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":4k0" class=3D"a3s" style=3D"overflow:hidden">This is unlikely to be fi=
+xed in the kernel header, but in the<br>
+applications themselves.<br>
+<br>
+In this case, I see no changes to errqueue.h itself since 2012,<br>
+but the uapi did go through some changes in 3.17 .. but then no<br>
+more changes for 3.18.</div></blockquote></div><div class=3D"gmail_extra"><=
+br></div>It seems odd that kernel headers can&#39;t be included without the=
+ caller having to include other headers.</div><div class=3D"gmail_extra"><b=
+r>I worry that this is just a workaround in one recipe for a test that is f=
+ailing in other recipes with the 3.17 headers... =C2=A0doing a clean build =
+to see if I&#39;m being over-cautious or not. :)</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--001a1133525c69918c050a83b081--
