@@ -1,30 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AEC75727BF
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 34D2072805
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 12:06:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBIC6ICn017042 for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 12:06:18 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id WG-7FLaOTewy
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 12:06:18 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBIC664N017039
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 12:06:17 GMT
-Message-ID: <1418904403.5106.25.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Dec 2014 12:06:43 +0000
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] kernel: Clean ${S} before unpack
+	Thu, 18 Dec 2014 12:47:57 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	sBIClqPb017278
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
+	Thu, 18 Dec 2014 13:47:56 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1418906876;
+	bh=gnrdM/bJD0a6P/hyJII7l7EmSQav8QqlwMYewz6CTxo=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=j+aYAnAG8IRoQcFh3e/XLoOYW2ykvb/VaaHAR6h+Pn78nV8+04nfrqNCC2OHQ9fju
+	6wioTpnx5QsYdReeklHYLErggGv02xMldp4rOydJDUwdcOYrvlMt7vrU+AyetyiYB8
+	myVHtfXgcWRN54Kbf4V8B6Y7N54LUg67xJdQyCCM=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id sBIClmTa027764
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 18 Dec 2014 13:47:49 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1Y1aUd-0003PW-SC; Thu, 18 Dec 2014 13:47:47 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1418900663-20985-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+	<1418900663-20985-3-git-send-email-enrico.scholz@sigma-chemnitz.de>
+	<1418904217.5106.24.camel@linuxfoundation.org>
+Date: Thu, 18 Dec 2014 13:47:47 +0100
+In-Reply-To: <1418904217.5106.24.camel@linuxfoundation.org> (Richard Purdie's
+	message of "Thu, 18 Dec 2014 12:03:37 +0000")
+Message-ID: <lyvbl986q4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -4.9
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] pkgconfig.bblcass: remove PKG_CONFIG_SYSROOT_DIR from installed .pc files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +58,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Dec 2014 12:06:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Dec 2014 12:48:04 -0000
+Content-Type: text/plain
 
-Currently unpack just forces sources over the current files. This change
-ensures ${S} is cleaned out before sources are unpacked. This resolves
-issues seen when upgrading to the new kernel class changes.
+Richard Purdie <richard.purdie@linuxfoundation.org> writes:
 
-Ultimately, this should probably move to base.bbclass but one step at a
-time, this solves an immediate problem blocking the other patches from
-merging.
+>> Patch removes this string from installed .pc files.
+>> ...
+>> +do_install[postfuncs] += "pkgconfig_mangle_pc"
+>
+> We are *not* going down this route.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 3480414..9790f4d 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -5,6 +5,8 @@ DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-na
- 
- S = "${STAGING_DIR_TARGET}/${KERNEL_SRC_PATH}"
- 
-+do_unpack[cleandirs] = "${S}"
-+
- # we include gcc above, we dont need virtual/libc
- INHIBIT_DEFAULT_DEPS = "1"
- 
+Ok; then just apply the first patch and perhaps the last one.
 
 
+Enrico
 
