@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B1DC07277A
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D8507277A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 03:09:17 +0000 (UTC)
+	Thu, 18 Dec 2014 03:09:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBI39HH6016892
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBI39IuV025460
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Dec 2014 19:09:17 -0800 (PST)
+	Wed, 17 Dec 2014 19:09:19 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 17 Dec 2014 19:09:16 -0800
+	14.3.174.1; Wed, 17 Dec 2014 19:09:18 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Dec 2014 11:09:17 +0800
-Message-ID: <cover.1418871891.git.Qi.Chen@windriver.com>
+Date: Thu, 18 Dec 2014 11:09:18 +0800
+Message-ID: <532a954382bdbcd36be7d3554271cb788a65aa7a.1418871891.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1418871891.git.Qi.Chen@windriver.com>
+References: <cover.1418871891.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/1] dhcp: fix for systemd service file
+Subject: [PATCH V2 1/1] dhcp: fix for systemd service file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 18 Dec 2014 03:09:18 -0000
 Content-Type: text/plain
 
-The following changes since commit e6c6d3fcfd2faf867e8145d25c1ba197fb9ee6b5:
+1. Add '-f --no-pid' option to make dhcpd start correctly
+2. Do not force existence of the environment file.
 
-  build-appliance-image: Update to dizzy head revision (2014-09-23 22:10:21 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/systemd-dhcpd
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-dhcpd
-
-Chen Qi (1):
-  dhcp: fix for systemd service file
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/recipes-connectivity/dhcp/files/dhcpd.service | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-connectivity/dhcp/files/dhcpd.service b/meta/recipes-connectivity/dhcp/files/dhcpd.service
+index 8648f1a..484f46a 100644
+--- a/meta/recipes-connectivity/dhcp/files/dhcpd.service
++++ b/meta/recipes-connectivity/dhcp/files/dhcpd.service
+@@ -4,8 +4,8 @@ After=network.target
+ After=time-sync.target
+ 
+ [Service]
+-EnvironmentFile=@SYSCONFDIR@/default/dhcp-server
+-ExecStart=-@SBINDIR@/dhcpd -q $INTERFACES
++EnvironmentFile=-@SYSCONFDIR@/default/dhcp-server
++ExecStart=-@SBINDIR@/dhcpd -f --no-pid -q $INTERFACES
+ 
+ [Install]
+ WantedBy=multi-user.target
 -- 
 1.9.1
 
