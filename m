@@ -1,34 +1,41 @@
 Return-Path: <enrico.scholz@sigma-chemnitz.de>
 Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 07A98727A4
+	by mail.openembedded.org (Postfix) with ESMTP id C4054727B6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 11:04:44 +0000 (UTC)
+	Thu, 18 Dec 2014 11:19:35 +0000 (UTC)
 Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
 	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	sBIB4doc027679
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 12:04:42 +0100
+	sBIBJKP2004092
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
+	Thu, 18 Dec 2014 12:19:24 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1418900682;
-	bh=NuS+KNOPvDKl5TZkeBMNPFlR5/Pb56csRDAASIZygeg=;
-	h=From:To:Cc:Subject:Date:Message-Id:Sender;
-	b=WJacANU1QCBAciFyx0OvDofF5sSqp8Yqh07fAp81ZPxTROO078jDlN5ii375Sf8et
-	q0ehYocPgzsPnBoLgukRBdlazXHDdid36e0NQudwOHHMsioD7LR+Q01FRTdjxNhchE
-	J+NmJsyZClF8Qw0eqkvrvUP9M8QGMFTU4UEByjQI=
+	s=v2012061000; t=1418901564;
+	bh=nyfWR5c+6AJRiQo04hoI540TDnXwn9mk7gU2ystiEc0=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=WDe3pRsMWSuH9uzVYhzbu0F9+9B80ETOS+EacnG7Aln9I37cLwyiKKiV7Zj66+8NU
+	544lQQaPRx366719eVG9W6GtqGUBIkjrXU/FEbbqPW4hH0kOalZoqh+f2FR0LWUwQ9
+	Q8M3JwJduLKcXGFK9sXS6QZlByjrHvqT99AW7XqI=
 Received: from ensc-virt.intern.sigma-chemnitz.de
 	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id sBIB4WTV005822
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id sBIBJEt3008310
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 18 Dec 2014 12:04:34 +0100
+	Thu, 18 Dec 2014 12:19:15 +0100
 Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
 	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1Y1Ysf-0006NM-4V; Thu, 18 Dec 2014 12:04:30 +0100
+	id 1Y1Z6v-0004XZ-2c; Thu, 18 Dec 2014 12:19:13 +0100
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Dec 2014 12:04:20 +0100
-Message-Id: <1418900663-20985-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 1.9.3
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <548EBDE0.3080704@dresearch-fe.de>
+	<lyiohcubq7.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<548FEF09.80304@dresearch-fe.de>
+	<1418897346.5106.18.camel@linuxfoundation.org>
+Date: Thu, 18 Dec 2014 12:19:12 +0100
+In-Reply-To: <1418897346.5106.18.camel@linuxfoundation.org> (Richard Purdie's
+	message of "Thu, 18 Dec 2014 10:09:06 +0000")
+Message-ID: <ly4mst9pe7.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
+MIME-Version: 1.0
 Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 X-DSPAM-Result: Innocent
 X-DSPAM-Probability: 0
@@ -38,8 +45,8 @@ X-Spam-Level: ----
 X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
 	DSPAM_INNOCENT
 X-Scanned-By: MIMEDefang 2.75
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH 0/3] avoid refs to sysroot in pkgconfig files
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: "qemu-arm udevadm hwdb --update" eats swap space after build host update to openSUSE 13.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,26 +59,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Dec 2014 11:04:49 -0000
+X-List-Received-Date: Thu, 18 Dec 2014 11:19:40 -0000
+Content-Type: text/plain
 
-Some pkgconfig files like libkmod.pc or fontconfig.pc contain absolute
-paths to sysroot dirs in their Cflags: or Libs: section.  This can
-break build of dependent packages because wrong paths will be created.
+Richard Purdie <richard.purdie@linuxfoundation.org> writes:
 
-Patchset tries to detect and fix such issues automatically.  It is
-conservative by using $PKG_CONFIG_SYSROOT_DIR instead of $TMPDIR.
+>> I had a big subtree from earlier local openSUSE Build Service runs
+>> below toplevel /var/run. After deleting this the build succeeds.
+>> 
+>> But manually deleting such files before running OE builds cannot
+>> really be a reasonable solution. :(
+>
+> Agreed, we need to figure out which tool is suffering issues with
+> circular symlinks,
 
-Enrico Scholz (3):
-  insane: added 'pkgconfig-nosysroot' check
-  pkgconfig.bblcass: remove PKG_CONFIG_SYSROOT_DIR from installed .pc
-    files
-  insane: made 'pkgconfig-nosysroot' check critical
+Circular symlinks are not the issue but absolute symlinks (like /tmp ->
+/var/tmp due to local changes).  I can not find absolute symlinks to
+directories in my images anymore, so Steffen's problem might be caused
+by local changes too.
 
- meta/classes/insane.bbclass    | 16 +++++++++++++++-
- meta/classes/pkgconfig.bbclass | 17 +++++++++++++++++
- 2 files changed, 32 insertions(+), 1 deletion(-)
+Chroot unaware tools (qemu) are the real problem... 
 
--- 
-1.9.3
 
+Enrico
 
