@@ -1,27 +1,29 @@
 Return-Path: <lixin.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 913C072748
+	by mail.openembedded.org (Postfix) with ESMTP id 53C5B7273E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 02:24:39 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="45389388"
+	Thu, 18 Dec 2014 02:54:31 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="45391606"
 Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 Dec 2014 10:21:16 +0800
+	by heian.cn.fujitsu.com with ESMTP; 18 Dec 2014 10:51:11 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
 	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id sBI2OBVN027083
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id sBI2s57P030181
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 10:24:11 +0800
+	Thu, 18 Dec 2014 10:54:05 +0800
 Received: from localhost.localdomain (10.167.226.35) by
 	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Thu, 18 Dec 2014 10:24:36 +0800
+	Server (TLS) id 14.3.181.6; Thu, 18 Dec 2014 10:54:30 +0800
 From: Li xin <lixin.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Dec 2014 10:23:49 +0800
-Message-ID: <1418869429-4521-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+Date: Thu, 18 Dec 2014 10:53:38 +0800
+Message-ID: <1418871218-4684-1-git-send-email-lixin.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1418869429-4521-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+References: <1418869429-4521-1-git-send-email-lixin.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.35]
-Subject: [PATCH] file: upgrade to 5.21
+Subject: [PATCH v2] file: upgrade to 5.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Dec 2014 02:24:46 -0000
+X-List-Received-Date: Thu, 18 Dec 2014 02:54:38 -0000
 Content-Type: text/plain
 
 file 5.21 fix CVE-2014-8116 and CVE-2014-8117.
@@ -157,7 +159,7 @@ index 9068b93..0000000
 -BBCLASSEXTEND = "native nativesdk"
 diff --git a/meta/recipes-devtools/file/file_5.21.bb b/meta/recipes-devtools/file/file_5.21.bb
 new file mode 100644
-index 0000000..c61954b
+index 0000000..74acfeb
 --- /dev/null
 +++ b/meta/recipes-devtools/file/file_5.21.bb
 @@ -0,0 +1,35 @@
@@ -175,7 +177,7 @@ index 0000000..c61954b
 +DEPENDS_class-native = "zlib-native"
 +
 +SRC_URI = "ftp://ftp.astron.com/pub/file/file-${PV}.tar.gz \
-+    file://debian-742262.patch \
++    file://debian-742262-backport.patch \
 +"
 +
 +SRC_URI[md5sum] = "549fe96e09041eabece9de2bb28ef923"
