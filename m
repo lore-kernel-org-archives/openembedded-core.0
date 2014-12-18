@@ -1,32 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CF4737278D
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 05EC47279F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 10:09:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBIA8gsC011849; Thu, 18 Dec 2014 10:08:42 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 5AgWy2lcuMP5; Thu, 18 Dec 2014 10:08:42 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBIA8TuT011835
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 18 Dec 2014 10:08:41 GMT
-Message-ID: <1418897346.5106.18.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Steffen Sledz <sledz@dresearch-fe.de>
-Date: Thu, 18 Dec 2014 10:09:06 +0000
-In-Reply-To: <548FEF09.80304@dresearch-fe.de>
-References: <548EBDE0.3080704@dresearch-fe.de>
-	<lyiohcubq7.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<548FEF09.80304@dresearch-fe.de>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: "qemu-arm udevadm hwdb --update" eats swap space after build host update to openSUSE 13.2
+	Thu, 18 Dec 2014 11:04:44 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	sBIB4fwY027688
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Dec 2014 12:04:43 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1418900683;
+	bh=3Vc36wkxPa0Sao4ux4N6Z39lLX/awF8pyaPqQuomF9Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:Sender;
+	b=TEpaGcWwnhGOWTAuzXsGpozPg0L5wedWf9wC4jGo3VwB2Y8rNgagMLPg3FYEfQTOc
+	u8WneZMFaOJ4Dx4N6VrSiOm2SXeTPEH6wgMjreVLnQl+tgnnCt78Ydl9upkZ4bnbGF
+	9tMQ4VN2eseV4+8MwWMPgkKsKQqTxRkSqY5A3PGc=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id sBIB4Zje005835
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 18 Dec 2014 12:04:37 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1Y1Ysk-0006bz-IV; Thu, 18 Dec 2014 12:04:35 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Dec 2014 12:04:21 +0100
+Message-Id: <1418900663-20985-2-git-send-email-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 1.9.3
+In-Reply-To: <1418900663-20985-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+References: <1418900663-20985-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -4.9
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH 1/3] insane: added 'pkgconfig-nosysroot' check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,40 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Dec 2014 10:09:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Dec 2014 11:04:48 -0000
 
-On Tue, 2014-12-16 at 09:36 +0100, Steffen Sledz wrote:
-> On 15.12.2014 17:19, Enrico Scholz wrote:
-> > Steffen Sledz <sledz-mQBY8sqGERgRVMum7q6B+Q@public.gmane.org> writes:
-> > 
-> >> The first thing we observed was that the do_rootfs stage made a very
-> >> big load (more than 500) on the machine but the cpu's aren't working
-> >> for 100%. I could track down the problem to the call
-> >> ...
-> >> which eats swap space without end till the system crashes (more than 100GB swap space ist available).
-> >>
-> >> I've no idea how to inspect this problem further. Any ideas?
-> > 
-> > I had a similar issue when /var/tmp in the rootfs was an absolute symlink
-> > pointing to toplevel /var/tmp which contained some millions of files.
-> > 
-> > Can you look (lsof) which files are open by qemu?
-> 
-> Crazy! This really seems to be the problem.
-> 
-> I had a big subtree from earlier local openSUSE Build Service runs below toplevel /var/run. After deleting this the build succeeds.
-> 
-> But manually deleting such files before running OE builds cannot really be a reasonable solution. :(
+pkgconfig files should not contain references to $PKG_CONFIG_SYSROOT_DIR.
+E.g. when a .pc file contains
 
-Agreed, we need to figure out which tool is suffering issues with
-circular symlinks, then fix that tool. Its not so much a problem with
-the core build system as the tools we're using though :(
+| Cflags: -I/absolute-path-to-sysroot/usr/include/freetype2
 
-Cheers,
+pkgconfig will expand this in the next 'pkgconfig --cflags' call as
 
-Richard
+| -I/absolute-path-to-sysroot/absolute-path-to-sysroot/usr/include/freetype2
 
+(note the duplicate path).
+
+This patch checks therefore whether installed .pc files contain such
+absolute paths.
+
+Because some OE core packages trigger this check (fontconfig, libkmod),
+it is only a warning for now.
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ meta/classes/insane.bbclass | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index b4bffd2..d327294 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -29,7 +29,7 @@ QA_SANE = "True"
+ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+             textrel already-stripped incompatible-license files-invalid \
+             installed-vs-shipped compile-host-path install-host-path \
+-            pn-overrides infodir build-deps file-rdeps \
++            pn-overrides infodir build-deps file-rdeps pkgconfig-nosysroot \
+             "
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+@@ -606,6 +606,20 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
+                 trimmed = path.replace(os.path.join (d.getVar("PKGDEST", True), name), "")
+                 messages["symlink-to-sysroot"] = "Symlink %s in %s points to TMPDIR" % (trimmed, name)
+ 
++QAPATHTEST[pkgconfig-nosysroot] = "package_qa_check_pkgconfig_nosysroot"
++def package_qa_check_pkgconfig_nosysroot(file, pkgname, d, elf, messages):
++    if not file.endswith('.pc') or os.path.islink(file):
++	return
++
++    sysroot = d.getVar("PKG_CONFIG_SYSROOT_DIR", True)
++    if not sysroot:
++        return
++
++    with open(file) as f:
++        content = f.read()
++        if sysroot in content:
++            messages["pkgconfig-nosysroot"] = "pkgconfig file %s contains absolute reference to sysroot" % package_qa_clean_path(file,d)
++
+ def package_qa_check_license(workdir, d):
+     """
+     Check for changes in the license files 
+-- 
+1.9.3
 
 
