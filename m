@@ -1,39 +1,39 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f178.google.com (mail-yk0-f178.google.com
-	[209.85.160.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 55EDF72899
+Received: from mail-yh0-f48.google.com (mail-yh0-f48.google.com
+	[209.85.213.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 5679772821
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 14:43:38 +0000 (UTC)
-Received: by mail-yk0-f178.google.com with SMTP id 20so569447yks.23
+	Thu, 18 Dec 2014 14:44:17 +0000 (UTC)
+Received: by mail-yh0-f48.google.com with SMTP id i57so581727yha.35
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 06:43:39 -0800 (PST)
+	Thu, 18 Dec 2014 06:44:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date:message-id:subject
 	:from:to:cc:content-type;
-	bh=HR0EYmGafseveM22PqEervbcq9NFbLP4yDobzV2l5Ps=;
-	b=o/0wJ2VKcZUtp5+Dt4mfcUF6SJ7GgJ1Mac9OtvSXe7U9KtXNlv/01wR8XRjTT6ZhqU
-	uETuVaZY/TEJTO8T/Z7iDwKbOphJY5Ekn1T4Wmidx7qFXgtRZPopXmx5fGkuPb6IN+jI
-	AYnBbQq6C9xQVKKntRE+cWmroPCUG2bHR1W+uBrjReQJNFefBdl4ViWjkY/kQBBrmEXs
-	IAEKZ5L5LX8wSNfEC/1U4ord987Eyrat9GxbG5Eb1twISD7ktaToexOTvbx1Dch8d7wN
-	O4O/Ldc/7RpUo2vFJ5eujC1NUs/QM+r8oKiRN1zGfgL8tf3BJiVlEMIrBb8vUTygWjxL
-	mxog==
+	bh=MWnqFP9YrTKHmLLSAmBDxvC0dvKknfz8DuIcG1SD8RY=;
+	b=kbhunikkDUkNqTnjrShL9xa9pH3mcxr/IMT4AcI34qSN2PtTJG5pFfJcv7lX3NmaGO
+	IaWKx3C0HJY85OZSoGc6g9jBQS8RThmTYmv19QXAIud5PGVXZVC4p9WtLfxiSyt93aN8
+	0ZzkI5pdlhQ8WHX+YsKkQRPcw1v8veWzsLMktFrJxzJPv2qucRrIrU9kLY6XYEHAAmsw
+	lyOdyUEw6L+0TGDNDOobuwcXhnTuGI4qZv/r5lLKxHOlun645VnPE6+6tPNhiUm65y66
+	zLweSublY5jhgmx6XblSg+dmNIy8sBNfi/teXegMp7Pz2WcDt/LcQev29u+/PDMwMOkJ
+	zY/w==
 MIME-Version: 1.0
-X-Received: by 10.170.130.21 with SMTP id w21mr2382089ykb.22.1418913819241;
-	Thu, 18 Dec 2014 06:43:39 -0800 (PST)
+X-Received: by 10.236.44.8 with SMTP id m8mr2052494yhb.136.1418913858429; Thu,
+	18 Dec 2014 06:44:18 -0800 (PST)
 Sender: otavio.salvador@gmail.com
-Received: by 10.170.171.132 with HTTP; Thu, 18 Dec 2014 06:43:39 -0800 (PST)
-In-Reply-To: <1418912251-3313-2-git-send-email-mike.looijmans@topic.nl>
+Received: by 10.170.171.132 with HTTP; Thu, 18 Dec 2014 06:44:17 -0800 (PST)
+In-Reply-To: <5492E26C.1090700@topic.nl>
 References: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
 	<1418912251-3313-1-git-send-email-mike.looijmans@topic.nl>
-	<1418912251-3313-2-git-send-email-mike.looijmans@topic.nl>
-Date: Thu, 18 Dec 2014 12:43:39 -0200
-X-Google-Sender-Auth: Yv8feknVUmV2HRfmiCEpnjDXRwc
-Message-ID: <CAP9ODKrk8tFWcz80KvfUCUq3EMR6151=-f+PxU-F6p4mXPA3fw@mail.gmail.com>
+	<5492E26C.1090700@topic.nl>
+Date: Thu, 18 Dec 2014 12:44:17 -0200
+X-Google-Sender-Auth: vpkCtTIMksXnAG6-dx04TYCgE7k
+Message-ID: <CAP9ODKrqd6L+-rOtjNFCmf_hDzWzbns1v7jCXV5PPfdW8K-_ow@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: Mike Looijmans <mike.looijmans@topic.nl>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/4] busybox-mdev: Install missing find-touchscreen.sh
+Subject: Re: [PATCH v2 3/4] busybox-mdev: Add hotplug kernel module support to mdev.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,15 +46,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Dec 2014 14:43:42 -0000
+X-List-Received-Date: Thu, 18 Dec 2014 14:44:28 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Dec 18, 2014 at 12:17 PM, Mike Looijmans
+On Thu, Dec 18, 2014 at 12:19 PM, Mike Looijmans
 <mike.looijmans@topic.nl> wrote:
-> mdev.conf references the find-touchscreen.sh script, but this file
-> was not being installed. Add the script to the busybox-mdev package.
+> Add a line to mdev.conf that tells mdev to load kernel modules when
+> required.
 >
-> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+> For example, if you built wifi support as an external module, inserting
+> a wifi stick into a USB port will now automatically load that module
+> into the kernel and the wlan device will be ready for configuration.
+> Without this patch, you have to load required modules manually or force
+> them to load at system startup.
 
 Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
