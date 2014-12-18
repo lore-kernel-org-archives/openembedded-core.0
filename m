@@ -1,23 +1,32 @@
-Return-Path: <jurobystricky@hotmail.com>
-Received: from BLU004-OMC4S33.hotmail.com (blu004-omc4s33.hotmail.com
-	[65.55.111.172])
-	by mail.openembedded.org (Postfix) with ESMTP id CA3CD72723
+Return-Path: <rich.tollerton@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 078357275D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 01:00:51 +0000 (UTC)
-Received: from BLU436-SMTP213 ([65.55.111.135]) by BLU004-OMC4S33.hotmail.com
-	over TLS secured channel with Microsoft SMTPSVC(7.5.7601.22751);
-	Wed, 17 Dec 2014 17:00:52 -0800
-X-TMN: [9HHRFqkUrJA50IpifyPWQU+lqD6PnBXu]
-X-Originating-Email: [jurobystricky@hotmail.com]
-Message-ID: <BLU436-SMTP213FED8F1600FDB1927D4CDBB6A0@phx.gbl>
-From: Juro Bystricky <jurobystricky@hotmail.com>
+	Thu, 18 Dec 2014 01:02:50 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
+	sBI12pMq003820 for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Dec 2014 19:02:51 -0600
+Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
+	with ESMTP id 2014121719025104-195351 ;
+	Wed, 17 Dec 2014 19:02:51 -0600 
+From: Richard Tollerton <rich.tollerton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Dec 2014 17:00:27 -0800
-X-Mailer: git-send-email 1.9.1
-X-OriginalArrivalTime: 18 Dec 2014 01:00:50.0056 (UTC)
-	FILETIME=[108B5880:01D01A5E]
-MIME-Version: 1.0
-Subject: [PATCH] glibc-testing: explicitly specify system headers location for g++
+Date: Wed, 17 Dec 2014 19:02:47 -0600
+Message-Id: <1418864567-9676-1-git-send-email-rich.tollerton@ni.com>
+X-Mailer: git-send-email 2.1.3
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 12/17/2014 07:02:51 PM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6|November 21, 2013) at 12/17/2014 07:02:51 PM,
+	Serialize complete at 12/17/2014 07:02:51 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.13.68, 1.0.33,
+	0.0.0000
+	definitions=2014-12-17_07:2014-12-17, 2014-12-17,
+	1970-01-01 signatures=0
+Subject: [PATCH] terminal: Disable shopt errexit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,70 +39,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Dec 2014 01:00:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Dec 2014 01:02:51 -0000
 
-The following glibc test programs fail to build when compiled using g++:
-  /elf/tst-unique3cc
-  /elf/tst-unique4cc
-  /elf/tst-unique3lib.cc
-  /elf/tst-unique3lib2.cc
+`sh -e` causes any errors encountered during shell execution to abort
+the shell. For terminal sessions like devshell, this causes errors
+encountered while executing do_terminal to instantaneously kill the
+session. This is explicitly not what we want for interactive/debugging
+situations like with terminal, so just remove the '-e' from the sh
+invocation.
 
-The build fails because g++ system include files were not found. g++ is
-invoked with -nostdinc option, so location of system include files must
-be specified explicitly. glibc configure attempts to determine the
-location, but this often fails for a number of reasons.
-
-This patch tries to determine the location of g++ system include headers
-just before running the glibc test suite. It queries configparms for
-sysroot and the g++ compiler being used for building the test programs.
-Then it queries g++ for version and machine information and based on this
-information it assumes include headers in corresponding locations.
-
-The header locations are assumed to be:
-    <sysroot>/usr/include/c++/<version>
-    <sysroot>/usr/include/c++/<version>/<machine>
-
-The header locations are subsequently written out to configparms.
-
-[YOCTO #7081]
-
-Signed-off-by: Juro Bystricky <jurobystricky@hotmail.com>
+Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
 ---
- meta/recipes-core/glibc/glibc-testing.inc | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ meta/classes/terminal.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-testing.inc b/meta/recipes-core/glibc/glibc-testing.inc
-index ec16fe1..204c926 100644
---- a/meta/recipes-core/glibc/glibc-testing.inc
-+++ b/meta/recipes-core/glibc/glibc-testing.inc
-@@ -68,6 +68,25 @@ fi
+diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
+index e577c6d..51e9aa3 100644
+--- a/meta/classes/terminal.bbclass
++++ b/meta/classes/terminal.bbclass
+@@ -23,7 +23,7 @@ def emit_terminal_func(command, envdata, d):
+     bb.utils.mkdirhier(os.path.dirname(runfile))
  
- 	fgrep tcbootstrap ${B}/config.make > ${B}/configparms
- 	sed -i -e "s/\-tcbootstrap//g" ${B}/configparms
-+
-+# g++ uses flag -nostdinc, so the locations of system include headers must be explicitly specified.
-+# If the locations are not already specified in config.make, then we provide the following locations:
-+#    <sysroot>/usr/include/c++/<g++ version>
-+#    <sysroot>/usr/include/c++/<g++ version>/<machine>
-+
-+cxxincludes=\`cat ${B}/config.make | gawk '\$1 == "c++-sysincludes"' | gawk -F"=" '{print \$2}' | sed "s/[ \t]\?//g"\`
-+
-+if [ -z "\$cxxincludes" ]; then
-+  sysroot=\`cat ${B}/configparms | sed -n "/CXX/p" | sed -e "s/^.*--sysroot=//"\`
-+  cxx=\`cat ${B}/configparms | gawk '\$1 ~ /^CXX/' | gawk -F"=" '{print \$2}' | gawk '{print \$1}'\`
-+  cxxmachine=\`\$cxx -dumpmachine\`
-+  cxxversion=\`\$cxx -dumpversion\`
-+  if [ -d "\$sysroot/usr/include/c++/\$cxxversion" ] && [ -d "\$sysroot/usr/include/c++/\$cxxversion/\$cxxmachine" ]; then
-+    # if the folders exist, pass the new value of c++-sysincludes via configparms
-+    echo "c++-sysincludes = -isystem \$sysroot/usr/include/c++/\$cxxversion -isystem \$sysroot/usr/include/c++/\$cxxversion/\$cxxmachine" >> ${B}/configparms
-+  fi
-+fi
-+
- wrapper="${S}/scripts/cross-test-ssh.sh \$target"
- localedef="${STAGING_BINDIR_NATIVE}/cross-localedef --little-endian --uint32-align=4"
- make tests-clean
+     with open(runfile, 'w') as script:
+-        script.write('#!/bin/sh -e\n')
++        script.write('#!/bin/sh\n')
+         bb.data.emit_func(cmd_func, script, envdata)
+         script.write(cmd_func)
+         script.write("\n")
 -- 
-1.9.1
+2.1.3
 
 
