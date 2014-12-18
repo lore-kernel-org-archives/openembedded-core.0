@@ -1,37 +1,24 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
-	[209.85.217.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FAA1728A6
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F059C728B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 18:41:07 +0000 (UTC)
-Received: by mail-lb0-f173.google.com with SMTP id z12so1466440lbi.18
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 10:41:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=tuOAAg0LShx3thrkZtUxhf/5LDiro0J3a1unawHczAM=;
-	b=EfIVvxgI103dX1fu8gwkAzMwb4UURa9at1y40jukgKY5jFYzaFH3Wu0zUKQrjsNKq/
-	OI8kRn+C+CT1nhQ8QDGuwapPd8PBjVga7UlADghdsIxA67l7W8MInBd0YQOiSJM2/o0n
-	HQazVid73hHCIvSm7koUYs662n8sntnpXa4eAqr1eWlbbe5AC6Lo7Uz4NQRVv5NtcF7D
-	HY2czoY4sH8ztCuXyY570lve+NfLJW61he11KgBxKl9LVEEw/iBEGtNHnCa34pAQx4XH
-	pJWEwX8DCSj4rCtv70AshfEFDEozu0E6BAmnNsQCR9YGCtWqS1RVuGKSh7BO5pyRzKE4
-	bhLA==
+	Thu, 18 Dec 2014 19:02:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBIJ2GHF008066
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 18 Dec 2014 11:02:17 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 18 Dec 2014 11:02:16 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
+Date: Thu, 18 Dec 2014 14:02:15 -0500
+Message-ID: <1418929335-4796-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
 MIME-Version: 1.0
-X-Received: by 10.152.116.46 with SMTP id jt14mr3766923lab.59.1418928066868;
-	Thu, 18 Dec 2014 10:41:06 -0800 (PST)
-Received: by 10.112.48.41 with HTTP; Thu, 18 Dec 2014 10:41:06 -0800 (PST)
-In-Reply-To: <54931166.2050006@windriver.com>
-References: <cover.1418220684.git.bruce.ashfield@windriver.com>
-	<b18c4c9970004784d031a0776245fad792fc6a28.1418220684.git.bruce.ashfield@windriver.com>
-	<CAJTo0Lb3-sYAyMreFv2AFhEo4Ejzmg3eDYOs6avJMjVO5SVjOQ@mail.gmail.com>
-	<54931166.2050006@windriver.com>
-Date: Thu, 18 Dec 2014 13:41:06 -0500
-Message-ID: <CADkTA4MV7PqCqRC_+pkpnKsfJNG5qUL65qh52AUDr5kcU6E5qw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/9] linux-libc-headers: update to 3.17
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] socat: fix compile erorr against 3.17+ kernel headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,84 +31,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Dec 2014 18:41:08 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 18 Dec 2014 19:02:23 -0000
+Content-Type: text/plain
 
-On Thu, Dec 18, 2014 at 12:39 PM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
-> On 2014-12-18, 12:13 PM, Burton, Ross wrote:
->>
->>
->> On 10 December 2014 at 14:16, Bruce Ashfield
->> <bruce.ashfield@windriver.com <mailto:bruce.ashfield@windriver.com>>
->> wrote:
->>
->>     -LINUXLIBCVERSION ?= "3.16"
->>     +LINUXLIBCVERSION ?= "3.17"
->>
->>
->> So this is causing (at least) socat to fail to build as the configure
->> script does a test for a working <linux/errqueue.h> but that is now
->> failing:
->>
->> /data/poky-master/tmp/sysroots/nuc/usr/include/linux/errqueue.h:33:18:
->> error: array type has incomplete element type
->>
->> Line 33 is this member in a struct:
->>
->>     struct timespec ts[3];
->>
->> Presumably everything else that includes that header also includes
->> something that defines struct timespec.  Socat has a missing feature
->> check so whilst the configure test says that linux/errqueue.h isn't
->> present and continues, the build then fails.  Presumably the user-space
->> linux/errqueue.h needs another #include?
->
->
-> This is unlikely to be fixed in the kernel header, but in the
-> applications themselves.
->
-> In this case, I see no changes to errqueue.h itself since 2012,
-> but the uapi did go through some changes in 3.17 .. but then no
-> more changes for 3.18.
->
-> So if this is broken, socat should be breaking on every distro that
-> uses 3.17+ kernel headers.
->
-> I see that our socat is still the latest.
->
-> .. and a quick search shows a fix:
->
-> http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/net-misc/socat/files/socat-1.7.2.4-linux-3.17.patch?view=markup
->
-> Did you want me to try a build and stack up the fix ?
+With the linux 3.17 kernel socat's configure detects the wrong include
+for errqueue.h which results in a compilation error.
 
-I can confirm that this fixes things here. I'll send the patch shortly
-(once I spruce up
-the header).
+By backporting the gentoo patch from:
 
-Bruce
+  http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/net-misc/socat/files/socat-1.7.2.4-linux-3.17.patch
 
->
-> Bruce
->
->
->
->
->
->>
->> Ross
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Fixes the build issue
 
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ .../socat/socat/socat-1.7.2.4-linux-3.17.patch     | 29 ++++++++++++++++++++++
+ meta/recipes-connectivity/socat/socat_1.7.2.4.bb   |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-connectivity/socat/socat/socat-1.7.2.4-linux-3.17.patch
 
-
+diff --git a/meta/recipes-connectivity/socat/socat/socat-1.7.2.4-linux-3.17.patch b/meta/recipes-connectivity/socat/socat/socat-1.7.2.4-linux-3.17.patch
+new file mode 100644
+index 000000000000..9152df533f45
+--- /dev/null
++++ b/meta/recipes-connectivity/socat/socat/socat-1.7.2.4-linux-3.17.patch
+@@ -0,0 +1,29 @@
++socat: fix compile erorr against 3.17+ kernel headers
++
++With the linux 3.17 kernel socat's configure detects the wrong include for errqueue.h
++which results in a compilation error.
++
++By backporting the gentoo patch from:
++
++  http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/net-misc/socat/files/socat-1.7.2.4-linux-3.17.patch
++
++Fixes the build issue
++
++Upstream-status: backport
++
++Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
++
++--- a/configure.in
+++++ b/configure.in
++@@ -80,7 +80,10 @@
++ AC_CHECK_HEADERS(termios.h linux/if_tun.h)
++ AC_CHECK_HEADERS(net/if_dl.h)
++ AC_CHECK_HEADERS(linux/types.h)
++-AC_CHECK_HEADER(linux/errqueue.h, AC_DEFINE(HAVE_LINUX_ERRQUEUE_H), [], [#include <linux/types.h>])
+++AC_CHECK_HEADER(linux/errqueue.h, AC_DEFINE(HAVE_LINUX_ERRQUEUE_H), [], [AC_INCLUDES_DEFAULT
+++	#if HAVE_LINUX_TYPES_H
+++	#include <linux/types.h>
+++	#endif])
++ AC_CHECK_HEADERS(sys/utsname.h sys/select.h sys/file.h)
++ AC_CHECK_HEADERS(util.h bsd/libutil.h libutil.h sys/stropts.h regex.h)
++ AC_CHECK_HEADERS(linux/fs.h linux/ext2_fs.h)
+diff --git a/meta/recipes-connectivity/socat/socat_1.7.2.4.bb b/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
+index efa3b91c16a3..f4461de49e26 100644
+--- a/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
++++ b/meta/recipes-connectivity/socat/socat_1.7.2.4.bb
+@@ -14,6 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ 
+ SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
+            file://fix-cross-compiling-failed.patch \
++           file://socat-1.7.2.4-linux-3.17.patch \
+ "
+ 
+ SRC_URI[md5sum] = "69b8155dd442a6f24e28ef5407d868eb"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.1.0
+
 
