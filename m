@@ -1,34 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7175E726F0
+	by mail.openembedded.org (Postfix) with ESMTP id 3ED8A7271F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 01:18:06 +0000 (UTC)
+	Thu, 18 Dec 2014 01:39:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBI1I22q024502
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBI1d2ED024704
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 17 Dec 2014 17:18:02 -0800 (PST)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Wed, 17 Dec 2014 17:18:01 -0800
-Message-ID: <54922B48.6000309@windriver.com>
-Date: Thu, 18 Dec 2014 09:18:00 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Wed, 17 Dec 2014 17:39:02 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.174.1; Wed, 17 Dec 2014 17:39:01 -0800
+From: Kai Kang <kai.kang@windriver.com>
+To: <ross.burton@intel.com>
+Date: Thu, 18 Dec 2014 09:36:40 +0800
+Message-ID: <1418866600-19393-2-git-send-email-kai.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1418866600-19393-1-git-send-email-kai.kang@windriver.com>
+References: <1418866600-19393-1-git-send-email-kai.kang@windriver.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1415350038.git.kai.kang@windriver.com>
-	<835687296e529e505a948421804d16259eb51d2b.1415350038.git.kai.kang@windriver.com>
-	<D9FD4A25-6B2D-4868-B536-9593EFF79254@dominion.thruhere.net>
-	<54914322.6000309@windriver.com>
-	<CAJTo0La+gHrdTtS9qG6iMnaHwHrEDcN2DY6uq+EH3tWUbdHfVw@mail.gmail.com>
-In-Reply-To: <CAJTo0La+gHrdTtS9qG6iMnaHwHrEDcN2DY6uq+EH3tWUbdHfVw@mail.gmail.com>
-X-Originating-IP: [128.224.162.231]
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Koen Kooi <koen.kooi@linaro.org>
-Subject: Re: [PATCH 09/24] libpng: add neon option for aarch64
+X-Originating-IP: [128.224.153.152]
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] qemu: upgrade to 2.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,64 +34,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Dec 2014 01:18:10 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 18 Dec 2014 01:39:11 -0000
+Content-Type: text/plain
 
-On 2014年12月17日 19:04, Burton, Ross wrote:
-> I find Koen's patch for libpng neater so could you merge that into your
-> qemuarm64 branch?  The autobuilder has been doing some builds so this
-> should be the last stage before it's all merged.
+Upgrade qemu from version 2.1.2 to 2.2.0.
 
-OK. I'll do it.
+Update Qemu-Arm-versatilepb-Add-memory-size-checking.patch for new
+version qemu.
 
---Kai
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ .../files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch  | 10 +++++++---
+ meta/recipes-devtools/qemu/{qemu_2.1.2.bb => qemu_2.2.0.bb}    |  4 ++--
+ 2 files changed, 9 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/qemu/{qemu_2.1.2.bb => qemu_2.2.0.bb} (82%)
 
->
-> Ross
->
-> On 17 December 2014 at 08:47, Kang Kai <Kai.Kang@windriver.com> wrote:
->>   On 2014年12月17日 03:30, Koen Kooi wrote:
->>
->>   Op 7 nov. 2014, om 09:51 heeft Kai Kang <kai.kang@windriver.com> <kai.kang@windriver.com> het volgende geschreven:
->>
->> Add neon option for aarch64 just as for arm. It fails with:
->>
->> | ./.libs/libpng16.so: undefined reference to `png_init_filter_functions_neon'
->> | collect2: error: ld returned 1 exit status
->>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com> <kai.kang@windriver.com>
->> ---
->> meta/recipes-multimedia/libpng/libpng_1.6.13.bb | 1 +
->> 1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.13.bb b/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
->> index 0c6fd1f..3d32bfe 100644
->> --- a/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
->> +++ b/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
->> @@ -20,6 +20,7 @@ inherit autotools binconfig-disabled pkgconfig
->>
->> # Work around missing symbols
->> EXTRA_OECONF_append_arm = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
->> +EXTRA_OECONF_append_aarch64 = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
->>
->>   You're introducing the same bug in a different way: overeager use of qualifiers. Just drop the _arm bit and it works.
->>
->>
->>
->> OK. I'll remove the _arm to fix this issue.
->>
->> Thanks.
->>
->> --
->> Regards,
->> Neil | Kai Kang
->>
->>
-
-
+diff --git a/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch b/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
+index 7f1c5a9..b0c2ea5 100644
+--- a/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
++++ b/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
+@@ -14,6 +14,10 @@ Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
+ Updated it on 2014-01-15 for rebasing
+ 
+ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++
++Update it when upgrade qemu to 2.2.0
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
+ ---
+  hw/arm/versatilepb.c |    6 ++++++
+  1 file changed, 6 insertions(+)
+@@ -22,7 +26,7 @@ diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
+ index b48d84c..ad2cd5a 100644
+ --- a/hw/arm/versatilepb.c
+ +++ b/hw/arm/versatilepb.c
+-@@ -199,6 +199,12 @@ static void versatile_init(QEMUMachineInitArgs *args, int board_id)
++@@ -198,6 +198,12 @@ static void versatile_init(MachineState *machine, int board_id)
+          fprintf(stderr, "Unable to find CPU definition\n");
+          exit(1);
+      }
+@@ -32,9 +36,9 @@ index b48d84c..ad2cd5a 100644
+ +                ((unsigned int)ram_size / (1 << 20)));
+ +        exit(1);
+ +    }
+-     memory_region_init_ram(ram, NULL, "versatile.ram", machine->ram_size);
++     memory_region_init_ram(ram, NULL, "versatile.ram", machine->ram_size,
++                            &error_abort);
+      vmstate_register_ram_global(ram);
+-     /* ??? RAM should repeat to fill physical memory space.  */
+ -- 
+ 1.7.10.4
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu_2.1.2.bb b/meta/recipes-devtools/qemu/qemu_2.2.0.bb
+similarity index 82%
+rename from meta/recipes-devtools/qemu/qemu_2.1.2.bb
+rename to meta/recipes-devtools/qemu/qemu_2.2.0.bb
+index 55ae7b6..209b910 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.1.2.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.2.0.bb
+@@ -8,8 +8,8 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+             "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "0ff197c4ed4b695620bc4734e77c888f"
+-SRC_URI[sha256sum] = "fd10f5e45cf5a736fa5a3e1c279ae9821534e700beb7d1aab88a07648a394885"
++SRC_URI[md5sum] = "f7a5e2da22d057eb838a91da7aff43c8"
++SRC_URI[sha256sum] = "b68c9b6c7c694f5489b5a6bffe993cd976ffbb78e7d178eb3bc016caf460039c"
+ 
+ COMPATIBLE_HOST_class-target_mips64 = "null"
+ 
 -- 
-Regards,
-Neil | Kai Kang
+1.9.1
 
 
