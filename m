@@ -1,40 +1,39 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
-	[209.85.160.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9978F72805
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 12:55:41 +0000 (UTC)
-Received: by mail-yk0-f177.google.com with SMTP id 9so483604ykp.8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 04:55:42 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A6F172820;
+	Thu, 18 Dec 2014 12:56:19 +0000 (UTC)
+Received: by mail-wi0-f178.google.com with SMTP id em10so1694525wid.11;
+	Thu, 18 Dec 2014 04:56:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=KxEfwFO8kuXWXzIyERXsaacp6n2y2ri41KJpC2MOSrY=;
-	b=hxnca3JsqVR0641cFWK/wixxaMBUUFde0rIunUBcgdlyUsc0Eie0fdcM0oHSpoQZ4F
-	2jtxELPIYVCdi8f5O/YhQ35fWJNGyM7fmUo6LEL4tuuU+xJdPl4Z4WXTvVC9iElKjuQj
-	9qTvRJ82L/KatDUZyTI4ReO2IbwrdWQflIDx0xPNXSani9xkOwHTR+jFGFH/IZeI3x5d
-	VCca1Gbc5TrhxCyOIXL24W9xO7ti/7Uhz+xI/dvJDkHZVAbXgKOvWx3oq9pwfXbXy9/N
-	/DehvRUeWqAy8DQhPLwq/QbHhPgu2eZ5B8nSh6zbG3GUWEVAAFCoeHpx4TbZ9Imd09PT
-	vzIw==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=gOoh4kbcVoHUjQ2fwh8trWZnfaHuNxX86BpiEJhjyDE=;
+	b=B8vV+MacnSTk0VLSNKF3PVkoCfNamltxbhkBELLo685Q1btbc+mOGh/a+X2wjJWwC2
+	DB7m3JV5ESxEmz7mpQd/6LkgNyWzHnxHV5+Uvnvig7eHJbyyIwbBqoCpfuq9yTunDg/f
+	sXvHcZtTsint7a6MEwJS1o8/zPwpOeS6DSNyZLMefSerdVcZVpdHSGCnVEzwRrMjfMFk
+	qiUKgIh6/d+Cz4QPgwsABXKXMq/c5s1xvFp/XdfeSB13ZbxOq7QFN1bw4NabT2NRg96y
+	s05bIzdYmAV5nwoQPuBGtNortNPuiO7yY0p13coklL21VKlfjWUbAnwnAo1PxoGdrTGT
+	/QaQ==
+X-Received: by 10.180.211.196 with SMTP id ne4mr23831123wic.71.1418907380135; 
+	Thu, 18 Dec 2014 04:56:20 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	h8sm9885761wiy.17.2014.12.18.04.56.19
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 18 Dec 2014 04:56:19 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 18 Dec 2014 13:56:23 +0100
+To: openembedded-core@lists.openembedded.org,
+	Cristian Iorga <cristian.iorga@intel.com>
+Message-ID: <20141218125623.GD2462@jama>
+References: <20141120140839.39E515031C@opal.openembedded.org>
 MIME-Version: 1.0
-X-Received: by 10.170.211.67 with SMTP id c64mr1722312ykf.110.1418907342261;
-	Thu, 18 Dec 2014 04:55:42 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.171.132 with HTTP; Thu, 18 Dec 2014 04:55:41 -0800 (PST)
-In-Reply-To: <549274AF.8050508@topic.nl>
-References: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
-	<1417773539-19172-1-git-send-email-mike.looijmans@topic.nl>
-	<CAJTo0Las47QCiUb-sjfgUOd9ZQK0=bOVWd5fHr618+0DLGsDjg@mail.gmail.com>
-	<5491FECA.3020707@mlbassoc.com> <549274AF.8050508@topic.nl>
-Date: Thu, 18 Dec 2014 10:55:41 -0200
-X-Google-Sender-Auth: uwkresMLCDerkHmwUEIUCCGGJdI
-Message-ID: <CAP9ODKrXLd9mQpJco47ddwOhZOARN3PYY9Ci6Se0XBsmTQM7Lw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] busybox-mdev: Support automatic mounting of block devices
+In-Reply-To: <20141120140839.39E515031C@opal.openembedded.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Cristian Iorga : wpa-supplicant: upgrade to 2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,63 +46,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Dec 2014 12:55:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 18 Dec 2014 12:56:26 -0000
+X-Groupsio-MsgNum: 60613
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="HWvPVVuAAfuRc6SZ"
+Content-Disposition: inline
 
-Hello Mike,
+--HWvPVVuAAfuRc6SZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 18, 2014 at 4:31 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> On 12/17/2014 11:08 PM, Gary Thomas wrote:
->>
->> On 2014-12-17 15:03, Burton, Ross wrote:
->>>
->>> Hi Mike,
->>>
->>> On 5 December 2014 at 09:58, Mike Looijmans <mike.looijmans@topic.nl
->>> <mailto:mike.looijmans@topic.nl>> wrote:
->>>
->>>     Upon inserting a USB stick or similar device, mdev will run
->>>     an automounter script that mounts valid partitions on
->>>     /media/<device>. The script first checks /etc/fstab entries
->>>     so that mounting on UUID or LABEL or using custom mount options
->>>     is still possible. If /etc/fstab does not contain particular
->>>     mount options, the script will create (and remove) the mountpoint
->>>     automatically.
->>>     The script also supports full disk partitions (devices without
->>>     partition table).
->>>
->>>
->>> Thanks for this, but can this script be put into a separate recipe to
->>> make
->>> it even easier for people who don't want it, or want their own version?
->>> The
->>> prior art here is the udev
->>> automounting script which is in udev-extraconf.
-...
+On Thu, Nov 20, 2014 at 02:08:39PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: f600e77bbdc1d6a0f29bf8bd775b79dc01bc0b4d
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3Df600e77bbdc1d6a0f29bf8bd775b79dc01bc0b4d
+>=20
+> Author: Cristian Iorga <cristian.iorga@intel.com>
+> Date:   Tue Nov 11 10:46:22 2014 +0200
+>=20
+> wpa-supplicant: upgrade to 2.3
+>=20
+> - P2P WiFi improvements;
+> - Bug fixes.
+>=20
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  .../recipes-connectivity/wpa-supplicant/wpa-supplicant.inc |  4 ++--
+>  .../wpa-supplicant/fix-libnl3-host-contamination.patch     | 14 +++++++-=
+------
+>  .../{wpa-supplicant_2.2.bb =3D> wpa-supplicant_2.3.bb}       |  0
+>  3 files changed, 9 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc =
+b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+> index 3abcf86..2bc9339 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+> @@ -26,8 +26,8 @@ SRC_URI =3D "http://hostap.epitest.fi/releases/wpa_supp=
+licant-${PV}.tar.gz \
+>             file://99_wpa_supplicant \
+>             file://fix-libnl3-host-contamination.patch \
+>            "
+> -SRC_URI[md5sum] =3D "238e8e888bbd558e1a57e3eb28d1dd07"
+> -SRC_URI[sha256sum] =3D "e0d8b8fd68a659636eaba246bb2caacbf53d22d53b2b6b90=
+eb4b4fef0993c8ed"
+> +SRC_URI[md5sum] =3D "f2ed8fef72cf63d8d446a2d0a6da630a"
+> +SRC_URI[sha256sum] =3D "eaaa5bf3055270e521b2dff64f2d203ec8040f71958b8588=
+269a82c00c9d7b6a"
 
-I didn't try but what happens in mdev if the script does not exists? I
-mean keep mdev.conf as is (ready for use) and move the script to
-another package which can be installed or not.
+Why do we have version specific checksums in generic .inc file?
 
-> On the satellite settop boxes, /media is a 64k tmpfs mount. This is because
-> when a mount fails, the box may end up writing a TV recording to wherever
-> /media happens to be. It that's flash or a big tmpfs, the box will commit
-> suicide in mere seconds by either filling the flash or eating up the
-> precious RAM. And for some things, the box really needs a big tmpfs, so just
-> reducing the volatiles' sizes wasn't an option.
+>  S =3D "${WORKDIR}/wpa_supplicant-${PV}"
+> =20
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/fix-=
+libnl3-host-contamination.patch b/meta/recipes-connectivity/wpa-supplicant/=
+wpa-supplicant/fix-libnl3-host-contamination.patch
+> index eb8036f..e899c16 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/fix-libnl3-=
+host-contamination.patch
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/fix-libnl3-=
+host-contamination.patch
+> @@ -15,15 +15,15 @@ diff --git a/src/drivers/drivers.mak b/src/drivers/dr=
+ivers.mak
+>  index 68ff910..1f38f57 100644
+>  --- a/src/drivers/drivers.mak
+>  +++ b/src/drivers/drivers.mak
+> -@@ -30,7 +30,7 @@ NEED_RFKILL=3Dy
+> +@@ -35,7 +35,7 @@ NEED_RFKILL=3Dy
+>   ifdef CONFIG_LIBNL32
+>     DRV_LIBS +=3D -lnl-3
+>     DRV_LIBS +=3D -lnl-genl-3
+>  -  DRV_CFLAGS +=3D -DCONFIG_LIBNL20 -I/usr/include/libnl3
+>  +  DRV_CFLAGS +=3D -DCONFIG_LIBNL20
+> - else
+> -   ifdef CONFIG_LIBNL_TINY
+> -     DRV_LIBS +=3D -lnl-tiny
+> + ifdef CONFIG_LIBNL3_ROUTE
+> +   DRV_LIBS +=3D -lnl-route-3
+> +   DRV_CFLAGS +=3D -DCONFIG_LIBNL3_ROUTE
+>  diff --git a/src/drivers/drivers.mk b/src/drivers/drivers.mk
+>  index db8561a..c93e88d 100644
+>  --- a/src/drivers/drivers.mk
+> @@ -34,9 +34,9 @@ index db8561a..c93e88d 100644
+>     DRV_LIBS +=3D -lnl-genl-3
+>  -  DRV_CFLAGS +=3D -DCONFIG_LIBNL20 -I/usr/include/libnl3
+>  +  DRV_CFLAGS +=3D -DCONFIG_LIBNL20
+> - else
+> -   ifdef CONFIG_LIBNL_TINY
+> -     DRV_LIBS +=3D -lnl-tiny
+> + ifdef CONFIG_LIBNL3_ROUTE
+> +   DRV_LIBS +=3D -lnl-route-3
+> +   DRV_CFLAGS +=3D -DCONFIG_LIBNL3_ROUTE
+>  --=20
+>  1.7.10.4
+> =20
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.2.=
+bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.3.bb
+> similarity index 100%
+> rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.2.bb
+> rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.3.bb
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
-Nice 'solution' to avoid a more serious problem :-D
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> Having said that, if this is blocking, I'll do a s./media./run/media.g on
-> the file, getting this mainlined has higher priority.
+--HWvPVVuAAfuRc6SZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-I prefer to have it behaving as udev as much as possible, by default.
-However, the script could source a defaults file (if it exists) to
-change the mounting point for example and allow for those special
-systems to be handle without forking.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+iEYEARECAAYFAlSSzvcACgkQN1Ujt2V2gBzMZwCfb+q3qKa65WsfQWhYjzhPRAEw
+JqEAoKla+3mhFQFneG8NcYe7f3g0N/Gf
+=B7yk
+-----END PGP SIGNATURE-----
 
+--HWvPVVuAAfuRc6SZ--
