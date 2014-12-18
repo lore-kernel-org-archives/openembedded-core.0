@@ -1,21 +1,21 @@
 Return-Path: <rich.tollerton@ni.com>
 Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ABDD72726
+	by mail.openembedded.org (Postfix) with ESMTP id 6C79A72739
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 18 Dec 2014 00:52:46 +0000 (UTC)
 Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
 	[130.164.19.134])
 	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	sBI0qlO9028023 for <openembedded-core@lists.openembedded.org>;
+	sBI0qlOB028023 for <openembedded-core@lists.openembedded.org>;
 	Wed, 17 Dec 2014 18:52:47 -0600
 Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
 	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014121718524716-195172 ;
+	with ESMTP id 2014121718524719-195174 ;
 	Wed, 17 Dec 2014 18:52:47 -0600 
 From: Richard Tollerton <rich.tollerton@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Dec 2014 18:52:14 -0600
-Message-Id: <1418863936-8576-2-git-send-email-rich.tollerton@ni.com>
+Date: Wed, 17 Dec 2014 18:52:16 -0600
+Message-Id: <1418863936-8576-4-git-send-email-rich.tollerton@ni.com>
 X-Mailer: git-send-email 2.1.3
 In-Reply-To: <1418863936-8576-1-git-send-email-rich.tollerton@ni.com>
 References: <1418863936-8576-1-git-send-email-rich.tollerton@ni.com>
@@ -28,7 +28,7 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.13.68, 1.0.33,
 	0.0.0000
 	definitions=2014-12-17_07:2014-12-17, 2014-12-17,
 	1970-01-01 signatures=0
-Subject: [PATCH 1/3] staging.bbclass: Install ${datadir}/fonts/ into sysroots
+Subject: [PATCH 3/3] xorg-font-common: fix sysroot injection for encoding maps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,33 +43,46 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 18 Dec 2014 00:52:56 -0000
 
-font-util installs encoding maps into /usr/share/fonts/X11. This path
-may not exist on the host (many distros install these into
-/usr/share/fonts/util) so they must exist in the sysroot in order for
-e.g. `pkg-config --variable=mapdir fontutil` to work correctly. However,
-currently /usr/share/fonts is explicitly not installed into sysroots, so
-the encoding maps were not getting found.
+The xorg font builds use `pkg-config --variable=mapdir fontutil` to
+locate encoding maps. This variable ought to be sysroot-relative, but
+neither pkg-config nor font-util nor the fonts themselves provide any
+facility to add the sysroot back in.
 
-Fix this by no longer deleting ${datadir}/fonts/ from sysroots.
+We're presently adding the sysroot by by twiddling MAPFILES_PATH in
+configure.ac. This is broken; it's actually defined in aclocal.m4,
+because the definition is provided by fontutil.m4. Another (more
+speculative) criticism is that it also hardcodes a build-specific
+absolute path into builds which might (incorrectly) encode it into
+target-installable packages.
+
+A somewhat more robust, focused, and clear solution is to override
+UTIL_DIR on the make command line. (UTIL_DIR, not MAPFILES_PATH, is what
+is actually referenced in the build.)
 
 Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
 ---
- meta/classes/staging.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/xorg-font/xorg-font-common.inc | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 57b2743..c4a2cb1 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -50,7 +50,7 @@ sysroot_stage_dirs() {
- 	sysroot_stage_dir $from${datadir} $to${datadir}
- 	# We don't care about docs/info/manpages/locales
- 	rm -rf $to${mandir}/ $to${docdir}/ $to${infodir}/ ${to}${datadir}/locale/
--	rm -rf $to${datadir}/applications/ $to${datadir}/fonts/ $to${datadir}/pixmaps/
-+	rm -rf $to${datadir}/applications/ $to${datadir}/pixmaps/
- }
+diff --git a/meta/recipes-graphics/xorg-font/xorg-font-common.inc b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
+index 55adde3..d3b995a 100644
+--- a/meta/recipes-graphics/xorg-font/xorg-font-common.inc
++++ b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
+@@ -15,13 +15,7 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
  
- sysroot_stage_all() {
+ inherit autotools pkgconfig
+ 
+-EXTRA_OEMAKE += "FCCACHE=/bin/true"
+-
+-do_configure_prepend() {
+-        if [ -f "${S}"/configure.ac ] ; then
+-                sed -i "s#^MAPFILES_PATH=.*#MAPFILES_PATH=\"${STAGING_DIR_TARGET}/\$(pkg-config --variable=mapdir fontutil)\"#g" "${S}"/configure.ac
+-        fi
+-}
++EXTRA_OEMAKE += "FCCACHE=/bin/true UTIL_DIR=${STAGING_DIR_TARGET}\$\(MAPFILES_PATH\)"
+ 
+ do_install_append() {
+ 	find ${D}${libdir}/X11/fonts -type f -name fonts.dir | xargs rm -f
 -- 
 2.1.3
 
