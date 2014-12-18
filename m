@@ -1,51 +1,40 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 34D2072805
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
+	[209.85.160.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 9978F72805
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 12:47:57 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	sBIClqPb017278
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Thu, 18 Dec 2014 13:47:56 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1418906876;
-	bh=gnrdM/bJD0a6P/hyJII7l7EmSQav8QqlwMYewz6CTxo=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=j+aYAnAG8IRoQcFh3e/XLoOYW2ykvb/VaaHAR6h+Pn78nV8+04nfrqNCC2OHQ9fju
-	6wioTpnx5QsYdReeklHYLErggGv02xMldp4rOydJDUwdcOYrvlMt7vrU+AyetyiYB8
-	myVHtfXgcWRN54Kbf4V8B6Y7N54LUg67xJdQyCCM=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id sBIClmTa027764
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 18 Dec 2014 13:47:49 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1Y1aUd-0003PW-SC; Thu, 18 Dec 2014 13:47:47 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1418900663-20985-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-	<1418900663-20985-3-git-send-email-enrico.scholz@sigma-chemnitz.de>
-	<1418904217.5106.24.camel@linuxfoundation.org>
-Date: Thu, 18 Dec 2014 13:47:47 +0100
-In-Reply-To: <1418904217.5106.24.camel@linuxfoundation.org> (Richard Purdie's
-	message of "Thu, 18 Dec 2014 12:03:37 +0000")
-Message-ID: <lyvbl986q4.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
+	Thu, 18 Dec 2014 12:55:41 +0000 (UTC)
+Received: by mail-yk0-f177.google.com with SMTP id 9so483604ykp.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Dec 2014 04:55:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=KxEfwFO8kuXWXzIyERXsaacp6n2y2ri41KJpC2MOSrY=;
+	b=hxnca3JsqVR0641cFWK/wixxaMBUUFde0rIunUBcgdlyUsc0Eie0fdcM0oHSpoQZ4F
+	2jtxELPIYVCdi8f5O/YhQ35fWJNGyM7fmUo6LEL4tuuU+xJdPl4Z4WXTvVC9iElKjuQj
+	9qTvRJ82L/KatDUZyTI4ReO2IbwrdWQflIDx0xPNXSani9xkOwHTR+jFGFH/IZeI3x5d
+	VCca1Gbc5TrhxCyOIXL24W9xO7ti/7Uhz+xI/dvJDkHZVAbXgKOvWx3oq9pwfXbXy9/N
+	/DehvRUeWqAy8DQhPLwq/QbHhPgu2eZ5B8nSh6zbG3GUWEVAAFCoeHpx4TbZ9Imd09PT
+	vzIw==
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.9
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.75
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] pkgconfig.bblcass: remove PKG_CONFIG_SYSROOT_DIR from installed .pc files
+X-Received: by 10.170.211.67 with SMTP id c64mr1722312ykf.110.1418907342261;
+	Thu, 18 Dec 2014 04:55:42 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.171.132 with HTTP; Thu, 18 Dec 2014 04:55:41 -0800 (PST)
+In-Reply-To: <549274AF.8050508@topic.nl>
+References: <1417688866-8329-1-git-send-email-mike.looijmans@topic.nl>
+	<1417773539-19172-1-git-send-email-mike.looijmans@topic.nl>
+	<CAJTo0Las47QCiUb-sjfgUOd9ZQK0=bOVWd5fHr618+0DLGsDjg@mail.gmail.com>
+	<5491FECA.3020707@mlbassoc.com> <549274AF.8050508@topic.nl>
+Date: Thu, 18 Dec 2014 10:55:41 -0200
+X-Google-Sender-Auth: uwkresMLCDerkHmwUEIUCCGGJdI
+Message-ID: <CAP9ODKrXLd9mQpJco47ddwOhZOARN3PYY9Ci6Se0XBsmTQM7Lw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] busybox-mdev: Support automatic mounting of block devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,19 +47,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Dec 2014 12:48:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Dec 2014 12:55:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+Hello Mike,
 
->> Patch removes this string from installed .pc files.
->> ...
->> +do_install[postfuncs] += "pkgconfig_mangle_pc"
->
-> We are *not* going down this route.
+On Thu, Dec 18, 2014 at 4:31 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+> On 12/17/2014 11:08 PM, Gary Thomas wrote:
+>>
+>> On 2014-12-17 15:03, Burton, Ross wrote:
+>>>
+>>> Hi Mike,
+>>>
+>>> On 5 December 2014 at 09:58, Mike Looijmans <mike.looijmans@topic.nl
+>>> <mailto:mike.looijmans@topic.nl>> wrote:
+>>>
+>>>     Upon inserting a USB stick or similar device, mdev will run
+>>>     an automounter script that mounts valid partitions on
+>>>     /media/<device>. The script first checks /etc/fstab entries
+>>>     so that mounting on UUID or LABEL or using custom mount options
+>>>     is still possible. If /etc/fstab does not contain particular
+>>>     mount options, the script will create (and remove) the mountpoint
+>>>     automatically.
+>>>     The script also supports full disk partitions (devices without
+>>>     partition table).
+>>>
+>>>
+>>> Thanks for this, but can this script be put into a separate recipe to
+>>> make
+>>> it even easier for people who don't want it, or want their own version?
+>>> The
+>>> prior art here is the udev
+>>> automounting script which is in udev-extraconf.
+...
 
-Ok; then just apply the first patch and perhaps the last one.
+I didn't try but what happens in mdev if the script does not exists? I
+mean keep mdev.conf as is (ready for use) and move the script to
+another package which can be installed or not.
 
+> On the satellite settop boxes, /media is a 64k tmpfs mount. This is because
+> when a mount fails, the box may end up writing a TV recording to wherever
+> /media happens to be. It that's flash or a big tmpfs, the box will commit
+> suicide in mere seconds by either filling the flash or eating up the
+> precious RAM. And for some things, the box really needs a big tmpfs, so just
+> reducing the volatiles' sizes wasn't an option.
 
-Enrico
+Nice 'solution' to avoid a more serious problem :-D
+
+> Having said that, if this is blocking, I'll do a s./media./run/media.g on
+> the file, getting this mainlined has higher priority.
+
+I prefer to have it behaving as udev as much as possible, by default.
+However, the script could source a defaults file (if it exists) to
+change the mounting point for example and allow for those special
+systems to be handle without forking.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
