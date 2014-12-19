@@ -1,50 +1,31 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id E3617728FB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CEB3A72914
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 12:11:14 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	sBJCB9Js021373
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Fri, 19 Dec 2014 13:11:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1418991072;
-	bh=WdBWW8YMAx990/p7NAbOB/qsBZyRQm3BZK6LRvKaONo=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=dU9LLO33PRfb6Way8LuzU0f1YqzLxjFJcr6/NFfKzSXskFb5Aw7DAXZo3NojZUtqo
-	v7HRuh4ya6cgXQkMaNVFvcV0ODH2++scblGwAhFIfpIaWMpVHtFIBmYItGFCZ84+Ry
-	2ToE6WK0hnlrxx2ctG1LYjFSzLL0bNDBzV/rEakA=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id sBJCB4ep023977
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 19 Dec 2014 13:11:04 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1Y1wOc-0008KQ-BT; Fri, 19 Dec 2014 13:11:02 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 19 Dec 2014 12:25:06 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBJCOUPk011816; Fri, 19 Dec 2014 12:24:30 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 3_rSTUtDbzlT; Fri, 19 Dec 2014 12:24:30 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBJCOGlA011783
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 19 Dec 2014 12:24:27 GMT
+Message-ID: <1418991892.13316.12.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Fri, 19 Dec 2014 12:24:52 +0000
+In-Reply-To: <ly7fxnon55.fsf@ensc-virt.intern.sigma-chemnitz.de>
 References: <cover.1418207154.git.bruce.ashfield@windriver.com>
 	<0247524f2f7ae076fdac8773c3baa0794e5697dd.1418207154.git.bruce.ashfield@windriver.com>
 	<lyegrv99wr.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<1418989891.13316.10.camel@linuxfoundation.org>
-Date: Fri, 19 Dec 2014 13:11:02 +0100
-In-Reply-To: <1418989891.13316.10.camel@linuxfoundation.org> (Richard Purdie's
-	message of "Fri, 19 Dec 2014 11:51:31 +0000")
-Message-ID: <ly7fxnon55.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.9
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.75
+	<ly7fxnon55.fsf@ensc-virt.intern.sigma-chemnitz.de>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 2/7] kernel: fix out of tree module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -59,51 +40,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Dec 2014 12:11:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Dec 2014 12:25:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+On Fri, 2014-12-19 at 13:11 +0100, Enrico Scholz wrote:
+> Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+> > to the point of not being a currently well supported use case and the
+> > classes would probably need to be refactored to allow such things to
+> > be well supported. These changes do bring significant benefit
+> 
+> Does some lowered i/o really provide such a benefit?  With the new
+> system you are bypassing the excellent staging system (which would
+> detect e g ".config" or "System.map" file conflicts). Afais, it breaks
+> with "rm_work" too (I guess, kernel:fetch stamp is removed when kernel
+> build finishes and packages which inherit "kernelsrc" fetch the kernel
+> sources (without .config and System.map) again).
 
->> In our usecase we build usually two kernels: a full featured one for
->> the main system and a minimal, initramfs based for a rescue system.
->> 
->> With this change and building both kernels, it is ambiguous which
->> System.map is used.
->
-> Regardless of how you do this, if you build two kernels, you still need
-> to choose one to build the main set of modules against. I'm therefore
-> not sure how this change makes anything particularly worst than what
-> existed before?
+In summary, basically, yes. The kernel source is huge and we were
+compressing/decompressing it in several places on the critical path.
+People were struggling to develop kernels using the system due to the
+overhead.
 
-A I see... previously I did
+Whilst this approach does bypass some parts of the system, I do believe
+the benefits are worth it. We're talking about making the kernel build
+time about three times faster iirc, and reducing its sstate footprint
+significantly.
 
-| do_install[noexec] = "1"
+Cheers,
 
-in the rescue kernel and only the main kernel's System.map, .config... were
-staged into the sysroot.  This can be done now too, but building secondary
-kernels fails with
+Richard
 
-| .../usr/src/kernel is not clean, please run 'make mrproper'
-
-
-> Building two kernels is currently fraught with difficulty anyway,
-
-It was not so difficulty... Removing the "virtual/kernel" provider and
-changing names of deployed files should do it with the old classes.
-
-
-> to the point of not being a currently well supported use case and the
-> classes would probably need to be refactored to allow such things to
-> be well supported. These changes do bring significant benefit
-
-Does some lowered i/o really provide such a benefit?  With the new
-system you are bypassing the excellent staging system (which would
-detect e g ".config" or "System.map" file conflicts). Afais, it breaks
-with "rm_work" too (I guess, kernel:fetch stamp is removed when kernel
-build finishes and packages which inherit "kernelsrc" fetch the kernel
-sources (without .config and System.map) again).
-
-
-
-Enrico
 
