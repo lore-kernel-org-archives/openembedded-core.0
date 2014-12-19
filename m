@@ -1,37 +1,26 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
-	[209.85.215.47])
-	by mail.openembedded.org (Postfix) with ESMTP id F04DA7292E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 59C0572928
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 13:58:52 +0000 (UTC)
-Received: by mail-la0-f47.google.com with SMTP id hz20so860619lab.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 05:58:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=kkeFoIU4GfLqxQ4nWycGxQipCBShUi4zferLjxyiP44=;
-	b=QClWf0yYbF0tLVuJjpbrR2S6F1LX4mLALZNIGiM2AjGBFINbZ6sfbzCBs/6apeGjPZ
-	RDjQN84bbeJ+MelhCZPV+EYsP/jGDLFiTF80oQe8U2aqNLnivWiFW7kEDUyZ/m1r8fst
-	j8vbIa99wtoejaEUACaPlx1h9/uPc/wcfsimu423tXi4zkMMJ6d2+yRd3tIha2KRcirf
-	lraXF07n0Adq0rQ8ygS9gn3048tT2lkuIZAzMDSr922Ym3b3uX2lZs200qAu34iopRKP
-	x/sbFK7Wv6zVh4RC5Yo3glLLrwdO1qvrqsx/0WIu16HDmuvGbsAUoOwhI3rDnTPzo5sT
-	LyIg==
-MIME-Version: 1.0
-X-Received: by 10.152.206.1 with SMTP id lk1mr6416790lac.92.1418997532505;
-	Fri, 19 Dec 2014 05:58:52 -0800 (PST)
-Received: by 10.112.48.41 with HTTP; Fri, 19 Dec 2014 05:58:52 -0800 (PST)
-In-Reply-To: <1418994949.13316.16.camel@linuxfoundation.org>
-References: <1418984914.13316.6.camel@linuxfoundation.org>
-	<1418992908.13316.14.camel@linuxfoundation.org>
-	<54942326.8080806@windriver.com>
-	<1418994949.13316.16.camel@linuxfoundation.org>
-Date: Fri, 19 Dec 2014 08:58:52 -0500
-Message-ID: <CADkTA4MBU0Pk8y=JjO5i-UK=eUatzi1ui5GNwVuqKiyc7m8YcA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Merging problems
+	Fri, 19 Dec 2014 14:12:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBJECMF3015953; Fri, 19 Dec 2014 14:12:22 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id GiROy036nGks; Fri, 19 Dec 2014 14:12:22 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBJEC6Kt015946
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 19 Dec 2014 14:12:17 GMT
+Message-ID: <1418998363.13316.24.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Dec 2014 14:12:43 +0000
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] kernel-devsrc: Inherit module-base
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,70 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Dec 2014 13:59:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 19 Dec 2014 14:13:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Dec 19, 2014 at 8:15 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2014-12-19 at 08:07 -0500, Bruce Ashfield wrote:
->> On 2014-12-19, 7:41 AM, Richard Purdie wrote:
->> > On Fri, 2014-12-19 at 10:28 +0000, Richard Purdie wrote:
->> >> I want to give people a headsup that we're having problems merging
->> >> changes at the moment. We've been doing our best but the number of
->> >> things building up which are causing issues is overwheling our ability
->> >> to fix and stablise the build. It wasn't helped that I took a long
->> >> weekend's vacation last weekend. There are changes being made or tested
->> >> to the autobuilder which also isn't helping.
->> >>
->> >> The kernel series has several issues:
->> >>
->> >>    * a random failure in do_kernel_configme [i]
->> >
->> > I think I have a handle on this. If you look at the autobuilder failure
->> > it says:
->>
->> do you have a link to the actual failure ?
->
-> It was in a previous mail:
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/builds/129/steps/BuildImages/logs/stdio
->
->> > The fix is therefore probably to not run the fetch/unpack/patch tasks in
->> > kernelsrc.bbclass.
->>
->> Very likely. I'll have a look. I noticed about 6 months ago that a patches
->> directory was being created .. even when it was never going to be used.
->> I took steps to remove it before the linux-yocto builds continued, but
->> apparently it is sneaking back in through other means :)
->
-> kernelsrc.bbclass sets ${S} to point at the directory so other recipes
-> can create it.
+As a "normal" recipe, mulitlib would try and extend it for multilibs.
+By inheriting module-base, we can avoid this since we now look more
+'kernel' like.
 
-aha yes. I'm familiar with doing battle with 'patches' being created
-in the build
-directory,  it broke the detection of the directory that is used to hold meta
-data .. and cost me about a week in August fixing things up.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-With your latest patch, which problems are still outstanding ? I can have a
-look at them.
-
-Bruce
-
->
-> Cheers,
->
-> Richard
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index facc235..2872f17 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -10,6 +10,9 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
+ 
+ inherit linux-kernel-base
+ 
++# Whilst not a module, this ensures we don't get multilib extended (which would make no sense)
++inherit module-base
++
+ # We need the kernel to be staged (unpacked, patched and configured) before
+ # we can grab the source and make the kernel-devsrc package
+ do_install[depends] += "virtual/kernel:do_populate_sysroot"
 
 
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
