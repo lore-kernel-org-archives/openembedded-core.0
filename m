@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 43A2E728EA
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DD37F728EC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 09:17:45 +0000 (UTC)
+	Fri, 19 Dec 2014 09:17:49 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ9Hjrv028035
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ9HnTP016681
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 01:17:45 -0800 (PST)
+	Fri, 19 Dec 2014 01:17:49 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 19 Dec 2014 01:17:45 -0800
+	14.3.174.1; Fri, 19 Dec 2014 01:17:49 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Dec 2014 17:17:43 +0800
-Message-ID: <14030a101df4c3eddbd3f7606b6d8835ab2c6110.1418979966.git.Qi.Chen@windriver.com>
+Date: Fri, 19 Dec 2014 17:17:46 +0800
+Message-ID: <eea9ee5b88e18fd5e1aa64f5f40df2cd0be9d910.1418979966.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1418979966.git.Qi.Chen@windriver.com>
 References: <cover.1418979966.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/5] systemd: fix hardcoding of paths
+Subject: [PATCH 5/5] glibc-package.inc: fix order in PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,54 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Dec 2014 09:17:51 -0000
+X-List-Received-Date: Fri, 19 Dec 2014 09:17:52 -0000
 Content-Type: text/plain
 
-Instead of using '/lib', we should use ${nonarch_lib_dir}.
-Otherwise, when ${nonarch_lib_dir} is not /lib, there would be errors.
+FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
+FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${@base_conditional('USE_LDCONFIG', '1', '${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf', '', d)}"
+
+From the above two assignments, we can see that ${PN}-utils needs to be ordered
+after ${PN} in the PACKAGES variable. Otherwise, ldconfig would be packaged into
+${PN}-utils if ${base_sbindir} and ${sbindir} point to the same location.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/systemd/systemd_216.bb | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/recipes-core/glibc/glibc-package.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
-index 536b7be..b90e739 100644
---- a/meta/recipes-core/systemd/systemd_216.bb
-+++ b/meta/recipes-core/systemd/systemd_216.bb
-@@ -87,7 +87,7 @@ EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
-                  --enable-split-usr \
-                  --without-python \
-                  --with-sysvrcnd-path=${sysconfdir} \
--                 --with-firmware-path=/lib/firmware \
-+                 --with-firmware-path=${nonarch_base_libdir}/firmware \
-                  ac_cv_path_KILL=${base_bindir}/kill \
-                "
- # uclibc does not have NSS
-@@ -260,10 +260,10 @@ FILES_${PN} = " ${base_bindir}/* \
-                 ${exec_prefix}/lib/sysctl.d \
-                 ${exec_prefix}/lib/sysusers.d \
-                 ${localstatedir} \
--                /lib/udev/rules.d/70-uaccess.rules \
--                /lib/udev/rules.d/71-seat.rules \
--                /lib/udev/rules.d/73-seat-late.rules \
--                /lib/udev/rules.d/99-systemd.rules \
-+                ${nonarch_base_libdir}/udev/rules.d/70-uaccess.rules \
-+                ${nonarch_base_libdir}/udev/rules.d/71-seat.rules \
-+                ${nonarch_base_libdir}/udev/rules.d/73-seat-late.rules \
-+                ${nonarch_base_libdir}/udev/rules.d/99-systemd.rules \
-                 ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${sysconfdir}/pam.d', '', d)} \
-                "
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 6212e5b..2a7a292 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -17,7 +17,7 @@ python __anonymous () {
+ # Set this to zero if you don't want ldconfig in the output package
+ USE_LDCONFIG ?= "1"
  
-@@ -281,7 +281,7 @@ RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units udev-hwdb\
+-PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode ${PN}-utils glibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
++PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
  
- PACKAGES =+ "udev-dbg udev udev-hwdb"
- 
--FILES_udev-dbg += "/lib/udev/.debug"
-+FILES_udev-dbg += "${nonarch_base_libdir}/udev/.debug"
- 
- RPROVIDES_udev = "hotplug"
- 
+ # The ld.so in this glibc supports the GNU_HASH
+ RPROVIDES_${PN} = "eglibc rtld(GNU_HASH)"
 -- 
 1.9.1
 
