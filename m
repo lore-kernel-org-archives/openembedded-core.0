@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DD37F728EC
+	by mail.openembedded.org (Postfix) with ESMTP id DD2B2728EA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 09:17:49 +0000 (UTC)
+	Fri, 19 Dec 2014 09:17:46 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ9HnTP016681
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ9Hk0Q016678
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 01:17:49 -0800 (PST)
+	Fri, 19 Dec 2014 01:17:47 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 19 Dec 2014 01:17:49 -0800
+	14.3.174.1; Fri, 19 Dec 2014 01:17:46 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Dec 2014 17:17:46 +0800
-Message-ID: <eea9ee5b88e18fd5e1aa64f5f40df2cd0be9d910.1418979966.git.Qi.Chen@windriver.com>
+Date: Fri, 19 Dec 2014 17:17:44 +0800
+Message-ID: <bce5d25923fa12b78995d41278ed940869221feb.1418979966.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1418979966.git.Qi.Chen@windriver.com>
 References: <cover.1418979966.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/5] glibc-package.inc: fix order in PACKAGES
+Subject: [PATCH 3/5] sed: test bindir and base_bindir before moving and removing things
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,31 +36,49 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 19 Dec 2014 09:17:52 -0000
 Content-Type: text/plain
 
-FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
-FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${@base_conditional('USE_LDCONFIG', '1', '${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf', '', d)}"
-
-From the above two assignments, we can see that ${PN}-utils needs to be ordered
-after ${PN} in the PACKAGES variable. Otherwise, ldconfig would be packaged into
-${PN}-utils if ${base_sbindir} and ${sbindir} point to the same location.
+It's possible that ${base_bindir} and ${bindir} point to the same directory.
+So we need to test it before moving things around or removing things.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/glibc/glibc-package.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/sed/sed_4.1.2.bb | 6 ++++--
+ meta/recipes-extended/sed/sed_4.2.2.bb | 6 ++++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 6212e5b..2a7a292 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -17,7 +17,7 @@ python __anonymous () {
- # Set this to zero if you don't want ldconfig in the output package
- USE_LDCONFIG ?= "1"
+diff --git a/meta/recipes-extended/sed/sed_4.1.2.bb b/meta/recipes-extended/sed/sed_4.1.2.bb
+index fe242e1..a2bcb7d 100644
+--- a/meta/recipes-extended/sed/sed_4.1.2.bb
++++ b/meta/recipes-extended/sed/sed_4.1.2.bb
+@@ -23,8 +23,10 @@ do_configure_prepend () {
+ do_install () {
+ 	autotools_do_install
+ 	install -d ${D}${base_bindir}
+-	mv ${D}${bindir}/sed ${D}${base_bindir}/sed
+-	rmdir ${D}${bindir}/
++	if [ "${bindir}" != "${base_bindir}" ]; then
++	    mv ${D}${bindir}/sed ${D}${base_bindir}/sed
++	    rmdir ${D}${bindir}/
++	fi
+ }
  
--PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode ${PN}-utils glibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
-+PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
+ ALTERNATIVE_${PN} = "sed"
+diff --git a/meta/recipes-extended/sed/sed_4.2.2.bb b/meta/recipes-extended/sed/sed_4.2.2.bb
+index ea39dae..1c49c12 100644
+--- a/meta/recipes-extended/sed/sed_4.2.2.bb
++++ b/meta/recipes-extended/sed/sed_4.2.2.bb
+@@ -22,8 +22,10 @@ EXTRA_OECONF = "--disable-acl \
+ do_install () {
+ 	autotools_do_install
+ 	install -d ${D}${base_bindir}
+-	mv ${D}${bindir}/sed ${D}${base_bindir}/sed
+-	rmdir ${D}${bindir}/
++	if [ "${bindir}" != "${base_bindir}" ]; then
++	    mv ${D}${bindir}/sed ${D}${base_bindir}/sed
++	    rmdir ${D}${bindir}/
++	fi
+ }
  
- # The ld.so in this glibc supports the GNU_HASH
- RPROVIDES_${PN} = "eglibc rtld(GNU_HASH)"
+ ALTERNATIVE_${PN} = "sed"
 -- 
 1.9.1
 
