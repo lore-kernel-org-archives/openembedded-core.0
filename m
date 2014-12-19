@@ -1,32 +1,21 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F7E172AD5
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 50C5C72A83
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 20:46:30 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	sBJKkVPQ019024 for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 14:46:31 -0600
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2014121914463138-273024 ;
-	Fri, 19 Dec 2014 14:46:31 -0600 
-From: Richard Tollerton <rich.tollerton@ni.com>
+	Fri, 19 Dec 2014 23:26:09 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 19 Dec 2014 15:22:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,609,1413270000"; d="scan'208";a="640526441"
+Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.60])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Dec 2014 15:26:05 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Dec 2014 14:46:22 -0600
-Message-Id: <1419021985-10526-1-git-send-email-rich.tollerton@ni.com>
-X-Mailer: git-send-email 2.2.1
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 12/19/2014 02:46:31 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 12/19/2014 02:46:31 PM,
-	Serialize complete at 12/19/2014 02:46:31 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.13.68, 1.0.33,
-	0.0.0000
-	definitions=2014-12-19_05:2014-12-19, 2014-12-19,
-	1970-01-01 signatures=0
-Subject: [PATCH v2 0/3] xorg-font: stop trying to use build machine's encoding maps
+Date: Fri, 19 Dec 2014 17:26:30 -0600
+Message-Id: <1419031590-27739-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] license_class: fix license.manifest shows LICENSE field differently to recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,46 +28,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Dec 2014 20:46:34 -0000
+X-List-Received-Date: Fri, 19 Dec 2014 23:26:15 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-(This is just a rebase; no changes vs v1.)
+Drop removal of [|&()*] operators in pkged_lic because this removal is only
+needed to validate if license is collected.
 
-Several xorg-font builds were added to meta-oe recently. These builds tend to
-fail on several Linux distros because they referenced encoding maps (e.g.
-map-ISO8859-1) at native paths outside the sysroot, which don't exist; the build
-expects /usr/share/fonts/X11/util/map-ISO8859-1 to exist, but the distro
-actually installed it at /usr/share/fonts/util/map-ISO8859-1. Of course, the
-correct behavior is for the build to reference the appropriate path under the
-appropriate sysroot.
+[YOCTO #6757]
 
-There are two different root causes. The first and by far the most important
-cause is that we're explicitly blacklisting ${datadir}/fonts from staging, so it
-was never possible for these maps to be sourced from sysroots in the first
-place. This seems like a silly thing to do, and I could not find any
-justification for it in the commit history, so I propose getting rid of it.
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/classes/license.bbclass | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-Once that was out of the way, I cleaned up some existing chicanery involving
-where to look for the maps. In particular, presently font-util is hardcoding the
-path to point at the native sysroot, for *all* architectures. Again, this seems
-silly, I can't find any justification for it, and it breaks builds; I propose
-getting rid of it.
-
-These changes will require the font recipes in meta-oe need to be updated to
-explicitly depend on font-util in addition to font-util-native; I'll post those
-patches separately. (Yes, these font builds are arch-specific right now; making
-them allarch is something I'm also working on.)
-
-Richard Tollerton (3):
-  staging.bbclass: Install ${datadir}/fonts/ into sysroots
-  font-util: remove MAPFILES_PATH override
-  xorg-font-common: fix sysroot injection for encoding maps
-
- meta/classes/staging.bbclass                         | 2 +-
- meta/recipes-graphics/xorg-font/font-util_1.3.0.bb   | 4 ----
- meta/recipes-graphics/xorg-font/xorg-font-common.inc | 8 +-------
- 3 files changed, 2 insertions(+), 12 deletions(-)
-
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 14d3107..cca9d0b 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -49,24 +49,25 @@ license_create_manifest() {
+ 
+ 		pkged_pv="$(sed -n 's/^PV: //p' ${filename})"
+ 		pkged_name="$(basename $(readlink ${filename}))"
+-		pkged_lic="$(sed -n "/^LICENSE_${pkged_name}: /{ s/^LICENSE_${pkged_name}: //; s/[|&()*]/ /g; s/  */ /g; p }" ${filename})"
++		pkged_lic="$(sed -n "/^LICENSE_${pkged_name}: /{ s/^LICENSE_${pkged_name}: //; p }" ${filename})"
+ 		if [ -z ${pkged_lic} ]; then
+ 			# fallback checking value of LICENSE
+-			pkged_lic="$(sed -n "/^LICENSE: /{ s/^LICENSE: //; s/[|&()*]/ /g; s/  */ /g; p }" ${filename})"
++			pkged_lic="$(sed -n "/^LICENSE: /{ s/^LICENSE: //; p }" ${filename})"
+ 		fi
+ 
+ 		echo "PACKAGE NAME:" ${pkg} >> ${LICENSE_MANIFEST}
+ 		echo "PACKAGE VERSION:" ${pkged_pv} >> ${LICENSE_MANIFEST}
+ 		echo "RECIPE NAME:" ${pkged_pn} >> ${LICENSE_MANIFEST}
+-		printf "LICENSE:" >> ${LICENSE_MANIFEST}
+-		for lic in ${pkged_lic}; do
++		echo "LICENSE:" ${pkged_lic} >> ${LICENSE_MANIFEST}
++		echo "" >> ${LICENSE_MANIFEST}
++
++		lics="$(echo ${pkged_lic} | sed "s/[|&()*]/ /g" | sed "s/  */ /g" )"
++		for lic in ${lics}; do
+ 			# to reference a license file trim trailing + symbol
+ 			if ! [ -e "${LICENSE_DIRECTORY}/${pkged_pn}/generic_${lic%+}" ]; then
+ 				bbwarn "The license listed ${lic} was not in the licenses collected for ${pkged_pn}"
+ 			fi
+-                        printf " ${lic}" >> ${LICENSE_MANIFEST}
+ 		done
+-		printf "\n\n" >> ${LICENSE_MANIFEST}
+ 	done
+ 
+ 	# Two options here:
 -- 
-2.2.1
+1.9.1
 
 
