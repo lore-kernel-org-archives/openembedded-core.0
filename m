@@ -1,33 +1,28 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CEB3A72914
+	by mail.openembedded.org (Postfix) with ESMTP id C4D7172922
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 12:25:06 +0000 (UTC)
+	Fri, 19 Dec 2014 12:42:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBJCOUPk011816; Fri, 19 Dec 2014 12:24:30 GMT
+	sBJCfOcZ012285; Fri, 19 Dec 2014 12:41:24 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 3_rSTUtDbzlT; Fri, 19 Dec 2014 12:24:30 +0000 (GMT)
+	with LMTP id Bbgn_Jw-ZL8c; Fri, 19 Dec 2014 12:41:24 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBJCOGlA011783
+	sBJCfBcT012280
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 19 Dec 2014 12:24:27 GMT
-Message-ID: <1418991892.13316.12.camel@linuxfoundation.org>
+	Fri, 19 Dec 2014 12:41:23 GMT
+Message-ID: <1418992908.13316.14.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Fri, 19 Dec 2014 12:24:52 +0000
-In-Reply-To: <ly7fxnon55.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <cover.1418207154.git.bruce.ashfield@windriver.com>
-	<0247524f2f7ae076fdac8773c3baa0794e5697dd.1418207154.git.bruce.ashfield@windriver.com>
-	<lyegrv99wr.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1418989891.13316.10.camel@linuxfoundation.org>
-	<ly7fxnon55.fsf@ensc-virt.intern.sigma-chemnitz.de>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Dec 2014 12:41:48 +0000
+In-Reply-To: <1418984914.13316.6.camel@linuxfoundation.org>
+References: <1418984914.13316.6.camel@linuxfoundation.org>
 X-Mailer: Evolution 3.12.7-0ubuntu1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/7] kernel: fix out of tree module builds
+Subject: Re: Merging problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,35 +35,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Dec 2014 12:25:13 -0000
+X-List-Received-Date: Fri, 19 Dec 2014 12:42:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2014-12-19 at 13:11 +0100, Enrico Scholz wrote:
-> Richard Purdie <richard.purdie@linuxfoundation.org> writes:
-> > to the point of not being a currently well supported use case and the
-> > classes would probably need to be refactored to allow such things to
-> > be well supported. These changes do bring significant benefit
+On Fri, 2014-12-19 at 10:28 +0000, Richard Purdie wrote:
+> I want to give people a headsup that we're having problems merging
+> changes at the moment. We've been doing our best but the number of
+> things building up which are causing issues is overwheling our ability
+> to fix and stablise the build. It wasn't helped that I took a long
+> weekend's vacation last weekend. There are changes being made or tested
+> to the autobuilder which also isn't helping.
 > 
-> Does some lowered i/o really provide such a benefit?  With the new
-> system you are bypassing the excellent staging system (which would
-> detect e g ".config" or "System.map" file conflicts). Afais, it breaks
-> with "rm_work" too (I guess, kernel:fetch stamp is removed when kernel
-> build finishes and packages which inherit "kernelsrc" fetch the kernel
-> sources (without .config and System.map) again).
+> The kernel series has several issues:
+> 
+>   * a random failure in do_kernel_configme [i]
 
-In summary, basically, yes. The kernel source is huge and we were
-compressing/decompressing it in several places on the critical path.
-People were struggling to develop kernels using the system due to the
-overhead.
+I think I have a handle on this. If you look at the autobuilder failure
+it says:
 
-Whilst this approach does bypass some parts of the system, I do believe
-the benefits are worth it. We're talking about making the kernel build
-time about three times faster iirc, and reducing its sstate footprint
-significantly.
+| [INFO] Configuring target/machine combo: "standard/qemuppc"
+| [INFO] collecting configs in patches/meta-series
+
+and what concerns me is "patches/meta-series". I my local builds it
+says .meta/meta-series. Poking around kern-tools I see:
+
+"""
+# determine the meta directory name. The meta directory is at the top level
+# of the repository, and is untracked.
+meta_dir_options=`git ls-files -o --directory`
+for m in $meta_dir_options; do
+    if [ -d "$m" ]; then
+	meta_dir=`echo $m | sed 's%/%%'`
+    fi
+done
+
+if [ -z "$meta_dir" ]; then
+    meta_dir=".meta"
+fi
+"""
+
+which means that if a "patches" directory exists it will use it since
+the command looks for untracked directories. I also noticed that some
+places define the default as ".meta", some as "meta" and they look a bit
+confused but that is probably a separate issue.
+
+The question is then how does a "patches" directory end up in the kernel
+source. I was able to create one with the commands:
+
+MACHINE=qemuppc bitbake linux-yocto perf -c clean
+MACHINE=qemuppc bitbake linux-yocto -c patch
+MACHINE=qemuppc bitbake perf -c unpack
+MACHINE=qemuppc bitbake linux-yocto -c kernel_configme
+
+which doesn't fail like the autobuilder but does put the metadata into
+the wrong place with the wrong data (into patches). I'm therefore
+guessing this is a big horrible race.
+
+Why does perf -c unpack create a patches directory? base.bbclass has:
+
+do_unpack[cleandirs] = "${S}/patches"
+
+The fix is therefore probably to not run the fetch/unpack/patch tasks in
+kernelsrc.bbclass.
 
 Cheers,
 
 Richard
+
 
 
