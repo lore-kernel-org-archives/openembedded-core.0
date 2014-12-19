@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 44772728EC
+	by mail.openembedded.org (Postfix) with ESMTP id 43A2E728EA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 09:17:43 +0000 (UTC)
+	Fri, 19 Dec 2014 09:17:45 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ9HgZ7028029
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ9Hjrv028035
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 01:17:42 -0800 (PST)
+	Fri, 19 Dec 2014 01:17:45 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 19 Dec 2014 01:17:42 -0800
+	14.3.174.1; Fri, 19 Dec 2014 01:17:45 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Dec 2014 17:17:41 +0800
-Message-ID: <cover.1418979966.git.Qi.Chen@windriver.com>
+Date: Fri, 19 Dec 2014 17:17:43 +0800
+Message-ID: <14030a101df4c3eddbd3f7606b6d8835ab2c6110.1418979966.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1418979966.git.Qi.Chen@windriver.com>
+References: <cover.1418979966.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/5] Misc fixes about hardcoding of paths
+Subject: [PATCH 2/5] systemd: fix hardcoding of paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,49 +34,53 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 19 Dec 2014 09:17:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-This patchset mainly fixes several hardcoding problems.
+Instead of using '/lib', we should use ${nonarch_lib_dir}.
+Otherwise, when ${nonarch_lib_dir} is not /lib, there would be errors.
 
-There's a bug in Yocto's bugzilla:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=7040
-Bug 7040 - Support for /usr merge (à la systemd and Fedora)
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/systemd/systemd_216.bb | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-I did some investigation and made it work for core-image-sato-sdk.
-
-The solution is divided into two parts. One part is a custom layer which
-has a custom distro file and a few bbappend files for base-files, busybox, etc.
-I think the bbappend files are a little hacky and not suitable for OE.
-The other part is this patchset. It fixes several hardcoding problems in OE.
-I think this part is suitable for OE. That's why I sent it out.
-
-//Chen Qi
-
-The following changes since commit 8d0e56a850579f9a6d501266deeef9b257ce4780:
-
-  serf: readded md5sum (2014-12-11 11:34:22 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/hardcoding
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/hardcoding
-
-Chen Qi (5):
-  busybox: fix hardcoding of paths
-  systemd: fix hardcoding of paths
-  sed: test bindir and base_bindir before moving and removing things
-  alsa-utils: fix FILES of alsa-utils-alsactl
-  glibc-package.inc: fix order in PACKAGES
-
- meta/recipes-core/busybox/busybox.inc             | 66 +++++++++++++----------
- meta/recipes-core/glibc/glibc-package.inc         |  2 +-
- meta/recipes-core/systemd/systemd_216.bb          | 12 ++---
- meta/recipes-extended/sed/sed_4.1.2.bb            |  6 ++-
- meta/recipes-extended/sed/sed_4.2.2.bb            |  6 ++-
- meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb |  2 +-
- 6 files changed, 55 insertions(+), 39 deletions(-)
-
+diff --git a/meta/recipes-core/systemd/systemd_216.bb b/meta/recipes-core/systemd/systemd_216.bb
+index 536b7be..b90e739 100644
+--- a/meta/recipes-core/systemd/systemd_216.bb
++++ b/meta/recipes-core/systemd/systemd_216.bb
+@@ -87,7 +87,7 @@ EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
+                  --enable-split-usr \
+                  --without-python \
+                  --with-sysvrcnd-path=${sysconfdir} \
+-                 --with-firmware-path=/lib/firmware \
++                 --with-firmware-path=${nonarch_base_libdir}/firmware \
+                  ac_cv_path_KILL=${base_bindir}/kill \
+                "
+ # uclibc does not have NSS
+@@ -260,10 +260,10 @@ FILES_${PN} = " ${base_bindir}/* \
+                 ${exec_prefix}/lib/sysctl.d \
+                 ${exec_prefix}/lib/sysusers.d \
+                 ${localstatedir} \
+-                /lib/udev/rules.d/70-uaccess.rules \
+-                /lib/udev/rules.d/71-seat.rules \
+-                /lib/udev/rules.d/73-seat-late.rules \
+-                /lib/udev/rules.d/99-systemd.rules \
++                ${nonarch_base_libdir}/udev/rules.d/70-uaccess.rules \
++                ${nonarch_base_libdir}/udev/rules.d/71-seat.rules \
++                ${nonarch_base_libdir}/udev/rules.d/73-seat-late.rules \
++                ${nonarch_base_libdir}/udev/rules.d/99-systemd.rules \
+                 ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${sysconfdir}/pam.d', '', d)} \
+                "
+ 
+@@ -281,7 +281,7 @@ RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units udev-hwdb\
+ 
+ PACKAGES =+ "udev-dbg udev udev-hwdb"
+ 
+-FILES_udev-dbg += "/lib/udev/.debug"
++FILES_udev-dbg += "${nonarch_base_libdir}/udev/.debug"
+ 
+ RPROVIDES_udev = "hotplug"
+ 
 -- 
 1.9.1
 
