@@ -1,37 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 69A41728C5
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 836C7728A0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 00:15:13 +0000 (UTC)
-Received: by mail-qc0-f181.google.com with SMTP id m20so1770460qcx.12
+	Fri, 19 Dec 2014 05:44:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ5iMRv014607
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 16:15:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=wkEiJKQt16rkpHqfguwBkxe48w9dmLdwMWRUpyEpkak=;
-	b=jrWqVZ90YaqFuZIckfhGEblY1qfLl2rqNPU/xKw/UySWCvjfvgnNhNQ8QXKYFmnJav
-	3GKwfvyRK0FH1WkzZZNip8WodWYeruPzWGB+ZndWegQrPEB+3MILH0q3XVifyHSbY+vO
-	ozuclLp8g4ewhe/x+4OayiiSXkFjESU2XX2WNd745WlXlxLARVGa6uQ39W17aY6o660P
-	WB4pAfgom8mvyOamHTZElwaE0UiUsjlEdaMHUBsDwYNF2W4aYZcpHgtE0WBihLKN6LsR
-	mqgWsuNKchCITLB+QbrXxqDiRO9du3+bp9IzFo6sbK3G6qulOVCqCntF92/HAHbR28HC
-	lbsw==
-X-Gm-Message-State: ALoCoQmr/d6q8D9hBY1+5eepDr8nPV05q4wlkiTHBOdpU+OG6Fkgc2AXyvdwUfUwk9M7uM/T5HSY
-X-Received: by 10.140.102.144 with SMTP id w16mr8406796qge.59.1418948113953;
-	Thu, 18 Dec 2014 16:15:13 -0800 (PST)
+	Thu, 18 Dec 2014 21:44:22 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 18 Dec 2014 21:44:22 -0800
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Dec 2014 13:42:00 +0800
+Message-ID: <e596b8e8be3cc4a0f0f93b2de05b2dc013e7940d.1418953574.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1418953574.git.Chong.Lu@windriver.com>
+References: <cover.1418953574.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Thu, 18 Dec 2014 16:14:53 -0800 (PST)
-In-Reply-To: <1418914454-24213-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1418914454-24213-1-git-send-email-Martin.Jansa@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 19 Dec 2014 00:14:53 +0000
-Message-ID: <CAJTo0Lbpe2RCpUh1pE=a1Saq2CGqszWF5gnDsGHnfE8icMVEKw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>, 
-	bitbake-devel <bitbake-devel@lists.openembedded.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] powertop: Fix build for !uclibc
+Subject: [PATCH 2/3] cups: Upgrade to 2.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,48 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Dec 2014 00:15:16 -0000
-Content-Type: multipart/alternative; boundary=001a11c16bc2498b5f050a869a0e
+X-List-Received-Date: Fri, 19 Dec 2014 05:44:23 -0000
+Content-Type: text/plain
 
---001a11c16bc2498b5f050a869a0e
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ meta/recipes-extended/cups/{cups_2.0.0.bb => cups_2.0.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/cups/{cups_2.0.0.bb => cups_2.0.1.bb} (40%)
 
-On 18 December 2014 at 14:54, Martin Jansa <martin.jansa@gmail.com> wrote:
->
->   i586-oe-linux-gcc: error: ${EXTRA_LDFLAGS}: No such file or directory
->
+diff --git a/meta/recipes-extended/cups/cups_2.0.0.bb b/meta/recipes-extended/cups/cups_2.0.1.bb
+similarity index 40%
+rename from meta/recipes-extended/cups/cups_2.0.0.bb
+rename to meta/recipes-extended/cups/cups_2.0.1.bb
+index 384cd0b..c78b44d 100644
+--- a/meta/recipes-extended/cups/cups_2.0.0.bb
++++ b/meta/recipes-extended/cups/cups_2.0.1.bb
+@@ -2,5 +2,5 @@ require cups.inc
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=6c5a350596fba02754bd96eb6df3afd0"
+ 
+-SRC_URI[md5sum] = "2cdd81fea23e9e29555c24bdfd0d7c89"
+-SRC_URI[sha256sum] = "83fdbbcb4ac4d82949bbde6d5dce7a4b6a62557da8f3d46c5e34b951110f5be2"
++SRC_URI[md5sum] = "7f7c33071035fb20d0879929a42da711"
++SRC_URI[sha256sum] = "60f7f2cca69f3b761a029fb314ee4299e3ea0fc02350f06d192cf31d58215525"
+-- 
+1.9.1
 
-I'm also seeing cups fail on builds with similar errors:
 
-i586-poky-linux-gcc: error: ${SECURITY_NO_PIE_CLAGS}: No such file or
-directory
-
-This appears to be down to the recent bitbake merge to master (18cd0)
-"data: escape $ in shell variable assignment".  As this is a fairly drastic
-change of behaviour to bitbake I think we should revert and revisit the
-problem.
-
-Ross
-
---001a11c16bc2498b5f050a869a0e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 December 2014 at 14:54, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
->&gt;</span> wrote:<blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
--left-style:solid;padding-left:1ex"><div id=3D":2ps" class=3D"" style=3D"ov=
-erflow:hidden">=C2=A0 i586-oe-linux-gcc: error: ${EXTRA_LDFLAGS}: No such f=
-ile or directory<br></div></blockquote></div><br>I&#39;m also seeing cups f=
-ail on builds with similar errors:</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">i586-poky-linux-gcc: error: ${SECURITY_NO_PIE_=
-CLAGS}: No such file or directory<br></div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">This appears to be down to the recent bitba=
-ke merge to master (18cd0) &quot;data: escape $ in shell variable assignmen=
-t&quot;.=C2=A0 As this is a fairly drastic change of behaviour to bitbake I=
- think we should revert and revisit the problem.</div><div class=3D"gmail_e=
-xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11c16bc2498b5f050a869a0e--
