@@ -1,53 +1,21 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id E0BB9728E9
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 4505E728FA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 11:06:08 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	sBJB63Ks032024
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 12:06:07 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1418987167;
-	bh=ucIH6hQIHjOWiPmT6WxOr4G6M0izmwD4qtk7bMZFV3Q=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=fcDoumJ1VFoozFOwwy6T5CnqQf3y+O/LPMbmxhMwZZ8PRii76p9XXpxAGs/7KYMzo
-	AHR0gU5wETil78rHa5lqSnTDZiMS9xMFB6lxgW+NYeuXapHtwKXGdATNmAwDuEJDXW
-	PsKWz9Kmb1154WFVZ/IiFVymzE0jfGQGAXtJY2C4=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id sBJB5vxi013932
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 12:05:58 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1Y1vNc-0001Sj-VZ
-	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Dec 2014 12:05:57 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Fri, 19 Dec 2014 11:42:05 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Dec 2014 03:42:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,606,1413270000"; d="scan'208";a="640244361"
+Received: from khamid-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.31.61])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Dec 2014 03:42:05 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1418207154.git.bruce.ashfield@windriver.com>
-	<0247524f2f7ae076fdac8773c3baa0794e5697dd.1418207154.git.bruce.ashfield@windriver.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Fri, 19 Dec 2014 12:05:56 +0100
-In-Reply-To: <0247524f2f7ae076fdac8773c3baa0794e5697dd.1418207154.git.bruce.ashfield@windriver.com>
-	(Bruce Ashfield's message of "Wed, 10 Dec 2014 05:34:03 -0500")
-Message-ID: <lyegrv99wr.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.9
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.75
-Subject: Re: [PATCH 2/7] kernel: fix out of tree module builds
+Date: Fri, 19 Dec 2014 11:41:42 +0000
+Message-Id: <cover.1418984743.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH 00/15] Developer workflow tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,38 +28,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Dec 2014 11:06:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Dec 2014 11:42:08 -0000
 
-Bruce Ashfield <bruce.ashfield-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
-writes:
+I've been looking at how to make it easier for application and system
+component developers to get their work done using the tools we provide,
+and I believe this patchset is a piece of the solution. There's still a
+number of other pieces to come, but this should be usable on its own.
 
-> With the kernel build optimizations, we no longer copy the source from
-> the built kernel into the staging dir, since the kernel is unpacked and built
-> directly from the staging dir.
->
-> This means that a few build artifacts need to be restored to allow out of
-> tree modules to once again build.
-> ...
-> +	
-> +	# Copy files required for module builds
-> +	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
-> +	cp Module.symvers $kerneldir/
-> +	cp .config $kerneldir/
+The first part of this patchset makes some changes to OE to accommodate
+the tools. One of these is to extend the PATCHTOOL = "git" code to
+ensure that we're able to apply all patches even if "git am" and
+"git apply" can't handle them, that we do a commit to the repository per
+patch, and that there is a way to track these commits back to the patch
+from which they were added. There are also some additions to shared
+library code that may well be useful for other tools.
 
-This and the following lines seem to void the whole idea of the patchset
-because it means that only one kernel can be built.  In our usecase we
-build usually two kernels: a full featured one for the main system and a
-minimal, initramfs based for a rescue system.
+I've then added a new recipe auto-creation script, recipetool, which can
+take a source tree or URL and create a skeleton recipe to build it.
+(In case anyone is wondering about the existing scripts/create-recipe,
+frankly I consider it a dead end - it's written in Perl, which makes it
+a bit difficult to integrate with the rest of our code; it's also
+GPLv3-only which makes any such integration pretty much impossible from
+another angle.)
 
-With this change and building both kernels, it is ambiguous which
-System.map is used.
+Then we add devtool. This allows you to:
+
+ * Add a new piece of software (auto-create the skeleton of a recipe
+   using the aforementioned recipetool and point the build to an
+   external source tree)
+ * Modify the source for an existing recipe (point the build to an
+   external source tree, possibly creating that tree in the same step
+   and managing it with git)
+ * Deploy the installed files from a recipe from ${D} to a target using
+   scp.
+ * Apply any modifications to the commits in the external source tree
+   back to the recipe (by updating/adding/removing patches and updating
+   SRC_URI within the recipe).
+
+There will obviously be extensions to these tools, but I hope they are
+already functional enough to be useful at the state they are in at the
+moment.
+
+(Note that this series depends on another series of patches to BitBake 
+sent at the same time - these can be found on the paule/devtool-bb2
+branch on poky-contrib.)
 
 
+Changes since the earlier RFC:
 
-Enrico
+For those that looked at the earlier RFC series, there have been quite a
+few improvements since that, almost too many to list - but other than
+what's visible in the actual commits, here goes:
+
+* recipetool now uses autoscan to pick up dependencies from Makefile-only
+  software
+* recipetool is much smarter about library dependencies (making use of
+  collected shared lib provider and pkgdata information rather than a
+  limited hardcoded map) and detects more licenses.
+* devtool now creates  workspace layer as needed if it doesn't exist
+* devtool can now write back commits to patches next to the original
+  recipe
+* Compilation of recipes in the workspace now happens every time rather
+  than just once, and causes dependent tasks (e.g. images) to be rebuilt
+  as well.
+* recipetool: if we can't find any license files at all, set LICENSE to
+  "CLOSED" (with a comment warning it needs to be set more appropriately)
+  so that the user can at least start building the recipe.
+* devtool can extract the source for linux-yocto but externalsrc usage
+  may still be problematic - something that still needs to be addressed.
+* Branch and tag the external source git repository
+* Improved error reporting, help and general messages
+
+(Thanks to Trevor Woerner and others for earlier testing & feedback.)
+
+
+The following changes since commit 8d0e56a850579f9a6d501266deeef9b257ce4780:
+
+  serf: readded md5sum (2014-12-11 11:34:22 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool
+
+Junchun Guan (1):
+  scripts/devtool: Support deploy/undeploy function
+
+Paul Eggleton (14):
+  meta-environment: don't mark tasks as nostamp
+  classes/package: move read_shlib_providers() to a common unit
+  lib/oe/patch: fall back to patch if git apply fails
+  lib/oe/patch: auto-commit when falling back from git am
+  lib/oe/patch: use --keep-cr with git am
+  lib/oe/patch.py: abort "git am" if it fails
+  lib/oe/patch: add support for extracting patches from git tree
+  lib/oe: add recipeutils module
+  oeqa/utils: make get_bb_var() more reliable
+  classes/externalsrc: set do_compile as nostamp
+  scripts/recipetool: Add a recipe auto-creation script
+  scripts: add scriptutils module
+  scripts/devtool: add development helper tool
+  devtool: add QA tests
+
+ meta/classes/externalsrc.bbclass           |   3 +
+ meta/classes/package.bbclass               |  24 +-
+ meta/lib/oe/package.py                     |  26 ++
+ meta/lib/oe/patch.py                       | 158 ++++++++-
+ meta/lib/oe/recipeutils.py                 | 279 +++++++++++++++
+ meta/lib/oeqa/selftest/devtool.py          | 239 +++++++++++++
+ meta/lib/oeqa/utils/commands.py            |   4 +-
+ meta/recipes-core/meta/meta-environment.bb |   2 -
+ scripts/devtool                            | 255 ++++++++++++++
+ scripts/lib/devtool/__init__.py            |  78 +++++
+ scripts/lib/devtool/deploy.py              | 100 ++++++
+ scripts/lib/devtool/standard.py            | 545 +++++++++++++++++++++++++++++
+ scripts/lib/recipetool/__init__.py         |   0
+ scripts/lib/recipetool/create.py           | 413 ++++++++++++++++++++++
+ scripts/lib/recipetool/create_buildsys.py  | 319 +++++++++++++++++
+ scripts/lib/scriptutils.py                 |  60 ++++
+ scripts/recipetool                         |  99 ++++++
+ 17 files changed, 2572 insertions(+), 32 deletions(-)
+ create mode 100644 meta/lib/oe/recipeutils.py
+ create mode 100644 meta/lib/oeqa/selftest/devtool.py
+ create mode 100755 scripts/devtool
+ create mode 100644 scripts/lib/devtool/__init__.py
+ create mode 100644 scripts/lib/devtool/deploy.py
+ create mode 100644 scripts/lib/devtool/standard.py
+ create mode 100644 scripts/lib/recipetool/__init__.py
+ create mode 100644 scripts/lib/recipetool/create.py
+ create mode 100644 scripts/lib/recipetool/create_buildsys.py
+ create mode 100644 scripts/lib/scriptutils.py
+ create mode 100755 scripts/recipetool
+
 -- 
-SIGMA Chemnitz GmbH       Registergericht:   Amtsgericht Chemnitz HRB 1750
-Am Erlenwald 13           Geschaeftsfuehrer: Grit Freitag, Frank Pyritz
-09128 Chemnitz
+1.9.3
+
 
