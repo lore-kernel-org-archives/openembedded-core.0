@@ -1,26 +1,27 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CC86728CE
+	by mail.openembedded.org (Postfix) with ESMTP id 228A1728DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 07:30:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ7U2gW010718
+	Fri, 19 Dec 2014 07:53:42 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ7rhZZ012546
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 23:30:02 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 18 Dec 2014 23:30:01 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Dec 2014 15:30:04 +0800
-Message-ID: <6ba068e4f753beabdb086cf0a0b1a8a8703bfd71.1418974166.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1418974166.git.Qi.Chen@windriver.com>
-References: <cover.1418974166.git.Qi.Chen@windriver.com>
+	Thu, 18 Dec 2014 23:53:43 -0800 (PST)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Thu, 18 Dec 2014 23:53:42 -0800
+Message-ID: <5493D985.8010409@windriver.com>
+Date: Fri, 19 Dec 2014 15:53:41 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] bind: fix conf.patch to add db.255 configuration file
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1415865314.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1415865314.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/1] license.bbclass: hardlink requires write permission
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Dec 2014 07:30:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Dec 2014 07:53:46 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add in conf.patch /etc/bind/db.255 file so that we don't get the following error.
 
-    zone 255.in-addr.arpa/IN: loading from master file /etc/bind/db.255 failed: file not found
+Ping.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-connectivity/bind/bind/conf.patch | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+// Robert
 
-diff --git a/meta/recipes-connectivity/bind/bind/conf.patch b/meta/recipes-connectivity/bind/bind/conf.patch
-index 2785c6a..57dbd4e 100644
---- a/meta/recipes-connectivity/bind/bind/conf.patch
-+++ b/meta/recipes-connectivity/bind/bind/conf.patch
-@@ -55,6 +55,22 @@ diff -urN bind-9.3.1.orig/conf/db.empty bind-9.3.1/conf/db.empty
- +			  86400 )	; Negative Cache TTL
- +;
- +@	IN	NS	localhost.
-+diff -urN bind-9.3.1.orig/conf/db.255 bind-9.3.1/conf/db.255
-+--- bind-9.3.1.orig/conf/db.255	1970-01-01 01:00:00.000000000 +0100
-++++ bind-9.3.1/conf/db.255	2005-07-10 22:14:00.000000000 +0200
-+@@ -0,0 +1,12 @@
-++;
-++; BIND reserve data file for broadcast zone
-++;
-++$TTL	604800
-++@	IN	SOA	localhost. root.localhost. (
-++			      1		; Serial
-++			 604800		; Refresh
-++			  86400		; Retry
-++			2419200		; Expire
-++			 604800 )	; Negative Cache TTL
-++;
-++@	IN	NS	localhost.
- diff -urN bind-9.3.1.orig/conf/db.local bind-9.3.1/conf/db.local
- --- bind-9.3.1.orig/conf/db.local	1970-01-01 01:00:00.000000000 +0100
- +++ bind-9.3.1/conf/db.local	2005-07-10 22:14:00.000000000 +0200
--- 
-1.9.1
-
+On 11/13/2014 03:55 PM, Robert Yang wrote:
+> The following changes since commit e7b731a1a358e0007dba1038ad504888bec5916e:
+>
+>    docbook-xsl-stylesheets: fix do_configure typo (2014-11-12 15:36:14 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib rbt/license
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/license
+>
+> Robert Yang (1):
+>    license.bbclass: hardlink requires write permission
+>
+>   meta/classes/license.bbclass |    4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
 
