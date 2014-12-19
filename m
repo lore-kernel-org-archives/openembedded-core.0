@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DD2B2728EA
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EBADA728F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 09:17:46 +0000 (UTC)
+	Fri, 19 Dec 2014 09:17:47 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ9Hk0Q016678
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ9Hmuk028038
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 01:17:47 -0800 (PST)
+	Fri, 19 Dec 2014 01:17:48 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Fri, 19 Dec 2014 01:17:46 -0800
+	14.3.174.1; Fri, 19 Dec 2014 01:17:48 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Dec 2014 17:17:44 +0800
-Message-ID: <bce5d25923fa12b78995d41278ed940869221feb.1418979966.git.Qi.Chen@windriver.com>
+Date: Fri, 19 Dec 2014 17:17:45 +0800
+Message-ID: <a17981b1a7724354814a5f9d08507df94330f4a8.1418979966.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1418979966.git.Qi.Chen@windriver.com>
 References: <cover.1418979966.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/5] sed: test bindir and base_bindir before moving and removing things
+Subject: [PATCH 4/5] alsa-utils: fix FILES of alsa-utils-alsactl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Dec 2014 09:17:52 -0000
+X-List-Received-Date: Fri, 19 Dec 2014 09:17:53 -0000
 Content-Type: text/plain
 
-It's possible that ${base_bindir} and ${bindir} point to the same directory.
-So we need to test it before moving things around or removing things.
+Fix to use ${nonarch_base_libdir}/udev/rules.d instead of */udev/rules.d
+to avoid the following QA warning.
+
+ERROR: QA Issue: alsa-utils: Files/directories were installed but not shipped
+  /usr/lib/udev
+  /usr/lib/udev/rules.d
+  /usr/lib/udev/rules.d/90-alsa-restore.rules [installed-vs-shipped]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-extended/sed/sed_4.1.2.bb | 6 ++++--
- meta/recipes-extended/sed/sed_4.2.2.bb | 6 ++++--
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/sed/sed_4.1.2.bb b/meta/recipes-extended/sed/sed_4.1.2.bb
-index fe242e1..a2bcb7d 100644
---- a/meta/recipes-extended/sed/sed_4.1.2.bb
-+++ b/meta/recipes-extended/sed/sed_4.1.2.bb
-@@ -23,8 +23,10 @@ do_configure_prepend () {
- do_install () {
- 	autotools_do_install
- 	install -d ${D}${base_bindir}
--	mv ${D}${bindir}/sed ${D}${base_bindir}/sed
--	rmdir ${D}${bindir}/
-+	if [ "${bindir}" != "${base_bindir}" ]; then
-+	    mv ${D}${bindir}/sed ${D}${base_bindir}/sed
-+	    rmdir ${D}${bindir}/
-+	fi
- }
- 
- ALTERNATIVE_${PN} = "sed"
-diff --git a/meta/recipes-extended/sed/sed_4.2.2.bb b/meta/recipes-extended/sed/sed_4.2.2.bb
-index ea39dae..1c49c12 100644
---- a/meta/recipes-extended/sed/sed_4.2.2.bb
-+++ b/meta/recipes-extended/sed/sed_4.2.2.bb
-@@ -22,8 +22,10 @@ EXTRA_OECONF = "--disable-acl \
- do_install () {
- 	autotools_do_install
- 	install -d ${D}${base_bindir}
--	mv ${D}${bindir}/sed ${D}${base_bindir}/sed
--	rmdir ${D}${bindir}/
-+	if [ "${bindir}" != "${base_bindir}" ]; then
-+	    mv ${D}${bindir}/sed ${D}${base_bindir}/sed
-+	    rmdir ${D}${bindir}/
-+	fi
- }
- 
- ALTERNATIVE_${PN} = "sed"
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
+index 5f35d76..ecddd05 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb
+@@ -57,7 +57,7 @@ FILES_alsa-utils-midi        = "${bindir}/aplaymidi ${bindir}/arecordmidi ${bind
+ FILES_alsa-utils-aconnect    = "${bindir}/aconnect"
+ FILES_alsa-utils-aseqnet     = "${bindir}/aseqnet"
+ FILES_alsa-utils-iecset      = "${bindir}/iecset"
+-FILES_alsa-utils-alsactl     = "${sbindir}/alsactl */udev/rules.d ${systemd_unitdir} ${localstatedir}/lib/alsa ${datadir}/alsa/init/"
++FILES_alsa-utils-alsactl     = "${sbindir}/alsactl ${nonarch_base_libdir}/udev/rules.d ${systemd_unitdir} ${localstatedir}/lib/alsa ${datadir}/alsa/init/"
+ FILES_alsa-utils-aseqdump    = "${bindir}/aseqdump"
+ FILES_alsa-utils-alsaloop    = "${bindir}/alsaloop"
+ FILES_alsa-utils-alsaucm     = "${bindir}/alsaucm"
 -- 
 1.9.1
 
