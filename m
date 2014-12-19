@@ -1,26 +1,47 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D4AD1728DD
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 25963728E8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 06:21:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ6LeSF014897
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Fri, 19 Dec 2014 06:42:27 +0000 (UTC)
+Received: from amavisd-new (mailscanner07.wrt-nm.internl.net [217.149.192.117])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id A20A73F630
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 22:21:40 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 18 Dec 2014 22:21:40 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Dec 2014 14:21:39 +0800
-Message-ID: <1722b191656ba49a35a5ba8fbbc11e43342359c4.1418969925.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1418969925.git.Qi.Chen@windriver.com>
-References: <cover.1418969925.git.Qi.Chen@windriver.com>
+	Fri, 19 Dec 2014 07:42:26 +0100 (CET)
+X-Spam-Flag: NO
+X-Spam-Score: -2.899
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.899 tagged_above=-999 required=3.5
+	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner07.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Dec 2014 07:42:26 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Dec 2014 07:42:24 +0100 (CET)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Fri, 19 Dec 2014 07:42:38 +0100
+Message-ID: <5493C8D0.1040907@topic.nl>
+Date: Fri, 19 Dec 2014 07:42:24 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-Subject: [PATCH 2/4] package_manager.py: user 'purge' instead of 'remove' in case of deb
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1418969925.git.Qi.Chen@windriver.com>
+	<084ad3c5c70057e5f8f06bf85b4543a590a17a54.1418969925.git.Qi.Chen@windriver.com>
+In-Reply-To: <084ad3c5c70057e5f8f06bf85b4543a590a17a54.1418969925.git.Qi.Chen@windriver.com>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: Re: [PATCH 1/4] packaging: allow globs in CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +54,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Dec 2014 06:21:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Dec 2014 06:42:34 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-We need to use 'purge' instead of 'remove' for debian package backend when
-removing packages at rootfs time. This is because that 'remove' command for
-'dpkg' and 'apt-get' does not remove configuration files.
+=EF=BB=BFOn 12/19/2014 07:21 AM, Chen Qi wrote:
+ > ...
+> As almost all files under /etc are basically configuration files, we
+> provide a default value for CONFFILES.
+>
+>      CONNFFILES =3D "${sysconfdir}"
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oe/package_manager.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This is going to hurt a lot of recipes. Please do not set this.
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 69100f1..c8aa61c 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1628,10 +1628,10 @@ class DpkgPM(PackageManager):
-     def remove(self, pkgs, with_dependencies=True):
-         if with_dependencies:
-             os.environ['APT_CONFIG'] = self.apt_conf_file
--            cmd = "%s remove %s" % (self.apt_get_cmd, ' '.join(pkgs))
-+            cmd = "%s purge %s" % (self.apt_get_cmd, ' '.join(pkgs))
-         else:
-             cmd = "%s --admindir=%s/var/lib/dpkg --instdir=%s" \
--                  " -r --force-depends %s" % \
-+                  " -P --force-depends %s" % \
-                   (bb.utils.which(os.getenv('PATH'), "dpkg"),
-                    self.target_rootfs, self.target_rootfs, ' '.join(pkgs))
- 
--- 
-1.9.1
+The default has always been that CONFFILES is empty. I see no reason=20
+whatsoever to suddenly change this.
+
+> In this way, we don't need to modify every recipe to set the CONFFILES
+> variable. Of course, setting CONFFILES in recipes take precedence over
+> the CONFFILES. For example, if the recipe author decides that package A
+> should only treat files under ${sysconfdir}/default/ as config files,
+> he/she can write like this.
+>
+>      CONFFILES_A =3D "${sysconfdir}/default"
+>
+> The above situation should not be common. As according to FHS, the /etc
+> directory is a place for all system related configuration files.
+
+FHS may have written that somewhere, but if you just take a quick look at w=
+hat=20
+is in /etc/, you'll find that actual configuration files are quite rare, bu=
+t=20
+there are tons of scripts and distro related files there. Whether or not a=
+=20
+file there is supposed to be edited by the end-user is something of a distr=
+o=20
+decision.
+
+Also, "configuration file" does not necessarily mean that the USER is in=20
+control. A configuration file may also simply distinguish machine capabilit=
+ies=20
+or software features.
+
+We'll end up having to patch hundreds of recipes with a CONFFILES=3D"" or=20
+similar line.
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+System Expert
+
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
 
 
