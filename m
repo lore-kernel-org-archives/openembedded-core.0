@@ -1,40 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 41CC7728B6
+Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 69A41728C5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 23:48:45 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id i50so193188qgf.24
+	Fri, 19 Dec 2014 00:15:13 +0000 (UTC)
+Received: by mail-qc0-f181.google.com with SMTP id m20so1770460qcx.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 15:48:46 -0800 (PST)
+	Thu, 18 Dec 2014 16:15:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=OOZxd0wMQHdB7Ind2TMmCf6nmYg2cLSmflmgrYoFgNo=;
-	b=SGG31NyKXHvQVaooKLSW7SHrAC9NFmVqjs82OeM9w/ma0DELMyoupxNKRy/6CwFV2o
-	NHUoEi8TCIKICt+SJ/29DTome22bIJ4SY50pt/FV/wtlCfi2x3LEL9pPlapJVZqNY5DG
-	3nyZBeiMC+5ew4HaHJ9xUS0r5hZBZRqV9QR6EQIKA/Vb4ibP2MxFBzXYlvuHzcOJ59fK
-	pIJn4zWYQVSWYtUR2ptIjgsJsU4kDldh+V6AnvOe52kA/0wbosEKx4n6RONnOzXtSCNR
-	67SO+PFMsdFrrLVwxQ3f3PDQu8w95IRpdmiatlt/RYgaNvT8p0RDVqDhYdvBPCEtBeRf
-	nm3g==
-X-Gm-Message-State: ALoCoQmXYg68CTbumEUUBE0g6kTPcscdCaIY2/5KwrtJd44HUAyqRXGbeKk6JPc9mjgl6K12OyW1
-X-Received: by 10.224.92.205 with SMTP id s13mr9025006qam.52.1418946526363;
-	Thu, 18 Dec 2014 15:48:46 -0800 (PST)
+	bh=wkEiJKQt16rkpHqfguwBkxe48w9dmLdwMWRUpyEpkak=;
+	b=jrWqVZ90YaqFuZIckfhGEblY1qfLl2rqNPU/xKw/UySWCvjfvgnNhNQ8QXKYFmnJav
+	3GKwfvyRK0FH1WkzZZNip8WodWYeruPzWGB+ZndWegQrPEB+3MILH0q3XVifyHSbY+vO
+	ozuclLp8g4ewhe/x+4OayiiSXkFjESU2XX2WNd745WlXlxLARVGa6uQ39W17aY6o660P
+	WB4pAfgom8mvyOamHTZElwaE0UiUsjlEdaMHUBsDwYNF2W4aYZcpHgtE0WBihLKN6LsR
+	mqgWsuNKchCITLB+QbrXxqDiRO9du3+bp9IzFo6sbK3G6qulOVCqCntF92/HAHbR28HC
+	lbsw==
+X-Gm-Message-State: ALoCoQmr/d6q8D9hBY1+5eepDr8nPV05q4wlkiTHBOdpU+OG6Fkgc2AXyvdwUfUwk9M7uM/T5HSY
+X-Received: by 10.140.102.144 with SMTP id w16mr8406796qge.59.1418948113953;
+	Thu, 18 Dec 2014 16:15:13 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Thu, 18 Dec 2014 15:48:26 -0800 (PST)
-In-Reply-To: <CAJTo0La1Dqzu7cDqkVknM7WxqnnF6fGrrHLLHgoy83ZmM5mO9g@mail.gmail.com>
-References: <cover.1418220684.git.bruce.ashfield@windriver.com>
-	<b18c4c9970004784d031a0776245fad792fc6a28.1418220684.git.bruce.ashfield@windriver.com>
-	<CAJTo0Lb3-sYAyMreFv2AFhEo4Ejzmg3eDYOs6avJMjVO5SVjOQ@mail.gmail.com>
-	<54931166.2050006@windriver.com>
-	<CAJTo0La1Dqzu7cDqkVknM7WxqnnF6fGrrHLLHgoy83ZmM5mO9g@mail.gmail.com>
+Received: by 10.140.96.166 with HTTP; Thu, 18 Dec 2014 16:14:53 -0800 (PST)
+In-Reply-To: <1418914454-24213-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1418914454-24213-1-git-send-email-Martin.Jansa@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Dec 2014 23:48:26 +0000
-Message-ID: <CAJTo0LbU8feubsmN9LAmg54-CDRVFiS9MokEdwQCJFTRUhBDrw@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Fri, 19 Dec 2014 00:14:53 +0000
+Message-ID: <CAJTo0Lbpe2RCpUh1pE=a1Saq2CGqszWF5gnDsGHnfE8icMVEKw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>, 
+	bitbake-devel <bitbake-devel@lists.openembedded.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/9] linux-libc-headers: update to 3.17
+Subject: Re: [PATCH] powertop: Fix build for !uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,41 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Dec 2014 23:48:51 -0000
-Content-Type: multipart/alternative; boundary=089e015375e4a8da23050a863bf3
+X-List-Received-Date: Fri, 19 Dec 2014 00:15:16 -0000
+Content-Type: multipart/alternative; boundary=001a11c16bc2498b5f050a869a0e
 
---089e015375e4a8da23050a863bf3
+--001a11c16bc2498b5f050a869a0e
 Content-Type: text/plain; charset=UTF-8
 
-On 18 December 2014 at 20:46, Burton, Ross <ross.burton@intel.com> wrote:
+On 18 December 2014 at 14:54, Martin Jansa <martin.jansa@gmail.com> wrote:
 >
-> I worry that this is just a workaround in one recipe for a test that is
-> failing in other recipes with the 3.17 headers...  doing a clean build to
-> see if I'm being over-cautious or not. :)
+>   i586-oe-linux-gcc: error: ${EXTRA_LDFLAGS}: No such file or directory
 >
 
-For what it's worth, socat appears to be the only recipe in oe-core that
-has a configure-time check for errqueue directly, according to grep
-errqueue tmp/work/*/*/*/temp/log.do_configure.
+I'm also seeing cups fail on builds with similar errors:
+
+i586-poky-linux-gcc: error: ${SECURITY_NO_PIE_CLAGS}: No such file or
+directory
+
+This appears to be down to the recent bitbake merge to master (18cd0)
+"data: escape $ in shell variable assignment".  As this is a fairly drastic
+change of behaviour to bitbake I think we should revert and revisit the
+problem.
 
 Ross
 
---089e015375e4a8da23050a863bf3
+--001a11c16bc2498b5f050a869a0e
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 December 2014 at 20:46, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&=
-gt;</span> wrote:<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-l=
-eft-style:solid;padding-left:1ex"><div class=3D"gmail_extra">I worry that t=
-his is just a workaround in one recipe for a test that is failing in other =
-recipes with the 3.17 headers... =C2=A0doing a clean build to see if I&#39;=
-m being over-cautious or not. :)</div></blockquote><div><br></div><div>For =
-what it&#39;s worth, socat appears to be the only recipe in oe-core that ha=
-s a configure-time check for errqueue directly, according to grep errqueue =
-tmp/work/*/*/*/temp/log.do_configure.</div><div><br></div><div>Ross</div></=
-div></div></div>
+On 18 December 2014 at 14:54, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
+>&gt;</span> wrote:<blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
+-left-style:solid;padding-left:1ex"><div id=3D":2ps" class=3D"" style=3D"ov=
+erflow:hidden">=C2=A0 i586-oe-linux-gcc: error: ${EXTRA_LDFLAGS}: No such f=
+ile or directory<br></div></blockquote></div><br>I&#39;m also seeing cups f=
+ail on builds with similar errors:</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">i586-poky-linux-gcc: error: ${SECURITY_NO_PIE_=
+CLAGS}: No such file or directory<br></div><div class=3D"gmail_extra"><br><=
+/div><div class=3D"gmail_extra">This appears to be down to the recent bitba=
+ke merge to master (18cd0) &quot;data: escape $ in shell variable assignmen=
+t&quot;.=C2=A0 As this is a fairly drastic change of behaviour to bitbake I=
+ think we should revert and revisit the problem.</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---089e015375e4a8da23050a863bf3--
+--001a11c16bc2498b5f050a869a0e--
