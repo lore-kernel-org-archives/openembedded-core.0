@@ -1,26 +1,24 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D0E6F72886
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 65609728B7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 05:44:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ5iNqv003257
+	Fri, 19 Dec 2014 06:21:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBJ6Lc8Y014894
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Dec 2014 21:44:23 -0800 (PST)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 18 Dec 2014 21:44:23 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
+	Thu, 18 Dec 2014 22:21:38 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Thu, 18 Dec 2014 22:21:37 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Dec 2014 13:42:01 +0800
-Message-ID: <e1de925bc9c49fe0bc5e321a02bcf8be47cfe78d.1418953574.git.Chong.Lu@windriver.com>
+Date: Fri, 19 Dec 2014 14:21:37 +0800
+Message-ID: <cover.1418969925.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1418953574.git.Chong.Lu@windriver.com>
-References: <cover.1418953574.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/3] byacc: Upgrade to 20141128
+Subject: [PATCH V2 0/4] Change the way of CONFFILES handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Dec 2014 05:44:25 -0000
+X-List-Received-Date: Fri, 19 Dec 2014 06:21:42 -0000
 Content-Type: text/plain
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-extended/byacc/{byacc_20141006.bb => byacc_20141128.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/byacc/{byacc_20141006.bb => byacc_20141128.bb} (74%)
+This patchset has been tested by building core-image-sato and core-image-sato-sdk
+against the three package backends in OE (rpm, deb, ipk).
 
-diff --git a/meta/recipes-extended/byacc/byacc_20141006.bb b/meta/recipes-extended/byacc/byacc_20141128.bb
-similarity index 74%
-rename from meta/recipes-extended/byacc/byacc_20141006.bb
-rename to meta/recipes-extended/byacc/byacc_20141128.bb
-index 17600a1..15c14c9 100644
---- a/meta/recipes-extended/byacc/byacc_20141006.bb
-+++ b/meta/recipes-extended/byacc/byacc_20141128.bb
-@@ -7,5 +7,5 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=f186cf0d59bac042b75830396ec389a3"
- require byacc.inc
- 
--SRC_URI[md5sum] = "62d58192f2995f24cef41a7cb8ec9ba3"
--SRC_URI[sha256sum] = "391b0ac550e94920a86960c6973ec539784dc84849e7c2bb1645ae6d8178b14d"
-+SRC_URI[md5sum] = "acb0ff0fb6cc414a6b50c799794b2425"
-+SRC_URI[sha256sum] = "f517fc21f08c1a1f010177357df58fc64eb1131011e5dcd48c19fe44c47198d0"
+Changes in V2:
+1. Extract the common code in FILES handling and CONFFILES handling
+2. Fix error for ipk package backend
+3. Fix errors for deb package backend
+
+The following changes since commit 8d0e56a850579f9a6d501266deeef9b257ce4780:
+
+  serf: readded md5sum (2014-12-11 11:34:22 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/CONFFILES
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/CONFFILES
+
+Chen Qi (4):
+  packaging: allow globs in CONFFILES
+  package_manager.py: user 'purge' instead of 'remove' in case of deb
+  update-rc.d: use '-f' option in updatercd_postrm
+  useradd.bbclass: avoid do_rootfs error for debian package backend
+
+ meta/classes/package.bbclass     | 79 +++++++++++++++++++++++++++++++---------
+ meta/classes/package_deb.bbclass |  2 +-
+ meta/classes/package_ipk.bbclass |  2 +-
+ meta/classes/package_rpm.bbclass |  2 +-
+ meta/classes/update-rc.d.bbclass |  4 +-
+ meta/classes/useradd.bbclass     | 10 +++++
+ meta/conf/bitbake.conf           |  2 +
+ meta/lib/oe/package_manager.py   |  4 +-
+ 8 files changed, 80 insertions(+), 25 deletions(-)
+
 -- 
 1.9.1
 
