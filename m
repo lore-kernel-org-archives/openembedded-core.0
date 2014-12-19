@@ -1,26 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 59C0572928
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 98EF27292E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Dec 2014 14:12:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBJECMF3015953; Fri, 19 Dec 2014 14:12:22 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id GiROy036nGks; Fri, 19 Dec 2014 14:12:22 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBJEC6Kt015946
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 19 Dec 2014 14:12:17 GMT
-Message-ID: <1418998363.13316.24.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Dec 2014 14:12:43 +0000
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] kernel-devsrc: Inherit module-base
+	Fri, 19 Dec 2014 14:15:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBJEFTpP014294
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Fri, 19 Dec 2014 06:15:29 -0800 (PST)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Fri, 19 Dec 2014 06:15:29 -0800
+Message-ID: <549432FA.5000005@windriver.com>
+Date: Fri, 19 Dec 2014 09:15:22 -0500
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+References: <1418995131.13316.18.camel@linuxfoundation.org>
+In-Reply-To: <1418995131.13316.18.camel@linuxfoundation.org>
+Subject: Re: [PATCH] kernelsrc.bbclass: Ensure fetch/unpack/patch tasks don't run
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +34,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Dec 2014 14:13:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 19 Dec 2014 14:15:33 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-As a "normal" recipe, mulitlib would try and extend it for multilibs.
-By inheriting module-base, we can avoid this since we now look more
-'kernel' like.
+On 14-12-19 08:18 AM, Richard Purdie wrote:
+> In particular this removes a race condition where a ${S}/patches
+> directory could be created by do_unpack. This confuses kern-tools.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Looks good here. This will keep the dreaded 'patches' directory from 
+popping up and mucking up the existing detection of meta data.
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index facc235..2872f17 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -10,6 +10,9 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
- 
- inherit linux-kernel-base
- 
-+# Whilst not a module, this ensures we don't get multilib extended (which would make no sense)
-+inherit module-base
-+
- # We need the kernel to be staged (unpacked, patched and configured) before
- # we can grab the source and make the kernel-devsrc package
- do_install[depends] += "virtual/kernel:do_populate_sysroot"
+On a related note, I'll see about making things more robust on the
+detection end as well.
 
+Cheers,
+
+Bruce
+
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> diff --git a/meta/classes/kernelsrc.bbclass b/meta/classes/kernelsrc.bbclass
+> index 11f04e9..4208eff 100644
+> --- a/meta/classes/kernelsrc.bbclass
+> +++ b/meta/classes/kernelsrc.bbclass
+> @@ -1,5 +1,8 @@
+>   S = "${STAGING_KERNEL_DIR}"
+> +do_fetch[noexec] = "1"
+>   do_unpack[depends] += "virtual/kernel:do_patch"
+> +do_unpack[noexec] = "1"
+> +do_patch[noexec] = "1"
+>   do_package[depends] += "virtual/kernel:do_populate_sysroot"
+>   KERNEL_VERSION = "${@get_kernelversion_file("${S}")}"
+>
+>
+>
 
 
