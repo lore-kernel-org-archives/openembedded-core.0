@@ -1,23 +1,23 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AC81D72A01
+	by mail.openembedded.org (Postfix) with ESMTP id A2FCC72A1D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Dec 2014 22:18:16 +0000 (UTC)
+	Sat, 20 Dec 2014 22:40:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBKMHdO1023567; Sat, 20 Dec 2014 22:17:39 GMT
+	sBKMdp5L023888; Sat, 20 Dec 2014 22:39:51 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xX6sh_iQ7j8r; Sat, 20 Dec 2014 22:17:39 +0000 (GMT)
+	with LMTP id vyRIgKVV8Ayz; Sat, 20 Dec 2014 22:39:51 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBKMHMaV023563
+	sBKMdZtQ023885
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 20 Dec 2014 22:17:34 GMT
-Message-ID: <1419113879.13316.45.camel@linuxfoundation.org>
+	Sat, 20 Dec 2014 22:39:46 GMT
+Message-ID: <1419115211.13316.47.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Sat, 20 Dec 2014 22:17:59 +0000
+Date: Sat, 20 Dec 2014 22:40:11 +0000
 In-Reply-To: <54959211.9020504@windriver.com>
 References: <1418984914.13316.6.camel@linuxfoundation.org>
 	<1418992908.13316.14.camel@linuxfoundation.org>
@@ -41,7 +41,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Dec 2014 22:18:20 -0000
+X-List-Received-Date: Sat, 20 Dec 2014 22:40:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -71,26 +71,18 @@ On Sat, 2014-12-20 at 10:13 -0500, Bruce Ashfield wrote:
 > Let me know if there are one of these that you want me to take. I'm all
 > for pitching in and getting everyone some down time.
 
-Thanks, I think with luck this is now nearly under control.
+Looks like I spoke too soon:
 
-The systemd issue remains but I'm going to let someone else tackle that,
-its not from any recent patches.
+https://autobuilder.yoctoproject.org/main/builders/nightly-x86/builds/132/steps/BuildImages_1/logs/stdio
 
-There was another fsl-arm linux-imx failure which I've mentioned to
-Otavio. It looks like a parallel make race issue to me, probably
-specific to the imx kernel.
-
-I'm still waiting on the autobuilder but things are looking a *lot*
-greener.
+which seems to be a race over the kernel source directory. I'm guessing
+the file in question is a temporary build artefact of lttng-modules
+which was running at the same time? Any way we can avoid temp files in
+the kernel source dir?
 
 Cheers,
 
 Richard
-
-
-
-
-
 
 
 
