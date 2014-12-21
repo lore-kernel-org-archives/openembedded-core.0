@@ -1,37 +1,38 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id BFF9972505
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 38A4372505
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Dec 2014 22:12:10 +0000 (UTC)
-Received: by mail-wg0-f41.google.com with SMTP id y19so5367860wgg.14
+	Sun, 21 Dec 2014 22:12:08 +0000 (UTC)
+Received: by mail-wi0-f174.google.com with SMTP id h11so6495865wiw.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Dec 2014 14:12:10 -0800 (PST)
+	Sun, 21 Dec 2014 14:12:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4rDuztZn6NjpiLuS8UrwYUxB/igzid3yXZDJ4uZNGKQ=;
-	b=vbD2cMrsqYcL4d8JGXHuqjKMVZCwzthgg7AXuHvlb8BZQYsPgDrd1GtTx3mggcM1vY
-	C/cH/R+/QTnjzg+jgoLVX7b2aef49uklXS08GZW4Ai1s/sfDsN6aAMvLEPaACeHHfv5z
-	h+XjbwHwt9z7VoOIAP9aFX91Tj2umDdwfcVsQhSRhSi4rDXWUrirhrm/dpR86TM567LA
-	kQNNhP7RHIfxramEM1EwClr7Qx20cutf9G7e/ZNFrbVXCqIkjHdHSo9lJQxkFgA2FU8i
-	+sUUUt8IsBICaiwiNsRaY6scPVEujUFQMLrVu5lV9KLsx2SBPCXlZ7Y6gzMP3Oq2ofVy
-	YtIA==
-X-Received: by 10.194.2.105 with SMTP id 9mr36195113wjt.115.1419199930398;
-	Sun, 21 Dec 2014 14:12:10 -0800 (PST)
+	bh=a9Wfi/A6AP1uAysEKOAAYtsznw7Kk7ny4xRx+BJ1ePQ=;
+	b=QV3QRo0yeFIKu3RXUe/1ENfgFfsY8gDOmGot821ZYFQPz6cJ2P2MAoujX1R3G3lCdv
+	e0BZEMb7EwGX+Gf95UqwuiChaOYnJNbrz/Oe3LjsUD62qcrG28Slb1efvq0T/1Oq8+l7
+	YwlDFezPbZ4A3PpnFeZaBLLfH+G3/MaqhBQKh/uzgvaDnsaXk3dkysbmhUZU1uqZyLZu
+	2a/2yGNYDZcEX0rgWjwTaaYAKZ5DkgRWoMZbeHVUn7aHGluMfKKqjbuf+MsEaVbM0Tsj
+	OHH3cTNuE7mEVOaouwtluKc9U6HPmk08jIwyJAU6bGZ7ME9v2V5vBHWzCeoOF7rRxyRQ
+	DJ+A==
+X-Received: by 10.180.80.163 with SMTP id s3mr24988793wix.59.1419199929212;
+	Sun, 21 Dec 2014 14:12:09 -0800 (PST)
 Received: from nuc.betafive.co.uk
 	(cpc19-shep11-2-0-cust55.8-3.cable.virginm.net. [81.111.243.56])
 	by mx.google.com with ESMTPSA id
-	kn5sm21350509wjb.48.2014.12.21.14.12.09
+	kn5sm21350509wjb.48.2014.12.21.14.12.08
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 21 Dec 2014 14:12:09 -0800 (PST)
+	Sun, 21 Dec 2014 14:12:08 -0800 (PST)
 Sender: Paul Barker <paul.betafive@gmail.com>
 From: Paul Barker <paul@paulbarker.me.uk>
 To: OE Core <openembedded-core@lists.openembedded.org>
-Date: Sun, 21 Dec 2014 22:11:52 +0000
-Message-Id: <1419199917-27913-4-git-send-email-paul@paulbarker.me.uk>
+Date: Sun, 21 Dec 2014 22:11:51 +0000
+Message-Id: <1419199917-27913-3-git-send-email-paul@paulbarker.me.uk>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1419199917-27913-1-git-send-email-paul@paulbarker.me.uk>
 References: <1419199917-27913-1-git-send-email-paul@paulbarker.me.uk>
-Subject: [PATCH 3/8] opkg-collateral: Simplify source files
+Subject: [PATCH 2/8] opkg-arch-config: Renamed from opkg-config-base
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,70 +47,60 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 21 Dec 2014 22:12:11 -0000
 
-Instead of having the source files 'opkg.conf.comments', 'dest' and 'src', we
-simply have one 'opkg.conf' file containing all the necessary configuration.
-
-This does mean that replacing 'src' in a bbappend to define distro-specific
-package feeds is no longer supported, but these feed configurations should be
-packaged separately from the rest of the opkg configuration anyway so that
-things can be updated independently. The best recipe to use for managing feed
-configs is currently distro-feed-config in the meta-oe layer.
+The name 'opkg-arch-config' is much more descriptive.
 
 Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 ---
- meta/recipes-devtools/opkg/opkg-collateral.bb                      | 7 +------
- meta/recipes-devtools/opkg/opkg-collateral/dest                    | 1 -
- .../opkg/opkg-collateral/{opkg.conf.comments => opkg.conf}         | 2 ++
- meta/recipes-devtools/opkg/opkg-collateral/src                     | 0
- 4 files changed, 3 insertions(+), 7 deletions(-)
- delete mode 100644 meta/recipes-devtools/opkg/opkg-collateral/dest
- rename meta/recipes-devtools/opkg/opkg-collateral/{opkg.conf.comments => opkg.conf} (92%)
- delete mode 100644 meta/recipes-devtools/opkg/opkg-collateral/src
+ meta/conf/layer.conf                                                   | 2 +-
+ .../opkg/{opkg-config-base_1.0.bb => opkg-arch-config_1.0.bb}          | 3 ++-
+ meta/recipes-devtools/opkg/opkg.inc                                    | 2 +-
+ 3 files changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/opkg/{opkg-config-base_1.0.bb => opkg-arch-config_1.0.bb} (87%)
 
-diff --git a/meta/recipes-devtools/opkg/opkg-collateral.bb b/meta/recipes-devtools/opkg/opkg-collateral.bb
-index 3825ffb..b16579c 100644
---- a/meta/recipes-devtools/opkg/opkg-collateral.bb
-+++ b/meta/recipes-devtools/opkg/opkg-collateral.bb
-@@ -4,15 +4,10 @@ LICENSE = "MIT"
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index de96548..4fd3a16 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -18,7 +18,7 @@ COREBASE = '${@os.path.normpath("${LAYERDIR}/../")}'
+ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+   sysvinit-inittab \
+   shadow-securetty \
+-  opkg-config-base \
++  opkg-arch-config \
+   netbase \
+   init-ifupdown \
+   connman-conf \
+diff --git a/meta/recipes-devtools/opkg/opkg-config-base_1.0.bb b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
+similarity index 87%
+rename from meta/recipes-devtools/opkg/opkg-config-base_1.0.bb
+rename to meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
+index acbe129..f700865 100644
+--- a/meta/recipes-devtools/opkg/opkg-config-base_1.0.bb
++++ b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
+@@ -1,4 +1,4 @@
+-SUMMARY = "Base configuration files for opkg"
++SUMMARY = "Architecture-dependent configuration for opkg"
+ LICENSE = "MIT"
  LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- PR = "r2"
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+@@ -28,3 +28,4 @@ FILES_${PN} = "${sysconfdir}/opkg/ "
  
--SRC_URI = "file://opkg.conf.comments \
--	   file://dest \
--	   file://src "
-+SRC_URI = "file://opkg.conf"
+ CONFFILES_${PN} += "${sysconfdir}/opkg/arch.conf"
  
- OPKGLIBDIR = "${localstatedir}/lib"
- do_compile () {
--	cat ${WORKDIR}/opkg.conf.comments >${WORKDIR}/opkg.conf
--	cat ${WORKDIR}/src	>>${WORKDIR}/opkg.conf
--	cat ${WORKDIR}/dest	>>${WORKDIR}/opkg.conf
- 	echo "option lists_dir ${OPKGLIBDIR}/opkg" >>${WORKDIR}/opkg.conf
- }
++RREPLACES_${PN} = "opkg-config-base"
+diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
+index 56c54b6..991c114 100644
+--- a/meta/recipes-devtools/opkg/opkg.inc
++++ b/meta/recipes-devtools/opkg/opkg.inc
+@@ -38,7 +38,7 @@ EXTRA_OECONF = "\
+   --with-opkglibdir=${OPKGLIBDIR} \
+ "
  
-diff --git a/meta/recipes-devtools/opkg/opkg-collateral/dest b/meta/recipes-devtools/opkg/opkg-collateral/dest
-deleted file mode 100644
-index 088ca40..0000000
---- a/meta/recipes-devtools/opkg/opkg-collateral/dest
-+++ /dev/null
-@@ -1 +0,0 @@
--dest root /
-diff --git a/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf.comments b/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf
-similarity index 92%
-rename from meta/recipes-devtools/opkg/opkg-collateral/opkg.conf.comments
-rename to meta/recipes-devtools/opkg/opkg-collateral/opkg.conf
-index e1fdada..c2e9e92 100644
---- a/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf.comments
-+++ b/meta/recipes-devtools/opkg/opkg-collateral/opkg.conf
-@@ -24,3 +24,5 @@
- # Offline mode (for use in constructing flash images offline)
- #option offline_root target
- 
-+# Default destination for installed packages
-+dest root /
-diff --git a/meta/recipes-devtools/opkg/opkg-collateral/src b/meta/recipes-devtools/opkg/opkg-collateral/src
-deleted file mode 100644
-index e69de29..0000000
+-RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} opkg-config-base run-postinsts"
++RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} opkg-arch-config run-postinsts"
+ RDEPENDS_${PN}_class-native = ""
+ RDEPENDS_${PN}_class-nativesdk = ""
+ RREPLACES_${PN} = "opkg-nogpg"
 -- 
 1.9.1
 
