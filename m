@@ -1,27 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CF75D72993
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EE8372919
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 01:55:33 +0000 (UTC)
+	Mon, 22 Dec 2014 01:55:58 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBM1tQh2019754
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBM1tvB3023932
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Sun, 21 Dec 2014 17:55:26 -0800 (PST)
+	Sun, 21 Dec 2014 17:55:57 -0800 (PST)
 Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 21 Dec 2014 17:55:25 -0800
-Message-ID: <549779FC.3080105@windriver.com>
-Date: Mon, 22 Dec 2014 09:55:08 +0800
+	Sun, 21 Dec 2014 17:55:57 -0800
+Message-ID: <54977A1B.1000105@windriver.com>
+Date: Mon, 22 Dec 2014 09:55:39 +0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
-	<paul.eggleton@linux.intel.com>
-References: <cover.1418293391.git.hongxu.jia@windriver.com>
-In-Reply-To: <cover.1418293391.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 0/4] insane.bbclass: add QA check: package-missing
+To: <openembedded-core@lists.openembedded.org>, <mark.hatle@windriver.com>,
+	<Martin.Jansa@gmail.com>
+References: <cover.1414748681.git.hongxu.jia@windriver.com>
+In-Reply-To: <cover.1414748681.git.hongxu.jia@windriver.com>
+Subject: Re: [PATCH V2 0/1] package_manager.py: fix rpm based do_rootfs failed while IMAGE_INSTALL_append = " python3"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,7 +34,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Dec 2014 01:55:37 -0000
+X-List-Received-Date: Mon, 22 Dec 2014 01:56:01 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -42,102 +42,35 @@ Ping
 
 //Hongxu
 
-On 12/11/2014 06:27 PM, Hongxu Jia wrote:
-> We also tried to fix perl, linux-libc-headers and busybox according to
-> the result of QA checking.
+On 10/31/2014 05:46 PM, Hongxu Jia wrote:
+> Changed in V2:
+> - Remove debug commented out line;
+> - Tweak the way of function invoking;
 >
-> Here is a test to explain what the QA check showing, we could figure out
-> package missing issue at package generation time rather than do_rootfs
-> time.
->
-> Test Steps:
->
-> 1. Edit xz and gzip recipe, to simulate a package missing situation (the manually added
-> rdepends is not real but):
-> ..............
-> diff --git a/meta/recipes-extended/gzip/gzip.inc b/meta/recipes-extended/gzip/gzip.inc
-> index 671b1eb..7e643e5 100644
-> --- a/meta/recipes-extended/gzip/gzip.inc
-> +++ b/meta/recipes-extended/gzip/gzip.inc
-> @@ -32,3 +32,8 @@ ALTERNATIVE_LINK_NAME[gzip] = "${base_bindir}/gzip"
->   ALTERNATIVE_LINK_NAME[zcat] = "${base_bindir}/zcat"
->   
->   export CONFIG_SHELL="/bin/sh"
-> +
-> +PACKAGES =+ "${PN}-missing1 ${PN}-missing2"
-> +FILES_${PN}-missing1 = ""
-> +FILES_${PN}-missing2 = ""
-> +RPROVIDES_${PN}-missing1 = "${PN}-missing"
-> diff --git a/meta/recipes-extended/xz/xz_5.1.3alpha.bb b/meta/recipes-extended/xz/xz_5.1.3alpha.bb
-> index 168e383..c5d8b57 100644
-> --- a/meta/recipes-extended/xz/xz_5.1.3alpha.bb
-> +++ b/meta/recipes-extended/xz/xz_5.1.3alpha.bb
-> @@ -37,6 +37,9 @@ FILES_liblzma-dev = "${includedir}/lzma* ${libdir}/liblzma*${SOLIBSDEV} ${libdir
->   FILES_liblzma-staticdev = "${libdir}/liblzma.a"
->   FILES_liblzma-dbg = "${libdir}/.debug/liblzma*"
->   
-> +
-> +RDEPENDS_${PN}_class-target += "gzip-missing gzip-missing2"
-> +
->   BBCLASSEXTEND = "native nativesdk"
->   
->   export CONFIG_SHELL="/bin/sh"
-> ..............
->
-> 2. Vim local.conf
+> vim local.conf
 > ...
-> IMAGE_INSTALL_append = " xz"
-> WARN_QA_append = " package-missing"
+> IMAGE_INSTALL_append " python3"
 > ...
 >
-> 3. bitbake core-image-minimal
-> ..............
-> |WARNING: QA Issue: package gzip-missing1 not generated, but listed in PACKAGES
-> |Compute rdepends chains, '-->' means 'runtime depends'
-> |("gzip-missing1" rprovides "gzip-missing")
-> |"xz" -> "gzip-missing"
-> | [package-missing]
-> |WARNING: QA Issue: package gzip-missing2 not generated, but listed in PACKAGES
-> |Compute rdepends chains, '-->' means 'runtime depends'
-> |"xz" -> "gzip-missing2"
-> | [package-missing]
-> |ERROR: Unable to install packages. Command '/home/jiahongxu/yocto/build-2014120
-> 2-mips/tmp/sysroots/x86_64-linux/usr/bin/smart --quiet --data-dir=/home/jiahongx
-> u/yocto/build-20141202-mips/tmp/work/qemumips-poky-linux/core-image-minimal/1.0
-> -r0/rootfs/var/lib/smart install -y xz@mips32r2 run-postinsts@all packagegroup-
-> core-boot@qemumips' returned 1:
-> error: Can't install xz-5.1.3alpha-r0@mips32r2: no package provides gzip-missing
->
->
-> |ERROR: Function failed: do_rootfs
-> |ERROR: Logfile of failure stored in: /home/jiahongxu/yocto/build-20141202-mips/
-> tmp/work/qemumips-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.24338
-> |ERROR: Task 7 (/home/jiahongxu/yocto/poky/meta/recipes-core/images/core-image-
-> minimal.bb, do_rootfs) failed with exit code '1'
-> ..............
+> bitbake core-image-minimal
 >
 > //Hongxu
 >
-> The following changes since commit ec6377bcf52d105cd23ac6bbbeddd38fee9337e4:
+> The following changes since commit dacc4ce59e48129a1a1e5316e10780f7358e29ef:
 >
->    bitbake: bitbake-user-manual-metadata.xml: Updated do_package_write example (2014-12-09 22:25:36 +0000)
+>    nativesdk-cmake: Adjust toolchain paths dynamically (2014-10-24 21:59:46 +0100)
 >
 > are available in the git repository at:
 >
->    git://git.pokylinux.org/poky-contrib hongxu/package-missing
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/package-missing
+>    git://git.pokylinux.org/poky-contrib hongxu/fix-rootfs
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-rootfs
 >
-> Hongxu Jia (4):
->    insane.bbclass: add QA check: package-missing
->    perl_5.20.0: fix QA package-missing warnings
->    linux-libc-headers.inc: fix QA package-missing warnings
->    busybox.inc: fix QA package-missing warnings
+> Hongxu Jia (1):
+>    package_manager.py: fix rpm based do_rootfs failed while
+>      IMAGE_INSTALL_append = " python3"
 >
->   meta/classes/insane.bbclass                        | 93 +++++++++++++++++++++-
->   meta/recipes-core/busybox/busybox.inc              | 10 +++
->   meta/recipes-devtools/perl/perl_5.20.0.bb          | 11 +--
->   .../linux-libc-headers/linux-libc-headers.inc      |  2 +
->   4 files changed, 110 insertions(+), 6 deletions(-)
+>   meta/lib/oe/package_manager.py | 22 ++++++++++++++++++++--
+>   1 file changed, 20 insertions(+), 2 deletions(-)
 >
 
 
