@@ -1,40 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 476A372C17
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 44EE77264B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 11:05:41 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id a1so6434623wgh.9
+	Mon, 22 Dec 2014 11:25:04 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	sBMBOvew015087
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 03:05:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=1L+mYKUXyLEX2hU1OWm7ZY1fkwCwddvl50CxYAJ63P8=;
-	b=L3emk59Si/MRlh7rtl09oCIq9nN2Ku9yFLDqmHN9mgwfPcWkmVoHT/zL8ex+YmHBWQ
-	PPwarK4Y7VMJ+2D2B+19bUVpsSbep2LHQxT7P/dwhvRwwH1hc3fb6Z5940i5dgx/ztAg
-	zZ+mcg8w2SWN2JY1U43qoaNouzRXzMeHo1bw6Jfc2C2F/VDO3wlHbxBFk40O8AJlsG/F
-	M0rLi88ApJrPh7DvWbC5pzjNb1PB+s7vq976NMlKUcEFDNnDGuzJGJwj12lXR1cCKb84
-	ROVyCumCF3zCZ6vHJpTjaD+ZQ8loIdRIA1RTTefqQi9yQTa9klx9U5RU3d/kevXLmyZ0
-	ylqQ==
-X-Received: by 10.180.206.47 with SMTP id ll15mr30820920wic.34.1419246340942; 
-	Mon, 22 Dec 2014 03:05:40 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	t12sm10326136wju.19.2014.12.22.03.05.39
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 Dec 2014 03:05:40 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 22 Dec 2014 12:05:41 +0100
-To: Paul Barker <paul@paulbarker.me.uk>
-Message-ID: <20141222110541.GB2465@jama>
-References: <1419199917-27913-1-git-send-email-paul@paulbarker.me.uk>
-	<1419199917-27913-3-git-send-email-paul@paulbarker.me.uk>
+	Mon, 22 Dec 2014 12:25:01 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1419247501;
+	bh=isty/Kh3atyq1Y9CxAP36frotEprywXGeWLfFOHLFgM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Sender;
+	b=eJe7ang69+QHQDngAr6PfwCfjbTAFmQbNo6EAys9oePUb6W+xK3M9mYgxKhAC7+Ih
+	H+hfsCESM4U56FOgPP6mdXaKBofeSNCeyCwNP1qvkr3fIN4WgItGVn4y5qxqCUfgSC
+	RLp1CcOkwIlJCfGxkS9UOJopDVvDavMFlnMX5n5M=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id sBMBOoxb000863
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Dec 2014 12:24:53 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1Y316Y-0003RX-6T
+	for openembedded-core@lists.openembedded.org;
+	Mon, 22 Dec 2014 12:24:50 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Mon, 22 Dec 2014 12:24:50 +0100
+Message-ID: <lymw6gylj1.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <1419199917-27913-3-git-send-email-paul@paulbarker.me.uk>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/8] opkg-arch-config: Renamed from opkg-config-base
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -4.9
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.75
+Subject: How to enforce ${B} = ${S} builds globally?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,110 +55,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Dec 2014 11:05:46 -0000
-X-Groupsio-MsgNum: 60757
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="s9fJI615cBHmzTOP"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 22 Dec 2014 11:25:15 -0000
+Content-Type: text/plain
 
---s9fJI615cBHmzTOP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Sun, Dec 21, 2014 at 10:11:51PM +0000, Paul Barker wrote:
-> The name 'opkg-arch-config' is much more descriptive.
->=20
-> Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
-> ---
->  meta/conf/layer.conf                                                   |=
- 2 +-
->  .../opkg/{opkg-config-base_1.0.bb =3D> opkg-arch-config_1.0.bb}         =
- | 3 ++-
->  meta/recipes-devtools/opkg/opkg.inc                                    |=
- 2 +-
->  3 files changed, 4 insertions(+), 3 deletions(-)
->  rename meta/recipes-devtools/opkg/{opkg-config-base_1.0.bb =3D> opkg-arc=
-h-config_1.0.bb} (87%)
->=20
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index de96548..4fd3a16 100644
-> --- a/meta/conf/layer.conf
-> +++ b/meta/conf/layer.conf
-> @@ -18,7 +18,7 @@ COREBASE =3D '${@os.path.normpath("${LAYERDIR}/../")}'
->  SIGGEN_EXCLUDERECIPES_ABISAFE +=3D " \
->    sysvinit-inittab \
->    shadow-securetty \
-> -  opkg-config-base \
-> +  opkg-arch-config \
->    netbase \
->    init-ifupdown \
->    connman-conf \
-> diff --git a/meta/recipes-devtools/opkg/opkg-config-base_1.0.bb b/meta/re=
-cipes-devtools/opkg/opkg-arch-config_1.0.bb
-> similarity index 87%
-> rename from meta/recipes-devtools/opkg/opkg-config-base_1.0.bb
-> rename to meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-> index acbe129..f700865 100644
-> --- a/meta/recipes-devtools/opkg/opkg-config-base_1.0.bb
-> +++ b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-> @@ -1,4 +1,4 @@
-> -SUMMARY =3D "Base configuration files for opkg"
-> +SUMMARY =3D "Architecture-dependent configuration for opkg"
->  LICENSE =3D "MIT"
->  LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbc=
-b788c80a0384361b4de20420"
->  PACKAGE_ARCH =3D "${MACHINE_ARCH}"
-> @@ -28,3 +28,4 @@ FILES_${PN} =3D "${sysconfdir}/opkg/ "
-> =20
->  CONFFILES_${PN} +=3D "${sysconfdir}/opkg/arch.conf"
-> =20
-> +RREPLACES_${PN} =3D "opkg-config-base"
+what is the recommended way to enable in-source builds globally?
+Building in a separate directory might be interesting for qa, but it
+lowers end-user experience significantly because __FILE__ expands now
+to absolute names.
 
-Is this enough for opkg to automatically replace opkg-config-base with
-opkg-arch-config during opkg upgrade?
+E.g.
 
-With older opkg releases you always had to use whole combo
-RPROVIDES+RREPLACES+RCONFLICTS.
+| #include <assert.h>
+| int main() { assert(0); }
 
-> diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/=
-opkg/opkg.inc
-> index 56c54b6..991c114 100644
-> --- a/meta/recipes-devtools/opkg/opkg.inc
-> +++ b/meta/recipes-devtools/opkg/opkg.inc
-> @@ -38,7 +38,7 @@ EXTRA_OECONF =3D "\
->    --with-opkglibdir=3D${OPKGLIBDIR} \
->  "
-> =20
-> -RDEPENDS_${PN} =3D "${VIRTUAL-RUNTIME_update-alternatives} opkg-config-b=
-ase run-postinsts"
-> +RDEPENDS_${PN} =3D "${VIRTUAL-RUNTIME_update-alternatives} opkg-arch-con=
-fig run-postinsts"
->  RDEPENDS_${PN}_class-native =3D ""
->  RDEPENDS_${PN}_class-nativesdk =3D ""
->  RREPLACES_${PN} =3D "opkg-nogpg"
-> --=20
-> 1.9.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+gives
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+| test: /srv/oe/cache/bld/f95aceac-8952-bd61-430a-dfcdf48db33c/work/cortexa9t2hf-vfp-neon-linux-gnueabi/test/1.0-r0/test-1.0/test.c:2: main: Assertion `0' failed.
 
---s9fJI615cBHmzTOP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+instead of
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+| test: test.c:2: main: Assertion `0' failed.
 
-iEYEARECAAYFAlSX+wUACgkQN1Ujt2V2gBy3xgCgp3ZNKay76MQ8fUzLezxo7zly
-Px8An3sx5CXJvtwBUCbt+DP10rVkLEGA
-=eToR
------END PGP SIGNATURE-----
 
---s9fJI615cBHmzTOP--
+
+Enrico
+
