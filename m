@@ -1,26 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 282AC729A9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 8037872819
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 05:28:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBM5SWFm021185
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Dec 2014 21:28:32 -0800 (PST)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 21 Dec 2014 21:28:32 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 21 Dec 2014 21:28:29 -0800
-Message-ID: <e09d950b54082943091fe906ceeae23bb8f701f8.1419226071.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1419226071.git.liezhi.yang@windriver.com>
-References: <cover.1419226071.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 7/7] make: upgrade to 4.1
+	Mon, 22 Dec 2014 09:09:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBM98vHa029268; Mon, 22 Dec 2014 09:08:57 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id MqyJObOzjd3W; Mon, 22 Dec 2014 09:08:57 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBM98fG2029263
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 22 Dec 2014 09:08:53 GMT
+Message-ID: <1419239358.13316.65.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 22 Dec 2014 09:09:18 +0000
+In-Reply-To: <CADkTA4OYpdJYGjb7DB6a7kEUiCP=zUjLahddNJjy5CjxM8VqFg@mail.gmail.com>
+References: <1419164943.13316.51.camel@linuxfoundation.org>
+	<CADkTA4OYpdJYGjb7DB6a7kEUiCP=zUjLahddNJjy5CjxM8VqFg@mail.gmail.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-devsrc: Handle ppc crtsaves.o explictly for now
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Dec 2014 05:28:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 22 Dec 2014 09:09:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../make/{make_4.0.bb => make_4.1.bb}              |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/make/{make_4.0.bb => make_4.1.bb} (71%)
+On Sun, 2014-12-21 at 23:43 -0400, Bruce Ashfield wrote:
+> On Sun, Dec 21, 2014 at 8:29 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > Resolve kernel module build failures for qemuppc by including crtsaves.o.
+> >
+> > I'm not particularly happy to be doing this, it should perhaps be contained
+> > in the kernel-dev package. Until the overlap between kernel-devsrc and
+> > kernel-dev is resolved, this at least removed the regressions.
+> 
+> Interesting. I built qemuppc for core-image-kerneldev and core-image-sato and
+> didn't see this.
+> 
+> Are the build steps that triggered this captured in the bug ? Or are they in the
+> mailing list thread ? Either way, I'd like to run them here as part of
+> any follow
+> on cleanups.
+> 
+> But the patch makes sense, and looks fine to me for the current state.
 
-diff --git a/meta/recipes-devtools/make/make_4.0.bb b/meta/recipes-devtools/make/make_4.1.bb
-similarity index 71%
-rename from meta/recipes-devtools/make/make_4.0.bb
-rename to meta/recipes-devtools/make/make_4.1.bb
-index 38d328c..a1b0d7c 100644
---- a/meta/recipes-devtools/make/make_4.0.bb
-+++ b/meta/recipes-devtools/make/make_4.1.bb
-@@ -6,7 +6,7 @@ require make.inc
- 
- EXTRA_OECONF += "--without-guile"
- 
--SRC_URI[md5sum] = "571d470a7647b455e3af3f92d79f1c18"
--SRC_URI[sha256sum] = "e60686c7afede62cc8c86ad3012cf081ea4887daf9d223ce7115703b2bb2dbdb"
-+SRC_URI[md5sum] = "57a7a224a822f94789a587ccbcedff69"
-+SRC_URI[sha256sum] = "0bc7613389650ee6a24554b52572a272f7356164fd2c4132b0bcf13123e4fca5"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-1.7.9.5
+Reproducer is/was in local.conf:
+
+TEST_IMAGE = "1"
+TEST_SUITES = "kernelmodule"
+
+MACHINE=qemuppc bitbake core-image-sato-sdk
+
+which will then build the image, boot it and then try and build a kernel
+module. I did cheat and disable QT4 when I did it locally.
+
+Cheers,
+
+Richard
+
 
 
