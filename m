@@ -1,34 +1,35 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f53.google.com (mail-la0-f53.google.com
-	[209.85.215.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 887737297F
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 7039B7297B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 03:43:49 +0000 (UTC)
-Received: by mail-la0-f53.google.com with SMTP id gm9so3330431lab.26
+	Mon, 22 Dec 2014 04:55:07 +0000 (UTC)
+Received: by mail-pd0-f179.google.com with SMTP id fp1so5107383pdb.38
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Dec 2014 19:43:49 -0800 (PST)
+	Sun, 21 Dec 2014 20:55:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=RXtiY1PVQw8FGbNBcLAu4h9jHAX/JjtcHV7wZTPBYLE=;
-	b=RCcdyYoAdV14HQG4zUpND6WCydgFZg3wJgXpa81Oou2mDFhrfSH/OZmSgerqXZPiNK
-	c7MbCI/5O+YaudSo/2BHsVK5Smvz/yiDsEeeY7RQTDm7tIJ4s3EP0K5ELyCc8qltcTbt
-	/J+mOoQyDE16KyOBZqp3YtHJ3HUL1xawUu0qngnHiCTZk2W9jqQHx9ie2eqJcOuIxYhw
-	l3VAGNUJcVEmbREvApkcia11G7OCHEzkwIIBsOgeMwBSZTDZYKG4Y4T0APJlkWO/NeND
-	6w1SUYyCmbx09I9RvgCTE594axGjpFEvlcMDck6mVgaoONj9f3j/Ne40XfnGWrTGwT5u
-	DZOA==
-MIME-Version: 1.0
-X-Received: by 10.112.150.71 with SMTP id ug7mr19701401lbb.73.1419219828748;
-	Sun, 21 Dec 2014 19:43:48 -0800 (PST)
-Received: by 10.112.48.41 with HTTP; Sun, 21 Dec 2014 19:43:48 -0800 (PST)
-In-Reply-To: <1419164943.13316.51.camel@linuxfoundation.org>
-References: <1419164943.13316.51.camel@linuxfoundation.org>
-Date: Sun, 21 Dec 2014 23:43:48 -0400
-Message-ID: <CADkTA4OYpdJYGjb7DB6a7kEUiCP=zUjLahddNJjy5CjxM8VqFg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-devsrc: Handle ppc crtsaves.o explictly for now
+	h=from:to:subject:date:message-id;
+	bh=W9pN+s0ea87hhW/3M4eGQyv21wvdBh3010kO/9ZBBTg=;
+	b=e/CHCGKor1uVlGjs1KprNlHc1E24/wcm2/7sZdAZc98Jb5gx6TH8WTzJ+PNiIUJLf5
+	MJ2cjmn0ST5Ubz2tFR59Ym3VE3Xn6uCLHie/z63DAtZacCvOoRPYLys0yXA7EzKJxQF9
+	URsyfF6JBedjcUjHmDPu+BMbXQUuS9GhxJuf1+ZE8Tg3Ex4KP47Ky8KGa6Qnuo35iT7D
+	/2bJMxfO339UvgUjeS6ZbLUaKwtuSHwflrEwZnF8YmvfTwPrDGoZ4VAvXdwml1PW/1Sy
+	d0wqPJjFONi56aD3zXWk/2QD4dzaYiviKEyNSSQlLMF1t9m5GfHYiWrXwdL75AuuMPn+
+	zYqw==
+X-Received: by 10.68.138.194 with SMTP id qs2mr14526308pbb.8.1419224108213;
+	Sun, 21 Dec 2014 20:55:08 -0800 (PST)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by mx.google.com with ESMTPSA id
+	nx1sm15835688pdb.85.2014.12.21.20.55.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 21 Dec 2014 20:55:07 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 21 Dec 2014 20:54:56 -0800
+Message-Id: <1419224101-24900-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/5] [RFC] Move packages from meta-oe to core for X11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,62 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Dec 2014 03:43:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 22 Dec 2014 04:55:14 -0000
 
-On Sun, Dec 21, 2014 at 8:29 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Resolve kernel module build failures for qemuppc by including crtsaves.o.
->
-> I'm not particularly happy to be doing this, it should perhaps be contained
-> in the kernel-dev package. Until the overlap between kernel-devsrc and
-> kernel-dev is resolved, this at least removed the regressions.
+Please consider moving xterm, xclock, twm and libxaw from 
+meta-openembedded/recipes-graphics to OE-core.
 
-Interesting. I built qemuppc for core-image-kerneldev and core-image-sato and
-didn't see this.
+This fixes 'core-image-x11' image dependancy on meta-oe packages
+since xinit requires xterm, xclock and twm to 'startx'.
 
-Are the build steps that triggered this captured in the bug ? Or are they in the
-mailing list thread ? Either way, I'd like to run them here as part of
-any follow
-on cleanups.
-
-But the patch makes sense, and looks fine to me for the current state.
-
-Bruce
-
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> index 2872f17..1557c27 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -46,6 +46,14 @@ do_install() {
->          cd ${S}
->          find . -type d -name '.git*' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
->          oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts
-> +
-> +        # As of Linux kernel version 3.0.1, the clean target removes
-> +        # arch/powerpc/lib/crtsavres.o which is present in
-> +        # KBUILD_LDFLAGS_MODULE, making it required to build external modules.
-> +        if [ ${ARCH} = "powerpc" ]; then
-> +                mkdir -p $kerneldir/arch/powerpc/lib/
-> +                cp ${S}/arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
-> +        fi
->  }
->
->  PACKAGES = "kernel-devsrc"
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+if approved and commited, I will post patches to remove those packages
+from meta-oe.
 
 
+Armin Kuster (5):
+  xclock: move from meta-oe to core.
+  twm: move from meta-oe to core.
+  libxaw: move from meta-oe to core.
+  xterm: move from meta-oe to core.
+  xinit: fix depends issue
+
+ meta/recipes-graphics/xorg-app/twm_1.0.8.bb     | 20 +++++++++++++++
+ meta/recipes-graphics/xorg-app/xclock_1.0.5.bb  | 15 +++++++++++
+ meta/recipes-graphics/xorg-app/xinit_1.3.3.bb   |  8 +++++-
+ meta/recipes-graphics/xorg-app/xterm_313.bb     |  1 +
+ meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb | 33 +++++++++++++++++++++++++
+ 5 files changed, 76 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/xorg-app/twm_1.0.8.bb
+ create mode 100644 meta/recipes-graphics/xorg-app/xclock_1.0.5.bb
+ create mode 120000 meta/recipes-graphics/xorg-app/xterm_313.bb
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.9.1
+
 
