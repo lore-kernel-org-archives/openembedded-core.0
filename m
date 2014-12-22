@@ -1,37 +1,37 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BF127297B
+Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id C1CE37297B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 04:55:09 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id et14so5201544pad.3
+	Mon, 22 Dec 2014 04:55:13 +0000 (UTC)
+Received: by mail-pd0-f172.google.com with SMTP id y13so5129714pdi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Dec 2014 20:55:10 -0800 (PST)
+	Sun, 21 Dec 2014 20:55:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=t0/eaeUqzo5p3ROImIoASyWfIKUW/Y1KlSYI86S2baw=;
-	b=ea//L5ksiIB1DGuzy1ONh5XUt+IyFUH8PeV3hKK8l0vzJ1wknP/76NdwZDlTZIQE9G
-	T3t5aMdLymbSd7lwcDznBEA7sXUciD0ktiMASMoGLp0P4ZBeNqLH4lrey28T0vvw69rX
-	1jgLnkfas/BFsEhTl8QS3MQQzJPM5wI3yUdcZ6MRapjJXO81PofCF89NHZzqYE9dyKLQ
-	snmg7reffw5z8C2IgeybeJtGdsjIKwWS1q67z90V4ZQWZZWXiOqqwiKi73C6KngpopKf
-	o23ByTG+YdQ8nCCwxODdFw5rIoYmUp1sK5SUeOUyanYBtE603iMEKZoG9usXX+SYKBnj
-	3+qA==
-X-Received: by 10.68.197.8 with SMTP id iq8mr5998129pbc.66.1419224110123;
-	Sun, 21 Dec 2014 20:55:10 -0800 (PST)
+	bh=6FQroffiym5KHwRobKq0X6Kuth9WQGPR1UwP8rBVt68=;
+	b=TLAaxp6sdZGJprFqxRbk4lcFkMhm5G7hnPNJOmhEiGgHoABFU2IWzcrFAECo2Gnhpq
+	8IfOat/4yRw44W3ETgI3S25RXAkKYdkV2d0+kv8wJ/zXt9O4Jlt0CLzMM5oYkBfxnc86
+	bAD8bxpsCHX9MRkluP4+fRrUv3DOOuw3l13ObfvLO1rCJ1HwH5Dpj2s4uP4Prx4ipsC6
+	SvAU3DUFQSbY5eWL4joqmQSxnO7mHqtWu3a7LZVoTSVU+fR6yTBTa3oJlPoqNye5n5pZ
+	3FjYtH7FzU92M2WO/wVMTPPKPVcwNh4Qdv2VXj70+oAZknYOVSb8AA+kc0ea/LlmWHmW
+	zjOQ==
+X-Received: by 10.66.254.33 with SMTP id af1mr5328513pad.106.1419224114551;
+	Sun, 21 Dec 2014 20:55:14 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by mx.google.com with ESMTPSA id
-	nx1sm15835688pdb.85.2014.12.21.20.55.08
+	nx1sm15835688pdb.85.2014.12.21.20.55.12
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 21 Dec 2014 20:55:09 -0800 (PST)
+	Sun, 21 Dec 2014 20:55:13 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Dec 2014 20:54:57 -0800
-Message-Id: <1419224101-24900-2-git-send-email-akuster808@gmail.com>
+Date: Sun, 21 Dec 2014 20:54:59 -0800
+Message-Id: <1419224101-24900-4-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1419224101-24900-1-git-send-email-akuster808@gmail.com>
 References: <1419224101-24900-1-git-send-email-akuster808@gmail.com>
-Subject: [[PATCH 1/5] xclock: move from meta-oe to core.
+Subject: [[PATCH 3/5] libxaw: move from meta-oe to core.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,38 +46,55 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 22 Dec 2014 04:55:14 -0000
 
-core "xinit" package has a dependency to xclock so
-move it from meta-oe to core.
+xinit, xterm and xclock depend on libxaw so move to to core too.
 
-core image "core-image-x11" includes xinit.
+add x11 to required DISTRO_FEATURES check
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-graphics/xorg-app/xclock_1.0.5.bb | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-app/xclock_1.0.5.bb
+ meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb | 33 +++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb
 
-diff --git a/meta/recipes-graphics/xorg-app/xclock_1.0.5.bb b/meta/recipes-graphics/xorg-app/xclock_1.0.5.bb
+diff --git a/meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb b/meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb
 new file mode 100644
-index 0000000..9573761
+index 0000000..807717c
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-app/xclock_1.0.5.bb
-@@ -0,0 +1,15 @@
-+require recipes-graphics/xorg-app/xorg-app-common.inc
++++ b/meta/recipes-graphics/xorg-lib/libxaw_1.0.10.bb
+@@ -0,0 +1,33 @@
++require recipes-graphics/xorg-lib/xorg-lib-common.inc
++SUMMARY = "X Athena Widget Set"
++DEPENDS += "xproto virtual/libx11 libxext xextproto libxt libxmu libxpm libxau xmlto-native"
 +
-+SUMMARY = "analog / digital clock for X"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=857759ade8f2ddde5c7b32ef7356ea36"
-+
-+DEPENDS += " libxaw libxrender libxft libxkbfile libxt"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1c65719d42900bb81b83e8293c20a364"
 +
 +# depends on virtual/libx11
 +REQUIRED_DISTRO_FEATURES = "x11"
 +
-+SRC_URI[md5sum] = "eaf124bbc9d13e1a12a29faaa2ed3612"
-+SRC_URI[sha256sum] = "53a9169e24f3814fbfcfee3ca0b98637840a3156ed7c7e36ae03940fabae4c9a"
++PE = "1"
++PR = "r2"
++
++SRC_URI[md5sum] = "f1ea52debce7a18cc26b21647a00ad8b"
++SRC_URI[sha256sum] = "2d96bcf92638b8ec5c91d379f5ec2e7b15133adeb2ba22066d48bf3239ee1bdd"
++
++do_install_append () {
++    ln -sf libXaw6.so.6 ${D}${libdir}/libXaw.so.6
++    ln -sf libXaw7.so.7 ${D}${libdir}/libXaw.so.7
++    ln -sf libXaw7.so.7 ${D}${libdir}/libXaw.so
++}
 +
 +inherit distro_features_check
++
++PACKAGES =+ "libxaw6 libxaw7 libxaw8"
++
++FILES_libxaw6 = "${libdir}/libXaw*.so.6*"
++FILES_libxaw7 = "${libdir}/libXaw*.so.7*"
++FILES_libxaw8 = "${libdir}/libXaw8.so.8*"
++
++# Avoid dependency on libxaw as it is not build
++RDEPENDS_${PN}-dev = ""
++
++XORG_PN = "libXaw"
 -- 
 1.9.1
 
