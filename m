@@ -1,22 +1,30 @@
-Return-Path: <pbarker@betafive.co.uk>
-Received: from crash.betafive.co.uk (crash.betafive.co.uk [37.187.124.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 469467280A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AD019727E9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 11:58:20 +0000 (UTC)
-Received: by crash.betafive.co.uk (Postfix, from userid 1000)
-	id 343A03E104A; Mon, 22 Dec 2014 11:58:23 +0000 (GMT)
-Date: Mon, 22 Dec 2014 11:58:23 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20141222115823.GA11476@crash.betafive.co.uk>
-References: <1419199917-27913-1-git-send-email-paul@paulbarker.me.uk>
-	<1419199917-27913-3-git-send-email-paul@paulbarker.me.uk>
-	<20141222110541.GB2465@jama>
-MIME-Version: 1.0
-In-Reply-To: <20141222110541.GB2465@jama>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/8] opkg-arch-config: Renamed from opkg-config-base
+	Mon, 22 Dec 2014 13:08:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBMD7lVk007166; Mon, 22 Dec 2014 13:07:47 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id a5ydznFdG6jn; Mon, 22 Dec 2014 13:07:47 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBMD7YFP007162
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 22 Dec 2014 13:07:46 GMT
+Message-ID: <1419253691.13316.74.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Mon, 22 Dec 2014 13:08:11 +0000
+In-Reply-To: <c0e692b5ec1f49ecaf89b0ecf58c7f927dbe9aab.1419226071.git.liezhi.yang@windriver.com>
+References: <cover.1419226071.git.liezhi.yang@windriver.com>
+	<c0e692b5ec1f49ecaf89b0ecf58c7f927dbe9aab.1419226071.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/7] logrotate: upgrade to 3.8.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,81 +37,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Dec 2014 11:58:29 -0000
-X-Groupsio-MsgNum: 60759
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="huq684BweRXVnRxX"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 22 Dec 2014 13:08:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---huq684BweRXVnRxX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, 2014-12-21 at 21:28 -0800, Robert Yang wrote:
+> * Upgrade to 3.8.8.
+> * Remove disable-check-different-filesystems.patch which had been merged
+>   by upstream.
 
-On Mon, Dec 22, 2014 at 12:05:41PM +0100, Martin Jansa wrote:
-> On Sun, Dec 21, 2014 at 10:11:51PM +0000, Paul Barker wrote:
-> > +RREPLACES_${PN} =3D "opkg-config-base"
->=20
-> Is this enough for opkg to automatically replace opkg-config-base with
-> opkg-arch-config during opkg upgrade?
->=20
-> With older opkg releases you always had to use whole combo
-> RPROVIDES+RREPLACES+RCONFLICTS.
->
+Are you sure? Autobuilder shows:
 
-It works because the RDEPENDS of opkg was also changed and nothing else dep=
-ends
-on opkg-config-base. It may be a little more reliable to add RPROVIDES and
-RCONFLICTS just incase anything else I've not spotted depends on opkg-confi=
-g-base.
+https://autobuilder.yoctoproject.org/main/builders/nightly-qa-logrotate/builds/136/steps/Running%20Sanity%20Tests/logs/stdio
 
-The same can be said for merging opkg-collateral into opkg, we may need to =
-add
-RPROVIDES and RCONFLICTS incase anything else still depends on opkg-collate=
-ral.
+Cheers,
 
-> > diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtool=
-s/opkg/opkg.inc
-> > index 56c54b6..991c114 100644
-> > --- a/meta/recipes-devtools/opkg/opkg.inc
-> > +++ b/meta/recipes-devtools/opkg/opkg.inc
-> > @@ -38,7 +38,7 @@ EXTRA_OECONF =3D "\
-> >    --with-opkglibdir=3D${OPKGLIBDIR} \
-> >  "
-> > =20
-> > -RDEPENDS_${PN} =3D "${VIRTUAL-RUNTIME_update-alternatives} opkg-config=
--base run-postinsts"
-> > +RDEPENDS_${PN} =3D "${VIRTUAL-RUNTIME_update-alternatives} opkg-arch-c=
-onfig run-postinsts"
-> >  RDEPENDS_${PN}_class-native =3D ""
-> >  RDEPENDS_${PN}_class-nativesdk =3D ""
-> >  RREPLACES_${PN} =3D "opkg-nogpg"
-> > --=20
-> > 1.9.1
-> >=20
+Richard
 
-Thanks,
 
---=20
-Paul Barker
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  .../disable-check-different-filesystems.patch      |   34 --------------------
+>  .../{logrotate_3.8.7.bb => logrotate_3.8.8.bb}     |    5 ++-
+>  2 files changed, 2 insertions(+), 37 deletions(-)
+>  delete mode 100644 meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch
+>  rename meta/recipes-extended/logrotate/{logrotate_3.8.7.bb => logrotate_3.8.8.bb} (89%)
+> 
+> diff --git a/meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch b/meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch
+> deleted file mode 100644
+> index 43068bd..0000000
+> --- a/meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch
+> +++ /dev/null
+> @@ -1,34 +0,0 @@
+> -Disable the check for different filesystems
+> -
+> -The logrotate supports rotate log across different filesystems now, so
+> -disable the check for different filesystems.
+> -
+> -Upstream-Status: Submitted
+> -
+> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ----
+> - config.c |    8 --------
+> - 1 files changed, 0 insertions(+), 8 deletions(-)
+> -
+> -diff --git a/config.c b/config.c
+> -index a85d1df..24575b3 100644
+> ---- a/config.c
+> -+++ b/config.c
+> -@@ -1453,14 +1453,6 @@ static int readConfigFile(const char *configFile, struct logInfo *defConfig)
+> - 						dirName, strerror(errno));
+> - 					goto error;
+> - 					}
+> --
+> --					if (sb.st_dev != sb2.st_dev) {
+> --					message(MESS_ERROR,
+> --						"%s:%d olddir %s and log file %s "
+> --						"are on different devices\n", configFile,
+> --						lineNum, newlog->oldDir, newlog->files[i]);
+> --					goto error;
+> --					}
+> - 				}
+> - 				}
+> - 
+> --- 
+> -1.7.4.1
+> -
+> diff --git a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb b/meta/recipes-extended/logrotate/logrotate_3.8.8.bb
+> similarity index 89%
+> rename from meta/recipes-extended/logrotate/logrotate_3.8.7.bb
+> rename to meta/recipes-extended/logrotate/logrotate_3.8.8.bb
+> index faa8e02..8d32938 100644
+> --- a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
+> +++ b/meta/recipes-extended/logrotate/logrotate_3.8.8.bb
+> @@ -9,12 +9,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
+>  
+>  SRC_URI = "https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.gz \
+>             file://act-as-mv-when-rotate.patch \
+> -           file://disable-check-different-filesystems.patch \
+>             file://update-the-manual.patch \
+>              "
+>  
+> -SRC_URI[md5sum] = "99e08503ef24c3e2e3ff74cc5f3be213"
+> -SRC_URI[sha256sum] = "f6ba691f40e30e640efa2752c1f9499a3f9738257660994de70a45fe00d12b64"
+> +SRC_URI[md5sum] = "49846e873dddea15964cd0355b9943ca"
+> +SRC_URI[sha256sum] = "46a1510ef4a1f4359edd5f361112cfd1523942e85ff28e6cbb0c81bad1829d0f"
+>  
+>  PACKAGECONFIG ?= "\
+>      ${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
+> -- 
+> 1.7.9.5
+> 
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
---huq684BweRXVnRxX
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-iQEcBAEBAgAGBQJUmAdfAAoJEBwoJlo7UPQDoNgH+gNnUDuK1+Swhj9e3JrDU66g
-75cUaxNFaidMPS78hIJTyadciqBlzZhRnP6BGVi6rwzhRJ4FKrSCaKHwODksr9tL
-ZozBI4ifIJm46GLfZ/upvSw4Eo8UGTvr3gKK0L6pO3Rt8+tmledtWwo6447chnjY
-O2Ytsfb5qrjrLgsOmOsW/Ar3jIJ+i6OpUZURcS4JEQiLBUMVV8fx0Y5TD/dz2dkc
-4+kAfsjl6hmV3QYUrzM4949aWa0LER6UM+6FRIlm+yQxHRB8565nF4f+mKFljHDt
-+tNnNK/j0MPLdGrpzePFH/gsQfaZ24hkV3iQ8APUbmOSj6rQSN3tnmxSKYx0IKM=
-=D4mW
------END PGP SIGNATURE-----
-
---huq684BweRXVnRxX--
