@@ -1,37 +1,37 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 80E1B72981
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BF127297B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 04:55:12 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id bj1so5148037pad.23
+	Mon, 22 Dec 2014 04:55:09 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id et14so5201544pad.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Dec 2014 20:55:13 -0800 (PST)
+	Sun, 21 Dec 2014 20:55:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=mMJ3q/GZTnOtwZR8/9byaUdK+pWP4AdgHCIvAl6KTS4=;
-	b=YpoRpfYNiXd2lOjinftJRE3UHjgEynEoSnEh9cfYVv76mrlKX4cJJa84Md2ZaBtrgk
-	hSgJuh6kDNXaOE07c7+cq6XiBmpgkMhdkw7NkiTX18iBh/mDpSKjUk0Ga9/KF8FyiIHS
-	dmTKdb9JxOreU2RZhE+vWu+Nm/jhUrWhQeHk2rpmEDyQPyUoDdlVIoZO44+z1rlPP6C9
-	Rqrns+no1cXUNuBCizla2Pey72SIlH+zHOwCO5BpycUys9AnkdBb2xbJhIham+MH1dJe
-	/dZwxYZ0aVrM17DeHhnIvLqeLwRHpHKXvyHNsIpucsFPUEuHU+/HCukGHiDtPFrprfmJ
-	97sw==
-X-Received: by 10.66.119.239 with SMTP id kx15mr21703359pab.11.1419224112410; 
-	Sun, 21 Dec 2014 20:55:12 -0800 (PST)
+	bh=t0/eaeUqzo5p3ROImIoASyWfIKUW/Y1KlSYI86S2baw=;
+	b=ea//L5ksiIB1DGuzy1ONh5XUt+IyFUH8PeV3hKK8l0vzJ1wknP/76NdwZDlTZIQE9G
+	T3t5aMdLymbSd7lwcDznBEA7sXUciD0ktiMASMoGLp0P4ZBeNqLH4lrey28T0vvw69rX
+	1jgLnkfas/BFsEhTl8QS3MQQzJPM5wI3yUdcZ6MRapjJXO81PofCF89NHZzqYE9dyKLQ
+	snmg7reffw5z8C2IgeybeJtGdsjIKwWS1q67z90V4ZQWZZWXiOqqwiKi73C6KngpopKf
+	o23ByTG+YdQ8nCCwxODdFw5rIoYmUp1sK5SUeOUyanYBtE603iMEKZoG9usXX+SYKBnj
+	3+qA==
+X-Received: by 10.68.197.8 with SMTP id iq8mr5998129pbc.66.1419224110123;
+	Sun, 21 Dec 2014 20:55:10 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by mx.google.com with ESMTPSA id
-	nx1sm15835688pdb.85.2014.12.21.20.55.10
+	nx1sm15835688pdb.85.2014.12.21.20.55.08
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 21 Dec 2014 20:55:11 -0800 (PST)
+	Sun, 21 Dec 2014 20:55:09 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Dec 2014 20:54:58 -0800
-Message-Id: <1419224101-24900-3-git-send-email-akuster808@gmail.com>
+Date: Sun, 21 Dec 2014 20:54:57 -0800
+Message-Id: <1419224101-24900-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1419224101-24900-1-git-send-email-akuster808@gmail.com>
 References: <1419224101-24900-1-git-send-email-akuster808@gmail.com>
-Subject: [[PATCH 2/5] twm: move from meta-oe to core.
+Subject: [[PATCH 1/5] xclock: move from meta-oe to core.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,43 +46,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 22 Dec 2014 04:55:14 -0000
 
-core "xinit" package has a dependency to twm so
+core "xinit" package has a dependency to xclock so
 move it from meta-oe to core.
 
 core image "core-image-x11" includes xinit.
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-graphics/xorg-app/twm_1.0.8.bb | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-app/twm_1.0.8.bb
+ meta/recipes-graphics/xorg-app/xclock_1.0.5.bb | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-app/xclock_1.0.5.bb
 
-diff --git a/meta/recipes-graphics/xorg-app/twm_1.0.8.bb b/meta/recipes-graphics/xorg-app/twm_1.0.8.bb
+diff --git a/meta/recipes-graphics/xorg-app/xclock_1.0.5.bb b/meta/recipes-graphics/xorg-app/xclock_1.0.5.bb
 new file mode 100644
-index 0000000..cc8808b
+index 0000000..9573761
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-app/twm_1.0.8.bb
-@@ -0,0 +1,20 @@
++++ b/meta/recipes-graphics/xorg-app/xclock_1.0.5.bb
+@@ -0,0 +1,15 @@
 +require recipes-graphics/xorg-app/xorg-app-common.inc
-+SUMMARY = "tiny window manager"
-+DEPENDS += " libxext libxt libxmu bison-native"
 +
++SUMMARY = "analog / digital clock for X"
 +LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4c6d42ef60e8166aa26606524c0b9586"
++LIC_FILES_CHKSUM = "file://COPYING;md5=857759ade8f2ddde5c7b32ef7356ea36"
++
++DEPENDS += " libxaw libxrender libxft libxkbfile libxt"
 +
 +# depends on virtual/libx11
 +REQUIRED_DISTRO_FEATURES = "x11"
 +
-+SRC_URI[md5sum] = "4b28317d4a9f7ca61bef8462e132bd4c"
-+SRC_URI[sha256sum] = "7660352353d632127ff50390991706aa660b28a4ada816c2582ac02720722e44"
++SRC_URI[md5sum] = "eaf124bbc9d13e1a12a29faaa2ed3612"
++SRC_URI[sha256sum] = "53a9169e24f3814fbfcfee3ca0b98637840a3156ed7c7e36ae03940fabae4c9a"
 +
 +inherit distro_features_check
-+
-+FILES_${PN} += "${datadir}/X11/twm/system.twmrc"
-+ALTERNATIVE_NAME = "x-window-manager"
-+ALTERNATIVE_PATH = "${bindir}/twm"
-+ALTERNATIVE_LINK = "${bindir}/x-window-manager"
-+ALTERNATIVE_PRIORITY = "1"
 -- 
 1.9.1
 
