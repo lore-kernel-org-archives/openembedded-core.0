@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AD019727E9
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AE6572710
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 13:08:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBMD7lVk007166; Mon, 22 Dec 2014 13:07:47 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id a5ydznFdG6jn; Mon, 22 Dec 2014 13:07:47 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBMD7YFP007162
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 22 Dec 2014 13:07:46 GMT
-Message-ID: <1419253691.13316.74.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Mon, 22 Dec 2014 13:08:11 +0000
-In-Reply-To: <c0e692b5ec1f49ecaf89b0ecf58c7f927dbe9aab.1419226071.git.liezhi.yang@windriver.com>
-References: <cover.1419226071.git.liezhi.yang@windriver.com>
-	<c0e692b5ec1f49ecaf89b0ecf58c7f927dbe9aab.1419226071.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/7] logrotate: upgrade to 3.8.8
+	Mon, 22 Dec 2014 13:53:10 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1Y33Q6-0002i1-Ki from Awais_Belal@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 22 Dec 2014 05:53:11 -0800
+Received: from awais-Precision-M4700.mgc.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server id 14.3.181.6; Mon, 22 Dec 2014 13:53:09 +0000
+From: Awais Belal <awais_belal@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 22 Dec 2014 18:53:00 +0500
+Message-ID: <1419256380-6483-1-git-send-email-awais_belal@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH] gstreamer1.0-* use gitsm style SRC_URI for git recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,97 +31,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Dec 2014 13:08:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Dec 2014 13:53:18 -0000
+Content-Type: text/plain
 
-On Sun, 2014-12-21 at 21:28 -0800, Robert Yang wrote:
-> * Upgrade to 3.8.8.
-> * Remove disable-check-different-filesystems.patch which had been merged
->   by upstream.
+All gstreamer components when fetched through git have a git
+submodule type repo rather than a main repo style. This
+will make builds fail when there's no network connection
+while the source is already downloaded.
+We fix this by explicitly using the gitsm styled SRC_URI for
+these submodules.
 
-Are you sure? Autobuilder shows:
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+---
+ .../gstreamer/gstreamer1.0-libav_git.bb            |    2 +-
+ .../gstreamer/gstreamer1.0-omx_git.bb              |    2 +-
+ .../gstreamer/gstreamer1.0-plugins.inc             |    2 +-
+ .../gstreamer/gstreamer1.0_git.bb                  |    2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-qa-logrotate/builds/136/steps/Running%20Sanity%20Tests/logs/stdio
-
-Cheers,
-
-Richard
-
-
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  .../disable-check-different-filesystems.patch      |   34 --------------------
->  .../{logrotate_3.8.7.bb => logrotate_3.8.8.bb}     |    5 ++-
->  2 files changed, 2 insertions(+), 37 deletions(-)
->  delete mode 100644 meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch
->  rename meta/recipes-extended/logrotate/{logrotate_3.8.7.bb => logrotate_3.8.8.bb} (89%)
-> 
-> diff --git a/meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch b/meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch
-> deleted file mode 100644
-> index 43068bd..0000000
-> --- a/meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch
-> +++ /dev/null
-> @@ -1,34 +0,0 @@
-> -Disable the check for different filesystems
-> -
-> -The logrotate supports rotate log across different filesystems now, so
-> -disable the check for different filesystems.
-> -
-> -Upstream-Status: Submitted
-> -
-> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ----
-> - config.c |    8 --------
-> - 1 files changed, 0 insertions(+), 8 deletions(-)
-> -
-> -diff --git a/config.c b/config.c
-> -index a85d1df..24575b3 100644
-> ---- a/config.c
-> -+++ b/config.c
-> -@@ -1453,14 +1453,6 @@ static int readConfigFile(const char *configFile, struct logInfo *defConfig)
-> - 						dirName, strerror(errno));
-> - 					goto error;
-> - 					}
-> --
-> --					if (sb.st_dev != sb2.st_dev) {
-> --					message(MESS_ERROR,
-> --						"%s:%d olddir %s and log file %s "
-> --						"are on different devices\n", configFile,
-> --						lineNum, newlog->oldDir, newlog->files[i]);
-> --					goto error;
-> --					}
-> - 				}
-> - 				}
-> - 
-> --- 
-> -1.7.4.1
-> -
-> diff --git a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb b/meta/recipes-extended/logrotate/logrotate_3.8.8.bb
-> similarity index 89%
-> rename from meta/recipes-extended/logrotate/logrotate_3.8.7.bb
-> rename to meta/recipes-extended/logrotate/logrotate_3.8.8.bb
-> index faa8e02..8d32938 100644
-> --- a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
-> +++ b/meta/recipes-extended/logrotate/logrotate_3.8.8.bb
-> @@ -9,12 +9,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
->  
->  SRC_URI = "https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.gz \
->             file://act-as-mv-when-rotate.patch \
-> -           file://disable-check-different-filesystems.patch \
->             file://update-the-manual.patch \
->              "
->  
-> -SRC_URI[md5sum] = "99e08503ef24c3e2e3ff74cc5f3be213"
-> -SRC_URI[sha256sum] = "f6ba691f40e30e640efa2752c1f9499a3f9738257660994de70a45fe00d12b64"
-> +SRC_URI[md5sum] = "49846e873dddea15964cd0355b9943ca"
-> +SRC_URI[sha256sum] = "46a1510ef4a1f4359edd5f361112cfd1523942e85ff28e6cbb0c81bad1829d0f"
->  
->  PACKAGECONFIG ?= "\
->      ${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
-> -- 
-> 1.7.9.5
-> 
-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb
+index bf1b87e..376a7c4 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_git.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://gst-libs/ext/libav/COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
+                     file://gst-libs/ext/libav/COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ 
+-SRC_URI = "git://anongit.freedesktop.org/gstreamer/gst-libav;branch=master"
++SRC_URI = "gitsm://anongit.freedesktop.org/gstreamer/gst-libav;branch=master"
+ S = "${WORKDIR}/git"
+ 
+ SRCREV = "127202d6f65584891dabf92be031f0d170b0e7f1"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb
+index 931a7fc..df7c58c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_git.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+                     file://omx/gstomx.h;beginline=1;endline=21;md5=5c8e1fca32704488e76d2ba9ddfa935f"
+ 
+ SRC_URI = " \
+-    git://anongit.freedesktop.org/gstreamer/gst-omx;branch=master \
++    gitsm://anongit.freedesktop.org/gstreamer/gst-omx;branch=master \
+     file://0001-omx-fixed-type-error-in-printf-call.patch \    
+     "
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+index 687aa2f..d857a40 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+@@ -43,7 +43,7 @@ def get_gst_srcuri(d):
+     branch = d.getVar("GSTREAMER_1_0_GIT_BRANCH", True)
+ 
+     if pv == "git":
+-        s = "git://anongit.freedesktop.org/gstreamer/%s;branch=%s" % (gstpkg_basename, branch)
++        s = "gitsm://anongit.freedesktop.org/gstreamer/%s;branch=%s" % (gstpkg_basename, branch)
+     else:
+         s = "http://gstreamer.freedesktop.org/src/%s/%s-%s.tar.xz" % (gstpkg_basename, gstpkg_basename, pv)
+     return s
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
+index cb00d31..a8d3731 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_git.bb
+@@ -5,7 +5,7 @@ include gstreamer1.0.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
+                     file://gst/gst.h;beginline=1;endline=21;md5=e059138481205ee2c6fc1c079c016d0d"
+ 
+-SRC_URI = "git://anongit.freedesktop.org/gstreamer/gstreamer;branch=master"
++SRC_URI = "gitsm://anongit.freedesktop.org/gstreamer/gstreamer;branch=master"
+ S = "${WORKDIR}/git"
+ 
+ SRCREV = "3b8181a8c550e74acaba4e8c55bdc649fa551dc9"
+-- 
+1.7.9.5
 
 
