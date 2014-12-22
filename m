@@ -1,37 +1,19 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
-	[209.85.216.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 74EAB72801
+Return-Path: <maciej.borzecki@open-rnd.pl>
+Received: from akt59.rev.netart.pl (akt59.rev.netart.pl [85.128.150.59])
+	by mail.openembedded.org (Postfix) with ESMTP id 889E372817
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 14:24:57 +0000 (UTC)
-Received: by mail-qa0-f44.google.com with SMTP id bm13so3310570qab.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 06:24:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=SeK/PN6j3PXFj27mWEm8mzkx2AsMKbWpNMRIZWsYrOs=;
-	b=hZUBLOi9ElgvY30WdivtNFySufQtGjATeEzjm9Y4iBUbsb9XgO5T689FI5haWVCy78
-	7s4wzUpP4tM9xzSmmvWedBat3PUS4WVArwqmIPKgBqhn5bcQZrZL9aRe+92sWDqyIkoX
-	jOiD+mLjARwgrS7ApbYfm2IOo7jdSWOYmhaHyT9gH7UGHeG+YrepFen6b4K+VyW/VeIe
-	MKRoLMDfZ4YSkYZpnlGfex0aWYC+mY4jgmlp1Bv0HSlH60IbbOHSi9sIslPWbDTLLbZ9
-	tDC3KXMlXAKdT0bsJYxULXvDVownlOFQSO33N8j18E8SLGM2NZCtBYpRRSb0vEJ6CXgD
-	kdLA==
-X-Gm-Message-State: ALoCoQk980XPqj+yDH5AHsfXHdXft+y03MzJohzNSOs8VyBAzaGGrRZKM67Ojtw/hVJY3zgfA3C5
-X-Received: by 10.140.40.209 with SMTP id x75mr34568757qgx.80.1419258297836;
-	Mon, 22 Dec 2014 06:24:57 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Mon, 22 Dec 2014 06:24:37 -0800 (PST)
-In-Reply-To: <20141222141019.GD2465@jama>
-References: <1419256380-6483-1-git-send-email-awais_belal@mentor.com>
-	<20141222141019.GD2465@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Dec 2014 14:24:37 +0000
-Message-ID: <CAJTo0LZ0MgsJn2PyVyLQGNQ6A9vyYBGnJmb8nMOcED+PabbZOQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-* use gitsm style SRC_URI for git recipes
+	Mon, 22 Dec 2014 14:28:15 +0000 (UTC)
+Received: from localhost.localdomain (unknown [78.10.193.111])
+	by open-rnd.nazwa.pl (Postfix) with ESMTP id 829BA3FC70F;
+	Mon, 22 Dec 2014 15:28:11 +0100 (CET)
+From: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+To: openembedded-core@lists.openembedded.org,
+	Tom Zanussi <tom.zanussi@linux.intel.com>
+Date: Mon, 22 Dec 2014 15:28:02 +0100
+Message-Id: <1419258482-10101-1-git-send-email-maciej.borzecki@open-rnd.pl>
+X-Mailer: git-send-email 1.9.3
+Cc: Maciek Borzecki <maciek.borzecki@gmail.com>
+Subject: [PATCH] wic: account for mmcblk device partition naming
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +26,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Dec 2014 14:25:01 -0000
-Content-Type: multipart/alternative; boundary=001a11c12836affda0050aced2a2
+X-List-Received-Date: Mon, 22 Dec 2014 14:28:21 -0000
 
---001a11c12836affda0050aced2a2
-Content-Type: text/plain; charset=UTF-8
+MMC block device partitions are named differently than other block
+devices and use the scheme: mmcblk<devnum>p<partnum>, ex: mmcblk0p1,
+mmcblk0p2. The current code generates incorrect parition names missing
+'p' infix for fstab entries. The patch resolves this problem.
 
-On 22 December 2014 at 14:10, Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> If this is work-around for "common" submodule being fetched from
-> do_configure, then it would be much safer (and more efficient) to
-> add common as 2nd git repo in SRC_URI and use normal git fetcher.
->
+Signed-off-by: Maciej Borzecki <maciej.borzecki@open-rnd.pl>
+Signed-off-by: Maciek Borzecki <maciek.borzecki@gmail.com>
+---
+ scripts/lib/wic/imager/direct.py | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-Yes it is, and agreed.
+diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
+index 6b2ab33..b1dc3e9 100644
+--- a/scripts/lib/wic/imager/direct.py
++++ b/scripts/lib/wic/imager/direct.py
+@@ -100,10 +100,18 @@ class DirectImageCreator(BaseImageCreator):
+         for num, p in enumerate(parts, 1):
+             if not p.mountpoint or p.mountpoint == "/" or p.mountpoint == "/boot":
+                 continue
+-            if self._ptable_format == 'msdos' and num > 3:
+-                device_name = "/dev/" + p.disk + str(num + 1)
+-            else:
+-                device_name = "/dev/" + p.disk + str(num)
++
++            part = ''
++            # mmc device partitions are named mmcblk0p1, mmcblk0p2..
++            if p.disk.startswith('mmcblk'):
++                part = 'p'
++
++            pnum = num
++            if self._ptable_format == 'msdos' and pnum > 3:
++                # account for logical partition numbering, ex. sda5..
++                pnum += 1
++
++            device_name = "/dev/" + p.disk + part + str(pnum)
+ 
+             opts = "defaults"
+             if p.fsopts:
+-- 
+1.9.3
 
-Ross
 
---001a11c12836affda0050aced2a2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 December 2014 at 14:10, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
->&gt;</span> wrote:<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":59c" class=3D=
-"a3s" style=3D"overflow:hidden">If this is work-around for &quot;common&quo=
-t; submodule being fetched from<br>
-do_configure, then it would be much safer (and more efficient) to<br>
-add common as 2nd git repo in SRC_URI and use normal git fetcher.<br>
-<div class=3D"HOEnZb"></div></div></blockquote></div><br>Yes it is, and agr=
-eed.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
-oss</div></div>
-
---001a11c12836affda0050aced2a2--
