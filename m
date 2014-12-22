@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8037872819
+	by mail.openembedded.org (Postfix) with ESMTP id 6367D7265F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 09:09:35 +0000 (UTC)
+	Mon, 22 Dec 2014 09:41:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBM98vHa029268; Mon, 22 Dec 2014 09:08:57 GMT
+	sBM9fAtC030422; Mon, 22 Dec 2014 09:41:10 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id MqyJObOzjd3W; Mon, 22 Dec 2014 09:08:57 +0000 (GMT)
+	with LMTP id etaHCpm6llRA; Mon, 22 Dec 2014 09:41:10 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBM98fG2029263
+	sBM9eqSd030414
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 22 Dec 2014 09:08:53 GMT
-Message-ID: <1419239358.13316.65.camel@linuxfoundation.org>
+	Mon, 22 Dec 2014 09:41:04 GMT
+Message-ID: <1419241289.13316.67.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 22 Dec 2014 09:09:18 +0000
-In-Reply-To: <CADkTA4OYpdJYGjb7DB6a7kEUiCP=zUjLahddNJjy5CjxM8VqFg@mail.gmail.com>
-References: <1419164943.13316.51.camel@linuxfoundation.org>
-	<CADkTA4OYpdJYGjb7DB6a7kEUiCP=zUjLahddNJjy5CjxM8VqFg@mail.gmail.com>
+To: Kai Kang <kai.kang@windriver.com>, Koen Kooi <koen.kooi@linaro.org>
+Date: Mon, 22 Dec 2014 09:41:29 +0000
+In-Reply-To: <38c83309734f903e97c3b8e51b0d6c501d1f2ded.1418885581.git.kai.kang@windriver.com>
+References: <cover.1418885577.git.kai.kang@windriver.com>
+	<38c83309734f903e97c3b8e51b0d6c501d1f2ded.1418885581.git.kai.kang@windriver.com>
 X-Mailer: Evolution 3.12.7-0ubuntu1 
 Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-devsrc: Handle ppc crtsaves.o explictly for now
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 08/19] libpng 1.6.13: fix build for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Dec 2014 09:09:38 -0000
+X-List-Received-Date: Mon, 22 Dec 2014 09:42:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2014-12-21 at 23:43 -0400, Bruce Ashfield wrote:
-> On Sun, Dec 21, 2014 at 8:29 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > Resolve kernel module build failures for qemuppc by including crtsaves.o.
-> >
-> > I'm not particularly happy to be doing this, it should perhaps be contained
-> > in the kernel-dev package. Until the overlap between kernel-devsrc and
-> > kernel-dev is resolved, this at least removed the regressions.
+On Thu, 2014-12-18 at 16:51 +0800, Kai Kang wrote:
+> From: Koen Kooi <koen.kooi@linaro.org>
 > 
-> Interesting. I built qemuppc for core-image-kerneldev and core-image-sato and
-> didn't see this.
+> The configure override was too restrictive, it needed both 'arm' and
+> 'neon' to trigger, which breaks on aarch64. Since TUNE_FEATURES is the
+> only qualifier that matters, drop the 'arm' override.
 > 
-> Are the build steps that triggered this captured in the bug ? Or are they in the
-> mailing list thread ? Either way, I'd like to run them here as part of
-> any follow
-> on cleanups.
+> Buildtested for 'genericarmv8' and 'qemux86' machines.
 > 
-> But the patch makes sense, and looks fine to me for the current state.
+> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+> ---
+>  meta/recipes-multimedia/libpng/libpng_1.6.13.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.13.bb b/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
+> index 0c6fd1f..8798a96 100644
+> --- a/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
+> +++ b/meta/recipes-multimedia/libpng/libpng_1.6.13.bb
+> @@ -19,7 +19,7 @@ BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
+>  inherit autotools binconfig-disabled pkgconfig
+>  
+>  # Work around missing symbols
+> -EXTRA_OECONF_append_arm = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
+> +EXTRA_OECONF_append = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
+>  
+>  PACKAGES =+ "${PN}-tools"
+>  
 
-Reproducer is/was in local.conf:
+I tried a test build of this series and see:
 
-TEST_IMAGE = "1"
-TEST_SUITES = "kernelmodule"
+https://autobuilder.yoctoproject.org/main/builders/nightly-arm/builds/136/steps/BuildImages_1/logs/stdio
 
-MACHINE=qemuppc bitbake core-image-sato-sdk
-
-which will then build the image, boot it and then try and build a kernel
-module. I did cheat and disable QT4 when I did it locally.
+in the output. Could someone look into that please? I'm guessing its
+related to this patch although I haven't bisected exactly.
 
 Cheers,
 
 Richard
+
 
 
 
