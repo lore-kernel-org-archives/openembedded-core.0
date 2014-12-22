@@ -1,37 +1,26 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C4E6C72992
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3274E72999
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 04:55:18 +0000 (UTC)
-Received: by mail-pa0-f46.google.com with SMTP id lf10so5171683pab.33
+	Mon, 22 Dec 2014 05:28:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBM5SV0w006895
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Dec 2014 20:55:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=xh9AFPU32dz2w1KytRiRXkEqsoAWQ7y9bX+OYWHH2gU=;
-	b=SfOvhKNmz343W9Xu7d6Hrk1LQPDfrPVKhl4CDhbMSFidv2ELJ9npmcqtk3GyzlVWj8
-	dARALaayHQU2Ipo2BWYUF+ppqe0rvpBBMY/1tHc7oZQj7XkPPQ2VA39XaW9SD8hwbIY5
-	RWPKjLkowAw+qg+BTben0AIOFIwzUuCuIg1j0Osn7kJv0SOGmq+1X+VWtJfMUocTmxvR
-	zGIe4+ZKd4E+J1QYr/w/DbGSufrgjIwt7leOEcjNSdXIJUwNLdcglM6MG6BaYyiHaRdx
-	Mfe0UwvZEh//DtTgPmqM2WIYDEO444d2kl92id1mYw2iVTyxhw5SO7G3otgsjUXySfL/
-	gOaQ==
-X-Received: by 10.68.106.68 with SMTP id gs4mr32645146pbb.23.1419224119092;
-	Sun, 21 Dec 2014 20:55:19 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by mx.google.com with ESMTPSA id
-	nx1sm15835688pdb.85.2014.12.21.20.55.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 21 Dec 2014 20:55:17 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Dec 2014 20:55:01 -0800
-Message-Id: <1419224101-24900-6-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1419224101-24900-1-git-send-email-akuster808@gmail.com>
-References: <1419224101-24900-1-git-send-email-akuster808@gmail.com>
-Subject: [[PATCH 5/5] xinit: fix depends issue
+	Sun, 21 Dec 2014 21:28:31 -0800 (PST)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
+	Sun, 21 Dec 2014 21:28:30 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 21 Dec 2014 21:28:24 -0800
+Message-ID: <a2337b1a98db213e18084fa5f228639f12de4e79.1419226071.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1419226071.git.liezhi.yang@windriver.com>
+References: <cover.1419226071.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 2/7] wget: upgrade to 1.16.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,42 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Dec 2014 04:55:18 -0000
+X-List-Received-Date: Mon, 22 Dec 2014 05:28:31 -0000
+Content-Type: text/plain
 
-xinit.cpp in xinit package calls xterm, xclock and twm so
-add depends for those packages.
+* upgrade to 1.16.1
+* inherit pkgconfig to fix the error like:a
+  | configure.ac:41: error: possibly undefined macro: AC_MSG_NOTICE
+  | configure.ac:89: error: possibly undefined macro: AS_IF
 
-Added X11 distro check.
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-graphics/xorg-app/xinit_1.3.3.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/recipes-extended/wget/wget.inc                |    2 +-
+ .../wget/{wget_1.16.bb => wget_1.16.1.bb}          |    4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/wget/{wget_1.16.bb => wget_1.16.1.bb} (45%)
 
-diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.3.bb b/meta/recipes-graphics/xorg-app/xinit_1.3.3.bb
-index 583ea87..874756d 100644
---- a/meta/recipes-graphics/xorg-app/xinit_1.3.3.bb
-+++ b/meta/recipes-graphics/xorg-app/xinit_1.3.3.bb
-@@ -10,11 +10,17 @@ then terminate."
+diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
+index dc46841..f2e12ef 100644
+--- a/meta/recipes-extended/wget/wget.inc
++++ b/meta/recipes-extended/wget/wget.inc
+@@ -7,7 +7,7 @@ DEPENDS = "gnutls zlib libpcre"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=18f01e7b39807bebe2b8df101a039b68"
+ INC_PR = "r16"
  
-+DEPENDS = "twm xterm xclock"
-+# depends on virtual/libx11
-+REQUIRED_DISTRO_FEATURES = "x11"
-+
- PE = "1"
+-inherit autotools gettext texinfo update-alternatives
++inherit autotools gettext texinfo update-alternatives pkgconfig
  
- SRC_URI[md5sum] = "3b8da0e6237aee9828cc809c647510a7"
- SRC_URI[sha256sum] = "74b2878de6e3d5b5948f1562a77e7f53b4e10621e505ddb278050c7f3cae00af"
+ EXTRA_OECONF = "--enable-ipv6 --with-ssl=gnutls --disable-rpath --disable-iri \
+                 --without-libgnutls-prefix ac_cv_header_uuid_uuid_h=no"
+diff --git a/meta/recipes-extended/wget/wget_1.16.bb b/meta/recipes-extended/wget/wget_1.16.1.bb
+similarity index 45%
+rename from meta/recipes-extended/wget/wget_1.16.bb
+rename to meta/recipes-extended/wget/wget_1.16.1.bb
+index 257b534..ca6f0fe 100644
+--- a/meta/recipes-extended/wget/wget_1.16.bb
++++ b/meta/recipes-extended/wget/wget_1.16.1.bb
+@@ -2,7 +2,7 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://fix_makefile.patch \
+           "
  
-+inherit distro_features_check
-+
- EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie"
+-SRC_URI[md5sum] = "293a37977c41b5522f781d3a3a078426"
+-SRC_URI[sha256sum] = "b977fc10ac7a72d987d48136251aeb332f2dced1aabd50d6d56bdf72e2b79101"
++SRC_URI[md5sum] = "5d12410a398ec9907e105e8734561ba0"
++SRC_URI[sha256sum] = "3b834ce69366d4681f295307fce36ee14e122c4ee68a4d1291b62b0b26755a77"
  
--RDEPENDS_${PN} += "util-linux-mcookie"
-+RDEPENDS_${PN} += "util-linux-mcookie twm xterm xclock"
+ require wget.inc
 -- 
-1.9.1
+1.7.9.5
 
 
