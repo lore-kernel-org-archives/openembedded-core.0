@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3433B729A9
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 59FB3729B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 05:28:31 +0000 (UTC)
+	Mon, 22 Dec 2014 05:28:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBM5SV9Y006899
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBM5SUVP021176
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Dec 2014 21:28:31 -0800 (PST)
+	Sun, 21 Dec 2014 21:28:30 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Sun, 21 Dec 2014 21:28:31 -0800
+	Sun, 21 Dec 2014 21:28:30 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 21 Dec 2014 21:28:26 -0800
-Message-ID: <7ec1bc7bb6c04478dc4c382ae95bd4c6e8aad5c2.1419226071.git.liezhi.yang@windriver.com>
+Date: Sun, 21 Dec 2014 21:28:23 -0800
+Message-ID: <71a5aa10d1cb5008c65a997d9a82a3f6292f20f0.1419226071.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1419226071.git.liezhi.yang@windriver.com>
 References: <cover.1419226071.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/7] rsync: upgrade to 3.1.1
+Subject: [PATCH 1/7] file: upgrade to 5.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +36,51 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 22 Dec 2014 05:28:31 -0000
 Content-Type: text/plain
 
+* Upgrade to 5.21.
+* The debian-742262.patch is still needed.
+
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../rsync/{rsync_3.1.0.bb => rsync_3.1.1.bb}       |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/rsync/{rsync_3.1.0.bb => rsync_3.1.1.bb} (83%)
+ .../recipes-devtools/file/file/debian-742262.patch |    4 ++--
+ .../file/{file_5.18.bb => file_5.21.bb}            |    4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/file/{file_5.18.bb => file_5.21.bb} (86%)
 
-diff --git a/meta/recipes-devtools/rsync/rsync_3.1.0.bb b/meta/recipes-devtools/rsync/rsync_3.1.1.bb
-similarity index 83%
-rename from meta/recipes-devtools/rsync/rsync_3.1.0.bb
-rename to meta/recipes-devtools/rsync/rsync_3.1.1.bb
-index a4a5c10..5ff8ae8 100644
---- a/meta/recipes-devtools/rsync/rsync_3.1.0.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.1.1.bb
-@@ -3,8 +3,8 @@ require rsync.inc
+diff --git a/meta/recipes-devtools/file/file/debian-742262.patch b/meta/recipes-devtools/file/file/debian-742262.patch
+index d57258c..1ef485e 100644
+--- a/meta/recipes-devtools/file/file/debian-742262.patch
++++ b/meta/recipes-devtools/file/file/debian-742262.patch
+@@ -9,10 +9,10 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+ diff --git a/magic/Magdir/commands b/magic/Magdir/commands
+ --- a/magic/Magdir/commands
+ +++ b/magic/Magdir/commands
+-@@ -50,6 +50,7 @@
++@@ -57,6 +57,7 @@
+  0	string/wt	#!\ /usr/bin/awk	awk script text executable
+  !:mime	text/x-awk
+- 0	regex		=^\\s{0,100}BEGIN\\s{0,100}[{]	awk script text
++ 0	regex/4096	=^\\s{0,100}BEGIN\\s{0,100}[{]	awk or perl script text
+ +!:strength - 12
+  
+  # AT&T Bell Labs' Plan 9 shell
+diff --git a/meta/recipes-devtools/file/file_5.18.bb b/meta/recipes-devtools/file/file_5.21.bb
+similarity index 86%
+rename from meta/recipes-devtools/file/file_5.18.bb
+rename to meta/recipes-devtools/file/file_5.21.bb
+index 9068b93..702ea87 100644
+--- a/meta/recipes-devtools/file/file_5.18.bb
++++ b/meta/recipes-devtools/file/file_5.21.bb
+@@ -15,8 +15,8 @@ SRC_URI = "ftp://ftp.astron.com/pub/file/file-${PV}.tar.gz \
+            file://debian-742262.patch \
+           "
  
- SRC_URI += "file://acinclude.m4"
+-SRC_URI[md5sum] = "d420d8f2990cd344673acfbf8d76ff5a"
+-SRC_URI[sha256sum] = "6519fb706d583231c2419592ebecdbb21d33c62eaf7a1a0b24ddfcb80c08bf07"
++SRC_URI[md5sum] = "549fe96e09041eabece9de2bb28ef923"
++SRC_URI[sha256sum] = "1a48741d3923c4cc73267109b8a396c0ce3aebe004181f3efb1b0a228d230bb6"
  
--SRC_URI[md5sum] = "3be148772a33224771a8d4d2a028b132"
--SRC_URI[sha256sum] = "81ca23f77fc9b957eb9845a6024f41af0ff0c619b7f38576887c63fa38e2394e"
-+SRC_URI[md5sum] = "43bd6676f0b404326eee2d63be3cdcfe"
-+SRC_URI[sha256sum] = "7de4364fcf5fe42f3bdb514417f1c40d10bbca896abe7e7f2c581c6ea08a2621"
+ inherit autotools
  
- PACKAGECONFIG ??= "acl attr"
- PACKAGECONFIG[acl] = "--enable-acl-support,--disable-acl-support,acl,"
 -- 
 1.7.9.5
 
