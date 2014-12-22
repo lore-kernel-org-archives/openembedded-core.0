@@ -1,36 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DA7672810
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 85BC372810
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 14:48:56 +0000 (UTC)
-Received: by mail-qc0-f179.google.com with SMTP id c9so3346133qcz.38
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 06:48:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=JLGFRuYgTXBhi4AgC6weKLnfv2pfblkB+z2yismAPDg=;
-	b=RfgRYIsSEqYIQNLK+xHL96Rz435IPU/AGddC5MmaXeQ1sMFjPMkd9LmB476qmdOEZf
-	vEF1jh4H55KqegmZ/KUPIMm7TIZLtNNaELfAUPn4Id/+o+Oh8NTtS1Zjt5s/ax0qDe7c
-	6ZU9Q/zT1+xvu4HZAgcQyPNZnnAs/39BsKVpLzpl979NpfXtyCY41qWydeBR/nUXUBcf
-	5E32FXjySK4TvXQVEH5OrD8VBKeYxMEOl8IB53a40+aU1mzNvmOxB3oTP/K+derkttlj
-	H4R0FLTwJfdA8GFU+sMBTC/7eGUgM6ffC9Vfj0Y+Ovg/dFXGLwQ21iqt2iIXjqO0xW/r
-	nPfQ==
-X-Gm-Message-State: ALoCoQmxk8Uex3dsNtg4C0WtswKHI2NJgCWCvXT5Og8/mAhwdH/LocNS99NoBe0T0/JqBeX5hhF+
-X-Received: by 10.229.249.137 with SMTP id mk9mr36959688qcb.4.1419259737129;
-	Mon, 22 Dec 2014 06:48:57 -0800 (PST)
+	Mon, 22 Dec 2014 14:57:53 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBMEvpia028632
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Mon, 22 Dec 2014 06:57:51 -0800 (PST)
+Received: from [128.224.162.174] (128.224.162.174) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.174.1;
+	Mon, 22 Dec 2014 06:57:51 -0800
+Message-ID: <5498316D.5060109@windriver.com>
+Date: Mon, 22 Dec 2014 22:57:49 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Mon, 22 Dec 2014 06:48:36 -0800 (PST)
-In-Reply-To: <1419224101-24900-1-git-send-email-akuster808@gmail.com>
-References: <1419224101-24900-1-git-send-email-akuster808@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Dec 2014 14:48:36 +0000
-Message-ID: <CAJTo0LaOaz=vsqPPCy-f47vuAHx-rfgd7zZpLXNd3Qyhi36rww@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] [RFC] Move packages from meta-oe to core for X11
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1419226071.git.liezhi.yang@windriver.com>	
+	<c0e692b5ec1f49ecaf89b0ecf58c7f927dbe9aab.1419226071.git.liezhi.yang@windriver.com>
+	<1419253691.13316.74.camel@linuxfoundation.org>
+In-Reply-To: <1419253691.13316.74.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/7] logrotate: upgrade to 3.8.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +36,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Dec 2014 14:48:59 -0000
-Content-Type: multipart/alternative; boundary=001a11334d9079df4e050acf28f9
+X-List-Received-Date: Mon, 22 Dec 2014 14:58:01 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11334d9079df4e050acf28f9
-Content-Type: text/plain; charset=UTF-8
 
-On 22 December 2014 at 04:54, Armin Kuster <akuster808@gmail.com> wrote:
+
+On 12/22/2014 09:08 PM, Richard Purdie wrote:
+> On Sun, 2014-12-21 at 21:28 -0800, Robert Yang wrote:
+>> * Upgrade to 3.8.8.
+>> * Remove disable-check-different-filesystems.patch which had been merged
+>>    by upstream.
 >
-> This fixes 'core-image-x11' image dependancy on meta-oe packages
-> since xinit requires xterm, xclock and twm to 'startx'.
+> Are you sure? Autobuilder shows:
 >
 
-Why can't we just make core-image-x11 start Matchbox instead?  Adding twm
-and xclock to oe-core seems crazy.
+Sorry, I had submitted the patches to the upstream two years ago, and
+remembered that got some feed back, but clearly not got merged, I will
+talk with the upstream.
 
-Ross
+I've updated the patch for 3.8.8 atm, and pushed all the packages upagrade
+to the repo:
 
---001a11334d9079df4e050acf28f9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+   git://git.openembedded.org/openembedded-core-contrib rbt/pu
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
-2 December 2014 at 04:54, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</s=
-pan> wrote:<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":6r2" class=3D"a3s" st=
-yle=3D"overflow:hidden">This fixes &#39;core-image-x11&#39; image dependanc=
-y on meta-oe packages<br>
-since xinit requires xterm, xclock and twm to &#39;startx&#39;.</div></bloc=
-kquote></div><br>Why can&#39;t we just make core-image-x11 start Matchbox i=
-nstead?=C2=A0 Adding twm and xclock to oe-core seems crazy.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+I've done some testing on it, rotate the log from /var/log/ to /home/root,
+it works well.
 
---001a11334d9079df4e050acf28f9--
+// Robert
+
+> https://autobuilder.yoctoproject.org/main/builders/nightly-qa-logrotate/builds/136/steps/Running%20Sanity%20Tests/logs/stdio
+>
+> Cheers,
+>
+> Richard
+>
+>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   .../disable-check-different-filesystems.patch      |   34 --------------------
+>>   .../{logrotate_3.8.7.bb => logrotate_3.8.8.bb}     |    5 ++-
+>>   2 files changed, 2 insertions(+), 37 deletions(-)
+>>   delete mode 100644 meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch
+>>   rename meta/recipes-extended/logrotate/{logrotate_3.8.7.bb => logrotate_3.8.8.bb} (89%)
+>>
+>> diff --git a/meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch b/meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch
+>> deleted file mode 100644
+>> index 43068bd..0000000
+>> --- a/meta/recipes-extended/logrotate/logrotate/disable-check-different-filesystems.patch
+>> +++ /dev/null
+>> @@ -1,34 +0,0 @@
+>> -Disable the check for different filesystems
+>> -
+>> -The logrotate supports rotate log across different filesystems now, so
+>> -disable the check for different filesystems.
+>> -
+>> -Upstream-Status: Submitted
+>> -
+>> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ----
+>> - config.c |    8 --------
+>> - 1 files changed, 0 insertions(+), 8 deletions(-)
+>> -
+>> -diff --git a/config.c b/config.c
+>> -index a85d1df..24575b3 100644
+>> ---- a/config.c
+>> -+++ b/config.c
+>> -@@ -1453,14 +1453,6 @@ static int readConfigFile(const char *configFile, struct logInfo *defConfig)
+>> - 						dirName, strerror(errno));
+>> - 					goto error;
+>> - 					}
+>> --
+>> --					if (sb.st_dev != sb2.st_dev) {
+>> --					message(MESS_ERROR,
+>> --						"%s:%d olddir %s and log file %s "
+>> --						"are on different devices\n", configFile,
+>> --						lineNum, newlog->oldDir, newlog->files[i]);
+>> --					goto error;
+>> --					}
+>> - 				}
+>> - 				}
+>> -
+>> ---
+>> -1.7.4.1
+>> -
+>> diff --git a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb b/meta/recipes-extended/logrotate/logrotate_3.8.8.bb
+>> similarity index 89%
+>> rename from meta/recipes-extended/logrotate/logrotate_3.8.7.bb
+>> rename to meta/recipes-extended/logrotate/logrotate_3.8.8.bb
+>> index faa8e02..8d32938 100644
+>> --- a/meta/recipes-extended/logrotate/logrotate_3.8.7.bb
+>> +++ b/meta/recipes-extended/logrotate/logrotate_3.8.8.bb
+>> @@ -9,12 +9,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
+>>
+>>   SRC_URI = "https://fedorahosted.org/releases/l/o/logrotate/logrotate-${PV}.tar.gz \
+>>              file://act-as-mv-when-rotate.patch \
+>> -           file://disable-check-different-filesystems.patch \
+>>              file://update-the-manual.patch \
+>>               "
+>>
+>> -SRC_URI[md5sum] = "99e08503ef24c3e2e3ff74cc5f3be213"
+>> -SRC_URI[sha256sum] = "f6ba691f40e30e640efa2752c1f9499a3f9738257660994de70a45fe00d12b64"
+>> +SRC_URI[md5sum] = "49846e873dddea15964cd0355b9943ca"
+>> +SRC_URI[sha256sum] = "46a1510ef4a1f4359edd5f361112cfd1523942e85ff28e6cbb0c81bad1829d0f"
+>>
+>>   PACKAGECONFIG ?= "\
+>>       ${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)} \
+>> --
+>> 1.7.9.5
+>>
+>
+>
+>
+>
+
