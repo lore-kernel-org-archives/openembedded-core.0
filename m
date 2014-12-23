@@ -1,30 +1,36 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F1B68726D4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 11F0F7272A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Dec 2014 08:44:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBN8iRli008037
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Dec 2014 00:44:27 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Tue, 23 Dec 2014 00:44:26 -0800
-Message-ID: <54992B6A.7060608@windriver.com>
-Date: Tue, 23 Dec 2014 16:44:26 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1418969925.git.Qi.Chen@windriver.com>	<084ad3c5c70057e5f8f06bf85b4543a590a17a54.1418969925.git.Qi.Chen@windriver.com>	<5493C8D0.1040907@topic.nl>
-	<5498CBEA.1040708@windriver.com>
-	<20141223062542.GA9157@ad.chargestorm.se>
-In-Reply-To: <20141223062542.GA9157@ad.chargestorm.se>
-X-Originating-IP: [128.224.162.226]
-Subject: Re: [PATCH 1/4] packaging: allow globs in CONFFILES
+	Tue, 23 Dec 2014 08:54:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBN8sFkN004559; Tue, 23 Dec 2014 08:54:15 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NwzPCnzUDBTq; Tue, 23 Dec 2014 08:54:15 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBN8s16I004551
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 23 Dec 2014 08:54:13 GMT
+Message-ID: <1419324878.1777.5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>, "Ashfield, Bruce"
+	<Bruce.Ashfield@windriver.com>
+Date: Tue, 23 Dec 2014 08:54:38 +0000
+In-Reply-To: <lysig715l0.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <cover.1418207154.git.bruce.ashfield@windriver.com>
+	<0247524f2f7ae076fdac8773c3baa0794e5697dd.1418207154.git.bruce.ashfield@windriver.com>
+	<lyegrv99wr.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1418989891.13316.10.camel@linuxfoundation.org>
+	<ly7fxnon55.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1418991892.13316.12.camel@linuxfoundation.org>
+	<lysig715l0.fsf@ensc-virt.intern.sigma-chemnitz.de>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/7] kernel: fix out of tree module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,455 +43,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Dec 2014 08:44:36 -0000
-Content-Type: multipart/alternative;
-	boundary="------------010803010504050308030700"
-
---------------010803010504050308030700
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Tue, 23 Dec 2014 08:54:57 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 12/23/2014 02:25 PM, Anders Darander wrote:
-> * ChenQi <Qi.Chen@windriver.com> [141223 02:58]:
->
->> On 12/19/2014 02:42 PM, Mike Looijmans wrote:
->>> On 12/19/2014 07:21 AM, Chen Qi wrote:
->>>> ...
->>>> As almost all files under /etc are basically configuration files, we
->>>> provide a default value for CONFFILES.
->>>>      CONNFFILES = "${sysconfdir}"
->>> This is going to hurt a lot of recipes. Please do not set this.
-> Definitely true!
->
->>> The default has always been that CONFFILES is empty. I see no reason
->>> whatsoever to suddenly change this.
->>>> In this way, we don't need to modify every recipe to set the
->>>> CONFFILES variable. Of course, setting CONFFILES in recipes take
->>>> precedence over the CONFFILES. For example, if the recipe author
->>>> decides that package A should only treat files under
->>>> ${sysconfdir}/default/ as config files, he/she can write like this.
->>>>      CONFFILES_A = "${sysconfdir}/default"
->>>> The above situation should not be common. As according to FHS, the
->>>> /etc directory is a place for all system related configuration
->>>> files.
-> No, similar lines will be required for quite a few recipes...
->
->>> FHS may have written that somewhere, but if you just take a quick
->>> look at what is in /etc/, you'll find that actual configuration files
->>> are quite rare, but there are tons of scripts and distro related
->>> files there.  Whether or not a file there is supposed to be edited by
->>> the end-user is something of a distro decision.
->>> Also, "configuration file" does not necessarily mean that the USER is
->>> in control. A configuration file may also simply distinguish machine
->>> capabilities or software features.
->>> We'll end up having to patch hundreds of recipes with a CONFFILES=""
->>> or similar line.
->> Most files under /etc are configuration files. If we don't default
->> CONFFILES to ${sysconfdir}, then we have to patch a lot of recipes
->> with CONFFILES_xxx = "xxxx" lines.
-> Well, there are a lot of those configuration files, that only the
-> distribution will care about. Especially if we're talking embedded
-> devices.
->
->> The fact is that when people write recipes, they often forget about
->> CONFFILES.  The typical example is the shadow recipe. And I can easily
->> give you more examples.
-> This patch won't help this, it just shifts everything 180 degrees
-> around. Now we have to explicitly remove a number of files from
-> CONFFILES in a number of packages; which obviously is something that
-> people will forget...
->
->> And it's not uncommon that people forget to check CONFFILES when they
->> update the recipe.  When the recipe is updated to a new version, it's
->> possible that the CONFFILES should change.  The typical example is the
->> systemd recipe.
->> *The bad effect of the above? On-target package upgrades override user
->> changes. That's a really annoying problem, isn't it?* Users of OE
->> based projects have complained about this. There were patches on OE
->> which fixed several recipes. But the solution doesn't scale.
-> I tend to agree with Mike here. It's better to explicitly add files (or
-> directories) in each recipe, as that will make it more obvious which
-> files won't get overwritten during a package upgrade. Sure, short-term
-> this might mean more patches (I'm nt really sure of the status regarding
-> this).
->
-> But more importantly, it will keep the determinism and explicit marking
-> of CONFFILES. Again, remember that we're primarily talking about
-> embedded devices here, where the distibution/distributor quite likely
-> need some more control, compared to a regular desktop distribution.
+On Tue, 2014-12-23 at 03:07 +0100, Enrico Scholz wrote:
+> Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+> 
+> > In summary, basically, yes. The kernel source is huge and we were
+> > compressing/decompressing it in several places on the critical path.
+> > People were struggling to develop kernels using the system due to the
+> > overhead.
+> 
+> I do not see how the new system makes it easier to "develop kernels".
 
+One of the complaints I keep hearing is how long the populate_sysroot
+and package tasks take. I also get complaints about the sstate footprint
+of those tasks.
 
-Hi Anders,
+Imagine you're doing a "bitbake virtual/kernel -c compile -f", hacking
+on a module, you then package and install it onto the target to test.
 
-I read your comments carefully and thought for a while. Sorry but I 
-still insist my opinion.
-Please see reasons below.
+As things stood, the package and populate_sysroot tasks took a while
+(I'll get to times in a minute). This was particularly true with large
+kernel source directories.
 
-First of all, I don't think this issue has anything to do with the 
-'embedded devices' or 'desktop distribution' thing. The two concepts are 
-too large and should not become the reason. Some desktop distributions 
-support image based upgrades. Many small embedded devices should only do 
-image based upgrades. Most desktop distributions support package based 
-upgrades, some embedded devices should also support it.
-What we are talking here is on-target package upgrades. If the 
-distributor wants to have full control, then its users/customers should 
-be suggested to only do image-based upgrades.
-But now, let's just focus on package based upgrades.
+We also had issues about how and when "make scripts" should be run on
+the kernel directory to enable module building and conflicts over people
+wanting the source code to be able to develop modules on target. Not
+everyone wants the latter but it should be available to those who do
+want it and the old kernel-dev package was basically crippled.
 
-We have to be aware that package managers are designed to handle config 
-files specially. Why they are designed to do so? Because users should 
-not be surprised.
-Take 'rpm' as an example.
+Taking a step back from things and keeping in mind some of the
+"developer experience" goals of the 1.8 release, we therefore looked at
+how we could improve things. The biggest problem and overhead is the
+amount of copying of a large chunk of data (the kernel source) that we
+make and the fact that it was incomplete in kernel-dev due to wanting
+speed (at the expense of breaking it). The changes therefore look at
+improving things in that area.
 
-File marked as 	Changed in update RPM? 	On-disk file untouched 	On-disk 
-file edited
-[default] 	No 	File from update 	File from update
-Yes 	File from update 	File from update
-%config 	No 	File from update 	Edited file
-Yes 	File from update 	File from update, edited file in .rpmsave
-%config(noreplace) 	No 	File from update 	Edited file
-Yes 	File from update 	Edited file, file from the update in .rpmnew
+>   Due
+> to polluting sources with .config and related files, KBUILD_OUTPUT/VPATH
+> builds are not possible from this tree.
 
+Agreed and I'm actually not happy about this. I think going forward
+we'll need a second directory for these so we do keep the output
+separate and can recompile against it. Bruce, please take note we
+probably need to change this.
 
+> In my experience, it is also a pain to jump between the different
+> directories and tools like 'cscope' are not prepared of it.
+> 
+> And more importantly: the new system lowers end user experience
+> significantly because kernel messages will show absolute buildsystem
+> paths now; e.g.
+> 
+> | /srv/.oe/bld/e6ca2c38-c20d-f57f-7eca-ffc0aaa2f0bd/sysroots/kk-trizeps6/usr/src/kernel/drivers/usb/core/hub.c
+> 
+> vs.
+> 
+> | drivers/usb/core/hub.c
 
-You can see that it's pretty reasonable.
-The problem we have now is that if the user edit a configuration file 
-(e.g. /etc/login.defs), the file will still be overridden by upgrades 
-even if the file doesn't change in the new package.
+See my other email on the two sides to this. Here I can tell from a cut
+and pasted failure which revisions you were trying to build so it
+actually makes the logs more useful in some contexts. That isn't the
+reason we've done this but I'd say it can be helpful.
 
-Now the focus is whether we should take ${sysconfdir} as the default 
-value for CONFFILES.
-I strongly think we should. Why? We can easily make use of the power of 
-package managers for dealing with configuration files.
-If we don't do so, very likely the user changes would be overridden 
-silently without informing the user.
-This should not happen, especially when the files are under /etc. 
-Otherwise we will get angry users or customers. How are we gonna explain 
-to them? I don't 'embedded device' could be a satisfactory reason.
-Please see the number below. Hope this will reveal the situation of 
-CONFFILES in OE.
-chenqi@pek-hostel-deb01:~/poky [0] $ find meta meta-openembedded/ -name 
-"*.bb" | wc -l
-1897
-chenqi@pek-hostel-deb01:~/poky [0] $ find meta meta-openembedded/ -name 
-"*.bb" -o -name "*.inc" | xargs grep CONFFILES | wc -l
-86
+> VPATH builds might be interesting for QA (e.g. building from same source
+> with different configuration) but should not be used for final builds.
+> 
+> 
+> > Whilst this approach does bypass some parts of the system, I do believe
+> > the benefits are worth it. We're talking about making the kernel build
+> > time about three times faster iirc,
 
-Best Regards,
-Chen Qi
+I did say "iirc" and I don't exactly remember the circumstances I tested
+that, see below, sorry :(.
 
->> The patchset is an effort to change this situation.
-> I don't think we'll gain that much from this patch; rather we'll
-> loose...
->
-> Cheers,
-> Anders
->
+> I can not reproduce these numbers here; I get (after a '-c cleanall' and
+> 'ccache -c'):
+> 
+>   | Task                         | time (old) | time (new) |
+>   |------------------------------+------------+------------|
+>   | do_bundle_initramfs          |   0.087052 |   0.034955 |
+>   | do_compile                   | 128.242407 | 133.723027 |
+>   | do_compile_kernelmodules     |  84.415655 |  83.249409 |
+>   | do_compile_prepare           |   2.885401 |   1.714159 |
+>   | do_configure                 |   6.202691 |   4.340526 |
+>   | do_deploy                    |  13.991785 |   14.07096 |
+>   | do_fetch                     |   0.210244 |   1.425304 |
+>   | do_generate_initramfs_source |   0.063915 |   0.041925 |
+>   | do_install                   |  16.190504 |    2.91906 |
+>   | do_package                   | 120.823374 |  16.422429 |
+>   | do_package_qa                |            |   2.557622 |
+>   | do_package_write_ipk         |   42.50694 |   29.57585 |
+>   | do_packagedata               |   1.612542 |   0.462001 |
+>   | do_patch                     |   0.186583 |   0.011232 |
+>   | do_populate_lic              |   0.795013 |   0.135186 |
+>   | do_populate_sysroot          |  10.142978 |   0.533519 |
+>   | do_rm_work                   |   1.762486 |   0.447187 |
+>   | do_rm_work_all               |   0.049144 |   0.030964 |
+>   | do_sizecheck                 |   0.054441 |   0.035806 |
+>   | do_strip                     |   0.049917 |   0.030841 |
+>   | do_uboot_mkimage             |   9.032543 |   12.83624 |
+>   | do_unpack                    |   6.695678 |   9.322173 |
+> 
+>   | old | 446.00129 |
+>   | new | 313.92038 |
 
+So you have a gain here from 7.4 mins to 5.2 mins which isn't bad. I'd
+observe your numbers suggest you have pretty fast disk IO, I've seen the
+populate_sysroot task take a lot longer due to the amount of data being
+copied around. Keep in mind that whilst do_package improved, so did
+package_write_ipk, rm_work, install and populate_sysroot, all quite a
+bit more than "three times".
 
---------------010803010504050308030700
-Content-Type: text/html; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+I suspect my "three times" number comes from my highly parallel core
+system where the do_compile/do_compilemodules step runs extremely
+quickly (say 20s) but do_package was about the same as this so you can
+imagine if you reduce do_package from 120s to 16s, you could see an
+increase of about "three times".
 
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 12/23/2014 02:25 PM, Anders Darander
-      wrote:<br>
-    </div>
-    <blockquote cite="mid:20141223062542.GA9157@ad.chargestorm.se"
-      type="cite">
-      <pre wrap="">* ChenQi <a class="moz-txt-link-rfc2396E" href="mailto:Qi.Chen@windriver.com">&lt;Qi.Chen@windriver.com&gt;</a> [141223 02:58]:
+To give another perspective on the times, we run "official" benchmarks
+of some things and the line before and after the changes merged from
+that log is:
 
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">On 12/19/2014 02:42 PM, Mike Looijmans wrote:
-</pre>
-        <blockquote type="cite">
-          <pre wrap="">On 12/19/2014 07:21 AM, Chen Qi wrote:
-</pre>
-          <blockquote type="cite">
-            <pre wrap="">...
-As almost all files under /etc are basically configuration files, we
-provide a default value for CONFFILES.
-</pre>
-          </blockquote>
-        </blockquote>
-      </blockquote>
-      <pre wrap="">
-</pre>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <blockquote type="cite">
-            <pre wrap="">    CONNFFILES = "${sysconfdir}"
-</pre>
-          </blockquote>
-        </blockquote>
-      </blockquote>
-      <pre wrap="">
-</pre>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <pre wrap="">This is going to hurt a lot of recipes. Please do not set this.
-</pre>
-        </blockquote>
-      </blockquote>
-      <pre wrap="">
-Definitely true!
+fedora19,master:88528a128fe7c11871c24706ff6d245b183d6975,1.7_M2-1510-g88528a1,1:18:03,11:16.26,1:13:35,4:11.18,0:34.68,0:15.72,0:01.08,24805964,5548960
+fedora19,master:b99419ff4c1b5ac1e4acd34d95fffd3ac5458bad,1.7_M2-1553-gb99419f,1:13:20,8:10.41,1:10:07,4:08.31,0:34.67,0:15.77,0:01.05,24385880,5956872
 
-</pre>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <pre wrap="">The default has always been that CONFFILES is empty. I see no reason
-whatsoever to suddenly change this.
-</pre>
-        </blockquote>
-      </blockquote>
-      <pre wrap="">
-</pre>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <blockquote type="cite">
-            <pre wrap="">In this way, we don't need to modify every recipe to set the
-CONFFILES variable. Of course, setting CONFFILES in recipes take
-precedence over the CONFFILES. For example, if the recipe author
-decides that package A should only treat files under
-${sysconfdir}/default/ as config files, he/she can write like this.
-</pre>
-          </blockquote>
-        </blockquote>
-      </blockquote>
-      <pre wrap="">
-</pre>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <blockquote type="cite">
-            <pre wrap="">    CONFFILES_A = "${sysconfdir}/default"
-</pre>
-          </blockquote>
-        </blockquote>
-      </blockquote>
-      <pre wrap="">
-</pre>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <blockquote type="cite">
-            <pre wrap="">The above situation should not be common. As according to FHS, the
-/etc directory is a place for all system related configuration
-files.
-</pre>
-          </blockquote>
-        </blockquote>
-      </blockquote>
-      <pre wrap="">
-No, similar lines will be required for quite a few recipes...
+What that shows is that:
 
-</pre>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <pre wrap="">FHS may have written that somewhere, but if you just take a quick
-look at what is in /etc/, you'll find that actual configuration files
-are quite rare, but there are tons of scripts and distro related
-files there.  Whether or not a file there is supposed to be edited by
-the end-user is something of a distro decision.
-</pre>
-        </blockquote>
-      </blockquote>
-      <pre wrap="">
-</pre>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <pre wrap="">Also, "configuration file" does not necessarily mean that the USER is
-in control. A configuration file may also simply distinguish machine
-capabilities or software features.
-</pre>
-        </blockquote>
-      </blockquote>
-      <pre wrap="">
-</pre>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <pre wrap="">We'll end up having to patch hundreds of recipes with a CONFFILES=""
-or similar line.
-</pre>
-        </blockquote>
-      </blockquote>
-      <pre wrap="">
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">Most files under /etc are configuration files. If we don't default
-CONFFILES to ${sysconfdir}, then we have to patch a lot of recipes
-with CONFFILES_xxx = "xxxx" lines.
-</pre>
-      </blockquote>
-      <pre wrap="">
-Well, there are a lot of those configuration files, that only the
-distribution will care about. Especially if we're talking embedded
-devices.
+The "bitbake core-image-sato -c rootfs" time without rm_work went from
+1:18 to 1:13, i.e. improved 5 mins.
 
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">The fact is that when people write recipes, they often forget about
-CONFFILES.  The typical example is the shadow recipe. And I can easily
-give you more examples.
-</pre>
-      </blockquote>
-      <pre wrap="">
-This patch won't help this, it just shifts everything 180 degrees
-around. Now we have to explicitly remove a number of files from
-CONFFILES in a number of packages; which obviously is something that
-people will forget...
+The "bitbake virtual/kernel" time went from 11:16 to 8:10, i.e. improved
+by 3 mins.
 
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">And it's not uncommon that people forget to check CONFFILES when they
-update the recipe.  When the recipe is updated to a new version, it's
-possible that the CONFFILES should change.  The typical example is the
-systemd recipe.
-</pre>
-      </blockquote>
-      <pre wrap="">
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">*The bad effect of the above? On-target package upgrades override user
-changes. That's a really annoying problem, isn't it?* Users of OE
-based projects have complained about this. There were patches on OE
-which fixed several recipes. But the solution doesn't scale.
-</pre>
-      </blockquote>
-      <pre wrap="">
-I tend to agree with Mike here. It's better to explicitly add files (or
-directories) in each recipe, as that will make it more obvious which
-files won't get overwritten during a package upgrade. Sure, short-term
-this might mean more patches (I'm nt really sure of the status regarding
-this). 
+The "bitbake core-image-sato -c rootfs" time with rm_work went from 1:13
+to 1:10, i.e. improved 3 mins.
 
-But more importantly, it will keep the determinism and explicit marking
-of CONFFILES. Again, remember that we're primarily talking about
-embedded devices here, where the distibution/distributor quite likely
-need some more control, compared to a regular desktop distribution.
-</pre>
-    </blockquote>
-    <br>
-    <br>
-    Hi Anders,<br>
-    <br>
-    I read your comments carefully and thought for a while. Sorry but I
-    still insist my opinion.<br>
-    Please see reasons below.<br>
-    <br>
-    First of all, I don't think this issue has anything to do with the
-    'embedded devices' or 'desktop distribution' thing. The two concepts
-    are too large and should not become the reason. Some desktop
-    distributions support image based upgrades. Many small embedded
-    devices should only do image based upgrades. Most desktop
-    distributions support package based upgrades, some embedded devices
-    should also support it.<br>
-    What we are talking here is on-target package upgrades. If the
-    distributor wants to have full control, then its users/customers
-    should be suggested to only do image-based upgrades.<br>
-    But now, let's just focus on package based upgrades.<br>
-    <br>
-    We have to be aware that package managers are designed to handle
-    config files specially. Why they are designed to do so? Because
-    users should not be surprised.<br>
-    Take 'rpm' as an example.<br>
-    <br>
-    <table align="center" border="1" cellpadding="5">
-      <tbody>
-        <tr>
-          <th>File marked as</th>
-          <th>Changed in update RPM?</th>
-          <th>On-disk file untouched</th>
-          <th>On-disk file edited
-          </th>
-        </tr>
-        <tr align="center">
-          <td rowspan="2">[default]</td>
-          <td>No</td>
-          <td>File from update</td>
-          <td>File from update</td>
-        </tr>
-        <tr align="center">
-          <td>Yes</td>
-          <td>File from update</td>
-          <td>File from update</td>
-        </tr>
-        <tr align="center">
-          <td rowspan="2"><tt>%config</tt></td>
-          <td>No</td>
-          <td>File from update</td>
-          <td>Edited file</td>
-        </tr>
-        <tr align="center">
-          <td>Yes</td>
-          <td>File from update</td>
-          <td>File from update, edited file in <tt>.rpmsave</tt></td>
-        </tr>
-        <tr align="center">
-          <td rowspan="2"><tt>%config(noreplace)</tt></td>
-          <td>No</td>
-          <td>File from update</td>
-          <td>Edited file</td>
-        </tr>
-        <tr align="center">
-          <td>Yes</td>
-          <td>File from update</td>
-          <td>Edited file, file from the update in <tt>.rpmnew</tt></td>
-        </tr>
-      </tbody>
-    </table>
-    <br>
-    <br>
-    You can see that it's pretty reasonable.<br>
-    The problem we have now is that if the user edit a configuration
-    file (e.g. /etc/login.defs), the file will still be overridden by
-    upgrades even if the file doesn't change in the new package.<br>
-    <br>
-    Now the focus is whether we should take ${sysconfdir} as the default
-    value for CONFFILES.<br>
-    I strongly think we should. Why? We can easily make use of the power
-    of package managers for dealing with configuration files.<br>
-    If we don't do so, very likely the user changes would be overridden
-    silently without informing the user.<br>
-    This should not happen, especially when the files are under /etc.
-    Otherwise we will get angry users or customers. How are we gonna
-    explain to them? I don't 'embedded device' could be a satisfactory
-    reason.<br>
-    Please see the number below. Hope this will reveal the situation of
-    CONFFILES in OE.<br>
-    chenqi@pek-hostel-deb01:~/poky [0] $ find meta meta-openembedded/
-    -name "*.bb" | wc -l<br>
-    1897<br>
-    chenqi@pek-hostel-deb01:~/poky [0] $ find meta meta-openembedded/
-    -name "*.bb" -o -name "*.inc" | xargs grep CONFFILES | wc -l<br>
-    86<br>
-    <br>
-    Best Regards,<br>
-    Chen Qi<br>
-    <br>
-    <blockquote cite="mid:20141223062542.GA9157@ad.chargestorm.se"
-      type="cite">
-      <pre wrap="">
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">The patchset is an effort to change this situation.
-</pre>
-      </blockquote>
-      <pre wrap="">
-I don't think we'll gain that much from this patch; rather we'll
-loose...
+and the size of the build with rm_work increased by around 500MB, the
+size of the build without rm_work decreased by 500MB.
+
+I will also add that we're not done yet with some of these tweaks. I
+know linux-yocto is doing some things in do_patch that are performance
+intensive and we plan to fix those which will further improve the 11
+mins number above.
+
+> Although the 'new' system is faster, this is gained mainly by the
+> 'do_package' task which does not seem to be comparable.  The new
+> method will create only a very small 'kernel-dev' subpackage:
+> 
+>    1,1M    tmp/deploy/ipk/kk_trizeps6/kernel-dev_3.14...
+> 
+> vs.
+> 
+>     36M    tmp/deploy/ipk/kk_trizeps6/kernel-dev_3.14...
+> 
+> so the old task can be improved either by removing some files, or the
+> new task misses files.
+
+There is a new kernel-devsrc package which contains some things that
+used to be in kernel-dev. It is way more complete and functional than
+the old one ever was since the old one was a hacked up copy of the
+kernel source. It also only gets built if you request it, only a small
+number of people need it and its hence much more user friendly this way.
+
+I am sorry you're not happy about the changes :(.
 
 Cheers,
-Anders
 
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
+Richard
 
---------------010803010504050308030700--
+
+
