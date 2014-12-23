@@ -1,42 +1,21 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C5C272697
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D46077272A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Dec 2014 15:59:38 +0000 (UTC)
-Received: by mail-pd0-f170.google.com with SMTP id v10so8047257pde.15
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Dec 2014 07:59:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=5KgmKiAmpHaSCX133G7UTE2WiPAsB5QToEfOib8uBRM=;
-	b=CgEeSKZfJG0mog7kmE2SrLK0w83dciQRKXXUDffXyK7p3Q68VzKyEsTP28T6duxsNm
-	gl311N3vAahthabVT2tUf2BGDCiEK+gjtHviCo1agnkM8u6HsvzKv1TVMRb2qUXLYP74
-	ZWZstPeVfn4nBfidD3zjzBuLLVpcjft+1bhlvEreUsUuUKWkdcmG63mAn2uX/nJGHYAO
-	dE5j+K95evV/4XAwkyNrpvLcTo3K6GKVO41dQRmUq5KnMiVKq4cYdaU0lXASFX9YZFnc
-	Gop9xECl/QiVB2/nglXBueoNDzEUL191bTLFUlyXMXQ3EyNPx96itiuR2e6tyMtzyfd6
-	+/kw==
-X-Received: by 10.66.62.137 with SMTP id y9mr20965621par.87.1419350378459;
-	Tue, 23 Dec 2014 07:59:38 -0800 (PST)
-Received: from ?IPv6:2601:c:a700:272f:403a:978d:9b16:287d?
-	([2601:c:a700:272f:403a:978d:9b16:287d])
-	by mx.google.com with ESMTPSA id zk9sm20488037pac.1.2014.12.23.07.59.35
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 Dec 2014 07:59:37 -0800 (PST)
-Message-ID: <54999162.7080409@gmail.com>
-Date: Tue, 23 Dec 2014 07:59:30 -0800
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, 
-	Armin Kuster <akuster808@gmail.com>
-References: <1419224101-24900-1-git-send-email-akuster808@gmail.com>
-	<CAJTo0LaOaz=vsqPPCy-f47vuAHx-rfgd7zZpLXNd3Qyhi36rww@mail.gmail.com>
-In-Reply-To: <CAJTo0LaOaz=vsqPPCy-f47vuAHx-rfgd7zZpLXNd3Qyhi36rww@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] [RFC] Move packages from meta-oe to core for X11
+	Tue, 23 Dec 2014 16:10:04 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Dec 2014 08:08:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,632,1413270000"; d="scan'208";a="628280220"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.255.13.178])
+	by orsmga001.jf.intel.com with ESMTP; 23 Dec 2014 08:08:52 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Dec 2014 16:08:41 +0000
+Message-Id: <cover.1419350817.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH 0/7] oe-selftest QA test fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,28 +28,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Dec 2014 15:59:43 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 23 Dec 2014 16:10:06 -0000
 
+Some fixes for issues in the QA tests; some of these came up on the
+autobuilder, others were stumbled over while I was fixing the other
+issues.
 
+The following changes since commit 353e70f3964eb6531ecb3dc69cbd827053d8f463:
 
-On 12/22/2014 06:48 AM, Burton, Ross wrote:
-> On 22 December 2014 at 04:54, Armin Kuster <akuster808@gmail.com
-> <mailto:akuster808@gmail.com>> wrote:
->
->     This fixes 'core-image-x11' image dependancy on meta-oe packages
->     since xinit requires xterm, xclock and twm to 'startx'.
->
->
-> Why can't we just make core-image-x11 start Matchbox instead?  Adding
-> twm and xclock to oe-core seems crazy.
+  init-ifupdown: Add missing script for qemuarm64 (2014-12-23 10:12:47 +0000)
 
-So are you open to move 'xinit' from core to meta-oe?
+are available in the git repository at:
 
-- Armin
->
-> Ross
->
->
+  git://git.openembedded.org/openembedded-core-contrib paule/qafixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qafixes
+
+Paul Eggleton (7):
+  oeqa/utils: replace some tabs with spaces
+  oeqa/utils: fix testcase decorator to allow calling tests individually
+  oeqa/selftest: fix test_event_handler for changes in bitbake output
+  oeqa/selftest: skip test_incremental_image_generation if not using rpm
+  oeqa/selftest: improve failure messages for devtool tests
+  oeqa/selftest: populate pkgdata/shlibs in test_recipetool_create_git
+  oeqa/selftest: fix test_force_task so it doesn't taint the entire build
+
+ meta/lib/oeqa/selftest/bbtests.py      |  3 +-
+ meta/lib/oeqa/selftest/buildoptions.py |  3 ++
+ meta/lib/oeqa/selftest/devtool.py      | 22 +++++----
+ meta/lib/oeqa/utils/commands.py        | 10 ++--
+ meta/lib/oeqa/utils/decorators.py      | 85 +++++++++++++++++-----------------
+ 5 files changed, 65 insertions(+), 58 deletions(-)
+
+-- 
+1.9.3
+
 
