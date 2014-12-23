@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 50D1F72732
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D40287268B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Dec 2014 05:10:03 +0000 (UTC)
+	Tue, 23 Dec 2014 05:10:06 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBN5A41a021592
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBN5A66Q006362
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Dec 2014 21:10:04 -0800 (PST)
+	Mon, 22 Dec 2014 21:10:06 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Mon, 22 Dec 2014 21:10:04 -0800
+	14.3.174.1; Mon, 22 Dec 2014 21:10:05 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 Dec 2014 13:09:54 +0800
-Message-ID: <f0392c4d3fef6da03ad2394c2959ff7d04aa08f8.1419309149.git.hongxu.jia@windriver.com>
+Date: Tue, 23 Dec 2014 13:09:55 +0800
+Message-ID: <fbacfe30047277ec91144a9ecba291c3879ae6e4.1419309149.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1419309149.git.hongxu.jia@windriver.com>
 References: <cover.1419309149.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/6] libxml2: upgrade to 2.9.2
+Subject: [PATCH 2/6] directfb: upgrade to 1.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,163 +33,426 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Dec 2014 05:10:06 -0000
+X-List-Received-Date: Tue, 23 Dec 2014 05:10:07 -0000
 Content-Type: text/plain
 
-- Rebase python-sitepackages-dir.patch to 2.9.2
-
-- Drop libxml2-CVE-2014-3660.patch which has been merged to 2.9.2.
-
-- Add configure.ac-fix-cross-compiling-warning.patch to fix cross
-  compilation failure.
-
-- Tweak do_configure_prepend, use configure.ac to instead of configure.in
-
-- Add cmake files to ${PN}-dev
+- Drop fixsepbuild.patch which has been merged to 1.7.6
+- Drop obsolete rename-no-instrument-function-macro.patch
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-core/libxml/libxml2.inc               |  6 +--
- .../configure.ac-fix-cross-compiling-warning.patch | 45 ++++++++++++++++++++++
- .../libxml/libxml2/python-sitepackages-dir.patch   | 17 ++++++--
- .../libxml/{libxml2_2.9.1.bb => libxml2_2.9.2.bb}  |  4 +-
- 4 files changed, 63 insertions(+), 9 deletions(-)
- create mode 100644 meta/recipes-core/libxml/libxml2/configure.ac-fix-cross-compiling-warning.patch
- rename meta/recipes-core/libxml/{libxml2_2.9.1.bb => libxml2_2.9.2.bb} (62%)
+ .../directfb/directfb/fixsepbuild.patch            |  19 --
+ .../rename-no-instrument-function-macro.patch      | 345 ---------------------
+ .../{directfb_1.7.4.bb => directfb_1.7.6.bb}       |   8 +-
+ 3 files changed, 3 insertions(+), 369 deletions(-)
+ delete mode 100644 meta/recipes-graphics/directfb/directfb/fixsepbuild.patch
+ delete mode 100644 meta/recipes-graphics/directfb/directfb/rename-no-instrument-function-macro.patch
+ rename meta/recipes-graphics/directfb/{directfb_1.7.4.bb => directfb_1.7.6.bb} (58%)
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index c729c19..1314bbf 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -21,7 +21,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml2-CVE-2014-0191-fix.patch \
-            file://python-sitepackages-dir.patch \
-            file://libxml-m4-use-pkgconfig.patch \
--           file://libxml2-CVE-2014-3660.patch \
-+           file://configure.ac-fix-cross-compiling-warning.patch \
-           "
- 
- BINCONFIG = "${bindir}/xml2-config"
-@@ -34,7 +34,7 @@ RDEPENDS_${PN}-ptest_append_libc-glibc += "glibc-gconv-ebcdic-us glibc-gconv-ibm
- 
- # We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header
- do_configure_prepend () {
--	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.in
-+	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.ac
- }
- 
- do_configure_prepend_class-nativesdk () {
-@@ -66,7 +66,7 @@ PACKAGES += "${PN}-utils ${PN}-python"
- 
- FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug"
- FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/*.a"
--FILES_${PN}-dev += "${libdir}/xml2Conf.sh"
-+FILES_${PN}-dev += "${libdir}/xml2Conf.sh ${libdir}/cmake/*"
- FILES_${PN}-utils += "${bindir}/*"
- FILES_${PN}-python += "${PYTHON_SITEPACKAGES_DIR}"
- 
-diff --git a/meta/recipes-core/libxml/libxml2/configure.ac-fix-cross-compiling-warning.patch b/meta/recipes-core/libxml/libxml2/configure.ac-fix-cross-compiling-warning.patch
-new file mode 100644
-index 0000000..2f8079b
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/configure.ac-fix-cross-compiling-warning.patch
-@@ -0,0 +1,45 @@
-+configure.ac: fix cross compiling warning
-+
-+There is a warning while cross compiling which triggered a
-+failure by do_qa_configure
-+...
-+|configure:12652: checking for gzread in -lz
-+|configure:12677: mips-poky-linux-gcc  -meb -mabi=32 -mhard-float
-+ -L/lib conftest.c -lz   >&5
-+|ld: warning: library search path "/lib" is unsafe for cross-compilation
-+...
-+
-+While do the lib checking, do not add '-L${Z_DIR}/lib' to LDFLAGS could fix it.
-+
-+Upstream-Status: Inappropriate [oe specific]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ configure.ac | 5 +----
-+ 1 file changed, 1 insertion(+), 4 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 9a90600..0bac8a4 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -391,8 +391,6 @@ if test "$with_zlib" = "no"; then
-+     echo "Disabling compression support"
-+ else
-+     AC_CHECK_HEADERS(zlib.h,
-+-        [SAVE_LDFLAGS="${LDFLAGS}"
-+-	 LDFLAGS="-L${Z_DIR}/lib"
-+ 	AC_CHECK_LIB(z, gzread,[
-+ 	    AC_DEFINE([HAVE_LIBZ], [1], [Have compression library])
-+ 	    WITH_ZLIB=1
-+@@ -406,8 +404,7 @@ else
-+ 		esac]
-+ 	    else
-+ 		Z_LIBS="-lz"
-+-	    fi])
-+-	 LDFLAGS="${SAVE_LDFLAGS}"])
-++	    fi]))
-+ fi
-+ 
-+ AC_SUBST(Z_CFLAGS)
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch b/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch
-index a697ddf..e83c832 100644
---- a/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch
-+++ b/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch
-@@ -4,12 +4,18 @@ The python binary used when building for nativesdk doesn't give us the
- correct path here so we need to be able to specify it ourselves.
- 
- Upstream-Status: Inappropriate [config]
+diff --git a/meta/recipes-graphics/directfb/directfb/fixsepbuild.patch b/meta/recipes-graphics/directfb/directfb/fixsepbuild.patch
+deleted file mode 100644
+index 94a9ba5..0000000
+--- a/meta/recipes-graphics/directfb/directfb/fixsepbuild.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Fix out of tree builds
 -
- Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+-Upstream-Status: Pending
+-
+-RP 2013/03/21
+-
+-Index: DirectFB-1.6.1/configure.in
+-===================================================================
+---- DirectFB-1.6.1.orig/configure.in	2013-03-19 01:38:28.174004720 +0000
+-+++ DirectFB-1.6.1/configure.in	2013-03-21 12:18:10.253113675 +0000
+-@@ -111,7 +111,7 @@
+- AC_PATH_TOOL(FLUXCOMP, fluxcomp)
+- AC_SUBST(FLUXCOMP)
+- if test -z "$FLUXCOMP"; then
+--  if ! test -e src/core/CoreDFB.cpp; then
+-+  if ! test -e $srcdir/src/core/CoreDFB.cpp; then
+-     AC_MSG_ERROR([
+- *** DirectFB compilation requires fluxcomp ***
+- 
+diff --git a/meta/recipes-graphics/directfb/directfb/rename-no-instrument-function-macro.patch b/meta/recipes-graphics/directfb/directfb/rename-no-instrument-function-macro.patch
+deleted file mode 100644
+index 443df5a..0000000
+--- a/meta/recipes-graphics/directfb/directfb/rename-no-instrument-function-macro.patch
++++ /dev/null
+@@ -1,345 +0,0 @@
+-Rename __no_instrument_function__ macro to avoid conficting redefinitions
+-of the same symbol.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+-
+-Index: DirectFB-1.6.1/lib/direct/clock.c
+-===================================================================
+---- DirectFB-1.6.1.orig/lib/direct/clock.c	2012-06-29 19:01:11.000000000 +0300
+-+++ DirectFB-1.6.1/lib/direct/clock.c	2013-01-05 18:03:24.000000000 +0200
+-@@ -36,28 +36,28 @@
+- 
+- /**********************************************************************************************************************/
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- long long
+- direct_clock_get_micros( void )
+- {
+-      return direct_clock_get_time( DIRECT_CLOCK_SESSION );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- long long
+- direct_clock_get_millis( void )
+- {
+-      return direct_clock_get_time( DIRECT_CLOCK_SESSION ) / 1000LL;
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- long long
+- direct_clock_get_abs_micros( void )
+- {
+-      return direct_clock_get_time( DIRECT_CLOCK_REALTIME );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- long long
+- direct_clock_get_abs_millis( void )
+- {
+-Index: DirectFB-1.6.1/lib/direct/debug.c
+-===================================================================
+---- DirectFB-1.6.1.orig/lib/direct/debug.c	2012-06-29 19:01:11.000000000 +0300
+-+++ DirectFB-1.6.1/lib/direct/debug.c	2013-01-05 18:03:49.000000000 +0200
+-@@ -48,7 +48,7 @@
+- 
+- #if DIRECT_BUILD_DEBUGS  /* Build with debug support? */
+-   
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_debug_log( DirectLogDomain *domain,
+-               unsigned int     debug_level,  /* 1-9, 0 = info */
+-@@ -63,7 +63,7 @@
+-      va_end( ap );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_debug_at( DirectLogDomain *domain,
+-                  const char      *format, ... )
+-@@ -77,7 +77,7 @@
+- 
+- #endif /* DIRECT_BUILD_DEBUGS */
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_debug_at_always( DirectLogDomain *domain,
+-                         const char      *format, ... )
+-@@ -93,7 +93,7 @@
+- 
+- #if DIRECT_BUILD_DEBUGS  /* Build with debug support? */
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_break( const char *func,
+-               const char *file,
+-@@ -123,7 +123,7 @@
+-           direct_trap( "Break", SIGABRT );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_assertion( const char *exp,
+-                   const char *func,
+-@@ -144,7 +144,7 @@
+-           direct_trap( "Assertion", SIGTRAP );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_assumption( const char *exp,
+-                    const char *func,
+-Index: DirectFB-1.6.1/lib/direct/interface.c
+-===================================================================
+---- DirectFB-1.6.1.orig/lib/direct/interface.c	2012-06-29 19:01:11.000000000 +0300
+-+++ DirectFB-1.6.1/lib/direct/interface.c	2013-01-05 18:04:56.000000000 +0200
+-@@ -522,7 +522,7 @@
+- 
+- /**************************************************************************************************/
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- static InterfaceDesc *
+- allocate_interface_desc( void )
+- {
+-@@ -543,7 +543,7 @@
+-      return &alloc_list[alloc_count++];
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- static __inline__ void
+- fill_interface_desc( InterfaceDesc     *desc,
+-                      const void        *interface_ptr,
+-@@ -565,7 +565,7 @@
+- 
+- /**************************************************************************************************/
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_dbg_interface_add( const char *func,
+-                           const char *file,
+-@@ -586,7 +586,7 @@
+-      direct_mutex_unlock( &alloc_lock );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_dbg_interface_remove( const char *func,
+-                              const char *file,
+-Index: DirectFB-1.6.1/lib/direct/log.c
+-===================================================================
+---- DirectFB-1.6.1.orig/lib/direct/log.c	2012-06-29 19:01:11.000000000 +0300
+-+++ DirectFB-1.6.1/lib/direct/log.c	2013-01-05 18:04:18.000000000 +0200
+-@@ -128,7 +128,7 @@
+-      return DR_OK;
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- DirectResult
+- direct_log_printf( DirectLog  *log,
+-                    const char *format, ... )
+-@@ -197,7 +197,7 @@
+-      return DR_OK;
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_log_lock( DirectLog *log )
+- {
+-@@ -211,7 +211,7 @@
+-      direct_mutex_lock( &log->lock );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_log_unlock( DirectLog *log )
+- {
+-@@ -262,7 +262,7 @@
+- 
+- /**********************************************************************************************************************/
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- DirectLog *
+- direct_log_default( void )
+- {
+-Index: DirectFB-1.6.1/lib/direct/log_domain.c
+-===================================================================
+---- DirectFB-1.6.1.orig/lib/direct/log_domain.c	2012-06-29 19:01:11.000000000 +0300
+-+++ DirectFB-1.6.1/lib/direct/log_domain.c	2013-01-05 18:04:38.000000000 +0200
+-@@ -69,7 +69,7 @@
+- 
+- /**********************************************************************************************************************/
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- static __inline__ LogDomainEntry *
+- lookup_domain( const char *name, bool sub );
+- 
+-@@ -104,7 +104,7 @@
+-      return NULL;
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- static DirectLogLevel
+- check_domain( DirectLogDomain *domain );
+- 
+-@@ -207,7 +207,7 @@
+- /* FIXME: merge following */
+- 
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- DirectResult
+- direct_log_domain_vprintf( DirectLogDomain *domain,
+-                            DirectLogLevel   level,
+-@@ -268,7 +268,7 @@
+-      return DR_OK;
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- DirectResult
+- direct_log_domain_log( DirectLogDomain *domain,
+-                        DirectLogLevel   level,
+-Index: DirectFB-1.6.1/lib/direct/mem.c
+-===================================================================
+---- DirectFB-1.6.1.orig/lib/direct/mem.c	2012-06-29 19:01:11.000000000 +0300
+-+++ DirectFB-1.6.1/lib/direct/mem.c	2013-01-05 18:03:08.000000000 +0200
+-@@ -121,7 +121,7 @@
+- 
+- /**********************************************************************************************************************/
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- static __inline__ MemDesc *
+- fill_mem_desc( MemDesc *desc, int bytes, const char *func, const char *file, int line, DirectTraceBuffer *trace )
+- {
+-Index: DirectFB-1.6.1/lib/direct/messages.c
+-===================================================================
+---- DirectFB-1.6.1.orig/lib/direct/messages.c	2012-06-29 19:01:11.000000000 +0300
+-+++ DirectFB-1.6.1/lib/direct/messages.c	2013-01-05 18:02:57.000000000 +0200
+-@@ -40,7 +40,7 @@
+- 
+- #if DIRECT_BUILD_TEXT
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_messages_info( const char *format, ... )
+- {
+-@@ -57,7 +57,7 @@
+-      direct_log_printf( NULL, "(*) %s", buf );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_messages_error( const char *format, ... )
+- {
+-@@ -76,7 +76,7 @@
+-      direct_trace_print_stack( NULL );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_messages_derror( DirectResult result, const char *format, ... )
+- {
+-@@ -95,7 +95,7 @@
+-      direct_trace_print_stack( NULL );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_messages_perror( int erno, const char *format, ... )
+- {
+-@@ -114,7 +114,7 @@
+-      direct_trace_print_stack( NULL );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_messages_dlerror( const char *dlerr, const char *format, ... )
+- {
+-@@ -133,7 +133,7 @@
+-      direct_trace_print_stack( NULL );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_messages_once( const char *func,
+-                       const char *file,
+-@@ -155,7 +155,7 @@
+-      direct_trace_print_stack( NULL );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_messages_unimplemented( const char *func,
+-                                const char *file,
+-@@ -166,7 +166,7 @@
+-      direct_trace_print_stack( NULL );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_messages_bug( const char *func,
+-                      const char *file,
+-@@ -188,7 +188,7 @@
+-      direct_trace_print_stack( NULL );
+- }
+- 
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- void
+- direct_messages_warn( const char *func,
+-                       const char *file,
+-Index: DirectFB-1.6.1/lib/direct/os/linux/glibc/types.h
+-===================================================================
+---- DirectFB-1.6.1.orig/lib/direct/os/linux/glibc/types.h	2012-06-29 19:01:11.000000000 +0300
+-+++ DirectFB-1.6.1/lib/direct/os/linux/glibc/types.h	2013-01-05 18:06:04.000000000 +0200
+-@@ -74,7 +74,7 @@
+- 
+- #define __inline__                      inline
+- #define D_UNUSED                        __attribute__((unused))
+--#define __no_instrument_function__      __attribute__((no_instrument_function))
+-+#define __dfb_no_instrument_function__  __attribute__((no_instrument_function))
+- #define __constructor__                 __attribute__((constructor))
+- #define __destructor__                  __attribute__((destructor))
+- #define __typeof__(x)                   typeof(x)
+-Index: DirectFB-1.6.1/lib/direct/util.c
+-===================================================================
+---- DirectFB-1.6.1.orig/lib/direct/util.c	2012-06-29 19:01:11.000000000 +0300
+-+++ DirectFB-1.6.1/lib/direct/util.c	2013-01-05 18:03:59.000000000 +0200
+-@@ -110,7 +110,7 @@
+- /*
+-  * translates errno to DirectResult
+-  */
+--__no_instrument_function__
+-+__dfb_no_instrument_function__
+- DirectResult
+- errno2result( int erno )
+- {
+diff --git a/meta/recipes-graphics/directfb/directfb_1.7.4.bb b/meta/recipes-graphics/directfb/directfb_1.7.6.bb
+similarity index 58%
+rename from meta/recipes-graphics/directfb/directfb_1.7.4.bb
+rename to meta/recipes-graphics/directfb/directfb_1.7.6.bb
+index 39b006e..d25d987 100644
+--- a/meta/recipes-graphics/directfb/directfb_1.7.4.bb
++++ b/meta/recipes-graphics/directfb/directfb_1.7.6.bb
+@@ -1,11 +1,9 @@
+ require directfb.inc
  
----- a/configure.in
--+++ b/configure.in
--@@ -743,7 +743,8 @@ dnl
-+Rebase to 2.9.2
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ configure.ac | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -813,7 +813,8 @@ dnl
-  
-  PYTHON_VERSION=
-  PYTHON_INCLUDES=
-@@ -19,3 +25,6 @@ Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-  PYTHON_TESTS=
-  pythondir=
-  if test "$with_python" != "no" ; then
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.1.bb b/meta/recipes-core/libxml/libxml2_2.9.2.bb
-similarity index 62%
-rename from meta/recipes-core/libxml/libxml2_2.9.1.bb
-rename to meta/recipes-core/libxml/libxml2_2.9.2.bb
-index 0b6ac5d..f0cfa59 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.1.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.2.bb
-@@ -2,7 +2,7 @@ require libxml2.inc
+-RV = "1.7-4"
++RV = "1.7-6"
  
- SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar"
+ DEPENDS += "sysfsutils"
  
--SRC_URI[libtar.md5sum] = "9c0cfef285d5c4a5c80d00904ddab380"
--SRC_URI[libtar.sha256sum] = "fd3c64cb66f2c4ea27e934d275904d92cec494a8e8405613780cbc8a71680fdb"
-+SRC_URI[libtar.md5sum] = "9e6a9aca9d155737868b3dc5fd82f788"
-+SRC_URI[libtar.sha256sum] = "5178c30b151d044aefb1b08bf54c3003a0ac55c59c866763997529d60770d5bc"
- SRC_URI[testtar.md5sum] = "ae3d1ebe000a3972afa104ca7f0e1b4a"
- SRC_URI[testtar.sha256sum] = "96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7"
+-SRC_URI += "file://fixsepbuild.patch"
+-
+ EXTRA_OECONF = "\
+   --enable-freetype=yes \
+   --enable-zlib \
+@@ -19,5 +17,5 @@ EXTRA_OECONF = "\
+ 
+ LEAD_SONAME = "libdirectfb-1.7.so.0"
+ 
+-SRC_URI[md5sum] = "f5bdacde77fc653279819796ae11341e"
+-SRC_URI[sha256sum] = "20ccd60011c788e50c940ab566943d050679067bc84dc37ca447f1b4af08481b"
++SRC_URI[md5sum] = "8a7bb06b3f58599b230b4cf314004512"
++SRC_URI[sha256sum] = "44f32bacfb842ea234599532f8481fe41b5bd2310d2bd101508eb3a5df26c9e1"
 -- 
 1.9.1
 
