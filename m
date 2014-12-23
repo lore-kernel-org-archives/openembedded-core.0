@@ -1,43 +1,35 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 244657270F
+Return-Path: <philip.balister@gmail.com>
+Received: from mail-yh0-f48.google.com (mail-yh0-f48.google.com
+	[209.85.213.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 77969726E6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Dec 2014 12:30:30 +0000 (UTC)
-Received: by mail-ig0-f169.google.com with SMTP id hl2so6642254igb.2
+	Tue, 23 Dec 2014 14:14:08 +0000 (UTC)
+Received: by mail-yh0-f48.google.com with SMTP id i57so3170527yha.35
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Dec 2014 04:30:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=0ZdxVkTVTs0tDZlL+pmQt/bdO3aAvTpFvv12uBDAqj8=;
-	b=f67IZryjQrjamFgHG1JYDAXu1f4TQhzK7aY0EoUUcb+sVtCNH//x51UI11oeZ6+vtL
-	sIaqBqfahafE+YMg3VhRK4M+tWa4MobihQ63wymYlek+lwKisMcowE1ck8oqNryw1d4Q
-	iM+vUyyWwJILtsuH8naRMlZW28RWU29xUmdd2tCJgCNE22Kn2xlk2U7sr0GUovVbgwzk
-	Benlt5gepfQUjxiyw42l2jNGBFjxMKrFyimUOIgXkxjwXhnzVs+tM7TOr03YjP9FA3eB
-	0Xw3D+sKUlboeFISEtTK9wT+qCwF+fkfbaXkd4OR1HQ6vDlDxlS/3jYYCsh5IpUbz6iO
-	NkXw==
-X-Gm-Message-State: ALoCoQm3q0BImHKYjWh4+x5R5brv1Veub0mTg5gn8WFOQ4dNtZ8zEyxsT3r1DfDbbZNU5YBfRn4c
-X-Received: by 10.50.36.103 with SMTP id p7mr20909763igj.20.1419337830868;
-	Tue, 23 Dec 2014 04:30:30 -0800 (PST)
-Received: from [192.168.141.85] (dsl-69-172-87-20.acanac.net. [69.172.87.20])
-	by mx.google.com with ESMTPSA id
-	jh10sm1335260igb.12.2014.12.23.04.30.30
-	for <openembedded-core@lists.openembedded.org>
+	Tue, 23 Dec 2014 06:14:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=EhSQwvBZBrnxfdhfM4h6Aw60aKpk9lJB2IXv7lhkoTg=;
+	b=pJiXjgn6yfABu6oLa1WGbpnkbF//IXKRFrTkxZR1olUm9Say9yY4twP656O+h06Lgi
+	GjcTBcsyHYJCSwa1UfQk/vVCraMwlJoJShy8HJQELxuD3MpGSA6PPRd2+03u1nbqe+DH
+	TwMSo2TNxJZHOIoMCggIRuR196hvAgZoMLchDp2Y2v9WvttY3bwlFKuIF94Qw39Q8/S/
+	HrME/pBnDs+u3gNqF0GfhsGvS9+lqtri4Z0/vP0N7G4QqlQTqPOb7l9V5xKI11ycLuV2
+	KRc72S8nSKDc2DA2ucoUqgVsRKzOku/ykhTDv58VvXnu3N9UWEJzwpuh7ealwDelVSVk
+	R7cw==
+X-Received: by 10.170.190.8 with SMTP id h8mr7627175yke.13.1419344048954;
+	Tue, 23 Dec 2014 06:14:08 -0800 (PST)
+Received: from thuvia.localdomain (pool-71-171-45-99.ronkva.east.verizon.net.
+	[71.171.45.99])
+	by mx.google.com with ESMTPSA id o6sm13987844yhd.52.2014.12.23.06.14.07
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 Dec 2014 04:30:30 -0800 (PST)
-Message-ID: <54996067.7080908@linaro.org>
-Date: Tue, 23 Dec 2014 07:30:31 -0500
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
+	Tue, 23 Dec 2014 06:14:07 -0800 (PST)
+Sender: Philip Balister <philip.balister@gmail.com>
+From: Philip Balister <philip@balister.org>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1418984743.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1418984743.git.paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 00/15] Developer workflow tools
+Date: Tue, 23 Dec 2014 09:14:03 -0500
+Message-Id: <1419344043-7468-1-git-send-email-philip@balister.org>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] boost : Add the atomic and chrono libraries to the build.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,13 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Dec 2014 12:30:38 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 23 Dec 2014 14:14:12 -0000
 
-I've written a quick tutorial about this work Paul and his co-workers
-have been doing:
-https://drive.google.com/file/d/0B3KGzY5fW7laQmgxVXVTSDJHeFU/view?usp=sharing
+Inspection of buildhistory shows no existing libraries changed and
+the atmoic and chrono libraries are packaged individually.
 
-Tested-by: Trevor Woerner <trevor.woerner@linaro.org>
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ meta/recipes-support/boost/boost.inc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index d34ca7c..bf22c95 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -5,6 +5,8 @@ DEPENDS = "bjam-native zlib bzip2"
+ ARM_INSTRUCTION_SET = "arm"
+ 
+ BOOST_LIBS = "\
++	atomic \
++	chrono \
+ 	date_time \
+ 	filesystem \
+ 	graph \
+-- 
+2.1.0
+
 
