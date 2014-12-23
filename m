@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D388E7271F
+	by mail.openembedded.org (Postfix) with ESMTP id 42B507271F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Dec 2014 16:10:05 +0000 (UTC)
+	Tue, 23 Dec 2014 16:10:06 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Dec 2014 08:08:53 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 23 Dec 2014 08:08:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,632,1413270000"; d="scan'208";a="628280233"
+X-IronPort-AV: E=Sophos;i="5.07,632,1413270000"; d="scan'208";a="628280241"
 Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
 	([10.255.13.178])
-	by orsmga001.jf.intel.com with ESMTP; 23 Dec 2014 08:08:53 -0800
+	by orsmga001.jf.intel.com with ESMTP; 23 Dec 2014 08:08:54 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Dec 2014 16:08:42 +0000
-Message-Id: <f707823fb4cdfd1f0ce8f4f70fe1ecb0800ddad4.1419350817.git.paul.eggleton@linux.intel.com>
+Date: Tue, 23 Dec 2014 16:08:43 +0000
+Message-Id: <15a4e2d715fab1e8c9a8c8ff4af3d82da41818ed.1419350817.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <cover.1419350817.git.paul.eggleton@linux.intel.com>
 References: <cover.1419350817.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1419350817.git.paul.eggleton@linux.intel.com>
 References: <cover.1419350817.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/7] oeqa/utils: replace some tabs with spaces
+Subject: [PATCH 2/7] oeqa/utils: fix testcase decorator to allow calling tests individually
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,156 +34,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 23 Dec 2014 16:10:06 -0000
 
-Python code should use spaces only for indentation.
+Without this, running tests individually failed with a traceback:
+
+$ oe-selftest --run-test
+buildoptions.ImageOptionsTests.test_incremental_image_generation
+2014-12-23 14:40:37,636 - selftest - INFO - Checking that everything is in order before running the tests
+2014-12-23 14:40:38,408 - selftest - INFO - Running bitbake -p
+2014-12-23 14:40:40,235 - selftest - INFO - Loading tests from:
+oeqa.selftest.buildoptions.ImageOptionsTests.test_incremental_image_generation
+Traceback (most recent call last):
+  File "/home/user/poky/scripts/oe-selftest", line 179, in <module>
+    ret = main()
+  File "/home/user/poky/scripts/oe-selftest", line 164, in main
+    suite.addTests(loader.loadTestsFromName(test))
+  File "/usr/lib64/python2.7/unittest/loader.py", line 91, in loadTestsFromName
+    module = __import__('.'.join(parts_copy))
+  File "/home/user/poky/meta/lib/oeqa/selftest/buildoptions.py", line 12, in <module>
+    class ImageOptionsTests(oeSelfTest):
+  File "/home/user/poky/meta/lib/oeqa/selftest/buildoptions.py", line 14, in ImageOptionsTests
+    @testcase(761)
+NameError: global name 'func' is not defined
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/lib/oeqa/utils/commands.py   | 10 ++---
- meta/lib/oeqa/utils/decorators.py | 84 +++++++++++++++++++--------------------
- 2 files changed, 47 insertions(+), 47 deletions(-)
+ meta/lib/oeqa/utils/decorators.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index d29c1b1..5b601d9 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -110,11 +110,11 @@ def runCmd(command, ignore_status=False, timeout=None, assert_error=True, **opti
- def bitbake(command, ignore_status=False, timeout=None, postconfig=None, **options):
- 
-     if postconfig:
--	postconfig_file = os.path.join(os.environ.get('BUILDDIR'), 'oeqa-post.conf')
--	ftools.write_file(postconfig_file, postconfig)
--	extra_args = "-R %s" % postconfig_file
-+        postconfig_file = os.path.join(os.environ.get('BUILDDIR'), 'oeqa-post.conf')
-+        ftools.write_file(postconfig_file, postconfig)
-+        extra_args = "-R %s" % postconfig_file
-     else:
--	extra_args = ""
-+        extra_args = ""
- 
-     if isinstance(command, basestring):
-         cmd = "bitbake " + extra_args + " " + command
-@@ -122,7 +122,7 @@ def bitbake(command, ignore_status=False, timeout=None, postconfig=None, **optio
-         cmd = [ "bitbake" ] + [a for a in (command + extra_args.split(" ")) if a not in [""]]
- 
-     try:
--	return runCmd(cmd, ignore_status, timeout, **options)
-+        return runCmd(cmd, ignore_status, timeout, **options)
-     finally:
-         if postconfig:
-             os.remove(postconfig_file)
 diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
-index 7f845db..1ae1162 100644
+index 1ae1162..2d5db24 100644
 --- a/meta/lib/oeqa/utils/decorators.py
 +++ b/meta/lib/oeqa/utils/decorators.py
-@@ -86,14 +86,14 @@ class testcase(object):
-         self.test_case = test_case
- 
-     def __call__(self, func):
--	def wrapped_f(*args):
--		return func(*args)
--	wrapped_f.test_case = self.test_case
--	return wrapped_f
-+        def wrapped_f(*args):
-+            return func(*args)
-+        wrapped_f.test_case = self.test_case
-+        return wrapped_f
+@@ -89,6 +89,7 @@ class testcase(object):
+         def wrapped_f(*args):
+             return func(*args)
+         wrapped_f.test_case = self.test_case
++        wrapped_f.__name__ = func.__name__
+         return wrapped_f
  
  class NoParsingFilter(logging.Filter):
-     def filter(self, record):
--	return record.levelno == 100
-+        return record.levelno == 100
- 
- def LogResults(original_class):
-     orig_method = original_class.run
-@@ -101,51 +101,51 @@ def LogResults(original_class):
-     #rewrite the run method of unittest.TestCase to add testcase logging
-     def run(self, result, *args, **kws):
-         orig_method(self, result, *args, **kws)
--	passed = True
--	testMethod = getattr(self, self._testMethodName)
--
--	#if test case is decorated then use it's number, else use it's name
--	try:
--		test_case = testMethod.test_case
--	except AttributeError:
--		test_case = self._testMethodName
--
--	#create custom logging level for filtering.
--	custom_log_level = 100
--	logging.addLevelName(custom_log_level, 'RESULTS')
--	caller = os.path.basename(sys.argv[0])
--
--	def results(self, message, *args, **kws):
--	    if self.isEnabledFor(custom_log_level):
--		self.log(custom_log_level, message, *args, **kws)
--	logging.Logger.results = results
--
--	logging.basicConfig(filename=os.path.join(os.getcwd(),'results-'+caller+'.log'),
-+        passed = True
-+        testMethod = getattr(self, self._testMethodName)
-+
-+        #if test case is decorated then use it's number, else use it's name
-+        try:
-+            test_case = testMethod.test_case
-+        except AttributeError:
-+            test_case = self._testMethodName
-+
-+        #create custom logging level for filtering.
-+        custom_log_level = 100
-+        logging.addLevelName(custom_log_level, 'RESULTS')
-+        caller = os.path.basename(sys.argv[0])
-+
-+        def results(self, message, *args, **kws):
-+            if self.isEnabledFor(custom_log_level):
-+                self.log(custom_log_level, message, *args, **kws)
-+        logging.Logger.results = results
-+
-+        logging.basicConfig(filename=os.path.join(os.getcwd(),'results-'+caller+'.log'),
-                             filemode='w',
-                             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                             datefmt='%H:%M:%S',
-                             level=custom_log_level)
--	for handler in logging.root.handlers:
--		handler.addFilter(NoParsingFilter())
--	local_log = logging.getLogger(caller)
-+        for handler in logging.root.handlers:
-+            handler.addFilter(NoParsingFilter())
-+        local_log = logging.getLogger(caller)
- 
--	#check status of tests and record it
-+        #check status of tests and record it
-         for (name, msg) in result.errors:
--                if self._testMethodName == str(name).split(' ')[0]:
--			local_log.results("Testcase "+str(test_case)+": ERROR")
--			local_log.results("Testcase "+str(test_case)+":\n"+msg)
--			passed = False
-+            if self._testMethodName == str(name).split(' ')[0]:
-+                local_log.results("Testcase "+str(test_case)+": ERROR")
-+                local_log.results("Testcase "+str(test_case)+":\n"+msg)
-+                passed = False
-         for (name, msg) in result.failures:
--                if self._testMethodName == str(name).split(' ')[0]:
--			local_log.results("Testcase "+str(test_case)+": FAILED")
--			local_log.results("Testcase "+str(test_case)+":\n"+msg)
--			passed = False
-+            if self._testMethodName == str(name).split(' ')[0]:
-+                local_log.results("Testcase "+str(test_case)+": FAILED")
-+                local_log.results("Testcase "+str(test_case)+":\n"+msg)
-+                passed = False
-         for (name, msg) in result.skipped:
--                if self._testMethodName == str(name).split(' ')[0]:
--			local_log.results("Testcase "+str(test_case)+": SKIPPED")
--			passed = False
--	if passed:
--			local_log.results("Testcase "+str(test_case)+": PASSED")
-+            if self._testMethodName == str(name).split(' ')[0]:
-+                local_log.results("Testcase "+str(test_case)+": SKIPPED")
-+                passed = False
-+        if passed:
-+            local_log.results("Testcase "+str(test_case)+": PASSED")
- 
-     original_class.run = run
-     return original_class
 -- 
 1.9.3
 
