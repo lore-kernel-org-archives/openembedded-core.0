@@ -1,54 +1,46 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AC47726D8
+Return-Path: <akuster@mvista.com>
+Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id F1912726D9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Dec 2014 02:08:20 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	sBN28ELh030004
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Tue, 23 Dec 2014 03:08:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1419300498;
-	bh=HkmzasMl0bRjPcbIDnf1hsq5Z1Ba4d01vK0szsjxHUw=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=kN3nZHCPipWEt9Rh72ByFU0bi59VxVHQOu6tunzFjiMg6wn89HxYM+XMgMTV88P+F
-	g9p64cws7KClXs7YfqAK27gZHF49DQH3MpRDK0d4Q0GuqPAHXMwDDxoL3pcHkdqti9
-	vM/Y+CuG09Feg6hxyXEROuCrUrI/HO15So0MJGDs=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id sBN27uQs014265
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 23 Dec 2014 03:08:00 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1Y3Et9-0002nf-R3; Tue, 23 Dec 2014 03:07:55 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1418207154.git.bruce.ashfield@windriver.com>
-	<0247524f2f7ae076fdac8773c3baa0794e5697dd.1418207154.git.bruce.ashfield@windriver.com>
-	<lyegrv99wr.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1418989891.13316.10.camel@linuxfoundation.org>
-	<ly7fxnon55.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1418991892.13316.12.camel@linuxfoundation.org>
-Date: Tue, 23 Dec 2014 03:07:55 +0100
-In-Reply-To: <1418991892.13316.12.camel@linuxfoundation.org> (Richard Purdie's
-	message of "Fri, 19 Dec 2014 12:24:52 +0000")
-Message-ID: <lysig715l0.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
+	Tue, 23 Dec 2014 02:14:58 +0000 (UTC)
+Received: by mail-pd0-f177.google.com with SMTP id ft15so6813073pdb.8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Dec 2014 18:14:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=jwfTxaEMAkeSrqCTrNWskU13kOjf+oG5/incc3SNHxU=;
+	b=X06J4dpK2qkssYRefodB1WLl4Mo12KZxDOywo95U+X5xl/kItnHyAMyDYBPDqMihqa
+	VhfBHKpSnUhbR45FOUgoxgfkgEFnV06Mkwij33SkPDFX0lGUpLtc/f1ITy2AQb/HIcF/
+	K+LTSeRQ8bo6hhl+jUj3srD5aUt3hXpUyj1341PKrdkfV1VLY70y0dcztPl2EjEp8Wht
+	VCcStKxqrdYGM5uMW9KgzhR0QMeAofeJe8+jM5v7CF2rMLIppWjWcGQykzqwWuspcFgm
+	AaJg1uLHKZ9SpJkSRBnu+tXxKnMTOv/wk6c4yVy7UDSGFnrym5ibdAor5gBvhcHaAjMJ
+	BMLg==
+X-Gm-Message-State: ALoCoQlVqk2jF76rOjUZs6g6LNDguMhyaNtXGtTJeC1Gkh8tBE8Jc/cQ3y15x6qgI+B/MJIZXwb1
+X-Received: by 10.66.97.97 with SMTP id dz1mr39903182pab.90.1419300899323;
+	Mon, 22 Dec 2014 18:14:59 -0800 (PST)
+Received: from ?IPv6:2601:c:a700:272f:2932:155f:3852:c419?
+	([2601:c:a700:272f:2932:155f:3852:c419])
+	by mx.google.com with ESMTPSA id
+	gx1sm18332265pbd.57.2014.12.22.18.14.58
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 22 Dec 2014 18:14:58 -0800 (PST)
+Message-ID: <5498D01C.9060301@mvista.com>
+Date: Mon, 22 Dec 2014 18:14:52 -0800
+From: akuster <akuster@mvista.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.9
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.75
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/7] kernel: fix out of tree module builds
+To: "Burton, Ross" <ross.burton@intel.com>, 
+	Armin Kuster <akuster808@gmail.com>
+References: <1419224101-24900-1-git-send-email-akuster808@gmail.com>
+	<CAJTo0LaOaz=vsqPPCy-f47vuAHx-rfgd7zZpLXNd3Qyhi36rww@mail.gmail.com>
+In-Reply-To: <CAJTo0LaOaz=vsqPPCy-f47vuAHx-rfgd7zZpLXNd3Qyhi36rww@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/5] [RFC] Move packages from meta-oe to core for X11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,86 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Dec 2014 02:08:24 -0000
-Content-Type: text/plain
-
-Richard Purdie <richard.purdie@linuxfoundation.org> writes:
-
-> In summary, basically, yes. The kernel source is huge and we were
-> compressing/decompressing it in several places on the critical path.
-> People were struggling to develop kernels using the system due to the
-> overhead.
-
-I do not see how the new system makes it easier to "develop kernels".  Due
-to polluting sources with .config and related files, KBUILD_OUTPUT/VPATH
-builds are not possible from this tree.
-
-In my experience, it is also a pain to jump between the different
-directories and tools like 'cscope' are not prepared of it.
-
-And more importantly: the new system lowers end user experience
-significantly because kernel messages will show absolute buildsystem
-paths now; e.g.
-
-| /srv/.oe/bld/e6ca2c38-c20d-f57f-7eca-ffc0aaa2f0bd/sysroots/kk-trizeps6/usr/src/kernel/drivers/usb/core/hub.c
-
-vs.
-
-| drivers/usb/core/hub.c
-
-VPATH builds might be interesting for QA (e.g. building from same source
-with different configuration) but should not be used for final builds.
-
-
-> Whilst this approach does bypass some parts of the system, I do believe
-> the benefits are worth it. We're talking about making the kernel build
-> time about three times faster iirc,
-
-I can not reproduce these numbers here; I get (after a '-c cleanall' and
-'ccache -c'):
-
-  | Task                         | time (old) | time (new) |
-  |------------------------------+------------+------------|
-  | do_bundle_initramfs          |   0.087052 |   0.034955 |
-  | do_compile                   | 128.242407 | 133.723027 |
-  | do_compile_kernelmodules     |  84.415655 |  83.249409 |
-  | do_compile_prepare           |   2.885401 |   1.714159 |
-  | do_configure                 |   6.202691 |   4.340526 |
-  | do_deploy                    |  13.991785 |   14.07096 |
-  | do_fetch                     |   0.210244 |   1.425304 |
-  | do_generate_initramfs_source |   0.063915 |   0.041925 |
-  | do_install                   |  16.190504 |    2.91906 |
-  | do_package                   | 120.823374 |  16.422429 |
-  | do_package_qa                |            |   2.557622 |
-  | do_package_write_ipk         |   42.50694 |   29.57585 |
-  | do_packagedata               |   1.612542 |   0.462001 |
-  | do_patch                     |   0.186583 |   0.011232 |
-  | do_populate_lic              |   0.795013 |   0.135186 |
-  | do_populate_sysroot          |  10.142978 |   0.533519 |
-  | do_rm_work                   |   1.762486 |   0.447187 |
-  | do_rm_work_all               |   0.049144 |   0.030964 |
-  | do_sizecheck                 |   0.054441 |   0.035806 |
-  | do_strip                     |   0.049917 |   0.030841 |
-  | do_uboot_mkimage             |   9.032543 |   12.83624 |
-  | do_unpack                    |   6.695678 |   9.322173 |
-
-  | old | 446.00129 |
-  | new | 313.92038 |
-
-Although the 'new' system is faster, this is gained mainly by the
-'do_package' task which does not seem to be comparable.  The new
-method will create only a very small 'kernel-dev' subpackage:
-
-   1,1M    tmp/deploy/ipk/kk_trizeps6/kernel-dev_3.14...
-
-vs.
-
-    36M    tmp/deploy/ipk/kk_trizeps6/kernel-dev_3.14...
-
-so the old task can be improved either by removing some files, or the
-new task misses files.
+X-List-Received-Date: Tue, 23 Dec 2014 02:15:01 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
-Enrico
+On 12/22/2014 06:48 AM, Burton, Ross wrote:
+> On 22 December 2014 at 04:54, Armin Kuster <akuster808@gmail.com
+> <mailto:akuster808@gmail.com>> wrote:
+>
+>     This fixes 'core-image-x11' image dependancy on meta-oe packages
+>     since xinit requires xterm, xclock and twm to 'startx'.
+>
+>
+> Why can't we just make core-image-x11 start Matchbox instead?  Adding
+> twm and xclock to oe-core seems crazy.
+
+Crazy?? consider the source ; )   Let me look into matchbox, I am not 
+familary with it.  I might be able to disable calling xterm, xclock and 
+twm via configure.
+
+   --with-twm=TWM          Path to twm
+   --with-xclock=XCLOCK    Path to xclock
+   --with-xterm=XTERM      Path to xterm
+
+I wasn't a total waste. the recipes need some tlc.
+
+Thanks for the response.
+
+- Armin
+
+>
+> Ross
+>
+>
 
