@@ -1,28 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B425F726AC
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id AEDC4726C2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Dec 2014 00:27:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBO0QuY3003705; Wed, 24 Dec 2014 00:26:56 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Pe6W2MWl9xUE; Wed, 24 Dec 2014 00:26:55 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBO0QdrS003701
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 24 Dec 2014 00:26:51 GMT
-Message-ID: <1419380836.6428.7.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Wed, 24 Dec 2014 00:27:16 +0000
-In-Reply-To: <5499F33E.2070306@linux.intel.com>
-References: <cover.1418190513.git.sgw@linux.intel.com>
+	Wed, 24 Dec 2014 00:48:24 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Dec 2014 16:48:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="432783546"
+Received: from aeadams-mobl.ger.corp.intel.com (HELO localhost.localdomain)
+	([10.255.13.204])
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Dec 2014 16:36:52 -0800
+Message-ID: <549A0D58.1080107@linux.intel.com>
+Date: Tue, 23 Dec 2014 16:48:24 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1418190513.git.sgw@linux.intel.com>	
 	<5499F33E.2070306@linux.intel.com>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
+	<1419380836.6428.7.camel@linuxfoundation.org>
+In-Reply-To: <1419380836.6428.7.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 0/6] Updates and bug fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,19 +35,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Dec 2014 00:27:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 24 Dec 2014 00:48:32 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2014-12-23 at 14:57 -0800, Saul Wold wrote:
-> ping!
+On 12/23/2014 04:27 PM, Richard Purdie wrote:
+> On Tue, 2014-12-23 at 14:57 -0800, Saul Wold wrote:
+>> ping!
+>
+> Three went in, the other three did not since when Ross and I tried
+> fetching them, the files existed and there was no need to convert to
+> git. Please retest.
+>
+Ah, it seems to be correct, I checked a couple of times and those pages 
+where gone, he must have put them back up. I sent a couple of emails to him.
 
-Three went in, the other three did not since when Ross and I tried
-fetching them, the files existed and there was no need to convert to
-git. Please retest.
+I will drop those then
 
-Cheers,
+Sau!
 
-Richard
-
+> Cheers,
+>
+> Richard
+>
+>
+>
 
