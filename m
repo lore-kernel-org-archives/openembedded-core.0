@@ -1,38 +1,37 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-vc0-f182.google.com (mail-vc0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id AA690726F1
+Received: from mail-yh0-f43.google.com (mail-yh0-f43.google.com
+	[209.85.213.43])
+	by mail.openembedded.org (Postfix) with ESMTP id E0CA1726FB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Dec 2014 16:32:00 +0000 (UTC)
-Received: by mail-vc0-f182.google.com with SMTP id hq12so3024792vcb.41
+	Wed, 24 Dec 2014 16:32:07 +0000 (UTC)
+Received: by mail-yh0-f43.google.com with SMTP id z6so4110897yhz.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Dec 2014 08:32:01 -0800 (PST)
+	Wed, 24 Dec 2014 08:32:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=BwqTOzjhWoBwE/tHTqhfeKy4hOUQt84isk9KVcY54J4=;
-	b=DxAMyHr7s3O4CyOXVwYFnS6LFkb0/vwOhGp0Djj5zY0Otl6BulLVFcJnZoEfKBPCSh
-	OWyY739bNEnpQh7L3yqWIo4zSo16ffjErD45yNzngt3TZbe266Ws3sjucuE+YwSClxDY
-	Q652+vTwLPv9pwoI3pSt3KuXx1yEUZgRVyKGit9r2P/1s/EjkLm7fu0JiU+WzeUocQje
-	+xyB6B9oOoP/SZrEu8ArxGkPX1HMuO5CRl62fmokkFvOWLa34J8wQ3jECkHLJr9NhG5y
-	q2A+aUZSl/v3sfFGNTAn2OkspTRQqimxUyq8PRh9CZjyoGwMgfiZQm8BjObRZ3ynq/36
-	PcFw==
-X-Received: by 10.220.11.68 with SMTP id s4mr13989086vcs.0.1419438721615;
-	Wed, 24 Dec 2014 08:32:01 -0800 (PST)
-Received: from centrium.lab.ossystems.com.br ([177.100.225.47])
-	by mx.google.com with ESMTPSA id ey1sm6065973vdb.23.2014.12.24.08.31.59
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 24 Dec 2014 08:32:00 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=rlpYvFqxSAdh1Zn9/TKylmrozBieka7Yc6fejwblXgM=;
+	b=0fp92LS1ASZN06fP96OqGUadCj56fThxJks2cT10LW4MxgBCTi0RqrviFMioORKb88
+	YDmZCPNIhYRBMHPduC2WQUrkd/pwM07QthqKJcMV5TlxPLI8BdrhcUiiuhg6/G9ABkiY
+	5aiCXstNTFf8mqAKZQAJ5pmvEAAcO2xQPpu51GWz6JbIzEMZ7NT40/7h3eLVEjyRgAfW
+	hSvQUbxydr26szjX/oVA0wLHfi13X4NA3hkFBGB5Ph2aN6lniTVEr4j+jY6jZExvKxdD
+	GvSYGvO6Rm3ZrSaUNMEbxellPFbtttKobcGke9BmrIR85WhPp9SYm9+u0pgmIWeUXkN2
+	t+IQ==
+MIME-Version: 1.0
+X-Received: by 10.170.211.67 with SMTP id c64mr31134624ykf.110.1419438727889; 
+	Wed, 24 Dec 2014 08:32:07 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.171.132 with HTTP; Wed, 24 Dec 2014 08:32:07 -0800 (PST)
+In-Reply-To: <1419410769.6428.15.camel@linuxfoundation.org>
+References: <1418159277-3620-1-git-send-email-otavio@ossystems.com.br>
+	<1419410769.6428.15.camel@linuxfoundation.org>
+Date: Wed, 24 Dec 2014 14:32:07 -0200
+X-Google-Sender-Auth: U--AYvwNpdREsyd9jMW9msuxtEw
+Message-ID: <CAP9ODKr+o_6vJ8AwjRRvuwTGmaq8JyrtCAHspEADKJA3Lgz=Yg@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Dec 2014 14:32:11 -0200
-Message-Id: <1419438731-623-3-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.1.3
-In-Reply-To: <1419438731-623-1-git-send-email-otavio@ossystems.com.br>
-References: <1419438731-623-1-git-send-email-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 3/3] lib/oe/image.py: Handle compressed IMAGE_TYPEDEP values
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/3] image_types.bbclass: Respect IMAGE_TYPEDEP dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,58 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Dec 2014 16:32:06 -0000
+X-List-Received-Date: Wed, 24 Dec 2014 16:32:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-When computing the dependency graph for the image generation, we need
-to take into account the compression type and identify the base type
-it relates to. This allow for a more robust graph generation even when
-using composed image types.
+Hello Richard,
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/lib/oe/image.py | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+On Wed, Dec 24, 2014 at 6:46 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2014-12-09 at 19:07 -0200, Otavio Salvador wrote:
+>> The IMAGE_TYPEDEP dependencies also need to be taken into account when
+>> building an IMAGE_FSTYPE.
+>>
+>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>> ---
+>>  meta/classes/image_types.bbclass | 2 ++
+>>  1 file changed, 2 insertions(+)
+>
+> According to my tests, something in this patch series is causing:
+>
+> https://autobuilder.yoctoproject.org/main/builders/minnow/builds/137/steps/BuildImages/logs/stdio
+> https://autobuilder.yoctoproject.org/main/builders/minnow-lsb/builds/138/steps/BuildImages/logs/stdio
+> https://autobuilder.yoctoproject.org/main/builders/nightly-x86/builds/137/steps/BuildImages_1/logs/stdio
+> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/builds/138/steps/BuildImages_1/logs/stdio
+> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/builds/138/steps/BuildImages_1/logs/stdio
+>
+> I could reproduce locally just by building anything with a live image
+> type and executing do_bootimg. It appears the ".gz" version of the
+> initramfs isn't created. You have to force stamps to get the code to
+> rerun.
 
-diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
-index 7e080b0..f9c8f84 100644
---- a/meta/lib/oe/image.py
-+++ b/meta/lib/oe/image.py
-@@ -48,11 +48,13 @@ class ImageDepGraph(object):
-         graph = dict()
- 
-         def add_node(node):
-+            base_type = self._image_base_type(node)
-             deps = (self.d.getVar('IMAGE_TYPEDEP_' + node, True) or "")
--            if deps != "":
-+            base_deps = (self.d.getVar('IMAGE_TYPEDEP_' + base_type, True) or "")
-+            if deps != "" or base_deps != "":
-                 graph[node] = deps
- 
--                for dep in deps.split():
-+                for dep in deps.split() + base_deps.split():
-                     if not dep in graph:
-                         add_node(dep)
-             else:
-@@ -72,6 +74,18 @@ class ImageDepGraph(object):
-         for item in remove_list:
-             self.graph.pop(item, None)
- 
-+    def _image_base_type(self, type):
-+        ctypes = self.d.getVar('COMPRESSIONTYPES', True).split()
-+        if type in ["vmdk", "live", "iso", "hddimg"]:
-+            type = "ext3"
-+        basetype = type
-+        for ctype in ctypes:
-+            if type.endswith("." + ctype):
-+                basetype = type[:-len("." + ctype)]
-+                break
-+
-+        return basetype
-+
-     def _compute_dependencies(self):
-         """
-         returns dict object of nodes with [no_of_depends_on, no_of_depended_by]
+I could reproduce the issue using the 'genericx86' machine.
+
+After some investigation the culprit for the issue has been found.
+When I changed the code to account for the base type dependency, I
+mistakenly changed the node to use.
+
+So the fix was easy: http://privatepaste.com/4389a3a857
+
+Thanks for the detailed report, this made my life easier when trying
+to reproduce the failing case. I have successfully build
+core-image-minimal for 'genericx86' and 'imx6qsabresd' machines. The
+last was the one which raised the need of base type dependency rework,
+by the way.
+
+I sent a v2 patchset with this fixed.
+
 -- 
-2.1.3
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
