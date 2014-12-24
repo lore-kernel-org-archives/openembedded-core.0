@@ -1,29 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4145B72682
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-vc0-f170.google.com (mail-vc0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id E025372638
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Dec 2014 08:46:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBO8jmXc028357; Wed, 24 Dec 2014 08:45:48 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id G2Bhedcoqc-n; Wed, 24 Dec 2014 08:45:48 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	sBO8jWfF028332
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 24 Dec 2014 08:45:43 GMT
-Message-ID: <1419410769.6428.15.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Wed, 24 Dec 2014 08:46:09 +0000
-In-Reply-To: <1418159277-3620-1-git-send-email-otavio@ossystems.com.br>
-References: <1418159277-3620-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/3] image_types.bbclass: Respect IMAGE_TYPEDEP dependencies
+	Wed, 24 Dec 2014 16:31:57 +0000 (UTC)
+Received: by mail-vc0-f170.google.com with SMTP id hy4so3115195vcb.15
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Dec 2014 08:31:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=csjbiOWYxgxMIKMRzz/bPs9+IbmQGRWma8+sPPFEod4=;
+	b=N1IPoHx2OqOt6I1btg7rnXzyhIUyvBBqz5WYphLs0Bn3aXZbsPpPQllMbvVG9xj3Ym
+	t3JwbZM+JkfAPdRo2chDBlnaOlP+ZGE2CiOWsBYdU+rbc6SYLdmLjq2TTnxxdHyhMdWi
+	K5kUbPyjH58UOVzfog4cB3Y/BatXWnpm0Ey0t8iewTQHf6iwSqbZJ/UqUIEfRaVdUy/k
+	6PozvnP8229iiWYGZy/c+1tlNnLzQUSaVlManlnkAz/1jtJMRbt80AnViYj82MCThE/3
+	MqtfkrcGB9uDlJx8rtqkRkjWkTN6Gq0kKqnYL4vk1fQwf/lGLVAxi9Z2H3M7EHuxwmM+
+	n0og==
+X-Received: by 10.53.9.42 with SMTP id dp10mr11677666vdd.88.1419438717777;
+	Wed, 24 Dec 2014 08:31:57 -0800 (PST)
+Received: from centrium.lab.ossystems.com.br ([177.100.225.47])
+	by mx.google.com with ESMTPSA id ey1sm6065973vdb.23.2014.12.24.08.31.55
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 24 Dec 2014 08:31:56 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Dec 2014 14:32:09 -0200
+Message-Id: <1419438731-623-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.1.3
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2 1/3] image_types.bbclass: Respect IMAGE_TYPEDEP dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,49 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Dec 2014 08:46:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Dec 2014 16:32:06 -0000
 
-On Tue, 2014-12-09 at 19:07 -0200, Otavio Salvador wrote:
-> The IMAGE_TYPEDEP dependencies also need to be taken into account when
-> building an IMAGE_FSTYPE.
-> 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  meta/classes/image_types.bbclass | 2 ++
->  1 file changed, 2 insertions(+)
+The IMAGE_TYPEDEP dependencies also need to be taken into account when
+building an IMAGE_FSTYPE.
 
-According to my tests, something in this patch series is causing:
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/classes/image_types.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-https://autobuilder.yoctoproject.org/main/builders/minnow/builds/137/steps/BuildImages/logs/stdio
-https://autobuilder.yoctoproject.org/main/builders/minnow-lsb/builds/138/steps/BuildImages/logs/stdio
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86/builds/137/steps/BuildImages_1/logs/stdio
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/builds/138/steps/BuildImages_1/logs/stdio
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/builds/138/steps/BuildImages_1/logs/stdio
-
-I could reproduce locally just by building anything with a live image
-type and executing do_bootimg. It appears the ".gz" version of the
-initramfs isn't created. You have to force stamps to get the code to
-rerun.
-
-Cheers,
-
-Richard
-
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 9aee745..24e4bbb 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -21,6 +21,8 @@ def imagetypes_getdepends(d):
->                  basetype = type[:-len("." + ctype)]
->                  adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype, True), deps)
->                  break
-> +        for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype, True) or "").split():
-> +            adddep(d.getVar('IMAGE_DEPENDS_%s' % typedepends, True) , deps)
->          adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype, True) , deps)
->  
->      depstr = ""
-
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 1b8ceee..71b2ea9 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -21,6 +21,8 @@ def imagetypes_getdepends(d):
+                 basetype = type[:-len("." + ctype)]
+                 adddep(d.getVar("COMPRESS_DEPENDS_%s" % ctype, True), deps)
+                 break
++        for typedepends in (d.getVar("IMAGE_TYPEDEP_%s" % basetype, True) or "").split():
++            adddep(d.getVar('IMAGE_DEPENDS_%s' % typedepends, True) , deps)
+         adddep(d.getVar('IMAGE_DEPENDS_%s' % basetype, True) , deps)
+ 
+     depstr = ""
+-- 
+2.1.3
 
 
