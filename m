@@ -1,37 +1,27 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f43.google.com (mail-yh0-f43.google.com
-	[209.85.213.43])
-	by mail.openembedded.org (Postfix) with ESMTP id E0CA1726FB
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 64FA772640
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Dec 2014 16:32:07 +0000 (UTC)
-Received: by mail-yh0-f43.google.com with SMTP id z6so4110897yhz.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Dec 2014 08:32:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=rlpYvFqxSAdh1Zn9/TKylmrozBieka7Yc6fejwblXgM=;
-	b=0fp92LS1ASZN06fP96OqGUadCj56fThxJks2cT10LW4MxgBCTi0RqrviFMioORKb88
-	YDmZCPNIhYRBMHPduC2WQUrkd/pwM07QthqKJcMV5TlxPLI8BdrhcUiiuhg6/G9ABkiY
-	5aiCXstNTFf8mqAKZQAJ5pmvEAAcO2xQPpu51GWz6JbIzEMZ7NT40/7h3eLVEjyRgAfW
-	hSvQUbxydr26szjX/oVA0wLHfi13X4NA3hkFBGB5Ph2aN6lniTVEr4j+jY6jZExvKxdD
-	GvSYGvO6Rm3ZrSaUNMEbxellPFbtttKobcGke9BmrIR85WhPp9SYm9+u0pgmIWeUXkN2
-	t+IQ==
+	Wed, 24 Dec 2014 17:56:23 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 24 Dec 2014 09:56:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="503687198"
+Received: from aeadams-mobl.ger.corp.intel.com (HELO localhost.localdomain)
+	([10.255.13.204])
+	by orsmga003.jf.intel.com with ESMTP; 24 Dec 2014 09:51:37 -0800
+Message-ID: <549AFE46.50303@linux.intel.com>
+Date: Wed, 24 Dec 2014 09:56:22 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-X-Received: by 10.170.211.67 with SMTP id c64mr31134624ykf.110.1419438727889; 
-	Wed, 24 Dec 2014 08:32:07 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.171.132 with HTTP; Wed, 24 Dec 2014 08:32:07 -0800 (PST)
-In-Reply-To: <1419410769.6428.15.camel@linuxfoundation.org>
-References: <1418159277-3620-1-git-send-email-otavio@ossystems.com.br>
-	<1419410769.6428.15.camel@linuxfoundation.org>
-Date: Wed, 24 Dec 2014 14:32:07 -0200
-X-Google-Sender-Auth: U--AYvwNpdREsyd9jMW9msuxtEw
-Message-ID: <CAP9ODKr+o_6vJ8AwjRRvuwTGmaq8JyrtCAHspEADKJA3Lgz=Yg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/3] image_types.bbclass: Respect IMAGE_TYPEDEP dependencies
+To: Hongxu Jia <hongxu.jia@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1419309149.git.hongxu.jia@windriver.com>
+	<960042129c61baae9bdf304c256f8d2e8dd578da.1419309149.git.hongxu.jia@windriver.com>
+In-Reply-To: <960042129c61baae9bdf304c256f8d2e8dd578da.1419309149.git.hongxu.jia@windriver.com>
+Subject: Re: [PATCH 6/6] groff: upgrade 1.22.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,53 +34,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Dec 2014 16:32:08 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 24 Dec 2014 17:56:24 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello Richard,
-
-On Wed, Dec 24, 2014 at 6:46 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2014-12-09 at 19:07 -0200, Otavio Salvador wrote:
->> The IMAGE_TYPEDEP dependencies also need to be taken into account when
->> building an IMAGE_FSTYPE.
->>
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> ---
->>  meta/classes/image_types.bbclass | 2 ++
->>  1 file changed, 2 insertions(+)
+On 12/22/2014 09:09 PM, Hongxu Jia wrote:
+> Rebase groff-1.22.2-correct-man.local-install-path.patch to 1.22.3
 >
-> According to my tests, something in this patch series is causing:
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   ...off-1.22.2-correct-man.local-install-path.patch | 32 ---------------
+>   ...off-1.22.3-correct-man.local-install-path.patch | 45 ++++++++++++++++++++++
+
+Does it make more sense not to have the version in the patch name if we 
+are going to carry it forward?
+
+>   .../groff/{groff_1.22.2.bb => groff_1.22.3.bb}     |  6 +--
+
+The new version of groff seems to depend on Perl now for a couple of 
+scripts (grog and BuildFoundries), please double check your RDEPENDS.
+
+Thanks
+	Sau!
+
+>   3 files changed, 48 insertions(+), 35 deletions(-)
+>   delete mode 100644 meta/recipes-extended/groff/groff-1.22.2/groff-1.22.2-correct-man.local-install-path.patch
+>   create mode 100644 meta/recipes-extended/groff/groff-1.22.3/groff-1.22.3-correct-man.local-install-path.patch
+>   rename meta/recipes-extended/groff/{groff_1.22.2.bb => groff_1.22.3.bb} (90%)
 >
-> https://autobuilder.yoctoproject.org/main/builders/minnow/builds/137/steps/BuildImages/logs/stdio
-> https://autobuilder.yoctoproject.org/main/builders/minnow-lsb/builds/138/steps/BuildImages/logs/stdio
-> https://autobuilder.yoctoproject.org/main/builders/nightly-x86/builds/137/steps/BuildImages_1/logs/stdio
-> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/builds/138/steps/BuildImages_1/logs/stdio
-> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/builds/138/steps/BuildImages_1/logs/stdio
+> diff --git a/meta/recipes-extended/groff/groff-1.22.2/groff-1.22.2-correct-man.local-install-path.patch b/meta/recipes-extended/groff/groff-1.22.2/groff-1.22.2-correct-man.local-install-path.patch
+> deleted file mode 100644
+> index f7e9a74..0000000
+> --- a/meta/recipes-extended/groff/groff-1.22.2/groff-1.22.2-correct-man.local-install-path.patch
+> +++ /dev/null
+> @@ -1,32 +0,0 @@
+> -Correct the install path of man.local to fix following error:
+> -    /yocto/build/tmp/sysroots/x86_64-linux/usr/share/groff/1.22.2/tmac/an-old.tmac:690: warning: can't find macro file `man.local'
+> -
+> -Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
+> -Upstream-Status: Pending
+> -
+> ---- groff-1.22.2/tmac/Makefile.sub.orig	2013-02-07 20:06:08.000000000 +0800
+> -+++ groff-1.22.2/tmac/Makefile.sub	2013-06-26 19:11:23.572259001 +0800
+> -@@ -114,9 +114,9 @@
+> - 	  rm -f $(DESTDIR)$(mdocdir)/$$f; \
+> - 	  $(INSTALL_DATA) $$f-s $(DESTDIR)$(mdocdir)/$$f; \
+> - 	done
+> --	-test -f $(DESTDIR)$(localtmacdir)/man.local || \
+> -+	-test -f $(DESTDIR)$(tmacdir)/man.local || \
+> - 	  $(INSTALL_DATA) $(srcdir)/man.local \
+> --	    $(DESTDIR)$(localtmacdir)/man.local
+> -+	    $(DESTDIR)$(tmacdir)/man.local
+> - 	-test -f $(DESTDIR)$(localtmacdir)/mdoc.local || \
+> - 	  $(INSTALL_DATA) mdoc.local-s $(DESTDIR)$(localtmacdir)/mdoc.local
+> -
+> -@@ -158,9 +158,9 @@
+> - 	-rm -f $(DESTDIR)$(tmacdir)/$(tmac_s_prefix)s.tmac
+> - 	-rm -f $(DESTDIR)$(tmacdir)/$(tmac_an_prefix)an.tmac
+> - 	-rm -f $(DESTDIR)$(tmacdir)/www.tmac
+> --	-if cmp -s $(DESTDIR)$(localtmacdir)/man.local \
+> -+	-if cmp -s $(DESTDIR)$(tmacdir)/man.local \
+> - 	           $(srcdir)/man.local; then \
+> --	  rm -f $(DESTDIR)$(localtmacdir)/man.local; \
+> -+	  rm -f $(DESTDIR)$(tmacdir)/man.local; \
+> - 	fi
+> - 	-if cmp -s $(DESTDIR)$(localtmacdir)/mdoc.local \
+> - 	           $(srcdir)/mdoc.local; then \
+> diff --git a/meta/recipes-extended/groff/groff-1.22.3/groff-1.22.3-correct-man.local-install-path.patch b/meta/recipes-extended/groff/groff-1.22.3/groff-1.22.3-correct-man.local-install-path.patch
+> new file mode 100644
+> index 0000000..e5db6cf
+> --- /dev/null
+> +++ b/meta/recipes-extended/groff/groff-1.22.3/groff-1.22.3-correct-man.local-install-path.patch
+> @@ -0,0 +1,45 @@
+> +Correct the install path of man.local to fix following error:
+> +
+> + /yocto/build/tmp/sysroots/x86_64-linux/usr/share/groff/1.22.2/tmac/an-old.tmac:690:
+> + warning: can't find macro file `man.local'
+> +
+> +Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
+> +Upstream-Status: Pending
+> +
+> +Rebase to 1.22.3
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +---
+> + tmac/Makefile.sub | 8 ++++----
+> + 1 file changed, 4 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/tmac/Makefile.sub b/tmac/Makefile.sub
+> +index 1506232..f1468c5 100644
+> +--- a/tmac/Makefile.sub
+> ++++ b/tmac/Makefile.sub
+> +@@ -121,9 +121,9 @@ install_data: $(NORMALFILES) $(SPECIALFILES) man.local \
+> + 	  $(RM) $(DESTDIR)$(mdocdir)/$$f; \
+> + 	  $(INSTALL_DATA) $$f-s $(DESTDIR)$(mdocdir)/$$f; \
+> + 	done
+> +-	-test -f $(DESTDIR)$(localtmacdir)/man.local \
+> ++	-test -f $(DESTDIR)$(tmacdir)/man.local \
+> + 	  || $(INSTALL_DATA) $(srcdir)/man.local \
+> +-	       $(DESTDIR)$(localtmacdir)/man.local
+> ++	       $(DESTDIR)$(tmacdir)/man.local
+> + 	-test -f $(DESTDIR)$(localtmacdir)/mdoc.local \
+> + 	  || $(INSTALL_DATA) mdoc.local-s $(DESTDIR)$(localtmacdir)/mdoc.local
+> +
+> +@@ -164,9 +164,9 @@ uninstall_sub:
+> + 	$(RM) $(DESTDIR)$(tmacdir)/$(tmac_s_prefix)s.tmac
+> + 	$(RM) $(DESTDIR)$(tmacdir)/$(tmac_an_prefix)an.tmac
+> + 	$(RM) $(DESTDIR)$(tmacdir)/www.tmac
+> +-	-if cmp -s $(DESTDIR)$(localtmacdir)/man.local \
+> ++	-if cmp -s $(DESTDIR)$(tmacdir)/man.local \
+> + 	           $(srcdir)/man.local; then \
+> +-	  $(RM) $(DESTDIR)$(localtmacdir)/man.local; \
+> ++	  $(RM) $(DESTDIR)$(tmacdir)/man.local; \
+> + 	fi
+> + 	-if cmp -s $(DESTDIR)$(localtmacdir)/mdoc.local \
+> + 	           $(srcdir)/mdoc.local; then \
+> +--
+> +1.9.1
+> +
+> diff --git a/meta/recipes-extended/groff/groff_1.22.2.bb b/meta/recipes-extended/groff/groff_1.22.3.bb
+> similarity index 90%
+> rename from meta/recipes-extended/groff/groff_1.22.2.bb
+> rename to meta/recipes-extended/groff/groff_1.22.3.bb
+> index 63f0425..e0d632f 100644
+> --- a/meta/recipes-extended/groff/groff_1.22.2.bb
+> +++ b/meta/recipes-extended/groff/groff_1.22.3.bb
+> @@ -9,11 +9,11 @@ PR = "r1"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 >
-> I could reproduce locally just by building anything with a live image
-> type and executing do_bootimg. It appears the ".gz" version of the
-> initramfs isn't created. You have to force stamps to get the code to
-> rerun.
-
-I could reproduce the issue using the 'genericx86' machine.
-
-After some investigation the culprit for the issue has been found.
-When I changed the code to account for the base type dependency, I
-mistakenly changed the node to use.
-
-So the fix was easy: http://privatepaste.com/4389a3a857
-
-Thanks for the detailed report, this made my life easier when trying
-to reproduce the failing case. I have successfully build
-core-image-minimal for 'genericx86' and 'imx6qsabresd' machines. The
-last was the one which raised the need of base type dependency rework,
-by the way.
-
-I sent a v2 patchset with this fixed.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>   SRC_URI = "${GNU_MIRROR}/groff/groff-${PV}.tar.gz \
+> -	file://groff-1.22.2-correct-man.local-install-path.patch \
+> +	file://groff-1.22.3-correct-man.local-install-path.patch \
+>   "
+>
+> -SRC_URI[md5sum] = "9f4cd592a5efc7e36481d8d8d8af6d16"
+> -SRC_URI[sha256sum] = "380864dac4772e0c0d7b1282d25d0c5fd7f63baf45c87c4657afed22a13d2076"
+> +SRC_URI[md5sum] = "cc825fa64bc7306a885f2fb2268d3ec5"
+> +SRC_URI[sha256sum] = "3a48a9d6c97750bfbd535feeb5be0111db6406ddb7bb79fc680809cda6d828a5"
+>
+>   DEPENDS = "groff-native"
+>   DEPENDS_class-native = ""
+>
 
