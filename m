@@ -1,38 +1,38 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-vc0-f178.google.com (mail-vc0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 28C31726F0
+Received: from mail-vc0-f182.google.com (mail-vc0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id AA690726F1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Dec 2014 16:31:59 +0000 (UTC)
-Received: by mail-vc0-f178.google.com with SMTP id hq11so3130318vcb.37
+	Wed, 24 Dec 2014 16:32:00 +0000 (UTC)
+Received: by mail-vc0-f182.google.com with SMTP id hq12so3024792vcb.41
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Dec 2014 08:31:59 -0800 (PST)
+	Wed, 24 Dec 2014 08:32:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=EgHqjp7o0AA/czU4D1J64n1XzzeQOCmjDaoo0rPCKtg=;
-	b=k1e4Ha/sN+NyIFimaJWhKmmlKYeQ8PefzJ/r/FXo2S67LhIIxzMBpDKy2dRN0Zr2XV
-	hdjOZy0FEtE0APIvUM5xV3otOXbHnE6ztg6/CN7XrROy+jC9iYF7GuiuIHUiH5Shi184
-	/RziuICWrVgIwCiwy5MNEECPxUs4gvqYS4X2UQCINN7aRFRuXBRtD+yZzs40zzXAWEgV
-	uYX/fsld7ZdB7WyseHnEhCTIv7XPHMh+0AmxXLs/RJT081itSze4KCJL9ajqlJvFbCQE
-	Zri79pH6ehKkn2twMdjhOoy1WuyOPjp8+G/LFMWq2CIAymtR5hJpjoWktkfObSBeE/LZ
-	/W+w==
-X-Received: by 10.52.72.101 with SMTP id c5mr11581531vdv.59.1419438719713;
-	Wed, 24 Dec 2014 08:31:59 -0800 (PST)
+	:organization; bh=BwqTOzjhWoBwE/tHTqhfeKy4hOUQt84isk9KVcY54J4=;
+	b=DxAMyHr7s3O4CyOXVwYFnS6LFkb0/vwOhGp0Djj5zY0Otl6BulLVFcJnZoEfKBPCSh
+	OWyY739bNEnpQh7L3yqWIo4zSo16ffjErD45yNzngt3TZbe266Ws3sjucuE+YwSClxDY
+	Q652+vTwLPv9pwoI3pSt3KuXx1yEUZgRVyKGit9r2P/1s/EjkLm7fu0JiU+WzeUocQje
+	+xyB6B9oOoP/SZrEu8ArxGkPX1HMuO5CRl62fmokkFvOWLa34J8wQ3jECkHLJr9NhG5y
+	q2A+aUZSl/v3sfFGNTAn2OkspTRQqimxUyq8PRh9CZjyoGwMgfiZQm8BjObRZ3ynq/36
+	PcFw==
+X-Received: by 10.220.11.68 with SMTP id s4mr13989086vcs.0.1419438721615;
+	Wed, 24 Dec 2014 08:32:01 -0800 (PST)
 Received: from centrium.lab.ossystems.com.br ([177.100.225.47])
-	by mx.google.com with ESMTPSA id ey1sm6065973vdb.23.2014.12.24.08.31.57
+	by mx.google.com with ESMTPSA id ey1sm6065973vdb.23.2014.12.24.08.31.59
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 24 Dec 2014 08:31:58 -0800 (PST)
+	Wed, 24 Dec 2014 08:32:00 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Dec 2014 14:32:10 -0200
-Message-Id: <1419438731-623-2-git-send-email-otavio@ossystems.com.br>
+Date: Wed, 24 Dec 2014 14:32:11 -0200
+Message-Id: <1419438731-623-3-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.1.3
 In-Reply-To: <1419438731-623-1-git-send-email-otavio@ossystems.com.br>
 References: <1419438731-623-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 2/3] image_types.bbclass: Rework code to map types for 'ext3'
+Subject: [PATCH v2 3/3] lib/oe/image.py: Handle compressed IMAGE_TYPEDEP values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,24 +47,55 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 24 Dec 2014 16:32:06 -0000
 
+When computing the dependency graph for the image generation, we need
+to take into account the compression type and identify the base type
+it relates to. This allow for a more robust graph generation even when
+using composed image types.
+
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/classes/image_types.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/image.py | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 71b2ea9..02b107c 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -13,7 +13,7 @@ def imagetypes_getdepends(d):
-     deps = []
-     ctypes = d.getVar('COMPRESSIONTYPES', True).split()
-     for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
--        if type == "vmdk" or type == "live" or type == "iso" or type == "hddimg":
+diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
+index 7e080b0..f9c8f84 100644
+--- a/meta/lib/oe/image.py
++++ b/meta/lib/oe/image.py
+@@ -48,11 +48,13 @@ class ImageDepGraph(object):
+         graph = dict()
+ 
+         def add_node(node):
++            base_type = self._image_base_type(node)
+             deps = (self.d.getVar('IMAGE_TYPEDEP_' + node, True) or "")
+-            if deps != "":
++            base_deps = (self.d.getVar('IMAGE_TYPEDEP_' + base_type, True) or "")
++            if deps != "" or base_deps != "":
+                 graph[node] = deps
+ 
+-                for dep in deps.split():
++                for dep in deps.split() + base_deps.split():
+                     if not dep in graph:
+                         add_node(dep)
+             else:
+@@ -72,6 +74,18 @@ class ImageDepGraph(object):
+         for item in remove_list:
+             self.graph.pop(item, None)
+ 
++    def _image_base_type(self, type):
++        ctypes = self.d.getVar('COMPRESSIONTYPES', True).split()
 +        if type in ["vmdk", "live", "iso", "hddimg"]:
-             type = "ext3"
-         basetype = type
-         for ctype in ctypes:
++            type = "ext3"
++        basetype = type
++        for ctype in ctypes:
++            if type.endswith("." + ctype):
++                basetype = type[:-len("." + ctype)]
++                break
++
++        return basetype
++
+     def _compute_dependencies(self):
+         """
+         returns dict object of nodes with [no_of_depends_on, no_of_depended_by]
 -- 
 2.1.3
 
