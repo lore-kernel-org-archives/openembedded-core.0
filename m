@@ -1,25 +1,30 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8858F726AB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9843372670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Dec 2014 08:22:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBP8MPDO004298
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 25 Dec 2014 00:22:26 -0800 (PST)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Thu, 25 Dec 2014 00:22:25 -0800
-From: Kai Kang <kai.kang@windriver.com>
-To: <paul.eggleton@linux.intel.com>
-Date: Thu, 25 Dec 2014 16:19:33 +0800
-Message-ID: <1419495573-23856-1-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] runqemu-internal: increase memory for qemuarm64
+	Thu, 25 Dec 2014 08:44:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBP8i91a032288; Thu, 25 Dec 2014 08:44:09 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id pwAOoGXBWj9d; Thu, 25 Dec 2014 08:44:09 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBP8hsx2032285
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 25 Dec 2014 08:44:05 GMT
+Message-ID: <1419497071.6428.20.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Thu, 25 Dec 2014 08:44:31 +0000
+In-Reply-To: <f7818c823b514c419bf578416843c68538accf0f.1419473606.git.hongxu.jia@windriver.com>
+References: <960042129c61baae9bdf304c256f8d2e8dd578da.1419309149.git.hongxu.jia@windriver.com>
+	<f7818c823b514c419bf578416843c68538accf0f.1419473606.git.hongxu.jia@windriver.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 6/6] groff: upgrade 1.22.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Dec 2014 08:22:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 25 Dec 2014 08:44:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Increase memory to 512M for qemuarm64. The original size 126M can't make
-task testimage pass, neither 256M.
+On Thu, 2014-12-25 at 10:19 +0800, Hongxu Jia wrote:
+> Rebase groff-1.22.2-correct-man.local-install-path.patch to 1.22.3
+> 
+> Refer what debian did, we add perl to RRECOMMENDS_${PN}, here is the
+> explanation in groff 1.22.3 README:
+> ...
+> Additionally, producing `PDF' output directly with the `gropdf' device needs
+> a working installation of `perl'.  The same is true for some other
+> preprocessors like `chem'.
+> ...
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  ...off-1.22.2-correct-man.local-install-path.patch | 32 ---------------
+>  .../groff-correct-man.local-install-path.patch     | 45 ++++++++++++++++++++++
+>  .../groff/{groff_1.22.2.bb => groff_1.22.3.bb}     |  7 ++--
+>  3 files changed, 49 insertions(+), 35 deletions(-)
+>  delete mode 100644 meta/recipes-extended/groff/groff-1.22.2/groff-1.22.2-correct-man.local-install-path.patch
+>  create mode 100644 meta/recipes-extended/groff/groff-1.22.3/groff-correct-man.local-install-path.patch
+>  rename meta/recipes-extended/groff/{groff_1.22.2.bb => groff_1.22.3.bb} (89%)
 
-[YOCTO #7102]
+Given the original error message, if you build this on a machine
+with /bin/perl, does it not still give an error at rootfs time?
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- scripts/runqemu-internal | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Do we need to correctly set the path to perl in the recipe?
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index f6274e2..5711bd3 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -51,7 +51,7 @@ else
-             mem_size=128
-             ;;
-         "qemuarm64")
--            mem_size=128
-+            mem_size=512
-             ;;
-         "qemumicroblaze")
-             mem_size=64
--- 
-1.9.1
+Cheers,
+
+Richard
+
 
 
