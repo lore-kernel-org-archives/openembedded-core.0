@@ -1,24 +1,25 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DB277262C
+	by mail.openembedded.org (Postfix) with ESMTP id 8858F726AB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Dec 2014 03:41:12 +0000 (UTC)
+	Thu, 25 Dec 2014 08:22:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBP3fB7V002511
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Dec 2014 19:41:12 -0800 (PST)
-Received: from pek-kkang-d2.wrs.com (128.224.163.146) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 24 Dec 2014 19:41:11 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Dec 2014 11:41:23 +0800
-Message-ID: <1419478883-14044-1-git-send-email-jackie.huang@windriver.com>
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBP8MPDO004298
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 25 Dec 2014 00:22:26 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.174.1; Thu, 25 Dec 2014 00:22:25 -0800
+From: Kai Kang <kai.kang@windriver.com>
+To: <paul.eggleton@linux.intel.com>
+Date: Thu, 25 Dec 2014 16:19:33 +0800
+Message-ID: <1419495573-23856-1-git-send-email-kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] glib-2.0: filter out -fvisibility=default option
+X-Originating-IP: [128.224.153.152]
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] runqemu-internal: increase memory for qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Dec 2014 03:41:15 -0000
+X-List-Received-Date: Thu, 25 Dec 2014 08:22:27 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Increase memory to 512M for qemuarm64. The original size 126M can't make
+task testimage pass, neither 256M.
 
-Once -fvisibility=default option is added, matchbox-desktop
-will run into segfault, so filter it out as a workaround for now.
+[YOCTO #7102]
 
-[YOCTO #7099]
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/runqemu-internal | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
-index 4b1bcf8..78fca20 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.40.0.bb
-@@ -20,3 +20,7 @@ SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
- 
- SRC_URI[md5sum] = "05fb7cb17eacbc718e90366a1eae60d9"
- SRC_URI[sha256sum] = "0d27f195966ecb1995dcce0754129fd66ebe820c7cd29200d264b02af1aa28b5"
-+
-+# Once -fvisibility=default option is added, matchbox-desktop will run into segfault,
-+# so filter it out as a wrokaround for now.
-+TARGET_CFLAGS := "${@oe_filter_out('-fvisibility=default', '${TARGET_CFLAGS}', d)}"
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index f6274e2..5711bd3 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -51,7 +51,7 @@ else
+             mem_size=128
+             ;;
+         "qemuarm64")
+-            mem_size=128
++            mem_size=512
+             ;;
+         "qemumicroblaze")
+             mem_size=64
 -- 
 1.9.1
 
