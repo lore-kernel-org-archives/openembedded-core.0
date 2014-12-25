@@ -1,28 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 080DF7265C
+	by mail.openembedded.org (Postfix) with ESMTP id 341BE72644
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Dec 2014 01:35:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBP1Zir5019100
+	Thu, 25 Dec 2014 01:49:06 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBP1n6ff020349
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 24 Dec 2014 17:35:44 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
-	Wed, 24 Dec 2014 17:35:43 -0800
-Message-ID: <549B69EB.4050707@windriver.com>
-Date: Thu, 25 Dec 2014 09:35:39 +0800
+	Wed, 24 Dec 2014 17:49:06 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 24 Dec 2014 17:49:05 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.2.0
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Thu, 25 Dec 2014 09:48:56 +0800
+Message-ID: <749c7fdb97b46a3dd2d9896fd280427e2b112ee4.1419471695.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1419471695.git.hongxu.jia@windriver.com>
+References: <cover.1419471695.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1419309149.git.hongxu.jia@windriver.com>
-	<960042129c61baae9bdf304c256f8d2e8dd578da.1419309149.git.hongxu.jia@windriver.com>
-	<549AFE46.50303@linux.intel.com>
-In-Reply-To: <549AFE46.50303@linux.intel.com>
-Subject: Re: [PATCH 6/6] groff: upgrade 1.22.3
+Subject: [PATCH 1/4] insane.bbclass: add QA check: package-missing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,176 +33,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Dec 2014 01:35:56 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Dec 2014 01:49:09 -0000
+Content-Type: text/plain
 
-On 12/25/2014 01:56 AM, Saul Wold wrote:
-> On 12/22/2014 09:09 PM, Hongxu Jia wrote:
->> Rebase groff-1.22.2-correct-man.local-install-path.patch to 1.22.3
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   ...off-1.22.2-correct-man.local-install-path.patch | 32 
->> ---------------
->>   ...off-1.22.3-correct-man.local-install-path.patch | 45 
->> ++++++++++++++++++++++
->
-> Does it make more sense not to have the version in the patch name if 
-> we are going to carry it forward?
->
->>   .../groff/{groff_1.22.2.bb => groff_1.22.3.bb}     |  6 +--
->
-> The new version of groff seems to depend on Perl now for a couple of 
-> scripts (grog and BuildFoundries), please double check your RDEPENDS.
->
+During packaging, check if there are any dependencies (RDEPENDS)
+on packages that have ended up empty and not produced; and if so
+produce an warn/error as soon as possible, instead of allowing
+the build to proceed up to do_rootfs and then the package manager
+reporting the package as missing.
 
-Got it, V2 incoming
+At the moment, we use packageinfo which saved in $PKGDATA_DIR to
+collect all available packages rdepends and rprovides. So in the
+do_package_qa task, while package not produced, we could compute
+rdepends chain, and report warn/error immediately.
 
-//Hongxu
+[YOCTO #5531]
+[YOCTO #6420]
 
-> Thanks
->     Sau!
->
->>   3 files changed, 48 insertions(+), 35 deletions(-)
->>   delete mode 100644 
->> meta/recipes-extended/groff/groff-1.22.2/groff-1.22.2-correct-man.local-install-path.patch
->>   create mode 100644 
->> meta/recipes-extended/groff/groff-1.22.3/groff-1.22.3-correct-man.local-install-path.patch
->>   rename meta/recipes-extended/groff/{groff_1.22.2.bb => 
->> groff_1.22.3.bb} (90%)
->>
->> diff --git 
->> a/meta/recipes-extended/groff/groff-1.22.2/groff-1.22.2-correct-man.local-install-path.patch 
->> b/meta/recipes-extended/groff/groff-1.22.2/groff-1.22.2-correct-man.local-install-path.patch 
->>
->> deleted file mode 100644
->> index f7e9a74..0000000
->> --- 
->> a/meta/recipes-extended/groff/groff-1.22.2/groff-1.22.2-correct-man.local-install-path.patch
->> +++ /dev/null
->> @@ -1,32 +0,0 @@
->> -Correct the install path of man.local to fix following error:
->> - 
->> /yocto/build/tmp/sysroots/x86_64-linux/usr/share/groff/1.22.2/tmac/an-old.tmac:690: 
->> warning: can't find macro file `man.local'
->> -
->> -Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
->> -Upstream-Status: Pending
->> -
->> ---- groff-1.22.2/tmac/Makefile.sub.orig    2013-02-07 
->> 20:06:08.000000000 +0800
->> -+++ groff-1.22.2/tmac/Makefile.sub    2013-06-26 19:11:23.572259001 
->> +0800
->> -@@ -114,9 +114,9 @@
->> -       rm -f $(DESTDIR)$(mdocdir)/$$f; \
->> -       $(INSTALL_DATA) $$f-s $(DESTDIR)$(mdocdir)/$$f; \
->> -     done
->> --    -test -f $(DESTDIR)$(localtmacdir)/man.local || \
->> -+    -test -f $(DESTDIR)$(tmacdir)/man.local || \
->> -       $(INSTALL_DATA) $(srcdir)/man.local \
->> --        $(DESTDIR)$(localtmacdir)/man.local
->> -+        $(DESTDIR)$(tmacdir)/man.local
->> -     -test -f $(DESTDIR)$(localtmacdir)/mdoc.local || \
->> -       $(INSTALL_DATA) mdoc.local-s 
->> $(DESTDIR)$(localtmacdir)/mdoc.local
->> -
->> -@@ -158,9 +158,9 @@
->> -     -rm -f $(DESTDIR)$(tmacdir)/$(tmac_s_prefix)s.tmac
->> -     -rm -f $(DESTDIR)$(tmacdir)/$(tmac_an_prefix)an.tmac
->> -     -rm -f $(DESTDIR)$(tmacdir)/www.tmac
->> --    -if cmp -s $(DESTDIR)$(localtmacdir)/man.local \
->> -+    -if cmp -s $(DESTDIR)$(tmacdir)/man.local \
->> -                $(srcdir)/man.local; then \
->> --      rm -f $(DESTDIR)$(localtmacdir)/man.local; \
->> -+      rm -f $(DESTDIR)$(tmacdir)/man.local; \
->> -     fi
->> -     -if cmp -s $(DESTDIR)$(localtmacdir)/mdoc.local \
->> -                $(srcdir)/mdoc.local; then \
->> diff --git 
->> a/meta/recipes-extended/groff/groff-1.22.3/groff-1.22.3-correct-man.local-install-path.patch 
->> b/meta/recipes-extended/groff/groff-1.22.3/groff-1.22.3-correct-man.local-install-path.patch 
->>
->> new file mode 100644
->> index 0000000..e5db6cf
->> --- /dev/null
->> +++ 
->> b/meta/recipes-extended/groff/groff-1.22.3/groff-1.22.3-correct-man.local-install-path.patch
->> @@ -0,0 +1,45 @@
->> +Correct the install path of man.local to fix following error:
->> +
->> + 
->> /yocto/build/tmp/sysroots/x86_64-linux/usr/share/groff/1.22.2/tmac/an-old.tmac:690:
->> + warning: can't find macro file `man.local'
->> +
->> +Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
->> +Upstream-Status: Pending
->> +
->> +Rebase to 1.22.3
->> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> +---
->> + tmac/Makefile.sub | 8 ++++----
->> + 1 file changed, 4 insertions(+), 4 deletions(-)
->> +
->> +diff --git a/tmac/Makefile.sub b/tmac/Makefile.sub
->> +index 1506232..f1468c5 100644
->> +--- a/tmac/Makefile.sub
->> ++++ b/tmac/Makefile.sub
->> +@@ -121,9 +121,9 @@ install_data: $(NORMALFILES) $(SPECIALFILES) 
->> man.local \
->> +       $(RM) $(DESTDIR)$(mdocdir)/$$f; \
->> +       $(INSTALL_DATA) $$f-s $(DESTDIR)$(mdocdir)/$$f; \
->> +     done
->> +-    -test -f $(DESTDIR)$(localtmacdir)/man.local \
->> ++    -test -f $(DESTDIR)$(tmacdir)/man.local \
->> +       || $(INSTALL_DATA) $(srcdir)/man.local \
->> +-           $(DESTDIR)$(localtmacdir)/man.local
->> ++           $(DESTDIR)$(tmacdir)/man.local
->> +     -test -f $(DESTDIR)$(localtmacdir)/mdoc.local \
->> +       || $(INSTALL_DATA) mdoc.local-s 
->> $(DESTDIR)$(localtmacdir)/mdoc.local
->> +
->> +@@ -164,9 +164,9 @@ uninstall_sub:
->> +     $(RM) $(DESTDIR)$(tmacdir)/$(tmac_s_prefix)s.tmac
->> +     $(RM) $(DESTDIR)$(tmacdir)/$(tmac_an_prefix)an.tmac
->> +     $(RM) $(DESTDIR)$(tmacdir)/www.tmac
->> +-    -if cmp -s $(DESTDIR)$(localtmacdir)/man.local \
->> ++    -if cmp -s $(DESTDIR)$(tmacdir)/man.local \
->> +                $(srcdir)/man.local; then \
->> +-      $(RM) $(DESTDIR)$(localtmacdir)/man.local; \
->> ++      $(RM) $(DESTDIR)$(tmacdir)/man.local; \
->> +     fi
->> +     -if cmp -s $(DESTDIR)$(localtmacdir)/mdoc.local \
->> +                $(srcdir)/mdoc.local; then \
->> +--
->> +1.9.1
->> +
->> diff --git a/meta/recipes-extended/groff/groff_1.22.2.bb 
->> b/meta/recipes-extended/groff/groff_1.22.3.bb
->> similarity index 90%
->> rename from meta/recipes-extended/groff/groff_1.22.2.bb
->> rename to meta/recipes-extended/groff/groff_1.22.3.bb
->> index 63f0425..e0d632f 100644
->> --- a/meta/recipes-extended/groff/groff_1.22.2.bb
->> +++ b/meta/recipes-extended/groff/groff_1.22.3.bb
->> @@ -9,11 +9,11 @@ PR = "r1"
->>   LIC_FILES_CHKSUM = 
->> "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->>
->>   SRC_URI = "${GNU_MIRROR}/groff/groff-${PV}.tar.gz \
->> -    file://groff-1.22.2-correct-man.local-install-path.patch \
->> +    file://groff-1.22.3-correct-man.local-install-path.patch \
->>   "
->>
->> -SRC_URI[md5sum] = "9f4cd592a5efc7e36481d8d8d8af6d16"
->> -SRC_URI[sha256sum] = 
->> "380864dac4772e0c0d7b1282d25d0c5fd7f63baf45c87c4657afed22a13d2076"
->> +SRC_URI[md5sum] = "cc825fa64bc7306a885f2fb2268d3ec5"
->> +SRC_URI[sha256sum] = 
->> "3a48a9d6c97750bfbd535feeb5be0111db6406ddb7bb79fc680809cda6d828a5"
->>
->>   DEPENDS = "groff-native"
->>   DEPENDS_class-native = ""
->>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/classes/insane.bbclass | 100 +++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 99 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 0b45374..59129b7 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -29,7 +29,7 @@ QA_SANE = "True"
+ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+             textrel already-stripped incompatible-license files-invalid \
+             installed-vs-shipped compile-host-path install-host-path \
+-            pn-overrides infodir build-deps file-rdeps \
++            pn-overrides infodir build-deps file-rdeps package-missing \
+             "
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+@@ -868,6 +868,15 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+                             (pkg, ', '.join(str(e) for e in filerdepends))
+                 sane = package_qa_handle_error("file-rdeps", error_msg, d)
+ 
++        if "package-missing" not in skip and \
++               not pkg.endswith("-dev") and not pkg.endswith("-staticdev") and \
++               not pkg.endswith("-locale") and not pkg.endswith("-dbg") and \
++               not pkg.endswith("-doc"):
++            if not oe.packagedata.packaged(pkg, d):
++                error_msg = "package %s not generated, but listed in PACKAGES\n" % pkg
++                error_msg += compute_rdepends_chain(pkg, d)
++                sane = package_qa_handle_error("package-missing", error_msg, d)
++
+     return sane
+ 
+ def package_qa_check_deps(pkg, pkgdest, skip, d):
+@@ -1152,3 +1161,92 @@ python () {
+     for i in issues:
+         package_qa_handle_error("pkgvarcheck", "%s: Variable %s is set as not being package specific, please fix this." % (d.getVar("FILE", True), i), d)
+ }
++
++# It collects all available packages rdepends and rprovides,
++# except the "-dev, -staticdev, -locale, -dbg, -doc" packages.
++# Such as:
++# RDEPENDS_pkg1 = "pkg2 pkg3"
++# RDEPENDS_pkg4 = "pkg3 pkg5"
++# equals:
++# rdeps_dict = {'pkg2': 'pkg1', 'pkg3': 'pkg1 pkg4', 'pkg5':'pkg4'}
++#
++# RPROVIDES_pkg6 = "pkg2 pkg7"
++# RPROVIDES_pkg7 = "pkg5"
++# equals:
++# rprovides_dict = {'pkg6': 'pkg2 pkg7', 'pkg7': 'pkg5'}
++def collect_packageinfo(d):
++    import re
++    rdeps_dict = dict()
++    rprovides_dict = dict()
++    pkgdata_dir = d.getVar("PKGDATA_DIR", True) + '/runtime/'
++    if os.path.exists(pkgdata_dir):
++        for root, dirs, files in os.walk(pkgdata_dir):
++            for pkgname in files:
++                if pkgname.endswith('.packaged') or \
++                   pkgname.endswith("-dev") or \
++                   pkgname.endswith("-staticdev") or \
++                   pkgname.endswith("-locale") or \
++                   pkgname.endswith("-dbg") or pkgname.endswith("-doc"):
++                    continue
++
++                pkgdatafile = root + pkgname
++                try:
++                    sdata = oe.packagedata.read_pkgdatafile(pkgdatafile)
++                    rdepends = sdata.get('RDEPENDS_%s' % pkgname)
++                    if rdepends:
++                        # Filter out sub string "(***)" in RDEPENDS
++                        p = re.compile('\([^\)]*\)')
++                        for rdep in p.sub('', rdepends).split():
++                            # Filter out pkg which rdepends itself
++                            if pkgname == rdep:
++                                continue
++
++                            if rdep in rdeps_dict and \
++                               pkgname not in rdeps_dict[rdep].split():
++                                rdeps_dict[rdep] += ' %s' % pkgname
++                            elif rdep not in rdeps_dict:
++                                rdeps_dict[rdep] = '%s' % pkgname
++
++                    rprovides = sdata.get('RPROVIDES_%s' % pkgname)
++                    if rprovides:
++                        rprovides_dict[pkgname] = rprovides
++
++                except Exception as e:
++                    bb.warn("%s: Failed to read pkgdata file %s: %s: %s" % (pkgname, pkgdatafile, e.__class__, str(e)))
++
++    return rdeps_dict, rprovides_dict
++
++def compute_rdepends_chain(pkg, d):
++    rdeps_dict, rprovides_dict = collect_packageinfo(d)
++    def get_parents(pkg, messages):
++        parents = []
++
++        if pkg not in rdeps_dict and pkg in rprovides_dict:
++            for rprovide in rprovides_dict[pkg].split():
++                # Use rprovide to instead of pkg
++                if rprovide in rdeps_dict:
++                    messages.append('("%s" rprovides "%s")' % (pkg, rprovide))
++                    pkg = rprovide
++                    break
++
++        if pkg in rdeps_dict:
++            parents = rdeps_dict[pkg].split()
++            for parent in parents:
++                message = '"%s" -> "%s"' % (parent, pkg)
++                if message in messages:
++                    return
++                messages.append(message)
++
++            for parent in parents:
++                get_parents(parent, messages)
++
++        return
++
++    messages = []
++    get_parents(pkg, messages)
++    if messages:
++        message = "Compute rdepends chains, '-->' means 'runtime depends'\n" \
++                  + '\n'.join(messages)
++        return message
++    return ''
++
+-- 
+1.9.1
 
 
