@@ -1,26 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 55B2A7264A
+	by mail.openembedded.org (Postfix) with ESMTP id 569DE7265B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Dec 2014 01:49:08 +0000 (UTC)
+	Thu, 25 Dec 2014 01:49:06 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBP1n7mW001778
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBP1n49r001775
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 24 Dec 2014 17:49:07 -0800 (PST)
+	Wed, 24 Dec 2014 17:49:04 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Wed, 24 Dec 2014 17:49:07 -0800
+	14.3.174.1; Wed, 24 Dec 2014 17:49:04 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>
-Date: Thu, 25 Dec 2014 09:48:57 +0800
-Message-ID: <f4864e1f2d036c5ad8639638619c02739c8e40cb.1419471695.git.hongxu.jia@windriver.com>
+Date: Thu, 25 Dec 2014 09:48:55 +0800
+Message-ID: <cover.1419471695.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1419471695.git.hongxu.jia@windriver.com>
-References: <cover.1419471695.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] perl_5.20.0: fix QA package-missing warnings
+Subject: [PATCH V2 0/4] insane.bbclass: add QA check: package-missing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,90 +34,108 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 25 Dec 2014 01:49:09 -0000
 Content-Type: text/plain
 
-While building perl with QA package-missing checking enabled, there was warning:
-...
-WARNING: QA Issue: package perl-module-cpanplus not generated, but listed in PACKAGES
-WARNING: QA Issue: package perl-module-config not generated, but listed in PACKAGES
-WARNING: QA Issue: package perl-module-config-heavy not generated, but listed in PACKAGES
-WARNING: QA Issue: package perl-module-strict not generated, but listed in PACKAGES
-WARNING: QA Issue: package perl-module-vars not generated, but listed in PACKAGES
-WARNING: QA Issue: package perl-module-warnings not generated, but listed in PACKAGES
-WARNING: QA Issue: package perl-module-warnings-register not generated, but listed in PACKAGES
-...
+Changed in V2:
+Follow Richard Purdie suggestions, use packageinfo which saved in
+$PKGDATA_DIR to collect all available packages RDEPENDS and RPROVIDES
+rather than bb.persist_data.
 
-Drop perl-module-cpanplus, from git://perl5.git.perl.org/perl.git:
-...
-commit fb598ba5e55920eb59105c932df653f4fea6966c
-Author: Chris 'BinGOs' Williams <chris@bingosnet.co.uk>
-Date:   Sat May 18 01:01:42 2013 +0100
+V1:
+We also tried to fix perl, linux-libc-headers and busybox according to
+the result of QA checking.
 
-    Remove cpan/CPANPLUS and associated utilities
-...
+Here is a test to explain what the QA check showing, we could figure out 
+package missing issue at package generation time rather than do_rootfs
+time.
 
-Drop perl-module-config from PACKAGES_DYNAMIC:
-Config.pm was listed in "FILES_${PN}", we should filter it out from
-do_split_packages.
+Test Steps:
 
-Drop perl-module-config-heavy from PACKAGES_DYNAMIC:
-Config_heavy.pl was listed in "FILES_${PN}-lib", we should filter it out from
-do_split_packages.
-
-Drop perl-module-strict from PACKAGES_DYNAMIC:
-strict.pm was listed in "FILES_${PN}", we should filter it out from
-do_split_packages.
-
-Drop perl-module-vars from PACKAGES_DYNAMIC:
-vars.pm was listed in "FILES_${PN}", we should filter it out from
-do_split_packages.
-
-Drop perl-module-warnings from PACKAGES_DYNAMIC:
-warnings.pm was listed in "FILES_${PN}", we should filter it out from
-do_split_packages.
-
-Drop perl-module-warnings-register from PACKAGES_DYNAMIC:
-Dir warnings was listed in "FILES_${PN}", we should filter it out from
-do_split_packages.
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-devtools/perl/perl_5.20.0.bb | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-devtools/perl/perl_5.20.0.bb b/meta/recipes-devtools/perl/perl_5.20.0.bb
-index 3ca0f53..b63cb46 100644
---- a/meta/recipes-devtools/perl/perl_5.20.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.20.0.bb
-@@ -272,7 +272,7 @@ perl_package_preprocess () {
- }
+1. Edit xz and gzip recipe, to simulate a package missing situation (the manually added
+rdepends is not real but):
+..............
+diff --git a/meta/recipes-extended/gzip/gzip.inc b/meta/recipes-extended/gzip/gzip.inc
+index 671b1eb..7e643e5 100644
+--- a/meta/recipes-extended/gzip/gzip.inc
++++ b/meta/recipes-extended/gzip/gzip.inc
+@@ -32,3 +32,8 @@ ALTERNATIVE_LINK_NAME[gzip] = "${base_bindir}/gzip"
+ ALTERNATIVE_LINK_NAME[zcat] = "${base_bindir}/zcat"
  
- PACKAGES = "perl-dbg perl perl-misc perl-dev perl-pod perl-doc perl-lib \
--            perl-module-cpan perl-module-cpanplus perl-module-unicore"
-+            perl-module-cpan perl-module-unicore"
- FILES_${PN} = "${bindir}/perl ${bindir}/perl${PV} \
-                ${libdir}/perl/${PV}/Config.pm \
-                ${libdir}/perl/${PV}/strict.pm \
-@@ -326,8 +326,6 @@ FILES_${PN}-doc = "${libdir}/perl/${PV}/*/*.txt \
- 
- FILES_perl-module-cpan += "${libdir}/perl/${PV}/CPAN \
-                            ${libdir}/perl/${PV}/CPAN.pm"
--FILES_perl-module-cpanplus += "${libdir}/perl/${PV}/CPANPLUS \
--                               ${libdir}/perl/${PV}/CPANPLUS.pm"
- FILES_perl-module-unicore += "${libdir}/perl/${PV}/unicore"
- 
- # Create a perl-modules package recommending all the other perl
-@@ -340,7 +338,11 @@ python populate_packages_prepend () {
-     do_split_packages(d, libdir, 'auto/([^.]*)/[^/]*\.(so|ld|ix|al)', 'perl-module-%s', 'perl module %s', recursive=True, match_path=True, prepend=False)
-     do_split_packages(d, libdir, 'Module/([^\/]*)\.pm', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
-     do_split_packages(d, libdir, 'Module/([^\/]*)/.*', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
--    do_split_packages(d, libdir, '(^(?!(CPAN\/|CPANPLUS\/|Module\/|unicore\/|auto\/)[^\/]).*)\.(pm|pl|e2x)', 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
+ export CONFIG_SHELL="/bin/sh"
 +
-+    unmatch_dirs = '(CPAN\/|Module\/|unicore\/|auto\/|warnings\/)[^\/]'
-+    unmatch_files = 'vars.pm$|Config.pm$|strict.pm$|Config_heavy.pl$|warnings.pm$'
-+    file_regex = '(^(?!(%s|%s)).*)\.(pm|pl|e2x)' % (unmatch_dirs, unmatch_files)
-+    do_split_packages(d, libdir, file_regex, 'perl-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
++PACKAGES =+ "${PN}-missing1 ${PN}-missing2"
++FILES_${PN}-missing1 = ""
++FILES_${PN}-missing2 = ""
++RPROVIDES_${PN}-missing1 = "${PN}-missing"
+diff --git a/meta/recipes-extended/xz/xz_5.1.3alpha.bb b/meta/recipes-extended/xz/xz_5.1.3alpha.bb
+index 168e383..c5d8b57 100644
+--- a/meta/recipes-extended/xz/xz_5.1.3alpha.bb
++++ b/meta/recipes-extended/xz/xz_5.1.3alpha.bb
+@@ -37,6 +37,9 @@ FILES_liblzma-dev = "${includedir}/lzma* ${libdir}/liblzma*${SOLIBSDEV} ${libdir
+ FILES_liblzma-staticdev = "${libdir}/liblzma.a"
+ FILES_liblzma-dbg = "${libdir}/.debug/liblzma*"
  
-     # perl-modules should recommend every perl module, and only the
-     # modules. Don't attempt to use the result of do_split_packages() as some
++
++RDEPENDS_${PN}_class-target += "gzip-missing gzip-missing2"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ export CONFIG_SHELL="/bin/sh"
+..............
+
+2. Vim local.conf
+...
+IMAGE_INSTALL_append = " xz"
+WARN_QA_append = " package-missing"
+...
+
+3. bitbake core-image-minimal
+..............
+|WARNING: QA Issue: package gzip-missing1 not generated, but listed in PACKAGES
+|Compute rdepends chains, '-->' means 'runtime depends'
+|("gzip-missing1" rprovides "gzip-missing")
+|"xz" -> "gzip-missing"
+| [package-missing]
+|WARNING: QA Issue: package gzip-missing2 not generated, but listed in PACKAGES
+|Compute rdepends chains, '-->' means 'runtime depends'
+|"xz" -> "gzip-missing2"
+| [package-missing]
+|ERROR: Unable to install packages. Command '/home/jiahongxu/yocto/build-2014120
+2-mips/tmp/sysroots/x86_64-linux/usr/bin/smart --quiet --data-dir=/home/jiahongx
+u/yocto/build-20141202-mips/tmp/work/qemumips-poky-linux/core-image-minimal/1.0
+-r0/rootfs/var/lib/smart install -y xz@mips32r2 run-postinsts@all packagegroup-
+core-boot@qemumips' returned 1:
+error: Can't install xz-5.1.3alpha-r0@mips32r2: no package provides gzip-missing
+
+
+|ERROR: Function failed: do_rootfs
+|ERROR: Logfile of failure stored in: /home/jiahongxu/yocto/build-20141202-mips/
+tmp/work/qemumips-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.24338
+|ERROR: Task 7 (/home/jiahongxu/yocto/poky/meta/recipes-core/images/core-image-
+minimal.bb, do_rootfs) failed with exit code '1'
+..............
+
+//Hongxu
+
+The following changes since commit 15de188692d2572d897799424e2a22eab24c78e2:
+
+  kernel-devsrc: Ensure we have a dependency on the actual source (2014-12-21 13:52:17 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/package-missing
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/package-missing
+
+Hongxu Jia (4):
+  insane.bbclass: add QA check: package-missing
+  perl_5.20.0: fix QA package-missing warnings
+  linux-libc-headers.inc: fix QA package-missing warnings
+  busybox.inc: fix QA package-missing warnings
+
+ meta/classes/insane.bbclass                        | 100 ++++++++++++++++++++-
+ meta/recipes-core/busybox/busybox.inc              |  10 +++
+ meta/recipes-devtools/perl/perl_5.20.0.bb          |  10 ++-
+ .../linux-libc-headers/linux-libc-headers.inc      |   2 +
+ 4 files changed, 117 insertions(+), 5 deletions(-)
+
 -- 
 1.9.1
 
