@@ -1,26 +1,31 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E271727C2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1536372655
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Dec 2014 09:48:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBP9mcHi004824
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Dec 2014 01:48:38 -0800 (PST)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Thu, 25 Dec 2014 01:48:38 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Dec 2014 17:45:53 +0800
-Message-ID: <d63d5ff53d6f64ac6d4a72c770283a21e0750112.1419500687.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1419500687.git.Chong.Lu@windriver.com>
-References: <cover.1419500687.git.Chong.Lu@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] check-layers.py: some checks for distro and bsp layer
+	Thu, 25 Dec 2014 22:03:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBPM2XqE013097; Thu, 25 Dec 2014 22:02:33 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id l74G4I8odB-G; Thu, 25 Dec 2014 22:02:33 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	sBPM2InQ013093
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 25 Dec 2014 22:02:30 GMT
+Message-ID: <1419544975.6428.21.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Thu, 25 Dec 2014 22:02:55 +0000
+In-Reply-To: <fbacfe30047277ec91144a9ecba291c3879ae6e4.1419309149.git.hongxu.jia@windriver.com>
+References: <cover.1419309149.git.hongxu.jia@windriver.com>
+	<fbacfe30047277ec91144a9ecba291c3879ae6e4.1419309149.git.hongxu.jia@windriver.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/6] directfb: upgrade to 1.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,286 +38,441 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Dec 2014 09:48:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 25 Dec 2014 22:03:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Check that a BSP layer isn't making any changes when the layer is included
-  but MACHINE is not set to point to one of the conf/machine/*.conf that the
-  layer provides
-* Check that a distribution layer isn't making any changes when the layer is
-  included but DISTRO is not set to point to one of the conf/distro/*.conf that
-  the layer provides
-* Check that conf/distro and conf/machine don't appear in the same layer
-* Check that BSP/distro layers don't provide their own linux-libc-headers
-* Check that distro variables such as DISTRO_FEATURES are not being set in
-  machine conf files
+On Tue, 2014-12-23 at 13:09 +0800, Hongxu Jia wrote:
+> - Drop fixsepbuild.patch which has been merged to 1.7.6
+> - Drop obsolete rename-no-instrument-function-macro.patch
 
-In build environment, use "../poky/scripts/contrib/check-layers.py" to
-run script.
+I think this somehow breaks qt4:
 
-[YOCTO #5427]
+https://autobuilder.yoctoproject.org/main/builders/nightly-world/builds/144
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- scripts/contrib/check-layers.py | 248 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 248 insertions(+)
- create mode 100755 scripts/contrib/check-layers.py
+(thanks Otavio for pointing out it was linked to directfb)
 
-diff --git a/scripts/contrib/check-layers.py b/scripts/contrib/check-layers.py
-new file mode 100755
-index 0000000..2d42479
---- /dev/null
-+++ b/scripts/contrib/check-layers.py
-@@ -0,0 +1,248 @@
-+#!/usr/bin/env python
-+
-+# This script is used by checking layers.
-+
-+import sys
-+import os
-+import re
-+import argparse
-+
-+parser = argparse.ArgumentParser(description="check-distro-machine.py [options]")
-+parser.add_argument("-b", action="store_true", default=False, dest="bsp", help="check that a BSP layer isn't making any changes when the layer is included but MACHINE is not set to point to one of the conf/machine/*.conf that the layer provides")
-+parser.add_argument("-d", action="store_true", default=False, dest="distro_in_machine", help="check that distro variables are not being set in machine conf files")
-+parser.add_argument("-l", action="store_true", default=False, dest="provides_include_linux_libc_header", help="check that BSP/distro layers don't provide their own linux-libc-headers")
-+parser.add_argument("-i", action="store_true", default=False, dest="dis", help="check that a distro layer isn't making any changes when the layer is included but DISTRO is not set to point to one of the conf/distro/*.conf that the layer provides")
-+parser.add_argument("-s", action="store_true", default=False, dest="distro_machine_in_same_layer", help="check that conf/distro and conf/machine don't appear in the same layer")
-+args = parser.parse_args()
-+
-+scripts_path = os.path.abspath(os.path.dirname(os.path.abspath(sys.argv[0])))
-+lib_path = os.path.abspath(scripts_path + '/../lib')
-+sys.path = sys.path + [lib_path]
-+
-+import scriptpath
-+
-+# For importing the following modules
-+bitbakepath = scriptpath.add_bitbake_lib_path()
-+if not bitbakepath:
-+    sys.stderr.write("Unable to find bitbake by searching parent directory of this script or PATH\n")
-+    sys.exit(1)
-+
-+import bb.cache
-+import bb.cooker
-+import bb.providers
-+import bb.tinfoil
-+
-+def findExt(path, key):
-+    confq = []
-+    confline = ""
-+    f = file('%s' % path, mode = 'r')
-+    line = f.readline()
-+    while line:
-+        if line.find(key) != -1:
-+            confline = line[8:-1]
-+            confq.append(confline)
-+        line = f.readline()
-+    f.close()
-+    return confq
-+
-+def findDistro(path, key):
-+    f = file('%s' % path, mode = 'r')
-+    line = f.readline()
-+    linen = 1
-+    while line:
-+        if line.find(key) != -1:
-+            bb.warn("%s:%s contains distro variables." % (path, linen))
-+        line = f.readline()
-+        linen += 1
-+    f.close()
-+
-+def findFull(conf, bblayers):
-+    for bblayer in bblayers:
-+        fullpath = bblayer + "/" + conf
-+        if os.path.exists(fullpath):
-+            return fullpath
-+
-+def check_distro_in_machine(bbhandler):
-+# Check that distro variables are not being set in machine conf files
-+    machine = bbhandler.config_data.getVar("MACHINE")
-+    bblayers = bbhandler.config_data.getVar("BBLAYERS").split()
-+    lists = ["conf/machine/" + machine + ".conf"]
-+
-+    while lists:
-+        for l in lists:
-+            lists.remove(l)
-+            fpath = findFull(l, bblayers)
-+            if fpath:
-+                findDistro(fpath, "DISTRO_")
-+                lists.extend(findExt(fpath, "require conf/machine"))
-+                lists.extend(findExt(fpath, "include conf/machine"))
-+
-+def check_distro_machine_in_same_layer(bbhandler):
-+# Check that conf/distro and conf/machine don't appear in the same layer
-+    bblayers = bbhandler.config_data.getVar("BBLAYERS").split()
-+    for bblayer in bblayers:
-+        if bblayer.endswith("/"):
-+            sys.exit(1)
-+    for bblayer in bblayers:
-+        if bblayer.endswith("meta"):
-+            continue
-+        elif os.path.exists(bblayer + "/" + "conf/machine") and os.path.exists(bblayer + "/" + "conf/distro"):
-+            bb.warn("%s shouldn't be providing both a distro and a machine" % bblayer)
-+
-+def get_layer_name(layerdir):
-+    return os.path.basename(layerdir.rstrip(os.sep))
-+
-+def get_file_layer(bbhandler, bblayers, filename):
-+    for layer, _, regex, _ in bbhandler.cooker.recipecache.bbfile_config_priorities:
-+        if regex.match(filename):
-+            for layerdir in bblayers:
-+                if regex.match(os.path.join(layerdir, 'test')) and re.match(layerdir, filename):
-+                    return get_layer_name(layerdir)
-+    return "?"
-+
-+def check_linux_libc_headers(bbhandler):
-+# Check that BSP/distro layers don't provide their own linux-libc-headers
-+    bblayers = (bbhandler.config_data.getVar('BBLAYERS', True) or "").split()
-+    pkg_pn = bbhandler.cooker.recipecache.pkg_pn
-+    (latest_versions, preferred_versions) = bb.providers.findProviders(bbhandler.config_data, bbhandler.cooker.recipecache, pkg_pn)
-+    for p in sorted(pkg_pn):
-+        pref = preferred_versions[p]
-+        preffile = bb.cache.Cache.virtualfn2realfn(pref[1])[0]
-+        preflayer = get_file_layer(bbhandler, bblayers, preffile)
-+        fn = pkg_pn[p].pop()
-+        data = bb.cache.Cache.loadDataFull(fn, bbhandler.cooker.collection.get_file_appends(fn), bbhandler.config_data)
-+        provide = data.getVar("PROVIDES", True)
-+        if 'linux-libc-header' in provide and preflayer != 'meta':
-+            bb.warn("%s shouldn't provide its own linux-libc-headers" % preflayer)
-+
-+import re
-+
-+__config_regexp__  = re.compile( r"""
-+    ^
-+    (?P<exp>export\s*)?
-+    (?P<var>[a-zA-Z0-9\-~_+.${}/]+?)
-+    (\[(?P<flag>[a-zA-Z0-9\-_+.]+)\])?
-+
-+    \s* (
-+        (?P<colon>:=) |
-+        (?P<lazyques>\?\?=) |
-+        (?P<ques>\?=) |
-+        (?P<append>\+=) |
-+        (?P<prepend>=\+) |
-+        (?P<predot>=\.) |
-+        (?P<postdot>\.=) |
-+        =
-+    ) \s*
-+
-+    (?!'[^']*'[^']*'$)
-+    (?!\"[^\"]*\"[^\"]*\"$)
-+    (?P<apo>['\"])
-+    (?P<value>.*)
-+    (?P=apo)
-+    $
-+    """, re.X)
-+
-+def feeder(lineno, s, fn, statements):
-+    m = __config_regexp__.match(s)
-+    if m:
-+        groupd = m.groupdict()
-+        g = groupd['var'].replace("_","")
-+        if not groupd['colon']:
-+            if groupd['append'] or groupd['prepend']:
-+                if g.isalnum() and g.isupper():
-+                    bb.warn("The %s variable may be modified by %s:%s" % (groupd['var'], fn, lineno))
-+                    bb.warn("%s" % s)
-+            else:
-+                if g.replace("append","").isupper() or g.replace("prepend","").isupper() or g.replace("remove","").isupper():
-+                    bb.warn("The %s variable may be modified by %s:%s" % (groupd['var'], fn, lineno))
-+                    bb.warn("%s" % s)
-+
-+from bb.parse import ast
-+
-+def handle(fn, data):
-+
-+    f = open(fn, 'r')
-+
-+    statements = ast.StatementGroup()
-+    lineno = 0
-+    while True:
-+        lineno = lineno + 1
-+        s = f.readline()
-+        if not s:
-+            break
-+        w = s.strip()
-+        # skip empty lines
-+        if not w:
-+            continue
-+        s = s.rstrip()
-+        while s[-1] == '\\':
-+            s2 = f.readline().strip()
-+            lineno = lineno + 1
-+            if (not s2 or s2 and s2[0] != "#") and s[0] == "#" :
-+                bb.fatal("There is a confusing multiline, partially commented expression on line %s of file %s (%s).\nPlease clarify whether this is all a comment or should be parsed." % (lineno, fn, s))
-+            s = s[:-1] + s2
-+        # skip comments
-+        if s[0] == '#':
-+            continue
-+
-+        feeder(lineno, s, fn, statements)
-+
-+    f.close()
-+
-+def check_var_in_layer(bbhandler, bsp=False, dis=False):
-+# Check that a BSP or distro layer isn't making any changes when the layer is
-+# included but MACHINE or DISTRO is not set to point to one of the
-+# conf/machine/*.conf or conf/distro/*.conf that the layer provides
-+    machine = bbhandler.config_data.getVar("MACHINE")
-+    distro = bbhandler.config_data.getVar("DISTRO")
-+    bblayers = (bbhandler.config_data.getVar("BBLAYERS", True) or "").split()
-+    chklayers = []
-+    filepaths = []
-+
-+    for bblayer in bblayers:
-+        if bsp:
-+            confpath = "/conf/machine/"
-+            conffile = bblayer + confpath + machine + ".conf"
-+        if dis:
-+            confpath = "/conf/distro/"
-+            conffile = bblayer + confpath + distro + ".conf"
-+        if bblayer.endswith("/meta"):
-+            continue
-+        elif os.path.exists(conffile):
-+            continue
-+        elif not os.path.exists(bblayer + confpath):
-+            continue
-+        else:
-+            chklayers.append(bblayer)
-+
-+    for layer in list(set(chklayers)):
-+        for dirpath, dirnames, filenames in os.walk(layer):
-+            for filename in filenames:
-+                if os.path.splitext(filename)[1] == '.bbappend':
-+                    filepath = os.path.join(dirpath, filename)
-+                    if not filepath in filepaths:
-+                        filepaths.append(filepath)
-+
-+    for fn in list(set(filepaths)):
-+        handle(fn, bbhandler.config_data)
-+
-+def main():
-+    bbhandler = bb.tinfoil.Tinfoil()
-+    bbhandler.cooker.enableDataTracking()
-+    bbhandler.prepare()
-+    if args.distro_machine_in_same_layer:
-+        check_distro_machine_in_same_layer(bbhandler)
-+    if args.distro_in_machine:
-+        check_distro_in_machine(bbhandler)
-+    if args.provides_include_linux_libc_header:
-+        check_linux_libc_headers(bbhandler)
-+    if args.bsp:
-+        check_var_in_layer(bbhandler, bsp=True)
-+    if args.dis:
-+        check_var_in_layer(bbhandler, dis=True)
-+
-+if __name__=='__main__':
-+    if len(sys.argv) < 2:
-+        parser.parse_args(['-h'])
-+    else:
-+        main()
--- 
-1.9.1
+Cheers,
+
+Richard
+
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  .../directfb/directfb/fixsepbuild.patch            |  19 --
+>  .../rename-no-instrument-function-macro.patch      | 345 ---------------------
+>  .../{directfb_1.7.4.bb => directfb_1.7.6.bb}       |   8 +-
+>  3 files changed, 3 insertions(+), 369 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/directfb/directfb/fixsepbuild.patch
+>  delete mode 100644 meta/recipes-graphics/directfb/directfb/rename-no-instrument-function-macro.patch
+>  rename meta/recipes-graphics/directfb/{directfb_1.7.4.bb => directfb_1.7.6.bb} (58%)
+> 
+> diff --git a/meta/recipes-graphics/directfb/directfb/fixsepbuild.patch b/meta/recipes-graphics/directfb/directfb/fixsepbuild.patch
+> deleted file mode 100644
+> index 94a9ba5..0000000
+> --- a/meta/recipes-graphics/directfb/directfb/fixsepbuild.patch
+> +++ /dev/null
+> @@ -1,19 +0,0 @@
+> -Fix out of tree builds
+> -
+> -Upstream-Status: Pending
+> -
+> -RP 2013/03/21
+> -
+> -Index: DirectFB-1.6.1/configure.in
+> -===================================================================
+> ---- DirectFB-1.6.1.orig/configure.in	2013-03-19 01:38:28.174004720 +0000
+> -+++ DirectFB-1.6.1/configure.in	2013-03-21 12:18:10.253113675 +0000
+> -@@ -111,7 +111,7 @@
+> - AC_PATH_TOOL(FLUXCOMP, fluxcomp)
+> - AC_SUBST(FLUXCOMP)
+> - if test -z "$FLUXCOMP"; then
+> --  if ! test -e src/core/CoreDFB.cpp; then
+> -+  if ! test -e $srcdir/src/core/CoreDFB.cpp; then
+> -     AC_MSG_ERROR([
+> - *** DirectFB compilation requires fluxcomp ***
+> - 
+> diff --git a/meta/recipes-graphics/directfb/directfb/rename-no-instrument-function-macro.patch b/meta/recipes-graphics/directfb/directfb/rename-no-instrument-function-macro.patch
+> deleted file mode 100644
+> index 443df5a..0000000
+> --- a/meta/recipes-graphics/directfb/directfb/rename-no-instrument-function-macro.patch
+> +++ /dev/null
+> @@ -1,345 +0,0 @@
+> -Rename __no_instrument_function__ macro to avoid conficting redefinitions
+> -of the same symbol.
+> -
+> -Upstream-Status: Pending
+> -Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+> -
+> -Index: DirectFB-1.6.1/lib/direct/clock.c
+> -===================================================================
+> ---- DirectFB-1.6.1.orig/lib/direct/clock.c	2012-06-29 19:01:11.000000000 +0300
+> -+++ DirectFB-1.6.1/lib/direct/clock.c	2013-01-05 18:03:24.000000000 +0200
+> -@@ -36,28 +36,28 @@
+> - 
+> - /**********************************************************************************************************************/
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - long long
+> - direct_clock_get_micros( void )
+> - {
+> -      return direct_clock_get_time( DIRECT_CLOCK_SESSION );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - long long
+> - direct_clock_get_millis( void )
+> - {
+> -      return direct_clock_get_time( DIRECT_CLOCK_SESSION ) / 1000LL;
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - long long
+> - direct_clock_get_abs_micros( void )
+> - {
+> -      return direct_clock_get_time( DIRECT_CLOCK_REALTIME );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - long long
+> - direct_clock_get_abs_millis( void )
+> - {
+> -Index: DirectFB-1.6.1/lib/direct/debug.c
+> -===================================================================
+> ---- DirectFB-1.6.1.orig/lib/direct/debug.c	2012-06-29 19:01:11.000000000 +0300
+> -+++ DirectFB-1.6.1/lib/direct/debug.c	2013-01-05 18:03:49.000000000 +0200
+> -@@ -48,7 +48,7 @@
+> - 
+> - #if DIRECT_BUILD_DEBUGS  /* Build with debug support? */
+> -   
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_debug_log( DirectLogDomain *domain,
+> -               unsigned int     debug_level,  /* 1-9, 0 = info */
+> -@@ -63,7 +63,7 @@
+> -      va_end( ap );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_debug_at( DirectLogDomain *domain,
+> -                  const char      *format, ... )
+> -@@ -77,7 +77,7 @@
+> - 
+> - #endif /* DIRECT_BUILD_DEBUGS */
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_debug_at_always( DirectLogDomain *domain,
+> -                         const char      *format, ... )
+> -@@ -93,7 +93,7 @@
+> - 
+> - #if DIRECT_BUILD_DEBUGS  /* Build with debug support? */
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_break( const char *func,
+> -               const char *file,
+> -@@ -123,7 +123,7 @@
+> -           direct_trap( "Break", SIGABRT );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_assertion( const char *exp,
+> -                   const char *func,
+> -@@ -144,7 +144,7 @@
+> -           direct_trap( "Assertion", SIGTRAP );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_assumption( const char *exp,
+> -                    const char *func,
+> -Index: DirectFB-1.6.1/lib/direct/interface.c
+> -===================================================================
+> ---- DirectFB-1.6.1.orig/lib/direct/interface.c	2012-06-29 19:01:11.000000000 +0300
+> -+++ DirectFB-1.6.1/lib/direct/interface.c	2013-01-05 18:04:56.000000000 +0200
+> -@@ -522,7 +522,7 @@
+> - 
+> - /**************************************************************************************************/
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - static InterfaceDesc *
+> - allocate_interface_desc( void )
+> - {
+> -@@ -543,7 +543,7 @@
+> -      return &alloc_list[alloc_count++];
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - static __inline__ void
+> - fill_interface_desc( InterfaceDesc     *desc,
+> -                      const void        *interface_ptr,
+> -@@ -565,7 +565,7 @@
+> - 
+> - /**************************************************************************************************/
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_dbg_interface_add( const char *func,
+> -                           const char *file,
+> -@@ -586,7 +586,7 @@
+> -      direct_mutex_unlock( &alloc_lock );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_dbg_interface_remove( const char *func,
+> -                              const char *file,
+> -Index: DirectFB-1.6.1/lib/direct/log.c
+> -===================================================================
+> ---- DirectFB-1.6.1.orig/lib/direct/log.c	2012-06-29 19:01:11.000000000 +0300
+> -+++ DirectFB-1.6.1/lib/direct/log.c	2013-01-05 18:04:18.000000000 +0200
+> -@@ -128,7 +128,7 @@
+> -      return DR_OK;
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - DirectResult
+> - direct_log_printf( DirectLog  *log,
+> -                    const char *format, ... )
+> -@@ -197,7 +197,7 @@
+> -      return DR_OK;
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_log_lock( DirectLog *log )
+> - {
+> -@@ -211,7 +211,7 @@
+> -      direct_mutex_lock( &log->lock );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_log_unlock( DirectLog *log )
+> - {
+> -@@ -262,7 +262,7 @@
+> - 
+> - /**********************************************************************************************************************/
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - DirectLog *
+> - direct_log_default( void )
+> - {
+> -Index: DirectFB-1.6.1/lib/direct/log_domain.c
+> -===================================================================
+> ---- DirectFB-1.6.1.orig/lib/direct/log_domain.c	2012-06-29 19:01:11.000000000 +0300
+> -+++ DirectFB-1.6.1/lib/direct/log_domain.c	2013-01-05 18:04:38.000000000 +0200
+> -@@ -69,7 +69,7 @@
+> - 
+> - /**********************************************************************************************************************/
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - static __inline__ LogDomainEntry *
+> - lookup_domain( const char *name, bool sub );
+> - 
+> -@@ -104,7 +104,7 @@
+> -      return NULL;
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - static DirectLogLevel
+> - check_domain( DirectLogDomain *domain );
+> - 
+> -@@ -207,7 +207,7 @@
+> - /* FIXME: merge following */
+> - 
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - DirectResult
+> - direct_log_domain_vprintf( DirectLogDomain *domain,
+> -                            DirectLogLevel   level,
+> -@@ -268,7 +268,7 @@
+> -      return DR_OK;
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - DirectResult
+> - direct_log_domain_log( DirectLogDomain *domain,
+> -                        DirectLogLevel   level,
+> -Index: DirectFB-1.6.1/lib/direct/mem.c
+> -===================================================================
+> ---- DirectFB-1.6.1.orig/lib/direct/mem.c	2012-06-29 19:01:11.000000000 +0300
+> -+++ DirectFB-1.6.1/lib/direct/mem.c	2013-01-05 18:03:08.000000000 +0200
+> -@@ -121,7 +121,7 @@
+> - 
+> - /**********************************************************************************************************************/
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - static __inline__ MemDesc *
+> - fill_mem_desc( MemDesc *desc, int bytes, const char *func, const char *file, int line, DirectTraceBuffer *trace )
+> - {
+> -Index: DirectFB-1.6.1/lib/direct/messages.c
+> -===================================================================
+> ---- DirectFB-1.6.1.orig/lib/direct/messages.c	2012-06-29 19:01:11.000000000 +0300
+> -+++ DirectFB-1.6.1/lib/direct/messages.c	2013-01-05 18:02:57.000000000 +0200
+> -@@ -40,7 +40,7 @@
+> - 
+> - #if DIRECT_BUILD_TEXT
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_messages_info( const char *format, ... )
+> - {
+> -@@ -57,7 +57,7 @@
+> -      direct_log_printf( NULL, "(*) %s", buf );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_messages_error( const char *format, ... )
+> - {
+> -@@ -76,7 +76,7 @@
+> -      direct_trace_print_stack( NULL );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_messages_derror( DirectResult result, const char *format, ... )
+> - {
+> -@@ -95,7 +95,7 @@
+> -      direct_trace_print_stack( NULL );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_messages_perror( int erno, const char *format, ... )
+> - {
+> -@@ -114,7 +114,7 @@
+> -      direct_trace_print_stack( NULL );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_messages_dlerror( const char *dlerr, const char *format, ... )
+> - {
+> -@@ -133,7 +133,7 @@
+> -      direct_trace_print_stack( NULL );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_messages_once( const char *func,
+> -                       const char *file,
+> -@@ -155,7 +155,7 @@
+> -      direct_trace_print_stack( NULL );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_messages_unimplemented( const char *func,
+> -                                const char *file,
+> -@@ -166,7 +166,7 @@
+> -      direct_trace_print_stack( NULL );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_messages_bug( const char *func,
+> -                      const char *file,
+> -@@ -188,7 +188,7 @@
+> -      direct_trace_print_stack( NULL );
+> - }
+> - 
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - void
+> - direct_messages_warn( const char *func,
+> -                       const char *file,
+> -Index: DirectFB-1.6.1/lib/direct/os/linux/glibc/types.h
+> -===================================================================
+> ---- DirectFB-1.6.1.orig/lib/direct/os/linux/glibc/types.h	2012-06-29 19:01:11.000000000 +0300
+> -+++ DirectFB-1.6.1/lib/direct/os/linux/glibc/types.h	2013-01-05 18:06:04.000000000 +0200
+> -@@ -74,7 +74,7 @@
+> - 
+> - #define __inline__                      inline
+> - #define D_UNUSED                        __attribute__((unused))
+> --#define __no_instrument_function__      __attribute__((no_instrument_function))
+> -+#define __dfb_no_instrument_function__  __attribute__((no_instrument_function))
+> - #define __constructor__                 __attribute__((constructor))
+> - #define __destructor__                  __attribute__((destructor))
+> - #define __typeof__(x)                   typeof(x)
+> -Index: DirectFB-1.6.1/lib/direct/util.c
+> -===================================================================
+> ---- DirectFB-1.6.1.orig/lib/direct/util.c	2012-06-29 19:01:11.000000000 +0300
+> -+++ DirectFB-1.6.1/lib/direct/util.c	2013-01-05 18:03:59.000000000 +0200
+> -@@ -110,7 +110,7 @@
+> - /*
+> -  * translates errno to DirectResult
+> -  */
+> --__no_instrument_function__
+> -+__dfb_no_instrument_function__
+> - DirectResult
+> - errno2result( int erno )
+> - {
+> diff --git a/meta/recipes-graphics/directfb/directfb_1.7.4.bb b/meta/recipes-graphics/directfb/directfb_1.7.6.bb
+> similarity index 58%
+> rename from meta/recipes-graphics/directfb/directfb_1.7.4.bb
+> rename to meta/recipes-graphics/directfb/directfb_1.7.6.bb
+> index 39b006e..d25d987 100644
+> --- a/meta/recipes-graphics/directfb/directfb_1.7.4.bb
+> +++ b/meta/recipes-graphics/directfb/directfb_1.7.6.bb
+> @@ -1,11 +1,9 @@
+>  require directfb.inc
+>  
+> -RV = "1.7-4"
+> +RV = "1.7-6"
+>  
+>  DEPENDS += "sysfsutils"
+>  
+> -SRC_URI += "file://fixsepbuild.patch"
+> -
+>  EXTRA_OECONF = "\
+>    --enable-freetype=yes \
+>    --enable-zlib \
+> @@ -19,5 +17,5 @@ EXTRA_OECONF = "\
+>  
+>  LEAD_SONAME = "libdirectfb-1.7.so.0"
+>  
+> -SRC_URI[md5sum] = "f5bdacde77fc653279819796ae11341e"
+> -SRC_URI[sha256sum] = "20ccd60011c788e50c940ab566943d050679067bc84dc37ca447f1b4af08481b"
+> +SRC_URI[md5sum] = "8a7bb06b3f58599b230b4cf314004512"
+> +SRC_URI[sha256sum] = "44f32bacfb842ea234599532f8481fe41b5bd2310d2bd101508eb3a5df26c9e1"
+> -- 
+> 1.9.1
+> 
+
 
 
