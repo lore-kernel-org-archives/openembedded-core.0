@@ -1,37 +1,36 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
-	[209.85.160.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F45672656
+Received: from mail-vc0-f171.google.com (mail-vc0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id C071B72665
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Dec 2014 14:01:56 +0000 (UTC)
-Received: by mail-yk0-f169.google.com with SMTP id 79so5070156ykr.28
+	Fri, 26 Dec 2014 16:10:13 +0000 (UTC)
+Received: by mail-vc0-f171.google.com with SMTP id hy4so3932204vcb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Dec 2014 06:01:56 -0800 (PST)
+	Fri, 26 Dec 2014 08:10:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=6itNXOIBTULPB52fmHMBcfp1Cp/nAsQwHPQltcEZL3U=;
-	b=XpKUQsc+3o3BUcgJJPrT5fZjA0Q6gbY2sTN5mj6typIsBluVxvA+LVF/9Q/V8keTwM
-	4h6zgWimP+wtickiF2b+bQ0Ya0IFtmKGXVPkJ80z88Amk4J8yBi5SQKQLVl3e9APuR5a
-	9oyub1giF/VJobmJaV7szJ+IIMMIk9Ch4MkKkBVTVI0+ZSOYFPUuSuxqYeNZQk0A1/Yc
-	mo9w0rRQOYTeuRMe52RNG14y9dG7ieDC0u+Vy7FLnUosqVDS8ur+K1LjBkYWK2kGXI/E
-	VvarlNKceki+kToaS+GAHRTtw1iZct+8Jjco31VxDj2qjOGaKM5Xi2iOLhL22HKI72ly
-	LiCQ==
-MIME-Version: 1.0
-X-Received: by 10.236.30.98 with SMTP id j62mr22127328yha.105.1419602516375;
-	Fri, 26 Dec 2014 06:01:56 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.171.132 with HTTP; Fri, 26 Dec 2014 06:01:56 -0800 (PST)
-In-Reply-To: <1419478883-14044-1-git-send-email-jackie.huang@windriver.com>
-References: <1419478883-14044-1-git-send-email-jackie.huang@windriver.com>
-Date: Fri, 26 Dec 2014 12:01:56 -0200
-X-Google-Sender-Auth: RR4uVd3PdFvuIGNapUd-6e6GZ24
-Message-ID: <CAP9ODKp-Gvo0hed3iww8uji90x5yVHJ_kKd6sE_bMnFO3KTurQ@mail.gmail.com>
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=XUxDLTbgpHalvIbJw8HeYYQDPrVfe4d0B+IA1fdx7UE=;
+	b=LYARqrT8UzO/7JjM5DjjmopoSKjW5NV/EYdBZ7cTYzs8eXXZYHYsclr/zAJ6d6QHMV
+	xZ2d+cQc/D/PYITaIHSSq0NMkRWj0fQ0FObMGcjCOWazi1ocjKM82uGTnxdL6Cmc081D
+	J78Yas5pfkt40czdcN/Tvyv2RdUEKPoZ2b9WA0ojKMLyHuX8Ip6EJ5gK7RhyOeMNnUqy
+	bQ4+bWww7I1qwu30fOnnWgMrL407XmIlzd90ECbLbW0CVl2ISnzmoNZ/TcRdP11O+wVy
+	PxoYxvRK9NRPfwQoIxAX2GeveTxfx6aFtcE1emNn0qmwXPXoYnGLTt8ZGd2t7GbeoAi3
+	2lkA==
+X-Received: by 10.52.246.11 with SMTP id xs11mr18016557vdc.49.1419610213825;
+	Fri, 26 Dec 2014 08:10:13 -0800 (PST)
+Received: from centrium.lab.ossystems.com.br ([177.100.225.47])
+	by mx.google.com with ESMTPSA id et9sm7620420vdb.18.2014.12.26.08.10.12
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 26 Dec 2014 08:10:12 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Huang, Jie (Jackie)" <jackie.huang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glib-2.0: filter out -fvisibility=default option
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Dec 2014 14:10:32 -0200
+Message-Id: <1419610232-6386-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.1.3
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] sed: Skip 'build-deps' QA check for sed-ptest package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,24 +43,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Dec 2014 14:02:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 26 Dec 2014 16:10:22 -0000
 
-On Thu, Dec 25, 2014 at 1:41 AM,  <jackie.huang@windriver.com> wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
->
-> Once -fvisibility=default option is added, matchbox-desktop
-> will run into segfault, so filter it out as a workaround for now.
->
-> [YOCTO #7099]
->
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+The sed-ptest package has runtime dependencies which are used only
+when running the tests. So the 'build-dep' QA check can be skipped for
+this specific package. Fixes the following QA error:
 
-Sorry but I think this needs fixing in matchbox-desktop and not a
-workaround here in a library which is used in several projects.
+,----
+| WARNING: QA Issue: sed-ptest rdepends on locale-base-ru-ru, but it
+|     isn't a build dependency? [build-deps]
+`----
 
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-extended/sed/sed_4.2.2.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-extended/sed/sed_4.2.2.bb b/meta/recipes-extended/sed/sed_4.2.2.bb
+index ea39dae..0139b18 100644
+--- a/meta/recipes-extended/sed/sed_4.2.2.bb
++++ b/meta/recipes-extended/sed/sed_4.2.2.bb
+@@ -14,7 +14,6 @@ SRC_URI[md5sum] = "4111de4faa3b9848a0686b2f260c5056"
+ SRC_URI[sha256sum] = "fea0a94d4b605894f3e2d5572e3f96e4413bcad3a085aae7367c2cf07908b2ff"
+ 
+ inherit autotools texinfo update-alternatives gettext ptest
+-RDEPENDS_${PN}-ptest += "make locale-base-ru-ru ${PN}"
+ 
+ EXTRA_OECONF = "--disable-acl \
+                 ${@bb.utils.contains('PTEST_ENABLED', '1', '--enable-regex-tests', '', d)}"
+@@ -40,4 +39,7 @@ do_install_ptest() {
+ 	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B} DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
+ }
+ 
++RDEPENDS_${PN}-ptest += "make locale-base-ru-ru ${PN}"
++INSANE_SKIP_${PN}-ptest += "build-deps"
++
+ BBCLASSEXTEND = "native"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.1.3
+
 
