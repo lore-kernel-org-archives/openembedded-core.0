@@ -1,34 +1,34 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 951397258B
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DC8F72580
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Dec 2014 12:55:19 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-03.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1Y5Zqx-0003vU-CO from Awais_Belal@mentor.com ;
-	Mon, 29 Dec 2014 04:55:19 -0800
-Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.213]) by
-	SVR-IES-FEM-03.mgc.mentorg.com ([137.202.0.108]) with mapi id
-	14.03.0224.002; Mon, 29 Dec 2014 12:55:18 +0000
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Thread-Topic: [OE-core] [PATCH] gstreamer1.0-omx: use mulitple SCMs to fetch
-	submodules
-Thread-Index: AQHQI2TIvmlbJunIkUOUO5qdabwjd5ymhVJH
-Date: Mon, 29 Dec 2014 12:55:17 +0000
-Message-ID: <2021B186DC632746BD5A3CE32F12BD28EA001E0A@EU-MBX-03.mgc.mentorg.com>
-References: <1419846408-31247-1-git-send-email-awais_belal@mentor.com>,
-	<CAP71WjzrFn=W8QYoDQybKyLxEpi4zL6yN8xkFZK=ze-6YZ_rLw@mail.gmail.com>
-In-Reply-To: <CAP71WjzrFn=W8QYoDQybKyLxEpi4zL6yN8xkFZK=ze-6YZ_rLw@mail.gmail.com>
-Accept-Language: en-US
+	Mon, 29 Dec 2014 13:40:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sBTDeAra022392
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Mon, 29 Dec 2014 05:40:10 -0800 (PST)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.42]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0174.001;
+	Mon, 29 Dec 2014 05:40:09 -0800
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Thread-Topic: [OE-core] [PATCH] glib-2.0: filter out -fvisibility=default
+	option
+Thread-Index: AQHQIRSE186xnmkW3EOe56MkqieGP5yml51g
+Date: Mon, 29 Dec 2014 13:40:08 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AAD2A60519@ALA-MBB.corp.ad.wrs.com>
+References: <1419478883-14044-1-git-send-email-jackie.huang@windriver.com>
+	<CAP9ODKp-Gvo0hed3iww8uji90x5yVHJ_kKd6sE_bMnFO3KTurQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKp-Gvo0hed3iww8uji90x5yVHJ_kKd6sE_bMnFO3KTurQ@mail.gmail.com>
+Accept-Language: en-US, zh-CN
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
+x-originating-ip: [128.224.162.203]
 MIME-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-omx: use mulitple SCMs to fetch submodules
+Subject: Re: [PATCH] glib-2.0: filter out -fvisibility=default option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,55 +41,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Dec 2014 12:55:28 -0000
+X-List-Received-Date: Mon, 29 Dec 2014 13:40:14 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi Nicolas,=0A=
-=0A=
-I sent this against the omx package only because I wanted to see if there's=
- any feedback on this for improvement or anything that I might be doing wro=
-ng. If this gets accepted I will submit updates for the other gstreamer1.0-=
-*_git.bb recipes as you've correctly pointed out that they suffer from the =
-same dilemma. Doing it through a .inc wouldn't be a good idea because the d=
-ependency from one package to the other lies not just only the package but =
-the exact rev as well so it should be done in this way for all in my opinio=
-n.=0A=
-=0A=
-The SRC_REVs will obviously need to be taken care of when an update is made=
- but I think this is the way to go. =0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: Nicolas Dechesne [nicolas.dechesne@linaro.org]=0A=
-Sent: Monday, December 29, 2014 5:41 PM=0A=
-To: Belal, Awais=0A=
-Cc: Patches and discussions about the oe-core layer=0A=
-Subject: Re: [OE-core] [PATCH] gstreamer1.0-omx: use mulitple SCMs to fetch=
- submodules=0A=
-=0A=
-On Mon, Dec 29, 2014 at 10:46 AM, Awais Belal <awais_belal@mentor.com> wrot=
-e:=0A=
-> The gstreamer omx package uses a submodule 'common' which=0A=
-> is fetched by the configure script. This approach fails=0A=
-> on non-network builds as the fetcher tries to look upstream=0A=
-> for the submodule.=0A=
-> We now use multiple SCMs, one for the main omx package and=0A=
-> the other for the 'common' submodule so it is available in=0A=
-> the downloads_dir for later use.=0A=
->=0A=
-=0A=
-we have the same issues with all the others gstreamer1.0-*_git.bb=0A=
-recipes, don't we? maybe we should fix them all. i am not sure if=0A=
-there is a nice way to do it for all recipes, like with a .inc file,=0A=
-to avoid duplication..=0A=
-=0A=
-also, the autogen.sh script will still run git submodule update, even=0A=
-if the 'common' folder already exist, so we will need to be extra=0A=
-careful when upgrading the _git.bb recipes to update both=0A=
-SRCREV_gst-omx and SRCREV_common or we will have the same issue=0A=
-again..=0A=
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3RhdmlvLnNhbHZhZG9y
+QGdtYWlsLmNvbSBbbWFpbHRvOm90YXZpby5zYWx2YWRvckBnbWFpbC5jb21dIE9uIEJlaGFsZiBP
+ZiBPdGF2aW8gU2FsdmFkb3INCj4gU2VudDogRnJpZGF5LCBEZWNlbWJlciAyNiwgMjAxNCAxMDow
+MiBQTQ0KPiBUbzogSHVhbmcsIEppZSAoSmFja2llKQ0KPiBDYzogUGF0Y2hlcyBhbmQgZGlzY3Vz
+c2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXINCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
+UEFUQ0hdIGdsaWItMi4wOiBmaWx0ZXIgb3V0IC1mdmlzaWJpbGl0eT1kZWZhdWx0IG9wdGlvbg0K
+PiANCj4gT24gVGh1LCBEZWMgMjUsIDIwMTQgYXQgMTo0MSBBTSwgIDxqYWNraWUuaHVhbmdAd2lu
+ZHJpdmVyLmNvbT4gd3JvdGU6DQo+ID4gRnJvbTogSmFja2llIEh1YW5nIDxqYWNraWUuaHVhbmdA
+d2luZHJpdmVyLmNvbT4NCj4gPg0KPiA+IE9uY2UgLWZ2aXNpYmlsaXR5PWRlZmF1bHQgb3B0aW9u
+IGlzIGFkZGVkLCBtYXRjaGJveC1kZXNrdG9wIHdpbGwgcnVuDQo+ID4gaW50byBzZWdmYXVsdCwg
+c28gZmlsdGVyIGl0IG91dCBhcyBhIHdvcmthcm91bmQgZm9yIG5vdy4NCj4gPg0KPiA+IFtZT0NU
+TyAjNzA5OV0NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEphY2tpZSBIdWFuZyA8amFja2llLmh1
+YW5nQHdpbmRyaXZlci5jb20+DQo+IA0KPiBTb3JyeSBidXQgSSB0aGluayB0aGlzIG5lZWRzIGZp
+eGluZyBpbiBtYXRjaGJveC1kZXNrdG9wIGFuZCBub3QgYSB3b3JrYXJvdW5kIGhlcmUgaW4gYSBs
+aWJyYXJ5IHdoaWNoDQoNCk9rLCBJIHdpbGwgdHJ5IHRvIGZpeCBpdCBpbiBtYXRjaGJveC1kZXNr
+dG9wLg0KDQpUaGFua3MsDQpKYWNraWUNCg0KPiBpcyB1c2VkIGluIHNldmVyYWwgcHJvamVjdHMu
+DQo+IA0KPiAtLQ0KPiBPdGF2aW8gU2FsdmFkb3IgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IE8uUy4gU3lzdGVtcw0KPiBodHRwOi8vd3d3Lm9zc3lzdGVtcy5jb20uYnIgICAgICAgIGh0dHA6
+Ly9jb2RlLm9zc3lzdGVtcy5jb20uYnINCj4gTW9iaWxlOiArNTUgKDUzKSA5OTgxLTc4NTQgICAg
+ICAgICAgICBNb2JpbGU6ICsxICgzNDcpIDkwMy05NzUwDQo=
 
