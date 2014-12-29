@@ -1,25 +1,25 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E6FB27267A
+	by mail.openembedded.org (Postfix) with ESMTP id ECD58726AD
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 29 Dec 2014 17:23:37 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 29 Dec 2014 09:21:30 -0800
+	by orsmga102.jf.intel.com with ESMTP; 29 Dec 2014 09:21:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,659,1413270000"; d="scan'208";a="654543759"
+X-IronPort-AV: E=Sophos;i="5.07,659,1413270000"; d="scan'208";a="654543763"
 Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.155])
 	by fmsmga002.fm.intel.com with ESMTP; 29 Dec 2014 09:23:36 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Dec 2014 11:24:09 -0600
-Message-Id: <714f70fb5bb7dd6ff7a464f1223765a92cb52eaa.1419873753.git.anibal.limon@linux.intel.com>
+Date: Mon, 29 Dec 2014 11:24:10 -0600
+Message-Id: <bcd9695b1024311a59acb2b79556f193e20c38e4.1419873753.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <df47ba5837e1df876d6caad6e4b61a2477dc0ab6.1419873753.git.anibal.limon@linux.intel.com>
 References: <df47ba5837e1df876d6caad6e4b61a2477dc0ab6.1419873753.git.anibal.limon@linux.intel.com>
 In-Reply-To: <cover.1419873753.git.anibal.limon@linux.intel.com>
 References: <cover.1419873753.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/5] lsof: Upgrade to 4.88
+Subject: [PATCH 4/5] mc: Upgrade to 4.8.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,28 +38,28 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/recipes-extended/lsof/{lsof_4.87.bb => lsof_4.88.bb} | 4 ++--
+ meta/recipes-extended/mc/{mc_4.8.12.bb => mc_4.8.13.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/lsof/{lsof_4.87.bb => lsof_4.88.bb} (91%)
+ rename meta/recipes-extended/mc/{mc_4.8.12.bb => mc_4.8.13.bb} (93%)
 
-diff --git a/meta/recipes-extended/lsof/lsof_4.87.bb b/meta/recipes-extended/lsof/lsof_4.88.bb
-similarity index 91%
-rename from meta/recipes-extended/lsof/lsof_4.87.bb
-rename to meta/recipes-extended/lsof/lsof_4.88.bb
-index e7a1eb2..a96b06e 100644
---- a/meta/recipes-extended/lsof/lsof_4.87.bb
-+++ b/meta/recipes-extended/lsof/lsof_4.88.bb
-@@ -6,8 +6,8 @@ LICENSE = "BSD"
+diff --git a/meta/recipes-extended/mc/mc_4.8.12.bb b/meta/recipes-extended/mc/mc_4.8.13.bb
+similarity index 93%
+rename from meta/recipes-extended/mc/mc_4.8.12.bb
+rename to meta/recipes-extended/mc/mc_4.8.13.bb
+index bc462e3..ef5b1a2 100644
+--- a/meta/recipes-extended/mc/mc_4.8.12.bb
++++ b/meta/recipes-extended/mc/mc_4.8.13.bb
+@@ -10,8 +10,8 @@ SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
+            file://mc-CTRL.patch \
+            "
  
- SRC_URI = "ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2"
+-SRC_URI[md5sum] = "a64c426364bfaee56b628f6c0738aade"
+-SRC_URI[sha256sum] = "1054fcc27a488771cbe5b85d7c10135fa1cd1b7682a19930d44b51a023e39396"
++SRC_URI[md5sum] = "12a521a50da6a86852177591b9623d5e"
++SRC_URI[sha256sum] = "22e1b809edba957eb9a392138bf87fea3877f7ca0b7463b7cc2eb94afa6f3e49"
  
--SRC_URI[md5sum] = "80e2a76d0e05826db910ec88e631296c"
--SRC_URI[sha256sum] = "dfdd3709d82bc79ccdf3e404b84aafa9aede5948642a824ecaefd0aac589da2c"
-+SRC_URI[md5sum] = "1b29c10db4aa88afcaeeaabeef6790db"
-+SRC_URI[sha256sum] = "fe6f9b0e26b779ccd0ea5a0b6327c2b5c38d207a6db16f61ac01bd6c44e5c99b"
+ inherit autotools gettext pkgconfig
  
- LOCALSRC = "file://${WORKDIR}/lsof_${PV}/lsof_${PV}_src.tar"
- S = "${WORKDIR}/lsof_${PV}_src"
 -- 
 1.9.1
 
