@@ -1,37 +1,34 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
-	[209.85.160.169])
-	by mail.openembedded.org (Postfix) with ESMTP id B915F7267B
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 951397258B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Dec 2014 12:46:06 +0000 (UTC)
-Received: by mail-yk0-f169.google.com with SMTP id 79so6439896ykr.28
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Dec 2014 04:46:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=Il5fwmekv/3tDv1ZFnr35P4WNOOcOUSk5jnI9C6KCqk=;
-	b=cZVUrvaJhmeDFmmwpq1/UKO6PzUpd6rP6eS9jnM6rS1HcHYWZDlNRiLFZKEzN/3w1R
-	LnMxjm93MZs+274mPzeHIHaifa5205lLZIU5Uu4MnNJmX68IHXh3YK8OMKNloJTHRg/r
-	nxjUbwi7Va81ux3PnhA5rp2fPKMaB6t7WUnB6YAUckuek5bDxTaSQuOPTxjLPbWMv0b4
-	jazSUIEzuEZsRuHRUyqwRvtBUw5AQUyOk+VvPmKQQUqhwUKUuMri855U32r0tRWNfkhH
-	rmMZ5fn8Z+vcRVs/cBCCF/l03ksxD8NnLterak3+nMYgyhmYSGGBFM5yMGyKZKZvXX9j
-	xtnQ==
+	Mon, 29 Dec 2014 12:55:19 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-03.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1Y5Zqx-0003vU-CO from Awais_Belal@mentor.com ;
+	Mon, 29 Dec 2014 04:55:19 -0800
+Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.213]) by
+	SVR-IES-FEM-03.mgc.mentorg.com ([137.202.0.108]) with mapi id
+	14.03.0224.002; Mon, 29 Dec 2014 12:55:18 +0000
+From: "Belal, Awais" <Awais_Belal@mentor.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Thread-Topic: [OE-core] [PATCH] gstreamer1.0-omx: use mulitple SCMs to fetch
+	submodules
+Thread-Index: AQHQI2TIvmlbJunIkUOUO5qdabwjd5ymhVJH
+Date: Mon, 29 Dec 2014 12:55:17 +0000
+Message-ID: <2021B186DC632746BD5A3CE32F12BD28EA001E0A@EU-MBX-03.mgc.mentorg.com>
+References: <1419846408-31247-1-git-send-email-awais_belal@mentor.com>,
+	<CAP71WjzrFn=W8QYoDQybKyLxEpi4zL6yN8xkFZK=ze-6YZ_rLw@mail.gmail.com>
+In-Reply-To: <CAP71WjzrFn=W8QYoDQybKyLxEpi4zL6yN8xkFZK=ze-6YZ_rLw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.69]
 MIME-Version: 1.0
-X-Received: by 10.236.39.134 with SMTP id d6mr15813853yhb.90.1419857167061;
-	Mon, 29 Dec 2014 04:46:07 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.171.132 with HTTP; Mon, 29 Dec 2014 04:46:06 -0800 (PST)
-In-Reply-To: <1419844544-10137-1-git-send-email-b50113@freescale.com>
-References: <1419844544-10137-1-git-send-email-b50113@freescale.com>
-Date: Mon, 29 Dec 2014 10:46:06 -0200
-X-Google-Sender-Auth: yWs7Qv1QdIJCJL5M5nWBlRomuvs
-Message-ID: <CAP9ODKqerqox7aFqgg1PjB7-P_tar_9rJhDkCPj7X5DegjUvuw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Zidan Wang <b50113@freescale.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Add patches for gstreamer1.4
+Subject: Re: [PATCH] gstreamer1.0-omx: use mulitple SCMs to fetch submodules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,29 +41,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Dec 2014 12:46:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 29 Dec 2014 12:55:28 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Zidan,
-
-On Mon, Dec 29, 2014 at 7:15 AM, Zidan Wang <b50113@freescale.com> wrote:
-> Add patches to gstreamer1.0-plugins-base and gstreamer1.0-plugins-good.
->
-> Zidan Wang (2):
->   gstreamer1.0-plugins-base: Add
->     taglist-not-send-to-down-stream-if-all-the-frame-cor.patch
->   gstreamer1.0-plugins-good: Add decrease_asteriskh263_rank.patch
-
-Thanks for preparing those patches; both are technically correct but a
-small improvement can be done.
-
-Your shortlog cite the patch file name you are including. This does
-not communicate what you are really doing, and you does a much greater
-job describing it in the long commit log. So please, write a proper
-shortlog for both patches.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Hi Nicolas,=0A=
+=0A=
+I sent this against the omx package only because I wanted to see if there's=
+ any feedback on this for improvement or anything that I might be doing wro=
+ng. If this gets accepted I will submit updates for the other gstreamer1.0-=
+*_git.bb recipes as you've correctly pointed out that they suffer from the =
+same dilemma. Doing it through a .inc wouldn't be a good idea because the d=
+ependency from one package to the other lies not just only the package but =
+the exact rev as well so it should be done in this way for all in my opinio=
+n.=0A=
+=0A=
+The SRC_REVs will obviously need to be taken care of when an update is made=
+ but I think this is the way to go. =0A=
+=0A=
+BR,=0A=
+Awais=0A=
+=0A=
+________________________________________=0A=
+From: Nicolas Dechesne [nicolas.dechesne@linaro.org]=0A=
+Sent: Monday, December 29, 2014 5:41 PM=0A=
+To: Belal, Awais=0A=
+Cc: Patches and discussions about the oe-core layer=0A=
+Subject: Re: [OE-core] [PATCH] gstreamer1.0-omx: use mulitple SCMs to fetch=
+ submodules=0A=
+=0A=
+On Mon, Dec 29, 2014 at 10:46 AM, Awais Belal <awais_belal@mentor.com> wrot=
+e:=0A=
+> The gstreamer omx package uses a submodule 'common' which=0A=
+> is fetched by the configure script. This approach fails=0A=
+> on non-network builds as the fetcher tries to look upstream=0A=
+> for the submodule.=0A=
+> We now use multiple SCMs, one for the main omx package and=0A=
+> the other for the 'common' submodule so it is available in=0A=
+> the downloads_dir for later use.=0A=
+>=0A=
+=0A=
+we have the same issues with all the others gstreamer1.0-*_git.bb=0A=
+recipes, don't we? maybe we should fix them all. i am not sure if=0A=
+there is a nice way to do it for all recipes, like with a .inc file,=0A=
+to avoid duplication..=0A=
+=0A=
+also, the autogen.sh script will still run git submodule update, even=0A=
+if the 'common' folder already exist, so we will need to be extra=0A=
+careful when upgrading the _git.bb recipes to update both=0A=
+SRCREV_gst-omx and SRCREV_common or we will have the same issue=0A=
+again..=0A=
 
