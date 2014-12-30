@@ -1,38 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 25C7A6017E
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 41B3F6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 20:32:29 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id i50so10590239qgf.38
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 12:32:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ohU9IujBUXHkvgOEZSZ8hys3eUOnXgJIohU12cUyHI4=;
-	b=jrocIaYPJcgCweQoayCZR0PX02c6Na2m55Ouke9E8HKLQLosRjEhwsGLJOpvLHj6Gd
-	zVlFUio40EGOe8N+Xp27qD0OE9Ee24wDSF5+DVLWijAOQEfFzkVX2YN54IhOCK4o/Iw3
-	9r90uErEXJqiSJQ+Fu/TiQrRT3WIiwXkl3RJgSFcLo0UqNjZZU7mmPp2vhwXIClzm7Nq
-	ps3HcJB/cE5tL2u0laymE1/D88k+1svV2Ia3xHLQBGql3kMrYC1w6wsgBFXomBJEDVAe
-	610zOcqGkukaqPlF3YhdzUlXcm+c/ia3oMloYFldp3QrLGntljqmXJBX7GghnEh17T0H
-	ilKA==
-X-Gm-Message-State: ALoCoQnj3C7mRT9secu6WFL3QjIRUU05wPOkESWTnv/RzqgM0aGEIemPyCaN5guv1aEmOg98W2DT
-X-Received: by 10.224.93.6 with SMTP id t6mr38343082qam.93.1419971549826; Tue,
-	30 Dec 2014 12:32:29 -0800 (PST)
+	Tue, 30 Dec 2014 20:39:57 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2014 12:39:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="435079132"
+Received: from jacullen-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.17.42])
+	by FMSMGA003.fm.intel.com with ESMTP; 30 Dec 2014 12:27:59 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: akuster <akuster@mvista.com>
+Date: Tue, 30 Dec 2014 20:39:56 +0000
+Message-ID: <1895049.K8DhQhocfW@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.3 (Linux/3.17.7-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <54A2EC21.6070308@mvista.com>
+References: <cover.1419958884.git.paul.eggleton@linux.intel.com>
+	<54A2EC21.6070308@mvista.com>
 MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Tue, 30 Dec 2014 12:32:09 -0800 (PST)
-In-Reply-To: <CAP71WjzcSN6yuA6-1UwH=z+8KAHFFZfKTuTU5=Oi552aPUFf4g@mail.gmail.com>
-References: <1419962645-26989-1-git-send-email-ross.burton@intel.com>
-	<CAP71WjzcSN6yuA6-1UwH=z+8KAHFFZfKTuTU5=Oi552aPUFf4g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 30 Dec 2014 20:32:09 +0000
-Message-ID: <CAJTo0La+UxGSN7tKFV3pea2Gzo4aUTAaj10qKw7GrtN7nE4LjA@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/7] gstreamer1.0: upgrade to 1.4.5
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [dizzy][PATCH 0/2] Backport fixes for git-perltools split
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,36 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Dec 2014 20:32:32 -0000
-Content-Type: multipart/alternative; boundary=089e01495028d1a704050b74e371
+X-List-Received-Date: Tue, 30 Dec 2014 20:40:06 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---089e01495028d1a704050b74e371
-Content-Type: text/plain; charset=UTF-8
+Hi Armin,
 
-On 30 December 2014 at 18:59, Nicolas Dechesne <nicolas.dechesne@linaro.org>
-wrote:
+On Tuesday 30 December 2014 10:17:05 akuster wrote:
+> On 12/30/2014 09:02 AM, Paul Eggleton wrote:
+> > The following changes since commit 
+1cf1edcd28a002291622d04dd2d0ee2c67e329e4:
+> >    buildtools-tarball: package all of Python (2014-12-11 16:34:01 +0000)
+> > 
+> > are available in the git repository at:
+> >    git://git.openembedded.org/openembedded-core-contrib
+> >    paule/dizzy-git-tools
+> >    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
+> >    paule/dizzy-git-tools> 
+> > Jackie Huang (1):
+> >    packagegroup-self-hosted: add git-perltools
+> 
+> This change is in that gray area "does this really need to be back
+> ported decision make processed", so I did not include it.
 
-> however you are adding extra empty lines in the first 6 patches in the
-> series. was is intentionally done?
->
+I would argue this is of a similar order as the other fix. The tools that the 
+git-perltools package contains were in the build appliance already until git-
+perltools was split out, so it's fixing a regression (though I think that 
+regression happened in the 1.6 timeframe rather than 1.7 FWIW).
 
-Yes, the tight spacing wasn't pleasing visually.
+Cheers,
+Paul
 
-Ross
+-- 
 
---089e01495028d1a704050b74e371
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Paul Eggleton
+Intel Open Source Technology Centre
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 December 2014 at 18:59, Nicolas Dechesne <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:nicolas.dechesne@linaro.org" target=3D"_blank">nicolas.dechesne=
-@linaro.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":142" class=3D"a3s" style=3D"overflow:hidden">however you are adding ex=
-tra empty lines in the first 6 patches in the<br>
-series. was is intentionally done?</div></blockquote></div><br>Yes, the tig=
-ht spacing wasn&#39;t pleasing visually.</div><div class=3D"gmail_extra"><b=
-r></div><div class=3D"gmail_extra">Ross</div></div>
-
---089e01495028d1a704050b74e371--
