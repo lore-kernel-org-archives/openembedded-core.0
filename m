@@ -1,40 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 3743D60809
+Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 6252065C9F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 18:05:11 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id em10so24352295wid.11
+	Tue, 30 Dec 2014 18:05:16 +0000 (UTC)
+Received: by mail-we0-f180.google.com with SMTP id w62so1383773wes.39
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 10:05:11 -0800 (PST)
+	Tue, 30 Dec 2014 10:05:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=cNcs1ES3kdDz1/OdCfOfDZ7+1o2Y5T5slnq2ofVliFc=;
-	b=KwumVv3S6nTVPpDsNlutuVYxZBh9MYBBltCJk7g00WaMryImzZ347niBEDuDDrZeMu
-	t++0EPnBOlzTftI3kc04xxh4eTl4vvU9egbZciM+gBnk0r2Sv1CFDKeO8Pan302uts9J
-	8cp3MFJrq5lQ++dXCvy/V8mpAC/qfbT+3Lb+U1ZvOAoV2HTKi0paSk8Ux1i039W5Gs3l
-	oipFKlgzPD8Wdrw5V3+y3+l8zA+x4JdC9ydk8TvTcKA4Nx1Hyz8qQ7bj9T/g6citsV11
-	uMoGcammydbbipIg7sVqdmihVP74QXONDjfk9gAYRUU9eSTMIvskPMiWmsqvlOFpQhJF
-	3TMA==
-X-Gm-Message-State: ALoCoQk+xj5pjIAtncxxhzfqckCnJ63y/kUOPI2Vovye/9DSYFdPwKXNx+MuXRbS+usIQ8Eyi+IK
-X-Received: by 10.180.79.200 with SMTP id l8mr102745863wix.65.1419962711673;
-	Tue, 30 Dec 2014 10:05:11 -0800 (PST)
+	bh=mGMgZiEOdiMYgPHZwoRhxlIe1MB70/o0O5/xiSqPlVQ=;
+	b=EnM0xeXD8583nUCzkdkzmlc4dfzGvpNNxR8vfRcQvsCEl0JhbLNZ7YW34uIj0StATO
+	+lpIGfAKRDYA0ursb70+fptx3XR+iCtxQY8RWpd03yul+9ADCqkw6ajqU05tBDpTVayZ
+	ha7FZKLm/XZjKdvLcx5dphEfQQtntvmFfie8xj4KdJNE/vxSQnmqWSk0lgDlxpL715hd
+	V1d6HL1wCJysXBJLLG8YQ2EqkYhtfwv7onjPIpr/Gm3p1uFXynArCS/k0mv7P1qrh6sK
+	d6nWMo7SIhD8GvOhTRUORxXtiazciDYLIcETONEDWlxy2tpcnJJEs/vs++b5IUEbqzyH
+	Mgug==
+X-Gm-Message-State: ALoCoQn8xPiln8FVFSkL95IIuyU1muSy0VhZTnqKgt6GM8GawQZrHHJnj5uHoegbt6j2l9sdF8Qv
+X-Received: by 10.194.63.51 with SMTP id d19mr91519736wjs.77.1419962717369;
+	Tue, 30 Dec 2014 10:05:17 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by mx.google.com with ESMTPSA id
-	hl1sm28854285wjc.18.2014.12.30.10.05.10
+	hl1sm28854285wjc.18.2014.12.30.10.05.16
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Dec 2014 10:05:10 -0800 (PST)
+	Tue, 30 Dec 2014 10:05:16 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Dec 2014 18:04:00 +0000
-Message-Id: <1419962645-26989-2-git-send-email-ross.burton@intel.com>
+Date: Tue, 30 Dec 2014 18:04:05 +0000
+Message-Id: <1419962645-26989-7-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1419962645-26989-1-git-send-email-ross.burton@intel.com>
 References: <1419962645-26989-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/7] gstreamer1.0-plugins-base: upgrade to 1.4.5
+Subject: [PATCH 7/7] gstreamer1.0-rtsp-server: upgrade to 1.4.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,31 +52,36 @@ X-List-Received-Date: Tue, 30 Dec 2014 18:05:18 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...0-plugins-base_1.4.1.bb => gstreamer1.0-plugins-base_1.4.5.bb} |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- mode change 100755 => 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/taglist-not-send-to-down-stream-if-all-the-frame-cor.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.4.1.bb => gstreamer1.0-plugins-base_1.4.5.bb} (80%)
+ .../gstreamer/gstreamer1.0-rtsp-server_1.4.1.bb                  |    6 ------
+ .../gstreamer/gstreamer1.0-rtsp-server_1.4.5.bb                  |    6 ++++++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.4.1.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.4.5.bb
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/taglist-not-send-to-down-stream-if-all-the-frame-cor.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/taglist-not-send-to-down-stream-if-all-the-frame-cor.patch
-old mode 100755
-new mode 100644
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-similarity index 80%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.1.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-index 27b8774..11cf8b4 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-@@ -10,6 +10,7 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
-             file://taglist-not-send-to-down-stream-if-all-the-frame-cor.patch \
- "
- 
--SRC_URI[md5sum] = "a825628225bd0a58c0df87cdd2a5db91"
--SRC_URI[sha256sum] = "aea9e25be6691bd3cc0785d005b2b5d70ce313a2c897901680a3f7e7cab5a499"
-+SRC_URI[md5sum] = "357165af625c0ca353ab47c5d843920e"
-+SRC_URI[sha256sum] = "77bd8199e7a312d3d71de9b7ddf761a3b78560a2c2a80829d0815ca39cbd551d"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.4.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.4.1.bb
+deleted file mode 100644
+index 1f34be0..0000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.4.1.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-include gstreamer1.0-rtsp-server.inc
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
+-
+-SRC_URI[md5sum] = "e39f8643eb363611c342d87088a29aa0"
+-SRC_URI[sha256sum] = "10aeacc774e99d81607aeb2748c0a1c6736425b8ae3a9caf8db3cd0c4a08d06e"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.4.5.bb
+new file mode 100644
+index 0000000..bb9b42b
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.4.5.bb
+@@ -0,0 +1,6 @@
++include gstreamer1.0-rtsp-server.inc
 +
- S = "${WORKDIR}/gst-plugins-base-${PV}"
++LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
++
++SRC_URI[md5sum] = "a9f9b8899ec7ab33663cda7627db40d3"
++SRC_URI[sha256sum] = "3089254bd31b7c1f1cf2c034a3b3551f92878f9e3cab65cef3a901a04c0f1d37"
 -- 
 1.7.10.4
 
