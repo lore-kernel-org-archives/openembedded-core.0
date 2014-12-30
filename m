@@ -1,39 +1,34 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
-	[209.85.218.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E6AD65CAF
+Return-Path: <coldnew.tw@gmail.com>
+Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id F00CF7139F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Dec 2014 18:23:20 +0000 (UTC)
-Received: by mail-oi0-f41.google.com with SMTP id i138so25401729oig.0
+	Tue, 30 Dec 2014 01:38:59 +0000 (UTC)
+Received: by mail-pd0-f172.google.com with SMTP id y13so18307950pdi.31
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Dec 2014 10:23:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=6JU1wNoS+UsL5Tdx3mVh0b4I8ZrvsMKti5M4/s47Xl8=;
-	b=ZQV+rRJ2WBRD8NgLFp7XHj0vJqc+ZkZ7aTFJq5+lt5dmV4VDRT+4oUdd6UDUO9VAre
-	ScXBfIFE4zivxa2qBiGjoKD1mNkctDQajA0zMjL1GvP6+7n6nzChQeZ2WSxMY1W1hYXJ
-	lpmx8YzJZF9WtSSrghuhxydbY2eVGoMMRCtJuy5rRxA1+v6dtt5DxVv5FgZe3qOrKbHt
-	nn1WMzrcF1KE2HM3YpcCMLv9049F7wDSL8YlwmFj6WF02zvUqs6zttQNa5m+54CDSK3F
-	Ghze2m5RwQ6sEZWvxcPUohPSp72tS/QudgrhTWm60/ele2wudFKEaDiPCnTZHcq6K/jS
-	hNZw==
-X-Gm-Message-State: ALoCoQm6ZpYw0jM9v3UNEY/GD/rabbV+Bbt7derPazxGrbhztOAkLSTzPjwpZB9G7hwZKi72FhfO
-X-Received: by 10.182.86.100 with SMTP id o4mr26703254obz.51.1419877401313;
-	Mon, 29 Dec 2014 10:23:21 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.76.116.130 with HTTP; Mon, 29 Dec 2014 10:23:01 -0800 (PST)
-In-Reply-To: <2021B186DC632746BD5A3CE32F12BD28EA001E0A@EU-MBX-03.mgc.mentorg.com>
-References: <1419846408-31247-1-git-send-email-awais_belal@mentor.com>
-	<CAP71WjzrFn=W8QYoDQybKyLxEpi4zL6yN8xkFZK=ze-6YZ_rLw@mail.gmail.com>
-	<2021B186DC632746BD5A3CE32F12BD28EA001E0A@EU-MBX-03.mgc.mentorg.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Mon, 29 Dec 2014 19:23:01 +0100
-Message-ID: <CAP71Wjxf0KjvqZZtnn+T3DMxGpDGSG6BnoCGfb_0V-GA4R9x0Q@mail.gmail.com>
-To: "Belal, Awais" <Awais_Belal@mentor.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-omx: use mulitple SCMs to fetch submodules
+	Mon, 29 Dec 2014 17:39:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=gy3w0VCV3v9/Rl+TPehc07Byil1j3BRuQQeRcnpf48Y=;
+	b=Wh4MtlSg4KXMs6+YlgczxNu82KumyxW2X+ZcC/1zMsWxV5OtqsMn7kFTWuwbea7cjD
+	LnuiCvDsGYvovBYN4qC28P93WtjvuetvHWs/2+eTgmGCwQS3+1lcLJk2Y+ibVbl7bOzL
+	qdqzDyvhlDDxh9mNrBMi6DohrszyB4WKGri7o5HcN2AXBsMRhGXHiOg5QQ5oFEquuZ3I
+	ipUKyqqs9372R+CTL/3ybJNyCkBycVVhT27olQEcJmHzrCSxFMlpvnjLMv4SitaZ7ijH
+	U5x1W3udibZjIogq5KtLbTY4XxbSntyI969j9eHhO1fmKa4J67vEjclVYxTRvzvhCczp
+	HuVA==
+X-Received: by 10.70.25.98 with SMTP id b2mr53633893pdg.10.1419903540446;
+	Mon, 29 Dec 2014 17:39:00 -0800 (PST)
+Received: from localhost.localdomain ([203.70.194.104])
+	by mx.google.com with ESMTPSA id
+	lm3sm37048336pab.34.2014.12.29.17.38.58
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 29 Dec 2014 17:38:59 -0800 (PST)
+From: Yen-Chin Lee <coldnew.tw@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Dec 2014 09:38:53 +0800
+Message-Id: <1419903533-7766-1-git-send-email-coldnew.tw@gmail.com>
+X-Mailer: git-send-email 2.2.1
+Subject: [oe][dizzy][PATCH] kernel.bbclass: prevent rename not exist dirs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,33 +41,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Dec 2014 18:23:30 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 30 Dec 2014 01:39:08 -0000
 
-On Mon, Dec 29, 2014 at 1:55 PM, Belal, Awais <Awais_Belal@mentor.com> wrot=
-e:
-> Hi Nicolas,
->
-> I sent this against the omx package only because I wanted to see if there=
-'s any feedback on this for improvement or anything that I might be doing w=
-rong. If this gets accepted I will submit updates for the other gstreamer1.=
-0-*_git.bb recipes as you've correctly pointed out that they suffer from th=
-e same dilemma. Doing it through a .inc wouldn't be a good idea because the=
- dependency from one package to the other lies not just only the package bu=
-t the exact rev as well so it should be done in this way for all in my opin=
-ion.
->
+During kernel_do_install it will use mv command to make some dirs be
+hidden dirs then rename back, but kernel version below 2.6.30 doesn't has
+tools dir.
 
-right... sorry, i missed the discussion from last week... that's the
-problem with vacations ;-)
+Check if dir exist or not to make kernel_do_install not failed for
+kernel <2.6.30.
 
-so, the changes look good. i have a branch with gstreamer 1.4.5
-updates which i am testing at the moment, i will send the patches
-later this week.
+Signed-off-by: Yen-Chin Lee <coldnew.tw@gmail.com>
+---
+ meta/classes/kernel.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> The SRC_REVs will obviously need to be taken care of when an update is ma=
-de but I think this is the way to go.
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index f300fa3..58922c2 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -265,7 +265,7 @@ kernel_do_install() {
+ 
+ 	# hide directories that shouldn't have their .c, s and S files deleted
+ 	for d in tools scripts lib; do
+-		mv $kerneldir/$d $kerneldir/.$d
++		[ -d $kerneldir/$d ] && mv $kerneldir/$d $kerneldir/.$d
+ 	done
+ 
+ 	# delete .c, .s and .S files, unless we hid a directory as .<dir>. This technique is 
+@@ -274,7 +274,7 @@ kernel_do_install() {
+ 
+ 	# put the hidden dirs back
+ 	for d in tools scripts lib; do
+-		mv $kerneldir/.$d $kerneldir/$d
++		[ -d $kerneldir/.$d ] && mv $kerneldir/.$d $kerneldir/$d
+ 	done
+ 
+ 	# As of Linux kernel version 3.0.1, the clean target removes
+-- 
+2.2.1
 
-sure.
 
