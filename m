@@ -1,37 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id BF387601D8
+Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
+	[74.125.82.169])
+	by mail.openembedded.org (Postfix) with ESMTP id B0DC060167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 18:05:09 +0000 (UTC)
-Received: by mail-wi0-f182.google.com with SMTP id h11so24434069wiw.3
+	Tue, 30 Dec 2014 18:05:13 +0000 (UTC)
+Received: by mail-we0-f169.google.com with SMTP id m14so1389423wev.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 10:05:10 -0800 (PST)
+	Tue, 30 Dec 2014 10:05:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=UNkt6VGiDur0LZg2W1k9SgR7cTtEjbhggAEqDJUCvsE=;
-	b=RMd2gjCcwYps/U/9cuSdSf2HmJMkhgMadGhJ05SYE1i3E/LWFzoAZ2X6jTn8ZObf1H
-	XTd12PVp+aGJlpjtaYgDK1MDc9DpYKqOnpXxPoOela9zjOZ7wxXiuUsnxYRMf54sUpLY
-	W64e1M2gucOfRMUVpndw6CQ2EbgBMB0dd6daKuZeils+J3qyx9r0TAUfsO1if5yj/J8I
-	ziATpTj23+PZJLZ9SARdy4jyMSecAtJsr9YQoT5TPYlpgtAPn0o6bfXthpeCKQjxg2BA
-	kF0fvpXcTc+NcpE5SI/K2ic1TYGFtnIR+fzGj1L+kjgPsZt5oq8CY/NJYQWwps814Cfj
-	VAiQ==
-X-Gm-Message-State: ALoCoQnENUHwCr/EIXDq4bRTtOcGXV6JE+o8IP3VzebMtovdnIwmB9wVnI26+kWWTNUay2unnkko
-X-Received: by 10.194.62.163 with SMTP id z3mr123611414wjr.74.1419962710427;
-	Tue, 30 Dec 2014 10:05:10 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=zugck3sI3s8uHJI0bbIZNFIFTbRMv9p7eriiSjdp7iA=;
+	b=OXnueMvuCjE/uPftC9Ed7dQuVlanHHZc+V5te9IftlDNKoticTIzgXEa+YIPb1QV7l
+	H3skrBbzp/+G836t2kRSZqLO1CIu/cyvnXpzZE5kooEx1+2vCGGlkS09GzGlhe96nl4I
+	svk6JN+fLAMCTl13XmfYuoaSV9wGNGn40REKPIpdt0WgFshgCfykpeQxh4jaMJZ5It6D
+	9DlMCmwg+/ZaCYxqQ8ckYcOE2c4K5w7xOawbgD6QTupcnhxMKb6PHHQCn1K804yAglb2
+	2RycBjEFn63Ep56Si+1IlmgiRX3eTm4EhI1/FYwkRAJVi4GXUrvWgblosZw94/lC39aJ
+	U+YQ==
+X-Gm-Message-State: ALoCoQmqkpLGzE2HPHAkiT4Zd86rrn++fUNST3tGRvevGnEbzROvZ/KUQUHGKFx+JmfBeDFz8B8u
+X-Received: by 10.180.88.165 with SMTP id bh5mr109045242wib.77.1419962713970; 
+	Tue, 30 Dec 2014 10:05:13 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by mx.google.com with ESMTPSA id
-	hl1sm28854285wjc.18.2014.12.30.10.05.09
+	hl1sm28854285wjc.18.2014.12.30.10.05.12
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Dec 2014 10:05:09 -0800 (PST)
+	Tue, 30 Dec 2014 10:05:13 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Dec 2014 18:03:59 +0000
-Message-Id: <1419962645-26989-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 30 Dec 2014 18:04:02 +0000
+Message-Id: <1419962645-26989-4-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/7] gstreamer1.0: upgrade to 1.4.5
+In-Reply-To: <1419962645-26989-1-git-send-email-ross.burton@intel.com>
+References: <1419962645-26989-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 4/7] gstreamer1.0-plugins-good: upgrade to 1.4.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,28 +52,28 @@ X-List-Received-Date: Tue, 30 Dec 2014 18:05:18 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../gstreamer/{gstreamer1.0_1.4.1.bb => gstreamer1.0_1.4.5.bb}    |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.4.1.bb => gstreamer1.0_1.4.5.bb} (72%)
+ ...-plugins-good_1.4.1.bb => gstreamer1.0-plugins-good_1.4.5.bb} |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.4.1.bb => gstreamer1.0-plugins-good_1.4.5.bb} (79%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
-similarity index 72%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.1.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
-index 56fc4f2..94be846 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
-@@ -7,7 +7,8 @@ SRC_URI = " \
-     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
-     file://0001-Fix-crash-with-gst-inspect.patch \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.5.bb
+similarity index 79%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.5.bb
+index 05798cf..943ab60 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.4.5.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+ SRC_URI += "file://0001-gstrtpmp4gpay-set-dafault-value-for-MPEG4-without-co.patch \
+             file://decrease_asteriskh263_rank.patch \
  "
--SRC_URI[md5sum] = "bd0938d680d657249b885162f310702d"
--SRC_URI[sha256sum] = "5638f75003282135815c0077d491da11e9a884ad91d4ba6ab3cc78bae0fb452e"
-+SRC_URI[md5sum] = "88a9289c64a4950ebb4f544980234289"
-+SRC_URI[sha256sum] = "40801aa7f979024526258a0e94707ba42b8ab6f7d2206e56adbc4433155cb0ae"
-+
- S = "${WORKDIR}/gstreamer-${PV}"
+-SRC_URI[md5sum] = "eb3a3296b2f6009def1f5a09590ce767"
+-SRC_URI[sha256sum] = "8559d4270065b30ed5c49b826e1b7a3a2bd5ee9a340ae745a2ae3f9718e4c637"
+-S = "${WORKDIR}/gst-plugins-good-${PV}"
++SRC_URI[md5sum] = "eaf1a6daf73749bc423feac301d60038"
++SRC_URI[sha256sum] = "79b1b5f3f7bcaa8a615202eb5e176121eeb8336960f70687e536ad78dbc7e641"
  
++S = "${WORKDIR}/gst-plugins-good-${PV}"
 -- 
 1.7.10.4
 
