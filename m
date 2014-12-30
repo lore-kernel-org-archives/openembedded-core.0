@@ -1,40 +1,41 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-vc0-f171.google.com (mail-vc0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 242D760232
+Received: from mail-vc0-f181.google.com (mail-vc0-f181.google.com
+	[209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CB8060167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 16:25:55 +0000 (UTC)
-Received: by mail-vc0-f171.google.com with SMTP id hy4so5813220vcb.2
+	Tue, 30 Dec 2014 16:25:56 +0000 (UTC)
+Received: by mail-vc0-f181.google.com with SMTP id le20so5881688vcb.12
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 30 Dec 2014 08:25:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=1XfntlYttJUy6GeQiYC866HqvzqlDVkyZCfh/wjx5fg=;
-	b=T1Ej/shORQvNs9zvSV7C++R+PUgjju128cjTpLaxlqyXkU89Vkt7CUlWqoqAPkviN/
-	0qcE4k0U7iBhvgT2XhG1edjPSsvBTSXjbuUkiCz5k+bmry2WYYKVrUCSYbU75obA/iKB
-	jo/hvIGbQbXxcMs7TaGk42w2/N0BybQ8Wjip4/GZ74w+pKxTF4T9nW+2+HelYxRgl0//
-	JNUseFvP7qKzEi2YwNmncwrxUadQU1oa5zZIqfq8AukPxeNo2QZ/5Tov6BdzvOSGHiyo
-	fGBQYiC1IXIijqFGqgjgqBS0wl2tkwLrTt0nGjvCIcvxck6lHdHiMd0Q7PH27hxsIAjr
-	XEUw==
-X-Received: by 10.52.166.102 with SMTP id zf6mr29871542vdb.25.1419956756070;
+	:organization; bh=n6NqYxSAkeZvvKjAg4mS2FZW4jE6u+LmoAtEajkvv2I=;
+	b=zva3lbeOURA17k6aw0Zy/7lpDMNJVoA3s7tb+JwlOEw2lbywCGZ2nrkKW9aluA1BvH
+	iAb4ivGivRjCjMzWi5kzg2ArYd13qxL6Mb1d3RQZHFVI3ae60LTvggI0GL7ye+dHdh7F
+	5Hucraonznn9ECO5g2J7kJ+LFZJ4OyNJxyH575lFRjXm0/6WIjEIe+bMzemV5nVauZTr
+	719CMQ6pTBoMU86n+Nfx87MR/wJZW2udQsGtSg1lE+Pk7sZN3g8VvObJMRzwFNWyRRV9
+	mDd51CYUS03mEtct0hOBokHZh8aTv06SEVceQV5s0oc8Q1GLa7PIadCkj3G+cafM00ns
+	rEEw==
+X-Received: by 10.220.161.200 with SMTP id s8mr11961250vcx.43.1419956756734;
 	Tue, 30 Dec 2014 08:25:56 -0800 (PST)
 Received: from nano.lab.ossystems.com.br ([177.100.225.47])
-	by mx.google.com with ESMTPSA id h5sm5944570vds.10.2014.12.30.08.25.54
+	by mx.google.com with ESMTPSA id
+	at12sm11105242vdc.15.2014.12.30.08.25.54
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Dec 2014 08:25:54 -0800 (PST)
+	Tue, 30 Dec 2014 08:25:55 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id 4978B1C9F1E43; Tue, 30 Dec 2014 14:25:52 -0200 (BRST)
+	id 4C1FC1C9F1E45; Tue, 30 Dec 2014 14:25:52 -0200 (BRST)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 30 Dec 2014 14:25:50 -0200
-Message-Id: <1419956751-12552-2-git-send-email-otavio@ossystems.com.br>
+Date: Tue, 30 Dec 2014 14:25:51 -0200
+Message-Id: <1419956751-12552-3-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1419956751-12552-1-git-send-email-otavio@ossystems.com.br>
 References: <1419956751-12552-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/3] lttng-tools: Update to 2.5.3 version
+Subject: [PATCH 3/3] lttng-ust: Update to 2.5.2 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,31 +48,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Dec 2014 16:25:59 -0000
+X-List-Received-Date: Tue, 30 Dec 2014 16:26:00 -0000
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../lttng/{lttng-tools_2.5.0.bb => lttng-tools_2.5.3.bb}               | 3 +--
+ meta/recipes-kernel/lttng/{lttng-ust_2.5.0.bb => lttng-ust_2.5.2.bb} | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-tools_2.5.0.bb => lttng-tools_2.5.3.bb} (97%)
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.5.0.bb => lttng-ust_2.5.2.bb} (94%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.5.3.bb
-similarity index 97%
-rename from meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
-rename to meta/recipes-kernel/lttng/lttng-tools_2.5.3.bb
-index fd44aa5..87052eb 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.5.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.5.3.bb
-@@ -12,8 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
- DEPENDS = "liburcu popt lttng-ust libxml2"
- RDEPENDS_${PN}-ptest += "make perl bash"
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.5.2.bb
+similarity index 94%
+rename from meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
+rename to meta/recipes-kernel/lttng/lttng-ust_2.5.2.bb
+index e07d3c7..eda52bb 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.5.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.5.2.bb
+@@ -18,8 +18,7 @@ RPROVIDES_${PN} = "lttng2-ust"
+ RREPLACES_${PN} = "lttng2-ust"
+ RCONFLICTS_${PN} = "lttng2-ust"
  
--SRCREV = "8b27cacb277c2cdab791139b08da8eb87ab14a88"
--PV = "v2.5.0"
-+SRCREV = "75d966798cf8cbe8ca12773c2bf2822983bd78a3"
+-SRCREV = "ce59a997afdb7dc8af02b464430bb7e35549fa66"
+-PV = "2.5.0"
++SRCREV = "85d1d2791f3cebfd741a821261bf2924928a90e7"
+ PE = "2"
  
- PYTHON_OPTION = "am_cv_python_pyexecdir='${libdir}/python${PYTHON_BASEVERSION}/site-packages' \
-                  am_cv_python_pythondir='${libdir}/python${PYTHON_BASEVERSION}/site-packages' \
+ SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.5 \
 -- 
 2.1.4
 
