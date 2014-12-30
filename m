@@ -1,20 +1,37 @@
-Return-Path: <pbarker@betafive.co.uk>
-Received: from crash.betafive.co.uk (crash.betafive.co.uk [37.187.124.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A85860167
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id BF387601D8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 17:58:57 +0000 (UTC)
-Received: by crash.betafive.co.uk (Postfix, from userid 1000)
-	id 7CAB23E110F; Tue, 30 Dec 2014 17:59:15 +0000 (GMT)
-Date: Tue, 30 Dec 2014 17:59:15 +0000
-From: Paul Barker <paul@paulbarker.me.uk>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Message-ID: <20141230175915.GB18678@crash.betafive.co.uk>
-References: <54A2C3B2.9010006@topic.nl>
-MIME-Version: 1.0
-In-Reply-To: <54A2C3B2.9010006@topic.nl>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: How do I change the "Architecture" of a package?
+	Tue, 30 Dec 2014 18:05:09 +0000 (UTC)
+Received: by mail-wi0-f182.google.com with SMTP id h11so24434069wiw.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Dec 2014 10:05:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=UNkt6VGiDur0LZg2W1k9SgR7cTtEjbhggAEqDJUCvsE=;
+	b=RMd2gjCcwYps/U/9cuSdSf2HmJMkhgMadGhJ05SYE1i3E/LWFzoAZ2X6jTn8ZObf1H
+	XTd12PVp+aGJlpjtaYgDK1MDc9DpYKqOnpXxPoOela9zjOZ7wxXiuUsnxYRMf54sUpLY
+	W64e1M2gucOfRMUVpndw6CQ2EbgBMB0dd6daKuZeils+J3qyx9r0TAUfsO1if5yj/J8I
+	ziATpTj23+PZJLZ9SARdy4jyMSecAtJsr9YQoT5TPYlpgtAPn0o6bfXthpeCKQjxg2BA
+	kF0fvpXcTc+NcpE5SI/K2ic1TYGFtnIR+fzGj1L+kjgPsZt5oq8CY/NJYQWwps814Cfj
+	VAiQ==
+X-Gm-Message-State: ALoCoQnENUHwCr/EIXDq4bRTtOcGXV6JE+o8IP3VzebMtovdnIwmB9wVnI26+kWWTNUay2unnkko
+X-Received: by 10.194.62.163 with SMTP id z3mr123611414wjr.74.1419962710427;
+	Tue, 30 Dec 2014 10:05:10 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by mx.google.com with ESMTPSA id
+	hl1sm28854285wjc.18.2014.12.30.10.05.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Dec 2014 10:05:09 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Dec 2014 18:03:59 +0000
+Message-Id: <1419962645-26989-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/7] gstreamer1.0: upgrade to 1.4.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,76 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Dec 2014 17:59:08 -0000
-X-Groupsio-MsgNum: 60907
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="wzJLGUyc3ArbnUjN"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 30 Dec 2014 18:05:18 -0000
 
---wzJLGUyc3ArbnUjN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 30, 2014 at 04:24:34PM +0100, Mike Looijmans wrote:
-> What if the architecture of a package was accidentally left at its
-> default, but it should have been "all" for example?
->=20
-> Just putting "inherit allarch" or simply PACKAGE_ARCH=3D"all" into the
-> recipe is not enough. You get stuck with a "more specific" older
-> version, so that no device wants to upgrade to the newer version
-> that's "all" architecture compatible.
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../gstreamer/{gstreamer1.0_1.4.1.bb => gstreamer1.0_1.4.5.bb}    |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.4.1.bb => gstreamer1.0_1.4.5.bb} (72%)
 
-What package manager are you using on the device? If you're using opkg it s=
-hould
-prioritise by version not arch unless the command line option
-'--prefer-arch-to-version' is passed. If you're using opkg and it's not doi=
-ng
-that, let me know and I'll look into it when I get chance to.
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
+similarity index 72%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
+index 56fc4f2..94be846 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
+@@ -7,7 +7,8 @@ SRC_URI = " \
+     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+     file://0001-Fix-crash-with-gst-inspect.patch \
+ "
+-SRC_URI[md5sum] = "bd0938d680d657249b885162f310702d"
+-SRC_URI[sha256sum] = "5638f75003282135815c0077d491da11e9a884ad91d4ba6ab3cc78bae0fb452e"
++SRC_URI[md5sum] = "88a9289c64a4950ebb4f544980234289"
++SRC_URI[sha256sum] = "40801aa7f979024526258a0e94707ba42b8ab6f7d2206e56adbc4433155cb0ae"
++
+ S = "${WORKDIR}/gstreamer-${PV}"
+ 
+-- 
+1.7.10.4
 
-> Only way to fix this was to manually remove the old version from the
-> feeds and also manually remove it from the device, and then
-> reinstall it. This works for me personally, but what if I want to
-> apply this to about a million devices that are already in the field?
->=20
-> What can I do to get them to upgrade from the (in this case)
-> "mipsel32" to "all" package?
 
-As an absolute hack, you could rename the package and set it to
-replace/conflict/provide the old package name. I think there should be bett=
-er
-solutions though.
-
->=20
-> (and I have a few dozen of these mis-architectured packages...)
->=20
-> --=20
-> Mike Looijmans
-> --=20
-
-Thanks,
-
---=20
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
-
---wzJLGUyc3ArbnUjN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-iQEcBAEBAgAGBQJUoufzAAoJEBwoJlo7UPQD3j8H/R8XRw9d9jbmF493J/DMEhr2
-3M2htEbLeGSke6noXCWeJk17vhMDZPiTigvD73Vg3SzEHUZANpfeHYM9XCkFp4Rt
-2KZXTJcfJReEESzwlUdfLOPNQy/EuHTd09KtkDrIHL+Yi9Skyf656H5Mi5T/Uw1a
-nO045JL3KTP+0DhS05WK81TjTtLzZ3ffVxCni0F2hZ+2l3kUIuQdFQ99N2TVnfzi
-rNj9Hqe88557TJgfJUvrl1/ySHh1jiT8ADM/PkMYd2uF1Ky3nYASvbuxEL0Nj0XM
-qixbUcZY3yxg13BU/+75UB9gnPbqvUE4Sr4DeGk/5OJeqLu+AFCU438ZJNBHBf0=
-=3/JK
------END PGP SIGNATURE-----
-
---wzJLGUyc3ArbnUjN--
