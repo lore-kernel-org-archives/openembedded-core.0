@@ -1,25 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B05C660232
+Return-Path: <pbarker@betafive.co.uk>
+Received: from crash.betafive.co.uk (crash.betafive.co.uk [37.187.124.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A85860167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 17:02:17 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 30 Dec 2014 09:00:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="435018745"
-Received: from kolmos-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.19.251])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Dec 2014 08:50:17 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Dec 2014 17:02:07 +0000
-Message-Id: <1e18b38ecced2903eecbe9e85d7995bbd93552f2.1419958884.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1419958884.git.paul.eggleton@linux.intel.com>
-References: <cover.1419958884.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1419958884.git.paul.eggleton@linux.intel.com>
-References: <cover.1419958884.git.paul.eggleton@linux.intel.com>
-Subject: [dizzy][PATCH 2/2] buildtools-tarball: restore missing git tools
+	Tue, 30 Dec 2014 17:58:57 +0000 (UTC)
+Received: by crash.betafive.co.uk (Postfix, from userid 1000)
+	id 7CAB23E110F; Tue, 30 Dec 2014 17:59:15 +0000 (GMT)
+Date: Tue, 30 Dec 2014 17:59:15 +0000
+From: Paul Barker <paul@paulbarker.me.uk>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Message-ID: <20141230175915.GB18678@crash.betafive.co.uk>
+References: <54A2C3B2.9010006@topic.nl>
+MIME-Version: 1.0
+In-Reply-To: <54A2C3B2.9010006@topic.nl>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: How do I change the "Architecture" of a package?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,81 +27,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Dec 2014 17:02:17 -0000
+X-List-Received-Date: Tue, 30 Dec 2014 17:59:08 -0000
+X-Groupsio-MsgNum: 60907
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="wzJLGUyc3ArbnUjN"
+Content-Disposition: inline
 
-Since the split out of git-perltools, some git tools (such as "git am",
-"git send-email" and "git-submodule") have no longer been part of the
-buildtools. We need these, so add them back in.
+--wzJLGUyc3ArbnUjN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-However, adding git-perltools to buildtools triggers perl itself being
-brought into buildtools as well, and we don't want that; but we also
-don't want to have to hack the git recipe or indeed anything else that
-starts depending on perl. Thus, add a dummy package which gets installed
-in its place, in a separate package architecture that is only enabled
-for buildtools to ensure it doesn't start appearing in place of
-nativesdk-perl anywhere else.
+On Tue, Dec 30, 2014 at 04:24:34PM +0100, Mike Looijmans wrote:
+> What if the architecture of a package was accidentally left at its
+> default, but it should have been "all" for example?
+>=20
+> Just putting "inherit allarch" or simply PACKAGE_ARCH=3D"all" into the
+> recipe is not enough. You get stuck with a "more specific" older
+> version, so that no device wants to upgrade to the newer version
+> that's "all" architecture compatible.
+>
 
-Fixes [YOCTO #7033].
+What package manager are you using on the device? If you're using opkg it s=
+hould
+prioritise by version not arch unless the command line option
+'--prefer-arch-to-version' is passed. If you're using opkg and it's not doi=
+ng
+that, let me know and I'll look into it when I get chance to.
 
-(From OE-Core master rev: 5b051d65e797624cca3a81fc6f5c924925f3493e)
+> Only way to fix this was to manually remove the old version from the
+> feeds and also manually remove it from the device, and then
+> reinstall it. This works for me personally, but what if I want to
+> apply this to about a million devices that are already in the field?
+>=20
+> What can I do to get them to upgrade from the (in this case)
+> "mipsel32" to "all" package?
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/meta/buildtools-tarball.bb          |  4 ++++
- .../meta/nativesdk-buildtools-perl-dummy.bb           | 19 +++++++++++++++++++
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+As an absolute hack, you could rename the package and set it to
+replace/conflict/provide the old package name. I think there should be bett=
+er
+solutions though.
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 58e0ffa..302510c 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -15,13 +15,17 @@ TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-ncurses-terminfo-base \
-     nativesdk-chrpath \
-     nativesdk-tar \
-+    nativesdk-buildtools-perl-dummy \
-     nativesdk-git \
-+    nativesdk-git-perltools \
-     nativesdk-pigz \
-     nativesdk-make \
-     nativesdk-wget \
-     nativesdk-ca-certificates \
-     "
- 
-+SDK_PACKAGE_ARCHS =+ "buildtools-dummy-${SDKPKGSUFFIX}"
-+
- TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
- 
- RDEPENDS = "${TOOLCHAIN_HOST_TASK}"
-diff --git a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-new file mode 100644
-index 0000000..d971c3c
---- /dev/null
-+++ b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-@@ -0,0 +1,19 @@
-+SUMMARY = "Dummy package which ensures perl is excluded from buildtools"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+
-+inherit nativesdk
-+
-+# Put it somewhere separate to ensure it's never used except when we want it
-+PACKAGE_ARCH = "buildtools-dummy-${SDKPKGSUFFIX}"
-+
-+PERLPACKAGES = "nativesdk-perl \
-+                nativesdk-perl-module-file-path"
-+
-+ALLOW_EMPTY_${PN} = "1"
-+
-+python populate_packages_prepend() {
-+    d.appendVar('RPROVIDES_${PN}', '${PERLPACKAGES}')
-+    d.appendVar('RCONFLICTS_${PN}', '${PERLPACKAGES}')
-+}
-+
--- 
-1.9.3
+>=20
+> (and I have a few dozen of these mis-architectured packages...)
+>=20
+> --=20
+> Mike Looijmans
+> --=20
 
+Thanks,
 
+--=20
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
+
+--wzJLGUyc3ArbnUjN
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJUoufzAAoJEBwoJlo7UPQD3j8H/R8XRw9d9jbmF493J/DMEhr2
+3M2htEbLeGSke6noXCWeJk17vhMDZPiTigvD73Vg3SzEHUZANpfeHYM9XCkFp4Rt
+2KZXTJcfJReEESzwlUdfLOPNQy/EuHTd09KtkDrIHL+Yi9Skyf656H5Mi5T/Uw1a
+nO045JL3KTP+0DhS05WK81TjTtLzZ3ffVxCni0F2hZ+2l3kUIuQdFQ99N2TVnfzi
+rNj9Hqe88557TJgfJUvrl1/ySHh1jiT8ADM/PkMYd2uF1Ky3nYASvbuxEL0Nj0XM
+qixbUcZY3yxg13BU/+75UB9gnPbqvUE4Sr4DeGk/5OJeqLu+AFCU438ZJNBHBf0=
+=3/JK
+-----END PGP SIGNATURE-----
+
+--wzJLGUyc3ArbnUjN--
