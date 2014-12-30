@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B2876017E
+	by mail.openembedded.org (Postfix) with ESMTP id 90AAB60232
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 17:02:16 +0000 (UTC)
+	Tue, 30 Dec 2014 17:02:17 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga102.jf.intel.com with ESMTP; 30 Dec 2014 09:00:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="435018729"
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="435018735"
 Received: from kolmos-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.19.251])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Dec 2014 08:50:16 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 30 Dec 2014 08:50:17 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Dec 2014 17:02:05 +0000
-Message-Id: <cover.1419958884.git.paul.eggleton@linux.intel.com>
+Date: Tue, 30 Dec 2014 17:02:06 +0000
+Message-Id: <eacae9b451c6e4c49bc971e7dda05aaf44416e48.1419958884.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
-Subject: [dizzy][PATCH 0/2] Backport fixes for git-perltools split
+In-Reply-To: <cover.1419958884.git.paul.eggleton@linux.intel.com>
+References: <cover.1419958884.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1419958884.git.paul.eggleton@linux.intel.com>
+References: <cover.1419958884.git.paul.eggleton@linux.intel.com>
+Subject: [dizzy][PATCH 1/2] packagegroup-self-hosted: add git-perltools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,27 +34,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 30 Dec 2014 17:02:17 -0000
 
-The following changes since commit 1cf1edcd28a002291622d04dd2d0ee2c67e329e4:
+From: Jackie Huang <jackie.huang@windriver.com>
 
-  buildtools-tarball: package all of Python (2014-12-11 16:34:01 +0000)
+git-perltools provides some usefull git tools like:
+git-submodule, git-request-pull, git-send-email, git-am, etc.
 
-are available in the git repository at:
+We should have it added in self-hosted image.
 
-  git://git.openembedded.org/openembedded-core-contrib paule/dizzy-git-tools
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dizzy-git-tools
+(From OE-Core master rev: 4b0cbdc9c94b336f3102d4cce1886842b28ce6d5)
 
-Jackie Huang (1):
-  packagegroup-self-hosted: add git-perltools
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Paul Eggleton (1):
-  buildtools-tarball: restore missing git tools
-
- meta/recipes-core/meta/buildtools-tarball.bb          |  4 ++++
- .../meta/nativesdk-buildtools-perl-dummy.bb           | 19 +++++++++++++++++++
- .../packagegroups/packagegroup-self-hosted.bb         |  1 +
- 3 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-
+diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+index 65aca7f..f95ce77 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+@@ -120,6 +120,7 @@ RDEPENDS_packagegroup-self-hosted-extended = "\
+     gettext \
+     gettext-runtime \
+     git \
++    git-perltools \
+     grep \
+     groff \
+     gzip \
 -- 
 1.9.3
 
