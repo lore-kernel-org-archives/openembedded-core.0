@@ -1,34 +1,35 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
-	[209.85.214.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D8FF6017E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 25C7A6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 19:00:10 +0000 (UTC)
-Received: by mail-ob0-f171.google.com with SMTP id uz6so45835064obc.2
+	Tue, 30 Dec 2014 20:32:29 +0000 (UTC)
+Received: by mail-qg0-f51.google.com with SMTP id i50so10590239qgf.38
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 11:00:11 -0800 (PST)
+	Tue, 30 Dec 2014 12:32:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=6IHMYGXuUXCKpAUg3aHdgLbwkguXhAB4n5z+wZ19rF4=;
-	b=D817O4M6v8AiFjYRJTyz2WHJ1EoYPRABBHDhFR/zjvqudDxoiQgCRixo/prgAqe4my
-	q1uweFT1NNSJ+E1JE5B8AzTz93NYj0vkJSBah+5xp+NORa3O++hIAPY3M9HL9fcz5EkY
-	oF/Wmr5i7xPZifIXPW4RG5k9tlDxQlJ3ymM8WUQT4WpKpGBvACvDN6FBM45bLaRqrH5e
-	e7pCe+i1Asrtd7gnYfnNXkZWBDllh7lTkv7J+TXmUxIf2B7xr3loWjpKrD6EA4TzTVq2
-	foRN8CCwDuq+gB+pUcdr7MaiGvtpS5JmGcOD1jDyJMFDwRuHprEz3/6XptLBKokaQAAT
-	2F5w==
-X-Gm-Message-State: ALoCoQldfvh7RjKC84aSV84XbJoh8uSIbe9yPNah7fp03TUXWyxoVxdj6bmMgK2D0DFTXRfN/ZlP
-X-Received: by 10.182.22.198 with SMTP id g6mr4878815obf.16.1419966011530;
-	Tue, 30 Dec 2014 11:00:11 -0800 (PST)
+	bh=ohU9IujBUXHkvgOEZSZ8hys3eUOnXgJIohU12cUyHI4=;
+	b=jrocIaYPJcgCweQoayCZR0PX02c6Na2m55Ouke9E8HKLQLosRjEhwsGLJOpvLHj6Gd
+	zVlFUio40EGOe8N+Xp27qD0OE9Ee24wDSF5+DVLWijAOQEfFzkVX2YN54IhOCK4o/Iw3
+	9r90uErEXJqiSJQ+Fu/TiQrRT3WIiwXkl3RJgSFcLo0UqNjZZU7mmPp2vhwXIClzm7Nq
+	ps3HcJB/cE5tL2u0laymE1/D88k+1svV2Ia3xHLQBGql3kMrYC1w6wsgBFXomBJEDVAe
+	610zOcqGkukaqPlF3YhdzUlXcm+c/ia3oMloYFldp3QrLGntljqmXJBX7GghnEh17T0H
+	ilKA==
+X-Gm-Message-State: ALoCoQnj3C7mRT9secu6WFL3QjIRUU05wPOkESWTnv/RzqgM0aGEIemPyCaN5guv1aEmOg98W2DT
+X-Received: by 10.224.93.6 with SMTP id t6mr38343082qam.93.1419971549826; Tue,
+	30 Dec 2014 12:32:29 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.76.79.1 with HTTP; Tue, 30 Dec 2014 10:59:51 -0800 (PST)
-In-Reply-To: <1419962645-26989-1-git-send-email-ross.burton@intel.com>
+Received: by 10.140.96.166 with HTTP; Tue, 30 Dec 2014 12:32:09 -0800 (PST)
+In-Reply-To: <CAP71WjzcSN6yuA6-1UwH=z+8KAHFFZfKTuTU5=Oi552aPUFf4g@mail.gmail.com>
 References: <1419962645-26989-1-git-send-email-ross.burton@intel.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Tue, 30 Dec 2014 19:59:51 +0100
-Message-ID: <CAP71WjzcSN6yuA6-1UwH=z+8KAHFFZfKTuTU5=Oi552aPUFf4g@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
+	<CAP71WjzcSN6yuA6-1UwH=z+8KAHFFZfKTuTU5=Oi552aPUFf4g@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 30 Dec 2014 20:32:09 +0000
+Message-ID: <CAJTo0La+UxGSN7tKFV3pea2Gzo4aUTAaj10qKw7GrtN7nE4LjA@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/7] gstreamer1.0: upgrade to 1.4.5
@@ -44,41 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Dec 2014 19:00:18 -0000
+X-List-Received-Date: Tue, 30 Dec 2014 20:32:32 -0000
+Content-Type: multipart/alternative; boundary=089e01495028d1a704050b74e371
+
+--089e01495028d1a704050b74e371
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Dec 30, 2014 at 7:03 PM, Ross Burton <ross.burton@intel.com> wrote:
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  .../gstreamer/{gstreamer1.0_1.4.1.bb => gstreamer1.0_1.4.5.bb}    |    5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.4.1.bb => gstreamer1.0_1.4.5.bb} (72%)
+On 30 December 2014 at 18:59, Nicolas Dechesne <nicolas.dechesne@linaro.org>
+wrote:
+
+> however you are adding extra empty lines in the first 6 patches in the
+> series. was is intentionally done?
 >
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
-> similarity index 72%
-> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.1.bb
-> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
-> index 56fc4f2..94be846 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.1.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
-> @@ -7,7 +7,8 @@ SRC_URI = " \
->      http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
->      file://0001-Fix-crash-with-gst-inspect.patch \
->  "
-> -SRC_URI[md5sum] = "bd0938d680d657249b885162f310702d"
-> -SRC_URI[sha256sum] = "5638f75003282135815c0077d491da11e9a884ad91d4ba6ab3cc78bae0fb452e"
-> +SRC_URI[md5sum] = "88a9289c64a4950ebb4f544980234289"
-> +SRC_URI[sha256sum] = "40801aa7f979024526258a0e94707ba42b8ab6f7d2206e56adbc4433155cb0ae"
-> +
->  S = "${WORKDIR}/gstreamer-${PV}"
 
-thanks.. you beat me at sending the patches on the list... i have been
-testing a similar patchset locally today.
+Yes, the tight spacing wasn't pleasing visually.
 
-i have reviewed all your patches, and look the same as mine.
+Ross
 
-however you are adding extra empty lines in the first 6 patches in the
-series. was is intentionally done?
+--089e01495028d1a704050b74e371
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-cheers
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 December 2014 at 18:59, Nicolas Dechesne <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:nicolas.dechesne@linaro.org" target=3D"_blank">nicolas.dechesne=
+@linaro.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":142" class=3D"a3s" style=3D"overflow:hidden">however you are adding ex=
+tra empty lines in the first 6 patches in the<br>
+series. was is intentionally done?</div></blockquote></div><br>Yes, the tig=
+ht spacing wasn&#39;t pleasing visually.</div><div class=3D"gmail_extra"><b=
+r></div><div class=3D"gmail_extra">Ross</div></div>
 
+--089e01495028d1a704050b74e371--
