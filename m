@@ -1,44 +1,37 @@
-Return-Path: <akuster@mvista.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 14DD36017E
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D8FF6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 18:17:11 +0000 (UTC)
-Received: by mail-pd0-f176.google.com with SMTP id r10so19536191pdi.7
+	Tue, 30 Dec 2014 19:00:10 +0000 (UTC)
+Received: by mail-ob0-f171.google.com with SMTP id uz6so45835064obc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Dec 2014 10:17:11 -0800 (PST)
+	Tue, 30 Dec 2014 11:00:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=FIdAbjLKeCMUauDpTcpA07D6zzpKvoJeONnaQMPFnrA=;
-	b=g/TYmsrUihtywNbllYc/1t1tBRATi3P+FBdg4INKaDNL/FzxKqdq4bcwE80iVQBJLI
-	3C1CwUZaDC0eBJ0ZtyuAXFb4EXL2U0S4pbq4ePfR4WVrt0TdOtJBFr7BbIuxCetF642q
-	Lax8gg1hVfeKIT/WHf6pNPiekRiFvn+prb3gnc/f5kOY41kXMz2a0xbpJ2rzprXSdm1w
-	d0UPEM+mbIBQffYzEcfYGgS3UzPvI1H/9yrZuS6dWcN3sPNI+HFePBDmS0v3MgOB00xt
-	1BLZvtUZz+Z63gNNJ3CcSkpKHWyihQoV4dK/Gnkg42RQUwK+OytUQ+e4ts67G2InPgK1
-	KQJA==
-X-Gm-Message-State: ALoCoQl9uWs3/8kwREK3JbcAUZEb5Ytt3o6Eg2TTrTpJw43claCz8/fprEpYUBbVOW+9nfWymCK0
-X-Received: by 10.70.138.37 with SMTP id qn5mr101158811pdb.118.1419963431448; 
-	Tue, 30 Dec 2014 10:17:11 -0800 (PST)
-Received: from ?IPv6:2601:c:a700:272f:1d49:be20:4ea5:c651?
-	([2601:c:a700:272f:1d49:be20:4ea5:c651])
-	by mx.google.com with ESMTPSA id
-	ok9sm12832391pbb.52.2014.12.30.10.17.09
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Dec 2014 10:17:10 -0800 (PST)
-Message-ID: <54A2EC21.6070308@mvista.com>
-Date: Tue, 30 Dec 2014 10:17:05 -0800
-From: akuster <akuster@mvista.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=6IHMYGXuUXCKpAUg3aHdgLbwkguXhAB4n5z+wZ19rF4=;
+	b=D817O4M6v8AiFjYRJTyz2WHJ1EoYPRABBHDhFR/zjvqudDxoiQgCRixo/prgAqe4my
+	q1uweFT1NNSJ+E1JE5B8AzTz93NYj0vkJSBah+5xp+NORa3O++hIAPY3M9HL9fcz5EkY
+	oF/Wmr5i7xPZifIXPW4RG5k9tlDxQlJ3ymM8WUQT4WpKpGBvACvDN6FBM45bLaRqrH5e
+	e7pCe+i1Asrtd7gnYfnNXkZWBDllh7lTkv7J+TXmUxIf2B7xr3loWjpKrD6EA4TzTVq2
+	foRN8CCwDuq+gB+pUcdr7MaiGvtpS5JmGcOD1jDyJMFDwRuHprEz3/6XptLBKokaQAAT
+	2F5w==
+X-Gm-Message-State: ALoCoQldfvh7RjKC84aSV84XbJoh8uSIbe9yPNah7fp03TUXWyxoVxdj6bmMgK2D0DFTXRfN/ZlP
+X-Received: by 10.182.22.198 with SMTP id g6mr4878815obf.16.1419966011530;
+	Tue, 30 Dec 2014 11:00:11 -0800 (PST)
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1419958884.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1419958884.git.paul.eggleton@linux.intel.com>
-Subject: Re: [dizzy][PATCH 0/2] Backport fixes for git-perltools split
+Received: by 10.76.79.1 with HTTP; Tue, 30 Dec 2014 10:59:51 -0800 (PST)
+In-Reply-To: <1419962645-26989-1-git-send-email-ross.burton@intel.com>
+References: <1419962645-26989-1-git-send-email-ross.burton@intel.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Tue, 30 Dec 2014 19:59:51 +0100
+Message-ID: <CAP71WjzcSN6yuA6-1UwH=z+8KAHFFZfKTuTU5=Oi552aPUFf4g@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] gstreamer1.0: upgrade to 1.4.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,45 +44,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Dec 2014 18:17:14 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Dec 2014 19:00:18 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-
-On 12/30/2014 09:02 AM, Paul Eggleton wrote:
-> The following changes since commit 1cf1edcd28a002291622d04dd2d0ee2c67e329e4:
+On Tue, Dec 30, 2014 at 7:03 PM, Ross Burton <ross.burton@intel.com> wrote:
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  .../gstreamer/{gstreamer1.0_1.4.1.bb => gstreamer1.0_1.4.5.bb}    |    5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.4.1.bb => gstreamer1.0_1.4.5.bb} (72%)
 >
->    buildtools-tarball: package all of Python (2014-12-11 16:34:01 +0000)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib paule/dizzy-git-tools
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dizzy-git-tools
->
-> Jackie Huang (1):
->    packagegroup-self-hosted: add git-perltools
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
+> similarity index 72%
+> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.1.bb
+> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
+> index 56fc4f2..94be846 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.1.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
+> @@ -7,7 +7,8 @@ SRC_URI = " \
+>      http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+>      file://0001-Fix-crash-with-gst-inspect.patch \
+>  "
+> -SRC_URI[md5sum] = "bd0938d680d657249b885162f310702d"
+> -SRC_URI[sha256sum] = "5638f75003282135815c0077d491da11e9a884ad91d4ba6ab3cc78bae0fb452e"
+> +SRC_URI[md5sum] = "88a9289c64a4950ebb4f544980234289"
+> +SRC_URI[sha256sum] = "40801aa7f979024526258a0e94707ba42b8ab6f7d2206e56adbc4433155cb0ae"
+> +
+>  S = "${WORKDIR}/gstreamer-${PV}"
 
-This change is in that gray area "does this really need to be back 
-ported decision make processed", so I did not include it.
+thanks.. you beat me at sending the patches on the list... i have been
+testing a similar patchset locally today.
 
->
-> Paul Eggleton (1):
->    buildtools-tarball: restore missing git tools
+i have reviewed all your patches, and look the same as mine.
 
-This patch is already in the dizzy queue.
+however you are adding extra empty lines in the first 6 patches in the
+series. was is intentionally done?
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akuster/dizzy_1_7_1&id=e8a6adf0612fc6d9ca703237a3a5c630177c2f34
-
-see poky-contrib akuster/dizzy_1_7_1.
-
-- armin
-
->
->   meta/recipes-core/meta/buildtools-tarball.bb          |  4 ++++
->   .../meta/nativesdk-buildtools-perl-dummy.bb           | 19 +++++++++++++++++++
->   .../packagegroups/packagegroup-self-hosted.bb         |  1 +
->   3 files changed, 24 insertions(+)
->   create mode 100644 meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
->
+cheers
 
