@@ -1,37 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
-	[74.125.82.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D88460167
+Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 22E7C60167
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Dec 2014 11:45:49 +0000 (UTC)
-Received: by mail-we0-f172.google.com with SMTP id k11so2273536wes.17
+	Wed, 31 Dec 2014 13:35:31 +0000 (UTC)
+Received: by mail-qc0-f174.google.com with SMTP id c9so11528711qcz.33
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Dec 2014 03:45:50 -0800 (PST)
+	Wed, 31 Dec 2014 05:35:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Q+OOQGKOwX7Gzv1HFoISrPD0Qav7NYQKPDxK+ur57SE=;
-	b=PN9h+l/jIzMON7JwtOb7Sw3BGUhGLqwWoOgf9rAnkgNM5Y5AM4hnGEoOzU74W0d7cI
-	WuqBw5+JYoY/X+8pNG+D0QEVyx0Zf3OZhNT1q3xzjNwxShR/hz0oLAfefEKjEfuS1/y1
-	KS6YHmx6geWIxRh02dvBZNX2sQ8Q1l8k70ysEnmqgj+Fv6mgpP8pHc5qieqcF6t+e0Kd
-	HLUKuMv2e2/BbcMYLG7gzWd9uDw4LsUBpE8HZCAvjeuVHBFIFLI/ObTOuvM8R+4/vbH0
-	xn1xO9E2oc9Ip9hknzLhlPuBQn3eF3wZKoaUk1NYK97AEiVkXiKZMyRN/0yh0M/6tPEv
-	a8KQ==
-X-Gm-Message-State: ALoCoQlXdVQSpyyXGLgZbeRsSTlfbhljSpyqZtwZzqiUCE/mJrsrZWgROpIpIHRvJ/PdH2BJcIKc
-X-Received: by 10.180.104.9 with SMTP id ga9mr116554638wib.9.1420026349876;
-	Wed, 31 Dec 2014 03:45:49 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by mx.google.com with ESMTPSA id x6sm23561191wjf.24.2014.12.31.03.45.48
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 31 Dec 2014 03:45:49 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Dec 2014 11:44:43 +0000
-Message-Id: <1420026283-969-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] waffle: upgrade to 1.5.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=HpnWhY+coG1dvkI2oru7P+pHwwLVdk/En91PXxnLPSE=;
+	b=PkluAVdfVn1iD5+fQ/Q9BHVYd3shUGL1KJg5r2yRH4MpE/GN13LJFgcRTlXLlED1W0
+	Spcnn/R7pg0UY4Ff3irAjoW9SiCGiMVrHHHuqhKS+6uY/PP+HtSJ1SdqDhfaHzbHcyav
+	Vjnsgdai4Eu1LR4YQQDfU5rxf2Ielh4TZb1ZtCjbiaqHaYE1wLr/QvbXzDke3qWcszH0
+	4oJ7MRvCyFuJ73hy9PquXrBS7aZLxpnU4mm0Nil7oUmifu4frct3T6GFOWTYunKv7Zww
+	rz7pmUU5zyshgmk/HEqzKf3k7ZFTlO+/iMhG5MEtvSMOub4AHvZ3NyeErD7PpNB2Pb8A
+	mIFg==
+X-Gm-Message-State: ALoCoQkqIV+TSnYJhdwJkt6w1cQh7WgABMRuy0Ltue6gwpUUYVRaXVBoBMv2btBnDClKDW/cSrbi
+X-Received: by 10.140.94.168 with SMTP id g37mr31547094qge.80.1420032932400;
+	Wed, 31 Dec 2014 05:35:32 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Wed, 31 Dec 2014 05:35:12 -0800 (PST)
+In-Reply-To: <54999162.7080409@gmail.com>
+References: <1419224101-24900-1-git-send-email-akuster808@gmail.com>
+	<CAJTo0LaOaz=vsqPPCy-f47vuAHx-rfgd7zZpLXNd3Qyhi36rww@mail.gmail.com>
+	<54999162.7080409@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 31 Dec 2014 13:35:12 +0000
+Message-ID: <CAJTo0LYKWwP1fEv8JaMvK9t7AyZoHmvRUzmKR-=+6+2gqXZcZA@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/5] [RFC] Move packages from meta-oe to core for X11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,39 +45,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Dec 2014 11:45:58 -0000
+X-List-Received-Date: Wed, 31 Dec 2014 13:35:35 -0000
+Content-Type: multipart/alternative; boundary=001a113a9b34816bce050b832e3c
 
-Add inherit of lib_package as there is now a tool in ${bindir} which breaks the
-package renaming.
+--001a113a9b34816bce050b832e3c
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../recipes-graphics/waffle/{waffle_1.3.0.bb => waffle_1.5.0.bb} |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/waffle/{waffle_1.3.0.bb => waffle_1.5.0.bb} (87%)
+On 23 December 2014 at 15:59, akuster808 <akuster808@gmail.com> wrote:
 
-diff --git a/meta/recipes-graphics/waffle/waffle_1.3.0.bb b/meta/recipes-graphics/waffle/waffle_1.5.0.bb
-similarity index 87%
-rename from meta/recipes-graphics/waffle/waffle_1.3.0.bb
-rename to meta/recipes-graphics/waffle/waffle_1.5.0.bb
-index a6d1acd..3a603a8 100644
---- a/meta/recipes-graphics/waffle/waffle_1.3.0.bb
-+++ b/meta/recipes-graphics/waffle/waffle_1.5.0.bb
-@@ -4,10 +4,10 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4c5154407c2490750dd461c50ad94797 \
-                     file://include/waffle/waffle.h;endline=24;md5=61dbf8697f61c78645e75a93c585b1bf"
- 
- SRC_URI = "http://people.freedesktop.org/~chadversary/waffle/files/release/${BPN}-${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "5020ecc249096c881e1f59ee961f3d41"
--SRC_URI[sha256sum] = "340ee04172dba878249469018cd7ec9d1ecd41af26b612c741b8b52e713bca8e"
-+SRC_URI[md5sum] = "81d6060eb03cdacb5c6e1be95a43d668"
-+SRC_URI[sha256sum] = "6344fa2803d76182a08380780605b36c38e795639a3229281c96b75cc30137a8"
- 
--inherit cmake
-+inherit cmake lib_package
- 
- # This should be overridden per-machine to reflect the capabilities of the GL
- # stack.
--- 
-1.7.10.4
+> So are you open to move 'xinit' from core to meta-oe?
+>
 
+No, xinit is used by all X11 images to start X.  The default script starts
+twm etc, but images provide their own.
 
+core-image-x11 installs matchbox-terminal and matchbox-window-manager so if
+the init isn't working in that images then that's a bug.
+
+Ross
+
+--001a113a9b34816bce050b832e3c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
+3 December 2014 at 15:59, akuster808 <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":4xo" class=3D"a3s" =
+style=3D"overflow:hidden">So are you open to move &#39;xinit&#39; from core=
+ to meta-oe?<br></div></blockquote></div><br>No, xinit is used by all X11 i=
+mages to start X.=C2=A0 The default script starts twm etc, but images provi=
+de their own.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
+_extra">core-image-x11 installs matchbox-terminal and matchbox-window-manag=
+er so if the init isn&#39;t working in that images then that&#39;s a bug.</=
+div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
+iv></div>
+
+--001a113a9b34816bce050b832e3c--
