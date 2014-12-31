@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id E6DB3601F5
+Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
+	[74.125.82.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D88460167
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Dec 2014 11:33:49 +0000 (UTC)
-Received: by mail-we0-f171.google.com with SMTP id u56so2263710wes.30
+	Wed, 31 Dec 2014 11:45:49 +0000 (UTC)
+Received: by mail-we0-f172.google.com with SMTP id k11so2273536wes.17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Dec 2014 03:33:49 -0800 (PST)
+	Wed, 31 Dec 2014 03:45:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=VVZaT01CF+JeTces+v5zmu4QfTqi9E52/L9++1mw9t4=;
-	b=LF0qzctOfNnoWw7JhmlqPvPbV48pD+UMYoZfJfb6cVSXwbWzhud38y5SNpAi6RXKvS
-	h0Aqozx0LwJc7i8SbMiO7l2xjald+29EknkMLoAoW7ZyZddBonR2HCWOPW5z8tWnPxnV
-	u4KNDVgR23ffvoBnXuj9N02AOu4ppoAHzN6bA8/Bc44FsiqWhzjHJtvzlyLsEGS2Q4g7
-	RdYlLq1IbHc6FvXFsea1x7sMpOOtUYviZHrw+GT1cbCyZ+M9lAxdQo2iKuAogRCdXMEZ
-	NwYdc4u9c9eqVYvn5yC4zftR3Z1EFMXjJz6cOx9QtxnN2kgj74Y/XDx7kFKB0E+jiID0
-	6xsQ==
-X-Gm-Message-State: ALoCoQmfSffgty/IuPbuXsrryg2NjppEHYNZghxjHraellMv1TEXFT9fMo2dHzSg7O0bskI7hFJR
-X-Received: by 10.180.87.36 with SMTP id u4mr112449299wiz.20.1420025629549;
-	Wed, 31 Dec 2014 03:33:49 -0800 (PST)
+	bh=Q+OOQGKOwX7Gzv1HFoISrPD0Qav7NYQKPDxK+ur57SE=;
+	b=PN9h+l/jIzMON7JwtOb7Sw3BGUhGLqwWoOgf9rAnkgNM5Y5AM4hnGEoOzU74W0d7cI
+	WuqBw5+JYoY/X+8pNG+D0QEVyx0Zf3OZhNT1q3xzjNwxShR/hz0oLAfefEKjEfuS1/y1
+	KS6YHmx6geWIxRh02dvBZNX2sQ8Q1l8k70ysEnmqgj+Fv6mgpP8pHc5qieqcF6t+e0Kd
+	HLUKuMv2e2/BbcMYLG7gzWd9uDw4LsUBpE8HZCAvjeuVHBFIFLI/ObTOuvM8R+4/vbH0
+	xn1xO9E2oc9Ip9hknzLhlPuBQn3eF3wZKoaUk1NYK97AEiVkXiKZMyRN/0yh0M/6tPEv
+	a8KQ==
+X-Gm-Message-State: ALoCoQlXdVQSpyyXGLgZbeRsSTlfbhljSpyqZtwZzqiUCE/mJrsrZWgROpIpIHRvJ/PdH2BJcIKc
+X-Received: by 10.180.104.9 with SMTP id ga9mr116554638wib.9.1420026349876;
+	Wed, 31 Dec 2014 03:45:49 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by mx.google.com with ESMTPSA id
-	fo12sm46768360wic.19.2014.12.31.03.33.48
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id x6sm23561191wjf.24.2014.12.31.03.45.48
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 31 Dec 2014 03:33:48 -0800 (PST)
+	Wed, 31 Dec 2014 03:45:49 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Dec 2014 11:32:44 +0000
-Message-Id: <1420025564-30061-1-git-send-email-ross.burton@intel.com>
+Date: Wed, 31 Dec 2014 11:44:43 +0000
+Message-Id: <1420026283-969-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] gst-fluendo-mp3: upgrade to 0.10.31
+Subject: [PATCH] waffle: upgrade to 1.5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,53 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Dec 2014 11:33:54 -0000
+X-List-Received-Date: Wed, 31 Dec 2014 11:45:58 -0000
 
-This version supports both GStreamer 0.10 and 1.0, but for now only build 0.10
-for consistency with previous recipies.
-
-Add a missing build dependency.
+Add inherit of lib_package as there is now a tool in ${bindir} which breaks the
+package renaming.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../{gst-fluendo-mp3_0.10.19.bb => gst-fluendo-mp3_0.10.31.bb}   |    6 +++---
- meta/recipes-multimedia/gstreamer/gst-fluendo.inc                |    2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-fluendo-mp3_0.10.19.bb => gst-fluendo-mp3_0.10.31.bb} (57%)
+ .../recipes-graphics/waffle/{waffle_1.3.0.bb => waffle_1.5.0.bb} |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/waffle/{waffle_1.3.0.bb => waffle_1.5.0.bb} (87%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.19.bb b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.31.bb
-similarity index 57%
-rename from meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.19.bb
-rename to meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.31.bb
-index 9e68288..1e2cd2a 100644
---- a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.19.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.31.bb
-@@ -6,9 +6,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=259a43dd1c9854b71fc396f74699f4d2"
- LICENSE_FLAGS = "commercial"
+diff --git a/meta/recipes-graphics/waffle/waffle_1.3.0.bb b/meta/recipes-graphics/waffle/waffle_1.5.0.bb
+similarity index 87%
+rename from meta/recipes-graphics/waffle/waffle_1.3.0.bb
+rename to meta/recipes-graphics/waffle/waffle_1.5.0.bb
+index a6d1acd..3a603a8 100644
+--- a/meta/recipes-graphics/waffle/waffle_1.3.0.bb
++++ b/meta/recipes-graphics/waffle/waffle_1.5.0.bb
+@@ -4,10 +4,10 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4c5154407c2490750dd461c50ad94797 \
+                     file://include/waffle/waffle.h;endline=24;md5=61dbf8697f61c78645e75a93c585b1bf"
  
- GSTREAMER_DEBUG ?= "--disable-debug"
--EXTRA_OECONF += "${GSTREAMER_DEBUG}"
-+EXTRA_OECONF += "${GSTREAMER_DEBUG} --with-gstreamer-api=0.10"
+ SRC_URI = "http://people.freedesktop.org/~chadversary/waffle/files/release/${BPN}-${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "5020ecc249096c881e1f59ee961f3d41"
+-SRC_URI[sha256sum] = "340ee04172dba878249469018cd7ec9d1ecd41af26b612c741b8b52e713bca8e"
++SRC_URI[md5sum] = "81d6060eb03cdacb5c6e1be95a43d668"
++SRC_URI[sha256sum] = "6344fa2803d76182a08380780605b36c38e795639a3229281c96b75cc30137a8"
  
- acpaths = "-I ${S}/common/m4 -I ${S}/m4"
+-inherit cmake
++inherit cmake lib_package
  
--SRC_URI[md5sum] = "5d95a9a216dd15bc5c00c9414061115c"
--SRC_URI[sha256sum] = "30c79d24d8926f75dd4ef0f572942ce155ad541734b36a95591b9c0524dcc0f3"
-+SRC_URI[md5sum] = "adf0390f3416bb72f91c358528be0c38"
-+SRC_URI[sha256sum] = "dae0d0559a4e159c0dd92b7e18de059a5783f8d038904c7de4ca6393f7d55c7d"
-diff --git a/meta/recipes-multimedia/gstreamer/gst-fluendo.inc b/meta/recipes-multimedia/gstreamer/gst-fluendo.inc
-index feaf1c7..3cbb465 100644
---- a/meta/recipes-multimedia/gstreamer/gst-fluendo.inc
-+++ b/meta/recipes-multimedia/gstreamer/gst-fluendo.inc
-@@ -1,7 +1,7 @@
- SUMMARY = "Fluendo closed-format GStreamer plug-in"
- SECTION = "multimedia"
- HOMEPAGE = "http://www.fluendo.com/resources/source-plugins.php"
--DEPENDS = "gstreamer zlib"
-+DEPENDS = "gstreamer gst-plugins-base zlib"
- 
- inherit autotools pkgconfig
- 
+ # This should be overridden per-machine to reflect the capabilities of the GL
+ # stack.
 -- 
 1.7.10.4
 
