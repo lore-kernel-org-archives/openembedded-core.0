@@ -1,25 +1,43 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B3D760232
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id B77E560557
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Dec 2014 02:59:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id sBV2xjjO010922
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 30 Dec 2014 18:59:45 -0800 (PST)
-Received: from localhost (128.224.163.137) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
-	Tue, 30 Dec 2014 18:59:44 -0800
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 31 Dec 2014 10:59:42 +0800
-Message-ID: <1419994782-32245-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Wed, 31 Dec 2014 03:36:01 +0000 (UTC)
+Received: by mail-pd0-f177.google.com with SMTP id ft15so20172058pdb.36
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Dec 2014 19:36:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=2NKbafGJOk6J8VTJY1gdhYoiZ5cYnNZ8cnmG/8nVDVE=;
+	b=LgUiJsblcRIWu3IW6HdINMJ788A+QTG805ByTqLz7RPdaoU9AB4UOqz6jcdzPkdV8H
+	+Nu9q8dZKvN+nTkLmTuS6f8IpOX60icrUF9tG7kU9REVfbHTXICoHZWPOK6Q2VnGm/Kw
+	CIVRGx/CTgJgVBQYdo6r8bs5N9zS71W7Kx70kHTCO4qVpkJt509WnRHqKGNcGrJqYzcs
+	/Qr44o6T4k8HaD80l7WxfTFRb5kGaw9JvxRH+6LuX3RUVqVuwE0qYlgyRRUe4fxRWNIX
+	giCXZnef+Cn+wUyGFfilRgqsKEmd8VDwZplH73qugzsE1affgcZJFJAZXAMCAxMTwloX
+	vpBg==
+X-Received: by 10.70.130.229 with SMTP id oh5mr105338061pdb.39.1419996961965; 
+	Tue, 30 Dec 2014 19:36:01 -0800 (PST)
+Received: from ?IPv6:2601:c:a700:272f:2d4d:333b:6f45:68dd?
+	([2601:c:a700:272f:2d4d:333b:6f45:68dd])
+	by mx.google.com with ESMTPSA id
+	ws4sm39654262pbc.53.2014.12.30.19.35.59
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Dec 2014 19:36:00 -0800 (PST)
+Message-ID: <54A36F1D.7090901@gmail.com>
+Date: Tue, 30 Dec 2014 19:35:57 -0800
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.163.137]
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH] oeqa/selftest: fix test_incremental_image_generation for changes in log output
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1419958884.git.paul.eggleton@linux.intel.com>
+	<54A2EC21.6070308@mvista.com>
+	<1895049.K8DhQhocfW@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <1895049.K8DhQhocfW@peggleto-mobl5.ger.corp.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [dizzy][PATCH 0/2] Backport fixes for git-perltools split
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,56 +50,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Dec 2014 02:59:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 31 Dec 2014 03:36:09 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-test_incremental_image_generation case failed because the log output
-chanaged:
+Hello Paul,
 
-FAIL: test_incremental_image_generation (oeqa.selftest.buildoptions.ImageOptionsTests)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File
-  "/buildarea3/yzhao1/poky-build/meta/lib/oeqa/utils/decorators.py", line 90, in wrapped_f
-    return func(*args)
-  File
-  "/buildarea3/yzhao1/poky-build/meta/lib/oeqa/selftest/buildoptions.py", line 25, in test_incremental_image_generation
-    self.assertEqual(0, res.status, msg="No match for openssh-sshd in log.do_rootfs")
-AssertionError: 0 != 1 : No match for openssh-sshd in log.do_rootfs
-----------------------------------------------------------------------
 
-Using re search instead grep
+On 12/30/2014 12:39 PM, Paul Eggleton wrote:
+> Hi Armin,
+>
+> On Tuesday 30 December 2014 10:17:05 akuster wrote:
+>> On 12/30/2014 09:02 AM, Paul Eggleton wrote:
+>>> The following changes since commit
+> 1cf1edcd28a002291622d04dd2d0ee2c67e329e4:
+>>>     buildtools-tarball: package all of Python (2014-12-11 16:34:01 +0000)
+>>>
+>>> are available in the git repository at:
+>>>     git://git.openembedded.org/openembedded-core-contrib
+>>>     paule/dizzy-git-tools
+>>>     http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
+>>>     paule/dizzy-git-tools>
+>>> Jackie Huang (1):
+>>>     packagegroup-self-hosted: add git-perltools
+>>
+>> This change is in that gray area "does this really need to be back
+>> ported decision make processed", so I did not include it.
+>
+> I would argue this is of a similar order as the other fix. The tools that the
+> git-perltools package contains were in the build appliance already until git-
+> perltools was split out, so it's fixing a regression (though I think that
+> regression happened in the 1.6 timeframe rather than 1.7 FWIW).
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- meta/lib/oeqa/selftest/buildoptions.py |   11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Thanks for the clarification.
 
-diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-index 381741e..926ffe9 100644
---- a/meta/lib/oeqa/selftest/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/buildoptions.py
-@@ -20,12 +20,15 @@ class ImageOptionsTests(oeSelfTest):
-         self.write_config('INC_RPM_IMAGE_GEN = "1"')
-         self.append_config('IMAGE_FEATURES += "ssh-server-openssh"')
-         bitbake("core-image-minimal")
--        res = runCmd("grep 'Installing openssh-sshd' %s" % (os.path.join(get_bb_var("WORKDIR", "core-image-minimal"), "temp/log.do_rootfs")), ignore_status=True)
-+        log_data_file = os.path.join(get_bb_var("WORKDIR", "core-image-minimal"), "temp/log.do_rootfs")
-+        log_data_created = ftools.read_file(log_data_file)
-+        incremental_created = re.search("NOTE: load old install solution for incremental install\nNOTE: old install solution not exist\nNOTE: creating new install solution for incremental install(\n.*)*NOTE: Installing the following packages:.*packagegroup-core-ssh-openssh", log_data_created)
-         self.remove_config('IMAGE_FEATURES += "ssh-server-openssh"')
--        self.assertEqual(0, res.status, msg="No match for openssh-sshd in log.do_rootfs")
-+        self.assertTrue(incremental_created, msg = "Match failed in:\n%s" % log_data_created)
-         bitbake("core-image-minimal")
--        res = runCmd("grep 'Removing openssh-sshd' %s" %(os.path.join(get_bb_var("WORKDIR", "core-image-minimal"), "temp/log.do_rootfs")),ignore_status=True)
--        self.assertEqual(0, res.status, msg="openssh-sshd was not removed from image")
-+        log_data_removed = ftools.read_file(log_data_file)
-+        incremental_removed = re.search("NOTE: load old install solution for incremental install\nNOTE: creating new install solution for incremental install(\n.*)*NOTE: incremental removed:.*openssh-sshd-.*", log_data_removed)
-+        self.assertTrue(incremental_removed, msg = "Match failed in:\n%s" % log_data_removed)
- 
-     @testcase(925)
-     def test_rm_old_image(self):
--- 
-1.7.9.5
+  This should be included then.
 
+Regards,
+- -armin
+>
+> Cheers,
+> Paul
+>
 
