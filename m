@@ -1,35 +1,29 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 7639772453
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp09.online.nl (smtp09.online.nl [194.134.42.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EE2C7277A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jan 2015 04:45:42 +0000 (UTC)
-Received: by mail-pd0-f171.google.com with SMTP id y13so23162532pdi.2
+	Fri,  2 Jan 2015 08:48:31 +0000 (UTC)
+Received: from smtp09.online.nl (localhost [127.0.0.1])
+	by smtp09.online.nl (Postfix) with ESMTP id 9462E1E1C0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Jan 2015 20:45:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=5M9iFEG1bbdRZHSZSk8o0wq3ltAMz1QMbIWNvMxotLw=;
-	b=Mfr7g52R+OHDF6k2aAMOoBau8o6WYQz8sy3JHWGboKZZt7at4Dmch2Em4AufWmacO6
-	s4Siw5/skqhAj6S0yDxKMp+ml+hwnNWz8XD0ulg1dlXhbyDOfKmNFjJpFJcQytJpEzHI
-	6CPiA7SeiqyDcKztSSomydQOUQqvAuTI+CqOnPgGTgezyHafOeKLvtvI/H5gLeoad27l
-	vxYDVquh3ls5RLfSLzWSUwmj+f9+1lyl01ukzD7aylIdHDPLXv9wpSNX+WnjroxJxkBe
-	DTUK0D010slC5dgPjS53wX7ljh3FCRZ/kCu9uwBFW9RsI05IHyLc5hulaFUl2efNhEJf
-	i2tQ==
-X-Received: by 10.70.137.238 with SMTP id ql14mr120659658pdb.94.1420173943194; 
-	Thu, 01 Jan 2015 20:45:43 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by mx.google.com with ESMTPSA id
-	pr3sm44804356pbb.37.2015.01.01.20.45.41
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 01 Jan 2015 20:45:42 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
+	Fri,  2 Jan 2015 09:48:30 +0100 (CET)
+Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp09.online.nl (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  2 Jan 2015 09:48:30 +0100 (CET)
+Message-ID: <54A65B5E.4030504@topic.nl>
+Date: Fri, 02 Jan 2015 09:48:30 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Jan 2015 20:45:28 -0800
-Message-Id: <1420173928-25007-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] lz4: update to r127
+References: <54A2C3B2.9010006@topic.nl>	<20141230175915.GB18678@crash.betafive.co.uk>
+	<54A44ADC.3010000@topic.nl>
+In-Reply-To: <54A44ADC.3010000@topic.nl>
+X-Online-Scanned: by Cloudmark authority (on smtp09.online.nl)
+Subject: Re: How do I change the "Architecture" of a package?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,57 +36,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jan 2015 04:45:47 -0000
+X-List-Received-Date: Fri, 02 Jan 2015 08:48:34 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-dropped Makefile from license check.
+On 12/31/2014 08:13 PM, Mike Looijmans wrote:
+> On 30-12-2014 18:59, Paul Barker wrote:
+>> On Tue, Dec 30, 2014 at 04:24:34PM +0100, Mike Looijmans wrote:
+>>> What if the architecture of a package was accidentally left at its
+>>> default, but it should have been "all" for example?
+>>>
+>>> Just putting "inherit allarch" or simply PACKAGE_ARCH="all" into the
+>>> recipe is not enough. You get stuck with a "more specific" older
+>>> version, so that no device wants to upgrade to the newer version
+>>> that's "all" architecture compatible.
+>>>
+>>
+>> What package manager are you using on the device? If you're using opkg
+>> it should
+>> prioritise by version not arch unless the command line option
+>> '--prefer-arch-to-version' is passed. If you're using opkg and it's
+>> not doing
+>> that, let me know and I'll look into it when I get chance to.
+>
+> It's opkg.
+>
+> But on closer inspection I noticed that the "git" version is also
+> mysteriously reset to 0, so that the package also gets a lower version
+> number instead of a higher one. Seems to be the PR server borking things
+> again or so, I'll have to investigate that next year...
 
-r127
-added : lz4frame_static.h
+Weird, something in OE killed "gitpkgv".
 
-r126
-New : lz4frame API is now integrated into liblz4
-Fixed : GCC 4.9 bug on highest performance settings, reported by Greg Slazinski
-Fixed : bug within LZ4 HC streaming mode, reported by James Boyle
-Fixed : older compiler don't like nameless unions, reported by Cheyi Lin
-Changed : lz4 is C90 compatible
-Changed : added -pedantic option, fixed a few minor warnings
+in the recipe, I have this:
 
-r125
-New 32/64 bits, little/big endian and strict/efficient align detection routines
-(internal)
-New directory structure
-Small decompression speed improvement
-Fixed a bug into LZ4_compress_limitedOutput(), thanks to Christopher Speller
-lz4 utility uses lz4frame library (lz4io modified)
+inherit gitpkgv
+PV = "2.0+git${SRCPV}"
+PKGV = "2.0+git${GITPKGV}"
 
-r124
-New : LZ4 HC streaming mode
-Fixed : LZ4F_compressBound() using null preferencesPtr
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-support/lz4/lz4_svn.bb | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+$ bitbake enigma2-plugin-extensions-autobackup -e | grep PKGV
 
-diff --git a/meta/recipes-support/lz4/lz4_svn.bb b/meta/recipes-support/lz4/lz4_svn.bb
-index 3a74200..363e439 100644
---- a/meta/recipes-support/lz4/lz4_svn.bb
-+++ b/meta/recipes-support/lz4/lz4_svn.bb
-@@ -2,11 +2,10 @@ SUMMARY = "Extremely Fast Compression algorithm"
- DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
- 
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd \
--                    file://Makefile;md5=7551cc5d31ca66e003ab06e83486524a"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=0b0d063f37a4477b54af2459477dcafd"
- 
- # Upstream names releases after SVN revs
--SRCREV = "123"
-+SRCREV = "127"
- PV = "r${SRCREV}"
- 
- SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
+delivers correct information:
+
+PKGV="2.0+git68+2e7a1db"
+GITPKGVTAG="0.0-68-g2e7a1db"
+GITPKGV="68+2e7a1db"
+
+
+But after building and deploying the package, the version number will 
+eventually end up being this one:
+
+2.0+git5+2e7a1db509-r0.2
+
+
+What in OE is replacing a perfectly good PKGV tag with something 
+completely different bearing no relation whatsoever? Even the number of 
+digits in the git tag differs from the one I put in the recipe!
+
+Even if I put some random text into PKGV, it gets replaced.
+
 -- 
-1.9.1
-
+Mike Looijmans
 
