@@ -1,29 +1,33 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp07.online.nl (smtp07.online.nl [194.134.42.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A58D7278D
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 5ECBE7277A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jan 2015 09:28:25 +0000 (UTC)
-Received: from smtp07.online.nl (localhost [127.0.0.1])
-	by smtp07.online.nl (Postfix) with ESMTP id 51B11984C5;
-	Fri,  2 Jan 2015 10:28:23 +0100 (CET)
-Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp07.online.nl (Postfix) with ESMTP;
-	Fri,  2 Jan 2015 10:28:23 +0100 (CET)
-Message-ID: <54A664B7.4000909@topic.nl>
-Date: Fri, 02 Jan 2015 10:28:23 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <54A2C3B2.9010006@topic.nl>		<20141230175915.GB18678@crash.betafive.co.uk>	<54A44ADC.3010000@topic.nl>	
-	<54A65B5E.4030504@topic.nl>	<1420190187.25779.15.camel@linuxfoundation.org>
-	<54A663BE.30502@topic.nl>
-In-Reply-To: <54A663BE.30502@topic.nl>
-X-Online-Scanned: by Cloudmark authority (on smtp07.online.nl)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: How do I change the "Architecture" of a package?
+	Fri,  2 Jan 2015 21:25:15 +0000 (UTC)
+Received: by mail-wg0-f48.google.com with SMTP id y19so24618259wgg.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 Jan 2015 13:25:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=3zuxiO6ojocHhCunb4/tojez0RzWBLisaXP+QUXqp8Y=;
+	b=gHr5gfoTZIWn6HZaZRyZ94X76e9s6EYuTzZ0d9J0JG7hHf2CEFmJLerWJufHq6TzRN
+	wmicdkqi5Va9vd1BHeH9Vd+1n6hIGqNjvq59YYxpWYxPywWa3KpS4bqAc12LQHKo04FI
+	cB4HGEeBOJ4/NYgGQDsK1D3C4wLSYxsYv73iwlQt6PV+wS16kQwJ4GSiN83j3GBQtcMz
+	1riUf8wjIg1Js0H/Ez/2pZrtbk2F2vjlsofew+7dbNomTpx9FA4aTdtHlAKH/bnqTNAq
+	yFzz3xA93Ze+jO4iQuV5wB3G+/83QpCZQRDGClafviOWT/GBKIeubgdrMvzcqmniXAe/
+	QO8w==
+X-Received: by 10.180.228.37 with SMTP id sf5mr1227239wic.35.1420233915646;
+	Fri, 02 Jan 2015 13:25:15 -0800 (PST)
+Received: from Saturn.local.all (212-41-114-243.adsl.solnet.ch.
+	[212.41.114.243]) by mx.google.com with ESMTPSA id
+	u18sm65897114wjq.42.2015.01.02.13.25.14
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 02 Jan 2015 13:25:15 -0800 (PST)
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Jan 2015 22:25:01 +0100
+Message-Id: <1420233904-26745-1-git-send-email-max.oss.09@gmail.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [oe][PATCH 0/3] pcmanfm: update to 1.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,122 +40,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jan 2015 09:28:29 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Jan 2015 21:25:17 -0000
 
-On 01/02/2015 10:24 AM, Mike Looijmans wrote:
-> On 01/02/2015 10:16 AM, Richard Purdie wrote:
->> On Fri, 2015-01-02 at 09:48 +0100, Mike Looijmans wrote:
->>> On 12/31/2014 08:13 PM, Mike Looijmans wrote:
->>>> On 30-12-2014 18:59, Paul Barker wrote:
->>>>> On Tue, Dec 30, 2014 at 04:24:34PM +0100, Mike Looijmans wrote:
->>>>>> What if the architecture of a package was accidentally left at its
->>>>>> default, but it should have been "all" for example?
->>>>>>
->>>>>> Just putting "inherit allarch" or simply PACKAGE_ARCH="all" into the
->>>>>> recipe is not enough. You get stuck with a "more specific" older
->>>>>> version, so that no device wants to upgrade to the newer version
->>>>>> that's "all" architecture compatible.
->>>>>>
->>>>>
->>>>> What package manager are you using on the device? If you're using opkg
->>>>> it should
->>>>> prioritise by version not arch unless the command line option
->>>>> '--prefer-arch-to-version' is passed. If you're using opkg and it's
->>>>> not doing
->>>>> that, let me know and I'll look into it when I get chance to.
->>>>
->>>> It's opkg.
->>>>
->>>> But on closer inspection I noticed that the "git" version is also
->>>> mysteriously reset to 0, so that the package also gets a lower version
->>>> number instead of a higher one. Seems to be the PR server borking
->>>> things
->>>> again or so, I'll have to investigate that next year...
->>>
->>> Weird, something in OE killed "gitpkgv".
->>>
->>> in the recipe, I have this:
->>>
->>> inherit gitpkgv
->>> PV = "2.0+git${SRCPV}"
->>> PKGV = "2.0+git${GITPKGV}"
->>>
->>>
->>> $ bitbake enigma2-plugin-extensions-autobackup -e | grep PKGV
->>>
->>> delivers correct information:
->>>
->>> PKGV="2.0+git68+2e7a1db"
->>> GITPKGVTAG="0.0-68-g2e7a1db"
->>> GITPKGV="68+2e7a1db"
->>>
->>>
->>> But after building and deploying the package, the version number will
->>> eventually end up being this one:
->>>
->>> 2.0+git5+2e7a1db509-r0.2
->>>
->>>
->>> What in OE is replacing a perfectly good PKGV tag with something
->>> completely different bearing no relation whatsoever? Even the number of
->>> digits in the git tag differs from the one I put in the recipe!
->>>
->>> Even if I put some random text into PKGV, it gets replaced.
->>
->> Did something come from sstate?
->
-> Nope, I do a "bitbake -c cleansstate [package]" first.
->
-> i've been experimenting for a while now. It appears that whatever I put
-> into PKGV gets ignored and replaced with what was in PV.
->
-> Here's a recipe where I stubbed the actual building and install phases
-> to demonstrate the issue:
->
-> (cut here)
->
-> DESCRIPTION = "Version numbers are borked"
->
-> inherit gitpkgv
-> PV = "z-pv+${SRCPV}"
-> PKGV = "z-pkgv+${GITPKGV}"
->
-> # Completely random public GIT repo
-> SRCREV = "${AUTOREV}"
-> MODULE = "AutoBackup"
-> SRC_URI = "git://github.com/E2OpenPlugins/e2openplugin-${MODULE}.git"
->
-> LICENSE = "GPLv2"
-> LIC_FILES_CHKSUM =
-> "file://../LICENSE.GPLv2;md5=eb723b61539feef013de476e68b5c50a"
-> SRC_URI_append = " file://LICENSE.GPLv2"
->
-> S="${WORKDIR}/git"
->
-> do_compile() {
->      touch ${B}/helloworld
-> }
->
-> do_install() {
->      install -d ${D}${sysconfdir}
->      install -m 644 ${B}/helloworld ${D}${sysconfdir}/
-> }
->
-> (EOF)
->
-> If I build this package, it ends up getting version
-> "z-pv+0+2e7a1db509-r0.1" instead of "z-pkgv+68+2e7a1db509-r0.1" which
-> I'd expect.
->
->
+This updates pcmanfm and its supporting libraries libfm and menu-cache to
+the latest version.
 
-Just to be complete, I'm a bit behind on OE, using tag 
-"2cc1bd9dd060f5002c2fde7aacba86fe230c12af" currently. Don't think it'd 
-make a difference though.
+Tested with core-image-sato on a qemux86-64 machine and a custom image on
+armv7 hardware.
 
+Due to a circular dependency between menu-cache and libfm the menu-cache patch
+requires the libfm patch.
+
+This obsoletes the following two patches which have not (yet) been applied:
+http://patchwork.openembedded.org/patch/79087/
+http://patchwork.openembedded.org/patch/79089/
+
+
+Max Krummenacher (3):
+  libfm: update to 1.2.3
+  menu-cache: update to 1.0.0
+  pcmanfm: update to 1.2.3
+
+ .../menu-cache/files/Fix-segfault.patch            | 31 -------------------
+ .../menu-cache/menu-cache_0.4.1.bb                 | 21 -------------
+ .../menu-cache/menu-cache_1.0.0.bb                 | 16 ++++++++++
+ meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb         | 33 --------------------
+ meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb         | 35 +++++++++++++++++++++
+ .../libfm-1.1.2.2/fix-make-parallelism-issue.patch | 31 -------------------
+ .../libfm-1.1.2.2/ignore_automake_warnings.patch   | 14 ---------
+ meta/recipes-support/libfm/libfm-extra_1.2.3.bb    | 21 +++++++++++++
+ meta/recipes-support/libfm/libfm_1.1.2.2.bb        | 25 ---------------
+ meta/recipes-support/libfm/libfm_1.2.3.bb          | 36 ++++++++++++++++++++++
+ 10 files changed, 108 insertions(+), 155 deletions(-)
+ delete mode 100644 meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
+ delete mode 100644 meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
+ create mode 100644 meta/recipes-graphics/menu-cache/menu-cache_1.0.0.bb
+ delete mode 100644 meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb
+ create mode 100644 meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb
+ delete mode 100644 meta/recipes-support/libfm/libfm-1.1.2.2/fix-make-parallelism-issue.patch
+ delete mode 100644 meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch
+ create mode 100644 meta/recipes-support/libfm/libfm-extra_1.2.3.bb
+ delete mode 100644 meta/recipes-support/libfm/libfm_1.1.2.2.bb
+ create mode 100644 meta/recipes-support/libfm/libfm_1.2.3.bb
 
 -- 
-Mike Looijmans
+1.8.4.5
+
 
