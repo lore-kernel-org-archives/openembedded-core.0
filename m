@@ -1,36 +1,36 @@
 Return-Path: <max.oss.09@gmail.com>
-Received: from mail-we0-f196.google.com (mail-we0-f196.google.com
-	[74.125.82.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C46517277A
+Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
+	[74.125.82.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E163727B0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Jan 2015 21:25:18 +0000 (UTC)
-Received: by mail-we0-f196.google.com with SMTP id k48so1838695wev.11
+	Fri,  2 Jan 2015 21:25:20 +0000 (UTC)
+Received: by mail-we0-f177.google.com with SMTP id q59so4957824wes.36
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Jan 2015 13:25:19 -0800 (PST)
+	Fri, 02 Jan 2015 13:25:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=JowD54mTbhsCggwcu3VLbDuBY5bcEq0ALFclIauXJ7Q=;
-	b=XTBC9xfFPSOevFIpqxsjN63/9jhV6q5Q+5H+xKZZvBEuFSFRuz7QbQLImrrT4GCRWb
-	ExKybk0TJJSr9jN/Q7d9zwKyBKaZYpJ1n5M3lXvmpGktBUk2izaYvqsWiSvUKK+3uwY8
-	Q7zBWRPVeGuf/z4T2+rneLehoBjA0LsB4GBHpiAoPLvf0fpF7T14muFinkwyT9Pkz/fd
-	m2PvLFFpYdC5TVnwigdpi6mQpdQT/VrIiXAeFeywJPWJxC+mHwwggJnhFTARXObjqs9p
-	PXvrkb3E/dBcshiCYLjFiRkVih+bvJuNWcaSFmD3WEC+iHPayEmfd8Ecb5RuldbrRCDb
-	BiwQ==
-X-Received: by 10.194.203.104 with SMTP id kp8mr153496567wjc.103.1420233918937;
-	Fri, 02 Jan 2015 13:25:18 -0800 (PST)
+	bh=Exu+8IaE6M8fXu6XypSyYr79VrkNMgEKAaYSQGenewQ=;
+	b=TTKDzn87gKL1TreKMO6S8nyII9EPnZgvHMbHfVcXN+DpImFRHfi+SuQM2vE9SgnvoZ
+	chNEYX847dQ0PFefgc06M3BfZnxH18VsfaWcxtzds9dKPzZboaycNPM5xWXETcXpceWI
+	QrKJ81hOq9yIxlcN3eLLAZdoIf81dNYN7Ze/iNpVgqRpTb7WDmEZAuMTm1dBT/Dg3+4A
+	FlREgREfyoXr3MLFoBKKeA6xhLXVxwW1BtkFb1IHxUWQ9P6bH5Wf2l8HuCj9F+8IxzQh
+	pbRwmq3g0YALGLFCh0XRwKG2DSTjyFzMMnRtMu8aYx3f2rocA1gaPbFA8ScVljTWxqB+
+	YDHw==
+X-Received: by 10.194.90.10 with SMTP id bs10mr155771667wjb.43.1420233920869; 
+	Fri, 02 Jan 2015 13:25:20 -0800 (PST)
 Received: from Saturn.local.all (212-41-114-243.adsl.solnet.ch.
 	[212.41.114.243]) by mx.google.com with ESMTPSA id
-	u18sm65897114wjq.42.2015.01.02.13.25.17
+	u18sm65897114wjq.42.2015.01.02.13.25.19
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 02 Jan 2015 13:25:18 -0800 (PST)
+	Fri, 02 Jan 2015 13:25:20 -0800 (PST)
 From: Max Krummenacher <max.oss.09@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Jan 2015 22:25:02 +0100
-Message-Id: <1420233904-26745-2-git-send-email-max.oss.09@gmail.com>
+Date: Fri,  2 Jan 2015 22:25:03 +0100
+Message-Id: <1420233904-26745-3-git-send-email-max.oss.09@gmail.com>
 X-Mailer: git-send-email 1.8.4.5
 In-Reply-To: <1420233904-26745-1-git-send-email-max.oss.09@gmail.com>
 References: <1420233904-26745-1-git-send-email-max.oss.09@gmail.com>
-Subject: [oe][PATCH 1/3] libfm: update to 1.2.3
+Subject: [oe][PATCH 2/3] menu-cache: update to 1.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,189 +43,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Jan 2015 21:25:19 -0000
+X-List-Received-Date: Fri, 02 Jan 2015 21:25:21 -0000
 
-split out libfm-extra as a seperate recipe to break a circular dependency
-with newer menu-cache recipe.
+menu-cache depends on fmlib-extra and thus requires the split
+of the libfm recipe in version 1.2.3.
 
-This obsoletes ignore_automake_warnings.patch.
-This obsoletes fix-make-parallelism-issue.patch.
-https://github.com/lxde/libfm/commit/24c8eab43cb5b79ca917d67a2c5924aca34c80c9
+This obsoletes Fix-segfault.patch.
 
-The library part of libfm has its license changed by the authors to LGPL:
-http://git.lxde.org/gitweb/?p=lxde/libfm.git;a=commit;h=e0d250aeb40f26ceead82d4b4c7af3b58ab34930
+menu-cache license has been changed by the authors from GPL to LGPL:
+http://git.lxde.org/gitweb/?p=lxde/menu-cache.git;a=commit;h=7972913d8e47e4970b9aa70267cb87fe7eb3a8b4
+http://git.lxde.org/gitweb/?p=lxde/menu-cache.git;a=commit;h=08fe520c52a79d425504ba631afbea5fd62cc735
 
 Signed-off-by: Max Krummenacher <max.oss.09@gmail.com>
 ---
- .../libfm-1.1.2.2/fix-make-parallelism-issue.patch | 31 -------------------
- .../libfm-1.1.2.2/ignore_automake_warnings.patch   | 14 ---------
- meta/recipes-support/libfm/libfm-extra_1.2.3.bb    | 21 +++++++++++++
- meta/recipes-support/libfm/libfm_1.1.2.2.bb        | 25 ---------------
- meta/recipes-support/libfm/libfm_1.2.3.bb          | 36 ++++++++++++++++++++++
- 5 files changed, 57 insertions(+), 70 deletions(-)
- delete mode 100644 meta/recipes-support/libfm/libfm-1.1.2.2/fix-make-parallelism-issue.patch
- delete mode 100644 meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch
- create mode 100644 meta/recipes-support/libfm/libfm-extra_1.2.3.bb
- delete mode 100644 meta/recipes-support/libfm/libfm_1.1.2.2.bb
- create mode 100644 meta/recipes-support/libfm/libfm_1.2.3.bb
+ .../menu-cache/files/Fix-segfault.patch            | 31 ----------------------
+ .../menu-cache/menu-cache_0.4.1.bb                 | 21 ---------------
+ .../menu-cache/menu-cache_1.0.0.bb                 | 16 +++++++++++
+ 3 files changed, 16 insertions(+), 52 deletions(-)
+ delete mode 100644 meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
+ delete mode 100644 meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
+ create mode 100644 meta/recipes-graphics/menu-cache/menu-cache_1.0.0.bb
 
-diff --git a/meta/recipes-support/libfm/libfm-1.1.2.2/fix-make-parallelism-issue.patch b/meta/recipes-support/libfm/libfm-1.1.2.2/fix-make-parallelism-issue.patch
+diff --git a/meta/recipes-graphics/menu-cache/files/Fix-segfault.patch b/meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
 deleted file mode 100644
-index 5d39d19..0000000
---- a/meta/recipes-support/libfm/libfm-1.1.2.2/fix-make-parallelism-issue.patch
+index 74a0407..0000000
+--- a/meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
 +++ /dev/null
 @@ -1,31 +0,0 @@
--Fix make parallelism issue
+-From a497ea6aae3994b7f6527ef7599dd95baf2ad841 Mon Sep 17 00:00:00 2001
+-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+-Date: Mon, 29 Apr 2013 12:04:20 +0300
+-Subject: [PATCH] Fix segfault
 -
--- remove pkginclude_HEADERS ( LIBFM_INCLUDES and LIBFM_GTK_INCLUDES
--variables are empty)
--- if we don't remove it then we will have a race condition between the code 
--that tries to symlink ${includedir}/libfm-1.0 to ${includedir}/libfm and the
--am autogenerated code from the pkginclude_HEADERS definition which
--tries to create pkgincludedir (${includedir}/libfm);
--- if pkgincludedir is created before the symlink the symlink will be created
--in the ${includedir}/libfm dir and it will have libfm-1.0 as name which is
--wrong (we need the ${includedir}/libfm symlink for pcmanfm)
+-Apparently, g_io_channel_unref() was called twice: once in the
+-menu-cache's on_client_closed() callback and once from the finalize
+-function, g_io_unix_finalize()/g_io_win32_finalize(), which is called
+-anyway when the source is removed.
 -
 -Upstream-Status: Pending
--Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+----
+- menu-cache-daemon/menu-cached.c |    1 -
+- 1 file changed, 1 deletion(-)
 -
--Index: libfm-1.1.0/src/Makefile.am
--===================================================================
----- libfm-1.1.0.orig/src/Makefile.am
--+++ libfm-1.1.0/src/Makefile.am
--@@ -211,11 +211,6 @@ libfmgtkinclude_HEADERS = \
-- 	gtk/fm-gtk-marshal.h \
-- 	$(NULL)
+-diff --git a/menu-cache-daemon/menu-cached.c b/menu-cache-daemon/menu-cached.c
+-index e246bb4..a10b6db 100644
+---- a/menu-cache-daemon/menu-cached.c
+-+++ b/menu-cache-daemon/menu-cached.c
+-@@ -579,7 +579,6 @@ static void on_client_closed(gpointer user_data)
+-         }
+-     }
+-     /* DEBUG("client closed"); */
+--    g_io_channel_unref(ch);
+- }
 - 
---pkginclude_HEADERS = \
---	$(LIBFM_INCLUDES) \
---	$(LIBFM_GTK_INCLUDES) \
---	$(NULL)
---
-- EXTRA_LTLIBRARIES = libfm-gtk.la libfm-gtk3.la
-- 
-- lib_LTLIBRARIES = libfm.la @LIBFM_GTK_LTLIBRARIES@
-diff --git a/meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch b/meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch
-deleted file mode 100644
-index 58a2f09..0000000
---- a/meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch
-+++ /dev/null
-@@ -1,14 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
+- static gboolean on_client_data_in(GIOChannel* ch, GIOCondition cond, gpointer user_data)
+--- 
+-1.7.9.5
 -
--Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd libfm-1.1.2.2/configure.ac libfm-1.1.2.2/configure.ac
----- libfm-1.1.2.2/configure.ac	2013-08-22 23:16:09.000000000 +0300
--+++ libfm-1.1.2.2/configure.ac	2013-10-25 01:35:18.110323079 +0300
--@@ -3,7 +3,7 @@
--
-- AC_PREREQ([2.63])
-- AC_INIT([libfm], [1.1.2.2], [http://pcmanfm.sourceforge.net/])
---AM_INIT_AUTOMAKE([-Wall -Werror foreign])
--+AM_INIT_AUTOMAKE([-Wall foreign])
-- AC_CONFIG_MACRO_DIR(m4)
-- AC_CONFIG_HEADERS([config.h])
-diff --git a/meta/recipes-support/libfm/libfm-extra_1.2.3.bb b/meta/recipes-support/libfm/libfm-extra_1.2.3.bb
-new file mode 100644
-index 0000000..8bdb12c
---- /dev/null
-+++ b/meta/recipes-support/libfm/libfm-extra_1.2.3.bb
-@@ -0,0 +1,21 @@
-+SUMMARY = "Library for file management"
-+HOMEPAGE = "http://pcmanfm.sourceforge.net/"
-+
-+LICENSE = "LGPLv2+"
-+LIC_FILES_CHKSUM = "file://src/fm-extra.h;beginline=8;endline=21;md5=ef1f84da64b3c01cca447212f7ef6007"
-+
-+SECTION = "x11/libs"
-+DEPENDS = "glib-2.0 intltool-native"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz"
-+
-+SRC_URI[md5sum] = "3ff38200701658f7e80e25ed395d92dd"
-+SRC_URI[sha256sum] = "c692f1624a4cbc8d1dd55f3b3f3369fbf5d26f63a916e2c295230b2344e1fbf9"
-+
-+S = "${WORKDIR}/libfm-${PV}"
-+
-+EXTRA_OECONF = "--with-extra-only --with-gtk=no"
-+
-+inherit autotools-brokensep pkgconfig gtk-doc
-+
-+do_configure[dirs] =+ "${S}/m4"
-diff --git a/meta/recipes-support/libfm/libfm_1.1.2.2.bb b/meta/recipes-support/libfm/libfm_1.1.2.2.bb
+diff --git a/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb b/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
 deleted file mode 100644
-index 10f31d9..0000000
---- a/meta/recipes-support/libfm/libfm_1.1.2.2.bb
+index 98bbe76..0000000
+--- a/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
 +++ /dev/null
-@@ -1,25 +0,0 @@
--SUMMARY = "Library for file management"
--HOMEPAGE = "http://pcmanfm.sourceforge.net/"
+@@ -1,21 +0,0 @@
+-SUMMARY = "Library for caching application menus"
+-DESCRIPTION = "A library creating and utilizing caches to speed up freedesktop.org application menus"
+-HOMEPAGE = "http://lxde.sourceforge.net/"
 -
 -LICENSE = "GPLv2 & GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
--                    file://src/fm.h;endline=22;md5=e64555171770a551e3b51cc06fc62f1a \
--                    file://src/base/fm-config.h;endline=23;md5=ad0fc418c3cf041eea35ddb3daf37f17"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://libmenu-cache/menu-cache.h;endline=29;md5=26571532593adb17a37eac396260532c \
+-                    file://menu-cache-daemon/menu-cached.c;endline=22;md5=fcecb7d315c57ef804103fa9cdab7111"
 -
 -SECTION = "x11/libs"
--DEPENDS = "glib-2.0 pango gtk+ menu-cache intltool-native libexif"
+-DEPENDS = "glib-2.0 zlib"
 -
--SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.gz \
--           file://fix-make-parallelism-issue.patch \
--           file://ignore_automake_warnings.patch \
--           "
+-SRC_URI = "${SOURCEFORGE_MIRROR}/lxde/menu-cache-${PV}.tar.gz \
+-           file://Fix-segfault.patch \
+-          "
 -
--SRC_URI[md5sum] = "ea3d09b23ef4c37cb84ae57ea16b8f08"
--SRC_URI[sha256sum] = "158e2b6974350d2dab15932b496bb4d448553e60bbf7cdfe4d6e9bd99d19d682"
+-SRC_URI[md5sum] = "20fed982f5d8e6ec8a56a5b48894ecf0"
+-SRC_URI[sha256sum] = "4fa9408e353fedba5b7314cbf6b6cd06d873a1424e281aa050d88bb9c0a0191e"
 -
--inherit autotools-brokensep pkgconfig gtk-doc
 -
--do_configure[dirs] =+ "${S}/m4"
--
--PACKAGES += "${PN}-mime"
--FILES_${PN}-mime = "${datadir}/mime/"
-diff --git a/meta/recipes-support/libfm/libfm_1.2.3.bb b/meta/recipes-support/libfm/libfm_1.2.3.bb
+-inherit autotools pkgconfig gtk-doc
+diff --git a/meta/recipes-graphics/menu-cache/menu-cache_1.0.0.bb b/meta/recipes-graphics/menu-cache/menu-cache_1.0.0.bb
 new file mode 100644
-index 0000000..d5d4186
+index 0000000..b0d5205
 --- /dev/null
-+++ b/meta/recipes-support/libfm/libfm_1.2.3.bb
-@@ -0,0 +1,36 @@
-+SUMMARY = "Library for file management"
-+HOMEPAGE = "http://pcmanfm.sourceforge.net/"
++++ b/meta/recipes-graphics/menu-cache/menu-cache_1.0.0.bb
+@@ -0,0 +1,16 @@
++SUMMARY = "Library for caching application menus"
++DESCRIPTION = "A library creating and utilizing caches to speed up freedesktop.org application menus"
++HOMEPAGE = "http://lxde.sourceforge.net/"
 +
-+LICENSE = "GPLv2+ & LGPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-+                    file://src/fm.h;beginline=8;endline=21;md5=ef1f84da64b3c01cca447212f7ef6007 \
-+                    file://src/base/fm-config.h;beginline=10;endline=23;md5=ef1f84da64b3c01cca447212f7ef6007 \
-+                    file://src/fm-gtk.h;beginline=6;endline=19;md5=646baa4955c04fe768f2ca27b92ac8dd"
-+
++LICENSE = "LGPLv2.1+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=0964c689fcf4c21c6797ea87408416b6"
 +
 +SECTION = "x11/libs"
-+DEPENDS = "glib-2.0 pango gtk+ menu-cache intltool-native libexif libfm-extra"
++DEPENDS = "glib-2.0 intltool-native libfm-extra"
 +
-+SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz"
++SRC_URI = "${SOURCEFORGE_MIRROR}/lxde/${PN}-${PV}.tar.xz"
 +
-+SRC_URI[md5sum] = "3ff38200701658f7e80e25ed395d92dd"
-+SRC_URI[sha256sum] = "c692f1624a4cbc8d1dd55f3b3f3369fbf5d26f63a916e2c295230b2344e1fbf9"
++SRC_URI[md5sum] = "4a8e6c1a86d5e64ec725d850a4abfbad"
++SRC_URI[sha256sum] = "ff7df437bbfd3119c5f662c6d209b98f15de03a7203308c6b56a4c1e1d419aaf"
 +
-+inherit autotools-brokensep pkgconfig gtk-doc
-+
-+do_configure[dirs] =+ "${S}/m4"
-+
-+PACKAGES += "${PN}-mime"
-+FILES_${PN}-mime = "${datadir}/mime/"
-+FILES_${PN}-dbg += "${libdir}/libfm/modules/.debug"
-+
-+do_install_append () {
-+    # remove files which are part of libfm-extra
-+    rm -f ${D}/usr/include/libfm-1.0/fm-xml-file.h
-+    rm -f ${D}/usr/include/libfm-1.0/fm-version.h
-+    rm -f ${D}/usr/include/libfm-1.0/fm-extra.h
-+    rm -f ${D}/usr/lib/pkgconfig/libfm-extra.pc
-+    rm -f ${D}/usr/lib/libfm-extra.so*
-+    rm -f ${D}/usr/lib/libfm-extra.a
-+    rm -f ${D}/usr/lib/libfm-extra.la
-+}
++inherit autotools gettext pkgconfig gtk-doc
 -- 
 1.8.4.5
 
