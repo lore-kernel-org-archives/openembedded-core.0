@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B39D7275B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E7C9727D5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Jan 2015 14:39:24 +0000 (UTC)
+	Sat,  3 Jan 2015 14:39:25 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t03EdNVP002638
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t03EdPcx019448
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 3 Jan 2015 06:39:24 -0800 (PST)
+	Sat, 3 Jan 2015 06:39:25 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Sat, 3 Jan 2015 06:39:23 -0800
+	Sat, 3 Jan 2015 06:39:24 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 3 Jan 2015 06:39:19 -0800
-Message-ID: <cover.1420295873.git.liezhi.yang@windriver.com>
+Date: Sat, 3 Jan 2015 06:39:22 -0800
+Message-ID: <d3e524fec9ad3a5cfb5d5e2363057809dbc97a61.1420295873.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1420295873.git.liezhi.yang@windriver.com>
+References: <cover.1420295873.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3] meta: 3 fixes
+Subject: [PATCH 3/3] cogl: enable egl-x11 when build with x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Jan 2015 14:39:25 -0000
+X-List-Received-Date: Sat, 03 Jan 2015 14:39:30 -0000
 Content-Type: text/plain
 
-Hello,
-For the first patch:
-cpan-base.bbclass: avoid using immmediate assignment for PERLLIBDIRS
+Fixed clutter-1.0 compile error when build with x11:
+clutter-backend-eglnative.h:31:27: fatal error: cogl/cogl-egl.h: No such file or directory
+ #include <cogl/cogl-egl.h>
+compilation terminated.
 
-I'm not sure what changes recently cause I meet the error, does anyone
-have any idea, please ?
+We need enable egl-x11 when x11 as we enable egl-wayland when wayland.
 
-// Robert
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-graphics/cogl/cogl-1.0.inc |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-The following changes since commit 24f19fedb40d0af84beb8e9a6595ea06f09d4615:
-
-  gstreamer1.0-omx: use mulitple SCMs to fetch submodules (2014-12-31 08:22:53 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/3fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rtb/3fixes
-
-Robert Yang (3):
-  cpan-base.bbclass: avoid using immmediate assignment for PERLLIBDIRS
-  cups: check avahi before use it
-  cogl: enable egl-x11 when build with x11
-
- meta/classes/cpan-base.bbclass                     |    4 +--
- meta/recipes-extended/cups/cups.inc                |    1 +
- ...1-test-ippserver.c-check-avahi-before-use.patch |   34 ++++++++++++++++++++
- meta/recipes-graphics/cogl/cogl-1.0.inc            |    6 ++--
- 4 files changed, 41 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-extended/cups/cups/0001-test-ippserver.c-check-avahi-before-use.patch
-
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
+index b763dd5..cc51bb4 100644
+--- a/meta/recipes-graphics/cogl/cogl-1.0.inc
++++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
+@@ -42,7 +42,7 @@ PACKAGECONFIG[gles2] = "--enable-gles2,--disable-gles2,${EDEPENDS_GLES2}, ${ERDE
+ # EGL backends
+ PACKAGECONFIG[egl-kms] = "--enable-kms-egl-platform,--disable-kms-egl-platform,${EDEPENDS_KMS}"
+ PACKAGECONFIG[egl-null] = "--enable-null-egl-platform,--disable-null-egl-platform"
+-PACKAGECONFIG[egl-x11] = "--enable-xlib-egl-platform,--disable-xlib-egl-platform,${EDEPENDS_X11}"
++PACKAGECONFIG[egl-x11] = "--enable-xlib-egl-platform,--disable-xlib-egl-platform,${EDEPENDS_X11} ${EDEPENDS_EGL}"
+ PACKAGECONFIG[egl-wayland] = "--enable-wayland-egl-platform,--disable-wayland-egl-platform,${EDEPENDS_WAYLAND}"
+ 
+ # Wayland (server-side)
+@@ -55,7 +55,9 @@ PACKAGECONFIG[cogl-pango] = "--enable-cogl-pango,--disable-cogl-pango,pango"
+ # default.
+ PACKAGECONFIG ??= "cogl-pango gles2 \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'egl-wayland', '', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'glx', '', d)}"
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'glx egl-x11', '', d)} \
++                   "
++
+ 
+ FILES_${PN}-examples = "${bindir}/* ${datadir}/cogl/examples-data/*"
+ FILES_libcogl = "${libdir}/libcogl${SOLIBS}"
 -- 
 1.7.9.5
 
