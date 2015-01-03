@@ -1,26 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F9E7727D9
+Return-Path: <flihp@twobit.us>
+X-Greylist: delayed 2415 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 04 Jan 2015 00:32:02 UTC
+Received: from smtp.twobit.us (smtp.twobit.us [38.83.192.235])
+	by mail.openembedded.org (Postfix) with ESMTP id 83C81727CB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Jan 2015 14:39:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t03EdOft019445
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 3 Jan 2015 06:39:24 -0800 (PST)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.174.1;
-	Sat, 3 Jan 2015 06:39:24 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 3 Jan 2015 06:39:20 -0800
-Message-ID: <2c3c33715c6ea9751815f1c63d687c3c5b34d7c7.1420295873.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1420295873.git.liezhi.yang@windriver.com>
-References: <cover.1420295873.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/3] cpan-base.bbclass: avoid using immmediate assignment for PERLLIBDIRS
+	Sun,  4 Jan 2015 00:32:02 +0000 (UTC)
+Received: from c-50-185-54-102.hsd1.ca.comcast.net ([50.185.54.102]
+	helo=scrapper.twobit.us)
+	by smtp.twobit.us with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
+	(Exim 4.80) (envelope-from <flihp@twobit.us>)
+	id 1Y7YSX-0002cU-Ef; Sat, 03 Jan 2015 23:50:26 +0000
+From: Philip Tricca <flihp@twobit.us>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  3 Jan 2015 23:52:10 +0000
+Message-Id: <1420329130-19982-1-git-send-email-flihp@twobit.us>
+X-Mailer: git-send-email 1.7.10.4
+X-SA-Exim-Connect-IP: 50.185.54.102
+X-SA-Exim-Mail-From: flihp@twobit.us
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
+X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
+Subject: [PATCH] image.bbclass: Catch readonly sshd config in ssh_allow_empty_password.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Jan 2015 14:39:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 04 Jan 2015 00:32:08 -0000
 
-The immediate assignment:
-PERLLIBDIRS := "${@perl_get_libdirs(d)}"
+The ssh_allow_empty_password function modifies the standard sshd_config
+file but not sshd_config_readonly. This patch uses a simple shell wildcard
+to catch all openssh server config files so long as they're in /etc/ssh
+and are named with the sshd_config prefix.
 
-may cause PERLLIBDIRS get wrong values when multilib, for example, when
-the default target arch is x86_64 (/usr/lib64), and mutilib is lib32
-(/usr/lib), the ":=" would cause lib32-BPN's PERLLIBDIRS to be
-/usr/lib64, and lead to build errors.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Philip Tricca <flihp@twobit.us>
 ---
- meta/classes/cpan-base.bbclass |    4 ++--
+ meta/classes/image.bbclass |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/cpan-base.bbclass b/meta/classes/cpan-base.bbclass
-index d9817ba..0860bee 100644
---- a/meta/classes/cpan-base.bbclass
-+++ b/meta/classes/cpan-base.bbclass
-@@ -42,8 +42,8 @@ def is_target(d):
-         return "yes"
-     return "no"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 07e7f99..80c90f6 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -323,8 +323,8 @@ zap_empty_root_password () {
+ # allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
+ ssh_allow_empty_password () {
+ 	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+-		sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
+-		sed -i 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
++		sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config*
++		sed -i 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config*
+ 	fi
  
--PERLLIBDIRS := "${@perl_get_libdirs(d)}"
--PERLVERSION := "${@get_perl_version(d)}"
-+PERLLIBDIRS = "${@perl_get_libdirs(d)}"
-+PERLVERSION = "${@get_perl_version(d)}"
- PERLVERSION[vardepvalue] = ""
- 
- FILES_${PN}-dbg += "${PERLLIBDIRS}/auto/*/.debug \
+ 	if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
 -- 
-1.7.9.5
+1.7.10.4
 
 
