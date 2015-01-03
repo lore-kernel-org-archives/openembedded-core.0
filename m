@@ -1,31 +1,29 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D2C472761
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp09.online.nl (smtp09.online.nl [194.134.42.54])
+	by mail.openembedded.org (Postfix) with ESMTP id A5E40727AB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Jan 2015 00:50:45 +0000 (UTC)
-Received: by mail-qc0-f176.google.com with SMTP id i17so13524849qcy.7
+	Sat,  3 Jan 2015 10:52:26 +0000 (UTC)
+Received: from smtp09.online.nl (localhost [127.0.0.1])
+	by smtp09.online.nl (Postfix) with ESMTP id 08ECE1E8BC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Jan 2015 16:50:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=7cets47p5kqxZuEeUC1BCc8tUn1w3n3bdp9hv3ARUuY=;
-	b=iTinlq0xGxYGjp2Q8ggemmJYThPjsEf8okJGne3opZMeSPfKR3tkZT0z/AV9dzHW1l
-	6QWFTt+FxwEi3woBBAHhWFLnnSUqR9fXXVFQLop5R/JHV6A0UWcQEpMhSE5VbaLI1o0f
-	proOYX/aZyIsMDWL/Zx/6mN8A2pVKTxkfJ681A6pQtcekrP4b1Mw9Y5jwsPdi16IM/bt
-	JTvyGwTnhBppIi9v7qk5oHIqiA6duG+z8a+GLZ/ETO9y2whWi76I8X4BaQFoiQkTn6Fl
-	DGVHtDZkPEuWZ9+SP4rqRMkYyPEkhDkX7rlsMIbOUU/yaMw0L4AMsWGOcauOtp6wh/Bi
-	zM4g==
+	Sat,  3 Jan 2015 11:52:25 +0100 (CET)
+Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp09.online.nl (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  3 Jan 2015 11:52:24 +0100 (CET)
+Message-ID: <54A7C9E8.4020808@topic.nl>
+Date: Sat, 03 Jan 2015 11:52:24 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-X-Received: by 10.224.135.193 with SMTP id o1mr63187229qat.97.1420246246100;
-	Fri, 02 Jan 2015 16:50:46 -0800 (PST)
-Received: by 10.140.28.227 with HTTP; Fri, 2 Jan 2015 16:50:46 -0800 (PST)
-Date: Sat, 3 Jan 2015 02:50:46 +0200
-Message-ID: <CADV-EXEJ5ot_URmo_On4wQZobYDMvmkjXug66fBMhT05przYLg@mail.gmail.com>
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Problem with opkg-config-base regeneration
+To: openembedded-core@lists.openembedded.org
+References: <54A2C3B2.9010006@topic.nl>	<20141230175915.GB18678@crash.betafive.co.uk>
+	<54A44ADC.3010000@topic.nl>
+In-Reply-To: <54A44ADC.3010000@topic.nl>
+X-Online-Scanned: by Cloudmark authority (on smtp09.online.nl)
+Subject: Re: How do I change the "Architecture" of a package?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Jan 2015 00:50:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 03 Jan 2015 10:52:27 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On 12/31/2014 08:13 PM, Mike Looijmans wrote:
+> On 30-12-2014 18:59, Paul Barker wrote:
+>> On Tue, Dec 30, 2014 at 04:24:34PM +0100, Mike Looijmans wrote:
+>>> What if the architecture of a package was accidentally left at its
+>>> default, but it should have been "all" for example?
+>>>
+>>> Just putting "inherit allarch" or simply PACKAGE_ARCH="all" into the
+>>> recipe is not enough. You get stuck with a "more specific" older
+>>> version, so that no device wants to upgrade to the newer version
+>>> that's "all" architecture compatible.
+>>>
+>>
+>> What package manager are you using on the device? If you're using opkg
+>> it should
+>> prioritise by version not arch unless the command line option
+>> '--prefer-arch-to-version' is passed. If you're using opkg and it's
+>> not doing
+>> that, let me know and I'll look into it when I get chance to.
+>
+> It's opkg.
+>
+> But on closer inspection I noticed that the "git" version is also
+> mysteriously reset to 0, so that the package also gets a lower version
+> number instead of a higher one. Seems to be the PR server borking things
+> again or so, I'll have to investigate that next year...
 
-I noticed that bitbake ignores changes in some global variables that
-used in packages and thus not regenerating this packages.
+Well, changing the architecture will always fail because of a bug in the 
+PR server. It resets the number to "0" when PACKAGE_ARCH changes, and 
+thus breaks the upgrade path.
 
-I changed "${PACKAGE_EXTRA_ARCHS}" variable in my machine config to
-extend architectures list used by opkg.
-Package "opkg-config-base" use variable
-"${ALL_MULTILIB_PACKAGE_ARCHS}" to create "arch.conf" file.
-Here is relation between ${PACKAGE_EXTRA_ARCHS} that I change and
-${ALL_MULTILIB_PACKAGE_ARCHS}:
-
-meta/classes/package.bbclass:53:ALL_MULTILIB_PACKAGE_ARCHS =
-"${@all_multilib_tune_values(d, 'PACKAGE_ARCHS')}"
-
-meta/conf/bitbake.conf:139:PACKAGE_ARCHS = "all any noarch
-${PACKAGE_EXTRA_ARCHS}
-
-The problem is that changing "${PACKAGE_EXTRA_ARCHS}" variable not
-leads to regeneration of package "opkg-config-base".
-
---
-Regards,
-Yevhen
+-- 
+Mike Looijmans
 
