@@ -1,26 +1,44 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BD8AA727D4
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 11D117275B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Jan 2015 10:04:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t04A4nJp025406
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	Sun,  4 Jan 2015 12:17:29 +0000 (UTC)
+Received: by mail-wi0-f181.google.com with SMTP id r20so1734617wiv.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 4 Jan 2015 02:04:49 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 4 Jan 2015 02:04:49 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 4 Jan 2015 18:04:59 +0800
-Message-ID: <3e2a14de446a26cc2ae207b13f19a5b060269f17.1420359776.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1420359776.git.Qi.Chen@windriver.com>
-References: <cover.1420359776.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 4/4] sysklogd: upgrade to 1.5.1
+	Sun, 04 Jan 2015 04:17:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=C52AXN0rQu9Yw9Lj+SxM2WCNEejQ1NsLV4iGqBUJ97w=;
+	b=TQlQrmtbvkl+IzpRqKkajW1VjIAkIoGpipl+PWk08nHyAUxhkA6efoe9Wipc8xokH0
+	01nh3AXgH6LdiK1QrYXO+rZUPgs8ygCJJXq5hESEyf3nY4/9DW4qmP0NlBriiBq5CdS0
+	Qggah4VodzPcoiDHsqaVdO6oknNHyiUSbKEmG6zV/zJVskhsZAwU0de//8R6OmOUz8pT
+	53Ko3ntJ1dH5ggXNCzPmjoyoPL4v+3LrsMLZ8b8DaPEehokc+2yrwF8DXFA0ptx36Oy9
+	vQgzDPMjv+PszEtxSDmUDB57EZ9VcMYF5+ATs8k323Fmwzxc/6UONbmpkOGBEz3CQb3j
+	0W/w==
+X-Gm-Message-State: ALoCoQkqhJiRDCB5oqaIc1hAVFeU6URMCeQ4NJHDGd7zoz0vM4ae4cGSnicuhjuFWB4MegOtvk4k
+X-Received: by 10.180.8.70 with SMTP id p6mr15837700wia.72.1420373850018;
+	Sun, 04 Jan 2015 04:17:30 -0800 (PST)
+Received: from ?IPv6:2001:610:612::296b:df03:b323:bf11?
+	([2001:610:612:0:296b:df03:b323:bf11])
+	by mx.google.com with ESMTPSA id
+	ww4sm51150420wjc.47.2015.01.04.04.17.28
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 04 Jan 2015 04:17:29 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.1 \(1993\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAP71WjzrFn=W8QYoDQybKyLxEpi4zL6yN8xkFZK=ze-6YZ_rLw@mail.gmail.com>
+Date: Sun, 4 Jan 2015 13:17:27 +0100
+Message-Id: <ADD5E5A7-ABF1-41DD-A47A-151856FA7468@dominion.thruhere.net>
+References: <1419846408-31247-1-git-send-email-awais_belal@mentor.com>
+	<CAP71WjzrFn=W8QYoDQybKyLxEpi4zL6yN8xkFZK=ze-6YZ_rLw@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+X-Mailer: Apple Mail (2.1993)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0-omx: use mulitple SCMs to fetch submodules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +51,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Jan 2015 10:04:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 04 Jan 2015 12:17:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/sysklogd/sysklogd_1.5.1.bb | 5 +++++
- meta/recipes-extended/sysklogd/sysklogd_1.5.bb   | 5 -----
- 2 files changed, 5 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-extended/sysklogd/sysklogd_1.5.1.bb
- delete mode 100644 meta/recipes-extended/sysklogd/sysklogd_1.5.bb
 
-diff --git a/meta/recipes-extended/sysklogd/sysklogd_1.5.1.bb b/meta/recipes-extended/sysklogd/sysklogd_1.5.1.bb
-new file mode 100644
-index 0000000..4b54f1b
---- /dev/null
-+++ b/meta/recipes-extended/sysklogd/sysklogd_1.5.1.bb
-@@ -0,0 +1,5 @@
-+require sysklogd.inc
-+PR = "r7"
-+
-+SRC_URI[md5sum] = "c70599ab0d037fde724f7210c2c8d7f8"
-+SRC_URI[sha256sum] = "5166c185ae23c92e8b9feee66a6e3d0bc944bf673112f53e3ecf62e08ce7c201"
-diff --git a/meta/recipes-extended/sysklogd/sysklogd_1.5.bb b/meta/recipes-extended/sysklogd/sysklogd_1.5.bb
-deleted file mode 100644
-index 5c95889..0000000
---- a/meta/recipes-extended/sysklogd/sysklogd_1.5.bb
-+++ /dev/null
-@@ -1,5 +0,0 @@
--require sysklogd.inc
--PR = "r7"
--
--SRC_URI[md5sum] = "e053094e8103165f98ddafe828f6ae4b"
--SRC_URI[sha256sum] = "6169b8e91d29288e90404f01462b69e7f2afb1161aa419826fe4736c7f9eb773"
--- 
-1.9.1
+> Op 29 dec. 2014, om 13:41 heeft Nicolas Dechesne =
+<nicolas.dechesne@linaro.org> het volgende geschreven:
+>=20
+> On Mon, Dec 29, 2014 at 10:46 AM, Awais Belal <awais_belal@mentor.com> =
+wrote:
+>> The gstreamer omx package uses a submodule 'common' which
+>> is fetched by the configure script. This approach fails
+>> on non-network builds as the fetcher tries to look upstream
+>> for the submodule.
+>> We now use multiple SCMs, one for the main omx package and
+>> the other for the 'common' submodule so it is available in
+>> the downloads_dir for later use.
+>>=20
+>=20
+> we have the same issues with all the others gstreamer1.0-*_git.bb
+> recipes, don't we? maybe we should fix them all. i am not sure if
+> there is a nice way to do it for all recipes, like with a .inc file,
+> to avoid duplication..
 
+Why not use the 'gitsm' fetcher, that's what it's there for after all?=
 
