@@ -1,29 +1,28 @@
-Return-Path: <flihp@twobit.us>
-X-Greylist: delayed 2415 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 04 Jan 2015 00:32:02 UTC
-Received: from smtp.twobit.us (smtp.twobit.us [38.83.192.235])
-	by mail.openembedded.org (Postfix) with ESMTP id 83C81727CB
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B2BC727D9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Jan 2015 00:32:02 +0000 (UTC)
-Received: from c-50-185-54-102.hsd1.ca.comcast.net ([50.185.54.102]
-	helo=scrapper.twobit.us)
-	by smtp.twobit.us with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
-	(Exim 4.80) (envelope-from <flihp@twobit.us>)
-	id 1Y7YSX-0002cU-Ef; Sat, 03 Jan 2015 23:50:26 +0000
-From: Philip Tricca <flihp@twobit.us>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  3 Jan 2015 23:52:10 +0000
-Message-Id: <1420329130-19982-1-git-send-email-flihp@twobit.us>
-X-Mailer: git-send-email 1.7.10.4
-X-SA-Exim-Connect-IP: 50.185.54.102
-X-SA-Exim-Mail-From: flihp@twobit.us
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
-X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
-Subject: [PATCH] image.bbclass: Catch readonly sshd config in ssh_allow_empty_password.
+	Sun,  4 Jan 2015 01:47:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t041lSo5027014
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 3 Jan 2015 17:47:29 -0800 (PST)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Sat, 3 Jan 2015 17:47:28 -0800
+Message-ID: <54A89BAD.50602@windriver.com>
+Date: Sun, 4 Jan 2015 09:47:25 +0800
+From: Chong Lu <Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1419500687.git.Chong.Lu@windriver.com>
+In-Reply-To: <cover.1419500687.git.Chong.Lu@windriver.com>
+X-Originating-IP: [128.224.162.204]
+Subject: Re: [PATCH 0/1] check-layers.py: some checks for distro and bsp layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +35,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Jan 2015 00:32:08 -0000
+X-List-Received-Date: Sun, 04 Jan 2015 01:47:32 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The ssh_allow_empty_password function modifies the standard sshd_config
-file but not sshd_config_readonly. This patch uses a simple shell wildcard
-to catch all openssh server config files so long as they're in /etc/ssh
-and are named with the sshd_config prefix.
+ping
 
-Signed-off-by: Philip Tricca <flihp@twobit.us>
----
- meta/classes/image.bbclass |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 07e7f99..80c90f6 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -323,8 +323,8 @@ zap_empty_root_password () {
- # allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
- ssh_allow_empty_password () {
- 	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
--		sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
--		sed -i 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
-+		sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config*
-+		sed -i 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config*
- 	fi
- 
- 	if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
--- 
-1.7.10.4
+On 12/25/2014 05:45 PM, Chong Lu wrote:
+> The following changes since commit e3a623bfe39fda16420d2042647af75877bb6f70:
+>
+>    runqemu-internal: increase memory for qemuarm64 (2014-12-25 08:27:13 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib chonglu/checklayer
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/checklayer
+>
+> Chong Lu (1):
+>    check-layers.py: some checks for distro and bsp layer
+>
+>   scripts/contrib/check-layers.py | 248 ++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 248 insertions(+)
+>   create mode 100755 scripts/contrib/check-layers.py
+>
 
 
