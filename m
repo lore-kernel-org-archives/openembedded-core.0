@@ -1,29 +1,41 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp08.online.nl (smtp08.online.nl [194.134.42.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 311F07275B
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f52.google.com (mail-yh0-f52.google.com
+	[209.85.213.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C70A7264F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Jan 2015 15:21:00 +0000 (UTC)
-Received: from smtp08.online.nl (localhost [127.0.0.1])
-	by smtp08.online.nl (Postfix) with ESMTP id 12D6B6615B;
-	Sun,  4 Jan 2015 16:20:59 +0100 (CET)
-Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp08.online.nl (Postfix) with ESMTP;
-	Sun,  4 Jan 2015 16:20:58 +0100 (CET)
-Message-ID: <54A95A5A.70809@topic.nl>
-Date: Sun, 04 Jan 2015 16:20:58 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Sun,  4 Jan 2015 18:52:37 +0000 (UTC)
+Received: by mail-yh0-f52.google.com with SMTP id z6so10059285yhz.11
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 04 Jan 2015 10:52:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=dqKWsReKQipNnmw5keurkQemaQN2DeRLPx326YJQL4c=;
+	b=c6oXV2rwZgk48y8NtwZviKXA77iwTVKi55taBG5mGPVJHWmhDD9LtWyZ+tGsMd7v+Z
+	Ju5sh9CHH9rhoMnibf+mKET/xAZ6En6eO7ccVfK6gAhu+yP7TDyzOsF0PNH3fDwDNSXu
+	VLGhCswhC7Sf3EKEAA6UEO87cz2xEF+m5lp6otZNh+8ViT82UDxRPlsu/2lpkk8kn7bn
+	T39usIN9f/oC0OfaAZ3IZwqApN+DzdsY3FuwEw0owjDPl8j6Wx9Z6NuwlTL+Tu1kxBc7
+	kJ6uhSWT+Me9vsZZxfG0V5BDMkO+nILDo5H8WAI74h3d2vP0ftmhPQG9CJ/S+6HuP7fy
+	MpVQ==
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <54A2C3B2.9010006@topic.nl>		<20141230175915.GB18678@crash.betafive.co.uk>
-	<54A44ADC.3010000@topic.nl>	 <54A65B5E.4030504@topic.nl>
-	<1420190187.25779.15.camel@linuxfoundation.org>
-In-Reply-To: <1420190187.25779.15.camel@linuxfoundation.org>
-X-Online-Scanned: by Cloudmark authority (on smtp08.online.nl)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Bug: PR server changes the PKGV variable too
+X-Received: by 10.236.210.5 with SMTP id t5mr54812648yho.104.1420397557927;
+	Sun, 04 Jan 2015 10:52:37 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.171.132 with HTTP; Sun, 4 Jan 2015 10:52:37 -0800 (PST)
+In-Reply-To: <54A8D1FB.7090406@windriver.com>
+References: <1419610232-6386-1-git-send-email-otavio@ossystems.com.br>
+	<CAP9ODKpyDYSHCFF+3RJTa_PgjCEvcSAGEGHKR8cH4ADgg5VuiA@mail.gmail.com>
+	<54A89F77.1080209@windriver.com>
+	<CAP9ODKo6N5DtU4wUw23YWyGryJ4XNZbLJNfOVWpxeNETqGGDeg@mail.gmail.com>
+	<54A8D1FB.7090406@windriver.com>
+Date: Sun, 4 Jan 2015 16:52:37 -0200
+X-Google-Sender-Auth: V7vL0vlH8La0cmZgXX6cq8Shcgw
+Message-ID: <CAP9ODKpH3uoHLC5wwQArqODEbLcVgRYirJSvE9k0ABWwWTjJaA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sed: Skip 'build-deps' QA check for sed-ptest package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,92 +48,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Jan 2015 15:21:02 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 04 Jan 2015 18:52:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 01/02/2015 10:16 AM, Richard Purdie wrote:
-> On Fri, 2015-01-02 at 09:48 +0100, Mike Looijmans wrote:
->> On 12/31/2014 08:13 PM, Mike Looijmans wrote:
->>> On 30-12-2014 18:59, Paul Barker wrote:
->>>> On Tue, Dec 30, 2014 at 04:24:34PM +0100, Mike Looijmans wrote:
->>>>> What if the architecture of a package was accidentally left at its
->>>>> default, but it should have been "all" for example?
->>>>>
->>>>> Just putting "inherit allarch" or simply PACKAGE_ARCH="all" into the
->>>>> recipe is not enough. You get stuck with a "more specific" older
->>>>> version, so that no device wants to upgrade to the newer version
->>>>> that's "all" architecture compatible.
->>>>>
+On Sun, Jan 4, 2015 at 3:39 AM, ChenQi <Qi.Chen@windriver.com> wrote:
+> On 01/04/2015 12:31 PM, Otavio Salvador wrote:
+>>
+>> On Sun, Jan 4, 2015 at 12:03 AM, ChenQi <Qi.Chen@windriver.com> wrote:
+>>>
+>>> On 01/01/2015 03:16 AM, Otavio Salvador wrote:
 >>>>
->>>> What package manager are you using on the device? If you're using opkg
->>>> it should
->>>> prioritise by version not arch unless the command line option
->>>> '--prefer-arch-to-version' is passed. If you're using opkg and it's
->>>> not doing
->>>> that, let me know and I'll look into it when I get chance to.
->>>
->>> It's opkg.
->>>
->>> But on closer inspection I noticed that the "git" version is also
->>> mysteriously reset to 0, so that the package also gets a lower version
->>> number instead of a higher one. Seems to be the PR server borking things
->>> again or so, I'll have to investigate that next year...
+>>>> On Fri, Dec 26, 2014 at 2:10 PM, Otavio Salvador
+>>>> <otavio@ossystems.com.br> wrote:
+>>>>>
+>>>>> The sed-ptest package has runtime dependencies which are used only
+>>>>> when running the tests. So the 'build-dep' QA check can be skipped for
+>>>>> this specific package. Fixes the following QA error:
+>>>>>
+>>>>> ,----
+>>>>> | WARNING: QA Issue: sed-ptest rdepends on locale-base-ru-ru, but it
+>>>>> |     isn't a build dependency? [build-deps]
+>>>>> `----
+>>>>>
+>>>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>>>>
+>>>> Ping?
+>>>>
+>>> Last week, I did a world build and I didn't get this QA warning.
+>>> Are there any specific build steps or configurations to reproduce the
+>>> bug?
 >>
->> Weird, something in OE killed "gitpkgv".
+>> ptest?
 >>
->> in the recipe, I have this:
->>
->> inherit gitpkgv
->> PV = "2.0+git${SRCPV}"
->> PKGV = "2.0+git${GITPKGV}"
->>
->>
->> $ bitbake enigma2-plugin-extensions-autobackup -e | grep PKGV
->>
->> delivers correct information:
->>
->> PKGV="2.0+git68+2e7a1db"
->> GITPKGVTAG="0.0-68-g2e7a1db"
->> GITPKGV="68+2e7a1db"
->>
->>
->> But after building and deploying the package, the version number will
->> eventually end up being this one:
->>
->> 2.0+git5+2e7a1db509-r0.2
->>
->>
->> What in OE is replacing a perfectly good PKGV tag with something
->> completely different bearing no relation whatsoever? Even the number of
->> digits in the git tag differs from the one I put in the recipe!
->>
->> Even if I put some random text into PKGV, it gets replaced.
 >
-> Did something come from sstate?
+> It's in DISTRO_FEATURES.
 
-I got todays master from openembedded-core and meta-openembedded, and 
-the recipe above (with a fix for the license). I leave everything as the 
-script "oe-init-build-env" does, I only add meta-openembedded/meta-oe to 
-the bblayers.conf list to get access to the gitpkgv class.
+So using today's tip I have:
 
-I named the recipe above "weirdversion.bb", and when I build it "as is", 
-I get the correct version number "z-pkgv+68+2e7a1db-r0" (with "pkgv" and 
-"68" in it).
+NOTE: Preparing RunQueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+WARNING: QA Issue: sed-ptest rdepends on locale-base-ru-ru, but it
+isn't a build dependency? [build-deps]
+NOTE: Tasks Summary: Attempted 718 tasks of which 701 didn't need to
+be rerun and all succeeded.
+NOTE: Writing buildhistory
 
-However, when I add the following line to local.conf to activate the 
-PR-SERVER, things go wrong:
+To  reproduce it, you need to have ptest in distro features but you
+need to 'build' sed.
 
-PRSERV_HOST = "localhost:0"
+So you can do:
 
-After this change, the package suddenly gets "z-pv+0+2e7a1db509-r0.0" as 
-version string, so apparently the PR server kills the PKGV variable and 
-replaces it with something derived from PV alone.
+bitbake sed -c cleansstate ; bitbake sed
 
-Since this is a completely clean situation with nothing but core code, 
-it must be a bug in the PR server (it seems to act as PV server instead...).
-
+This should show off the warning.
 
 -- 
-Mike Looijmans
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
