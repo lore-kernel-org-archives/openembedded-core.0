@@ -1,25 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C74572143
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B45AA65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jan 2015 11:27:51 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 05 Jan 2015 03:23:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,698,1413270000"; d="scan'208";a="646388901"
-Received: from kregan-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.17.116])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Jan 2015 03:27:51 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Jan 2015 11:27:45 +0000
-Message-Id: <f54cd933c0625e35215af6b18bd91d3d47c04a8e.1420457243.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <cover.1420457243.git.paul.eggleton@linux.intel.com>
-References: <cover.1420457243.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1420457243.git.paul.eggleton@linux.intel.com>
-References: <cover.1420457243.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/3] dropbear: upgrade to 2014.66
+	Mon,  5 Jan 2015 11:37:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t05BbKQU026249; Mon, 5 Jan 2015 11:37:20 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id THINaORzN2qP; Mon,  5 Jan 2015 11:37:20 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t05Bb5jn026241
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 5 Jan 2015 11:37:17 GMT
+Message-ID: <1420457862.25779.25.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Date: Mon, 05 Jan 2015 11:37:42 +0000
+In-Reply-To: <54AA6945.7020501@topic.nl>
+References: <54A2C3B2.9010006@topic.nl>
+	<20141230175915.GB18678@crash.betafive.co.uk>
+	<54A44ADC.3010000@topic.nl>			 <54A65B5E.4030504@topic.nl>
+	<1420190187.25779.15.camel@linuxfoundation.org>
+	<54A95A5A.70809@topic.nl>
+	<1420450079.25779.21.camel@linuxfoundation.org>
+	<54AA5C4C.60201@topic.nl>
+	<1420452462.25779.23.camel@linuxfoundation.org>
+	<54AA6945.7020501@topic.nl>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Bug: PR server changes the PKGV variable too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,70 +44,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jan 2015 11:27:51 -0000
+X-List-Received-Date: Mon, 05 Jan 2015 11:38:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-* Upgrade to upstream 2014.66; incorporates several minor bugfix
-  releases.
-* LIC_FILES_CHKSUM changed because the copyright year changed; there was
-  no change to the license text itself.
+On Mon, 2015-01-05 at 11:36 +0100, Mike Looijmans wrote:
+> ﻿On 01/05/2015 11:07 AM, Richard Purdie wrote:
+> > On Mon, 2015-01-05 at 10:41 +0100, Mike Looijmans wrote:
+> >> ﻿On 01/05/2015 10:27 AM, Richard Purdie wrote:
+> >>> On Sun, 2015-01-04 at 16:20 +0100, Mike Looijmans wrote:
+> >>> Imagine you're not using gitpkgv. You set:
+> >>>
+> >>> PV = "x.y+${SRCPV}"
+> >>>
+> >>> Since SRCPV contains a revision hash, you can end up in a situation
+> >>> where the version changes and you cannot upgrade the package since the
+> >>> hash didn't 'increase'.
+> >>>
+> >>> The PR server therefore combines with the git fetcher to add an
+> >>> incremental number at the start of the SRCPV string and yes, in that
+> >>> scenario, it acts as a PV server. This is actually working as designed.
+> >>
+> >> Then the design is wrong. If a package chose to override PKGV manually, then
+> >> the rest of the system should leave that value as is, and not touch it.
+> >> Apparently the recipe author knows better, so please let him use that wisdom.
+> >>
+> >> Also, if you change the architecture of the package, the PR server will reset
+> >> the version counter to 0 and break the upgrade path too. That was the problem
+> >> that caused me to discover this problem, the PR server is making it hard to
+> >> fix arch errors in recipes.
+> >
+> > You realise why it does that though? Imagine multiple MACHINE values
+> > being built against a PR server. Each MACHINE will have different
+> > package architecture values and different hashes. The 'PR' values should
+> > therefore be seen as different. If the system didn't do this, it would
+> > increment PR for every MACHINE change.
+> >
+> > Ok, so you say, lets make it work against MACHINE. That fails in the
+> > case where multiple MACHINES share a package architecture :/. Its not a
+> > simple problem to try and deal with :(
+> >
+> > I make no claim the system is perfect or free from bugs but these
+> > behaviours you're referring to are like this for various reasons. I'm
+> > open to changing them but we need to address the underlying problems
+> > like changing MACHINE above.
+> >
+> > There are several other issues with changing package architecture such
+> > as the sstate files in the sysroot. There is an open bug for this and
+> > right now, I simply don't know how to solve it properly :(.
+> 
+> Yeah, I stand corrected, this is not something easily fixed.
+> 
+> I'd still like to have a way to override the PR server. Is there a way to make 
+> the PR server ignore a package, or at least, have it NOT modify the PKGV 
+> variable for a package?
+> And if not, would you accept a patch to add that functionality to the prserver 
+> system?
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-core/dropbear/dropbear.inc                               | 2 +-
- .../dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch   | 2 +-
- meta/recipes-core/dropbear/dropbear_2014.63.bb                        | 4 ----
- meta/recipes-core/dropbear/dropbear_2014.66.bb                        | 4 ++++
- 4 files changed, 6 insertions(+), 6 deletions(-)
- delete mode 100644 meta/recipes-core/dropbear/dropbear_2014.63.bb
- create mode 100644 meta/recipes-core/dropbear/dropbear_2014.66.bb
+I've not tested it but would something like:
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 947a491..e187d04 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -5,7 +5,7 @@ SECTION = "console/network"
- # some files are from other projects and have others license terms:
- #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
- LICENSE = "MIT & BSD-3-Clause & BSD-2-Clause & PD"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=4d290ce0ac102c828dfc9ce836784688"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=e3a1b9604afd1648b28b0c6f1709e9f4"
- 
- DEPENDS = "zlib"
- RPROVIDES_${PN} = "ssh sshd" 
-diff --git a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-index 71a4666..dc9d578 100644
---- a/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-+++ b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-@@ -13,7 +13,7 @@ index 7d06322..71a21c2 100644
-  /* The command to invoke for xauth when using X11 forwarding.
-   * "-q" for quiet */
-  #ifndef XAUTH_COMMAND
---#define XAUTH_COMMAND "/usr/bin/X11/xauth -q"
-+-#define XAUTH_COMMAND "/usr/bin/xauth -q"
- +#define XAUTH_COMMAND "xauth -q"
-  #endif
-  
-diff --git a/meta/recipes-core/dropbear/dropbear_2014.63.bb b/meta/recipes-core/dropbear/dropbear_2014.63.bb
-deleted file mode 100644
-index bb7e617..0000000
---- a/meta/recipes-core/dropbear/dropbear_2014.63.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--require dropbear.inc
--
--SRC_URI[md5sum] = "7066bb9a2da708f3ed06314fdc9c47fd"
--SRC_URI[sha256sum] = "595992de432ba586a0e7e191bbb1ad587727678bb3e345b018c395b8c55b57ae"
-diff --git a/meta/recipes-core/dropbear/dropbear_2014.66.bb b/meta/recipes-core/dropbear/dropbear_2014.66.bb
-new file mode 100644
-index 0000000..8931eb7
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear_2014.66.bb
-@@ -0,0 +1,4 @@
-+require dropbear.inc
-+
-+SRC_URI[md5sum] = "c21a01111aa5015db038c6efdb85717d"
-+SRC_URI[sha256sum] = "ab3fe2670a517cc0bbe398ff5d15e9ca12cd14f2fc18930a8111ae2baa64ab76"
--- 
-1.9.3
+PRSERV_HOST_pn-XXX = ""
+
+work?
+
+There looks to be code to allow:
+
+PRSERV_HOST_XXX = ""
+
+to work too, looking at package.bbclass. Why, I have no idea :/. We
+should probably remove that in favour of the standard override.
+
+Since I've just been looking at this, I'll write down an overview of
+what goes on:
+
+PKGR contains ${PRAUTO}. The PKG{E,V,R} variables are only meant to be
+accessed at packaging time. The code in package.bbclass,
+package_get_auto_pr() runs at packaging time and sets PRAUTO with a
+value from the PR server.
+
+The only exception to this is if the magic string "AUTOINC" is in PV. If
+it is, AUTOINC is replaced with the value from the PR server. You could
+ask why it sets PKGV with the value of PV and I honestly don't remember,
+that could be an oversight.
+
+What this did mean is that we could jettison the autoincrement code from
+the fetcher and just have one thing doing it.
+
+The PKGV being overwritten by PV does look like a bug and is worth
+looking into. Its not the PR server at fault though, its what
+package.bbclass is doing with the data. I would like to look at why it
+was added that way as I worry there was some underlying reason :/.
+
+> >>> When you add in gitpkgv, something is obviously going wrong. gitpkgv is
+> >>> in meta-oe since I've refused to add it to core on the several occasions
+> >>> its been requested. I've said this before but I will say is again, it
+> >>> *needs* become part of the standard fetcher API rather than a hacked in
+> >>> afterthought which doesn't integrate well.
+> >>
+> >> I already volunteered and tried to do that, but got stuck in lack of
+> >> understanding how the fetcher works, and did not get any help so abandoned it
+> >> in favor of keep using gitpkgv "as is". I'm still volunteering, but without
+> >> help I can't do it.
+> >
+> > I'm struggling since to provide the help you need, I'd nearly have to
+> > solve the problem myself. I've helped several different people
+> > understand the fetcher in the past, only to have most of them move onto
+> > other things :(. Add in the 101 other distractions I have and its
+> > frustrating for everyone including me. Can you remind me where you were
+> > at (links to the right emails would help)?
+> 
+> This is basically as far as I got:
+> 
+> http://lists.openembedded.org/pipermail/openembedded-core/2014-October/098110.html
+
+Thanks, I do remember looking at this. I also remember getting horribly
+confused so I did start doing some things to try and help:
+
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=593f14b2e3d1474d0c21d8d872dc7685163ffad2
+(which was merged into master, trying to unravel some horrible function
+chains)
+
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=89a20582e4fb3b222ccfeaf068fc5cfc7ae2dbf9
+(this one should get merged, its just a comment tweak in bitbake).
+
+I also noticed this in my WIP branch:
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=00deb71e6e9a6b7f8aa5509288b59c6e4526c300
+but that is perhaps best ignored, I think I had other ideas here.
+
+So to explain what happens, you write:
+
+PV = "x.y+{SRCPV}"
+
+and
+
+SRCPV = "${@bb.fetch2.get_srcrev(d)}"
+
+and this triggers the code in fetch2/__init__.py. That function returns
+a string which starts with AUTOINC+ and then a set of revisions.
+
+The problem you've run into is that PV is expanded during parsing and is
+used all over the place (for good reason) (e.g. in the value of WORKDIR)
+and fetching may not have occurred yet. That means as you observe you
+can't run git commands on a repo that may not yet exist (this function
+only uses remote commands like ls-remote if needed).
+
+So how to solve this? You need to add a function in parallel to
+get_srcrev(), lets call it get_pretty_srcrev() which basically does the
+same thing, but calls pretty_revision() instead of sortable_revision().
+You can probably parameterise get_srcrev() internally. You'd then add a
+pretty_revision to the git fetcher. At the metadata level you'd have
+something like:
+
+PRETTYSRCPV = "${@bb.fetch2.get_pretty_srcrev(d)}"
+
+The recipe would then set PKGV = "x.y.+${PRETTYSRCPV}" to get the
+gitpkgv behaviour.
+
+All this is very approximate and I'm sure it won't be that simple but
+hopefully it may let you move forward.
+
+Cheers,
+
+Richard
+
+
+
 
 
