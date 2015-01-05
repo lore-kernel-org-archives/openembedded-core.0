@@ -1,36 +1,38 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D20260167
+Return-Path: <joe@deserted.net>
+Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 12E07727B0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jan 2015 20:18:39 +0000 (UTC)
-Received: by mail-la0-f42.google.com with SMTP id gd6so19217521lab.1
+	Mon,  5 Jan 2015 20:21:57 +0000 (UTC)
+Received: by mail-ie0-f174.google.com with SMTP id at20so20394804iec.19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Jan 2015 12:18:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=THirP0yEjJb0wXnkJJh63XQzSjO9rdujQJIEkrKMgXM=;
-	b=GTvAG6n7Me2sxEyXFfZUsQHw577trq/arEBjYJaZAkicMK36+V3Na4OyHYtEkDLWY8
-	6TkoJb7YshvH1/EE9f7dmcdFNCjl0xP9MUZoMzE6NlHDUK6+Dl8/PEuKKHF+iZVQoiQ0
-	B4CfaOs+d4nQlQJvINwOZARbitEJ1T7CjgeVjuf5LuT3XEfdGxmkciVuJxZhkzcc0JUA
-	Zj5p4joricrorDkqBjTHrM2suot5m8hznFlKj7PSbQ/0u0xs5SNtq7E9nmhDCsQUgDSn
-	CrDfjXlvh6tINFXQlQMdLLi5tzjoCiVL/sYkMuapoQpKKkCvuwzimOIC+LZ6RRMmX9dM
-	Vp+w==
-MIME-Version: 1.0
-X-Received: by 10.112.154.70 with SMTP id vm6mr93244542lbb.18.1420489119331;
-	Mon, 05 Jan 2015 12:18:39 -0800 (PST)
-Received: by 10.112.48.41 with HTTP; Mon, 5 Jan 2015 12:18:39 -0800 (PST)
-In-Reply-To: <54AA4B86.9040905@topic.nl>
-References: <54AA4536.7030101@topic.nl>
-	<54AA4B86.9040905@topic.nl>
-Date: Mon, 5 Jan 2015 15:18:39 -0500
-Message-ID: <CADkTA4MgqEASmHgGunCkTUR=1qdgxP6dqW90PmgYmZ2HHTUWPg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: What is expected of a kernel recipe nowadays?
+	Mon, 05 Jan 2015 12:21:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:sender:from:to:subject:date:message-id;
+	bh=mxW6kZu0KdCg1ffCFFlc52oc2F4syBEJEnLiJSBUDOA=;
+	b=C4MOwGDdXNE3JfCUNbQgcb1F3V3O45bao638YpRu3wJtcv+qcUKkdVTdIX21MWmI2f
+	V/M0ft8jMsED9sc2gmEUWdfoz3XhAIqG0pC2jsCg0qABAFZsGN/Ro4aGCmHopt2v0UUI
+	80Mg3CZJ/hV78EGIQ1SgwrboIio9TNUlzG2a5QfmU4LRJOpk5izCkFDxapWfYtw8Htn4
+	lNazI34F26oQRCOCLromHQdh0cpXiQyC8y1SnC420THrt5AZTnfVh6w4BbBZIuFnnOfn
+	Q5wB117fmB+OfVYOGnT9vEXJT0QzF4wZLHnMTIsOB5lrTMhdaL+nz6lJbEC+Mfi33eYf
+	yYwA==
+X-Gm-Message-State: ALoCoQlPxNl62TmU6W7fKfsoFbVTXG2bRGaGD0Kc3kjY6B1FA/rsDlGB2AY2cONIyAjpDV4ZTFRJ
+X-Received: by 10.42.68.203 with SMTP id y11mr67786744ici.62.1420489316506;
+	Mon, 05 Jan 2015 12:21:56 -0800 (PST)
+Received: from mir.deserted.net (24-246-4-250.cable.teksavvy.com.
+	[24.246.4.250]) by mx.google.com with ESMTPSA id
+	e63sm27060994ioe.15.2015.01.05.12.21.55
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 05 Jan 2015 12:21:55 -0800 (PST)
+Sender: Joe MacDonald <joe@deserted.net>
+From: Joe MacDonald <joe_macdonald@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Jan 2015 15:22:18 -0500
+Message-Id: <1420489338-6024-1-git-send-email-joe_macdonald@mentor.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [meta-networking][PATCH v2] openl2tp: add new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,153 +45,189 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jan 2015 20:18:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 05 Jan 2015 20:22:01 -0000
 
-On Mon, Jan 5, 2015 at 3:29 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> I think I found it. The kernel bbclass changes "S" to point elsewhere.
-> Moving the statement
-> S = "${WORKDIR}/git"
-> to after the "inherit kernel" line makes the compile run again.
+From: Li xin <lixin.fnst@cn.fujitsu.com>
 
+OpenL2TP is an open source L2TP client / server, written specifically
+for Linux. It has been designed for use as an enterprise L2TP VPN server
+or in commercial, Linux-based, embedded networking products and is able
+to support hundreds of sessions, each with different configuration.
+It is used by several ISPs to provide L2TP services and by corporations
+to implement L2TP VPNs.
 
-Interesting. Can you confirm that Richard's commit:
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
+---
 
------------------
+Martin:
 
-commit 1dd37a2a9960ad26e27567d1871d78bec336e1a2
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date:   Fri Dec 19 17:46:27 2014 +0000
+   This is basically just a minor clean-up of the earlier openl2tp recipe.  So
+   far I've been unable to reproduce the error reported in the world build.  If
+   there's still a log kicking around from that failure, I'd love to get a look
+   at it, I'm also doing a world build locally to try this out, but it still
+   looks like it should be okay now.  If it fails for you again before I get
+   some kind of results, can you point me at the log?
 
-    kernel: Fix non linux-yocto builds
+   -J.
 
-    After the recent kernel changes, non linux-yocto builds stopped working
-    properly for two reasons:
+ ...kefile-modify-CFLAGS-to-aviod-build-error.patch | 106 +++++++++++++++++++++
+ .../recipes-protocols/openl2tp/openl2tp_1.8.bb     |  32 +++++++
+ 2 files changed, 138 insertions(+)
+ create mode 100644 meta-networking/recipes-protocols/openl2tp/openl2tp/Makefile-modify-CFLAGS-to-aviod-build-error.patch
+ create mode 100644 meta-networking/recipes-protocols/openl2tp/openl2tp_1.8.bb
 
-    a) ${S} was being reset to ${WORKDIR}/git for example and STAGING_KERNEL_DIR
-       did not contain the source
-
-    b) Most builds were using ${B} == ${S}
-
-    This patch adds a fixup to the unpack function to handle the case where
-    ${S} != ${STAGING_KERNEL_DIR} and also set up the infrastrcture so that
-    B != S for kernel builds from now on. The kernel build system is one of the
-    best for supporting this and there is no good reason not to take advantage
-    of it.
-
-    (From OE-Core rev: 106dab2fd0321e6b4e77b40111e59a3a31d329d4)
-
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-------------
-
-Is in your tree ? it should be fixing things up and allowing the source to
-be found.
-
-Alternatively, if you drop the explicit set of S, does the build start working
-again ?
-
-Bruce
-
->
->
->
->
-> On 01/05/2015 09:03 AM, Mike Looijmans wrote:
->>
->> I updated to the current master of OE-core, but I can't get the kernel
->> recipe
->> to work any longer:
->>
->> https://github.com/topic-embedded-products/meta-topic/blob/master/recipes-kernel/linux-zynq/linux-topic.bb
->>
->>
->> (I got similar problems in other projects too, I'm focussing on this one
->> first.)
->>
->> Several things were changed in kernel.bbclass, but I don't understand what
->> is
->> being expected from me now to get the kernel recipe in working order
->> again.
->>
->>
->> | DEBUG: Executing python function sysroot_cleansstate
->> | DEBUG: Python function sysroot_cleansstate finished
->> | DEBUG: Executing shell function do_configure
->> | NOTE: make -C
->>
->> /home/mike/zynq_platform/build/tmp-glibc/sysroots/topic-miami-vice-xc7z015/usr/src/kernel
->>
->> O=/home/mike/zynq_platform/build/tmp-glibc/work/topic_miami_vice-oe-linux-gnueabi/linux-topic/3.17+gitAUTOINC+0feb6e4839-r0/build
->> oldnoconfig
->> | make: Entering directory
->>
->> `/home/mike/zynq_platform/build/tmp-glibc/sysroots/topic-miami-vice-xc7z015/usr/src/kernel'
->>
->> | make: *** No rule to make target `oldnoconfig'.  Stop.
->> | make: Leaving directory
->>
->> `/home/mike/zynq_platform/build/tmp-glibc/sysroots/topic-miami-vice-xc7z015/usr/src/kernel'
->>
->> | NOTE: make -C
->>
->> /home/mike/zynq_platform/build/tmp-glibc/sysroots/topic-miami-vice-xc7z015/usr/src/kernel
->>
->> O=/home/mike/zynq_platform/build/tmp-glibc/work/topic_miami_vice-oe-linux-gnueabi/linux-topic/3.17+gitAUTOINC+0feb6e4839-r0/build
->> oldconfig
->>
->>
->>
->> Met vriendelijke groet / kind regards,
->>
->> Mike Looijmans
->> System Expert
->>
->>
->> TOPIC Embedded Systems
->> Eindhovenseweg 32-C, NL-5683 KH Best
->> Postbus 440, NL-5680 AK Best
->> Telefoon: (+31) (0) 499 33 69 79
->> Telefax:  (+31) (0) 499 33 69 70
->> E-mail: mike.looijmans@topic.nl
->> Website: www.topic.nl
->>
->> Please consider the environment before printing this e-mail
->>
->> Topic zoekt gedreven (embedded) software specialisten!
->> http://topic.nl/vacatures/topic-zoekt-software-engineers/
->>
->
->
->
-> Met vriendelijke groet / kind regards,
->
-> Mike Looijmans
-> System Expert
->
->
-> TOPIC Embedded Systems
-> Eindhovenseweg 32-C, NL-5683 KH Best
-> Postbus 440, NL-5680 AK Best
-> Telefoon: (+31) (0) 499 33 69 79
-> Telefax:  (+31) (0) 499 33 69 70
-> E-mail: mike.looijmans@topic.nl
-> Website: www.topic.nl
->
-> Please consider the environment before printing this e-mail
->
-> Topic zoekt gedreven (embedded) software specialisten!
-> http://topic.nl/vacatures/topic-zoekt-software-engineers/
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
+diff --git a/meta-networking/recipes-protocols/openl2tp/openl2tp/Makefile-modify-CFLAGS-to-aviod-build-error.patch b/meta-networking/recipes-protocols/openl2tp/openl2tp/Makefile-modify-CFLAGS-to-aviod-build-error.patch
+new file mode 100644
+index 0000000..96dbc75
+--- /dev/null
++++ b/meta-networking/recipes-protocols/openl2tp/openl2tp/Makefile-modify-CFLAGS-to-aviod-build-error.patch
+@@ -0,0 +1,106 @@
++From 152486fa3c36c3b99d17d5b553cf87ef412fae8e Mon Sep 17 00:00:00 2001
++From: Li xin <lixin.fnst@cn.fujitsu.com>
++Date: Mon, 1 Dec 2014 01:53:41 +0900
++Subject: [PATCH] Makefile:modify CFLAGS to aviod build error.
++
++Upstream-Status: pending
++
++Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
++---
++ Makefile         | 22 +++++++++++-----------
++ plugins/Makefile |  6 +++---
++ 2 files changed, 14 insertions(+), 14 deletions(-)
++
++diff --git a/Makefile b/Makefile
++index 4aaa448..baa7882 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -152,10 +152,10 @@ LIBS.dmalloc=		-ldmalloc
++ export USE_DMALLOC
++ endif
++ 
++-CPPFLAGS=		$(CPPFLAGS.l2tptest) $(CPPFLAGS-y)
++-CFLAGS=			-I. -Iusl -Icli -isystem include \
++-				-MMD -Wall -Werror -Wno-strict-aliasing \
++-				$(CPPFLAGS) $(CPPFLAGS.dmalloc) \
+++ADD_CPPFLAGS=		$(CPPFLAGS.l2tptest) $(CPPFLAGS-y)
+++ADD_CFLAGS=			-I. -Iusl -Icli -isystem include \
+++				-MMD -Wall -Wno-strict-aliasing \
+++				$(ADD_CPPFLAGS) $(CPPFLAGS.dmalloc) \
++ 				-DSYS_LIBDIR=$(SYS_LIBDIR)
++ LDFLAGS.l2tpd=		-Wl,-E -L. -Lusl -lusl -ldl $(LIBS.dmalloc) -lc
++ LDFLAGS.l2tpconfig=	-Lcli -lcli -lreadline $(LIBS.dmalloc) $(READLINE_LDFLAGS) -lc
++@@ -170,10 +170,10 @@ CFLAGS.optimize=	$(OPT_CFLAGS)
++ endif
++ export CFLAGS.optimize
++ 
++-CFLAGS+=		$(CFLAGS.optimize)
+++ADD_CFLAGS+=		$(CFLAGS.optimize)
++ 
++ ifeq ($(L2TP_USE_ASYNC_RPC),y)
++-CPPFLAGS+=		-DL2TP_ASYNC_RPC
+++ADD_CPPFLAGS+=		-DL2TP_ASYNC_RPC
++ endif
++ 
++ ifeq ($(L2TP_FEATURE_RPC_MANAGEMENT),y)
++@@ -220,13 +220,13 @@ endif
++ 
++ # Compile without -Wall because rpcgen-generated code is full of warnings.
++ %_xdr.o:		%_xdr.c
++-			$(CC) -I. -MMD -w $(CFLAGS.optimize) -c $(CPPFLAGS) $<
+++			$(CC) -I. -MMD -w $(CFLAGS.optimize) -c $(ADD_CPPFLAGS) $<
++ 
++ %_client.o:		%_client.c
++-			$(CC) -I. -MMD -w $(CFLAGS.optimize) -c $(CPPFLAGS) $<
+++			$(CC) -I. -MMD -w $(CFLAGS.optimize) -c $(ADD_CPPFLAGS) $<
++ 
++ %_server.o:		%_server.c
++-			$(CC) -I. -MMD -w $(CFLAGS.optimize) -c $(CPPFLAGS) $<
+++			$(CC) -I. -MMD -w $(CFLAGS.optimize) -c $(ADD_CPPFLAGS) $<
++ 
++ %_xdr.c:		%.x
++ 			-$(RM) $@
++@@ -272,7 +272,7 @@ l2tpconfig:		$(L2TPCONFIG_SRCS.o)
++ 			$(CC) -o $@ $^ $(LDFLAGS.l2tpconfig)
++ 
++ %.o:	%.c
++-			$(CC) -c $(CFLAGS) $< -o $@
+++			$(CC) -c $(CFLAGS) $(ADD_CFLAGS) $< -o $@
++ 
++ l2tp_options.h:	FORCE
++ 	@rm -f $@.tmp
++@@ -325,7 +325,7 @@ install:		install-all
++ install-all:		all install-daemon install-app
++ 
++ install-daemon:
++-			@for d in $(filter-out usl,$(SUBDIRS)); do $(MAKE) -C $$d $(MFLAGS) EXTRA_CFLAGS="$(CPPFLAGS)" install; if [ $$? -ne 0 ]; then exit 1; fi; done
+++			@for d in $(filter-out usl,$(SUBDIRS)); do $(MAKE) -C $$d $(MFLAGS) EXTRA_CFLAGS="$(CPPFLAGS) $(ADD_CPPFLAGS)" install; if [ $$? -ne 0 ]; then exit 1; fi; done
++ 			$(INSTALL) -d $(DESTDIR)/usr/sbin
++ 			$(INSTALL) openl2tpd $(DESTDIR)/usr/sbin
++ 
++diff --git a/plugins/Makefile b/plugins/Makefile
++index 5be996d..6810236 100644
++--- a/plugins/Makefile
+++++ b/plugins/Makefile
++@@ -1,7 +1,7 @@
++-CFLAGS	:= $(CFLAGS.optimize) -MMD -Wall \
+++ADD_CFLAGS	:= $(CFLAGS.optimize) -MMD -Wall \
++ 	-isystem ../include \
++ 	-I. -I.. -I../usl -fPIC $(EXTRA_CFLAGS)
++-LDFLAGS	:= -shared
+++ADD_LDFLAGS	:= -shared
++ 
++ PLUGINS.c:=	ppp_unix.c ppp_null.c ipsec.c event_sock.c
++ 
++@@ -21,7 +21,7 @@ clean:
++ 		$(RM) $(PLUGINS.so) $(wildcard *.o) $(wildcard *.d) $(SRC.generated)
++ 
++ %.so: %.c
++-		$(CC) -o $@ $(LDFLAGS) $(CFLAGS) $<
+++		$(CC) -o $@ $(LDFLAGS) $(ADD_LDFLAGS) $(CFLAGS) $(ADD_CFLAGS) $<
++ 
++ install:	all
++ 		$(INSTALL) -d $(DESTDIR)$(SYS_LIBDIR)/openl2tp
++-- 
++1.8.4.2
++
+diff --git a/meta-networking/recipes-protocols/openl2tp/openl2tp_1.8.bb b/meta-networking/recipes-protocols/openl2tp/openl2tp_1.8.bb
+new file mode 100644
+index 0000000..77f19ed
+--- /dev/null
++++ b/meta-networking/recipes-protocols/openl2tp/openl2tp_1.8.bb
+@@ -0,0 +1,32 @@
++SUMMARY = "An L2TP client/server, designed for VPN use."
++DESCRIPTION = "OpenL2TP is an open source L2TP client / server, written \
++specifically for Linux. It has been designed for use as an enterprise \
++L2TP VPN server or in commercial, Linux-based, embedded networking \
++products and is able to support hundreds of sessions, each with \
++different configuration. It is used by several ISPs to provide \
++L2TP services and by corporations to implement L2TP VPNs."
++HOMEPAGE = "http://www.openl2tp.org/"
++SECTION = "console/network"
++LICENSE = "GPL-2.0"
++LIC_FILES_CHKSUM = "file://COPYING;md5=e9d9259cbbf00945adc25a470c1d3585"
++DEPENDS = "popt flex readline"
++
++SRC_URI = "http://ftp.jaist.ac.jp/pub/sourceforge/o/op/${PN}/${PN}/${PV}/${BP}.tar.gz \
++           file://Makefile-modify-CFLAGS-to-aviod-build-error.patch"
++SRC_URI[md5sum] = "e3d08dedfb9e6a9a1e24f6766f6dadd0"
++SRC_URI[sha256sum] = "1c97704d4b963a87fbc0e741668d4530933991515ae9ab0dffd11b5444f4860f"
++
++inherit autotools-brokensep pkgconfig
++EXTRA_OEMAKE = 'CFLAGS="${CFLAGS} -Wno-nused-but-set-variable"'
++
++do_compile_prepend() {
++    sed -i -e "s:SYS_LIBDIR=.*:SYS_LIBDIR=${libdir}:g" \
++        -e 's:$(CROSS_COMPILE)as:${AS}:g' \
++        -e 's:$(CROSS_COMPILE)ld:${LD}:g' \
++        -e 's:$(CROSS_COMPILE)gcc:${CC}:g' \
++        -e 's:$(CROSS_COMPILE)ar:${AR}:g' \
++        -e 's:$(CROSS_COMPILE)nm:${NM}:g' \
++        -e 's:$(CROSS_COMPILE)strip:${STRIP}:g' \
++        -e 's:$(CROSS_COMPILE)install:install:g' \
++        ${S}/Makefile
++}
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.9.1
+
 
