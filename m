@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AF1765CF4
+	by mail.openembedded.org (Postfix) with ESMTP id 3738765D27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jan 2015 11:27:49 +0000 (UTC)
+	Mon,  5 Jan 2015 11:27:50 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 05 Jan 2015 03:23:11 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 05 Jan 2015 03:23:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.07,698,1413270000"; d="scan'208";a="646388893"
+X-IronPort-AV: E=Sophos;i="5.07,698,1413270000"; d="scan'208";a="646388896"
 Received: from kregan-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.17.116])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Jan 2015 03:27:49 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 05 Jan 2015 03:27:50 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Jan 2015 11:27:42 +0000
-Message-Id: <cover.1420457243.git.paul.eggleton@linux.intel.com>
+Date: Mon,  5 Jan 2015 11:27:43 +0000
+Message-Id: <81d8e8bc94752d68f1f5a3804768e558c7bbbef3.1420457243.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
-Subject: [PATCH 0/3] Recipe upgrades
+In-Reply-To: <cover.1420457243.git.paul.eggleton@linux.intel.com>
+References: <cover.1420457243.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1420457243.git.paul.eggleton@linux.intel.com>
+References: <cover.1420457243.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/3] libevdev: upgrade to 1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,38 +34,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 05 Jan 2015 11:27:50 -0000
 
-The following changes since commit 24f19fedb40d0af84beb8e9a6595ea06f09d4615:
-
-  gstreamer1.0-omx: use mulitple SCMs to fetch submodules (2014-12-31 08:22:53 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/upgrades
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/upgrades
-
-Paul Eggleton (3):
-  libevdev: upgrade to 1.3
-  openssh: upgrade to 6.7p1
-  dropbear: upgrade to 2014.66
-
- .../openssh/openssh/nostrip.patch                  |  20 ----
- .../openssh/openssh/openssh-CVE-2011-4327.patch    |  29 ------
- .../openssh/openssh/openssh-CVE-2014-2653.patch    | 114 ---------------------
- .../openssh/{openssh_6.6p1.bb => openssh_6.7p1.bb} |  14 +--
- meta/recipes-core/dropbear/dropbear.inc            |   2 +-
- .../0001-urandom-xauth-changes-to-options.h.patch  |   2 +-
- meta/recipes-core/dropbear/dropbear_2014.63.bb     |   4 -
- meta/recipes-core/dropbear/dropbear_2014.66.bb     |   4 +
- .../{libevdev_1.2.2.bb => libevdev_1.3.bb}         |   4 +-
- 9 files changed, 13 insertions(+), 180 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssh/openssh/nostrip.patch
- delete mode 100644 meta/recipes-connectivity/openssh/openssh/openssh-CVE-2011-4327.patch
- delete mode 100644 meta/recipes-connectivity/openssh/openssh/openssh-CVE-2014-2653.patch
- rename meta/recipes-connectivity/openssh/{openssh_6.6p1.bb => openssh_6.7p1.bb} (93%)
- delete mode 100644 meta/recipes-core/dropbear/dropbear_2014.63.bb
- create mode 100644 meta/recipes-core/dropbear/dropbear_2014.66.bb
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/recipes-support/libevdev/{libevdev_1.2.2.bb => libevdev_1.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-support/libevdev/{libevdev_1.2.2.bb => libevdev_1.3.bb} (74%)
 
+diff --git a/meta/recipes-support/libevdev/libevdev_1.2.2.bb b/meta/recipes-support/libevdev/libevdev_1.3.bb
+similarity index 74%
+rename from meta/recipes-support/libevdev/libevdev_1.2.2.bb
+rename to meta/recipes-support/libevdev/libevdev_1.3.bb
+index db4ffc6..7206b30 100644
+--- a/meta/recipes-support/libevdev/libevdev_1.2.2.bb
++++ b/meta/recipes-support/libevdev/libevdev_1.3.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=75aae0d38feea6fda97ca381cb9132eb \
+                     file://libevdev/libevdev.h;endline=21;md5=7ff4f0b5113252c2f1a828e0bbad98d1"
+ 
+ SRC_URI = "http://www.freedesktop.org/software/libevdev/${BP}.tar.xz"
+-SRC_URI[md5sum] = "7c1ee9c2069489b2a25dfde6f8e2ff6a"
+-SRC_URI[sha256sum] = "860e9a1d5594393ff1f711cdeaf048efe354992019068408abbcfa4914ad6709"
++SRC_URI[md5sum] = "ab67de8f949e84ae2abb48af09eda423"
++SRC_URI[sha256sum] = "265411ce79a592b3074e9d07fb97d462745d0c7ef178254a6f720245ed253446"
+ 
+ inherit autotools pkgconfig
 -- 
 1.9.3
 
