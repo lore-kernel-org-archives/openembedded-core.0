@@ -1,50 +1,21 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
-	[217.149.192.138])
-	by mail.openembedded.org (Postfix) with ESMTP id 169FB72011
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AF1765CF4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jan 2015 10:36:55 +0000 (UTC)
-Received: from amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.127])
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id C02B03F6AB;
-	Mon,  5 Jan 2015 11:36:55 +0100 (CET)
-X-Spam-Flag: NO
-X-Spam-Score: -0.499
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.499 tagged_above=-999 required=3.5
-	tests=[BAYES_05=-0.5, URIBL_BLOCKED=0.001] autolearn=disabled
-X-Spam-Languages: en
-Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
-	by amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP; Mon,  5 Jan 2015 11:36:55 +0100 (CET)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS;
-	Mon,  5 Jan 2015 11:36:54 +0100 (CET)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Mon, 5 Jan 2015 11:38:07 +0100
-Message-ID: <54AA6945.7020501@topic.nl>
-Date: Mon, 5 Jan 2015 11:36:53 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <54A2C3B2.9010006@topic.nl>				<20141230175915.GB18678@crash.betafive.co.uk>
-	<54A44ADC.3010000@topic.nl>			 <54A65B5E.4030504@topic.nl>		
-	<1420190187.25779.15.camel@linuxfoundation.org>
-	<54A95A5A.70809@topic.nl>	
-	<1420450079.25779.21.camel@linuxfoundation.org>
-	<54AA5C4C.60201@topic.nl>
-	<1420452462.25779.23.camel@linuxfoundation.org>
-In-Reply-To: <1420452462.25779.23.camel@linuxfoundation.org>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Bug: PR server changes the PKGV variable too
+	Mon,  5 Jan 2015 11:27:49 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 05 Jan 2015 03:23:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,698,1413270000"; d="scan'208";a="646388893"
+Received: from kregan-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.17.116])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Jan 2015 03:27:49 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Jan 2015 11:27:42 +0000
+Message-Id: <cover.1420457243.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH 0/3] Recipe upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,116 +28,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jan 2015 10:37:03 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 05 Jan 2015 11:27:50 -0000
 
-=EF=BB=BFOn 01/05/2015 11:07 AM, Richard Purdie wrote:
-> On Mon, 2015-01-05 at 10:41 +0100, Mike Looijmans wrote:
->> =EF=BB=BFOn 01/05/2015 10:27 AM, Richard Purdie wrote:
->>> On Sun, 2015-01-04 at 16:20 +0100, Mike Looijmans wrote:
->>> Imagine you're not using gitpkgv. You set:
->>>
->>> PV =3D "x.y+${SRCPV}"
->>>
->>> Since SRCPV contains a revision hash, you can end up in a situation
->>> where the version changes and you cannot upgrade the package since the
->>> hash didn't 'increase'.
->>>
->>> The PR server therefore combines with the git fetcher to add an
->>> incremental number at the start of the SRCPV string and yes, in that
->>> scenario, it acts as a PV server. This is actually working as designed.
->>
->> Then the design is wrong. If a package chose to override PKGV manually, =
-then
->> the rest of the system should leave that value as is, and not touch it.
->> Apparently the recipe author knows better, so please let him use that wi=
-sdom.
->>
->> Also, if you change the architecture of the package, the PR server will =
-reset
->> the version counter to 0 and break the upgrade path too. That was the pr=
-oblem
->> that caused me to discover this problem, the PR server is making it hard=
- to
->> fix arch errors in recipes.
->
-> You realise why it does that though? Imagine multiple MACHINE values
-> being built against a PR server. Each MACHINE will have different
-> package architecture values and different hashes. The 'PR' values should
-> therefore be seen as different. If the system didn't do this, it would
-> increment PR for every MACHINE change.
->
-> Ok, so you say, lets make it work against MACHINE. That fails in the
-> case where multiple MACHINES share a package architecture :/. Its not a
-> simple problem to try and deal with :(
->
-> I make no claim the system is perfect or free from bugs but these
-> behaviours you're referring to are like this for various reasons. I'm
-> open to changing them but we need to address the underlying problems
-> like changing MACHINE above.
->
-> There are several other issues with changing package architecture such
-> as the sstate files in the sysroot. There is an open bug for this and
-> right now, I simply don't know how to solve it properly :(.
+The following changes since commit 24f19fedb40d0af84beb8e9a6595ea06f09d4615:
 
-Yeah, I stand corrected, this is not something easily fixed.
+  gstreamer1.0-omx: use mulitple SCMs to fetch submodules (2014-12-31 08:22:53 +0000)
 
-I'd still like to have a way to override the PR server. Is there a way to m=
-ake=20
-the PR server ignore a package, or at least, have it NOT modify the PKGV=20
-variable for a package?
-And if not, would you accept a patch to add that functionality to the prser=
-ver=20
-system?
+are available in the git repository at:
 
->>> When you add in gitpkgv, something is obviously going wrong. gitpkgv is
->>> in meta-oe since I've refused to add it to core on the several occasion=
-s
->>> its been requested. I've said this before but I will say is again, it
->>> *needs* become part of the standard fetcher API rather than a hacked in
->>> afterthought which doesn't integrate well.
->>
->> I already volunteered and tried to do that, but got stuck in lack of
->> understanding how the fetcher works, and did not get any help so abandon=
-ed it
->> in favor of keep using gitpkgv "as is". I'm still volunteering, but with=
-out
->> help I can't do it.
->
-> I'm struggling since to provide the help you need, I'd nearly have to
-> solve the problem myself. I've helped several different people
-> understand the fetcher in the past, only to have most of them move onto
-> other things :(. Add in the 101 other distractions I have and its
-> frustrating for everyone including me. Can you remind me where you were
-> at (links to the right emails would help)?
+  git://git.openembedded.org/openembedded-core-contrib paule/upgrades
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/upgrades
 
-This is basically as far as I got:
+Paul Eggleton (3):
+  libevdev: upgrade to 1.3
+  openssh: upgrade to 6.7p1
+  dropbear: upgrade to 2014.66
 
-http://lists.openembedded.org/pipermail/openembedded-core/2014-October/0981=
-10.html
+ .../openssh/openssh/nostrip.patch                  |  20 ----
+ .../openssh/openssh/openssh-CVE-2011-4327.patch    |  29 ------
+ .../openssh/openssh/openssh-CVE-2014-2653.patch    | 114 ---------------------
+ .../openssh/{openssh_6.6p1.bb => openssh_6.7p1.bb} |  14 +--
+ meta/recipes-core/dropbear/dropbear.inc            |   2 +-
+ .../0001-urandom-xauth-changes-to-options.h.patch  |   2 +-
+ meta/recipes-core/dropbear/dropbear_2014.63.bb     |   4 -
+ meta/recipes-core/dropbear/dropbear_2014.66.bb     |   4 +
+ .../{libevdev_1.2.2.bb => libevdev_1.3.bb}         |   4 +-
+ 9 files changed, 13 insertions(+), 180 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/nostrip.patch
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/openssh-CVE-2011-4327.patch
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/openssh-CVE-2014-2653.patch
+ rename meta/recipes-connectivity/openssh/{openssh_6.6p1.bb => openssh_6.7p1.bb} (93%)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear_2014.63.bb
+ create mode 100644 meta/recipes-core/dropbear/dropbear_2014.66.bb
+ rename meta/recipes-support/libevdev/{libevdev_1.2.2.bb => libevdev_1.3.bb} (74%)
 
-
-
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-System Expert
-
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Topic zoekt gedreven (embedded) software specialisten!
-http://topic.nl/vacatures/topic-zoekt-software-engineers/
+-- 
+1.9.3
 
 
