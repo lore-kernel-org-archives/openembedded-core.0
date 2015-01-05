@@ -1,41 +1,29 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f52.google.com (mail-yh0-f52.google.com
-	[209.85.213.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C70A7264F
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 65D4265C66
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Jan 2015 18:52:37 +0000 (UTC)
-Received: by mail-yh0-f52.google.com with SMTP id z6so10059285yhz.11
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 04 Jan 2015 10:52:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=dqKWsReKQipNnmw5keurkQemaQN2DeRLPx326YJQL4c=;
-	b=c6oXV2rwZgk48y8NtwZviKXA77iwTVKi55taBG5mGPVJHWmhDD9LtWyZ+tGsMd7v+Z
-	Ju5sh9CHH9rhoMnibf+mKET/xAZ6En6eO7ccVfK6gAhu+yP7TDyzOsF0PNH3fDwDNSXu
-	VLGhCswhC7Sf3EKEAA6UEO87cz2xEF+m5lp6otZNh+8ViT82UDxRPlsu/2lpkk8kn7bn
-	T39usIN9f/oC0OfaAZ3IZwqApN+DzdsY3FuwEw0owjDPl8j6Wx9Z6NuwlTL+Tu1kxBc7
-	kJ6uhSWT+Me9vsZZxfG0V5BDMkO+nILDo5H8WAI74h3d2vP0ftmhPQG9CJ/S+6HuP7fy
-	MpVQ==
+	Mon,  5 Jan 2015 01:33:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t051Xi60002587
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Sun, 4 Jan 2015 17:33:46 -0800 (PST)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Sun, 4 Jan 2015 17:33:44 -0800
+Message-ID: <54A9EA06.9090506@windriver.com>
+Date: Mon, 5 Jan 2015 09:33:58 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-X-Received: by 10.236.210.5 with SMTP id t5mr54812648yho.104.1420397557927;
-	Sun, 04 Jan 2015 10:52:37 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.171.132 with HTTP; Sun, 4 Jan 2015 10:52:37 -0800 (PST)
-In-Reply-To: <54A8D1FB.7090406@windriver.com>
-References: <1419610232-6386-1-git-send-email-otavio@ossystems.com.br>
-	<CAP9ODKpyDYSHCFF+3RJTa_PgjCEvcSAGEGHKR8cH4ADgg5VuiA@mail.gmail.com>
-	<54A89F77.1080209@windriver.com>
-	<CAP9ODKo6N5DtU4wUw23YWyGryJ4XNZbLJNfOVWpxeNETqGGDeg@mail.gmail.com>
-	<54A8D1FB.7090406@windriver.com>
-Date: Sun, 4 Jan 2015 16:52:37 -0200
-X-Google-Sender-Auth: V7vL0vlH8La0cmZgXX6cq8Shcgw
-Message-ID: <CAP9ODKpH3uoHLC5wwQArqODEbLcVgRYirJSvE9k0ABWwWTjJaA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+To: Mike Looijmans <mike.looijmans@topic.nl>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sed: Skip 'build-deps' QA check for sed-ptest package
+References: <cover.1420337434.git.Qi.Chen@windriver.com>	<24dbafa66cc993d1b626ae27ea3e462c0af54718.1420337434.git.Qi.Chen@windriver.com>
+	<54A90364.6060906@topic.nl>
+In-Reply-To: <54A90364.6060906@topic.nl>
+X-Originating-IP: [128.224.162.226]
+Subject: Re: [PATCH 3/3] libsm: remove dependency on e2fsprogs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,63 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Jan 2015 18:52:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 05 Jan 2015 01:33:54 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jan 4, 2015 at 3:39 AM, ChenQi <Qi.Chen@windriver.com> wrote:
-> On 01/04/2015 12:31 PM, Otavio Salvador wrote:
+On 01/04/2015 05:09 PM, Mike Looijmans wrote:
+> On 01/04/2015 03:11 AM, Chen Qi wrote:
+>> This patch is to solve the following circular dependency problem.
 >>
->> On Sun, Jan 4, 2015 at 12:03 AM, ChenQi <Qi.Chen@windriver.com> wrote:
->>>
->>> On 01/01/2015 03:16 AM, Otavio Salvador wrote:
->>>>
->>>> On Fri, Dec 26, 2014 at 2:10 PM, Otavio Salvador
->>>> <otavio@ossystems.com.br> wrote:
->>>>>
->>>>> The sed-ptest package has runtime dependencies which are used only
->>>>> when running the tests. So the 'build-dep' QA check can be skipped for
->>>>> this specific package. Fixes the following QA error:
->>>>>
->>>>> ,----
->>>>> | WARNING: QA Issue: sed-ptest rdepends on locale-base-ru-ru, but it
->>>>> |     isn't a build dependency? [build-deps]
->>>>> `----
->>>>>
->>>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->>>>
->>>> Ping?
->>>>
->>> Last week, I did a world build and I didn't get this QA warning.
->>> Are there any specific build steps or configurations to reproduce the
->>> bug?
+>>       systemd -> dbus -> libsm -> e2fsprogs -> util-linux -> systemd
 >>
->> ptest?
+>> libsm doesn't have any dependency on e2fsprogs. It might be some 
+>> dependency
+>> on util-linux's libuuid, controlled by configure options. So 
+>> e2fsprogs should
+>> be removed from the DEPENDS variable.
 >>
+>> Ideally, we should add a PACKAGECONFIG for 'libuuid' for libsm. 
+>> However, if
+>> libsm depends on util-linux, we would have the circular dependency 
+>> described
+>> above. That's why this patch explicitly set '--without-libuuid' in 
+>> EXTRA_OECONF.
+>> libsm would still be working well because it would fall back to an 
+>> internal
+>> algorithm to do the uuid stuff.
 >
-> It's in DISTRO_FEATURES.
+> Maybe libuuid should get its own recipe. It can be built from the 
+> util-linux sources. Other packages can then just depend on that 
+> libuuid recipe instead of util-linux itself.
+>
+> Only problem would be util-linux I guess, you'd get two providers for 
+> libuuid.
+>
 
-So using today's tip I have:
+I thought about this approach too. I didn't use it because of the 
+following reasons.
 
-NOTE: Preparing RunQueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-WARNING: QA Issue: sed-ptest rdepends on locale-base-ru-ru, but it
-isn't a build dependency? [build-deps]
-NOTE: Tasks Summary: Attempted 718 tasks of which 701 didn't need to
-be rerun and all succeeded.
-NOTE: Writing buildhistory
+1) IMHO, we haven't reached a point that a separate libuuid recipe 
+becomes a necessity.
+     Splitting a recipe may need more compelling reasons.
+2) If we are really going to do so, I think we may need an RFC in other 
+patches. I don't want to make a patchset regarding package upgrades 
+involve too many changes.
 
-To  reproduce it, you need to have ptest in distro features but you
-need to 'build' sed.
-
-So you can do:
-
-bitbake sed -c cleansstate ; bitbake sed
-
-This should show off the warning.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Best Regards,
+Chen Qi
 
