@@ -1,26 +1,26 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 94F3865C66
+Return-Path: <mike.looijmans@topic.nl>
+Received: from atl4mhob18.myregisteredsite.com
+	(atl4mhob18.myregisteredsite.com [209.17.115.111])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AA7765C66
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jan 2015 03:03:53 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t0533rA6003193
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 4 Jan 2015 19:03:53 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.174.1; Sun, 4 Jan 2015 19:03:52 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Jan 2015 11:04:07 +0800
-Message-ID: <e92ca9f3b22c791270d9320bd764b200ef4452b2.1420426906.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1420426906.git.Qi.Chen@windriver.com>
-References: <cover.1420426906.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] cmake-native: disable check for acl.h
+	Mon,  5 Jan 2015 06:54:15 +0000 (UTC)
+Received: from mailpod.hostingplatform.com ([10.30.71.203])
+	by atl4mhob18.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	t056sFeL015233 for <openembedded-core@lists.openembedded.org>;
+	Mon, 5 Jan 2015 01:54:15 -0500
+Received: (qmail 27375 invoked by uid 0); 5 Jan 2015 06:54:15 -0000
+X-TCPREMOTEIP: 88.159.208.100
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO paradigit.TOPIC.LOCAL)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 5 Jan 2015 06:54:14 -0000
+From: Mike Looijmans <mike.looijmans@topic.nl>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Jan 2015 07:54:09 +0100
+Message-Id: <1420440849-4370-1-git-send-email-mike.looijmans@topic.nl>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Mike Looijmans <mike.looijmans@topic.nl>
+Subject: [PATCH] busybox mdev-mount.sh: Fix bashism ("==" instead of "=")
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jan 2015 03:03:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 Jan 2015 06:54:19 -0000
 
-We build cmake-native without acl support. However, the acl.h header
-is still being checked which would sometimes cause the following error
-during do_compile:
+In three test statements, the script was using a "==" instead
+of "=", fix this bashism.
 
-     archive_read_disk_entry_from_file.c:38:21: fatal error: sys/acl.h: No such file or directory
-     |  #include <sys/acl.h>
-     |                      ^
-     | compilation terminated.
-
-This happens when the sysroot parts of acl-native is removed between
-do_configure and do_compile tasks of cmake-native.
-
-To reproduce the problem manually, execute the following command:
-
-bitbake cmake-native -c cleansstate && bitbake acl-native -c cleansstate && \
-bitbake	acl-native && bitbake cmake-native -c configure	&& \
-bitbake acl-native -c cleansstate && bitbake cmake-native -c compile
-
-This patch fixes the above problem by explicitly disable the checking for
-acl.h header file.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
 ---
- meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/busybox/files/mdev-mount.sh |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-index cd6b1d8..e40dfdd 100644
---- a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-@@ -15,4 +15,5 @@ SRC_URI[sha256sum] = "8c6574e9afabcb9fc66f463bb1f2f051958d86c85c37fccf067eb1a44a
- CMAKE_EXTRACONF = "\
-     -DBUILD_CursesDialog=0 \
-     -DENABLE_ACL=0 -DHAVE_ACL_LIBACL_H=0 \
-+    -DHAVE_SYS_ACL_H=0 \
- "
+diff --git a/meta/recipes-core/busybox/files/mdev-mount.sh b/meta/recipes-core/busybox/files/mdev-mount.sh
+index d5d66d6..51fefbe 100644
+--- a/meta/recipes-core/busybox/files/mdev-mount.sh
++++ b/meta/recipes-core/busybox/files/mdev-mount.sh
+@@ -15,7 +15,7 @@ case "$ACTION" in
+ 			exit 0
+ 		fi
+ 		DEVBASE=`expr substr $MDEV 1 3`
+-		if [ "${DEVBASE}" == "mmc" ] ; then
++		if [ "${DEVBASE}" = "mmc" ] ; then
+ 			DEVBASE=`expr substr $MDEV 1 7`
+ 		fi
+ 		# check for "please don't mount it" file
+@@ -24,7 +24,7 @@ case "$ACTION" in
+ 			exit 0
+ 		fi
+ 		# check for full-disk partition
+-		if [ "${DEVBASE}" == "${MDEV}" ] ; then
++		if [ "${DEVBASE}" = "${MDEV}" ] ; then
+ 			if [ -d /sys/block/${DEVBASE}/${DEVBASE}*1 ] ; then
+ 				# Partition detected, just quit
+ 				exit 0
+@@ -33,7 +33,7 @@ case "$ACTION" in
+ 				# No size at all
+ 				exit 0
+ 			fi
+-			if [ `cat /sys/block/${DEVBASE}/size` == 0 ] ; then
++			if [ `cat /sys/block/${DEVBASE}/size` = 0 ] ; then
+ 				# empty device, bail out
+ 				exit 0
+ 			fi
 -- 
-1.9.1
+1.7.9.5
 
 
