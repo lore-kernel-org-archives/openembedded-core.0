@@ -1,40 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C9567282F
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 65AAE7213F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Jan 2015 20:41:06 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id rd3so29374314pab.35
+	Mon,  5 Jan 2015 20:50:32 +0000 (UTC)
+Received: by mail-pd0-f181.google.com with SMTP id v10so28469611pde.26
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Jan 2015 12:41:07 -0800 (PST)
+	Mon, 05 Jan 2015 12:50:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=sihO9uKW0YukK9Nf1MxTdEUMwaRW1v+nO77qOTu0odg=;
-	b=LchPziDXjsNxO/w1yPfNxW+8YWKanxfFz8+Tclz7wV08pzdS5goKWH7+iMeDpIqgPx
-	XRjCtRMLIhtCqoc6TuFgO+KW1iOBR7TiSn+NbYuQSYOmcMnDIfIfzxooWGkpOB8I+rtT
-	nWFn6W8BV7eWTP236FB3BFD6uBqnlCFarrF5YV5HlkMC2nxIPRY3vfvgMMJIgaG1990q
-	OF8tf9EGsijIUlzqmKE0TVUMZlfDx7uhwogMmXsx8gLoAqHPj6jiF2iAqO+N7IBQ0Qx4
-	Vb8cLy1njWDnWVGwp7m0coDtb7EY5tUcQ4LfL0ueKpdPns1+DUr5gaftF3uyHp8ti/lD
-	4tfw==
-X-Received: by 10.70.103.197 with SMTP id fy5mr150969227pdb.131.1420490466957; 
-	Mon, 05 Jan 2015 12:41:06 -0800 (PST)
-Received: from bigisland.hsd1.ca.comcast.net
-	(c-76-20-92-207.hsd1.ca.comcast.net. [76.20.92.207])
-	by mx.google.com with ESMTPSA id rn15sm592657pab.10.2015.01.05.12.41.05
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 05 Jan 2015 12:41:05 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Mon,  5 Jan 2015 12:40:46 -0800
-Message-Id: <09c60431de6fc10ef43cdcd815b25a27069dcb04.1420490240.git.akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <4424464b88e41cee5acfde9076de68a2303f043e.1420490240.git.akuster808@gmail.com>
-References: <4424464b88e41cee5acfde9076de68a2303f043e.1420490240.git.akuster808@gmail.com>
-In-Reply-To: <cover.1420490240.git.akuster808@gmail.com>
-References: <cover.1420490240.git.akuster808@gmail.com>
-Subject: [PATCH 12/12] packagegroup-self-hosted: add git-perltools
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=F9hGgRlwZ3SEG2bG97c8JSkmA2J4rUd/14nOHXxiAR4=;
+	b=XciedYSCsDK8/wvzZkonPtGlL2/Ys7dEy9vWB4CnDN1dNWnlw7ii6q5mvPrOWDr471
+	EyNIKUfbRDtiffGA7IQRYy49u2ll4zl7xPRqHyDfmTyeZiEHC1DSwGwrrMP5hOZwjJZ5
+	gUsc42wcCP+Vtr7yA6fKEIzHGiJoSwQJlnynCkVTMs5q2Qfx25S76cCRkWOvanytXgH1
+	LKDjWlj84X4yPjsxA/k9bbeBLtvv2Yr/9w1NK+GGiWV266XDqW4FdkccDdedX7b8IUD6
+	76Pa4GdQONonJAegIIpZdKMbXbIob2IoPX+F0Y8dTXcLsiKcHNG8x7XrQJq3OMBDH4UP
+	yklA==
+X-Received: by 10.68.65.16 with SMTP id t16mr149002123pbs.70.1420491033572;
+	Mon, 05 Jan 2015 12:50:33 -0800 (PST)
+Received: from ?IPv6:2601:c:a700:272f:9530:792e:11cb:1736?
+	([2601:c:a700:272f:9530:792e:11cb:1736])
+	by mx.google.com with ESMTPSA id
+	qc1sm33807067pbb.84.2015.01.05.12.50.31
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 05 Jan 2015 12:50:32 -0800 (PST)
+Message-ID: <54AAF916.1030706@gmail.com>
+Date: Mon, 05 Jan 2015 12:50:30 -0800
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1419958884.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1419958884.git.paul.eggleton@linux.intel.com>
+Subject: Re: [dizzy][PATCH 0/2] Backport fixes for git-perltools split
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,37 +48,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Jan 2015 20:41:06 -0000
+X-List-Received-Date: Mon, 05 Jan 2015 20:50:36 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Paul,
 
-git-perltools provides some usefull git tools like:
-git-submodule, git-request-pull, git-send-email, git-am, etc.
+I submitted this for 1.7.1 inclusion.
 
-We should have it added in self-hosted image.
+- armin
 
-(From OE-Core rev: 4b0cbdc9c94b336f3102d4cce1886842b28ce6d5)
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index 65aca7f..f95ce77 100644
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -120,6 +120,7 @@ RDEPENDS_packagegroup-self-hosted-extended = "\
-     gettext \
-     gettext-runtime \
-     git \
-+    git-perltools \
-     grep \
-     groff \
-     gzip \
--- 
-1.9.1
-
+On 12/30/2014 09:02 AM, Paul Eggleton wrote:
+> The following changes since commit 1cf1edcd28a002291622d04dd2d0ee2c67e329e4:
+>
+>    buildtools-tarball: package all of Python (2014-12-11 16:34:01 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib paule/dizzy-git-tools
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dizzy-git-tools
+>
+> Jackie Huang (1):
+>    packagegroup-self-hosted: add git-perltools
+>
+> Paul Eggleton (1):
+>    buildtools-tarball: restore missing git tools
+>
+>   meta/recipes-core/meta/buildtools-tarball.bb          |  4 ++++
+>   .../meta/nativesdk-buildtools-perl-dummy.bb           | 19 +++++++++++++++++++
+>   .../packagegroups/packagegroup-self-hosted.bb         |  1 +
+>   3 files changed, 24 insertions(+)
+>   create mode 100644 meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+>
 
