@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F686601F5
+	by mail.openembedded.org (Postfix) with ESMTP id 9E081728C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jan 2015 15:42:29 +0000 (UTC)
+	Tue,  6 Jan 2015 15:42:30 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga103.jf.intel.com with ESMTP; 06 Jan 2015 07:39:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="508183807"
+X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="508183812"
 Received: from unknown (HELO localhost.intel.com) ([10.252.252.96])
-	by orsmga003.jf.intel.com with ESMTP; 06 Jan 2015 07:36:49 -0800
+	by orsmga003.jf.intel.com with ESMTP; 06 Jan 2015 07:36:50 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Jan 2015 07:42:11 -0800
-Message-Id: <8b9cbcffccae185521c4f710815665cee5fc2d79.1420558836.git.sgw@linux.intel.com>
+Date: Tue,  6 Jan 2015 07:42:12 -0800
+Message-Id: <40d49cebfa03fec4f06f7821bf3386a8e2a0781d.1420558836.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1420558836.git.sgw@linux.intel.com>
 References: <cover.1420558836.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1420558836.git.sgw@linux.intel.com>
 References: <cover.1420558836.git.sgw@linux.intel.com>
-Subject: [PATCH 01/12] usbutils: Add version 008
+Subject: [PATCH 02/12] gnupg: Upgrade to 2.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,110 +33,233 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 06 Jan 2015 15:42:30 -0000
 
-The latest version of usbutil (v008) uses the latest version of udev (v196 or greater)
-which is only available as part of the systemd package.  So add systemd as a DEPENDS and
-REQUIRED_DISTRO_FEATURE.
+Add patch to use pkg-config instead of npth-config and remove
+--without-curl as it's not used anymore.
 
-Add v008 version of iconv.patch
-
-COPYING file is GPLv2, but has newer formatting and address change.
+Also needed a patch to add libgpg-error to correctly build dirmngr
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-bsp/usbutils/usbutils-008/iconv.patch | 41 ++++++++++++++++++++++
- meta/recipes-bsp/usbutils/usbutils_008.bb          | 35 ++++++++++++++++++
- 2 files changed, 76 insertions(+)
- create mode 100644 meta/recipes-bsp/usbutils/usbutils-008/iconv.patch
- create mode 100644 meta/recipes-bsp/usbutils/usbutils_008.bb
+ .../gnupg/gnupg/dirmngr-uses-libgpg-error.patch    | 16 +++++
+ meta/recipes-support/gnupg/gnupg/pkgconfig.patch   | 24 +++++---
+ .../use-pkgconfig-instead-of-npth-config.patch     | 72 ++++++++++++++++++++++
+ .../gnupg/{gnupg_2.0.26.bb => gnupg_2.1.0.bb}      | 16 ++---
+ 4 files changed, 111 insertions(+), 17 deletions(-)
+ create mode 100644 meta/recipes-support/gnupg/gnupg/dirmngr-uses-libgpg-error.patch
+ create mode 100644 meta/recipes-support/gnupg/gnupg/use-pkgconfig-instead-of-npth-config.patch
+ rename meta/recipes-support/gnupg/{gnupg_2.0.26.bb => gnupg_2.1.0.bb} (70%)
 
-diff --git a/meta/recipes-bsp/usbutils/usbutils-008/iconv.patch b/meta/recipes-bsp/usbutils/usbutils-008/iconv.patch
+diff --git a/meta/recipes-support/gnupg/gnupg/dirmngr-uses-libgpg-error.patch b/meta/recipes-support/gnupg/gnupg/dirmngr-uses-libgpg-error.patch
 new file mode 100644
-index 0000000..6455567
+index 0000000..3dc506c
 --- /dev/null
-+++ b/meta/recipes-bsp/usbutils/usbutils-008/iconv.patch
-@@ -0,0 +1,41 @@
-+This patch adds support for detecting iconv support using autotools
-+uclibc does not have iconv implementation inside libc like glibc, therefore
-+the existing checks were not sufficient, it worked for glibc but not for
-+uclibc. The new patch portably detects the iconv support and adds the
-+libiconv to linker cmdline
-+
-+This patch should be submitted upstream too
-+
++++ b/meta/recipes-support/gnupg/gnupg/dirmngr-uses-libgpg-error.patch
+@@ -0,0 +1,16 @@
 +Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: usbutils-008/configure.ac
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++Index: gnupg-2.1.0/dirmngr/Makefile.am
 +===================================================================
-+--- usbutils-008.orig/configure.ac
-++++ usbutils-008/configure.ac
-+@@ -10,7 +10,9 @@ AC_USE_SYSTEM_EXTENSIONS
-+ AC_SYS_LARGEFILE
-+ 
-+ AC_CHECK_HEADERS([byteswap.h])
-+-AC_CHECK_FUNCS([nl_langinfo iconv])
-++
-++AM_GNU_GETTEXT
-++AM_ICONV
-+ 
-+ PKG_CHECK_MODULES(LIBUSB, libusb-1.0 >= 1.0.0)
-+ 
-+Index: usbutils-008/Makefile.am
-+===================================================================
-+--- usbutils-008.orig/Makefile.am
-++++ usbutils-008/Makefile.am
-+@@ -29,7 +29,8 @@ lsusb_CPPFLAGS = \
-+ 
-+ lsusb_LDADD = \
-+ 	$(LIBUSB_LIBS) \
-+-	$(UDEV_LIBS)
-++	$(UDEV_LIBS) \
-++	$(LIBICONV)
-+ 
-+ man_MANS = \
-+ 	lsusb.8	\
-diff --git a/meta/recipes-bsp/usbutils/usbutils_008.bb b/meta/recipes-bsp/usbutils/usbutils_008.bb
++--- gnupg-2.1.0.orig/dirmngr/Makefile.am
+++++ gnupg-2.1.0/dirmngr/Makefile.am
++@@ -71,7 +71,8 @@ endif
++ dirmngr_LDADD = $(libcommontlsnpth) $(libcommonpth) \
++         ../gl/libgnu.a $(DNSLIBS) $(LIBASSUAN_LIBS) \
++ 	$(LIBGCRYPT_LIBS) $(KSBA_LIBS) $(NPTH_LIBS) \
++-	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV)
+++	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) \
+++        $(GPG_ERROR_LIBS)
++ if !USE_LDAPWRAPPER
++ dirmngr_LDADD += $(ldaplibs)
++ endif
+diff --git a/meta/recipes-support/gnupg/gnupg/pkgconfig.patch b/meta/recipes-support/gnupg/gnupg/pkgconfig.patch
+index ae92392..5e036ba 100644
+--- a/meta/recipes-support/gnupg/gnupg/pkgconfig.patch
++++ b/meta/recipes-support/gnupg/gnupg/pkgconfig.patch
+@@ -5,11 +5,11 @@ Upstream-Status: Rejected
+ 
+ RP 2014/5/22
+ 
+-Index: gnupg-2.0.22/m4/gnupg-pth.m4
++Index: gnupg-2.1.0/m4/gnupg-pth.m4
+ ===================================================================
+---- gnupg-2.0.22.orig/m4/gnupg-pth.m4	2013-10-04 12:32:53.000000000 +0000
+-+++ gnupg-2.0.22/m4/gnupg-pth.m4	2014-05-13 21:33:21.000000000 +0000
+-@@ -17,33 +17,9 @@
++--- gnupg-2.1.0.orig/m4/gnupg-pth.m4
+++++ gnupg-2.1.0/m4/gnupg-pth.m4
++@@ -17,33 +17,9 @@ dnl implied warranty of MERCHANTABILITY
+  # Taken and modified from the m4 macros which come with Pth.
+  AC_DEFUN([GNUPG_PTH_VERSION_CHECK],
+    [
+@@ -44,7 +44,7 @@ Index: gnupg-2.0.22/m4/gnupg-pth.m4
+      if test $have_pth = yes; then
+         AC_MSG_RESULT(yes)
+         AC_MSG_CHECKING([whether PTH installation is sane])
+-@@ -51,9 +29,9 @@
++@@ -51,9 +27,9 @@ AC_DEFUN([GNUPG_PTH_VERSION_CHECK],
+           _gnupg_pth_save_cflags=$CFLAGS
+           _gnupg_pth_save_ldflags=$LDFLAGS
+           _gnupg_pth_save_libs=$LIBS
+@@ -57,30 +57,34 @@ Index: gnupg-2.0.22/m4/gnupg-pth.m4
+           AC_LINK_IFELSE([AC_LANG_PROGRAM([#include <pth.h>
+                                           ],
+                                           [[ pth_init ();]])],
+-@@ -81,23 +59,11 @@
++@@ -80,26 +56,13 @@ AC_DEFUN([GNUPG_PTH_VERSION_CHECK],
++ # PTH_CLFAGS and PTH_LIBS are AS_SUBST.
+  #
+  AC_DEFUN([GNUPG_PATH_PTH],
+-+[
+ -[ AC_ARG_WITH(pth-prefix,
+ -             AC_HELP_STRING([--with-pth-prefix=PFX],
+--                           [prefix where GNU Pth is installed]),
++-                           [prefix where GNU Pth is installed (optional)]),
+ -     pth_config_prefix="$withval", pth_config_prefix="")
+ -  if test x$pth_config_prefix != x ; then
+ -     PTH_CONFIG="$pth_config_prefix/bin/pth-config"
+ -  fi
+ -  AC_PATH_PROG(PTH_CONFIG, pth-config, no)
+++[
+    tmp=ifelse([$1], ,1.3.7,$1)
+ -  if test "$PTH_CONFIG" != "no"; then
+ -    GNUPG_PTH_VERSION_CHECK($tmp)
+--    if test $have_pth = yes; then
++-    if test $have_pth = yes; then      
+ -       PTH_CFLAGS=`$PTH_CONFIG --cflags`
+ -       PTH_LIBS=`$PTH_CONFIG --ldflags`
+ -       PTH_LIBS="$PTH_LIBS `$PTH_CONFIG --libs --all`"
++-       AC_DEFINE(HAVE_PTH, 1,
+ +  GNUPG_PTH_VERSION_CHECK($tmp)
+ +  if test $have_pth = yes; then
+-        AC_DEFINE(HAVE_PTH, 1,
+++      AC_DEFINE(HAVE_PTH, 1,
+                  [Defined if the GNU Pth is available])
+ -    fi
+    fi
+    AC_SUBST(PTH_CFLAGS)
+    AC_SUBST(PTH_LIBS)
++ ])
++-
+diff --git a/meta/recipes-support/gnupg/gnupg/use-pkgconfig-instead-of-npth-config.patch b/meta/recipes-support/gnupg/gnupg/use-pkgconfig-instead-of-npth-config.patch
 new file mode 100644
-index 0000000..afc6ea3
+index 0000000..c6dbf1b
 --- /dev/null
-+++ b/meta/recipes-bsp/usbutils/usbutils_008.bb
-@@ -0,0 +1,35 @@
-+SUMMARY = "Host side USB console utilities"
-+DESCRIPTION = "Contains the lsusb utility for inspecting the devices connected to the USB bus."
-+HOMEPAGE = "http://www.linux-usb.org"
-+SECTION = "base"
++++ b/meta/recipes-support/gnupg/gnupg/use-pkgconfig-instead-of-npth-config.patch
+@@ -0,0 +1,72 @@
++Upstream-Status: Inappropriate [openembedded specific]
 +
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
 +
-+DEPENDS = "libusb zlib virtual/libiconv systemd"
 +
-+SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
-+           file://usb-devices-avoid-dependency-on-bash.patch \
-+           file://Fix-NULL-pointer-crash.patch \
-+           file://iconv.patch \
++Index: gnupg-2.1.0/m4/npth.m4
++===================================================================
++--- gnupg-2.1.0.orig/m4/npth.m4
+++++ gnupg-2.1.0/m4/npth.m4
++@@ -17,10 +17,10 @@ AC_DEFUN([_AM_PATH_NPTH_CONFIG],
++   if test "x$npth_config_prefix" != x ; then
++       NPTH_CONFIG="$npth_config_prefix/bin/npth-config"
++   fi
++-  AC_PATH_PROG(NPTH_CONFIG, npth-config, no)
+++  AC_PATH_PROG(PKGCONFIG, pkg-config, no)
++ 
++-  if test "$NPTH_CONFIG" != "no" ; then
++-    npth_version=`$NPTH_CONFIG --version`
+++  if test "$PKGCONFIG" != "no" ; then
+++    npth_version=`$PKGCONFIG --modversion npth`
++   fi
++   npth_version_major=`echo $npth_version | \
++                sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\1/'`
++@@ -45,7 +45,7 @@ AC_DEFUN([AM_PATH_NPTH],
++ 
++   AC_MSG_CHECKING(for NPTH - version >= $min_npth_version)
++   ok=no
++-  if test "$NPTH_CONFIG" != "no" ; then
+++  if test "$PKGCONFIG" != "no" ; then
++     req_major=`echo $min_npth_version | \
++                sed 's/\([[0-9]]*\)\.\([[0-9]]*\)/\1/'`
++     req_minor=`echo $min_npth_version | \
++@@ -66,28 +66,9 @@ AC_DEFUN([AM_PATH_NPTH],
++   fi
++   if test $ok = yes; then
++     AC_MSG_RESULT([yes ($npth_version)])
++-  else
++-    AC_MSG_RESULT(no)
++-  fi
++-  if test $ok = yes; then
++-     # If we have a recent NPTH, we should also check that the
++-     # API is compatible.
++-     if test "$req_npth_api" -gt 0 ; then
++-        tmp=`$NPTH_CONFIG --api-version 2>/dev/null || echo 0`
++-        if test "$tmp" -gt 0 ; then
++-           AC_MSG_CHECKING([NPTH API version])
++-           if test "$req_npth_api" -eq "$tmp" ; then
++-             AC_MSG_RESULT([okay])
++-           else
++-             ok=no
++-             AC_MSG_RESULT([does not match. want=$req_npth_api got=$tmp])
++-           fi
++-        fi
++-     fi
++-  fi
++-  if test $ok = yes; then
++-    NPTH_CFLAGS=`$NPTH_CONFIG --cflags`
++-    NPTH_LIBS=`$NPTH_CONFIG --libs`
+++    NPTH_CFLAGS=`$PKGCONFIG --cflags npth`
+++    NPTH_LIBS=`$PKGCONFIG --libs npth`
+++    AC_MSG_WARN([[GOT HERE - $NPTH_LIBS ]])
++     ifelse([$2], , :, [$2])
++     npth_config_host=`$NPTH_CONFIG --host 2>/dev/null || echo none`
++     if test x"$npth_config_host" != xnone ; then
++@@ -103,6 +84,7 @@ AC_DEFUN([AM_PATH_NPTH],
++       fi
++     fi
++   else
+++    AC_MSG_RESULT(no)
++     NPTH_CFLAGS=""
++     NPTH_LIBS=""
++     ifelse([$3], , :, [$3])
+diff --git a/meta/recipes-support/gnupg/gnupg_2.0.26.bb b/meta/recipes-support/gnupg/gnupg_2.1.0.bb
+similarity index 70%
+rename from meta/recipes-support/gnupg/gnupg_2.0.26.bb
+rename to meta/recipes-support/gnupg/gnupg_2.1.0.bb
+index 92dd3bd..e9ade3b 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.0.26.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.1.0.bb
+@@ -4,21 +4,21 @@ LICENSE = "GPLv3 & LGPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
+                     file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6"
+ 
+-DEPENDS = "${PTH} libassuan libksba zlib bzip2 readline libgcrypt"
+-PTH = "pth"
+-PTH_libc-uclibc = "npth"
++DEPENDS = "npth libassuan libksba zlib bzip2 readline libgcrypt"
+ 
+ inherit autotools gettext texinfo pkgconfig
+ 
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
+-           file://pkgconfig.patch"
++           file://pkgconfig.patch \
++           file://use-pkgconfig-instead-of-npth-config.patch \
++           file://dirmngr-uses-libgpg-error.patch \
 +          "
+ 
+-SRC_URI[md5sum] = "fa7e704aad33eb114d1840164455aec1"
+-SRC_URI[sha256sum] = "7758e30dc382ae7a7167ed41b7f936aa50af5ea2d6fccdef663b5b750b65b8e0"
++SRC_URI[md5sum] = "43a809789a1d897f4386680be0b09d02"
++SRC_URI[sha256sum] = "16a8c3f50a15bf37d2dfb1c5e4bb3ec533e1d0b6a4043ff3680a376a3ad4058b"
+ 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
+-                --without-libcurl \
+ 		--with-zlib=${STAGING_LIBDIR}/.. \
+ 		--with-bzip2=${STAGING_LIBDIR}/.. \
+                 --with-readline=${STAGING_LIBDIR}/.. \
+@@ -37,3 +37,5 @@ do_install_append() {
+ 	ln -sf gpg2 ${D}${bindir}/gpg
+ 	ln -sf gpgv2 ${D}${bindir}/gpgv
+ }
 +
-+RC_URI[md5sum] = "cb20148c2e784577e924a7b4c560c8fb"
-+SRC_URI[sha256sum] = "6d5f16c2961df37e22e492c736a3e162a8fde24480f23a40d85f79af80d3fe95"
-+
-+inherit autotools gettext pkgconfig distro_features_check
-+# This version of usbutils relies on the udev from systemd, so unless 
-+# we can decouple udev from system, we require systemd for now.
-+REQUIRED_DISTRO_FEATURES = "systemd"
-+
-+do_install_append() {
-+	# We only need the compressed copy, remove the uncompressed version
-+	rm -f ${D}${datadir}/usb.ids
-+}
-+
-+PACKAGES += "${PN}-ids"
-+FILES_${PN}-dev += "${datadir}/pkgconfig"
-+FILES_${PN}-ids = "${datadir}/usb*"
-+
-+RDEPENDS_${PN} = "${PN}-ids libudev"
-+RDEPENDS_${PN}-ptest = "libboost-system libboost-thread"
++RDEPENDS_${PN} = "gnutls"
 -- 
 2.1.0
 
