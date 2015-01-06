@@ -1,35 +1,26 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id A0F5472823
+Return-Path: <mike.looijmans@topic.nl>
+Received: from atl4mhob15.myregisteredsite.com
+	(atl4mhob15.myregisteredsite.com [209.17.115.53])
+	by mail.openembedded.org (Postfix) with ESMTP id A4152727B0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jan 2015 10:04:24 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id bj1so30680343pad.37
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Jan 2015 02:04:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=pGRIjiwuR8sQUmaV5zyfmIL42gPi0QqMyKeiq4Snv1M=;
-	b=Ccan5O6wI8WBL1DuCNmZc0JWXbym/OR+sjDI5LCvcGhvEDCNAnBkRMprz5/MqlKuiJ
-	vJ1ClVEUcgVnfPvCQuKEZRbFKT/wSF/BbfRb2mtLz3iLvwWuPhQne9zBGMwu5ZXKo4iW
-	tlomGgp88mosknNoEKOUwZCEmvoJlnLCtp6WMdsrorlYEk6G7x1s+zMs4xXNkgm9Te6o
-	MaijoBc0d674yBIgIEHAXst58/rQGTsMdM4Qbr5x59V1r7NlSELA0l/hJaPGHF/Fn4Jg
-	HX4v60wa02vieU4f2ITJA8/t+huvBGR9d+N8b3wuXkFUZTnt/MFQF9mVLBT3LJnXRqmX
-	ox2g==
-X-Received: by 10.66.249.99 with SMTP id yt3mr142152260pac.59.1420538664906;
-	Tue, 06 Jan 2015 02:04:24 -0800 (PST)
-Received: from linux-z8xt.inp.mentorg.com ([139.181.35.34])
-	by mx.google.com with ESMTPSA id
-	pg6sm10894974pbb.96.2015.01.06.02.04.22
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 06 Jan 2015 02:04:24 -0800 (PST)
-From: Sujith H <sujith.h@gmail.com>
+	Tue,  6 Jan 2015 10:34:34 +0000 (UTC)
+Received: from mailpod.hostingplatform.com ([10.30.71.210])
+	by atl4mhob15.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	t06AYX72010398 for <openembedded-core@lists.openembedded.org>;
+	Tue, 6 Jan 2015 05:34:33 -0500
+Received: (qmail 30322 invoked by uid 0); 6 Jan 2015 10:34:31 -0000
+X-TCPREMOTEIP: 88.159.208.100
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO paradigit.TOPIC.LOCAL)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 6 Jan 2015 10:34:31 -0000
+From: Mike Looijmans <mike.looijmans@topic.nl>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Jan 2015 15:32:27 +0530
-Message-Id: <1420538547-15885-1-git-send-email-sujith.h@gmail.com>
-X-Mailer: git-send-email 1.8.4
-Cc: Sujith H <Sujith_Haridasan@mentor.com>
-Subject: [PATCH] xserver-xf86-config: Loading glx module
+Date: Tue,  6 Jan 2015 11:34:28 +0100
+Message-Id: <1420540468-9062-1-git-send-email-mike.looijmans@topic.nl>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Mike Looijmans <mike.looijmans@topic.nl>
+Subject: [PATCH] qt4: Fix QT4 applications spamming "QWSLock::down(): Invalid argument"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,39 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jan 2015 10:04:28 -0000
+X-List-Received-Date: Tue, 06 Jan 2015 10:34:37 -0000
 
-From: Sujith H <Sujith_Haridasan@mentor.com>
+If you run a QT server application, and a client in a separate process, it will
+spam the log with "QWSLock::down(): Invalid argument" messages because of an old
+bug in the locking code. There's a patch on the net that fixes it, which I manually
+adapted by removing the commented-out debug statements.
 
-This module was required to get opengl working with
-Qt5 version 5.4 ( when tested with qemuarm and qemux86).
-After adding this change to the xorg.conf and restarting
-xserver qtquick and qtdeclarative examples of Qt5 started
-working appropriately.
+We have been using this patch for about half a year without problems, and the QT people
+apparently don't care about the bug, hence there's no upstream status. Including this
+into OE core will at least save other people the trouble of having to find and apply
+it for themselves.
 
-Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
-Signed-off-by: Sujith H <sujith.h@gmail.com>
+Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
 ---
- meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/recipes-qt/qt4/qt4-4.8.6.inc |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-index 549c7c8..bcd9d8a 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-@@ -17,4 +17,11 @@ do_install () {
- 		install -d ${D}/${sysconfdir}/X11
- 		install -m 0644 ${WORKDIR}/xorg.conf ${D}/${sysconfdir}/X11/
- 	fi
-+        if ${@bb.utils.contains('DISTRO_FEATURES','x11','true','false',d)}; then
-+                cat >> ${D}/${sysconfdir}/X11/xorg.conf << EOF
-+Section "Module"
-+    Load           "glx"
-+EndSection
-+EOF
-+        fi
- }
+diff --git a/meta/recipes-qt/qt4/qt4-4.8.6.inc b/meta/recipes-qt/qt4/qt4-4.8.6.inc
+index 074e82d..a2c0688 100644
+--- a/meta/recipes-qt/qt4/qt4-4.8.6.inc
++++ b/meta/recipes-qt/qt4/qt4-4.8.6.inc
+@@ -26,6 +26,7 @@ SRC_URI = "http://download.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever
+            file://0030-aarch64_arm64_qatomic_support.patch \
+            file://0031-aarch64_arm64_mkspecs.patch \
+            file://0032-aarch64_add_header.patch \
++           file://Fix-QWSLock-invalid-argument-logs.patch \
+            file://g++.conf \
+            file://linux.conf \
+            "
 -- 
-1.8.4
+1.7.9.5
 
 
