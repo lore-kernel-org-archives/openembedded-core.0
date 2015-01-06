@@ -1,46 +1,26 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
-	[217.149.192.139])
-	by mail.openembedded.org (Postfix) with ESMTP id 30A4B65D19
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 503C57282D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jan 2015 07:14:36 +0000 (UTC)
-Received: from amavisd-new (mailscanner08.wrt-nm.internl.net [217.149.192.54])
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id 645D23F8A5;
-	Tue,  6 Jan 2015 08:14:35 +0100 (CET)
-X-Spam-Flag: NO
-X-Spam-Score: -0.499
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.499 tagged_above=-999 required=3.5
-	tests=[BAYES_05=-0.5, URIBL_BLOCKED=0.001] autolearn=disabled
-X-Spam-Languages: en
-Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
-	by amavisd-new (mailscanner08.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP; Tue,  6 Jan 2015 08:14:34 +0100 (CET)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS;
-	Tue,  6 Jan 2015 08:14:34 +0100 (CET)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Tue, 6 Jan 2015 08:15:51 +0100
-Message-ID: <54AB8B59.7080702@topic.nl>
-Date: Tue, 6 Jan 2015 08:14:33 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Tue,  6 Jan 2015 07:47:21 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id t067lLWo021550
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 5 Jan 2015 23:47:22 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.226) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.174.1; Mon, 5 Jan 2015 23:47:21 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 6 Jan 2015 15:47:38 +0800
+Message-ID: <a6dc870be391940e782eae4a86b0002e764a163a.1420530290.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1420530290.git.Qi.Chen@windriver.com>
+References: <cover.1420530290.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <54AA4536.7030101@topic.nl>	<54AA4B86.9040905@topic.nl>
-	<CADkTA4MgqEASmHgGunCkTUR=1qdgxP6dqW90PmgYmZ2HHTUWPg@mail.gmail.com>
-In-Reply-To: <CADkTA4MgqEASmHgGunCkTUR=1qdgxP6dqW90PmgYmZ2HHTUWPg@mail.gmail.com>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: What is expected of a kernel recipe nowadays?
+Subject: [PATCH 1/1] sstatesig.py: fix logic in find_siginfo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,94 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jan 2015 07:14:41 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 06 Jan 2015 07:47:25 -0000
+Content-Type: text/plain
 
-=EF=BB=BFOn 01/05/2015 09:18 PM, Bruce Ashfield wrote:
-> On Mon, Jan 5, 2015 at 3:29 AM, Mike Looijmans <mike.looijmans@topic.nl> =
-wrote:
->> I think I found it. The kernel bbclass changes "S" to point elsewhere.
->> Moving the statement
->> S =3D "${WORKDIR}/git"
->> to after the "inherit kernel" line makes the compile run again.
->
->
-> Interesting. Can you confirm that Richard's commit:
->
-> -----------------
->
-> commit 1dd37a2a9960ad26e27567d1871d78bec336e1a2
-> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Date:   Fri Dec 19 17:46:27 2014 +0000
->
->      kernel: Fix non linux-yocto builds
->
->      After the recent kernel changes, non linux-yocto builds stopped work=
-ing
->      properly for two reasons:
->
->      a) ${S} was being reset to ${WORKDIR}/git for example and STAGING_KE=
-RNEL_DIR
->         did not contain the source
->
->      b) Most builds were using ${B} =3D=3D ${S}
->
->      This patch adds a fixup to the unpack function to handle the case wh=
-ere
->      ${S} !=3D ${STAGING_KERNEL_DIR} and also set up the infrastrcture so=
- that
->      B !=3D S for kernel builds from now on. The kernel build system is o=
-ne of the
->      best for supporting this and there is no good reason not to take adv=
-antage
->      of it.
->
->      (From OE-Core rev: 106dab2fd0321e6b4e77b40111e59a3a31d329d4)
->
->      Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> ------------
->
-> Is in your tree ? it should be fixing things up and allowing the source t=
-o
-> be found.
+For now, `bitbake-diffsig -t <recipe> <task>' doesn't work. This is
+caused by a small logic mistake in find_siginfo in sstatesig.py.
 
-Yes, this is the part that changes "S" and it's how I discovered to move th=
-e=20
-assignment to after inheriting it.
+The logic should be 'and' instead of 'or', otherwise, we will have
+both siginfo and sigdata files in filedates which have the same checksum.
+e.g.
+/buildarea2/chenqi/sstate-cache/fc/sstate:sysstat:armv5te-poky-linux-gnueabi:10.2.1:r0:armv5te:3:fc861bf371c1b843b2843a3415eb5ff3_install.tgz.siginfo
+/buildarea2/chenqi/poky/build-systemd/tmp/stamps/armv5te-poky-linux-gnueabi/sysstat/10.2.1-r0.do_install.sigdata.fc861bf371c1b843b2843a3415eb5ff3
 
+So `bitbake-diffsig -t sysstat install' will output nothing even we actually
+have changed something in do_install task.
 
-> Alternatively, if you drop the explicit set of S, does the build start wo=
-rking
-> again ?
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/lib/oe/sstatesig.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If I just remove the S=3D... line, it fails in the same way. The git fetch=
-=20
-apparently places the code at WORKDIR/git where the new kernel recipe canno=
-t=20
-find it.
-
-
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-System Expert
-
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Topic zoekt gedreven (embedded) software specialisten!
-http://topic.nl/vacatures/topic-zoekt-software-engineers/
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index af7617e..c6c85b9 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -234,7 +234,7 @@ def find_siginfo(pn, taskname, taskhashlist, d):
+             except OSError:
+                 continue
+ 
+-    if not taskhashlist or (len(filedates) < 2 and not foundall):
++    if not taskhashlist and (len(filedates) < 2 and not foundall):
+         # That didn't work, look in sstate-cache
+         hashes = taskhashlist or ['*']
+         localdata = bb.data.createCopy(d)
+-- 
+1.9.1
 
 
