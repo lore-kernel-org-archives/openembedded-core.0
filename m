@@ -1,26 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0301B7289C
+Return-Path: <sujith.h@gmail.com>
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 96CC465C75
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jan 2015 12:15:21 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Jan 2015 04:15:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="437044671"
-Received: from dmoore26-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.3.68])
-	by FMSMGA003.fm.intel.com with ESMTP; 06 Jan 2015 04:02:58 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Jacob Kroon <jacob.kroon@gmail.com>
-Date: Tue, 06 Jan 2015 12:15:20 +0000
-Message-ID: <5285278.bn4TMnSXug@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.3 (Linux/3.17.7-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
-In-Reply-To: <CAPbeDCmcdS36_2anNvZpT2aO2Vft6so3MmTqsjtFo65itxyOXw@mail.gmail.com>
-References: <CAPbeDCmcdS36_2anNvZpT2aO2Vft6so3MmTqsjtFo65itxyOXw@mail.gmail.com>
+	Tue,  6 Jan 2015 12:51:50 +0000 (UTC)
+Received: by mail-qg0-f54.google.com with SMTP id l89so16911629qgf.27
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Jan 2015 04:51:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=BsSVdGED0MWqZs4uybfVe4mf6Z4CDu8HDM8XmIKTA9g=;
+	b=mooptFqjqkZ9sMERnC/Oqeai+Iy2ts0I5txB02bWDUPpTgc1kcr11dc6FHDkz+kk6c
+	K2hTgM7GBHKc850vZFcj1Qv2v44CSTrPjctWAplj+pL9k4qrdYsORovsWZ3o3/qth9f2
+	oyNpEEHM7Rb61MSrCGMLP+G7XwL8M0YpDs/dj6i8SLOBpnp8ltfhcP881PkjYL3MRcHo
+	NVSOZGxVcFXRhaiAsyl1aSqeCYDavBTxix1V99OCRuixYWDfSMlY+dVLuwKjhOjmbuuk
+	VDHAHqC/liU+/6htUuApKW0UAFqZukiAce6Ch+wGel5XDr4as/YPBmx7EPwUseZ79qun
+	gy9g==
+X-Received: by 10.229.24.6 with SMTP id t6mr75131985qcb.17.1420548711548; Tue,
+	06 Jan 2015 04:51:51 -0800 (PST)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: perl installation in the SDK references $OECORE_NATIVE_SYSROOT ?
+Received: by 10.140.85.165 with HTTP; Tue, 6 Jan 2015 04:51:31 -0800 (PST)
+In-Reply-To: <CAJTo0LYHY_MtYU7WPgdoaZwaLOtcZ9uo-209aZwnd4Uv0kLjeg@mail.gmail.com>
+References: <1420541668-16699-1-git-send-email-sujith.h@gmail.com>
+	<CAJTo0LYHY_MtYU7WPgdoaZwaLOtcZ9uo-209aZwnd4Uv0kLjeg@mail.gmail.com>
+From: sujith h <sujith.h@gmail.com>
+Date: Tue, 6 Jan 2015 18:21:31 +0530
+Message-ID: <CADyYWL=ao0mzuh9Q3s2wLRLtVhNpYGfpV9awmXmaD4gagM8wgQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Sujith H <Sujith_Haridasan@mentor.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xserver-xf86-config: Loading glx module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +43,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jan 2015 12:15:26 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 06 Jan 2015 12:51:55 -0000
+Content-Type: multipart/alternative; boundary=001a1133b34e568e3d050bfb4526
 
-Hi Jacob,
+--001a1133b34e568e3d050bfb4526
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sunday 07 December 2014 16:07:44 Jacob Kroon wrote:
-> Like the topic says, I grepped for "OECORE" in the native sysroot of my SDK
-> installation, and the only hit I got was this:
-> 
-> usr/bin/perl:export
-> PERL5LIB=$PERL5LIB:$OECORE_NATIVE_SYSROOT//usr/lib/perl:$OECORE_NATIVE_SYSRO
-> OT//usr/lib/perl/5.20.0
-> 
-> I'm wondering if this reference is intentional, or if its something that
-> should have been sed:ed out during sdk installation ?
+On Tue, Jan 6, 2015 at 5:00 PM, Burton, Ross <ross.burton@intel.com> wrote:
 
-I believe this variable is set by the environment setup script, which we 
-expect to be run prior to using the SDK, so yes I believe this is intentional.
+>
+> On 6 January 2015 at 10:54, Sujith H <sujith.h@gmail.com> wrote:
+>
+>> +        if
+>> ${@bb.utils.contains('DISTRO_FEATURES','x11','true','false',d)}; then
+>>
+>
+> Why would a X11-specific recipe need an X11 feature check?
+>
+Correct, I will remove the x11 feature check from the patch.
 
-Cheers,
-Paul
+>
+>
+>> +                cat >> ${D}/${sysconfdir}/X11/xorg.conf << EOF
+>> +Section "Module"
+>> +    Load           "glx"
+>> +EndSection
+>>
+>
+> But GLX is automatically loaded by the xserver,  My test machine doesn't
+> have a xorg.conf and GLX loads on startup.  Does your machine configurati=
+on
+> ship a xorg.conf?
+>
+No, we get the xorg.conf from this same recipe. And while I was testing
+some opengl related examples from Qt5, I was getting error
+saying: "could not initialize glx" . Hence I made a change in the recipe
+and added IMAGE_INSTALL_append =3D " xserver-xorg-extension-glx" and it
+worked fine. Hence I thought of adding this change. Let me know if there is
+any issues/concern.
 
--- 
+>
+> Ross
+>
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
+
+--=20
+=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
+=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
+Bangalore
+<Project>Contributor to KDE project
+http://fci.wikia.com/wiki/Anti-DRM-Campaign
+<Blog> http://sujithh.info
+
+--001a1133b34e568e3d050bfb4526
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Tue, Jan 6, 2015 at 5:00 PM, Burton, Ross <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+"><div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote=
+"><span class=3D"">On 6 January 2015 at 10:54, Sujith H <span dir=3D"ltr">&=
+lt;<a href=3D"mailto:sujith.h@gmail.com" target=3D"_blank">sujith.h@gmail.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x"><div>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ${@bb.utils.contains(&#39;DISTRO_FE=
+ATURES&#39;,&#39;x11&#39;,&#39;true&#39;,&#39;false&#39;,d)}; then<br></div=
+></blockquote><div><br></div></span><div>Why would a X11-specific recipe ne=
+ed an X11 feature check?</div></div></div></div></blockquote><div>Correct, =
+I will remove the x11 feature check from the patch. <br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_e=
+xtra"><div class=3D"gmail_quote"><span class=3D""><div>=C2=A0</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex"><div>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cat &gt;&gt; ${D}/=
+${sysconfdir}/X11/xorg.conf &lt;&lt; EOF<br>
++Section &quot;Module&quot;<br>
++=C2=A0 =C2=A0 Load=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;glx&quot;=
+<br>
++EndSection</div></blockquote><div><br></div></span><div>But GLX is automat=
+ically loaded by the xserver, =C2=A0My test machine doesn&#39;t have a xorg=
+.conf and GLX loads on startup.=C2=A0 Does your machine configuration ship =
+a xorg.conf?</div></div></div></div></blockquote><div>No, we get the xorg.c=
+onf from this same recipe. And while I was testing some opengl related exam=
+ples from Qt5, I was getting error<br></div><div>saying: &quot;could not in=
+itialize glx&quot; . Hence I made a change in the recipe and added IMAGE_IN=
+STALL_append =3D &quot; xserver-xorg-extension-glx&quot; and it worked fine=
+. Hence I thought of adding this change. Let me know if there is any issues=
+/concern.<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div d=
+ir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><span clas=
+s=3D""><font color=3D"#888888"><div><br></div><div>Ross</div></font></span>=
+</div></div></div>
+</blockquote></div><br><br clear=3D"all"><br>-- <br><div class=3D"gmail_sig=
+nature">=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=
+=B4=B0=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D<br>Bangalore<b=
+r>&lt;Project&gt;Contributor to KDE project<br><a href=3D"http://fci.wikia.=
+com/wiki/Anti-DRM-Campaign" target=3D"_blank">http://fci.wikia.com/wiki/Ant=
+i-DRM-Campaign</a><br>&lt;Blog&gt; <a href=3D"http://sujithh.info" target=
+=3D"_blank">http://sujithh.info</a><br></div>
+</div></div>
+
+--001a1133b34e568e3d050bfb4526--
