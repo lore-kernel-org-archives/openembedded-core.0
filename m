@@ -1,42 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f50.google.com (mail-qa0-f50.google.com
-	[209.85.216.50])
-	by mail.openembedded.org (Postfix) with ESMTP id F1DB27293A
+Return-Path: <mike.looijmans@topic.nl>
+Received: from atl4mhob03.myregisteredsite.com
+	(atl4mhob03.myregisteredsite.com [209.17.115.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 38EA872889
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jan 2015 11:33:47 +0000 (UTC)
-Received: by mail-qa0-f50.google.com with SMTP id dc16so15982370qab.37
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Jan 2015 03:33:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Us2IPlqd9Ce8I1nBHFgIbd1330bFGdJXJyUNvEWdePM=;
-	b=HE81BrHSaKa6JVc5gTTSKbs32t04cvg01gXtAR9yLmUJhjgsiFXSUVxHulegzWhFk0
-	ScgKAow/C0bI9IhN2QE7OJw+ziRuBl6+KSpM9+FAmbUS0UW/5WzDJdPf2/gfru0wT/Ms
-	+wAK6U2u6N6dCVasB/tkXZM3JtD99sJh4Y//vHErkHnDz6sAcybxpmkJFCqCt2cL44Fb
-	DZvL9tFpE/s3nc+Wz2WXzuSHvY7QkspuSS8O/3HJ1NwEIo8jl/Xo1T5ZmZ/PTLpR7AJk
-	fvVKWRsaLhBvxEnf/k8qJJiRTwB9PBdZvPYLykOfDyBXADwDhYHpqwnRhlkPuxMibxmg
-	lBtg==
-X-Gm-Message-State: ALoCoQmpFP5g+3xUcg9jLOKqAs/5le6fGqpPZK8Kve2Jml8EMli1a413ZmANvlxPzvRddvoT7+rZ
-X-Received: by 10.224.92.205 with SMTP id s13mr152431927qam.52.1420544027562; 
-	Tue, 06 Jan 2015 03:33:47 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.96.166 with HTTP; Tue, 6 Jan 2015 03:33:27 -0800 (PST)
-In-Reply-To: <20150106110406.GD19402@jama>
-References: <54AA4536.7030101@topic.nl> <54AA4B86.9040905@topic.nl>
-	<CADkTA4MgqEASmHgGunCkTUR=1qdgxP6dqW90PmgYmZ2HHTUWPg@mail.gmail.com>
-	<54AB8B59.7080702@topic.nl> <20150106085731.GC19402@jama>
-	<20150106110406.GD19402@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 6 Jan 2015 11:33:27 +0000
-Message-ID: <CAJTo0Lbp=oNx9nd-LJ-sz1+N1ZSspPoz=7f9EoFdZhCUEVjiQg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Mike Looijmans <mike.looijmans@topic.nl>,
-	OE-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: What is expected of a kernel recipe nowadays?
+	Tue,  6 Jan 2015 11:46:53 +0000 (UTC)
+Received: from mailpod.hostingplatform.com ([10.30.71.208])
+	by atl4mhob03.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	t06Bkq4Y008070 for <openembedded-core@lists.openembedded.org>;
+	Tue, 6 Jan 2015 06:46:52 -0500
+Received: (qmail 14228 invoked by uid 0); 6 Jan 2015 11:46:52 -0000
+X-TCPREMOTEIP: 88.159.208.100
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO paradigit.TOPIC.LOCAL)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 6 Jan 2015 11:46:52 -0000
+From: Mike Looijmans <mike.looijmans@topic.nl>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Jan 2015 12:46:36 +0100
+Message-Id: <1420544796-15431-1-git-send-email-mike.looijmans@topic.nl>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <CAJTo0LbfRJBevSBkip+Rm5ma=Tp6_VT4_HXGtab-57nhm58Qgg@mail.gmail.com>
+References: <CAJTo0LbfRJBevSBkip+Rm5ma=Tp6_VT4_HXGtab-57nhm58Qgg@mail.gmail.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>
+Subject: [PATCH v3] qt4: Fix QT4 applications spamming "QWSLock::down(): Invalid argument"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,64 +35,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jan 2015 11:33:49 -0000
-Content-Type: multipart/alternative; boundary=089e015375e426a868050bfa2e5c
+X-List-Received-Date: Tue, 06 Jan 2015 11:46:55 -0000
 
---089e015375e426a868050bfa2e5c
-Content-Type: text/plain; charset=UTF-8
+If you run a QT server application, and a client in a separate process, it will
+spam the log with "QWSLock::down(): Invalid argument" messages because of an old
+bug in the locking code. There's a patch on the net that fixes it, which I manually
+adapted by removing the commented-out debug statements.
 
-On 6 January 2015 at 11:04, Martin Jansa <martin.jansa@gmail.com> wrote:
+We have been using this patch for about half a year without problems, and the QT people
+apparently don't care about the bug, for which this solution has been posted in 2012.
+Including this into OE core will at least save other people the trouble of having to find
+and apply it for themselves.
 
-> > | make: *** No rule to make target `oldconfig'.  Stop.
-> > | ERROR: oe_runmake failed
-> > | WARNING: exit code 1 from a shell command.
-> > | ERROR: Function failed: do_configure (log file is located at
-> /home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/work/mako-webos-linux-gnueabi/linux-lg-mako/3.4.0+gitrAUTOINC+38bdbfe224-r0/temp/log.do_configure.17498)
-> > NOTE: recipe linux-lg-mako-3.4.0+gitrAUTOINC+38bdbfe224-r0: task
-> do_configure: Failed
-> > ERROR: Task 491
-> (/home/jenkins/workspace/luneos-unstable/webos-ports/meta-smartphone/meta-lg/recipes-kernel/linux/
-> linux-lg-mako_git.bb, do_configure) failed with exit code '1'
->
-> This was caused by linux.inc, fixed in:
->
-> http://lists.openembedded.org/pipermail/openembedded-devel/2015-January/099687.html
+Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+---
+v3: Added my signoff, upstream-status and link to original patch to the patch
+
+ meta/recipes-qt/qt4/qt4-4.8.6.inc                  |    1 +
+ .../Fix-QWSLock-invalid-argument-logs.patch        |   98 ++++++++++++++++++++
+ 2 files changed, 99 insertions(+)
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/Fix-QWSLock-invalid-argument-logs.patch
+
+diff --git a/meta/recipes-qt/qt4/qt4-4.8.6.inc b/meta/recipes-qt/qt4/qt4-4.8.6.inc
+index 074e82d..a2c0688 100644
+--- a/meta/recipes-qt/qt4/qt4-4.8.6.inc
++++ b/meta/recipes-qt/qt4/qt4-4.8.6.inc
+@@ -26,6 +26,7 @@ SRC_URI = "http://download.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever
+            file://0030-aarch64_arm64_qatomic_support.patch \
+            file://0031-aarch64_arm64_mkspecs.patch \
+            file://0032-aarch64_add_header.patch \
++           file://Fix-QWSLock-invalid-argument-logs.patch \
+            file://g++.conf \
+            file://linux.conf \
+            "
+diff --git a/meta/recipes-qt/qt4/qt4-4.8.6/Fix-QWSLock-invalid-argument-logs.patch b/meta/recipes-qt/qt4/qt4-4.8.6/Fix-QWSLock-invalid-argument-logs.patch
+new file mode 100644
+index 0000000..1f5f00f
+--- /dev/null
++++ b/meta/recipes-qt/qt4/qt4-4.8.6/Fix-QWSLock-invalid-argument-logs.patch
+@@ -0,0 +1,98 @@
++From 52c34001bad85c3032618070b1d6b2a3c6880715 Mon Sep 17 00:00:00 2001
++From: Neil Jerram <n...@ossau.homelinux.net>
++Date: Thu, 8 Nov 2012 08:18:32 +0000
++Subject: [PATCH] Fix QWSLock "invalid argument" logs
++
++There was no known actual problem associated with these logs, but they
++were spamming the log, so I thought it worth trying to understand and
++fix them.
++
++The confusion is that there are two different ways of creating QWSLock
++objects.  "QWSLock()" creates an object that creates a new set of
++semaphores, whereas "QWSLock(id)" creates an object that aliases the
++existing set of semaphores with ID id.  What seems to happen is that
++each application creates a semaphore set scoped to that
++application (QWSDisplay::Data::clientLock in qapplication_qws.cpp),
++then this semaphore set is passed by complex means to
++places (QWSClientPrivate and QWSMemorySurface) that use the semaphores
++for a short period and then delete their QWSLock objects.
++
++The problem was that the QWSLock destructor always destroyed the
++semaphore set, even when that QWSLock hadn't create the semaphores
++itself, hence making the semaphores invalid for other QWSLock objects
++still referencing the same set.
++
++Clearly a QWSLock object shouldn't destroy the semaphore set if it
++didn't create it itself, and that is confirmed by the fact that one of
++the implementations inside QWSLock already implements this logic, with
++the 'owned' flag.  The fix is to implement this for the #ifndef
++QT_POSIX_IPC case - which is what is used in QtMoko - just as is
++already implemented for the #ifdef QT_POSIX_IPC case.
++
++Original patch can be found here:
++ http://www.mail-archive.com/community@lists.openmoko.org/msg65512.html
++
++Upstream-Status: Submitted
++
++Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
++ (Removed the commented-out debug statements from the original patch.)
++
++---
++
++diff --git a/src/gui/embedded/qwslock.cpp b/src/gui/embedded/qwslock.cpp
++index 9914a24..1055785 100644
++--- a/src/gui/embedded/qwslock.cpp
+++++ b/src/gui/embedded/qwslock.cpp
++@@ -83,9 +83,12 @@ QWSLock::QWSLock(int id) : semId(id)
++     QWSSignalHandler::instance()->addWSLock(this);
++ #endif
++ 
+++    owned = false;
+++
++ #ifndef QT_POSIX_IPC
++     if (semId == -1) {
++         semId = semget(IPC_PRIVATE, 3, IPC_CREAT | 0666);
+++        owned = true;
++         if (semId == -1) {
++             perror("QWSLock::QWSLock");
++             qFatal("Unable to create semaphore");
++@@ -100,7 +104,6 @@ QWSLock::QWSLock(int id) : semId(id)
++     }
++ #else
++     sems[0] = sems[1] = sems[2] = SEM_FAILED;
++-    owned = false;
++ 
++     if (semId == -1) {
++         // ### generate really unique IDs
++@@ -134,9 +137,11 @@ QWSLock::~QWSLock()
++ 
++     if (semId != -1) {
++ #ifndef QT_POSIX_IPC
++-        qt_semun semval;
++-        semval.val = 0;
++-        semctl(semId, 0, IPC_RMID, semval);
+++	if (owned) {
+++	    qt_semun semval;
+++	    semval.val = 0;
+++	    semctl(semId, 0, IPC_RMID, semval);
+++	}
++         semId = -1;
++ #else
++         // emulate the SEM_UNDO behavior for the BackingStore lock
++diff --git a/src/gui/embedded/qwslock_p.h b/src/gui/embedded/qwslock_p.h
++index d324e4f..d867d20 100644
++--- a/src/gui/embedded/qwslock_p.h
+++++ b/src/gui/embedded/qwslock_p.h
++@@ -86,8 +86,8 @@ private:
++     int lockCount[2];
++ #ifdef QT_POSIX_IPC
++     sem_t *sems[3];
++-    bool owned;
++ #endif
+++    bool owned;
++ };
++ 
++ QT_END_NAMESPACE
++ 
++-- 
++1.7.10.4
+-- 
+1.7.9.5
 
 
-I'm replicating this error with an oe-core kernel, so there's more causes
-here.
-
-Ross
-
---089e015375e426a868050bfa2e5c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 January 2015 at 11:04, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt; |=
- make: *** No rule to make target `oldconfig&#39;.=C2=A0 Stop.<br>
-&gt; | ERROR: oe_runmake failed<br>
-&gt; | WARNING: exit code 1 from a shell command.<br>
-&gt; | ERROR: Function failed: do_configure (log file is located at /home/j=
-enkins/workspace/luneos-unstable/webos-ports/tmp-glibc/work/mako-webos-linu=
-x-gnueabi/linux-lg-mako/3.4.0+gitrAUTOINC+38bdbfe224-r0/temp/log.do_configu=
-re.17498)<br>
-&gt; NOTE: recipe linux-lg-mako-3.4.0+gitrAUTOINC+38bdbfe224-r0: task do_co=
-nfigure: Failed<br>
-&gt; ERROR: Task 491 (/home/jenkins/workspace/luneos-unstable/webos-ports/m=
-eta-smartphone/meta-lg/recipes-kernel/linux/<a href=3D"http://linux-lg-mako=
-_git.bb" target=3D"_blank">linux-lg-mako_git.bb</a>, do_configure) failed w=
-ith exit code &#39;1&#39;<br>
-<br>
-</span>This was caused by linux.inc, fixed in:<br>
-<a href=3D"http://lists.openembedded.org/pipermail/openembedded-devel/2015-=
-January/099687.html" target=3D"_blank">http://lists.openembedded.org/piperm=
-ail/openembedded-devel/2015-January/099687.html</a></blockquote></div><br>I=
-&#39;m replicating this error with an oe-core kernel, so there&#39;s more c=
-auses here.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra">Ross</div></div>
-
---089e015375e426a868050bfa2e5c--
