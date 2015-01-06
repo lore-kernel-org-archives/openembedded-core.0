@@ -1,28 +1,45 @@
 Return-Path: <mike.looijmans@topic.nl>
-Received: from atl4mhob03.myregisteredsite.com
-	(atl4mhob03.myregisteredsite.com [209.17.115.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 38EA872889
+Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
+	[217.149.192.139])
+	by mail.openembedded.org (Postfix) with ESMTP id F27FE7295A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jan 2015 11:46:53 +0000 (UTC)
-Received: from mailpod.hostingplatform.com ([10.30.71.208])
-	by atl4mhob03.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	t06Bkq4Y008070 for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Jan 2015 06:46:52 -0500
-Received: (qmail 14228 invoked by uid 0); 6 Jan 2015 11:46:52 -0000
-X-TCPREMOTEIP: 88.159.208.100
-X-Authenticated-UID: mike@milosoftware.com
-Received: from unknown (HELO paradigit.TOPIC.LOCAL)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 6 Jan 2015 11:46:52 -0000
+	Tue,  6 Jan 2015 11:47:47 +0000 (UTC)
+Received: from amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.96])
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id E5DB53F4FA;
+	Tue,  6 Jan 2015 12:47:46 +0100 (CET)
+X-Spam-Flag: NO
+X-Spam-Score: -2.9
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 tagged_above=-999 required=3.5
+	tests=[BAYES_00=-2.9] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
+	by amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP; Tue,  6 Jan 2015 12:47:46 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS;
+	Tue,  6 Jan 2015 12:47:46 +0100 (CET)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Tue, 6 Jan 2015 12:49:04 +0100
+Message-ID: <54ABCB61.5080900@topic.nl>
+Date: Tue, 6 Jan 2015 12:47:45 +0100
 From: Mike Looijmans <mike.looijmans@topic.nl>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Jan 2015 12:46:36 +0100
-Message-Id: <1420544796-15431-1-git-send-email-mike.looijmans@topic.nl>
-X-Mailer: git-send-email 1.7.9.5
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1420540468-9062-1-git-send-email-mike.looijmans@topic.nl>
+	<CAJTo0LbfRJBevSBkip+Rm5ma=Tp6_VT4_HXGtab-57nhm58Qgg@mail.gmail.com>
 In-Reply-To: <CAJTo0LbfRJBevSBkip+Rm5ma=Tp6_VT4_HXGtab-57nhm58Qgg@mail.gmail.com>
-References: <CAJTo0LbfRJBevSBkip+Rm5ma=Tp6_VT4_HXGtab-57nhm58Qgg@mail.gmail.com>
-Cc: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: [PATCH v3] qt4: Fix QT4 applications spamming "QWSLock::down(): Invalid argument"
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qt4: Fix QT4 applications spamming "QWSLock::down(): Invalid argument"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,144 +52,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jan 2015 11:46:55 -0000
+X-List-Received-Date: Tue, 06 Jan 2015 11:47:51 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-If you run a QT server application, and a client in a separate process, it will
-spam the log with "QWSLock::down(): Invalid argument" messages because of an old
-bug in the locking code. There's a patch on the net that fixes it, which I manually
-adapted by removing the commented-out debug statements.
+=EF=BB=BFOk, I'll add some extra information to the patch and submit a v3.
 
-We have been using this patch for about half a year without problems, and the QT people
-apparently don't care about the bug, for which this solution has been posted in 2012.
-Including this into OE core will at least save other people the trouble of having to find
-and apply it for themselves.
+M.
 
-Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
----
-v3: Added my signoff, upstream-status and link to original patch to the patch
+On 01/06/2015 12:10 PM, Burton, Ross wrote:
+>
+> On 6 January 2015 at 10:34, Mike Looijmans <mike.looijmans@topic.nl
+> <mailto:mike.looijmans@topic.nl>> wrote:
+>
+>     We have been using this patch for about half a year without problems,=
+ and
+>     the QT people
+>     apparently don't care about the bug, hence there's no upstream status=
+.
+>     Including this
+>     into OE core will at least save other people the trouble of having to=
+ find
+>     and apply
+>     it for themselves.
+>
+>
+> You still need an upstream-status - if it's been submitted to Qt but they=
+'re
+> ignoring it then use Submitted and ideally put a link to the patch.
+>
+> Ross
 
- meta/recipes-qt/qt4/qt4-4.8.6.inc                  |    1 +
- .../Fix-QWSLock-invalid-argument-logs.patch        |   98 ++++++++++++++++++++
- 2 files changed, 99 insertions(+)
- create mode 100644 meta/recipes-qt/qt4/qt4-4.8.6/Fix-QWSLock-invalid-argument-logs.patch
 
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.6.inc b/meta/recipes-qt/qt4/qt4-4.8.6.inc
-index 074e82d..a2c0688 100644
---- a/meta/recipes-qt/qt4/qt4-4.8.6.inc
-+++ b/meta/recipes-qt/qt4/qt4-4.8.6.inc
-@@ -26,6 +26,7 @@ SRC_URI = "http://download.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever
-            file://0030-aarch64_arm64_qatomic_support.patch \
-            file://0031-aarch64_arm64_mkspecs.patch \
-            file://0032-aarch64_add_header.patch \
-+           file://Fix-QWSLock-invalid-argument-logs.patch \
-            file://g++.conf \
-            file://linux.conf \
-            "
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.6/Fix-QWSLock-invalid-argument-logs.patch b/meta/recipes-qt/qt4/qt4-4.8.6/Fix-QWSLock-invalid-argument-logs.patch
-new file mode 100644
-index 0000000..1f5f00f
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt4-4.8.6/Fix-QWSLock-invalid-argument-logs.patch
-@@ -0,0 +1,98 @@
-+From 52c34001bad85c3032618070b1d6b2a3c6880715 Mon Sep 17 00:00:00 2001
-+From: Neil Jerram <n...@ossau.homelinux.net>
-+Date: Thu, 8 Nov 2012 08:18:32 +0000
-+Subject: [PATCH] Fix QWSLock "invalid argument" logs
-+
-+There was no known actual problem associated with these logs, but they
-+were spamming the log, so I thought it worth trying to understand and
-+fix them.
-+
-+The confusion is that there are two different ways of creating QWSLock
-+objects.  "QWSLock()" creates an object that creates a new set of
-+semaphores, whereas "QWSLock(id)" creates an object that aliases the
-+existing set of semaphores with ID id.  What seems to happen is that
-+each application creates a semaphore set scoped to that
-+application (QWSDisplay::Data::clientLock in qapplication_qws.cpp),
-+then this semaphore set is passed by complex means to
-+places (QWSClientPrivate and QWSMemorySurface) that use the semaphores
-+for a short period and then delete their QWSLock objects.
-+
-+The problem was that the QWSLock destructor always destroyed the
-+semaphore set, even when that QWSLock hadn't create the semaphores
-+itself, hence making the semaphores invalid for other QWSLock objects
-+still referencing the same set.
-+
-+Clearly a QWSLock object shouldn't destroy the semaphore set if it
-+didn't create it itself, and that is confirmed by the fact that one of
-+the implementations inside QWSLock already implements this logic, with
-+the 'owned' flag.  The fix is to implement this for the #ifndef
-+QT_POSIX_IPC case - which is what is used in QtMoko - just as is
-+already implemented for the #ifdef QT_POSIX_IPC case.
-+
-+Original patch can be found here:
-+ http://www.mail-archive.com/community@lists.openmoko.org/msg65512.html
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
-+ (Removed the commented-out debug statements from the original patch.)
-+
-+---
-+
-+diff --git a/src/gui/embedded/qwslock.cpp b/src/gui/embedded/qwslock.cpp
-+index 9914a24..1055785 100644
-+--- a/src/gui/embedded/qwslock.cpp
-++++ b/src/gui/embedded/qwslock.cpp
-+@@ -83,9 +83,12 @@ QWSLock::QWSLock(int id) : semId(id)
-+     QWSSignalHandler::instance()->addWSLock(this);
-+ #endif
-+ 
-++    owned = false;
-++
-+ #ifndef QT_POSIX_IPC
-+     if (semId == -1) {
-+         semId = semget(IPC_PRIVATE, 3, IPC_CREAT | 0666);
-++        owned = true;
-+         if (semId == -1) {
-+             perror("QWSLock::QWSLock");
-+             qFatal("Unable to create semaphore");
-+@@ -100,7 +104,6 @@ QWSLock::QWSLock(int id) : semId(id)
-+     }
-+ #else
-+     sems[0] = sems[1] = sems[2] = SEM_FAILED;
-+-    owned = false;
-+ 
-+     if (semId == -1) {
-+         // ### generate really unique IDs
-+@@ -134,9 +137,11 @@ QWSLock::~QWSLock()
-+ 
-+     if (semId != -1) {
-+ #ifndef QT_POSIX_IPC
-+-        qt_semun semval;
-+-        semval.val = 0;
-+-        semctl(semId, 0, IPC_RMID, semval);
-++	if (owned) {
-++	    qt_semun semval;
-++	    semval.val = 0;
-++	    semctl(semId, 0, IPC_RMID, semval);
-++	}
-+         semId = -1;
-+ #else
-+         // emulate the SEM_UNDO behavior for the BackingStore lock
-+diff --git a/src/gui/embedded/qwslock_p.h b/src/gui/embedded/qwslock_p.h
-+index d324e4f..d867d20 100644
-+--- a/src/gui/embedded/qwslock_p.h
-++++ b/src/gui/embedded/qwslock_p.h
-+@@ -86,8 +86,8 @@ private:
-+     int lockCount[2];
-+ #ifdef QT_POSIX_IPC
-+     sem_t *sems[3];
-+-    bool owned;
-+ #endif
-++    bool owned;
-+ };
-+ 
-+ QT_END_NAMESPACE
-+ 
-+-- 
-+1.7.10.4
--- 
-1.7.9.5
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+System Expert
+
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
 
 
