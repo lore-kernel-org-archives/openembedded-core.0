@@ -1,24 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 94803601F5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id CE336729C6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jan 2015 15:42:42 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Jan 2015 07:42:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="508183853"
-Received: from unknown (HELO localhost.intel.com) ([10.252.252.96])
-	by orsmga003.jf.intel.com with ESMTP; 06 Jan 2015 07:37:01 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Jan 2015 07:42:22 -0800
-Message-Id: <5149fba599906379ad08516e540c8b3e6f467e2f.1420558836.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1420558836.git.sgw@linux.intel.com>
+	Tue,  6 Jan 2015 16:37:33 +0000 (UTC)
+Received: by mail-qg0-f52.google.com with SMTP id i50so3760514qgf.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Jan 2015 08:37:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=/RlBG/iu6NI8KuO55tZla9BebCE07gzFEVIQwWknphY=;
+	b=htMWBO5cHQXSeXQaDfizjoV7ZYMba9i69WRRyLxDYUt0rCpApsDjxSlnGwyrDwTpby
+	dpvG3Rz3aju6nf9q5uxzP/9+vegCs4VzlAVSFOp4RhYoMfgOBUI9a+7hoQcxVtiBpZln
+	Ee4SVoRSHYTcdq/5lmj7UZBWeL+fMGJH30aCQotmtaK+iN6SmS0UEfRQ309+bXe4McZG
+	cUPWCpc3y2z3V9y8gf+h/7H2KhlP1XOH8Q869ekIrZAvLrROBfqkxtY8AhndoxfuJ2P8
+	gDgmOEJV2SyYTSqYSh2oGS35vhoQfbsVyww9jTX6x+fxw1egZur//rsbD2hhAXNDC171
+	SH7A==
+X-Gm-Message-State: ALoCoQn4QfR24q6eWtSjiTVcTM4/nIclwu0EWplrt9UcfSOzhSZCrStthUFgsd49AFYWEgCrF26p
+X-Received: by 10.224.25.139 with SMTP id z11mr120943595qab.17.1420562253652; 
+	Tue, 06 Jan 2015 08:37:33 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.96.166 with HTTP; Tue, 6 Jan 2015 08:37:13 -0800 (PST)
+In-Reply-To: <7bfbcb4ca6a19b4377fa223f10c69309a8a009b7.1420558836.git.sgw@linux.intel.com>
 References: <cover.1420558836.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1420558836.git.sgw@linux.intel.com>
-References: <cover.1420558836.git.sgw@linux.intel.com>
-Subject: [PATCH 12/12] libgpg-error: Update to 1.17
+	<7bfbcb4ca6a19b4377fa223f10c69309a8a009b7.1420558836.git.sgw@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 6 Jan 2015 16:37:13 +0000
+Message-ID: <CAJTo0LYq8Bm7opRJwq0yEuwpuGYPZcxnW_baKbeD+koQbw1taA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/12] gnu-efi: Upgrade to 3.0w
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,232 +44,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jan 2015 15:42:42 -0000
+X-List-Received-Date: Tue, 06 Jan 2015 16:37:33 -0000
+Content-Type: multipart/alternative; boundary=047d7bea31c482bb8e050bfe6c79
 
-Rebased the pkgconfig.patch
+--047d7bea31c482bb8e050bfe6c79
+Content-Type: text/plain; charset=UTF-8
 
-Added do_compile_prepend() copy an architecture specific header file.
+On 6 January 2015 at 15:42, Saul Wold <sgw@linux.intel.com> wrote:
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../pkgconfig.patch                                | 67 ++++++++++++++--------
- .../{libgpg-error_1.12.bb => libgpg-error_1.17.bb} | 35 +++++++++--
- 2 files changed, 72 insertions(+), 30 deletions(-)
- rename meta/recipes-support/libgpg-error/{libgpg-error-1.12 => libgpg-error}/pkgconfig.patch (70%)
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.12.bb => libgpg-error_1.17.bb} (40%)
+> --- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0u.bb
+> +++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0w.bb
+> @@ -8,6 +8,7 @@ SRC_URI = "
+> http://downloads.sourceforge.net/gnu-efi/gnu-efi_3.0u.orig.tar.gz \
+>             file://parallel-make.patch \
+>             file://parallel-make-archives.patch \
+>            "
+> +
+>  SRC_URI[md5sum] = "d15d3c700e79a1e2938544d73edc572d"
+>  SRC_URI[sha256sum] =
+> "3c0d450d5829204ca05dcb3b2aae772e52c379b7c7e09146759c6315606f934e"
+>
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error-1.12/pkgconfig.patch b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-similarity index 70%
-rename from meta/recipes-support/libgpg-error/libgpg-error-1.12/pkgconfig.patch
-rename to meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-index 89c9d22..96476ba 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error-1.12/pkgconfig.patch
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-@@ -5,11 +5,11 @@
- 
- Upstream-Status: Pending
- 
--Index: libgpg-error-1.12/configure.ac
-+Index: libgpg-error-1.17/configure.ac
- ===================================================================
----- libgpg-error-1.12.orig/configure.ac	2014-05-13 21:14:26.846393236 +0000
--+++ libgpg-error-1.12/configure.ac	2014-05-13 21:14:26.926393236 +0000
--@@ -217,6 +217,7 @@
-+--- libgpg-error-1.17.orig/configure.ac
-++++ libgpg-error-1.17/configure.ac
-+@@ -521,6 +521,7 @@ AC_CONFIG_FILES([src/Makefile tests/Make
-  AC_CONFIG_FILES([lang/Makefile lang/cl/Makefile lang/cl/gpg-error.asd])
-  AC_CONFIG_FILES([src/versioninfo.rc])
-  AC_CONFIG_FILES([src/gpg-error-config], [chmod +x src/gpg-error-config])
-@@ -17,11 +17,11 @@ Index: libgpg-error-1.12/configure.ac
-  
-  AC_OUTPUT
-  
--Index: libgpg-error-1.12/src/Makefile.am
-+Index: libgpg-error-1.17/src/Makefile.am
- ===================================================================
----- libgpg-error-1.12.orig/src/Makefile.am	2014-05-13 21:14:26.846393236 +0000
--+++ libgpg-error-1.12/src/Makefile.am	2014-05-13 21:14:26.934393236 +0000
--@@ -37,13 +37,15 @@
-+--- libgpg-error-1.17.orig/src/Makefile.am
-++++ libgpg-error-1.17/src/Makefile.am
-+@@ -74,13 +74,15 @@ nodist_include_HEADERS = gpg-error.h
-  bin_SCRIPTS = gpg-error-config
-  m4datadir = $(datadir)/aclocal
-  m4data_DATA = gpg-error.m4
-@@ -31,17 +31,17 @@ Index: libgpg-error-1.12/src/Makefile.am
-  EXTRA_DIST = mkstrtable.awk err-sources.h.in err-codes.h.in \
-  	mkerrnos.awk errnos.in README \
-  	mkerrcodes.awk mkerrcodes1.awk mkerrcodes2.awk mkerrcodes.c \
-- 	mkheader.awk gpg-error.h.in mkw32errmap.c w32-add.h w32ce-add.h \
-+ 	mkheader.c gpg-error.h.in mkw32errmap.c w32-add.h w32ce-add.h \
-  	err-sources.h err-codes.h gpg-error-config.in gpg-error.m4 \
---	gpg-error.def.in versioninfo.rc.in
--+	gpg-error.def.in versioninfo.rc.in gpg-error.pc.in
-+-	gpg-error.vers gpg-error.def.in versioninfo.rc.in \
-++	gpg-error.vers gpg-error.def.in versioninfo.rc.in gpg-error.pc \
-+ 	$(lock_obj_pub)
-  
-  BUILT_SOURCES = err-sources.h err-codes.h code-to-errno.h code-from-errno.h \
-- 	err-sources-sym.h err-codes-sym.h errnos-sym.h gpg-error.h \
--Index: libgpg-error-1.12/src/gpg-error.pc.in
-+Index: libgpg-error-1.17/src/gpg-error.pc.in
- ===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ libgpg-error-1.12/src/gpg-error.pc.in	2014-05-13 21:48:20.266382916 +0000
-+--- /dev/null
-++++ libgpg-error-1.17/src/gpg-error.pc.in
- @@ -0,0 +1,11 @@
- +prefix=@prefix@
- +exec_prefix=@exec_prefix@
-@@ -54,11 +54,11 @@ Index: libgpg-error-1.12/src/gpg-error.pc.in
- +Version: @VERSION@
- +Libs: -L${libdir} -lgpg-error
- +Cflags: -I${includedir}
--Index: libgpg-error-1.12/src/gpg-error.m4
-+Index: libgpg-error-1.17/src/gpg-error.m4
- ===================================================================
----- libgpg-error-1.12.orig/src/gpg-error.m4	2014-05-13 21:45:02.038383922 +0000
--+++ libgpg-error-1.12/src/gpg-error.m4	2014-05-13 21:47:08.362383281 +0000
--@@ -15,58 +15,14 @@
-+--- libgpg-error-1.17.orig/src/gpg-error.m4
-++++ libgpg-error-1.17/src/gpg-error.m4
-+@@ -26,73 +26,13 @@ dnl is added to the gpg_config_script_wa
-  dnl
-  AC_DEFUN([AM_PATH_GPG_ERROR],
-  [ AC_REQUIRE([AC_CANONICAL_HOST])
-@@ -70,7 +70,7 @@ Index: libgpg-error-1.12/src/gpg-error.m4
- -              AC_HELP_STRING([--with-libgpg-error-prefix=PFX],
- -                             [prefix where GPG Error is installed (optional)]),
- -              [gpg_error_config_prefix="$withval"])
-- 
-+-
- -  dnl Accept --with-gpg-error-prefix and make it work the same as
- -  dnl --with-libgpg-error-prefix above, for backwards compatibility,
- -  dnl but do not document this old, inconsistently-named option.
-@@ -78,14 +78,27 @@ Index: libgpg-error-1.12/src/gpg-error.m4
- -              [gpg_error_config_prefix="$withval"])
- +  min_gpg_error_version=ifelse([$1], ,0.0,$1)
-  
---  if test x$gpg_error_config_prefix != x ; then
---     if test x${GPG_ERROR_CONFIG+set} != xset ; then
---        GPG_ERROR_CONFIG=$gpg_error_config_prefix/bin/gpg-error-config
-+-  if test x"${GPG_ERROR_CONFIG}" = x ; then
-+-     if test x"${gpg_error_config_prefix}" != x ; then
-+-        GPG_ERROR_CONFIG="${gpg_error_config_prefix}/bin/gpg-error-config"
-+-     else
-+-       case "${SYSROOT}" in
-+-         /*)
-+-           if test -x "${SYSROOT}/bin/gpg-error-config" ; then
-+-             GPG_ERROR_CONFIG="${SYSROOT}/bin/gpg-error-config"
-+-           fi
-+-           ;;
-+-         '')
-+-           ;;
-+-          *)
-+-           AC_MSG_WARN([Ignoring \$SYSROOT as it is not an absolute path.])
-+-           ;;
-+-       esac
- -     fi
- -  fi
- +  PKG_CHECK_MODULES(GPG_ERROR, [gpg-error >= $min_gpg_error_version], [ok=yes], [ok=no])
-  
---  AC_PATH_TOOL(GPG_ERROR_CONFIG, gpg-error-config, no)
-+-  AC_PATH_PROG(GPG_ERROR_CONFIG, gpg-error-config, no)
- -  min_gpg_error_version=ifelse([$1], ,0.0,$1)
- -  AC_MSG_CHECKING(for GPG Error - version >= $min_gpg_error_version)
- -  ok=no
-@@ -113,6 +126,8 @@ Index: libgpg-error-1.12/src/gpg-error.m4
-    if test $ok = yes; then
- -    GPG_ERROR_CFLAGS=`$GPG_ERROR_CONFIG $gpg_error_config_args --cflags`
- -    GPG_ERROR_LIBS=`$GPG_ERROR_CONFIG $gpg_error_config_args --libs`
-+-    GPG_ERROR_MT_CFLAGS=`$GPG_ERROR_CONFIG $gpg_error_config_args --mt --cflags 2>/dev/null`
-+-    GPG_ERROR_MT_LIBS=`$GPG_ERROR_CONFIG $gpg_error_config_args --mt --libs 2>/dev/null`
- -    AC_MSG_RESULT([yes ($gpg_error_config_version)])
-      ifelse([$2], , :, [$2])
- -    gpg_error_config_host=`$GPG_ERROR_CONFIG $gpg_error_config_args --host 2>/dev/null || echo none`
-@@ -120,12 +135,14 @@ Index: libgpg-error-1.12/src/gpg-error.m4
-      if test x"$gpg_error_config_host" != xnone ; then
-        if test x"$gpg_error_config_host" != x"$host" ; then
-    AC_MSG_WARN([[
--@@ -80,9 +36,6 @@
-+@@ -107,11 +47,6 @@ AC_DEFUN([AM_PATH_GPG_ERROR],
-        fi
-      fi
-    else
- -    GPG_ERROR_CFLAGS=""
- -    GPG_ERROR_LIBS=""
-+-    GPG_ERROR_MT_CFLAGS=""
-+-    GPG_ERROR_MT_LIBS=""
- -    AC_MSG_RESULT(no)
-      ifelse([$3], , :, [$3])
-    fi
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.12.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.17.bb
-similarity index 40%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.12.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.17.bb
-index af9574d..c905bd1 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.12.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.17.bb
-@@ -5,8 +5,8 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
- LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--                    file://src/gpg-error.h.in;endline=23;md5=6ac0378874589a44d53512b3786b4bc0 \
--                    file://src/init.c;endline=20;md5=b69742f2a8827d494c6f6a4b1768416c"
-+                    file://src/gpg-error.h.in;endline=23;md5=5dfe776dc8b62af093ddc859de6f494c \
-+                    file://src/init.c;endline=20;md5=8f5a9b59634f4aebcd0ec9d3ebd53bfe"
- 
- 
- SECTION = "libs"
-@@ -14,18 +14,43 @@ SECTION = "libs"
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch"
- 
--SRC_URI[md5sum] = "8f0eb41a344d19ac2aa9bd101dfb9ce6"
--SRC_URI[sha256sum] = "cafc9ed6a87c53a35175d5a1220a96ca386696eef2fa059cc0306211f246e55f"
-+SRC_URI[md5sum] = "b4f8d8b9ff14aed41f279aa844563539"
-+SRC_URI[sha256sum] = "3ff4e5a71116eb862cd14185fcd282850927b8608e3b4186834fd940fbef57b5"
- 
- BINCONFIG = "${bindir}/gpg-error-config"
- 
- inherit autotools binconfig-disabled pkgconfig gettext
- 
--FILES_${PN}-dev += "${bindir}/gpg-error"
-+do_compile_prepend() {
-+	TARGET_FILE=linux-gnu
-+	if [ ${TARGET_OS} != "linux" ]; then
-+		TARGET_FILE=${TARGET_OS}
-+	fi
-+
-+	case ${TARGET_ARCH} in
-+	  aarch64)    TUPLE=aarch64-unknown-linux-gnu ;;
-+	  arm)	      TUPLE=arm-unknown-linux-gnueabi ;;
-+	  armeb)      TUPLE=arm-unknown-linux-gnueabi ;;
-+	  i586)       TUPLE=i486-pc-linux-gnu ;;
-+	  mipsel)     TUPLE=mipsel-unknown-linux-gnu ;;
-+	  mips64el)   TUPLE=mipsel-unknown-linux-gnu ;;
-+	  mips64)     TUPLE=mips-unknown-linux-gnu ;;
-+	  mips)       TUPLE=mips-unknown-linux-gnu ;;
-+	  powerpc64)  TUPLE=powerpc64-unknown-linux-gnu ;;
-+	  powerpc)    TUPLE=powerpc-unknown-linux-gnu ;;
-+	  sh4)	      TUPLE=sh4-unknown-linux-gnu ;;
-+	  x86_64)     TUPLE=x86_64-pc-linux-gnu ;;
-+	esac
-+
-+	cp ${S}/src/syscfg/lock-obj-pub.$TUPLE.h \
-+	  ${S}/src/syscfg/lock-obj-pub.$TARGET_FILE.h
-+}
- 
- do_install_append() {
- 	# we don't have common lisp in OE
- 	rm -rf "${D}${datadir}/common-lisp/"
- }
- 
-+FILES_${PN}-dev += "${bindir}/gpg-error"
-+
- BBCLASSEXTEND = "native"
--- 
-2.1.0
+No change to the checksums, presumably they didn't brute-force a sha256sum
+attack to do that. ;)
 
+Ross
 
+--047d7bea31c482bb8e050bfe6c79
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 January 2015 at 15:42, Saul Wold <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":6bu" class=3D"a3s" s=
+tyle=3D"overflow:hidden">--- a/meta/recipes-bsp/gnu-efi/<a href=3D"http://g=
+nu-efi_3.0u.bb" target=3D"_blank">gnu-efi_3.0u.bb</a><br>
++++ b/meta/recipes-bsp/gnu-efi/<a href=3D"http://gnu-efi_3.0w.bb" target=3D=
+"_blank">gnu-efi_3.0w.bb</a><br>
+@@ -8,6 +8,7 @@ SRC_URI =3D &quot;<a href=3D"http://downloads.sourceforge.n=
+et/gnu-efi/gnu-efi_3.0u.orig.tar.gz" target=3D"_blank">http://downloads.sou=
+rceforge.net/gnu-efi/gnu-efi_3.0u.orig.tar.gz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://parallel-make.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://parallel-make-archives.pat=
+ch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
++<br>
+=C2=A0SRC_URI[md5sum] =3D &quot;d15d3c700e79a1e2938544d73edc572d&quot;<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;3c0d450d5829204ca05dcb3b2aae772e52c379b7=
+c7e09146759c6315606f934e&quot;</div></blockquote></div><br>No change to the=
+ checksums, presumably they didn&#39;t brute-force a sha256sum attack to do=
+ that. ;)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">Ross</div></div>
+
+--047d7bea31c482bb8e050bfe6c79--
