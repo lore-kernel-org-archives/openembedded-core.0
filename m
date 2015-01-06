@@ -1,45 +1,26 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
-	[217.149.192.139])
-	by mail.openembedded.org (Postfix) with ESMTP id F27FE7295A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0301B7289C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jan 2015 11:47:47 +0000 (UTC)
-Received: from amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.96])
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id E5DB53F4FA;
-	Tue,  6 Jan 2015 12:47:46 +0100 (CET)
-X-Spam-Flag: NO
-X-Spam-Score: -2.9
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 tagged_above=-999 required=3.5
-	tests=[BAYES_00=-2.9] autolearn=disabled
-X-Spam-Languages: en
-Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
-	by amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP; Tue,  6 Jan 2015 12:47:46 +0100 (CET)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS;
-	Tue,  6 Jan 2015 12:47:46 +0100 (CET)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Tue, 6 Jan 2015 12:49:04 +0100
-Message-ID: <54ABCB61.5080900@topic.nl>
-Date: Tue, 6 Jan 2015 12:47:45 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Tue,  6 Jan 2015 12:15:21 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Jan 2015 04:15:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="437044671"
+Received: from dmoore26-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.3.68])
+	by FMSMGA003.fm.intel.com with ESMTP; 06 Jan 2015 04:02:58 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Jacob Kroon <jacob.kroon@gmail.com>
+Date: Tue, 06 Jan 2015 12:15:20 +0000
+Message-ID: <5285278.bn4TMnSXug@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.3 (Linux/3.17.7-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <CAPbeDCmcdS36_2anNvZpT2aO2Vft6so3MmTqsjtFo65itxyOXw@mail.gmail.com>
+References: <CAPbeDCmcdS36_2anNvZpT2aO2Vft6so3MmTqsjtFo65itxyOXw@mail.gmail.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1420540468-9062-1-git-send-email-mike.looijmans@topic.nl>
-	<CAJTo0LbfRJBevSBkip+Rm5ma=Tp6_VT4_HXGtab-57nhm58Qgg@mail.gmail.com>
-In-Reply-To: <CAJTo0LbfRJBevSBkip+Rm5ma=Tp6_VT4_HXGtab-57nhm58Qgg@mail.gmail.com>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qt4: Fix QT4 applications spamming "QWSLock::down(): Invalid argument"
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: perl installation in the SDK references $OECORE_NATIVE_SYSROOT ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,56 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jan 2015 11:47:51 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 06 Jan 2015 12:15:26 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-=EF=BB=BFOk, I'll add some extra information to the patch and submit a v3.
+Hi Jacob,
 
-M.
+On Sunday 07 December 2014 16:07:44 Jacob Kroon wrote:
+> Like the topic says, I grepped for "OECORE" in the native sysroot of my SDK
+> installation, and the only hit I got was this:
+> 
+> usr/bin/perl:export
+> PERL5LIB=$PERL5LIB:$OECORE_NATIVE_SYSROOT//usr/lib/perl:$OECORE_NATIVE_SYSRO
+> OT//usr/lib/perl/5.20.0
+> 
+> I'm wondering if this reference is intentional, or if its something that
+> should have been sed:ed out during sdk installation ?
 
-On 01/06/2015 12:10 PM, Burton, Ross wrote:
->
-> On 6 January 2015 at 10:34, Mike Looijmans <mike.looijmans@topic.nl
-> <mailto:mike.looijmans@topic.nl>> wrote:
->
->     We have been using this patch for about half a year without problems,=
- and
->     the QT people
->     apparently don't care about the bug, hence there's no upstream status=
-.
->     Including this
->     into OE core will at least save other people the trouble of having to=
- find
->     and apply
->     it for themselves.
->
->
-> You still need an upstream-status - if it's been submitted to Qt but they=
-'re
-> ignoring it then use Submitted and ideally put a link to the patch.
->
-> Ross
+I believe this variable is set by the environment setup script, which we 
+expect to be run prior to using the SDK, so yes I believe this is intentional.
 
+Cheers,
+Paul
 
+-- 
 
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-System Expert
-
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Please consider the environment before printing this e-mail
-
-Topic zoekt gedreven (embedded) software specialisten!
-http://topic.nl/vacatures/topic-zoekt-software-engineers/
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
