@@ -1,21 +1,30 @@
-Return-Path: <rodrigo.chiossi@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ED8872825
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E1E672902
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jan 2015 14:19:20 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 06 Jan 2015 06:19:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="508154060"
-Received: from rchiossi-1.bz.intel.com (HELO rchiossi-1.localdomain)
-	([10.218.99.50])
-	by orsmga003.jf.intel.com with ESMTP; 06 Jan 2015 06:13:23 -0800
-From: Rodrigo Chiossi <rodrigo.chiossi@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Jan 2015 12:18:54 -0200
-Message-Id: <1420553934-2559-1-git-send-email-rodrigo.chiossi@intel.com>
-X-Mailer: git-send-email 2.1.3
-Subject: [PATCH] lib/oe/terminal: add support for Terminology terminal emulator
+	Tue,  6 Jan 2015 14:21:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t06EJHer002125; Tue, 6 Jan 2015 14:20:30 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id MSUfHNqlQgzG; Tue,  6 Jan 2015 14:20:30 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t06EKGQT002368
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 6 Jan 2015 14:20:28 GMT
+Message-ID: <1420554053.25779.42.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Armin Kuster <akuster808@gmail.com>
+Date: Tue, 06 Jan 2015 14:20:53 +0000
+In-Reply-To: <cover.1420490240.git.akuster808@gmail.com>
+References: <cover.1420490240.git.akuster808@gmail.com>
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/12] Dizzy 1.7.1 additions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,31 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jan 2015 14:19:25 -0000
+X-List-Received-Date: Tue, 06 Jan 2015 14:21:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Terminology is the default Enlightenment terminal emulator
+On Mon, 2015-01-05 at 12:40 -0800, Armin Kuster wrote:
+> please consider this for inclusion for 1.7.1
+> Many security fixes and kernel update.
+> 
+> The following changes since commit f4d9d7bc206aaf30ea5c72675df139425a2c8d90:
+> 
+>   lbdrm: fix build issue. (2014-12-27 08:43:41 -0800)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib akuster/dizzy_1_7_1
+>   http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/dizzy_1_7_1
 
-Signed-off-by: Rodrigo Chiossi <rodrigo.chiossi@intel.com>
----
- meta/lib/oe/terminal.py | 4 ++++
- 1 file changed, 4 insertions(+)
+I've merged this but it was tricky since this isn't based of the current
+dizzy branch.
 
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 0a623c7..e9af726 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -63,6 +63,10 @@ class Xfce(XTerminal):
-     command = 'xfce4-terminal -T "{title}" -e "{command}"'
-     priority = 2
- 
-+class Terminology(XTerminal):
-+    command = 'terminology -T="{title}" -e {command}'
-+    priority = 2
-+
- class Konsole(XTerminal):
-     command = 'konsole -T "{title}" -e {command}'
-     priority = 2
--- 
-2.1.3
+Where a patch is rejected (like the sysroot poison one), please drop it
+and please rebase against the current dizzy head in future.
+
+Cheers,
+
+Richard
 
 
