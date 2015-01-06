@@ -1,36 +1,34 @@
 Return-Path: <sujith.h@gmail.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 96CC465C75
+Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 68CA6728FE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jan 2015 12:51:50 +0000 (UTC)
-Received: by mail-qg0-f54.google.com with SMTP id l89so16911629qgf.27
+	Tue,  6 Jan 2015 12:52:55 +0000 (UTC)
+Received: by mail-pd0-f176.google.com with SMTP id r10so30338947pdi.35
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Jan 2015 04:51:51 -0800 (PST)
+	Tue, 06 Jan 2015 04:52:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=BsSVdGED0MWqZs4uybfVe4mf6Z4CDu8HDM8XmIKTA9g=;
-	b=mooptFqjqkZ9sMERnC/Oqeai+Iy2ts0I5txB02bWDUPpTgc1kcr11dc6FHDkz+kk6c
-	K2hTgM7GBHKc850vZFcj1Qv2v44CSTrPjctWAplj+pL9k4qrdYsORovsWZ3o3/qth9f2
-	oyNpEEHM7Rb61MSrCGMLP+G7XwL8M0YpDs/dj6i8SLOBpnp8ltfhcP881PkjYL3MRcHo
-	NVSOZGxVcFXRhaiAsyl1aSqeCYDavBTxix1V99OCRuixYWDfSMlY+dVLuwKjhOjmbuuk
-	VDHAHqC/liU+/6htUuApKW0UAFqZukiAce6Ch+wGel5XDr4as/YPBmx7EPwUseZ79qun
-	gy9g==
-X-Received: by 10.229.24.6 with SMTP id t6mr75131985qcb.17.1420548711548; Tue,
-	06 Jan 2015 04:51:51 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.85.165 with HTTP; Tue, 6 Jan 2015 04:51:31 -0800 (PST)
-In-Reply-To: <CAJTo0LYHY_MtYU7WPgdoaZwaLOtcZ9uo-209aZwnd4Uv0kLjeg@mail.gmail.com>
-References: <1420541668-16699-1-git-send-email-sujith.h@gmail.com>
-	<CAJTo0LYHY_MtYU7WPgdoaZwaLOtcZ9uo-209aZwnd4Uv0kLjeg@mail.gmail.com>
-From: sujith h <sujith.h@gmail.com>
-Date: Tue, 6 Jan 2015 18:21:31 +0530
-Message-ID: <CADyYWL=ao0mzuh9Q3s2wLRLtVhNpYGfpV9awmXmaD4gagM8wgQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Sujith H <Sujith_Haridasan@mentor.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xserver-xf86-config: Loading glx module
+	h=from:to:cc:subject:date:message-id;
+	bh=5+KZI0IGpn47Zxcr2ICTsUkCBzgbkazK3+nGBclmt9c=;
+	b=r3iPmITWhb4OzHdhJ83qBjJXWk49vknZxLa5zadBzvHxOXTeeowAcw+9RRydWYpSG5
+	ObqfHiQM6gPM4V0m68+W4iAa4/DxOxBfBBEG7hdaRQmf7xBunsgoItkh+7PE1AEbUcRb
+	+SNvlqoorauM768FTovB2lzX7NVb8kTvkb6D5FWe3uN27M5aNcxDU5BL7ERu1KMHbwZ0
+	R2IV+70lwgAzw/0hTN4n8LvH/Y7OPDooD8frPbHrwSEsWDd3utmj7Fyz1/oI5RtYd2yU
+	TkEQAkpW1o7kC6m4y3yEjLqPou1GvDr4wnpYYxGlhXUZ7Wafpv7/K9s2xQ9RJvyWBNb8
+	wfcw==
+X-Received: by 10.68.200.68 with SMTP id jq4mr154902954pbc.30.1420548776823;
+	Tue, 06 Jan 2015 04:52:56 -0800 (PST)
+Received: from linux-z8xt.inp.mentorg.com ([139.181.35.34])
+	by mx.google.com with ESMTPSA id y3sm56919427pbt.44.2015.01.06.04.52.54
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 06 Jan 2015 04:52:56 -0800 (PST)
+From: Sujith H <sujith.h@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Jan 2015 18:21:00 +0530
+Message-Id: <1420548660-18635-1-git-send-email-sujith.h@gmail.com>
+X-Mailer: git-send-email 1.8.4
+Cc: Sujith H <Sujith_Haridasan@mentor.com>
+Subject: [PATCH] xserver-xf86-config: Loading glx module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,110 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jan 2015 12:51:55 -0000
-Content-Type: multipart/alternative; boundary=001a1133b34e568e3d050bfb4526
+X-List-Received-Date: Tue, 06 Jan 2015 12:52:56 -0000
 
---001a1133b34e568e3d050bfb4526
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+From: Sujith H <Sujith_Haridasan@mentor.com>
 
-On Tue, Jan 6, 2015 at 5:00 PM, Burton, Ross <ross.burton@intel.com> wrote:
+This module was required to get opengl working with
+Qt5 version 5.4 ( when tested with qemuarm and qemux86).
+After adding this change to the xorg.conf and restarting
+xserver qtquick and qtdeclarative examples of Qt5 started
+working appropriately.
 
->
-> On 6 January 2015 at 10:54, Sujith H <sujith.h@gmail.com> wrote:
->
->> +        if
->> ${@bb.utils.contains('DISTRO_FEATURES','x11','true','false',d)}; then
->>
->
-> Why would a X11-specific recipe need an X11 feature check?
->
-Correct, I will remove the x11 feature check from the patch.
+Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
+Signed-off-by: Sujith H <sujith.h@gmail.com>
+---
+ meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
->
->
->> +                cat >> ${D}/${sysconfdir}/X11/xorg.conf << EOF
->> +Section "Module"
->> +    Load           "glx"
->> +EndSection
->>
->
-> But GLX is automatically loaded by the xserver,  My test machine doesn't
-> have a xorg.conf and GLX loads on startup.  Does your machine configurati=
-on
-> ship a xorg.conf?
->
-No, we get the xorg.conf from this same recipe. And while I was testing
-some opengl related examples from Qt5, I was getting error
-saying: "could not initialize glx" . Hence I made a change in the recipe
-and added IMAGE_INSTALL_append =3D " xserver-xorg-extension-glx" and it
-worked fine. Hence I thought of adding this change. Let me know if there is
-any issues/concern.
-
->
-> Ross
->
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
+index 549c7c8..391ebae 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
+@@ -17,4 +17,9 @@ do_install () {
+ 		install -d ${D}/${sysconfdir}/X11
+ 		install -m 0644 ${WORKDIR}/xorg.conf ${D}/${sysconfdir}/X11/
+ 	fi
++        cat >> ${D}/${sysconfdir}/X11/xorg.conf << EOF
++Section "Module"
++    Load           "glx"
++EndSection
++EOF
+ }
+-- 
+1.8.4
 
 
-
---=20
-=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
-=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
-Bangalore
-<Project>Contributor to KDE project
-http://fci.wikia.com/wiki/Anti-DRM-Campaign
-<Blog> http://sujithh.info
-
---001a1133b34e568e3d050bfb4526
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Tue, Jan 6, 2015 at 5:00 PM, Burton, Ross <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-"><div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote=
-"><span class=3D"">On 6 January 2015 at 10:54, Sujith H <span dir=3D"ltr">&=
-lt;<a href=3D"mailto:sujith.h@gmail.com" target=3D"_blank">sujith.h@gmail.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x"><div>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ${@bb.utils.contains(&#39;DISTRO_FE=
-ATURES&#39;,&#39;x11&#39;,&#39;true&#39;,&#39;false&#39;,d)}; then<br></div=
-></blockquote><div><br></div></span><div>Why would a X11-specific recipe ne=
-ed an X11 feature check?</div></div></div></div></blockquote><div>Correct, =
-I will remove the x11 feature check from the patch. <br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_e=
-xtra"><div class=3D"gmail_quote"><span class=3D""><div>=C2=A0</div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex"><div>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cat &gt;&gt; ${D}/=
-${sysconfdir}/X11/xorg.conf &lt;&lt; EOF<br>
-+Section &quot;Module&quot;<br>
-+=C2=A0 =C2=A0 Load=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;glx&quot;=
-<br>
-+EndSection</div></blockquote><div><br></div></span><div>But GLX is automat=
-ically loaded by the xserver, =C2=A0My test machine doesn&#39;t have a xorg=
-.conf and GLX loads on startup.=C2=A0 Does your machine configuration ship =
-a xorg.conf?</div></div></div></div></blockquote><div>No, we get the xorg.c=
-onf from this same recipe. And while I was testing some opengl related exam=
-ples from Qt5, I was getting error<br></div><div>saying: &quot;could not in=
-itialize glx&quot; . Hence I made a change in the recipe and added IMAGE_IN=
-STALL_append =3D &quot; xserver-xorg-extension-glx&quot; and it worked fine=
-. Hence I thought of adding this change. Let me know if there is any issues=
-/concern.<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div d=
-ir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><span clas=
-s=3D""><font color=3D"#888888"><div><br></div><div>Ross</div></font></span>=
-</div></div></div>
-</blockquote></div><br><br clear=3D"all"><br>-- <br><div class=3D"gmail_sig=
-nature">=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=
-=B4=B0=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D<br>Bangalore<b=
-r>&lt;Project&gt;Contributor to KDE project<br><a href=3D"http://fci.wikia.=
-com/wiki/Anti-DRM-Campaign" target=3D"_blank">http://fci.wikia.com/wiki/Ant=
-i-DRM-Campaign</a><br>&lt;Blog&gt; <a href=3D"http://sujithh.info" target=
-=3D"_blank">http://sujithh.info</a><br></div>
-</div></div>
-
---001a1133b34e568e3d050bfb4526--
