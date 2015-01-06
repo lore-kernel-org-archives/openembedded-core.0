@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id DCA97728C3
+	by mail.openembedded.org (Postfix) with ESMTP id E07A7728C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jan 2015 15:42:33 +0000 (UTC)
+	Tue,  6 Jan 2015 15:42:34 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Jan 2015 07:42:34 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 06 Jan 2015 07:42:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="508183834"
+X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="508183837"
 Received: from unknown (HELO localhost.intel.com) ([10.252.252.96])
-	by orsmga003.jf.intel.com with ESMTP; 06 Jan 2015 07:36:55 -0800
+	by orsmga003.jf.intel.com with ESMTP; 06 Jan 2015 07:36:56 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Jan 2015 07:42:16 -0800
-Message-Id: <b1d8e4726ccb1a825d9338a718edb5a4d854a33c.1420558836.git.sgw@linux.intel.com>
+Date: Tue,  6 Jan 2015 07:42:17 -0800
+Message-Id: <3469bdcad4fe50102cd2cd239af30366093608ad.1420558836.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1420558836.git.sgw@linux.intel.com>
 References: <cover.1420558836.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1420558836.git.sgw@linux.intel.com>
 References: <cover.1420558836.git.sgw@linux.intel.com>
-Subject: [PATCH 06/12] json-c: Upgrade to 0.12
+Subject: [PATCH 07/12] lsbinitscripts: Upgrade to 9.60
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jan 2015 15:42:34 -0000
-
-Added CFLAGS to prevent compiler error of unused size variable
+X-List-Received-Date: Tue, 06 Jan 2015 15:42:36 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/json-c/{json-c_0.11.bb => json-c_0.12.bb} | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/json-c/{json-c_0.11.bb => json-c_0.12.bb} (75%)
+ .../lsb/{lsbinitscripts_9.56.1.bb => lsbinitscripts_9.60.bb}        | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/lsb/{lsbinitscripts_9.56.1.bb => lsbinitscripts_9.60.bb} (78%)
 
-diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.12.bb
-similarity index 75%
-rename from meta/recipes-devtools/json-c/json-c_0.11.bb
-rename to meta/recipes-devtools/json-c/json-c_0.12.bb
-index 389e0f9..79cf6dc 100644
---- a/meta/recipes-devtools/json-c/json-c_0.11.bb
-+++ b/meta/recipes-devtools/json-c/json-c_0.12.bb
-@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.56.1.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.60.bb
+similarity index 78%
+rename from meta/recipes-extended/lsb/lsbinitscripts_9.56.1.bb
+rename to meta/recipes-extended/lsb/lsbinitscripts_9.60.bb
+index cf3a863..1490582 100644
+--- a/meta/recipes-extended/lsb/lsbinitscripts_9.56.1.bb
++++ b/meta/recipes-extended/lsb/lsbinitscripts_9.60.bb
+@@ -6,12 +6,12 @@ DEPENDS = "popt glib-2.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
  
- SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
+ S="${WORKDIR}/initscripts-${PV}"
+-SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-9.56.1.tar.bz2/8ca2abb3877e8019a5e726c25501e8e3/initscripts-9.56.1.tar.bz2 \
++SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-9.60.tar.bz2/5c9cd83e4e04257fef3ffd8e549b7f81/initscripts-9.60.tar.bz2 \
+            file://functions.patch \
+           " 
  
--SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
--SRC_URI[sha256sum] = "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
-+SRC_URI[md5sum] = "3ca4bbb881dfc4017e8021b5e0a8c491"
-+SRC_URI[sha256sum] = "000c01b2b3f82dcb4261751eb71f1b084404fb7d6a282f06074d3c17078b9f3f"
+-SRC_URI[md5sum] = "8ca2abb3877e8019a5e726c25501e8e3"
+-SRC_URI[sha256sum] = "e6fbe1daa5cbfc6fab12ccac2955bde0c16ec8d9fbdb9f7c6c33fadc81da6574"
++SRC_URI[md5sum] = "5c9cd83e4e04257fef3ffd8e549b7f81"
++SRC_URI[sha256sum] = "254508884ceeef22e24f4e8b051bb51958ae8252bd7b02cd2b7bcce3fb453dc2"
  
- RPROVIDES_${PN} = "libjson"
+ inherit update-alternatives
  
-@@ -19,3 +19,5 @@ do_configure_prepend() {
-     # Clean up autoconf cruft that should not be in the tarball
-     rm -f ${S}/config.status
- }
-+
-+CFLAGS += "-Wno-error=unused-but-set-variable"
 -- 
 2.1.0
 
