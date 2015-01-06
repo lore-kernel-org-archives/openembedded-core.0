@@ -1,24 +1,31 @@
-Return-Path: <ml@communistcode.co.uk>
-X-Greylist: delayed 2484 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 06 Jan 2015 13:30:33 UTC
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id E443B7289C
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5163C65C75
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Jan 2015 13:30:33 +0000 (UTC)
-Message-ID: <54ABD99A.3020401@communistcode.co.uk>
-Date: Tue, 06 Jan 2015 12:48:26 +0000
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Tue,  6 Jan 2015 14:01:51 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Jan 2015 06:01:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,862,1389772800"; d="scan'208";a="437075854"
+Received: from dmoore26-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.3.68])
+	by FMSMGA003.fm.intel.com with ESMTP; 06 Jan 2015 05:49:25 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: akuster808 <akuster808@gmail.com>
+Date: Tue, 06 Jan 2015 14:01:48 +0000
+Message-ID: <2069193.on9bJUeCyV@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.3 (Linux/3.17.7-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <54A73A9D.8080903@gmail.com>
+References: <cover.1418663308.git.akuster808@gmail.com>
+	<1420021585.25779.14.camel@linuxfoundation.org>
+	<54A73A9D.8080903@gmail.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1413018367.git.hongxu.jia@windriver.com>
-In-Reply-To: <cover.1413018367.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 0/1] file: add wrapper to nativesdk-file
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Dizzy Merging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -28,59 +35,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jan 2015 13:30:36 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 06 Jan 2015 14:01:59 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 11/10/14 10:07, Hongxu Jia wrote:
-> The following changes since commit 0172cded27d73437784fe1578110937aede563eb:
+On Friday 02 January 2015 16:41:01 akuster808 wrote:
+> On 12/31/2014 02:26 AM, Richard Purdie wrote:
+> > For the OE-Core patches, the gcc sysroot poison one should not go in.
+> > I'd also question the udev changes and the gcc shared work changes since
+> > those were fairly significant changes with a lot more risk.
 > 
->   build-appliance-image: Update to dizzy head revision (2014-10-10 22:40:57 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.pokylinux.org/poky-contrib hongxu/fix-nativesdk-file
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nativesdk-file
-> 
-> Hongxu Jia (1):
->   file: add wrapper to nativesdk-file
-> 
->  meta/recipes-devtools/file/file_5.18.bb | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
+> no worries.
 
-With my most recent oe build I'm getting an error when trying to use
-file from the SDK. My target machine is x86 and my SDK is x86_64.
+So, these patches are all still in your akuster/dizzy_1_7_1 branch. FWIW I 
+agree, these aren't really stable branch material as far as I can tell.
 
-Is anybody else seeing this?
-
-[jmitchell@newvsbuild filetest]$ file test.txt
-
-eng/jmitchell/oe-sensors/sdk/sysroots/x86_64-oecore-linux/usr/share/misc/magic.mgc,
-1: Warning: offset `�
-    ' invalid
-/eng/jmitchell/oe-sensors/sdk/sysroots/x86_64-oecore-linux/usr/share/misc/magic.mgc,
-1: Warning: type `�
-  ' invalid
-/eng/jmitchell/oe-sensors/sdk/sysroots/x86_64-oecore-linux/usr/share/misc/magic.mgc,
-6: Warning: offset `Firmware v' invalid
-/eng/jmitchell/oe-sensors/sdk/sysroots/x86_64-oecore-linux/usr/share/misc/magic.mgc,
-6: Warning: type `Firmware v' invalid
-
-......
-
-/eng/jmitchell/oe-sensors/sdk/sysroots/x86_64-oecore-linux/usr/share/misc/magic.mgc,
-1916: Warning: type `.' invalid
-
-file: Size of
-`/eng/jmitchell/oe-sensors/sdk/sysroots/x86_64-oecore-linux/usr/share/misc/magic.mgc'
-3043460 is not a multiple of 248
-
+Cheers,
+Paul
 
 -- 
-  Jack Mitchell (jack@embed.me.uk)
-  Embedded Systems Engineer
-  Cambridgeshire, UK
-  http://www.embed.me.uk
--- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
