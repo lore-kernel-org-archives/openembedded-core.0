@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0708D72952
+	by mail.openembedded.org (Postfix) with ESMTP id E6DE1728C3
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  6 Jan 2015 15:42:38 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Jan 2015 07:42:38 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 06 Jan 2015 07:42:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="508183847"
+X-IronPort-AV: E=Sophos;i="5.04,691,1406617200"; d="scan'208";a="508183851"
 Received: from unknown (HELO localhost.intel.com) ([10.252.252.96])
-	by orsmga003.jf.intel.com with ESMTP; 06 Jan 2015 07:36:59 -0800
+	by orsmga003.jf.intel.com with ESMTP; 06 Jan 2015 07:37:00 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Jan 2015 07:42:20 -0800
-Message-Id: <5caba30858e6771336cd575f160822584a53601f.1420558836.git.sgw@linux.intel.com>
+Date: Tue,  6 Jan 2015 07:42:21 -0800
+Message-Id: <8aec1f74471e9117942d576b29bb4e5859b792eb.1420558836.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1420558836.git.sgw@linux.intel.com>
 References: <cover.1420558836.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1420558836.git.sgw@linux.intel.com>
 References: <cover.1420558836.git.sgw@linux.intel.com>
-Subject: [PATCH 10/12] libksba: Upgrade to 1.3.2
+Subject: [PATCH 11/12] liburcu: Upgrade to 0.8.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Jan 2015 15:42:38 -0000
+X-List-Received-Date: Tue, 06 Jan 2015 15:42:39 -0000
+
+Move patches from files to liburcu directory
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/libksba/{libksba_1.3.1.bb => libksba_1.3.2.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libksba/{libksba_1.3.1.bb => libksba_1.3.2.bb} (86%)
+ meta/recipes-support/liburcu/{files => liburcu}/aarch64.patch       | 0
+ meta/recipes-support/liburcu/{liburcu_0.8.5.bb => liburcu_0.8.6.bb} | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/liburcu/{files => liburcu}/aarch64.patch (100%)
+ rename meta/recipes-support/liburcu/{liburcu_0.8.5.bb => liburcu_0.8.6.bb} (83%)
 
-diff --git a/meta/recipes-support/libksba/libksba_1.3.1.bb b/meta/recipes-support/libksba/libksba_1.3.2.bb
-similarity index 86%
-rename from meta/recipes-support/libksba/libksba_1.3.1.bb
-rename to meta/recipes-support/libksba/libksba_1.3.2.bb
-index 6950dbb..cce08c3 100644
---- a/meta/recipes-support/libksba/libksba_1.3.1.bb
-+++ b/meta/recipes-support/libksba/libksba_1.3.2.bb
-@@ -16,8 +16,8 @@ inherit autotools binconfig-disabled pkgconfig texinfo
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://ksba-add-pkgconfig-support.patch"
+diff --git a/meta/recipes-support/liburcu/files/aarch64.patch b/meta/recipes-support/liburcu/liburcu/aarch64.patch
+similarity index 100%
+rename from meta/recipes-support/liburcu/files/aarch64.patch
+rename to meta/recipes-support/liburcu/liburcu/aarch64.patch
+diff --git a/meta/recipes-support/liburcu/liburcu_0.8.5.bb b/meta/recipes-support/liburcu/liburcu_0.8.6.bb
+similarity index 83%
+rename from meta/recipes-support/liburcu/liburcu_0.8.5.bb
+rename to meta/recipes-support/liburcu/liburcu_0.8.6.bb
+index 62323d3..263b77e 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.8.5.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.8.6.bb
+@@ -12,8 +12,8 @@ SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2 \
+            file://aarch64.patch \
+           "
  
--SRC_URI[md5sum] = "9be95245fcfa9d56f56853078ef2650b"
--SRC_URI[sha256sum] = "bc96b95516bd2b67f413bc8b5cc5a75a2583c6e666d24dfd0d5bcc6b1aab46f9"
-+SRC_URI[md5sum] = "c3c9a66e22d87fe3ae59865250b8a09c"
-+SRC_URI[sha256sum] = "eb95537955dfc2845690a4cc3836074fa6d0a2c2ca2cbf1759364d3bd9868406"
+-SRC_URI[md5sum] = "24ba9e03542b747d3378434eb0041acf"
+-SRC_URI[sha256sum] = "a2562eaca107ec6eca2856632b6035c6aaf38df79020195ed8955a7b4773312a"
++SRC_URI[md5sum] = "834d91d939dd55108a05763be9879856"
++SRC_URI[sha256sum] = "b1a5d3bce014ba7a702759bc60b692c1cd46ff0e8a5b53f0d0a95e22db74ab21"
  
- do_configure_prepend () {
- 	# Else these could be used in preference to those in aclocal-copy
+ S = "${WORKDIR}/userspace-rcu-${PV}"
+ CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
 -- 
 2.1.0
 
