@@ -1,33 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f54.google.com (mail-la0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D5B065CDB
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f47.google.com (mail-yh0-f47.google.com
+	[209.85.213.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 2770465CDB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 17:47:34 +0000 (UTC)
-Received: by mail-la0-f54.google.com with SMTP id pv20so4855679lab.13
+	Wed,  7 Jan 2015 17:55:07 +0000 (UTC)
+Received: by mail-yh0-f47.google.com with SMTP id f73so851204yha.34
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Jan 2015 09:47:34 -0800 (PST)
+	Wed, 07 Jan 2015 09:55:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=vMLXqWou+0cxrboQFiWRjVrno627dLRSCLVJTvQVqbw=;
-	b=QwJ/Zbzt3WJVVp82aslBBv7rmX4c2WdGf2ilWQwsPbrNDzXY8J0nSiRS8Vio/Cdpx3
-	GBqFsID7oiZNQirGi9INPtRl+GPeETt7WI2kINIMv22ITZFqk1dVyEl/3UUIFpqo4avN
-	ZNCUqk2J0dvAEydBaYGbeKzzf1fA/xUS6C4Z9gfcjLffDnrWk9ltZ9O6cAX2bhaNFuHM
-	Ww+F33hvJ9heQ33Xw9OznIxZ+bhzPAgQ8NqpmthEiGx45Xaq2mEgLFqXdx6s7ffaybTT
-	pgp0g10Ww5uDLCkfxGgnWSk8p1rU32Awp10HuoS4MrmBCsPSU0sigPS/LtBZzatqhlsV
-	QzUQ==
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=83XounoQppdGyaHF8wmEOPm4LfW60eVSjj81pEqMcCA=;
+	b=Ur4KR37nhaGpqY6E4rSUUIMtSGAPVV+X1Srg0c5mFHvqzoSe5Q5uIcnPoXO+VaYPdj
+	fDjKJ7cFedJHXIohaVZs4vREtawfVendlY6sp1D/J1zGXv2UZMpBhBc6UAnhCjhBnJQk
+	WDWq5gCHvI8Lfd3zXaqSKwa1Nc4aaQnfbFrZi8GcBxOly2tlAWT9VqJhJYuQV0XXpPMv
+	q0x3ziQDKNYoZSagZuqLNXrJcmDeF7bGtBeCQkzcEIZdu4KZKE2+uWBP7eGw1Zx4y2F8
+	8le5czkfYt9G4p6KwUe+U10XGBphBp0u7u1OZaXzajfg5YoAqa8zLhgu029FuZ+PJVVY
+	CWIw==
 MIME-Version: 1.0
-X-Received: by 10.152.87.12 with SMTP id t12mr6726810laz.31.1420652854514;
-	Wed, 07 Jan 2015 09:47:34 -0800 (PST)
-Received: by 10.112.48.41 with HTTP; Wed, 7 Jan 2015 09:47:34 -0800 (PST)
-In-Reply-To: <1420651519-25240-3-git-send-email-otavio@ossystems.com.br>
+X-Received: by 10.236.39.134 with SMTP id d6mr3240276yhb.90.1420653306464;
+	Wed, 07 Jan 2015 09:55:06 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.171.132 with HTTP; Wed, 7 Jan 2015 09:55:06 -0800 (PST)
+In-Reply-To: <CADkTA4M0XTK0fhtk1j-hV94Qr5TweM5VEBr-uq2Rf8edFG2nzA@mail.gmail.com>
 References: <1420651519-25240-1-git-send-email-otavio@ossystems.com.br>
 	<1420651519-25240-3-git-send-email-otavio@ossystems.com.br>
-Date: Wed, 7 Jan 2015 12:47:34 -0500
-Message-ID: <CADkTA4M0XTK0fhtk1j-hV94Qr5TweM5VEBr-uq2Rf8edFG2nzA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+	<CADkTA4M0XTK0fhtk1j-hV94Qr5TweM5VEBr-uq2Rf8edFG2nzA@mail.gmail.com>
+Date: Wed, 7 Jan 2015 15:55:06 -0200
+X-Google-Sender-Auth: XcrfkGkWh2dHnM9U1S-5MecD0_k
+Message-ID: <CAP9ODKohdyeDHi=LHc0T1n2Mq7kxLF0Hry-i2_cU4cv37D79Yw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 3/3] kernel.bbclass: When linux/version.h exists, copy it
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -42,58 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 17:47:38 -0000
+X-List-Received-Date: Wed, 07 Jan 2015 17:55:12 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Unless anyone needs these really fast, I'll queue the two kernel
-patches and take them
-for a spin today.
-
-I have a variant of the version.h here (and when the directories
-shuffle again, we can drop
-explicit copies all together), but will make the switch for this in
-the short term.
-
-Bruce
-
-On Wed, Jan 7, 2015 at 12:25 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> Old Linux kernel versions rely on linux/version.h for modules; this
-> needs to be published for external modules to use. Copy it when
-> available.
+On Wed, Jan 7, 2015 at 3:47 PM, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> Unless anyone needs these really fast, I'll queue the two kernel
+> patches and take them
+> for a spin today.
 >
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  meta/classes/kernel.bbclass | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 88356b1..78c8c7c 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -252,6 +252,10 @@ kernel_do_install() {
->         cp .config $kerneldir/
->         mkdir -p $kerneldir/include/config
->         cp include/config/kernel.release $kerneldir/include/config/kernel.release
-> +       if [ -e include/linux/version.h ]; then
-> +               mkdir -p $kerneldir/include/linux
-> +               cp include/linux/version.h $kerneldir/include/linux/version.h
-> +       fi
->
->         # As of Linux kernel version 3.0.1, the clean target removes
->         # arch/powerpc/lib/crtsavres.o which is present in
-> --
-> 2.1.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> I have a variant of the version.h here (and when the directories
+> shuffle again, we can drop
+> explicit copies all together), but will make the switch for this in
+> the short term.
 
+We have failures due this in meta-fsl-arm; it is for master only so we
+can live with failures for some days.
 
+I am happy you have something in same line.
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
