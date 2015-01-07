@@ -1,47 +1,27 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
-	[217.149.192.139])
-	by mail.openembedded.org (Postfix) with ESMTP id E1CA3728C2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 75D3C728AB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 09:23:17 +0000 (UTC)
-Received: from amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.58])
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id 583DA3F9B6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 10:23:16 +0100 (CET)
-X-Spam-Flag: NO
-X-Spam-Score: -2.899
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.899 tagged_above=-999 required=3.5
-	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
-X-Spam-Languages: en
-Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
-	by amavisd-new (mailscanner06.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 10:23:16 +0100 (CET)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 10:23:15 +0100 (CET)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
-	Wed, 7 Jan 2015 10:24:38 +0100
-Message-ID: <54ACFB02.5060209@topic.nl>
-Date: Wed, 7 Jan 2015 10:23:14 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1420592855-20473-1-git-send-email-liezhi.yang@windriver.com>
-	<1420618033.25779.56.camel@linuxfoundation.org>
-In-Reply-To: <1420618033.25779.56.camel@linuxfoundation.org>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Subject: Re: [RFC PATCH] package.bbclass: omit .pyc and .pyo file
+	Wed,  7 Jan 2015 09:25:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t079Oi1e019731; Wed, 7 Jan 2015 09:24:44 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id U9iYDh9W2QE8; Wed,  7 Jan 2015 09:24:44 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t079OWDT019714
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 7 Jan 2015 09:24:43 GMT
+Message-ID: <1420622709.25779.60.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 07 Jan 2015 09:25:09 +0000
+X-Mailer: Evolution 3.12.7-0ubuntu1 
+Mime-Version: 1.0
+Cc: yocto <yocto@yoctoproject.org>
+Subject: Bug reporting and good bug reports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,67 +34,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 09:23:21 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 07 Jan 2015 09:25:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-=EF=BB=BFOn 01/07/2015 09:07 AM, Richard Purdie wrote:
-> On Tue, 2015-01-06 at 17:07 -0800, Robert Yang wrote:
->> We should not ship .pyc or .pyo file, but there are a few packages
->> ship .pyc, should we:
->
-> Why should we not ship them? Doesn't python create these at runtime if
-> they're not present? What happens on a read only filesystem?
+I was informed on irc yesterday that bug reports are hard and that
+debugging via irc is easier. I think I need to remind people why good
+bug reports are important and how they do actually help immensely.
 
-You definitely SHOULD ship the .pyc files. If they don't exist, the=20
-interpreter is forced to re-compile the .py source, and will attempt to wri=
-te=20
-the result to the filesystem. It won't cause harm, it won't fail, but it's=
-=20
-very inefficient. It's better to let the host do the py->pyc conversion any=
-way.
+I do actually believe that not everything has to have bug report. If you
+mention an issue, someone says "hey, I know how to fix that" and sends a
+patch out, a bug report is wasted overhead IMO. I know some programme
+managers who disagree strongly with me and would suggest *every* bugfix
+commit should have a defect tracking item. We're not going there I
+understand the idea, its not practical.
 
-The opposite works just fine: You can omit the .py files and ship only .pyc=
-=20
-files. We do that on settopboxes that use Python for the GUI, this saves=20
-several megabytes of flash space.
-To accomplish that, we put the .py files into a $PN-src package.
+That said, if its not immediately clear what the problem is, it should
+become a bug report. Why?
 
-There has been general agreement that .pyo files are utterly pointless.
+Firstly, the random selection of people on irc at the time probably
+aren't the right people to fix it. Telling those people to read 48 hours
+of irc log for the details is disrespectful of their time.
 
-> I'm sure we've had issues raised by someone with a read only filesystem
-> before FWIW.
->
-> I agree there is probably an issue here but deleting them may not be the
-> best option. I'm open to ideas though.
+It also happens that the first people referred to a bug may not be the
+person who actually can fix it. If someone else needs to come to a bug,
+having a summary of the issue, the salient facts and the current status
+is immensley useful for handover.
 
-My idea would be to standardize on shipping ONLY compiled files, and put th=
-e=20
-source .py files into a separate package named $PN-src by default. There is=
- no=20
-need to install megabytes of python source files that neither users nor the=
-=20
-interpreter will ever read.
+As a case in point, I tried to debug a qt4 build failure yesterday for
+which there is no bug report. I lost hours building the wrong things,
+experimenting to try and find the reproducer steps and generally chasing
+my tail, losing the autobuilder log of the failure, the name of the qt4
+recipe that was failing (which task was it again?) and so on.
 
+I do now have a set of reproducer steps, its quite simple:
 
+MACHINE=imx53qsb bitbake virtual/kernel
+MACHINE=imx53qsb bitbake virtual/kernel -c clean
+MACHINE=imx53qsb bitbake qt4-x11-free
 
-Met vriendelijke groet / kind regards,
+I also have a patch. Where should I share them? How do I ensure everyone
+with an interest in this defect actually gets the patch? Sure I can
+create email and send to the people who I think need to know. The
+bugzilla lets interested parties add themselves to bugs though.
 
-Mike Looijmans
-System Expert
+I should also note that QA actually go through bugs in the bugzilla,
+including closed ones, looking for test cases. We're not great at this
+yet but it does happen. If there is a well documented test case like
+that above, we might write an automated QA test for it. Having it
+documented is therefore a good thing.
 
+I do appreciate writing a bug report is hard, especially if you don't
+know where the problem is, or how to reproduce it exactly. It takes time
+and effort. You can however document what you know and discussion can
+happen in a common place to figure out how to reproduce it. I do except
+the submitters to fully understand the bug, if they did they'd probably
+write a patch instead.
 
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) (0) 499 33 69 79
-Telefax:  (+31) (0) 499 33 69 70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
+So fair warning, I am going to start ignoring things on irc and ask for
+bug numbers in future, assuming something isn't a 5 minute fix with an
+immediate patch. I will back and encourage anyone else doing this too.
 
-Please consider the environment before printing this e-mail
+Cheers,
 
-Topic zoekt gedreven (embedded) software specialisten!
-http://topic.nl/vacatures/topic-zoekt-software-engineers/
+Richard
+
 
 
