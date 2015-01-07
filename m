@@ -1,36 +1,36 @@
 Return-Path: <max.oss.09@gmail.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id E6FAD71440
+Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
+	[74.125.82.176])
+	by mail.openembedded.org (Postfix) with ESMTP id C8167728C9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 22:20:01 +0000 (UTC)
-Received: by mail-qg0-f43.google.com with SMTP id z107so1558810qgd.16
+	Wed,  7 Jan 2015 22:30:31 +0000 (UTC)
+Received: by mail-we0-f176.google.com with SMTP id w61so1997454wes.21
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Jan 2015 14:20:02 -0800 (PST)
+	Wed, 07 Jan 2015 14:30:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=ewUqUIzTalQ8L/TuPf3DFPImdiBowwhQkWtAbvVufX8=;
-	b=TYMoexHJsoP+EbA6fh/9daspVggO4fxMW4n+QCHYYNIxPXSxAj0MOJgtSzJdgYFRai
-	R5G8MaXjYMAFvjwVDvuSg6rCQCg0icVmVuhdyKKeJe1/KRoM8ORptOAAc0yHQKiBMpAK
-	cRMqD/m4pIIiViZn68v/tVw76rYDGXJRHnhgLsgIT40eayxt/fgvvPXJNMpx3g8UGeru
-	oqWXHcOvlvSWi0UgN7pJiZnAbaj/U32BRw0QgOYcHY+j3TIevtCs0dJ8oISn+YqoqWoN
-	F2yfwb+2FNtvg70TjOrMsXQmcImywKQWLg9ii8anVRTe1Pszh2ZsYDtQ8xUXTh2TWoe0
-	5dKw==
-MIME-Version: 1.0
-X-Received: by 10.140.43.195 with SMTP id e61mr8180929qga.13.1420669202007;
-	Wed, 07 Jan 2015 14:20:02 -0800 (PST)
-Received: by 10.140.40.169 with HTTP; Wed, 7 Jan 2015 14:20:01 -0800 (PST)
-In-Reply-To: <CAJTo0LaTaRFC=HzC9qeU6DOnxso5re66wYvhdRdUyPdVwPkJ2g@mail.gmail.com>
-References: <1420233904-26745-1-git-send-email-max.oss.09@gmail.com>
-	<1420233904-26745-2-git-send-email-max.oss.09@gmail.com>
-	<CAJTo0LaTaRFC=HzC9qeU6DOnxso5re66wYvhdRdUyPdVwPkJ2g@mail.gmail.com>
-Date: Wed, 7 Jan 2015 23:20:01 +0100
-Message-ID: <CAEHkU3ViZ35X7ELevxRBgUtvtC_Ybe6Z=VpngjFeMr7VRXcpUQ@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id;
+	bh=h7PyTk4+5F6yWJvskCEckTjJDmTY9h8VkWituVpRmNE=;
+	b=vUQOL16quWqbpz0DGNrz4ULdZocKNdrfr027daOiR3gq7Fu2JutdAwABk+IHvXxbMT
+	YFmYS55FT6LscNuUsDrh55TD1qDOmKR7FRid4vfvFickk8xsUbHN+4+HH1tfokh05fuH
+	gtHpNQyoZaxUCDMxe3ZNKJugHBqFSBpTPPhLr0hx32LAlO9Azn/7HLCkJyRwC1pS+8ef
+	1oN/YlnL9ce50X7wO+4+mCV0khC3UdVMR5+4Hn70KMMnqZshtGXdetAux3JPlXUGKmUR
+	ryIniUU4GxtyPleKWzyrtVdW5ab0lWImr/31c+IrywAqZPrhXyf6KUpZGl4C7BGl97PS
+	8dEw==
+X-Received: by 10.180.90.81 with SMTP id bu17mr11857511wib.23.1420669831411;
+	Wed, 07 Jan 2015 14:30:31 -0800 (PST)
+Received: from Saturn.local.all (212-41-121-234.adsl.solnet.ch.
+	[212.41.121.234])
+	by mx.google.com with ESMTPSA id lg7sm4204690wic.0.2015.01.07.14.30.30
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 07 Jan 2015 14:30:30 -0800 (PST)
 From: Max Krummenacher <max.oss.09@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe][PATCH 1/3] libfm: update to 1.2.3
+X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Jan 2015 23:29:54 +0100
+Message-Id: <1420669797-17688-1-git-send-email-max.krummenacher@toradex.com>
+X-Mailer: git-send-email 1.8.4.5
+Cc: Max Krummenacher <max.oss.09@gmail.com>
+Subject: [oe][PATCH v2 0/3] pcmanfm: update to 1.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,21 +43,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 22:20:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 07 Jan 2015 22:30:32 -0000
 
-Hi Ross
+From: Max Krummenacher <max.oss.09@gmail.com>
 
-Thank you for looking into this.
+v2:
+Changes according to Ross's review:
+libfm: replace absolute paths with ${libdir} ${includedir}
+menu-cache: replace ${PN} in download path
+pcmanfm: unchanged
 
-2015-01-07 16:17 GMT+01:00 Burton, Ross <ross.burton@intel.com>:
-> Don't use absolute paths such as /usr/lib/ as those paths are not constant -
-> multilib environments or x32 for example use different values for ${libdir}.
->
+---
 
-I will rework the patch along with the menu-cache one and resend a v2
-of the patch set.
+This updates pcmanfm and its supporting libraries libfm and menu-cache to
+the latest version.
 
-Regards
-Max
+Tested with core-image-sato on a qemux86-64 machine and a custom image on
+armv7 hardware.
+
+Due to a circular dependency between menu-cache and libfm the menu-cache patch
+requires the libfm patch.
+
+This obsoletes the following two patches which have not (yet) been applied:
+http://patchwork.openembedded.org/patch/79087/
+http://patchwork.openembedded.org/patch/79089/
+
+
+Max Krummenacher (3):
+  libfm: update to 1.2.3
+  menu-cache: update to 1.0.0
+  pcmanfm: update to 1.2.3
+
+ .../menu-cache/files/Fix-segfault.patch            | 31 -------------------
+ .../menu-cache/menu-cache_0.4.1.bb                 | 21 -------------
+ .../menu-cache/menu-cache_1.0.0.bb                 | 16 ++++++++++
+ meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb         | 33 --------------------
+ meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb         | 35 +++++++++++++++++++++
+ .../libfm-1.1.2.2/fix-make-parallelism-issue.patch | 31 -------------------
+ .../libfm-1.1.2.2/ignore_automake_warnings.patch   | 14 ---------
+ meta/recipes-support/libfm/libfm-extra_1.2.3.bb    | 21 +++++++++++++
+ meta/recipes-support/libfm/libfm_1.1.2.2.bb        | 25 ---------------
+ meta/recipes-support/libfm/libfm_1.2.3.bb          | 36 ++++++++++++++++++++++
+ 10 files changed, 108 insertions(+), 155 deletions(-)
+ delete mode 100644 meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
+ delete mode 100644 meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
+ create mode 100644 meta/recipes-graphics/menu-cache/menu-cache_1.0.0.bb
+ delete mode 100644 meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb
+ create mode 100644 meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb
+ delete mode 100644 meta/recipes-support/libfm/libfm-1.1.2.2/fix-make-parallelism-issue.patch
+ delete mode 100644 meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch
+ create mode 100644 meta/recipes-support/libfm/libfm-extra_1.2.3.bb
+ delete mode 100644 meta/recipes-support/libfm/libfm_1.1.2.2.bb
+ create mode 100644 meta/recipes-support/libfm/libfm_1.2.3.bb
+
+-- 
+1.8.4.5
+
 
