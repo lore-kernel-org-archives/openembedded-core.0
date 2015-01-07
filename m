@@ -1,34 +1,37 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id BFD4372882
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D489772882
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 14:06:49 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id a1so1248739wgh.9
+	Wed,  7 Jan 2015 14:06:50 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id ex7so7573310wid.3
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 07 Jan 2015 06:06:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=+cg9i3eciPfJ2NyQBgzKuvBflexuFrrNOUuI5bTxVtY=;
-	b=dOlYLT4wjAWsHXp5HK9e5D9+Vb8JDi1Ko4i6UqXV5D1TbqNIn+nYgTupZuNOVQDiId
-	iJA2DEi99YWulFl/00fv3WojI91fqPzwRezkmOvB3C+dr5TAVV4e+y8b5OGIyCvDTFCa
-	XKdU653CjLLMcwGssVJjFcqcKAORZf2xgX1X/NOEj5ALy4SdmC5ENXzXZ2eFj/jFpxhU
-	Jbk8Zbbkek2iT8M1arLhOeAu1wwKTItryS0d2gG3W3YHfY/gmaGZr/K4jAHcyY7zU7la
-	1m3SVV8Ow78JMcR88J3Vk9a+zQ1es21YR3uQlG+z/NBV5PYXibtwFDjW28q219n5bfvQ
-	//ig==
-X-Received: by 10.180.198.51 with SMTP id iz19mr7546112wic.65.1420639608801;
-	Wed, 07 Jan 2015 06:06:48 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=JkaJwC0g+xAiHBFG82agcxEzQ63efV0QDC3AH8WvIWw=;
+	b=hoanWoaIv4LMgtLJSnY+s3LoXyVCvrT3+sEU1KuGXERXRqzuAKo7JNUeJ5N7/3F65e
+	Kw1yuiftYCiIWTM9zzyOaKHKWQ1yBih5KrUiHplt39qB40/V1q/9vf4ofCWRwmDIb4ze
+	scOqffCu0IPGIQyIM/JVVkZhERM1bMdgvtVZBs4SVpqMMa159A0sy+XiVt4Gukk/7Ku4
+	PW//VHiVr7tTzWfkTOpqpflNbuLu7kAUuWr3PRENsrBDXnGV7LpPdayD0k8RfXYrJmPB
+	RBcvUx1YMsizkzhbmWRHpkmKkGhzjLttRzsEBAekSoOjDUzPYd+0QMgSzOvy/k3LNaoe
+	rfUA==
+X-Received: by 10.194.238.104 with SMTP id vj8mr6590682wjc.107.1420639610131; 
+	Wed, 07 Jan 2015 06:06:50 -0800 (PST)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	ck7sm2278560wjb.13.2015.01.07.06.06.47
+	t12sm2272660wju.19.2015.01.07.06.06.49
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 07 Jan 2015 06:06:47 -0800 (PST)
+	Wed, 07 Jan 2015 06:06:49 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Jan 2015 15:06:48 +0100
-Message-Id: <1420639609-3198-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Wed,  7 Jan 2015 15:06:49 +0100
+Message-Id: <1420639609-3198-2-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.2.1
-Subject: [PATCH 1/2] pulseaudio: use stricter PACKAGES_DYNAMIC
+In-Reply-To: <1420639609-3198-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1420639609-3198-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCH 2/2] kernel.bbclass: fix do_unpack function when S ends with slash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,32 +44,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 14:06:51 -0000
+X-List-Received-Date: Wed, 07 Jan 2015 14:06:52 -0000
 
-* I don't see any usage for libpulse-* packages
-* adding '-' resolves the issue when we have separate recipe for
-  pulseaudio-modules-droid which isn't built to satisfy RDEPENDS
-  with the same name, because generic pulseaudio recipe seems to
-  RPROVIDE it through PACKAGES_DYNAMIC
+* slash at the end causes os.symlink(kernsrc, s) to use s as
+  directory name and fails with:
+
+ERROR: Error executing a python function in /OE/build/owpb/webos-ports/meta-smartphone/meta-samsung/recipes-kernel/linux/linux-samsung-tuna_git.bb:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'base_do_unpack', lineno: 26, function: <module>
+     0022:        subprocess.call(d.expand("mv /OE/build/owpb/webos-ports/tmp-glibc/work/maguro-webos-linux-gnueabi/linux-samsung-tuna/3_3.0.72+gitrAUTOINC+f8ed73f94a-r12/git/ /OE/build/owpb/webos-ports/tmp-glibc/sysroots/maguro/usr/src/kernel"), shell=True)
+     0023:        os.symlink(kernsrc, s)
+     0024:
+     0025:
+ *** 0026:base_do_unpack(d)
+     0027:
+File: 'base_do_unpack', lineno: 23, function: base_do_unpack
+     0019:        bb.utils.mkdirhier(kernsrc)
+     0020:        bb.utils.remove(kernsrc, recurse=True)
+     0021:        import subprocess
+     0022:        subprocess.call(d.expand("mv /OE/build/owpb/webos-ports/tmp-glibc/work/maguro-webos-linux-gnueabi/linux-samsung-tuna/3_3.0.72+gitrAUTOINC+f8ed73f94a-r12/git/ /OE/build/owpb/webos-ports/tmp-glibc/sysroots/maguro/usr/src/kernel"), shell=True)
+ *** 0023:        os.symlink(kernsrc, s)
+     0024:
+     0025:
+     0026:base_do_unpack(d)
+     0027:
+Exception: OSError: [Errno 2] No such file or directory
+
+ERROR: Function failed: base_do_unpack
+ERROR: Logfile of failure stored in: /OE/build/owpb/webos-ports/tmp-glibc/work/maguro-webos-linux-gnueabi/linux-samsung-tuna/3_3.0.72+gitrAUTOINC+f8ed73f94a-r12/temp/log.do_unpack.17042
+ERROR: Task 0 (/OE/build/owpb/webos-ports/meta-smartphone/meta-samsung/recipes-kernel/linux/linux-samsung-tuna_git.bb, do_unpack) failed with exit code '1'
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/kernel.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index db144a9..99cad76 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -79,7 +79,7 @@ PACKAGES =+ "libpulsecore libpulsecommon libpulse libpulse-simple libpulse-mainl
- #upgrade path:
- RREPLACES_pulseaudio-server = "libpulse-bin libpulse-conf"
- 
--PACKAGES_DYNAMIC += "^pulseaudio-lib.* ^pulseaudio-module.* ^libpulse-lib.* ^libpulse-module.* "
-+PACKAGES_DYNAMIC += "^pulseaudio-lib-.* ^pulseaudio-module-.*"
- 
- FILES_libpulsecore = "${libdir}/libpulsecore*.so"
- FILES_libpulsecommon = "${libdir}/pulseaudio/libpulsecommon*.so"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 3b77d00..5541c94 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -43,6 +43,9 @@ python __anonymous () {
+ do_unpack[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B}"
+ base_do_unpack_append () {
+     s = d.getVar("S", True)
++    if s[-1] == '/':
++        # drop trailing slash, so that os.symlink(kernsrc, s) doesn't use s as directory name and fail
++        s=s[:-1]
+     kernsrc = d.getVar("STAGING_KERNEL_DIR", True)
+     if s != kernsrc:
+         bb.utils.mkdirhier(kernsrc)
 -- 
 2.2.1
 
