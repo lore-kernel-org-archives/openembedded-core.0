@@ -1,30 +1,27 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 77C3B609B2
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B68F372882
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 08:43:41 +0000 (UTC)
-Received: by mail-wi0-f172.google.com with SMTP id n3so6941152wiv.17
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Jan 2015 00:43:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=hmaJ+VUJIEU7SZ0koFciPvA5m4ikSbykfmbTBmXBBh4=;
-	b=VirZ7U6libcG60PXGzFbna6/74ZbjYvgFC6uISqI9prycxrbzQ2JYrmfZwhndL2s+b
-	oUnz4P/L2urGeFbDnyg10QF/R7gVXvsYS0qPWupa0fI43BLB77qq8jQh0doft/NQNb/U
-	Twj3k2GjdSkAMHqZ76H9TUI+nBa86dakFr+fy3N2io+jFQVb1SkS2qxyhAKvtZSgT4Eo
-	CVc32+SkKpESMXUvL1sAhpm9REwyTBTkJwZMfbB9wSTw5uKpGtxuXYDF7I1eNhsip2aB
-	PdX/EkdU3CO9qAo1GxAXjo6SeUk2vFlHnMJIYIJZB9H9FPLrOfAGcYEyLCoKtDfibHUa
-	nJ6Q==
+	Wed,  7 Jan 2015 09:20:27 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 07 Jan 2015 01:17:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.07,713,1413270000"; d="scan'208";a="665685220"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.3.155])
+	by orsmga002.jf.intel.com with ESMTP; 07 Jan 2015 01:20:26 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chong Lu <Chong.Lu@windriver.com>
+Date: Wed, 07 Jan 2015 09:20:25 +0000
+Message-ID: <1458514.BbQ6jzxGvE@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.3 (Linux/3.17.7-200.fc20.x86_64; KDE/4.14.3; x86_64; ; )
+In-Reply-To: <15bba8b20b0419737801a6c495d379afb8ed67b2.1420610929.git.Chong.Lu@windriver.com>
+References: <cover.1420610929.git.Chong.Lu@windriver.com>
+	<15bba8b20b0419737801a6c495d379afb8ed67b2.1420610929.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.180.74.108 with SMTP id s12mr5257548wiv.28.1420620221894;
-	Wed, 07 Jan 2015 00:43:41 -0800 (PST)
-Received: by 10.216.24.130 with HTTP; Wed, 7 Jan 2015 00:43:41 -0800 (PST)
-Date: Wed, 7 Jan 2015 16:43:41 +0800
-Message-ID: <CADwFkYcEKLmZPWxzdV+CU61ahT0yzDjApuMsp2AXkEzWmXSr=Q@mail.gmail.com>
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: openssh on read-only systemd rootfs
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] layerindex.bbclass: Add ability to fetch layers from layer index
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,21 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 08:43:43 -0000
-Content-Type: multipart/alternative; boundary=f46d043c81e6afd505050c0beb97
+X-List-Received-Date: Wed, 07 Jan 2015 09:20:34 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---f46d043c81e6afd505050c0beb97
-Content-Type: text/plain; charset=UTF-8
+Hi Chong,
 
-Hello,
+On Wednesday 07 January 2015 14:35:42 Chong Lu wrote:
+> It maybe depends on other layers when one layer is added to BBLAYERS. If
+> define LAYERDEPENDS variable in this layer, we will get error from bitbake.
+> But sometimes, we don't have defined. Add a mechanism to fetch layers from
+> layer index and update bblayers.conf as appropriate. The layer index stores
+> dependencies of all layers. Query dependency from layer index and fetch
+> layer repo, then add this layer to BBLAYERS.
 
-in 'image.bbclass', I found some logic for openssh running on readonly
-rootfs,
-but only in sysvinit branch. do we need similar logic in systemd branch?
+Hmm, this is certainly interesting but not quite what I had in mind - I was 
+thinking rather that bitbake-layers would be extended and it would be an 
+explicit operation to add a layer from the layer index + all of its 
+dependencies. We can of course also have something semi-automatic like this 
+class, but the manual tool ought to come first IMHO (which the class could then 
+make use of).
 
---f46d043c81e6afd505050c0beb97
-Content-Type: text/html; charset=UTF-8
+Cheers,
+Paul
 
-<div dir="ltr">Hello,<div><br></div><div>in &#39;image.bbclass&#39;, I found some logic for openssh running on readonly rootfs,<br>but only in sysvinit branch. do we need similar logic in systemd branch?</div></div>
+-- 
 
---f46d043c81e6afd505050c0beb97--
+Paul Eggleton
+Intel Open Source Technology Centre
+
