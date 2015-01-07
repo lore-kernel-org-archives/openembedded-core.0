@@ -1,27 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A9D8871440
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id BA7FA728C2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Jan 2015 12:26:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t07CQ6j5031751; Wed, 7 Jan 2015 12:26:06 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id zI94vuXoAlj2; Wed,  7 Jan 2015 12:26:06 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t07CPqGO031742
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 7 Jan 2015 12:26:03 GMT
-Message-ID: <1420633589.25779.69.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 07 Jan 2015 12:26:29 +0000
-X-Mailer: Evolution 3.12.7-0ubuntu1 
-Mime-Version: 1.0
-Cc: "Hart, Darren" <darren.hart@intel.com>
-Subject: RFC: Further kernel build process changes?
+	Wed,  7 Jan 2015 12:49:47 +0000 (UTC)
+Received: from amavisd-new (mailscanner07.wrt-nm.internl.net [217.149.192.117])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id CA0603F683;
+	Wed,  7 Jan 2015 13:49:46 +0100 (CET)
+X-Spam-Flag: NO
+X-Spam-Score: -2.899
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.899 tagged_above=-999 required=3.5
+	tests=[BAYES_00=-2.9, URIBL_BLOCKED=0.001] autolearn=disabled
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner07.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP; Wed,  7 Jan 2015 13:49:46 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS;
+	Wed,  7 Jan 2015 13:49:45 +0100 (CET)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.181.6;
+	Wed, 7 Jan 2015 13:51:08 +0100
+Message-ID: <54AD2B68.2000201@topic.nl>
+Date: Wed, 7 Jan 2015 13:49:44 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1420592855-20473-1-git-send-email-liezhi.yang@windriver.com>
+	<1420618033.25779.56.camel@linuxfoundation.org>
+	<54ACFB02.5060209@topic.nl>
+	<CAJTo0LYYeD6eEA6XpGudTuSVsRBK=XDBvFM4Dafavdq1Zg86rw@mail.gmail.com>
+In-Reply-To: <CAJTo0LYYeD6eEA6XpGudTuSVsRBK=XDBvFM4Dafavdq1Zg86rw@mail.gmail.com>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH] package.bbclass: omit .pyc and .pyo file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,240 +54,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Jan 2015 12:26:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 07 Jan 2015 12:49:50 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-I'm hearing (somewhat justified) complaints that the recent kernel
-changes have destablised builds. Part of the question is whether the
-recent changes are as clear to users as they could be, we're also
-running into some problems due to mixing kernel source and build
-artefacts in some places and not in others.
+=EF=BB=BFOn 01/07/2015 12:16 PM, Burton, Ross wrote:
+>
+> On 7 January 2015 at 09:23, Mike Looijmans <mike.looijmans@topic.nl
+> <mailto:mike.looijmans@topic.nl>> wrote:
+>
+>     You definitely SHOULD ship the .pyc files. If they don't exist, the
+>     interpreter is forced to re-compile the .py source, and will attempt =
+to
+>     write the result to the filesystem. It won't cause harm, it won't fai=
+l,
+>     but it's very inefficient. It's better to let the host do the py->pyc
+>     conversion anyway.
+>
+>     The opposite works just fine: You can omit the .py files and ship onl=
+y
+>     .pyc files. We do that on settopboxes that use Python for the GUI, th=
+is
+>     saves several megabytes of flash space.
+>     To accomplish that, we put the .py files into a $PN-src package.
+>
+>
+> I agree with Mike, there is a use-case for just shipping .pyc.  Whether
+> oe-core should do something to assist with this or not is debatable.
 
-At this point I think it may be worth looking at making some more
-invasive but decisive changes, specifically that:
+We currently have this in a python_2.7.%.bbappend:
 
-STAGING_KERNEL_DIR moves 
-   from sysroots/MACHINE/usr/src/kernel
-   to work-shared/MACHINE/kernel-source
+PACKAGES =3D+ "${PN}-src"
+RDEPENDS_{PN}-src =3D "${PN}"
+FILES_${PN}-src +=3D "${libdir}/python${PYTHON_MAJMIN}/*.py"
+FILES_${PN}-src +=3D "${libdir}/python${PYTHON_MAJMIN}/*/*.py"
+FILES_${PN}-src +=3D "${libdir}/python${PYTHON_MAJMIN}/*/*/*.py"
 
-This is to make it clearer that the source here is not under the control
-of sstate. The reasons why we don't want it under the control of sstate
-are in other emails.
+This moves all sources into a single package. I experimented with creating =
+src=20
+packages for each python sub-package, but all that accomplished was adding =
+a=20
+lot of packages to the feed that no one would ever install.
 
-The second change would be to split the kernel source into two:
+I patched the larger Python recipes (e.g. twisted) in similar ways to reduc=
+e=20
+the image size (and network traffic).
 
-work-shared/MACHINE/kernel-source
-work-shared/MACHINE/kernel-build
+A generic "please remove or split all .py files" flag or class would be a=20
+useful addition.
 
-where kernel-build is the kernel build output and kernel-source is kept
-"pristine".
+> There's an open bug report about this:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D6434.
+>
+> https://docs.python.org/2/tutorial/modules.html#compiled-python-files has=
+ the
+> details we're after.  Summary:
+>
+> .pyc is Python bytecode, which is an implementation detail of CPython.  A=
+s
+> such it's version-dependent but explicitly architecture-independent.
+> .pyo generated with -O is simply .pyc but with asserts removed.
+> .pyo generated with -O -O has asserts and docstrings removed.
 
-This means the defconfig, the kernel-abiversion, System.map files and
-output from "make scripts" would be in kernel-build.
+For horrible historic reasons OpenPLi (and its many forks) still use a patc=
+h=20
+that makes .pyo files the default instead of .pyc. It's been on my todo lis=
+t=20
+for over a year now to get rid of it, but too many plugins and 3rd party st=
+uff=20
+still count on this being the case.
 
-External module builds do work in this configuration *if* you pass in
-the correct options e.g.:
+> I think it's fair to say we should just ignore .pyo - no point generating=
+ and
+> shipping it.  It does seem that if we want to ship usable .pyc we need to
+> ensure that they are compiled with python-native. I guess this could be d=
+one
+> by calling python-native's compileall module to recompile the sources at
+> package time.
 
-make -C work-shared/MACHINE/kernel-source O=work-shared/MACHINE/kernel-build M=${S}
+I'd expect any halfway decent recipe to have done that already in the=20
+do_compile step. Most, if not all, Python recipes already do so. If anythin=
+g,=20
+the core could provide a class that provides a simple do_compile that calls=
+=20
+compileall on the source dir.
 
-I've put together a quick proof of concept of this below.
+Moving this to packaging will lead to unexpected failures, there are some=20
+situations where the source .py file must be installed and the .pyc will be=
+=20
+ignored. A simple example is when the .py script is the application entry=20
+point, those aren't compiled into pyc at runtime, and adding a pyc would be=
+ a=20
+waste. Only the package's makefile (or whatever) can be expected to know th=
+at.
 
-There are two other things up for discussion. There is of confusion  on
-how the kernel source gets into STAGING_KERNEL_DIR in the first place.
-We've added in "munging" code which does this in kernel.bbclass,
-linux-yocto also has its share of "crazy" mess in this regard.
+Mike.
 
-We could wipe the slate clean and require that people put a parameter
-against the element in SRC_URI that represents the kernel indicating it
-should be directly extracted to STAGING_KERNEL_DIR. There is a bitbake
-issue with being unable to override the extraction directory at present
-but that can be fixed. The upside is that it would be clean, relatively
-clear and allow  fragile code to be dropped. The downside is it means
-tweaking all kernel recipes.
 
-The second issue is that of the dependency to populate
-STAGING_KERNEL_DIR which is now a "depends flag on do_install". The
-intent is to have kernelsrc.bbclass do this, looking at the things there
-(such as setting S=), I suspect it may not be fit for purpose. We could
-adjust the class to check for a variable and set up the dependency if
-its set.
+Met vriendelijke groet / kind regards,
 
-Anyhow, this does need thought and discussion but I'm putting it here as
-a start to that, and to let people like Bruce see and experiment with
-the code below.
+Mike Looijmans
+System Expert
 
-Cheers,
 
-Richard
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) (0) 499 33 69 79
+Telefax:  (+31) (0) 499 33 69 70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index 9a95b72..2d43b51 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -70,7 +70,7 @@ python split_kernel_module_packages () {
-         m = kerverrexp.match(kernelver)
-         if m:
-             kernelver_stripped = m.group(1)
--        staging_kernel_dir = d.getVar("STAGING_KERNEL_DIR", True)
-+        staging_kernel_dir = d.getVar("STAGING_KERNEL_BUILDDIR", True)
-         system_map_file = "%s/boot/System.map-%s" % (dvar, kernelver)
-         if not os.path.exists(system_map_file):
-             system_map_file = "%s/System.map-%s" % (staging_kernel_dir, kernelver)
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 5cabc2c..b1a1ccf 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -249,6 +249,10 @@ kernel_do_install() {
- 	cp .config $kerneldir/
- 	mkdir -p $kerneldir/include/config
- 	cp include/config/kernel.release $kerneldir/include/config/kernel.release
-+	if [ -e include/linux/version.h ]; then
-+		mkdir -p $kerneldir/include/linux
-+		cp include/linux/version.h $kerneldir/include/linux/version.h
-+	fi
- 
- 	# As of Linux kernel version 3.0.1, the clean target removes
- 	# arch/powerpc/lib/crtsavres.o which is present in
-@@ -268,6 +272,45 @@ kernel_do_install() {
- }
- do_install[prefuncs] += "package_get_auto_pr"
- 
-+addtask do_shared_workdir after do_compile before do_install
-+
-+do_shared_workdir () {
-+	cd ${B}
-+
-+	kerneldir=${STAGING_KERNEL_BUILDDIR}
-+	install -d $kerneldir
-+
-+	#
-+	# Store the kernel version in sysroots for module-base.bbclass
-+	#
-+
-+	echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
-+	
-+	# Copy files required for module builds
-+	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
-+	cp Module.symvers $kerneldir/
-+	cp .config $kerneldir/
-+	mkdir -p $kerneldir/include/config
-+	cp include/config/kernel.release $kerneldir/include/config/kernel.release
-+
-+	# As of Linux kernel version 3.0.1, the clean target removes
-+	# arch/powerpc/lib/crtsavres.o which is present in
-+	# KBUILD_LDFLAGS_MODULE, making it required to build external modules.
-+	if [ ${ARCH} = "powerpc" ]; then
-+		mkdir -p $kerneldir/arch/powerpc/lib/
-+		cp arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
-+	fi
-+
-+	mkdir -p $kerneldir/include/generated/
-+	cp -fR include/generated/* $kerneldir/include/generated/
-+
-+	if [ -d arch/${ARCH}/include/generated ]; then
-+		mkdir -p $kerneldir/arch/${ARCH}/include/generated/
-+		cp -fR arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
-+	fi
-+}
-+
-+
- python sysroot_stage_all () {
-     oe.path.copyhardlinktree(d.expand("${D}${KERNEL_SRC_PATH}"), d.expand("${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}"))
- }
-diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
-index 9537ba9..c34eee7 100644
---- a/meta/classes/module-base.bbclass
-+++ b/meta/classes/module-base.bbclass
-@@ -3,16 +3,18 @@ inherit kernel-arch
- export OS = "${TARGET_OS}"
- export CROSS_COMPILE = "${TARGET_PREFIX}"
- 
--export KERNEL_VERSION = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-abiversion')}"
-+export KERNEL_VERSION = "${@base_read_file('${STAGING_KERNEL_BUILDDIR}/kernel-abiversion')}"
- KERNEL_OBJECT_SUFFIX = ".ko"
- 
- # kernel modules are generally machine specific
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
-+do_configure[depends] += "virtual/kernel:do_install"
-+
- # Function to ensure the kernel scripts are created. Expected to
- # be called before do_compile. See module.bbclass for an exmaple.
- do_make_scripts() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS 
- 	make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
--	           -C ${STAGING_KERNEL_DIR} scripts
-+	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts
- }
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index ad6f7af..4f466d7 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -13,6 +13,7 @@ module_do_compile() {
- 		   KERNEL_VERSION=${KERNEL_VERSION}    \
- 		   CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
- 		   AR="${KERNEL_AR}" \
-+	           O=${STAGING_KERNEL_BUILDDIR} \
- 		   ${MAKE_TARGETS}
- }
- 
-@@ -21,6 +22,7 @@ module_do_install() {
- 	oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" \
- 	           KERNEL_SRC=${STAGING_KERNEL_DIR} \
- 	           CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
-+	           O=${STAGING_KERNEL_BUILDDIR} \
- 	           modules_install
- }
- 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 362d6b6..b1135c2 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -394,7 +394,8 @@ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
- ##################################################################
- 
- OLDEST_KERNEL = "2.6.32"
--STAGING_KERNEL_DIR = "${STAGING_DIR_HOST}/usr/src/kernel"
-+STAGING_KERNEL_DIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-source"
-+STAGING_KERNEL_BUILDDIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-build"
- 
- ##################################################################
- # Specific image creation and rootfs population info.
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/sepbuild.patch b/meta/recipes-kernel/lttng/lttng-modules/sepbuild.patch
-new file mode 100644
-index 0000000..1b46558
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/sepbuild.patch
-@@ -0,0 +1,17 @@
-+Index: git/Makefile
-+===================================================================
-+--- git.orig/Makefile
-++++ git/Makefile
-+@@ -67,10 +67,10 @@ else # KERNELRELEASE
-+ 	CFLAGS = $(EXTCFLAGS)
-+ 
-+ default:
-+-	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
-++	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) O=$(O) modules
-+ 
-+ modules_install:
-+-	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules_install
-++	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) O=$(O) modules_install
-+ 
-+ clean:
-+ 	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.5.2.bb b/meta/recipes-kernel/lttng/lttng-modules_2.5.2.bb
-index 55df07f..58a4196 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.5.2.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.5.2.bb
-@@ -19,6 +19,7 @@ SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.5 \
-            file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch \
-            file://Fix-noargs-probes-should-calculate-alignment-and-eve.patch \
-            file://Update-kvm-instrumentation-compile-on-3.17-rc1.patch \
-+           file://sepbuild.patch \
-            "
- 
- export INSTALL_MOD_DIR="kernel/lttng-modules"
+Please consider the environment before printing this e-mail
+
+Topic zoekt gedreven (embedded) software specialisten!
+http://topic.nl/vacatures/topic-zoekt-software-engineers/
 
 
